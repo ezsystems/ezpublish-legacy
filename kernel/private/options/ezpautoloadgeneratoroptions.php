@@ -38,6 +38,9 @@
  *      Arrays of which paths should not be included in the search for PHP
  *      classes.
  *
+ * @property bool $displayProgress
+ *      Control whether incremental progress output should be shown on the CLI.
+ *
  * @throws ezcBasePropertyNotFoundException
  *         If $options contains an undefined property
  * @throws ezcBaseValueException
@@ -60,6 +63,7 @@ class ezpAutoloadGeneratorOptions extends ezcBaseOptions
         $this->writeFiles = true;
         $this->outputDir = '';
         $this->excludeDirs = array();
+        $this->displayProgress = false;
 
         parent::__construct( $options );
     }
@@ -82,6 +86,7 @@ class ezpAutoloadGeneratorOptions extends ezcBaseOptions
             case 'searchExtensionFiles':
             case 'searchTestFiles':
             case 'writeFiles':
+            case 'displayProgress':
                 if ( !is_bool( $value ) )
                 {
                     throw new ezcBaseValueException( $name, $value );

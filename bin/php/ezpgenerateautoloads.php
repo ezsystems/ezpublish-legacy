@@ -51,7 +51,9 @@ else
 }
 
 require 'kernel/private/classes/ezautoloadgenerator.php';
+require 'kernel/private/classes/ezpautoloadclioutput.php';
 require 'kernel/private/options/ezpautoloadgeneratoroptions.php';
+require 'kernel/private/structs/ezpautoloadfilefindcontext.php';
 
 function __autoload( $className )
 {
@@ -108,6 +110,11 @@ $excludeDirsOption->mandatory = false;
 $excludeDirsOption->shorthelp = "Folders to exclude from the class search.";
 $params->registerOption( $excludeDirsOption );
 
+$displayProgressOption = new ezcConsoleOption( 'p', 'progress', ezcConsoleInput::TYPE_NONE );
+$displayProgressOption->mandatory = false;
+$displayProgressOption->shorthelp = "If progress output should be shown on the command-line.";
+$params->registerOption( $displayProgressOption );
+
 // Add an argument for which extension to search
 $params->argumentDefinition = new ezcConsoleArguments();
 
@@ -156,43 +163,43 @@ $autoloadOptions->searchKernelOverride = $kernelOverrideOption->value;
 $autoloadOptions->searchExtensionFiles = $extensionFilesOption->value;
 $autoloadOptions->searchTestFiles = $testFilesOption->value;
 $autoloadOptions->writeFiles = !$dryrunOption->value;
+$autoloadOptions->displayProgress = $displayProgressOption->value;
+
 if ( !empty( $targetOption->value ) )
 {
     $autoloadOptions->outputDir = $targetOption->value;
 }
 $autoloadOptions->excludeDirs = $excludeDirs;
 
-$output = new ezcConsoleOutput();
-$output->formats->warning->color = 'red';
-
 $autoloadGenerator = new eZAutoloadGenerator( $autoloadOptions );
-$autoloadGenerator->setOutputCallback( 'outputMethod' );
-try {
+$autoloadCliOutput = new ezpAutoloadCliOutput();
+
+$autoloadGenerator->setOutputObject( $autoloadCliOutput );
+$autoloadGenerator->setOutputCallback( array( $autoloadCliOutput, 'outputCli') );
+
+try
+{
     $autoloadGenerator->buildAutoloadArrays();
+
+    // If we are showing progress output, let's print the list of warnings at
+    // the end.
+    if ( $displayProgressOption->value )
+    {
+        $warningMessages = $autoloadGenerator->getWarnings();
+        foreach ( $warningMessages as $msg )
+        {
+            $autoloadCliOutput->outputCli( $msg, "warning" );
+        }
+    }
 
     if ( $verboseOption->value )
     {
         $autoloadGenerator->printAutoloadArray();
     }
-} catch (Exception $e) {
-    echo $e->getMessage() . "\n";
 }
-
-function outputMethod( $message, $type )
+catch (Exception $e)
 {
-    global $output;
-
-    if ( $type == 'normal' )
-    {
-        $output->outputLine( $message );
-        $output->outputLine();
-    }
-    else if ( $type == 'warning' )
-    {
-        $output->outputLine( "Warning: ", 'warning' );
-        $output->outputLine( $message);
-        $output->outputLine();
-    }
+    echo $e->getMessage() . "\n";
 }
 
 ?>

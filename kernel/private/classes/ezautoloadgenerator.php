@@ -62,6 +62,14 @@ class eZAutoloadGenerator
     protected $outputCallback;
 
     /**
+     * Object handling output of information for a given context.
+     *
+     * @var object
+     */
+    protected $output;
+
+
+    /**
      * Nametable for each of the MODE_* modes defined in the class.
      *
      * @var array
@@ -117,6 +125,19 @@ class eZAutoloadGenerator
      * This mode is mutually excluse from the other modes.
      */
     const MODE_KERNEL_OVERRIDE = 16;
+
+    /**
+     * Represents the first phase of autoload generation, where the code
+     * searches for PHP source files.
+     */
+    const OUTPUT_PROGRESS_PHASE1 = 1;
+
+    /**
+     * Represents the second phase of autoload generation, where the code
+     * tokenizes the found PHP files to look for classes and interfaces.
+     */
+    const OUTPUT_PROGRESS_PHASE2 = 2;
+
 
     /**
      * Constructs class to generate autoload arrays.
@@ -326,9 +347,65 @@ class eZAutoloadGenerator
 
         if (!empty( $path ) )
         {
-            return ezcBaseFile::findRecursive( $path, array( '@\.php$@' ), $exclusionFilter );
+            return self::findRecursive( $path, array( '@\.php$@' ), $exclusionFilter, $this );
         }
         return false;
+    }
+
+    /**
+     * Uses the walker in ezcBaseFile to find files.
+     * 
+     * This also uses the callback to get progress information about the file search.
+     *
+     * @param string $sourceDir 
+     * @param array $includeFilters 
+     * @param array $excludeFilters
+     * @param eZAutoloadGenerator $gen 
+     * @return array
+     */
+    public static function findRecursive( $sourceDir, array $includeFilters = array(), array $excludeFilters = array(), eZAutoloadGenerator $gen )
+    {
+        $gen->log( "Scanning for PHP-files." );
+        $gen->startProgressOutput( self::OUTPUT_PROGRESS_PHASE1 );
+
+        // create the context, and then start walking over the array
+        $context = new ezpAutoloadFileFindContext();
+        $context->generator = $gen;
+
+        ezcBaseFile::walkRecursive( $sourceDir, $includeFilters, $excludeFilters,
+                array( 'eZAutoloadGenerator', 'findRecursiveCallback' ), $context );
+
+        // return the found and pattern-matched files
+        sort( $context->elements );
+
+        $gen->stopProgressOutput( self::OUTPUT_PROGRESS_PHASE1 );
+        $gen->log( "Scan complete. Found {$context->count} PHP files." );
+
+        return $context->elements;
+    }
+
+    /**
+     * Callback used ezcBaseFile 
+     *
+     * @param string $ezpAutoloadFileFindContext 
+     * @param string $sourceDir 
+     * @param string $fileName 
+     * @param string $fileInfo 
+     * @return void
+     */
+    
+    public static function findRecursiveCallback( ezpAutoloadFileFindContext $context, $sourceDir, $fileName, $fileInfo )
+    {
+        if ( $fileInfo['mode'] & 0x4000 )
+        {
+            return;
+        }
+
+        // update the statistics
+        $context->elements[] = $sourceDir . DIRECTORY_SEPARATOR . $fileName;
+        $context->count++;
+
+        $context->generator->updateProgressOutput( eZAutoloadGenerator::OUTPUT_PROGRESS_PHASE1 );
     }
 
     /**
@@ -338,8 +415,18 @@ class eZAutoloadGenerator
     protected function getClassFileList( $fileList, $mode )
     {
         $retArray = array();
+        $this->log( "Searching for classes (tokenizing)." );
+        $statArray = array( 'nFiles' => count( $fileList ),
+                            'classCount' => 0,
+                            'classAdded' => 0,
+                           );
+
+        $this->setStatArray( self::OUTPUT_PROGRESS_PHASE2, $statArray );
+        $this->startProgressOutput( self::OUTPUT_PROGRESS_PHASE2 );
+
         foreach( $fileList as $file )
         {
+            $this->updateProgressOutput( self::OUTPUT_PROGRESS_PHASE2 );
             if ( $mode === self::MODE_SINGLE_EXTENSION )
             {
                 $file = getcwd() . DIRECTORY_SEPARATOR . $this->options->basePath . DIRECTORY_SEPARATOR . $file;
@@ -354,6 +441,9 @@ class eZAutoloadGenerator
                     {
                         case T_CLASS:
                         case T_INTERFACE:
+                            // Increment stat for found class.
+                            $this->incrementProgressStat( self::OUTPUT_PROGRESS_PHASE2, 'classCount' );
+
                             // CLASS_TOKEN - WHITESPACE_TOKEN - TEXT_TOKEN (containing class name)
                             $className = $tokens[$key+2][1];
 
@@ -380,14 +470,25 @@ class eZAutoloadGenerator
 
                             if ( $addClass )
                             {
+                                // increment stat for actually added number of classes.
+                                $this->incrementProgressStat( self::OUTPUT_PROGRESS_PHASE2, 'classAdded' );
+
                                 $retArray[$className] = $filePath;
                             }
-
                             break;
                     }
                 }
             }
         }
+
+        $this->stopProgressOutput( self::OUTPUT_PROGRESS_PHASE2 );
+
+        if ( $this->output !== null )
+        {
+            extract( $this->getStatArray( self::OUTPUT_PROGRESS_PHASE2 ) );
+            $this->log( "Found {$classCount} classes, added {$classAdded} of them to the autoload array." );
+        }
+
         ksort( $retArray );
         return $retArray;
     }
@@ -806,6 +907,13 @@ END;
     protected function logWarning( $message )
     {
         $this->warnings[] = $message;
+
+        // If we are showing progress output, we display the warnings
+        // summarized after the other output (CLI)
+        if ( $this->options->displayProgress )
+        {
+            return;
+        }
         $this->emit( $message, 'warning' );
     }
 
@@ -886,6 +994,128 @@ END;
         {
             $this->log( $this->dumpArrayStart( $location ) . $data . $this->dumpArrayEnd() );
         }
+    }
+
+    public function setOptions( $options )
+    {
+        $this->options = $options;
+        $this->mask = $this->runMode();
+    }
+
+    /**
+     * Calls updateProgress on the output object.
+     * 
+     * If progress output is not enabled or the output object is not set, this
+     * method will not do anything.
+     *
+     * @param int $phase 
+     * @param string $array 
+     * @return void
+     */
+    protected function updateProgressOutput( $phase )
+    {
+        if ( !$this->options->displayProgress || $this->output === null )
+        {
+            return;
+        }
+        $this->output->updateProgress( $phase );
+    }
+
+    /**
+     * Increment counters used for statistics in the progress output.
+     * 
+     * If the output object is not set, the method will not do anything.
+     *
+     * @param int $phase 
+     * @param array $stat 
+     * @return void
+     */
+    protected function incrementProgressStat( $phase, $stat )
+    {
+        if ( $this->output === null )
+        {
+            return;
+        }
+        $statArray = $this->output->getData( $phase );
+        $statArray[$stat]++;
+        $this->output->updateData( $phase, $statArray );
+    }
+
+    /**
+     * Initializes progress output for <var>$phase</var>
+     *
+     * @param int $phase 
+     * @return void
+     */
+    protected function startProgressOutput( $phase )
+    {
+        if ( !$this->options->displayProgress || $this->output === null )
+        {
+            return;
+        }
+        $func = 'initPhase' . $phase;
+        $this->output->$func();
+    }
+
+    /**
+     * Stops progress output for <var>$phase</var>
+     *
+     * @param int $phase 
+     * @return void
+     */
+    protected function stopProgressOutput( $phase )
+    {
+        if ( !$this->options->displayProgress || $this->output === null )
+        {
+            return;
+        }
+        $func = 'finishPhase' . $phase;
+        $this->output->$func();
+    }
+
+    /**
+     * Fetches statistics array for $phase form the output object.
+     *
+     * @param int $phase 
+     * @return void
+     */
+    protected function getStatArray( $phase )
+    {
+        if ( $this->output === null )
+        {
+            return;
+        }
+        return $this->output->getData( $phase );
+    }
+
+    /**
+     * Updates internal statistics data for <var>$phase</var>, with new array <var>$data</var>.
+     *
+     * @param int $phase 
+     * @param array $data 
+     * @return void
+     */
+    protected function setStatArray( $phase, $data )
+    {
+        if ( $this->output === null )
+        {
+            return;
+        }
+        $this->output->updateData( $phase, $data );
+    }
+
+    /**
+     * Sets the object to handle out from the autoload generation.
+     * 
+     * Currently this is only handled for the CLI.
+     *
+     * @see ezpAutoloadCliOutput
+     * @param object $outputObject 
+     * @return void
+     */
+    public function setOutputObject( $outputObject )
+    {
+        $this->output = $outputObject;
     }
 }
 ?>

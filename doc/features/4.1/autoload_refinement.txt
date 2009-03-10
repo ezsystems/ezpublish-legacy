@@ -16,3 +16,15 @@ stack.
 
 Each call to spl_autoload_register() will append the new method at the bottom
 of the stack. PHP starts at the top, when looking for classes.
+
+Incremental progress output
+---------------------------
+
+Starting from eZ Publish 4.1 it is possible to get incremental progress output
+of the autoload generation process.
+
+This is activated when using *bin/php/ezpgenerateautoloads.php* with the *-p /
+--progress* options.
+
+Currently only progress output is only available for the CLI, provided by the
+ezpAutoloadCliOutput class.
