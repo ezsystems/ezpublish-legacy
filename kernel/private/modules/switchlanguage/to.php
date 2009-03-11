@@ -9,7 +9,7 @@
 
 $handlerOptions = new ezpExtensionOptions();
 $handlerOptions->iniFile = 'site.ini';
-$handlerOptions->iniSection = 'LanguageSwitcher';
+$handlerOptions->iniSection = 'RegionalSettings';
 $handlerOptions->iniVariable = 'LanguageSwitcherClass';
 $handlerOptions->handlerParams = array( $Params );
 
