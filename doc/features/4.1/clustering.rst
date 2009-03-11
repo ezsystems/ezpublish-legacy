@@ -21,14 +21,17 @@ from 3.10 version to 4.* versions.
 .. contents:: Table of contents
 
 
-Migrating from 3.10 cluster to 4.1
-==================================
+Migrating from 3.10.*, 4.0.* to 4.1 cluster
+===========================================
 
 Using the database backend
 --------------------------
 
+From 3.10.*, 4.0.1 versions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Updating the configuration file
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++++++++++++++++++++++++++++++++
 
 The configuration file has changed slightly, before 4.1 ``settings/file.ini`` looked like this : 
 
@@ -52,12 +55,8 @@ All you have to do is this apply the following configuration
 
 Other configuration directives remain unchanged.
 
-.. Note:: If you plan to upgrade from eZ Publish 4.0.2 or later you do not have
-          to purge the cache and upgrade the cluster's table, the only thing you
-          have to do is to update the configuration file as explained above.
-
 Purging all caches
-~~~~~~~~~~~~~~~~~~
+++++++++++++++++++
 
 In order to upgrade your eZ Publish cluster to the 4.1 version, no unclusterization
 process is required. All you have to do is to purge all caches first.
@@ -67,7 +66,7 @@ process is required. All you have to do is to purge all caches first.
     php ./bin/php/ezcache.php --clear-all --purge
 
 Upgrading the tables
-~~~~~~~~~~~~~~~~~~~~~
++++++++++++++++++++++
 
 Once all caches are cleared you can update the tables with the following SQL queries.
 
@@ -77,6 +76,35 @@ For MySQL :
 
     ALTER TABLE ezdbfile ADD name_trunk TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER name ;
     ALTER TABLE ezdbfile ADD INDEX ezdbfile_name_trunk ( name_trunk ( 250 ) ) 
+
+
+From 4.0.2 version
+~~~~~~~~~~~~~~~~~~~
+
+Updating the configuration file
++++++++++++++++++++++++++++++++
+
+The configuration file has changed slightly, before 4.1 ``settings/file.ini`` looked like this : 
+
+::
+
+    [ClusteringSettings]
+    FileHandler=ezdb
+    DBBackend=mysql
+    [...]
+
+Since there is a new handler system in eZ Publish 4.1, you have to update your configuration file ``file.ini.append.php``.
+
+All you have to do is this apply the following configuration
+
+::
+
+    [ClusteringSettings]
+    FileHandler=eZDBFileHandler
+    DBBackend=eZDBFileHandlerMysqlBackend
+    [...]
+
+Other configuration directives remain unchanged.
 
 
 Using the new filesystem backend
@@ -124,11 +152,11 @@ file.ini : NonExistantStaleCacheHandling[]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Defines what happens when a requested cache file is already being generated
-and no expired cache file exists (for instance if the content is new)
+and no expired cache file exists (for instance if the content is new).
+
 Two possible values :
 
-- wait: places the process in a wait loop for a limited time until the file is done generating.
-        This is the default value
+- wait: places the process in a wait loop for a limited time until the file is done generating. This is the default value
 - generate: let the requesting process generate its own data without storing the result
 
 The key of this array defined the type of cache impacted by the setting.
