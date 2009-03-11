@@ -12,10 +12,6 @@
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
 {foreach $object.allowed_assign_state_list as $allowed_assign_state_info}
-{* The ez_lock group is an internal group used by WebDAV only *}
-{if $allowed_assign_state_info.group.identifier|eq( 'ez_lock' )}
-    {continue}
-{/if}
 <div class="block">
     <label>{$allowed_assign_state_info.group.current_translation.name|wash}</label>
     <select name="SelectedStateIDList[]" {if $allowed_assign_state_info.states|count|eq(1)}disabled="disabled"{/if}>

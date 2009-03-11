@@ -5906,6 +5906,11 @@ class eZContentObject extends eZPersistentObject
         $allowedAssignList = array();
         foreach ( $groups as $group )
         {
+            // we do not return any internal state
+            // all internal states are prepended with the string : "ez_"
+            if( preg_match( '#^ez_.*#', $group->attribute( 'identifier' ), $matches ) )
+                continue;
+
             $states = array();
             $groupStates = $group->attribute( 'states' );
 
