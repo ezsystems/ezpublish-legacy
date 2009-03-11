@@ -5908,7 +5908,7 @@ class eZContentObject extends eZPersistentObject
         {
             // we do not return any internal state
             // all internal states are prepended with the string : "ez_"
-            if( preg_match( '#^ez_.*#', $group->attribute( 'identifier' ), $matches ) )
+            if( strpos( $group->attribute( 'identifier' ), 'ez_' ) === 0 )
                 continue;
 
             $states = array();
