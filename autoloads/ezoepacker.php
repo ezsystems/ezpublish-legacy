@@ -254,7 +254,7 @@ class eZOEPacker
                 // make sure the function is present on the class
                 else if ( !method_exists( $args[0], $args[1] ) )
                 {
-                    eZDebug::writeWarning( "Could not find function: $args[0]::$args[1]()", "eZOEPacker::packFiles()" );
+                    eZDebug::writeWarning( "Could not find function: $args[0]::$args[1]()", __METHOD__ );
                     continue;
                 }
 
@@ -290,7 +290,7 @@ class eZOEPacker
 
                 if ( $match === false )
                 {
-                    eZDebug::writeWarning( "Could not find: $file", "eZOEPacker::packFiles()" );
+                    eZDebug::writeWarning( "Could not find: $file", __METHOD__ );
                     continue;
                 }
                 $file = htmlspecialchars( $wwwDir . $match['path'] );
@@ -302,7 +302,7 @@ class eZOEPacker
 
             if ( $fileTime === false )
             {
-                eZDebug::writeWarning( "Could not find: $file", "eZOEPacker::packFiles()" );
+                eZDebug::writeWarning( "Could not find: $file", __METHOD__ );
                 continue;
             }
 
@@ -318,7 +318,7 @@ class eZOEPacker
 
         if ( !$validFiles )
         {
-            eZDebug::writeWarning( "Could not find any files: " . var_export( $fileArray, true ), "eZOEPacker::packFiles()" );
+            eZDebug::writeWarning( "Could not find any files: " . var_export( $fileArray, true ), __METHOD__ );
             return array();
         }
 

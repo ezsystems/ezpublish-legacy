@@ -239,7 +239,7 @@ class eZOEXMLInput extends eZXMLInputHandler
             } break;
             default :
             {
-                eZDebug::writeError( 'Unknown custom HTTP action: ' . $action, 'eZOEXMLInput' );
+                eZDebug::writeError( 'Unknown custom HTTP action: ' . $action, __METHOD__ );
             } break;
         }
     }
@@ -385,7 +385,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 }
                 else
                 {
-                    eZDebug::writeWarning( 'Undefined EditorLayout : EditorLayout_' . $buttonPreset, 'eZOEXMLInput' );
+                    eZDebug::writeWarning( 'Undefined EditorLayout : EditorLayout_' . $buttonPreset, __METHOD__ );
                 }
             }
 
@@ -456,6 +456,15 @@ class eZOEXMLInput extends eZXMLInputHandler
         if ( !$this->isEditorEnabled() )
         {
             $aliasedHandler = $this->attribute( 'aliased_handler' );
+            // Workaround for temp issue caused by new handler code in 4.1rc1 to be able to re enable editor
+            if ( $aliasedHandler === null )
+            {
+                eZDebug::writeError( "Failed to get 'aliased_handler', this is a temporary issue in 4.1 to be fixed for 4.1", __METHOD__ );
+                $aliasedHandler = eZXMLText::inputHandler( $this->XMLData,
+                                                           $this->AliasedType,
+                                                           false,
+                                                           $this->ContentObjectAttribute );
+            }
             return $aliasedHandler->validateInput( $http, $base, $contentObjectAttribute );
         }
         if ( $http->hasPostVariable( $base . '_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) )
@@ -474,7 +483,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 $text = preg_replace( "/[\n\t]/", ' ', $text);
             }
 
-            //eZDebug::writeDebug( $text, 'eZ Online Editor HTML input' );
+            //eZDebug::writeDebug( $text, __METHOD__ );
 
             include_once( 'extension/ezoe/ezxmltext/handlers/input/ezoeinputparser.php' );
 
@@ -768,7 +777,7 @@ class eZOEXMLInput extends eZXMLInputHandler
 
                 default :
                 {
-                    eZDebug::writeError( "Unsupported tag at this level: $tagName", "eZOEXMLInput::inputSectionXML()" );
+                    eZDebug::writeError( "Unsupported tag at this level: $tagName", __METHOD__ );
                 }break;
             }
         }
@@ -799,7 +808,7 @@ class eZOEXMLInput extends eZXMLInputHandler
 
             default :
             {
-                eZDebug::writeError( "Unsupported tag at this level: $tagName", "eZOEXMLInput::inputListXML()" );
+                eZDebug::writeError( "Unsupported tag at this level: $tagName", __METHOD__ );
             }break;
         }
         return $output;
@@ -829,7 +838,7 @@ class eZOEXMLInput extends eZXMLInputHandler
 
             default :
             {
-                eZDebug::writeError( "Unsupported tag at this level: $tagName", "eZOEXMLInput::inputTdXML()" );
+                eZDebug::writeError( "Unsupported tag at this level: $tagName", __METHOD__ );
             }break;
         }
         return $output;
@@ -934,7 +943,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 }
                 else
                 {
-                	eZDebug::writeWarning( "Style not valid: $style, see ezoe.ini[EditorSettings]CustomAttributeStyleMap", "eZOEXMLInput::getCustomAttrPart()" );
+                	eZDebug::writeWarning( "Style not valid: $style, see ezoe.ini[EditorSettings]CustomAttributeStyleMap", __METHOD__ );
                 }
             }
         }
@@ -1562,7 +1571,7 @@ class eZOEXMLInput extends eZXMLInputHandler
 
         if ( $match === false )
         {
-            eZDebug::writeWarning( "Could not find: $file", "eZOEXMLInput::getDesignFile()" );
+            eZDebug::writeWarning( "Could not find: $file", __METHOD__ );
             return $file;
         }
         return htmlspecialchars( self::getServerURL() . '/' . $match['path'] );
@@ -1635,14 +1644,14 @@ class eZOEXMLInput extends eZXMLInputHandler
                     return $group;
             }
             else
-                eZDebug::writeDebug( "Missing content.ini[RelationGroupSettings]$settingName setting.", "eZOEXMLInput::embedTagContentType()" );
+                eZDebug::writeDebug( "Missing content.ini[RelationGroupSettings]$settingName setting.", __METHOD__ );
         }
 
         $ini = eZINI::instance();
         if ( $ini->hasVariable('MediaClassSettings', 'ImageClassID' ) and
            in_array( $classID, $ini->variable('MediaClassSettings', 'ImageClassID' ) ))
         {
-            eZDebug::writeNotice( "site.ini[MediaClassSettings]ImageClassID is depricated, use content.ini[RelationGroupSettings] instead.", "eZOEXMLInput::embedTagContentType()" );
+            eZDebug::writeNotice( "site.ini[MediaClassSettings]ImageClassID is depricated, use content.ini[RelationGroupSettings] instead.", __METHOD__ );
             return 'images';
         }
         return $contentIni->variable( 'RelationGroupSettings', 'DefaultGroup' );
