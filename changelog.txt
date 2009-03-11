@@ -1,6 +1,6 @@
 eZ Online Editor 5.0 extension Changelog
 
-5.0rc13
+5.0.0
 * Fixed regression #13650: [header] ezoe adds a level each time it is called
 * Added note on unsupported TinyMCE buttons/ extensions in FAQ + ezoe.ini
 * Fixed bug #014375: pagebreak not stored if added with button w/ patch from Georg Franz

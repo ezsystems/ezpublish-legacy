@@ -293,7 +293,7 @@ class eZOEInputParser extends eZXMLInputParser
         return $name;
     }
 
-    static function tagClassNamesCleanup( $className )
+    static public function tagClassNamesCleanup( $className )
     {
          // remove classes that is used internally by editor on embed objects
         return trim( preg_replace("/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable)/i", '', $className ) );
@@ -1142,7 +1142,7 @@ class eZOEInputParser extends eZXMLInputParser
         return $arr;
     }
     
-    static function customTagIsEnabled( $name )
+    static public function customTagIsEnabled( $name )
     {
         if ( self::$customTagList === null )
         {

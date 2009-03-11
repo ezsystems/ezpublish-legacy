@@ -101,15 +101,15 @@ class eZOEXMLInput extends eZXMLInputHandler
     function attribute( $name )
     {
         if ( $name === 'is_editor_enabled' )
-            $attr = eZOEXMLInput::isEditorEnabled();
+            $attr = self::isEditorEnabled();
         else if ( $name === 'editor_layout_settings' )
             $attr = $this->getEditorLayoutSettings();
         else if ( $name === 'browser_supports_dhtml_type' )
-            $attr = eZOEXMLInput::browserSupportsDHTMLType();
+            $attr = self::browserSupportsDHTMLType();
         else if ( $name === 'is_compatible_version' )
             $attr = $this->isCompatibleVersion();
         else if ( $name === 'version' )
-            $attr = eZOEXMLInput::version();
+            $attr = self::version();
         else if ( $name === 'ezpublish_version' )
             $attr = $this->eZPublishVersion;
         else if ( $name === 'xml_tag_alias' )
@@ -124,9 +124,9 @@ class eZOEXMLInput extends eZXMLInputHandler
     /*! 
      \static
      Identify browser by layout engine.
-     \return string if browser supports dhtml editing, false if not.
+     \return string (layout engine name) if browser supports dhtml editing, false if not.
     */
-    static function browserSupportsDHTMLType()
+    static public function browserSupportsDHTMLType()
     {
         if ( self::$browserType === null )
         {
@@ -141,7 +141,7 @@ class eZOEXMLInput extends eZXMLInputHandler
             elseif ( strpos( $userAgent, 'Opera' ) !== false and
                  preg_match('/Opera\/([0-9\.]+)/i', $userAgent, $browserInfo ) )
             {
-                // Presto is not part of the user agent string on Opera > 9.6
+                // Presto is not part of the user agent string on Opera < 9.6
                 if ( $browserInfo[1] >= 9.5 )
                     self::$browserType = 'Presto';
                 // Experimental Wii support
@@ -201,7 +201,7 @@ class eZOEXMLInput extends eZXMLInputHandler
      \static
      \return OE version
     */
-    static function version()
+    static public function version()
     {
         include_once( 'extension/ezoe/ezinfo.php' );
         $info = ezoeInfo::info();
@@ -210,11 +210,54 @@ class eZOEXMLInput extends eZXMLInputHandler
     }
 
     /*!
+     \reimp
+     Function called by the xml handler code to se if this handler is valid.
+    */
+    function isValid()
+    {
+        if ( !self::browserSupportsDHTMLType() )
+            return false;
+
+        return $this->currentUserHasAccess();
+    }
+
+    /*!
+     \reimp
+     Custom http actions exposed by the editor.
+    */
+    function customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute )
+    {
+        switch ( $action )
+        {
+            case 'enable_editor':
+            {
+                self::setIsEditorEnabled( true );
+            } break;
+            case 'disable_editor':
+            {
+                self::setIsEditorEnabled( false );
+            } break;
+            default :
+            {
+                eZDebug::writeError( 'Unknown custom HTTP action: ' . $action, 'eZOEXMLInput' );
+            } break;
+        }
+    }
+
+    /*!
+     \reimp
+    */
+    function editTemplateSuffix( &$contentobjectAttribute )
+    {
+        return 'ezoe';
+    }
+
+    /*!
      \static
      \return true if the editor is enabled. The editor can be enabled/disabled by a
              button in the web interface.
     */
-    static function isEditorEnabled()
+    static public function isEditorEnabled()
     {
         $dhtmlInput = true;
         $http = eZHTTPTool::instance();
@@ -226,7 +269,7 @@ class eZOEXMLInput extends eZXMLInputHandler
     /*!
      Sets whether the DHTML editor is enabled or not.
     */
-    static function setIsEditorEnabled( $isEnabled )
+    static public function setIsEditorEnabled( $isEnabled )
     {
         $http = eZHTTPTool::instance();
         $http->setSessionVariable( 'eZOEXMLInputExtension', $isEnabled );
@@ -295,7 +338,7 @@ class eZOEXMLInput extends eZXMLInputHandler
     /*!
      \return global layout to use for editor
      */
-    static function getEditorGlobalLayoutSettings()
+    static public function getEditorGlobalLayoutSettings()
     {    
         if ( self::$editorGlobalLayoutSettings === null )
         {
@@ -383,49 +426,6 @@ class eZOEXMLInput extends eZXMLInputHandler
             $this->editorLayoutSettings = $editorLayoutSettings;
         }
         return $this->editorLayoutSettings;
-    }
-
-    /*!
-     \reimp
-     Function called by the xml handler code to se if this handler is valid.
-    */
-    function isValid()
-    {
-        if ( !eZOEXMLInput::browserSupportsDHTMLType() )
-            return false;
-
-        return $this->currentUserHasAccess();
-    }
-
-    /*!
-     \reimp
-     Custom http actions exposed by the editor.
-    */
-    function customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute )
-    {
-        switch ( $action )
-        {
-            case 'enable_editor':
-            {
-                eZOEXMLInput::setIsEditorEnabled( true );
-            } break;
-            case 'disable_editor':
-            {
-                eZOEXMLInput::setIsEditorEnabled( false );
-            } break;
-            default :
-            {
-                eZDebug::writeError( 'Unknown custom HTTP action: ' . $action, 'eZOEXMLInput' );
-            } break;
-        }
-    }
-
-    /*!
-     \reimp
-    */
-    function editTemplateSuffix( &$contentobjectAttribute )
-    {
-        return 'ezoe';
     }
 
     /*!
