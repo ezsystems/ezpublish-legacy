@@ -1,0 +1,8 @@
+By default, the WebDAV files are sent to Trash when deleted. The administrator
+of the site is responsible to empty the Trash. If you want to remove the files
+directly (without using the Trash), this setting must be changed in content.ini
+::
+
+  [RemoveSettings]
+  # delete or trash
+  DefaultRemoveAction=delete 
