@@ -224,8 +224,8 @@ class ezpLanguageSwitcher
                 $switchLanguageLink .= $url;
             }
             $ret[$siteAccessName] = array( 'url' => $switchLanguageLink,
-                            'text' => $translationName
-                          );
+                                           'text' => $translationName
+                                         );
         }
         return $ret;
     }
