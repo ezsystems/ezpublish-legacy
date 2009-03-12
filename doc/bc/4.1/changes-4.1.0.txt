@@ -75,6 +75,10 @@ Removed features
 - eZReference
   The refence module from the kernel has been removed.
 
+- Embed template override rules inheritance
+  In order to able to fix "#014328: Nested embedding override issue" inheritance of the
+  embed template override rules are removed, this was a undocumented & unknown feature.   
+
 
 New constants in config.php
 ---------------------------
