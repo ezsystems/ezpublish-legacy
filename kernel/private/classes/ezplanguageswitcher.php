@@ -223,7 +223,7 @@ class ezpLanguageSwitcher
             {
                 $switchLanguageLink .= $url;
             }
-            $ret[] = array( 'url' => $switchLanguageLink,
+            $ret[$siteAccessName] = array( 'url' => $switchLanguageLink,
                             'text' => $translationName
                           );
         }
