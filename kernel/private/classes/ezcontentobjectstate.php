@@ -494,6 +494,7 @@ class eZContentObjectState extends eZPersistentObject
         $sql = "SELECT g.identifier group_identifier, s.identifier state_identifier, s.priority, s.id \r\n" .
                "FROM ezcobj_state s, ezcobj_state_group g \r\n" .
                "WHERE s.group_id=g.id \r\n" .
+               "AND g.identifier NOT LIKE 'ez%' \r\n" .
                "ORDER BY g.identifier, s.priority";
         $db = eZDB::instance();
         $rows = $db->arrayQuery( $sql );

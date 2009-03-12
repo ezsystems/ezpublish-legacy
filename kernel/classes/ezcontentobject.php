@@ -5817,7 +5817,12 @@ class eZContentObject extends eZPersistentObject
         $db = eZDB::instance();
         if ( $access['accessWord'] == 'yes' )
         {
-            $allowedStateIDList = $db->arrayQuery( 'SELECT id from ezcobj_state', array( 'column' => 'id' ) );
+            $sql = 'SELECT ezcobj_state.id
+                    FROM   ezcobj_state, ezcobj_state_group
+                    WHERE  ezcobj_state.group_id = ezcobj_state_group.id
+                       AND ezcobj_state_group.identifier NOT LIKE "ez%"';
+
+            $allowedStateIDList = $db->arrayQuery( $sql, array( 'column' => 'id' ) );
         }
         else if ( $access['accessWord'] == 'limited' )
         {
@@ -5878,7 +5883,7 @@ class eZContentObject extends eZPersistentObject
                 }
                 else
                 {
-                    $allowedStateIDList = $db->arrayQuery( 'SELECT id from ezcobj_state', array( 'column' => 'id' ) );
+                    $allowedStateIDList = $db->arrayQuery( $sql, array( 'column' => 'id' ) );
                     break;
                 }
             }
@@ -5908,7 +5913,7 @@ class eZContentObject extends eZPersistentObject
         {
             // we do not return any internal state
             // all internal states are prepended with the string : "ez_"
-            if( strpos( $group->attribute( 'identifier' ), 'ez_' ) === 0 )
+            if( strpos( $group->attribute( 'identifier' ), 'ez' ) === 0 )
                 continue;
 
             $states = array();
