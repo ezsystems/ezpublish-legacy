@@ -538,6 +538,7 @@ return array(
       'ezpAutoloader'                      => 'autoload.php',
       'ezpExtensionOptions'                => 'kernel/private/options/ezpextensionoptions.php',
       'ezpLanguageSwitcher'                => 'kernel/private/classes/ezplanguageswitcher.php',
+      'ezpLanguageSwitcherOperator'        => 'kernel/private/eztemplate/ezplanguageswitcheroperator.php',
       'smtp'                               => 'lib/ezutils/classes/ezsmtp.php',
     );
 
