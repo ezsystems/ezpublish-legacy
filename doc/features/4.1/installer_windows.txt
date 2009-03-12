@@ -1,0 +1,186 @@
+============================
+eZ Publish Windows installer
+============================
+
+:Author: Alexandru Stanoi
+:Date: 2009/03/12
+:Version: 1.0
+
+This document describes the new installer feature of eZ Publish 4.1. For the
+moment only a Microsoft Windows installer is provided, while installers for
+Linux, Mac OSX and Solaris are planned for the future.
+
+.. contents:: Table of contents
+
+
+Introduction
+============
+
+The eZ Publish installer is a package containing:
+
+ - Apache
+ - MySQL
+ - PHP
+ - eZ Publish
+ - eZ Components
+
+These software packages are bundled together to allow for an easy way to get
+started with eZ Publish.
+
+Directory structure
+-------------------
+
+This is the directory structure created by the installer in the installation
+directory specified (only the most important subdirectories are listed,
+together with important configuration files)::
+
+  eZ Publish installation directory
+  ├─apache
+  │ ├─conf (httpd.conf configuration file for Apache)
+  │ └─htdocs (contains the files in the www root of the Apache installation)
+  ├─apps
+  │ └─ezpublish
+  │   ├─conf (ezpublish.conf configuration file attached to httpd.conf)
+  │   └─ezpublish (all eZ Publish files, corresponds to localhost/ezpublish)
+  ├─mysql (my.ini configuration file for MySQL)
+  │ └─data (MySQL databases, bitnami_ezpublish is the database created by the installer)
+  └─php (php.ini configuration file for PHP)
+
+
+Installing eZ Publish on Windows
+================================
+
+After downloading the installer for Windows, run it. It might take a few
+minutes until the installer appears on the screen, depending on the time it
+takes to autodetect free ports for Apache and MySQL. The internet connection
+must be on, as the installer needs to download the chosen website package.
+
+Click Next to go to each next page of the installer.
+
+First you will specify the directory where all the bundled software will be
+installed.
+
+Secondly you will see a page detailing all the bundled software together
+with their versions, and the ports used by Apache and MySQL (autodetected
+free ports). Your eZ Publish installation will be located at this address::
+
+  http://computername:apacheport/ezpublish
+
+where:
+
+  computername
+    The name of your computer in Windows (right-click on My Computer on the
+    desktop and in Properties... you can see the name of your computer).
+    Instead of using your computer name, you can also use **localhost**.
+
+  apacheport
+    The port detected as free by the installer. Usually it is **8080**.
+
+At the page where you are requested to enter details for the admin account,
+you must enter a password and enter it again in the box below it. Remember
+the password for the admin account as it will be needed in order to use
+the admin interface of eZ Publish.
+
+After the installer copies all the files, it will run through these steps:
+
+ - install Apache as a service under the name **ezpublishApache** on the
+   free **apacheport** detected previously
+ - install MySQL as a service under the name **ezpublishMySQL** on the
+   free **mysqlport** detected previously
+ - create a MySQL database for eZ Publish with the name **bitnami_ezpublish**
+
+After these steps are done the installer will open a browser window pointing
+at *http://computername:apacheport/ezpublish*, where the eZ Publish setup
+wizard will start.
+
+
+Setup wizard
+------------
+
+The eZ Publish setup wizard is described in depth here:
+http://ez.no/doc/ez_publish/technical_manual/4_0/installation/the_setup_wizard
+
+The setup wizard presented with the eZ Publish installer is a simplified
+version of the normal wizard, with many of the steps being already prefilled
+by the installer.
+
+After clicking Next on each step please be patient for the request to complete,
+and do not press the Back button. Some steps might fail due to the load of the
+system. Please check the `Troubleshooting`_ section for more details.
+
+First the language used during the setup wizard is chosen.
+
+Secondly you can specify which languages to install in eZ Publish.
+
+Third you can choose a website package to install. If the website package
+depends on languages you did not install in the previous step, you will get
+an option to install the missing language or to replace the missing language
+with an already installed one.
+
+After all the setup wizard steps are completed, the final page of the wizard
+will contain links to the site and admin interface of your eZ Publish
+installation. Please bookmark these links to access them easily in the future.
+
+
+Uninstall eZ Publish on Windows
+===============================
+
+To uninstall your eZ Publish installation, click on the Start button, and run
+Programs->eZ Publish->Uninstall eZ Publish. This will delete the software
+installed, but will not delete files which were created after the installation,
+like log files. You will need to delete those files manually.
+
+
+Troubleshooting
+===============
+
+
+Left-over files
+---------------
+
+The uninstaller supplied deletes the installed files but it cannot delete the
+files created after the installation, like MySQL databases and log files. The
+left-over files need to be deleted by hand from the installation directory.
+
+
+Warning messages in the setup wizard
+------------------------------------
+
+These warning messages can appear in the System Check step of the setup
+wizard.
+
+AcceptPathInfo
+''''''''''''''
+
+You might get a message informing you that you need to add *AcceptPathInfo On*
+in the Apache configuration file.
+
+The reason for this message is that probably your computer name does not appear
+in the **hosts** file. This file is in the directory **system32\drivers\etc**
+inside your **Windows** directory (Windows or WINNT). The file is hidden and
+read-only and you need to remove those attributes prior to editing it with
+a text editor like Notepad.
+
+Add the line::
+
+  127.0.0.1 computername
+  
+in the **hosts** file, where **computername** is the name of your computer
+(right-click on My Computer on the desktop and in Properties... you can see
+the name of your computer).
+
+
+PHP execution time
+''''''''''''''''''
+
+The **php.ini** configuration file supplied with the PHP version contained in
+the installer specifies a decent *max_execution_time* value. If this value is
+exceeded (due to hardware or software issues) then the setup wizard will
+time-out.
+
+The solution is to try refreshing the page which caused the time-out. If that
+fails, uninstall eZ Publish and install it on a "fresh" system with as few
+running programs as possible (including firewall, antivirus, download tools,
+messenger programs).
+
+
