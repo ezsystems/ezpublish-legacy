@@ -34,3 +34,4 @@ Changes from 4.1.0beta1 to 4.1.0rc1
 - Fixed bug #14555: initurlaliasmlid.php upgrade script is not oracle-compatible
 - Fixed bug #14571: Lock object states access control error
 - Fixed bug #7595: Missing activation of siteaccess extensions in soap.php
+- Fixed bug #14164: nor-NO translation bug "brukernavnet er allerede i brukt"
