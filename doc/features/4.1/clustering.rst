@@ -18,6 +18,7 @@ from 3.10 version to 4.* versions.
 .. Note:: **This guide assumes the code base is already update to the 4.1 version, do not upgrade
           the cluster before upgrading the code base, this could lead to a data loss.**
 
+.. sectnum::
 .. contents:: Table of contents
 
 
@@ -63,7 +64,7 @@ process is required. All you have to do is to purge all caches first.
 
 ::
 
-    php ./bin/php/ezcache.php --clear-all --purge
+    php ./bin/php/ezcache.php --clear-all --purge -s <yoursiteaccess>
 
 Upgrading the tables
 +++++++++++++++++++++
