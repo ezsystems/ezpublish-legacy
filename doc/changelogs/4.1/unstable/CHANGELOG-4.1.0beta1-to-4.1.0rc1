@@ -36,3 +36,4 @@ Changes from 4.1.0beta1 to 4.1.0rc1
 - Fixed bug #7595: Missing activation of siteaccess extensions in soap.php
 - Fixed bug #14164: nor-NO translation bug "brukernavnet er allerede i brukt"
 - Fixed bug #14328: Nested embedding override issue
+- Fixed bug #14583: Strict: PHP

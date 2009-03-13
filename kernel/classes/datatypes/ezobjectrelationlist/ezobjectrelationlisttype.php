@@ -657,13 +657,13 @@ class eZObjectRelationListType extends eZDataType
         return false;
     }
 
-    function storeClassDOMDocument( $doc, $classAttribute )
+    static function storeClassDOMDocument( $doc, $classAttribute )
     {
         $docText = eZObjectRelationListType::domString( $doc );
         $classAttribute->setAttribute( 'data_text5', $docText );
     }
 
-    function storeObjectDOMDocument( $doc, $objectAttribute )
+    static function storeObjectDOMDocument( $doc, $objectAttribute )
     {
         $docText = eZObjectRelationListType::domString( $doc );
         $objectAttribute->setAttribute( 'data_text', $docText );
@@ -695,7 +695,7 @@ class eZObjectRelationListType extends eZDataType
         return $domString;
     }
 
-    function createClassDOMDocument( $content )
+    static function createClassDOMDocument( $content )
     {
         $doc = new DOMDocument( '1.0', 'utf-8' );
         $root = $doc->createElement( 'related-objects' );
@@ -728,7 +728,7 @@ class eZObjectRelationListType extends eZDataType
         return $doc;
     }
 
-    function createObjectDOMDocument( $content )
+    static function createObjectDOMDocument( $content )
     {
         $doc = new DOMDocument( '1.0', 'utf-8' );
         $root = $doc->createElement( 'related-objects' );
