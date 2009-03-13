@@ -6,6 +6,7 @@ eZ Online Editor 5.0 extension Changelog
 * Fixed bug #014375: pagebreak not stored if added with button w/ patch from Georg Franz
 * Support for new handler code in eZ Publish 4.1
 * Updated tinyMCE to 3.2.2
+* Renamed ezoe_customattributes.ini to ezoe_attributes.ini since it is also used for attributes since rc9
 
 5.0rc12
 * Fixed bug #14260: content.ini.[paragraph].AllowEmpty=false is ignored

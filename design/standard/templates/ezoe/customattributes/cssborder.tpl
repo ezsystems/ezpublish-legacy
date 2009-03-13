@@ -1,9 +1,9 @@
 {set $custom_attribute_classes = $custom_attribute_classes|append( 'int' )}
-{if ezini_hasvariable( $custom_attribute_settings, 'Minimum', 'ezoe_customattributes.ini' )}
-    {set $custom_attribute_classes = $custom_attribute_classes|append( concat('min', ezini($custom_attribute_settings, 'Minimum', 'ezoe_customattributes.ini') ) )}
+{if ezini_hasvariable( $custom_attribute_settings, 'Minimum', 'ezoe_attributes.ini' )}
+    {set $custom_attribute_classes = $custom_attribute_classes|append( concat('min', ezini($custom_attribute_settings, 'Minimum', 'ezoe_attributes.ini') ) )}
 {/if}
-{if ezini_hasvariable( $custom_attribute_settings, 'Maximum', 'ezoe_customattributes.ini' )}
-    {set $custom_attribute_classes = $custom_attribute_classes|append( concat('max', ezini($custom_attribute_settings, 'Maximum', 'ezoe_customattributes.ini') ) )}
+{if ezini_hasvariable( $custom_attribute_settings, 'Maximum', 'ezoe_attributes.ini' )}
+    {set $custom_attribute_classes = $custom_attribute_classes|append( concat('max', ezini($custom_attribute_settings, 'Maximum', 'ezoe_attributes.ini') ) )}
 {/if}
 {if $custom_attribute_default|ne('')}
     {set $custom_attribute_default = $custom_attribute_default|append(' solid #000000')|explode(' ')}
@@ -19,8 +19,8 @@
 <td>
 <input type="text" size="3" name="{$custom_attribute}" id="{$custom_attribute_id}_source" value="{$custom_attribute_default_int|wash}"{if $custom_attribute_disabled} disabled="disabled"{/if} class="{$custom_attribute_classes|implode(' ')}" title="{$custom_attribute_title|wash}" />
 <select id="{$custom_attribute_id}_sizetype"{if $custom_attribute_disabled} disabled="disabled"{/if} class="mceItemSkip sizetype_margin_fix">
-{if ezini_hasvariable( $custom_attribute_settings, 'CssSizeType', 'ezoe_customattributes.ini' )}
-{foreach ezini( $custom_attribute_settings, 'CssSizeType', 'ezoe_customattributes.ini' ) as $key => $value}
+{if ezini_hasvariable( $custom_attribute_settings, 'CssSizeType', 'ezoe_attributes.ini' )}
+{foreach ezini( $custom_attribute_settings, 'CssSizeType', 'ezoe_attributes.ini' ) as $key => $value}
     <option value="{$key}"{if $custom_attribute_default_type|eq($key)} selected="selected"{/if}>{$value}</option>
 {/foreach}
 {else}
@@ -32,8 +32,8 @@
 </td>
 <td>
 <select id="{$custom_attribute_id}_bordertype"{if $custom_attribute_disabled} disabled="disabled"{/if} class="mceItemSkip">
-{if ezini_hasvariable( $custom_attribute_settings, 'CssBorderType', 'ezoe_customattributes.ini' )}
-{foreach ezini( $custom_attribute_settings, 'CssBorderType', 'ezoe_customattributes.ini' ) as $key => $value}
+{if ezini_hasvariable( $custom_attribute_settings, 'CssBorderType', 'ezoe_attributes.ini' )}
+{foreach ezini( $custom_attribute_settings, 'CssBorderType', 'ezoe_attributes.ini' ) as $key => $value}
     <option value="{$key}"{if $custom_attribute_default.1|eq($key)} selected="selected"{/if}>{$value}</option>
 {/foreach}
 {else}

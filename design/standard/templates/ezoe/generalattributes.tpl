@@ -45,14 +45,14 @@
         {set $xml_attribute       = first_set( $attribute_mapping[$attribute], $attribute )}
         {set $attribute_id        = concat( $:tag_name, '_', $xml_attribute )|wash}
 
-        {if ezoe_ini_section( concat('Attribute_', $:tag_name, '_', $xml_attribute), 'ezoe_customattributes.ini' )}
+        {if ezoe_ini_section( concat('Attribute_', $:tag_name, '_', $xml_attribute), 'ezoe_attributes.ini' )}
             {set $attribute_settings = concat('Attribute_', $:tag_name, '_', $xml_attribute)}
         {else}
             {set $attribute_settings = concat('Attribute_', $xml_attribute)}
         {/if}
 
-        {if ezini_hasvariable( $attribute_settings, 'Disabled', 'ezoe_customattributes.ini' )}
-            {set $attribute_disabled = ezini( $attribute_settings, 'Disabled', 'ezoe_customattributes.ini' )|eq('true')}
+        {if ezini_hasvariable( $attribute_settings, 'Disabled', 'ezoe_attributes.ini' )}
+            {set $attribute_disabled = ezini( $attribute_settings, 'Disabled', 'ezoe_attributes.ini' )|eq('true')}
         {else}
             {set $attribute_disabled = false()}
         {/if}
@@ -63,8 +63,8 @@
             {set $attribute_classes = array()}
         {/if}
 
-        {if ezini_hasvariable( $attribute_settings, 'Type', 'ezoe_customattributes.ini' )}
-            {set $attribute_type = ezini( $attribute_settings, 'Type', 'ezoe_customattributes.ini' )}
+        {if ezini_hasvariable( $attribute_settings, 'Type', 'ezoe_attributes.ini' )}
+            {set $attribute_type = ezini( $attribute_settings, 'Type', 'ezoe_attributes.ini' )}
         {elseif $attribute_value|is_array()}
             {set $attribute_type = 'select'}
         {elseif $attribute_value}
@@ -73,34 +73,34 @@
             {set $attribute_type = 'text'}
         {/if}
         
-        {if ezini_hasvariable( $attribute_settings, 'Default', 'ezoe_customattributes.ini' )}
-            {set $attribute_default = ezini( $attribute_settings, 'Default', 'ezoe_customattributes.ini' )}
+        {if ezini_hasvariable( $attribute_settings, 'Default', 'ezoe_attributes.ini' )}
+            {set $attribute_default = ezini( $attribute_settings, 'Default', 'ezoe_attributes.ini' )}
         {else}
             {set $attribute_default = first_set( $attribute_defaults[$xml_attribute], '' )}
         {/if}
 
-        {if ezini_hasvariable( $attribute_settings, 'Name', 'ezoe_customattributes.ini' )}
-            {set $attribute_name = ezini( $attribute_settings, 'Name', 'ezoe_customattributes.ini' )}
+        {if ezini_hasvariable( $attribute_settings, 'Name', 'ezoe_attributes.ini' )}
+            {set $attribute_name = ezini( $attribute_settings, 'Name', 'ezoe_attributes.ini' )}
         {elseif is_set( $i18n[ $xml_attribute ] )}
             {set $attribute_name = $i18n[ $xml_attribute ]}
         {else}
             {set $attribute_name = $xml_attribute|upfirst}
         {/if}
 
-        {if ezini_hasvariable( $attribute_settings, 'Title', 'ezoe_customattributes.ini' )}
-            {set $attribute_title = ezini( $attribute_settings, 'Title', 'ezoe_customattributes.ini' )}
+        {if ezini_hasvariable( $attribute_settings, 'Title', 'ezoe_attributes.ini' )}
+            {set $attribute_title = ezini( $attribute_settings, 'Title', 'ezoe_attributes.ini' )}
         {else}
             {set $attribute_title = first_set( $attribute_titles[$xml_attribute], '' )}
         {/if}
 
-        {if ezini_hasvariable( $attribute_settings, 'Required', 'ezoe_customattributes.ini' )}
-            {if ezini( $attribute_settings, 'Required', 'ezoe_customattributes.ini' )|eq('true')}
+        {if ezini_hasvariable( $attribute_settings, 'Required', 'ezoe_attributes.ini' )}
+            {if ezini( $attribute_settings, 'Required', 'ezoe_attributes.ini' )|eq('true')}
                 {set $attribute_classes = $attribute_classes|append( 'required' )}
             {/if}
         {/if}
 
-        {if ezini_hasvariable( $attribute_settings, 'AllowEmpty', 'ezoe_customattributes.ini' )}
-            {if ezini( $attribute_settings, 'AllowEmpty', 'ezoe_customattributes.ini' )|eq('true')}
+        {if ezini_hasvariable( $attribute_settings, 'AllowEmpty', 'ezoe_attributes.ini' )}
+            {if ezini( $attribute_settings, 'AllowEmpty', 'ezoe_attributes.ini' )|eq('true')}
                 {set $attribute_classes = $attribute_classes|append( 'allow_empty' )}
             {/if}
         {/if}

@@ -108,7 +108,7 @@ work.
 
 This option is not supported on eZ Publish 4.0 as align=right is considered default
 value if none is given. You'll need to upgrade to eZ Publish 4.1 or not use the option.
-You can hide the option by overriding the selections using ezoe_customattributes.ini:
+You can hide the option by overriding the selections using ezoe_attributes.ini:
 
     # Override align options in embed pop up dialogs to hide None option
     # for eZ Publish 4.0 compatibility   

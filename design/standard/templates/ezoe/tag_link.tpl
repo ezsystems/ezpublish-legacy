@@ -209,7 +209,7 @@ function ezoeLinkTypeSet( source, types )
         
         {*
          Removed targets used for frames as most people though they worked like windows.open (javascript)
-         This is the removed values, specify selections in ezoe_customattributes.ini to re add them:
+         This is the removed values, specify selections in ezoe_attributes.ini to re add them:
          , '_self', 'Same frame (_self)', '_parent', 'Parent frame (_parent)', '_top', 'Full window (_top)'
          *}
         {include uri="design:ezoe/generalattributes.tpl"

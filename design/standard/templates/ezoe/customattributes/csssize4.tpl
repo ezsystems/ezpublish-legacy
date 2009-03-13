@@ -1,13 +1,13 @@
 {set $custom_attribute_classes = $custom_attribute_classes|append( 'int' )}
 {set $custom_attribute_default = $custom_attribute_default|explode(' ')}
-{if ezini_hasvariable( $custom_attribute_settings, 'Minimum', 'ezoe_customattributes.ini' )}
-    {set $custom_attribute_classes = $custom_attribute_classes|append( concat('min', ezini($custom_attribute_settings, 'Minimum', 'ezoe_customattributes.ini') ) )}
+{if ezini_hasvariable( $custom_attribute_settings, 'Minimum', 'ezoe_attributes.ini' )}
+    {set $custom_attribute_classes = $custom_attribute_classes|append( concat('min', ezini($custom_attribute_settings, 'Minimum', 'ezoe_attributes.ini') ) )}
 {/if}
-{if ezini_hasvariable( $custom_attribute_settings, 'Maximum', 'ezoe_customattributes.ini' )}
-    {set $custom_attribute_classes = $custom_attribute_classes|append( concat('max', ezini($custom_attribute_settings, 'Maximum', 'ezoe_customattributes.ini') ) )}
+{if ezini_hasvariable( $custom_attribute_settings, 'Maximum', 'ezoe_attributes.ini' )}
+    {set $custom_attribute_classes = $custom_attribute_classes|append( concat('max', ezini($custom_attribute_settings, 'Maximum', 'ezoe_attributes.ini') ) )}
 {/if}
-{if ezini_hasvariable( $custom_attribute_settings, 'CssSizeType', 'ezoe_customattributes.ini' )}
-    {def $css_size_types = ezini( $custom_attribute_settings, 'CssSizeType', 'ezoe_customattributes.ini' )}
+{if ezini_hasvariable( $custom_attribute_settings, 'CssSizeType', 'ezoe_attributes.ini' )}
+    {def $css_size_types = ezini( $custom_attribute_settings, 'CssSizeType', 'ezoe_attributes.ini' )}
 {else}
     {def $css_size_types = hash('px', 'px', 'em', 'em', '%', '%')}
 {/if}
