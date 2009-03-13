@@ -47,8 +47,9 @@ class eZXMLOutputHandler
     function eZXMLOutputHandler( $xmlData, $aliasedType, $contentObjectAttribute = null )
     {
         $this->XMLData = $xmlData;
-        $this->AliasedType = $aliasedType;
         $this->AliasedHandler = null;
+        // use of $aliasedType is deprecated as of 4.1 and setting is ignored in aliased_handler
+        $this->AliasedType = $aliasedType;
 
         if ( is_object( $contentObjectAttribute ) )
         {
@@ -101,6 +102,7 @@ class eZXMLOutputHandler
             } break;
             case 'aliased_type':
             {
+                eZDebug::writeWarning( "'aliased_type' is deprecated as of 4.1 and not in use anymore, meaning it will always return false.", __METHOD__ );
                 return $this->AliasedType;
             } break;
             case 'view_template_name':
@@ -109,8 +111,7 @@ class eZXMLOutputHandler
             } break;
             case 'aliased_handler':
             {
-                if ( $this->AliasedType !== false and
-                     $this->AliasHandler === null )
+                if ( $this->AliasHandler === null )
                 {
                     $this->AliasedHandler = eZXMLText::inputHandler( $this->XMLData,
                                                                       $this->AliasedType,

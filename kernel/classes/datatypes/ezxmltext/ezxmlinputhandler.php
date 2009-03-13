@@ -47,8 +47,9 @@ class eZXMLInputHandler
     {
         $this->XMLData = $xmlData;
         $this->ContentObjectAttribute = $contentObjectAttribute;
-        $this->AliasedType = $aliasedType;
         $this->AliasedHandler = null;
+        // use of $aliasedType is deprecated as of 4.1 and setting is ignored  in aliased_handler
+        $this->AliasedType = $aliasedType;
     }
 
     /*!
@@ -92,12 +93,12 @@ class eZXMLInputHandler
             }break;
             case 'aliased_type':
             {
+                eZDebug::writeWarning( "'aliased_type' is deprecated as of 4.1 and not in use anymore, meaning it will always return false.", __METHOD__ );
                 return $this->AliasedType;
             }break;
             case 'aliased_handler':
             {
-                if ( $this->AliasedType !== false and
-                     $this->AliasedHandler === null )
+                if ( $this->AliasedHandler === null )
                 {
                     $this->AliasedHandler = eZXMLText::inputHandler( $this->XMLData,
                                                                      $this->AliasedType,

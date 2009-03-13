@@ -34,6 +34,9 @@ Deprecated features
   advantage of the autoload features. Porting the current kernel to use
   this new method is planned and will be done step by step.
 
+- 'aliased_type' attribute on xml handlers (input and output)
+  This attribute now always returns false after the changes in the handler loading code,
+  and is not used in 'aliased_handler' anymore.
 
 Removed features
 ----------------
