@@ -4,8 +4,7 @@
 eZ Cluster migration guide
 ==========================
 
-:Author: Jérôme Renard
-:Date: 2009/03/05
+:Date: 2009/03/13
 :Version: 1.0
 
 This document describes the upgrade process for
@@ -15,12 +14,11 @@ from 3.10 version to 4.* versions.
 .. Note:: **If you plan to update an eZ Publish cluster prior to 3.10
           read this documentation first** http://pubsvn.ez.no/nextgen/trunk/doc/features/3.10/cluster_enhancement.txt
 
-.. Note:: **This guide assumes the code base is already update to the 4.1 version, do not upgrade
+.. Note:: **This guide assumes the code base is already updated to the 4.1 version, do not upgrade
           the cluster before upgrading the code base, this could lead to a data loss.**
 
 .. sectnum::
 .. contents:: Table of contents
-
 
 Migrating from 3.10.*, 4.0.* to 4.1 cluster
 ===========================================
@@ -34,7 +32,7 @@ From 3.10.*, 4.0.1 versions
 Updating the configuration file
 +++++++++++++++++++++++++++++++
 
-The configuration file has changed slightly, before 4.1 ``settings/file.ini`` looked like this : 
+The configuration file has slightly changed. Before 4.1 ``settings/file.ini`` looked like this : 
 
 ::
 
@@ -46,6 +44,8 @@ The configuration file has changed slightly, before 4.1 ``settings/file.ini`` lo
 Since there is a new handler system in eZ Publish 4.1, you have to update your configuration file ``file.ini.append.php``.
 
 All you have to do is this apply the following configuration
+
+For MySQL :
 
 ::
 
@@ -85,7 +85,7 @@ From 4.0.2 version
 Updating the configuration file
 +++++++++++++++++++++++++++++++
 
-The configuration file has changed slightly, before 4.1 ``settings/file.ini`` looked like this : 
+The configuration file has slightly changed. Before 4.1 ``settings/file.ini`` looked like this : 
 
 ::
 
@@ -97,6 +97,8 @@ The configuration file has changed slightly, before 4.1 ``settings/file.ini`` lo
 Since there is a new handler system in eZ Publish 4.1, you have to update your configuration file ``file.ini.append.php``.
 
 All you have to do is this apply the following configuration
+
+For MySQL :
 
 ::
 
@@ -114,7 +116,7 @@ Using the new filesystem backend
 Since eZ Publish 4.1, a new FileSystem backend is available : eZFS2.
 
 This new backend is more effecient with network shared partitions (like NFS)
-and handles gracefully cache purges and updates for content caches and
+and handles gracefully cache purge and update for content caches and
 cache-blocks.
 
 If you plan to use (or already use it) a shared partition using eZFS2 is higly recommended.
@@ -125,7 +127,7 @@ Updating the configuration file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In order to use eZFS2 all you have to do is to update your ``file.ini.append.php`` file.
-This can even be a hot change while your site running on production.
+This can even be a hot change while your site is running on production.
 
 Before 4.1 you had the following configuration : 
 
@@ -143,11 +145,12 @@ Change the configuration to this one :
     FileHandler=eZFS2FileHandler
     [...]
 
-Extra configuration for eZFS2
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Extra configuration for eZFS2 and eZDB
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-eZFS2FileHandler comes with a few configuration directives, it is safe to use the default values.
-In case you want something more specific to your project you can update the following configuration directives
+eZFS2FileHandler and eZDBFileHandlerMysqlBackend come with a few configuration directives. 
+It is safe to use the default values.
+In case you want something more specific to your project you can update the following configuration directives;
 
 file.ini : NonExistantStaleCacheHandling[]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
