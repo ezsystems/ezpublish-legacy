@@ -92,13 +92,13 @@
     {if eq( ezpreference( 'admin_navigation_states' ), 1 )}
     <li class="enabled {$li_width}">
     <div class="button-bc"><div class="button-tl"><div class="button-tr"><div class="button-br">
-        <a href={'/user/preferences/set/admin_navigation_states/0'|ezurl} title="{'Hide state assignment widget.'|i18n( 'design/admin/node/view/full' )}">{'States'|i18n( 'design/admin/node/view/full' )}</a>
+        <a href={'/user/preferences/set/admin_navigation_states/0'|ezurl} title="{'Hide state assignment widget.'|i18n( 'design/admin/node/view/full' )}">{'Object states'|i18n( 'design/admin/node/view/full' )}</a>
     </div></div></div></div>
     </li>
     {else}
     <li class="disabled {$li_width}">
     <div class="button-bc"><div class="button-tl"><div class="button-tr"><div class="button-br">
-        <a href={'/user/preferences/set/admin_navigation_states/1'|ezurl} title="{'Show state assignment widget.'|i18n( 'design/admin/node/view/full' )}">{'States'|i18n( 'design/admin/node/view/full' )}</a>
+        <a href={'/user/preferences/set/admin_navigation_states/1'|ezurl} title="{'Show state assignment widget.'|i18n( 'design/admin/node/view/full' )}">{'Object states'|i18n( 'design/admin/node/view/full' )}</a>
     </div></div></div></div>
     </li>
     {/if}    

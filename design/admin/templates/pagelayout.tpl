@@ -60,8 +60,8 @@ document.write("<style type='text/css'>div#contentstructure ul#content_tree_menu
 <style type="text/css">
 div#leftmenu div.box-bc, div#rightmenu div.box-bc { border-bottom: 1px solid #bfbeb6; /* Strange IE bug fix */ }
 div#contentstructure { overflow-x: auto; overflow-y: hidden; } /* hide vertical scrollbar in IE */
-div.menu-block li { width: 19%; } /* Avoid width bug in IE */
-div.notranslations li { width: 24%; } /* Avoid width bug in IE */
+div.menu-block li { width: 16.66%; } /* Avoid width bug in IE */
+div.notranslations li { width: 19%; } /* Avoid width bug in IE */
 div.context-user div.menu-block li { width: 14%; } /* Avoid width bug in IE */
 input.button, input.button-disabled { padding: 0 0.5em 0 0.5em; overflow: visible; }
 input.box, textarea.box { width: 98%; }
