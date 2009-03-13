@@ -8,6 +8,7 @@ Changes from 4.1.0beta1 to 4.1.0rc1
 - Implemented enhancement #14578: Add possibility to filter nodes based on the is_invisible
 - Implemented enhancement #14152: Add incremental progress output to ezpgenerateautoloads.php
 - Implemented enhancement #12850: soap.php and multiple siteaccesses (patch included)
+- Implemented enhancement #14598: Force requirements for session cookie in user/register
 
 *Design:
 

@@ -104,7 +104,14 @@ class eZSession
      *
      * @access protected
      */
-    static protected $hasSessionCookie = false;
+    static protected $hasSessionCookie = null;
+
+    /**
+     * Flag if user session validated when reading data from session, set in {@link eZSession::internalRead()}.
+     *
+     * @access protected
+     */
+    static protected $userSessionIsValid = null;
 
     /**
      * User session hash (ip + ua string), set in {@link eZSession::registerFunctions()}.
@@ -187,7 +194,12 @@ class eZSession
                     eZDebug::writeNotice( 'User ('. $sessionRes[0]['user_id'] .') hash did not match, regenerating session id for the user to avoid potentially hijack session attempt.', 'eZSession::internalRead' );
                     self::regenerate( false );
                     self::$userID = 0;
+                    self::$userSessionIsValid = false;
                     return false;
+                }
+                else if ( self::$userSessionIsValid === null )
+                {
+                    self::$userSessionIsValid = true;
                 }
                 self::$userID = $sessionRes[0]['user_id'];
             }
@@ -583,6 +595,33 @@ class eZSession
     static public function userID()
     {
         return self::$userID;
+    }
+
+    /**
+     * Returns if user had session cookie at start of request or not.
+     * 
+     * @return bool|null returns null if session is not started yet.
+     */
+    static public function userHasSessionCookie()
+    {
+        return self::$hasSessionCookie;
+    }
+
+    /**
+     * Returns if user session validated against stored data in db
+     * or if it was invalidated during the current request.
+     * 
+     * @return bool|null returns null if user is not validated yet (for instance a new session).
+     */
+    static public function userSessionIsValid()
+    {
+        // force a session read if session has started but not yet used
+        if ( self::$userSessionIsValid === null &&
+             self::$hasSessionCookie === true )
+        {
+            $tempSession = $_SESSION;
+        }
+        return self::$userSessionIsValid;
     }
 
     /**

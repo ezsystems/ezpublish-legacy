@@ -28,6 +28,7 @@
 
 $http = eZHTTPTool::instance();
 $Module = $Params['Module'];
+$redirectNumber = $Params['redirect_number'];
 
 if ( isset( $Params['UserParameters'] ) )
 {
@@ -57,6 +58,46 @@ $db->begin();
 // Create new user object if user is not logged in
 if ( !$http->hasSessionVariable( "RegisterUserID" ) )
 {
+    // flag if user client supports cookies and session validates + if we should do redirect
+    $userClientValidates  = true;
+    $doValidationRedirect = false;
+    if ( !eZSession::userHasSessionCookie() )
+    {
+        if ( $redirectNumber == '2' )
+            $userClientValidates = false;
+        else
+            $doValidationRedirect = true;
+    }
+    else if ( !eZSession::userSessionIsValid() )
+    {
+        if ( $redirectNumber == '2' )
+            $userClientValidates = false;
+        else
+            $doValidationRedirect = true;
+    }
+
+    if ( $doValidationRedirect )
+    {
+        $db->rollback();
+        return $Module->redirectTo( '/user/register/2' );
+    }
+    else if ( !$userClientValidates )
+    {
+        $db->rollback();
+
+        $tpl->setVariable( 'user_has_cookie', eZSession::userHasSessionCookie(), 'User' );
+        $tpl->setVariable( 'user_session_validates', eZSession::userSessionIsValid(), 'User' );      
+
+        $Result = array();
+        $Result['content'] = $tpl->fetch( 'design:user/register_user_not_valid.tpl' );
+        $Result['path'] = array( array( 'url' => false,
+                                'text' => ezi18n( 'kernel/user', 'User' ) ),
+                         array( 'url' => false,
+                                'text' => ezi18n( 'kernel/user', 'Register' ) ) );
+        return $Result;
+    }
+    // else create user object
+    
     $ini = eZINI::instance();
     $errMsg = '';
     $checkErrNodeId = false;
@@ -94,7 +135,7 @@ if ( !$http->hasSessionVariable( "RegisterUserID" ) )
                                                        'is_main' => 1 ) );
     $nodeAssignment->store();
 }
-else if ( $http->hasSessionVariable( "RegisterUserID" ) )
+else
 {
     $userID = $http->sessionVariable( "RegisterUserID" );
 }

@@ -104,7 +104,7 @@ $ViewList['edit'] = array(
 $ViewList['register'] = array(
     'functions' => array( 'register' ),
     'script' => 'register.php',
-    'params' => array( ),
+    'params' => array( 'redirect_number' ),
     'ui_context' => 'edit',
     'default_navigation_part' => 'ezmynavigationpart',
     'single_post_actions' => array( 'PublishButton' => 'Publish',
