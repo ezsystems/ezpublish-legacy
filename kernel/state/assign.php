@@ -26,6 +26,8 @@
 //
 
 $Module = $Params['Module'];
+$Result = array();
+$Result['content'] = '';
 
 // Identify whether the input data was submitted through URL parameters or through POST
 if ( $Module->isCurrentAction( 'Assign' )                 and
@@ -54,17 +56,28 @@ if ( $objectID and $selectedStateIDList )
     {
         eZContentOperationCollection::updateObjectState( $objectID, $selectedStateIDList );
     }
+
+    // Redirect to the provided URI, or to the root if not provided.
+    // @TODO : in case this view is called through Ajax, make sure the module ends another way.
+    $Module->hasActionParameter( 'RedirectRelativeURI' ) ? $Module->redirectTo( $Module->actionParameter( 'RedirectRelativeURI' ) ) : $Module->redirectTo( '/' );
 }
+elseif ( $objectID )
+{
+    // Propose an interface. The end-user probably accessed this view through a simple URL like
+    // '/state/assign/<object_id>'
+    if ( ( $object = eZContentObject::fetch( $objectID ) ) !== null  )
+    {
+        require_once( 'kernel/common/template.php' );
+        $tpl = templateInit();
+        $tpl->setVariable( 'node', $object->attribute( 'main_node' ) );
+        $Result['content'] = $tpl->fetch( 'design:state/assign.tpl' );
+    }
+}
+else
+    $Module->redirectTo( '/' );
 
-// Redirect to the provided URI, or to the root if not provided.
-// @TODO : in case this view is called through Ajax, make sure the module ends another way.
-$Module->hasActionParameter( 'RedirectRelativeURI' ) ? $Module->redirectTo( $Module->actionParameter( 'RedirectRelativeURI' ) ) : $Module->redirectTo( '/' );
-
-$Result = array(
-    'content' => '',
-    'path'    => array(
-        array( 'url' => false, 'text' => ezi18n( 'kernel/state', 'State' ) ),
-        array( 'url' => false, 'text' => ezi18n( 'kernel/state', 'Assign' ) )
-    )
-);
+$Result['path'] = array(
+                    array( 'url' => false, 'text' => ezi18n( 'kernel/state', 'State' ) ),
+                    array( 'url' => false, 'text' => ezi18n( 'kernel/state', 'Assign' ) )
+                   );
 ?>
