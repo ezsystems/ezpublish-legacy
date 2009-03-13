@@ -19,6 +19,11 @@
     {include uri='design:relations.tpl'}
 {/section}
 
+{* States window. *}
+{if eq( ezpreference( 'admin_navigation_states' ), 1)}
+    {include uri='design:states.tpl'}
+{/if}
+
 {* Children window.*}
 {section show=$node.object.content_class.is_container}
     {include uri='design:children.tpl'}
