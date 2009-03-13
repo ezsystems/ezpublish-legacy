@@ -83,6 +83,18 @@ function upgradePackageListByWebinVersion( $version )
                                       , 'ezwebin_design_gray'
                                       , 'ezwebin_site' );
             } break;
+        case '1.4-0':
+            {
+                $packageList = array(   'ezwebin_classes'
+                                      , 'ezwebin_extension'
+                                      // skipping content for now
+                                      //, 'ezwebin_banners'
+                                      //, 'ezwebin_democontent'
+                                      , 'ezwebin_design_blue'
+                                      , 'ezwebin_design_gray'
+                                      , 'ezwebin_design_cleangray'
+                                      , 'ezwebin_site' );
+            }
         default:
             break;
     }
@@ -245,6 +257,48 @@ function updateINI_1_2_0()
     }
 }
 
+function updateINI_1_4_0()
+{
+    showMessage2( "Updating INI-files..." );
+
+    $siteaccessList = getUserInput( "Please specify the eZ webin siteaccesses on your site (separated with space, for example eng nor): ");
+    $siteaccessList = explode( ' ', $siteaccessList );
+
+    $translationSA = array();
+    foreach( $siteaccessList as $siteaccess )
+    {
+        /* Update override.ini.append.php part */
+        $settings = array( 'full_silverlight' => array( 'Source' => 'node/view/full.tpl',
+                                                        'MatchFile' => 'full/silverlight.tpl',
+                                                        'Subdir' => 'templates',
+                                                        'Match' => array( 'class_identifier' => 'silverlight' )  ),
+                           'line_silverlight' => array( 'Source' => 'node/view/line.tpl',
+                                                        'MatchFile' => 'line/silverlight.tpl',
+                                                        'Subdir' => 'templates',
+                                                        'Match' => array( 'class_identifier' => 'silverlight' )  ),
+                           'edit_ezsubtreesubscription_forum_topic' => array( 'Source' => 'content/datatype/edit/ezsubtreesubscription.tpl',
+                                                                              'MatchFile' => 'datatype/edit/ezsubtreesubscription/forum_topic.tpl',
+                                                                              'Subdir' => 'templates',
+                                                                              'Match' => array( 'class_identifier' => 'forum_topic' )  ) );
+        $ini = eZINI::instance( 'override.ini', 'settings/siteaccess/' . $siteaccess, null, null, false, true );
+        $ini->setReadOnlySettingsCheck( false );
+        $ini->setVariables( $settings );
+        $ini->save( false, '.append.php', false, false, 'settings/siteaccess/' . $siteaccess, false );
+        
+        /* Get site.ini for ContentObjectLocale code */
+        $ini = eZINI::instance( 'site.ini', 'settings/siteaccess/' . $siteaccess, null, null, false, true );
+        $contentObjectLocale = explode( '-', $ini->variable( 'RegionalSettings', 'ContentObjectLocale' ) );
+        
+        $translationSA[$siteaccess] = ucfirst( $contentObjectLocale[0] );
+    }
+    
+    /* Update site.ini.[RegionalSettings].TranslationSA part */
+    $settings = array( 'RegionalSettings' => array( 'TranslationSA' => $translationSA ) );
+    $ini = eZINI::instance( 'site.ini', 'settings/override', null, null, false, true );
+    $ini->setReadOnlySettingsCheck( false );
+    $ini->setVariables( $settings );
+    $ini->save( false, '.append.php', false, false, 'settings/override', false );
+}
 
 function isValidWebinUpgradeVersion( $version )
 {
@@ -254,6 +308,7 @@ function isValidWebinUpgradeVersion( $version )
     {
         case '1.2-0':
         case '1.3-0':
+        case '1.4-0':
             {
                 $isValid = true;
             } break;
@@ -278,7 +333,8 @@ $scriptOptions = $script->getOptions( "[to-version:][repository:][package:][pack
                                       "",
                                       array( 'to-version' => "Specify what upgrade path to use. \n" .
                                                              " available options: '1.2-0' - upgrade 1.1-1 to 1.2-0\n" .
-                                                             "                    '1.3-0' - upgrade 1.2-0 to 1.3-0",
+                                                             "                    '1.3-0' - upgrade 1.2-0 to 1.3-0\n" .
+                                                             "                    '1.4-0' - upgrade 1.3-0 to 1.4-0",
                                              'repository' => "Path to repository where unpacked(unarchived) packages are \n" .
                                                          "placed. it's relative to 'var/[site.ini].[FileSettings].[StorageDir]/[package.ini].[RepositorySettings].[RepositoryDirectory]' \n".
                                                          "(default is 'var/storage/packages/ez_systems')",
