@@ -74,7 +74,7 @@ elseif ( $objectID )
     }
 }
 else
-    $Module->redirectTo( '/' );
+    $Module->hasActionParameter( 'RedirectRelativeURI' ) ? $Module->redirectTo( $Module->actionParameter( 'RedirectRelativeURI' ) ) : $Module->redirectTo( '/' );
 
 $Result['path'] = array(
                     array( 'url' => false, 'text' => ezi18n( 'kernel/state', 'State' ) ),
