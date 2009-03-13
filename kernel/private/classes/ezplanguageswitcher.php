@@ -144,6 +144,8 @@ class ezpLanguageSwitcher
             $urlAlias .= $this->userParamString;
         }
 
+        $this->baseDestinationUrl = rtrim( $this->baseDestinationUrl, '/' );
+
         if ( $GLOBALS['eZCurrentAccess']['type'] === EZ_ACCESS_TYPE_URI )
         {
             $finalUrl = $this->baseDestinationUrl . '/' . $this->destinationSiteAccess . '/' . $urlAlias;
@@ -180,18 +182,20 @@ class ezpLanguageSwitcher
         $this->destinationLocale = $saIni->variable( 'RegionalSettings', 'ContentObjectLocale' );
 
         // Detect the type of siteaccess we are dealing with. Initially URI and Host are supported.
-        $indexFile = eZSys::indexFile( false );
+        // We don't want the siteaccess part here, since we are inserting our siteaccess name.
+        $indexFile = trim( eZSys::indexFile( false ), '/' );
         switch ( $GLOBALS['eZCurrentAccess']['type'] )
         {
             case EZ_ACCESS_TYPE_URI:
-                $host = eZSys::hostname();
+                eZURI::transformURI( $host, true, 'full' );
                 break;
 
             case EZ_ACCESS_TYPE_HTTP_HOST:
                 $host = $saIni->variable( 'SiteSettings', 'SiteURL' );
+                $host = "http://{$host}/";
                 break;
         }
-        $this->baseDestinationUrl = "http://{$host}{$indexFile}";
+        $this->baseDestinationUrl = "{$host}{$indexFile}";
     }
 
     /**
