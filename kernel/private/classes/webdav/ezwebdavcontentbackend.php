@@ -40,7 +40,6 @@
   @todo Fix using [0] for content object attributes (could be another index in some classes)
   @todo Add lock/unlock calls in setProperty and removeProperty
   @todo Use PathPrefix, PathPrefixExclude (site.ini) and StartNode (webdav.ini) in all functions where necessary
-  @todo Check if handling of UTF-8 characters is correct
   @todo Remove all todos.
 
 */
@@ -169,7 +168,7 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
      */
     public function lock( $waitTime, $timeout )
     {
-        // @as @todo implement locking with eZ Publish functionality (object states?)
+        // @as @todo implement locking with eZ Publish functionality (object states)
     }
 
     /**
@@ -179,7 +178,7 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
      */
     public function unlock()
     {
-        // @as @todo implement locking with eZ Publish functionality (object states?)
+        // @as @todo implement locking with eZ Publish functionality (object states)
     }
 
     /**
@@ -201,7 +200,7 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
      */
     protected function acquireLock( $readOnly = false )
     {
-        // @as @todo implement locking with eZ Publish functionality (object states?)
+        // @as @todo implement locking with eZ Publish functionality (object states)
     }
 
     /**
@@ -211,7 +210,7 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
      */
     protected function freeLock()
     {
-        // @as @todo implement locking with eZ Publish functionality (object states?)
+        // @as @todo implement locking with eZ Publish functionality (object states)
     }
 
     /**
@@ -789,13 +788,11 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
         // replace 30607 with your object ID
         // $object = eZContentObject::fetch( 30607 );
         // $stateGroup = eZContentObjectStateGroup::fetchByIdentifier( 'ez_lock' );
-        // $state = eZContentObjectState::fetchByIdentifier( 'locked',
-        // $stateGroup->attribute( 'id' ) );
+        // $state = eZContentObjectState::fetchByIdentifier( 'locked', $stateGroup->attribute( 'id' ) );
         // $object->assignState( $state );
 
         // unlock:
-        // $state = eZContentObjectState::fetchByIdentifier( 'not_locked',
-        // $stateGroup->attribute( 'id' ) );
+        // $state = eZContentObjectState::fetchByIdentifier( 'not_locked', $stateGroup->attribute( 'id' ) );
         // $object->assignState( $state );
 
         // Get namespace property storage
@@ -1446,7 +1443,6 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
      */
     protected function fetchNodeInfo( $target, &$node )
     {
-//var_dump( 'fetchNodeInfo ' . $target );
         // When finished, we'll return an array of attributes/properties.
         $entry = array();
 
@@ -1511,15 +1507,8 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
                 $mimeInfo = eZMimeType::findByURL( $filePath );
                 $entry["mimetype"] = $mimeInfo['name'];
 
-                // @as 2008-12-10 - Try to fix a strange issue where eZMimeType converts a file extension
-                // to lowercase (.JPG becomes .jpg), resulting in problems with WebDAV clients
-                // like Bitkinex to try to upload a file forever because they cannot detect
-                // that it was already uploaded
                 $suffix = $mimeInfo['suffix'];
 
-                // The fix is not used as it does not work
-                // $pathParts = pathinfo( $filePath );
-                // $suffix = $pathParts['extension'];
                 if ( strlen( $suffix ) > 0 )
                 {
                     $entry["name"] .= '.' . $suffix;
@@ -1533,17 +1522,10 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
                 $suffix = eZFile::suffix( $filePath );
                 if ( !$suffix )
                 {
-                    // @as 2008-12-10 - Try to fix a strange issue where eZMimeType converts a file extension
-                    // to lowercase (.JPG becomes .jpg), resulting in problems with WebDAV clients
-                    // like Bitkinex to try to upload a file forever because they cannot detect
-                    // that it was already uploaded
                     $mimeInfo = eZMimeType::findByName( $entry['mimetype'] );
                     $suffix = $mimeInfo['suffix'];
-
-                    // The fix is not used as it does not work
-                    // $pathParts = pathinfo( $filePath );
-                    // $suffix = $pathParts['extension'];
                 }
+
                 if ( strlen( $suffix ) > 0 )
                 {
                     $entry["name"] .= '.' . $suffix;
@@ -2122,32 +2104,6 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
         {
             $nodePathString = eZURLAliasML::convertPathToAlias( $nodePathString );
         }
-        // added by @ds 2008-12-07 to fix problems with IE6 SP2, but not used
-        // // Attempt to get nodeID from the URL.
-        // eZWebDAVContentBackend::appendLogEntry( "path:" . $nodePathString );
-        // $ini = eZINI::instance();
-        // if ( $ini->hasVariable( 'SiteAccessSettings', 'PathPrefix' ) &&
-        //      $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) != '' )
-        // {
-        //     $prepend = $ini->variable( 'SiteAccessSettings', 'PathPrefix' );
-        //     eZWebDAVContentBackend::appendLogEntry( "prep:" . $prepend );
-        //     $pathIdenStr = substr( $prepend, strlen( $prepend ) -1 ) == '/'
-        //                            ? $nodePathString . '/'
-        //                            : $nodePathString;
-        //     if ( strncasecmp( $pathIdenStr, $prepend, strlen( $prepend ) ) == 0 )
-        //     {
-        //          $cleanURL = substr( $nodePathString, strlen( $prepend ) );
-        //     }
-        //     else
-        //     {
-        //          $cleanURL = $nodePathString;
-        //     }
-        //     else
-        //     {
-        //          $cleanURL = $nodePathString;
-        //     }
-        // }
-        // eZWebDAVContentBackend::appendLogEntry( "path:" . $cleanURL );
 
         $nodeID = eZURLAliasML::fetchNodeIDByPath( $nodePathString );
         if ( $nodeID == 2 )
@@ -2480,15 +2436,6 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
              $virtualFolder === self::virtualMediaFolderName() )
         {
             $result = $this->putContentData( $currentSite, $virtualFolder, $target, $tempFile );
-
-            // @as 2009-02-26 - to set a clean article name - not used
-//            $node = $this->fetchNodeByTranslation( $target );
-//            if ( $node !== false )
-//            {
-//                $object = $node->attribute( 'object' );
-//                $name = $node->attribute( 'name' );
-//                $object->rename( urldecode( $name ) );
-//            }
             return $result;
         }
 
@@ -2531,10 +2478,6 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
 
         $upload = new eZContentUpload();
 
-        // @as @todo check if it is needed to change the uploaded file name
-        // $pathParts = pathinfo( $tempFile );
-        // $suffix = '.' . $pathParts['extension'];
-        // if ( !$upload->handleLocalFile( $result, $tempFile, $parentNodeID, $existingNode, basename( $tempFile, $suffix ) /* @as 2008-12-10 added $tempFile in the call */ ) )
         if ( !$upload->handleLocalFile( $result, $tempFile, $parentNodeID, $existingNode ) )
         {
             if ( $result['status'] === eZContentUpload::STATUS_PERMISSION_DENIED )
@@ -2547,21 +2490,6 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
             }
         }
 
-        // @todo check if it is needed to change the uploaded file name
-        // @as 2008-12-10 - Try to fix a strange issue that eZMimeType converts a file extension
-        // to lowercase (.JPG becomes .jpg), resulting in problems with WebDAV clients
-        // like Bitkinex to try to upload a file forever because they cannot detect
-        // that it was already uploaded
-        // $info = $this->fetchNodeInfo( "/{$currentSite}/{$virtualFolder}/{$target}", $existingNode );
-        // eZWebDAVContentBackend::appendLogEntry( 'PutContentData fetchNodeInfo:' . $info['filepath'] . ';' . $target . ';' . $existingNode->attribute( 'name' ) );
-        // if ( isset( $info['filepath'] ) )
-        // {
-        //     $filePath = $info['filepath'];
-        //     $pathParts = pathinfo( $filePath );
-        //     rename( $filePath, $pathParts['dirname'] . DIRECTORY_SEPARATOR .
-        //                        $pathParts['filename'] . $suffix );
-        // }
-        // eZWebDAVContentBackend::appendLogEntry( 'PutContentData:' . $suffix . '/'. $tempFile );
         return true; // @as self::OK_CREATED;
     }
 
@@ -2794,9 +2722,6 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
             $newName = 'Copy of ' . $object->attribute( 'name' );
         }
 
-        // $newName = ( $destinationName === null ) ? $object->attribute( 'name' ) :
-        //                                            $destinationName;
-
         // @todo @as avoid using [0] (could be another index in some classes)
         $contentObjectAttributes = $newObject->contentObjectAttributes();
         $contentObjectAttributes[0]->setAttribute( 'data_text', $newName );
@@ -2929,12 +2854,6 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
         }
 
         $destinationNode = $this->fetchParentNodeByTranslation( $destinationNodePath );
-
-        // @as @todo check if this is needed (done earlier in move())
-        // if ( $destinationNode )
-        // {
-        //     return false; // @as self::FAILED_EXISTS;
-        // }
 
         // Can we move the node to $destinationNode
         if ( !$destinationNode->canMoveTo( $classID ) )
@@ -3171,7 +3090,6 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
      *
      * @param string $logString String to record
      * @param string $label Label to put in front of $logString
-     * @todo remove var_dump()
      */
     public static function appendLogEntry( $logString, $label = false )
     {
