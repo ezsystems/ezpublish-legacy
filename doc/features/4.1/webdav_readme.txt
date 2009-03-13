@@ -69,7 +69,7 @@ Supported.
 Configuration
 '''''''''''''
 
-This WebDAV client has a know issue with uploading of files	with spaces in the
+This WebDAV client has a know issue with uploading of files with spaces in the
 file names or with uppercase extensions: since eZ Publish converts file names
 to clean URL aliases, Bitkinex cannot detect correctly that the file was
 uploaded and it will try to upload it again, resulting in an infinite loop.
