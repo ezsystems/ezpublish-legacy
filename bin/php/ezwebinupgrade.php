@@ -292,12 +292,62 @@ function updateINI_1_4_0()
         $translationSA[$siteaccess] = ucfirst( $contentObjectLocale[0] );
     }
     
-    /* Update site.ini.[RegionalSettings].TranslationSA part */
-    $settings = array( 'RegionalSettings' => array( 'TranslationSA' => $translationSA ) );
-    $ini = eZINI::instance( 'site.ini', 'settings/override', null, null, false, true );
-    $ini->setReadOnlySettingsCheck( false );
-    $ini->setVariables( $settings );
-    $ini->save( false, '.append.php', false, false, 'settings/override', false );
+    $settings = array( array( 'name' => 'site.ini', 
+                              'settings' => array( 'RegionalSettings' => array( 'TranslationSA' => $translationSA ) ) ),
+                       array( 'name' => 'content.ini',
+                              'settings' => array( 'table' => array( 'CustomAttributes' => array( '0' => 'summary',
+                                                                                                  '1' => 'caption' ) ),
+                                                   'td' => array( 'CustomAttributes' => array( '0' => 'valign' ) ),
+                                                   'th' => array( 'CustomAttributes' => array( '0' => 'scope',
+                                                                                               '1' => 'abbr',
+                                                                                               '2' => 'valign' ) ),
+                                                   'CustomTagSettings' => array( 'AvailableCustomTags' => array( '0' => 'underline' ),
+                                                                                                                 'IsInline' => array( 'underline' => 'true') ),
+                                                   'embed-type_images' => array( 'AvailableClasses' => array() ) ) ),
+                       array( 'name' => 'ezoe_attributes.ini',
+                              'settings' => array( 'CustomAttribute_table_summary' => array( 'Name' => 'Summary (WAI)',
+                                                                                             'Required' => 'true' ),
+                                                   'CustomAttribute_scope' => array( 'Name' => 'Scope',
+                                                                                     'Title' => 'The scope attribute defines a way to associate header cells and data cells in a table.',
+                                                                                     'Type' => 'select',
+                                                                                     'Selection' => array( '0' => '',
+                                                                                                           'col' => 'Column',
+                                                                                                           'row' => 'Row' ) ),
+                                                   'CustomAttribute_valign' => array( 'Title' => 'Lets you define the vertical alignment of the table cell/ header.',
+                                                                                      'Type' => 'select',
+                                                                                      'Selection' => array( '0' => '',
+                                                                                                            'top' => 'Top',
+                                                                                                            'middle' => 'Middle',
+                                                                                                            'bottom' => 'Bottom',
+                                                                                                            'baseline' => 'Baseline' ) ),
+                                                   'Attribute_table_border' => array( 'Type' => 'htmlsize',
+                                                                                      'AllowEmpty' => 'true' ),
+                                                   'CustomAttribute_embed_offset' => array( 'Type' => 'int',
+                                                                                            'AllowEmpty' => 'true' ),
+                                                   'CustomAttribute_embed_limit' => array( 'Type' => 'int',
+                                                                                           'AllowEmpty' => 'true' ) ) ),
+                       array( 'name' => 'ezxml.ini',
+                              'settings' => array( 'TagSettings' => array( 'TagPresets' => array( '0' => '',
+                                                                                                  'mini' => 'Simple formatting' ) ) ) ) );
+    foreach ( $settings as $setting )
+    {
+        $iniName = $setting['name'];
+        $onlyModified = false;
+        if ( file_exists( 'settings/override/' . $iniName . '.append' ) ||
+             file_exists( 'settings/override/' . $iniName . '.append.php' ) )
+        {
+        
+            $ini = eZINI::instance( $iniName, 'settings/override', null, null, false, true );
+        }
+        else
+        {
+            $ini = eZINI::create( $iniName, 'settings/override' );
+            $onlyModified = true;
+        }
+        $ini->setReadOnlySettingsCheck( false );
+        $ini->setVariables( $setting['settings'] );
+        $ini->save( false, '.append.php', false, $onlyModified, 'settings/override', false );
+    }
 }
 
 function isValidWebinUpgradeVersion( $version )
