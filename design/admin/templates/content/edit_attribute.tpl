@@ -1,6 +1,6 @@
 {default $view_parameters=array()}
 {section var=attributes loop=$content_attributes}
-<div class="block">
+<div class="block ezcca-edit-datatype-{$attributes.item.data_type_string} ezcca-edit-{$attributes.item.contentclass_attribute_identifier}">
 {* Show view GUI if we can't edit, oterwise: show edit GUI. *}
 {section show=and( eq( $attributes.item.can_translate, 0 ), ne( $object.initial_language_code, $attributes.item.language_code ) )}
     <label>{$attributes.item.contentclass_attribute_name|wash}{section show=$attributes.item.can_translate|not} <span class="nontranslatable">({'not translatable'|i18n( 'design/admin/content/edit_attribute' )})</span>{/section}:</label>

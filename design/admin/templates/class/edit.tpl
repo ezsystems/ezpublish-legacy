@@ -129,7 +129,7 @@
 </div>
 {section show=$attributes}
 
-<table class="list" cellspacing="0">
+<table id="ezcca-edit-list" class="list" cellspacing="0">
 {section var=Attributes loop=$attributes}
 
 <tr>

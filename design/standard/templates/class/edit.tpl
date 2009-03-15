@@ -122,7 +122,7 @@
 {/section}
 
 <h2>{"Attributes"|i18n("design/standard/class/edit")}</h2>
-<table class="class_list" width="100%" cellpadding="0" cellspacing="0" border="0">
+<table id="ezcca-edit-list" class="class_list" width="100%" cellpadding="0" cellspacing="0" border="0">
 {section name=Attributes loop=$attributes sequence=array("bglight","bgdark")}
 
 <tr>
