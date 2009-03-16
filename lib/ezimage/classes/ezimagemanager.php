@@ -682,30 +682,30 @@ class eZImageManager
         if ( !$ini )
             return false;
 
-        if( $ini->hasVariable( 'ImageConverterSettings', 'ConverterName' ) )
+        $converterList = $ini->variable( 'ImageConverterSettings', 'ImageConverters' );
+        foreach ( $converterList as $converterName )
         {
-            $converterName = $ini->variable( 'ImageConverterSettings', 'ConverterName' );
-
-            if ( $ini->hasVariable( $converterName, 'Handler' ) )
+            if ( $ini->hasGroup( $converterName ) )
             {
-                $factoryName = $ini->variable( $converterName, 'Handler' );
-                $factory = $this->factoryFor( $factoryName, $iniFile, $converterName );
-                if ( $factory )
+                if ( $ini->hasVariable( $converterName, 'Handler' ) )
                 {
-                    $convertHandler = $factory->produceFromINI( $converterName, $iniFile );
-                    $this->appendImageHandler( $convertHandler );
+                    $factoryName = $ini->variable( $converterName, 'Handler' );
+                    $factory = $this->factoryFor( $factoryName, $iniFile, $converterName );
+                    if ( $factory )
+                    {
+                        $convertHandler = $factory->produceFromINI( $converterName, $iniFile );
+                        $this->appendImageHandler( $convertHandler );
+                    }
+                }
+                else
+                {
+                    eZDebug::writeWarning( "INI group $converterName does not have a Handler setting, cannot instantiate handler without it", __METHOD__ );
                 }
             }
             else
             {
-                eZDebug::writeWarning( "INI group $handlerName does not have a Handler setting, cannot instantiate handler without it",
-                                        'eZImageManager::readImageHandlersFromINI' );
+                eZDebug::writeWarning( "No INI group $converterName for Image Handler $converterName, cannot instantiate", __METHOD__ );
             }
-        }
-        else
-        {
-            eZDebug::writeWarning( "No Image Converter chosen cannot instantiate",
-                                    'eZImageManager::readImageHandlersFromINI' );
         }
     }
 
