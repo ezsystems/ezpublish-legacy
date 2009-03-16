@@ -115,7 +115,8 @@ information about a command, example 'help get'.
 Finder
 ------
 
-Not supported yet due to missing locking support in the WebDAV engine. Locking
+Reading content is supported, but creating content (upload, create folder) is
+not supported yet due to missing locking support in the WebDAV engine. Locking
 is planned for a future iteration of the WebDAV engine and Finder will
 become supported at that time.
 
@@ -225,8 +226,7 @@ program window, under the name "webdav.ezp".
 Transmit
 --------
 
-Partially supported. Filenames with UTF-8 characters are not send correctly
-by Transmit to the server.
+Supported.
 
 
 Configuration
@@ -242,8 +242,11 @@ Create a connection
 '''''''''''''''''''
 
 In Transmit, click on the Connect tab next to Favorites, type **webdav.ezp**
-in the Server text box, select WebDAV from the Protocol drop-down menu, then
-click on the Connect button.
+in the Server text box, type your username and password in the respective
+boxes, select WebDAV from the Protocol drop-down menu, then click on the
+Connect button. The connection will appear as a tab in the main window of the
+program. You can add the connection to favorites by going to the menu
+Favorites->Add to Favorites...
 
 
 Planned features
