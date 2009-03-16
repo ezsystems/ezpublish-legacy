@@ -225,8 +225,8 @@ program window, under the name "webdav.ezp".
 Transmit
 --------
 
-Partially supported. Uploading files does not function properly due to missing
-lock support.
+Partially supported. Filenames with UTF-8 characters are not send correctly
+by Transmit to the server.
 
 
 Configuration
