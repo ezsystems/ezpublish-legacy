@@ -192,10 +192,10 @@ to a local folder and then open it.
 Konqueror
 ---------
 
-Partially supported. Uploading files does not work, due to an apparent issue
-in Konqueror (upload a new file will not work, but uploading a file which
-already exists will overwrite the existing file). Creating directories works.
-This is being investigated and a fix will be provided soon if possible.
+Partially supported. Creating directories works, but uploading files does not
+work in Konqueror 3.5.8 and up. See http://bugs.kde.org/show_bug.cgi?id=166081
+for more details. This is a Konqueror bug. Use a version prior to 3.5.8 in
+order to not experience this bug.
 
 
 Create a connection
