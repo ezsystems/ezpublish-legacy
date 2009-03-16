@@ -1,10 +1,10 @@
 #!/bin/bash
 
-VERSION="4.1.0beta1"
+VERSION="4.1.0rc1"
 VERSION_RELEASE="0"
 VERSION_ONLY="4.1"
-VERSION_STATE="beta1"
-VERSION_PREVIOUS="4.1.0alpha2"
+VERSION_STATE="rc1"
+VERSION_PREVIOUS="4.1.0beta1"
 VERSION_BRANCH="$VERSION_ONLY"
 VERSION_NICK="$VERSION"
 VERSION_STABLE="4.0.0"
@@ -141,7 +141,7 @@ function ezdist_update_ezlupdate
 {
     echo "Building ezlupdate executable"
     echo
-    (cd support/ezlupdate &&
+    (cd support/ezlupdate-qt4 &&
     qmake &&
     make)
     if [ $? -ne 0 ]; then
