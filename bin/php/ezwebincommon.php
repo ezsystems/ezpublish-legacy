@@ -177,9 +177,9 @@ function checkDir( $dirName )
     return true;
 }
 
-function installScriptDir( $packageRepository )
+function installScriptDir( $packageRepository, $packageName )
 {
-    return ( eZPackage::repositoryPath() . "/$packageRepository/ezwebin_site" );
+    return ( eZPackage::repositoryPath() . "/$packageRepository/$packageName" );
 }
 
 function defaultVendor()

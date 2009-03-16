@@ -267,6 +267,9 @@ function updateINI_1_4_0()
     $translationSA = array();
     foreach( $siteaccessList as $siteaccess )
     {
+        if( !file_exists( 'settings/siteaccess/' . $siteaccess ) )
+            continue;
+
         /* Update override.ini.append.php part */
         $settings = array( 'full_silverlight' => array( 'Source' => 'node/view/full.tpl',
                                                         'MatchFile' => 'full/silverlight.tpl',
@@ -506,11 +509,11 @@ if( downloadPackages( $packageList, $packageURL, $packageDir, $packageRepository
     installPackages( $packageList );
 }
 
-if( file_exists( installScriptDir( $packageRepository ) ) )
+if( file_exists( installScriptDir( $packageRepository, 'ezwebin_site' ) ) )
 {
-    include_once( installScriptDir( $packageRepository ) . "/settings/ezwebininstaller.php" );
-    include_once( installScriptDir( $packageRepository ) . "/settings/ini-site.php" );
-    include_once( installScriptDir( $packageRepository ) . "/settings/ini-common.php" );
+    include_once( installScriptDir( $packageRepository, 'ezwebin_site' ) . "/settings/ezwebininstaller.php" );
+    include_once( installScriptDir( $packageRepository, 'ezwebin_site' ) . "/settings/ini-site.php" );
+    include_once( installScriptDir( $packageRepository, 'ezwebin_site' ) . "/settings/ini-common.php" );
 
     showMessage2( "Updating content classes..." );
     execUpdateFunction( "updateClasses", $toVersion );
