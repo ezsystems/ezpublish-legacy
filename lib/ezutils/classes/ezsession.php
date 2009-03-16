@@ -397,6 +397,12 @@ class eZSession
             {
                 session_id( $http->postVariable( $sessionName ) );
                 self::$hasSessionCookie = true;
+                // allow verification of user hash if client is
+                // different ua then session client
+                if ( $http->hasPostVariable( 'UserSessionHash' ) )
+                {
+                    self::$userSessionHash = $http->postVariable( 'UserSessionHash' );
+                }
             }
             else
             {
