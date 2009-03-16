@@ -497,6 +497,72 @@ class eZSearch
         return false;
     }
 
+    /*
+     * @since eZ Publish 4.1
+     * @description new methods that search plugins can implement when meta data is updated (outside publish operations)
+     *
+     */
+
+    public static function updateNodeSection( $nodeID, $sectionID )
+    {
+        $searchEngine = eZSearch::getEngine();
+
+        if ( is_object( $searchEngine ) && method_exists( $searchEngine, 'updateNodeSection'))
+        {
+            return $searchEngine->updateNodeSection( $nodeID, $sectionID );
+        }
+
+        return false;
+    }
+
+    public static function updateNodeVisibility( $nodeID, $action )
+    {
+        $searchEngine = eZSearch::getEngine();
+
+        if ( is_object( $searchEngine ) && method_exists( $searchEngine, 'updateNodeVisibility'))
+        {
+            return $searchEngine->updateNodeVisibility( $nodeID, $action );
+        }
+
+        return false;
+    }
+
+    public static function addNodeAssignment( $mainNodeID, $objectID, $nodeAssigmentIDList )
+    {
+        $searchEngine = eZSearch::getEngine();
+
+        if ( is_object( $searchEngine ) && method_exists( $searchEngine, 'addNodeAssignment'))
+        {
+            return $searchEngine->addNodeAssignment( $mainNodeID, $objectID, $nodeAssigmentIDList );
+        }
+
+        return false;
+    }
+
+    public static function removeNodeAssignment( $mainNodeID, $newMainNodeID, $objectID, $nodeAssigmentIDList )
+    {
+        $searchEngine = eZSearch::getEngine();
+
+        if ( is_object( $searchEngine ) && method_exists( $searchEngine, 'removeNodeAssignment'))
+        {
+            return $searchEngine->removeNodeAssignment( $mainNodeID, $newMainNodeID, $objectID, $nodeAssigmentIDList );
+        }
+
+        return false;
+    }
+
+    public static function updateObjectState( $objectID, $objectStateList )
+    {
+        $searchEngine = eZSearch::getEngine();
+
+        if ( is_object( $searchEngine ) && method_exists( $searchEngine, 'updateObjectState'))
+        {
+            return $searchEngine->updateObjectState( $objectID, $objectStateList );
+        }
+
+        return false;
+    }
+    
 }
 
 ?>

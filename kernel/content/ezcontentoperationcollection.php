@@ -787,20 +787,17 @@ class eZContentOperationCollection
         }
         if ( $locationAdded )
         {
+            
+            //call appropriate method from search engine
+            eZSearch::addNodeAssignment( $nodeID, $objectID, $selectedNodeIDArray );
+
             // clear user policy cache if this was a user object
             if ( in_array( $object->attribute( 'contentclass_id' ), $userClassIDArray ) )
             {
                 eZUser::cleanupCache();
             }
 
-            // Give other search engines that the default one a chance to reindex
-            // when adding locations.
-            // include_once( 'kernel/classes/ezsearch.php' );
-            if ( !eZSearch::getEngine() instanceof eZSearchEngine )
-            {
-                // include_once( 'kernel/content/ezcontentoperationcollection.php' );
-                eZContentOperationCollection::registerSearchObject( $objectID, $node->attribute( 'contentobject_version' ) );
-            }
+           
         }
         $db->commit();
 
@@ -822,6 +819,8 @@ class eZContentOperationCollection
     static public function removeAssignment( $nodeID, $objectID, $removeList, $moveToTrash )
     {
         $mainNodeChanged      = false;
+        $nodeIDList           = array();
+        $mainNodeID           = $nodeID;
         $userClassIDArray     = eZUser::contentClassIDs();
         $object               = eZContentObject::fetch( $objectID );
         $nodeAssignmentList   = eZNodeAssignment::fetchForObject( $objectID,
@@ -847,6 +846,8 @@ class eZContentOperationCollection
             if ( $node->attribute( 'node_id' ) == $node->attribute( 'main_node_id' ) )
                 $mainNodeChanged = true;
             $node->removeThis();
+
+            $nodeIDList[] = $node->attribute( 'node_id' );
         }
 
         // Give other search engines that the default one a chance to reindex
@@ -862,13 +863,18 @@ class eZContentOperationCollection
 
         if ( $mainNodeChanged )
         {
-            $allNodes = $object->assignedNodes();
-            $mainNode = $allNodes[0];
-            eZContentObjectTreeNode::updateMainNodeID( $mainNode->attribute( 'node_id' ), $objectID, false, $mainNode->attribute( 'parent_node_id' ) );
+            $allNodes   = $object->assignedNodes();
+            $mainNode   = $allNodes[0];
+            $mainNodeID = $mainNode->attribute( 'node_id' );
+            eZContentObjectTreeNode::updateMainNodeID( $mainNodeID, $objectID, false, $mainNode->attribute( 'parent_node_id' ) );
         }
 
         $db->commit();
+
         
+        //call appropriate method from search engine
+        eZSearch::removeNodeAssignment( $nodeID, $mainNodeID, $objectID, $nodeIDList );
+
         eZContentCacheManager::clearObjectViewCacheIfNeeded( $objectID );
     
         // clear user policy cache if this was a user object
@@ -905,14 +911,23 @@ class eZContentOperationCollection
      */
     static public function changeHideStatus( $nodeID )
     {
+        $action = 'hide';
+
         $curNode = eZContentObjectTreeNode::fetch( $nodeID );
         if ( is_object( $curNode ) )
         {
             if ( $curNode->attribute( 'is_hidden' ) )
+            {
                 eZContentObjectTreeNode::unhideSubTree( $curNode );
+                $action = 'show';
+            }
             else
                 eZContentObjectTreeNode::hideSubTree( $curNode );
         }
+        
+        //call appropriate method from search engine
+        eZSearch::updateNodeVisibility( $nodeID, $action );
+
         return array( 'status' => true );
     }
 
@@ -1029,6 +1044,9 @@ class eZContentOperationCollection
     static public function updateSection( $nodeID, $selectedSectionID )
     {
         eZContentObjectTreeNode::assignSectionToSubTree( $nodeID, $selectedSectionID );
+
+        //call appropriate method from search engine
+        eZSearch::updateNodeSection( $nodeID, $selectedSectionID );
     }
 
     /**
@@ -1242,6 +1260,8 @@ class eZContentOperationCollection
             $state = eZContentObjectState::fetchById( $selectedStateID );
             $object->assignState( $state );
         }
+        //call appropriate method from search engine
+        eZSearch::updateObjectState($objectID, $selectedStateIDList);
 
         return array( 'status' => true );
     }
