@@ -192,7 +192,10 @@ to a local folder and then open it.
 Konqueror
 ---------
 
-Supported.
+Partially supported. Uploading files does not work, due to an apparent issue
+in Konqueror (upload a new file will not work, but uploading a file which
+already exists will overwrite the existing file). Creating directories works.
+This is being investigated and a fix will be provided soon if possible.
 
 
 Create a connection
