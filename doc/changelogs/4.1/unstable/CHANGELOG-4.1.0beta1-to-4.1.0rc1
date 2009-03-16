@@ -10,6 +10,7 @@ Changes from 4.1.0beta1 to 4.1.0rc1
 - Implemented enhancement #12850: soap.php and multiple siteaccesses (patch included)
 - Implemented enhancement #14598: Force requirements for session cookie in user/register
 - Implemented enhancement #14604: Make content/edit more stylable / scriptable by adding usable classes on attribute divs
+- Implemented enhancement #013225: search engine triggers
 
 *Design:
 
