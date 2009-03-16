@@ -47,3 +47,4 @@ Changes from 4.1.0beta1 to 4.1.0rc1
 - Fixed bug #14600: object name is shown with unknown number, when the object name is a number, and starts with zeros
 - Fixed bug #14577: Problem with generated object naming on Oracle
 - Fixed handling of UTF-8 characters in filenames in WebDAV
+- Fixed bug #14139: invalid sql generated for policies assigned with limitation in roles assigned with limitation
