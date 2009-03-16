@@ -119,13 +119,24 @@ Not supported yet due to missing locking support in the WebDAV engine. Locking
 is planned for a future iteration of the WebDAV engine and Finder will
 become supported at that time.
 
-@todo add information how to set up a WebDAV connection.
+Create a connection
+'''''''''''''''''''
+
+In the Finder menu, use the option Go->Connect to Server..., where you enter
+**http://webdav.ezp** as the Server Address.
 
 
 Internet Explorer
 -----------------
 
-Partially supported.
+Partially supported. Uploading a file to an empty directory by dragging the
+file to the opened directory does not work, instead you must drag the file to
+the directory while being in the directory structure one level lower (eg. do
+not open /plain_site_user/Content/folder, but instead open
+/plain_site_user/Content and drag the file to the "folder" directory. In some
+versions of Windows (eg. Windows 7) it is not possible to see the contents of
+folders with Windows Explorer, but with using other file management software
+(so-called Explorer-replacements) this is possible.
 
 
 Configuration
@@ -195,17 +206,44 @@ In Konqueror write the name of the WebDAV server using the protocol
 Nautilus
 --------
 
-@todo add if supported or not
+Partially supported. Uploading a file to an empty directory by dragging the
+file to the opened directory does not work, instead you must drag the file to
+the directory while being in the directory structure one level lower (eg. do
+not open /plain_site_user/Content/folder, but instead open
+/plain_site_user/Content and drag the file to the "folder" directory.
 
-@todo add information how to set up a WebDAV connection.
+
+Create a connection
+'''''''''''''''''''
+
+In Nautilus, use the menu option File->Connect to Server..., select
+WebDAV (HTTP) from the Service Type drop-down menu, and enter **webdav.ezp**
+in the Server text box. The connection will appear under Places in the main
+program window, under the name "webdav.ezp".
 
 
 Transmit
 --------
 
-@todo add if supported or not
+Partially supported. Uploading files does not function properly due to missing
+lock support.
 
-@todo add information how to set up a WebDAV connection.
+
+Configuration
+'''''''''''''
+
+Disable uploading of **.DS_Store** files. Use the menu option Transmit->
+Advanced Preferences..., click Advanced Preferences, click the plus button
+to add a new setting, type **webdav.ezp** and uncheck Transfer .DS_Store
+files.
+
+
+Create a connection
+'''''''''''''''''''
+
+In Transmit, click on the Connect tab next to Favorites, type **webdav.ezp**
+in the Server text box, select WebDAV from the Protocol drop-down menu, then
+click on the Connect button.
 
 
 Planned features
