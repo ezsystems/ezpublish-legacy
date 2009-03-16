@@ -1323,24 +1323,24 @@ fi
 # *****   Bundle ezc *****
 #
 
-echo -n "Bundling eZ Components 2008.2"
+echo -n "Bundling eZ Components 2008.2.1"
 
 # download
-if [ ! -e "$DEST_ROOT/ezcomponents-2008.2.tar.bz2" ]; then
-    wget --directory-prefix=$DEST_ROOT http://ezcomponents.org/files/downloads/ezcomponents-2008.2.tar.bz2
+if [ ! -e "$DEST_ROOT/ezcomponents-2008.2.1.tar.bz2" ]; then
+    wget --directory-prefix=$DEST_ROOT http://ezcomponents.org/files/downloads/ezcomponents-2008.2.1.tar.bz2
 fi
 
-if [ ! -e "$DEST_ROOT/ezcomponents-2008.2" ]; then
+if [ ! -e "$DEST_ROOT/ezcomponents-2008.2.1" ]; then
     # extract
-    tar -vxjf $DEST_ROOT/ezcomponents-2008.2.tar.bz2 -C $DEST_ROOT
+    tar -vxjf $DEST_ROOT/ezcomponents-2008.2.1.tar.bz2 -C $DEST_ROOT
     
     # remove design, docs and tests directories
-    find $DEST_ROOT/ezcomponents-2008.2 -mindepth 2 -maxdepth 2 -type d \( -name  "design" -o -name "docs" -o -name "tests" \) -print -a -exec rm -R --force {} \;
+    find $DEST_ROOT/ezcomponents-2008.2.1 -mindepth 2 -maxdepth 2 -type d \( -name  "design" -o -name "docs" -o -name "tests" \) -print -a -exec rm -R --force {} \;
 
 fi
 
 # copy to build location
-cp -R $DEST_ROOT/ezcomponents-2008.2 $DEST_ROOT/$BASE/lib/ezc
+cp -R $DEST_ROOT/ezcomponents-2008.2.1 $DEST_ROOT/$BASE/lib/ezc
 
 ez_result_output $? "Failed to bundle eZ Components"|| exit 1
 
