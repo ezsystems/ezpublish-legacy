@@ -166,9 +166,15 @@ Map Network Drive (or go to My Network Places and click on Add a network place).
 In the Add Network Place Wizard click on "Choose another network location" (on
 Windows Vista and Windows 7 there is an extra step in which you need to click
 on the link "Connect to a Web site that you can use to store your documents and
-pictures"), then enter **http://webdav.ezp/**. You will be requested to enter
-the username and password for the connection. The connection will appear as a
-shortcut in My Computer.
+pictures"), then enter **http://webdav.ezp:port/siteaccess**, where
+*siteaccess* is a siteaccess that you will use (eg. **plain_site_user**) and
+*port* is the port on which you connect to WebDAV (**80** by default). You will
+be requested to enter the username and password for the connection. The
+connection will appear as a shortcut in My Computer.
+
+WebDAV operations are somehow limited in Internet Explorer, in such ways that
+you will not be able to click on a file to open it, but must instead drag it
+to a local folder and then open it.
 
 
 Konqueror
