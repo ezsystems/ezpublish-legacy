@@ -1,0 +1,110 @@
+<?php
+/*
+   WHAT THIS FILE AS ABOUT - READ CAREFULLY
+   ----------------------------------------
+   This file contains a documented list of the few configuration points
+   available from config.php. The proposed default values below are meant
+   to be the most optimized ones, or meaningful examples of what can be achieved.
+
+   In order to have the present settings taken into account, you will need to
+   rename this file into config.php, and keep it placed at the root of eZ Publish,
+   where config.php-RECOMMENDED is currently placed.
+*/
+
+
+/*
+   PATH TO THE EZCOMPONENTS
+   ------------------------
+   config.php can set the components path like:
+*/
+ini_set( 'include_path', ini_get( 'include_path' ). ':../ezcomponents/trunk' );
+
+/*
+   TIMEZONES
+   ---------
+   The recommended way of setting timezones is via php.ini.
+   However you can set the default timezone for your eZ Publish aplication this way :
+*/
+date_default_timezone_set( 'Europe/Paris' );
+
+/*
+    INI FILES OPTIMIZATIONS
+    -----------------------
+    This new setting controls whether eZINI should check if the settings have
+    been updated in the *.ini-files*. If this check is disabled eZ Publish
+    will always used the cached values, lowering the amount of stat-calls to
+    the file system, and thus increasing performance.
+
+    Set EZP_INI_FILEMTIME_CHECK constant to false to improve performance by
+    not checking modified time on ini files. You can also set it to a string, the name
+    of a ini file you still want to check modified time on, best example would be to
+    set it to 'site.ini' to make the system still check that but not the rest.
+*/
+EZP_INI_FILEMTIME_CHECK = false;
+
+
+/*
+    KERNEL OVERRIDES
+    ----------------
+    This setting controls if eZ Publish's autoload system should allow, and
+    load classes, which override kernel classes from extensions.
+*/
+EZP_AUTOLOAD_ALLOW_KERNEL_OVERRIDE = false;
+
+
+/*
+    USING BUNDLED COMPONENTS
+    ------------------------
+    If you are using a distribution of eZ Publish with which the necessary
+    eZ Components are bundled (in lib/ezc), then you can use this setting to
+    control if the bundled eZ Components should be used (true) or not (false).
+    By default, when this setting is not present, the bundled eZ Components are
+    used. If you're using the bundled eZ Components it's recommended to define
+    EZP_USE_BUNDLED_COMPONENTS as a boolean true anyway, for optimal speed.
+*/
+EZP_USE_BUNDLED_COMPONENTS = true;
+
+
+/*
+   If you are not using the bundled eZ Components, then for optimal speed it is
+   recommended to set EZC_BASE_PATH to either ezc/Base/base.php or Base/src/base.php,
+   depending on how you installed the eZ Components. By default, if this setting
+   is not present, eZ Publish first tries to include ezc/Base/base.php. If that fails
+   Base/src/base.php is included.
+*/
+EZC_BASE_PATH = '/usr/lib/ezc/Base/base.php';
+
+
+/*
+    Set EZP_INI_FILE_PERMISSION constant to the permissions you want saved
+    ini and cache files to have. This setting also applies to generated autoload files.
+*/
+EZP_INI_FILE_PERMISSION = 0666;
+
+
+
+/*
+   CUSTOM AUTOLOAD MECHANISM
+   -------------------------
+   It is also possible to push a custom autoload method to the autoload
+   function stack. Remember to check for class prefixes in such a method, if it
+   will not serve classes from eZ Publish and eZ Components.
+   Here is an example code snippet to be placed right in this file, in the case
+   you would be using your custom Foo framework, in which all PHP classes would be
+   prefixed by 'Foo' :
+
+   <code>
+       ini_set( 'include_path', ini_get( 'include_path' ). ':/usr/lib/FooFramework/' );
+       require 'Foo/ClassLoader.php';
+
+       function fooAutoload( $className )
+       {
+          if ( 'Foo' == substr( $className, 0, 4 ) )
+          {
+              FooClassLoader::loadClass( $className );
+          }
+       }
+       spl_autoload_register( 'fooAutoload' );
+   </code>
+*/
+?>
