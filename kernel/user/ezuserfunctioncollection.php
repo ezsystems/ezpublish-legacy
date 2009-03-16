@@ -145,9 +145,16 @@ class eZUserFunctionCollection
                         {
                             foreach ( $function as $limitationKey => $limitation )
                             {
-                                if ( $limitationKey != '*' )
+                                if ( $limitationKey !== '*' )
                                 {
                                     $policyID = str_replace( 'p_', '', $limitationKey );
+                                    $userRoleIdSeperator = strpos( $policyID, '_' );
+
+                                    if ( $userRoleIdSeperator !== false )
+                                    {
+                                        $policyID = substr( $policyID, 0, $userRoleIdSeperator );
+                                    }
+
                                     $limitationValue = eZPolicyLimitation::fetchByPolicyID( $policyID );
                                     $resultArray[] = array( 'moduleName' => $moduleName, 'functionName' => $functionName, 'limitation' =>  $limitationValue );
                                 }
