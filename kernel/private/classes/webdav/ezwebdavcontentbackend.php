@@ -1456,7 +1456,7 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
 
         // @as 2009-03-09: return node_id as displayname in case name is missing
         // displayname is not actually used by WebDAV clients
-        $entry["name"] = ( $name !== "" ) ? $name : $node->attribute( 'node_id' );
+        $entry["name"] = ( $name !== '' && $name !== NULL ) ? $name : $node->attribute( 'node_id' );
         $entry["size"] = 0;
         $entry["mimetype"] = self::DIRECTORY_MIMETYPE;
         eZWebDAVContentBackend::appendLogEntry( 'FetchNodeInfo:' . $node->attribute( 'name' ) . '/' . $node->urlAlias() );

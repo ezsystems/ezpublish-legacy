@@ -40,3 +40,4 @@ Changes from 4.1.0beta1 to 4.1.0rc1
 - Fixed bug #14328: Nested embedding override issue
 - Fixed bug #14583: Strict: PHP
 - Fixed bug #14600: object name is shown with unknown number, when the object name is a number, and starts with zeros
+- Fixed bug #14577: Problem with generated object naming on Oracle
