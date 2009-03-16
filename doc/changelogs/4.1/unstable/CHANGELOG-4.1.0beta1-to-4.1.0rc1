@@ -14,6 +14,7 @@ Changes from 4.1.0beta1 to 4.1.0rc1
 - Implemented enhancement #13811: add an empty config.php file in the standard ezp distribution
 - Implemented alternative solution to enhancement #12027: Improve how timezones are set
 - Implemented enhancement #12235: config.php documentation
+- Implemented enhancement #14609: Allow to read session from post variable for flash requests to work on firefox
 
 *Design:
 

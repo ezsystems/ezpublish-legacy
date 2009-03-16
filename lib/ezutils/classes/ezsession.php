@@ -385,7 +385,24 @@ class eZSession
         }
 
         // See if user has session cookie, used to avoid reading from db if no session
-        self::$hasSessionCookie = isset( $_COOKIE[ $sessionName ] );
+        if ( isset( $_COOKIE[ $sessionName ] ) )
+        {
+            self::$hasSessionCookie = true;
+        }
+        else
+        {
+            // look for session id in post params if no cookie  
+            $http = eZHTTPTool::instance();
+            if ( $http->hasPostVariable( $sessionName ) )
+            {
+                session_id( $http->postVariable( $sessionName ) );
+                self::$hasSessionCookie = true;
+            }
+            else
+            {
+                self::$hasSessionCookie = false;
+            }
+        }
 
         session_set_save_handler(
             array('eZSession', 'open'),
