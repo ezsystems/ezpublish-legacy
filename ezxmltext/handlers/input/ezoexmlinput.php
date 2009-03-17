@@ -480,10 +480,11 @@ class eZOEXMLInput extends eZXMLInputHandler
      * updateUrlObjectLinks
      * Updates URL to object links.
      *
+     * @static
      * @param eZContentObjectAttribute $contentObjectAttribute
      * @param array $urlIDArray
      */
-    function updateUrlObjectLinks( $contentObjectAttribute, $urlIDArray )
+    public static function updateUrlObjectLinks( $contentObjectAttribute, $urlIDArray )
     {
         $objectAttributeID = $contentObjectAttribute->attribute( 'id' );
         $objectAttributeVersion = $contentObjectAttribute->attribute('version');
@@ -597,7 +598,7 @@ class eZOEXMLInput extends eZXMLInputHandler
             $urlIDArray = $parser->getUrlIDArray();
             if ( count( $urlIDArray ) > 0 )
             {
-                $this->updateUrlObjectLinks( $contentObjectAttribute, $urlIDArray );
+                self::updateUrlObjectLinks( $contentObjectAttribute, $urlIDArray );
             }
 
             $contentObject = $contentObjectAttribute->attribute( 'object' );
