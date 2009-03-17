@@ -17,13 +17,14 @@
    ------------------------
    config.php can set the components path like:
 */
-ini_set( 'include_path', ini_get( 'include_path' ). ':../ezcomponents/trunk' );
+ini_set( 'include_path', ini_get( 'include_path' ). PATH_SEPARATOR . '../ezcomponents/trunk' );
 
 /*
    TIMEZONES
    ---------
    The recommended way of setting timezones is via php.ini.
-   However you can set the default timezone for your eZ Publish aplication this way :
+   However you can set the default timezone for your eZ Publish application as shown below.
+   More on supported timezones : http://www.php.net/manual/en/timezones.php
 */
 date_default_timezone_set( 'Europe/Paris' );
 
