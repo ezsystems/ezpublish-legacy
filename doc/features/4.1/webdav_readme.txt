@@ -188,7 +188,9 @@ pictures"), then enter **http://webdav.ezp:port/siteaccess**, where
 *siteaccess* is a siteaccess that you will use (eg. **plain_site_user**) and
 *port* is the port on which you connect to WebDAV (**80** by default). You will
 be requested to enter the username and password for the connection. The
-connection will appear as a shortcut in My Computer.
+connection will appear as a shortcut in My Computer. If you cannot open the
+connection at a later time, try dragging it from My Computer to an
+Internet Explorer window.
 
 WebDAV operations are somehow limited in Internet Explorer, in such ways that
 you will not be able to click on a file to open it, but must instead drag it
