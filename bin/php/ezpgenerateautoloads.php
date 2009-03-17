@@ -51,6 +51,7 @@ else
 }
 
 require 'kernel/private/classes/ezautoloadgenerator.php';
+require 'kernel/private/interfaces/ezpautoloadoutput.php';
 require 'kernel/private/classes/ezpautoloadclioutput.php';
 require 'kernel/private/options/ezpautoloadgeneratoroptions.php';
 require 'kernel/private/structs/ezpautoloadfilefindcontext.php';
@@ -172,7 +173,16 @@ if ( !empty( $targetOption->value ) )
 $autoloadOptions->excludeDirs = $excludeDirs;
 
 $autoloadGenerator = new eZAutoloadGenerator( $autoloadOptions );
-$autoloadCliOutput = new ezpAutoloadCliOutput();
+
+if ( defined( 'EZP_AUTOLOAD_OUTPUT' ) )
+{
+    $outputClass = EZP_AUTOLOAD_OUTPUT;
+    $autoloadCliOutput = new $outputClass();
+}
+else
+{
+    $autoloadCliOutput = new ezpAutoloadCliOutput();
+}
 
 $autoloadGenerator->setOutputObject( $autoloadCliOutput );
 $autoloadGenerator->setOutputCallback( array( $autoloadCliOutput, 'outputCli') );

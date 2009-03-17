@@ -111,6 +111,12 @@ EZC_BASE_PATH
    is not present, eZ Publish first tries to include ezc/Base/base.php. If that fails
    Base/src/base.php is included.
 
+EZP_AUTOLOAD_OUTPUT
+    This setting sets the class name for a custom class to use to handle
+    autoload generation output. The class has to be of the ezpAutoloadOutput
+    type. Since autoloads are being used, this class needs to be loaded in
+    config.php, or bootstrapped with some method before the script itself runs.
+
 Changes to method signatures
 ----------------------------
 

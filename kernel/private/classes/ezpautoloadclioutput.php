@@ -12,7 +12,7 @@
  * 
  * @package kernel
  */
-class ezpAutoloadCliOutput
+class ezpAutoloadCliOutput implements ezpAutoloadOutput
 {
     /**
      * The console output object
@@ -28,7 +28,7 @@ class ezpAutoloadCliOutput
      */
     protected $fileSearchProgress = null;
     /**
-     * Object controlling progress infromation for tokenization / class search phase.
+     * Object controlling progress information for tokenization / class search phase.
      *
      * @var ezcConsoleProgressbar
      */

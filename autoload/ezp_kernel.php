@@ -535,6 +535,7 @@ return array(
       'ezpAutoloadCliOutput'                  => 'kernel/private/classes/ezpautoloadclioutput.php',
       'ezpAutoloadFileFindContext'            => 'kernel/private/structs/ezpautoloadfilefindcontext.php',
       'ezpAutoloadGeneratorOptions'           => 'kernel/private/options/ezpautoloadgeneratoroptions.php',
+      'ezpAutoloadOutput'                     => 'kernel/private/interfaces/ezpautoloadoutput.php',
       'ezpAutoloader'                         => 'autoload.php',
       'ezpExtensionOptions'                   => 'kernel/private/options/ezpextensionoptions.php',
       'ezpLanguageSwitcher'                   => 'kernel/private/classes/ezplanguageswitcher.php',
