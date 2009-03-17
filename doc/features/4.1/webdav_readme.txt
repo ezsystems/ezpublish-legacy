@@ -163,6 +163,8 @@ only on SSL connections, 2 = enable Basic authentication even without SSL).
 
 http://www.microsoft.com/downloads/details.aspx?familyid=17C36612-632E-4C04-9382-987622ED1D64
 
+3. Restart Windows.
+
 
 Create a connection
 '''''''''''''''''''
