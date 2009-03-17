@@ -2,33 +2,53 @@
 # to make the site more secure in non-virtualhost mode (index.php used in urls).
 #
 
-php_value allow_call_time_pass_reference 0
-
 <FilesMatch ".">
 order allow,deny
 deny from all
 </FilesMatch>
 
-<FilesMatch "(index\.php|\.(gif|jpe?g|png|css|js|html)|var(.+)storage.pdf(.+)\.pdf)$">
+<FilesMatch "(^index\.php|favicon\.ico|index_treemenu\.php|\.(gif|jpe?g|png|css|js|swf|html?)|var(.+)storage.pdf(.+)\.pdf)$">
 order allow,deny
 allow from all
 </FilesMatch>
 
 # If you see "Forbidden" when trying to access root page of your site
 # without 'index.php' appended, uncomment the following "Files" section.
-# NOTE: replace "ezpublish-3.6.0" with base name of the directory
+# NOTE: replace "ezpublish-4.1.0" with base name of the directory
 # where your eZ Publish intallation resides.
-# e.g. base name of "/sites/ezpublish/ezpublish-3.6.0" is "ezpublish-3.6.0".
+# e.g. base name of "/sites/ezpublish/ezpublish-4.1.0" is "ezpublish-4.1.0".
 
-#<Files "ezpublish-3.6.0">
+#<Files "ezpublish-4.1.0">
 #   order allow,deny
 #   allow from all
 #</Files>
 
 RewriteEngine On
-RewriteRule content/treemenu/? index_treemenu.php
-RewriteRule index_treemenu.php - [L]
 
-RewriteRule !\.(gif|jpe?g|png|css|js|html)|var(.+)storage.pdf(.+)\.pdf$ index.php
+# Allow access to the index_treemenu.php file for a faster admin interface
+RewriteRule content/treemenu/? index_treemenu.php
+RewriteRule ^index_treemenu\.php - [L]
+
+#  Uncomment the line below if you placed your favicon at the root of your 
+#  eZ Publish instance. It will then be served directly.
+#RewriteRule ^favicon\.ico - [L]
+#  Uncomment the line below if you want you favicon be served from the standard design. 
+#  You can customize the path to favicon.ico by replacing design/standard/images/favicon.ico 
+#  by the adequate path.
+#RewriteRule ^favicon.ico design/standard/images/favicon.ico [L]
+RewriteRule ^design/standard/images/favicon\.ico - [L]
+
+#  Uncomment the line below once you set up the right robots.txt file
+#  In that case remember to also modify the FilesMatch rule abov
+#  More info here http://en.wikipedia.org/wiki/Robots.txt
+#RewriteRule ^robots\.txt - [L]
+
+#   Uncomment the line below in case you are using
+#   Platform for Privacy Preferences Project ( P3P ) related files.
+#   In that case remember to also modify the FilesMatch rule above
+#   More info here : http://en.wikipedia.org/wiki/P3p
+#RewriteRule ^p3p/(.+)\.xml - [L]
+
+RewriteRule !(\.(gif|jpe?g|png|css|js|swf|html?)|var(.+)storage.pdf(.+)\.pdf)$ index.php
 
 DirectoryIndex index.php

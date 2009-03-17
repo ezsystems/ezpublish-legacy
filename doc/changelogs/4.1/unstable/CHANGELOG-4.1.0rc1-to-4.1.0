@@ -17,3 +17,5 @@ Changes from 4.1.0rc1 to 4.1.0
 *Bugfixes:
 - fixed issue #014596: Generating autoload file inside extension will fail on non-windows OS
 - fixed issue #014595: Generated autoload file for extensions are only writable by Apache
+- fixed issue #012460: add favicon.ico to default .htaccess_root file
+- fixed issue #013180: Add rewrite rule for using OE 5.0 in .htaccess_root
