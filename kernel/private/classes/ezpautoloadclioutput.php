@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezpAutoloadOutput class
+ * File containing the ezpAutoloadCliOutput class
  *
  * @copyright Copyright (C) 1999-2009 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
