@@ -1,4 +1,4 @@
-{set scope=global persistent_variable=hash('title', concat('Upload new'|i18n('design/standard/ezoe'), ' ', $content_type_name|i18n('design/standard/ezoe/contenttype')),
+{set scope=global persistent_variable=hash('title', concat('Upload new'|i18n('design/standard/ezoe'), ' ', 'Image'|i18n('design/standard/ezoe/contenttype')),
                                            'scripts', array('javascript/ezoe/ez_core.js',
                                                             'javascript/ezoe/ez_core_animation.js',
                                                             'javascript/ezoe/ez_core_accordion.js',
