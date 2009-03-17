@@ -1,0 +1,642 @@
+Changes from 4.0.0 to 4.1.0alpha1
+
+*Kernel:
+- Implemented enhancement #1823: A larger data_text field for workflow events
+- Implemented enhancement #11410: Specify content type of notification e-mails in the mail template
+- Implemented enhancement #8648: updatesearchindex.php unnecessary reindexes each node - not each object
+- Implemented enhancement: The parameter "UserID" of user/edit is optional, if a user is logged in
+- Implemented enhancement #11139: Bypass static cache when user is logged in
+- Implemented enhancement #12548: static count() function in eZPersistentObject
+- Implemented enhancement #11896: sql optimization in ezontentObjectTreeNode::fetch()
+- Implemented enhancement #11897: fetch content list - mysql query - optimization
+- Implemented enhancement #12656: Add parameter for type casting to eZDBInterface::generateSQLINStatement()
+- Implemented enhancement #12546: is_container attribute on eZContentObjectTreeNode
+- Implemented enhancement #12259: allow a package to contain more than one extension
+- Implemented enhancement #12423: Add seconds input to ezdatetime datatype
+- Implemented enhancement #12757: Make eZSimplifiedXMLInput::updateUrlObjectLinks() static
+- Implemented enhancement: Show source of extension siteaccess settings in settings/view
+  See issue: #12519: settings/view for extension siteaccesses doesn't work + Placement for array starts every time with 'default'
+- Implemented enhancement #12824: Mention template file and line number for "Missing/malformed array to iterate through." errors
+- Implemented enhancement #12212: Setup wizard doesn't confirm existence of DOMDocument
+- Implemented enhancement #11062: Missing test for curl in setup wizard
+- Implemented enhancement #12979: Old eZ Publish 3.2 image system data might still exist and needs cleanup
+- Implemented enhancement #13009: Add validation method to custom edit handler (patch included)
+- Implemented enhancement #13017: Add node_by_locale or node_by_content_translation fetch function
+- Implemented enhancement #13068: eZContentObject::contentClassIdentifier doesn't use classidentifier cache
+- Implemented enhancement #13082: MS Silverlight support in eZ Publish/Website Interface (inc patch)
+- Implemented enhancement #013141: Kickstart support for site type during installation
+- Implemented enhancement: New parameter 'Quantity' when adding a product to the basket
+- Implemented enhancement: Added function 'remove' to persistent object 'eZOrderItem'
+- Implemented enhancement: Ability to filter all rendered output
+- Implemented enhancement #13039: ez4: setup/extensions enhancement - sort + only show dirs + links.
+- Implemented enhancement #12027: Improve how timezones are set.
+- Implemented enhancement #12806: Multiple object move in admin
+- Implemented enhancement #12921: Usability enhancements for role assignments (multiple user/group select & assignment limitation name)
+- Implemented enhancement #8910: map <h1>, <h2>, <h3> to <header>
+- Implemented enhancement #10793: trash_object_list does not give access to all params of eZContentObjectTrashNode::trashList
+- Implemented enhancement #12651: add limit, offset, as_object and load_data_map to [reverse_]related_objects fetches w/patch
+- Implemented enhancement #013249: 4.1: Tag Preset support for ezxml datatype (Neede by OE 5.0 for different editor layouts)
+- Implemented enhancement #10424: Move file extension to MIME type mapping to an INI file
+- Implemented enhancement #13494: Patch to set module_result.section_id in content/edit, diff, versionview and history
+- Implemented enhancement #12835: Custom VerifyUser and RegistrationFeedback support w/patch
+- Implemented enhancement #13506: "Enlarge your mime_type" : the field in the ezbinaryfile database table
+- Implemented enhancement #13565: Add sort parameter to content/version_list fetch function
+- Implemented enhancement #13581: Optimize .ts loading by not checking filemtime
+- Implemented enhancement #11091: option to allow create, only if owner of parent node is "self"
+- Implemented enhancement #13612: Option to skip url_alias db lookup on system urls
+- Implemented enhancement #12137: eZIni 10-50% performance patch
+- Implemented enhancement #13054: eZ Publish/ Webin does not support table summary and caption as required by WAI
+- Implemented enhancement #10514: FallBack value for post and getValues in ezhttptool
+- Implemented enhancement #13171: Remove API documentation note about reference in return value
+- Implemented enhancement #13668: Improvement to eZContentObject->fetchAttributesByIdentifier()
+- Implemented enhancement #13664: remove old prefix from eZURLWildcard class constants
+- Implemented enhancement #6546: Add phpinfo call to setup/info
+- Implemented enhancement #13735: Add overview of the SPL autoload function stack in system information
+- Implemented enhancement #13784: Remove deprecated ezfilepasstroughhandler
+- Implemented enhancement #13574: Remove legacy class eZXMLInputType
+- Implemented enhancement #13355: Small file_exists optimization to extension loading
+- Implemented enhancement #13761: allow oracle "easy naming" connect strings to work
+- Implemented enhancement #13429: viewcache can't define specific rules when a object is publish.
+- Implemented enhancement #13274: Cache file locking in view cache with cache_ttl=0 causes performance issues
+- Implemented enhancement #13651: Remove includes that were put into comments
+- Implemented enhancement #13890: Refactor eZUser::loginUser()
+- Implemented enhancement #13880: Speed up clean data insertion by wrapping it in a database transaction
+- Implemented enhancement #13881: Make ezinsertsqlschema.php work with mysqli
+- Implemented enhancement #13833: eZDir::mkdir() should make use of $recursive parameter of PHP mkdir() function
+- Implemented enhancement #13832: Static caching system should not check existance of directories twice
+- Implemented enhancement #12753: eZRSSExport: Missing atom self link
+- Implemented enhancement #12226: Add guid element to RSS item
+- Implemented enhancement #12704: missing index table ezforgot_password
+- Implemented enhancement #13971: eZSearch::registerSearchObject() inserts duplicates when DelayedIndexing is enabled
+- Implemented enhancement #14021: eZMail::extractEmail() returns name with trailing spaces and quotes.
+- Implemented enhancement #13559: DB cluster file handler getfilelist() method should use scopes
+- Implemented enhancement #14089: Support translation variations
+- Implemented enhancement #13014: Built-in special character control for user login (similar to passwords)
+- Implemented enhancement #13587: misc enhancements for ezuser (username validation, login_count)
+- Implemented enhancement #14133: Batch initialization of object attributes
+- Implemented enhancement #14130: Possibility to only set http headers for anonymous users
+- Implemented enhancement #14117: Make bundled eZ Components possible
+- Implemented enhancement #14135: Remove unusable openfts code
+- Implemented enhancement #14134: Remove unused lib/ezdbschema/tests
+- Implemented enhancement #14144: Handle deletes in a more clever way in eZ Cluster
+- Implemented enhancement #14151: Add possibility to redirect after soring and priority change [patch]
+- Implemented enhancement #13792: eZ cluster code is not compatible with Oracle
+  Moved generation while locked test to a backend method, eZDBFileHandlerMySQLBackend::_verifyExclusiveLock()
+  Cleaned up eZDBFileHandler::processCache (removed a few unused variables, optimized a few tests)
+  Made eZDBFileHandler::isExpired() declaration static (it is statically used everywhere)
+- Implemented enhancement #13576: Remove VS-DBFILE and SP-DBFILE comment markers
+- Implemented enhancement #14204: Implement stale cache handling for eZFSFileHandler
+- Implemented enhancement #14173: Make setup/extensions clear all necessary settings immediately
+- Implemented enhancement #13739: Replace __CLASS__.'::'.__FUNCTION__ with __METHOD__
+- Implemented enhancement #14180: Remove deprecated eZURLTranslator class
+- Implemented enhancement #14183: Deprecate eZFile::getContents()
+- Implemented enhancement #14005: Remove putenv( "TZ=$timezone" ); from index.php
+- Implemented enhancement #14166: Clear the user info cache to make sure the evaluated policies are right
+- Implemented enhancement #14189: Move debug error handler function into the eZDebug class
+- Implemented enhancement #14135: Remove unusable openfts code
+- Implemented enhancement #13994: eZContentObjectTreeNode::hideSubTree() and eZContentObjectTreeNode::unhideSubTree() should not take $node by reference
+- Implemented enhancement #13377: Improve temporary table handling for MySQL
+- Implemented enhancement #14088: Setting the version status to pending should be inside the db transaction used by the publish operation
+- Implemented enhancement #14204: Implement stale cache handling for eZDBFileHandler + mysql
+- Implemented enhancement #12252: Add "Update existing object" option to contentobject package installer
+- Implemented enhancement #14214: Remove ID parameter from eZRSSExport::fetchRSS1_0() and eZRSSExport::fetchRSS2_0()
+- Implemented enhancement #13860: Add align support for paragraphs in ezxml for OE5 (p|custom|header|table|td|th)
+- Implemented enhancement #14251: Do not encode '(' and ')' in URLs
+- Implemented enhancement #13443: Some scripts should be rewritten as class to take advantage of autoloading
+- Implemented enhancement #14262: Optimize use of can_instantiate_class_list in admin templates
+- Implemented enhancement #14273: Deprecate eZModuleManager::availableModules() in favor of the ModuleList[] setting
+- Implemented enhancement #14101: Let eZContentOperationCollection::setVersionStatus() use eZContentObjectVersion status constants for the $status parameter
+- Implemented enhancement #13998: Remove unnecessary code from eZDateTime constructor
+- Implemented enhancement #14145: Possibility to fetch object by remote_id in templates
+- Implemented enhancement #14309: Remove ezxml library
+- Implemented enhancement #14165: eZTemplateDesignResource::handleResource() should not load the cache file again and again
+- Implemented enhancement #14346: Update usage of ereg() in eZSys to preg
+- Implemented enhancement #13410: Don't do a url alias lookup for redirects to modules
+- Implemented enhancement #14202: Deprecate eZImportLookupTable
+- Implemented enhancement #11025: "Warning: eZTemplate:def" enhancement
+- Implemented enhancement #14301: Move logic to check if a user is allowed to log in on a specific site access into eZUser
+- Implemented enhancement #11952: Remove FileName dependency from extended attribute filter extensions
+- Implemented enhancement #14002: Add constants for sort field values to eZContentObjectTreeNode
+- Implemented enhancement #14388: In ezldapuser.php, Mysql Improved database implementation not effective
+- Implemented enhancement #14423: eZExecution::uncleanShutdownHandler() should also handle static class methods
+- Implemented enhancement #11386: Add RedirectIfDiscarded in kernel/content/action.php
+- Implemented enhancement #14352: Script to fix missing an duplicated remote id's on ezcontentobject_tree w/ patch
+- Implemented enhancement #14344: Improve site.ini ViewCacheSettings[] to allow several view cache hints for better cache efficiency
+- Implemented enhancement #13027: Allow template overrides based on remote_id
+- Implemented enhancement #14264: Improve security by regenerating session id on login
+- Implemented enhancement #9275: Logout should redirect like login
+- Implemented enhancement #12878: Missing log-message if SMTP-Connection failed
+- Implemented enhancement #12880: fetch related object - don't use ignore visiblity
+- Implemented enhancement #11675: ezcontentobject - mysql query optimization
+- Implemented enhancement #12114: TopUserGroupNodeID hardcoded in LDAP login handler
+- Implemented enhancement #14481: Add new triggers
+- Implemented enhancement #14471: Disable load_data_map by default in 4.1 when fetching many nodes
+- Implemented enhancement #13767: Provide a default exception handler
+- Implemented enhancement #14029: Enhance the DB-layer to detect if the database connection is lost
+- Implemented enhancement #13401: eZ 4.0 - Template functions improvements
+- Implemented task #14396: PostgreSQL requirements change
+- Implemented enhancement #14313: Add a tool to allow for easy switching between translation SAs.
+- Implemented enhancement #14116: Rely on autoload system to load "handler" classes
+- implemented enhancement #13527: webdav always moves delete documents to trash
+- Implemented enhancement #11930: Importing <dc:xxxx> xml fields with RSS
+- Implemented enhancement #12456: Class based delayed indexing
+- Implemented enhancement #14324: Missing mimetype for 3gp files (and a few more, OOXML, mp4)
+- Implemented enhancement #13965: Add a timestamp field to ezpending_actions table
+- Implemented enhancement #14578: Add possibility to filter nodes based on the is_invisible
+- Implemented enhancement #14152: Add incremental progress output to ezpgenerateautoloads.php
+- Implemented enhancement #12850: soap.php and multiple siteaccesses (patch included)
+- Implemented enhancement #14598: Force requirements for session cookie in user/register
+- Implemented enhancement #14604: Make content/edit more stylable / scriptable by adding usable classes on attribute divs
+- Implemented enhancement #013225: search engine triggers
+- Implemented enhancement #13811: add an empty config.php file in the standard ezp distribution
+- Implemented alternative solution to enhancement #12027: Improve how timezones are set
+- Implemented enhancement #12235: config.php documentation
+- Implemented enhancement #14609: Allow eZSession to read session from post variable for flash requests to work on firefox
+- Added swapNode to search engine handlermethods and content operation collection
+- Disabled session ip validation by default after feedback on #014264
+- Restart session when regenerating session id to avoid issues with not being able to login (#014264)
+
+*Design:
+
+*eZTemplate:
+- Implemented enhancement #12539: Share compiled templates between site accesses
+- Implemented enhancement #12867: Make template language use __toString magic method for objects
+- Implemented enhancement #12771: Extra informations in case of multiple defs.
+- Implemented enhancement #08743: Changed message for missing translation from warning to debug message.
+- Implemented enhancement #13602: template name and line number on "Parameter % is not an object" warnings
+
+*eZLocale:
+- Implemented enhancement #12572: Add possibility to fetch eZLocale object by HTTP locale code
+
+*Package system:
+
+*Scripts:
+- Implemented enhancement #12242: Add "strict" to scripts --debug option
+
+*Translations:
+
+*Bugfixes:
+- Fixed bug #12278: The default admin sitemap template generates huge overhead
+- Fixed bug #12036: Problems with image/imagefile operators
+- Fixed bug #12172: Errors when tying to open trash.
+- Fixed bug #12176: eZCodePage::setPermissionSetting strict warning
+- Fixed bug #12178: Strict Non-static method warnings in eZInformationCollection
+- Fixed bug #12228: site.ini [DebugSettings] AlwaysLog[] does not have strict debug type
+- Fixed bug #12204: Many Strict warnings when using ezscript
+- Fixed bug #12157: eZWaitUntilDateType: Strict standards: Only variables should be assigned by reference
+- Fixed bug #8569: bad html from ezdebug.php
+- Fixed bug #12167: Only variables should be assigned by reference in kernel/classes/packagecreators/ezextension/ezextensionpackagecreator.php
+- Fixed bug #12209: updateniceurls.php: wrong fetch limit is displayed
+- Fixed bug #9691: Undefined index: wildIDArray
+- Fixed bug #9931: IE7 unable to receive node to pdf
+  (Merged from stable/3.10 (3.10.1) rev. 21041)
+- Fixed bug #12116: The system shows unneeded (non-existing) spaces in the global aliases interface
+- Fixed bug #11854: warning in ezdebug.php - Undefined variable: relMemory
+- Fixed bug #12136: Trailing comma's in "Insufficient permissions" debug output
+- Fixed bug #12101: eZDBPackageHandler E_STRICT warnings
+- Fixed bug #12199: Declaration of eZImageTextLayer::mergeLayer() incompatible with eZImageLayer::mergeLayer()
+- Fixed bug #11861: treemenu always throw notice
+- Fixed bug #12170: Importing existing content objects with ezpm.php causes additional nodes with same remote id.
+- Fixed bug: strict warning about eZPackageHandler::errorChoosenAction
+- Fixed bug #10507: eZINI::variableArray() destroys array keys
+- Fixed bug #12271: eZINI::variableArray() does return array with one empty string
+- Fixed bug: unnecessary passing by reference in eZCollaborationItemHandler and subclasses
+- Fixed bug #12301: Strict standards: Non-static method eZUser::failedLoginAttempts() should not be called statically
+- Fixed bug #12283: Non-static method eZContentObjectTreeNode::findMainNodeArray()
+- Fixed bug #8969: Char transform cache file is not valid PHP
+- Fixed bug #12170: Importing existing content objects with ezpm.php causes
+  additional nodes with same remote id.
+- Fixed bug #12308: Strict warnings about non-static methods eZMath::rgbToCMYK() and eZMath::rgbToCMYK2()
+- Fixed bug #11898: attribute_view_gui override condition does not work
+- Fixed bug #11976: Error: error executing query: UPDATE ezorder_status
+- Fixed bug #11160: Javascript error caused by non washed string in the template. (Discard draft)
+- Fixed bug #12343: Calling a SOAP function doesn't work
+  (Merged from stable (4.0) rev 21112)
+- Fixed bug #12366: password hash type not imported correctly from content object package
+- Fixed bug #12304: Wrong message in user/setting view for locked users
+- Fixed bug #12381: $key in "Accumulator $key does not exists, run eZDebug::accumulatorStart first" debug message
+- Fixed bug #12371: Error message during upgade to Webin 1.3
+- Fixed bug #8509: attribute names not working in sort_by for search fetches?
+- Fixed bug #12225: PDF text_block does not display the plus symbol
+- Fixed bug #12307: Special characters in pdf text_block operator are not handled correctly
+    and bug #10952: Problem with PDF and UTF8 in tables
+  (Manually merged from stable/3.10 (3.10.1) rev. 21141)
+- Fixed bug #12380: Nested p elements in setup/init/final.tpl
+- Fixed bug #11666: Typo in ezorder.php
+- Fixed bug #12387: PHP object is not copied correct in ezhttpheader.php
+- Fixed bug #11744: Dynamic tree menu not displaying, javascript error in content_structure_menu_dynamic.tpl
+- Fixed bug #12321: Error with sending an email with smtp
+- Fixed bug #10691: Empty user agent string in HTTP requests by link check cronjob
+- Fixed bug #11970: Query error: Out of range value adjusted for column 'lang_mask' at row 1. Fixed for mysqli interfase.
+- Fixed bug #12386: XML Handling of ImageAlias not correct
+- Fixed bug #12407: Output templates from RAD need update
+- Fixed bug #12398: ezpublish 3 still mentioned in a few places
+- Fixed bug #12267: eZSoapClient unable to use SSL with different port than 443
+- Fixed bug #12416: Non-static methods called by tip a friend function
+- Fixed bug #12414: flatten.php : db-host not defined
+- Fixed bug #10574: User parameters are not passed when redirecting from an old url alias
+- Fixed bug #12272: Add locations allows non containers if thumbnail mode is selected
+- Fixed bug #12305: User object's view cache not cleared after exceeded failed login attempts
+- Fixed bug #12432: Parser error in design/admin/templates/node/view/sitemap.tpl line 63
+- Fixed bug #9843: Unused line in user locking code
+- Fixed bug #11115: ezmultiprice.tpl - paragraph tag too much
+- Fixed bug #12440: updatetipafriendpolicy.php: when logging in with wrong user account, bad message
+- Fixed bug #11383: soap client sends bogus user-agent when in ssl mode
+- Fixed bug #11559: php warning: Non-static method eZTemplateCacheBlock::getSubtreeModification() should not be called statically
+- Fixed bug #11856: ezsoapresponse::decodeDataTypes not declared as static
+- Fixed bug #11955: updatevatcountries.php does not work
+- Fixed bug #12074: eZContentObjectTreeNode::calendar() should be static
+- Fixed bug #12443: eZRedirectManager methods still take $module by reference
+- Fixed bug #12039: Warning in template ( compile test ) checkoutagain.tpl
+- Fixed bug #10660: Template operator "ends_with" doesn't work when the pattern appears several times in the string
+- Fixed bug #12143: Missing washes for enum datatype content edit template
+- Fixed bug #12270: Missing 'static' in eZContentCacheManager
+- Fixed bug #12197: Error in pdf export page
+- Fixed bug #12334: Non-static method eZMedia::removeByID()
+- Fixed bug #12428: strtolower() in eZSearchLog::addPhrase gives error for special char for e.g. ���
+- Fixed bug #11804: Error in integer validation for collected values
+- Fixed bug #12175: cache-block subtree_expiry never expires
+  (Merged from stable/3.10 (3.10.1) rev. 21271)
+- Fixed bug #12452: Error with \kernel\classes\datatypes\ezenum\ezenumtype.php
+- Fixed bug #12189: eZSearchLog::addPhrase transaction error
+- Fixed bug #12457: ISBN-13 format checkbox is not there when ranges are imported
+- Fixed bug #12098: Class eZISBN10To13Converter is defined in a CLI script
+- Fixed bug #12441: Wrong name of "list" fetch function in "kernel/content/function_definition.php"
+- Fixed bug #12023: Delimiter is never executed when using nested loops and template compilation is enabled
+- Fixed bug #8688: updatesearchindex.php does not (re)index top nodes
+- Fixed bug #12464: PHP Warning: DOMDocument::loadXML(): Empty string supplied as input
+- Fixed bug #12465: PHP Warning: Undefined index: Limitation
+- Fixed bug #12233: bin/php/ezcsvexport.php: various issues
+- Fixed bug #11823: Wish list not removed when user is removed
+- Fixed bug #12149: Strict warnings on content object package export
+- Fixed bug #12474: PHP Warning: Undefined variable: srcPath
+- Fixed bug #12475: updatebinaryfile.php does not work in db clustering mode
+- Fixed bug #12453: hardcoded error message "The maximum nesting level of 40 has..."
+- Fixed bug #7539: Extension action parameter issue
+- Fixed bug #7645: "206 Partial content" not working in ezfilepasstroughhandler.php
+- Fixed bug #12310: lib/ezimage/classes/ezimageshellhandler.php contains 2 PHP classes
+- Fixed bug #12492: reference warning in access.php if SiteAccessRules group is used
+- Fixed bug #12502: autoload for ezimageshellfactory doesn't work
+- Fixed bug #12512: Only variables should be assigned by reference in kernel/classes/collaborationhandlers/ezapprove/ezapprovecollaborationhandler.php on line 258
+- Fixed bug #12495: array_merge warning when using alphabetical navigator template
+- Fixed bug #12509: PHP strict warning: Non-static method eZUser::isUserObject() should not be called statically
+- Fixed bug #12534: eZWizardBaseClassLoader not adapted for PHP 5
+- Fixed bug #12518: Problem with LastPostVars for edit redirection after login
+- Fixed bug #11205: Node gets deleted, matching ezview_counter row doesn't
+- Fixed bug #12535: typo "enconding" in ezsoaprequest
+- Fixed bug #8834: Problems with WEBDAV if $_SERVER["SCRIPT_URL"] does not exist
+  (Merged from stable/4.0 (4.0.1) rev. 21406)
+- Fixed bug #12123: eZLDAPUser::loginUser has hardcoded UserGroupClassID in sql
+- Fixed bug #12320: bug in staticcache_cleanup.php makes it run forever (by AR)
+- Fixed bug #12640: depth_operator does not work properly when fetching tree counts
+- Fixed bug #11631: Collaboration system: status of subsequent pending versions incorrectly set to "draft"
+- Fixed bug #12234: ezcontent_language missing index on name field
+- Fixed bug #12654: Non-static method eZContentObjectTreeNode::subTreeGroupByDateField() should not be called statically
+- Fixed bug #12664: Strict PHP warning when using maketime template operator without parameters
+- Fixed bug #12633: Typing error in EZPublish kernel classes
+- Fixed bug #12611: $db->subString() used in several places where 'like' would be significant faster
+- Fixed bug #12537: content move - slow mysql query
+- Fixed bug #12683: Package export: name, summary and description no longer auto-generated
+- Fixed bug #12687: missing index table ezcontentobject
+- Fixed bug #9542: ezcontentobject missing DB index on remote_id field
+- Fixed bug #12688: Function call_user_method_array() is deprecated
+- Fixed bug #12690: PHP warning about undefined variable: port when running bin/php/ezsqldumpschema.php
+- Fixed bug #7904: Use of UseFullUrl in layout.ini breaks mailto: links
+- Fixed bug #9133: eZ debug in popup doesnt work in subdirs
+- Fixed bug #9094: "medium" sized images are shown as "large"
+- Fixed bug #9054: Edit icons in "List of used templates" in debug are broken.
+- Fixed bug #12375: Concurrency issues in images generation in a cluster environnement
+- Fixed bug #9129: Selection datatype
+- Fixed bug #12373: Trying to call method on not defined object $workflowType.
+- Fixed bug #12711: $Module->ViewParameters contains a key 'Limitation' coming from the policy system
+- Fixed bug #12006: cronjobs/indexcontent.php could fail with oracle
+- Fixed bug #12657: ezontentObjectTreeNode::fetch does not use db independant IN query
+- Fixed bug #12674: ezontentObjectTreeNode::move does not use db independant IN query
+- Fixed bug #12222: Unreadable color for hyperlinks on finetune page
+- Fixed bug #10601: Alphabetical Navigator is in wrong place
+- Fixed bug #9330: Subtree limited role assignment doesn't change after moving node
+- Fixed bug #12713: strict php warning - shop
+- Fixed bug #11914: php warning when override template doesn't exist
+- Fixed bug #11606: php crash if an inexisting login handler class is specified in ini files
+- Fixed bug #12717: Non-static method eZImageInterface::cleanupRegisteredImages() should not be called statically
+- Fixed bug #12715: template: list element has no classification
+- Fixed bug #10139: ezstaticcache:removeURL cannot remove URL
+- Fixed bug #12476: Unstable in cluster environmnet: added remainder of provided patch, most was already implemenetd
+- Fixed bug #12750: Certain variables are not replaced in simplified xml input parser errors
+- Fixed bug #11446: eZContentCacheManager::clearObjectViewCache not protected against custom calls
+- Fixed bug #12758: eZFileHandler::instance() called by reference in eZCache
+- Fixed bug #9122: Empty TO mail header part violates RFC when running notifications
+- Fixed bug #12597: Infinitive loop / Segment fault caused by smart viewcache settings
+- Fixed bug #10496: Missing i18n for the admin content structure tooltip in
+- Fixed bug #12672: Package creation adds extra whitespace to XML
+- Fixed bug #9126: Static cache uses old cache to create new cache on publishing.
+  See doc/features/4.0/static_cache_user_agent.txt
+- Fixed bug #11109: Object relations datatype - content class export and import issues
+- Fixed bug #12754: eZRSSExport: Wrong conversion of Norwegian characters in URL
+- Fixed bug #12162: HostMatchMapItems is not set correctly after installation
+- Fixed bug #12442: Fatal error: Call to undefined function: ezi18n in ezselectiontype.php
+- Fixed bug #8974: setYear(), setMonth() and setDay() methods in ezdate sets wrong member variable
+- Fixed bug #11842: runcronjop.php didn't find siteacceses in extension
+- Fixed bug #11841: admin: settings/view display wrong data if siteaccess located in an extension
+- Fixed bug #12489: eZDOMNode#textContent() doesnt return CDATA
+- Fixed bug #11667: Empty window when upload new related object
+- Fixed bug #12605: Custom error action for kernel errors don't work anymore with eZ 4.0
+- Fixed bug #12076: eZPersistentObject tries to set increment key when 'increment_key' => false
+- Fixed bug #12564: ez4.0 stable trunk Call to undefined memory_get_peak_usage() with php 5.1
+- Fixed bug #11002: Timezone setting ignored in runcronjobs.php
+- Fixed bug #12415: eZContentObjectVersion::removeVersions does not work when using flatten.php
+- Fixed bug #12784: PathPrefix setting should NOT be case sensitive
+- Fixed bug #12802: Strict:PHP Only variables should be assigned by reference in ezworkflowprocess.php on line 255
+- Fixed bug #10096: PHP errors when fetch_alias is not definied
+- Fixed bug #12525: Strict: Non-static method eZWebDAVServer::appendLogEntry() should not be called statically
+- Fixed bug #12741: eztemplatecompiler.php // Missing argument // line 3036
+- Fixed bug #12820: Unnecessary code in eZContentClassClassGroup::fetchClassList
+- Fixed bug #11567: It is possible to create "common ini settings" in content branch
+- Fixed bug #12606: costant MAX_AGE defined twice
+- Fixed bug #12732: Use of undefined constant STDERR in ezdbinterface.php
+- Fixed bug #12828: It's impossible to copy a node
+- Fixed bug #12716: invalid XHTML
+- Fixed bug #8388: Cache for content/read limitation list isn't cleared after switching users
+- Fixed bug #12847: count() on DOMNodeList instance in ezsoapserver.php
+- Fixed bug #12849: empty() check on DOMDocument instance in ezsoapserver.php
+- Fixed bug #12429: Login restricted to a site access doesn't work
+- Fixed bug #11871: Class identifier cache not cleared when view caching and template cache are disabled
+- Fixed bug #12830: PHP Warning: array_key_exists ... The second argument should be either an array or an object in /lib/ezutils/classes/ezmodule.php on line 1116
+- Fixed bug #12531: updateniceurls.php does not import all wildcard urls
+  (Merged from stable/3.10 (3.10.1) rev. 21744)
+- Fixed bug #11084: $node|attribute(show) throws catchable fatal error
+- Fixed bug #10243: Second event not seen in workflow with PostgreSQL
+- Fixed bug #12869: php warning: Only variables should be assigned by reference in /var/www/mood.fr/ez/kernel/classes/workflowtypes/event/ezapprove/ezapprovetype.php on line 278
+- Fixed bug #12871: eZUser::fetchUserGroupClassNames() and eZUser::fetchUserClassList() are static but not defined as static
+- Fixed bug #10497: Fatal error when edit workflow with "Event / Wait until date" with length of Description more than 50 chars.
+- Fixed bug #12892: Fatal error: Call to a member function attribute() on a non-object in ezorder.php
+- Fixed bug #12896: Price datatype fromString takes VAT id as flag wether VAT is included in the price or not
+- Fixed bug #12902: eZForgotPassword::createNew strict warning
+- Fixed bug #12817: PHP warning DOMNode::appendChild() expects parameter 1 to be DOMNode, boolean given
+- Fixed bug #12609: Collaboration notification: last item is repeated if multiple
+- Fixed bug #10060: memory limit set to 42Mb in index.php but 64Mb required?
+- Fixed bug #12913: Memory limit check in setup wizard currently uses 12M
+- Fixed bug #11727: When a user is removed, its general digest settings are not removed
+- Fixed bug #12914: HTML Error: there is no attribute "disabled"
+- Fixed bug #12362: Fatal error DOM
+- Fixed bug #12919: error in ezcontentobject->parents()
+- Fixed bug #12069: Fatal error when word longer than 150 characters
+- Fixed bug #12927: "Remove" in js menu in admin interface delivers wrong object id
+- Fixed bug #10616: Fixing Information-Collection Code
+- Fixed bug #12931: eZPaymentObject's createNew(..) should be static
+- Fixed bug #12938: Syntax error in ezimageinterface.php
+- Fixed bug #12946: Static cache doesn't support url with capital letters
+  (Merged from stable/4.0 (4.0.1) rev. 21819.)
+- Fixed bug #12710: datatype ezimage:remove image works only the second time
+- Fixed bug #12954: eZImageInterface::hasGD2 is static but not defined as static
+- Fixed bug #12983: PHP Warning: DOMDocument::loadXML(): Empty string supplied as input in ezimagealiashandler
+- Fixed bug #12990: Wrong API documentation for eZContentLanguage::sqlFilter()
+- Fixed bug #13028: Typo in eZContentObject::removeNode()
+- Fixed bug #13042: Section name not escaped in section/edit.tpl
+- Fixed bug #12926: "Strict: PHP" error using feedback form
+- Fixed bug #13055: eZURLAliasML::setLangMaskAlwaysAvailable() has incorrect bit-logic
+- Fixed bug #12918: Non-static method eZURLAliasML::removeSingleEntry()
+- Fixed bug #12785: Multilingual url aliases
+- Fixed bug #13058: eZContentObjectTreenode - pathWithNames() should fallback to perma-links when lookup of path fails
+- Fixed bug #12462: updateniceurls.php erroneous on equal node titles
+- Fixed bug #13064: eZContentObject::fetchIDArray uses $eZContentObjectContentObjectCache but doesn't globalize it
+- Fixed bug #12493: Input lost when creating forum topic with missing attributes
+- Fixed bug #11903: use of deprecated declaration of variable
+- Fixed bug #13139: Publishing a node for which there is a custom url alias inadvertently mark the alias as not being original.
+- Fixed bug #13140: eZURLAliasML::storePath() can cause incorrect url entries to be reparented
+- Fixed bug #12843: Wrong warning when trying to add a global url alias which is already taken
+- Fixed bug #13148: Importing url aliases whose action_type = 'module' will not become aliases (is_alias = 0)
+- Fixed bug #11806: content/treemenu dosn't work in fastcgi mode
+- Fixed bug #12811: Warning:PHP array_merge(): Argument #2 is not an array in ezobjectrelationlisttype.php on line 1518
+- Fixed bug #13161: Relations in an attribute of the datatype ezobjectrelationlist are not imported
+- Fixed bug #12842: updateviewcount.php uses path_identification_string instead of url_alias
+- Fixed bug #13163: URLs upgraded from 3.9 and below which points to modules should not redirect
+- Fixed bug #13121: Canceling a user signup produces a fatal error
+- Fixed bug #12934: workflow/processlist - Add pagination.
+  (Merged from stable/4.0 (4.0.1) rev. 21990)
+- Fixed bug #11748: Insufficient installation documentation for PostgreSQL.
+- Fixed bug #12099: eZRunCronjobs class is defined in a CLI script.
+- Fixed bug #12586: ezconvertdbcharset.php script fails while Changing DB charset.
+- Fixed bug #12734: Search engine not triggered when adding / removing a location.
+- Fixed bug #13224: ORL: handleCustomObjectHTTPActions loads whole database into memory
+- Fixed bug #9005: GLOB_BRACE with non GNU glibc.
+- Fixed bug #13256: 4.0.1rc1 strict warning eZTrigger::removeTriggerForWorkflow(), eZWorkflow::setIsEnabled()
+- Fixed bug #13277: Image analyzer settings are not loaded properly
+- Fixed bug #12519: settings/view for extension siteaccesses doesn't work + Placement for array starts every time with 'default'.
+- Fixed bug #13285: Logging done in updateniceurls.php should be controlled by options to the script.
+- Fixed bug #12782: Invalid argument supplied for foreach() in ezmoduleoperationinfo.php.
+- Fixed bug #12227: Write permission check to autoload directory should be done in earlier step in Setup wizard.
+- Fixed bug #13302: eZTemplateCacheBlock::decodeNodeID(...) must be updated to use new multilingual urlalias api
+- Fixed bug #12129: New sql upgrade scripts should create tables using InnoDB, not MyISAM.
+- Fixed bug #11808: Certain multibyte characters might lead to incorrect URL upon redirection
+- Fixed bug #13189: Webdav - content not browsable, media works ok
+- Fixed bug #13275: Spelling typo wilrdcard-cache-index gives trouble in cluster mode.
+- Fixed bug #13297: Wrong Translation code in por-MZ locale.
+- Fixed bug #13367: bin/modfix.sh doesn't affect the "autoload" directory.
+- Fixed bug #13374: WebDav fails to open folders in Media tree with url translator transformation group urlalias_compat
+- Fixed bug #12610: Create new package - Uncaught exception 'DOMException'
+- Fixed bug #11799: Slave DB: a database transaction in eZ Publish failed
+- Fixed bug #13384: Insert queries that contain "create temporary" in values are executed on MySQL slave
+- Fixed bug #13380: DROP table for temporary tables created on a slave executed on master?
+- Fixed bug #13411: Setting status of a new version is outside of the database transaction
+- Fixed bug #12216: query error in eZContentObjectTreeNode::calendar
+- Fixed bug #13434: Problem if xmlblock is required /empty and Add object in objectrelation(s) is clicked
+- Fixed bug #13413: eZMySQLiDB constructor does not exit always if mysqli extension is not available
+- Fixed bug #13150: Tree menu in admin hangs when it gets too deep
+- Fixed bug #13444: Function visibility should be changed on eZURLAliasQuery - generateSQL
+- Fixed bug #13450: Oracle specific code in ezsearchengine.php
+- Fixed bug #13449: SmartCacheClear ClearCacheMethod "keyword" doesn't work
+- Fixed bug #13309: eZmatrix datatype doesn't store text content properly when containing some special characters
+- Fixed bug #13435: PHP Notice: Undefined property: eZAuthor::$Name in kernel\classes\datatypes\ezauthor\ezauthor.php on line 124
+- Fixed bug #13056: Objectrelationlist datatype does not store filled in data when editing the objects in the list.
+- Fixed bug #13415: user/register adding node assignment for DefaultUserPlacement outside database transaction
+- Fixed bug #13491: Dynamic content structure menu hangs when content name contains quote
+- Fixed bug #13489: subTreeByNodeID - missing depthOperator -> generate slow mysql query
+- Fixed bug #13144: Author could modify pending versions
+- Fixed bug #13219: Empty passwords were possible with legacy users using PASSWORD_HASH_MYSQL
+- Fixed bug #12436: Insufficient form handling made privilege escalation possible.
+- Fixed bug #12438: Crash in LDAP login process could lead to privilege escalation.
+- Fixed bug #13542: PHP warning array_merge(): Argument #2 is not an array in eztemplatesetfunction.php
+- Fixed bug #10096: PHP errors when fetch_alias is not definied
+- Fixed bug #13316: Wrong debug message code in eZContentObject::copy()
+- Fixed bug #13441: small grammatical error in installation instructions
+- Fixed bug #11451: Few typo bugs in translation file 3.10.0rc1
+- Fixed bug #13314: typo in ezcontentobject.php - $$copiedNodeAssignment
+- Fixed bug #13307: Wrongly placed class-closing curly bracket in ezselectiontype.php
+- Fixed bug #13496: Wrong debug message from eZUser::loginUser when using crypt hashing
+- Fixed bug #13060: class/copy doesn't generate new remote id
+- Fixed bug #10593: MatchOrder=uri;host does not work.
+- Fixed bug #13315: eZCollaborationSimpleMessage::* not defined static
+- Fixed bug #13412: Stupid query when creating new version of content object with an empty ezkeyword attribute
+- Fixed bug #13554: Autoload files generated on Windows use backslash as directory separator
+- Fixed bug #13528: Treemenu broken
+- Fixed bug #13515: changelog2xmltext issues
+- Fixed bug #11637: Texttoimage in clustering mode not in the database
+- Fixed bug #13552: Broken datamap caching when copying content objects
+- Fixed bug #13186: UserParameters works differently in 4.0 compared to 3.10
+- Fixed bug #13604: url's are not encoded properly while serializing object of eZURL datatype
+- Fixed bug #13605: updateniceurls.php does not make use of generateSQLINStatement()
+- Fixed bug #13627: Files larger than 16MB does not get stored when using clustering.
+- Fixed bug #13628: RSS import publish objects as anonymous
+- Fixed bug #13630: eZDebug sets 0664 as file permissions when creating new log file
+- Fixed bug #13364: Wrong examples in title attribute of "New URL wildcard" and "Destination" text fields
+- Fixed bug #12411: Doxygen comment \deprecated for eZURLWildcard::cacheInfo()
+- Fixed bug #13041: design/admin/edit_sections.tpl bugs
+- Fixed bug #12410: updatecontentobjectname.php displays wrong messages
+- Fixed bug #13616: ezcsvimport.php does not import files/images
+- Fixed bug #13667: ezcsvimport.php small issues
+- Fixed bug #13492: http link's are lost from content after deleting older version's of multi lingual content object.
+- Fixed bug #13682: eZContentObjectTreenode - updateSubTreePath() might fail, if node does not have a parent node.
+- Fixed bug #13697: eZKeyword doesn't pass column parameter to $db->lastSerialID
+- Fixed bug #10903: select count in reversereverserelatedlist.php line 114
+- Fixed bug #13704: Fetching/counting relations in PosgtreSQL includes non visible relations
+- Fixed bug #13622: mutex - windows file are not remove
+- Fixed bug #13712: Multiprice datatype shows wrong price after multiple calls in template
+- Fixed bug #13713: Content Structure Tree Menu doesn't work properly.
+- Fixed bug #13715: typo in ezserializedobjectnamelist.php
+- Fixed bug #13669: ezobjectrelationtype fromString() code is not right
+- Fixed bug #11991: Using quotes in object titles breaks image conversion
+- Fixed bug #13337: Shopping basket is not translation aware on the product name
+- Fixed bug #13655: Writing of eZCharTransform cache is not atomic
+- Fixed bug #11984: Use eZ Components system information
+- Fixed bug #13737: Post Variable HideRemoveConfirmation will be lost
+  (Merged from stable/4.0 (4.0.1) rev. 22460)
+- Fixed bug #13736: RSS export error
+- Fixed bug #13740: RSS export may fail due to special characters in text (title, description)
+- Fixed bug #13738: PHP Notice in eZRSSExport::ImagePath()
+- Fixed bug #13603: warning when using ezkeyword
+- Fixed bug #13271: File permissions on shared environments
+- Fixed bug #13655: Writing of eZCharTransform cache is not atomic
+- Fixed bug #11476: Problem with information collection sql query
+- Fixed bug #13759: Problem with long image paths in clustered setups
+- Fixed bug #13598: ezpopupmenu.js doesn't play nice with Prototype library, or Safari
+- Fixed bug #13780: Cannot add image to root node in clustered DB
+- Fixed bug #13781: php warning in ezpm while importing packages
+- Fixed bug #13790: Transformation cache files differ sometimes
+- Fixed bug #13769: A redirecting URL alias to the main node results in a kernel(1) error
+- Fixed bug #13771: MYSQL Syntax error
+- Fixed bug #13799: Wrong destination URL used in warning message when trying to add an existing alias
+- Fixed bug #13783: Flash Player 10 & SWF problems
+- Fixed bug #13815: eZContentObject->fetchAttributesByIdentifier fails if $languageArray contains non string values
+- Fixed bug #13824: get_class on a non-object in eZNotificationEventType::create()
+- Fixed bug #13841: Template override mechanism does not work with information collectors
+- Fixed bug #13514: Enabling CompileComments in site.ini / TemplateSettings leads to fatal error
+- Fixed bug #13822: standard "empty install" data files contain xml chunks in latin1 instead of utf8
+- Fixed bug #13910: Misspelled class name in eZScript
+- Fixed bug #12925: Preview in cluster mode
+- Fixed bug #13092: Content object package import does not keep section
+- Fixed bug #13246: ezorderitem->VATValue needs to float rather then int.
+- Fixed bug #13942: Bug in ezdebug.php / accumulatorStart()
+- Fixed bug #13856: cleanupList missing static declaration
+- Fixed bug #13951: multiprice datatype - missing initializeObjectAttribute function.
+- Fixed bug #13962: The script updatesearchindex.php is not usable with PostgreSQL
+- Fixed bug #13048: db port parameter can be specified in setup wizard but is not taken into account
+- Fixed bug #13029: ez4: Error: eZTSTranslator::loadTranslationFile, Unknown element name: defaultcodec
+- Fixed bug #13181: call_user_func() warning on ezfsfilehandler.php
+- Fixed bug #13840: Parameter miss matching in eznodeviewfunctions.php
+- Fixed bug #13089: AllowEmptySearch doesn't work
+- Fixed bug #14020: eZMail does not validate addresses valid under RFC2822
+- Fixed bug #12795: Modules cannot be a view anymore
+- Fixed bug #13992: Template warnings in design/admin/templates/relations.tpl
+- Fixed bug #14054: Relaxng validation of certain translation files fails - byte element
+- Fixed bug #13701: RemotePackagesIndexURL points to old repository
+- Fixed bug #8005: extension translation cache doesn't respect site access settings
+- Fixed bug #13638: Updated and fixed locale for cze-CZ
+- Fixed bug #14079: SSLZones cause file downloads to fail over SSL in Internet Explorer
+- Fixed bug #13147: Duplicated "published" dates in ezcontentobject table after ezwebin/ezflow installation
+- Fixed bug #11754: PHP warning about undefined index db_required_version when database connection fails in setup wizard
+- Fixed bug #13983: search_count and search_result do not match in multilanguage sites
+- Fixed bug #9651: Packaging limitation to 99 char filenames (including path)
+- Fixed bug #13537: Invalid XHTML due to headers' anchor
+- Fixed bug #13822: standard "empty install" data files contain xml chunks in latin1 instead of utf8
+- Fixed bug #12893: Fatal error: Call to a member function removeThis() on a non-object in kernel\content\draft.php on line 60
+- Fixed bug #13433: dbbackends/mysql.php doesn't log error correctly
+- Fixed bug #13952: Workflow cronjob gives fatal error if node is moved to different location before approval.
+- Fixed bug #12675: share/filelist.md5 : is missing all css and javascript files
+- Fixed bug #14077: eZURLAliasML database table lock and unlock code causes implicit commit of database transaction
+- Fixed bug #14150: Incorrect test in eZDBFileHandlerMysqlBackend::_exists()
+- Fixed bug #14153: Problems with image cluster script if $_SERVER["SCRIPT_URL"] does not exist
+- Fixed bug #14155: Warning given when empty string given as input to formatDateType() and formatDateTimeType() in eZLocale
+- Fixed bug #14157: eZDate::create() and eZDateTime::create() should be marked as static
+- Fixed bug #14115: PHP Notice when a link in an eZXMLBlock points to a removed node
+- Fixed bug #14085: ezdefaultvathandler raise some PHP5 strict issues
+- Fixed bug #14182: settings/mime.ini starts with <?php /* and ends with */ ?>
+- Fixed bug #14161: eZPDFTable::callImage missing inclusion of 'kernel/common/image.php'
+- Fixed bug #13358: ezsqldumpisbndata.php script issues
+- Fixed bug #14209: Bug in registerAutoloadFunctions
+- Fixed bug #13432: eZApproveType::cleanupAfterRemoving() is arrogant, it behaves as if it's the only event type
+- Fixed bug #13766: RedirectURIAfterPublish session variable is not removed after discarding a draft
+- Fixed bug #3136: DebugRedirection
+- Fixed bug #14218: Object state groups are loaded in all pages
+- Fixed bug #14137: index_treemenu is missing register_shutdown_function( 'session_write_close' ); line
+- Fixed bug #14246: Missing tooltip
+- Fixed bug #14240: eZTemplateCacheFunction::processCached has twice the parameter $subtreeExpiry
+- Fixed bug #12785: Multilingual url aliases
+- Fixed bug #12720: Unable to edit a node
+- Fixed bug #14225: [TreeMenu] AutoopenCurrentNode does not work in browse mode
+- Fixed bug #13529: Pagelayout override doesn't work in content/versionview if siteaccess is not forced in parameters
+- Fixed bug #12325: fetch reverse_related_objects return duplicated objects
+- Fixed bug #13579: Wrong new drafts count in content/history view [with patch]
+- Fixed bug #13385: UserClassID used in kernel/classes/workflowtypes/event/ezapprove/ezapprovetype.php
+- Fixed bug #12424: user not logged out after deletion
+- Fixed bug #14236: Package fails to import Matrix columns
+- Fixed bug #14268: eZPackage doesn't store text content properly when it contains some special chars
+- Fixed bug #14261: Default object availability and Default sorting of children lost when installing content classes as package
+- Fixed bug #12831: /user/edit doesn't use $currentUserID
+- Fixed bug #14128: ezlupdate does not compile
+- Fixed bug #14198: class/view.php contains code to change sorting field & order
+- Fixed bug #14305: eZApprove creates a collaboration participant link with participant_id 0 when only approver groups are chosen
+- Fixed bug #14319: Missing mime type for dmg files.
+- Fixed bug #14330: TYPE should be ENGINE
+- Fixed bug #14063: DB connection error when uploading packages in site selection step of setup wizard
+- Fixed bug #14336: Ampersand in attribute content produces wrong XML
+- Fixed bug #13684: Adding a new new object from the edit view of an ezobjectrelationlisttype attribute can create multiple copies of the new object
+- Fixed bug #14337: Trailing Slash in DocumentRoot makes ezurl, ezdesign, ezroot fail
+- Fixed bug #13897: A user can change priorities of nodes while he's not allowed to
+- Fixed bug #14187: Inconsistent API for addObject()
+- Fixed bug #13268: You can delete bookmarks of other users
+- Fixed bug #14120: eZ Publish OS Commanding executing exploit
+- Fixed bug #14382: PHP Warning on / after clearing all caches
+- Fixed bug #13719: ezurlwildcard.php contains a loose function
+- Fixed bug #11987: Incompatible with PHP setting variables_order = "GPCS"
+- Fixed bug #12450: Undefined variable: def in kernel/classes/ezworkflowtype.php on line 90
+- Fixed bug #14358: runcronjobs does not remove its mutex files
+- Fixed bug #14317: wordmatch.ini used in kernel but only bundled with OE
+- Fixed bug #14409: Wrong URL in RSS feed when URLTranslator is disabled
+- Fixed bug #13661: ezconvertdbcharset.php implicitly requires UseBuiltinEncoding=false
+- Fixed bug #13674: ezconvertdbcharset.php doesn't convert all datatypes correctly + some other problems
+- Fixed bug #13560: --purge option of ezcache.php does not delete all cache files?
+- Fixed bug #13346: Warnings with NodeTreeCaching=enabled
+- Fixed bug #11756: fatal error in bin\php\ezconvertmysqltabletype.php
+- Fixed bug #14458: Viewcache cachehash does not include siteaccess type (uri/host..)
+- Fixed bug #14465: Swap node does not fix main node assignement
+- Fixed bug #14499: Remove leftover debug-code in eZContentObject->setName()
+- Fixed bug #12801: shop/basket.php: Variable $item is used multiple times.
+- Fixed bug #14376: 2 PHP Warnings "Invalid argument supplied for foreach()" in /content/browse/1
+- Fixed bug #13681: Database update query 4.0.0 > 4.0.1
+- Fixed bug #11499: Template override conditions :: node/view/*.tpl :: parent_class_identifier condition is not always verified
+- Fixed bug #10655: ezuser table / empty entries
+- Fixed bug #14540: Strict standards: Only variables should be passed by reference in kernel/classes/packagehandlers/ezextension/ezextensionpackagehandler.php on line 176
+- Fixed bug #13700: eZImageAliasHandler bug when Exif contains ComponentsConfiguration
+- Fixed bug #14518: datatype ezimage - modifying original image failed in 4.1, 4.3 but works in 4.0 !!!
+- Fixed bug #14352: Script to fix missing an duplicated remote id's on ezcontentobject_tree w/ patch
+- Fixed bug #14570: Query error when sending object to trash.
+- Fixed bug #14552: Query error when adding xml-block to a class (and also other datatypes) by adding proper escaping and quotes
+- Fixed bug #14252: Remove reference module (part of Task #012552:	Remove some deprecated features)
+- Fixed bug #13633: no upgrade docs for clustering
+- Fixed bug #8830: Segmentation fault when site.ini newer than current system time
+- Fixed bug #14186: Weird markup in setup/extensions after generating the autoload arrays
+- Fixed bug #14555: initurlaliasmlid.php upgrade script is not oracle-compatible
+- Fixed bug #14571: Lock object states access control error
+- Fixed bug #7595: Missing activation of siteaccess extensions in soap.php
+- Fixed bug #14164: nor-NO translation bug "brukernavnet er allerede i brukt"
+- Fixed bug #14328: Nested embedding override issue
+- Fixed bug #14583: Strict: PHP
+- Fixed bug #14600: object name is shown with unknown number, when the object name is a number, and starts with zeros
+- Fixed bug #14577: Problem with generated object naming on Oracle
+- Fixed handling of UTF-8 characters in filenames in WebDAV
+- Fixed bug #14139: invalid sql generated for policies assigned with limitation in roles assigned with limitation
+- Fixed issue #014596: Generating autoload file inside extension will fail on non-windows OS
+- Fixed issue #014595: Generated autoload file for extensions are only writable by Apache
+- Fixed issue #012460: add favicon.ico to default .htaccess_root file
+- Fixed issue #013180: Add rewrite rule for using OE 5.0 in .htaccess_root

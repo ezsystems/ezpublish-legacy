@@ -722,7 +722,7 @@ fi
 # *****   Copy the current features docs   *****
 #
 
-if [ -z "$SKIP_TEST_FRAMEWORK" ]; then
+#if [ -z "$SKIP_TEST_FRAMEWORK" ]; then
     if [ "$DEVELOPMENT" == "true" ]; then
         if [ -d "doc/features/$VERSION_ONLY" ]; then
             echo -n "Copying `ez_color_em feature docs` framework"
@@ -736,7 +736,7 @@ if [ -z "$SKIP_TEST_FRAMEWORK" ]; then
             rm .export.log
         fi
     fi
-fi
+#fi
 
 #
 # *****   Check for missing settings files   *****
