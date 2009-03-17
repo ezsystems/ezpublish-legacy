@@ -1,5 +1,45 @@
 <!DOCTYPE TS><TS>
 <context>
+    <name>design/admin/content/browse</name>
+    <message>
+        <source>Bookmarks</source>
+        <translation>Marcadores</translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/content/edit</name>
+    <message>
+        <source>Name</source>
+        <translation>Nombre</translation>
+    </message>
+    <message>
+        <source>File type</source>
+        <translation>Tipo de archivo</translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation>Tamaño</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Tipo</translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/content/search</name>
+    <message>
+        <source>Search</source>
+        <translation>Buscar</translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/content/upload</name>
+    <message>
+        <source>Upload</source>
+        <translation>Enviar</translation>
+    </message>
+</context>
+<context>
     <name>design/standard/content/datatype</name>
     <message>
         <source>Disable editor</source>
@@ -8,6 +48,42 @@
     <message>
         <source>Enable editor</source>
         <translation>Habilitar editor</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/edit</name>
+    <message>
+        <source>Store draft</source>
+        <translation>Guardar borrador</translation>
+    </message>
+    <message>
+        <source>Send for publishing</source>
+        <translation>Enviar para publicar</translation>
+    </message>
+    <message>
+        <source>Discard</source>
+        <translation>Descartar</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/search</name>
+    <message>
+        <source>No results were found when searching for &amp;quot;%1&amp;quot;</source>
+        <translation>No se han encontrado resultados buscando por &amp;quot;%1&amp;quot;</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/view</name>
+    <message>
+        <source>You have no bookmarks</source>
+        <translation>No tienes marcadores</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/error/kernel</name>
+    <message>
+        <source>Your current user does not have the proper privileges to access this page.</source>
+        <translation>Tu usuario no tiene los privilegios adecuados para acceder a esta página.</translation>
     </message>
 </context>
 <context>
@@ -336,7 +412,7 @@ Do you want more information about this issue?</source>
     </message>
     <message>
         <source>Definition term </source>
-        <translation>Término de la definición</translation>
+        <translation type="obsolete">Término de la definición</translation>
     </message>
     <message>
         <source>Definition description</source>
@@ -652,7 +728,7 @@ Do you want more information about this issue?</source>
     </message>
     <message>
         <source>Anchor properties</source>
-        <translation>Propiedades del deliminatador</translation>
+        <translation type="obsolete">Propiedades del deliminatador</translation>
     </message>
     <message>
         <source>Properties</source>
@@ -660,7 +736,7 @@ Do you want more information about this issue?</source>
     </message>
     <message>
         <source>Custom tag properties</source>
-        <translation>Propiedades de la etiqueta personalizada</translation>
+        <translation type="obsolete">Propiedades de la etiqueta personalizada</translation>
     </message>
     <message>
         <source>Related content</source>
@@ -684,19 +760,19 @@ Do you want more information about this issue?</source>
     </message>
     <message>
         <source>Heading Properties</source>
-        <translation>Propiedades del encabezamiento</translation>
+        <translation type="obsolete">Propiedades del encabezamiento</translation>
     </message>
     <message>
         <source>Link properties</source>
-        <translation>Propiedades de enlace</translation>
+        <translation type="obsolete">Propiedades de enlace</translation>
     </message>
     <message>
         <source>Table Properties</source>
-        <translation>Propiedades de la tabla</translation>
+        <translation type="obsolete">Propiedades de la tabla</translation>
     </message>
     <message>
         <source>Cell Properties</source>
-        <translation>Propiedades de la celda</translation>
+        <translation type="obsolete">Propiedades de la celda</translation>
     </message>
     <message>
         <source>Apply to</source>
@@ -724,7 +800,7 @@ Do you want more information about this issue?</source>
     </message>
     <message>
         <source>Alternative text</source>
-        <translation type="unfinished"></translation>
+        <translation>Texto alternativo</translation>
     </message>
     <message>
         <source>Description</source>
@@ -758,72 +834,129 @@ Do you want more information about this issue?</source>
         <source>Invalid parameter: %parameter = %value</source>
         <translation>Parámetro no válido: %parameter = %value</translation>
     </message>
-</context>
-<context>
-    <name>design/standard/ezoe/wai</name>
     <message>
-        <source>Upload file from your local machine.</source>
-        <translation type="unfinished"></translation>
+        <source>Toggle spellchecker</source>
+        <translation>Des/Activar corrector</translation>
     </message>
     <message>
-        <source>Search for content already in eZ Publish.</source>
-        <translation type="unfinished"></translation>
+        <source>Spellchecker settings</source>
+        <translation>Ajustes del corrector</translation>
     </message>
     <message>
-        <source>Browse the content tree in eZ Publish.</source>
-        <translation type="unfinished"></translation>
+        <source>Ignore word</source>
+        <translation>Ignorar palabra</translation>
     </message>
     <message>
-        <source>Select or browse content among your personal eZ Publish bookmarks.</source>
-        <translation type="unfinished"></translation>
+        <source>Ignore all</source>
+        <translation>Ignorar todo</translation>
     </message>
     <message>
-        <source>Name for the uploaded object, filename is used if none is specified.</source>
-        <translation type="unfinished"></translation>
+        <source>Languages</source>
+        <translation>Idiomas</translation>
     </message>
     <message>
-        <source>Choose file to upload from your local machine.</source>
-        <translation type="unfinished"></translation>
+        <source>Please wait...</source>
+        <translation>Por favor espera...</translation>
     </message>
     <message>
-        <source>Lets you specify where in eZ Publish to store the uploaded object.</source>
-        <translation type="unfinished"></translation>
+        <source>Suggestions</source>
+        <translation>Sugerencias</translation>
     </message>
     <message>
-        <source>Alternative text for the image, lets internet clients know what kind of image this is without dowloading it or actually seeing it.</source>
-        <translation type="unfinished"></translation>
+        <source>No suggestions</source>
+        <translation>No hay sugerencias</translation>
     </message>
     <message>
-        <source>Caption for a image is usually shown bellow it as a description to the image.</source>
-        <translation type="unfinished"></translation>
+        <source>No misspellings found.</source>
+        <translation>No se encontraron errores.</translation>
     </message>
     <message>
-        <source>Description to the file your uploading, so internet clients can read more about it before they decide to download it.</source>
-        <translation type="unfinished"></translation>
+        <source>Definition term</source>
+        <translation>Definición</translation>
     </message>
     <message>
-        <source>Enter the word you want to search for here, for instance the name of the content you are looking for.</source>
-        <translation type="unfinished"></translation>
+        <source>Insert/edit file</source>
+        <translation>Insertar/editar archivo</translation>
     </message>
     <message>
-        <source>Lets you limit the content type your searching for, by limiting the eZ Publish content classes that are returned in the search result.</source>
-        <translation type="unfinished"></translation>
+        <source>this</source>
+        <translation>este</translation>
+    </message>
+    <message>
+        <source>Top</source>
+        <translation>Arriba</translation>
+    </message>
+    <message>
+        <source>Bottom</source>
+        <translation>Abajo</translation>
+    </message>
+    <message>
+        <source>The url the link points to, starts with link type (like http://).</source>
+        <translation>La url donde apunta el enlace, empieza con el tipo de enlace (como http://).</translation>
     </message>
     <message>
         <source>Class are often used to give different design or appearance, either by using a different template, style or both.</source>
-        <translation type="unfinished"></translation>
+        <translation>Las clases son a menudo utilizadas para dar diferentes diseños o apariencias, ya sea usando plantillas diferentes, estilos o ambos.</translation>
     </message>
     <message>
         <source>Lets you specify the target window for the link, if any.</source>
-        <translation type="unfinished"></translation>
+        <translation>Permite especificar la ventana de destino para el enlace, si la hay.</translation>
     </message>
     <message>
         <source>The title on the (x)html tag, used by screen readers, and to give better explanation like this one.</source>
-        <translation type="unfinished"></translation>
+        <translation>El título en la etiqueta (x)html, utilizado por los lectores de pantalla, y para dar mejores explicaciones como ésta.</translation>
     </message>
     <message>
         <source>To set the width of the tag, either as percentage by appending % or as pixel size by just using a number.</source>
-        <translation type="unfinished"></translation>
+        <translation>Para fijar la anchura de la etiqueta, ya sea como porcentaje añadiendo % o como tamaño de pixels tan solo utilizando un número.</translation>
+    </message>
+    <message>
+        <source>The unique identifier used for the element in the (x)html output, used by style sheets and/or anchors.</source>
+        <translation>El identificador único utilizado por el element en la salida (x)html, usado por las hojas de estilo y/o las anclas.</translation>
+    </message>
+    <message>
+        <source>New %tag_name tag</source>
+        <translation>Nueva etiqueta %tag_name</translation>
+    </message>
+    <message>
+        <source>Edit %tag_name tag</source>
+        <translation>Editar la etiqueta %tag_name</translation>
+    </message>
+    <message>
+        <source>Object</source>
+        <translation>Objeto</translation>
+    </message>
+    <message>
+        <source>Node</source>
+        <translation>Nodo</translation>
+    </message>
+    <message>
+        <source>Relation</source>
+        <translation>Relación</translation>
+    </message>
+    <message>
+        <source>Switch embed file</source>
+        <translation>Cambiar archivo incrustado</translation>
+    </message>
+    <message>
+        <source>List of possible link types. Link types that use the &apos;://&apos; format are technically called protocols.</source>
+        <translation>Lista de posibles tipos de enlace. Los tipos de enlace que usan el formato &apos;://&apos; son técnicamente denominados protocolos.</translation>
+    </message>
+    <message>
+        <source>Table cell</source>
+        <translation>Celda</translation>
+    </message>
+    <message>
+        <source>Table header</source>
+        <translation>Cabecera de tabla</translation>
+    </message>
+    <message>
+        <source>There are no related files.</source>
+        <translation>No hay archivos relacionados.</translation>
+    </message>
+    <message>
+        <source>There are no related images.</source>
+        <translation>No hay imágenes relacionadas.</translation>
     </message>
 </context>
 <context>
@@ -847,6 +980,29 @@ Do you want more information about this issue?</source>
     <message>
         <source>Video</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/handler</name>
+    <message>
+        <source>Some objects used in embed(-inline) tags have been deleted and are no longer available.</source>
+        <translation>Algunos objetos utilizados en etiquetas incrustadas(-inline) han sido borrados y ya no están disponibles.</translation>
+    </message>
+    <message>
+        <source>Object %1 does not exist.</source>
+        <translation>El objeto %1 no existe.</translation>
+    </message>
+    <message>
+        <source>Node %1 does not exist.</source>
+        <translation>El nodo %1 no existe.</translation>
+    </message>
+    <message>
+        <source>Node &apos;%1&apos; does not exist.</source>
+        <translation type="obsolete">El nodo &apos;%1&apos; no existe.</translation>
+    </message>
+    <message>
+        <source>Node &amp;apos;%1&amp;apos; does not exist.</source>
+        <translation>El nodo &amp;apos;%1&amp;apos; no existe.</translation>
     </message>
 </context>
 <context>
@@ -1015,24 +1171,151 @@ Do you want more information about this issue?</source>
         <source>You can find more documentation in the doc folder of this extension and online on %link.</source>
         <translation>Más documentación en la carpeta doc de esta extensión y en %link.</translation>
     </message>
+    <message>
+        <source>Dialog to paste text from word, the dialog will handle cleaning the content from word.</source>
+        <translation>Diálogo para pegar texto desde el word, el diálogo se encargará de limpiar el contenido del word.</translation>
+    </message>
+    <message>
+        <source>Browse for a node / object in your bookmarks.</source>
+        <translation>Explorar a por un nodo / objeto en tus marcadores.</translation>
+    </message>
 </context>
 <context>
-    <name>design/standard/ezoe/handler</name>
+    <name>design/standard/ezoe/searchreplace</name>
     <message>
-        <source>Some objects used in embed(-inline) tags have been deleted and are no longer available.</source>
-        <translation type="unfinished"></translation>
+        <source>Find again</source>
+        <translation>Buscar de nuevo</translation>
     </message>
     <message>
-        <source>Object %1 does not exist.</source>
-        <translation type="unfinished"></translation>
+        <source>The search has been completed. The search string could not be found.</source>
+        <translation>La búsqueda se ha completado. La cadena de búsqueda no ha podido ser encontrada.</translation>
     </message>
     <message>
-        <source>Node %1 does not exist.</source>
-        <translation>El nodo %1 no existe.</translation>
+        <source>Find</source>
+        <translation>Buscar</translation>
     </message>
     <message>
-        <source>Node &apos;%1&apos; does not exist.</source>
-        <translation>El nodo &apos;%1&apos; no existe.</translation>
+        <source>Find/Replace</source>
+        <translation>Buscar/Reemplazar</translation>
+    </message>
+    <message>
+        <source>All occurrences of the search string were replaced.</source>
+        <translation>Todas las ocurrencias de la cadena de búsqueda han sido reemplazadas.</translation>
+    </message>
+    <message>
+        <source>Find what</source>
+        <translation>Qué buscar</translation>
+    </message>
+    <message>
+        <source>Replace with</source>
+        <translation>Reemplazar por</translation>
+    </message>
+    <message>
+        <source>Direction</source>
+        <translation>Dirección</translation>
+    </message>
+    <message>
+        <source>Up</source>
+        <translation>Arriba</translation>
+    </message>
+    <message>
+        <source>Down</source>
+        <translation>Abajo</translation>
+    </message>
+    <message>
+        <source>Match case</source>
+        <translation>Concidir mayúsculas/minúsculas</translation>
+    </message>
+    <message>
+        <source>Find next</source>
+        <translation>Buscar siguiente</translation>
+    </message>
+    <message>
+        <source>Replace</source>
+        <translation>Reemplazar</translation>
+    </message>
+    <message>
+        <source>Replace all</source>
+        <translation>Reemplazar todos</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/wai</name>
+    <message>
+        <source>Upload file from your local machine.</source>
+        <translation>Enviar archivo desde tu máquina local.</translation>
+    </message>
+    <message>
+        <source>Search for content already in eZ Publish.</source>
+        <translation>Buscar contenido ya presente en eZ Publish.</translation>
+    </message>
+    <message>
+        <source>Browse the content tree in eZ Publish.</source>
+        <translation>Explorar el árbol de contenido en eZ Publish.</translation>
+    </message>
+    <message>
+        <source>Select or browse content among your personal eZ Publish bookmarks.</source>
+        <translation>Selecciona o explora el contenido entre tus marcadores eZ Publish personales.</translation>
+    </message>
+    <message>
+        <source>Name for the uploaded object, filename is used if none is specified.</source>
+        <translation>Nombre para el archivo enviado, se utilizará el nombre del archivo si no se especifica ninguno.</translation>
+    </message>
+    <message>
+        <source>Choose file to upload from your local machine.</source>
+        <translation>Escoge archivo para enviar desde tu máquina local.</translation>
+    </message>
+    <message>
+        <source>Lets you specify where in eZ Publish to store the uploaded object.</source>
+        <translation>Permite especificar donde en eZ Publish se guardará el objeto enviado.</translation>
+    </message>
+    <message>
+        <source>Alternative text for the image, lets internet clients know what kind of image this is without dowloading it or actually seeing it.</source>
+        <translation>Texto alternativo para la imagen, permite a los clientes de internet conocer que tipo de imagen es sin descargarla o visualizarla.</translation>
+    </message>
+    <message>
+        <source>Caption for a image is usually shown bellow it as a description to the image.</source>
+        <translation>El encabezamiento habitualmente se muestra a continuación de la imagen como descripción.</translation>
+    </message>
+    <message>
+        <source>Description to the file your uploading, so internet clients can read more about it before they decide to download it.</source>
+        <translation>Descripción para el archivo que estás enviando, para que los clientes de Internet puedan saber más antes de decidir descargarlo.</translation>
+    </message>
+    <message>
+        <source>Enter the word you want to search for here, for instance the name of the content you are looking for.</source>
+        <translation>Introduce la palabra por la que quieres buscar, por ejemplo el nombre del contenido que estás buscando.</translation>
+    </message>
+    <message>
+        <source>Lets you limit the content type your searching for, by limiting the eZ Publish content classes that are returned in the search result.</source>
+        <translation>Permite limitar el tipo de contenido que estás buscando, limitando las clases de contenido eZ Publish que son devueltas en los resultados de búsqueda.</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/node/view</name>
+    <message>
+        <source>Preview</source>
+        <translation>Vista previa</translation>
+    </message>
+</context>
+<context>
+    <name>kernel/classes/datatypes</name>
+    <message>
+        <source>Content required</source>
+        <translation>Contenido requerido</translation>
+    </message>
+</context>
+<context>
+    <name>kernel/classes/datatypes/ezxmltext</name>
+    <message>
+        <source>Invalid e-mail address: &apos;%1&apos;</source>
+        <translation>Dirección de email no válida: &apos;%1&apos;</translation>
+    </message>
+</context>
+<context>
+    <name>kernel/content</name>
+    <message>
+        <source>Top Level Nodes</source>
+        <translation>Nodos de nivel superior</translation>
     </message>
 </context>
 </TS>

@@ -1,5 +1,12 @@
 <!DOCTYPE TS><TS>
 <context>
+    <name>design/admin/content/browse</name>
+    <message>
+        <source>Bookmarks</source>
+        <translation>Marcadors</translation>
+    </message>
+</context>
+<context>
     <name>design/admin/content/edit</name>
     <message>
         <source>Name</source>
@@ -63,6 +70,13 @@
     <message>
         <source>No results were found when searching for &amp;quot;%1&amp;quot;</source>
         <translation>No s&apos;ha trobat cap resultat amb la búsqueda &amp;quot;%1&amp;quot;</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/view</name>
+    <message>
+        <source>You have no bookmarks</source>
+        <translation>No tens marcadors</translation>
     </message>
 </context>
 <context>
@@ -398,7 +412,7 @@ Vols rebre més informació al respecte?</translation>
     </message>
     <message>
         <source>Definition term </source>
-        <translation>Període de definició</translation>
+        <translation type="obsolete">Període de definició</translation>
     </message>
     <message>
         <source>Definition description</source>
@@ -714,7 +728,7 @@ Vols rebre més informació al respecte?</translation>
     </message>
     <message>
         <source>Anchor properties</source>
-        <translation>Propietats de l&apos;àncora</translation>
+        <translation type="obsolete">Propietats de l&apos;àncora</translation>
     </message>
     <message>
         <source>Properties</source>
@@ -722,7 +736,7 @@ Vols rebre més informació al respecte?</translation>
     </message>
     <message>
         <source>Custom tag properties</source>
-        <translation>Propietats del tag personalitzat</translation>
+        <translation type="obsolete">Propietats del tag personalitzat</translation>
     </message>
     <message>
         <source>Related content</source>
@@ -746,19 +760,19 @@ Vols rebre més informació al respecte?</translation>
     </message>
     <message>
         <source>Heading Properties</source>
-        <translation>Propietats de l&apos;encapçalament</translation>
+        <translation type="obsolete">Propietats de l&apos;encapçalament</translation>
     </message>
     <message>
         <source>Link properties</source>
-        <translation>Propietats de l&apos;enllaç</translation>
+        <translation type="obsolete">Propietats de l&apos;enllaç</translation>
     </message>
     <message>
         <source>Table Properties</source>
-        <translation>Propietats de la taula</translation>
+        <translation type="obsolete">Propietats de la taula</translation>
     </message>
     <message>
         <source>Cell Properties</source>
-        <translation>Propietats de la cel.la</translation>
+        <translation type="obsolete">Propietats de la cel.la</translation>
     </message>
     <message>
         <source>Apply to</source>
@@ -815,6 +829,176 @@ Vols rebre més informació al respecte?</translation>
     <message>
         <source>Invalid parameter: %parameter = %value</source>
         <translation>Paràmetre invàlid: %parameter = %value</translation>
+    </message>
+    <message>
+        <source>Toggle spellchecker</source>
+        <translation>Des/Activar corrector</translation>
+    </message>
+    <message>
+        <source>Spellchecker settings</source>
+        <translation>Configuració del corrector</translation>
+    </message>
+    <message>
+        <source>Ignore word</source>
+        <translation>Ignora paraula</translation>
+    </message>
+    <message>
+        <source>Ignore all</source>
+        <translation>Ignora tot</translation>
+    </message>
+    <message>
+        <source>Languages</source>
+        <translation>Idiomes</translation>
+    </message>
+    <message>
+        <source>Please wait...</source>
+        <translation>Si us plau espera...</translation>
+    </message>
+    <message>
+        <source>Suggestions</source>
+        <translation>Suggerències</translation>
+    </message>
+    <message>
+        <source>No suggestions</source>
+        <translation>No hi ha suggerències</translation>
+    </message>
+    <message>
+        <source>No misspellings found.</source>
+        <translation>No s&apos;han trobat errors.</translation>
+    </message>
+    <message>
+        <source>Definition term</source>
+        <translation>Definició</translation>
+    </message>
+    <message>
+        <source>Insert/edit file</source>
+        <translation>Insertar/editar arxiu</translation>
+    </message>
+    <message>
+        <source>this</source>
+        <translation>això</translation>
+    </message>
+    <message>
+        <source>Top</source>
+        <translation>A dalt</translation>
+    </message>
+    <message>
+        <source>Bottom</source>
+        <translation>A baix</translation>
+    </message>
+    <message>
+        <source>The url the link points to, starts with link type (like http://).</source>
+        <translation>La url on apunta l&apos;enllaç, comença amb el tipus d&apos;enllaç (com http://).</translation>
+    </message>
+    <message>
+        <source>Class are often used to give different design or appearance, either by using a different template, style or both.</source>
+        <translation>Les classes son utilitzades habitualment per generar diferents dissenys o aparenças, ja sigui utilitzant plantilles, estils o totes dues coses.</translation>
+    </message>
+    <message>
+        <source>Lets you specify the target window for the link, if any.</source>
+        <translation>Permet especificar la finestra de destinació per l&apos;enllaç, si n&apos;hi ha.</translation>
+    </message>
+    <message>
+        <source>The title on the (x)html tag, used by screen readers, and to give better explanation like this one.</source>
+        <translation>El títol en l&apos;etiqueta (x)html, utilitzat pels lectors de pantalla, i per donar una millor explicació com aquesta.</translation>
+    </message>
+    <message>
+        <source>To set the width of the tag, either as percentage by appending % or as pixel size by just using a number.</source>
+        <translation>Per fixar l&apos;amplada de l&apos;etiqueta, ja sigui com a percentatge afegint % o com a tamany de píxels simplement entrant un número.</translation>
+    </message>
+    <message>
+        <source>The unique identifier used for the element in the (x)html output, used by style sheets and/or anchors.</source>
+        <translation>L&apos;identificador únic utilitzat per l&apos;element a la sortida (x)html, utilitzat per les fulles d&apos;estils i/o les àncores.</translation>
+    </message>
+    <message>
+        <source>New %tag_name tag</source>
+        <translation>Nova etiqueta %tag_name</translation>
+    </message>
+    <message>
+        <source>Edit %tag_name tag</source>
+        <translation>Edita l&apos;etiqueta %tag_name</translation>
+    </message>
+    <message>
+        <source>Object</source>
+        <translation>Objecte</translation>
+    </message>
+    <message>
+        <source>Node</source>
+        <translation>Node</translation>
+    </message>
+    <message>
+        <source>Relation</source>
+        <translation>Relació</translation>
+    </message>
+    <message>
+        <source>Switch embed file</source>
+        <translation>Canvia l&apos;arxiu incrustat</translation>
+    </message>
+    <message>
+        <source>List of possible link types. Link types that use the &apos;://&apos; format are technically called protocols.</source>
+        <translation>Llista dels posibles tipus d&apos;enllaç. Els tipus d&apos;enllaç que utlitzen el format &apos;://&apos; son tècnicament anomenats protocols.</translation>
+    </message>
+    <message>
+        <source>Table cell</source>
+        <translation>Cel·la</translation>
+    </message>
+    <message>
+        <source>Table header</source>
+        <translation>Capcelera de taula</translation>
+    </message>
+    <message>
+        <source>Alternative text</source>
+        <translation>Text alternatiu</translation>
+    </message>
+    <message>
+        <source>There are no related files.</source>
+        <translation>No hi ha arxius relacionats.</translation>
+    </message>
+    <message>
+        <source>There are no related images.</source>
+        <translation>No hi ha imatges relacionades.</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/contenttype</name>
+    <message>
+        <source>Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Flash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video</source>
+        <translation type="unfinished"></translation>
+    </message>    
+</context>
+<context>
+    <name>design/standard/ezoe/handler</name>
+    <message>
+        <source>Object %1 does not exist.</source>
+        <translation>L&apos;objecte %1 no existeix.</translation>
+    </message>
+    <message>
+        <source>Node %1 does not exist.</source>
+        <translation>El node %1 no existeix.</translation>
+    </message>
+    <message>
+        <source>Node &amp;apos;%1&amp;apos; does not exist.</source>
+        <translation>El node &amp;apos;%1&amp;apos; no existeix.</translation>
+    </message>
+    <message>
+        <source>Some objects used in embed(-inline) tags have been deleted and are no longer available.</source>
+        <translation>Alguns objectes utilitzats en etiquetes incrustades(-inline) han estat esborrats i ja no estan disponibles.</translation>
     </message>
 </context>
 <context>
@@ -983,6 +1167,124 @@ Vols rebre més informació al respecte?</translation>
         <source>You can find more documentation in the doc folder of this extension and online on %link.</source>
         <translation>Pots trobar més documentació en la carpeta doc d&apos;aquesta extensió i en línea a %link.</translation>
     </message>
+    <message>
+        <source>Dialog to paste text from word, the dialog will handle cleaning the content from word.</source>
+        <translation>Diàleg per enganxar text des de word, el diàleg s&apos;encarregarà de netejar el contingut del word.</translation>
+    </message>
+    <message>
+        <source>Browse for a node / object in your bookmarks.</source>
+        <translation>Navegar fins a un node / objecte en els teus marcadors.</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/searchreplace</name>
+    <message>
+        <source>Find again</source>
+        <translation>Cerca altra vegada</translation>
+    </message>
+    <message>
+        <source>The search has been completed. The search string could not be found.</source>
+        <translation>La cerca s&apos;ha completat. La cadena de cerca no s&apos;ha pogut trobar.</translation>
+    </message>
+    <message>
+        <source>Find</source>
+        <translation>Cercar</translation>
+    </message>
+    <message>
+        <source>Find/Replace</source>
+        <translation>Cerca/Susbtitueix</translation>
+    </message>
+    <message>
+        <source>All occurrences of the search string were replaced.</source>
+        <translation>Totes les aparicions de la cadena de cerca han estat substituides.</translation>
+    </message>
+    <message>
+        <source>Find what</source>
+        <translation>Cercar el que</translation>
+    </message>
+    <message>
+        <source>Replace with</source>
+        <translation>Substituir per</translation>
+    </message>
+    <message>
+        <source>Direction</source>
+        <translation>Direcció</translation>
+    </message>
+    <message>
+        <source>Up</source>
+        <translation>Amunt</translation>
+    </message>
+    <message>
+        <source>Down</source>
+        <translation>Abaix</translation>
+    </message>
+    <message>
+        <source>Match case</source>
+        <translation>Coincidir majúscules</translation>
+    </message>
+    <message>
+        <source>Find next</source>
+        <translation>Cerca següent</translation>
+    </message>
+    <message>
+        <source>Replace</source>
+        <translation>Substitueix</translation>
+    </message>
+    <message>
+        <source>Replace all</source>
+        <translation>Substituir tot</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/wai</name>
+    <message>
+        <source>Enter the word you want to search for here, for instance the name of the content you are looking for.</source>
+        <translation>Entra la paraula que vols buscar, per exemple el nom del contingut que estàs cercant.</translation>
+    </message>
+    <message>
+        <source>Lets you limit the content type your searching for, by limiting the eZ Publish content classes that are returned in the search result.</source>
+        <translation>Permet limitar el tipus de contingut que estàs cercant, limitant les classes de contingut eZ Publish que seràn retornades als resultats.</translation>
+    </message>
+    <message>
+        <source>Upload file from your local machine.</source>
+        <translation>Pujar arxiu des de la teva màquina.</translation>
+    </message>
+    <message>
+        <source>Search for content already in eZ Publish.</source>
+        <translation>Cerca per contingut que ja hi és al eZ Publish.</translation>
+    </message>
+    <message>
+        <source>Browse the content tree in eZ Publish.</source>
+        <translation>Explorar l&apos;arbre de contingut en eZ Publish.</translation>
+    </message>
+    <message>
+        <source>Select or browse content among your personal eZ Publish bookmarks.</source>
+        <translation>Selecciona o explora el contingut entre els teus marcadors personals eZ Publish.</translation>
+    </message>
+    <message>
+        <source>Name for the uploaded object, filename is used if none is specified.</source>
+        <translation>Nom per l&apos;objecte pujat, s&apos;utilitzarà el nom de l&apos;arxiu si no s&apos;especifica cap.</translation>
+    </message>
+    <message>
+        <source>Choose file to upload from your local machine.</source>
+        <translation>Tria arxiu per pujar de la teva màquina local.</translation>
+    </message>
+    <message>
+        <source>Lets you specify where in eZ Publish to store the uploaded object.</source>
+        <translation>Permet especificar on s&apos;emmagatzemarà l&apos;objecte pujat a l&apos;eZ Publish.</translation>
+    </message>
+    <message>
+        <source>Alternative text for the image, lets internet clients know what kind of image this is without dowloading it or actually seeing it.</source>
+        <translation>Text alternatiu per la imatge, permet als clients d&apos;Internet conèixer quin tipus d&apos;imatge és sense descarregar-la o visualitzar-la.</translation>
+    </message>
+    <message>
+        <source>Caption for a image is usually shown bellow it as a description to the image.</source>
+        <translation>L&apos;encapçalament es mostra habitualment a continuació  de la imatge com a descripció.</translation>
+    </message>
+    <message>
+        <source>Description to the file your uploading, so internet clients can read more about it before they decide to download it.</source>
+        <translation>Descripció de l&apos;arxiu que estàs pujant, de manera que els clients d&apos;Internet poden llegir més sobre ell abans de decidir descarregar-lo.</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/node/view</name>
@@ -995,11 +1297,11 @@ Vols rebre més informació al respecte?</translation>
     <name>handlers/input</name>
     <message>
         <source>Node %1 does not exist.</source>
-        <translation>El node %1 no existeix.</translation>
+        <translation type="obsolete">El node %1 no existeix.</translation>
     </message>
     <message>
         <source>Node &apos;%1&apos; does not exist.</source>
-        <translation>El node &apos;%1&apos; no existeix.</translation>
+        <translation type="obsolete">El node &apos;%1&apos; no existeix.</translation>
     </message>
 </context>
 <context>
@@ -1008,6 +1310,13 @@ Vols rebre més informació al respecte?</translation>
         <source>Content required</source>
         <translation>Contingut requerit</translation>
     </message>
+    <message>
+        <source>Invalid e-mail address: &apos;%1&apos;</source>
+        <translation type="obsolete">Adreça de correu electrònic no vàlida: &apos;%1&apos;</translation>
+    </message>
+</context>
+<context>
+    <name>kernel/classes/datatypes/ezxmltext</name>
     <message>
         <source>Invalid e-mail address: &apos;%1&apos;</source>
         <translation>Adreça de correu electrònic no vàlida: &apos;%1&apos;</translation>

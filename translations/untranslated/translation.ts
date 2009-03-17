@@ -1,5 +1,45 @@
 <!DOCTYPE TS><TS>
 <context>
+    <name>design/admin/content/browse</name>
+    <message>
+        <source>Bookmarks</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/content/edit</name>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/content/search</name>
+    <message>
+        <source>Search</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/content/upload</name>
+    <message>
+        <source>Upload</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>design/standard/content/datatype</name>
     <message>
         <source>Disable editor</source>
@@ -7,6 +47,42 @@
     </message>
     <message>
         <source>Enable editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/edit</name>
+    <message>
+        <source>Store draft</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send for publishing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discard</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/search</name>
+    <message>
+        <source>No results were found when searching for &amp;quot;%1&amp;quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/view</name>
+    <message>
+        <source>You have no bookmarks</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/error/kernel</name>
+    <message>
+        <source>Your current user does not have the proper privileges to access this page.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -663,7 +739,7 @@ Do you want more information about this issue?</source>
     </message>
     <message>
         <source>Anchor properties</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Properties</source>
@@ -671,7 +747,7 @@ Do you want more information about this issue?</source>
     </message>
     <message>
         <source>Custom tag properties</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Related content</source>
@@ -695,19 +771,19 @@ Do you want more information about this issue?</source>
     </message>
     <message>
         <source>Heading Properties</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Link properties</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Table Properties</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Cell Properties</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Apply to</source>
@@ -715,7 +791,7 @@ Do you want more information about this issue?</source>
     </message>
     <message>
         <source>Upload new</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>File</source>
@@ -777,114 +853,48 @@ Do you want more information about this issue?</source>
         <source>Edit %tag_name tag</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>design/standard/ezoe/searchreplace</name>
     <message>
-        <source>Find again</source>
+        <source>Toggle spellchecker</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The search has been completed. The search string could not be found.</source>
+        <source>Spellchecker settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Find</source>
+        <source>Ignore word</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Find/Replace</source>
+        <source>Ignore all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>All occurrences of the search string were replaced.</source>
+        <source>Languages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Find what</source>
+        <source>Please wait...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Replace with</source>
+        <source>Suggestions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Direction</source>
+        <source>No suggestions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Up</source>
+        <source>No misspellings found.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Down</source>
+        <source>Insert/edit file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Match case</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Find next</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Replace</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Replace all</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/ezoe/wai</name>
-    <message>
-        <source>Upload file from your local machine.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Search for content already in eZ Publish.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Browse the content tree in eZ Publish.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select or browse content among your personal eZ Publish bookmarks.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Name for the uploaded object, filename is used if none is specified.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Choose file to upload from your local machine.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Lets you specify where in eZ Publish to store the uploaded object.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Alternative text for the image, lets internet clients know what kind of image this is without dowloading it or actually seeing it.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Caption for a image is usually shown bellow it as a description to the image.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Description to the file your uploading, so internet clients can read more about it before they decide to download it.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Enter the word you want to search for here, for instance the name of the content you are looking for.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Lets you limit the content type your searching for, by limiting the eZ Publish content classes that are returned in the search result.</source>
+        <source>The url the link points to, starts with link type (like http://).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -903,15 +913,8 @@ Do you want more information about this issue?</source>
         <source>To set the width of the tag, either as percentage by appending % or as pixel size by just using a number.</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>design/standard/ezoe/contenttype</name>
     <message>
-        <source>Image</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>File</source>
+        <source>The unique identifier used for the element in the (x)html output, used by style sheets and/or anchors.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -919,11 +922,93 @@ Do you want more information about this issue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Flash</source>
+        <source>Node</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switch embed file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>List of possible link types. Link types that use the &apos;://&apos; format are technically called protocols.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Table cell</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Table header</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no related files.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no related images.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload new File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload new Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload new Object</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/contenttype</name>
+    <message>
+        <source>Image</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>File</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>Object</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>Flash</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
         <source>Video</source>
+        <translation type="obsolete"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/handler</name>
+    <message>
+        <source>Some objects used in embed(-inline) tags have been deleted and are no longer available.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object %1 does not exist.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node %1 does not exist.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node &apos;%1&apos; does not exist.</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>Node &amp;apos;%1&amp;apos; does not exist.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1093,23 +1178,166 @@ Do you want more information about this issue?</source>
         <source>You can find more documentation in the doc folder of this extension and online on %link.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Dialog to paste text from word, the dialog will handle cleaning the content from word.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse for a node / object in your bookmarks.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
-    <name>design/standard/ezoe/handler</name>
+    <name>design/standard/ezoe/searchreplace</name>
     <message>
-        <source>Some objects used in embed(-inline) tags have been deleted and are no longer available.</source>
+        <source>Find again</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Object %1 does not exist.</source>
+        <source>The search has been completed. The search string could not be found.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Node %1 does not exist.</source>
+        <source>Find</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Node &apos;%1&apos; does not exist.</source>
+        <source>Find/Replace</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All occurrences of the search string were replaced.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Find what</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Replace with</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Direction</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Match case</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Find next</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Replace</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Replace all</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/wai</name>
+    <message>
+        <source>Upload file from your local machine.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search for content already in eZ Publish.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse the content tree in eZ Publish.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select or browse content among your personal eZ Publish bookmarks.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name for the uploaded object, filename is used if none is specified.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose file to upload from your local machine.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lets you specify where in eZ Publish to store the uploaded object.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alternative text for the image, lets internet clients know what kind of image this is without dowloading it or actually seeing it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Caption for a image is usually shown bellow it as a description to the image.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Description to the file your uploading, so internet clients can read more about it before they decide to download it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter the word you want to search for here, for instance the name of the content you are looking for.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lets you limit the content type your searching for, by limiting the eZ Publish content classes that are returned in the search result.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Class are often used to give different design or appearance, either by using a different template, style or both.</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>Lets you specify the target window for the link, if any.</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>The title on the (x)html tag, used by screen readers, and to give better explanation like this one.</source>
+        <translation type="obsolete"></translation>
+    </message>
+    <message>
+        <source>To set the width of the tag, either as percentage by appending % or as pixel size by just using a number.</source>
+        <translation type="obsolete"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/node/view</name>
+    <message>
+        <source>Preview</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>kernel/classes/datatypes</name>
+    <message>
+        <source>Content required</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>kernel/classes/datatypes/ezxmltext</name>
+    <message>
+        <source>Invalid e-mail address: &apos;%1&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>kernel/content</name>
+    <message>
+        <source>Top Level Nodes</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
