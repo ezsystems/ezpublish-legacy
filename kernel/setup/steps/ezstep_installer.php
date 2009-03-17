@@ -358,10 +358,14 @@ class eZStepInstaller
         if( $dbParameters['database'] == '' and $this->PersistenceList['database_info']['type'] == 'pgsql' )
             $dbParameters['database'] = 'template1';
 
-        $db = eZDB::instance( $dbDriver, $dbParameters, true );
-        $result['db_instance'] = $db;
-        $result['connected'] = $db->isConnected();
-        if ( $db->isConnected() == false )
+        try
+        {
+            $db = eZDB::instance( $dbDriver, $dbParameters, true );
+            $result['db_instance'] = $db;
+            $result['connected'] = $db->isConnected();
+        }
+
+        catch( eZDBNoConnectionException $e )
         {
             $result['error_code'] = self::DB_ERROR_CONNECTION_FAILED;
             return $result;
