@@ -41,9 +41,14 @@ include_once( 'extension/ezoe/classes/ezoeajaxcontent.php' );
 
 class eZOEXMLInput extends eZXMLInputHandler
 {
-    /*!
-     Constructor
-    */
+     /**
+     * Constructor
+     * For more info see {@link eZXMLInputHandler::eZXMLInputHandler()}
+     *
+     * @param string $xmlData
+     * @param string $aliasedType
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     */
     function eZOEXMLInput( &$xmlData, $aliasedType, $contentObjectAttribute )
     {
         $this->eZXMLInputHandler( $xmlData, $aliasedType, $contentObjectAttribute );
@@ -65,22 +70,27 @@ class eZOEXMLInput extends eZXMLInputHandler
         }
     }
     
-    /*!
-     \static
-     \return list of custom tags to native xhtml tags array
-     \div is used by default.
-     \eZOEInputParser::tagNameCustomHelper handles input
-    */
+     /**
+     * $nativeCustomTags
+     * List of custom tags that have a native xhtml counterpart.
+     * {@link eZOEInputParser::tagNameCustomHelper()} hendels
+     * input parsing.
+     *
+     * @static
+     */
     public static $nativeCustomTags = array(
                   'underline' => 'u',
                   'sup' => 'sup',
                   'sub' => 'sub'
                   );
 
-    /*!
-     \reimp
-     Glue code to 'register' functions for template system
-    */
+     /**
+     * hasAttribute
+     * Function used by template system to look for callable ezoe functions
+     *
+     * @param string $name
+     * @return bool
+     */
     function hasAttribute( $name )
     {
         return ( $name === 'is_editor_enabled' or
@@ -94,10 +104,13 @@ class eZOEXMLInput extends eZXMLInputHandler
                  eZXMLInputHandler::hasAttribute( $name ) );
     }
 
-    /*!
-     \reimp
-     Glue code to call functions from template system.
-    */
+     /**
+     * attribute
+     * Function used by template system to call ezoe functions
+     *
+     * @param string $name
+     * @return mixed
+     */
     function attribute( $name )
     {
         if ( $name === 'is_editor_enabled' )
@@ -121,12 +134,14 @@ class eZOEXMLInput extends eZXMLInputHandler
         return $attr;
     }
 
-    /*! 
-     \static
-     Identify browser by layout engine.
-     \return string (layout engine name) if browser supports dhtml editing, false if not.
-    */
-    static public function browserSupportsDHTMLType()
+     /**
+     * browserSupportsDHTMLType
+     * Identify supported browser by layout engine using user agent string.
+     *
+     * @static
+     * @return string|false Name of supported layout engine or false
+     */
+    public static function browserSupportsDHTMLType()
     {
         if ( self::$browserType === null )
         {
@@ -177,10 +192,14 @@ class eZOEXMLInput extends eZXMLInputHandler
         return self::$browserType;
     }
 
-    /*
-     * Get tag alias list for xml tags from ezoe.ini 
+     /**
+     * getXmlTagAliasList
+     * Get and chache XmlTagNameAlias from ezoe.ini
+     *
+     * @static
+     * @return array
      */
-    static public function getXmlTagAliasList()
+    public static function getXmlTagAliasList()
     {
         if ( self::$xmlTagAliasList === null )
         {
@@ -189,19 +208,24 @@ class eZOEXMLInput extends eZXMLInputHandler
         }
         return self::$xmlTagAliasList;
     }
-    /*!
-     \return boolean
-    */
+
+     /**
+     * isCompatibleVersion
+     *
+     * @return bool Return true if current eZ Publish verion is supported.
+     */
     function isCompatibleVersion()
     {
         return $this->eZPublishVersion >= 4.0;
     }
 
-    /*!
-     \static
-     \return OE version
-    */
-    static public function version()
+     /**
+     * version
+     *
+     * @static
+     * @return string ezoe verion number
+     */
+    public static function version()
     {
         include_once( 'extension/ezoe/ezinfo.php' );
         $info = ezoeInfo::info();
@@ -209,10 +233,12 @@ class eZOEXMLInput extends eZXMLInputHandler
         return $version;
     }
 
-    /*!
-     \reimp
-     Function called by the xml handler code to se if this handler is valid.
-    */
+     /**
+     * isValid
+     * Called by handler loading code to see if this is a valid handler.
+     *
+     * @return bool
+     */
     function isValid()
     {
         if ( !self::browserSupportsDHTMLType() )
@@ -221,10 +247,14 @@ class eZOEXMLInput extends eZXMLInputHandler
         return $this->currentUserHasAccess();
     }
 
-    /*!
-     \reimp
-     Custom http actions exposed by the editor.
-    */
+     /**
+     * customObjectAttributeHTTPAction
+     * Custom http actions exposed by the editor.
+     *
+     * @param  eZHTTPTool $http
+     * @param  string $action
+     * @param  eZContentObjectAttribute $contentObjectAttribute
+     */
     function customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute )
     {
         switch ( $action )
@@ -244,20 +274,24 @@ class eZOEXMLInput extends eZXMLInputHandler
         }
     }
 
-    /*!
-     \reimp
-    */
-    function editTemplateSuffix( &$contentobjectAttribute )
+     /**
+     * editTemplateSuffix
+     *
+     * @param  eZContentObjectAttribute $contentObjectAttribute
+     * @return string 'ezoe'
+     */
+    function editTemplateSuffix( &$contentObjectAttribute )
     {
         return 'ezoe';
     }
 
-    /*!
-     \static
-     \return true if the editor is enabled. The editor can be enabled/disabled by a
-             button in the web interface.
-    */
-    static public function isEditorEnabled()
+     /**
+     * isEditorEnabled
+     *
+     * @static
+     * @return bool true if editor is enabled
+     */
+    public static function isEditorEnabled()
     {
         $dhtmlInput = true;
         $http = eZHTTPTool::instance();
@@ -266,17 +300,23 @@ class eZOEXMLInput extends eZXMLInputHandler
         return $dhtmlInput;
     }
 
-    /*!
-     Sets whether the DHTML editor is enabled or not.
-    */
-    static public function setIsEditorEnabled( $isEnabled )
+     /**
+     * setIsEditorEnabled
+     *
+     * @static
+     * @param bool $isEnabled sets editor to enabled / disabled
+     */
+    public static function setIsEditorEnabled( $isEnabled )
     {
         $http = eZHTTPTool::instance();
         $http->setSessionVariable( 'eZOEXMLInputExtension', $isEnabled );
     }
-    
-    /*!
-     \return if user has access to editor 
+
+     /**
+     * currentUserHasAccess
+     *
+     * @param string $view name of ezoe view to check for access on
+     * @return bool
      */
     function currentUserHasAccess( $view = 'editor' )
     {
@@ -335,10 +375,14 @@ class eZOEXMLInput extends eZXMLInputHandler
         return self::$userAccessHash[ $view ];
     }
 
-    /*!
-     \return global layout to use for editor
+     /**
+     * getEditorGlobalLayoutSettings
+     * used by {@link eZOEXMLInput::getEditorLayoutSettings()}
+     *
+     * @static
+     * @return array hash with global layout settings for the editor
      */
-    static public function getEditorGlobalLayoutSettings()
+    public static function getEditorGlobalLayoutSettings()
     {    
         if ( self::$editorGlobalLayoutSettings === null )
         {
@@ -352,8 +396,12 @@ class eZOEXMLInput extends eZXMLInputHandler
         return self::$editorGlobalLayoutSettings;
     }
 
-    /*!
-     \return layout to use for editor
+     /**
+     * getEditorLayoutSettings
+     * generate current layout settings depending on ini settings, current
+     * class attribute settings and current user access.
+     *
+     * @return array hash with layout settings for the editor
      */
     function getEditorLayoutSettings()
     {    
@@ -428,9 +476,13 @@ class eZOEXMLInput extends eZXMLInputHandler
         return $this->editorLayoutSettings;
     }
 
-    /*!
-      Updates URL - object links.
-    */
+     /**
+     * updateUrlObjectLinks
+     * Updates URL to object links.
+     *
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @param array $urlIDArray
+     */
     function updateUrlObjectLinks( $contentObjectAttribute, $urlIDArray )
     {
         $objectAttributeID = $contentObjectAttribute->attribute( 'id' );
@@ -447,10 +499,16 @@ class eZOEXMLInput extends eZXMLInputHandler
         }
     }
 
-    /*!
-     \reimp
-     Validates and parses input data and saves it if it is valid.
-    */
+     /**
+     * validateInput
+     * Validates and parses input using {@link eZOEInputParser::process}
+     * and saves data if valid.
+     *
+     * @param eZHTTPTool $http
+     * @param string $base
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @return int signals if status is valid or not
+     */
     function validateInput( $http, $base, $contentObjectAttribute )
     {
         if ( !$this->isEditorEnabled() )
@@ -701,7 +759,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 {
                     $headerClassName = $sectionNode->getAttribute( 'class' );
                     $headerAlign = $sectionNode->getAttribute( 'align' );
-                    $customAttributePart = $this->getCustomAttrPart( $sectionNode, $styleString );
+                    $customAttributePart = self::getCustomAttrPart( $sectionNode, $styleString );
 
                     if ( $headerClassName )
                     {
@@ -862,7 +920,7 @@ class eZOEXMLInput extends eZXMLInputHandler
 
         $paragraphClassName = $paragraph->getAttribute( 'class' );
         $paragraphAlign = $paragraph->getAttribute( 'align' );
-        $customAttributePart = $this->getCustomAttrPart( $paragraph, $styleString );
+        $customAttributePart = self::getCustomAttrPart( $paragraph, $styleString );
 
         if ( $paragraphAlign )
         {
@@ -919,65 +977,6 @@ class eZOEXMLInput extends eZXMLInputHandler
 
         eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $output, 'eZOEXMLInput::inputParagraphXML output' );
         return $output;
-    }
-
-    /*
-     * Generates custom attribute value, and also sets tag styles to styleString variable (by ref)
-     */
-    function getCustomAttrPart( $tag, &$styleString )
-    {
-        $customAttributePart = '';
-        $styleString         = '';
-        
-        if ( self::$customAttributeStyleMap === null )
-        {
-            // Filtered styles because the browser (ie,ff&opera) convert span tag to font tag in certain circumstances
-            $oeini = eZINI::instance( 'ezoe.ini' );
-            $styles = $oeini->variable('EditorSettings', 'CustomAttributeStyleMap' );
-            $customAttributeStyleMap = array();
-            foreach( $styles as $name => $style )
-            {
-                if ( preg_match("/(margin|border|padding|width|height)/", $style ) )
-                {
-                    self::$customAttributeStyleMap[$name] = $style;
-                }
-                else
-                {
-                	eZDebug::writeWarning( "Style not valid: $style, see ezoe.ini[EditorSettings]CustomAttributeStyleMap", __METHOD__ );
-                }
-            }
-        }
-
-        // generate custom attribute value
-        foreach ( $tag->attributes as $attribute )
-        {
-            if ( $attribute->namespaceURI == 'http://ez.no/namespaces/ezpublish3/custom/' )
-            {
-                if ( $customAttributePart === '' )
-                {
-                    $customAttributePart = ' customattributes="';
-                    $customAttributePart .= $attribute->name . '|' . $attribute->value;
-                }
-                else
-                {
-                   $customAttributePart .= 'attribute_separation' . $attribute->name . '|' . $attribute->value;
-                }
-                if ( isset( self::$customAttributeStyleMap[$attribute->name] ) )
-                {
-                    $styleString .= self::$customAttributeStyleMap[$attribute->name] . ': ' . $attribute->value . '; ';
-                }
-            }
-        }
-
-        if ( $customAttributePart !== '' )
-        {
-            $customAttributePart .= '"';
-        }
-        if ( $styleString !== '' )
-        {
-            $styleString = ' style="' . $styleString . '"';
-        }
-        return $customAttributePart;
     }
 
     /*!
@@ -1064,7 +1063,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 else
                     $objectAttr .= ' inline="false"';
 
-                $customAttributePart = $this->getCustomAttrPart( $tag, $styleString );
+                $customAttributePart = self::getCustomAttrPart( $tag, $styleString );
                 $object              = false;
 
                 if ( is_numeric( $objectID ) )
@@ -1201,7 +1200,7 @@ class eZOEXMLInput extends eZXMLInputHandler
             {
                 $name = $tag->getAttribute( 'name' );
                 $align = $tag->getAttribute( 'align' );
-                $customAttributePart = $this->getCustomAttrPart( $tag, $styleString );
+                $customAttributePart = self::getCustomAttrPart( $tag, $styleString );
                 if ( $align )
                 {
                     $customAttributePart .= ' align="' . $align . '"';
@@ -1237,7 +1236,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 }
                 $className = $tag->getAttribute( 'class' );
 
-                $customAttributePart = $this->getCustomAttrPart( $tag, $styleString );
+                $customAttributePart = self::getCustomAttrPart( $tag, $styleString );
 
                 $literalText = htmlspecialchars( $literalText );
                 $literalText = str_replace( '  ', ' &nbsp;', $literalText );
@@ -1256,12 +1255,12 @@ class eZOEXMLInput extends eZXMLInputHandler
             {
                 $listContent = '';
 
-                $customAttributePart = $this->getCustomAttrPart( $tag, $styleString );
+                $customAttributePart = self::getCustomAttrPart( $tag, $styleString );
 
                 // find all list elements
                 foreach ( $tag->childNodes as $listItemNode )
                 {
-                    $LIcustomAttributePart = $this->getCustomAttrPart( $listItemNode, $listItemStyleString );
+                    $LIcustomAttributePart = self::getCustomAttrPart( $listItemNode, $listItemStyleString );
 
                     $noParagraphs = $listItemNode->childNodes->length <= 1;
                     $listItemContent = '';
@@ -1300,18 +1299,18 @@ class eZOEXMLInput extends eZXMLInputHandler
                 $align = $tag->getAttribute( 'align' );
                 $tableClassName = $tag->getAttribute( 'class' );
 
-                $customAttributePart = $this->getCustomAttrPart( $tag, $styleString );
+                $customAttributePart = self::getCustomAttrPart( $tag, $styleString );
 
                 // find all table rows
                 foreach ( $tag->childNodes as $tableRow )
                 {
-                    $TRcustomAttributePart = $this->getCustomAttrPart( $tableRow, $tableRowStyleString );
+                    $TRcustomAttributePart = self::getCustomAttrPart( $tableRow, $tableRowStyleString );
                     $TRclassName = $tableRow->getAttribute( 'class' );
 
                     $tableData = '';
                     foreach ( $tableRow->childNodes as $tableCell )
                     {
-                        $TDcustomAttributePart = $this->getCustomAttrPart( $tableCell, $tableCellStyleString );
+                        $TDcustomAttributePart = self::getCustomAttrPart( $tableCell, $tableCellStyleString );
 
                         $className = $tableCell->getAttribute( 'class' );
                         $cellAlign = $tableCell->getAttribute( 'align' );
@@ -1393,7 +1392,7 @@ class eZOEXMLInput extends eZXMLInputHandler
             // normal content tags
             case 'emphasize' :
             {
-                $customAttributePart = $this->getCustomAttrPart( $tag, $styleString );
+                $customAttributePart = self::getCustomAttrPart( $tag, $styleString );
 
                 $className = $tag->getAttribute( 'class' );
                 if ( $className )
@@ -1405,7 +1404,7 @@ class eZOEXMLInput extends eZXMLInputHandler
 
             case 'strong' :
             {
-                $customAttributePart = $this->getCustomAttrPart( $tag, $styleString );
+                $customAttributePart = self::getCustomAttrPart( $tag, $styleString );
 
                 $className = $tag->getAttribute( 'class' );
                 if ( $className  )
@@ -1424,14 +1423,14 @@ class eZOEXMLInput extends eZXMLInputHandler
             {
                 $name = $tag->getAttribute( 'name' );
 
-                $customAttributePart = $this->getCustomAttrPart( $tag, $styleString );
+                $customAttributePart = self::getCustomAttrPart( $tag, $styleString );
 
                 $output .= '<a id="' . $name . '" class="mceItemAnchor"' . $customAttributePart . $styleString . '></a>';
             }break;
 
             case 'link' :
             {
-                $customAttributePart = $this->getCustomAttrPart( $tag, $styleString );
+                $customAttributePart = self::getCustomAttrPart( $tag, $styleString );
 
                 $linkID = $tag->getAttribute( 'url_id' );
                 $target = $tag->getAttribute( 'target' );
@@ -1522,9 +1521,68 @@ class eZOEXMLInput extends eZXMLInputHandler
     }
 
     /*
+     * Generates custom attribute value, and also sets tag styles to styleString variable (by ref)
+     */
+    public static function getCustomAttrPart( $tag, &$styleString )
+    {
+        $customAttributePart = '';
+        $styleString         = '';
+        
+        if ( self::$customAttributeStyleMap === null )
+        {
+            // Filtered styles because the browser (ie,ff&opera) convert span tag to font tag in certain circumstances
+            $oeini = eZINI::instance( 'ezoe.ini' );
+            $styles = $oeini->variable('EditorSettings', 'CustomAttributeStyleMap' );
+            $customAttributeStyleMap = array();
+            foreach( $styles as $name => $style )
+            {
+                if ( preg_match("/(margin|border|padding|width|height)/", $style ) )
+                {
+                    self::$customAttributeStyleMap[$name] = $style;
+                }
+                else
+                {
+                    eZDebug::writeWarning( "Style not valid: $style, see ezoe.ini[EditorSettings]CustomAttributeStyleMap", __METHOD__ );
+                }
+            }
+        }
+
+        // generate custom attribute value
+        foreach ( $tag->attributes as $attribute )
+        {
+            if ( $attribute->namespaceURI == 'http://ez.no/namespaces/ezpublish3/custom/' )
+            {
+                if ( $customAttributePart === '' )
+                {
+                    $customAttributePart = ' customattributes="';
+                    $customAttributePart .= $attribute->name . '|' . $attribute->value;
+                }
+                else
+                {
+                   $customAttributePart .= 'attribute_separation' . $attribute->name . '|' . $attribute->value;
+                }
+                if ( isset( self::$customAttributeStyleMap[$attribute->name] ) )
+                {
+                    $styleString .= self::$customAttributeStyleMap[$attribute->name] . ': ' . $attribute->value . '; ';
+                }
+            }
+        }
+
+        if ( $customAttributePart !== '' )
+        {
+            $customAttributePart .= '"';
+        }
+        if ( $styleString !== '' )
+        {
+            $styleString = ' style="' . $styleString . '"';
+        }
+        return $customAttributePart;
+    }
+
+    /*
      * Get server url in relative or absolute format depending on ezoe settings.
      */
-    static public function getServerURL()
+    public static function getServerURL()
     {
         if ( self::$serverURL === null  )
         {
@@ -1560,7 +1618,7 @@ class eZOEXMLInput extends eZXMLInputHandler
     /*
      * Get design file (template) for use in embed tags
      */
-    static public function getDesignFile( $file, $triedFiles = array() )
+    public static function getDesignFile( $file, $triedFiles = array() )
     {
         if ( self::$designBases === null )
         {
@@ -1580,7 +1638,7 @@ class eZOEXMLInput extends eZXMLInputHandler
     /*
      * Figgure out if a custom tag is inline or not based on content.ini settings
      */
-    static public function customTagIsInline( $name )
+    public static function customTagIsInline( $name )
     {
         if ( self::$customInlineTagList === null )
         {
@@ -1601,7 +1659,7 @@ class eZOEXMLInput extends eZXMLInputHandler
     /*
      * Find out if embed object is image type or not.
      */
-    static public function embedTagIsImageByNode( $node )
+    public static function embedTagIsImageByNode( $node )
     {
         $objectID  = $node->getAttribute( 'object_id' );
         $nodeID    = $node->getAttribute( 'node_id' );
@@ -1631,7 +1689,7 @@ class eZOEXMLInput extends eZXMLInputHandler
     /*
      * Get content type by class identifier and class id (class id used for old ImageClassID setting)
      */
-    static public function embedTagContentType( $classIdentifier, $classID = 0  )
+    public static function embedTagContentType( $classIdentifier, $classID = 0  )
     {
         $contentIni = eZINI::instance('content.ini');         
 
@@ -1660,7 +1718,7 @@ class eZOEXMLInput extends eZXMLInputHandler
     /*
      * Return if embed tags should be displayed in compatibility mode, as in like the old editor using attachment icons.
      */
-    static public function embedTagIsCompatibilityMode()
+    public static function embedTagIsCompatibilityMode()
     {
         if ( self::$embedIsCompatibilityMode === null )
         {
@@ -1670,21 +1728,22 @@ class eZOEXMLInput extends eZXMLInputHandler
         return self::$embedIsCompatibilityMode;
     }
 
-    static protected $serverURL   = null;
-    static protected $browserType = null;
-    static protected $designBases = null;
-    static protected $userAccessHash = array();
-    static protected $customInlineTagList = null;
-    static protected $customAttributeStyleMap = null;
-    static protected $embedIsCompatibilityMode = null;
-    static protected $xmlTagAliasList = null;
+    protected static $serverURL   = null;
+    protected static $browserType = null;
+    protected static $designBases = null;
+    protected static $userAccessHash = array();
+    protected static $customInlineTagList = null;
+    protected static $customAttributeStyleMap = null;
+    protected static $embedIsCompatibilityMode = null;
+    protected static $xmlTagAliasList = null;
     
     protected $editorLayoutSettings = null;
-    static protected $editorGlobalLayoutSettings = null;
+    protected static $editorGlobalLayoutSettings = null;
 
-    static protected $showEmbedValidationErrors = null;
+    protected static $showEmbedValidationErrors = null;
 
     public $LineTagArray = array( 'emphasize', 'strong', 'link', 'a', 'em', 'i', 'b', 'bold', 'anchor' );
+
     /// Contains the XML data
     public $XMLData;
 

@@ -68,20 +68,39 @@
 
 class eZOEPacker
 {
-    function eZOEPacker()
+    /**
+     * Constructor
+     *
+     */
+    function __construct()
     {
     }
 
+    /**
+     * operatorList
+     * 
+     * @return array list of template operators hosted by this class
+     */
     function operatorList()
     {
         return array( 'ezoescript', 'ezoecss' );
     }
 
+    /**
+     * namedParameterPerOperator
+     * 
+     * @return true Indicates that {@link eZOEPacker::namedParameterList()} should be used for parameters.
+     */
     function namedParameterPerOperator()
     {
         return true;
     }
 
+    /**
+     * namedParameterList
+     * 
+     * @return array List of operators and their parameters
+     */
     function namedParameterList()
     {
         return array( 'ezoescript' => array( 'script_array' => array( 'type' => 'array',
@@ -119,6 +138,18 @@ class eZOEPacker
                                               'default' => 3 ) ));
     }
 
+    /**
+     * modify
+     * Called by the template system when the registrated operators are called in templates.
+     * 
+     * @param object $tpl tempalte system object
+     * @param string $operatorName name of currently called operator
+     * @param array $operatorParameters ignored, as pr {@link eZOEPacker::namedParameterPerOperator()}
+     * @param string $rootNamespace
+     * @param string $currentNamespace
+     * @param string $operatorValue byref return value for template operator
+     * @param string $namedParameters parameters for the names operators
+     */
     function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
         $ret = '';
@@ -157,7 +188,19 @@ class eZOEPacker
         $operatorValue = $ret;
     }
     
-    // static :: Builds the xhtml tag for scripts
+    /**
+     * buildJavascriptTag
+     * 
+     * Builds the xhtml tag for java scripts.
+     * 
+     * @static
+     * @param array $scriptFiles list of javascript files to find and pack
+     * @param bool $asHtml flag for returning array of packed files or html fragment
+     * @param string $type script type (text/javascript)
+     * @param string $lang script language (javascript)
+     * @param int $packLevel 0-3 level of packing from none to as much as possible
+     * @return string|array returns html fragment or list of files depending on $asHtml
+     */
     static function buildJavascriptTag( $scriptFiles, $asHtml, $type, $lang, $packLevel )
     {
         $ret = '';
@@ -175,7 +218,20 @@ class eZOEPacker
         return $ret;
     }
     
-    // static :: Builds the xhtml tag for stylesheets
+    /**
+     * buildStylesheetTag
+     * 
+     * Builds the xhtml tag for styleshhets.
+     * 
+     * @static
+     * @param array $cssFiles list of style sheets to find and pack
+     * @param bool $asHtml flag for returning array of packed files or html fragment
+     * @param string $media media supported by stylesheets (all)
+     * @param string $type style type (text/css)
+     * @param string $rel rel attribute for link tag (stylesheet)
+     * @param int $packLevel 0-3 level of packing from none to as much as possible
+     * @return string|array returns html fragment or list of files depending on $asHtml
+     */
     static function buildStylesheetTag( $cssFiles, $asHtml, $media, $type, $rel, $packLevel )
     {
         $ret = '';
@@ -191,14 +247,19 @@ class eZOEPacker
         }
         return $ret;
     }
-    
-    /* static ::
-     Merges a collection of files togheter and returns array of paths to the files.
-     js /css content is returned as string if packlevel is 0 and you use a js/ css generator.
-     $fileArray can also be array of array of files, like array(  'file.js', 'file2.js', array( 'file5.js' ) )
-     The name of the cached file is a md5 hash consistant of the file paths
-     of the valid files in $file_array and the packlevel. 
-     The whole argument is used instead of file path on js/ css generators in the cache hash.
+
+     /**
+     * packFiles
+     * 
+     * Merges a collection of files togheter and returns array of paths to the file(s).
+     * 
+     * @static
+     * @param array $fileArray array, array of array or mixed (both array and strings values in array) of files 
+     * @param string $path sub patch to store the packed file (bellow cache/public)
+     * @param string $fileExtension extension of packed file
+     * @param int $packLevel 0-3 level of packing from none to as much as possible
+     * @param bool $useWWWinCacheHash signal if www patch should be part of cache hash
+     * @return array of paths to files, might contain string as well if pack level is 0 and custom gernarator is used.
      */
     static function packFiles( $fileArray, $path = '', $fileExtension = '.js', $packLevel = 2, $useWWWinCacheHash = false )
     {

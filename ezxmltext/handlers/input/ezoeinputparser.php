@@ -157,6 +157,15 @@ class eZOEInputParser extends eZXMLInputParser
         '#text'     => array( 'structHandler' => 'structHandlerText' )
     );
 
+     /**
+     * Constructor
+     * For more info see {@link eZXMLInputParser::eZXMLInputParser()}
+     *
+     * @param int $validateErrorLevel
+     * @param int $detectErrorLevel
+     * @param bool $parseLineBreaks flag if line breaks should be given meaning or not
+     * @param bool $removeDefaultAttrs singal if attributes of default value should not be saved.
+     */
     function eZOEInputParser( $validateErrorLevel = eZXMLInputParser::ERROR_NONE, $detectErrorLevel = eZXMLInputParser::ERROR_NONE,
                                  $parseLineBreaks = false, $removeDefaultAttrs = false )
     {
@@ -167,9 +176,15 @@ class eZOEInputParser extends eZXMLInputParser
             $this->anchorAsAttribute = $ini->variable( 'header', 'AnchorAsAttribute' ) === 'disabled' ? false : true;
     }
 
-    /*
-        Tag Name handlers (init handlers)
-    */
+     /**
+     * tagNameSpan (tag mapping handler)
+     * Handles span tag and maps it to embed|custom|strong|emphasize|custom.underline
+     * Reuses {@link eZOEInputParser::tagNameDivnImg()} for embed and custom tag mapping.
+     *
+     * @param string $tagName name of input (xhtml) tag
+     * @param array $attributes byref value of tag attributes
+     * @return string name of ezxml tag or blank (then tag is removed, but not it's content)
+     */
     function tagNameSpan( $tagName, &$attributes )
     {
         // embed / custom tag detection code in tagNameDivnImg
@@ -191,12 +206,28 @@ class eZOEInputParser extends eZXMLInputParser
         return $name;
     }
 
+     /**
+     * tagNameHeader (tag mapping handler)
+     * Handles H[1-6] tags and maps them to header tag
+     *
+     * @param string $tagName name of input (xhtml) tag
+     * @param array $attributes byref value of tag attributes
+     * @return string name of ezxml tag or blank (then tag is removed, but not it's content)
+     */
     function tagNameHeader( $tagName, &$attributes )
     {
         $attributes['level'] = $tagName[1];
         return 'header';
     }
 
+     /**
+     * tagNameHeader (tag mapping handler)
+     * Handles H[1-6] tags and maps them to header tag
+     *
+     * @param string $tagName name of input (xhtml) tag
+     * @param array $attributes byref value of tag attributes
+     * @return string name of ezxml tag or blank (then tag is removed, but not it's content)
+     */
     function tagNameTable( $tagName, &$attributes )
     {
         $name = 'table';
@@ -209,6 +240,14 @@ class eZOEInputParser extends eZXMLInputParser
         return $name;
     }
 
+     /**
+     * tagNameDivnImg (tag mapping handler)
+     * Handles div|img tags and maps them to embed|embed-inline|custom tag
+     *
+     * @param string $tagName name of input (xhtml) tag
+     * @param array $attributes byref value of tag attributes
+     * @return string name of ezxml tag or blank (then tag is removed, but not it's content)
+     */
     function tagNameDivnImg( $tagName, &$attributes )
     {
         $name = '';
@@ -239,7 +278,15 @@ class eZOEInputParser extends eZXMLInputParser
 
         return $name;
     }
-    
+
+     /**
+     * tagNameLink (tag mapping handler)
+     * Handles a|link tags and maps them to link|anchor tag
+     *
+     * @param string $tagName name of input (xhtml) tag
+     * @param array $attributes byref value of tag attributes
+     * @return string name of ezxml tag or blank (then tag is removed, but not it's content)
+     */
     function tagNameLink( $tagName, &$attributes )
     {
         $name = '';
@@ -274,7 +321,14 @@ class eZOEInputParser extends eZXMLInputParser
         return $name;
     }
 
-    // Maps certain html tags to custum tags if they are enabled
+     /**
+     * tagNameCustomHelper (tag mapping handler)
+     * Handles u|sub|sup tags and maps them to custom tag if they are enabled
+     *
+     * @param string $tagName name of input (xhtml) tag
+     * @param array $attributes byref value of tag attributes
+     * @return string name of ezxml tag or blank (then tag is removed, but not it's content)
+     */
     function tagNameCustomHelper( $tagName, &$attributes )
     {
         $name = '';
@@ -293,17 +347,28 @@ class eZOEInputParser extends eZXMLInputParser
         return $name;
     }
 
-    static public function tagClassNamesCleanup( $className )
+     /**
+     * tagClassNamesCleanup
+     * Used by init handlers, removes any tinMCE/browser specific classes and trims the result.
+     *
+     * @static
+     * @param string $className dirty class name as provided by tinyMCE
+     * @return string cleaned and trimmed class name
+     */
+    public static function tagClassNamesCleanup( $className )
     {
          // remove classes that is used internally by editor on embed objects
         return trim( preg_replace("/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable)/i", '', $className ) );
     }
 
-
-    /*
-        Parsing Handlers (called at pass 1)
-    */
-    
+     /**
+     * parsingHandlerLiteral (parsing handler, pass 1)
+     * parse content of literal tag so tags are threated like text.
+     *
+     * @param DOMElement $element
+     * @param array $param parameters for xml element
+     * @return bool|null
+     */
     function parsingHandlerLiteral( $element, &$param )
     {
         $ret = null;
@@ -337,7 +402,15 @@ class eZOEInputParser extends eZXMLInputParser
 
         return $ret;
     }
-    
+
+     /**
+     * parsingHandlerParagraph (parsing handler, pass 1)
+     * parse content of paragraph tag to fix empty paragraphs issues.
+     *
+     * @param DOMElement $element
+     * @param array $param parameters for xml element
+     * @return bool|null
+     */
     function parsingHandlerParagraph( $element, &$param )
     {
         $data = $param[0];
@@ -370,6 +443,14 @@ class eZOEInputParser extends eZXMLInputParser
         return true;
     }
 
+     /**
+     * breakInlineFlow (parsing handler, pass 1)
+     * handle flow around <br> tags, legazy from oe 4.x
+     *
+     * @param DOMElement $element
+     * @param array $param parameters for xml element
+     * @return bool|null
+     */
     function breakInlineFlow( $element, &$param )
     {
         // Breaks the flow of inline tags. Used for non-inline tags caught within inline.
@@ -430,10 +511,14 @@ class eZOEInputParser extends eZXMLInputParser
         return $ret;
     }
 
-    /*
-        Init handlers. (called at pass 2)
-    */
-    // Init handler for 'Custom' element.
+     /**
+     * initHandlerCustom (init handler, pass 2 before childre tags)
+     * seesm to be doing nothing
+     *
+     * @param DOMElement $element
+     * @param array $param parameters for xml element
+     * @return bool|null
+     */
     function initHandlerCustom( $element, &$params )
     {
         $ret = null;        
@@ -443,6 +528,14 @@ class eZOEInputParser extends eZXMLInputParser
         return $ret;
     }
 
+     /**
+     * initHandlerHeader (init handler, pass 2 before childre tags)
+     * sets anchor as attribute if setting is enabled
+     *
+     * @param DOMElement $element
+     * @param array $param parameters for xml element
+     * @return bool|null
+     */
     function initHandlerHeader( $element, &$params )
     {
         $ret = null;
@@ -460,11 +553,15 @@ class eZOEInputParser extends eZXMLInputParser
         return $ret;
     }
 
-    /*
-        Structure handlers. (called at pass 2)
-    */
-    // Structure handler for inline nodes.
-    function appendLineParagraph( $element, &$newParent )
+     /**
+     * appendLineParagraph (Structure handler, pass 2 after childre tags)
+     * Structure handler for inline nodes.
+     *
+     * @param DOMElement $element
+     * @param DOMElement $newParent node that are going to become new parent.
+     * @return array changes structure if it contains 'result' key
+     */
+    function appendLineParagraph( $element, $newParent )
     {
         $ret = array();
         $parent = $element->parentNode;
@@ -516,8 +613,15 @@ class eZOEInputParser extends eZXMLInputParser
         return $ret;
     }
 
-    // Structure handler for temporary <br> elements
-    function structHandlerBr( $element, &$newParent )
+     /**
+     * appendLineParagraph (Structure handler, pass 2 after childre tags)
+     * Structure handler for temporary <br> elements
+     *
+     * @param DOMElement $element
+     * @param DOMElement $newParent node that are going to become new parent.
+     * @return array changes structure if it contains 'result' key
+     */
+    function structHandlerBr( $element, $newParent )
     {
         $ret = array();
         if ( $newParent && $newParent->nodeName === 'line' )
@@ -527,8 +631,15 @@ class eZOEInputParser extends eZXMLInputParser
         return $ret;
     }
 
-    // Structure handler for in-paragraph nodes.
-    function appendParagraph( $element, &$newParent )
+     /**
+     * appendLineParagraph (Structure handler, pass 2 after childre tags)
+     * Structure handler for in-paragraph nodes.
+     *
+     * @param DOMElement $element
+     * @param DOMElement $newParent node that are going to become new parent.
+     * @return array changes structure if it contains 'result' key
+     */
+    function appendParagraph( $element, $newParent )
     {
         $ret = array();
         $parent = $element->parentNode;
@@ -566,7 +677,14 @@ class eZOEInputParser extends eZXMLInputParser
         return $ret;
     }
 
-    // Strucutre handler for #text
+     /**
+     * appendLineParagraph (Structure handler, pass 2 after childre tags)
+     * Structure handler for #text.
+     *
+     * @param DOMElement $element
+     * @param DOMElement $newParent node that are going to become new parent.
+     * @return array changes structure if it contains 'result' key
+     */
     function structHandlerText( $element, $newParent )
     {
         $ret = array();
@@ -669,8 +787,15 @@ class eZOEInputParser extends eZXMLInputParser
         return $ret;
     }
 
-    // Structure handler for 'header' tag.
-    function structHandlerHeader( $element, &$param )
+     /**
+     * appendLineParagraph (Structure handler, pass 2 after childre tags)
+     * Structure handler for header tag.
+     *
+     * @param DOMElement $element
+     * @param DOMElement $newParent node that are going to become new parent.
+     * @return array changes structure if it contains 'result' key
+     */
+    function structHandlerHeader( $element, $newParent )
     {
         $ret = array();
         $parent = $element->parentNode;
@@ -701,24 +826,24 @@ class eZOEInputParser extends eZXMLInputParser
             }
             if ( $level > $sectionLevel )
             {
-                $newParent = $parent;
+                $newTempParent = $parent;
                 for ( $i = $sectionLevel; $i < $level; $i++ )
                 {
                    $newSection = $this->Document->createElement( 'section' );
                    if ( $i == $sectionLevel )
                    {
-                       $newSection = $newParent->insertBefore( $newSection, $element );
+                       $newSection = $newTempParent->insertBefore( $newSection, $element );
                    }
                    else
                    {
-                       $newParent->appendChild( $newSection );
+                       $newTempParent->appendChild( $newSection );
                    }
                    // Schema check
                    if ( !$this->processBySchemaTree( $newSection ) )
                    {
                        return $ret;
                    }
-                   $newParent = $newSection;
+                   $newTempParent = $newSection;
                    unset( $newSection );
                 }
                 $elementToMove = $element;
@@ -727,7 +852,7 @@ class eZOEInputParser extends eZXMLInputParser
                 {
                     $next = $elementToMove->nextSibling;
                     $elementToMove = $parent->removeChild( $elementToMove );
-                    $newParent->appendChild( $elementToMove );
+                    $newTempParent->appendChild( $elementToMove );
                     $elementToMove = $next;
 
                     if ( !$elementToMove ||
@@ -766,14 +891,21 @@ class eZOEInputParser extends eZXMLInputParser
         return $ret;
     }
 
-    // Structure handler for 'custom' tag.
-    function structHandlerCustom( $element, &$params )
+     /**
+     * appendLineParagraph (Structure handler, pass 2 after childre tags)
+     * Structure handler for custom tag.
+     *
+     * @param DOMElement $element
+     * @param DOMElement $newParent node that are going to become new parent.
+     * @return array changes structure if it contains 'result' key
+     */
+    function structHandlerCustom( $element, $newParent )
     {
         $ret = array();
         $isInline = $this->XMLSchema->isInline( $element );
         if ( $isInline )
         {
-            $ret = $this->appendLineParagraph( $element, $params );
+            $ret = $this->appendLineParagraph( $element, $newParent );
 
             $value = $element->getAttribute( 'value' );
             if ( $value )
@@ -785,13 +917,20 @@ class eZOEInputParser extends eZXMLInputParser
         }
         else
         {
-            $ret = $this->appendParagraph( $element, $params );
+            $ret = $this->appendParagraph( $element, $newParent );
         }
         return $ret;
     }
 
-    // Structure handler for 'ul' and 'ol' tags.
-    function structHandlerLists( $element, &$params )
+     /**
+     * appendLineParagraph (Structure handler, pass 2 after childre tags)
+     * Structure handler for ul|ol tags.
+     *
+     * @param DOMElement $element
+     * @param DOMElement $newParent node that are going to become new parent.
+     * @return array changes structure if it contains 'result' key
+     */
+    function structHandlerLists( $element, $newParent )
     {
         $ret = array();
         $parent = $element->parentNode;
@@ -843,12 +982,19 @@ class eZOEInputParser extends eZXMLInputParser
                 return $ret;
             }
         }
-        $ret = $this->appendParagraph( $element, $params );
+        $ret = $this->appendParagraph( $element, $newParent );
         return $ret;
     }
 
-    // Structure handler for 'paragraph' element.
-    function structHandlerParagraph( $element, &$params )
+     /**
+     * appendLineParagraph (Structure handler, pass 2 after childre tags)
+     * Structure handler for paragraph tag.
+     *
+     * @param DOMElement $element
+     * @param DOMElement $newParent node that are going to become new parent.
+     * @return array changes structure if it contains 'result' key
+     */
+    function structHandlerParagraph( $element, $newParent )
     {
         $ret = array();
 
@@ -880,10 +1026,14 @@ class eZOEInputParser extends eZXMLInputParser
         return $ret;
     }
 
-    /*
-        Publish handlers. (called at pass 2)
-    */
-    // Publish handler for 'link' element.
+     /**
+     * publishHandlerLink (Publish handler, pass 2 after schema validation)
+     * Publish handler for link element, converts href to [object|node|link]_id.
+     *
+     * @param DOMElement $element
+     * @param array $param parameters for xml element
+     * @return array changes structure if it contains 'result' key
+     */
     function publishHandlerLink( $element, &$params )
     {
         $ret = null;
@@ -988,9 +1138,15 @@ class eZOEInputParser extends eZXMLInputParser
 
                     }
                     // Store urlID instead of href
-                    $urlID = $this->convertHrefToID( $url );
+                    $url = str_replace(array('&amp;', '%28', '%29'), array('&', '(', ')'), $url );
+
+                    $urlID = eZURL::registerURL( $url );
+
                     if ( $urlID )
                     {
+                        if ( !in_array( $urlID, $this->urlIDArray ) )
+                            $this->urlIDArray[] = $urlID;
+
                         $element->setAttribute( 'url_id', $urlID );
                     }
                 }
@@ -1005,19 +1161,14 @@ class eZOEInputParser extends eZXMLInputParser
         return $ret;
     }
 
-    function convertHrefToID( $href )
-    {
-        $href = str_replace(array('&amp;', '%28', '%29'), array('&', '(', ')'), $href );
-
-        $urlID = eZURL::registerURL( $href );
-
-        if ( !in_array( $urlID, $this->urlIDArray ) )
-             $this->urlIDArray[] = $urlID;
-
-        return $urlID;
-    }
-
-    // Publish handler for 'table' element.
+     /**
+     * publishHandlerLink (Publish handler, pass 2 after schema validation)
+     * Publish handler for table element, tryes to convert css stlyes to attributes.
+     *
+     * @param DOMElement $element
+     * @param array $param parameters for xml element
+     * @return array changes structure if it contains 'result' key
+     */
     function publishHandlerTable( $element, &$params )
     {
         $ret = null;
@@ -1046,7 +1197,15 @@ class eZOEInputParser extends eZXMLInputParser
         return $ret;
     }
 
-    // Publish handler for 'embed' element.
+     /**
+     * publishHandlerLink (Publish handler, pass 2 after schema validation)
+     * Publish handler for embed element, convert id to [object|node]_id parameter.
+     * And fixes align=middle value (if embed was image)
+     *
+     * @param DOMElement $element
+     * @param array $param parameters for xml element
+     * @return array changes structure if it contains 'result' key
+     */
     function publishHandlerEmbed( $element, &$params )
     {
         $ret = null;
@@ -1092,6 +1251,14 @@ class eZOEInputParser extends eZXMLInputParser
         return $ret;
     }
 
+     /**
+     * processAttributesBySchema
+     * Parses customattributes attribute and splits it into actual
+     * custom: xml attributes, passes processing of normal attributes
+     * to parent class.
+     *
+     * @param DOMElement $element
+     */
     function processAttributesBySchema( $element )
     {
         // custom attributes conversion
@@ -1142,7 +1309,7 @@ class eZOEInputParser extends eZXMLInputParser
         return $arr;
     }
     
-    static public function customTagIsEnabled( $name )
+    public static function customTagIsEnabled( $name )
     {
         if ( self::$customTagList === null )
         {

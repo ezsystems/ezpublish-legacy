@@ -39,7 +39,7 @@ class eZOEAjaxContent
     /**
      * Constructor
      *
-     * @access private
+     * @access protected
      */
     protected function __construct()
     {
@@ -48,7 +48,7 @@ class eZOEAjaxContent
     /**
      * Clone
      *
-     * @access private
+     * @access protected
      */
     protected function __clone()
     {
@@ -57,6 +57,7 @@ class eZOEAjaxContent
     /**
      * getInstance
      *
+     * @static
      * @return eZOEAjaxContent
     */
     public static function getInstance()
@@ -72,6 +73,7 @@ class eZOEAjaxContent
      * Function for encoding content object(s) or node(s) to simplified
      * json objects, xml or array hash
      * 
+     * @static
      * @param mixed $obj
      * @param array $params
      * @param string $type
@@ -102,7 +104,8 @@ class eZOEAjaxContent
     
     /**
      * Function for simplifying a content object or node
-     *
+     * 
+     * @static
      * @param mixed $obj
      * @param array $params
      * @return array
@@ -275,6 +278,7 @@ class eZOEAjaxContent
     /**
      * Encodes simple multilevel array and hash values to valid xml string
      * 
+     * @static
      * @param mixed $hash
      * @param string $childName
      * @return string
@@ -296,10 +300,11 @@ class eZOEAjaxContent
     /**
      * Recursive xmlWriter function called by xmlEncode
      * 
+     * @static
+     * @access protected
      * @param XMLWriter $xml
      * @param mixed $hash
      * @param string $childName
-     * @access private
     */
     protected static function xmlWrite( XMLWriter $xml, $hash, $childName = 'child' )
     {
@@ -325,8 +330,9 @@ class eZOEAjaxContent
 
     /**
      * Wrapper function for encoding to json with native or php version
-     * depending on what the system supports
+     * ({@link eZOEAjaxContent::phpJsonEncode()}) depending on what the system supports
      * 
+     * @static
      * @param mixed $obj
      * @return string
     */
@@ -346,6 +352,7 @@ class eZOEAjaxContent
     /**
      * Returns the JSON representation of a value using php code
      * 
+     * @access protected
      * @param mixed $var
      * @author Michal Migurski <mike-json@teczno.com>
      * @author Matt Knapp <mdknapp[at]gmail[dot]com>
@@ -353,7 +360,6 @@ class eZOEAjaxContent
      * @copyright 2005 Michal Migurski
      * @license http://www.freebsd.org/copyright/freebsd-license.html
      * @link http://pear.php.net/pepr/pepr-proposal-show.php?id=198
-     * @access private
      * @return string
     */
     protected function phpJsonEncode( $var )
@@ -510,9 +516,9 @@ class eZOEAjaxContent
    /**
     * array-walking function for use in generating JSON-formatted name-value pairs
     * 
+    * @access protected
     * @param string $name
     * @param mixed $value
-    * @access private
     * @return string
     */
     protected function phpJsonEncodeNameValue($name, $value)

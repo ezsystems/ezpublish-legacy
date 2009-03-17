@@ -36,6 +36,15 @@ include_once( 'extension/ezoe/classes/ezoeajaxcontent.php' );
 
 class eZOEPackerFunctions
 {
+    /**
+     * i18n
+     * Provides all i18n strings for use by tinyMCE and other javascript dialogs.
+     * 
+     * @static
+     * @param array $args
+     * @param string $fileExtension
+     * @return string returns json string with translation data
+    */
     public static function i18n( $args, $fileExtension )
     {
         if ( $fileExtension !== '.js' ) return '';
@@ -356,9 +365,16 @@ class eZOEPackerFunctions
         return 'tinyMCE.addI18n( ' . $i18nString . ' );';
     }
 
+    /**
+     * getCacheTime
+     * Expiry time for code generators registirated on this class.
+     * Needs to be increased to current time when changes are done to returned translations.  
+     * 
+     * @static
+     * @param string $functionName
+    */
     public static function getCacheTime( $functionName )
     {
-        // this translation data only expires when this timestamp is increased
         return 1227728406;
     }
 }
