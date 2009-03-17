@@ -108,7 +108,7 @@ Out of the box this class is set to be ezpLanguageSwitcher.
 
     LanguageSwitcherClass=ezpLanguageSwitcher
 
-The implementation class needs to implement the ezpLanguageSwitcher interface.
+The implementation class needs to implement the ezpLanguageSwitcherCapable interface.
 Please look up the documentation for this interface for more details.
 
 Extras
