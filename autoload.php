@@ -2,8 +2,8 @@
 /**
  * Autoloader definition for eZ Publish
  *
- * @copyright Copyright (C) 2005-2008 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPL
+ * @copyright Copyright (C) 1999-2009 eZ Systems AS. All rights reserved.
+ * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
  *
  */
 
