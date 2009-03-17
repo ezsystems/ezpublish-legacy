@@ -554,7 +554,12 @@ class eZSession
         }
 
         $oldSessionId = session_id();
-        session_regenerate_id();
+
+        // need to close and then start session in order to work around issues
+        // where several subdomains use same cookie name (but different domain in cookie params)
+        session_write_close();
+        session_regenerate_id( true );
+        self::start();
 
         // If user has session and $updateUserSession is true, then update user session data
         if ( $updateUserDBSession && self::$hasSessionCookie )
@@ -565,15 +570,14 @@ class eZSession
                 return false;
             }
             $escOldKey = $db->escapeString( $oldSessionId );
-            $sessionId = session_id();
-            $escKey = $db->escapeString( $sessionId );
-            $userID = $db->escapeString( self::$userID );
+            $escKey = $db->escapeString( session_id() );
+            $escUserID = $db->escapeString( self::$userID );
 
-            self::triggerCallback( 'regenerate_pre', array( $db, $escKey, $escOldKey, $userID ) );
+            self::triggerCallback( 'regenerate_pre', array( $db, $escKey, $escOldKey, $escUserID ) );
 
-            $db->query( "UPDATE ezsession SET session_key='$escKey', user_id='$userID' WHERE session_key='$escOldKey'" );
+            $db->query( "UPDATE ezsession SET session_key='$escKey', user_id='$escUserID' WHERE session_key='$escOldKey'" );
 
-            self::triggerCallback( 'regenerate_post', array( $db, $escKey, $escOldKey, $userID ) );
+            self::triggerCallback( 'regenerate_post', array( $db, $escKey, $escOldKey, $escUserID ) );
         }
         return true;
     }

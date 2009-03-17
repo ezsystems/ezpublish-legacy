@@ -2,6 +2,8 @@ Changes from 4.1.0rc1 to 4.1.0
 
 *Kernel:
 - added swapNode to search engine handlermethods and content operation collection
+- Disabled session ip validation by default after feedback on #014264
+- Restart session when regenerating session id to avoid issues with not being able to login (#014264)
 *Design:
 
 *eZTemplate:
