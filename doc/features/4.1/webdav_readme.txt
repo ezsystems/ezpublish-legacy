@@ -186,8 +186,9 @@ Windows Vista and Windows 7 there is an extra step in which you need to click
 on the link "Connect to a Web site that you can use to store your documents and
 pictures"), then enter **http://webdav.ezp:port/siteaccess**, where
 *siteaccess* is a siteaccess that you will use (eg. **plain_site_user**) and
-*port* is the port on which you connect to WebDAV (**80** by default). You will
-be requested to enter the username and password for the connection. The
+*port* is the port on which you connect to WebDAV (**80** by default). The
+port might not be needed depending on your version of Microsoft Windows. You
+will be requested to enter the username and password for the connection. The
 connection will appear as a shortcut in My Computer. If you cannot open the
 connection at a later time, try dragging it from My Computer to an
 Internet Explorer window.
