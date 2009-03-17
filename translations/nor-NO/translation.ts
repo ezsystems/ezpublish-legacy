@@ -1,5 +1,45 @@
 <!DOCTYPE TS><TS>
 <context>
+    <name>design/admin/content/browse</name>
+    <message>
+        <source>Bookmarks</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/content/edit</name>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/content/search</name>
+    <message>
+        <source>Search</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/admin/content/upload</name>
+    <message>
+        <source>Upload</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>design/standard/content/datatype</name>
     <message>
         <source>Disable editor</source>
@@ -8,6 +48,42 @@
     <message>
         <source>Enable editor</source>
         <translation>Aktiver redigeringsverktøy</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/edit</name>
+    <message>
+        <source>Store draft</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send for publishing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discard</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/search</name>
+    <message>
+        <source>No results were found when searching for &amp;quot;%1&amp;quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/content/view</name>
+    <message>
+        <source>You have no bookmarks</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/error/kernel</name>
+    <message>
+        <source>Your current user does not have the proper privileges to access this page.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -680,7 +756,7 @@ Vil du vite mer om dette?</translation>
     </message>
     <message>
         <source>Crop</source>
-        <translation>Beskjær</translation>
+        <translation>Beskjår</translation>
     </message>
     <message>
         <source>None</source>
@@ -778,154 +854,163 @@ Vil du vite mer om dette?</translation>
         <source>Edit %tag_name tag</source>
         <translation>Rediger %tag_name tagg</translation>
     </message>
-</context>
-<context>
-    <name>design/standard/ezoe/searchreplace</name>
     <message>
-        <source>Find again</source>
-        <translation>Søk igjen</translation>
+        <source>Toggle spellchecker</source>
+        <translation>Skru på/av ordretter</translation>
     </message>
     <message>
-        <source>The search has been completed. The search string could not be found.</source>
-        <translation>Søket er fullført. Søke strengen ble ikke funnet.</translation>
+        <source>Spellchecker settings</source>
+        <translation>Ordretter instillinger</translation>
     </message>
     <message>
-        <source>Find</source>
-        <translation>Søk</translation>
+        <source>Ignore word</source>
+        <translation>Ignorer ord</translation>
     </message>
     <message>
-        <source>Find/Replace</source>
-        <translation>Søk/Erstatt</translation>
+        <source>Ignore all</source>
+        <translation>Ignorer alle</translation>
     </message>
     <message>
-        <source>All occurrences of the search string were replaced.</source>
-        <translation>Alle forekomster av søke strengen ble erstattet.</translation>
+        <source>Languages</source>
+        <translation>Språk</translation>
     </message>
     <message>
-        <source>Find what</source>
-        <translation>Søk etter</translation>
+        <source>Please wait...</source>
+        <translation>Vennligst vent...</translation>
     </message>
     <message>
-        <source>Replace with</source>
-        <translation>Ersatt med</translation>
+        <source>Suggestions</source>
+        <translation>Forslag</translation>
     </message>
     <message>
-        <source>Direction</source>
-        <translation>Retning</translation>
+        <source>No suggestions</source>
+        <translation>Ingen forslag</translation>
     </message>
     <message>
-        <source>Up</source>
-        <translation>Opp</translation>
+        <source>No misspellings found.</source>
+        <translation>Ingen skrivefeil funnet.</translation>
     </message>
     <message>
-        <source>Down</source>
-        <translation>Ned</translation>
+        <source>Insert/edit file</source>
+        <translation>Legg til / endre fil</translation>
     </message>
     <message>
-        <source>Match case</source>
-        <translation>Skill mellom små og store bokstaver</translation>
-    </message>
-    <message>
-        <source>Find next</source>
-        <translation>Finn neste</translation>
-    </message>
-    <message>
-        <source>Replace</source>
-        <translation>Erstatt</translation>
-    </message>
-    <message>
-        <source>Replace all</source>
-        <translation>Erstatt alle</translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/ezoe/wai</name>
-    <message>
-        <source>Upload file from your local machine.</source>
-        <translation>Last opp fil fra din lokale maskin.</translation>
-    </message>
-    <message>
-        <source>Search for content already in eZ Publish.</source>
-        <translation>Søk etter innhold som allerede ekisterer i eZ Publish.</translation>
-    </message>
-    <message>
-        <source>Browse the content tree in eZ Publish.</source>
-        <translation>Naviger deg igjennom innholds treet til eZ Publish</translation>
-    </message>
-    <message>
-        <source>Select or browse content among your personal eZ Publish bookmarks.</source>
-        <translation>Velg eller naviger deg igjennom dine personlige eZ Publish bokmerker.</translation>
-    </message>
-    <message>
-        <source>Name for the uploaded object, filename is used if none is specified.</source>
-        <translation>Navn til objektet du laster opp, fil navn blir brukt om dette feltet er tomt.</translation>
-    </message>
-    <message>
-        <source>Choose file to upload from your local machine.</source>
-        <translation>Velg fil du vil laste opp fra din lokale maskin.</translation>
-    </message>
-    <message>
-        <source>Lets you specify where in eZ Publish to store the uploaded object.</source>
-        <translation>Lar deg velge hvor i eZ Publish du vil lagre filen du laster opp.</translation>
-    </message>
-    <message>
-        <source>Alternative text for the image, lets internet clients know what kind of image this is without dowloading it or actually seeing it.</source>
-        <translation>Alternativ tekst for bilde, lar internett brukere lese om bildet uten å måtte laste det ned eller se det først.</translation>
-    </message>
-    <message>
-        <source>Caption for a image is usually shown bellow it as a description to the image.</source>
-        <translation>Undertittel for bildet blir vanligvis vist under bildet som en beskrivelse.</translation>
-    </message>
-    <message>
-        <source>Description to the file your uploading, so internet clients can read more about it before they decide to download it.</source>
-        <translation>Beskrivels av filen du laster opp, så internett brukere kan lese mer om filen før de velger å laste den ned.</translation>
-    </message>
-    <message>
-        <source>Enter the word you want to search for here, for instance the name of the content you are looking for.</source>
-        <translation>Skriv inn ordet du ønsker å søke etter her, foreksempel navnet på innholdet du leter etter.</translation>
-    </message>
-    <message>
-        <source>Lets you limit the content type your searching for, by limiting the eZ Publish content classes that are returned in the search result.</source>
-        <translation>Lar deg begrense innholds typene du søker etter, ved å spesifisere eZ Publish innholds klassene som returneres i søke resultatet.</translation>
+        <source>The url the link points to, starts with link type (like http://).</source>
+        <translation>Url&amp;apos;en linken peker til, starter med link type (feks http://).</translation>
     </message>
     <message>
         <source>Class are often used to give different design or appearance, either by using a different template, style or both.</source>
-        <translation>Klasse blir ofte brukt til å gi forskjellig design eller visning, enten ved bruk av annen mal, stil eller begge.</translation>
+        <translation>Klasse er ofte brukt til å gi annen visuell stil eller presentasjon, enten ved bruk av egen mal, stil sett eller begge.</translation>
     </message>
     <message>
         <source>Lets you specify the target window for the link, if any.</source>
-        <translation>Lar deg spesifisere mål vindu for lenken.</translation>
+        <translation>La deg spesifiere mål vindu for link om ønskelig.</translation>
     </message>
     <message>
         <source>The title on the (x)html tag, used by screen readers, and to give better explanation like this one.</source>
-        <translation>Tittelen på (x)html tagger, brukt av skjerm lesere, og for å gi en bedre forklaring som denne.</translation>
+        <translation>Tittel på (x)html tagger blir brukt av skjerm lesere og nett lesere til å gi bedre forklaringer, som denne.</translation>
     </message>
     <message>
         <source>To set the width of the tag, either as percentage by appending % or as pixel size by just using a number.</source>
-        <translation>For å sette bredden på en tag, enten som prosent ved å avslutte med % eller som pixel(punktstørrelse) ved å bare bruke ett nummer.</translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/ezoe/contenttype</name>
-    <message>
-        <source>Image</source>
-        <translation>Bilde</translation>
+        <translation>For å sette bredde, enten som prosent med % eller som pixel ved å kun skrive tall.</translation>
     </message>
     <message>
-        <source>File</source>
-        <translation>Fil</translation>
+        <source>The unique identifier used for the element in the (x)html output, used by style sheets and/or anchors.</source>
+        <translation>Unik nøkkel for (x)html element til å kunne identifsere den for stil sett og/eller ankere.</translation>
     </message>
     <message>
         <source>Object</source>
         <translation>Objekt</translation>
     </message>
     <message>
+        <source>Node</source>
+        <translation>Node</translation>
+    </message>
+    <message>
+        <source>Relation</source>
+        <translation>Relasjon</translation>
+    </message>
+    <message>
+        <source>Switch embed file</source>
+        <translation>Bytt vedlagt fil</translation>
+    </message>
+    <message>
+        <source>List of possible link types. Link types that use the &apos;://&apos; format are technically called protocols.</source>
+        <translation>Liste med mulige link typer. Link typer som bruker &apos;://&apos; kalles teknisk for protokoller.</translation>
+    </message>
+    <message>
+        <source>Table cell</source>
+        <translation>Tabell celle</translation>
+    </message>
+    <message>
+        <source>Table header</source>
+        <translation>Tabell overskrift</translation>
+    </message>
+    <message>
+        <source>There are no related files.</source>
+        <translation>Det er ingen relaterte filer.</translation>
+    </message>
+    <message>
+        <source>There are no related images.</source>
+        <translation>Det er ingen relaterte bilder.</translation>
+    </message>
+    <message>
+        <source>Upload new File</source>
+        <translation>Last opp ny fil</translation>
+    </message>
+    <message>
+        <source>Upload new Image</source>
+        <translation>Last opp nytt bilde</translation>
+    </message>
+    <message>
+        <source>Upload new Object</source>
+        <translation>Last opp nytt vedlegg</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/contenttype</name>
+    <message>
+        <source>Image</source>
+        <translation type="obsolete">Bilde</translation>
+    </message>
+    <message>
+        <source>File</source>
+        <translation type="obsolete">Fil</translation>
+    </message>
+    <message>
+        <source>Object</source>
+        <translation type="obsolete">Objekt</translation>
+    </message>
+    <message>
         <source>Flash</source>
-        <translation>Flash</translation>
+        <translation type="obsolete">Flash</translation>
     </message>
     <message>
         <source>Video</source>
-        <translation>Video</translation>
+        <translation type="obsolete">Video</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/handler</name>
+    <message>
+        <source>Some objects used in embed(-inline) tags have been deleted and are no longer available.</source>
+        <translation>Ett eller flere objecter brukt i embed(-inline) tagger har blitt slettet og er ikke lenger tilgjengelig.</translation>
+    </message>
+    <message>
+        <source>Object %1 does not exist.</source>
+        <translation>Node %1 finnes ikke.</translation>
+    </message>
+    <message>
+        <source>Node %1 does not exist.</source>
+        <translation>Node %1 finnes ikke.</translation>
+    </message>
+    <message>
+        <source>Node &apos;%1&apos; does not exist.</source>
+        <translation type="obsolete">Node &apos;%1&apos; finnes ikke.</translation>
+    </message>
+    <message>
+        <source>Node &amp;apos;%1&amp;apos; does not exist.</source>
+        <translation>Node &amp;apos;%1&amp;apos; finnes ikke.</translation>
     </message>
 </context>
 <context>
@@ -1094,24 +1179,167 @@ Vil du vite mer om dette?</translation>
         <source>You can find more documentation in the doc folder of this extension and online on %link.</source>
         <translation>Du kan finne mer dokumentasjon i doc mappen i denne utvidelsen og på nett %link.</translation>
     </message>
+    <message>
+        <source>Dialog to paste text from word, the dialog will handle cleaning the content from word.</source>
+        <translation>Dialog for å klippe inn tekst fra Word, dialogen vil ta seg av å unngå formaterings problemer.</translation>
+    </message>
+    <message>
+        <source>Browse for a node / object in your bookmarks.</source>
+        <translation>Se etter en node / objekt i dine bokmerker.</translation>
+    </message>
 </context>
 <context>
-    <name>design/standard/ezoe/handler</name>
+    <name>design/standard/ezoe/searchreplace</name>
     <message>
-        <source>Some objects used in embed(-inline) tags have been deleted and are no longer available.</source>
-        <translation>Ett eller flere objecter brukt i embed(-inline) tagger har blitt slettet og er ikke lenger tilgjengelig.</translation>
+        <source>Find again</source>
+        <translation>Søk igjen</translation>
     </message>
     <message>
-        <source>Object %1 does not exist.</source>
-        <translation>Node %1 finnes ikke.</translation>
+        <source>The search has been completed. The search string could not be found.</source>
+        <translation>Søket er fullført. Søke strengen ble ikke funnet.</translation>
     </message>
     <message>
-        <source>Node %1 does not exist.</source>
-        <translation>Node %1 finnes ikke.</translation>
+        <source>Find</source>
+        <translation>Søk</translation>
     </message>
     <message>
-        <source>Node &apos;%1&apos; does not exist.</source>
-        <translation>Node &apos;%1&apos; finnes ikke.</translation>
+        <source>Find/Replace</source>
+        <translation>Søk/Erstatt</translation>
+    </message>
+    <message>
+        <source>All occurrences of the search string were replaced.</source>
+        <translation>Alle forekomster av søke strengen ble erstattet.</translation>
+    </message>
+    <message>
+        <source>Find what</source>
+        <translation>Søk etter</translation>
+    </message>
+    <message>
+        <source>Replace with</source>
+        <translation>Ersatt med</translation>
+    </message>
+    <message>
+        <source>Direction</source>
+        <translation>Retning</translation>
+    </message>
+    <message>
+        <source>Up</source>
+        <translation>Opp</translation>
+    </message>
+    <message>
+        <source>Down</source>
+        <translation>Ned</translation>
+    </message>
+    <message>
+        <source>Match case</source>
+        <translation>Skill mellom små og store bokstaver</translation>
+    </message>
+    <message>
+        <source>Find next</source>
+        <translation>Finn neste</translation>
+    </message>
+    <message>
+        <source>Replace</source>
+        <translation>Erstatt</translation>
+    </message>
+    <message>
+        <source>Replace all</source>
+        <translation>Erstatt alle</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/wai</name>
+    <message>
+        <source>Upload file from your local machine.</source>
+        <translation>Last opp fil fra din lokale maskin.</translation>
+    </message>
+    <message>
+        <source>Search for content already in eZ Publish.</source>
+        <translation>Søk etter innhold som allerede ekisterer i eZ Publish.</translation>
+    </message>
+    <message>
+        <source>Browse the content tree in eZ Publish.</source>
+        <translation>Naviger deg igjennom innholds treet til eZ Publish</translation>
+    </message>
+    <message>
+        <source>Select or browse content among your personal eZ Publish bookmarks.</source>
+        <translation>Velg eller naviger deg igjennom dine personlige eZ Publish bokmerker.</translation>
+    </message>
+    <message>
+        <source>Name for the uploaded object, filename is used if none is specified.</source>
+        <translation>Navn til objektet du laster opp, fil navn blir brukt om dette feltet er tomt.</translation>
+    </message>
+    <message>
+        <source>Choose file to upload from your local machine.</source>
+        <translation>Velg fil du vil laste opp fra din lokale maskin.</translation>
+    </message>
+    <message>
+        <source>Lets you specify where in eZ Publish to store the uploaded object.</source>
+        <translation>Lar deg velge hvor i eZ Publish du vil lagre filen du laster opp.</translation>
+    </message>
+    <message>
+        <source>Alternative text for the image, lets internet clients know what kind of image this is without dowloading it or actually seeing it.</source>
+        <translation>Alternativ tekst for bilde, lar internett brukere lese om bildet uten å måtte laste det ned eller se det først.</translation>
+    </message>
+    <message>
+        <source>Caption for a image is usually shown bellow it as a description to the image.</source>
+        <translation>Undertittel for bildet blir vanligvis vist under bildet som en beskrivelse.</translation>
+    </message>
+    <message>
+        <source>Description to the file your uploading, so internet clients can read more about it before they decide to download it.</source>
+        <translation>Beskrivels av filen du laster opp, så internett brukere kan lese mer om filen før de velger å laste den ned.</translation>
+    </message>
+    <message>
+        <source>Enter the word you want to search for here, for instance the name of the content you are looking for.</source>
+        <translation>Skriv inn ordet du ønsker å søke etter her, foreksempel navnet på innholdet du leter etter.</translation>
+    </message>
+    <message>
+        <source>Lets you limit the content type your searching for, by limiting the eZ Publish content classes that are returned in the search result.</source>
+        <translation>Lar deg begrense innholds typene du søker etter, ved å spesifisere eZ Publish innholds klassene som returneres i søke resultatet.</translation>
+    </message>
+    <message>
+        <source>Class are often used to give different design or appearance, either by using a different template, style or both.</source>
+        <translation>Klasse blir ofte brukt til å gi forskjellig design eller visning, enten ved bruk av annen mal, stil eller begge.</translation>
+    </message>
+    <message>
+        <source>Lets you specify the target window for the link, if any.</source>
+        <translation>Lar deg spesifisere mål vindu for lenken.</translation>
+    </message>
+    <message>
+        <source>The title on the (x)html tag, used by screen readers, and to give better explanation like this one.</source>
+        <translation>Tittelen på (x)html tagger, brukt av skjerm lesere, og for å gi en bedre forklaring som denne.</translation>
+    </message>
+    <message>
+        <source>To set the width of the tag, either as percentage by appending % or as pixel size by just using a number.</source>
+        <translation>For å sette bredden på en tag, enten som prosent ved å avslutte med % eller som pixel(punktstørrelse) ved å bare bruke ett nummer.</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/node/view</name>
+    <message>
+        <source>Preview</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>kernel/classes/datatypes</name>
+    <message>
+        <source>Content required</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>kernel/classes/datatypes/ezxmltext</name>
+    <message>
+        <source>Invalid e-mail address: &apos;%1&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>kernel/content</name>
+    <message>
+        <source>Top Level Nodes</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
