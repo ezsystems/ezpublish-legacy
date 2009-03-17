@@ -1030,6 +1030,8 @@ class eZContentOperationCollection
         // clear cache for new placement.
         eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
 
+        eZSearch::swapNode( $nodeID, $selectedNodeID, $nodeIdList = array() );
+
         return array( 'status' => true );
     }
 

@@ -1,7 +1,7 @@
 Changes from 4.1.0rc1 to 4.1.0
 
 *Kernel:
-
+- added swapNode to search engine handlermethods and content operation collection
 *Design:
 
 *eZTemplate:

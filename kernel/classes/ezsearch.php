@@ -563,6 +563,19 @@ class eZSearch
         return false;
     }
     
+    public static function swapNode( $nodeID, $selectedNodeID, $nodeIdList = array() )
+    {
+        $searchEngine = eZSearch::getEngine();
+
+        if ( is_object( $searchEngine ) && method_exists( $searchEngine, 'swapNode'))
+        {
+            return $searchEngine->swapNode( $nodeID, $selectedNodeID, $nodeIdList = array() );
+        }
+
+        return false;
+    }
+
+    
 }
 
 ?>
