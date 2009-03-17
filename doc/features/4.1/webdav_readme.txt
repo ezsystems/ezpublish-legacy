@@ -155,6 +155,10 @@ Create (if it doesn't exist) a DWORD value with the name UseBasicAuth, with
 the value 1 (1 = enable Basic authentication, 0 = disable Basic
 authentication).
 
+Create (if it doesn't exist) a DWORD value with the name BasicAuthLevel, with
+the value 2 (0 = Disable Basic authentication, 1 = enable Basic authentication
+only on SSL connections, 2 = enable Basic authentication even without SSL).
+
 2. Install the Software Update for Web Folders (KB907306) from Microsoft:
 
 http://www.microsoft.com/downloads/details.aspx?familyid=17C36612-632E-4C04-9382-987622ED1D64
