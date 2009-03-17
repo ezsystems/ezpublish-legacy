@@ -99,7 +99,7 @@ EZP_INI_FILE_PERMISSION = 0666;
 
        function fooAutoload( $className )
        {
-          if ( 'Foo' == substr( $className, 0, 4 ) )
+          if ( 'Foo' == substr( $className, 0, 3 ) )
           {
               FooClassLoader::loadClass( $className );
           }
