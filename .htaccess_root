@@ -7,7 +7,7 @@ order allow,deny
 deny from all
 </FilesMatch>
 
-<FilesMatch "(^index\.php|favicon\.ico|index_treemenu\.php|\.(gif|jpe?g|png|css|js|swf|html?)|var(.+)storage.pdf(.+)\.pdf)$">
+<FilesMatch "(^index\.php|favicon\.ico|index_treemenu\.php|\.(gif|jpe?g?|png|css|js|swf|html?)|var(.+)storage.pdf(.+)\.pdf)$">
 order allow,deny
 allow from all
 </FilesMatch>
@@ -49,6 +49,6 @@ RewriteRule ^design/standard/images/favicon\.ico - [L]
 #   More info here : http://en.wikipedia.org/wiki/P3p
 #RewriteRule ^p3p/(.+)\.xml - [L]
 
-RewriteRule !(\.(gif|jpe?g|png|css|js|swf|html?)|var(.+)storage.pdf(.+)\.pdf)$ index.php
+RewriteRule !(\.(gif|jpe?g?|png|css|js|swf|html?)|var(.+)storage.pdf(.+)\.pdf)$ index.php
 
 DirectoryIndex index.php
