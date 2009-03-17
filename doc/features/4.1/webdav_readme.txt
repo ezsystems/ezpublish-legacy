@@ -194,6 +194,15 @@ WebDAV operations are somehow limited in Internet Explorer, in such ways that
 you will not be able to click on a file to open it, but must instead drag it
 to a local folder and then open it.
 
+Another way to create a connection in Windows: map a drive letter (eg. Z:) to
+the WebDAV server by using the Add Network Place Wizard as above. On the first
+screen choose a drive letter and type **\\webdav.ezp\siteaccess** in the
+Folder text-box, then check "Connect using different credentials". You might
+be requested for the same credentials multiple times before seeing the
+contents of the WebDAV connection. The connection will appear as a drive
+in My Computer, and it must be disconnected by right-click on the My Computer
+icon, and choosing Disconnect Network Drive...
+
 
 Konqueror
 ---------
