@@ -1,0 +1,134 @@
+Language switcher
+=================
+
+Intro
+-----
+
+In eZ Publish 4.1, there is a new way to create links, which takes users to
+another translation siteaccess. This have previously been problematic where
+the URL has not been available in the selected translation siteaccess, because
+of differing translations
+
+The URLs used with the language switcher will have the following form
+(hereafter called language switcher URL).
+
+::
+
+    /switchlanguage/to/<destinationTranslationSiteaccess>/<nodeID|URLalias>
+                                                                           
+This feature will most often be used via the bundled module switchlanguage.
+This is an optimised way, since no work, translating node IDs and URL aliases
+into the destination language, is done before someone clicks on a language
+switcher link. This is something which has to be calculated per URL otherwise.
+
+Operation
+---------
+
+When a user clicks on a language switcher URL, the user is redirected to a
+URL, representing the destination siteaccess and the destination content. More
+often than not the destination content is the translated content originally
+being viewed, but there are some exceptions to how this works. Here is how:
+                                                 
+======================================= =============== =======================================
+Origin                                  Destination     Destination URL
+======================================= =============== =======================================
+Node                                    Translated node Translated URL alias
+Node with no available translation [#]_ Original node   Translation siteaccess, same URL Alias
+Module                                  Module          The URL is passed through for modules
+======================================= =============== =======================================
+
+.. [#] Nodes can still be viewable in the in other siteaccess. For instance
+       English content can be viewable in the Norwegian siteaccess if English
+       is in the prioritised languages.
+
+Deploying
+---------
+
+Using the language switcher tool, is simply a matter of creating links in the
+pattern shown above. The links are easy to create with the template language
+for instance.
+
+There is also another convenience method for creating language switcher URLs.
+This is created so that you should need minimal amount of logic in the
+templates for this. You can access this feature via the template operator,
+language_switcher(). See the next section how to configure this operator.
+
+The operator will return an array, indexed by siteaccess name containing a
+language switcher URL and a human readable text.
+
+Example from pagelayout:
+
+::
+
+    {def $translations = language_switcher( $module_result.content_info.node_id )}
+    {foreach $translations as $siteaccessName => $lang}
+
+    {*
+       Note we are not using the $siteaccessName index here, but useful
+       for matching against current siteaccess for instance
+    *}
+        <a href={$lang.url|ezurl}>{$lang.text|wash}</a>
+    {/foreach}
+
+The input to ``language_switcher( $var )`` can either be the node ID, the
+current URL alias or in the case of a module, just the request URL.
+
+Configuring
+-----------
+
+In order to make the language switcher easy to use within templates, we found
+it best to have some configuration done via settings. This is one of the most
+convenient places to define what are the translation siteaccess on the site,
+and this will allow the ``language_swither()`` operator to not use normal
+siteaccesses when creating the links automatically.
+
+Below is an example of how a setup can look like. The configuration snippet
+below is taken from site.ini.[RegionalSettings]
+::
+
+    # Example mapping between translation siteaccesses and the name to use for the
+    # language switcher link, e.g. the name which will be used when making links to
+    # these siteaccesses.
+    # Example: TranslationSA[<name of siteaccess>]=<name of language switcher link, pointing to this siteaccess>
+    TranslationSA[]
+    TranslationSA[eng]=English
+    TranslationSA[nor]=Norwegian
+    TranslationSA[fre]=French
+
+
+Override possibility
+--------------------
+
+Each site has a unique set of requirements. That is why the language switcher
+class can be fully overridden with a custom class.
+
+The class is configured at site.ini.[RegionalSettings].LanguageSwitcherClass.
+Out of the box this class is set to be ezpLanguageSwitcher.
+::
+
+    LanguageSwitcherClass=ezpLanguageSwitcher
+
+The implementation class needs to implement the ezpLanguageSwitcher interface.
+Please look up the documentation for this interface for more details.
+
+Extras
+------
+
+The language switcher feature provides one more convenience for template
+developers. Namely the ability to fetch the url alias of a node in a
+user-selected translation (locale). This is achieved via a template fetch
+function:
+::
+
+    {def $demo = fetch( 'switchlanguage', 'url_alias', hash( 'path', $node.url_alias, 'locale', 'nor-NO' ) )}
+
+The above example will give the URL alias for the Norwegian translation, if
+the URL alias cannot be fetched, or does not exist for the given translation,
+``false`` is returned.
+
+The full list of params are:
+::
+
+    fetch( 'switchlanguage', 'url_alias', hash( [ 'node_id',   <node_id>,  ]
+                                                [ 'path', <node_path> ] ) )
+
