@@ -7,6 +7,7 @@ eZ Online Editor 5.0 extension Changelog
 * Support for new handler code in eZ Publish 4.1
 * Updated tinyMCE to 3.2.2
 * Renamed ezoe_customattributes.ini to ezoe_attributes.ini since it is also used for attributes since rc9
+* enable inline table controls in gecko (table_inline_editing tinyMCE setting)
 
 5.0rc12
 * Fixed bug #14260: content.ini.[paragraph].AllowEmpty=false is ignored

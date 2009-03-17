@@ -95,6 +95,7 @@
         popup_css : {concat("stylesheets/skins/", $skin, "/dialog.css")|ezdesign},
         save_callback : "eZOeCleanUpEmbedTags",
         gecko_spellcheck : true,
+        table_inline_editing : true, // table edit controlls in gecko
         save_enablewhendirty : true,
         ez_root_url : {'/'|ezroot},
         ez_extension_url : {'/ezoe/'|ezurl},
