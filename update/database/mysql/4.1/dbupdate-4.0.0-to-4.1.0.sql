@@ -88,3 +88,7 @@ ALTER TABLE ezsession ADD COLUMN user_hash VARCHAR( 32 ) NOT NULL;
 ALTER TABLE ezpending_actions ADD COLUMN created int(11) DEFAULT NULL;
 
 ALTER TABLE ezpending_actions ADD INDEX ezpending_actions_created ( created );
+
+DROP TABLE ezimage;
+
+DROP TABLE ezimagevariation;
