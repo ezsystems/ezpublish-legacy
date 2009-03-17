@@ -230,7 +230,7 @@ class eZAutoloadGenerator
                 }
                 else
                 {
-                    mkdir( $targetBasedir, null, true );
+                    mkdir( $targetBasedir, 0777, true );
                 }
             }
 
@@ -244,6 +244,15 @@ class eZAutoloadGenerator
                  fwrite( $file, $data );
                  fwrite( $file, $this->dumpArrayEnd() );
                  fclose( $file );
+                 if ( defined( 'EZP_INI_FILE_PERMISSION' ) )
+                 {
+                    chmod( $filePath, EZP_INI_FILE_PERMISSION );
+                 }
+                 else
+                 {
+                    chmod( $filePath, 0777 );
+                 }
+                 
              }
              else
              {

@@ -15,3 +15,5 @@ Changes from 4.1.0rc1 to 4.1.0
 *Translations:
 
 *Bugfixes:
+- fixed issue #014596: Generating autoload file inside extension will fail on non-windows OS
+- fixed issue #014595: Generated autoload file for extensions are only writable by Apache
