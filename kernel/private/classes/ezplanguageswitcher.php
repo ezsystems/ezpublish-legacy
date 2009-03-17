@@ -13,7 +13,7 @@
 * This class will generate URLs for various siteaccess, and translate
 * URL-aliases into other languages as necessary.
 */
-class ezpLanguageSwitcher
+class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
 {
     protected $origUrl;
     protected $userParamString;
