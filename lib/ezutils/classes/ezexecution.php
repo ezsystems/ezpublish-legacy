@@ -206,6 +206,12 @@ class eZExecution
             header( 'Content-Type: text/html' );
 
             echo "An unexpected error has occurred. Please contact the webmaster.<br/>";
+
+            $ini = eZINI::instance( 'site.ini' );
+            if( $ini->variable( 'DebugSettings', 'DebugOutput' ) == 'enabled' )
+            {
+                echo $e->getMessage() , ' in ', $e->getFile(), ' on line ', $e->getLine();
+            }
         }
         else
         {
