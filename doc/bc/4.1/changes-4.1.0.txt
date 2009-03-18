@@ -160,6 +160,11 @@ Changes to method signatures
 Change of behaviour
 -------------------
 
+- eZDBInterface - constructor
+
+  An eZDBNoConnectionException exception will be thrown when a connection to the
+  database cannot be established (typically called from $db = eZDB::instance())
+
 - eZContentClass - __clone
 
   A clone of an instance of eZContentClass will have a new remote ID, while
