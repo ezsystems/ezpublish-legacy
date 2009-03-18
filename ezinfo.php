@@ -28,9 +28,11 @@ class ezoeInfo
 {
     static function info()
     {
+        $eZCopyrightString = 'Copyright (C) 1999-' . date('Y') . ' eZ Systems AS';
+
         return array( 'Name'      => 'eZ Online Editor',
                       'Version'   => '5.0.0',
-                      'Copyright' => 'Copyright (C) 1999-2009 eZ Systems AS',
+                      'Copyright' => $eZCopyrightString,
                       'License'   => 'GNU General Public License v2.0',
                       'Includes the following third-party software' => array( 'Name' => 'TinyMce Javascript HTML WYSIWYG editor',
                                                                               'Version' => '3.2.2',
@@ -38,7 +40,7 @@ class ezoeInfo
                                                                               'License' => 'GNU Lesser General Public License v2.1',),
                       'Includes the following library'              => array( 'Name' => 'eZ Core, tiny javascript library for ajax and stuff',
                                                                               'Version' => '0.96',
-                                                                              'Copyright' => 'Copyright (C) 1999-2009 eZ Systems AS',
+                                                                              'Copyright' => $eZCopyrightString,
                                                                               'License' => 'Licensed under the MIT License',),
                       'Includes the following third-party icons'    => array( 'Name' => 'Tango Icon theme',
                                                                               'Version' => '0.8.1',
