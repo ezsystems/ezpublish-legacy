@@ -9,6 +9,7 @@
                     'size', 'Size'|i18n('design/standard/ezoe'),
                     'view', 'View'|i18n('design/standard/ezoe'),
                     'inline', 'Inline'|i18n('design/standard/ezoe'),
+                    'name',   'Name'|i18n('design/standard/ezoe'),
                     'width', 'Width'|i18n('design/standard/ezoe'),
                     'border', 'Border'|i18n('design/standard/ezoe'),
                     'tag', 'Tag'|i18n('design/standard/ezoe'),
