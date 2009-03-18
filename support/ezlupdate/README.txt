@@ -50,7 +50,7 @@ Qt/embedded.
 
 Build instructions:
 
-cd support/lupdate-ezpublish3
+cd support/ezlupdate
 qmake ezlupdate.pro
 make
 
