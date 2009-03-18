@@ -1,4 +1,4 @@
-Changes from 4.0.0 to 4.1.0alpha1
+Changes from 4.0.0 to 4.1.0
 
 *Kernel:
 - Implemented enhancement #1823: A larger data_text field for workflow events
