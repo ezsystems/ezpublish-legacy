@@ -7,7 +7,7 @@
 // Gunnstein Lye <gl@ez.no>
 // Created on: <10-Dec-2002 18:46:17 gl>
 //
-// Copyright (C) 1999-2008 eZ Systems AS. All rights reserved.
+// Copyright (C) 1999-2009 eZ Systems AS. All rights reserved.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -177,7 +177,7 @@ int main( int argc, char **argv )
             QString language = argv[i];
             if ( localeRE.match( language ) == -1 )
             {
-                qFatal( "ERROR - Locale should be on the form aaa-AA. Examples: eng-GB, nor-NO" );
+                qFatal( "ERROR - Locale should be of the form aaa-AA. Examples: eng-GB, nor-NO" );
             }
             else
                 languages.append( language );

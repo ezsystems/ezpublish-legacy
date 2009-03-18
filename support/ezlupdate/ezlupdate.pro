@@ -4,7 +4,7 @@
 # Gunnstein Lye <gl@ez.no>
 # Created on: <9-December-2002 11:34:26 gl>
 #
-# Copyright (C) 1999-2008 eZ Systems AS. All rights reserved.
+# Copyright (C) 1999-2009 eZ Systems AS. All rights reserved.
 #
 
 PROJECT     = ezlupdate
