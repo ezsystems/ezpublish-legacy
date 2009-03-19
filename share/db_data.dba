@@ -13066,7 +13066,7 @@ keywords=cms, publish, e-commerce, content management, development framework',
       1 => 
       array (
         0 => 'ezpublish-version',
-        1 => '4.1.0',
+        1 => '4.2.0alpha1',
       ),
     ),
   ),
