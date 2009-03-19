@@ -53,7 +53,7 @@ extern void fetchtr_tpl( QFileInfo *fi, MetaTranslator *tor, bool mustExist, boo
 extern void merge( MetaTranslator *tor, const MetaTranslator *virginTor, bool verbose );
 
 static int verbose = 0;
-static QString version = "4.1.0"; // eZ Publish version plus local version
+static QString version = "4.1.1"; // eZ Publish version plus local version
 static QStringList dirs;          // Additional scan directories
 static bool extension = false;    // Extension mode
 static QDir extension_dir;        // Extension directory
