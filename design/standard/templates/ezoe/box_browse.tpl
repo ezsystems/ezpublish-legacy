@@ -1,18 +1,18 @@
-{default embed_mode         = true()
-         class_filter_array = array()
-         root_nodes         = array(
+{default box_embed_mode         = true()
+         box_class_filter_array = array()
+         box_root_nodes         = array(
             fetch('content', 'node', hash( 'node_id', ezini( 'NodeSettings', 'RootNode', 'content.ini' ) )),
             fetch('content', 'node', hash( 'node_id', ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) )),
             fetch('content', 'node', hash( 'node_id', ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) )) )
-         has_access         = fetch( 'user', 'has_access_to', hash( 'module', 'ezoe',
+         box_has_access         = fetch( 'user', 'has_access_to', hash( 'module', 'ezoe',
                                                                     'function', 'browse' ) )}
     <div class="panel" style="display: none; position: relative;">
         <div style="background-color: #eee; text-align: center">
-        {if $embed_mode}
+        {if $box_embed_mode}
             <a id="embed_browse_go_back_link" title="Go back" href="JavaScript:void(0);" style="float: right;"><img width="16" height="16" border="0" src={"tango/emblem-unreadable.png"|ezimage} /></a>
         {/if}
-    {if $has_access}
-        {foreach $root_nodes as $n}
+    {if $box_has_access}
+        {foreach $box_root_nodes as $n}
             <a href="JavaScript:eZOEPopupUtils.browse( {$n.node_id} )" style="font-weight: bold">{$n.name|shorten( 35 )}</a> &nbsp;
         {/foreach}
         {if and( is_set( $#object ), $#object.published )}

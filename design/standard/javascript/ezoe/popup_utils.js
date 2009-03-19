@@ -42,6 +42,10 @@ var eZOEPopupUtils = {
         editorElement: false,
         // event to call on init
         onInit: false,
+        // event to call after init
+        onInitDone : false,
+        // events to call after init
+        onInitDoneArray : [],
         // custom attribute to style map to be able to preview style changes
         customAttributeStyleMap: false,
         // set on init if no editorElement is present and selected text is without newlines
@@ -135,6 +139,11 @@ var eZOEPopupUtils = {
         }
         if ( s.onInitDone && s.onInitDone.call )
             s.onInitDone.call( eZOEPopupUtils, s.editorElement, s.tagName, ed );
+        if ( s.onInitDoneArray && s.onInitDoneArray.length )
+            ez.array.forEach( s.onInitDoneArray, function( fn ){
+                if ( fn && fn.call )
+                    fn.call( eZOEPopupUtils, s.editorElement, s.tagName, ed );
+            } );
     },
 
     save: function()

@@ -1,12 +1,12 @@
-{default embed_mode         = true()
-         class_filter_array = array()
-         has_access         = true()}
+{default box_embed_mode         = true()
+         box_class_filter_array = array()
+         box_has_access         = true()}
     <div class="panel" style="display: none; position: relative;">
         <div style="background-color: #eee; text-align: center">
-        {if $embed_mode}
+        {if $box_embed_mode}
             <a id="embed_bookmarks_go_back_link" title="Go back" href="JavaScript:void(0);" style="float: right;"><img width="16" height="16" border="0" src={"tango/emblem-unreadable.png"|ezimage} /></a>
         {/if}
-    {if $has_access}
+    {if $box_has_access}
         </div>
         <div id="bookmarks_progress" class="progress-indicator" style="display: none;"></div>
         <table class="node_datalist" id="bookmarks_box_prev">

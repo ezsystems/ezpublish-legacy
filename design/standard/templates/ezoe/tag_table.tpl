@@ -188,6 +188,13 @@ function tableSizeGridShowChange( rows, cols, save )
         </div>
 
     </div>
+
+{if is_set( $attribute_panel_output )}
+{foreach $attribute_panel_output as $attribute_panel_output_item}
+    {$attribute_panel_output_item}
+{/foreach}
+{/if}
+
     </div>
     </form>
 

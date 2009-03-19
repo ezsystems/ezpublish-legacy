@@ -250,6 +250,13 @@ function loadEmbedPreview( )
 
     <!-- div class="panel" id="crop_container" style="display: none;">
     </div -->
+
+{if is_set( $attribute_panel_output )}
+{foreach $attribute_panel_output as $attribute_panel_output_item}
+    {$attribute_panel_output_item}
+{/foreach}
+{/if}
+
 </div>
     </form>
 </div>

@@ -1,5 +1,12 @@
 eZ Online Editor 5.0 extension Changelog
 
+5.0.1
+* Fixed translation of anchor Name attribute
+* Implemented inline phpdoc for classes and functions
+* Fixed translation of link link-type and view selections
+* Implemented #14424: Improvements of list of link types
+
+
 5.0.0
 * Fixed regression #13650: [header] ezoe adds a level each time it is called
 * Added note on unsupported TinyMCE buttons/ extensions in FAQ + ezoe.ini

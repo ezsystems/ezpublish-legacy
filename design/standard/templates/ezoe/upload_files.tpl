@@ -155,11 +155,11 @@ if ( contentType === 'images' )
             {/if}
         </div>
 
-{include uri="design:ezoe/box_search.tpl" embed_mode=false() class_filter_array=$class_filter_array}
+{include uri="design:ezoe/box_search.tpl" box_embed_mode=false() box_class_filter_array=$class_filter_array}
 
-{include uri="design:ezoe/box_browse.tpl" embed_mode=false() class_filter_array=$class_filter_array}
+{include uri="design:ezoe/box_browse.tpl" box_embed_mode=false() box_class_filter_array=$class_filter_array}
 
-{include uri="design:ezoe/box_bookmarks.tpl" embed_mode=false()}
+{include uri="design:ezoe/box_bookmarks.tpl" box_embed_mode=false()}
 
 </div>
      </form>
