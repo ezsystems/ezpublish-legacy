@@ -474,16 +474,17 @@ class eZSession
             $ini = eZINI::instance();
             $sessionValidationString = '';
             $sessionValidationIpParts = (int) $ini->variable( 'Session', 'SessionValidationIpParts' );
-            if ( $sessionValidationIpParts )
+            if ( $sessionValidationIpParts && isset( $_SERVER['REMOTE_ADDR'] ) )
             {
-                $sessionValidationString .= self::getIpPart( $_SERVER['REMOTE_ADDR'], $sessionValidationIpParts );
+                $sessionValidationString .= '-' . self::getIpPart( $_SERVER['REMOTE_ADDR'], $sessionValidationIpParts );
             }
             $sessionValidationForwardedIpParts = (int) $ini->variable( 'Session', 'SessionValidationForwardedIpParts' );
-            if ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) && $sessionValidationForwardedIpParts )
+            if ( $sessionValidationForwardedIpParts && isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) )
             {
                 $sessionValidationString .= '-' . self::getIpPart( $_SERVER['HTTP_X_FORWARDED_FOR'], $sessionValidationForwardedIpParts );
             }
-            if ( $ini->variable( 'Session', 'SessionValidationUseUA' ) === 'enabled' )
+            $sessionValidationUAString = $ini->variable( 'Session', 'SessionValidationUseUA' ) === 'enabled';
+            if ( $sessionValidationUAString && isset( $_SERVER['HTTP_USER_AGENT'] ) )
             {
                 $sessionValidationString .= '-' . $_SERVER['HTTP_USER_AGENT'];
             }
