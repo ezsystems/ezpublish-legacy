@@ -1265,6 +1265,8 @@ class eZContentOperationCollection
         //call appropriate method from search engine
         eZSearch::updateObjectState($objectID, $selectedStateIDList);
 
+        eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
+
         return array( 'status' => true );
     }
 }
