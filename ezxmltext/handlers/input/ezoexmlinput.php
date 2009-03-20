@@ -188,6 +188,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 if ( $browserInfo[1] >= 522.0 )
                     self::$browserType = 'WebKit';
             }
+            // echo 'browserType: ' . var_export( self::$browserType, true ) . ' | ua string: ' . $userAgent;
         }
         return self::$browserType;
     }
