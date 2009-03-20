@@ -166,7 +166,7 @@ class eZFSFileHandler
      *
      * \public
      */
-    function fetch( $cacheLocally = false )
+    function fetch( $noLocalCache = false )
     {
         $filePath = $this->filePath;
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fetch( '$filePath' )" );
