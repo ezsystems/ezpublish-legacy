@@ -188,7 +188,8 @@ class eZOEXMLInput extends eZXMLInputHandler
                 if ( $browserInfo[1] >= 522.0 )
                     self::$browserType = 'WebKit';
             }
-            // echo 'browserType: ' . var_export( self::$browserType, true ) . ' | ua string: ' . $userAgent;
+            if ( self::$browserType === false )
+                eZDebug::writeNotice( 'Browser not supported: ' . $userAgent, __METHOD__ );
         }
         return self::$browserType;
     }
@@ -463,6 +464,15 @@ class eZOEXMLInput extends eZXMLInputHandler
                 $hideButtons[] = 'object';
                 $hideButtons[] = 'file';
                 $hideButtons[] = 'media';
+            }
+
+            // filter out align buttons on eZ Publish 4.0.x
+            if ( $this->eZPublishVersion < 4.1 )
+            {
+                $hideButtons[] = 'justifyleft';
+                $hideButtons[] = 'justifycenter';
+                $hideButtons[] = 'justifyright';
+                $hideButtons[] = 'justifyfull';
             }
              
             foreach( $editorLayoutSettings['buttons'] as $button )

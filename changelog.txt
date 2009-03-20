@@ -5,6 +5,7 @@ eZ Online Editor 5.0 extension Changelog
 * Implemented inline phpdoc for classes and functions
 * Fixed translation of link link-type and view selections
 * Implemented #14424: Improvements of list of link types
+* Enable sub / sup / justify buttons by default and disable justify buttons on 4.0.x
 
 
 5.0.0
