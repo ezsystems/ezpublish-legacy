@@ -15,3 +15,4 @@ Changes from 4.1.0 to 4.2.0alpha1
 *Translations:
 
 *Bugfixes:
+- Fixed bug #14622: role & group session cache is not correctly cleaned on login in 4.1
