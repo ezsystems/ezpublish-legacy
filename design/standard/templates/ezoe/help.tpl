@@ -1,9 +1,9 @@
 {set scope=global persistent_variable=hash('title', 'Help'|i18n('design/standard/ezoe'),
-                                           'scripts', array('javascript/ezoe/ez_core.js',
-                                                            'javascript/ezoe/ez_core_animation.js',
-                                                            'javascript/ezoe/ez_core_accordion.js',
-                                                            'javascript/ezoe/popup_utils.js',
-                                                            'javascript/themes/ez/js/about.js'),
+                                           'scripts', array('ezoe/ez_core.js',
+                                                            'ezoe/ez_core_animation.js',
+                                                            'ezoe/ez_core_accordion.js',
+                                                            'ezoe/popup_utils.js',
+                                                            'themes/ez/js/about.js'),
                                            'css', array('stylesheets/skins/o2k7/ui.css')
                                            )}
 <script type="text/javascript">

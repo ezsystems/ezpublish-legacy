@@ -3,17 +3,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
     <title>{$module_result.persistent_variable.title}</title>
-<script type="text/javascript" src={"javascript/tiny_mce_popup.js"|ezdesign}></script>
-<script type="text/javascript" src={"javascript/ezoe/popup_validate.js"|ezdesign}></script>
 
 {def $skin = ezini('EditorSettings', 'Skin', 'ezoe.ini',,true() )}
 
 {if $module_result.persistent_variable.scripts}
-{foreach $module_result.persistent_variable.scripts as $script}
-    <script type="text/javascript" src={$script|ezdesign}></script>
-
-{/foreach}
+    {ezoescript( array( 'tiny_mce_popup.js', 'ezoe/popup_validate.js', $module_result.persistent_variable.scripts ) )}
+{else}
+    {ezoescript( array( 'tiny_mce_popup.js', 'ezoe/popup_validate.js' ) )}
 {/if}
+
 <style type="text/css">
 <!--
 {literal}

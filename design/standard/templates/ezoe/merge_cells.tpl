@@ -1,6 +1,6 @@
 {set scope=global persistent_variable=hash('title', "Merge table cells"|i18n('design/standard/ezoe'),
-                                           'scripts', array('javascript/ezoe/ez_core.js',
-                                                            'javascript/ezoe/popup_utils.js'),
+                                           'scripts', array('ezoe/ez_core.js',
+                                                            'ezoe/popup_utils.js'),
                                            'css', array()
                                            )}
 <script type="text/javascript">

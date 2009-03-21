@@ -147,29 +147,20 @@ var ezoeLinkAttribute = {
     namePreview : function( name )
     {
         var info = ez.$('link_href_source_info');
-        info.el.innerHTML = name === undefined ? '' : (name ? name : 'Id not valid!');
+{/literal}
+        info.el.innerHTML = name === undefined ? '' : (name ? name : "{'Id not valid!'|i18n('design/standard/ezoe')}" );
+{literal}
         info.el.style.border = name === undefined ? '' : (name ? '1px solid green' : '1px solid red');
     },
     typeSet : function( source, types )
     {
-         if ( source.el.value.indexOf('eznode:') === 0 )
-            types.el.value = 'eznode://';
-        else if ( source.el.value.indexOf('ezobject:') === 0 )
-            types.el.value = 'ezobject://';
-        else if ( source.el.value.indexOf('file:') === 0 )
-            types.el.value = 'file://';
-        else if ( source.el.value.indexOf('ftp:') === 0 )
-            types.el.value = 'ftp://';
-        else if ( source.el.value.indexOf('http:') === 0 )
-            types.el.value = 'http://';
-        else if ( source.el.value.indexOf('https:') === 0 )
-            types.el.value = 'https://';
-        else if ( source.el.value.indexOf('mailto:') === 0 )
-            types.el.value = 'mailto:';
-        else if ( source.el.value.indexOf('#') === 0 )
-            types.el.value = '#';
-        else if ( source.el.value !== '' )
-            types.el.value = '';
+        var selectedValue = '', sourceValue = source.el.value, options = types.el.options;
+        for ( var i = 0, l = options.length; i < l; i++ )
+        {
+            if ( options[i].value !== '' && sourceValue.indexOf( options[i].value ) === 0 )
+                selectedValue = options[i].value;
+        }
+        types.el.value = selectedValue;
     }
 };
 

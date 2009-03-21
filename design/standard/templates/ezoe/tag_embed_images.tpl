@@ -1,8 +1,8 @@
 {set scope=global persistent_variable=hash('title', 'New %tag_name tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', concat('&lt;', $tag_name_alias, '&gt;') )),
-                                           'scripts', array('javascript/ezoe/ez_core.js',
-                                                            'javascript/ezoe/ez_core_animation.js',
-                                                            'javascript/ezoe/ez_core_accordion.js',
-                                                            'javascript/ezoe/popup_utils.js'),
+                                           'scripts', array('ezoe/ez_core.js',
+                                                            'ezoe/ez_core_animation.js',
+                                                            'ezoe/ez_core_accordion.js',
+                                                            'ezoe/popup_utils.js'),
                                            'css', array()
                                            )}
 
