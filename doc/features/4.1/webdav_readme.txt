@@ -63,7 +63,9 @@ In the examples it is assumed that the WebDAV host name is **webdav.ezp**.
 Bitkinex
 --------
 
-Supported.
+Supported. As Microsoft Windows sometimes does not encode UTF-8 characters in
+filenames properly, be cautious using filenames containing Chinese or Japanese
+characters because it might lead to strange characters appearing in filenames.
 
 
 Configuration
@@ -130,15 +132,11 @@ In the Finder menu, use the option Go->Connect to Server..., where you enter
 Internet Explorer
 -----------------
 
-Partially supported. Uploading a file to an empty directory by dragging the
-file to the opened directory does not work, instead you must drag the file to
-the directory while being in the directory structure one level lower (eg. do
-not open /plain_site_user/Content/folder, but instead open
-/plain_site_user/Content and drag the file to the "folder" directory. In some
-versions of Windows (eg. Windows 7) it is not possible to see the contents of
-folders with Windows Explorer, but with using other file management software
-(so-called Explorer-replacements) this is possible.
+Partially supported.
 
+As Microsoft Windows sometimes does not encode UTF-8 characters in filenames
+properly, be cautious using filenames containing Chinese or Japanese
+characters because it might lead to 0 bytes files on the server.
 
 Configuration
 '''''''''''''
