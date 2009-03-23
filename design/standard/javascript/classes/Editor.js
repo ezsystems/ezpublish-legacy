@@ -1,5 +1,5 @@
 /**
- * $Id: Editor.js 1045 2009-03-04 20:03:18Z spocke $
+ * $Id: Editor.js 1054 2009-03-10 19:03:15Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -780,7 +780,7 @@
 			s.content_document = s.content_window = null;
 
 			DOM.hide(e);
-			e.contentEditable = true;
+			e.contentEditable = t.getParam('content_editable_state', true);
 			DOM.show(e);
 
 			if (!s.gecko_spellcheck)

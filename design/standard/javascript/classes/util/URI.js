@@ -1,5 +1,5 @@
 /**
- * $Id: URI.js 994 2009-02-05 18:50:43Z spocke $
+ * $Id: URI.js 1054 2009-03-10 19:03:15Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -27,7 +27,7 @@
 			s = t.settings = s || {};
 
 			// Strange app protocol or local anchor
-			if (/^(mailto|news|javascript|about):/i.test(u) || /^\s*#/.test(u)) {
+			if (/^(mailto|tel|news|javascript|about):/i.test(u) || /^\s*#/.test(u)) {
 				t.source = u;
 				return;
 			}

@@ -7,6 +7,7 @@ eZ Online Editor 5.0 extension Changelog
 * Implemented #14424: Improvements of list of link types
 * Enable sub / sup / justify buttons by default and disable justify buttons on 4.0.x
 * Pack javascript files used in dialogs to spped up the dialogs a bit
+* Updated tinyMCE to 3.2.2.1
 
 
 5.0.0

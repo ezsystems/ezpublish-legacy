@@ -1,5 +1,5 @@
 /**
- * $Id: Selection.js 1049 2009-03-04 21:12:10Z spocke $
+ * $Id: Selection.js 1057 2009-03-16 09:14:39Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -486,19 +486,24 @@
 		select : function(n, c) {
 			var t = this, r = t.getRng(), s = t.getSel(), b, fn, ln, d = t.win.document;
 
-			function first(n) {
-				return n ? d.createTreeWalker(n, NodeFilter.SHOW_TEXT, null, false).nextNode() : null;
-			};
+			function find(n, start) {
+				var walker, o;
 
-			function last(n) {
-				var c, o, w;
+				if (n) {
+					walker = d.createTreeWalker(n, NodeFilter.SHOW_TEXT, null, false);
 
-				if (!n)
-					return null;
+					// Find first/last non empty text node
+					while (n = walker.nextNode()) {
+						o = n;
 
-				w = d.createTreeWalker(n, NodeFilter.SHOW_TEXT, null, false);
-				while (c = w.nextNode())
-					o = c;
+						if (tinymce.trim(n.nodeValue).length != 0) {
+							if (start)
+								return n;
+							else
+								o = n;
+						}
+					}
+				}
 
 				return o;
 			};
@@ -521,8 +526,8 @@
 				}
 			} else {
 				if (c) {
-					fn = first(n) || t.dom.select('br:first', n)[0];
-					ln = last(n) || t.dom.select('br:last', n)[0];
+					fn = find(n, 1) || t.dom.select('br:first', n)[0];
+					ln = find(n, 0) || t.dom.select('br:last', n)[0];
 
 					if (fn && ln) {
 						r = d.createRange();
@@ -713,7 +718,7 @@
 				n = sb;
 
 				while ((n = n.nextSibling) && n != eb) {
-					if (isBlock(n))
+					if (dom.isBlock(n))
 						bl.push(n);
 				}
 			}
