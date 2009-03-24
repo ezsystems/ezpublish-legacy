@@ -23,3 +23,5 @@ Changes from 4.1.0 to 4.2.0alpha1
   # Also clear soap.ini cache after loading new siteaccess and extensions
 - Fixed bug #14640: Php 4.4 mentioned in php version check in installer
 - Fixed bug #14628: Check that required eZ Components are installed during setup wizard
+- Fixed bug #14609 Allow eZSession to read session from post variable for flash requests to work on firefox
+  # Use post before cookie, flash appends cookie if it has one even if the session might be invalid for the current user.
