@@ -113,8 +113,6 @@ function eZUpdateTextCodecSettings()
 // Initialize text codec settings
 eZUpdateTextCodecSettings();
 
-$db = eZDB::instance();
-
 // Initialize module loading
 $moduleRepositories = eZModule::activeModuleRepositories();
 eZModule::setGlobalPathList( $moduleRepositories );
