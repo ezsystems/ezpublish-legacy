@@ -60,7 +60,8 @@ function eZSetupTestTable()
                   'execution_time' => array( 'eZSetupTestExecutionTime' ),
                   'allow_url_fopen' => array( 'eZSetupTestAllowURLFOpen' ),
                   'accept_path_info' => array( 'eZSetupTestAcceptPathInfo' ),
-                  'timezone' => array( 'eZSetupTestTimeZone' ) );
+                  'timezone' => array( 'eZSetupTestTimeZone' ),
+                  'ezcversion' => array( 'eZSetupTestComponentsVersion' ) );
 }
 
 function eZSetupConfigVariable( $type, $name )
@@ -269,6 +270,40 @@ function eZSetupCheckMagicQuotes( $type )
     return array( 'result' => $result,
                   'persistent_data' => array( 'result' => array( 'value' => $result ) ) );
 }
+
+/*!
+    Test if eZ Components version is greater than required version
+    This is currently done by checking existence of class and function
+    aince ezc does not have an api to get version information atm.
+*/
+function eZSetupTestComponentsVersion( $type )
+{
+    $minVersion = eZSetupConfigVariable( $type, 'MinimumVersion' );
+    $testClass = eZSetupConfigVariable( $type, 'TestClass' );
+    $testFunction = eZSetupConfigVariable( $type, 'TestFunction' );
+    $result = true;
+    $ezcExists = true;
+
+    if ( $testClass && class_exists( $testClass ) )
+    {
+        if ( $testFunction && !is_callable( array( $testClass, $testFunction ) ) )
+        {
+            $result = false;
+        }
+    }
+    else if ( $testClass )
+    {
+        $result = false;
+        $ezcExists = false;
+    }
+
+    return array( 'result' => $result,
+                  'persistent_data' => array( 'result' => array( 'value' => $result ),
+                                              'required' => array( 'value' => $minVersion ) ),
+                  'needed_version' => $minVersion,
+                  'class_exists' => !$ezcExists );
+}
+
 
 /*!
     Test if PHP version is equal or greater than required version
