@@ -16,7 +16,7 @@
   {"Your PHP version, which is "|i18n("design/standard/setup/tests")}{$current_version}{", does not meet the minimum requirements of"|i18n("design/standard/setup/tests")} {$required_version}.
   <p>
    {"A newer version of PHP can be download at"|i18n("design/standard/setup/tests")} <a target="_other" href="http://www.php.net">php.net</a>.
-   {"You must upgrade to at least version "|i18n("design/standard/setup/tests")}{$required_version}{", but the latest released PHP 4.4.x version is highly recommended."|i18n("design/standard/setup/tests")}
+   {"You must upgrade to at least version "|i18n("design/standard/setup/tests")}{$required_version}{", but the latest released stable PHP version is always recommended."|i18n("design/standard/setup/tests")}
   </p>
 {/section}
 
