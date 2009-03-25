@@ -28,3 +28,4 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #14033: has_content of an eZInteger attribute is always true
 - Fixed bug #14663: has_content of an eZFloat attribute is always true
 - Fixed bug #14662: kernel override autoload
+- Fixed bug #14643: eZFSFileHandler: wrong var in debug output
