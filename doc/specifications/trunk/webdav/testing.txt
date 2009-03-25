@@ -73,9 +73,11 @@ Regression test system
 The unit tests reside in tests/tests/kernel/private/webdav.
 
 The file backend_content_regression_test.php contains the test class
-eZWebDAVContentBackendRegressionTest which extends ezcTestRegressionTest. This
-class is in the trunk of eZ Components, and it is not present in PEAR
-installations or in the released packages.
+eZWebDAVContentBackendRegressionTest which extends ezpTestRegressionTest.
+
+The WebDAV tests make use of the extension ezsiteaccesshelper
+(http://svn.ez.no/svn/commercial/projects/qa/trunk/ezsiteaccesshelper/)
+which is used to create a siteaccess for the tests.
 
 The normal webdav.php of the eZ Publish installation is NOT used. Instead
 the code is duplicated in backend_content_regression_test.php.
@@ -118,8 +120,9 @@ between different test machines). These special strings are:
 
   @ezc_siteaccess@
     The siteaccess defined in site.ini and which is used as the base of the
-	WebDAV tests. Change this in the setUp() function in the file
-    backend_content_regression_test.php, value $GLOBALS['ezc_siteaccess'].
+    WebDAV tests. This is the name of the test class in lowercase
+    (**ezwebdavbackendcontentregressiontest**). This siteaccess is created
+    automatically when the tests are run.
 
   @ezc_webdav_host@
     The host of the WebDAV machine the tests are running on. Usually it is
@@ -170,8 +173,9 @@ Each .request file can make use of some global variables in the test:
 
   $GLOBALS['ezc_siteaccess']
     The siteaccess defined in site.ini and which is used as the base of the
-	WebDAV tests. Change this in the setUp() function in the file
-    backend_content_regression_test.php, value $GLOBALS['ezc_siteaccess'].
+	WebDAV tests. This is the name of the test class in lowercase
+    (**ezwebdavbackendcontentregressiontest**). This siteaccess is created
+    automatically when the tests are run.
 
   $GLOBALS['ezc_webdav_host']
     The host of the WebDAV machine the tests are running on. Usually it is
@@ -239,7 +243,6 @@ The server variables will be set directly in the .request files:
 Change these values in backend_content_regression_test.php in the setUp()
 function to make the tests work on another machine::
 
-  $GLOBALS['ezc_siteaccess'] = 'plain_site_user';
   $GLOBALS['ezc_webdav_username'] = 'admin';
   $GLOBALS['ezc_webdav_password'] = 'publish';
   $GLOBALS['ezc_webdav_host'] = 'webdav.ezp';

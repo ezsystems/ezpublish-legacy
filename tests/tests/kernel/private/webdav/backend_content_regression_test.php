@@ -9,6 +9,26 @@
 
 require_once( 'wrappers.php' );
 
+/**
+ * Main test class for WebDAV tests.
+ *
+ * Read doc/features/specifications/trunk/webdav/testing.txt for information
+ * about the WebDAV tests and what is needed to make them work on another
+ * machine.
+ *
+ * This class requires the extension eZSiteAccessHelper
+ * {@link http://svn.ez.no/svn/commercial/projects/qa/trunk/ezsiteaccesshelper/}.
+ *
+ * In the constructor:
+ * - ./siteaccess/site.ini.append.php.replace is copied over site.ini.append.php,
+ *   with certain values replaced dynamically (@ezc_siteaccess@ and
+ *   @ezc_webdav_database@)
+ * - the extension ezsiteaccesshelper is called to create the siteaccess with
+ *   the same name as this class (in lowercase), and it will copy the site.ini.append.php
+ *   file to the ezp/siteaccess/@ezc_siteaccess@ folder
+ * - the extension ezsiteaccesshelper is called to enable the created siteaccess
+ *   in ezp/siteaccess/override/site.ini.append.php
+ */
 class eZWebDAVBackendContentRegressionTest extends ezpTestRegressionTest
 {
     /**
@@ -24,6 +44,56 @@ class eZWebDAVBackendContentRegressionTest extends ezpTestRegressionTest
      */
     public function __construct()
     {
+        $siteaccess = strtolower( __CLASS__ );
+
+        if ( ezcBaseFeatures::classExists( 'eZSiteAccessHelper', true ) )
+        {
+            require_once( 'siteaccesscreator.php' );
+
+            // - ./siteaccess/site.ini.append.php.replace is copied over site.ini.append.php,
+            //   with certain values replaced dynamically (@ezc_siteaccess@ and
+            //   @ezc_webdav_database@)
+            // - the extension ezsiteaccesshelper is called to create the siteaccess with
+            //   the same name as this class (in lowercase), and it will copy the site.ini.append.php
+            //   file to the ezp/siteaccess/@ezc_siteaccess@ folder
+            // - the extension ezsiteaccesshelper is called to enable the created siteaccess
+            //   in ezp/siteaccess/override/site.ini.append.php
+            $replace = array();
+            $replace['@ezc_siteaccess@'] = $siteaccess;
+            $replace['@ezc_webdav_database@'] = ezpTestRunner::dsn()->database;
+
+            $templateDir = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'siteaccess';
+
+            try
+            {
+                // replace @ezc_siteaccess@ and @ezc_webdav_database@ in site.ini.append.php
+                // with respective values
+                $contents = file_get_contents( $templateDir . DIRECTORY_SEPARATOR . 'site.ini.append.php.replace' );
+                if ( count( $replace ) > 0 )
+                {
+                    foreach ( $replace as $key => $replacement )
+                    {
+                        $contents = str_replace( $key, $replacement, $contents );
+                    }
+                }
+
+                file_put_contents( $templateDir . DIRECTORY_SEPARATOR . 'site.ini.append.php', $contents );
+
+                ezpSiteAccessCreator::$docRoot = eZSys::rootDir() . DIRECTORY_SEPARATOR;
+                ezpSiteAccessCreator::createSiteAccess( $siteaccess, $templateDir );
+            }
+            catch ( Exception $e )
+            {
+                // eZSiteAccessHelper::createSiteAccess throws an exception
+                // if the siteaccess exists already
+                // var_dump( $e->getMessage() );
+            }
+        }
+        else
+        {
+            die ( "The WebDAV test suite requires the extension eZSiteAccessHelper in order to create a siteaccess.\n" );
+        }
+
         $basePath = dirname( __FILE__ ) . '/regression';
 
         $this->readDirRecursively( $basePath, $this->files, 'request' );
@@ -39,11 +109,13 @@ class eZWebDAVBackendContentRegressionTest extends ezpTestRegressionTest
         // Call the setUp() in ezpDatabaseTestCase
         parent::setUp();
 
-        // Set various variables used in the tests to default values
-        $GLOBALS['ezc_siteaccess'] = 'plain_site_user';
+        // Set these to your own values
+        // @todo get these values automatically from somewhere (how to get the password?)
         $GLOBALS['ezc_webdav_username'] = 'admin';
         $GLOBALS['ezc_webdav_password'] = 'publish';
         $GLOBALS['ezc_webdav_host'] = 'webdav.ezp';
+
+        // A compound value from the above
         $GLOBALS['ezc_webdav_url'] = 'http://' . $GLOBALS['ezc_webdav_host'] . '/';
 
         // Set some server variables (not all of them are needed)
@@ -59,11 +131,26 @@ class eZWebDAVBackendContentRegressionTest extends ezpTestRegressionTest
         $GLOBALS['ezc_webdav_testfolderid'] = null;
 
         // Not sure if these 2 values are needed
-        $_SERVER['SCRIPT_FILENAME'] = '/home/as/dev/work/http/ezp/trunk/index.php';
-        $_SERVER['DOCUMENT_ROOT'] = '/home/as/dev/work/http/ezp/trunk';
+        $_SERVER['SCRIPT_FILENAME'] = eZSys::rootDir() . DIRECTORY_SEPARATOR . 'index.php';
+        $_SERVER['DOCUMENT_ROOT'] = eZSys::rootDir();
 
-        // Not sure if this value is needed
-        $GLOBALS['eZSiteBasics']['session-required'] = false;
+        $GLOBALS['ezc_siteaccess'] = strtolower( __CLASS__ );
+
+        // Remove the siteaccess from settings/override/site.ini.append.php
+        // in case it already exists
+        try
+        {
+            ezpSiteAccessCreator::disableSiteAccess( $GLOBALS['ezc_siteaccess'] );
+        }
+        catch ( ezsahINIVariableNotSetException $e )
+        {
+            // eZSiteAccessHelper::disableSiteAccess throws an exception
+            // if the siteaccess does not exist already in
+            // settings/override/site.ini.append.php
+        }
+
+        // Add the siteaccess to settings/override/site.ini.append.php
+        ezpSiteAccessCreator::enableSiteAccess( $GLOBALS['ezc_siteaccess'] );
     }
 
     /**
@@ -71,13 +158,25 @@ class eZWebDAVBackendContentRegressionTest extends ezpTestRegressionTest
      */
     public function tearDown()
     {
+        // Remove the siteaccess from settings/override/site.ini.append.php
+        // in case a test fails
+        try
+        {
+            ezpSiteAccessCreator::disableSiteAccess( $GLOBALS['ezc_siteaccess'] );
+        }
+        catch ( ezsahINIVariableNotSetException $e )
+        {
+            // eZSiteAccessHelper::disableSiteAccess throws an exception
+            // if the siteaccess does not exist already in
+            // settings/override/site.ini.append.php
+        }
+
         // Remove the created folder if it exists
         if ( $GLOBALS['ezc_webdav_testfolderobject'] !== null )
         {
             $GLOBALS['ezc_webdav_testfolderobject']->remove();
             $GLOBALS['ezc_webdav_testfolderobject'] = null;
         }
-
     }
 
     /**
