@@ -149,16 +149,11 @@
                 node.innerHTML = '';
         });
 
-        // fix anchor only urls on IE (it adds the current url before the anchor)
-        // and since the current url is content/edit/something, it is highly
-        // unlikly that any ones links to it..
+        // fix link cleanup issues in IE 6 / 7 (it adds the current url before the anchor and invalid urls)
+        var currenthost = document.location.protocol + '//' + document.location.host;
         ez.array.forEach( body.getElementsByTagName('a'), function( node ){
-            if ( node && node.href.indexOf('#') > 0 )
-            {
-                var links = node.href.split('#'), loc = document.location.href;
-                if ( (links[0].length >= loc.length - 7) && loc.indexOf( links[0] ) === 0 )
-                    node.href = '#' + links[1];
-            }
+            if ( node.href.indexOf( currenthost ) === 0 && node.getAttribute('mce_href') != node.href )
+                node.href = node.getAttribute('mce_href');
         });
         return body.innerHTML;
     }

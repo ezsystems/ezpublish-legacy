@@ -1497,6 +1497,8 @@ class eZOEXMLInput extends eZXMLInputHandler
                 }
 
                 $attributes[] = 'href="' . $href . '"';
+                // Also set mce_href for use by OE to make sure href attribute is not messed up by IE 6 / 7
+                $attributes[] = 'mce_href="' . $href . '"';
                 if ( $target != '' )
                 {
                     $attributes[] = 'target="' . $target . '"';
