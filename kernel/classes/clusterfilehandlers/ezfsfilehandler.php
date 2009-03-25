@@ -680,7 +680,7 @@ class eZFSFileHandler
         $dirs = implode( ',', $dirList );
         $wildcard = $commonPath .'/{' . $dirs . '}/' . $commonSuffix . '*';
 
-        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileDeleteByDirList( '$dirList', '$commonPath', '$commonSuffix' )" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileDeleteByDirList( '$dirs', '$commonPath', '$commonSuffix' )" );
 
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
         array_map( 'unlink', eZSys::globBrace( $wildcard ) );
