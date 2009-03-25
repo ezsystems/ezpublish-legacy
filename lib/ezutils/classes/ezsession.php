@@ -385,14 +385,13 @@ class eZSession
         }
 
         // See if user has session, used to avoid reading from db if no session.
-        $http = eZHTTPTool::instance();
-        if ( $http->hasPostVariable( $sessionName ) && $http->hasPostVariable( 'UserSessionHash' ) )
+        if ( isset( $_POST[ $sessionName ] ) && isset( $_POST[ 'UserSessionHash' ] ) )
         {
-            // First look for session id in post params and us it (for use in flash upload)  
-            session_id( $http->postVariable( $sessionName ) );
+            // First use session id from post params (for use in flash upload)  
+            session_id( $_POST[ $sessionName ] );
             self::$hasSessionCookie = true;
             // allow verification of user hash if client is different ua then actual session client
-            self::$userSessionHash = $http->postVariable( 'UserSessionHash' );
+            self::$userSessionHash = $_POST[ 'UserSessionHash' ];
         }
         else
         {
