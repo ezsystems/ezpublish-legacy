@@ -88,7 +88,7 @@ class ezpAutoloader
             if ( defined( 'EZP_AUTOLOAD_ALLOW_KERNEL_OVERRIDE' ) and EZP_AUTOLOAD_ALLOW_KERNEL_OVERRIDE )
             {
                 $ezpKernelOverrideClasses = require 'var/autoload/ezp_override.php';
-                self::$ezpClasses = array_merge( $ezpClasses, $ezpKernelOverrideClasses );
+                self::$ezpClasses = array_merge( self::$ezpClasses, $ezpKernelOverrideClasses );
             }
         }
 
