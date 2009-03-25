@@ -16,7 +16,6 @@ Changes from 4.1.0 to 4.2.0alpha1
 *Translations:
 
 *Bugfixes:
-- Fixed bug #14033: has_content of an eZInteger attribute is always true
 - Fixed bug #14622: role & group session cache is not correctly cleaned on login in 4.1
 - Fixed bug #14627: Setting object states and view cache
 - Fixed bug #14625: Undefined index: HTTP_USER_AGENT in ezsession.php
@@ -26,3 +25,5 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #14628: Check that required eZ Components are installed during setup wizard
 - Fixed bug #14609 Allow eZSession to read session from post variable for flash requests to work on firefox
   # Use post before cookie, flash appends cookie if it has one even if the session might be invalid for the current user.
+- Fixed bug #14033: has_content of an eZInteger attribute is always true
+- Fixed bug #14663: has_content of an eZFloat attribute is always true
