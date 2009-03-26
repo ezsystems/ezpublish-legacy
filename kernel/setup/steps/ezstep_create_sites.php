@@ -621,7 +621,7 @@ class eZStepCreateSites extends eZStepInstaller
         */
 
         // Add a policy to permit editors using OE
-        eZPolicy::createNew( 3, array( 'ModuleName' => 'ezdhtml', 'FunctionName' => '*' ) );
+        eZPolicy::createNew( 3, array( 'ModuleName' => 'ezoe', 'FunctionName' => '*' ) );
 
         // Install site package and it's required packages
         $sitePackageName = $this->chosenSitePackage();
