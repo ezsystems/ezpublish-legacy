@@ -1,7 +1,7 @@
 var tinymce = {
 	majorVersion : '3',
-	minorVersion : '2.2.1',
-	releaseDate : '2009-03-19',
+	minorVersion : '2.2.2',
+	releaseDate : '2009-03-25',
 
 	_init : function() {
 		var t = this, d = document, w = window, na = navigator, ua = na.userAgent, i, nl, n, base, p, v;
@@ -1531,7 +1531,8 @@ tinymce.create('static tinymce.util.XHR', {
 
 				r = r.parentNode;
 
-				if (r == d.body)
+				// No node type or document type
+				if (!r.nodeType || r.nodeType == 9)
 					break;
 			}
 
@@ -12803,6 +12804,7 @@ var tinyMCE = window.tinyMCE = tinymce.EditorManager;
 		if (ed.settings.custom_undo_redo) {
 			ed.undoManager.undo();
 			ed.nodeChanged();
+			return true;
 		}
 
 		return false; // Run browser command
@@ -12814,6 +12816,7 @@ var tinyMCE = window.tinyMCE = tinymce.EditorManager;
 		if (ed.settings.custom_undo_redo) {
 			ed.undoManager.redo();
 			ed.nodeChanged();
+			return true;
 		}
 
 		return false; // Run browser command
