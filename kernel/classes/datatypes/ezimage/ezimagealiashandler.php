@@ -1303,6 +1303,7 @@ class eZImageAliasHandler
                 }
                 else
                 {
+                    $infoItem = iconv( mb_detect_encoding( $infoItem ), 'UTF-8//IGNORE', $infoItem );
                     $imageInfoNode->setAttribute( $infoItemName, $infoItem );
                 }
             }
