@@ -78,7 +78,7 @@ class eZMySQLiDB extends eZDBInterface
         /// Connect to master server
         if ( !is_object( $this->DBWriteConnection ) )
         {
-            $connection = $this->connect( $this->Server, $this->DB, $this->User, $this->Password, $this->SocketPath, $this->Charset );
+            $connection = $this->connect( $this->Server, $this->DB, $this->User, $this->Password, $this->SocketPath, $this->Charset, $this->Port );
             if ( $this->IsConnected )
             {
                 $this->DBWriteConnection = $connection;
@@ -90,7 +90,7 @@ class eZMySQLiDB extends eZDBInterface
         {
             if ( $this->UseSlaveServer === true )
             {
-                $connection = $this->connect( $this->SlaveServer, $this->SlaveDB, $this->SlaveUser, $this->SlavePassword, $this->SocketPath, $this->Charset );
+                $connection = $this->connect( $this->SlaveServer, $this->SlaveDB, $this->SlaveUser, $this->SlavePassword, $this->SocketPath, $this->Charset, $this->SlavePort );
             }
             else
             {
