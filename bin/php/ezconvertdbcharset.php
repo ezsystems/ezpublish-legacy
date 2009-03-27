@@ -227,10 +227,10 @@ function parseXMLAttributesOption( $xmlAttributesOption )
 
     $xmlAttributesInfo = array();
 
-    $xmlAttributesOption = split( ',', $xmlAttributesOption );
+    $xmlAttributesOption = explode( ',', $xmlAttributesOption );
     foreach ( $xmlAttributesOption as $attributeTableInfoOption )
     {
-        $attributeTableInfo = split( '\.', $attributeTableInfoOption );
+        $attributeTableInfo = explode( '.', $attributeTableInfoOption );
         switch ( count( $attributeTableInfo ) )
         {
             case 1:
@@ -270,10 +270,10 @@ function parseCustomXMLDataOption( $xmlCustomDataOption )
 
     $xmlCustomDataInfo = array();
 
-    $xmlCustomDataOption = split( ',', $xmlCustomDataOption );
+    $xmlCustomDataOption = explode( ',', $xmlCustomDataOption );
     foreach ( $xmlCustomDataOption as $tableInfoOption )
     {
-        $tableInfo = split( '\.', $tableInfoOption );
+        $tableInfo = explode( '.', $tableInfoOption );
         switch ( count( $tableInfo ) )
         {
             case 2:
@@ -308,17 +308,17 @@ function parseCustomSerializedDataOption( $serializedCustomDataOption )
 
     $serializedDataInfo = array();
 
-    $serializedCustomDataOption = split( ',', $serializedCustomDataOption );
+    $serializedCustomDataOption = explode( ',', $serializedCustomDataOption );
     foreach ( $serializedCustomDataOption as $tableInfoOption )
     {
-        $tableInfo = split( '\;', $tableInfoOption );
+        $tableInfo = explode( ';', $tableInfoOption );
         if ( count( $tableInfo ) != 2 )
         {
             showError( "invalid 'extra-serialized-data' '$tableInfoOption' option" );
         }
 
-        $dataInfo = split( '\.', $tableInfo[0] );
-        $keyInfo = split( '\.', $tableInfo[1] );
+        $dataInfo = explode( '.', $tableInfo[0] );
+        $keyInfo = explode( '.', $tableInfo[1] );
 
         switch ( count( $dataInfo ) )
         {

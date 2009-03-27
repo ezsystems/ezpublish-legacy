@@ -2677,7 +2677,7 @@ WHERE user_id = '" . $userID . "' AND
         }
         else if ( $cacheUserPolicies != 'disabled' )
         {
-            $cachableIDs = split( ',', $cacheUserPolicies );
+            $cachableIDs = explode( ',', $cacheUserPolicies );
             if ( in_array( $id, $cachableIDs ) )
             {
                 // var_dump("BUILD FILENAME FOR $id");

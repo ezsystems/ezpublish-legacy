@@ -33,7 +33,7 @@ class eZWorkflowFunctions
 {
     static function addGroup( $workflowID, $workflowVersion, $selectedGroup )
     {
-        list ( $groupID, $groupName ) = split( "/", $selectedGroup );
+        list ( $groupID, $groupName ) = explode( '/', $selectedGroup );
         $ingroup = eZWorkflowGroupLink::create( $workflowID, $workflowVersion, $groupID, $groupName );
         $ingroup->store();
         return true;

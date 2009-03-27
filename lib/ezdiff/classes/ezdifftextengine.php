@@ -65,8 +65,8 @@ class eZDiffTextEngine extends eZDiffEngine
         $old = preg_replace( $pattern, $replace, $fromData );
         $new = preg_replace( $pattern, $replace, $toData );
 
-        $oldArray = split( "\r\n", $old );
-        $newArray = split( "\r\n", $new );
+        $oldArray = explode( "\r\n", $old );
+        $newArray = explode( "\r\n", $new );
 
         $oldSums = array();
         foreach( $oldArray as $paragraph )

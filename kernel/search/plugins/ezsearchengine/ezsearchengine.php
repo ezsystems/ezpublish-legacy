@@ -118,7 +118,7 @@ class eZSearchEngine
                     {
                         $integerValue = 0;
                     }
-                    $wordArray = split( " ", $text );
+                    $wordArray = explode( ' ', $text );
 
                     foreach ( $wordArray as $word )
                     {
@@ -1334,7 +1334,7 @@ class eZSearchEngine
         $text = preg_replace("(\s+)", " ", $text );
 
         // Split text on whitespace
-        $wordArray = split( " ", $text );
+        $wordArray = explode( ' ', $text );
 
         $retArray = array();
         foreach ( $wordArray as $word )

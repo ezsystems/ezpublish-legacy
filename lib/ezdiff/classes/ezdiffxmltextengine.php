@@ -92,8 +92,8 @@ class eZDiffXMLTextEngine extends eZDiffEngine
             $new = preg_replace( $pattern, $replace, $new );
         }
 
-        $oldArray = split( "\n", $old );
-        $newArray = split( "\n", $new );
+        $oldArray = explode( "\n", $old );
+        $newArray = explode( "\n", $new );
 
         $oldSums = array();
         foreach( $oldArray as $paragraph )
