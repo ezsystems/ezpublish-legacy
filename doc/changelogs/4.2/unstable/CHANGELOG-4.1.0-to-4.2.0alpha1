@@ -33,3 +33,4 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #14677: Invalid rules on eZ Webin (ezoe) for editor user
 - Fixed bug #14574: eZMySQLiDB ignores Port setting
 - Fixed bug #12740: kernel/content/node_edit.php contains unused vars and other crud
+- Fixed bug #12284: open_basedir warning not displayed when no other system checks fail
