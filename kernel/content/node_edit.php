@@ -278,9 +278,9 @@ function storeNodeAssignments( $module, $class, $object, $version, $contentObjec
         $mainNodeID = $setPlacementNodeIDArray[$elementNumber];
     }
 
-    $nodesID = array();
-    if ( $http->hasPostVariable( 'NodesID' ) )
-        $nodesID = $http->postVariable( 'NodesID' );
+    // $nodesID = array();
+    // if ( $http->hasPostVariable( 'NodesID' ) )
+        // $nodesID = $http->postVariable( 'NodesID' );
 
     $nodeID = eZContentObjectTreeNode::findNode( $mainNodeID, $object->attribute('id') );
     eZDebugSetting::writeDebug( 'kernel-content-edit', $nodeID, 'nodeID' );
@@ -768,7 +768,8 @@ function handleNodeTemplate( $module, $class, $object, $version, $contentObjectA
         else
         {
             $assignedNode->purge();
-            unset( $assignedNodeArray[$assignedNodeKey] );
+            if( isset( $assignedNodeArray[$assignedNodeKey] ) )
+                unset( $assignedNodeArray[$assignedNodeKey] );
         }
     }
     $db->commit();
