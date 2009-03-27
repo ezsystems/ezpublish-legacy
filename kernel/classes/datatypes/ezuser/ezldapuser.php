@@ -168,6 +168,7 @@ class eZLDAPUser extends eZUser
             $LDAPVersion            = $LDAPIni->variable( 'LDAPSettings', 'LDAPVersion' );
             $LDAPServer             = $LDAPIni->variable( 'LDAPSettings', 'LDAPServer' );
             $LDAPPort               = $LDAPIni->variable( 'LDAPSettings', 'LDAPPort' );
+            $LDAPFollowReferrals    = (int) $LDAPIni->variable( 'LDAPSettings', 'LDAPFollowReferrals' );
             $LDAPBaseDN             = $LDAPIni->variable( 'LDAPSettings', 'LDAPBaseDn' );
             $LDAPBindUser           = $LDAPIni->variable( 'LDAPSettings', 'LDAPBindUser' );
             $LDAPBindPassword       = $LDAPIni->variable( 'LDAPSettings', 'LDAPBindPassword' );
@@ -242,6 +243,7 @@ class eZLDAPUser extends eZUser
             if ( $ds )
             {
                 ldap_set_option( $ds, LDAP_OPT_PROTOCOL_VERSION, $LDAPVersion );
+                ldap_set_option( $ds, LDAP_OPT_REFERRALS, $LDAPFollowReferrals );
                 if ( $LDAPBindUser == '' )
                 {
                     $r = ldap_bind( $ds );
