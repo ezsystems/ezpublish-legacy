@@ -128,7 +128,7 @@ class eZMySQLiDB extends eZDBInterface
             eZDebug::writeWarning( 'mysqli does not support persistent connections', 'eZMySQLiDB::connect' );
         }
 
-        $connection = mysqli_connect( $server, $user, $password, null, $port, $socketPath );
+        $connection = mysqli_connect( $server, $user, $password, null, (int)$port, $socketPath );
 
         $dbErrorText = mysqli_connect_error();
         $maxAttempts = $this->connectRetryCount();
@@ -142,7 +142,7 @@ class eZMySQLiDB extends eZDBInterface
                 eZDebug::writeWarning( 'mysqli does not support persistent connections', 'eZMySQLiDB::connect' );
             }
 
-            $connection = mysqli_connect( $this->Server, $this->User, $this->Password, null, $this->Port, $this->SocketPath );
+            $connection = mysqli_connect( $this->Server, $this->User, $this->Password, null, (int)$this->Port, $this->SocketPath );
 
             $numAttempts++;
         }
