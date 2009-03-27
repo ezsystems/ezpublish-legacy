@@ -254,6 +254,12 @@ Change of behaviour
   The new triggers are actually new operations on which we added pre and post triggers,
   except for content_read which only contains a "pre" trigger and no "post" trigger.
 
+- eZLDAPUser::loginUser (as of 4.1.1 and 4.2.0Alpha1)
+
+  ldap.ini setting LDAPFollowReferrals is introduced and set to 0 by default as
+  ldap code did not work with most AD setups. LDAP_OPT_REFERRALS was earlier not
+  set at all, so it was earlier enabled. 
+
 Renamed constants
 -----------------
 
