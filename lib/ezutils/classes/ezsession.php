@@ -544,12 +544,7 @@ class eZSession
         }
 
         $oldSessionId = session_id();
-
-        // need to close and then start session in order to work around issues
-        // where several subdomains use same cookie name (but different domain in cookie params)
-        session_write_close();
-        session_regenerate_id( true );
-        self::start();
+        session_regenerate_id();
 
         // If user has session and $updateUserSession is true, then update user session data
         if ( $updateUserDBSession && self::$hasSessionCookie )
