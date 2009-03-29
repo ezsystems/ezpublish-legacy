@@ -278,10 +278,6 @@ function storeNodeAssignments( $module, $class, $object, $version, $contentObjec
         $mainNodeID = $setPlacementNodeIDArray[$elementNumber];
     }
 
-    // $nodesID = array();
-    // if ( $http->hasPostVariable( 'NodesID' ) )
-        // $nodesID = $http->postVariable( 'NodesID' );
-
     $nodeID = eZContentObjectTreeNode::findNode( $mainNodeID, $object->attribute('id') );
     eZDebugSetting::writeDebug( 'kernel-content-edit', $nodeID, 'nodeID' );
 //    $object->setAttribute( 'main_node_id', $nodeID );
