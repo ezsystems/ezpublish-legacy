@@ -43,7 +43,7 @@ G.	Enable debug output or look in the error/warning logs of eZ Publish for clues
 =================================================================================
 
     ezoe has its own set of access policy rules, so you need to give your
-    editors access to the ezoe module either with or withouth limitations.
+    editors access to the ezoe module either with or without limitations.
     See step 7 in INSTALL for more info.
 
 3. After installation, I only get Disable editor button when editing
