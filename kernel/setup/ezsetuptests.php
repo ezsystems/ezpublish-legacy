@@ -274,7 +274,7 @@ function eZSetupCheckMagicQuotes( $type )
 /*!
     Test if eZ Components version is greater than required version
     This is currently done by checking existence of class and function
-    aince ezc does not have an api to get version information atm.
+    since ezc does not have an api to get version information atm.
 */
 function eZSetupTestComponentsVersion( $type )
 {
