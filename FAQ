@@ -1,27 +1,57 @@
 eZ Online Editor 5.0 extension FAQ
 
 1. eZ Online Editor 5.0 is not activated in eZ Publish
-======================================================
+   Note: This is very general, look at the other questions
+   bellow to see if they better suite your problem before
+   you check these.
+==========================================================
 
-	You will need to check if the extension is properly activated in site.ini.
+A.	You will need to check if the extension is properly activated in site.ini.
 	Open 'settings/override/site.ini.append(.php)' and find the 'ExtensionSettings'
 	section. Under it you should have an entry that says:
 	
 	ActiveExtensions[]=ezoe
 	
 	Make sure there are no spaces before or after the name.
-	And make sure the old Online Editor (ezdhtml) is not also enabled.
 
-	You should also consider checking the debug output of eZ Publish to see what is
-	going wrong.
+B.	Make sure the old Online Editor (ezdhtml) is not also enabled.
 
+C.  Check your installation path. The correct path should like following:
+    eZ Publish Root - kernel
+                    - lib
+                    - doc
+                    - bin
+                    - design
+                    - ...
+                    - extension - ezoe - modules
+                                       - design
+                                       - ezxmltext
+                                       - settings
+                                       - ...
 
-2. After installation, I only get Disable editor/Enable editor button when
-   editing an article, no any other changes.
+D.  As of eZ Publish 4.1, you need to run ezpgenerateautoloads.php on 
+    install so that eZ Publish can find the xml handler class in ezoe.
+    In this case you should be able to see an error in debug ouput /
+    error.log about missing 'eZOEXMLInput' handler.
+
+F.  Make sure you have cleared all the caches (both eZ Publish and browser).
+
+G.	Enable debug output or look in the error/warning logs of eZ Publish for clues
+    on what is going wrong. 
+
+2. eZ Online Editor 5.0 is not activated in eZ Publish for other users then admin.
+=================================================================================
+
+    ezoe has its own set of access policy rules, so you need to give your
+    editors access to the ezoe module either with or withouth limitations.
+    See step 7 in INSTALL for more info.
+
+3. After installation, I only get Disable editor button when editing
+   content, and the text 'advanced.block' where the editor should be.
 ==========================================================================
 
 A. Make sure you have correct apache rewrite rule. Have you restarted apache
-   after changes?
+   after you changed the rewrite rules?
 
    Look in INSTALL file, under #4 for more information on rewrite rules needed.
 
@@ -42,26 +72,6 @@ B. Make sure you are using one of the following web browsers:
          you experience problems or unexpected result. Please try again in
          Firefox or Internet Explorer and report the issue to us so we can fix it!
 
-
-3. After installation, I see nothing have been changed when editing an article.
-===============================================================================
-
-A. Check your installation path. The correct path should like following:
-   eZ Publish Root - kernel
-                   - lib
-                   - doc
-                   - bin
-                   - design
-                   - ...
-                   - extension - ezoe - modules
-                                         - design
-                                         - ezxmltext
-                                         - settings
-                                         - ...
-B. Have you changed  ActiveExtensions[] to ActiveExtensions[]=ezoe
-   in site.ini?
-
-C. Make sure you have cleared all the caches (both eZ Publish and browser).
 
 
 4. When I insert an image into the editor, it does not show the image.
