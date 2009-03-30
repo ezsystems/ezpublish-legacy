@@ -166,7 +166,7 @@
     
     
     
-    <div class="oe-window">
+    <div class="oe-window" style="clear: both;">
         <textarea class="box" id="{$attribute_base}_data_text_{$attribute.id}" name="{$attribute_base}_data_text_{$attribute.id}" cols="88" rows="{$editorRow}">{$input_handler.input_xml}</textarea>
     </div>
     

@@ -11,6 +11,7 @@ eZ Online Editor 5.0 extension Changelog
 * Updated tinyMCE to 3.2.2.2
 * Added jpn-JP translation
 * Fixed bug #14670: Embed relations are not removed when embed tag is
+* Fixed float issue when translating content caused editor to not use full width
 
 
 5.0.0
