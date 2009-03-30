@@ -315,7 +315,7 @@ class eZINI
             $inputFiles[] = $iniFile;
 
         // try the same file name with '.append.php' replace with '.append'
-        if ( strpos($iniFile, '.append.php') !== false && preg_match('/^(.+.append).php$/i', $iniFile, $matches ) && file_exists( $matches[1] ) )
+        if ( strpos($iniFile, '.append.php') !== false && preg_match('#^(.+.append).php$#i', $iniFile, $matches ) && file_exists( $matches[1] ) )
             $inputFiles[] = $matches[1];
 
         if ( strpos($iniFile, '.php') === false && file_exists ( $iniFile . '.php' ) )
@@ -781,7 +781,7 @@ class eZINI
          */
         if( strstr( $fileName, '.append' ) )
         {
-            $fnAppend    = ereg_replace( '\.php$', '', $fileName );
+            $fnAppend    = preg_replace( '#\.php$#', '', $fileName );
             $fnAppendPhp = $fnAppend.'.php';
             $fpAppend    = eZDir::path( array_merge( $pathArray, array( $fnAppend ) ) );
             $fpAppendPhp = eZDir::path( array_merge( $pathArray, array( $fnAppendPhp ) ) );

@@ -1224,7 +1224,7 @@ showDebug();
     static function timeToFloat( $mtime )
     {
         $tTime = explode( " ", $mtime );
-        ereg( "0\.([0-9]+)", "" . $tTime[0], $t1 );
+        preg_match( "#0\.([0-9]+)#", "" . $tTime[0], $t1 );
         $time = $tTime[1] . "." . $t1[1];
         return $time;
     }
