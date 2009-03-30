@@ -1,7 +1,7 @@
 var tinymce = {
 	majorVersion : '3',
-	minorVersion : '2.2.2',
-	releaseDate : '2009-03-25',
+	minorVersion : '2.2.3',
+	releaseDate : '2009-03-26',
 
 	_init : function() {
 		var t = this, d = document, w = window, na = navigator, ua = na.userAgent, i, nl, n, base, p, v;
@@ -1465,7 +1465,7 @@ tinymce.create('static tinymce.util.XHR', {
 				r = r.parentNode;
 
 				// No node type or document type
-				if (!r.nodeType || r.nodeType == 9)
+				if (!r.nodeType || r.nodeType == 9 || r.nodeName.toLowerCase() == 'body')
 					break;
 			}
 

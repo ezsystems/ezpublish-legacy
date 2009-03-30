@@ -1,5 +1,5 @@
 /**
- * $Id: DOMUtils.js 1059 2009-03-19 16:29:08Z spocke $
+ * $Id: DOMUtils.js 1062 2009-03-26 12:24:20Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -742,7 +742,7 @@
 				r = r.parentNode;
 
 				// No node type or document type
-				if (!r.nodeType || r.nodeType == 9)
+				if (!r.nodeType || r.nodeType == 9 || r.nodeName.toLowerCase() == 'body')
 					break;
 			}
 
