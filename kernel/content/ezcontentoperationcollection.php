@@ -46,12 +46,12 @@ class eZContentOperationCollection
     {
     }
 
-    function readNode( $nodeID )
+    static public function readNode( $nodeID )
     {
 
     }
 
-    function readObject( $nodeID, $userID, $languageCode )
+    static public function readObject( $nodeID, $userID, $languageCode )
     {
         if ( $languageCode != '' )
         {
@@ -85,14 +85,14 @@ class eZContentOperationCollection
         return array( 'status' => true, 'object' => $object, 'node' => $node );
     }
 
-    function loopNodes( $nodeID )
+    static public function loopNodes( $nodeID )
     {
         return array( 'parameters' => array( array( 'parent_node_id' => 3 ),
                                              array( 'parent_node_id' => 5 ),
                                              array( 'parent_node_id' => 12 ) ) );
     }
 
-    function loopNodeAssignment( $objectID, $versionNum )
+    static public function loopNodeAssignment( $objectID, $versionNum )
     {
         $object = eZContentObject::fetch( $objectID );
 
@@ -106,7 +106,7 @@ class eZContentOperationCollection
             {
                 if ( $nodeAssignment->attribute( 'is_main' ) == 1 )
                 {
-                    $mainNodeID = $this->publishNode( $nodeAssignment->attribute( 'parent_node' ), $objectID, $versionNum, false );
+                    $mainNodeID = self::publishNode( $nodeAssignment->attribute( 'parent_node' ), $objectID, $versionNum, false );
                 }
                 else
                 {
@@ -127,7 +127,7 @@ class eZContentOperationCollection
         eZContentObjectEditHandler::executePublish( $contentObjectID, $contentObjectVersion );
     }
 
-    function setVersionStatus( $objectID, $versionNum, $status )
+    static public function setVersionStatus( $objectID, $versionNum, $status )
     {
         $object = eZContentObject::fetch( $objectID );
 
@@ -143,7 +143,7 @@ class eZContentOperationCollection
         $version->store();
     }
 
-    function setObjectStatusPublished( $objectID, $versionNum )
+    static public function setObjectStatusPublished( $objectID, $versionNum )
     {
         $object = eZContentObject::fetch( $objectID );
         $version = $object->version( $versionNum );
@@ -203,7 +203,7 @@ class eZContentOperationCollection
         }
     }
 
-    function attributePublishAction( $objectID, $versionNum )
+    static public function attributePublishAction( $objectID, $versionNum )
     {
         $object = eZContentObject::fetch( $objectID );
         $nodes = $object->assignedNodes();
@@ -242,7 +242,7 @@ class eZContentOperationCollection
     }
 
 
-    function publishNode( $parentNodeID, $objectID, $versionNum, $mainNodeID )
+    static public function publishNode( $parentNodeID, $objectID, $versionNum, $mainNodeID )
     {
         $object         = eZContentObject::fetch( $objectID );
         $nodeAssignment = eZNodeAssignment::fetch( $objectID, $versionNum, $parentNodeID );
@@ -468,7 +468,7 @@ class eZContentOperationCollection
         }
     }
 
-    function removeOldNodes( $objectID, $versionNum )
+    static public function removeOldNodes( $objectID, $versionNum )
     {
         $object = eZContentObject::fetch( $objectID );
 
@@ -514,7 +514,7 @@ class eZContentOperationCollection
     }
 
     // New function which resets the op_code field when the object is published.
-    function resetNodeassignmentOpcodes( $objectID, $versionNum )
+    static public function resetNodeassignmentOpcodes( $objectID, $versionNum )
     {
         $object = eZContentObject::fetch( $objectID );
         $version = $object->version( $versionNum );
@@ -583,7 +583,7 @@ class eZContentOperationCollection
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function createNotificationEvent( $objectID, $versionNum )
+    static public function createNotificationEvent( $objectID, $versionNum )
     {
         $event = eZNotificationEvent::create( 'ezpublish', array( 'object' => $objectID,
                                                                    'version' => $versionNum ) );
@@ -615,7 +615,7 @@ class eZContentOperationCollection
     /*!
      Copies missing translations from published version to the draft.
      */
-    function copyTranslations( $objectID, $versionNum )
+    static public function copyTranslations( $objectID, $versionNum )
     {
         $object = eZContentObject::fetch( $objectID );
         $publishedVersionNum = $object->attribute( 'current_version' );
@@ -653,7 +653,7 @@ class eZContentOperationCollection
     /*!
      Updates non-translatable attributes.
      */
-    function updateNontranslatableAttributes( $objectID, $versionNum )
+    static public function updateNontranslatableAttributes( $objectID, $versionNum )
     {
         $object = eZContentObject::fetch( $objectID );
         $version = $object->version( $versionNum );
@@ -687,7 +687,7 @@ class eZContentOperationCollection
         }
     }
 
-    function removeTemporaryDrafts( $objectID, $versionNum )
+    static public function removeTemporaryDrafts( $objectID, $versionNum )
     {
         $object = eZContentObject::fetch( $objectID );
         $object->cleanupInternalDrafts( eZUser::currentUserID() );

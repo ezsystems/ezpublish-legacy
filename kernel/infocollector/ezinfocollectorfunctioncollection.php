@@ -46,7 +46,7 @@ class eZInfocollectorFunctionCollection
     {
     }
 
-    static function fetchCollectedInfoCount( $objectAttributeID, $objectID, $value, $creatorID = false, $userIdentifier = false )
+    static public function fetchCollectedInfoCount( $objectAttributeID, $objectID, $value, $creatorID = false, $userIdentifier = false )
     {
         if ( $objectAttributeID )
             $count = eZInformationCollection::fetchCountForAttribute( $objectAttributeID, $value );
@@ -55,13 +55,13 @@ class eZInfocollectorFunctionCollection
         return array( 'result' => $count );
     }
 
-    static function fetchCollectedInfoCountList( $objectAttributeID )
+    static public function fetchCollectedInfoCountList( $objectAttributeID )
     {
         $count = eZInformationCollection::fetchCountList( $objectAttributeID );
         return array( 'result' => $count );
     }
 
-    static function fetchCollectedInfoCollection( $collectionID, $contentObjectID )
+    static public function fetchCollectedInfoCollection( $collectionID, $contentObjectID )
     {
         $collection = false;
         if ( $collectionID )
@@ -74,7 +74,7 @@ class eZInfocollectorFunctionCollection
         return array( 'result' => $collection );
     }
 
-    static function fetchCollectionsList( $objectID = false, $creatorID = false, $userIdentifier = false, $limit = false, $offset = false, $sortBy = false )
+    static public function fetchCollectionsList( $objectID = false, $creatorID = false, $userIdentifier = false, $limit = false, $offset = false, $sortBy = false )
     {
         $collection = eZInformationCollection::fetchCollectionsList( $objectID,
                                                                      $creatorID,
