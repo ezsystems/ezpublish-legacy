@@ -158,7 +158,7 @@ if ( $http->hasPostVariable( 'uploadButton' ) || $forcedUpload )
             }
         }        
         
-        $object->addContentObjectRelation( $newObjectID, $objectVersion, false, 0, eZContentObject::RELATION_EMBED );
+        $object->addContentObjectRelation( $newObjectID, $objectVersion, 0, eZContentObject::RELATION_EMBED );
         echo '<html><head><title>HiddenUploadFrame</title><script type="text/javascript">';
         echo 'window.parent.eZOEPopupUtils.selectByEmbedId( ' . $newObjectID . ', ' . $newObjectNodeID . ', "' . $newObjectName . '" );';
         echo '</script></head><body></body></html>';
