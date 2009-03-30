@@ -41,3 +41,6 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #13162: Open_basedir warnings
 - Fixed bug #13421: Non-static method eZContentFunctionCollection::fetchReverseRelatedObjects
 - Fixed bug #13422: Non-static method eZContentFunctionCollection::contentobjectRelationTypeMask
+
+*Enhancements:
+- Implemented further enhancements asked for in #12235: config.php documentation
