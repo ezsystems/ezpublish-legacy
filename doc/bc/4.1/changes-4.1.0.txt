@@ -87,35 +87,35 @@ New constants in config.php
 ---------------------------
 
 EZP_INI_FILEMTIME_CHECK
-    This new setting controls whether eZINI should check if the settings have
-    been updated in the *.ini-files*. If this check is disabled eZ Publish
-    will always used the cached values, lowering the amount of stat-calls to
-    the file system, and thus increasing performance.
+  This new setting controls whether eZINI should check if the settings have
+  been updated in the *.ini-files*. If this check is disabled eZ Publish
+  will always used the cached values, lowering the amount of stat-calls to
+  the file system, and thus increasing performance.
 
 EZP_AUTOLOAD_ALLOW_KERNEL_OVERRIDE
-    This setting controls if eZ Publish's autoload system should allow, and
-    load classes, which override kernel classes from extensions.
+  This setting controls if eZ Publish's autoload system should allow, and
+  load classes, which override kernel classes from extensions.
 
 EZP_USE_BUNDLED_COMPONENTS
-    If you are using a distribution of eZ Publish with which the necessary
-    eZ Components are bundled (in lib/ezc), then you can use this setting to
-    control if the bundled eZ Components should be used (true) or not (false).
-    By default, when this setting is not present, the bundled eZ Components are
-    used. If you're using the bundled eZ Components it's recommended to define
-    EZP_USE_BUNDLED_COMPONENTS as a boolean true anyway, for optimal speed.
+  If you are using a distribution of eZ Publish with which the necessary
+  eZ Components are bundled (in lib/ezc), then you can use this setting to
+  control if the bundled eZ Components should be used (true) or not (false).
+  By default, when this setting is not present, the bundled eZ Components are
+  used. If you're using the bundled eZ Components it's recommended to define
+  EZP_USE_BUNDLED_COMPONENTS as a boolean true anyway, for optimal speed.
 
 EZC_BASE_PATH
-   If you are not using the bundled eZ Components, then for optimal speed it is
-   recommended to set EZC_BASE_PATH to either ezc/Base/base.php or Base/src/base.php,
-   depending on how you installed the eZ Components. By default, if this setting
-   is not present, eZ Publish first tries to include ezc/Base/base.php. If that fails
-   Base/src/base.php is included.
+  If you are not using the bundled eZ Components, then for optimal speed it is
+  recommended to set EZC_BASE_PATH to either ezc/Base/base.php or Base/src/base.php,
+  depending on how you installed the eZ Components. By default, if this setting
+  is not present, eZ Publish first tries to include ezc/Base/base.php. If that fails
+  Base/src/base.php is included.
 
 EZP_AUTOLOAD_OUTPUT
-    This setting sets the class name for a custom class to use to handle
-    autoload generation output. The class has to be of the ezpAutoloadOutput
-    type. Since autoloads are being used, this class needs to be loaded in
-    config.php, or bootstrapped with some method before the script itself runs.
+  This setting sets the class name for a custom class to use to handle
+  autoload generation output. The class has to be of the ezpAutoloadOutput
+  type. Since autoloads are being used, this class needs to be loaded in
+  config.php, or bootstrapped with some method before the script itself runs.
 
 Changes to method signatures
 ----------------------------
@@ -258,7 +258,54 @@ Change of behaviour
 
   ldap.ini setting LDAPFollowReferrals is introduced and set to 0 by default as
   ldap code did not work with most AD setups. LDAP_OPT_REFERRALS was earlier not
-  set at all, so it was earlier enabled. 
+  set at all, thus enabled. 
+
+
+Handler INI setting changes
+---------------------------
+    This section talks about the handler settings that has been deliberately broken
+    in 4.1 to be able to reduce sys calls by loading handlers using the autoload system.
+
+image.ini
+  [ImageConverterSettings]
+  RepositoryList[], ExtensionList[] and ImageHandlerAlias[] is no longer in use
+
+  [<ImageConverters, example: GD and ImageMagick>]
+  Handler= this setting now expects class name instead of file name
+
+file.ini
+  [BinaryFileSettings]
+  Handler= this setting now expects class name instead of file name
+  Repositories[] and ExtensionRepositories[] is no longer in use
+
+  [ClusteringSettings]
+  FileHandler= this setting now expects class name instead of file name
+  DBBackend= this setting now expects class name instead of file name
+  ExtensionDirectories[] is no longer in use
+
+ezxml.ini
+  [InputSettings]
+  Handler=  is no longer in use
+  HandlerClass= new setting for Handler that expects class name as value
+  Alias[]  is no longer in use
+  AliasClasses[] new setting for Alias that expects class name as key and value
+
+  [OutputSettings]
+  Handler=  is no longer in use
+  HandlerClass= new setting for Handler that expects class name as value
+  Alias[]  is no longer in use
+  AliasClasses[] new setting for Alias that expects class name as key and value
+
+package.ini
+  [PackageSettings]
+  HandlerAlias[]= this setting now expects class name instead of file name
+
+  CreationSettings]
+  HandlerAlias[]= this setting now expects class name instead of file name
+
+  [InstallerSettings]
+  HandlerAlias[]= this setting now expects class name instead of file name
+
 
 Renamed constants
 -----------------
