@@ -261,10 +261,10 @@ Change of behaviour
   set at all, thus enabled. 
 
 
-Handler INI setting changes
----------------------------
-    This section talks about the handler settings that has been deliberately broken
-    in 4.1 to be able to reduce sys calls by loading handlers using the autoload system.
+INI setting changes
+-------------------
+    This section talks about the handler settings that have been deliberately broken
+    in 4.1 to be able to reduce system calls by loading handlers using the autoload system.
 
 image.ini
   [ImageConverterSettings]
