@@ -10,7 +10,6 @@ eZ Online Editor 5.0 extension Changelog
 * Fixed bug #14649: IE inserts hostname when protocol is wrong
 * Added jpn-JP translation
 * Fixed bug #14670: Embed relations are not removed when embed tag is
-* Fixed float issue when translating content caused editor to not use full width
 * Updated tinyMCE to 3.2.2.3
 
 
