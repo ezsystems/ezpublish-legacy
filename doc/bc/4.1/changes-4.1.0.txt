@@ -268,7 +268,7 @@ INI setting changes
 
 image.ini
   [ImageConverterSettings]
-  RepositoryList[], ExtensionList[] and ImageHandlerAlias[] is no longer in use
+  RepositoryList[], ExtensionList[] and ImageHandlerAlias[] are no longer in use
 
   [<ImageConverters, example: GD and ImageMagick>]
   Handler= this setting now expects class name instead of file name
@@ -276,24 +276,24 @@ image.ini
 file.ini
   [BinaryFileSettings]
   Handler= this setting now expects class name instead of file name
-  Repositories[] and ExtensionRepositories[] is no longer in use
+  Repositories[] and ExtensionRepositories[] are no longer in use
 
   [ClusteringSettings]
   FileHandler= this setting now expects class name instead of file name
   DBBackend= this setting now expects class name instead of file name
-  ExtensionDirectories[] is no longer in use
+  ExtensionDirectories[] are no longer in use
 
 ezxml.ini
   [InputSettings]
-  Handler=  is no longer in use
+  Handler=  are no longer in use
   HandlerClass= new setting for Handler that expects class name as value
-  Alias[]  is no longer in use
+  Alias[]  are no longer in use
   AliasClasses[] new setting for Alias that expects class name as key and value
 
   [OutputSettings]
-  Handler=  is no longer in use
+  Handler=  are no longer in use
   HandlerClass= new setting for Handler that expects class name as value
-  Alias[]  is no longer in use
+  Alias[]  are no longer in use
   AliasClasses[] new setting for Alias that expects class name as key and value
 
 package.ini
