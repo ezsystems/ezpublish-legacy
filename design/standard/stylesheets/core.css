@@ -523,6 +523,11 @@ div.object-center, table.object-center
     text-align: center;
 }
 
+div.oe-window
+{
+    clear: both;
+}
+
 /*Multioption datatype */
 table.multioption, table.multioption table
 {

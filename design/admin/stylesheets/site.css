@@ -1787,9 +1787,10 @@ span.overriden
 div.oe-window
 {
     border-bottom: 1px solid #ffffff;
+    clear: both;
 }
 
-/* th[eZ] */
+/* Misc */
 
 span.userstatus-disabled
 {

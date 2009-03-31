@@ -378,6 +378,11 @@ div.imageleft p.picturetext, div.imageright p.picturetext, span.picturetext, p.f
 
 /* Misc */
 
+div.oe-window
+{
+    clear: both;
+}
+
 span.spamfilter
 {
      display: none;
