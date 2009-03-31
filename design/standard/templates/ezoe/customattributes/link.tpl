@@ -1,7 +1,7 @@
 <select id="{$custom_attribute_id}_source_types" class="mceItemSkip" title="{"List of possible link types. Link types that use the '://' format are technically called protocols."|i18n('design/standard/ezoe')}">
 {if ezini_hasvariable( $custom_attribute_settings, 'Selection', 'ezoe_attributes.ini' )}
 {foreach ezini( $custom_attribute_settings, 'Selection', 'ezoe_attributes.ini' ) as $custom_value => $custom_name}
-    <option value="{$custom_value|wash}"{if $custom_attribute_default|contains( $custom_value )} selected="selected"{/if}>{$custom_name|wash}</option>
+    <option value="{if $custom_value|ne('0')}{$custom_value|wash}{/if}"{if $custom_attribute_default|contains( $custom_value )} selected="selected"{/if}>{$custom_name|wash}</option>
 {/foreach}
 {else}
     <option value="eznode://">{'eznode'|i18n('design/standard/ezoe')}</option>
