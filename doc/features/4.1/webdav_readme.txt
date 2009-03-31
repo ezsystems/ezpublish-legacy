@@ -191,6 +191,10 @@ connection will appear as a shortcut in My Computer. If you cannot open the
 connection at a later time, try dragging it from My Computer to an
 Internet Explorer window.
 
+If the above steps fail, try deleting the created connection, restart the
+Web Client service (in Control Panel -> Administrative Tools -> Services),
+and try again.
+
 WebDAV operations are somehow limited in Internet Explorer, in such ways that
 you will not be able to click on a file to open it, but must instead drag it
 to a local folder and then open it.
