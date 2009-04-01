@@ -205,21 +205,25 @@ class eZExecution
             header( 'HTTP/1.x 500 Internal Server Error' );
             header( 'Content-Type: text/html' );
 
-            echo "An unexpected error has occurred. Please contact the webmaster.<br/>";
+            echo "An unexpected error has occurred. Please contact the webmaster.<br />";
 
-            $ini = eZINI::instance( 'site.ini' );
-            if( $ini->variable( 'DebugSettings', 'DebugOutput' ) == 'enabled' )
+            if( eZDebug::isDebugEnabled() )
             {
-                echo $e->getMessage() , ' in ', $e->getFile(), ' on line ', $e->getLine();
+                echo $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine();
             }
         }
         else
         {
             $cli = eZCLI::instance();
             $cli->error( "An unexpected error has occurred. Please contact the webmaster.");
+
+            if( eZDebug::isDebugEnabled() )
+            {
+                $cli->error( $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine() );
+            }
         }
 
-        eZLog::write( 'Unexpected error, the message was : ' . $e->getMessage(), 'error.log' );
+        eZLog::write( 'Unexpected error, the message was : ' . $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine(), 'error.log' );
 
         eZExecution::cleanup();
         eZExecution::setCleanExit();
