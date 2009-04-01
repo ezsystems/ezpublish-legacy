@@ -43,3 +43,4 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #13422: Non-static method eZContentFunctionCollection::contentobjectRelationTypeMask
 - Implemented further enhancements asked for in #12235: config.php documentation
 - Fixed bug #14712: OE5 does not always use full width when translation content
+- Fixed bug #14718: Improve debug output from default exception handler to support debug by ip
