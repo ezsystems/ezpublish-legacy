@@ -15,9 +15,9 @@
     <option value="">{'Other'|i18n('design/standard/ezoe')}</option>
 {/if}
 </select>
-<a id="search_for_link" href="JavaScript:void(0);" title="{'Search'|i18n('design/admin/content/search')}"><img width="16" height="16" border="0" alt="{'Search'|i18n('design/admin/content/search')}" src={"tango/system-search.png"|ezimage} /></a>
-<a id="browse_for_link" href="JavaScript:void(0);" title="{'Browse'|i18n('design/standard/ezoe')}"><img width="16" height="16" border="0" alt="{'Browse'|i18n('design/standard/ezoe')}" src={"tango/folder.png"|ezimage} /></a>
-<a id="bookmarks_for_link" href="JavaScript:void(0);" title="{'Bookmarks'|i18n( 'design/admin/content/browse' )}"><img width="16" height="16" border="0" alt="{'Bookmarks'|i18n( 'design/admin/content/browse' )}" src={"tango/bookmark-new.png"|ezimage} /></a>
+<a id="{$custom_attribute_id}_search_link" href="JavaScript:void(0);" title="{'Search'|i18n('design/admin/content/search')}"><img width="16" height="16" border="0" alt="{'Search'|i18n('design/admin/content/search')}" src={"tango/system-search.png"|ezimage} /></a>
+<a id="{$custom_attribute_id}_browse_link" href="JavaScript:void(0);" title="{'Browse'|i18n('design/standard/ezoe')}"><img width="16" height="16" border="0" alt="{'Browse'|i18n('design/standard/ezoe')}" src={"tango/folder.png"|ezimage} /></a>
+<a id="{$custom_attribute_id}_bookmarks_link" href="JavaScript:void(0);" title="{'Bookmarks'|i18n( 'design/admin/content/browse' )}"><img width="16" height="16" border="0" alt="{'Bookmarks'|i18n( 'design/admin/content/browse' )}" src={"tango/bookmark-new.png"|ezimage} /></a>
 <span id="{$custom_attribute_id}_source_info"></span>
 <br />
 
@@ -33,30 +33,31 @@
 // register function to be called on end of init
 eZOEPopupUtils.settings.onInitDoneArray.push( function( editorElement )
 {
-    var link = ez.$('link_href_source_types', 'link_href_source')
+    var base_id = ezoeLinkAttribute.id, link = ez.$(base_id+'_source_types', base_id+'_source' );
     link[0].addEvent('change', function( e, el )
     {
+        var base_id = ezoeLinkAttribute.id, inp = document.getElementById( base_id+'_source' );
         if ( el.value === 'ezobject://' )
         {
-            ez.$('link_href_source').el.value = el.value + ezoeLinkAttribute.node['object_id'];
+            inp.value = el.value + ezoeLinkAttribute.node['object_id'];
             ezoeLinkAttribute.namePreview( ezoeLinkAttribute.node['name'] );
         }
         else if ( el.value === 'eznode://' )
         {
-            ez.$('link_href_source').el.value = el.value + ezoeLinkAttribute.node['node_id'];
+            inp.value = el.value + ezoeLinkAttribute.node['node_id'];
             ezoeLinkAttribute.namePreview( ezoeLinkAttribute.node['name'] );
         }
         else
         {
-            ez.$('link_href_source').el.value = el.value;
-            ezoeLinkAttribute.namePreview();
+            inp.value = el.value;
+            ezoeLinkAttribute.namePreview( undefined );
         }
     });
 
     // add event to href input to lookup name on object or nodes
     link[1].addEvent('keyup', function( e, el ){
         e = e || window.event;
-        var c = e.keyCode || e.which;
+        var c = e.keyCode || e.which, base_id = ezoeLinkAttribute.id, link = ez.$(base_id+'_source_types', el );
         clearTimeout( ezoeLinkAttribute.timeOut );
 
         // break if user is pressing arrow keys
@@ -70,20 +71,20 @@ eZOEPopupUtils.settings.onInitDoneArray.push( function( editorElement )
 
         if ( id === 0 || ( url[0] !== 'eznode' && url[0] !== 'ezobject' ) ) return true;
 
-        ezoeLinkAttribute.timeOut = setTimeout( ez.fn.bind( ezoeLinkAttribute.ajaxCheck, this, url[0] + '_' + id  ), 320 );
+        ezoeLinkAttribute.timeOut = setTimeout( ez.fn.bind( ezoeLinkAttribute.ajaxCheck, this, url[0] + '_' + id ), 320 );
         return true;
     });
     //ezoeLinkAttribute.typeSet( link[1], link[0] );
 
-    if ( editorElement && editorElement.href.indexOf( '://' ) !== -1 )
+    if ( link[1].el.value.indexOf( '://' ) !== -1 )
     {
-        var url = editorElement.href.split('://'), id = ez.num( url[1], 0, 'int' );
+        var url = link[1].el.value.split('://'), id = ez.num( url[1], 0, 'int' );
         if ( id !== 0 && ( url[0] === 'eznode' || url[0] === 'ezobject' ) )
             ezoeLinkAttribute.ajaxCheck( url[0] + '_' + id );
     }
 
     ezoeLinkAttribute.slides = ez.$$('div.panel');//ezoeLinkAttribute.slides is global object used by custom selectByEmbedId function
-    var navigation = ez.$('embed_search_go_back_link', 'search_for_link', 'browse_for_link', 'bookmarks_for_link', 'embed_browse_go_back_link', 'embed_bookmarks_go_back_link' );
+    var navigation = ez.$('embed_search_go_back_link', base_id+'_search_link', base_id+'_browse_link', base_id+'_bookmarks_link', 'embed_browse_go_back_link', 'embed_bookmarks_go_back_link' );
     ezoeLinkAttribute.slides.accordion( navigation, {duration: 100, transition: ez.fx.sinoidal, accordionAutoFocusTag: 'input[type=text]'}, {opacity: 0, display: 'none'} );
     navigation[4].addEvent('click', ez.fn.bind( ezoeLinkAttribute.slides.accordionGoto, ezoeLinkAttribute.slides, 0 ) ).addClass('accordion_navigation');
     navigation[5].addEvent('click', ez.fn.bind( ezoeLinkAttribute.slides.accordionGoto, ezoeLinkAttribute.slides, 0 ) ).addClass('accordion_navigation');
@@ -112,19 +113,20 @@ eZOEPopupUtils.settings.browseLinkGenerator = function( n, mode, ed )
 // override so selected element is redirected to link input
 eZOEPopupUtils.selectByEmbedId = function( object_id, node_id, name )
 {
-    var link = ez.$('link_href_source_types', 'link_href_source');
+    var base_id = ezoeLinkAttribute.id, link = ez.$(base_id+'_source_types', base_id+'_source', base_id+'_source_info');
     if ( link[0].el.value === 'ezobject://' )
         link[1].el.value = 'ezobject://' + object_id;
     else
         link[1].el.value = 'eznode://' + node_id;
     ezoeLinkAttribute.typeSet( link[1], link[0] );
-    ezoeLinkAttribute.namePreview( name );
+    ezoeLinkAttribute.namePreview( name, link[2].el );
     ezoeLinkAttribute.slides.accordionGoto.call( ezoeLinkAttribute.slides, 0 );
     ezoeLinkAttribute.node = {'object_id': object_id, 'node_id': node_id, 'name': name }
 };
 
 // misc link related variables and functions
 var ezoeLinkAttribute = {
+    id : {/literal}'{$custom_attribute_id}'{literal},
     timeOut : null,
     slides : 0,
     ajax : ez.ajax( { 'charset': 'UTF-8' } ),
@@ -138,7 +140,6 @@ var ezoeLinkAttribute = {
     postBack : function( r )
     {
         ez.script( 'ezoeLinkAttribute.ajaxResponse=' + r.responseText );
-        var info = ez.$('link_href_source_info'), input = ez.$('link_href_source');
         if ( ezoeLinkAttribute.ajaxResponse )
             ezoeLinkAttribute.namePreview( ezoeLinkAttribute.ajaxResponse.name ) 
         else
@@ -146,11 +147,11 @@ var ezoeLinkAttribute = {
     },
     namePreview : function( name )
     {
-        var info = ez.$('link_href_source_info');
+        var el = document.getElementById( ezoeLinkAttribute.id+'_source_info' );
 {/literal}
-        info.el.innerHTML = name === undefined ? '' : (name ? name : "{'Id not valid!'|i18n('design/standard/ezoe')}" );
+        el.innerHTML = name === undefined ? '' : (name ? name : "{'Id not valid!'|i18n('design/standard/ezoe')}" );
 {literal}
-        info.el.style.border = name === undefined ? '' : (name ? '1px solid green' : '1px solid red');
+        el.style.border = name === undefined ? '' : (name ? '1px solid green' : '1px solid red');
     },
     typeSet : function( source, types )
     {
