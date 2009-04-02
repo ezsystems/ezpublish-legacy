@@ -1,6 +1,6 @@
 <select id="{$custom_attribute_id}_source_types" class="mceItemSkip" title="{"List of possible link types. Link types that use the '://' format are technically called protocols."|i18n('design/standard/ezoe')}">
-{if ezini_hasvariable( $custom_attribute_settings, 'Selection', 'ezoe_attributes.ini' )}
-{foreach ezini( $custom_attribute_settings, 'Selection', 'ezoe_attributes.ini' ) as $custom_value => $custom_name}
+{if ezini_hasvariable( $custom_attribute_settings, 'LinkType', 'ezoe_attributes.ini' )}
+{foreach ezini( $custom_attribute_settings, 'LinkType', 'ezoe_attributes.ini' ) as $custom_value => $custom_name}
     <option value="{if $custom_value|ne('0')}{$custom_value|wash}{/if}"{if $custom_attribute_default|contains( $custom_value )} selected="selected"{/if}>{$custom_name|wash}</option>
 {/foreach}
 {else}
@@ -39,7 +39,7 @@ eZOEPopupUtils.settings.onInitDoneArray.push( function( editorElement )
         var base_id = ezoeLinkAttribute.id, inp = document.getElementById( base_id+'_source' );
         if ( el.value === 'ezobject://' )
         {
-            inp.value = el.value + ezoeLinkAttribute.node['object_id'];
+            inp.value = el.value + ezoeLinkAttribute.node['contentobject_id'];
             ezoeLinkAttribute.namePreview( ezoeLinkAttribute.node['name'] );
         }
         else if ( el.value === 'eznode://' )
@@ -121,7 +121,7 @@ eZOEPopupUtils.selectByEmbedId = function( object_id, node_id, name )
     ezoeLinkAttribute.typeSet( link[1], link[0] );
     ezoeLinkAttribute.namePreview( name, link[2].el );
     ezoeLinkAttribute.slides.accordionGoto.call( ezoeLinkAttribute.slides, 0 );
-    ezoeLinkAttribute.node = {'object_id': object_id, 'node_id': node_id, 'name': name }
+    ezoeLinkAttribute.node = {'contentobject_id': object_id, 'node_id': node_id, 'name': name }
 };
 
 // misc link related variables and functions
@@ -131,7 +131,7 @@ var ezoeLinkAttribute = {
     slides : 0,
     ajax : ez.ajax( { 'charset': 'UTF-8' } ),
     ajaxResponse : '',
-    node : {'object_id': '', 'node_id': '', 'name': '' },
+    node : {'contentobject_id': '', 'node_id': '', 'name': '' },
     ajaxCheck : function( url )
     {
         var url = tinyMCEPopup.editor.settings.ez_extension_url + '/load/' + url;
@@ -141,7 +141,10 @@ var ezoeLinkAttribute = {
     {
         ez.script( 'ezoeLinkAttribute.ajaxResponse=' + r.responseText );
         if ( ezoeLinkAttribute.ajaxResponse )
-            ezoeLinkAttribute.namePreview( ezoeLinkAttribute.ajaxResponse.name ) 
+        {
+            ezoeLinkAttribute.namePreview( ezoeLinkAttribute.ajaxResponse.name );
+            ezoeLinkAttribute.node = ezoeLinkAttribute.ajaxResponse;
+        }
         else
             ezoeLinkAttribute.namePreview( false );
     },
