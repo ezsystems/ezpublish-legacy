@@ -5820,7 +5820,7 @@ class eZContentObject extends eZPersistentObject
             $sql = 'SELECT ezcobj_state.id
                     FROM   ezcobj_state, ezcobj_state_group
                     WHERE  ezcobj_state.group_id = ezcobj_state_group.id
-                       AND ezcobj_state_group.identifier NOT LIKE "ez%"';
+                       AND ezcobj_state_group.identifier NOT LIKE \'ez%\'';
 
             $allowedStateIDList = $db->arrayQuery( $sql, array( 'column' => 'id' ) );
         }
