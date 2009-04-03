@@ -1074,9 +1074,12 @@ else if ( $http->hasPostVariable( 'RemoveButton' ) )
             $http->setSessionVariable( 'DeleteIDArray', $deleteIDArray );
             //include_once( 'kernel/classes/ezsection.php' );
             $object = eZContentObject::fetch( $contentObjectID );
-            eZSection::setGlobalID( $object->attribute( 'section_id' ) );
-            $section = eZSection::fetch( $object->attribute( 'section_id' ) );
-            if ( $section )
+            if ( $object instanceof eZContentObject )
+            {
+                eZSection::setGlobalID( $object->attribute( 'section_id' ) );
+                $section = eZSection::fetch( $object->attribute( 'section_id' ) );
+            }
+            if ( isset($section) && $section )
                 $navigationPartIdentifier = $section->attribute( 'navigation_part_identifier' );
             else
                 $navigationPartIdentifier = null;
@@ -1265,11 +1268,14 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
             $http->setSessionVariable( 'ContentObjectID', $contentObjectID );
             $http->setSessionVariable( 'HideRemoveConfirmation', $hideRemoveConfirm );
             $http->setSessionVariable( 'DeleteIDArray', array( $contentNodeID ) );
-            $object = eZContentObject::fetchByNodeID( $contentNodeID);
+            $object = eZContentObject::fetchByNodeID( $contentNodeID );
             //include_once( 'kernel/classes/ezsection.php' );
-            eZSection::setGlobalID( $object->attribute( 'section_id' ) );
-            $section = eZSection::fetch( $object->attribute( 'section_id' ) );
-            if ( $section )
+            if ( $object instanceof eZContentObject )
+            {
+                eZSection::setGlobalID( $object->attribute( 'section_id' ) );
+                $section = eZSection::fetch( $object->attribute( 'section_id' ) );
+            }
+            if ( isset($section) && $section )
                 $navigationPartIdentifier = $section->attribute( 'navigation_part_identifier' );
             else
                 $navigationPartIdentifier = null;
