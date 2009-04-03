@@ -551,6 +551,10 @@ class eZContentCacheManager
                     if ( in_array( $item['class_identifier'], $dependentClassIdentifiers ) )
                     {
                         $object = eZContentObject::fetchByNodeID( $item['node_id'] );
+                        if ( !$object instanceof eZContentObject )
+                        {
+                            continue;
+                        }
                         $objectID = $object->attribute( 'id' );
 
                         if ( isset( $handledObjectList[$objectID] ) )
