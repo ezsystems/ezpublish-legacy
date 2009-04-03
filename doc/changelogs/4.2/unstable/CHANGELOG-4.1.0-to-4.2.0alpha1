@@ -45,3 +45,4 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #14712: OE5 does not always use full width when translation content
 - Fixed bug #14718: Improve debug output from default exception handler to support debug by ip
 - Fixed bug #10720: [patch included] Session lost if siteaccess contains dot in name
+- Fixed bug #14642: eZContentObject::fetchByNodeID is producing fatal errors
