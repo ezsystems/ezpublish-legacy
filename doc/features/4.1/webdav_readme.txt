@@ -245,6 +245,15 @@ WebDAV (HTTP) from the Service Type drop-down menu, and enter **webdav.ezp**
 in the Server text box. The connection will appear under Places in the main
 program window, under the name "webdav.ezp".
 
+Nautilus versions of 2.24.1 and up might contain a bug in the Connect to
+Server... method above. In case the method does not work, try entering the
+URL of the WebDAV resource in the address bar, in one of the following forms::
+
+  dav://webdav.ezp/
+  dav://webdav.ezp/siteaccess
+  dav://username@webdav.ezp/siteaccess
+  dav://username:password@webdav.ezp/siteaccess
+
 
 Transmit
 --------
