@@ -134,9 +134,35 @@ Internet Explorer
 
 Partially supported.
 
+Owing to the integration and then separation of Internet Explorer from the
+Microsoft Windows file manager (Windows Explorer), there are actually two
+handlers for WebDAV in Microsoft Windows:
+
+- Web Folder Client
+- WebDAV Mini-Redirector
+
+Web Folder Client was used prior to Windows XP, and it can be activated by
+specifying a port number when creating a new WebDAV connection (see next
+section). The Client must be updated to the latest version from
+http://www.microsoft.com/downloads/details.aspx?familyid=17C36612-632E-4C04-9382-987622ED1D64
+(not possible on Microsoft Vista 64-bit editions).
+
+There are known bugs for the Web Folder Client:
+http://greenbytes.de/tech/webdav/webfolder-client-list.html
+
+The Mini-Redirector was introduced in Windows XP, and it is used when mounting
+a WebDAV resource under a drive letter (see next section).
+
+There are known bugs for the WebDAV Mini-Redirector:
+http://greenbytes.de/tech/webdav/webdav-redirector-list.html
+
 As Microsoft Windows sometimes does not encode UTF-8 characters in filenames
-properly, be cautious using filenames containing Chinese or Japanese
-characters because it might lead to 0 bytes files on the server.
+properly, be cautious using filenames containing UTF-8 characters because it
+might lead to broken transfers.
+
+Uploading a file can sometimes hang, with the error message
+"The parameter is incorrect".
+
 
 Configuration
 '''''''''''''
@@ -157,7 +183,8 @@ Create (if it doesn't exist) a DWORD value with the name BasicAuthLevel, with
 the value 2 (0 = Disable Basic authentication, 1 = enable Basic authentication
 only on SSL connections, 2 = enable Basic authentication even without SSL).
 
-2. Install the Software Update for Web Folders (KB907306) from Microsoft:
+2. Install the Software Update for Web Folders (KB907306) from Microsoft (not
+possible on Microsoft Vista 64-bit editions):
 
 http://www.microsoft.com/downloads/details.aspx?familyid=17C36612-632E-4C04-9382-987622ED1D64
 
@@ -175,7 +202,7 @@ In Internet Explorer 8 this option is not available anymore, so the only way
 to open a WebDAV connection without using another WebDAV client is to create
 a network connection for it (see below). Using Internet Explorer is not
 actually required in order to open a WebDAV connection, so the following
-can be done in any version of Microsoft Windows.
+can be done even when not using Internet Explorer.
 
 To create a network connection, right-click on the My Computer icon and choose
 Map Network Drive (or go to My Network Places and click on Add a network place).
@@ -184,8 +211,7 @@ Windows Vista and Windows 7 there is an extra step in which you need to click
 on the link "Connect to a Web site that you can use to store your documents and
 pictures"), then enter **http://webdav.ezp:port/siteaccess**, where
 *siteaccess* is a siteaccess that you will use (eg. **plain_site_user**) and
-*port* is the port on which you connect to WebDAV (**80** by default). The
-port might not be needed depending on your version of Microsoft Windows. You
+*port* is the port on which you connect to WebDAV (**80** by default). You
 will be requested to enter the username and password for the connection. The
 connection will appear as a shortcut in My Computer. If you cannot open the
 connection at a later time, try dragging it from My Computer to an
@@ -195,18 +221,15 @@ If the above steps fail, try deleting the created connection, restart the
 Web Client service (in Control Panel -> Administrative Tools -> Services),
 and try again.
 
-WebDAV operations are somehow limited in Internet Explorer, in such ways that
-you will not be able to click on a file to open it, but must instead drag it
-to a local folder and then open it.
-
-Another way to create a connection in Windows: map a drive letter (eg. Z:) to
-the WebDAV server by using the Add Network Place Wizard as above. On the first
-screen choose a drive letter and type **\\webdav.ezp\siteaccess** in the
-Folder text-box, then check "Connect using different credentials". You might
-be requested for the same credentials multiple times before seeing the
-contents of the WebDAV connection. The connection will appear as a drive
-in My Computer, and it must be disconnected by right-click on the My Computer
-icon, and choosing Disconnect Network Drive...
+Another way to create a connection in Windows is using the (buggy) WebDAV
+Mini-Redirector: map a drive letter (eg. Z:) to the WebDAV server by using
+the Add Network Place Wizard as above. On the first screen choose a drive
+letter and type **\\webdav.ezp\siteaccess** in the Folder text-box, then
+check "Connect using different credentials". You might be requested for the
+same credentials multiple times before seeing the contents of the WebDAV
+connection. The connection will appear as a drive in My Computer, and it
+must be disconnected by right-click on the My Computer icon, and choosing
+Disconnect Network Drive...
 
 
 Konqueror
