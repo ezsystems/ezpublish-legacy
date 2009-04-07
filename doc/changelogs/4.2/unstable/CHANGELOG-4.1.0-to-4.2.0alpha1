@@ -48,3 +48,5 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #14642: eZContentObject::fetchByNodeID is producing fatal errors
 - Fixed bug #14729: Query problem in eZContentObject::allowedAssignStateIDList()
 - Fixed bug #14392: fatal error in ezcontentmanager.php
+- Fixed bug #14632: warnings at deleting a content object
+  # partially fixed, haven't reproduced the array_map part yet.
