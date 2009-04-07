@@ -138,23 +138,25 @@ class eZSubtreeCache
         // to ensure purging of really old data. If the DB file handler is in
         // use it will check the modified_subnode field of the tree structure
         // to determin expiry when the cache-block entry is accessed.
-
-        if ( $dir )
+        if ( file_exists( $dir ) )
         {
-            $expiryCacheDir = eZTemplateCacheFunction::expiryTemplateBlockCacheDir();
-
-            $uniqid = md5( uniqid( 'ezpsubtreecache'. getmypid(), true ) );
-            $expiryCacheDir .= '/' . $uniqid[0] . '/' . $uniqid[1] . '/' . $uniqid[2] . '/' . $uniqid;
-
-            if ( !file_exists( $expiryCacheDir ) )
+            if ( is_dir( $dir ) )
             {
-                eZDir::mkdir( $expiryCacheDir, false, true );
+                $expiryCacheDir = eZTemplateCacheFunction::expiryTemplateBlockCacheDir();
+
+                $uniqid = md5( uniqid( 'ezpsubtreecache'. getmypid(), true ) );
+                $expiryCacheDir .= '/' . $uniqid[0] . '/' . $uniqid[1] . '/' . $uniqid[2] . '/' . $uniqid;
+
+                if ( !file_exists( $expiryCacheDir ) )
+                {
+                    eZDir::mkdir( $expiryCacheDir, false, true );
+                }
+                eZFile::rename( $dir, $expiryCacheDir );
             }
-            eZFile::rename( $dir, $expiryCacheDir );
-        }
-        else
-        {
-            eZDebug::writeWarning( "$dir should be a directory. Template-block caches for 'subtree_expiry' are not removed.", "eZSubtreeCache::renameDir" );
+            else
+            {
+                eZDebug::writeWarning( "$dir should be a directory. Template-block caches for 'subtree_expiry' are not removed.", "eZSubtreeCache::renameDir" );
+            }
         }
     }
 

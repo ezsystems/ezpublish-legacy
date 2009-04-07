@@ -185,7 +185,7 @@ class eZFile
     */
     static function rename( $srcFile, $destFile )
     {
-        /* On windows we need to unlink the destination file first */
+        // On windows we need to unlink the destination file first
         if ( strtolower( substr( PHP_OS, 0, 3 ) ) == 'win' )
         {
             @unlink( $destFile );
