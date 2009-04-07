@@ -240,6 +240,12 @@ work in Konqueror 3.5.8 and up. See http://bugs.kde.org/show_bug.cgi?id=166081
 for more details. This is a Konqueror bug. Use a version prior to 3.5.8 in
 order to not experience this bug.
 
+Alternatively you can patch the ezcWebdavKonquerorCompatibleTransport class
+from the Webdav component with the patch found here:
+http://issues.ez.no/IssueView.php?Id=11951&ProjectId=3&Anchor=Comment261197
+This patch fixes uploading in Konqueror 3.5.8 and up. It will be added to eZ
+Components at a later date.
+
 
 Create a connection
 '''''''''''''''''''
