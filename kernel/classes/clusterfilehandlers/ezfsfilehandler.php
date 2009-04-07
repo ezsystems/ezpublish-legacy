@@ -673,7 +673,11 @@ class eZFSFileHandler
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileDeleteByWildcard( '$wildcard' )" );
 
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
-        array_map( 'unlink', eZSys::globBrace( $wildcard ) );
+        $unlinkArray = eZSys::globBrace( $wildcard );
+        if ( $unlinkArray !== false and ( count( $unlinkArray ) > 0 ) )
+        {
+            array_map( 'unlink', $unlinkArray );
+        }
         eZDebug::accumulatorStop( 'dbfile' );
     }
 
@@ -694,7 +698,11 @@ class eZFSFileHandler
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileDeleteByDirList( '$dirs', '$commonPath', '$commonSuffix' )" );
 
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
-        array_map( 'unlink', eZSys::globBrace( $wildcard ) );
+        $unlinkArray = eZSys::globBrace( $wildcard );
+        if ( $unlinkArray !== false and ( count( $unlinkArray ) > 0 ) )
+        {
+            array_map( 'unlink', $unlinkArray );
+        }
         eZDebug::accumulatorStop( 'dbfile' );
     }
 
