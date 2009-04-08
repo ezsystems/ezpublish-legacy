@@ -527,13 +527,13 @@ class eZSearch
         return false;
     }
 
-    public static function addNodeAssignment( $mainNodeID, $objectID, $nodeAssigmentIDList )
+    public static function addNodeAssignment( $mainNodeID, $objectID, $nodeAssignmentIDList )
     {
         $searchEngine = eZSearch::getEngine();
 
         if ( is_object( $searchEngine ) && method_exists( $searchEngine, 'addNodeAssignment'))
         {
-            return $searchEngine->addNodeAssignment( $mainNodeID, $objectID, $nodeAssigmentIDList );
+            return $searchEngine->addNodeAssignment( $mainNodeID, $objectID, $nodeAssignmentIDList );
         }
 
         return false;
