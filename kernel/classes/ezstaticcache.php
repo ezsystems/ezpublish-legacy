@@ -289,12 +289,14 @@ class eZStaticCache
             if ( $url == $cacheURL )
             {
                 $doCacheURL = true;
+                break;
             }
             else if ( strpos( $cacheURL, '*') !== false )
             {
                 if ( strpos( $url, str_replace( '*', '', $cacheURL ) ) === 0 )
                 {
                     $doCacheURL = true;
+                    break;
                 }
             }
         }
