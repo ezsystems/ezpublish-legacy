@@ -1640,10 +1640,10 @@ CREATE TABLE ezworkflow_event (
   data_int2 int(11) default NULL,
   data_int3 int(11) default NULL,
   data_int4 int(11) default NULL,
-  data_text1 varchar(50) default NULL,
-  data_text2 varchar(50) default NULL,
-  data_text3 varchar(50) default NULL,
-  data_text4 varchar(50) default NULL,
+  data_text1 varchar(255) default NULL,
+  data_text2 varchar(255) default NULL,
+  data_text3 varchar(255) default NULL,
+  data_text4 varchar(255) default NULL,
   description varchar(50) NOT NULL default '',
   id int(11) NOT NULL auto_increment,
   placement int(11) NOT NULL default '0',
@@ -1708,6 +1708,5 @@ CREATE TABLE ezworkflow_process (
   PRIMARY KEY  (id),
   KEY ezworkflow_process_process_key (process_key)
 ) ENGINE=InnoDB;
-
 
 
