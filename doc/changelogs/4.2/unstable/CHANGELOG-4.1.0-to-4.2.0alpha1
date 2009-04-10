@@ -51,3 +51,4 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #14632: warnings at deleting a content object
 - Fixed bug #14741: 4.1 user subscription fatal error
 - Fixed bug #08123: Query error on ezworkflow_event with multiplexer and a selection of many classes
+- Fixed bug #14704: Error in addlockstategroup.php update script
