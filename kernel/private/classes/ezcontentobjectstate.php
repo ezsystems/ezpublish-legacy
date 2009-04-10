@@ -217,7 +217,7 @@ class eZContentObjectState extends eZPersistentObject
                     {
                         $row['contentobject_state_id'] = $this->ID;
                     }
-                    $allTranslations[] = new eZContentObjectStateLanguage( $row );
+                    $allTranslations[$languageID] = new eZContentObjectStateLanguage( $row );
                 }
             }
             ksort( $allTranslations );
