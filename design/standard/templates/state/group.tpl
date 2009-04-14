@@ -16,17 +16,17 @@
 
 <div class="block">
     <div class="element">
-    <label>ID</label>
+    <label>{"ID"|i18n('design/standard/state/group')}</label>
     {$group.id}
     </div>
 
     <div class="element">
-    <label>Identifier</label>
+    <label>{"Identifier"|i18n('design/standard/state/group')}</label>
     {$group.identifier}
     </div>
 
     <div class="element">
-    <label>Name</label>
+    <label>{"Name"|i18n('design/standard/state/group')}</label>
     {$group.current_translation.name|wash}
     </div>
 
@@ -35,7 +35,7 @@
 
 <div class="block">
     <div class="element">
-    <label>Description</label>
+    <label>{"Description"|i18n('design/standard/state/group')}</label>
     <p>
     {$group.current_translation.description|nl2br}
     </p>
@@ -154,7 +154,7 @@
   {if $group.is_internal|not}
   <input class="button" type="submit" id="remove_state_button" name="RemoveButton" value="{'Remove selected'|i18n('design/admin/state/group')|wash}" title="{'Remove selected states.'|i18n( 'design/admin/state/group' )|wash}" />
   <input class="button" type="submit" id="create_state_button" name="CreateButton" value="{'Create new'|i18n('design/admin/state/group')|wash}" title="{'Create a new state.'|i18n( 'design/admin/state/group' )|wash}" />
-  
+
   {else}
   <input class="button-disabled" type="submit" id="remove_state_button" name="RemoveButton" value="{'Remove selected'|i18n('design/admin/state/group')|wash}" title="{'Remove selected states.'|i18n( 'design/admin/state/group' )|wash}" disabled="disabled" />
   <input class="button-disabled" type="submit" id="create_state_button" name="CreateButton" value="{'Create new'|i18n('design/admin/state/group')|wash}" title="{'Create a new state.'|i18n( 'design/admin/state/group' )|wash}" disabled="disabled" />
@@ -162,7 +162,7 @@
 </div>
 
 <div class="button-right">
-    {if $group.is_internal|not}  
+    {if $group.is_internal|not}
     <input class="button" type="submit" name="UpdateOrderButton" value="{'Update ordering'|i18n('design/admin/state/group')|wash}" title="{'Update the order of the content object states in this group.'|i18n( 'design/admin/state/group' )|wash}" />
     {else}
     <input class="button-disabled" type="submit" name="UpdateOrderButton" value="{'Update ordering'|i18n('design/admin/state/group')|wash}" title="{'Update the order of the content object states in this group.'|i18n( 'design/admin/state/group' )|wash}" disabled="disabled" />

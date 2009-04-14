@@ -16,17 +16,17 @@
 
 <div class="block">
     <div class="element">
-    <label>ID</label>
+    <label>{"ID"|i18n('design/admin/state/view')}</label>
     {$state.id}
     </div>
 
     <div class="element">
-    <label>Identifier</label>
+    <label>{"Identifier"|i18n('design/admin/state/view')}</label>
     {$state.identifier}
     </div>
 
     <div class="element">
-    <label>Name</label>
+    <label>{"Name"|i18n('design/admin/state/view')}</label>
     {$state.current_translation.name|wash}
     </div>
 
@@ -35,7 +35,7 @@
 
 <div class="block">
     <div class="element">
-    <label>Description</label>
+    <label>{"Description"|i18n('design/admin/state/view')}</label>
     <p>
     {$state.current_translation.description|nl2br}
     </p>
