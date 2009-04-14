@@ -344,55 +344,71 @@ class eZDebug
         if ( !eZDebug::isDebugEnabled() )
             return;
         $str = "$errstr in $errfile on line $errline";
-        if ( empty( $GLOBALS["eZDebugPHPErrorNames"] ) )
+        if ( empty( $GLOBALS['eZDebugPHPErrorNames'] ) )
         {
-            $GLOBALS["eZDebugPHPErrorNames"] =
-                array( E_ERROR => "E_ERROR",
-                       E_PARSE => "E_PARSE",
-                       E_CORE_ERROR => "E_CORE_ERROR",
-                       E_COMPILE_ERROR => "E_COMPILE_ERROR",
-                       E_USER_ERROR => "E_USER_ERROR",
-                       E_WARNING => "E_WARNING",
-                       E_CORE_WARNING => "E_CORE_WARNING",
-                       E_COMPILE_WARNING => "E_COMPILE_WARNING",
-                       E_USER_WARNING => "E_USER_WARNING",
-                       E_NOTICE => "E_NOTICE",
-                       E_USER_NOTICE => "E_USER_NOTICE",
-                       E_STRICT => "E_STRICT" );
+            $GLOBALS['eZDebugPHPErrorNames'] =
+                array( E_ERROR => 'E_ERROR',
+                       E_PARSE => 'E_PARSE',
+                       E_CORE_ERROR => 'E_CORE_ERROR',
+                       E_COMPILE_ERROR => 'E_COMPILE_ERROR',
+                       E_USER_ERROR => 'E_USER_ERROR',
+                       E_WARNING => 'E_WARNING',
+                       E_CORE_WARNING => 'E_CORE_WARNING',
+                       E_COMPILE_WARNING => 'E_COMPILE_WARNING',
+                       E_USER_WARNING => 'E_USER_WARNING',
+                       E_NOTICE => 'E_NOTICE',
+                       E_USER_NOTICE => 'E_USER_NOTICE',
+                       E_STRICT => 'E_STRICT' );
+            // Since PHP 5.2
+            if ( defined('E_RECOVERABLE_ERROR') )
+                $GLOBALS['eZDebugPHPErrorNames'][E_RECOVERABLE_ERROR] = 'E_RECOVERABLE_ERROR';
+            // Since PHP 5.3
+            if ( defined('E_DEPRECATED') )
+                $GLOBALS['eZDebugPHPErrorNames'][E_DEPRECATED] = 'E_DEPRECATED';
+            if ( defined('E_USER_DEPRECATED') )
+                $GLOBALS['eZDebugPHPErrorNames'][E_USER_DEPRECATED] = 'E_USER_DEPRECATED';
+            
         }
-        $errname = "unknown";
-        if ( isset( $GLOBALS["eZDebugPHPErrorNames"][$errno] ) )
+        $errname = "Unknown error code ($errno)";
+        if ( isset( $GLOBALS['eZDebugPHPErrorNames'][$errno] ) )
         {
-            $errname = $GLOBALS["eZDebugPHPErrorNames"][$errno];
+            $errname = $GLOBALS['eZDebugPHPErrorNames'][$errno];
         }
-        switch ( $errno )
+        switch ( $errname )
         {
-            case E_ERROR:
-            case E_PARSE:
-            case E_CORE_ERROR:
-            case E_COMPILE_ERROR:
-            case E_USER_ERROR:
+            case 'E_ERROR':
+            case 'E_PARSE':
+            case 'E_CORE_ERROR':
+            case 'E_COMPILE_ERROR':
+            case 'E_USER_ERROR':
+            case 'E_RECOVERABLE_ERROR':
             {
-                $this->writeError( $str, "PHP" );
+                $this->writeError( $str, 'PHP: ' . $errname );
             } break;
 
-            case E_WARNING:
-            case E_CORE_WARNING:
-            case E_COMPILE_WARNING:
-            case E_USER_WARNING:
-            case E_NOTICE:
+            case 'E_WARNING':
+            case 'E_CORE_WARNING':
+            case 'E_COMPILE_WARNING':
+            case 'E_USER_WARNING':
+            case 'E_DEPRECATED':
+            case 'E_USER_DEPRECATED':
             {
-                $this->writeWarning( $str, "PHP" );
+                $this->writeWarning( $str, 'PHP: ' . $errname );
             } break;
 
-            case E_USER_NOTICE:
+            case 'E_NOTICE':
+            case 'E_USER_NOTICE':
             {
-                $this->writeNotice( $str, "PHP" );
+                $this->writeNotice( $str, 'PHP: ' . $errname );
             } break;
 
-            case E_STRICT:
+            case 'E_STRICT':
             {
-                return $this->writeStrict( $str, "PHP" );
+                return $this->writeStrict( $str, 'PHP: ' . $errname );
+            } break;
+            default:
+            {
+                 $this->writeError( $str, 'PHP: ' . $errname );
             } break;
         }
     }
