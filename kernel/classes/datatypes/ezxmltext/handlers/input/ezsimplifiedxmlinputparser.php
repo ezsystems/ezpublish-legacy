@@ -728,7 +728,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
 
         if ( $href )
         {
-            if ( ereg( "^ezobject://[0-9]+(#.*)?$", $href ) )
+            if ( preg_match( "@^ezobject://[0-9]+(#.*)?$@", $href ) )
             {
                 $url = strtok( $href, '#' );
                 $anchorName = strtok( '#' );
@@ -740,13 +740,13 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     $this->linkedObjectIDArray[] = $objectID;
                 }
             }
-            elseif ( ereg( "^eznode://.+(#.*)?$" , $href ) )
+            elseif ( preg_match( "@^eznode://.+(#.*)?$@" , $href ) )
             {
                 $objectID = null;
                 $url = strtok( $href, '#' );
                 $anchorName = strtok( '#' );
                 $nodePath = substr( strchr( $url, "/" ), 2 );
-                if ( ereg( "^[0-9]+$", $nodePath ) )
+                if ( preg_match( "@^[0-9]+$@", $nodePath ) )
                 {
                     $nodeID = $nodePath;
                     $node = eZContentObjectTreeNode::fetch( $nodeID, false, false );
@@ -782,7 +782,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     $this->linkedObjectIDArray[] = $objectID;
                 }
             }
-            elseif ( ereg( "^#.*$" , $href ) )
+            elseif ( preg_match( "@^#.*$@" , $href ) )
             {
                 $anchorName = substr( $href, 1 );
             }
@@ -867,7 +867,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
 
         if ( $href != null )
         {
-            if ( ereg( "^ezobject://[0-9]+$" , $href ) )
+            if ( preg_match( "@^ezobject://[0-9]+$@" , $href ) )
             {
                 $objectID = substr( strrchr( $href, "/" ), 1 );
 
@@ -888,11 +888,11 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     $this->relatedObjectIDArray[] = $objectID;
                 }
             }
-            elseif ( ereg( "^eznode://.+$" , $href ) )
+            elseif ( preg_match( "@^eznode://.+$@" , $href ) )
             {
                 $nodePath = substr( strchr( $href, "/" ), 2 );
 
-                if ( ereg( "^[0-9]+$", $nodePath ) )
+                if ( preg_match( "@^[0-9]+$@", $nodePath ) )
                 {
                     $nodeID = $nodePath;
                     $node = eZContentObjectTreeNode::fetch( $nodeID, false, false );
