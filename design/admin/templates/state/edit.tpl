@@ -38,12 +38,12 @@
 
 <div class="block">
 <div class="element">
-<label>Identifier:</label>
+<label>{"Identifier:"|i18n('design/admin/state/edit')}</label>
 <input type="text" name="ContentObjectState_identifier" style="margin-bottom:1em;" size="80" maxlength="45" value="{$state.identifier|wash}" />
 </div>
 {if $state.all_translations|count|gt(1)}
 <div class="element">
-<label>Default language:</label>
+<label>{"Default language:"|i18n('design/admin/state/edit')}</label>
 <select name="ContentObjectState_default_language_id">
 {foreach $state.all_translations as $translation}
 <option value="{$translation.language.id}" {if $state.default_language_id|eq($translation.language.id)}selected="selected"{/if}>{$translation.language.locale_object.intl_language_name|wash}</option>
@@ -62,9 +62,9 @@
     <fieldset style="margin-bottom:1em;background-color: #fefefb;">
     <legend><img src="{$translation.language.locale|flag_icon}" /> {$translation.language.locale_object.intl_language_name|wash}</legend>
     {/if}
-    <label>Name:</label>
+    <label>{"Name:"|i18n('design/admin/state/edit')}</label>
     <input type="text" size="80" maxlength="45" name="ContentObjectState_name[]" value="{$translation.name|wash}" />
-    <label>Description:</label>
+    <label>{"Description:"|i18n('design/admin/state/edit')}</label>
     <textarea rows="6" name="ContentObjectState_description[]" style="width:99%">{$translation.description|wash}</textarea>
     {if $useFieldsets}
     </fieldset>
