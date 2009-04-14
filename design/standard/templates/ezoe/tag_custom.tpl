@@ -9,7 +9,7 @@
 <script type="text/javascript">
 <!--
 
-var ezTagName = '{$tag_name|wash}', customTagName = '{$custom_tag_name}';
+var ezTagName = '{$tag_name|wash}', customTagName = '{$custom_tag_name}', imageIcon = {"tango/image-x-generic22.png"|ezimage};
 eZOEPopupUtils.settings.customAttributeStyleMap = {$custom_attribute_style_map};
 eZOEPopupUtils.settings.tagEditTitleText = "{'Edit %tag_name tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', concat('&lt;', $tag_name_alias, '.', $custom_tag_name, '&gt;') ))|wash('javascript')}";
 {literal} 
@@ -43,13 +43,29 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         if ( !selectedHtml ) selectedHtml = customTag;
 
         if ( customTag === 'underline' )
+        {
             return '<u id="__mce_tmp" type="custom">' + selectedHtml + '<\/u>';
+        }
         else if ( customTag === 'sub' || customTag === 'sup' )
+        {
             return '<' + customTag + ' id="__mce_tmp" type="custom">' + selectedHtml + '<\/' + customTag + '>';
-        else if ( ez.$( customTag + '_inline_source' ).el.checked )
-            return '<span id="__mce_tmp" type="custom">' + selectedHtml + '<\/span>';
+        }
+        else if ( document.getElementById( customTag + '_inline_source' ).checked )
+        {
+            if ( document.getElementById( customTag + '_inline_source' ).value === 'image' )
+            {
+                var customImgUrl = document.getElementById( customTag + '_image_url_source' ), imageSrc = imageIcon;
+                if ( customImgUrl && customImgUrl.value )
+                    imageSrc = customImgUrl.value;
+                return '<img id="__mce_tmp" type="custom" src="' + imageSrc + '" />';
+            }
+            else
+                return '<span id="__mce_tmp" type="custom">' + selectedHtml + '<\/span>';
+        }
         else
+        {
             return '<div id="__mce_tmp" type="custom"><p>' + selectedHtml + '<\/p><\/div>';
+        }
     },
     onTagGenerated:  function( el, ed, args )
     {
@@ -70,11 +86,15 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
     },
     tagEditor: function( el, ed, customTag, args )
     {
-        var target = (ez.$( customTag + '_inline_source' ).el.checked ? 'span' : 'div'), origin = el.nodeName;
+        var inline = document.getElementById( customTag + '_inline_source' ), target = ( inline.checked ? 'span' : 'div'), origin = el.nodeName;
+
         if ( customTag === 'underline' )
             target = 'u';
         else if ( customTag === 'sub' || customTag === 'sup' )
             target = customTag;
+        else if ( inline.value === 'image' )
+            target = 'img';
+
         el = eZOEPopupUtils.switchTagTypeIfNeeded( el, target );
         if ( el.nodeName !== 'DIV' && origin === 'DIV' )
         {
@@ -91,6 +111,16 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
                 el.innerHTML = '<p>' + el.innerHTML + '</p>';
         }
         ed.dom.setAttrib( el, 'type', 'custom' );
+
+        if ( target === 'img' )
+        {
+            var customImgUrl = document.getElementById( customTag + '_image_url_source' );
+            if ( customImgUrl && customImgUrl.value )
+                ed.dom.setAttrib( el, 'src', customImgUrl.value );
+            else
+                ed.dom.setAttrib( el, 'src', imageIcon );
+        }
+
         return el;
     }
 }));
@@ -139,8 +169,8 @@ function filterOutCustomBlockTags( n )
 
 {def $tag_is_inline = false()}
 {foreach $class_list as $custom_tag => $text}
-        {set $tag_is_inline = and( is_set($custom_inline_tags[$custom_tag]), $custom_inline_tags[$custom_tag]|eq('true'))}
-        {include uri="design:ezoe/customattributes.tpl" tag_name=$custom_tag hide=$custom_tag_name|ne( $custom_tag ) extra_attribute=array('inline', 'true', $tag_is_inline)}
+        {set $tag_is_inline = cond( is_set($custom_inline_tags[$custom_tag]), $custom_inline_tags[$custom_tag], 'false' ))}
+        {include uri="design:ezoe/customattributes.tpl" tag_name=$custom_tag hide=$custom_tag_name|ne( $custom_tag ) extra_attribute=array('inline', $tag_is_inline, array('image', 'true')|contains( $tag_is_inline ))}
 {/foreach}
 
         <div class="block"> 

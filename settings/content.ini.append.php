@@ -11,6 +11,10 @@
 #AvailableCustomTags[]=pagebreak
 #AvailableCustomTags[]=underline
 #IsInline[underline]=true
+## New setting as of OE 5.0.1
+## Displays the custom tag as an image so you cannot create sub content.
+## Will use custom image if there is a custom attribute on the tag named 'image_url'
+#IsInline[externalimage]=image
 
 
 

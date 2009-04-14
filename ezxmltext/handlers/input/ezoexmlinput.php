@@ -1132,7 +1132,6 @@ class eZOEXMLInput extends eZXMLInputHandler
                     $URL = self::getServerURL();
                     $contentObjectAttributes = $object->contentObjectAttributes();
                     $imageDatatypeArray = $ini->variable( 'ImageDataTypeSettings', 'AvailableImageDataTypes' );
-                    $srcString = self::getDesignFile('images/tango/mail-attachment32.png');
                     $imageWidth = 32;
                     $imageHeight = 32;
                     // reverse the array so we are sure we get the first valid image
@@ -1152,6 +1151,12 @@ class eZOEXMLInput extends eZXMLInputHandler
                             }
                         }
                     }
+
+                    if ( !isset( $srcString ) )
+                    {
+                        $srcString = self::getDesignFile('images/tango/mail-attachment32.png');
+                    }
+
                     if ( $alignment === 'center' )
                         $objectAttr .= ' align="middle"';
                     else if ( $alignment )
@@ -1213,6 +1218,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 $name = $tag->getAttribute( 'name' );
                 $align = $tag->getAttribute( 'align' );
                 $customAttributePart = self::getCustomAttrPart( $tag, $styleString );
+                $inline = self::customTagIsInline( $name );
                 if ( $align )
                 {
                     $customAttributePart .= ' align="' . $align . '"';
@@ -1223,10 +1229,20 @@ class eZOEXMLInput extends eZXMLInputHandler
                     if ( !$childTagText ) $childTagText = '&nbsp;';
                     $output .= '<' . self::$nativeCustomTags[ $name ] . $customAttributePart . $styleString . '>' . $childTagText . '</' . self::$nativeCustomTags[ $name ] . '>';
                 }
-                else if ( self::customTagIsInline( $name ) )
+                else if ( $inline === true )
                 {
                     if ( !$childTagText ) $childTagText = '&nbsp;';
                     $output .= '<span class="mceItemCustomTag ' . $name . '" type="custom"' . $customAttributePart . $styleString . '>' . $childTagText . '</span>';
+                }
+                else if ( $inline === 'image' )
+                {
+                    $imageUrl = self::getCustomAttrbute( $tag, 'image_url' );
+                    if ( $imageUrl === null || !$imageUrl )
+                    {
+                        $imageUrl = self::getDesignFile('images/tango/image-x-generic22.png');
+                        $customAttributePart .= ' width="22" height="22"';
+                    }
+                    $output .= '<img src="' . $imageUrl . '" class="mceItemCustomTag ' . $name . '" type="custom"' . $customAttributePart . $styleString . ' />';
                 }
                 else
                 {
@@ -1594,6 +1610,21 @@ class eZOEXMLInput extends eZXMLInputHandler
     }
 
     /*
+     * Get custom attribute value
+     */
+    public static function getCustomAttrbute( $tag, $attributeName )
+    {
+        foreach ( $tag->attributes as $attribute )
+        {
+            if ( $attribute->name === $attributeName && $attribute->namespaceURI === 'http://ez.no/namespaces/ezpublish3/custom/' )
+            {
+                return $attribute->value;
+            }
+        }
+        return null;
+    }
+
+    /*
      * Get server url in relative or absolute format depending on ezoe settings.
      */
     public static function getServerURL()
@@ -1649,8 +1680,11 @@ class eZOEXMLInput extends eZXMLInputHandler
         return htmlspecialchars( self::getServerURL() . '/' . $match['path'] );
     }
 
-    /*
+    /**
      * Figgure out if a custom tag is inline or not based on content.ini settings
+     * 
+     * @param string $name Tag name
+     * @return bool|string Return 'image' if tag is inline image, otherwise true/false.
      */
     public static function customTagIsInline( $name )
     {
@@ -1665,6 +1699,10 @@ class eZOEXMLInput extends eZXMLInputHandler
             if ( $name === $key && $isInlineTagValue === 'true' )
             {
                 return true;
+            }
+            else if ( $name === $key && $isInlineTagValue === 'image' )
+            {
+                return 'image';
             }
         }
         return false;

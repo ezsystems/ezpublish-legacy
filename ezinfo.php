@@ -43,8 +43,8 @@ class ezoeInfo
                                                                               'Copyright' => $eZCopyrightString,
                                                                               'License' => 'Licensed under the MIT License',),
                       'Includes the following third-party icons'    => array( 'Name' => 'Tango Icon theme',
-                                                                              'Version' => '0.8.1',
-                                                                              'Copyright' => 'Copyright (C) 1999-2009 http://tango-project.org',
+                                                                              'Version' => '0.8.90',
+                                                                              'Copyright' => 'Copyright (C) 1999-2009 http://tango.freedesktop.org/Tango_Icon_Library',
                                                                               'License' => 'Creative Commons Attribution-ShareAlike 2.5',)
                     );
     }

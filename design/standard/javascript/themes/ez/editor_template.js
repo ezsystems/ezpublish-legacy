@@ -1287,7 +1287,11 @@
                         return 'custom';
                     break;
                 case 'IMG':
-                    return 'embed' + (DOM.getAttrib(n, 'inline') === 'true' ? '-inline' : '');
+                    if ( DOM.getAttrib(n, 'type') === 'custom' )
+                        return 'custom';
+                    else
+                        return 'embed' + (DOM.getAttrib(n, 'inline') === 'true' ? '-inline' : '');
+                    break;
             }
             return false;
         },
@@ -1297,7 +1301,10 @@
             switch( n.nodeName )
             {
                 case 'IMG':
-                    return {'cmd':'mceImage', 'val': ''};
+                    if ( DOM.getAttrib(n, 'type') === 'custom' )
+                        return {'cmd':'mceCustom', 'val': n.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid)/g, '') };
+                    else
+                        return {'cmd':'mceImage', 'val': ''};
                 case 'PRE':
                     return {'cmd':'mceLiteral', 'val': ''};
                 case 'U':
@@ -1307,14 +1314,6 @@
                 case 'SUP':
                     return {'cmd':'mceCustom', 'val': 'sup'};
                 case 'DIV':
-                    if ( n.className.indexOf('mceNonEditable') !== -1 )
-                    {
-                        if ( n.className.indexOf('mceItemContentTypeFiles') !== -1 )
-                            return {'cmd':'mceFile', 'val': ''};
-                        return {'cmd':'mceObject', 'val': ''};
-                    }
-                    else if ( DOM.getAttrib(n, 'type') === 'custom' )
-                        return {'cmd':'mceCustom', 'val': n.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid)/g, '') };
                 case 'SPAN':
                     if ( n.className.indexOf('mceNonEditable') !== -1 )
                     {
@@ -1324,6 +1323,7 @@
                     }
                     else if ( DOM.getAttrib(n, 'type') === 'custom' )
                         return {'cmd':'mceCustom', 'val': n.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid)/g, '') };
+                    break;
                 case 'TABLE':
                     return {'cmd':'mceInsertTable', 'val': ''};
                 case 'TR':

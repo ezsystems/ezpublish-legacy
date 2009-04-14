@@ -13,6 +13,8 @@ eZ Online Editor 5.0 extension Changelog
 * Fixed bug #14670: Embed relations are not removed when embed tag is
   IMPORTANT: Apply update/database/5.0/dbupdate-5.0.0-to-5.0.1.sql to fix 
   inconsistency in database (if you have used ezoe prior to version 5.0.1)
+* Updated Tango icons to v0.8.90
+* Added support for IsInline[<tag>]=image setting for custom tags with no content (or actual images)
 
 
 5.0.0
