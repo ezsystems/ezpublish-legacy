@@ -116,14 +116,14 @@ if ( is_file( $logFilePath ) )
                 {
                     $logPartArray = preg_split( "/[\"]+/", $line );
                     $timeIPPart = $logPartArray[0];
-                    list( $ip, $timePart ) = split( "\[", $timeIPPart );
-                    list( $time, $rest ) = split( " ", $timePart );
+                    list( $ip, $timePart ) = explode( '[', $timeIPPart );
+                    list( $time, $rest ) = explode( ' ', $timePart );
 
                     if ( $time == $startTime )
                         $stopParse = true;
                     $requirePart = $logPartArray[1];
 
-                    list( $requireMethod, $url ) = split( " ", $requirePart );
+                    list( $requireMethod, $url ) = explode( ' ', $requirePart );
                     $url = preg_replace( "/\?.*/", "", $url);
                     foreach ( $prefixes as $prefix )
                     {
@@ -144,7 +144,7 @@ if ( is_file( $logFilePath ) )
                     }
                     else
                     {
-                        $urlArray = split( "/", $url );
+                        $urlArray = explode( '/', $url );
                         $firstElement = $urlArray[0];
                         if ( in_array( $firstElement, $contentArray ) )
                         {

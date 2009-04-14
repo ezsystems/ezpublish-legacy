@@ -316,7 +316,7 @@ function eZSetupTestPhpVersion( $type )
 
     /*
      // Get the operating systems name
-    $operatingSystem = split( " ", php_uname() );
+    $operatingSystem = explode( ' ', php_uname() );
     $operatingSystem = strtolower( $operatingSystem[0] );
 
     // Find out if there is an os specific version needed

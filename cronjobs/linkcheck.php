@@ -54,8 +54,8 @@ foreach ( $linkList as $link )
             if ( eZSys::osType() != 'win32' )
             {
                 $url = trim( preg_replace("/^mailto:(.+)/i", "\\1", $url));
-                list($userName, $host) = split("@", $url);
-                list($host, $junk)= split("\?", $host);
+                list($userName, $host) = explode( '@', $url );
+                list($host, $junk) = explode( '?', $host );
                 $dnsCheck = checkdnsrr( $host,"MX" );
                 if ( !$dnsCheck )
                 {

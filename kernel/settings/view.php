@@ -66,7 +66,7 @@ if ( $http->hasPostVariable( 'RemoveButton' ) )
         $deletedSettingArray = $http->postVariable( 'RemoveSettingsArray' );
         foreach ( $deletedSettingArray as $deletedSetting )
         {
-            list( $block, $setting ) = split( ':', $deletedSetting );
+            list( $block, $setting ) = explode( ':', $deletedSetting );
 
             if ( is_array( $placements[$block][$setting] ) )
             {

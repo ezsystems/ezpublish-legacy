@@ -1663,7 +1663,7 @@ class eZCodeMapper
             $commands = $ini->variable( 'Extensions', 'Commands' );
             if ( isset( $commands[$command['command']] ) )
             {
-                list( $path, $className ) = split( ":", $commands[$command['command']], 2 );
+                list( $path, $className ) = explode( ':', $commands[$command['command']], 2 );
                 if ( file_exists( $path ) )
                 {
                     $charsetNameTxt = var_export( $charsetName, true );
@@ -1807,7 +1807,7 @@ class eZCodeMapper
             $commands = $ini->variable( 'Extensions', 'Commands' );
             if ( isset( $commands[$command['command']] ) )
             {
-                list( $path, $className ) = split( ":", $commands[$command['command']], 2 );
+                list( $path, $className ) = explode( ':', $commands[$command['command']], 2 );
                 if ( file_exists( $path ) )
                 {
                     include_once( $path );

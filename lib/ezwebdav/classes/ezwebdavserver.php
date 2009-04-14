@@ -425,7 +425,7 @@ class eZWebDAVServer
             // The following lines take care of URL encoding special characters
             // for each element (stuff between slashes) in the path.
             $href = $entry['href'];
-            $pathArray = split( '/', eZWebDAVServer::recode( "$href", $dataCharset, $xmlCharset ) );
+            $pathArray = explode( '/', eZWebDAVServer::recode( "$href", $dataCharset, $xmlCharset ) );
 
             $encodedPath = '/';
 

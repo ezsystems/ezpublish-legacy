@@ -462,7 +462,7 @@ if ( !$packageList )
 }
 else
 {
-    $packageList = split( ' ', $packageList );
+    $packageList = explode( ' ', $packageList );
 }
 
 //

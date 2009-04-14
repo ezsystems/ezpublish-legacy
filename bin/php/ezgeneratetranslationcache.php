@@ -63,7 +63,7 @@ $script->initialize();
 //
 // 'ts-list' option
 //
-$translations = isset( $scriptOptions['ts-list'] ) ? split( ' ', $scriptOptions['ts-list'] ) : array();
+$translations = isset( $scriptOptions['ts-list'] ) ? explode( ' ', $scriptOptions['ts-list'] ) : array();
 $translations = eZTSTranslator::fetchList( $translations );
 
 

@@ -265,7 +265,7 @@ class eZPgsqlSchema extends eZDBSchemaInterface
             $fields = array();
             $kn = $row['relname'];
 
-            $column_id_array = split( ' ', $row['indkey'] );
+            $column_id_array = explode( ' ', $row['indkey'] );
             if ( $row['indisprimary'] == 't' )
             {
                 // If the name of the key matches our primary key naming standard

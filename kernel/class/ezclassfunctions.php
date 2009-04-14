@@ -33,7 +33,7 @@ class eZClassFunctions
 {
     static function addGroup( $classID, $classVersion, $selectedGroup )
     {
-        list ( $groupID, $groupName ) = split( '/', $selectedGroup );
+        list ( $groupID, $groupName ) = explode( '/', $selectedGroup );
         $ingroup = eZContentClassClassGroup::create( $classID, $classVersion, $groupID, $groupName );
         $ingroup->store();
         return true;

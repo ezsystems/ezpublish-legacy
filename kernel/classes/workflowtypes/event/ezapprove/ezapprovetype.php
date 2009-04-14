@@ -711,7 +711,7 @@ class eZApproveType extends eZWorkflowEventType
                          foreach ( $excludedGroupsID as $groupID )
                          {
                              // $IDArray will contain IDs of "Excluded user groups"
-                             $IDArray = split( ',', $groupID[ 'data_text2' ] );
+                             $IDArray = explode( ',', $groupID[ 'data_text2' ] );
                              // $newIDArray will contain  array without $contentObjectID
                              $newIDArray = array_filter( $IDArray, create_function( '$v', 'return ( $v != ' . $contentObjectID .' );' ) );
                              $newValues = $db->escapeString( implode( ',', $newIDArray ) );

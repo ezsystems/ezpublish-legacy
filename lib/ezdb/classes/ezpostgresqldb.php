@@ -598,7 +598,7 @@ class eZPostgreSQLDB extends eZDBInterface
                 $array = pg_fetch_row( $result, 0 );
                 $versionText = $array[0];
             }
-            list( $dbType, $versionInfo ) = split( " ", $versionText );
+            list( $dbType, $versionInfo ) = explode( ' ', $versionText );
             $versionArray = explode( '.', $versionInfo );
             return array( 'string' => $versionInfo,
                           'values' => $versionArray );

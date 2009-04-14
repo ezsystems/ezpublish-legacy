@@ -421,7 +421,7 @@ class eZURLAliasML extends eZPersistentObject
             $languageMask |= 1;
 
         $path = eZURLAliasML::cleanURL( $path );
-        $elements = split( "/", $path );
+        $elements = explode( '/', $path );
 
         $db = eZDB::instance();
         $parentID = 0;
@@ -1143,7 +1143,7 @@ class eZURLAliasML extends eZPersistentObject
         if ( $uriString == '' && $glob !== false )
             $elements = array();
         else
-            $elements = split( "/", $uriString );
+            $elements = explode( '/', $uriString );
         $len      = count( $elements );
         $i = 0;
         $selects = array();
@@ -1422,7 +1422,7 @@ class eZURLAliasML extends eZPersistentObject
         }
 
         $db = eZDB::instance();
-        $elements = split( "/", $internalURIString );
+        $elements = explode( '/', $internalURIString );
         $len      = count( $elements );
         if ( $reverse )
         {
