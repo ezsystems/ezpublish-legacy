@@ -62,6 +62,7 @@ $lockGroup = new eZContentObjectStateGroup( array( 'identifier' => 'ez_lock' ) )
 
 $trans = $lockGroup->translationByLocale( $localeToUse );
 $trans->setAttribute( 'name', 'Lock' );
+$trans->setAttribute( 'description', 'Lock group' );
 $messages = array();
 if ( $lockGroup->isValid( $messages ) )
 {
@@ -78,6 +79,7 @@ else
 $notLockedState = $lockGroup->newState( 'not_locked' );
 $trans = $notLockedState->translationByLocale( $localeToUse );
 $trans->setAttribute( 'name', 'Not locked' );
+$trans->setAttribute( 'description', 'Not locked state' );
 $messages = array();
 if ( $notLockedState->isValid( $messages ) )
 {
@@ -94,6 +96,7 @@ else
 $lockedState = $lockGroup->newState( 'locked' );
 $trans = $lockedState->translationByLocale( $localeToUse );
 $trans->setAttribute( 'name', 'Locked' );
+$trans->setAttribute( 'description', 'Locked state' );
 $messages = array();
 if ( $lockedState->isValid( $messages ) )
 {

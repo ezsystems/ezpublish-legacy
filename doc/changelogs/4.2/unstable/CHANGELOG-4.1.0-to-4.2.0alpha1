@@ -53,3 +53,4 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #08123: Query error on ezworkflow_event with multiplexer and a selection of many classes
 - Fixed bug #14704: Error in addlockstategroup.php update script
 - Fixed bug #14698: Check iconv availability in setup wizard
+- Fixed bug #14624: upgrade 4.0 -> 4.1: addlockstategroup.php fails if sql mode is set to strict
