@@ -324,10 +324,6 @@ class eZContentObject extends eZPersistentObject
 
     function name( $version = false , $lang = false )
     {
-        if ( isset( $this->Name ) && !$version && !$lang )
-        {
-            return $this->Name;
-        }
         if ( !$version )
         {
             $version = $this->attribute( 'current_version' );
