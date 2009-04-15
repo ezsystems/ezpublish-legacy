@@ -114,7 +114,7 @@ class eZExtensionPackageHandler extends eZPackageHandler
         }
 
         // Regenerate the autoloads to remove of no longer existing classes
-        $this->updateAutoload();
+        ezpAutoloader::updateExtensionAutoloadArray();
 
         return true;
     }
@@ -177,7 +177,7 @@ class eZExtensionPackageHandler extends eZPackageHandler
         eZDir::copy( $packageExtensionDir, $extensionRootDir );
 
         // Regenerate autoloads for extensions to pick up the newly created extension
-        $this->updateAutoload();
+        ezpAutoloader::updateExtensionAutoloadArray();
 
         // Activate extension
         $siteINI = eZINI::instance( 'site.ini', 'settings/override', null, null, false, true );
@@ -279,27 +279,6 @@ class eZExtensionPackageHandler extends eZPackageHandler
         }
 
         return $extensionsToAdd;
-    }
-
-    protected function updateAutoload()
-    {
-        $autoloadGenerator = new eZAutoloadGenerator();
-        try
-        {
-            $autoloadGenerator->buildAutoloadArrays();
-
-            $autoloadWarningMessages = $autoloadGenerator->getWarnings();
-            foreach ( $autoloadWarningMessages as $warning )
-            {
-                eZDebug::writeWarning( $warning, __METHOD__ );
-            }
-            
-            ezpAutoloader::reset();
-        }
-        catch ( Exception $e )
-        {
-            eZDebug::writeError( $e->getMessage(), __METHOD__ );
-        }
     }
 
     public $Package = null;

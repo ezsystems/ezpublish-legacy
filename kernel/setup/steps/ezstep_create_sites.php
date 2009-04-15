@@ -88,6 +88,17 @@ class eZStepCreateSites extends eZStepInstaller
         $this->Error = array( 'errors' => array()  );
 
         set_time_limit( 10*60 );
+
+        $siteType = $this->chosenSiteType();
+
+        // If we are installing a package without extension packages we
+        // generate the autoload array for extensions.
+        // For the time being we only do this for the plain_site package.
+        if ( $siteType['identifier'] == 'plain_site' )
+        {
+            ezpAutoloader::updateExtensionAutoloadArray();
+        }
+
         $saveData = true; // set to true to save data
 
         //$ini = eZINI::create();
@@ -164,8 +175,6 @@ class eZStepCreateSites extends eZStepInstaller
             $i18nINI->setVariable( 'CharacterSettings', 'Charset', $charset );
             $i18nINI->save( false, '.php', 'append', true );
         }
-
-        $siteType = $this->chosenSiteType();
 
         $siteINISettings = array();
         $result = true;

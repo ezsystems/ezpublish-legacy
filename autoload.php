@@ -100,7 +100,7 @@ class ezpAutoloader
 
     /**
      * Resets the local, in-memory autoload cache.
-     * 
+     *
      * If the autoload arrays are extended during a requsts lifetime, this
      * method must be called, to make them available.
      *
@@ -109,6 +109,21 @@ class ezpAutoloader
     public static function reset()
     {
         self::$ezpClasses = null;
+    }
+
+    public static function updateExtensionAutoloadArray()
+    {
+        $autoloadGenerator = new eZAutoloadGenerator();
+        try
+        {
+            $autoloadGenerator->buildAutoloadArrays();
+
+            self::reset();
+        }
+        catch ( Exception $e )
+        {
+            echo $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine();
+        }
     }
 }
 
