@@ -110,6 +110,7 @@ class eZStepDatabaseChoice extends eZStepInstaller
     function display()
     {
         $databaseMap = eZSetupDatabaseMap();
+        $availableDatabases = array();
         $databaseList = array();
         if ( isset( $this->PersistenceList['database_extensions']['found'] ) )
         {
@@ -119,6 +120,14 @@ class eZStepDatabaseChoice extends eZStepInstaller
                 if ( !isset( $databaseMap[$extension] ) )
                     continue;
                 $databaseList[] = $databaseMap[$extension];
+                if ( $databaseMap[$extension]['type'] == 'mysql' or $databaseMap[$extension]['type'] == 'mysqli' )
+                {
+                    $availableDatabases['mysql'] = true;
+                }
+                elseif ( $databaseMap[$extension]['type'] == 'postgresql' )
+                {
+                    $availableDatabases['postgresql'] = true;
+                }
             }
         }
 
@@ -128,6 +137,7 @@ class eZStepDatabaseChoice extends eZStepInstaller
 
         $this->Tpl->setVariable( 'database_list', $databaseList );
         $this->Tpl->setVariable( 'database_info', $databaseInfo );
+        $this->Tpl->setVariable( 'available_databases', $availableDatabases );
 
         $result = array();
         // Display template
