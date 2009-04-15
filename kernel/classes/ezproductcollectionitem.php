@@ -84,7 +84,7 @@ class eZProductCollectionItem extends eZPersistentObject
                                                                'default' => 0,
                                                                'required' => true ),
                                          'discount' => array( 'name' => "DiscountValue",
-                                                              'datatype' => 'integer',
+                                                              'datatype' => 'float',
                                                               'default' => 0,
                                                               'required' => true ),
                                          'name' => array( 'name' => 'Name',
