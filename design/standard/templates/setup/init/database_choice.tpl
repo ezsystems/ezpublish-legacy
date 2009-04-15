@@ -5,9 +5,19 @@
   <h1>{"Choose database system"|i18n("design/standard/setup/init")}</h1>
 </div>
 
+{if and( is_set( $available_databases['mysql'] ), is_set( $available_databases['postgresql'] ) )}
 <p>
  {"Both MySQL and PostgreSQL support was detected on your system. Please choose the database system you would like to use."|i18n("design/standard/setup/init")}
 </p>
+{elseif is_set( $available_databases['mysql'] )}
+<p>
+ {"MySQL support was detected on your system. Please choose the database driver you would like to use."|i18n("design/standard/setup/init")}
+</p>
+{elseif is_set( $available_databases['postgresql'] )}
+<p>
+ {"PostgreSQL support was detected on your system. Please choose the database driver you would like to use."|i18n("design/standard/setup/init")}
+</p>
+{/if}
 
 <form method="post" action="{$script}">
 <div class="input_highlight">
