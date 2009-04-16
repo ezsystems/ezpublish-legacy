@@ -16,7 +16,7 @@ eZ Online Editor 5.0 extension Changelog
 * Updated Tango icons to v0.8.90
 * Added support for IsInline[<tag>]=image setting for custom tags with no content (or actual images)
 * Allow siteaccess to override ezoe.ini SkinVariant setting
-
+* Fixed #14728: Space between links are removed
 
 5.0.0
 * Fixed regression #13650: [header] ezoe adds a level each time it is called

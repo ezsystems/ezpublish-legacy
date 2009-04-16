@@ -695,7 +695,6 @@ class eZOEXMLInput extends eZXMLInputHandler
     {
         $node = null;
         $dom = new DOMDocument( '1.0', 'utf-8' );
-        $dom->preserveWhiteSpace = false;
         $success = false;
         if ( $this->XMLData )
         {
