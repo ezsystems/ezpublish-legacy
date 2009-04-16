@@ -607,6 +607,16 @@ while ( $moduleRunRequired )
         $moduleAccessAllowed = true;
         $omitPolicyCheck = true;
         $runModuleView = true;
+
+        $availableViewsInModule = $module->attribute( 'views' );
+        if ( !isset( $availableViewsInModule[$function_name] ) )
+        {
+            $moduleResult = $module->handleError( eZError::KERNEL_MODULE_VIEW_NOT_FOUND, 'kernel' );
+            $runModuleView = false;
+            $policyCheckRequired = false;
+            $omitPolicyCheck = true;
+        }
+
         if ( $policyCheckRequired )
         {
             $omitPolicyCheck = false;
@@ -695,7 +705,6 @@ while ( $moduleRunRequired )
             }
             else if ( !$moduleAccessAllowed )
             {
-                $availableViewsInModule = $module->attribute( 'views' );
                 if ( isset( $availableViewsInModule[$function_name][ 'default_navigation_part' ] ) )
                 {
                     $defaultNavigationPart = $availableViewsInModule[$function_name][ 'default_navigation_part' ];
