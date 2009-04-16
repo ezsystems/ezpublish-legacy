@@ -15,6 +15,7 @@ eZ Online Editor 5.0 extension Changelog
   inconsistency in database (if you have used ezoe prior to version 5.0.1)
 * Updated Tango icons to v0.8.90
 * Added support for IsInline[<tag>]=image setting for custom tags with no content (or actual images)
+* Allow siteaccess to override ezoe.ini SkinVariant setting
 
 
 5.0.0
