@@ -6,7 +6,7 @@ eZ Online Editor 5.0 extension Changelog
 * Fixed translation of link link-type and view selections
 * Implemented #14424: Improvements of list of link types
 * Enable sub / sup / justify buttons by default and disable justify buttons on 4.0.x
-* Pack javascript files used in dialogs to spped up the dialogs a bit
+* Pack javascript files used in dialogs to speed up the dialogs a bit
 * Fixed bug #14649: IE inserts hostname when protocol is wrong
 * Added jpn-JP translation
 * Updated tinyMCE to 3.2.2.3
