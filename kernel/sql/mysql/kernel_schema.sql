@@ -1332,8 +1332,8 @@ CREATE TABLE ezsession (
   data longtext NOT NULL,
   expiration_time int(11) NOT NULL default '0',
   session_key varchar(32) NOT NULL default '',
-  user_id int(11) NOT NULL default '0',
   user_hash varchar(32) NOT NULL default '',
+  user_id int(11) NOT NULL default '0',
   PRIMARY KEY  (session_key),
   KEY expiration_time (expiration_time),
   KEY ezsession_user_id (user_id)
@@ -1753,5 +1753,6 @@ CREATE TABLE ezworkflow_process (
   PRIMARY KEY  (id),
   KEY ezworkflow_process_process_key (process_key)
 ) ENGINE=InnoDB;
+
 
 
