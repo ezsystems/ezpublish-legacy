@@ -324,6 +324,12 @@ class eZContentObject extends eZPersistentObject
 
     function name( $version = false , $lang = false )
     {
+        // if the object id is null, we can't read data from the database
+        // and return the locally known name
+        if ( is_null( $this->attribute( 'id' ) ) )
+        {
+            return $this->Name;
+        }
         if ( !$version )
         {
             $version = $this->attribute( 'current_version' );
@@ -1741,7 +1747,7 @@ class eZContentObject extends eZPersistentObject
         $db->query( "DELETE FROM ezcontentobject_link
                      WHERE from_contentobject_id = '$delID'" );
 
-        $db->query( "DELETE FROM ezcontentobject_link  
+        $db->query( "DELETE FROM ezcontentobject_link
                      WHERE to_contentobject_id = '$delID'" );
 
         // Cleanup properties: LastVisit, Creator, Owner
