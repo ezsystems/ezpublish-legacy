@@ -558,7 +558,7 @@ while ( $moduleRunRequired )
         $runModuleView = true;
 
         $availableViewsInModule = $module->attribute( 'views' );
-        if ( !isset( $availableViewsInModule[$function_name] ) )
+        if ( !isset( $availableViewsInModule[$function_name] ) and !$objectHasMovedError )
         {
             $moduleResult = $module->handleError( eZError::KERNEL_MODULE_VIEW_NOT_FOUND, 'kernel' );
             $runModuleView = false;
