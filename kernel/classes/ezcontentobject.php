@@ -324,6 +324,12 @@ class eZContentObject extends eZPersistentObject
 
     function name( $version = false , $lang = false )
     {
+        // if the object id is null, we can't read data from the database
+        // and return the locally known name
+        if ( is_null( $this->attribute( 'id' ) ) )
+        {
+            return $this->Name;
+        }
         if ( !$version )
         {
             $version = $this->attribute( 'current_version' );
@@ -354,6 +360,7 @@ class eZContentObject extends eZPersistentObject
 
     function versionLanguageName( $version, $lang = false )
     {
+        $contentObjectID = $this->attribute( 'id' );
         $name = false;
         if ( !$version > 0 )
         {
@@ -362,7 +369,6 @@ class eZContentObject extends eZPersistentObject
             return $name;
         }
         $db = eZDb::instance();
-        $contentObjectID = $this->attribute( 'id' );
         if ( !$lang )
         {
             // If $lang not given we will use the initial language of the object
@@ -1741,7 +1747,7 @@ class eZContentObject extends eZPersistentObject
         $db->query( "DELETE FROM ezcontentobject_link
                      WHERE from_contentobject_id = '$delID'" );
 
-        $db->query( "DELETE FROM ezcontentobject_link  
+        $db->query( "DELETE FROM ezcontentobject_link
                      WHERE to_contentobject_id = '$delID'" );
 
         // Cleanup properties: LastVisit, Creator, Owner
