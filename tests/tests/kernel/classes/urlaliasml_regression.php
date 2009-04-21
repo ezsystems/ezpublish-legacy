@@ -1157,6 +1157,75 @@ class eZURLAliasMlRegression extends ezpDatabaseTestCase
         }
         return $ret;
     }
+
+    /**
+     * Test that the language mask of an url alias element is downgraded
+     * when a translation is removed.
+     *
+     * Test Outline
+     * ------------
+     * 1. Add a Folder.
+     * 2. Add a ChildNode of folder.
+     * 3. Add a translation (nor-NO) to ChildNode (lang_mask should be 6 now).
+     * 4. Change the translation (nor-NO) of ChildNode to something else
+     * 5. PROBLEM: The row with both translation are retired, and original
+     *             translation is lost. (Converted into a history element with incorrect
+     *             language mask)
+     * 6. VERIFY: That lang_mask has been downgraded for the orignal
+     *            entry, and that a new entry for the new translation has been made.
+     * 
+     * @link http://issues.ez.no/14787
+     */
+    function testURLAliasCombinedTranslationEntry()
+    {
+        $db = eZDB::instance();
+
+        // STEP 1: Add test folder
+        $folder = new ezpObject( "folder", 2 );
+        $folder->name = __FUNCTION__;
+        $folder->publish();
+
+        // STEP 2: Add child below folder
+        $child = new ezpObject( "article", $folder->mainNode->node_id );
+        $child->title = "Child";
+        $child->publish();
+
+        // STEP 3: Add translation to child with the same name
+        $translationAttributes = array( "title" => "Child" );
+        $child->addTranslation( "nor-NO", $translationAttributes );
+
+        // STEP 4: Update the translation
+        $child->refresh();
+        $newVersion = $child->createNewVersion( false, true, 'nor-NO' );
+        $norDataMap = $child->fetchDataMap( $newVersion->attribute( 'version' ), "nor-NO" );
+        $norDataMap['title']->setAttribute( 'data_text', 'NorChildChanged' );
+        $norDataMap['title']->store();
+        ezpObject::publishContentObject( $child->object, $newVersion );
+
+        // STEP 5: Issue arose here.
+
+        // STEP 6: Verify that lang_mask has been downgraded for the orignal
+        // entry, and that a new entry for the new translation has been made,
+        // also make sure that the pre-existing entry has not been set as a
+        // history element.
+
+        $query = self::buildSql( array( $child->mainNode->node_id ) );
+        $result = $db->arrayQuery( $query );
+
+        $childRawData = self::urlEntryForName( 'Child', $result );
+
+        // Assert that language has been set back to main translation only
+        self::assertEquals( 2, (int)$childRawData['lang_mask'], "Pre-existing URL entry did not have its language mask updated to remove changed translation." );
+
+        // Assert that the already existing url entry wasn't marked as a hitory element.
+        self::assertEquals( 1, (int)$childRawData['is_original'], "Pre-existing URL entry has incorrectly been marked as a history entry, while it still represents valid URLs." );
+
+        // Assert that new entry is created for changed translation, sharing same id
+        $newTranslatedChildData = self::urlEntryForName( 'NorChildChanged', $result );
+        self::assertEquals( (int)$childRawData['id'], (int)$newTranslatedChildData['id'], "Newly created translation of existing action should have same id." );
+
+        self::assertEquals( 4, (int)$newTranslatedChildData['lang_mask'] );
+    }
 }
 
 ?>
