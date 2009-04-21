@@ -109,7 +109,7 @@ if ( $http->hasPostVariable( 'uploadButton' ) || $forcedUpload )
         $newObject = $result['contentobject'];
         $newObjectID = $newObject->attribute( 'id' );
         $newObjectName = $newObject->attribute( 'name' );
-        $newObjectNodeID = $newObject->attribute( 'main_node_id' );
+        $newObjectNodeID = (int) $newObject->attribute( 'main_node_id' ); // this will be empty if object is stopped by approve workflow
 
         // edit attributes
         $newVersionObject  = $newObject->attribute( 'current' );

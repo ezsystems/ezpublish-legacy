@@ -514,7 +514,7 @@ var eZOEPopupUtils = {
         // global objects: ez 
         if ( ez.val( id ) )
         {
-            var s = tinyMCEPopup.editor.settings, type = useNode === true ? 'eZNode_' + node_id : 'eZObject_' + id ;
+            var s = tinyMCEPopup.editor.settings, type = useNode === true && node_id > 0 ? 'eZNode_' + node_id : 'eZObject_' + id ;
             window.location = s.ez_extension_url + '/relations/' + s.ez_contentobject_id + '/' + s.ez_contentobject_version + '/auto/' + type;
         }
     },
