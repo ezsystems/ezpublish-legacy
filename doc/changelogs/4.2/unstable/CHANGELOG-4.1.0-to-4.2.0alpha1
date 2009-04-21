@@ -63,3 +63,4 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #14787: Url alias errors when changing translation currently shared with other translations.
 - Fixed bug #13087: dit\ezobjectrelationlist.tpl: wrong id for div tag
 - Fixed bug #14795: Problem with mime-type for swf files in mime.ini
+- Fixed bug #12833: /user/success redirects to /user/register
