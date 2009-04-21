@@ -1174,13 +1174,13 @@ class eZContentObject extends eZPersistentObject
         {
             $contentINI = eZINI::instance( 'content.ini' );
             $versionlimit = $contentINI->variable( 'VersionManagement', 'DefaultVersionHistoryLimit' );
-            $limitList = $contentINI->variable( 'VersionManagement', 'VersionHistoryClass' );
+            $limitList =  eZContentClass::classIDByIdentifier( $contentINI->variable( 'VersionManagement', 'VersionHistoryClass' ) );
             $classID = $this->attribute( 'contentclass_id' );
-            foreach ( array_keys ( $limitList ) as $key )
+            foreach ( $limitList as $key => $value )
             {
                 if ( $classID == $key )
                 {
-                    $versionlimit = $limitList[$key];
+                    $versionlimit = $value;
                 }
             }
             if ( $versionlimit < 2 )

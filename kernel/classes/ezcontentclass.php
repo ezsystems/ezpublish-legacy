@@ -1721,13 +1721,26 @@ You will need to change the class of the node by using the swap functionality.' 
      *
      * @static
      * @since Version 4.1
+     * @param string|array $identifier identifier string or array of identifiers (array support added in 4.1.1) 
      * @return int|false Returns classid or false
      */
     public static function classIDByIdentifier( $identifier )
     {
         $identifierHash = self::classIdentifiersHash();
 
-        if ( isset( $identifierHash[$identifier] ) )
+        if ( is_array( $identifier ) )
+        {
+            $idList = array();
+            foreach( $identifier as $identifierItem )
+            {
+                if ( isset( $identifierHash[$identifierItem] )  )
+                    $idList[] = $identifierHash[$identifierItem];
+                else if ( is_numeric( $identifierItem ) ) // to be able to pass mixed arrays
+                    $idList[] = $identifierHash[$identifierItem];
+            }
+            return $idList;
+        }
+        else if ( isset( $identifierHash[$identifier] ) )
             return $identifierHash[$identifier];
         else
             return false;
