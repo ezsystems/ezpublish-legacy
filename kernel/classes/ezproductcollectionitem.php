@@ -239,7 +239,7 @@ class eZProductCollectionItem extends eZPersistentObject
                 }
 
                 $dataType = $objectAttribute->dataType();
-                $optionData = $dataType->productOptionInformation( $objectAttribute, $option->attribute( 'option_item_id' ), $this, $option );
+                $optionData = $dataType->productOptionInformation( $objectAttribute, $option->attribute( 'option_item_id' ), $this );
 
                 if ( $optionData )
                 {
