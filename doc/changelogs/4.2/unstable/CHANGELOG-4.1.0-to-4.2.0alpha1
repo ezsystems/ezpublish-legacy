@@ -60,3 +60,4 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #14635: For a discount with decimal component shop/basket cuts off the decimal
 - Fixed bug #11055: $object.name and $node.name not translated
 - Fixed bug #14656: Access Denied Error when view not found
+- Fixed bug #14787: Url alias errors when changing translation currently shared with other translations.
