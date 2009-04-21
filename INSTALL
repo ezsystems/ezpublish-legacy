@@ -42,6 +42,8 @@ o  Web Browser:
    Note: Safari, Opera and Google Chrome is not well tested at this time, so if
          you experience problems or unexpected result. Please try again in
          Firefox or Internet Explorer and report the issue to us so we can fix it!
+         
+   Note 2: Only stable browser versions are supported.
 
 o  Web Server:
    
