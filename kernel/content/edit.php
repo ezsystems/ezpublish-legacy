@@ -148,11 +148,11 @@ if ( $http->hasPostVariable( 'NewDraftButton' ) )
         $EditLanguage = $http->postVariable( 'ContentObjectLanguageCode' );
     }
 
-    $limitList = $contentINI->variable( 'VersionManagement', 'VersionHistoryClass' );
-    foreach ( array_keys ( $limitList ) as $key )
+    $limitList = eZContentClass::classIDByIdentifier( $contentINI->variable( 'VersionManagement', 'VersionHistoryClass' ) );
+    foreach ( $limitList as $key => $value )
     {
         if ( $classID == $key )
-            $versionlimit = $limitList[$key];
+            $versionlimit = $value;
     }
     if ( $versionlimit < 2 )
         $versionlimit = 2;
