@@ -39,7 +39,7 @@
     {def $left_menu_widths = ezini( 'LeftMenuSettings', 'MenuWidth', 'menu.ini')
          $left_menu_width=$left_menu_widths[$admin_left_width]}
     div#leftmenu {ldelim} width: {$left_menu_width}em; {rdelim}
-    div#maincontent {ldelim} margin-left: {sum( $left_menu_width, 0.5 )}em; {rdelim}
+    div#maincontent {ldelim} margin-left: {$left_menu_width|int}.5 em; {rdelim}
     {undef $left_menu_widths $left_menu_width}
 {/if}
 
