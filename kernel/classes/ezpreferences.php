@@ -65,6 +65,7 @@ class eZPreferences
     {
         $db = eZDB::instance();
         $name = $db->escapeString( $name );
+        $rawValue = $value;
         $value = $db->escapeString( $value );
 
         $isCurrentUser = true;
@@ -111,9 +112,10 @@ class eZPreferences
         }
 
         // We also store in session if this is the current user (anonymous or normal user)
+        // use $rawValue as value will be escaped by session code (see #014520)
         if ( $isCurrentUser )
         {
-            eZPreferences::storeInSession( $name, $value );
+            eZPreferences::storeInSession( $name, $rawValue );
         }
 
         return true;
