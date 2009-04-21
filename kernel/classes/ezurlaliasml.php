@@ -587,10 +587,37 @@ class eZURLAliasML extends eZPersistentObject
             // OMS-urlalias-fix: We want to retain the lang_mask of url entries, but mark others as history elements is_original = 0
             // Furthermore this change is not performed on custom alias entries.
             $bitAnd = $db->bitAnd( 'lang_mask', $languageID );
-            $query = "UPDATE ezurlalias_ml SET is_original = 0\n" .
+
+            // First we look at the entries to mark as history entries, if an entry comprise more languages, it must not be set as history element.
+            $query = "SELECT * FROM ezurlalias_ml\n" .
                      "WHERE action = '{$actionStr}' AND (${bitAnd} > 0) AND is_original = 1 AND is_alias = 0 AND (parent != $parentID OR text_md5 != {$textMD5})";
-            $res = $db->query( $query );
-            if ( !$res ) return eZURLAliasML::dbError( $db );
+            $toBeUpdated = $db->arrayQuery( $query );
+
+            // 0. Check if the entry to be updated represents multiple languages:
+            // IF YES:
+            //  1. "Downgrade" existing entry, by removing the active translation's language id from the language_mask.
+            // IF NO:
+            //  1. Mark entry as a history entry
+
+            if ( count( $toBeUpdated ) > 0 )
+            {
+                $languageMask = $toBeUpdated[0]['lang_mask'];
+                if ( ( $languageMask & ~( $languageID | 1 ) ) != 0 )
+                {
+                    // "Composite entry", downgrade current entry
+                    $currentEntry = new eZURLAliasML( $toBeUpdated[0] );
+                    $currentEntry->LangMask = (int)$currentEntry->LangMask & ~$languageID;
+                    $currentEntry->store();
+                }
+                else
+                {
+                    // Mark as history element.
+                    $query = "UPDATE ezurlalias_ml SET is_original = 0\n" .
+                             "WHERE action = '{$actionStr}' AND (${bitAnd} > 0) AND is_original = 1 AND is_alias = 0 AND (parent != $parentID OR text_md5 != {$textMD5})";
+                    $res = $db->query( $query );
+                    if ( !$res ) return eZURLAliasML::dbError( $db );
+                }
+            }
 
             // OMS-urlalias-fix: instead entries without language we look at history elements with same action (and language)
             // Look for other nodes with the same action and language
