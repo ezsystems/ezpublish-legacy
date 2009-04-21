@@ -65,3 +65,4 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #14795: Problem with mime-type for swf files in mime.ini
 - Fixed bug #12833: /user/success redirects to /user/register
 - Fixed bug #14796: System Locale shaking the admin interface
+- Fixed bug #14652: Image alias create JPE file
