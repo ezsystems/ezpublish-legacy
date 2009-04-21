@@ -22,7 +22,7 @@ your account.'|i18n('design/standard/user')}
 {/section}
 
 <div class="buttonblock">
-<form action={"/user/register"|ezurl} method="post">
+<form action={"/"|ezurl} method="post">
     <input class="button" type="submit" value="{'OK'|i18n( 'design/standard/user' )}" />
 </form>
 </div>
