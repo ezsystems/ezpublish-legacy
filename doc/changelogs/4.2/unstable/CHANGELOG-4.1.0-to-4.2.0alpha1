@@ -70,3 +70,4 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #10944: preview cache - fatal error
 - Fixed bug #14703: wrong usage of productOptionInformation
 - Fixed bug #14520: eZPreferences - inconsistencies between database- and session-stored escaped values during initial session
+- Fixed bug #14802: Problem with url alias entries when shifting a combined entry to a previously used name.
