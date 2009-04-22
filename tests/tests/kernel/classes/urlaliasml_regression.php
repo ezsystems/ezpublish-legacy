@@ -1157,6 +1157,106 @@ class eZURLAliasMlRegression extends ezpDatabaseTestCase
         }
         return $ret;
     }
+
+    /**
+     * Tests a problem which arose when a combined URL entry,
+     * representing several translations are split up, by one translation being
+     * changed to to an earlier history entry, of that same entry.
+     *
+     */
+    function testURLAliasSplitParentTranslation()
+    {
+        $db = eZDB::instance();
+
+        // STEP 1: Add test folder
+        $folder = new ezpObject( "folder", 2 );
+        $folder->name = __FUNCTION__;
+        $folder->publish();
+
+        // STEP 2: Add child below folder
+        $child = new ezpObject( "folder", $folder->mainNode->node_id );
+        $child->name = "Child";
+        $child->publish();
+
+        // Sub-sub children disabled for now, might be used in future, for 
+        // further assertions.
+        // // STEP 2a: Add a sub-sub child
+        // $subChild1 = new ezpObject( 'article', $child->mainNode->node_id );
+        // $subChild1->title = "SubChild";
+        // $subChild1->publish();
+        // 
+        // // STEP 2b: Add a sub-sub child
+        // $subChild2 = new ezpObject( 'article', $child->mainNode->node_id );
+        // $subChild2->title = "SubChildOther";
+        // $subChild2->publish();
+        // 
+        // // STEP 2ba: Adding sub-sub child translation
+        // $norSubChild2Trans = array( "title" => "SubChildOtherNor" );
+        // $subChild2->addTranslation( "nor-NO", $norSubChild2Trans );
+        // 
+        // // STEP 2c: Add a sub-sub child
+        // $subChild3 = new ezpObject( 'article', $child->mainNode->node_id );
+        // $subChild3->title = "SubChildThird";
+        // $subChild3->publish();
+        // 
+        // // STEP 2ca: Addubg sub-sub child translation
+        // $norSubChild3Trans = array( "title" => "SubChildThird" );
+        // $subChild3->addTranslation( "nor-NO", $norSubChild3Trans );
+
+        // STEP 3: Add translation to child with the same name
+        $translationAttributes = array( "name" => "Child" );
+        $child->addTranslation( "nor-NO", $translationAttributes );
+
+        // STEP 4: Update the translation
+        $child->refresh();
+        $newVersion = $child->createNewVersion( false, true, 'nor-NO' );
+        $norDataMap = $child->fetchDataMap( $newVersion->attribute( 'version' ), "nor-NO" );
+        $norDataMap['name']->setAttribute( 'data_text', 'NorChildChanged' );
+        $norDataMap['name']->store();
+        ezpObject::publishContentObject( $child->object, $newVersion );
+
+        // STEP 5: 
+        $child->refresh();
+        $child->name = "Renamed child";
+        $child->publish();
+
+        // STEP 6: 
+        $child->refresh();
+        $child->name = "Child changed";
+        $child->publish();
+
+        // STEP 7:
+        $child->refresh();
+        $newVersion = $child->createNewVersion( false, true, 'nor-NO' );
+        $norDataMap = $child->fetchDataMap( $newVersion->attribute( 'version' ), "nor-NO" );
+        $norDataMap['name']->setAttribute( 'data_text', 'NorChildChanged again' );
+        $norDataMap['name']->store();
+        ezpObject::publishContentObject( $child->object, $newVersion );
+
+        // STEP 8:
+        $child->refresh();
+        $newVersion = $child->createNewVersion( false, true, 'nor-NO' );
+        $norDataMap = $child->fetchDataMap( $newVersion->attribute( 'version' ), "nor-NO" );
+        $norDataMap['name']->setAttribute( 'data_text', 'Child changed' );
+        $norDataMap['name']->store();
+        ezpObject::publishContentObject( $child->object, $newVersion );
+
+        // STEP 9:
+        $child->refresh();
+        $newVersion = $child->createNewVersion( false, true, 'nor-NO' );
+        $norDataMap = $child->fetchDataMap( $newVersion->attribute( 'version' ), "nor-NO" );
+        $norDataMap['name']->setAttribute( 'data_text', 'NorChildChanged again' );
+        $norDataMap['name']->store();
+        ezpObject::publishContentObject( $child->object, $newVersion );
+
+        $query = self::buildSql( array( $child->mainNode->node_id ) );
+        $result = $db->arrayQuery( $query );
+
+        $initialTranslationChild = self::urlEntryForName( "Child-changed", $result );
+        $translationChild = self::urlEntryForName( 'NorChildChanged-again', $result );
+
+        self::assertEquals( (int)$initialTranslationChild['id'], (int)$translationChild['id'], "Current translations of the same node need to have the same id." );
+    }
 }
 
 ?>
