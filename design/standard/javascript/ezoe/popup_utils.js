@@ -258,7 +258,7 @@ var eZOEPopupUtils = {
     {
         // makes sure block nodes do not break the html structure they are inserted into
         var paragraphCleanup = false;
-        if ( html.indexOf( '<div' ) === 0 || html.indexOf( '<PRE' ) === 0 )
+        if ( html.indexOf( '<div' ) === 0 || html.indexOf( '<pre' ) === 0 )
         {
             var edCurrentNode = ed.selection.getNode();
             if ( edCurrentNode && edCurrentNode.nodeName.toLowerCase() === 'p' )
@@ -272,7 +272,7 @@ var eZOEPopupUtils = {
 
         if ( paragraphCleanup )
         {
-            var editorElement = ed.dom.get( id ), emptyContent = ez.$c( [ '', '<br>', '&nbsp;', ' ', " " ] );
+            var editorElement = ed.dom.get( id ), emptyContent = ez.$c( [ '', '<br>', '<BR>', '&nbsp;', ' ', " " ] );
             // cleanup broken paragraphs after inserting block tags into paragraphs
             if ( editorElement.previousSibling
                  && editorElement.previousSibling.nodeName.toLowerCase() === 'p'
@@ -300,10 +300,10 @@ var eZOEPopupUtils = {
     },
 
     xmlToXhtmlHash: {
-        'paragraph': 'P',
-        'literal': 'PRE',
-        'anchor': 'A',
-        'link': 'A'
+        'paragraph': 'p',
+        'literal': 'pre',
+        'anchor': 'a',
+        'link': 'a'
     },
 
     cancel: function()
