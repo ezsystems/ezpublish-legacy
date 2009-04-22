@@ -562,6 +562,26 @@ class eZURLAliasML extends eZPersistentObject
             // Create or update the element
             if ( $curElementID !== null )
             {
+                // Check if an already existing entry at the same level exists, with a different id
+                // if so the id must be updated.
+                $query = "SELECT * FROM ezurlalias_ml\n" .
+                         "WHERE parent = $parentID AND action = '{$actionStr}' AND is_original = 1 AND is_alias = 0";
+                $rows = $db->arrayQuery( $query );
+                if ( count( $rows ) > 0 )
+                {
+                    $existingEntryId = (int)$rows[0]['id'];
+
+                    if ( $existingEntryId != $curElementID )
+                    {
+                        // move history entry to the same id
+                        $query = "UPDATE ezurlalias_ml SET id = {$existingEntryId} " .
+                                 "WHERE parent = $parentID AND text_md5 = {$textMD5}";
+                        $res = $db->query( $query );
+                        if ( !$res ) return eZURLAliasML::dbError( $db );
+                        $curElementID = $existingEntryId;
+                    }
+                }
+
                 $bitOr = $db->bitOr( $db->bitAnd( 'lang_mask', ~1 ), $languageMask );
                 // Note: The `text` field is updated too, this ensures case-changes are stored.
                 $query = "UPDATE ezurlalias_ml SET link = id, lang_mask = {$bitOr}, text = '{$textEsc}', action = '{$actionStr}', action_type = '{$actionTypeStr}', is_alias = 0, is_original = 1\n" .
