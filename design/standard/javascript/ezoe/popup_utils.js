@@ -191,12 +191,12 @@ var eZOEPopupUtils = {
             // create new node if none is defined and if tag type is defined in ezXmlToXhtmlHash or tagGenerator is defined
             if ( s.tagGenerator )
             {
-                ed.execCommand('mceInsertRawHTML', false, s.tagGenerator.call( eZOEPopupUtils, s.tagName, s.selectedTag, s.editorSelectedHtml ), {skip_undo : 1} );
+                eZOEPopupUtils.insertHTMLCleanly( ed, s.tagGenerator.call( eZOEPopupUtils, s.tagName, s.selectedTag, s.editorSelectedHtml ), '__mce_tmp' );
                 s.editorElement = ed.dom.get('__mce_tmp');
             }
             else if ( s.tagCreator )
             {
-                s.editorElement = s.tagCreator.call( eZOEPopupUtils, ed, s.tagName, s.selectedTag, s.editorSelectedHtml )
+                s.editorElement = s.tagCreator.call( eZOEPopupUtils, ed, s.tagName, s.selectedTag, s.editorSelectedHtml );
             }
             else if ( s.tagName === 'link' )
             {
@@ -218,7 +218,7 @@ var eZOEPopupUtils = {
             }
             else if ( eZOEPopupUtils.xmlToXhtmlHash[s.tagName] )
             {
-                ed.execCommand('mceInsertRawHTML', false, '<' + eZOEPopupUtils.xmlToXhtmlHash[s.tagName] + ' id="__mce_tmp">' + '&nbsp;' + '</' + eZOEPopupUtils.xmlToXhtmlHash[s.tagName] + '>', {skip_undo : 1} );
+                eZOEPopupUtils.insertHTMLCleanly( ed, '<' + eZOEPopupUtils.xmlToXhtmlHash[s.tagName] + ' id="__mce_tmp">' + '&nbsp;' + '</' + eZOEPopupUtils.xmlToXhtmlHash[s.tagName] + '>', '__mce_tmp' );
                 s.editorElement = ed.dom.get('__mce_tmp');
             }
             if ( s.onTagGenerated )
@@ -252,6 +252,41 @@ var eZOEPopupUtils = {
         ed.execCommand('mceRepaint');
         tinyMCEPopup.close();
         return false;
+    },
+
+    insertHTMLCleanly: function( ed, html, id )
+    {
+        // makes sure block nodes do not break the html structure they are inserted into
+        var paragraphCleanup = false;
+        if ( html.indexOf( '<div' ) === 0 || html.indexOf( '<PRE' ) === 0 )
+        {
+            var edCurrentNode = ed.selection.getNode();
+            if ( edCurrentNode && edCurrentNode.nodeName.toLowerCase() === 'p' )
+            {
+                html = '</p>' + html + '<p>';
+                paragraphCleanup = true;
+            }
+        }
+
+        ed.execCommand('mceInsertRawHTML', false, html, {skip_undo : 1} );
+
+        if ( paragraphCleanup )
+        {
+            var editorElement = ed.dom.get( id ), emptyContent = ez.$c( [ '', '<br>', '&nbsp;', ' ', " " ] );
+            // cleanup broken paragraphs after inserting block tags into paragraphs
+            if ( editorElement.previousSibling
+                 && editorElement.previousSibling.nodeName.toLowerCase() === 'p'
+                 && ( !editorElement.previousSibling.hasChildNodes() || emptyContent.indexOf( editorElement.previousSibling.innerHTML ) !== -1 ))
+            {
+                editorElement.parentNode.removeChild( editorElement.previousSibling );
+            }
+            if ( editorElement.nextSibling
+                    && editorElement.nextSibling.nodeName.toLowerCase() === 'p'
+                    && ( !editorElement.nextSibling.hasChildNodes() || emptyContent.indexOf( editorElement.nextSibling.innerHTML ) !== -1 ))
+           {
+               editorElement.parentNode.removeChild( editorElement.nextSibling );
+           }
+        }
     },
 
     safeHtml: function( value )
