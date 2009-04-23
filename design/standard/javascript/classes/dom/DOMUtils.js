@@ -1,5 +1,5 @@
 /**
- * $Id: DOMUtils.js 1062 2009-03-26 12:24:20Z spocke $
+ * $Id: DOMUtils.js 1104 2009-04-22 12:16:47Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -213,7 +213,7 @@
 			}
 
 			while (n) {
-				if (n == r)
+				if (n == r || !n.nodeType || n.nodeType === 9)
 					break;
 
 				if (!f || f(n)) {
@@ -706,44 +706,40 @@
 		 * Returns the absolute x, y position of a node. The position will be returned in a object with x, y fields.
 		 *
 		 * @param {Element/String} n HTML element or element id to get x, y position from.
+		 * @param {Element} ro Optional root element to stop calculations at.
 		 * @return {object} Absolute position of the specified element object with x, y fields.
 		 */
-		getPos : function(n) {
+		getPos : function(n, ro) {
 			var t = this, x = 0, y = 0, e, d = t.doc, r;
 
 			n = t.get(n);
+			ro = ro || d.body;
 
-			// Use getBoundingClientRect on IE, Opera has it but it's not perfect
-			if (n && isIE && !t.stdMode) {
-				n = n.getBoundingClientRect();
-				e = t.boxModel ? d.documentElement : d.body;
-				x = t.getStyle(t.select('html')[0], 'borderWidth'); // Remove border
-				x = (x == 'medium' || t.boxModel && !t.isIE6) && 2 || x;
-				n.top += t.win.self != t.win.top ? 2 : 0; // IE adds some strange extra cord if used in a frameset
+			if (n) {
+				// Use getBoundingClientRect on IE, Opera has it but it's not perfect
+				if (isIE && !t.stdMode) {
+					n = n.getBoundingClientRect();
+					e = t.boxModel ? d.documentElement : d.body;
+					x = t.getStyle(t.select('html')[0], 'borderWidth'); // Remove border
+					x = (x == 'medium' || t.boxModel && !t.isIE6) && 2 || x;
+					n.top += t.win.self != t.win.top ? 2 : 0; // IE adds some strange extra cord if used in a frameset
 
-				return {x : n.left + e.scrollLeft - x, y : n.top + e.scrollTop - x};
-			}
-
-			r = n;
-			while (r) {
-				x += r.offsetLeft || 0;
-				y += r.offsetTop || 0;
-				r = r.offsetParent;
-			}
-
-			r = n;
-			while (r) {
-				// Opera 9.25 bug fix, fixed in 9.50
-				if (!/^table-row|inline.*/i.test(t.getStyle(r, "display", 1))) {
-					x -= r.scrollLeft || 0;
-					y -= r.scrollTop || 0;
+					return {x : n.left + e.scrollLeft - x, y : n.top + e.scrollTop - x};
 				}
 
-				r = r.parentNode;
+				r = n;
+				while (r && r != ro && r.nodeType) {
+					x += r.offsetLeft || 0;
+					y += r.offsetTop || 0;
+					r = r.offsetParent;
+				}
 
-				// No node type or document type
-				if (!r.nodeType || r.nodeType == 9 || r.nodeName.toLowerCase() == 'body')
-					break;
+				r = n.parentNode;
+				while (r && r != ro && r.nodeType) {
+					x -= r.scrollLeft || 0;
+					y -= r.scrollTop || 0;
+					r = r.parentNode;
+				}
 			}
 
 			return {x : x, y : y};
@@ -1212,10 +1208,6 @@
 							return m;
 
 						if (b == 'style') {
-							// Why did I need this one?
-							//if (isIE)
-							//	u = t.serializeStyle(t.parseStyle(u));
-
 							// No mce_style for elements with these since they might get resized by the user
 							if (t._isRes(c))
 								return m;
@@ -1728,6 +1720,14 @@
 				return re || e;
 			}
 		},
+
+		// #ifdef debug
+
+		dumpRng : function(r) {
+			return 'startContainer: ' + r.startContainer.nodeName + ', startOffset: ' + r.startOffset + ', endContainer: ' + r.endContainer.nodeName + ', endOffset: ' + r.endOffset;
+		},
+
+		// #endif
 
 		_isRes : function(c) {
 			// Is live resizble element

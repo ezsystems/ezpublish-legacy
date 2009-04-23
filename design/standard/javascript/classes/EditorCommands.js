@@ -1,5 +1,5 @@
 /**
- * $Id: EditorCommands.js 1047 2009-03-04 20:45:44Z spocke $
+ * $Id: EditorCommands.js 1070 2009-04-01 18:03:06Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -123,7 +123,7 @@
 		},
 
 		mceInsertLink : function(u, v) {
-			var ed = this.editor, s = ed.selection, e = ed.dom.getParent(s.getNode(), 'A');
+			var ed = this.editor, s = ed.selection, e = ed.dom.getParent(s.getNode(), 'a');
 
 			if (tinymce.is(v, 'string'))
 				v = {href : v};
@@ -238,11 +238,11 @@
 		queryValueFontSize : function() {
 			var ed = this.editor, v = 0, p;
 
-			if (p = ed.dom.getParent(ed.selection.getNode(), 'SPAN'))
+			if (p = ed.dom.getParent(ed.selection.getNode(), 'span'))
 				v = p.style.fontSize;
 
 			if (!v && (isOpera || isWebKit)) {
-				if (p = ed.dom.getParent(ed.selection.getNode(), 'FONT'))
+				if (p = ed.dom.getParent(ed.selection.getNode(), 'font'))
 					v = p.size;
 
 				return v;
@@ -254,10 +254,10 @@
 		queryValueFontName : function() {
 			var ed = this.editor, v = 0, p;
 
-			if (p = ed.dom.getParent(ed.selection.getNode(), 'FONT'))
+			if (p = ed.dom.getParent(ed.selection.getNode(), 'font'))
 				v = p.face;
 
-			if (p = ed.dom.getParent(ed.selection.getNode(), 'SPAN'))
+			if (p = ed.dom.getParent(ed.selection.getNode(), 'span'))
 				v = p.style.fontFamily.replace(/, /g, ',').replace(/[\'\"]/g, '').toLowerCase();
 
 			if (!v)

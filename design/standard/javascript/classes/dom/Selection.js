@@ -1,5 +1,5 @@
 /**
- * $Id: Selection.js 1057 2009-03-16 09:14:39Z spocke $
+ * $Id: Selection.js 1076 2009-04-04 15:01:25Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -733,6 +733,9 @@
 			var t = this;
 
 			t.win = null;
+
+			if (t.tridentSel)
+				t.tridentSel.destroy();
 
 			// Manual destroy then remove unload handler
 			if (!s)

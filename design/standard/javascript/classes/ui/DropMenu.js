@@ -1,5 +1,5 @@
 /**
- * $Id: DropMenu.js 1045 2009-03-04 20:03:18Z spocke $
+ * $Id: DropMenu.js 1070 2009-04-01 18:03:06Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -150,7 +150,7 @@
 
 				e = e.target;
 
-				if (e && (e = DOM.getParent(e, 'TR')) && !DOM.hasClass(e, cp + 'ItemSub')) {
+				if (e && (e = DOM.getParent(e, 'tr')) && !DOM.hasClass(e, cp + 'ItemSub')) {
 					m = t.items[e.id];
 
 					if (m.isDisabled())
@@ -177,7 +177,7 @@
 					var m, r, mi;
 
 					e = e.target;
-					if (e && (e = DOM.getParent(e, 'TR'))) {
+					if (e && (e = DOM.getParent(e, 'tr'))) {
 						m = t.items[e.id];
 
 						if (t.lastMenu)

@@ -1,5 +1,5 @@
 /**
- * $Id: Range.js 1045 2009-03-04 20:03:18Z spocke $
+ * $Id: Range.js 1072 2009-04-02 19:57:45Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -214,10 +214,6 @@
 		},
 
 /*
-		toString : function() {
-			// Not implemented
-		},
-
 		detach : function() {
 			// Not implemented
 		},

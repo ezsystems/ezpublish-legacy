@@ -1,5 +1,5 @@
 /**
- * $Id: ControlManager.js 1045 2009-03-04 20:03:18Z spocke $
+ * $Id: ControlManager.js 1071 2009-04-01 20:11:17Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -177,6 +177,9 @@
 			// Fix for bug #1897785, #1898007
 			if (tinymce.isIE) {
 				c.onShowMenu.add(function() {
+					// IE 8 needs focus in order to store away a range with the current collapsed caret location
+					ed.focus();
+
 					bm = ed.selection.getBookmark(1);
 				});
 

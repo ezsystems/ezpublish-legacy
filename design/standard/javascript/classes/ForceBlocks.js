@@ -1,5 +1,5 @@
 /**
- * $Id: ForceBlocks.js 1045 2009-03-04 20:03:18Z spocke $
+ * $Id: ForceBlocks.js 1102 2009-04-21 23:45:58Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -15,6 +15,15 @@
 	isOpera = tinymce.isOpera;
 	each = tinymce.each;
 	extend = tinymce.extend;
+
+	function isEmpty(n) {
+		n = n.innerHTML;
+		n = n.replace(/<\w+ .*?mce_\w+\"?=.*?>/gi, '-'); // Keep tags with mce_ attribs
+		n = n.replace(/<(img|hr|table)/gi, '-'); // Keep these convert them to - chars
+		n = n.replace(/<[^>]+>/g, ''); // Remove all tags
+
+		return n.replace(/[ \t\r\n]+/g, '') == '';
+	};
 
 	/**
 	 * This is a internal class and no method in this class should be called directly form the out side.
@@ -35,7 +44,6 @@
 			t.reNbsp2BR1 = new RegExp('<p( )([^>]+)>[\\s\\u00a0]+<\\\/p>|<p>[\\s\\u00a0]+<\\\/p>'.replace(/p/g, elm), 'gi');
 			t.reNbsp2BR2 = new RegExp('<%p()([^>]+)>(&nbsp;|&#160;)<\\\/%p>|<%p>(&nbsp;|&#160;)<\\\/%p>'.replace(/%p/g, elm), 'gi');
 			t.reBR2Nbsp = new RegExp('<p( )([^>]+)>\\s*<br \\\/>\\s*<\\\/p>|<p>\\s*<br \\\/>\\s*<\\\/p>'.replace(/p/g, elm), 'gi');
-			t.reTrailBr = new RegExp('\\s*<br \\/>\\s*<\\\/p>'.replace(/p/g, elm), 'gi');
 
 			function padd(ed, o) {
 				if (isOpera)
@@ -47,10 +55,8 @@
 					// Use &nbsp; instead of BR in padded paragraphs
 					o.content = o.content.replace(t.reNbsp2BR1, '<' + elm + '$1$2><br /></' + elm + '>');
 					o.content = o.content.replace(t.reNbsp2BR2, '<' + elm + '$1$2><br /></' + elm + '>');
-				} else {
+				} else
 					o.content = o.content.replace(t.reBR2Nbsp, '<' + elm + '$1$2>\u00a0</' + elm + '>');
-					o.content = o.content.replace(t.reTrailBr, '</' + elm + '>');
-				}
 			};
 
 			ed.onBeforeSetContent.add(padd);
@@ -136,29 +142,41 @@
 				return ne;
 			};
 
-			// Replaces IE:s auto generated paragraphs with the specified element name
-			if (isIE && s.element != 'P') {
-				ed.onKeyPress.add(function(ed, e) {
-					t.lastElm = ed.selection.getNode().nodeName;
+			// IE specific fixes
+			if (isIE) {
+				// Remove empty inline elements within block elements
+				// For example: <p><strong><em></em></strong></p>
+				ed.onPreProcess.add(function(ed, o) {
+					each(ed.dom.select('p,h1,h2,h3,h4,h5,h6,div', o.node), function(p) {
+						if (isEmpty(p))
+							p.innerHTML = '';
+					});
 				});
 
-				ed.onKeyUp.add(function(ed, e) {
-					var bl, sel = ed.selection, n = sel.getNode(), b = ed.getBody();
+				// Replaces IE:s auto generated paragraphs with the specified element name
+				if (s.element != 'P') {
+					ed.onKeyPress.add(function(ed, e) {
+						t.lastElm = ed.selection.getNode().nodeName;
+					});
 
-					if (b.childNodes.length === 1 && n.nodeName == 'P') {
-						n = ren(n, s.element);
-						sel.select(n);
-						sel.collapse();
-						ed.nodeChanged();
-					} else if (e.keyCode == 13 && !e.shiftKey && t.lastElm != 'P') {
-						bl = ed.dom.getParent(n, 'P');
+					ed.onKeyUp.add(function(ed, e) {
+						var bl, sel = ed.selection, n = sel.getNode(), b = ed.getBody();
 
-						if (bl) {
-							ren(bl, s.element);
+						if (b.childNodes.length === 1 && n.nodeName == 'P') {
+							n = ren(n, s.element);
+							sel.select(n);
+							sel.collapse();
 							ed.nodeChanged();
+						} else if (e.keyCode == 13 && !e.shiftKey && t.lastElm != 'P') {
+							bl = ed.dom.getParent(n, 'p');
+
+							if (bl) {
+								ren(bl, s.element);
+								ed.nodeChanged();
+							}
 						}
-					}
-				});
+					});
+				}
 			}
 		},
 
@@ -306,14 +324,6 @@
 			var t = this, ed = t.editor, dom = ed.dom, d = ed.getDoc(), se = ed.settings, s = ed.selection.getSel(), r = s.getRangeAt(0), b = d.body;
 			var rb, ra, dir, sn, so, en, eo, sb, eb, bn, bef, aft, sc, ec, n, vp = dom.getViewPort(ed.getWin()), y, ch, car;
 
-			function isEmpty(n) {
-				n = n.innerHTML;
-				n = n.replace(/<(img|hr|table)/gi, '-'); // Keep these convert them to - chars
-				n = n.replace(/<[^>]+>/g, ''); // Remove all tags
-
-				return n.replace(/[ \t\r\n]+/g, '') == '';
-			};
-
 			// If root blocks are forced then use Operas default behavior since it's really good
 // Removed due to bug: #1853816
 //			if (se.forced_root_block && isOpera)
@@ -379,7 +389,7 @@
 			bn = sb ? sb.nodeName : se.element; // Get block name to create
 
 			// Return inside list use default browser behavior
-			if (t.dom.getParent(sb, 'OL,UL,PRE'))
+			if (t.dom.getParent(sb, 'ol,ul,pre'))
 				return true;
 
 			// If caption or absolute layers then always generate new blocks within

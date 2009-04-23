@@ -1,5 +1,5 @@
 /**
- * $Id: Editor.js 1054 2009-03-10 19:03:15Z spocke $
+ * $Id: Editor.js 1097 2009-04-20 20:48:51Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -216,7 +216,7 @@
 							EditorManager.triggerSave();
 							t.isNotDirty = 1;
 
-							return this._mceOldSubmit(this);
+							return t.formElement._mceOldSubmit(t.formElement);
 						};
 					}
 
@@ -694,9 +694,9 @@
 				});
 			}
 
-			// Fix gecko link bug, when a link is placed at the end of block elements there is
-			// no way to move the caret behind the link. This fix adds a bogus br element after the link
 			if (isGecko) {
+				// Fix gecko link bug, when a link is placed at the end of block elements there is
+				// no way to move the caret behind the link. This fix adds a bogus br element after the link
 				function fixLinks(ed, o) {
 					each(ed.dom.select('a'), function(n) {
 						var pn = n.parentNode;
@@ -712,17 +712,17 @@
 				});
 
 				t.onSetContent.add(t.selection.onSetContent.add(fixLinks));
-			}
 
-			if (isGecko && !s.readonly) {
-				try {
-					// Design mode must be set here once again to fix a bug where
-					// Ctrl+A/Delete/Backspace didn't work if the editor was added using mceAddControl then removed then added again
-					d.designMode = 'Off';
-					d.designMode = 'On';
-				} catch (ex) {
-					// Will fail on Gecko if the editor is placed in an hidden container element
-					// The design mode will be set ones the editor is focused
+				if (!s.readonly) {
+					try {
+						// Design mode must be set here once again to fix a bug where
+						// Ctrl+A/Delete/Backspace didn't work if the editor was added using mceAddControl then removed then added again
+						d.designMode = 'Off';
+						d.designMode = 'On';
+					} catch (ex) {
+						// Will fail on Gecko if the editor is placed in an hidden container element
+						// The design mode will be set ones the editor is focused
+					}
 				}
 			}
 
@@ -905,8 +905,12 @@
 				if (ce) {
 					if (tinymce.isWebKit)
 						t.getWin().focus();
-					else
-						t.getElement().focus();
+					else {
+						if (tinymce.isIE)
+							t.getElement().setActive();
+						else
+							t.getElement().focus();
+					}
 				}
 
 				// #endif
@@ -1791,25 +1795,7 @@
 
 					case 'paste':
 						Event.add(t.getBody(), k, function(e) {
-							var tx, h, el, r;
-
-							// Get plain text data
-							if (e.clipboardData)
-								tx = e.clipboardData.getData('text/plain');
-							else if (tinymce.isIE)
-								tx = t.getWin().clipboardData.getData('Text');
-
-							// Get HTML data
-							/*if (tinymce.isIE) {
-								el = DOM.add(DOM.doc.body, 'div', {style : 'visibility:hidden;overflow:hidden;position:absolute;width:1px;height:1px'});
-								r = DOM.doc.body.createTextRange();
-								r.moveToElementText(el);
-								r.execCommand('Paste');
-								h = el.innerHTML;
-								DOM.remove(el);
-							}*/
-
-							eventHandler(e, {text : tx, html : h});
+							eventHandler(e);
 						});
 						break;
 
@@ -2042,6 +2028,16 @@
 							}
 					}
 				});
+
+				/*if (t.dom.boxModel) {
+					t.getBody().style.height = '100%';
+
+					Event.add(t.getWin(), 'resize', function(e) {
+						var docElm = t.getDoc().documentElement;
+
+						docElm.style.height = (docElm.offsetHeight - 10) + 'px';
+					});
+				}*/
 			}
 
 			if (tinymce.isOpera) {
