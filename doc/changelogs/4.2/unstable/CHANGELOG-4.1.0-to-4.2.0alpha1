@@ -5,6 +5,7 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Implemented enhancement #8561: extended LDAP (Active Directory) Authentication
 - Implemented enhancement #13819: add support for LDAP_OPT_REFERRALS in ezldapuser class
 - Implemented enhancement #14792: content.ini - allow class_identifier to set VersionHistoryClass
+- Implemented enhancement #14809: Protecting tilde from being urlencoded on redirects.
 
 *Design:
 
