@@ -338,11 +338,14 @@ class eZURLAliasML extends eZPersistentObject
 
     /*!
      Calculates the full path for the current item and returns it.
+     
+     \param $locale The locale for which a path should be calculated.
+     \param $incomingLanguageList Array of locale codes representing the prioritized site language list.
 
      \note If you know the action values of the path use fetchPathByActionList() instead, it is more optimized.
      \note The calculated path is cached in $Path.
      */
-    function getPath( $locale = null )
+    function getPath( $locale = null, $incomingLanguageList = null )
     {
         if ( $this->Path !== null )
             return $this->Path;
@@ -356,17 +359,30 @@ class eZURLAliasML extends eZPersistentObject
             $query = "SELECT parent, lang_mask, text FROM ezurlalias_ml WHERE id={$id}";
             if ( $locale !== null && is_string( $locale ) )
             {
-                $mask = eZContentLanguage::maskByLocale( $locale );
-                $langFilter = $db->bitAnd( 'lang_mask', $mask );
+                // We also want to consider the prioritized language list for the
+                // destination siteaccess, so that untranslated objects, are not
+                // disregarded from the URL.
+                if ( $incomingLanguageList !== null )
+                {
+                    eZContentLanguage::setPrioritizedLanguages( $incomingLanguageList );
+                }
 
-                $query .= " AND ({$langFilter} > 0)";
+                $langMask = trim( eZContentLanguage::languagesSQLFilter( 'ezurlalias_ml', 'lang_mask' ) );
+                $query .= " AND ({$langMask})";
             }
             $rows = $db->arrayQuery( $query );
+
             if ( count( $rows ) == 0 )
             {
                 break;
             }
             $result = eZURLAliasML::choosePrioritizedRow( $rows );
+
+            if ( $incomingLanguageList !== null )
+            {
+                eZContentLanguage::clearPrioritizedLanguages();
+            }
+
             if ( !$result )
             {
                 $result = $rows[0];

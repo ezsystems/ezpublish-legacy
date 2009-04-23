@@ -23,6 +23,8 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
 
     protected $baseDestinationUrl;
 
+    protected $destinationSiteAccessIni;
+
     function __construct( $params = null )
     {
         if ( $params === null )
@@ -50,8 +52,12 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
      */
     protected function getSiteAccessIni()
     {
-        $saPath = eZSiteAccess::findPathToSiteAccess(  $this->destinationSiteAccess );
-        return eZINI::fetchFromFile( $saPath . '/site.ini' );
+        if ( $this->destinationSiteAccessIni === null )
+        {
+            $saPath = eZSiteAccess::findPathToSiteAccess(  $this->destinationSiteAccess );
+            $this->destinationSiteAccessIni = eZINI::fetchFromFile( $saPath . '/site.ini' );
+        }
+        return $this->destinationSiteAccessIni;
     }
 
     /**
@@ -140,7 +146,11 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
         else
         {
             // Translated object found, forwarding to new URL.
-            $urlAlias = $destinationElement[0]->getPath( $this->destinationLocale );
+
+            $saIni = $this->getSiteAccessIni();
+            $siteLanguageList = $saIni->variable( 'RegionalSettings', 'SiteLanguageList' );
+
+            $urlAlias = $destinationElement[0]->getPath( $this->destinationLocale, $siteLanguageList );
             $urlAlias .= $this->userParamString;
         }
 
