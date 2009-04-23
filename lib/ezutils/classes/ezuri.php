@@ -89,7 +89,10 @@ class eZURI
                 $out[$i] = urlencode( $o ); // Let PHP do the rest
             }
         }
-        return join( "/", $out );
+        $tmp = join( "/", $out );
+        // Don't encode '~' in URLs
+        $tmp = str_replace( '%7E', '~', $tmp );
+        return $tmp;
     }
 
     /*!
