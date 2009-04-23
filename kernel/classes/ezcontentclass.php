@@ -1736,7 +1736,7 @@ You will need to change the class of the node by using the swap functionality.' 
                 if ( isset( $identifierHash[$identifierItem] )  )
                     $idList[] = $identifierHash[$identifierItem];
                 else if ( is_numeric( $identifierItem ) ) // to be able to pass mixed arrays
-                    $idList[] = $identifierHash[$identifierItem];
+                    $idList[] = $identifierItem;
             }
             return $idList;
         }
