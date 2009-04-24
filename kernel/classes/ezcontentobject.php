@@ -3230,8 +3230,15 @@ class eZContentObject extends eZPersistentObject
         {
             if ( is_array( $objectID ) )
             {
-                $objectIDSQL = ' AND ezcontentobject_link.to_contentobject_id in (' . $db->implodeWithTypeCast( ', ', $objectID, 'int' ) . ') AND
-                                ezcontentobject_link.from_contentobject_version=ezcontentobject.current_version';
+                if ( count( $objectID ) > 0 )
+                {
+                    $objectIDSQL = ' AND ezcontentobject_link.to_contentobject_id in (' . $db->implodeWithTypeCast( ', ', $objectID, 'int' ) . ') AND
+                                    ezcontentobject_link.from_contentobject_version=ezcontentobject.current_version';
+                }
+                else
+                {
+                    $objectIDSQL = '';
+                }
             }
             else
             {
