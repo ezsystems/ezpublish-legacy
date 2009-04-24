@@ -63,6 +63,7 @@ class eZCache
         if ( !isset( $cacheList ) )
         {
             $ini = eZINI::instance();
+            $textToImageIni = eZINI::instance( 'texttoimage.ini' );
             $cacheList = array( array( 'name' => ezi18n( 'kernel/cache', 'Content view cache' ),
                                        'id' => 'content',
                                        'tag' => array( 'content' ),
@@ -135,6 +136,13 @@ class eZCache
                                        'enabled' => $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled',
                                        'path' => 'template-block',
                                        'function' => array( 'eZCache', 'clearTemplateBlockCache' ) ),
+                                array( 'name' => ezi18n( 'kernel/cache', 'Text to image cache' ),
+                                       'id' => 'texttoimage',
+                                       'tag' => array( 'template' ),
+                                       'enabled' => $textToImageIni->variable( 'ImageSettings', 'UseCache' ) == 'enabled',
+                                       'path' => $textToImageIni->variable( 'PathSettings', 'CacheDir' ),
+                                       'function' => array( 'eZCache', 'clearTextToImageCache' ),
+                                       'purge-function' => array( 'eZCache', 'purgeTextToImageCache' ) ),
                                 array( 'name' => ezi18n( 'kernel/cache', 'Template override cache' ),
                                        'id' => 'template-override',
                                        'tag' => array( 'template' ),
@@ -532,9 +540,31 @@ class eZCache
      \static
      Clear global ini cache
     */
-    static function clearGlobalINICache()
+    static function clearGlobalINICache( $cacheItem )
     {
         eZDir::recursiveDelete( 'var/cache/ini' );
+    }
+
+    /*!
+     \private
+     \static
+     Clear texttoimage cache
+    */
+    static function clearTextToImageCache( $cacheItem )
+    {
+        $fileHandler = eZClusterFileHandler::instance( $cacheItem['path'] );
+        $fileHandler->delete();
+    }
+
+    /*!
+     \private
+     \static
+     Purge texttoimage cache
+    */
+    static function purgeTextToImageCache( $cacheItem )
+    {
+        $fileHandler = eZClusterFileHandler::instance( $cacheItem['path'] );
+        $fileHandler->purge();
     }
 }
 
