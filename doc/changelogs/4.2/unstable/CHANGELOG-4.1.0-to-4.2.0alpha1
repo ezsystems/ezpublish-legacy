@@ -78,3 +78,4 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #14812: multiprice templates have untranslateable strings
 - Fixed bug #14815: Wrong function call breaks multiprice logic
 - Fixed bug #13045: updateviewcount.php problems with url's
+- Fixed bug #14816: Continous troubles with invalid url module (with fix)

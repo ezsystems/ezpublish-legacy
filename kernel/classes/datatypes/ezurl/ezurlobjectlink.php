@@ -137,11 +137,10 @@ class eZURLObjectLink extends eZPersistentObject
                 if ( $object )
                 {
                     $versionObject = $object->version( $objectVersion );
-                    $versionID = $versionObject->attribute( 'id' );
-                    if ( !in_array( $versionID, $storedVersionList ) )
+                    if ( $versionObject and !in_array( $versionObject->attribute( 'id' ), $storedVersionList ) )
                     {
                         $objectVersionList[] = $versionObject;
-                        $storedVersionList[] = $versionID;
+                        $storedVersionList[] = $versionObject->attribute( 'id' );
                     }
                 }
             }
