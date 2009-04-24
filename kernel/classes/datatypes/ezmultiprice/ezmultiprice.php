@@ -334,7 +334,7 @@ class eZMultiPrice extends eZSimplePrice
 
                 case self::CALCULATION_TYPE_DISCOUNT_EXCLUDE :
                 {
-                    $value = $this->calcDiscountIncVATPrice( $price->attribute( 'value' ) );
+                    $value = $this->calcDiscountExVATPrice( $price->attribute( 'value' ) );
                 } break;
 
                 default:
