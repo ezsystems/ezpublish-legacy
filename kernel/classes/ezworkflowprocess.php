@@ -470,13 +470,21 @@ class eZWorkflowProcess extends eZPersistentObject
             foreach ( $keys as $key )
             {
                 $value = $parameters[$key];
+                if ( is_array( $value ) )
+                {
+                    $value = serialize( $value );
+                }
                 $string .= $key . $value;
             }
         }else
         {
             foreach ( array_keys( $parameters ) as $key )
             {
-                $value =& $parameters[$key];
+                $value = $parameters[$key];
+                if ( is_array( $value ) )
+                {
+                    $value = serialize( $value );
+                }
                 $string .= $key . $value;
             }
         }
