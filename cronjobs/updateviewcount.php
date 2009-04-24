@@ -127,7 +127,7 @@ if ( is_file( $logFilePath ) )
                     $url = preg_replace( "/\?.*/", "", $url);
                     foreach ( $prefixes as $prefix )
                     {
-                        $urlChanged = preg_replace( "/^\/$prefix\//", "", $url );
+                        $urlChanged = preg_replace( '/^\/' . preg_quote( $prefix, '/' ) . '\//', '', $url );
                         if ( $urlChanged != $url )
                         {
                             $url = $urlChanged;
