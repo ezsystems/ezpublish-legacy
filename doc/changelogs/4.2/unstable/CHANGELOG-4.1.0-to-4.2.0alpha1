@@ -75,3 +75,4 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #14805: Language switcher would leave out parts of an URL which was not translated in the destination locale.
 - Fixed bug #14343: Transaction error in eZURLAliasML::setLangMaskAlwaysAvailable()
 - Fixed bug #14719: Exclamation mark at end of URL does not work in emails (w/patch)
+- Fixed bug #14812: multiprice templates have untranslateable strings

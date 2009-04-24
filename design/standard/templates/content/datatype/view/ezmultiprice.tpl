@@ -9,10 +9,10 @@
              $price = false()}
         <table cellspacing="10">
             <tr>
-                <th>Currency</th>
-                <th>Price</th>
-                <th>Your price</th>
-                <th>Your save</th>
+                <th>{'Currency'|i18n( 'design/standard/content/datatype' )}</th>
+                <th>{'Price'|i18n( 'design/standard/content/datatype' )}</th>
+                <th>{'Your price'|i18n( 'design/standard/content/datatype' )}</th>
+                <th>{'You save'|i18n( 'design/standard/content/datatype' )}</th>
             </tr>
 
             {foreach $discount_price_list as $pos => $discount_price}
