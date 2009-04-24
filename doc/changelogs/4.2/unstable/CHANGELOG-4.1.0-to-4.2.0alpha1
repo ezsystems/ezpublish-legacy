@@ -76,3 +76,4 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #14343: Transaction error in eZURLAliasML::setLangMaskAlwaysAvailable()
 - Fixed bug #14719: Exclamation mark at end of URL does not work in emails (w/patch)
 - Fixed bug #14812: multiprice templates have untranslateable strings
+- Fixed bug #14815: Wrong function call breaks multiprice logic
