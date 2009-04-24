@@ -1054,9 +1054,9 @@ class eZURLAliasML extends eZPersistentObject
      */
     static public function fetchPathByActionList( $actionName, $actionValues, $locale = null )
     {
-        if ( count( $actionValues ) == 0 )
+        if ( !is_array( $actionValues ) || count( $actionValues ) == 0 )
         {
-            eZDebug::writeError( "Action value array must not be empty" );
+            eZDebug::writeError( "Action values array must not be empty", __METHOD__ );
             return null;
         }
         $db = eZDB::instance();
@@ -1834,6 +1834,11 @@ class eZURLAliasML extends eZPersistentObject
      */
     static public function setLangMaskAlwaysAvailable( $langID, $actionName, $actionValue )
     {
+        if ( !$actionName )
+        {
+            eZDebug::writeError( "ActionName value must not be empty", __METHOD__ );
+            return null;
+        }
         $db = eZDB::instance();
         if ( is_array( $actionName ) )
         {
