@@ -189,10 +189,11 @@ if ( $http->hasPostVariable( "ContinueShoppingButton" ) )
             $module->redirectTo( $module->functionURI( "basket" ) . "/(error)/invaliditemcount" );
             return;
         }
-
-        $fromURL = $http->sessionVariable( "FromPage" );
-        $module->redirectTo( $fromURL );
     }
+    $fromURL = $http->sessionVariable( "FromPage" );
+    $http->RemoveSessionVariable( "FromPage" );
+    $module->redirectTo( $fromURL );
+    return;
 }
 
 $doCheckout = false;
