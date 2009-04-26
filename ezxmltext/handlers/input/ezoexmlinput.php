@@ -1333,7 +1333,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 {
                     if ( !$tableRow instanceof DOMElement )
                     {
-                        eZDebug::writeWarning( '$tableRow is not a DOMElement but a ' . get_class( $tableRow ) . ', this should not happen..' __METHOD__ );
+                        eZDebug::writeWarning( '$tableRow is not a DOMElement but a ' . get_class( $tableRow ) . ', this should not happen..', __METHOD__ );
                         continue;
                     }
                     $TRcustomAttributePart = self::getCustomAttrPart( $tableRow, $tableRowStyleString );
@@ -1344,7 +1344,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                     {
                         if ( !$tableCell instanceof DOMElement )
                         {
-                            eZDebug::writeWarning( '$$tableCell is not a DOMElement but a ' . get_class( $tableCell ) . ', this should not happen..' __METHOD__ );
+                            eZDebug::writeWarning( '$tableCell is not a DOMElement but a ' . get_class( $tableCell ) . ', this should not happen..', __METHOD__ );
                             continue;
                         }
                         $TDcustomAttributePart = self::getCustomAttrPart( $tableCell, $tableCellStyleString );
