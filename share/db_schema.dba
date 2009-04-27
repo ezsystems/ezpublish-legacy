@@ -6387,7 +6387,7 @@ $schema = array (
         'length' => 11,
         'type' => 'int',
         'not_null' => '1',
-        'default' => '1',
+        'default' => 1,
       ),
       'id' => 
       array (
@@ -7301,25 +7301,25 @@ $schema = array (
       ),
       'data_text1' => 
       array (
-        'length' => 50,
+        'length' => 255,
         'type' => 'varchar',
         'default' => NULL,
       ),
       'data_text2' => 
       array (
-        'length' => 50,
+        'length' => 255,
         'type' => 'varchar',
         'default' => NULL,
       ),
       'data_text3' => 
       array (
-        'length' => 50,
+        'length' => 255,
         'type' => 'varchar',
         'default' => NULL,
       ),
       'data_text4' => 
       array (
-        'length' => 50,
+        'length' => 255,
         'type' => 'varchar',
         'default' => NULL,
       ),

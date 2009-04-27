@@ -610,7 +610,7 @@ CREATE TABLE ezimage (
   original_filename varchar(255) NOT NULL default '',
   version int(11) NOT NULL default '0',
   PRIMARY KEY  (contentobject_attribute_id,version)
-) TYPE=InnoDB;
+) ENGINE=InnoDB;
 
 
 
@@ -639,7 +639,7 @@ CREATE TABLE ezimagevariation (
   version int(11) NOT NULL default '0',
   width int(11) NOT NULL default '0',
   PRIMARY KEY  (contentobject_attribute_id,version,requested_width,requested_height)
-) TYPE=InnoDB;
+) ENGINE=InnoDB;
 
 
 
@@ -1708,5 +1708,6 @@ CREATE TABLE ezworkflow_process (
   PRIMARY KEY  (id),
   KEY ezworkflow_process_process_key (process_key)
 ) ENGINE=InnoDB;
+
 
 
