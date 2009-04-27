@@ -22,7 +22,7 @@ REPOSITORY_BASE_URL="http://svn.ez.no/svn/ezpublish"
 TR_REPOSITORY_BASE_URL="http://svn.ez.no/svn/translations"
 # This needs to be set correctly when a new branch is created
 # e.g. stable/3.4 stable/3.5
-REPOSITORY_BRANCH_PATH="URL: http://svn.ez.no/svn/nextgen/stable/4.0"
+REPOSITORY_BRANCH_PATH="stable/4.0"
 #REPOSITORY_STABLE_BRANCH_PATH="stable"
 REPOSITORY_STABLE_BRANCH_PATH=""
 
@@ -141,7 +141,7 @@ function ezdist_update_ezlupdate
 {
     echo "Building ezlupdate executable"
     echo
-    (cd support/ezlupdate &&
+    (cd support/ezlupdate-qt4 &&
     qmake &&
     make)
     if [ $? -ne 0 ]; then
