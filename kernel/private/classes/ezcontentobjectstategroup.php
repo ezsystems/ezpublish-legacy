@@ -706,8 +706,10 @@ class eZContentObjectStateGroup extends eZPersistentObject
     public static function limitationValues( $groupID )
     {
         $group = self::fetchById( $groupID );
+        $states = array();
 
-        $states = $group->attribute( 'states' );
+        if ( $group !== false )
+            $states = $group->attribute( 'states' );
 
         $limitationValues = array();
         foreach ( $states as $state )
