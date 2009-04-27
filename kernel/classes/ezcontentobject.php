@@ -4207,7 +4207,7 @@ class eZContentObject extends eZPersistentObject
                     return array();
                 }
             }
-            else if ( $object->attribute( 'owner_id' ) != $userID &&
+            else if ( $this->attribute( 'owner_id' ) != $userID &&
                       $this->ID != $userID )
             {
                 return array();

@@ -81,3 +81,4 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #14816: Continous troubles with invalid url module (with fix)
 - Fixed bug #12481: Allow clearing of texttoimage cache with ezcache.php cli script and setup/cache view
 - Fixed bug #14751: eZWorflowProcess::createKey() if one of the process parameters is array, generated key is incorrect.
+- Fixed bug #14824: Check for allowed classes to instantiate based on ParentOwner limitation incorrect in eZContentObject

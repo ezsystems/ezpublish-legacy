@@ -30,7 +30,12 @@
                     return array();
                 }
             }
+/*START:code-template::is-node*/
             else if ( $object->attribute( 'owner_id' ) != $userID &&
+/*END:code-template::is-node*/
+/*START:code-template::is-object*/
+            else if ( $this->attribute( 'owner_id' ) != $userID &&
+/*END:code-template::is-object*/
 /*START:code-template::is-node*/
                       $object->ID != $userID )
 /*END:code-template::is-node*/
