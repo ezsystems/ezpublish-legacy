@@ -862,15 +862,9 @@ $php->addInclude( 'lib/ezutils/classes/ezphpcreator.php' );
             {
                 $this->ClusterHandler = eZClusterFileHandler::instance( $path );
             }
-            $canRestore= $this->ClusterHandler->exists();
-
-            if ( $timestamp !== false and $canRestore )
-            {
-                $cacheModifierTime = $this->ClusterHandler->mtime();
-                $canRestore = ( $cacheModifierTime >= $timestamp );
-            }
-
-            return $canRestore;
+            // isExpired() expects -1 to disable expiry check
+            $expiry = ( $timestamp === false ) ? -1 : 0;
+            return !$this->ClusterHandler->isExpired( $expiry, time(), null );
         }
 
         $canRestore = file_exists( $path );
