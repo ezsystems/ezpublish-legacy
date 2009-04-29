@@ -574,6 +574,22 @@ class eZDBFileHandler
     }
 
     /**
+     * Calculates if the current file data is expired or not.
+     *
+     * @param int    $expiry Time when file is to be expired, a value of -1 will disable this check.
+     * @param int    $curtime The current time to check against.
+     * @param int    $ttl Number of seconds the data can live, set to null to disable TTL.
+     * @return bool
+     **/
+    public function isExpired( $expiry, $curtime, $ttl )
+    {
+        if ( $this->metaData === null )
+            $this->loadMetaData();
+
+        return self::isFileExpired( $this->filePath, $this->metaData['mtime'], $expiry, $curtime, $ttl );
+    }
+
+    /**
      * Calculates if the local file is expired or not.
      * @param int    $expiry Time when file is to be expired, a value of -1 will disable this check.
      * @param int    $curtime The current time to check against.
