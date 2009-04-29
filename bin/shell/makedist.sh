@@ -1372,10 +1372,10 @@ echo -n "Creating `$SETCOLOR_FILE`tar.bz2`$SETCOLOR_NORMAL` files"
 if [ "which zip &>/dev/null" ]; then
     echo -n "Creating `$SETCOLOR_FILE`zip`$SETCOLOR_NORMAL` files"
     (cd $DEST_ROOT
-        zip -9 -r -q $ZIPFILE $BASE -x lib/ezc/\*
+        zip -9 -r -q $ZIPFILE $BASE -x $BASE/lib/ezc/\*
         echo ",     `$SETCOLOR_EMPHASIZE`$DEST_ROOT/$ZIPFILE`$SETCOLOR_NORMAL`"
-	zip -9 -r -q $COMPZIPFILE $BASE
-	echo ",     `$SETCOLOR_EMPHASIZE`$DEST_ROOT/$COMPZIPFILE`$SETCOLOR_NORMAL`")
+    	zip -9 -r -q $COMPZIPFILE $BASE
+    	echo ",     `$SETCOLOR_EMPHASIZE`$DEST_ROOT/$COMPZIPFILE`$SETCOLOR_NORMAL`")
 else
     echo "`SETCOLOR_WARNING`Could not create `$SETCOLOR_FILE`zip`$SETCOLOR_WARNING` file, `$SETCOLOR_EXE`zip`$SETCOLOR_NORMAL` program not found.`SETCOLOR_NORMAL`"
 fi
