@@ -34,7 +34,7 @@ class eZPublishSDK
 {
     const VERSION_MAJOR = 4;
     const VERSION_MINOR = 0;
-    const VERSION_RELEASE = 4;
+    const VERSION_RELEASE = 5;
     const VERSION_STATE = '';
     const VERSION_DEVELOPMENT = false;
     const VERSION_REVISION_STRING = '$Rev$';
