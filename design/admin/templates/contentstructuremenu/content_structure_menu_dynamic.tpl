@@ -436,6 +436,7 @@ function ContentStructureMenu()
 
         var request = YAHOO.util.Connect.asyncRequest('GET', url, callbacks);
 
+        return false;
     }
 
     this.openUnder = function( parentNodeID )
