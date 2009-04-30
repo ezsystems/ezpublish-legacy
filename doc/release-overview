@@ -1001,10 +1001,12 @@ Datatype branch:
 - Release branch=release/4.1.1
 - Release branch start=23504
 - Release branch end=
+- Release branch configured=23510
 - Release date 29-Apr-2009
 
 4.0.4:
 - Release branch=release/4.0.4
 - Release branch start=23505
 - Release branch end=
+- Release branch configured=23509
 - Release date 29-Apr-2009
