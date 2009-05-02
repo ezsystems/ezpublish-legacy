@@ -16,7 +16,7 @@
 
     {def $plugin_list = ezini('EditorSettings', 'Plugins', 'ezoe.ini',,true()  )
          $skin        = ezini('EditorSettings', 'Skin', 'ezoe.ini',,true() )
-         $skin_variant = ezini('EditorSettings', 'SkinVariant', 'ezoe.ini',,true() )
+         $skin_variant = ''
          $content_css_list_temp = ezini('StylesheetSettings', 'EditorCSSFileList', 'design.ini',,true())
          $content_css_list = array()
          $editor_css_list  = array( concat('skins/', $skin, '/ui.css') )
@@ -25,6 +25,9 @@
          $plugin_js_list   = array( 'ezoe::i18n::'|concat( $language ) )
          $spell_languages = '+English=en'
     }
+    {if ezini_hasvariable( 'EditorSettings', 'SkinVariant', 'ezoe.ini',,true() )}
+        {set $skin_variant = ezini('EditorSettings', 'SkinVariant', 'ezoe.ini',,true() )}
+    {/if}
     {if $attribute.language_code|eq( $ez_locale )}
         {def $cur_locale = fetch( 'content', 'locale' )}
         {set $spell_languages = concat( '+', $cur_locale.intl_language_name, '=', $cur_locale.http_locale_code|explode('-')[0])}
