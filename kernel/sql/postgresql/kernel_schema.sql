@@ -2420,8 +2420,8 @@ CREATE TABLE ezsession (
     data text NOT NULL,
     expiration_time integer DEFAULT 0 NOT NULL,
     session_key character varying(32) DEFAULT ''::character varying NOT NULL,
-    user_id integer DEFAULT 0 NOT NULL,
-    user_hash character varying(32) DEFAULT ''::character varying NOT NULL
+    user_hash character varying(32) DEFAULT ''::character varying NOT NULL,
+    user_id integer DEFAULT 0 NOT NULL
 );
 
 
@@ -2769,10 +2769,10 @@ CREATE TABLE ezworkflow_event (
     data_int2 integer,
     data_int3 integer,
     data_int4 integer,
-    data_text1 character varying(50),
-    data_text2 character varying(50),
-    data_text3 character varying(50),
-    data_text4 character varying(50),
+    data_text1 character varying(255),
+    data_text2 character varying(255),
+    data_text3 character varying(255),
+    data_text4 character varying(255),
     data_text5 text,
     description character varying(50) DEFAULT ''::character varying NOT NULL,
     id integer DEFAULT nextval('ezworkflow_event_s'::text) NOT NULL,

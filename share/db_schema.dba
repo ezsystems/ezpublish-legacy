@@ -4840,16 +4840,16 @@ $schema = array (
         'not_null' => '1',
         'default' => '',
       ),
-      'param' => 
-      array (
-        'type' => 'longtext',
-        'default' => false,
-      ),
       'created' => 
       array (
         'length' => 11,
         'type' => 'int',
         'default' => NULL,
+      ),
+      'param' => 
+      array (
+        'type' => 'longtext',
+        'default' => false,
       ),
     ),
     'indexes' => 
@@ -6017,19 +6017,19 @@ $schema = array (
         'not_null' => '1',
         'default' => '',
       ),
-      'user_id' => 
-      array (
-        'length' => 11,
-        'type' => 'int',
-        'not_null' => '1',
-        'default' => 0,
-      ),
       'user_hash' => 
       array (
         'length' => 32,
         'type' => 'varchar',
         'not_null' => '1',
         'default' => '',
+      ),
+      'user_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
       ),
     ),
     'indexes' => 
@@ -7497,25 +7497,25 @@ $schema = array (
       ),
       'data_text1' => 
       array (
-        'length' => 50,
+        'length' => 255,
         'type' => 'varchar',
         'default' => NULL,
       ),
       'data_text2' => 
       array (
-        'length' => 50,
+        'length' => 255,
         'type' => 'varchar',
         'default' => NULL,
       ),
       'data_text3' => 
       array (
-        'length' => 50,
+        'length' => 255,
         'type' => 'varchar',
         'default' => NULL,
       ),
       'data_text4' => 
       array (
-        'length' => 50,
+        'length' => 255,
         'type' => 'varchar',
         'default' => NULL,
       ),
