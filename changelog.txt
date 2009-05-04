@@ -1,5 +1,8 @@
 eZ Online Editor 5.0 extension Changelog
 
+5.0.2
+* Fixed #14834: Commented 'SkinVariant' in ezoe.ini casues error in error.log.
+
 5.0.1
 * Fixed translation of anchor Name attribute
 * Implemented inline phpdoc for classes and functions
@@ -18,7 +21,6 @@ eZ Online Editor 5.0 extension Changelog
 * Fixed #14728: Space between links are removed
 * Fixed: extra empty paragraphs generated when inserting embed object and literal tags
 * Updated tinyMCE to 3.2.3
-* Fixed #14834: Commented 'SkinVariant' in ezoe.ini casues error in error.log.
 
 5.0.0
 * Fixed regression #13650: [header] ezoe adds a level each time it is called
