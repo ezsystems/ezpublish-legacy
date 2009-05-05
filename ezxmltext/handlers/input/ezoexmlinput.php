@@ -529,11 +529,8 @@ class eZOEXMLInput extends eZXMLInputHandler
             // Workaround for temp issue caused by new handler code in 4.1rc1 to be able to re enable editor
             if ( $aliasedHandler === null )
             {
-                eZDebug::writeError( "Failed to get 'aliased_handler', this is a temporary issue in 4.1 to be fixed for 4.1", __METHOD__ );
-                $aliasedHandler = eZXMLText::inputHandler( $this->XMLData,
-                                                           $this->AliasedType,
-                                                           false,
-                                                           $this->ContentObjectAttribute );
+                eZDebug::writeError( "Failed to get 'aliased_handler', this is a temporary issue in 4.1.0rc that was fixed in 4.1.0", __METHOD__ );
+                return eZInputValidator::STATE_INVALID;
             }
             return $aliasedHandler->validateInput( $http, $base, $contentObjectAttribute );
         }
