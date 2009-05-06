@@ -1070,8 +1070,8 @@ class eZINI
     */
     function assign( $blockName, $varName, &$variable )
     {
-        if ( $this->hasVariable( $blockName, $varName ) )
-            $variable = $this->variable( $blockName, $varName );
+        if ( isset( $this->BlockValues[$blockName][$varName] ) )
+            $variable = $this->BlockValues[$blockName][$varName];
         else
             return false;
         return true;
