@@ -1161,7 +1161,11 @@ class eZINI
      */
     function variableArray( $blockName, $varName )
     {
-        $ret = $this->variable( $blockName, $varName );
+        if ( isset( $this->BlockValues[$blockName][$varName] ) )
+            $ret = $this->BlockValues[$blockName][$varName];
+        else
+            return false;
+
         if ( is_array( $ret ) )
         {
             $arr = array();
