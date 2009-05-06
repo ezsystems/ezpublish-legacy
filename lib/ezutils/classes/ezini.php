@@ -82,18 +82,18 @@ class eZINI
 
     // set EZP_INI_FILE_PERMISSION constant to the permissions you want saved
     // ini and cache files to have.
-    static protected $filePermission = 0666;
+    static protected $filePermission = null;
 
     /*!
       Initialization of object;
     */
-    function eZINI( $fileName, $rootDir = "", $useTextCodec = null, $useCache = null, $useLocalOverrides = null, $directAccess = false, $addArrayDefinition = false )
+    function eZINI( $fileName = 'site.ini', $rootDir = '', $useTextCodec = null, $useCache = null, $useLocalOverrides = null, $directAccess = false, $addArrayDefinition = false )
     {
-        $this->Charset = "utf8";
-        if ( $fileName == "" )
-            $fileName = "site.ini";
-        if ( $rootDir !== false && $rootDir == "" )
-            $rootDir = "settings";
+        $this->Charset = 'utf8';
+        if ( $fileName == '' )
+            $fileName = 'site.ini';
+        if ( $rootDir !== false && $rootDir == '' )
+            $rootDir = 'settings';
         if ( $useCache === null )
             $useCache = eZINI::isCacheEnabled();
         if ( eZINI::isNoCacheAdviced() )
@@ -122,11 +122,16 @@ class eZINI
 
         if ( $this->UseLocalOverrides == true )
         {
-            $this->LocalOverrideDirArray = $GLOBALS["eZINIOverrideDirList"];
+            $this->LocalOverrideDirArray = $GLOBALS['eZINIOverrideDirList'];
         }
 
-        if ( defined( 'EZP_INI_FILE_PERMISSION' ) )
-            self::$filePermission = EZP_INI_FILE_PERMISSION;
+        if ( self::$filePermission === null )
+        {
+	        if ( defined( 'EZP_INI_FILE_PERMISSION' ) )
+	            self::$filePermission = EZP_INI_FILE_PERMISSION;
+	        else
+	            self::$filePermission = 0666;
+        }
 
         $this->load();
     }
@@ -978,7 +983,7 @@ class eZINI
         if ( $this->UseLocalOverrides == true )
             $dirs =& $this->LocalOverrideDirArray;
         else
-            $dirs =& $GLOBALS["eZINIOverrideDirList"];
+            $dirs =& $GLOBALS['eZINIOverrideDirList'];
 
         if ( !isset( $dirs ) or !is_array( $dirs ) )
             $dirs = array( array( "override", false, false ) );
@@ -1078,15 +1083,13 @@ class eZINI
     */
     function variable( $blockName, $varName )
     {
-        $ret = false;
-        if ( !isset( $this->BlockValues[$blockName] ) )
+        if ( isset( $this->BlockValues[$blockName][$varName] ) )
+            return $this->BlockValues[$blockName][$varName];
+        else if ( !isset( $this->BlockValues[$blockName] ) )
             eZDebug::writeError( "Undefined group: '$blockName' in " . $this->FileName, "eZINI" );
-        else if ( isset( $this->BlockValues[$blockName][$varName] ) )
-            $ret = $this->BlockValues[$blockName][$varName];
         else
             eZDebug::writeError( "Undefined variable: '$varName' in group '$blockName' in " . $this->FileName, "eZINI" );
-
-        return $ret;
+        return false;
     }
 
     /*!
@@ -1164,13 +1167,13 @@ class eZINI
             $arr = array();
             foreach ( $ret as $key => $retItem )
             {
-                $arr[$key] = explode( ";", $retItem );
+                $arr[$key] = explode( ';', $retItem );
             }
             $ret = $arr;
         }
         else if ( $ret !== false )
         {
-            $ret = trim( $ret ) === '' ? array() : explode( ";", $ret );
+            $ret = trim( $ret ) === '' ? array() : explode( ';', $ret );
         }
 
         return $ret;
@@ -1383,12 +1386,11 @@ class eZINI
      \static
      \return true if the ini file \a $fileName has been loaded yet.
     */
-    static function isLoaded( $fileName = "site.ini", $rootDir = "settings", $useLocalOverrides = null )
+    static function isLoaded( $fileName = 'site.ini', $rootDir = 'settings', $useLocalOverrides = null )
     {
-        $isLoaded =& $GLOBALS["eZINIGlobalIsLoaded-$rootDir-$fileName-$useLocalOverrides"];
-        if ( !isset( $isLoaded ) )
-            return false;
-        return $isLoaded;
+        if ( isset( $GLOBALS["eZINIGlobalInstance-$rootDir-$fileName-$useLocalOverrides"] ) )
+            return true;
+        return false;
     }
 
     /*!
@@ -1399,19 +1401,14 @@ class eZINI
       Direct access is for accessing the filename directly in the specified path. .append and .append.php is automaticly added to filename
       \note Use create() if you need to get a unique copy which you can alter.
     */
-    static function instance( $fileName = "site.ini", $rootDir = "settings", $useTextCodec = null, $useCache = null, $useLocalOverrides = null, $directAccess = false, $addArrayDefinition = false )
+    static function instance( $fileName = 'site.ini', $rootDir = 'settings', $useTextCodec = null, $useCache = null, $useLocalOverrides = null, $directAccess = false, $addArrayDefinition = false )
     {
         $globalsKey = "eZINIGlobalInstance-$rootDir-$fileName-$useLocalOverrides";
-        $globalsIsLoadedKey = "eZINIGlobalIsLoaded-$rootDir-$fileName-$useLocalOverrides";
 
         if ( !isset( $GLOBALS[$globalsKey] ) ||
              !( $GLOBALS[$globalsKey] instanceof eZINI ) )
         {
-            $GLOBALS[$globalsIsLoadedKey] = false;
-
             $GLOBALS[$globalsKey] = new eZINI( $fileName, $rootDir, $useTextCodec, $useCache, $useLocalOverrides, $directAccess, $addArrayDefinition );
-
-            $GLOBALS[$globalsIsLoadedKey] = true;
         }
         return $GLOBALS[$globalsKey];
     }
@@ -1430,7 +1427,7 @@ class eZINI
       \static
       Similar to instance() but will always create a new copy.
     */
-    static function create( $fileName = "site.ini", $rootDir = "settings", $useTextCodec = null, $useCache = null, $useLocalOverrides = null )
+    static function create( $fileName = 'site.ini', $rootDir = 'settings', $useTextCodec = null, $useCache = null, $useLocalOverrides = null )
     {
         $impl = new eZINI( $fileName, $rootDir, $useTextCodec, $useCache, $useLocalOverrides );
         return $impl;
@@ -1455,18 +1452,16 @@ class eZINI
     /*!
      \static
     */
-    static function resetGlobals(  $fileName = "site.ini", $rootDir = "settings", $useLocalOverrides = null )
+    static function resetGlobals(  $fileName = 'site.ini', $rootDir = 'settings', $useLocalOverrides = null )
     {
         unset( $GLOBALS["eZINIGlobalInstance-$rootDir-$fileName-$useLocalOverrides"] );
-        unset( $GLOBALS["eZINIGlobalIsLoaded-$rootDir-$fileName-$useLocalOverrides"] );
     }
 
     static function resetAllGlobals()
     {
         foreach ( array_keys( $GLOBALS ) as $key )
         {
-            if ( ( strlen( $key ) > 19 && ( substr_compare( $key, 'eZINIGlobalInstance-', 0, 20 ) === 0 ||
-                                            substr_compare( $key, 'eZINIGlobalIsLoaded-', 0, 20 ) === 0 ) )
+            if ( ( isset( $key{19} ) && strpos( $key, 'eZINIGlobalInstance-' ) === 0  )
                    || $key === 'eZINIOverrideDirList' )
             {
                 unset( $GLOBALS[$key] );
