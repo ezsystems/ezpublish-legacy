@@ -318,7 +318,7 @@ function changeAccess( $access )
 
 function accessMatchRegexp( &$text, $reg, $num )
 {
-    $reg = preg_replace( "#/#", "\\/", $reg );
+    $reg = str_replace( '/', "\\/", $reg );
     if ( preg_match( "/$reg/", $text, $regs ) and $num < count( $regs ) )
     {
         $text = str_replace( $regs[$num], '', $text );
