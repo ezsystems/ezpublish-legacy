@@ -41,7 +41,7 @@ if ( $SectionID == 0 )
 else
 {
     $section = eZSection::fetch( $SectionID );
-    if( is_null( $section ) )
+    if( $section === null )
     {
         return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
     }

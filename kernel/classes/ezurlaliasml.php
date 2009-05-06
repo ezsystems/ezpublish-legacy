@@ -165,7 +165,7 @@ class eZURLAliasML extends eZPersistentObject
     static function strtolower( $text )
     {
         //We need to detect our internal charset
-        if ( is_null( self::$charset ) )
+        if ( self::$charset === null )
         {
             self::$charset = eZTextCodec::internalCharset();
         }
@@ -922,7 +922,7 @@ class eZURLAliasML extends eZPersistentObject
         $db = eZDB::instance();
         $actionStr = $db->escapeString( $action );
         $langMask = '';
-        if ( is_bool( $maskLanguages ) && $maskLanguages )
+        if ( $maskLanguages === true )
         {
             $langMask = "(" . trim( eZContentLanguage::languagesSQLFilter( 'ezurlalias_ml', 'lang_mask' ) ) . ") AND ";
         }

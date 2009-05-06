@@ -1237,7 +1237,7 @@ class eZLDAPUser extends eZUser
             for ( $i = 0; $i < $entries[ 'count' ]; $i++ )
             {
                 $parent =& $entries[ $i ];
-                if ( is_null( $parent ) )
+                if ( $parent === null )
                    continue;
 
                 $parentDN =& $parent['dn'];

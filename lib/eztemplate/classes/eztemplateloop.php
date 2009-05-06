@@ -160,7 +160,7 @@ class eZTemplateLoop
      */
     function hasSequence()
     {
-        return !is_null( $this->Sequence );
+        return $this->Sequence !== null;
     }
 
 
@@ -210,7 +210,7 @@ class eZTemplateLoop
                 }
                 elseif ( $childFunctionName == 'delimiter' )
                 {
-                    if ( is_null( $this->Delimiter ) )
+                    if ( $this->Delimiter === null )
                         $this->Delimiter = $child;
                     continue;
                 }
@@ -249,7 +249,7 @@ class eZTemplateLoop
      */
     function processDelimiter( $index = false )
     {
-        if ( is_null( $this->Delimiter ) || $this->SkipDelimiter )
+        if ( $this->Delimiter === null || $this->SkipDelimiter )
             return false;
 
         $delimiterChildren = $this->Delimiter[1];

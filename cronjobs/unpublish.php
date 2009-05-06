@@ -1,6 +1,6 @@
 <?php
 //
-// Created on: <16-Сен-2003 16:09:52 sp>
+// Created on: <16-О©╫О©╫О©╫-2003 16:09:52 sp>
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ Publish
@@ -57,7 +57,7 @@ foreach( $rootNodeIDList as $nodeID )
 
         $dateAttribute = $dataMap['unpublish_date'];
 
-        if ( is_null( $dateAttribute ) )
+        if ( $dateAttribute === null )
             continue;
 
         $date = $dateAttribute->content();

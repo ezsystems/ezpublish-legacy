@@ -28,7 +28,7 @@
 $GroupIdentifier = $Params['GroupIdentifier'];
 $Module = $Params['Module'];
 
-$group = is_null( $GroupIdentifier ) ? new eZContentObjectStateGroup() : eZContentObjectStateGroup::fetchByIdentifier( $GroupIdentifier );
+$group = $GroupIdentifier === null ? new eZContentObjectStateGroup() : eZContentObjectStateGroup::fetchByIdentifier( $GroupIdentifier );
 
 if ( !is_object( $group ) )
 {
@@ -60,7 +60,7 @@ else if ( $currentAction == 'Store' )
     if ( $isValid )
     {
         $group->store();
-        if ( is_null( $GroupIdentifier ) )
+        if ( $GroupIdentifier === null )
         {
             return $Module->redirectTo( 'state/group/' . $group->attribute( 'identifier' ) );
         }
@@ -76,7 +76,7 @@ else if ( $currentAction == 'Store' )
 
 $tpl->setVariable( 'group', $group );
 
-if ( is_null( $GroupIdentifier ) )
+if ( $GroupIdentifier === null )
 {
     $path = array(
         array( 'url' => false, 'text' => ezi18n( 'kernel/state', 'State' ) ),

@@ -2,7 +2,7 @@
 //
 // Definition of eZEnum class
 //
-// Created on: <24-ßÂ-2002 16:07:05 wy>
+// Created on: <24-ï¿½ï¿½-2002 16:07:05 wy>
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ Publish
@@ -139,7 +139,7 @@ class eZEnumValue extends eZPersistentObject
 
     static function fetchAllElements( $classAttributeID, $version, $asObject = true )
     {
-        if ( is_null( $classAttributeID ) )
+        if ( $classAttributeID === null )
         {
             return array();
         }

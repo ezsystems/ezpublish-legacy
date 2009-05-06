@@ -186,7 +186,7 @@ class eZTemplateForFunction
 
         $loop->parseParamVarName( 'loop_var' , $loopVarName );
 
-        if ( is_null( $firstVal ) || is_null( $lastVal ) || !$loopVarName )
+        if ( $firstVal === null || $lastVal === null || !$loopVarName )
         {
             $tpl->error( eZTemplateForFunction::FUNCTION_NAME, "Wrong arguments passed." );
             return;

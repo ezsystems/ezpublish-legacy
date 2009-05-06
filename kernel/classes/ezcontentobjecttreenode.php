@@ -2007,7 +2007,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             return null;
         }
 
-        if( is_null( $listParams ) )
+        if( $listParams === null )
         {
             $listParams = array(
                              'SortBy'                   => false,
@@ -2039,7 +2039,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 return $retValue;
             }
 
-            if ( is_null( $nodeParams ) )
+            if ( $nodeParams === null )
             {
                 $nodeParams = array(
                                  'Depth'                    => false,

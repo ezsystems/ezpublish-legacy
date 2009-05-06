@@ -37,7 +37,7 @@ $Module = $Params['Module'];
 $policyID = $Params["PolicyID"];
 
 $policy = eZPolicy::fetch( $policyID );
-if( is_null( $policy ) )
+if( $policy === null )
 {
         return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 }

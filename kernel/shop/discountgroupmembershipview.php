@@ -35,7 +35,7 @@ if ( isset( $Params["DiscountGroupID"] ) )
     $discountGroupID = $Params["DiscountGroupID"];
 
 $discountGroup = eZDiscountRule::fetch( $discountGroupID );
-if( is_null( $discountGroup ) )
+if( $discountGroup === null )
 {
     return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 }

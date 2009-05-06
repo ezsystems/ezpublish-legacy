@@ -354,7 +354,7 @@ class eZDateType extends eZDataType
 
         $stamp = $objectAttribute->attribute( 'data_int' );
 
-        if ( !is_null( $stamp ) )
+        if ( $stamp !== null )
         {
             $dom = $node->ownerDocument;
             $dateNode = $dom->createElement( 'date' );

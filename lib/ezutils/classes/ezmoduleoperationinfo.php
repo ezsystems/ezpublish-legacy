@@ -571,7 +571,7 @@ class eZModuleOperationInfo
                                                     $operationKeys, $operationParameterDefinitions, $operationParameters,
                                                     $bodyCallCount, $currentLoopData, $operationName );
             $workflowProcess = $status['WorkflowProcess'];
-            if ( ! is_null( $workflowProcess ) )
+            if ( $workflowProcess !== null )
             {
                 $workflowProcess->setAttribute( 'memento_key', $bodyMemento->attribute( 'memento_key' ) );
                 $workflowProcess->store();

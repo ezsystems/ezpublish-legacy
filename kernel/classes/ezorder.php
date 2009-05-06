@@ -214,7 +214,7 @@ class eZOrder extends eZPersistentObject
 
     static function getShowOrdersQuery( $show, $table = null )
     {
-        $table = ( is_null( $table ) ? "" : $table . "." );
+        $table = ( $table === null ? '' : $table . '.' );
 
         switch( $show )
         {

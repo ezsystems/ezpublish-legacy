@@ -425,7 +425,7 @@ class eZIntegerType extends eZDataType
 
     function hasObjectAttributeContent( $contentObjectAttribute )
     {
-        return !is_null( $contentObjectAttribute->attribute( 'data_int' ) );
+        return $contentObjectAttribute->attribute( 'data_int' ) !== null;
     }
 
     function isInformationCollector()

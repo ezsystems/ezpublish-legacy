@@ -503,9 +503,11 @@ $php->addInclude( 'lib/ezutils/classes/ezphpcreator.php' );
             return var_export( $value, true );
         }
 
-        if ( is_bool( $value ) )
-            $text = ( $value ? 'true' : 'false' );
-        else if ( is_null( $value ) )
+        if ( $value === true  )
+            $text = 'true';
+        else if ( $value === false )
+            $text = 'false';
+        else if ( $value === null )
             $text = 'null';
         else if ( is_string( $value ) )
         {
@@ -632,9 +634,11 @@ $php->addInclude( 'lib/ezutils/classes/ezphpcreator.php' );
         // the last parameter will always be ignored
         $maxIterations = false;
 
-        if ( is_bool( $value ) )
-            $text = ( $value ? 'true' : 'false' );
-        else if ( is_null( $value ) )
+        if ( $value === true  )
+            $text = 'true';
+        else if ( $value === false )
+            $text = 'false';
+        else if ( $value === null )
             $text = 'null';
         else if ( is_string( $value ) )
         {

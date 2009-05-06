@@ -265,7 +265,7 @@ class eZRole extends eZPersistentObject
     function revertFromTemporaryVersion()
     {
         $temporaryVersion = eZRole::fetch( 0, $this->attribute( 'id' ) );
-        if ( is_null( $temporaryVersion ) )
+        if ( $temporaryVersion === null )
             return 0;
         $this->removePolicies();
         $this->setAttribute( 'name', $temporaryVersion->attribute( 'name') );

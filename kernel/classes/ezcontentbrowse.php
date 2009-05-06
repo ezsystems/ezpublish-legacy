@@ -227,7 +227,7 @@ class eZContentBrowse
         $http = eZHTTPTool::instance();
         $http->setSessionVariable( 'BrowseParameters', $parameters );
 
-        if ( is_null( $module ) )
+        if ( $module === null )
         {
             return "/content/browse/";
         }

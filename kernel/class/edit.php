@@ -68,7 +68,7 @@ if ( is_numeric( $ClassID ) )
     if ( !is_object( $class ) or $class->attribute( 'id' ) == null )
     {
         $class = eZContentClass::fetch( $ClassID, true, eZContentClass::VERSION_STATUS_DEFINED );
-        if( is_null( $class ) ) // Class does not exist
+        if( $class === null ) // Class does not exist
         {
             return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
         }

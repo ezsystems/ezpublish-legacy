@@ -52,7 +52,7 @@ if ( count( $options['arguments'] ) != 1 )
     $script->shutdown( 1, 'wrong argument count' );
 }
 
-$preview = !is_null( $options['preview'] );
+$preview = $options['preview'] !== null;
 
 $attributeID = $options['arguments'][0];
 

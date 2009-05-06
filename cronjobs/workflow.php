@@ -92,7 +92,7 @@ foreach( $workflowProcessList as $process )
     else
     {   //restore memento and run it
         $bodyMemento = eZOperationMemento::fetchChild( $process->attribute( 'memento_key' ) );
-        if ( is_null( $bodyMemento ) )
+        if ( $bodyMemento === null )
         {
             eZDebug::writeError( $bodyMemento, "Empty body memento in workflow.php" );
             $db->commit();

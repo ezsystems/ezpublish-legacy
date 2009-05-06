@@ -314,7 +314,7 @@ class eZTemplateForeachFunction
             return;
 
         // fix definitely incorrect offset
-        if ( is_null( $offset ) )
+        if ( $offset === null )
             $offset = 0;
         elseif ( $offset < 0 || $offset >= $nItems )
         {
@@ -326,7 +326,7 @@ class eZTemplateForeachFunction
         }
 
         // fix definitely incorrect max
-        if ( is_null( $max ) )
+        if ( $max === null )
             $max = $nItems - $offset;
         elseif ( $max < 0 || $offset+$max > $nItems )
         {
@@ -336,7 +336,7 @@ class eZTemplateForeachFunction
         }
 
         // process 'reverse' parameter
-        if ( is_null( $reverse ) )
+        if ( $reverse === null )
             $reverse = false;
         if ( $reverse )
         {

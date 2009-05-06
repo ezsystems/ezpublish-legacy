@@ -617,17 +617,17 @@ class eZTemplateLogicOperator
     {
         $val_cnt = false;
 
-        if ( is_array( $val ) )
-        {
-            $val_cnt = count( $val );
-        }
-        else if ( is_null( $val ) )
+        if ( $val === null )
         {
             $val_cnt = 0;
         }
-        else if ( is_bool( $val ) )
+        else if ( $val === true || $val === false )
         {
             $val_cnt = (int)$val;
+        }
+        else if ( is_array( $val ) )
+        {
+            $val_cnt = count( $val );
         }
         else if ( is_object( $val ) and
                   method_exists( $val, "attributes" ) )
@@ -741,17 +741,17 @@ class eZTemplateLogicOperator
                 {
                     $operand = $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
                     $operand_logic = false;
-                    if ( is_array( $operand ) )
+                    if ( $operand === null )
+                        $operand_logic = false;
+                    else if ( $operand === true || $operand === false )
+                        $operand_logic = $operand;
+                    else if ( is_array( $operand ) )
                         $operand_logic = count( $operand ) > 0;
                     else if ( is_numeric( $operand ) )
                         $operand_logic = $operand != 0;
-                    else if ( is_null( $operand ) )
-                        $operand_logic = false;
                     else if ( is_object( $operand ) )
                         $operand_logic = ( method_exists( $operand, "attributes" ) and
                                            method_exists( $operand, "attribute" ) );
-                    else if ( is_bool( $operand ) )
-                        $operand_logic = $operand;
                     else if ( is_string( $operand ) )
                         $operand_logic =  strlen(trim($operand)) > 0;
                     if ( $operand_logic )
@@ -769,17 +769,17 @@ class eZTemplateLogicOperator
                 {
                     $operand = $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
                     $operand_logic = false;
-                    if ( is_array( $operand ) )
+                    if ( $operand === null || $operand === '' )
+                        $operand_logic = false;
+                    else if ( $operand === true || $operand === false )
+                        $operand_logic = $operand;
+                    else if ( is_array( $operand ) )
                         $operand_logic = count( $operand ) > 0;
                     else if ( is_numeric( $operand ) )
                         $operand_logic = $operand != 0;
-                    else if ( is_null( $operand ) )
-                        $operand_logic = false;
                     else if ( is_object( $operand ) )
                         $operand_logic = ( method_exists( $operand, "attributes" ) and
                                            method_exists( $operand, "attribute" ) );
-                    else if ( is_bool( $operand ) )
-                        $operand_logic = $operand;
                     else if ( is_string( $operand ) )
                         $operand_logic =  strlen(trim($operand)) > 0;
                     if ( !$operand_logic )
@@ -792,7 +792,9 @@ class eZTemplateLogicOperator
             } break;
             case $this->ChooseName:
             {
-                if ( is_array( $value ) or
+                if ( $value === null )
+                    $index = 0;
+            	else if ( is_array( $value ) or
                      ( is_object( $value ) and
                        method_exists( $value, "attributes" ) ) )
                 {
@@ -801,8 +803,6 @@ class eZTemplateLogicOperator
                 }
                 else if ( is_numeric( $value ) )
                     $index = $value;
-                else if ( is_null( $value ) )
-                    $index = 0;
                 else
                     $index = $value ? 1 : 0;
                 if ( $index < 0 or
@@ -852,7 +852,7 @@ class eZTemplateLogicOperator
             } break;
             case $this->NullName:
             {
-                $value = is_null( $value );
+                $value = $value === null;
             } break;
             case $this->NotName:
             {
@@ -864,10 +864,10 @@ class eZTemplateLogicOperator
                 {
                     $operand = $value;
                 }
-                if ( is_array( $operand ) )
-                    $operand = ( count( $operand ) == 0 );
-                else if ( is_null( $operand ) )
+                if ( $operand === null )
                     $operand = true;
+                else if ( is_array( $operand ) )
+                    $operand = ( count( $operand ) == 0 );
                 else if ( is_object( $operand ) and
                           method_exists( $operand, "attributes" ) )
                     $operand = ( count( $operand->attributes() ) == 0 );

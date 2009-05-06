@@ -202,7 +202,7 @@ class eZContentUpload
         $http = eZHTTPTool::instance();
         $http->setSessionVariable( 'ContentUploadParameters', $parameters );
 
-        if ( is_null( $module ) )
+        if ( $module === null )
         {
             return "/content/upload/";
         }

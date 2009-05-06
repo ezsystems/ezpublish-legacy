@@ -326,7 +326,7 @@ class eZContentObject extends eZPersistentObject
     {
         // if the object id is null, we can't read data from the database
         // and return the locally known name
-        if ( is_null( $this->attribute( 'id' ) ) )
+        if ( $this->attribute( 'id' ) === null )
         {
             return $this->Name;
         }

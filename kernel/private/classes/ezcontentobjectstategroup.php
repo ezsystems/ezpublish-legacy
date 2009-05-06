@@ -338,7 +338,7 @@ class eZContentObjectStateGroup extends eZPersistentObject
             {
                 // the name and description are empty
                 // so the translation needs to be removed if it was stored before
-                if ( !is_null( $translation->attribute( 'contentobject_state_group_id' ) ) )
+                if ( $translation->attribute( 'contentobject_state_group_id' ) !== null )
                 {
                     $translation->remove();
                 }

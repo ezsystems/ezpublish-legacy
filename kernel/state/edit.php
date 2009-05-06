@@ -79,7 +79,7 @@ else if ( $currentAction == 'Store' )
 $tpl->setVariable( 'state', $state );
 $tpl->setVariable( 'group', $group );
 
-if ( is_null( $StateIdentifier ) )
+if ( $StateIdentifier === null )
 {
     $path = array(
         array( 'url' => false, 'text' => ezi18n( 'kernel/state', 'State' ) ),

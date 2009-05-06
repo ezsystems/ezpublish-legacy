@@ -560,7 +560,7 @@ class eZObjectRelationType extends eZDataType
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
         $relatedObjectID = $objectAttribute->attribute( 'data_int' );
 
-        if ( !is_null( $relatedObjectID ) )
+        if ( $relatedObjectID !== null )
         {
             $relatedObject = eZContentObject::fetch( $relatedObjectID );
             if ( !$relatedObject )

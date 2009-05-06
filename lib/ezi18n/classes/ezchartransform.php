@@ -375,9 +375,11 @@ class eZCharTransform
     static function varExportInternal( $value, $column = 0, $iteration = 0 )
     {
 
-        if ( is_bool( $value ) )
-            $text = ( $value ? 'true' : 'false' );
-        else if ( is_null( $value ) )
+        if ( $value === true )
+            $text = 'true';
+        else if ( $value === false )
+            $text = 'false';
+        else if ( $value === null )
             $text = 'null';
         else if ( is_string( $value ) )
         {

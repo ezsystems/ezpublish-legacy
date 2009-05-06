@@ -203,7 +203,7 @@ class eZTimeType extends eZDataType
     {
         $stamp = $contentObjectAttribute->attribute( 'data_int' );
 
-        if ( !is_null( $stamp ) )
+        if ( $stamp !== null )
         {
             $time = new eZTime( $stamp );
 
@@ -221,7 +221,7 @@ class eZTimeType extends eZDataType
     function sortKey( $contentObjectAttribute )
     {
         $timestamp = $contentObjectAttribute->attribute( 'data_int' );
-        if ( !is_null( $timestamp ) )
+        if ( $timestamp !== null )
         {
             $time = new eZTime( $timestamp );
             return $time->timeOfDay();
@@ -339,7 +339,7 @@ class eZTimeType extends eZDataType
         $timestamp = $contentObjectAttribute->attribute( 'data_int' );
         $locale = eZLocale::instance();
 
-        if ( !is_null( $timestamp ) )
+        if ( $timestamp !== null )
         {
             $time = new eZTime( $timestamp );
             return $locale->formatTime( $time->timeStamp() );
@@ -349,7 +349,7 @@ class eZTimeType extends eZDataType
 
     function hasObjectAttributeContent( $contentObjectAttribute )
     {
-        return !is_null( $contentObjectAttribute->attribute( 'data_int' ) );
+        return $contentObjectAttribute->attribute( 'data_int' ) !== null;
     }
 
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
@@ -411,7 +411,7 @@ class eZTimeType extends eZDataType
 
         $stamp = $objectAttribute->attribute( 'data_int' );
 
-        if ( !is_null( $stamp ) )
+        if ( $stamp !== null )
         {
             $dom = $node->ownerDocument;
             $dateNode = $dom->createElement( 'time' );

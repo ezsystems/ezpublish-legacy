@@ -205,7 +205,7 @@ function checkNodeMovements( $module, $class, $object, $version, $contentObjectA
                         $db = eZDB::instance();
                         $db->begin();
                         // No longer remove then add assignment, instead change the existing one
-                        if ( is_null( $realNode ) )
+                        if ( $realNode  === null )
                         {
                             $fromNodeID = 0;
                         }

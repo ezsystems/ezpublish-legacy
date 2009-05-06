@@ -226,7 +226,7 @@ class eZTemplateTypeOperator
 
             case $this->IsBooleanName:
             {
-                $code .= 'is_bool( %1% );';
+                $code .= '( %1% === true || %1% === false );';
             } break;
 
             case $this->IsIntegerName:
@@ -262,7 +262,7 @@ class eZTemplateTypeOperator
 
             case $this->IsNullName:
             {
-                $code .= 'is_null( %1% );';
+                $code .= '(%1% === null);';
             } break;
 
             case $this->IsSetName:

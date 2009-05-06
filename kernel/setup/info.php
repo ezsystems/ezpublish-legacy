@@ -46,7 +46,7 @@ if ( $mode and $mode === 'php' )
 // directly yet.
 
 $phpAcceleratorInfo = array();
-if ( !is_null( $info->phpAccelerator ) )
+if ( $info->phpAccelerator !== null )
 {
     $phpAcceleratorInfo['name'] = $info->phpAccelerator->name;
     $phpAcceleratorInfo['url'] = $info->phpAccelerator->url;

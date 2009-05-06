@@ -1108,7 +1108,7 @@ class eZTemplate
         }
         foreach ( $dataElements as $dataElement )
         {
-            if ( is_null( $dataElement ) )
+            if ( $dataElement === null )
             {
                 return null;
             }
@@ -1165,7 +1165,7 @@ class eZTemplate
                     $attributeData = $dataElement[1];
                     $attributeValue = $this->elementValue( $attributeData, $rootNamespace, $currentNamespace, false, $checkExistance );
 
-                    if ( !is_null( $attributeValue ) )
+                    if ( $attributeValue !== null )
                     {
                         if ( !is_numeric( $attributeValue ) and
                              !is_string( $attributeValue ) and

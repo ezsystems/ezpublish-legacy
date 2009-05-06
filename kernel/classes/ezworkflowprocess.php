@@ -557,7 +557,7 @@ class eZWorkflowProcess extends eZPersistentObject
 
     function setParameters( $parameterList = null )
     {
-        if ( !is_null( $parameterList ) )
+        if ( $parameterList !== null )
         {
             $this->Parameters = $parameterList;
             unset( $this->ParameterList );

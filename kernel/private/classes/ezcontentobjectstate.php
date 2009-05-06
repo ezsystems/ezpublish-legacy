@@ -301,7 +301,7 @@ class eZContentObjectState extends eZPersistentObject
      */
     public function store( $fieldFilters = null )
     {
-        if ( is_null( $fieldFilters ) )
+        if ( $fieldFilters === null )
         {
             $db = eZDB::instance();
 
@@ -362,7 +362,7 @@ class eZContentObjectState extends eZPersistentObject
                 {
                     // the name and description are empty
                     // so the translation needs to be removed if it was stored before
-                    if ( !is_null( $translation->attribute( 'contentobject_state_id' ) ) )
+                    if ( $translation->attribute( 'contentobject_state_id' ) !== null )
                     {
                         $translation->remove();
                     }

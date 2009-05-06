@@ -277,7 +277,7 @@ class eZTemplateSwitchFunction
                                 if ( !isset( $items[$child_match] ) )
                                 {
                                     $items[$child_match] = $child;
-                                    if ( is_null( $case ) and
+                                    if ( $case === null and
                                          $match == $child_match )
                                     {
                                         $case = $child;
@@ -300,9 +300,9 @@ class eZTemplateSwitchFunction
                                 $child_in = $tpl->elementValue( $child_in, $rootNamespace, $currentNamespace, $functionPlacement );
                                 if ( !is_array( $child_in ) )
                                     break;
-                                if ( is_null( $case ) )
+                                if ( $case === null )
                                 {
-                                    if ( is_null( $key_name ) )
+                                    if ( $key_name === null )
                                     {
                                         if ( in_array( $match, $child_in ) )
                                         {
@@ -351,7 +351,7 @@ class eZTemplateSwitchFunction
             }
         }
 
-        if ( is_null( $case ) )
+        if ( $case === null )
         {
             $case = $def;
         }

@@ -52,7 +52,7 @@ class ezpAutoloader
 
     public static function autoload( $className )
     {
-        if ( is_null( self::$ezpClasses ) )
+        if ( self::$ezpClasses === null )
         {
             $ezpKernelClasses = require 'autoload/ezp_kernel.php';
             $ezpExtensionClasses = false;

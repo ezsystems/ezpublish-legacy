@@ -57,7 +57,7 @@ else // no action yet: just displaying the template
     foreach ( $deleteIDArray as $orderID )
     {
         $order = eZOrder::fetch( $orderID );
-        if ( is_null( $order ) )
+        if ( $order === null )
             continue;   // just to prevent possible fatal error below
 
         $orderNumbersArray[] = $order->attribute( 'order_nr' );

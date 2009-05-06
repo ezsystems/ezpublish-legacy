@@ -347,7 +347,7 @@ class eZFloatType extends eZDataType
 
     function hasObjectAttributeContent( $contentObjectAttribute )
     {
-        return !is_null( $contentObjectAttribute->attribute( 'data_float' ) );
+        return $contentObjectAttribute->attribute( 'data_float' ) !== null;
     }
     /*!
      \return string representation of an contentobjectattribute data for simplified export

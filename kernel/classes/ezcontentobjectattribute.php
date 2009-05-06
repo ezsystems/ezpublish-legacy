@@ -657,7 +657,7 @@ class eZContentObjectAttribute extends eZPersistentObject
 
     /*!
       Tries to fixup the input text to be acceptable.
-     */
+    ï¿½*/
     function fixupInput( $http, $base )
     {
         $dataType = $this->dataType();
@@ -679,7 +679,7 @@ class eZContentObjectAttribute extends eZPersistentObject
 
     /*!
       Validates the information collection data.
-    */
+   ï¿½*/
     function validateInformation( $http, $base,
                                   &$inputParameters, $validationParameters = array() )
     {
@@ -1037,7 +1037,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     function dataType()
     {
         $dataType = null;
-        if( !is_null( $this->DataTypeString ) )
+        if( $this->DataTypeString !== null )
             $dataType = eZDataType::create( $this->DataTypeString );
 
         return $dataType;

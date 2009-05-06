@@ -40,7 +40,7 @@ $modules = $ini->variable( 'ModuleSettings', 'ModuleList' );
 sort( $modules );
 
 $role = eZRole::fetch( 0, $roleID );
-if ( is_null( $role ) )
+if ( $role === null )
 {
     $role = eZRole::fetch( $roleID );
     if ( $role )

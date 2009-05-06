@@ -1302,10 +1302,10 @@ class eZDBFileHandlerMysqlBackend
      */
     function _quote( $value )
     {
-        if ( is_integer( $value ) )
-            return (string)$value;
-        elseif ( is_null( $value ) )
+        if ( $value === null )
             return 'NULL';
+    	elseif ( is_integer( $value ) )
+            return (string)$value;
         else
             return "'" . mysql_real_escape_string( $value ) . "'";
     }

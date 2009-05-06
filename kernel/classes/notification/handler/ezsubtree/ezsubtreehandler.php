@@ -194,7 +194,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
             if ( $subscriber['use_digest'] == 0 )
             {
                 $settings = eZGeneralDigestUserSettings::fetchForUser( $subscriber['address'] );
-                if ( !is_null( $settings ) && $settings->attribute( 'receive_digest' ) == 1 )
+                if ( $settings !== null && $settings->attribute( 'receive_digest' ) == 1 )
                 {
                     $time = $settings->attribute( 'time' );
                     $timeArray = explode( ':', $time );
