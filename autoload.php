@@ -92,7 +92,7 @@ class ezpAutoloader
             }
         }
 
-        if ( array_key_exists( $className, self::$ezpClasses ) )
+        if ( isset( self::$ezpClasses[ $className ] ) )
         {
             require( self::$ezpClasses[$className] );
         }
