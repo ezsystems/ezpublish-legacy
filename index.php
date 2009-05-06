@@ -305,7 +305,6 @@ function fetchModule( $uri, $check, &$module, &$module_name, &$function_name, &$
 }
 
 $httpCharset = eZTextCodec::httpCharset();
-$ini = eZINI::instance();
 if ( $ini->variable( 'RegionalSettings', 'Debug' ) == 'enabled' )
     eZLocale::setIsDebugEnabled( true );
 
@@ -733,7 +732,6 @@ while ( $moduleRunRequired )
 if ( $ini->variable( "SiteAccessSettings", "CheckValidity" ) !== 'true' )
 {
     $currentUser = eZUser::currentUser();
-    $ini = eZINI::instance();
 
     $wwwDir = eZSys::wwwDir();
     // On host based site accesses this can be empty, causing the cookie to be set for the current dir,
