@@ -31,7 +31,7 @@ class ezoeInfo
         $eZCopyrightString = 'Copyright (C) 1999-' . date('Y') . ' eZ Systems AS';
 
         return array( 'Name'      => 'eZ Online Editor',
-                      'Version'   => '5.0.1',
+                      'Version'   => '5.1.0Alpha1',
                       'Copyright' => $eZCopyrightString,
                       'License'   => 'GNU General Public License v2.0',
                       'Includes the following third-party software' => array( 'Name' => 'TinyMce Javascript HTML WYSIWYG editor',
