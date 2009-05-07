@@ -733,7 +733,6 @@ while ( $moduleRunRequired )
 if ( $ini->variable( "SiteAccessSettings", "CheckValidity" ) !== 'true' )
 {
     $currentUser = eZUser::currentUser();
-    $ini = eZINI::instance();
 
     $wwwDir = eZSys::wwwDir();
     // On host based site accesses this can be empty, causing the cookie to be set for the current dir,
@@ -745,7 +744,7 @@ if ( $ini->variable( "SiteAccessSettings", "CheckValidity" ) !== 'true' )
         setcookie( 'is_logged_in', 'true', 0, $cookiePath );
         header( 'Etag: ' . $currentUser->attribute( 'contentobject_id' ) );
     }
-    else
+    else if ( isset( $_COOKIE['is_logged_in'] ) )
     {
         setcookie( 'is_logged_in', false, 0, $cookiePath );
     }
