@@ -894,8 +894,8 @@
                 }
                 if ( c )
                 {
-                    c.setActive( mceNonEditable && (type === 'objects')  );
-                    c.setDisabled( header || (mceNonEditable && type !== 'objects') );
+                    c.setActive( mceNonEditable && (!c2 || type === 'objects')  );
+                    c.setDisabled( header || (mceNonEditable && (type !== 'objects' && c2)) );
                 }
                 if ( c2 )
                 {
