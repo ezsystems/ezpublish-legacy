@@ -1130,8 +1130,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                     $imageDatatypeArray = $ini->variable( 'ImageDataTypeSettings', 'AvailableImageDataTypes' );
                     $imageWidth = 32;
                     $imageHeight = 32;
-                    // reverse the array so we are sure we get the first valid image
-                    foreach ( array_reverse( $contentObjectAttributes, true ) as $contentObjectAttribute )
+                    foreach ( $contentObjectAttributes as $contentObjectAttribute )
                     {
                         $classAttribute = $contentObjectAttribute->contentClassAttribute();
                         $dataTypeString = $classAttribute->attribute( 'data_type_string' );
@@ -1144,6 +1143,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                                 $srcString   = $URL . '/' . $imageAlias['url'];
                                 $imageWidth  = $imageAlias['width'];
                                 $imageHeight = $imageAlias['height'];
+                                break;
                             }
                         }
                     }
@@ -1284,6 +1284,12 @@ class eZOEXMLInput extends eZXMLInputHandler
                 // find all list elements
                 foreach ( $tag->childNodes as $listItemNode )
                 {
+                    if ( !$listItemNode instanceof DOMElement )
+                    {
+                        eZDebug::writeWarning( '$listItemNode is not a DOMElement but a ' . get_class( $listItemNode ) . ', this should not happen..', __METHOD__ );
+                        continue;
+                    }
+
                     $LIcustomAttributePart = self::getCustomAttrPart( $listItemNode, $listItemStyleString );
 
                     $noParagraphs = $listItemNode->childNodes->length <= 1;
