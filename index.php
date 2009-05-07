@@ -743,7 +743,7 @@ if ( $ini->variable( "SiteAccessSettings", "CheckValidity" ) !== 'true' )
         setcookie( 'is_logged_in', 'true', 0, $cookiePath );
         header( 'Etag: ' . $currentUser->attribute( 'contentobject_id' ) );
     }
-    else
+    else if ( isset( $_COOKIE['is_logged_in'] ) )
     {
         setcookie( 'is_logged_in', false, 0, $cookiePath );
     }
