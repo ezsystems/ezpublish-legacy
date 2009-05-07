@@ -1,5 +1,5 @@
 /**
- * $Id: editor_plugin_src.js 1104 2009-04-22 12:16:47Z spocke $
+ * $Id: editor_plugin_src.js 1112 2009-04-30 20:03:51Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -365,7 +365,8 @@
 			var ed = this.editor;
 
 			// First delete the contents seems to work better on WebKit
-			ed.execCommand('Delete');
+			if (!ed.selection.isCollapsed())
+				ed.execCommand('Delete');
 
 			// It's better to use the insertHTML method on Gecko since it will combine paragraphs correctly before inserting the contents
 			ed.execCommand(tinymce.isGecko ? 'insertHTML' : 'mceInsertContent', false, h, {skip_undo : skip_undo});

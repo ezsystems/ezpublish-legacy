@@ -1,5 +1,5 @@
 /**
- * $Id: DOMUtils.js 1104 2009-04-22 12:16:47Z spocke $
+ * $Id: DOMUtils.js 1111 2009-04-26 17:07:37Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -695,7 +695,7 @@
 					default:
 						// IE has odd anonymous function for event attributes
 						if (n.indexOf('on') === 0 && v)
-							v = ('' + v).replace(/^function\s+anonymous\(\)\s+\{\s+(.*)\s+\}$/, '$1');
+							v = ('' + v).replace(/^function\s+\w+\(\)\s+\{\s+(.*)\s+\}$/, '$1');
 				}
 			}
 
