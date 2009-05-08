@@ -28,13 +28,17 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         {
             if ( eZOEPopupUtils.getParentByTag( el, 'span', 'mceItemCustomTag', 'custom' ) )
                 filterOutCustomBlockTags( );
+            else if ( eZOEPopupUtils.getParentByTag( el, 'h1,h2,h3,h4,h5,h6' ) )
+                filterOutCustomBlockTags( );
         }
         else
         {
             var currentNode = ed.selection.getNode();
             if ( currentNode && currentNode.nodeName !== 'DIV' && tinymce.DOM.getAttrib( currentNode, 'type' ) === 'custom' )
                 filterOutCustomBlockTags( );
-            else if ( eZOEPopupUtils.getParentByTag( currentNode, 'span', 'mceItemCustomTag', 'custom' ) )
+            else if ( eZOEPopupUtils.getParentByTag( currentNode, 'span', 'mceItemCustomTag', 'custom', true ) )
+                filterOutCustomBlockTags( );
+            else if ( eZOEPopupUtils.getParentByTag( currentNode, 'h1,h2,h3,h4,h5,h6', false, false, true ) )
                 filterOutCustomBlockTags( );
         }
     },

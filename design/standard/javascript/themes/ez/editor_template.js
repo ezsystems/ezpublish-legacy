@@ -1021,9 +1021,6 @@
                 if (p && (c = cm.get('pagebreak')))
                     c.setDisabled( !!p && DOM.hasClass(p, 'pagebreak') );
 
-                if (header && (c = cm.get('custom')))
-                    c.setDisabled( header );
-
                 p = DOM.getParent(n, 'IMG');
                 if (c = cm.get('image'))
                 {

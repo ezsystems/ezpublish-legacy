@@ -20,6 +20,7 @@ eZ Online Editor 5.0 extension Changelog
 * Fixed #14834: Commented 'SkinVariant' in ezoe.ini casues error in error.log.
 * Updated tinyMCE to 3.2.3.1
 * Fixed #14872: Embed tags cant always be edited
+* Fixed #14868: Allow adding inline custom / embed tags in header tags
 
 5.0.0
 * Fixed regression #13650: [header] ezoe adds a level each time it is called
