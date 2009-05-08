@@ -1465,7 +1465,7 @@ class eZINI
     {
         foreach ( array_keys( $GLOBALS ) as $key )
         {
-            if ( ( isset( $key{19} ) && strpos( $key, 'eZINIGlobalInstance-' ) === 0  )
+            if ( ( $key && strpos( $key, 'eZINIGlobalInstance-' ) === 0  )
                    || $key === 'eZINIOverrideDirList' )
             {
                 unset( $GLOBALS[$key] );
