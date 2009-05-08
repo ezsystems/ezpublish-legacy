@@ -1270,9 +1270,9 @@ showDebug();
              $name === false )
             $name = $key;
         $debug = eZDebug::instance();
-        if ( !isset( $debug->TimeAccumulatorList[ $key ] ) )
+        if ( !array_key_exists( $key, $debug->TimeAccumulatorList ) )
             $debug->TimeAccumulatorList[$key] = array( 'name' => $name,  'time' => 0, 'count' => 0, 'is_group' => true, 'in_group' => false );
-        if ( !isset( $debug->TimeAccumulatorGroupList[ $key ] ) )
+        if ( !array_key_exists( $key, $debug->TimeAccumulatorGroupList ) )
             $debug->TimeAccumulatorGroupList[$key] = array();
     }
 
@@ -1290,17 +1290,17 @@ showDebug();
             $name = $key;
         $debug = eZDebug::instance();
         $isGroup = false;
-        if ( isset( $debug->TimeAccumulatorList[ $key ] ) and
-             isset( $debug->TimeAccumulatorGroupList[ $key ] ) )
+        if ( array_key_exists( $key, $debug->TimeAccumulatorList ) and
+             array_key_exists( $key, $debug->TimeAccumulatorGroupList ) )
             $isGroup = true;
         $debug->TimeAccumulatorList[$key] = array( 'name' => $name,  'time' => 0, 'count' => 0, 'is_group' => $isGroup, 'in_group' => $inGroup );
         if ( $inGroup !== false )
         {
             $groupKeys = array();
-            if ( isset( $debug->TimeAccumulatorGroupList[ $inGroup ] ) )
+            if ( array_key_exists( $inGroup, $debug->TimeAccumulatorGroupList ) )
                 $groupKeys = $debug->TimeAccumulatorGroupList[$inGroup];
             $debug->TimeAccumulatorGroupList[$inGroup] = array_unique( array_merge( $groupKeys, array( $key ) ) );
-            if ( isset( $debug->TimeAccumulatorList[ $inGroup ] ) )
+            if ( array_key_exists( $inGroup, $debug->TimeAccumulatorList ) )
                 $debug->TimeAccumulatorList[$inGroup]['is_group'] = true;
         }
     }
@@ -1315,7 +1315,7 @@ showDebug();
             return;
         $debug = eZDebug::instance();
         $key = $key === false ? 'Default Debug-Accumulator' : $key;
-        if ( ! isset( $debug->TimeAccumulatorList[ $key ] ) )
+        if ( ! array_key_exists( $key, $debug->TimeAccumulatorList ) )
         {
             $debug->createAccumulator( $key, $inGroup, $name );
         }
@@ -1343,7 +1343,7 @@ showDebug();
         $debug = eZDebug::instance();
         $stopTime = microtime( true );
         $key = $key === false ? 'Default Debug-Accumulator' : $key;
-        if ( ! isset( $debug->TimeAccumulatorList[ $key ] ) )
+        if ( ! array_key_exists( $key, $debug->TimeAccumulatorList ) )
         {
             eZDebug::writeWarning( "Accumulator '$key' does not exist, run eZDebug::accumulatorStart first", 'eZDebug::accumulatorStop' );
             return;
@@ -1654,10 +1654,10 @@ td.timingpoint2
         foreach ( $groups as $groupKey => $keyList )
         {
             if ( count( $keyList ) == 0 and
-                 !isset( $timeList[ $groupKey ] ) )
+                 !array_key_exists( $groupKey, $timeList ) )
                 continue;
             $groupList[$groupKey] = array( 'name' => $groupKey );
-            if ( isset( $timeList[ $groupKey ] ) )
+            if ( array_key_exists( $groupKey, $timeList ) )
             {
                 if ( $timeList[$groupKey]['time'] != 0 )
                     $groupList[$groupKey]['time_data'] = $timeList[$groupKey];
@@ -1667,7 +1667,7 @@ td.timingpoint2
             $groupChildren = array();
             foreach ( $keyList as $timeKey )
             {
-                if ( isset( $timeList[ $timeKey ] ) )
+                if ( array_key_exists( $timeKey, $timeList ) )
                 {
                     $groupChildren[] = $timeList[$timeKey];
                     unset( $timeList[$timeKey] );
@@ -1694,13 +1694,13 @@ td.timingpoint2
                 $groupName = $group['name'];
                 $groupChildren = $group['children'];
                 if ( count( $groupChildren ) == 0 and
-                     !isset( $group['time_data'] ) )
+                     !array_key_exists( 'time_data', $group ) )
                     continue;
                 if ( $as_html )
                     echo "<tr><td class='$class'><b>$groupName</b></td>";
                 else
                     echo "Group " . $styles['mark'] . "$groupName:" . $styles['mark-end'] . " ";
-                if ( isset( $group['time_data'] ) )
+                if ( array_key_exists( 'time_data', $group ) )
                 {
                     $groupData = $group['time_data'];
                     $groupElapsed = number_format( ( $groupData['time'] ), $this->TimingAccuracy );
