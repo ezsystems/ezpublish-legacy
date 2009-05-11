@@ -156,7 +156,7 @@ foreach ( $nonUniqueRemoteIDDataList as $nonUniqueRemoteIDData )
  $cli->output( '' );
 }
 
-$nonUniqueRemoteIDDataList = $db->arrayQuery( 'SELECT node_id FROM ezcontentobject_tree WHERE remote_id = ""' );
+$nonUniqueRemoteIDDataList = $db->arrayQuery( "SELECT node_id FROM ezcontentobject_tree WHERE remote_id = ''" );
 
 $nonUniqueRemoteIDDataListCount = count( $nonUniqueRemoteIDDataList );
 
