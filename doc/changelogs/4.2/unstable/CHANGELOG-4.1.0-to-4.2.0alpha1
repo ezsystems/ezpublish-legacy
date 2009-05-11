@@ -88,3 +88,4 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #14874: Admin layout breaks when left menu != smal as regression to #14796
 - Fixed bug #14828: is_logged_in cookie always set removed even if not currently set
 - Fixed bug #14883: fixnoderemoteid script does not work with PostgreSQL
+- Fixed bug #14852: fromString & ezinisettings
