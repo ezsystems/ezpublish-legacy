@@ -1698,9 +1698,17 @@ class eZObjectRelationListType extends eZDataType
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
 
-        $dom = new DOMDocument( '1.0', 'utf-8' );
         eZDebug::writeDebug( $objectAttribute->attribute( 'data_text' ), 'xml string from data_text field' );
-        $success = $dom->loadXML( $objectAttribute->attribute( 'data_text' ) );
+        if ( $objectAttribute->attribute( 'data_text' ) === null )
+        {
+            $content = array( 'relation_list' => array() );
+            $dom = eZObjectRelationListType::createObjectDOMDocument( $content );
+        }
+        else
+        {
+            $dom = new DOMDocument( '1.0', 'utf-8' );
+            $success = $dom->loadXML( $objectAttribute->attribute( 'data_text' ) );
+        }
         $rootNode = $dom->documentElement;
         $relationList = $rootNode->getElementsByTagName( 'relation-list' )->item( 0 );
         if ( $relationList )
