@@ -48,7 +48,7 @@ class eZContentFunctionCollection
 
     static public function fetchContentObject( $objectID, $remoteID = false )
     {
-        if ( $objectID ===false && $remoteID !== false )
+        if ( $objectID === false && $remoteID !== false )
         {
             $contentObject = eZContentObject::fetchByRemoteID( $remoteID );
         }
