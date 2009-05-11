@@ -632,9 +632,9 @@ class eZIniSettingType extends eZDataType
             return true;
         $iniData = explode( '|', $string );
 
-        $contentObjectAttribute->setAttribute( 'data_text', $value );
+        $contentObjectAttribute->setAttribute( 'data_text', $iniData[0] );
         if ( isset ( $iniData[1] ) )
-            $contentObjectAttribute->setAttribute( 'data_int', $makeEmptyArray );
+            $contentObjectAttribute->setAttribute( 'data_int', $iniData[1] );
         return true;
     }
 
