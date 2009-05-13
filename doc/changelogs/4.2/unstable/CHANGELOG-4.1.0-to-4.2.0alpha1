@@ -90,3 +90,4 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #14883: fixnoderemoteid script does not work with PostgreSQL
 - Fixed bug #14852: fromString & ezinisettings
 - Fixed bug #14879: Fatal error while creating new content object package
+- Fixed bug #14904: Too long query time in eZSubtreeNotificationRule::fetchUserList()
