@@ -151,21 +151,79 @@ class eZSubtreeNotificationRule extends eZPersistentObject
         $db = eZDB::instance();
         $concatString = $db->concatString(  array( 'user_tree.path_string', "'%'" ) );
 
-        $sql = 'SELECT DISTINCT policy.id AS policy_id, subtree_rule.user_id,
+        // Select affected users
+        $sql = 'SELECT DISTINCT subtree_rule.user_id,
+                                user_node.node_id
+                FROM ezsubtree_notification_rule subtree_rule,
+                     ezcontentobject_tree user_node
+                WHERE subtree_rule.node_id IN ( ' . $db->implodeWithTypeCast( ', ', $nodeIDList, 'int' ) . ' ) AND
+                      user_node.contentobject_id = subtree_rule.user_id';
+        $userPart = $db->arrayQuery( $sql );
+
+        // Remove duplicates
+        $userNodeIDList = array();
+        foreach ( $userPart as $row )
+            $userNodeIDList[] = $row['node_id'];
+        $userNodeIDList = array_unique( $userNodeIDList );
+
+        // Select affected nodes
+        $sql = 'SELECT DISTINCT user_node.node_id,
+                                user_node.path_string,
+                                user_tree.contentobject_id
+                FROM ezcontentobject_tree user_node,
+                     ezcontentobject_tree user_tree
+                WHERE user_node.node_id IN ( ' . $db->implodeWithTypeCast( ', ', $userNodeIDList, 'int' ) . ' ) AND
+                      user_node.path_string like ' . $concatString;
+        $nodePart = $db->arrayQuery( $sql );
+
+        // Remove duplicates
+        $objectIDList = array();
+        foreach ( $nodePart as $row )
+            if ( $row['contentobject_id'] != '0' )
+                $objectIDList[] = $row['contentobject_id'];
+        $objectIDList = array_unique( $objectIDList );
+
+        // Select affected roles and policies
+        $sql = 'SELECT DISTINCT user_role.contentobject_id,
+                                policy.id AS policy_id,
                                 user_role.limit_identifier AS limitation,
                                 user_role.limit_value AS value
-                  FROM ezuser_role user_role,
-                       ezsubtree_notification_rule subtree_rule,
-                       ezcontentobject_tree user_tree,
-                       ezcontentobject_tree user_node,
-                       ezpolicy policy
-                  WHERE subtree_rule.node_id IN ( ' . $db->implodeWithTypeCast( ', ', $nodeIDList, 'int' ) . ' ) AND
-                        user_node.contentobject_id=subtree_rule.user_id AND
-                        user_node.path_string like ' . $concatString . " AND
-                        user_role.contentobject_id=user_tree.contentobject_id AND
-                        ( user_role.role_id=policy.role_id AND ( policy.module_name='*' OR ( policy.module_name='content' AND ( policy.function_name='*' OR policy.function_name='read' ) ) ) )";
+                FROM ezuser_role user_role,
+                     ezpolicy policy
+                WHERE user_role.contentobject_id IN ( ' . $db->implodeWithTypeCast( ', ', $objectIDList, 'int' ) . " ) AND
+                      ( user_role.role_id=policy.role_id AND
+                        ( policy.module_name='*' OR
+                          ( policy.module_name='content' AND
+                            ( policy.function_name='*' OR
+                              policy.function_name='read'
+                            )
+                          )
+                        )
+                      )";
+        $rolePart = $db->arrayQuery( $sql );
 
-        $resultArray = $db->arrayQuery( $sql );
+        // Build resultArray. Make sure there are no duplicates.
+        $resultArray = array();
+        foreach ( $userPart as $up )
+        {
+            foreach ( $nodePart as $np )
+            {
+                if ( $up['node_id'] == $np['node_id'] )
+                {
+                    foreach ( $rolePart as $rp )
+                    {
+                        if ( $np['contentobject_id'] == $rp['contentobject_id'] )
+                        {
+                            $key = $rp['policy_id'] . $up['user_id'] . $rp['limitation'] . $rp['value'];
+                            $resultArray[$key] = array( 'policy_id' => $rp['policy_id'],
+                                                        'user_id' => $up['user_id'],
+                                                        'limitation' => $rp['limitation'],
+                                                        'value' => $rp['value'] );
+                        }
+                    }
+                }
+            }
+        }
 
         $policyIDArray = array();
         $limitedPolicyIDArray = array();
@@ -207,7 +265,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
             }
 
             $userArray = eZSubtreeNotificationRule::checkObjectAccess( $contentObject, $policyID, $policyIDArray[$policyID] );
-            $acceptedUserArray = array_unique( array_merge( $acceptedUserArray, $userArray ) );
+            $acceptedUserArray = array_merge( $acceptedUserArray, $userArray );
 
             foreach ( $userArray as $userID )
             {
@@ -227,16 +285,17 @@ class eZSubtreeNotificationRule extends eZPersistentObject
                                                                        array( $policyEntry['user_id'] ),
                                                                        array( $policyEntry['limitation'] => $policyEntry['value'] ) );
 
-            $acceptedUserArray = array_unique( array_merge( $acceptedUserArray, $userArray ) );
+            $acceptedUserArray = array_merge( $acceptedUserArray, $userArray );
             foreach ( $userArray as $userID )
             {
                 $userIDArray[(string)$userID] = false;
             }
         }
+        $acceptedUserArray = array_unique( $acceptedUserArray );
 
         foreach( array_keys( $acceptedUserArray ) as $key )
         {
-            if ( !is_int( $acceptedUserArray[$key] ) || $acceptedUserArray[$key] == 0 )
+            if ( !is_int( $acceptedUserArray[$key] ) or $acceptedUserArray[$key] == 0 )
             {
                 unset( $acceptedUserArray[$key] );
             }
