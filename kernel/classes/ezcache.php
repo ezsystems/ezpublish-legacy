@@ -136,6 +136,11 @@ class eZCache
                                        'enabled' => $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled',
                                        'path' => 'template-block',
                                        'function' => array( 'eZCache', 'clearTemplateBlockCache' ) ),
+                                array( 'name' => ezi18n( 'kernel/cache', 'Template override cache' ),
+                                       'id' => 'template-override',
+                                       'tag' => array( 'template' ),
+                                       'enabled' => true,
+                                       'path' => 'override' ),
                                 array( 'name' => ezi18n( 'kernel/cache', 'Text to image cache' ),
                                        'id' => 'texttoimage',
                                        'tag' => array( 'template' ),
@@ -143,11 +148,6 @@ class eZCache
                                        'path' => $textToImageIni->variable( 'PathSettings', 'CacheDir' ),
                                        'function' => array( 'eZCache', 'clearTextToImageCache' ),
                                        'purge-function' => array( 'eZCache', 'purgeTextToImageCache' ) ),
-                                array( 'name' => ezi18n( 'kernel/cache', 'Template override cache' ),
-                                       'id' => 'template-override',
-                                       'tag' => array( 'template' ),
-                                       'enabled' => true,
-                                       'path' => 'override' ),
                                 array( 'name' => ezi18n( 'kernel/cache', 'RSS cache' ),
                                        'id' => 'rss_cache',
                                        'tag' => array( 'content' ),
@@ -542,7 +542,7 @@ class eZCache
     */
     static function clearGlobalINICache( $cacheItem )
     {
-        eZDir::recursiveDelete( 'var/cache/ini' );
+        eZDir::recursiveDelete( $cacheItem['path'] );
     }
 
     /*!
@@ -595,7 +595,7 @@ function eZCacheClearClassID( $cacheItem )
 */
 function eZCacheClearGlobalINI( $cacheItem )
 {
-    eZCache::clearGlobalINICache();
+    eZCache::clearGlobalINICache( $cacheItem );
 }
 
 
