@@ -149,8 +149,8 @@ class eZSSLZone
                         continue;
                     }
                     $nodeID = (int)$matches[1];
-                    $node =& eZContentObjectTreeNode::fetch( $nodeID );
-                    if ( !is_object( $node ) )
+                    $node = eZContentObjectTreeNode::fetch( $nodeID );
+                    if ( !$node instanceof eZContentObjectTreeNode )
                     {
                         eZDebug::writeError( "cannot fetch node by URI '$uri'", 'eZSSLZone::getSSLZones' );
                         continue;
