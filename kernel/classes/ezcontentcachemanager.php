@@ -230,9 +230,12 @@ class eZContentCacheManager
         // Find all nodes that have the given keywords
         if ( count( $keywordArray ) > 0 )
         {
-            $keywordString = implode( "', '", $keywordArray );
             $db = eZDB::instance();
-            $keywordString = "'".$db->escapeString( $keyword )."'";
+            foreach( $keywordArray as $k => $keyword )
+            {
+                $keywordArray[$k] = "'" . $db->escapeString( $keyword ) . "'";
+            }
+            $keywordString = implode( ', ', $keywordArray );
             $params = $limit ? array( 'offset' => 0, 'limit'  => $limit ) : array();
             $rows = $db->arrayQuery( "SELECT DISTINCT ezcontentobject_tree.node_id
                                        FROM
