@@ -690,12 +690,7 @@ class eZImageGDHandler extends eZImageHandler
     */
     static function isImageTrueColor( &$imageObject, $mimeData )
     {
-        if ( eZSys::isPHPVersionSufficient( array( 4, 3, 2 ) ) )
-            return ImageIsTrueColor( $imageObject );
-        $nonTrueColorMimeTypes = array( 'image/gif' );
-        if ( in_array( $sourceMimeData['name'], $nonTrueColorMimeTypes ) )
-            return false;
-        return true;
+        return ImageIsTrueColor( $imageObject );
     }
 
     /*!
