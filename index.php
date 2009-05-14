@@ -24,10 +24,10 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-if ( version_compare( phpversion(), '5.1' ) < 0 )
+if ( version_compare( PHP_VERSION, '5.1' ) < 0 )
 {
-    print( "<h1>Unsupported PHP version " . phpversion() . "</h1>" );
-    print( "<p>eZ Publish 4.x does not run with PHP 4.</p>".
+    print( "<h1>Unsupported PHP version " . PHP_VERSION . "</h1>" );
+    print( "<p>eZ Publish 4.x does not run with PHP version lower then 5.1.</p>".
            "<p>For more information about supported software please visit ".
            "<a href=\"http://ez.no/download/ez_publish\" >eZ Publish download page</a></p>" );
     exit;
