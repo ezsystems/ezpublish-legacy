@@ -380,8 +380,8 @@ class eZURLAliasMlTest extends ezpDatabaseTestCase
 
         // Safe characters. No char should be removed.
         // (dot is allowed except beginning/end of url). Double dots are removed.
-        $e2 = "abcdefghijklmnopqrstuvwxyz0123456789_.!";
-        $e2Result = "abcdefghijklmnopqrstuvwxyz0123456789_.!";
+        $e2 = "abcdefghijklmnopqrstuvwxyz0123456789_.a";
+        $e2Result = "abcdefghijklmnopqrstuvwxyz0123456789_.a";
 
         // Random selection of funky characters. All chars should be removed.
         $e3 = "ウңҏѫあギᄍㄇᠢ⻲㆞ญ฿";
