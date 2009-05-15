@@ -49,7 +49,7 @@
 	{$Order:item.created|l10n(shortdatetime)}
 	</td>
 	<td class="{$Order:sequence}">
-    <a href={concat("/shop/customerorderview/",$Order:item.user_id,"/",$Order:item.account_email)|ezurl}>{$Order:item.account_name}</a>
+    <a href={concat("/shop/customerorderview/",$Order:item.user_id,"/",$Order:item.account_email|wash)|ezurl}>{$Order:item.account_name|wash}</a>
 	</td>
 	<td class="{$Order:sequence}">
 	{$Order:item.total_ex_vat|l10n(currency)}
