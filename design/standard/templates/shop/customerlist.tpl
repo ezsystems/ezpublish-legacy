@@ -61,7 +61,7 @@
     {/foreach}
 
     <tr>
-        <td class="{$Customer.sequence}"><a href={concat("/shop/customerorderview/",$Customer.user_id,"/", $Customer.email)|ezurl}>{$Customer.account_name}</a></td>
+        <td class="{$Customer.sequence}"><a href={concat("/shop/customerorderview/",$Customer.user_id,"/", $Customer.email|wash)|ezurl}>{$Customer.account_name|wash}</a></td>
         <td class="{$Customer.sequence}">{$order_count_text}</td>
         <td class="{$Customer.sequence}">{$sum_ex_vat_text}</td>
         <td class="{$Customer.sequence}">{$sum_inc_vat_text}</td>
