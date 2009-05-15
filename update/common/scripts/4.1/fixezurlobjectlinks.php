@@ -76,7 +76,7 @@ class ezpUrlObjectLinkUpdate
     public $processedCount;
 
     public $outputEntryNumber;
-    public $finalOutputMessageArray;
+    public $finalOutputMessageArray = array();
 
     public $cli;
     public $script;
