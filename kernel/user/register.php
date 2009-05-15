@@ -173,7 +173,7 @@ if ( !function_exists( 'checkContentActions' ) )
                 eZUser::logoutCurrent();
 
                 // Create enable account hash and send it to the newly registered user
-                $hash = md5( time() . $user->attribute( 'contentobject_id' ) );
+                $hash = md5( mt_rand() . time() . $user->attribute( 'contentobject_id' ) );
                 //include_once( "kernel/classes/datatypes/ezuser/ezuseraccountkey.php" );
                 $accountKey = eZUserAccountKey::createNew( $user->attribute( 'contentobject_id' ), $hash, time() );
                 $accountKey->store();
