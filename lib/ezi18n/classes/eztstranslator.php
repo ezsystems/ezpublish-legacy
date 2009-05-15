@@ -444,6 +444,10 @@ class eZTSTranslator extends eZTranslatorHandler
                     $comment_el = $message_child->firstChild;
                     $comment = $comment_el->nodeValue;
                 }
+                else if ( $childName == "translatorcomment" )
+                {
+                    //Ignore it.
+                }
                 else if ( $childName == "location" )
                 {
                     //Handle location element. No functionality yet.
