@@ -1,0 +1,210 @@
+Specifications: eZDBNFSClusterHandler
+=====================================
+
+Multiple issues keep showing when using most common flavours of NFS. These are
+mostly related to attribute caching & delay added by NFS to file create / delete
+operations.
+
+This document describes most of them, and clearly shows that most workaround will
+have a severe impact on NFS performances:
+http://www.time-travellers.org/shane/papers/NFS_considered_harmful.html
+
+Current eZFS & eZFS2 issues
+---------------------------
+generation handing (stalecache) depends on real-time system operations (file
+creation). NFS totally prevents this, and makes PHP return unreliable results
+when performing file operations (creation failing with a wrong return, possibilities
+of multiple openings of the same file.
+
+Cache items expiry can also be misinterpreted by mount points as NFS can add a
+delay when checking for a file expiry or existence.
+
+Possible solution: mix eZDB and eZFS
+------------------------------------
+It has been proved that the eZDB approach is more reliable and controlable than
+eZFS. The database allows these realtime operations in a satisfactory way. On
+the other hand, the eZDB approach is blamed for the storage mechanism used (files
+stored in BLOBs in the database, leading to a HUGE database and possible speed
+issues).
+
+It should be possible to mix these approach by using both eZDB and NFS:
+ - eZDB is reliable, and can be used to store files metadatas
+ - NFS is not reliable, but can still be used to store the actual data
+
+eZDBNFS will use a custom database, much like the standard ezdbfile, to ensure
+data integrity. Cache processing (stalecache) will be performed in this database,
+while real files can be stored on NFS itself. The handler will take care of
+creating files on NFS.
+Exactly like eZDB currently does, eZDBNFS will also copy files locally to each
+eZ publish instance upon request, in order to avoid querying NFS when data have
+not changed.
+
+Implementation
+--------------
+This handler's implementation would mostly be based on eZDB. All the parts of
+eZDB that interact with file data will be replaced with file operations from/to
+NFS.
+
+Current eZDB API interaction
+''''''''''''''''''''''''''''
+The following table indicates for each method wether it interacts with local
+data (fs), db metadata (ezdbfile) or db filedata (ezdbfile_data).
+
++-----------------------------+------------+-----------+-------+
+| Method                      | FS         | Metadata  | Data  |
++=============================+============+===========+=======+
+| eZDBFileHandler             | N          | N         | N     |
++-----------------------------+------------+-----------+-------+
+| loadMetaData                | N          | R         | N     |
++-----------------------------+------------+-----------+-------+
+| fileStore                   | R          | W         | W     |
++-----------------------------+------------+-----------+-------+
+| fileStoreContents           | R          | W         | W     |
++-----------------------------+------------+-----------+-------+
+| storeContents               | R          | W         | W     |
++-----------------------------+------------+-----------+-------+
+| fileFetch                   | W          | W         | R     |
++-----------------------------+------------+-----------+-------+
+| processCache                | R/W        | R/W       | R/W   |
++-----------------------------+------------+-----------+-------+
+| isFileExpired               | N          | R         | N     |
++-----------------------------+------------+-----------+-------+
+| isLocalFileExpired          | R          | N         | N     |
++-----------------------------+------------+-----------+-------+
+| isDBFileExpired             | N          | R         | N     |
++-----------------------------+------------+-----------+-------+
+| fetchUnique                 | W          | R         | R     |
++-----------------------------+------------+-----------+-------+
+| fileFetchContents           | R          | R         | R     |
++-----------------------------+------------+-----------+-------+
+| stat                        | N          | R         | R     |
++-----------------------------+------------+-----------+-------+
+| size                        | N          | R         | R     |
++-----------------------------+------------+-----------+-------+
+| name                        | N          | N         | N     |
++-----------------------------+------------+-----------+-------+
+| fileDeleteByRegex           | N          | W         | W     |
++-----------------------------+------------+-----------+-------+
+| fileDeleteByWildcard        | N          | W         | W     |
++-----------------------------+------------+-----------+-------+
+| fileDeleteByDirList         | N          | W         | W     |
++-----------------------------+------------+-----------+-------+
+| fileDelete                  | N          | W         | W     |
++-----------------------------+------------+-----------+-------+
+| delete                      | N          | W         | W     |
++-----------------------------+------------+-----------+-------+
+| fileDeleteLocal             | W          | N         | N     |
++-----------------------------+------------+-----------+-------+
+| deleteLocal                 | W          | N         | N     |
++-----------------------------+------------+-----------+-------+
+| deleteLocal                 | W          | N         | N     |
++-----------------------------+------------+-----------+-------+
+| purge                       | R/W        | R/W       | R/W   |
++-----------------------------+------------+-----------+-------+
+| fileExists                  | N          | R         | R     |
++-----------------------------+------------+-----------+-------+
+| exists                      | N          | R         | R     |
++-----------------------------+------------+-----------+-------+
+| passthrough                 | N          | R         | R     |
++-----------------------------+------------+-----------+-------+
+| copy                        | N          | R/W       | R/W   |
++-----------------------------+------------+-----------+-------+
+| fileLinkCopy                | N          | R/W       | R/W   |
++-----------------------------+------------+-----------+-------+
+| fileMove                    | N          | R/W       | R/W   |
++-----------------------------+------------+-----------+-------+
+| move                        | N          | R/W       | R/W   |
++-----------------------------+------------+-----------+-------+
+| getFileList                 | N          | R         | R     |
++-----------------------------+------------+-----------+-------+
+| cleanPath                   | N          | R         | N     |
++-----------------------------+------------+-----------+-------+
+| startCacheGeneration        | N          | W         | N     |
++-----------------------------+------------+-----------+-------+
+| endCacheGeneration          | N          | W         | N     |
++-----------------------------+------------+-----------+-------+
+| abortCacheGeneration        | N          | W         | N     |
++-----------------------------+------------+-----------+-------+
+| checkCacheGenerationTimeout | N          | R         | N     |
++-----------------------------+------------+-----------+-------+
+| _cacheType                  | N          | N         | N     |
++-----------------------------+------------+-----------+-------+
+| _get                        | N          | N         | N     |
++-----------------------------+------------+-----------+-------+
+
+Additional metaData
+'''''''''''''''''''
+Stalecache was globally implemented by suffixing the generated file with
+.generating.
+
+More accurate flagging could be considered in this special cluster handler.
+Simple fields (TINYINT) like "generating" or "deleting" could be sufficient.
+
+Handing atomicity
+'''''''''''''''''
+Atomicity of all file operations is critical.
+
+Since this handler would be using 2 storage mediums (DB for metadata, NFS for
+actual data, we need to make sure all operations are totally secured. No process
+should be able to access a file during write operations. For instance, when a new
+file is added to NFS, we have to:
+
+ * lock this file for writing (stalecache in DB)
+ * write the metadata to the database (stalecache before rename)
+ * write the data to NFS (using the "stale" name)
+ * make the file available for reading by other processes, in an order that will
+   totally prevent readings before the operation is complete.
+
+Possible write algorithm of a new file
+``````````````````````````````````````
+
+ 1) start generation
+
+   * create the database entry of the .generating file
+   * further processes requesting to read this file will be locked it a wait
+     loop since no stale file exists
+
+ 2) write file to NFS
+
+   * we can safely use the real filename (without .generating here) since the
+     file will not be accessed by any other process (blocked by 1)
+
+ 3) end generation
+
+   * rename the file in the database entry to the final name. This makes the file
+     available for reading by any other process
+
+Possible read algorithm for a file not found locally
+````````````````````````````````````````````````````
+We assume that the file is remotely valid, but doesn't exist / is expired
+locally.
+
+ 1) Check file validity in database
+ 2) Copy the file from the local NFS mountpoint to the local folder.
+
+   * How do we handle attempts of reading of the local file while it is being
+     copied ? This will especially affect large files. Check how this is handled
+     in eZDB.
+
+ 3) Use the file ?
+
+Removing a remote file
+``````````````````````
+When a file is removed, atomicity is also critical. Once deletion begins, it
+should be:
+
+ * impossible for other processes to read the file being deleted
+ * possible for other processes to start creating a file if requested
+
+The issue here is that we can't process the database record AND the file on NFS
+at the same time. The approach is to use the database record to lock other
+operations (read or write) during the critical phase of file renaming. This
+could be done using an alternative renaming of this file, for instance
+.deleting. While this flag is active, no process should be allowed to read this
+file and should be blocked (or use a stale file).
+
+On the other hand, it is not likely that a removed file will be accessed by
+another frontend since the relational database should no longer reference it.
+
+Issues & questions
+------------------
