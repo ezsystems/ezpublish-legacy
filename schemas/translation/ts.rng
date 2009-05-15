@@ -8,6 +8,11 @@
         </attribute>
       </optional>
       <optional>
+        <attribute name="sourcelanguage">
+          <data type="NCName"/>
+        </attribute>
+      </optional>
+      <optional>
         <attribute name="version">
           <data type="decimal"/>
         </attribute>
@@ -46,6 +51,11 @@
               </element>
               <optional>
                 <element name="comment">
+                  <text/>
+                </element>
+              </optional>
+              <optional>
+                <element name="translatorcomment">
                   <text/>
                 </element>
               </optional>
