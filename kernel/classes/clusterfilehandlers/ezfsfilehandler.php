@@ -452,7 +452,7 @@ class eZFSFileHandler
         {
             $ret = true;
         }
-        elseif ( $ttl === null )
+        elseif ( $expiry != -1 and $ttl === null )
         {
             $ret = $mtime < $expiry;
         }

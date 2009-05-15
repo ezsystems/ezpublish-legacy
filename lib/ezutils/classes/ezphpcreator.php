@@ -867,7 +867,7 @@ $php->addInclude( 'lib/ezutils/classes/ezphpcreator.php' );
                 $this->ClusterHandler = eZClusterFileHandler::instance( $path );
             }
             // isExpired() expects -1 to disable expiry check
-            $expiry = ( $timestamp === false ) ? -1 : 0;
+            $expiry = ( $timestamp === false ) ? -1 : $timestamp;
             return !$this->ClusterHandler->isExpired( $expiry, time(), null );
         }
 
