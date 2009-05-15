@@ -95,3 +95,4 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #14730: PHP version check should be removed from index.php
 - Fixed bug #14890: SmartCacheClear ClearCacheMethod "keyword" doesn't work as expected [patch]
 - Fixed bug #14836: INI cache inconsistencies (w/patch)
+- Fixed bug #14884: Missing svn:executable property for update scripts
