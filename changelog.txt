@@ -16,6 +16,7 @@ eZ Online Editor 5.0 extension Changelog
 * Added support for IsInline[<tag>]=image setting for custom tags with no content (or actual images)
 * Allow siteaccess to override ezoe.ini SkinVariant setting
 * Fixed #14728: Space between links are removed
+* Fixed #14799: Javascript error when adding an image that needs to be approved
 * Fixed: extra empty paragraphs generated when inserting embed object and literal tags
 * Fixed #14834: Commented 'SkinVariant' in ezoe.ini casues error in error.log.
 * Updated tinyMCE to 3.2.3.1
