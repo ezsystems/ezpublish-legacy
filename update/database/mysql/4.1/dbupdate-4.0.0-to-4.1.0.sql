@@ -83,7 +83,7 @@ CREATE TABLE ezurlalias_ml_incr (
 );
 -- END: from 4.0.2
 
-ALTER TABLE ezsession ADD COLUMN user_hash VARCHAR( 32 ) NOT NULL;
+ALTER TABLE ezsession ADD COLUMN user_hash VARCHAR( 32 ) NOT NULL default '';
 
 ALTER TABLE ezpending_actions ADD COLUMN created int(11) DEFAULT NULL;
 
