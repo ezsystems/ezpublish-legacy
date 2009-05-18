@@ -609,7 +609,9 @@ while ( $moduleRunRequired )
         $runModuleView = true;
 
         $availableViewsInModule = $module->attribute( 'views' );
-        if ( !isset( $availableViewsInModule[$function_name] ) && !$objectHasMovedError )
+        if ( !isset( $availableViewsInModule[$function_name] ) 
+                && !$objectHasMovedError 
+                    && !isset( $module->Module['function']['script'] ) )
         {
             $moduleResult = $module->handleError( eZError::KERNEL_MODULE_VIEW_NOT_FOUND, 'kernel' );
             $runModuleView = false;
