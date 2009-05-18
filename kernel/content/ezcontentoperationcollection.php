@@ -535,6 +535,7 @@ class eZContentOperationCollection
      */
     static public function registerSearchObject( $objectID, $versionNum )
     {
+        $objectID = (int)$objectID;
         eZDebug::createAccumulatorGroup( 'search_total', 'Search Total' );
 
         $ini = eZINI::instance( 'site.ini' );
@@ -543,10 +544,10 @@ class eZContentOperationCollection
         if ( $delayedIndexing == 'enabled' )
         {
             $db = eZDB::instance();
-            $rows = $db->arrayQuery( 'SELECT param FROM ezpending_actions WHERE action = \'index_object\' AND param = '. (int)$objectID );
+            $rows = $db->arrayQuery( "SELECT param FROM ezpending_actions WHERE action='index_object' AND param = '$objectID'" );
             if ( count( $rows ) == 0 )
             {
-                $db->query( 'INSERT INTO ezpending_actions( action, param ) VALUES ( \'index_object\', '. (int)$objectID. ' )' );
+                $db->query( "INSERT INTO ezpending_actions( action, param ) VALUES ( 'index_object', '$objectID' )" );
             return;
             }
         }
@@ -558,7 +559,7 @@ class eZContentOperationCollection
             if ( is_array( $classList ) && in_array( $classIdentifier, $classList ) )
             {
                 $db = eZDB::instance();
-                $db->query( 'INSERT INTO ezpending_actions( action, param ) VALUES ( \'index_object\', '. (int)$objectID. ' )' );
+                $db->query( "INSERT INTO ezpending_actions( action, param ) VALUES ( 'index_object', '$objectID' )" );
                 return;
             }
         }
@@ -787,7 +788,7 @@ class eZContentOperationCollection
         }
         if ( $locationAdded )
         {
-            
+
             //call appropriate method from search engine
             eZSearch::addNodeAssignment( $nodeID, $objectID, $selectedNodeIDArray );
 
@@ -797,7 +798,7 @@ class eZContentOperationCollection
                 eZUser::cleanupCache();
             }
 
-           
+
         }
         $db->commit();
 
@@ -871,18 +872,18 @@ class eZContentOperationCollection
 
         $db->commit();
 
-        
+
         //call appropriate method from search engine
         eZSearch::removeNodeAssignment( $nodeID, $mainNodeID, $objectID, $nodeIDList );
 
         eZContentCacheManager::clearObjectViewCacheIfNeeded( $objectID );
-    
+
         // clear user policy cache if this was a user object
         if ( in_array( $object->attribute( 'contentclass_id' ), $userClassIDArray ) )
         {
             eZUser::cleanupCache();
         }
-    
+
         // we don't clear template block cache here since it's cleared in eZContentObjectTreeNode::removeNode()
 
         return array( 'status' => true );
@@ -902,7 +903,7 @@ class eZContentOperationCollection
        return array( 'status' => true );
     }
 
-    /** 
+    /**
      * Changes an contentobject's status
      *
      * @param int $nodeID
@@ -924,7 +925,7 @@ class eZContentOperationCollection
             else
                 eZContentObjectTreeNode::hideSubTree( $curNode );
         }
-        
+
         //call appropriate method from search engine
         eZSearch::updateNodeVisibility( $nodeID, $action );
 
