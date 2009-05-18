@@ -649,7 +649,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 }
                 else
                 {
-                    for ( $i=1;$i<=( $headerLevel - $sectionLevel - 1 );$i++ )
+                    for ( $i = 1; $i <= ( $headerLevel - $sectionLevel - 1 ); $i++ )
                     {
                         // Add section tag
                         unset( $subNode );
@@ -841,6 +841,11 @@ class eZOEXMLInput extends eZXMLInputHandler
                     }
                 }break;
 
+                case '#text' :
+                {
+                    //ignore whitespace
+                }break;
+
                 default :
                 {
                     eZDebug::writeError( "Unsupported tag at this level: $tagName", __METHOD__ );
@@ -870,6 +875,11 @@ class eZOEXMLInput extends eZXMLInputHandler
             {
                 $listSectionLevel += 1;
                 $output .= $this->inputSectionXML( $listNode, $currentSectionLevel, $listSectionLevel );
+            }break;
+
+            case '#text' :
+            {
+                //ignore whitespace
             }break;
 
             default :
@@ -994,7 +1004,7 @@ class eZOEXMLInput extends eZXMLInputHandler
     function &inputTagXML( &$tag, $currentSectionLevel, $tdSectionLevel = null )
     {
         $output = '';
-        $tagName = $tag->nodeName;
+        $tagName = $tag instanceof DOMNode ? $tag->nodeName : '';
         $childTagText = '';
         // render children tags
         if ( $tag->hasChildNodes() )
@@ -1286,8 +1296,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 {
                     if ( !$listItemNode instanceof DOMElement )
                     {
-                        eZDebug::writeWarning( '$listItemNode is not a DOMElement but a ' . get_class( $listItemNode ) . ', this should not happen..', __METHOD__ );
-                        continue;
+                        continue;// ignore whitespace
                     }
 
                     $LIcustomAttributePart = self::getCustomAttrPart( $listItemNode, $listItemStyleString );
@@ -1297,7 +1306,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                     foreach ( $listItemNode->childNodes as $itemChildNode )
                     {
                         $listSectionLevel = $currentSectionLevel;
-                        if ( $itemChildNode->nodeName === 'section' or $itemChildNode->nodeName === 'paragraph' )
+                        if ( $itemChildNode instanceof DOMNode && ( $itemChildNode->nodeName === 'section' or $itemChildNode->nodeName === 'paragraph' ) )
                         {
                             $listItemContent .= $this->inputListXML( $itemChildNode, $currentSectionLevel, $listSectionLevel, $noParagraphs );
                         }
@@ -1336,8 +1345,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 {
                     if ( !$tableRow instanceof DOMElement )
                     {
-                        eZDebug::writeWarning( '$tableRow is not a DOMElement but a ' . get_class( $tableRow ) . ', this should not happen..', __METHOD__ );
-                        continue;
+                        continue; // ignore whitespace
                     }
                     $TRcustomAttributePart = self::getCustomAttrPart( $tableRow, $tableRowStyleString );
                     $TRclassName = $tableRow->getAttribute( 'class' );
@@ -1347,9 +1355,9 @@ class eZOEXMLInput extends eZXMLInputHandler
                     {
                         if ( !$tableCell instanceof DOMElement )
                         {
-                            eZDebug::writeWarning( '$tableCell is not a DOMElement but a ' . get_class( $tableCell ) . ', this should not happen..', __METHOD__ );
-                            continue;
+                            continue; // ignore whitespace
                         }
+
                         $TDcustomAttributePart = self::getCustomAttrPart( $tableCell, $tableCellStyleString );
 
                         $className = $tableCell->getAttribute( 'class' );
@@ -1386,7 +1394,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                         }
                         if ( $cellContent === '' )
                         {
-                            $cellContent = '<br mce_bogus="1"/>';// tinymce has some issues with empty content in some browsers
+                            $cellContent = '<br mce_bogus="1" />';// tinymce has some issues with empty content in some browsers
                         }
                         if ( $tableCell->nodeName === 'th' )
                         {
