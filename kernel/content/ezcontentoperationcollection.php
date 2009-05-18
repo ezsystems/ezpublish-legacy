@@ -564,6 +564,7 @@ class eZContentOperationCollection
      */
     static function registerSearchObject( $objectID, $versionNum )
     {
+        $objectID = (int)$objectID;
         eZDebug::createAccumulatorGroup( 'search_total', 'Search Total' );
 
         //include_once( "lib/ezutils/classes/ezini.php" );
@@ -576,10 +577,10 @@ class eZContentOperationCollection
             //include_once( "lib/ezdb/classes/ezdb.php" );
 
             $db = eZDB::instance();
-            $rows = $db->arrayQuery( 'SELECT param FROM ezpending_actions WHERE action = \'index_object\' AND param = '. (int)$objectID );
+            $rows = $db->arrayQuery( "SELECT param FROM ezpending_actions WHERE action = 'index_object' AND param = '$objectID'" );
             if ( count( $rows ) == 0 )
             {
-                $db->query( 'INSERT INTO ezpending_actions( action, param ) VALUES ( \'index_object\', '. (int)$objectID. ' )' );
+                $db->query( "INSERT INTO ezpending_actions( action, param ) VALUES ( 'index_object', '$objectID' )" );
             }
         }
         else

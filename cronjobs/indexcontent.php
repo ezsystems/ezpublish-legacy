@@ -56,8 +56,8 @@ while( true )
         $db->begin();
         foreach ( $entries as $entry )
         {
-            $objectID = $entry['param'];
-            $objectIDList[] = (int)$objectID;
+            $objectID = (int)$entry['param'];
+            $objectIDList[] = "'$objectID'";
 
             $cli->output( "\tIndexing object ID #$objectID" );
             $object = eZContentObject::fetch( $objectID );
