@@ -99,3 +99,4 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #14897: Object/class name pattern and cache issues [patch]
 - Fixed bug #14917: eZ not able to parse new QT Linguist XML format [patch]
 - Fixed bug #14885: Single-view modules are broken by fix for #14656
+- Fixed bug #14896: Error on PostgreSQL 8.3 when DelayedIndexing is enabled
