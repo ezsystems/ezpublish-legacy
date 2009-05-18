@@ -25,6 +25,8 @@ ALTER TABLE ezworkflow_event ADD COLUMN data_text4 character varying(255);
 ALTER TABLE ezworkflow_event ALTER data_text4 SET DEFAULT NULL ;
 UPDATE ezworkflow_event SET data_text4=data_text4_tmp;
 ALTER TABLE ezworkflow_event DROP COLUMN data_text4_tmp;
+
+ALTER TABLE ezsession ALTER COLUMN user_hash SET DEFAULT '';
 -- END: from 4.1.1
 
 -- START: from 4.1.0

@@ -125,8 +125,7 @@ ALTER TABLE ONLY ezurlalias_ml_incr
     ADD CONSTRAINT ezurlalias_ml_incr_pkey PRIMARY KEY (id);
 -- END: from 4.0.2
 
-ALTER TABLE ezsession ADD COLUMN user_hash VARCHAR( 32 );
-ALTER TABLE ezsession ALTER COLUMN user_hash SET NOT NULL;
+ALTER TABLE ezsession ADD COLUMN user_hash VARCHAR( 32 ) NOT NULL DEFAULT '';
 
 ALTER TABLE ezpending_actions ADD COLUMN created integer;
 
