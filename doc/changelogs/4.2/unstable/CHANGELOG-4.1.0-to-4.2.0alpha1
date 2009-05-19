@@ -101,3 +101,4 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #14885: Single-view modules are broken by fix for #14656
 - Fixed bug #14896: Error on PostgreSQL 8.3 when DelayedIndexing is enabled
 - Fixed bug #14888: Problems with SQL updates on user_hash on postgres
+- Fixed bug #12118: Log in to administration interface-checkbox in webin produces the wrong url
