@@ -1,6 +1,6 @@
 #!/bin/bash
 
-EXTENSIONS="http://svn.ez.no/svn/extensions/eztinymce/trunk/ezoe/"
+EXTENSIONS="http://svn.projects.ez.no/ezoe/stable/5.0/ezoe/"
 EXTENSIONS="$EXTENSIONS http://svn.ez.no/svn/extensions/ezodf/stable/2.3/"
 #EXTENSIONS="$EXTENSIONS http://svn.ez.no/svn/extensions/ezpaypal/trunk"
 
