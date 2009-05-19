@@ -1497,6 +1497,7 @@ class eZSiteInstaller
         {
             case 'port':
                 {
+                    $host = $sys->hostname();
                     // grep server url stripping port number
                     $pos = strpos( $host, ':' );
                     if( $pos !== false )
@@ -1547,6 +1548,7 @@ class eZSiteInstaller
             case 'url':
             case 'uri':
                 {
+                    $host = $sys->hostname();
                     foreach( $siteaccessList as $siteaccess )
                     {
                         $urlList[$siteaccess]['url'] = $host . $indexFile . '/' . $siteaccess;
