@@ -23,6 +23,8 @@ eZ Online Editor 5.0 extension Changelog
 * Fixed #14872: Embed tags cant always be edited
 * Fixed #14868: Allow adding inline custom / embed tags in header tags
 * Fixed #14873: Call to undefined method DOMText::getAttribute()
+* Changed order of outdent/indent buttons to be the same as other editors
+
 
 5.0.0
 * Fixed regression #13650: [header] ezoe adds a level each time it is called
