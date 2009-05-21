@@ -442,6 +442,24 @@ class eZCLI
         return !$this->IsQuiet;
     }
 
+    /*!
+     Parses the string describing command line options into an internal format
+     that is used by getOptions.
+     Format:
+     [o] short-format option, accepts "-o"
+     [o:] short-format option with a value, accepts "-o=value"
+     [o;] short-format option with an optional value, accepts "-o" and "-o=value"
+     [o?] option can be present zero or 1 times (max not enforced yet)
+     [o*] option can be present n times
+     [o+] option can be present 1 or more times (min not enforced yet)
+     [opt] long-format option, accepts "--opt"
+     [o|opt] the option can be given in long or short format
+     [o:|opt:] and [o:+] and similar combinations are also valid
+     weird api: $optionConfig is modified and returned as well
+     \param $configString string
+     \param $optionConfig array - if it is not empty, parsed options are added to it
+     \return array members: 'list', 'long', 'short', with 'list' containing both long and short members
+    */
     static function parseOptionString( $configString, &$optionConfig )
     {
         $len = strlen( $configString );
@@ -555,6 +573,23 @@ class eZCLI
         return $optionConfig;
     }
 
+    /*!
+     Parses the arguments from array $arguments (or from command line if $arguments == false)
+     according to the options specified by $config and $argumentConfig.
+     Option arguments can be specified using the following formats:
+       -o (option 'o' in short format)
+       -ovalue (option 'o' in short format with value 'value' )
+       --option (option 'option' in long format)
+       --option=value (option 'option' in short format with value 'value' )
+       --option value (option 'option' in short format with value 'value' )
+     Any argument that does not start with a '-' char or follows an option is considered an argument
+     \param $config definition of options as string or array in internal format. NB: 'quantifier' descriptor of options right now can only be used to specify 1/many values
+     \param $argumentconfig defition of options as string or array in internal format. NB: UNUSED for now
+     \param array $arguments
+     \return array containing a member for every option specified in $config and a member 'arguments' for all non-option arguments.
+                   If an option is defined as optional in $config but not present in $arguments, it will be given a null value.
+                   If an option is defined as mandatory value in $config but not present in $arguments, the function will return false instead
+    */
     function getOptions( $config, $argumentConfig, $arguments = false )
     {
         $program = false;
@@ -566,7 +601,7 @@ class eZCLI
         }
 
         if ( is_string( $config ) )
-            $config = eZCLI::parseOptionString( $config, $optionConfig );
+            $config = eZCLI::parseOptionString( $config, $tmpConfig );
         if ( is_string( $argumentConfig ) )
             $argumentConfig = eZCLI::parseOptionString( $argumentConfig, $tmpArgumentConfig );
 
