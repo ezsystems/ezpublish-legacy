@@ -579,9 +579,9 @@ class eZCLI
      Option arguments can be specified using the following formats:
        -o (option 'o' in short format)
        -ovalue (option 'o' in short format with value 'value' )
+       -o value (option 'o' in short format with value 'value' )
        --option (option 'option' in long format)
-       --option=value (option 'option' in short format with value 'value' )
-       --option value (option 'option' in short format with value 'value' )
+       --option=value (option 'option' in long format with value 'value' )
      Any argument that does not start with a '-' char or follows an option is considered an argument
      \param $config definition of options as string or array in internal format. NB: 'quantifier' descriptor of options right now can only be used to specify 1/many values
      \param $argumentconfig defition of options as string or array in internal format. NB: UNUSED for now
