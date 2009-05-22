@@ -839,6 +839,7 @@ class eZScript
      /param $arguments array of arguments. If false, command line is parsed automatically
      /param $useStandardOptions true or an array of standard options to be used.
        standard options are: 'debug', 'colors', 'log', 'siteaccess', 'verbose', 'user' (false), and can be set to false to be disabled
+    */
     function getOptions( $config = '', $argumentConfig = '', $optionHelp = false,
                          $arguments = false, $useStandardOptions = true )
     {
