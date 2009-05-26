@@ -7,6 +7,8 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Implemented enhancement #14792: content.ini - allow class_identifier to set VersionHistoryClass
 - Implemented enhancement #14809: Protecting tilde from being urlencoded on redirects.
 - Implemented enhancement #14813: Improved behavior of ContinueShoppingButton in basket.
+- Implemented enhancement #14934: Disable template compilation in setup wizard
+
 *Design:
 
 *eZTemplate:
