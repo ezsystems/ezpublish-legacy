@@ -30,6 +30,9 @@
 
 $GLOBALS['eZSiteBasics']['no-cache-adviced'] = false;
 
+// Avoid compiling templates just for 1 view to improve performance
+$GLOBALS['eZTemplateCompilerSettings']['compile'] = false;
+
 
 // Include common functions
 include_once( "kernel/setup/ezsetupcommon.php" );
