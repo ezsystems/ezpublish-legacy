@@ -88,6 +88,7 @@ class eZSession
     /**
      * User id, see {@link eZSession::userID()}.
      *
+     * @static
      * @access protected
      */
     static protected $userID = 0;
@@ -95,6 +96,7 @@ class eZSession
     /**
      * Flag session started, see {@link eZSession::start()}.
      *
+     * @static
      * @access protected
      */
     static protected $hasStarted = false;
@@ -102,6 +104,7 @@ class eZSession
     /**
      * Flag request contains session cookie, set in {@link eZSession::registerFunctions()}.
      *
+     * @static
      * @access protected
      */
     static protected $hasSessionCookie = null;
@@ -109,6 +112,7 @@ class eZSession
     /**
      * Flag if user session validated when reading data from session, set in {@link eZSession::internalRead()}.
      *
+     * @static
      * @access protected
      */
     static protected $userSessionIsValid = null;
@@ -116,6 +120,7 @@ class eZSession
     /**
      * User session hash (ip + ua string), set in {@link eZSession::registerFunctions()}.
      *
+     * @static
      * @access protected
      */
     static protected $userSessionHash = null;
@@ -123,12 +128,13 @@ class eZSession
     /**
      * List of callback actions, see {@link eZSession::addCallback()}.
      *
+     * @static
      * @access protected
      */
     static protected $callbackFunctions = array(); 
 
     /**
-     * Constructor
+     * Constructor (not used, this is an all static class)
      *
      * @access protected
      */
@@ -139,6 +145,7 @@ class eZSession
     /**
      * Does nothing, eZDB will open connection when needed.
      * 
+     * @static
      * @return true
      */
     static public function open()
@@ -149,6 +156,7 @@ class eZSession
     /**
      * Does nothing, eZDB will handle closing db connection.
      * 
+     * @static
      * @return true
      */
     static public function close()
@@ -159,6 +167,7 @@ class eZSession
     /**
      * Reads the session data from the database for a specific session id
      *
+     * @static
      * @param string $sessionId
      * @return string|false Returns false if session doesn't exits, string in php session format if it does.
      */
@@ -173,6 +182,7 @@ class eZSession
      * Note: user will be "kicked out" as in get a new session id if {@link self::getUserSessionHash()} does
      * not equals to the existing user_hash unless the user_hash is empty.
      *
+     * @static
      * @access private
      * @param string $sessionId
      * @param bool $isCurrentUserSession
@@ -221,6 +231,7 @@ class eZSession
     /**
      * Inserts|Updates the session data in the database for a specific session id
      *
+     * @static
      * @param string $sessionId
      * @param string $value session data (in php session data format)
      */
@@ -233,10 +244,12 @@ class eZSession
      * Internal function that inserts|updates the session data in the database, this function
      * is registered as session_write handler in {@link eZSession::registerFunctions()}
      *
+     * @static
      * @access private
      * @param string $sessionId
-     * @param string $value session data
+     * @param string $value session data (in php session data format)
      * @param bool $isCurrentUserSession
+     * @return bool
      */
     static public function internalWrite( $sessionId, $value, $isCurrentUserSession = true )
     {
@@ -298,6 +311,7 @@ class eZSession
      * Deletes the session data from the database, this function is 
      * register in {@link eZSession::registerFunctions()}
      *
+     * @static
      * @param string $sessionId
      */
     static public function destroy( $sessionId )
@@ -315,6 +329,8 @@ class eZSession
     /**
      * Deletes all expired session data in the database, this function is 
      * register in {@link eZSession::registerFunctions()}
+     * 
+     * @static
      */
     static public function garbageCollector()
     {
@@ -331,6 +347,8 @@ class eZSession
     /**
      * Truncates all session data in the database.
      * Named eZSessionEmpty() in eZ Publish 4.0 and earlier!
+     * 
+     * @static
      */
     static public function cleanup()
     {
@@ -346,6 +364,7 @@ class eZSession
     /**
      * Counts the number of active session and returns it.
      * 
+     * @static
      * @return string Returns number of sessions.
      */
     static public function countActive()
@@ -361,6 +380,7 @@ class eZSession
      * {@link eZSession::start()}, so only call this if you don't start the session.
      * Named eZRegisterSessionFunctions() in eZ Publish 4.0 and earlier!
      * 
+     * @static
      * @return bool Returns true|false depending on if eZSession is registrated as session handler.
     */
     static protected function registerFunctions()
@@ -417,6 +437,7 @@ class eZSession
      * Starts the session and sets the timeout of the session cookie.
      * Multiple calls will be ignored unless you call {@link eZSession::stop()} first.
      * 
+     * @static
      * @param bool|int $cookieTimeout use this to set custom cookie timeout.
      * @return bool Returns true|false depending on if session was started.
      */
@@ -457,6 +478,7 @@ class eZSession
      * Gets/generates the user hash for use in validating the session based on [Session]
      * SessionValidation* site.ini settings.
      * 
+     * @static
      * @return string Returns md5 hash based on parts of the user ip and agent string.
      */
     static public function getUserSessionHash()
@@ -488,6 +510,7 @@ class eZSession
     /**
      * Gets part of a ipv4/ipv6 address, used internally by {@link eZSession::getUserSessionHash()} 
      * 
+     * @static
      * @access protected
      * @param string $ip IPv4 or IPv6 format
      * @param int $parts number from 0-4
@@ -503,6 +526,7 @@ class eZSession
     /**
      * Writes session data and stops the session, if not already stopped.
      * 
+     * @static
      * @return bool Returns true|false depending on if session was stopped.
      */
     static public function stop()
@@ -526,6 +550,7 @@ class eZSession
      * This is useful to call on logins, to avoid sessions theft from users.
      * NOTE: make sure you set new user id first using {@link eZSession::setUserID()} 
      * 
+     * @static
      * @param bool $updateUserSession set to false to not update session in db with new session id and user id.
      * @return bool Returns true|false depending on if session was regenerated.
      */
@@ -573,6 +598,7 @@ class eZSession
     /**
      * Removes the current session and resets session variables.
      * 
+     * @static
      * @return bool Returns true|false depending on if session was removed.
      */
     static public function remove()
@@ -595,6 +621,7 @@ class eZSession
     /**
      * Sets the current userID used by self::write on shutdown.
      * 
+     * @static
      * @param int $userID to use in {@link eZSession::write()}
      */
     static public function setUserID( $userID )
@@ -605,6 +632,7 @@ class eZSession
     /**
      * Gets the current user id.
      * 
+     * @static
      * @return int Returns user id stored by {@link eZSession::setUserID()}
      */
     static public function userID()
@@ -615,6 +643,7 @@ class eZSession
     /**
      * Returns if user had session cookie at start of request or not.
      * 
+     * @static
      * @return bool|null returns null if session is not started yet.
      */
     static public function userHasSessionCookie()
@@ -626,6 +655,7 @@ class eZSession
      * Returns if user session validated against stored data in db
      * or if it was invalidated during the current request.
      * 
+     * @static
      * @return bool|null returns null if user is not validated yet (for instance a new session).
      */
     static public function userSessionIsValid()
@@ -644,6 +674,7 @@ class eZSession
      * when a certan session event occurs.
      * Use: eZSession::addCallback('gc_pre', myCustomGarabageFunction );
      * 
+     * @static
      * @param string $type cleanup, gc, destroy, insert and update, pre and post types.
      * @param handler $callback a function to call.
      */
@@ -660,8 +691,10 @@ class eZSession
      * Triggers callback functions by type, registrated by {@link eZSession::addCallback()}
      * Use: eZSession::triggerCallback('gc_pre', array( $db, $time ) );
      * 
+     * @static
      * @param string $type cleanup, gc, destroy, insert and update, pre and post types.
      * @param array $params list of parameters to pass to the callback function.
+     * @return bool
      */
     static public function triggerCallback( $type, $params )
     {
