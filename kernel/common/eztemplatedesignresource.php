@@ -39,6 +39,15 @@
 
 class eZTemplateDesignResource extends eZTemplateFileResource
 {
+    /**
+     * Contains in memory cache of override array used by {@link eZTemplateDesignResource::overrideArray()}
+     *
+     * @static
+     * @protected
+     * @var $overrideArrayCache null|array
+     */
+    protected static $overrideArrayCache = null;
+
     /*!
      Initializes with a default resource name "design".
     */
@@ -766,13 +775,21 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         $GLOBALS['eZTemplateDesignResourceStartPath'] = $path;
     }
 
-    /*!
-     \static
-     \return an array of all the current templates and overrides for them.
-             The current siteaccess is used if none is specified.
-    */
+    /**
+     * Get an array of all the current templates and overrides for them.
+     * The current siteaccess is used if none is specified.
+     * 
+     * @static
+     * @return array
+     */
     static function overrideArray( $siteAccess = false )
     {
+        
+        if ( $siteAccess === false and self::$overrideArrayCache !== null )
+        {
+            return self::$overrideArrayCache;
+        }
+        
         $bases = eZTemplateDesignResource::allDesignBases( $siteAccess );
 
         // fetch the override array from a specific siteacces
@@ -860,7 +877,23 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
         }
 
+        if ( $siteAccess === false )
+        {
+            self::$overrideArrayCache = $matchFileArray;
+        }
+
         return $matchFileArray;
+    }
+
+    /**
+     * Clear in memory override array cache
+     * 
+     * @static
+     * @since 4.2
+     */
+    static public function clearInMemoryOverrideArray( )
+    {
+        self::$overrideArrayCache = null;
     }
 
     /*!

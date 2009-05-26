@@ -138,7 +138,8 @@ class eZCache
                                        'id' => 'template-override',
                                        'tag' => array( 'template' ),
                                        'enabled' => true,
-                                       'path' => 'override' ),
+                                       'path' => 'override',
+                                       'function' => array( 'eZCache', 'clearTemplateOverrideCache' ) ),
                                 array( 'name' => ezi18n( 'kernel/cache', 'Text to image cache' ),
                                        'id' => 'texttoimage',
                                        'tag' => array( 'template' ),
@@ -466,6 +467,21 @@ class eZCache
         $expiryHandler = eZExpiryHandler::instance();
         $expiryHandler->setTimestamp( 'global-template-block-cache', time() );
         $expiryHandler->store();
+    }
+
+    /**
+     * Removes all template override cache files, subtree entries
+     * and clears in memory override cache.
+     *
+     * @static
+     * @since 4.2
+     * @access private
+    */
+    static function clearTemplateOverrideCache( $cacheItem )
+    {
+        $cachePath = eZSys::cacheDirectory() . '/' . $cacheItem['path'];
+        eZDir::recursiveDelete( $cachePath );
+        eZTemplateDesignResource::clearInMemoryOverrideArray();
     }
 
     /*!
