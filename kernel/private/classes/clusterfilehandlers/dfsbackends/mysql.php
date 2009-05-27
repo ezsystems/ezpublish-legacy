@@ -33,7 +33,7 @@ This is the structure / SQL CREATE for the DFS database table.
 It can be created anywhere, in the same database on the same server, or on a
 distinct database / server.
 
-CREATE TABLE ezdbfile (
+CREATE TABLE ezdfsfile (
   name          TEXT          NOT NULL,
   name_trunk    TEXT          NOT NULL,
   name_hash     VARCHAR(34)   NOT NULL DEFAULT '',
@@ -44,10 +44,10 @@ CREATE TABLE ezdbfile (
   expired       BOOL          NOT NULL DEFAULT '0',
   status        TINYINT(1)    NOT NULL DEFAULT '0',
   PRIMARY KEY (name_hash),
-  INDEX ezdbfile_name (name(250)),
-  INDEX ezdbfile_name_trunk (name_trunk(250)),
-  INDEX ezdbfile_mtime (mtime),
-  INDEX ezdbfile_expired_name (expired, name(250))
+  INDEX ezdfsfile_name (name(250)),
+  INDEX ezdfsfile_name_trunk (name_trunk(250)),
+  INDEX ezdfsfile_mtime (mtime),
+  INDEX ezdfsfile_expired_name (expired, name(250))
 ) ENGINE=InnoDB;
  */
 
@@ -437,7 +437,13 @@ class eZDFSFileHandlerMySQLBackend
         $this->__mkdir_p( dirname( $tmpFilePath ) );
 
         // copy DFS file to temporary FS path
-        if ( !@copy( $this->makeDFSPath( $filePath ), $tmpFilePath ) )
+        /*$DFSSrcFilePath = $this->makeDFSPath( $srcFilePath );
+        $DFSDstFilePath = $this->makeDFSPath( $dstFilePath );
+        if ( !eZFile::create( basename( $DFSSrcFilePath ), dirname( $DFSSrcFilePath ), file_get_contents( $DFSSrcFilePath), true ) )
+        {
+            return $this->_fail( "Failed to copy $DFSSrcFilePath to $DFSDstFilePath" );
+        }*/
+        if ( !copy( $this->makeDFSPath( $filePath ), $tmpFilePath ) )
         {
             eZDebug::writeError("Failed copying $filePath from DFS to $tmpFilePath ");
             return false;
@@ -589,12 +595,11 @@ class eZDFSFileHandlerMySQLBackend
             return false;
         }
 
-        // copy old DFS file to new file
-        if ( !@copy( $this->makeDFSPath( $srcFilePath ), $this->makeDFSPath( $dstFilePath ) ) )
+        $DFSSrcFilePath = $this->makeDFSPath( $srcFilePath );
+        $DFSDstFilePath = $this->makeDFSPath( $dstFilePath );
+        if ( !eZFile::create( basename( $DFSDstFilePath ), dirname( $DFSDstFilePath ), file_get_contents( $DFSSrcFilePath), true ) )
         {
-            eZDebug::writeError( "Failed copying '$srcFilepath' to '$dstFilePath'", __METHOD__ );
-            $this->_rollback( __METHOD__ );
-            return false;
+            return $this->_fail( "Failed to copy $DFSSrcFilePath to $DFSDstFilePath" );
         }
 
         // Remove old entry
@@ -607,7 +612,7 @@ class eZDFSFileHandlerMySQLBackend
         }
 
         // delete original DFS file
-        @unlink( $this->makeDFSPath( $srcFilePath ) );
+        unlink( $this->makeDFSPath( $srcFilePath ) );
 
         $this->_commit( __METHOD__ );
 
@@ -659,24 +664,25 @@ class eZDFSFileHandlerMySQLBackend
 
         if ( $this->_insertUpdate( self::TABLE_METADATA,
             array( 'datatype' => $datatype,
-            'name' => $filePath,
-            'name_trunk' => $nameTrunk,
-            'name_hash' => $filePathHash,
-            'scope' => $scope,
-            'size' => $contentLength,
-            'mtime' => $fileMTime,
-            'expired' => ($fileMTime < 0) ? 1 : 0 ),
+                   'name' => $filePath,
+                   'name_trunk' => $nameTrunk,
+                   'name_hash' => $filePathHash,
+                   'scope' => $scope,
+                   'size' => $contentLength,
+                   'mtime' => $fileMTime,
+                   'expired' => ( $fileMTime < 0 ) ? 1 : 0 ),
             "datatype=VALUES(datatype), scope=VALUES(scope), size=VALUES(size), mtime=VALUES(mtime), expired=VALUES(expired)",
             $fname ) === false )
         {
+            echo mysql_error();
             return $this->_fail( "Failed to insert file metadata while storing. Possible race condition" );
         }
 
         // copy given $filePath to DFS
-        $DFSPath = $this->makeDFSPath( $filePath );
-        if ( !@copy( $filePath, $DFSPath ) )
+        $DFSFilePath = $this->makeDFSPath( $filePath );
+        if ( !eZFile::create( basename( $DFSFilePath ), dirname( $DFSFilePath ), file_get_contents( $filePath ), true ) )
         {
-            return $this->_fail( "Failed to copy file to DFS. Possible race condition" );
+            return $this->_fail( "Failed to copy $filePath to $DFSFilePath" );
         }
 
         return true;
@@ -715,13 +721,13 @@ class eZDFSFileHandlerMySQLBackend
 
         if ( $this->_insertUpdate( self::TABLE_METADATA,
             array( 'datatype' => $datatype,
-            'name' => $filePath,
-            'name_trunk' => $nameTrunk,
-            'name_hash' => $filePathHash,
-            'scope' => $scope,
-            'size' => $contentLength,
-            'mtime' => $curTime,
-            'expired' => ($curTime < 0) ? 1 : 0 ),
+                   'name' => $filePath,
+                   'name_trunk' => $nameTrunk,
+                   'name_hash' => $filePathHash,
+                   'scope' => $scope,
+                   'size' => $contentLength,
+                   'mtime' => $curTime,
+                   'expired' => ( $curTime < 0 ) ? 1 : 0 ),
             "datatype=VALUES(datatype), name_trunk='$nameTrunk', scope=VALUES(scope), size=VALUES(size), mtime=VALUES(mtime), expired=VALUES(expired)",
             $fname ) === false )
         {
@@ -739,7 +745,7 @@ class eZDFSFileHandlerMySQLBackend
 
     /**
      * Starts storage of a file to cluster
-     * Sets the file as being written (ezdbfile.status = WRITING)
+     * Sets the file as being written (ezdfsfile.status = WRITING)
      *
      * @param string $filePath
      * @param int    $fileSize
@@ -799,7 +805,7 @@ class eZDFSFileHandlerMySQLBackend
     }*/
 
     /**
-     * Terminates storage of a file by making it available (ezdbfile.status)
+     * Terminates storage of a file by making it available (ezdfsfile.status)
      * in DB
      *
      * @param string $filePath
@@ -1397,63 +1403,7 @@ class eZDFSFileHandlerMySQLBackend
     public function _endCacheGeneration( $filePath, $generatingFilePath )
     {
         $fname = "_endCacheGeneration( $filePath )";
-
-        eZDebugSetting::writeDebug( 'kernel-clustering', $filePath, __METHOD__ );
-
-        $this->_begin( $fname );
-
-        // both files are locked for update
-        if ( !$res = $this->_query( "SELECT * FROM " . self::TABLE_METADATA . " WHERE name_hash=MD5('$generatingFilePath') FOR UPDATE", $fname, true ) )
-        {
-            $this->_rollback( $fname );
-            return false;
-        }
-        $generatingMetaData = mysql_fetch_assoc( $res );
-
-        $res = $this->_query( "SELECT * FROM " . self::TABLE_METADATA . " WHERE name_hash=MD5('$filePath') FOR UPDATE", $fname, false );
-        // the original file does not exist: we move the generating file
-        if ( mysql_num_rows( $res ) == 0 )
-        {
-            $metaData = $generatingMetaData;
-            $metaData['name'] = $filePath;
-            $metaData['name_hash'] = md5( $filePath );
-            $metaData['name_trunk'] = $this->nameTrunk( $filePath, $metaData['scope'] );
-            $insertSQL = "INSERT INTO " . self::TABLE_METADATA . " ( " . implode( ', ', array_keys( $metaData ) ) . " ) " .
-                         "VALUES( " . $this->_sqlList( $metaData ) . ")";
-            if ( !$this->_query( $insertSQL, $fname, true ) )
-            {
-                $this->_rollback( $fname );
-                return false;
-            }
-
-            // we rename the .generating DFS file to its real name
-            // rename( $generatingFilePath, $this->makeDFSPath( $filePath ) );
-
-            $this->_query( "DELETE FROM " . self::TABLE_METADATA . " WHERE name_hash=MD5('$generatingFilePath')", $fname, true );
-        }
-        // the original file exists: we move the generating data to this file
-        // and update it
-        else
-        {
-            // we just need to rename the .generating file to the new name
-            /*if ( !rename( $generatingFilePath, $this->makeDFSPath( $filePath ) ) )
-            {
-                eZDebug::writeError( "An error occured renaming DFS://$generatingFilePath to DFS://$filePath", $fname );
-                $this->_rollback( $fname );
-                return false;
-            }*/
-
-            $mtime = $generatingMetaData['mtime'];
-            $filesize = $generatingMetaData['size'];
-            if ( !$this->_query( "UPDATE " . self::TABLE_METADATA . " SET mtime = '{$mtime}', expired = 0, size = '{$filesize}' WHERE name_hash=MD5('$filePath')", $fname, true ) )
-            {
-                $this->_rollback( $fname );
-                return false;
-            }
-            $this->_query( "DELETE FROM " . self::TABLE_METADATA . " WHERE name_hash=MD5('$generatingFilePath')", $fname, true );
-        }
-
-        $this->_commit( $fname );
+        $this->_query( "DELETE FROM " . self::TABLE_METADATA . " WHERE name_hash=MD5('$generatingFilePath')", $fname, true );
 
         return true;
     }
@@ -1470,7 +1420,6 @@ class eZDFSFileHandlerMySQLBackend
     public function _checkCacheGenerationTimeout( $generatingFilePath, $generatingFileMtime )
     {
         $fname = "_checkCacheGenerationTimeout( $generatingFilePath, $generatingFileMtime )";
-        eZDebugSetting::writeDebug( 'kernel-clustering', "Checking for timeout of '$generatingFilePath' with mtime $generatingFileMtime", $fname );
 
         // reporting
         eZDebug::accumulatorStart( 'mysql_cluster_query', 'mysql_cluster_total', 'Mysql_cluster_queries' );
@@ -1610,7 +1559,7 @@ class eZDFSFileHandlerMySQLBackend
      **/
     protected static $mountPointPath = null;
 
-    const TABLE_METADATA = 'ezdbfile';
+    const TABLE_METADATA = 'ezdfsfile';
 }
 
 ?>

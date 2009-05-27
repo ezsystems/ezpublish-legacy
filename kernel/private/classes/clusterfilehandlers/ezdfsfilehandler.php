@@ -99,7 +99,7 @@ class eZDFSFileHandler
         $this->dbbackend->_connect( false );
 
         $filePath = eZDBFileHandler::cleanPath( $filePath );
-        eZDebugSetting::writeDebug( 'kernel-clustering', "db::ctor( '$filePath' )" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::ctor( '$filePath' )" );
         $this->filePath = $filePath;
     }
 
@@ -109,7 +109,7 @@ class eZDFSFileHandler
     * @param bool $force File stats will be refreshed if true
     * @return void
     */
-    protected function loadMetaData( $force = false )
+    public function loadMetaData( $force = false )
     {
         // Fetch metadata.
         if ( $this->filePath === false )
@@ -161,7 +161,7 @@ class eZDFSFileHandler
     public function fileStore( $filePath, $scope = false, $delete = false, $datatype = false )
     {
         $filePath = eZDBFileHandler::cleanPath( $filePath );
-        eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileStore( '$filePath' )" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileStore( '$filePath' )" );
 
         if ( $scope === false )
             $scope = 'UNKNOWN_SCOPE';
@@ -189,7 +189,7 @@ class eZDFSFileHandler
     public function fileStoreContents( $filePath, $contents, $scope = false, $datatype = false )
     {
         $filePath = eZDBFileHandler::cleanPath( $filePath );
-        eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileStoreContents( '$filePath' )" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileStoreContents( '$filePath' )" );
 
         if ( $scope === false )
             $scope = 'UNKNOWN_SCOPE';
@@ -219,7 +219,7 @@ class eZDFSFileHandler
             $datatype = 'misc';
 
         $filePath = $this->filePath;
-        eZDebugSetting::writeDebug( 'kernel-clustering', "db::storeContents( '$filePath' )" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::storeContents( '$filePath' )" );
 
         $mtime = time();
 
@@ -242,7 +242,7 @@ class eZDFSFileHandler
     function fileFetch( $filePath )
     {
         $filePath = eZDBFileHandler::cleanPath( $filePath );
-        eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileFetch( '$filePath' )" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileFetch( '$filePath' )" );
 
         return $this->dbbackend->_fetch( $filePath );
     }
@@ -250,7 +250,7 @@ class eZDFSFileHandler
     /*public function fileFetch( $filePath )
     {
         $filePath = eZDBFileHandler::cleanPath( $filePath );
-        eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileFetch( '$filePath' )" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileFetch( '$filePath' )" );
 
         switch ( $this->dbbackend->_prepareFetch( $filePath ) )
         {
@@ -280,7 +280,7 @@ class eZDFSFileHandler
     public function fetchUnique()
     {
         $filePath = $this->filePath;
-        eZDebugSetting::writeDebug( 'kernel-clustering', "db::fetchUnique( '$filePath' )" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fetchUnique( '$filePath' )" );
 
         $fetchedFilePath = $this->dbbackend->_fetch( $filePath, true );
         $this->uniqueName = $fetchedFilePath;
@@ -303,7 +303,7 @@ class eZDFSFileHandler
     function fileFetchContents( $filePath )
     {
         $filePath = eZDBFileHandler::cleanPath( $filePath );
-        eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileFetchContents( '$filePath' )" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileFetchContents( '$filePath' )" );
 
         $contents = $this->dbbackend->_fetchContents( $filePath );
         return $contents;
@@ -316,7 +316,7 @@ class eZDFSFileHandler
     function fetchContents()
     {
         $filePath = $this->filePath;
-        eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileFetchContents( '$filePath' )" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileFetchContents( '$filePath' )" );
         $contents = $this->dbbackend->_fetchContents( $filePath );
         return $contents;
     }
@@ -439,9 +439,6 @@ class eZDFSFileHandler
                     }
                 }
 
-                if ( $this->metaData === null )
-                    $this->loadMetaData();
-
                 if ( !$forceDB )
                 {
                     // check if DB file is deleted
@@ -520,6 +517,7 @@ class eZDFSFileHandler
                                 // will be much more efficient
                                 if ( !file_exists( $this->filePath ) )
                                 {
+                                    // @todo -ceZDFSFileHandler we need to reload metadata here
                                     $this->loadMetaData( true );
                                     if ( $this->metaData === false )
                                     {
@@ -830,20 +828,19 @@ class eZDFSFileHandler
             return $result;
         }
 
-        eZDebugSetting::writeDebug( 'kernel-clustering', "Writing new file content to database for {$this->filePath}" );
-        $this->storeContents( $binaryData, $scope, $datatype, $storeLocally = false );
+        // The file is finally written to disk with its final name
+        $this->fileStoreContents( $this->realFilePath, $binaryData, $scope, $datatype, $storeLocally = self::LOCAL_CACHE );
 
-        // we end the cache generation process, so that the .generating file
-        // is renamed to its final name
-        $this->endCacheGeneration( strlen( $binaryData ), $scope, $datatype );
-
-        // the generated file is written to disk
         if ( self::LOCAL_CACHE )
         {
-           // Store content also locally
-           eZDebugSetting::writeDebug( 'kernel-clustering', "Writing new file content to local file {$this->filePath}" );
-           eZFile::create( basename( $this->filePath ), dirname( $this->filePath ), $binaryData, true );
+            eZDebugSetting::writeDebug( 'kernel-clustering',
+                "Creating local copy of the file", "dfs::storeCache( '{$this->realFilePath}' )" );
+            eZFile::create( basename( $this->realFilePath ), dirname( $this->realFilePath ), $binaryData, true );
         }
+
+        // we end the cache generation process, so that the .generating file
+        // is renamed to its final name, and made available to other processes
+        $this->endCacheGeneration();
 
         return $result;
     }
@@ -877,7 +874,7 @@ class eZDFSFileHandler
      */
     public function stat()
     {
-        eZDebugSetting::writeDebug( 'kernel-clustering', "db::stat()" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::stat()" );
         return $this->metaData;
     }
 
@@ -887,7 +884,7 @@ class eZDFSFileHandler
      */
     public function size()
     {
-        eZDebugSetting::writeDebug( 'kernel-clustering', "db::size()" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::size()" );
         return isset( $this->metaData['size'] ) ? (int)$this->metaData['size'] : null;
     }
 
@@ -897,7 +894,7 @@ class eZDFSFileHandler
      **/
     public function mtime()
     {
-        eZDebugSetting::writeDebug( 'kernel-clustering', "db::mtime()" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::mtime()" );
         return isset( $this->metaData['mtime'] ) ? (int)$this->metaData['mtime'] : null;
     }
 
@@ -907,7 +904,7 @@ class eZDFSFileHandler
      **/
     public function name()
     {
-        eZDebugSetting::writeDebug( 'kernel-clustering', "db::name()" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::name()" );
         return $this->filePath;
     }
 
@@ -924,7 +921,7 @@ class eZDFSFileHandler
         $dir = eZDBFileHandler::cleanPath( $dir );
         $fileRegex = eZDBFileHandler::cleanPath( $fileRegex );
         eZDebug::writeWarning( "Using eZDBFileHandler::fileDeleteByRegex is not recommended since it has some severe performance issues" );
-        eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileDeleteByRegex( '$dir', '$fileRegex' )" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileDeleteByRegex( '$dir', '$fileRegex' )" );
 
         $regex = '^' . ( $dir ? $dir . '/' : '' ) . $fileRegex;
         $this->dbbackend->_deleteByRegex( $regex );
@@ -942,7 +939,7 @@ class eZDFSFileHandler
     {
         $wildcard = eZDBFileHandler::cleanPath( $wildcard );
         eZDebug::writeWarning( "Using eZDBFileHandler::fileDeleteByWildcard is not recommended since it has some severe performance issues" );
-        eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileDeleteByWildcard( '$wildcard' )" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileDeleteByWildcard( '$wildcard' )" );
 
         $this->dbbackend->_deleteByWildcard( $wildcard );
     }
@@ -966,7 +963,7 @@ class eZDFSFileHandler
         }
         $commonPath = eZDBFileHandler::cleanPath( $commonPath );
         $commonSuffix = eZDBFileHandler::cleanPath( $commonSuffix );
-        eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileDeleteByDirList( '$dirList', '$commonPath', '$commonSuffix' )" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileDeleteByDirList( '$dirList', '$commonPath', '$commonSuffix' )" );
 
         $this->dbbackend->_deleteByDirList( $dirList, $commonPath, $commonSuffix );
     }
@@ -984,7 +981,7 @@ class eZDFSFileHandler
     public function fileDelete( $path, $fnamePart = false )
     {
         $path = eZDBFileHandler::cleanPath( $path );
-        eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileDelete( '$path' )" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileDelete( '$path' )" );
 
         if ( $fnamePart === false )
         {
@@ -1009,7 +1006,7 @@ class eZDFSFileHandler
     function delete()
     {
         $path = $this->filePath;
-        eZDebugSetting::writeDebug( 'kernel-clustering', "db::delete( '$path' )" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::delete( '$path' )" );
 
         $this->dbbackend->_delete( $path );
         $this->dbbackend->_deleteByLike( $path . '/%' );
@@ -1022,7 +1019,7 @@ class eZDFSFileHandler
      */
     function fileDeleteLocal( $path )
     {
-        eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileDeleteLocal( '$path' )" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileDeleteLocal( '$path' )" );
         @unlink( eZDBFileHandler::cleanPath( $path ) );
     }
 
@@ -1032,10 +1029,9 @@ class eZDFSFileHandler
     function deleteLocal()
     {
         $path = $this->filePath;
-        eZDebugSetting::writeDebug( 'kernel-clustering', "db::deleteLocal( '$path' )" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::deleteLocal( '$path' )" );
         @unlink( $path );
     }
-
 
     /**
      * Purges local and remote file data for current file
@@ -1083,7 +1079,7 @@ class eZDFSFileHandler
     function fileExists( $path )
     {
         $path = eZDBFileHandler::cleanPath( $path );
-        eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileExists( '$path' )" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileExists( '$path' )" );
         return $this->dbbackend->_exists( $path );
     }
 
@@ -1094,7 +1090,7 @@ class eZDFSFileHandler
      **/
     function exists()
     {
-        eZDebugSetting::writeDebug( 'kernel-clustering', "db::exists( '$this->filePath' )" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::exists( '$this->filePath' )" );
         return $this->dbbackend->_exists( $this->filePath );
     }
 
@@ -1107,9 +1103,7 @@ class eZDFSFileHandler
     function passthrough()
     {
         $path = $this->filePath;
-        eZDebugSetting::writeDebug( 'kernel-clustering', "db::passthrough( '$path' )" );
-        if ( $this->metaData === null )
-            $this->loadMetaData();
+        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::passthrough( '$path' )" );
         $size = $this->metaData['size'];
         $mimeType = $this->metaData['datatype'];
         $mtime = $this->metaData['mtime'];
@@ -1133,7 +1127,7 @@ class eZDFSFileHandler
     {
         $srcPath = eZDBFileHandler::cleanPath( $srcPath );
         $dstPath = eZDBFileHandler::cleanPath( $dstPath );
-        eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileCopy( '$srcPath', '$dstPath' )" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileCopy( '$srcPath', '$dstPath' )" );
 
         $this->dbbackend->_copy( $srcPath, $dstPath );
     }
@@ -1145,7 +1139,7 @@ class eZDFSFileHandler
     {
         $srcPath = eZDBFileHandler::cleanPath( $srcPath );
         $dstPath = eZDBFileHandler::cleanPath( $dstPath );
-        eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileLinkCopy( '$srcPath', '$dstPath' )" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileLinkCopy( '$srcPath', '$dstPath' )" );
 
         $this->dbbackend->_linkCopy( $srcPath, $dstPath );
     }
@@ -1157,7 +1151,7 @@ class eZDFSFileHandler
     {
         $srcPath = eZDBFileHandler::cleanPath( $srcPath );
         $dstPath = eZDBFileHandler::cleanPath( $dstPath );
-        eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileMove( '$srcPath', '$dstPath' )" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileMove( '$srcPath', '$dstPath' )" );
 
         $this->dbbackend->_rename( $srcPath, $dstPath );
 
@@ -1173,7 +1167,7 @@ class eZDFSFileHandler
         $dstPath = eZDBFileHandler::cleanPath( $dstPath );
         $srcPath = $this->filePath;
 
-        eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileMove( '$srcPath', '$dstPath' )" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileMove( '$srcPath', '$dstPath' )" );
 
         $this->dbbackend->_rename( $srcPath, $dstPath );
 
@@ -1192,7 +1186,7 @@ class eZDFSFileHandler
     function getFileList( $scopes = false, $excludeScopes = false )
     {
         eZDebugSetting::writeDebug( 'kernel-clustering',
-                                    sprintf( "db::getFileList( array( %s ), %d )",
+                                    sprintf( "dfs::getFileList( array( %s ), %d )",
                                              implode( ', ', $scopes ), (int) $excludeScopes ) );
         return $this->dbbackend->_getFileList( $scopes, $excludeScopes );
     }
@@ -1228,8 +1222,10 @@ class eZDFSFileHandler
     *
     * @return bool false if the file is being generated, true if it is not
     **/
-    protected function startCacheGeneration()
+    public function startCacheGeneration()
     {
+        eZDebugSetting::writeDebug( 'kernel-clustering', "Starting cache generation", "dfs::startCacheGeneration( '{$this->filePath}' )" );
+
         $generatingFilePath = $this->filePath . '.generating';
         $ret = $this->dbbackend->_startCacheGeneration( $this->filePath, $generatingFilePath );
 
@@ -1257,8 +1253,9 @@ class eZDFSFileHandler
     /**
     * Ends the cache generation started by startCacheGeneration().
     **/
-    protected function endCacheGeneration()
+    public function endCacheGeneration()
     {
+        eZDebugSetting::writeDebug( 'kernel-clustering', 'Ending cache generation', "dfs::endCacheGeneration( '{$this->realFilePath}' )" );
         if ( $this->dbbackend->_endCacheGeneration( $this->realFilePath, $this->filePath ) )
         {
             $this->filePath = $this->realFilePath;
@@ -1277,8 +1274,9 @@ class eZDFSFileHandler
      * Does so by rolling back the current transaction, which should be the
      * .generating file lock
      **/
-    protected function abortCacheGeneration()
+    public function abortCacheGeneration()
     {
+        eZDebugSetting::writeDebug( 'kernel-clustering', 'Aborting cache generation', "dfs::abortCacheGeneration( '{$this->filePath}' )" );
         $this->dbbackend->_abortCacheGeneration( $this->filePath );
         $this->filePath = $this->realFilePath;
         $this->realFilePath = null;
@@ -1289,8 +1287,9 @@ class eZDFSFileHandler
      * timed out. If not timed out, refreshes the timestamp so that storage won't
      * be stolen
      **/
-    protected function checkCacheGenerationTimeout()
+    public function checkCacheGenerationTimeout()
     {
+        eZDebugSetting::writeDebug( 'kernel-clustering', 'Checking cache generation timeout', "dfs::checkCacheGenerationTimeout( '{$this->filePath}' )" );
         return $this->dbbackend->_checkCacheGenerationTimeout( $this->filePath, $this->generationStartTimestamp );
     }
 
@@ -1369,7 +1368,7 @@ class eZDFSFileHandler
      * Remaining time before cache generation times out
      * @var int
      **/
-    protected $remainingCacheGenerationTime = false;
+    public $remainingCacheGenerationTime = false;
 
     /**
      * Cache generation start timestamp
@@ -1382,9 +1381,13 @@ class eZDFSFileHandler
     protected $generationStartTimestamp = false;
 
     /**
-    * Holds actual file metadata, accessed through the self::metadata magic prop
-    * @var array
-    **/
+     * Holds actual file metadata, accessed through the self::metadata
+     * magic propery. null means the metadata haven't been loaded, false that
+     * they've been loaded but the file was not found.
+     * Use eZDFSFileHandler::loadMetaData( true ) to force reloading from DB
+     *
+     * @var array
+     **/
     protected $_metaData = null;
 
     /**
