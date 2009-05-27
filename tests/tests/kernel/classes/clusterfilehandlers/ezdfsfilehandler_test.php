@@ -26,6 +26,8 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
 
     protected $backupGlobals = true;
 
+    protected $haveToRemoveDFSPath = false;
+
     /**
      * @var array
      **/
@@ -47,6 +49,7 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
     {
         parent::setUp();
         $this->fileINI = eZINI::instance( 'file.ini' );
+        $this->fileINI->setVariable( 'ClusteringSettings', 'FileHandler', 'eZDFSFileHandler' );
         $this->db = $this->sharedFixture;
 
         // Load database parameters for cluster
@@ -73,6 +76,20 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
         // @todo make it cleanly configurable using PHPUnit configuration
         $GLOBALS['eZDFSFileHandlerMysqlBackend_dfsparams'] =
             array( 'mount_point_path' => $this->DFSPath );
+
+        if ( !file_exists( $this->DFSPath ) )
+        {
+            eZDir::doMkdir( $this->DFSPath, 0755 );
+            $this->haveToRemoveDFSPath = true;
+        }
+    }
+
+    public function tearDown()
+    {
+        if ( $this->haveToRemoveDFSPath )
+        {
+            eZDir::recursiveDelete( $this->DFSPath );
+        }
     }
 
     /**
@@ -181,13 +198,12 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
         $this->db->query( $sql );
 
         // create DFS file
-        $fp = fopen( $this->makeDFSPath( $filePath ), 'wb' );
-        fputs( $fp, $fileContents );
-        fclose( $fp );
+        $path = $this->makeDFSPath( $filePath );
+        eZFile::create( basename( $path ), dirname( $path ), $fileContents );
 
         // create local file
         if ( $createLocalFile )
-            copy( $this->makeDFSPath( $filePath ), $filePath );
+            eZFile::create( basename( $filePath ), dirname( $filePath ), $fileContents );
     }
 
     /**
