@@ -117,7 +117,6 @@ return array(
       'eZDBSchemaInterface'                                => 'lib/ezdbschema/classes/ezdbschemainterface.php',
       'eZDBTool'                                           => 'lib/ezdb/classes/ezdbtool.php',
       'eZDFSFileHandler'                                   => 'kernel/private/classes/clusterfilehandlers/ezdfsfilehandler.php',
-      'eZDFSFileHandlerDFSBackend'                         => 'kernel/private/classes/clusterfilehandlers/dfsbackends/dfs.php',
       'eZDFSFileHandlerMySQLBackend'                       => 'kernel/private/classes/clusterfilehandlers/dfsbackends/mysql.php',
       'eZDFSFileHandlerNFSMountPointNotFoundException'     => 'kernel/private/classes/exceptions/cluster/mount_point_not_found.php',
       'eZDFSFileHandlerNFSMountPointNotWriteableException' => 'kernel/private/classes/exceptions/cluster/mount_point_not_writeable.php',
