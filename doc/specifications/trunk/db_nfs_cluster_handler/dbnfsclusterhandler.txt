@@ -7,29 +7,29 @@ Multiple issues keep showing when using most common flavours of NFS. These are
 mostly related to attribute caching & delay added by NFS to file create / delete
 operations.
 
-This document describes most of them, and clearly shows that most workaround will
+This document describes most of them, and clearly shows that most workarounds will
 have a severe impact on NFS performances:
 http://www.time-travellers.org/shane/papers/NFS_considered_harmful.html
 
 Current eZFS & eZFS2 issues
 ===========================
-generation handing (stalecache) depends on real-time system operations (file
+Generation handing (stalecache) depends on real-time system operations (file
 creation). NFS totally prevents this, and makes PHP return unreliable results
 when performing file operations (creation failing with a wrong return, possibilities
-of multiple openings of the same file.
+of multiple openings of the same file).
 
 Cache items expiry can also be misinterpreted by mount points as NFS can add a
 delay when checking for a file expiry or existence.
 
 Solution: mix eZDB and eZFS
 ===========================
-It has been proved that the eZDB approach is more reliable and controlable than
+It has been proved that the eZDB approach is more reliable and controllable than
 eZFS. The database allows these realtime operations in a satisfactory way. On
 the other hand, the eZDB approach is blamed for the storage mechanism used (files
 stored in BLOBs in the database, leading to a HUGE database and possible speed
 issues).
 
-It should be possible to mix these approach by using both eZDB and NFS:
+It should be possible to mix these approaches by using both eZDB and NFS:
  - eZDB is reliable, and can be used to store files metadatas
  - NFS is not reliable, but can still be used to store the actual data
 
