@@ -38,7 +38,7 @@ return array(
       'eZClassFunctions'                                   => 'kernel/class/ezclassfunctions.php',
       'eZClusterFileFailure'                               => 'kernel/classes/ezclusterfilefailure.php',
       'eZClusterFileHandler'                               => 'kernel/classes/ezclusterfilehandler.php',
-      'eZClusterFileHandlerInterface'                      => 'kernel/classes/clusterfilehandlers/ezclusterfilehandlerinterface.php',
+      'eZClusterFileHandlerInterface'                      => 'kernel/private/classes/clusterfilehandlers/ezclusterfilehandlerinterface.php',
       'eZClusterHandlerDBNoConnectionException'            => 'kernel/private/classes/exceptions/cluster/noconnection.php',
       'eZClusterHandlerDBNoDatabaseException'              => 'kernel/private/classes/exceptions/cluster/nodatabase.php',
       'eZCodeMapper'                                       => 'lib/ezi18n/classes/ezcodemapper.php',
