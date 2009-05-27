@@ -24,6 +24,7 @@ eZ Online Editor 5.0 extension Changelog
 * Fixed #14873: Call to undefined method DOMText::getAttribute()
 * Changed order of outdent/indent buttons to be the same as other editors
 * Updated tinyMCE to 3.2.4.1
+* Change rewrite rules to support plain package
 
 
 5.0.0
