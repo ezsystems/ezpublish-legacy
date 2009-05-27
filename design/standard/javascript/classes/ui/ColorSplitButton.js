@@ -1,5 +1,5 @@
 /**
- * $Id: ColorSplitButton.js 1045 2009-03-04 20:03:18Z spocke $
+ * $Id: ColorSplitButton.js 1133 2009-05-20 15:10:57Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -72,6 +72,7 @@
 			e = 0;
 
 			Event.add(DOM.doc, 'mousedown', t.hideMenu, t);
+			t.onShowMenu.dispatch(t);
 
 			if (t._focused) {
 				t._keyHandler = Event.add(t.id + '_menu', 'keydown', function(e) {
@@ -81,8 +82,6 @@
 
 				DOM.select('a', t.id + '_menu')[0].focus(); // Select first link
 			}
-
-			t.onShowMenu.dispatch(t);
 
 			t.isMenuVisible = 1;
 		},

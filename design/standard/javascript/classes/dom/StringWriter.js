@@ -1,5 +1,5 @@
 /**
- * $Id: StringWriter.js 1045 2009-03-04 20:03:18Z spocke $
+ * $Id: StringWriter.js 1137 2009-05-22 15:13:40Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -26,7 +26,7 @@
 		StringWriter : function(s) {
 			this.settings = tinymce.extend({
 				indent_char : ' ',
-				indentation : 1
+				indentation : 0
 			}, s);
 
 			this.reset();

@@ -1,5 +1,5 @@
 /**
- * $Id: tiny_mce_dev.js 1072 2009-04-02 19:57:45Z spocke $
+ * $Id: tiny_mce_dev.js 1128 2009-05-18 11:58:08Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -87,7 +87,7 @@
 	include('dom/Range.js');
 	include('dom/TridentSelection.js');
 	include('dom/Sizzle.js');
-	include('dom/Event.js');
+	include('dom/EventUtils.js');
 	include('dom/Element.js');
 	include('dom/Selection.js');
 	include('dom/XMLWriter.js');

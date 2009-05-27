@@ -1,5 +1,5 @@
 /**
- * $Id: XMLWriter.js 1045 2009-03-04 20:03:18Z spocke $
+ * $Id: XMLWriter.js 1137 2009-05-22 15:13:40Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -116,7 +116,7 @@
 		 * @param {String} v Value to write in CDATA.
 		 */
 		writeCDATA : function(v) {
-			this.node.appendChild(this.doc.createCDATA(v));
+			this.node.appendChild(this.doc.createCDATASection(v));
 		},
 
 		/**
