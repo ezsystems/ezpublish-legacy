@@ -10,11 +10,6 @@
 class eZDFSFileHandlerTest extends ezpDatabaseTestCase
 {
     /**
-     * @var array
-     **/
-    protected $sqlFiles = array( "kernel/sql/mysql/cluster_dfs_schema.sql" );
-
-    /**
      * @var eZINI
      **/
     protected $fileINI;
@@ -28,6 +23,13 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
      * @var string
      **/
     protected $DFSPath = 'var/dfsmount/';
+
+    protected $backupGlobals = true;
+
+    /**
+     * @var array
+     **/
+    protected $sqlFiles = array( 'tests/tests/kernel/classes/clusterfilehandlers/sql/cluster_dfs_schema.sql' );
 
     public function __construct()
     {
@@ -71,16 +73,6 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
         // @todo make it cleanly configurable using PHPUnit configuration
         $GLOBALS['eZDFSFileHandlerMysqlBackend_dfsparams'] =
             array( 'mount_point_path' => $this->DFSPath );
-    }
-
-    /**
-     * Cleans up the environnement after running the tests
-     **/
-    public function tearDown()
-    {
-        parent::tearDown();
-        $this->removeFile( 'var/testStore.txt' );
-        $this->removeFile( 'var/testStoreContents.txt' );
     }
 
     /**
