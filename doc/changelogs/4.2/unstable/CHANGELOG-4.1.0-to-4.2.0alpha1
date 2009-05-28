@@ -8,6 +8,7 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Implemented enhancement #14809: Protecting tilde from being urlencoded on redirects.
 - Implemented enhancement #14813: Improved behavior of ContinueShoppingButton in basket.
 - Implemented enhancement #14934: Disable template compilation in setup wizard
+- Implemented enhancement #14981: Fix eZImageManager::createImageAlias
 
 *Design:
 
@@ -106,4 +107,3 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #14758: Installer loops, if INI file time check is disabled.
 - Fixed bug #14980 :make runcronjobs.php use ezcli/escript option parsing code
   (Merged from stable (4.1.3) rev. 23624)
- 
