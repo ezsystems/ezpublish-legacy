@@ -56,6 +56,7 @@ class eZStepFinal extends eZStepInstaller
 
     function init()
     {
+        eZCache::clearByID( 'global_ini' );
         return false; // Always show
     }
 
