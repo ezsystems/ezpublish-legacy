@@ -141,6 +141,15 @@ class eZDFSFileHandlerMySQLBackend
         }
     }
 
+    /**
+     * Creates a copy of a file in DB+DFS
+     * @param string $srcFilePath Source file
+     * @param string $dstFilePath Destination file
+     * @param string $fname
+     * @return bool
+     *
+     * @see _copyInner
+     **/
     public function _copy( $srcFilePath, $dstFilePath, $fname = false )
     {
         if ( $fname )
@@ -156,6 +165,17 @@ class eZDFSFileHandlerMySQLBackend
                                 $srcFilePath, $dstFilePath, $fname, $metaData );
     }
 
+    /**
+     * Inner function used by _copy to perform the operation in a transaction
+     *
+     * @param string $srcFilePath
+     * @param string $dstFilePath
+     * @param bool   $fname
+     * @param array  $metaData Source file's metadata
+     * @return bool
+     *
+     * @see _copy
+     */
     private function _copyInner( $srcFilePath, $dstFilePath, $fname, $metaData )
     {
         $this->_delete( $dstFilePath, true, $fname );
@@ -192,9 +212,17 @@ class eZDFSFileHandlerMySQLBackend
     }
 
     /**
- 	* Purges meta-data and file-data for the file entry named $filePath from the
- 	* database.
-    **/
+ 	 * Purges meta-data and file-data for a file entry
+ 	 *
+ 	 * Will only expire a single file. Use _purgeByLike to purge multiple files
+ 	 *
+ 	 * @param string $filePath Path of the file to purge
+ 	 * @param bool $onlyExpired Only purges expired files
+ 	 * @param bool|int $expiry
+ 	 * @param bool $fname
+ 	 *
+ 	 * @see _purgeByLike
+     **/
     public function _purge( $filePath, $onlyExpired = false, $expiry = false, $fname = false )
     {
         if ( $fname )
@@ -212,9 +240,21 @@ class eZDFSFileHandlerMySQLBackend
     }
 
     /**
-    * Purges meta-data and file-data for the matching files.
-    * Matching is done by passing the string $like to the LIKE statement in the SQL.
-    **/
+     * Purges meta-data and file-data for files matching a pattern using a SQL
+     * LIKE syntax.
+     *
+     * @param string $like
+     *        SQL LIKE string applied to ezdfsfile.name to look for files to
+     *        purge
+     * @param bool $onlyExpired
+     *        Only purge expired files (expired = 1 / mtime < 0)
+     * @param integer $limit Maximum number of items to purge in one call
+     * @param integer $expiry
+     * @param mixed $fname Optional caller name for debugging
+     * @see _purge
+     * @return bool|int false if it fails, number of affected rows otherwise
+     * @todo This method should also remove the files from disk
+     */
     public function _purgeByLike( $like, $onlyExpired = false, $limit = 50, $expiry = false, $fname = false )
     {
         if ( $fname )
@@ -233,12 +273,30 @@ class eZDFSFileHandlerMySQLBackend
         return mysql_affected_rows( $this->db );
     }
 
+    /**
+     * Deletes a file from DB
+     *
+     * The file won't be removed from disk, _purge has to be used for this.
+     * Only single files will be deleted, to delete multiple files,
+     * _deleteByLike has to be used.
+     *
+     * @param string $filePath Path of the file to delete
+     * @param bool $insideOfTransaction
+     *        Wether or not a transaction is already started
+     * @param bool|string $fname Optional caller name for debugging
+     * @see _deleteInner
+     * @see _deleteByLike
+     * @return bool
+     */
     public function _delete( $filePath, $insideOfTransaction = false, $fname = false )
     {
         if ( $fname )
             $fname .= "::_delete($filePath)";
         else
             $fname = "_delete($filePath)";
+        // @todo Check if this is requried: _protec will already take care of
+        //       checking if a transaction is running. But leave it like this
+        //       for now.
         if ( $insideOfTransaction )
         {
             $res = $this->_deleteInner( $filePath, $fname );
@@ -248,17 +306,40 @@ class eZDFSFileHandlerMySQLBackend
             }
         }
         else
+        {
             return $this->_protect( array( $this, '_deleteInner' ), $fname,
                                     $filePath, $insideOfTransaction, $fname );
+        }
     }
 
-    private function _deleteInner( $filePath, $fname )
+    /**
+     * Callback method used by by _delete to delete a single file
+     *
+     * @param string $filePath Path of the file to delete
+     * @param string $fname Optional caller name for debugging
+     * @return bool
+     **/
+    protected function _deleteInner( $filePath, $fname )
     {
         if ( !$this->_query( "UPDATE " . self::TABLE_METADATA . " SET mtime=-ABS(mtime), expired=1 WHERE name_hash=" . $this->_md5( $filePath ), $fname ) )
             return $this->_fail( "Deleting file $filePath failed" );
         return true;
     }
 
+    /**
+     * Deletes multiple files using a SQL LIKE statement
+     *
+     * Use _delete if you need to delete single files
+     *
+     * @param string $like
+     *        SQL LIKE condition applied to ezdfsfile.name to look for files
+     *        to delete. Will use name_trunk if the LIKE string matches a
+     *        filetype that supports name_trunk.
+     * @param string $fname Optional caller name for debugging
+     * @return bool
+     * @see _deleteByLikeInner
+     * @see _delete
+     */
     public function _deleteByLike( $like, $fname = false )
     {
         if ( $fname )
@@ -269,6 +350,13 @@ class eZDFSFileHandlerMySQLBackend
                                 $like, $fname );
     }
 
+    /**
+     * Callback used by _deleteByLike to perform the deletion
+     *
+     * @param string $like
+     * @param mixed $fname
+     * @return
+     */
     private function _deleteByLikeInner( $like, $fname )
     {
         $sql = "UPDATE " . self::TABLE_METADATA . " SET mtime=-ABS(mtime), expired=1\nWHERE name like ". $this->_quote( $like );
@@ -279,6 +367,14 @@ class eZDFSFileHandlerMySQLBackend
         return true;
     }
 
+    /**
+     * Deletes DB files by using a SQL regular expression applied to file names
+     *
+     * @param string $regex
+     * @param mixed $fname
+     * @return bool
+     * @deprecated Has severe performance issues
+     */
     public function _deleteByRegex( $regex, $fname = false )
     {
         if ( $fname )
@@ -289,6 +385,14 @@ class eZDFSFileHandlerMySQLBackend
                                 $regex, $fname );
     }
 
+    /**
+     * Callback used by _deleteByRegex to perform the deletion
+     *
+     * @param mixed $regex
+     * @param mixed $fname
+     * @return
+     * @deprecated Has severe performances issues
+     */
     public function _deleteByRegexInner( $regex, $fname )
     {
         $sql = "UPDATE " . self::TABLE_METADATA . " SET mtime=-ABS(mtime), expired=1\nWHERE name REGEXP " . $this->_quote( $regex );
@@ -299,6 +403,14 @@ class eZDFSFileHandlerMySQLBackend
         return true;
     }
 
+    /**
+     * Deletes multiple DB files by wildcard
+     *
+     * @param string $wildcard
+     * @param mixed $fname
+     * @return bool
+     * @deprecated Has severe performance issues
+     */
     public function _deleteByWildcard( $wildcard, $fname = false )
     {
         if ( $fname )
@@ -309,6 +421,14 @@ class eZDFSFileHandlerMySQLBackend
                                 $wildcard, $fname );
     }
 
+    /**
+     * Callback used by _deleteByWildcard to perform the deletion
+     *
+     * @param mixed $wildcard
+     * @param mixed $fname
+     * @return bool
+     * @deprecated Has severe performance issues
+     */
     protected function _deleteByWildcardInner( $wildcard, $fname )
     {
         // Convert wildcard to regexp.
@@ -742,110 +862,6 @@ class eZDFSFileHandlerMySQLBackend
 
         return true;
     }
-
-    /**
-     * Starts storage of a file to cluster
-     * Sets the file as being written (ezdfsfile.status = WRITING)
-     *
-     * @param string $filePath
-     * @param int    $fileSize
-     * @param string $scope
-     * @param string $datatype
-     * @param int $mtime
-     * @param string $fname
-     * @return bool
-     */
-    /*public function _startStore( $filePath, $fileSize, $scope, $datatype, $mtime = false, $fname = false )
-    {
-        if ( $fname )
-            $fname .= "::_startStoreContents($filePath, ..., $scope, $datatype)";
-        else
-            $fname = "_startStoreContents($filePath, ..., $scope, $datatype)";
-
-        return $this->_protect( array( $this, '_startStoreInner' ), $fname,
-                                $filePath, $fileSize, $scope, $datatype, $mtime, $fname );
-    }*/
-
-    /**
-     * Callback function used to perform self::_startStoreContents()
-     *
-     * @param string $filePath
-     * @param string $contents
-     * @param string $scope
-     * @param string $datatype
-     * @param int $curTime
-     * @param string $fname
-     * @return int
-     * @see self::_startStoreContents()
-     */
-    /*protected function _startStoreInner( $filePath, $fileSize, $scope, $datatype, $curTime, $fname )
-    {
-        // Insert file metadata.
-        $filePathHash = md5( $filePath );
-        $nameTrunk = self::nameTrunk( $filePath, $scope );
-        if ( $curTime === false )
-            $curTime = time();
-
-        if ( $this->_insertUpdate( self::TABLE_METADATA,
-                                   array( 'datatype' => $datatype,
-                                          'name' => $filePath,
-                                          'name_trunk' => $nameTrunk,
-                                          'name_hash' => $filePathHash,
-                                          'scope' => $scope,
-                                          'size' => $fileSize,
-                                          'mtime' => $curTime,
-                                          'expired' => ($curTime < 0) ? 1 : 0 ),
-                                   "datatype=VALUES(datatype), name_trunk='$nameTrunk', scope=VALUES(scope), size=VALUES(size), mtime=VALUES(mtime), expired=VALUES(expired)",
-                                   $fname ) === false )
-        {
-            return $this->_fail( "Failed to insert file metadata while storing contents. Possible race condition" );
-        }
-
-        return true;
-    }*/
-
-    /**
-     * Terminates storage of a file by making it available (ezdfsfile.status)
-     * in DB
-     *
-     * @param string $filePath
-     * @param string $fname
-     * @return bool
-     */
-    /*public function _endStore( $filePath, $fname = false )
-    {
-        if ( $fname )
-            $fname .= "::_endStore($filePath)";
-        else
-            $fname = "_endStore($filePath)";
-
-        return $this->_protect( array( $this, '_endStoreInner' ), $fname,
-            $filePath, $fname );
-    }*/
-
-    /**
-     * Inner method that performs the actual termination of file store.
-     * Used as a callback by self::_protect()
-     *
-     * @param string $filePath
-     * @param string $fname
-     * @return bool
-     **/
-    /*protected function _endStoreInner( $filePath, $fname )
-    {
-        // Insert file metadata.
-        $filePathHash = md5( $filePath );
-
-        $sql = "UPDATE TABLE " . self::TABLE_METADATA .
-               " SET `status` = " . eZDFSFileHandler::STATUS_AVAILABLE .
-               " WHERE `name_hash` = `$filePathHash`";
-        if ( $this->_query( $sql ) === false )
-        {
-            return $this->_fail( "Failed to insert file metadata while storing contents. Possible race condition" );
-        }
-
-        return true;
-    }*/
 
     public function _getFileList( $scopes = false, $excludeScopes = false )
     {
@@ -1546,11 +1562,37 @@ class eZDFSFileHandlerMySQLBackend
         return self::$mountPointPath . $filePath;
     }
 
-    public $db   = null;
+    /**
+     * DB connexion handle
+     * @var handle
+     **/
+    public $db = null;
+
+    /**
+     * DB connexion parameters
+     * @var array
+     **/
     public $dbparams;
 
+    /**
+     * Amount of executed queries, for debugging purpose
+     * @var int
+     **/
     protected $numQueries = 0;
+
+    /**
+     * Current transaction level.
+     * Will be used to decide wether we can BEGIN (if it's the first BEGIN call)
+     * or COMMIT (if we're commiting the last running transaction
+     * @var int
+     **/
     protected $transactionCount = 0;
+
+    /**
+    * Second database backend connexion used to check for modifications to the
+    * database using a different transaction isolation level
+    * @var handle
+    **/
     protected $backendVerify = null;
 
     /**
@@ -1559,6 +1601,10 @@ class eZDFSFileHandlerMySQLBackend
      **/
     protected static $mountPointPath = null;
 
+    /**
+     * DB file table name
+     * @var string
+     **/
     const TABLE_METADATA = 'ezdfsfile';
 }
 
