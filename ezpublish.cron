@@ -10,8 +10,8 @@ PHP=/usr/local/bin/php
 
 # Instruct cron to run the "infrequent" set of cronjobs
 # at 5:20am every Monday
-20 5 * * 1 cd $EZPUBLISHROOT && $PHP runcronjobs.php infrequent -q 2>&1
+20 5 * * 1 cd $EZPUBLISHROOT && $PHP runcronjobs.php -q infrequent 2>&1
 
 # Instruct cron to run the "frequent" set of cronjobs
 # every 15 minutes
-0,15,30,45 * * * * cd $EZPUBLISHROOT && $PHP runcronjobs.php frequent -q 2>&1
+0,15,30,45 * * * * cd $EZPUBLISHROOT && $PHP runcronjobs.php -q frequent 2>&1
