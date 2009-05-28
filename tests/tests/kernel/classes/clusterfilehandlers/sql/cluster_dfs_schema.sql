@@ -14,3 +14,4 @@ CREATE TABLE ezdfsfile (
   INDEX ezdfsfile_mtime (mtime),
   INDEX ezdfsfile_expired_name (expired, name(250))
 ) ENGINE=InnoDB;
+
