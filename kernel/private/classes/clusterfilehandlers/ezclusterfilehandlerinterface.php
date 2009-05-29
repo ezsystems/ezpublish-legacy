@@ -319,5 +319,35 @@ interface eZClusterFileHandlerInterface
      *             reading errors.
      **/
     public function passthrough();
+
+    /**
+     * Starts cache generation for the current file.
+     *
+     * This is done by creating a file named by the original file name, prefixed
+     * with '.generating'.
+     *
+     * @return bool false if the file is being generated, true if it is not
+     **/
+    public function startCacheGeneration();
+
+    /**
+     * Ends the cache generation started by startCacheGeneration().
+     **/
+    public function endCacheGeneration();
+
+    /**
+     * Aborts the current cache generation process.
+     *
+     * Does so by rolling back the current transaction, which should be the
+     * .generating file lock
+     **/
+    public function abortCacheGeneration();
+
+    /**
+     * Checks if the .generating file was changed, which would mean that generation
+     * timed out. If not timed out, refreshes the timestamp so that storage won't
+     * be stolen
+     **/
+    public function checkCacheGenerationTimeout();
 }
 ?>
