@@ -43,9 +43,9 @@ not changed.
 
 Implementation
 ==============
-This handler's implementation would mostly be based on eZDB. All the parts of
+This handler's implementation is mostly based on eZDB. All the parts of
 eZDB that interact with file data will be replaced with file operations from/to
-NFS.
+the DFS.
 
 Architecture
 ------------
@@ -63,18 +63,18 @@ Architecture
  * 2 databases
 
    - the standard eZ publish relational DB
-   - a cluster DB, with the single ezdbfile table
+   - a cluster DB, with the single ezdfsfile table
 
 
 Current eZDB API interaction
 ----------------------------
 The following table indicates for each method wether it interacts with local
-data (fs), db metadata (ezdbfile) or db filedata (ezdbfile_data).
+data (fs), db metadata (ezdfsfile) or db filedata (ezdfsfile_data).
 
 +-----------------------------+------------+-----------+-------+
 | Method                      | FS         | Metadata  | Data  |
 +=============================+============+===========+=======+
-| eZDBFileHandler             | N          | N         | N     |
+| ezdfsfileHandler             | N          | N         | N     |
 +-----------------------------+------------+-----------+-------+
 | loadMetaData                | N          | R         | N     |
 +-----------------------------+------------+-----------+-------+
@@ -153,16 +153,6 @@ data (fs), db metadata (ezdbfile) or db filedata (ezdbfile_data).
 | _get                        | N          | N         | N     |
 +-----------------------------+------------+-----------+-------+
 
-Additional metaData
--------------------
-The eZp 4.1 way of implementing stalecache will be changed for the DFS handler:
-the file will no longer be written with a different name (<file>.generating),
-but the new ezdbfile.status field will be used with the value 1
-(eZDFSFileHandler::STATUS_GENERATING). This will allow for further metadata
-checks on the file (like the new eZDFSFileHandler::STATUS_WRITING status, used
-to distinguish the generation operation (relational calls, etc) from the file
-write operation itself.
-
 Handing atomicity
 -----------------
 Atomicity of all file operations is critical.
@@ -187,6 +177,8 @@ Possible write algorithm of a new file
    * further processes requesting to read this file will be locked it a wait
      loop since no stale file exists
 
+ 2) write file metadata to DB
+
  2) write file to NFS
 
    * we can safely use the real filename (without .generating here) since the
@@ -194,8 +186,7 @@ Possible write algorithm of a new file
 
  3) end generation
 
-   * rename the file in the database entry to the final name. This makes the file
-     available for reading by any other process
+   * delete the .generating entry
 
 Possible read algorithm for a file not found locally
 ----------------------------------------------------
@@ -205,29 +196,9 @@ locally.
  1) Check file validity in database
  2) Copy the file from the local NFS mountpoint to the local folder.
 
-   * How do we handle attempts of reading of the local file while it is being
-     copied ? This will especially affect large files. Check how this is handled
-     in eZDB.
-
- 3) Use the file ?
-
-Removing a remote file
-----------------------
-When a file is removed, atomicity is also critical. Once deletion begins, it
-should be:
-
- * impossible for other processes to read the file being deleted
- * possible for other processes to start creating a file if requested
-
-The issue here is that we can't process the database record AND the file on NFS
-at the same time. The approach is to use the database record to lock other
-operations (read or write) during the critical phase of file renaming. This
-could be done using an alternative renaming of this file, for instance
-.deleting. While this flag is active, no process should be allowed to read this
-file and should be blocked (or use a stale file).
-
-On the other hand, it is not likely that a removed file will be accessed by
-another frontend since the relational database should no longer reference it.
+   * NFS seems to ensure data safety when reading a file: if a file has an open
+     handle and is modified / deleted from NFS during this time, reading can
+     be completed safely since NFS keeps a local copy of opened files.
 
 Database
 --------
@@ -237,7 +208,7 @@ Structure
 
 This is the SQL CREATE for the database table required by eZDFS::
 
-    CREATE TABLE ezdbfile (
+    CREATE TABLE ezdfsfile (
       datatype      VARCHAR(60)   NOT NULL DEFAULT 'application/octet-stream',
       name          TEXT          NOT NULL,
       name_trunk    TEXT          NOT NULL,
@@ -246,62 +217,51 @@ This is the SQL CREATE for the database table required by eZDFS::
       size          BIGINT(20)    UNSIGNED NOT NULL,
       mtime         INT(11)       NOT NULL DEFAULT '0',
       expired       BOOL          NOT NULL DEFAULT '0',
-      status        TINYINT       NOT NULL DEFAULT '0',
       PRIMARY KEY (name_hash),
-      INDEX ezdbfile_name (name(250)),
-      INDEX ezdbfile_name_trunk (name_trunk(250)),
-      INDEX ezdbfile_mtime (mtime),
-      INDEX ezdbfile_expired_name (expired, name(250))
+      INDEX ezdfsfile_name (name(250)),
+      INDEX ezdfsfile_name_trunk (name_trunk(250)),
+      INDEX ezdfsfile_mtime (mtime),
+      INDEX ezdfsfile_expired_name (expired, name(250))
     ) ENGINE=InnoDB;
 
 Fields details
 ''''''''''''''
 
- * ezdbfile.datatype:
+ * ezdfsfile.datatype:
 
    File datatype
 
- * ezdbfile.name
+ * ezdfsfile.name
 
    File path
 
- * ezdbfile.name_trunk
+ * ezdfsfile.name_trunk
 
    File's name trunk. Contains for some types of files (viewcache for instance)
    the common part that will be used to perform multiple removal operations
    faster.
 
- * ezdbfile.name_hash
+ * ezdfsfile.name_hash
 
-   MD5 transformed ezdbfile.name. Used for quick access to a file (faster than
-   ezdbfile.name
+   MD5 transformed ezdfsfile.name. Used for quick access to a file (faster than
+   ezdfsfile.name
 
- * ezdbfile.scope
+ * ezdfsfile.scope
 
    File's scope
 
- * ezdbfile.size
+ * ezdfsfile.size
 
    File size in bytes
 
- * ezdbfile.mtime
+ * ezdfsfile.mtime
 
    File's mtime, as a unix timestamp
 
- * ezdbfile.expired
+ * ezdfsfile.expired
 
    Will contain 1 if the file is considered as expired (e.g. deleted)
-   Might be deprecated by ezdbfile.status
-
- * ezdbfile.status
-
-   Indicates the file's status among these:
-
-   * 0: normal: The file can be read or written
-   * 1: generating: The file is being generated. Stale data can be read if
-     available
-   * 2: writing: The file is currently being written to DFS. It can't be read
-     nor written
+   Might be deprecated by ezdfsfile.status
 
 Ini Settings
 ------------
@@ -314,7 +274,7 @@ New settings are introduced by eZDFS in file.ini::
     # you may choose between :
     # - eZFSFileHandler
     # - eZFS2FileHandler (requires linux or Windows + PHP >= 5.3)
-    # - eZDBFileHandler
+    # - ezdfsfileHandler
     # - eZDFSFileHandler: handles NFS mount based architectures using
     # and it is case sensitive
     FileHandler=eZFSFileHandler
@@ -340,50 +300,21 @@ Misc
 Issues
 ------
 
-NFS Sync
---------
-Even with a DB layer in between, are we 100% sure that NFS operations will be
-real time ? Testing required
-
-File reading safety
--------------------
-Even though we check with the DB before reading a file, there is no way to
-ensure that the file will still exist on the mount point when we try to copy.
-
-This is a major issue that should be adressed as soon as possible.
-
-Securing data read using MySQL LOCK IN SHARE MODE
-'''''''''''''''''''''''''''''''''''''''''''''''''
-A possible solution is to set a LOCK IN SHARE MODE (later called LISM in this
-doc during reads on a cache item).
-
-Scénario: three distinct MySQL connections, C1, C2 and C3 (like 3 instances).
-
-    1. C1: BEGIN
-    2. C1: SELECT * FROM ezdbfile WHERE name_hash = <md5> AND mtime = xxx
-           AND EXPIRED = 0
-    3. C2: UPDATE ezdbfile SET expired = 1 and mtime = -ABS(mtime)
-           WHERE name_hash = <md5> AND expired = 0 and mtime = xxx
-    4. C3: SELECT * FROM ezdbfile WHERE name_hash = <md5> AND mtime = xxx
-           AND expired = 0
-    5. C1: COMMIT
-    6: C2: OK, 1 row affected
-    7: C3: KO
-           ERROR 1213 (40001): Deadlock found when trying to get lock; try restarting transaction
-       => expected result, since the record has been changed in between. We can
-          interpret this result and restart the operation
-
-
 Class name tests
 ----------------
 In a few places, we test the class returned by eZClusterFileHandler. This is
 hardcoded and won't work with the new handler.
+
+To fix this, an interface, eZClusterFileHandlerInterface has to be created (we
+can't use eZClusterFileHandler as a root class, as this name is already used
+for the singleton method eZClusterFileHandler::instance().
 
 Ideas
 -----
 
 metadata DB check delay
 '''''''''''''''''''''''
+
 Add a configurable delay that would prevent mtime checks from being performed
 everytime a file is requested, like 3 or 5 seconds. This would save TONS
 of DB calls on high traffic site.
@@ -391,41 +322,17 @@ of DB calls on high traffic site.
 The possible drawback is that a mix of valid & expired files could be used.
 Reverse proxies could also cache temporarily invalid pages => HTTP headers ?
 
-File status
-'''''''''''
-Use a specific ezdbfile row, status (TINYINT).
-
-This field will *replace* the current .generating suffix
-
-==========  ========  ====  =====  ====  =====  ====  =====
-   Status                 DFS          LFS           DB
---------------------  -----------  -----------  -----------
-   Name       Code    Read  Write  Read  Write  Read  Write
-==========  ========  ====  =====  ====  =====  ====  =====
-AVAILABLE   0         OK    OK     OK    OK     OK    OK
-GENERATING  1         OK    KO     OK    OK     OK    KO
-WRITING     2         KO    KO     KO    KO     KO    KO
-==========  ========  ====  =====  ====  =====  ====  =====
-
-All of these will be implemented as class constants in eZDFSFileHandler::
-
-	const eZDFSFileHandler::STATUS_AVAILABLE = 0;
-	const eZDFSFileHandler::STATUS_GENERATING = 1;
-	const eZDFSFileHandler::STATUS_WRITING = 2;
+This will not be implemented for the first version.
 
 TODO
 ====
 
-Specification
--------------
-
-.generation
-'''''''''''
-
-Remove references to .generating in the spec.
+N/A
 
 Testing
 =======
+
+Note: tests have been implemented in tests/tests/kernel/classes/clusterfilehandlers
 
 It is critical that this handler's developement is properly tested, in a unitary
 way.
