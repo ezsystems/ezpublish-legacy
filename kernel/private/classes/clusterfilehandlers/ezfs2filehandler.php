@@ -40,7 +40,6 @@
 **/
 class eZFS2FileHandler extends eZFSFileHandler
 {
-
     function __construct(  $filePath = false  )
     {
         parent::__construct( $filePath );
@@ -366,7 +365,7 @@ class eZFS2FileHandler extends eZFSFileHandler
      * @return mixed true if generation lock was granted, an integer matching the
      *               time before the current generation times out
      **/
-    private function startCacheGeneration()
+    public function startCacheGeneration()
     {
         eZDebugSetting::writeDebug( "kernel-clustering", $this->filePath, __METHOD__ );
 
@@ -441,7 +440,7 @@ class eZFS2FileHandler extends eZFSFileHandler
     /**
      * Ends the cache generation started by startCacheGeneration().
      **/
-    private function endCacheGeneration()
+    public function endCacheGeneration()
     {
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
 
@@ -472,7 +471,7 @@ class eZFS2FileHandler extends eZFSFileHandler
      * Does so by rolling back the current transaction, which should be the
      * .generating file lock
      **/
-    private function abortCacheGeneration()
+    public function abortCacheGeneration()
     {
         @unlink( $this->filePath );
         $this->filePath = $this->realFilePath;
@@ -485,7 +484,7 @@ class eZFS2FileHandler extends eZFSFileHandler
     * timed out. If not timed out, refreshes the timestamp so that storage won't
     * be stolen
     **/
-    private function checkCacheGenerationTimeout()
+    public function checkCacheGenerationTimeout()
     {
         clearstatcache();
         // file_exists = false: another process stole the lock and finished the generation

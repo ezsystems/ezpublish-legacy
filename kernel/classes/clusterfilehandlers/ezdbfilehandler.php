@@ -1179,7 +1179,7 @@ class eZDBFileHandler
     *
     * @return bool false if the file is being generated, true if it is not
     **/
-    private function startCacheGeneration()
+    public function startCacheGeneration()
     {
         $generatingFilePath = $this->filePath . '.generating';
         $ret = $this->backend->_startCacheGeneration( $this->filePath, $generatingFilePath );
@@ -1208,7 +1208,7 @@ class eZDBFileHandler
     /**
     * Ends the cache generation started by startCacheGeneration().
     **/
-    private function endCacheGeneration()
+    public function endCacheGeneration()
     {
         if ( $this->backend->_endCacheGeneration( $this->realFilePath, $this->filePath ) )
         {
@@ -1228,7 +1228,7 @@ class eZDBFileHandler
     * Does so by rolling back the current transaction, which should be the
     * .generating file lock
     **/
-    private function abortCacheGeneration()
+    public function abortCacheGeneration()
     {
         $this->backend->_abortCacheGeneration( $this->filePath );
         $this->filePath = $this->realFilePath;
@@ -1240,7 +1240,7 @@ class eZDBFileHandler
      * timed out. If not timed out, refreshes the timestamp so that storage won't
      * be stolen
      **/
-    private function checkCacheGenerationTimeout()
+    public function checkCacheGenerationTimeout()
     {
         return $this->backend->_checkCacheGenerationTimeout( $this->filePath, $this->generationStartTimestamp );
     }
