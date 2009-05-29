@@ -114,7 +114,7 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
     {
         $escapedFilePath = mysql_real_escape_string( $filePath );
         $sql = "SELECT * FROM " . eZDFSFileHandlerMySQLBackend::TABLE_METADATA .
-               " WHERE name LIKE '{$escapedFilePath}'";
+               " WHERE name_hash = MD5('{$escapedFilePath}')";
         $rows = $this->db->arrayQuery( $sql );
         if ( count( $rows ) == 1 )
             return true;
@@ -171,8 +171,11 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
      *
      * @param string $filePath relative file path
      * @param string $fileContents file's content
-     * @param array  $params Optional parameters for creation. Valid keys:
-     *                       datatype, scope, mtime, status, expired and remove
+     * @param array  $params
+     *        Optional parameters for creation.
+     *        Valid keys:datatype, scope, mtime, status, expired and remove
+     *        if remove is set to true, the file will be removed before it is
+     *        created
      * @return void
      **/
     protected function createFile( $filePath, $fileContents = 'foobar', $params = array() )
@@ -186,7 +189,9 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
         $remove = isset( $params['remove'] ) ? $params['remove'] : true;
 
         if ( $remove )
+        {
             $this->removeFile( $filePath );
+        }
 
         $nameHash = md5( $filePath );
         $size = strlen( $fileContents );
@@ -917,6 +922,65 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
 
         $this->removeFile( $testFile );
         $this->removeFile( $testFileMoved );
+    }
+
+    public function testPurgeSingleFile()
+    {
+        $this->createFile( $testFile = 'var/testPurge.txt',
+                           'contents',
+                           array( 'expired' => 1 ) );
+
+        $clusterHandler = eZClusterFileHandler::instance( $testFile );
+        $clusterHandler->purge();
+
+        $this->assertFalse( $this->DBFileExists( $testFile ), "DB file still exists" );
+        $this->assertFalse( $this->DFSFileExists( $testFile ), "DFS file still exists" );
+        $this->assertFalse( $this->localFileExists( $testFile ), "local file still exists" );
+
+        $this->removeFile( $testFile );
+    }
+
+    public function testPurgeMultipleFiles()
+    {
+        $createParams = array( 'expired' => 1, 'create_local_file' => 1 );
+
+        // create multiple files in a folder for deletion
+        for( $i = 0; $i < 10; $i++ )
+        {
+            $files[$i] = "var/testPurge/MultipleFiles-{$i}";
+            $this->createFile( $files[$i], 'foocontent', $createParams );
+        }
+        // and a few other files to check if we don't delete anything that shouldn't be
+        for( $i = 0; $i < 5; $i++ )
+        {
+            $otherFiles[$i] = "var/testOtherFiles/File-{$i}";
+            $this->createFile( $otherFiles[$i], 'foocontent', $createParams );
+        }
+
+        $clusterHandler = eZClusterFileHandler::instance( 'var/testPurge' );
+        $clusterHandler->purge();
+
+        // check if files supposed to be deleted were
+        foreach( $files as $file )
+        {
+            $this->assertFalse( $this->DBFileExists( $file ), "DB file $file still exists" );
+            $this->assertFalse( $this->DFSFileExists( $file ), "DFS file $file still exists" );
+            $this->assertFalse( $this->localFileExists( $file ), "local file $file still exists" );
+        }
+
+        // and if files not supposed to be deleted weren't
+        foreach( $otherFiles as $file )
+        {
+            $this->assertTrue( $this->DBFileExists( $file ), "DB file $file has been removed" );
+            $this->assertTrue( $this->DFSFileExists( $file ), "DFS file $file has been removed" );
+            $this->assertTrue( $this->localFileExists( $file ), "local file $file has been removed" );
+        }
+
+        // remove all of 'em
+        foreach( array_merge( $files, $otherFiles ) as $file )
+        {
+            $this->removeFile( $file );
+        }
     }
 }
 ?>

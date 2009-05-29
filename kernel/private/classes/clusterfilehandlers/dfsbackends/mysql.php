@@ -231,11 +231,21 @@ class eZDFSFileHandlerMySQLBackend
             $fname = "_purge($filePath)";
         $sql = "DELETE FROM " . self::TABLE_METADATA . " WHERE name_hash=" . $this->_md5( $filePath );
         if ( $expiry !== false )
-            $sql .= " AND mtime < " . (int)$expiry;
+        {
+            $sql .= " AND mtime<" . (int)$expiry;
+        }
         elseif ( $onlyExpired )
-            $sql .= " AND expired = 1";
+        {
+            $sql .= " AND expired=1";
+        }
         if ( !$this->_query( $sql, $fname ) )
+        {
             return $this->_fail( "Purging file metadata for $filePath failed" );
+        }
+        if ( mysql_affected_rows() == 1 )
+        {
+            @unlink( $this->makeDFSPath( $filePath ) );
+        }
         return true;
     }
 
@@ -247,9 +257,11 @@ class eZDFSFileHandlerMySQLBackend
      *        SQL LIKE string applied to ezdfsfile.name to look for files to
      *        purge
      * @param bool $onlyExpired
-     *        Only purge expired files (expired = 1 / mtime < 0)
+     *        Only purge expired files (ezdfsfile.expired = 1)
      * @param integer $limit Maximum number of items to purge in one call
      * @param integer $expiry
+     *        Timestamp used to limit deleted files: only files older than this
+     *        date will be deleted
      * @param mixed $fname Optional caller name for debugging
      * @see _purge
      * @return bool|int false if it fails, number of affected rows otherwise
@@ -261,16 +273,65 @@ class eZDFSFileHandlerMySQLBackend
             $fname .= "::_purgeByLike($like, $onlyExpired)";
         else
             $fname = "_purgeByLike($like, $onlyExpired)";
-        $sql = "DELETE FROM " . self::TABLE_METADATA . " WHERE name LIKE " . $this->_quote( $like );
+
+        // common query part used for both DELETE and SELECT
+        $where = " WHERE name LIKE " . $this->_quote( $like );
+
         if ( $expiry !== false )
-            $sql .= " AND mtime < " . (int)$expiry;
+            $where .= " AND mtime < " . (int)$expiry;
         elseif ( $onlyExpired )
-            $sql .= " AND expired = 1";
+            $where .= " AND expired = 1";
+
         if ( $limit )
-            $sql .= " LIMIT $limit";
-        if ( !$this->_query( $sql, $fname ) )
+            $sqlLimit = " LIMIT $limit";
+        else
+            $sqlLimit = "";
+
+        $this->_begin( $fname );
+
+        // select query, in FOR UPDATE mode
+        $selectSQL = "SELECT name FROM " . self::TABLE_METADATA .
+                     "{$where} {$sqlLimit} FOR UPDATE";
+        if ( !$res = $this->_query( $selectSQL, $fname ) )
+        {
+            $this->_rollback( $fname );
+            return $this->_fail( "Selecting file metadata by like statement $like failed" );
+        }
+        $resultCount = mysql_num_rows( $res );
+
+        // if there are no results, we can just return 0 and stop right here
+        if ( $resultCount == 0 )
+        {
+            $this->_rollback( $fname );
+            return 0;
+        }
+        // the candidate for purge are indexed in an array
+        else
+        {
+            for ( $i = 0; $i < $resultCount; $i++ )
+            {
+                $row = mysql_fetch_assoc( $res );
+                $files[] = $row['name'];
+            }
+        }
+
+        // delete query
+        $deleteSQL = "DELETE FROM " . self::TABLE_METADATA . " {$where} {$sqlLimit}";
+        if ( !$res = $this->_query( $deleteSQL, $fname ) )
+        {
+            $this->_rollback( $fname );
             return $this->_fail( "Purging file metadata by like statement $like failed" );
-        return mysql_affected_rows( $this->db );
+        }
+        $deletedDBFiles = mysql_affected_rows( $this->db );
+        foreach( $files as $file )
+        {
+            $filePath = $this->makeDFSPath( $file );
+            unlink( $filePath );
+        }
+
+        $this->_commit( $fname );
+
+        return $deletedDBFiles;
     }
 
     /**

@@ -43,8 +43,7 @@
 *
 * @since 4.2.0
 **/
-
-class eZDFSFileHandler
+class eZDFSFileHandler implements eZClusterFileHandlerInterface
 {
     /*!
      Controls whether file data from database is cached on the local filesystem.
@@ -1034,32 +1033,65 @@ class eZDFSFileHandler
     }
 
     /**
-     * Purges local and remote file data for current file
+     * Purges local and remote file data for current file path.
      *
-     * @param mixed $printCallback
-     * @param mixed $microsleep
-     * @param mixed $max
-     * @param mixed $expiry
+     * Can be given a file or a folder. In order to clear a folder, do NOT add
+     * a trailing / at the end of the file's path: path/to/file instead of
+     * path/to/file/.
+     *
+     * By default, only expired files will be removed (ezdfsfile.expired = 1).
+     * If you specify an $expiry time, it will replace the expired test and
+     * only purge files older than the given expiry timestamp.
+     *
+     * @param callback $printCallback
+     *        Callback called after each delete iteration (@see $max) to print
+     *        out a report of the deleted files. This callback expects two
+     *        parameters, $file (delete pattern used to perform deletion) and
+     *        $count (number of deleted items)
+     * @param int $microsleep
+     *        Wait interval before each purge batch of $max items
+     * @param int $max
+     *        Maximum number of items to delete in one batch (default: 100)
+     * @param int $expiry
+     *        If specificed, only files older than this date will be purged
      * @return void
      * @todo -ceZDFSFileHandler write unit test
      */
     function purge( $printCallback = false, $microsleep = false, $max = false, $expiry = false )
     {
+        eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::purge( '$this->filePath' )" );
+
         $file = $this->filePath;
         if ( $max === false )
+        {
             $max = 100;
+        }
         $count = 0;
+        /**
+         * The loop starts without knowing how many files are to be deleted.
+         * When _purgeByLike is called, it returns the number of affected rows.
+         * If rows were affected, _purgeByLike will be called again
+         **/
         do
         {
+            // @todo this won't work on windows, make a wrapper that uses
+            //       either usleep or sleep depending on the OS
             if ( $count > 0 && $microsleep )
+            {
                 usleep( $microsleep ); // Sleep a bit to make the database happier
+            }
             $count = $this->dbbackend->_purgeByLike( $file . "/%", true, $max, $expiry, 'purge' );
             $this->dbbackend->_purge( $file, true, $expiry, 'purge' );
             if ( $printCallback )
-                call_user_func_array( $printCallback,
-                                      array( $file, $count ) );
+            {
+                call_user_func_array( $printCallback, array( $file, $count ) );
+            }
+
+            // @todo Compare $count to $max. If $count < $max, no more files are to
+            // be purged, and we can exit the loop
         } while ( $count > 0 );
-        // Remove local copy
+
+        // Remove local copies
         if ( is_file( $file ) )
         {
             @unlink( $file );
