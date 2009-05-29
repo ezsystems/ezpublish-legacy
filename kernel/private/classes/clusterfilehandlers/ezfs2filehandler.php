@@ -287,8 +287,8 @@ class eZFS2FileHandler extends eZFSFileHandler
     */
     function storeCache( $fileData, $storeCache = true )
     {
-        // si on a Ã©tÃ© placÃ© en timeout, le TS du fichier .generating aura changÃ©
-        // dans ce cas, on considÃ¨re que l'autre process prend la main sur le
+        // si on a été placé en timeout, le TS du fichier .generating aura changé
+        // dans ce cas, on considère que l'autre process prend la main sur le
         // stockage et on ne stocke rien
         if ( !$this->checkCacheGenerationTimeout() )
             $storeCache = false;
@@ -740,6 +740,15 @@ class eZFS2FileHandler extends eZFSFileHandler
                 return $cacheType;
             } break;
         }
+    }
+
+    /**
+     * eZFS2 doesn't require clusterizing, as it only uses the filesystem
+     * @return bool
+     **/
+    public function requiresClusterizing()
+    {
+        return false;
     }
 
     /**

@@ -1277,6 +1277,15 @@ class eZDBFileHandler
     }
 
     /**
+     * Since eZDB uses the database, running clusterize.php is required
+     * @return bool
+     **/
+    public function requiresClusterizing()
+    {
+        return true;
+    }
+
+    /**
     * Database backend class
     * @var eZDBFileHandlerMysqlBackend
     **/

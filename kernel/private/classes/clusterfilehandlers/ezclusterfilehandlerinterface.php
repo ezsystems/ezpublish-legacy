@@ -349,5 +349,16 @@ interface eZClusterFileHandlerInterface
      * be stolen
      **/
     public function checkCacheGenerationTimeout();
+
+    /**
+     * This method indicates if the cluster file handler requires clusterizing.
+     *
+     * If the handler does require clusterizing, it will be required/possible to
+     * use bin/php/clusterize.php to get data in/out of the cluster when setting
+     * it up or disabling it.
+     *
+     * @return bool
+     **/
+    public function requiresClusterizing();
 }
 ?>

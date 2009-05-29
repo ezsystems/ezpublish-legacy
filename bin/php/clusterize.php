@@ -38,12 +38,6 @@ NOTE:
 
 error_reporting( E_ALL | E_NOTICE );
 
-// require_once( 'lib/ezdb/classes/ezdb.php' );
-// require_once( 'lib/ezutils/classes/ezcli.php' );
-// require_once( 'lib/ezutils/classes/ezsys.php' );
-// require_once( 'kernel/classes/ezscript.php' );
-// require_once( 'kernel/classes/ezclusterfilehandler.php' );
-
 require 'autoload.php';
 
 // This code is taken from eZBinaryFile::storedFileInfo()
@@ -57,7 +51,7 @@ function filePathForBinaryFile($fileName, $mimeType )
 
 function copyBinaryfilesToDB( $remove )
 {
-    global $cli, $dbFileHandler;
+    global $cli, $fileHandler;
 
     $db = eZDB::instance();
 
@@ -68,7 +62,7 @@ function copyBinaryfilesToDB( $remove )
     {
         $filePath = filePathForBinaryFile( $row['filename'] , $row['mime_type'] );
         $cli->output( "- " . $filePath);
-        $dbFileHandler->fileStore( $filePath, 'binaryfile', $remove );
+        $fileHandler->fileStore( $filePath, 'binaryfile', $remove );
     }
 
     $cli->output();
@@ -76,7 +70,7 @@ function copyBinaryfilesToDB( $remove )
 
 function copyMediafilesToDB( $remove )
 {
-    global $cli, $dbFileHandler;
+    global $cli, $fileHandler;
 
     $db = eZDB::instance();
 
@@ -86,7 +80,7 @@ function copyMediafilesToDB( $remove )
     {
         $filePath = filePathForBinaryFile( $row['filename'] , $row['mime_type'] );
         $cli->output( "- " . $filePath);
-        $dbFileHandler->fileStore( $filePath, 'mediafile', $remove );
+        $fileHandler->fileStore( $filePath, 'mediafile', $remove );
     }
 
     $cli->output();
@@ -94,7 +88,7 @@ function copyMediafilesToDB( $remove )
 
 function copyImagesToDB( $remove )
 {
-    global $cli, $dbFileHandler;
+    global $cli, $fileHandler;
 
     $db = eZDB::instance();
 
@@ -106,25 +100,25 @@ function copyImagesToDB( $remove )
         $cli->output( "- " . $filePath);
 
         $mimeData = eZMimeType::findByFileContents( $filePath );
-        $dbFileHandler->fileStore( $filePath, 'image', $remove, $mimeData['name'] );
+        $fileHandler->fileStore( $filePath, 'image', $remove, $mimeData['name'] );
     }
 }
 
 function copyFilesFromDB( $excludeScopes, $remove )
 {
-    global $cli, $dbFileHandler;
+    global $cli, $fileHandler;
 
     $cli->output( "Exporting files from database:");
-    $filePathList = $dbFileHandler->getFileList( $excludeScopes, true );
+    $filePathList = $fileHandler->getFileList( $excludeScopes, true );
 
     foreach ( $filePathList as $filePath )
     {
         $cli->output( "- " . $filePath );
         eZDir::mkdir( dirname( $filePath ), false, true );
-        $dbFileHandler->fileFetch( $filePath );
+        $fileHandler->fileFetch( $filePath );
 
         if ( $remove )
-            $dbFileHandler->fileDelete( $filePath );
+            $fileHandler->fileDelete( $filePath );
     }
 
     $cli->output();
@@ -170,23 +164,33 @@ if ( $wait )
     sleep( 10 );
 }
 
-$dbFileHandler = eZClusterFileHandler::instance();
-if ( !is_object( $dbFileHandler ) || !( $dbFileHandler instanceof eZDBFileHandler ) )
+$fileHandler = eZClusterFileHandler::instance();
+if ( !is_object( $fileHandler ) )
 {
     $cli->error( "Clustering settings specified incorrectly or the chosen file handler is ezfs." );
     $script->shutdown( 1 );
 }
+// the script will only run if clusterizing is supported by the currently
+// configured handler
+elseif ( !$fileHandler->requiresClusterizing() )
+{
+    $message = "The current cluster handler (" . get_class( $fileHandler ) . ") " .
+               "doesn't require/support running this script";
+    $cli->output( $message );
+    $script->shutdown( 0 );
+}
 
+// clusterize, from FS => cluster
 if ( $clusterize )
 {
     if ( $copyFiles )
         copyBinaryfilesToDB( $remove );
-
     if ( $copyImages )
         copyImagesToDB( $remove );
     if ( $copyMedia )
         copyMediafilesToDB( $remove );
 }
+// unclusterize, from cluster => FS
 else
 {
     $excludeScopes = array();

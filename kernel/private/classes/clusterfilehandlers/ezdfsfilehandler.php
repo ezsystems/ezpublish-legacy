@@ -78,7 +78,6 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface
      * @param string $filePath Path of the file to handle
      *
      * @throws eZDBNoConnectionException DB connection failed
-     * @todo Load NFS mount path (eZDFSClusteringSettings.MountPointPath)
      */
     function __construct( $filePath = false )
     {
@@ -516,7 +515,6 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface
                                 // will be much more efficient
                                 if ( !file_exists( $this->filePath ) )
                                 {
-                                    // @todo -ceZDFSFileHandler we need to reload metadata here
                                     $this->loadMetaData( true );
                                     if ( $this->metaData === false )
                                     {
@@ -1055,7 +1053,6 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface
      * @param int $expiry
      *        If specificed, only files older than this date will be purged
      * @return void
-     * @todo -ceZDFSFileHandler write unit test
      */
     function purge( $printCallback = false, $microsleep = false, $max = false, $expiry = false )
     {
@@ -1367,6 +1364,15 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface
                 return $this->_metaData;
             }
         }
+    }
+
+    /**
+     * Since eZDFS uses the database, running clusterize.php is required
+     * @return bool
+     **/
+    public function requiresClusterizing()
+    {
+        return true;
     }
 
     /**

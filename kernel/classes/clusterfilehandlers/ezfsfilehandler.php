@@ -963,6 +963,16 @@ class eZFSFileHandler
         eZDebug::accumulatorStop( 'dbfile' );
     }
 
+    /**
+     * eZFS only stores data to FS and doesn't require/support clusterizing
+     *
+     * @return bool false
+     **/
+    public function requiresClusterizing()
+    {
+        return false;
+    }
+
     public $metaData = null;
     public $filePath;
 }
