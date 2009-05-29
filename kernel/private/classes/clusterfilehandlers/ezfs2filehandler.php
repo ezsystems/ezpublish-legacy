@@ -287,9 +287,8 @@ class eZFS2FileHandler extends eZFSFileHandler
     */
     function storeCache( $fileData, $storeCache = true )
     {
-        // si on a été placé en timeout, le TS du fichier .generating aura changé
-        // dans ce cas, on considère que l'autre process prend la main sur le
-        // stockage et on ne stocke rien
+        // if generation timedout, the .generating file's timeout has changed,
+        // and we must not store the cache file
         if ( !$this->checkCacheGenerationTimeout() )
             $storeCache = false;
 
