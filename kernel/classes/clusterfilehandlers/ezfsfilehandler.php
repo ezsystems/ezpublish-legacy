@@ -46,7 +46,7 @@ class eZFSFileHandler
      */
     function eZFSFileHandler( $filePath = false )
     {
-        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::ctor( '$filePath' )" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::instance( '$filePath' )" );
         $this->Mutex = null;
         $this->filePath = $filePath;
         $this->lifetime = 60; // Lifetime of lock
@@ -175,14 +175,21 @@ class eZFSFileHandler
     /**
      * Fetches file from db and saves it in FS under unique name.
      *
-     * In case of fetching from filesystem does nothing.
-     * \public
+     * In case of fetching from filesystem, creates a temp copy of the file.
+     *
+     * @return string The unique file path
      */
     function fetchUnique( )
     {
-        $filePath = $this->filePath;
-        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fetchUnique( '$filePath' )" );
-        return $filePath;
+        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fetchUnique( '{$this->filePath}' )" );
+        if ( strrpos( $this->filePath, '.' ) > 0 )
+            $tmpFilePath = substr_replace( $this->filePath, getmypid().'tmp', strrpos( $this->filePath, '.' ), 0  );
+        else
+            $tmpFilePath = $this->filePath . '.' . getmypid().'tmp';
+        if ( copy( $this->filePath, $tmpFilePath ) )
+            return $tmpFilePath;
+        else
+            return false;
     }
 
     /**
@@ -573,7 +580,7 @@ class eZFSFileHandler
      */
     function stat()
     {
-        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::stat()" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', $this->metaData, "fs::stat( {$this->filePath} )" );
         return $this->metaData;
     }
 
@@ -584,8 +591,9 @@ class eZFSFileHandler
      */
     function size()
     {
-        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::size()" );
-        return isset( $this->metaData['size'] ) ? $this->metaData['size'] : null;
+        $size = isset( $this->metaData['size'] ) ? $this->metaData['size'] : null;
+        eZDebugSetting::writeDebug( 'kernel-clustering', $size, "fs::size( {$this->filePath} )" );
+        return $size;
     }
 
     /**
@@ -595,8 +603,9 @@ class eZFSFileHandler
      */
     function mtime()
     {
-        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::mtime()" );
-        return isset( $this->metaData['mtime'] ) ? $this->metaData['mtime'] : null;
+        $mtime = isset( $this->metaData['mtime'] ) ? $this->metaData['mtime'] : null;
+        eZDebugSetting::writeDebug( 'kernel-clustering', $mtime, "fs::mtime( {$this->filePath} )" );
+        return $mtime;
     }
 
     /**
@@ -606,7 +615,7 @@ class eZFSFileHandler
      */
     function name()
     {
-        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::name()" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', $this->filePath, "fs::name( {$this->filePath} )" );
         return $this->filePath;
     }
 
@@ -961,6 +970,51 @@ class eZFSFileHandler
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
         eZFileHandler::move( $srcPath, $dstPath );
         eZDebug::accumulatorStop( 'dbfile' );
+    }
+
+    /**
+     * Starts cache generation for the current file.
+     *
+     * This is done by creating a file named by the original file name, prefixed
+     * with '.generating'.
+     *
+     * @todo add timeout handling...
+     *
+     * @return mixed true if generation lock was granted, an integer matching the
+     *               time before the current generation times out
+     **/
+    public function startCacheGeneration()
+    {
+        return true;
+    }
+
+    /**
+     * Ends the cache generation started by startCacheGeneration().
+     **/
+    public function endCacheGeneration()
+    {
+        return true;
+    }
+
+    /**
+     * Aborts the current cache generation process.
+     *
+     * Does so by rolling back the current transaction, which should be the
+     * .generating file lock
+     **/
+    public function abortCacheGeneration()
+    {
+        return;
+    }
+
+    /**
+     * Checks if the .generating file was changed, which would mean that generation
+     * timed out. If not timed out, refreshes the timestamp so that storage won't
+     * be stolen
+     **/
+    public function checkCacheGenerationTimeout()
+    {
+        return true;
     }
 
     /**
