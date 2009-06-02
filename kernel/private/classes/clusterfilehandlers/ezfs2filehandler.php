@@ -438,25 +438,46 @@ class eZFS2FileHandler extends eZFSFileHandler
 
     /**
      * Ends the cache generation started by startCacheGeneration().
+     *
+     * If $rename is set to true (default), the .generating file is renamed and
+     * overwrites the real file.
+     * If set to false, the .generating file is removed, and the real file made
+     * available.
+     *
+     * True should be used when actual data is stored in the standard file and
+     * not the .generating one, for instance when using image alias generation.
+     *
+     * @param bool $rename Rename (true) or delete (false) the generating file
+     *
+     * @return bool
      **/
-    public function endCacheGeneration()
+    public function endCacheGeneration( $rename = true)
     {
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
 
         $ret = false;
-        eZDebugSetting::writeDebug( "kernel-clustering", $this->filePath, __METHOD__ );
+        eZDebugSetting::writeDebug( "kernel-clustering", $this->realFilePath, __METHOD__ );
 
         // rename the file to its final name
-        if ( eZFile::rename( $this->filePath, $this->realFilePath ) )
+        if ( $rename === true )
         {
-            $this->filePath = $this->realFilePath;
-            $this->realFilePath = null;
-            $this->remainingCacheGenerationTime = false;
-            $ret = true;
+            if ( eZFile::rename( $this->filePath, $this->realFilePath ) )
+            {
+                $this->filePath = $this->realFilePath;
+                $this->realFilePath = null;
+                $this->remainingCacheGenerationTime = false;
+                $ret = true;
+            }
+            else
+            {
+                eZLog::write( "eZFS2FileHandler::endCacheGeneration: Failed renaming '$this->filePath' to '$this->realFilePath'", 'cluster.log' );
+            }
         }
         else
         {
-            eZLog::write( "eZFS2FileHandler::endCacheGeneration: Failed renaming '$this->filePath' to '$this->realFilePath'", 'cluster.log' );
+            unlink( $this->filePath );
+            $this->filePath = $this->realFilePath;
+            $this->realFilePath = null;
         }
 
         eZDebug::accumulatorStop( 'dbfile' );
@@ -472,6 +493,7 @@ class eZFS2FileHandler extends eZFSFileHandler
      **/
     public function abortCacheGeneration()
     {
+        eZDebugSetting::writeDebug( 'kernel-clustering', $this->realFilePath, __METHOD__ );
         @unlink( $this->filePath );
         $this->filePath = $this->realFilePath;
         $this->realFilePath = null;
@@ -599,19 +621,6 @@ class eZFS2FileHandler extends eZFSFileHandler
         }
 
         eZDebug::accumulatorStop( 'dbfile' );
-    }
-
-    /**
-     * Deletes a file that has been fetched before.
-     *
-     * In case of fetching from filesystem does nothing.
-     *
-     * \public
-     * \static
-     */
-    function fileDeleteLocal( $path )
-    {
-        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileDeleteLocal( '$path' )", __METHOD__ );
     }
 
     /**

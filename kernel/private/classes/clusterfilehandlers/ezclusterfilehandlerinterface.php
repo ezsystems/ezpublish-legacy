@@ -333,7 +333,7 @@ interface eZClusterFileHandlerInterface
     /**
      * Ends the cache generation started by startCacheGeneration().
      **/
-    public function endCacheGeneration();
+    public function endCacheGeneration( $rename = true );
 
     /**
      * Aborts the current cache generation process.

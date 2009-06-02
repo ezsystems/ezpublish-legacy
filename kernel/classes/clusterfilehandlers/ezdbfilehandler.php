@@ -1208,9 +1208,9 @@ class eZDBFileHandler
     /**
     * Ends the cache generation started by startCacheGeneration().
     **/
-    public function endCacheGeneration()
+    public function endCacheGeneration( $rename = true )
     {
-        if ( $this->backend->_endCacheGeneration( $this->realFilePath, $this->filePath ) )
+        if ( $this->backend->_endCacheGeneration( $this->realFilePath, $this->filePath, $rename ) )
         {
             $this->filePath = $this->realFilePath;
             $this->realFilePath = null;

@@ -825,19 +825,23 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface
             return $result;
         }
 
-        // The file is finally written to disk with its final name
-        $this->fileStoreContents( $this->realFilePath, $binaryData, $scope, $datatype, $storeLocally = self::LOCAL_CACHE );
+        // the .generating file is stored to DFS. $storeLocally is set to false
+        // since we don't want to store the .generating file locally, only
+        // the final file.
+        $this->storeContents( $binaryData, $scope, $datatype, $storeLocally = false );
+
+        // we end the cache generation process, so that the .generating file
+        // is removed (we don't need to rename since contents was already stored
+        // above, using fileStoreContents
+        // $this->endCacheGeneration( false );
+        $this->endCacheGeneration();
 
         if ( self::LOCAL_CACHE )
         {
             eZDebugSetting::writeDebug( 'kernel-clustering',
-                "Creating local copy of the file", "dfs::storeCache( '{$this->realFilePath}' )" );
-            eZFile::create( basename( $this->realFilePath ), dirname( $this->realFilePath ), $binaryData, true );
+                "Creating local copy of the file", "dfs::storeCache( '{$this->filePath}' )" );
+            eZFile::create( basename( $this->filePath ), dirname( $this->filePath ), $binaryData, true );
         }
-
-        // we end the cache generation process, so that the .generating file
-        // is renamed to its final name, and made available to other processes
-        $this->endCacheGeneration();
 
         return $result;
     }
@@ -1282,10 +1286,10 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface
     /**
     * Ends the cache generation started by startCacheGeneration().
     **/
-    public function endCacheGeneration()
+    public function endCacheGeneration( $rename = true )
     {
         eZDebugSetting::writeDebug( 'kernel-clustering', 'Ending cache generation', "dfs::endCacheGeneration( '{$this->realFilePath}' )" );
-        if ( $this->dbbackend->_endCacheGeneration( $this->realFilePath, $this->filePath ) )
+        if ( $this->dbbackend->_endCacheGeneration( $this->realFilePath, $this->filePath, $rename ) )
         {
             $this->filePath = $this->realFilePath;
             $this->realFilePath = null;

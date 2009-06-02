@@ -1032,19 +1032,27 @@ class eZImageAliasHandler
         return $imageName;
     }
 
-    /*!
-     Sets the uploaded HTTP file object to \a $httpFile.
-     This object is used to store information about the image file until the content object attribute is to be stored.
-     \sa httpFile
+    /**
+     * Sets the uploaded HTTP file object to $httpFile.
+     *
+     * This object is used to store information about the image file until the
+     * content object attribute is to be stored.
+     *
+     * @param mixed $httpFile
+     *
+     * @see httpFile
     */
     function setHTTPFile( $httpFile )
     {
         $this->ContentObjectAttributeData['DataTypeCustom']['http_file'] = $httpFile;
     }
 
-    /*!
-     \return the stored HTTP file object or \c false if no object is previously stored.
-     \sa setHTTPFile
+    /**
+     * Returns the stored HTTP file object or false if no object is stored.
+     *
+     * @param bool $release Erase the content of the stored HTTP file
+     *
+     * @see setHTTPFile
     */
     function httpFile( $release = false )
     {
@@ -1061,10 +1069,14 @@ class eZImageAliasHandler
         return false;
     }
 
-    /*!
-     Initializes the content object attribute \a $contentObjectAttribute with the uploaded HTTP file \a $httpFile.
-     Optionally you may also specify the alternative text in the parameter \a $imageAltText.
-    */
+    /**
+     * Initializes the content object attribute with the uploaded HTTP file
+     *
+     * @param eZHTTPFile $httpFile
+     * @param string $imageAltText Optional image ALT text
+     *
+     * @return TODO: FIXME
+     **/
     function initializeFromHTTPFile( $httpFile, $imageAltText = false )
     {
         $this->increaseImageSerialNumber();

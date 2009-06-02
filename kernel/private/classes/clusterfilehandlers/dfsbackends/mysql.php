@@ -204,7 +204,9 @@ class eZDFSFileHandlerMySQLBackend
         }
 
         // Copy file data.
-        if ( !@copy( $this->makeDFSPath( $srcFilePath ), $this->makeDFSPath( $dstFilePath ) ) )
+        $DFSSrcFilePath = $this->makeDFSPath( $srcFilePath );
+        $DFSDstFilepath = $this->makeDFSPath( $dstFilePath );
+        if ( !eZFile::create( basename( $DFSDstFilepath ), dirname( $DFSDstFilepath ), file_get_contents( $DFSSrcFilePath ), false ) )
         {
             return $this->_fail( $srcFilePath, "Failed to copy file to new name ($dstFilePath)" );
         }
@@ -1477,10 +1479,84 @@ class eZDFSFileHandlerMySQLBackend
     * @param string $filePath
     * @return bool
     **/
-    public function _endCacheGeneration( $filePath, $generatingFilePath )
+    public function _endCacheGeneration( $filePath, $generatingFilePath, $rename )
     {
         $fname = "_endCacheGeneration( $filePath )";
-        $this->_query( "DELETE FROM " . self::TABLE_METADATA . " WHERE name_hash=MD5('$generatingFilePath')", $fname, true );
+
+        $DFSFilePath = $this->makeDFSPath( $filePath );
+        $DFSGeneratingFilePath = $this->makeDFSPath( $generatingFilePath );
+
+        // no rename: the .generating entry is just deleted
+        if ( $rename === false )
+        {
+            $this->_query( "DELETE FROM " . self::TABLE_METADATA . " WHERE name_hash=MD5('$generatingFilePath')", $fname, true );
+            return true;
+        }
+        // rename mode: the generating file and its contents are renamed to the
+        // final name
+        else
+        {
+            $this->_begin( $fname );
+
+            // both files are locked for update
+            if ( !$res = $this->_query( "SELECT * FROM " . self::TABLE_METADATA . " WHERE name_hash=MD5('$generatingFilePath') FOR UPDATE", $fname, true ) )
+            {
+                $this->_rollback( $fname );
+                return false;
+            }
+            $generatingMetaData = mysql_fetch_assoc( $res );
+
+            // the original file does not exist: we move the generating file
+            $res = $this->_query( "SELECT * FROM " . self::TABLE_METADATA . " WHERE name_hash=MD5('$filePath') FOR UPDATE", $fname, false );
+            if ( mysql_num_rows( $res ) == 0 )
+            {
+                $metaData = $generatingMetaData;
+                $metaData['name'] = $filePath;
+                $metaData['name_hash'] = md5( $filePath );
+                $metaData['name_trunk'] = $this->nameTrunk( $filePath, $metaData['scope'] );
+                $insertSQL = "INSERT INTO " . self::TABLE_METADATA . " ( " . implode( ', ', array_keys( $metaData ) ) . " ) " .
+                             "VALUES( " . $this->_sqlList( $metaData ) . ")";
+                if ( !$this->_query( $insertSQL, $fname, true ) )
+                {
+                    eZDebug::writeError("An error occured creating the metadata entry for $filePath", $fname );
+                    $this->_rollback( $fname );
+                    return false;
+                }
+                // here we rename the actual FILE. The .generating file has been
+                // created locally, and should be pushed to DFS
+                eZDebug::writeDebug( "rename( $DFSGeneratingFilePath, $DFSFilePath )", "bd@ez.no - " . __METHOD__ );
+                if ( !rename( $DFSGeneratingFilePath, $DFSFilePath ) )
+                {
+                    eZDebug::writeError("An error occured renaming $generatingFilePath to $DFSFilePath: " . mysql_error(), $fname );
+                    $this->_rollback( $fname );
+                    return false;
+                }
+                $this->_query( "DELETE FROM " . self::TABLE_METADATA . " WHERE name_hash=MD5('$generatingFilePath')", $fname, true );
+            }
+            // the original file exists: we move the generating data to this file
+            // and update it
+            else
+            {
+                eZDebug::writeDebug( "rename( $DFSGeneratingFilePath, $DFSFilePath )", "bd@ez.no - " . __METHOD__ );
+                if ( !rename( $DFSGeneratingFilePath, $DFSFilePath ) )
+                {
+                    eZDebug::writeError("An error occured renaming $generatingFilePath to $DFSFilePath", $fname );
+                    $this->_rollback( $fname );
+                    return false;
+                }
+
+                $mtime = $generatingMetaData['mtime'];
+                $filesize = $generatingMetaData['size'];
+                if ( !$this->_query( "UPDATE " . self::TABLE_METADATA . " SET mtime = '{$mtime}', expired = 0, size = '{$filesize}' WHERE name_hash=MD5('$filePath')", $fname, true ) )
+                {
+                    $this->_rollback( $fname );
+                    return false;
+                }
+                $this->_query( "DELETE FROM " . self::TABLE_METADATA . " WHERE name_hash=MD5('$generatingFilePath')", $fname, true );
+            }
+
+            $this->_commit( $fname );
+        }
 
         return true;
     }

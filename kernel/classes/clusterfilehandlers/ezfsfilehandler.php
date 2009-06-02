@@ -175,21 +175,14 @@ class eZFSFileHandler
     /**
      * Fetches file from db and saves it in FS under unique name.
      *
-     * In case of fetching from filesystem, creates a temp copy of the file.
+     * In case of fetching from filesystem, does nothing
      *
-     * @return string The unique file path
+     * @return string The unique file path. on FS, the file path.
      */
-    function fetchUnique( )
+    function fetchUnique()
     {
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fetchUnique( '{$this->filePath}' )" );
-        if ( strrpos( $this->filePath, '.' ) > 0 )
-            $tmpFilePath = substr_replace( $this->filePath, getmypid().'tmp', strrpos( $this->filePath, '.' ), 0  );
-        else
-            $tmpFilePath = $this->filePath . '.' . getmypid().'tmp';
-        if ( copy( $this->filePath, $tmpFilePath ) )
-            return $tmpFilePath;
-        else
-            return false;
+        return $this->filePath;
     }
 
     /**
@@ -783,17 +776,17 @@ class eZFSFileHandler
         eZDebug::accumulatorStop( 'dbfile' );
     }
 
+
     /**
      * Deletes a file that has been fetched before.
      *
-     * In case of fetching from filesystem does nothing.
+     * @see fetchUnique
      *
-     * \public
-     * \static
-     */
+     * In case of fetching from filesystem does nothing.
+     **/
     function fileDeleteLocal( $path )
     {
-        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileDeleteLocal( '$path' )" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileDeleteLocal( '$path' )", __METHOD__ );
     }
 
     /**
