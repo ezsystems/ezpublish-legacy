@@ -34,9 +34,11 @@
 class eZClusterFileHandler
 {
     /**
-     * \public
-     * \static
-     * \return filehandler
+     * Returns the configured instance of an eZFileHandler
+     *
+     * See ClusteringSettings.FileHandler in php.ini
+     *
+     * @return eZClusterFileHandlerInterface
      */
     static function instance( $filename = false )
     {
