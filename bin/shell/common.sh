@@ -1,13 +1,13 @@
 #!/bin/bash
 
-VERSION="4.1.2"
-VERSION_RELEASE="2"
+VERSION="4.1.3"
+VERSION_RELEASE="3"
 VERSION_ONLY="4.1"
 VERSION_STATE=""
-VERSION_PREVIOUS="4.1.1"
+VERSION_PREVIOUS="4.1.2"
 VERSION_BRANCH="$VERSION_ONLY"
 VERSION_NICK="$VERSION"
-VERSION_STABLE="4.1.1"
+VERSION_STABLE="4.1.2"
 DEVELOPMENT="false"
 DEVELOPMENT_PREVIOUS="false"
 
@@ -22,7 +22,7 @@ REPOSITORY_BASE_URL="http://svn.ez.no/svn/ezpublish"
 TR_REPOSITORY_BASE_URL="http://svn.ez.no/svn/translations"
 # This needs to be set correctly when a new branch is created
 # e.g. stable/3.4 stable/3.5
-REPOSITORY_BRANCH_PATH="stable/4.1"
+REPOSITORY_BRANCH_PATH="release/4.1.3"
 #REPOSITORY_STABLE_BRANCH_PATH="stable"
 REPOSITORY_STABLE_BRANCH_PATH=""
 
