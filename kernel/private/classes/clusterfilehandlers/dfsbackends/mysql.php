@@ -1524,7 +1524,6 @@ class eZDFSFileHandlerMySQLBackend
                 }
                 // here we rename the actual FILE. The .generating file has been
                 // created locally, and should be pushed to DFS
-                eZDebug::writeDebug( "rename( $DFSGeneratingFilePath, $DFSFilePath )", "bd@ez.no - " . __METHOD__ );
                 if ( !rename( $DFSGeneratingFilePath, $DFSFilePath ) )
                 {
                     eZDebug::writeError("An error occured renaming $generatingFilePath to $DFSFilePath: " . mysql_error(), $fname );
@@ -1537,7 +1536,6 @@ class eZDFSFileHandlerMySQLBackend
             // and update it
             else
             {
-                eZDebug::writeDebug( "rename( $DFSGeneratingFilePath, $DFSFilePath )", "bd@ez.no - " . __METHOD__ );
                 if ( !rename( $DFSGeneratingFilePath, $DFSFilePath ) )
                 {
                     eZDebug::writeError("An error occured renaming $generatingFilePath to $DFSFilePath", $fname );
