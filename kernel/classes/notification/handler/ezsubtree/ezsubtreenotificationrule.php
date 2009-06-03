@@ -168,6 +168,12 @@ class eZSubtreeNotificationRule extends eZPersistentObject
             $userNodeIDList[] = $row['node_id'];
         $userNodeIDList = array_unique( $userNodeIDList );
 
+        if ( count( $userNodeIDList ) == 0 )
+        {
+            $retValue = array();
+            return $retValue;
+        }
+
         // Select affected nodes
         $sql = 'SELECT DISTINCT user_node.node_id,
                                 user_node.path_string,
@@ -184,6 +190,12 @@ class eZSubtreeNotificationRule extends eZPersistentObject
             if ( $row['contentobject_id'] != '0' )
                 $objectIDList[] = $row['contentobject_id'];
         $objectIDList = array_unique( $objectIDList );
+
+        if ( count( $objectIDList ) == 0 )
+        {
+            $retValue = array();
+            return $retValue;
+        }
 
         // Select affected roles and policies
         $sql = 'SELECT DISTINCT user_role.contentobject_id,
