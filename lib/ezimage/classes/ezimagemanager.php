@@ -946,7 +946,7 @@ class eZImageManager
                             {
                                 eZDebug::writeError("The size of the generated image {$destinationMimeData['url']} could not be read by getimagesize()", 'eZImageManager::createImageAlias' );
                             }
-                            unlink( $tempPath );
+                            $fileHandler->fileDeleteLocal( $tempPath );
                         }
                         else
                         {
@@ -960,7 +960,7 @@ class eZImageManager
                     }
                     $existingAliasList[$aliasName] = $currentAliasData;
 
-                    $convertHandler->endCacheGeneration();
+                    $convertHandler->endCacheGeneration( false );
 
                     return true;
                 }
@@ -987,8 +987,8 @@ class eZImageManager
                 while ( true )
                 {
                     $startGeneration = $convertHandler->startCacheGeneration();
-                    // generation lock granted: we can... do something !
-                    // now what to do ? start again, just in case ? won't do i think...
+                    // generation lock granted: we can start again by breaking to
+                    // the beggining of the while loop
                     if ( $startGeneration === true )
                     {
                         eZDebug::writeDebug( "Got granted generation permission, restarting !", __METHOD__ );
@@ -1144,8 +1144,8 @@ class eZImageManager
                 }
                 if ( !$hasDestination )
                 {
-                    if ( isset( $sourceFile ) )
-                        $sourceFile->deleteLocal();
+                    if ( isset( $sourceFileHandler ) )
+                        $sourceFileHandler->deleteLocal();
                     return false;
                 }
             }
@@ -1302,8 +1302,8 @@ class eZImageManager
                 $fileHandler->fileStore( $destinationFilePath, 'image', true, $destinationMimeData['name'] );
             }
 
-            if ( isset( $sourceFile ) )
-                $sourceFile->deleteLocal();
+            if ( isset( $sourceFileHandler ) )
+                $sourceFileHandler->deleteLocal();
         }
 
         return $result;
