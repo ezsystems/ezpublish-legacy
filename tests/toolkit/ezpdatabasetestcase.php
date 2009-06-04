@@ -50,8 +50,11 @@ class ezpDatabaseTestCase extends ezpTestCase
     protected function tearDown()
     {
         parent::tearDown();
-        $db = eZDB::instance();
-        $db->close();
+        if ( ezpTestRunner::dbPerTest() )
+        {
+            $db = eZDB::instance();
+            $db->close();
+        }
     }
 }
 
