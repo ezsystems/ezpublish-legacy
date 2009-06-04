@@ -1040,7 +1040,7 @@ class eZDFSFileHandlerMySQLBackend
     **/
     protected function _selectOne( $query, $fname, $error = false, $debug = false, $fetchCall )
     {
-        eZDebug::accumulatorStart( 'mysql_cluster_query', 'mysql_cluster_total', 'Mysql_cluster_queries' );
+        eZDebug::accumulatorStart( 'mysql_cluster_query', 'MySQL Cluster', 'DB queries' );
         $time = microtime( true );
 
         $res = mysql_query( $query, $this->db );
@@ -1248,7 +1248,7 @@ class eZDFSFileHandlerMySQLBackend
     **/
     protected function _query( $query, $fname = false, $reportError = true )
     {
-        eZDebug::accumulatorStart( 'mysql_cluster_query', 'mysql_cluster_total', 'Mysql_cluster_queries' );
+        eZDebug::accumulatorStart( 'mysql_cluster_query', 'MySQL Cluster', 'DB queries' );
         $time = microtime( true );
 
         $res = mysql_query( $query, $this->db );
@@ -1524,7 +1524,7 @@ class eZDFSFileHandlerMySQLBackend
         $fname = "_checkCacheGenerationTimeout( $generatingFilePath, $generatingFileMtime )";
 
         // reporting
-        eZDebug::accumulatorStart( 'mysql_cluster_query', 'mysql_cluster_total', 'Mysql_cluster_queries' );
+        eZDebug::accumulatorStart( 'mysql_cluster_query', 'MySQL Cluster', 'DB queries' );
         $time = microtime( true );
 
         $nameHash = $this->_md5( $generatingFilePath );

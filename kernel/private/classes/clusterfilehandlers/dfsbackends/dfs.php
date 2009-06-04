@@ -54,6 +54,8 @@ class eZDFSFileHandlerDFSBackend
      **/
     public function copyFromDFSToDFS( $srcFilePath, $dstFilePath )
     {
+        $this->accumulatorStart();
+
         $srcFilePath = $this->makeDFSPath( $srcFilePath );
         $dstFilePath = $this->makeDFSPath( $dstFilePath );
         if ( file_exists( dirname( $dstFilePath ) ) )
@@ -64,6 +66,9 @@ class eZDFSFileHandlerDFSBackend
         {
             $ret = eZFile::create( basename( $dstFilePath ), dirname( $dstFilePath ), file_get_contents( $srcFilePath ), false );
         }
+
+        $this->accumulatorStop();
+
         return $ret;
     }
 
@@ -77,6 +82,8 @@ class eZDFSFileHandlerDFSBackend
      **/
     public function copyFromDFS( $srcFilePath, $dstFilePath = false )
     {
+        $this->accumulatorStart();
+
         if ( $dstFilePath === false )
         {
             $dstFilePath = $srcFilePath;
@@ -87,6 +94,9 @@ class eZDFSFileHandlerDFSBackend
             $ret = copy( $srcFilePath, $dstFilePath );
         else
             $ret = eZFile::create( basename( $dstFilePath ), dirname( $dstFilePath ), file_get_contents( $srcFilePath ) );
+
+        $this->accumulatorStop();
+
         return $ret;
     }
 
@@ -100,12 +110,18 @@ class eZDFSFileHandlerDFSBackend
      **/
     public function copyToDFS( $srcFilePath, $dstFilePath = false )
     {
+        $this->accumulatorStart();
+
         if ( $dstFilePath === false )
         {
             $dstFilePath = $srcFilePath;
         }
         $dstFilePath = $this->makeDFSPath( $dstFilePath );
-        return eZFile::create( basename( $dstFilePath ), dirname( $dstFilePath ), file_get_contents( $srcFilePath ), true );
+        $ret = eZFile::create( basename( $dstFilePath ), dirname( $dstFilePath ), file_get_contents( $srcFilePath ), true );
+
+        $this->accumulatorStop();
+
+        return $ret;
     }
 
     /**
@@ -118,6 +134,8 @@ class eZDFSFileHandlerDFSBackend
      */
     public function delete( $filePath )
     {
+        $this->accumulatorStart();
+
         if ( is_array( $filePath ) )
         {
             $ret = true;
@@ -131,6 +149,10 @@ class eZDFSFileHandlerDFSBackend
         {
             $ret = @unlink( $this->makeDFSPath( $filePath ) );
         }
+
+        $this->accumulatorStop();
+
+        return $ret;
     }
 
     /**
@@ -141,6 +163,8 @@ class eZDFSFileHandlerDFSBackend
      */
     public function passthrough( $filePath )
     {
+        $this->accumulatorStart();
+
         $filePath = $this->makeDFSPath( $filePath );
         if ( !$fp = @fopen( $filePath, 'rb' ) )
         {
@@ -155,6 +179,9 @@ class eZDFSFileHandlerDFSBackend
             }
             fclose( $fp );
         }
+
+        $this->accumulatorStop();
+
         return true;
     }
 
@@ -167,7 +194,13 @@ class eZDFSFileHandlerDFSBackend
      */
     public function getContents( $filePath )
     {
-        return @file_get_contents( $this->makeDFSPath( $filePath ) );
+        $this->accumulatorStart();
+
+        $ret = @file_get_contents( $this->makeDFSPath( $filePath ) );
+
+        $this->accumulatorStop();
+
+        return $ret;
     }
 
     /**
@@ -180,8 +213,14 @@ class eZDFSFileHandlerDFSBackend
      **/
     public function createFileOnDFS( $filePath, $contents )
     {
+        $this->accumulatorStart();
+
         $filePath = $this->makeDFSPath( $filePath );
-        return eZFile::create( basename( $filePath ), dirname( $filePath ), $contents, false );
+        $ret = eZFile::create( basename( $filePath ), dirname( $filePath ), $contents, false );
+
+        $this->accumulatorStop();
+
+        return $ret;
     }
 
     /**
@@ -193,10 +232,16 @@ class eZDFSFileHandlerDFSBackend
      */
     public function renameOnDFS( $oldPath, $newPath )
     {
+        $this->accumulatorStart();
+
         $oldPath = $this->makeDFSPath( $oldPath );
         $newPath = $this->makeDFSPath( $newPath );
 
-        return rename( $oldPath, $newPath );
+        $ret = rename( $oldPath, $newPath );
+
+        $this->accumulatorStop();
+
+        return $ret;
     }
 
     /**
@@ -207,6 +252,16 @@ class eZDFSFileHandlerDFSBackend
     protected function makeDFSPath( $filePath )
     {
         return $this->mountPointPath . $filePath;
+    }
+
+    protected function accumulatorStart()
+    {
+        eZDebug::accumulatorStart( 'mysql_cluster_dfs_operations', 'MySQL Cluster', 'DFS operations' );
+    }
+
+    protected function accumulatorStop()
+    {
+        eZDebug::accumulatorStop( 'mysql_cluster_dfs_operations' );
     }
 
     /**
