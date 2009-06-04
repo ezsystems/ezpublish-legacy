@@ -45,32 +45,22 @@
 **/
 class eZDFSFileHandler implements eZClusterFileHandlerInterface
 {
-    /*!
-     Controls whether file data from database is cached on the local filesystem.
-     \note This is primarily available for debugging purposes.
-     */
+    /**
+     * Controls whether file data from database is cached on the local filesystem.
+     * @note This is primarily available for debugging purposes.
+     * @var int
+     **/
     const LOCAL_CACHE = 1;
 
-    /*!
-     Controls the maximum number of metdata entries to keep in memory for this request.
-     If the limit is reached the least used entries are removed.
-     */
+    /**
+     * Controls the maximum number of metdata entries to keep in memory for this request.
+     * If the limit is reached the least used entries are removed.
+     * @var int
+     **/
     const INFOCACHE_MAX = 200;
 
     /**
-    * File statuses
-    *  - available:  file can be read or written
-    *  - generating: file generation is being processed by a shard, no write
-    *                allowed, limited read allowed from DFS/LFS
-    *  - writing:    file is being written. LFS/DFS files can not be
-    *                read nor written
-    **/
-    const STATUS_AVAILABLE  = 0;
-    const STATUS_GENERATING = 1;
-    const STATUS_WRITING    = 2;
-
-    /**
-     * Constructor.
+     * Constructor
      *
      * If provided with $filePath, will use this file for further operations.
      * If not given, the file* methods must be used instead

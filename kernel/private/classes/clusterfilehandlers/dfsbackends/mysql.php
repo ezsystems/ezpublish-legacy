@@ -620,12 +620,6 @@ class eZDFSFileHandlerMySQLBackend
         $this->__mkdir_p( dirname( $tmpFilePath ) );
 
         // copy DFS file to temporary FS path
-        /*$DFSSrcFilePath = $this->makeDFSPath( $srcFilePath );
-        $DFSDstFilePath = $this->makeDFSPath( $dstFilePath );
-        if ( !eZFile::create( basename( $DFSSrcFilePath ), dirname( $DFSSrcFilePath ), file_get_contents( $DFSSrcFilePath), true ) )
-        {
-            return $this->_fail( "Failed to copy $DFSSrcFilePath to $DFSDstFilePath" );
-        }*/
         if ( !copy( $this->makeDFSPath( $filePath ), $tmpFilePath ) )
         {
             eZDebug::writeError("Failed copying $filePath from DFS to $tmpFilePath ");
@@ -1722,13 +1716,6 @@ class eZDFSFileHandlerMySQLBackend
      * @var int
      **/
     protected $transactionCount = 0;
-
-    /**
-    * Second database backend connexion used to check for modifications to the
-    * database using a different transaction isolation level
-    * @var handle
-    **/
-    protected $backendVerify = null;
 
     /**
      * Path to the local DFS mount
