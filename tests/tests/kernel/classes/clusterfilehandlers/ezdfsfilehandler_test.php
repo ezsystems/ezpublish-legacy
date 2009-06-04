@@ -48,40 +48,26 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->fileINI = eZINI::instance( 'file.ini' );
-        $this->fileINI->setVariable( 'ClusteringSettings', 'FileHandler', 'eZDFSFileHandler' );
-        $this->db = $this->sharedFixture;
 
         // Load database parameters for cluster
         // The same DSN than the relational database is used
+        $fileINI = eZINI::instance( 'file.ini' );
+        $fileINI->setVariable( 'ClusteringSettings', 'FileHandler', 'eZDFSFileHandler' );
         $dsn = ezpTestRunner::dsn()->parts;
-        $params['host']       = $dsn['host'];
-        $params['port']       = $dsn['port'];
-        $params['socket']     = $dsn['socket'];
-        $params['dbname']     = $dsn['database'];
-        $params['user']       = $dsn['user'];
-        $params['pass']       = $dsn['password'];
-
-        $params['max_connect_tries'] = 3;
-        $params['max_execute_tries'] = 10;
-
-        $params['sql_output'] = false;
-
-        // We use the default parameters for cache gen timeout
-        $params['cache_generation_timeout'] = eZINI::instance( 'site.ini' )->variable( "ContentSettings", "CacheGenerationTimeout" );
-
-        $GLOBALS['eZDFSFileHandlerMysqlBackend_dbparams'] = $params;
-
-        // We also override the mount point path parameters for the DFS handler
-        // @todo make it cleanly configurable using PHPUnit configuration
-        $GLOBALS['eZDFSFileHandlerMysqlBackend_dfsparams'] =
-            array( 'mount_point_path' => $this->DFSPath );
+        $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBHost',    $dsn['host'] );
+        $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBPort',    $dsn['port'] );
+        $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBSocket',  $dsn['socket'] );
+        $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBName',    $dsn['database'] );
+        $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBUser',    $dsn['user'] );
+        $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBPassword', $dsn['password'] );
 
         if ( !file_exists( $this->DFSPath ) )
         {
             eZDir::doMkdir( $this->DFSPath, 0755 );
             $this->haveToRemoveDFSPath = true;
         }
+
+        $this->db = $this->sharedFixture;
     }
 
     public function tearDown()

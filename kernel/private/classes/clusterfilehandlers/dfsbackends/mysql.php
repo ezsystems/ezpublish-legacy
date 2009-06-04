@@ -54,9 +54,7 @@ CREATE TABLE ezdfsfile (
 class eZDFSFileHandlerMySQLBackend
 {
     /**
-     * Constructor
-     *
-     * Reads the parameters and connects to the DB Backend
+     * Connects to the database.
      *
      * @return void
      * @throw eZClusterHandlerDBNoConnectionException
@@ -68,52 +66,46 @@ class eZDFSFileHandlerMySQLBackend
         // This part is not actually required since _connect will only be called
         // once, but it is useful to run the unit tests. So be it.
         // @todo refactor this using eZINI::setVariable in unit tests
-        if ( !isset( $GLOBALS['eZDFSFileHandlerMysqlBackend_dbparams'] ) )
+        if ( self::$dbparams === null )
         {
             $siteINI = eZINI::instance( 'site.ini' );
             $fileINI = eZINI::instance( 'file.ini' );
 
-            $params['host']       = $fileINI->variable( 'eZDFSClusteringSettings', 'DBHost' );
-            $params['port']       = $fileINI->variable( 'eZDFSClusteringSettings', 'DBPort' );
-            $params['socket']     = $fileINI->variable( 'eZDFSClusteringSettings', 'DBSocket' );
-            $params['dbname']     = $fileINI->variable( 'eZDFSClusteringSettings', 'DBName' );
-            $params['user']       = $fileINI->variable( 'eZDFSClusteringSettings', 'DBUser' );
-            $params['pass']       = $fileINI->variable( 'eZDFSClusteringSettings', 'DBPassword' );
+            self::$dbparams = array();
+            self::$dbparams['host']       = $fileINI->variable( 'eZDFSClusteringSettings', 'DBHost' );
+            self::$dbparams['port']       = $fileINI->variable( 'eZDFSClusteringSettings', 'DBPort' );
+            self::$dbparams['socket']     = $fileINI->variable( 'eZDFSClusteringSettings', 'DBSocket' );
+            self::$dbparams['dbname']     = $fileINI->variable( 'eZDFSClusteringSettings', 'DBName' );
+            self::$dbparams['user']       = $fileINI->variable( 'eZDFSClusteringSettings', 'DBUser' );
+            self::$dbparams['pass']       = $fileINI->variable( 'eZDFSClusteringSettings', 'DBPassword' );
 
-            $params['max_connect_tries'] = $fileINI->variable( 'eZDFSClusteringSettings', 'DBConnectRetries' );
-            $params['max_execute_tries'] = $fileINI->variable( 'eZDFSClusteringSettings', 'DBExecuteRetries' );
+            self::$dbparams['max_connect_tries'] = $fileINI->variable( 'eZDFSClusteringSettings', 'DBConnectRetries' );
+            self::$dbparams['max_execute_tries'] = $fileINI->variable( 'eZDFSClusteringSettings', 'DBExecuteRetries' );
 
-            $params['sql_output'] = $siteINI->variable( "DatabaseSettings", "SQLOutput" ) == "enabled";
+            self::$dbparams['sql_output'] = $siteINI->variable( "DatabaseSettings", "SQLOutput" ) == "enabled";
 
-            $params['cache_generation_timeout'] = $siteINI->variable( "ContentSettings", "CacheGenerationTimeout" );
-
-            $GLOBALS['eZDFSFileHandlerMysqlBackend_dbparams'] = $params;
+            self::$dbparams['cache_generation_timeout'] = $siteINI->variable( "ContentSettings", "CacheGenerationTimeout" );
         }
-        else
-        {
-            $params = $GLOBALS['eZDFSFileHandlerMysqlBackend_dbparams'];
-        }
-        $this->dbparams = $params;
 
-        $serverString = $params['host'];
-        if ( $params['socket'] )
-            $serverString .= ':' . $params['socket'];
-        elseif ( $params['port'] )
-            $serverString .= ':' . $params['port'];
+        $serverString = self::$dbparams['host'];
+        if ( self::$dbparams['socket'] )
+            $serverString .= ':' . self::$dbparams['socket'];
+        elseif ( self::$dbparams['port'] )
+            $serverString .= ':' . self::$dbparams['port'];
 
-        $maxTries = $params['max_connect_tries'];
+        $maxTries = self::$dbparams['max_connect_tries'];
         $tries = 0;
         while ( $tries < $maxTries )
         {
-            if ( $this->db = mysql_connect( $serverString, $params['user'], $params['pass'] ) )
+            if ( $this->db = mysql_connect( $serverString, self::$dbparams['user'], self::$dbparams['pass'] ) )
                 break;
             ++$tries;
         }
         if ( !$this->db )
-            throw new eZClusterHandlerDBNoConnectionException( $serverString, $params['user'], $params['pass'] );
+            throw new eZClusterHandlerDBNoConnectionException( $serverString, self::$dbparams['user'], self::$dbparams['pass'] );
 
-        if ( !mysql_select_db( $params['dbname'], $this->db ) )
-            throw new eZClusterHandlerDBNoDatabaseException( $params['dbname'] );
+        if ( !mysql_select_db( self::$dbparams['dbname'], $this->db ) )
+            throw new eZClusterHandlerDBNoDatabaseException( self::$dbparams['dbname'] );
 
         // DFS setup
         if ( $this->dfsbackend === null )
@@ -1143,7 +1135,7 @@ class eZDFSFileHandlerMySQLBackend
         $callback = array_shift( $args );
         $fname    = array_shift( $args );
 
-        $maxTries = $this->dbparams['max_execute_tries'];
+        $maxTries = self::$dbparams['max_execute_tries'];
         $tries = 0;
         while ( $tries < $maxTries )
         {
@@ -1205,27 +1197,6 @@ class eZDFSFileHandlerMySQLBackend
             return true;
         }
         return false;
-    }
-
-    /**
-    * Helper method for removing leftover file data rows for the file path
-    * $filePath.
-    * @note This should be run after insert/updating filedata entries.
-    *
-    * Entries which are after $contentLength or which have different chunk
-    * offset than the defined chunk_size in $dbparams will be removed.
-    * @param string $filePath The file path which was inserted/updated
-    * @param int $contentLength The length of the file data
-    * @param string $fname Name of the function caller
-    **/
-    protected function _cleanupFiledata( $filePath, $contentLength, $fname )
-    {
-        $chunkSize = $this->dbparams['chunk_size'];
-        $sql = "DELETE FROM " . TABLE_DATA . " WHERE name_hash = " . $this->_md5( $filePath ) . " AND (offset % $chunkSize != 0 OR offset > $contentLength)";
-        if ( !$this->_query( $sql, $fname ) )
-            return $this->_fail( "Failed to remove old file data." );
-
-        return true;
     }
 
     /**
@@ -1327,7 +1298,7 @@ class eZDFSFileHandlerMySQLBackend
     **/
     function _report( $query, $fname, $timeTaken, $numRows = false )
     {
-        if ( !$this->dbparams['sql_output'] )
+        if ( !self::$dbparams['sql_output'] )
             return;
 
         $rowText = '';
@@ -1397,7 +1368,7 @@ class eZDFSFileHandlerMySQLBackend
                 {
                     $previousMTime = $row[0];
 
-                    eZDebugSetting::writeDebug( 'kernel-clustering', "$filePath generation has timedout (timeout={$this->dbparams['cache_generation_timeout']}), taking over", __METHOD__ );
+                    eZDebugSetting::writeDebug( 'kernel-clustering', "$filePath generation has timedout, taking over", __METHOD__ );
                     $updateQuery = "UPDATE " . self::TABLE_METADATA . " SET mtime = {$mtime} WHERE name_hash = {$nameHash} AND mtime = {$previousMTime}";
 
                     // we run the query manually since the default _query won't
@@ -1641,7 +1612,7 @@ class eZDFSFileHandlerMySQLBackend
         if( !isset( $row[0] ) )
             return -1;
 
-        return ( $row[0] + $this->dbparams['cache_generation_timeout'] ) - time();
+        return ( $row[0] + self::$dbparams['cache_generation_timeout'] ) - time();
     }
 
     /**
@@ -1654,7 +1625,7 @@ class eZDFSFileHandlerMySQLBackend
      * DB connexion parameters
      * @var array
      **/
-    protected $dbparams;
+    protected static $dbparams = null;
 
     /**
      * Amount of executed queries, for debugging purpose
