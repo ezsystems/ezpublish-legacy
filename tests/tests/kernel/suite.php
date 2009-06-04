@@ -24,6 +24,7 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'eZContentObjectStateTest' );
         $this->addTestSuite( 'eZContentObjectStateGroupTest' );
         $this->addTestSuite( 'eZDFSFileHandlerTest' );
+        $this->addTestSuite( 'eZDFSFileHandlerDFSBackendTest' );
         // $this->addTestSuite( 'eZWebDAVBackendContentRegressionTest' );
     }
 

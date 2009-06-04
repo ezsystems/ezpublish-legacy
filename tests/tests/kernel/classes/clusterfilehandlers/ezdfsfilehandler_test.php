@@ -983,5 +983,11 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
             $this->removeFile( $file );
         }
     }
+
+    public function testRequiresClusterizing()
+    {
+        $handler = eZClusterFileHandler::instance();
+        $this->assertTrue( $handler->requiresClusterizing() );
+    }
 }
 ?>
