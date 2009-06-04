@@ -804,7 +804,6 @@ class eZDFSFileHandlerMySQLBackend
             "datatype=VALUES(datatype), scope=VALUES(scope), size=VALUES(size), mtime=VALUES(mtime), expired=VALUES(expired)",
             $fname ) === false )
         {
-            echo mysql_error();
             return $this->_fail( "Failed to insert file metadata while storing. Possible race condition" );
         }
 
