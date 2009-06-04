@@ -90,6 +90,7 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
         {
             eZDir::recursiveDelete( $this->DFSPath );
         }
+        parent::tearDown();
     }
 
     /**

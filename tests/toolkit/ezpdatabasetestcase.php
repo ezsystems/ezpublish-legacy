@@ -46,6 +46,13 @@ class ezpDatabaseTestCase extends ezpTestCase
         }
         eZDB::setInstance( $this->sharedFixture );
     }
+    
+    protected function tearDown()
+    {
+        parent::tearDown();
+        $db = eZDB::instance();
+        $db->close();
+    }
 }
 
 ?>

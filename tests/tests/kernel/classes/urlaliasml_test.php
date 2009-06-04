@@ -31,6 +31,7 @@ class eZURLAliasMlTest extends ezpDatabaseTestCase
     {
         $GLOBALS['eZTextCodecInternalCharsetReal'] = $this->charset;
         eZContentLanguage::removeLanguage( $this->language->ID );
+        parent::tearDown();
     }
 
     public function testStrtolower()

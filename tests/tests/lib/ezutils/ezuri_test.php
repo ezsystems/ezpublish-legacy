@@ -32,6 +32,7 @@ class eZURITest extends ezpTestCase
         // on the RequestURI variable.
         $ezsys = eZSys::instance();
         $ezsys->RequestURI = $this->originalRequestURI;
+        parent::tearDown();
     }
 
     public function testInstanceRepeatedCallsWithoutUri()

@@ -177,6 +177,7 @@ class eZWebDAVBackendContentRegressionTest extends ezpTestRegressionTest
             $GLOBALS['ezc_webdav_testfolderobject']->remove();
             $GLOBALS['ezc_webdav_testfolderobject'] = null;
         }
+        parent::tearDown();
     }
 
     /**
