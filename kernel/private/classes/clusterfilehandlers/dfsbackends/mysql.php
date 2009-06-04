@@ -58,14 +58,16 @@ class eZDFSFileHandlerMySQLBackend
      *
      * Reads the parameters and connects to the DB Backend
      *
-     * @param bool $newLink wether or not to establish a new DB connection
      * @return void
      * @throw eZClusterHandlerDBNoConnectionException
      * @throw eZClusterHandlerDBNoDatabaseException
      **/
-    public function _connect( $newLink = false )
+    public function _connect()
     {
         // DB Connection setup
+        // This part is not actually required since _connect will only be called
+        // once, but it is useful to run the unit tests. So be it.
+        // @todo refactor this using eZINI::setVariable in unit tests
         if ( !isset( $GLOBALS['eZDFSFileHandlerMysqlBackend_dbparams'] ) )
         {
             $siteINI = eZINI::instance( 'site.ini' );
@@ -88,7 +90,9 @@ class eZDFSFileHandlerMySQLBackend
             $GLOBALS['eZDFSFileHandlerMysqlBackend_dbparams'] = $params;
         }
         else
+        {
             $params = $GLOBALS['eZDFSFileHandlerMysqlBackend_dbparams'];
+        }
         $this->dbparams = $params;
 
         $serverString = $params['host'];
@@ -101,7 +105,7 @@ class eZDFSFileHandlerMySQLBackend
         $tries = 0;
         while ( $tries < $maxTries )
         {
-            if ( $this->db = mysql_connect( $serverString, $params['user'], $params['pass'], $newLink ) )
+            if ( $this->db = mysql_connect( $serverString, $params['user'], $params['pass'] ) )
                 break;
             ++$tries;
         }
@@ -112,32 +116,9 @@ class eZDFSFileHandlerMySQLBackend
             throw new eZClusterHandlerDBNoDatabaseException( $params['dbname'] );
 
         // DFS setup
-        if ( self::$mountPointPath === null )
+        if ( $this->dfsbackend === null )
         {
-            if ( !isset( $GLOBALS['eZDFSFileHandlerMysqlBackend_dfsparams'] ) )
-            {
-                $params = array();
-                $fileINI = eZINI::instance( 'file.ini' );
-                $params['mount_point_path'] = $fileINI->variable( 'eZDFSClusteringSettings', 'MountPointPath' );
-                $GLOBALS['eZDFSFileHandlerMysqlBackend_dfsparams'] = $params;
-            }
-            else
-            {
-                $params = $GLOBALS['eZDFSFileHandlerMysqlBackend_dfsparams'];
-            }
-
-            $mountPointPath = $params['mount_point_path'];
-
-            if ( !$mountPointPath = realpath( $mountPointPath ) )
-                throw new eZDFSFileHandlerNFSMountPointNotFoundException( $mountPointPath );
-
-            if ( !is_writeable( $mountPointPath ) )
-                throw new eZDFSFileHandlerNFSMountPointNotWriteableException( $mountPointPath );
-
-            if ( substr( $mountPointPath, -1 ) != '/' )
-                $mountPointPath = "$mountPointPath/";
-
-            self::$mountPointPath = $mountPointPath;
+            $this->dfsbackend = new eZDFSFileHandlerDFSBackend();
         }
     }
 
@@ -204,11 +185,9 @@ class eZDFSFileHandlerMySQLBackend
         }
 
         // Copy file data.
-        $DFSSrcFilePath = $this->makeDFSPath( $srcFilePath );
-        $DFSDstFilepath = $this->makeDFSPath( $dstFilePath );
-        if ( !eZFile::create( basename( $DFSDstFilepath ), dirname( $DFSDstFilepath ), file_get_contents( $DFSSrcFilePath ), false ) )
+        if ( !$this->dfsbackend->copyFromDFSToDFS( $srcFilePath, $dstFilePath ) )
         {
-            return $this->_fail( $srcFilePath, "Failed to copy file to new name ($dstFilePath)" );
+            return $this->_fail( $srcFilePath, "Failed to copy DFS://$srcFilePath to DFS://$dstFilePath" );
         }
         return true;
     }
@@ -246,7 +225,7 @@ class eZDFSFileHandlerMySQLBackend
         }
         if ( mysql_affected_rows() == 1 )
         {
-            @unlink( $this->makeDFSPath( $filePath ) );
+            $this->dfsbackend->delete( $filePath );
         }
         return true;
     }
@@ -325,11 +304,7 @@ class eZDFSFileHandlerMySQLBackend
             return $this->_fail( "Purging file metadata by like statement $like failed" );
         }
         $deletedDBFiles = mysql_affected_rows( $this->db );
-        foreach( $files as $file )
-        {
-            $filePath = $this->makeDFSPath( $file );
-            unlink( $filePath );
-        }
+        $this->dfsbackend->delete( $files );
 
         $this->_commit( $fname );
 
@@ -620,9 +595,9 @@ class eZDFSFileHandlerMySQLBackend
         $this->__mkdir_p( dirname( $tmpFilePath ) );
 
         // copy DFS file to temporary FS path
-        if ( !copy( $this->makeDFSPath( $filePath ), $tmpFilePath ) )
+        if ( !$this->dfsbackend->copyFromDFS( $filePath, $tmpFilePath ) )
         {
-            eZDebug::writeError("Failed copying $filePath from DFS to $tmpFilePath ");
+            eZDebug::writeError("Failed copying DFS://$filePath to FS://$tmpFilePath ");
             return false;
         }
 
@@ -661,9 +636,9 @@ class eZDFSFileHandlerMySQLBackend
         }
         $contentLength = $metaData['size'];
 
-        if ( !$contents = file_get_contents( $DFSPath = $this->makeDFSPath( $filePath ) ) )
+        if ( !$contents = $this->dfsbackend->getContents( $filePath ) )
         {
-            eZDebug::writeError("An error occured while reading $filePath from DFS", __METHOD__ );
+            eZDebug::writeError("An error occured while reading contents of DFS://$filePath", __METHOD__ );
             return false;
         }
         return $contents;
@@ -711,20 +686,8 @@ class eZDFSFileHandlerMySQLBackend
         if ( !$metaData )
             return false;
 
-        if ( !$fp = @fopen( $this->makeDFSPath( $filePath ), 'rb' ) )
-        {
-            eZDebug::writeError("An error occured while reading $filePath from DFS", __METHOD__ );
-            return false;
-        }
-        else
-        {
-            // @todo Optimize this by making $length dependant on the filesize
-            while ( $data = fgets( $fp ) )
-            {
-                echo $data;
-            }
-            fclose( $fp );
-        }
+        $this->dfsbackend->passthrough( $filePath );
+
         return true;
     }
 
@@ -772,11 +735,9 @@ class eZDFSFileHandlerMySQLBackend
             return false;
         }
 
-        $DFSSrcFilePath = $this->makeDFSPath( $srcFilePath );
-        $DFSDstFilePath = $this->makeDFSPath( $dstFilePath );
-        if ( !eZFile::create( basename( $DFSDstFilePath ), dirname( $DFSDstFilePath ), file_get_contents( $DFSSrcFilePath), true ) )
+        if ( !$this->dfsbackend->copyFromDFSToDFS( $srcFilePath, $dstFilePath ) )
         {
-            return $this->_fail( "Failed to copy $DFSSrcFilePath to $DFSDstFilePath" );
+            return $this->_fail( "Failed to copy DFS://$srcFilePath to DFS://$dstFilePath" );
         }
 
         // Remove old entry
@@ -789,7 +750,7 @@ class eZDFSFileHandlerMySQLBackend
         }
 
         // delete original DFS file
-        unlink( $this->makeDFSPath( $srcFilePath ) );
+        $this->dfsbackend->delete( $srcFilePath );
 
         $this->_commit( __METHOD__ );
 
@@ -856,10 +817,9 @@ class eZDFSFileHandlerMySQLBackend
         }
 
         // copy given $filePath to DFS
-        $DFSFilePath = $this->makeDFSPath( $filePath );
-        if ( !eZFile::create( basename( $DFSFilePath ), dirname( $DFSFilePath ), file_get_contents( $filePath ), true ) )
+        if ( !$this->dfsbackend->copyToDFS( $filePath ) )
         {
-            return $this->_fail( "Failed to copy $filePath to $DFSFilePath" );
+            return $this->_fail( "Failed to copy FS://$filePath to DFS://$filePath" );
         }
 
         return true;
@@ -911,8 +871,7 @@ class eZDFSFileHandlerMySQLBackend
             return $this->_fail( "Failed to insert file metadata while storing contents. Possible race condition" );
         }
 
-        $DFSFilePath = $this->makeDFSPath( $filePath );
-        if ( !eZFile::create( basename( $DFSFilePath ), dirname( $DFSFilePath ), $contents, true ) )
+        if ( !$this->dfsbackend->createFileOnDFS( $filePath, $contents ) )
         {
             return $this->_fail( "Failed to open DFS://$filePath for writing" );
         }
@@ -1477,13 +1436,11 @@ class eZDFSFileHandlerMySQLBackend
     {
         $fname = "_endCacheGeneration( $filePath )";
 
-        $DFSFilePath = $this->makeDFSPath( $filePath );
-        $DFSGeneratingFilePath = $this->makeDFSPath( $generatingFilePath );
-
         // no rename: the .generating entry is just deleted
         if ( $rename === false )
         {
             $this->_query( "DELETE FROM " . self::TABLE_METADATA . " WHERE name_hash=MD5('$generatingFilePath')", $fname, true );
+            $this->dfsbackend->delete( $generatingFilePath );
             return true;
         }
         // rename mode: the generating file and its contents are renamed to the
@@ -1517,10 +1474,10 @@ class eZDFSFileHandlerMySQLBackend
                     return false;
                 }
                 // here we rename the actual FILE. The .generating file has been
-                // created locally, and should be pushed to DFS
-                if ( !rename( $DFSGeneratingFilePath, $DFSFilePath ) )
+                // created on DFS, and should be renamed
+                if ( !$this->dfsbackend->renameOnDFS( $generatingFilePath, $filePath ) )
                 {
-                    eZDebug::writeError("An error occured renaming $generatingFilePath to $DFSFilePath: " . mysql_error(), $fname );
+                    eZDebug::writeError("An error occured renaming DFS://$generatingFilePath to DFS://$filePath", $fname );
                     $this->_rollback( $fname );
                     return false;
                 }
@@ -1530,9 +1487,9 @@ class eZDFSFileHandlerMySQLBackend
             // and update it
             else
             {
-                if ( !rename( $DFSGeneratingFilePath, $DFSFilePath ) )
+                if ( !$this->dfsbackend->renameOnDFS( $generatingFilePath, $filePath ) )
                 {
-                    eZDebug::writeError("An error occured renaming $generatingFilePath to $DFSFilePath", $fname );
+                    eZDebug::writeError("An error occured renaming DFS://$generatingFilePath to DFS://$filePath", $fname );
                     $this->_rollback( $fname );
                     return false;
                 }
@@ -1621,9 +1578,15 @@ class eZDFSFileHandlerMySQLBackend
     **/
     public function _abortCacheGeneration( $generatingFilePath )
     {
+        $fname = "_abortCacheGeneration( $generatingFilePath )";
+
+        $this->_begin( $fname );
+
         $sql = "DELETE FROM " . self::TABLE_METADATA . " WHERE name_hash = " . $this->_md5( $generatingFilePath );
-        @unlink( $this->makeDFSPath( $generatingFilePath ) );
         $this->_query( $sql, "_abortCacheGeneration( '$generatingFilePath' )" );
+        $this->dfsbackend->delete( $generatingFilePath );
+
+        $this->_commit( $fname );
     }
 
     /**
@@ -1682,16 +1645,6 @@ class eZDFSFileHandlerMySQLBackend
     }
 
     /**
-     * Computes the DFS file path based on a relative file path
-     * @param string $filePath
-     * @return string the absolute DFS file path
-     **/
-    protected function makeDFSPath( $filePath )
-    {
-        return self::$mountPointPath . $filePath;
-    }
-
-    /**
      * DB connexion handle
      * @var handle
      **/
@@ -1701,7 +1654,7 @@ class eZDFSFileHandlerMySQLBackend
      * DB connexion parameters
      * @var array
      **/
-    public $dbparams;
+    protected $dbparams;
 
     /**
      * Amount of executed queries, for debugging purpose
@@ -1718,16 +1671,16 @@ class eZDFSFileHandlerMySQLBackend
     protected $transactionCount = 0;
 
     /**
-     * Path to the local DFS mount
-     * @var string
-     **/
-    protected static $mountPointPath = null;
-
-    /**
      * DB file table name
      * @var string
      **/
     const TABLE_METADATA = 'ezdfsfile';
+
+    /**
+     * Distributed filesystem backend
+     * @var eZDFSFileHandlerDFSBackend
+     **/
+    protected $dfsbackend = null;
 }
 
 ?>
