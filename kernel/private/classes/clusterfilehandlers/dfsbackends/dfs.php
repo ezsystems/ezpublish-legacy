@@ -196,6 +196,8 @@ class eZDFSFileHandlerDFSBackend
     {
         $this->accumulatorStart();
 
+        // @todo Throw an exception if it fails
+        //       (FileNotFound, or FileNotReadable, depends on testing)
         $ret = @file_get_contents( $this->makeDFSPath( $filePath ) );
 
         $this->accumulatorStop();

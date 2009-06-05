@@ -1162,6 +1162,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface
         $dstPath = eZDBFileHandler::cleanPath( $dstPath );
         eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileCopy( '$srcPath', '$dstPath' )" );
 
+        // @todo Add a try... catch block here
         self::$dbbackend->_copy( $srcPath, $dstPath );
     }
 
@@ -1186,6 +1187,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface
         $dstPath = eZDBFileHandler::cleanPath( $dstPath );
         eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileMove( '$srcPath', '$dstPath' )" );
 
+        // @todo Catch an exception
         self::$dbbackend->_rename( $srcPath, $dstPath );
 
         $this->metaData = null;

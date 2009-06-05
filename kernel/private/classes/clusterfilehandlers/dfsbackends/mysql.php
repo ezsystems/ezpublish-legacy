@@ -132,8 +132,13 @@ class eZDFSFileHandlerMySQLBackend
 
         // fetch source file metadata
         $metaData = $this->_fetchMetadata( $srcFilePath, $fname );
-        if ( !$metaData ) // if source file does not exist then do nothing.
+        // if source file does not exist then do nothing.
+        // @todo Throw an exception here.
+        //       Info: $srcFilePath
+        if ( !$metaData )
+        {
             return false;
+        }
         return $this->_protect( array( $this, "_copyInner" ), $fname,
                                 $srcFilePath, $dstFilePath, $fname, $metaData );
     }
@@ -540,7 +545,7 @@ class eZDFSFileHandlerMySQLBackend
         $result = true;
         $currentDir = $dirElements[0];
 
-        if ( $currentDir != '' && !file_exists( $currentDir ) && !eZDir::mkdir( $currentDir, false ))
+        if ( $currentDir != '' && !file_exists( $currentDir ) && !eZDir::mkdir( $currentDir, false ) )
             return false;
 
         for ( $i = 1; $i < count( $dirElements ); ++$i )
@@ -574,6 +579,7 @@ class eZDFSFileHandlerMySQLBackend
         $metaData = $this->_fetchMetadata( $filePath );
         if ( !$metaData )
         {
+            // @todo Throw an exception
             eZDebug::writeError( "File '$filePath' does not exist while trying to fetch.", __METHOD__ );
             return false;
         }
@@ -587,6 +593,7 @@ class eZDFSFileHandlerMySQLBackend
         $this->__mkdir_p( dirname( $tmpFilePath ) );
 
         // copy DFS file to temporary FS path
+        // @todo Throw an exception
         if ( !$this->dfsbackend->copyFromDFS( $filePath, $tmpFilePath ) )
         {
             eZDebug::writeError("Failed copying DFS://$filePath to FS://$tmpFilePath ");
@@ -596,6 +603,7 @@ class eZDFSFileHandlerMySQLBackend
         // Make sure all data is written correctly
         clearstatcache();
         $tmpSize = filesize( $tmpFilePath );
+        // @todo Throw an exception
         if ( $tmpSize != $metaData['size'] )
         {
             eZDebug::writeError( "Size ($tmpSize) of written data for file '$tmpFilePath' does not match expected size " . $metaData['size'], __METHOD__ );
@@ -621,6 +629,7 @@ class eZDFSFileHandlerMySQLBackend
         else
             $fname = "_fetchContents($filePath)";
         $metaData = $this->_fetchMetadata( $filePath, $fname );
+        // @todo Throw an exception
         if ( !$metaData )
         {
             eZDebug::writeError( "File '$filePath' does not exist while trying to fetch its contents.", __METHOD__ );
@@ -628,6 +637,7 @@ class eZDFSFileHandlerMySQLBackend
         }
         $contentLength = $metaData['size'];
 
+        // @todo Catch an exception
         if ( !$contents = $this->dfsbackend->getContents( $filePath ) )
         {
             eZDebug::writeError("An error occured while reading contents of DFS://$filePath", __METHOD__ );
@@ -675,9 +685,11 @@ class eZDFSFileHandlerMySQLBackend
             $fname = "_passThrough($filePath)";
 
         $metaData = $this->_fetchMetadata( $filePath, $fname );
+        // @todo Throw an exception
         if ( !$metaData )
             return false;
 
+        // @todo Catch an exception
         $this->dfsbackend->passthrough( $filePath );
 
         return true;
@@ -697,7 +709,9 @@ class eZDFSFileHandlerMySQLBackend
 
         // fetch source file metadata
         $metaData = $this->_fetchMetadata( $srcFilePath );
-        if ( !$metaData ) // if source file does not exist then do nothing.
+        // if source file does not exist then do nothing.
+        // @todo Throw an exception
+        if ( !$metaData )
             return false;
 
         $this->_begin( __METHOD__ );
@@ -710,6 +724,7 @@ class eZDFSFileHandlerMySQLBackend
         $sql = "SELECT * FROM " . self::TABLE_METADATA . " WHERE name_hash=MD5('$srcFilePathStr') FOR UPDATE";
         if ( !$this->_query( $sql, "_rename($srcFilePath, $dstFilePath)" ) )
         {
+            // @todo Throw an exception
             eZDebug::writeError( "Failed locking file '$srcFilePath'", __METHOD__ );
             $this->_rollback( __METHOD__ );
             return false;
@@ -724,6 +739,7 @@ class eZDFSFileHandlerMySQLBackend
         {
             eZDebug::writeError( "Failed making new file entry '$dstFilePath'", __METHOD__ );
             $this->_rollback( __METHOD__ );
+            // @todo Throw an exception
             return false;
         }
 
@@ -738,10 +754,12 @@ class eZDFSFileHandlerMySQLBackend
         {
             eZDebug::writeError( "Failed removing old file '$srcFilePath'", __METHOD__ );
             $this->_rollback( __METHOD__ );
+            // @todo Throw an exception
             return false;
         }
 
         // delete original DFS file
+        // @todo Catch an exception
         $this->dfsbackend->delete( $srcFilePath );
 
         $this->_commit( __METHOD__ );
@@ -886,6 +904,7 @@ class eZDFSFileHandlerMySQLBackend
         if ( !$rslt )
         {
             eZDebug::writeDebug( 'Unable to get file list', __METHOD__ );
+            // @todo Throw an exception
             return false;
         }
 
@@ -930,6 +949,7 @@ class eZDFSFileHandlerMySQLBackend
         $res = $this->_query( $query, $fname );
         if ( !$res )
         {
+            // @todo Throw an exception
             return false;
         }
         return mysql_insert_id( $this->db );
@@ -956,6 +976,7 @@ class eZDFSFileHandlerMySQLBackend
         $res = $this->_query( $query, $fname, $reportError );
         if ( !$res )
         {
+            // @todo Throw an exception
             return false;
         }
         return mysql_insert_id( $this->db );
@@ -1046,6 +1067,7 @@ class eZDFSFileHandlerMySQLBackend
             {
                 $this->_error( $query, $fname, $error );
                 eZDebug::accumulatorStop( 'mysql_cluster_query' );
+                // @todo Throw an exception
                 return false;
             }
         }
@@ -1151,6 +1173,7 @@ class eZDFSFileHandlerMySQLBackend
                 continue;
             }
 
+            // @todo replace with an exception
             if ( $result === false )
             {
                 $this->_rollback( $fname );
@@ -1423,6 +1446,7 @@ class eZDFSFileHandlerMySQLBackend
             if ( !$res = $this->_query( "SELECT * FROM " . self::TABLE_METADATA . " WHERE name_hash=MD5('$generatingFilePath') FOR UPDATE", $fname, true ) )
             {
                 $this->_rollback( $fname );
+                // @todo Throw an exception
                 return false;
             }
             $generatingMetaData = mysql_fetch_assoc( $res );
@@ -1441,6 +1465,7 @@ class eZDFSFileHandlerMySQLBackend
                 {
                     eZDebug::writeError("An error occured creating the metadata entry for $filePath", $fname );
                     $this->_rollback( $fname );
+                    // @todo Throw an exception
                     return false;
                 }
                 // here we rename the actual FILE. The .generating file has been
@@ -1449,6 +1474,7 @@ class eZDFSFileHandlerMySQLBackend
                 {
                     eZDebug::writeError("An error occured renaming DFS://$generatingFilePath to DFS://$filePath", $fname );
                     $this->_rollback( $fname );
+                    // @todo Throw an exception
                     return false;
                 }
                 $this->_query( "DELETE FROM " . self::TABLE_METADATA . " WHERE name_hash=MD5('$generatingFilePath')", $fname, true );
@@ -1461,6 +1487,7 @@ class eZDFSFileHandlerMySQLBackend
                 {
                     eZDebug::writeError("An error occured renaming DFS://$generatingFilePath to DFS://$filePath", $fname );
                     $this->_rollback( $fname );
+                    // @todo Throw an exception
                     return false;
                 }
 
@@ -1469,6 +1496,7 @@ class eZDFSFileHandlerMySQLBackend
                 if ( !$this->_query( "UPDATE " . self::TABLE_METADATA . " SET mtime = '{$mtime}', expired = 0, size = '{$filesize}' WHERE name_hash=MD5('$filePath')", $fname, true ) )
                 {
                     $this->_rollback( $fname );
+                    // @todo Throw an exception
                     return false;
                 }
                 $this->_query( "DELETE FROM " . self::TABLE_METADATA . " WHERE name_hash=MD5('$generatingFilePath')", $fname, true );
@@ -1505,6 +1533,7 @@ class eZDFSFileHandlerMySQLBackend
         $res = mysql_query( $query, $this->db );
         if ( !$res )
         {
+            // @todo Throw an exception
             $this->_error( $query, $fname );
             return false;
         }
@@ -1523,9 +1552,12 @@ class eZDFSFileHandlerMySQLBackend
             $query = "SELECT mtime FROM " . self::TABLE_METADATA . " WHERE name_hash = {$nameHash}";
             $res = mysql_query( $query, $this->db );
             mysql_fetch_row( $res );
-            if( $res and isset( $row[0] ) and $row[0] == $generatingFileMtime );
+            if ( $res and isset( $row[0] ) and $row[0] == $generatingFileMtime );
+            {
                 return true;
+            }
 
+            // @todo Check if an exception makes sense here
             return false;
         }
         // rows affected: mtime has changed, or row has been removed
