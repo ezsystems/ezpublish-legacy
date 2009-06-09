@@ -14,7 +14,7 @@ EditorCSSFileList[]=skins/<skin>/content.css
 
 
 ## Here is an example for appending your own css to the editor
-## content you need to place it in the stylesheet folder in
+## content you need to place it in the stylesheets folder in
 ## one of your active eZ Publish designs.
 #[StylesheetSettings]
 #EditorCSSFileList[]=my_custom_editor_styles.css

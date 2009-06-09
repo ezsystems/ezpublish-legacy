@@ -25,6 +25,7 @@ eZ Online Editor 5.0 extension Changelog
 * Changed order of outdent/indent buttons to be the same as other editors
 * Updated tinyMCE to 3.2.4.1
 * Change rewrite rules to support plain package
+* Fixed #14935: Small typo at design.ini.append.php
 
 
 5.0.0
