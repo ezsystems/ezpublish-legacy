@@ -175,7 +175,7 @@
 .defaultSkin span.mce_literal {background-position:-420px -40px}
 .defaultSkin span.mce_disable {background-position:-460px -40px}
 .defaultSkin span.mce_discard {background-position:-460px -20px}
-.defaultSkin span.mce_store,
+.defaultSkin span.mce_store {background-position:-540px -40px}
 .defaultSkin span.mce_publish {background-position:-480px -20px}
 
 /* Plugins */

@@ -27,6 +27,8 @@ eZ Online Editor 5.0 extension Changelog
 * Change rewrite rules to support plain package
 * Fixed #14935: Small typo at design.ini.append.php
 * Fixed #15014: image identifier is hardcoded in upload_images.tpl
+* Implemented #14869: Different icons for ezoe buttons: 'Publish' and 'Draft'
+  New store icon contributed by Russ Michell
 
 
 5.0.0
