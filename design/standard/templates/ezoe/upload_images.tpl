@@ -137,7 +137,7 @@ if ( contentType === 'images' )
 
                     <div class="image-thumbnail-item">
                         <a title="{$img.object.name|wash}" href="JavaScript:eZOEPopupUtils.selectByEmbedId( {$img.object.id} )" class="contenttype_image">
-                        {attribute_view_gui attribute=$img.object.data_map.image image_class=small}
+                        {attribute_view_gui attribute=$img.object.data_map[ $img.image_attribute ] image_class=small}
                         </a>
                     </div>
                     {/foreach}

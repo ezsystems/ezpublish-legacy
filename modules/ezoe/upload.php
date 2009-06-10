@@ -208,6 +208,7 @@ $groupedRelatedObjects[$defaultGroup] = array();
 foreach ( $relatedObjects as $relatedObjectKey => $relatedObject )
 {
     $srcString        = '';
+    $imageAttribute   = false;
     $relID            = $relatedObject->attribute( 'id' );
     $classIdentifier  = $relatedObject->attribute( 'class_identifier' );
     $groupName        = isset( $classGroupMap[$classIdentifier] ) ? $classGroupMap[$classIdentifier] : $defaultGroup;
@@ -227,6 +228,7 @@ foreach ( $relatedObjects as $relatedObjectKey => $relatedObject )
                 if ( $content != null )
                 {
                     $srcString = $content->imageAlias( 'small' );
+                    $imageAttribute = $classAttribute->attribute('identifier');
                     break;
                 }
             }
@@ -234,7 +236,8 @@ foreach ( $relatedObjects as $relatedObjectKey => $relatedObject )
     }
     $item = array( 'object' => $relatedObjects[$relatedObjectKey],
                    'id' => 'eZObject_' . $relID,
-                   'img_alias' => $srcString,
+                   'image_alias' => $srcString,
+                   'image_attribute' => $imageAttribute,
                    'selected' => false );
     $groupedRelatedObjects[$groupName][] = $item;
 }

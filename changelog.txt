@@ -26,6 +26,7 @@ eZ Online Editor 5.0 extension Changelog
 * Updated tinyMCE to 3.2.4.1
 * Change rewrite rules to support plain package
 * Fixed #14935: Small typo at design.ini.append.php
+* Fixed #15014: image identifier is hardcoded in upload_images.tpl
 
 
 5.0.0
