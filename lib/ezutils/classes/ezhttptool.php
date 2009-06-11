@@ -584,7 +584,18 @@ class eZHTTPTool
         return $uri;
     }
 
-    static function redirect( $path, $parameters = array(), $status = false )
+    /**
+     * \static
+     * Performs an HTTP redirect.
+     *
+     * \param  $path  The path to redirect
+     * \param  $parameters  \see createRedirectUrl()
+     * \param  $status  The HTTP status code as a string
+     * \param  $encodeURL  Encode the URL. This should normally be true, but
+     * may be set to false to avoid double encoding when redirect() is called
+     * twice.
+     */
+    static function redirect( $path, $parameters = array(), $status = false, $encodeURL = true )
     {
         $url = eZHTTPTool::createRedirectUrl( $path, $parameters );
         if ( strlen( $status ) > 0 )
@@ -593,7 +604,10 @@ class eZHTTPTool
             eZHTTPTool::headerVariable( "Status", $status );
         }
 
-        $url = eZURI::encodeURL( $url );
+        if ( $encodeURL )
+        {
+            $url = eZURI::encodeURL( $url );
+        }
 
         eZHTTPTool::headerVariable( 'Location', $url );
 
