@@ -583,7 +583,11 @@ class eZSys
     */
     static function hostname()
     {
-        $retVal = eZSys::serverVariable( 'HTTP_HOST' );
+        $retVal = eZSys::serverVariable( 'HTTP_X_FORWARDED_HOST', true );
+        if ( !$retVal )
+        {
+            $retVal = eZSys::serverVariable( 'HTTP_HOST' );
+        }
         return  $retVal;
     }
 
