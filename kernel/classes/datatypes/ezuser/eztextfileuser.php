@@ -249,7 +249,7 @@ class eZTextFileUser extends eZUser
                     if ( trim( $pass ) == $password )
                     {
                         $createNewUser = true;
-                        $existUser = $this->fetchByName( $login );
+                        $existUser = eZUser::fetchByName( $login );
                         if ( $existUser != null )
                         {
                             $createNewUser = false;
@@ -260,10 +260,16 @@ class eZTextFileUser extends eZUser
                             $userCreatorID = $ini->variable( "UserSettings", "UserCreatorID" );
                             $defaultSectionID = $ini->variable( "UserSettings", "DefaultSectionID" );
 
-                            $class = eZContentClass::fetch( $userClassID );
-                            $contentObject = $class->instantiate( $userCreatorID, $defaultSectionID );
-
                             $remoteID = "TextFile_" . $login;
+                            // The content object may already exist if this process has failed once before, before the eZUser object was created.
+                            // Therefore we try to fetch the eZContentObject before instantiating it.
+                            $contentObject = eZContentObject::fetchByRemoteID( $remoteID );
+                            if ( !is_object( $contentObject ) )
+                            {
+                                $class = eZContentClass::fetch( $userClassID );
+                                $contentObject = $class->instantiate( $userCreatorID, $defaultSectionID );
+                            }
+
                             $contentObject->setAttribute( 'remote_id', $remoteID );
                             $contentObject->store();
 
@@ -288,7 +294,7 @@ class eZTextFileUser extends eZUser
                             $contentObjectAttributes[1]->setAttribute( 'data_text', $lastName );
                             $contentObjectAttributes[1]->store();
 
-                            $user = $this->create( $userID );
+                            $user = eZUser::create( $userID );
                             $user->setAttribute( 'login', $login );
                             $user->setAttribute( 'email', $email );
                             $user->setAttribute( 'password_hash', "" );
