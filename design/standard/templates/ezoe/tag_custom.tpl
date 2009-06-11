@@ -173,7 +173,7 @@ function filterOutCustomBlockTags( n )
 
 {def $tag_is_inline = false()}
 {foreach $class_list as $custom_tag => $text}
-        {set $tag_is_inline = cond( is_set($custom_inline_tags[$custom_tag]), $custom_inline_tags[$custom_tag], 'false' ))}
+        {set $tag_is_inline = cond( is_set($custom_inline_tags[$custom_tag]), $custom_inline_tags[$custom_tag], 'false' )}
         {include uri="design:ezoe/customattributes.tpl" tag_name=$custom_tag hide=$custom_tag_name|ne( $custom_tag ) extra_attribute=array('inline', $tag_is_inline, array('image', 'true')|contains( $tag_is_inline ))}
 {/foreach}
 

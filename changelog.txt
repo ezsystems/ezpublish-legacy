@@ -29,6 +29,7 @@ eZ Online Editor 5.0 extension Changelog
 * Fixed #15014: image identifier is hardcoded in upload_images.tpl
 * Implemented #14869: Different icons for ezoe buttons: 'Publish' and 'Draft'
   New store icon contributed by Russ Michell
+* Fixed #15053: Parse error in tag_custom.tpl
 
 
 5.0.0
