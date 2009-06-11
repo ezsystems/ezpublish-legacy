@@ -111,3 +111,4 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #15047: Textfile based authentication doesn't work anymore
 - Fixed bug #14366: Duplicate remote_id in ezcontentobject_tree - for LDAP users
 - Fixed bug #15046: WebDav not working on 4.1.2 (patch).
+- Fixed bug #11695: Return correct hostname when behing a proxy
