@@ -531,7 +531,7 @@ var ez = {
         // str (string) handles both script url and script string
         var scr = document.createElement('script');
         scr.type = 'text/javascript';
-        if (str.indexOf('.js') !== -1) scr.src = str;
+        if ( str.lastIndexOf('.js') === (str.length -3) ) scr.src = str;
         else scr.text = str;
         document.getElementsByTagName('head')[0].appendChild(scr);
     },
