@@ -1690,7 +1690,8 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
         }
         else
         {
-            if ( $this->isObjectFolder( null, $node ) )
+            $class = $object->contentClass();
+            if ( $this->isObjectFolder( $object, $class ) )
             {
                 $result['isCollection'] = true;
             }
@@ -2901,14 +2902,14 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
     }
 
     /**
-     * Returns weather $class is an folder class.
+     * Returns whether $class is an folder class.
      *
      * @param resource $object
-     * @param resource &$class
+     * @param resource $class
      */
-    protected function isObjectFolder( $object, &$class )
+    protected function isObjectFolder( $object, $class )
     {
-        $classIdentifier = isset( $class->ClassIdentifier ) ? $class->ClassIdentifier : null;
+        $classIdentifier = $class->attribute( 'identifier' );
 
         return in_array( $classIdentifier, $this->FolderClasses );
     }
