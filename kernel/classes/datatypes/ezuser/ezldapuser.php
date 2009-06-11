@@ -745,8 +745,6 @@ class eZLDAPUser extends eZUser
             $class = eZContentClass::fetch( $userClassID );
             $contentObject = $class->instantiate( $userCreatorID, $defaultSectionID );
 
-            $remoteID = "LDAP_" . $login;
-            $contentObject->setAttribute( 'remote_id', $remoteID );
             $contentObject->store();
 
             $userID = $contentObjectID = $contentObject->attribute( 'id' );
@@ -946,8 +944,6 @@ class eZLDAPUser extends eZUser
         $userGroupClass = eZContentClass::fetch( $userGroupClassID );
         $contentObject = $userGroupClass->instantiate( $userCreatorID, $defaultSectionID );
 
-        $remoteID = "LDAP_" . $newGroupAttributes[ 'name' ];
-        $contentObject->setAttribute( 'remote_id', $remoteID );
         $contentObject->store();
 
         $contentObjectID = $contentObject->attribute( 'id' );
