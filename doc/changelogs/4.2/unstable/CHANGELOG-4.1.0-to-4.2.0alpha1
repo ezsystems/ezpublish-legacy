@@ -117,3 +117,4 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #15055: Preview modos doesn`t execatly look as the frontend
 - Fixed bug #15056: matrix datatype bug
 - Fixed bug #15054: Index on table ezkeyword_attribute_link
+- Fixed bug #15051: Fatal Error accessing collection information (infocollector/overview)

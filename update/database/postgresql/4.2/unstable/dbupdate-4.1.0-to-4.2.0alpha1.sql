@@ -3,6 +3,7 @@ UPDATE ezsite_data SET value='1' WHERE name='ezpublish-release';
 
 -- START: from 4.1.4
 CREATE INDEX ezkeyword_attr_link_oaid ON ezkeyword_attribute_link USING btree (objectattribute_id);
+CREATE INDEX ezinfocollection_co_id_created ON ezinfocollection USING btree (contentobject_id, created);
 -- END: from 4.1.4
 
 -- START: from 4.1.1

@@ -689,7 +689,8 @@ CREATE TABLE ezinfocollection (
   id int(11) NOT NULL auto_increment,
   modified int(11) default '0',
   user_identifier varchar(34) default NULL,
-  PRIMARY KEY  (id)
+  PRIMARY KEY  (id),
+  KEY ezinfocollection_co_id_created (contentobject_id,created)
 ) ENGINE=InnoDB;
 
 

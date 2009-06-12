@@ -3278,6 +3278,14 @@ CREATE INDEX ezimagefile_file ON ezimagefile USING btree (filepath);
 
 
 
+CREATE INDEX ezinfocollection_co_id_created ON ezinfocollection USING btree (contentobject_id, created);
+
+
+
+
+
+
+
 CREATE INDEX ezinfocollection_attr_co_id ON ezinfocollection_attribute USING btree (contentobject_id);
 
 
