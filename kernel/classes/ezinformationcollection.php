@@ -534,6 +534,7 @@ class eZInformationCollection extends eZPersistentObject
         {
             if ( count( $sortArray ) >= 2 )
             {
+                $sorts = array();
                 $def = eZInformationCollection::definition();
 
                 if ( ! ( is_array( $sortArray[0] ) ) )
