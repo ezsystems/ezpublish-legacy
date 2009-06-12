@@ -865,7 +865,7 @@ class eZMatrix
             for( $i = 0; $i < $columnAmount; $i++ )
             {
                 $column = $sequentalColumns[$i];
-                if( $column != null && $column['identifier'] != 'col_'. $i+1 )
+                if ( $column != null && $column['identifier'] != 'col_' . ($i+1) )
                 {
                     unset( $columnNode );
                     $columnNode = $doc->createElement( 'column' );
