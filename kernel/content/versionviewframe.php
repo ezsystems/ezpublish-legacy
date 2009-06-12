@@ -27,6 +27,37 @@
 //
 
 /*! \file versionviewframe.php
+
+    On multilingual previews
+
+    Previously, when you previewed a version, you could only see the object in
+    the language(s) of the version you were previewing. This leads to user
+    confusion, since when you are editing, your edit version contains only the
+    one language you are currently editing. Still, the UI lets you preview the
+    object in any siteaccess, including those whose language is different from
+    what you are editing. So the user could for example be previewing his
+    english text in a french siteaccess, where the surrounding elements would
+    be presented in french. This looks like a bug, and is confusing.
+
+    The change does the following:
+    - It lets you choose languages not only from the editing version, but also
+      from all previous published or archived versions.
+    - When requesting a preview language from a previous version, you will
+      actually be previewing that earlier version. The interface does not
+      inform you about this, and when you switch back to the editing language,
+      you will be viewing the editing version again. It is not necessary to
+      add a warning about this, since this is in effect what will happen
+      anyway when you publish: The languages from the older versions will be
+      copied to this version.
+    - The fix keeps the existing functionality that lets you choose preview
+      language independently of siteaccess. This can be useful for some. It
+      means that we can get the confusing display mentioned above, so a
+      warning is displayed when preview language and siteaccess language do
+      not match.
+    - A main bonus of the change is that you no longer have to go to the
+      version management page in order to select an older version so that you
+      could preview other languages. All the objects translations are
+      available directly.
 */
 
 /* Module action checks */
@@ -117,6 +148,47 @@ if ( $Module->hasActionParameter( 'SiteAccess' ) )
     $siteaccess = $Module->actionParameter( 'SiteAccess' );
 }
 
+// Find ContentObjectLocale for all site accesses in RelatedSiteAccessList
+foreach ( $ini->variable( 'SiteAccessSettings', 'RelatedSiteAccessList' ) as $relatedSA )
+{
+    $relatedSAINI = eZINI::getSiteAccessIni( $relatedSA, 'site.ini' );
+    $siteaccessLocaleMap[$relatedSA] = $relatedSAINI->variable( 'RegionalSettings', 'ContentObjectLocale' );
+}
+
+
+// Try to find a version that has the language we want, by going backwards in the version history
+// Also, gether unique list of translations in all versions up until this one
+$foundTranslationList = array();
+$viewVersion = $EditVersion;
+$viewVersionObject = false;
+foreach ( array_reverse( $contentObject->versions( false ) ) as $versionHash ) // Loop all versions
+{
+    $viewVersion = $versionHash['version'];
+    if ( $viewVersion > $EditVersion ) // We don't consider versions newer than the current one
+        continue;
+
+    $tmpVersionObject = $contentObject->version( $viewVersion );
+    // We only want archived and published versions, since other drafts will not be present in the eventually published version
+    // The edit version is also acceptable, even if it is a draft
+    if ( in_array( $tmpVersionObject->attribute( 'status' ),
+                   array( eZContentObjectVersion::STATUS_ARCHIVED, eZContentObjectVersion::STATUS_PUBLISHED ) ) or
+         $viewVersion == $EditVersion )
+    {
+        $languageCodes = $tmpVersionObject->translations( false );
+        if ( !$viewVersionObject and in_array( $LanguageCode, $languageCodes ) ) // Found a version in the correct language
+        {
+            $viewVersionObject = $tmpVersionObject;
+            // Do not stop the loop here, since we want to gather all translations in the object in $foundTranslationList
+        }
+        $foundTranslationList = array_unique( array_merge( $foundTranslationList, $languageCodes ) );
+    }
+}
+// Could not find version with the desired language, so we use the current edit version
+if ( !$viewVersionObject )
+{
+    $viewVersionObject = $contentObject->version( $EditVersion );
+}
+
 if ( $LanguageCode )
 {
     $oldLanguageCode = $node->currentLanguage();
@@ -124,15 +196,18 @@ if ( $LanguageCode )
     $node->setCurrentLanguage( $LanguageCode );
     $contentObject->setCurrentLanguage( $LanguageCode );
 }
-$tpl->setVariable( 'site_access_list', $ini->variable( 'SiteAccessSettings', 'RelatedSiteAccessList' ) );
+
+$tpl->setVariable( 'site_access_locale_map', $siteaccessLocaleMap );
 $tpl->setVariable( 'node', $node );
 $tpl->setVariable( 'object', $contentObject );
 $tpl->setVariable( 'version', $versionObject );
+$tpl->setVariable( 'view_version', $viewVersionObject ); // Version used in preview, may be of an older version than the edit version
 $tpl->setVariable( 'language', $LanguageCode );
 $tpl->setVariable( 'object_languagecode', $LanguageCode );
 $tpl->setVariable( 'siteaccess', $siteaccess );
 $tpl->setVariable( 'is_creator', $isCreator );
 $tpl->setVariable( 'from_language', $FromLanguage );
+$tpl->setVariable( 'translation_list', $foundTranslationList );
 
 $res = eZTemplateDesignResource::instance();
 
