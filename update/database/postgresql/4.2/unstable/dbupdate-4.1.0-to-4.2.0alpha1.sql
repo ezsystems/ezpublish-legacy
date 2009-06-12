@@ -1,6 +1,10 @@
 UPDATE ezsite_data SET value='4.2.0alpha1' WHERE name='ezpublish-version';
 UPDATE ezsite_data SET value='1' WHERE name='ezpublish-release';
 
+-- START: from 4.1.4
+CREATE INDEX ezkeyword_attr_link_oaid ON ezkeyword_attribute_link USING btree (objectattribute_id);
+-- END: from 4.1.4
+
 -- START: from 4.1.1
 ALTER TABLE ezworkflow_event RENAME COLUMN data_text1 TO data_text1_tmp;
 ALTER TABLE ezworkflow_event ADD COLUMN data_text1 character varying(255);

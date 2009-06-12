@@ -116,3 +116,4 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #11695: Return correct hostname when behing a proxy (2nd fix, allow multiple hosts)
 - Fixed bug #15055: Preview modos doesn`t execatly look as the frontend
 - Fixed bug #15056: matrix datatype bug
+- Fixed bug #15054: Index on table ezkeyword_attribute_link

@@ -772,7 +772,8 @@ CREATE TABLE ezkeyword_attribute_link (
   objectattribute_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id),
   KEY ezkeyword_attr_link_keyword_id (keyword_id),
-  KEY ezkeyword_attr_link_kid_oaid (keyword_id,objectattribute_id)
+  KEY ezkeyword_attr_link_kid_oaid (keyword_id,objectattribute_id),
+  KEY ezkeyword_attr_link_oaid (objectattribute_id)
 ) ENGINE=InnoDB;
 
 
