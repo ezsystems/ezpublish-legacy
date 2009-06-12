@@ -114,30 +114,32 @@
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
 {* Translation *}
-{section show=fetch( content, translation_list )|count|gt( 1 )}
-<label>{'Translation'|i18n( 'design/admin/content/view/versionview' )}:</label>
-<div class="block">
-{section show=$version.language_list|count|gt( 1 )}
-{section var=Translations loop=$version.language_list}
-<p>
-<input type="radio" name="SelectedLanguage" value="{$Translations.item.language_code}" {section show=eq( $Translations.item.locale.locale_code, $object_languagecode )}checked="checked"{/section} />
-{section show=$Translations.item.locale.is_valid}
-<img src="{$Translations.item.language_code|flag_icon}" alt="{$Translations.item.language_code}" style="vertical-align: middle;" /> {$Translations.item.locale.intl_language_name|shorten( 16 )}
-{section-else}
-{'%1 (No locale information available)'|i18n( 'design/admin/content/view/versionview',, array( $Translations.item.language_code ) )}
-{/section}
-</p>
-{/section}
-{section-else}
-<input type="radio" name="SelectedLanguage" value="{$version.language_list[0].language_code}" checked="checked" disabled="disabled" />
-{section show=$version.language_list[0].locale.is_valid}
-<img src="{$version.language_list[0].language_code|flag_icon}" alt="{$version.language_list[0].language_code}" style="vertical-align: middle;" /> {$version.language_list[0].locale.intl_language_name|shorten( 16 )}
-{section-else}
-{'%1 (No locale information available)'|i18n( 'design/admin/content/view/versionview',, array( $version.language_list[0].language_code ) )}
-{/section}
-{/section}
-</div>
-{/section}
+{if fetch( content, translation_list )|count|gt( 1 )}
+    <label>{'Translation'|i18n( 'design/admin/content/view/versionview' )}:</label>
+    <div class="block">
+    {if $translation_list|count|gt( 1 )}
+        {def $locale_object = false}
+        {foreach $translation_list as $locale_code}
+            {set $locale_object = $locale_code|locale()}
+            <p>
+            <input type="radio" name="SelectedLanguage" value="{$locale_code}" {if eq( $locale_code, $object_languagecode )}checked="checked"{/if} />
+            {if $locale_object.is_valid}
+                <img src="{$locale_code|flag_icon}" alt="{$locale_code}" style="vertical-align: middle;" /> {$locale_object.intl_language_name|shorten( 16 )}
+            {else}
+                {'%1 (No locale information available)'|i18n( 'design/admin/content/view/versionview',, array( $locale_code ) )}
+            {/if}
+            </p>
+        {/foreach}
+    {else}
+        <input type="radio" name="SelectedLanguage" value="{$version.language_list[0].language_code}" checked="checked" disabled="disabled" />
+        {if $version.language_list[0].locale.is_valid}
+            <img src="{$version.language_list[0].language_code|flag_icon}" alt="{$version.language_list[0].language_code}" style="vertical-align: middle;" /> {$version.language_list[0].locale.intl_language_name|shorten( 16 )}
+        {else}
+            {'%1 (No locale information available)'|i18n( 'design/admin/content/view/versionview',, array( $version.language_list[0].language_code ) )}
+        {/if}
+    {/if}
+    </div>
+{/if}
 
 {* Location *}
 {section show=$version.node_assignments|count|gt( 0 )}
@@ -160,17 +162,17 @@
 {* Design *}
 <label>{'Siteaccess'|i18n( 'design/admin/content/view/versionview' )}:</label>
 <div class="block">
-{section show=$site_access_list|count|gt( 1 )}
-{section var=Designs loop=$site_access_list}
-<p>
-<input type="radio" name="SelectedSiteAccess" value="{$Designs.item}" {section show=eq( $Designs.item, $siteaccess )}checked="checked"{/section} />&nbsp;{$Designs.item|wash}
-</p>
-{/section}
-{section-else}
-<p>
-<input type="radio" name="SelectedSiteAccess" value="{$site_designs[0]}" checked="checked" disabled="disabled" />&nbsp;{$site_designs[0]|wash}
-</p>
-{/section}
+{if $site_access_locale_map|count|gt( 1 )}
+    {foreach $site_access_locale_map as $related_site_access => $related_site_access_locale}
+        <p>
+        <input type="radio" name="SelectedSiteAccess" value="{$related_site_access}" {if eq( $related_site_access, $siteaccess )}checked="checked"{/if} />&nbsp;{$related_site_access|wash}
+        </p>
+    {/foreach}
+{else}
+    <p>
+    <input type="radio" name="SelectedSiteAccess" value="{$site_designs[0]}" checked="checked" disabled="disabled" />&nbsp;{$site_designs[0]|wash}
+    </p>
+{/if}
 </div>
 
 <div class="block">
@@ -191,6 +193,14 @@
 <div id="maincontent-design">
 <!-- Maincontent START -->
 
+{* Translation mismatch notice *}
+{if $object_languagecode|eq( $site_access_locale_map[$siteaccess] )|not}
+<div class="message-feedback">
+    <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Translation mismatch'|i18n( 'design/admin/content/view/versionview' )}</h2>
+    <p>{'Your selected translation does not match the language of your selected siteaccess. This may lead to unexpected results in the preview, however it may also be what you intended.'|i18n( 'design/admin/content/view/versionview' )}</p>
+</div>
+{/if}
+
 {* Content window. *}
 <div class="context-block">
 
@@ -210,7 +220,7 @@
 {$object_languagecode|locale().intl_language_name} <img src="{$object_languagecode|flag_icon}" alt="{$object_languagecode}" style="vertical-align: middle;" />
 </p>
 <p class="full-screen">
-<a href={concat("content/versionview/",$object.id,"/",$version.version,"/",$language, "/site_access/", $siteaccess)|ezurl} target="_blank"><img src={"images/window_fullscreen.png"|ezdesign} /></a>
+<a href={concat("content/versionview/",$object.id,"/",$view_version.version,"/",$language, "/site_access/", $siteaccess)|ezurl} target="_blank"><img src={"images/window_fullscreen.png"|ezdesign} /></a>
 </p>
 <div class="break"></div>
 </div>
@@ -218,8 +228,8 @@
 {* Content preview in content window. *}
 <div class="mainobject-window">
 
-    <iframe src={concat("content/versionview/",$object.id,"/",$version.version,"/",$language, "/site_access/", $siteaccess )|ezurl} width="100%" height="800">
-    Your browser does not support iframes. Please see this <a href={concat("content/versionview/",$object.id,"/",$version.version,"/",$language, "/site_access/", $siteaccess)|ezurl}>link</a> instead.
+    <iframe src={concat("content/versionview/",$object.id,"/",$view_version.version,"/",$language, "/site_access/", $siteaccess )|ezurl} width="100%" height="800">
+    Your browser does not support iframes. Please see this <a href={concat("content/versionview/",$object.id,"/",$view_version.version,"/",$language, "/site_access/", $siteaccess)|ezurl}>link</a> instead.
 </iframe>
 
 </div>
