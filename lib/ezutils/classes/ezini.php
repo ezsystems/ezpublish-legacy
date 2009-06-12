@@ -1428,6 +1428,19 @@ class eZINI
     }
 
     /*!
+     \static
+     Get instance siteaccess specific site.ini
+     \param siteAccess the site access to get ini for
+     \param iniFile the site access to get ini for
+     \return eZINI object, or false if not found
+    */
+    static function getSiteAccessIni( $siteAccess, $iniFile )
+    {
+        $saPath = eZSiteAccess::findPathToSiteAccess( $siteAccess );
+        return self::fetchFromFile( "$saPath/$iniFile" );
+    }
+
+    /*!
       \static
       Similar to instance() but will always create a new copy.
     */

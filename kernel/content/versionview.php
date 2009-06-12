@@ -155,14 +155,6 @@ else
     $assignment = false;
 }
 
-$versionAttributes = $versionObject->contentObjectAttributes( $LanguageCode );
-if ( $versionAttributes === null or
-     count( $versionAttributes ) == 0 )
-{
-    $LanguageCode = $versionObject->initialLanguageCode();
-    $versionAttributes = $versionObject->contentObjectAttributes( $LanguageCode );
-}
-
 $ini = eZINI::instance();
 
 if ( $assignment )
