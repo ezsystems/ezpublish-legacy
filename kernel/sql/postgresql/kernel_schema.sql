@@ -3318,6 +3318,14 @@ CREATE INDEX ezkeyword_attr_link_kid_oaid ON ezkeyword_attribute_link USING btre
 
 
 
+CREATE INDEX ezkeyword_attr_link_oaid ON ezkeyword_attribute_link USING btree (objectattribute_id);
+
+
+
+
+
+
+
 CREATE UNIQUE INDEX ezmodule_run_workflow_process_id_s ON ezmodule_run USING btree (workflow_process_id);
 
 
