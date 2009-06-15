@@ -3440,6 +3440,14 @@ $schema = array (
           1 => 'objectattribute_id',
         ),
       ),
+      'ezkeyword_attr_link_oaid' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'objectattribute_id',
+        ),
+      ),
     ),
   ),
   'ezmedia' => 
