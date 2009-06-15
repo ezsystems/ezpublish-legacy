@@ -122,3 +122,5 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #15059: Wrong version tag in dbupdate for ezsession (patch)
 - Fixed bug #15051: Fatal Error accessing collection information (infocollector/overview)
   # Added missing schema definition
+- Fixed bug #15054: Index on table ezkeyword_attribute_link
+  # Added missing schema definition
