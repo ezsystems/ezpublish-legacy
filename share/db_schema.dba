@@ -3238,6 +3238,15 @@ $schema = array (
           0 => 'id',
         ),
       ),
+      'ezinfocollection_co_id_created' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'contentobject_id',
+          1 => 'created',
+        ),
+      ),
     ),
   ),
   'ezinfocollection_attribute' => 
