@@ -719,7 +719,11 @@ class eZFSFileHandler
         $list = array();
         if ( $fnamePart !== false )
         {
-            $list = glob( $path . "/" . $fnamePart . "*" );
+            $globResult = glob( $path . "/" . $fnamePart . "*" );
+            if ( is_array( $globResult ) )
+            {
+                $list = $globResult;
+            }
         }
         else
         {
@@ -809,10 +813,19 @@ class eZFSFileHandler
         if ( $max === false )
             $max = 100;
         $count = 0;
+        $list = array();
         if ( is_file( $file ) )
+        {
             $list = array( $file );
+        }
         else
-            $list = glob( $file . "/*" );
+        {
+            $globResult = glob( $file . "/*" );
+            if ( is_array( $globResult ) )
+            {
+                $list = $globResult;
+            }
+        }
         do
         {
             if ( ( $count % $max ) == 0 && $microsleep )
@@ -831,7 +844,11 @@ class eZFSFileHandler
             }
             else if ( is_dir( $file ) )
             {
-                $list = array_merge( $list, glob( $file . "/*" ) );
+                $globResult = glob( $file . "/*" );
+                if ( is_array( $globResult ) )
+                {
+                    $list = array_merge( $list, $globResult );
+                }
             }
 
             if ( $printCallback )
