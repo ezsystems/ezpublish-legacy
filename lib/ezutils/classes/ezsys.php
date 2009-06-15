@@ -1109,7 +1109,11 @@ class eZSys
             $files = self::simulateGlobBrace( array( $pattern ) );
             foreach( $files as $file )
             {
-                $result = array_merge( $result, glob( $file, $flags ) );
+                $globList = glob( $file, $flags );
+                if ( is_array( $globList ) )
+                {
+                    $result = array_merge( $result, $globList );
+                }
             }
             return $result;
         }
