@@ -118,3 +118,4 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #15056: matrix datatype bug
 - Fixed bug #15054: Index on table ezkeyword_attribute_link
 - Fixed bug #15051: Fatal Error accessing collection information (infocollector/overview)
+- Fixed bug #15058: globBrace() in lib/ezutils/classes/ezsys.php does not work using Solaris
