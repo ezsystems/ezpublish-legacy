@@ -124,3 +124,4 @@ Changes from 4.1.0 to 4.2.0alpha1
   # Added missing schema definition
 - Fixed bug #15054: Index on table ezkeyword_attribute_link
   # Added missing schema definition
+- Fixed bug #14894: animated gifs not working since upgrade from 4.0 to 4.1

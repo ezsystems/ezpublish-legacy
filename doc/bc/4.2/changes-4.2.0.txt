@@ -1,0 +1,12 @@
+Changes to BC and behaviour in version 4.2.0
+============================================
+
+INI setting changes
+-------------------
+
+image.ini
+  [AnimatedGIF]
+  DisallowedFilters[] defaults to empty
+  AllowedFilters[] defaults to geometry/*
+  This change is to ensure that animated GIFs can be resized using default settings.
+  Also implemented in 4.1.4 and 4.0.7.
