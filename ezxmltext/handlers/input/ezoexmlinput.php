@@ -244,9 +244,18 @@ class eZOEXMLInput extends eZXMLInputHandler
     function isValid()
     {
         if ( !self::browserSupportsDHTMLType() )
+        {
+            eZDebug::writeNotice('Current browser is not supported by ezoe, falling back to normal xml editor!', __METHOD__ );
             return false;
+        }
 
-        return $this->currentUserHasAccess();
+        if ( !$this->currentUserHasAccess() )
+        {
+            eZDebug::writeNotice('Current user does not have access to ezoe, falling back to normal xml editor!', __METHOD__ );
+            return false;
+        }
+
+        return true;
     }
 
      /**
