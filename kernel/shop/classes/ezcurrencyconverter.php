@@ -54,6 +54,11 @@ class eZCurrencyConverter
         $this->setRoundingTarget( null );
     }
 
+    /**
+     * Returns a shared instance of the eZCurrencyConverter class.
+     *
+     * @return eZCurrencyConverter
+     */
     static function instance()
     {
         if ( empty( $GLOBALS["eZCurrencyConverterGlobalInstance"] ) )

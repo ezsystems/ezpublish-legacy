@@ -47,10 +47,11 @@ class eZWeb
         eZDebugSetting::writeDebug( 'lib-ezutil-web', $userAgent, 'user agent' );
     }
 
-    /*!
-     Returns the only legal instance of the eZWeb class.
-     \static
-    */
+    /**
+     * Returns a shared instance of the eZWeb class.
+     *
+     * @return eZWeb
+     */
     static function instance()
     {
         if ( empty( $GLOBALS["eZWebInstance"] ) )

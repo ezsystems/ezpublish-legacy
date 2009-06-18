@@ -500,9 +500,13 @@ class eZURI
         }
     }
 
-    /*!
-     \return the unique instance for the URI, if $uri is supplied it used as the global URI value.
-    */
+    /**
+     * Returns a shared instance of the eZURI class IF $uri is false or the same as current
+     * request uri, if not then a new non shared instance is created.
+     *
+     * @param $uri false|string
+     * @return eZURI
+     */
     static function instance( $uri = false )
     {
         // If $uri is false we assume the caller wants eZSys::requestURI()

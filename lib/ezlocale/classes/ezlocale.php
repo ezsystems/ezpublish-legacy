@@ -1552,13 +1552,15 @@ class eZLocale
         return $this->LanguageINI[$type];
     }
 
-    /*!
-     \static
-     Returns an unique instance of the locale class for a given locale string. If $localeString is not
-     specified the default local string in site.ini is used.
-     Use this instead of newing eZLocale to benefit from speed and unified access.
-     \note Use create() if you need to get a new unique copy you can alter.
-    */
+    /**
+     * Returns a shared instance of the eZLocale class pr locale string.
+     * If $localeString is not specified the default local string in site.ini is used.
+     * Use this instead of newing eZLocale to benefit from speed and unified access.
+     * note: Use create() if you need to get a new unique copy you can alter.
+     *
+     * @param $localeString string|false
+     * @return eZLocale
+     */
     static function instance( $localeString = false )
     {
         if ( $localeString === false )

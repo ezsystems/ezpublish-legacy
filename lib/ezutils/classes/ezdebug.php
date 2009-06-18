@@ -211,10 +211,11 @@ class eZDebug
         return $this->MessageNames[$messageType];
     }
 
-    /*!
-      Will return the current eZDebug object. If no object exists one will
-      be created.
-    */
+    /**
+     * Returns a shared instance of the eZDebug class.
+     *
+     * @return eZDebug
+     */
     static function instance( )
     {
         if ( empty( $GLOBALS["eZDebugGlobalInstance"] ) )

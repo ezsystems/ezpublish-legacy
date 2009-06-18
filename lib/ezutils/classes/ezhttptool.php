@@ -203,9 +203,11 @@ class eZHTTPTool
         return $retValue;
     }
 
-    /*!
-     \return the unique instance of the HTTP tool
-    */
+    /**
+     * Return a unique instance of the eZHTTPTool class
+     *
+     * @return eZHTTPTool
+     */
     static function instance()
     {
         if ( !isset( $GLOBALS["eZHTTPToolInstance"] ) ||

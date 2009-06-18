@@ -727,9 +727,11 @@ class eZCLI
         return $options;
     }
 
-    /*!
-     \return the unique instance for the cli class.
-    */
+    /**
+     * Returns a shared instance of the eZCLI class.
+     *
+     * @return eZCLI
+     */
     static function instance()
     {
         if ( !isset( $GLOBALS['eZCLIInstance'] ) ||

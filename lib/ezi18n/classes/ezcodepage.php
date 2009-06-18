@@ -716,9 +716,14 @@ class eZCodePage
         return $this->Valid;
     }
 
-    /*!
-     Returns the only instance of the codepage for $charset_code.
-    */
+    /**
+     * Returns a shared instance of the eZCodePage pr the
+     * $charset_code param.
+     *
+     * @param $charset_code string
+     * @param $use_cache bool
+     * @return eZCodePage
+     */
     static function instance( $charset_code, $use_cache = true )
     {
         if ( empty( $GLOBALS["eZCodePage-$charset_code"] ) )

@@ -232,6 +232,11 @@ class eZXMLSchema
         }
     }
 
+    /**
+     * Returns a shared instance of the eZXMLSchema class.
+     *
+     * @return eZXMLSchema
+     */
     static function instance()
     {
         if ( empty( $GLOBALS["eZXMLSchemaGlobalInstance"] ) )

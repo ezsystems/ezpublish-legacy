@@ -34,7 +34,7 @@
 class eZClusterFileHandler
 {
     /**
-     * Returns the configured instance of an eZFileHandler
+     * Returns the configured instance of an eZClusterFileHandlerInterface
      * See ClusteringSettings.FileHandler in php.ini
      *
      * @param string|bool $filename

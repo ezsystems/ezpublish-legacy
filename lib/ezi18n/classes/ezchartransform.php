@@ -577,9 +577,11 @@ class eZCharTransform
         return $text;
     }
 
-    /*!
-     \return The unique instance of the character transformer.
-    */
+    /**
+     * Returns a shared instance of the eZCharTransform class.
+     *
+     * @return eZCharTransform
+     */
     static function instance()
     {
         $instance =& $GLOBALS['eZCharTransformInstance'];

@@ -138,10 +138,11 @@ class eZExpiryHandler
         return $handler->Timestamps[$name];
     }
 
-    /*!
-     \static
-     \return the unique instance of the expiry handler.
-    */
+    /**
+     * Returns a shared instance of the eZExpiryHandler class
+     *
+     * @return eZExpiryHandler
+     */
     static function instance()
     {
         if ( !isset( $GLOBALS['eZExpiryHandlerInstance'] ) ||

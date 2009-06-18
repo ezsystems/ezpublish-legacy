@@ -1037,10 +1037,11 @@ class eZSys
         return eZSys::instance()->RequestURI;
     }
 
-    /*!
-     Returns the only legal instance of the eZSys class.
-     \static
-    */
+    /**
+     * Returns a shared instance of the eZSys class
+     *
+     * @return eZSys
+     */
     static function instance()
     {
         if ( empty( $GLOBALS['eZSysInstance'] ) )

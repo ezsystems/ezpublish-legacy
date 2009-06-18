@@ -35,9 +35,13 @@ class eZShopAccountHandler
 
     }
 
-    /*!
-     returns the current shop account instance
-    */
+    /**
+     * Returns a shared instance of the eZShopAccountHandler class
+     * as defined in shopaccount.ini[HandlerSettings]Repositories
+     * and ExtensionRepositories.
+     *
+     * @return eZDefaultShopAccountHandler Or similar clases.
+     */
     static function instance()
     {
         $accountHandler = null;

@@ -256,9 +256,11 @@ class eZUTF8Codec
         return $strlen;
     }
 
-    /*!
-     \return a unique instance of the UTF8 codec.
-    */
+    /**
+     * Returns a shared instance of the eZUTF8Codec class.
+     *
+     * @return eZUTF8Codec
+     */
     static function instance()
     {
         if ( empty( $GLOBALS['eZUTF8CodecInstance'] ) )

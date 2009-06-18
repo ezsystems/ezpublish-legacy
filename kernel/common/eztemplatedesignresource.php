@@ -963,9 +963,11 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                                                       'Match' => $matches );
     }
 
-    /*!
-     \return the unique instance of the design resource.
-    */
+    /**
+     * Returns a shared instance of the eZTemplateDesignResource class.
+     *
+     * @return eZTemplateDesignResource
+     */
     static function instance()
     {
         if ( !isset( $GLOBALS['eZTemplateDesignResourceInstance'] ) )

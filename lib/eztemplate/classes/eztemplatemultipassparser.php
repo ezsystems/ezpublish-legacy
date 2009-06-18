@@ -1378,6 +1378,11 @@ class eZTemplateMultiPassParser extends eZTemplateParser
         $cur_pos = $text_len;
     }
 
+    /**
+     * Returns a shared instance of the eZTemplateMultiPassParser class.
+     *
+     * @return eZTemplateMultiPassParser
+     */
     static function instance()
     {
         if ( !isset( $GLOBALS['eZTemplateMultiPassParserInstance'] ) ||

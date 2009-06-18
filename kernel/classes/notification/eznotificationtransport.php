@@ -45,6 +45,14 @@ class eZNotificationTransport
     {
     }
 
+    /**
+     * Returns a shared instance of the eZNotificationTransport class.
+     *
+     *
+     * @param $transport string|false Uses notification.ini[TransportSettings]DefaultTransport if false
+     * @param $forceNewInstance bool
+     * @return eZNotificationTransport
+     */
     static function instance( $transport = false, $forceNewInstance = false )
     {
         $ini = eZINI::instance( 'notification.ini' );
@@ -57,7 +65,7 @@ class eZNotificationTransport
 
         $fetchInstance = false;
         if ( !preg_match( '/.*?transport/', $class ) )
-            $fetchInstance = true;
+                $fetchInstance = true;
 
         if ( $forceNewInstance  )
         {

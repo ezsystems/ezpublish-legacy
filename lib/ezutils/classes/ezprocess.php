@@ -76,6 +76,11 @@ class eZProcess
         return $Result;
     }
 
+    /**
+     * Returns a shared instance of the eZProcess class
+     *
+     * @return eZProcess
+     */
     static function instance()
     {
         if ( empty( $GLOBALS['eZProcessInstance'] ) )

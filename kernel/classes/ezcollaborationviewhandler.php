@@ -123,10 +123,15 @@ class eZCollaborationViewHandler
         return eZCollaborationViewHandler::ini()->variable( 'ViewSettings', 'GroupViewList' );
     }
 
-    /*!
-     \static
-     \return the single instance of the viewmode \a $viewMode.
-    */
+    /**
+     * Returns a shared instance of the eZCollaborationViewHandler class
+     * pr the two input params.
+     *
+     *
+     * @param $viewMode string
+     * @param $type int Is self::TYPE_STANDARD by default
+     * @return eZCollaborationViewHandler
+     */
     static function instance( $viewMode, $type = self::TYPE_STANDARD )
     {
         if ( $type == self::TYPE_STANDARD )

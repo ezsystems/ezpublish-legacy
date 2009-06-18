@@ -233,9 +233,15 @@ class eZCodePageMapper
         }
     }
 
-    /*!
-     Returns the only instance of the codepage mapper for $input_charset_code and $output_charset_code.
-    */
+    /**
+     * Returns a shared instance of the eZCodePageMapper pr the 
+     * $input_charset_code and $output_charset_code params.
+     *
+     * @param $input_charset_code string
+     * @param $output_charset_code string
+     * @param $use_cache bool
+     * @return eZCodePageMapper
+     */
     static function instance( $input_charset_code, $output_charset_code, $use_cache = true )
     {
         $globalsKey = "eZCodePageMapper-$input_charset_code-$output_charset_code";

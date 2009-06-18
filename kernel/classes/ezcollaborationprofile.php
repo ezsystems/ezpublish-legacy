@@ -115,9 +115,14 @@ class eZCollaborationProfile extends eZPersistentObject
                                                 $asObject );
     }
 
-    /*!
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
+    /**
+     * Returns a shared instance of the eZCollaborationProfile class
+     * pr user id.
+     * note: Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     * the calls within a db transaction; thus within db->begin and db->commit.
+     *
+     * @param $userID int|false Uses current user id if false.
+     * @return eZCollaborationProfile
      */
     static function instance( $userID = false )
     {

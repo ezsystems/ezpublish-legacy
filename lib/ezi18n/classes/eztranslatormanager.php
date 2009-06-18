@@ -142,10 +142,11 @@ class eZTranslatorManager
         return $trans;
     }
 
-    /*!
-     \static
-     \return the unique instance of the translator system.
-    */
+    /**
+     * Returns a shared instance of the eZTranslatorManager class.
+     *
+     * @return eZTranslatorManager
+     */
     static function instance()
     {
         if ( empty( $GLOBALS['eZTranslatorManagerInstance'] ) )

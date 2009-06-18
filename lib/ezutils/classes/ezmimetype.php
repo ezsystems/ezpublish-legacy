@@ -351,10 +351,11 @@ class eZMimeType
         return eZMimeType::findByURL( $url, $returnDefault );
     }
 
-    /*!
-     \static
-     \return the unique instance of the eZMimeType class.
-    */
+    /**
+     * Returns a shared instance of the eZMimeType class.
+     *
+     * @return eZMimeType
+     */
     static function instance()
     {
         $instance =& $GLOBALS['eZMIMETypeInstance'];

@@ -1010,6 +1010,12 @@ class eZScript
         return $options;
     }
 
+    /**
+     * Returns a shared instance of the eZScript class.
+     *
+     * @param $settings array Used by the first generated instance, but ignored for subsequent calls.
+     * @return eZScript
+     */
     static function instance( $settings = array() )
     {
         if ( !isset( $GLOBALS['eZScriptInstance'] ) or

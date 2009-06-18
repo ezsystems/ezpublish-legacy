@@ -35,14 +35,13 @@
 
 class eZDbSchema
 {
-    /*!
-     \static
-     Create new instance of eZDBSchemaInterface. placed here for simplicity.
-
-     \param param options array, with the following keys:
-                  - instance: the eZDB instance (optional), if none provided, eZDB::instance() will be used.
-     \return new Instance of eZDbSchema, false if failed
-    */
+    /**
+     * Returns a shared instance of the eZDBSchemaInterface class.
+     *
+     * @param $params array|eZDBInterface|false if array, following key is needed:
+     *        - instance: the eZDB instance (optional), if none provided, eZDB::instance() will be used.
+     * @return eZDBSchemaInterface|false
+     */
     static function instance( $params = false )
     {
         if ( is_object( $params ) )

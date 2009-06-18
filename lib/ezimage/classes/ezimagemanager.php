@@ -1354,9 +1354,11 @@ class eZImageManager
         return $this->TemporaryImageDirPath;
     }
 
-    /*!
-     Returns the only instance of the image manager.
-    */
+    /**
+     * Returns a shared instance of the eZImageManager class.
+     *
+     * @return eZImageManager
+     */
     static function instance()
     {
         if ( !isset( $GLOBALS["eZImageManager"] ) )

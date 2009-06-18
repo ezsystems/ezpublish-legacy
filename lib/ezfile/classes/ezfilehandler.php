@@ -1049,6 +1049,18 @@ class eZFileHandler
              The parameters \a $filename, \a $mode and \a $binaryFile is passed to the handler.
      \return \c false if the handler could not be created.
     */
+    /**
+     * Returns a shared instance of the eZFileHandler class.
+     * $identifier if set is used to specify specific file handlers as
+     * defined in file.ini [FileSettings]Handlers.
+     * If $filename and later params are set, then file is opened straigt away.
+     *
+     * @param $identifier string|false Global eZFileHandler used if false
+     * @param $filename string|false
+     * @param $mode string|false set to 'r' if false
+     * @param $binaryFile bool binary or text mode, default true.
+     * @return eZFileHandler|false
+     */
     static function instance( $identifier, $filename = false, $mode = false, $binaryFile = true )
     {
         $ini = eZINI::instance( 'file.ini' );

@@ -441,15 +441,16 @@ class eZTextCodec
         return mb_strlen( $str, $this->InputCharsetCode );
     }
 
-    /*!
-     \static
-     \return a text codec instance which can be used to convert from input charset \a $inputCharsetCode
-             and into output charset \a $outputCharsetCode.
-     \param $inputCharsetCode If \c false the internal charset it used, otherwise it is used directly
-     \param $outputCharsetCode If \c false the internal charset it used, otherwise it is used directly
-     \param $alwaysReturn If \c false it will only return a textcodec instance if it is required for the input and output charset.
-                          In which case it returns \c null.
-    */
+    /**
+     * Returns a shared instance of the eZTextCodec pr the
+     * $inputCharsetCode and $outputCharsetCode params.
+     *
+     * @param $inputCharsetCode string|false uses {@link eZTextCodec::internalCharset()} if false
+     * @param $outputCharsetCode string|false uses {@link eZTextCodec::internalCharset()} if false
+     * @param $alwaysReturn bool
+     * @return eZTextCodec|null Returns null if $alwaysReturn is false and text codec is not needed for
+     *         current $inputCharsetCode and $outputCharsetCode.
+     */
     static function instance( $inputCharsetCode, $outputCharsetCode = false, $alwaysReturn = true )
     {
         if ( $inputCharsetCode === false or $outputCharsetCode === false )

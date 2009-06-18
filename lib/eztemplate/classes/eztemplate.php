@@ -2321,9 +2321,11 @@ class eZTemplate
         return $this->WarningLog;
     }
 
-    /*!
-     Returns the globale template instance, creating it if it does not exist.
-    */
+    /**
+     * Returns a shared instance of the eZTemplate class.
+     *
+     * @return eZTemplate
+     */
     static function instance()
     {
         if ( !isset( $GLOBALS['eZTemplateInstance'] ) )

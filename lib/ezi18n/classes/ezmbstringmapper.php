@@ -185,6 +185,14 @@ class eZMBStringMapper
         return mb_substr( $str, $start, $length, $this->InputCharsetCode );
     }
 
+    /**
+     * Returns a shared instance of the eZMBStringMapper pr the $input_charset_code
+     * and $output_charset_code params.
+     *
+     * @param $input_charset_code string
+     * @param $output_charset_code string
+     * @return eZMBStringMapper
+     */
     static function instance( $input_charset_code, $output_charset_code )
     {
         $globalsKey = "eZMBStringMapper-$input_charset_code-$output_charset_code";

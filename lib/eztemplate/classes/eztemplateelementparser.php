@@ -606,6 +606,11 @@ class eZTemplateElementParser
         return preg_match( "/[ \t\r\n]/", $text[$startPosition] );
     }
 
+    /**
+     * Returns a shared instance of the eZTemplateElementParser class.
+     *
+     * @return eZTemplateElementParser
+     */
     static function instance()
     {
         if ( !isset( $GLOBALS['eZTemplateElementParserInstance'] ) ||

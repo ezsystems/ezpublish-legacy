@@ -104,13 +104,12 @@ class eZImportLookupTable
         return $this->ObjectIDTable[(string)$oldObjectID];
     }
 
-    /*!
-     \static
-
-     Fetch instance of eZImportLookupTable
-
-     \param force new instance (optional), default false
-    */
+    /**
+     * Returns a shared instance of the eZImportLookupTable class.
+     *
+     * @param $forceNewInstance bool Force new instance on true
+     * @return eZImportLookupTable
+     */
     static function instance( $forceNewInstance = false )
     {
         if ( $forceNewInstance === true )

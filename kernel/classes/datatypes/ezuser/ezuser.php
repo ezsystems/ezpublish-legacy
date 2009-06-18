@@ -1065,14 +1065,16 @@ WHERE user_id = '" . $userID . "' AND
         eZSession::regenerate();
     }
 
-    /*!
-     Finds the user with the id \a $id and returns the unique instance of it.
-     If the user instance is not created yet it tries to either fetch it from the
-     database with eZUser::fetch(). If $id is false or the user was not found, the
-     default user is returned. This is a site.ini setting under UserSettings:AnonymousUserID.
-     The instance is then returned.
-     If \a $id is false then the current user is fetched.
-    */
+    /**
+     * Returns a shared instance of the eZUser class pr $id value.
+     * If user can not be fetched, then anonymous user is returned and
+     * a warning trown, if anonymous user can not be fetched, then NoUser
+     * is returned and another warning is thrown.
+     *
+     * @param $id int|false On false: Gets current user id from session
+     *        or from {@link eZUser::anonymousId()} if not set.
+     * @return eZUser
+     */
     static function instance( $id = false )
     {
         if ( !empty( $GLOBALS["eZUserGlobalInstance_$id"] ) )

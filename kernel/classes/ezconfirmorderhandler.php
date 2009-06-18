@@ -43,10 +43,13 @@ class eZConfirmOrderHandler
     {
     }
 
-
-    /*!
-     returns the current order confirmation instance
-    */
+    /**
+     * Returns a shared instance of the eZConfirmOrderHandler class
+     * as defined in shopaccount.ini[HandlerSettings]Repositories
+     * and ExtensionRepositories.
+     *
+     * @return eZDefaultConfirmOrderHandler Or similar clases.
+     */
     static function instance()
     {
         $confirmOrderHandler = null;
