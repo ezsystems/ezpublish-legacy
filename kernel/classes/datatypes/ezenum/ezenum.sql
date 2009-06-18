@@ -64,6 +64,9 @@ enumvalue varchar2(255) not null,
 placement integer default 0 not null,
 primary key( id, contentclass_attribute_id, contentclass_attribute_version ) );
 
+create index ezenv_coc_attr_id_coc_attr_ver on ezenumvalue
+(contentclass_attribute_id, contentclass_attribute_version);
+
 create or replace trigger ezenumvalue_id_tr
 before insert on ezenumvalue for each row
 when (
