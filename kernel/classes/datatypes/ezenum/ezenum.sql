@@ -85,3 +85,6 @@ enumid integer default 0 not null,
 enumelement varchar2(255) not null,
 enumvalue varchar2(255) not null,
 primary key( contentobject_attribute_id,contentobject_attribute_version,enumid ) );
+
+create index ezenov_co_attr_id_co_attr_ver on ezenumobjectvalue
+(contentobject_attribute_id, contentobject_attr_version);
