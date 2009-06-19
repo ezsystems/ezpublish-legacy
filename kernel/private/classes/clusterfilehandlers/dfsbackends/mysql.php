@@ -34,20 +34,20 @@ It can be created anywhere, in the same database on the same server, or on a
 distinct database / server.
 
 CREATE TABLE ezdfsfile (
-  name          TEXT          NOT NULL,
-  name_trunk    TEXT          NOT NULL,
-  name_hash     VARCHAR(34)   NOT NULL DEFAULT '',
-  datatype      VARCHAR(60)   NOT NULL DEFAULT 'application/octet-stream',
-  scope         VARCHAR(20)   NOT NULL DEFAULT '',
-  size          BIGINT(20)    UNSIGNED NOT NULL,
-  mtime         INT(11)       NOT NULL DEFAULT '0',
-  expired       BOOL          NOT NULL DEFAULT '0',
-  status        TINYINT(1)    NOT NULL DEFAULT '0',
+  `name` text NOT NULL,
+  name_trunk text NOT NULL,
+  name_hash varchar(34) NOT NULL DEFAULT '',
+  datatype varchar(60) NOT NULL DEFAULT 'application/octet-stream',
+  scope varchar(20) NOT NULL DEFAULT '',
+  size bigint(20) unsigned NOT NULL DEFAULT '0',
+  mtime int(11) NOT NULL DEFAULT '0',
+  expired tinyint(1) NOT NULL DEFAULT '0',
+  `status` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (name_hash),
-  INDEX ezdfsfile_name (name(250)),
-  INDEX ezdfsfile_name_trunk (name_trunk(250)),
-  INDEX ezdfsfile_mtime (mtime),
-  INDEX ezdfsfile_expired_name (expired, name(250))
+  KEY ezdfsfile_name (`name`(250)),
+  KEY ezdfsfile_name_trunk (name_trunk(250)),
+  KEY ezdfsfile_mtime (mtime),
+  KEY ezdfsfile_expired_name (expired,`name`(250))
 ) ENGINE=InnoDB;
  */
 
