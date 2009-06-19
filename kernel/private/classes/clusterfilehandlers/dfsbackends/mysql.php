@@ -190,16 +190,16 @@ class eZDFSFileHandlerMySQLBackend
     }
 
     /**
- 	 * Purges meta-data and file-data for a file entry
- 	 *
- 	 * Will only expire a single file. Use _purgeByLike to purge multiple files
- 	 *
- 	 * @param string $filePath Path of the file to purge
- 	 * @param bool $onlyExpired Only purges expired files
- 	 * @param bool|int $expiry
- 	 * @param bool $fname
- 	 *
- 	 * @see _purgeByLike
+     * Purges meta-data and file-data for a file entry
+     *
+     * Will only expire a single file. Use _purgeByLike to purge multiple files
+     *
+     * @param string $filePath Path of the file to purge
+     * @param bool $onlyExpired Only purges expired files
+     * @param bool|int $expiry
+     * @param bool $fname
+     *
+     * @see _purgeByLike
      **/
     public function _purge( $filePath, $onlyExpired = false, $expiry = false, $fname = false )
     {
@@ -922,7 +922,7 @@ class eZDFSFileHandlerMySQLBackend
     * @param string $sql SQL query to display error for
     * @return void
     **/
-	protected function _die( $msg, $sql = null )
+    protected function _die( $msg, $sql = null )
     {
         if ( $this->db )
         {
@@ -967,8 +967,8 @@ class eZDFSFileHandlerMySQLBackend
     *                     according to type.
     * @param string $update Partial update SQL which is executed when entry
     *                       exists.
-	* @param string $fname Name of caller function (for logging purpuse)
-	**/
+    * @param string $fname Name of caller function (for logging purpuse)
+    **/
     protected function _insertUpdate( $table, $array, $update, $fname, $reportError = true )
     {
         $keys = array_keys( $array );
@@ -1020,21 +1020,21 @@ class eZDFSFileHandlerMySQLBackend
         return $this->_selectOne( $query, $fname, $error, $debug, "mysql_fetch_row" );
     }
 
-	/**
-	 * Runs a select query and returns one associative row from the result.
-	 *
-	 * If there are more than one row it will fail and exit, if 0 it returns
-	 * false.
-	 *
-	 * @param string $query
-	 * @param string $fname The function name that started the query, should
-	 *                      contain relevant arguments in the text.
-	 * @param string $error Sent to _error() in case of errors
-	 * @param bool   $debug If true it will display the fetched row in addition
-	 *                      to the SQL.
-	 * @return array|false
-	 **/
-	protected function _selectOneAssoc( $query, $fname, $error = false, $debug = false )
+    /**
+     * Runs a select query and returns one associative row from the result.
+     *
+     * If there are more than one row it will fail and exit, if 0 it returns
+     * false.
+     *
+     * @param string $query
+     * @param string $fname The function name that started the query, should
+     *                      contain relevant arguments in the text.
+     * @param string $error Sent to _error() in case of errors
+     * @param bool   $debug If true it will display the fetched row in addition
+     *                      to the SQL.
+     * @return array|false
+     **/
+    protected function _selectOneAssoc( $query, $fname, $error = false, $debug = false )
     {
         return $this->_selectOne( $query, $fname, $error, $debug, "mysql_fetch_assoc" );
     }
@@ -1270,7 +1270,7 @@ class eZDFSFileHandlerMySQLBackend
     {
         if ( $value === null )
             return 'NULL';
-    	elseif ( is_integer( $value ) )
+        elseif ( is_integer( $value ) )
             return (string)$value;
         else
             return "'" . mysql_real_escape_string( $value ) . "'";
