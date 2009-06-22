@@ -126,3 +126,4 @@ Changes from 4.1.0 to 4.2.0alpha1
   # Added missing schema definition
 - Fixed bug #14894: animated gifs not working since upgrade from 4.0 to 4.1
 - Fixed bug #15082: eZDFS does not like sql-mode=STRICT_ALL_TABLE
+- Fixed bug #15083: No warning is given when uploading file and size exeeds post_max_size [PATCH]
