@@ -127,3 +127,4 @@ Changes from 4.1.0 to 4.2.0alpha1
   # Added missing schema definition
 - Fixed bug #15082: eZDFS does not like sql-mode=STRICT_ALL_TABLE
 - Fixed bug #15083: No warning is given when uploading file and size exeeds post_max_size [PATCH]
+- Fixed bug #15090: DateTime format in finnish (fin-FI) locale is bad
