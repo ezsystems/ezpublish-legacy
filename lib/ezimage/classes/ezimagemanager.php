@@ -892,6 +892,7 @@ class eZImageManager
             $startGeneration = $convertHandler->startCacheGeneration();
             if ( $startGeneration === true )
             {
+                $destinationMimeData['is_valid'] = false;
                 if ( $this->convert( $sourceMimeData, $destinationMimeData, $aliasName, $parameters ) )
                 {
                     /**

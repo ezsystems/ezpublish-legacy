@@ -9,6 +9,7 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Implemented enhancement #14813: Improved behavior of ContinueShoppingButton in basket.
 - Implemented enhancement #14934: Disable template compilation in setup wizard
 - Implemented enhancement #14981: Fix eZImageManager::createImageAlias
+  # Fixed a small regression in the image conversion process when a source image has an unknown mimetype
 
 *Design:
 
