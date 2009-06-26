@@ -50,6 +50,10 @@ class eZContentFunctions
                 $db->begin();
 
                 $contentObject = $contentClass->instantiate( $creatorID );
+
+                if(array_key_exists('remote_id', $params))
+                    $contentObject->setAttribute('remote_id', $params['remote_id']);
+
                 $contentObject->store();
 
                 $nodeAssignment = eZNodeAssignment::create( array( 'contentobject_id' => $contentObject->attribute( 'id' ),

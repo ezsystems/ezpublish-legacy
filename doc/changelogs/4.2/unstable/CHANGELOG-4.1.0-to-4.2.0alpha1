@@ -129,3 +129,4 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #15083: No warning is given when uploading file and size exeeds post_max_size [PATCH]
 - Fixed bug #15090: DateTime format in finnish (fin-FI) locale is bad
 - Fixed bug #15091: The rss module should return 304 not-modified
+- Fixed bug #12261: remote_id is not considered in eZContentFunctions::createAndPublishObject()
