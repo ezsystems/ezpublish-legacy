@@ -131,3 +131,4 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #15091: The rss module should return 304 not-modified
 - Fixed bug #12261: remote_id is not considered in eZContentFunctions::createAndPublishObject()
 - Fixed bug #13980: Allow to set section with eZContentFunctions::createAndPublishObject()
+- Fixed bug #15105: template.ini.[CharsetSettings].DefaultTemplateCharset is set to iso-8859-1
