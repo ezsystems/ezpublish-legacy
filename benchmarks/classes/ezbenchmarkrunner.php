@@ -187,10 +187,10 @@ class eZBenchmarkrunner
     {
         $memoryDiff = $entry['end']['memory'] - $entry['start']['memory'];
         $startTime = explode( " ", $entry['start']['time'] );
-        ereg( "0\.([0-9]+)", "" . $startTime[0], $t1 );
+        preg_match( "@0\.([0-9]+)@", "" . $startTime[0], $t1 );
         $startTime = $startTime[1] . "." . $t1[1];
         $endTime = explode( " ", $entry['end']['time'] );
-        ereg( "0\.([0-9]+)", "" . $endTime[0], $t1 );
+        preg_match( "@0\.([0-9]+)@", "" . $endTime[0], $t1 );
         $endTime = $endTime[1] . "." . $t1[1];
         $timeDiff = $endTime - $startTime;
 
@@ -200,10 +200,10 @@ class eZBenchmarkrunner
 
         $memoryDiff = $entry['prime_end']['memory'] - $entry['prime_start']['memory'];
         $startTime = explode( " ", $entry['prime_start']['time'] );
-        ereg( "0\.([0-9]+)", "" . $startTime[0], $t1 );
+        preg_match( "@0\.([0-9]+)@", "" . $startTime[0], $t1 );
         $startTime = $startTime[1] . "." . $t1[1];
         $endTime = explode( " ", $entry['prime_end']['time'] );
-        ereg( "0\.([0-9]+)", "" . $endTime[0], $t1 );
+        preg_match( "@0\.([0-9]+)@", "" . $endTime[0], $t1 );
         $endTime = $endTime[1] . "." . $t1[1];
         $timeDiff = $endTime - $startTime;
 
