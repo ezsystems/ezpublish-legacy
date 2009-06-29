@@ -51,6 +51,8 @@ if ( !$RSSExport )
 $config = eZINI::instance( 'site.ini' );
 $cacheTime = intval( $config->variable( 'RSSSettings', 'CacheTime' ) );
 
+$lastModified = gmdate( 'D, d M Y H:i:s', time() ) . ' GMT';
+
 if ( $cacheTime <= 0 )
 {
     $xmlDoc = $RSSExport->attribute( 'rss-xml' );
@@ -81,13 +83,33 @@ else
     }
     else
     {
+        $lastModified = gmdate( 'D, d M Y H:i:s', $cacheFile->mtime() ) . ' GMT';
+
+        if( isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) )
+        {
+            $ifModifiedSince = $_SERVER['HTTP_IF_MODIFIED_SINCE'];
+
+            // Internet Explorer specific
+            $pos = strpos($ifModifiedSince,';');
+            if ( $pos !== false )
+                $ifModifiedSince = substr( $ifModifiedSince, 0, $pos );
+
+            if( strcmp( $lastModified, $ifModifiedSince ) == 0 )
+            {
+                header( 'HTTP/1.1 304 Not Modified' );
+                header( 'Last-Modified: ' . $lastModified );
+                header( 'X-Powered-By: eZ Publish' );
+                eZExecution::cleanExit();
+           }
+        }
         $rssContent = $cacheFile->fetchContents();
     }
 }
 
 // Set header settings
 $httpCharset = eZTextCodec::httpCharset();
-header( 'Content-Type: text/xml; charset=' . $httpCharset );
+header( 'Last-Modified: ' . $lastModified );
+header( 'Content-Type: text/plain; charset=' . $httpCharset );
 header( 'Content-Length: '.strlen($rssContent) );
 header( 'X-Powered-By: eZ Publish' );
 
