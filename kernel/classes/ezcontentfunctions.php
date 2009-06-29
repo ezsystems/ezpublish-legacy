@@ -51,11 +51,11 @@ class eZContentFunctions
 
                 $contentObject = $contentClass->instantiate( $creatorID );
 
-                if(array_key_exists('remote_id', $params))
-                    $contentObject->setAttribute('remote_id', $params['remote_id']);
+                if ( array_key_exists( 'remote_id', $params ) )
+                    $contentObject->setAttribute( 'remote_id', $params['remote_id'] );
 
-                if(array_key_exists('section_id', $params))
-                    $contentObject->setAttribute('section_id', $params['section_id']);
+                if ( array_key_exists( 'section_id', $params ) )
+                    $contentObject->setAttribute( 'section_id', $params['section_id'] );
 
                 $contentObject->store();
 
