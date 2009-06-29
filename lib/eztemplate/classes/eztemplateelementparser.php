@@ -591,7 +591,10 @@ class eZTemplateElementParser
         if ( $currentPosition >= $textLength )
             return $currentPosition;
         while( $currentPosition < $textLength and
-               preg_match( "/[ \t\r\n]/", $text[$currentPosition] ) )
+               ( $text[$currentPosition] === ' ' 
+                 or $text[$currentPosition] === "\n"
+                 or $text[$currentPosition] === "\t"
+                 or $text[$currentPosition] === "\r" ) )
         {
             ++$currentPosition;
         }
@@ -603,7 +606,10 @@ class eZTemplateElementParser
     */
     function isWhitespace( $tpl, &$text, $startPosition )
     {
-        return preg_match( "/[ \t\r\n]/", $text[$startPosition] );
+        return ( $text[$startPosition] === ' '
+                 or $text[$startPosition] === "\n"
+                 or $text[$startPosition] === "\t"
+                 or $text[$startPosition] === "\r" );
     }
 
     /**
