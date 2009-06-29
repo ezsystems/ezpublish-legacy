@@ -4,7 +4,7 @@
 //
 // Definition of eZSOAPClient class
 //
-// Bård Farstad <bf@ez.no>
+// Bï¿½rd Farstad <bf@ez.no>
 // Created on: <19-Feb-2002 15:42:03 bf>
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
@@ -162,7 +162,7 @@ class eZSOAPClient
                 "Host: " . $this->Server . ":" . $this->Port . "\r\n" .
                 $authentification .
                 "Content-Type: text/xml\r\n" .
-                "SOAPAction: \"" . $request->namespace() . '/' . $request->name() . "\"\r\n" .
+                "SOAPAction: \"" . $request->ns() . '/' . $request->name() . "\"\r\n" .
                 "Content-Length: " . strlen( $payload ) . "\r\n\r\n" .
                 $payload;
 
@@ -201,7 +201,7 @@ class eZSOAPClient
                         "User-Agent: eZ soap client\r\n" .
                         "Host: " . $this->Server . ":" . $this->Port . "\r\n" .
                         "Content-Type: text/xml\r\n" .
-                        "SOAPAction: \"" . $request->namespace() . '/' . $request->name() . "\"\r\n" .
+                        "SOAPAction: \"" . $request->ns() . '/' . $request->name() . "\"\r\n" .
                         "Content-Length: " . strlen( $payload ) . "\r\n";
                     if ( $this->login() != '' )
                     {

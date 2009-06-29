@@ -85,7 +85,7 @@ class eZSOAPResponse extends eZSOAPEnvelope
             }
 
             // get the response
-            $response = $dom->getElementsByTagNameNS( $request->namespace(), $request->name() . "Response" );
+            $response = $dom->getElementsByTagNameNS( $request->ns(), $request->name() . "Response" );
 
             /* Some protocols do not use namespaces, and do not work with an empty namespace.
             So, if we get no response, try again without namespace.
