@@ -10,3 +10,21 @@ image.ini
   AllowedFilters[] defaults to geometry/*
   This change is to ensure that animated GIFs can be resized using default settings.
   Also implemented in 4.1.4 and 4.0.7.
+
+
+Change of behaviour
+-------------------
+
+- eZLDAPUser::loginUser
+
+  ldap.ini setting LDAPFollowReferrals is introduced and set to 0 by default as
+  ldap code did not work with most AD setups. LDAP_OPT_REFERRALS was earlier not
+  set at all, thus enabled.
+
+
+Renamed methods
+---------------
+
+- eZSoapRequest::namespace() -> eZSoapRequest::ns()
+
+  Renamed for php 5.3 support, see issue #13825.
