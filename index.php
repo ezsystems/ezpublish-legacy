@@ -380,6 +380,14 @@ if ( !$useCronjob )
     eZSession::addCallback( 'cleanup_pre', 'eZSessionBasketCleanup');
 }
 
+// addCallBack to update session id for shop basket on session regenerate
+function eZSessionBasketRegenerate( $db, $escNewKey, $escOldKey, $escUserID  )
+{
+    $db->query( "UPDATE ezbasket SET session_id='$escNewKey' WHERE session_id='$escOldKey'" );
+}
+
+eZSession::addCallback( 'regenerate_post', 'eZSessionBasketRegenerate');
+
 // Initialize module loading
 $moduleRepositories = eZModule::activeModuleRepositories();
 eZModule::setGlobalPathList( $moduleRepositories );
