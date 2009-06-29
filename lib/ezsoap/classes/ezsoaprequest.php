@@ -67,10 +67,12 @@ class eZSOAPRequest extends eZSOAPEnvelope
         return $this->Name;
     }
 
-    /*!
-      Returns the request target namespace.
+   /** Returns the request target namespace.
+     *
+     * @since 4.1.4 (renamed from namespace() for php 5.3 compatibility)
+     * @return string
     */
-    function namespace()
+    function ns()
     {
         return $this->Namespace;
     }
