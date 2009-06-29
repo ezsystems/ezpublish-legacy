@@ -29,6 +29,81 @@
 
 class eZContentFunctions
 {
+    /**
+     * Creates and publishes a new content object.
+     *
+     * This function takes all the variables passes in the $params
+     * argument and creates a new content object out of it.
+     *
+     * Here is an example
+     * <code>
+     * <?php
+     *
+     * // admin user
+     * $creatorID    = 14;
+     *
+     * // folder content class
+     * $classIdentifier = 'folder';
+     *
+     * // root node
+     * $parentNodeID = 2;
+     *
+     * // have a look at the folder content class' definition ;)
+     * // basically the array is the following :
+     * // key : attribute identifier ( not attribute ID !! )
+     * // value : value for this attribute
+     * //
+     * // Please refer to each fromString/toString function to see
+     * // how to organize your data
+     *
+     * $xmlDeclaration = '<?xml version="1.0" encoding="utf-8"?>
+     *                    <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+     *                             xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
+     *                             xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">';
+     *
+     * $attributeList = array( 'name'              => 'A newly created folder object',
+     *                         'short_name'        => 'A new folder',
+     *                         'short_description' => $xmlDeclaration .'<paragraph>This is the short description</paragraph></section>',
+     *                         'description'       => $xmlDeclaration . '<section><section><header>Some header</header><paragraph>Some paragraph
+     *                                                                   with a <link target="_blank" url_id="1">link</link></paragraph>
+     *                                                                   </section></section></section>',
+     *                         'show_children'     => true);
+     *
+     * // Creates the data import array
+     * $params                     = array();
+     * $params['creator_id']       = $creatorID;
+     * $params['class_identifier'] = $classIdentifier;
+     * $params['parent_node_id']   = $parentNodeID;
+     * $params['attributes']       = $attributeList;
+     *
+     * $contentObject = eZContentFunctions::createAndPublishObject( $params );
+     *
+     * if( $contentObject )
+     * {
+     *     // do anything you want here
+     * }
+     *
+     * ?>
+     * </code>
+     *
+     * @param array $params An array with all the informations to store.
+     *                      This array must contains a strict list of key/value pairs.
+     *                      The possible keys are the following :
+     *                      - 'parent_node_id'   : The parentNodeID for this new object.
+     *                      - 'class_identifier' : The classIdentifier for this new object.
+     *                                             using the classID is not possible.
+     *                      - 'creator_id'       : The eZUser::contentObjectID to use as creator
+     *                                             of this new eZContentObject
+     *                      - 'attributes'       : The list of attributes to store, in order to now
+     *                                             which values you can use for this key, you have to
+     *                                             read the code of the fromString and toString functions
+     *                                             of the attribute's datatype you use
+     *                      - 'storage_dir'      :
+     *                      - 'remote_id'        : The value for the remoteID  (optional)
+     *                      - 'section_id'       : The value for the sectionID (optional)
+     * @static
+     * @return an eZContentObject object if success, false otherwise
+     */
     static function createAndPublishObject( $params )
     {
         $parentNodeID = $params['parent_node_id'];
