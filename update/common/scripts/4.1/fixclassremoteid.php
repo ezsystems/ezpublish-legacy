@@ -42,7 +42,7 @@ $scriptSettings = array();
 $scriptSettings['description'] = 'Fix non-unique usage of content class remote ID\'s';
 $scriptSettings['use-session'] = false;
 $scriptSettings['use-modules'] = false;
-$scriptSettings['use-extensions'] = false;
+$scriptSettings['use-extensions'] = true;
 
 $script = eZScript::instance( $scriptSettings );
 $script->startup();

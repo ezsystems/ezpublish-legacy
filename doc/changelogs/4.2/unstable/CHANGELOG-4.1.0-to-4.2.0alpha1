@@ -134,3 +134,4 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #13980: Allow to set section with eZContentFunctions::createAndPublishObject()
 - Fixed bug #15105: template.ini.[CharsetSettings].DefaultTemplateCharset is set to iso-8859-1
 - Fixed bug #14937: loose products from basket after login / loose session after login?!
+- Fixed bug #15027: fixclassremoteid.php is failing with custom datatypes
