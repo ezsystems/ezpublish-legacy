@@ -50,7 +50,7 @@ class eZPolicyLimitationValue extends eZPersistentObject
 
     static function definition()
     {
-        return array( "fields" => array( "id" => array( 'name' => 'ID',
+        static $definition = array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
                                                         'default' => 0,
                                                         'required' => true ),
@@ -70,6 +70,7 @@ class eZPolicyLimitationValue extends eZPersistentObject
                       "sort" => array( "value" => "asc" ),
                       "class_name" => "eZPolicyLimitationValue",
                       "name" => "ezpolicy_limitation_value" );
+        return $definition;
     }
 
 

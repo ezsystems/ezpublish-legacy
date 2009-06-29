@@ -54,7 +54,7 @@ class eZContentClassAttribute extends eZPersistentObject
 
     static function definition()
     {
-        return array( 'fields' => array( 'id' => array( 'name' => 'ID',
+        static $definition = array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
                                                         'default' => 0,
                                                         'required' => true ),
@@ -165,6 +165,7 @@ class eZContentClassAttribute extends eZPersistentObject
                       'sort' => array( 'placement' => 'asc' ),
                       'class_name' => 'eZContentClassAttribute',
                       'name' => 'ezcontentclass_attribute' );
+        return $definition;
     }
 
     function __clone()

@@ -75,7 +75,7 @@ class eZRole extends eZPersistentObject
 
     static function definition()
     {
-        return array( "fields" => array( "id" => array( 'name' => 'ID',
+        static $definition = array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
                                                         'default' => 0,
                                                         'required' => true ),
@@ -100,6 +100,7 @@ class eZRole extends eZPersistentObject
                       "sort" => array( "id" => "asc" ),
                       "class_name" => "eZRole",
                       "name" => "ezrole" );
+        return $definition;
     }
 
     /*!

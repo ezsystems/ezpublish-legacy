@@ -32,7 +32,7 @@ class eZContentObjectStateGroup extends eZPersistentObject
 
     public static function definition()
     {
-        $def = array( "fields" => array( "id" => array( "name" => "ID",
+        static $definition = array( "fields" => array( "id" => array( "name" => "ID",
                                                         "datatype" => "integer",
                                                         "required" => true ),
                                          "identifier" => array( "name" => "Identifier",
@@ -59,7 +59,7 @@ class eZContentObjectStateGroup extends eZPersistentObject
                       "class_name" => "eZContentObjectStateGroup",
                       "sort" => array( "identifier" => "asc" ),
                       "name" => "ezcobj_state_group" );
-        return $def;
+        return $definition;
     }
 
     /**

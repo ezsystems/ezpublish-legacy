@@ -87,7 +87,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     static function definition()
     {
-        return array( "fields" => array( "node_id" => array( 'name' => "NodeID",
+        static $definition = array( "fields" => array( "node_id" => array( 'name' => "NodeID",
                                                              'datatype' => 'integer',
                                                              'default' => 0,
                                                              'required' => true ),
@@ -199,6 +199,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       "increment_key" => "node_id",
                       "class_name" => "eZContentObjectTreeNode",
                       "name" => "ezcontentobject_tree" );
+        return $definition;
     }
 
     /*!

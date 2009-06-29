@@ -56,7 +56,7 @@ class eZContentObjectVersion extends eZPersistentObject
 
     static function definition()
     {
-        return array( "fields" => array( 'id' =>  array( 'name' => 'ID',
+        static $definition = array( "fields" => array( 'id' =>  array( 'name' => 'ID',
                                                          'datatype' => 'integer',
                                                          'default' => 0,
                                                          'required' => true ),
@@ -137,6 +137,7 @@ class eZContentObjectVersion extends eZPersistentObject
                       "increment_key" => "id",
                       'sort' => array( 'version' => 'asc' ),
                       'name' => 'ezcontentobject_version' );
+        return $definition;
     }
 
     static function statusList( $limit = false )

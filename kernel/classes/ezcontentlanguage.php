@@ -47,7 +47,7 @@ class eZContentLanguage extends eZPersistentObject
      */
     static function definition()
     {
-        return array( 'fields' => array( 'id' => array( 'name' => 'ID',
+        static $definition = array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
                                                         'required' => true ),
                                          'name' => array( 'name' => 'Name',
@@ -68,6 +68,7 @@ class eZContentLanguage extends eZPersistentObject
                       'sort' => array( 'name' => 'asc' ),
                       'class_name' => 'eZContentLanguage',
                       'name' => 'ezcontent_language' );
+        return $definition;
     }
 
     /**

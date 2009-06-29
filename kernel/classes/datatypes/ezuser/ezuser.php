@@ -68,7 +68,7 @@ class eZUser extends eZPersistentObject
 
     static function definition()
     {
-        return array( 'fields' => array( 'contentobject_id' => array( 'name' => 'ContentObjectID',
+        static $definition = array( 'fields' => array( 'contentobject_id' => array( 'name' => 'ContentObjectID',
                                                                       'datatype' => 'integer',
                                                                       'default' => 0,
                                                                       'required' => true,
@@ -111,6 +111,7 @@ class eZUser extends eZPersistentObject
                                                                          'field' => 'id' ) ),
                       'class_name' => 'eZUser',
                       'name' => 'ezuser' );
+        return $definition;
     }
 
     /*!

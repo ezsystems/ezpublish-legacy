@@ -53,7 +53,7 @@ class eZBasket extends eZPersistentObject
     */
     static function definition()
     {
-        return array( "fields" => array( "id" => array( 'name' => 'ID',
+        static $definition = array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
                                                         'default' => 0,
                                                         'required' => true ),
@@ -85,6 +85,7 @@ class eZBasket extends eZPersistentObject
                       "increment_key" => "id",
                       "class_name" => "eZBasket",
                       "name" => "ezbasket" );
+        return $definition;
     }
 
     function items( $asObject = true )

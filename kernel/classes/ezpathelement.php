@@ -60,7 +60,7 @@ class eZPathElement extends eZPersistentObject
 
     static public function definition()
     {
-        return array( "fields" => array( "id" => array( 'name' => 'ID',
+        static $definition = array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
                                                         'default' => 0,
                                                         'required' => true ),
@@ -112,6 +112,7 @@ class eZPathElement extends eZPersistentObject
                                                       "path_array" => "getPathArray" ),
                       "class_name" => "eZURLAliasML",
                       "name" => "ezurlalias_ml" );
+        return $definition;
     }
 
     /*!

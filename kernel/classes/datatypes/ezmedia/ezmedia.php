@@ -44,7 +44,7 @@ class eZMedia extends eZPersistentObject
 
     static function definition()
     {
-        return array( "fields" => array( "contentobject_attribute_id" => array( 'name' => "ContentObjectAttributeID",
+        static $definition = array( "fields" => array( "contentobject_attribute_id" => array( 'name' => "ContentObjectAttributeID",
                                                                                 'datatype' => 'integer',
                                                                                 'default' => 0,
                                                                                 'required' => true,
@@ -110,6 +110,7 @@ class eZMedia extends eZPersistentObject
                                                                 "field" => "version" )),
                       "class_name" => "eZMedia",
                       "name" => "ezmedia" );
+        return $definition;
     }
 
     function fileSize()

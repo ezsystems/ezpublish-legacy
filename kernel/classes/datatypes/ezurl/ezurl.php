@@ -48,7 +48,7 @@ class eZURL extends eZPersistentObject
 
     static function definition()
     {
-        return array( 'fields' => array( 'id' => array( 'name' => 'ID',
+        static $definition = array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
                                                         'default' => 0,
                                                         'required' => true ),
@@ -80,6 +80,7 @@ class eZURL extends eZPersistentObject
                       'increment_key' => 'id',
                       'class_name' => 'eZURL',
                       'name' => 'ezurl' );
+        return $definition;
     }
 
     static function create( $url )

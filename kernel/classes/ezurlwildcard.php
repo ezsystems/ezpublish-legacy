@@ -61,7 +61,7 @@ class eZURLWildcard extends eZPersistentObject
 
     static function definition()
     {
-        return array( "fields" => array( "id" => array( 'name' => 'ID',
+        static $definition = array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
                                                         'default' => 0,
                                                         'required' => true ),
@@ -82,6 +82,7 @@ class eZURLWildcard extends eZPersistentObject
                       "increment_key" => "id",
                       "class_name" => "eZURLWildcard",
                       "name" => "ezurlwildcard" );
+        return $definition;
     }
 
     /*!

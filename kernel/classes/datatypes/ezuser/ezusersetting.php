@@ -42,7 +42,7 @@ class eZUserSetting extends eZPersistentObject
 
     static function definition()
     {
-        return array( 'fields' => array( 'user_id' => array( 'name' => 'UserID',
+        static $definition = array( 'fields' => array( 'user_id' => array( 'name' => 'UserID',
                                                              'datatype' => 'integer',
                                                              'default' => 0,
                                                              'required' => true,
@@ -62,6 +62,7 @@ class eZUserSetting extends eZPersistentObject
                                                                 'field' => 'contentobject_id' ) ),
                       'class_name' => 'eZUserSetting',
                       'name' => 'ezuser_setting' );
+        return $definition;
     }
 
     static function create( $userID, $isEnabled )

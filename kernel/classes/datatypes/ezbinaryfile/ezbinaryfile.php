@@ -44,7 +44,7 @@ class eZBinaryFile extends eZPersistentObject
 
     static function definition()
     {
-        return array( 'fields' => array( 'contentobject_attribute_id' => array( 'name' => 'ContentObjectAttributeID',
+        static $definition = array( 'fields' => array( 'contentobject_attribute_id' => array( 'name' => 'ContentObjectAttributeID',
                                                                                 'datatype' => 'integer',
                                                                                 'default' => 0,
                                                                                 'required' => true,
@@ -80,6 +80,7 @@ class eZBinaryFile extends eZPersistentObject
                                                       'mime_type_part' => 'mimeTypePart' ),
                       'class_name' => 'eZBinaryFile',
                       'name' => 'ezbinaryfile' );
+        return $definition;
     }
 
 

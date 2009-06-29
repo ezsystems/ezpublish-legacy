@@ -66,7 +66,7 @@ class eZContentClass extends eZPersistentObject
 
     static function definition()
     {
-        return array( "fields" => array( "id" => array( 'name' => 'ID',
+        static $definition = array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
                                                         'default' => 0,
                                                         'required' => true ),
@@ -170,6 +170,7 @@ class eZContentClass extends eZPersistentObject
                       "class_name" => "eZContentClass",
                       "sort" => array( "id" => "asc" ),
                       "name" => "ezcontentclass" );
+        return $definition;
     }
 
     function __clone()

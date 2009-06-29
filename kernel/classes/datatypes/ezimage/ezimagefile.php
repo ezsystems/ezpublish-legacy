@@ -44,7 +44,7 @@ class eZImageFile extends eZPersistentObject
 
     static function definition()
     {
-        return array( 'fields' => array( 'id' => array( 'name' => 'id',
+        static $definition = array( 'fields' => array( 'id' => array( 'name' => 'id',
                                                         'datatype' => 'integer',
                                                         'default' => 0,
                                                         'required' => true ),
@@ -62,6 +62,7 @@ class eZImageFile extends eZPersistentObject
                       'keys' => array( 'id' ),
                       'class_name' => 'eZImageFile',
                       'name' => 'ezimagefile' );
+        return $definition;
     }
 
     static function create( $contentObjectAttributeID, $filepath  )

@@ -50,7 +50,7 @@ class eZURLObjectLink extends eZPersistentObject
 
     static function definition()
     {
-        return array( 'fields' => array( 'url_id' => array( 'name' => 'URLID',
+        static $definition = array( 'fields' => array( 'url_id' => array( 'name' => 'URLID',
                                                             'datatype' => 'integer',
                                                             'default' => 0,
                                                             'required' => true,
@@ -73,6 +73,7 @@ class eZURLObjectLink extends eZPersistentObject
                       'sort' => array( 'url_id' => 'asc' ),
                       'class_name' => 'eZURLObjectLink',
                       'name' => 'ezurl_object_link' );
+        return $definition;
     }
 
     /*!

@@ -26,7 +26,7 @@ class eZContentObjectStateLanguage extends eZPersistentObject
 
     static function definition()
     {
-        $def = array( "fields" => array( "contentobject_state_id" => array( "name" => "ContentObjectStateID",
+        static $definition = array( "fields" => array( "contentobject_state_id" => array( "name" => "ContentObjectStateID",
                                                                             "datatype" => "integer",
                                                                             "required" => true ),
                                          "language_id" => array( "name" => "LanguageID",
@@ -48,7 +48,7 @@ class eZContentObjectStateLanguage extends eZPersistentObject
                       "class_name" => "eZContentObjectStateLanguage",
                       "sort" => array(),
                       "name" => "ezcobj_state_language" );
-        return $def;
+        return $definition;
     }
 
     /**
