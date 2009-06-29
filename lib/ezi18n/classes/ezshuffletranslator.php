@@ -64,11 +64,11 @@ class eZShuffleTranslator extends eZTranslatorHandler
     */
     function &shuffleText( $text )
     {
-        $num = rand( 0, $this->MaxChars );
+        $num = mt_rand( 0, $this->MaxChars );
         for ( $i = 0; $i < $num; ++$i )
         {
             $len = strlen( $text );
-            $offs = rand( 0, $len - 1 );
+            $offs = mt_rand( 0, $len - 1 );
             if ( $offs == 0 )
             {
                 $tmp = $text[$offs];

@@ -199,7 +199,7 @@ class eZDB
                 $numberServers = count( $slaveServers );
                 if ( $numberServers > 1 )
                 {
-                    $index = rand( 1, $numberServers ) - 1;
+                    $index = mt_rand( 1, $numberServers ) - 1;
                 }
                 else
                     $index = 0;

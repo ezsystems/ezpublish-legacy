@@ -46,7 +46,7 @@ class eZRandomTranslator extends eZTranslatorGroup
     function eZRandomTranslator( $is_key_based )
     {
         $this->eZTranslatorGroup( $is_key_based );
-        srand( $this->makeSeed() );
+        mt_srand();
     }
 
     /*!
@@ -56,7 +56,7 @@ class eZRandomTranslator extends eZTranslatorGroup
     {
         if ( $this->handlerCount() == 0 )
             return -1;
-        return rand( 0, $this->handlerCount() - 1 );
+        return mt_rand( 0, $this->handlerCount() - 1 );
     }
 
     /*!
@@ -66,12 +66,13 @@ class eZRandomTranslator extends eZTranslatorGroup
     {
         if ( $this->handlerCount() == 0 )
             return -1;
-        return rand( 0, $this->handlerCount() - 1 );
+        return mt_rand( 0, $this->handlerCount() - 1 );
     }
 
     /*!
      \private
      Generates a seed usable for srand() and returns it.
+     DEPRECATED: as of eZ Publish 4.2 (seeding is not needed as of PHP 4.2.0)
     */
     function makeSeed()
     {

@@ -1282,7 +1282,7 @@ class eZDBInterface
         $tableList = array_keys( $this->eZTableList( $server ) );
         if ( $randomizeIndex === false )
         {
-            $randomizeIndex = rand( 10, 1000 );
+            $randomizeIndex = mt_rand( 10, 1000 );
         }
         do
         {

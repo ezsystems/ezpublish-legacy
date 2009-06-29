@@ -65,7 +65,7 @@ class eZFileTransport extends eZMailTransport
              $mail->sender() == false )
             $mail->setSenderText( $emailSender );
 
-        $filename = time() . '-' . rand() . '.mail';
+        $filename = time() . '-' . mt_rand() . '.mail';
 
         $data = preg_replace('/(\r\n|\r|\n)/', "\r\n", $mail->headerText() . "\n" . $mail->body() );
         return eZFile::create( $filename, 'var/log/mail', $data );
