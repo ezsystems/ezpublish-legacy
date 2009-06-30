@@ -2,7 +2,7 @@
 //
 // Definition of eZTrigger class
 //
-// Created on: <11-аущ-2002 13:11:15 sp>
+// Created on: <11-О©╫О©╫О©╫-2002 13:11:15 sp>
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ Publish
@@ -169,7 +169,10 @@ class eZTrigger extends eZPersistentObject
                 $keys[] = 'workflow_id';
             }
 
-            $parameters['workflow_id'] = $workflowID;
+            $parameters['workflow_id']     = $workflowID;
+            $parameters['trigger_name']    = $name;
+            $parameters['module_name']     = $moduleName;
+            $parameters['module_function'] = $function;
             // It is very important that the user_id is set correctly.
             // If it was not supplied by the calling code we will use
             // the currently logged in user.
