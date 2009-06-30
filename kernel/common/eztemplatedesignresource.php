@@ -711,6 +711,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
         array_unshift( $siteDesignList, $siteDesign );
         $siteDesignList[] = $standardDesign;
+        $siteDesignList = array_unique( $siteDesignList );
 
         $bases = array();
         $extensionDirectory = eZExtension::baseDirectory();
