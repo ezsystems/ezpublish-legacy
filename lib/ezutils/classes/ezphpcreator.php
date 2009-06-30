@@ -1064,7 +1064,6 @@ print( $values['MyValue'] );
     */
     function writeElements()
     {
-        $count = count( $this->Elements );
         foreach( $this->Elements as $element )
         {
             if ( $element[0] == eZPHPCreator::DEFINE )
