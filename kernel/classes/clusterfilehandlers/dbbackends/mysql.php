@@ -41,7 +41,7 @@ CREATE TABLE ezdbfile (
   name_trunk    TEXT          NOT NULL,
   name_hash     VARCHAR(34)   NOT NULL DEFAULT '',
   scope         VARCHAR(20)   NOT NULL DEFAULT '',
-  size          BIGINT(20)    UNSIGNED NOT NULL,
+  size          BIGINT(20)    UNSIGNED NOT NULL DEFAULT '0',
   mtime         INT(11)       NOT NULL DEFAULT '0',
   expired       BOOL          NOT NULL DEFAULT '0',
   PRIMARY KEY (name_hash),
