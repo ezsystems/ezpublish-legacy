@@ -20,4 +20,7 @@ CHANGE data_text4 data_text4 VARCHAR( 255 );
 -- END: from 4.1.1
 
 -- START: from 4.1.0
+ALTER TABLE ezpolicy_limitation ADD INDEX policy_id ( policy_id );
+ALTER TABLE ezworkflow_event ADD INDEX wid_version_placement ( workflow_id , version , placement );
+ALTER TABLE ezuser_accountkey ADD INDEX hash_key ( hash_key );
 -- END: from 4.1.0

@@ -1083,7 +1083,8 @@ CREATE TABLE ezpolicy_limitation (
   id int(11) NOT NULL auto_increment,
   identifier varchar(255) NOT NULL default '',
   policy_id int(11) default NULL,
-  PRIMARY KEY  (id)
+  PRIMARY KEY  (id),
+  KEY policy_id (policy_id)
 ) ENGINE=InnoDB;
 
 
@@ -1525,7 +1526,8 @@ CREATE TABLE ezuser_accountkey (
   id int(11) NOT NULL auto_increment,
   time int(11) NOT NULL default '0',
   user_id int(11) NOT NULL default '0',
-  PRIMARY KEY  (id)
+  PRIMARY KEY  (id),
+  KEY hash_key (hash_key)
 ) ENGINE=InnoDB;
 
 
@@ -1697,7 +1699,8 @@ CREATE TABLE ezworkflow_event (
   version int(11) NOT NULL default '0',
   workflow_id int(11) NOT NULL default '0',
   workflow_type_string varchar(50) NOT NULL default '',
-  PRIMARY KEY  (id,version)
+  PRIMARY KEY  (id,version),
+  KEY wid_version_placement (workflow_id,version,placement)
 ) ENGINE=InnoDB;
 
 
@@ -1755,6 +1758,5 @@ CREATE TABLE ezworkflow_process (
   PRIMARY KEY  (id),
   KEY ezworkflow_process_process_key (process_key)
 ) ENGINE=InnoDB;
-
 
 
