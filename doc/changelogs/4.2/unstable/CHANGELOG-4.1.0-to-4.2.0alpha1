@@ -139,3 +139,4 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #11148: Cluster query error on mysql 5.1 using strict mode
 - Fixed bug #14493: Missing indexes on 3 tables
 - Fixed bug #15110: duplicate design bases in the list of template design resources
+- Fixed bug #14227: Languages are loaded from database in all pages

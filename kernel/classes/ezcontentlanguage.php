@@ -194,22 +194,31 @@ class eZContentLanguage extends eZPersistentObject
      */
     static function fetchList( $forceReloading = false )
     {
-        if ( !isset( $GLOBALS['eZContentLanguageList'] ) || $forceReloading )
+        if( isset( $GLOBALS['eZContentLanguageList'] ) && $forceReloading === false )
+            return $GLOBALS['eZContentLanguageList'];
+
+        $cachePath = eZSys::cacheDirectory() . '/ezcontentlanguage_cache.php';
+        $clusterFileHandler = eZClusterFileHandler::instance( $cachePath );
+
+        if( $forceReloading || !$clusterFileHandler->fileExists( $cachePath ) )
         {
-            $mask = 1; // we want have 0-th bit set too!
             $languages = eZPersistentObject::fetchObjectList( eZContentLanguage::definition() );
-
-            unset( $GLOBALS['eZContentLanguageList'] );
-            unset( $GLOBALS['eZContentLanguageMask'] );
-            $GLOBALS['eZContentLanguageList'] = array();
-            foreach ( $languages as $language )
-            {
-                $GLOBALS['eZContentLanguageList'][$language->attribute( 'id' )] = $language;
-                $mask += $language->attribute( 'id' );
-            }
-
-            $GLOBALS['eZContentLanguageMask'] = $mask;
+            $clusterFileHandler->fileStoreContents( $cachePath, serialize( $languages ), 'content', 'php' );
         }
+        else
+            $languages = unserialize( $clusterFileHandler->fetchContents() );
+
+        unset( $GLOBALS['eZContentLanguageList'] );
+        unset( $GLOBALS['eZContentLanguageMask'] );
+        $GLOBALS['eZContentLanguageList'] = array();
+        $mask = 1; // we want have 0-th bit set too!
+        foreach ( $languages as $language )
+        {
+            $GLOBALS['eZContentLanguageList'][$language->attribute( 'id' )] = $language;
+            $mask += $language->attribute( 'id' );
+        }
+
+        $GLOBALS['eZContentLanguageMask'] = $mask;
 
         return $GLOBALS['eZContentLanguageList'];
     }
