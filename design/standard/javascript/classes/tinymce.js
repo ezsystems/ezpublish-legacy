@@ -1,5 +1,5 @@
 /**
- * $Id: tinymce.js 1091 2009-04-20 12:14:33Z spocke $
+ * $Id: tinymce.js 1168 2009-06-29 13:11:43Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -58,7 +58,7 @@ var tinymce = {
 		}
 
 		function getBase(n) {
-			if (n.src && /tiny_mce(|_dev|_src|_gzip|_jquery|_prototype).js/.test(n.src)) {
+			if (n.src && /tiny_mce(|_gzip|_jquery|_prototype)(_dev|_src)?.js/.test(n.src)) {
 				if (/_(src|dev)\.js/g.test(n.src))
 					t.suffix = '_src';
 
@@ -233,6 +233,8 @@ var tinymce = {
 		return o;
 	},
 
+	// #endif
+
 	/**
 	 * Removes whitespace from the beginning and end of a string.
 	 *
@@ -242,8 +244,6 @@ var tinymce = {
 	trim : function(s) {
 		return (s ? '' + s : '').replace(/^\s*|\s*$/g, '');
 	},
-
-	// #endif
 
 	/**
 	 * Creates a class, subclass or static singleton.

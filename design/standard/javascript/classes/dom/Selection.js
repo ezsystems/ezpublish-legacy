@@ -1,5 +1,5 @@
 /**
- * $Id: Selection.js 1076 2009-04-04 15:01:25Z spocke $
+ * $Id: Selection.js 1149 2009-06-01 11:47:08Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -231,7 +231,7 @@
 			sy = vp.y;
 
 			// Simple bookmark fast but not as persistent
-			if (si == 'simple')
+			if (si)
 				return {rng : r, scrollX : sx, scrollY : sy};
 
 			// Handle IE

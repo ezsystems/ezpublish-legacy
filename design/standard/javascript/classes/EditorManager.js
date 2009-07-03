@@ -1,5 +1,5 @@
 /**
- * $Id: EditorManager.js 1045 2009-03-04 20:03:18Z spocke $
+ * $Id: EditorManager.js 1160 2009-06-18 18:54:44Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -37,10 +37,6 @@
 
 			tinymce.baseURL = new tinymce.util.URI(tinymce.documentBaseURL).toAbsolute(tinymce.baseURL);
 			tinymce.EditorManager.baseURI = new tinymce.util.URI(tinymce.baseURL);
-
-			// User specified a document.domain value
-			if (document.domain && lo.hostname != document.domain)
-				tinymce.relaxedDomain = document.domain;
 
 			// Add before unload listener
 			// This was required since IE was leaking memory if you added and removed beforeunload listeners
@@ -294,6 +290,8 @@
 
 			// Select another editor since the active one was removed
 			if (t.activeEditor == e) {
+				t._setActive(null);
+
 				each(t.editors, function(e) {
 					t._setActive(e);
 					return false; // Break

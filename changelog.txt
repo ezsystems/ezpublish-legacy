@@ -23,7 +23,7 @@ eZ Online Editor 5.0 extension Changelog
 * Fixed #14868: Allow adding inline custom / embed tags in header tags
 * Fixed #14873: Call to undefined method DOMText::getAttribute()
 * Changed order of outdent/indent buttons to be the same as other editors
-* Updated tinyMCE to 3.2.4.1
+* Updated tinyMCE to 3.2.5
 * Change rewrite rules to support plain package
 * Fixed #14935: Small typo at design.ini.append.php
 * Fixed #15014: image identifier is hardcoded in upload_images.tpl

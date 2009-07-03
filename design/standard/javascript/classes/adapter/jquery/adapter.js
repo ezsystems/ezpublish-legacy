@@ -1,5 +1,5 @@
 /**
- * $Id: adapter.js 1000 2009-02-12 13:03:40Z spocke $
+ * $Id: adapter.js 1167 2009-06-29 13:07:20Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -9,7 +9,7 @@
 
 // #ifdef jquery_adapter
 
-(function($) {
+(function($, tinymce) {
 	var is = tinymce.is;
 
 	if (!window.jQuery)
@@ -18,7 +18,6 @@
 	// Patch in core NS functions
 	tinymce.extend = $.extend;
 	tinymce.extend(tinymce, {
-		trim : $.trim,
 		map : $.map,
 		grep : function(a, f) {return $.grep(a, f || function(){return 1;});},
 		inArray : function(a, v) {return $.inArray(v, a || []);},
@@ -43,6 +42,7 @@
 	// Add a "#ifndefjquery" statement around each core API function you add below
 	var patches = {
 		'tinymce.dom.DOMUtils' : {
+			/*
 			addClass : function(e, c) {
 				if (is(e, 'array') && is(e[0], 'string'))
 					e = e.join(',#');
@@ -69,11 +69,19 @@
 
 				return r.length == 1 ? r[0] : r;
 			},
+			*/
 
-			select : function(p, c) {
-				return tinymce.grep($(p));
+			select : function(pattern, scope) {
+				var t = this;
+
+				return $.find(pattern, t.get(scope) || t.get(t.settings.root_element) || t.doc, []);
 			},
 
+			is : function(n, patt) {
+				return $(this.get(n)).is(patt);
+			}
+
+			/*
 			show : function(e) {
 				if (is(e, 'array') && is(e[0], 'string'))
 					e = e.join(',#');
@@ -173,8 +181,10 @@
 					t.setAttrib(e,n,v);
 				});
 			}
-		},
+			*/
+		}
 
+/*
 		'tinymce.dom.Event' : {
 			add : function (o, n, f, s) {
 				var lo, cb;
@@ -218,12 +228,13 @@
 				return true;
 			}
 		}
+*/
 	};
 
 	// Patch functions after a class is created
 	tinymce.onCreate = function(ty, c, p) {
 		tinymce.extend(p, patches[c]);
 	};
-})(jQuery);
+})(jQuery, tinymce);
 
 // #endif

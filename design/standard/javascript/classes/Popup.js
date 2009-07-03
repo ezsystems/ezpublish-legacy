@@ -1,5 +1,5 @@
 /**
- * $Id: Popup.js 1075 2009-04-03 19:41:51Z spocke $
+ * $Id: Popup.js 1150 2009-06-01 11:50:46Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -148,7 +148,7 @@ tinyMCEPopup = {
 	 * looses it's selection if a control element is selected/focused inside the dialogs.
 	 */
 	storeSelection : function() {
-		this.editor.windowManager.bookmark = tinyMCEPopup.editor.selection.getBookmark('simple');
+		this.editor.windowManager.bookmark = tinyMCEPopup.editor.selection.getBookmark(1);
 	},
 
 	/**

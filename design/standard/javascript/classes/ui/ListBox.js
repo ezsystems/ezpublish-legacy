@@ -1,5 +1,5 @@
 /**
- * $Id: ListBox.js 1045 2009-03-04 20:03:18Z spocke $
+ * $Id: ListBox.js 1157 2009-06-18 14:45:21Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -312,6 +312,7 @@
 			this.parent();
 
 			Event.clear(this.id + '_text');
+			Event.clear(this.id + '_open');
 		}
 
 		/**#@-*/

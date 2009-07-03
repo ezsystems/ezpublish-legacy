@@ -1,5 +1,5 @@
 /**
- * $Id: EventUtils.js 1140 2009-05-25 12:29:01Z spocke $
+ * $Id: EventUtils.js 1161 2009-06-25 09:30:55Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
@@ -27,8 +27,6 @@
 		/**#@+
 		 * @method
 		 */
-
-		// #ifndef jquery
 
 		/**
 		 * Adds an event handler to the specified object.
@@ -82,17 +80,8 @@
 					if (!e.target)
 						e.target = e.srcElement;
 
-					if (!e.preventDefault) {
-						e.preventDefault = function() {
-							e.returnValue = false;
-						};
-					}
-
-					if (!e.stopPropagation) {
-						e.stopPropagation = function() {
-							e.cancelBubble = true;
-						};
-					}
+					// Patch in preventDefault, stopPropagation methods for W3C compatibility
+					tinymce.extend(e, t._stoppers);
 				}
 
 				if (!s)
@@ -188,8 +177,6 @@
 				}
 			}
 		},
-
-		// #endif
 
 		/**
 		 * Cancels an event for both bubbeling and the default browser behavior.
@@ -335,6 +322,16 @@
 			t._add(win, 'load', function() {
 				t._pageInit(win);
 			});
+		},
+
+		_stoppers : {
+			preventDefault :  function() {
+				this.returnValue = false;
+			},
+
+			stopPropagation : function() {
+				this.cancelBubble = true;
+			}
 		}
 
 		/**#@-*/

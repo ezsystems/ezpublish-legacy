@@ -1,5 +1,5 @@
 /**
- * $Id: ControlManager.js 1133 2009-05-20 15:10:57Z spocke $
+ * $Id: ControlManager.js 1150 2009-06-01 11:50:46Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -241,7 +241,7 @@
 				c.onPostRender.add(function(c, n) {
 					// Store bookmark on mousedown
 					Event.add(n, 'mousedown', function() {
-						ed.bookmark = ed.selection.getBookmark('simple');
+						ed.bookmark = ed.selection.getBookmark(1);
 					});
 
 					// Restore on focus, since it might be lost

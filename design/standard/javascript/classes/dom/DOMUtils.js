@@ -1,5 +1,5 @@
 /**
- * $Id: DOMUtils.js 1139 2009-05-25 12:17:04Z spocke $
+ * $Id: DOMUtils.js 1154 2009-06-10 17:31:03Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -157,16 +157,6 @@
 		},
 
 		/**
-		 * Returns true/false if the specified element matches the specified css pattern.
-		 *
-		 * @param {Node/NodeList} n DOM node to match or an array of nodes to match.
-		 * @param {String} patt CSS pattern to match the element agains.
-		 */
-		is : function(n, patt) {
-			return tinymce.dom.Sizzle.matches(patt, n.nodeType ? [n] : n).length > 0;
-		},
-
-		/**
 		 * Returns a node by the specified selector function. This function will
 		 * loop through all parent nodes and call the specified function for each node.
 		 * If the function then returns true indicating that it has found what it was looking for, the loop execution will then end
@@ -265,6 +255,16 @@
 			var t = this;
 
 			return tinymce.dom.Sizzle(pa, t.get(s) || t.get(t.settings.root_element) || t.doc, []);
+		},
+
+		/**
+		 * Returns true/false if the specified element matches the specified css pattern.
+		 *
+		 * @param {Node/NodeList} n DOM node to match or an array of nodes to match.
+		 * @param {String} patt CSS pattern to match the element agains.
+		 */
+		is : function(n, patt) {
+			return tinymce.dom.Sizzle.matches(patt, n.nodeType ? [n] : n).length > 0;
 		},
 
 		// #endif
@@ -376,8 +376,6 @@
 				return p.removeChild(n);
 			});
 		},
-
-		// #ifndef jquery
 
 		/**
 		 * Sets the CSS style value on a HTML element. The name can be a camelcase string
@@ -582,8 +580,6 @@
 				});
 			});
 		},
-
-		// #endif
 
 		/**
 		 * Returns the specified attribute by name.
@@ -916,8 +912,6 @@
 			});
 		},
 
-		// #ifndef jquery
-
 		/**
 		 * Adds a class to the specified element or elements.
 		 *
@@ -1012,8 +1006,6 @@
 
 			return !e || e.style.display == 'none' || this.getStyle(e, 'display') == 'none';
 		},
-
-		// #endif
 
 		/**
 		 * Returns a unique id. This can be useful when generating elements on the fly.
@@ -1177,7 +1169,7 @@
 			// Store away src and href in mce_src and mce_href since browsers mess them up
 			if (s.keep_values) {
 				// Wrap scripts and styles in comments for serialization purposes
-				if (/<script|style/.test(h)) {
+				if (/<script|noscript|style/.test(h)) {
 					function trim(s) {
 						// Remove prefix and suffix code for element
 						s = s.replace(/(<!--\[CDATA\[|\]\]-->)/g, '\n');
@@ -1210,12 +1202,18 @@
 						return '<mce:script' + attribs + '>' + text + '</mce:script>';
 					});
 
+					// Wrap style elements
 					h = h.replace(/<style([^>]+|)>([\s\S]*?)<\/style>/g, function(v, attribs, text) {
 						// Wrap text contents
 						if (text)
 							text = '<!--\n' + trim(text) + '\n-->';
 
 						return '<mce:style' + attribs + '>' + text + '</mce:style><style ' + attribs + ' mce_bogus="1">' + text + '</style>';
+					});
+
+					// Wrap noscript elements
+					h = h.replace(/<noscript([^>]+|)>([\s\S]*?)<\/noscript>/g, function(v, attribs, text) {
+						return '<mce:noscript' + attribs + '><!--' + t.encode(text).replace(/--/g, '&#45;&#45;') + '--></mce:noscript>';
 					});
 				}
 
@@ -1375,8 +1373,6 @@
 			}) : s;
 		},
 
-		// #ifndef jquery
-
 		/**
 		 * Inserts a element after the reference element.
 		 *
@@ -1404,8 +1400,6 @@
 			});
 		},
 
-		// #endif
-
 		/**
 		 * Returns true/false if the specified element is a block element or not.
 		 *
@@ -1420,8 +1414,6 @@
 
 			return /^(H[1-6]|HR|P|DIV|ADDRESS|PRE|FORM|TABLE|LI|OL|UL|TR|TD|CAPTION|BLOCKQUOTE|CENTER|DL|DT|DD|DIR|FIELDSET|NOSCRIPT|NOFRAMES|MENU|ISINDEX|SAMP)$/.test(n);
 		},
-
-		// #ifndef jquery
 
 		/**
 		 * Replaces the specified element or elements with the specified element, the new element will
@@ -1455,8 +1447,6 @@
 				return o.parentNode.replaceChild(n, o);
 			});
 		},
-
-		// #endif
 
 		/**
 		 * Find the common ancestor of two elements. This is a shorter method than using the DOM Range logic.
@@ -1709,24 +1699,7 @@
 				return n.replace(/[ \t\r\n]+|&nbsp;|&#160;/g, '') == '';
 			};
 
-			// WebKit has a bug where the setStartBefore/setStartAfter/setEndBefore/setEndAfter methods produces an exception on DOM detached nodes
-			// So we then need to use the setStart/setEnd method with and that needs to have the node index.
-			function nodeIndex(n) {
-				var i = 0;
-
-				while (n.previousSibling) {
-					i++;
-					n = n.previousSibling;
-				}
-
-				return i;
-			};
-
 			if (pe && e) {
-/*
-				// WebKit might fix the bug: https://bugs.webkit.org/show_bug.cgi?id=25571
-				// So then this code can be reintroduced
-
 				// Get before chunk
 				r.setStartBefore(pe);
 				r.setEndBefore(e);
@@ -1736,18 +1709,6 @@
 				r = t.createRng();
 				r.setStartAfter(e);
 				r.setEndAfter(pe);
-				aft = r.extractContents();
-*/
-
-				// Get before chunk
-				r.setStart(pe.parentNode, nodeIndex(pe));
-				r.setEnd(e.parentNode, nodeIndex(e));
-				bef = r.extractContents();
-
-				// Get after chunk
-				r = t.createRng();
-				r.setStart(e.parentNode, nodeIndex(e) + 1);
-				r.setEnd(pe.parentNode, nodeIndex(pe) + 1);
 				aft = r.extractContents();
 
 				// Insert chunks and remove parent

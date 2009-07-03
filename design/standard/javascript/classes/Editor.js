@@ -1,5 +1,5 @@
 /**
- * $Id: Editor.js 1139 2009-05-25 12:17:04Z spocke $
+ * $Id: Editor.js 1165 2009-06-26 15:26:55Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -383,6 +383,10 @@
 
 			// #endif
 
+			// User specified a document.domain value
+			if (document.domain && location.hostname != document.domain)
+				tinymce.relaxedDomain = document.domain;
+
 			// Resize editor
 			DOM.setStyles(o.sizeContainer || o.editorContainer, {
 				width : w,
@@ -393,7 +397,13 @@
 			if (h < 100)
 				h = 100;
 
-			t.iframeHTML = s.doctype + '<html><head xmlns="http://www.w3.org/1999/xhtml"><base href="' + t.documentBaseURI.getURI() + '" />';
+			t.iframeHTML = s.doctype + '<html><head xmlns="http://www.w3.org/1999/xhtml">';
+
+			// We only need to override paths if we have to
+			// IE has a bug where it remove site absolute urls to relative ones if this is specified
+			if (s.document_base_url != tinymce.documentBaseURL)
+				t.iframeHTML += '<base href="' + t.documentBaseURI.getURI() + '" />';
+
 			t.iframeHTML += '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
 
 			if (tinymce.relaxedDomain)
@@ -543,9 +553,6 @@
 			if (s.nowrap)
 				t.getBody().style.whiteSpace = "nowrap";
 
-			if (s.auto_resize)
-				t.onNodeChange.add(t.resizeToContent, t);
-
 			if (s.custom_elements) {
 				function handleCustom(ed, o) {
 					each(explode(s.custom_elements), function(v) {
@@ -565,7 +572,7 @@
 				t.onBeforeSetContent.add(handleCustom);
 				t.onPostProcess.add(function(ed, o) {
 					if (o.set)
-						handleCustom(ed, o)
+						handleCustom(ed, o);
 				});
 			}
 
@@ -1345,15 +1352,6 @@
 			this.onSetProgressState.dispatch(this, b, ti, o);
 
 			return b;
-		},
-
-		/**
-		 * Resizes the editor to the current contents width and height.
-		 */
-		resizeToContent : function() {
-			var t = this;
-
-			DOM.setStyle(t.id + "_ifr", 'height', t.getBody().scrollHeight);
 		},
 
 		/**
