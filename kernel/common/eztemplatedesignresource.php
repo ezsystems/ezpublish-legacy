@@ -247,6 +247,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     */
     static function fileMatch( $bases, $element, $path, &$triedFiles )
     {
+        $bases = array_unique( $bases );
         foreach ( $bases as $base )
         {
             $resource = $element != '' ? "$base/$element" : $base;
