@@ -12,6 +12,7 @@ Changes from 4.1.0 to 4.2.0alpha1
   # Fixed a small regression in the image conversion process when a source image has an unknown mimetype
 - Implemented enhancement #13825: Full PHP 5.3 compatibility
 - Implemented enhancement #10178: Make trigger information available to events
+- Implemented enhancement #15032: Update ezlupdate to Qt 4.5 (patch)
 
 *Design:
 
