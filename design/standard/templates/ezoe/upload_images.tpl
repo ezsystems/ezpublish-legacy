@@ -111,7 +111,11 @@ if ( contentType === 'images' )
                 </tr>
                 <tr>
                     <td class="column1"><label id="captionlabel" for="objectCaption">{'Caption'|i18n('design/standard/ezoe')}</label></td> 
-                    <td colspan="2"><input id="objectCaption" name="ContentObjectAttribute_caption" size="53" type="text" value=""title="{'Caption for a image is usually shown bellow it as a description to the image.'|i18n('design/standard/ezoe/wai')}" /></td>
+                    <td colspan="2"><input id="objectCaption" name="ContentObjectAttribute_caption" size="53" type="text" value="" title="{'Caption for a image is usually shown bellow it as a description to the image.'|i18n('design/standard/ezoe/wai')}" /></td>
+                </tr>
+                <tr>
+                    <td class="column1"><label id="tagslabel" for="objectTags">{'Tags'|i18n('design/standard/ezoe')}</label></td> 
+                    <td colspan="2"><input id="objectTags" name="ContentObjectAttribute_tags" size="53" type="text" value="" title="{'Tags, aka Keywords are a comma separated list of words thats categorizes the content.'|i18n('design/standard/ezoe/wai')}" /></td>
                 </tr>
                 <tr> 
                     <td colspan="3">

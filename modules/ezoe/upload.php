@@ -145,6 +145,10 @@ if ( $http->hasPostVariable( 'uploadButton' ) || $forcedUpload )
                         $content->setAttribute( 'alternative_text', trim( $http->postVariable( $base ) ) );
                         $content->store();
                         break;
+                    case 'ezkeyword':
+                        $newObjectDataMap[$key]->fromString( $http->postVariable( $base ) );
+                        $newObjectDataMap[$key]->store();
+                        break;
                     case 'ezxmltext':
                         $text = trim( $http->postVariable( $base ) );
                         include_once( 'extension/ezoe/ezxmltext/handlers/input/ezoeinputparser.php' );
