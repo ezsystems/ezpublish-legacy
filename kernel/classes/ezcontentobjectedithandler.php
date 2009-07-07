@@ -63,6 +63,7 @@ class eZContentObjectEditHandler
     */
     static function storeActionList()
     {
+        return array();
     }
 
     /*!
