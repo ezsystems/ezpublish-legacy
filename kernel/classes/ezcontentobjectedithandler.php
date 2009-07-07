@@ -59,6 +59,7 @@ class eZContentObjectEditHandler
     */
     static function storeActionList()
     {
+        return array();
     }
 
     /*!
@@ -70,6 +71,9 @@ class eZContentObjectEditHandler
 
     /*!
      Override this function in the extension to handle input validation.
+     
+     Result with warnings are expected in the following format:
+     array( 'is_valid' => false, 'warnings' => array( array( 'text' => 'Input parameter <some_id> must be an integer.' ) ) );
     */
     function validateInput( $http, &$module, &$class, $object, &$version, $contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage, $validationParameters )
     {
