@@ -143,7 +143,7 @@ if ( $http->hasPostVariable( 'uploadButton' ) || $forcedUpload )
                     case 'ezimage':
                         $content = $newObjectDataMap[$key]->attribute('content');
                         $content->setAttribute( 'alternative_text', trim( $http->postVariable( $base ) ) );
-                        $content->store();
+                        $content->store( $newObjectDataMap[$key] );
                         break;
                     case 'ezkeyword':
                         $newObjectDataMap[$key]->fromString( $http->postVariable( $base ) );

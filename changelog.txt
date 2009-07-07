@@ -32,6 +32,7 @@ eZ Online Editor 5.0 extension Changelog
 * Fixed #15053: Parse error in tag_custom.tpl
 * Fixed #15052: An object cannot be browsed when creating a link
 * Implemented #15139: Add support for tagging images during upload
+* Fixed: "Warning: Missing argument 1 for eZImageAliasHandler::store()" when inserting alternative text on images
 
 
 5.0.0
