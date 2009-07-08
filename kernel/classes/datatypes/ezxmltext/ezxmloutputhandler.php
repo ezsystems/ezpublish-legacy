@@ -486,13 +486,13 @@ class eZXMLOutputHandler
                 $this->Tpl->setVariable( $name, $value, 'xmltagns' );
             }
 
-            // Create design keys array
+            // Create design keys array (including the ones with no value so they still overwrite values of parent tag)
             $designKeys = array();
             if ( isset( $currentTag['attrDesignKeys'] ) )
             {
                 foreach( $currentTag['attrDesignKeys'] as $attrName=>$keyName )
                 {
-                    if ( isset( $attributes[$attrName] ) && $attributes[$attrName] )
+                    if ( isset( $attributes[$attrName] ) )
                     {
                         $designKeys[$keyName] = $attributes[$attrName];
                     }
