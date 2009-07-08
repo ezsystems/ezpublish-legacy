@@ -144,4 +144,4 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #14227: Languages are loaded from database in all pages
 - Fixed bug #15132: Some overrides do not work
 - Fixed bug #15083: No warning is given when uploading file and size exeeds post_max_size [PATCH]
-  # Second fix for this issue, avoids interfering with GET requests
+- Fixed bug #15140: Warning: get_class() expects parameter 1 to be object, null given in ezworkflowprocess.php on line 301
