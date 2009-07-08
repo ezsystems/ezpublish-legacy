@@ -296,7 +296,7 @@ class eZWorkflowProcess extends eZPersistentObject
             {
                 eZDebugSetting::writeDebug( 'workflow-process', get_class( $workflowEvent ), "workflowEvent class is ezworkflowevent" );
             }
-            else
+            else if ( $workflowEvent !== null )
             {
                 eZDebugSetting::writeDebug( 'workflow-process', get_class( $workflowEvent ), "workflowEvent class is not ezworkflowevent" );
             }
