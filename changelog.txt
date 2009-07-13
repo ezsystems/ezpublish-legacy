@@ -33,6 +33,7 @@ eZ Online Editor 5.0 extension Changelog
 * Fixed #15052: An object cannot be browsed when creating a link
 * Implemented #15139: Add support for tagging images during upload
 * Fixed: "Warning: Missing argument 1 for eZImageAliasHandler::store()" when inserting alternative text on images
+* Fixed: WebKit (Safari 4 & Chrome 2+) width problem on height resize
 
 
 5.0.0

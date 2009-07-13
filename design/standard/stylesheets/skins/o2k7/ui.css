@@ -51,10 +51,14 @@
 .o2k7Skin span.mceButtonLabel {display:block; font-size:10px; padding:4px 6px 0 22px; font-family:Tahoma,Verdana,Arial,Helvetica}
 .o2k7Skin .mceButtonDisabled .mceButtonLabel {color:#888}
 
+.o2k7Skin div.mceToolBarFlow { white-space: normal; }
 .o2k7Skin div.mceToolbar div.mceToolbarGroupingElement { float: left; height: 26px; clear: none; }
 .o2k7Skin div.mceToolbar span.mceToolbarElement { float: left; height: 26px; clear: none; }
 
-/* ie6 and ie7 has some issues with float and grouping, so we disable gouping there */
+/**
+ * IE6, IE7 and older versions of Opera has some issues with float and grouping, so we disable grouping
+ *(mceToolBarFlowIEbug class is added in javascript code in the theme)
+ */
 .o2k7Skin div.mceToolBarFlowIEbug div.mceToolbarGroupingElement { float: none; display: inline; }
 
 /* Separator */

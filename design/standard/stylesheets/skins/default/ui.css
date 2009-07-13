@@ -45,10 +45,14 @@
 .defaultSkin span.mceButtonLabel {display:block; font-size:10px; padding:4px 6px 0 22px; font-family:Tahoma,Verdana,Arial,Helvetica}
 .defaultSkin .mceButtonDisabled .mceButtonLabel {color:#888}
 
+.defaultSkin div.mceToolBarFlow { white-space: normal; }
 .defaultSkin div.mceToolbar div.mceToolbarGroupingElement { float: left; height: 26px; clear: none; }
 .defaultSkin div.mceToolbar span.mceToolbarElement { float: left; height: 26px; clear: none; }
 
-/* ie6 and ie7 has some issues with float and grouping, so we disable gouping there */
+/**
+ * IE6, IE7 and older versions of Opera has some issues with float and grouping, so we disable grouping
+ *(mceToolBarFlowIEbug class is added in javascript code in the theme)
+ */
 .defaultSkin div.mceToolBarFlowIEbug div.mceToolbarGroupingElement { float: none; display: inline; }
 
 
