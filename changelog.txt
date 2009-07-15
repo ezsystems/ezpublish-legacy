@@ -35,6 +35,7 @@ eZ Online Editor 5.0 extension Changelog
 * Fixed: "Warning: Missing argument 1 for eZImageAliasHandler::store()" when inserting alternative text on images
 * Fixed: WebKit (Safari 4 & Chrome 2+) width problem on height resize
 * Documented: #15151: Table insert row before ...
+* Added workaround for script error on ezflow frontpages
 
 
 5.0.0

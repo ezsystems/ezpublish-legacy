@@ -59,7 +59,7 @@
     <script type="text/javascript">
     <!--
     
-    if ( window.ez === undefined ) document.write('<script type="text/javascript" src={"javascript/ezoe/ez_core.js"|ezdesign}><\/script>');
+    if ( window.ez === undefined || ez.version < 0.95 ) document.write('<script type="text/javascript" src={"javascript/ezoe/ez_core.js"|ezdesign}><\/script>');
 
     var eZOeAttributeSettings, eZOeGlobalSettings = {ldelim}
         mode : "none",
