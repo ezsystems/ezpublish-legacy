@@ -23,8 +23,8 @@
     {set $click_action=$click_action|ezurl(no)}
 {/if}
 
-<script type="text/javascript" src={"javascript/yui/2.5.2/build/utilities/utilities.js"|ezdesign}></script>
-<script type="text/javascript" src={"javascript/yui/2.5.2/build/json/json-min.js"|ezdesign}></script>
+<script type="text/javascript" src={"javascript/yui/2.7.0/build/utilities/utilities.js"|ezdesign}></script>
+<script type="text/javascript" src={"javascript/yui/2.7.0/build/json/json-min.js"|ezdesign}></script>
 {literal}
 <script type="text/javascript">
 <!--
