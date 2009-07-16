@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+
+<project name="ezoe" default="dist" basedir=".">
+    <property name="builddirname" value="build"/>
+    <property name="buildrootdir" value="${basedir}/${builddirname}"/>
+    <property name="builddir"     value="${buildrootdir}/${ant.project.name}"/>
+    <property name="distdirname"  value="dist"/>
+    <property name="distdir"      value="${basedir}/${distdirname}"/>
+    <property name="version"      value="1.0.0"/>
+    <property name="distname"     value="${ant.project.name}-${version}"/>
+
+    <target name="prepare">
+        <echo message="Preparing directory ${builddir} ..." />
+        <delete dir="${builddir}" />
+        <mkdir dir="${builddir}" />
+        <echo message="Preparing directory ${distdir} ..." />
+        <delete dir="${distdir}" />
+        <mkdir dir="${distdir}" />
+    </target>
+
+    <!-- Fileset for all files -->
+    <fileset dir="." id="allfiles">
+        <include name="**" />
+        <exclude name="build.xml" />
+        <exclude name="${builddirname}/**" />
+        <exclude name="${distdirname}" />
+        <exclude name="dist.sh" />
+    </fileset>
+
+    <target name="build" depends="prepare">
+        <echo message="Copying files to build directory..." />
+        <copy todir="${builddir}">
+            <fileset refid="allfiles" />
+        </copy>
+    </target>
+
+    <target name="dist" depends="build">
+        <echo message="Creating archive '${distname}.tar.gz' ..." />
+
+        <tar destfile="${distdir}/${distname}.tar.gz"
+             compression="gzip"
+             longfile="gnu"
+             basedir="${buildrootdir}"/>
+
+        <echo message="Build completed!" />
+    </target>
+
+    <target name="dist-clean">
+        <delete dir="${distdir}"/>
+    </target>
+
+    <target name="clean-all" depends="dist-clean">
+        <delete dir="build"/>
+    </target>
+</project>
