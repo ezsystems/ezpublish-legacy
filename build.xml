@@ -1,55 +1,62 @@
 <?xml version="1.0"?>
 
-<project name="ezoe" default="dist" basedir=".">
-    <property name="builddirname" value="build"/>
-    <property name="buildrootdir" value="${basedir}/${builddirname}"/>
-    <property name="builddir"     value="${buildrootdir}/${ant.project.name}"/>
-    <property name="distdirname"  value="dist"/>
-    <property name="distdir"      value="${basedir}/${distdirname}"/>
-    <property name="version"      value="1.0.0"/>
-    <property name="distname"     value="${ant.project.name}-${version}"/>
+<project name="ezoe" default="build" basedir="build">
 
-    <target name="prepare">
-        <echo message="Preparing directory ${builddir} ..." />
-        <delete dir="${builddir}" />
-        <mkdir dir="${builddir}" />
-        <echo message="Preparing directory ${distdir} ..." />
-        <delete dir="${distdir}" />
-        <mkdir dir="${distdir}" />
+    <description>eZOE extension build file</description>
+
+    <property file="../properties/ezoe.properties"/>
+
+    <target name="infos">
+        <echo message="EZOE BUILD INFORMATIONS"/>
+        <echo message="-----------------------"/>
+        <echo message="ezoe.version.major   : ${ezoe.version.major}"/>
+        <echo message="ezoe.version.minor   : ${ezoe.version.minor}"/>
+        <echo message="ezoe.version.release : ${ezoe.version.release}"/>
+        <echo message="ezoe.version.alias   : ${ezoe.version.alias}"/>
+        <echo message="ezoe.svn.trunk.url   : ${ezoe.svn.trunk.url}"/>
     </target>
 
-    <!-- Fileset for all files -->
-    <fileset dir="." id="allfiles">
-        <include name="**" />
-        <exclude name="build.xml" />
-        <exclude name="${builddirname}/**" />
-        <exclude name="${distdirname}" />
-        <exclude name="dist.sh" />
-    </fileset>
+    <target name="warning" depends="infos">
+        <echo message="Please check informations defined above are correct"/>
+        <echo message="If not feel free to update the properties/ezoe.properties file"/>
+        <echo message="This script will wait for 5 seconds before it starts"/>
 
-    <target name="build" depends="prepare">
-        <echo message="Copying files to build directory..." />
-        <copy todir="${builddir}">
-            <fileset refid="allfiles" />
-        </copy>
+        <sleep seconds="5"/>
     </target>
 
-    <target name="dist" depends="build">
-        <echo message="Creating archive '${distname}.tar.gz' ..." />
+    <target name="init" depends="warning">
+        <exec executable="svn" failonerror="true">
+            <arg value="export"/>
+            <arg value="${ezoe.svn.trunk.url}"/>
+            <arg value="ezoe"/>
+        </exec>
+    </target>
 
-        <tar destfile="${distdir}/${distname}.tar.gz"
+    <target name="build" depends="init">
+        <echo message="Updating ezinfo.php"/>
+
+        <replaceregexp byline="true">
+            <regexp pattern='^(                      \047Version\047   => \047)(.*)(\047,)$'/>
+            <substitution expression='\1${ezoe.version.alias}.${ezoe.version.release}\3'/>
+            <fileset file="ezoe/ezinfo.php"/>
+        </replaceregexp>
+
+        <delete file="ezoe/build.xml"/>
+    </target>
+
+    <target name="dist">
+        <tar destfile="ezoe-${ezoe.version.alias}.${ezoe.version.release}.tar.gz"
              compression="gzip"
              longfile="gnu"
-             basedir="${buildrootdir}"/>
-
-        <echo message="Build completed!" />
+             basedir="${basedir}"/>
     </target>
 
-    <target name="dist-clean">
-        <delete dir="${distdir}"/>
+    <target name="distclean">
+        <delete file="ezoe-${ezoe.version.alias}.${ezoe.version.release}.tar.gz"/>
     </target>
 
-    <target name="clean-all" depends="dist-clean">
-        <delete dir="build"/>
+    <target name="cleanall" depends="distclean">
+        <delete dir="ezoe"/>
     </target>
+
 </project>
