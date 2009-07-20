@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="ezoe" default="build" basedir="build">
+<project name="eZOE" default="build" basedir="build">
 
     <description>eZOE extension build file</description>
 
