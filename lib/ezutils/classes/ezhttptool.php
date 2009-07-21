@@ -231,7 +231,7 @@ class eZHTTPTool
      \param port which port to connect to, default 80
      \param postParameters post parameters array (optional), if no post parameters are present, a get request will be send.
      \param userAgent user agent, default will be eZ Publish
-     \param passthrough will send result directly to client, default false
+     \param passthrough will send result directly to client, default true
 
      \return result if http request, or return false if an error occurs.
              If pipetrough, program will end here.
@@ -336,7 +336,7 @@ class eZHTTPTool
         }
 
         $buf = '';
-        if ( $passtrough )
+        if ( $passthrough )
         {
             ob_end_clean();
             $header = true;
