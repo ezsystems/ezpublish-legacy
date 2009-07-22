@@ -75,8 +75,8 @@
         <antcall target="update-ezinfo-php"/>
         <antcall target="update-license-headers"/>
 
-        <delete dir="${ezoe.build.dir}/ant"/>
-        <delete file="${ezoe.build.dir}/build.xml"/>
+        <delete dir="${ezoe.build.dir}/ezoe/ant"/>
+        <delete file="${ezoe.build.dir}/ezoe/build.xml"/>
     </target>
 
     <!-- Creates a tarball of the newly built extension -->
