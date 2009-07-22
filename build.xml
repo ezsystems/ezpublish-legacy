@@ -35,7 +35,7 @@
 
     <!-- Shows the list of properties used for building this extension -->
     <!-- Anytime the ezoe.properties file is update, this target must  -->
-    <!-- me update as well                                             -->
+    <!-- be updated as well                                            -->
     <target name="infos">
         <echo message="EZOE BUILD INFORMATION"/>
         <echo message="----------------------"/>
