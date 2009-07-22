@@ -1,54 +1,118 @@
 <?xml version="1.0"?>
-
-<project name="eZOE" default="build" basedir="build">
+<project name="eZOE" default="all">
 
     <description>eZOE extension build file</description>
 
-    <property file="../properties/ezoe.properties"/>
+    <mkdir dir="build"/>
 
+    <!-- ================== -->
+    <!-- dynamic properties -->
+    <!-- ================== -->
+
+    <!-- current year -->
+    <tstamp>
+        <format property="date.current.year" pattern="yyyy"/>
+    </tstamp>
+
+    <!-- ========================= -->
+    <!-- end of dynamic properties -->
+    <!-- ========================= -->
+
+    <!-- ================= -->
+    <!-- static properties -->
+    <!-- ================= -->
+
+    <property name="ezoe.build.dir" location="build"/>
+    <property file="./ant/ezoe.properties"/>
+
+    <!-- ======================== -->
+    <!-- end of static properties -->
+    <!-- ======================== -->
+
+    <!-- ============================= -->
+    <!-- high level ( public ) targets -->
+    <!-- ============================= -->
+
+    <!-- Shows the list of properties used for building this extension -->
+    <!-- Anytime the ezoe.properties file is update, this target must  -->
+    <!-- me update as well                                             -->
     <target name="infos">
-        <echo message="EZOE BUILD INFORMATIONS"/>
-        <echo message="-----------------------"/>
+        <echo message="EZOE BUILD INFORMATION"/>
+        <echo message="----------------------"/>
         <echo message="ezoe.version.major   : ${ezoe.version.major}"/>
         <echo message="ezoe.version.minor   : ${ezoe.version.minor}"/>
         <echo message="ezoe.version.release : ${ezoe.version.release}"/>
         <echo message="ezoe.version.alias   : ${ezoe.version.alias}"/>
         <echo message="ezoe.svn.trunk.url   : ${ezoe.svn.trunk.url}"/>
+        <echo message="ezoe.build.dir       : ${ezoe.build.dir}"/>
     </target>
 
+    <!-- Displays a warning before building the extension        -->
+    <!-- Also waits for 5 seconds before starting the real build -->
+    <!-- This makes it possible to interrupt the script before   -->
+    <!-- any real task is done                                   -->
     <target name="warning" depends="infos">
         <echo message="Please check informations defined above are correct"/>
-        <echo message="If not feel free to update the properties/ezoe.properties file"/>
+        <echo message="If not feel free to update the ant/ezoe.properties file"/>
         <echo message="This script will wait for 5 seconds before it starts"/>
 
         <sleep seconds="5"/>
     </target>
 
+    <!-- Prepares the build                               -->
+    <!-- Runs an svn export of the extension's repository -->
     <target name="init" depends="warning">
         <exec executable="svn" failonerror="true">
             <arg value="export"/>
             <arg value="${ezoe.svn.trunk.url}"/>
-            <arg value="ezoe"/>
+            <arg value="${ezoe.build.dir}/ezoe"/>
         </exec>
     </target>
 
+    <!-- Builds the extension once the SVN repository is exported -->
+    <!-- Prune miscaellanous useless files                        -->
     <target name="build" depends="init">
         <antcall target="update-ezinfo-php"/>
         <antcall target="update-license-headers"/>
 
-        <delete dir="ezoe/build/"/>
+        <delete dir="${ezoe.build.dir}/ant"/>
+        <delete file="${ezoe.build.dir}/build.xml"/>
     </target>
 
-    <target name="update-ezinfo-php">
-        <echo message="Updating ezinfo.php"/>
-
-        <replaceregexp byline="true">
-            <regexp pattern='^(                      \047Version\047   => \047)(.*)(\047,)$'/>
-            <substitution expression='\1${ezoe.version.alias}-${ezoe.version.release}\3'/>
-            <fileset dir="${basedir}" includes="**/*ezinfo.php"/>
-        </replaceregexp>
+    <!-- Creates a tarball of the newly built extension -->
+    <target name="dist">
+        <mkdir dir="dist"/>
+        <tar destfile="dist/ezoe-${ezoe.version.alias}.${ezoe.version.release}.tar.gz"
+             compression="gzip"
+             longfile="gnu"
+             basedir="${ezoe.build.dir}"/>
     </target>
 
+    <!-- Meta target, calls build and dist -->
+    <target name="all" depends="build,dist"/>
+
+    <!-- Cleans the generated tarball by dist-->
+    <target name="distclean">
+        <delete dir="dist"/>
+    </target>
+
+    <!-- Purge everything in the build directory -->
+    <!-- Also remove the build directory         -->
+    <target name="cleanall" depends="distclean">
+        <delete dir="${ezoe.build.dir}"/>
+    </target>
+
+    <!-- ==================================== -->
+    <!-- end of high level ( public ) targets -->
+    <!-- ==================================== -->
+
+    <!-- ====================================================== -->
+    <!-- low level ( private ) targets, for internal usage ONLY -->
+    <!-- ====================================================== -->
+
+    <!-- Updates the license headers with correct version numbers -->
+    <!-- Updates the // SOFTWARE RELEASE line                     -->
+    <!-- Updates the // COPYRIGHT NOTICE line                     -->
     <target name="update-license-headers">
         <echo message="Updating license headers"/>
 
@@ -56,25 +120,34 @@
         <replaceregexp byline="true">
             <regexp pattern="// SOFTWARE RELEASE: (.*)"/>
             <substitution expression="// SOFTWARE RELEASE: ${ezoe.version.alias}-${ezoe.version.release}"/>
-            <fileset dir="${basedir}">
+            <fileset dir="${ezoe.build.dir}">
+                <include name="**/*.php"/>
+            </fileset>
+        </replaceregexp>
+
+        <!-- COPYRIGHT NOTICE -->
+        <replaceregexp byline="true">
+            <regexp pattern="// COPYRIGHT NOTICE: Copyright \(C\) 1999-[\d]{4} eZ Systems AS"/>
+            <substitution expression="// COPYRIGHT NOTICE: Copyright (C) 1999-${date.current.year} eZ Systems AS"/>
+            <fileset dir="${ezoe.build.dir}">
                 <include name="**/*.php"/>
             </fileset>
         </replaceregexp>
     </target>
 
-    <target name="dist">
-        <tar destfile="ezoe-${ezoe.version.alias}.${ezoe.version.release}.tar.gz"
-             compression="gzip"
-             longfile="gnu"
-             basedir="${basedir}"/>
+    <!-- Updates ezinfo.php with correct version numbers -->
+    <target name="update-ezinfo-php">
+        <echo message="Updating ezinfo.php"/>
+
+        <replaceregexp byline="true" flags="i">
+            <regexp pattern="^([\s]+\047version\047[\s]+=>[\s]+\047)(.*)(\047,)$"/>
+            <substitution expression='\1${ezoe.version.alias}-${ezoe.version.release}\3'/>
+            <fileset dir="${ezoe.build.dir}" includes="**/*ezinfo.php"/>
+        </replaceregexp>
     </target>
 
-    <target name="distclean">
-        <delete file="ezoe-${ezoe.version.alias}.${ezoe.version.release}.tar.gz"/>
-    </target>
-
-    <target name="cleanall" depends="distclean">
-        <delete dir="ezoe"/>
-    </target>
+    <!-- ============================================================= -->
+    <!-- end of low level ( private ) targets, for internal usage ONLY -->
+    <!-- ============================================================= -->
 
 </project>
