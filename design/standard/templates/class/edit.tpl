@@ -178,7 +178,7 @@
 {/section}
 
 <div class="block">
-<input type="checkbox" name="ContentAttribute_can_translate_checked[]" value="{$Attributes:item.id}" {section show=$Attributes:item.can_translate|eq(0)}checked="checked"{/section} /><label>{"Disable translation"|i18n("design/standard/class/edit")}</label>
+<input type="checkbox" name="ContentAttribute_can_translate_checked[]" value="{$Attributes.item.id}" {section show=or( $Attributes.item.can_translate|eq(0), $Attributes.item.data_type.properties.translation_allowed|not )}checked="checked"{/section} {section show=$Attributes.item.data_type.properties.translation_allowed|not}disabled="disabled"{/section} /><label>{"Disable translation"|i18n("design/standard/class/edit")}</label>
 </div>
 
 </td>
