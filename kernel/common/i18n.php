@@ -170,7 +170,11 @@ if ( $useTextTranslation || eZTranslatorManager::dynamicTranslationsEnabled() )
             return ezinsertarguments( $trans, $arguments );
         }
 
-        eZDebug::writeDebug( "No translation for file(translation.ts) in context($context): '$source' with comment($comment)", "ezi18n" );
+        if ( $comment != null and strlen( $comment ) > 0 )
+            eZDebug::writeDebug( "Missing translation for message in context: '$context' with comment: '$comment'. The untranslated message is: '$source'", "ezi18n" );
+        else
+            eZDebug::writeDebug( "Missing translation for message in context: '$context'. The untranslated message is: '$source'", "ezi18n" );
+
         return ezinsertarguments( $source, $arguments );
     }
 }
