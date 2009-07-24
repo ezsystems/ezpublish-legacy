@@ -31,6 +31,8 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
+#include <iostream>
+
 #include "translator.h"
 #include "translatortools.h"
 #include "profileevaluator.h"
@@ -46,16 +48,16 @@
 
 static QString m_defaultExtensions;
 
-static void printOut(const QString & out)
+static void printOut( const QString & out )
 {
-    qWarning("%s", qPrintable(out));
+    std::cout << out.toUtf8().data() << std::endl;
 }
 
 // Recursively traverse an eZ Publish directory
 static void traverse( const QDir &dir, Translator &fetchedTor, ConversionData cd, UpdateOptions options, bool *fail )
 {
     if ( options & Verbose )
-        qWarning( "   Checking subdirectory '%s'", qPrintable(dir.path()) );
+        printOut( QObject::tr( "   Checking subdirectory '%1'" ).arg( qPrintable(dir.path()) ) );
 
     if ( !dir.exists() )
         return;
@@ -81,20 +83,20 @@ static void traverse( const QDir &dir, Translator &fetchedTor, ConversionData cd
             if ( fi.fileName().endsWith(QLatin1String(".php"), Qt::CaseInsensitive) )
             {
                 if ( options & Verbose )
-                    qWarning( "      Checking '%s'", qPrintable(fi.fileName()) );
+                    printOut( QObject::tr( "      Checking '%1'" ).arg( qPrintable(fi.fileName()) ) );
                 if ( !fetchedTor.load(fi.fileName(), cd, QLatin1String("php")) )
                 {
-                    printOut(cd.error());
+                    qWarning( "%s", qPrintable( cd.error() ) );
                     *fail = true;
                 }
             }
             else if ( fi.fileName().endsWith(QLatin1String(".tpl"), Qt::CaseInsensitive) )
             {
                 if ( options & Verbose )
-                    qWarning( "      Checking '%s'", qPrintable(fi.fileName()) );
+                    printOut( QObject::tr( "      Checking '%1'" ).arg( qPrintable(fi.fileName()) ) );
                 if ( !fetchedTor.load(fi.fileName(), cd, QLatin1String("tpl")) )
                 {
-                    printOut(cd.error());
+                    qWarning( "%s", qPrintable( cd.error() ) );
                     *fail = true;
                 }
             }
@@ -129,7 +131,7 @@ static QRegExp localeRE( "^[a-z]{3}-[A-Z]{2}(@.*)?$" );
 
 static void printUsage()
 {
-    printOut(QObject::tr(
+    printOut( QObject::tr(
         "Creates or updates eZ Publish translations.\n"
         "Usage: ezlupdate [OPTION]... LANGUAGE\n\n"
         "Options:\n"
@@ -159,7 +161,7 @@ static void updateTsFiles(const Translator &fetchedTor, const QStringList &tsFil
         cd.m_sortContexts = !(options & NoSort);
         if (QFile(fileName).exists()) {
             if (!tor.load(fileName, cd, QLatin1String("auto"))) {
-                printOut(cd.error());
+                qWarning( "%s", qPrintable( cd.error() ) );
                 *fail = true;
                 continue;
             }
@@ -202,7 +204,7 @@ static void updateTsFiles(const Translator &fetchedTor, const QStringList &tsFil
             out.setCodecName(codecForTr);
 
         if ((options & Verbose) && !err.isEmpty()) {
-            printOut(err);
+            printOut( qPrintable( err ) );
             err.clear();
         }
         if (options & PluralOnly) {
@@ -215,7 +217,7 @@ static void updateTsFiles(const Translator &fetchedTor, const QStringList &tsFil
         out.stripEmptyContexts();
 
         if (!out.save(fileName, cd, QLatin1String("auto"))) {
-            printOut(cd.error());
+            qWarning( "%s", qPrintable( cd.error() ) );
             *fail = true;
         }
     }
@@ -292,7 +294,7 @@ int main(int argc, char **argv)
                 extension_dir.setPath( arg );
                 if ( !arg.startsWith( "-" ) && extension_dir.exists() )
                 {
-                    qWarning( "Extension mode, directory: %s", qPrintable(arg));
+                    printOut( QObject::tr( "Extension mode, directory: %1" ).arg( qPrintable(arg) ) );
                     options |= Extension;
                     continue;
                 }
@@ -320,7 +322,7 @@ int main(int argc, char **argv)
                 QDir dir( arg );
                 if ( dir.exists() )
                 {
-                    qWarning( "Added scan directory: %s", qPrintable(arg));
+                    printOut( QObject::tr( "Added scan directory: %1" ).arg( qPrintable(arg) ) );
                     dirs.append( arg );
                 }
                 i++;
@@ -376,7 +378,7 @@ int main(int argc, char **argv)
     {
         if ( QDir::current().mkdir( tfdir.path() ) )
         {
-            qWarning( "eZ Publish translations directory created: %s", qPrintable(tfdir.path()) );
+            printOut( QObject::tr( "eZ Publish translations directory created: %1" ).arg( qPrintable(tfdir.path()) ) );
         }
         else
         {
@@ -393,7 +395,7 @@ int main(int argc, char **argv)
         {
             if ( QDir::current().mkdir( languageDir.path() ) )
             {
-                qWarning( "eZ Publish translations directory created: %s", qPrintable(languageDir.path()) );
+                printOut( QObject::tr( "eZ Publish translations directory created: %1" ).arg( qPrintable(languageDir.path()) ) );
             }
             else
             {
@@ -415,14 +417,14 @@ int main(int argc, char **argv)
     if ( options & Extension )
     {
         if ( options & Verbose )
-            qWarning( "Checking eZ Publish extension directory: '%s'", qPrintable(extension_dir.absolutePath()) );
+            printOut( QObject::tr( "Checking eZ Publish extension directory: '%1'" ).arg( qPrintable(extension_dir.absolutePath()) ) );
         dir.setCurrent( extension_dir.absolutePath() );
         traverse( dir.currentPath(), fetchedTor, cd, options, &fail );
     }
     else
     {
         if ( options & Verbose )
-            qWarning( "Checking eZ Publish directory: '%s'", qPrintable(dir.absolutePath()) );
+            printOut( QObject::tr( "Checking eZ Publish directory: '%1'" ).arg( qPrintable(dir.absolutePath()) ) );
 //        traverse( dir.path() + QDir::separator() + "kernel", fetchedTor, cd, options, &fail );
 //        traverse( dir.path() + QDir::separator() + "lib", fetchedTor, cd, options, &fail );
 //        traverse( dir.path() + QDir::separator() + "design", fetchedTor, cd, options, &fail );

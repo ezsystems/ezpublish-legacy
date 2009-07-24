@@ -23,6 +23,8 @@
 
 #include "metatranslator.h"
 
+#include <iostream>
+
 #include <qapplication.h>
 #include <qbytearray.h>
 #include <qfile.h>
@@ -30,6 +32,11 @@
 #include <qtextcodec.h>
 #include <qtextstream.h>
 #include <qxml.h>
+
+static void printOut( const QString & out )
+{
+    std::cout << out.toUtf8().data() << std::endl;
+}
 
 static bool encodingIsUtf8( const QXmlAttributes& atts )
 {
@@ -493,9 +500,7 @@ bool MetaTranslator::release( const QString& filename, bool verbose,
 
     bool saved = tor.save( filename, mode );
     if ( saved && verbose )
-        fprintf( stderr,
-                 " %d finished, %d unfinished and %d untranslated messages\n",
-                 finished, unfinished, untranslated );
+        printOut( QString( " %1 finished, %2 unfinished and %3 untranslated messages" ).arg( finished ).arg( unfinished ).arg( untranslated ) );
 
     return saved;
 }

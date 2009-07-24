@@ -14,6 +14,8 @@
 **
 **********************************************************************/
 
+#include <iostream>
+
 #include <metatranslator.h>
 
 // defined in numberh.cpp
@@ -22,6 +24,11 @@ extern void applyNumberHeuristic( MetaTranslator *tor, bool verbose );
 extern void applySameTextHeuristic( MetaTranslator *tor, bool verbose );
 
 typedef QValueList<MetaTranslatorMessage> TML;
+
+static void printOut( const QString & out )
+{
+    std::cout << out.utf8() << std::endl;
+}
 
 /*
   Merges two MetaTranslator objects into the first one.  The first one is a set
@@ -104,6 +111,5 @@ void merge( MetaTranslator *tor, const MetaTranslator *virginTor, const QString 
     */
     applyNumberHeuristic( tor, verbose );
 
-    qWarning( " %s: %d known, %d new and %d obsoleted messages",
-              language.latin1(), known, neww, obsoleted );
+    printOut( QString( " %1: %2 known, %3 new and %4 obsoleted messages" ).arg( language.latin1() ).arg( known ).arg( neww ).arg( obsoleted ) );
 }
