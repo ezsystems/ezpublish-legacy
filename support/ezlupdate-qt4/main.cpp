@@ -31,6 +31,8 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
+#include <iostream>
+
 #include <qstringlist.h>
 #include <qregexp.h>
 #include <qdir.h>
@@ -60,9 +62,14 @@ static QDir extension_dir;        // Extension directory
 static QRegExp localeRE( "^[a-z]{3}-[A-Z]{2}$" );
 static bool untranslated = false;    // Untranslated translation is off by default
 
+static void printOut( const QString & out )
+{
+    std::cout << out.toUtf8().data() << std::endl;
+}
+
 static void printUsage()
 {
-    qWarning( "Creates or updates eZ Publish translations.\n"
+    printOut( "Creates or updates eZ Publish translations.\n"
               "Usage: ezlupdate [OPTION]... LANGUAGE\n\n"
               "Options:\n"
               "    -h, --help                Display this information and exit\n"
@@ -84,7 +91,7 @@ int main( int argc, char **argv )
     if ( argc < 2 )
     {
         printUsage();
-        return 0;
+        return 1;
     }
 
     // Argument handling
@@ -114,7 +121,7 @@ int main( int argc, char **argv )
                 extension_dir.setPath( arg );
                 if ( !arg.startsWith( "-" ) && extension_dir.exists() )
                 {
-                    qWarning( "Extension mode, directory: " + arg );
+                    printOut( "Extension mode, directory: " + arg );
                     extension = true;
                 }
                 else
@@ -141,7 +148,7 @@ int main( int argc, char **argv )
                 QDir dir( arg );
                 if ( dir.exists() )
                 {
-                    qWarning( "Added scan directory: " + arg );
+                    printOut( "Added scan directory: " + arg );
                     dirs.append( arg );
                 }
                 i++;
@@ -172,7 +179,7 @@ int main( int argc, char **argv )
         }
         else if ( qstrcmp( argv[i], "--version" ) == 0 )
         {
-            qWarning( QString( "ezlupdate version %1-%2" ).arg( QT_VERSION_STR ).arg( version ) );
+            printOut( QString( "ezlupdate version %1-%2" ).arg( QT_VERSION_STR ).arg( version ) );
             return 0;
         }
         else
@@ -208,7 +215,7 @@ int main( int argc, char **argv )
     {
         if ( QDir::current().mkdir( tfdir.path() ) )
         {
-            qWarning( "eZ Publish translations directory created: " + tfdir.path() );
+            printOut( "eZ Publish translations directory created: " + tfdir.path() );
         }
         else
         {
@@ -225,7 +232,7 @@ int main( int argc, char **argv )
         {
             if ( QDir::current().mkdir( languageDir.path() ) )
             {
-                qWarning( "eZ Publish translations directory created: " + languageDir.path() );
+                printOut( "eZ Publish translations directory created: " + languageDir.path() );
             }
             else
             {
@@ -241,14 +248,14 @@ int main( int argc, char **argv )
     if ( extension )
     {
         if ( verbose )
-            qWarning( "Checking eZ Publish extension directory: '%s'", extension_dir.absPath().latin1() );
+            printOut( QString( "Checking eZ Publish extension directory: '%1'" ).arg( extension_dir.absPath().latin1() ) );
         dir.setCurrent( extension_dir.absPath() );
         traverse( dir.currentDirPath(), fetchedTor, assumeUTF8 );
     }
     else
     {
         if ( verbose )
-            qWarning( "Checking eZ Publish directory: '%s'", dir.absPath().latin1() );
+            printOut( QString( "Checking eZ Publish directory: '%1'" ).arg( dir.absPath().latin1() ) );
 //        traverse( dir.path() + QDir::separator() + "kernel", fetchedTor, assumeUTF8 );
 //        traverse( dir.path() + QDir::separator() + "lib", fetchedTor, assumeUTF8 );
 //        traverse( dir.path() + QDir::separator() + "design", fetchedTor, assumeUTF8 );
@@ -299,10 +306,10 @@ int main( int argc, char **argv )
 //         {
 //             tor.setCodec( codec.latin1() );
 //             if ( verbose )
-//                 qWarning( "Setting codec for .ts file to: %s", codec.latin1() );
+//                 printOut( "Setting codec for .ts file to: %s", codec.latin1() );
 //         }
 //         else
-//             qWarning( "Warning: No codec found, setting codec for .ts file to default: iso-8859-1" );
+//             printOut( "Warning: No codec found, setting codec for .ts file to default: iso-8859-1" );
 
     for ( QStringList::ConstIterator it = languages.begin(); it != languages.end(); ++it )
     {
@@ -312,7 +319,7 @@ int main( int argc, char **argv )
         QFileInfo fi( tfdir.path() + QDir::separator() + language + QDir::separator() + "translation.ts" );
         tor.load( fi.filePath() );
         if ( verbose )
-            qWarning( "Updating '%s'", fi.filePath().latin1() );
+            printOut( QString( "Updating '%1'").arg( fi.filePath().latin1() ) );
         merge( &tor, &fetchedTor, verbose );
         if ( noObsolete )
             tor.stripObsoleteMessages();
@@ -331,7 +338,7 @@ int main( int argc, char **argv )
 void traverse( const QDir &dir, MetaTranslator &fetchedTor, bool assumeUTF8 )
 {
     if ( verbose )
-        qWarning( "   Checking subdirectory '%s'", dir.path().latin1() );
+        printOut( QString( "   Checking subdirectory '%1'" ).arg( dir.path().latin1() ) );
 
     if ( !dir.exists() )
         return;
@@ -357,13 +364,13 @@ void traverse( const QDir &dir, MetaTranslator &fetchedTor, bool assumeUTF8 )
             if ( fi.fileName().endsWith( ".php", false ) )
             {
                 if ( verbose > 1 )
-                    qWarning( "      Checking '%s'", fi.fileName().latin1() );
+                    printOut( QString( "      Checking '%1'" ).arg( fi.fileName().latin1() ) );
                 fetchtr_php( &fi, &fetchedTor, true );
             }
             else if ( fi.fileName().endsWith( ".tpl", false ) )
             {
                 if ( verbose > 1 )
-                    qWarning( "      Checking '%s'", fi.fileName().latin1() );
+                    printOut( QString( "      Checking '%1'").arg( fi.fileName().latin1() ) );
                 fetchtr_tpl( &fi, &fetchedTor, true, assumeUTF8 );
             }
         }

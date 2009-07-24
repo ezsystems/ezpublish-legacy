@@ -21,6 +21,8 @@
 **
 ****************************************************************************/
 
+#include <iostream>
+
 #include <metatranslator.h>
 #include <stdio.h>
 
@@ -30,6 +32,11 @@ extern void applyNumberHeuristic( MetaTranslator *tor, bool verbose );
 extern void applySameTextHeuristic( MetaTranslator *tor, bool verbose );
 
 typedef QList<MetaTranslatorMessage> TML;
+
+static void printOut( const QString & out )
+{
+    std::cout << out.toUtf8().data() << std::endl;
+}
 
 /*
   Merges two MetaTranslator objects into the first one. The first one
@@ -115,6 +122,5 @@ void merge( MetaTranslator *tor, const MetaTranslator *virginTor, bool verbose )
     applyNumberHeuristic( tor, verbose );
 
     if ( verbose )
-        fprintf( stderr, " %d known, %d new, and %d obsoleted messages\n", known,
-                 neww, obsoleted );
+        printOut( QString( " %1 known, %2 new, and %3 obsoleted messages" ).arg( known ).arg( neww ).arg( obsoleted ) );
 }
