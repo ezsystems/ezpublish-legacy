@@ -51,12 +51,12 @@ class eZAuthor
 {
     function eZAuthor( )
     {
-        $Authors = array();
+        $this->Authors = array();
         $this->AuthorCount = 0;
     }
 
     /*!
-     Sets the name of the author
+     Sets the name of the author set.
     */
     function setName( $name )
     {
@@ -71,9 +71,13 @@ class eZAuthor
         return $this->Name;
     }
 
-    /*!
-     Adds an author
-    */
+    /**
+     * Add an author
+     * 
+     * @param int $id
+     * @param string $name
+     * @param string $email
+     */
     function addAuthor( $id, $name, $email )
     {
         if ( $id == -1 )
@@ -87,10 +91,15 @@ class eZAuthor
         $this->AuthorCount ++;
     }
 
-    function removeAuthors( $array_remove )
+    /**
+     * Remove authors
+     * 
+     * @param array $removeList List of id's of authors to remove
+     */
+    function removeAuthors( $removeList )
     {
-        if ( count( $array_remove ) > 0 )
-            foreach ( $array_remove as $id )
+        if ( count( $removeList ) > 0 )
+            foreach ( $removeList as $id )
             {
                 foreach ( $this->Authors as $authorKey => $author )
                 {
@@ -105,9 +114,10 @@ class eZAuthor
 
     function attributes()
     {
-        return array( 'author_list',
-                      'name',
-                      'is_empty' );
+        static $def = array( 'author_list',
+                             'name',
+                             'is_empty' );
+        return $def;
     }
 
     function hasAttribute( $name )
@@ -125,7 +135,7 @@ class eZAuthor
             }break;
             case "is_empty" :
             {
-                return count( $this->Authors ) == 0 ;
+                return $this->AuthorCount === 0;
             }break;
             case "author_list" :
             {
@@ -194,19 +204,16 @@ class eZAuthor
         $authors = $doc->createElement( "authors" );
         $root->appendChild( $authors );
 
-        $id=0;
-        if ( is_array( $this->Authors ) )
+        $id = 0;
+        foreach ( $this->Authors as $author )
         {
-            foreach ( $this->Authors as $author )
-            {
-                unset( $authorNode );
-                $authorNode = $doc->createElement( "author" );
-                $authorNode->setAttribute( "id", $id++ );
-                $authorNode->setAttribute( "name", $author["name"] );
-                $authorNode->setAttribute( "email", $author["email"] );
+            unset( $authorNode );
+            $authorNode = $doc->createElement( "author" );
+            $authorNode->setAttribute( "id", $id++ );
+            $authorNode->setAttribute( "name", $author["name"] );
+            $authorNode->setAttribute( "email", $author["email"] );
 
-                $authors->appendChild( $authorNode );
-            }
+            $authors->appendChild( $authorNode );
         }
 
         $xml = $doc->saveXML();
@@ -214,13 +221,14 @@ class eZAuthor
         return $xml;
     }
 
-    /// Contains the Authors
-    public $Authors;
+    /// Contains the Authors.
+    protected $Authors;
 
-    /// Contains the author counter value
-    public $AuthorCount;
+    /// Contains the author counter value.
+    protected $AuthorCount;
 
-    public $Name;
+    // Contains the name of the author set.
+    protected $Name;
 }
 
 ?>

@@ -151,3 +151,4 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #14911: Untranslatable datatypes appears as translatable in class view and edit [patch]
 - Fixed bug #14982: Odd translation warning
 - Fixed bug #13400: ezlupdate always writes to "stderr"
+- Fixed bug #15141: Warning raised by ezauthor datatype
