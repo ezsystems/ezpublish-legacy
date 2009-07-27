@@ -111,7 +111,7 @@
     
     {literal}
 
-    // make sure tinyMCE doesn't try to load language pack
+    // make sure TinyMCE doesn't try to load language pack
     // and set urls for plugins so their dialogs work correctly
     (function(){
         var uri = document.getElementById('tinymce_script_loader').src, tps = eZOeGlobalSettings.plugins.split(','), pm = tinymce.PluginManager, tp;

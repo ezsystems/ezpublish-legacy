@@ -38,7 +38,7 @@ class eZOEPackerFunctions
 {
     /**
      * i18n
-     * Provides all i18n strings for use by tinyMCE and other javascript dialogs.
+     * Provides all i18n strings for use by TinyMCE and other javascript dialogs.
      * 
      * @static
      * @param array $args

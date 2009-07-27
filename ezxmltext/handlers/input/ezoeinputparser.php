@@ -312,7 +312,7 @@ class eZOEInputParser extends eZXMLInputParser
         }
         else if ( isset( $attributes['class'] ) && $attributes['class'] === 'mceItemAnchor' )
         {
-            // anchor in tinyMCE / ezoe sense (since links and anchors share the a tag)
+            // anchor in TinyMCE / ezoe sense (since links and anchors share the a tag)
             $name = 'anchor';
             // ie bug with name attribute, workaround using id instead
             if ( isset( $attributes['id'] ) ) $attributes['name'] = $attributes['id'];
@@ -352,12 +352,12 @@ class eZOEInputParser extends eZXMLInputParser
      * Used by init handlers, removes any tinMCE/browser specific classes and trims the result.
      *
      * @static
-     * @param string $className dirty class name as provided by tinyMCE
+     * @param string $className dirty class name as provided by TinyMCE
      * @return string cleaned and trimmed class name
      */
     public static function tagClassNamesCleanup( $className )
     {
-         // remove classes that is used internally by editor on embed objects
+         // remove classes that are used internally by TinyMCE / ezoe / browser
         return trim( preg_replace("/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable)/i", '', $className ) );
     }
 

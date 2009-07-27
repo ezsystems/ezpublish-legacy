@@ -16,7 +16,7 @@ KNOWN ENHANCEMENT REQUESTS Postponed to 5.1:
 
 * Preview table style classes as used on web page (webin) using css 3.0
 
-* Custimizable formats selector w/ classes (needs support for classes in tinyMCE FormatBlock call)
+* Custimizable formats selector w/ classes (needs support for classes in TinyMCE FormatBlock call)
 
 * Better feedback on custom attribute validation ( fork TinyMCE validation and enhance it? )
 

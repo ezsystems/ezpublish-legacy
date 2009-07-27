@@ -23,7 +23,7 @@ eZ Online Editor 5.0 extension Changelog
 * Fixed #14868: Allow adding inline custom / embed tags in header tags
 * Fixed #14873: Call to undefined method DOMText::getAttribute()
 * Changed order of outdent/indent buttons to be the same as other editors
-* Updated tinyMCE to 3.2.5
+* Updated TinyMCE to 3.2.5
 * Change rewrite rules to support plain package
 * Fixed #14935: Small typo at design.ini.append.php
 * Fixed #15014: image identifier is hardcoded in upload_images.tpl
@@ -43,9 +43,9 @@ eZ Online Editor 5.0 extension Changelog
 * Added note on unsupported TinyMCE buttons/ extensions in FAQ + ezoe.ini
 * Fixed bug #014375: pagebreak not stored if added with button w/ patch from Georg Franz
 * Support for new handler code in eZ Publish 4.1
-* Updated tinyMCE to 3.2.2
+* Updated TinyMCE to 3.2.2
 * Renamed ezoe_customattributes.ini to ezoe_attributes.ini since it is also used for attributes since rc9
-* Enable inline table controls in gecko (table_inline_editing tinyMCE setting)
+* Enable inline table controls in gecko (table_inline_editing TinyMCE setting)
 * Fixed #014284: Needed translation improvements for oe5
 
 5.0rc12
@@ -141,7 +141,7 @@ eZ Online Editor 5.0 extension Changelog
 * Fixed #013509: Layout on help or others "long text" pages
 * Implemented #013512: Class list in search form should be alphabetical sorted
 * Made mini editor layout enabled by default (uncommented it)
-* code cleanup (removed dependency on global js variable eZOeMCE, use tinyMCE settings and translations instead)
+* code cleanup (removed dependency on global js variable eZOeMCE, use TinyMCE settings and translations instead)
 * do not remove attribute value if default value (same behavour as simple xml handler)
 * Fixed #013535: Litteral should use a bigger and a monospace font family
 * Added ezinlinepopups plugin as possible workaround for issue 13549 & modal dialogs
@@ -177,7 +177,7 @@ eZ Online Editor 5.0 extension Changelog
 * Added CompatibilityMode in ezoe.ini to make editor behave like OE 4.x in respect to embed tags
   (attachment icons)
 * Added bookmarks tab in upload dialog
-* Stop tinyMCE from trying to load i18n script a second time (unwanted 404).
+* Stop TinyMCE from trying to load i18n script a second time (unwanted 404).
 * Fixed: Extra paragraphs in literal tags if double line feeds where used.
 * Updated TinyMCE to 3.1.1 (trunk), fixes several issues in Opera
 * Fixed bug #013011: Opera doesn't allow to make embedded object as link
