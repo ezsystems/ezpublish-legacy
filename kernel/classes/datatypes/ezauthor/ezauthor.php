@@ -51,7 +51,7 @@ class eZAuthor
 {
     function eZAuthor( )
     {
-        $Authors = array();
+        $this->Authors = array();
         $this->AuthorCount = 0;
     }
 
