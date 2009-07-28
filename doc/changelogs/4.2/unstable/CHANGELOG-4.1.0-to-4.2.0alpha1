@@ -14,7 +14,7 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Implemented enhancement #10178: Make trigger information available to events
 - Implemented enhancement #15032: Update ezlupdate to Qt 4.5 (patch)
 - Implemented enhancement #8054: Content edit handlers - default implementation of storeActionList()
-- Implemented enhancement #5825: email error
+- Implemented enhancement #15210: Infocollector mail: From and Reply-To cannot be different
 
 *Design:
 
