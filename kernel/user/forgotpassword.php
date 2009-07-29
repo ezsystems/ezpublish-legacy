@@ -1,6 +1,6 @@
 <?php
 //
-// Created on: <13-íÁÒ-2003 13:06:18 sp>
+// Created on: <13-ĞœĞ°r-2003 13:06:18 sp>
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ Publish
@@ -147,12 +147,9 @@ if ( $module->isCurrentAction( "Generate" ) )
             $tpl->setVariable( 'password', $password );
             $tpl->setVariable( 'link', true );
             $tpl->setVariable( 'hash_key', $hashKey );
-            $http = eZHTTPTool::instance();
-            $http->UseFullUrl = true;
             $templateResult = $tpl->fetch( 'design:user/forgotpasswordmail.tpl' );
             if ( $tpl->hasVariable( 'content_type' ) )
                 $mail->setContentType( $tpl->variable( 'content_type' ) );
-            $http->UseFullUrl = false;
             $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
             if ( !$emailSender )
                 $emailSender = $ini->variable( 'MailSettings', 'AdminEmail' );
