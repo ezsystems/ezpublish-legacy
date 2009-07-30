@@ -1,0 +1,58 @@
+eZ JSCore extension installation documentation
+
+About eZ JSCore
+===========
+
+Add description about eZ JSCore extension here.
+
+Requirements
+============
+
+Add complete list of requirements
+
+Installation
+============
+
+Re-write rules
+**************
+
+eZ JSCore extension require correct re-write rule in order to load necessary yui (yahoo user interface) files
+from the file system. This is required only when INI setting ezjscore.ini[eZJSCore]LoadFromCDN is disabled.
+
+Virtual-Host setup
+------------------
+
+Add to your Virtual-Host setup following line:
+
+``^/extension/[^/]+/design/[^/]+/(stylesheets|flash|images|lib|javascripts?)/.* - [L]``
+
+
+
+
+
+Using eZ JSCore Server functions from javascript
+================================================
+
+Yui 3.0 (uses Y.io):
+
+{ezscript('ezjsc::yui3')}
+<script type="text/javascript">
+{literal}
+YUI( YUI3_config ).use('io-ez', function( Y )
+{
+    Y.io.ez( 'ezjsc::time', {data: 'postData=hi!', on: {success: function(id,r){ alert(r.responseJSON.content) }}} );
+});
+{/literal}
+</script>
+
+
+jQuery (uses jQuery.post):
+note: you'll need to check data.error_text yourself, wheras in yui it will trigger on:failure event
+
+{ezscript('ezjsc::jquery')}
+<script type="text/javascript">
+{literal}
+    jQuery.ez( 'ezjsc::time', {postData: 'hi!'}, function(data){ alert(data.content) } );
+{/literal}
+</script>
+
