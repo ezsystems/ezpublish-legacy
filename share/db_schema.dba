@@ -4964,6 +4964,14 @@ $schema = array (
           0 => 'id',
         ),
       ),
+      'policy_id' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'policy_id',
+        ),
+      ),
     ),
   ),
   'ezpolicy_limitation_value' => 
@@ -6909,6 +6917,14 @@ $schema = array (
           0 => 'id',
         ),
       ),
+      'hash_key' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'hash_key',
+        ),
+      ),
     ),
   ),
   'ezuser_discountrule' => 
@@ -7591,6 +7607,16 @@ $schema = array (
         array (
           0 => 'id',
           1 => 'version',
+        ),
+      ),
+      'wid_version_placement' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'workflow_id',
+          1 => 'version',
+          2 => 'placement',
         ),
       ),
     ),

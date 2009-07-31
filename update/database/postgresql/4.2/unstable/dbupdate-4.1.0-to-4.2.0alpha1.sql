@@ -37,4 +37,7 @@ ALTER TABLE ezworkflow_event DROP COLUMN data_text4_tmp;
 -- END: from 4.1.1
 
 -- START: from 4.1.0
+CREATE INDEX policy_id ON ezpolicy_limitation USING btree ( policy_id );
+CREATE INDEX hash_key ON ezuser_accountkey USING btree ( hash_key );
+CREATE INDEX wid_version_placement ON ezworkflow_event USING btree ( workflow_id, "version", placement );
 -- END: from 4.1.0

@@ -3510,6 +3510,14 @@ CREATE INDEX ezpending_actions_created ON ezpending_actions USING btree (created
 
 
 
+CREATE INDEX policy_id ON ezpolicy_limitation USING btree (policy_id);
+
+
+
+
+
+
+
 CREATE INDEX ezpolicy_limitation_value_val ON ezpolicy_limitation_value USING btree (value);
 
 
@@ -3862,6 +3870,14 @@ CREATE INDEX ezurlalias_ml_text_lang ON ezurlalias_ml USING btree (text, lang_ma
 
 
 
+CREATE INDEX hash_key ON ezuser_accountkey USING btree (hash_key);
+
+
+
+
+
+
+
 CREATE INDEX ezuser_role_contentobject_id ON ezuser_role USING btree (contentobject_id);
 
 
@@ -3887,6 +3903,14 @@ CREATE INDEX ezuservisit_co_visit_count ON ezuservisit USING btree (current_visi
 
 
 CREATE INDEX ezwaituntildateevalue_wf_ev_id_wf_ver ON ezwaituntildatevalue USING btree (workflow_event_id, workflow_event_version);
+
+
+
+
+
+
+
+CREATE INDEX wid_version_placement ON ezworkflow_event USING btree (workflow_id, "version", placement);
 
 
 
