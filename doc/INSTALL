@@ -40,19 +40,18 @@ Yui 3.0 (uses Y.io):
 {literal}
 YUI( YUI3_config ).use('io-ez', function( Y )
 {
-    Y.io.ez( 'ezjsc::time', {data: 'postData=hi!', on: {success: function(id,r){ alert(r.responseJSON.content) }}} );
+    Y.io.ez( 'ezjsc::time', {data: 'postData=hi!', on: {success: function(id,r){ alert(r.responseJSON.error_text || r.responseJSON.content) }}} );
 });
 {/literal}
 </script>
 
 
 jQuery (uses jQuery.post):
-note: you'll need to check data.error_text yourself, wheras in yui it will trigger on:failure event
 
 {ezscript('ezjsc::jquery')}
 <script type="text/javascript">
 {literal}
-    jQuery.ez( 'ezjsc::time', {postData: 'hi!'}, function(data){ alert(data.content) } );
+    jQuery.ez( 'ezjsc::time', {postData: 'hi!'}, function(data){ alert(data.error_text || data.content) } );
 {/literal}
 </script>
 

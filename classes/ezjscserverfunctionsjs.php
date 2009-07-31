@@ -94,20 +94,16 @@ YUI( YUI3_config ).add('io-ez', function( Y )
             o.responseJSON = Y.JSON.parse( o.responseText )
 
         var c = _configBak;
-        if ( o.responseJSON.error_text )
-        {
-            if ( c.on.failure !== undefined )
-                c.on.failure( id, { 'status':0, 'statusText': o.responseJSON.error_text } );
-            else if ( window.console !== undefined )
-                window.console.error( 'Y.ez(): ' + o.responseJSON.error_text );
-        }
-        else if ( c.on.successCallback !== undefined )
+        if ( c.on.successCallback !== undefined )
         {
             c.on.successCallback( id, o );
         }
         else if ( window.console !== undefined )
         {
-            window.console.log( 'Y.ez(): ' + o.responseJSON.content );
+            if ( o.responseJSON.error_text )
+                window.console.error( 'Y.ez(): ' + o.responseJSON.error_text );
+            else
+                window.console.log( 'Y.ez(): ' + o.responseJSON.content );
         }
     }
 
