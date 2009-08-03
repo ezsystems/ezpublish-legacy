@@ -43,7 +43,7 @@
  by absolute paths.
 
  You can also use css / js generators to generate content dynamically.
- This is better explained in ezjscore.ini[Packer_<function>]
+ This is better explained in ezjscore.ini[ezjscServer]
 
  buildStylesheetFiles and buildJavascriptFiles functions does not return html, just 
  an array of file urls / content (from generators).
@@ -434,7 +434,7 @@ class ezjscPacker
     /**
      * 'compress' css code by removing whitespace
      *
-     * @param string $css Css string
+     * @param string $css Concated Css string
      * @param int $packLevel Level of packing, values: 2-3
      * @return string
      */
@@ -476,7 +476,7 @@ class ezjscPacker
      * 'compress' javascript code by removing whitespace,
      * uses JSMin if packing level is set to 3 or higher
      *
-     * @param string $css Css string
+     * @param string $script Concated JavaScript string
      * @param int $packLevel Level of packing, values: 2-3
      * @return string
      */
