@@ -12,7 +12,7 @@
 		    </script>
 		{elseif $type|eq('yui3')}
 		    <script type="text/javascript">
-		    var YUI3_config = {ldelim}{rdelim};
+		    var YUI3_config = {ldelim} modules: {ldelim}{rdelim} {rdelim};
 		    </script>
 		{/if}
     {/foreach}
@@ -37,7 +37,7 @@
     {rdelim});
     {/if}
     {if $enabledScripts|contains('yui3')}
-    var YUI3_config = {ldelim} 'base' : '{$scriptBasePath[ "yui3" ]|ezdesign( "no" )}' {rdelim};
+    var YUI3_config = {ldelim} 'base' : '{$scriptBasePath[ "yui3" ]|ezdesign( "no" )}', modules: {ldelim}{rdelim} {rdelim};
     {/if}
     </script>
 {/if}
