@@ -10,8 +10,6 @@ KNOWN ENHANCEMENT REQUESTS:
 
 
 KNOWN ENHANCEMENT REQUESTS Postponed to 5.1:
-* show a warning / notice to users using older / unsupported browsers instead of just falling back to simple xml silently.
-
 * Support for target attribute on embed tags, anchor_name on headers
 
 * Preview table style classes as used on web page (webin) using css 3.0
