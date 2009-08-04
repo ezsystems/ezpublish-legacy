@@ -788,7 +788,7 @@ class eZOEInputParser extends eZXMLInputParser
     }
 
      /**
-     * appendLineParagraph (Structure handler, pass 2 after childre tags)
+     * structHandlerHeader (Structure handler, pass 2 after childre tags)
      * Structure handler for header tag.
      *
      * @param DOMElement $element
