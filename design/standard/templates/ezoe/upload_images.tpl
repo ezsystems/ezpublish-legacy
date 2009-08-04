@@ -86,19 +86,49 @@ if ( contentType === 'images' )
                         {def $root_node_value = ezini( 'LocationSettings', 'RootNode', 'upload.ini' )
                              $root_node = cond( $root_node_value|is_numeric, fetch( 'content', 'node', hash( 'node_id', $root_node_value ) ),
                                              fetch( 'content', 'node', hash( 'node_path', $root_node_value ) ) )
-                             $selection_list = fetch( 'content', 'tree',
+                             $selection_list = fetch( 'content', 'list',
                                                      hash( 'parent_node_id', $root_node.node_id,
                                                            'class_filter_type', include,
                                                            'class_filter_array', ezini( 'LocationSettings', 'ClassList', 'upload.ini' ),
-                                                           'depth', ezini( 'LocationSettings', 'MaxDepth', 'upload.ini' ),
-                                                           'depth_operator', 'lt',
                                                            'load_data_map', false(),
                                                            'sort_by', $root_node.sort_array|append( array('name', true() ) ),
-                                                           'limit', ezini( 'LocationSettings', 'MaxItems', 'upload.ini' ) ) )}
+                                                           'limit', ezini( 'LocationSettings', 'MaxItems', 'upload.ini' ) ) )
+                             $selection_list_2 = 0
+                             $selection_list_3 = 0
+                             $selection_depth = ezini( 'LocationSettings', 'MaxDepth', 'upload.ini' )}
                         {foreach $selection_list as $item}
-                        {if $item.can_create}
-                            <option value="{$item.node_id}">{'&nbsp;'|repeat( sub( $item.depth, $root_node.depth, 1 ) )}{$item.name|wash|shorten( 35 )}</option>
-                        {/if}
+                            {if $item.can_create}
+                                <option value="{$item.node_id}">{$item.name|wash|shorten( 35 )}</option>
+                            {/if}
+                            {if and( $selection_depth|ge( 2 ), first_set( $item.is_container, $item.object.content_class.is_container, false() ) )}
+                                {set $selection_list_2 = fetch( 'content', 'list',
+                                                         hash( 'parent_node_id', $item.node_id,
+                                                               'class_filter_type', include,
+                                                               'class_filter_array', ezini( 'LocationSettings', 'ClassList', 'upload.ini' ),
+                                                               'load_data_map', false(),
+                                                               'sort_by', $item.sort_array|append( array('name', true() ) ),
+                                                               'limit', ezini( 'LocationSettings', 'MaxItems', 'upload.ini' ) ) )}
+                                {foreach $selection_list_2 as $item_2}
+                                    {if $item_2.can_create}
+                                        <option value="{$item_2.node_id}">&nbsp;{$item_2.name|wash|shorten( 35 )}</option>
+                                    {/if}
+                                    {if and( $selection_depth|ge( 3 ), first_set( $item_2.is_container, $item_2.object.content_class.is_container, false() ) )}
+                                        {set $selection_list_3 = fetch( 'content', 'list',
+                                                                 hash( 'parent_node_id', $item_2.node_id,
+                                                                       'class_filter_type', include,
+                                                                       'class_filter_array', ezini( 'LocationSettings', 'ClassList', 'upload.ini' ),
+                                                                       'load_data_map', false(),
+                                                                       'sort_by', $item_2.sort_array|append( array('name', true() ) ),
+                                                                       'limit', ezini( 'LocationSettings', 'MaxItems', 'upload.ini' ) ) )}
+                                        {foreach $selection_list_3 as $item_3}
+                                            {if $item_3.can_create}
+                                                <option value="{$item_3.node_id}">&nbsp;&nbsp;{$item_3.name|wash|shorten( 35 )}</option>
+                                            {/if}
+                                        {/foreach}
+                                    {/if}
+                                {/foreach}
+        
+                            {/if}
                         {/foreach}
 
                       </select>
