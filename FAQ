@@ -140,5 +140,18 @@ save you / others a lot of grief later when you want to import / export content 
 solutions since the content in clean xml.
 So use classes, custom attributes or custom tags to extend your ezxml content, this is what
 they are meant for. And most fancy (color|font|...) functionality in TinyMCE would have to
-be re done to work with one of these ezxml extensions. 
+be re done to work with one of these ezxml extensions.
 
+
+10. I can not select my images in search and browse view when clicking on image button!
+=======================================================================================
+
+After upgrading / updating or changing image settings you cannot select images anymore
+when you browse / search for images.
+
+This is most likely caused by missing iamge alias size 'small', witch is used by ezoe to
+preview images, as well as some templates in eZ Publish / ezwebin uses it as well.
+Future versions of ezoe will probably add a setting to control this, but until then
+you'll need to add the 'small' image alias.
+More info: http://issues.ez.no/IssueView.php?Id=14921&activeItem=18
+ 
