@@ -352,8 +352,8 @@ class eZOEInputParser extends eZXMLInputParser
      * Used by init handlers, removes any tinMCE/browser specific classes and trims the result.
      *
      * @static
-     * @param string $className dirty class name as provided by TinyMCE
-     * @return string cleaned and trimmed class name
+     * @param string $className 'Dirty' class name as provided by TinyMCE
+     * @return string Cleaned and trimmed class name
      */
     public static function tagClassNamesCleanup( $className )
     {
@@ -614,7 +614,7 @@ class eZOEInputParser extends eZXMLInputParser
     }
 
      /**
-     * appendLineParagraph (Structure handler, pass 2 after childre tags)
+     * structHandlerBr (Structure handler, pass 2 after childre tags)
      * Structure handler for temporary <br> elements
      *
      * @param DOMElement $element
@@ -632,7 +632,7 @@ class eZOEInputParser extends eZXMLInputParser
     }
 
      /**
-     * appendLineParagraph (Structure handler, pass 2 after childre tags)
+     * appendParagraph (Structure handler, pass 2 after childre tags)
      * Structure handler for in-paragraph nodes.
      *
      * @param DOMElement $element
@@ -678,7 +678,7 @@ class eZOEInputParser extends eZXMLInputParser
     }
 
      /**
-     * appendLineParagraph (Structure handler, pass 2 after childre tags)
+     * structHandlerText (Structure handler, pass 2 after childre tags)
      * Structure handler for #text.
      *
      * @param DOMElement $element
@@ -892,7 +892,7 @@ class eZOEInputParser extends eZXMLInputParser
     }
 
      /**
-     * appendLineParagraph (Structure handler, pass 2 after childre tags)
+     * structHandlerCustom (Structure handler, pass 2 after childre tags)
      * Structure handler for custom tag.
      *
      * @param DOMElement $element
@@ -923,7 +923,7 @@ class eZOEInputParser extends eZXMLInputParser
     }
 
      /**
-     * appendLineParagraph (Structure handler, pass 2 after childre tags)
+     * structHandlerLists (Structure handler, pass 2 after childre tags)
      * Structure handler for ul|ol tags.
      *
      * @param DOMElement $element
@@ -987,7 +987,7 @@ class eZOEInputParser extends eZXMLInputParser
     }
 
      /**
-     * appendLineParagraph (Structure handler, pass 2 after childre tags)
+     * structHandlerParagraph (Structure handler, pass 2 after childre tags)
      * Structure handler for paragraph tag.
      *
      * @param DOMElement $element
@@ -1162,7 +1162,7 @@ class eZOEInputParser extends eZXMLInputParser
     }
 
      /**
-     * publishHandlerLink (Publish handler, pass 2 after schema validation)
+     * publishHandlerTable (Publish handler, pass 2 after schema validation)
      * Publish handler for table element, tryes to convert css stlyes to attributes.
      *
      * @param DOMElement $element
@@ -1198,7 +1198,7 @@ class eZOEInputParser extends eZXMLInputParser
     }
 
      /**
-     * publishHandlerLink (Publish handler, pass 2 after schema validation)
+     * publishHandlerEmbed (Publish handler, pass 2 after schema validation)
      * Publish handler for embed element, convert id to [object|node]_id parameter.
      * And fixes align=middle value (if embed was image)
      *
