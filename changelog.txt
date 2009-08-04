@@ -38,6 +38,7 @@ eZ Online Editor 5.0 extension Changelog
 * Added workaround for script error on ezflow frontpages
 * Update TinyMCE params so past plugin validates word html correctly and don't remove align attributes.
 * Fixed #14785: Image or file upload > Sorting in location drop down
+* Fixed #14986: Unable to change embedded objects in internet explorer 6
 
 5.0.0
 * Fixed regression #13650: [header] ezoe adds a level each time it is called

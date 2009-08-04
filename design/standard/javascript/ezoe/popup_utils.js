@@ -459,6 +459,14 @@ var eZOEPopupUtils = {
                     handler[o.el.id].call( o, o.el, values[name] );
                 else if ( o.el.type === 'checkbox' )
                    o.el.checked = values[name] == o.el.value;
+                else if ( o.el.type === 'select-one' )
+                {
+                	// Make sure selecion has value before we set it (#014986)
+                	for( var i = 0, l = o.el.options.length; i < l; i++ )
+                	{
+                    	if ( o.el.options[i].value == v ) o.el.value = v;
+                	}
+                }
                 else
                    o.el.value = values[name];
 
@@ -492,6 +500,14 @@ var eZOEPopupUtils = {
                         handler[o.el.id].call( o, o.el, v );
                     else if ( o.el.type === 'checkbox' )
                         o.el.checked = v == o.el.value;
+                    else if ( o.el.type === 'select-one' )
+                    {
+                    	// Make sure selecion has value before we set it (#014986)
+                    	for( var i = 0, l = o.el.options.length; i < l; i++ )
+                    	{
+                        	if ( o.el.options[i].value == v ) o.el.value = v;
+                    	}
+                    }
                     else
                         o.el.value = v;
 
