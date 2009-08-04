@@ -298,7 +298,7 @@ class eZOEInputParser extends eZXMLInputParser
         {
             // empty check to not store buggy links created
             // by pasting content from ms word 2007
-        }        
+        }
         else if ( isset( $attributes['href'] ) )
         {
             // normal link tag
