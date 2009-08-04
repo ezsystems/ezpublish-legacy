@@ -458,7 +458,16 @@ class eZObjectRelationType extends eZDataType
         {
             if ( eZContentObject::recursionProtect( $object->attribute( 'id' ) ) )
             {
-                $attributes = $object->contentObjectAttributes();
+                // Does the related object exist in the same language as the current content attribute ?
+                if ( in_array( $contentObjectAttribute->attribute( 'language_code' ), $object->attribute( 'current' )->translationList( false, false ) ) )
+                {
+                    $attributes = $object->attribute( 'current' )->contentObjectAttributes( $contentObjectAttribute->attribute( 'language_code' ) );
+                }
+                else
+                {
+                    $attributes = $object->contentObjectAttributes();
+                }
+
                 return eZContentObjectAttribute::metaDataArray( $attributes );
             }
             else

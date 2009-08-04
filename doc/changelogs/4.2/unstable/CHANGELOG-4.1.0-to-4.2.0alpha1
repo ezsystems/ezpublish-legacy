@@ -154,3 +154,4 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #13400: ezlupdate always writes to "stderr"
 - Fixed bug #15141: Warning raised by ezauthor datatype
 - Fixed bug #14727: forgot password mail: problem with html mails
+- Fixed bug #15245: metaData for ezobjectrelation attributes is not always using the right translation
