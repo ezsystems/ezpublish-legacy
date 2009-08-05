@@ -103,7 +103,7 @@ else
 // Set header settings
 $httpCharset = eZTextCodec::httpCharset();
 header( 'Last-Modified: ' . $lastModified );
-header( 'Content-Type: text/plain; charset=' . $httpCharset );
+header( 'Content-Type: application/rss+xml; charset=' . $httpCharset );
 header( 'Content-Length: '.strlen($rssContent) );
 header( 'X-Powered-By: eZ Publish' );
 

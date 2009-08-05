@@ -155,3 +155,4 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #15141: Warning raised by ezauthor datatype
 - Fixed bug #14727: forgot password mail: problem with html mails
 - Fixed bug #15245: metaData for ezobjectrelation attributes is not always using the right translation
+- Fixed bug #15200: RSS Feed's won't work with Firefox 3.5x
