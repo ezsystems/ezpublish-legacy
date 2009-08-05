@@ -1275,7 +1275,26 @@ class eZImageAliasHandler
                     }
                     if ( !$hasScalarValues )
                     {
-                        unset( $serializedNode );
+                        $toRemove = array();
+                        foreach ( $infoItem as $key => $value )
+                        {
+                            if ( is_string( $value ) && !ctype_print( $value ) )
+                            {
+                                $toRemove[] = $key;
+                            }
+                        }
+
+                        if ( count( $toRemove ) > 0 )
+                        {
+                            eZDebug::writeDebug( 'removing image information items containing non-printable characters: ' . implode( ', ', $toRemove ) );
+
+                            foreach ( $toRemove as $remove )
+                            {
+                                unset( $infoItem[$remove] );
+                            }
+                        }
+
+                    	unset( $serializedNode );
                         $serializedNode = $dom->createElement( 'serialized' );
                         $serializedNode->setAttribute( 'name', $infoItemName );
                         $serializedNode->setAttribute( 'data', serialize( $infoItem ) );
