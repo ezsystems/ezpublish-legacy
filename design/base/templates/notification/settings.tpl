@@ -21,6 +21,5 @@
 
 <div>
 <input class="button" type="submit" name="Store" value="{'Store'|i18n('design/standard/notification')}" />
-<input class="button" type="submit" name="Cancel" value="{'Cancel'|i18n('design/standard/notification')}" />
 </div>
 </form>
