@@ -26,15 +26,8 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$http = eZHTTPTool::instance();
 $module = $Params['Module'];
 $mode = $Params['Mode'];
-
-require_once( "kernel/common/template.php" );
-$ini = eZINI::instance();
-$tpl = templateInit();
-$info = ezcSystemInfo::getInstance();
-$db = eZDB::instance();
 
 if ( $mode and $mode === 'php' )
 {
@@ -42,17 +35,55 @@ if ( $mode and $mode === 'php' )
     eZExecution::cleanExit();
 }
 
-// Workaround until ezcTemplate will be used, as properties can not be accessed
-// directly yet.
+require_once( "kernel/common/template.php" );
+$http = eZHTTPTool::instance();
+$ini = eZINI::instance();
+$tpl = templateInit();
+$db = eZDB::instance();
 
-$phpAcceleratorInfo = array();
-if ( !is_null( $info->phpAccelerator ) )
+try
 {
-    $phpAcceleratorInfo['name'] = $info->phpAccelerator->name;
-    $phpAcceleratorInfo['url'] = $info->phpAccelerator->url;
-    $phpAcceleratorInfo['enabled'] = $info->phpAccelerator->isEnabled;
-    $phpAcceleratorInfo['version_integer'] = $info->phpAccelerator->versionInt;
-    $phpAcceleratorInfo['version_string'] = $info->phpAccelerator->versionString;
+    $info = ezcSystemInfo::getInstance();
+}
+catch ( ezcSystemInfoReaderCantScanOSException $e )
+{
+    $info = null;
+    eZDebug::writeNotice( "Could not read system information, returned: '" . $e->getMessage(). "'", 'system/info' );
+}
+
+if ( $info instanceof ezcSystemInfo )
+{
+    // Workaround until ezcTemplate is used, as properties can not be accessed directly in ezp templates.
+	$systemInfo = array(
+        'cpu_type' => $info->cpuType,
+        'cpu_speed' => $info->cpuSpeed,
+        'cpu_count' =>$info->cpuCount,
+        'memory_size' => $info->memorySize
+    );
+
+	if ( $info->phpAccelerator !== null )
+	{
+	    $phpAcceleratorInfo = array(   'name' => $info->phpAccelerator->name,
+	                                   'url' => $info->phpAccelerator->url,
+	                                   'enabled' => $info->phpAccelerator->isEnabled,
+	                                   'version_integer' => $info->phpAccelerator->versionInt,
+	                                   'version_string' => $info->phpAccelerator->versionString
+	    );
+	}
+	else
+	{
+		$phpAcceleratorInfo = array();
+	}
+}
+else
+{
+       $systemInfo = array(
+        'cpu_type' => '',
+        'cpu_speed' => '',
+        'cpu_count' => '',
+        'memory_size' => ''
+    );
+    $phpAcceleratorInfo = array();
 }
 
 $webserverInfo = false;
@@ -64,13 +95,6 @@ if ( function_exists( 'apache_get_version' ) )
     if ( function_exists( 'apache_get_modules' ) )
         $webserverInfo['modules'] = apache_get_modules();
 }
-
-$systemInfo = array(
-    'cpu_type' => $info->cpuType,
-    'cpu_speed' => $info->cpuSpeed,
-    'cpu_count' =>$info->cpuCount,
-    'memory_size' => $info->memorySize
-);
 
 $tpl->setVariable( 'ezpublish_version', eZPublishSDK::version() . " (" . eZPublishSDK::alias() . ")" );
 $tpl->setVariable( 'ezpublish_revision', eZPublishSDK::revision() );
