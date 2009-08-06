@@ -485,6 +485,11 @@ class eZRole extends eZPersistentObject
     */
     static function fetchByUser( $idArray, $recursive = false )
     {
+        if ( count( $idArray ) < 1 )
+        {
+            return array();
+        }
+
         $db = eZDB::instance();
 
         if ( !$recursive )
@@ -510,6 +515,11 @@ class eZRole extends eZPersistentObject
                 {
                     $userNodeIDArray = array_merge( $nodeDefinitionElement->attribute( 'path_array' ), $userNodeIDArray );
                 }
+            }
+
+            if ( count( $userNodeIDArray ) < 1 )
+            {
+                return array();
             }
 
             $query = 'SELECT DISTINCT ezrole.id,
