@@ -5033,6 +5033,16 @@ class eZContentObject extends eZPersistentObject
         $contentObject->setAttribute( 'contentclass_id', $contentClass->attribute( 'id' ) );
         $contentObject->store();
 
+        $sectionObject = eZSection::fetch( $sectionID );
+        if ( $sectionObject instanceof eZSection )
+        {
+            $updateWithParentSection = false;
+        }
+        else
+        {
+            $updateWithParentSection = true;
+        }
+
         $options['language_array'] = $importedLanguages;
         $versionList = array();
         foreach( $versionListNode->getElementsByTagName( 'version' ) as $versionDOMNode )
@@ -5088,12 +5098,11 @@ class eZContentObject extends eZPersistentObject
                 $existingMainNode = eZContentObjectTreeNode::fetchByRemoteID( $mainNodeInfo['parent_remote_id'], false );
                 if ( $existingMainNode )
                 {
-                    $updateSection = false;
                     eZContentObjectTreeNode::updateMainNodeID( $existingMainNode['node_id'],
                                                                $mainNodeInfo['contentobject_id'],
                                                                $mainNodeInfo['contentobject_version'],
                                                                $mainNodeInfo['parent_node'],
-                                                               $updateSection );
+                                                               $updateWithParentSection );
                 }
             }
             unset( $mainNodeInfo );
