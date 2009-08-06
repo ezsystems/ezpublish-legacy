@@ -67,7 +67,7 @@ while( true )
                     {
                         $cli->output( "\tFetching URL: $source" );
                     }
-                    $fileContentCache[$source] = file_get_contents( $source );
+                    $fileContentCache[$source] = eZHTTPTool::getDataByURL( $source, false, eZStaticCache::USER_AGENT );
                 }
                 if ( $fileContentCache[$source] === false )
                 {
