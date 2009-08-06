@@ -159,3 +159,4 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #15249: Handle ezc exceptions in setup/info
 - Fixed bug #13828: staticcache_cleanup.php cronjob is inconsistent with ezstaticcache
 - Fixed bug #14893: remote_id is defined as integer and not string in content, node|object fetches
+- Fixed bug #15253: Avoid failure of SQL statement in ezrole.php
