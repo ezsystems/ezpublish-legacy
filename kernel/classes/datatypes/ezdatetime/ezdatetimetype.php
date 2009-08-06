@@ -383,7 +383,7 @@ class eZDateTimeType extends eZDataType
             }
             else if ( $defaultType == self::DEFAULT_ADJUSTMENT )
             {
-                $adjustments = eZDateTimeType::classAttributeContent( $contentClassAttribute );
+                $adjustments = $this->classAttributeContent( $contentClassAttribute );
                 $value = new eZDateTime();
                 $value->adjustDateTime( $adjustments['hour'], $adjustments['minute'], 0, $adjustments['month'], $adjustments['day'], $adjustments['year'] );
                 $contentObjectAttribute->setAttribute( "data_int", $value->timeStamp() );

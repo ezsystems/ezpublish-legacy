@@ -389,7 +389,7 @@ class eZObjectRelationType extends eZDataType
     function objectDisplayInformation( $objectAttribute, $mergeInfo = false )
     {
         $classAttribute = $objectAttribute->contentClassAttribute();
-        $content = eZObjectRelationType::classAttributeContent( $classAttribute );
+        $content = $this->classAttributeContent( $classAttribute );
         $editGrouped = ( $content['selection_type'] == 0 or
                          ( $content['selection_type'] == 1 and $content['fuzzy_match'] ) );
 
