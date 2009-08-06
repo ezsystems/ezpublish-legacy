@@ -162,3 +162,4 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #15253: Avoid failure of SQL statement in ezrole.php
 - Fixed bug #14467: Objects are imported with "unknown section"
 - Fixed bug #15254: Cancel button in notification/settings is deprecated, should be removed from templates as well
+- Fixed bug #15037: performance issue due to table lock in ezidentifier datatype
