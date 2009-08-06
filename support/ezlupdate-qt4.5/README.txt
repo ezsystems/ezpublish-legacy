@@ -51,7 +51,7 @@ Qt/embedded.
 
 Build instructions:
 
-cd support/ezlupdate-qt4.5
+cd support/ezlupdate-qt4.5/ezlupdate
 qmake ezlupdate.pro
 make
 
