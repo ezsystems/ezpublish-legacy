@@ -81,6 +81,7 @@ if ( $siteAccess )
 
 $cleanAllItems = false;
 $clean = array( 'session' => false,
+                'expired_session' => false,
                 'preferences' => false,
                 'browse' => false,
                 'tipafriend' => false,
