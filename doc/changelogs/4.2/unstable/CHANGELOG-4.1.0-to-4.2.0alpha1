@@ -167,3 +167,4 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #15266: cleanup.php script causes PHP warning
 - Fixed bug #15269: Problem with Flash objects in eZ Publish 4.1.3. and Internet Explorer
 - Fixed bug #15280: Avoid warning and bad stylesheet syntax caused in ezdebug.php
+- Fixed bug #15282: A SOAP response can not be created with an empty namespace
