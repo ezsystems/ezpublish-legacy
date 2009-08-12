@@ -283,7 +283,10 @@ TODO: add encoding checks with schema validation.
         {
             // add the request
             $responseName = $this->Name . "Response";
-            $response = $doc->createElementNS( $this->Namespace, "resp:".$responseName );
+            if ( $this->Namespace == '' )
+                $response = $doc->createElement( "resp:".$responseName );
+            else
+                $response = $doc->createElementNS( $this->Namespace, "resp:".$responseName );
 
             $return = $doc->createElement( "return" );
 
