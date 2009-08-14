@@ -85,9 +85,11 @@ class eZURLWildcard extends eZPersistentObject
         return $definition;
     }
 
-    /*!
-     \return the url alias object as an associative array with all the attribute values.
-    */
+    /**
+     * Converts the url wildcard object to an associative array with the attribute
+     * names as array keys and the values as array values
+     * @return array
+     **/
     function asArray()
     {
         return array( 'id' => $this->attribute( 'id' ),
@@ -96,19 +98,21 @@ class eZURLWildcard extends eZPersistentObject
                       'type' => $this->attribute( 'type' ) );
     }
 
-    /*!
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
-    */
+    /**
+    * Stores the eZURLWildcard persistent object
+    **/
     function store( $fieldFilters = null )
     {
         eZPersistentObject::store( $fieldFilters );
     }
 
-    /*!
-     \static
-      Removes all wildcards that matches the base URL \a $baseURL.
-    */
+    /**
+     * Removes a wildcard from a source_url.
+     * The URL should be provided without the /* prefix:
+     * foobar will remove the wildcard with source_url = foobar/*
+     * @param string $baseURL URL prefix matched against destination_url
+     * @return void
+     **/
     static function cleanup( $baseURL )
     {
         $db = eZDB::instance();
@@ -118,19 +122,20 @@ class eZURLWildcard extends eZPersistentObject
         $db->query( $sql );
     }
 
-    /*!
-     \static
-      Removes all wildcards.
-     */
+    /**
+    * Removes all the wildcards
+    * @return void
+    **/
     static function removeAll()
     {
         eZPersistentObject::removeObject( eZURLWildcard::definition() );
     }
 
-    /*!
-     \static
-      Removes wildcards by IDs specified in \a $idList
-     */
+    /**
+     * Removes wildcards based on an ID list
+     * @param array $idList array of numerical ID
+     * @return void
+     **/
     static function removeByIDs( $idList )
     {
         if ( !is_array( $idList ) )
@@ -148,10 +153,12 @@ class eZURLWildcard extends eZPersistentObject
         }
     }
 
-    /*!
-     \static
-      Fetches the URL wildcard by ID.
-    */
+    /**
+     * Fetch a wildcard by numerical ID
+     * @param int $id
+     * @param bool $asObject
+     * @return eZURLWildcard null if no match was found
+     **/
     static function fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZURLWildcard::definition(),
@@ -160,10 +167,12 @@ class eZURLWildcard extends eZPersistentObject
                                                 $asObject );
     }
 
-    /*!
-     \static
-      Fetches wildcard by source url \a $url
-     */
+    /**
+     * Fetches a wildcard by source url
+     * @param string $url Source URL
+     * @param bool $asObject
+     * @return eZURLWildcard Null if no match was found
+     **/
     static function fetchBySourceURL( $url, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZURLWildcard::definition(),
@@ -172,11 +181,13 @@ class eZURLWildcard extends eZPersistentObject
                                                 $asObject );
     }
 
-    /*!
-     \static
-      Fetches URL wildcards by offset \a $offset and limit \a $limit.
-      By default fetches all wildcards.
-    */
+    /**
+     * Fetches the list of URL wildcards. By defaults, fetches all the wildcards
+     * @param int $offset Offset to limit the list from
+     * @param int $limit Limit to the number of fetched items
+     * @param bool $asObject
+     * @return array[eZURLWildcard]
+     **/
     static function fetchList( $offset = false, $limit = false, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZURLWildcard::definition(),
@@ -187,9 +198,9 @@ class eZURLWildcard extends eZPersistentObject
                                                     $asObject );
     }
 
-    /*!
-     \static
-     \return number of wildcards in db
+    /**
+     * Returns the number of wildcards in the database without any filtering
+     * @return int Number of wildcards in the database
      */
     static function fetchListCount()
     {
@@ -231,11 +242,10 @@ class eZURLWildcard extends eZPersistentObject
                       'keys' => $keys );
     }
 
-    /*!
-     \static
-     Sets the various cache information to the parameters.
-     \sa cacheInfo
-    */
+    /**
+     * Sets the various cache information to the parameters.
+     * @private
+     **/
     static function cacheInfoDirectories( &$wildcardCacheDir, &$wildcardCacheFile, &$wildcardCachePath, &$wildcardKeys )
     {
         $info = eZURLWildcard::cacheInfo();
@@ -245,10 +255,13 @@ class eZURLWildcard extends eZPersistentObject
         $wildcardKeys = $info['keys'];
     }
 
-    /*!
-     \static
-     \return true if the wildcard cache is expired.
-    */
+    /**
+     * Checks against a timestamp if the wildcard cache is expired
+     *
+     * @param int $timestamp The timestamp to check expiry against
+     *
+     * @return bool
+     **/
     static function isCacheExpired( $timestamp )
     {
         $expired = false;
@@ -265,11 +278,11 @@ class eZURLWildcard extends eZPersistentObject
         return $expired;
     }
 
-    /*!
-     \static
-     Expires the wildcard cache. This causes the wildcard cache to be
-     regenerated on the next page load.
-    */
+    /**
+     * Expires the wildcard cache. This causes the wildcard cache to be
+     * regenerated on the next page load.
+     * @return void
+     **/
     static function expireCache()
     {
         $handler = eZExpiryHandler::instance();
@@ -277,12 +290,13 @@ class eZURLWildcard extends eZPersistentObject
         $handler->store();
     }
 
-    /*!
-     \static
-     Transforms the URI if there exists an alias for it.
-     \return \c true is if successful, \c false otherwise
-     \return The string with new url is returned if the translation was found, but the resource has moved.
-    */
+    /**
+     * Transforms the URI if there exists an alias for it.
+     *
+     * @param eZURI|string $uri
+     * @return mixed The translated URI if the resource has moved, or true|false
+     *               if translation was (un)successful
+     **/
     static function translate( &$uri )
     {
         $result = false;
@@ -406,12 +420,11 @@ class eZURLWildcard extends eZPersistentObject
         return $result;
     }
 
-    /*!
-     \static
-     \private
-      Assign function names to input variables:
-        $regexpArrayCallback  - function to get an array of regexps;
-     */
+    /**
+     * Assign function names to input variables:
+     * @param $regexpArrayCallback function to get an array of regexps
+     * @return bool
+     **/
     static private function setupMatchCallbacks( &$regexpArrayCallback )
     {
         if ( !eZURLWildcard::createCacheIfExpired() )
@@ -442,9 +455,10 @@ class eZURLWildcard extends eZPersistentObject
         return true;
     }
 
-    /*!
-     \static
-    */
+    /**
+     * Create the cache if expired
+     * @return bool true
+     **/
     static function createCacheIfExpired()
     {
         $cacheFile = eZURLWildcard::cacheIndexFile();
@@ -464,16 +478,18 @@ class eZURLWildcard extends eZPersistentObject
         return true;
     }
 
-    /*!
-     \static
-     The wildcard caches are splitted between several files:
-        'wildcard_<md5>_index.php' - contains regexps for wildcards,
-        'wildcard_<md5>_0.php',
-        'wildcard_<md5>_1.php',
-        ...
-        'wildcard_<md5>_N.php'     - contains cached wildcards.
-                                     Each file has info about eZURLWildcard::WILDCARDS_PER_CACHE_FILE wildcards.
-     */
+    /**
+     * Create the wildcard cache
+     *
+     * The wildcard caches are splitted between several files:
+     *   'wildcard_<md5>_index.php': contains regexps for wildcards
+     *   'wildcard_<md5>_0.php',
+     *   'wildcard_<md5>_1.php',
+     *   ...
+     *   'wildcard_<md5>_N.php': contains cached wildcards.
+     * Each file has info about eZURLWildcard::WILDCARDS_PER_CACHE_FILE wildcards.
+     * @return void
+     **/
     static function createCache()
     {
         eZURLWildcard::cacheInfoDirectories( $wildcardCacheDir, $wildcardCacheFile, $wildcardCachePath, $wildcardKeys );
@@ -556,11 +572,13 @@ class eZURLWildcard extends eZPersistentObject
         $phpCacheIndex->store( true );
     }
 
-    /*!
-     \static
-     \private
-     Creates a 'regexp' portion of php-code for cache-index.
-     */
+    /**
+     * Creates a 'regexp' portion of php-code for cache-index.
+     *
+     * @param array $wildcard wildcard data with a source_url key
+     *
+     * @return string Regexp PHP code
+     **/
     static private function matchRegexpCode( $wildcard )
     {
         $phpCode = "";
@@ -579,11 +597,14 @@ class eZURLWildcard extends eZPersistentObject
         return $phpCode;
     }
 
-    /*!
-     \static
-     \private
-     Creates a 'replace' and wildcard-info portions of php-code for cache.
-     */
+    /**
+     * Creates a 'replace' and wildcard-info portions of php-code for cache.
+     *
+     * @param array $wildcard Wildcard array with a destination_url key
+     * @param string $indent
+     *
+     * @return string match/replace PHP Code
+     **/
     static private function matchReplaceCode( $wildcard, $indent = '' )
     {
         $phpCode = "";
@@ -642,10 +663,11 @@ class eZURLWildcard extends eZPersistentObject
         return $phpCode;
     }
 
-    /*!
-     \static
-     \return instance of 'eZClusterFileHandler' for cache-index file
-    */
+    /**
+     * Returns the cluster handler for the cache index file
+     *
+     * @return eZClusterFileHandlerInterface The cluster handler instance for the index file
+     **/
     static function cacheIndexFile()
     {
         $info = eZURLWildcard::cacheInfo();
@@ -655,9 +677,9 @@ class eZURLWildcard extends eZPersistentObject
         return $cacheFile;
     }
 
-    /*!
-     \static
-     Loads cache-index.
+    /**
+     * Loads the cache-index in memory
+     * @return bool true if successful, false otherwise
      */
     static function loadCacheIndex()
     {
@@ -675,13 +697,22 @@ class eZURLWildcard extends eZPersistentObject
         return true;
     }
 
-    /*!
-     The callback loads appropriate cache file for wildcard \a $wildcardNum,
-     extracts wildcard info and 'replace' url from cache.
-     \note The wildcard number(not a wildcard id) is used here. Reason: to find correct cache-file.
-           If it's needed to fetch wildcard from db, use eZURLWildcard::fetchList with offset = $wildcardNum and
-           $limit = 1.
-     */
+    /**
+     * The callback loads appropriate cache file for wildcard \a $wildcardNum,
+     * extracts wildcard info and 'replace' url from cache.
+     *
+     * The wildcard number(not a wildcard id) is used here.
+     * Reason: to find correct cache-file.
+     * If it's needed to fetch wildcard from db, use eZURLWildcard::fetchList
+     * with offset = $wildcardNum and $limit = 1.
+     *
+     * @param int $wildcardNum
+     * @param eZURI|string $uri
+     * @param mixed $wildcardInfo
+     * @param mixed $matches
+     *
+     * @return bool
+     **/
     static function translateWithCache( $wildcardNum, &$uri, &$wildcardInfo, $matches )
     {
         eZDebugSetting::writeDebug( 'kernel-urltranslator', "eZURLWildcardTranslateWithCache:: wildcardNum = $wildcardNum, uri = $uri", __METHOD__ );
