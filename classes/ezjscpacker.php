@@ -65,12 +65,12 @@ class ezjscPacker
      * @param array|string $scriptFiles Either array of file paths, or string with file path
      * @param string $type Should be 'text/javascript'
      * @param string $lang Optionaly set to 'Javascript'
+     * @param string $charset 
      * @param int $packLevel Level of packing, values: 0-3
      * @param bool $wwwInCacheHash To add www path in cahce hash or not
-     * @param string $charset 
      * @return string Html with generated tags
      */
-    static function buildJavascriptTag( $scriptFiles, $type = 'text/javascript', $lang = '', $packLevel = 2, $wwwInCacheHash = false, $charset = 'utf-8' )
+    static function buildJavascriptTag( $scriptFiles, $type = 'text/javascript', $lang = '', $charset = 'utf-8', $packLevel = 2, $wwwInCacheHash = false )
     {
         $ret = '';
         $lang = $lang ? ' language="' . $lang . '"' : '';
@@ -90,7 +90,7 @@ class ezjscPacker
             }
             else
             {
-                $ret .=  $packedFile ? "<script$lang type=\"$type\">\r\n$packedFile\r\n</script>\r\n" : '';
+                $ret .=  $packedFile ? "<script$lang type=\"$type\" charset=\"$charset\">\r\n$packedFile\r\n</script>\r\n" : '';
             }
         }
         return $ret;
@@ -108,7 +108,7 @@ class ezjscPacker
      * @param string $charset 
      * @return string Html with generated tags
      */
-    static function buildStylesheetTag( $cssFiles, $media = 'all', $type = 'text/css', $rel = 'stylesheet', $packLevel = 3, $wwwInCacheHash = true, $charset = 'utf-8' )
+    static function buildStylesheetTag( $cssFiles, $media = 'all', $type = 'text/css', $rel = 'stylesheet', $charset = 'utf-8', $packLevel = 3, $wwwInCacheHash = true )
     {
         $ret = '';
         $packedFiles = ezjscPacker::packFiles( $cssFiles, 'stylesheets/', '_' . $media . '.css', $packLevel, $wwwInCacheHash );
@@ -123,7 +123,7 @@ class ezjscPacker
                 {
                     $packedFile = $http->createRedirectUrl( $packedFile, array( 'pre_url' => false ) );
                 }
-                $ret .= "<link rel=\"$rel\" type=\"$type\" href=\"$packedFile\" media=\"$media\" />\r\n";
+                $ret .= "<link rel=\"$rel\" type=\"$type\" href=\"$packedFile\" media=\"$media\" charset=\"$charset\" />\r\n";
             }
             else
             {
