@@ -40,6 +40,7 @@ eZ Online Editor 5.0 extension Changelog
 * Documented: #14921: 'small' size hardcoded in ezoe code
 * Fixed #14785: Image or file upload > Sorting in location drop down
 * Fixed #14986: Unable to change embedded objects in internet explorer 6
+* Fixed #15031: Unable to browse 'Images' folder on IE6 and IE7
 
 5.0.0
 * Fixed regression #13650: [header] ezoe adds a level each time it is called

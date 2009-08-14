@@ -56,7 +56,7 @@ if ( !$embedObject )
 
 // Params for node to json encoder
 $params    = array('loadImages' => true);
-$params['imagePreGenerateSizes'] = array('small');
+$params['imagePreGenerateSizes'] = array('small', 'original');
 
 // look for datamap parameter ( what datamap attribute we should load )
 if ( isset( $Params['DataMap'] )  && $Params['DataMap'])

@@ -74,11 +74,11 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         }
         else
         {
-           var sizeObj    = eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'][ args['alt'] ];
-           args['src']    = ed.settings.ez_root_url + sizeObj['url'];
-           args['title']  = eZOEPopupUtils.safeHtml( sizeObj['alternative_text'] || eZOEPopupUtils.embedObject['name'] );
-           args['width']  = sizeObj['width'];
-           args['height'] = sizeObj['height'];
+           var imageAtr   = eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ], imageSizeObj = imageAtr['content'][ args['alt'] ];
+           args['src']    = ed.settings.ez_root_url + imageSizeObj['url'];
+           args['title']  = eZOEPopupUtils.safeHtml( imageAtr['alternative_text'] || eZOEPopupUtils.embedObject['name'] );
+           args['width']  = imageSizeObj['width'];
+           args['height'] = imageSizeObj['height'];
         }
         ed.dom.setAttribs( el, args );
     }

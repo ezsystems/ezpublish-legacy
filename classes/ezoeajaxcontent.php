@@ -152,13 +152,14 @@ class eZOEAjaxContent
                             'fetchChildrenCount' => false,
                             'dataMapType' => array(), //if you want to filter datamap by type
                             'loadImages' => false,
-                            'imagePreGenerateSizes' => array('small') //Pre generated images, loading all can be quite time consuming
+                            'imagePreGenerateSizes' => array( 'small', 'original' ) //Pre generated images, loading all can be quite time consuming
         ), $params );
 
         if ( !isset( $params['imageSizes'] ) )// list of available image sizes
         {
             $imageIni = eZINI::instance( 'image.ini' );
             $params['imageSizes'] = $imageIni->variable( 'AliasSettings', 'AliasList' );
+            $params['imageSizes'][] = 'original';
         }
 
         if ( $params['imageSizes'] === null || !isset( $params['imageSizes'][0] ) )
@@ -261,12 +262,18 @@ class eZOEAjaxContent
                             $imageArray[ $size ] = false;
                             if ( in_array( $size, $params['imagePreGenerateSizes'] )
                                 && $content->hasAttribute( $size ) )
-                                $imageArray[ $size ] = $content->attribute( $size );
+                            {
+                                $imageSizeData = $content->attribute( $size );
+                                $imageArray[ $size ] = array(
+                                    'url'    => $imageSizeData['url'],
+                                    'width'  => $imageSizeData['width'],
+                                    'height' => $imageSizeData['height'],
+                                );
+                            }
                         }
-                        $ret['image_attributes'][] = $key;
+                        $ret['image_attributes'][]                   = $key;
+                        $attrtibuteArray[ $key ]['alternative_text'] = $content->attribute( 'alternative_text' );
                     }
-
-                    $imageArray['original']             = array( 'url' => $attrtibuteArray[ $key ]['content'] );
                     $attrtibuteArray[ $key ]['content'] = $imageArray;
                 }
             }

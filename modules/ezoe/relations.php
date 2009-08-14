@@ -74,7 +74,7 @@ if ( $result['accessWord'] === 'no' )
 
 $object    = eZContentObject::fetch( $objectID );
 $imageIni  = eZINI::instance( 'image.ini' );
-$params    = array('loadImages' => true, 'imagePreGenerateSizes' => array('small') );
+$params    = array('loadImages' => true, 'imagePreGenerateSizes' => array('small', 'original') );
 
 if ( !$object )
 {
