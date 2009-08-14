@@ -571,8 +571,18 @@ class eZImageType extends eZDataType
 
     function fromString( $objectAttribute, $string )
     {
+        $delimiterPos = strpos( $string, '|' );
+
         $content = $objectAttribute->attribute( 'content' );
-        $content->initializeFromFile( $string, "" );
+        if ( $delimiterPos === false )
+        {
+        	$content->initializeFromFile( $string, '' );
+        }
+        else
+        {
+            $content->initializeFromFile( substr( $string, 0, $delimiterPos ), '' );
+            $content->setAttribute( 'alternative_text', substr( $string, $delimiterPos + 1 ) );
+        }
         $content->store( $objectAttribute );
         return true;
     }
