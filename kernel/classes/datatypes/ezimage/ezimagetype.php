@@ -470,13 +470,24 @@ class eZImageType extends eZDataType
     {
         $content = $objectAttribute->content();
         $original = $content->attribute( 'original' );
-        return $original['url'];
+        $alternativeText = $content->attribute( 'alternative_text' );
+        return $original['url'] . '|' . $alternativeText;
     }
 
     function fromString( $objectAttribute, $string )
     {
+        $delimiterPos = strpos( $string, '|' );
+
         $content = $objectAttribute->attribute( 'content' );
-        $content->initializeFromFile( $string, "" );
+        if ( $delimiterPos === false )
+        {
+        	$content->initializeFromFile( $string, '' );
+        }
+        else
+        {
+            $content->initializeFromFile( substr( $string, 0, $delimiterPos ), '' );
+            $content->setAttribute( 'alternative_text', substr( $string, $delimiterPos + 1 ) );
+        }
         $content->store( $objectAttribute );
         return true;
     }
