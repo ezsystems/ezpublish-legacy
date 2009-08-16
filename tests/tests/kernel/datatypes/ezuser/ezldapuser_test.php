@@ -45,8 +45,8 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMappingType', 'UseGroupAttribute' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupBaseDN', 'dc--ezctest,dc--ez,dc--no' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupClass', 'organizationalUnit' );
-        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupNameAttribute', 'cn' );
-        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMemberAttribute', 'member' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupNameAttribute', 'ou' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMemberAttribute', 'ou' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupDescriptionAttribute', 'description' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroupMap', array() );
 
@@ -62,26 +62,20 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
     }
 
     /**
-     * Test scenario for issue #13492: Links are lost after removing version
+     * Test scenario for LDAP login using UseGroupAttribute
      *
      * Test Outline
      * ------------
-     * 1. Create a Folder in English containing a link (in the short_description attribute).
-     * 2. Translate Folder into Norwegian containing another link (not the same link as above.)
-     * 3. Remove Folder version 1. (Version 2 is created when translating).
+     * 1. Set correct LDAPGroupMappingType
+     * 2. Login with username and password
      *
-     * @result: short_description in version 2 will have an empty link.
-     * @expected: short_description should contain same link as in version 1.
-     * @link http://issues.ez.no/13492
+     * @expected: $user is an object of class eZUser, this means a successful login.
      */
     public function testLoginUserUseGroupAttribute()
     {
-//         self::markTestSkipped( "This test isn't done yet" );
-
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMappingType', 'UseGroupAttribute' );
 
         $user = eZLDAPUser::loginUser( 'han.solo', 'leiaishot' );
-
         self::assertEquals( 'eZUser', get_class( $user ) );
     }
 }
