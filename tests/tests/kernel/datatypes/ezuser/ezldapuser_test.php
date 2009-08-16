@@ -25,10 +25,10 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
         parent::setUp();
 
         $this->ldapINI = eZINI::instance( 'ldap.ini' );
-        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPDebugTrace', 'disabled' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPDebugTrace', 'enabled' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPVersion', 3 );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPFollowReferrals', 0 );
-        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPEnabled', true );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPEnabled', 'true' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPServer', 'ezctest.ez.no' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPPort', 389 );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPBaseDn', 'dc--ezctest,dc--ez,dc--no' );
@@ -38,13 +38,27 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPEqualSign', '--' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPSearchFilters', array() );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPLoginAttribute', 'uid' );
-        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroupType', 'id' );
-        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroup', array() );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroupType', 'name' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroup', 'Users' );
 
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupRootNodeId', 5 );
-//         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMappingType', 'UseGroupAttribute' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMappingType', 'UseGroupAttribute' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupBaseDN', 'dc--ezctest,dc--ez,dc--no' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupClass', 'organizationalUnit' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupNameAttribute', 'cn' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMemberAttribute', 'member' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupDescriptionAttribute', 'description' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroupMap', array() );
 
-//         $this->ldapINI->setVariable( 'LDAPSettings', '',  );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroupAttributeType', 'name' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroupAttribute', 'ou' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPFirstNameAttribute', 'givenname' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPFirstNameIsCommonName', 'false' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPLastNameAttribute', 'sn' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPEmailAttribute', 'mail' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPEmailEmptyAttributeSuffix', '' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'Utf8Encoding', 'false' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'KeepGroupAssignment', 'disabled' );
     }
 
     /**
@@ -62,12 +76,11 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
      */
     public function testLoginUserUseGroupAttribute()
     {
-        self::markTestSkipped( "This test isn't done yet" );
+//         self::markTestSkipped( "This test isn't done yet" );
 
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMappingType', 'UseGroupAttribute' );
 
         $user = eZLDAPUser::loginUser( 'han.solo', 'leiaishot' );
-//         var_dump( $user );
 
         self::assertEquals( 'eZUser', get_class( $user ) );
     }

@@ -19,11 +19,15 @@ Ldap::deleteGroup( $connection, 'StarWars', $dc );
 Ldap::addGroup( $connection, 'StarWars', $dc );
 
 Ldap::add( $connection, 'chewbacca', '{MD5}' . base64_encode( pack( 'H*', md5( 'aaawwwwrrrkk' ) ) ), "ou=StarWars,{$dc}", 'Chewbacca', 'Chewbacca',
-           array( 'displayName' => 'Chewbacca the Wokiee',
-                  'ou' => array( 'StarWars' ) ) );
+           array( 'givenName' => 'Chewbacca',
+                  'displayName' => 'Chewbacca the Wokiee',
+                  'ou' => array( 'StarWars' ),
+                  'mail' => array( 'chewbacca@rebelalliance.org' ) ) );
 Ldap::add( $connection, 'han.solo', '{MD5}' . base64_encode( pack( 'H*', md5( 'leiaishot' ) ) ), "ou=StarWars,{$dc}", 'Solo', 'Han Solo',
-           array( 'displayName' => 'He who shot first',
-                  'ou' => array( 'StarWars' ) ) );
+           array( 'givenName' => 'Han',
+                  'displayName' => 'He who shot first',
+                  'ou' => array( 'StarWars' ),
+                  'mail' => array( 'han.solo@rebelalliance.org' ) ) );
 
 Ldap::fetchAll( $connection, $dc );
 
