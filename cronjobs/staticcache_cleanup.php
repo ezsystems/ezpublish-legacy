@@ -71,7 +71,7 @@ while( true )
                 }
                 if ( $fileContentCache[$source] === false )
                 {
-                    $cli->output( "\tCould not grab content, is the hostname correct and Apache running?" );
+                    $cli->output( "\tCould not grab content from \"$source\", is the hostname correct and Apache running?" );
                 }
                 else
                 {
