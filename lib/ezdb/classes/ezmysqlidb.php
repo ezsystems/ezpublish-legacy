@@ -774,9 +774,18 @@ class eZMySQLiDB extends eZDBInterface
 
     function createDatabase( $dbName )
     {
-        if ( $this->DBConnection != false )
+        if ( $this->IsConnected )
         {
-            mysqli_create_db( $dbName, $this->DBConnection );
+            $this->query( "CREATE DATABASE $dbName" );
+            $this->setError();
+        }
+    }
+
+    function removeDatabase( $dbName )
+    {
+        if ( $this->IsConnected )
+        {
+            $this->query( "DROP DATABASE $dbName" );
             $this->setError();
         }
     }
