@@ -1225,6 +1225,10 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
             $http->setSessionVariable( 'ContentObjectID', $contentObjectID );
             $http->setSessionVariable( 'HideRemoveConfirmation', $hideRemoveConfirm );
             $http->setSessionVariable( 'DeleteIDArray', array( $contentNodeID ) );
+
+            $http->setSessionVariable( 'RedirectURIAfterRemove', $http->postVariable( 'RedirectURIAfterRemove', false ) );
+            $http->setSessionVariable( 'RedirectIfCancel', $http->postVariable( 'RedirectIfCancel', false ) );
+
             $object = eZContentObject::fetchByNodeID( $contentNodeID );
             if ( $object instanceof eZContentObject )
             {

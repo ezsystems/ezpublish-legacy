@@ -67,7 +67,18 @@ if ( $http->hasPostVariable( "CancelButton" ) )
     $http->removeSessionVariable( 'ContentNodeID' );
     $http->removeSessionVariable( 'userRedirectURIReverseRelatedList' );
     $http->removeSessionVariable( 'HideRemoveConfirmation' );
-    return $Module->redirectToView( 'view', array( $viewMode, $contentNodeID, $contentLanguage ) );
+    $http->removeSessionVariable( 'RedirectURIAfterRemove' );
+
+    if ( $http->hasSessionVariable( 'RedirectIfCancel' )
+      && $http->sessionVariable( 'RedirectIfCancel' ) )
+    {
+        $Module->redirectTo( $http->sessionVariable( 'RedirectIfCancel' ) );
+        return $http->removeSessionVariable( 'RedirectIfCancel' );
+    }
+    else
+    {
+        return $Module->redirectToView( 'view', array( $viewMode, $contentNodeID, $contentLanguage ) );
+    }
 }
 
 $contentINI = eZINI::instance( 'content.ini' );
@@ -107,7 +118,17 @@ if ( $http->hasPostVariable( "ConfirmButton" ) or
         eZContentOperationCollection::deleteObject( $deleteIDArray, $moveToTrash );
     }
 
-    return $Module->redirectToView( 'view', array( $viewMode, $contentNodeID, $contentLanguage ) );
+    if ( $http->hasSessionVariable( 'RedirectURIAfterRemove' )
+      && $http->sessionVariable( 'RedirectURIAfterRemove' ) )
+    {
+        $Module->redirectTo( $http->sessionVariable( 'RedirectURIAfterRemove' ) );
+        $http->removeSessionVariable( 'RedirectURIAfterRemove' );
+        return $http->removeSessionVariable( 'RedirectIfCancel' );
+    }
+    else
+    {
+        return $Module->redirectToView( 'view', array( $viewMode, $contentNodeID, $contentLanguage ) );
+    }
 }
 
 $showCheck = $contentINI->hasVariable( 'RemoveSettings', 'ShowRemoveToTrashCheck' ) ?
@@ -181,7 +202,18 @@ if ( $totalChildCount == 0 )
         {
             eZContentOperationCollection::removeAssignment( $contentNodeID, $contentObjectID, $deleteNodeArray, $moveToTrash );
         }
-        return $Module->redirectToView( 'view', array( $viewMode, $contentNodeID, $contentLanguage ) );
+
+        if ( $http->hasSessionVariable( 'RedirectURIAfterRemove' )
+          && $http->sessionVariable( 'RedirectURIAfterRemove' ) )
+        {
+            $Module->redirectTo( $http->sessionVariable( 'RedirectURIAfterRemove' ) );
+            $http->removeSessionVariable( 'RedirectURIAfterRemove' );
+            return $http->removeSessionVariable( 'RedirectIfCancel' );
+        }
+        else
+        {
+            return $Module->redirectToView( 'view', array( $viewMode, $contentNodeID, $contentLanguage ) );
+        }
     }
 }
 
