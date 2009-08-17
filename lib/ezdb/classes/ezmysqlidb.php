@@ -125,7 +125,11 @@ class eZMySQLiDB extends eZDBInterface
 
         if ( $this->UsePersistentConnection == true )
         {
-            eZDebug::writeWarning( 'mysqli does not support persistent connections', 'eZMySQLiDB::connect' );
+            // Only supported on PHP 5.3 (mysqlnd)
+            if ( version_compare( PHP_VERSION, '5.3' ) > 0 )
+                $this->Server = 'p:' . $this->Server;
+            else
+                eZDebug::writeWarning( 'mysqli only supports persistent connections when using php 5.3 and higher', 'eZMySQLiDB::connect' );
         }
 
         $connection = mysqli_connect( $server, $user, $password, null, (int)$port, $socketPath );
@@ -137,10 +141,6 @@ class eZMySQLiDB extends eZDBInterface
         while ( !is_object( $connection ) and $numAttempts <= $maxAttempts )
         {
             sleep( $waitTime );
-            if ( $this->UsePersistentConnection == true )
-            {
-                eZDebug::writeWarning( 'mysqli does not support persistent connections', 'eZMySQLiDB::connect' );
-            }
 
             $connection = mysqli_connect( $this->Server, $this->User, $this->Password, null, (int)$this->Port, $this->SocketPath );
 
