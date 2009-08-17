@@ -190,7 +190,6 @@ class eZXMLOutputHandler
         }
 
         $this->Document = new DOMDocument( '1.0', 'utf-8' );
-        $this->Document->preserveWhiteSpace = false;
         $success = $this->Document->loadXML( $this->XMLData );
 
         if ( !$success )
