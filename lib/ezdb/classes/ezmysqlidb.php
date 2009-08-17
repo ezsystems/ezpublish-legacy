@@ -160,9 +160,9 @@ class eZMySQLiDB extends eZDBInterface
         if ( $this->IsConnected && $db != null )
         {
             $ret = mysqli_select_db( $connection, $db );
-            //$this->setError();
             if ( !$ret )
             {
+                //$this->setError();
                 eZDebug::writeError( "Connection error: " . mysqli_errno( $connection ) . ": " . mysqli_error( $connection ), "eZMySQLiDB" );
                 $this->IsConnected = false;
             }
@@ -752,7 +752,7 @@ class eZMySQLiDB extends eZDBInterface
 
     function escapeString( $str )
     {
-        if ( is_object( $this->DBConnection ) )
+        if ( $this->IsConnected )
         {
             return mysqli_real_escape_string( $this->DBConnection, $str );
         }
@@ -774,16 +774,25 @@ class eZMySQLiDB extends eZDBInterface
 
     function createDatabase( $dbName )
     {
-        if ( $this->DBConnection != false )
+        if ( $this->IsConnected )
         {
-            mysqli_create_db( $dbName, $this->DBConnection );
+            $this->query( "CREATE DATABASE $dbName" );
+            $this->setError();
+        }
+    }
+
+    function removeDatabase( $dbName )
+    {
+        if ( $this->IsConnected )
+        {
+            $this->query( "DROP DATABASE $dbName" );
             $this->setError();
         }
     }
 
     function setError()
     {
-        if ( is_object( $this->DBConnection ) )
+        if ( $this->IsConnected )
         {
             $this->ErrorMessage = mysqli_error( $this->DBConnection );
             $this->ErrorNumber = mysqli_errno( $this->DBConnection );
@@ -826,7 +835,7 @@ class eZMySQLiDB extends eZDBInterface
 
     function databaseServerVersion()
     {
-        if ( is_object( $this->DBConnection ) )
+        if ( $this->IsConnected )
         {
             $versionInfo = mysqli_get_server_info( $this->DBConnection );
 
