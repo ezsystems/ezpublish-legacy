@@ -142,7 +142,7 @@ class eZBinaryFileType extends eZDataType
             foreach ( $binaryFiles as  $binaryFile )
             {
                 $mimeType =  $binaryFile->attribute( "mime_type" );
-                list( $prefix, $suffix ) = split ('[/]', $mimeType );
+                list( $prefix, $suffix ) = explode('/', $mimeType );
                 $orig_dir = $storage_dir . '/original/' . $prefix;
                 $fileName = $binaryFile->attribute( "filename" );
 
@@ -163,7 +163,7 @@ class eZBinaryFileType extends eZDataType
             if ( $binaryFile != null )
             {
                 $mimeType =  $binaryFile->attribute( "mime_type" );
-                list( $prefix, $suffix ) = split ('[/]', $mimeType );
+                list( $prefix, $suffix ) = explode('/', $mimeType );
                 $orig_dir = $storage_dir . "/original/" . $prefix;
                 $fileName = $binaryFile->attribute( "filename" );
 

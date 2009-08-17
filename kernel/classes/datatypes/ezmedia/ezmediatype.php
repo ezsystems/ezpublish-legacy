@@ -96,7 +96,7 @@ class eZMediaType extends eZDataType
             foreach ( $mediaFiles as $mediaFile )
             {
                 $mimeType =  $mediaFile->attribute( "mime_type" );
-                list( $prefix, $suffix ) = split ('[/]', $mimeType );
+                list( $prefix, $suffix ) = explode('/', $mimeType );
 //                $orig_dir = "var/storage/original/" . $prefix;
                 $orig_dir = $storage_dir . '/original/' . $prefix;
                 $fileName = $mediaFile->attribute( "filename" );
@@ -117,7 +117,7 @@ class eZMediaType extends eZDataType
             {
                 $mimeType =  $currentBinaryFile->attribute( "mime_type" );
                 $currentFileName = $currentBinaryFile->attribute( "filename" );
-                list( $prefix, $suffix ) = is_string( $mimeType ) && $mimeType ? split ( '[/]', $mimeType ) : array( null, null );
+                list( $prefix, $suffix ) = is_string( $mimeType ) && $mimeType ? explode( '/', $mimeType ) : array( null, null );
 //              $orig_dir = "var/storage/original/" . $prefix;
                 $orig_dir = $storage_dir . '/original/' . $prefix;
                 foreach ( $mediaFiles as $mediaFile )
