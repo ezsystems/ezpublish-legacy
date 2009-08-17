@@ -11,23 +11,33 @@ $host = "ezctest.ez.no";
 
 $connection = Ldap::connect( "ldap://$host", "cn=%s,{$dc}", 'admin', 'wee123' );
 
-Ldap::delete( $connection, 'han.solo', "ou=StarWars,{$dc}" );
 Ldap::delete( $connection, 'chewbacca', "ou=StarWars,{$dc}" );
+Ldap::delete( $connection, 'han.solo', "ou=StarWars,{$dc}" );
+Ldap::delete( $connection, 'leia', "ou=StarWars,{$dc}" );
 
 Ldap::deleteGroup( $connection, 'StarWars', $dc );
+Ldap::deleteGroup( $connection, 'RebelAlliance', $dc );
+Ldap::deleteGroup( $connection, 'Rogues', $dc );
 
 Ldap::addGroup( $connection, 'StarWars', $dc );
+Ldap::addGroup( $connection, 'RebelAlliance', $dc );
+Ldap::addGroup( $connection, 'Rogues', $dc );
 
 Ldap::add( $connection, 'chewbacca', '{MD5}' . base64_encode( pack( 'H*', md5( 'aaawwwwrrrkk' ) ) ), "ou=StarWars,{$dc}", 'Chewbacca', 'Chewbacca',
            array( 'givenName' => 'Chewbacca',
                   'displayName' => 'Chewbacca the Wokiee',
-                  'ou' => array( 'StarWars' ),
-                  'mail' => array( 'chewbacca@rebelalliance.org' ) ) );
+                  'ou' => array( 'StarWars', 'Rogues' ),
+                  'mail' => array( 'chewbacca@millenniumfalcon.net' ) ) );
 Ldap::add( $connection, 'han.solo', '{MD5}' . base64_encode( pack( 'H*', md5( 'leiaishot' ) ) ), "ou=StarWars,{$dc}", 'Solo', 'Han Solo',
            array( 'givenName' => 'Han',
                   'displayName' => 'He who shot first',
-                  'ou' => array( 'StarWars' ),
-                  'mail' => array( 'han.solo@rebelalliance.org' ) ) );
+                  'ou' => array( 'StarWars', 'Rogues' ),
+                  'mail' => array( 'han.solo@millenniumfalcon.net' ) ) );
+Ldap::add( $connection, 'leia', '{MD5}' . base64_encode( pack( 'H*', md5( 'bunhead' ) ) ), "ou=StarWars,{$dc}", 'Organa', 'Leia Organa',
+           array( 'givenName' => 'Leia',
+                  'displayName' => 'Princess Leia',
+                  'ou' => array( 'StarWars', 'RebelAlliance' ),
+                  'mail' => array( 'leia@rebelalliance.org' ) ) );
 
 Ldap::fetchAll( $connection, $dc );
 

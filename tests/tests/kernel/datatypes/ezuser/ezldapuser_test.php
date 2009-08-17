@@ -68,7 +68,9 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
      * ------------
      * 1. Set correct LDAPGroupMappingType
      * 2. Login with username and password
+     * 3. Check returned value in $user
      *
+     * @result: $user is an object of class eZUser, this means a successful login.
      * @expected: $user is an object of class eZUser, this means a successful login.
      */
     public function testLoginUserUseGroupAttribute()
@@ -77,6 +79,82 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
 
         $user = eZLDAPUser::loginUser( 'han.solo', 'leiaishot' );
         self::assertEquals( 'eZUser', get_class( $user ) );
+    }
+
+    /**
+     * Test scenario for issue #xxxxx: LDAP login using SimpleMapping fails
+     *
+     * Test Outline
+     * ------------
+     * 1. Set LDAPGroupMappingType = SimpleMapping and mapping settings
+     * 2. Login with username and password
+     * 3. Check parent nodes of user object
+     *
+     * @result: User is placed under the node given by LDAPGroupRootNodeId
+     * @expected: User is placed in the Editors and Guest Accounts group.
+     * @link http://issues.ez.no/xxxxx
+     */
+    public function testLoginUserSimpleMapping()
+    {
+        self::markTestSkipped( "This test isn't done yet" );
+
+        $GLOBALS['eZNotificationEventTypes']['ezpublish'] = 'eZPublishType';
+
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMappingType', 'SimpleMapping' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroupMap', array( 'StarWars' => 'Editors',
+                                                                                'RebelAlliance' => 'Administrator Users',
+                                                                                'Rogues' => 'Guest Accounts' ) );
+
+        $user = eZLDAPUser::loginUser( 'chewbacca', 'aaawwwwrrrkk' );
+        $contentObject = $user->attribute( 'contentobject' );
+        self::assertEquals( array( 14, 12 ), $contentObject->attribute( 'parent_nodes' ) );
+    }
+
+    /**
+     * Test scenario for issue #xxxxx: LDAP login using SimpleMapping fails
+     *
+     * Test Outline
+     * ------------
+     * 1. Set LDAPGroupMappingType = UseGroupAttribute
+     * 2. Login with username and password
+     * 3. Check parent nodes of user object
+     *
+     * @result: User is placed under the node given by LDAPGroupRootNodeId
+     * @expected: User is placed under the node given by LDAPGroupRootNodeId
+     *
+     * 1. Set LDAPGroupMappingType = SimpleMapping and mapping settings
+     * 2. Login with username and password
+     * 3. Check parent nodes of user object
+     *
+     * @result: User is placed in the Editors group
+     * @expected: User is placed in the Editors and Administrator Users groups.
+     * @link http://issues.ez.no/xxxxx
+     */
+    public function testLoginUserSimpleMappingExistingUser()
+    {
+        self::markTestSkipped( "This test isn't done yet" );
+
+        $GLOBALS['eZNotificationEventTypes']['ezpublish'] = 'eZPublishType';
+
+        // First login using UseGroupAttribute, to get an existing user object
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMappingType', 'UseGroupAttribute' );
+
+        // It should be placed under the node given by LDAPGroupRootNodeId
+        $user = eZLDAPUser::loginUser( 'leia', 'bunhead' );
+        $contentObject = $user->attribute( 'contentobject' );
+        self::assertEquals( array( $this->ldapINI->variable( 'LDAPSettings', 'LDAPGroupRootNodeId' ) ),
+                            $contentObject->attribute( 'parent_nodes' ) );
+
+
+        // Then login using SimpleMapping
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMappingType', 'SimpleMapping' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroupMap', array( 'StarWars' => 'Editors',
+                                                                                'RebelAlliance' => 'Administrator Users',
+                                                                                'Rogues' => 'Guest Accounts' ) );
+
+        $user = eZLDAPUser::loginUser( 'leia', 'bunhead' );
+        $contentObject = $user->attribute( 'contentobject' );
+        self::assertEquals( array( 14, 13 ), $contentObject->attribute( 'parent_nodes' ) );
     }
 }
 
