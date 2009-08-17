@@ -1,0 +1,34 @@
+Changes from 4.1.0 to 4.2.0alpha1
+
+*Kernel:
+- Implemented enhancement #15308: Add group_by support for extended attribute filters
+
+*Design:
+
+*eZTemplate:
+
+*eZLocale:
+
+*Package system:
+
+*Scripts:
+
+*Translations:
+
+*Bugfixes:
+- Fixed bug #15245: metaData for ezobjectrelation attributes is not always using the right translation
+- Fixed bug #15200: RSS Feed's won't work with Firefox 3.5x
+- Fixed bug #15249: Handle ezc exceptions in setup/info
+- Fixed bug #13828: staticcache_cleanup.php cronjob is inconsistent with ezstaticcache
+- Fixed bug #14893: remote_id is defined as integer and not string in content, node|object fetches
+- Fixed bug #15253: Avoid failure of SQL statement in ezrole.php
+- Fixed bug #14467: Objects are imported with "unknown section"
+- Fixed bug #15254: Cancel button in notification/settings is deprecated, should be removed from templates as well
+- Fixed bug #15037: performance issue due to table lock in ezidentifier datatype
+- Fixed bug #15001: strict warning in eZObjectRelationType::classAttributeContent
+- Fixed bug #15266: cleanup.php script causes PHP warning
+- Fixed bug #15269: Problem with Flash objects in eZ Publish 4.1.3. and Internet Explorer
+- Fixed bug #15280: Avoid warning and bad stylesheet syntax caused in ezdebug.php
+- Fixed bug #15282: A SOAP response can not be created with an empty namespace
+- Fixed bug #13371: eZImageType::fromString() doesn't support alternative image text
+- Fixed bug #14558: eZMySQLiDB::createDatabase() references non-existing method in mysqli extension.
