@@ -116,8 +116,14 @@ if ( $http->hasPostVariable( 'SendButton' ) )
     }
     if ( $fromEmail == null )
         $fromEmail = $yourEmail;
+        
+    if ( $http->hasSessionVariable('ezpContentTipafriendList') )
+    {
+        if ( strpos( $http->sessionVariable('ezpContentTipafriendList'), $NodeID . '|' . $receiversEmail ) !== false )
+            $error_strings[] = ezi18n( 'kernel/content', "You have already sent a tipafriend mail to this reciver regarding '$nodeName' content" );
+    }
 
-    if ( !eZTipafriendRequest::checkReceiver( $receiversEmail ) )
+    if ( !isset( $error_strings[0] ) && !eZTipafriendRequest::checkReceiver( $receiversEmail ) )
         $error_strings[] = ezi18n( 'kernel/content', 'The receiver has already received the maximum number of tipafriend mails the last hours' );
 
     // no validation errors
@@ -149,6 +155,7 @@ if ( $http->hasPostVariable( 'SendButton' ) )
         $mailtpl->setVariable( 'hostname', $hostName );
         $mailtpl->setVariable( 'nodename', $nodeName );
         $mailtpl->setVariable( 'node_id', $NodeID );
+        $mailtpl->setVariable( 'node', $node );
         $mailtpl->setVariable( 'your_name', $yourName );
         $mailtpl->setVariable( 'your_email', $yourEmail );
         $mailtpl->setVariable( 'receivers_name', $receiversName );
@@ -172,6 +179,14 @@ if ( $http->hasPostVariable( 'SendButton' ) )
             // Increase tipafriend count for this node
             $counter = eZTipafriendCounter::create( $NodeID );
             $counter->store();
+
+            // Prevent user from sending tipafriend mail to same user on same node again for the rest of session
+            $sessionSentTipList = $NodeID . '|' . $receiversEmail;
+            if ( $http->hasSessionVariable('ezpContentTipafriendList') )
+            {
+                $sessionSentTipList = $http->sessionVariable('ezpContentTipafriendList') . ',' . $sessionSentTipList;
+            }
+            $http->setSessionVariable('ezpContentTipafriendList', $sessionSentTipList );
         }
         else // some error occured
         {
@@ -179,14 +194,14 @@ if ( $http->hasPostVariable( 'SendButton' ) )
         }
         if ( $http->hasPostVariable( 'RedirectBack' ) && $http->postVariable( 'RedirectBack' ) == 1 )
         {
-            $Module->redirectTo( '/content/view/full/' . $NodeID );
+            $Module->redirectTo( $node->attribute( 'url_alias' ) );
             return;
         }
     }
 }
 else if ( $http->hasPostVariable( 'CancelButton' ) )
 {
-    $Module->redirectTo( '/content/view/full/' . $NodeID );
+    $Module->redirectTo( $node->attribute( 'url_alias' ) );
 }
 
 if ( !$overrideKeysAreSet )
@@ -209,6 +224,7 @@ if ( !$overrideKeysAreSet )
 $Module->setTitle( 'Tip a friend' );
 
 $tpl->setVariable( 'node_id', $NodeID );
+$tpl->setVariable( 'node', $node );
 $tpl->setVariable( 'error_strings', $error_strings );
 $tpl->setVariable( 'your_name', $yourName );
 $tpl->setVariable( 'your_email', $yourEmail );

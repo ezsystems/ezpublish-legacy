@@ -5,6 +5,7 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Implemented enhancement #14882: Add triggers to user module
 - Implemented enhancement #13943: eZMySQLiDB::query() should write error number in error message
 - Implemented enhancement #13827: staticcache_cleanup.php cronjob should output more useful info
+- Implemented enhancement #11380: Disallow repeated tipafriend mails on same content to same receiver and use url alias on links
 
 *Design:
 
