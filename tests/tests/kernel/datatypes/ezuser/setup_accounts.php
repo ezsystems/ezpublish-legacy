@@ -11,17 +11,22 @@ $host = "ezctest.ez.no";
 
 $connection = Ldap::connect( "ldap://$host", "cn=%s,{$dc}", 'admin', 'wee123' );
 
-Ldap::delete( $connection, 'chewbacca', "ou=StarWars,{$dc}" );
-Ldap::delete( $connection, 'han.solo', "ou=StarWars,{$dc}" );
+Ldap::delete( $connection, 'darth.vader', "ou=StarWars,{$dc}" );
 Ldap::delete( $connection, 'leia', "ou=StarWars,{$dc}" );
+Ldap::delete( $connection, 'han.solo', "ou=StarWars,{$dc}" );
+Ldap::delete( $connection, 'chewbacca', "ou=StarWars,{$dc}" );
 
-Ldap::deleteGroup( $connection, 'StarWars', $dc );
-Ldap::deleteGroup( $connection, 'RebelAlliance', $dc );
+Ldap::deleteGroup( $connection, 'SithLords', "ou=GalacticEmpire,$dc" );
+Ldap::deleteGroup( $connection, 'GalacticEmpire', $dc );
 Ldap::deleteGroup( $connection, 'Rogues', $dc );
+Ldap::deleteGroup( $connection, 'RebelAlliance', $dc );
+Ldap::deleteGroup( $connection, 'StarWars', $dc );
 
 Ldap::addGroup( $connection, 'StarWars', $dc );
 Ldap::addGroup( $connection, 'RebelAlliance', $dc );
 Ldap::addGroup( $connection, 'Rogues', $dc );
+Ldap::addGroup( $connection, 'GalacticEmpire', $dc );
+Ldap::addGroup( $connection, 'SithLords', "ou=GalacticEmpire,$dc" );
 
 Ldap::add( $connection, 'chewbacca', '{MD5}' . base64_encode( pack( 'H*', md5( 'aaawwwwrrrkk' ) ) ), "ou=StarWars,{$dc}", 'Chewbacca', 'Chewbacca',
            array( 'givenName' => 'Chewbacca',
@@ -38,6 +43,11 @@ Ldap::add( $connection, 'leia', '{MD5}' . base64_encode( pack( 'H*', md5( 'bunhe
                   'displayName' => 'Princess Leia',
                   'ou' => array( 'StarWars', 'RebelAlliance' ),
                   'mail' => array( 'leia@rebelalliance.org' ) ) );
+Ldap::add( $connection, 'darth.vader', '{MD5}' . base64_encode( pack( 'H*', md5( 'whosyourdaddy' ) ) ), "ou=StarWars,{$dc}", 'Skywalker', 'Anakin Skywalker',
+           array( 'givenName' => 'Anakin',
+                  'displayName' => 'Darth Vader',
+                  'ou' => array( 'StarWars', 'GalacticEmpire', 'SithLords' ),
+                  'mail' => array( 'vader@empire.com' ) ) );
 
 Ldap::fetchAll( $connection, $dc );
 

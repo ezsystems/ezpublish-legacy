@@ -91,7 +91,7 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
      * 3. Check parent nodes of user object
      *
      * @result: User is placed under the node given by LDAPGroupRootNodeId
-     * @expected: User is placed in the Editors and Guest Accounts group.
+     * @expected: User is placed in the Editors and Guest Accounts groups.
      * @link http://issues.ez.no/xxxxx
      */
     public function testLoginUserSimpleMapping()
@@ -155,6 +155,39 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
         $user = eZLDAPUser::loginUser( 'leia', 'bunhead' );
         $contentObject = $user->attribute( 'contentobject' );
         self::assertEquals( array( 14, 13 ), $contentObject->attribute( 'parent_nodes' ) );
+    }
+
+    /**
+     * Test scenario for issue #xxxxx: LDAP login using GetGroupsTree fails
+     *
+     * Test Outline
+     * ------------
+     * 1. Set LDAPGroupMappingType = GetGroupsTree
+     * 2. Login with username and password
+     * 3. Check parent nodes of user object
+     *
+     * @result: User is placed under the newly created groups StarWars, GalacticEmpire and SithLords.
+     *          SithLords is placed under the node given by LDAPGroupRootNodeId.
+     * @expected: User is placed under the newly created groups StarWars, GalacticEmpire and SithLords.
+     *            SithLords is placed under GalacticEmpire.
+     * @link http://issues.ez.no/xxxxx
+     */
+    public function testLoginUserGetGroupsTree()
+    {
+        self::markTestSkipped( "This test isn't done yet" );
+
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMappingType', 'GetGroupsTree' );
+
+        $user = eZLDAPUser::loginUser( 'darth.vader', 'whosyourdaddy' );
+        $contentObject = $user->attribute( 'contentobject' );
+        $parentNodeIDs = $contentObject->attribute( 'parent_nodes' );
+        $parentArray = array();
+        foreach ( $parentNodeIDs as $nodeID )
+        {
+            $node = eZContentObjectTreeNode::fetch( $nodeID );
+            $parentArray[] = $nodeID . ':' . $node->attribute( 'parent_node_id' ) . ':' . $node->attribute( 'name' );
+        }
+        self::assertEquals( array( '59:5:StarWars', '60:5:GalacticEmpire', '61:60:SithLords' ), $parentArray );
     }
 }
 
