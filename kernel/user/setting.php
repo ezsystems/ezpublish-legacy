@@ -43,29 +43,31 @@ $userSetting = eZUserSetting::fetch( $UserID );
 if ( $http->hasPostVariable( "UpdateSettingButton" ) )
 {
     $isEnabled = 0;
-    if ( $http->hasPostVariable( "max_login" ) )
+    if ( $http->hasPostVariable( 'max_login' ) )
     {
-        $maxLogin = $http->postVariable( "max_login" );
-        $userSetting->setAttribute( "max_login", $maxLogin );
+        $maxLogin = $http->postVariable( 'max_login' );
+    }
+    else
+    {
+        $maxLogin = $userSetting->attribute( 'max_login' );
+    }
+    if ( $http->hasPostVariable( 'is_enabled' ) )
+    {
+        $isEnabled = 1;
     }
 
-    if ( $http->hasPostVariable( "is_enabled" ) )
+    if ( eZOperationHandler::operationIsAvailable( 'user_setsettings' ) )
     {
-        $isEnabled = true;
+           $operationResult = eZOperationHandler::execute( 'user',
+                                                           'setsettings', array( 'user_id'    => $UserID,
+                                                                                  'is_enabled' => $isEnabled,
+                                                                                  'max_login'  => $maxLogin ) );
+    }
+    else
+    {
+        eZUserOperationCollection::setSettings( $UserID, $isEnabled, $maxLogin );
     }
 
-    if ( $userSetting->attribute( 'is_enabled' ) != $isEnabled )
-    {
-        eZContentCacheManager::clearContentCacheIfNeeded( $UserID );
-        eZContentCacheManager::generateObjectViewCache( $UserID );
-    }
-
-    $userSetting->setAttribute( "is_enabled", $isEnabled );
-    $userSetting->store();
-    if ( !$isEnabled )
-    {
-        eZUser::removeSessionData( $UserID );
-    }
     $Module->redirectTo( '/content/view/full/' . $userObject->attribute( 'main_node_id' ) );
     return;
 }

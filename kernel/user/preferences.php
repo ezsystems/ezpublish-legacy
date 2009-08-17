@@ -32,7 +32,17 @@ $function = $Params['Function'];
 $key = $Params['Key'];
 $value = $Params['Value'];
 
-eZPreferences::setValue( $key, $value );
+// Set user preferences
+if ( eZOperationHandler::operationIsAvailable( 'user_preferences' ) )
+{
+    $operationResult = eZOperationHandler::execute( 'user',
+                                                    'preferences', array( 'key'    => $key,
+                                                                          'value'  => $value ) );
+}
+else
+{
+    eZPreferences::setValue( $key, $value );
+}
 
 // Extract URL to redirect to from user parameters.
 $urlArray = array_splice( $Params['Parameters'], 3 );

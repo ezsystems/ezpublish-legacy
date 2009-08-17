@@ -35,6 +35,7 @@ $ViewList['logout'] = array(
     'script' => 'logout.php',
     'ui_context' => 'authentication',
     'params' => array( ) );
+
 $ViewList['login'] = array(
     'functions' => array( 'login' ),
     'script' => 'login.php',
@@ -48,6 +49,7 @@ $ViewList['login'] = array(
                                                          'UserPassword' => 'Password',
                                                          'UserRedirectURI' => 'RedirectURI' ) ),
     'params' => array( ) );
+
 $ViewList['setting'] = array(
     'functions' => array( 'preferences' ),
     'default_navigation_part' => 'ezusernavigationpart',

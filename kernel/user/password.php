@@ -99,9 +99,17 @@ if ( $http->hasPostVariable( "OKButton" ) )
             }
             else
             {
-                $newHash = $user->createHash( $login, $newPassword, $site, $type );
-                $user->setAttribute( "password_hash", $newHash );
-                $user->store();
+                // Change user password
+                if ( eZOperationHandler::operationIsAvailable( 'user_password' ) )
+                {
+                    $operationResult = eZOperationHandler::execute( 'user',
+                                                                    'password', array( 'user_id'    => $UserID,
+                                                                                       'new_password'  => $newPassword ) );
+                }
+                else
+                {
+                    eZUserOperationCollection::password( $UserID, $newPassword );
+                }
             }
             $message = true;
             $newPassword = '';

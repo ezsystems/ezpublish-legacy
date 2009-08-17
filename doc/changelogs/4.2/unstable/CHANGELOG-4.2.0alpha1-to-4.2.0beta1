@@ -2,6 +2,7 @@ Changes from 4.1.0 to 4.2.0alpha1
 
 *Kernel:
 - Implemented enhancement #15308: Add group_by support for extended attribute filters
+- Implemented enhancement #14882: Add triggers to user module
 
 *Design:
 

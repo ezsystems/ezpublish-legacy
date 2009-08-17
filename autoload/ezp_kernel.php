@@ -500,6 +500,7 @@ return array(
       'eZUserAccountKey'                                   => 'kernel/classes/datatypes/ezuser/ezuseraccountkey.php',
       'eZUserDiscountRule'                                 => 'kernel/classes/ezuserdiscountrule.php',
       'eZUserFunctionCollection'                           => 'kernel/user/ezuserfunctioncollection.php',
+      'eZUserOperationCollection'                          => 'kernel/user/ezuseroperationcollection.php',
       'eZUserLoginHandler'                                 => 'kernel/classes/datatypes/ezuser/ezuserloginhandler.php',
       'eZUserSetting'                                      => 'kernel/classes/datatypes/ezuser/ezusersetting.php',
       'eZUserShopAccountHandler'                           => 'kernel/classes/shopaccounthandlers/ezusershopaccounthandler.php',
