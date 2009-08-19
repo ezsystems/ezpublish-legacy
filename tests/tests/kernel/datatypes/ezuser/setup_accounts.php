@@ -49,7 +49,8 @@ Ldap::add( $connection, 'darth.vader', '{MD5}' . base64_encode( pack( 'H*', md5(
                   'ou' => array( 'StarWars', 'GalacticEmpire', 'SithLords' ),
                   'mail' => array( 'vader@empire.com' ) ) );
 
-Ldap::fetchAll( $connection, $dc );
+// This dumps all the LDAP data
+// Ldap::fetchAll( $connection, $dc );
 
 Ldap::close( $connection );
 

@@ -24,6 +24,10 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
     {
         parent::setUp();
 
+        // Setup the LDAP user data
+        require_once( 'tests/tests/kernel/datatypes/ezuser/setup_accounts.php' );
+
+        // Setup default settings, change these in each test when needed
         $this->ldapINI = eZINI::instance( 'ldap.ini' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPDebugTrace', 'enabled' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPVersion', 3 );
