@@ -1,4 +1,4 @@
-Changes from 4.1.0 to 4.2.0alpha1
+Changes from 4.2.0alpha1 to 4.2.0beta1
 
 *Kernel:
 - Implemented enhancement #15308: Add group_by support for extended attribute filters
@@ -8,6 +8,7 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Implemented enhancement #11380: Disallow repeated tipafriend mails on same content to same receiver and use url alias on links
 - Implemented enhancement #15315: mysqli Persistent Connections support when using mysqlnd
 - Implemented enhancement #15130: Add RedirectURIAfterRemove and RedirectIfCancel support to ActionRemove
+- Implemented enhancement #15334: LDAP GetGroupsTree should be able to find groups in multiple tree levels
 
 *Design:
 

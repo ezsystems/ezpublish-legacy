@@ -11,13 +11,15 @@ $host = "ezctest.ez.no";
 
 $connection = Ldap::connect( "ldap://$host", "cn=%s,{$dc}", 'admin', 'wee123' );
 
+Ldap::delete( $connection, 'obi.wan', "ou=StarWars,{$dc}" );
 Ldap::delete( $connection, 'jabba.thehutt', "ou=StarWars,{$dc}" );
 Ldap::delete( $connection, 'darth.vader', "ou=StarWars,{$dc}" );
 Ldap::delete( $connection, 'leia', "ou=StarWars,{$dc}" );
 Ldap::delete( $connection, 'han.solo', "ou=StarWars,{$dc}" );
 Ldap::delete( $connection, 'chewbacca', "ou=StarWars,{$dc}" );
 
-Ldap::deleteGroup( $connection, 'SithLords', "ou=GalacticEmpire,$dc" );
+Ldap::deleteGroup( $connection, 'Jedi', $dc );
+Ldap::deleteGroup( $connection, 'Sith', "ou=GalacticEmpire,$dc" );
 Ldap::deleteGroup( $connection, 'GalacticEmpire', $dc );
 Ldap::deleteGroup( $connection, 'Rogues', $dc );
 Ldap::deleteGroup( $connection, 'RebelAlliance', $dc );
@@ -47,7 +49,7 @@ $darthVaderDN =
 Ldap::add( $connection, 'darth.vader', '{MD5}' . base64_encode( pack( 'H*', md5( 'whosyourdaddy' ) ) ), "ou=StarWars,{$dc}", 'Skywalker', 'Anakin Skywalker',
            array( 'givenName' => 'Anakin',
                   'displayName' => 'Darth Vader',
-                  'ou' => array( 'StarWars', 'GalacticEmpire', 'SithLords' ),
+                  'ou' => array( 'StarWars', 'GalacticEmpire', 'Sith' ),
                   'mail' => array( 'vader@empire.com' ) ) );
 $jabbaTheHuttDN =
 Ldap::add( $connection, 'jabba.thehutt', '{MD5}' . base64_encode( pack( 'H*', md5( 'wishihadlegs' ) ) ), "ou=StarWars,{$dc}", 'Hutt', 'Jabba Hutt',
@@ -55,15 +57,23 @@ Ldap::add( $connection, 'jabba.thehutt', '{MD5}' . base64_encode( pack( 'H*', md
                   'displayName' => 'Jabba the Hutt',
                   'ou' => array( 'Hutts' ),
                   'mail' => array( 'jabba@hutt.com' ) ) );
+$obiWanDN =
+Ldap::add( $connection, 'obi.wan', '{MD5}' . base64_encode( pack( 'H*', md5( 'thesearenotthedroids' ) ) ), "ou=StarWars,{$dc}", 'Kenobi', 'Obi Wan Kenobi',
+           array( 'givenName' => 'Obi Wan',
+                  'displayName' => 'Obi Wan Kenobi',
+                  'ou' => array( 'RebelAlliance', 'Jedi' ),
+                  'mail' => array( 'obi.wan@jedi.org' ) ) );
 
 Ldap::addGroup( $connection, 'RebelAlliance', $dc,
-                array( 'seeAlso' => array( $princessLeiaDN, $chewbaccaDN, $hanSoloDN ) ) );
+                array( 'seeAlso' => array( $princessLeiaDN, $chewbaccaDN, $hanSoloDN, $obiWanDN ) ) );
 Ldap::addGroup( $connection, 'Rogues', $dc,
                 array( 'seeAlso' => array( $chewbaccaDN, $hanSoloDN ) ) );
 Ldap::addGroup( $connection, 'GalacticEmpire', $dc,
                 array( 'seeAlso' => array( $darthVaderDN ) ) );
-Ldap::addGroup( $connection, 'SithLords', "ou=GalacticEmpire,$dc",
+Ldap::addGroup( $connection, 'Sith', "ou=GalacticEmpire,$dc",
                 array( 'seeAlso' => array( $darthVaderDN ) ) );
+Ldap::addGroup( $connection, 'Jedi', $dc,
+                array( 'seeAlso' => array( $obiWanDN ) ) );
 
 // This dumps all the LDAP data
 // Ldap::fetchAll( $connection, $dc );

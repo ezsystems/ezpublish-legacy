@@ -70,7 +70,7 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
         //   RebelAlliance
         //   Rogues
         //   GalacticEmpire
-        //    SithLords
+        //    Sith
         $this->mainGroup = new ezpObject( 'user_group', 5 );
         $this->mainGroup->name = 'LDAP users';
         $mainGroupObjId = $this->mainGroup->publish();
@@ -97,7 +97,7 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
         $this->empireGroupNodeId = $empireGroup->mainNode->node_id;
 
         $sithGroup = new ezpObject( 'user_group', (int)($this->empireGroupNodeId) );
-        $sithGroup->name = 'SithLords';
+        $sithGroup->name = 'Sith';
         $sithGroup->publish();
         $this->sithGroupNodeId = $sithGroup->mainNode->node_id;
 
@@ -269,37 +269,78 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
     }
 
     /**
-     * Test scenario for issue #xxxxx: LDAP login using GetGroupsTree fails
+     * Test scenario for LDAP login using GetGroupsTree
+     * for issue #15334: LDAP GetGroupsTree should be able to find groups in multiple tree levels
      *
      * Test Outline
      * ------------
      * 1. Set LDAPGroupMappingType = GetGroupsTree
      * 2. Login with username and password
      * 3. Check parent nodes of user object
+     * 4. Login with username and password for another user
+     * 5. Check parent nodes of user object
      *
-     * @result: User is placed under the newly created groups StarWars, GalacticEmpire and SithLords.
-     *          SithLords is placed under the node given by LDAPGroupRootNodeId.
-     * @expected: User is placed under the newly created groups StarWars, GalacticEmpire and SithLords.
-     *            SithLords is placed under GalacticEmpire.
-     * @link http://issues.ez.no/xxxxx
+     * @result:
+     *   The first user is placed in the newly created Empire and Sith groups
+     *   (the following assertions are not executed)
+     * @expected:
+     *   The first user is placed in the existing Empire and Sith groups
+     *   The second user has two node assignments
+     *   The first assignment is the existing RebelAlliance group
+     *   The second assignment is the newly created Jedi group
+     * @link http://issues.ez.no/15334
      */
     public function testLoginUserGetGroupsTree()
     {
-        self::markTestSkipped( "This test isn't done yet" );
-
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMappingType', 'GetGroupsTree' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupNameAttribute', 'ou' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMemberAttribute', 'seeAlso' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'KeepGroupAssignment', 'disabled' );
 
+        // The Empire and Sith groups already exist
         $user = eZLDAPUser::loginUser( 'darth.vader', 'whosyourdaddy' );
         $contentObject = $user->attribute( 'contentobject' );
         $parentNodeIDs = $contentObject->attribute( 'parent_nodes' );
-        $parentArray = array();
-        foreach ( $parentNodeIDs as $nodeID )
-        {
-            $node = eZContentObjectTreeNode::fetch( $nodeID );
-            $parentArray[] = $nodeID . ':' . $node->attribute( 'parent_node_id' ) . ':' . $node->attribute( 'name' );
-        }
-        self::assertEquals( array( '59:5:StarWars', '60:5:GalacticEmpire', '61:60:SithLords' ), $parentArray );
+        sort( $parentNodeIDs );
+        self::assertEquals( array( $this->empireGroupNodeId, $this->sithGroupNodeId ),
+                            $parentNodeIDs );
+
+        // Change the root node id, in order to create the Jedi group under the StarWars group
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupRootNodeId', $this->starWarsGroupNodeId );
+
+        // Try a user with a group that is not in ezp
+        $user = eZLDAPUser::loginUser( 'obi.wan', 'thesearenotthedroids' );
+        $contentObject = $user->attribute( 'contentobject' );
+        $parentNodeIDs = $contentObject->attribute( 'parent_nodes' );
+
+        // The user should be assigned to 2 groups
+        self::assertEquals( 2, count( $parentNodeIDs ) );
+
+        // The RebelAlliance group already exists
+        $node0 = eZContentObjectTreeNode::fetch( $parentNodeIDs[0] );
+        self::assertEquals( array( $this->rebelGroupNodeId, $this->starWarsGroupNodeId, 'RebelAlliance' ),
+                            array( $parentNodeIDs[0], $node0->attribute( 'parent_node_id' ), $node0->attribute( 'name' ) ) );
+
+        // The Jedi group is created by the login handler
+        $node1 = eZContentObjectTreeNode::fetch( $parentNodeIDs[1] );
+        self::assertEquals( array( $this->starWarsGroupNodeId, 'Jedi' ),
+                            array( $node1->attribute( 'parent_node_id' ), $node1->attribute( 'name' ) ) );
     }
+
+    /**
+     * Test scenario for ...
+     *
+     * Test Outline
+     * ------------
+     * 1. ...
+     *
+     * @result: ...
+     * @expected: ...
+     */
+/*    public function testLoginUser...()
+    {
+        self::markTestSkipped( "This test isn't done yet" );
+    }*/
 
 }
 
