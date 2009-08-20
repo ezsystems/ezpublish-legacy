@@ -179,8 +179,8 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
      * 2. Login with username and password
      * 3. Check parent nodes of user object
      *
-     * @result: User is placed in the StarWars and Rogues groups.
-     * @expected: User is placed in the StarWars and Rogues groups.
+     * @result: User is placed in the StarWars, Rogues and RebelAlliance groups.
+     * @expected: User is placed in the StarWars, Rogues and RebelAlliance groups.
      */
     public function testLoginUserUseGroupAttributeHasGroupMatch()
     {
@@ -190,12 +190,12 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
 
         $user = eZLDAPUser::loginUser( 'han.solo', 'leiaishot' );
         $contentObject = $user->attribute( 'contentobject' );
-        self::assertEquals( array( $this->starWarsGroupNodeId, $this->rogueGroupNodeId ),
+        self::assertEquals( array( $this->starWarsGroupNodeId, $this->rogueGroupNodeId, $this->rebelGroupNodeId ),
                             $contentObject->attribute( 'parent_nodes' ) );
     }
 
     /**
-     * Test scenario for issue #xxxxx: LDAP login using SimpleMapping fails
+     * Test scenario for LDAP login using SimpleMapping
      *
      * Test Outline
      * ------------
@@ -203,24 +203,21 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
      * 2. Login with username and password
      * 3. Check parent nodes of user object
      *
-     * @result: User is placed under the node given by LDAPGroupRootNodeId
-     * @expected: User is placed in the Editors and Guest Accounts groups.
-     * @link http://issues.ez.no/xxxxx
+     * @result: User is placed in the RebelAlliance and Rogues groups.
+     * @expected: User is placed in the RebelAlliance and Rogues groups.
      */
     public function testLoginUserSimpleMapping()
     {
-        self::markTestSkipped( "This test isn't done yet" );
-
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMappingType', 'SimpleMapping' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupNameAttribute', 'ou' );
-        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMemberAttribute', 'ou' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMemberAttribute', 'seeAlso' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroupMap', array( 'StarWars' => 'StarWars',
                                                                                 'RebelAlliance' => 'RebelAlliance',
                                                                                 'Rogues' => 'Rogues' ) );
 
         $user = eZLDAPUser::loginUser( 'chewbacca', 'aaawwwwrrrkk' );
         $contentObject = $user->attribute( 'contentobject' );
-        self::assertEquals( array( $this->starWarsGroupNodeId, $this->rogueGroupNodeId ),
+        self::assertEquals( array( $this->rebelGroupNodeId, $this->rogueGroupNodeId ),
                             $contentObject->attribute( 'parent_nodes' ) );
     }
 

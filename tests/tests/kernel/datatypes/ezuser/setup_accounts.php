@@ -24,36 +24,46 @@ Ldap::deleteGroup( $connection, 'RebelAlliance', $dc );
 Ldap::deleteGroup( $connection, 'StarWars', $dc );
 
 Ldap::addGroup( $connection, 'StarWars', $dc );
-Ldap::addGroup( $connection, 'RebelAlliance', $dc );
-Ldap::addGroup( $connection, 'Rogues', $dc );
-Ldap::addGroup( $connection, 'GalacticEmpire', $dc );
-Ldap::addGroup( $connection, 'SithLords', "ou=GalacticEmpire,$dc" );
 
+$chewbaccaDN =
 Ldap::add( $connection, 'chewbacca', '{MD5}' . base64_encode( pack( 'H*', md5( 'aaawwwwrrrkk' ) ) ), "ou=StarWars,{$dc}", 'Chewbacca', 'Chewbacca',
            array( 'givenName' => 'Chewbacca',
                   'displayName' => 'Chewbacca the Wokiee',
-                  'ou' => array( 'StarWars', 'Rogues' ),
+                  'ou' => array( 'StarWars', 'Rogues', 'RebelAlliance' ),
                   'mail' => array( 'chewbacca@millenniumfalcon.net' ) ) );
+$hanSoloDN =
 Ldap::add( $connection, 'han.solo', '{MD5}' . base64_encode( pack( 'H*', md5( 'leiaishot' ) ) ), "ou=StarWars,{$dc}", 'Solo', 'Han Solo',
            array( 'givenName' => 'Han',
                   'displayName' => 'He who shot first',
-                  'ou' => array( 'StarWars', 'Rogues' ),
+                  'ou' => array( 'StarWars', 'Rogues', 'RebelAlliance' ),
                   'mail' => array( 'han.solo@millenniumfalcon.net' ) ) );
+$princessLeiaDN =
 Ldap::add( $connection, 'leia', '{MD5}' . base64_encode( pack( 'H*', md5( 'bunhead' ) ) ), "ou=StarWars,{$dc}", 'Organa', 'Leia Organa',
            array( 'givenName' => 'Leia',
                   'displayName' => 'Princess Leia',
                   'ou' => array( 'StarWars', 'RebelAlliance' ),
                   'mail' => array( 'leia@rebelalliance.org' ) ) );
+$darthVaderDN =
 Ldap::add( $connection, 'darth.vader', '{MD5}' . base64_encode( pack( 'H*', md5( 'whosyourdaddy' ) ) ), "ou=StarWars,{$dc}", 'Skywalker', 'Anakin Skywalker',
            array( 'givenName' => 'Anakin',
                   'displayName' => 'Darth Vader',
                   'ou' => array( 'StarWars', 'GalacticEmpire', 'SithLords' ),
                   'mail' => array( 'vader@empire.com' ) ) );
+$jabbaTheHuttDN =
 Ldap::add( $connection, 'jabba.thehutt', '{MD5}' . base64_encode( pack( 'H*', md5( 'wishihadlegs' ) ) ), "ou=StarWars,{$dc}", 'Hutt', 'Jabba Hutt',
            array( 'givenName' => 'Jabba',
                   'displayName' => 'Jabba the Hutt',
                   'ou' => array( 'Hutts' ),
                   'mail' => array( 'jabba@hutt.com' ) ) );
+
+Ldap::addGroup( $connection, 'RebelAlliance', $dc,
+                array( 'seeAlso' => array( $princessLeiaDN, $chewbaccaDN, $hanSoloDN ) ) );
+Ldap::addGroup( $connection, 'Rogues', $dc,
+                array( 'seeAlso' => array( $chewbaccaDN, $hanSoloDN ) ) );
+Ldap::addGroup( $connection, 'GalacticEmpire', $dc,
+                array( 'seeAlso' => array( $darthVaderDN ) ) );
+Ldap::addGroup( $connection, 'SithLords', "ou=GalacticEmpire,$dc",
+                array( 'seeAlso' => array( $darthVaderDN ) ) );
 
 // This dumps all the LDAP data
 // Ldap::fetchAll( $connection, $dc );
@@ -134,7 +144,13 @@ class Ldap
         {
             $ldaprecord[$key] = $value;
         }
-        $r = ldap_add( $connection, "uid={$user},{$dc}", $ldaprecord );
+        $dn = "uid={$user},{$dc}";
+        $success = ldap_add( $connection, $dn, $ldaprecord );
+
+        if ( $success )
+            return $dn;
+        else
+            return false;
     }
 
     /**
@@ -149,12 +165,23 @@ class Ldap
         ldap_delete( $connection, "uid={$user},{$dc}" );
     }
 
-    public static function addGroup( $connection, $group, $dc )
+    public static function addGroup( $connection, $group, $dc, $extra = array() )
     {
         $ldaprecord['ou'] = $group;
         $ldaprecord['objectclass'][0] = "organizationalUnit";
         $ldaprecord['objectclass'][1] = "top";
-        $r = ldap_add( $connection, "ou={$group},{$dc}", $ldaprecord );
+
+        foreach ( $extra as $key => $value )
+        {
+            $ldaprecord[$key] = $value;
+        }
+        $dn = "ou={$group},{$dc}";
+        $success = ldap_add( $connection, $dn, $ldaprecord );
+
+        if ( $success )
+            return $dn;
+        else
+            return false;
     }
 
     public static function deleteGroup( $connection, $group, $dc )
@@ -171,7 +198,7 @@ class Ldap
      */
     public static function fetchAll( $connection, $dc )
     {
-        $sr = ldap_search( $connection, $dc, '(&(uid=*))' );
+        $sr = ldap_search( $connection, $dc, '(&(ou=*))' );
         var_dump( ldap_get_entries( $connection, $sr ) );
     }
 
