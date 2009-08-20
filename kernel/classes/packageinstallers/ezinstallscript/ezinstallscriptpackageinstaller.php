@@ -60,12 +60,13 @@ class eZInstallScriptPackageInstaller extends eZPackageInstallationHandler
         $itemPath = $package->path() . '/' . $installItem['sub-directory'];
         $xmlPath = $itemPath . '/' . $installItem['filename'] . '.xml';
 
-        $dom =& $package->fetchDOMFromFile( $xmlPath );
+        $dom = $package->fetchDOMFromFile( $xmlPath );
         if ( $dom )
-            $mainNode =& $dom->root();
-
-        $return['file-path'] = $itemPath . '/' . $mainNode->getAttribute( 'filename' );
-        $return['classname'] = $mainNode->getAttribute( 'classname' );
+        {
+            $mainNode = $dom->documentElement;
+            $return['file-path'] = $itemPath . '/' . $mainNode->getAttribute( 'filename' );
+            $return['classname'] = $mainNode->getAttribute( 'classname' );
+        }
 
         return $return;
     }
