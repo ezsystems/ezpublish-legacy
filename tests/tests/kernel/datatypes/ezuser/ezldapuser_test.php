@@ -214,6 +214,7 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroupMap', array( 'StarWars' => 'StarWars',
                                                                                 'RebelAlliance' => 'RebelAlliance',
                                                                                 'Rogues' => 'Rogues' ) );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'KeepGroupAssignment', 'disabled' );
 
         $user = eZLDAPUser::loginUser( 'chewbacca', 'aaawwwwrrrkk' );
         $contentObject = $user->attribute( 'contentobject' );
@@ -222,11 +223,11 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
     }
 
     /**
-     * Test scenario for issue #xxxxx: LDAP login using SimpleMapping fails
+     * Test scenario for LDAP login using SimpleMapping, moving a user when the groups change
      *
      * Test Outline
      * ------------
-     * 1. Set LDAPGroupMappingType = UseGroupAttribute
+     * 1. Set LDAPGroupMappingType = SimpleMapping but add no mappings
      * 2. Login with username and password
      * 3. Check parent nodes of user object
      *
@@ -237,35 +238,34 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
      * 2. Login with username and password
      * 3. Check parent nodes of user object
      *
-     * @result: User is placed in the Editors group
-     * @expected: User is placed in the Editors and Administrator Users groups.
-     * @link http://issues.ez.no/xxxxx
+     * @result: User is placed in the RebelAlliance group
+     * @expected: User is placed in the RebelAlliance group
      */
     public function testLoginUserSimpleMappingExistingUser()
     {
-        self::markTestSkipped( "This test isn't done yet" );
+        // First login, to get an existing user object
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMappingType', 'SimpleMapping' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupNameAttribute', 'ou' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMemberAttribute', 'seeAlso' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroupMap', array() );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'KeepGroupAssignment', 'disabled' );
 
-        $GLOBALS['eZNotificationEventTypes']['ezpublish'] = 'eZPublishType';
-
-        // First login using UseGroupAttribute, to get an existing user object
-        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMappingType', 'UseGroupAttribute' );
-
-        // It should be placed under the node given by LDAPGroupRootNodeId
+        // The user should be placed under the node given by LDAPGroupRootNodeId
         $user = eZLDAPUser::loginUser( 'leia', 'bunhead' );
         $contentObject = $user->attribute( 'contentobject' );
         self::assertEquals( array( $this->ldapINI->variable( 'LDAPSettings', 'LDAPGroupRootNodeId' ) ),
                             $contentObject->attribute( 'parent_nodes' ) );
 
+        // Then login again, with correct group mapping
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroupMap', array( 'StarWars' => 'StarWars',
+                                                                                'RebelAlliance' => 'RebelAlliance',
+                                                                                'Rogues' => 'Rogues' ) );
 
-        // Then login using SimpleMapping
-        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMappingType', 'SimpleMapping' );
-        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroupMap', array( 'StarWars' => 'Editors',
-                                                                                'RebelAlliance' => 'Administrator Users',
-                                                                                'Rogues' => 'Guest Accounts' ) );
-
+        // The user should have moved to the RebelAlliance group
         $user = eZLDAPUser::loginUser( 'leia', 'bunhead' );
         $contentObject = $user->attribute( 'contentobject' );
-        self::assertEquals( array( 14, 13 ), $contentObject->attribute( 'parent_nodes' ) );
+        self::assertEquals( array( $this->rebelGroupNodeId ),
+                            $contentObject->attribute( 'parent_nodes' ) );
     }
 
     /**
