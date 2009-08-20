@@ -11,6 +11,7 @@ $host = "ezctest.ez.no";
 
 $connection = Ldap::connect( "ldap://$host", "cn=%s,{$dc}", 'admin', 'wee123' );
 
+Ldap::delete( $connection, 'jabba.thehutt', "ou=StarWars,{$dc}" );
 Ldap::delete( $connection, 'darth.vader', "ou=StarWars,{$dc}" );
 Ldap::delete( $connection, 'leia', "ou=StarWars,{$dc}" );
 Ldap::delete( $connection, 'han.solo', "ou=StarWars,{$dc}" );
@@ -48,6 +49,11 @@ Ldap::add( $connection, 'darth.vader', '{MD5}' . base64_encode( pack( 'H*', md5(
                   'displayName' => 'Darth Vader',
                   'ou' => array( 'StarWars', 'GalacticEmpire', 'SithLords' ),
                   'mail' => array( 'vader@empire.com' ) ) );
+Ldap::add( $connection, 'jabba.thehutt', '{MD5}' . base64_encode( pack( 'H*', md5( 'wishihadlegs' ) ) ), "ou=StarWars,{$dc}", 'Hutt', 'Jabba Hutt',
+           array( 'givenName' => 'Jabba',
+                  'displayName' => 'Jabba the Hutt',
+                  'ou' => array( 'Hutts' ),
+                  'mail' => array( 'jabba@hutt.com' ) ) );
 
 // This dumps all the LDAP data
 // Ldap::fetchAll( $connection, $dc );

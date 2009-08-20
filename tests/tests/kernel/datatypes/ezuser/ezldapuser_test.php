@@ -9,10 +9,47 @@
 
 class eZLDAPUserTest extends ezpDatabaseTestCase
 {
+    protected $backupGlobals = false; // If true, user object publishing fails
+
     /**
      * @var eZINI
      **/
     protected $ldapINI;
+
+    /**
+     * @var ezpObject
+     **/
+    protected $mainGroup;
+
+    /**
+     * @var integer
+     **/
+    protected $mainGroupNodeId;
+
+    /**
+     * @var integer
+     **/
+    protected $starWarsGroupNodeId;
+
+    /**
+     * @var integer
+     **/
+    protected $rebelGroupNodeId;
+
+    /**
+     * @var integer
+     **/
+    protected $rogueGroupNodeId;
+
+    /**
+     * @var integer
+     **/
+    protected $empireGroupNodeId;
+
+    /**
+     * @var integer
+     **/
+    protected $sithGroupNodeId;
 
     public function __construct()
     {
@@ -26,6 +63,43 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
 
         // Setup the LDAP user data
         require_once( 'tests/tests/kernel/datatypes/ezuser/setup_accounts.php' );
+
+        // Setup user groups:
+        // LDAP users
+        //  StarWars
+        //   RebelAlliance
+        //   Rogues
+        //   GalacticEmpire
+        //    SithLords
+        $this->mainGroup = new ezpObject( 'user_group', 5 );
+        $this->mainGroup->name = 'LDAP users';
+        $mainGroupObjId = $this->mainGroup->publish();
+        $this->mainGroupNodeId = $this->mainGroup->mainNode->node_id;
+
+        $starWarsGroup = new ezpObject( 'user_group', (int)($this->mainGroupNodeId) );
+        $starWarsGroup->name = 'StarWars';
+        $starWarsGroup->publish();
+        $this->starWarsGroupNodeId = $starWarsGroup->mainNode->node_id;
+
+        $rebelGroup = new ezpObject( 'user_group', (int)($this->starWarsGroupNodeId) );
+        $rebelGroup->name = 'RebelAlliance';
+        $rebelGroup->publish();
+        $this->rebelGroupNodeId = $rebelGroup->mainNode->node_id;
+
+        $rogueGroup = new ezpObject( 'user_group', (int)($this->starWarsGroupNodeId) );
+        $rogueGroup->name = 'Rogues';
+        $rogueGroup->publish();
+        $this->rogueGroupNodeId = $rogueGroup->mainNode->node_id;
+
+        $empireGroup = new ezpObject( 'user_group', (int)($this->starWarsGroupNodeId) );
+        $empireGroup->name = 'GalacticEmpire';
+        $empireGroup->publish();
+        $this->empireGroupNodeId = $empireGroup->mainNode->node_id;
+
+        $sithGroup = new ezpObject( 'user_group', (int)($this->empireGroupNodeId) );
+        $sithGroup->name = 'SithLords';
+        $sithGroup->publish();
+        $this->sithGroupNodeId = $sithGroup->mainNode->node_id;
 
         // Setup default settings, change these in each test when needed
         $this->ldapINI = eZINI::instance( 'ldap.ini' );
@@ -42,10 +116,10 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPEqualSign', '--' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPSearchFilters', array() );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPLoginAttribute', 'uid' );
-        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroupType', 'name' );
-        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroup', 'Users' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroupType', 'id' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroup', array( $mainGroupObjId ) );
 
-        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupRootNodeId', 5 );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupRootNodeId', $this->mainGroupNodeId );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMappingType', 'UseGroupAttribute' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupBaseDN', 'dc--ezctest,dc--ez,dc--no' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupClass', 'organizationalUnit' );
@@ -65,6 +139,13 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
         $this->ldapINI->setVariable( 'LDAPSettings', 'KeepGroupAssignment', 'disabled' );
     }
 
+    public function tearDown()
+    {
+        $this->mainGroup->remove();
+
+        parent::tearDown();
+    }
+
     /**
      * Test scenario for LDAP login using UseGroupAttribute
      *
@@ -72,17 +153,45 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
      * ------------
      * 1. Set correct LDAPGroupMappingType
      * 2. Login with username and password
-     * 3. Check returned value in $user
+     * 3. Check parent nodes of user object
      *
-     * @result: $user is an object of class eZUser, this means a successful login.
-     * @expected: $user is an object of class eZUser, this means a successful login.
+     * @result: User is placed under the node given by LDAPGroupRootNodeId
+     * @expected: User is placed under the node given by LDAPGroupRootNodeId
      */
-    public function testLoginUserUseGroupAttribute()
+    public function testLoginUserUseGroupAttributeNoGroupMatch()
     {
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMappingType', 'UseGroupAttribute' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroupAttributeType', 'name' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroupAttribute', 'ou' );
+
+        $user = eZLDAPUser::loginUser( 'jabba.thehutt', 'wishihadlegs' );
+        $contentObject = $user->attribute( 'contentobject' );
+        self::assertEquals( array( $this->ldapINI->variable( 'LDAPSettings', 'LDAPGroupRootNodeId' ) ),
+                            $contentObject->attribute( 'parent_nodes' ) );
+    }
+
+    /**
+     * Test scenario for LDAP login using UseGroupAttribute
+     *
+     * Test Outline
+     * ------------
+     * 1. Set correct LDAPGroupMappingType
+     * 2. Login with username and password
+     * 3. Check parent nodes of user object
+     *
+     * @result: User is placed in the StarWars and Rogues groups.
+     * @expected: User is placed in the StarWars and Rogues groups.
+     */
+    public function testLoginUserUseGroupAttributeHasGroupMatch()
+    {
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMappingType', 'UseGroupAttribute' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroupAttributeType', 'name' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroupAttribute', 'ou' );
 
         $user = eZLDAPUser::loginUser( 'han.solo', 'leiaishot' );
-        self::assertEquals( 'eZUser', get_class( $user ) );
+        $contentObject = $user->attribute( 'contentobject' );
+        self::assertEquals( array( $this->starWarsGroupNodeId, $this->rogueGroupNodeId ),
+                            $contentObject->attribute( 'parent_nodes' ) );
     }
 
     /**
@@ -102,16 +211,17 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
     {
         self::markTestSkipped( "This test isn't done yet" );
 
-        $GLOBALS['eZNotificationEventTypes']['ezpublish'] = 'eZPublishType';
-
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMappingType', 'SimpleMapping' );
-        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroupMap', array( 'StarWars' => 'Editors',
-                                                                                'RebelAlliance' => 'Administrator Users',
-                                                                                'Rogues' => 'Guest Accounts' ) );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupNameAttribute', 'ou' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMemberAttribute', 'ou' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroupMap', array( 'StarWars' => 'StarWars',
+                                                                                'RebelAlliance' => 'RebelAlliance',
+                                                                                'Rogues' => 'Rogues' ) );
 
         $user = eZLDAPUser::loginUser( 'chewbacca', 'aaawwwwrrrkk' );
         $contentObject = $user->attribute( 'contentobject' );
-        self::assertEquals( array( 14, 12 ), $contentObject->attribute( 'parent_nodes' ) );
+        self::assertEquals( array( $this->starWarsGroupNodeId, $this->rogueGroupNodeId ),
+                            $contentObject->attribute( 'parent_nodes' ) );
     }
 
     /**
@@ -193,6 +303,7 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
         }
         self::assertEquals( array( '59:5:StarWars', '60:5:GalacticEmpire', '61:60:SithLords' ), $parentArray );
     }
+
 }
 
 ?>
