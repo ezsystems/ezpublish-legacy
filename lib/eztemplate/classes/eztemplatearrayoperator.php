@@ -1173,7 +1173,7 @@ class eZTemplateArrayOperator
                 {
                     if ( $isString )
                     {
-                        $result = ( strpos ( $inParam, $compareParams[0] ) == 0 );
+                        $result = ( strpos ( $inParam, $compareParams[0] ) === 0 );
                     }
                     else if ( $isArray )
                     {
@@ -1193,7 +1193,7 @@ class eZTemplateArrayOperator
 
                 if ( $isString )
                 {
-                    $code = '%output% = ( ' . $compareParamsCode[0] . ' && strpos( ' . $inParamCode . ', ' . $compareParamsCode[0] . ' ) == 0 );';
+                    $code = '%output% = ( ' . $compareParamsCode[0] . ' && strpos( ' . $inParamCode . ', ' . $compareParamsCode[0] . ' ) === 0 );';
                 }
                 else if ( $isArray )
                 {
