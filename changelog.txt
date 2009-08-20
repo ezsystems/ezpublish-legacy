@@ -23,7 +23,6 @@ eZ Online Editor 5.0 extension Changelog
 * Fixed #14868: Allow adding inline custom / embed tags in header tags
 * Fixed #14873: Call to undefined method DOMText::getAttribute()
 * Changed order of outdent/indent buttons to be the same as other editors
-* Updated TinyMCE to 3.2.5
 * Change rewrite rules to support plain package
 * Fixed #14935: Small typo at design.ini.append.php
 * Fixed #15014: image identifier is hardcoded in upload_images.tpl
@@ -41,6 +40,7 @@ eZ Online Editor 5.0 extension Changelog
 * Fixed #14785: Image or file upload > Sorting in location drop down
 * Fixed #14986: Unable to change embedded objects in internet explorer 6
 * Fixed #15031: Unable to browse 'Images' folder on IE6 and IE7
+* Updated TinyMCE to 3.2.6
 
 5.0.0
 * Fixed regression #13650: [header] ezoe adds a level each time it is called

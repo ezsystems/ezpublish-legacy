@@ -1,5 +1,5 @@
 /**
- * $Id: Editor.js 1165 2009-06-26 15:26:55Z spocke $
+ * $Id: Editor.js 1190 2009-08-12 17:59:29Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -11,70 +11,381 @@
 	var is = tinymce.is, ThemeManager = tinymce.ThemeManager, PluginManager = tinymce.PluginManager, EditorManager = tinymce.EditorManager;
 	var inArray = tinymce.inArray, grep = tinymce.grep, explode = tinymce.explode;
 
-	/**#@+
-	 * @class This class contains the core logic for a TinyMCE editor.
-	 * @member tinymce.Editor
+	/**
+	 * This class contains the core logic for a TinyMCE editor.
+	 *
+	 * @class tinymce.Editor
+	 * @author Moxiecode
+	 * @example
+	 * // Add a class to all paragraphs in the editor.
+	 * tinyMCE.activeEditor.dom.addClass(tinyMCE.activeEditor.dom.select('p'), 'someclass');
+	 * 
+	 * // Gets the current editors selection as text
+	 * tinyMCE.activeEditor.selection.getContent({format : 'text'});
+	 * 
+	 * // Creates a new editor instance
+	 * var ed = new tinymce.Editor('textareaid', {
+	 *     some_setting : 1
+	 * });
+	 * 
+	 * // Select each item the user clicks on
+	 * ed.onClick.add(function(ed, e) {
+	 *     ed.selection.select(e.target);
+	 * });
+	 * 
+	 * ed.render();
 	 */
 	tinymce.create('tinymce.Editor', {
 		/**
 		 * Constructs a editor instance by id.
 		 *
 		 * @constructor
-		 * @member tinymce.Editor
+		 * @method Editor
 		 * @param {String} id Unique id for the editor.
 		 * @param {Object} s Optional settings string for the editor.
+		 * @author Moxiecode
 		 */
 		Editor : function(id, s) {
 			var t = this;
 
+			/**
+			 * Editor instance id, normally the same as the div/textarea that was replaced. 
+			 *
+			 * @property id
+			 * @type String
+			 */
 			t.id = t.editorId = id;
+
 			t.execCommands = {};
 			t.queryStateCommands = {};
 			t.queryValueCommands = {};
+
+			/**
+			 * State to force the editor to return false on a isDirty call. 
+			 *
+			 * @property isNotDirty
+			 * @type Boolean
+			 */
+			t.isNotDirty = false;
+
+			/**
+			 * Name/Value object containting plugin instances.
+			 *
+			 * @property plugins
+			 * @type Object
+			 */
 			t.plugins = {};
 
 			// Add events to the editor
 			each([
+				/**
+				 * Fires before the initialization of the editor.
+				 *
+				 * @event onPreInit
+				 * @param {tinymce.Editor} sender Editor instance.
+				 * @see #onInit
+				 */
 				'onPreInit',
+
+				/**
+				 * Fires before the initialization of the editor.
+				 *
+				 * @event onBeforeRenderUI
+				 * @param {tinymce.Editor} sender Editor instance.
+				 */
 				'onBeforeRenderUI',
+
+				/**
+				 * Fires after the rendering has completed.
+				 *
+				 * @event onPostRender
+				 * @param {tinymce.Editor} sender Editor instance.
+				 */
 				'onPostRender',
+
+				/**
+				 * Fires after the initialization of the editor is done.
+				 *
+				 * @event onInit
+				 * @param {tinymce.Editor} sender Editor instance.
+				 * @see #onPreInit
+				 */
 				'onInit',
+
+				/**
+				 * Fires when the editor instance is removed from page.
+				 *
+				 * @event onRemove
+				 * @param {tinymce.Editor} sender Editor instance.
+				 */
 				'onRemove',
+
+				/**
+				 * Fires when the editor is activated.
+				 *
+				 * @event onActivate
+				 * @param {tinymce.Editor} sender Editor instance.
+				 */
 				'onActivate',
+
+				/**
+				 * Fires when the editor is deactivated.
+				 *
+				 * @event onDeactivate
+				 * @param {tinymce.Editor} sender Editor instance.
+				 */
 				'onDeactivate',
+
+				/**
+				 * Fires when something in the body of the editor is clicked.
+				 *
+				 * @event onClick
+				 * @param {tinymce.Editor} sender Editor instance.
+				 * @param {Event} evt W3C DOM Event instance.
+				 */
 				'onClick',
+
+				/**
+				 * Fires when a registered event is intercepted.
+				 *
+				 * @event onEvent
+				 * @param {tinymce.Editor} sender Editor instance.
+				 * @param {Event} evt W3C DOM Event instance.
+				 */
 				'onEvent',
+
+				/**
+				 * Fires when a mouseup event is intercepted inside the editor.
+				 *
+				 * @event onMouseUp
+				 * @param {tinymce.Editor} sender Editor instance.
+				 * @param {Event} evt W3C DOM Event instance.
+				 */
 				'onMouseUp',
+
+				/**
+				 * Fires when a mousedown event is intercepted inside the editor.
+				 *
+				 * @event onMouseDown
+				 * @param {tinymce.Editor} sender Editor instance.
+				 * @param {Event} evt W3C DOM Event instance.
+				 */
 				'onMouseDown',
+
+				/**
+				 * Fires when a dblclick event is intercepted inside the editor.
+				 *
+				 * @event onDblClick
+				 * @param {tinymce.Editor} sender Editor instance.
+				 * @param {Event} evt W3C DOM Event instance.
+				 */
 				'onDblClick',
+
+				/**
+				 * Fires when a keydown event is intercepted inside the editor.
+				 *
+				 * @event onKeyDown
+				 * @param {tinymce.Editor} sender Editor instance.
+				 * @param {Event} evt W3C DOM Event instance.
+				 */
 				'onKeyDown',
+
+				/**
+				 * Fires when a keydown event is intercepted inside the editor.
+				 *
+				 * @event onKeyUp
+				 * @param {tinymce.Editor} sender Editor instance.
+				 * @param {Event} evt W3C DOM Event instance.
+				 */
 				'onKeyUp',
+
+				/**
+				 * Fires when a keypress event is intercepted inside the editor.
+				 *
+				 * @event onKeyPress
+				 * @param {tinymce.Editor} sender Editor instance.
+				 * @param {Event} evt W3C DOM Event instance.
+				 */
 				'onKeyPress',
+
+				/**
+				 * Fires when a contextmenu event is intercepted inside the editor.
+				 *
+				 * @event onContextMenu
+				 * @param {tinymce.Editor} sender Editor instance.
+				 * @param {Event} evt W3C DOM Event instance.
+				 */
 				'onContextMenu',
+
+				/**
+				 * Fires when a form submit event is intercepted.
+				 *
+				 * @event onSubmit
+				 * @param {tinymce.Editor} sender Editor instance.
+				 * @param {Event} evt W3C DOM Event instance.
+				 */
 				'onSubmit',
+
+				/**
+				 * Fires when a form reset event is intercepted.
+				 *
+				 * @event onReset
+				 * @param {tinymce.Editor} sender Editor instance.
+				 * @param {Event} evt W3C DOM Event instance.
+				 */
 				'onReset',
+
+				/**
+				 * Fires when a paste event is intercepted inside the editor.
+				 *
+				 * @event onPaste
+				 * @param {tinymce.Editor} sender Editor instance.
+				 * @param {Event} evt W3C DOM Event instance.
+				 */
 				'onPaste',
+
+				/**
+				 * Fires when the Serializer does a preProcess on the contents.
+				 *
+				 * @event onPreProcess
+				 * @param {tinymce.Editor} sender Editor instance.
+				 * @param {Object} obj PreProcess object.
+				 */
 				'onPreProcess',
+
+				/**
+				 * Fires when the Serializer does a postProcess on the contents.
+				 *
+				 * @event onPostProcess
+				 * @param {tinymce.Editor} sender Editor instance.
+				 * @param {Object} obj PreProcess object.
+				 */
 				'onPostProcess',
+
+				/**
+				 * Fires before new contents is added to the editor. Using for example setContent.
+				 *
+				 * @event onBeforeSetContent
+				 * @param {tinymce.Editor} sender Editor instance.
+				 */
 				'onBeforeSetContent',
+
+				/**
+				 * Fires before contents is extracted from the editor using for example getContent.
+				 *
+				 * @event onBeforeGetContent
+				 * @param {tinymce.Editor} sender Editor instance.
+				 * @param {Event} evt W3C DOM Event instance.
+				 */
 				'onBeforeGetContent',
+
+				/**
+				 * Fires after the contents has been added to the editor using for example onSetContent.
+				 *
+				 * @event onSetContent
+				 * @param {tinymce.Editor} sender Editor instance.
+				 */
 				'onSetContent',
+
+				/**
+				 * Fires after the contents has been extracted from the editor using for example getContent.
+				 *
+				 * @event onGetContent
+				 * @param {tinymce.Editor} sender Editor instance.
+				 */
 				'onGetContent',
+
+				/**
+				 * Fires when the editor gets loaded with contents for example when the load method is executed.
+				 *
+				 * @event onLoadContent
+				 * @param {tinymce.Editor} sender Editor instance.
+				 */
 				'onLoadContent',
+
+				/**
+				 * Fires when the editor contents gets saved for example when the save method is executed.
+				 *
+				 * @event onSaveContent
+				 * @param {tinymce.Editor} sender Editor instance.
+				 */
 				'onSaveContent',
+
+				/**
+				 * Fires when the user changes node location using the mouse or keyboard.
+				 *
+				 * @event onNodeChange
+				 * @param {tinymce.Editor} sender Editor instance.
+				 */
 				'onNodeChange',
+
+				/**
+				 * Fires when a new undo level is added to the editor.
+				 *
+				 * @event onChange
+				 * @param {tinymce.Editor} sender Editor instance.
+				 */
 				'onChange',
+
+				/**
+				 * Fires before a command gets executed for example "Bold".
+				 *
+				 * @event onBeforeExecCommand
+				 * @param {tinymce.Editor} sender Editor instance.
+				 */
 				'onBeforeExecCommand',
+
+				/**
+				 * Fires after a command is executed for example "Bold".
+				 *
+				 * @event onExecCommand
+				 * @param {tinymce.Editor} sender Editor instance.
+				 */
 				'onExecCommand',
+
+				/**
+				 * Fires when the contents is undo:ed.
+				 *
+				 * @event onUndo
+				 * @param {tinymce.Editor} sender Editor instance.
+				 * @param {Event} evt W3C DOM Event instance.
+				 */
 				'onUndo',
+
+				/**
+				 * Fires when the contents is redo:ed.
+				 *
+				 * @event onRedo
+				 * @param {tinymce.Editor} sender Editor instance.
+				 * @param {Event} evt W3C DOM Event instance.
+				 */
 				'onRedo',
+
+				/**
+				 * Fires when visual aids is enabled/disabled.
+				 *
+				 * @event onVisualAid
+				 * @param {tinymce.Editor} sender Editor instance.
+				 */
 				'onVisualAid',
+
+				/**
+				 * Fires when the progress throbber is shown above the editor.
+				 *
+				 * @event onSetProgressState
+				 * @param {tinymce.Editor} sender Editor instance.
+				 */
 				'onSetProgressState'
 			], function(e) {
 				t[e] = new Dispatcher(t);
 			});
 
-			// Default editor config
+			/**
+			 * Name/value collection with editor settings.
+			 *
+			 * @property settings
+			 * @type Object
+			 */
 			t.settings = s = extend({
 				id : id,
 				language : 'en',
@@ -121,22 +432,32 @@
 				removeformat_selector : 'span,b,strong,em,i,font,u,strike'
 			}, s);
 
-			// Setup URIs
+			/**
+			 * URI object to document configured for the TinyMCE instance.
+			 *
+			 * @property documentBaseURI
+			 * @type tinymce.util.URI
+			 */
 			t.documentBaseURI = new tinymce.util.URI(s.document_base_url || tinymce.documentBaseURL, {
 				base_uri : tinyMCE.baseURI
 			});
+
+			/**
+			 * URI object to current document that holds the TinyMCE editor instance.
+			 *
+			 * @property baseURI
+			 * @type tinymce.util.URI
+			 */
 			t.baseURI = EditorManager.baseURI;
 
 			// Call setup
 			t.execCallback('setup', t);
 		},
 
-		/**#@+
-		 * @method
-		 */
-
 		/**
 		 * Renderes the editor/adds it to the page.
+		 *
+		 * @method render
 		 */
 		render : function(nst) {
 			var t = this, s = t.settings, id = t.id, sl = tinymce.ScriptLoader;
@@ -168,6 +489,12 @@
 			if (!/TEXTAREA|INPUT/i.test(t.getElement().nodeName) && s.hidden_input && DOM.getParent(id, 'form'))
 				DOM.insertAfter(DOM.create('input', {type : 'hidden', name : id}), id);
 
+			/**
+			 * Window manager reference, use this to open new windows and dialogs.
+			 *
+			 * @property windowManager
+			 * @type tinymce.WindowManager
+			 */
 			if (tinymce.WindowManager)
 				t.windowManager = new tinymce.WindowManager(t);
 
@@ -249,25 +576,27 @@
 				});
 			};
 
-			// Load compat2x first
-			if (s.plugins.indexOf('compat2x') != -1) {
-				PluginManager.load('compat2x', 'plugins/compat2x/editor_plugin' + tinymce.suffix + '.js');
-				sl.loadQueue(loadScripts);
-			} else
-				loadScripts();
+			loadScripts();
 		},
 
 		/**
 		 * Initializes the editor this will be called automatically when
 		 * all plugins/themes and language packs are loaded by the rendered method.
 		 * This method will setup the iframe and create the theme and plugin instances.
+		 *
+		 * @method init
 		 */
 		init : function() {
 			var n, t = this, s = t.settings, w, h, e = t.getElement(), o, ti, u, bi, bc, re;
 
 			EditorManager.add(t);
 
-			// Create theme
+			/**
+			 * Reference to the theme instance that was used to generate the UI. 
+			 *
+			 * @property theme
+			 * @type tinymce.Theme
+			 */
 			if (s.theme) {
 				s.theme = s.theme.replace(/-/, '');
 				o = ThemeManager.get(s.theme);
@@ -302,8 +631,20 @@
 			if (s.popup_css_add)
 				s.popup_css += ',' + t.documentBaseURI.toAbsolute(s.popup_css_add);
 
-			// Setup control factory
+			/**
+			 * Control manager instance for the editor. Will enables you to create new UI elements and change their states etc.
+			 *
+			 * @property controlManager
+			 * @type tinymce.ControlManager
+			 */
 			t.controlManager = new tinymce.ControlManager(t);
+
+			/**
+			 * Undo manager instance, responsible for handling undo levels. 
+			 *
+			 * @property undoManager
+			 * @type tinymce.UndoManager
+			 */
 			t.undoManager = new tinymce.UndoManager(t);
 
 			// Pass through
@@ -457,6 +798,8 @@
 		 * This method get called by the init method ones the iframe is loaded.
 		 * It will fill the iframe with contents, setups DOM and selection objects for the iframe.
 		 * This method should not be called directly.
+		 *
+		 * @method setupIframe
 		 */
 		setupIframe : function() {
 			var t = this, s = t.settings, e = DOM.get(t.id), d = t.getDoc(), h, b;
@@ -491,7 +834,12 @@
 				DOM.show(b);
 			}
 
-			// Setup objects
+			/**
+			 * DOM instance for the editor.
+			 *
+			 * @property dom
+			 * @type tinymce.dom.DOMUtils
+			 */
 			t.dom = new tinymce.DOM.DOMUtils(t.getDoc(), {
 				keep_values : true,
 				url_converter : t.convertURL,
@@ -502,26 +850,25 @@
 				fix_ie_paragraphs : 1
 			});
 
-			t.serializer = new tinymce.dom.Serializer({
-				entity_encoding : s.entity_encoding,
-				entities : s.entities,
+			/**
+			 * DOM serializer for the editor.
+			 *
+			 * @property serializer
+			 * @type tinymce.dom.Serializer
+			 */
+			t.serializer = new tinymce.dom.Serializer(extend(s, {
 				valid_elements : s.verify_html === false ? '*[*]' : s.valid_elements,
-				extended_valid_elements : s.extended_valid_elements,
-				valid_child_elements : s.valid_child_elements,
-				invalid_elements : s.invalid_elements,
-				fix_table_elements : s.fix_table_elements,
-				fix_list_elements : s.fix_list_elements,
-				fix_content_duplication : s.fix_content_duplication,
-				convert_fonts_to_spans : s.convert_fonts_to_spans,
-				font_size_classes  : s.font_size_classes,
-				font_size_style_values : s.font_size_style_values,
-				apply_source_formatting : s.apply_source_formatting,
-				remove_linebreaks : s.remove_linebreaks,
-				element_format : s.element_format,
 				dom : t.dom
-			});
+			}));
 
+			/**
+			 * Selection instance for the editor.
+			 *
+			 * @property selection
+			 * @type tinymce.dom.Selection
+			 */
 			t.selection = new tinymce.dom.Selection(t.dom, t.getWin(), t.serializer);
+
 			t.forceBlocks = new tinymce.ForceBlocks(t, {
 				forced_root_block : s.forced_root_block
 			});
@@ -775,6 +1122,8 @@
 
 		/**
 		 * Sets up the contentEditable mode.
+		 *
+		 * @method setupContentEditable
 		 */
 		setupContentEditable : function() {
 			var t = this, s = t.settings, e = t.getElement();
@@ -894,7 +1243,8 @@
 		 * Focuses/activates the editor. This will set this editor as the activeEditor in the EditorManager
 		 * it will also place DOM focus inside the editor.
 		 *
-		 * @param {bool} sf Skip DOM focus. Just set is as the active editor.
+		 * @method focus
+		 * @param {Boolean} sf Skip DOM focus. Just set is as the active editor.
 		 */
 		focus : function(sf) {
 			var oed, t = this, ce = t.settings.content_editable;
@@ -937,6 +1287,7 @@
 		 * Executes a legacy callback. This method is useful to call old 2.x option callbacks.
 		 * There new event model is a better way to add callback so this method might be removed in the future.
 		 *
+		 * @method execCallback
 		 * @param {String} n Name of the callback to execute.
 		 * @return {Object} Return value passed from callback function.
 		 */
@@ -967,6 +1318,7 @@
 		 * Translates the specified string by replacing variables with language pack items it will also check if there is
 		 * a key mathcin the input.
 		 *
+		 * @method translate
 		 * @param {String} s String to translate by the language pack data.
 		 * @return {String} Translated string.
 		 */
@@ -984,6 +1336,7 @@
 		/**
 		 * Returns a language pack item by name/key.
 		 *
+		 * @method getLang
 		 * @param {String} n Name/key to get from the language pack.
 		 * @param {String} dv Optional default value to retrive.
 		 */
@@ -994,6 +1347,7 @@
 		/**
 		 * Returns a configuration parameter by name.
 		 *
+		 * @method getParam
 		 * @param {String} n Configruation parameter to retrive.
 		 * @param {String} dv Optional default value to return.
 		 * @param {String} ty Optional type parameter.
@@ -1027,6 +1381,7 @@
 		 * Distpaches out a onNodeChange event to all observers. This method should be called when you
 		 * need to update the UI states or element path etc.
 		 *
+		 * @method nodeChanged
 		 * @param {Object} o Optional object to pass along for the node changed event.
 		 */
 		nodeChanged : function(o) {
@@ -1049,6 +1404,7 @@
 		 * of adding buttons without the need to deal with the ControlManager directly. But it's also less
 		 * powerfull if you need more control use the ControlManagers factory methods instead.
 		 *
+		 * @method addButton
 		 * @param {String} n Button name to add.
 		 * @param {Object} s Settings object with title, cmd etc.
 		 */
@@ -1063,6 +1419,7 @@
 		 * Adds a custom command to the editor, you can also override existing commands with this method.
 		 * The command that you add can be executed with execCommand.
 		 *
+		 * @method addCommand
 		 * @param {String} n Command name to add/override.
 		 * @param {function} f Function to execute when the command occurs.
 		 * @param {Object} s Optional scope to execute the function in.
@@ -1075,6 +1432,7 @@
 		 * Adds a custom query state command to the editor, you can also override existing commands with this method.
 		 * The command that you add can be executed with queryCommandState function.
 		 *
+		 * @method addQueryStateHandler
 		 * @param {String} n Command name to add/override.
 		 * @param {function} f Function to execute when the command state retrival occurs.
 		 * @param {Object} s Optional scope to execute the function in.
@@ -1087,6 +1445,7 @@
 		 * Adds a custom query value command to the editor, you can also override existing commands with this method.
 		 * The command that you add can be executed with queryCommandValue function.
 		 *
+		 * @method addQueryValueHandler
 		 * @param {String} n Command name to add/override.
 		 * @param {function} f Function to execute when the command value retrival occurs.
 		 * @param {Object} s Optional scope to execute the function in.
@@ -1098,11 +1457,12 @@
 		/**
 		 * Adds a keyboard shortcut for some command or function.
 		 *
+		 * @method addShortcut
 		 * @param {String} pa Shortcut pattern. Like for example: ctrl+alt+o.
 		 * @param {String} desc Text description for the command.
 		 * @param {String/Function} cmd_func Command name string or function to execute when the key is pressed.
 		 * @param {Object} sc Optional scope to execute the function in.
-		 * @return {bool} true/false state if the shortcut was added or not.
+		 * @return {Boolean} true/false state if the shortcut was added or not.
 		 */
 		addShortcut : function(pa, desc, cmd_func, sc) {
 			var t = this, c;
@@ -1164,11 +1524,12 @@
 		 * This function will dispatch the execCommand function on each plugin, theme or the execcommand_callback option if none of these
 		 * return true it will handle the command as a internal browser command.
 		 *
+		 * @method execCommand
 		 * @param {String} cmd Command name to execute, for example mceLink or Bold.
-		 * @param {bool} ui True/false state if a UI (dialog) should be presented or not.
+		 * @param {Boolean} ui True/false state if a UI (dialog) should be presented or not.
 		 * @param {mixed} val Optional command value, this can be anything.
 		 * @param {Object} a Optional arguments object.
-		 * @return {bool} True/false if the command was executed or not.
+		 * @return {Boolean} True/false if the command was executed or not.
 		 */
 		execCommand : function(cmd, ui, val, a) {
 			var t = this, s = 0, o, st;
@@ -1236,8 +1597,9 @@
 		/**
 		 * Returns a command specific state, for example if bold is enabled or not.
 		 *
+		 * @method queryCommandState
 		 * @param {string} c Command to query state from.
-		 * @return {bool} Command specific state, for example if bold is enabled or not.
+		 * @return {Boolean} Command specific state, for example if bold is enabled or not.
 		 */
 		queryCommandState : function(c) {
 			var t = this, o, s;
@@ -1271,6 +1633,7 @@
 		/**
 		 * Returns a command specific value, for example the current font size.
 		 *
+		 * @method queryCommandValue
 		 * @param {string} c Command to query value from.
 		 * @return {Object} Command specific value, for example the current font size.
 		 */
@@ -1305,6 +1668,8 @@
 
 		/**
 		 * Shows the editor and hides any textarea/div that the editor is supposed to replace.
+		 *
+		 * @method show
 		 */
 		show : function() {
 			var t = this;
@@ -1316,6 +1681,8 @@
 
 		/**
 		 * Hides the editor and shows any textarea/div that the editor is supposed to replace.
+		 *
+		 * @method hide
 		 */
 		hide : function() {
 			var t = this, d = t.getDoc();
@@ -1333,7 +1700,8 @@
 		/**
 		 * Returns true/false if the editor is hidden or not.
 		 *
-		 * @return {bool} True/false if the editor is hidden or not.
+		 * @method isHidden
+		 * @return {Boolean} True/false if the editor is hidden or not.
 		 */
 		isHidden : function() {
 			return !DOM.isHidden(this.id);
@@ -1343,10 +1711,11 @@
 		 * Sets the progress state, this will display a throbber/progess for the editor.
 		 * This is ideal for asycronous operations like an AJAX save call.
 		 *
-		 * @param {bool} b Boolean state if the progress should be shown or hidden.
+		 * @method setProgressState
+		 * @param {Boolean} b Boolean state if the progress should be shown or hidden.
 		 * @param {Number} ti Optional time to wait before the progress gets shown.
 		 * @param {Object} o Optional object to pass to the progress observers.
-		 * @return {bool} Same as the input state.
+		 * @return {Boolean} Same as the input state.
 		 */
 		setProgressState : function(b, ti, o) {
 			this.onSetProgressState.dispatch(this, b, ti, o);
@@ -1359,6 +1728,7 @@
 		 * This method will move the contents from that textarea or div into the editor by using setContent
 		 * so all events etc that method has will get dispatched as well.
 		 *
+		 * @method load
 		 * @param {Object} o Optional content object, this gets passed around through the whole load process.
 		 * @return {String} HTML string that got set into the editor.
 		 */
@@ -1387,6 +1757,7 @@
 		 * This method will move the HTML contents from the editor into that textarea or div by getContent
 		 * so all events etc that method has will get dispatched as well.
 		 *
+		 * @method save
 		 * @param {Object} o Optional content object, this gets passed around through the whole save process.
 		 * @return {String} HTML string that got set into the textarea/div.
 		 */
@@ -1437,6 +1808,7 @@
 		 * Sets the specified content to the editor instance, this will cleanup the content before it gets set using
 		 * the different cleanup rules options.
 		 *
+		 * @method setContent
 		 * @param {String} h Content to set to editor, normally HTML contents but can be other formats as well.
 		 * @param {Object} o Optional content object, this gets passed around through the whole set process.
 		 * @return {String} HTML string that got set into the editor.
@@ -1476,6 +1848,7 @@
 		 * Gets the content from the editor instance, this will cleanup the content before it gets returned using
 		 * the different cleanup rules options.
 		 *
+		 * @method getContent
 		 * @param {Object} o Optional content object, this gets passed around through the whole get process.
 		 * @return {String} Cleaned content string, normally HTML contents.
 		 */
@@ -1507,7 +1880,8 @@
 		/**
 		 * Returns true/false if the editor is dirty or not. It will get dirty if the user has made modifications to the contents.
 		 *
-		 * @return {bool} True/false if the editor is dirty or not. It will get dirty if the user has made modifications to the contents.
+		 * @method isDirty
+		 * @return {Boolean} True/false if the editor is dirty or not. It will get dirty if the user has made modifications to the contents.
 		 */
 		isDirty : function() {
 			var t = this;
@@ -1519,6 +1893,7 @@
 		 * Returns the editors container element. The container element wrappes in
 		 * all the elements added to the page for the editor. Such as UI, iframe etc.
 		 *
+		 * @method getContainer
 		 * @return {Element} HTML DOM element for the editor container.
 		 */
 		getContainer : function() {
@@ -1534,6 +1909,7 @@
 		 * Returns the editors content area container element. The this element is the one who
 		 * holds the iframe or the editable element.
 		 *
+		 * @method getContentAreaContainer
 		 * @return {Element} HTML DOM element for the editor area container.
 		 */
 		getContentAreaContainer : function() {
@@ -1543,6 +1919,7 @@
 		/**
 		 * Returns the target element/textarea that got replaced with a TinyMCE editor instance.
 		 *
+		 * @method getElement
 		 * @return {Element} HTML DOM element for the replaced element.
 		 */
 		getElement : function() {
@@ -1552,6 +1929,7 @@
 		/**
 		 * Returns the iframes window object.
 		 *
+		 * @method getWin
 		 * @return {Window} Iframe DOM window object.
 		 */
 		getWin : function() {
@@ -1570,6 +1948,7 @@
 		/**
 		 * Returns the iframes document object.
 		 *
+		 * @method getDoc
 		 * @return {Document} Iframe DOM document object.
 		 */
 		getDoc : function() {
@@ -1588,6 +1967,7 @@
 		/**
 		 * Returns the iframes body element.
 		 *
+		 * @method getBody
 		 * @return {Element} Iframe body element.
 		 */
 		getBody : function() {
@@ -1599,6 +1979,7 @@
 		 * any other element that has a URL in it. This will be called both by the DOM and HTML
 		 * manipulation functions.
 		 *
+		 * @method convertURL
 		 * @param {string} u URL to convert.
 		 * @param {string} n Attribute name src, href etc.
 		 * @param {string/HTMLElement} Tag name or HTML DOM element depending on HTML or DOM insert.
@@ -1628,6 +2009,7 @@
 		/**
 		 * Adds visual aid for tables, anchors etc so they can be more easily edited inside the editor.
 		 *
+		 * @method addVisual
 		 * @param {Element} e Optional root element to loop though to find tables etc that needs the visual aid.
 		 */
 		addVisual : function(e) {
@@ -1673,6 +2055,8 @@
 
 		/**
 		 * Removes the editor from the dom and EditorManager collection.
+		 *
+		 * @method remove
 		 */
 		remove : function() {
 			var t = this, e = t.getContainer();
@@ -1695,7 +2079,8 @@
 		 * that could leak memory. This method will be called automatically when the page is unloaded
 		 * but you can also call it directly if you know what you are doing.
 		 *
-		 * @param {bool} s Optional state if the destroy is an automatic destroy or user called one.
+		 * @method destroy
+		 * @param {Boolean} s Optional state if the destroy is an automatic destroy or user called one.
 		 */
 		destroy : function(s) {
 			var t = this;
@@ -2289,7 +2674,5 @@
 
 			return s;
 		}
-
-		/**#@-*/
 	});
 })(tinymce);

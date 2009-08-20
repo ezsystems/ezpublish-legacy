@@ -1,5 +1,5 @@
 /**
- * $Id: URI.js 1164 2009-06-25 13:40:16Z spocke $
+ * $Id: URI.js 1203 2009-08-18 14:32:36Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -8,15 +8,16 @@
 (function() {
 	var each = tinymce.each;
 
-	/**#@+
-	 * @class This class handles parsing, modification and serialization of URI/URL strings.
-	 * @member tinymce.util.URI
+	/**
+	 * This class handles parsing, modification and serialization of URI/URL strings.
+	 * @class tinymce.util.URI
 	 */
 	tinymce.create('tinymce.util.URI', {
 		/**
 		 * Constucts a new URI instance.
 		 *
 		 * @constructor
+		 * @method URI
 		 * @param {String} u URI string to parse.
 		 * @param {Object} s Optional settings object.
 		 */
@@ -30,7 +31,7 @@
 			s = t.settings = s || {};
 
 			// Strange app protocol or local anchor
-			if (/^(mailto|tel|news|javascript|about):/i.test(u) || /^\s*#/.test(u)) {
+			if (/^(mailto|tel|news|javascript|about|data):/i.test(u) || /^\s*#/.test(u)) {
 				t.source = u;
 				return;
 			}
@@ -75,13 +76,10 @@
 			//t.path = t.path || '/';
 		},
 
-		/**#@+
-		 * @method
-		 */
-
 		/**
 		 * Sets the internal path part of the URI.
 		 *
+		 * @method setPath
 		 * @param {string} p Path string to set.
 		 */
 		setPath : function(p) {
@@ -102,6 +100,7 @@
 		/**
 		 * Converts the specified URI into a relative URI based on the current URI instance location.
 		 *
+		 * @method toRelative
 		 * @param {String} u URI to convert into a relative path/URI.
 		 * @return {String} Relative URI from the point specified in the current URI instance.
 		 */
@@ -133,8 +132,9 @@
 		/**
 		 * Converts the specified URI into a absolute URI based on the current URI instance location.
 		 *
+		 * @method toAbsolute
 		 * @param {String} u URI to convert into a relative path/URI.
-		 * @param {bool} nh No host and protocol prefix.
+		 * @param {Boolean} nh No host and protocol prefix.
 		 * @return {String} Absolute URI from the point specified in the current URI instance.
 		 */
 		toAbsolute : function(u, nh) {
@@ -146,6 +146,7 @@
 		/**
 		 * Converts a absolute path into a relative path.
 		 *
+		 * @method toRelPath
 		 * @param {String} base Base point to convert the path from.
 		 * @param {String} path Absolute path to convert into a relative path.
 		 */
@@ -194,6 +195,7 @@
 		/**
 		 * Converts a relative path into a absolute path.
 		 *
+		 * @method toAbsPath
 		 * @param {String} base Base point to convert the path from.
 		 * @param {String} path Relative path to convert into an absolute path.
 		 */
@@ -246,7 +248,8 @@
 		/**
 		 * Returns the full URI of the internal structure.
 		 *
-		 * @param {bool} nh Optional no host and protocol part. Defaults to false.
+		 * @method getURI
+		 * @param {Boolean} nh Optional no host and protocol part. Defaults to false.
 		 */
 		getURI : function(nh) {
 			var s, t = this;
@@ -283,7 +286,5 @@
 
 			return t.source;
 		}
-
-		/**#@-*/
 	});
 })();

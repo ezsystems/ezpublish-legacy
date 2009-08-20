@@ -1,5 +1,5 @@
 /**
- * $Id: adapter.js 1167 2009-06-29 13:07:20Z spocke $
+ * $Id: adapter.js 1200 2009-08-18 12:32:02Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -20,7 +20,9 @@
 	tinymce.extend(tinymce, {
 		map : $.map,
 		grep : function(a, f) {return $.grep(a, f || function(){return 1;});},
-		inArray : function(a, v) {return $.inArray(v, a || []);},
+		inArray : function(a, v) {return $.inArray(v, a || []);}
+
+		/* Didn't iterate stylesheets
 		each : function(o, cb, s) {
 			if (!o)
 				return 0;
@@ -35,7 +37,7 @@
 			});
 
 			return r;
-		}
+		}*/
 	});
 
 	// Patch in functions in various clases
