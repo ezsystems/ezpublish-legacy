@@ -41,6 +41,7 @@ eZ Online Editor 5.0 extension Changelog
 * Fixed #14986: Unable to change embedded objects in internet explorer 6
 * Fixed #15031: Unable to browse 'Images' folder on IE6 and IE7
 * Updated TinyMCE to 3.2.6
+* Fixed #14833: Cut/Copying and pasting custom-tags fails 
 
 5.0.0
 * Fixed regression #13650: [header] ezoe adds a level each time it is called
