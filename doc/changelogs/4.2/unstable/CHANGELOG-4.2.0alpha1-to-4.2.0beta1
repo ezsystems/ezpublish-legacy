@@ -39,3 +39,4 @@ Changes from 4.1.0 to 4.2.0alpha1
 - Fixed bug #13371: eZImageType::fromString() doesn't support alternative image text
 - Fixed bug #14558: eZMySQLiDB::createDatabase() references non-existing method in mysqli extension.
 - Fixed bug #15310: preserveWhiteSpace removes whitespace between some ezxml tags when viewed
+- Fixed bug #15329: begins_with operator doesn't work as expected with strings
