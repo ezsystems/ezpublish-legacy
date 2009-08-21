@@ -37,13 +37,31 @@ tinyMCEPopup.onInit.add( function(){
                     <h3>{'Using the toolbar'|i18n("design/standard/ezoe/help")}</h3>
                     <dl>                        
                         <dt class="o2k7Skin defaultSkin"><span class="mceIcon mce_bold"></span></dt>
-                        <dd>{'Make the selected text <b>bold</b>. If the selected text is <b>bold</b> already, this button will remove the formating.'|i18n("design/standard/ezoe/help")}</dd>
+                        <dd>{'Make the selected text <b>bold</b>. If the selected text is <b>bold</b> already, this button will remove the formating.'|i18n("design/standard/ezoe/help")} <small>[CTRL+B]</small></dd>
 
                         <dt class="o2k7Skin defaultSkin"><span class="mceIcon mce_italic"></span></dt>
-                        <dd>{'Make the selected text <i>italic</i>. If the selected text is <i>italic</i> already, this button will remove the formating.'|i18n("design/standard/ezoe/help")}</dd>
+                        <dd>{'Make the selected text <i>italic</i>. If the selected text is <i>italic</i> already, this button will remove the formating.'|i18n("design/standard/ezoe/help")} <small>[CTRL+I]</small></dd>
 
                         <dt class="o2k7Skin defaultSkin"><span class="mceIcon mce_underline"></span></dt>
-                        <dd>{'Make the selected text <u>underline</u>. This button is only enabled if you have a custom tag named underline, template code to handle underline custom tags is not included in Online Editor.'|i18n("design/standard/ezoe/help")}</dd>
+                        <dd>{'Toggle <u>underline</u> style on the selected text. This button is only enabled if you have a custom tag named underline.'|i18n("design/standard/ezoe/help")} <small>[CTRL+U]</small></dd>
+
+                        <dt class="o2k7Skin defaultSkin"><span class="mceIcon mce_sub"></span></dt>
+                        <dd>{'Toggle <sub>subscript</sub> style on the selected text. This button is only enabled if you have a custom tag named subscript, template code to handle subscript custom tags is not included in Online Editor.'|i18n("design/standard/ezoe/help")}</dd>
+
+                        <dt class="o2k7Skin defaultSkin"><span class="mceIcon mce_sup"></span></dt>
+                        <dd>{'Toggle <sup>superscript</sup> style on the selected text. This button is only enabled if you have a custom tag named superscript, template code to handle superscript custom tags is not included in Online Editor.'|i18n("design/standard/ezoe/help")}</dd>
+
+                        <dt class="o2k7Skin defaultSkin"><span class="mceIcon mce_justifyleft"></span></dt>
+                        <dd>{'Toggle left align text, or float block content to the left.'|i18n("design/standard/ezoe/help")}</dd>
+
+                        <dt class="o2k7Skin defaultSkin"><span class="mceIcon mce_justifycenter"></span></dt>
+                        <dd>{'Toggle center align text, or float block content to the center (Same as not aligned by default).'|i18n("design/standard/ezoe/help")}</dd>
+
+                        <dt class="o2k7Skin defaultSkin"><span class="mceIcon mce_justifyright"></span></dt>
+                        <dd>{'Toggle right align text, or float block content to the right.'|i18n("design/standard/ezoe/help")}</dd>
+
+                        <dt class="o2k7Skin defaultSkin"><span class="mceIcon mce_justifyfull"></span></dt>
+                        <dd>{'Toggle justify text, stretches the lines so that each line has equal width.'|i18n("design/standard/ezoe/help")}</dd>
 
                         <dt class="o2k7Skin defaultSkin"><span class="mceIcon mce_bullist"></span></dt>
                         <dd>{'Create a bullet list. To create a new list item, press "Enter". To end a list, press "Enter" key on an empty list item. If you click this button when the cursor is on a list item, the formatting will be removed.'|i18n("design/standard/ezoe/help")}</dd>
@@ -58,10 +76,10 @@ tinyMCEPopup.onInit.add( function(){
                         <dd>{'Decrease list indent. Use this button to change the level of a list item in a nested list.'|i18n("design/standard/ezoe/help")}</dd>
 
                         <dt class="o2k7Skin defaultSkin"><span class="mceIcon mce_undo"></span></dt>
-                        <dd>{'Undo the last operation in the editor. To undo more than one operation, keep clicking the button.'|i18n("design/standard/ezoe/help")}</dd>
+                        <dd>{'Undo the last operation in the editor. To undo more than one operation, keep clicking the button.'|i18n("design/standard/ezoe/help")} <small>[CTRL+Z]</small></dd>
 
                         <dt class="o2k7Skin defaultSkin"><span class="mceIcon mce_redo"></span></dt>
-                        <dd>{'Reverse the "Undo" command.'|i18n("design/standard/ezoe/help")}</dd>
+                        <dd>{'Reverse the "Undo" command.'|i18n("design/standard/ezoe/help")} <small>[CTRL+Y]</small></dd>
 
                         <dt class="o2k7Skin defaultSkin"><span class="mceIcon mce_link"></span></dt>
                         <dd>{'Create a hyperlink. You can select text first and then click this button to make the text a link. If the checkbox "Open in new window" is checked, the link will be displayed in a new browser window.'|i18n("design/standard/ezoe/help")}</dd>
@@ -78,11 +96,14 @@ tinyMCEPopup.onInit.add( function(){
                         <dt class="o2k7Skin defaultSkin"><span class="mceIcon mce_object"></span></dt>
                         <dd>{'Insert an object from the related objects list, upload a new object, search for an existing object or browse for it. To upload a local file, click "Upload new" button choose the local file, specify the name of the new object, choose placement from list and then click "Upload" button. Note that embedded object will begin on a new line when displayed in the resulting XHTML.'|i18n("design/standard/ezoe/help")}</dd>
 
+                        <dt class="o2k7Skin defaultSkin"><span class="mceIcon mce_file"></span></dt>
+                        <dd>{'Insert an file from the related file list, upload a new file, search for an existing file or browse for it. To upload a local file, click "Upload new" button choose the local file, specify the name of the new file, choose placement from list and then click "Upload" button. This button is not enabled by default.'|i18n("design/standard/ezoe/help")}</dd>
+
                         <dt class="o2k7Skin defaultSkin"><span class="mceIcon mce_custom"></span></dt>
                         <dd>{'Create a custom tag. Optionally select the text you want to transform to a custom tag and click the button to open the insert custom tag window. Select the name of the custom tag you want to insert from the list, edit the attributes and click OK to insert it.'|i18n("design/standard/ezoe/help")}</dd>
 
                         <dt class="o2k7Skin defaultSkin"><span class="mceIcon mce_literal"></span></dt>
-                        <dd>{'Insert literal text. Text written in this field will be rendered literally in the final output.'|i18n("design/standard/ezoe/help")}</dd>
+                        <dd>{'Insert literal text. Text written in this field will be rendered literally in the final output.'|i18n("design/standard/ezoe/help")} <small>[CTRL+8]</small></dd>
 
                         <dt class="o2k7Skin defaultSkin"><span class="mceIcon mce_charmap"></span></dt>
                         <dd>{'Insert a special character. Click the button to open the special character window. Click on a character to insert it.'|i18n("design/standard/ezoe/help")}</dd>
@@ -90,8 +111,20 @@ tinyMCEPopup.onInit.add( function(){
                         <dt class="o2k7Skin defaultSkin"><span class="mceIcon mce_pagebreak"></span></dt>
                         <dd>{'Insert a pagebreak. This button is only enabled if you have a custom tag named pagebreak, template code to handle pagebreaks is not included in Online Editor.'|i18n("design/standard/ezoe/help")}</dd>
 
+                        <dt class="o2k7Skin defaultSkin"><span class="mceIcon mce_spellchecker"></span></dt>
+                        <dd>{'Allows you to spellcheck your text using google api or other depending on ezoe.ini settings. This button is not enabled by default.'|i18n("design/standard/ezoe/help")}</dd>
+
+                        <dt class="o2k7Skin defaultSkin"><span class="mceIcon mce_search"></span></dt>
+                        <dd>{'Find a string or a word in your text. This button is not enabled by default.'|i18n("design/standard/ezoe/help")} <small>[CTRL+F]</small></dd>
+
+                        <dt class="o2k7Skin defaultSkin"><span class="mceIcon mce_replace"></span></dt>
+                        <dd>{'Replace a string or a word in your text. This button is not enabled by default.'|i18n("design/standard/ezoe/help")}</dd>
+
+
+<!-- Not needed anymore as on 5.0.2 (because of improved past handling in TinyMCe)
                         <dt class="o2k7Skin defaultSkin"><span class="mceIcon mce_pasteword"></span></dt>
                         <dd>{'Dialog to paste text from word, the dialog will handle cleaning the content from word.'|i18n("design/standard/ezoe/help")}</dd>
+-->
 
                         <dt class="o2k7Skin defaultSkin"><span class="mceIcon mce_table"></span></dt>
                         <dd>{'Insert a table at the selected position. Tables with their border set to 0 are displayed with a grey border color in the editor.'|i18n("design/standard/ezoe/help")}</dd>
@@ -133,7 +166,7 @@ tinyMCEPopup.onInit.add( function(){
                         <dd>{'Send for publishing'|i18n("design/standard/content/edit")}</dd>
 
                         <dt class="o2k7Skin defaultSkin"><span class="mceIcon mce_store"></span></dt>
-                        <dd>{'Store draft'|i18n("design/standard/content/edit")}</dd>
+                        <dd>{'Store draft'|i18n("design/standard/content/edit")} <small>[CTRL+S]</small></dd>
 
                         <dt class="o2k7Skin defaultSkin"><span class="mceIcon mce_discard"></span></dt>
                         <dd>{'Discard'|i18n("design/standard/content/edit")}</dd>
@@ -159,6 +192,7 @@ tinyMCEPopup.onInit.add( function(){
                         <li>{'The status bar will show the current tag name and all its parent tags. You can view more information about the tags by hovering over them.'|i18n("design/standard/ezoe/help")}</li>
                         <li>{'You can make an image-link by selecting the image first and clicking the link button in the toolbar.'|i18n("design/standard/ezoe/help")}</li>
                         <li>{'You can edit wordmatch.ini to make text copied from MS Word directly assigned to a desired class.'|i18n("design/standard/ezoe/help")}</li>
+                        <li>{'You can switch text style from paragraph to header using keybord shortcut CTRL+1 to 6, and back to paragraph using CTRL+7'|i18n("design/standard/ezoe/help")}</li>
                         <li>{'You can find more documentation in the doc folder of this extension and online on %link.'|i18n("design/standard/ezoe/help", '', hash( '%link', '<a href="http://ez.no/doc/extensions/online_editor/5_x" target="_blank">ez.no/doc</a>' ))}</li>
                     </ul>
                 </div>
