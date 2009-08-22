@@ -43,6 +43,7 @@ eZ Online Editor 5.0 extension Changelog
 * Updated TinyMCE to 3.2.6
 * Fixed #14833: Cut/Copying and pasting custom-tags fails
 * Documented: #15187: Keyboard shortcuts for functions in editor toolbar
+* Implemented: possibility to opt out of __setDisabled in custom TinyMCE plugins using settings.ezPlugin, patch by stevo
 
 5.0.0
 * Fixed regression #13650: [header] ezoe adds a level each time it is called

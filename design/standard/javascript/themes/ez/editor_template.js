@@ -1181,6 +1181,13 @@
             return false;
         },
 
+        /**
+         * Blocks most events when mceNonEditable element is selected
+         * activated by {@link this.__setDisabled()}
+         * 
+         * @param object ed Editor object
+         * @param object e Event object
+         */
         __block : function(ed, e) {
 
             if ( this.__disabled === false )
@@ -1189,7 +1196,7 @@
             e = e || window.event;            
             var k = e.which || e.keyCode;
 
-            // Don't block arrow keys, pg up/down, and F1-F12
+            // Don't block arrow keys, page up/down, and F1-F12
             if ((k > 32 && k < 41) || (k > 111 && k < 124))
                 return;
 
@@ -1211,13 +1218,20 @@
             }
             return Event.cancel(e);
         },
-        
+
+        /**
+         * Disables/enables all buttons based on s parameter, where s is true if
+         * mceNonEditable element (embed objects) is selected. 
+         * 
+         * @param bool s
+         */
         __setDisabled : function( s )
         {
             var t = this, ed = t.editor;
 
             tinymce.each(ed.controlManager.controls, function(c){
-                if ( !c.settings.cmd || ',mceObject,mceFile,mceFullScreen,mceLink,unlink,JustifyLeft,JustifyCenter,JustifyRight,'.indexOf( ',' + c.settings.cmd + ',' ) === -1 )
+                if ( !c.settings.ezPlugin // define this as true to be able to avoid this forced disable fn
+                 &&( !c.settings.cmd || ',mceObject,mceFile,mceFullScreen,mceLink,unlink,JustifyLeft,JustifyCenter,JustifyRight,'.indexOf( ',' + c.settings.cmd + ',' ) === -1 ) )
                 {
                     c.setDisabled( s );
                     if ( s ) c.setActive( false );
