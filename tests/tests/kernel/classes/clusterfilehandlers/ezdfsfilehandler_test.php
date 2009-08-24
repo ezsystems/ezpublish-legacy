@@ -53,6 +53,7 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
         // The same DSN than the relational database is used
         $fileINI = eZINI::instance( 'file.ini' );
         $fileINI->setVariable( 'ClusteringSettings', 'FileHandler', 'eZDFSFileHandler' );
+
         $dsn = ezpTestRunner::dsn()->parts;
         $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBHost',    $dsn['host'] );
         $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBPort',    $dsn['port'] );
@@ -60,12 +61,15 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
         $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBName',    $dsn['database'] );
         $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBUser',    $dsn['user'] );
         $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBPassword', $dsn['password'] );
+        $fileINI->setVariable( 'eZDFSClusteringSettings', 'MountPointPath', $this->DFSPath );
 
         if ( !file_exists( $this->DFSPath ) )
         {
             eZDir::doMkdir( $this->DFSPath, 0755 );
             $this->haveToRemoveDFSPath = true;
         }
+
+        ezpTestDatabaseHelper::insertSqlData( $this->sharedFixture, $this->sqlFiles );
 
         $this->db = $this->sharedFixture;
     }
