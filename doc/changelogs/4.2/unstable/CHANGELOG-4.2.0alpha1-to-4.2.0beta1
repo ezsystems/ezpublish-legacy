@@ -42,3 +42,4 @@ Changes from 4.2.0alpha1 to 4.2.0beta1
 - Fixed bug #14558: eZMySQLiDB::createDatabase() references non-existing method in mysqli extension.
 - Fixed bug #15310: preserveWhiteSpace removes whitespace between some ezxml tags when viewed
 - Fixed bug #15329: begins_with operator doesn't work as expected with strings
+- Fixed bug #15229: Bug in eZContentOperationCollection::registerSearchObject() in eZ Publish 4.1.3

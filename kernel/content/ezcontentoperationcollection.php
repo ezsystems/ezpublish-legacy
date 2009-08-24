@@ -548,8 +548,8 @@ class eZContentOperationCollection
             if ( count( $rows ) == 0 )
             {
                 $db->query( "INSERT INTO ezpending_actions( action, param ) VALUES ( 'index_object', '$objectID' )" );
-            return;
             }
+            return;
         }
         elseif ( $delayedIndexing == 'classbased' )
         {
