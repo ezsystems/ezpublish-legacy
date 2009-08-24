@@ -10,6 +10,7 @@ Changes from 4.2.0alpha1 to 4.2.0beta1
 - Implemented enhancement #15130: Add RedirectURIAfterRemove and RedirectIfCancel support to ActionRemove
 - Implemented enhancement #15334: LDAP GetGroupsTree should be able to find groups in multiple tree levels
 - Implemented enhancement #15093: Missing session cleanup script / cronjob for Debian based distroes
+- Implemented enhancement #13044: attribute filter and sort by contentobject/node id support
 
 *Design:
 

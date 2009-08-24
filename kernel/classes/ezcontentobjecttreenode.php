@@ -73,6 +73,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
     const SORT_FIELD_PRIORITY = 8;
     const SORT_FIELD_NAME = 9;
     const SORT_FIELD_MODIFIED_SUBNODE = 10;
+    const SORT_FIELD_NODE_ID = 11;
+    const SORT_FIELD_CONTENTOBJECT_ID = 12;
 
     const SORT_ORDER_DESC = 0;
     const SORT_ORDER_ASC = 1;
@@ -587,6 +589,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         {
                             $sortingFields .= 'ezcontentobject.section_id';
                         } break;
+                        case 'node_id':
+                        {
+                            $sortingFields .= $treeTableName . '.node_id';
+                        } break;
+                        case 'contentobject_id':
+                        {
+                            $sortingFields .= $treeTableName . '.contentobject_id';
+                        } break;
                         case 'depth':
                         {
                             $sortingFields .= 'depth';
@@ -955,6 +965,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         case 'modified_subnode':
                         {
                             $filterField = 'modified_subnode';
+                        } break;
+                        case 'node_id':
+                        {
+                            $filterField = 'ezcontentobject_tree.node_id';
+                        } break;
+                        case 'contentobject_id':
+                        {
+                            $filterField = 'ezcontentobject_tree.contentobject_id';
                         } break;
                         case 'section':
                         {
@@ -2630,6 +2648,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 return 'name';
             case self::SORT_FIELD_MODIFIED_SUBNODE:
                 return 'modified_subnode';
+            case self::SORT_FIELD_NODE_ID:
+                return 'node_id';
+            case self::SORT_FIELD_CONTENTOBJECT_ID:
+                return 'contentobject_id';
         }
     }
 
@@ -2663,6 +2685,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 return self::SORT_FIELD_NAME;
             case 'modified_subnode':
                 return self::SORT_FIELD_MODIFIED_SUBNODE;
+            case 'node_id':
+                return self::SORT_FIELD_NODE_ID;
+            case 'contentobject_id':
+                return self::SORT_FIELD_CONTENTOBJECT_ID;
         }
     }
 
