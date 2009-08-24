@@ -47,16 +47,16 @@ interface eZClusterFileHandlerInterface
     public function fileStore( $filePath, $scope = false, $delete = false, $datatype = false );
 
     /**
-    *
-    * Store file contents.
-    *
-    * @param string $filePath Path to the file being stored.
-    * @param string $contents Binary file content
-    * @param string $scope    "file category". May be used by cache management
-    * @param string $datatype Datatype for the file. Also used to clean cache up
-    *
-    * @return void
-    **/
+     *
+     * Store file contents.
+     *
+     * @param string $filePath Path to the file being stored.
+     * @param string $contents Binary file content
+     * @param string $scope    "file category". May be used by cache management
+     * @param string $datatype Datatype for the file. Also used to clean cache up
+     *
+     * @return void
+     **/
     public function fileStoreContents( $filePath, $contents, $scope = false, $datatype = false );
 
     /**
@@ -319,6 +319,38 @@ interface eZClusterFileHandlerInterface
      *             reading errors.
      **/
     public function passthrough();
+
+    /**
+     * Copy file.
+     */
+    public function fileCopy( $srcPath, $dstPath );
+
+    /**
+     * Create symbolic or hard link to file.
+     */
+    public function fileLinkCopy( $srcPath, $dstPath, $symLink );
+
+    /**
+     * Move file.
+     */
+    public function fileMove( $srcPath, $dstPath );
+
+    /**
+     * Move file.
+     * @param string $dstPath Destination path
+     */
+    public function move( $dstPath );
+
+    /**
+     * Get list of files stored in database.
+     *
+     * Used in bin/php/clusterize.php.
+     *
+     * @param array $scopes return only files that belong to any of these scopes
+     * @param boolean $excludeScopes if true, then reverse the meaning of $scopes, which is
+     *                               return only files that do not belong to any of the scopes listed in $scopes
+     */
+    public function getFileList( $scopes = false, $excludeScopes = false );
 
     /**
      * Starts cache generation for the current file.
