@@ -93,7 +93,11 @@ class eZContentFunctionCollection
         else if ( $nodePath )
         {
             $nodeID = eZURLAliasML::fetchNodeIDByPath( $nodePath );
-            $contentNode = eZContentObjectTreeNode::fetch( $nodeID );
+
+            if ( $nodeID )
+            {
+               $contentNode = eZContentObjectTreeNode::fetch( $nodeID );
+            }
         }
         if ( $contentNode === null )
         {
