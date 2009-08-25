@@ -45,3 +45,4 @@ Changes from 4.2.0alpha1 to 4.2.0beta1
 - Fixed bug #15329: begins_with operator doesn't work as expected with strings
 - Fixed bug #15229: Bug in eZContentOperationCollection::registerSearchObject() in eZ Publish 4.1.3
 - Fixed bug #14763: Fetching a non existing node by path results in a warning while fetching by id doesn't
+- Fixed bug #14515: Disabled & Hidden users still get notifications
