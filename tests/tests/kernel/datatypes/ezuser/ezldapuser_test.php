@@ -107,9 +107,9 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPVersion', 3 );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPFollowReferrals', 0 );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPEnabled', 'true' );
-        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPServer', 'ezctest.ez.no' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPServer', 'phpuc.ez.no' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPPort', 389 );
-        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPBaseDn', 'dc--ezctest,dc--ez,dc--no' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPBaseDn', 'dc--phpuc,dc--ez,dc--no' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPBindUser', '' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPBindPassword', '' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPSearchScope', 'sub' );
@@ -121,7 +121,7 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
 
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupRootNodeId', $this->mainGroupNodeId );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMappingType', 'UseGroupAttribute' );
-        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupBaseDN', 'dc--ezctest,dc--ez,dc--no' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupBaseDN', 'dc--phpuc,dc--ez,dc--no' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupClass', 'organizationalUnit' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupNameAttribute', 'ou' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMemberAttribute', 'ou' );
@@ -190,8 +190,10 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
 
         $user = eZLDAPUser::loginUser( 'han.solo', 'leiaishot' );
         $contentObject = $user->attribute( 'contentobject' );
-        self::assertEquals( array( $this->starWarsGroupNodeId, $this->rogueGroupNodeId, $this->rebelGroupNodeId ),
-                            $contentObject->attribute( 'parent_nodes' ) );
+        $parentNodeIDs = $contentObject->attribute( 'parent_nodes' );
+        sort( $parentNodeIDs );
+        self::assertEquals( array( $this->starWarsGroupNodeId, $this->rebelGroupNodeId, $this->rogueGroupNodeId ),
+                            $parentNodeIDs );
     }
 
     /**
@@ -218,8 +220,10 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
 
         $user = eZLDAPUser::loginUser( 'chewbacca', 'aaawwwwrrrkk' );
         $contentObject = $user->attribute( 'contentobject' );
+        $parentNodeIDs = $contentObject->attribute( 'parent_nodes' );
+        sort( $parentNodeIDs );
         self::assertEquals( array( $this->rebelGroupNodeId, $this->rogueGroupNodeId ),
-                            $contentObject->attribute( 'parent_nodes' ) );
+                            $parentNodeIDs );
     }
 
     /**
