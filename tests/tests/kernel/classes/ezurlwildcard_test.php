@@ -283,7 +283,7 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
     public function testFetchListCount()
     {
         // 1. Remove all existing wildcards
-        $this->removeAllWildcards();
+        self::removeAllWildcards();
 
         // 2. Create a known number of wildcards
         for( $i = 0, $wildcardsCount = 20; $i < $wildcardsCount; $i++ )
@@ -494,6 +494,41 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
         $this->assertType( 'array', $wildcards );
         $this->assertEquals( 200, count( $wildcards ) );
         */
+    }
+
+    /**
+    * Tests an identified error until eZ Publish 4.2:
+    * a cascaded translation (uri => translation1 => translation2) will fail
+    * with a fatal error if the two matching wildcards are located in different
+    * cache files
+    *
+    * Test outline:
+    * 1. Create a wildcard of DIRECT type that translates A to B
+    * 2. Create more than 100 dummy wildcards
+    * 3. Create a wildcard of DIRECT type that translates B to C
+    *
+    * Expected: the test fails at #3 with a fatal error "Cannot redeclare ezurlwilcardcachedtranslate"
+    **/
+    public function testDoubleTranslation()
+    {
+        // 1. Remove all existing wildcards
+        self::removeAllWildcards();
+
+        self::createWildcard( "testDoubleTranslation1/*", 'testDoubleTranslation2/{1}', eZURLWildcard::TYPE_DIRECT );
+        // create more than 100 wildcards
+        for ( $i = 0; $i <= 100; $i++ )
+        {
+            self::createWildcard( "testDoubleTranslationDummy{$i}/*", '/', eZURLWildcard::TYPE_DIRECT );
+        }
+        self::createWildcard( "testDoubleTranslation2/*", 'testDoubleTranslation3/{1}', eZURLWildcard::TYPE_DIRECT );
+
+        eZURLWildcard::expireCache();
+        sleep(1);
+
+        $uri = eZURI::instance( 'testDoubleTranslation1/foobar' );
+
+        // will fail
+        $ret = eZURLWildcard::translate( $uri );
     }
 
     /**
