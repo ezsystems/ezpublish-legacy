@@ -155,9 +155,13 @@ class eZSubtreeNotificationRule extends eZPersistentObject
         $sql = 'SELECT DISTINCT subtree_rule.user_id,
                                 user_node.node_id
                 FROM ezsubtree_notification_rule subtree_rule,
-                     ezcontentobject_tree user_node
+                     ezcontentobject_tree user_node,
+                     ezuser_setting
                 WHERE subtree_rule.node_id IN ( ' . $db->implodeWithTypeCast( ', ', $nodeIDList, 'int' ) . ' ) AND
-                      user_node.contentobject_id = subtree_rule.user_id';
+                      user_node.contentobject_id = subtree_rule.user_id AND
+                      ezuser_setting.user_id = subtree_rule.user_id AND
+                      user_node.is_invisible = 0 AND
+                      ezuser_setting.is_enabled = 1';
         $userPart = $db->arrayQuery( $sql );
 
         // Remove duplicates
