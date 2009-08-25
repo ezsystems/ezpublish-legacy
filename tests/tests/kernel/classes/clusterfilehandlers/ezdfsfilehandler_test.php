@@ -49,6 +49,12 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
     {
         parent::setUp();
 
+        if ( !( $this->sharedFixture instanceof eZMySQLDB ) )
+        {
+            self::markTestSkipped( "Not using mysql interface, skipping" );
+        }
+        ezpTestDatabaseHelper::clean( $this->sharedFixture );
+
         // Load database parameters for cluster
         // The same DSN than the relational database is used
         $fileINI = eZINI::instance( 'file.ini' );
