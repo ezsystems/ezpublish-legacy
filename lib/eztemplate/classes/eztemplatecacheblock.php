@@ -93,7 +93,7 @@ class eZTemplateCacheBlock
         // Perform an extra check if the DB handler is in use,
         // get the modified_subnode value from the specified node ($nodeID)
         // and use it as an extra expiry value.
-        if ( $cacheHandler instanceof eZDBFileHandler )
+        if ( $cacheHandler instanceof eZDBFileHandler or $cacheHandler instanceof eZDFSFileHandler )
         {
             $subtreeExpiry = eZTemplateCacheBlock::getSubtreeModification( $nodeID );
         }
