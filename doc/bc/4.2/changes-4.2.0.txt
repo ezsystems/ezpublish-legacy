@@ -35,3 +35,24 @@ Renamed methods
 - eZSoapRequest::namespace() -> eZSoapRequest::ns()
 
   Renamed for php 5.3 support, see issue #13825.
+
+eZURLWildcard changes
+---------------------
+
+Cache files format change
+'''''''''''''''''''''''''
+
+The wildcard cache files (var/xxx/cache/wildcard/wildcard_<md5>_xxx.php) used to
+contain callback functions. They now contain PHP arrays like most other caches.
+Naming remains completely the same.
+
+API consolidation
+'''''''''''''''''
+All classes of eZURLWildcard now have a proper visibility. Lots of them have
+been made protected.
+
+Public methods: eZURLWildcard, definition, asArray, store, removeAll, removeByIDs,
+fetch, fetchBySourceURL, fetchList, fetchListCount, translate, expireCache,
+fetchCacheFile (callback for the cluster handler).
+
+Signatures for the public methods haven't changed.

@@ -47,3 +47,4 @@ Changes from 4.2.0alpha1 to 4.2.0beta1
 - Fixed bug #14763: Fetching a non existing node by path results in a warning while fetching by id doesn't
 - Fixed bug #14515: Disabled & Hidden users still get notifications
 - Fixed bug #15353: Fetch doesn't deliver proper result when usign language limitation and parent and child have a different language
+- Fixed bug #13888: Don't fetch wildcard cache from cluster on each page request

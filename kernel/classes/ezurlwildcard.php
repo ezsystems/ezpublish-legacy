@@ -40,9 +40,6 @@
 
 class eZURLWildcard extends eZPersistentObject
 {
-    const REGEXP_ARRAY_CALLBACK = 'eZURLWilcardCachedReqexpArray';
-    const CACHED_TRANSLATE = 'eZURLWilcardCachedTranslate';
-
     /**
     * Max number of wildcard entries per cache file
     * @var int
@@ -63,15 +60,28 @@ class eZURLWildcard extends eZPersistentObject
      **/
     const CACHE_SIGNATURE = 'urlalias-wildcard';
 
-    /*!
-     Initializes a new URL alias.
-    */
-    function eZURLWildcard( $row )
+    /**
+    * Cluster file handler instances of cache files
+    * @var array(eZClusterFileHandlerInterface)
+    **/
+    protected static $cacheFiles = array();
+
+    /**
+    * Wildcards index local cache
+    * @var array
+    **/
+    protected static $wildcardsIndex = null;
+
+    /**
+     * Initializes a new URL alias persistent object
+     * @param array $row
+     **/
+    public function eZURLWildcard( $row )
     {
         $this->eZPersistentObject( $row );
     }
 
-    static function definition()
+    public static function definition()
     {
         static $definition = array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -102,7 +112,7 @@ class eZURLWildcard extends eZPersistentObject
      * names as array keys and the values as array values
      * @return array
      **/
-    function asArray()
+    public function asArray()
     {
         return array( 'id' => $this->attribute( 'id' ),
                       'source_url' => $this->attribute( 'source_url' ),
@@ -113,13 +123,13 @@ class eZURLWildcard extends eZPersistentObject
     /**
     * Stores the eZURLWildcard persistent object
     **/
-    function store( $fieldFilters = null )
+    public function store( $fieldFilters = null )
     {
         eZPersistentObject::store( $fieldFilters );
     }
 
     /**
-     * Removes a wildcard from a source_url.
+     * Removes a wildcard based on a source_url.
      * The URL should be provided without the /* prefix:
      * foobar will remove the wildcard with source_url = foobar/*
      * @param string $baseURL URL prefix matched against destination_url
@@ -132,15 +142,17 @@ class eZURLWildcard extends eZPersistentObject
         $sql = "DELETE FROM ezurlwildcard
                 WHERE source_url = '$baseURLText'";
         $db->query( $sql );
+        self::expireCache();
     }
 
     /**
     * Removes all the wildcards
     * @return void
     **/
-    static function removeAll()
+    public static function removeAll()
     {
-        eZPersistentObject::removeObject( eZURLWildcard::definition() );
+        eZPersistentObject::removeObject( self::definition() );
+        self::expireCache();
     }
 
     /**
@@ -148,7 +160,7 @@ class eZURLWildcard extends eZPersistentObject
      * @param array $idList array of numerical ID
      * @return void
      **/
-    static function removeByIDs( $idList )
+    public static function removeByIDs( $idList )
     {
         if ( !is_array( $idList ) )
             return;
@@ -160,7 +172,7 @@ class eZURLWildcard extends eZPersistentObject
 
             $conditions = array( 'id' => array( $ids ) );
 
-            eZPersistentObject::removeObject( eZURLWildcard::definition(),
+            eZPersistentObject::removeObject( self::definition(),
                                               $conditions );
         }
     }
@@ -171,9 +183,9 @@ class eZURLWildcard extends eZPersistentObject
      * @param bool $asObject
      * @return eZURLWildcard null if no match was found
      **/
-    static function fetch( $id, $asObject = true )
+    public static function fetch( $id, $asObject = true )
     {
-        return eZPersistentObject::fetchObject( eZURLWildcard::definition(),
+        return eZPersistentObject::fetchObject( self::definition(),
                                                 null,
                                                 array( "id" => $id ),
                                                 $asObject );
@@ -185,9 +197,9 @@ class eZURLWildcard extends eZPersistentObject
      * @param bool $asObject
      * @return eZURLWildcard Null if no match was found
      **/
-    static function fetchBySourceURL( $url, $asObject = true )
+    public static function fetchBySourceURL( $url, $asObject = true )
     {
-        return eZPersistentObject::fetchObject( eZURLWildcard::definition(),
+        return eZPersistentObject::fetchObject( self::definition(),
                                                 null,
                                                 array( "source_url" => $url ),
                                                 $asObject );
@@ -200,9 +212,9 @@ class eZURLWildcard extends eZPersistentObject
      * @param bool $asObject
      * @return array[eZURLWildcard]
      **/
-    static function fetchList( $offset = false, $limit = false, $asObject = true )
+    public static function fetchList( $offset = false, $limit = false, $asObject = true )
     {
-        return eZPersistentObject::fetchObjectList( eZURLWildcard::definition(),
+        return eZPersistentObject::fetchObjectList( self::definition(),
                                                     null,
                                                     null,
                                                     null,
@@ -214,9 +226,9 @@ class eZURLWildcard extends eZPersistentObject
      * Returns the number of wildcards in the database without any filtering
      * @return int Number of wildcards in the database
      */
-    static function fetchListCount()
+    public static function fetchListCount()
     {
-        $rows = eZPersistentObject::fetchObjectList( eZURLWildcard::definition(),
+        $rows = eZPersistentObject::fetchObjectList( self::definition(),
                                                      array(),
                                                      null,
                                                      false,
@@ -227,353 +239,6 @@ class eZURLWildcard extends eZPersistentObject
         return $rows[0]['count'];
     }
 
-    /*!
-     \static
-     \return array with information on the wildcard cache.
-
-     The array containst the following keys
-     - dir - The directory for the cache
-     - file - The base filename for the caches
-     - path - The entire path (including filename) for the cache
-     - keys - Array with key values which is used to uniquely identify the cache
-    */
-    static function cacheInfo()
-    {
-        $cacheDir = eZSys::cacheDirectory();
-        $ini = eZINI::instance();
-        $keys = array( 'implementation' => $ini->variable( 'DatabaseSettings', 'DatabaseImplementation' ),
-                       'server' => $ini->variable( 'DatabaseSettings', 'Server' ),
-                       'database' => $ini->variable( 'DatabaseSettings', 'Database' ) );
-        $wildcardKey = md5( implode( "\n", $keys ) );
-        $wildcardCacheDir = "$cacheDir/wildcard";
-        $wildcardCacheFile = "wildcard_$wildcardKey";
-        $wildcardCachePath = "$wildcardCacheDir/$wildcardCacheFile";
-        return array( 'dir' => $wildcardCacheDir,
-                      'file' => $wildcardCacheFile,
-                      'path' => $wildcardCachePath,
-                      'keys' => $keys );
-    }
-
-    /**
-     * Sets the various cache information to the parameters.
-     * @private
-     **/
-    static function cacheInfoDirectories( &$wildcardCacheDir, &$wildcardCacheFile, &$wildcardCachePath, &$wildcardKeys )
-    {
-        $info = eZURLWildcard::cacheInfo();
-        $wildcardCacheDir = $info['dir'];
-        $wildcardCacheFile = $info['file'];
-        $wildcardCachePath = $info['path'];
-        $wildcardKeys = $info['keys'];
-    }
-
-    /**
-     * Checks against a timestamp if the wildcard cache is expired
-     *
-     * @param int $timestamp The timestamp to check expiry against
-     *
-     * @return bool
-     **/
-    static function isCacheExpired( $timestamp )
-    {
-        $expired = false;
-
-        $handler = eZExpiryHandler::instance();
-
-        if ( $handler->hasTimestamp( eZURLWildcard::CACHE_SIGNATURE ) )
-        {
-            $expiryTime = $handler->timestamp( eZURLWildcard::CACHE_SIGNATURE );
-            if ( $expiryTime >= $timestamp )
-                $expired = true;
-        }
-
-        return $expired;
-    }
-
-    /**
-     * Expires the wildcard cache. This causes the wildcard cache to be
-     * regenerated on the next page load.
-     * @return void
-     **/
-    static function expireCache()
-    {
-        $handler = eZExpiryHandler::instance();
-        $handler->setTimestamp( eZURLWildcard::CACHE_SIGNATURE, time() );
-        $handler->store();
-    }
-
-    /**
-     * Assign function names to input variables. Generates the wildcard cache if
-     * expired.
-     *
-     * @param $regexpArrayCallback function to get an array of regexps
-     * @return bool
-     **/
-    static private function setupMatchCallbacks( &$regexpArrayCallback )
-    {
-        self::createCacheIfExpired();
-
-        eZDebugSetting::writeDebug( 'kernel-urltranslator', "setting up callback for cache mode", __METHOD__ );
-
-        self::loadCacheIndex();
-
-        if ( function_exists( self::REGEXP_ARRAY_CALLBACK ) )
-        {
-            $regexpArrayCallback = self::REGEXP_ARRAY_CALLBACK;
-            return true;
-        }
-        else
-        {
-            eZDebug::writeError( 'Broken wildcard cache index file.', __METHOD__ );
-            return false;
-        }
-    }
-
-    /**
-     * Create the cache if expired
-     * @return void
-     **/
-    static function createCacheIfExpired()
-    {
-        $cacheFile = eZURLWildcard::cacheIndexFile();
-
-        $isExpired = true;
-        if ( $cacheFile->exists() )
-        {
-            $timestamp = $cacheFile->mtime();
-            $isExpired = self::isCacheExpired( $timestamp );
-        }
-
-        if ( $isExpired )
-        {
-            eZURLWildcard::createCache();
-        }
-    }
-
-    /**
-     * Create the wildcard cache
-     *
-     * The wildcard caches are splitted between several files:
-     *   'wildcard_<md5>_index.php': contains regexps for wildcards
-     *   'wildcard_<md5>_0.php',
-     *   'wildcard_<md5>_1.php',
-     *   ...
-     *   'wildcard_<md5>_N.php': contains cached wildcards.
-     * Each file has info about eZURLWildcard::WILDCARDS_PER_CACHE_FILE wildcards.
-     * @return void
-     **/
-    static function createCache()
-    {
-        eZURLWildcard::cacheInfoDirectories( $wildcardCacheDir, $wildcardCacheFile, $wildcardCachePath, $wildcardKeys );
-        if ( !file_exists( $wildcardCacheDir ) )
-        {
-            eZDir::mkdir( $wildcardCacheDir, false, true );
-        }
-
-        // Index file (wildcard_md5_index.php)
-        $phpCacheIndex = new eZPHPCreator( $wildcardCacheDir, $wildcardCacheFile . "_index.php", '', array( 'clustering' => 'wildcard-cache-index' ) );
-
-        foreach ( $wildcardKeys as $wildcardKey => $wildcardKeyValue )
-        {
-            $phpCacheIndex->addComment( "$wildcardKey = $wildcardKeyValue" );
-        }
-        $phpCacheIndex->addSpace();
-
-        $phpCodeIndex = "function " . eZURLWildcard::REGEXP_ARRAY_CALLBACK . "()\n{\n";
-
-        $phpCodeIndex .= "    ";
-        $phpCodeIndex .= "\$wildcards = array(\n";
-
-        $limit = eZURLWildcard::WILDCARDS_PER_CACHE_FILE;
-        $offset = 0;
-        $cacheFilesCount = 0;
-        $wildcardNum = 0;
-        while( 1 )
-        {
-            $wildcards = eZURLWildcard::fetchList( $offset, $limit, false );
-            if ( count( $wildcards ) === 0 )
-            {
-                break;
-            }
-
-            // sub cache file (wildcard_md5_<i>.php)
-            $phpCache = new eZPHPCreator( $wildcardCacheDir, $wildcardCacheFile . "_$cacheFilesCount.php", '', array( 'clustering' => 'wildcard-cache-' . $cacheFilesCount ) );
-
-            foreach ( $wildcardKeys as $wildcardKey => $wildcardKeyValue )
-            {
-                $phpCache->addComment( "$wildcardKey = $wildcardKeyValue" );
-            }
-            $phpCache->addSpace();
-
-            $phpCode = "function " . eZURLWildcard::CACHED_TRANSLATE . "$cacheFilesCount( \$wildcardNum, &\$uri, &\$wildcardInfo, \$matches )\n{\n";
-
-            $phpCode .= "    switch ( \$wildcardNum )\n";
-            $phpCode .= "    {\n";
-
-            foreach ( $wildcards as $wildcard )
-            {
-                $phpCodeIndex .= '        ';
-                if ( $wildcardNum > 0 )
-                {
-                    $phpCodeIndex .= ", ";
-                }
-                $phpCodeIndex .= eZURLWildcard::matchRegexpCode( $wildcard ) . "\n";
-
-
-                $phpCode .= "        case $wildcardNum:\n";
-                $phpCode .= "            {\n";
-                $phpCode .= eZURLWildcard::matchReplaceCode( $wildcard, '                ' );
-                $phpCode .= "            } break;\n";
-
-                ++$wildcardNum;
-            }
-
-            $phpCode .= "\n    };\n";
-            $phpCode .= "}\n";
-
-            $phpCache->addCodePiece( $phpCode );
-            $phpCache->store( true );
-            // end sub cache file
-
-            $offset += $limit;
-            ++$cacheFilesCount;
-        }
-
-        $phpCodeIndex .= " );\n";
-        $phpCodeIndex .= "    return \$wildcards;\n";
-        $phpCodeIndex .= "}\n";
-
-        $phpCacheIndex->addCodePiece( $phpCodeIndex );
-        $phpCacheIndex->store( true );
-
-        // end index cache file
-    }
-
-    /**
-     * Creates a 'regexp' portion of php-code for cache-index.
-     *
-     * @param array $wildcard wildcard data with a source_url key
-     *
-     * @return string Regexp PHP code
-     **/
-    static private function matchRegexpCode( $wildcard )
-    {
-        $phpCode = "";
-
-        $matchWilcard = $wildcard['source_url'];
-        $matchWilcardList = explode( "*", $matchWilcard );
-        $regexpList = array();
-        foreach ( $matchWilcardList as $matchWilcardItem )
-        {
-            $regexpList[] = preg_quote( $matchWilcardItem, '#' );
-        }
-        $matchRegexp = implode( '(.*)', $regexpList );
-
-        $phpCode = "\"#^$matchRegexp#\"";
-
-        return $phpCode;
-    }
-
-    /**
-     * Creates a 'replace' and wildcard-info portions of php-code for cache.
-     *
-     * @param array $wildcard Wildcard array with a destination_url key
-     * @param string $indent
-     *
-     * @return string match/replace PHP Code
-     **/
-    static private function matchReplaceCode( $wildcard, $indent = '' )
-    {
-        $phpCode = "";
-
-        $replaceWildcard = $wildcard['destination_url'];
-        $replaceWildcardList = preg_split( "#{([0-9]+)}#", $replaceWildcard, false, PREG_SPLIT_DELIM_CAPTURE );
-        $regexpList = array();
-        $counter = 0;
-        $replaceCode = "\$uri = ";
-        foreach ( $replaceWildcardList as $replaceWildcardItem )
-        {
-            if ( $counter > 0 )
-                $replaceCode .= " . ";
-            if ( ( $counter % 2 ) == 0 )
-            {
-                if ( $replaceWildcardItem == "" )
-                {
-                    $replaceCode .= "\"\"";
-                }
-                else
-                {
-                    $replaceCode .= "\"$replaceWildcardItem\"";
-                }
-            }
-            else
-            {
-                $replaceCode .= "\$matches[$replaceWildcardItem]";
-            }
-            ++$counter;
-        }
-        $replaceRegexp = implode( '', $regexpList );
-
-        $phpCode .= $indent . "$replaceCode;\n";
-
-        $wildcardCode = $indent . "\$wildcardInfo = array( ";
-
-        $counter = 0;
-        foreach ( $wildcard as $key => $value )
-        {
-            if ( $counter == 0 )
-            {
-                $wildcardCode .= "'$key' => '$value'";
-            }
-            else
-            {
-                $wildcardCode .= ",\n" . $indent . "                       '$key' => '$value'";
-            }
-
-            ++$counter;
-        }
-
-        $wildcardCode .= " );\n";
-
-        $phpCode .= $wildcardCode;
-
-        return $phpCode;
-    }
-
-    /**
-     * Returns the cluster handler for the cache index file
-     *
-     * @return eZClusterFileHandlerInterface The cluster handler instance for the index file
-     **/
-    static function cacheIndexFile()
-    {
-        $info = eZURLWildcard::cacheInfo();
-
-        $cacheFile = eZClusterFileHandler::instance( $info['path'] . "_index.php" );
-
-        return $cacheFile;
-    }
-
-    /**
-     * Loads the cache-index in memory
-     * @return bool true if successful, false otherwise
-     */
-    static function loadCacheIndex()
-    {
-        $info = eZURLWildcard::cacheInfo();
-
-        $cacheFile = eZClusterFileHandler::instance( $info['path'] . "_index.php" );
-
-        if ( !$cacheFile->exists() )
-            return false;
-
-        $fetchedFilePath = $cacheFile->fetchUnique();
-        include_once( $fetchedFilePath );
-        $cacheFile->fileDeleteLocal( $fetchedFilePath );
-
-        return true;
-    }
-
     /**
      * Transforms the URI if there exists an alias for it.
      *
@@ -581,7 +246,7 @@ class eZURLWildcard extends eZPersistentObject
      * @return mixed The translated URI if the resource has moved, or true|false
      *               if translation was (un)successful
      **/
-    static function translate( &$uri )
+    public static function translate( &$uri )
     {
         $result = false;
 
@@ -591,16 +256,11 @@ class eZURLWildcard extends eZPersistentObject
 
         eZDebugSetting::writeDebug( 'kernel-urltranslator', "input uriString: '$uriString'", __METHOD__ );
 
-        // setup helper callbacks, and generate cache if required (in setupMatchCallbacks)
-        $regexpArrayCallback = false;
-        if ( !eZURLWildcard::setupMatchCallbacks( $regexpArrayCallback ) )
+        if ( !$wildcards = self::wildcardsIndex() )
         {
             eZDebugSetting::writeDebug( 'kernel-urltranslator', "no match callbacks", __METHOD__ );
             return false;
         }
-
-        // fetch wildcards regexps from index cache
-        $wildcards = call_user_func( $regexpArrayCallback );
 
         $ini = eZINI::instance();
         $iteration = $ini->variable( 'URLTranslator', 'MaximumWildcardIterations' );
@@ -613,17 +273,17 @@ class eZURLWildcard extends eZPersistentObject
         {
             foreach ( $wildcards as $wildcardNum => $wildcard )
             {
-                if ( preg_match( $wildcard, $uriString, $matches ) )
+                if ( preg_match( $wildcard, $uriString ) )
                 {
                     eZDebugSetting::writeDebug( 'kernel-urltranslator', "matched with: '$wildcard'", __METHOD__ );
 
                     // get new $uriString from wildcard
-                    self::translateWithCache( $wildcardNum, $uriString, $wildcardInfo, $matches );
+                    self::translateWithCache( $wildcardNum, $uriString, $wildcardInfo, $wildcard );
 
                     eZDebugSetting::writeDebug( 'kernel-urltranslator', "new uri string: '$uriString'", __METHOD__ );
 
                     // optimization: don't try further translation if wildcard type is 'forward'
-                    if ( $wildcardInfo['type'] == eZURLWildcard::TYPE_FORWARD )
+                    if ( $wildcardInfo['type'] == self::TYPE_FORWARD )
                     {
                         $urlTranslated = true;
                         break;
@@ -657,25 +317,31 @@ class eZURLWildcard extends eZPersistentObject
             // check wildcard type and set appropriate $result and $uriString
             $wildcardType = $wildcardInfo['type'];
 
-            eZDebugSetting::writeDebug( 'kernel-urltranslator', "wildcard type: $wildcardType", 'eZURLWildcard::translate' );
+            eZDebugSetting::writeDebug( 'kernel-urltranslator', "wildcard type: $wildcardType", __METHOD__ );
 
             switch ( $wildcardType )
             {
-                case eZURLWildcard::TYPE_FORWARD:
+                case self::TYPE_FORWARD:
                 {
-                    // do redirect => set $result to untranslated uri
+                    // do redirect:
+                    //   => set $result to translated uri
+                    //   => set uri string to a MOVED PERMANENTLY HTTP code
                     $result = $uriString;
                     $uriString = 'error/301';
                 }
                 break;
 
                 default:
-                    eZDebug::writeError( 'Invalid wildcard type.', 'eZURLWildcard::translate()' );
+                {
+                    eZDebug::writeError( 'Invalid wildcard type.', __METHOD__ );
                     // no break, using eZURLWildcard::TYPE_DIRECT as fallback
-                case eZURLWildcard::TYPE_DIRECT:
+                }
+                case self::TYPE_DIRECT:
+                {
                     $result = $urlTranslated;
                     // $uriString already has correct value
                     break;
+                }
             }
         }
         else
@@ -685,7 +351,7 @@ class eZURLWildcard extends eZPersistentObject
             // - url is matched with wildcard and:
             //   - points to module
             //   - invalide url
-            eZDebugSetting::writeDebug( 'kernel-urltranslator', "wildcard is not translated", 'eZURLWildcard::translate' );
+            eZDebugSetting::writeDebug( 'kernel-urltranslator', "wildcard is not translated", __METHOD__ );
             $result = false;
         }
 
@@ -699,9 +365,237 @@ class eZURLWildcard extends eZPersistentObject
             $uri = $uriString;
         }
 
-        eZDebugSetting::writeDebug( 'kernel-urltranslator', "finished with url '$uriString' and result '$result'", 'eZURLWildcard::translate' );
+        eZDebugSetting::writeDebug( 'kernel-urltranslator', "finished with url '$uriString' and result '$result'", __METHOD__ );
 
         return $result;
+    }
+
+    /**
+     * Returns an array with information on the wildcard cache
+     * The array containst the following keys
+     * - dir - The directory for the cache
+     * - file - The base filename for the caches
+     * - path - The entire path (including filename) for the cache
+     * - keys - Array with key values which is used to uniquely identify the cache
+     * @return array
+     **/
+    protected static function cacheInfo()
+    {
+        static $cacheInfo = null;
+
+        if ( $cacheInfo == null )
+        {
+            $cacheDir = eZSys::cacheDirectory();
+            $ini = eZINI::instance();
+            $keys = array( 'implementation' => $ini->variable( 'DatabaseSettings', 'DatabaseImplementation' ),
+                           'server' => $ini->variable( 'DatabaseSettings', 'Server' ),
+                           'database' => $ini->variable( 'DatabaseSettings', 'Database' ) );
+            $wildcardKey = md5( implode( "\n", $keys ) );
+            $wildcardCacheDir = "$cacheDir/wildcard";
+            $wildcardCacheFile = "wildcard_$wildcardKey";
+            $wildcardCachePath = "$wildcardCacheDir/$wildcardCacheFile";
+            $cacheInfo = array( 'dir' => $wildcardCacheDir,
+                                'file' => $wildcardCacheFile,
+                                'path' => $wildcardCachePath,
+                                'keys' => $keys );
+        }
+
+        return $cacheInfo;
+    }
+
+    /**
+     * Sets the various cache information to the parameters.
+     * @private
+     **/
+    protected static function cacheInfoDirectories( &$wildcardCacheDir, &$wildcardCacheFile, &$wildcardCachePath, &$wildcardKeys )
+    {
+        $info = self::cacheInfo();
+        $wildcardCacheDir = $info['dir'];
+        $wildcardCacheFile = $info['file'];
+        $wildcardCachePath = $info['path'];
+        $wildcardKeys = $info['keys'];
+    }
+
+    /**
+     * Expires the wildcard cache. This causes the wildcard cache to be
+     * regenerated on the next page load.
+     * @return void
+     **/
+    public static function expireCache()
+    {
+        $handler = eZExpiryHandler::instance();
+        $handler->setTimestamp( self::CACHE_SIGNATURE, time() );
+        $handler->store();
+
+        self::$wildcardsIndex = null;
+    }
+
+    /**
+    * Returns the expiry timestamp for wildcard cache from eZExpiryHandler
+    * @return int|bool the timestamp if set, false otherwise
+    **/
+    protected static function expiryTimestamp()
+    {
+        $handler = eZExpiryHandler::instance();
+        if ( $handler->hasTimestamp( self::CACHE_SIGNATURE ) )
+        {
+            $ret = $handler->timestamp( self::CACHE_SIGNATURE );
+        }
+        else
+        {
+            $ret = false;
+        }
+        return $ret;
+    }
+
+    /**
+     * Assign function names to input variables. Generates the wildcard cache if
+     * expired.
+     *
+     * @param $regexpArrayCallback function to get an array of regexps
+     *
+     * @return array The wildcards index, as an array of regexps
+     **/
+    protected static function wildcardsIndex()
+    {
+        if ( self::$wildcardsIndex === null )
+        {
+            $cacheIndexFile = self::loadCacheFile();
+
+            // if NULL is returned, the cache doesn't exist or isn't valid
+            $wildcardsIndex = $cacheIndexFile->processFile( array( __CLASS__, 'fetchCacheFile' ), self::expiryTimestamp() );
+            if ( $wildcardsIndex === null )
+            {
+                // This will generate and return the index, and store the cache
+                // files for the different wildcards for later use
+                $wildcardsIndex = self::createWildcardsIndex();
+            }
+        }
+
+        return $wildcardsIndex;
+    }
+
+    /**
+     * Create the wildcard cache
+     *
+     * The wildcard caches are splitted between several files:
+     *   'wildcard_<md5>_index.php': contains regexps for wildcards
+     *   'wildcard_<md5>_0.php',
+     *   'wildcard_<md5>_1.php',
+     *   ...
+     *   'wildcard_<md5>_N.php': contains cached wildcards.
+     * Each file has info about eZURLWildcard::WILDCARDS_PER_CACHE_FILE wildcards.
+     * @return void
+     **/
+    protected static function createWildcardsIndex()
+    {
+        self::cacheInfoDirectories( $wildcardCacheDir, $wildcardCacheFile, $wildcardCachePath, $wildcardKeys );
+        if ( !file_exists( $wildcardCacheDir ) )
+        {
+            eZDir::mkdir( $wildcardCacheDir, false, true );
+        }
+
+        // Index file (wildcard_md5_index.php)
+        $wildcardsIndex = array();
+
+        $limit = self::WILDCARDS_PER_CACHE_FILE;
+        $offset = 0;
+        $cacheFilesCount = 0;
+        $wildcardNum = 0;
+        while( 1 )
+        {
+            $wildcards = self::fetchList( $offset, $limit, false );
+            if ( count( $wildcards ) === 0 )
+            {
+                break;
+            }
+
+            // sub cache file (wildcard_md5_<i>.php)
+            $wildcardDetails = array();
+            $currentSubCacheFile = self::loadCacheFile( $cacheFilesCount );
+            foreach ( $wildcards as $wildcard )
+            {
+                $wildcardsIndex[] = self::matchRegexpCode( $wildcard );
+                $wildcardDetails[$wildcardNum] = self::matchReplaceCode( $wildcard );
+
+                ++$wildcardNum;
+            }
+            $binaryData = "<" . "?php\nreturn ". var_export( $wildcardDetails, true ) . ";\n?" . ">\n";
+            $currentSubCacheFile->storeContents( $binaryData, "wildcard-cache-$cacheFilesCount", 'php', true );
+
+            $offset += $limit;
+            ++$cacheFilesCount;
+        }
+
+        $indexCacheFile = self::loadCacheFile();
+        $indexBinaryData = "<" . "?php\nreturn ". var_export( $wildcardsIndex, true ) . ";\n?" . ">\n";
+        $indexCacheFile->storeContents( $indexBinaryData, "wildcard-cache-index", 'php', true );
+
+        return $wildcardsIndex;
+        // end index cache file
+    }
+
+    /**
+     * Transforms the source-url of a wildcard to a preg_match compatible expression
+     * Example: foo/* will be converted to #^foo/(.*)$#
+     *
+     * @param array $wildcard wildcard data with a source_url key
+     *
+     * @return string preg_match compatible string
+     **/
+    protected static function matchRegexpCode( $wildcard )
+    {
+        $matchWilcard = $wildcard['source_url'];
+        $matchWilcardList = explode( "*", $matchWilcard );
+        $regexpList = array();
+        foreach ( $matchWilcardList as $matchWilcardItem )
+        {
+            $regexpList[] = preg_quote( $matchWilcardItem, '#' );
+        }
+        $matchRegexp = implode( '(.*)', $regexpList );
+
+        $phpCode = "#^$matchRegexp#";
+
+        return $phpCode;
+    }
+
+    /**
+     * Converts the destination-url of a wildcard to a preg_replace compatible
+     * expression.
+     * Example: foobar/{1} will be converted to ...
+     * @todo fix the example
+     *
+     * @param array $wildcard Wildcard array with a destination_url key
+     *
+     * @return string match/replace PHP Code
+     *
+     * @todo Try to replace the eval'd code with a preg_replace expression
+     **/
+    protected static function matchReplaceCode( $wildcard )
+    {
+        $return = array();
+
+        $replaceWildcardList = preg_split( "#{([0-9]+)}#", $wildcard['destination_url'], false, PREG_SPLIT_DELIM_CAPTURE );
+
+        $replaceArray = array();
+        foreach ( $replaceWildcardList as $index => $replaceWildcardItem )
+        {
+            // even values are placeholders
+            if ( ( $index % 2 ) == 0 )
+            {
+                $replaceArray[] = $replaceWildcardItem;
+            }
+            else
+            {
+                $replaceArray[] = "\${$replaceWildcardItem}";
+            }
+        }
+        $replaceCode = implode( '', $replaceArray );
+
+        $return['uri'] = $replaceCode;
+        $return['info'] = $wildcard;
+
+        return $return;
     }
 
     /**
@@ -723,57 +617,67 @@ class eZURLWildcard extends eZPersistentObject
      *
      * @todo make private, this method isn't used anywhere else
      **/
-    static function translateWithCache( $wildcardNum, &$uri, &$wildcardInfo, $matches )
+    protected static function translateWithCache( $wildcardNum, &$uri, &$wildcardInfo, $matchRegexp )
     {
-        eZDebugSetting::writeDebug( 'kernel-urltranslator', "eZURLWildcardTranslateWithCache:: wildcardNum = $wildcardNum, uri = $uri", __METHOD__ );
+        eZDebugSetting::writeDebug( 'kernel-urltranslator', "wildcardNum = $wildcardNum, uri = $uri", __METHOD__ );
 
-        $cacheFileNum = (int) ( $wildcardNum / eZURLWildcard::WILDCARDS_PER_CACHE_FILE );
+        $cacheFileNum = (int) ( $wildcardNum / self::WILDCARDS_PER_CACHE_FILE );
 
-        $cacheFunctionName = eZURLWildcard::CACHED_TRANSLATE . $cacheFileNum;
+        eZDebugSetting::writeDebug( 'kernel-urltranslator', "cacheFileNum = $cacheFileNum", __METHOD__ );
 
-        // we don't load the cache file again if the #$cacheFileNum function exists
-        if ( !function_exists( $cacheFunctionName ) )
+        $cacheFile = self::loadCacheFile( $cacheFileNum );
+        $wildcardsInfos = $cacheFile->processFile( array( __CLASS__, 'fetchCacheFile' ) );
+
+        if ( !isset( $wildcardsInfos[$wildcardNum] ) )
         {
-            eZDebugSetting::writeDebug( 'kernel-urltranslator', "eZURLWildcardTranslateWithCache:: cacheFileNum = $cacheFileNum", __METHOD__ );
-
-            $info = eZURLWildcard::cacheInfo();
-            $cacheFileName = $info['path'] . "_$cacheFileNum" . ".php";
-
-            $cacheFile = eZClusterFileHandler::instance( $cacheFileName );
-
-            if ( !$cacheFile->exists() )
-            {
-                eZDebugSetting::writeDebug( 'kernel-urltranslator', "eZURLWildcardTranslateWithCache:: no cache file '$cacheFileName'", __METHOD__ );
-                return false;
-            }
-
-            $fetchedFilePath = $cacheFile->fetchUnique();
-            include_once( $fetchedFilePath );
-            $cacheFile->fileDeleteLocal( $fetchedFilePath );
-
-            if ( !function_exists( $cacheFunctionName ) )
-            {
-                eZDebugSetting::writeDebug( 'kernel-urltranslator', "eZURLWildcardTranslateWithCache:: no function in cache file", __METHOD__ );
-                return false;
-            }
+            eZDebug::writeError( "An error occured: the requested wildcard couldn't be found", __METHOD__ );
+            return false;
         }
 
-        $wildcards = call_user_func_array( $cacheFunctionName, array( $wildcardNum, &$uri, &$wildcardInfo, $matches ) );
+        // @todo Try to replace this with a preg_replace in order to get rid of eval()
+        $replaceRegexp = $wildcardsInfos[$wildcardNum]['uri'];
+        $uri = preg_replace( $matchRegexp, $replaceRegexp, $uri );
+        $wildcardInfo = $wildcardsInfos[$wildcardNum]['info'];
 
-        eZDebugSetting::writeDebug( 'kernel-urltranslator', "eZURLWildcardTranslateWithCache:: found wildcard: " . var_export( $wildcardInfo, true ), __METHOD__ );
+        eZDebugSetting::writeDebug( 'kernel-urltranslator', "found wildcard: " . var_export( $wildcardInfo, true ), __METHOD__ );
 
         return true;
     }
 
-    /*public static function retrieveWildcardsFromCache( $filePath, $mtime )
+    /**
+    * Loads and returns the cluster handler instance for the requested cache file.
+    * The instance will be returned even if the file doesn't exist
+    *
+    * @param $cacheID Cache file number. Will load the index if not provided.
+    *
+    * @return eZClusterFileHandlerInterface
+    **/
+    protected static function loadCacheFile( $cacheID = 'index' )
     {
+        if ( isset( self::$cacheFiles[$cacheID] ) )
+        {
+            return self::$cacheFiles[$cacheID];
+        }
 
+        $info = self::cacheInfo();
+        $cacheFileName = $info['path'] . '_' . $cacheID . '.php';
+
+        self::$cacheFiles[$cacheID] = eZClusterFileHandler::instance( $cacheFileName );
+        return self::$cacheFiles[$cacheID];
     }
 
-    public static function generateWildcardsForCache()
+    /**
+     * Includes a wildcard cache file and returns its return value
+     * This method is used as a callback by eZClusterFileHandler::processFile
+     *
+     * @param string $filepath
+     *
+     * @return array
+     **/
+    public static function fetchCacheFile( $filepath )
     {
-
-    }*/
+        return include( $filepath );
+    }
 }
 
 ?>

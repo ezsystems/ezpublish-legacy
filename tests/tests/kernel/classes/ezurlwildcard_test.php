@@ -324,86 +324,6 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
     }
 
     /**
-     * Test for the cacheInfo method
-     *
-     * Outline:
-     * 1. Compare the cacheInfo return to the expected/known values
-     **/
-    public function testCacheInfo()
-    {
-        $cacheInfo = eZURLWildcard::cacheInfo();
-        $this->assertType( 'array', $cacheInfo );
-        $this->assertArrayHasKey( 'dir', $cacheInfo );
-        $this->assertEquals( 'var/test/cache/wildcard', $cacheInfo['dir'] );
-        $this->assertArrayHasKey( 'file', $cacheInfo );
-        $this->assertEquals( 'wildcard_91ad0d5d8c1489e3961a781324a4e2f7', $cacheInfo['file'] );
-        $this->assertArrayHasKey( 'path', $cacheInfo );
-        $this->assertEquals( 'var/test/cache/wildcard/wildcard_91ad0d5d8c1489e3961a781324a4e2f7', $cacheInfo['path'] );
-        $this->assertArrayHasKey( 'keys', $cacheInfo );
-        $this->assertType( 'array', $cacheInfo['keys'] );
-        $this->assertArrayHasKey( 'implementation', $cacheInfo['keys'] );
-        $this->assertEquals( 'ezmysqli', $cacheInfo['keys']['implementation'] );
-        $this->assertArrayHasKey( 'server', $cacheInfo['keys'] );
-        $this->assertEquals( 'localhost', $cacheInfo['keys']['server'] );
-        $this->assertArrayHasKey( 'database', $cacheInfo['keys'] );
-        $this->assertEquals( 'testdb', $cacheInfo['keys']['database'] );
-    }
-
-    /**
-    * Test for the cacheInfoDirectories method.
-    * Might be useless as the method is most likely private
-    *
-    * Outline:
-    * 2. Call the method
-    * 3. Check that the parameters passed as references have the expected values
-    *
-    * @depends testCacheInfo
-    **/
-    public function testCacheInfoDirectories()
-    {
-        $wildcardCacheDir = $wildcardCacheFile = $wildcardCachePath = $wildcardKeys = null;
-
-        eZURLWildcard::cacheInfoDirectories( $wildcardCacheDir,
-            $wildcardCacheFile, $wildcardCachePath, $wildcardKeys );
-
-        $this->assertEquals( $wildcardCacheDir, 'var/test/cache/wildcard' );
-        $this->assertEquals( $wildcardCacheFile, 'wildcard_91ad0d5d8c1489e3961a781324a4e2f7' );
-        $this->assertEquals( $wildcardCachePath, 'var/test/cache/wildcard/wildcard_91ad0d5d8c1489e3961a781324a4e2f7' );
-        $this->assertType( 'array', $wildcardKeys );
-        $this->assertEquals( $wildcardKeys['implementation'], 'ezmysqli' );
-        $this->assertEquals( $wildcardKeys['server'], 'localhost' );
-        $this->assertEquals( $wildcardKeys['database'], 'testdb' );
-    }
-
-    /**
-     * Test for isCacheExpired
-     *
-     * Outline:
-     * 1. Set the expiry timestamp for eZURLWildcard to a past value
-     * 2. Check if the file is expired (should not be)
-     * 3. Set the expiry timestamp for eZURLWildcard to a future value
-     * 4. Check if the file is expired (should be)
-     **/
-    public function testIsCacheExpired()
-    {
-        $expiryHandler = eZExpiryHandler::instance();
-
-        // 1. Set the expiry timestamp for eZURLWildcard to a past value
-        $expiryHandler->setTimestamp( eZURLWildcard::CACHE_SIGNATURE, time() - 3600 );
-
-        // 2. Check if the file is expired (should not be)
-        $this->assertFalse( eZURLWildcard::isCacheExpired( time() ),
-            "expiry timestamp is in the past, cache should not be expired" );
-
-        // 3. Set the expiry timestamp for eZURLWildcard to a future value
-        $expiryHandler->setTimestamp( eZURLWildcard::CACHE_SIGNATURE, time() + 3600 );
-
-        // 4. Check if the file is expired (should be)
-        $this->assertTrue( eZURLWildcard::isCacheExpired( time() ),
-            "expiry timestamp is in the future, cache should be expired" );
-    }
-
-    /**
     * Test for expireCache
     *
     * Outline:
@@ -416,6 +336,8 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
     **/
     public function testExpireCache()
     {
+        $this->markTestSkipped( "Needs to be rewritten due to the refactoring" );
+
         $expiryHandler = eZExpiryHandler::instance();
 
         // 1. Manually set the cache expiry timestamp to a date in the past
@@ -439,19 +361,33 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
     public function testTranslate()
     {
         // Cleanup cache & existing wildcards
-        eZURLWildcard::expireCache();
+        // eZURLWildcard::expireCache();
         self::removeAllWildcards();
 
-        // Add a wildcard
-        self::createWildcard( "testTranslate/*", '/', eZURLWildcard::TYPE_DIRECT );
-        eZURLWildcard::expireCache();
-        sleep(1);
+        // These two wildcards go together since the second will replace the URI
+        // to one that can be converted by eZURLAliasML
+        self::createWildcard( "testTranslate1/*/*", 'foobar/{1}/{2}', eZURLWildcard::TYPE_DIRECT );
+
+        // Forwarding URL
+        self::createWildcard( "testTranslate2/*/abc", 'foobar/{1}', eZURLWildcard::TYPE_FORWARD );
+
+        // "final" URL: used to convert the previously matched wildcards to a known URL
+        // that can be further translated by eZURLAliasML
+        self::createWildcard( "foobar/*/*", '/', eZURLWildcard::TYPE_DIRECT );
 
         // Test an URI that should be translated
-        $uri = eZURI::instance( 'testTranslate/foobar' );
+        $uri = eZURI::instance( 'testTranslate1/foo/bar' );
         $ret = eZURLWildcard::translate( $uri );
         $this->assertTrue( $ret );
         $this->assertEquals( 'content/view/full/2', $uri->URI );
+
+        // Test a FORWARD wildcard:
+        //  - the return should contain the forward URL
+        //  - the return value should be the transformed URI
+        $uri = eZURI::instance( 'testTranslate2/xyz/abc' );
+        $ret = eZURLWildcard::translate( $uri );
+        $this->assertEquals( 'error/301', $uri->URI );
+        $this->assertEquals( 'foobar/xyz', $ret );
 
         // Test an URI that should NOT be translated
         $uri = eZURI::instance( 'unknownURI/foobar' );
@@ -470,6 +406,8 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
     **/
     public function testCreateCache()
     {
+        $this->markTestSkipped( "Can no longer be ran since the method is now protected" );
+
         // 1. Delete all wildcards
         self::removeAllWildcards();
 
@@ -483,17 +421,33 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
         eZURLWildcard::createCache();
 
         // 4. Check if the cache index file exists
-        $cacheIndex = eZURLWildcard::cacheIndexFile();
+        $cacheIndex = eZURLWildcard::loadCacheFile();
         $this->assertTrue( $cacheIndex->exists() );
+    }
 
-        /* Incompatible with testLoadCacheIndex, since the same function name is used...
-           This really is a poor way to implement caching :(
-        include( $cacheIndex->name() )
-        $function = eZURLWildcard::REGEXP_ARRAY_CALLBACK;
-        $wildcards = $function();
-        $this->assertType( 'array', $wildcards );
-        $this->assertEquals( 200, count( $wildcards ) );
-        */
+    /**
+    * Test for the eZURLWildcard::wildcardsIndex method
+    * Generates a few wildcards, and checks that the index matches these
+    **/
+    public function testWildcardsIndex()
+    {
+        $this->markTestSkipped( "Can no longer be ran since the method is now protected" );
+        self::removeAllWildcards();
+
+        self::createWildcard( "foo/*/bar/*", 'bar/{1}/foo/{2}', eZURLWildcard::TYPE_DIRECT );
+        self::createWildcard( "testWildcardsindex/*", 'foobar/{1}', eZURLWildcard::TYPE_DIRECT );
+        for( $i = 0; $i < 1000; $i++ )
+        {
+            self::createWildcard( "testWildcardsIndex/$i/*", 'foo/{1}', eZURLWildcard::TYPE_DIRECT );
+        }
+
+        $wildcardsIndex = eZURLWildcard::wildcardsIndex();
+
+        $this->assertType( 'array', $wildcardsIndex, "Wildcard index should be an array" );
+        $this->assertTrue( count( $wildcardsIndex ) == 1002, "The wildcard index should contain 1002 items" );
+
+        $this->assertEquals( '#^foo/(.*)/bar/(.*)#', $wildcardsIndex[0] );
+        $this->assertEquals( '#^testWildcardsindex/(.*)#', $wildcardsIndex[1] );
     }
 
     /**
@@ -522,74 +476,10 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
         }
         self::createWildcard( "testDoubleTranslation2/*", 'testDoubleTranslation3/{1}', eZURLWildcard::TYPE_DIRECT );
 
-        eZURLWildcard::expireCache();
-        sleep(1);
-
         $uri = eZURI::instance( 'testDoubleTranslation1/foobar' );
 
         // will fail
         $ret = eZURLWildcard::translate( $uri );
-    }
-
-    /**
-    * Test for the cacheIndexFile method
-    *
-    * Outline:
-    * 1. Call the method
-    * 2. Check that its return value is an instance of eZClusterFileHandler
-    * 3. Check that the file the handler references is the cache index file
-    **/
-    public function testCacheIndexFile()
-    {
-        $handler = eZURLWildcard::cacheIndexFile();
-
-        $this->assertTrue(
-            $handler instanceof eZFSFileHandler
-            or $handler instanceof eZDFSFileHandler
-            or $handler instanceof eZDBFileHandler );
-
-        $this->assertEquals( 'var/test/cache/wildcard/wildcard_91ad0d5d8c1489e3961a781324a4e2f7_index.php',
-            $handler->name() );
-    }
-
-    /**
-    * Test for the loadCacheIndex method
-    *
-    * Outline:
-    * 1. Use the cache index handler (cacheIndexFile) to remove the cache
-    * 2. Call the method and check if it returns false (it should)
-    * 3. Call createCache to make sure the cache file exists
-    * 4. Call loadCacheIndex and check that it returns true
-    * 5. Check if the eZURLWilcardCachedReqexpArray function has been defined
-    * 6. Check that eZURLWilcardCachedReqexpArray returns an array
-    **/
-    public function testLoadCacheIndex()
-    {
-        // 1. Use the cache index handler (cacheIndexFile) to remove the cache
-        $cacheHandler = eZURLWildcard::cacheIndexFile();
-        $cacheHandler->purge();
-
-        // 2. Call the method and check if it returns false (it should)
-        $return = eZURLWildcard::loadCacheIndex();
-        $this->assertFalse( $return,
-            "loadCacheIndex should have returned false since the file was removed" );
-
-        // 3. Call createCache to make sure the cache file exists
-        eZURLWildcard::createCache();
-
-        // 4. Call loadCacheIndex and check that it returns true
-        $return = eZURLWildcard::loadCacheIndex();
-        $this->assertTrue( $return,
-            "loadCacheIndex should have returned true since the file was created" );
-
-        $function = eZURLWildcard::REGEXP_ARRAY_CALLBACK;
-
-        // 5. Check if the eZURLWilcardCachedReqexpArray function has been defined
-        $this->assertTrue( function_exists( $function ) );
-
-        // 6. Check that eZURLWilcardCachedReqexpArray returns an array
-        $this->assertType( 'array', $function(),
-            "The cache callback should have returned an array" );
     }
 
     /**
@@ -617,6 +507,9 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
     static public function removeAllWildcards()
     {
         eZDB::instance()->query( 'DELETE FROM ezurlwildcard' );
+        eZURLWildcard::expireCache();
+        clearstatcache();
+        sleep( 1 );
     }
 
     /** Holds locally changed INI values for further restoration
