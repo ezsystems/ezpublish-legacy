@@ -1814,15 +1814,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( !isset( $params['ClassFilterType'] ) )
             $params['ClassFilterType'] = false;
 
-        if ( $language )
-        {
-            if ( !is_array( $language ) )
-            {
-                $language = array( $language );
-            }
-            eZContentLanguage::setPrioritizedLanguages( $language );
-        }
-
         $allowCustomSorting = false;
         if ( isset( $params['ExtendedAttributeFilter'] ) && is_array ( $params['ExtendedAttributeFilter'] ) )
         {
@@ -1851,6 +1842,17 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( !eZContentObjectTreeNode::createPathConditionAndNotEqParentSQLStrings( $pathStringCond, $notEqParentString, $nodeID, $depth, $depthOperator ) )
         {
             return null;
+        }
+
+        if ( $language )
+        {
+            if ( !is_array( $language ) )
+            {
+                $language = array( $language );
+            }
+            // This call must occur after eZContentObjectTreeNode::createPathConditionAndNotEqParentSQLStrings,
+            // because the parent node may not exist in Language
+            eZContentLanguage::setPrioritizedLanguages( $language );
         }
 
         $groupBySelectText  = '';
