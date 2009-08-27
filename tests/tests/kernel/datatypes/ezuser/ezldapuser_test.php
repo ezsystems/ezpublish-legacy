@@ -103,7 +103,7 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
 
         // Setup default settings, change these in each test when needed
         $this->ldapINI = eZINI::instance( 'ldap.ini' );
-        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPDebugTrace', 'enabled' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPDebugTrace', 'disabled' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPVersion', 3 );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPFollowReferrals', 0 );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPEnabled', 'true' );
