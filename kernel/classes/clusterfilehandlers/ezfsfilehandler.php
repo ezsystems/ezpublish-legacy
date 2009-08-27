@@ -339,6 +339,7 @@ class eZFSFileHandler
         $timestamp = null;
         $curtime   = time();
         $tries     = 0;
+        $noCache   = false;
 
         if ( $expiry < 0 )
             $expiry = null;
@@ -374,7 +375,16 @@ class eZFSFileHandler
             if ( isset( $retval ) &&
                  $retval instanceof eZClusterFileFailure )
             {
-                if ( $retval->errno() != 1 ) // check for non-expiry error codes
+                // This error means that the retrieve callback told
+                // us NOT to enter generation mode and therefore NOT to store this
+                // cache.
+                // This parameter will then be passed to the generate callback,
+                // and this will set store to false
+                if ( $retval->errno() == 3 )
+                {
+                    $noCache = true;
+                }
+                elseif ( $retval->errno() != 1 ) // check for non-expiry error codes
                 {
                     eZDebug::writeError( "Failed to retrieve data from callback", __METHOD__ );
                     return null;
@@ -390,7 +400,7 @@ class eZFSFileHandler
             // We need to lock if we have a generate-callback or
             // the generation is deferred to the caller.
             // Note: false means no generation
-            if ( $generateCallback !== false && $forceGeneration === false )
+            if ( !$noCache and $generateCallback !== false and $forceGeneration === false )
             {
                 // Lock the entry for exclusive access, if the entry does not exist
                 // it will be inserted with mtime=-1
@@ -420,6 +430,8 @@ class eZFSFileHandler
             if ( $generateCallback )
             {
                 $args = array( $fname );
+                if ( $noCache )
+                    $extraData['noCache'] = true;
                 if ( $extraData !== null )
                     $args[] = $extraData;
                 $fileData = call_user_func_array( $generateCallback, $args );

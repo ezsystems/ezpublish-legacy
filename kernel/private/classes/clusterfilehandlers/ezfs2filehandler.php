@@ -110,10 +110,11 @@ class eZFS2FileHandler extends eZFSFileHandler
     **/
     public function processCache( $retrieveCallback, $generateCallback = null, $ttl = null, $expiry = null, $extraData = null )
     {
-        $forceDB = false;
+        $forceDB   = false;
         $timestamp = null;
         $curtime   = time();
         $tries     = 0;
+        $noCache   = false;
 
         if ( $expiry < 0 )
             $expiry = null;
@@ -166,7 +167,7 @@ class eZFS2FileHandler extends eZFSFileHandler
                     // generate the dynamic data without storage
                     if ( $this->nonExistantStaleCacheHandling[ $this->cacheType ] == 'generate' )
                     {
-                        eZDebugSetting::writeDebug( 'kernel-clustering', $this->filePath, "Generation is being processed, generating own version" );
+                        eZDebugSetting::writeDebug( 'kernel-clustering', $this->filePath, "Generation is being processed, generating own version", __METHOD__ );
                         break;
                     }
                     // wait for the generating process to be finished (or timedout)
@@ -217,7 +218,17 @@ class eZFS2FileHandler extends eZFSFileHandler
             if ( isset( $retval ) &&
                 $retval instanceof eZClusterFileFailure )
             {
-                if ( $retval->errno() != 1 ) // check for non-expiry error codes
+                // This specific error means that the retrieve callback told
+                // us NOT to enter generation mode and therefore NOT to store this
+                // cache.
+                // This parameter will then be passed to the generate callback,
+                // and this will set store to false
+                if ( $retval->errno() == 3 )
+                {
+                    $noCache = true;
+                }
+                // check for non-expiry error codes
+                elseif ( $retval->errno() != 1 )
                 {
                     eZDebug::writeError( "Failed to retrieve data from callback: " . print_r( $retrieveCallback, true ), __METHOD__ );
                     return null;
@@ -235,7 +246,7 @@ class eZFS2FileHandler extends eZFSFileHandler
             // Note: false means no generation
             if ( $generateCallback !== false )
             {
-                if ( !$this->useStaleCache )
+                if ( !$this->useStaleCache and !$noCache )
                 {
                     $res = $this->startCacheGeneration();
 
@@ -258,6 +269,8 @@ class eZFS2FileHandler extends eZFSFileHandler
             if ( $generateCallback )
             {
                 $args = array( $this->filePath );
+                if ( $noCache )
+                    $extraData['noCache'] = true;
                 if ( $extraData !== null )
                     $args[] = $extraData;
                 $fileData = call_user_func_array( $generateCallback, $args );
@@ -287,11 +300,6 @@ class eZFS2FileHandler extends eZFSFileHandler
     */
     function storeCache( $fileData, $storeCache = true )
     {
-        // if generation timedout, the .generating file's timeout has changed,
-        // and we must not store the cache file
-        if ( !$this->checkCacheGenerationTimeout() )
-            $storeCache = false;
-
         $scope       = false;
         $datatype    = false;
         $binaryData  = null;
@@ -313,6 +321,11 @@ class eZFS2FileHandler extends eZFSFileHandler
         else
             $binaryData = $fileData;
 
+        // if generation timedout, the .generating file's timeout has changed,
+        // and we must not store the cache file
+        if ( $store and !$this->checkCacheGenerationTimeout() )
+            $storeCache = false;
+
         $mtime = false;
         $result = null;
         if ( $binaryData === null &&
@@ -333,7 +346,7 @@ class eZFS2FileHandler extends eZFSFileHandler
         // stale cache handling: we just return the result, no lock has been set
         if ( $this->useStaleCache )
         {
-            eZDebugSetting::writeDebug( 'kernel-clustering', "Returning locally generated data without storing" );
+            eZDebugSetting::writeDebug( 'kernel-clustering', "Returning locally generated data without storing", __METHOD__ );
             return $result;
         }
 

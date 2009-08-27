@@ -387,10 +387,11 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface
     **/
     function processCache( $retrieveCallback, $generateCallback = null, $ttl = null, $expiry = null, $extraData = null )
     {
-        $forceDB = false;
+        $forceDB   = false;
         $timestamp = null;
         $curtime   = time();
         $tries     = 0;
+        $noCache   = false;
 
         if ( $expiry < 0 )
             $expiry = null;
@@ -431,7 +432,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface
                         else
                         {
                             // Local file is older than global timestamp, check with DB
-                            eZDebugSetting::writeDebug( 'kernel-clustering', "Local file (mtime=" . @filemtime( $this->filePath ) . ") is older than timestamp ($expiry) and ttl($ttl), check with DB" );
+                            eZDebugSetting::writeDebug( 'kernel-clustering', "Local file (mtime=" . @filemtime( $this->filePath ) . ") is older than timestamp ($expiry) and ttl($ttl), check with DB", __METHOD__ );
                             $forceDB = true;
                         }
                     }
@@ -443,9 +444,9 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface
                     if ( !$this->useStaleCache && ( $this->metaData === false || $this->metaData['mtime'] < 0 ) )
                     {
                         if ( $generateCallback !== false )
-                            eZDebugSetting::writeDebug( 'kernel-clustering', "Database file is deleted, need to regenerate data" );
+                            eZDebugSetting::writeDebug( 'kernel-clustering', "Database file is deleted, need to regenerate data", __METHOD__ );
                         else
-                            eZDebugSetting::writeDebug( 'kernel-clustering', "Database file is deleted, cannot get data" );
+                            eZDebugSetting::writeDebug( 'kernel-clustering', "Database file is deleted, cannot get data", __METHOD__ );
                         break;
                     }
 
@@ -508,7 +509,6 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface
                         {
                             while ( $this->remainingCacheGenerationTime-- >= 0 )
                             {
-                                eZDebug::writeDebug( $this->remainingCacheGenerationTime, '$this->remainingCacheGenerationTime' );
                                 // we don't know if the file gets generated on the current
                                 // frontend or not. However, we can still try the FS cache
                                 // first, then the DB cache if FS is not found, since this
@@ -552,7 +552,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface
                         // no cache available, but a generate callback exists, skip to generation
                         if ( $generateCallback !== false )
                         {
-                            eZDebugSetting::writeDebug( 'kernel-clustering', "Database file is deleted, need to regenerate data" );
+                            eZDebugSetting::writeDebug( 'kernel-clustering', "Database file is deleted, need to regenerate data", __METHOD__ );
 
                             // we break out of one loop so that the generateCallback is called
                             break;
@@ -560,7 +560,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface
                         // if no generate callback exists, we can directly skip the main loop
                         else
                         {
-                            eZDebugSetting::writeDebug( 'kernel-clustering', "Database file is deleted, cannot get data" );
+                            eZDebugSetting::writeDebug( 'kernel-clustering', "Database file is deleted, cannot get data", __METHOD__ );
 
                             // we break out of two loops so that we directly exit the method and have
                             // the rest of execution generate the data
@@ -606,29 +606,40 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface
                             return $retval;
                         }
                     }
-                    eZDebugSetting::writeDebug( 'kernel-clustering', "Database file does not exist, need to regenerate data" );
+                    eZDebugSetting::writeDebug( 'kernel-clustering', "Database file does not exist, need to regenerate data", __METHOD__ );
                     break;
                 }
             }
 
             if ( $tries >= 2 )
             {
-                eZDebugSetting::writeDebug( 'kernel-clustering', "Reading was retried $tries times and reached the maximum, returning null" );
+                eZDebugSetting::writeDebug( 'kernel-clustering', "Reading was retried $tries times and reached the maximum, returning null", __METHOD__ );
                 return null;
             }
 
             // Generation part starts here
             if ( isset( $retval ) && $retval instanceof eZClusterFileFailure )
             {
-                if ( $retval->errno() != 1 ) // check for non-expiry error codes
+                // bd@ez.no - this error means that the retrieve callback told
+                // us NOT to enter generation mode and therefore NOT to store this
+                // cache
+                // This parameter will then be passed to the generate callback,
+                // and this will set store to false
+                if ( $retval->errno() == 3 )
                 {
-                    eZDebug::writeError( "Failed to retrieve data from callback", 'eZDBFileHandler::processCache' );
+                    $noCache = true;
+                }
+
+                // check for non-expiry error codes
+                elseif ( $retval->errno() != 1 )
+                {
+                    eZDebug::writeError( "Failed to retrieve data from callback", __METHOD__ );
                     return null;
                 }
                 $message = $retval->message();
                 if ( strlen( $message ) > 0 )
                 {
-                    eZDebugSetting::writeDebug( 'kernel-clustering', $retval->message(), "eZClusterFileFailure::processCache" );
+                    eZDebugSetting::writeDebug( 'kernel-clustering', $retval->message(), __METHOD__ );
                 }
                 // the retrieved data was expired so we need to generate it, let's continue
             }
@@ -639,7 +650,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface
             // is deferred to the processing that follows (f.i. cache-blocks)
             if ( $generateCallback !== false && $this->filePath )
             {
-                if ( !$this->useStaleCache )
+                if ( !$this->useStaleCache && !$noCache )
                 {
                     $res = $this->startCacheGeneration();
                     if ( $res !== true )
@@ -656,6 +667,8 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface
                 if ( $generateCallback )
                 {
                     $args = array( $this->filePath );
+                    if ( $noCache )
+                        $extraData['noCache'] = $noCache;
                     if ( $extraData !== null )
                         $args[] = $extraData;
                     $fileData = call_user_func_array( $generateCallback, $args );
@@ -748,18 +761,13 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface
      **/
     public function storeCache( $fileData )
     {
-        // This checks if we entered timeout and got our generating file stolen
-        // If this happens, we don't store our cache
-        if ( !$this->checkCacheGenerationTimeout() )
-            $storeCache = false;
-        else
-            $storeCache = true;
-
         $scope       = false;
         $datatype    = false;
         $binaryData  = null;
         $fileContent = null;
         $store       = true;
+        $storeCache  = false;
+
         if ( is_array( $fileData ) )
         {
             if ( isset( $fileData['scope'] ) )
@@ -776,12 +784,17 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface
         else
             $binaryData = $fileData;
 
+        // This checks if we entered timeout and got our generating file stolen
+        // If this happens, we don't store our cache
+        if ( $store and $this->checkCacheGenerationTimeout() )
+            $storeCache = true;
+
         $mtime = false;
         $result = null;
         if ( $binaryData === null &&
              $fileContent === null )
         {
-            eZDebug::writeError( "Write callback need to set the 'content' or 'binarydata' entry" );
+            eZDebug::writeError( "Write callback need to set the 'content' or 'binarydata' entry for '{$this->filePath}'", __METHOD__ );
             $this->abortCacheGeneration();
             return null;
         }
@@ -797,22 +810,27 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface
         if ( !$this->filePath )
             return $result;
 
-        // no store advice, we just return the result
+        // no store advice from cache generation timeout or disabled viewcache,
+        // we just return the result
         if ( !$storeCache )
         {
+            eZDebugSetting::writeDebug( 'kernel-clustering',
+                "Not storing this cache", __METHOD__ );
             return $result;
         }
 
         // stale cache handling: we just return the result, no lock has been set
         if ( $this->useStaleCache )
         {
+            eZDebugSetting::writeDebug( 'kernel-clustering', "Stalecache mode enabled for this cache",
+                "dfs::storeCache( {$this->filePath} )" );
             // we write the generated cache to disk if it does not exist yet,
             // to speed up the next uncached operation
             // This file will be overwritten by the real file
             clearstatcache();
             if ( !file_exists( $this->filePath ) )
             {
-                eZDebugSetting::writeDebug( 'kernel-clustering', "Writing stale file content to local file {$this->filePath}" );
+                eZDebugSetting::writeDebug( 'kernel-clustering', "Writing stale file content to local file {$this->filePath}", __METHOD__ );
                 eZFile::create( basename( $this->filePath ), dirname( $this->filePath ), $binaryData, true );
             }
             return $result;
@@ -833,13 +851,12 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface
         // we end the cache generation process, so that the .generating file
         // is removed (we don't need to rename since contents was already stored
         // above, using fileStoreContents
-        // $this->endCacheGeneration( false );
         $this->endCacheGeneration();
 
         if ( self::LOCAL_CACHE )
         {
             eZDebugSetting::writeDebug( 'kernel-clustering',
-                "Creating local copy of the file", "dfs::storeCache( '{$this->filePath}' )" );
+                "Creating local copy of the file", "dfs::storeCache( '{$this->filePath}' )", __METHOD__ );
             eZFile::create( basename( $this->filePath ), dirname( $this->filePath ), $binaryData, true );
         }
 
