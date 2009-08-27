@@ -620,9 +620,9 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface
             // Generation part starts here
             if ( isset( $retval ) && $retval instanceof eZClusterFileFailure )
             {
-                // bd@ez.no - this error means that the retrieve callback told
+                // This error means that the retrieve callback told
                 // us NOT to enter generation mode and therefore NOT to store this
-                // cache
+                // cache.
                 // This parameter will then be passed to the generate callback,
                 // and this will set store to false
                 if ( $retval->errno() == 3 )
