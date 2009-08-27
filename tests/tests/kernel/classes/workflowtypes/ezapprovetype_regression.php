@@ -33,13 +33,15 @@ class eZApproveTypeRegression extends ezpDatabaseTestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
         // Remove trigger
         eZTrigger::removeTriggerForWorkflow( $this->workflow->attribute( 'id' ) );
 
         // Log in as whoever was logged in
         eZUser::setCurrentlyLoggedInUser( $this->currentUser, $this->currentUser->attribute( 'id' ) );
+
+        // Important that the parent method is run AFTER changes are done to the database.
+        parent::tearDown();
+
     }
 
     /**
