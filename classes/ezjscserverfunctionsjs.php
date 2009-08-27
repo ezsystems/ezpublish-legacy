@@ -180,8 +180,7 @@ YUI( YUI3_config ).add('io-ez', function( Y )
         static $cachedIndexDir = null;
     	if ( $cachedIndexDir === null )
         {
-            $sys = eZSys::instance();
-            $cachedIndexDir = $sys->indexDir() . '/';
+            $cachedIndexDir = eZSys::indexDir() . '/';
         }
         return $cachedIndexDir;
     }
