@@ -16,11 +16,36 @@ class ezpObject
      */
     private $properties = array();
 
+    /**
+     * Contains the result of the last publish operation
+     * @var mixed
+     **/
+    public $operationResult;
 
-    public function __construct( $classIdentifier, $parentNodeID = false, $creatorID = 14, $section = 1 )
+    /**
+     * @var eZContentObject
+     **/
+    public $object;
+
+    /**
+     * @var eZContentClass
+     **/
+    public $class;
+
+    /**
+     * @var ezpNode
+     **/
+    public $mainNode;
+
+    /**
+     * @var array(eZContentObjectTreeNode)
+     **/
+    public $nodes;
+
+    public function __construct( $classIdentifier, $parentNodeID = false, $creatorID = 14, $section = 1, $languageCode = false )
     {
         $this->class = eZContentClass::fetchByIdentifier( $classIdentifier );
-        $this->object = $this->class->instantiate( $creatorID, $section );
+        $this->object = $this->class->instantiate( $creatorID, $section, false, $languageCode );
 
         // Create main node
         if ( is_numeric( $parentNodeID ) )
@@ -134,7 +159,7 @@ class ezpObject
 
     public function publish()
     {
-        self::publishContentObject( $this->object );
+        $this->operationResult = self::publishContentObject( $this->object );
 
         return $this->object->attribute( 'id' );
     }
@@ -168,8 +193,8 @@ class ezpObject
             $versionNumber = $object->attribute( 'current_version' );
         }
 
-        $result = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $objectID,
-                                                                            'version' => $versionNumber ) );
+        return eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $objectID,
+                                                                         'version' => $versionNumber ) );
     }
 
     /**
