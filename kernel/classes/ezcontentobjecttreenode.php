@@ -4245,7 +4245,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $currentNode = eZContentObjectTreeNode::fetch( $this->ParentNodeID );
             if ( !$currentNode instanceof eZContentObjectTreeNode )
             {
-                eZDebug::writeWarning( func_get_args(), __METHOD__ );
                 return 0;
             }
             $contentObject = $currentNode->attribute( 'object' );
