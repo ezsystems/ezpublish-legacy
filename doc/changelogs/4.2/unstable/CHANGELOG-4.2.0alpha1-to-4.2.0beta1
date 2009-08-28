@@ -50,3 +50,4 @@ Changes from 4.2.0alpha1 to 4.2.0beta1
 - Fixed bug #13888: Don't fetch wildcard cache from cluster on each page request
 - Fixed bug #14850: cache_ttl=0 and stalecache conflict
 - Fixed bug #14569: Install consistently(?) creates AdditionalLoginFormActionURL error
+- Fixed bug #13497: attribute operator throws a PHP fatal error on a node without parent in a displayable language
