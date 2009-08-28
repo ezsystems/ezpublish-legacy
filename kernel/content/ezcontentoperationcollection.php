@@ -298,7 +298,8 @@ class eZContentOperationCollection
                     $parentNode = eZContentObjectTreeNode::fetch( $nodeID );
 
                     $user = eZUser::currentUser();
-                    eZContentBrowseRecent::createNew( $user->id(), $parentNode->attribute( 'node_id' ), $parentNode->attribute( 'name' ) );
+                    if ( !eZSys::isShellExecution() )
+                        eZContentBrowseRecent::createNew( $user->id(), $parentNode->attribute( 'node_id' ), $parentNode->attribute( 'name' ) );
                     $updateFields = true;
 
                     $existingNode = $parentNode->addChild( $object->attribute( 'id' ), true );
@@ -1269,6 +1270,20 @@ class eZContentOperationCollection
         eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
 
         return array( 'status' => true );
+    }
+
+    /**
+    * Executes the pre-publish trigger for this object, and handles
+    * specific return statuses from the workflow
+    *
+    * @param int $objectID Object ID
+    * @param int $version Version number
+    *
+    * @since 4.2
+    **/
+    static public function executePrePublishTrigger( $objectID, $version )
+    {
+
     }
 }
 ?>
