@@ -29,6 +29,7 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'eZURLWildcardTest' );
         // $this->addTestSuite( 'eZWebDAVBackendContentRegressionTest' );
         $this->addTestSuite( 'eZLDAPUserTest' );
+        $this->addTestSuite( 'eZSiteInstallerTest' );
     }
 
     public static function suite()
