@@ -298,8 +298,10 @@ class eZContentOperationCollection
                     $parentNode = eZContentObjectTreeNode::fetch( $nodeID );
 
                     $user = eZUser::currentUser();
-                    if ( !eZSys::isShellExecution() )
+                    if ( !eZSys::isShellExecution() and !$user->isAnonymous() )
+                    {
                         eZContentBrowseRecent::createNew( $user->id(), $parentNode->attribute( 'node_id' ), $parentNode->attribute( 'name' ) );
+                    }
                     $updateFields = true;
 
                     $existingNode = $parentNode->addChild( $object->attribute( 'id' ), true );
