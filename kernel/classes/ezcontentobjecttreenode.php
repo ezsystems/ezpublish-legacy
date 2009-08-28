@@ -460,10 +460,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     function canRemoveLocation()
     {
-        echo __FUNCTION__;
         if ( !isset( $this->Permissions['can_remove_location'] ) )
         {
-            echo "Calling checkAccess()\n";
             $this->Permissions['can_remove_location'] = $this->checkAccess( 'can_remove_location' );
         }
         return ( $this->Permissions['can_remove_location'] == 1 );
@@ -4240,7 +4238,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $accessWord = $accessResult['accessWord'];
         if ( $origFunctionName == 'can_remove_location' )
         {
-            // echo "checkAccess( can_remove_location )\n";
             if ( $this->ParentNodeID <= 1 )
             {
                 return 0;
