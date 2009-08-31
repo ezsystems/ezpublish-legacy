@@ -57,9 +57,19 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
         $this->setName( "eZUser Datatype LDAP Tests" );
     }
 
+    public static function ldapIsEnabled()
+    {
+        return function_exists( 'ldap_search' );
+    }
+
     public function setUp()
     {
         parent::setUp();
+
+        if ( !self::ldapIsEnabled() )
+        {
+            return;
+        }
 
         // Setup the LDAP user data
         require_once( 'tests/tests/kernel/datatypes/ezuser/setup_accounts.php' );
@@ -160,6 +170,12 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
      */
     public function testLoginUserUseGroupAttributeNoGroupMatch()
     {
+        if ( !self::ldapIsEnabled() )
+        {
+            $this->markTestSkipped( 'LDAP is not loaded' );
+            return;
+        }
+
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMappingType', 'UseGroupAttribute' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroupAttributeType', 'name' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroupAttribute', 'ou' );
@@ -184,6 +200,12 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
      */
     public function testLoginUserUseGroupAttributeHasGroupMatch()
     {
+        if ( !self::ldapIsEnabled() )
+        {
+            $this->markTestSkipped( 'LDAP is not loaded' );
+            return;
+        }
+
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMappingType', 'UseGroupAttribute' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroupAttributeType', 'name' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroupAttribute', 'ou' );
@@ -210,6 +232,12 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
      */
     public function testLoginUserSimpleMapping()
     {
+        if ( !self::ldapIsEnabled() )
+        {
+            $this->markTestSkipped( 'LDAP is not loaded' );
+            return;
+        }
+
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMappingType', 'SimpleMapping' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupNameAttribute', 'ou' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMemberAttribute', 'seeAlso' );
@@ -247,6 +275,12 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
      */
     public function testLoginUserSimpleMappingExistingUser()
     {
+        if ( !self::ldapIsEnabled() )
+        {
+            $this->markTestSkipped( 'LDAP is not loaded' );
+            return;
+        }
+
         // First login, to get an existing user object
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMappingType', 'SimpleMapping' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupNameAttribute', 'ou' );
@@ -296,6 +330,12 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
      */
     public function testLoginUserGetGroupsTree()
     {
+        if ( !self::ldapIsEnabled() )
+        {
+            $this->markTestSkipped( 'LDAP is not loaded' );
+            return;
+        }
+
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMappingType', 'GetGroupsTree' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupNameAttribute', 'ou' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMemberAttribute', 'seeAlso' );
