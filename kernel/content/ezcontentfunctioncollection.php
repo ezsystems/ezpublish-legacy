@@ -56,7 +56,7 @@ class eZContentFunctionCollection
         {
             $contentObject = eZContentObject::fetch( $objectID );
         }
-        
+
         if ( $contentObject === null )
         {
             $result = array( 'error' => array( 'error_type' => 'kernel',
@@ -1194,11 +1194,19 @@ class eZContentFunctionCollection
     // Fetches reverse related objects
     static public function fetchRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute, $sortBy, $limit = false, $offset = false, $asObject = true, $loadDataMap = false, $ignoreVisibility = null )
     {
-        if ( !$objectID )
+        if ( !is_numeric( $objectID ) )
         {
-            eZDebug::writeError( "ObjectID is missing" );
+            eZDebug::writeError( "ObjectID is missing or invalid", __METHOD__ );
             return false;
         }
+
+        $object = eZContentObject::fetch( $objectID );
+        if ( !$object instanceof eZContentObject )
+        {
+            eZDebug::writeError( "An error occured fetching object #$objectID", __METHOD__ );
+            return false;
+        }
+
         $params = array();
         $params['Limit'] = $limit;
         $params['Offset'] = $offset;
@@ -1253,18 +1261,22 @@ class eZContentFunctionCollection
             }
         }
 
-        $object = eZContentObject::fetch( $objectID );
-        if ( $object === null )
-            return false;
         return array( 'result' => $object->relatedContentObjectList( false, $objectID, $attributeID, $groupByAttribute, $params ) );
     }
 
         // Fetches count of reverse related objects
     static public function fetchRelatedObjectsCount( $objectID, $attributeID, $allRelations )
     {
-        if ( !$objectID )
+        if ( !is_numeric( $objectID ) )
         {
-            eZDebug::writeError( "ObjectID is missing" );
+            eZDebug::writeError( "ObjectID is missing", __METHOD__ );
+            return false;
+        }
+
+        $object = eZContentObject::fetch( $objectID );
+        if ( !$object instanceof eZContentObject )
+        {
+            eZDebug::writeError( "An error occured fetching object #$objectID", __METHOD__ );
             return false;
         }
 
@@ -1300,14 +1312,24 @@ class eZContentFunctionCollection
             }
         }
 
-        $object = eZContentObject::fetch( $objectID );
-        if ( $object === null )
-            return false;
         return array( 'result' => $object->relatedContentObjectCount( false, $attributeID, $params ) );
     }
 
     static public function fetchReverseRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute, $sortBy, $ignoreVisibility,  $limit = false, $offset = false, $asObject = true, $loadDataMap = false  )
     {
+        if ( !$objectID or !is_numeric( $objectID ) )
+        {
+            eZDebug::writeDebug( "Missing or incorrect \$objectID parameter", __METHOD__ );
+            return false;
+        }
+
+        $object = eZContentObject::fetch( $objectID );
+        if ( !$object instanceof eZContentObject )
+        {
+            eZDebug::writeError( "An error occured fetching object #$objectID", __METHOD__ );
+            return false;
+        }
+
         $params = array();
         $params['Limit'] = $limit;
         $params['Offset'] = $offset;
@@ -1359,12 +1381,25 @@ class eZContentFunctionCollection
                 return false;
             }
         }
-        return array( 'result' => eZContentObject::fetch( $objectID )->reverseRelatedObjectList( false, $attributeID, $groupByAttribute, $params ) );
+        return array( 'result' => $object->reverseRelatedObjectList( false, $attributeID, $groupByAttribute, $params ) );
     }
 
     // Fetches count of reverse related objects
     static public function fetchReverseRelatedObjectsCount( $objectID, $attributeID, $allRelations, $ignoreVisibility  )
     {
+        if ( !is_numeric( $objectID ) )
+        {
+            eZDebug::writeError( "\$objectID is missing or invalid", __METHOD__ );
+            return false;
+        }
+
+        $object = eZContentObject::fetch( $objectID );
+        if ( !$object instanceof eZContentObject )
+        {
+            eZDebug::writeError( "An error occured fetching object #$objectID", __METHOD__ );
+            return false;
+        }
+
         $params = array();
         if ( isset( $ignoreVisibility ) )
         {
@@ -1401,7 +1436,7 @@ class eZContentFunctionCollection
                 return false;
             }
         }
-        return array( 'result' => eZContentObject::fetch( $objectID )->reverseRelatedObjectCount( false, $attributeID, $params ) );
+        return array( 'result' => $object->reverseRelatedObjectCount( false, $attributeID, $params ) );
     }
 
     static public function fetchAvailableSortFieldList()
