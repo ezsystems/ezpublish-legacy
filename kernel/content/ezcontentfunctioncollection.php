@@ -1225,11 +1225,19 @@ class eZContentFunctionCollection
     // Fetches reverse related objects
     function fetchRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute, $sortBy, $ignoreVisibility = null )
     {
-        if ( !$objectID )
+        if ( !is_numeric( $objectID ) )
         {
-            eZDebug::writeError( "ObjectID is missing" );
+            eZDebug::writeError( "ObjectID is missing or invalid", __METHOD__ );
             return false;
         }
+
+        $object = eZContentObject::fetch( $objectID );
+        if ( !$object instanceof eZContentObject )
+        {
+            eZDebug::writeError( "An error occured fetching object #$objectID", __METHOD__ );
+            return false;
+        }
+
         $params = array();
         if ( $sortBy )
         {
@@ -1239,7 +1247,7 @@ class eZContentFunctionCollection
             }
             else
             {
-                eZDebug::writeError( "Function parameter 'SortBy' should be an array.", 'content/fetchRelatedObjects' );
+                eZDebug::writeError( "Function parameter 'SortBy' should be an array.", __METHOD__ );
             }
         }
 
@@ -1271,7 +1279,6 @@ class eZContentFunctionCollection
 
         if ( $attributeID && !is_numeric( $attributeID ) && !is_bool( $attributeID ) )
         {
-            //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
             $attributeID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $attributeID );
             if ( !$attributeID )
             {
@@ -1280,19 +1287,22 @@ class eZContentFunctionCollection
             }
         }
 
-        $object = eZContentObject::fetch( $objectID );
-        if ( $object === null )
-            return false;
-        //include_once( 'kernel/classes/ezcontentobject.php' );
         return array( 'result' => $object->relatedContentObjectList( false, $objectID, $attributeID, $groupByAttribute, $params ) );
     }
 
         // Fetches count of reverse related objects
     function fetchRelatedObjectsCount( $objectID, $attributeID, $allRelations )
     {
-        if ( !$objectID )
+        if ( !is_numeric( $objectID ) )
         {
             eZDebug::writeError( "ObjectID is missing" );
+            return false;
+        }
+
+        $object = eZContentObject::fetch( $objectID );
+        if ( !$object instanceof eZContentObject )
+        {
+            eZDebug::writeError( "An error occured fetching object #$objectID", __METHOD__ );
             return false;
         }
 
@@ -1320,7 +1330,6 @@ class eZContentFunctionCollection
 
         if ( $attributeID && !is_numeric( $attributeID ) && !is_bool( $attributeID ) )
         {
-            //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
             $attributeID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $attributeID );
             if ( !$attributeID )
             {
@@ -1329,15 +1338,24 @@ class eZContentFunctionCollection
             }
         }
 
-        $object = eZContentObject::fetch( $objectID );
-        if ( $object === null )
-            return false;
-        //include_once( 'kernel/classes/ezcontentobject.php' );
         return array( 'result' => $object->relatedContentObjectCount( false, $attributeID, $params ) );
     }
 
     function fetchReverseRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute, $sortBy, $ignoreVisibility )
     {
+        if ( !is_numeric( $objectID ) )
+        {
+            eZDebug::writeError( "ObjectID is missing" );
+            return false;
+        }
+
+        $object = eZContentObject::fetch( $objectID );
+        if ( !$object instanceof eZContentObject )
+        {
+            eZDebug::writeError( "An error occured fetching object #$objectID", __METHOD__ );
+            return false;
+        }
+
         $params = array();
         if ( $sortBy )
         {
@@ -1377,7 +1395,6 @@ class eZContentFunctionCollection
 
         if ( $attributeID && !is_numeric( $attributeID ) && !is_bool( $attributeID ) )
         {
-            //include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
             $attributeID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $attributeID );
             if ( !$attributeID )
             {
@@ -1385,13 +1402,25 @@ class eZContentFunctionCollection
                 return false;
             }
         }
-        //include_once( 'kernel/classes/ezcontentobject.php' );
-        return array( 'result' => eZContentObject::fetch( $objectID )->reverseRelatedObjectList( false, $attributeID, $groupByAttribute, $params ) );
+        return array( 'result' => $object->reverseRelatedObjectList( false, $attributeID, $groupByAttribute, $params ) );
     }
 
     // Fetches count of reverse related objects
     function fetchReverseRelatedObjectsCount( $objectID, $attributeID, $allRelations, $ignoreVisibility  )
     {
+        if ( !is_numeric( $objectID ) )
+        {
+            eZDebug::writeError( "ObjectID is missing" );
+            return false;
+        }
+
+        $object = eZContentObject::fetch( $objectID );
+        if ( !$object instanceof eZContentObject )
+        {
+            eZDebug::writeError( "An error occured fetching object #$objectID", __METHOD__ );
+            return false;
+        }
+
         $params = array();
         if ( isset( $ignoreVisibility ) )
         {
@@ -1430,7 +1459,7 @@ class eZContentFunctionCollection
             }
         }
         //include_once( 'kernel/classes/ezcontentobject.php' );
-        return array( 'result' => eZContentObject::fetch( $objectID )->reverseRelatedObjectCount( false, $attributeID, $params ) );
+        return array( 'result' => $object->reverseRelatedObjectCount( false, $attributeID, $params ) );
     }
 
     function fetchAvailableSortFieldList()
