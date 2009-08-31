@@ -64,3 +64,8 @@ An HTTP 1.1 500 error will be thrown when a fatal error occurs.
 Removed features
 ----------------
 The deprecated form module has been removed.
+
+Removed methods
+---------------
+Deprecated and removed eZExpiryHandler::IsModified() as it wasn't useful. Use
+the property eZExpiryHandler->IsModified instead.

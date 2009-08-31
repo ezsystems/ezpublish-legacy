@@ -77,21 +77,24 @@ class eZExpiryHandler
     */
     function store()
     {
-        $cacheDirectory = eZSys::cacheDirectory();
-
-        $storeString = "<?php\n\$Timestamps = array( ";
-        $i = 0;
-        foreach ( $this->Timestamps as $key => $value )
+        if ( $this->IsModified )
         {
-            if ( $i > 0 )
-                $storeString .= ",\n" . str_repeat( ' ', 21 );
-            $storeString .= "'$key' => $value";
-            ++$i;
-        }
-        $storeString .= " );\n?>";
+            $cacheDirectory = eZSys::cacheDirectory();
 
-        $this->CacheFile->storeContents( $storeString, 'expirycache', false, true );
-        $this->IsModified = false;
+            $storeString = "<?php\n\$Timestamps = array( ";
+            $i = 0;
+            foreach ( $this->Timestamps as $key => $value )
+            {
+                if ( $i > 0 )
+                    $storeString .= ",\n" . str_repeat( ' ', 21 );
+                $storeString .= "'$key' => $value";
+                ++$i;
+            }
+            $storeString .= " );\n?>";
+
+            $this->CacheFile->storeContents( $storeString, 'expirycache', false, true );
+            $this->IsModified = false;
+        }
     }
 
     /*!
@@ -164,25 +167,13 @@ class eZExpiryHandler
     }
 
     /*!
-     \return true if the expiry handler has modified data.
-    */
-    function isModified()
-    {
-        return $this->IsModified;
-    }
-
-    /*!
      Called at the end of execution and will store the data if it is modified.
     */
     static function shutdown()
     {
         if ( eZExpiryHandler::hasInstance() )
         {
-            $instance = eZExpiryHandler::instance();
-            if ( $instance->isModified() )
-            {
-                $instance->store();
-            }
+            eZExpiryHandler::instance()->store();
         }
     }
 
@@ -200,6 +191,11 @@ class eZExpiryHandler
     private static $isShutdownFunctionRegistered = false;
 
     public $Timestamps;
+
+    /**
+    * Wether data has been modified or not
+    * @var bool
+    **/
     public $IsModified;
 }
 

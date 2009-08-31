@@ -12,6 +12,7 @@ Changes from 4.2.0alpha1 to 4.2.0beta1
 - Implemented enhancement #15093: Missing session cleanup script / cronjob for Debian based distroes
 - Implemented enhancement #13044: attribute filter and sort by contentobject/node id support
 - Implemented enhancement #14422: eZPublish Fatal errors should send a 500 HTTP error
+- Implemented enhancement #15284: ezexpiryhandler missing test before saving file
 
 *Design:
 
