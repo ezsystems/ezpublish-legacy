@@ -55,3 +55,4 @@ Changes from 4.2.0alpha1 to 4.2.0beta1
 - Fixed bug #13497: attribute operator throws a PHP fatal error on a node without parent in a displayable language
 - Fixed bug #15328: Problem in function validateObjectAttributeHTTPInput in class ezemailtype.php
 - Fixed bug #15288: eZContentBrowseRecent executed/updated on shell
+- Fixed bug #15211: php fatal error when fetchalias called without second param

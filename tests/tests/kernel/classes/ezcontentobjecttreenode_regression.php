@@ -66,6 +66,31 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
     }
 
     /**
+    * Test for regression #15211
+    *
+    * The issue was reported as happening when a fetch_alias was called without
+    * a second parameter. It turns out that this was just wrong, but led to the
+    * following: if eZContentObjectTreeNode::createAttributeFilterSQLStrings
+    * is called with the first parameter ($attributeFilter) is a string, a fatal
+    * error "Cannot unset string offsets" is thrown.
+    *
+    * Test: Call this function with a string as the first parameter. Without the
+    * fix, a fatal error occurs, while an empty filter is returned once fixed.
+    **/
+    public function testIssue15211()
+    {
+        $attributeFilter = "somestring";
+
+        // Without the fix, this is a fatal error
+        $filterSQL = eZContentObjectTreeNode::createAttributeFilterSQLStrings(
+            $attributeFilter );
+
+        $this->assertType( 'array', $filterSQL );
+        $this->assertArrayHasKey( 'from', $filterSQL );
+        $this->assertArrayHasKey( 'where', $filterSQL );
+    }
+
+    /**
     * Changes an INI setting value
     *
     * @param string $file INI filename
