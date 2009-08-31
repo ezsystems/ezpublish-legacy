@@ -964,6 +964,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         if ( isset( $attributeFilter ) && $attributeFilter !== false )
         {
+            if ( !is_array( $attributeFilter ) )
+            {
+                eZDebug::writeError( "\$attributeFilter needs to be an array", __METHOD__  );
+                return $filterSQL;
+            }
+
             $filterArray = $attributeFilter;
 
             // Check if first value of array is a string.
