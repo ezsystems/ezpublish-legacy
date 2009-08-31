@@ -195,7 +195,7 @@ function eZDBCleanup()
 
 function eZFatalError()
 {
-    //eZDebug::setHandleType( eZDebug::HANDLE_NONE );
+    header("HTTP/1.1 500 Internal Server Error");
     print( "<b>Fatal error</b>: eZ Publish did not finish its request<br/>" );
     print( "<p>The execution of eZ Publish was abruptly ended, the debug output is present below.</p>" );
     $templateResult = null;
@@ -565,8 +565,8 @@ while ( $moduleRunRequired )
         $runModuleView = true;
 
         $availableViewsInModule = $module->attribute( 'views' );
-        if ( !isset( $availableViewsInModule[$function_name] ) 
-                && !$objectHasMovedError 
+        if ( !isset( $availableViewsInModule[$function_name] )
+                && !$objectHasMovedError
                     && !isset( $module->Module['function']['script'] ) )
         {
             $moduleResult = $module->handleError( eZError::KERNEL_MODULE_VIEW_NOT_FOUND, 'kernel' );

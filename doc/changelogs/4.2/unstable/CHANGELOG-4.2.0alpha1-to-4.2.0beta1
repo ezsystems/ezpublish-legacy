@@ -11,6 +11,7 @@ Changes from 4.2.0alpha1 to 4.2.0beta1
 - Implemented enhancement #15334: LDAP GetGroupsTree should be able to find groups in multiple tree levels
 - Implemented enhancement #15093: Missing session cleanup script / cronjob for Debian based distroes
 - Implemented enhancement #13044: attribute filter and sort by contentobject/node id support
+- Implemented enhancement #14422: eZPublish Fatal errors should send a 500 HTTP error
 
 *Design:
 
@@ -52,4 +53,4 @@ Changes from 4.2.0alpha1 to 4.2.0beta1
 - Fixed bug #14569: Install consistently(?) creates AdditionalLoginFormActionURL error
 - Fixed bug #13497: attribute operator throws a PHP fatal error on a node without parent in a displayable language
 - Fixed bug #15328: Problem in function validateObjectAttributeHTTPInput in class ezemailtype.php
-- Fixed bug #015288: eZContentBrowseRecent executed/updated on shell
+- Fixed bug #15288: eZContentBrowseRecent executed/updated on shell
