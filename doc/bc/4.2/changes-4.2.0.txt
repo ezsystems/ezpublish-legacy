@@ -56,3 +56,7 @@ fetch, fetchBySourceURL, fetchList, fetchListCount, translate, expireCache,
 fetchCacheFile (callback for the cluster handler).
 
 Signatures for the public methods haven't changed.
+
+HTTP behaviour changes
+----------------------
+An HTTP 1.1 500 error will be thrown when a fatal error occurs.
