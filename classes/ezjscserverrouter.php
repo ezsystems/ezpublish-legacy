@@ -96,11 +96,13 @@ class ezjscServerRouter
         {
             // return null if ini is not defined as a safty messure
             // to avoid letting user call all eZ Publish classes
+            echo '/* 1 */';
             return null;
         }
 
         if ( $checkFunctionExistence && !self::staticHasFunction( $className, $functionName, $isTemplateFunction  ) )
         {
+            echo '/* 2 */';
             return null;
         }
 
@@ -108,6 +110,7 @@ class ezjscServerRouter
         {
         	if ( !self::hasAccess( $permissionFunctions, ( $permissionPrFunction ? $functionName : null ) ) )
         	{
+        	    echo '/* 3 */';
         	    return null;
         	}
         }
@@ -128,23 +131,22 @@ class ezjscServerRouter
     /**
      * Gets the cache time ( modified time ) for use when chaching the response.
      *
-     * @param int $lastmodified
      * @param array $environmentArguments Optionall hash of environment variables
      * @return int
      */
-    public function getCacheTime( $lastmodified = 0, $environmentArguments = array()  )
+    public function getCacheTime( $environmentArguments = array()  )
     {
         if ( $this->isTemplateFunction )
         {
-            return $lastmodified;
+            return 0;
         }
         else if ( method_exists( $this->className, 'getCacheTime' ) )
         {
-            return max( $lastmodified, call_user_func( array( $this->className, 'getCacheTime' ), $this->functionName ));
+            return call_user_func( array( $this->className, 'getCacheTime' ), $this->functionName );
         }
         else
         {
-            return $lastmodified;
+            return 0;
         }
     }
 
@@ -158,22 +160,38 @@ class ezjscServerRouter
     public static function hasAccess( $requiredFunctions, $functionName = null )
     {
     	$currentUser = eZUser::currentUser();
+    	$accessResult = $currentUser->hasAccessTo( 'ezjscore', 'call' );
+        if ( $accessResult[ 'accessWord' ] === 'yes'  )
+        {
+            return true;
+        }
+        else if ( $accessResult[ 'accessWord' ] === 'no'  )
+        {
+            return false;
+        }
+
+        // Rest is $accessResult[ 'accessWord' ] === 'limited'
+        $functionName = $functionName !== null ? '_' . $functionName : '';
     	$ezjscoreIni = eZINI::instance( 'ezjscore.ini' );
         $ezjscoreFunctionList = $ezjscoreIni->variable( 'ezjscServer', 'FunctionList' );
         foreach( $requiredFunctions as $requiredFunction )
         {
-        	$permissionName = $requiredFunction . ( $functionName !== null ? '_' . $functionName : ''  );
+        	$permissionName = $requiredFunction . $functionName;
         	if ( !in_array( $permissionName, $ezjscoreFunctionList ) )
         	{
         		eZDebug::writeWarning( "'$permissionName' is not defined in ezjscore.ini[ezjscServer]FunctionList", __METHOD__ );
         		return false;
         	}
 
-        	$accessResult = $currentUser->hasAccessTo( 'ezjscore', 'call_' . $permissionName );
-        	if ( $accessResult[ 'accessWord' ] !== 'yes'  )
-        	{
-        		return false;
-        	}
+             // Something with $accessResult
+             foreach ( $accessResult['policies'] as $pkey => $limitationArray  )
+             {
+                if ( isset( $limitationArray['FunctionList'] ) )
+                {
+                    if ( !in_array( $permissionName, $limitationArray['FunctionList'] ) )
+                        return false;
+                }
+             }
         }
         return true;
     }
@@ -211,7 +229,7 @@ class ezjscServerRouter
      * @param array $environmentArguments
      * @return mixed
      */
-    public function call( $environmentArguments = array()  )
+    public function call( &$environmentArguments = array(), $isPackeStage = false  )
     {
         if ( $this->isTemplateFunction )
         {
@@ -223,7 +241,7 @@ class ezjscServerRouter
         }
         else
         {
-            return call_user_func( array( $this->className, $this->functionName ), $this->functionArguments, $environmentArguments );
+            return call_user_func_array( array( $this->className, $this->functionName ), array( $this->functionArguments, &$environmentArguments, $isPackeStage ) );
         }
     }
     

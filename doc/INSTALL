@@ -35,7 +35,7 @@ Using eZ JSCore Server functions from javascript
 
 Yui 3.0 (uses Y.io):
 
-{ezscript('ezjsc::yui3')}
+{ezscript_require(array( 'ezjsc::yui3', 'ezjsc::yui3io') )}
 <script type="text/javascript">
 {literal}
 YUI( YUI3_config ).use('io-ez', function( Y )
@@ -48,7 +48,7 @@ YUI( YUI3_config ).use('io-ez', function( Y )
 
 jQuery (uses jQuery.post):
 
-{ezscript('ezjsc::jquery')}
+{ezscript_require(array( 'ezjsc::jquery', 'ezjsc::jqueryio') )}
 <script type="text/javascript">
 {literal}
     jQuery.ez( 'ezjsc::time', {postData: 'hi!'}, function(data){ alert(data.error_text || data.content) } );

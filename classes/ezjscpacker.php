@@ -70,7 +70,7 @@ class ezjscPacker
      * @param bool $wwwInCacheHash To add www path in cahce hash or not
      * @return string Html with generated tags
      */
-    static function buildJavascriptTag( $scriptFiles, $type = 'text/javascript', $lang = '', $charset = 'utf-8', $packLevel = 2, $wwwInCacheHash = false )
+    static function buildJavascriptTag( $scriptFiles, $type = 'text/javascript', $lang = '', $charset = 'utf-8', $packLevel = 2, $wwwInCacheHash = true )
     {
         $ret = '';
         $lang = $lang ? ' language="' . $lang . '"' : '';
@@ -80,7 +80,7 @@ class ezjscPacker
         foreach ( $packedFiles as $packedFile )
         {
             // Is this a js file or js content?
-            if ( isset( $packedFile{4} ) && strripos( $packedFile, '.js' ) === ( strlen( $packedFile ) -3 ) )
+            if ( isset( $packedFile[4] ) && strripos( $packedFile, '.js' ) === ( strlen( $packedFile ) -3 ) )
             {
                 if ( $useFullUrl )
                 {
@@ -117,7 +117,7 @@ class ezjscPacker
         foreach ( $packedFiles as $packedFile )
         {
             // Is this a css file or css content?
-            if ( isset( $packedFile{5} ) && strripos( $packedFile, '.css' ) === ( strlen( $packedFile ) -4 ) )
+            if ( isset( $packedFile[5] ) && strripos( $packedFile, '.css' ) === ( strlen( $packedFile ) -4 ) )
             {
                 if ( $useFullUrl )
                 {
@@ -142,7 +142,7 @@ class ezjscPacker
      * @param bool $wwwInCacheHash To add www path in cahce hash or not
      * @return array List of javascript files
      */
-    static function buildJavascriptFiles( $scriptFiles, $packLevel = 2, $wwwInCacheHash = false )
+    static function buildJavascriptFiles( $scriptFiles, $packLevel = 2, $wwwInCacheHash = true )
     {
         return ezjscPacker::packFiles( $scriptFiles, 'javascript/', '.js', $packLevel, $wwwInCacheHash );
     }
@@ -212,6 +212,7 @@ class ezjscPacker
 
         $cacheName = '';
         $lastmodified = 0;
+        $httpFiles = array();
         $validFiles = array();
         $validWWWFiles = array();
         $bases   = eZTemplateDesignResource::allDesignBases();
@@ -247,37 +248,33 @@ class ezjscPacker
             // if the file name contains :: it is threated as a custom code genarator
             else if ( strpos( $file, '::' ) !== false )
             {
-                $server = ezjscServerRouter::getInstance( explode( '::', $file ) );
-                if ( !$server instanceOf ezjscServerRouter )
-                {
-                    // continue if not valid
-                    eZDebug::writeError( 'Not a valid ezjscServer function: ' . $file, __METHOD__ );
-                    continue;
-                }
+                $server = self::serverCallHelper( explode( '::', $file )  );
                 
-                $lastmodified = $server->getCacheTime( $lastmodified, $packerInfo );
+                $fileTime = $server->getCacheTime( $packerInfo );
 
-                // make sure the function is present on the class
-                if ( !$server->hasFunction() )
-                {
-                    eZDebug::writeError( 'Could not find function: ' . $server->getName() . '()', __METHOD__ );
-                    continue;
-                }
-
-                $validFiles[] = $server;
-                $cacheName   .= $file . '_';
                 // generate content straight away if packing is disabled
                 if ( $packLevel === 0 )
                 {
-                   $validWWWFiles[] = $server->call( $packerInfo );
+                   $validWWWFiles[] = $server->call( $fileArray );
                 }
+                // always generate functions (they modify $fileArray )
+                else if ( $fileTime === -1 )
+                {
+                    $validFiles[] = $server->call( $fileArray );
+                }
+                else
+                {
+                    $validFiles[] = $server;
+                    $cacheName   .= $file . '_';
+                }
+                $lastmodified  = max( $lastmodified, $fileTime );
                 continue;
             }
             // is it a http url  ?
             else if ( strpos( $file, 'http://' ) === 0 || strpos( $file, 'https://' ) === 0 )
             {
-                $fileTime = 0;
-                $wwwFile  = $file;
+                $httpFiles[] = $file;
+                continue;
             }
             // is it a absolute path ?
             else if ( strpos( $file, 'var/' ) === 0 )
@@ -328,7 +325,7 @@ class ezjscPacker
         }
 
         // if packing is disabled, return the valid paths / content we have generated
-        if ( $packLevel === 0 ) return $validWWWFiles;
+        if ( $packLevel === 0 ) return array_merge( $httpFiles, $validWWWFiles );
 
         if ( !$validFiles )
         {
@@ -345,40 +342,44 @@ class ezjscPacker
             // check last modified time and return path to cache file if valid
             if ( $lastmodified <= filemtime( $cachePath . $cacheName ) )
             {
-                return array( $packerInfo['www_dir'] . $cachePath . $cacheName );
+                $httpFiles[] = $packerInfo['www_dir'] . $cachePath . $cacheName;
+                return $httpFiles;
             }
         }
 
         // Merge file content and create new cache file
         $content = '';
-        foreach ( $validFiles as $file )
+        foreach( $validFiles as $file)
         {
+            // if this is a js / css generator, call to get content
+            if ( $file instanceOf ezjscServerRouter )
+            {
+                $content .= $file->call( $validFiles );
+                continue;
+            }
+            else if ( !$file )
+            {
+                continue;
+            }
 
-           // if this is a js / css generator, call to get content
-           if ( $file instanceOf ezjscServerRouter )
-           {
-               $content .= $file->call( $packerInfo );
-               continue;
-           }
+            // else, get content of normal file
+            $fileContent = file_get_contents( $file );
 
-           // else, get content of normal file
-           $fileContent = file_get_contents( $file );
+            if ( !trim( $fileContent ) )
+            {
+                $content .= "/* empty: $file */\r\n";
+                continue;
+            }
 
-           if ( !trim( $fileContent ) )
-           {
-               $content .= "/* empty: $file */\r\n";
-               continue;
-           }
-
-           // we need to fix relative background image paths if this is a css file
-           if ( strpos($fileExtension, '.css') !== false )
-           {
+            // we need to fix relative background image paths if this is a css file
+            if ( strpos($fileExtension, '.css') !== false )
+            {
                 $fileContent = ezjscPacker::fixImgPaths( $fileContent, $file );
-           }
+            }
 
-           $content .= "/* start: $file */\r\n";
-           $content .= $fileContent;
-           $content .= "\r\n/* end: $file */\r\n\r\n";
+            $content .= "/* start: $file */\r\n";
+            $content .= $fileContent;
+            $content .= "\r\n/* end: $file */\r\n\r\n";
         }
 
         // Pack the file to save bandwidth
@@ -393,7 +394,8 @@ class ezjscPacker
         // save file and return path if sucsessfull
         if( eZFile::create( $cacheName, $cachePath, $content ) )
         {
-            return array( $packerInfo['www_dir'] . $cachePath . $cacheName );
+            $httpFiles[] = $packerInfo['www_dir'] . $cachePath . $cacheName;
+            return $httpFiles;
         }
 
         return array();
@@ -498,6 +500,29 @@ class ezjscPacker
             $script = JSMin::minify( $script );
         }
         return $script;
+    }
+    
+    /**
+     * Heøpser function to get and validate server functions
+     *
+     * @param string $strServerCall
+     * @return ezjscServerRouter|null
+     */
+    static function serverCallHelper( $strServerCall )
+    {
+        $server = ezjscServerRouter::getInstance( $strServerCall );
+        if ( !$server instanceOf ezjscServerRouter )
+        {
+            eZDebug::writeError( 'Not a valid ezjscServer function: ' . $file, __METHOD__ );
+            return null;
+        }
+        // make sure the function is present on the class
+        if ( !$server->hasFunction() )
+        {
+            eZDebug::writeError( 'Could not find function: ' . $server->getName() . '()', __METHOD__ );
+            return null;
+        }
+        return $server;
     }
 }
 

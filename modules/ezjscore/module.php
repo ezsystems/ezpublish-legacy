@@ -48,17 +48,25 @@ $ViewList['run'] = array(
     'params' => array( )
     );
 
-$FunctionList = array();
-$FunctionList['run'] = array();
+
+
+$ezjscServerFunctionList = array(
+    'name'=> 'FunctionList',
+    'values'=> array()
+    );
 
 $iniFunctionList = eZINI::instance('ezjscore.ini')->variable( 'ezjscServer', 'FunctionList' );
-
 foreach ( $iniFunctionList as $iniFunction )
 {
-    $FunctionList[ 'call_' . $iniFunction ] = array();
+    $ezjscServerFunctionList['values'][] = array(
+               'Name' => $iniFunction,
+               'value' => $iniFunction
+    );
 } 
 
-
+$FunctionList = array();
+$FunctionList['run'] = array();
+$FunctionList['call'] = array( 'FunctionList' => $ezjscServerFunctionList );
 
 
 ?>

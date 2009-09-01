@@ -48,12 +48,96 @@ class ezjscServerFunctionsJs extends ezjscServerFunctions
     }
 
     /**
+     * Figgures out where to load yui2 files from and prepends them to $packerFiles
+     *
+     * @param array $args
+     * @param array $packerFiles ByRef list of files to pack (by ezjscPacker)
+     * @return string YUI 2.0 JavaScript config string
+     */
+    public static function yui2( $args, &$packerFiles )
+    {
+        $ezjscoreIni = eZINI::instance( 'ezjscore.ini' );
+        if ( $ezjscoreIni->variable( 'eZJSCore', 'LoadFromCDN' ) === 'enabled' )
+        {
+            $scriptFiles = $ezjscoreIni->variable( 'eZJSCore', 'ExternalScripts' );
+            $packerFiles = array_merge( array( $scriptFiles['yui2'], 'ezjsc::yui2conf' ), $packerFiles );
+        }
+        else
+        {
+            $scriptFiles = $ezjscoreIni->variable( 'eZJSCore', 'LocaleScripts' );
+            $scriptBases = $ezjscoreIni->variable( 'eZJSCore', 'LocaleScriptBasePath' );
+            $packerFiles = array_merge( array( $scriptFiles['yui2'], 'ezjsc::yui2conf::' . $scriptBases['yui2'] ), $packerFiles );
+        }
+        return '';
+    }
+    
+    /**
+     * Yui2 config as requested by {@link ezjscServerFunctionsJs::yui2()}
+     *
+     * @param array $args First value is base bath if set
+     * @return string YUI 2.0 JavaScript config string
+     */
+    public static function yui2conf( $args )
+    {
+        if ( isset( $args[0] ) )
+        {
+            return 'var YUILoader =  new YAHOO.util.YUILoader({
+                base: \'' . self::getDesignFile( $args[0] ) . '\',
+                loadOptional: true
+            });';
+        }
+
+        return 'var YUILoader =  new YAHOO.util.YUILoader({
+            loadOptional: true,
+            combine: true
+        });';
+    }
+
+    /**
+     * Figgures out where to load yui3 files from and prepends them to $packerFiles
+     *
+     * @param array $args
+     * @param array $packerFiles ByRef list of files to pack (by ezjscPacker)
+     * @return string Empty string
+     */
+    public static function yui3( $args, &$packerFiles )
+    {
+        $ezjscoreIni = eZINI::instance( 'ezjscore.ini' );
+        if ( $ezjscoreIni->variable( 'eZJSCore', 'LoadFromCDN' ) === 'enabled' )
+        {
+            $scriptFiles = $ezjscoreIni->variable( 'eZJSCore', 'ExternalScripts' );
+            $packerFiles = array_merge( array( $scriptFiles['yui3'], 'ezjsc::yui3conf' ), $packerFiles );
+        }
+        else
+        {
+            $scriptFiles = $ezjscoreIni->variable( 'eZJSCore', 'LocaleScripts' );
+            $scriptBases = $ezjscoreIni->variable( 'eZJSCore', 'LocaleScriptBasePath' );
+            $packerFiles = array_merge( array( $scriptFiles['yui3'], 'ezjsc::yui3conf::' . $scriptBases['yui3'] ), $packerFiles );
+        }
+        return '';
+    }
+
+    /**
+     * Yui3 config as requested by {@link ezjscServerFunctionsJs::yui3()}
+     *
+     * @param array $args First value is base bath if set
+     * @return string YUI 3.0 JavaScript config string
+     */
+    public static function yui3conf( $args )
+    {
+        if ( isset( $args[0] ) )                
+            return 'var YUI3_config = { \'base\' : \'' . self::getDesignFile( $args[0] ) . '\', modules: {} };';
+
+        return 'var YUI3_config = { modules: {} };';
+    }
+
+    /**
      * Generates the javascript needed to do server calls directly from javascript in yui3.0
      *
      * @param array $args
      * @return string YUI 3.0 JavaScript plugin string
      */
-    public static function yui3( $args )
+    public static function yui3io( $args )
     {
         $url = self::getIndexDir() . 'ezjscore/';
         return "
@@ -115,12 +199,34 @@ YUI( YUI3_config ).add('io-ez', function( Y )
     }
 
     /**
+     * Figgures out where to load jQuery files from and prepends them to $packerFiles
+     *
+     * @param array $args
+     * @param array $packerFiles ByRef list of files to pack (by ezjscPacker)
+     */
+    public static function jquery( $args, &$packerFiles )
+    {
+        $ezjscoreIni = eZINI::instance( 'ezjscore.ini' );
+        if ( $ezjscoreIni->variable( 'eZJSCore', 'LoadFromCDN' ) === 'enabled' )
+        {
+            $scriptFiles = $ezjscoreIni->variable( 'eZJSCore', 'ExternalScripts' );
+            $packerFiles = array_merge( array( $scriptFiles['jquery'] ), $packerFiles );
+        }
+        else
+        {
+            $scriptFiles = $ezjscoreIni->variable( 'eZJSCore', 'LocaleScripts' );
+            $packerFiles = array_merge( array( $scriptFiles['jquery'] ), $packerFiles );
+        }
+        return '';
+    }
+
+    /**
      * Generates the javascript needed to do server calls directly from javascript in jquery
      *
      * @param array $args
      * @return string jQuery JavaScript plugin string
      */
-    public static function jquery( $args )
+    public static function jqueryio( $args )
     {
         $url = self::getIndexDir() . 'ezjscore/';
         return "
@@ -162,6 +268,10 @@ YUI( YUI3_config ).add('io-ez', function( Y )
      */
     public static function getCacheTime( $functionName )
     {
+        // Functions that always needs to be executed, since they append other files dynamically
+        if ( $functionName === 'yui3' || $functionName === 'yui2' || $functionName === 'jquery' )
+            return -1;
+
         static $mtime = null;
         if ( $mtime === null )
         {
@@ -183,6 +293,30 @@ YUI( YUI3_config ).add('io-ez', function( Y )
             $cachedIndexDir = eZSys::indexDir() . '/';
         }
         return $cachedIndexDir;
+    }
+
+    /**
+     * Internal function to get current index dir
+     * 
+     * @return string
+     */
+    protected static function getDesignFile( $file )
+    {
+        static $bases = null;
+        static $wwwDir = null;
+        if ( $bases === null )
+            $bases = eZTemplateDesignResource::allDesignBases();
+        if ( $wwwDir === null )
+            $wwwDir = eZSys::wwwDir() . '/';
+
+        $triedFiles = array();
+        $match = eZTemplateDesignResource::fileMatch( $bases, '', $file, $triedFiles );
+        if ( $match === false )
+        {
+            eZDebug::writeWarning( "Could not find: $file", __METHOD__ );
+            return false;
+        }
+        return $wwwDir . htmlspecialchars( $match['path'] );
     }
 }
 

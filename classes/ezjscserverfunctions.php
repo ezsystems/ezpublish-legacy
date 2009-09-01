@@ -38,7 +38,7 @@ class ezjscServerFunctions
      * Cache time for retunrned data, only currently used by ezjscPacker
      *
      * @param string $functionName
-     * @return int Uniq timestamp
+     * @return int Uniq timestamp (can return -1 to signal that $functionName is not cacheable)
      */
     public static function getCacheTime( $functionName )
     {

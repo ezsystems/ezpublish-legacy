@@ -64,7 +64,7 @@ class ezjscPackerTemplateFunctions
 
     function operatorList()
     {
-        return array( 'ezscript', 'ezscriptfiles', 'ezcss', 'ezcssfiles'  );
+        return array( 'ezscript', 'ezscript_require', 'ezscript_load', 'ezscriptfiles', 'ezcss', 'ezcss_require', 'ezcss_load', 'ezcssfiles'  );
     }
 
     function namedParameterPerOperator()
@@ -74,51 +74,65 @@ class ezjscPackerTemplateFunctions
 
     function namedParameterList()
     {
-        return array( 'ezscript' => array( 'script_array' => array( 'type' => 'array',
-                                              'required' => true,
-                                              'default' => array() ),
-                                           'type' => array( 'type' => 'string',
-                                              'required' => false,
-                                              'default' => 'text/javascript' ),
-                                           'language' => array( 'type' => 'string',
-                                              'required' => false,
-                                              'default' => 'javascript' ),
-                                           'charset' => array( 'type' => 'string',
-                                              'required' => false,
-                                              'default' => 'utf-8' ),
-                                           'pack_level' => array( 'type' => 'integer',
-                                              'required' => false,
-                                              'default' => 2 )),
-                      'ezscriptfiles' => array( 'script_array' => array( 'type' => 'array',
-                                              'required' => true,
-                                              'default' => array() ),
-                                           'pack_level' => array( 'type' => 'integer',
-                                              'required' => false,
-                                              'default' => 2 )),
-                      'ezcss' => array( 'css_array' => array( 'type' => 'array',
-                                              'required' => true,
-                                              'default' => array() ),
-                                        'media' => array( 'type' => 'string',
-                                              'required' => false,
-                                              'default' => 'all' ),
-                                        'type' => array( 'type' => 'string',
-                                              'required' => false,
-                                              'default' => 'text/css' ),
-                                        'rel' => array( 'type' => 'string',
-                                              'required' => false,
-                                              'default' => 'stylesheet' ),
-                                        'charset' => array( 'type' => 'string',
-                                              'required' => false,
-                                              'default' => 'utf-8' ),
-                                        'pack_level' => array( 'type' => 'integer',
-                                              'required' => false,
-                                              'default' => 3 ) ),
-                      'ezcssfiles' => array( 'css_array' => array( 'type' => 'array',
-                                              'required' => true,
-                                              'default' => array() ),
-                                        'pack_level' => array( 'type' => 'integer',
-                                              'required' => false,
-                                              'default' => 3 ) ));
+        static $def = null;
+        if ( $def === null )
+        {
+            $def = array( 'ezscript' => array( 'script_array' => array( 'type' => 'array',
+                                                  'required' => true,
+                                                  'default' => array() ),
+                                               'type' => array( 'type' => 'string',
+                                                  'required' => false,
+                                                  'default' => 'text/javascript' ),
+                                               'language' => array( 'type' => 'string',
+                                                  'required' => false,
+                                                  'default' => 'javascript' ),
+                                               'charset' => array( 'type' => 'string',
+                                                  'required' => false,
+                                                  'default' => 'utf-8' ),
+                                               'pack_level' => array( 'type' => 'integer',
+                                                  'required' => false,
+                                                  'default' => 2 )),
+                          'ezscriptfiles' => array( 'script_array' => array( 'type' => 'array',
+                                                  'required' => true,
+                                                  'default' => array() ),
+                                               'pack_level' => array( 'type' => 'integer',
+                                                  'required' => false,
+                                                  'default' => 2 )),
+                          'ezcss' => array( 'css_array' => array( 'type' => 'array',
+                                                  'required' => true,
+                                                  'default' => array() ),
+                                            'media' => array( 'type' => 'string',
+                                                  'required' => false,
+                                                  'default' => 'all' ),
+                                            'type' => array( 'type' => 'string',
+                                                  'required' => false,
+                                                  'default' => 'text/css' ),
+                                            'rel' => array( 'type' => 'string',
+                                                  'required' => false,
+                                                  'default' => 'stylesheet' ),
+                                            'charset' => array( 'type' => 'string',
+                                                  'required' => false,
+                                                  'default' => 'utf-8' ),
+                                            'pack_level' => array( 'type' => 'integer',
+                                                  'required' => false,
+                                                  'default' => 3 ) ),
+                          'ezcssfiles' => array( 'css_array' => array( 'type' => 'array',
+                                                  'required' => true,
+                                                  'default' => array() ),
+                                            'pack_level' => array( 'type' => 'integer',
+                                                  'required' => false,
+                                                  'default' => 3 ) ));
+
+            // Definition for _require and _load is the same as main functons, so copy to keep code size down
+            $def['ezscript_require'] = $def['ezscript'];
+            $def['ezscript_load'] = $def['ezscript'];
+            $def['ezscript_load']['script_array']['required'] = false;
+
+            $def['ezcss_require'] = $def['ezcss'];
+            $def['ezcss_load'] = $def['ezcss'];
+            $def['ezcss_load']['css_array']['required'] = false;
+        }
+        return $def;
     }
 
     function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
@@ -144,7 +158,7 @@ class ezjscPackerTemplateFunctions
                                                      $namedParameters['type'],
                                                      $namedParameters['language'],
                                                      $namedParameters['charset'],
-                                                     $packLevel );                    
+                                                     $packLevel );
             } break;
             case 'ezcss':
             {                    
@@ -153,7 +167,79 @@ class ezjscPackerTemplateFunctions
                                                      $namedParameters['type'],
                                                      $namedParameters['rel'],
                                                      $namedParameters['charset'],
-                                                     $packLevel );                    
+                                                     $packLevel );
+            } break;
+            case 'ezscript_require':
+            {                    
+                // load straight away if already loaded
+                // @todo: check against already loaded list {@link self::setPersistentVariable()}
+                if ( isset( self::$loaded['js_files'] ) )
+                    $ret = ezjscPacker::buildJavascriptTag( $namedParameters['script_array'],
+                                                         $namedParameters['type'],
+                                                         $namedParameters['language'],
+                                                         $namedParameters['charset'],
+                                                         $packLevel );
+
+                self::setPersistentVariable( 'js_files', $namedParameters['script_array'], $tpl, true, true );
+            } break;
+            case 'ezcss_require':
+            {                    
+                // load straight away if already loaded
+                // @todo: check against already loaded list {@link self::setPersistentVariable()}
+                if ( isset( self::$loaded['css_files'] ) )
+                    $ret = ezjscPacker::buildStylesheetTag( $namedParameters['css_array'],
+                                                         $namedParameters['media'],
+                                                         $namedParameters['type'],
+                                                         $namedParameters['rel'],
+                                                         $namedParameters['charset'],
+                                                         $packLevel );
+
+                self::setPersistentVariable( 'css_files', $namedParameters['css_array'], $tpl, true, true );
+            } break;
+            case 'ezscript_load':
+            {                    
+                 if ( !isset( self::$loaded['js_files'] ) )
+                {
+                    $depend = array();
+                    if ( $tpl->hasVariable('persistent_variable') && is_array( $tpl->variable('persistent_variable') ) )
+                    {
+                       $persistentVariable = $tpl->variable('persistent_variable');
+                       if ( isset( $persistentVariable['js_files'] ) )
+                           $depend = array_unique( array_merge( $persistentVariable['js_files'], $namedParameters['script_array'] ) );
+                    }
+                    else if ( self::$persistentVariable !== null && isset( self::$persistentVariable['js_files'] ) )
+                        $depend = array_unique( array_merge( self::$persistentVariable['js_files'], $namedParameters['script_array'] ) );
+    
+                    $ret = ezjscPacker::buildJavascriptTag( $depend,
+                                                         $namedParameters['type'],
+                                                         $namedParameters['language'],
+                                                         $namedParameters['charset'],
+                                                         $packLevel );
+                    self::$loaded['js_files'] = true;
+                }
+            } break;
+            case 'ezcss_load':
+            {                    
+                if ( !isset( self::$loaded['css_files'] ) )
+                {
+                    $depend = array();
+                    if ( $tpl->hasVariable('persistent_variable') && is_array( $tpl->variable('persistent_variable') ) )
+                    {
+                       $persistentVariable = $tpl->variable('persistent_variable');
+                       if ( isset( $persistentVariable['css_files'] ) )
+                           $depend = array_unique( array_merge( $persistentVariable['css_files'], $namedParameters['css_array'] ) );
+                    }
+                    else if ( self::$persistentVariable !== null && isset( self::$persistentVariable['css_files'] ) )
+                        $depend = array_unique( array_merge( self::$persistentVariable['css_files'], $namedParameters['css_array'] ) );
+    
+                    $ret = ezjscPacker::buildStylesheetTag( $depend,
+                                                         $namedParameters['media'],
+                                                         $namedParameters['type'],
+                                                         $namedParameters['rel'],
+                                                         $namedParameters['charset'],
+                                                         $packLevel );
+                    self::$loaded['css_files'] = true;
+                }
             } break;
             case 'ezscriptfiles':
             {                    
@@ -166,6 +252,67 @@ class ezjscPackerTemplateFunctions
         }
         $operatorValue = $ret;
     }
+
+    // reusable function for setting persistent_variable
+    static public function setPersistentVariable( $key, $value, $tpl, $append = false, $mergeIfArray = false )
+    {
+        $persistentVariable = array();
+        if ( $tpl->hasVariable('persistent_variable') && is_array( $tpl->variable('persistent_variable') ) )
+        {
+           $persistentVariable = $tpl->variable('persistent_variable');
+        }
+        else if ( self::$persistentVariable !== null && is_array( self::$persistentVariable ) )
+        {
+            $persistentVariable = self::$persistentVariable;
+        }
+
+        if ( $append )
+        {
+            if ( isset( $persistentVariable[ $key ] ) && is_array( $persistentVariable[ $key ] ) )
+            {
+                $persistentVariable[ $key ][] = $value;
+                if ( $mergeIfArray && is_array( $value ) )
+                    $persistentVariable[ $key ] = array_merge( $persistentVariable[ $key ], $value );
+                else
+                    $persistentVariable[ $key ][] = $value;
+            }
+            else
+            {
+                if ( $mergeIfArray && is_array( $value ) )
+                    $persistentVariable[ $key ] = $value;
+                else
+                    $persistentVariable[ $key ] = array( $value );
+            }
+        }
+        else
+        {
+            $persistentVariable[ $key ] = $value;
+        }
+
+        // set the finnished array in the template
+        $tpl->setVariable('persistent_variable', $persistentVariable);
+        
+        // storing the value internally as well in case this is not a view that supports persistent_variable (ezpagedata will look for it)
+        self::$persistentVariable = $persistentVariable;
+    }
+    
+    // reusable function for getting internal persistent_variable
+    static public function getPersistentVariable( $key = null )
+    {
+        if ( $key !== null )
+        {
+            if ( isset( self::$persistentVariable[ $key ] ) )
+                return self::$persistentVariable[ $key ];
+            return null;
+        }
+        return self::$persistentVariable;
+    }
+
+    // Internal version of the $persistent_variable used on view that don't support it
+    static protected $persistentVariable = null;
+    
+    // Internal flag for already loaded types
+    static protected $loaded = array();
 }
 
 ?>
