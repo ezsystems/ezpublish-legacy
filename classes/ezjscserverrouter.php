@@ -96,13 +96,11 @@ class ezjscServerRouter
         {
             // return null if ini is not defined as a safty messure
             // to avoid letting user call all eZ Publish classes
-            echo '/* 1 */';
             return null;
         }
 
         if ( $checkFunctionExistence && !self::staticHasFunction( $className, $functionName, $isTemplateFunction  ) )
         {
-            echo '/* 2 */';
             return null;
         }
 
@@ -110,7 +108,6 @@ class ezjscServerRouter
         {
         	if ( !self::hasAccess( $permissionFunctions, ( $permissionPrFunction ? $functionName : null ) ) )
         	{
-        	    echo '/* 3 */';
         	    return null;
         	}
         }
