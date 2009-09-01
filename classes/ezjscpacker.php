@@ -503,7 +503,7 @@ class ezjscPacker
     }
     
     /**
-     * Heøpser function to get and validate server functions
+     * Helper function to get and validate server functions
      *
      * @param string $strServerCall
      * @return ezjscServerRouter|null
