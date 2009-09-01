@@ -172,44 +172,43 @@ class ezjscPackerTemplateFunctions
             case 'ezscript_require':
             {                    
                 // load straight away if already loaded
-                // @todo: check against already loaded list {@link self::setPersistentVariable()}
                 if ( isset( self::$loaded['js_files'] ) )
-                    $ret = ezjscPacker::buildJavascriptTag( $namedParameters['script_array'],
+                {
+                    $diff = self::setPersistentArray( 'js_files', $namedParameters['script_array'], $tpl, true, true, true );
+                    $ret = ezjscPacker::buildJavascriptTag( $diff,
                                                          $namedParameters['type'],
                                                          $namedParameters['language'],
                                                          $namedParameters['charset'],
                                                          $packLevel );
-
-                self::setPersistentVariable( 'js_files', $namedParameters['script_array'], $tpl, true, true );
+                }
+                else
+                {
+                    self::setPersistentArray( 'js_files', $namedParameters['script_array'], $tpl, true );
+                }
             } break;
             case 'ezcss_require':
             {                    
                 // load straight away if already loaded
-                // @todo: check against already loaded list {@link self::setPersistentVariable()}
                 if ( isset( self::$loaded['css_files'] ) )
-                    $ret = ezjscPacker::buildStylesheetTag( $namedParameters['css_array'],
+                {
+                    $diff = self::setPersistentArray( 'css_files', $namedParameters['css_array'], $tpl, true, true, true );
+                    $ret = ezjscPacker::buildStylesheetTag( $diff,
                                                          $namedParameters['media'],
                                                          $namedParameters['type'],
                                                          $namedParameters['rel'],
                                                          $namedParameters['charset'],
                                                          $packLevel );
-
-                self::setPersistentVariable( 'css_files', $namedParameters['css_array'], $tpl, true, true );
+                }
+                else
+                {
+                    self::setPersistentArray( 'css_files', $namedParameters['css_array'], $tpl, true );
+                }
             } break;
             case 'ezscript_load':
             {                    
                  if ( !isset( self::$loaded['js_files'] ) )
                 {
-                    $depend = array();
-                    if ( $tpl->hasVariable('persistent_variable') && is_array( $tpl->variable('persistent_variable') ) )
-                    {
-                       $persistentVariable = $tpl->variable('persistent_variable');
-                       if ( isset( $persistentVariable['js_files'] ) )
-                           $depend = array_unique( array_merge( $persistentVariable['js_files'], $namedParameters['script_array'] ) );
-                    }
-                    else if ( self::$persistentVariable !== null && isset( self::$persistentVariable['js_files'] ) )
-                        $depend = array_unique( array_merge( self::$persistentVariable['js_files'], $namedParameters['script_array'] ) );
-    
+                    $depend = self::setPersistentArray( 'js_files', $namedParameters['script_array'], $tpl, true, true );
                     $ret = ezjscPacker::buildJavascriptTag( $depend,
                                                          $namedParameters['type'],
                                                          $namedParameters['language'],
@@ -222,16 +221,7 @@ class ezjscPackerTemplateFunctions
             {                    
                 if ( !isset( self::$loaded['css_files'] ) )
                 {
-                    $depend = array();
-                    if ( $tpl->hasVariable('persistent_variable') && is_array( $tpl->variable('persistent_variable') ) )
-                    {
-                       $persistentVariable = $tpl->variable('persistent_variable');
-                       if ( isset( $persistentVariable['css_files'] ) )
-                           $depend = array_unique( array_merge( $persistentVariable['css_files'], $namedParameters['css_array'] ) );
-                    }
-                    else if ( self::$persistentVariable !== null && isset( self::$persistentVariable['css_files'] ) )
-                        $depend = array_unique( array_merge( self::$persistentVariable['css_files'], $namedParameters['css_array'] ) );
-    
+                    $depend = self::setPersistentArray( 'css_files', $namedParameters['css_array'], $tpl, true, true );
                     $ret = ezjscPacker::buildStylesheetTag( $depend,
                                                          $namedParameters['media'],
                                                          $namedParameters['type'],
@@ -254,7 +244,7 @@ class ezjscPackerTemplateFunctions
     }
 
     // reusable function for setting persistent_variable
-    static public function setPersistentVariable( $key, $value, $tpl, $append = false, $mergeIfArray = false )
+    static public function setPersistentArray( $key, $value, $tpl, $append = false, $arrayUnique = false, $returnArrayDiff = false )
     {
         $persistentVariable = array();
         if ( $tpl->hasVariable('persistent_variable') && is_array( $tpl->variable('persistent_variable') ) )
@@ -266,18 +256,20 @@ class ezjscPackerTemplateFunctions
             $persistentVariable = self::$persistentVariable;
         }
 
+        $persistentVariableCopy = $persistentVariable;
+
         if ( $append )
         {
             if ( isset( $persistentVariable[ $key ] ) && is_array( $persistentVariable[ $key ] ) )
             {
-                if ( $mergeIfArray && is_array( $value ) )
+                if ( is_array( $value ) )
                     $persistentVariable[ $key ] = array_merge( $persistentVariable[ $key ], $value );
                 else
                     $persistentVariable[ $key ][] = $value;
             }
             else
             {
-                if ( $mergeIfArray && is_array( $value ) )
+                if ( is_array( $value ) )
                     $persistentVariable[ $key ] = $value;
                 else
                     $persistentVariable[ $key ] = array( $value );
@@ -288,11 +280,21 @@ class ezjscPackerTemplateFunctions
             $persistentVariable[ $key ] = $value;
         }
 
+        if ( $arrayUnique )
+        {
+            $persistentVariable[$key] = array_unique( $persistentVariable[$key] );
+        }
+
         // set the finnished array in the template
-        $tpl->setVariable('persistent_variable', $persistentVariable);
-        
+        $tpl->setVariable('persistent_variable', $persistentVariable );
+
         // storing the value internally as well in case this is not a view that supports persistent_variable (ezpagedata will look for it)
         self::$persistentVariable = $persistentVariable;
+
+        if ( $returnArrayDiff && isset( $persistentVariableCopy[ $key ] ) )
+            return array_diff( $persistentVariable[ $key ], $persistentVariableCopy[ $key ] );
+
+        return $persistentVariable[$key];
     }
     
     // reusable function for getting internal persistent_variable
