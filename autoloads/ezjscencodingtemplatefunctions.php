@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 //
 // Definition of ezjscEncodingTemplateFunctions
 //
