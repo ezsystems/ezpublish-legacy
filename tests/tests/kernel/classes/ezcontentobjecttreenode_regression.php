@@ -51,15 +51,15 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
         $articleNodeID = $article->mainNode->node_id;
 
         // INi changes: set language to french only, untranslatedobjects disabled
-        $this->setINISetting( 'site.ini', 'RegionalSettings', 'ContentObjectLocale', 'fre-FR' );
-        $this->setINISetting( 'site.ini', 'RegionalSettings', 'SiteLanguageList', array( 'fre-FR' ) );
-        $this->setINISetting( 'site.ini', 'RegionalSettings', 'ShowUntranslatedObjects', 'disabled' );
+        ezpINIHelper::setINISetting( 'site.ini', 'RegionalSettings', 'ContentObjectLocale', 'fre-FR' );
+        ezpINIHelper::setINISetting( 'site.ini', 'RegionalSettings', 'SiteLanguageList', array( 'fre-FR' ) );
+        ezpINIHelper::setINISetting( 'site.ini', 'RegionalSettings', 'ShowUntranslatedObjects', 'disabled' );
         eZContentLanguage::expireCache();
 
         // This should crash
         eZContentObjectTreeNode::fetch( $articleNodeID )->attribute( 'can_remove_location' );
 
-        $this->restoreINISettings();
+        ezpINIHelper::restoreINISettings();
 
         // re-expire cache for further tests
         eZContentLanguage::expireCache();
@@ -89,49 +89,5 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
         $this->assertArrayHasKey( 'from', $filterSQL );
         $this->assertArrayHasKey( 'where', $filterSQL );
     }
-
-    /**
-    * Changes an INI setting value
-    *
-    * @param string $file INI filename
-    * @param string $block INI block name
-    * @param string $variable INI variable name
-    * @param mixed $value The new value
-    *
-    * @see restoreINISettings() to restore all the modified INI settings
-    **/
-    protected function setINISetting( $file, $block, $variable, $value )
-    {
-        $ini = eZINI::instance( $file );
-
-        // backup the value
-        $this->modifiedINISettings[] = array( $file, $block, $variable, $ini->variable( $block, $variable ) );
-
-        // change the value
-        $ini->setVariable( $block, $variable, $value );
-    }
-
-    /**
-     * Restores all the INI settings previously modified using setINISetting
-     *
-     * @return void
-     */
-    protected function restoreINISettings()
-    {
-        // restore each changed value
-        foreach ( $this->modifiedINISettings as $key => $values )
-        {
-            list( $file, $block, $variable, $value ) = $values;
-            $ini = eZINI::instance( $file );
-            $ini->setVariable( $block, $variable, $value );
-        }
-    }
-
-    /**
-    * Modified INI settings, as an array of 4 keys array:
-    * file, block, variable, value
-    * @var array
-    **/
-    protected $modifiedINISettings = array();
 }
 ?>

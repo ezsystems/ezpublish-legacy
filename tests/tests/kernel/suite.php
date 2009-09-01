@@ -33,6 +33,7 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
         // $this->addTestSuite( 'eZWebDAVBackendContentRegressionTest' );
         $this->addTestSuite( 'eZLDAPUserTest' );
         $this->addTestSuite( 'eZSiteInstallerTest' );
+        $this->addTestSuite( 'eZCountryTypeTest' );
     }
 
     public static function suite()

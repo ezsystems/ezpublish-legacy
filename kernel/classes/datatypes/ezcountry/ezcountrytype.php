@@ -83,6 +83,19 @@ class eZCountryType extends eZDataType
             if ( $translatedName )
                 $countries[$countryKey]['Name'] = $translatedName;
         }
+        usort( $countries, 'eZCountryType::compareCountryNames' );
+    }
+
+    /**
+     * Sort callback used by fetchTranslatedNames to compare two country arrays
+     *
+     * @param array $a Country 1
+     * @param array $b Country 2
+     * @return bool
+     */
+    protected static function compareCountryNames( $a, $b )
+    {
+        return strcoll( $a["Name"], $b["Name"] );
     }
 
     /*!
