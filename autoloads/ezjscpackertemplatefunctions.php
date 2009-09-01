@@ -270,7 +270,6 @@ class ezjscPackerTemplateFunctions
         {
             if ( isset( $persistentVariable[ $key ] ) && is_array( $persistentVariable[ $key ] ) )
             {
-                $persistentVariable[ $key ][] = $value;
                 if ( $mergeIfArray && is_array( $value ) )
                     $persistentVariable[ $key ] = array_merge( $persistentVariable[ $key ], $value );
                 else
