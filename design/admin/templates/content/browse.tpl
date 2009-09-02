@@ -9,10 +9,10 @@
      bookmark_list=fetch('content','bookmarks',array())}
 {section show=is_set( $node_list )}
     {def $page_uri=$requested_uri }
-    {def $page_uri_suffix=concat( '?', $requested_uri_suffix)}
-    {set browse_list_count=$node_list_count
-         node_array=$node_list}
-    {section-else}
+    {set browse_list_count = $node_list_count
+         node_array        = $node_list
+         page_uri_suffix   = concat( '?', $requested_uri_suffix)}
+{section-else}
     {def $page_uri=concat( '/content/browse/', $main_node.node_id )}
 
     {set browse_list_count=fetch( content, list_count, hash( parent_node_id, $node_id, depth, 1, objectname_filter, $view_parameters.namefilter))
@@ -101,7 +101,7 @@
 
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-{section show=is_set( $node_list )|not()}
+{section show=is_unset( $node_list )}
     {let current_node=fetch( content, node, hash( node_id, $browse.start_node ) )}
     {section show=$browse.start_node|gt( 1 )}
         <h2 class="context-title">
@@ -112,7 +112,7 @@
     {/section}
     {/let}
 {section-else}
- <h2 class="context-title"><img src={'back-button-16x16.gif'|ezimage} alt="Back" /> {'folder'|class_icon( small)}&nbsp;{'Search result'|i18n( 'design/admin/content/browse' )}&nbsp;[{$node_list|count()}]</h2>
+ <h2 class="context-title"><img src={'back-button-16x16.gif'|ezimage} alt="Back" /> {'folder'|class_icon( small)}&nbsp;{'Search result'|i18n( 'design/admin/content/browse' )}&nbsp;[{$browse_list_count}]</h2>
 
 {/section}
 {* DESIGN: Subline *}<div class="header-subline"></div>
@@ -124,6 +124,7 @@
 {* Items per page and view mode selector. *}
 <div class="context-toolbar">
 <div class="block">
+{if is_unset( $node_list )}{* changing limit while browsing search results not supported (search uses BrowsePageLimit GET parameter) *}
 <div class="left">
     <p>
     {switch match=$number_of_items}
@@ -149,6 +150,7 @@
         {/switch}
     </p>
 </div>
+{/if}
 <div class="right">
     <p>
     {switch match=ezpreference( 'admin_children_browsemode' )}
