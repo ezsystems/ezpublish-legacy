@@ -1640,13 +1640,22 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             if ( strncmp( $ident, 'StateGroup_', 11 ) === 0 )
                             {
                                 $stateIdentifier = substr( $ident, 11 );
-                                $stateTable = "ezcobj_state_${stateIdentifier}_perm";
 
-                                if ( !in_array( $stateIdentifier, $createdStateAliases ) )
+                                if ( !isset( $createdStateAliases[$stateIdentifier] ) )
                                 {
-                                    $createdStateAliases[] = $stateIdentifier;
-                                    $stateLinkTable = "ezcobj_state_link_${stateIdentifier}_perm";
-                                    $stateGroupTable = "ezcobj_state_group_${stateIdentifier}_perm";
+                                    $stateIndex = count( $createdStateAliases );
+                                }
+                                else
+                                {
+                                    $stateIndex = $createdStateAliases[$stateIdentifier];
+                                }
+                                $stateTable = "ezcobj_state_{$stateIndex}_perm";
+
+                                if ( !isset( $createdStateAliases[$stateIdentifier] ) )
+                                {
+                                    $createdStateAliases[$stateIdentifier] = $stateIndex;
+                                    $stateLinkTable =  "ezcobj_state_lnk_{$stateIndex}_perm";
+                                    $stateGroupTable = "ezcobj_state_grp_{$stateIndex}_perm";
                                     $stateAliasTables[$stateIdentifier] = $stateTable;
 
                                     $sqlPermissionCheckingFrom .= ", ezcobj_state_link $stateLinkTable\r\n";

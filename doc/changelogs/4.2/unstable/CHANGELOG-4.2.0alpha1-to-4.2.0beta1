@@ -61,3 +61,4 @@ Changes from 4.2.0alpha1 to 4.2.0beta1
 - Fixed bug #15230: php fatal error in fetch reverse_related_object
 - Fixed bug #15120: ezoracle : Fatal error when defining currencies
 - Fixed bug #15252: Search while using content/browse work not correctly
+- Fixed bug #15062: impossible to delete content on oracle
