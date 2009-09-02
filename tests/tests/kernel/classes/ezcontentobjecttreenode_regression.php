@@ -9,6 +9,14 @@
 
 class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
 {
+    protected $backupGlobals = false;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->setName( "eZContentObjectTreeNode Regression Tests" );
+    }
+
     public function setUp()
     {
         parent::setUp();
@@ -88,6 +96,32 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
         $this->assertType( 'array', $filterSQL );
         $this->assertArrayHasKey( 'from', $filterSQL );
         $this->assertArrayHasKey( 'where', $filterSQL );
+    }
+
+    /**
+    * Test for issue #15062:
+    * StateGroup Policy limitation SQL can break the 30 characters oracle
+    * limitation for identifiers
+    **/
+    public function testIssue15062()
+    {
+        $policyLimitationArray = array( array( 'StateGroup_abcdefghijkl' => 1 ) );
+
+        $sqlArray = eZContentObjectTreeNode::createPermissionCheckingSQL( $policyLimitationArray );
+
+        $this->assertType( 'array', $sqlArray );
+        $this->assertArrayHasKey( 'from', $sqlArray );
+
+        // we need to check that each identifier in the 'from' of this array
+        // doesn't exceed 30 characters
+        $matches = explode( ', ', str_replace( "\n", '', $sqlArray['from'] ) );
+        foreach( $matches as $match )
+        {
+            if ( $match == '' )
+                continue;
+            list( $table, $alias ) = explode( ' ', $match );
+            $this->assertTrue( strlen( $alias ) <= 30 , "Identifier {$alias} exceeds the 30 characters limit" );
+        }
     }
 }
 ?>
