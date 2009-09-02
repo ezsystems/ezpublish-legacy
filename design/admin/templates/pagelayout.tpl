@@ -121,6 +121,7 @@ div#leftmenu-design { margin: 0.5em 4px 0.5em 0.5em; }
     <input id="searchbutton" class="button" name="SearchButton" type="submit" value="{'Search'|i18n( 'design/admin/pagelayout' )}" />
     {section show=eq( $ui_context, 'browse' ) }
         <input name="Mode" type="hidden" value="browse" />
+        <input name="BrowsePageLimit" type="hidden" value="{min( ezpreference( 'admin_list_limit' ), 3)|choose( 10, 10, 25, 50 )}" />
     {/section}
 {/section}
     <p class="select">

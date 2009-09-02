@@ -50,10 +50,15 @@ $parents = array();
 // We get node list when browse is execiuted from search engine ( "search in browse" functionality )
 if ( isset( $Params['NodeList'] ) )
 {
-     $nodeList = $Params['NodeList']['SearchResult'];
-     $nodeListCount = $Params['NodeList']['SearchCount'];
-     $requestedURI = $Params['NodeList']['RequestedURI'];
-     $requestedURISuffix = $Params['NodeList']['RequestedURISuffix'];
+    $nodeList = $Params['NodeList']['SearchResult'];
+    $nodeListCount = $Params['NodeList']['SearchCount'];
+    $requestedURI = $Params['NodeList']['RequestedURI'];
+    $requestedURISuffix = $Params['NodeList']['RequestedURISuffix'];
+
+    if ( isset( $Params['NodeID'] ) && is_numeric( $Params['NodeID'] ) )
+    {
+        $NodeID = $Params['NodeID'];
+    }
 }
 else
 {
@@ -65,7 +70,10 @@ else
     }
 
     $NodeID = $browse->attribute( 'start_node' );
+}
 
+if ( isset( $NodeID ) )
+{
     $node = eZContentObjectTreeNode::fetch( $NodeID );
     if ( !$node )
         return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
@@ -159,7 +167,7 @@ $Result = array();
 
 // Fetch the navigation part from the section information
 $Result['navigation_part'] = 'ezcontentnavigationpart';
-if ( !isset( $nodeList ) )
+if ( isset( $object ) && isset( $node ) )
 {
     //include_once( 'kernel/classes/ezsection.php' );
     $section = eZSection::fetch( $object->attribute( 'section_id' ) );
@@ -198,7 +206,7 @@ if ( $templatePath )
 {
     $Result['path'] = $templatePath;
 }
-elseif ( isset( $nodeList ) )
+elseif ( isset( $nodeList ) && !( isset( $object ) && isset( $node ) ) )
 {
     $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Search' ),
                                     'url' => false ) );
