@@ -105,7 +105,15 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
     **/
     public function testIssue15062()
     {
-        $policyLimitationArray = array( array( 'StateGroup_abcdefghijkl' => 1 ) );
+        $policyLimitationArray = array(
+            array(
+                'StateGroup_abcdefghijkl' => array( 1 ),
+                'StateGroup_abcdefghiklmnop' => array( 1, 2, 3 ),
+            ),
+            array(
+                'StateGroup_abcdefghijkl' => array( 2, 3 ),
+            )
+        );
 
         $sqlArray = eZContentObjectTreeNode::createPermissionCheckingSQL( $policyLimitationArray );
 
@@ -114,7 +122,7 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
 
         // we need to check that each identifier in the 'from' of this array
         // doesn't exceed 30 characters
-        $matches = explode( ', ', str_replace( "\n", '', $sqlArray['from'] ) );
+        $matches = explode( ', ', str_replace( "\r\n", '', $sqlArray['from'] ) );
         foreach( $matches as $match )
         {
             if ( $match == '' )
