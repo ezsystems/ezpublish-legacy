@@ -34,6 +34,7 @@ $module = $Params['Module'];
 $ini = eZINI::instance( 'site.ini' );
 
 $error = false;
+$canEdit = true;
 $originalCurrencyCode = $Params['Currency'];
 $currencyParams = array( 'code' => false,
                          'symbol' => false,
@@ -56,10 +57,14 @@ else if ( $module->isCurrentAction( 'Create' ) )
     }
     else
     {
-        eZShopFunctions::createCurrency( $currencyParams );
-        eZContentCacheManager::clearAllContentCache();
+        $error = validateCurrencyData( $currencyParams );
+        if ( $error === false )
+        {
+            eZShopFunctions::createCurrency( $currencyParams );
+            eZContentCacheManager::clearAllContentCache();
 
-        return $module->redirectTo( $module->functionURI( 'currencylist' ) );
+            return $module->redirectTo( $module->functionURI( 'currencylist' ) );
+        }
     }
 }
 else if ( $module->isCurrentAction( 'StoreChanges' ) )
@@ -71,26 +76,30 @@ else if ( $module->isCurrentAction( 'StoreChanges' ) )
     $errCode = eZShopFunctions::changeCurrency( $originalCurrencyCode, $currencyParams['code'] );
     if ( $errCode === eZCurrencyData::ERROR_OK )
     {
-        $currency = eZCurrencyData::fetch( $currencyParams['code'] );
-        if ( is_object( $currency ) )
+        $error = validateCurrencyData( $currencyParams );
+        if ( $error === false )
         {
-            $currency->setAttribute( 'symbol', $currencyParams['symbol'] );
-            $currency->setAttribute( 'locale', $currencyParams['locale'] );
-            $currency->setAttribute( 'custom_rate_value', $currencyParams['custom_rate_value'] );
-            $currency->setAttribute( 'rate_factor', $currencyParams['rate_factor'] );
+            $currency = eZCurrencyData::fetch( $currencyParams['code'] );
+            if ( is_object( $currency ) )
+            {
+                $currency->setAttribute( 'symbol', $currencyParams['symbol'] );
+                $currency->setAttribute( 'locale', $currencyParams['locale'] );
+                $currency->setAttribute( 'custom_rate_value', $currencyParams['custom_rate_value'] );
+                $currency->setAttribute( 'rate_factor', $currencyParams['rate_factor'] );
 
-            $db = eZDB::instance();
-            $db->begin();
-            $currency->sync();
-            $db->commit();
+                $db = eZDB::instance();
+                $db->begin();
+                $currency->sync();
+                $db->commit();
 
-            eZContentCacheManager::clearAllContentCache();
+                eZContentCacheManager::clearAllContentCache();
 
-            return $module->redirectTo( $module->functionURI( 'currencylist' ) );
-        }
-        else
-        {
-            $error = eZCurrencyData::errorMessage( $currency );
+                return $module->redirectTo( $module->functionURI( 'currencylist' ) );
+            }
+            else
+            {
+                $error = eZCurrencyData::errorMessage( $currency );
+            }
         }
     }
     else
@@ -99,7 +108,6 @@ else if ( $module->isCurrentAction( 'StoreChanges' ) )
     }
 }
 
-$canEdit = true;
 $pathText = '';
 if ( strlen( $originalCurrencyCode ) > 0 )
 {
@@ -145,4 +153,33 @@ $Result['content'] = $tpl->fetch( "design:shop/editcurrency.tpl" );
 $Result['path'] = array( array( 'text' => $pathText,
                                 'url' => false ) );
 
+/**
+ * Validates currency data:
+ *  - checks that custom_rate_value & rate_factor are provided and are floats.
+ *
+ * @param array $currencyData Currenty data as submitted. Will be modified to
+ *        remove invalid values since it is passed by reference
+ * @return false|string True if data is valid, an error message if it's not
+ */
+function validateCurrencyData( &$currencyData )
+{
+    $return = false;
+
+    $floatValidator = new eZFloatValidator( 0 );
+    if ( $floatValidator->validate( $currencyData['custom_rate_value'] ) == eZInputValidator::STATE_INVALID )
+    {
+        $return = ezi18n( 'kernel/shop', "'%value' is not a valid custom rate value (positive number expected)",
+            'Error message', array( '%value' => $currencyData['custom_rate_value'] ) );
+        $currencyData['custom_rate_value'] = '';
+    }
+    if ( $floatValidator->validate( $currencyData['rate_factor'] ) == eZInputValidator::STATE_INVALID )
+    {
+        if ( $return === false )
+            $return = ezi18n( 'kernel/shop', "'%value' is not a valid rate_factor value (positive number expected)",
+                'Error message', array( '%value' => $currencyData['rate_factor'] ) );
+        $currencyData['rate_factor'] = '';
+    }
+
+    return $return;
+}
 ?>

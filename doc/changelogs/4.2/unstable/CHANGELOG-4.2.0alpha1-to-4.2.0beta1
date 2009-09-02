@@ -58,3 +58,4 @@ Changes from 4.2.0alpha1 to 4.2.0beta1
 - Fixed bug #15288: eZContentBrowseRecent executed/updated on shell
 - Fixed bug #15211: php fatal error when fetchalias called without second param
 - Fixed bug #15230: php fatal error in fetch reverse_related_object
+- Fixed bug #15120: ezoracle : Fatal error when defining currencies
