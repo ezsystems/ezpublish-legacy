@@ -531,9 +531,15 @@ class eZObjectRelationListType extends eZDataType
                     {
                         // create related object copies only if they are subobjects
                         $object = eZContentObject::fetch( $relationItem['contentobject_id'] );
-                        $mainNode = $object->attribute( 'main_node' );
+                        if ( !$object instanceof eZContentObject )
+                        {
+                            unset( $content['relation_list'][$key] );
+                            $contentModified = true;
+                            continue;
+                        }
 
-                        if ( is_object( $mainNode ) )
+                        $mainNode = $object->attribute( 'main_node' );
+                        if ( $mainNode instanceof eZContentObjectTreeNode )
                         {
                             $node = ( is_numeric( $relationItem['node_id'] ) and $relationItem['node_id'] ) ?
                                       eZContentObjectTreeNode::fetch( $relationItem['node_id'] ) : null;
@@ -545,7 +551,11 @@ class eZObjectRelationListType extends eZDataType
                                 $contentModified = true;
                             }
 
-                            $parentNodeID = $node->attribute( 'parent_node_id' );
+                            if ( $node instanceof eZContentObjectTreeNode )
+                                $parentNodeID =  $node->attribute( 'parent_node_id' );
+                            else
+                                $parentNodeID = -1;
+
                             if ( $relationItem['parent_node_id'] != $parentNodeID )
                             {
                                 $content['relation_list'][$key]['parent_node_id'] = $parentNodeID;
