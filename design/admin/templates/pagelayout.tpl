@@ -218,33 +218,25 @@ div#leftmenu-design { margin: 0.5em 4px 0.5em 0.5em; }
 <div id="leftmenu">
 <div id="leftmenu-design">
 
-{switch match=$navigation_part.identifier}
-	{case match='ezcontentnavigationpart'}
-	    {include uri='design:parts/content/menu.tpl'}
-	{/case}
-	{case match='ezmedianavigationpart'}
-	    {include uri='design:parts/media/menu.tpl'}
-	{/case}
-	{case match='ezshopnavigationpart'}
-	    {include uri='design:parts/shop/menu.tpl'}
-	{/case}
-	{case match='ezusernavigationpart'}
-	    {include uri='design:parts/user/menu.tpl'}
-	{/case}
-	{case match='ezvisualnavigationpart'}
-	    {include uri='design:parts/visual/menu.tpl'}
-	{/case}
-	{case match='ezsetupnavigationpart'}
-	    {include uri='design:parts/setup/menu.tpl'}
-	{/case}
-	{case match='ezmynavigationpart'}
-	    {include uri='design:parts/my/menu.tpl'}
-	{/case}
-	{case}
-	{/case}
-{/switch}
+{* 
+    Get navigationpart identifier variable depends if the call is an contenobject
+    or a custom module 
+*}
+{def $navigation_part_name = $navigation_part.identifier}
+{if $navigation_part_name|eq('')}
+    {set $navigation_part_name = $module_result.navigation_part}
+{/if}
 
+{* 
+    Include automatically the menu template for the $navigation_part_name
+    ez $part_name navigationpart =>  parts/$part_name/menu.tpl
+*}
+{def $extract_length = sub( count_chars( $navigation_part_name ), '14' )
+     $part_name = $navigation_part_name|extract( '2', $extract_length )}
 
+{include uri=concat( 'design:parts/', $part_name, '/menu.tpl' )}
+
+{undef $extract_length $part_name}
 
 {section show=is_set( $module_result.left_menu )}
     {include uri=$module_result.left_menu}

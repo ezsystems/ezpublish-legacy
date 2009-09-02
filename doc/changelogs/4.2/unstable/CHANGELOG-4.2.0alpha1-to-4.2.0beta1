@@ -16,6 +16,7 @@ Changes from 4.2.0alpha1 to 4.2.0beta1
 - Implemented enhancement #14876: Translated and sorted country list for ezcountry
 
 *Design:
+- Implemented enhancement #14654: Admin Interface - include custom navigationpart menu template automatically
 
 *eZTemplate:
 
