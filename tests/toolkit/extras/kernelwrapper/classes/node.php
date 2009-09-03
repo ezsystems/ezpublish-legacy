@@ -26,13 +26,28 @@ class ezpNode
         switch ( $name )
         {
             case 'node':
+            {
                 if ( !isset( $this->node ) )
                     $this->node = $this->nodeAssignment->fetchNode();
 
+                if ( !$this->node instanceof eZContentObjectTreeNode )
+                    throw new ezcBaseValueException( 'node', get_class( $this->node ), 'eZContentObjectTreeNode', 'member' );
+
                 return $this->node;
-                break;
+            } break;
             default:
-                return $this->node->attribute( $name );
+            {
+                if ( !isset( $this->node ) )
+                    $this->node = $this->nodeAssignment->fetchNode();
+
+                if ( !$this->node instanceof eZContentObjectTreeNode )
+                    throw new ezcBaseValueException( 'node', get_class( $this->node ), 'eZContentObjectTreeNode', 'member' );
+
+                if ( $this->node->hasAttribute( $name ) )
+                    return $this->node->attribute( $name );
+
+                throw new ezcBasePropertyNotFoundException( '->node->attribute( ' . $name . ' )' );
+            }
         }
     }
 

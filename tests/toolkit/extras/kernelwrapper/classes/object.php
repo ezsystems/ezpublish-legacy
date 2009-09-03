@@ -68,18 +68,27 @@ class ezpObject
         switch ( $name )
         {
             case 'dataMap':
+            {
                 if ( isset( $this->object ) )
                     return $this->object->dataMap();
                 else
                     return array();
-                break;
+            } break;
             default:
+            {
                 if ( isset( $this->dataMap[$name] ) )
                 {
                     return $this->dataMap[$name]->content();
                 }
 
-                return $this->object->attribute( $name );
+                if ( !$this->object instanceof eZContentObject )
+                    throw new ezcBaseInvalidParentClassException( 'eZContentObject', $this->object );
+
+                if ( $this->object->hasAttribute( $name ) )
+                    return $this->object->attribute( $name );
+
+                throw new ezcBasePropertyNotFoundException( '->object->attribute( ' . $name . ' )' );
+            }
         }
     }
 
