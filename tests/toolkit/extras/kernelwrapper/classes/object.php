@@ -45,6 +45,9 @@ class ezpObject
     public function __construct( $classIdentifier, $parentNodeID = false, $creatorID = 14, $section = 1, $languageCode = false )
     {
         $this->class = eZContentClass::fetchByIdentifier( $classIdentifier );
+        if ( !$this->class instanceof eZContentClass )
+            throw new ezcBaseException( 'There is no eZContentClass with identifier: ' $classIdentifier  );
+
         $this->object = $this->class->instantiate( $creatorID, $section, false, $languageCode );
 
         // Create main node

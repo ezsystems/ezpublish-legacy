@@ -31,7 +31,7 @@ class ezpNode
                     $this->node = $this->nodeAssignment->fetchNode();
 
                 if ( !$this->node instanceof eZContentObjectTreeNode )
-                    throw new ezcBaseValueException( 'node', get_class( $this->node ), 'eZContentObjectTreeNode', 'member' );
+                    throw new ezcBaseValueException( 'node', ( isset( $this->node ) ? get_class( $this->node ) : null ), 'eZContentObjectTreeNode', 'member' );
 
                 return $this->node;
             } break;
@@ -41,7 +41,7 @@ class ezpNode
                     $this->node = $this->nodeAssignment->fetchNode();
 
                 if ( !$this->node instanceof eZContentObjectTreeNode )
-                    throw new ezcBaseValueException( 'node', get_class( $this->node ), 'eZContentObjectTreeNode', 'member' );
+                    throw new ezcBaseValueException( 'node', ( isset( $this->node ) ? get_class( $this->node ) : null ), 'eZContentObjectTreeNode', 'member' );
 
                 if ( $this->node->hasAttribute( $name ) )
                     return $this->node->attribute( $name );
