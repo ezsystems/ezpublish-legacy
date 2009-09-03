@@ -46,7 +46,7 @@ class ezpObject
     {
         $this->class = eZContentClass::fetchByIdentifier( $classIdentifier );
         if ( !$this->class instanceof eZContentClass )
-            throw new ezcBaseException( 'There is no eZContentClass with identifier: ' . $classIdentifier  );
+            throw new ezcBaseValueException( 'class', ( isset( $this->node ) ? get_class( $this->node ) : null ) . ' ($classIdentifier: ' . $classIdentifier . ' ) ', 'eZContentClass', 'member' );
 
         $this->object = $this->class->instantiate( $creatorID, $section, false, $languageCode );
 
