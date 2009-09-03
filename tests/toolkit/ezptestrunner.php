@@ -288,6 +288,13 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
      */
     public static function suite()
     {
+        if ( !class_exists( 'eZTestSuite', true ) )
+        {
+            echo "\nThe eZTestSuite class isn't defined. Are the tests autoloads generated ?\n";
+            echo "You can generate them using php bin/php/ezpgenerateautoloads.php -s\n\n";
+            exit( PHPUnit_TextUI_TestRunner::FAILURE_EXIT );
+        }
+
         $suite = new eZTestSuite;
 
         // Add suites from extensions.
