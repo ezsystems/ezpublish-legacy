@@ -76,7 +76,7 @@ class ezjscEncodingTemplateFunctions
             case 'json_encode':
             {
                 // Lets you use ezjscAjaxContent::jsonEncode from templates
-                $operatorValue = ezjscAjaxContent::jsonEncode( $namedParameters['hash'] );
+                $operatorValue = json_encode( $namedParameters['hash'] );
             } break;
             case 'xml_encode':
             {
