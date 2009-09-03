@@ -51,12 +51,16 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
         $folder->name = "Parent for " . __FUNCTION__;
         $folder->publish();
 
+        $locale = eZLocale::instance( 'fre-FR' );
+        $translation = eZContentLanguage::addLanguage( $locale->localeCode(), $locale->internationalLanguageName() );
+
         // Create an article in french only, as a subitem of the previously created folder
         $article = new ezpObject( "article", $folder->attribute( 'main_node_id' ), 14, 1, 'fre-FR' );
         $article->title = "Object for " . __FUNCTION__;
+        $article->short_description = "Description of test for " . __FUNCTION__;
         $article->publish();
 
-        $articleNodeID = $article->mainNode->node_id;
+        $articleNodeID = $article->attribute( 'main_node_id' );
 
         // INi changes: set language to french only, untranslatedobjects disabled
         ezpINIHelper::setINISetting( 'site.ini', 'RegionalSettings', 'ContentObjectLocale', 'fre-FR' );
