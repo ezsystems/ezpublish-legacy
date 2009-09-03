@@ -336,7 +336,7 @@ class ezjscAjaxContent
      * @param string $childName
      * @return string
     */
-    public static function xmlEncode( $hash, $childName = 'node' )
+    public static function xmlEncode( $hash, $childName = 'child' )
     {
         $xml = new XmlWriter();
         $xml->openMemory();
