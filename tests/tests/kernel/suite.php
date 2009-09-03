@@ -34,6 +34,7 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'eZLDAPUserTest' );
         $this->addTestSuite( 'eZSiteInstallerTest' );
         $this->addTestSuite( 'eZCountryTypeTest' );
+        $this->addTestSuite( 'eZProductCollectionTest' );
     }
 
     public static function suite()

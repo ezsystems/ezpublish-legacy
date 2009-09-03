@@ -15,6 +15,7 @@ class eZDBTestSuite extends ezpDatabaseTestSuite
         $this->setName( "eZDBTestSuite Test Suite" );
 
         $this->addTestSuite( 'eZPostgreSQLDBTest' );
+        $this->addTestSuite( 'eZDBInterfaceTest' );
     }
 
     public static function suite()
