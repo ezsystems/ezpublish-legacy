@@ -35,9 +35,6 @@
 
 class ezjscAjaxContent
 {
-    protected static $instance         = null;
-    protected static $nativeJsonEncode = null;
-    
     /**
      * Constructor
      */
@@ -50,20 +47,6 @@ class ezjscAjaxContent
      */
     protected function __clone()
     {
-    }
-
-    /**
-     * getInstance
-     *
-     * @return ezjscAjaxContent
-     */
-    public static function getInstance()
-    {
-        if ( self::$instance === null )
-        {
-            self::$instance = new ezjscAjaxContent();
-        }
-        return self::$instance;
     }
 
     /**
@@ -353,7 +336,7 @@ class ezjscAjaxContent
      * @param string $childName
      * @return string
     */
-    public static function xmlEncode( $hash, $childName = 'child' )
+    public static function xmlEncode( $hash, $childName = 'node' )
     {
         $xml = new XmlWriter();
         $xml->openMemory();
@@ -380,7 +363,10 @@ class ezjscAjaxContent
         {
             if( is_array( $value ) )
             {
-                $xml->startElement( $key );
+               if ( is_numeric( $key ) )
+                   $xml->startElement( $childName );
+               else
+                   $xml->startElement( $key );
                 self::xmlWrite( $xml, $value );
                 $xml->endElement();
                 continue;
