@@ -6,7 +6,6 @@
  * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
  * @package tests
  */
-
 class eZContentObjectTest extends ezpDatabaseTestCase
 {
     protected $backupGlobals = false;
@@ -163,6 +162,10 @@ class eZContentObjectTest extends ezpDatabaseTestCase
             "Common relations count should be 6" );
 
         // Test reverse relation count on $relatedObject[9]
+        // This object is related to:
+        // - the main $object on common level
+        // - one object on single_relation_1
+        // - another object on single_relation_2
         $relatedContentObject = eZContentObject::fetch( $relatedObjects[9] );
         $this->assertEquals(
             3, $relatedContentObject->relatedObjectCount( false, false, true, $paramAllRelations ),
@@ -178,5 +181,4 @@ class eZContentObjectTest extends ezpDatabaseTestCase
             "Attribute reverse relation count on single_relation_2 should be 1" );
     }
 }
-
 ?>
