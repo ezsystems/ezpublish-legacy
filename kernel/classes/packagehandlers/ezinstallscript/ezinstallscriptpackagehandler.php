@@ -60,7 +60,7 @@ class eZInstallScriptPackageHandler extends eZPackageHandler
         $itemPath = $package->path() . '/' . $installItem['sub-directory'];
         $xmlPath = $itemPath . '/' . $installItem['filename'] . '.xml';
 
-        $dom =& $package->fetchDOMFromFile( $xmlPath );
+        $dom = $package->fetchDOMFromFile( $xmlPath );
         if ( !$dom )
             return false;
 
