@@ -17,6 +17,7 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'eZContentObjectRegression' );
         $this->addTestSuite( 'eZContentObjectTest' );
         $this->addTestSuite( 'eZContentObjectTreeNodeRegression' );
+        $this->addTestSuite( 'eZContentObjectTreeNodeTest' );
         $this->addTestSuite( 'eZContentFunctionCollectionRegression' );
         $this->addTestSuite( 'eZContentFunctionCollectionTest' );
         $this->addTestSuite( 'eZURLAliasMlTest' );
