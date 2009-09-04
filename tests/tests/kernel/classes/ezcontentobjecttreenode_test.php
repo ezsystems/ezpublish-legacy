@@ -18,7 +18,7 @@ class eZContentObjectTreeNodeTest extends ezpDatabaseTestCase
     }
 
     /**
-     * Unit test for eZContentObjectTreeNodeTest::testFetchAliasesFromNodeList()
+     * Unit test for eZContentObjectTreeNode::fetchAliasesFromNodeList()
      *
      * Outline:
      * 1) Create a few objects/nodes
@@ -57,6 +57,52 @@ class eZContentObjectTreeNodeTest extends ezpDatabaseTestCase
 
             $this->assertEquals( $baseNodeData['node_id'], $alias['node_id'] );
             $this->assertEquals( $baseNodeData['path_identification_string'], $alias['path_identification_string'] );
+        }
+    }
+
+    /**
+     * Unit test for eZContentObjectTreeNode::fetchMainNodeArray
+     *
+     * Outline:
+     * 1) Call the function with an empty array and check that the output is null
+     * 2) Create a few objects/nodes
+     * 3) Call the method with these objects' IDs as a parameter
+     * 3) Check that the returned values are eZContentObjectTreeNodes, and match
+     *    the parameter list
+     *
+     * @todo Also test with $asObject = false
+     **/
+    public function testFindMainNodeArray()
+    {
+        // 1) Check that the method returns null on an empty array
+        $this->assertNull( eZContentObjectTreeNode::findMainNodeArray( array() ) );
+
+        // 2) Create a few objects/nodes
+        $objectIDArray = $objectsArray = $nodesIDArray = array();
+        for( $i = 0; $i < 5; $i++ )
+        {
+            $object = new ezpObject( 'article', 2 );
+            $object->title = "Test object #{$i} for " . __FUNCTION__;
+            $object->publish();
+
+            $objectID = $object->attribute( 'id' );
+            $objectsArray[$objectID] = $object;
+        }
+        $objectsIDArray = array_keys( $objectsArray );
+
+        // 2) Call the method
+        $mainNodeArray = eZContentObjectTreeNode::findMainNodeArray( $objectsIDArray );
+
+        // 3) Check the result
+        $this->assertEquals( count( $objectsArray ), count( $mainNodeArray ),
+             "Return value count doesn't matche parameter count" );
+        foreach( $mainNodeArray as $mainNode )
+        {
+            $mainNodeContentObjectID = $mainNode->attribute( 'contentobject_id' );
+
+            $this->assertType( 'eZContentObjectTreeNode', $mainNode );
+            $this->assertTrue( in_array( $mainNodeContentObjectID, $objectsIDArray ),
+                "A returned node's contentobject_id isn't part of the original parameters" );
         }
     }
 }
