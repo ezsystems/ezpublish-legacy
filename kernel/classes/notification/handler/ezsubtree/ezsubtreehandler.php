@@ -127,8 +127,25 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         $tpl->resetVariables();
 
         $parentNode = $contentNode->attribute( 'parent' );
+        if ( !$parentNode instanceof eZContentObjectTreeNode )
+        {
+            eZDebug::writeError( 'DB corruption: Node id ' . $contentNode->attribute( 'node_id' ) . ' is missing parent node.', __METHOD__ );
+            return eZNotificationEventHandler::EVENT_SKIPPED;
+        }
+
         $parentContentObject = $parentNode->attribute( 'object' );
+        if ( !$parentContentObject instanceof eZContentObject )
+        {
+            eZDebug::writeError( 'DB corruption: Node id ' . $parentNode->attribute( 'node_id' ) . ' is missing object.', __METHOD__ );
+            return eZNotificationEventHandler::EVENT_SKIPPED;
+        }
+
         $parentContentClass = $parentContentObject->attribute( 'content_class' );
+        if ( !$parentContentClass instanceof eZContentClass )
+        {
+            eZDebug::writeError( 'DB corruption: Object id ' . $parentContentObject->attribute( 'id' ) . ' is missing class object.', __METHOD__ );
+            return eZNotificationEventHandler::EVENT_SKIPPED;
+        }
 
         $res = eZTemplateDesignResource::instance();
         $res->setKeys( array( array( 'object', $contentObject->attribute( 'id' ) ),
