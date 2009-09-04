@@ -315,7 +315,7 @@ class eZPackageInstallationHandler
                     $handlerClassName = $customInstallHandler['classname'];
                     $handlerFile = $customInstallHandler['file-path'];
 
-                    // include_once( $handlerFile );
+                    include_once( $handlerFile );
                     $handler = new $handlerClassName( $package, $handlerName, $installItem );
                 }
             }

@@ -64,3 +64,4 @@ Changes from 4.2.0alpha1 to 4.2.0beta1
 - Fixed bug #15062: impossible to delete content on oracle
 - Fixed bug #13308: Copy an object with fatal error
 - Fixed bug #13520: Next / previous links in Forum not working properly
+- Fixed bug #14603: Custom install scripts - DOMDocument->root() - ezinstallscriptpackageinstaller.php
