@@ -30,15 +30,14 @@ class eZProductCollectionTest extends ezpDatabaseTestCase
 
         $collectionIDArray[] = $collection->attribute( 'id' );
 
-        for( $i = 0; $i < 9; $i++ )
+        for( $i = 0; $i < 1500; $i++ )
         {
-            $newCollection = clone $collection;
-            $newCollection->store();
+            $newCollection = $collection->copy();
             $collectionIDArray[] = $newCollection->attribute( 'id' );
         }
 
         // pick a few random ID to delete
-        $deleteIDArray = array_rand( $collectionIDArray, 5 );
+        $deleteIDArray = array_rand( $collectionIDArray, round( count( $collectionIDArray ) / 2 ) );
         $remainingIDArray = array_diff( $collectionIDArray, $deleteIDArray );
 
         eZProductCollection::cleanupList( $deleteIDArray );
