@@ -85,24 +85,65 @@ class eZContentObjectTreeNodeTest extends ezpDatabaseTestCase
             $object->title = "Test object #{$i} for " . __FUNCTION__;
             $object->publish();
 
-            $objectID = $object->attribute( 'id' );
-            $objectsArray[$objectID] = $object;
+            $objectsIDArray[] = $object->attribute( 'id' );
         }
-        $objectsIDArray = array_keys( $objectsArray );
 
-        // 2) Call the method
+        // 3) Call the method
         $mainNodeArray = eZContentObjectTreeNode::findMainNodeArray( $objectsIDArray );
 
-        // 3) Check the result
-        $this->assertEquals( count( $objectsArray ), count( $mainNodeArray ),
+        // 4) Check the result
+        $this->assertEquals( count( $objectsIDArray ), count( $mainNodeArray ),
              "Return value count doesn't matche parameter count" );
         foreach( $mainNodeArray as $mainNode )
         {
             $mainNodeContentObjectID = $mainNode->attribute( 'contentobject_id' );
 
             $this->assertType( 'eZContentObjectTreeNode', $mainNode );
+            $this->assertTrue( $mainNode->attribute( 'is_main' ) );
             $this->assertTrue( in_array( $mainNodeContentObjectID, $objectsIDArray ),
                 "A returned node's contentobject_id isn't part of the original parameters" );
+        }
+    }
+
+    /**
+     * Unit test for eZContentObjectTreeNode::getParentNodeIDListByContentObjectID()
+     *
+     * @todo test with $onlyMainNode=true
+     * @todo test with $groupByObjectID=true
+     **/
+    public function testGetParentNodeIdListByContentObjectID()
+    {
+        // Create a few containers with a few children below each
+        $childrenIDArray = $childrenParentIDArray = array();
+        for ( $i = 0; $i < 3; $i++ )
+        {
+            $folder = new ezpObject( 'folder', 2 );
+            $folder->name = "Container #{$i} for " . __FUNCTION__;
+            $folder->publish();
+
+            $containerID = $folder->attribute( 'main_node_id' );
+            $containerIDArray[] = $containerID;
+            for ( $j = 0; $j < 5; $j++ )
+            {
+                $article = new ezpObject( 'article', $containerID );
+                $article->title = "Object #{$i}";
+                $article->publish();
+
+                $articleID = $article->attribute( 'id' );
+                $childrenIDArray[] = $articleID;
+                $childrenParentIDArray[$articleID] = $containerID;
+            }
+        }
+
+        // First test without grouping
+        $parentNodeIDArray = eZContentObjectTreeNode::getParentNodeIdListByContentObjectID(
+            $childrenIDArray, false );
+        $this->assertEquals( count( $childrenIDArray ), count( $parentNodeIDArray ),
+            "count of returned items doesn't match the parameters count" );
+        foreach( $parentNodeIDArray as $parentNodeID )
+        {
+            $this->assertTrue( in_array( $parentNodeID, $containerIDArray ),
+                "Returned parent_node_id $parentNodeID isn't in the list of created nodes" );
         }
     }
 }
