@@ -134,6 +134,21 @@ class ezpObject
                             $attribute->fromString( $value );
                             break;
 
+                        // Relation: either an eZContentObject or an object ID
+                        case 'ezobjectrelation':
+                            if ( $value instanceof eZContentObject )
+                                $attribute->setAttribute( 'data_int', $value->attribute( 'contentobject_id' ) );
+                            elseif ( is_numeric( $value ) )
+                                $attribute->setAttribute( 'data_int', $value );
+                            break;
+
+                        // Relation list: either an array of ID, or a dash separated string
+                        case 'ezobjectrelationlist':
+                            if ( is_array( $value ) )
+                                $value = implode( '-', $value );
+                            $attribute->fromString( $value );
+                            break;
+
                         default:
                             $attribute->setAttribute( 'data_text', $value );
                             break;
