@@ -158,6 +158,28 @@ class ezjscPackerTemplateFunctions
         
         switch ( $operatorName )
         {
+            case 'ezscript_load':
+            {                    
+                if ( !isset( self::$loaded['js_files'] ) )
+                {
+                    $depend = self::setPersistentArray( 'js_files', $namedParameters['script_array'], $tpl, false, true );
+                    $ret = ezjscPacker::buildJavascriptTag( $depend,
+                                                         $namedParameters['type'],
+                                                         $namedParameters['language'],
+                                                         $namedParameters['charset'],
+                                                         $packLevel );
+                    self::$loaded['js_files'] = true;
+                    break;
+                }// let 'ezscript' handle loaded calls
+            }
+            case 'ezscript_require':
+            {                    
+                if ( !isset( self::$loaded['js_files'] ) )
+                {
+                    self::setPersistentArray( 'js_files', $namedParameters['script_array'], $tpl, true );
+                    break;
+                }// let 'ezscript' handle loaded calls
+            }
             case 'ezscript':
             {                    
                 $diff = self::setPersistentArray( 'js_files', $namedParameters['script_array'], $tpl, true, true, true );
@@ -167,6 +189,29 @@ class ezjscPackerTemplateFunctions
                                                      $namedParameters['charset'],
                                                      $packLevel );
             } break;
+            case 'ezcss_load':
+            {                    
+                if ( !isset( self::$loaded['css_files'] ) )
+                {
+                    $depend = self::setPersistentArray( 'css_files', $namedParameters['css_array'], $tpl, false, true );
+                    $ret = ezjscPacker::buildStylesheetTag( $depend,
+                                                         $namedParameters['media'],
+                                                         $namedParameters['type'],
+                                                         $namedParameters['rel'],
+                                                         $namedParameters['charset'],
+                                                         $packLevel );
+                    self::$loaded['css_files'] = true;
+                    break;
+                }// let 'ezcss' handle loaded calls
+            }
+            case 'ezcss_require':
+            {                    
+                if ( !isset( self::$loaded['css_files'] ) )
+                {
+                    self::setPersistentArray( 'css_files', $namedParameters['css_array'], $tpl, true );
+                    break;
+                }// let 'ezcss' handle loaded calls
+            }
             case 'ezcss':
             {                    
                 $diff = self::setPersistentArray( 'css_files', $namedParameters['css_array'], $tpl, true, true, true );
@@ -176,68 +221,6 @@ class ezjscPackerTemplateFunctions
                                                      $namedParameters['rel'],
                                                      $namedParameters['charset'],
                                                      $packLevel );
-            } break;
-            case 'ezscript_require':
-            {                    
-                // load straight away if already loaded
-                if ( isset( self::$loaded['js_files'] ) )
-                {
-                    $diff = self::setPersistentArray( 'js_files', $namedParameters['script_array'], $tpl, true, true, true );
-                    $ret = ezjscPacker::buildJavascriptTag( $diff,
-                                                         $namedParameters['type'],
-                                                         $namedParameters['language'],
-                                                         $namedParameters['charset'],
-                                                         $packLevel );
-                }
-                else
-                {
-                    self::setPersistentArray( 'js_files', $namedParameters['script_array'], $tpl, true );
-                }
-            } break;
-            case 'ezcss_require':
-            {                    
-                // load straight away if already loaded
-                if ( isset( self::$loaded['css_files'] ) )
-                {
-                    $diff = self::setPersistentArray( 'css_files', $namedParameters['css_array'], $tpl, true, true, true );
-                    $ret = ezjscPacker::buildStylesheetTag( $diff,
-                                                         $namedParameters['media'],
-                                                         $namedParameters['type'],
-                                                         $namedParameters['rel'],
-                                                         $namedParameters['charset'],
-                                                         $packLevel );
-                }
-                else
-                {
-                    self::setPersistentArray( 'css_files', $namedParameters['css_array'], $tpl, true );
-                }
-            } break;
-            case 'ezscript_load':
-            {                    
-                 if ( !isset( self::$loaded['js_files'] ) )
-                {
-                    $depend = self::setPersistentArray( 'js_files', $namedParameters['script_array'], $tpl, true, true );
-                    $ret = ezjscPacker::buildJavascriptTag( $depend,
-                                                         $namedParameters['type'],
-                                                         $namedParameters['language'],
-                                                         $namedParameters['charset'],
-                                                         $packLevel );
-                    self::$loaded['js_files'] = true;
-                }
-            } break;
-            case 'ezcss_load':
-            {                    
-                if ( !isset( self::$loaded['css_files'] ) )
-                {
-                    $depend = self::setPersistentArray( 'css_files', $namedParameters['css_array'], $tpl, true, true );
-                    $ret = ezjscPacker::buildStylesheetTag( $depend,
-                                                         $namedParameters['media'],
-                                                         $namedParameters['type'],
-                                                         $namedParameters['rel'],
-                                                         $namedParameters['charset'],
-                                                         $packLevel );
-                    self::$loaded['css_files'] = true;
-                }
             } break;
             case 'ezscriptfiles':
             {                    
@@ -268,7 +251,7 @@ class ezjscPackerTemplateFunctions
     }
 
     // reusable function for setting persistent_variable
-    static public function setPersistentArray( $key, $value, $tpl, $append = false, $arrayUnique = false, $returnArrayDiff = false )
+    static public function setPersistentArray( $key, $value, $tpl, $append = true, $arrayUnique = false, $returnArrayDiff = false, $override = false )
     {
         $persistentVariable = array();
         if ( $tpl->hasVariable('persistent_variable') && is_array( $tpl->variable('persistent_variable') ) )
@@ -282,14 +265,16 @@ class ezjscPackerTemplateFunctions
 
         $persistentVariableCopy = $persistentVariable;
 
-        if ( $append )
+        if ( !$override )
         {
             if ( isset( $persistentVariable[ $key ] ) && is_array( $persistentVariable[ $key ] ) )
             {
                 if ( is_array( $value ) )
-                    $persistentVariable[ $key ] = array_merge( $persistentVariable[ $key ], $value );
-                else
+                    $persistentVariable[ $key ] = $append ? array_merge( $persistentVariable[ $key ], $value ) : array_merge( $value, $persistentVariable[ $key ] );
+                else if ( $append )
                     $persistentVariable[ $key ][] = $value;
+                else
+                    $persistentVariable[ $key ] = array_merge( array( $value ), $persistentVariable[ $key ] );
             }
             else
             {
