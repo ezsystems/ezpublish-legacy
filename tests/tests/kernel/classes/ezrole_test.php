@@ -22,14 +22,6 @@ class eZRoleTest extends ezpDatabaseTestCase
      **/
     public function testFetchByUser()
     {
-        $anonymousUserID = eZUser::fetchByName( 'anonymous' )->attribute( 'contentobject_id' );
-        $adminUserID = eZUser::fetchByName( 'admin' )->attribute( 'contentobject_id' );
-
-        if ( !$anonymousUserID or !$adminUserID )
-        {
-            $this->fail( "Could not fetch users anonymous and/or admin" );
-        }
-
         // test with an empty array
         $roles = eZRole::fetchByUser( array() );
         $this->assertType( 'array', $roles,
@@ -40,7 +32,7 @@ class eZRoleTest extends ezpDatabaseTestCase
         // test with users with no direct role assignment (group assignment)
         // should return an empty array since anonymous/admin role is assigned
         // by group
-        $parameter = array( $anonymousUserID, $adminUserID );
+        $parameter = array( self::$anonymousUserID, self::$adminUserID );
         $roles = eZRole::fetchByUser( $parameter );
         $this->assertType( 'array', $roles,
             "eZRole::fetchByUser with admin & anonymous should have returned an array" );
@@ -53,7 +45,7 @@ class eZRoleTest extends ezpDatabaseTestCase
 
         // test with the same users, but recursively: should return anonymous
         // and administrator roles
-        $parameter = array( $anonymousUserID, $adminUserID );
+        $parameter = array( self::$anonymousUserID, self::$adminUserID );
         $roles = eZRole::fetchByUser( $parameter, true );
         $this->assertType( 'array', $roles,
             "recursive eZRole::fetchByUser with admin & anonymous should have returned an array" );
@@ -64,5 +56,21 @@ class eZRoleTest extends ezpDatabaseTestCase
             $this->assertType( 'eZRole', $role, "Returned items should be roles" );
         }
     }
+
+    /**
+     * Unit test for eZRole::fetchIDListByUser()
+     **/
+    public function testFetchIDListByUser()
+    {
+        // fetch roles ID for anonymous group
+        $roles = eZRole::fetchIDListByUser( array( self::$anonymousGroupID ) );
+        $this->assertType( 'array', $roles, "The method should have returned an array" );
+        $this->assertEquals( 1, count( $roles ), "The array should contain one item" );
+        $this->assertEquals( 1, $roles[0], "The returned role ID should be 1 (anonymous role)" );
+    }
+
+    static $anonymousGroupID = 42;
+    static $anonymousUserID = 10;
+    static $adminUserID = 14;
 }
 ?>
