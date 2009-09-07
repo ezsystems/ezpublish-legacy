@@ -41,6 +41,7 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'eZProductCollectionItemOptionTest' );
         $this->addTestSuite( 'eZRoleTest' );
         $this->addTestSuite( 'eZUserDiscountRuleTest' );
+        $this->addTestSuite( 'eZSubtreeNotificationRuleTest' );
     }
 
     public static function suite()
