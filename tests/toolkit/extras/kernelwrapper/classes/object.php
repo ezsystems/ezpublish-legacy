@@ -142,6 +142,10 @@ class ezpObject
                                 $attribute->setAttribute( 'data_int', $value );
                             break;
 
+                        case 'ezkeyword':
+                            $attribute->fromString( $value );
+                            break;
+
                         // Relation list: either an array of ID, or a dash separated string
                         case 'ezobjectrelationlist':
                             if ( is_array( $value ) )
