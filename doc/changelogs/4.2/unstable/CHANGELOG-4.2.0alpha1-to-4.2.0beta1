@@ -68,3 +68,4 @@ Changes from 4.2.0alpha1 to 4.2.0beta1
 - Fixed bug #14603: Custom install scripts - DOMDocument->root() - ezinstallscriptpackageinstaller.php
 - Fixed bug #15156: Fatal error when runnning notification cronjob | Node without a parent node
 - Fixed bug #15125: PHP Warning in lib\ezdbschema\classes\ezmysqlschema.php on line 169
+- Fixed bug #15016: replace all direct usage of implodeWithTypeCast() with generateSQLINStatement()
