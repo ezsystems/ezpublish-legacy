@@ -27,6 +27,7 @@ Changes from 4.2.0alpha1 to 4.2.0beta1
 *Scripts:
 
 *Translations:
+- Implemented enhancement #15420: German phrasebook and readme file
 
 *Bugfixes:
 - Fixed bug #15245: metaData for ezobjectrelation attributes is not always using the right translation
