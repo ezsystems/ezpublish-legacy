@@ -166,7 +166,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
                 $field['default'] = false;
             }
 
-            if ( substr ( $row['Extra'], 'auto_increment' ) !== false )
+            if ( strpos ( $row['Extra'], 'auto_increment' ) !== false )
             {
                 unset( $field['length'] );
                 $field['not_null'] = 0;
