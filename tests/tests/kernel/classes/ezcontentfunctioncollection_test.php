@@ -138,7 +138,6 @@ class eZContentFunctionCollectionTest extends ezpDatabaseTestCase
         $object->keywords = "keyword4, keyword5, keyword6";
         $object->publish();
 
-
         // fetch count for prefix 'k' on class 1
         foreach( array( $class1ID, $class2ID ) as $contentClassID )
         {
@@ -153,6 +152,42 @@ class eZContentFunctionCollectionTest extends ezpDatabaseTestCase
         $this->assertType( 'array', $count );
         $this->assertArrayHasKey( 'result', $count );
         $this->assertEquals( 6, $count['result'] );
+    }
+
+    /**
+     * Unit test for eZContentFunctionCollection::fetchKeyword
+     **/
+    public function testFetchKeyword()
+    {
+        $class1Identifier = __FUNCTION__ . '_1';
+
+        // First create two content classes with a keyword attribute
+        $class1 = new ezpClass( $class1Identifier, $class1Identifier, '<title>' );
+        $class1->add( 'Title', 'title', 'ezstring' );
+        $class1->add( 'Keywords', 'keywords', 'ezkeyword' );
+        $class1->store();
+        $class1ID = $class1->class->attribute( 'id' );
+
+        // Create an instance of each of these classes with attributes
+        $object = new ezpObject( $class1Identifier, 2 );
+        $object->title = __FUNCTION__;
+        $object->keywords = "keyword1, keyword2, keyword3";
+        $object->publish();
+
+        // Fetch keywords for class 1
+        $keywords = eZContentFunctionCollection::fetchKeyword(
+            'k', $class1ID, 0, 20 );
+        $this->assertType( 'array', $keywords );
+        $this->assertArrayHasKey( 'result', $keywords );
+        $this->assertType( 'array', $keywords['result'] );
+        $this->assertEquals( 3, count( $keywords['result'] ) );
+        foreach( $keywords['result'] as $result )
+        {
+            $this->assertType( 'array', $result );
+            $this->assertArrayHasKey( 'keyword', $result );
+            $this->assertArrayHasKey( 'link_object', $result );
+            $this->assertType( 'eZContentObjectTreeNode', $result['link_object'] );
+        }
     }
 }
 
