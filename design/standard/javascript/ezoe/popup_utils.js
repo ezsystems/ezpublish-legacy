@@ -464,7 +464,7 @@ var eZOEPopupUtils = {
                 	// Make sure selecion has value before we set it (#014986)
                 	for( var i = 0, l = o.el.options.length; i < l; i++ )
                 	{
-                    	if ( o.el.options[i].value == v ) o.el.value = v;
+                    	if ( o.el.options[i].value == values[name] ) o.el.value = values[name];
                 	}
                 }
                 else
