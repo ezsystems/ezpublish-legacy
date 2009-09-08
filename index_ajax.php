@@ -46,6 +46,16 @@ require 'autoload.php';
 include_once( 'lib/ezutils/classes/ezsession.php' );
 include_once( 'kernel/common/ezincludefunctions.php' );
 
+// Tweak ini filetime checks if not defined
+// this makes ini system not check modified time
+// so that index_ajax.php can assume that index.php
+// does this regulary enough, set to true in config.php
+// to override.
+if ( !defined('EZP_INI_FILEMTIME_CHECK') )
+{
+    define( 'EZP_INI_FILEMTIME_CHECK', false );
+}
+
 function ezupdatedebugsettings()
 {
 }
