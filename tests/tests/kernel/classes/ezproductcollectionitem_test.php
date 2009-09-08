@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the eZProductCollectionTest class
+ * File containing the eZProductCollectionItemTest class
  *
  * @copyright Copyright (C) 1999-2009 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
@@ -41,16 +41,6 @@ class eZProductCollectionItemTest extends ezpDatabaseTestCase
             'name' => __FUNCTION__ );
 
         $deleteIDArray = $keepIDArray = array();
-        /*for( $i = 1; $i <=4; $i++ )
-        {
-            $row = array(
-                'created' => time(),
-                'currency' => 'EUR'
-            );
-            $collection = new eZProductCollection( $row );
-            $collection->store();
-            print_r( $collection );
-        }*/
         for( $i = 1; $i < 40; $i++ )
         {
             $row['productcollection_id'] = ceil( $i / 10 );
@@ -67,7 +57,7 @@ class eZProductCollectionItemTest extends ezpDatabaseTestCase
             }
         }
 
-        eZProductCollection::cleanupList( array( 1, 2 ) );
+        eZProductCollectionItem::cleanupList( array( 1, 2 ) );
 
         // Check that each item of deleteIDArray has been removed
         foreach( $deleteIDArray as $id )
