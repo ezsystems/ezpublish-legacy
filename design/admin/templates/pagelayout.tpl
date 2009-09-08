@@ -17,84 +17,9 @@
 {* cache-block keys=array($navigation_part.identifier, $current_user.role_id_list|implode( ',' ), $current_user.limited_assignment_value_list|implode( ',' ), $ui_context, $hide_right_menu, $admin_left_width) *}
 {* Cache header for each navigation part *}
 
-{section name=JavaScript loop=ezini( 'JavaScriptSettings', 'JavaScriptList', 'design.ini' ) }
-<script language="JavaScript" type="text/javascript" src={concat( 'javascript/',$:item )|ezdesign}></script>
-{/section}
+{include uri='design:page_head_style.tpl'}
+{include uri='design:page_head_script.tpl'}
 
-
-<style type="text/css">
-    @import url({'stylesheets/core.css'|ezdesign});
-    @import url({'stylesheets/site.css'|ezdesign});
-    @import url({'stylesheets/debug.css'|ezdesign});
-{section var=css_file loop=ezini( 'StylesheetSettings', 'CSSFileList', 'design.ini' )}
-    @import url({concat( 'stylesheets/',$css_file )|ezdesign});
-{/section}
-
-
-{if $hide_right_menu}
-    div#maincontent {ldelim} margin-right: 0.4em; {rdelim}
-{/if}
-
-{if $admin_left_width}
-    {def $left_menu_widths = ezini( 'LeftMenuSettings', 'MenuWidth', 'menu.ini')
-         $left_menu_width=$left_menu_widths[$admin_left_width]}
-    div#leftmenu {ldelim} width: {$left_menu_width|int}em; {rdelim}
-    div#maincontent {ldelim} margin-left: {$left_menu_width|int}.5em; {rdelim}
-    {undef $left_menu_widths $left_menu_width}
-{/if}
-
-</style>
-
-{if ezini('TreeMenu','Dynamic','contentstructuremenu.ini')|ne('enabled')}
-{literal}
-<script language="JavaScript" type="text/javascript">
-<!--
-document.write("<style type='text/css'>div#contentstructure ul#content_tree_menu ul li { padding-left: 0; }div#contentstructure ul#content_tree_menu ul ul { margin-left: 20px; }<\/style>");
--->
-</script>
-{/literal}
-{/if}
-
-{literal}
-<!--[if IE]>
-<style type="text/css">
-div#leftmenu div.box-bc, div#rightmenu div.box-bc { border-bottom: 1px solid #bfbeb6; /* Strange IE bug fix */ }
-div#contentstructure { overflow-x: auto; overflow-y: hidden; } /* hide vertical scrollbar in IE */
-div.menu-block li { width: 16.66%; } /* Avoid width bug in IE */
-div.notranslations li { width: 19%; } /* Avoid width bug in IE */
-div.context-user div.menu-block li { width: 14%; } /* Avoid width bug in IE */
-input.button, input.button-disabled { padding: 0 0.5em 0 0.5em; overflow: visible; }
-input.box, textarea.box { width: 98%; }
-td input.box, td textarea.box { width: 97%; }
-div#search p.select { margin-top: 0; }
-div#search p.advanced { margin-top: 0.3em; }
-div.content-navigation div.mainobject-window div.fixedsize { float: none; overflow: scroll; }
-div.fixedsize input.box, div.fixedsize textarea.box, div.fixedsize table.list { width: 95%; }
-a.openclose img, span.openclose img { margin-right: 4px; }
-div#fix { overflow: hidden; }
-</style>
-<![endif]-->
-<!--[if lt IE 6.0]>
-<style type="text/css">
-div#maincontent div.context-block { width: 100%; } /* Avoid width bug in IE 5.5 */
-div#maincontent div#maincontent-design { width: 98%; } /* Avoid width bug in IE 5.5 */
-</style>
-<![endif]-->
-<!--[if IE 6.0]>
-<style type="text/css">
-div#maincontent div.box-bc { border-bottom: 1px solid #bfbfb7; /* Strange IE bug fix */ }
-div#leftmenu-design { margin: 0.5em 4px 0.5em 0.5em; }
-</style>
-<![endif]-->
-{/literal}
-
-<!--[if gte IE 5.5000]>
-<script type="text/javascript">
-    var emptyIcon16 = {'16x16.gif'|ezimage};
-    var emptyIcon32 = {'32x32.gif'|ezimage};
-</script>
-<script type="text/javascript" src={'javascript/tools/eziepngfix.js'|ezdesign}></script>
-<![endif]-->
 
 </head>
 

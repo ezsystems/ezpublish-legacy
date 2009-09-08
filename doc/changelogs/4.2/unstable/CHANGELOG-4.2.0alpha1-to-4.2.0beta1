@@ -17,6 +17,7 @@ Changes from 4.2.0alpha1 to 4.2.0beta1
 
 *Design:
 - Implemented enhancement #14654: Admin Interface - include custom navigationpart menu template automatically
+- Implemented enhancement #15440: Add page_head_[style|script].tpl in admin design
 
 *eZTemplate:
 
