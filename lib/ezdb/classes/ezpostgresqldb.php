@@ -509,7 +509,6 @@ class eZPostgreSQLDB extends eZDBInterface
         return $this->query( "ROLLBACK WORK" );
     }
 
-
     /**
      * Returns the last serial ID generated with an auto increment field.
      * 
