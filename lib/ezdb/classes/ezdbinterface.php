@@ -1133,19 +1133,15 @@ class eZDBInterface
         return false;
     }
 
-    /*!
-      Casts elements of \a $pieces to type \a $type and returns them as string separated by \a $glue.
-
-      \param $glue The separator.
-             $pieces The array containing the elements.
-             $type The type to cast to.
-
-      Example:
-      \code
-      implodeWithTypeCast( ',', $myArray, 'int' )
-      \endcode
-
-    */
+    /**
+     * Casts elements of \a $pieces to type $type and returns them as string
+     * separated by $glue.
+     * @param string $glue The separator.
+     * @param array $pieces The array containing the elements.
+     * @param $type The type to cast to.
+     *
+     * @example implodeWithTypeCast( ',', $myArray, 'int' )
+     **/
     function implodeWithTypeCast( $glue, &$pieces, $type )
     {
         $str = '';
@@ -1304,33 +1300,37 @@ class eZDBInterface
         return false;
     }
 
-    /*!
-     \static
-
-     This function can be used to create a SQL IN statement to be used in a WHERE clause:
-
-     WHERE columnName IN ( element1, element2, ... )
-
-     By default, the elements that can be submitted as an anonymous array (or an integer value
-     in case of a single element) will just be imploded. Drivers for databases with a limitation
-     of the elements within an IN statement have to reimplement this function. It is also possible
-     to negate the "IN" to a "NOT IN" by using the last parameter of this function.
-
-     Usage:
-
-     $db =& eZDb::instance();
-     $db->generateSQLINStatement( array( 2, 5, 43, ) );
-
-     \param $elements   Elements that should (not) be matched by the IN statment as an integer or anonymous array
-     \param $columnName Column name of the database table the IN statement should be created for
-     \param $not        Will generate a "NOT IN" ( if set to \c true ) statement instead of an "IN" ( if set to
-                        \c false , default )
-     \param $unique
-     \param $type      The type to cast the array elements to
-
-     \return A string with the correct IN statement like for example
-             "columnName IN ( element1, element2 )"
-     */
+    /**
+     * This function can be used to create a SQL IN statement to be used in a WHERE clause:
+     *
+     * WHERE columnName IN ( element1, element2, ... )
+     * By default, the elements that can be submitted as an anonymous array (or an integer value
+     * in case of a single element) will just be imploded. Drivers for databases with a limitation
+     * of the elements within an IN statement have to reimplement this function. It is also possible
+     * to negate the "IN" to a "NOT IN" by using the last parameter of this function.
+     *
+     * Usage:
+     *
+     * $db =& eZDb::instance();
+     * $db->generateSQLINStatement( array( 2, 5, 43, ) );
+     *
+     * @param int|array $elements
+     *        Elements that should (not) be matched by the IN statment as an
+     *        integer or anonymous array
+     * @param string $columnName
+     *        Column name of the database table the IN statement should be
+     *        created for
+     * @param bool $not
+     *        Will generate a "NOT IN" ( if set to \c true ) statement instead
+     *        of an "IN" ( if set to false , default )
+     * @param $unique
+     *        Wether or not to make the array unique. Not implemented in this
+     *        class, but can be used by extending classes (oracle does use it)
+     * @param $type The type to cast the array elements to
+     *
+     * @return string A string with the correct IN statement like for example
+     *         "columnName IN ( element1, element2 )"
+     **/
     function generateSQLINStatement( $elements, $columnName = '', $not = false, $unique = true, $type = false )
     {
         $result    = '';
