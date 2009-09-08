@@ -63,6 +63,36 @@ class eZXMLTextRegression extends ezpDatabaseTestCase
 
         self::assertEquals( $version1Xml, $version2Xml );
     }
+
+    /**
+     * Test for issue #15089: eZ Simplified XML input does not handle whitespace in XML attribute definitions
+     * 
+     * @link http://issues.ez.no/15089
+     */
+    public function testWhiteSpaceInAttributes()
+    {
+        $testData = <<<END
+<a href = "http://www.example.com" target = "_blank"><b>Colette Baron-Reid</b></a>
+Click store draft and notice the result:
+<link href=""><strong>Colette Baron-Reid</strong></link>
+END;
+        $folder = new ezpObject( "folder", 2 );
+        $folder->name = __FUNCTION__;
+
+        try
+        {
+            // Filling in the eZXMLTextType datatype will cause the provided
+            // simple xml to be parsed. Unpatched this throw warnings
+            // and attribute values will be lost.
+            $folder->short_description = $testData;
+        }
+        catch ( PHPUnit_Framework_Error $e )
+        {
+            // CAVEAT: this test is too generic to catch the following problem specifically
+            // This can only used as an indication for now.
+            self::fail( "XML parser does not handle spaces in attributes" );
+        }
+    }
 }
 
 ?>
