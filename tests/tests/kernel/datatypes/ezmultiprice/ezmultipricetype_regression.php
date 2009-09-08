@@ -43,7 +43,7 @@ class eZMultiPriceTypeRegression extends ezpDatabaseTestCase
             'custom_rate_value' => 0,
             'rate_factor' => 1 );
 
-        $currency = eZCurrencyData::create( $currencyCode, '€', 'eng-GB', 0, 0, 1 );
+        $currency = eZCurrencyData::create( $currencyCode, 'â‚¬', 'eng-GB', 0, 0, 1 );
         $currency->store();
 
         $currencyID = $currency->attribute( 'id' );

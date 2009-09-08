@@ -70,3 +70,4 @@ Changes from 4.2.0alpha1 to 4.2.0beta1
 - Fixed bug #15125: PHP Warning in lib\ezdbschema\classes\ezmysqlschema.php on line 169
 - Fixed bug #15016: replace all direct usage of implodeWithTypeCast() with generateSQLINStatement()
 - Fixed bug #15437: index_image_dfsmysql.php is missing from the distribution
+- Fixed bug #15411: Traces of mangled byte in multiprice test, caused invalid byte sequence when inserting data to PostgreSQL
