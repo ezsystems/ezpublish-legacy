@@ -122,18 +122,26 @@ class eZWorkflowEvent extends eZPersistentObject
                       "name" => "ezworkflow_event" );
     }
 
-    static function create( $workflow_id, $type_string )
+    /**
+     * Creates a new workflow event
+     *
+     * @param int $workflowID
+     * @param string $typeString
+     *
+     * @return eZWorkflowEvent
+     **/
+    static function create( $workflowID, $typeString )
     {
         $row = array(
             "id" => null,
             "version" => 1,
-            "workflow_id" => $workflow_id,
-            "workflow_type_string" => $type_string,
+            "workflow_id" => $workflowID,
+            "workflow_type_string" => $typeString,
             "description" => "",
             "placement" => eZPersistentObject::newObjectOrder( eZWorkflowEvent::definition(),
                                                                "placement",
                                                                array( "version" => 1,
-                                                                      "workflow_id" => $workflow_id ) ) );
+                                                                      "workflow_id" => $workflowID ) ) );
         return new eZWorkflowEvent( $row );
     }
 
