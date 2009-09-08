@@ -140,17 +140,14 @@ class eZWorkflowEventRegression extends ezpDatabaseTestCase
         $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $objectID,
                                                                                      'version'   => 1 ) );
 
-        // Remove trigger
-        eZTrigger::removeTriggerForWorkflow( $this->workflow->attribute( 'id' ) );
+        $this->assertType( 'array', $operationResult );
+        $this->assertEquals( $operationResult['status'], eZModuleOperationInfo::STATUS_CONTINUE,
+            "The operation result wasn't CONTINUE" );
+
+        $this->removeWorkflow( $this->workflow );
 
         // Log in as whoever was logged in
         eZUser::setCurrentlyLoggedInUser( $this->currentUser, $this->currentUser->attribute( 'id' ) );
-
-        // remove the workflow events
-        eZWorkflow::removeEvents( false, $this->workflow->attribute( 'id' ), $this->workflow->attribute( 'version' ) );
-
-        // remove the workflow
-        eZWorkflow::removeWorkflow( $this->workflow->attribute( 'id' ), $this->workflow->attribute( 'version' ) );
     }
 
     /**
