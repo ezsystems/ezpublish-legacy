@@ -47,7 +47,9 @@
     {include uri="design:link.tpl" enable_help=$enable_help enable_link=$enable_link}
 {/section}
 
-{* Load JavaScript dependencys *}
-{ezscript_load()}
+{if fetch( 'setup', 'minor_version' )|lt( 2 )}
+    {include uri='design:page_head_style.tpl' load_main_css=false()}
+    {include uri='design:page_head_script.tpl' load_javascript_list=false()}
+{/if}
 
 {/default}
