@@ -606,7 +606,7 @@ class eZXMLInputParser
                 continue;
             }
 
-            list( $attrName, $attrValue ) = split( '="', $attrStr );
+            list( $attrName, $attrValue ) = preg_split( "/ *= *\"/", $attrStr );
 
             $attrName = strtolower( trim( $attrName ) );
             if ( !$attrName )
