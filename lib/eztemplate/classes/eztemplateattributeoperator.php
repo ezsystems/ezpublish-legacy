@@ -159,7 +159,7 @@ class eZTemplateAttributeOperator
                 {
                     $spacing = str_repeat( " ", $cur_level*4 );
                     if ( $show_values )
-                        $txt .= "$spacing$key ($type=$item)\n";
+                        $txt .= "$spacing$key ($type=$itemValue)\n";
                     else
                         $txt .= "$spacing$key ($type)\n";
                 }
@@ -203,7 +203,7 @@ class eZTemplateAttributeOperator
                 {
                     $spacing = str_repeat( " ", $cur_level*4 );
                     if ( $show_values )
-                        $txt .= "$spacing$key ($type=$item)\n";
+                        $txt .= "$spacing$key ($type=$itemValue)\n";
                     else
                         $txt .= "$spacing$key ($type)\n";
                 }
