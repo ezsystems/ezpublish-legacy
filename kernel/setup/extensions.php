@@ -76,6 +76,7 @@ if ( $module->isCurrentAction( 'ActivateExtensions' ) )
 
 // open site.ini for reading
 $siteINI = eZINI::instance();
+$siteINI->load();
 $selectedExtensionArray       = $siteINI->variable( 'ExtensionSettings', "ActiveExtensions" );
 $selectedAccessExtensionArray = $siteINI->variable( 'ExtensionSettings', "ActiveAccessExtensions" );
 $selectedExtensions           = array_merge( $selectedExtensionArray, $selectedAccessExtensionArray );
