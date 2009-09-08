@@ -72,3 +72,4 @@ Changes from 4.2.0alpha1 to 4.2.0beta1
 - Fixed bug #15437: index_image_dfsmysql.php is missing from the distribution
 - Fixed bug #15411: Traces of mangled byte in multiprice test, caused invalid byte sequence when inserting data to PostgreSQL
 - Fixed bug #15445: The result of eZPostgreSQLDB->lastSerialID() is expected to be an int.
+- Fixed bug #15153: Apply changes with custom design
