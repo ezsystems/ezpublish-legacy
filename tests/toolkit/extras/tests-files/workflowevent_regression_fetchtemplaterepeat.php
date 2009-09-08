@@ -4,7 +4,7 @@ class WorkflowEventRegressionFetchTemplateRepeatType extends eZWorkflowEventType
     const WORKFLOW_TYPE_STRING = 'fetchtemplaterepeat';
     function __construct()
     {
-        $this->eZWorkflowEventType( Issue4030Type::WORKFLOW_TYPE_STRING, "Issue #4030 test" );
+        $this->eZWorkflowEventType( WorkflowEventRegressionFetchTemplateRepeatType::WORKFLOW_TYPE_STRING, "WorkflowEventRegressionFetchTemplateRepeatType test" );
         $this->setTriggerTypes( array( 'content' => array( 'publish' => array( 'before' ) ) ) );
     }
 
@@ -12,12 +12,7 @@ class WorkflowEventRegressionFetchTemplateRepeatType extends eZWorkflowEventType
     {
         if ( !isset( $_POST['CompletePublishing'] ) )
         {
-            // set the object back to draft
-            /*$parameters = unserialize( $process->attribute( 'parameters' ) );
-            eZContentOperationCollection::setVersionStatus(
-                $parameters['object_id'], $parameters['version'], eZContentObjectVersion::STATUS_DRAFT );*/
-
-            $index =eZSys::indexFile( true );
+            $index = eZSys::indexFile( true );
             $requestUri = eZSys::indexFile( false ) . eZSys::requestUri();
             $replace = "@" . preg_quote( $index ) . "@i";
             $requestUri = preg_replace( array( $replace ), array(''), $requestUri, 1 );
