@@ -540,9 +540,17 @@ class eZPostgreSQLDB extends eZDBInterface
         return $this->query( "ROLLBACK WORK" );
     }
 
-    /*!
-     \reimp
-    */
+
+    /**
+     * Returns the last serial ID generated with an auto increment field.
+     * 
+     * In this case that means the current value of the sequence assigned
+     * <var>$table</var>
+     *
+     * @param string $table
+     * @param string $column
+     * @return int The most recent value for the sequence
+     */
     function lastSerialID( $table = false, $column = 'id' )
     {
         if ( $this->isConnected() )
@@ -557,7 +565,7 @@ class eZPostgreSQLDB extends eZDBInterface
             if ( $result )
             {
                 $array = pg_fetch_row( $result, 0 );
-                $id = $array[0];
+                $id = (int)$array[0];
             }
         }
         return $id;
