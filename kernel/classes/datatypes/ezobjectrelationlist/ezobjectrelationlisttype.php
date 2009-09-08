@@ -1458,7 +1458,7 @@ class eZObjectRelationListType extends eZDataType
     */
     function metaData( $contentObjectAttribute )
     {
-        $metaDataArray = array();
+        $metaDataArray = $attributes = array();
         $content = $contentObjectAttribute->content();
         foreach( $content['relation_list'] as $relationItem )
         {
