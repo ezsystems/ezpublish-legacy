@@ -19,6 +19,7 @@ class eZTestSuite extends ezpTestSuite
         $this->addTestSuite( 'eZDBTestSuite' );
         $this->addTestSuite( 'eZSOAPTestSuite' );
         $this->addTestSuite( 'eZLocaleTestSuite' );
+        $this->addTestSuite( 'eZTemplateTestSuite' );
     }
 
     public static function suite()
