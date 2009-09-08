@@ -732,16 +732,26 @@ class eZImageAliasHandler
                 // Fetch ezimage attributes that have $filepath.
                 // Always returns current attribute (array of $contentObjectAttributeID and $contentObjectAttributeVersion)
                 $dbResult = eZImageFile::fetchImageAttributesByFilepath( $filepath, $contentObjectAttributeID );
+                $dbResultCount = count( $dbResult );
                 // Check if there are the attributes.
-                if ( count( $dbResult ) > 0 )
+                if ( $dbResultCount > 0 )
                 {
                     $doNotDelete = true;
                     foreach ( $dbResult as $res )
                     {
                         // If attr is current
-                        if ( $res['id'] == $contentObjectAttributeID and
+                        if ( $res['id'] == $contentObjectAttributeID &&
                              $res['version'] == $contentObjectAttributeVersion )
-                            continue;
+                        {
+                            if( $dbResultCount > 1 ) // More than one result returned => we have a contentobject_version dependency
+                            {
+                        		continue;
+                            }
+                        	else // Only one result which is the current one. No version dependency => to delete
+                        	{
+                        		$doNotDelete = false;
+                        	}
+                        }
 
                         eZImageFile::appendFilepath( $res['id'], $filepath, true );
                     }

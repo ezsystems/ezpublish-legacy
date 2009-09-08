@@ -75,3 +75,4 @@ Changes from 4.2.0alpha1 to 4.2.0beta1
 - Fixed bug #15153: Apply changes with custom design
 - Fixed bug #14371: Workflow template repeat broken by security patch
 - Fixed bug #14864: Cast error in eZTemplateAttributeOperator
+- Fixed bug #15155: eZImageType::deleteStoredObjectAttribute doesn't clean original image
