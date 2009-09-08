@@ -28,6 +28,12 @@ Change of behaviour
   template. The change was done in order to be consistent with other emails sent
   by eZ Publish.
 
+- Administration interface pagelayout.tpl
+
+  Included automatically left menu template for the default_navigation_part
+  ez $part_name navigationpart =>  parts/$part_name/menu.tpl requires to
+  have right template in place. This is required for module views which has
+  default_navigation_part defined. Ref. to the enhancement request #14654.
 
 Renamed methods
 ---------------
