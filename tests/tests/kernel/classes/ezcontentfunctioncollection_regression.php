@@ -9,6 +9,14 @@
 
 class eZContentFunctionCollectionRegression extends ezpDatabaseTestCase
 {
+    protected $backupGlobals = false;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->setName( "eZContentFunctionCollection Regression Tests" );
+    }
+
     /**
      * Test for issue #15230: php fatal error in fetch reverse_related_object
      *
