@@ -1060,3 +1060,9 @@ Datatype branch:
 - Version url=http://svn.ez.no/svn/ezpublish/versions/4.2.0alpha1
 - Date 31-Jul-2009
 - Revision=23868
+
+4.2.0beta1:
+- From revision=24058
+- Version url=http://svn.ez.no/svn/ezpublish/versions/4.2.0beta1
+- Date  8-Sep-2009
+- Revision=24059
