@@ -8,18 +8,19 @@
                       'pagelayout.css',
                       'content.css',
                       'websitetoolbar.css',
-                      ezini( 'StylesheetSettings', 'CSSFileList', 'design.ini' ),
-                      ezini('StylesheetSettings','ClassesCSS','design.ini')|ezroot(no),
-                      ezini('StylesheetSettings','SiteCSS','design.ini')|ezroot(no) ) )}
+                      ezini( 'StylesheetSettings', 'CSSFileList', 'design.ini' ) ))}
 {else}
   {ezcss_load( array( 'core.css',
                       'debug.css',
                       'pagelayout.css',
                       'content.css',
-                      'websitetoolbar.css',
-                      ezini('StylesheetSettings','ClassesCSS','design.ini')|ezroot(no),
-                      ezini('StylesheetSettings','SiteCSS','design.ini')|ezroot(no) ) )}
+                      'websitetoolbar.css' ))}
 {/if}
+
+<style type="text/css">
+    @import url({ezini('StylesheetSettings','ClassesCSS','design.ini')|ezroot(no)});
+    @import url({ezini('StylesheetSettings','SiteCSS','design.ini')|ezroot(no)});
+</style>
 
 <link rel="stylesheet" type="text/css" href={"stylesheets/print.css"|ezdesign} media="print" />
 <!-- IE conditional comments; for bug fixes for different IE versions -->
