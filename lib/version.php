@@ -33,12 +33,12 @@
 class eZPublishSDK
 {
     const VERSION_MAJOR = 4;
-    const VERSION_MINOR = 2;
+    const VERSION_MINOR = 3;
     const VERSION_RELEASE = 0;
-    const VERSION_STATE = 'beta1';
+    const VERSION_STATE = 'alpha1';
     const VERSION_DEVELOPMENT = true;
     const VERSION_REVISION_STRING = '$Rev$';
-    const VERSION_ALIAS = '4.2';
+    const VERSION_ALIAS = '4.3';
     const VERSION_REVISION = 19785;
 
     /*!
