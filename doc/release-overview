@@ -1072,3 +1072,9 @@ Datatype branch:
 - Release branch start=24061
 - Release branch end=
 - Release date
+
+4.1.4:
+- Release branch=release/4.1.4
+- Release branch start=24067
+- Release branch end=
+- Release branch configured=
