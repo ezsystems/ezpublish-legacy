@@ -87,6 +87,7 @@ $versions41 = array( 'unstable' => array(  array( '4.0.0',       '4.1.0alpha1' )
 					array( '4.1.1', '4.1.2' ),
 					array( '4.1.2', '4.1.3' ),
 					array( '4.1.3', '4.1.4' ),
+					array( '4.1.4', '4.1.5' ),
                                        ) );
 
 $versions['4.1'] = $versions41;

@@ -6,16 +6,16 @@
 # The last version which changelogs and db updates are related to
 # For the first development release this should be empty, in
 # wich case $LAST_STABLE is used.
-PREVIOUS_VERSION="4.1.3"
+PREVIOUS_VERSION="4.1.4"
 # The last version of the newest stable branch
-LAST_STABLE="4.1.3"
+LAST_STABLE="4.1.4"
 # Set this to true if the LAST_STABLE has been modified from the last release
 # This will be set to true automatically if the release is a final release
 LAST_STABLE_CHANGED="true"
 
 MAJOR=4
 MINOR=1
-RELEASE=4
+RELEASE=5
 # Starts at 1 for the first release in a branch and increases with one
 REAL_RELEASE=1
 STATE=""
@@ -577,10 +577,10 @@ fi
 
 function lupdate_check_version
 {
-    if ! grep -E "static QString version = \"$VERSION\";" support/ezlupdate/main.cpp &>/dev/null; then
+    if ! grep -E "static QString version = \"$VERSION\";" support/ezlupdate-qt4.5/ezlupdate/main.cpp &>/dev/null; then
 	if [ -z "$1" ]; then
 	    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
-	    echo "Wrong/missing version number in `$SETCOLOR_EXE`support/ezlupdate/main.cpp`$SETCOLOR_NORMAL` for variable version"
+	    echo "Wrong/missing version number in `$SETCOLOR_EXE`support/ezlupdate-qt4.5/ezlupdate/main.cpp`$SETCOLOR_NORMAL` for variable version"
 	    echo "Should be:"
 	    echo "static QString version = \"`$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`\""
 	    echo
@@ -595,7 +595,7 @@ function lupdate_check_version
 
 lupdate_check_version "$FIX"
 if [ $? -ne 0 ]; then
-    sed -i 's/^static QString version = "[^"]*";/static QString version = "'$VERSION'";/' support/ezlupdate/main.cpp
+    sed -i 's/^static QString version = "[^"]*";/static QString version = "'$VERSION'";/' support/ezlupdate-qt4.5/ezlupdate/main.cpp
     lupdate_check_version ""
 fi
 
