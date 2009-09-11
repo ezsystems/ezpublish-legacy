@@ -476,7 +476,7 @@ class eZSession
 
     /**
      * Gets/generates the user hash for use in validating the session based on [Session]
-     * SessionValidation* site.ini settings.
+     * SessionValidation* site.ini settings. The default hash is result of md5('empty').
      * 
      * @static
      * @return string Returns md5 hash based on parts of the user ip and agent string.
@@ -502,7 +502,7 @@ class eZSession
             {
                 $sessionValidationString .= '-' . $_SERVER['HTTP_USER_AGENT'];
             }
-            self::$userSessionHash = $sessionValidationString ? md5( $sessionValidationString ) : '';
+            self::$userSessionHash = $sessionValidationString ? md5( $sessionValidationString ) : 'a2e4822a98337283e39f7b60acf85ec9';
         }
         return self::$userSessionHash;
     }
