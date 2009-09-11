@@ -371,6 +371,7 @@ class eZWorkflowProcess extends eZPersistentObject
                         {
                             $workflowStatus = eZWorkflow::STATUS_REDIRECT;
                             $done = true;
+                            $this->advance();
                         } break;
                         case eZWorkflowType::STATUS_RUN_SUB_EVENT:
                         {
