@@ -17,3 +17,4 @@ Changes from 4.2.0 to 4.3.0alpha1
 *Bugfixes:
 - Fixed bug #15454: Make eZSession::getUserSessionHash() to return default hash instead of empty string
 - Fixed bug #15467: ezenum datatype always resets the multiple choice settings when the class is edited
+- Fixed bug #14939: odd workflow behaviour when redirects
