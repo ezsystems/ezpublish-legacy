@@ -280,14 +280,13 @@ class eZEnumType extends eZDataType
         $enumRemove = $base . '_data_enumremove_' . $contentClassAttribute->attribute( 'id' );
         $version = $contentClassAttribute->attribute( 'version' );
 
-        $ismultipleValue = $http->hasPostVariable( $ismultiple ) ? 1 : 0;
-        $contentClassAttribute->setAttribute( self::IS_MULTIPLE_FIELD, $ismultipleValue );
-
         if ( $http->hasPostVariable( $isoption ) )
         {
-             $optionValue = $http->postVariable( $isoption );
-             $optionValueSet = $optionValue == 1 ? '1' : '0';
-             $contentClassAttribute->setAttribute( self::IS_OPTION_FIELD, $optionValueSet );
+            $ismultipleValue = $http->hasPostVariable( $ismultiple ) ? 1 : 0;
+            $contentClassAttribute->setAttribute( self::IS_MULTIPLE_FIELD, $ismultipleValue );
+            $optionValue = $http->postVariable( $isoption );
+            $optionValueSet = $optionValue == 1 ? '1' : '0';
+            $contentClassAttribute->setAttribute( self::IS_OPTION_FIELD, $optionValueSet );
         }
 
         if ( $http->hasPostVariable( $enumID ) &&
