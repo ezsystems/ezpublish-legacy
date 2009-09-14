@@ -53,6 +53,8 @@ class eZContentObjectVersion extends eZPersistentObject
     const STATUS_ARCHIVED = 3;
     const STATUS_REJECTED = 4;
     const STATUS_INTERNAL_DRAFT = 5;
+    // used when a workflow event returns FETCH_TEMPLATE_REPEAT to allow editing again
+    const STATUS_REPEAT = 6;
 
     function eZContentObjectVersion( $row=array() )
     {
@@ -1760,6 +1762,12 @@ class eZContentObjectVersion extends eZPersistentObject
         }
 
         return $conflictVersions;
+    }
+
+    public function store( $fieldFilters = null )
+    {
+        eZContentObject::clearCache( $this->attribute( 'contentobject_id' ) );
+        parent::store( $fieldFilters );
     }
 
     public $CurrentLanguage = false;

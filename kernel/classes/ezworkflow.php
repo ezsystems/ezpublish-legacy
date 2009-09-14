@@ -51,6 +51,7 @@ class eZWorkflow extends eZPersistentObject
     const STATUS_REDIRECT = 7;
     const STATUS_RESET = 8;
     const STATUS_WAITING_PARENT = 9;
+    const STATUS_FETCH_TEMPLATE_REPEAT = 10;
 
     function eZWorkflow( $row )
     {

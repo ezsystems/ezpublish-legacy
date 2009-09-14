@@ -48,6 +48,7 @@ class eZTrigger extends eZPersistentObject
     const FETCH_TEMPLATE = 4;
     const REDIRECT = 5;
     const WORKFLOW_RESET = 6;
+    const FETCH_TEMPLATE_REPEAT = 7;
 
     /*!
      Constructor
@@ -206,6 +207,7 @@ class eZTrigger extends eZPersistentObject
                                       'Result' => null );
                     } break;
                     case eZWorkflow::STATUS_FETCH_TEMPLATE:
+                    case eZWorkflow::STATUS_FETCH_TEMPLATE_REPEAT:
                     case eZWorkflow::STATUS_REDIRECT:
                     case eZWorkflow::STATUS_RESET:
                     {
@@ -278,6 +280,7 @@ class eZTrigger extends eZPersistentObject
                               'Result' => null );
             } break;
             case eZWorkflow::STATUS_FETCH_TEMPLATE:
+            case eZWorkflow::STATUS_FETCH_TEMPLATE_REPEAT:
             {
                 require_once( 'kernel/common/template.php' );
                 $tpl = templateInit();
@@ -292,7 +295,15 @@ class eZTrigger extends eZPersistentObject
                     $result['path'] = $workflowProcess->Template['path'];
 
                     $db->commit();
-                return array( 'Status' => eZTrigger::FETCH_TEMPLATE,
+                if ( $workflowStatus == eZWorkflow::STATUS_FETCH_TEMPLATE )
+                {
+                    $triggerStatus = eZTrigger::FETCH_TEMPLATE;
+                }
+                elseif ( $workflowStatus == eZWorkflow::STATUS_FETCH_TEMPLATE_REPEAT )
+                {
+                    $triggerStatus = eZTrigger::FETCH_TEMPLATE_REPEAT;
+                }
+                return array( 'Status' => $triggerStatus,
                               'WorkflowProcess' => $workflowProcess,
                               'Result' => $result );
             } break;
