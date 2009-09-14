@@ -482,12 +482,16 @@ class eZRole extends eZPersistentObject
 
     }
 
-    /*!
-     \static
-     Returns the roles which the corresponds to the array of content object id's ( Users and user group id's ).
-
-     \param recursive, default false
-    */
+    /**
+     * Returns the roles matching the given users' eZContentObject ID array
+     *
+     * @param array $idArray Array of eZContentObject IDs, either groups or users
+     * @param bool $recursive
+     *        If true, roles will be looked up for each given object's main node
+     *        path_array
+     *
+     * @return array(eZRole)
+     **/
     static function fetchByUser( $idArray, $recursive = false )
     {
         if ( count( $idArray ) < 1 )
@@ -499,7 +503,7 @@ class eZRole extends eZPersistentObject
 
         if ( !$recursive )
         {
-            $groupString = $db->implodeWithTypeCast( ',', $idArray, 'int' );
+            $groupINSQL = $db->generateSQLINStatement( $idArray, 'ezuser_role.contentobject_id', false, false, 'int' );
             $query = "SELECT DISTINCT ezrole.id,
                                       ezrole.name,
                                       ezuser_role.limit_identifier,
@@ -507,7 +511,7 @@ class eZRole extends eZPersistentObject
                                       ezuser_role.id as user_role_id
                       FROM ezrole,
                            ezuser_role
-                      WHERE ezuser_role.contentobject_id IN ( $groupString ) AND
+                      WHERE $groupINSQL AND
                             ezuser_role.role_id = ezrole.id";
         }
         else
@@ -527,7 +531,8 @@ class eZRole extends eZPersistentObject
                 return array();
             }
 
-            $query = 'SELECT DISTINCT ezrole.id,
+            $roleTreeINSQL = $db->generateSQLINStatement( $userNodeIDArray, 'role_tree.node_id', false, false, 'int' );
+            $query = "SELECT DISTINCT ezrole.id,
                                       ezrole.name,
                                       ezuser_role.limit_identifier,
                                       ezuser_role.limit_value,
@@ -537,7 +542,7 @@ class eZRole extends eZPersistentObject
                            ezcontentobject_tree role_tree
                       WHERE ezuser_role.contentobject_id = role_tree.contentobject_id AND
                             ezuser_role.role_id = ezrole.id AND
-                            role_tree.node_id IN ( ' . implode( ',', $userNodeIDArray ) . ' )';
+                            $roleTreeINSQL";
         }
 
         $roleArray = $db->arrayQuery( $query );
@@ -659,18 +664,23 @@ class eZRole extends eZPersistentObject
         return $this->Policies;
     }
 
-    /*!
-     Returns a list of role ids which the corresponds to the array of content object id's ( Users and user group id's ).
-    */
+    /**
+     * Fetches the list of roles ID matching an array of eZContentObject IDs
+     * (either users and/or groups IDs)
+     *
+     * @param array(eZContentObjectID) $idArray
+     *
+     * @return array(eZRoleID)
+     **/
     static function fetchIDListByUser( $idArray )
     {
         $db = eZDB::instance();
 
-        $groupString = $db->implodeWithTypeCast( ',', $idArray, 'int' );
+        $groupINSQL = $db->generateSQLINStatement( $idArray, 'ezuser_role.contentobject_id', false, false, 'int' );
         $query = "SELECT DISTINCT ezrole.id AS id
                   FROM ezrole,
                        ezuser_role
-                  WHERE ezuser_role.contentobject_id IN ( $groupString ) AND
+                  WHERE $groupINSQL AND
                         ezuser_role.role_id = ezrole.id ORDER BY ezrole.id";
 
         $retArray = array();

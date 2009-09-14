@@ -569,8 +569,8 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
         return $notifications;
     }
 
-    $idListStr = $db->implodeWithTypeCast( ',', $syncObjectIDListNew, 'int' );
-    $relatedRecordsList = $db->arrayQuery( "SELECT * FROM ezcontentobject_link WHERE from_contentobject_id IN ($idListStr)" );
+    $idListINString = $db->generateSQLINStatement( $syncObjectIDListNew, 'from_contentobject_id', false, false, 'int' );
+    $relatedRecordsList = $db->arrayQuery( "SELECT * FROM ezcontentobject_link WHERE $idListINString" );
 
     foreach ( $relatedRecordsList as $relatedEntry )
     {
