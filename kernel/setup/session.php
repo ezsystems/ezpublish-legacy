@@ -98,8 +98,8 @@ else if ( $module->isCurrentAction( 'RemoveSelectedSessions' ) )
             if ( count( $userIDArray ) > 0 )
             {
                 $db = eZDB::instance();
-                $userIDArrayString = $db->implodeWithTypeCast( ',', $userIDArray, 'int' );
-                $rows = $db->arrayQuery( "SELECT session_key FROM ezsession WHERE user_id IN ( " . $userIDArrayString . " )" );
+                $userINString = $db->generateSQLINStatement( $userIDArray, 'user_id', false, false, 'int' );
+                $rows = $db->arrayQuery( "SELECT session_key FROM ezsession WHERE $userINString" );
                 foreach ( $rows as $row )
                 {
                     eZSession::destroy( $row['session_key'] );
