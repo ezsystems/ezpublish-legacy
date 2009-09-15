@@ -131,6 +131,7 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
 
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupRootNodeId', $this->mainGroupNodeId );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMappingType', 'UseGroupAttribute' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPCreateMissingGroups', 'disabled' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupBaseDN', 'dc--phpuc,dc--ez,dc--no' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupClass', 'organizationalUnit' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupNameAttribute', 'ou' );
@@ -177,6 +178,7 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
         }
 
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMappingType', 'UseGroupAttribute' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPCreateMissingGroups', 'disabled' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroupAttributeType', 'name' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroupAttribute', 'ou' );
 
@@ -207,6 +209,7 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
         }
 
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMappingType', 'UseGroupAttribute' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPCreateMissingGroups', 'disabled' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroupAttributeType', 'name' );
         $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroupAttribute', 'ou' );
 
@@ -216,6 +219,75 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
         sort( $parentNodeIDs );
         self::assertEquals( array( $this->starWarsGroupNodeId, $this->rebelGroupNodeId, $this->rogueGroupNodeId ),
                             $parentNodeIDs );
+    }
+
+    /**
+     * Test scenario for LDAP login using UseGroupAttribute with LDAPUserGroupAttributeType=dn
+     * for issue #: ...
+     *
+     * Test Outline
+     * ------------
+     * 1. Set correct LDAPGroupMappingType
+     * 2. Login with username and password
+     * 3. Check parent nodes of user object
+     * 4. Login with username and password for another user
+     * 5. Check parent nodes of user object
+     *
+     * @result:
+     *   ##The first user is placed in the newly created Empire and Sith groups
+     *   ##(the following assertions are not executed)
+     * @expected:
+     *   The first user is placed in the existing StarWars and Rogues groups.
+     *   The second user has three node assignments.
+     *   The first two assignments are the existing StarWars and RebelAlliance groups.
+     *   The third assignment is the newly created Jedi group.
+     * @link http://issues.ez.no/ ...
+     */
+    public function testLoginUserUseGroupAttributeDN()
+    {
+        if ( !self::ldapIsEnabled() )
+        {
+            $this->markTestSkipped( 'LDAP is not loaded' );
+            return;
+        }
+
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMappingType', 'UseGroupAttribute' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPCreateMissingGroups', 'enabled' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupNameAttribute', 'ou' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroupAttributeType', 'dn' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroupAttribute', 'seeAlso' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'KeepGroupAssignment', 'disabled' );
+
+        $user = eZLDAPUser::loginUser( 'boba.fett', 'ihatesarlacs' );
+        $contentObject = $user->attribute( 'contentobject' );
+        self::assertEquals( array( $this->starWarsGroupNodeId, $this->rogueGroupNodeId ),
+                            $contentObject->attribute( 'parent_nodes' ) );
+
+        // Change the root node id, in order to create the Jedi group under the StarWars group
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupRootNodeId', $this->starWarsGroupNodeId );
+
+        // Try a user with a group that is not in ezp
+        $user = eZLDAPUser::loginUser( 'yoda', 'dagobah4eva' );
+        $contentObject = $user->attribute( 'contentobject' );
+        $parentNodeIDs = $contentObject->attribute( 'parent_nodes' );
+
+        // The user should be assigned to 3 groups
+        self::assertEquals( 3, count( $parentNodeIDs ) );
+
+        // The StarWars group already exists
+        $node0 = eZContentObjectTreeNode::fetch( $parentNodeIDs[0] );
+        self::assertEquals( array( $this->starWarsGroupNodeId, $this->mainGroupNodeId, 'StarWars' ),
+                            array( $parentNodeIDs[0], $node0->attribute( 'parent_node_id' ), $node0->attribute( 'name' ) ) );
+
+        // The RebelAlliance group already exists
+        $node1 = eZContentObjectTreeNode::fetch( $parentNodeIDs[1] );
+        self::assertEquals( array( $this->rebelGroupNodeId, $this->starWarsGroupNodeId, 'RebelAlliance' ),
+                            array( $parentNodeIDs[1], $node1->attribute( 'parent_node_id' ), $node1->attribute( 'name' ) ) );
+
+        // The Jedi group is created by the login handler
+        $node2 = eZContentObjectTreeNode::fetch( $parentNodeIDs[2] );
+        self::assertEquals( array( $this->starWarsGroupNodeId, 'Jedi' ),
+                            array( $node2->attribute( 'parent_node_id' ), $node2->attribute( 'name' ) ) );
     }
 
     /**

@@ -554,6 +554,13 @@ class eZLDAPUser extends eZUser
                 {
                     if ( $LDAPUserGroupAttributeType )
                     {
+                        // Should we create user groups that are specified in LDAP, but not found in eZ Publish?
+                        $createMissingGroups = ( $LDAPIni->variable( 'LDAPSettings', 'LDAPCreateMissingGroups' ) === 'enabled' );
+                        if ( $LDAPIni->variable( 'LDAPSettings', 'LDAPGroupRootNodeId' ) !== '' )
+                            $parentNodeID = $LDAPIni->variable( 'LDAPSettings', 'LDAPGroupRootNodeId' );
+                        else
+                            $parentNodeID = 5;
+
                         $groupAttributeCount = $info[0][$LDAPUserGroupAttribute]['count'];
                         if ( $LDAPUserGroupAttributeType == "name" )
                         {
@@ -567,24 +574,10 @@ class eZLDAPUser extends eZUser
                                 {
                                     $groupName = $info[0][$LDAPUserGroupAttribute][$i];
                                 }
-                                if ( $groupName != null )
-                                {
-                                    $groupQuery = "SELECT ezcontentobject_tree.node_id
-                                                     FROM ezcontentobject, ezcontentobject_tree
-                                                    WHERE ezcontentobject.name like '$groupName'
-                                                      AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
-                                                      AND ezcontentobject.contentclass_id=$userGroupClassID";
-                                    $groupObject = $db->arrayQuery( $groupQuery );
 
-                                    if ( count( $groupObject ) > 0 and $i == 0 )
-                                    {
-                                        $defaultUserPlacement = $groupObject[0]['node_id'];
-                                    }
-                                    else if ( count( $groupObject ) > 0 )
-                                    {
-                                        $extraNodeAssignments[] = $groupObject[0]['node_id'];
-                                    }
-                                }
+                                // Save group node id to either defaultUserPlacement or extraNodeAssignments
+                                self::getNodeAssignmentsForGroupName( $groupName, ($i == 0), $defaultUserPlacement, $extraNodeAssignments,
+                                                                      $createMissingGroups, $parentNodeID );
                             }
                         }
                         else if ( $LDAPUserGroupAttributeType == "id" )
@@ -599,27 +592,34 @@ class eZLDAPUser extends eZUser
                                 {
                                     $groupID = $info[0][$LDAPUserGroupAttribute][$i];
                                 }
+                                $groupName = "LDAP $groupID";
 
-                                if ( $groupID != null )
+                                // Save group node id to either defaultUserPlacement or extraNodeAssignments
+                                self::getNodeAssignmentsForGroupName( $groupName, ($i == 0), $defaultUserPlacement, $extraNodeAssignments,
+                                                                      $createMissingGroups, $parentNodeID );
+                            }
+                        }
+                        else if ( $LDAPUserGroupAttributeType == "dn" )
+                        {
+                            for ( $i = 0; $i < $groupAttributeCount; $i++ )
+                            {
+                                $groupDN = $info[0][$LDAPUserGroupAttribute][$i];
+                                $groupName = self::getGroupNameByDN( $ds, $groupDN );
+
+                                if ( $groupName )
                                 {
-                                    $groupName = "LDAP " . $groupID;
-                                    $groupQuery = "SELECT ezcontentobject_tree.node_id
-                                                     FROM ezcontentobject, ezcontentobject_tree
-                                                    WHERE ezcontentobject.name like '$groupName'
-                                                      AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
-                                                      AND ezcontentobject.contentclass_id=$userGroupClassID";
-                                    $groupObject = $db->arrayQuery( $groupQuery );
-
-                                    if ( count( $groupObject ) > 0 and $i == 0 )
-                                    {
-                                        $defaultUserPlacement = $groupObject[0]['node_id'];
-                                    }
-                                    else if ( count( $groupObject ) > 0 )
-                                    {
-                                        $extraNodeAssignments[] = $groupObject[0]['node_id'];
-                                    }
+                                    // Save group node id to either defaultUserPlacement or extraNodeAssignments
+                                    self::getNodeAssignmentsForGroupName( $groupName, ($i == 0), $defaultUserPlacement, $extraNodeAssignments,
+                                                                          $createMissingGroups, $parentNodeID );
                                 }
                             }
+                        }
+                        else
+                        {
+                            eZDebug::writeError( "Bad LDAPUserGroupAttributeType '$LDAPUserGroupAttributeType'. It must be either 'name', 'id' or 'dn'.",
+                                                 __METHOD__ );
+                            $user = false;
+                            return $user;
                         }
                     }
                 }
@@ -1288,6 +1288,99 @@ class eZLDAPUser extends eZUser
         return true;
     }
 
+    /*
+        Static method, for internal usage only
+        Finds a user group with the given name and remembers the node ID for it. The first match is always used.
+        If $createMissingGroups is true, it will create any groups it does not find.
+    */
+    static function getNodeAssignmentsForGroupName( $groupName,
+                                $isFirstGroupAssignment,
+                                &$defaultUserPlacement,
+                                &$extraNodeAssignments,
+                                $createMissingGroups,
+                                $parentNodeID )
+    {
+        if ( !is_string( $groupName ) or $groupName === '' )
+        {
+            eZDebug::writeError( 'The groupName must be a non empty string. Bad groupName: ' . $groupName, __METHOD__ );
+            return;
+        }
+
+        $db = eZDB::instance();
+        $ini = eZINI::instance();
+        $userGroupClassID = $ini->variable( "UserSettings", "UserGroupClassID" );
+
+        $groupQuery = "SELECT ezcontentobject_tree.node_id
+                       FROM ezcontentobject, ezcontentobject_tree
+                       WHERE ezcontentobject.name like '$groupName'
+                       AND ezcontentobject.id = ezcontentobject_tree.contentobject_id
+                       AND ezcontentobject.contentclass_id = $userGroupClassID";
+        $groupRows = $db->arrayQuery( $groupQuery );
+
+        if ( count( $groupRows ) > 0 and $isFirstGroupAssignment )
+        {
+            $defaultUserPlacement = $groupRows[0]['node_id'];
+            return;
+        }
+        else if ( count( $groupRows ) > 0 )
+        {
+            $extraNodeAssignments[] = $groupRows[0]['node_id'];
+            return;
+        }
+
+        // Should we create user groups that are specified in LDAP, but not found in eZ Publish?
+        if ( !$createMissingGroups )
+        {
+            return;
+        }
+
+        $newNodeIDs = self::publishNewUserGroup( array( $parentNodeID ), array( 'name' => $groupName ) );
+
+        if ( count( $newNodeIDs ) > 0 and $isFirstGroupAssignment )
+        {
+            $defaultUserPlacement = $newNodeIDs[0]; // We only supplied one parent to publishNewUserGroup(), so there is only one node
+        }
+        else if ( count( $newNodeIDs ) > 0 )
+        {
+            $extraNodeAssignments[] = $newNodeIDs[0]; // We only supplied one parent to publishNewUserGroup(), so there is only one node
+        }
+    }
+
+    /*
+        Static method, for internal usage only
+        Fetch the LDAP group object given by the DN, and return its name
+    */
+    static function getGroupNameByDN( $ds, $groupDN )
+    {
+        $LDAPIni = eZINI::instance( 'ldap.ini' );
+        $LDAPGroupNameAttribute = $LDAPIni->variable( 'LDAPSettings', 'LDAPGroupNameAttribute' );
+
+        // First, try to see if the $LDAPGroupNameAttribute is contained within the DN, in that case we can read it directly
+        $groupDNParts = ldap_explode_dn( $groupDN, 0 );
+        list( $firstName, $firstValue ) = explode( '=', $groupDNParts[0] );
+
+        if ( $firstName = $LDAPGroupNameAttribute ) // Read the group name attribute directly from the group DN
+        {
+            $groupName = $firstValue;
+        }
+        else // Read the LDAP group object, get the group name attribute from it
+        {
+            $sr = ldap_read( $ds, $groupDN, "($LDAPGroupNameAttribute=*)", array( $LDAPGroupNameAttribute ) );
+            $info = ldap_get_entries( $ds, $sr );
+
+            if ( $info['count'] < 1 or $info[0]['count'] < 1 )
+            {
+                eZDebug::writeWarning( 'LDAP group not found, tried DN: ' . $groupDN, __METHOD__ );
+                return false;
+            }
+
+            $groupName = $info[0][$LDAPGroupNameAttribute];
+            if ( is_array( $groupName ) ) // This may be a string or an array of strings, depending on LDAP setup
+                $groupName = $groupName[0]; // At least one must exist, since we specified it in the search filter
+        }
+
+        return $groupName;
+    }
 
 }
 

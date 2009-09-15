@@ -1,0 +1,21 @@
+LDAP login handler improvements
+===============================
+
+New LDAPUserGroupAttributeType: dn
+----------------------------------
+
+When this is set, the LDAPUserGroupAttribute should be set to an LDAP
+attribute that holds the DN of the group(s) that the user belongs to. If the
+user belongs to multiple groups, then this attribute should be set multiple
+times in the LDAP user object - it should not contain multiple DNs. (This is
+how LDAP attributes are normally used.) The 'dn' value comes in addition to
+the existing allowed values 'name' and 'id', which are not changed.
+
+UseGroupAttribute mode can now create groups
+--------------------------------------------
+
+Previously when LDAPGroupMappingType=UseGroupAttribute, no user groups would
+be created. If the indicated group(s) were not found, the user(s) would be
+placed in the default group. With the addition of the LDAPCreateMissingGroups
+setting this is now supported. When it is enabled, missing groups will be
+created. It is disabled by default, for backwards compatibility.
