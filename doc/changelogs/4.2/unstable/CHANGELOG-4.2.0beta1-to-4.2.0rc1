@@ -11,6 +11,8 @@ Changes from 4.2.0beta1 to 4.2.0rc1
 *Package system:
 
 *Scripts:
+- Added script update/common/scripts/4.2/fixorphanimages.php
+  Cleans up the image alias files that weren't removed due to issue #15155
 
 *Translations:
 
