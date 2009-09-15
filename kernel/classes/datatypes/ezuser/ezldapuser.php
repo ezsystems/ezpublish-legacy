@@ -176,15 +176,15 @@ class eZLDAPUser extends eZUser
             $LDAPBindPassword       = $LDAPIni->variable( 'LDAPSettings', 'LDAPBindPassword' );
             $LDAPSearchScope        = $LDAPIni->variable( 'LDAPSettings', 'LDAPSearchScope' );
 
-            $LDAPLoginAttribute     = $LDAPIni->variable( 'LDAPSettings', 'LDAPLoginAttribute' );
-            $LDAPFirstNameAttribute = $LDAPIni->variable( 'LDAPSettings', 'LDAPFirstNameAttribute' );
-            $LDAPLastNameAttribute  = $LDAPIni->variable( 'LDAPSettings', 'LDAPLastNameAttribute' );
-            $LDAPEmailAttribute     = $LDAPIni->variable( 'LDAPSettings', 'LDAPEmailAttribute' );
+            $LDAPLoginAttribute     = strtolower( $LDAPIni->variable( 'LDAPSettings', 'LDAPLoginAttribute' ) );
+            $LDAPFirstNameAttribute = strtolower( $LDAPIni->variable( 'LDAPSettings', 'LDAPFirstNameAttribute' ) );
+            $LDAPLastNameAttribute  = strtolower( $LDAPIni->variable( 'LDAPSettings', 'LDAPLastNameAttribute' ) );
+            $LDAPEmailAttribute     = strtolower( $LDAPIni->variable( 'LDAPSettings', 'LDAPEmailAttribute' ) );
 
             $defaultUserPlacement   = $ini->variable( "UserSettings", "DefaultUserPlacement" );
 
-            $LDAPUserGroupAttributeType = $LDAPIni->variable( 'LDAPSettings', 'LDAPUserGroupAttributeType' );
-            $LDAPUserGroupAttribute     = $LDAPIni->variable( 'LDAPSettings', 'LDAPUserGroupAttribute' );
+            $LDAPUserGroupAttributeType = strtolower( $LDAPIni->variable( 'LDAPSettings', 'LDAPUserGroupAttributeType' ) );
+            $LDAPUserGroupAttribute     = strtolower( $LDAPIni->variable( 'LDAPSettings', 'LDAPUserGroupAttribute' ) );
 
             if ( $LDAPIni->hasVariable( 'LDAPSettings', 'Utf8Encoding' ) )
             {
@@ -416,9 +416,9 @@ class eZLDAPUser extends eZUser
                     $LDAPGroupBaseDN          = $LDAPIni->variable( 'LDAPSettings', 'LDAPGroupBaseDN' );
                     $LDAPGroupClass           = $LDAPIni->variable( 'LDAPSettings', 'LDAPGroupClass' );
 
-                    $LDAPGroupNameAttribute   = $LDAPIni->variable( 'LDAPSettings', 'LDAPGroupNameAttribute' );
-                    $LDAPGroupMemberAttribute = $LDAPIni->variable( 'LDAPSettings', 'LDAPGroupMemberAttribute' );
-                    $LDAPGroupDescriptionAttribute = $LDAPIni->variable( 'LDAPSettings', 'LDAPGroupDescriptionAttribute' );
+                    $LDAPGroupNameAttribute   = strtolower( $LDAPIni->variable( 'LDAPSettings', 'LDAPGroupNameAttribute' ) );
+                    $LDAPGroupMemberAttribute = strtolower( $LDAPIni->variable( 'LDAPSettings', 'LDAPGroupMemberAttribute' ) );
+                    $LDAPGroupDescriptionAttribute = strtolower( $LDAPIni->variable( 'LDAPSettings', 'LDAPGroupDescriptionAttribute' ) );
 
                     $groupSearchingDepth = ( $LDAPGroupMappingType == '1' ) ? 1 : 1000;
 
