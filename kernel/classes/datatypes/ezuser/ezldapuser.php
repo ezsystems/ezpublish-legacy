@@ -757,67 +757,66 @@ class eZLDAPUser extends eZUser
 
             if ( $keepGroupAssignment == false )
             {
-                $parentNodeID = $contentObject->attribute( 'main_parent_node_id' );
-                if ( $defaultUserPlacement != $parentNodeID )
+                $objectIsChanged = false;
+
+                $db = eZDB::instance();
+                $db->begin();
+
+                // First check existing assignments, remove any that should not exist
+                $assignedNodesList = $contentObject->assignedNodes();
+                $existingParentNodeIDs = array();
+                foreach ( $assignedNodesList as $node )
                 {
-                    //$adminUser = eZUser::fetchByName( 'admin' );
-                    //eZUser::setCurrentlyLoggedInUser( $adminUser, $adminUser->attribute( 'contentobject_id' ) );
-
-                    // Check: is there user has location (not main) in default placement
-                    $nodeAssignmentList = $version->nodeAssignments();
-                    $isAssignmentExist = false;
-                    foreach ( $nodeAssignmentList as $nodeAssignment )
+                    $parentNodeID = $node->attribute( 'parent_node_id' );
+                    if ( !in_array( $parentNodeID, $parentNodeIDs ) )
                     {
-                        if ( $defaultUserPlacement == $nodeAssignment->attribute( 'parent_node' ) )
-                        {
-                            $isAssignmentExist = true;
-                            break;
-                        }
-                    }
-
-                    if ( $isAssignmentExist )
-                    {
-                        // make existing node as main
-                        $existingNode = eZContentObjectTreeNode::fetchNode( $contentObjectID, $defaultUserPlacement );
-                        if ( !is_object( $existingNode ) )
-                        {
-                            eZDebug::writeError( "Cannot find assigned node as $defaultUserPlacement's child.",
-                                                 'kernel/classes/datatypes/ezuser/ezldapuser' );
-                        }
-                        else
-                        {
-                            $existingNodeID = $existingNode->attribute( 'node_id' );
-                            $versionNum = $version->attribute( 'version' );
-                            eZContentObjectTreeNode::updateMainNodeID( $existingNodeID, $contentObjectID, $versionNum, $defaultUserPlacement );
-                        }
+                        $node->removeThis();
+                        $objectIsChanged = true;
                     }
                     else
                     {
-                        $mainNodeID = $contentObject->attribute( 'main_node_id' );
-                        $mainNode = eZContentObjectTreeNode::fetch( $mainNodeID );
-
-                        if ( !$mainNode->canMoveFrom() )
-                        {
-                            eZDebug::writeError( "Cannot move node $mainNodeID.",
-                                                 'kernel/classes/datatypes/ezuser/ezldapuser' );
-                        }
-                        $newParentNode = eZContentObjectTreeNode::fetch( $defaultUserPlacement );
-                        // Check if we try to move the node as child of itself or one of its children
-                        if ( in_array( $mainNodeID, $newParentNode->pathArray() ) )
-                        {
-                            eZDebug::writeError( "Cannot move node $mainNodeID as child of itself or one of its own children (node $defaultUserPlacement).",
-                                                 'kernel/classes/datatypes/ezuser/ezldapuser' );
-                        }
-                        else
-                        {
-                            //include_once( 'kernel/classes/ezcontentobjecttreenodeoperations.php' );
-                            if ( !eZContentObjectTreeNodeOperations::move( $mainNodeID, $defaultUserPlacement ) )
-                            {
-                                eZDebug::writeError( "Failed to move node $mainNodeID as child of parent node $defaultUserPlacement",
-                                                     'kernel/classes/datatypes/ezuser/ezldapuser' );
-                            }
-                        }
+                        $existingParentNodeIDs[] = $parentNodeID;
                     }
+                }
+
+                // Then check assignments that should exist, add them if they are missing
+                foreach( $parentNodeIDs as $parentNodeID )
+                {
+                    if ( !in_array( $parentNodeID, $existingParentNodeIDs ) )
+                    {
+                        $newNode = $contentObject->addLocation( $parentNodeID, true );
+                        $newNode->updateSubTreePath();
+                        $newNode->setAttribute( 'contentobject_is_published', 1 );
+                        $newNode->sync();
+                        $existingParentNodeIDs[] = $parentNodeID;
+                        $objectIsChanged = true;
+                    }
+                }
+
+                // Then ensure that the main node is correct
+                $currentMainParentNodeID = $contentObject->attribute( 'main_parent_node_id' );
+                if ( $currentMainParentNodeID != $defaultUserPlacement )
+                {
+                    $existingNode = eZContentObjectTreeNode::fetchNode( $contentObjectID, $defaultUserPlacement );
+                    if ( !is_object( $existingNode ) )
+                    {
+                        eZDebug::writeError( "Cannot find assigned node as $defaultUserPlacement's child.", __METHOD__ );
+                    }
+                    else
+                    {
+                        $existingNodeID = $existingNode->attribute( 'node_id' );
+                        $versionNum = $version->attribute( 'version' );
+                        eZContentObjectTreeNode::updateMainNodeID( $existingNodeID, $contentObjectID, $versionNum, $defaultUserPlacement );
+                        $objectIsChanged = true;
+                    }
+                }
+
+                $db->commit();
+
+                // Finally, clear object view cache if something was changed
+                if ( $objectIsChanged )
+                {
+                    eZContentCacheManager::clearObjectViewCache( $contentObjectID, true );
                 }
             }
         }
