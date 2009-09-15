@@ -1,6 +1,6 @@
 <?php
 //
-// Definition of eZContentDataInstace class
+// Definition of eZContentObjectAttribute class
 //
 // Created on: <22-Apr-2002 09:31:57 bf>
 //
@@ -904,11 +904,15 @@ class eZContentObjectAttribute extends eZPersistentObject
                                           $this );
     }
 
-    /*!
-     Initialized the attribute by using the datatype.
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
-    */
+    /**
+     * Initializes the attribute by using the datatype
+     *
+     * @param int $currentVersion Current version number
+     * @param eZContentObjectAttribute $originalContentObjectAttribute
+     *        Optional eZContentObjectAttribute the content will be initialized
+     *        from
+     * @return void
+     **/
     function initialize( $currentVersion = null, $originalContentObjectAttribute = null )
     {
         if ( $originalContentObjectAttribute === null )
@@ -956,10 +960,20 @@ class eZContentObjectAttribute extends eZPersistentObject
         }
     }
 
-    /*!
-     Clones the attribute with new version \a $newVersionNumber and old version \a $currentVersionNumber.
-     \note The cloned attribute is not stored.
-    */
+    /**
+     * Clones the attribute to a new version
+     *
+     * @param int $newVersionNumber Target version number
+     * @param int $currentVersionNumnber Source version number
+     * @param int $contentObjectID
+     * @param string $newLanguageCode
+     *
+     * @note The cloned attribute isn't stored automatically
+     *
+     * @return eZContentObjectAttribute The cloned attribute
+     *
+     * @todo Deprecate this in favor of a real __clone
+     **/
     function cloneContentObjectAttribute( $newVersionNumber, $currentVersionNumber, $contentObjectID = false, $newLanguageCode = false )
     {
         $tmp = clone $this;

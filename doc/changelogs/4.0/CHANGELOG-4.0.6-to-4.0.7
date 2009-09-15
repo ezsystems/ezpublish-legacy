@@ -17,6 +17,8 @@ Changes from 4.0.6 to 4.0.7
 *Package system:
 
 *Scripts:
+- Added script update/common/scripts/4.2/fixorphanimages.php
+  Cleans up the image alias files that weren't removed due to issue #15155
 
 *Translations:
 - Implemented enhancement #15420: German phrasebook and readme file
@@ -139,3 +141,5 @@ Changes from 4.0.6 to 4.0.7
   (Merged from trunk (4.2.0beta1) rev. 24026)
 - Fixed bug #14371: Workflow template repeat broken by security patch
   (Merged from trunk (4.2.0beta1) rev. 24043)
+- Fixed bug #15155: eZImageType::deleteStoredObjectAttribute doesn't clean original image
+  (Merged from trunk (4.2.0beta1) rev. 24053 and release/4.2.0 rev. 24104
