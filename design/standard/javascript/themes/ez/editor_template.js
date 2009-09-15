@@ -1038,8 +1038,7 @@
                 if (c = cm.get('formatselect'))
                 {
                     p = DOM.getParent(n, DOM.isBlock);
-    
-                    if ( !p || p.className === 'mceItemHidden' || p.nodeName === 'LI' || p.nodeName === 'UL' || p.nodeName === 'OL' )
+                    if ( p && ( p.className === 'mceItemHidden' || p.nodeName === 'LI' || p.nodeName === 'UL' || p.nodeName === 'OL' ) )
                         c.setDisabled( true );
                     else if ( p )
                         c.select(p.nodeName.toLowerCase());

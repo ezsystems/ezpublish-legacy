@@ -729,17 +729,16 @@ class eZOEXMLInput extends eZXMLInputHandler
 
         $output = str_replace( "\n", '', $output );
 
-        if ( $browserEngineName === 'Trident' )
+        if ( $output )
         {
-            $output .= '<p>&nbsp;</p>';
-        }
-        /* else if ( $browserEngineName === 'Presto' )
-        {
-            //$output .= '<p></p>';
-        }*/
-        else
-        {
-            $output .= '<p><br /></p>';
+            if ( $browserEngineName === 'Trident' )
+            {
+                $output .= '<p>&nbsp;</p>';
+            }
+            else
+            {
+                $output .= '<p><br /></p>';
+            }
         }
 
         eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $output, 'eZOEXMLInput::inputXML xml output to return' );
@@ -1249,12 +1248,12 @@ class eZOEXMLInput extends eZXMLInputHandler
                     if ( !$childTagText ) $childTagText = '&nbsp;';
                     $output .= '<span class="mceItemCustomTag ' . $name . '" type="custom"' . $customAttributePart . $styleString . '>' . $childTagText . '</span>';
                 }
-                else if ( $inline === 'image' )
+                else if ( $inline )
                 {
                     $imageUrl = self::getCustomAttrbute( $tag, 'image_url' );
                     if ( $imageUrl === null || !$imageUrl )
                     {
-                        $imageUrl = self::getDesignFile('images/tango/image-x-generic22.png');
+                        $imageUrl = self::getDesignFile( $inline );
                         $customAttributePart .= ' width="22" height="22"';
                     }
                     $output .= '<img src="' . $imageUrl . '" class="mceItemCustomTag ' . $name . '" type="custom"' . $customAttributePart . $styleString . ' />';
@@ -1720,18 +1719,22 @@ class eZOEXMLInput extends eZXMLInputHandler
         if ( self::$customInlineTagList === null )
         {
             $ini = eZINI::instance( 'content.ini' );
-            self::$customInlineTagList = $ini->variable( 'CustomTagSettings', 'IsInline' );   
+            self::$customInlineTagList = $ini->variable( 'CustomTagSettings', 'IsInline' );
+            self::$customInlineImageIconPath = $ini->hasVariable( 'CustomTagSettings', 'InlineImageIconPath' ) ? $ini->variable( 'CustomTagSettings', 'InlineImageIconPath' ) : array();
         }
 
-        foreach ( self::$customInlineTagList as $key => $isInlineTagValue )
+        if ( isset( self::$customInlineTagList[ $name ] ) )
         {
-            if ( $name === $key && $isInlineTagValue === 'true' )
+            if ( self::$customInlineTagList[ $name ] === 'true' )
             {
                 return true;
             }
-            else if ( $name === $key && $isInlineTagValue === 'image' )
+            else if ( self::$customInlineTagList[ $name ] === 'image' )
             {
-                return 'image';
+                if ( isset( self::$customInlineImageIconPath[ $name ] ) )
+                    return self::$customInlineImageIconPath[ $name ];
+                else
+                    return 'images/tango/image-x-generic22.png';
             }
         }
         return false;
@@ -1814,6 +1817,7 @@ class eZOEXMLInput extends eZXMLInputHandler
     protected static $designBases = null;
     protected static $userAccessHash = array();
     protected static $customInlineTagList = null;
+    protected static $customInlineImageIconPath = null;
     protected static $customAttributeStyleMap = null;
     protected static $embedIsCompatibilityMode = null;
     protected static $xmlTagAliasList = null;

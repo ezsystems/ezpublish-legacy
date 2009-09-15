@@ -15,6 +15,9 @@
 ## Displays the custom tag as an image so you cannot create sub content.
 ## Will use custom image if there is a custom attribute on the tag named 'image_url'
 #IsInline[externalimage]=image
+## New setting as of OE 5.1.0
+## Lets you specify 22x22 icon to use on custom image tag if it doesn't have 'image_url' attribute
+#InlineImageIconPath[mashup]=images/tango/image-x-generic22.png
 
 
 
