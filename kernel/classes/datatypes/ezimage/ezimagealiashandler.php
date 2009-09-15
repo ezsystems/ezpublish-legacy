@@ -291,6 +291,7 @@ class eZImageAliasHandler
         }
         $objectName = eZImageAliasHandler::normalizeImageName( $objectName );
         $objectName .= $this->imageSerialNumber();
+
         return $objectName;
     }
 
@@ -664,12 +665,12 @@ class eZImageAliasHandler
         return $aliasList;
     }
 
-   /*!
-     \static
-     Removes all image alias files which the attribute refers to.
-
-     If you want to remove the alias information use removeAliases().
-    */
+   /**
+    * Removes all image alias files which the attribute refers to.
+    *
+    * @param eZContentObjectAttribute
+    * @note If you want to remove the alias information use removeAliases().
+    **/
     static function removeAllAliases( $contentObjectAttribute )
     {
         $handler = $contentObjectAttribute->attribute( 'content' );
@@ -699,16 +700,19 @@ class eZImageAliasHandler
         eZImageFile::removeForContentObjectAttribute( $attributeData['attribute_id'] );
     }
 
-    /*!
-     Removes all the image aliases and their information.
-
-     The stored images will also be removed if the attribute is the owner
-     of the images.
-
-     After the images are removed the attribute will contained an internal structures with empty data.
-
-     \note Transaction unsafe.
-    */
+    /**
+     * Removes all the image aliases and their information.
+     * The stored images will also be removed if the attribute is the owner
+     * of the images.
+     *
+     * After the images are removed the attribute will containe an internal
+     * structure with empty data
+     *
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     *        Content object attribute to remove aliases for
+     *
+     * @return void
+     **/
     function removeAliases( $contentObjectAttribute )
     {
         $aliasList = $this->aliasList();
@@ -718,6 +722,9 @@ class eZImageAliasHandler
         $contentObjectAttributeID = $this->ContentObjectAttributeData['id'];
 
         $isImageOwner = $this->isImageOwner();
+
+        // We loop over each image alias, and look up the file in ezcontentobject_attribute
+        // Only images referenced by one version will be removed
         foreach ( $aliasList as $aliasName => $alias )
         {
             $dirpath = $alias['dirpath'];
@@ -729,7 +736,7 @@ class eZImageAliasHandler
             {
                 $filepath = $alias['url'];
 
-                // Fetch ezimage attributes that have $filepath.
+                // Fetch ezimage attributes that use $filepath
                 // Always returns current attribute (array of $contentObjectAttributeID and $contentObjectAttributeVersion)
                 $dbResult = eZImageFile::fetchImageAttributesByFilepath( $filepath, $contentObjectAttributeID );
                 $dbResultCount = count( $dbResult );
@@ -739,18 +746,23 @@ class eZImageAliasHandler
                     $doNotDelete = true;
                     foreach ( $dbResult as $res )
                     {
-                        // If attr is current
-                        if ( $res['id'] == $contentObjectAttributeID &&
-                             $res['version'] == $contentObjectAttributeVersion )
+                        // We only look results where the version matches
+                        if ( $res['version'] == $contentObjectAttributeVersion )
                         {
-                            if( $dbResultCount > 1 ) // More than one result returned => we have a contentobject_version dependency
+                            // If more than one result has been returned, it means
+                            // that another version is using the same image,
+                            // and we should not delete this file
+                            if ( $dbResultCount > 1 )
                             {
-                        		continue;
+                                continue;
                             }
-                        	else // Only one result which is the current one. No version dependency => to delete
-                        	{
-                        		$doNotDelete = false;
-                        	}
+                            // Only one result means that the current attribute
+                            // & version are the only ones using this image,
+                            // and it can be removed
+                            else
+                            {
+                                $doNotDelete = false;
+                            }
                         }
 
                         eZImageFile::appendFilepath( $res['id'], $filepath, true );

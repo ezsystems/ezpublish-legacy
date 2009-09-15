@@ -92,9 +92,19 @@ class eZImageFile extends eZPersistentObject
         else
             return $rows;
     }
-    /*!
-      \return An array of ids and versions of ezimage ezcontentobject_attributes have \a $filepath.
-    */
+
+    /**
+     * Looks up ezcontentobjectattribute entries matching an image filepath and
+     * a contentobjectattribute ID
+     *
+     * @param string $filePath file path to look up as URL in the XML string
+     * @param int $contentObjectAttributeID
+     *
+     * @return array An array of ids and versions of image files where the url
+     *               is referenced
+     *
+     * @todo Rewrite ! A where data_text LIKE '%xxx%' is a resource hog !
+     **/
     static function fetchImageAttributesByFilepath( $filepath, $contentObjectAttributeID )
     {
        $db = eZDB::instance();
