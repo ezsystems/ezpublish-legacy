@@ -28,6 +28,13 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
+/**
+ * Custom has access to call that also lets you check that user has access to provided limitation(s)
+ * 
+ * has_access_to_limitation( string $module, string $function, hash $limitations ):
+ * Currently only returns true/false, but will in the future also return array of limitations that
+ * did not match (as in limitations you did not ask to check by your provided parameters)
+ */
 
 class ezjscAccessTemplateFunctions
 {
@@ -66,42 +73,48 @@ class ezjscAccessTemplateFunctions
         {
             case 'has_access_to_limitation':
             {
-                // Line user. has_access_to, but with support for limitations
-                $user = eZUser::currentUser();
+              $operatorValue = self::hasAccessToLimitation( $namedParameters['module'], $namedParameters['function'], $namedParameters['limitations'] );
+            } break;
+        }
+    }
 
-                if ( $user instanceof eZUser )
+    public static function hasAccessToLimitation( $module, $function, $limitations = null )
+    {
+        // Like fetch(user,has_access_to), but with support for limitations
+        $user = eZUser::currentUser();
+
+        if ( $user instanceof eZUser )
+        {
+            $result = $user->hasAccessTo( $module, $function );
+            
+            if ( $result['accessWord'] !== 'limited')
+            { 
+                return $result['accessWord'] === 'yes';
+            }
+            else
+            {
+                // User has access unless limitations don't match
+                foreach ( $result['policies'] as $limitationArray  )
                 {
-                    $result = $user->hasAccessTo( $namedParameters['module'], $namedParameters['function'] );
-                    
-                    if ( $result['accessWord'] !== 'limited')
-                    { 
-                        $operatorValue = $result['accessWord'] === 'yes';
-                    }
-                    else
+                    foreach ( $limitationArray as $limitationKey => $limitationValues  )
                     {
-                        $operatorValue = true; // User has access unless limitations don't match
-                        foreach ( $result['policies'] as $limitationArray  )
+                        if ( isset( $limitations[$limitationKey] ) )
                         {
-                            foreach ( $limitationArray as $limitationKey => $limitationValues  )
+                            if ( !in_array( $limitations[$limitationKey], $limitationValues ) )
                             {
-                                if ( isset( $namedParameters['limitations'][$limitationKey] ) )
-                                {
-                                    if ( !in_array( $namedParameters['limitations'][$limitationKey], $limitationValues ) )
-                                    {
-                                        $operatorValue = false;
-                                        break 2;
-                                    }
-                                }
+                                return false;
                             }
+                        }
+                        else
+                        {
+                            // TODO: build limitation array of unmatched policies
                         }
                     }
                 }
-                else
-                {
-                    $operatorValue = false;
-                }
-            } break;
+                return true;
+            }
         }
+        return false;
     }
 }
 

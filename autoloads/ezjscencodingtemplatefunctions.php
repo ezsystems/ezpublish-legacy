@@ -29,6 +29,17 @@
 //
 
 
+/**
+ * ezjscAjaxContent related template operators
+ * 
+ * (json|xml)_encode( hash $hash ): 
+ * Encodes a array hash to (json|xml)
+ * 
+ * node_encode( array|eZContentObjectTreeNode $node[, hash $parameter[, string $type = 'json' ]]  ):
+ * Simplifies a node or array of nodes to a array hash and encodes it to
+ * json(default), xml or just the generated array hash.
+ */
+
 class ezjscEncodingTemplateFunctions
 {
     function ezjscEncodingTemplateFunctions()
@@ -75,7 +86,7 @@ class ezjscEncodingTemplateFunctions
         {
             case 'json_encode':
             {
-                // Lets you use ezjscAjaxContent::jsonEncode from templates
+                // Lets you use json_encode from templates
                 $operatorValue = json_encode( $namedParameters['hash'] );
             } break;
             case 'xml_encode':

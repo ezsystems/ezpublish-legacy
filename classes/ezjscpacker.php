@@ -465,7 +465,8 @@ class ezjscPacker
             // optimize css
             $css = str_replace(array(' 0em', ' 0px',' 0pt', ' 0pc'), ' 0', $css);
             $css = str_replace(array(':0em', ':0px',':0pt', ':0pc'), ':0', $css);
-            $css = str_replace('0 0 0 0;', '0;', $css);
+            $css = str_replace(' 0 0 0 0;', ' 0;', $css);
+            $css = str_replace(':0 0 0 0;', ':0;', $css);
 
             // these should use regex to work on all colors
             $css = str_replace(array('#ffffff','#FFFFFF'), '#fff', $css);

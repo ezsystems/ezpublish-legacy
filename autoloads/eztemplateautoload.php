@@ -1,7 +1,12 @@
 <?php
 
-$eZTemplateOperatorArray = array();
+/**
+ * Look in the operator files for documentation on use and parameters definition.
+ * 
+ * @var array $eZTemplateOperatorArray
+ */
 
+$eZTemplateOperatorArray = array();
 $eZTemplateOperatorArray[] = array( 'script' => 'extension/ezjscore/autoloads/ezjscpackertemplatefunctions.php',
                                     'class' => 'ezjscPackerTemplateFunctions',
                                     'operator_names' => array( 'ezscript',
@@ -12,7 +17,6 @@ $eZTemplateOperatorArray[] = array( 'script' => 'extension/ezjscore/autoloads/ez
                                                                'ezcss_require',
                                                                'ezcss_load',
                                                                'ezcssfiles' ) );
-
 
 $eZTemplateOperatorArray[] = array( 'script' => 'extension/ezjscore/autoloads/ezjscencodingtemplatefunctions.php',
                                     'class' => 'ezjscEncodingTemplateFunctions',

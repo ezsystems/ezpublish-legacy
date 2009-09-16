@@ -29,8 +29,7 @@
 //
 
 // Simplifying and encoding content objects / nodes to json
-// using the php json extension included in php 5.2 and 
-// higher or fallback to php version if not present
+// using the php json extension included in php 5.2
 
 
 class ezjscAjaxContent

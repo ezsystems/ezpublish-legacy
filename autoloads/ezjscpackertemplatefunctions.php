@@ -28,31 +28,57 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*
- Template operators for merging and packing css and javascript files.
- Reduces page load time both in terms of reducing connections from clients
- and bandwidth ( if packing is turned on ).
- 
- Packing has 4 levels:
- 0 = off
- 1 = merge files
- 2 = 1 + remove whitespace
- 3 = 2 + remove more whitespace  (jsmin is used for scripts)
- Will be forced to 0 when site.ini[TemplateSettings]DevelopmentMode is enabled.
- 
- In case of css files, relative image paths will be replaced
- by absolute paths.
-
- You can also use css / js generators to generate content dynamically.
- This is better explained in ezjscore.ini[Packer_<function>]
-
- ezscriptfiles and ezcssfiles template operators does not return html, just 
- an array of file urls / content (from generators).
- 
- Example of use in pagelayout:
-    {ezcss( array('core.css', 'pagelayout.css', 'content.css', ezini( 'StylesheetSettings', 'CSSFileList', 'design.ini' ) ))}
-    {ezscript( ezini( 'JavaScriptSettings', 'JavaScriptList', 'design.ini' ) )}
-*/
+/**
+ * ezjsPacker related template operators
+ * For merging and packing javascript or stylesheet files together to reduce size and
+ * number of files(as in reduces client connections).
+ * 
+ * ezscript[_require|_load]( array|string $scripts
+ *                                   [, string $type='text/javascript'
+ *                                   [, string $language='javascript'
+ *                                   [, string $charset='utf-8'
+ *                                   [, int $pack_level=2]]]])
+ *                                   
+ * ezcss[_require|_load]( array|string $css_files
+ *                                   [, string $media='all'
+ *                                   [, string $type='text/css'
+ *                                   [, string $rel='stylesheet'
+ *                                   [, string $charset='utf-8'
+ *                                   [, int $pack_level=3]]]]])
+ *
+ * ezscriptfiles( array|string $scripts[, int $pack_level=2[, bool $ignore_loaded=false]] )
+ * ezcssfiles( array|string $css_files[, int $pack_level=3[, bool $ignore_loaded=false]] )
+ * 
+ * These are alternatives to ezscript and ezcss that return array of files to be included
+ * instead of generating the (x)html for them.
+ * 
+ * Genal note:
+ * Packing has 4 levels:
+ *  0 = off
+ *  1 = merge files
+ *  2 = 1 + remove whitespace
+ *  3 = 2 + remove more whitespace  (jsmin is used for scripts)
+ *  !Will be forced to 0 when site.ini[TemplateSettings]DevelopmentMode is enabled.
+ *
+ * In case of css files, relative image paths will be replaced by absolute paths.
+ *
+ * You can also use css / js generators to generate content dynamically.
+ * This is better explained in ezjscore.ini[Packer_<function>]
+ * 
+ * Brief (ezscript|ezcss)_require + (ezscript|ezcss)_load:
+ * Lets you do on demand loading of javscript and css files instead of loading
+ * them on every page using JavaScriptList & CSSFileList witch tends to also
+ * load files no matter what design you use.
+ * 
+ * (ezscript|ezcss)_require : Stores list of required files in persistent_variable hash
+ * values (js|css)_files or if not defined (on non content pages) on protected variable
+ * ezjscPackerTemplateFunctions::$persistentVariable so they can be loaded later 
+ * by (ezscript|ezcss)_load. If already loaded, then executed right away just like
+ * calling (ezscript|ezcss) operators.
+ * 
+ * (ezscript|ezcss)_load : Packs the files you (optionally) pass to it + the files marked
+ * to be loaded by (ezscript|ezcss)_require.
+ */
 
 //include_once( 'extension/ezjscore/classes/ezjscorepacker.php' );
 
@@ -189,6 +215,18 @@ class ezjscPackerTemplateFunctions
                                                      $namedParameters['charset'],
                                                      $packLevel );
             } break;
+            case 'ezscriptfiles':
+            {                    
+                if ( $namedParameters['ignore_loaded'] )
+                {
+                    $ret = ezjscPacker::buildStylesheetFiles( $namedParameters['script_array'], $packLevel );
+                }
+                else
+                {
+                    $diff = self::setPersistentArray( 'js_files', $namedParameters['script_array'], $tpl, true, true, true );
+                    $ret = ezjscPacker::buildStylesheetFiles( $diff, $packLevel );
+                }
+            } break;
             case 'ezcss_load':
             {                    
                 if ( !isset( self::$loaded['css_files'] ) )
@@ -222,18 +260,6 @@ class ezjscPackerTemplateFunctions
                                                      $namedParameters['charset'],
                                                      $packLevel );
             } break;
-            case 'ezscriptfiles':
-            {                    
-                if ( $namedParameters['ignore_loaded'] )
-                {
-                    $ret = ezjscPacker::buildStylesheetFiles( $namedParameters['script_array'], $packLevel );
-                }
-                else
-                {
-                    $diff = self::setPersistentArray( 'js_files', $namedParameters['script_array'], $tpl, true, true, true );
-                    $ret = ezjscPacker::buildStylesheetFiles( $diff, $packLevel );
-                }
-            } break;
             case 'ezcssfiles':
             {                    
                 if ( $namedParameters['ignore_loaded'] )
@@ -254,7 +280,16 @@ class ezjscPackerTemplateFunctions
     static public function setPersistentArray( $key, $value, $tpl, $append = true, $arrayUnique = false, $returnArrayDiff = false, $override = false )
     {
         $persistentVariable = array();
-        if ( $tpl->hasVariable('persistent_variable') && is_array( $tpl->variable('persistent_variable') ) )
+        if ( $tpl->hasVariable('module_result') )
+        {
+           $moduleResult = $tpl->variable('module_result');
+        }
+
+        if ( isset( $moduleResult['content_info']['persistent_variable'] ) && is_array( $moduleResult['content_info']['persistent_variable'] ) )
+        {
+            $persistentVariable = $moduleResult['content_info']['persistent_variable'];
+        }
+        else if ( $tpl->hasVariable('persistent_variable') && is_array( $tpl->variable('persistent_variable') ) )
         {
            $persistentVariable = $tpl->variable('persistent_variable');
         }
