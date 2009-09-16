@@ -1084,3 +1084,9 @@ Datatype branch:
 - Release branch start=24070
 - Release branch end=
 - Release branch configured=
+
+4.2.0rc1:
+- From revision=24114
+- Version url=http://svn.ez.no/svn/ezpublish/versions/4.2.0rc1
+- Date 16-Sep-2009
+- Revision=24115
