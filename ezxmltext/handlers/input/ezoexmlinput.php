@@ -590,7 +590,7 @@ class eZOEXMLInput extends eZXMLInputHandler
             {
                 self::$showEmbedValidationErrors = true;
                 $contentObjectAttribute->setValidationError( ezi18n( 'design/standard/ezoe/handler',
-                                                 'Some objects used in embed(-inline) tags have been deleted and are no longer available.' ) );
+                                         'Some objects used in embed(-inline) tags have been deleted and are no longer available.' ) );
                 return eZInputValidator::STATE_INVALID;
             }
 
@@ -613,8 +613,10 @@ class eZOEXMLInput extends eZXMLInputHandler
             }
 
             $contentObject = $contentObjectAttribute->attribute( 'object' );
-            $contentObject->appendInputRelationList( $parser->getEmbeddedObjectIDArray(), eZContentObject::RELATION_EMBED );
-            $contentObject->appendInputRelationList( $parser->getLinkedObjectIDArray(), eZContentObject::RELATION_LINK );
+            $contentObject->appendInputRelationList( $parser->getEmbeddedObjectIDArray(),
+                                                     eZContentObject::RELATION_EMBED );
+            $contentObject->appendInputRelationList( $parser->getLinkedObjectIDArray(),
+                                                     eZContentObject::RELATION_LINK );
 
             $xmlString = eZXMLTextType::domString( $document );
 
@@ -659,7 +661,9 @@ class eZOEXMLInput extends eZXMLInputHandler
                         $subNode = new DOMElemenetNode( 'section' );
                         $currentNode->appendChild( $subNode );
                         $childTag = $this->SectionArray;
-                        $TagStack[] = array( 'TagName' => 'section', 'ParentNodeObject' => &$currentNode, 'ChildTag' => $childTag );
+                        $TagStack[] = array( 'TagName' => 'section',
+                                             'ParentNodeObject' => &$currentNode,
+                                             'ChildTag' => $childTag );
                         $currentNode = $subNode;
                     }
                     $sectionLevel = $headerLevel;
@@ -701,7 +705,9 @@ class eZOEXMLInput extends eZXMLInputHandler
             $success = $dom->loadXML( $this->XMLData );
         }
 
-        eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $this->XMLData, 'eZOEXMLInput::inputXML xml string stored in database' );
+        eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext',
+                                    $this->XMLData,
+                                    __METHOD__ . ' xml string stored in database' );
 
         $output = '';
         $browserEngineName = self::browserSupportsDHTMLType();
@@ -735,7 +741,9 @@ class eZOEXMLInput extends eZXMLInputHandler
             }
         }
 
-        eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $output, 'eZOEXMLInput::inputXML xml output to return' );
+        eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext',
+                                    $output,
+                                    __METHOD__ . ' xml output to return' );
 
         $output = htmlspecialchars( $output, ENT_COMPAT, 'UTF-8' );
 
@@ -787,8 +795,9 @@ class eZOEXMLInput extends eZXMLInputHandler
                     foreach ( $tagChildren as $childTag )
                     {
                         $tagContent .= $this->inputTagXML( $childTag, $currentSectionLevel, $tdSectionLevel );
-                        eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $tagContent, 'eZOEXMLInput::inputSectionXML tag content of header' );
-
+                        eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext',
+                                                    $tagContent,
+                                                    __METHOD__ . ' tag content of <header>' );
                     }
 
                     switch ( $sectionLevel )
@@ -809,7 +818,8 @@ class eZOEXMLInput extends eZXMLInputHandler
                     $archorName = $sectionNode->getAttribute( 'anchor_name' );
                     if ( $archorName != null )
                     {
-                        $output .= "<h$level$customAttributePart$styleString><a name=\"$archorName\" class=\"mceItemAnchor\"></a>" . $sectionNode->textContent. "</h$level>";
+                        $output .= "<h$level$customAttributePart$styleString><a name=\"$archorName\"" .
+                                   ' class="mceItemAnchor"></a>' . $sectionNode->textContent. "</h$level>";
                     }
                     else
                     {
@@ -826,7 +836,9 @@ class eZOEXMLInput extends eZXMLInputHandler
                     }
                     else
                     {
-                        $output .= $this->inputParagraphXML( $sectionNode, $currentSectionLevel, $tdSectionLevel );
+                        $output .= $this->inputParagraphXML( $sectionNode,
+                                                             $currentSectionLevel,
+                                                             $tdSectionLevel );
                     }
                 }break;
 
@@ -839,7 +851,9 @@ class eZOEXMLInput extends eZXMLInputHandler
                     }
                     else
                     {
-                        $output .= $this->inputSectionXML( $sectionNode, $currentSectionLevel, $sectionLevel );
+                        $output .= $this->inputSectionXML( $sectionNode,
+                                                           $currentSectionLevel,
+                                                           $sectionLevel );
                     }
                 }break;
 
@@ -870,7 +884,10 @@ class eZOEXMLInput extends eZXMLInputHandler
         {
             case 'paragraph' :
             {
-                $output .= $this->inputParagraphXML( $listNode, $currentSectionLevel, $listSectionLevel, $noParagraphs );
+                $output .= $this->inputParagraphXML( $listNode,
+                                                     $currentSectionLevel,
+                                                     $listSectionLevel,
+                                                     $noParagraphs );
             }break;
 
             case 'section' :
@@ -925,7 +942,10 @@ class eZOEXMLInput extends eZXMLInputHandler
     /*!
      \return the input xml of the given paragraph
     */
-    function &inputParagraphXML( &$paragraph, $currentSectionLevel, $tdSectionLevel = null, $noRender = false )
+    function &inputParagraphXML( &$paragraph,
+                                  $currentSectionLevel,
+                                  $tdSectionLevel = null,
+                                  $noRender = false )
     {
         $output = '';
         $children = $paragraph->childNodes;
@@ -971,8 +991,11 @@ class eZOEXMLInput extends eZXMLInputHandler
             $inline = !( $child->nodeName === 'ul'
                       || $child->nodeName === 'ol'
                       || $child->nodeName === 'literal'
-                      || ( $child->nodeName === 'custom' && !self::customTagIsInline( $child->getAttribute( 'name' ) ) )
-                      || ( $child->nodeName === 'embed' && !self::embedTagIsCompatibilityMode() && !self::embedTagIsImageByNode( $child ) )
+                      || ( $child->nodeName === 'custom'
+                        && !self::customTagIsInline( $child->getAttribute( 'name' ) ) )
+                      || ( $child->nodeName === 'embed'
+                        && !self::embedTagIsCompatibilityMode()
+                        && !self::embedTagIsImageByNode( $child ) )
                       );
             if ( $inline )
             {
@@ -995,7 +1018,7 @@ class eZOEXMLInput extends eZXMLInputHandler
             $lastChildInline = $inline;
         }
 
-        eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $output, 'eZOEXMLInput::inputParagraphXML output' );
+        eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $output, __METHOD__ . ' output' );
         return $output;
     }
 
@@ -1139,7 +1162,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                     $ini = eZINI::instance();
                     $URL = self::getServerURL();
                     $contentObjectAttributes = $object->contentObjectAttributes();
-                    $imageDatatypeArray = $ini->variable( 'ImageDataTypeSettings', 'AvailableImageDataTypes' );
+                    $imageDatatypeArray = $ini->variable('ImageDataTypeSettings', 'AvailableImageDataTypes');
                     $imageWidth = 32;
                     $imageHeight = 32;
                     foreach ( $contentObjectAttributes as $contentObjectAttribute )
@@ -1173,7 +1196,9 @@ class eZOEXMLInput extends eZXMLInputHandler
                     if ( $className != '' )
                         $objectAttr .= ' class="' . $className . '"';
 
-                    $output .= '<img id="' . $idString . '" title="' . $objectName . '" src="' . $srcString . '" width="' . $imageWidth . '" height="' . $imageHeight . '" ' . $objectAttr . $customAttributePart . $styleString . ' />';
+                    $output .= '<img id="' . $idString . '" title="' . $objectName . '" src="' .
+                               $srcString . '" width="' . $imageWidth . '" height="' . $imageHeight .
+                               '" ' . $objectAttr . $customAttributePart . $styleString . ' />';
                 }
                 else if ( self::embedTagIsCompatibilityMode() )
                 {
@@ -1186,7 +1211,9 @@ class eZOEXMLInput extends eZXMLInputHandler
                     if ( $className != '' )
                         $objectAttr .= ' class="' . $className . '"';
 
-                    $output .= '<img id="' . $idString . '" title="' . $objectName . '" src="' . $srcString . '" width="32" height="32" ' . $objectAttr . $customAttributePart . $styleString . ' />';
+                    $output .= '<img id="' . $idString . '" title="' . $objectName . '" src="' .
+                               $srcString . '" width="32" height="32" ' . $objectAttr .
+                               $customAttributePart . $styleString . ' />';
                 }
                 else
                 {
@@ -1194,9 +1221,11 @@ class eZOEXMLInput extends eZXMLInputHandler
                         $objectAttr .= ' align="' . $alignment . '"';
 
                     if ( $className )
-                        $objectAttr .= ' class="mceNonEditable ' . $className . ' mceItemContentType' . ucfirst( $embedContentType ) . '"';
+                        $objectAttr .= ' class="mceNonEditable ' . $className . ' mceItemContentType' .
+                                       ucfirst( $embedContentType ) . '"';
                     else
-                        $objectAttr .= ' class="mceNonEditable mceItemContentType' . ucfirst( $embedContentType ) . '"';
+                        $objectAttr .= ' class="mceNonEditable mceItemContentType' .
+                                       ucfirst( $embedContentType ) . '"';
 
                     if ( $tagName === 'embed-inline' )
                         $htmlTagName = 'span';
@@ -1216,8 +1245,11 @@ class eZOEXMLInput extends eZXMLInputHandler
                     $tpl->setVariable( 'classification', $className );
                     $tpl->setVariable( 'object_parameters', $objectParam );
                     if ( isset( $node ) ) $tpl->setVariable( 'node', $node );
-                    $templateOutput = $tpl->fetch( 'design:content/datatype/view/ezxmltags/' . $tagName . $tplSuffix . '.tpl' );
-                    $output .= '<' . $htmlTagName . ' id="' . $idString . '" title="' . $objectName . '"' . $objectAttr . $customAttributePart . $styleString . '>' . $templateOutput . '</' . $htmlTagName . '>';
+                    $templateOutput = $tpl->fetch( 'design:content/datatype/view/ezxmltags/' .
+                                      $tagName . $tplSuffix . '.tpl' );
+                    $output .= '<' . $htmlTagName . ' id="' . $idString . '" title="' . $objectName . '"' .
+                               $objectAttr . $customAttributePart . $styleString . '>' . $templateOutput .
+                               '</' . $htmlTagName . '>';
                 }
             }break;
 
@@ -1235,12 +1267,14 @@ class eZOEXMLInput extends eZXMLInputHandler
                 if ( isset( self::$nativeCustomTags[ $name ] ))
                 {
                     if ( !$childTagText ) $childTagText = '&nbsp;';
-                    $output .= '<' . self::$nativeCustomTags[ $name ] . $customAttributePart . $styleString . '>' . $childTagText . '</' . self::$nativeCustomTags[ $name ] . '>';
+                    $output .= '<' . self::$nativeCustomTags[ $name ] . $customAttributePart . $styleString .
+                               '>' . $childTagText . '</' . self::$nativeCustomTags[ $name ] . '>';
                 }
                 else if ( $inline === true )
                 {
                     if ( !$childTagText ) $childTagText = '&nbsp;';
-                    $output .= '<span class="mceItemCustomTag ' . $name . '" type="custom"' . $customAttributePart . $styleString . '>' . $childTagText . '</span>';
+                    $output .= '<span class="mceItemCustomTag ' . $name . '" type="custom"' .
+                               $customAttributePart . $styleString . '>' . $childTagText . '</span>';
                 }
                 else if ( $inline )
                 {
@@ -1250,16 +1284,20 @@ class eZOEXMLInput extends eZXMLInputHandler
                         $imageUrl = self::getDesignFile( $inline );
                         $customAttributePart .= ' width="22" height="22"';
                     }
-                    $output .= '<img src="' . $imageUrl . '" class="mceItemCustomTag ' . $name . '" type="custom"' . $customAttributePart . $styleString . ' />';
+                    $output .= '<img src="' . $imageUrl . '" class="mceItemCustomTag ' . $name .
+                               '" type="custom"' . $customAttributePart . $styleString . ' />';
                 }
                 else
                 {
                     $customTagContent = $this->inputSectionXML( $tag, $currentSectionLevel, $tdSectionLevel );
                     /*foreach ( $tag->childNodes as $tagChild )
                     {
-                        $customTagContent .= $this->inputTdXML( $tagChild, $currentSectionLevel, $tdSectionLevel );
+                        $customTagContent .= $this->inputTdXML( $tagChild,
+                                                                $currentSectionLevel,
+                                                                $tdSectionLevel );
                     }*/
-                    $output .= '<div class="mceItemCustomTag ' . $name . '" type="custom"' . $customAttributePart . $styleString . '>' . $customTagContent . '</div>';
+                    $output .= '<div class="mceItemCustomTag ' . $name . '" type="custom"' .
+                               $customAttributePart . $styleString . '>' . $customTagContent . '</div>';
                 }
             }break;
 
@@ -1308,13 +1346,20 @@ class eZOEXMLInput extends eZXMLInputHandler
                     foreach ( $listItemNode->childNodes as $itemChildNode )
                     {
                         $listSectionLevel = $currentSectionLevel;
-                        if ( $itemChildNode instanceof DOMNode && ( $itemChildNode->nodeName === 'section' or $itemChildNode->nodeName === 'paragraph' ) )
+                        if ( $itemChildNode instanceof DOMNode
+                        && ( $itemChildNode->nodeName === 'section'
+                          || $itemChildNode->nodeName === 'paragraph' ) )
                         {
-                            $listItemContent .= $this->inputListXML( $itemChildNode, $currentSectionLevel, $listSectionLevel, $noParagraphs );
+                            $listItemContent .= $this->inputListXML( $itemChildNode,
+                                                                     $currentSectionLevel,
+                                                                     $listSectionLevel,
+                                                                     $noParagraphs );
                         }
                         else
                         {
-                            $listItemContent .= $this->inputTagXML( $itemChildNode, $currentSectionLevel, $tdSectionLevel );
+                            $listItemContent .= $this->inputTagXML( $itemChildNode,
+                                                                    $currentSectionLevel,
+                                                                    $tdSectionLevel );
                         }
                     }
                     
@@ -1323,13 +1368,15 @@ class eZOEXMLInput extends eZXMLInputHandler
                     if ( $LIclassName )
                         $LIcustomAttributePart .= ' class="' . $LIclassName . '"';
 
-                    $listContent .= '<li' . $LIcustomAttributePart . $listItemStyleString . '>' . $listItemContent . '</li>';
+                    $listContent .= '<li' . $LIcustomAttributePart . $listItemStyleString . '>' .
+                                    $listItemContent . '</li>';
                 }
                 $className = $tag->getAttribute( 'class' );
                 if ( $className != '' )
                     $customAttributePart .= ' class="' . $className . '"';
 
-                $output .= '<' . $tagName . $customAttributePart . $styleString . '>' . $listContent . '</' . $tagName . '>';
+                $output .= '<' . $tagName . $customAttributePart . $styleString . '>' . $listContent . '</' .
+                           $tagName . '>';
             }break;
 
             case 'table' :
@@ -1365,9 +1412,12 @@ class eZOEXMLInput extends eZXMLInputHandler
                         $className = $tableCell->getAttribute( 'class' );
                         $cellAlign = $tableCell->getAttribute( 'align' );
 
-                        $colspan = $tableCell->getAttributeNS( 'http://ez.no/namespaces/ezpublish3/xhtml/', 'colspan' );
-                        $rowspan = $tableCell->getAttributeNS( 'http://ez.no/namespaces/ezpublish3/xhtml/', 'rowspan' );
-                        $cellWidth = $tableCell->getAttributeNS( 'http://ez.no/namespaces/ezpublish3/xhtml/', 'width' );
+                        $colspan = $tableCell->getAttributeNS( 'http://ez.no/namespaces/ezpublish3/xhtml/',
+                                                               'colspan' );
+                        $rowspan = $tableCell->getAttributeNS( 'http://ez.no/namespaces/ezpublish3/xhtml/',
+                                                               'rowspan' );
+                        $cellWidth = $tableCell->getAttributeNS( 'http://ez.no/namespaces/ezpublish3/xhtml/',
+                                                                 'width' );
                         if ( $className != '' )
                         {
                             $TDcustomAttributePart .= ' class="' . $className . '"';
@@ -1392,25 +1442,31 @@ class eZOEXMLInput extends eZXMLInputHandler
                         $tdSectionLevel = $currentSectionLevel;
                         foreach ( $tableCell->childNodes as $tableCellChildNode )
                         {
-                            $cellContent .= $this->inputTdXML( $tableCellChildNode, $currentSectionLevel, $tdSectionLevel - $currentSectionLevel );
+                            $cellContent .= $this->inputTdXML( $tableCellChildNode,
+                                                               $currentSectionLevel,
+                                                               $tdSectionLevel - $currentSectionLevel );
                         }
                         if ( $cellContent === '' )
                         {
-                            $cellContent = '<br mce_bogus="1" />';// tinymce has some issues with empty content in some browsers
+                            // tinymce has some issues with empty content in some browsers
+                            $cellContent = '<br mce_bogus="1" />';
                         }
                         if ( $tableCell->nodeName === 'th' )
                         {
-                            $tableData .= '<th' . $TDcustomAttributePart . $tableCellStyleString . '>' . $cellContent . '</th>';
+                            $tableData .= '<th' . $TDcustomAttributePart . $tableCellStyleString . '>' .
+                                          $cellContent . '</th>';
                         }
                         else
                         {
-                            $tableData .= '<td' . $TDcustomAttributePart . $tableCellStyleString . '>' . $cellContent . '</td>';
+                            $tableData .= '<td' . $TDcustomAttributePart . $tableCellStyleString . '>' .
+                                          $cellContent . '</td>';
                         }
                     }
                     if ( $TRclassName )
                         $TRcustomAttributePart .= ' class="' . $TRclassName . '"';
 
-                    $tableRows .= '<tr' . $TRcustomAttributePart . $tableRowStyleString . '>' . $tableData . '</tr>';
+                    $tableRows .= '<tr' . $TRcustomAttributePart . $tableRowStyleString . '>' .
+                                  $tableData . '</tr>';
                 }
                 //if ( self::browserSupportsDHTMLType() === 'Trident' )
                 //{
@@ -1418,7 +1474,8 @@ class eZOEXMLInput extends eZXMLInputHandler
                 /*}
                 else
                 {
-                    $customAttributePart .= ' style="width:' . $width . ';"';// if this is reenabled merge it with $styleString
+                    // if this is reenabled merge it with $styleString
+                    $customAttributePart .= ' style="width:' . $width . ';"';
                 }*/
 
                 if ( is_string( $border ) )
@@ -1436,7 +1493,8 @@ class eZOEXMLInput extends eZXMLInputHandler
                     $customAttributePart .= ' class="' . $tableClassName . '"';
                 }
 
-                $output .= '<table' . $customAttributePart . $styleString . '><tbody>' . $tableRows . '</tbody></table>';
+                $output .= '<table' . $customAttributePart . $styleString . '><tbody>' . $tableRows .
+                           '</tbody></table>';
             }break;
 
             // normal content tags
@@ -1475,7 +1533,8 @@ class eZOEXMLInput extends eZXMLInputHandler
 
                 $customAttributePart = self::getCustomAttrPart( $tag, $styleString );
 
-                $output .= '<a id="' . $name . '" class="mceItemAnchor"' . $customAttributePart . $styleString . '></a>';
+                $output .= '<a id="' . $name . '" class="mceItemAnchor"' . $customAttributePart .
+                           $styleString . '></a>';
             }break;
 
             case 'link' :
@@ -1503,7 +1562,9 @@ class eZOEXMLInput extends eZXMLInputHandler
                     if ( $showPath === 'true' )
                     {
                         $node = eZContentObjectTreeNode::fetch( $nodeID );
-                        $href = $node ? 'eznode://' . $node->attribute('path_identification_string') : 'eznode://' . $nodeID;
+                        $href = $node ?
+                                'eznode://' . $node->attribute('path_identification_string') :
+                                'eznode://' . $nodeID;
                     }
                     else
                     {
@@ -1555,7 +1616,8 @@ class eZOEXMLInput extends eZXMLInputHandler
                 {
                     $attributeText = ' ' .implode( ' ', $attributes );
                 }
-                $output .= '<a' . $attributeText . $customAttributePart . $styleString . '>' . $childTagText . '</a>';
+                $output .= '<a' . $attributeText . $customAttributePart . $styleString . '>' .
+                           $childTagText . '</a>';
             }break;
             case 'tr' :
             case 'td' :
@@ -1582,7 +1644,8 @@ class eZOEXMLInput extends eZXMLInputHandler
         
         if ( self::$customAttributeStyleMap === null )
         {
-            // Filtered styles because the browser (ie,ff&opera) convert span tag to font tag in certain circumstances
+            // Filtered styles because the browser (ie,ff&opera) convert span tag to
+            // font tag in certain circumstances
             $oeini = eZINI::instance( 'ezoe.ini' );
             $styles = $oeini->variable('EditorSettings', 'CustomAttributeStyleMap' );
             $customAttributeStyleMap = array();
@@ -1594,7 +1657,8 @@ class eZOEXMLInput extends eZXMLInputHandler
                 }
                 else
                 {
-                    eZDebug::writeWarning( "Style not valid: $style, see ezoe.ini[EditorSettings]CustomAttributeStyleMap", __METHOD__ );
+                    eZDebug::writeWarning( "Style not valid: $style, see ezoe.ini[EditorSettings]CustomAttributeStyleMap",
+                                           __METHOD__ );
                 }
             }
         }
@@ -1611,11 +1675,13 @@ class eZOEXMLInput extends eZXMLInputHandler
                 }
                 else
                 {
-                   $customAttributePart .= 'attribute_separation' . $attribute->name . '|' . $attribute->value;
+                   $customAttributePart .= 'attribute_separation' . $attribute->name . '|' .
+                                           $attribute->value;
                 }
                 if ( isset( self::$customAttributeStyleMap[$attribute->name] ) )
                 {
-                    $styleString .= self::$customAttributeStyleMap[$attribute->name] . ': ' . $attribute->value . '; ';
+                    $styleString .= self::$customAttributeStyleMap[$attribute->name] . ': ' .
+                                    $attribute->value . '; ';
                 }
             }
         }
@@ -1638,7 +1704,8 @@ class eZOEXMLInput extends eZXMLInputHandler
     {
         foreach ( $tag->attributes as $attribute )
         {
-            if ( $attribute->name === $attributeName && $attribute->namespaceURI === 'http://ez.no/namespaces/ezpublish3/custom/' )
+            if ( $attribute->name === $attributeName
+              && $attribute->namespaceURI === 'http://ez.no/namespaces/ezpublish3/custom/' )
             {
                 return $attribute->value;
             }
@@ -1714,7 +1781,9 @@ class eZOEXMLInput extends eZXMLInputHandler
         {
             $ini = eZINI::instance( 'content.ini' );
             self::$customInlineTagList = $ini->variable( 'CustomTagSettings', 'IsInline' );
-            self::$customInlineImageIconPath = $ini->hasVariable( 'CustomTagSettings', 'InlineImageIconPath' ) ? $ini->variable( 'CustomTagSettings', 'InlineImageIconPath' ) : array();
+            self::$customInlineIconPath = $ini->hasVariable( 'CustomTagSettings', 'InlineImageIconPath' ) ?
+                                          $ini->variable( 'CustomTagSettings', 'InlineImageIconPath' ) :
+                                          array();
         }
 
         if ( isset( self::$customInlineTagList[ $name ] ) )
@@ -1725,8 +1794,8 @@ class eZOEXMLInput extends eZXMLInputHandler
             }
             else if ( self::$customInlineTagList[ $name ] === 'image' )
             {
-                if ( isset( self::$customInlineImageIconPath[ $name ] ) )
-                    return self::$customInlineImageIconPath[ $name ];
+                if ( isset( self::$customInlineIconPath[ $name ] ) )
+                    return self::$customInlineIconPath[ $name ];
                 else
                     return 'images/tango/image-x-generic22.png';
             }
@@ -1780,14 +1849,16 @@ class eZOEXMLInput extends eZXMLInputHandler
                     return $group;
             }
             else
-                eZDebug::writeDebug( "Missing content.ini[RelationGroupSettings]$settingName setting.", __METHOD__ );
+                eZDebug::writeDebug( "Missing content.ini[RelationGroupSettings]$settingName setting.",
+                                     __METHOD__ );
         }
 
         $ini = eZINI::instance();
         if ( $ini->hasVariable('MediaClassSettings', 'ImageClassID' ) and
            in_array( $classID, $ini->variable('MediaClassSettings', 'ImageClassID' ) ))
         {
-            eZDebug::writeNotice( "site.ini[MediaClassSettings]ImageClassID is depricated, use content.ini[RelationGroupSettings] instead.", __METHOD__ );
+            eZDebug::writeNotice( "site.ini[MediaClassSettings]ImageClassID is deprecated, use content.ini[RelationGroupSettings]",
+                                  __METHOD__ );
             return 'images';
         }
         return $contentIni->variable( 'RelationGroupSettings', 'DefaultGroup' );
@@ -1811,7 +1882,7 @@ class eZOEXMLInput extends eZXMLInputHandler
     protected static $designBases = null;
     protected static $userAccessHash = array();
     protected static $customInlineTagList = null;
-    protected static $customInlineImageIconPath = null;
+    protected static $customInlineIconPath = null;
     protected static $customAttributeStyleMap = null;
     protected static $embedIsCompatibilityMode = null;
     protected static $xmlTagAliasList = null;
