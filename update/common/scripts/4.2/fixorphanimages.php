@@ -108,3 +108,4 @@ catch(Exception $e)
 	$output->outputLine();
 	$script->shutdown( $e->getCode() );
 }
+?>
