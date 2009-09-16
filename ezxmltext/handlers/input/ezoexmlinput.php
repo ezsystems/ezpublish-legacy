@@ -94,6 +94,7 @@ class eZOEXMLInput extends eZXMLInputHandler
     function hasAttribute( $name )
     {
         return ( $name === 'is_editor_enabled' or
+                 $name === 'can_disable' or
                  $name === 'editor_layout_settings' or
                  $name === 'browser_supports_dhtml_type' or
                  $name === 'is_compatible_version' or
@@ -115,6 +116,8 @@ class eZOEXMLInput extends eZXMLInputHandler
     {
         if ( $name === 'is_editor_enabled' )
             $attr = self::isEditorEnabled();
+        else if ( $name === 'can_disable' )
+            $attr = $this->currentUserHasAccess( 'disable_editor' );
         else if ( $name === 'editor_layout_settings' )
             $attr = $this->getEditorLayoutSettings();
         else if ( $name === 'browser_supports_dhtml_type' )
@@ -243,16 +246,20 @@ class eZOEXMLInput extends eZXMLInputHandler
      */
     function isValid()
     {
-        if ( !self::browserSupportsDHTMLType() )
-        {
-            eZDebug::writeNotice('Current browser is not supported by ezoe, falling back to normal xml editor!', __METHOD__ );
-            return false;
-        }
-
         if ( !$this->currentUserHasAccess() )
         {
             eZDebug::writeNotice('Current user does not have access to ezoe, falling back to normal xml editor!', __METHOD__ );
             return false;
+        }
+        
+        if ( !self::browserSupportsDHTMLType() )
+        {
+            if ( $this->currentUserHasAccess( 'disable_editor' ) )
+            {
+                eZDebug::writeNotice('Current browser is not supported by ezoe, falling back to normal xml editor!', __METHOD__ );
+                return false;
+            }
+            eZDebug::writeWarning('Current browser is not supported by ezoe, but user does not have access to disable editor!', __METHOD__ );
         }
 
         return true;
@@ -276,7 +283,10 @@ class eZOEXMLInput extends eZXMLInputHandler
             } break;
             case 'disable_editor':
             {
-                self::setIsEditorEnabled( false );
+                if ( $this->currentUserHasAccess( 'disable_editor' ) )
+                    self::setIsEditorEnabled( false );
+                else
+                    eZDebug::writeError( 'Current user does not have access to disable editor, but trying anyway!', __METHOD__ );
             } break;
             default :
             {
@@ -306,7 +316,7 @@ class eZOEXMLInput extends eZXMLInputHandler
     {
         $dhtmlInput = true;
         $http = eZHTTPTool::instance();
-        if ( $http->hasSessionVariable( 'eZOEXMLInputExtension' ) === true )
+        if ( $http->hasSessionVariable( 'eZOEXMLInputExtension' ) )
             $dhtmlInput = $http->sessionVariable( 'eZOEXMLInputExtension' );
         return $dhtmlInput;
     }

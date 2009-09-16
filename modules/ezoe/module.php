@@ -155,6 +155,7 @@ $FunctionList['relations'] = array();
 $FunctionList['editor'] = array();
 $FunctionList['search'] = array();
 $FunctionList['browse'] = array();
+$FunctionList['disable_editor'] = array();
 
 
 
