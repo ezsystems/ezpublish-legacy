@@ -221,6 +221,15 @@ class eZNodeviewfunctions
 
         $Result['cache_ttl'] = $cacheTTL;
 
+        // if cache_ttl is set to 0 from the template, we need to add a no-cache advice
+        // to the node's data. That way, the retrieve callback on the next calls
+        // will be able to determine earlier that no cache generation should be started
+        // for this node
+        if ( $cacheTTL == 0 )
+        {
+            $Result['no_cache'] = true;
+        }
+
         if ( $languageCode )
         {
             $node->setCurrentLanguage( $oldLanguageCode );
@@ -366,6 +375,13 @@ class eZNodeviewfunctions
             $contents = file_get_contents( $file );
             $Result = unserialize( $contents );
 
+            // Check if a no_cache key has been set in the viewcache, and
+            // return an eZClusterFileFailure if it has
+            if ( isset( $Result['no_cache'] ) )
+            {
+                return new eZClusterFileFailure( 3, "Cache has been disabled for this node" );
+            }
+
             // Check if cache has expired when cache_ttl is set
             $cacheTTL = isset( $Result['cache_ttl'] ) ? $Result['cache_ttl'] : -1;
             if ( $cacheTTL > 0 )
@@ -483,7 +499,6 @@ class eZNodeviewfunctions
                           'store'   => false );
         }
 
-//    if ( !$object->attribute( 'can_read' ) )
         if ( !$object->canRead() )
         {
             return array( 'content' => $Module->handleError( eZError::KERNEL_ACCESS_DENIED,
@@ -496,9 +511,13 @@ class eZNodeviewfunctions
                                                               $LanguageCode, $ViewMode, $Offset,
                                                               $viewParameters, $collectionAttributes,
                                                               $validation );
+
+        // 'store' depends on noCache: if $noCache is set, this means that retrieve
+        // returned it, and the noCache fake cache file is already stored
+        // and should not be stored again
         $retval = array( 'content' => $Result,
                          'scope'   => 'viewcache',
-                         'store'   => $Result['cache_ttl'] != 0 );
+                         'store'   => !( isset( $noCache ) and $noCache ) );
         if ( $file !== false && $retval['store'] )
             $retval['binarydata'] = serialize( $Result );
         return $retval;
