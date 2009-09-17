@@ -31,11 +31,11 @@ class ezjscoreInfo
         $eZCopyrightString = 'Copyright (C) 1999-' . date('Y') . ' eZ Systems AS';
 
         return array( 'Name'      => 'ezjscore',
-                      'Version'   => '1.0.0rc1',
+                      'Version'   => '1.0.0',
                       'Copyright' => $eZCopyrightString,
                       'License'   => 'GNU General Public License v2.0',
                       'Includes the following third-party software' => array( 'Name' => 'YUI',
-                                                                              'Version' => '3.0Beta1 and 2.7.0',
+                                                                              'Version' => '3.0.0Beta1 and 2.7.0',
                                                                               'Copyright' => 'Copyright (c) 2009, Yahoo! Inc. All rights reserved.',
                                                                               'License' => 'Licensed under the BSD License',),
                       'Includes the following library'              => array( 'Name' => 'JSMin (jsmin-php)',
