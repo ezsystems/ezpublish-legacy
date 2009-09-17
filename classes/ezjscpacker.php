@@ -447,9 +447,10 @@ class ezjscPacker
 
         // remove multiline comments
         $css = preg_replace('!(?:\n|\s|^)/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $css);
+        $css = preg_replace('!(?:;)/\*[^*]*\*+([^/][^*]*\*+)*/!', ';', $css);
 
-        // remove whitespace from start and end of line + singelline comment + multiple linefeeds
-        $css = preg_replace(array('/\n\s+/', '/\s+\n/', '!\n//.+\n!', '!\n//\n!', '/\n+/'), "\n", $css);
+        // remove whitespace from start and end of line + multiple linefeeds
+        $css = preg_replace(array('/\n\s+/', '/\s+\n/', '/\n+/'), "\n", $css);
 
         if ( $packLevel > 2 )
         {
@@ -492,9 +493,10 @@ class ezjscPacker
     
             // remove multiline comments
             $script = preg_replace('!(?:\n|\s|^)/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $script);
-    
+            $script = preg_replace('!(?:;)/\*[^*]*\*+([^/][^*]*\*+)*/!', ';', $script);
+
             // remove whitespace from start & end of line + singelline comment + multiple linefeeds
-            $script = preg_replace(array('/\n\s+/', '/\s+\n/', '!\n//.+\n!', '!\n//\n!', '/\n+/'), "\n", $script);
+            $script = preg_replace(array('/\n\s+/', '/\s+\n/', '#\n\s*//.*#', '/\n+/'), "\n", $script);
         }
         else
         {
