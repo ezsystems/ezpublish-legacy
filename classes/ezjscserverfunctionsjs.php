@@ -194,7 +194,7 @@ YUI( YUI3_config ).add('io-ez', function( Y )
     _ez.url = _serverUrl;
     _ez.seperator = _seperator;
     Y.io.ez = _ez;
-}, '3.0.0b1' ,{requires:['io-base', 'event', 'json-parse']});//io does't list event a dependancy, so until it does or stop using it, it is listed here..
+}, '3.0.0b1' ,{requires:['io-base', 'event-custom', 'json-parse']});//io does't list event-custom a dependancy, workaround until 3.0.0 GA
         ";
     }
 
