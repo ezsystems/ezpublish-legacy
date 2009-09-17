@@ -170,20 +170,6 @@ class ezjscPackerTemplateFunctions
     function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
         $ret = '';
-        // Only pack files if developmentMode is disabled and Packer is enabled
-        $packLevel = 0;
-        $ezIni = eZINI::instance();
-        if ( $ezIni->hasVariable('eZJSCore', 'Packer') )
-        {
-            if ( $ezIni->variable('eZJSCore', 'Packer') === 'enabled' )
-                $packLevel = (int) $namedParameters['pack_level'];
-        }
-        else if ( $ezIni->variable('TemplateSettings', 'DevelopmentMode') === 'disabled' )
-        {
-            $packLevel = (int) $namedParameters['pack_level'];
-        }
-        
-        
         switch ( $operatorName )
         {
             case 'ezscript_load':
@@ -195,7 +181,7 @@ class ezjscPackerTemplateFunctions
                                                          $namedParameters['type'],
                                                          $namedParameters['language'],
                                                          $namedParameters['charset'],
-                                                         $packLevel );
+                                                         $namedParameters['pack_level'] );
                     self::$loaded['js_files'] = true;
                     break;
                 }// let 'ezscript' handle loaded calls
@@ -222,18 +208,18 @@ class ezjscPackerTemplateFunctions
                                                      $namedParameters['type'],
                                                      $namedParameters['language'],
                                                      $namedParameters['charset'],
-                                                     $packLevel );
+                                                     $namedParameters['pack_level'] );
             } break;
             case 'ezscriptfiles':
             {
                 if ( $namedParameters['ignore_loaded'] )
                 {
-                    $ret = ezjscPacker::buildStylesheetFiles( $namedParameters['script_array'], $packLevel );
+                    $ret = ezjscPacker::buildStylesheetFiles( $namedParameters['script_array'], $namedParameters['pack_level'] );
                 }
                 else
                 {
                     $diff = self::setPersistentArray( 'js_files', $namedParameters['script_array'], $tpl, true, true, true );
-                    $ret = ezjscPacker::buildStylesheetFiles( $diff, $packLevel );
+                    $ret = ezjscPacker::buildStylesheetFiles( $diff, $namedParameters['pack_level'] );
                 }
             } break;
             case 'ezcss_load':
@@ -246,7 +232,7 @@ class ezjscPackerTemplateFunctions
                                                          $namedParameters['type'],
                                                          $namedParameters['rel'],
                                                          $namedParameters['charset'],
-                                                         $packLevel );
+                                                         $namedParameters['pack_level'] );
                     self::$loaded['css_files'] = true;
                     break;
                 }// let 'ezcss' handle loaded calls
@@ -274,18 +260,18 @@ class ezjscPackerTemplateFunctions
                                                      $namedParameters['type'],
                                                      $namedParameters['rel'],
                                                      $namedParameters['charset'],
-                                                     $packLevel );
+                                                     $namedParameters['pack_level'] );
             } break;
             case 'ezcssfiles':
             {
                 if ( $namedParameters['ignore_loaded'] )
                 {
-                    $ret = ezjscPacker::buildStylesheetFiles( $namedParameters['css_array'], $packLevel );
+                    $ret = ezjscPacker::buildStylesheetFiles( $namedParameters['css_array'], $namedParameters['pack_level'] );
                 }
                 else
                 {
                     $diff = self::setPersistentArray( 'css_files', $namedParameters['css_array'], $tpl, true, true, true );
-                    $ret = ezjscPacker::buildStylesheetFiles( $diff, $packLevel );
+                    $ret = ezjscPacker::buildStylesheetFiles( $diff, $namedParameters['pack_level'] );
                 }
             } break;
         }

@@ -216,7 +216,22 @@ class ezjscPacker
         $validFiles = array();
         $validWWWFiles = array();
         $bases   = eZTemplateDesignResource::allDesignBases();
-        
+
+        // Only pack files if Packer is enabled and if not set DevelopmentMode is disabled
+        $ini = eZINI::instance();
+        if ( $ini->hasVariable('eZJSCore', 'Packer') )
+        {
+            $packerIniValue = $ini->variable('eZJSCore', 'Packer');
+            if ( $packerIniValue === 'disabled' )
+                $packLevel = 0;
+            else if ( is_numeric( $packerIniValue ) )
+                $packLevel = (int) $packerIniValue;
+        }
+        else if ( $ini->variable('TemplateSettings', 'DevelopmentMode') === 'enabled' )
+        {
+            $packLevel = 0;
+        }
+
         $packerInfo = array(
             'file_extension' => $fileExtension,
             'pack_level' => $packLevel,

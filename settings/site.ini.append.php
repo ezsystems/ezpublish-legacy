@@ -21,6 +21,7 @@ AnonymousAccessList[]=ezjscore/call
 # Disables/enables js / css packer (for debugging apache rewrite rules)
 # Normally controlled by [TemplateSettings]DevelopmentMode for convenience,
 # but can also be controlled by this setting if set.
+# Force packer level by setting integer from 0 to 3 instead of [dis|en]abled
 #Packer=disabled
 
 
