@@ -1,33 +1,84 @@
-eZ JSCore extension installation documentation
+eZ JSCore 1.0 extension installation documentation
 
 About eZ JSCore
 ===========
 
-Add description about eZ JSCore extension here.
+An ajax extension for easier client / server integrations using yui 3.0 and/or jQuery.
+It also includes tools for on demand script / css loading and json / xml encoding
+content.
 
 Requirements
 ============
 
-Add complete list of requirements
+    eZ Publish 4.0 and higher
+
+    PHP 5.2.1 and higher
+    or
+    PHP 5.1.2 and higher + PHP JSON extension
 
 Installation
 ============
 
-Re-write rules
-**************
+ 1. Unpack/unzip
+ 
+   Unpack the downloaded zip package into the 'extension' directory of your
+   eZ Publish installation.
 
-eZ JSCore extension require correct re-write rule in order to load necessary yui (yahoo user interface) files
-from the file system. This is required only when INI setting ezjscore.ini[eZJSCore]LoadFromCDN is disabled.
+ 2. Activate extension
 
-Virtual-Host setup
-------------------
+   Activate the extension by using the admin interface ( Setup -> Extensions) or by
+   prepending ezjscore to ActiveExtensions[] in settings/override/site.ini.append.php:
 
-Add to your Virtual-Host setup following line:
+   [ExtensionSettings]
+   ActiveExtensions[]=ezjscore
 
-``^/extension/[^/]+/design/[^/]+/(stylesheets|flash|images|lib|javascripts?)/.* - [L]``
+ 3. Regenerate autoload array
 
+  Check eZ Publish doc for your version on how this is done.
+  Or go to Setup -> Extensions and click on button there.
 
+ 4. Clear caches
 
+   Clear INI and template caches. (from admin 'Setup' tab or commandline)
+
+ 5. Rewrite rules for lib folder
+
+   eZ JSCore extension require correct re-write rule in order to load necessary yui (yahoo user interface) files
+   from the file system. This is required only when INI setting ezjscore.ini[eZJSCore]LoadFromCDN is disabled.
+
+   Add to your Virtual-Host setup following line:
+
+   ``^/extension/[^/]+/design/[^/]+/(stylesheets|flash|images|lib|javascripts?)/.* - [L]``
+
+ 6. Rewrite rules for script/css packing
+ 
+  eZ JsCore packs javascript/css files together to decrease server requests and file size for faster download.
+  On eZ Publish 4.0.x you'll need to make the following change if you havn't already when installing ezoe
+  ( Online Editor 5.0 ).
+
+  * .htaccess
+     from:
+    RewriteRule !\.(gif|jpe?g|png|css|js|html)|var(.+)storage.pdf(.+)\.pdf$ index.php
+     to:
+    RewriteRule !\.(gif|jpe?g|png|css|js|html?)|var(.+)storage.pdf(.+)\.pdf$ index.php
+
+  * Virtual Host mode
+     add:
+    RewriteRule ^/var/([^/]+/)?cache/public/.* - [L]
+    
+  If you don't manage to get these working, you can force disable this feature with site.ini[eZJSCore]Packer=disabled
+
+ 7. (optional) Speedup ajax calls
+
+     1. Copy or symlink index_ajax.php from this extension to root folder of eZ Publish (next to index.php)
+     2. Add the following rewrite rule:
+
+        * .htaccess
+         RewriteRule content/treemenu/? index_ajax.php
+         RewriteRule ^index_ajax\.php - [L]
+    
+        * Virtual Host mode
+         RewriteRule ezcore/call/ /index_ajax.php [L]
 
 
 Using eZ JSCore Server functions from javascript

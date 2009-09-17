@@ -31,26 +31,14 @@ if ( !ini_get( 'date.timezone' ) )
     date_default_timezone_set( 'UTC' );
 }
 
-/*define( 'MAX_AGE', 86400 );
-
-if ( isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) )
-{
-    header( $_SERVER['SERVER_PROTOCOL'] . ' 304 Not Modified' );
-    header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', time() + MAX_AGE ) . ' GMT' );
-    header( 'Cache-Control: max-age=' . MAX_AGE );
-    header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s', strtotime( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) ) . ' GMT' );
-    exit();
-}*/
-
 require 'autoload.php';
 include_once( 'lib/ezutils/classes/ezsession.php' );
 include_once( 'kernel/common/ezincludefunctions.php' );
 
-// Tweak ini filetime checks if not defined!
-// This makes ini system not check modified time
-// so that index_ajax.php can assume that index.php
-// does this regulary enough, set to true in config.php
-// to override.
+// Tweaks ini filetime checks if not defined!
+// This makes ini system not check modified time so
+// that index_ajax.php can assume that index.php does
+// this regular enough, set in config.php to override.
 if ( !defined('EZP_INI_FILEMTIME_CHECK') )
 {
     define( 'EZP_INI_FILEMTIME_CHECK', false );
@@ -183,7 +171,7 @@ if ( $moduleName === '' )
     exitWithInternalError( 'Did not find module info in url. (165)' );
 }
 
-// chack db connection
+// check db connection
 $db = eZDB::instance();
 if ( $db->isConnected() )
 {
@@ -297,7 +285,7 @@ $uri->increase();
 $GLOBALS['eZRequestedModule'] = $module;
 $moduleResult = $module->run( $viewName, $uri->elements( false ), false, $uri->userParameters() );
 
-// run ouput filter
+// run output filter
 if ( $ini->hasVariable( 'OutputSettings', 'OutputFilterName' ) )
 {
     $classname = $ini->variable( 'OutputSettings', 'OutputFilterName' );
@@ -307,7 +295,7 @@ if ( $ini->hasVariable( 'OutputSettings', 'OutputFilterName' ) )
     }
 }
 
-// ouput content
+// output content
 $out = ob_get_clean();
 echo trim( $out );
 eZDB::checkTransactionCounter();
