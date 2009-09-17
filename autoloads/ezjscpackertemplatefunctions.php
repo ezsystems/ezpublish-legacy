@@ -170,13 +170,15 @@ class ezjscPackerTemplateFunctions
     function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
         $ret = '';
-        // Do not pack files if developmentMode is enabled
+        // Only pack files if developmentMode is disabled and Packer is enabled
+        $packLevel = 0;
         $ezIni = eZINI::instance();
-        if ( $ezIni->variable('TemplateSettings', 'DevelopmentMode') === 'enabled' )
+        if ( $ezIni->hasVariable('eZJSCore', 'Packer') )
         {
-            $packLevel = 0;
+            if ( $ezIni->variable('eZJSCore', 'Packer') === 'enabled' )
+                $packLevel = (int) $namedParameters['pack_level'];
         }
-        else
+        else if ( $ezIni->variable('TemplateSettings', 'DevelopmentMode') === 'disabled' )
         {
             $packLevel = (int) $namedParameters['pack_level'];
         }
