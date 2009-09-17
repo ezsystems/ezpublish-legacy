@@ -5,12 +5,6 @@
 [TemplateSettings]
 ExtensionAutoloadPath[]=ezoe
 
-
-[MediaClassSettings]
-# Deprecated, use [RelationGroupSettings]ImagesClassList[] in content.ini
-#ImageClassID[]=5
-
-
 [ImageDataTypeSettings]
 AvailableImageDataTypes[]=ezimage
 

@@ -49,6 +49,7 @@ eZ Online Editor 5.0 extension Changelog
 * Implemented: InlineImageIconPath[] setting for having custom icons on IsInline[<>]=image types
 * Enable TinyMCE xhtml validation to behave more like out of the box TinyMCE
 * Implemented support for controlling access to disabling edtior
+* Removed deprecated site.ini[MediaClassSettings]ImageClassID setting
 
 5.0.0
 * Fixed regression #13650: [header] ezoe adds a level each time it is called

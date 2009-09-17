@@ -1135,7 +1135,6 @@ class eZOEXMLInput extends eZXMLInputHandler
                 if ( $object instanceof eZContentObject )
                 {
                     $objectName = $object->attribute( 'name' );
-                    $classID = $object->attribute( 'contentclass_id' );
                     $classIdentifier = $object->attribute( 'class_identifier' );
                     if ( !$object->attribute( 'can_read' ) ||
                          !$object->attribute( 'can_view_embed' ) )
@@ -1156,7 +1155,6 @@ class eZOEXMLInput extends eZXMLInputHandler
                 else
                 {
                     $objectName = 'Unknown';
-                    $classID = 0;
                     $classIdentifier = false;
                     $tplSuffix = '_denied';
                     $className .= ' mceItemObjectDeleted';
@@ -1166,7 +1164,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                     }
                 }
 
-                $embedContentType = self::embedTagContentType( $classIdentifier, $classID );
+                $embedContentType = self::embedTagContentType( $classIdentifier );
                 if ( $embedContentType === 'images' )
                 {
                     $ini = eZINI::instance();
@@ -1821,7 +1819,6 @@ class eZOEXMLInput extends eZXMLInputHandler
         $objectID  = $node->getAttribute( 'object_id' );
         $nodeID    = $node->getAttribute( 'node_id' );
         $object    = false;
-        $classID   = 0;
         $classIdentifier = false;
         
         if ( is_numeric( $objectID ) )
@@ -1836,17 +1833,16 @@ class eZOEXMLInput extends eZXMLInputHandler
         
         if ( $object instanceof eZContentObject )
         {
-            $classID = $object->attribute( 'contentclass_id' );
             $classIdentifier = $object->attribute( 'class_identifier' );
         }
 
-        return self::embedTagContentType(  $classIdentifier, $classID ) === 'images';
+        return $classIdentifier && self::embedTagContentType(  $classIdentifier ) === 'images';
     }
 
     /*
-     * Get content type by class identifier and class id (class id used for old ImageClassID setting)
+     * Get content type by class identifier
      */
-    public static function embedTagContentType( $classIdentifier, $classID = 0  )
+    public static function embedTagContentType( $classIdentifier  )
     {
         $contentIni = eZINI::instance('content.ini');         
 
@@ -1863,14 +1859,6 @@ class eZOEXMLInput extends eZXMLInputHandler
                                      __METHOD__ );
         }
 
-        $ini = eZINI::instance();
-        if ( $ini->hasVariable('MediaClassSettings', 'ImageClassID' ) and
-           in_array( $classID, $ini->variable('MediaClassSettings', 'ImageClassID' ) ))
-        {
-            eZDebug::writeNotice( "site.ini[MediaClassSettings]ImageClassID is deprecated, use content.ini[RelationGroupSettings]",
-                                  __METHOD__ );
-            return 'images';
-        }
         return $contentIni->variable( 'RelationGroupSettings', 'DefaultGroup' );
     }
 
