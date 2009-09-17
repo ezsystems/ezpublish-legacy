@@ -74,7 +74,7 @@ Installation
      2. Add the following rewrite rule:
 
         * .htaccess
-         RewriteRule content/treemenu/? index_ajax.php
+         RewriteRule ezcore/call/? index_ajax.php
          RewriteRule ^index_ajax\.php - [L]
     
         * Virtual Host mode
