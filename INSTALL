@@ -14,16 +14,22 @@ The following requirements exists for using eZ Online Editor 5.0 extension:
 
 o  eZ Publish version:
 
-   Make sure you use eZ Publish version 4.1 or higher.
+   eZ Publish 4.1 or higher.
 
    Version 4.0.x will also work but will have some reduced functionality:
    * Editor layouts pr attribute requires 4.1 and higher
    * Align=None translates into Align=right on embed tags in output
    * justify* buttons are not supported and should not be used
 
+o  eZ Publish extensions:
+
+   ezjscore 1.0.0 or higher ( http://projects.ez.no/ezjscore )
+
 o  PHP version:
 
-   as indicated in your eZ Publish version requirements
+   5.2.1 and higher
+   OR
+   5.1.2 + JSON extension and higher
 
 o  Web Browser:
 
@@ -119,8 +125,8 @@ Installing eZ Online Editor 5.0 extension
    Or add a rewrite rule like this:
    RewriteRule ^/var/([^/]+/)?cache/public/.* - [L]
    
-   Alternatively you can set ezoe.ini [EditorSettings] DevelopmentMode = enabled
-   and OE will stop using this cache technique.
+   Alternatively you can set site.ini[eZJSCore]Packer=disabled
+   and ezjscore will stop using this cache technique.
    Please override the setting in settings/override/ instead of changing
    the files in the extension.
 

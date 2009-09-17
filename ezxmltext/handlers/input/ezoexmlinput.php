@@ -37,7 +37,6 @@
 
 */
 include_once( 'kernel/common/template.php' );
-include_once( 'extension/ezoe/classes/ezoeajaxcontent.php' );
 
 class eZOEXMLInput extends eZXMLInputHandler
 {
@@ -131,7 +130,7 @@ class eZOEXMLInput extends eZXMLInputHandler
         else if ( $name === 'xml_tag_alias' )
             $attr =  self::getXmlTagAliasList();
         else if ( $name === 'json_xml_tag_alias' )
-            $attr =  eZOEAjaxContent::jsonEncode( self::getXmlTagAliasList() );
+            $attr =  json_encode( self::getXmlTagAliasList() );
         else
             $attr = eZXMLInputHandler::attribute( $name );
         return $attr;

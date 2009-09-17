@@ -54,7 +54,7 @@
 
     <!-- Load TinyMCE code -->
     <script id="tinymce_script_loader" type="text/javascript" src={"javascript/tiny_mce.js"|ezdesign}></script>
-    {ezoescript( $plugin_js_list )}
+    {ezscript( $plugin_js_list )}
     <!-- Init TinyMCE script -->
     <script type="text/javascript">
     <!--
@@ -92,8 +92,8 @@
         inline_styles : false,
         tab_focus : ':prev,:next',
         theme_ez_xml_alias_list : {$input_handler.json_xml_tag_alias},
-        theme_ez_editor_css : '{ezoecss( $editor_css_list, false() )|implode(',')}',
-        theme_ez_content_css : '{ezoecss( $content_css_list, false())|implode(',')}',
+        theme_ez_editor_css : '{ezcssfiles( $editor_css_list, 3, true() )|implode(',')}',
+        theme_ez_content_css : '{ezcssfiles( $content_css_list, 3, true() )|implode(',')}',
         theme_ez_statusbar_open_dialog : {cond( ezini('EditorSettings', 'TagPathOpenDialog', 'ezoe.ini',,true())|eq('enabled'), 'true', 'false' )},
         popup_css : {concat("stylesheets/skins/", $skin, "/dialog.css")|ezdesign},
         save_callback : "eZOeCleanUpEmbedTags",

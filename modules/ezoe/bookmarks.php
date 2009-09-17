@@ -31,10 +31,6 @@
  */
 
 
-//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( 'extension/ezoe/classes/ezoeajaxcontent.php' );
-
-
 $limit  = (int) isset( $Params['Limit'] ) ? $Params['Limit'] : 10;
 $offset = (int) $Params['Offset'];
 $http   = eZHTTPTool::instance();
@@ -87,7 +83,7 @@ else
 // generate json response from bookmarks list
 if ( $objectList )
 {
-    $list = eZOEAjaxContent::encode( $objectList, array( 'loadImages' => true, 'fetchNodeFunction' => 'fetchNode', 'fetchChildrenCount' => true ) );
+    $list = ezjscAjaxContent::nodeEncode( $objectList, array( 'loadImages' => true, 'fetchNodeFunction' => 'fetchNode', 'fetchChildrenCount' => true ) );
 }
 
 

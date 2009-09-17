@@ -27,8 +27,6 @@
 //
 
 include_once( 'kernel/common/template.php' );
-//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( 'extension/ezoe/classes/ezoeajaxcontent.php' );
 include_once( 'extension/ezoe/ezxmltext/handlers/input/ezoexmlinput.php' );
 
 $objectID        = isset( $Params['ObjectID'] ) ? (int) $Params['ObjectID'] : 0;
@@ -256,7 +254,7 @@ $tpl->setVariable( 'object_version', $objectVersion );
 $tpl->setVariable( 'embed_id', $embedId );
 $tpl->setVariable( 'embed_type', $embedType );
 $tpl->setVariable( 'embed_object', $embedObject );
-$tpl->setVariable( 'embed_data', eZOEAjaxContent::encode( $embedObject, $params ) );
+$tpl->setVariable( 'embed_data', ezjscAjaxContent::nodeEncode( $embedObject, $params ) );
 $tpl->setVariable( 'content_type', $contentType );
 $tpl->setVariable( 'content_type_name', ucfirst( rtrim( $contentType, 's' ) ) );
 $tpl->setVariable( 'compatibility_mode', $ezoeIni->variable('EditorSettings', 'CompatibilityMode' ) );
@@ -269,9 +267,9 @@ if ( isset( $xmlTagAliasList[$tagName] ) )
 else
     $tpl->setVariable( 'tag_name_alias', $tagName );
 
-$tpl->setVariable( 'view_list', eZOEAjaxContent::jsonEncode( array( 'embed' => $viewList, 'embed-inline' => $viewListInline ) ) );
-$tpl->setVariable( 'class_list', eZOEAjaxContent::jsonEncode( array( 'embed' => $classList, 'embed-inline' => $classListInline ) ) );
-$tpl->setVariable( 'attribute_defaults', eZOEAjaxContent::jsonEncode( array( 'embed' => $attributeDefaults, 'embed-inline' => $attributeDefaultsInline ) ) );
+$tpl->setVariable( 'view_list', json_encode( array( 'embed' => $viewList, 'embed-inline' => $viewListInline ) ) );
+$tpl->setVariable( 'class_list', json_encode( array( 'embed' => $classList, 'embed-inline' => $classListInline ) ) );
+$tpl->setVariable( 'attribute_defaults', json_encode( array( 'embed' => $attributeDefaults, 'embed-inline' => $attributeDefaultsInline ) ) );
 
 
 $tpl->setVariable( 'custom_attributes', $customAttributes );
@@ -285,7 +283,7 @@ if ( $contentIni->hasVariable( 'ImageSettings', 'DefaultCropAlias' ) )
 else
     $tpl->setVariable( 'default_crop_size', $defaultSize );
 
-$tpl->setVariable( 'custom_attribute_style_map', eZOEAjaxContent::jsonEncode( $ezoeIni->variable('EditorSettings', 'CustomAttributeStyleMap' ) ) );
+$tpl->setVariable( 'custom_attribute_style_map', json_encode( $ezoeIni->variable('EditorSettings', 'CustomAttributeStyleMap' ) ) );
 
 $tpl->setVariable( 'persistent_variable', array() );
 

@@ -32,9 +32,7 @@
  * translations.
  */
 
-include_once( 'extension/ezoe/classes/ezoeajaxcontent.php' );
-
-class eZOEPackerFunctions
+class ezoeServerFunctions extends ezjscServerFunctions
 {
     /**
      * i18n
@@ -47,8 +45,6 @@ class eZOEPackerFunctions
     */
     public static function i18n( $args, $fileExtension )
     {
-        if ( $fileExtension !== '.js' ) return '';
-
         $lang = '-en';
         $locale = eZLocale::instance();
         if ( $args && $args[0] )
@@ -360,7 +356,7 @@ class eZOEPackerFunctions
                 'replaceall' => ezi18n('design/standard/ezoe/searchreplace', "Replace all")
             ),
         ));
-        $i18nString = eZOEAjaxContent::jsonEncode( $i18nArray );
+        $i18nString = json_encode( $i18nArray );
 
         return 'tinyMCE.addI18n( ' . $i18nString . ' );';
     }

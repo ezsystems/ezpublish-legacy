@@ -31,9 +31,6 @@
  * returns response in json for use in javascript
  */
 
-//include_once( 'kernel/classes/ezsearch.php' );
-include_once( 'extension/ezoe/classes/ezoeajaxcontent.php' );
-
 
 $http = eZHTTPTool::instance();
 // get the search string, it can be passed on as POST string or view parameter
@@ -169,7 +166,7 @@ if (!$searchList  || ( $searchOffset === 0 && count($searchList["SearchResult"])
 }
 
 // encode nodes to a json response
-$list = eZOEAjaxContent::encode( $searchList["SearchResult"], array( 'loadImages' => true, 'fetchChildrenCount' => true ) );
+$list = ezjscAjaxContent::nodeEncode( $searchList["SearchResult"], array( 'loadImages' => true, 'fetchChildrenCount' => true ) );
 
 
 $json =  $varName . '{list:' . $list . 
