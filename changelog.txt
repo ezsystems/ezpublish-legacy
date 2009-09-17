@@ -50,6 +50,7 @@ eZ Online Editor 5.0 extension Changelog
 * Enable TinyMCE xhtml validation to behave more like out of the box TinyMCE
 * Implemented support for controlling access to disabling edtior
 * Removed deprecated site.ini[MediaClassSettings]ImageClassID setting
+* Fixed #15501: view attribute on links are removed on copy/paste
 
 5.0.0
 * Fixed regression #13650: [header] ezoe adds a level each time it is called
