@@ -514,7 +514,7 @@ class ezjscPacker
         $server = ezjscServerRouter::getInstance( $strServerCall );
         if ( !$server instanceOf ezjscServerRouter )
         {
-            eZDebug::writeError( 'Not a valid ezjscServer function: ' . $file, __METHOD__ );
+            eZDebug::writeError( 'Not a valid ezjscServer function: ' . $strServerCall, __METHOD__ );
             return null;
         }
         // make sure the function is present on the class
