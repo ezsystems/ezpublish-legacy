@@ -827,6 +827,10 @@ class eZContentOperationCollection
         $mainNodeID           = $nodeID;
         $userClassIDArray     = eZUser::contentClassIDs();
         $object               = eZContentObject::fetch( $objectID );
+        $nodeAssignmentList   = eZNodeAssignment::fetchForObject( $objectID,
+                                                                  $object->attribute( 'current_version' ),
+                                                                  0,
+                                                                  false );
         $nodeAssignmentIDList = array();
 
         $db = eZDB::instance();
@@ -834,9 +838,6 @@ class eZContentOperationCollection
 
         foreach ( $removeList as $key => $node )
         {
-            $removeObjectID = $node->attribute( 'contentobject_id' );
-            $removeObject = eZContentObject::fetch( $removeObjectID );
-            $nodeAssignmentList = eZNodeAssignment::fetchForObject( $removeObjectID, $removeObject->attribute( 'current_version' ), 0, false );
             foreach ( $nodeAssignmentList as $nodeAssignmentKey => $nodeAssignment )
             {
                 if ( $nodeAssignment['parent_node'] == $node->attribute( 'parent_node_id' ) )
