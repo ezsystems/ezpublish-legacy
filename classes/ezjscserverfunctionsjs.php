@@ -52,7 +52,7 @@ class ezjscServerFunctionsJs extends ezjscServerFunctions
      *
      * @param array $args
      * @param array $packerFiles ByRef list of files to pack (by ezjscPacker)
-     * @return string YUI 2.0 JavaScript config string
+     * @return string Empty string
      */
     public static function yui2( $args, &$packerFiles )
     {
