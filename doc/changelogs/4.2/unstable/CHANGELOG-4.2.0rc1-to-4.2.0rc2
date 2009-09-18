@@ -15,4 +15,4 @@ Changes from 4.2.0rc1 to 4.2.0rc2
 *Translations:
 
 *Bugfixes:
-
+- Fixed bug #15478: Node assignment is not removed when removing node from child list
