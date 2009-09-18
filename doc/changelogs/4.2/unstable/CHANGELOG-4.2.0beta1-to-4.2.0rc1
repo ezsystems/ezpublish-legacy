@@ -17,7 +17,6 @@ Changes from 4.2.0beta1 to 4.2.0rc1
 *Translations:
 
 *Bugfixes:
-
 - Fixed bug #15454: Make eZSession::getUserSessionHash() to return default hash instead of empty string
 - Fixed bug #15484: Fatal error when installing plain and choosing "Map to language"
 - Fixed bug #15388: Warning in eznotificationtransport.php when $transportImpl is null
