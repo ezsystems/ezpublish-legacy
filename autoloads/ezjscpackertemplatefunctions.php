@@ -278,28 +278,54 @@ class ezjscPackerTemplateFunctions
         $operatorValue = $ret;
     }
 
-    // reusable function for setting persistent_variable
+    /**
+     * Function for setting values to deal with persistent_variable either from
+     * template or internally on {@link self::$persistentVariable}
+     *
+     * @param string $key Key to store values on
+     * @param string|array $value Value(s) to store
+     * @param object $tpl Template object to get values from
+     * @param bool $append Append or prepend value?
+     * @param bool $arrayUnique Make sure array is unique to remove duplicates
+     * @param bool $returnArrayDiff Return diff against existing values instead of resulting array
+     * $param bool $override Override/Wipe out values or merge?
+     * @return array
+     * 
+     */
     static public function setPersistentArray( $key, $value, $tpl, $append = true, $arrayUnique = false, $returnArrayDiff = false, $override = false )
     {
+        $isPageLayout = false;
         $persistentVariable = array();
         if ( $tpl->hasVariable('module_result') )
         {
-           $moduleResult = $tpl->variable('module_result');
+            $isPageLayout = true;
+            $moduleResult = $tpl->variable('module_result');
         }
 
-        if ( isset( $moduleResult['content_info']['persistent_variable'] ) && is_array( $moduleResult['content_info']['persistent_variable'] ) )
+        if ( isset( $moduleResult['content_info']['persistent_variable'] ) )
         {
             $persistentVariable = $moduleResult['content_info']['persistent_variable'];
         }
-        else if ( $tpl->hasVariable('persistent_variable') && is_array( $tpl->variable('persistent_variable') ) )
+        else if ( $tpl->hasVariable('persistent_variable') )
         {
            $persistentVariable = $tpl->variable('persistent_variable');
         }
-        else if ( self::$persistentVariable !== null && is_array( self::$persistentVariable ) )
+        else if ( self::$persistentVariable !== null )
         {
             $persistentVariable = self::$persistentVariable;
         }
 
+        if ( !is_array( $persistentVariable ) )
+        {
+            // Give warning if value is not array as we depend on it
+            if ( !$isPageLayout && $persistentVariable )
+            {
+                eZDebug::writeError( 'persistent_variable was not an array and where cleared, see ezjscore requriments!', __METHOD__ );
+            }
+            $persistentVariable = array();
+        }
+
+        // make a copy in case we need to diff value in the end
         $persistentVariableCopy = $persistentVariable;
 
         if ( !$override )
@@ -331,11 +357,16 @@ class ezjscPackerTemplateFunctions
             $persistentVariable[$key] = array_unique( $persistentVariable[$key] );
         }
 
-        // set the finnished array in the template
-        $tpl->setVariable('persistent_variable', $persistentVariable );
-
-        // storing the value internally as well in case this is not a view that supports persistent_variable (ezpagedata will look for it)
-        self::$persistentVariable = $persistentVariable;
+        // Don't store values back in pagelayout as we can't gurantee 
+        // it's value across different cach-blocks
+        if ( !$isPageLayout )
+        {
+            // set the finnished array in the template
+            $tpl->setVariable('persistent_variable', $persistentVariable );
+    
+            // storing the value internally as well in case this is not a view that supports persistent_variable (ezpagedata will look for it)
+            self::$persistentVariable = $persistentVariable;
+        }
 
         if ( $returnArrayDiff && isset( $persistentVariableCopy[ $key ][0] ) )
             return array_diff( $persistentVariable[ $key ], $persistentVariableCopy[ $key ] );
