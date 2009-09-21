@@ -28,20 +28,15 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file
-*/
-
-/*!
-  \class eZExpiryHandler ezexpiryhandler.php
-  \brief Keeps track of expiry keys and their timestamps
-
-*/
-
+/**
+ * Keeps track of expiry keys and their timestamps
+ * @class eZExpiryHandler ezexpiryhandler.php
+ **/
 class eZExpiryHandler
 {
-    /*!
-     Constructor
-    */
+    /**
+     * Constructor
+     **/
     function eZExpiryHandler()
     {
         $this->Timestamps = array();
@@ -52,9 +47,11 @@ class eZExpiryHandler
         $this->restore();
     }
 
-    /*!
-     Will load timestamp values from disk.
-    */
+    /**
+     * Load the expiry timestamps from cache
+     *
+     * @return void
+     **/
     function restore()
     {
         $Timestamps = $this->CacheFile->processFile( array( $this, 'fetchData' ) );
@@ -62,19 +59,19 @@ class eZExpiryHandler
         $this->IsModified = false;
     }
 
-    /*!
-     \static
-     Includes the expiry file and extracts the $Timestamps variable from it.
-     */
+    /**
+     * Includes the expiry file and extracts the $Timestamps variable from it.
+     * @param string $path
+     **/
     static function fetchData( $path )
     {
         include( $path );
         return $Timestamps;
     }
 
-    /*!
-     Will store the current timestamp values to disk.
-    */
+    /**
+     * Stores the current timestamps values to cache
+     **/
     function store()
     {
         if ( $this->IsModified )
@@ -97,26 +94,37 @@ class eZExpiryHandler
         }
     }
 
-    /*!
-     Sets the timestamp value \a $value for expiry key \a $name.
-    */
+    /**
+     * Sets the expiry timestamp for a key
+     *
+     * @param string $name Expiry key
+     * @param int    $value Expiry timestamp value
+     **/
     function setTimestamp( $name, $value )
     {
         $this->Timestamps[$name] = $value;
         $this->IsModified = true;
     }
 
-    /*!
-     \return true if the expiry key \a $name exists.
-    */
+    /**
+     * Checks if an expiry timestamp exist
+     *
+     * @param string $name Expiry key name
+     *
+     * @return bool true if the timestamp exists, false otherwise
+     **/
     function hasTimestamp( $name )
     {
         return isset( $this->Timestamps[$name] );
     }
 
-    /*!
-     \return the timestamp value for the expiry key \a $name if it exists or \c false if not,
-    */
+    /**
+     * Returns the expiry timestamp for a key
+     *
+     * @param string $name Expiry key
+     *
+     * @return int|false The timestamp if it exists, false otherwise
+     **/
     function timestamp( $name )
     {
         if ( !isset( $this->Timestamps[$name] ) )
@@ -127,10 +135,14 @@ class eZExpiryHandler
         return $this->Timestamps[$name];
     }
 
-    /*!
-     \static
-     \return the timestamp value for the expiry key \a $name if it exists or \c false if not,
-    */
+    /**
+     * Returns the expiry timestamp for a key, or a default value if it isn't set
+     *
+     * @param string $name Expiry key name
+     * @param int $default Default value that will be returned if the key isn't set
+     *
+     * @return mixed The expiry timestamp, or $default
+     **/
     static function getTimestamp( $name, $default = false )
     {
         $handler = eZExpiryHandler::instance();
@@ -157,18 +169,19 @@ class eZExpiryHandler
         return $GLOBALS['eZExpiryHandlerInstance'];
     }
 
-    /*!
-     \static
-     \return true if there's a unique instance of the expiry handler, false otherwise.
-    */
+    /**
+     * Checks if a shared instance of eZExpiryHandler exists
+     *
+     * @return bool true if an instance exists, false otherwise
+     **/
     static function hasInstance()
     {
         return isset( $GLOBALS['eZExpiryHandlerInstance'] ) && $GLOBALS['eZExpiryHandlerInstance'] instanceof eZExpiryHandler;
     }
 
-    /*!
-     Called at the end of execution and will store the data if it is modified.
-    */
+    /**
+     * Called at the end of execution and will store the data if it is modified.
+     **/
     static function shutdown()
     {
         if ( eZExpiryHandler::hasInstance() )
@@ -177,9 +190,10 @@ class eZExpiryHandler
         }
     }
 
-    /*!
-     Registers shutdown function to be called at the end of script execution
-    */
+    /**
+     * Registers the shutdown function.
+     * @see eZExpiryHandler::shutdown()
+     **/
     public static function registerShutdownFunction(){
         if ( !eZExpiryHandler::$isShutdownFunctionRegistered ) {
             register_shutdown_function( 'eZExpiryHandler::shutdown' );
@@ -187,15 +201,22 @@ class eZExpiryHandler
         }
     }
 
-    /// \privatesection
+    /**
+     * Indicates if thre shutdown function has been registered
+     * @var bool
+     **/
     private static $isShutdownFunctionRegistered = false;
 
+    /**
+     * Holds the expiry timestamps array
+     * @var array
+     **/
     public $Timestamps;
 
     /**
-    * Wether data has been modified or not
-    * @var bool
-    **/
+     * Wether data has been modified or not
+     * @var bool
+     **/
     public $IsModified;
 }
 
