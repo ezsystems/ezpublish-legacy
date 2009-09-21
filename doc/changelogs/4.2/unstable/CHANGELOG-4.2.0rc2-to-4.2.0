@@ -1,7 +1,6 @@
 Changes from 4.2.0rc2 to 4.2.0
 
 *Kernel:
-- Fixed issue #15229: Restore eZURLWildcard::isCacheExpired()
 
 *Design:
 
