@@ -153,6 +153,11 @@ class ezpObject
                             $attribute->fromString( $value );
                             break;
 
+                        case 'ezuser':
+                            $attribute->fromString( $value );
+                            break;
+
+                        // default: just assign the value to data_text
                         default:
                             $attribute->setAttribute( 'data_text', $value );
                             break;
