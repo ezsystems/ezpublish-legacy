@@ -916,12 +916,7 @@ You will need to change the class of the node by using the swap functionality.' 
     function store( $store_childs = false, $fieldFilters = null )
     {
 
-        global $eZContentClassObjectCache;
-
-        if ( isset( $eZContentClassObjectCache[$this->ID] ) )
-        {
-            unset( $eZContentClassObjectCache[$this->ID] );
-        }
+        self::expireCache();
 
         $db = eZDB::instance();
         $db->begin();
@@ -1721,7 +1716,7 @@ You will need to change the class of the node by using the swap functionality.' 
      *
      * @static
      * @since Version 4.1
-     * @param string|array $identifier identifier string or array of identifiers (array support added in 4.1.1) 
+     * @param string|array $identifier identifier string or array of identifiers (array support added in 4.1.1)
      * @return int|false Returns classid or false
      */
     public static function classIDByIdentifier( $identifier )
@@ -1774,9 +1769,7 @@ You will need to change the class of the node by using the swap functionality.' 
      */
     protected static function classIdentifiersHash()
     {
-        static $identifierHash = null;
-
-        if ( $identifierHash === null )
+        if ( self::$identifierHash === null )
         {
             $db = eZDB::instance();
             $dbName = md5( $db->DB );
@@ -1798,7 +1791,7 @@ You will need to change the class of the node by using the swap functionality.' 
             if ( $phpCache->canRestore( $expiryTime ) )
             {
                 $var = $phpCache->restore( array( 'identifierHash' => 'identifier_hash' ) );
-                $identifierHash = $var['identifierHash'];
+                self::$identifierHash = $var['identifierHash'];
             }
             else
             {
@@ -1806,18 +1799,18 @@ You will need to change the class of the node by using the swap functionality.' 
                 $query = "SELECT id, identifier FROM ezcontentclass where version=0";
                 $identifierArray = $db->arrayQuery( $query );
 
-                $identifierHash = array();
+                self::$identifierHash = array();
                 foreach ( $identifierArray as $identifierRow )
                 {
-                    $identifierHash[$identifierRow['identifier']] = $identifierRow['id'];
+                    self::$identifierHash[$identifierRow['identifier']] = $identifierRow['id'];
                 }
 
                 // Store identifier list to cache file
-                $phpCache->addVariable( 'identifier_hash', $identifierHash );
+                $phpCache->addVariable( 'identifier_hash', self::$identifierHash );
                 $phpCache->store();
             }
         }
-        return $identifierHash;
+        return self::$identifierHash;
     }
 
     /*!
@@ -1841,6 +1834,12 @@ You will need to change the class of the node by using the swap functionality.' 
         return $classIDArray;
     }
 
+    public static function expireCache()
+    {
+        self::$identifierHash = null;
+        eZContentClassAttribute::expireCache();
+    }
+
     /// \privatesection
     public $ID;
     // serialized array of translated class names
@@ -1860,6 +1859,11 @@ You will need to change the class of the node by using the swap functionality.' 
     public $IsContainer;
     public $CanInstantiateLanguages;
     public $LanguageMask;
+
+    /**
+     * In-memory cache for class identifiers / id matching
+     **/
+    private static $identifierHash = null;
 }
 
 ?>
