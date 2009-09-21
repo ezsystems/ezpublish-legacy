@@ -219,6 +219,81 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
     }
 
     /**
+     * Test scenario for LDAP login using UseGroupAttribute, and editing the local user object
+     *
+     * Test Outline
+     * ------------
+     * 1. Set correct LDAPGroupMappingType
+     * 2. Login with username and password
+     * 3. Check parent nodes of user object
+     * 4. Edit the object, verify it has changed
+     * 5. Login again, verify that the locally changed data was overwritten by LDAP data and that the version number has increased
+     *
+     * @result:
+     *   User is placed in the StarWars, Rogues and RebelAlliance groups.
+     *   Last name is 'Cola'
+     *   Version number is '2'
+     *   Last name is 'Solo'
+     *   Version number is '2'
+     *   (Meaning: The object was updated, but no new version created.)
+     * @expected:
+     *   User is placed in the StarWars, Rogues and RebelAlliance groups.
+     *   Last name is 'Cola'
+     *   Version number is '2'
+     *   Last name is 'Solo'
+     *   Version number is '3'
+     */
+    public function testLoginUserUseGroupAttributeEditUserObject()
+    {
+        if ( !self::ldapIsEnabled() )
+        {
+            $this->markTestSkipped( 'LDAP is not loaded' );
+            return;
+        }
+
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPGroupMappingType', 'UseGroupAttribute' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPCreateMissingGroups', 'disabled' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroupAttributeType', 'name' );
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroupAttribute', 'ou' );
+
+        $user = eZLDAPUser::loginUser( 'han.solo', 'leiaishot' );
+        $contentObject = $user->attribute( 'contentobject' );
+        $parentNodeIDs = $contentObject->attribute( 'parent_nodes' );
+        sort( $parentNodeIDs );
+        self::assertEquals( array( $this->starWarsGroupNodeId, $this->rebelGroupNodeId, $this->rogueGroupNodeId ),
+                            $parentNodeIDs );
+
+        // Edit the local user object, change last name
+        $version = $contentObject->createNewVersion();
+        $contentObjectAttributes = $version->contentObjectAttributes();
+        foreach ( $contentObjectAttributes as $attribute )
+        {
+            if ( $attribute->attribute( 'contentclass_attribute_identifier' ) == 'last_name' )
+            {
+                $attribute->setAttribute( 'data_text', 'Cola' );
+                $attribute->store();
+                break;
+            }
+        }
+        $contentObjectID = $contentObject->attribute( 'id' );
+        $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID,
+                                                                                     'version' => $version->attribute( 'version' ) ) );
+        $contentObject = eZContentObject::fetch( $contentObjectID );
+        $dataMap = $contentObject->dataMap();
+        self::assertEquals( 'Cola', $dataMap['last_name']->attribute( 'data_text' ) );
+        self::assertEquals( '2', $version->attribute( 'version' ) );
+
+        // Login again, verify that the locally changed data was overwritten by LDAP data and that the version number has increased
+        eZUser::logoutCurrent();
+        $user = eZLDAPUser::loginUser( 'han.solo', 'leiaishot' );
+        $contentObject = $user->attribute( 'contentobject' );
+        $dataMap = $contentObject->dataMap();
+        $version = $contentObject->currentVersion();
+        self::assertEquals( 'Solo', $dataMap['last_name']->attribute( 'data_text' ) );
+        self::assertEquals( '3', $version->attribute( 'version' ) );
+    }
+
+    /**
      * Test scenario for LDAP login using SimpleMapping
      *
      * Test Outline
