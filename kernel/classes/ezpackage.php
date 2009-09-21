@@ -63,9 +63,9 @@ class eZPackage
         $this->RepositoryInformation = null;
     }
 
-    /*!
-     Removes the package directory and all it's subfiles/directories.
-    */
+    /**
+     * Removes the package directory and all it's subfiles/directories.
+    **/
     function remove()
     {
         $path = $this->path();
@@ -1116,9 +1116,17 @@ class eZPackage
         return $archivePath;
     }
 
-    /*!
-     Imports a package from a gzip compressed tarball file \a $archiveName
-    */
+    /**
+     * Imports a package from a gzip compressed tarball file
+     *
+     * @param string $archiveName Path to the archive file
+     * @param string $packageName Package name
+     * @param bool $dbAvailable
+     * @param bool $repositoryID
+     *
+     * @return eZPackage The eZPackage object if successfull, or one of the
+     *         STATUS_* class constants if an error occurs
+     **/
     static function import( $archiveName, &$packageName, $dbAvailable = true, $repositoryID = false )
     {
         if ( is_dir( $archiveName ) )
@@ -1851,9 +1859,13 @@ class eZPackage
         return $installResult;
     }
 
-    /*!
-     Install all install items in package
-    */
+    /**
+     * Installs all items in the package
+     *
+     * @param array $installParameters
+     *
+     * @return bool true if all items installed correctly, false otherwise
+     **/
     function install( &$installParameters )
     {
         if ( $this->Parameters['install_type'] != 'install' )
