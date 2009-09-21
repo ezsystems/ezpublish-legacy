@@ -723,6 +723,12 @@ class eZLDAPUser extends eZUser
         $last_name  = $userAttributes[ 'last_name' ];
         $email      = $userAttributes[ 'email' ];
 
+        if ( $isUtf8Encoding )
+        {
+            $first_name = utf8_decode( $first_name );
+            $last_name = utf8_decode( $last_name );
+        }
+
         $user = eZUser::fetchByName( $login );
         $createNewUser = ( is_object( $user ) ) ? false : true;
 
@@ -762,19 +768,18 @@ class eZLDAPUser extends eZUser
             $userID = $contentObjectID = $user->attribute( 'contentobject_id' );
             $contentObject = eZContentObject::fetch( $userID );
             $version = $contentObject->attribute( 'current' );
-            //$currentVersion = $contentObject->attribute( 'current_version' );
         }
 
-        //================= common part : start ========================
+        //================= common part 1: start ========================
         $contentObjectAttributes = $version->contentObjectAttributes();
 
-        // find ant set 'name' and 'description' attributes (as standard user group class)
+        // find and set 'name' and 'description' attributes (as standard user group class)
         $firstNameIdentifier = 'first_name';
         $lastNameIdentifier = 'last_name';
         $firstNameAttribute = null;
         $lastNameAttribute = null;
 
-        foreach( $contentObjectAttributes as $attribute )
+        foreach ( $contentObjectAttributes as $attribute )
         {
             if ( $attribute->attribute( 'contentclass_attribute_identifier' ) == $firstNameIdentifier )
             {
@@ -785,35 +790,98 @@ class eZLDAPUser extends eZUser
                 $lastNameAttribute = $attribute;
             }
         }
+        //================= common part 1: end ==========================
+
+        // If we are updating an existing user, we must find out if some data should be changed.
+        // In that case, we must create a new version and publish it.
+        if ( !$createNewUser )
+        {
+            $userDataChanged = false;
+            $firstNameChanged = false;
+            $lastNameChanged = false;
+            $emailChanged = false;
+
+            if ( $firstNameAttribute and $firstNameAttribute->attribute( 'data_text' ) != $first_name )
+            {
+                $firstNameChanged = true;
+            }
+            $firstNameAttribute = false; // We will load this again from the new version we will create, if it has changed
+            if ( $lastNameAttribute and $lastNameAttribute->attribute( 'data_text' ) != $last_name )
+            {
+                $lastNameChanged = true;
+            }
+            $lastNameAttribute = false; // We will load this again from the new version we will create, if it has changed
+            if ( $user->attribute( 'email' ) != $email )
+            {
+                $emailChanged = true;
+            }
+
+            if ( $firstNameChanged or $lastNameChanged or $emailChanged )
+            {
+                $userDataChanged = true;
+                // Create new version
+                $version = $contentObject->createNewVersion();
+                $contentObjectAttributes = $version->contentObjectAttributes();
+                foreach ( $contentObjectAttributes as $attribute )
+                {
+                    if ( $attribute->attribute( 'contentclass_attribute_identifier' ) == $firstNameIdentifier )
+                    {
+                        $firstNameAttribute = $attribute;
+                    }
+                    else if ( $attribute->attribute( 'contentclass_attribute_identifier' ) == $lastNameIdentifier )
+                    {
+                        $lastNameAttribute = $attribute;
+                    }
+                }
+            }
+        }
+
+        //================= common part 2: start ========================
         if ( $firstNameAttribute )
         {
-            if ( $isUtf8Encoding )
-                $first_name = utf8_decode( $first_name );
             $firstNameAttribute->setAttribute( 'data_text', $first_name );
             $firstNameAttribute->store();
         }
         if ( $lastNameAttribute )
         {
-            if ( $isUtf8Encoding )
-                $last_name = utf8_decode( $last_name );
             $lastNameAttribute->setAttribute( 'data_text', $last_name );
             $lastNameAttribute->store();
         }
 
-        $contentClass = $contentObject->attribute( 'content_class' );
-        $name = $contentClass->contentObjectName( $contentObject );
-        $contentObject->setName( $name );
+        if ( !isset( $userDataChanged ) or $userDataChanged === true )
+        {
+            $contentClass = $contentObject->attribute( 'content_class' );
+            $name = $contentClass->contentObjectName( $contentObject );
+            $contentObject->setName( $name );
+        }
 
-        $user->setAttribute( 'email', $email );
+        if ( !isset( $emailChanged ) or $emailChanged === true )
+        {
+            $user->setAttribute( 'email', $email );
+        }
+
         $user->setAttribute( 'password_hash', "" );
         $user->setAttribute( 'password_hash_type', 0 );
         $user->store();
-        //================= common part : end ==========================
+
+        $debugArray = array( 'Updating user data',
+                             'createNewUser' => $createNewUser,
+                             'userDataChanged' => $userDataChanged,
+                             'login' => $login,
+                             'first_name' => $first_name,
+                             'last_name' => $last_name,
+                             'email' => $email,
+                             'firstNameAttribute is_object' => is_object( $firstNameAttribute ),
+                             'lastNameAttribute is_object' => is_object( $lastNameAttribute ),
+                             'content object id' => $contentObjectID,
+                             'version id' => $version->attribute( 'version' )
+        );
+        eZDebug::writeNotice( var_export( $debugArray, true ), __METHOD__ );
+        //================= common part 2: end ==========================
 
         if ( $createNewUser )
         {
             reset( $parentNodeIDs );
-            //$defaultPlacement = current( $parentNodeIDs );
             // prepare node assignments for publishing new user
             foreach( $parentNodeIDs as $parentNodeID )
             {
@@ -825,14 +893,18 @@ class eZLDAPUser extends eZUser
                 $newNodeAssignment->store();
             }
 
-            //$adminUser = eZUser::fetchByName( 'admin' );
-            //eZUser::setCurrentlyLoggedInUser( $adminUser, $adminUser->attribute( 'contentobject_id' ) );
-
             $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID,
                                                                                          'version' => 1 ) );
         }
         else
         {
+            if ( $userDataChanged )
+            {
+                // Publish object
+                $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID,
+                                                                                             'version' => $version->attribute( 'version' ) ) );
+            }
+
             $LDAPIni = eZINI::instance( 'ldap.ini' );
             $keepGroupAssignment = ( $LDAPIni->hasVariable( 'LDAPSettings', 'KeepGroupAssignment' ) ) ?
                 ( $LDAPIni->variable( 'LDAPSettings', 'KeepGroupAssignment' ) == "enabled" ) : false;
