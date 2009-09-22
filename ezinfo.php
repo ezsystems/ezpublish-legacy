@@ -30,7 +30,7 @@ class ezjscoreInfo
     {
         $eZCopyrightString = 'Copyright (C) 1999-' . date('Y') . ' eZ Systems AS';
 
-        return array( 'Name'      => 'ezjscore',
+        return array( 'Name'      => '<a href="http://projects.ez.no/ezjscore">eZ JSCore</a> extension',
                       'Version'   => '1.0.0',
                       'Copyright' => $eZCopyrightString,
                       'License'   => 'GNU General Public License v2.0',
@@ -42,7 +42,7 @@ class ezjscoreInfo
                                                                               'Version' => '1.3.2',
                                                                               'Copyright' => 'Copyright (c) 2009 John Resig',
                                                                               'License' => 'Dual licensed under the MIT and GPL licenses',),
-                      'Includes the following library'              => array( 'Name' => 'JSMin (jsmin-php)',
+                      'Includes the following third-party software (3)' => array( 'Name' => 'JSMin (jsmin-php)',
                                                                               'Version' => '1.1.1',
                                                                               'Copyright' => '2002 Douglas Crockford <douglas@crockford.com> (jsmin.c), 2008 Ryan Grove <ryan@wonko.com> (PHP port)',
                                                                               'License' => 'Licensed under the MIT License',),
