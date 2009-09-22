@@ -1,8 +1,10 @@
 Changes from 4.2.0rc1 to 4.2.0rc2
 
 *Kernel:
-- Fixed issue #15229: Restore eZURLWildcard::isCacheExpired()
-- BC: Fixed issue #15531: Restore eZExpiryHandler::isModified()
+- BC: Implemented #15229: Restore eZURLWildcard::isCacheExpired()
+- BC: Implemented #15531: Restore eZExpiryHandler::isModified()
+- Implemented enhancement #15326: Improve debugging and documentation of SiteLanguageList
+  (Merged from trunk (4.3.0alpha1) rev. 24144)
 
 *Design:
 
