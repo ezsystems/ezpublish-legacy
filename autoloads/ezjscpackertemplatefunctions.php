@@ -333,7 +333,7 @@ class ezjscPackerTemplateFunctions
             if ( isset( $persistentVariable[ $key ] ) && is_array( $persistentVariable[ $key ] ) )
             {
                 if ( is_array( $value ) )
-                    $persistentVariable[ $key ] = $append ? array_merge( $persistentVariable[ $key ], $value ) : array_merge( $value, $persistentVariable[ $key ] );
+                    $persistentVariable[ $key ] = self::flattenArrayMerge( $persistentVariable[ $key ], $value, $append );
                 else if ( $append )
                     $persistentVariable[ $key ][] = $value;
                 else
@@ -342,7 +342,7 @@ class ezjscPackerTemplateFunctions
             else
             {
                 if ( is_array( $value ) )
-                    $persistentVariable[ $key ] = $value;
+                    $persistentVariable[ $key ] = self::flattenArray( $value );
                 else
                     $persistentVariable[ $key ] = array( $value );
             }
@@ -360,18 +360,17 @@ class ezjscPackerTemplateFunctions
         // set the finnished array in the template
         if ( $isPageLayout )
         {
-            if ( isset( $moduleResult['content_info'] ) )
+            if ( isset( $moduleResult['content_info']['persistent_variable'] ) )
+            {
                 $moduleResult['content_info']['persistent_variable'] = $persistentVariable;
-            else
-                $moduleResult['content_info'] = array('persistent_variable' => $persistentVariable);
-
-            $tpl->setVariable('module_result', $moduleResult );
+                $tpl->setVariable('module_result', $moduleResult );
+            }
         }
         else
         {
             $tpl->setVariable('persistent_variable', $persistentVariable );
         }
-    
+
         // storing the value internally as well in case this is not a view that supports persistent_variable (ezpagedata will look for it)
         self::$persistentVariable = $persistentVariable;
 
@@ -380,7 +379,41 @@ class ezjscPackerTemplateFunctions
 
         return $persistentVariable[$key];
     }
-    
+
+    /**
+     * Merge array2 with array1, but flatten array2 first
+     * 
+     * @param array $array1
+     * @param array $array2
+     * @param bool $append Append or Prepend array2 on array1
+     * @return array
+     */
+    static protected function flattenArrayMerge( $array1, $array2, $append = true )
+    {
+        $array2 = self::flattenArray( $array2 );
+        return $append ? array_merge( $array1, $array2 ) : array_merge( $array2, $array1 );
+    }
+
+    /**
+     * Flatten array so {@link self::setPersistentArray()} is able to proporly make it unique
+     * 
+     * @param array $array
+     * @return array
+     */
+    static protected function flattenArray( $array )
+    {
+        $arrayFlatten = array();
+        while( isset( $array[0] ) )
+        {
+             $item = array_shift( $array );
+             if ( is_array( $item ) )
+                 $array = array_merge( $item, $array );
+             else
+                 $arrayFlatten[] = $item;
+        }
+        return $arrayFlatten;
+    }
+
     // reusable function for getting internal persistent_variable
     static public function getPersistentVariable( $key = null )
     {
