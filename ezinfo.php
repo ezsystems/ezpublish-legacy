@@ -30,7 +30,7 @@ class ezoeInfo
     {
         $eZCopyrightString = 'Copyright (C) 1999-' . date('Y') . ' eZ Systems AS';
 
-        return array( 'Name'      => 'eZ Online Editor',
+        return array( 'Name'      => '<a href="http://projects.ez.no/ezoe">eZ Online Editor</a> extension',
                       'Version'   => '5.1.0Alpha1',
                       'Copyright' => $eZCopyrightString,
                       'License'   => 'GNU General Public License v2.0',
