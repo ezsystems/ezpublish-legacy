@@ -107,7 +107,7 @@ class eZSearchEngine
 
                 foreach( $metaData as $metaDataPart )
                 {
-                    $text = eZSearchEngine::normalizeText( strip_tags(  $metaDataPart['text'] ), true );
+                    $text = eZSearchEngine::normalizeText( htmlspecialchars ($metaDataPart['text'], ENT_NOQUOTES, 'UTF-8' ) , true );
 
                     // Split text on whitespace
                     if ( is_numeric( trim( $text ) ) )
