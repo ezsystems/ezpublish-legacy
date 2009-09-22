@@ -397,57 +397,25 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
     }
 
     /**
-    * Test for the createCache method
-    *
-    * Outline:
-    * 1. Delete all wildcards
-    * 2. Create a set of wildcards
-    * 3. Generate caches
-    **/
-    public function testCreateCache()
+     * Unit test for eZURLWildcard::isCacheExpired()
+     **/
+    public function testIsCacheExpired()
     {
-        $this->markTestSkipped( "Can no longer be ran since the method is now protected" );
+        $time = time();
 
-        // 1. Delete all wildcards
+        // Cleanup cache & existing wildcards
         self::removeAllWildcards();
+        self::createWildcard( "testDoubleTranslation1/*", 'content/view/full/2', eZURLWildcard::TYPE_DIRECT );
+        $ret = eZURLWildcard::translate( $uri = "testDoubleTranslation1/abc" );
+        sleep( 1 );
 
-        // 2. Create a set of wildcards
-        for( $i = 0; $i < 200; $i++ )
-        {
-            self::createWildcard( "testCreateCache/{$i}/*", '/', eZURLWildcard::TYPE_DIRECT );
-        }
+        $this->assertFalse( eZURLWildcard::isCacheExpired( $time ),
+            "Cache should not be expired" );
 
-        // 3. Generate the cache
-        eZURLWildcard::createCache();
-
-        // 4. Check if the cache index file exists
-        $cacheIndex = eZURLWildcard::loadCacheFile();
-        $this->assertTrue( $cacheIndex->exists() );
-    }
-
-    /**
-    * Test for the eZURLWildcard::wildcardsIndex method
-    * Generates a few wildcards, and checks that the index matches these
-    **/
-    public function testWildcardsIndex()
-    {
-        $this->markTestSkipped( "Can no longer be ran since the method is now protected" );
-        self::removeAllWildcards();
-
-        self::createWildcard( "foo/*/bar/*", 'bar/{1}/foo/{2}', eZURLWildcard::TYPE_DIRECT );
-        self::createWildcard( "testWildcardsindex/*", 'foobar/{1}', eZURLWildcard::TYPE_DIRECT );
-        for( $i = 0; $i < 1000; $i++ )
-        {
-            self::createWildcard( "testWildcardsIndex/$i/*", 'foo/{1}', eZURLWildcard::TYPE_DIRECT );
-        }
-
-        $wildcardsIndex = eZURLWildcard::wildcardsIndex();
-
-        $this->assertType( 'array', $wildcardsIndex, "Wildcard index should be an array" );
-        $this->assertTrue( count( $wildcardsIndex ) == 1002, "The wildcard index should contain 1002 items" );
-
-        $this->assertEquals( '#^foo/(.*)/bar/(.*)#', $wildcardsIndex[0] );
-        $this->assertEquals( '#^testWildcardsindex/(.*)#', $wildcardsIndex[1] );
+        eZURLWIldcard::expireCache();
+        sleep( 1 );
+        $this->assertTrue( eZURLWildcard::isCacheExpired( $time + 1 ),
+            "Cache should be expired" );
     }
 
     /**
