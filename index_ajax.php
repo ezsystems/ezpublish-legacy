@@ -217,7 +217,7 @@ eZSection::initGlobalID();
 
 // Get and set module repositories
 $moduleINI = eZINI::instance( 'module.ini' );
-$globalModuleRepositories = array( );
+$globalModuleRepositories = $moduleINI->variable( 'ModuleSettings', 'ModuleRepositories' );
 $extensionRepositories = $moduleINI->variable( 'ModuleSettings', 'ExtensionRepositories' );
 foreach ( $extensionRepositories as $repo )
 {
