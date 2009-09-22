@@ -797,7 +797,10 @@ class eZHTTPTool
             if ( $justCheckURL )
             {
                 if ( !curl_exec( $ch ) )
+                {
+                    curl_close( $ch );
                     return false;
+                }
 
                 curl_close( $ch );
                 return true;
@@ -805,7 +808,11 @@ class eZHTTPTool
             // Getting data
             ob_start();
             if ( !curl_exec( $ch ) )
+            {
+                curl_close( $ch );
+                ob_end_clean();
                 return false;
+            }
 
             curl_close ( $ch );
             $data = ob_get_contents();

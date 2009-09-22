@@ -28,3 +28,4 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Fixed bug #15530: Existing ezp users are not synced with ldap users
 - Fixed issue #15523: New objects of content classes installed by the package system have incorrect names and url aliases
 - Fixed issue #15263: After package import, object name is empty
+- Fixed issue #15532: Bug with eZHTTPTool::getDataByURL and output buffering
