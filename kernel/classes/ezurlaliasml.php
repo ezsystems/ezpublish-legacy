@@ -339,7 +339,7 @@ class eZURLAliasML extends eZPersistentObject
 
     /*!
      Calculates the full path for the current item and returns it.
-     
+
      \param $locale The locale for which a path should be calculated.
      \param $incomingLanguageList Array of locale codes representing the prioritized site language list.
 
@@ -1880,10 +1880,11 @@ class eZURLAliasML extends eZPersistentObject
         }
     }
 
-    /*!
-     \static
-     Chooses the most prioritized row (based on language) of $rows and returns it.
-    */
+    /**
+     * Chooses the most prioritized row (based on language) of $rows and returns it.
+     * @param array $rows
+     * @return array|false The most prioritized row, or false if no match was found
+     **/
     static public function choosePrioritizedRow( $rows )
     {
         $result = false;
@@ -1905,6 +1906,16 @@ class eZURLAliasML extends eZPersistentObject
                 $score = eZURLAliasML::languageScore( $row['lang_mask'] );
             }
         }
+
+        // If score is still 0, this means that the objects languages don't
+        // match the INI settings, and these should be fix according to the doc.
+        if ( $score == 0 )
+        {
+            eZDebug::writeWarning(
+                "None of the available languages are prioritized in the SiteLanguageList setting. An arbitrary language will be used.",
+                __METHOD__ );
+        }
+
         return $result;
     }
 
