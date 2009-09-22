@@ -357,16 +357,23 @@ class ezjscPackerTemplateFunctions
             $persistentVariable[$key] = array_unique( $persistentVariable[$key] );
         }
 
-        // Don't store values back in pagelayout as we can't gurantee 
-        // it's value across different cach-blocks
-        if ( !$isPageLayout )
+        // set the finnished array in the template
+        if ( $isPageLayout )
         {
-            // set the finnished array in the template
-            $tpl->setVariable('persistent_variable', $persistentVariable );
-    
-            // storing the value internally as well in case this is not a view that supports persistent_variable (ezpagedata will look for it)
-            self::$persistentVariable = $persistentVariable;
+            if ( isset( $moduleResult['content_info'] ) )
+                $moduleResult['content_info']['persistent_variable'] = $persistentVariable;
+            else
+                $moduleResult['content_info'] = array('persistent_variable' => $persistentVariable);
+
+            $tpl->setVariable('module_result', $moduleResult );
         }
+        else
+        {
+            $tpl->setVariable('persistent_variable', $persistentVariable );
+        }
+    
+        // storing the value internally as well in case this is not a view that supports persistent_variable (ezpagedata will look for it)
+        self::$persistentVariable = $persistentVariable;
 
         if ( $returnArrayDiff && isset( $persistentVariableCopy[ $key ][0] ) )
             return array_diff( $persistentVariable[ $key ], $persistentVariableCopy[ $key ] );
