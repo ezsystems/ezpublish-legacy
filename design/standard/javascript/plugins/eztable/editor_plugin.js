@@ -1,8 +1,8 @@
 /**
- * $Id: editor_plugin_src.js 953 2008-11-04 10:16:50Z spocke $
+ * $Id: editor_plugin_src.js 1209 2009-08-20 12:35:10Z spocke $
  *
  * @author Moxiecode
- * @copyright Copyright ï¿½ 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
 /* 
@@ -11,6 +11,20 @@
 
 (function() {
 	var each = tinymce.each;
+
+	// Checks if the selection/caret is at the start of the specified block element
+	function isAtStart(rng, par) {
+		var doc = par.ownerDocument, rng2 = doc.createRange(), elm;
+
+		rng2.setStartBefore(par);
+		rng2.setEnd(rng.endContainer, rng.endOffset);
+
+		elm = doc.createElement('body');
+		elm.appendChild(rng2.cloneContents());
+
+		// Check for text characters of other elements that should be treated as content
+		return elm.innerHTML.replace(/<(br|img|object|embed|input|textarea)[^>]*>/gi, '-').replace(/<[^>]+>/g, '').length == 0;
+	};
 
 	tinymce.create('tinymce.plugins.eZTablePlugin', {
 		init : function(ed, url) {
@@ -47,6 +61,34 @@
 						if (last && last.nodeName == 'TABLE')
 							ed.dom.add(ed.getBody(), 'p', null, '<br mce_bogus="1" />');
 					};
+
+					// Fixes an bug where it's impossible to place the caret before a table in Gecko
+					// this fix solves it by detecting when the caret is at the beginning of such a table
+					// and then manually moves the caret in front of the table
+					if (tinymce.isGecko) {
+						ed.onKeyDown.add(function(ed, e) {
+							var rng, table, dom = ed.dom;
+
+							// On gecko it's not possible to place the caret before a table
+							if (e.keyCode == 37 || e.keyCode == 38) {
+								rng = ed.selection.getRng();
+								table = dom.getParent(rng.startContainer, 'table');
+
+								if (table && ed.getBody().firstChild == table) {
+									if (isAtStart(rng, table)) {
+										rng = dom.createRng();
+
+										rng.setStartBefore(table);
+										rng.setEndBefore(table);
+
+										ed.selection.setRng(rng);
+
+										e.preventDefault();
+									}
+								}
+							}
+						});
+					}
 
 					ed.onKeyUp.add(fixTableCaretPos);
 					ed.onSetContent.add(fixTableCaretPos);

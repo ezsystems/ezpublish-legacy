@@ -1,5 +1,5 @@
 /**
- * $Id: DOMUtils.js 1201 2009-08-18 13:40:43Z spocke $
+ * $Id: DOMUtils.js 1233 2009-09-21 22:08:30Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -654,6 +654,18 @@
 			if (!v)
 				v = e.getAttribute(n, 2);
 
+			// Check boolean attribs
+			if (/^(checked|compact|declare|defer|disabled|ismap|multiple|nohref|noshade|nowrap|readonly|selected)$/.test(n)) {
+				if (e[t.props[n]] === true && v === '')
+					return n;
+
+				return v ? n : '';
+			}
+
+			// Inner input elements will override attributes on form elements
+			if (e.nodeName === "FORM" && e.getAttributeNode(n))
+				return e.getAttributeNode(n).nodeValue;
+
 			if (n === 'style') {
 				v = v || e.style.cssText;
 
@@ -1140,7 +1152,7 @@
 					if (x) {
 						// So if we replace the p elements with divs and mark them and then replace them back to paragraphs
 						// after we use innerHTML we can fix the DOM tree
-						h = h.replace(/<p ([^>]+)>|<p>/g, '<div $1 mce_tmp="1">');
+						h = h.replace(/<p ([^>]+)>|<p>/ig, '<div $1 mce_tmp="1">');
 						h = h.replace(/<\/p>/g, '</div>');
 
 						// Set the new HTML with DIVs
@@ -1200,7 +1212,7 @@
 		 * @return {String} Processed HTML code.
 		 */
 		processHTML : function(h) {
-			var t = this, s = t.settings;
+			var t = this, s = t.settings, codeBlocks = [];
 
 			if (!s.process_html)
 				return h;
@@ -1246,8 +1258,10 @@
 						});
 
 						// Wrap text contents
-						if (tinymce.trim(text))
-							text = '<!--\n' + trim(text) + '\n// -->';
+						if (tinymce.trim(text)) {
+							codeBlocks.push(trim(text));
+							text = '<!--\nMCE_SCRIPT:' + (codeBlocks.length - 1) + '\n// -->';
+						}
 
 						return '<mce:script' + attribs + '>' + text + '</mce:script>';
 					});
@@ -1255,8 +1269,10 @@
 					// Wrap style elements
 					h = h.replace(/<style([^>]+|)>([\s\S]*?)<\/style>/gi, function(v, attribs, text) {
 						// Wrap text contents
-						if (text)
-							text = '<!--\n' + trim(text) + '\n-->';
+						if (text) {
+							codeBlocks.push(trim(text));
+							text = '<!--\nMCE_SCRIPT:' + (codeBlocks.length - 1) + '\n-->';
+						}
 
 						return '<mce:style' + attribs + '>' + text + '</mce:style><style ' + attribs + ' mce_bogus="1">' + text + '</style>';
 					});
@@ -1268,6 +1284,24 @@
 				}
 
 				h = h.replace(/<!\[CDATA\[([\s\S]+)\]\]>/g, '<!--[CDATA[$1]]-->');
+
+				// Remove false bool attributes and force attributes into xhtml style attr="attr"
+				h = h.replace(/<([\w:]+) [^>]*(checked|compact|declare|defer|disabled|ismap|multiple|nohref|noshade|nowrap|readonly|selected)[^>]*>/gi, function(val) {
+					function handle(val, name, value) {
+						// Remove false/0 attribs
+						if (value === 'false' || value === '0')
+							return '';
+
+						return ' ' + name + '="' + name + '"';
+					};
+
+					val = val.replace(/ (checked|compact|declare|defer|disabled|ismap|multiple|nohref|noshade|nowrap|readonly|selected)=[\"]([^\"]+)[\"]/gi, handle); // W3C
+					val = val.replace(/ (checked|compact|declare|defer|disabled|ismap|multiple|nohref|noshade|nowrap|readonly|selected)=[\']([^\']+)[\']/gi, handle); // W3C
+					val = val.replace(/ (checked|compact|declare|defer|disabled|ismap|multiple|nohref|noshade|nowrap|readonly|selected)=([^\s\"\'>]+)/gi, handle); // IE
+					val = val.replace(/ (checked|compact|declare|defer|disabled|ismap|multiple|nohref|noshade|nowrap|readonly|selected)([\s>])/gi, ' $1="$1"$2'); // Force attr="attr"
+
+					return val;
+				});
 
 				// Process all tags with src, href or style
 				h = h.replace(/<([\w:]+) [^>]*(src|href|style|shape|coords)[^>]*>/gi, function(a, n) {
@@ -1283,17 +1317,8 @@
 							if (t._isRes(c))
 								return m;
 
-							if (s.hex_colors) {
-								u = u.replace(/rgb\([^\)]+\)/g, function(v) {
-									return t.toHex(v);
-								});
-							}
-
-							if (s.url_converter) {
-								u = u.replace(/url\([\'\"]?([^\)\'\"]+)\)/g, function(x, c) {
-									return 'url(' + t.encode(s.url_converter.call(s.url_converter_scope || t, t.decode(c), b, n)) + ')';
-								});
-							}
+							// Parse and serialize the style to convert for example uppercase styles like "BORDER: 1px"
+							u = t.encode(t.serializeStyle(t.parseStyle(u)));
 						} else if (b != 'coords' && b != 'shape') {
 							if (s.url_converter)
 								u = t.encode(s.url_converter.call(s.url_converter_scope || t, t.decode(c), b, n));
@@ -1306,6 +1331,11 @@
 					a = a.replace(/ (src|href|style|coords|shape)=[\']([^\']+)[\']/gi, handle); // W3C
 
 					return a.replace(/ (src|href|style|coords|shape)=([^\s\"\'>]+)/gi, handle); // IE
+				});
+
+				// Restore script blocks
+				h = h.replace(/MCE_SCRIPT:([0-9]+)/g, function(val, idx) {
+					return codeBlocks[idx];
 				});
 			}
 
@@ -1484,7 +1514,7 @@
 
 			n = n.nodeName || n;
 
-			return /^(H[1-6]|HR|P|DIV|ADDRESS|PRE|FORM|TABLE|LI|OL|UL|TR|TD|CAPTION|BLOCKQUOTE|CENTER|DL|DT|DD|DIR|FIELDSET|NOSCRIPT|NOFRAMES|MENU|ISINDEX|SAMP)$/.test(n);
+			return /^(H[1-6]|HR|P|DIV|ADDRESS|PRE|FORM|TABLE|LI|OL|UL|TH|TBODY|TR|TD|CAPTION|BLOCKQUOTE|CENTER|DL|DT|DD|DIR|FIELDSET|NOSCRIPT|NOFRAMES|MENU|ISINDEX|SAMP)$/.test(n);
 		},
 
 		/**
@@ -1702,9 +1732,13 @@
 				if (n.nodeName == 'OBJECT')
 					return n.attributes;
 
+				// IE doesn't keep the selected attribute if you clone option elements
+				if (n.nodeName === 'OPTION' && this.getAttrib(n, 'selected'))
+					o.push({specified : 1, nodeName : 'selected'});
+
 				// It's crazy that this is faster in IE but it's because it returns all attributes all the time
-				n.cloneNode(false).outerHTML.replace(/([a-z0-9\:\-_]+)=/gi, function(a, b) {
-					o.push({specified : 1, nodeName : b});
+				n.cloneNode(false).outerHTML.replace(/<\/?[\w:]+ ?|=[\"][^\"]+\"|=\'[^\']+\'|=\w+|>/gi, '').replace(/[\w:]+/gi, function(a) {
+					o.push({specified : 1, nodeName : a});
 				});
 
 				return o;
@@ -1781,16 +1815,29 @@
 				return n.replace(/[ \t\r\n]+|&nbsp;|&#160;/g, '') == '';
 			};
 
+			// Added until Gecko can create real HTML documents using implementation.createHTMLDocument
+			// this is to future proof it if Gecko decides to implement the error checking for range methods.
+			function nodeIndex(n) {
+				var i = 0;
+
+				while (n.previousSibling) {
+					i++;
+					n = n.previousSibling;
+				}
+
+				return i;
+			};
+
 			if (pe && e) {
 				// Get before chunk
-				r.setStartBefore(pe);
-				r.setEndBefore(e);
+				r.setStart(pe.parentNode, nodeIndex(pe));
+				r.setEnd(e.parentNode, nodeIndex(e));
 				bef = r.extractContents();
 
 				// Get after chunk
 				r = t.createRng();
-				r.setStartAfter(e);
-				r.setEndAfter(pe);
+				r.setStart(e.parentNode, nodeIndex(e) + 1);
+				r.setEnd(pe.parentNode, nodeIndex(pe) + 1);
 				aft = r.extractContents();
 
 				// Insert chunks and remove parent

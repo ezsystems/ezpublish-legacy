@@ -1,5 +1,5 @@
 /**
- * $Id: ForceBlocks.js 1204 2009-08-19 12:12:07Z spocke $
+ * $Id: ForceBlocks.js 1232 2009-09-21 19:04:13Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -268,9 +268,11 @@
 								}
 							}
 
+							// Uses replaceChild instead of cloneNode since it removes selected attribute from option elements on IE
+							// See: http://support.microsoft.com/kb/829907
 							bl = ed.dom.create(ed.settings.forced_root_block);
-							bl.appendChild(nx.cloneNode(1));
 							nx.parentNode.replaceChild(bl, nx);
+							bl.appendChild(nx);
 						}
 					} else {
 						if (bl.hasChildNodes())

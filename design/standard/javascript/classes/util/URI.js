@@ -1,5 +1,5 @@
 /**
- * $Id: URI.js 1203 2009-08-18 14:32:36Z spocke $
+ * $Id: URI.js 1211 2009-08-20 14:09:00Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -140,7 +140,7 @@
 		toAbsolute : function(u, nh) {
 			var u = new tinymce.util.URI(u, {base_uri : this});
 
-			return u.getURI(this.host == u.host ? nh : 0);
+			return u.getURI(this.host == u.host && this.protocol == u.protocol ? nh : 0);
 		},
 
 		/**
@@ -200,7 +200,7 @@
 		 * @param {String} path Relative path to convert into an absolute path.
 		 */
 		toAbsPath : function(base, path) {
-			var i, nb = 0, o = [], tr;
+			var i, nb = 0, o = [], tr, outPath;
 
 			// Split paths
 			tr = /\/$/.test(path) ? '/' : '';
@@ -240,9 +240,19 @@
 
 			// If /a/b/c or /
 			if (i <= 0)
-				return '/' + o.reverse().join('/') + tr;
+				outPath = o.reverse().join('/');
+			else
+				outPath = base.slice(0, i).join('/') + '/' + o.reverse().join('/');
 
-			return '/' + base.slice(0, i).join('/') + '/' + o.reverse().join('/') + tr;
+			// Add front / if it's needed
+			if (outPath.indexOf('/') !== 0)
+				outPath = '/' + outPath;
+
+			// Add traling / if it's needed
+			if (tr && outPath.lastIndexOf('/') !== outPath.length - 1)
+				outPath += tr;
+
+			return outPath;
 		},
 
 		/**

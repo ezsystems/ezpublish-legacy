@@ -1,5 +1,5 @@
 /**
- * $Id: Selection.js 1190 2009-08-12 17:59:29Z spocke $
+ * $Id: Selection.js 1217 2009-08-28 18:31:42Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -402,6 +402,8 @@
 
 			// Handle explorer
 			if (isIE) {
+				t.tridentSel.destroy();
+
 				// Handle simple
 				if (r = b.rng) {
 					try {

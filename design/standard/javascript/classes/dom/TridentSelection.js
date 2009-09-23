@@ -1,5 +1,5 @@
 /**
- * $Id: TridentSelection.js 1103 2009-04-22 09:46:04Z spocke $
+ * $Id: TridentSelection.js 1217 2009-08-28 18:31:42Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
@@ -215,6 +215,7 @@
 				if (sc == ec && sc.nodeType == 3) {
 					startPos = getCharPos(sc, so);
 
+					ieRng = body.createTextRange();
 					ieRng.move('character', startPos);
 					ieRng.moveEnd('character', eo - so);
 					ieRng.select();
