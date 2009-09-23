@@ -53,7 +53,6 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
         {
             self::markTestSkipped( "Not using mysql interface, skipping" );
         }
-        ezpTestDatabaseHelper::clean( $this->sharedFixture );
 
         // Load database parameters for cluster
         // The same DSN than the relational database is used
