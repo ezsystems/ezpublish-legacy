@@ -210,7 +210,7 @@ tinyMCEPopup.onInit.add( function(){
             </div>
 
             <div id="general_panel" class="panel">
-                <h3>{'About'|i18n('design/standard/ezoe')} {$ezoe_name|wash}</h3>
+                <h3>{'About'|i18n('design/standard/ezoe')} {$ezoe_name}</h3>
                 <p>{'Version'|i18n('design/standard/ezoe')}: {$ezoe_version|wash}<br />
                    {'License'|i18n('design/standard/ezoe')}: {$ezoe_license|wash}<br />
                    {$ezoe_copyright|wash}</p>
