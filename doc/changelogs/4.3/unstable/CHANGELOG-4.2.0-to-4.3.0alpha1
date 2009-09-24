@@ -2,8 +2,6 @@ Changes from 4.2.0 to 4.3.0alpha1
 
 *Kernel:
 - Implemented enhancement #15490: LDAP login handler improvements
-- Fixed issue #15229: Restore eZURLWildcard::isCacheExpired()
-- Implemented enhancement #15326: Improve debugging and documentation of SiteLanguageList
 - Implemented enhancement #11988: Add debug to email feature
 
 *Design:
@@ -27,6 +25,4 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Fixed bug #15485: Deleted LDAP user nodes are not recreated
 - Fixed bug #14927: simplify operator has a different behaviour depending on TemplateCompile settings
 - Fixed bug #15530: Existing ezp users are not synced with ldap users
-- Fixed issue #15523: New objects of content classes installed by the package system have incorrect names and url aliases
-- Fixed issue #15263: After package import, object name is empty
 - Fixed issue #15532: Bug with eZHTTPTool::getDataByURL and output buffering
