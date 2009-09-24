@@ -15,8 +15,6 @@ class eZWorkflowEventRegression extends ezpDatabaseTestCase
     {
         parent::__construct();
         $this->setName( "eZWorkflowEvent Regression Tests" );
-
-        ini_set( 'xdebug.show_exception_trace', 'Off' );
     }
 
     /**
