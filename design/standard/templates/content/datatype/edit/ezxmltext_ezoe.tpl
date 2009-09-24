@@ -53,13 +53,12 @@
     {/foreach}
 
     <!-- Load TinyMCE code -->
+    {ezscript_require( 'ezjsc::jquery' )}
     <script id="tinymce_script_loader" type="text/javascript" src={"javascript/tiny_mce.js"|ezdesign}></script>
     {ezscript( $plugin_js_list )}
     <!-- Init TinyMCE script -->
     <script type="text/javascript">
     <!--
-    
-    if ( window.ez === undefined || ez.version < 0.95 ) document.write('<script type="text/javascript" src={"javascript/ezoe/ez_core.js"|ezdesign}><\/script>');
 
     var eZOeAttributeSettings, eZOeGlobalSettings = {ldelim}
         mode : "none",
@@ -143,18 +142,18 @@
         // remove the content of the embed tags that are just there for oe preview
         // purpose, this is to avoid that the ez xml parsers in some cases 
         // duplicates the embed tag
-        ez.array.forEach( body.getElementsByTagName('div'), function( node ){
+        jQuery.each( body.getElementsByTagName('div'), function( i, node ){
             if ( node && node.className.indexOf('mceNonEditable') !== -1 )
                 node.innerHTML = '';
         });
-        ez.array.forEach( body.getElementsByTagName('span'), function( node ){
+        jQuery.each( body.getElementsByTagName('span'), function( i, node ){
             if ( node && node.className.indexOf('mceNonEditable') !== -1 )
                 node.innerHTML = '';
         });
 
         // fix link cleanup issues in IE 6 / 7 (it adds the current url before the anchor and invalid urls)
         var currenthost = document.location.protocol + '//' + document.location.host;
-        ez.array.forEach( body.getElementsByTagName('a'), function( node ){
+        jQuery.each( body.getElementsByTagName('a'), function( i, node ){
             if ( node.href.indexOf( currenthost ) === 0 && node.getAttribute('mce_href') != node.href )
                 node.href = node.getAttribute('mce_href');
         });

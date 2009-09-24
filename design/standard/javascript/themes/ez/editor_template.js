@@ -10,7 +10,18 @@
 */
 
 (function(tinymce) {
-    var DOM = tinymce.DOM, Event = tinymce.dom.Event, extend = tinymce.extend, each = tinymce.each, Cookie = tinymce.util.Cookie, lastExtID, explode = tinymce.explode;
+    var DOM = tinymce.DOM, Event = tinymce.dom.Event, extend = tinymce.extend, each = tinymce.each, Cookie = tinymce.util.Cookie, lastExtID, explode = tinymce.explode, BIND = function()
+    {
+        // Binds arguments to a function, so when you call the returned wrapper function,
+        // arguments are intact and arguments passed to the wrapper function is appended.
+        // first argument is function, second is 'this' and the rest is arguments
+        var args = jQuery.makeArray(arguments), __fn = args.shift();
+        if ( __fn.bind !== undefined )
+        {
+        	return __fn.bind( args );
+        }
+        return function(){return __fn.apply( args.shift(), args.concat( jQuery.makeArray(arguments) ) )};
+    };
 
     tinymce.create('tinymce.themes.eZTheme', {
         sizes : [8, 10, 12, 14, 18, 24, 36],
@@ -743,7 +754,7 @@
             h += DOM.createHTML('span', {'class' : c}, DOM.createHTML('span', null, '<!-- IE -->')) + '</div>';
 
             if ( tinymce.isIE && !DOM.stdMode ) c2 += ' mceToolBarFlowIEbug';
-            else if ( tinymce.isOpera && ez.num( navigator.appVersion ) < 9.30 ) c2 += ' mceToolBarFlowIEbug';
+            else if ( tinymce.isOpera && navigator.appVersion < 9.30 ) c2 += ' mceToolBarFlowIEbug';
 
             return DOM.createHTML('div', {id : t.id, 'class' : c2 + (s['class'] ? ' ' + s['class'] : ''), align : t.settings.align || ''},  h );
         },
@@ -1125,7 +1136,7 @@
                     {
                         v = v.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable)/g, '');
 
-                        if ( v = ez.string.trim( v ) )
+                        if ( v = jQuery.trim( v ) )
                         {
                             ti = ti + 'class: ' + v + ' ';
                             //if (na === 'embed' || na === 'custom' || DOM.isBlock(n))
@@ -1210,7 +1221,7 @@
                     {
                         this.__recursion = true;
                         n.parentNode.removeChild( n );
-                        setTimeout(ez.fn.bind( function(){ this.__recursion = false; }, this ), 50);
+                        setTimeout(BIND( function(){ this.__recursion = false; }, this ), 50);
                     }
                 }
                 else return;
@@ -1241,10 +1252,10 @@
             {
                 if ( t.__disabled === undefined )
                 {
-                    ed.onKeyDown.addToTop( ez.fn.bind( t.__block, t ) );
-                    ed.onKeyPress.addToTop( ez.fn.bind( t.__block, t ) );
-                    ed.onKeyUp.addToTop( ez.fn.bind( t.__block, t ) );
-                    ed.onPaste.addToTop( ez.fn.bind( t.__block, t ) );
+                    ed.onKeyDown.addToTop( BIND( t.__block, t ) );
+                    ed.onKeyPress.addToTop( BIND( t.__block, t ) );
+                    ed.onKeyUp.addToTop( BIND( t.__block, t ) );
+                    ed.onPaste.addToTop( BIND( t.__block, t ) );
                 }
                 t.__disabled = s;
             }
