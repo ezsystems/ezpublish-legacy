@@ -2,6 +2,27 @@
 
 class eZMailTest extends ezpTestCase
 {
+    public static function imapIsEnabled()
+    {
+        return function_exists( 'imap_open' );
+    }
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        // Setup default settings, change these in each test when needed
+        $this->ini = eZINI::instance();
+        $this->ini->setVariable( 'MailSettings', 'Transport', 'sendmail' );
+        //$this->ini->setVariable( 'MailSettings', 'TransportServer', '' );
+        //$this->ini->setVariable( 'MailSettings', 'TransportPort', 25 );
+        //$this->ini->setVariable( 'MailSettings', 'TransportUser', '' );
+        //$this->ini->setVariable( 'MailSettings', 'TransportPassword', '' );
+        $this->ini->setVariable( 'MailSettings', 'AdminEmail', 'ezp-unittests-01@ez.no' );
+        $this->ini->setVariable( 'MailSettings', 'EmailSender', 'ezp-unittests-01@ez.no' );
+        $this->ini->setVariable( 'MailSettings', 'EmailReplyTo', 'ezp-unittests-01@ez.no' );
+    }
+
     public static function providerTestValidate()
     {
         return array(
@@ -387,6 +408,172 @@ class eZMailTest extends ezpTestCase
                     );
     }
 
+    public static function providerTestSendEmail()
+    {
+        $endl = "\r\n";
+        $users = array(
+            '01' => array( 'name' => 'Unit Tester One',
+                           'email' => 'ezp-unittests-01@ez.no',
+                           'username' => 'ezp-unittests-01@mail.ez.no',
+                           'password' => 'unittest01'
+            ),
+            '02' => array( 'name' => 'Unit Tester Two',
+                           'email' => 'ezp-unittests-02@ez.no',
+                           'username' => 'ezp-unittests-02@mail.ez.no',
+                           'password' => 'unittest02'
+            ),
+            '03' => array( 'name' => 'Unit Tester Three',
+                           'email' => 'ezp-unittests-03@ez.no',
+                           'username' => 'ezp-unittests-03@mail.ez.no',
+                           'password' => 'unittest03'
+            ),
+            '04' => array( 'name' => 'Unit Tester Four',
+                           'email' => 'ezp-unittests-04@ez.no',
+                           'username' => 'ezp-unittests-04@mail.ez.no',
+                           'password' => 'unittest04'
+            ),
+            '05' => array( 'name' => 'Unit Tester Five',
+                           'email' => 'ezp-unittests-05@ez.no',
+                           'username' => 'ezp-unittests-05@mail.ez.no',
+                           'password' => 'unittest05'
+            )
+        );
+
+        /*
+            Each entry in this array is an array consisting of two arrays.
+            The first is the data that will be mailed.
+            The second is the expected result. Since the result may be different for each recipient,
+            this array is per recipient, using the email as array key.
+        */
+        return array(
+            array( // Testing simple mail
+                array( 'to' => array( $users['01'] ),
+                       'replyTo' => null,
+                       'sender' => $users['02'],
+                       'cc' => null,
+                       'bcc' => null,
+                       'subject' => 'Luke',
+                       'body' => 'Told you, I did. Reckless, is he. Now, matters are worse.'
+                ),
+                array(
+                    $users['01']['email'] => array(
+                        'messageCount' => 1,
+                        'headers' => array( 'to' => array( array( 'email' => $users['01']['email'] ) ),
+                                            'replyTo' => array( array( 'email' => $users['02']['email'],
+                                                                       'name' => $users['02']['name'] ) ),
+                                            'from' => array( array( 'email' => $users['02']['email'],
+                                                                    'name' => $users['02']['name'] ) ),
+                                            'subject' => 'Luke'
+                        ),
+                        'body' => 'Told you, I did. Reckless, is he. Now, matters are worse.' . $endl
+                    )
+                )
+            ),
+            array( // Testing multiple CC recipients
+                array( 'to' => array( $users['01'] ),
+                       'replyTo' => null,
+                       'sender' => $users['02'],
+                       'cc' => array( $users['03'], $users['04'] ),
+                       'bcc' => null,
+                       'subject' => 'Mos Eisley',
+                       'body' => 'You will never find a more wretched hive of scum and villainy.'
+                ),
+                array(
+                    $users['01']['email'] => array(
+                        'messageCount' => 1,
+                        'headers' => array( 'to' => array( array( 'email' => $users['01']['email'] ) ),
+                                            'replyTo' => array( array( 'email' => $users['02']['email'],
+                                                                       'name' => $users['02']['name'] ) ),
+                                            'from' => array( array( 'email' => $users['02']['email'],
+                                                                    'name' => $users['02']['name'] ) ),
+                                            'cc' => array( array( 'email' => $users['03']['email'],
+                                                                  'name' => $users['03']['name'] ),
+                                                           array( 'email' => $users['04']['email'],
+                                                                  'name' => $users['04']['name'] ) ),
+                                            'subject' => 'Mos Eisley'
+                        ),
+                        'body' => 'You will never find a more wretched hive of scum and villainy.' . $endl
+                    ),
+                    $users['03']['email'] => array(
+                        'messageCount' => 1,
+                        'headers' => array( 'to' => array( array( 'email' => $users['01']['email'] ) ),
+                                            'replyTo' => array( array( 'email' => $users['02']['email'],
+                                                                       'name' => $users['02']['name'] ) ),
+                                            'from' => array( array( 'email' => $users['02']['email'],
+                                                                    'name' => $users['02']['name'] ) ),
+                                            'cc' => array( array( 'email' => $users['03']['email'],
+                                                                  'name' => $users['03']['name'] ),
+                                                           array( 'email' => $users['04']['email'],
+                                                                  'name' => $users['04']['name'] ) ),
+                                            'subject' => 'Mos Eisley'
+                        ),
+                        'body' => 'You will never find a more wretched hive of scum and villainy.' . $endl
+                    ),
+                    $users['04']['email'] => array(
+                        'messageCount' => 1,
+                        'headers' => array( 'to' => array( array( 'email' => $users['01']['email'] ) ),
+                                            'replyTo' => array( array( 'email' => $users['02']['email'],
+                                                                       'name' => $users['02']['name'] ) ),
+                                            'from' => array( array( 'email' => $users['02']['email'],
+                                                                    'name' => $users['02']['name'] ) ),
+                                            'cc' => array( array( 'email' => $users['03']['email'],
+                                                                  'name' => $users['03']['name'] ),
+                                                           array( 'email' => $users['04']['email'],
+                                                                  'name' => $users['04']['name'] ) ),
+                                            'subject' => 'Mos Eisley'
+                        ),
+                        'body' => 'You will never find a more wretched hive of scum and villainy.' . $endl
+                    )
+                )
+            ),
+            array( // Testing multiple BCC recipients
+                array( 'to' => array( $users['01'] ),
+                       'replyTo' => null,
+                       'sender' => $users['01'],
+                       'cc' => null,
+                       'bcc' => array( $users['04'], $users['05'] ),
+                       'subject' => 'Death Star',
+                       'body' => 'Now witness the firepower of this fully armed and operational battle station!'
+                ),
+                array(
+                    $users['01']['email'] => array(
+                        'messageCount' => 1,
+                        'headers' => array( 'to' => array( array( 'email' => $users['01']['email'] ) ),
+                                            'replyTo' => array( array( 'email' => $users['01']['email'],
+                                                                       'name' => $users['01']['name'] ) ),
+                                            'from' => array( array( 'email' => $users['01']['email'],
+                                                                    'name' => $users['01']['name'] ) ),
+                                            'subject' => 'Death Star'
+                        ),
+                        'body' => 'Now witness the firepower of this fully armed and operational battle station!' . $endl
+                    ),
+                    $users['04']['email'] => array(
+                        'messageCount' => 1,
+                        'headers' => array( 'to' => array( array( 'email' => $users['01']['email'] ) ),
+                                            'replyTo' => array( array( 'email' => $users['01']['email'],
+                                                                       'name' => $users['01']['name'] ) ),
+                                            'from' => array( array( 'email' => $users['01']['email'],
+                                                                    'name' => $users['01']['name'] ) ),
+                                            'subject' => 'Death Star'
+                        ),
+                        'body' => 'Now witness the firepower of this fully armed and operational battle station!' . $endl
+                    ),
+                    $users['05']['email'] => array(
+                        'messageCount' => 1,
+                        'headers' => array( 'to' => array( array( 'email' => $users['01']['email'] ) ),
+                                            'replyTo' => array( array( 'email' => $users['01']['email'],
+                                                                       'name' => $users['01']['name'] ) ),
+                                            'from' => array( array( 'email' => $users['01']['email'],
+                                                                    'name' => $users['01']['name'] ) ),
+                                            'subject' => 'Death Star'
+                        ),
+                        'body' => 'Now witness the firepower of this fully armed and operational battle station!' . $endl
+                    )
+                )
+            )
+        );
+    }
+
     /**
      * @dataProvider providerTestValidate
      */
@@ -410,6 +597,149 @@ class eZMailTest extends ezpTestCase
      */
     public function testStripEmail( $text, $firstEmailAddress )
     {
+    }
+
+    /**
+     * @dataProvider providerTestSendEmail
+     */
+    public function testSendEmail( $sendData, $expectedResult )
+    {
+        if ( !self::imapIsEnabled() )
+        {
+            $this->markTestSkipped( 'IMAP is not loaded' );
+            return;
+        }
+
+        $mboxString = '{mta1.ez.no:143/imap/notls}INBOX';
+        $recipients = array_merge( (array)$sendData['to'], (array)$sendData['cc'], (array)$sendData['bcc'] );
+
+        foreach ( $recipients as $recipient )
+        {
+            // Accept only testing accounts as recipients
+            if ( preg_match( '/^ezp-unittests-\d\d\@ez\.no$/', $recipient['email'] ) != 1 )
+            {
+                $this->markTestSkipped( 'Refusing to use other than testing accounts' );
+                return;
+            }
+
+            // Open mailbox and delete all existing emails in the account
+            $mbox = imap_open( $mboxString, $recipient['username'], $recipient['password'] );
+            if ( !$mbox )
+            {
+                $this->markTestSkipped( 'Cannot open mailbox for ' . $recipient['username'] . ': ' . imap_last_error() );
+                return;
+            }
+
+            $status = imap_status( $mbox, $mboxString, SA_MESSAGES );
+            for ( $i = 1; $i <= $status->messages; $i++ )
+            {
+                imap_delete( $mbox, $i );
+            }
+            imap_expunge( $mbox );
+
+            imap_close( $mbox );
+        }
+
+        // Create and send email
+        $mail = new eZMail();
+
+        if ( count( $sendData['to'] ) == 1 )
+            $mail->setReceiver( $sendData['to'][0]['email'], $sendData['to'][0]['name'] );
+        else
+            $mail->setReceiverElements( $sendData['to'] );
+
+        if ( $sendData['replyTo'] )
+        {
+            $mail->setReplyTo( $sendData['replyTo']['email'], $sendData['replyTo']['name'] );
+        }
+
+        $mail->setSender( $sendData['sender']['email'], $sendData['sender']['name'] );
+
+        if ( $sendData['cc'] )
+        {
+            if ( count( $sendData['cc'] ) == 1 )
+                $mail->addCc( $sendData['cc'][0]['email'], $sendData['cc'][0]['name'] );
+            else
+                $mail->setCcElements( $sendData['cc'] );
+        }
+
+        if ( $sendData['bcc'] )
+        {
+            if ( count( $sendData['bcc'] ) == 1 )
+                $mail->addBcc( $sendData['bcc'][0]['email'], $sendData['bcc'][0]['name'] );
+            else
+                $mail->setBccElements( $sendData['bcc'] );
+        }
+
+        $mail->setSubject( $sendData['subject'] );
+        $mail->setBody( $sendData['body'] );
+
+        $sendResult = eZMailTransport::send( $mail );
+        $this->assertEquals( true, $sendResult );
+
+        // Wait for it...
+        sleep( 2 );
+
+        // Read emails
+        foreach ( $recipients as $recipient )
+        {
+            $mbox = imap_open( $mboxString, $recipient['username'], $recipient['password'] );
+            if ( !$mbox )
+            {
+                $this->markTestSkipped( 'Cannot open mailbox for ' . $recipient['username'] . ': ' . imap_last_error() );
+                return;
+            }
+
+            // Check message count before we try to open anything, in case nothing is there
+            $status = imap_status( $mbox, $mboxString, SA_MESSAGES );
+            $this->assertEquals( $expectedResult[ $recipient['email'] ]['messageCount'], $status->messages );
+
+            // Build actual result array, and check against the expected result
+            $actualResult = array( 'messageCount' => $status->messages );
+            for ( $i = 1; $i <= $status->messages; $i++ )
+            {
+                $headers = imap_headerinfo( $mbox, $i );
+                $actualResult['headers'] = array();
+
+                $actualResult['headers']['to'] = array();
+                foreach ( $headers->to as $item )
+                {
+                    $actualResult['headers']['to'][] = array( 'email' => $item->mailbox . '@' . $item->host );
+                }
+
+                $actualResult['headers']['replyTo'] = array();
+                foreach ( $headers->reply_to as $item )
+                {
+                    $actualResult['headers']['replyTo'][] = array( 'email' => $item->mailbox . '@' . $item->host,
+                                                                   'name' => $item->personal );
+                }
+
+                $actualResult['headers']['from'] = array();
+                foreach ( $headers->from as $item )
+                {
+                    $actualResult['headers']['from'][] = array( 'email' => $item->mailbox . '@' . $item->host,
+                                                                'name' => $item->personal );
+                }
+
+                if ( isset( $headers->cc ) )
+                {
+                    $actualResult['headers']['cc'] = array();
+                    foreach ( $headers->cc as $item )
+                    {
+                        $actualResult['headers']['cc'][] = array( 'email' => $item->mailbox . '@' . $item->host,
+                                                                  'name' => $item->personal );
+                    }
+                }
+
+                $actualResult['headers']['subject'] = $headers->subject;
+
+                $body = imap_body( $mbox, $i );
+                $actualResult['body'] = $body;
+
+                $this->assertEquals( $expectedResult[ $recipient['email'] ], $actualResult );
+            }
+            imap_close( $mbox );
+        }
     }
 }
 
