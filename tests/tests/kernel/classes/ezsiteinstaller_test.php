@@ -103,8 +103,6 @@ class eZSiteInstallerTest extends ezpDatabaseTestCase
         
         $this->assertEquals( $siteaccessURLs, array( 'ezwebin_site' => array( 'url' => 'localhost:82',
                                                                               'port' => '82' ) ) );
-
-        var_dump( $siteaccessURLs );
     }
 }
 
