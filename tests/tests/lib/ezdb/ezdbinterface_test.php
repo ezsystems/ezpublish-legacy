@@ -58,7 +58,6 @@ class eZDBInterfaceTest extends ezpDatabaseTestCase
      **/
     public function testGenerateSQLINStatement( $elements, $columnName, $not, $unique, $type, $expected )
     {
-        var_dump( func_get_args() );
         $ret = $this->db->generateSQLINStatement(
             $elements, $columnName, $not, $unique, $type );
         $this->assertEquals( $expected, $ret );
