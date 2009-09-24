@@ -24,7 +24,7 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
      **/
     protected $DFSPath = 'var/dfsmount/';
 
-    protected $backupGlobals = true;
+    protected $backupGlobals = false;
 
     protected $haveToRemoveDFSPath = false;
 
@@ -48,6 +48,12 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
     public function setUp()
     {
         parent::setUp();
+
+        // We need to clear the existing handler if it was loaded before the INI
+        // settings changes
+        if ( isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) and
+             !$GLOBALS['eZClusterFileHandler_chosen_handler'] instanceof eZDFSFileHandler )
+            unset( $GLOBALS['eZClusterFileHandler_chosen_handler'] );
 
         if ( !( $this->sharedFixture instanceof eZMySQLDB ) )
         {
