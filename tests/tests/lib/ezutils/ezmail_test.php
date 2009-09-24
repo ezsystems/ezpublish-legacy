@@ -21,6 +21,8 @@ class eZMailTest extends ezpTestCase
         $this->ini->setVariable( 'MailSettings', 'AdminEmail', 'ezp-unittests-01@ez.no' );
         $this->ini->setVariable( 'MailSettings', 'EmailSender', 'ezp-unittests-01@ez.no' );
         $this->ini->setVariable( 'MailSettings', 'EmailReplyTo', 'ezp-unittests-01@ez.no' );
+        $this->ini->setVariable( 'MailSettings', 'DebugSending', 'disabled' );
+        $this->ini->setVariable( 'MailSettings', 'DebugReceiverEmail', 'ezp-unittests-01@ez.no' );
     }
 
     public static function providerTestValidate()
@@ -408,10 +410,9 @@ class eZMailTest extends ezpTestCase
                     );
     }
 
-    public static function providerTestSendEmail()
+    public static function getTestAccounts()
     {
-        $endl = "\r\n";
-        $users = array(
+        return array(
             '01' => array( 'name' => 'Unit Tester One',
                            'email' => 'ezp-unittests-01@ez.no',
                            'username' => 'ezp-unittests-01@mail.ez.no',
@@ -438,6 +439,12 @@ class eZMailTest extends ezpTestCase
                            'password' => 'unittest05'
             )
         );
+    }
+
+    public static function providerTestSendEmail()
+    {
+        $users = self::getTestAccounts();
+        $endl = "\r\n";
 
         /*
             Each entry in this array is an array consisting of two arrays.
@@ -570,6 +577,42 @@ class eZMailTest extends ezpTestCase
                         'body' => 'Now witness the firepower of this fully armed and operational battle station!' . $endl
                     )
                 )
+            ),
+            array( // Testing DebugSending = enabled
+                array( 'to' => array( $users['02'], $users['03'] ),
+                       'replyTo' => null,
+                       'sender' => $users['01'],
+                       'cc' => array( $users['04'] ),
+                       'bcc' => array( $users['05'] ),
+                       'subject' => 'That ancient religion',
+                       'body' => 'I find your lack of faith disturbing.',
+                       'DebugSending' => true
+                ),
+                array(
+                    $users['01']['email'] => array(
+                        'messageCount' => 1,
+                        'headers' => array( 'to' => array( array( 'email' => $users['01']['email'] ) ),
+                                            'replyTo' => array( array( 'email' => $users['01']['email'],
+                                                                       'name' => $users['01']['name'] ) ),
+                                            'from' => array( array( 'email' => $users['01']['email'],
+                                                                    'name' => $users['01']['name'] ) ),
+                                            'subject' => 'That ancient religion'
+                        ),
+                        'body' => 'I find your lack of faith disturbing.' . $endl
+                    ),
+                    $users['02']['email'] => array(
+                        'messageCount' => 0
+                    ),
+                    $users['03']['email'] => array(
+                        'messageCount' => 0
+                    ),
+                    $users['04']['email'] => array(
+                        'messageCount' => 0
+                    ),
+                    $users['05']['email'] => array(
+                        'messageCount' => 0
+                    )
+                )
             )
         );
     }
@@ -612,6 +655,15 @@ class eZMailTest extends ezpTestCase
 
         $mboxString = '{mta1.ez.no:143/imap/notls}INBOX';
         $recipients = array_merge( (array)$sendData['to'], (array)$sendData['cc'], (array)$sendData['bcc'] );
+
+        if ( isset( $sendData['DebugSending'] ) and $sendData['DebugSending'] == true )
+        {
+            $this->ini->setVariable( 'MailSettings', 'DebugSending', 'enabled' );
+            $users = self::getTestAccounts();
+            array_push( $recipients, $users['01'] );
+        }
+        else
+            $this->ini->setVariable( 'MailSettings', 'DebugSending', 'disabled' );
 
         foreach ( $recipients as $recipient )
         {

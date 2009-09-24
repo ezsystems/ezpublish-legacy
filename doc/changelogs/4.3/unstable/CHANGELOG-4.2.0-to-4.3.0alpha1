@@ -4,6 +4,7 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Implemented enhancement #15490: LDAP login handler improvements
 - Fixed issue #15229: Restore eZURLWildcard::isCacheExpired()
 - Implemented enhancement #15326: Improve debugging and documentation of SiteLanguageList
+- Implemented enhancement #11988: Add debug to email feature
 
 *Design:
 

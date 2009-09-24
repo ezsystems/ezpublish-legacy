@@ -97,6 +97,16 @@ class eZSendmailTransport extends eZMailTransport
             {
                 $receiverEmailText = $mail->receiverEmailText();
             }
+
+            // If in debug mode, send to debug email address and nothing else
+            if ( $ini->variable( 'MailSettings', 'DebugSending' ) == 'enabled' )
+            {
+                $receiverEmailText = $ini->variable( 'MailSettings', 'DebugReceiverEmail' );
+                $excludeHeaders[] = 'To';
+                $excludeHeaders[] = 'Cc';
+                $excludeHeaders[] = 'Bcc';
+            }
+
             $extraHeaders = $mail->headerText( array( 'exclude-headers' => $excludeHeaders ) );
 
             return mail( $receiverEmailText, $mail->subject(), $message, $extraHeaders, $sendmailOptions );

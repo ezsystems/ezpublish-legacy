@@ -85,9 +85,17 @@ class eZSMTPTransport extends eZMailTransport
 //        $sendData['from'] = $mail->senderText();
         $from = $mail->sender();
         $sendData['from'] = isset( $from['email'] ) ? $from['email'] : '';
-        $sendData["recipients"] = $mail->receiverTextList();
-        $sendData['CcRecipients'] = $mail->ccReceiverTextList();
-        $sendData['BccRecipients'] = $mail->bccReceiverTextList();
+        // If in debug mode, send to debug email address and nothing else
+        if ( $ini->variable( 'MailSettings', 'DebugSending' ) == 'enabled' )
+        {
+            $sendData["recipients"] = array( $ini->variable( 'MailSettings', 'DebugReceiverEmail' ) );
+        }
+        else
+        {
+            $sendData["recipients"] = $mail->receiverTextList();
+            $sendData['CcRecipients'] = $mail->ccReceiverTextList();
+            $sendData['BccRecipients'] = $mail->bccReceiverTextList();
+        }
         $sendData['headers'] = $mail->headerTextList();
         $sendData['body'] = $mail->body();
 

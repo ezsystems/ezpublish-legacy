@@ -1,0 +1,14 @@
+Email sending improvements
+==========================
+
+DebugSending
+------------
+
+When this is enabled (in [MailSettings] in site.ini) then no mails will be
+sent to the intended recipients. Instead they will be sent to the address in
+the DebugReceiverEmail setting. This is useful for example when working on a
+test server that contains a copy of the production database. You can test mail
+sending without worrying about test emails being sent to your end users.
+
+This feature applies to emails sent through the eZMail API. Mails sent using
+PHPs mail() function, or other methods, will not be affected.
