@@ -33,6 +33,8 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
      **/
     protected $sqlFiles = array( 'tests/tests/kernel/classes/clusterfilehandlers/sql/cluster_dfs_schema.sql' );
 
+    protected $previousFileHandler;
+
     public function __construct()
     {
         parent::__construct();
@@ -49,20 +51,21 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
     {
         parent::setUp();
 
-        // We need to clear the existing handler if it was loaded before the INI
-        // settings changes
-        if ( isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) and
-             !$GLOBALS['eZClusterFileHandler_chosen_handler'] instanceof eZDFSFileHandler )
-            unset( $GLOBALS['eZClusterFileHandler_chosen_handler'] );
-
         if ( !( $this->sharedFixture instanceof eZMySQLDB ) )
         {
             self::markTestSkipped( "Not using mysql interface, skipping" );
         }
 
+        // We need to clear the existing handler if it was loaded before the INI
+        // settings changes
+        if ( isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) and
+            !$GLOBALS['eZClusterFileHandler_chosen_handler'] instanceof eZDFSFileHandler )
+            unset( $GLOBALS['eZClusterFileHandler_chosen_handler'] );
+
         // Load database parameters for cluster
         // The same DSN than the relational database is used
         $fileINI = eZINI::instance( 'file.ini' );
+        $this->previousFileHandler = $fileINI->variable( 'ClusteringSettings', 'FileHandler', 'eZDFSFileHandler' );
         $fileINI->setVariable( 'ClusteringSettings', 'FileHandler', 'eZDFSFileHandler' );
 
         $dsn = ezpTestRunner::dsn()->parts;
@@ -87,6 +90,13 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
 
     public function tearDown()
     {
+        // restore the previous file handler
+        $fileINI = eZINI::instance( 'file.ini' );
+        $fileINI->setVariable( 'ClusteringSettings', 'FileHandler', $this->previousFileHandler );
+        $this->previousFileHandler = null;
+        if ( isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) )
+            unset( $GLOBALS['eZClusterFileHandler_chosen_handler'] );
+
         if ( $this->haveToRemoveDFSPath )
         {
             eZDir::recursiveDelete( $this->DFSPath );
