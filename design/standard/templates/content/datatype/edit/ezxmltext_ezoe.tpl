@@ -22,7 +22,7 @@
          $editor_css_list  = array( concat('skins/', $skin, '/ui.css') )
          $ez_locale        = ezini( 'RegionalSettings', 'Locale', 'site.ini')
          $language         = '-'|concat( $ez_locale )
-         $plugin_js_list   = array( 'ezoe::i18n::'|concat( $language ) )
+         $dependency_js_list   = array( 'tiny_mce_jquery.js', 'ezoe::i18n::'|concat( $language ) )
          $spell_languages = '+English=en'
     }
     {if ezini_hasvariable( 'EditorSettings', 'SkinVariant', 'ezoe.ini',,true() )}
@@ -49,13 +49,12 @@
     {/foreach}
 
     {foreach $plugin_list as $plugin}
-        {set $plugin_js_list = $plugin_js_list|append( concat( 'plugins/', $plugin|trim, '/editor_plugin.js' ))}
+        {set $dependency_js_list = $dependency_js_list|append( concat( 'plugins/', $plugin|trim, '/editor_plugin.js' ))}
     {/foreach}
 
     <!-- Load TinyMCE code -->
     {ezscript_require( 'ezjsc::jquery' )}
-    <script id="tinymce_script_loader" type="text/javascript" src={"javascript/tiny_mce.js"|ezdesign}></script>
-    {ezscript( $plugin_js_list )}
+    {ezscript( $dependency_js_list )}
     <!-- Init TinyMCE script -->
     <script type="text/javascript">
     <!--
@@ -102,6 +101,7 @@
         ez_root_url : {'/'|ezroot},
         ez_extension_url : {'/ezoe/'|ezurl},
         ez_js_url : {'/extension/ezoe/design/standard/javascript/'|ezroot},
+        ez_tinymce_url : {'javascript/tiny_mce_jquery.js'|ezdesign},
         ez_contentobject_id : {$attribute.contentobject_id},
         ez_contentobject_version : {$attribute.version},
         spellchecker_rpc_url : {'/ezoe/spellcheck_rpc'|ezurl},
@@ -113,12 +113,12 @@
     // make sure TinyMCE doesn't try to load language pack
     // and set urls for plugins so their dialogs work correctly
     (function(){
-        var uri = document.getElementById('tinymce_script_loader').src, tps = eZOeGlobalSettings.plugins.split(','), pm = tinymce.PluginManager, tp;
-        tinymce.ScriptLoader.markDone( uri.replace( 'tiny_mce', 'langs/' + eZOeGlobalSettings.language ) );
+        var uri = document.location.protocol + '//' + document.location.host + eZOeGlobalSettings.ez_tinymce_url, tps = eZOeGlobalSettings.plugins.split(','), pm = tinymce.PluginManager, tp;
+        tinymce.ScriptLoader.markDone( uri.replace( 'tiny_mce_jquery', 'langs/' + eZOeGlobalSettings.language ) );
         for (var i = 0, l = tps.length; i < l; i++)
         {
             tp = tps[i].slice(1);
-            pm.urls[ tp ] = uri.replace( 'tiny_mce.js', 'plugins/' + tp );
+            pm.urls[ tp ] = uri.replace( 'tiny_mce_jquery.js', 'plugins/' + tp );
         }
     }())
 
