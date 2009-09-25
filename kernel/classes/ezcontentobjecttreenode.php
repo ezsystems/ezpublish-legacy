@@ -3392,16 +3392,16 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 {
                     if( count( $nodeID ) === 1 )
                     {
-                        $sqlCondition = 'node_id = ' . (int) $nodeID[0] . ' AND';
+                        $sqlCondition = 'node_id = ' . (int) $nodeID[0] . ' AND ';
                     }
                     else
                     {
-                        $sqlCondition = $db->generateSQLInStatement( $nodeID, 'node_id', false, true, 'int' ) . ' AND';
+                        $sqlCondition = $db->generateSQLInStatement( $nodeID, 'node_id', false, true, 'int' ) . ' AND ';
                     }
                 }
                 else
                 {
-                    $sqlCondition = 'node_id = ' . (int) $nodeID . ' AND';
+                    $sqlCondition = 'node_id = ' . (int) $nodeID . ' AND ';
                 }
             }
 
@@ -3442,7 +3442,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       $languageFilter
                       $versionNameJoins";
         }
-
         $nodeListArray = $db->arrayQuery( $query );
 
         if ( count( $nodeListArray ) > 0 )
