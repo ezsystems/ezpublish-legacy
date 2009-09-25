@@ -1,0 +1,21 @@
+# v1.0  29 Sept 2009
+
+* added FAQ and CHANGELOG
+* Moved [eZJSCore]Packer=disabled from site.ini to ezjscore.ini to comply with eZ Network certification
+
+
+# v1.0rc2  19 Sept 2009
+
+* added link to project website in ezinfo page
+* Don't store $moduleResult['content_info']['persistent_variable'] unless it's already defined (to avoid confusing code that checks for presence of $moduleResult['content_info'])
+* flatten persistent_variable array to make sure array_unique can actually remove all duplicates
+* Fixed: Access to a kernel module via index_ajax.php
+* Fixed: don't write persistent_variable back in pagelayout.
+  Changed to write it back to module_result.content_info, as not writing changes back cause more damage then do writing the changes back.
+* Added note in ezinfo about jQuery
+* Fixed url to jQuery to use google cdn and not googlecode
+
+
+# v1.0rc1  17 Sept 2009
+
+Initial version
