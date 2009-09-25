@@ -68,7 +68,7 @@ Installation
        add:
       RewriteRule ^/var/([^/]+/)?cache/public/.* - [L]
 
-   If you don't manage to get these working, you can disable this feature setting site.ini[eZJSCore]Packer=disabled
+   If you don't manage to get these working, you can disable this feature setting ezjscore.ini[eZJSCore]Packer=disabled
 
  7. (optional) Speedup ajax calls
 
