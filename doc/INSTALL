@@ -7,6 +7,7 @@ An ajax extension for easier client / server integrations using yui 3.0 and/or j
 It also includes tools for on demand script / css loading and json / xml encoding
 content.
 
+
 Requirements
 ============
 
@@ -16,68 +17,70 @@ Requirements
     or
     PHP 5.1.2 and higher + PHP JSON extension
 
+
 Installation
 ============
 
  1. Unpack/unzip
- 
-   Unpack the downloaded zip package into the 'extension' directory of your
-   eZ Publish installation.
+
+    Unpack the downloaded zip package into the 'extension' directory of your
+    eZ Publish installation.
 
  2. Activate extension
 
-   Activate the extension by using the admin interface ( Setup -> Extensions) or by
-   prepending ezjscore to ActiveExtensions[] in settings/override/site.ini.append.php:
+    Activate the extension by using the admin interface ( Setup -> Extensions ) or by
+    prepending ezjscore to ActiveExtensions[] in settings/override/site.ini.append.php:
 
-   [ExtensionSettings]
-   ActiveExtensions[]=ezjscore
+    [ExtensionSettings]
+    ActiveExtensions[]=ezjscore
 
  3. Regenerate autoload array
 
-  Check eZ Publish doc for your version on how this is done.
-  Or go to Setup -> Extensions and click on button there.
+    Check the eZ Publish docs for your version on how this is done.
+    Or go to Setup -> Extensions and click on the button there.
 
  4. Clear caches
 
-   Clear INI and template caches. (from admin 'Setup' tab or commandline)
+    Clear INI and template caches (from admin 'Setup' tab or commandline).
 
  5. Rewrite rules for lib folder
 
-   eZ JSCore extension require correct re-write rule in order to load necessary yui (yahoo user interface) files
-   from the file system. This is required only when INI setting ezjscore.ini[eZJSCore]LoadFromCDN is disabled.
+    eZ JSCore extension require correct re-write rules in order to load the necessary yui (yahoo user interface) files
+    from the file system. This is required only when INI setting ezjscore.ini[eZJSCore]LoadFromCDN is disabled.
 
-   Add to your Virtual-Host setup following line:
+    Add to your Virtual-Host setup the following line:
 
    ``^/extension/[^/]+/design/[^/]+/(stylesheets|flash|images|lib|javascripts?)/.* - [L]``
 
  6. Rewrite rules for script/css packing
- 
-  eZ JsCore packs javascript/css files together to decrease server requests and file size for faster download.
-  On eZ Publish 4.0.x you'll need to make the following change if you havn't already when installing ezoe
-  ( Online Editor 5.0 ).
 
-  * .htaccess
-     from:
-    RewriteRule !\.(gif|jpe?g|png|css|js|html)|var(.+)storage.pdf(.+)\.pdf$ index.php
-     to:
-    RewriteRule !\.(gif|jpe?g|png|css|js|html?)|var(.+)storage.pdf(.+)\.pdf$ index.php
+    eZ JsCore packs javascript/css files together to decrease server requests and file size for faster download.
+    On eZ Publish 4.0.x you'll need to make the following changes if you havn't already when installing ezoe
+    ( Online Editor 5.0 ).
 
-  * Virtual Host mode
-     add:
-    RewriteRule ^/var/([^/]+/)?cache/public/.* - [L]
-    
-  If you don't manage to get these working, you can force disable this feature with site.ini[eZJSCore]Packer=disabled
+    * .htaccess
+       from:
+      RewriteRule !\.(gif|jpe?g|png|css|js|html)|var(.+)storage.pdf(.+)\.pdf$ index.php
+       to:
+      RewriteRule !(\.(gif|jpe?g|png|css|js|html?)|var(.+)storage.pdf(.+)\.pdf)$ index.php
+
+    * Virtual Host mode
+       add:
+      RewriteRule ^/var/([^/]+/)?cache/public/.* - [L]
+
+   If you don't manage to get these working, you can disable this feature setting site.ini[eZJSCore]Packer=disabled
 
  7. (optional) Speedup ajax calls
 
-     1. Copy or symlink index_ajax.php from this extension to root folder of eZ Publish (next to index.php)
-     2. Add the following rewrite rule:
+    1. Copy or symlink index_ajax.php from this extension to the root folder of eZ Publish (next to index.php)
 
-        * .htaccess
+    2. Add the following rewrite rule:
+
+       * .htaccess
          RewriteRule ezjscore/call/? index_ajax.php
          RewriteRule ^index_ajax\.php - [L]
     
-        * Virtual Host mode
+       * Virtual Host mode
          RewriteRule ezjscore/call/ /index_ajax.php [L]
 
 
@@ -105,4 +108,3 @@ jQuery (uses jQuery.post):
     jQuery.ez( 'ezjsc::time', {postData: 'hi!'}, function(data){ alert(data.error_text || data.content) } );
 {/literal}
 </script>
-
