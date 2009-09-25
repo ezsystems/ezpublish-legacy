@@ -135,5 +135,23 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
             $this->assertTrue( strlen( $alias ) <= 30 , "Identifier {$alias} exceeds the 30 characters limit" );
         }
     }
+    
+    /**
+     * Regression test for issue #15561: 
+     * eZContentObjectTreeNode::fetch() SQL error when conditions argument is given
+     */
+    public function testIssue15561()
+    {
+        // Create a new node so that we have a known object with a known ID
+        $object = new ezpObject( 'article', 2 );
+        $object->title = __FUNCTION__;
+        $object->publish();
+        $nodeID = $object->attribute( 'main_node_id' );
+        
+        $node = eZContentObjectTreeNode::fetch( $nodeID, false, true,
+            array( 'contentobject_version' => 1 ) );
+        
+        $this->assertType( 'eZContentObjectTreeNode', $node);
+    }
 }
 ?>

@@ -15,3 +15,4 @@ Changes from 4.2.0rc2 to 4.2.0
 *Translations:
 
 *Bugfixes:
+- Fixed issue #15561: ZContentObjectTreeNode::fetch() SQL error when conditions argument is given
