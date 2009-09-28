@@ -1858,16 +1858,16 @@ You will need to change the class of the node by using the swap functionality.' 
         // version limit can't be < 2
         if ( $versionLimit < 2 )
         {
-            eZDebug::writeWarning( "Global version history limit has to be > 2", __METHOD__ );
+            eZDebug::writeWarning( "Global version history limit must be equal to or higher than 2", __METHOD__ );
             $versionLimit = 2;
         }
 
         // we need to take $class down to a class ID
         if ( is_numeric( $class ) )
         {
-            if (!eZContentClass::fetch( $class ) )
+            if (!eZContentClass::classIdentifierByID( $class ) )
             {
-                eZDebug::writeError( "class integer parameter doesn't match any content class ID", __METHOD__ );
+                eZDebug::writeWarning( "class integer parameter doesn't match any content class ID", __METHOD__ );
                 return $versionLimit;
             }
             $classID = (int)$class;
@@ -1875,9 +1875,10 @@ You will need to change the class of the node by using the swap functionality.' 
         // literal identifier
         elseif ( is_string( $class ) )
         {
-            if ( !$classID = eZContentClass::classIDByIdentifier( $class ) )
+            $classID = eZContentClass::classIDByIdentifier( $class );
+            if ( !$classID )
             {
-                eZDebug::writeError( "class string parameter doesn't match any content class identifier", __METHOD__ );
+                eZDebug::writeWarning( "class string parameter doesn't match any content class identifier", __METHOD__ );
                 return $versionLimit;
             }
         }
@@ -1886,7 +1887,7 @@ You will need to change the class of the node by using the swap functionality.' 
         {
             if ( !$class instanceof eZContentClass )
             {
-                eZDebug::writeError( "class object parameter is not an eZContentClass", __METHOD__ );
+                eZDebug::writeWarning( "class object parameter is not an eZContentClass", __METHOD__ );
                 return  $versionLimit;
             }
             else
@@ -1909,7 +1910,8 @@ You will need to change the class of the node by using the swap functionality.' 
                 // version limit can't be < 2
                 if ( $limit < 2 )
                 {
-                    eZDebug::writeWarning( "Version history limit for class {$classID} has to be > 2", __METHOD__ );
+                    $classIdentifier = eZContentClass::classIdentifierByID( $classID );
+                    eZDebug::writeWarning( "Version history limit for class {$classIdentifier} must be equal to or higher than 2", __METHOD__ );
                     $limit = 2;
                 }
                 $versionLimit = $limit;
