@@ -28,8 +28,8 @@ Changes from 4.1.0 to 4.2.0
 - Implemented enhancement #14422: eZPublish Fatal errors should send a 500 HTTP error
 - Implemented enhancement #15284: ezexpiryhandler missing test before saving file
 - Implemented enhancement #14876: Translated and sorted country list for ezcountry
-- BC: Implemented #15229: Restore eZURLWildcard::isCacheExpired()
-- BC: Implemented #15531: Restore eZExpiryHandler::isModified()
+- Implemented enhancement #15229: Restore eZURLWildcard::isCacheExpired()
+- Implemented enhancement #15531: Restore eZExpiryHandler::isModified()
 - Implemented enhancement #15326: Improve debugging and documentation of SiteLanguageList
   (Merged from trunk (4.3.0alpha1) rev. 24144)
 
@@ -227,6 +227,6 @@ Changes from 4.1.0 to 4.2.0
 - Fixed bug #15484: Fatal error when installing plain and choosing "Map to language"
 - Fixed bug #15388: Warning in eznotificationtransport.php when $transportImpl is null
 - Fixed bug #15478: Node assignment is not removed when removing node from child list
-- Fixed issue #15523: New objects of content classes installed by the package system have incorrect names and url aliases
-- Fixed issue #15263: After package import, object name is empty
-- Fixed issue #15561: eZContentObjectTreeNode::fetch() SQL error when conditions argument is given
+- Fixed bug #15523: New objects of content classes installed by the package system have incorrect names and url aliases
+- Fixed bug #15263: After package import, object name is empty
+- Fixed bug #15561: eZContentObjectTreeNode::fetch() SQL error when conditions argument is given
