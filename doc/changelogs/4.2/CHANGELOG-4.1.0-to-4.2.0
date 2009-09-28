@@ -1,0 +1,232 @@
+Changes from 4.1.0 to 4.2.0
+
+*Kernel:
+- Implemented enhancement #14641: Improve error text in getHandlerClass when class is not defined
+- Implemented enhancement #8561: extended LDAP (Active Directory) Authentication
+- Implemented enhancement #13819: add support for LDAP_OPT_REFERRALS in ezldapuser class
+- Implemented enhancement #14792: content.ini - allow class_identifier to set VersionHistoryClass
+- Implemented enhancement #14809: Protecting tilde from being urlencoded on redirects.
+- Implemented enhancement #14813: Improved behavior of ContinueShoppingButton in basket.
+- Implemented enhancement #14934: Disable template compilation in setup wizard
+- Implemented enhancement #14981: Fix eZImageManager::createImageAlias
+  # Fixed a small regression in the image conversion process when a source image has an unknown mimetype
+- Implemented enhancement #13825: Full PHP 5.3 compatibility
+- Implemented enhancement #10178: Make trigger information available to events
+- Implemented enhancement #15032: Update ezlupdate to Qt 4.5 (patch)
+- Implemented enhancement #8054: Content edit handlers - default implementation of storeActionList()
+- Implemented enhancement #15210: Infocollector mail: From and Reply-To cannot be different
+- Implemented enhancement #15308: Add group_by support for extended attribute filters
+- Implemented enhancement #14882: Add triggers to user module
+- Implemented enhancement #13943: eZMySQLiDB::query() should write error number in error message
+- Implemented enhancement #13827: staticcache_cleanup.php cronjob should output more useful info
+- Implemented enhancement #11380: Disallow repeated tipafriend mails on same content to same receiver and use url alias on links
+- Implemented enhancement #15315: mysqli Persistent Connections support when using mysqlnd
+- Implemented enhancement #15130: Add RedirectURIAfterRemove and RedirectIfCancel support to ActionRemove
+- Implemented enhancement #15334: LDAP GetGroupsTree should be able to find groups in multiple tree levels
+- Implemented enhancement #15093: Missing session cleanup script / cronjob for Debian based distroes
+- Implemented enhancement #13044: attribute filter and sort by contentobject/node id support
+- Implemented enhancement #14422: eZPublish Fatal errors should send a 500 HTTP error
+- Implemented enhancement #15284: ezexpiryhandler missing test before saving file
+- Implemented enhancement #14876: Translated and sorted country list for ezcountry
+- BC: Implemented #15229: Restore eZURLWildcard::isCacheExpired()
+- BC: Implemented #15531: Restore eZExpiryHandler::isModified()
+- Implemented enhancement #15326: Improve debugging and documentation of SiteLanguageList
+  (Merged from trunk (4.3.0alpha1) rev. 24144)
+
+*Design:
+- Implemented enhancement #14654: Admin Interface - include custom navigationpart menu template automatically
+- Implemented enhancement #15440: Add page_head_[style|script].tpl in admin design
+
+*eZTemplate:
+
+*eZLocale:
+
+*Package system:
+
+*Scripts:
+- Added script update/common/scripts/4.2/fixorphanimages.php
+  Cleans up the image alias files that weren't removed due to issue #15155
+
+*Translations:
+- Implemented enhancement #15420: German phrasebook and readme file
+
+*Bugfixes:
+- Fixed bug #14622: role & group session cache is not correctly cleaned on login in 4.1
+- Fixed bug #14627: Setting object states and view cache
+- Fixed bug #14625: Undefined index: HTTP_USER_AGENT in ezsession.php
+- Fixed bug #12850: soap.php and multiple siteaccesses (patch included)
+  # Also clear soap.ini cache after loading new siteaccess and extensions
+- Fixed bug #14640: Php 4.4 mentioned in php version check in installer
+- Fixed bug #14628: Check that required eZ Components are installed during setup wizard
+- Fixed bug #14609 Allow eZSession to read session from post variable for flash requests to work on firefox
+  # Use post before cookie, flash appends cookie if it has one even if the session might be invalid for the current user.
+- Fixed bug #14033: has_content of an eZInteger attribute is always true
+- Fixed bug #14663: has_content of an eZFloat attribute is always true
+- Fixed bug #14662: kernel override autoload
+- Fixed bug #14643: eZFSFileHandler: wrong var in debug output
+- Fixed bug #14345: Wrong character set destroy xml in eZ Image Alias Handler.
+- Fixed bug #14677: Invalid rules on eZ Webin (ezoe) for editor user
+- Fixed bug #14574: eZMySQLiDB ignores Port setting
+- Fixed bug #12740: kernel/content/node_edit.php contains unused vars and other crud
+- Fixed bug #12284: open_basedir warning not displayed when no other system checks fail
+- Fixed bug #14660: LDAP: not authenticated with the user requested
+- Fixed bug #14686: Double session start
+- Fixed bug #13162: Open_basedir warnings
+- Fixed bug #13421: Non-static method eZContentFunctionCollection::fetchReverseRelatedObjects
+- Fixed bug #13422: Non-static method eZContentFunctionCollection::contentobjectRelationTypeMask
+- Implemented further enhancements asked for in #12235: config.php documentation
+- Fixed bug #14712: OE5 does not always use full width when translation content
+- Fixed bug #14718: Improve debug output from default exception handler to support debug by ip
+- Fixed bug #10720: [patch included] Session lost if siteaccess contains dot in name
+- Fixed bug #14642: eZContentObject::fetchByNodeID is producing fatal errors
+- Fixed bug #14729: Query problem in eZContentObject::allowedAssignStateIDList()
+- Fixed bug #14392: fatal error in ezcontentmanager.php
+- Fixed bug #14632: warnings at deleting a content object
+- Fixed bug #14741: 4.1 user subscription fatal error
+- Fixed bug #08123: Query error on ezworkflow_event with multiplexer and a selection of many classes
+- Fixed bug #14704: Error in addlockstategroup.php update script
+- Fixed bug #14698: Check iconv availability in setup wizard
+- Fixed bug #14624: upgrade 4.0 -> 4.1: addlockstategroup.php fails if sql mode is set to strict
+- Fixed bug #14678: Translation : missing i18n
+- Fixed bug #14630: Autoload classes are not refreshed on clean install, so OE does not work out of the box
+- Fixed bug #14766: Installer thinks postgres is installed but it's not.
+- Fixed bug #14635: For a discount with decimal component shop/basket cuts off the decimal
+- Fixed bug #11055: $object.name and $node.name not translated
+- Fixed bug #14656: Access Denied Error when view not found
+- Fixed bug #14787: Url alias errors when changing translation currently shared with other translations.
+- Fixed bug #13087: dit\ezobjectrelationlist.tpl: wrong id for div tag
+- Fixed bug #14795: Problem with mime-type for swf files in mime.ini
+- Fixed bug #12833: /user/success redirects to /user/register
+- Fixed bug #14796: System Locale shaking the admin interface
+- Fixed bug #14652: Image alias create JPE file
+- Fixed bug #10944: preview cache - fatal error
+- Fixed bug #14703: wrong usage of productOptionInformation
+- Fixed bug #14520: eZPreferences - inconsistencies between database- and session-stored escaped values during initial session
+- Fixed bug #14802: Problem with url alias entries when shifting a combined entry to a previously used name.
+- Fixed bug #14805: Language switcher would leave out parts of an URL which was not translated in the destination locale.
+- Fixed bug #14343: Transaction error in eZURLAliasML::setLangMaskAlwaysAvailable()
+- Fixed bug #14719: Exclamation mark at end of URL does not work in emails (w/patch)
+- Fixed bug #14812: multiprice templates have untranslateable strings
+- Fixed bug #14815: Wrong function call breaks multiprice logic
+- Fixed bug #13045: updateviewcount.php problems with url's
+- Fixed bug #14816: Continous troubles with invalid url module (with fix)
+- Fixed bug #12481: Allow clearing of texttoimage cache with ezcache.php cli script and setup/cache view
+- Fixed bug #14751: eZWorflowProcess::createKey() if one of the process parameters is array, generated key is incorrect.
+- Fixed bug #14824: Check for allowed classes to instantiate based on ParentOwner limitation incorrect in eZContentObject
+- Fixed bug #14822: Object states suppression
+- Fixed bug #14830: eZPHPCreator::canRestore() doesn't use the file expiry API
+- Fixed bug #13593: # in links (content_structure_menu_dynamic.tpl) should be javascript:void(0)
+- Fixed bug #14874: Admin layout breaks when left menu != smal as regression to #14796
+- Fixed bug #14828: is_logged_in cookie always set removed even if not currently set
+- Fixed bug #14883: fixnoderemoteid script does not work with PostgreSQL
+- Fixed bug #14852: fromString & ezinisettings
+- Fixed bug #14879: Fatal error while creating new content object package
+- Fixed bug #14904: Too long query time in eZSubtreeNotificationRule::fetchUserList()
+- Fixed bug #14860: Strict standards: Only variables should be assigned by reference in kernel/classes/ezsslzone.php on line 144
+- Fixed bug #14730: PHP version check should be removed from index.php
+- Fixed bug #14890: SmartCacheClear ClearCacheMethod "keyword" doesn't work as expected [patch]
+- Fixed bug #14836: INI cache inconsistencies (w/patch)
+- Fixed bug #14884: Missing svn:executable property for update scripts
+- Fixed bug #14897: Object/class name pattern and cache issues [patch]
+- Fixed bug #14917: eZ not able to parse new QT Linguist XML format [patch]
+- Fixed bug #14885: Single-view modules are broken by fix for #14656
+- Fixed bug #14896: Error on PostgreSQL 8.3 when DelayedIndexing is enabled
+- Fixed bug #14888: Problems with SQL updates on user_hash on postgres
+- Fixed bug #14758: Installer loops, if INI file time check is disabled.
+- Fixed bug #14980 :make runcronjobs.php use ezcli/escript option parsing code
+  (Merged from stable (4.1.3) rev. 23624)
+- Fixed bug #15005: Database transaction failed in cronjob notification.php (wrong query)
+- Fixed bug #15047: Textfile based authentication doesn't work anymore
+- Fixed bug #14366: Duplicate remote_id in ezcontentobject_tree - for LDAP users
+- Fixed bug #15046: WebDav not working on 4.1.2 (patch).
+- Fixed bug #11695: Return correct hostname when behing a proxy
+- Fixed bug #12412: Redirect from secure zones causes redirection twice which messes up urls with special characters
+- Fixed bug #11695: Return correct hostname when behing a proxy (2nd fix, allow multiple hosts)
+- Fixed bug #15055: Preview modos doesn`t execatly look as the frontend
+- Fixed bug #15056: matrix datatype bug
+- Fixed bug #15054: Index on table ezkeyword_attribute_link
+- Fixed bug #15051: Fatal Error accessing collection information (infocollector/overview)
+- Fixed bug #15058: globBrace() in lib/ezutils/classes/ezsys.php does not work using Solaris
+- Fixed bug #15059: Wrong version tag in dbupdate for ezsession (patch)
+- Fixed bug #15051: Fatal Error accessing collection information (infocollector/overview)
+  # Added missing schema definition
+- Fixed bug #15054: Index on table ezkeyword_attribute_link
+  # Added missing schema definition
+- Fixed bug #15082: eZDFS does not like sql-mode=STRICT_ALL_TABLE
+- Fixed bug #15083: No warning is given when uploading file and size exeeds post_max_size [PATCH]
+- Fixed bug #15090: DateTime format in finnish (fin-FI) locale is bad
+- Fixed bug #15091: The rss module should return 304 not-modified
+- Fixed bug #12261: remote_id is not considered in eZContentFunctions::createAndPublishObject()
+- Fixed bug #13980: Allow to set section with eZContentFunctions::createAndPublishObject()
+- Fixed bug #15105: template.ini.[CharsetSettings].DefaultTemplateCharset is set to iso-8859-1
+- Fixed bug #14937: loose products from basket after login / loose session after login?!
+- Fixed bug #15027: fixclassremoteid.php is failing with custom datatypes
+- Fixed bug #11148: Cluster query error on mysql 5.1 using strict mode
+- Fixed bug #14493: Missing indexes on 3 tables
+- Fixed bug #15110: duplicate design bases in the list of template design resources
+- Fixed bug #14227: Languages are loaded from database in all pages
+- Fixed bug #15132: Some overrides do not work
+- Fixed bug #15083: No warning is given when uploading file and size exeeds post_max_size [PATCH]
+- Fixed bug #15140: Warning: get_class() expects parameter 1 to be object, null given in ezworkflowprocess.php on line 301
+- Fixed bug #14328: Nested embedding override issue
+- Fixed bug #14037: javadoc bug for eZHTTPTool::sendHTTPRequest
+  # including regression for $passthrough variable caused by Rev. 22781
+- Fixed bug #14911: Untranslatable datatypes appears as translatable in class view and edit [patch]
+- Fixed bug #14982: Odd translation warning
+- Fixed bug #13400: ezlupdate always writes to "stderr"
+- Fixed bug #15141: Warning raised by ezauthor datatype
+- Fixed bug #14727: forgot password mail: problem with html mails
+- Fixed bug #15245: metaData for ezobjectrelation attributes is not always using the right translation
+- Fixed bug #15200: RSS Feed's won't work with Firefox 3.5x
+- Fixed bug #15249: Handle ezc exceptions in setup/info
+- Fixed bug #13828: staticcache_cleanup.php cronjob is inconsistent with ezstaticcache
+- Fixed bug #14893: remote_id is defined as integer and not string in content, node|object fetches
+- Fixed bug #15253: Avoid failure of SQL statement in ezrole.php
+- Fixed bug #14467: Objects are imported with "unknown section"
+- Fixed bug #15254: Cancel button in notification/settings is deprecated, should be removed from templates as well
+- Fixed bug #15037: performance issue due to table lock in ezidentifier datatype
+- Fixed bug #15001: strict warning in eZObjectRelationType::classAttributeContent
+- Fixed bug #15266: cleanup.php script causes PHP warning
+- Fixed bug #15269: Problem with Flash objects in eZ Publish 4.1.3. and Internet Explorer
+- Fixed bug #15280: Avoid warning and bad stylesheet syntax caused in ezdebug.php
+- Fixed bug #15282: A SOAP response can not be created with an empty namespace
+- Fixed bug #13371: eZImageType::fromString() doesn't support alternative image text
+- Fixed bug #14558: eZMySQLiDB::createDatabase() references non-existing method in mysqli extension.
+- Fixed bug #15310: preserveWhiteSpace removes whitespace between some ezxml tags when viewed
+- Fixed bug #15329: begins_with operator doesn't work as expected with strings
+- Fixed bug #15229: Bug in eZContentOperationCollection::registerSearchObject() in eZ Publish 4.1.3
+- Fixed bug #14763: Fetching a non existing node by path results in a warning while fetching by id doesn't
+- Fixed bug #14515: Disabled & Hidden users still get notifications
+- Fixed bug #15353: Fetch doesn't deliver proper result when usign language limitation and parent and child have a different language
+- Fixed bug #13888: Don't fetch wildcard cache from cluster on each page request
+- Fixed bug #14850: cache_ttl=0 and stalecache conflict
+- Fixed bug #14569: Install consistently(?) creates AdditionalLoginFormActionURL error
+- Fixed bug #13497: attribute operator throws a PHP fatal error on a node without parent in a displayable language
+- Fixed bug #15328: Problem in function validateObjectAttributeHTTPInput in class ezemailtype.php
+- Fixed bug #15288: eZContentBrowseRecent executed/updated on shell
+- Fixed bug #15211: php fatal error when fetchalias called without second param
+- Fixed bug #15230: php fatal error in fetch reverse_related_object
+- Fixed bug #15120: ezoracle : Fatal error when defining currencies
+- Fixed bug #15252: Search while using content/browse work not correctly
+- Fixed bug #15062: impossible to delete content on oracle
+- Fixed bug #13308: Copy an object with fatal error
+- Fixed bug #13520: Next / previous links in Forum not working properly
+- Fixed bug #14603: Custom install scripts - DOMDocument->root() - ezinstallscriptpackageinstaller.php
+- Fixed bug #15156: Fatal error when runnning notification cronjob | Node without a parent node
+- Fixed bug #15125: PHP Warning in lib\ezdbschema\classes\ezmysqlschema.php on line 169
+- Fixed bug #15016: replace all direct usage of implodeWithTypeCast() with generateSQLINStatement()
+- Fixed bug #15437: index_image_dfsmysql.php is missing from the distribution
+- Fixed bug #15411: Traces of mangled byte in multiprice test, caused invalid byte sequence when inserting data to PostgreSQL
+- Fixed bug #15445: The result of eZPostgreSQLDB->lastSerialID() is expected to be an int.
+- Fixed bug #15153: Apply changes with custom design
+- Fixed bug #14371: Workflow template repeat broken by security patch
+- Fixed bug #14864: Cast error in eZTemplateAttributeOperator
+- Fixed bug #15155: eZImageType::deleteStoredObjectAttribute doesn't clean original image
+- Fixed bug #15089: eZ Simplified XML input does not handle whitespace in XML attribute definitions
+- Fixed bug #15454: Make eZSession::getUserSessionHash() to return default hash instead of empty string
+- Fixed bug #15484: Fatal error when installing plain and choosing "Map to language"
+- Fixed bug #15388: Warning in eznotificationtransport.php when $transportImpl is null
+- Fixed bug #15478: Node assignment is not removed when removing node from child list
+- Fixed issue #15523: New objects of content classes installed by the package system have incorrect names and url aliases
+- Fixed issue #15263: After package import, object name is empty
+- Fixed issue #15561: eZContentObjectTreeNode::fetch() SQL error when conditions argument is given
