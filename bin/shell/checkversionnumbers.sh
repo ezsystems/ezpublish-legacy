@@ -577,10 +577,10 @@ fi
 
 function lupdate_check_version
 {
-    if ! grep -E "static QString version = \"$VERSION\";" support/ezlupdate/main.cpp &>/dev/null; then
+    if ! grep -E "static QString version = \"$VERSION\";" support/ezlupdate-qt4.5/ezlupdate/main.cpp &>/dev/null; then
 	if [ -z "$1" ]; then
 	    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
-	    echo "Wrong/missing version number in `$SETCOLOR_EXE`support/ezlupdate/main.cpp`$SETCOLOR_NORMAL` for variable version"
+	    echo "Wrong/missing version number in `$SETCOLOR_EXE`support/ezlupdate-qt4.5/ezlupdate/main.cpp`$SETCOLOR_NORMAL` for variable version"
 	    echo "Should be:"
 	    echo "static QString version = \"`$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`\""
 	    echo
@@ -595,7 +595,7 @@ function lupdate_check_version
 
 lupdate_check_version "$FIX"
 if [ $? -ne 0 ]; then
-    sed -i 's/^static QString version = "[^"]*";/static QString version = "'$VERSION'";/' support/ezlupdate/main.cpp
+    sed -i 's/^static QString version = "[^"]*";/static QString version = "'$VERSION'";/' support/ezlupdate-qt4.5/ezlupdate/main.cpp
     lupdate_check_version ""
 fi
 
