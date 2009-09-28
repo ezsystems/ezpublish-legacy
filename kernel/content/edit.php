@@ -140,22 +140,14 @@ if ( $http->hasPostVariable( 'NewDraftButton' ) )
     }
     $isAccessChecked = true;
 
-    $contentINI = eZINI::instance( 'content.ini' );
-    $versionlimit = $contentINI->variable( 'VersionManagement', 'DefaultVersionHistoryLimit' );
     // Kept for backwards compatibility
     if ( $http->hasPostVariable( 'ContentObjectLanguageCode' ) )
     {
         $EditLanguage = $http->postVariable( 'ContentObjectLanguageCode' );
     }
 
-    $limitList = eZContentClass::classIDByIdentifier( $contentINI->variable( 'VersionManagement', 'VersionHistoryClass' ) );
-    foreach ( $limitList as $key => $value )
-    {
-        if ( $classID == $key )
-            $versionlimit = $value;
-    }
-    if ( $versionlimit < 2 )
-        $versionlimit = 2;
+    // Check the new version against history limit for class $classID
+    $versionlimit = eZContentClass::versionHistoryLimit( $classID );
     $versionCount = $obj->getVersionCount();
     if ( $versionCount < $versionlimit )
     {
