@@ -16,3 +16,6 @@ Changes from 4.2.0rc2 to 4.2.0
 
 *Bugfixes:
 - Fixed issue #15561: eZContentObjectTreeNode::fetch() SQL error when conditions argument is given
+- Fixed issue #15579: VersionManagement.VersionHistoryClass doesn't work
+  Also implements #15575 (Refactor Version History Limit handling)
+  Also implements #15574 (Throw a warning when VersionLimit < 2)
