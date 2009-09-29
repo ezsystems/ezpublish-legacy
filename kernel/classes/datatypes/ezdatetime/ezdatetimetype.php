@@ -562,17 +562,17 @@ class eZDateTimeType extends eZDataType
     */
     function serializeContentObjectAttribute( $package, $objectAttribute )
     {
-        $node  = $this->createContentObjectAttributeDOMNode( $objectAttribute );
+        $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
+
         $stamp = $objectAttribute->attribute( 'data_int' );
 
-        if ( $stamp )
+        if ( $stamp !== null )
         {
             $dom = $node->ownerDocument;
             $dateTimeNode = $dom->createElement( 'date_time' );
             $dateTimeNode->appendChild( $dom->createTextNode( eZDateUtils::rfc1123Date( $stamp ) ) );
             $node->appendChild( $dateTimeNode );
         }
-
         return $node;
     }
 
