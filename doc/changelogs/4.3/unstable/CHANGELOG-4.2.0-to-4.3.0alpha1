@@ -26,3 +26,4 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Fixed bug #14927: simplify operator has a different behaviour depending on TemplateCompile settings
 - Fixed bug #15530: Existing ezp users are not synced with ldap users
 - Fixed issue #15532: Bug with eZHTTPTool::getDataByURL and output buffering
+- Fixed issue #14456: ezselection.tpl produces invalid XHTML
