@@ -27,3 +27,4 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Fixed bug #15530: Existing ezp users are not synced with ldap users
 - Fixed issue #15532: Bug with eZHTTPTool::getDataByURL and output buffering
 - Fixed issue #14456: ezselection.tpl produces invalid XHTML
+- Fixed bug #15584: Correct serializeContentObjectAttribute in ezdatetimetype.php file
