@@ -175,19 +175,32 @@ YUI( YUI3_config ).add('io-ez', function( Y )
     function _ioezSuccess( id, o )
     {
         if ( o.responseJSON === undefined )
-            o.responseJSON = Y.JSON.parse( o.responseText )
+        {
+            // create new object to avoid error in ie6 (and do not use Y.merge since it fails in ff)
+            var returnObject = {'responseJSON': Y.JSON.parse( o.responseText ),
+                                'readyState': o.readyState,
+                                'responseText': o.responseText,
+                                'responseXML': o.responseXML,
+                                'status': o.status,
+                                'statusText': o.statusText
+            };
+        }
+        else
+        {
+            var returnObject = o;
+        }
 
         var c = _configBak;
         if ( c.on.successCallback !== undefined )
         {
-            c.on.successCallback( id, o );
+            c.on.successCallback( id, returnObject );
         }
         else if ( window.console !== undefined )
         {
-            if ( o.responseJSON.error_text )
-                window.console.error( 'Y.ez(): ' + o.responseJSON.error_text );
+            if ( returnObject.responseJSON.error_text )
+                window.console.error( 'Y.ez(): ' + returnObject.responseJSON.error_text );
             else
-                window.console.log( 'Y.ez(): ' + o.responseJSON.content );
+                window.console.log( 'Y.ez(): ' + returnObject.responseJSON.content );
         }
     }
 

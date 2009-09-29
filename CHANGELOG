@@ -2,6 +2,7 @@
 
 * Added FAQ and CHANGELOG
 * Moved [eZJSCore]Packer=disabled from site.ini to ezjscore.ini to comply with eZ Network certification
+* Fixed: ie6 issue with Y.io.ez
 
 
 # v1.0rc2  19 Sept 2009
