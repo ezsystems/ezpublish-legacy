@@ -2,8 +2,8 @@
 Copyright (c) 2009, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
-version: 3.0.0b1
-build: 1163
+version: 3.0.0
+build: 1549
 */
 YUI.add('dd-ddm', function(Y) {
 
@@ -121,7 +121,7 @@ YUI.add('dd-ddm', function(Y) {
             this._pg.on('mousemove', Y.bind(this._move, this));
             
             var win = Y.get(window);
-            win.on('resize', Y.bind(this._pg_size, this));
+            Y.on('window:resize', Y.bind(this._pg_size, this));
             win.on('scroll', Y.bind(this._pg_size, this));
         }   
     }, true);
@@ -132,4 +132,4 @@ YUI.add('dd-ddm', function(Y) {
 
 
 
-}, '3.0.0b1' ,{requires:['dd-ddm-base'], skinnable:false});
+}, '3.0.0' ,{requires:['dd-ddm-base', 'event-resize'], skinnable:false});

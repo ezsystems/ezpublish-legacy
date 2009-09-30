@@ -2,8 +2,8 @@
 Copyright (c) 2009, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
-version: 3.0.0b1
-build: 1163
+version: 3.0.0
+build: 1549
 */
 YUI.add('datatype-xml-parse', function(Y) {
 
@@ -61,7 +61,7 @@ Y.namespace("Parsers").xml = Y.DataType.XML.parse;
 
 
 
-}, '3.0.0b1' );
+}, '3.0.0' );
 
 YUI.add('datatype-xml-format', function(Y) {
 
@@ -116,9 +116,9 @@ Y.mix(Y.namespace("DataType.XML"), {
 
 
 
-}, '3.0.0b1' );
+}, '3.0.0' );
 
 
 
-YUI.add('datatype-xml', function(Y){}, '3.0.0b1' ,{use:['datatype-xml-parse', 'datatype-xml-format']});
+YUI.add('datatype-xml', function(Y){}, '3.0.0' ,{use:['datatype-xml-parse', 'datatype-xml-format']});
 

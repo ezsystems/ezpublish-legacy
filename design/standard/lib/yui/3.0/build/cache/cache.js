@@ -2,8 +2,8 @@
 Copyright (c) 2009, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
-version: 3.0.0b1
-build: 1163
+version: 3.0.0
+build: 1549
 */
 YUI.add('cache', function(Y) {
 
@@ -101,6 +101,19 @@ Y.mix(Cache, {
             readOnly: true,
             getter: function() {
                 return this._entries.length;
+            }
+        },
+
+        /**
+        * @attribute uniqueKeys
+        * @description Validate uniqueness of stored keys. Default is false and
+        * is more performant.
+        * @type Number
+        */
+        uniqueKeys: {
+            value: false,
+            validator: function(value) {
+                return (LANG.isBoolean(value));
             }
         },
 
@@ -218,6 +231,11 @@ Y.extend(Cache, Y.Plugin.Base, {
         var entries = this._entries,
             max = this.get("max"),
             entry = e.entry;
+
+        if(this.get("uniqueKeys") && (this.retrieve(e.entry.request))) {
+            entries.shift();
+        }
+
             
         // If the cache at or over capacity, make room by removing stalest element (index=0)
         while(entries.length>=max) {
@@ -336,4 +354,4 @@ Y.Cache = Cache;
 
 
 
-}, '3.0.0b1' ,{requires:['plugin']});
+}, '3.0.0' ,{requires:['plugin']});

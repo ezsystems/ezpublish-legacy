@@ -2,8 +2,8 @@
 Copyright (c) 2009, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
-version: 3.0.0b1
-build: 1163
+version: 3.0.0
+build: 1549
 */
 YUI.add('dataschema-base', function(Y) {
 
@@ -70,7 +70,7 @@ Y.namespace("Parsers");
 
 
 
-}, '3.0.0b1' ,{requires:['base']});
+}, '3.0.0' ,{requires:['base']});
 
 YUI.add('dataschema-json', function(Y) {
 
@@ -358,7 +358,7 @@ Y.DataSchema.JSON = Y.mix(SchemaJSON, Y.DataSchema.Base);
 
 
 
-}, '3.0.0b1' ,{requires:['json', 'dataschema-base']});
+}, '3.0.0' ,{requires:['json', 'dataschema-base']});
 
 YUI.add('dataschema-xml', function(Y) {
 
@@ -396,7 +396,7 @@ var LANG = Y.Lang,
             var xmldoc = data,
                 data_out = {results:[],meta:{}};
 
-            if(xmldoc && xmldoc.nodeType && xmldoc.nodeType === 9 && schema) {
+            if(xmldoc && xmldoc.nodeType && (xmldoc.nodeType === 9 || xmldoc.nodeType === 1 || xmldoc.nodeType === 11) && schema) {
                 // Parse results data
                 data_out = SchemaXML._parseResults(schema, xmldoc, data_out);
 
@@ -516,7 +516,7 @@ Y.DataSchema.XML = Y.mix(SchemaXML, Y.DataSchema.Base);
 
 
 
-}, '3.0.0b1' ,{requires:['dataschema-base']});
+}, '3.0.0' ,{requires:['dataschema-base']});
 
 YUI.add('dataschema-array', function(Y) {
 
@@ -617,7 +617,7 @@ Y.DataSchema.Array = Y.mix(SchemaArray, Y.DataSchema.Base);
 
 
 
-}, '3.0.0b1' ,{requires:['dataschema-base']});
+}, '3.0.0' ,{requires:['dataschema-base']});
 
 YUI.add('dataschema-text', function(Y) {
 
@@ -727,9 +727,9 @@ Y.DataSchema.Text = Y.mix(SchemaText, Y.DataSchema.Base);
 
 
 
-}, '3.0.0b1' ,{requires:['dataschema-base']});
+}, '3.0.0' ,{requires:['dataschema-base']});
 
 
 
-YUI.add('dataschema', function(Y){}, '3.0.0b1' ,{use:['dataschema-base','dataschema-json','dataschema-xml','dataschema-array','dataschema-text']});
+YUI.add('dataschema', function(Y){}, '3.0.0' ,{use:['dataschema-base','dataschema-json','dataschema-xml','dataschema-array','dataschema-text']});
 

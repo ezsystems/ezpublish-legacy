@@ -2,8 +2,8 @@
 Copyright (c) 2009, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
-version: 3.0.0b1
-build: 1163
+version: 3.0.0
+build: 1549
 */
 YUI.add('dd-plugin', function(Y) {
 
@@ -23,7 +23,7 @@ YUI.add('dd-plugin', function(Y) {
 
 
         var Drag = function(config) {
-            config.node = config.host;
+            config.node = ((Y.Widget && config.host instanceof Y.Widget) ? config.host.get('boundingBox') : config.host);
             Drag.superclass.constructor.apply(this, arguments);
         };
         
@@ -50,4 +50,4 @@ YUI.add('dd-plugin', function(Y) {
 
 
 
-}, '3.0.0b1' ,{skinnable:false, requires:['dd-drag'], optional:['dd-constrain', 'dd-proxy']});
+}, '3.0.0' ,{skinnable:false, requires:['dd-drag'], optional:['dd-constrain', 'dd-proxy']});

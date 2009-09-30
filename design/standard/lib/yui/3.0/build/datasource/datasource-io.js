@@ -2,8 +2,8 @@
 Copyright (c) 2009, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
-version: 3.0.0b1
-build: 1163
+version: 3.0.0
+build: 1549
 */
 YUI.add('datasource-io', function(Y) {
 
@@ -115,6 +115,8 @@ Y.extend(DSIO, Y.DataSource.Local, {
      */
     _defRequestFn: function(e) {
         var uri = this.get("source"),
+            io = this.get("io"),
+            request = e.request,
             cfg = Y.mix(e.cfg, {
                 on: {
                     success: function (id, response, e) {
@@ -130,7 +132,16 @@ Y.extend(DSIO, Y.DataSource.Local, {
                 arguments: e
             });
         
-        this.get("io")(uri, cfg);
+        // Support for POST transactions
+        if(Y.Lang.isString(request)) {
+            if(cfg.method && (cfg.method.toUpperCase() === "POST")) {
+                cfg.data = cfg.data ? cfg.data+request : request;
+            }
+            else {
+                uri += request;
+            }
+        }
+        io(uri, cfg);
         return e.tId;
     }
 });
@@ -140,4 +151,4 @@ Y.DataSource.IO = DSIO;
 
 
 
-}, '3.0.0b1' ,{requires:['datasource-local', 'io']});
+}, '3.0.0' ,{requires:['datasource-local', 'io']});

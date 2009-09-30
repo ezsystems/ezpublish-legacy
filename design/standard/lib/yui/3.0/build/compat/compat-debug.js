@@ -2,8 +2,8 @@
 Copyright (c) 2009, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
-version: 3.0.0b1
-build: 1163
+version: 3.0.0
+build: 1549
 */
 YUI.add('compat', function(Y) {
 
@@ -23,30 +23,7 @@ if (window.YAHOO != YUI) {
     if (o) {
         Y.mix(Y, o);
     }
-
 }
-
-
-/*
-if ((!globalUpdated) && (!(window.YAHOO instanceof YUI))) {
-
-    globalUpdated = true;
-
-    // get any existing YAHOO obj props
-    var o = (window.YAHOO) ? YUI.merge(window.YAHOO) : null;
-
-    // Make the YUI global the YAHOO global
-    // window.YAHOO = YUI().use('node', 'compat');
-    window.YAHOO = YUI().use('node', 'compat');
-
-    // augment old YAHOO props
-    if (o) {
-        Y.mix(Y, o);
-    }
-
-
-}
-*/
 
 // add old namespaces
 Y.namespace("util", "widget", "example");
@@ -88,10 +65,9 @@ Y.mix(L, {
 
 L.augment = L.augmentProto;
 
-// IE won't enumerate this
-L.hasOwnProperty = Y.Object.owns;
-
-// L.merge = Y.merge;
+L.hasOwnProperty = function(o, k) {
+    return (o.hasOwnProperty(k));
+};
 
 Y.augmentProto = L.augmentProto;
 
@@ -143,7 +119,7 @@ if ("undefined" !== typeof YAHOO_config) {
 }
     
 // add old registration for yahoo
-Y.register("yahoo", Y, {version: "3.0.0b1", build: "1163"});
+Y.register("yahoo", Y, {version: "3.0.0", build: "1549"});
 
 if (Y.Event) {
 
@@ -590,7 +566,7 @@ if (Y.Event) {
 }
 
 
-Y.register("event", Y, {version: "3.0.0b1", build: "1163"});
+Y.register("event", Y, {version: "3.0.0", build: "1549"});
 
 
 var propertyCache = {};
@@ -920,5 +896,5 @@ YAHOO.util.Point.prototype = new YAHOO.util.Region();
 
 
 
-}, '3.0.0b1' ,{requires:['dom','event']});
+}, '3.0.0' ,{requires:['dom','event']});
 YUI._setup(); YUI.use('dom', 'event', 'compat');

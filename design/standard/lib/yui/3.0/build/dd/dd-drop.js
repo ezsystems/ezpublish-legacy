@@ -2,8 +2,8 @@
 Copyright (c) 2009, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
-version: 3.0.0b1
-build: 1163
+version: 3.0.0
+build: 1549
 */
 YUI.add('dd-drop', function(Y) {
 
@@ -273,7 +273,7 @@ YUI.add('dd-drop', function(Y) {
             this.shim.setStyles({
                 top: '-999px',
                 left: '-999px',
-                zIndex: '2'
+                zIndex: '1'
             });
             this.overTarget = false;
         },
@@ -482,4 +482,4 @@ YUI.add('dd-drop', function(Y) {
 
 
 
-}, '3.0.0b1' ,{requires:['dd-ddm-drop', 'dd-drag'], skinnable:false});
+}, '3.0.0' ,{requires:['dd-ddm-drop', 'dd-drag'], skinnable:false});

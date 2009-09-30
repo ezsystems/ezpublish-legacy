@@ -2,8 +2,8 @@
 Copyright (c) 2009, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
-version: 3.0.0b1
-build: 1163
+version: 3.0.0
+build: 1549
 */
 YUI.add('anim-node-plugin', function(Y) {
 
@@ -30,5 +30,4 @@ Y.namespace('Plugin');
 Y.Plugin.NodeFX = NodeFX;
 
 
-
-}, '3.0.0b1' ,{requires:['anim-base', 'node-base']});
+}, '3.0.0' ,{requires:['node-pluginhost', 'anim-base']});

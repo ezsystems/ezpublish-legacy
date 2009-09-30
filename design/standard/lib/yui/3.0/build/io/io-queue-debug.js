@@ -2,8 +2,8 @@
 Copyright (c) 2009, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
-version: 3.0.0b1
-build: 1163
+version: 3.0.0
+build: 1549
 */
 YUI.add('io-queue', function(Y) {
 
@@ -206,9 +206,9 @@ YUI.add('io-queue', function(Y) {
 
    /**
 	* @description Method for removing a specific, pending transaction from
-	* the queue. This is the interface for _purge().
+	* the queue. This is the interface for _remove().
 	*
-	* @method purge
+	* @method remove
 	* @public
 	* @static
 	* @param {Object} o - Reference to queued transaction.
@@ -222,4 +222,4 @@ YUI.add('io-queue', function(Y) {
 
 
 
-}, '3.0.0b1' ,{requires:['io-base']});
+}, '3.0.0' ,{requires:['io-base','queue-promote']});

@@ -2,8 +2,8 @@
 Copyright (c) 2009, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
-version: 3.0.0b1
-build: 1163
+version: 3.0.0
+build: 1549
 */
 YUI.add('dump', function(Y) {
 
@@ -51,8 +51,14 @@ YUI.add('dump', function(Y) {
         // an element will cause an unhandled exception in FF 2.x
         if (!L.isObject(o)) {
             return o + "";
-        } else if (type == "date" || ("nodeType" in o && "tagName" in o)) {
+        } else if (type == "date") {
             return o;
+        } else if (o.nodeType && o.tagName) {
+            return o.tagName + '#' + o.id;
+        } else if (o.document && o.navigator) {
+            return 'window';
+        } else if (o.location && o.body) {
+            return 'document';
         } else if (type == "function") {
             return FUN;
         }
@@ -83,13 +89,17 @@ YUI.add('dump', function(Y) {
             s.push("{");
             for (i in o) {
                 if (o.hasOwnProperty(i)) {
-                    s.push(i + ARROW);
-                    if (L.isObject(o[i])) {
-                        s.push((d > 0) ? L.dump(o[i], d-1) : OBJ);
-                    } else {
-                        s.push(o[i]);
+                    try {
+                        s.push(i + ARROW);
+                        if (L.isObject(o[i])) {
+                            s.push((d > 0) ? L.dump(o[i], d-1) : OBJ);
+                        } else {
+                            s.push(o[i]);
+                        }
+                        s.push(COMMA);
+                    } catch(e) {
+                        s.push('Error: ' + e.message);
                     }
-                    s.push(COMMA);
                 }
             }
             if (s.length > 1) {
@@ -106,4 +116,4 @@ YUI.add('dump', function(Y) {
 
 
 
-}, '3.0.0b1' );
+}, '3.0.0' );

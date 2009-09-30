@@ -2,8 +2,8 @@
 Copyright (c) 2009, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
-version: 3.0.0b1
-build: 1163
+version: 3.0.0
+build: 1549
 */
 YUI.add('datasource-function', function(Y) {
 
@@ -89,8 +89,14 @@ Y.extend(DSFn, Y.DataSource.Local, {
             response;
             
             if(fn) {
-                response = fn(e.request, this, e);
-                this.fire("data", Y.mix({data:response}, e));
+                try {
+                    response = fn(e.request, this, e);
+                    this.fire("data", Y.mix({data:response}, e));
+                }
+                catch(error) {
+                    e.error = error;
+                    this.fire("error", e);
+                }
             }
             else {
                 e.error = new Error("Function data failure");
@@ -106,4 +112,4 @@ Y.DataSource.Function = DSFn;
 
 
 
-}, '3.0.0b1' ,{requires:['datasource-local']});
+}, '3.0.0' ,{requires:['datasource-local']});

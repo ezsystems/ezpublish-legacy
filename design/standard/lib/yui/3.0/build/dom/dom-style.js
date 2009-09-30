@@ -2,8 +2,8 @@
 Copyright (c) 2009, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
-version: 3.0.0b1
-build: 1163
+version: 3.0.0
+build: 1549
 */
 YUI.add('dom-style', function(Y) {
 
@@ -160,8 +160,7 @@ if (Y.UA.webkit) {
 }
 })(Y);
 (function(Y) {
-var TO_STRING = 'toString',
-    PARSE_INT = parseInt,
+var PARSE_INT = parseInt,
     RE = RegExp;
 
 Y.Color = {
@@ -206,15 +205,19 @@ Y.Color = {
     toHex: function(val) {
         val = Y.Color.KEYWORDS[val] || val;
         if (Y.Color.re_RGB.exec(val)) {
-            var r = (RE.$1.length === 1) ? '0' + RE.$1 : Number(RE.$1),
-                g = (RE.$2.length === 1) ? '0' + RE.$2 : Number(RE.$2),
-                b = (RE.$3.length === 1) ? '0' + RE.$3 : Number(RE.$3);
-
             val = [
-                r[TO_STRING](16),
-                g[TO_STRING](16),
-                b[TO_STRING](16)
-            ].join('');
+                Number(RE.$1).toString(16),
+                Number(RE.$2).toString(16),
+                Number(RE.$3).toString(16)
+            ];
+
+            for (var i = 0; i < val.length; i++) {
+                if (val[i].length < 2) {
+                    val[i] = val[i].replace(Y.Color.re_hex3, '$1$1');
+                }
+            }
+
+            val = '#' + val.join('');
         }
 
         if (val.length < 6) {
@@ -231,14 +234,14 @@ Y.Color = {
 })(Y);
 
 (function(Y) {
-var CLIENT_TOP = 'clientTop',
-    CLIENT_LEFT = 'clientLeft',
-    HAS_LAYOUT = 'hasLayout',
+var HAS_LAYOUT = 'hasLayout',
     PX = 'px',
     FILTER = 'filter',
     FILTERS = 'filters',
     OPACITY = 'opacity',
     AUTO = 'auto',
+
+    BORDER_WIDTH = 'borderWidth',
     BORDER_TOP_WIDTH = 'borderTopWidth',
     BORDER_RIGHT_WIDTH = 'borderRightWidth',
     BORDER_BOTTOM_WIDTH = 'borderBottomWidth',
@@ -252,7 +255,6 @@ var CLIENT_TOP = 'clientTop',
     documentElement = document.documentElement,
 
     // TODO: unit-less lineHeight (e.g. 1.22)
-    re_size = /^width|height$/,
     re_unit = /^(\d[.\d]*)+(em|ex|px|gd|rem|vw|vh|vm|ch|mm|cm|in|pt|pc|deg|rad|ms|s|hz|khz|%){1}?/i,
 
     _getStyleObj = function(node) {
@@ -269,7 +271,7 @@ var CLIENT_TOP = 'clientTop',
             if (el) {
                     current = _getStyleObj(el)[property];
 
-                if (property === OPACITY) {
+                if (property === OPACITY && Y.DOM.CUSTOM_STYLES[OPACITY]) {
                     value = Y.DOM.CUSTOM_STYLES[OPACITY].get(el);        
                 } else if (!current || (current.indexOf && current.indexOf(PX) > -1)) { // no need to convert
                     value = current;
@@ -285,66 +287,66 @@ var CLIENT_TOP = 'clientTop',
             return value;
         },
 
+        sizeOffsets: {
+            width: ['Left', 'Right'],
+            height: ['Top', 'Bottom'],
+            top: ['Top'],
+            bottom: ['Bottom']
+        },
+
         getOffset: function(el, prop) {
             var current = _getStyleObj(el)[prop],                     // value of "width", "top", etc.
                 capped = prop.charAt(0).toUpperCase() + prop.substr(1), // "Width", "Top", etc.
                 offset = 'offset' + capped,                             // "offsetWidth", "offsetTop", etc.
                 pixel = 'pixel' + capped,                               // "pixelWidth", "pixelTop", etc.
-                actual,
+                sizeOffsets = ComputedStyle.sizeOffsets[prop], 
                 value = '';
 
-            if (current === AUTO) {
-                actual = el[offset]; // offsetHeight/Top etc.
-                if (actual === UNDEFINED) { // likely "right" or "bottom"
-                    value = 0;
+            // IE pixelWidth incorrect for percent
+            // manually compute by subtracting padding and border from offset size
+            // NOTE: clientWidth/Height (size minus border) is 0 when current === AUTO so offsetHeight is used
+            // reverting to auto from auto causes position stacking issues (old impl)
+            if (current === AUTO || current.indexOf('%') > -1) {
+                value = el['offset' + capped];
+
+                if (sizeOffsets[0]) {
+                    value -= ComputedStyle.getPixel(el, 'padding' + sizeOffsets[0]);
+                    value -= ComputedStyle.getBorderWidth(el, 'border' + sizeOffsets[0] + 'Width', 1);
                 }
 
-                value = actual;
-                if (re_size.test(prop)) { // account for box model diff 
-                    el.style[prop] = actual;
-                    if (el[offset] > actual) {
-                        // the difference is padding + border (works in Standards & Quirks modes)
-                        value = actual - (el[offset] - actual);
-                    }
-                    el.style[prop] = AUTO; // revert to auto
+                if (sizeOffsets[1]) {
+                    value -= ComputedStyle.getPixel(el, 'padding' + sizeOffsets[1]);
+                    value -= ComputedStyle.getBorderWidth(el, 'border' + sizeOffsets[1] + 'Width', 1);
                 }
-            } else { // convert units to px
-                if (current.indexOf('%') > -1) { // IE pixelWidth incorrect for percent; manually compute 
-                    current = el.clientWidth - // offsetWidth - borderWidth
-                            ComputedStyle.getPixel(el, 'paddingRight') -
-                            ComputedStyle.getPixel(el, 'paddingLeft');
-                }
-                if (!el.style[pixel] && !el.style[prop]) { // need to map style.width to currentStyle (no currentStyle.pixelWidth)
-                    el.style[prop] = current;              // no style.pixelWidth if no style.width
+
+            } else { // use style.pixelWidth, etc. to convert to pixels
+                // need to map style.width to currentStyle (no currentStyle.pixelWidth)
+                if (!el.style[pixel] && !el.style[prop]) {
+                    el.style[prop] = current;
                 }
                 value = el.style[pixel];
+                
             }
             return value + PX;
         },
 
-        getBorderWidth: function(el, property) {
-            // clientHeight/Width = paddingBox (e.g. offsetWidth - borderWidth)
-            // clientTop/Left = borderWidth
-            var value = null;
-            if (!el.currentStyle || !el.currentStyle[HAS_LAYOUT]) { // TODO: unset layout?
-                el.style.zoom = 1; // need layout to measure client
-            }
+        borderMap: {
+            thin: '2px', 
+            medium: '4px', 
+            thick: '6px'
+        },
 
-            switch(property) {
-                case BORDER_TOP_WIDTH:
-                    value = el[CLIENT_TOP];
-                    break;
-                case BORDER_BOTTOM_WIDTH:
-                    value = el.offsetHeight - el.clientHeight - el[CLIENT_TOP];
-                    break;
-                case BORDER_LEFT_WIDTH:
-                    value = el[CLIENT_LEFT];
-                    break;
-                case BORDER_RIGHT_WIDTH:
-                    value = el.offsetWidth - el.clientWidth - el[CLIENT_LEFT];
-                    break;
+        getBorderWidth: function(el, property, omitUnit) {
+            var unit = omitUnit ? '' : PX,
+                current = el.currentStyle[property];
+
+            if (current.indexOf(PX) < 0) { // look up keywords
+                if (ComputedStyle.borderMap[current]) {
+                    current = ComputedStyle.borderMap[current];
+                } else {
+                }
             }
-            return value + PX;
+            return (omitUnit) ? parseFloat(current) : current;
         },
 
         getPixel: function(node, att) {
@@ -408,42 +410,45 @@ var CLIENT_TOP = 'clientTop',
     IEComputed = {};
 
 // use alpha filter for IE opacity
-if (documentElement.style[OPACITY] === UNDEFINED &&
-        documentElement[FILTERS]) {
-    Y.DOM.CUSTOM_STYLES[OPACITY] = {
-        get: function(node) {
-            var val = 100;
-            try { // will error if no DXImageTransform
-                val = node[FILTERS]['DXImageTransform.Microsoft.Alpha'][OPACITY];
+try {
+    if (documentElement.style[OPACITY] === UNDEFINED &&
+            documentElement[FILTERS]) {
+        Y.DOM.CUSTOM_STYLES[OPACITY] = {
+            get: function(node) {
+                var val = 100;
+                try { // will error if no DXImageTransform
+                    val = node[FILTERS]['DXImageTransform.Microsoft.Alpha'][OPACITY];
 
-            } catch(e) {
-                try { // make sure its in the document
-                    val = node[FILTERS]('alpha')[OPACITY];
-                } catch(err) {
+                } catch(e) {
+                    try { // make sure its in the document
+                        val = node[FILTERS]('alpha')[OPACITY];
+                    } catch(err) {
+                    }
+                }
+                return val / 100;
+            },
+
+            set: function(node, val, style) {
+                var current,
+                    styleObj;
+
+                if (val === '') { // normalize inline style behavior
+                    styleObj = _getStyleObj(node);
+                    current = (OPACITY in styleObj) ? styleObj[OPACITY] : 1; // revert to original opacity
+                    val = current;
+                }
+
+                if (typeof style[FILTER] == 'string') { // in case not appended
+                    style[FILTER] = 'alpha(' + OPACITY + '=' + val * 100 + ')';
+                    
+                    if (!node.currentStyle || !node.currentStyle[HAS_LAYOUT]) {
+                        style.zoom = 1; // needs layout 
+                    }
                 }
             }
-            return val / 100;
-        },
-
-        set: function(node, val, style) {
-            var current,
-                styleObj;
-
-            if (val === '') { // normalize inline style behavior
-                styleObj = _getStyleObj(node);
-                current = (OPACITY in styleObj) ? styleObj[OPACITY] : 1; // revert to original opacity
-                val = current;
-            }
-
-            if (typeof style[FILTER] == 'string') { // in case not appended
-                style[FILTER] = 'alpha(' + OPACITY + '=' + val * 100 + ')';
-                
-                if (!node.currentStyle || !node.currentStyle[HAS_LAYOUT]) {
-                    style.zoom = 1; // needs layout 
-                }
-            }
-        }
-    };
+        };
+    }
+} catch(e) {
 }
 
 try {
@@ -451,7 +456,8 @@ try {
 } catch(e) { // IE throws error on invalid style set; trap common cases
     Y.DOM.CUSTOM_STYLES.height = {
         set: function(node, val, style) {
-            if (parseInt(val, 10) >= 0) {
+            var floatVal = parseFloat(val);
+            if (isNaN(floatVal) || floatVal >= 0) {
                 style.height = val;
             } else {
             }
@@ -460,7 +466,8 @@ try {
 
     Y.DOM.CUSTOM_STYLES.width = {
         set: function(node, val, style) {
-            if (parseInt(val, 10) >= 0) {
+            var floatVal = parseFloat(val);
+            if (isNaN(floatVal) || floatVal >= 0) {
                 style.width = val;
             } else {
             }
@@ -473,7 +480,7 @@ IEComputed[WIDTH] = IEComputed[HEIGHT] = ComputedStyle.getOffset;
 
 IEComputed.color = IEComputed.backgroundColor = ComputedStyle.getColor;
 
-IEComputed[BORDER_TOP_WIDTH] = IEComputed[BORDER_RIGHT_WIDTH] =
+IEComputed[BORDER_WIDTH] = IEComputed[BORDER_TOP_WIDTH] = IEComputed[BORDER_RIGHT_WIDTH] =
         IEComputed[BORDER_BOTTOM_WIDTH] = IEComputed[BORDER_LEFT_WIDTH] =
         ComputedStyle.getBorderWidth;
 
@@ -496,4 +503,4 @@ Y.DOM.IE.ComputedStyle = ComputedStyle;
 })(Y);
 
 
-}, '3.0.0b1' ,{skinnable:false, requires:['dom-base']});
+}, '3.0.0' ,{requires:['dom-base']});

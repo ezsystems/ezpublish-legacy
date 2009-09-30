@@ -2,15 +2,15 @@
 Copyright (c) 2009, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
-version: 3.0.0b1
-build: 1163
+version: 3.0.0
+build: 1549
 */
 YUI.add('test', function(Y) {
 
     /**
      * YUI JavaScript Testing Framework
      *
-     * @module yuitest
+     * @module test
      */
 
     
@@ -183,6 +183,7 @@ YUI.add('test', function(Y) {
             if (testObject instanceof Y.Test.Suite || testObject instanceof Y.Test.Case) {
                 this.items.push(testObject);
             }
+            return this;
         },
         
         //-------------------------------------------------------------------------
@@ -508,7 +509,7 @@ YUI.add('test', function(Y) {
                         break;
                         
                     case this.TEST_FAIL_EVENT:
-                        message = event.testName + ": " + event.error.getMessage();
+                        message = event.testName + ": failed.\n" + event.error.getMessage();
                         messageType = "fail";
                         break;
                         
@@ -745,7 +746,10 @@ YUI.add('test', function(Y) {
             _resumeTest : function (segment) {
             
                 //get relevant information
-                var node = this._cur;
+                var node = this._cur;                
+                
+                //we know there's no more waiting now
+                this._waiting = false;
                 
                 //if there's no node, it probably means a wait() was called after resume()
                 if (!node){
@@ -882,9 +886,6 @@ YUI.add('test', function(Y) {
                     node.parent.results.passed++;
                 }
                 node.parent.results.total++;
-                
-                //we know there's no more waiting now
-                this._waiting = false;
     
                 //set timeout not supported in all environments
                 if (typeof setTimeout != "undefined"){
@@ -1009,6 +1010,7 @@ YUI.add('test', function(Y) {
              */
             add : function (testObject) {
                 this.masterSuite.add(testObject);
+                return this;
             },
             
             /**
@@ -1617,7 +1619,7 @@ YUI.add('test', function(Y) {
          */
         getMessage : function () {
             return this.message + "\nExpected: " + this.expected + " (" + (typeof this.expected) + ")"  +
-                "\nActual:" + this.actual + " (" + (typeof this.actual) + ")";
+                "\nActual: " + this.actual + " (" + (typeof this.actual) + ")";
         }
     
     });
@@ -1839,7 +1841,7 @@ YUI.add('test', function(Y) {
                 throw new TypeError("ArrayAssert.containsMatch(): First argument must be a function.");
             }
             
-            if (!Y.Array.some(matcher)){
+            if (!Y.Array.some(haystack, matcher)){
                 Y.Assert.fail(Y.Assert._formatMessage(message, "No match found in array [" + haystack + "]."));
             }
         },
@@ -1906,7 +1908,7 @@ YUI.add('test', function(Y) {
                 throw new TypeError("ArrayAssert.doesNotContainMatch(): First argument must be a function.");
             }
             
-            if (Y.Array.some(matcher)){
+            if (Y.Array.some(haystack, matcher)){
                 Y.Assert.fail(Y.Assert._formatMessage(message, "Value found in array [" + haystack + "]."));
             }
         },
@@ -2343,6 +2345,120 @@ YUI.add('test', function(Y) {
         return xml;
     
     };
+    
+    /**
+     * Returns test results formatted as an XML string.
+     * @param {Object} result The results object created by TestRunner.
+     * @return {String} An XML-formatted string of results.
+     * @namespace Test.Format
+     * @method XML
+     * @static
+     */
+    Y.Test.Format.XML = function(results) {
+
+        function serializeToXML(results){
+            var l   = Y.Lang,
+                xml = "<" + results.type + " name=\"" + xmlEscape(results.name) + "\"";
+            
+            if (l.isNumber(results.duration)){
+                xml += " duration=\"" + results.duration + "\"";
+            }
+            
+            if (results.type == "test"){
+                xml += " result=\"" + results.result + "\" message=\"" + xmlEscape(results.message) + "\">";
+            } else {
+                xml += " passed=\"" + results.passed + "\" failed=\"" + results.failed + "\" ignored=\"" + results.ignored + "\" total=\"" + results.total + "\">";
+                Y.Object.each(results, function(value, prop){
+                    if (l.isObject(value) && !l.isArray(value)){
+                        xml += serializeToXML(value);
+                    }
+                });       
+            }
+
+            xml += "</" + results.type + ">";
+            
+            return xml;    
+        }
+
+        return "<?xml version=\"1.0\" charset=\"UTF-8\"?>" + serializeToXML(results);
+
+    };
+
+
+    /**
+     * Returns test results formatted in JUnit XML format.
+     * @param {Object} result The results object created by TestRunner.
+     * @return {String} An XML-formatted string of results.
+     * @namespace Test.Format
+     * @method JUnitXML
+     * @static
+     */
+    Y.Test.Format.JUnitXML = function(results) {
+
+
+        function serializeToJUnitXML(results){
+            var l   = Y.Lang,
+                xml = "",
+                prop;
+                
+            switch (results.type){
+                //equivalent to testcase in JUnit
+                case "test":
+                    if (results.result != "ignore"){
+                        xml = "<testcase name=\"" + xmlEscape(results.name) + "\">";
+                        if (results.result == "fail"){
+                            xml += "<failure message=\"" + xmlEscape(results.message) + "\"><![CDATA[" + results.message + "]]></failure>";
+                        }
+                        xml+= "</testcase>";
+                    }
+                    break;
+                    
+                //equivalent to testsuite in JUnit
+                case "testcase":
+                
+                    xml = "<testsuite name=\"" + xmlEscape(results.name) + "\" tests=\"" + results.total + "\" failures=\"" + results.failed + "\">";
+                    
+                    Y.Object.each(results, function(value, prop){
+                        if (l.isObject(value) && !l.isArray(value)){
+                            xml += serializeToJUnitXML(value);
+                        }
+                    });             
+                    
+                    xml += "</testsuite>";
+                    break;
+                
+                case "testsuite":
+                    Y.Object.each(results, function(value, prop){
+                        if (l.isObject(value) && !l.isArray(value)){
+                            xml += serializeToJUnitXML(value);
+                        }
+                    });             
+
+                    //skip output - no JUnit equivalent                    
+                    break;
+                    
+                case "report":
+                
+                    xml = "<testsuites>";
+                
+                    Y.Object.each(results, function(value, prop){
+                        if (l.isObject(value) && !l.isArray(value)){
+                            xml += serializeToJUnitXML(value);
+                        }
+                    });             
+                    
+                    xml += "</testsuites>";            
+                
+                //no default
+            }
+            
+            return xml;
+     
+        }
+
+        return "<?xml version=\"1.0\" charset=\"UTF-8\"?>" + serializeToJUnitXML(results);
+    };
+    
 
 
     Y.namespace("Test");
@@ -2618,7 +2734,12 @@ YUI.add('test', function(Y) {
             
                 //method should fail if called when not expected
                 mock[name] = function(){
-                    Y.Assert.fail("Method " + name + "() should not have been called.");
+                    try {
+                        Y.Assert.fail("Method " + name + "() should not have been called.");
+                    } catch (ex){
+                        //route through TestRunner for proper handling
+                        Y.Test.Runner._handleError(ex);
+                    }                    
                 };
             }
         } else if (expectation.property){
@@ -2636,13 +2757,18 @@ YUI.add('test', function(Y) {
      * @static
      */ 
     Y.Mock.verify = function(mock /*:Object*/){    
-        Y.Object.each(mock.__expectations, function(expectation){
-            if (expectation.method) {
-                Y.Assert.areEqual(expectation.callCount, expectation.actualCallCount, "Method " + expectation.method + "() wasn't called the expected number of times.");
-            } else if (expectation.property){
-                Y.Assert.areEqual(expectation.value, mock[expectation.property], "Property " + expectation.property + " wasn't set to the correct value."); 
-            }
-        });    
+        try {
+            Y.Object.each(mock.__expectations, function(expectation){
+                if (expectation.method) {
+                    Y.Assert.areEqual(expectation.callCount, expectation.actualCallCount, "Method " + expectation.method + "() wasn't called the expected number of times.");
+                } else if (expectation.property){
+                    Y.Assert.areEqual(expectation.value, mock[expectation.property], "Property " + expectation.property + " wasn't set to the correct value."); 
+                }
+            });
+        } catch (ex){
+            //route through TestRunner for proper handling
+            Y.Test.Runner._handleError(ex);
+        }
     };
 
     Y.Mock.Value = function(method, originalArgs, message){
@@ -2667,4 +2793,4 @@ YUI.add('test', function(Y) {
 
 
 
-}, '3.0.0b1' ,{requires:['substitute','event-simulate','event']});
+}, '3.0.0' ,{requires:['substitute','event-base']});

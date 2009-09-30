@@ -2,14 +2,26 @@
 Copyright (c) 2009, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
-version: 3.0.0b1
-build: 1163
+version: 3.0.0
+build: 1549
 */
-.yui-skin-sam .yui-console {
+.yui-skin-sam .yui-separate-console {
     position:absolute;
     right:1em;
     top:1em;
     z-index:999;
+}
+
+.yui-skin-sam .yui-inline-console {
+    /* xbrowser inline-block styles */
+    display: -moz-inline-stack; /* FF2 */
+    display: inline-block;
+    *display: inline; /* IE 7- (with zoom) */
+    zoom: 1;
+    vertical-align: top;
+}
+.yui-skin-sam .yui-inline-console .yui-console-content {
+    position: relative;
 }
 
 .yui-skin-sam .yui-console-content {
@@ -98,14 +110,14 @@ build: 1163
     line-height: 1.3;
 }
 
-.yui-skin-sam .yui-console .yui-console-collapsed .yui-console-bd,
-.yui-skin-sam .yui-console .yui-console-collapsed .yui-console-ft {
+.yui-skin-sam .yui-console-collapsed .yui-console-bd,
+.yui-skin-sam .yui-console-collapsed .yui-console-ft {
     display: none;
 }
-.yui-skin-sam .yui-console .yui-console-content.yui-console-collapsed {
+.yui-skin-sam .yui-console-content.yui-console-collapsed {
     -webkit-border-radius: 0;
 }
-.yui-skin-sam .yui-console .yui-console-collapsed .yui-console-hd {
+.yui-skin-sam .yui-console-collapsed .yui-console-hd {
     border-radius: 10px;
     -moz-border-radius: 10px;
     -webkit-border-radius: 0;
@@ -176,3 +188,5 @@ build: 1163
     background-color: #b00;
     color: #fff;
 }
+
+.yui-skin-sam .yui-console-hidden { display: none; }

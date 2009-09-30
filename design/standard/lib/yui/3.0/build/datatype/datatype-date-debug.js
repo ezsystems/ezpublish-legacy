@@ -2,8 +2,8 @@
 Copyright (c) 2009, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
-version: 3.0.0b1
-build: 1163
+version: 3.0.0
+build: 1549
 */
 YUI.add('datatype-date-parse', function(Y) {
 
@@ -51,7 +51,7 @@ Y.namespace("Parsers").date = Y.DataType.Date.parse;
 
 
 
-}, '3.0.0b1' );
+}, '3.0.0' );
 
 YUI.add('datatype-date-format', function(Y) {
 
@@ -492,9 +492,9 @@ Y.DataType.Date.Locale["en-AU"] = Y.merge(YDateEn);
 
 
 
-}, '3.0.0b1' );
+}, '3.0.0' );
 
 
 
-YUI.add('datatype-date', function(Y){}, '3.0.0b1' ,{use:['datatype-date-parse', 'datatype-date-format']});
+YUI.add('datatype-date', function(Y){}, '3.0.0' ,{use:['datatype-date-parse', 'datatype-date-format']});
 

@@ -2,8 +2,8 @@
 Copyright (c) 2009, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
-version: 3.0.0b1
-build: 1163
+version: 3.0.0
+build: 1549
 */
 YUI.add('node-screen', function(Y) {
 
@@ -224,4 +224,4 @@ Y.Node.prototype.inRegion = function(node2, all, altRegion) {
 };
 
 
-}, '3.0.0b1' ,{requires:['dom-screen']});
+}, '3.0.0' ,{requires:['dom-screen']});

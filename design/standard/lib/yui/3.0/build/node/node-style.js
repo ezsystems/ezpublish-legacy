@@ -2,8 +2,8 @@
 Copyright (c) 2009, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
-version: 3.0.0b1
-build: 1163
+version: 3.0.0
+build: 1549
 */
 YUI.add('node-style', function(Y) {
 
@@ -66,7 +66,6 @@ Y.Node.importMethod(Y.DOM, methods);
  * @param {String} attr The style attribute to retrieve. 
  * @return {Array} The computed values for each node.
  */
-'getComputedStyle',
 
 /**
  * Sets a style property on each node.
@@ -76,7 +75,6 @@ Y.Node.importMethod(Y.DOM, methods);
  * @param {String|Number} val The value. 
  * @chainable
  */
-'setStyle',
 
 /**
  * Sets multiple style properties on each node.
@@ -85,9 +83,8 @@ Y.Node.importMethod(Y.DOM, methods);
  * @param {Object} hash An object literal of property:value pairs. 
  * @chainable
  */
-'setStyles'
 Y.NodeList.importMethod(Y.Node.prototype, methods);
 })(Y);
 
 
-}, '3.0.0b1' ,{requires:['dom-style', 'node-base']});
+}, '3.0.0' ,{requires:['dom-style', 'node-base']});

@@ -2,8 +2,8 @@
 Copyright (c) 2009, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
-version: 3.0.0b1
-build: 1163
+version: 3.0.0
+build: 1549
 */
 YUI.add('overlay', function(Y) {
 
@@ -33,4 +33,4 @@ Y.Overlay = Y.Base.build("overlay", Y.Widget, [Y.WidgetPosition, Y.WidgetStack, 
 
 
 
-}, '3.0.0b1' ,{requires:['widget', 'widget-position', 'widget-stack', 'widget-position-ext', 'widget-stdmod']});
+}, '3.0.0' ,{requires:['widget', 'widget-position', 'widget-stack', 'widget-position-ext', 'widget-stdmod']});

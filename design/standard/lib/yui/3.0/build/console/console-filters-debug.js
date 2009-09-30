@@ -2,8 +2,8 @@
 Copyright (c) 2009, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
-version: 3.0.0b1
-build: 1163
+version: 3.0.0
+build: 1549
 */
 YUI.add('console-filters', function(Y) {
 
@@ -176,6 +176,27 @@ Y.mix(ConsoleFilters,{
             validator : function (v,k) {
                 return this._validateSource(k,v);
             }
+        },
+
+        /**
+         * Maximum number of entries to store in the message cache.  Use this to
+         * limit the memory footprint in environments with heavy log usage.
+         * By default, there is no limit (Number.POSITIVE_INFINITY).
+         *
+         * @attribute cacheLimit
+         * @type {Number}
+         * @default Number.POSITIVE_INFINITY
+         */
+        cacheLimit : {
+            value : Number.POSITIVE_INFINITY,
+            setter : function (v) {
+                if (Y.Lang.isNumber(v)) {
+                    this._cacheLimit = v;
+                    return v;
+                } else {
+                    return Y.Attribute.INVALID_VALUE;
+                }
+            }
         }
     }
 });
@@ -193,6 +214,8 @@ Y.extend(ConsoleFilters, Y.Plugin.Base, {
      * @protected
      */
     _entries : null,
+
+    _cacheLimit : Number.POSITIVE_INFINITY,
 
     /**
      * The container node created to house the category filters.
@@ -235,6 +258,8 @@ Y.extend(ConsoleFilters, Y.Plugin.Base, {
             this.syncUI();
             this.bindUI();
         }
+
+        this.after("cacheLimitChange", this._afterCacheLimitChange);
     },
 
     /**
@@ -326,12 +351,17 @@ Y.extend(ConsoleFilters, Y.Plugin.Base, {
      */
     _onEntry : function (e) {
         this._entries.push(e.message);
-
+        
         var cat = CATEGORY_DOT + e.message.category,
             src = SOURCE_DOT + e.message.source,
             cat_filter = this.get(cat),
             src_filter = this.get(src),
+            overLimit  = this._entries.length - this._cacheLimit,
             visible;
+
+        if (overLimit > 0) {
+            this._entries.splice(0, overLimit);
+        }
 
         if (cat_filter === undefined) {
             visible = this.get(DEF_VISIBILITY);
@@ -436,6 +466,23 @@ Y.extend(ConsoleFilters, Y.Plugin.Base, {
         }
         if (start) {
             buffer.splice(0,start + 1);
+        }
+    },
+
+    /**
+     * Trims the cache of entries to the appropriate new length.
+     *
+     * @method _afterCacheLimitChange 
+     * @param e {Event} the attribute change event object
+     * @protected
+     */
+    _afterCacheLimitChange : function (e) {
+        if (isFinite(e.newVal)) {
+            var delta = this._entries.length - e.newVal;
+
+            if (delta > 0) {
+                this._entries.splice(0,delta);
+            }
         }
     },
 
@@ -660,4 +707,4 @@ Y.extend(ConsoleFilters, Y.Plugin.Base, {
 Y.namespace('Plugin').ConsoleFilters = ConsoleFilters;
 
 
-}, '3.0.0b1' ,{requires:['console','plugin']});
+}, '3.0.0' ,{requires:['console','plugin']});

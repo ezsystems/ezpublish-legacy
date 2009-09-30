@@ -31,11 +31,11 @@ class ezjscoreInfo
         $eZCopyrightString = 'Copyright (C) 1999-' . date('Y') . ' eZ Systems AS';
 
         return array( 'Name'      => '<a href="http://projects.ez.no/ezjscore">eZ JSCore</a> extension',
-                      'Version'   => '1.0.0',
+                      'Version'   => '1.0.1',
                       'Copyright' => $eZCopyrightString,
                       'License'   => 'GNU General Public License v2.0',
                       'Includes the following third-party software' => array( 'Name' => 'YUI',
-                                                                              'Version' => '3.0.0Beta1 and 2.7.0',
+                                                                              'Version' => '3.0.0 and 2.7.0',
                                                                               'Copyright' => 'Copyright (c) 2009, Yahoo! Inc. All rights reserved.',
                                                                               'License' => 'Licensed under the BSD License',),
                       'Includes the following third-party software (2)' => array( 'Name' => 'jQuery',

@@ -2,8 +2,8 @@
 Copyright (c) 2009, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
-version: 3.0.0b1
-build: 1163
+version: 3.0.0
+build: 1549
 */
 YUI.add('anim-base', function(Y) {
 
@@ -265,7 +265,7 @@ YUI.add('anim-base', function(Y) {
 
         /**
          * Whether or not the animation is currently paused.
-         * @attribute running 
+         * @attribute paused 
          * @type Boolean
          * @default false 
          * @readOnly
@@ -599,5 +599,4 @@ YUI.add('anim-base', function(Y) {
     Y.extend(Y.Anim, Y.Base, proto);
 
 
-
-}, '3.0.0b1' ,{requires:['base', 'node']});
+}, '3.0.0' ,{requires:['base-base', 'node-style']});

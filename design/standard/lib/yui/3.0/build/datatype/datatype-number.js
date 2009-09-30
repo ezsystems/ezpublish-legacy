@@ -2,8 +2,8 @@
 Copyright (c) 2009, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
-version: 3.0.0b1
-build: 1163
+version: 3.0.0
+build: 1549
 */
 YUI.add('datatype-number-parse', function(Y) {
 
@@ -42,7 +42,7 @@ Y.namespace("Parsers").number = Y.DataType.Number.parse;
 
 
 
-}, '3.0.0b1' );
+}, '3.0.0' );
 
 YUI.add('datatype-number-format', function(Y) {
 
@@ -148,9 +148,9 @@ Y.mix(Y.namespace("DataType.Number"), {
 
 
 
-}, '3.0.0b1' );
+}, '3.0.0' );
 
 
 
-YUI.add('datatype-number', function(Y){}, '3.0.0b1' ,{use:['datatype-number-parse', 'datatype-number-format']});
+YUI.add('datatype-number', function(Y){}, '3.0.0' ,{use:['datatype-number-parse', 'datatype-number-format']});
 

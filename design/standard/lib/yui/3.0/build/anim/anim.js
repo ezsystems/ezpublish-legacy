@@ -2,8 +2,8 @@
 Copyright (c) 2009, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
-version: 3.0.0b1
-build: 1163
+version: 3.0.0
+build: 1549
 */
 YUI.add('anim-base', function(Y) {
 
@@ -265,7 +265,7 @@ YUI.add('anim-base', function(Y) {
 
         /**
          * Whether or not the animation is currently paused.
-         * @attribute running 
+         * @attribute paused 
          * @type Boolean
          * @default false 
          * @readOnly
@@ -599,9 +599,7 @@ YUI.add('anim-base', function(Y) {
     Y.extend(Y.Anim, Y.Base, proto);
 
 
-
-}, '3.0.0b1' ,{requires:['base', 'node']});
-
+}, '3.0.0' ,{requires:['base-base', 'node-style']});
 YUI.add('anim-color', function(Y) {
 
 /**
@@ -649,9 +647,7 @@ Y.each(['backgroundColor',
 );
 
 
-
-}, '3.0.0b1' ,{requires:['anim-base', 'node-style']});
-
+}, '3.0.0' ,{requires:['anim-base']});
 YUI.add('anim-curve', function(Y) {
 
 /**
@@ -708,9 +704,7 @@ Y.Anim.getBezier = function(points, t) {
 };
 
 
-
-}, '3.0.0b1' ,{requires:['anim-base', 'node-screen']});
-
+}, '3.0.0' ,{requires:['anim-xy']});
 YUI.add('anim-easing', function(Y) {
 
 /*
@@ -1058,9 +1052,7 @@ Y.Easing = {
 };
 
 
-
-}, '3.0.0b1' ,{requires:['anim-base']});
-
+}, '3.0.0' ,{requires:['anim-base']});
 YUI.add('anim-node-plugin', function(Y) {
 
 /**
@@ -1086,9 +1078,7 @@ Y.namespace('Plugin');
 Y.Plugin.NodeFX = NodeFX;
 
 
-
-}, '3.0.0b1' ,{requires:['anim-base', 'node-base']});
-
+}, '3.0.0' ,{requires:['node-pluginhost', 'anim-base']});
 YUI.add('anim-scroll', function(Y) {
 
 /**
@@ -1126,9 +1116,7 @@ Y.Anim.behaviors.scroll = {
 
 
 
-
-}, '3.0.0b1' ,{requires:['anim-base', 'node-base']});
-
+}, '3.0.0' ,{requires:['anim-base']});
 YUI.add('anim-xy', function(Y) {
 
 /**
@@ -1154,10 +1142,8 @@ Y.Anim.behaviors.xy = {
 
 
 
-
-}, '3.0.0b1' ,{requires:['anim-base', 'node-screen']});
-
+}, '3.0.0' ,{requires:['anim-base', 'node-screen']});
 
 
-YUI.add('anim', function(Y){}, '3.0.0b1' ,{skinnable:false, use:['anim-base', 'anim-color', 'anim-curve', 'anim-easing', 'anim-node-plugin', 'anim-scroll', 'anim-xy']});
+YUI.add('anim', function(Y){}, '3.0.0' ,{use:['anim-base', 'anim-color', 'anim-curve', 'anim-easing', 'anim-node-plugin', 'anim-scroll', 'anim-xy'], skinnable:false});
 

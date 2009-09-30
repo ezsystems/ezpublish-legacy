@@ -2,8 +2,8 @@
 Copyright (c) 2009, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
-version: 3.0.0b1
-build: 1163
+version: 3.0.0
+build: 1549
 */
 YUI.add('imageloader', function(Y) {
 
@@ -12,7 +12,7 @@ YUI.add('imageloader', function(Y) {
  * enabling faster load times and a more responsive UI.
  *
  * @module imageloader
- * @requires node
+ * @requires base-base, node-style, node-screen
  */
 
 
@@ -620,4 +620,4 @@ YUI.add('imageloader', function(Y) {
 
 
 
-}, '3.0.0b1' ,{requires:['node']});
+}, '3.0.0' ,{requires:['base-base', 'node-style', 'node-screen']});

@@ -2,8 +2,8 @@
 Copyright (c) 2009, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
-version: 3.0.0b1
-build: 1163
+version: 3.0.0
+build: 1549
 */
 YUI.add('profiler', function(Y) {
 
@@ -42,7 +42,8 @@ YUI.add('profiler', function(Y) {
             min: 0,
             avg: 0,
             points: []
-        };      
+        };
+        return report[name];
     }
     
     /* (intentionally not documented)
@@ -551,4 +552,4 @@ YUI.add('profiler', function(Y) {
 
 
 
-}, '3.0.0b1' ,{requires:['oop']});
+}, '3.0.0' ,{requires:['oop']});

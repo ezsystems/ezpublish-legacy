@@ -2,8 +2,8 @@
 Copyright (c) 2009, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
-version: 3.0.0b1
-build: 1163
+version: 3.0.0
+build: 1549
 */
 YUI.add('node-menunav', function(Y) {
 
@@ -232,7 +232,7 @@ var hasVisibleSubmenu = function (menuLabel) {
 
 var getItemAnchor = function (node) {
 
-	return isAnchor(node) ? node : node.query(LOWERCASE_A);
+	return isAnchor(node) ? node : node.one(LOWERCASE_A);
 
 };
 
@@ -296,7 +296,7 @@ var getMenuLabel = function (node, searchAncestors) {
 		}
 		else {
 			oItem = getNodeWithClass(node, CSS_MENU_LABEL) || 
-				node.query((PERIOD + CSS_MENU_LABEL));
+				node.one((PERIOD + CSS_MENU_LABEL));
 		}
 		
 	}
@@ -322,7 +322,7 @@ var getItem = function (node, searchAncestors) {
 
 var getFirstItem = function (menu) {
 	
-	return getItem(menu.query("li"));
+	return getItem(menu.one("li"));
 
 };
 
@@ -337,7 +337,7 @@ var getActiveClass = function (node) {
 var handleMouseOverForNode = function (node, target) {
 
 	return node && !node[HANDLED_MOUSEOVER] && 
-		(node === target || node.contains(target));
+		(node.compareTo(target) || node.contains(target));
 
 };
 
@@ -345,7 +345,7 @@ var handleMouseOverForNode = function (node, target) {
 var handleMouseOutForNode = function (node, relatedTarget) {
 
 	return node && !node[HANDLED_MOUSEOUT] && 
-		(node !== relatedTarget && !node.contains(relatedTarget));
+		(!node.compareTo(relatedTarget) && !node.contains(relatedTarget));
 
 };
 
@@ -438,14 +438,14 @@ NodeMenuNav.ATTRS = {
 
 				oMenu.set(ROLE, MENU);
 
-				oMenu.queryAll("ul,li,." + getClassName(MENU, CONTENT)).set(ROLE, PRESENTATION);
+				oMenu.all("ul,li,." + getClassName(MENU, CONTENT)).set(ROLE, PRESENTATION);
 
-				oMenu.queryAll((PERIOD + getClassName(MENUITEM, CONTENT))).set(ROLE, MENUITEM);
+				oMenu.all((PERIOD + getClassName(MENUITEM, CONTENT))).set(ROLE, MENUITEM);
 
-				oMenu.queryAll((PERIOD + CSS_MENU_LABEL)).each(function (node) {
+				oMenu.all((PERIOD + CSS_MENU_LABEL)).each(function (node) {
 
 					oMenuLabel = node;
-					oMenuToggle = node.query(MENU_TOGGLE_SELECTOR);
+					oMenuToggle = node.one(MENU_TOGGLE_SELECTOR);
 
 					if (oMenuToggle) {
 						oMenuToggle.set(ROLE, PRESENTATION);
@@ -462,7 +462,7 @@ NodeMenuNav.ATTRS = {
 						oSubmenu.set(ROLE, MENU);
 
 						oMenuLabel = oSubmenu.previous();
-						oMenuToggle = oMenuLabel.query(MENU_TOGGLE_SELECTOR);
+						oMenuToggle = oMenuLabel.one(MENU_TOGGLE_SELECTOR);
 
 						if (oMenuToggle) {
 							oMenuLabel = oMenuToggle;
@@ -706,11 +706,11 @@ Y.extend(NodeMenuNav, Y.Plugin.Base, {
 
 			menuNav._rootMenu = oRootMenu;
 
-			oRootMenu.queryAll("ul:first-child").addClass(FIRST_OF_TYPE);
+			oRootMenu.all("ul:first-child").addClass(FIRST_OF_TYPE);
 
 			//	Hide all visible submenus
 
-			oRootMenu.queryAll(MENU_SELECTOR).addClass(CSS_MENU_HIDDEN);
+			oRootMenu.all(MENU_SELECTOR).addClass(CSS_MENU_HIDDEN);
 
 
 			//	Wire up all event handlers
@@ -719,7 +719,7 @@ Y.extend(NodeMenuNav, Y.Plugin.Base, {
 			aHandlers.push(oRootMenu.on("mouseout", menuNav._onMouseOut, menuNav));
 			aHandlers.push(oRootMenu.on("mousemove", menuNav._onMouseMove, menuNav));
 			aHandlers.push(oRootMenu.on(MOUSEDOWN, menuNav._toggleSubmenuDisplay, menuNav));
-			aHandlers.push(oRootMenu.on(KEYDOWN, menuNav._toggleSubmenuDisplay, menuNav));
+			aHandlers.push(Y.on("key", menuNav._toggleSubmenuDisplay, oRootMenu, "down:13", menuNav));
 			aHandlers.push(oRootMenu.on(CLICK, menuNav._toggleSubmenuDisplay, menuNav));
 			aHandlers.push(oRootMenu.on("keypress", menuNav._onKeyPress, menuNav));
 			aHandlers.push(oRootMenu.on(KEYDOWN, menuNav._onKeyDown, menuNav));
@@ -865,7 +865,7 @@ Y.extend(NodeMenuNav, Y.Plugin.Base, {
 			oMenu = getParentMenu(item);
 			oItem = getItemAnchor(item);
 
-			if (menuNav._activeMenu !== oMenu) {
+			if (oMenu && !oMenu.compareTo(menuNav._activeMenu)) {
 				menuNav._activeMenu = oMenu;
 				menuNav._initFocusManager();
 			}
@@ -960,7 +960,7 @@ Y.extend(NodeMenuNav, Y.Plugin.Base, {
 			menuNav._setActiveItem(oLabel);			
 		}
 
-		oActiveItem = menu.query((PERIOD + CSS_MENUITEM_ACTIVE));
+		oActiveItem = menu.one((PERIOD + CSS_MENUITEM_ACTIVE));
 
 		if (oActiveItem) {
 			oActiveItem.removeClass(CSS_MENUITEM_ACTIVE);
@@ -991,7 +991,7 @@ Y.extend(NodeMenuNav, Y.Plugin.Base, {
 
 		var menuNav = this;
 
-		menu.queryAll(MENU_SELECTOR).each(Y.bind(function (submenuNode) {
+		menu.all(MENU_SELECTOR).each(Y.bind(function (submenuNode) {
 		
 			menuNav._hideMenu(submenuNode);
 		
@@ -1084,7 +1084,7 @@ Y.extend(NodeMenuNav, Y.Plugin.Base, {
 			sQuery = "#" + oRootMenu.get("id") + " .yui-menu a," + 
 							MENU_TOGGLE_SELECTOR;
 
-			oRootMenu.queryAll(sQuery).set("tabIndex", -1);
+			oRootMenu.all(sQuery).set("tabIndex", -1);
 
 			oFocusManager.on(ACTIVE_DESCENDANT_CHANGE, 
 				this._onActiveDescendantChange, oFocusManager, this);
@@ -1243,7 +1243,7 @@ Y.extend(NodeMenuNav, Y.Plugin.Base, {
 		//	Menu in order to avoid the FocusManager thinking that 
 		//	it has lost focus
 		
-		if (menuNav._activeMenu !== menu) {
+		if (menu && !menu.compareTo(menuNav._activeMenu)) {
 			menuNav._activeMenu = menu;
 
 			if (menuNav._hasFocus) {
@@ -1424,7 +1424,7 @@ Y.extend(NodeMenuNav, Y.Plugin.Base, {
 			}
 			else if (!menuNav._movingToSubmenu && oSubmenu && 
 				!oSubmenu.contains(oRelatedTarget) && 
-				oRelatedTarget !== oSubmenu) {
+				!oRelatedTarget.compareTo(oSubmenu)) {
 
 				//	If the mouse is not moving toward the submenu, cancel any 
 				//	submenus that might be in the process of being displayed 
@@ -1829,7 +1829,7 @@ Y.extend(NodeMenuNav, Y.Plugin.Base, {
 			oSubmenu = oMenuLabel.next();
 
 			if (oSubmenu && 
-				(oRelatedTarget === oSubmenu || 
+				(oRelatedTarget.compareTo(oSubmenu) || 
 					oSubmenu.contains(oRelatedTarget))) {
 
 				bMovingToSubmenu = true;
@@ -1895,59 +1895,111 @@ Y.extend(NodeMenuNav, Y.Plugin.Base, {
 
 					if (oSubmenu && (oSubmenu.get(ID) === sId)) {
 
-
-						if (sType === MOUSEDOWN || 
-								(sType === KEYDOWN && event.keyCode === 13)) {
-
-							//	Prevent the target from getting focused by 
-							//	default, since the element to be focused will
-							//	be determined by weather or not the submenu
-							//	is visible.
-							event.preventDefault();
+						if (sType === MOUSEDOWN || sType === KEYDOWN) {
 							
-							//	For Webkit--By default FocusManager will try
-							//	to focus one of its descendants onMouseDown
-							//	since Webkit doesn't do that by default.  Since
-							//	we want to explicitly control where focus is 
-							//	going, we need to call 
-							//	"stopImmediatePropagation" to stop the 
-							//	FocusManager from doing its thing.
-							if (Y.UA.webkit) {
+							if ((UA.opera || UA.gecko || UA.ie) && sType === KEYDOWN && !menuNav._preventClickHandle) {
+
+								//	Prevent the browser from following the URL of 
+								//	the anchor element
+
+								menuNav._preventClickHandle = menuNav._rootMenu.on("click", function (event) {
+
+									event.preventDefault();
+
+									menuNav._preventClickHandle.detach();
+									menuNav._preventClickHandle = null;
+
+								});
+
+							}
+							
+							if (sType == MOUSEDOWN) {
+
+								//	Prevent the target from getting focused by 
+								//	default, since the element to be focused will
+								//	be determined by weather or not the submenu
+								//	is visible.
+								event.preventDefault();
+
+								//	FocusManager will attempt to focus any 
+								//	descendant that is the target of the mousedown
+								//	event.  Since we want to explicitly control 
+	 							//	where focus is going, we need to call 
+								//	"stopImmediatePropagation" to stop the 
+								//	FocusManager from doing its thing.
 								event.stopImmediatePropagation();	
+
+								//	The "_focusItem" method relies on the 
+								//	"_hasFocus" property being set to true.  The
+								//	"_hasFocus" property is normally set via a 
+								//	"focus" event listener, but since we've 
+								//	blocked focus from happening, we need to set 
+								//	this property manually.
+								menuNav._hasFocus = true;
+
 							}
 
-							//	The "_focusItem" method relies on the 
-							//	"_hasFocus" property being set to true.  The
-							//	"_hasFocus" property is normally set via a 
-							//	"focus" event listener, but since we've 
-							//	blocked focus from happening, we need to set 
-							//	this property manually.
-							menuNav._hasFocus = true;
-
-
-							if (hasVisibleSubmenu(oMenuLabel)) {
 								
-								menuNav._hideMenu(oSubmenu);
+							if (menuNav._isRoot(getParentMenu(oTarget))) {	//	Event target is a submenu label in the root menu
+							
+								//	Menu label toggle functionality
+							
+								if (hasVisibleSubmenu(oMenuLabel)) {
+							
+									menuNav._hideMenu(oSubmenu);
+									menuNav._focusItem(oMenuLabel);	
+									menuNav._setActiveItem(oMenuLabel);
+									
+								}
+								else {
+							
+									menuNav._hideAllSubmenus(menuNav._rootMenu);
+									menuNav._showMenu(oSubmenu);
+
+									menuNav._focusItem(getFirstItem(oSubmenu));
+									menuNav._setActiveItem(getFirstItem(oSubmenu));
+									
+								}
+							
+							}
+							else {	//	Event target is a submenu label within a submenu
+							
+								if (menuNav._activeItem == oMenuLabel) {
+							
+									menuNav._showMenu(oSubmenu);
+									menuNav._focusItem(getFirstItem(oSubmenu));
+									menuNav._setActiveItem(getFirstItem(oSubmenu));										
+							
+								}
+								else {
+							
+									if (!oMenuLabel._clickHandle) {
+
+										oMenuLabel._clickHandle = oMenuLabel.on("click", function () {
+
+											menuNav._hideAllSubmenus(menuNav._rootMenu);
+
+											menuNav._hasFocus = false;
+											menuNav._clearActiveItem();
+
+
+											oMenuLabel._clickHandle.detach();
+											
+											oMenuLabel._clickHandle = null;
+
+										});
+										
+									}
+									
+								}
 								
-								menuNav._focusItem(oMenuLabel);								
-								menuNav._setActiveItem(oMenuLabel);
-							
 							}
-							else {
-							
-								menuNav._hideAllSubmenus(menuNav._rootMenu);
-								menuNav._showMenu(oSubmenu);
-							
-								menuNav._focusItem(getFirstItem(oSubmenu));
-								menuNav._setActiveItem(getFirstItem(oSubmenu));
-							
-							}
-						
+
 						}
 
 
 						if (sType === CLICK) {
-
+						
 							//	Prevent the browser from following the URL of 
 							//	the anchor element
 							
@@ -2023,7 +2075,15 @@ Y.extend(NodeMenuNav, Y.Plugin.Base, {
 
 				if (!menuNav._isRoot(oActiveMenu)) {
 
-					menuNav._hideMenu(oActiveMenu, true);
+					if (UA.opera) {
+						later(0, menuNav, function () {
+							menuNav._hideMenu(oActiveMenu, true);
+						});						
+					}
+					else {
+						menuNav._hideMenu(oActiveMenu, true);						
+					}
+
 					event.stopPropagation();
 					menuNav._blockMouseEvent = UA.gecko ? true : false;
 
@@ -2074,31 +2134,10 @@ Y.extend(NodeMenuNav, Y.Plugin.Base, {
 
 		var menuNav = this,
 			oRoot = menuNav._rootMenu,
-			oTarget = event.target,
-			oMenu;
+			oTarget = event.target;
 
 
-		if (oRoot.compareTo(oTarget) || oRoot.contains(oTarget)) {
-
-			oMenu = getParentMenu(oTarget);
-
-			//	If the user mouses down on an element that is a descendant 
-			//	of the root menu, but is in a submenu not currently being 
-			//	managed by the Focus Manager, update the Focus Manager so 
-			//	that it is now managing the submenu that is the parent of the 
-			//	element that was the target of the mousedown event.
-			
-			if (!menuNav._activeMenu.compareTo(oMenu)) {
-
-				menuNav._activeMenu = oMenu;
-				menuNav._initFocusManager();
-				menuNav._focusManager.set(ACTIVE_DESCENDANT, oTarget);
-				menuNav._setActiveItem(getItem(oTarget, true));
-				
-			}
-
-		}
-		else {
+		if (!(oRoot.compareTo(oTarget) || oRoot.contains(oTarget))) {
 
 			menuNav._hideAllSubmenus(oRoot);
 
@@ -2110,7 +2149,7 @@ Y.extend(NodeMenuNav, Y.Plugin.Base, {
 				menuNav._hasFocus = false;
 				menuNav._clearActiveItem();
 			}
-						
+
 		}
 
 	}
@@ -2123,4 +2162,4 @@ Y.namespace('Plugin');
 Y.Plugin.NodeMenuNav = NodeMenuNav;
 
 
-}, '3.0.0b1' ,{requires:['node', 'classnamemanager', 'node-focusmanager']});
+}, '3.0.0' ,{requires:['node', 'classnamemanager', 'node-focusmanager']});

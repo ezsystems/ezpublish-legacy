@@ -2,8 +2,8 @@
 Copyright (c) 2009, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
-version: 3.0.0b1
-build: 1163
+version: 3.0.0
+build: 1549
 */
 YUI.add('json-parse', function(Y) {
 
@@ -53,7 +53,8 @@ YUI.add('json-parse', function(Y) {
      * @type {Object}
      * @private
      */
-var Native = Y.config.win.JSON,
+var _JSON  = Y.config.win.JSON,
+    Native = (Object.prototype.toString.call(_JSON) === '[object JSON]' && _JSON),
 
     /**
      * Replace certain Unicode characters that JavaScript may handle incorrectly
@@ -104,24 +105,12 @@ var Native = Y.config.win.JSON,
      * Final step in the safety evaluation.  Regex used to test the string left
      * after all previous replacements for invalid characters.
      *
-     * @property _INVALID
+     * @property _UNSAFE
      * @type {RegExp}
      * @private
      */
-    _INVALID = /[^\],:{}\s]/,
+    _UNSAFE = /[^\],:{}\s]/,
     
-    /**
-     * Test for JSON string of simple data string, number, boolean, or null.
-     * E.g. '"some string"', "true", "false", "null", or numbers "-123e+7"
-     * This was needed for some WIP native implementations (FF3.1b2) but may be
-     * unnecessary now.
-     *
-     * @property _SIMPLE
-     * @type {RegExp}
-     * @private
-     */
-    _SIMPLE = /^\s*(?:"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)\s*$/,
-
     /**
      * Replaces specific unicode characters with their appropriate \unnnn
      * format. Some browsers ignore certain characters during eval.
@@ -190,7 +179,7 @@ var Native = Y.config.win.JSON,
             s = s.replace(_UNICODE_EXCEPTIONS, _escapeException);
             
             // Test for any remaining invalid characters
-            if (!_INVALID.test(s.replace(_ESCAPES,'@').
+            if (!_UNSAFE.test(s.replace(_ESCAPES,'@').
                                  replace(_VALUES,']').
                                  replace(_BRACKETS,''))) {
 
@@ -201,37 +190,25 @@ var Native = Y.config.win.JSON,
         }
 
         throw new SyntaxError('JSON.parse');
-    },
+    };
     
-    test;
+Y.namespace('JSON').parse = function (s,reviver) {
+    return Native && Y.JSON.useNativeParse ?
+        Native.parse(s,reviver) : _parse(s,reviver);
+};
+
+/**
+ * Leverage native JSON parse if the browser has a native implementation.
+ * In general, this is a good idea.  See the Known Issues section in the
+ * JSON user guide for caveats.  The default value is true for browsers with
+ * native JSON support.
+ *
+ * @property useNativeParse
+ * @type Boolean
+ * @default true
+ * @static
+ */
+Y.JSON.useNativeParse = !!Native;
 
 
-// Test the level of native browser support
-if (Native && Object.prototype.toString.call(Native) === '[object JSON]') {
-    try {
-        test = Native.parse('{"x":1}', function (k,v) {return k=='x' ? 2 : v;});
-        switch (test.x) {
-            case 1 : // Reviver not supported
-                _parse = function (s,reviver) {
-                    return _SIMPLE.test(s) ?
-                            eval('(' + s + ')') :
-                            _revive(Native.parse(s), reviver);
-                };
-                break;
-
-            case 2 : // Full support
-                _parse = function (s, reviver) {
-                    return Native.parse(s, reviver);
-                };
-                break;
-
-            // default is JS implementation
-        }
-    }
-    catch (e) {} // defer to JS implementation
-}
-
-Y.mix(Y.namespace('JSON'),{ parse : _parse });
-
-
-}, '3.0.0b1' );
+}, '3.0.0' );

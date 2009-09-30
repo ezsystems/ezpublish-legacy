@@ -2,8 +2,8 @@
 Copyright (c) 2009, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
-version: 3.0.0b1
-build: 1163
+version: 3.0.0
+build: 1549
 */
 YUI.add('base-build', function(Y) {
 
@@ -142,14 +142,19 @@ YUI.add('base-build', function(Y) {
         },
 
         _hasImpl : function(extClass) {
-            if (this.constructor._yuibuild) {
-                var f = this.constructor._yuibuild.exts,
-                    l = f.length,
-                    i;
-
-                for (i = 0; i < l; i++) {
-                    if (f[i] === extClass) {
-                        return true;
+            var classes = this._getClasses();
+            for (var i = 0, l = classes.length; i < l; i++) {
+                var cls = classes[i];
+                 
+                if (cls._yuibuild) {
+                    var exts = cls._yuibuild.exts,
+                        ll = exts.length,
+                        j;
+    
+                    for (j = 0; j < ll; j++) {
+                        if (exts[j] === extClass) {
+                            return true;
+                        }
                     }
                 }
             }
@@ -193,5 +198,4 @@ YUI.add('base-build', function(Y) {
     });
 
 
-
-}, '3.0.0b1' ,{requires:['base-base']});
+}, '3.0.0' ,{requires:['base-base']});

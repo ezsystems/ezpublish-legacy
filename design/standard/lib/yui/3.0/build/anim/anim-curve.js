@@ -2,8 +2,8 @@
 Copyright (c) 2009, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
-version: 3.0.0b1
-build: 1163
+version: 3.0.0
+build: 1549
 */
 YUI.add('anim-curve', function(Y) {
 
@@ -61,5 +61,4 @@ Y.Anim.getBezier = function(points, t) {
 };
 
 
-
-}, '3.0.0b1' ,{requires:['anim-base', 'node-screen']});
+}, '3.0.0' ,{requires:['anim-xy']});

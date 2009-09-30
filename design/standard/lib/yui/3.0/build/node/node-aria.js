@@ -2,8 +2,8 @@
 Copyright (c) 2009, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
-version: 3.0.0b1
-build: 1163
+version: 3.0.0
+build: 1549
 */
 YUI.add('node-aria', function(Y) {
 
@@ -13,13 +13,13 @@ YUI.add('node-aria', function(Y) {
  * @submodule node-aria
  */
 
-Y.Node.re_aria = /^(?:role$|aria-)/;
+Y.Node.prototype.get = function(name) {
+    var val;
+    if (re_aria.test(name)) {
+            val = Y.Node.getDOMNode(this).getAttribute(name, 2); 
+    } else {
 
-Y.Node.prototype._addAriaAttr = function(name) {
-    this.addAttr(name, {
-        getter: function() {
-            return Y.Node.getDOMNode(this).getAttribute(name, 2); 
-        },
+    }
 
         setter: function(val) {
             Y.Node.getDOMNode(this).setAttribute(name, val);
@@ -29,4 +29,4 @@ Y.Node.prototype._addAriaAttr = function(name) {
 };
 
 
-}, '3.0.0b1' ,{requires:['node-base']});
+}, '3.0.0' ,{requires:['node-base']});

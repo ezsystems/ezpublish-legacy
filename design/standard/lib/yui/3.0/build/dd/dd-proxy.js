@@ -2,8 +2,8 @@
 Copyright (c) 2009, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
-version: 3.0.0b1
-build: 1163
+version: 3.0.0
+build: 1549
 */
 YUI.add('dd-proxy', function(Y) {
 
@@ -47,6 +47,14 @@ YUI.add('dd-proxy', function(Y) {
         * @type Boolean
         */
         moveOnEnd: {
+            value: TRUE
+        },
+        /**
+        * @attribute hideOnEnd
+        * @description Hide the drag node at the end of the drag. Default: true
+        * @type Boolean
+        */
+        hideOnEnd: {
             value: TRUE
         },
         /**
@@ -101,9 +109,9 @@ YUI.add('dd-proxy', function(Y) {
                     host.set(DRAG_NODE, DDM._proxy);
                 }
             }
-            for (i in this._hands) {
-                this._hands[i].detach();
-            }
+            Y.each(this._hands, function(v) {
+                v.detach();
+            });
             h = DDM.on('ddm:start', Y.bind(function() {
                 if (DDM.activeDrag === host) {
                     DDM._setFrame(host);
@@ -114,7 +122,9 @@ YUI.add('dd-proxy', function(Y) {
                     if (this.get('moveOnEnd')) {
                         host.get(NODE).setXY(host.lastXY);
                     }
-                    host.get(DRAG_NODE).setStyle('display', 'none');
+                    if (this.get('hideOnEnd')) {
+                        host.get(DRAG_NODE).setStyle('display', 'none');
+                    }
                 }
             }, this));
             this._hands = [h, h1];
@@ -124,9 +134,9 @@ YUI.add('dd-proxy', function(Y) {
         },
         destructor: function() {
             var host = this.get(HOST);
-            for (var i in this._hands) {
-                this._hands[i].detach();
-            }
+            Y.each(this._hands, function(v) {
+                v.detach();
+            });
             host.set(DRAG_NODE, host.get(NODE));
         }
     };
@@ -212,4 +222,4 @@ YUI.add('dd-proxy', function(Y) {
 
 
 
-}, '3.0.0b1' ,{requires:['dd-ddm', 'dd-drag'], skinnable:false});
+}, '3.0.0' ,{requires:['dd-ddm', 'dd-drag'], skinnable:false});

@@ -2,8 +2,8 @@
 Copyright (c) 2009, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
 http://developer.yahoo.net/yui/license.txt
-version: 3.0.0b1
-build: 1163
+version: 3.0.0
+build: 1549
 */
 YUI.add('dd-constrain', function(Y) {
 
@@ -143,7 +143,7 @@ YUI.add('dd-constrain', function(Y) {
         },
         /**
         * @attribute constrain2node
-        * @description Will attempt to constrain the drag node to the bounderies of this node.
+        * @description Will attempt to constrain the drag node to the boundaries of this node.
         * @type Object
         */
         constrain2node: {
@@ -161,7 +161,7 @@ YUI.add('dd-constrain', function(Y) {
         },
         /**
         * @attribute constrain2view
-        * @description Will attempt to constrain the drag node to the bounderies of the viewport region.
+        * @description Will attempt to constrain the drag node to the boundaries of the viewport region.
         * @type Object
         */
         constrain2view: {
@@ -422,4 +422,4 @@ YUI.add('dd-constrain', function(Y) {
 
 
 
-}, '3.0.0b1' ,{requires:['dd-drag'], skinnable:false});
+}, '3.0.0' ,{requires:['dd-drag'], skinnable:false});
