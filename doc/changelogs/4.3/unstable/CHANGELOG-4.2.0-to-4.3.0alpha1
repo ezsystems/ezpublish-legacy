@@ -28,3 +28,4 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Fixed bug #15532: Bug with eZHTTPTool::getDataByURL and output buffering
 - Fixed bug #14456: ezselection.tpl produces invalid XHTML
 - Fixed bug #15584: Correct serializeContentObjectAttribute in ezdatetimetype.php file
+- Fixed bug #15231: Bad links in /content/versionview/
