@@ -619,7 +619,7 @@ class eZTemplateStringOperator
                 $simplifyCharacter = $namedParameters['char'];
                 if ( $namedParameters['char'] === false )
                 {
-                    $replace_this = "/\s{2,}/";
+                    $replace_this = "/ {2,}/";
                     $simplifyCharacter = ' ';
                 }
                 else
