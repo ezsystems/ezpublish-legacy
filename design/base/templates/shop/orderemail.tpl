@@ -6,7 +6,8 @@
 
 {def $currency = fetch( 'shop', 'currency', hash( 'code', $order.productcollection.currency_code ) )
          $locale = false()
-         $symbol = false()}
+         $symbol = false()
+         $order_info = $order.order_info}
 
 {if $currency}
     {set locale = $currency.locale
@@ -22,7 +23,7 @@
 
 {"Subtotal inc. VAT"|i18n("design/base/shop")}: {$order.product_total_inc_vat|l10n( 'currency', $locale, $symbol )}
 
-{foreach $order.order_info.additional_info as $order_item_type => $additional_info}
+{foreach $order_info.additional_info as $order_item_type => $additional_info}
 {if $order_item_type|eq('ezcustomshipping')}
 {"Shipping total inc. VAT"|i18n("design/base/shop")}: {$additional_info.total.total_price_inc_vat|l10n( 'currency', $locale, $symbol )}
 {else}
@@ -38,7 +39,7 @@
 
 {"Subtotal of items ex. VAT"|i18n("design/base/shop")}: {$order.product_total_ex_vat|l10n( 'currency', $locale, $symbol )}
 
-{foreach $order.order_info.additional_info as $order_item_type => $additional_info}
+{foreach $order_info.additional_info as $order_item_type => $additional_info}
 {if $order_item_type|eq('ezcustomshipping')}
 {"Shipping total ex. VAT"|i18n("design/base/shop")}: {$additional_info.total.total_price_ex_vat|l10n( 'currency', $locale, $symbol )}
 {else}
@@ -48,8 +49,8 @@
 {/foreach}
 
 
-{if $order.order_info.additional_info|count|gt(0)}
-{foreach $order.order_info.price_info.items as $vat_value => $order_info
+{if $order_info.additional_info|count|gt(0)}
+{foreach $order_info.price_info.items as $vat_value => $order_info
            sequence array(bglight, bgdark) as $sequence}
 {if $order_info.total_price_vat|gt(0)}
 {"Total VAT"|i18n("design/base/shop")} ({$vat_value}%) {$order_info.total_price_vat|l10n( 'currency', $locale, $symbol )}
