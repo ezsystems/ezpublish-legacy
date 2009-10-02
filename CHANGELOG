@@ -1,30 +1,31 @@
 # v1.0.2
 
+- Fixed bug #15606: Admin Content Tree images not found
 
 
 # v1.0.1  01 Oct 2009
 
-* Fixed: ie6 issue with Y.io.ez
-* Updated YUI 3.0.0 to GA
+- Fixed bug: ie6 issue with Y.io.ez
+- Updated YUI 3.0.0 to GA
 
 
 # v1.0.0  29 Sept 2009
 
-* Added FAQ and CHANGELOG
-* Moved [eZJSCore]Packer=disabled from site.ini to ezjscore.ini to comply with eZ Network certification
+- Added FAQ and CHANGELOG
+- Moved [eZJSCore]Packer=disabled from site.ini to ezjscore.ini to comply with eZ Network certification
 
 
 
 # v1.0.0rc2  19 Sept 2009
 
-* Added link to project website in ezinfo page
-* Don't store $moduleResult['content_info']['persistent_variable'] unless it's already defined (to avoid confusing code that checks for presence of $moduleResult['content_info'])
-* Flatten persistent_variable array to make sure array_unique can actually remove all duplicates
-* Fixed: Access to a kernel module via index_ajax.php
-* Added note in ezinfo about jQuery
-* Fixed url to jQuery to use google cdn and not googlecode
+- Added link to project website in ezinfo page
+- Don't store $moduleResult['content_info']['persistent_variable'] unless it's already defined (to avoid confusing code that checks for presence of $moduleResult['content_info'])
+- Flatten persistent_variable array to make sure array_unique can actually remove all duplicates
+- Fixed bug: Access to a kernel module via index_ajax.php
+- Added note in ezinfo about jQuery
+- Fixed url to jQuery to use google cdn and not googlecode
 
 
 # v1.0.0rc1  17 Sept 2009
 
-Initial version
+- Initial version

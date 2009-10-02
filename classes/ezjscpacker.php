@@ -429,18 +429,18 @@ class ezjscPacker
      */
     static function fixImgPaths( $fileContent, $file )
     {
-        if ( preg_match_all("/url\(\s?[\'|\"]?(.+)[\'|\"]?\s?\)/ix", $fileContent, $urlMatches) )
+        if ( preg_match_all("/url\(\s*[\'|\"]?([A-Za-z0-9_\-\/\.\\%?&#]+)[\'|\"]?\s*\)/ix", $fileContent, $urlMatches) )
         {
            $urlMatches = array_unique( $urlMatches[1] );
            $cssPathArray   = explode( '/', $file );
-           // pop the css file name
+           // Pop the css file name
            array_pop( $cssPathArray );
            $cssPathCount = count( $cssPathArray );
            foreach( $urlMatches as $match )
            {
-               $match = str_replace( array('"', "'"), '', $match );
+               $match = str_replace( '\\', '/', $match );
                $relativeCount = substr_count( $match, '../' );
-               // replace path if it is realtive
+               // Replace path if it is realtive
                if ( $match[0] !== '/' and strpos( $match, 'http:' ) === false )
                {
                    $cssPathSlice = $relativeCount === 0 ? $cssPathArray : array_slice( $cssPathArray  , 0, $cssPathCount - $relativeCount  );
