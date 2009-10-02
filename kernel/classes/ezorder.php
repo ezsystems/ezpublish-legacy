@@ -1539,6 +1539,11 @@ class eZOrder extends eZPersistentObject
                 ksort( $returnArray['additional_info'][$type]['items'] );
             }
         }
+        else
+        {
+            $returnArray['additional_info'] = array();
+        }
+
         ksort( $returnArray['price_info']['items'] );
 
         return $returnArray;
