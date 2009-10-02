@@ -1,12 +1,8 @@
-# v1.0.2
-
-- Fixed bug #15606: Admin Content Tree images not found
-
-
-# v1.0.1  01 Oct 2009
+# v1.1.0alpha1
 
 - Fixed bug: ie6 issue with Y.io.ez
 - Updated YUI 3.0.0 to GA
+- Fixed bug #15606: Admin Content Tree images not found
 
 
 # v1.0.0  29 Sept 2009
