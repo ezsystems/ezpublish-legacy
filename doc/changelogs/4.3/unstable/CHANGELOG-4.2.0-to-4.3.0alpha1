@@ -30,3 +30,4 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Fixed bug #15584: Correct serializeContentObjectAttribute in ezdatetimetype.php file
 - Fixed bug #15231: Bad links in /content/versionview/
 - Fixed bug #15601: Template error: No such attribute for array(2): additional_info
+- Fixed bug #15624: LDAP login handler creates node assignments with wrong versions
