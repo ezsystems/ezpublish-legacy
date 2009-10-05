@@ -903,6 +903,9 @@ class eZLDAPUser extends eZUser
                 // Publish object
                 $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID,
                                                                                              'version' => $version->attribute( 'version' ) ) );
+                // Refetch object
+                $contentObject = eZContentObject::fetch( $contentObjectID );
+                $version = $contentObject->attribute( 'current' );
             }
 
             $LDAPIni = eZINI::instance( 'ldap.ini' );
