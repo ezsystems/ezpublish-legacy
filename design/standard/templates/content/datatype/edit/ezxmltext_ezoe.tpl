@@ -102,7 +102,7 @@
         ez_root_url : {'/'|ezroot},
         ez_extension_url : {'/ezoe/'|ezurl},
         ez_js_url : {'/extension/ezoe/design/standard/javascript/'|ezroot},
-        ez_tinymce_url : {'javascript/tiny_mce_jquery.js'|ezdesign},
+        ez_tinymce_url : {'javascript/tiny_mce.js'|ezdesign},
         ez_contentobject_id : {$attribute.contentobject_id},
         ez_contentobject_version : {$attribute.version},
         spellchecker_rpc_url : {'/ezoe/spellcheck_rpc'|ezurl},
@@ -115,11 +115,11 @@
     // and set urls for plugins so their dialogs work correctly
     (function(){
         var uri = document.location.protocol + '//' + document.location.host + eZOeGlobalSettings.ez_tinymce_url, tps = eZOeGlobalSettings.plugins.split(','), pm = tinymce.PluginManager, tp;
-        tinymce.ScriptLoader.markDone( uri.replace( 'tiny_mce_jquery', 'langs/' + eZOeGlobalSettings.language ) );
+        tinymce.ScriptLoader.markDone( uri.replace( 'tiny_mce', 'langs/' + eZOeGlobalSettings.language ) );
         for (var i = 0, l = tps.length; i < l; i++)
         {
             tp = tps[i].slice(1);
-            pm.urls[ tp ] = uri.replace( 'tiny_mce_jquery.js', 'plugins/' + tp );
+            pm.urls[ tp ] = uri.replace( 'tiny_mce.js', 'plugins/' + tp );
         }
     }())
 
