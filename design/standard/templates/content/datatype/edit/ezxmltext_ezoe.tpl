@@ -22,7 +22,7 @@
          $editor_css_list  = array( concat('skins/', $skin, '/ui.css') )
          $ez_locale        = ezini( 'RegionalSettings', 'Locale', 'site.ini')
          $language         = '-'|concat( $ez_locale )
-         $dependency_js_list   = array( 'tiny_mce_jquery.js', 'ezoe::i18n::'|concat( $language ) )
+         $dependency_js_list   = array( 'ezoe::i18n::'|concat( $language ) )
          $spell_languages = '+English=en'
     }
     {if ezini_hasvariable( 'EditorSettings', 'SkinVariant', 'ezoe.ini',,true() )}
@@ -54,6 +54,7 @@
 
     <!-- Load TinyMCE code -->
     {ezscript_require( 'ezjsc::jquery' )}
+    <script id="tinymce_script_loader" type="text/javascript" src={"javascript/tiny_mce_jquery.js"|ezdesign} charset="utf-8"></script>
     {ezscript( $dependency_js_list )}
     <!-- Init TinyMCE script -->
     <script type="text/javascript">
