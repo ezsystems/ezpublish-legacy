@@ -149,9 +149,9 @@ be re done to work with one of these ezxml extensions.
 After upgrading / updating or changing image settings you cannot select images anymore
 when you browse / search for images.
 
-This is most likely caused by missing iamge alias size 'small', witch is used by ezoe to
+This is most likely caused by missing image alias size 'small', witch is used by ezoe to
 preview images, as well as some templates in eZ Publish / ezwebin uses it as well.
-Future versions of ezoe will probably add a setting to control this, but until then
+A Future version of eZ Publish will maybe add a setting to control this, but until then
 you'll need to add the 'small' image alias.
 More info: http://issues.ez.no/IssueView.php?Id=14921&activeItem=18
  
