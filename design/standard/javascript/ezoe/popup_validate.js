@@ -93,17 +93,17 @@ var AutoValidator = {
 	},
 
 	validate : function(f) {
-		var i, nl, s = this.settings, c = 0;
+		var i, nl, s = this.settings, errorArray = [];
 
 		nl = this.tags(f, 'label');
 		for (i=0; i<nl.length; i++)
 			this.removeClass(nl[i], s.invalid_cls);
 
-		c += this.validateElms(f, 'input');
-		c += this.validateElms(f, 'select');
-		c += this.validateElms(f, 'textarea');
+		errorArray = this.validateElms(f, 'input', errorArray);
+		errorArray = this.validateElms(f, 'select', errorArray);
+		errorArray = this.validateElms(f, 'textarea', errorArray);
 
-		return c == 3;
+		return errorArray;
 	},
 
 	invalidate : function(n) {
@@ -124,8 +124,11 @@ var AutoValidator = {
 		}
 	},
 
-	validateElms : function(f, e) {
-		var nl, i, n, s = this.settings, st = true, va = Validator, v;
+	validateElms : function(f, e, errorArray) {
+		var nl, i, n, s = this.settings, va = Validator, v, label;
+
+		if ( errorArray === undefined )
+			errorArray= [];
 
 		nl = this.tags(f, e);
 		for (i=0; i<nl.length; i++) {
@@ -134,44 +137,72 @@ var AutoValidator = {
 			this.removeClass(n, s.invalid_cls);
 
 			if (this.hasClass(n, s.required_cls) && va.isEmpty(n))
-				st = this.mark(f, n);
-            else if (this.hasClass(n, s.allow_empty) && va.isEmpty(n))
-                continue;
+			{
+				label = this.mark(f, n);
+				errorArray.push( this.getValidatorLang( 'required', {'label': label} ) );
+				
+			}
+			else if (this.hasClass(n, s.allow_empty) && va.isEmpty(n))
+				continue;
 
 			if (this.hasClass(n, s.number_cls) && !va.isNumber(n))
-				st = this.mark(f, n);
+			{
+				label = this.mark(f, n);
+				errorArray.push( this.getValidatorLang( 'number', {'label': label} ) );
+			}
 
 			if (this.hasClass(n, s.int_cls) && !va.isNumber(n, true))
-				st = this.mark(f, n);
+			{
+				label = this.mark(f, n);
+				errorArray.push( this.getValidatorLang( 'int', {'label': label} ) );
+			}
 
 			if (this.hasClass(n, s.url_cls) && !va.isAbsUrl(n))
-				st = this.mark(f, n);
+			{
+				label = this.mark(f, n);
+				errorArray.push( this.getValidatorLang( 'url', {'label': label} ) );
+			}
 
 			if (this.hasClass(n, s.email_cls) && !va.isEmail(n))
-				st = this.mark(f, n);
+			{
+				label = this.mark(f, n);
+				errorArray.push( this.getValidatorLang( 'email', {'label': label} ) );
+			}
 
 			if (this.hasClass(n, s.size_cls) && !va.isSize(n))
-				st = this.mark(f, n);
+			{
+				label = this.mark(f, n);
+				errorArray.push( this.getValidatorLang( 'size', {'label': label} ) );
+			}
 
 			if (this.hasClass(n, s.id_cls) && !va.isId(n))
-				st = this.mark(f, n);
+			{
+				label = this.mark(f, n);
+				errorArray.push( this.getValidatorLang( 'html_id', {'label': label} ) );
+			}
 
 			if (this.hasClass(n, s.min_cls, true)) {
 				v = this.getNum(n, s.min_cls);
 
 				if (isNaN(v) || parseInt(n.value) < parseInt(v))
-					st = this.mark(f, n);
+				{
+					label = this.mark(f, n);
+					errorArray.push( this.getValidatorLang( 'required', {'label': label, 'min': parseInt(v)} ) );
+				}
 			}
 
 			if (this.hasClass(n, s.max_cls, true)) {
 				v = this.getNum(n, s.max_cls);
 
 				if (isNaN(v) || parseInt(n.value) > parseInt(v))
-					st = this.mark(f, n);
+				{
+					label = this.mark(f, n);
+					errorArray.push( this.getValidatorLang( 'required', {'label': label, 'max': parseInt(v)} ) );
+				}
 			}
 		}
 
-		return st;
+		return errorArray;
 	},
 
 	hasClass : function(n, c, d) {
@@ -203,20 +234,35 @@ var AutoValidator = {
 		var s = this.settings;
 
 		this.addClass(n, s.invalid_cls);
-		this.markLabels(f, n, s.invalid_cls);
-
-		return false;
+		return this.markLabels(f, n, s.invalid_cls);;
 	},
 
 	markLabels : function(f, n, ic) {
-		var nl, i;
+		var nl, i, label = n.name;
 
 		nl = this.tags(f, "label");
 		for (i=0; i<nl.length; i++) {
 			if (nl[i].getAttribute("for") == n.id || nl[i].htmlFor == n.id)
+			{
 				this.addClass(nl[i], ic);
+				label = this.innerText( nl[i] );
+			}
 		}
 
-		return null;
+		return label;
+	},
+
+	innerText : function(n) {
+		if ( n.textContent !== undefined )
+			return ez.string.trim( n.textContent );
+		return ez.string.trim( n.innerText );
+	},
+
+	getValidatorLang : function(string, replace) {
+		var i18nSting = tinyMCEPopup.getLang( 'validator_dlg.' + string );
+		for (key in replace) {
+			i18nSting = i18nSting.replace( '<' + key + '>', replace[key] );
+		return i18nSting.replace(/&quot;/g, '"');
+		}
 	}
 };

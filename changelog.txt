@@ -53,6 +53,7 @@ eZ Online Editor 5.0 extension Changelog
 * Implemented #15503: Make ezoe depend on ezjscore to remove code duplication
 * Updated TinyMCE to 3.2.7
 * Use jQuery variant of tinyMCE to reduce size.
+* Implemented: Human readable feedback on custom attribute validation error
 
 5.0.0
 * Fixed regression #13650: [header] ezoe adds a level each time it is called

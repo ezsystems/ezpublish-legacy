@@ -67,6 +67,17 @@ class ezoeServerFunctions extends ezjscServerFunctions
                 'invalid_data' => ezi18n( 'design/standard/ezoe', "Error: Invalid values entered, these are marked in red."),
                 'more_colors' => ezi18n( 'design/standard/ezoe', "More colors")
             ),
+            'validator_dlg' => array(
+                'required' => ezi18n( 'design/standard/ezoe/validator', '&quot;%label&quot; is required and must have a value', null, array( '%label' => '<label>' )),
+                'number' => ezi18n( 'design/standard/ezoe/validator', '&quot;%label&quot; must be a valid number', null, array( '%label' => '<label>' )),
+                'int' => ezi18n( 'design/standard/ezoe/validator', '&quot;%label&quot; must be a valid integer number', null, array( '%label' => '<label>' )),
+                'url' => ezi18n( 'design/standard/ezoe/validator', '&quot;%label&quot; must be a valid absolute url address', null, array( '%label' => '<label>' )),
+                'email' => ezi18n( 'design/standard/ezoe/validator', '&quot;%label&quot; must be a valid email address', null, array( '%label' => '<label>' )),
+                'size' => ezi18n( 'design/standard/ezoe/validator', '&quot;%label&quot; must be a valid css size/unit value', null, array( '%label' => '<label>' )),
+                'html_id' => ezi18n( 'design/standard/ezoe/validator', '&quot;%label&quot; must be a valid html element id', null, array( '%label' => '<label>' )),
+                'min' => ezi18n( 'design/standard/ezoe/validator', '&quot;%label&quot; must be higher then %min', null, array( '%label' => '<label>', '%min' => '<min>' )),
+                'max' => ezi18n( 'design/standard/ezoe/validator', '&quot;%label&quot; must be lower then %max', null, array( '%label' => '<label>', '%max' => '<max>' )),
+            ),
             'contextmenu' => array(
                 'align' => ezi18n( 'design/standard/ezoe', "Alignment"),
                 'left' => ezi18n( 'design/standard/ezoe', "Left"),
@@ -371,7 +382,12 @@ class ezoeServerFunctions extends ezjscServerFunctions
     */
     public static function getCacheTime( $functionName )
     {
-        return 1227728406;
+        static $mtime = null;
+        if ( $mtime === null )
+        {
+            $mtime = filemtime( __FILE__ );
+        }
+        return $mtime;
     }
 }
 

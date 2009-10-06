@@ -160,16 +160,16 @@ var eZOEPopupUtils = {
         }
 
         // validate the general attributes
-        if ( !AutoValidator.validate( ez.$( s.tagName + '_attributes' ).el ) )
+        if ( (errorArray = AutoValidator.validate( ez.$( s.tagName + '_attributes' ).el ) ) && errorArray.length )
         {
-            tinyMCEPopup.alert(tinyMCEPopup.getLang('invalid_data'));
+            tinyMCEPopup.alert(tinyMCEPopup.getLang('invalid_data') + "\n" + errorArray.join(", ") );
             return false;
         }
 
         // validate the custom attributes
-        if ( !AutoValidator.validate( ez.$( s.selectedTag + '_customattributes').el ) )
+        if ( (errorArray = AutoValidator.validate( ez.$( s.selectedTag + '_customattributes' ).el ) ) && errorArray.length )
         {
-            tinyMCEPopup.alert(tinyMCEPopup.getLang('invalid_data'));
+            tinyMCEPopup.alert(tinyMCEPopup.getLang('invalid_data') + "\n" + errorArray.join(", ") );
             return false;
         }
 
@@ -461,11 +461,11 @@ var eZOEPopupUtils = {
                    o.el.checked = values[name] == o.el.value;
                 else if ( o.el.type === 'select-one' )
                 {
-                	// Make sure selecion has value before we set it (#014986)
-                	for( var i = 0, l = o.el.options.length; i < l; i++ )
-                	{
-                    	if ( o.el.options[i].value == values[name] ) o.el.value = values[name];
-                	}
+                    // Make sure selecion has value before we set it (#014986)
+                    for( var i = 0, l = o.el.options.length; i < l; i++ )
+                    {
+                        if ( o.el.options[i].value == values[name] ) o.el.value = values[name];
+                    }
                 }
                 else
                    o.el.value = values[name];
@@ -502,11 +502,11 @@ var eZOEPopupUtils = {
                         o.el.checked = v == o.el.value;
                     else if ( o.el.type === 'select-one' )
                     {
-                    	// Make sure selecion has value before we set it (#014986)
-                    	for( var i = 0, l = o.el.options.length; i < l; i++ )
-                    	{
-                        	if ( o.el.options[i].value == v ) o.el.value = v;
-                    	}
+                        // Make sure selecion has value before we set it (#014986)
+                        for( var i = 0, l = o.el.options.length; i < l; i++ )
+                        {
+                            if ( o.el.options[i].value == v ) o.el.value = v;
+                        }
                     }
                     else
                         o.el.value = v;
