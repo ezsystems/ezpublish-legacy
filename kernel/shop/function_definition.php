@@ -1,6 +1,6 @@
 <?php
 //
-// Created on: <06-æÅ×-2003 10:28:49 sp>
+// Created on: <06-feb-2003 10:28:49 sp>
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ Publish
@@ -110,6 +110,14 @@ $FunctionList['wish_list_count'] = array( 'name' => 'wish_list_count',
                                           'parameters' => array( array( 'name' => 'production_id',
                                                                         'type' => 'integer',
                                                                         'required' => true ) ) );
+$FunctionList['order'] = array( 'name' => 'order',
+                                'operation_types' => array( 'read' ),
+                                'call_method' => array( 'class' => 'eZShopFunctionCollection',
+                                                        'method' => 'fetchOrder' ),
+                                'parameter_type' => 'standard',
+                                'parameters' => array( array( 'name' => 'order_id',
+                                                              'type' => 'integer',
+                                                              'required' => true ) ) );
 $FunctionList['order_status_history_count'] = array( 'name' => 'order_status_history_count',
                                                      'operation_types' => array( 'read' ),
                                                      'call_method' => array( 'class' => 'eZShopFunctionCollection',

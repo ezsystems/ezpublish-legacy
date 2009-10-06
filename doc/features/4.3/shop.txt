@@ -1,0 +1,8 @@
+Webshop improvements
+====================
+
+Fetch function for order
+------------------------
+
+Orders can now be fetched in template code like this:
+{def $my_order = fetch( shop, order, hash( order_id, 42 ) )}

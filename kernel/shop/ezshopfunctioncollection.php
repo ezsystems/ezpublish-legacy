@@ -2,7 +2,7 @@
 //
 // Definition of eZShopFunctionCollection class
 //
-// Created on: <06-æÅ×-2003 10:34:21 sp>
+// Created on: <06-feb-2003 10:34:21 sp>
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ Publish
@@ -217,6 +217,15 @@ class eZShopFunctionCollection
         $wishList = new eZWishList();
         $count = $wishList->itemCount( $production_id );
         return array ( 'result' => $count );
+    }
+
+    /*!
+     Returns the order with id \a $orderID.
+    */
+    function fetchOrder( $orderID )
+    {
+        $order = eZOrder::fetch( $orderID );
+        return array( 'result' => $order );
     }
 
     /*!
