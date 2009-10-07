@@ -1128,8 +1128,21 @@ class eZImageAliasHandler
     {
         if ( !file_exists( $filename ) )
         {
-            eZDebug::writeError( "The image '$filename' does not exist, cannot initialize image attribute with it",
-                                 'eZImageAliasHandler::initializeFromFile' );
+            $contentObjectID = isset( $this->ContentObjectAttributeData['contentobject_id'] ) ? $this->ContentObjectAttributeData['contentobject_id'] : 0;
+            $contentObjectAttributeID = isset( $this->ContentObjectAttributeData['id'] ) ? $this->ContentObjectAttributeData['id'] : 0;
+            $version = isset( $this->ContentObjectAttributeData['version'] ) ? $this->ContentObjectAttributeData['version'] : 0;
+            $contentObject = eZContentObject::fetch( $contentObjectID );
+            $contentObjectAttribute = eZContentObjectAttribute::fetch( $contentObjectAttributeID, $version );
+            $contentObjectAttributeName = '';
+            $contentObjectName = '';
+            
+            if ( $contentObject instanceof eZContentObject )
+                $contentObjectName = $contentObject->attribute('name');
+            
+            if ( $contentObjectAttribute instanceof eZContentObjectAttribute )
+                $contentObjectAttributeName = $contentObjectAttribute->attribute( 'contentclass_attribute_name' );
+            
+            eZDebug::writeError( "The image '$filename' does not exist, cannot initialize image attribute: '$contentObjectAttributeName' (id: $contentObjectAttributeID) for content object: '$contentObjectName' (id: $contentObjectID)", __METHOD__ );
             return false;
         }
 
