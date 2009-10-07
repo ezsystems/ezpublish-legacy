@@ -202,8 +202,6 @@ function checkAll()
         {/section}
 	<td>
         <a href={$:item.url_alias|ezurl}>{node_view_gui view=line content_node=$:item}</a>
-
-{*        {node_view_gui view=line content_node=$:item} *}
 	</td>
     <td>
         {$Child:item.object.class_name|wash}
@@ -245,8 +243,6 @@ function checkAll()
     {section show=$:can_copy}
     {/section}
     {section show=$:can_remove}
-{*    {section show=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset))}
-    list_count*}
     {section show=$list_count}
             <input type="submit" name="RemoveButton" value="{'Remove'|i18n('design/standard/node/view')}" />
 		<input name="selectall" onclick=checkAll() type="button" value="{'Select all'|i18n('design/standard/node/view')}">
