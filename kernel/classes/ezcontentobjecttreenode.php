@@ -3440,6 +3440,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $nodeID       = $this->attribute( 'node_id' );
         $parentNodeID = $this->attribute( 'parent_node_id' );
 
+        // Avoid recursion due to database inconsistencies
+        if ( $nodeID === $parentNodeID )
+        {
+            eZDebug::writeError( "Parent node ID equals node ID for node: $nodeID. The node cannot be a parent of itself!", __METHOD__ );
+            return false;
+        }
+
         // Only set name if current node is not the content root
         $ini = eZINI::instance( 'content.ini' );
         $contentRootID = $ini->variable( 'NodeSettings', 'RootNode' );
@@ -3567,7 +3574,16 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             if ( !isset( $parentNode ) )
                 $parentNode = $this->fetchParent();
-            $pathIdentificationString = $parentNode->attribute( 'path_identification_string' );
+            // Avoid crashes due to database inconsistencies
+            if ( $parentNode instanceof eZContentObjectTreeNode )
+            {
+                $pathIdentificationString = $parentNode->attribute( 'path_identification_string' );
+            }
+            else
+            {
+                eZDebug::writeError( 'Failed to fetch parent node for pathIdentificationName "' . $pathIdentificationName .
+                                     '" and parent_node_id ' . $this->attribute( 'parent_node_id' ), __METHOD__ );
+            }
         }
         if ( strlen( $pathIdentificationString ) > 0 )
             $pathIdentificationString .= '/' . $pathIdentificationName;
