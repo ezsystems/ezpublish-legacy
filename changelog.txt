@@ -54,6 +54,7 @@ eZ Online Editor 5.0 extension Changelog
 * Updated TinyMCE to 3.2.7
 * Use jQuery variant of tinyMCE to reduce size.
 * Implemented: Human readable feedback on custom attribute validation error
+* Implemented: Added support for After the Deadline spellchecker
 
 5.0.0
 * Fixed regression #13650: [header] ezoe adds a level each time it is called

@@ -94,6 +94,12 @@ $ViewList['spellcheck_rpc'] = array(
     'params' => array( )
     );
 
+$ViewList['atd_rpc'] = array(
+    'functions' => array( 'editor' ),
+    'script' => 'atd_rpc.php',
+    'params' => array( )
+    );
+
 
 /*
 $ClassID = array(

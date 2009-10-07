@@ -106,7 +106,10 @@
         ez_contentobject_id : {$attribute.contentobject_id},
         ez_contentobject_version : {$attribute.version},
         spellchecker_rpc_url : {'/ezoe/spellcheck_rpc'|ezurl},
-        spellchecker_languages : '{$spell_languages}'
+        spellchecker_languages : '{$spell_languages}',
+        atd_rpc_url : {'/ezoe/atd_rpc?url='|ezurl},
+        atd_rpc_id  : "your API key here", 
+        atd_css_url : {'javascript/plugins/AtD/css/content.css'|ezdesign},
     {rdelim};
     
     {literal}
