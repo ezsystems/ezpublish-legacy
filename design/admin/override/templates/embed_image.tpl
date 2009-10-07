@@ -2,21 +2,21 @@
 {let image_variation="false"
      align="center"
      attribute_parameters=$object_parameters}
-{section show=is_set($attribute_parameters.size)}
+{if is_set($attribute_parameters.size)}
 {set image_variation=$object.data_map.image.content[$attribute_parameters.size]}
-{section-else}
+{else}
 {set image_variation=$object.data_map.image.content[ezini( 'ImageSettings', 'DefaultEmbedAlias', 'content.ini' )]}
-{/section}
-{section show=is_set($attribute_parameters.align)}
+{/if}
+{if is_set($attribute_parameters.align)}
 {set align=$attribute_parameters.align}
-{section-else}
+{else}
 {set align="center"}
-{/section}
+{/if}
 
 <div class="image{$align}">
-{section show=is_set($link_parameters.href)}<a href={$link_parameters.href|ezurl} target="{$link_parameters.target}">{/section}
+{if is_set($link_parameters.href)}<a href={$link_parameters.href|ezurl} target="{$link_parameters.target}">{/if}
 <img src={$image_variation.full_path|ezroot} alt="{$object.data_map.image.content.alternative_text|wash(xhtml)}" />
-{section show=is_set($link_parameters.href)}</a>{/section}
+{if is_set($link_parameters.href)}</a>{/if}
 
 <div style="width: {$image_variation.width}px;">
 {$object.data_map.caption.content.output.output_text}

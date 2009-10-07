@@ -6,7 +6,7 @@
 </div>
 <div class="block">
 <table cellspacing="0" cellpadding="0" border="0">
-{section show=$choose_versions}
+{if $choose_versions}
     <tr>
       <td><input type="radio" name="VersionChoice" value="1"/></td>
       <td><label>{"Copy all versions."|i18n("design/standard/content/copy_subtree")}</label></td>
@@ -15,8 +15,8 @@
       <td><input type="radio" name="VersionChoice" value="2" checked="checked"/></td>
       <td><label>{"Copy current version."|i18n("design/standard/content/copy_subtree")}</label></td>
     </tr>
-{/section}
-{section show=$choose_creator}
+{/if}
+{if $choose_creator}
     <tr><td></td><td><hr></td></tr>
     <tr>
       <td><input type="radio" name="CreatorChoice" value="1"/></td>
@@ -28,8 +28,8 @@
     </tr>
     </table>
     </div>
-{/section}
-{section show=$choose_time}
+{/if}
+{if $choose_time}
     <tr><td></td><td><hr></td></tr>
     <tr>
       <td><input type="radio" name="TimeChoice" value="1"/></td>
@@ -39,7 +39,7 @@
       <td><input type="radio" name="TimeChoice" value="2" checked="checked"/></td>
       <td><label>{"Copy and publish content objects at current time."|i18n("design/standard/content/copy_subtree")}</label></td>
     </tr>
-{/section}
+{/if}
 </table>
 </div>
 

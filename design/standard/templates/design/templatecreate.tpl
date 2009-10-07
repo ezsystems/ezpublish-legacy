@@ -1,14 +1,14 @@
-{section show=eq( $error, 'permission_denied' )}
+{if eq( $error, 'permission_denied' )}
 <div class="message-error">
 <h2>{'Could not create template, permission denied.'|i18n( 'design/standard/design/templatecreate' )}</h2>
 </div>
-{/section}
+{/if}
 
-{section show=eq( $error, 'invalid_name' )}
+{if eq( $error, 'invalid_name' )}
 <div class="message-error">
 <h2>{'Invalid name. You can only use the characters a-z, numbers and _.'|i18n( 'design/standard/design/templatecreate' )}</h2>
 </div>
-{/section}
+{/if}
 
 <form method="post" action={concat( '/design/templatecreate', $template )|ezurl}>
 

@@ -126,7 +126,7 @@
     <tr class="{$Products.sequence}">
        {if and( $Products.product, $Products.product.main_node )}
             {let node_url=$Products.product.main_node.url_alias}
-                <td class="name">{$Products.product.class_identifier|class_icon( small, $Products.product.class_name )}&nbsp;{section show=$node_url}<a href={$node_url|ezurl}>{/section}{$Products.product.name|wash}{section show=$node_url}</a>{/section}</td>
+                <td class="name">{$Products.product.class_identifier|class_icon( small, $Products.product.class_name )}&nbsp;{if $node_url}<a href={$node_url|ezurl}>{/if}{$Products.product.name|wash}{if $node_url}</a>{/if}</td>
             {/let}
         {else}
             <td class="name">{false()|class_icon( small )}&nbsp;{$Products.name|wash}</td>

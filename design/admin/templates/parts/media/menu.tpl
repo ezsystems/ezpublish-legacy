@@ -2,11 +2,11 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-{section show=ezpreference( 'admin_treemenu' )}
+{if ezpreference( 'admin_treemenu' )}
 <h4><a class="showhide" href={'/user/preferences/set/admin_treemenu/0'|ezurl} title="Hide media library."><span class="bracket">[</span>-<span class="bracket">]</span></a> {'Media library'|i18n( 'design/admin/parts/media/menu' )}</h4>
-{section-else}
+{else}
 <h4><a class="showhide" href={'/user/preferences/set/admin_treemenu/1'|ezurl} title="Show media library."><span class="bracket">[</span>+<span class="bracket">]</span></a> {'Media library'|i18n( 'design/admin/parts/media/menu' )}</h4>
-{/section}
+{/if}
 
 {* DESIGN: Header END *}</div></div></div></div></div></div>
 
@@ -14,23 +14,23 @@
 
 {* Treemenu. *}
 <div id="contentstructure">
-{section show=ezpreference( 'admin_treemenu' )}
+{if ezpreference( 'admin_treemenu' )}
     {if ezini('TreeMenu','Dynamic','contentstructuremenu.ini')|eq('enabled')}
         {include uri='design:contentstructuremenu/content_structure_menu_dynamic.tpl' custom_root_node_id=ezini( 'NodeSettings', 'MediaRootNode', 'content.ini')}
     {else}
         {include uri='design:contentstructuremenu/content_structure_menu.tpl' custom_root_node_id=ezini( 'NodeSettings', 'MediaRootNode', 'content.ini')}
     {/if}
-{/section}
+{/if}
 </div>
 
 {* Trashcan. *}
-{section show=ne( $ui_context, 'browse' )}
+{if ne( $ui_context, 'browse' )}
 <div id="trash">
 <ul>
     <li><img src={'trash-icon-16x16.gif'|ezimage} width="16" height="16" alt="Trash" />&nbsp;<a href={concat( '/content/trash/', ezini( 'NodeSettings', 'RootNode', 'content.ini' ) )|ezurl} title="{'View and manage the contents of the trash bin.'|i18n( 'design/admin/parts/media/menu' )}">{'Trash'|i18n( 'design/admin/parts/media/menu' )}</a></li>
 </ul>
 </div>
-{/section}
+{/if}
 
 {* Left menu width control. *}
 <div class="widthcontrol">

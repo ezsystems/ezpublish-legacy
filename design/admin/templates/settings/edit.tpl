@@ -5,11 +5,11 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 <h1 class="context-title">
-{section show=$setting_name}
+{if $setting_name}
     {'Edit setting %setting'|i18n('design/admin/settings',,hash( '%setting', $setting_name ) )}
-{section-else}
+{else}
     {'New setting'|i18n('design/admin/settings')}
-{/section}
+{/if}
 </h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
@@ -23,11 +23,11 @@
     <h2>{'Ini setting'|i18n( 'design/admin/settings')}</h2>
     <p><strong>{'Ini File'|i18n( 'design/admin/settings' )}:</strong> {$ini_file}</p>
     <p><strong>{'Block'|i18n( 'design/admin/settings')}:</strong> {$block}</p>
-    {section show=$setting_name}
+    {if $setting_name}
         <p><strong>{'Setting'|i18n( 'design/admin/settings' )}:</strong> {$setting_name}</p>
-        {section-else}
+        {else}
         <p><strong>{'Setting: <new setting>'|i18n( 'design/admin/settings' )|wash}</strong></p>
-    {/section}
+    {/if}
     <p><strong>{'Siteaccess'|i18n( 'design/admin/settings' )}:</strong> {$current_siteaccess}</p>
     <p>{'Values for each location setting are shown. The first values have lowest priority; the values toward the end have higher priority than the first ones.'|i18n( 'design/admin/settings' )|wash}</p>
     <p><strong>{'Tip'|i18n( 'design/admin/settings' )}:</strong>{'To create an empty array leave the first line empty'|i18n( 'design/admin/settings' )} </p>
@@ -36,11 +36,11 @@
             <label>{'Change setting type'|i18n( 'design/admin/settings')}:</label>
             <select name="SettingType" onchange="submit()">
             {section name=Files loop=$setting_type_array}
-                {section show=eq( $:key, $setting_type )}
+                {if eq( $:key, $setting_type )}
                     <option value="{$:key}" selected="selected">{$:item}</option>
-                {section-else}
+                {else}
                     <option value="{$:key}">{$:item}</option>
-                {/section}
+                {/if}
             {/section}
             </select>
         </div>
@@ -78,7 +78,7 @@
     </td>
 </tr>
 <tr>
-    <td><label><input type="radio" name="SettingPlacement" {section show=eq( $placement, "siteaccess" )}checked="checked"{/section} value="siteaccess">{'Siteaccess setting'|i18n('design/admin/settings')}</label></td>
+    <td><label><input type="radio" name="SettingPlacement" {if eq( $placement, "siteaccess" )}checked="checked"{/if} value="siteaccess">{'Siteaccess setting'|i18n('design/admin/settings')}</label></td>
     <td>
 	{if and( is_set( $values['siteaccess'] ), ne( $values['siteaccess'], false() ) )}
 	    {$values['siteaccess']}
@@ -100,7 +100,7 @@
 </tr>
 {/foreach}
 <tr>
-    <td><label><input type="radio" name="SettingPlacement" value="override" {section show=ne( $placement, "siteaccess" )}checked="checked"{/section}>{'Override setting (global)'|i18n( 'design/admin/settings' )}</label></td>
+    <td><label><input type="radio" name="SettingPlacement" value="override" {if ne( $placement, "siteaccess" )}checked="checked"{/if}>{'Override setting (global)'|i18n( 'design/admin/settings' )}</label></td>
     <td>
         {if and( is_set( $values['override'] ), ne( $values['override'], false() ) )}
 	    {$values['override']}
@@ -114,14 +114,14 @@
 
 <input type="hidden" name="Block" value="{$block}" />
 
-{section show=$setting_name}
+{if $setting_name}
     <input type="hidden" name="SettingName" value="{$setting_name}" />
-{section-else}
+{else}
     <div class="block">
         <label>{'Setting name'|i18n( 'design/admin/settings' )}:</label>
         <input type="text" size="20" name="SettingName" value="" />
     </div>
-{/section}
+{/if}
 
 <div class="block">
     <label>{'Setting value'|i18n( 'design/admin/settings' )}:</label>
@@ -132,24 +132,24 @@
     {/case}
     {case match='enable/disable'}
         <select name="Value">
-        {section show= eq( $value, 'enabled' )}
+        {if  eq( $value, 'enabled' )}
             <option value="enabled" selected="selected">{'Enabled'|i18n( 'design/admin/settings' )}</option>
             <option value="disabled">{'Disabled'|i18n( 'design/admin/settings' )}</option>
-            {section-else}
+            {else}
             <option value="disabled" selected="selected">{'Disabled'|i18n( 'design/admin/settings' )}</option>
             <option value="enabled">{'Enabled'|i18n( 'design/admin/settings' )}</option>
-        {/section}
+        {/if}
         </select>
     {/case}
     {case match='true/false'}
         <select name="Value">
-        {section show=eq( $value, 'true' )}
+        {if eq( $value, 'true' )}
             <option value="true" selected="selected">{'True'|i18n( 'design/admin/settings' )}</option>
             <option value="false">{'False'|i18n( 'design/admin/settings' )}</option>
-            {section-else}
+            {else}
             <option value="false" selected="selected">{'False'|i18n( 'design/admin/settings' )}</option>
             <option value="true">{'True'|i18n( 'design/admin/settings' )}</option>
-        {/section}
+        {/if}
         </select>
     {/case}
     {case}

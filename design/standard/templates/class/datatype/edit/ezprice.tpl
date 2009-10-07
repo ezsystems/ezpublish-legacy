@@ -3,8 +3,8 @@
 <div class="block">
 <label>{'Default VAT'|i18n( 'design/standard/class/datatype' )}:</label>
 <select name="ContentClass_ezprice_include_vat_{$class_attribute.id}">
-<option value="1" {section show=eq( $class_attribute.data_int1, 1 )}selected="selected"{/section}>{'Price inc. VAT'|i18n( 'design/standard/class/datatype' )}</option>
-<option value="2" {section show=eq( $class_attribute.data_int1, 2 )}selected="selected"{/section}>{'Price ex. VAT'|i18n( 'design/standard/class/datatype' )}</option>
+<option value="1" {if eq( $class_attribute.data_int1, 1 )}selected="selected"{/if}>{'Price inc. VAT'|i18n( 'design/standard/class/datatype' )}</option>
+<option value="2" {if eq( $class_attribute.data_int1, 2 )}selected="selected"{/if}>{'Price ex. VAT'|i18n( 'design/standard/class/datatype' )}</option>
 </select>
 </div>
 

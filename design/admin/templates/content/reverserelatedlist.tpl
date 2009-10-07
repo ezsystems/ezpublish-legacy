@@ -13,13 +13,13 @@
 
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
-{section show=and( is_set( $children_list ), $children_list )}
+{if and( is_set( $children_list ), $children_list )}
 	{include uri='design:content/children_reverserelatedlist.tpl'}
-{section-else}
+{else}
 <div class="block">
 	<p>{'This subtree/item has no external relations.'|i18n( 'design/admin/content/reverserelatedlist' )}</p>
 </div>
-{/section}
+{/if}
 
 {* DESIGN: Content END *}</div></div></div></div></div></div>
 

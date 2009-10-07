@@ -37,11 +37,11 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-    {section show=$discountgroup_array}
+    {if $discountgroup_array}
     <input class="button" type="submit" name="RemoveDiscountGroupButton" value="{'Remove selected'|i18n( 'design/admin/shop/discountgroup' )}" title="{'Remove selected discount groups.'|i18n( 'design/admin/shop/discountgroup' )}" />
-    {section-else}
+    {else}
     <input class="button-disabled" type="submit" name="RemoveDiscountGroupButton" value="{'Remove selected'|i18n( 'design/admin/shop/discountgroup' )}" disabled="disabled" />
-    {/section}
+    {/if}
     <input class="button" type="submit" name="AddDiscountGroupButton" value="{'New discount group'|i18n( 'design/admin/shop/discountgroup' )}" title="{'Create a new discount group.'|i18n( 'design/admin/shop/discountgroup' )}" />
 </div>
 </div>

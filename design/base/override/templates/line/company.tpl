@@ -5,11 +5,11 @@
 
     <h2><a href={$node.url_alias|ezurl}>{$node.name|wash}</a> ( {attribute_view_gui attribute=$node.data_map.company_number} )</h2>
 
-    {section show=$node.data_map.logo.content}
+    {if $node.data_map.logo.content}
         <div class="attribute-image">
             {attribute_view_gui attribute=$node.data_map.logo.content.data_map.image alignment=right image_class=small href=$node.url_alias|ezurl}
         </div>
-    {/section}
+    {/if}
 
     <div class="attribute-matrix">
     <h3>{"Contact information"|i18n("design/base")}</h3>

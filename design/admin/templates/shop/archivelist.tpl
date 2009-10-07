@@ -18,24 +18,24 @@
 <div class="block">
 <div class="left">
 <p>
-{section show=eq( ezpreference( 'admin_archivelist_sortfield' ), 'user_name' )}
+{if eq( ezpreference( 'admin_archivelist_sortfield' ), 'user_name' )}
     <a href={'/user/preferences/set/admin_archivelist_sortfield/time/shop/archivelist/'|ezurl}>{'Time'|i18n( 'design/admin/shop/archivelist' )}</a>
     <span class="current">{'Customer'|i18n( 'design/admin/shop/archivelist' )}</span>
-{section-else}
+{else}
     <span class="current">{'Time'|i18n( 'design/admin/shop/archivelist' )}</span>
     <a href={'/user/preferences/set/admin_archivelist_sortfield/user_name/shop/archivelist/'|ezurl}>{'Customer'|i18n( 'design/admin/shop/archivelist' )}</a>
-{/section}
+{/if}
 </p>
 </div>
 <div class="right">
 <p>
-{section show=eq( ezpreference( 'admin_archivelist_sortorder' ), 'desc' )}
+{if eq( ezpreference( 'admin_archivelist_sortorder' ), 'desc' )}
     <a href={'/user/preferences/set/admin_archivelist_sortorder/asc/shop/archivelist/'|ezurl}>{'Ascending'|i18n( 'design/admin/shop/archivelist' )}</a>
     <span class="current">{'Descending'|i18n( 'design/admin/shop/archivelist' )}</span>
-{section-else}
+{else}
     <span class="current">{'Ascending'|i18n( 'design/admin/shop/archivelist' )}</span>
     <a href={'/user/preferences/set/admin_archivelist_sortorder/desc/shop/archivelist/'|ezurl}>{'Descending'|i18n( 'design/admin/shop/archivelist' )}</a>
-{/section}
+{/if}
 </p>
 </div>
 
@@ -110,11 +110,11 @@
 
 <div class="block">
 <div class="button-left">
-{section show=$archive_list}
+{if $archive_list}
     <input class="button" type="submit" name="UnarchiveButton" value="{'Unarchive selected'|i18n( 'design/admin/shop/archivelist' )}" title="{'Unarchive selected orders.'|i18n( 'design/admin/shop/archivelist' )}" />
-{section-else}
+{else}
     <input class="button-disabled" type="submit" name="UnarchiveButton" value="{'Unarchive selected'|i18n( 'design/admin/shop/archivelist' )}" disabled="disabled" />
-{/section}
+{/if}
 </div>
 <div class="break"></div>
 

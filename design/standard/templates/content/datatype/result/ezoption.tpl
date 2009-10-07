@@ -15,9 +15,9 @@
 <table width="300">
 <tr>
 {let item_count=0}
-{section show=is_set($item_counts[$:item.id])}
+{if is_set($item_counts[$:item.id])}
   {set item_count=$item_counts[$:item.id]}
-{/section}
+{/if}
 <td bgcolor="ffff00" width="{div(mul($:item_count,300),$total_count)}">
 &nbsp;
 </td>

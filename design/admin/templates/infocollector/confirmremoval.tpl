@@ -14,11 +14,11 @@
 
 <h2>{'Are you sure you want to remove the collected information?'|i18n( 'design/admin/infocollector/confirmremoval' )}</h2>
 
-{section show=$collections|lt( 2 )}
+{if $collections|lt( 2 )}
 <p>{'%collections collection will be removed.'|i18n( 'design/admin/infocollector/confirmremoval',, hash( '%collections', $collections ) )}</p>
-{section-else}
+{else}
 <p>{'%collections collections will be removed.'|i18n( 'design/admin/infocollector/confirmremoval',, hash( '%collections', $collections ) )}</p>
-{/section}
+{/if}
 
 </div>
 
@@ -30,11 +30,11 @@
 
 <div class="block">
 
-{section show=$remove_type|eq( 'objects' )}
+{if $remove_type|eq( 'objects' )}
 <form action={$module.functions.overview.uri|ezurl} method="post" name="CollectionRemove">
-{section-else}
+{else}
 <form action={concat( $module.functions.collectionlist.uri, '/', $object_id )|ezurl} method="post" name="CollectionRemove">
-{/section}
+{/if}
     <input class="button" type="submit" name="ConfirmRemoveButton" value="{'OK'|i18n( 'design/admin/infocollector/confirmremoval' )}" />
     <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n( 'design/admin/infocollector/confirmremoval' )}" />
 </form>

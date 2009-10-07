@@ -7,17 +7,17 @@
 {'Username'|i18n('design/standard/user/register')}: {$user.login}
 {'Email'|i18n('design/standard/user/register')}: {$user.email}
 
-{section show=$password}
+{if $password}
 {'Password'|i18n('design/standard/user/register')}: {$password}
-{/section}
+{/if}
 
 
-{section show=and( is_set( $hash ), $hash )}
+{if and( is_set( $hash ), $hash )}
 
 {'Click the following URL to confirm your account'|i18n('design/standard/user/register')}
 http://{$hostname}{concat( 'user/activate/', $hash, '/', $object.main_node_id )|ezurl(no)}
 
-{/section}
+{/if}
 
 
 {'Link to user information'|i18n('design/standard/user/register')}:

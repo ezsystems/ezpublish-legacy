@@ -21,29 +21,29 @@
     {case match=2}
         {'Current datetime'|i18n( 'design/standard/class/datatype' )}
 
-        {section show=$class_attribute.content.year}
-        {section show=$class_attribute.content.year|gt(0)}+{/section}{$class_attribute.content.year} {'year(s)'|i18n( 'design/standard/class/datatype' )}
-        {/section}
+        {if $class_attribute.content.year}
+        {if $class_attribute.content.year|gt(0)}+{/if}{$class_attribute.content.year} {'year(s)'|i18n( 'design/standard/class/datatype' )}
+        {/if}
 
-        {section show=$class_attribute.content.month}
-        {section show=$class_attribute.content.month|gt(0)}+{/section}{$class_attribute.content.month} {'month(s)'|i18n( 'design/standard/class/datatype' )}
-        {/section}
+        {if $class_attribute.content.month}
+        {if $class_attribute.content.month|gt(0)}+{/if}{$class_attribute.content.month} {'month(s)'|i18n( 'design/standard/class/datatype' )}
+        {/if}
 
-        {section show=$class_attribute.content.day}
-        {section show=$class_attribute.content.day|gt(0)}+{/section}{$class_attribute.content.day} {'day(s)'|i18n( 'design/standard/class/datatype' )}
-        {/section}
+        {if $class_attribute.content.day}
+        {if $class_attribute.content.day|gt(0)}+{/if}{$class_attribute.content.day} {'day(s)'|i18n( 'design/standard/class/datatype' )}
+        {/if}
 
-        {section show=$class_attribute.content.hour}
-        {section show=$class_attribute.content.hour|gt(0)}+{/section}{$class_attribute.content.hour} {'hour(s)'|i18n( 'design/standard/class/datatype' )}
-        {/section}
+        {if $class_attribute.content.hour}
+        {if $class_attribute.content.hour|gt(0)}+{/if}{$class_attribute.content.hour} {'hour(s)'|i18n( 'design/standard/class/datatype' )}
+        {/if}
 
-        {section show=$class_attribute.content.minute}
-        {section show=$class_attribute.content.minute|gt(0)}+{/section}{$class_attribute.content.minute} {'minute(s)'|i18n( 'design/standard/class/datatype' )}
-        {/section}
+        {if $class_attribute.content.minute}
+        {if $class_attribute.content.minute|gt(0)}+{/if}{$class_attribute.content.minute} {'minute(s)'|i18n( 'design/standard/class/datatype' )}
+        {/if}
 
-        {section show=and( $class_attribute.data_int2|eq(1), $class_attribute.content.second )}
-        {section show=$class_attribute.content.second|gt(0)}+{/section}{$class_attribute.content.second} {'seconds(s)'|i18n( 'design/standard/class/datatype' )}
-        {/section}
+        {if and( $class_attribute.data_int2|eq(1), $class_attribute.content.second )}
+        {if $class_attribute.content.second|gt(0)}+{/if}{$class_attribute.content.second} {'seconds(s)'|i18n( 'design/standard/class/datatype' )}
+        {/if}
     {/case}
 
     {case}

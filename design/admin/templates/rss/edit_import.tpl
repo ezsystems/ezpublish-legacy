@@ -103,7 +103,7 @@
     {* Active. *}
     <div class="block">
     <label>{"Active"|i18n( 'design/admin/rss/edit_import' )}:</label>
-    <input type="checkbox" name="active" {section show=$rss_import.active|eq(1)}checked="checked"{/section} title="{'Use this checkbox to control if the RSS feed is active or not. An inactive feed will not be automatically updated.'|i18n('design/admin/rss/edit_import')}" />
+    <input type="checkbox" name="active" {if $rss_import.active|eq(1)}checked="checked"{/if} title="{'Use this checkbox to control if the RSS feed is active or not. An inactive feed will not be automatically updated.'|i18n('design/admin/rss/edit_import')}" />
     </div>
     {/if}
 

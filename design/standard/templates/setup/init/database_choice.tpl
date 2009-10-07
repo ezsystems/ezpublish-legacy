@@ -28,7 +28,7 @@
 {section name=DB loop=$database_list}
 <tr>
   <td class="normal" rowspan="1" valign="top">
-  <input type="radio" id="eZSetupDatabase{$:item.type}" name="eZSetupDatabaseType" value="{$:item.type}" {section show=eq( $:item.type, $database_info.type )}checked="checked" {/section}/>
+  <input type="radio" id="eZSetupDatabase{$:item.type}" name="eZSetupDatabaseType" value="{$:item.type}" {if eq( $:item.type, $database_info.type )}checked="checked" {/if}/>
   </td>
   <td class="normal"><label class="radio" for="eZSetupDatabase{$:item.type}">{$:item.name}</label></td>
 </tr>

@@ -56,22 +56,22 @@
 	<th>
 	{"Creator"|i18n("design/standard/content/version")}:
 	</th>
-	{section show=$can_edit}
+	{if $can_edit}
 	<th colspan="2">
 	{"Modified"|i18n("design/standard/content/version")}:
 	</th>
-	{/section}
+	{/if}
 </tr>
 {section name=Version loop=$version_list sequence=array(bglight,bgdark)}
 <tr>
     <td class="{$Version:sequence}">
-    {section show=and($Version:item.can_remove,or(eq($Version:item.status,0),eq($Version:item.status,3),eq($Version:item.status,4)))}
+    {if and($Version:item.can_remove,or(eq($Version:item.status,0),eq($Version:item.status,3),eq($Version:item.status,4)))}
 	    <input type="checkbox" name="DeleteIDArray[]" value="{$Version:item.id}" />
-    {/section}
+    {/if}
     </td>
 	<td class="{$Version:sequence}">
 	<a href={concat("/content/versionview/",$object.id,"/",$Version:item.version,"/",$Version:item.initial_language.locale)|ezurl}>{$Version:item.version}</a>
-        {section show=eq($Version:item.version,$object.current_version)}*{/section}
+        {if eq($Version:item.version,$object.current_version)}*{/if}
 
 	</td>
 	<td class="{$Version:sequence}">
@@ -88,11 +88,11 @@
 	<td class="{$Version:sequence}">
 	<span class="small">{$Version:item.modified|l10n(shortdatetime)}</span>
 	</td>
-	{section show=$can_edit}
+	{if $can_edit}
 	<td class="{$Version:sequence}">
-	<input type="radio" name="RevertToVersionID" value="{$Version:item.version}" {section show=eq($Version:item.version,$edit_version)}checked="checked"{/section} />
+	<input type="radio" name="RevertToVersionID" value="{$Version:item.version}" {if eq($Version:item.version,$edit_version)}checked="checked"{/if} />
 	</td>
-	{/section}
+	{/if}
 </tr>
 {/section}
 <tr>
@@ -109,12 +109,12 @@
          view_parameters=$view_parameters
          item_limit=$page_limit}
 
-{section show=$can_edit}
+{if $can_edit}
 <div class="buttonblock" align="right">
 <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/content/version')}" />
 <input class="button" type="submit" name="CopyVersionButton" value="{'Copy and edit'|i18n('design/standard/content/version')}" />
 </div>
-{/section}
+{/if}
 
 </form>
 

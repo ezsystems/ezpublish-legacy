@@ -9,8 +9,8 @@
      <option value="user_name" {switch match=$sort_field}{case match="user_name"} selected="selected"{/case}{case}{/case}{/switch}>{'User Name'|i18n('design/standard/shop')}</option>
      <option value="order_nr" {switch match=$sort_field}{case match="order_nr"} selected="selected"{/case}{case}{/case}{/switch}>{'Order ID'|i18n('design/standard/shop')}</option>
 </select>
-<img src={"asc-transp.gif"|ezimage} alt="{'Ascending'|i18n('design/standard/shop')}" title="{'Sort ascending'|i18n('design/standard/shop')}" /><input type="radio" name="SortOrder" value="asc" {section show=eq($sort_order,"asc")}checked="checked"{/section} />
-<img src={"desc-transp.gif"|ezimage} alt="{'Descending'|i18n('design/standard/shop')}" title="{'Sort descending'|i18n('design/standard/shop')}" /><input type="radio" name="SortOrder" value="desc" {section show=eq($sort_order,"desc")}checked="checked"{/section} />
+<img src={"asc-transp.gif"|ezimage} alt="{'Ascending'|i18n('design/standard/shop')}" title="{'Sort ascending'|i18n('design/standard/shop')}" /><input type="radio" name="SortOrder" value="asc" {if eq($sort_order,"asc")}checked="checked"{/if} />
+<img src={"desc-transp.gif"|ezimage} alt="{'Descending'|i18n('design/standard/shop')}" title="{'Sort descending'|i18n('design/standard/shop')}" /><input type="radio" name="SortOrder" value="desc" {if eq($sort_order,"desc")}checked="checked"{/if} />
 {include uri="design:gui/button.tpl" name=Sort id_name=SortButton value="Sort"|i18n("design/standard/shop")}       
 
 {section show=$archive_list}

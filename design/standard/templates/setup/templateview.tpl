@@ -9,11 +9,11 @@
 
 <select name="CurrentSiteAccess">
 {section name=SiteAccess loop=ezini('SiteAccessSettings','RelatedSiteAccessList')}
-    {section show=eq($current_siteaccess,$:item)}
+    {if eq($current_siteaccess,$:item)}
         <option value="{$SiteAccess:item}" selected="selected">{$:item}</option>
-    {section-else}
+    {else}
         <option value="{$SiteAccess:item}">{$:item}</option>
-    {/section}
+    {/if}
 {/section}
 </select>
 <input type="submit" value="{"Set"|i18n("design/standard/setup")}" name="SelectCurrentSiteAccessButton" />

@@ -6,7 +6,7 @@
 
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
-{section show=eq( $ui_context, 'edit' )}
+{if eq( $ui_context, 'edit' )}
 
 <ul>
     <li><div><span class="disabled">{'Look and feel'|i18n( 'design/admin/parts/visual/menu' )}</span></div></li>
@@ -15,7 +15,7 @@
     <li><div><span class="disabled">{'Templates'|i18n( 'design/admin/parts/visual/menu' )}</span></div></li>
 </ul>
 
-{section-else}
+{else}
 
 <ul>
     {def $template_look_class = fetch( 'content', 'class', hash( 'class_id', 'template_look' ) )}
@@ -29,7 +29,7 @@
     <li><div><a href={'/visual/templatelist/'|ezurl}>{'Templates'|i18n( 'design/admin/parts/visual/menu' )}</a></div></li>
 </ul>
 
-{/section}
+{/if}
 
 {* DESIGN: Content END *}</div></div></div></div></div></div>
 

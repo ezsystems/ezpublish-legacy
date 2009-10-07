@@ -11,21 +11,21 @@
 
     <div class="content-media">
     {let attribute=$node.data_map.file}
-    {section show=$attribute.has_content}
-        <object {section show=$attribute.content.width|gt( 0 )}width="{$attribute.content.width}"{/section} {section show=$attribute.content.height|gt( 0 )}height="{$attribute.content.height}"{/section} codebase="http://www.apple.com/qtactivex/qtplugin.cab">
+    {if $attribute.has_content}
+        <object {if $attribute.content.width|gt( 0 )}width="{$attribute.content.width}"{/if} {if $attribute.content.height|gt( 0 )}height="{$attribute.content.height}"{/if} codebase="http://www.apple.com/qtactivex/qtplugin.cab">
         <param name="movie" value={concat("content/download/",$attribute.contentobject_id,"/",$attribute.content.contentobject_attribute_id,"/",$attribute.content.original_filename)|ezurl} />
-        <param name="controller" value="{section show=$attribute.content.has_controller}true{/section}" />
-        <param name="autoplay" value="{section show=$attribute.content.is_autoplay}true{/section}" />
-        <param name="loop" value="{section show=$attribute.content.is_loop}true{/section}" />
+        <param name="controller" value="{if $attribute.content.has_controller}true{/if}" />
+        <param name="autoplay" value="{if $attribute.content.is_autoplay}true{/if}" />
+        <param name="loop" value="{if $attribute.content.is_loop}true{/if}" />
         <embed src={concat("content/download/",$attribute.contentobject_id,"/",$attribute.content.contentobject_attribute_id,"/",$attribute.content.original_filename)|ezurl}
                pluginspage="{$attribute.content.pluginspage}"
-               {section show=$attribute.content.width|gt( 0 )}width="{$attribute.content.width}"{/section} {section show=$attribute.content.height|gt( 0 )}height="{$attribute.content.height}"{/section} play="{section show=$attribute.content.is_autoplay}true{/section}"
-               loop="{section show=$attribute.content.is_loop}true{/section}" controller="{section show=$attribute.content.has_controller}true{/section}" >
+               {if $attribute.content.width|gt( 0 )}width="{$attribute.content.width}"{/if} {if $attribute.content.height|gt( 0 )}height="{$attribute.content.height}"{/if} play="{if $attribute.content.is_autoplay}true{/if}"
+               loop="{if $attribute.content.is_loop}true{/if}" controller="{if $attribute.content.has_controller}true{/if}" >
         </embed>
         </object>
-    {section-else}
+    {else}
         {'No media file is available.'|i18n( 'design/admin/content/datatype' )}
-    {/section}
+    {/if}
     {/let}
     </div>
 

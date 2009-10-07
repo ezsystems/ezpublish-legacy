@@ -11,28 +11,28 @@
 {set has_variations=true()}
 {/section}
 
-{section show=eq($regional_info.language_type,1)}
+{if eq($regional_info.language_type,1)}
  <p>
   {"Select the language this site should support."|i18n("design/standard/setup/init")}
-  {section show=$has_variations}
+  {if $has_variations}
    {"Select your language then click the"|i18n("design/standard/setup/init")} <i>{"Summary"|i18n("design/standard/setup/init")}</i> {"button, or the"|i18n("design/standard/setup/init")} <i>{"Language Details"|i18n("design/standard/setup/init")}</i> {"button to select language variations."|i18n("design/standard/setup/init")}
-  {section-else}
+  {else}
    {"Select your language then click the"|i18n("design/standard/setup/init")} <i>{"Summary"|i18n("design/standard/setup/init")}</i> {"button."|i18n("design/standard/setup/init")}
-  {/section}
+  {/if}
  </p>
-{section-else}
+{else}
  <p>
   {"Select the languages this site should support. Select your primary language and check any additional languages."|i18n("design/standard/setup/init")}
-  {section show=$has_variations}
+  {if $has_variations}
    {"Once you are done, click the"|i18n("design/standard/setup/init")} <i>{"Summary"|i18n("design/standard/setup/init")}</i> {"button, or the"|i18n("design/standard/setup/init")} <i>{"Language Details"|i18n("design/standard/setup/init")}</i> {"button to select language variations."|i18n("design/standard/setup/init")}
-  {section-else}
+  {else}
    {"Once you are done, click the"|i18n("design/standard/setup/init")} <i>{"Summary"|i18n("design/standard/setup/init")}</i> {"button."|i18n("design/standard/setup/init")}
-  {/section}
+  {/if}
  </p>
- {section show=eq($regional_info.language_type,3)}
+ {if eq($regional_info.language_type,3)}
   <p>{"The languages you choose will help determine the charset to use on the site."|i18n("design/standard/setup/init")}</p>
- {/section}
-{/section}
+ {/if}
+{/if}
 
 <div class="input_highlight">
 <table cellspacing="0" cellpadding="0" border="0">
@@ -43,18 +43,18 @@
   <td class="normal">
     {$:item.language_name}
   </td>
-{section show=eq($regional_info.language_type,1)}
+{if eq($regional_info.language_type,1)}
   <td align="right" class="normal">
-{section-else}
+{else}
   <td align="right" colspan="2" class="normal">
-{/section}
-    <input type="radio" name="eZSetupPrimaryLanguage" value="{$:item.locale_full_code}" {section show=eq($regional_info.primary_language,$:item.locale_full_code)}checked="checked"{/section} />
+{/if}
+    <input type="radio" name="eZSetupPrimaryLanguage" value="{$:item.locale_full_code}" {if eq($regional_info.primary_language,$:item.locale_full_code)}checked="checked"{/if} />
   </td>
-{section show=ne($regional_info.language_type,1)}
+{if ne($regional_info.language_type,1)}
   <td align="right" class="normal">
     <input type="checkbox" name="eZSetupLanguages[]" value="{$:item.locale_full_code}" {switch match=$:item.locale_full_code}{case in=$regional_info.languages}checked="checked"{/case}{case/}{/switch} />
   </td>
-{/section}
+{/if}
 </tr>
 {/section}
 </table>
@@ -62,13 +62,13 @@
 
   <div class="buttonblock">
     <input type="hidden" name="ChangeStepAction" value="" />
-{* {section show=ne($regional_info.language_type,1)} *}
+{* {if ne($regional_info.language_type,1)} *}
     <input class="defaultbutton" type="submit" name="StepButton_7" value="{'Summary'|i18n('design/standard/setup/init')} >>" />
-{section show=$has_variations}
+{if $has_variations}
     <input type="hidden" name="eZSetupChooseVariations" value="" />
     <input class="button" type="submit" name="StepButton_6" value="{'Language Details'|i18n('design/standard/setup/init')} >" />
-{/section}
-{* {/section} *}
+{/if}
+{* {/if} *}
   </div>
   {include uri='design:setup/persistence.tpl'}
 </form>

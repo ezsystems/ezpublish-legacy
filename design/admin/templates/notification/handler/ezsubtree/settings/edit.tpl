@@ -81,11 +81,11 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
     <div class="block">
-        {section show=$subscribed_nodes}
+        {if $subscribed_nodes}
         <input class="button" type="submit" name="RemoveRule_{$handler.id_string}" value="{'Remove selected'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit' )}" title="{'Remove selected items.'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit' )}" />
-        {section-else}
+        {else}
         <input class="button-disabled" type="submit" name="RemoveRule_{$handler.id_string}" value="{'Remove selected'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit' )}" disabled="disabled" />
-        {/section}
+        {/if}
 
         <input class="button" type="submit" name="NewRule_{$handler.id_string}" value="{'Add items'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit' )}" title="{'Add items to your personal notification list.'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit' )}" />
     </div>

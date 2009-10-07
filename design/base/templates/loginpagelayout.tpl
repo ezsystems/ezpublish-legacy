@@ -39,11 +39,11 @@ div#maincontent-design { width: 100%; } /* This is needed to avoid width bug in 
         <div id="header">
             <div id="header-design">
                 {*<img src={"/images/t1/t1-logo-placeholder.gif"|ezdesign} height="70" width="211" alt="Company logo" />*}
-                {section show=$pagedesign.data_map.image.content.is_valid|not()}
+                {if $pagedesign.data_map.image.content.is_valid|not()}
                     <h1>{ezini( 'SiteSettings', 'SiteName' )}</h1>
-                {section-else}
+                {else}
                     <a href={"/"|ezurl}><img src={$pagedesign.data_map.image.content[logo].full_path|ezroot} alt="Company logo" /></a>
-                {/section}
+                {/if}
             </div>{* id="header-design" *}
         </div>{* id="header" *}
         {/let}
@@ -81,17 +81,17 @@ div#maincontent-design { width: 100%; } /* This is needed to avoid width bug in 
         {cache-block}
             {let maincontentstyle='maincontent-bothmenus'}
 
-            {section show=eq(ezini('SelectedMenu','LeftMenu','menu.ini'),'')}
+            {if eq(ezini('SelectedMenu','LeftMenu','menu.ini'),'')}
                 {set maincontentstyle='maincontent-noleftmenu'}
-            {/section}
+            {/if}
 
-            {section show=ezini('Toolbar_right','Tool','toolbar.ini')|count|eq(0)}
-                {section show=$maincontentstyle|eq('noleftmenu')}
+            {if ezini('Toolbar_right','Tool','toolbar.ini')|count|eq(0)}
+                {if $maincontentstyle|eq('noleftmenu')}
                     {set maincontentstyle='maincontent-nomenus'}
-                    {section-else}
+                    {else}
                     {set maincontentstyle='maincontent-norightmenu'}
-                {/section}
-            {/section}
+                {/if}
+            {/if}
 
             <div id="maincontent" class="{$maincontentstyle}">
                 <div id="fix">

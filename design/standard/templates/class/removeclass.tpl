@@ -8,11 +8,11 @@
 {set class_list=concat( $class_list, $class.name )}
 {delimiter}{set class_list=concat( $class_list, " ," )}{/delimiter}
 {/section}
-{section show=count( $already_removed )|eq( 1 )}
+{if count( $already_removed )|eq( 1 )}
 {"The class %1 was already removed from the group but still exists in others."|i18n( "design/standard/class/edit",, array( $class_list ) )}
-{section-else}
+{else}
 {"The classes %1 were already removed from the group but still exist in others."|i18n( "design/standard/class/edit",, array( $class_list ) )}
-{/section}
+{/if}
 {/let}
 {/section}
 

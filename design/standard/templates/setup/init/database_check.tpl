@@ -7,8 +7,8 @@
 <p>
  {"The database is ready for initialization, click the %1 button when ready."|i18n("design/standard/setup/init",,array(concat("<i>","Continue"|i18n("design/standard/setup/init"),"</i>")))}
 </p>
-{section show=$database_info.info.has_demo_data}
-  {section show=$demo_data.can_unpack}
+{if $database_info.info.has_demo_data}
+  {if $demo_data.can_unpack}
 <p>
  {"If you want you can let the setup add some demo data to your database, this demo data will give a good demonstration of the capabilities of eZ Publish"|i18n("design/standard/setup/init")} {$#version.major}.{$#version.minor}.
  {"First time users are advised to install the demo data."|i18n("design/standard/setup/init")}
@@ -16,48 +16,48 @@
 <div class="input_highlight">
 <p>
  {"Install demo data?"|i18n("design/standard/setup/init")}
- <input type="checkbox" name="eZSetupDemoData" value="1" {section show=$demo_data.use}checked="checked"{/section} />
+ <input type="checkbox" name="eZSetupDemoData" value="1" {if $demo_data.use}checked="checked"{/if} />
 <p>
 </div>
-  {section-else}
+  {else}
 <blockquote class="note">
 <p>
  {"Cannot install demo data, the zlib extension is missing from your PHP installation."|i18n("design/standard/setup/init")}
 </p>
 </blockquote>
  <input type="hidden" name="eZSetupDemoData" value="0" />
-  {/section}
-{section-else}
+  {/if}
+{else}
 <blockquote class="note">
 <p>
  {$database_info.info.name} {"does not support installing demo data at this point."|i18n("design/standard/setup/init")}
 </p>
 </blockquote>
  <input type="hidden" name="eZSetupDemoData" value="0" />
-{/section}
+{/if}
 
-{section show=$database_status.error}
+{if $database_status.error}
 <div class="error">
 <p>
-{section show=$demo_status|not}
+{if $demo_status|not}
   <h2>{"Demo data failure"|i18n("design/standard/setup/init")}</h2>
   <ul>
     <li>{"Could not unpack the demo data."|i18n("design/standard/setup/init")}</li>
     <li>{"You should try to install without demo data."|i18n("design/standard/setup/init")}</li>
   </ul>
-{section-else}
+{else}
   <h2>{"Initialization failed"|i18n("design/standard/setup/init")}</h2>
   <ul>
     <li>{"The database could not be properly initialized."|i18n("design/standard/setup/init")}</li>
     <li>{$database_status.error.text}</li>
     <li>{$database_info.info.name} Error #{$database_status.error.number}</li>
   </ul>
-{/section}
+{/if}
 </p>
 </div>
-{/section}
+{/if}
 
-{section show=$database_info.table.is_empty|not}
+{if $database_info.table.is_empty|not}
 <h1>{"Warning"|i18n("design/standard/setup/init")}</h1>
 <p>
  {"Your database already contains data."|i18n("design/standard/setup/init")}
@@ -113,9 +113,9 @@
 </tr>
 </table>
 </div>
-{section-else}
+{else}
 <input type="hidden" name="eZSetupDatabaseDataChoice" value="1" />
-{/section}
+{/if}
 
 
 <blockquote class="note">

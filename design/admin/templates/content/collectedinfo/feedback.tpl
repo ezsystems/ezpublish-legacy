@@ -17,17 +17,17 @@
 
 <div class="block">
 
-{section show=$error}
+{if $error}
 
-{section show=$error_existing_data}
+{if $error_existing_data}
 <p>{'You have already submitted feedback. The previously submitted data was:'|i18n('design/admin/content/collectedinfo/feedback')}</p>
-{/section}
+{/if}
 
-{section-else}
+{else}
 
 <p>{'Thanks for your feedback. The following information was collected.'|i18n('design/admin/content/collectedinfo/feedback')}</p>
 
-{/section}
+{/if}
 
 <div class="block">
 {section loop=$collection.attributes}

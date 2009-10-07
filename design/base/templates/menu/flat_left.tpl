@@ -13,23 +13,23 @@
         <ul>
         {section var=menu loop=$:docs last-value}
             {set last_level=$menu.last|is_array|choose( $menu.level, $menu.last.level )}
-            {section show=and( $last_level|eq( $menu.level ), $menu.number|gt( 1 ) )}
+            {if and( $last_level|eq( $menu.level ), $menu.number|gt( 1 ) )}
                 </li>
-            {section-else}
-            {section show=and( $last_level|gt( $menu.level ), $menu.number|gt( 1 ) )}
+            {else}
+            {if and( $last_level|gt( $menu.level ), $menu.number|gt( 1 ) )}
                 </li>
                     {"</ul>
                 </li>"|repeat(sub( $last_level, $menu.level ))}
-            {/section}
-            {/section}
+            {/if}
+            {/if}
 
-            {section show=and( $last_level|lt( $menu.level ), $menu.number|gt( 1 ) )}
+            {if and( $last_level|lt( $menu.level ), $menu.number|gt( 1 ) )}
                 {'<ul><li>'|repeat(sub($menu.level,$last_level,1))}
                 <ul>
                     <li class="menu-level-{$menu.level}">
-            {section-else}
+            {else}
                 <li class="menu-level-{$menu.level}">
-            {/section}
+            {/if}
 
             <a {$menu.is_selected|choose( '', 'class="selected"' )} href={$menu.url_alias|ezurl}>{$menu.text|shorten( 25 )}</a>
 
@@ -37,10 +37,10 @@
         {/section}
            </li>
 
-        {section show=sub( $depth, 0 )|gt( 0 ) loop=sub( $depth, 0 )}
+        {if sub( $depth, 0 )|gt( 0 ) loop=sub( $depth, 0 )}
             </ul>
         </li>
-        {/section}
+        {/if}
         </ul>
         {/if}
 

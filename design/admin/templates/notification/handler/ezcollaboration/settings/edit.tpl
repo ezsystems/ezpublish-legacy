@@ -18,13 +18,13 @@
                 {section name=Types loop=$:types}
                 <label><input type="checkbox" name="CollaborationHandlerSelection_{$handler.id_string}[]"
                                                      value="{$Handlers:item.info.type-identifier}_{$:item.value}"
-                                                     {section show=$selection|contains(concat($Handlers:item.info.type-identifier,'_',$:item.value))}checked="checked"{/section} />
+                                                     {if $selection|contains(concat($Handlers:item.info.type-identifier,'_',$:item.value))}checked="checked"{/if} />
 {$:item.name|wash}</label>
                 {/section}
             {section-else}
                <label><input type="checkbox" name="CollaborationHandlerSelection_{$handler.id_string}[]"
                                                  value="{$Handlers:item.info.type-identifier}"
-                                                 {section show=$selection|contains($Handlers:item.info.type-identifier)}checked="checked"{/section} />
+                                                 {if $selection|contains($Handlers:item.info.type-identifier)}checked="checked"{/if} />
 {$:item.info.type-name|wash}</label>
 
             {/section}

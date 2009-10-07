@@ -11,7 +11,7 @@
 {let comma=false()}
 {section var=section loop=$event.workflow_type.sections}
 {section show=$selectedSections|contains($section.value)}
-{section show=$comma}, {/section}
+{if $comma}, {/if}
 {$section.Name|wash}
 {set comma=true()}
 {/section}
@@ -34,11 +34,11 @@
 
 {let comma=false()}
 {section var=class loop=$event.workflow_type.contentclass_list}
-{section show=$selectedClasses|contains($class.value)}
-{section show=$comma}, {/section}
+{if $selectedClasses|contains($class.value)}
+{if $comma}, {/if}
 {$class.Name|wash}
 {set comma=true()}
-{/section}
+{/if}
 {/section}
 {/let}
 
@@ -54,11 +54,11 @@
 
 {let comma=false()}
 {section var=user loop=$event.workflow_type.usergroups}
-{section show=$selectedGroups|contains($user.value)}
-{section show=$comma}, {/section}
+{if $selectedGroups|contains($user.value)}
+{if $comma}, {/if}
 {$user.Name|wash}
 {set comma=true()}
-{/section}
+{/if}
 {/section}
 {/let}
 
@@ -71,9 +71,9 @@
 {"Workflow to run"|i18n("design/standard/workflow/eventtype/view")}:
 
 {section var=workflow loop=$event.workflow_type.workflow_list}
-{section show=$selectedWorkflow|contains($workflow.value)}
+{if $selectedWorkflow|contains($workflow.value)}
 {$workflow.Name|wash}
-{/section}
+{/if}
 {/section}
 
 {/let}

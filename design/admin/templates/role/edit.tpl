@@ -43,20 +43,20 @@
 
     {* Module. *}
     <td>
-        {section show=eq( $Policies.item.module_name, '*' )}
+        {if eq( $Policies.item.module_name, '*' )}
         <i>{'all modules'|i18n( 'design/admin/role/edit' )} </i>
-        {section-else}
+        {else}
         {$Policies.item.module_name}
-        {/section}
+        {/if}
     </td>
 
     {* Function. *}
     <td>
-        {section show=eq( $Policies.item.function_name, '*' )}
+        {if eq( $Policies.item.function_name, '*' )}
         <i>{'all functions'|i18n( 'design/admin/role/edit' )} </i>
-        {section-else}
+        {else}
         {$Policies.item.function_name}
-        {/section}
+        {/if}
     </td>
 
     {* Limitations. *}
@@ -87,11 +87,11 @@
 {/section}
 
 {* Policy manipulation buttons. *}
-{section show=$policies}
+{if $policies}
 <input class="button" type="submit" name="RemovePolicies" value="{'Remove selected'|i18n( 'design/admin/role/edit' )}" title="{'Remove selected policies.'|i18n( 'design/admin/role/edit' )}" />
-{section-else}
+{else}
 <input class="button-disabled" type="submit" name="RemovePolicies" value="{'Remove selected'|i18n( 'design/admin/role/edit' )}" disabled="disabled" />
-{/section}
+{/if}
 
 <input class="button" type="submit" name="CreatePolicy" value="{'New policy'|i18n( 'design/admin/role/edit' )}" title="{'Create a new policy.'|i18n( 'design/admin/role/edit' )}" />
 </fieldset>

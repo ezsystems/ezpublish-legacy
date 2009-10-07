@@ -51,11 +51,11 @@
 
 {* Default. *}
 <td>
-{section show=eq( sum( $OptionList.index, 1 ), $MultiOptionList.default_option_id )}
+{if eq( sum( $OptionList.index, 1 ), $MultiOptionList.default_option_id )}
     <input type="radio" name="{$attribute_base}_data_radio_checked_{$attribute.id}_{$MultiOptionList.id}"  value="{$OptionList.id}" title="{'Use the radio buttons to set the default option.'|i18n( 'design/standard/content/datatype' )}" checked="checked" />
-{section-else}
+{else}
     <input type="radio" name="{$attribute_base}_data_radio_checked_{$attribute.id}_{$MultiOptionList.id}"  value="{$OptionList.id}" title="{'Use the radio buttons to set the default option.'|i18n( 'design/standard/content/datatype' )}" />
-{/section}
+{/if}
 
 <input type="hidden" name="{$attribute_base}_data_option_id_{$attribute.id}_{$MultiOptionList.id}[]" value="{$OptionList.id}" />
 <input type="hidden" name="{$attribute_base}_data_option_option_id_{$attribute.id}_{$MultiOptionList.id}[]" value="{$OptionList.option_id}" />
@@ -67,11 +67,11 @@
 <p>{'There are no options.'|i18n( 'design/standard/content/datatype' )}</p>
 {/section}
 
-{section show=$MultiOptionList.item.optionlist}
+{if $MultiOptionList.item.optionlist}
 <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_remove-selected-option_{$MultiOptionList.id}]" value="{'Remove selected'|i18n('design/standard/content/datatype')}" title="{'Remove selected options.'|i18n( 'design/standard/content/datatype' )}" />
-{section-else}
+{else}
 <input class="button-disabled" type="submit" name="CustomActionButton[{$attribute.id}_remove-selected-option_{$MultiOptionList.id}]" value="{'Remove selected'|i18n('design/standard/content/datatype')}" disabled="disabled" />
-{/section}
+{/if}
 
 <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_new-option_{$MultiOptionList.id}]" value="{'Add option'|i18n('design/standard/content/datatype')}" title="{'Add a new option.'|i18n( 'design/standard/content/datatype' )}" />
 
@@ -85,11 +85,11 @@
 {/section}
 
 
-{section show=$attribute.content.multioption_list}
+{if $attribute.content.multioption_list}
 <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_remove_selected_multioption]" value="{'Remove selected'|i18n('design/standard/content/datatype')}" title="{'Remove selected multioptions.'|i18n( 'design/standard/content/datatype' )}" />
-{section-else}
+{else}
 <input class="button-disabled" type="submit" name="CustomActionButton[{$attribute.id}_remove_selected_multioption]" value="{'Remove selected'|i18n('design/standard/content/datatype')}" disabled="disabled" />
-{/section}
+{/if}
 
 <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_new_multioption]" value="{'Add multioption'|i18n('design/standard/content/datatype')}" title="{'Add a new multioption.'|i18n('design/standard/content/datatype')}" />
 

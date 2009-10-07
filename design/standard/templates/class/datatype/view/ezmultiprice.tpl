@@ -6,8 +6,8 @@
 
 <div class="block">
     <label>{'VAT'|i18n( 'design/standard/class/datatype' )}:</label>
-    {section show=eq( $class_attribute.data_int1, 1 )}{'Price inc. VAT'|i18n( 'design/standard/class/datatype' )}{/section}
-    {section show=eq( $class_attribute.data_int1, 2 )}{'Price ex. VAT'|i18n( 'design/standard/class/datatype' )}{/section}
+    {if eq( $class_attribute.data_int1, 1 )}{'Price inc. VAT'|i18n( 'design/standard/class/datatype' )}{/if}
+    {if eq( $class_attribute.data_int1, 2 )}{'Price ex. VAT'|i18n( 'design/standard/class/datatype' )}{/if}
 </div>
 
 <div class="block">

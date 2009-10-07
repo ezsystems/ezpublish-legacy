@@ -7,9 +7,9 @@
   \version 1.0
   \date    {currentdate()|l10n(datetime)}
 
-{section show=$creator_name}
+{if $creator_name}
   \author  {$creator_name}
-{/section}
+{/if}
 
 
 {$description_full|indent(2)}
@@ -29,7 +29,7 @@ class {$full_class_name} extends eZDataType
         $this->eZDataType( self::{$constant_name}, "{$desc_name}" );
     {literal}}{/literal}
 
-{section show=$class_input}
+{if $class_input}
     /*!
     Validates all variables given on content class level
      \return eZInputValidator::STATE_ACCEPTED or eZInputValidator::STATE_INVALID if
@@ -48,7 +48,7 @@ class {$full_class_name} extends eZDataType
     {literal}{{/literal}
         return true;
     {literal}}{/literal}
-{/section}
+{/if}
 
     /*!
      Validates input on content object level

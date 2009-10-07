@@ -3,8 +3,8 @@
 <div class="block">
 <label>{'Style'|i18n( 'design/standard/class/datatype' )}:</label>
 <select name="ContentClass_ezselection_ismultiple_value_{$class_attribute.id}">
-<option value="0" {section show=not( $class_attribute.data_int1 )}selected="selected"{/section}>{'Single choice'|i18n( 'design/standard/class/datatype' )}</option>
-<option value="1" {section show=$class_attribute.data_int1}selected="selected"{/section}>{'Multiple choice'|i18n( 'design/standard/class/datatype' )}</option>
+<option value="0" {if not( $class_attribute.data_int1 )}selected="selected"{/if}>{'Single choice'|i18n( 'design/standard/class/datatype' )}</option>
+<option value="1" {if $class_attribute.data_int1}selected="selected"{/if}>{'Multiple choice'|i18n( 'design/standard/class/datatype' )}</option>
 </select>
 </div>
 
@@ -32,11 +32,11 @@
 {/section}
 
 {* Buttons. *}
-{section show=$class_attribute.content.options}
+{if $class_attribute.content.options}
 <input class="button" type="submit" name="ContentClass_ezselection_removeoption_button_{$class_attribute.id}" value="{'Remove selected'|i18n( 'design/standard/class/datatype' )}" title="{'Remove selected options.'|i18n( 'design/standard/class/datatype' )}" />
-{section-else}
+{else}
 <input class="button-disabled" type="submit" name="ContentClass_ezselection_removeoption_button_{$class_attribute.id}" value="{'Remove selected'|i18n( 'design/standard/class/datatype' )}" disabled="disabled" />
-{/section}
+{/if}
 
 <input class="button" type="submit" name="ContentClass_ezselection_newoption_button_{$class_attribute.id}" value="{'New option'|i18n( 'design/standard/class/datatype' )}" title="{'Add a new option.'|i18n( 'design/standard/class/datatype' )}" />
 </fieldset>

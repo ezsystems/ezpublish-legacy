@@ -47,33 +47,33 @@
 	                                                               'contentobject',   $Nodes.item ) )}
 	        {/if}
 	    {/if}
-        {section show=and( $browse_permission,
+        {if and( $browse_permission,
                            $browse.ignore_nodes_select|contains( $Nodes.item.node_id )|not,
                            eq( $ignore_nodes_merge|count,
                                $ignore_nodes_merge|unique|count ) )}
-            {section show=is_array( $browse.class_array )}
-                {section show=$browse.class_array|contains( $Nodes.item.object.content_class.identifier )}
+            {if is_array( $browse.class_array )}
+                {if $browse.class_array|contains( $Nodes.item.object.content_class.identifier )}
                     <input type="{$select_type}" name="{$select_name}[]" value="{$Nodes.item[$select_attribute]}" />
-                {section-else}
+                {else}
                     <input type="{$select_type}" name="" value="" disabled="disabled" />
-                {/section}
-            {section-else}
-                {section show=and( or( eq( $browse.action_name, 'MoveNode' ), eq( $browse.action_name, 'CopyNode' ), eq( $browse.action_name, 'AddNodeAssignment' ) ), $Nodes.item.object.content_class.is_container|not )}
+                {/if}
+            {else}
+                {if and( or( eq( $browse.action_name, 'MoveNode' ), eq( $browse.action_name, 'CopyNode' ), eq( $browse.action_name, 'AddNodeAssignment' ) ), $Nodes.item.object.content_class.is_container|not )}
                     <input type="{$select_type}" name="{$select_name}[]" value="{$Nodes.item[$select_attribute]}" disabled="disabled" />
-                {section-else}
+                {else}
                     <input type="{$select_type}" name="{$select_name}[]" value="{$Nodes.item[$select_attribute]}" />
-                {/section}
-            {/section}
-        {section-else}
+                {/if}
+            {/if}
+        {else}
             <input type="{$select_type}" name="" value="" disabled="disabled" />
-        {/section}
+        {/if}
         {/let}
 
-        <p>{section show=$ShowLink}
+        <p>{if $ShowLink}
             <a href={concat( '/content/browse/', $Nodes.item.node_id )|ezurl}>{$Nodes.item.name|wash}</a>
-        {section-else}
+        {else}
             {$Nodes.item.name|wash}
-        {/section}</p>
+        {/if}</p>
         </div>
         </td>
     {/let}

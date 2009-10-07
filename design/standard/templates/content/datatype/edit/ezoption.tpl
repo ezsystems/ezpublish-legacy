@@ -14,9 +14,9 @@
 <tr>
     <th class="tight">&nbsp;</th>
     <th>{'Option'|i18n( 'design/standard/content/datatype' )}</th>
-    {section show=$attribute.is_information_collector|not}
+    {if $attribute.is_information_collector|not}
     <th>{'Additional price'|i18n( 'design/standard/content/datatype' )}</th>
-    {/section}
+    {/if}
 </tr>
 
 {section var=Options loop=$attribute.content.option_list sequence=array( bglight, bgdark )}
@@ -31,10 +31,10 @@
 {* Option. *}
 <td><input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_{$Options.index}" class="box ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="text" name="{$attribute_base}_data_option_value_{$attribute.id}[]" value="{$Options.item.value}" /></td>
 
-{section show=$attribute.is_information_collector|not}
+{if $attribute.is_information_collector|not}
 {* Price. *}
 <td><input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_{$Options.index}" class="box ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="text" name="{$attribute_base}_data_option_additional_price_{$attribute.id}[]" value="{$Options.item.additional_price}" /></td>
-{/section}
+{/if}
 
 </tr>
 {/section}
@@ -45,11 +45,11 @@
 {/section}
 
 
-{section show=$attribute.content.option_list}
+{if $attribute.content.option_list}
 <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_remove_selected" class="button ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="submit" name="CustomActionButton[{$attribute.id}_remove_selected]" value="{'Remove selected'|i18n('design/standard/content/datatype')}" title="{'Remove selected options.'|i18n( 'design/standard/content/datatype' )}" />
-{section-else}
+{else}
 <input class="button-disabled" type="submit" name="CustomActionButton[{$attribute.id}_remove_selected]" value="{'Remove selected'|i18n('design/standard/content/datatype')}" title="{'Remove selected options.'|i18n( 'design/standard/content/datatype' )}" disabled="disabled" />
-{/section}
+{/if}
 
 <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_new_option" class="button ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="submit" name="CustomActionButton[{$attribute.id}_new_option]" value="{'Add option'|i18n('design/standard/content/datatype')}" title="{'Add a new option.'|i18n( 'design/standard/content/datatype' )}" />
 

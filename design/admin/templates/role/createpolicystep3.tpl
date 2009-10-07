@@ -24,11 +24,11 @@
 
 <div class="block">
 <label>{'Selected module'|i18n( 'design/admin/role/createpolicystep3' )}:</label>
-{section show=$current_module|eq( '*' )}
+{if $current_module|eq( '*' )}
 {'All modules'|i18n( 'design/admin/role/createpolicystep3' )}
-{section-else}
+{else}
 {$current_module|upfirst()}
-{/section}
+{/if}
 </div>
 
 <div class="block">
@@ -66,9 +66,9 @@
 {section name=Limitations loop=$function_limitations}
 {section-exclude match=$Limitations:item.name|eq('Subtree')}
 {section-exclude match=$Limitations:item.name|eq('Node')}
-{section show=$function_limitations|count|gt(1)}
+{if $function_limitations|count|gt(1)}
 <div class="element">
-{/section}
+{/if}
 <label>{$Limitations:item.name|wash}:</label>
 <select name="{$Limitations:item.name}[]" size="8" {if or( not( is_set( $Limitations:item.single_select ) ), not($Limitations:item.single_select) ) }multiple="multiple"{/if} >
 <option value="-1" {switch match=$current_limitation_list[$Limitations:item.name]}
@@ -78,9 +78,9 @@
 {case in=$current_limitation_list[$Limitations:item.name]}selected="selected"{/case}{case}{/case}{/switch}>{$Limitations:LimitationValues:item.Name}</option>
 {/section}
 </select>
-{section show=$function_limitations|count|gt(1)}
+{if $function_limitations|count|gt(1)}
 </div>
-{/section}
+{/if}
 {/section}
 </div>
 
@@ -112,11 +112,11 @@
 {'The node list is empty.'|i18n( 'design/admin/role/createpolicystep3' )}
 </p>
 {/section}
-{section show=$node_list}
+{if $node_list}
 <input class="button" type="submit" name="DeleteNodeButton" value="{'Remove selected'|i18n( 'design/admin/role/createpolicystep3' )}" />
-{section-else}
+{else}
 <input class="button-disabled" type="submit" name="DeleteNodeButton" value="{'Remove selected'|i18n( 'design/admin/role/createpolicystep3' )}" disabled="disabled" />
-{/section}
+{/if}
 
 <input class="button" type="submit" name="BrowseLimitationNodeButton" value="{'Add nodes'|i18n( 'design/admin/role/createpolicystep3' )}" />
 </fieldset>
@@ -145,11 +145,11 @@
 <p>{'The subtree list is empty.'|i18n( 'design/admin/role/createpolicystep3' )}</p>
 {/section}
 
-{section show=$subtree_list}
+{if $subtree_list}
 <input class="button" type="submit" name="DeleteSubtreeButton" value="{'Remove selected'|i18n( 'design/admin/role/createpolicystep3' )}" />
-{section-else}
+{else}
 <input class="button-disabled" type="submit" name="DeleteSubtreeButton" value="{'Remove selected'|i18n( 'design/admin/role/createpolicystep3' )}" disabled="disabled" />
-{/section}
+{/if}
 
 <input class="button" type="submit" name="BrowseLimitationSubtreeButton" value="{'Add subtrees'|i18n( 'design/admin/role/createpolicystep3' )}" />
 </fieldset>

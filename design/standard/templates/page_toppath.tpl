@@ -5,12 +5,12 @@
     <p class="path">
     &nbsp;
     {section loop=$module_result.path}
-        {section show=$:item.url}
+        {if $:item.url}
             <a class="path" href={cond( and( $:use_urlalias, is_set( $:item.url_alias ) ), $:item.url_alias,
                                         $:item.url )|ezurl}>{$:item.text|shorten( 18 )|wash}</a>
-        {section-else}
+        {else}
             {$:item.text|wash}
-        {/section}
+        {/if}
 
         {delimiter}
             <span class="slash">/</span>

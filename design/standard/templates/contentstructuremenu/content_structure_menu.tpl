@@ -21,9 +21,9 @@
      rootNode               = false }
 
     {* check size of icons *}
-    {section show=is_set($:class_icons_size)}
+    {if is_set($:class_icons_size)}
         {set classIconsSize=$:class_icons_size}
-    {/section}
+    {/if}
 
     {* load icons if preloadClassIcons is enabled *}
     {section show=eq( $:preloadClassIcons, "enabled" )}
@@ -58,21 +58,21 @@
     {/section}
 
     {* check custom_root_node *}
-    {section show=is_set( $custom_root_node_id )}
+    {if is_set( $custom_root_node_id )}
         {set rootNodeID=$custom_root_node_id}
-    {/section}
+    {/if}
 
     {set rootNode=fetch( 'content', 'node', hash( node_id, $:rootNodeID ) )}
 
     {* check custom action when clicking on menu item *}
-    {section show=and( is_set( $csm_menu_item_click_action ), eq( $itemClickAction, '' ) )}
+    {if and( is_set( $csm_menu_item_click_action ), eq( $itemClickAction, '' ) )}
         {set itemClickAction=$csm_menu_item_click_action}
-    {/section}
+    {/if}
 
     {* if menu action is set translate it to url *}
-    {section show=eq( $itemClickAction, '' )|not()}
+    {if eq( $itemClickAction, '' )|not()}
         {set itemClickAction = $:itemClickAction|ezurl(no)}
-    {/section}
+    {/if}
 
     {* create menu *}
     {default current_user=fetch('user','current_user')}
@@ -99,10 +99,10 @@
         var nodesList = new Array();
 
         {section var=path loop=$module_result.path}
-            {section show=and(is_set($:path.node_id), or($:isDepthUnlimited, $:maxDepth|gt(0)))}
+            {if and(is_set($:path.node_id), or($:isDepthUnlimited, $:maxDepth|gt(0)))}
                 nodesList.push( "n{$:path.node_id}" );
                 {set maxDepth = dec($:maxDepth)}
-            {/section}
+            {/if}
         {/section}
 
 

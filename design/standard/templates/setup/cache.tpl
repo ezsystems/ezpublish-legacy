@@ -3,29 +3,29 @@
 
 <h1>{"Cache admin"|i18n("design/standard/setup")}</h1>
 
-{section show=$cache_cleared.content}
+{if $cache_cleared.content}
 <div class="feedback">
 {"Content view cache was cleared."|i18n("design/standard/setup")}
 </div>
-{/section}
+{/if}
 
-{section show=$cache_cleared.all}
+{if $cache_cleared.all}
 <div class="feedback">
 {"All caches were cleared."|i18n("design/standard/setup")}
 </div>
-{/section}
+{/if}
 
-{section show=$cache_cleared.ini}
+{if $cache_cleared.ini}
 <div class="feedback">
 {"Ini file cache was cleared."|i18n("design/standard/setup")}
 </div>
-{/section}
+{/if}
 
-{section show=$cache_cleared.template}
+{if $cache_cleared.template}
 <div class="feedback">
 {"Template cache was cleared."|i18n("design/standard/setup")}
 </div>
-{/section}
+{/if}
 
 {section show=$cache_cleared.list}
 <div class="feedback">
@@ -48,44 +48,44 @@
     <tr>
         <td><p>{"All caches."|i18n("design/standard/setup")}</p></td>
         <td><div class="buttonblock">
-        {section show=$cache_enabled.all}
+        {if $cache_enabled.all}
         <input type="submit" name="ClearAllCacheButton" value="{"All caches"|i18n("design/standard/setup")}" />
-        {section-else}
+        {else}
             <p>{"All caches are disabled"|i18n("design/standard/setup")}</p>
-        {/section}
+        {/if}
     </div></td>
     </tr>
 
     <tr>
         <td><p>{"Content views and template blocks."|i18n("design/standard/setup")}</p></td>
         <td>
-        {section show=$cache_enabled.content}
+        {if $cache_enabled.content}
         <input type="submit" name="ClearContentCacheButton" value="{"Content caches"|i18n("design/standard/setup")}" />
-        {section-else}
+        {else}
             <p>{"Content caches is disabled"|i18n("design/standard/setup")}</p>
-        {/section}
+        {/if}
         </td>
     </tr>
 
     <tr>
         <td><p>{"Template overrides and template compiling."|i18n("design/standard/setup")}</p></td>
         <td>
-        {section show=$cache_enabled.template}
+        {if $cache_enabled.template}
         <input type="submit" name="ClearTemplateCacheButton" value="{"Template caches"|i18n("design/standard/setup")}" />
-        {section-else}
+        {else}
             <p>{"Template caches are disabled"|i18n("design/standard/setup")}</p>
-        {/section}
+        {/if}
         </td>
     </tr>
 
     <tr>
         <td><p>{"Ini caches."|i18n("design/standard/setup")}</p></td>
         <td>
-        {section show=$cache_enabled.ini}
+        {if $cache_enabled.ini}
         <input type="submit" name="ClearINICacheButton" value="{"Ini caches"|i18n("design/standard/setup")}" />
-        {section-else}
+        {else}
             <p>{"Ini cache is disabled"|i18n("design/standard/setup")}</p>
-        {/section}
+        {/if}
         </td>
     </tr>
 
@@ -103,11 +103,11 @@
 <tr class="{$:sequence}">
     <td>{$:item.name}</td>
     <td>{$:item.path}</td>
-{section show=$cache_enabled.list[$:item.id]}
+{if $cache_enabled.list[$:item.id]}
     <td align="right"><input type="checkbox" name="CacheList[]" value="{$:item.id}" /></td>
-{section-else}
+{else}
     <td align="right">{"Disabled"|i18n("design/standard/setup")}</td>
-{/section}
+{/if}
 </tr>
 {/section}
 </table>
@@ -118,15 +118,15 @@
 
 {*
 <h2>{"Content view cache"|i18n("design/standard/setup")}</h2>
-{section show=$view_cache_enabled}
+{if $view_cache_enabled}
 <p>
 {"View cache is enabled."|i18n("design/standard/setup")}
 </p>
-{section-else}
+{else}
 <p>
 {"View cache is disabled."|i18n("design/standard/setup")}
 </p>
-{/section}
+{/if}
 
 <input type="submit" name="ClearContentCacheButton" value="{"Clear"|i18n("design/standard/setup")}" />
 

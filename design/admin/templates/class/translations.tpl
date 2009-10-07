@@ -43,11 +43,11 @@
 <td>
 <img src="{$Translations.item.locale|flag_icon}" alt="{$Translations.item.locale}" />
 &nbsp;
-{section show=eq( $Translations.item.locale, $language_code )}
+{if eq( $Translations.item.locale, $language_code )}
 <b><a href={concat( 'class/view/', $class.id, '/(language)/', $Translations.item.locale )|ezurl} title="{'View translation.'|i18n( 'design/admin/class/view' )}">{$Translations.item.name}</a></b>
-{section-else}
+{else}
 <a href={concat( 'class/view/', $class.id, '/(language)/', $Translations.item.locale )|ezurl} title="{'View translation.'|i18n( 'design/admin/class/view' )}">{$Translations.item.name}</a>
-{/section}
+{/if}
 </td>
 
 {* Locale code. *}

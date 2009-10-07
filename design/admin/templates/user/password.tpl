@@ -1,34 +1,34 @@
 {* Feedbacks. *}
-{section show=$message}
+{if $message}
 
-{section show=or( $oldPasswordNotValid, $newPasswordNotMatch, $newPasswordTooShort )}
+{if or( $oldPasswordNotValid, $newPasswordNotMatch, $newPasswordTooShort )}
     <div class="message-warning">
     <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The password could not be changed.'|i18n( 'design/admin/user/password' )}</h2>
-    {section show=$oldPasswordNotValid}
+    {if $oldPasswordNotValid}
         <ul>
             <li>{'The old password was either missing or incorrect.'|i18n( 'design/admin/user/password' )}</li>
             <li>{'Please retype the old password and try again.'|i18n( 'design/admin/user/password' )}</li>
         <ul>
-    {/section}
-    {section show=$newPasswordNotMatch}
+    {/if}
+    {if $newPasswordNotMatch}
         <ul>
             <li>{'The new passwords did not match.'|i18n( 'design/admin/user/password' )}</li>
             <li>{'Please retype the new passwords and try again.'|i18n( 'design/admin/user/password' )}</li>
         </ul>
-    {/section}
-    {section show=$newPasswordTooShort}
+    {/if}
+    {if $newPasswordTooShort}
         <ul>
             <li>{'The password must be at least %1 characters long.'|i18n( 'design/admin/user/password','',array( ezini('UserSettings','MinPasswordLength') ) )}</li>
             <li>{'Please retype the new passwords and try again.'|i18n( 'design/admin/user/password' )}</li>
         </ul>
-    {/section}
+    {/if}
     </div>
-{section-else}
+{else}
     <div class="message-feedback">
         <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The password was successfully changed.'|i18n( 'design/admin/user/password' )}</h2>
     </div>
-{/section}
-{/section}
+{/if}
+{/if}
 
 
 

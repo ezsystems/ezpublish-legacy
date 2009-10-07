@@ -36,27 +36,27 @@
     <td>
     {$AssignedRoles.item.name|wash}
     &nbsp;
-    {section show=$AssignedRoles.item.limit_identifier}
+    {if $AssignedRoles.item.limit_identifier}
         ({'limited to %limitation_identifier %limitation_value'|i18n( 'design/admin/node/view/full',, hash( '%limitation_identifier', $AssignedRoles.item.limit_identifier|downcase, '%limitation_value', $AssignedRoles.item.limit_value ) )})
-    {/section}
+    {/if}
     </td>
 
     {* Module. *}
     <td>
-    {section show=eq( $Policy.item.module_name, '*' )}
+    {if eq( $Policy.item.module_name, '*' )}
         <i>{'all modules'|i18n( 'design/admin/node/view/full' )}</i>
-    {section-else}
+    {else}
         {$Policy.item.module_name}
-    {/section}
+    {/if}
     </td>
 
     {* Policy. *}
     <td>
-    {section show=eq( $Policy.item.function_name, '*' )}
+    {if eq( $Policy.item.function_name, '*' )}
         <i>{'all functions'|i18n( 'design/admin/node/view/full' )}</i>
-    {section-else}
+    {else}
         {$Policy.item.function_name}
-    {/section}
+    {/if}
     </td>
 
     {* Limitations. *}

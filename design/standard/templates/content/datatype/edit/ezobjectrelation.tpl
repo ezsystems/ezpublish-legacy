@@ -25,13 +25,13 @@
     <p>{'No relation'|i18n( 'design/standard/content/datatype' )}</p>
 {/section}
 
-{section show=$attribute.content}
+{if $attribute.content}
     <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_remove_object]" value="{'Remove object'|i18n( 'design/standard/content/datatype' )}" />
     <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_browse_object]" value="{'Add object'|i18n( 'design/standard/content/datatype' )}" />
-{section-else}
+{else}
     <input class="button-disabled" type="submit" name="CustomActionButton[{$attribute.id}_remove_object]" value="{'Remove object'|i18n( 'design/standard/content/datatype' )}" disabled="disabled" />
     <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_browse_object]" value="{'Add object'|i18n( 'design/standard/content/datatype' )}" />
-{/section}
+{/if}
 
 <input type="hidden" name="{$attribute_base}_data_object_relation_id_{$attribute.id}" value="{$attribute.data_int}" />
 
@@ -46,17 +46,17 @@
 {let parent_node=fetch( content, node, hash( node_id, $class_content.default_selection_node ) )}
 
 <select id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}" class="ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" name="{$attribute_base}_data_object_relation_id_{$attribute.id}">
-{section show=$attribute.contentclass_attribute.is_required|not}
-<option value="" {section show=eq( $attribute.data_int, '' )}selected="selected"{/section}>{'No relation'|i18n( 'design/standard/content/datatype' )}</option>
-{/section}
+{if $attribute.contentclass_attribute.is_required|not}
+<option value="" {if eq( $attribute.data_int, '' )}selected="selected"{/if}>{'No relation'|i18n( 'design/standard/content/datatype' )}</option>
+{/if}
 {section var=Nodes loop=fetch( content, list, hash( parent_node_id, $parent_node.node_id, sort_by, $parent_node.sort_array ) )}
-<option value="{$Nodes.item.contentobject_id}" {section show=eq( $attribute.data_int, $Nodes.item.contentobject_id )}selected="selected"{/section}>{$Nodes.item.name|wash}</option>
+<option value="{$Nodes.item.contentobject_id}" {if eq( $attribute.data_int, $Nodes.item.contentobject_id )}selected="selected"{/if}>{$Nodes.item.name|wash}</option>
 {/section}
 </select>
 
-{section show=$class_content.fuzzy_match}
+{if $class_content.fuzzy_match}
 <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_fuzzy_match" class="ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="text" name="{$attribute_base}_data_object_relation_fuzzy_match_{$attribute.id}" value="" />
-{/section}
+{/if}
 
 {/let}
 {/case}

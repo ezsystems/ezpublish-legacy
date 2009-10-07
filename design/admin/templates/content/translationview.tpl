@@ -33,11 +33,11 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
     <input type="hidden" name="DeleteIDArray[]" value="{$translation.id}" />
-    {section show=ne( false()|locale.locale_code, $translation.locale_object.locale_code )}
+    {if ne( false()|locale.locale_code, $translation.locale_object.locale_code )}
     <input class="button" type="submit" name="RemoveButton" value="{'Remove'|i18n( 'design/admin/content/translationview' )}" />
-    {section-else}
+    {else}
     <input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove'|i18n( 'design/admin/content/translationview' )}" disabled="disabled" />
-    {/section}
+    {/if}
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
@@ -62,11 +62,11 @@
 {* Charset *}
 <div class="block">
 <label>{'Charset'|i18n( 'design/admin/content/translationview' )}:</label>
-{section show=$translation.locale_object.charset}
+{if $translation.locale_object.charset}
     {$translation.locale_object.charset}
-{section-else}
+{else}
     <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
-{/section}
+{/if}
 </div>
 
 {* Allowed charsets *}
@@ -80,251 +80,251 @@
 {* Country/region name *}
 <div class="block">
 <label>{'Country/region name'|i18n( 'design/admin/content/translationview' )}:</label>
-{section show=$translation.locale_object.country_name}
+{if $translation.locale_object.country_name}
     {$translation.locale_object.country_name}
-{section-else}
+{else}
     <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
-{/section}
+{/if}
 </div>
 
 {* Country/region comment *}
 <div class="block">
 <label>{'Country/region comment'|i18n( 'design/admin/content/translationview' )}:</label>
-{section show=$translation.locale_object.country_comment}
+{if $translation.locale_object.country_comment}
     {$translation.locale_object.country_comment}
-{section-else}
+{else}
     <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
-{/section}
+{/if}
 </div>
 
 {* Country/region code *}
 <div class="block">
 <label>{'Country/region code'|i18n( 'design/admin/content/translationview' )}:</label>
-{section show=$translation.locale_object.country_code}
+{if $translation.locale_object.country_code}
     {$translation.locale_object.country_code}
-{section-else}
+{else}
     <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
-{/section}
+{/if}
 </div>
 
 {* Country/region variation *}
 <div class="block">
 <label>{'Country/region variation'|i18n( 'design/admin/content/translationview' )}:</label>
-{section show=$translation.locale_object.country_variation}
+{if $translation.locale_object.country_variation}
     {$translation.locale_object.country_variation}
-{section-else}
+{else}
     <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
-{/section}
+{/if}
 </div>
 
 {* Language name *}
 <div class="block">
 <label>{'Language name'|i18n( 'design/admin/content/translationview' )}:</label>
-{section show=$translation.locale_object.language_name}
+{if $translation.locale_object.language_name}
     {$translation.locale_object.language_name}
-{section-else}
+{else}
     <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
-{/section}
+{/if}
 </div>
 
 {* International language name *}
 <div class="block">
 <label>{'International language name'|i18n( 'design/admin/content/translationview' )}:</label>
-{section show=$translation.locale_object.intl_language_name}
+{if $translation.locale_object.intl_language_name}
     {$translation.locale_object.intl_language_name}
-{section-else}
+{else}
     <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
-{/section}
+{/if}
 </div>
 
 {* Language code *}
 <div class="block">
 <label>{'Language code'|i18n( 'design/admin/content/translationview' )}:</label>
-{section show=$translation.locale_object.language_code}
+{if $translation.locale_object.language_code}
     {$translation.locale_object.language_code}
-{section-else}
+{else}
     <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
-{/section}
+{/if}
 </div>
 
 {* Language comment *}
 <div class="block">
 <label>{'Language comment'|i18n( 'design/admin/content/translationview' )}:</label>
-{section show=$translation.locale_object.language_comment}
+{if $translation.locale_object.language_comment}
     {$translation.locale_object.language_comment}
-{section-else}
+{else}
     <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
-{/section}
+{/if}
 </div>
 
 {* Locale code *}
 <div class="block">
 <label>{'Locale code'|i18n( 'design/admin/content/translationview' )}:</label>
-{section show=$translation.locale_object.locale_code}
+{if $translation.locale_object.locale_code}
     {$translation.locale_object.locale_code}
-{section-else}
+{else}
     <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
-{/section}
+{/if}
 </div>
 
 {* Full locale code *}
 <div class="block">
 <label>{'Full locale code'|i18n( 'design/admin/content/translationview' )}:</label>
-{section show=$translation.locale_object.locale_full_code}
+{if $translation.locale_object.locale_full_code}
     {$translation.locale_object.locale_full_code}
-{section-else}
+{else}
     <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
-{/section}
+{/if}
 </div>
 
 {* HTTP locale code *}
 <div class="block">
 <label>{'HTTP locale code'|i18n( 'design/admin/content/translationview' )}:</label>
-{section show=$translation.locale_object.http_locale_code}
+{if $translation.locale_object.http_locale_code}
     {$translation.locale_object.http_locale_code}
-{section-else}
+{else}
     <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
-{/section}
+{/if}
 </div>
 
 {* Decimal symbol *}
 <div class="block">
 <label>{'Decimal symbol'|i18n( 'design/admin/content/translationview' )}:</label>
-{section show=$translation.locale_object.decimal_symbol}
+{if $translation.locale_object.decimal_symbol}
     {$translation.locale_object.decimal_symbol}
-{section-else}
+{else}
     <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
-{/section}
+{/if}
 </div>
 
 {* Thousands separator *}
 <div class="block">
 <label>{'Thousands separator'|i18n( 'design/admin/content/translationview' )}:</label>
-{section show=$translation.locale_object.thousands_separator}
+{if $translation.locale_object.thousands_separator}
     {$translation.locale_object.thousands_separator}
-{section-else}
+{else}
     <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
-{/section}
+{/if}
 </div>
 
 {* Decimal count *}
 <div class="block">
 <label>{'Decimal count'|i18n( 'design/admin/content/translationview' )}:</label>
-{section show=$translation.locale_object.decimal_count}
+{if $translation.locale_object.decimal_count}
     {$translation.locale_object.decimal_count}
-{section-else}
+{else}
     <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
-{/section}
+{/if}
 </div>
 
 {* Negative symbol *}
 <div class="block">
 <label>{'Negative symbol'|i18n( 'design/admin/content/translationview' )}:</label>
-{section show=$translation.locale_object.negative_symbol}
+{if $translation.locale_object.negative_symbol}
     {$translation.locale_object.negative_symbol}
-{section-else}
+{else}
     <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
-{/section}
+{/if}
 </div>
 
 {* Positive symbol *}
 <div class="block">
 <label>{'Positive symbol'|i18n( 'design/admin/content/translationview' )}:</label>
-{section show=$translation.locale_object.positive_symbol}
+{if $translation.locale_object.positive_symbol}
     {$translation.locale_object.positive_symbol}
-{section-else}
+{else}
     <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
-{/section}
+{/if}
 </div>
 
 {* Currency decimal symbol *}
 <div class="block">
 <label>{'Currency decimal symbol'|i18n( 'design/admin/content/translationview' )}:</label>
-{section show=$translation.locale_object.currency_decimal_symbol}
+{if $translation.locale_object.currency_decimal_symbol}
     {$translation.locale_object.currency_decimal_symbol}
-{section-else}
+{else}
     <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
-{/section}
+{/if}
 </div>
 
 {* Currency thousands separator *}
 <div class="block">
 <label>{'Currency thousands separator'|i18n( 'design/admin/content/translationview' )}:</label>
-{section show=$translation.locale_object.currency_thousands_separator}
+{if $translation.locale_object.currency_thousands_separator}
     {$translation.locale_object.currency_thousands_separator}
-{section-else}
+{else}
     <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
-{/section}
+{/if}
 </div>
 
 {* Currency decimal count *}
 <div class="block">
 <label>{'Currency decimal count'|i18n( 'design/admin/content/translationview' )}:</label>
-{section show=$translation.locale_object.currency_decimal_count}
+{if $translation.locale_object.currency_decimal_count}
     {$translation.locale_object.currency_decimal_count}
-{section-else}
+{else}
     <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
-{/section}
+{/if}
 </div>
 
 {* Currency negative symbol *}
 <div class="block">
 <label>{'Currency negative symbol'|i18n( 'design/admin/content/translationview' )}:</label>
-{section show=$translation.locale_object.currency_negative_symbol}
+{if $translation.locale_object.currency_negative_symbol}
     {$translation.locale_object.currency_negative_symbol}
-{section-else}
+{else}
     <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
-{/section}
+{/if}
 </div>
 
 {* Currency positive symbol *}
 <div class="block">
 <label>{'Currency positive symbol'|i18n( 'design/admin/content/translationview' )}:</label>
-{section show=$translation.locale_object.currency_positive_symbol}
+{if $translation.locale_object.currency_positive_symbol}
     {$translation.locale_object.currency_positive_symbol}
-{section-else}
+{else}
     <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
-{/section}
+{/if}
 </div>
 
 {* Currency symbol *}
 <div class="block">
 <label>{'Currency symbol'|i18n( 'design/admin/content/translationview' )}:</label>
-{section show=$translation.locale_object.currency_symbol}
+{if $translation.locale_object.currency_symbol}
     {$translation.locale_object.currency_symbol}
-{section-else}
+{else}
     <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
-{/section}
+{/if}
 </div>
 
 {* Currency name *}
 <div class="block">
 <label>{'Currency name'|i18n( 'design/admin/content/translationview' )}:</label>
-{section show=$translation.locale_object.currency_name}
+{if $translation.locale_object.currency_name}
     {$translation.locale_object.currency_name}
-{section-else}
+{else}
     <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
-{/section}
+{/if}
 </div>
 
 {* Currency short name *}
 <div class="block">
 <label>{'Currency short name'|i18n( 'design/admin/content/translationview' )}:</label>
-{section show=$translation.locale_object.currency_short_name}
+{if $translation.locale_object.currency_short_name}
     {$translation.locale_object.currency_short_name}
-{section-else}
+{else}
     <i>{'Not set'|i18n( 'design/admin/content/translationview' )}</i>
-{/section}
+{/if}
 </div>
 
 {* First day of week *}
 <div class="block">
 <label>{'First day of week'|i18n( 'design/admin/content/translationview' )}:</label>
-{section show=$translation.locale_object.is_monday_first}
+{if $translation.locale_object.is_monday_first}
     {'Monday'|i18n( 'design/admin/content/translationview' )}
-{section-else}
+{else}
     {'Sunday'|i18n( 'design/admin/content/translationview' )}
-{/section}
+{/if}
 </div>
 
 {* Weekday names *}

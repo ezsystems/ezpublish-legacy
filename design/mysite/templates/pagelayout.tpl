@@ -45,11 +45,11 @@
     <td class="path">
     &gt;
      {section name=Path loop=$module_result.path}
-        {section show=$:item.url}
+        {if $:item.url}
         <a href={$:item.url|ezurl}>{$:item.text|wash}</a>
-        {section-else}
+        {else}
 	    {$Path:item.text|wash}
-        {/section}
+        {/if}
 
         {delimiter}
         /

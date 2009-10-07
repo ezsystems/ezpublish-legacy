@@ -28,11 +28,11 @@
     <td>{$Bookmarks.item.node.object.content_class.name|wash}</td>
     <td>{let section_object=fetch( section, object, hash( section_id, $Bookmarks.item.node.object.section_id ) )}{section show=$section_object}{$section_object.name|wash}{section-else}<i>{'Unknown'|i18n( 'design/admin/content/bookmark' )}</i>{/section}{/let}</td>
     <td>
-    {section show=$Bookmarks.item.node.object.can_edit}
+    {if $Bookmarks.item.node.object.can_edit}
         <a href={concat( 'content/edit/', $Bookmarks.item.node.contentobject_id )|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/content/bookmark' )}" title="{'Edit <%bookmark_name>.'|i18n( 'design/admin/content/bookmark',, hash( '%bookmark_name', $Bookmarks.item.node.name ) )|wash}" /></a>
-    {section-else}
+    {else}
         <img src={'edit-disabled.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/content/bookmark' )}" title="{'You do not have permission to edit the contents of <%bookmark_name>.'|i18n( 'design/admin/content/bookmark',, hash( '%bookmark_name', $Bookmarks.item.node.name ) )|wash}" />
-    {/section}
+    {/if}
     </td>
 </tr>
 {/section}
@@ -62,11 +62,11 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
 
-{section show=$bookmark_list}
+{if $bookmark_list}
 <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/bookmark' )}" title="{'Remove selected bookmarks.'|i18n( 'design/admin/content/bookmark' )}" />
-{section-else}
+{else}
 <input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/bookmark' )}" disabled="disabled" />
-{/section}
+{/if}
 
 <input class="button" type="submit" name="AddButton" value="{'Add items'|i18n( 'design/admin/content/bookmark' )}" title="{'Add items to your personal bookmark list.'|i18n( 'design/admin/content/bookmark' )}" />
 </div>

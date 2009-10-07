@@ -5,27 +5,27 @@
         <h1>{$node.data_map.name.content|wash()}</h1>
 
         {* Short description. *}
-        {section show=$node.data_map.short_description.has_content}
+        {if $node.data_map.short_description.has_content}
             <div class="attribute-short">
                 {attribute_view_gui attribute=$node.data_map.short_description}
             </div>
-        {/section}
+        {/if}
 
         {* Description *}
-        {section show=$node.data_map.description.has_content}
+        {if $node.data_map.description.has_content}
             <div class="attribute-long">
                 {attribute_view_gui attribute=$node.data_map.description}
             </div>
-        {/section}
+        {/if}
 
         {* Children. *}
         <div class="content-control">
             <label>{'Show children'|i18n( 'design/admin/preview/folder' )}:</label>
-            {section show=$node.data_map.show_children.content}
+            {if $node.data_map.show_children.content}
                 <p>{'Yes'|i18n( 'design/admin/preview/folder' )}</p>
-                {section-else}
+                {else}
                 <p>{'No'|i18n( 'design/admin/preview/folder' )}</p>
-            {/section}
+            {/if}
         </div>
 
     </div>

@@ -14,18 +14,18 @@
     <td class="author">
     {let owner=$node.object.owner owner_map=$owner.data_map}
         <p class="author">{$owner.name|wash}
-        {section show=is_set( $owner_map.title )}
+        {if is_set( $owner_map.title )}
             <br />{$owner_map.title.content|wash}
-        {/section}</p>
-        {section show=$owner_map.image.has_content}
+        {/if}</p>
+        {if $owner_map.image.has_content}
         <div class="authorimage">
             {attribute_view_gui attribute=$owner_map.image image_class=small}
         </div>
-        {/section}
+        {/if}
 
-        {section show=is_set( $owner_map.location )}
+        {if is_set( $owner_map.location )}
             <p>{"Location"|i18n("design/base")}:{$owner_map.location.content|wash}</p>
-        {/section}
+        {/if}
         <p>
         {let owner_id=$node.object.owner.id}
             {section name=Author loop=$node.object.author_array}
@@ -36,7 +36,7 @@
         {/let}
         </p>
 
-        {section show=$node.object.can_edit}
+        {if $node.object.can_edit}
         <form method="post" action={"content/action/"|ezurl}>
 
         <br/>
@@ -45,7 +45,7 @@
         <input class="button forum-edit-reply" type="submit" name="EditButton" value="{'Edit'|i18n('design/base')}" />
 
         </form>
-        {/section}
+        {/if}
 
     </td>
     <td class="message">
@@ -56,9 +56,9 @@
         <p>
             {$node.data_map.message.content|simpletags|wordtoimage|autolink}
         </p>
-        {section show=$owner_map.signature.has_content}
+        {if $owner_map.signature.has_content}
             <p class="author-signature">{$owner_map.signature.content|simpletags|autolink}</p>
-        {/section}
+        {/if}
     {/let}
     </td>
 </tr>

@@ -44,26 +44,26 @@
     </tr>
     </table>
     <p>
-        {section show=$php_ini.safe_mode}
+        {if $php_ini.safe_mode}
             {'Safe mode is on.'|i18n('design/standard/setup')}<br/>
-        {section-else}
+        {else}
             {'Safe mode is off.'|i18n('design/standard/setup')}<br/>
-        {/section}
-        {section show=$php_ini.open_basedir}
+        {/if}
+        {if $php_ini.open_basedir}
             {'Basedir restriction is on and set to %1.'|i18n('design/standard/setup',,array($php_ini.open_basedir))}<br/>
-        {section-else}
+        {else}
             {'Basedir restriction is off.'|i18n('design/standard/setup')}<br/>
-        {/section}
-        {section show=$php_ini.register_globals}
+        {/if}
+        {if $php_ini.register_globals}
             {'Global variable registration is on.'|i18n('design/standard/setup')}<br/>
-        {section-else}
+        {else}
             {'Global variable registration is off.'|i18n('design/standard/setup')}<br/>
-        {/section}
-        {section show=$php_ini.file_uploads}
+        {/if}
+        {if $php_ini.file_uploads}
             {'File uploading is enabled.'|i18n('design/standard/setup')}<br/>
-        {section-else}
+        {else}
             {'File uploading is disabled.'|i18n('design/standard/setup')}<br/>
-        {/section}
+        {/if}
         {'Maximum size of post data (text and files) is %1.'|i18n('design/standard/setup',,array($php_ini.post_max_size))}<br/>
         {'Script memory limit is %1.'|i18n('design/standard/setup',,array($php_ini.memory_limit))}<br/>
         {'Maximum execution time is %1 seconds.'|i18n('design/standard/setup',,array($php_ini.max_execution_time))}<br/>
@@ -106,27 +106,27 @@
     <h2>PHP Accelerator</h2>
 </div>
 <div class="object">
-{section show=$php_accelerator}
+{if $php_accelerator}
     <table width="100%">
     <tr>
-        <td><p><b>{'Name'|i18n('design/standard/setup','PHP Accelerator name')}</b></p></td><td><p>{section show=$php_accelerator.url}<a href="{$php_accelerator.url|wash}">{/section}{$php_accelerator.name|wash}{section show=$php_accelerator.url}</a>{/section}</p></td>
+        <td><p><b>{'Name'|i18n('design/standard/setup','PHP Accelerator name')}</b></p></td><td><p>{if $php_accelerator.url}<a href="{$php_accelerator.url|wash}">{/if}{$php_accelerator.name|wash}{if $php_accelerator.url}</a>{/if}</p></td>
     </tr>
     <tr>
-        <td><p><b>{'Version'|i18n('design/standard/setup','PHP Accelerator version')}</b></p></td><td><p>{section show=$php_accelerator.version_string}{$php_accelerator.version_string|wash}{section-else}{'Could not detect version'|i18n('design/standard/setup')}{/section}</p></td>
+        <td><p><b>{'Version'|i18n('design/standard/setup','PHP Accelerator version')}</b></p></td><td><p>{if $php_accelerator.version_string}{$php_accelerator.version_string|wash}{else}{'Could not detect version'|i18n('design/standard/setup')}{/if}</p></td>
     </tr>
     </table>
     <p>
-        {section show=$php_accelerator.enabled}
+        {if $php_accelerator.enabled}
             {'The PHP Accelerator is enabled.'|i18n('design/standard/setup')}<br/>
-        {section-else}
+        {else}
             {'The PHP Accelerator is disabled.'|i18n('design/standard/setup')}<br/>
-        {/section}
+        {/if}
     </p>
-{section-else}
+{else}
     <p>
             {'There is no known PHP accelerator active.'|i18n('design/standard/setup')}<br/>
     </p>
-{/section}
+{/if}
 </div>
 
 <div class="objectheader">
@@ -142,12 +142,12 @@
         <td width="1"><p><b>{'Server'|i18n('design/standard/setup','Database server')}</b></p></td>
 		<td><p>{$database_object.database_server}</p></td>
     </tr>
-	{section show=$database_object.database_socket_path}
+	{if $database_object.database_socket_path}
     <tr>
         <td width="1"><p><b>{'Socket path'|i18n('design/standard/setup','Database socket path')}</b></p></td>
 		<td><p>{$database_object.database_socket_path}</p></td>
     </tr>
-	{/section}
+	{/if}
     <tr>
         <td width="1"><p><b>{'Database'|i18n('design/standard/setup','Database name')}</b></p></td>
 		<td><p>{$database_object.database_name}</p></td>
@@ -158,7 +158,7 @@
     </tr>
     <tr>
         <td width="1"><p><b>{'Charset'|i18n('design/standard/setup','Database charset')}</b></p></td>
-		<td><p>{$database_charset|wash}{section show=$database_object.is_internal_charset} ({'Internal'|i18n('design/standard/setup')}){/section}</p></td>
+		<td><p>{$database_charset|wash}{if $database_object.is_internal_charset} ({'Internal'|i18n('design/standard/setup')}){/if}</p></td>
     </tr>
     </table>
 </div>
@@ -167,7 +167,7 @@
     <h2>{'Operating System'|i18n('design/standard/setup')}</h2>
 </div>
 <div class="object">
-    {section show=$system_info.is_valid}
+    {if $system_info.is_valid}
     <table width="500">
     <tr>
         <td width="1"><p><b>{'CPU'|i18n('design/standard/setup','Database type')}</b></p></td>
@@ -178,12 +178,12 @@
 		<td><p>{$system_info.memory_size|si( byte )}</p></td>
     </tr>
     </table>
-    {section-else}
+    {else}
         <p>{'No information on the operating system could be determined.'|i18n( 'design/standard/setup' )}</p>
-    {/section}
+    {/if}
 </div>
 
-{section show=$database_object.use_slave_server}
+{if $database_object.use_slave_server}
 <div class="objectheader">
     <h2>{'Current read-only database (Slave)'|i18n('design/standard/setup')}</h2>
 </div>
@@ -199,5 +199,5 @@
     </tr>
 	</table>
 </div>
-{/section}
+{/if}
 

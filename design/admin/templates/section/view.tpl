@@ -166,9 +166,9 @@
 
 {section var=Objects loop=$objects sequence=array( bgdark, bglight )}
 <tr class="{$Objects.sequence}">
-    {section show=$Objects.item.main_node_id}
+    {if $Objects.item.main_node_id}
     <td>{$Objects.item.main_node.class_identifier|class_icon( small, $Objects.item.main_node.class_name )}&nbsp;<a href={$Objects.main_node.url_alias|ezurl}>{$Objects.item.name|wash}</a></td>
-    {/section}
+    {/if}
 </tr>
 {/section}
 {section-else}

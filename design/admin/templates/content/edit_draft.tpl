@@ -20,33 +20,33 @@
 {* Created *}
 <p>
 <label>{'Created'|i18n( 'design/admin/content/edit_draft' )}:</label>
-{section show=$object.published}
+{if $object.published}
 {$object.published|l10n( shortdatetime )}<br />
 {$object.current.creator.name|wash}
-{section-else}
+{else}
 {'Not yet published'|i18n( 'design/admin/content/edit_draft' )}
-{/section}
+{/if}
 </p>
 
 {* Modified *}
 <p>
 <label>{'Modified'|i18n( 'design/admin/content/edit_draft' )}:</label>
-{section show=$object.modified}
+{if $object.modified}
 {$object.modified|l10n( shortdatetime )}<br />
 {fetch( content, object, hash( object_id, $object.content_class.modifier_id ) ).name|wash}
-{section-else}
+{else}
 {'Not yet published'|i18n( 'design/admin/content/edit_draft' )}
-{/section}
+{/if}
 </p>
 
 {* Published version *}
 <p>
 <label>{'Published version'|i18n( 'design/admin/content/edit_draft' )}:</label>
-{section show=$object.published}
+{if $object.published}
 {$object.current_version}
-{section-else}
+{else}
 {'Not yet published'|i18n( 'design/admin/content/edit_draft' )}
-{/section}
+{/if}
 </p>
 
 </div></div></div></div></div></div>
@@ -66,11 +66,11 @@
      draft_checked=false()}
 
 {section loop=$draft_versions}
-    {section show=eq( $item.creator_id, $current_creator.contentobject_id )}
+    {if eq( $item.creator_id, $current_creator.contentobject_id )}
         {set has_own_drafts=true()}
-    {section-else}
+    {else}
         {set has_other_drafts=true()}
-    {/section}
+    {/if}
 {/section}
 
 
@@ -78,30 +78,30 @@
 
 <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Possible edit conflict'|i18n( 'design/admin/content/edit_draft' )}</h2>
 
-{section show=and( $has_own_drafts, $has_other_drafts )}
+{if and( $has_own_drafts, $has_other_drafts )}
     <p>{'This object is already being edited by someone else. In addition, it is already being edited by you.'|i18n( 'design/admin/content/edit_draft' )}</p>
     <p>{"You should contact the other user(s) to make sure that you are not stepping on anyone's toes."|i18n( 'design/admin/content/edit_draft' )}
     <p>{'The most recently modified draft is version #%version, created by %creator, last changed: %modified.'|i18n( 'design/admin/content/edit_draft',, hash( '%version', $most_recent_draft.version, '%creator', $most_recent_draft.creator.name, '%modified', $most_recent_draft.modified|l10n( shortdatetime ) ) )|wash}</p>
-{section-else}
+{else}
 
-    {section show=$has_own_drafts}
+    {if $has_own_drafts}
         <p>{'This object is already being edited by you.'|i18n( 'design/admin/content/edit_draft' )}</p>
         <p>{'Your most recently modified draft is version #%version, last changed: %modified.'|i18n( 'design/admin/content/edit_draft',, hash( '%version', $most_recent_draft.version, '%creator', $most_recent_draft.creator.name, '%modified', $most_recent_draft.modified|l10n( shortdatetime ) ) )|wash}</p>
-    {/section}
+    {/if}
 
-    {section show=$has_other_drafts}
+    {if $has_other_drafts}
         <p>{'This object is already being edited by someone else.'|i18n( 'design/admin/content/edit_draft' )}</p>
         <p>{"You should contact the other user(s) to make sure that you are not stepping on anyone's toes."|i18n( 'design/admin/content/edit_draft' )}
         <p>{'The most recently modified draft is version #%version, created by %creator, last changed: %modified.'|i18n( 'design/admin/content/edit_draft',, hash( '%version', $most_recent_draft.version, '%creator', $most_recent_draft.creator.name, '%modified', $most_recent_draft.modified|l10n( shortdatetime ) ) )|wash}</p>
-    {/section}
+    {/if}
 
-{/section}
+{/if}
 
 <p>{'Possible actions'|i18n( 'design/admin/content/edit_draft' )}:</p>
 <ul>
-    {section show=$has_own_drafts}
+    {if $has_own_drafts}
         <li>{'Continue editing one of your drafts.'|i18n( 'design/admin/content/edit_draft' )}</li>
-    {/section}
+    {/if}
     <li>{'Create a new draft and start editing it.'|i18n( 'design/admin/content/edit_draft' )}</li>
     <li>{'Cancel the edit operation.'|i18n( 'design/admin/content/edit_draft' )}</li>
 </ul>
@@ -126,9 +126,9 @@
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {section var=Drafts loop=$draft_versions}
-{section show=eq( $Drafts.item.creator_id, $current_creator.contentobject_id )}
+{if eq( $Drafts.item.creator_id, $current_creator.contentobject_id )}
 {set draft_checked=$Drafts.item.id}
-{/section}
+{/if}
 {/section}
 
 <table class="list" cellspacing="0">
@@ -146,11 +146,11 @@
 
     {* Edit. *}
     <td>
-        {section show=eq( $Drafts.item.creator_id, $current_creator.contentobject_id )}
-            <input type="radio" name="SelectedVersion" value="{$Drafts.item.version}" {section show=eq( $Drafts.item.id, $draft_checked )}checked="checked"{/section} title="{'Select draft version #%version for editing.'|i18n( 'design/admin/content/edit_draft',, hash( '%version', $Drafts.item.version ) )}" />
-        {section-else}
+        {if eq( $Drafts.item.creator_id, $current_creator.contentobject_id )}
+            <input type="radio" name="SelectedVersion" value="{$Drafts.item.version}" {if eq( $Drafts.item.id, $draft_checked )}checked="checked"{/if} title="{'Select draft version #%version for editing.'|i18n( 'design/admin/content/edit_draft',, hash( '%version', $Drafts.item.version ) )}" />
+        {else}
             <input type="radio" name="SelectedVersion" value="{$Drafts.item.version}" disabled="disabled" title="{'You cannot select draft version #%version for editing because it belongs to another user. Please select a draft that belongs to you or create a new draft and then edit it.'|i18n( 'design/admin/content/edit_draft',, hash( '%version', $Drafts.item.version ) )}" />
-        {/section}
+        {/if}
     </td>
 
     {* Version/view. *}
@@ -181,11 +181,11 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-{section show=$has_own_drafts}
+{if $has_own_drafts}
 <input class="button" type="submit" name="EditButton" value="{'Edit selected'|i18n( 'design/admin/content/edit_draft' )}" title="{'Edit the selected draft.'|i18n( 'design/admin/content/edit_draft' )}" />
-{section-else}
+{else}
 <input class="button-disabled" type="submit" name="EditButton" value="{'Edit selected'|i18n( 'design/admin/content/edit_draft' )}" disabled="disabled" title="{'You cannot edit any of the drafts because none of them belong to you. You can create a new draft, select it and then edit it.'|i18n( 'design/admin/content/edit_draft' )}" />
-{/section}
+{/if}
 
 <input class="button" type="submit" name="NewDraftButton" value="{'New draft'|i18n( 'design/admin/content/edit_draft' )}" title="{'Create a new draft. The contents of the new draft will be copied from the published version.'|i18n( 'design/admin/content/edit_draft' )}" />
 <input class="button" type="submit" name="CancelDraftButton" value="{'Cancel'|i18n( 'design/admin/content/edit_draft' )}" title="{'Cancel the edit operation.'|i18n( 'design/admin/content/edit_draft' )}" />

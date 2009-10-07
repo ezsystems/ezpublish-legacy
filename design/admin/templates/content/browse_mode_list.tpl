@@ -1,11 +1,11 @@
 <table class="list" cellspacing="0">
 <tr>
     <th class="tight">
-    {section show=eq( $select_type, 'checkbox' )}
+    {if eq( $select_type, 'checkbox' )}
         <img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/content/browse' )}" title="{'Invert selection.'|i18n( 'design/admin/content/browse' )}" onclick="ezjs_toggleCheckboxes( document.browse, '{$select_name}[]' ); return false;" />
-    {section-else}
+    {else}
         &nbsp;
-    {/section}
+    {/if}
     </th>
     <th class="wide">
     {'Name'|i18n( 'design/admin/content/browse' )}
@@ -46,26 +46,26 @@
                                                                'contentobject',   $Nodes.item ) )}
         {/if}
      {/if}
-     {section show=and( $browse_permission,
+     {if and( $browse_permission,
                            $browse.ignore_nodes_select|contains( $Nodes.item.node_id )|not,
                            eq( $ignore_nodes_merge|count,
                                $ignore_nodes_merge|unique|count ) )}
-        {section show=is_array( $browse.class_array )}
-            {section show=$browse.class_array|contains( $Nodes.item.object.content_class.identifier )}
+        {if is_array( $browse.class_array )}
+            {if $browse.class_array|contains( $Nodes.item.object.content_class.identifier )}
                 <input type="{$select_type}" name="{$select_name}[]" value="{$Nodes.item[$select_attribute]}" />
-            {section-else}
+            {else}
                 <input type="{$select_type}" name="" value="" disabled="disabled" />
-            {/section}
-        {section-else}
-            {section show=and( or( eq( $browse.action_name, 'MoveNode' ), eq( $browse.action_name, 'CopyNode' ), eq( $browse.action_name, 'AddNodeAssignment' ) ), $Nodes.item.object.content_class.is_container|not )}
+            {/if}
+        {else}
+            {if and( or( eq( $browse.action_name, 'MoveNode' ), eq( $browse.action_name, 'CopyNode' ), eq( $browse.action_name, 'AddNodeAssignment' ) ), $Nodes.item.object.content_class.is_container|not )}
                 <input type="{$select_type}" name="{$select_name}[]" value="{$Nodes.item[$select_attribute]}" disabled="disabled" />
-            {section-else}
+            {else}
                 <input type="{$select_type}" name="{$select_name}[]" value="{$Nodes.item[$select_attribute]}" />
-            {/section}
-        {/section}
-    {section-else}
+            {/if}
+        {/if}
+    {else}
         <input type="{$select_type}" name="" value="" disabled="disabled" />
-    {/section}
+    {/if}
     {/let}
     </td>
     <td>
@@ -79,16 +79,16 @@
              one array against another and returns true if elements in the first
              exists in the other *}
     {let ignore_nodes_merge=merge( $browse.ignore_nodes_click, $Nodes.item.path_array )}
-    {section show=eq( $ignore_nodes_merge|count,
+    {if eq( $ignore_nodes_merge|count,
                       $ignore_nodes_merge|unique|count )}
-        {section show=and( or( ne( $browse.action_name, 'MoveNode' ), ne( $browse.action_name, 'CopyNode' ) ), $Nodes.item.object.content_class.is_container )}
+        {if and( or( ne( $browse.action_name, 'MoveNode' ), ne( $browse.action_name, 'CopyNode' ) ), $Nodes.item.object.content_class.is_container )}
             {$Nodes.item.object.class_identifier|class_icon( small, $Nodes.item.object.class_name )}&nbsp;<a href={concat( '/content/browse/', $Nodes.item.node_id )|ezurl}>{$Nodes.item.name|wash}</a>
-        {section-else}
+        {else}
             {$Nodes.item.object.class_identifier|class_icon( small, $Nodes.item.object.class_name )}&nbsp;{$Nodes.item.name|wash}
-        {/section}
-    {section-else}
+        {/if}
+    {else}
         {$Nodes.item.object.class_identifier|class_icon( small, $Nodes.item.object.class_name )}&nbsp;{$Nodes.item.name|wash}
-    {/section}
+    {/if}
     {/let}
 
     </td>

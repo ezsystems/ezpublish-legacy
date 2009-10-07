@@ -87,7 +87,7 @@
    <td class="element">
     <label>Node</label><div class="labelbreak"></div>
     <table>
-     {section show=$node_list name=NodeList loop=$node_list}
+     {if $node_list name=NodeList loop=$node_list}
      <tr>
      <td>
      {$Limitations:NodeList:item.name}
@@ -96,13 +96,13 @@
      <input type="checkbox" name="DeleteNodeIDArray[]" value={$Limitations:NodeList:item.node_id} />
      </td>
      </tr>
-     {section-else}
+     {else}
      <tr>
      <td>
       {'Not specified.'|i18n('design/standard/role')}
      </td>
      </tr>
-     {/section}
+     {/if}
      </table>
      <input class="menubutton" type="image" name="BrowseLimitationNodeButton" value="{'Find'|i18n('design/standard/role')}" src={"find.png"|ezimage} />
      <input class="menubutton" type="image" name="DeleteNodeButton" value="{'Remove'|i18n('design/standard/role')}" src={"trash.png"|ezimage} />
@@ -112,7 +112,7 @@
    <td class="element">
     <label>Subtree</label><div class="labelbreak"></div>
     <table>
-     {section show=$subtree_list name=SubtreeList loop=$subtree_list}
+     {if $subtree_list name=SubtreeList loop=$subtree_list}
      <tr>
      <td>
      {$Limitations:SubtreeList:item.name}
@@ -121,13 +121,13 @@
      <input type="checkbox" name="DeleteSubtreeIDArray[]" value={$Limitations:SubtreeList:item.node_id} />
      </td>
      </tr>
-     {section-else}
+     {else}
      <tr>
      <td>
       {'Not specified.'|i18n('design/standard/role')}
      </td>
      </tr>
-     {/section}
+     {/if}
      </table>
      <input class="menubutton" type="image" name="BrowseLimitationSubtreeButton" value="{'Find'|i18n('design/standard/role')}" src={"find.png"|ezimage} />
      <input class="menubutton" type="image" name="DeleteSubtreeButton" value="{'Remove'|i18n('design/standard/role')}" src={"trash.png"|ezimage} />

@@ -5,7 +5,7 @@
 {section name=Rows loop=$matrix.rows.sequential}
     <td>
         {section name=Columns loop=$Rows:item.columns}
-            {section show=0|eq($Rows:Columns:index)}
+            {if 0|eq($Rows:Columns:index)}
                {switch match=$attribute.contentclass_attribute_identifier}
                {case match='contact_information'}
                      <em>{$Rows:Columns:item}:</em>
@@ -16,9 +16,9 @@
                {case}
                {/case}
                {/switch}
-            {section-else}
+            {else}
                {$Rows:Columns:item|wash(xhtml)|autolink|nl2br}
-            {/section}
+            {/if}
 
         {delimiter}
         </td>

@@ -30,13 +30,13 @@
 
 {section var=Orderstatus loop=$orderstatus_array sequence=array( bglight, bgdark )}
 <tr class="{$Orderstatus.sequence}">
-    <td><input type="checkbox" name="orderStatusIDList[]" value="{$Orderstatus.item.id}" title="{'Select order status for removal.'|i18n( 'design/admin/shop/status' )}" {section show=$Orderstatus.item.is_internal}disabled="disabled"{/section} /></td>
-    <td class="number" align="right">{section show=$Orderstatus.item.is_internal}<i>{/section}{$Orderstatus.item.status_id}{section show=$Orderstatus.item.is_internal}</i>{/section}</td>
+    <td><input type="checkbox" name="orderStatusIDList[]" value="{$Orderstatus.item.id}" title="{'Select order status for removal.'|i18n( 'design/admin/shop/status' )}" {if $Orderstatus.item.is_internal}disabled="disabled"{/if} /></td>
+    <td class="number" align="right">{if $Orderstatus.item.is_internal}<i>{/if}{$Orderstatus.item.status_id}{if $Orderstatus.item.is_internal}</i>{/if}</td>
     <td><input type="text" name="orderstatus_name_{$Orderstatus.item.id}" value="{$Orderstatus.item.name|wash}" size="24" /></td>
     <td>
         {* The hidden variable is required because a checkbox will only set the value if it is checked *}
         <input type="hidden" name="orderstatus_active_has_input_{$Orderstatus.item.id}" value="1" />
-        <input type="checkbox" name="orderstatus_active_{$Orderstatus.item.id}" value="{$Orderstatus.item.id}" title="{'Check this if you want the status to be usable in the shopping system.'|i18n( 'design/admin/shop/status' )}" {section show=$Orderstatus.item.is_active}checked="checked"{/section} />
+        <input type="checkbox" name="orderstatus_active_{$Orderstatus.item.id}" value="{$Orderstatus.item.id}" title="{'Check this if you want the status to be usable in the shopping system.'|i18n( 'design/admin/shop/status' )}" {if $Orderstatus.item.is_active}checked="checked"{/if} />
     </td>
 </tr>
 {/section}
@@ -53,19 +53,19 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
 <div class="button-left">
-    {section show=$orderstatus_array}
+    {if $orderstatus_array}
     <input class="button" type="submit" name="RemoveOrderStatusButton" value="{'Remove selected'|i18n( 'design/admin/shop/status' )}" title="{'Remove selected order statuses.'|i18n( 'design/admin/shop/status' )}" />
-    {section-else}
+    {else}
     <input class="button-disabled" type="submit" name="RemoveOrderStatusButton" value="{'Remove selected'|i18n( 'design/admin/shop/status' )}" disabled="disabled" />
-    {/section}
+    {/if}
     <input class="button" type="submit" name="AddOrderStatusButton" value="{'New order status'|i18n( 'design/admin/shop/status' )}" title="{'Create a new order status.'|i18n( 'design/admin/shop/status' )}" />
 </div>
 <div class="button-right">
-    {section show=$orderstatus_array}
+    {if $orderstatus_array}
     <input class="button" type="submit" name="SaveOrderStatusButton" value="{'Apply changes'|i18n( 'design/admin/shop/status' )}" title="{'Click this button to store changes if you have modified any of the fields above.'|i18n( 'design/admin/shop/status' )}" />
-    {section-else}
+    {else}
     <input class="button-disabled" type="submit" name="SaveOrderStatusButton" value="{'Apply changes'|i18n( 'design/admin/shop/status' )}" disabled="disabled" />
-    {/section}
+    {/if}
 </div>
 <div class="break"></div>
 </div>

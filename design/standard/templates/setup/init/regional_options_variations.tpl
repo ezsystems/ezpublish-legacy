@@ -4,15 +4,15 @@
 
 <form method="post" action="{$script}">
 
-{section show=eq($regional_info.language_type,1)}
+{if eq($regional_info.language_type,1)}
  <p>
   {"It is now possible to select a variation for your language. A variation does small adjustments to the language, such as adding Euro support or date format changes. Using variations are optional so you may safely skip this step. Once your are done click the"|i18n("design/standard/setup/init")} <i>{"Summary"|i18n("design/standard/setup/init")}</i> {"button."|i18n("design/standard/setup/init")}
  </p>
-{section-else}
+{else}
  <p>
   {"It is now possible to select variations for your languages. Variations do small adjustments to the language, such as adding Euro support or date format changes. Using variations are optional so you may safely skip this step. Once you are done click the"|i18n("design/standard/setup/init")} <i>{"Summary"|i18n("design/standard/setup/init")}</i> {"button."|i18n("design/standard/setup/init")}
  </p>
-{/section}
+{/if}
 
 <div class="input_highlight">
 <table cellspacing="0" cellpadding="0" border="0">
@@ -36,7 +36,7 @@
 {/switch}
 {/section}
   <td class="normal">
-    <input type="radio" name="eZSetupLanguageVariation[{$Language:item.locale_code}]" value="{$Language:item.locale_full_code}" {section show=$:has_variation|not}checked="checked"{/section} />
+    <input type="radio" name="eZSetupLanguageVariation[{$Language:item.locale_code}]" value="{$Language:item.locale_full_code}" {if $:has_variation|not}checked="checked"{/if} />
   </td>
 {/let}
 </tr>

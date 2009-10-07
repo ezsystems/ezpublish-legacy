@@ -22,42 +22,42 @@
 {* Created *}
 <p>
 <label>{'Created'|i18n( 'design/admin/content/view/versionview' )}:</label>
-{section show=$object.published}
+{if $object.published}
 {$object.published|l10n( shortdatetime )}<br />
 {$object.current.creator.name|wash}
-{section-else}
+{else}
 {'Not yet published'|i18n( 'design/admin/content/view/versionview' )}
-{/section}
+{/if}
 </p>
 
 {* Modified *}
 <p>
 <label>{'Modified'|i18n( 'design/admin/content/view/versionview' )}:</label>
-{section show=$object.modified}
+{if $object.modified}
 {$object.modified|l10n( shortdatetime )}<br />
 {fetch( content, object, hash( object_id, $object.content_class.modifier_id ) ).name|wash}
-{section-else}
+{else}
 {'Not yet published'|i18n( 'design/admin/content/view/versionview' )}
-{/section}
+{/if}
 </p>
 
 {* Published version *}
 <p>
 <label>{'Published version'|i18n( 'design/admin/content/view/versionview' )}:</label>
-{section show=$object.status|eq( 1 )} {* status equal to 1 means it is published *}
+{if $object.status|eq( 1 )} {* status equal to 1 means it is published *}
 {$object.main_node.contentobject_version}
-{section-else}
+{else}
 {'Not yet published'|i18n( 'design/admin/content/view/versionview' )}
-{/section}
+{/if}
 </p>
 
 {* Manage versions *}
 <div class="block">
-{section show=$object.versions|count|gt( 1 )}
+{if $object.versions|count|gt( 1 )}
 <input class="button" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/view/versionview' )}" title="{'View and manage (copy, delete, etc.) the versions of this object.'|i18n( 'design/admin/content/view/versionview' )}" />
-{section-else}
+{else}
 <input class="button-disabled" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/view/versionview' )}" disabled="disabled" title="{'You cannot manage the versions of this object because there is only one version available (the one that is being displayed).'|i18n( 'design/admin/content/view/versionview' )}" />
-{/section}
+{/if}
 </div>
 
 </div></div></div></div></div></div>
@@ -148,7 +148,7 @@
 {section show=$version.node_assignments|count|gt( 1 )}
 {section var=Locations loop=$version.node_assignments}
 <p>
-<input type="radio" name="SelectedPlacement" value="{$Locations.item.id}" {section show=eq( $Locations.item.id, $placement )}checked="checked"{/section} />&nbsp;{$Locations.item.parent_node_obj.name|wash}
+<input type="radio" name="SelectedPlacement" value="{$Locations.item.id}" {if eq( $Locations.item.id, $placement )}checked="checked"{/if} />&nbsp;{$Locations.item.parent_node_obj.name|wash}
 </p>
 {/section}
 {section-else}
@@ -244,14 +244,14 @@
 <form method="post" action={concat( 'content/versionview/', $object.id, '/', $version.version, '/', $language, '/', $from_language )|ezurl}>
 {* version.status 0 is draft
    object.status 2 is archived *}
-{section show=or( and( eq( $version.status, 0 ), $is_creator, $object.can_edit ),
+{if or( and( eq( $version.status, 0 ), $is_creator, $object.can_edit ),
                   and( eq( $object.status, 2 ), $object.can_edit ) )}
 <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/admin/content/view/versionview' )}" title="{'Edit the draft that is being displayed.'|i18n( 'design/admin/content/view/versionview' )}" />
 <input class="button" type="submit" name="PreviewPublishButton" value="{'Publish'|i18n( 'design/admin/content/view/versionview' )}" title="{'Publish the draft that is being displayed.'|i18n( 'design/admin/content/view/versionview' )}" />
-{section-else}
+{else}
 <input class="button-disabled" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/admin/content/view/versionview' )}" disabled="disabled" title="{'This version is not a draft and therefore cannot be edited.'|i18n( 'design/admin/content/view/versionview' )}" />
 <input class="button-disabled" type="submit" name="PreviewPublishButton" value="{'Publish'|i18n( 'design/admin/content/view/versionview' )}" disabled="disabled" title="{'Publish the draft that is being displayed.'|i18n( 'design/admin/content/view/versionview' )}" />
-{/section}
+{/if}
 </form>
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>

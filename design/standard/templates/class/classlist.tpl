@@ -52,9 +52,9 @@
     </div>
   </td>
   <td align="right">
-    {section show=$class_count}
+    {if $class_count}
       <input type="image" name="RemoveButton" value="{'Remove'|i18n('design/standard/class/classlist')}" src={"trash.png"|ezimage} />
-    {/section}
+    {/if}
   </td>
 </tr>
 </table>

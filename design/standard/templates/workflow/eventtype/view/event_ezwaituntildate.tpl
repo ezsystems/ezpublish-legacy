@@ -2,11 +2,11 @@
 
 <div class="element">
 
-{section show=$event.data_int1}
+{if $event.data_int1}
 {'Publish date will be modified.'|i18n('design/standard/workflow/eventtype/view')}
-{section-else}
+{else}
 {'Publish date will not be modified.'|i18n('design/standard/workflow/eventtype/view')}
-{/section}
+{/if}
 
 <table class="list">
 <tr>

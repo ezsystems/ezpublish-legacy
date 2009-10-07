@@ -3,14 +3,14 @@
 
     {* Use seconds. *}
     <div class="element">
-        <label><input type="checkbox" name="ContentClass_eztime_use_seconds_{$class_attribute.id}" {section show=$class_attribute.data_int2|eq(1)}checked="checked"{/section} /> {'Use seconds'|i18n( 'design/standard/class/datatype' )}</label>
+        <label><input type="checkbox" name="ContentClass_eztime_use_seconds_{$class_attribute.id}" {if $class_attribute.data_int2|eq(1)}checked="checked"{/if} /> {'Use seconds'|i18n( 'design/standard/class/datatype' )}</label>
     </div>
 
     <div class="element">
     <label>{'Default value'|i18n( 'design/standard/class/datatype' )}:</label>
     <select name="ContentClass_eztime_default_{$class_attribute.id}">
-        <option value="0" {section show=eq( $class_attribute.data_int1, 0 )}selected="selected"{/section}>{'Empty'|i18n( 'design/standard/class/datatype' )}</option>
-        <option value="1" {section show=eq( $class_attribute.data_int1, 1 )}selected="selected"{/section}>{'Current time'|i18n( 'design/standard/class/datatype' )}</option>
+        <option value="0" {if eq( $class_attribute.data_int1, 0 )}selected="selected"{/if}>{'Empty'|i18n( 'design/standard/class/datatype' )}</option>
+        <option value="1" {if eq( $class_attribute.data_int1, 1 )}selected="selected"{/if}>{'Current time'|i18n( 'design/standard/class/datatype' )}</option>
     </select>
     </div>
 

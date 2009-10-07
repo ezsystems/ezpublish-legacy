@@ -66,7 +66,7 @@
          <tr>
              <td class="shop-option_name">{$option_item.name}<br/>
              <td class="shop-option_value">{$option_item.value}</td>
-             <td class="shop-option_price">{section show=$option_item.price|ne( 0 )}{$option_item.price|l10n( 'currency', $locale, $symbol )}{/section}</td>
+             <td class="shop-option_price">{if $option_item.price|ne( 0 )}{$option_item.price|l10n( 'currency', $locale, $symbol )}{/if}</td>
          </tr>
          {/section}
          </table>

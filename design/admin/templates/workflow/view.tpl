@@ -101,9 +101,9 @@
     {section show=sub( count( $workflow.group_list ),count( $workflow.ingroup_list ) )}
         <select name="Workflow_group">
         {section var=Groups loop=$workflow.group_list}
-            {section show=$workflow.ingroup_id_list|contains($Groups.item.id)|not}
+            {if $workflow.ingroup_id_list|contains($Groups.item.id)|not}
                 <option value="{$Groups.item.id}/{$Groups.item.name|wash}">{$Groups.item.name|wash}</option>
-            {/section}
+            {/if}
         {/section}
         </select>
         <input class="button" type="submit" name="AddGroupButton" value="{'Add to group'|i18n( 'design/admin/workflow/view' )}" />

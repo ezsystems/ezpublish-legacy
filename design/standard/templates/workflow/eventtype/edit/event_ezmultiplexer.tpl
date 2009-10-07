@@ -33,9 +33,9 @@
 <div class="element">
     <label>{'Affected languages'|i18n( 'design/standard/workflow/eventtype/edit' )}:</label>
     <select name="WorkflowEvent_event_ezapprove_language_{$event.id}[]" size="5" multiple="multiple">
-    <option value="-1"{section show=eq( count( $event.language_list ), 0 )} selected="selected"{/section}>{'All languages'|i18n( 'design/standard/workflow/eventtype/edit' )}</option>
+    <option value="-1"{if eq( count( $event.language_list ), 0 )} selected="selected"{/if}>{'All languages'|i18n( 'design/standard/workflow/eventtype/edit' )}</option>
     {section var=Language loop=$event.workflow_type.languages}
-    <option value="{$Language.item.id}"{section show=is_set( $event.language_list[$Language.item.id] )} selected="selected"{/section}>{$Language.item.name|wash}</option>
+    <option value="{$Language.item.id}"{if is_set( $event.language_list[$Language.item.id] )} selected="selected"{/if}>{$Language.item.name|wash}</option>
     {/section}
     </select>
 </div>
@@ -96,9 +96,9 @@
 <select name="WorkflowEvent_event_ezmultiplexer_workflow_id_{$event.id}">
 {section name=Workflows loop=$event.workflow_type.workflow_list}
   <option value="{$Workflows:item.value}"
-  {section show=eq( $Workflows:item.value, $selectedWorkflow )}
+  {if eq( $Workflows:item.value, $selectedWorkflow )}
     selected="selected"
-  {/section}
+  {/if}
 
   >{$Workflows:item.value}-{$Workflows:item.Name}</option>
 {/section}

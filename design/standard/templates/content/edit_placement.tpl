@@ -14,7 +14,7 @@
 
    <select name="SetPlacementNodeIDArray[2]">
    {section loop=hash(0,"None",28,"Feature",29,"Some place",30,"Another place")}
-     <option value="{$:key}" {section show=eq($:list_node1,$:key)}selected="selected"{/section}>{$:item}</option>
+     <option value="{$:key}" {if eq($:list_node1,$:key)}selected="selected"{/if}>{$:item}</option>
    {/section}
    </select>
    <input type="hidden" name="SetRemoteIDOrderMap[2]" value="0" />
@@ -22,7 +22,7 @@
 
    <select name="SetPlacementNodeIDArray[3]">
    {section loop=hash(0,"None",31,"1",32,"2")}
-     <option value="{$:key}" {section show=eq($:list_node2,$:key)}selected="selected"{/section}>{$:item}</option>
+     <option value="{$:key}" {if eq($:list_node2,$:key)}selected="selected"{/if}>{$:item}</option>
    {/section}
    </select>
    <input type="hidden" name="SetRemoteIDOrderMap[3]" value="1" />
@@ -39,9 +39,9 @@
                    has_top_levels=false()}
     {section show=is_set( $assigned_node_array )}
     {section loop=$assigned_node_array}
-         {section show=$Node:item.parent_node|le( 1 )}
+         {if $Node:item.parent_node|le( 1 )}
              {set has_top_levels=true()}
-         {/section}
+         {/if}
     {/section}
     {/section}
 
@@ -50,11 +50,11 @@
         <th width="60%">{"Location"|i18n("design/standard/content/edit")}</th>
         <th colspan="1">{"Sort by"|i18n("design/standard/content/edit")}</th>
         <th colspan="2">{"Ordering"|i18n("design/standard/content/edit")}</th>
-    {section show=$:has_top_levels|not}
+    {if $:has_top_levels|not}
         <th colspan="1">{"Main"|i18n("design/standard/content/edit")}</th>
         <th colspan="1">{"Move"|i18n("design/standard/content/edit")}</th>
         <th colspan="1">{"Remove"|i18n("design/standard/content/edit")}</th>
-    {/section}
+    {/if}
     </tr>
     {let existingParentNodes=$object.parent_nodes}
     {section show=is_set( $assigned_node_array )}
@@ -79,43 +79,43 @@
         <td class="{$Node:sequence}">
           <select name="SortFieldMap[{$Node:item.id}]">
           {section name=Sort loop=$Node:sort_fields}
-            <option value="{$Node:Sort:key}" {section show=eq($Node:Sort:key,$Node:item.sort_field)}selected="selected"{/section}>{$Node:Sort:item}</option>
+            <option value="{$Node:Sort:key}" {if eq($Node:Sort:key,$Node:item.sort_field)}selected="selected"{/if}>{$Node:Sort:item}</option>
           {/section}
           </select>
         </td>
         <td class="{$Node:sequence}" width="25">
-	<nobr><img src={"asc-transp.gif"|ezimage} alt="Ascending" /><input type="radio" name="SortOrderMap[{$Node:item.id}]" value="1" {section show=eq($Node:item.sort_order,1)}checked="checked"{/section} /></nobr>
+	<nobr><img src={"asc-transp.gif"|ezimage} alt="Ascending" /><input type="radio" name="SortOrderMap[{$Node:item.id}]" value="1" {if eq($Node:item.sort_order,1)}checked="checked"{/if} /></nobr>
 	</td>
         <td class="{$Node:sequence}" width="25">
-	<nobr><img src={"desc-transp.gif"|ezimage} alt="Descending" /><input type="radio" name="SortOrderMap[{$Node:item.id}]" value="0" {section show=eq($Node:item.sort_order,0)}checked="checked"{/section} /></nobr>
+	<nobr><img src={"desc-transp.gif"|ezimage} alt="Descending" /><input type="radio" name="SortOrderMap[{$Node:item.id}]" value="0" {if eq($Node:item.sort_order,0)}checked="checked"{/if} /></nobr>
         </td>
 
-        {section show=$:has_top_levels|not}
+        {if $:has_top_levels|not}
         <td class="{$Node:sequence}" align="right">
-            <input type="radio" name="MainNodeID" {section show=eq($main_node_id,$Node:item.parent_node)}checked="checked"{/section} value="{$Node:item.parent_node}" />
+            <input type="radio" name="MainNodeID" {if eq($main_node_id,$Node:item.parent_node)}checked="checked"{/if} value="{$Node:item.parent_node}" />
         </td>
-        {/section}
+        {/if}
 
-        {section show=$:has_top_levels|not}
+        {if $:has_top_levels|not}
         <td class="{$Node:sequence}" align="right">
             {switch match=$Node:item.parent_node}
             {case in=$Node:existingParentNodes}
              <input type="image" name="{concat('MoveNodeID_',$Node:item.parent_node)}" src={"move.gif"|ezimage} value="{$Node:item.parent_node}"  />
             {/case}
             {case}
-              {section show=$Node:item.from_node_id|gt(0)}
+              {if $Node:item.from_node_id|gt(0)}
                 <input type="image" name="{concat('MoveNodeID_',$Node:item.parent_node)}" src={"move.gif"|ezimage} value="{$Node:item.parent_node}"  />
-              {section-else}
-              {/section}
+              {else}
+              {/if}
              {/case}
             {/switch}
         </td>
         <td class="{$Node:sequence}" align="right">
-{*     {section show=eq($Node:item.parent_node,$main_node_id)|not}*}
+{*     {if eq($Node:item.parent_node,$main_node_id)|not}*}
             <input type="image" name="{concat('RemoveNodeID_',$Node:item.parent_node)}" src={"trash.png"|ezimage} value="{$Node:item.parent_node}"  />
-{*     {/section}*}
+{*     {/if}*}
         </td>
-        {/section}
+        {/if}
 
     </tr>
     {/let}
@@ -123,14 +123,14 @@
     {/section}
     {/let}
  </table>
-{section show=$:has_top_levels}
+{if $:has_top_levels}
     <input type="hidden" name="MainNodeID" value="{$main_node_id}" />
-{/section}
-{section show=$:has_top_levels|not}
+{/if}
+{if $:has_top_levels|not}
     <div align="left" class="buttonblock">
         <input class="button" type="submit" name="BrowseNodeButton" value="{'Add locations'|i18n('design/standard/content/edit')}" />
     </div>
-{/section}
+{/if}
 
     {/let}
 {/default}

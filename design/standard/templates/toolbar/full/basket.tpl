@@ -13,10 +13,10 @@
         <div class="toolbox-content">
         {section show=$basket_items}
             {set currency = fetch( 'shop', 'currency', hash( 'code', $basket.productcollection.currency_code ) )}
-            {section show=$currency}
+            {if $currency}
                 {set locale = $currency.locale
                      symbol = $currency.symbol}
-            {/section}
+            {/if}
             <ul>
                 {section var=product loop=$basket_items sequence=array( odd, even )}
                     <li>

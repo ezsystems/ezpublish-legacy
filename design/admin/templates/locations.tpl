@@ -72,36 +72,36 @@
 
     {* Visibility. *}
     <td class="nowrap">
-    {section show=$assignment_node.is_invisible}
-        {section show=$assignment_node.is_hidden}
+    {if $assignment_node.is_invisible}
+        {if $assignment_node.is_hidden}
             {'Hidden'|i18n( 'design/admin/node/view/full' )}
             [ <a href={concat( '/content/hide/', $assignment_node.node_id )|ezurl} title="{'Make location and all sub items visible.'|i18n( 'design/admin/node/view/full' )}">{'Reveal'|i18n( 'design/admin/node/view/full' )}</a> ]
-        {section-else}
+        {else}
             {'Hidden by superior'|i18n( 'design/admin/node/view/full' )}
             [ <a href={concat( '/content/hide/', $assignment_node.node_id )|ezurl} title="{'Hide location and all sub items.'|i18n( 'design/admin/node/view/full' )}">{'Hide'|i18n( 'design/admin/node/view/full' )}</a> ]
-        {/section}
-    {section-else}
+        {/if}
+    {else}
         {'Visible'|i18n( 'design/admin/node/view/full' )}
         [ <a href={concat( '/content/hide/', $assignment_node.node_id )|ezurl} title="{'Hide location and all sub items.'|i18n( 'design/admin/node/view/full' )}" >{'Hide'|i18n( 'design/admin/node/view/full' )}</a> ]
-    {/section}
+    {/if}
     </td>
 
     {* Main node. *}
     <td>
 
-    {section show=$assignment_node.can_edit}
+    {if $assignment_node.can_edit}
 
-    {section show=$assignment_count|gt( 1 ) }
-    <input type="radio" {section show=$assignment_node.is_main}checked="checked"{/section} name="MainAssignmentCheck" value="{$assignment_node.node_id}" title="{'Use these radio buttons to select the desired main location.'|i18n( 'design/admin/node/view/full' )}" />
-    {section-else}
-    <input type="radio" {section show=$assignment_node.is_main}checked="checked"{/section} name="MainAssignmentCheck" value="{$assignment_node.node_id}" disabled="disabled" title="{'The item being displayed has only one location, which is by default the main location.'|i18n( 'design/admin/node/view/full' )}" />
-    {/section}
+    {if $assignment_count|gt( 1 ) }
+    <input type="radio" {if $assignment_node.is_main}checked="checked"{/if} name="MainAssignmentCheck" value="{$assignment_node.node_id}" title="{'Use these radio buttons to select the desired main location.'|i18n( 'design/admin/node/view/full' )}" />
+    {else}
+    <input type="radio" {if $assignment_node.is_main}checked="checked"{/if} name="MainAssignmentCheck" value="{$assignment_node.node_id}" disabled="disabled" title="{'The item being displayed has only one location, which is by default the main location.'|i18n( 'design/admin/node/view/full' )}" />
+    {/if}
 
-    {section-else}
+    {else}
 
-    <input type="radio" {section show=$assignment_node.is_main}checked="checked"{/section} name="MainAssignmentCheck" value="{$assignment_node.node_id}" disabled="disabled" title="{'You cannot set the main location because you do not have permission to edit the item being displayed.'|i18n( 'design/admin/node/view/full' )}" />
+    <input type="radio" {if $assignment_node.is_main}checked="checked"{/if} name="MainAssignmentCheck" value="{$assignment_node.node_id}" disabled="disabled" title="{'You cannot set the main location because you do not have permission to edit the item being displayed.'|i18n( 'design/admin/node/view/full' )}" />
 
-    {/section}
+    {/if}
 
     </td>
 </tr>

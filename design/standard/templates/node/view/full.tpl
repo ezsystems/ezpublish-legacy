@@ -49,9 +49,9 @@ function checkAll()
          content_version=$node.contentobject_version_object
          node_name=$node.name|wash}
 
-{section show=$is_standalone}
+{if $is_standalone}
 <form name="fullview" method="post" action={"content/action"|ezurl}>
-{/section}
+{/if}
 
 
 <div class="objectheader">
@@ -63,9 +63,9 @@ function checkAll()
 <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
 
     {default validation=false()}
-    {section show=$validation}
+    {if $validation}
       {include name=Validation uri='design:content/collectedinfo_validation.tpl' validation=$validation collection_attributes=$collection_attributes}
-    {/section}
+    {/if}
     {/default}
 
     {section name=ContentObjectAttribute loop=$content_version.contentobject_attributes}
@@ -76,7 +76,7 @@ function checkAll()
     {/section}
 
 <div class="buttonblock">
-{section show=$is_editable}
+{if $is_editable}
    {switch match=$content_object.can_edit}
    {case match=1}
    <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
@@ -85,11 +85,11 @@ function checkAll()
    {case match=0}
    {/case}
    {/switch}
-{/section}
+{/if}
     <input class="button" type="submit" name="ActionPreview" value="{'Preview'|i18n('design/standard/node/view')}" />
-    {section show=$node.object.can_remove|eq( true() )}
+    {if $node.object.can_remove|eq( true() )}
     <input class="button" type="submit" name="ActionRemove" value="{'Remove'|i18n('design/standard/node/view')}" />
-    {/section}
+    {/if}
     <input class="button" type="submit" name="ActionAddToBookmarks" value="{'Add to Bookmarks'|i18n('design/standard/node/view')}" />
     <input class="button" type="submit" name="ActionAddToNotification" value="{'Notify me about updates'|i18n('design/standard/node/view')}" />
 
@@ -144,15 +144,15 @@ function checkAll()
 {section show=$:children}
 
 {section loop=$:children}
-  {section show=$:item.object.can_remove}
+  {if $:item.object.can_remove}
     {set can_remove=true()}
-  {/section}
-  {section show=$:item.object.can_edit}
+  {/if}
+  {if $:item.object.can_edit}
     {set can_edit=true()}
-  {/section}
-  {section show=$:item.object.can_create}
+  {/if}
+  {if $:item.object.can_create}
     {set can_create=true()}
-  {/section}
+  {/if}
 {/section}
 
 {set can_copy=$content_object.can_create}
@@ -161,11 +161,11 @@ function checkAll()
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    {section show=$:can_remove}
+    {if $:can_remove}
     <th width="1">
 &nbsp;
     </th>
-    {/section}
+    {/if}
     <th>
       {"Name"|i18n("design/standard/node/view")}
     </th>
@@ -175,31 +175,31 @@ function checkAll()
     <th>
       {"Section"|i18n("design/standard/node/view")}
     </th>
-    {section show=eq($node.sort_array[0][0],'priority')}
+    {if eq($node.sort_array[0][0],'priority')}
     <th>
       {"Priority"|i18n("design/standard/node/view")}
     </th>
-    {/section}
-    {section show=$:can_edit}
+    {/if}
+    {if $:can_edit}
     <th width="1">
       {"Edit"|i18n("design/standard/node/view")}
     </th>
-    {/section}
-    {section show=$:can_copy}
+    {/if}
+    {if $:can_copy}
     <th width="1">
       {"Copy"|i18n("design/standard/node/view")}
     </th>
-    {/section}
+    {/if}
 </tr>
 {section loop=$:children sequence=array(bglight,bgdark)}
 <tr class="{$Child:sequence}">
-        {section show=$:can_remove}
+        {if $:can_remove}
 	<td align="right" width="1">
-	{section show=$:item.object.can_remove}
+	{if $:item.object.can_remove}
              <input type="checkbox" name="DeleteIDArray[]" value="{$Child:item.node_id}" />
-        {/section}
+        {/if}
 	</td>
-        {/section}
+        {/if}
 	<td>
         <a href={$:item.url_alias|ezurl}>{node_view_gui view=line content_node=$:item}</a>
 	</td>
@@ -209,45 +209,45 @@ function checkAll()
     <td>
         {$Child:item.object.section_id}
 	</td>
-	{section show=eq($node.sort_array[0][0],'priority')}
+	{if eq($node.sort_array[0][0],'priority')}
 	<td width="40" align="left">
 	    <input type="text" name="Priority[]" size="2" value="{$Child:item.priority}">
         <input type="hidden" name="PriorityID[]" value="{$Child:item.node_id}">
 	</td>
-	{/section}
+	{/if}
 
-        {section show=$:can_edit}
+        {if $:can_edit}
             <td width="1">
-                {section show=$:item.object.can_edit}
+                {if $:item.object.can_edit}
                     <a href={concat("content/edit/",$Child:item.contentobject_id)|ezurl}><img src={"edit.gif"|ezimage} alt="Edit" /></a>
-                {/section}
+                {/if}
             </td>
-        {/section}
-        {section show=$:can_copy}
+        {/if}
+        {if $:can_copy}
         <td>
           <a href={concat("content/copy/",$Child:item.contentobject_id)|ezurl}><img src={"copy.gif"|ezimage} alt="{'Copy'|i18n('design/standard/node/view')}" /></a>
         </td>
-        {/section}
+        {/if}
 
 </tr>
 {/section}
 </table>
 
-    {section show=eq($node.sort_array[0][0],'priority')}
-      {section show=and($content_object.can_edit,eq($node.sort_array[0][0],'priority'))}
+    {if eq($node.sort_array[0][0],'priority')}
+      {if and($content_object.can_edit,eq($node.sort_array[0][0],'priority'))}
          <input class="button" type="submit"  name="UpdatePriorityButton" value="{'Update'|i18n('design/standard/node/view')}" />
-      {/section}
-    {/section}
-    {section show=$:can_edit}
-    {/section}
-    {section show=$:can_copy}
-    {/section}
-    {section show=$:can_remove}
-    {section show=$list_count}
+      {/if}
+    {/if}
+    {if $:can_edit}
+    {/if}
+    {if $:can_copy}
+    {/if}
+    {if $:can_remove}
+    {if $list_count}
             <input type="submit" name="RemoveButton" value="{'Remove'|i18n('design/standard/node/view')}" />
 		<input name="selectall" onclick=checkAll() type="button" value="{'Select all'|i18n('design/standard/node/view')}">
-    {/section}
-    {/section}
+    {/if}
+    {/if}
 
 
 {/section}
@@ -264,9 +264,9 @@ function checkAll()
 {/section}
 
 
-{section show=$is_standalone}
+{if $is_standalone}
 </form>
-{/section}
+{/if}
 
 {/default}
 {/let}

@@ -3,33 +3,33 @@
 <p>{'The system is unable to display the requested page because of security issues.'|i18n( 'design/admin/error/kernel' )}
 <p>{'Possible reasons'|i18n( 'design/admin/error/kernel' )}:</p>
 <ul>
-    {section show=ne( $current_user.contentobject_id, $anonymous_user_id )}
+    {if ne( $current_user.contentobject_id, $anonymous_user_id )}
     <li>{'Your account does not have the proper privileges to access the requested page.'|i18n( 'design/admin/error/kernel' )}</li>
-    {section-else}
+    {else}
     <li>{'You are not logged in to the system. Please log in.'|i18n( 'design/admin/error/kernel' )}</li>
-    {/section}
+    {/if}
     <li>{'The requested page does not exist. Try changing the URL.'|i18n( 'design/admin/error/kernel' )}</li>
 </ul>
 
-{section show=is_set( $module_required )}
+{if is_set( $module_required )}
 <p>&nbsp;</p>
 <p>{'The following permission setting is required'|i18n( 'design/admin/error/kernel' )}:</p>
 <ul>
 <li>{'Module'|i18n( 'design/admin/error/kernel' )}:{$module_required}</li>
 <li>{'Function'|i18n( 'design/admin/error/kernel' )}:{$function_required}</li>
 </ul>
-{/section}
+{/if}
 
 </div>
 
 
 
-{section show=eq( $current_user.contentobject_id, $anonymous_user_id )}
+{if eq( $current_user.contentobject_id, $anonymous_user_id )}
 
-    {section show=$embed_content}
+    {if $embed_content}
 
     {$embed_content}
-    {section-else}
+    {else}
 
         <form method="post" action={'/user/login/'|ezurl}>
 
@@ -43,6 +43,6 @@
         <input type="hidden" name="RedirectURI" value="{$redirect_uri}" />
         </form>
 
-    {/section}
+    {/if}
 
-{/section}
+{/if}

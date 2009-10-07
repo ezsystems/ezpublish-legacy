@@ -11,23 +11,23 @@
     {"Please choose what kind of functionality you want on your site."|i18n("design/standard/setup/init")}
   </p>
 
-{section show=$error}
+{if $error}
 <div class="error">
 <p>
 {$error|wash}
 </p>
 </div>
-{/section}
+{/if}
 
 {let site_type=$site_types[0]}
 
     <h2>{$site_types[0].name|wash}</h2>
 
-    <p>{section show=$site_type.thumbnail}
+    <p>{if $site_type.thumbnail}
         <img align="left" class="site-type" src={concat( "design/standard/images/setup/thumbnails/", $site_type.thumbnail )|ezroot} alt="{$site_type.name|wash}" />
-    {section-else}
+    {else}
         <img align="left" class="site-type" src={"design/standard/images/setup/eZ_setup_template_default.png"|ezroot} alt="{$site_type.name|wash}" />
-    {/section}
+    {/if}
     <input type="hidden" name="eZSetup_site_packages[]" value="" />
 
     {$site_type.summary|wash|break}</p>
@@ -47,7 +47,7 @@
 <h2>{"Please select additional functionality"|i18n("design/standard/setup/init")}</h2>
 {section loop=$package_array}
     <div class="block">
-        <input id="package_{$:item.identifier|wash}" type="checkbox" name="AdditionalPackages[]" value="{$:item.identifier|wash}" {section show=$recommended_package_array|contains( $:item.identifier )}checked="checked"{/section}/>&nbsp;<label class="checkbox" for="package_{$:item.identifier|wash}">{$:item.name|wash}</label><br/>
+        <input id="package_{$:item.identifier|wash}" type="checkbox" name="AdditionalPackages[]" value="{$:item.identifier|wash}" {if $recommended_package_array|contains( $:item.identifier )}checked="checked"{/if}/>&nbsp;<label class="checkbox" for="package_{$:item.identifier|wash}">{$:item.name|wash}</label><br/>
          <p>
          {$:item.description|wash}
          </p>

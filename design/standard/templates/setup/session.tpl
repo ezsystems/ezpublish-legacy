@@ -42,11 +42,11 @@ function checkAll()
 <form name="trashaction" method="post" action={concat( '/setup/session/', cond( $user_id, concat( $user_id, '/' ), '' ), cond( $view_parameters.offset|gt( 0 ), concat( '(offset)/', $view_parameters.offset ), '' ) )|ezurl}>
 <h1>{"Session admin"|i18n( "design/standard/setup/session" )}</h1>
 
-{section show=$sessions_removed}
+{if $sessions_removed}
 <div class="feedback">
 {"The sessions were successfully removed."|i18n( "design/standard/setup/session" )}
 </div>
-{/section}
+{/if}
 
 <div class="objectheader">
     <h2>{"Sessions"|i18n( "design/standard/setup/session" )}</h2>
@@ -66,14 +66,14 @@ function checkAll()
             <input type="submit" name="RemoveAllSessionsButton" value="{"Remove all sessions"|i18n( "design/standard/setup/session" )}" />&nbsp;
             <input type="submit" name="RemoveTimedOutSessionsButton" value="{"Remove timed out / old sessions"|i18n( "design/standard/setup/session" )}" />
     </div>
-    {section show=$user_id}
+    {if $user_id}
         {let session_user=fetch( content,object, hash( 'object_id', $user_id ) )}
         <p>{'Displaying sessions for %username'|i18n( 'design/standard/setup/session',, hash( '%username', $session_user.name ) )}</p>
         {/let}
         <div class="buttonblock">
             <input type="submit" name="ShowAllUsersButton" value="{"Show from all users"|i18n( "design/standard/setup/session" )}" />
         </div>
-    {section-else}
+    {else}
             <label>{'Filter sessions'|i18n( 'design/standard/setup/session' )}:</label><br/>
             <select class="combobox" name="FilterType">
                 <option value="everyone"{cond( eq( $filter_type, 'everyone' ), ' selected="selected"', '' )}>{"Everyone"|i18n( "design/standard/setup/session" )}</option>
@@ -86,7 +86,7 @@ function checkAll()
     <div class="buttonblock">
             <input class="defaultbutton" type="submit" name="ChangeFilterButton" value="{"Update list"|i18n( "design/standard/setup/session" )}" />
     </div>
-    {/section}
+    {/if}
 
 </div>
 
@@ -97,11 +97,11 @@ function checkAll()
 <th>
     <a class="topline" href={concat( '/setup/session/(offset)/', $view_parameters.offset, '/(sortby)/login' )|ezurl}>{"Login"|i18n( "design/standard/setup/session" )}</a>
 </th>
-{section show=$user_id|not}
+{if $user_id|not}
 <th>
     {"Count"|i18n( "design/standard/setup/session" )}
 </th>
-{/section}
+{/if}
 <th>
     <a class="topline" href={concat( '/setup/session/(offset)/', $view_parameters.offset, '/(sortby)/email' )|ezurl}>{"Email"|i18n( "design/standard/setup/session" )}</a>
 </th>
@@ -119,20 +119,20 @@ function checkAll()
 <tr valign="top" class="{$session.sequence}">
     {let session_user=fetch( content,object, hash( 'object_id', $session.user_id ) )}
     <td width="1%">
-    {section show=$user_id}
+    {if $user_id}
         <input type="checkbox" name="SessionKeyArray[]" value="{$session.session_key|wash}" />
-    {section-else}
+    {else}
         <input type="checkbox" name="UserIDArray[]" value="{$session.user_id}" />
-    {/section}
+    {/if}
     </td>
     <td width="15%">
         <a href={$session_user.main_node.url_alias|ezurl}>{$session.login}</a>
     </td>
-    {section show=$user_id|not}
+    {if $user_id|not}
     <td width="1%">
         <a href={concat( 'setup/session/', $session.user_id )|ezurl}>{$session.count}</a>
     </td>
-    {/section}
+    {/if}
     <td width="15%">
         <a href="mailto:{$session.email|wash}">{$session.email|wash}</a>
     </td>
@@ -144,11 +144,11 @@ function checkAll()
         {$session.idle.hour}:{$session.idle.minute}:{$session.idle.second}
     </td>
     <td width="19%">
-      {section show=or($session.idle.minute|lt(0), $session.idle.hour|lt(0))}
+      {if or($session.idle.minute|lt(0), $session.idle.hour|lt(0))}
           {"Time skew detected"|i18n( "design/standard/setup/session")}
-      {section-else}
+      {else}
           {$session.idle_time|l10n( shortdatetime )}
-      {/section}
+      {/if}
     </td>
 
     {/let}

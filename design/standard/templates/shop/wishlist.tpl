@@ -85,7 +85,7 @@
         <tr>
             <td width="33%">{$ProductItem:option_item.name|wash}</td>
             <td width="33%">{$ProductItem:option_item.value}</td>
-            <td width="33%">{section show=$ProductItem:option_item.price|ne( 0 )}{$ProductItem:option_item.price|l10n(currency)}{/section}</td>
+            <td width="33%">{if $ProductItem:option_item.price|ne( 0 )}{$ProductItem:option_item.price|l10n(currency)}{/if}</td>
         </tr>
     {/section}
     </table>

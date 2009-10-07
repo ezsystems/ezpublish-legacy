@@ -17,7 +17,7 @@
 
 {section name=Group loop=$groups sequence=array(bglight,bgdark)}
 <tr class="{$Group:sequence}">
-    <td width="1" align="right"><input type="radio" name="SelectedGroupID" value="{$Group:item.id}"{section show=$Group:index|eq( 0 )}checked="checked"{/section}></td>
+    <td width="1" align="right"><input type="radio" name="SelectedGroupID" value="{$Group:item.id}"{if $Group:index|eq( 0 )}checked="checked"{/if}></td>
     <td><a href={concat($module.functions.classlist.uri,"/",$Group:item.id)|ezurl}>{$Group:item.name|classgroup_icon( small, $Group:item.name )}&nbsp;{$Group:item.name|wash}</a></td>
     <td>{content_view_gui view=text_linked content_object=$Group:item.modifier.contentobject}</td>
     <td><span class="small">{$Group:item.modified|l10n(shortdatetime)}</span></td>

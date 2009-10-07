@@ -16,16 +16,16 @@
 </div>
 {/section}
 
-{section show=$can_store}
+{if $can_store}
 <div class="feedback">
 <h2>{"Workflow stored"|i18n("design/standard/workflow")}</h2>
 </div>
-{/section}
-{section show=$require_fixup}
+{/if}
+{if $require_fixup}
 <div class="warning">
 <h2>{"Data requires fixup"|i18n("design/standard/workflow")}</h2>
 </div>
-{/section}
+{/if}
 
 <div class="byline">
 <p class="modified">{"Modified by"|i18n("design/standard/workflow")} {content_view_gui view=text_linked content_object=$workflow.creator.contentobject} {"on"|i18n("design/standard/workflow")} {$workflow.modified|l10n(shortdatetime)}</p>

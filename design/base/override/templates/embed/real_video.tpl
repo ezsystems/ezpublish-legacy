@@ -5,10 +5,10 @@
                 width="{$attribute.content.width}" height="{$attribute.content.height}">
         <param name="src" value={concat("content/download/",$attribute.contentobject_id,"/",$attribute.content.contentobject_attribute_id,"/",$attribute.content.original_filename)|ezurl} />
         <param name="controls" value="{$attribute.content.controls}" />
-        <param name="autostart" value="{section show=$attribute.content.is_autoplay}true{/section}" />
+        <param name="autostart" value="{if $attribute.content.is_autoplay}true{/if}" />
         <embed src={concat("content/download/",$attribute.contentobject_id,"/",$attribute.content.contentobject_attribute_id,"/",$attribute.content.original_filename)|ezurl}
                pluginspage="{$attribute.content.pluginspage}"
-               width="{$attribute.content.width}" height="{$attribute.content.height}" autostart="{section show=$attribute.content.is_autoplay}true{/section}"
+               width="{$attribute.content.width}" height="{$attribute.content.height}" autostart="{if $attribute.content.is_autoplay}true{/if}"
                controls="{$attribute.content.controls}" >
         </embed>
         </object>

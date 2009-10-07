@@ -97,18 +97,18 @@
     {* Check if the current user is allowed to *}
     {* edit or delete any of the children.     *}
     {section var=Children loop=$children}
-        {section show=$Children.item.can_remove}
+        {if $Children.item.can_remove}
             {set can_remove=true()}
-        {/section}
+        {/if}
         {if $Children.item.can_move}
             {set $can_move=true()}
         {/if}
-        {section show=$Children.item.can_edit}
+        {if $Children.item.can_edit}
             {set can_edit=true()}
-        {/section}
-        {section show=$Children.item.can_create}
+        {/if}
+        {if $Children.item.can_create}
             {set can_create=true()}
-        {/section}
+        {/if}
     {/section}
 
 
@@ -158,11 +158,11 @@
 <div class="block">
     {* Remove and move button *}
     <div class="left">
-        {section show=$can_remove}
+        {if $can_remove}
             <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" title="{'Remove the selected items from the list above.'|i18n( 'design/admin/node/view/full' )}" />
-        {section-else}
+        {else}
             <input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permission to remove any of the items from the list above.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
-        {/section}
+        {/if}
         {if $can_move}
             <input class="button" type="submit" name="MoveButton" value="{'Move selected'|i18n( 'design/admin/node/view/full' )}" title="{'Move the selected items from the list above.'|i18n( 'design/admin/node/view/full' )}" />
         {else}
@@ -172,11 +172,11 @@
 
     <div class="right">
     {* Update priorities button *}
-    {section show=and( eq( $node.sort_array[0][0], 'priority' ), $node.can_edit, $children_count )}
+    {if and( eq( $node.sort_array[0][0], 'priority' ), $node.can_edit, $children_count )}
         <input class="button" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n( 'design/admin/node/view/full' )}" title="{'Apply changes to the priorities of the items in the list above.'|i18n( 'design/admin/node/view/full' )}" />
-    {section-else}
+    {else}
         <input class="button-disabled" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n( 'design/admin/node/view/full' )}" title="{'You cannot update the priorities because you do not have permission to edit the current item or because a non-priority sorting method is used.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
-    {/section}
+    {/if}
     </div>
 
     <div class="break"></div>
@@ -332,24 +332,24 @@
     title='You cannot set the sorting method for the current location because you do not have permission to edit the current item.'|i18n( 'design/admin/node/view/full' )
     disabled=' disabled="disabled"' }
 
-{section show=$node.can_edit}
+{if $node.can_edit}
     {set title='Use these controls to set the sorting method for the sub items of the current location.'|i18n( 'design/admin/node/view/full' )}
     {set disabled=''}
     <input type="hidden" name="ContentObjectID" value="{$node.contentobject_id}" />
-{/section}
+{/if}
 
 <select name="SortingField" title="{$title}"{$disabled}>
 {section var=Sort loop=$sort_fields}
-    <option value="{$Sort.key}" {section show=eq( $Sort.key, $node.sort_field )}selected="selected"{/section}>{$Sort.item}</option>
+    <option value="{$Sort.key}" {if eq( $Sort.key, $node.sort_field )}selected="selected"{/if}>{$Sort.item}</option>
 {/section}
 </select>
 
 <select name="SortingOrder" title="{$title}"{$disabled}>
-    <option value="0"{section show=eq($node.sort_order, 0)} selected="selected"{/section}>{'Descending'|i18n( 'design/admin/node/view/full' )}</option>
-    <option value="1"{section show=eq($node.sort_order, 1)} selected="selected"{/section}>{'Ascending'|i18n( 'design/admin/node/view/full' )}</option>
+    <option value="0"{if eq($node.sort_order, 0)} selected="selected"{/if}>{'Descending'|i18n( 'design/admin/node/view/full' )}</option>
+    <option value="1"{if eq($node.sort_order, 1)} selected="selected"{/if}>{'Ascending'|i18n( 'design/admin/node/view/full' )}</option>
 </select>
 
-<input {section show=$disabled}class="button-disabled"{section-else}class="button"{/section} type="submit" name="SetSorting" value="{'Set'|i18n( 'design/admin/node/view/full' )}" title="{$title}" {$disabled} />
+<input {if $disabled}class="button-disabled"{else}class="button"{/if} type="submit" name="SetSorting" value="{'Set'|i18n( 'design/admin/node/view/full' )}" title="{$title}" {$disabled} />
 
 {/let}
 

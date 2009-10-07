@@ -83,11 +83,11 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 
 <div class="block">
-    {section show=$rule_list}
+    {if $rule_list}
     <input class="button" type="submit" name="RemoveRuleButton" value="{'Remove selected'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" title="{'Remove selected discount rules.'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" />
-    {section-else}
+    {else}
     <input class="button-disabled" type="submit" name="RemoveRuleButton" value="{'Remove selected'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" disabled="disabled" />
-    {/section}
+    {/if}
     <input class="button" type="submit" name="AddRuleButton" value="{'New discount rule'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" title="{'Create a new discount rule and add it to the <%discount_group_name> discount group.'|i18n( 'design/admin/shop/discountgroupmembershipview',, hash( '%discount_group_name', $discountgroup.name ) )|wash}" />
 </div>
 
@@ -135,11 +135,11 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-    {section show=$customers}
+    {if $customers}
     <input class="button" type="submit" name="RemoveCustomerButton" value="{'Remove selected'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" title="{'Remove selected users and/or user groups.'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" />
-    {section-else}
+    {else}
     <input class="button-disabled" type="submit" name="RemoveCustomerButton" value="{'Remove selected'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" disabled="disabled" />
-    {/section}
+    {/if}
     <input class="button" type="submit" name="AddCustomerButton" value="{'Add customers'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" title="{'Add users and/or user groups to the <%discount_group_name> discount group.'|i18n( 'design/admin/shop/discountgroupmembershipview',, hash( '%discount_group_name', $discountgroup.name ) )|wash}" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>

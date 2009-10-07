@@ -50,12 +50,12 @@
     {/switch}
 
 <span class="pages">
-{section show=$:current_page|gt($:left_max)}
+{if $:current_page|gt($:left_max)}
 <a href={concat($page_uri,$:view_parameter_text,$page_uri_suffix)|ezurl}>1</a>
-{section show=sub($:current_page,$:left_length)|gt(1)}
+{if sub($:current_page,$:left_length)|gt(1)}
 ...
-{/section}
-{/section}
+{/if}
+{/if}
 
     {section loop=$:left_length}
         {let page_offset=sum(sub($ViewParameter:current_page,$ViewParameter:left_length),$:index)}
@@ -71,12 +71,12 @@
         {/let}
     {/section}
 
-{section show=$:page_count|gt(sum($:current_page,$:right_max,1))}
-{section show=sum($:current_page,$:right_max,2)|lt($:page_count)}
+{if $:page_count|gt(sum($:current_page,$:right_max,1))}
+{if sum($:current_page,$:right_max,2)|lt($:page_count)}
 <span class="other">...</span>
-{/section}
+{/if}
 <span class="other"><a href={concat($page_uri,$:page_count|dec|gt(0)|choose('',concat($:offset_text,mul($:page_count|dec,$item_limit))),$:view_parameter_text,$page_uri_suffix)|ezurl}>{$:page_count}</a></span>
-{/section}
+{/if}
 
 </span>
 

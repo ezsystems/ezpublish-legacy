@@ -8,13 +8,13 @@
 
 <h2>{$object.name|wash}</h2>
 
-{section show=$error}
+{if $error}
 
-{section show=$error_existing_data}
+{if $error_existing_data}
 <p>{'You have already submitted this form. The previously submitted data was:'|i18n('design/standard/content/form')}</p>
-{/section}
+{/if}
 
-{/section}
+{/if}
 
 {section loop=$collection.attributes}
 

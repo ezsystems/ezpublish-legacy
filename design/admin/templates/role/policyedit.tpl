@@ -33,9 +33,9 @@
 {section name=Limitations loop=$function_limitations}
 {section-exclude match=$Limitations:item.name|eq( 'Subtree' )}
 {section-exclude match=$Limitations:item.name|eq( 'Node' )}
-{section show=$function_limitations|count|gt( 1 )}
+{if $function_limitations|count|gt( 1 )}
 <div class="element">
-{/section}
+{/if}
 <label>{$Limitations:item.name|wash}:</label>
 <select name="{$Limitations:item.name}[]" size="8" multiple="multiple">
 <option value="-1" {switch match=$current_limitation_list[$Limitations:item.name]}
@@ -45,9 +45,9 @@
 {case in=$current_limitation_list[$Limitations:item.name]}selected="selected"{/case}{case}{/case}{/switch}>{$Limitations:LimitationValues:item.Name|wash}</option>
 {/section}
 </select>
-{section show=$function_limitations|count|gt( 1 )}
+{if $function_limitations|count|gt( 1 )}
 </div>
-{/section}
+{/if}
 {/section}
 </div>
 <div class="break"></div>
@@ -80,11 +80,11 @@
 </p>
 {/section}
 
-{section show=$node_list}
+{if $node_list}
 <input class="button" type="submit" name="DeleteNodeButton" value="{'Remove selected'|i18n( 'design/admin/role/policyedit' )}" />
-{section-else}
+{else}
 <input class="button-disabled" type="submit" name="DeleteNodeButton" value="{'Remove selected'|i18n( 'design/admin/role/policyedit' )}" disabled="disabled" />
-{/section}
+{/if}
 
 <input class="button" type="submit" name="BrowseLimitationNodeButton" value="{'Add nodes'|i18n( 'design/admin/role/policyedit' )}" />
 </fieldset>
@@ -113,11 +113,11 @@
 <p>{'The subtree list is empty.'|i18n( 'design/admin/role/policyedit' )}</p>
 {/section}
 
-{section show=$subtree_list}
+{if $subtree_list}
 <input class="button" type="submit" name="DeleteSubtreeButton" value="{'Remove selected'|i18n( 'design/admin/role/policyedit' )}" />
-{section-else}
+{else}
 <input class="button-disabled" type="submit" name="DeleteSubtreeButton" value="{'Remove selected'|i18n( 'design/admin/role/policyedit' )}" disabled="disabled" />
-{/section}
+{/if}
 
 <input class="button" type="submit" name="BrowseLimitationSubtreeButton" value="{'Add subtrees'|i18n( 'design/admin/role/policyedit' )}" />
 </fieldset>
@@ -143,11 +143,11 @@
 <div class="block">
     <input type="hidden" name="CurrentModule" value="{$current_module}" />
     <input type="hidden" name="CurrentFunction" value="{$current_function}" />
-    {section show=$function_limitations}
+    {if $function_limitations}
     <input class="button" type="submit" name="UpdatePolicy" value="{'OK'|i18n( 'design/admin/role/policyedit' )}" />
-    {section-else}
+    {else}
     <input class="button-disabled" type="submit" name="UpdatePolicy" value="{'OK'|i18n( 'design/admin/role/policyedit' )}" disabled="disabled" />
-    {/section}
+    {/if}
 
     <input class="button" type="submit" name="DiscardChange" value="{'Cancel'|i18n( 'design/admin/role/policyedit' )}" />
 </div>

@@ -93,11 +93,11 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-    {section show=$workflow_list}
+    {if $workflow_list}
     <input class="button" type="submit" name="DeleteButton" value="{'Remove selected'|i18n( 'design/admin/workflow/workflowlist' )}" title="{'Remove selected workflows.'|i18n( 'design/admin/workflow/workflowlist' )}" />
-    {section-else}
+    {else}
     <input class="button-disabled" type="submit" name="DeleteButton" value="{'Remove selected'|i18n( 'design/admin/workflow/workflowlist' )}" disabled="disabled" />
-    {/section}
+    {/if}
 
     <input class="button" type="submit" name="NewWorkflowButton" value="{'New workflow'|i18n( 'design/admin/workflow/workflowlist' )}" title="{'Create a new workflow.'|i18n( 'design/admin/workflow/workflowlist' )}" />
     <input type="hidden" name="CurrentGroupID" value="{$group_id}" />

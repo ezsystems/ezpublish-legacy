@@ -3,16 +3,16 @@
 
     <p class="path">&gt;
     {section loop=$module_result.path}
-        {section show=$:item.url}
-            {section show=ne($ui_context,'edit')}
+        {if $:item.url}
+            {if ne($ui_context,'edit')}
             <a class="path" href={cond( and( $:use_urlalias, is_set( $:item.url_alias ) ), $:item.url_alias,
                                         $:item.url )|ezurl}>{$:item.text|shorten( 18 )|wash}</a>
-            {section-else}
+            {else}
             <span class="disabled">{$:item.text|shorten( 18 )|wash}</span>
-            {/section}
-        {section-else}
+            {/if}
+        {else}
             {$:item.text|wash}
-        {/section}
+        {/if}
 
         {delimiter}
             <span class="slash">/</span>

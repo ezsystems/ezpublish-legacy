@@ -4,28 +4,28 @@
 <p>{"You do not have permission to access this area."|i18n("design/standard/error/kernel")}</p>
 <p>{"Possible reasons for this are"|i18n("design/standard/error/kernel")}:</p>
 <ul>
-    {section show=ne($current_user.contentobject_id,$anonymous_user_id)}
+    {if ne($current_user.contentobject_id,$anonymous_user_id)}
     <li>{"Your current user does not have the proper privileges to access this page."|i18n("design/standard/error/kernel")}</li>
-    {section-else}
+    {else}
     <li>{"You are currently not logged in to the site, to get proper access create a new user or login with an existing user."|i18n("design/standard/error/kernel")}</li>
-    {/section}
+    {/if}
     <li>{"You misspelled some parts of your URL, try changing it."|i18n("design/standard/error/kernel")}</li>
 </ul>
-{section show=is_set($module_required)}
+{if is_set($module_required)}
 <p>{"Permission required"|i18n("design/standard/error/kernel")}</p>
 <ul>
 <li>{"Module : "|i18n("design/standard/error/kernel")}{$module_required} </li>
 <li>{"Function : "|i18n("design/standard/error/kernel")}{$function_required}</li>
 </ul>
-{/section}
+{/if}
 </div>
 
-{section show=eq($current_user.contentobject_id,$anonymous_user_id)}
+{if eq($current_user.contentobject_id,$anonymous_user_id)}
 
-    {section show=$embed_content}
+    {if $embed_content}
 
     {$embed_content}
-    {section-else}
+    {else}
 
         <form method="post" action={"/user/login/"|ezurl}>
 
@@ -39,6 +39,6 @@
         <input type="hidden" name="RedirectURI" value="{$redirect_uri}" />
         </form>
 
-    {/section}
+    {/if}
 
-{/section}
+{/if}

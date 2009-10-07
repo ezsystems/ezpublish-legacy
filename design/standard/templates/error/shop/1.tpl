@@ -4,6 +4,6 @@
 <p>{"The requested object is not a product and cannot be used by the shop module."|i18n("design/standard/error/shop")}</p>
 </div>
 
-{section show=$embed_content}
+{if $embed_content}
     {$embed_content}
-{/section}
+{/if}

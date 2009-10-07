@@ -12,15 +12,15 @@
 <tr>
 <tr>
 {section name=View loop=$view_list}
-  {section show=eq($current_view_id,$:item.id)}
+  {if eq($current_view_id,$:item.id)}
   <td class="bglight">
     <p>{$:item.name}</p>
   </td>
-  {section-else}
+  {else}
   <td class="bgdark">
     <p><a href={$:item.url|ezurl}>{$:item.name}</a></p>
   </td>
-  {/section}
+  {/if}
 {/section}
 </tr>
 </table>

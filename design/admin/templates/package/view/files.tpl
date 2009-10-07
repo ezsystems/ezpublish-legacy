@@ -12,16 +12,16 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 <h1 class="context-title">
-        {$package.name|wash}-{$package.version-number}-{$package.release-number}{section show=$package.release-timestamp}({$package.release-timestamp|l10n( shortdatetime )}){/section}{section show=$package.type|wash} [{$package.type}]{/section}
-        - {section show=$package.install_type|eq( 'install' )}
-            {section show=$package.is_installed}
+        {$package.name|wash}-{$package.version-number}-{$package.release-number}{if $package.release-timestamp}({$package.release-timestamp|l10n( shortdatetime )}){/if}{if $package.type|wash} [{$package.type}]{/if}
+        - {if $package.install_type|eq( 'install' )}
+            {if $package.is_installed}
                 {'Installed'|i18n('design/admin/package')}
-            {section-else}
+            {else}
                 {'Not installed'|i18n('design/admin/package')}
-            {/section}
-        {section-else}
+            {/if}
+        {else}
             {'Imported'|i18n('design/admin/package')}
-        {/section}
+        {/if}
 </h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
@@ -47,9 +47,9 @@
         <div class="files">
         {section var=file loop=$collection}
         <p>
-            <a href={concat( $package|ezpackage( fileitempath, $file ) )|ezroot}> {section show=$file.subdirectory}{$file.subdirectory|wash}/{/section}{$file.name|wash}</a>
-            {section show=$file.variable-name}[{$file.variable-name|wash}]{/section}
-            {section show=$file.md5}MD5: <em>{$file.md5|wash}</em>{/section}
+            <a href={concat( $package|ezpackage( fileitempath, $file ) )|ezroot}> {if $file.subdirectory}{$file.subdirectory|wash}/{/if}{$file.name|wash}</a>
+            {if $file.variable-name}[{$file.variable-name|wash}]{/if}
+            {if $file.md5}MD5: <em>{$file.md5|wash}</em>{/if}
         </p>
         {/section}
         </div>
@@ -65,18 +65,18 @@
     <div class="controlbar">
     {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 
-    {section show=$package.can_export}
+    {if $package.can_export}
     <div class="block">
-        {section show=$package.install_type|eq( 'install' )}
-            {section show=$package.is_installed}
+        {if $package.install_type|eq( 'install' )}
+            {if $package.is_installed}
                 <input class="button" type="submit" name="UninstallButton" value="{'Uninstall'|i18n( 'design/admin/package')}" />
-            {section-else}
+            {else}
                 <input class="button" type="submit" name="InstallButton" value="{'Install'|i18n( 'design/admin/package')}" />
-            {/section}
-        {/section}
+            {/if}
+        {/if}
         <input class="button" type="submit" name="ExportButton" value="{'Export to file'|i18n( 'design/admin/package')}" />
     </div>
-    {/section}
+    {/if}
 
     </div>
     {* DESIGN: Control bar END *}</div></div></div></div></div></div>

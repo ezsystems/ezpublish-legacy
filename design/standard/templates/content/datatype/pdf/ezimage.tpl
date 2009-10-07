@@ -5,7 +5,7 @@
          hspace=false()
          border_size=0}
 {let image_content=$attribute.content}
-{section show=$image_content.original.is_valid}
+{if $image_content.original.is_valid}
   {let image=$image_content[$image_class]}
 
        {pdf(image,hash(src,$image.full_path,
@@ -15,6 +15,6 @@
                            align,$attribute_parameters.align))}
 
   {/let}
-{/section}
+{/if}
 {/let}
 {/default}

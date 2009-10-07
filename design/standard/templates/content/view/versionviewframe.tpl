@@ -8,7 +8,7 @@
 
 <select name="SelectedLanguage" >
 {section name=Translation loop=$version.language_list}
-<option value="{$Translation:item.locale.locale_code}" {section show=eq($Translation:item.locale.locale_code,$object_languagecode)}selected="selected"{/section}>{$Translation:item.locale.intl_language_name}</option>
+<option value="{$Translation:item.locale.locale_code}" {if eq($Translation:item.locale.locale_code,$object_languagecode)}selected="selected"{/if}>{$Translation:item.locale.intl_language_name}</option>
 {/section}
 </select>
 </div>
@@ -24,7 +24,7 @@
 
 <select name="SelectedPlacement" >
 {section loop=$Placement:node_assignment_list}
-<option value="{$Placement:item.id}" {section show=eq($Placement:item.id,$placement)}selected="selected"{/section}>{$Placement:item.parent_node_obj.name|wash}</option>
+<option value="{$Placement:item.id}" {if eq($Placement:item.id,$placement)}selected="selected"{/if}>{$Placement:item.parent_node_obj.name|wash}</option>
 {/section}
 </select>
 </div>
@@ -39,7 +39,7 @@
 
 <select name="SelectedSiteAccess" >
 {section loop=$site_access_list}
-<option value="{$:item}" {section show=eq($:item,$siteaccess)}selected="selected"{/section}>{$:item|wash}</option>
+<option value="{$:item}" {if eq($:item,$siteaccess)}selected="selected"{/if}>{$:item|wash}</option>
 {/section}
 </select>
 </div>
@@ -50,10 +50,10 @@
 
 
 <div class="buttonblock">
-{section show=and(eq($version.status,0),$is_creator,$object.can_edit)}
+{if and(eq($version.status,0),$is_creator,$object.can_edit)}
 <input class="button" type="submit" name="PreviewPublishButton" value="{'Publish'|i18n('design/standard/content/view')}" />
 <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/content/view')}" />
-{/section}
+{/if}
 
 <input class="button" type="submit" name="VersionsButton" value="{'Versions'|i18n('design/standard/content/view')}" />
 </div>

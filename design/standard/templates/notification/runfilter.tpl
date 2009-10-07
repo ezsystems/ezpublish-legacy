@@ -3,17 +3,17 @@
 
 <h1>{'Notification admin'|i18n('design/standard/notification')}</h1>
 
-{section show=$filter_proccessed}
+{if $filter_proccessed}
 <div class="feedback">
 {'Notification filter processed all available notification events'|i18n('design/standard/notification')}
 </div>
-{/section}
+{/if}
 
-{section show=$time_event_created}
+{if $time_event_created}
 <div class="feedback">
 {'Time event was spawned'|i18n('design/standard/notification')}
 </div>
-{/section}
+{/if}
 
 <h2>{'Run notification filter'|i18n('design/standard/notification')}</h2>
 

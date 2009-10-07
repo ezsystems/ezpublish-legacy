@@ -2,21 +2,21 @@
 {default attribute_base=ContentObjectAttribute
          parent_group_id=0
          parent_multioption_id=-1}
-{section show=$depth|lt(2)}
+{if $depth|lt(2)}
     <div class="block">
         <label>{'Group'|i18n( 'design/standard/content/datatype' )}:</label>
         <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}" class="box ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="text" name="{$attribute_base}_data_optiongroup_name_{$attribute.id}_{$parent_group_id}[]" value="{$group.name}" />
         <input type="hidden" name="{$attribute_base}_data_optiongroup_id_{$attribute.id}_{$parent_group_id}[]" value="{$group.group_id}" />
 
     </div>
-    {section-else}
+    {else}
     <input type="hidden" name="{$attribute_base}_data_optiongroup_name_{$attribute.id}_{$parent_group_id}[]" value="{$group.name}" />
     <input type="hidden" name="{$attribute_base}_data_optiongroup_id_{$attribute.id}_{$parent_group_id}[]" value="{$group.group_id}" />
 
-    {section show=$parent_multioption_id|ge(0)}
+    {if $parent_multioption_id|ge(0)}
         <input type="hidden" name="{$attribute_base}_data_optiongroup_id_parent_multioption_{$attribute.id}_{$group.group_id}" value="{$parent_multioption_id}" />
-    {/section}
-{/section}
+    {/if}
+{/if}
 
 {include uri='design:content/datatype/edit/multioption2/multioption.tpl' name=ChildOption attribute=$attribute group=$group parent_group_id=$parent_group_id depth=$depth attribute_base=$attribute_base}
 {/default}

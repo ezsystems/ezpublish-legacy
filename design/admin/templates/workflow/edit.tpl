@@ -1,8 +1,8 @@
-{section show=and( is_set( $group_id ), $group_id )}
+{if and( is_set( $group_id ), $group_id )}
        <form name="WorkflowEdit" method="post" action={concat( $module.functions.edit.uri, '/', $workflow.id, '/', $group_id )|ezurl}>
-{section-else}
+{else}
       <form name="WorkflowEdit" method="post" action={concat( $module.functions.edit.uri, '/', $workflow.id, '/' )|ezurl}>
-{/section}
+{/if}
 {* Feedback *}
 {*section show=and( $validation.processed, $validation.groups )*}
 {section show=$validation.processed}
@@ -40,11 +40,11 @@
 {/section}
 {/section}
 
-{section show=$require_fixup}
+{if $require_fixup}
 <div class="message-warning">
 <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Data requires fixup'|i18n( 'design/admin/workflow/edit' )}</h2>
 </div>
-{/section}
+{/if}
 
 
 
@@ -92,11 +92,11 @@
 <input class="halfbox" type="text" name="WorkflowEvent_description[]" value="{$Events.item.description}" />
 </div>
 
-{section show=and( is_set( $selectedClass ), $selectedClass )}
+{if and( is_set( $selectedClass ), $selectedClass )}
         {event_edit_gui event=$Events.item selectedClass=$selectedClass}
-{section-else}	
+{else}	
         {event_edit_gui event=$Events.item}
-{/section}
+{/if}
 
 <input type="hidden" name="WorkflowEvent_id[]" value="{$Events.item.id}" />
 <input type="hidden" name="WorkflowEvent_placement[]" value="{$Events.item.placement}" />
@@ -113,7 +113,7 @@
 {/section}
 
 <div class="block">
-<input class="button" type="submit" name="DeleteButton" value="{'Remove selected events'|i18n( 'design/admin/workflow/edit' )}" {section show=$event_list|not}disabled="disabled"{/section} />
+<input class="button" type="submit" name="DeleteButton" value="{'Remove selected events'|i18n( 'design/admin/workflow/edit' )}" {if $event_list|not}disabled="disabled"{/if} />
 </div>
 
 

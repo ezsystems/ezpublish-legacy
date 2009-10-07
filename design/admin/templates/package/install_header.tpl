@@ -17,11 +17,11 @@
 <div class="context-attributes">
 
             {let thumbnail_list=$package.thumbnail-list}
-            {section show=$thumbnail_list}
+            {if $thumbnail_list}
             <div class="thumbnail">
                 <img src={concat( $package|ezpackage( fileitempath, $thumbnail_list[0] ) )|ezroot} alt="{$thumbnail_list[0].name|wash}" />
             </div>
-            {/section}
+            {/if}
             {/let}
 
 

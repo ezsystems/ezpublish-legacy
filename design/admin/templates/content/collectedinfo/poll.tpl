@@ -1,20 +1,20 @@
 {set-block scope=global variable=title}{'Poll %pollname'|i18n( 'design/admin/content/collectedinfo/poll',, hash( '%pollname', $node.name ) )|wash}{/set-block}
 
-{section show=$error}
+{if $error}
 
-{section show=$error_anonymous_user}
+{if $error_anonymous_user}
 <div class="message-warning">
     <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Anonymous users are not allowed to vote in this poll. Please log in.'|i18n('design/admin/content/collectedinfo/poll')}</h2>
 </div>
-{/section}
+{/if}
 
-{section show=$error_existing_data}
+{if $error_existing_data}
 <div class="message-warning">
     <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'You have already voted in this poll.'|i18n('design/admin/content/collectedinfo/poll')}</h2>
 </div>
-{/section}
+{/if}
 
-{/section}
+{/if}
 
 <div class="context-block">
 
@@ -29,23 +29,23 @@
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
 {section var=Attributes loop=$object.contentobject_attributes}
-    {section show=$Attributes.item.contentclass_attribute.is_information_collector}
+    {if $Attributes.item.contentclass_attribute.is_information_collector}
 
         <div class="block">
         <label>{$Attributes.item.contentclass_attribute.name|wash}:</label>
         {attribute_result_gui view=count attribute=$Attributes.item}
         </div>
 
-    {section-else}
+    {else}
 
-        {section show=$attribute_hide_list|contains( $Attributes.item.contentclass_attribute.identifier )|not}
+        {if $attribute_hide_list|contains( $Attributes.item.contentclass_attribute.identifier )|not}
             <div class="block">
             <label>{$Attributes.item.contentclass_attribute.name|wash}:</label>
             {attribute_view_gui attribute=$Attributes.item}
             </div>
-        {/section}
+        {/if}
 
-    {/section}
+    {/if}
 
 {/section}
 <div class="block">

@@ -14,9 +14,9 @@
         <li class="menu-level-0"><a href={$menu.url_alias|ezurl}>{$menu.name|shorten( 25 )}</a></li>
     {/section}
 
-    {section show=$submenu|count}
+    {if $submenu|count}
     <li class="menu-level-0"></li>
-    {/section}
+    {/if}
     </ul>
 
     <div class="breakall"></div>

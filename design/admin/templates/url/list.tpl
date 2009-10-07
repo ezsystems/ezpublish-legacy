@@ -101,29 +101,29 @@
 
   {* Status. *}
   <td>
-  {section show=$urls.is_valid}
+  {if $urls.is_valid}
       {'Valid'|i18n( 'design/admin/url/list' )}
-  {section-else}
+  {else}
       {'Invalid'|i18n( 'design/admin/url/list' )}
-  {/section}
+  {/if}
   </td>
 
   {* Last checked. *}
   <td>
-    {section show=$urls.item.last_checked|gt( 0 )}
+    {if $urls.item.last_checked|gt( 0 )}
       {$urls.item.last_checked|l10n( shortdatetime )}
-    {section-else}
+    {else}
         {'Never'|i18n( 'design/admin/url/list' )}
-    {/section}
+    {/if}
   </td>
 
   {* Last modified. *}
   <td>
-    {section show=$urls.item.modified|gt( 0 )}
+    {if $urls.item.modified|gt( 0 )}
       {$urls.item.modified|l10n( shortdatetime )}
-    {section-else}
+    {else}
       {'Unknown'|i18n( 'design/admin/url/list' )}
-    {/section}
+    {/if}
   </td>
 
   {* Edit. *}

@@ -12,9 +12,9 @@
 
 {section var=Options loop=$contentobject_attribute.content.option_list}
     {let item_count=0}
-    {section show=is_set($item_counts[$Options.item.id])}
+    {if is_set($item_counts[$Options.item.id])}
         {set item_count=$item_counts[$Options.item.id]}
-    {/section}
+    {/if}
     <li>
         <span class="option">{$Options.item.value} <span class="votes">({$:item_count})</span></span> <span class="value">{concat( div( mul( $:item_count, 100 ), $total_count ), '' )|extract_left( 5 )}%</span>
 

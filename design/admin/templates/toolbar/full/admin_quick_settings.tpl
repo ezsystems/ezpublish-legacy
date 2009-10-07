@@ -1,21 +1,21 @@
 <div id="quicksettings-tool">
 
-<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr">{section show=$first}<div class="box-tl"><div class="box-tr">{/section}
+<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr">{if $first}<div class="box-tl"><div class="box-tr">{/if}
 
-{section show=ezpreference( 'admin_quicksettings_menu' )}
-   {section show=eq( $ui_context, 'edit' )}
+{if ezpreference( 'admin_quicksettings_menu' )}
+   {if eq( $ui_context, 'edit' )}
      <h4><span class="disabled openclose"><span class="bracket">[</span>-<span class="bracket">]</span></span> <span class="disabled">{'Quick settings'|i18n( 'design/admin/pagelayout' )}</span></h4>
-   {section-else}
+   {else}
      <h4><a class="showhide" href={'/user/preferences/set/admin_quicksettings_menu/0'|ezurl} title="{'Hide quick settings'|i18n( 'design/admin/pagelayout' )}"><span class="bracket">[</span>-<span class="bracket">]</span></a> {'Quick settings'|i18n( 'design/admin/pagelayout' )}</h4>
-   {/section}
+   {/if}
     
-</div></div></div></div>{section show=$first}</div></div>{/section}
+</div></div></div></div>{if $first}</div></div>{/if}
 
-{section show=$last}
+{if $last}
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
-{section-else}
+{else}
 <div class="box-ml"><div class="box-mr"><div class="box-content">
-{/section}
+{/if}
 
 {let siteaccess=ezpreference( 'admin_quicksettings_siteaccess' )
      select_siteaccess=true}
@@ -24,21 +24,21 @@
 
 {/let}
 
-</div></div></div>{section show=$last}</div></div></div>{/section}
+</div></div></div>{if $last}</div></div></div>{/if}
 
-{section-else}
-     {section show=eq( $ui_context, 'edit' )}
+{else}
+     {if eq( $ui_context, 'edit' )}
       <h4><span class="disabled openclose"><span class="bracket">[</span>+<span class="bracket">]</span></span> <span class="disabled">{'Quick settings'|i18n( 'design/admin/pagelayout' )}</span></h4>
-     {section-else}
+     {else}
       <h4><a class="showhide" href={'/user/preferences/set/admin_quicksettings_menu/1'|ezurl} title="{'Quick settings'|i18n( 'design/admin/pagelayout' )}"><span class="bracket">[</span>+<span class="bracket">]</span></a>{'Quick settings'|i18n( 'design/admin/pagelayout' )}</h4>
-     {/section}
+     {/if}
     
-</div></div></div></div>{section show=$first}</div></div>{/section}
+</div></div></div></div>{if $first}</div></div>{/if}
 
-{section show=$last}
+{if $last}
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 </div></div></div></div></div></div>
-{/section}
+{/if}
 
-{/section}
+{/if}
 </div>

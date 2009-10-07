@@ -12,15 +12,15 @@
 
 <div class="message-confirmation">
 
-{section show=$can_remove}
-    {section show=$DeleteResult|count|gt(1)}
+{if $can_remove}
+    {if $DeleteResult|count|gt(1)}
         <h2>{'Are you sure you want to remove the classes?'|i18n( 'design/admin/class/removeclass' )}</h2>
-        {section-else}
+        {else}
         <h2>{'Are you sure you want to remove this class?'|i18n( 'design/admin/class/removeclass' )}</h2>
-    {/section}
-{section-else}
+    {/if}
+{else}
     <h2>{'You do not have permission to remove classes.'|i18n( 'design/admin/class/removeclass' )}</h2>
-{/section}
+{/if}
 
 {section show=$already_removed}
     {let class_list=''}
@@ -28,23 +28,23 @@
         {set class_list=concat( $class_list, $class.name|wash )}
         {delimiter}{set class_list=concat( $class_list, ', ' )}{/delimiter}
     {/section}
-    {section show=count( $already_removed )|eq( 1 )}
+    {if count( $already_removed )|eq( 1 )}
         {'The %1 class was already removed from the group but still exists in other groups.'|i18n( 'design/admin/class/removeclass',, array( $class_list ) )}
-    {section-else}
+    {else}
         {'The %1 classes were already removed from the group but still exist in other groups.'|i18n( 'design/admin/class/removeclass',, array( $class_list ) )}
-    {/section}
+    {/if}
 {/let}
 {/section}
 
 {section var=Classes loop=$DeleteResult}
     <ul>
-    {section show=$Classes.item.objectCount|gt( 0 )}
-        {section show=$Classes.item.objectCount|eq( 1 )}
+    {if $Classes.item.objectCount|gt( 0 )}
+        {if $Classes.item.objectCount|eq( 1 )}
             <li>{"Removing class <%1> will result in the removal of %2 object and all its sub items."|i18n( 'design/admin/class/removeclass',, array( $Classes.item.className|wash, $Classes.item.objectCount ) )|wash}</li>
-        {section-else}
+        {else}
             <li>{'Removing class <%1> will result in the removal of %2 objects and all their sub items.'|i18n( 'design/admin/class/removeclass',, array( $Classes.item.className|wash, $Classes.item.objectCount ) )|wash}</li>
-        {/section}
-    {/section}
+        {/if}
+    {/if}
 
 
     {section show=$Classes.item.is_removable|not}
@@ -80,11 +80,11 @@
 <div class="block">
 
 <form action={concat( $module.functions.removeclass.uri, '/', $GroupID )|ezurl} method="post" name="ClassRemove">
-    {section show=$can_remove}
+    {if $can_remove}
     <input class="button" type="submit" name="ConfirmButton" value="{'OK'|i18n( 'design/admin/class/removeclass' )}" />
-    {section-else}
+    {else}
     <input class="button-disabled" type="submit" name="ConfirmButton" value="{'OK'|i18n( 'design/admin/class/removeclass' )}" disabled="disabled" />
-    {/section}
+    {/if}
 
     <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n( 'design/admin/class/removeclass' )}" />
 </form>

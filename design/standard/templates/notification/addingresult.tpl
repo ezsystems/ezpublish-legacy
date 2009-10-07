@@ -7,15 +7,15 @@
 </div>
 
 <p>
-{section show=$already_exists}
+{if $already_exists}
     {"Notification for node <%node_name> already exists."
     |i18n( 'design/standard/notification/addingresult',,
            hash( '%node_name', $node.name ) )|wash}
-{section-else}
+{else}
     {"Notification for node <%node_name> was added successfully."
     |i18n( 'design/standard/notification/addingresult',,
            hash( '%node_name', $node.name ) )|wash}
-{/section}
+{/if}
 </p>
 {/let}
 

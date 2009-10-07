@@ -12,11 +12,11 @@
 
 <div class="message-confirmation">
 
-{section show=$groups_info|count|eq(1)}
+{if $groups_info|count|eq(1)}
     <h2>{'Are you sure you want to remove the class group?'|i18n( 'design/admin/class/removegroup' )}</h2>
-{section-else}
+{else}
     <h2>{'Are you sure you want to remove the class groups?'|i18n( 'design/admin/class/removegroup' )}</h2>
-{/section}
+{/if}
 
 {section var=ClassGroups loop=$groups_info}
 

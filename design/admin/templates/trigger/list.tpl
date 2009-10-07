@@ -29,7 +29,7 @@
 <select name="WorkflowID_{$Triggers.item.key}" title="{'Select the workflow that should be triggered %type the %function function is executed within the %module module.'|i18n( 'design/admin/trigger/list',, hash( '%type', $Triggers.item.connect_type, '%function', $Triggers.item.operation, '%module', $Triggers.item.module ) )|wash}">
 <option value="-1">{'No workflow'|i18n( 'design/admin/trigger/list' )}</option>
 {section var=Workflows loop=$Triggers.item.allowed_workflows}
-<option value="{$Workflows.item.id}" {section show=eq( $Workflows.item.id, $Triggers.item.workflow_id )} selected="selected" {/section}>{$Workflows.item.name} 
+<option value="{$Workflows.item.id}" {if eq( $Workflows.item.id, $Triggers.item.workflow_id )} selected="selected" {/if}>{$Workflows.item.name} 
 </option>
 {/section}
 </select>

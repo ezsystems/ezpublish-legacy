@@ -13,11 +13,11 @@
 
     <div class="element">
     <label>{'Default value'|i18n( 'design/standard/class/datatype' )}:</label>
-    {section show=eq( $class_attribute.data_int1, 1 )}
+    {if eq( $class_attribute.data_int1, 1 )}
         <p>{'Current time'|i18n( 'design/standard/class/datatype' )}</p>
-    {section-else}
+    {else}
         <p><i>{'Empty'|i18n( 'design/standard/class/datatype' )}</i></p>
-    {/section}
+    {/if}
     </div>
 
     <div class="break"></div>

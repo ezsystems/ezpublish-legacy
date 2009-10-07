@@ -27,7 +27,7 @@
       <label for="{$:item.name|wash}"><img class="package-thumbnail" src={$:item|ezpackage( thumbnail )|ezroot} /></label>
       <br />
       <input type="radio" id="{$:item.name|wash}" name="{$attribute_base}_ezpackage_data_text_{$attribute.id}" value="{$:item.name|wash}"
-      {section show=eq( $:item.name, $package_attr_name )} checked{/section} /><label for="{$:item.name|wash}">{$:item.summary|wash}:</label>
+      {if eq( $:item.name, $package_attr_name )} checked{/if} /><label for="{$:item.name|wash}">{$:item.summary|wash}:</label>
  </div>
  {delimiter modulo=4}
     </div>

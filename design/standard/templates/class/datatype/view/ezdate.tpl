@@ -2,10 +2,10 @@
 <div class="block">
     <label>{'Default value'|i18n( 'design/standard/class/datatype' )}:</label>
     <p>
-    {section show=eq( $class_attribute.data_int1, 1 )}
+    {if eq( $class_attribute.data_int1, 1 )}
         {'Current date'|i18n( 'design/standard/class/datatype' )}
-    {section-else}
+    {else}
         <i>{'Empty'|i18n( 'design/standard/class/datatype' )}</i>
-    {/section}
+    {/if}
     </p>
 </div>

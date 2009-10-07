@@ -17,42 +17,42 @@
 {* Created *}
 <p>
 <label>{'Created'|i18n( 'design/admin/content/edit' )}:</label>
-{section show=$object.published}
+{if $object.published}
 {$object.published|l10n( shortdatetime )}<br />
 {$object.owner.name|wash}
-{section-else}
+{else}
 {'Not yet published'|i18n( 'design/admin/content/edit' )}
-{/section}
+{/if}
 </p>
 
 {* Modified *}
 <p>
 <label>{'Modified'|i18n( 'design/admin/content/edit' )}:</label>
-{section show=$object.modified}
+{if $object.modified}
 {$object.modified|l10n( shortdatetime )}<br />
 {$object.current.creator.name|wash}
-{section-else}
+{else}
 {'Not yet published'|i18n( 'design/admin/content/edit' )}
-{/section}
+{/if}
 </p>
 
 {* Published version *}
 <p>
 <label>{'Published version'|i18n( 'design/admin/content/edit' )}:</label>
-{section show=$object.published}
+{if $object.published}
 {$object.current.version}
-{section-else}
+{else}
 {'Not yet published'|i18n( 'design/admin/content/edit' )}
-{/section}
+{/if}
 </p>
 
 {* Manage versions *}
 <div class="block">
-{section show=$object.versions|count|gt( 1 )}
+{if $object.versions|count|gt( 1 )}
 <input class="button" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/edit' )}" title="{'View and manage (copy, delete, etc.) the versions of this object.'|i18n( 'design/admin/content/edit' )}" />
-{section-else}
+{else}
 <input class="button-disabled" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/edit' )}" disabled="disabled" title="{'You cannot manage the versions of this object because there is only one version available (the one that is being edited).'|i18n( 'design/admin/content/edit' )}" />
-{/section}
+{/if}
 </div>
 
 </div></div></div></div></div></div>

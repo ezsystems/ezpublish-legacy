@@ -15,7 +15,7 @@
     {include uri="design:gui/lineedit.tpl" id_name="Title" value=$pdf_export.title|wash }
     <br/>
 
-    <input type="checkbox" name="DisplayFrontpage" {section show=$pdf_export.show_frontpage|eq(1)}checked="checked"{/section}>{"Display frontpage"|i18n("design/standard/rss/edit")}</input>
+    <input type="checkbox" name="DisplayFrontpage" {if $pdf_export.show_frontpage|eq(1)}checked="checked"{/if}>{"Display frontpage"|i18n("design/standard/rss/edit")}</input>
     <br/>
     &nbsp;&nbsp;<label>{"Intro text"|i18n("design/standard/rss/edit")}</label><div class="labelbreak"></div>
     &nbsp;&nbsp;<textarea name="IntroText" cols="64" rows="3">{$pdf_export.intro_text|wash}</textarea>
@@ -25,22 +25,22 @@
     <br/>
 
     <label>{"Source node"|i18n("design/standard/rss/edit")}</label><div class="labelbreak"></div>
-    <input type="text" readonly="readonly" size="45" value="{section show=$pdf_export.source_node}{$pdf_export.source_node.path_identification_string|wash}{/section}" maxlength="60" />
+    <input type="text" readonly="readonly" size="45" value="{if $pdf_export.source_node}{$pdf_export.source_node.path_identification_string|wash}{/if}" maxlength="60" />
     {include uri="design:gui/button.tpl" id_name="ExportPDFBrowse" value="Browse"|i18n("design/standard/rss/edit")}
     <input type="hidden" name="SourceNode" value="{$pdf_export.source_node_id|wash}" />
     <br/>
 
     <label>{"Export structure"|i18n("design/standard/rss/edit")}</label><div class="labelbreak"></div>
     <input type="radio" name="ExportType"
-      {section show=$pdf_export.export_structure|eq("tree")}
+      {if $pdf_export.export_structure|eq("tree")}
         checked="checked"
-      {/section}
+      {/if}
       value="tree">{"Tree"|i18n("design/standard/rss/edit")}</input>
     <br/>
     <input type="radio" name="ExportType"
-      {section show=$pdf_export.export_structure|eq("tree")|not()}
+      {if $pdf_export.export_structure|eq("tree")|not()}
         checked="checked"
-      {/section}
+      {/if}
       value="node">{"Node"|i18n("design/standard/rss/edit")}</input>
     <br/>
 
@@ -48,19 +48,19 @@
     <select name="ClassList[]" multiple="multiple" size="8">
     {section var=class loop=$export_class_array}
       <option value="{$class.item.id}"
-      {section show=$pdf_export.export_classes|contains($class.item.id)}
+      {if $pdf_export.export_classes|contains($class.item.id)}
         selected="selected"
-      {/section}
+      {/if}
       >{$class.item.name|wash}</option>
     {/section}
     </select>
     <br/>
 
     <label>{"Export destination"|i18n("design/standard/rss/edit")}</label><div class="labelbreak"></div>
-    <input type="radio" name="DestinationType" value="url" {section show=$export_type|eq(2)|not}checked="checked"{/section}>{"Export to URL"|i18n("design/standard/rss/edit")}</input>
+    <input type="radio" name="DestinationType" value="url" {if $export_type|eq(2)|not}checked="checked"{/if}>{"Export to URL"|i18n("design/standard/rss/edit")}</input>
     {include uri="design:gui/lineedit.tpl" id_name="DestinationFile" value=$pdf_export.pdf_filename|wash }
     <br/>
-    <input type="radio" name="DestinationType" value="download" {section show=$export_type|eq(2)}checked="checked"{/section}>{"Export for direct download"|i18n("design/standard/rss/edit")}</input>
+    <input type="radio" name="DestinationType" value="download" {if $export_type|eq(2)}checked="checked"{/if}>{"Export for direct download"|i18n("design/standard/rss/edit")}</input>
     <br/>
 
     {include uri="design:gui/button.tpl" id_name=ExportPDFButton value="Export"|i18n("design/standard/rss/edit") }

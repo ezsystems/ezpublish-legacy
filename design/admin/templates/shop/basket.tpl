@@ -21,10 +21,10 @@
 
 {section show=$error}
 <div class="message-warning">
-{section show=eq( $error, "invaliditemcount" )}
+{if eq( $error, "invaliditemcount" )}
     <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span>
     {"Incorrect quantity! The quantity of the product(s) must be numeric and not less than 1."|i18n("design/standard/shop",,)}</h2>
-{/section}
+{/if}
     {section show=eq( $error, "options")}
        <h2>{"You have chosen invalid combination of options"|i18n("design/standard/shop",,)}</h2>
         <ul>
@@ -153,7 +153,7 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
     <div class="block">
-    {section show=$basket.items}
+    {if $basket.items}
     <div class="button-left">
         <input class="button" type="submit" name="RemoveProductItemButton" value="{'Remove selected'|i18n( 'design/admin/shop/basket' )}" title="{'Remove selected items from the basket.'|i18n( 'design/admin/shop/basket' )}" />
         <input class="button" type="submit" name="StoreChangesButton" value="{'Apply changes'|i18n( 'design/admin/shop/basket' )}" title="{'Click this button to update the basket if you have modified any quantity and/or option fields.'|i18n( 'design/admin/shop/basket' )}" />
@@ -162,7 +162,7 @@
         <input class="button" type="submit" name="ContinueShoppingButton" value="{'Continue shopping'|i18n( 'design/admin/shop/basket' )}" title="{'Leave the basket and continue shopping.'|i18n( 'design/admin/shop/basket' )}" />
         <input class="button" type="submit" name="CheckoutButton" value="{'Checkout'|i18n( 'design/admin/shop/basket' )}" title="{'Proceed to checkout and purchase the items that are in the basket.'|i18n( 'design/admin/shop/basket' )}" />
     </div>
-    {section-else}
+    {else}
     <div class="button-left">
         <input class="button-disabled" type="submit" name="RemoveProductItemButton" value="{'Remove selected'|i18n( 'design/admin/shop/basket' )}" disabled="disabled" title="{'You cannot remove any items because there are no items in the basket.'|i18n( 'design/admin/shop/basket' )}" />
         <input class="button-disabled" type="submit" name="StoreChangesButton" value="{'Apply changes'|i18n( 'design/admin/shop/basket' )}" disabled="disabled" title="{'You cannot store any changes because the basket is empty.'|i18n( 'design/admin/shop/basket' )}" />
@@ -171,7 +171,7 @@
         <input class="button-disabled" type="submit" name="ContinueShoppingButton" value="{'Continue shopping'|i18n( 'design/admin/shop/basket' )}" disabled="disabled" title="{'Leave the basket and continue shopping.'|i18n( 'design/admin/shop/basket' )}" />
         <input class="button-disabled" type="submit" name="CheckoutButton" value="{'Checkout'|i18n( 'design/admin/shop/basket' )}" disabled="disabled" title="{'You cannot check out because the basket is empty.'|i18n( 'design/admin/shop/basket' )}" />
     </div>
-    {/section}
+    {/if}
     <div class="break"></div>
     </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>

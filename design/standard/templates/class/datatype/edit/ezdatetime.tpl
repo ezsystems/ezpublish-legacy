@@ -3,16 +3,16 @@
 <div class="block">
     {* Use seconds. *}
     <div class="element">
-        <label><input type="checkbox" name="ContentClass_ezdatetime_use_seconds_{$class_attribute.id}" {section show=$class_attribute.data_int2|eq(1)}checked="checked"{/section} /> {'Use seconds'|i18n( 'design/standard/class/datatype' )}</label>
+        <label><input type="checkbox" name="ContentClass_ezdatetime_use_seconds_{$class_attribute.id}" {if $class_attribute.data_int2|eq(1)}checked="checked"{/if} /> {'Use seconds'|i18n( 'design/standard/class/datatype' )}</label>
     </div>
 
     {* Default value. *}
     <div class="element">
     <label>{'Default value'|i18n( 'design/standard/class/datatype' )}:</label>
     <select name="ContentClass_ezdatetime_default_{$class_attribute.id}">
-    <option value="0" {section show=eq( $class_attribute.data_int1, 0 )}selected="selected"{/section}>{'Empty'|i18n( 'design/standard/class/datatype' )}</option>
-    <option value="1" {section show=eq( $class_attribute.data_int1, 1 )}selected="selected"{/section}>{'Current datetime'|i18n( 'design/standard/class/datatype' )}</option>
-    <option value="2" {section show=eq( $class_attribute.data_int1, 2 )}selected="selected"{/section}>{'Adjusted current datetime'|i18n( 'design/standard/class/datatype' )}</option>
+    <option value="0" {if eq( $class_attribute.data_int1, 0 )}selected="selected"{/if}>{'Empty'|i18n( 'design/standard/class/datatype' )}</option>
+    <option value="1" {if eq( $class_attribute.data_int1, 1 )}selected="selected"{/if}>{'Current datetime'|i18n( 'design/standard/class/datatype' )}</option>
+    <option value="2" {if eq( $class_attribute.data_int1, 2 )}selected="selected"{/if}>{'Adjusted current datetime'|i18n( 'design/standard/class/datatype' )}</option>
     </select>
     </div>
 
@@ -28,19 +28,19 @@
     {* Year. *}
     <div class="element">
         <label>{'Year'|i18n( 'design/standard/class/datatype' )}:</label>
-        <input type="text" name="ContentClass_ezdatetime_year_{$class_attribute.id}" size="5" value="{section show=$class_attribute.content.year}{$class_attribute.content.year}{/section}" />
+        <input type="text" name="ContentClass_ezdatetime_year_{$class_attribute.id}" size="5" value="{if $class_attribute.content.year}{$class_attribute.content.year}{/if}" />
     </div>
 
     {* Month. *}
     <div class="element">
         <label>{'Month'|i18n( 'design/standard/class/datatype' )}:</label>
-        <input type="text" name="ContentClass_ezdatetime_month_{$class_attribute.id}" size="3" value="{section show=$class_attribute.content.month}{$class_attribute.content.month}{/section}" />
+        <input type="text" name="ContentClass_ezdatetime_month_{$class_attribute.id}" size="3" value="{if $class_attribute.content.month}{$class_attribute.content.month}{/if}" />
     </div>
 
     {* Day. *}
     <div class="element">
         <label>{'Day'|i18n( 'design/standard/class/datatype' )}:</label>
-        <input type="text" name="ContentClass_ezdatetime_day_{$class_attribute.id}" size="3" value="{section show=$class_attribute.content.day}{$class_attribute.content.day}{/section}" />
+        <input type="text" name="ContentClass_ezdatetime_day_{$class_attribute.id}" size="3" value="{if $class_attribute.content.day}{$class_attribute.content.day}{/if}" />
         &nbsp;
         &nbsp;
         &nbsp;
@@ -49,19 +49,19 @@
     {* Hour. *}
     <div class="element">
         <label>{'Hour'|i18n( 'design/standard/class/datatype' )}:</label>
-        <input type="text" name="ContentClass_ezdatetime_hour_{$class_attribute.id}" size="3" value="{section show=$class_attribute.content.hour}{$class_attribute.content.hour}{/section}" />
+        <input type="text" name="ContentClass_ezdatetime_hour_{$class_attribute.id}" size="3" value="{if $class_attribute.content.hour}{$class_attribute.content.hour}{/if}" />
     </div>
 
     {* Minute. *}
     <div class="element">
         <label>{'Minute'|i18n( 'design/standard/class/datatype' )}:</label>
-        <input type="text" name="ContentClass_ezdatetime_minute_{$class_attribute.id}" size="3" value="{section show=$class_attribute.content.minute}{$class_attribute.content.minute}{/section}" />
+        <input type="text" name="ContentClass_ezdatetime_minute_{$class_attribute.id}" size="3" value="{if $class_attribute.content.minute}{$class_attribute.content.minute}{/if}" />
     </div>
 
     {* Second. *}
     <div class="element">
         <label>{'Second'|i18n( 'design/standard/class/datatype' )}:</label>
-        <input type="text" name="ContentClass_ezdatetime_second_{$class_attribute.id}" size="3" value="{section show=$class_attribute.content.second}{$class_attribute.content.second}{/section}" />
+        <input type="text" name="ContentClass_ezdatetime_second_{$class_attribute.id}" size="3" value="{if $class_attribute.content.second}{$class_attribute.content.second}{/if}" />
     </div>
 
     <div class="break"></div>

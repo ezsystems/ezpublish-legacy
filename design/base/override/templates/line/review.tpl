@@ -7,11 +7,11 @@
 
     <div class="attribute-byline">
         <p class="author">
-            {section show=$node.data_map.author.content|count_chars()|gt(0)}
+            {if $node.data_map.author.content|count_chars()|gt(0)}
                 {$node.data_map.author.content|wash}
-            {section-else}
+            {else}
                 {$node.object.owner.name|wash}
-            {/section}
+            {/if}
         </p>
         <p class="date">{$node.object.published|l10n(date)}</p>
         <div class="break"></div>

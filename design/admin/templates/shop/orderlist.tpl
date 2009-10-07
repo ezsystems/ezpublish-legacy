@@ -18,24 +18,24 @@
 <div class="block">
 <div class="left">
 <p>
-{section show=eq( ezpreference( 'admin_orderlist_sortfield' ), 'user_name' )}
+{if eq( ezpreference( 'admin_orderlist_sortfield' ), 'user_name' )}
     <a href={'/user/preferences/set/admin_orderlist_sortfield/time/shop/orderlist/'|ezurl}>{'Time'|i18n( 'design/admin/shop/orderlist' )}</a>
     <span class="current">{'Customer'|i18n( 'design/admin/shop/orderlist' )}</span>
-{section-else}
+{else}
     <span class="current">{'Time'|i18n( 'design/admin/shop/orderlist' )}</span>
     <a href={'/user/preferences/set/admin_orderlist_sortfield/user_name/shop/orderlist/'|ezurl}>{'Customer'|i18n( 'design/admin/shop/orderlist' )}</a>
-{/section}
+{/if}
 </p>
 </div>
 <div class="right">
 <p>
-{section show=eq( ezpreference( 'admin_orderlist_sortorder' ), 'desc' )}
+{if eq( ezpreference( 'admin_orderlist_sortorder' ), 'desc' )}
     <a href={'/user/preferences/set/admin_orderlist_sortorder/asc/shop/orderlist/'|ezurl}>{'Ascending'|i18n( 'design/admin/shop/orderlist' )}</a>
     <span class="current">{'Descending'|i18n( 'design/admin/shop/orderlist' )}</span>
-{section-else}
+{else}
     <span class="current">{'Ascending'|i18n( 'design/admin/shop/orderlist' )}</span>
     <a href={'/user/preferences/set/admin_orderlist_sortorder/desc/shop/orderlist/'|ezurl}>{'Descending'|i18n( 'design/admin/shop/orderlist' )}</a>
-{/section}
+{/if}
 </p>
 </div>
 
@@ -95,7 +95,7 @@
         <select name="StatusList[{$Orders.item.id}]">
         {section var=Status loop=$order_status_list}
             <option value="{$Status.item.status_id}"
-                {section show=eq( $Status.item.status_id, $Orders.item.status_id )}selected="selected"{/section}>
+                {if eq( $Status.item.status_id, $Orders.item.status_id )}selected="selected"{/if}>
                 {$Status.item.name|wash}</option>
         {/section}
         </select>
@@ -132,18 +132,18 @@
 
 <div class="block">
 <div class="button-left">
-{section show=$order_list}
+{if $order_list}
     <input class="button" type="submit" name="ArchiveButton" value="{'Archive selected'|i18n( 'design/admin/shop/orderlist' )}" title="{'Archive selected orders.'|i18n( 'design/admin/shop/orderlist' )}" />
-{section-else}
+{else}
     <input class="button-disabled" type="submit" name="ArchiveButton" value="{'Archive selected'|i18n( 'design/admin/shop/orderlist' )}" disabled="disabled" />
-{/section}
+{/if}
 </div>
 <div class="button-right">
-    {section show=and( $order_list|count|gt( 0 ), $can_apply )}
+    {if and( $order_list|count|gt( 0 ), $can_apply )}
     <input class="button" type="submit" name="SaveOrderStatusButton" value="{'Apply changes'|i18n( 'design/admin/shop/orderlist' )}" title="{'Click this button to store changes if you have modified any of the fields above.'|i18n( 'design/admin/shop/orderlist' )}" />
-    {section-else}
+    {else}
     <input class="button-disabled" type="submit" name="SaveOrderStatusButton" value="{'Apply changes'|i18n( 'design/admin/shop/orderlist' )}" disabled="disabled" />
-    {/section}
+    {/if}
 </div>
 <div class="break"></div>
 

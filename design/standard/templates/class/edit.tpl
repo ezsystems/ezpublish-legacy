@@ -12,11 +12,11 @@
                                                                  '%time',$class.modified|l10n(shortdatetime)))}</p>
 </div>
 
-{section show=$basic_class_attributes_initialized|not()}
+{if $basic_class_attributes_initialized|not()}
 <div class="warning">
 <h2>{"The class should have at least one attribute and a nonempty 'Name' attribute"|i18n("design/standard/class/edit")}</h2>
 </div>
-{/section}
+{/if}
 
 <table class="layout" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
@@ -36,11 +36,11 @@
     <input type="text" name="ContentClass_contentobject_name" size="30" value="{$class.contentobject_name|wash}" />
     <label>{"Is container class"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
     <input type="hidden" name="ContentClass_is_container_exists" value="1" />
-    {section show=$class.is_container|eq(1)}
+    {if $class.is_container|eq(1)}
         <input type="checkbox" name="ContentClass_is_container_checked" value="{$class.is_container}" checked />
-    {section-else}
+    {else}
         <input type="checkbox" name="ContentClass_is_container_checked" value="{$class.is_container}" />
-    {/section}
+    {/if}
     </div>
 
     <div class="block">
@@ -103,7 +103,7 @@
                 {$UnvalidatedAttributes.item.reason.text|wash}
             <ul>
             {section var=subitem loop=$UnvalidatedAttributes.item.reason.list}
-                <li>{section show=is_set( $subitem.identifier )}{$subitem.identifier|wash}: {/section}{$subitem.text|wash}</li>
+                <li>{if is_set( $subitem.identifier )}{$subitem.identifier|wash}: {/if}{$subitem.text|wash}</li>
             {/section}
             </ul>
             </li>
@@ -162,23 +162,23 @@
 *}
 
 <div class="block">
-<input type="checkbox" name="ContentAttribute_is_required_checked[]" value="{$Attributes:item.id}"  {section show=$Attributes:item.is_required}checked="checked"{/section} /><label>{"Required"|i18n("design/standard/class/edit")}</label>
+<input type="checkbox" name="ContentAttribute_is_required_checked[]" value="{$Attributes:item.id}"  {if $Attributes:item.is_required}checked="checked"{/if} /><label>{"Required"|i18n("design/standard/class/edit")}</label>
 </div>
 
-{section show=$Attributes:item.data_type.is_indexable}
+{if $Attributes:item.data_type.is_indexable}
 <div class="block">
-<input type="checkbox" name="ContentAttribute_is_searchable_checked[]" value="{$Attributes:item.id}"  {section show=$Attributes:item.is_searchable}checked="checked"{/section} /><label>{"Searchable"|i18n("design/standard/class/edit")}</label>
+<input type="checkbox" name="ContentAttribute_is_searchable_checked[]" value="{$Attributes:item.id}"  {if $Attributes:item.is_searchable}checked="checked"{/if} /><label>{"Searchable"|i18n("design/standard/class/edit")}</label>
 </div>
-{/section}
+{/if}
 
-{section show=$Attributes:item.data_type.is_information_collector}
+{if $Attributes:item.data_type.is_information_collector}
 <div class="block">
-<input type="checkbox" name="ContentAttribute_is_information_collector_checked[]" value="{$Attributes:item.id}"  {section show=$Attributes:item.is_information_collector}checked="checked"{/section} /><label>{"Information collector"|i18n("design/standard/class/edit")}</label>
+<input type="checkbox" name="ContentAttribute_is_information_collector_checked[]" value="{$Attributes:item.id}"  {if $Attributes:item.is_information_collector}checked="checked"{/if} /><label>{"Information collector"|i18n("design/standard/class/edit")}</label>
 </div>
-{/section}
+{/if}
 
 <div class="block">
-<input type="checkbox" name="ContentAttribute_can_translate_checked[]" value="{$Attributes.item.id}" {section show=or( $Attributes.item.can_translate|eq(0), $Attributes.item.data_type.properties.translation_allowed|not )}checked="checked"{/section} {section show=$Attributes.item.data_type.properties.translation_allowed|not}disabled="disabled"{/section} /><label>{"Disable translation"|i18n("design/standard/class/edit")}</label>
+<input type="checkbox" name="ContentAttribute_can_translate_checked[]" value="{$Attributes.item.id}" {if or( $Attributes.item.can_translate|eq(0), $Attributes.item.data_type.properties.translation_allowed|not )}checked="checked"{/if} {if $Attributes.item.data_type.properties.translation_allowed|not}disabled="disabled"{/if} /><label>{"Disable translation"|i18n("design/standard/class/edit")}</label>
 </div>
 
 </td>
@@ -216,9 +216,9 @@
     </div>
   </td>
   <td colspan="4" align="right">
-  {section show=$attributes}
+  {if $attributes}
     {include uri="design:gui/button.tpl" name=Remove id_name=RemoveButton value="Remove"|i18n("design/standard/class/edit")}
-  {section-else}&nbsp;{/section}
+  {else}&nbsp;{/if}
   </td>
 </tr>
 </table>

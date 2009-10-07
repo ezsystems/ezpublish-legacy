@@ -5,23 +5,23 @@
 <h2>{"Are you sure you want to remove these items?"|i18n("design/standard/node")}</h2>
 <ul>
 {section name=Result loop=$DeleteResult}
-    {section show=$Result:item.childCount|gt(0)}
+    {if $Result:item.childCount|gt(0)}
         <li>{"%nodename and its %childcount children. %additionalwarning"
              |i18n( 'design/standard/node',,
                     hash( '%nodename', $Result:item.nodeName,
                           '%childcount', $Result:item.childCount,
                           '%additionalwarning', $Result:item.additionalWarning ) )}</li>
-    {section-else}
+    {else}
         <li>{"%nodename %additionalwarning"
              |i18n( 'design/standard/node',,
                     hash( '%nodename', $Result:item.nodeName,
                           '%additionalwarning', $Result:item.additionalWarning ) )}</li>
-    {/section}
+    {/if}
 {/section}
 </ul>
 </div>
 
-{section show=$moveToTrashAllowed}
+{if $moveToTrashAllowed}
   <input type="hidden" name="SupportsMoveToTrash" value="1" />
   <p><input type="checkbox" name="MoveToTrash" value="1" checked="checked" />{'Move to trash'|i18n('design/standard/node')}</p>
 
@@ -29,7 +29,7 @@
                                                     |i18n( 'design/standard/node',,
                                                            hash( '%trashname', concat( '<i>', 'Move to trash' | i18n( 'design/standard/node' ), '</i>' ) ) )}</p>
   <br/>
-{/section}
+{/if}
 
 
 <div class="buttonblock">

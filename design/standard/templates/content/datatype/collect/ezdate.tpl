@@ -6,17 +6,17 @@
 
 <div class="element">
 <label>{'Year'|i18n( 'design/standard/content/datatype' )}:</label>
-<input type="text" name="{$attribute_base}_date_year_{$attribute.id}" size="5" value="{section show=$date.is_valid}{$date.year}{/section}" />
+<input type="text" name="{$attribute_base}_date_year_{$attribute.id}" size="5" value="{if $date.is_valid}{$date.year}{/if}" />
 </div>
 
 <div class="element">
 <label>{'Month'|i18n( 'design/standard/content/datatype' )}:</label>
-<input type="text" name="{$attribute_base}_date_month_{$attribute.id}" size="3" value="{section show=$date.is_valid}{$date.month}{/section}" />
+<input type="text" name="{$attribute_base}_date_month_{$attribute.id}" size="3" value="{if $date.is_valid}{$date.month}{/if}" />
 </div>
 
 <div class="element">
 <label>{'Day'|i18n( 'design/standard/content/datatype' )}:</label>
-<input type="text" name="{$attribute_base}_date_day_{$attribute.id}" size="3" value="{section show=$date.is_valid}{$date.day}{/section}" />
+<input type="text" name="{$attribute_base}_date_day_{$attribute.id}" size="3" value="{if $date.is_valid}{$date.day}{/if}" />
 </div>
 
 <div class="break"></div>

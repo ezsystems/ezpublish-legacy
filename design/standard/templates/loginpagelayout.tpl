@@ -51,13 +51,13 @@
     <td>
 
 <table width="100%"  cellspacing="0" cellpadding="4">
-{section show=$warning_list}
+{if $warning_list}
 <tr>
   <td colspan="3">
     {include uri="design:page_warning.tpl"}
   </td>
 </tr>
-{/section}
+{/if}
 <tr>
     {* This is the main content *}
     <td width="20%" bgcolor="#ffffff" valign="top">

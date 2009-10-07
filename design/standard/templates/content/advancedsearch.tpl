@@ -82,9 +82,9 @@ selected="selected"
 <option value="-1">{"Any attribute"|i18n("design/standard/content/search")}</option>
 {section name=ClassAttribute loop=$search_content_class_attribute_array}
 <option value="{$Attribute:ClassAttribute:item.id}" 
-        {section show=eq($search_contentclass_attribute_id,$Attribute:ClassAttribute:item.id)}
+        {if eq($search_contentclass_attribute_id,$Attribute:ClassAttribute:item.id)}
             selected="selected"
-        {/section}>{$Attribute:ClassAttribute:item.name|wash}</option>
+        {/if}>{$Attribute:ClassAttribute:item.name|wash}</option>
 {/section}
 </select>
 
@@ -118,27 +118,27 @@ selected="selected"
 
 <label>{"Published"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
 <select name="SearchDate">
-<option value="-1" {section show=eq($search_date,-1)}selected="selected"{/section}>{"Any time"|i18n("design/standard/content/search")}</option>
-<option value="1" {section show=eq($search_date,1)}selected="selected"{/section}>{"Last day"|i18n("design/standard/content/search")}</option>
-<option value="2" {section show=eq($search_date,2)}selected="selected"{/section}>{"Last week"|i18n("design/standard/content/search")}</option>
-<option value="3" {section show=eq($search_date,3)}selected="selected"{/section}>{"Last month"|i18n("design/standard/content/search")}</option>
-<option value="4" {section show=eq($search_date,4)}selected="selected"{/section}>{"Last three months"|i18n("design/standard/content/search")}</option>
-<option value="5" {section show=eq($search_date,5)}selected="selected"{/section}>{"Last year"|i18n("design/standard/content/search")}</option>
+<option value="-1" {if eq($search_date,-1)}selected="selected"{/if}>{"Any time"|i18n("design/standard/content/search")}</option>
+<option value="1" {if eq($search_date,1)}selected="selected"{/if}>{"Last day"|i18n("design/standard/content/search")}</option>
+<option value="2" {if eq($search_date,2)}selected="selected"{/if}>{"Last week"|i18n("design/standard/content/search")}</option>
+<option value="3" {if eq($search_date,3)}selected="selected"{/if}>{"Last month"|i18n("design/standard/content/search")}</option>
+<option value="4" {if eq($search_date,4)}selected="selected"{/if}>{"Last three months"|i18n("design/standard/content/search")}</option>
+<option value="5" {if eq($search_date,5)}selected="selected"{/if}>{"Last year"|i18n("design/standard/content/search")}</option>
 </select>
 </div>
 
-{section show=$use_template_search}
+{if $use_template_search}
 <div class="element">
 <label>{"Display per page"|i18n("design/standard/content/search")}</label><div class="labelbreak"></div>
 <select name="SearchPageLimit">
-<option value="1" {section show=eq($search_page_limit,1)}selected="selected"{/section}>{"5 items"|i18n("design/standard/content/search")}</option>
-<option value="2" {section show=or(array(1,2,3,4,5)|contains($search_page_limit)|not,eq($search_page_limit,2))}selected="selected"{/section}>{"10 items"|i18n("design/standard/content/search")}</option>
-<option value="3" {section show=eq($search_page_limit,3)}selected="selected"{/section}>{"20 items"|i18n("design/standard/content/search")}</option>
-<option value="4" {section show=eq($search_page_limit,4)}selected="selected"{/section}>{"30 items"|i18n("design/standard/content/search")}</option>
-<option value="5" {section show=eq($search_page_limit,5)}selected="selected"{/section}>{"50 items"|i18n("design/standard/content/search")}</option>
+<option value="1" {if eq($search_page_limit,1)}selected="selected"{/if}>{"5 items"|i18n("design/standard/content/search")}</option>
+<option value="2" {if or(array(1,2,3,4,5)|contains($search_page_limit)|not,eq($search_page_limit,2))}selected="selected"{/if}>{"10 items"|i18n("design/standard/content/search")}</option>
+<option value="3" {if eq($search_page_limit,3)}selected="selected"{/if}>{"20 items"|i18n("design/standard/content/search")}</option>
+<option value="4" {if eq($search_page_limit,4)}selected="selected"{/if}>{"30 items"|i18n("design/standard/content/search")}</option>
+<option value="5" {if eq($search_page_limit,5)}selected="selected"{/if}>{"50 items"|i18n("design/standard/content/search")}</option>
 </select>
 </div>
-{/section}
+{/if}
 
 {section name=SubTree loop=$search_sub_tree}
 <input type="hidden" name="SubTreeArray[]" value="{$:item}" />
@@ -152,7 +152,7 @@ selected="selected"
 <input class="button" type="submit" name="SearchButton" value="{'Search'|i18n('design/standard/content/search')}" />
 </div>
 
-{section show=or($search_text,eq(ezini('SearchSettings','AllowEmptySearch','site.ini'),'enabled') )}
+{if or($search_text,eq(ezini('SearchSettings','AllowEmptySearch','site.ini'),'enabled') )}
 <br/>
 {switch name=Sw match=$search_count}
   {case match=0}
@@ -170,7 +170,7 @@ selected="selected"
 {include name=Result
          uri='design:content/searchresult.tpl'
          search_result=$search_result}
-{/section}
+{/if}
 
 {include name=navigator
          uri='design:navigator/google.tpl'

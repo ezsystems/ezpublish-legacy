@@ -2,30 +2,30 @@
      align="center"
      href=''}
 
-{section show=is_set($attribute_parameters.size)}
+{if is_set($attribute_parameters.size)}
 {set image_variation=$object.data_map.image.content[$attribute_parameters.size]}
-{section-else}
+{else}
 {set image_variation=$object.data_map.image.content["medium"]}
-{/section}
+{/if}
 
-{section show=is_set($attribute_parameters.align)}
+{if is_set($attribute_parameters.align)}
 {set align=$attribute_parameters.align}
-{section-else}
+{else}
 {set align="center"}
-{/section}
+{/if}
 
-{section show=is_set($attribute_parameters.href)}
+{if is_set($attribute_parameters.href)}
 {set href=$attribute_parameters.href}
-{section-else}
+{else}
 {set href=""}
-{/section}
+{/if}
 
 {switch match=$align}
 {case match="left"}
 <div class="imageleft">
-{section show=$href}<a href={$href|ezurl}>{/section}
+{if $href}<a href={$href|ezurl}>{/if}
 <img src={$image_variation.full_path|ezroot} />
-{section show=$href}</a>{/section}
+{if $href}</a>{/if}
 
 <div style="width: {$image_variation.width}px;">
 {$object.data_map.caption.content.output.output_text}
@@ -34,9 +34,9 @@
 {/case}
 {case match="right"}
 <div class="imageright">
-{section show=$href}<a href={$href|ezurl}>{/section}
+{if $href}<a href={$href|ezurl}>{/if}
 <img src={$image_variation.full_path|ezroot} />
-{section show=$href}</a>{/section}
+{if $href}</a>{/if}
 
 <div style="width: {$image_variation.width}px;">
 {$object.data_map.caption.content.output.output_text}
@@ -45,9 +45,9 @@
 {/case}
 {case}
 <div class="imagecenter">
-{section show=$href}<a href={$href|ezurl}>{/section}
+{if $href}<a href={$href|ezurl}>{/if}
 <img src={$image_variation.full_path|ezroot} />
-{section show=$href}</a>{/section}
+{if $href}</a>{/if}
 
 <div style="width: {$image_variation.width}px;">
 {$object.data_map.caption.content.output.output_text}

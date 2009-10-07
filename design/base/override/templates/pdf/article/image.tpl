@@ -5,12 +5,12 @@
 {let image_attribute=$object.data_map.image
      image_content=$image_attribute.content}
 
-  {section show=is_set($attribute_parameters.align)}
+  {if is_set($attribute_parameters.align)}
     {set align=$attribute_parameters.align}
     {set image_class=$attribute_parameters.size}
-  {section-else}
+  {else}
     {set align="center"}
-  {/section}
+  {/if}
 
   {let image=$image_content[$image_class]}
 

@@ -25,18 +25,18 @@
         {set rootNodeID=$module_result.node_id}
     {section-else}
         {section var=path_node loop=$node.path reverse=true()}
-            {section show=$rootNodeID|not()}
-                {section show=$chapterClasses|contains($path_node.object.class_identifier) }
+            {if $rootNodeID|not()}
+                {if $chapterClasses|contains($path_node.object.class_identifier) }
                     {set rootNodeID=$path_node.node_id}
-                {section-else}
+                {else}
                     {set unfoldNodeID=$path_node.node_id}
-                {/section}
-            {/section}
+                {/if}
+            {/if}
         {/section}
-        {section show=$rootNodeID|not()}
+        {if $rootNodeID|not()}
             {set rootNodeID=$node.path.0.node_id}
             {set unfoldNodeID=$node.path.1.node_id}
-        {/section}
+        {/if}
     {/section}
 
     {set rootNode=fetch( 'content', 'node', hash( node_id, $:rootNodeID ) )}

@@ -36,7 +36,7 @@
 
 <div class="block">
 <label class="check">{'Enable user account'|i18n( 'design/admin/user/setting' )}:</label>
-<input type="checkbox" name="is_enabled" {section show=$userSetting.is_enabled}checked="checked"{/section} title="{'Use this checkbox to enable or disable the user account.'|i18n( 'design/admin/user/setting' )}" />
+<input type="checkbox" name="is_enabled" {if $userSetting.is_enabled}checked="checked"{/if} title="{'Use this checkbox to enable or disable the user account.'|i18n( 'design/admin/user/setting' )}" />
 </div>
 
 </div>

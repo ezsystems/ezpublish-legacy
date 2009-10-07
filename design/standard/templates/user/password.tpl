@@ -5,46 +5,46 @@
 <h1>{"Change password for user"|i18n("design/standard/user")} {$userAccount.login}</h1>
 </div>
 
-{section show=$message}
-{section show=or($oldPasswordNotValid,$newPasswordNotMatch,$newPasswordTooShort)}
-    {section show=$oldPasswordNotValid}
+{if $message}
+{if or($oldPasswordNotValid,$newPasswordNotMatch,$newPasswordTooShort)}
+    {if $oldPasswordNotValid}
         <div class="warning">
             <h2>{'Please retype your old password.'|i18n('design/standard/user')}</h2>
         </div>
-    {/section}
-    {section show=$newPasswordNotMatch}
+    {/if}
+    {if $newPasswordNotMatch}
         <div class="warning">
             <h2>{"Password did not match. Please retype your new password."|i18n('design/standard/user')}</h2>
         </div>
-    {/section}
-    {section show=$newPasswordTooShort}
+    {/if}
+    {if $newPasswordTooShort}
         <div class="warning">
             <h2>{"The new password must be at least %1 characters long. Please retype your new password."|i18n( 'design/standard/user/','',array( ezini('UserSettings','MinPasswordLength') ) )}</h2>
         </div>
-    {/section}
+    {/if}
 
-{section-else}
+{else}
     <div class="feedback">
         <h2>{'Password successfully updated.'|i18n('design/standard/user')}</h2>
     </div>
-{/section}
+{/if}
 
-{/section}
+{/if}
 
 <div class="block">
-{section show=$oldPasswordNotValid}*{/section}
+{if $oldPasswordNotValid}*{/if}
 <label>{"Old password"|i18n("design/standard/user")}</label><div class="labelbreak"></div>
 <input class="halfbox" type="password" name="oldPassword" size="11" value="{$oldPassword}" />
 </div>
 
 <div class="block">
 <div class="element">
-{section show=$newPasswordNotMatch}*{/section}
+{if $newPasswordNotMatch}*{/if}
 <label>{"New password"|i18n("design/standard/user")}</label><div class="labelbreak"></div>
 <input class="halfbox" type="password" name="newPassword" size="11" value="{$newPassword}" />
 </div>
 <div class="element">
-{section show=$newPasswordNotMatch}*{/section}
+{if $newPasswordNotMatch}*{/if}
 <label>{"Retype password"|i18n("design/standard/user")}</label><div class="labelbreak"></div>
 <input class="halfbox" type="password" name="confirmPassword" size="11" value="{$confirmPassword}" />
 </div>

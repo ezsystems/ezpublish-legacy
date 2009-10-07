@@ -17,25 +17,25 @@
     <tr>
         <th>{$depth}.{$Options.item.id}</th>
         <td>{$Options.item.value}
-        {section show=$depth|gt(1)}
+        {if $depth|gt(1)}
             <input type="hidden" name="{$attribute_base}_data_multioption_rule_for[]" value="{$Options.item.option_id}">
             <input type="hidden" name="{$attribute_base}_data_rule_parent_multioption_id_{$Options.item.option_id}[]" value="{$parent_multioption.multioption_id}">
-        {/section}
+        {/if}
         </td>
         {section show=$depth|gt(1)}
             {section var=OptionList loop=$parent_multioption.optionlist}
                 <td>
-{section show=and($OptionList.item.is_selectable,$Options.item.is_selectable)}
+{if and($OptionList.item.is_selectable,$Options.item.is_selectable)}
                 <input type="checkbox"
                    name="{$attribute_base}_data_multioption_rule_{$Options.item.option_id}_{$parent_multioption.multioption_id}[]"
                       value="{$OptionList.item.option_id}"
                 {cond( not(is_set( $rules[$Options.item.option_id] )) ,'checked="checked"',$rules[$Options.item.option_id][$parent_multioption.multioption_id]|contains($OptionList.item.option_id ),'checked="checked"', true(),'')}/>
-{section-else}
+{else}
                 <input type="checkbox"
                      name="{$attribute_base}_data_multioption_rule_{$Options.item.option_id}_{$parent_multioption.multioption_id}[]" value="{$OptionList.item.option_id}" checked="checked" disabled="disabled" />
                 <input type="hidden" name="{$attribute_base}_data_multioption_rule_{$Options.item.option_id}_{$parent_multioption.multioption_id}[]" value="{$OptionList.item.option_id}" >
 
-{/section}
+{/if}
                 </td>
             {/section}
         {/section}
@@ -43,14 +43,14 @@
     </tr>
 {/section}
 
-{section show=is_set($MultiOptionList.item.child_group)}
+{if is_set($MultiOptionList.item.child_group)}
     <tr>
         <th>&nbsp;</th>
-        <td  {section show=$MultiOptionList.item.optionlist} colspan="{count($MultiOptionList.item.optionlist)|sum(1)}"{/section} >
+        <td  {if $MultiOptionList.item.optionlist} colspan="{count($MultiOptionList.item.optionlist)|sum(1)}"{/if} >
         {include uri='design:content/datatype/edit/multioption2/multioption2_rules.tpl' name=ChildGroup attribute=$attribute group=$MultiOptionList.item.child_group parent_group_id=$group.group_id parent_multioption_id=$MultiOptionList.item.id parent_multioption=$MultiOptionList.item depth=sum($depth,1) rules=$rules}
         </td>
     </tr>
-{/section}
+{/if}
 
 </table>
 

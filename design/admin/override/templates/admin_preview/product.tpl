@@ -6,11 +6,11 @@
     <h1>{$node.name|wash()}</h1>
 
     {* Image. *}
-    {section show=$node.data_map.image.content}
+    {if $node.data_map.image.content}
         <div class="attribute-image">
             {attribute_view_gui alignment=right image_class=medium attribute=$node.data_map.image}
         </div>
-    {/section}
+    {/if}
 
         {* Short description. *}
         <div class="attribute-short">

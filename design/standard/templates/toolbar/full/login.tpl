@@ -2,14 +2,14 @@
 <div class="toolbar-item {$placement}">
     <div class="toolbox">
         <div class="toolbox-design">
-        {section show=$current_user.is_logged_in}
+        {if $current_user.is_logged_in}
             <h2>{'Account'|i18n( 'design/standard/toolbar' )}</h2>
-        {section-else}
+        {else}
             <h2>{'Not logged in'|i18n( 'design/standard/toolbar' )}</h2>
-        {/section}
+        {/if}
 
         <div class="toolbox-content">
-        {section show=$current_user.is_logged_in}
+        {if $current_user.is_logged_in}
         <div class="info-text">
             <p>
             {'Logged in as: %username'|i18n( 'design/standard/toolbar',, hash( '%username', $current_user.contentobject.name|wash ) )}
@@ -30,7 +30,7 @@
             <a href={"/user/logout"|ezurl}>{'Logout'|i18n( 'design/standard/toolbar' )}</a>
             </p>
         </div>
-        {section-else}
+        {else}
         <form method="post" action={"/user/login/"|ezurl}>
         <div class="info-text">
             <label for="id1">{"Username"|i18n( 'design/standard/toolbar' )}</label>
@@ -54,7 +54,7 @@
             </p>
         </div>
         </form>
-        {/section}
+        {/if}
         </div>
 
         </div>

@@ -37,12 +37,12 @@
      translation_list=$other_translation_list|array_prepend($default_translation)}
 
 {section loop=$translation_list}
-  {section show=eq( $edit_language, $item.language_code)}
+  {if eq( $edit_language, $item.language_code)}
     {set language_index=$:index}
-  {/section}
+  {/if}
 {/section}
 
-{section show=$is_translating_content}
+{if $is_translating_content}
 
     {let from_language_object=$object.languages[$from_language]}
 
@@ -52,28 +52,28 @@
 
     {/let}
 
-{section-else}
+{else}
 
     {$translation_list[$language_index].locale.intl_language_name}&nbsp;<img src="{$translation_list[$language_index].language_code|flag_icon}" style="vertical-align: middle;" alt="{$translation_list[$language_index].language_code}" />
 
-{/section}
+{/if}
 
 {/let}
 </p>
 <div class="break"></div>
 </div>
 
-{section show=$is_translating_content}
+{if $is_translating_content}
 <div class="content-translation">
-{/section}
+{/if}
 
 <div class="context-attributes">
     {include uri='design:content/edit_attribute.tpl'}
 </div>
 
-{section show=$is_translating_content}
+{if $is_translating_content}
 </div>
-{/section}
+{/if}
 
 {* DESIGN: Content END *}</div></div></div>
 <div class="controlbar">
@@ -94,12 +94,12 @@
 
 {* Locations window. *}
 {* section show=eq( ezini( 'EditSettings', 'EmbedNodeAssignmentHandling', 'content.ini' ), 'enabled' ) *}
-{section show=ezpreference( 'admin_edit_show_locations' )}
+{if ezpreference( 'admin_edit_show_locations' )}
     {include uri='design:content/edit_locations.tpl'}
-{section-else}
+{else}
     {* This disables all node assignment checking in content/edit *}
     <input type="hidden" name="UseNodeAssigments" value="0" />
-{/section}
+{/if}
 
 </div>
 
@@ -110,10 +110,10 @@
 
 {* Override default redirection urls. *}
 {section var=Menu loop=topmenu('default')}
-    {section show=eq($Menu.name, 'Design')}
+    {if eq($Menu.name, 'Design')}
         <input type="hidden" name="RedirectURIAfterPublish" value="/{$Menu.url}" />
         <input type="hidden" name="RedirectIfDiscarded" value="/{$Menu.url}" />
-    {/section}
+    {/if}
 {/section}
 
 </form>

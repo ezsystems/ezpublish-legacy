@@ -4,16 +4,16 @@
 {"Your account information"|i18n('design/standard/user/forgotpassword')}
 {"Email"|i18n('design/standard/user/forgotpassword')}: {$user.email}
 
-{section show=$link}
+{if $link}
 {"Click here to get new password"|i18n('design/standard/user/forgotpassword')}:
 http://{$site_url}{concat("user/forgotpassword/", $hash_key, '/')|ezurl(no)}
-{section-else}
+{else}
 
 
-{section show=$password}
+{if $password}
 {"New password"|i18n('design/standard/user/forgotpassword')}: {$password}
-{/section}
+{/if}
 
-{/section}
+{/if}
 
 {/let}

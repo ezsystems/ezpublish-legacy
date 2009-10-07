@@ -6,18 +6,18 @@
     <h2>{'Siteaccess'|i18n( 'design/standard/menuconfig' )}</h2>
 </div>
 <div class="object">
-    {section show=$current_siteaccess}
+    {if $current_siteaccess}
         <p>{'Current siteaccess'|i18n( 'design/standard/menuconfig' )}: <strong>{$current_siteaccess}</strong></p>
-    {/section}
+    {/if}
     <div class="block">
         <label>{'Select siteaccess'|i18n( 'design/standard/menuconfig' )}</label><div class="labelbreak"></div>
         <select name="CurrentSiteAccess">
             {section var=siteaccess loop=$siteaccess_list}
-                {section show=eq( $current_siteaccess, $siteaccess )}
+                {if eq( $current_siteaccess, $siteaccess )}
                     <option value="{$siteaccess}" selected="selected">{$siteaccess}</option>
-                {section-else}
+                {else}
                 <option value="{$siteaccess}">{$siteaccess}</option>
-            {/section}
+            {/if}
         {/section}
         </select>
         &nbsp;

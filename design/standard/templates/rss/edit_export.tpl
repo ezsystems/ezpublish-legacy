@@ -87,10 +87,10 @@
 
 
     <label>{"Active"|i18n("design/standard/rss/edit")}:</label><div class="labelbreak"></div>
-    <input type="checkbox" name="active" {section show=$rss_export.active|eq(1)}checked="checked"{/section}></input>
+    <input type="checkbox" name="active" {if $rss_export.active|eq(1)}checked="checked"{/if}></input>
     <br/>
 	<label>{'Main node only'|i18n( 'design/standard/rss/edit' )}:</label>
-    <input type="checkbox" name="MainNodeOnly" {section show=$rss_export.main_node_only|eq( 1 )}checked="checked"{/section}
+    <input type="checkbox" name="MainNodeOnly" {if $rss_export.main_node_only|eq( 1 )}checked="checked"{/if}
 		title="{'Check if you want to only feed the object from the main node.'|i18n('design/standard/rss/edit')}"/>
 
     <label>{"Access URL"|i18n("design/standard/rss/edit")}:</label><div class="labelbreak"></div>
@@ -118,7 +118,7 @@
       <br/>
 
 	   <label>{'Subnodes'|i18n( 'design/standard/rss/edit' )}:</label>
-       <input type="checkbox" name="Item_Subnodes_{$Source:index}" {section show=$Source:item.subnodes|wash|eq( 1 )}checked="checked"{/section}
+       <input type="checkbox" name="Item_Subnodes_{$Source:index}" {if $Source:item.subnodes|wash|eq( 1 )}checked="checked"{/if}
 	   title="{'Activate this checkbox if objects from the subnodes of the source should also be fed.'|i18n('design/standard/rss/edit')}"/>
 
        <label>{"Class"|i18n("design/standard/rss/edit")}:</label><div class="labelbreak"></div>

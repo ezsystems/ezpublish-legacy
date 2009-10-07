@@ -5,9 +5,9 @@
 {let name=Path
      path=$module_result.path
      reverse_path=array()}
-  {section show=is_set($module_result.title_path)}
+  {if is_set($module_result.title_path)}
     {set path=$module_result.title_path}
-  {/section}
+  {/if}
   {section loop=$:path}
     {set reverse_path=$:reverse_path|array_prepend($:item)}
   {/section}
@@ -27,10 +27,10 @@
     {/section}
 
     {* check if we need a http-equiv refresh *}
-    {section show=$site.redirect}
+    {if $site.redirect}
     <meta http-equiv="Refresh" content="{$site.redirect.timer}; URL={$site.redirect.location}" />
 
-    {/section}
+    {/if}
 
     {section name=HTTP loop=$site.http_equiv}
     <meta http-equiv="{$HTTP:key|wash}" content="{$HTTP:item|wash}" />
@@ -45,8 +45,8 @@
     <meta name="MSSmartTagsPreventParsing" content="TRUE" />
     <meta name="generator" content="eZ Publish" />
 
-{section show=$enable_link}
+{if $enable_link}
     {include uri="design:link.tpl" enable_help=$enable_help enable_link=$enable_link}
-{/section}
+{/if}
 
 {/default}

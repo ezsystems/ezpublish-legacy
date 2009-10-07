@@ -81,11 +81,11 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
 
-{section show=$most_frequent_phrase_array|count}
+{if $most_frequent_phrase_array|count}
     <input class="button" type="submit" name="ResetSearchStatsButton" value="{'Reset statistics'|i18n( 'design/admin/search/stats' )}" title="{'Clear the search log.'|i18n( 'design/admin/search/stats' )}" />
-{section-else}
+{else}
     <input class="button-disabled" type="submit" name="ResetSearchStatsButton" value="{'Reset statistics'|i18n( 'design/admin/search/stats' )}" disabled="disabled" />
-{/section}
+{/if}
 
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>

@@ -5,21 +5,21 @@
 
         <h1>{'Results'|i18n( 'design/base' )}</h1>
 
-        {section show=$error}
+        {if $error}
 
-        {section show=$error_anonymous_user}
+        {if $error_anonymous_user}
         <div class="warning">
             <h2>{'Anonymous users are not allowed to vote in this poll. Please log in.'|i18n('design/base')}</h2>
         </div>
-        {/section}
+        {/if}
 
-        {section show=$error_existing_data}
+        {if $error_existing_data}
         <div class="warning">
             <h2>{'You have already voted in this poll.'|i18n('design/base')}</h2>
         </div>
-        {/section}
+        {/if}
 
-        {/section}
+        {/if}
 
         {section loop=$object.contentobject_attributes}
             {section show=$:item.contentclass_attribute.is_information_collector}
@@ -38,9 +38,9 @@
 
                 {section name=Option loop=$contentobject_attribute.content.option_list}
                     {let item_count=0}
-                    {section show=is_set($item_counts[$:item.id])}
+                    {if is_set($item_counts[$:item.id])}
                         {set item_count=$item_counts[$:item.id]}
-                    {/section}
+                    {/if}
                     <td class="poll-resultname">
                         <p>
                             {$:item.value}
@@ -85,9 +85,9 @@
                 </table>
             {/let}
             {section-else}
-                {section show=$attribute_hide_list|contains($:item.contentclass_attribute.identifier)|not}
+                {if $attribute_hide_list|contains($:item.contentclass_attribute.identifier)|not}
                     <div class="attribute-short">{attribute_view_gui attribute=$:item}</div>
-                {/section}
+                {/if}
             {/section}
         {/section}
 

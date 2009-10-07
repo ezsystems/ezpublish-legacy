@@ -5,15 +5,15 @@
   <h1>{"Welcome to eZ Publish %1"|i18n("design/standard/setup/init",,array($#version.alias))}</h1>
 </div>
 
-{section show=eq( $optional_test.result, 2 )}
+{if eq( $optional_test.result, 2 )}
     <p>
         {"Welcome to the eZ Publish content management system and development framework. This wizard will help you set up eZ Publish.<br>Your system is not optimal, if you wish you can click the <i>Finetune</i> button. This will present hints on how to fix these issues.<br/> Click <i>Next</i> to continue without finetuning."|i18n("design/standard/setup/init")}
     </p>
-{section-else}
+{else}
     <p>
         {"Welcome to the eZ Publish content management system and development framework. This wizard will help you set up eZ Publish.<br>Click <i>Next</i> to continue."|i18n("design/standard/setup/init")}
     </p>
-{/section}
+{/if}
 
 <form method="post" action="{$script}">
   {include uri='design:setup/persistence.tpl'}

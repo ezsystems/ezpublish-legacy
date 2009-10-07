@@ -42,13 +42,13 @@
 {* Object creation. *}
 <div class="element">
 <label>{'Object class'|i18n( 'design/standard/class/datatype' )}</label><div class="labelbreak"></div>
-{section show=$content.object_class}
+{if $content.object_class}
     {let filter_class=fetch( content, class, hash( class_id, $content.object_class ) )}
     <p>{$filter_class.name}</p>
     {/let}
-{section-else}
+{else}
     <p>(none)</p>
-{/section}
+{/if}
 
 {* Default location. *}
 <div class="block">

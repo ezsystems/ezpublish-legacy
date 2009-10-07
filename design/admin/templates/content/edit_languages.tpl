@@ -26,33 +26,33 @@
 {* Created *}
 <p>
 <label>{'Created'|i18n( 'design/admin/content/edit_languages' )}:</label>
-{section show=$object.published}
+{if $object.published}
 {$object.published|l10n( shortdatetime )}<br />
 {$object.current.creator.name|wash}
-{section-else}
+{else}
 {'Not yet published'|i18n( 'design/admin/content/edit_languages' )}
-{/section}
+{/if}
 </p>
 
 {* Modified *}
 <p>
 <label>{'Modified'|i18n( 'design/admin/content/edit_languages' )}:</label>
-{section show=$object.modified}
+{if $object.modified}
 {$object.modified|l10n( shortdatetime )}<br />
 {fetch( content, object, hash( object_id, $object.content_class.modifier_id ) ).name|wash}
-{section-else}
+{else}
 {'Not yet published'|i18n( 'design/admin/content/edit_languages' )}
-{/section}
+{/if}
 </p>
 
 {* Published version *}
 <p>
 <label>{'Published version'|i18n( 'design/admin/content/edit_languages' )}:</label>
-{section show=$object.published}
+{if $object.published}
 {$object.current_version}
-{section-else}
+{else}
 {'Not yet published'|i18n( 'design/admin/content/edit_languages' )}
-{/section}
+{/if}
 </p>
 
 </div></div></div></div></div></div>

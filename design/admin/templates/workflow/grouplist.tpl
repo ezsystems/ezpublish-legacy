@@ -41,11 +41,11 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-    {section show=$groups}
+    {if $groups}
     <input class="button" type="submit" name="DeleteGroupButton" value="{'Remove selected'|i18n( 'design/admin/workflow/grouplist' )}"  title="{'Remove selected workflow groups.'|i18n( 'design/admin/workflow/grouplist' )}"  />
-    {section-else}
+    {else}
     <input class="button-disabled" type="submit" name="DeleteGroupButton" value="{'Remove selected'|i18n( 'design/admin/workflow/grouplist' )}" disabled="disabled" />
-    {/section}
+    {/if}
     <input class="button" type="submit" name="NewGroupButton" value="{'New workflow group'|i18n( 'design/admin/workflow/grouplist' )}" title="{'Create a new workflow group.'|i18n( 'design/admin/workflow/grouplist' )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>

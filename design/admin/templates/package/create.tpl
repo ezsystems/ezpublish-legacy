@@ -21,7 +21,7 @@
 
     <div class="optionslist">
     {section var=creator loop=$creator_list}
-        <input class="radiobutton" id="{$creator.item.id|wash}" type="radio" name="CreatorItemID" value="{$creator.item.id|wash}" {section show=$creator.index|eq( 0 )}checked="checked"{/section} />{$creator.item.name|wash}<br />
+        <input class="radiobutton" id="{$creator.item.id|wash}" type="radio" name="CreatorItemID" value="{$creator.item.id|wash}" {if $creator.index|eq( 0 )}checked="checked"{/if} />{$creator.item.name|wash}<br />
     {/section}
     </div>
 

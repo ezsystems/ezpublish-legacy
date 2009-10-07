@@ -38,55 +38,55 @@
 <div id="search">
 <form action={'/content/search/'|ezurl} method="get">
 
-{section show=eq( $ui_context, 'edit' )}
-    <input id="searchtext" name="SearchText" type="text" size="20" value="{section show=is_set( $search_text )}{$search_text|wash}{/section}" disabled="disabled" />
+{if eq( $ui_context, 'edit' )}
+    <input id="searchtext" name="SearchText" type="text" size="20" value="{if is_set( $search_text )}{$search_text|wash}{/if}" disabled="disabled" />
     <input id="searchbutton" class="button-disabled" name="SearchButton" type="submit" value="{'Search'|i18n( 'design/admin/pagelayout' )}" disabled="disabled" />
-{section-else}
-    <input id="searchtext" name="SearchText" type="text" size="20" value="{section show=is_set( $search_text )}{$search_text|wash}{/section}" />
+{else}
+    <input id="searchtext" name="SearchText" type="text" size="20" value="{if is_set( $search_text )}{$search_text|wash}{/if}" />
     <input id="searchbutton" class="button" name="SearchButton" type="submit" value="{'Search'|i18n( 'design/admin/pagelayout' )}" />
-    {section show=eq( $ui_context, 'browse' ) }
+    {if eq( $ui_context, 'browse' ) }
         <input name="Mode" type="hidden" value="browse" />
         <input name="BrowsePageLimit" type="hidden" value="{min( ezpreference( 'admin_list_limit' ), 3)|choose( 10, 10, 25, 50 )}" />
-    {/section}
-{/section}
+    {/if}
+{/if}
     <p class="select">
     {let disabled=false()
          nd=1
          left_checked=true()
          current_loc=true()}
-    {section show=eq( $ui_context, 'edit' )}
+    {if eq( $ui_context, 'edit' )}
         {set disabled=true()}
-    {section-else}
-        {section show=is_set($module_result.node_id)}
+    {else}
+        {if is_set($module_result.node_id)}
             {set nd=$module_result.node_id}
-        {section-else}
-            {section show=is_set($search_subtree_array)}
-                {section show=count($search_subtree_array)|eq(1)}
-                    {section show=$search_subtree_array.0|ne(1)}
+        {else}
+            {if is_set($search_subtree_array)}
+                {if count($search_subtree_array)|eq(1)}
+                    {if $search_subtree_array.0|ne(1)}
                         {set nd=$search_subtree_array.0}
                         {set left_checked=false()}
-                    {section-else}
+                    {else}
                         {set disabled=true()}
-                    {/section}
+                    {/if}
                     {set current_loc=false()}
-                {section-else}
+                {else}
                     {set disabled=true()}
-                {/section}
-            {section-else}
+                {/if}
+            {else}
                 {set disabled=true()}
-            {/section}
-        {/section}
-    {/section}
-    <label{section show=$disabled} class="disabled"{/section}><input type="radio" name="SubTreeArray" value="1" checked="checked"{section show=$disabled} disabled="disabled"{section-else} title="{'Search all content.'|i18n( 'design/admin/pagelayout' )}"{/section} />{'All content'|i18n( 'design/admin/pagelayout' )}</label>
-    <label{section show=$disabled} class="disabled"{/section}><input type="radio" name="SubTreeArray" value="{$nd}"{section show=$disabled} disabled="disabled"{section-else} title="{'Search only from the current location.'|i18n( 'design/admin/pagelayout' )}"{/section} />{section show=$current_loc}{'Current location'|i18n( 'design/admin/pagelayout' )}{section-else}{'The same location'|i18n( 'design/admin/pagelayout' )}{/section}</label>
+            {/if}
+        {/if}
+    {/if}
+    <label{if $disabled} class="disabled"{/if}><input type="radio" name="SubTreeArray" value="1" checked="checked"{if $disabled} disabled="disabled"{else} title="{'Search all content.'|i18n( 'design/admin/pagelayout' )}"{/if} />{'All content'|i18n( 'design/admin/pagelayout' )}</label>
+    <label{if $disabled} class="disabled"{/if}><input type="radio" name="SubTreeArray" value="{$nd}"{if $disabled} disabled="disabled"{else} title="{'Search only from the current location.'|i18n( 'design/admin/pagelayout' )}"{/if} />{if $current_loc}{'Current location'|i18n( 'design/admin/pagelayout' )}{else}{'The same location'|i18n( 'design/admin/pagelayout' )}{/if}</label>
     {/let}
     </p>
     <p class="advanced">
-    {section show=or( eq( $ui_context, 'edit' ), eq( $ui_context, 'browse' ) )}
+    {if or( eq( $ui_context, 'edit' ), eq( $ui_context, 'browse' ) )}
     <span class="disabled">{'Advanced'|i18n( 'design/admin/pagelayout' )}</span>
-    {section-else}
+    {else}
         <a href={'/content/advancedsearch'|ezurl} title="{'Advanced search.'|i18n( 'design/admin/pagelayout' )}">{'Advanced'|i18n( 'design/admin/pagelayout' )}</a>
-    {/section}
+    {/if}
     </p>
 </form>
 </div>
@@ -138,8 +138,8 @@
 
 <div id="columns">
 
-{section show=and( eq( $ui_context, 'edit' ), eq( $ui_component, 'content' ) )}
-{section-else}
+{if and( eq( $ui_context, 'edit' ), eq( $ui_component, 'content' ) )}
+{else}
 <div id="leftmenu">
 <div id="leftmenu-design">
 
@@ -172,7 +172,7 @@
 
 <hr class="hide" />
 
-{/section}
+{/if}
 
 <div id="rightmenu">
 <div id="rightmenu-design">
@@ -186,7 +186,7 @@
 
 <hr class="hide" />
 
-{section show=and( eq( $ui_context, 'edit' ), eq( $ui_component, 'content' ) )}
+{if and( eq( $ui_context, 'edit' ), eq( $ui_component, 'content' ) )}
 
 {* Main area START *}
 
@@ -194,7 +194,7 @@
 
 {* Main area END *}
 
-{section-else}
+{else}
 
 <div id="maincontent"><div id="fix">
 <div id="maincontent-design">
@@ -211,7 +211,7 @@
 <div class="break"></div>
 </div></div>
 
-{/section}
+{/if}
 
 <div class="break"></div>
 </div>

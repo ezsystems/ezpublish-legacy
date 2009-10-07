@@ -5,25 +5,25 @@
 <h1>{"Login"|i18n("design/standard/user")}</h1>
 </div>
 
-{section show=$User:warning.bad_login}
+{if $User:warning.bad_login}
 <div class="warning">
 <h2>{"Could not login"|i18n("design/standard/user")}</h2>
 <ul>
     <li>{"A valid username and password is required to login."|i18n("design/standard/user")}</li>
 </ul>
 </div>
-{section-else}
+{else}
 
-{section show=$site_access.allowed|not}
+{if $site_access.allowed|not}
 <div class="warning">
 <h2>{"Access not allowed"|i18n("design/standard/user")}</h2>
 <ul>
     <li>{"You are not allowed to access %1."|i18n("design/standard/user",,array($site_access.name))}</li>
 </ul>
 </div>
-{/section}
+{/if}
 
-{/section}
+{/if}
 
 <div class="block">
 <label for="id1">{"Username"|i18n("design/standard/user",'User name')}</label><div class="labelbreak"></div>
@@ -45,9 +45,9 @@
 <input class="button" type="submit" name="RegisterButton" value="{'Sign Up'|i18n('design/standard/user','Button')}" tabindex="1" />
 </div>
 
-{section show=ezini( 'SiteSettings', 'LoginPage' )|eq( 'custom' )}
+{if ezini( 'SiteSettings', 'LoginPage' )|eq( 'custom' )}
     <p><a href={'/user/forgotpassword'|ezurl}>{'Forgot your password?'|i18n( 'design/standard/user' )}</a></p>
-{/section}
+{/if}
 
 <input type="hidden" name="RedirectURI" value="{$User:redirect_uri|wash}" />
 

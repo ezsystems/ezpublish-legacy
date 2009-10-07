@@ -4,19 +4,19 @@
     <div class="block ezcca-edit-datatype-{$ContentObjectAttribute:item.data_type_string} ezcca-edit-{$ContentObjectAttribute:item.contentclass_attribute_identifier}">
 
     {* only show edit GUI if we can edit *}
-    {section show=and(eq($ContentObjectAttribute:item.contentclass_attribute.can_translate,0),
+    {if and(eq($ContentObjectAttribute:item.contentclass_attribute.can_translate,0),
                       ne($object.initial_language_code,$ContentObjectAttribute:item.language_code) ) }
         <label>{$ContentObjectAttribute:item.contentclass_attribute.name|wash}</label><div class="labelbreak"></div>
         <input type="hidden" name="ContentObjectAttribute_id[]" value="{$ContentObjectAttribute:item.id}" />
         {attribute_view_gui attribute_base=$attribute_base attribute=$ContentObjectAttribute:item view_parameters=$view_parameters}
         </div>
-    {section-else}
-        <label{section show=$ContentObjectAttribute:item.has_validation_error} class="validation-error"{/section}>{$ContentObjectAttribute:item.contentclass_attribute.name|wash}</label><div class="labelbreak"></div>
+    {else}
+        <label{if $ContentObjectAttribute:item.has_validation_error} class="validation-error"{/if}>{$ContentObjectAttribute:item.contentclass_attribute.name|wash}</label><div class="labelbreak"></div>
         <input type="hidden" name="ContentObjectAttribute_id[]" value="{$ContentObjectAttribute:item.id}" />
         {attribute_edit_gui attribute_base=$attribute_base attribute=$ContentObjectAttribute:item view_parameters=$view_parameters}
         </div>
 
-    {/section}
+    {/if}
 
     {/section}
     {/default}

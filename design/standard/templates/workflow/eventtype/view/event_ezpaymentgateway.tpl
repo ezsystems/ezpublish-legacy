@@ -10,11 +10,11 @@
 
 {let comma=false()}
 {section var=type loop=$event.workflow_type.available_gateways}
-{section show=$selectedGatewaysTypes|contains($type.value)}
-{section show=$comma}, {/section}
+{if $selectedGatewaysTypes|contains($type.value)}
+{if $comma}, {/if}
 {$type.Name|wash}
 {set comma=true()}
-{/section}
+{/if}
 {/section}
 {/let}
 

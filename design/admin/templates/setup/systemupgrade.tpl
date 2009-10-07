@@ -20,12 +20,12 @@
   {/section}
 {/section}
 
-{section show=$upgrade_sql}
-  {section show=$upgrade_sql|eq('ok')}
+{if $upgrade_sql}
+  {if $upgrade_sql|eq('ok')}
     <div class="message-feedback">
     <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {"Database check OK."|i18n("design/admin/setup")}</h2>
     </div>
-  {section-else}
+  {else}
     <div class="message-warning">
     <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {"The database is not consistent with the distribution database."|i18n("design/admin/setup")}</h2>
     <p>{"To synchronize your database with the distribution setup, run the following SQL commands"|i18n("design/admin/setup")}:</p>
@@ -33,8 +33,8 @@
       {$upgrade_sql|wash|break}
     </p>
     </div>
-  {/section}
-{/section}
+  {/if}
+{/if}
 
 <form method="post" action={"/setup/systemupgrade/"|ezurl}>
 

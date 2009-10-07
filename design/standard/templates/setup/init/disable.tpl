@@ -4,7 +4,7 @@
 
 {section show=or(eq($test.result,2),$save_result|not)}
 
-{section show=$save_result|not}
+{if $save_result|not}
 <div class="error">
 <p>
   <h2>{"Failed writing"|i18n("design/standard/setup/init")} settings/site.ini</h2>
@@ -13,7 +13,7 @@
   </ul>
 </p>
 </div>
-{/section}
+{/if}
 
 <p>
  {"The setup could not get write access to the"|i18n("design/standard/setup/init")} <i>settings</i> {"directory. This is required to disable the initialization. Following the instructions found in"|i18n("design/standard/setup/init")} <i>Issues</i> {"to enable write access then click the"|i18n("design/standard/setup/init")} <i>{"Try Again"|i18n("design/standard/setup/init")}</i> {"button."|i18n("design/standard/setup/init")}

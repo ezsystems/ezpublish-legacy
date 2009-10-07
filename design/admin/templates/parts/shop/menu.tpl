@@ -6,7 +6,7 @@
 
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
-{section show=eq( $ui_context, 'edit' )}
+{if eq( $ui_context, 'edit' )}
 
 <ul>
     <li><div><span class="disabled">{'Customers'|i18n( 'design/admin/parts/shop/menu' )}</span></div></li>
@@ -23,7 +23,7 @@
     <li><div><span class="disabled">{'Products overview'|i18n( 'design/admin/parts/shop/menu' )}</span></div></li>
 </ul>
 
-{section-else}
+{else}
 
 <ul>
     <li><div><a href={'/shop/customerlist/'|ezurl}>{'Customers'|i18n( 'design/admin/parts/shop/menu' )}</a></div></li>
@@ -40,6 +40,6 @@
     <li><div><a href={'/shop/productsoverview/'|ezurl}>{'Products overview'|i18n( 'design/admin/parts/shop/menu' )}</a></div></li>
 </ul>
 
-{/section}
+{/if}
 
 {* DESIGN: Content END *}</div></div></div></div></div></div>

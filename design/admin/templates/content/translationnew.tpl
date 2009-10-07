@@ -44,7 +44,7 @@ function toggleInputs( selection )
   <option value="-1">{'Custom'|i18n( 'design/admin/content/translationnew' )}</option>
   {section var=Translations loop=fetch( content, locale_list, hash( with_variations, false() ) )}
       <option value="{$Translations.item.locale_full_code|wash}">
-          {$Translations.item.intl_language_name|wash}{section show=$Translations.item.country_variation} [{$Translations.item.language_comment|wash}]{/section}
+          {$Translations.item.intl_language_name|wash}{if $Translations.item.country_variation} [{$Translations.item.language_comment|wash}]{/if}
       </option>
   {/section}
 </select>
@@ -71,11 +71,11 @@ function toggleInputs( selection )
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-{section show=$is_edit}
+{if $is_edit}
     <input class="button" type="submit" name="ChangeButton" value="{'OK'|i18n( 'design/admin/content/translationnew')}" />
-{section-else}
+{else}
     <input class="button" type="submit" name="StoreButton" value="{'OK'|i18n('design/admin/content/translationnew')}" />
-{/section}
+{/if}
 
 <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n('design/admin/content/translationnew')}" />
 </div>

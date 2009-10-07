@@ -37,11 +37,11 @@
 </p>
 {/section}
 
-{section show=$class_attribute.content.columns}
+{if $class_attribute.content.columns}
 <input class="button" type="submit" name="CustomActionButton[{$class_attribute.id}_remove_selected]" value="{'Remove selected'|i18n('design/standard/class/datatype')}" title="{'Remove selected columns.'|i18n( 'design/standard/class/datatype' )}" />
-{section-else}
+{else}
 <input class="button-disabled" type="submit" name="CustomActionButton[{$class_attribute.id}_remove_selected]" value="{'Remove selected'|i18n('design/standard/class/datatype')}" disabled="disabled" />
-{/section}
+{/if}
 
 <input class="button" type="submit" name="CustomActionButton[{$class_attribute.id}_new_ezmatrix_column]" value="{'New column'|i18n('design/standard/class/datatype')}" title="{'Add a new column.'|i18n( 'design/standard/class/datatype' )}" />
 </fieldset>

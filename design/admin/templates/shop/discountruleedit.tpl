@@ -37,7 +37,7 @@
 {section-else}
     <select name="Contentclasses[]" size="5" multiple="multiple">
 {/section}
-<option value="-1" {section show=$class_any_selected}selected="selected"{/section} >{'Any'|i18n( 'design/admin/shop/discountruleedit' )}</option>
+<option value="-1" {if $class_any_selected}selected="selected"{/if} >{'Any'|i18n( 'design/admin/shop/discountruleedit' )}</option>
 {section name=Classes loop=$product_class_list}
 <option value="{$Classes:item.id}" {switch match=$Classes:item.id}{case in=$class_limitation_list} selected="selected"{/case}{case/}{/switch}>
 {$Classes:item.name|wash}
@@ -57,7 +57,7 @@
 {section-else}
     <select name="Sections[]" size="5" multiple="multiple">
 {/section}
-<option value="-1" {section show=$section_any_selected}selected="selected"{/section}>{'Any'|i18n( 'design/admin/shop/discountruleedit' )}</option>
+<option value="-1" {if $section_any_selected}selected="selected"{/if}>{'Any'|i18n( 'design/admin/shop/discountruleedit' )}</option>
 {section name=Sections loop=$section_list}
 <option value="{$Sections:item.id}" {switch match=$Sections:item.id}{case in=$section_limitation_list} selected="selected"{/case}{case/}{/switch}>
 {$Sections:item.name|wash}
@@ -92,11 +92,11 @@
 </div>
 {/section}
 
-{section show=$product_list}
+{if $product_list}
 <input class="button" type="submit" name="DeleteProductButton" value="{'Remove selected'|i18n( 'design/admin/shop/discountruleedit' )}" />
-{section-else}
+{else}
 <input class="button-disabled" type="submit" name="DeleteProductButton" value="{'Remove selected'|i18n( 'design/admin/shop/discountruleedit' )}" disabled="disabled" />
-{/section}
+{/if}
 
 <input class="button" type="submit" name="BrowseProductButton" value="{'Add products'|i18n( 'design/admin/shop/discountruleedit' )}" />
 </fieldset>

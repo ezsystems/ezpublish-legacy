@@ -4,11 +4,11 @@
 
     <h1>{$node.name|wash} ( {attribute_view_gui attribute=$node.data_map.company_number} )</h1>
 
-    {section show=$node.data_map.logo.content}
+    {if $node.data_map.logo.content}
         <div class="attribute-image">
             {attribute_view_gui attribute=$node.data_map.logo.content.data_map.image alignment=right}
         </div>
-    {/section}
+    {/if}
 
     <div class="attribute-matrix">
         <h2>{'Contact information'|i18n( 'design/admin/preview/company' )}</h2>

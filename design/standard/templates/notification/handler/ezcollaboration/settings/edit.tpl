@@ -24,7 +24,7 @@
                         <td>
                               <input type="checkbox" name="CollaborationHandlerSelection_{$handler.id_string}[]"
                                                      value="{$Handlers:item.info.type-identifier}_{$:item.value}"
-                                                     {section show=$selection|contains(concat($Handlers:item.info.type-identifier,'_',$:item.value))}checked="checked"{/section} />
+                                                     {if $selection|contains(concat($Handlers:item.info.type-identifier,'_',$:item.value))}checked="checked"{/if} />
                         </td>
                         <td>
                             {$:item.name|wash}
@@ -36,7 +36,7 @@
                     <td>
                           <input type="checkbox" name="CollaborationHandlerSelection_{$handler.id_string}[]"
                                                  value="{$Handlers:item.info.type-identifier}"
-                                                 {section show=$selection|contains($Handlers:item.info.type-identifier)}checked="checked"{/section} />
+                                                 {if $selection|contains($Handlers:item.info.type-identifier)}checked="checked"{/if} />
                     </td>
                     <td>
                         {$:item.info.type-name|wash}

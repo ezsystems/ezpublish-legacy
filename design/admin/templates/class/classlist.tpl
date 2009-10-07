@@ -99,11 +99,11 @@
     <input type="hidden" name = "CurrentGroupID" value="{$GroupID}" />
     <input type="hidden" name = "CurrentGroupName" value="{$group.name|wash}" />
 
-    {section show=$class_count}
+    {if $class_count}
     <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/class/classlist' )}" title="{'Remove selected classes from the <%class_group_name> class group.'|i18n( 'design/admin/class/classlist',, hash( '%class_group_name', $group.name ) )|wash}" />
-    {section-else}
+    {else}
     <input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/class/classlist' )}" disabled="disabled" />
-    {/section}
+    {/if}
 
     {def $languages=fetch( 'content', 'prioritized_languages' )}
     {if gt( $languages|count, 1 )}

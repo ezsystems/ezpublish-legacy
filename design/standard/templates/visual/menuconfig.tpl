@@ -18,11 +18,11 @@
 
         <select name="CurrentSiteAccess">
             {section var=siteaccess loop=$siteaccess_list}
-                {section show=eq( $current_siteaccess, $siteaccess )}
+                {if eq( $current_siteaccess, $siteaccess )}
                     <option value="{$siteaccess}" selected="selected">{$siteaccess}</option>
-                {section-else}
+                {else}
                 <option value="{$siteaccess}">{$siteaccess}</option>
-            {/section}
+            {/if}
         {/section}
         </select>
         &nbsp;

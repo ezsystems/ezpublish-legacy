@@ -1,5 +1,5 @@
 {* Warning. *}
-{section show=$input_error}
+{if $input_error}
 <div class="message-warning">
 <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Required information is missing...'|i18n( 'design/admin/shop/userregister' )}</h2>
 <ul>
@@ -8,7 +8,7 @@
 </li>
 </ul>
 </div>
-{/section}
+{/if}
 
 <form method="post" action={'/shop/userregister/'|ezurl}>
 

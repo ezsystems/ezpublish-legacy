@@ -5,80 +5,80 @@
 
   <tr>
     <td>
-    {section show=count( $system_check )}
+    {if count( $system_check )}
       <div class="setup_summary_ok">
-    {section-else}
+    {else}
       <div class="setup_summary_empty">
-    {/section}
+    {/if}
 
     {"System"|i18n("design/standard/setup")}:</div></td>
 
     <td>
-    {section show=count( $system_check )}
+    {if count( $system_check )}
       <div class="setup_summary_ok">{"OK"|i18n("design/standard/setup")}</div>
-    {/section}
+    {/if}
     </td>
   </tr>
 
   <tr>
     <td>
-    {section show=count($image_processor)}
+    {if count($image_processor)}
       <div class="setup_summary_ok">
-    {section-else}
+    {else}
       <div class="setup_summary_empty">
-    {/section}
+    {/if}
 
     {"Image system"|i18n("design/standard/setup")}:</div></td>
 
     <td>
-    {section show=count($image_processor)}
+    {if count($image_processor)}
       <div class="setup_summary_ok">{$image_processor}</div>
-    {/section}
+    {/if}
     </td>
     </div>
   </tr>
 
   <tr>
     <td >
-    {section show=count($summary_email_info)}
+    {if count($summary_email_info)}
       <div class="setup_summary_ok">
-    {section-else}
+    {else}
       <div class="setup_summary_empty">
-    {/section}
+    {/if}
 
     {"Mail"|i18n("design/standard/setup")}:</td>
 
     <td>
-    {section show=count($summary_email_info)}
+    {if count($summary_email_info)}
       <div class="setup_summary_ok">{$summary_email_info}</div>
-    {/section}
+    {/if}
     </td>
   </tr>
 
   <tr>
     <td>
-    {section show=count($database)}
+    {if count($database)}
       <div class="setup_summary_ok">
-    {section-else}
+    {else}
       <div class="setup_summary_empty">
-    {/section}
+    {/if}
 
     {"Database"|i18n("design/standard/setup")}:</div></td>
 
     <td>
-    {section show=count($database)}
+    {if count($database)}
       <div class="setup_summary_ok">{$database}</div></td>
-    {/section}
+    {/if}
     </td>
   </tr>
 
   <tr>
     <td valign="top">
-    {section show=count($languages)}
+    {if count($languages)}
       <div class="setup_summary_ok">
-    {section-else}
+    {else}
       <div class="setup_summary_empty">
-    {/section}
+    {/if}
 
     {"Language"|i18n("design/standard/setup")}:</div></td>
 
@@ -95,20 +95,20 @@
 
   <tr>
     <td valign="top">
-    {section show=$site_package}
+    {if $site_package}
       <div class="setup_summary_ok">
-    {section-else}
+    {else}
       <div class="setup_summary_empty">
-    {/section}
+    {/if}
 
     {"Site"|i18n("design/standard/setup")}:</div></td>
 
     <td>
-    {section show=$site_package}
+    {if $site_package}
       <div class="setup_summary_ok">
       {$site_package|wash}
       </div>
-    {/section}
+    {/if}
     </td>
   </tr>
 

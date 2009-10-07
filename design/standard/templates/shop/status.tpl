@@ -18,10 +18,10 @@
         <input type="text" name="orderstatus_name_{$Orderstatus.item.id}" value="{$Orderstatus.item.name}" size="24" />
     </td>
     <td>
-        {section show=$Orderstatus.item.is_active}{'Is active'|i18n( 'design/standard/shop' )}{section-else}{'Is inactive'|i18n( 'design/standard/shop' )}{/section}
+        {if $Orderstatus.item.is_active}{'Is active'|i18n( 'design/standard/shop' )}{else}{'Is inactive'|i18n( 'design/standard/shop' )}{/if}
     </td>
     <td width="1">
-        <input type="checkbox" name="orderStatusIDList[]" value="{$Orderstatus.item.id}" {section show=$Orderstatus.item.is_internal}disabled="disabled"{/section} />
+        <input type="checkbox" name="orderStatusIDList[]" value="{$Orderstatus.item.id}" {if $Orderstatus.item.is_internal}disabled="disabled"{/if} />
     </td>
 </tr>
 {/section}

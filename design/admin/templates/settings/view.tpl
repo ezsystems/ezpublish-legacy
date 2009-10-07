@@ -23,11 +23,11 @@
         <label>{'Select ini file to view'|i18n('design/admin/settings')}:</label>
         <select name="selectedINIFile">
             {section var=Files loop=$ini_files}
-                {section show=eq( $Files.item, $ini_file )}
+                {if eq( $Files.item, $ini_file )}
                     <option value="{$Files.item}" selected="selected">{$Files.item}</option>
-                {section-else}
+                {else}
                     <option value="{$Files.item}">{$Files.item}</option>
-                {/section}
+                {/if}
             {/section}
         </select>
     </div>
@@ -36,11 +36,11 @@
         <label>{'Select siteaccess'|i18n('design/admin/settings')}:</label>
         <select name="CurrentSiteAccess">
         {section name=SiteAccess loop=$siteaccess_list}
-            {section show=eq( $current_siteaccess, $:item )}
+            {if eq( $current_siteaccess, $:item )}
                 <option value="{$:item}" selected="selected">{$:item}</option>
-            {section-else}
+            {else}
                 <option value="{$:item}">{$:item}</option>
-            {/section}
+            {/if}
         {/section}
         </select>
     </div>
@@ -83,9 +83,9 @@
         <th class="tight">&nbsp;</th>
             <th width="50%">
             {$Blocks.key} ({$Blocks.item.count})&nbsp;&nbsp;&nbsp;
-            {section show=$Blocks.item.editable}
+            {if $Blocks.item.editable}
                  <a href={concat( '/settings/edit/', $current_siteaccess, '/', $ini_file, '/', $Blocks.key)|ezurl}>{'[add setting]'|i18n('design/admin/settings')}</a>
-            {/section}
+            {/if}
             </th>
         <th class="tight">
             {'Placement'|i18n( 'design/admin/settings' )}
@@ -98,11 +98,11 @@
     {section var=Settings loop=$Blocks.item.content sequence=array( 'bgdark', 'bglight' )}
         <tr valign="top" class="{$Settings.sequence}">
             <td width="1">
-            {section show=$Settings.item.removeable}
+            {if $Settings.item.removeable}
                 <input type="checkbox" name="RemoveSettingsArray[]" value="{$Blocks.key}:{$Settings.key|wash}"/>
-            {section-else}
+            {else}
                 <input type="checkbox" disabled="disabled" />
-            {/section}
+            {/if}
             </td>
             <td width="50%">
                 {$Settings.key|wash}
@@ -127,11 +127,11 @@
                 {/case}
 
                 {case in=array( 'enable/disable', 'true/false' )}
-                    {section show=or( eq( $Settings.item.content, 'true' ), eq( $Settings.item.content, 'enabled' ) )}
+                    {if or( eq( $Settings.item.content, 'true' ), eq( $Settings.item.content, 'enabled' ) )}
                         <div class="enabled">{$Settings.item.content}</div>
-                    {section-else}
+                    {else}
                         <div class="disabled">{$Settings.item.content}</div>
-                    {/section}
+                    {/if}
                 {/case}
                 {case match='string'}
                     <div class="string">"{$Settings.item.content|wash}"</div>
@@ -145,7 +145,7 @@
                 {/switch}
             </td>
             <td align="right" width="1">
-                {section show=$Settings.item.editable}
+                {if $Settings.item.editable}
                 {switch match=$Settings.item.type}
                     {case match='array'}
                         <a href={concat('settings/edit/', $current_siteaccess, '/', $ini_file, '/', $Blocks.key, '/', $Settings.key, '/', 'siteaccess')|ezurl}>
@@ -156,7 +156,7 @@
                         <img src={"edit.gif"|ezimage} alt="{'Edit'|i18n('design/admin/settings')}" /></a>
                     {/case}
                 {/switch}
-                {/section}
+                {/if}
             </td>
         </tr>
     {/section}

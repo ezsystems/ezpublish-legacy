@@ -1,4 +1,4 @@
-{section show=$attribute.content}
+{if $attribute.content}
 <div class="imageright">
 
     <div class="imageobject">
@@ -11,4 +11,4 @@
 
 </div>
 
-{/section}
+{/if}

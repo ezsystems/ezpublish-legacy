@@ -25,10 +25,10 @@
         {$current_user.groups|contains($sticky)}
 
             {section var=sticky loop=$sticky_groups}
-                {section show=$current_user.groups|contains($sticky)}
+                {if $current_user.groups|contains($sticky)}
                 <h3>{'Sticky'|i18n('design/base')}</h3>
                 {attribute_edit_gui attribute=$object.data_map.sticky}
-                {/section}
+                {/if}
             {/section}
         {/let}
 

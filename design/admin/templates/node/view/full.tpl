@@ -9,9 +9,9 @@
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
 {let hide_status=""}
-{section show=$node.is_invisible}
+{if $node.is_invisible}
 {set hide_status=concat( '(', $node.hidden_status_string, ')' )}
-{/section}
+{/if}
 
 
 {def $js_class_languages = $node.object.content_class.prioritized_languages_js_array
@@ -37,7 +37,7 @@
 </div>
 
 {* Content preview in content window. *}
-{section show=ezpreference( 'admin_navigation_content'  )}
+{if ezpreference( 'admin_navigation_content'  )}
 <div class="mainobject-window" title="{$node.name|wash} {'Node ID'|i18n( 'design/admin/node/view/full' )}: {$node.node_id}, {'Object ID'|i18n( 'design/admin/node/view/full' )}: {$node.object.id}">
 <div class="fixedsize">{* Fix for overflow bug in Opera *}
 <div class="holdinplace">{* Fix for some width bugs in IE *}
@@ -46,7 +46,7 @@
 </div>
 <div class="break"></div>{* Terminate overflow bug fix *}
 </div>
-{/section}
+{/if}
 
 </div></div>
 
@@ -65,7 +65,7 @@
 {* Edit button. *}
 {def $can_create_languages = $node.object.can_create_languages
      $languages            = fetch( 'content', 'prioritized_languages' )}
-{section show=$node.can_edit}
+{if $node.can_edit}
     {if and(eq( $languages|count, 1 ), is_set( $languages[0] ) )}
             <input name="ContentObjectLanguageCode" value="{$languages[0].locale}" type="hidden" />
     {else}
@@ -79,27 +79,27 @@
             </select>
     {/if}
     <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/admin/node/view/full' )}" title="{'Edit the contents of this item.'|i18n( 'design/admin/node/view/full' )}" />
-{section-else}
+{else}
     <select name="ContentObjectLanguageCode" disabled="disabled">
         <option value="">{'Not available'|i18n( 'design/admin/node/view/full')}</option>
     </select>
     <input class="button-disabled" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permission to edit this item.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
-{/section}
+{/if}
 {undef $can_create_languages}
 
 {* Move button. *}
-{section show=$node.can_move}
+{if $node.can_move}
     <input class="button" type="submit" name="MoveNodeButton" value="{'Move'|i18n( 'design/admin/node/view/full' )}" title="{'Move this item to another location.'|i18n( 'design/admin/node/view/full' )}" />
-{section-else}
+{else}
     <input class="button-disabled" type="submit" name="MoveNodeButton" value="{'Move'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permission to move this item to another location.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
-{/section}
+{/if}
 
 {* Remove button. *}
-{section show=$node.can_remove}
+{if $node.can_remove}
     <input class="button" type="submit" name="ActionRemove" value="{'Remove'|i18n( 'design/admin/node/view/full' )}" title="{'Remove this item.'|i18n( 'design/admin/node/view/full' )}" />
-{section-else}
+{else}
     <input class="button-disabled" type="submit" name="ActionRemove" value="{'Remove'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permission to remove this item.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
-{/section}
+{/if}
 </div>
 
 {* Custom content action buttons. *}

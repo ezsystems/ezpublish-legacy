@@ -8,7 +8,7 @@
 {"Use the radio buttons to choose the default language, and the checkboxes to choose additional languages. You will be able to use any of the selected languages for translating your content. The default language will determine the locale settings and will be used as the most prioritized language for your site."|i18n("design/standard/setup/init")}
 </p>
 <p>
-{section show=$show_unicode_error}
+{if $show_unicode_error}
 <div class="warning">
   <h2>{"No Unicode support"|i18n('design/standard/setup/init')}</h2>
   <p>{"The database server you connected to does not support Unicode which means that you cannot choose all the languages as you did.
@@ -18,7 +18,7 @@ To fix this problem you must do one of the following:"|i18n('design/standard/set
     <li>{"Make sure the database server is configured to use Unicode or that it has the latest software which supports Unicode."|i18n('design/standard/setup/init')}</li>
   </ul>
 </div>
-{/section}
+{/if}
 
 <form method="post" action="{$script}">
 
@@ -29,8 +29,8 @@ To fix this problem you must do one of the following:"|i18n('design/standard/set
   {section name=Language loop=$language_list}
     <tr>
       <td class="normal">
-       <input type="radio" id="eZSetupDefaultLanguage_{$:item.locale_code}" name="eZSetupDefaultLanguage" value="{$:item.locale_code}" {section show=$Language:item.locale_code|eq( $regional_info.primary_language )}checked="checked" {/section}/>
-       <input type="checkbox" name="eZSetupLanguages[]" value="{$:item.locale_code}" {section show=$regional_info.languages|contains( $Language:item.locale_code )}{section show=$Language:item.locale_code|ne( $regional_info.primary_language )}checked="checked"{/section}{/section}/>
+       <input type="radio" id="eZSetupDefaultLanguage_{$:item.locale_code}" name="eZSetupDefaultLanguage" value="{$:item.locale_code}" {if $Language:item.locale_code|eq( $regional_info.primary_language )}checked="checked" {/if}/>
+       <input type="checkbox" name="eZSetupLanguages[]" value="{$:item.locale_code}" {if $regional_info.languages|contains( $Language:item.locale_code )}{if $Language:item.locale_code|ne( $regional_info.primary_language )}checked="checked"{/if}{/if}/>
        <label for="eZSetupDefaultLanguage_{$:item.locale_code}" class="radio">{$:item.intl_language_name}</label>
       </td>
     </tr>

@@ -12,9 +12,9 @@
 {section name=URL loop=$url_list sequence=array(bglight,bgdark)}
 <tr>
 {let item_class="status_read"}
-{section show=$:item.is_valid|not}
+{if $:item.is_valid|not}
   {set item_class="status_inactive"}
-{/section}
+{/if}
   <td class="{$:sequence}" width="1">
     <nobr><a href={concat("url/edit/",$:item.id)|ezurl}><img src={"edit.gif"|ezimage} alt="{'Edit'|i18n('design/standard/url')}" /></a></nobr>
   </td>
@@ -25,17 +25,17 @@
     <nobr><a target="_other" href={$:item.url|ezurl}>{"Popup"|i18n('design/standard/url')}</a></nobr>
   </td>
   <td class="{$:sequence}">
-    {section show=$:item.last_checked|gt(0)}
+    {if $:item.last_checked|gt(0)}
       {$:item.last_checked|l10n(shortdatetime)}
-    {section-else}
+    {else}
       {"Never"|i18n('design/standard/url')}
-    {/section}</td>
+    {/if}</td>
   <td class="{$:sequence}">
-    {section show=$:item.modified|gt(0)}
+    {if $:item.modified|gt(0)}
       {$:item.modified|l10n(shortdatetime)}
-    {section-else}
+    {else}
       {"Unknown"|i18n('design/standard/url')}
-    {/section}</td>
+    {/if}</td>
   </td>
 {/let}
 </tr>

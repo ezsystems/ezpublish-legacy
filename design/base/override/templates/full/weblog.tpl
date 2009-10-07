@@ -25,45 +25,45 @@
 
         <h1>{$node.name|wash()}</h1>
 
-        {section show=is_unset( $versionview_mode )}
+        {if is_unset( $versionview_mode )}
         <div class="content-navigator">
-            {section show=$previous_log}
+            {if $previous_log}
                 <div class="content-navigator-previous">
                     <div class="content-navigator-arrow">&laquo;&nbsp;</div><a href={$previous_log[0].url_alias|ezurl} title="{$previous_log[0].name|wash}">{'Previous entry'|i18n( 'design/base' )}</a>
                 </div>
-            {section-else}
+            {else}
                 <div class="content-navigator-previous-disabled">
                     <div class="content-navigator-arrow">&laquo;&nbsp;</div>{'Previous entry'|i18n( 'design/base' )}
                 </div>
-            {/section}
+            {/if}
 
-            {section show=$previous_log}
+            {if $previous_log}
                 <div class="content-navigator-separator">|</div>
-            {section-else}
+            {else}
                 <div class="content-navigator-separator-disabled">|</div>
-            {/section}
+            {/if}
 
             {let weblogs=$node.parent}
                 <div class="content-navigator-weblog-link"><a href={$weblogs.url_alias|ezurl}>{$weblogs.name|wash}</a></div>
             {/let}
 
-            {section show=$next_log}
+            {if $next_log}
                 <div class="content-navigator-separator">|</div>
-            {section-else}
+            {else}
                 <div class="content-navigator-separator-disabled">|</div>
-            {/section}
+            {/if}
 
-            {section show=$next_log}
+            {if $next_log}
                 <div class="content-navigator-next">
                     <a href={$next_log[0].url_alias|ezurl} title="{$next_log[0].name|wash}">{'Next entry'|i18n( 'design/base' )}</a><div class="content-navigator-arrow">&nbsp;&raquo;</div>
                 </div>
-            {section-else}
+            {else}
                 <div class="content-navigator-next-disabled">
                     {'Next entry'|i18n( 'design/base' )}<div class="content-navigator-arrow">&nbsp;&raquo;</div>
                 </div>
-            {/section}
+            {/if}
         </div>
-        {/section}
+        {/if}
 
         <div class="attribute-byline">
            <p class="author">{$node.object.owner.name|wash(xhtml)}</p>
@@ -84,7 +84,7 @@
                {/section}
             </div>
 
-            {section show=fetch( content, access, hash( access, 'create',
+            {if fetch( content, access, hash( access, 'create',
                                                         contentobject, $node,
                                                         contentclass_id, 'comment',
                                                         parent_contentclass_id, $node.object.class_identifier ) )}
@@ -95,11 +95,11 @@
                    <input class="button new_comment" type="submit" name="NewButton" value="{'New comment'|i18n("design/base")}" />
                 </form>
             </div>
-            {section-else}
+            {else}
                 <div class="message-warning">
                     <h3>{"You are not allowed to create comments."|i18n("design/base")}</h3>
                 </div>
-            {/section}
+            {/if}
         {/section}
    </div>
 </div>

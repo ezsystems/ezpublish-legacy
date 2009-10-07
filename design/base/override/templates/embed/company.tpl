@@ -5,11 +5,11 @@
 
         <div class="content-body">
 
-    {section show=$object.data_map.logo.content}
+    {if $object.data_map.logo.content}
         <div class="attribute-image">
             {attribute_view_gui attribute=$object.data_map.logo.content.data_map.image alignment=right image_class=small href=$object.main_node.url_alias|ezurl}
         </div>
-    {/section}
+    {/if}
 
         <div class="attribute-matrix">
             <h3>{"Contact information"|i18n("design/base")}</h3>

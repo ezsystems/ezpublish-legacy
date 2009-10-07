@@ -1,6 +1,6 @@
 <form enctype="multipart/form-data" action={'content/upload'|ezurl} method="post">
 
-{section show=$ui_context|eq('edit')}
+{if $ui_context|eq('edit')}
 {let content_object=fetch( content, object, hash( object_id, $upload.content.object_id  ) )
      content_version=fetch( content, version, hash( object_id, $upload.content.object_id, version_id, $upload.content.object_version ) )}
 <div id="leftmenu">
@@ -23,31 +23,31 @@
 
 <p>
 <label>{'Created'|i18n( 'design/admin/content/upload' )}:</label>
-{section show=$content_object.published}
+{if $content_object.published}
 {$content_object.published|l10n( shortdatetime )}<br />
 {$content_object.current.creator.name|wash}
-{section-else}
+{else}
 {'Not yet published'|i18n( 'design/admin/content/upload' )}
-{/section}
+{/if}
 </p>
 
 <p>
 <label>{'Modified'|i18n( 'design/admin/content/upload' )}:</label>
-{section show=$content_object.modified}
+{if $content_object.modified}
 {$content_object.modified|l10n( shortdatetime )}<br />
 {fetch( content, object, hash( object_id, $content_object.content_class.modifier_id ) ).name|wash}
-{section-else}
+{else}
 {'Not yet published'|i18n( 'design/admin/content/upload' )}
-{/section}
+{/if}
 </p>
 
 <p>
 <label>{'Published version'|i18n( 'design/admin/content/upload' )}:</label>
-{section show=$content_object.published}
+{if $content_object.published}
 {$content_object.current.version}
-{section-else}
+{else}
 {'Not yet published'|i18n( 'design/admin/content/upload' )}
-{/section}
+{/if}
 </p>
 
 
@@ -99,7 +99,7 @@
 </div>
 </div>
 {/let}
-{/section}
+{/if}
 <div id="maincontent"><div id="fix">
 <div id="maincontent-design">
 <!-- Maincontent START -->
@@ -121,9 +121,9 @@
 
 
 
-{section show=$upload.description_template}
+{if $upload.description_template}
     {include name=Description uri=$upload.description_template upload=$upload}
-{section-else}
+{else}
 <div class="context-block">
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
@@ -143,7 +143,7 @@
 {* DESIGN: Content END *}</div></div></div>
 
 </div>
-{/section}
+{/if}
 
 
 
@@ -164,7 +164,7 @@
 
 <input type="hidden" name="UploadActionName" value="{$upload.action_name}" />
 
-{section show=$upload.parent_nodes|count|eq( 0 )}
+{if $upload.parent_nodes|count|eq( 0 )}
 <div class="block">
     <label>{'Location'|i18n( 'design/admin/content/upload' )}:</label>
     <select	name="UploadLocationChoice" class="combobox locationchoice" title="{'The location where the uploaded file should be placed.'|i18n( 'design/admin/content/upload' )}">
@@ -182,9 +182,9 @@
                             'depth_operator', 'lt',
                             'limit', ezini( 'LocationSettings', 'MaxItems', 'upload.ini' ) ) )}
 
-    {section show=$content_object.published}
+    {if $content_object.published}
      <option value="{$content_object.main_node_id}">{$content_object.name}</option>
-    {/section}
+    {/if}
 
 {foreach $selection_list as $selection}
         {if $selection.can_create}
@@ -195,7 +195,7 @@
   	</select>
 
 </div>
-{/section}
+{/if}
 
 <div class="block">
     <label>{"Name"|i18n( 'design/admin/content/upload' )}:</label>

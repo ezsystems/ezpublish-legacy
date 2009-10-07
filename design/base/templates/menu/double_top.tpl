@@ -10,15 +10,15 @@
                                                sort_by, $root_node.sort_array ) )}
     <ul>
     {section var=menu loop=$menuitems}
-        {section show=eq( $menu.object.content_class.identifier, "link" )}
+        {if eq( $menu.object.content_class.identifier, "link" )}
             <li {eq( $module_result.path[1].node_id, $menu.node_id )|choose( '', 'class="selected"' )}><div class="spacing"><a href="{$menu.data_map.location.content}">{$menu.object.name|wash}</a></div></li>
-        {section-else}
-            {section show=eq( sum( $menu.index, 1 ), $menuitems|count )}
+        {else}
+            {if eq( sum( $menu.index, 1 ), $menuitems|count )}
             <li class="last {eq( $module_result.path[1].node_id, $menu.node_id )|choose( '', 'selected' )}"><div class="spacing"><a href={$menu.url_alias|ezurl}>{$menu.name|wash}</a></div></li>
-            {section-else}
+            {else}
             <li {eq( $module_result.path[1].node_id, $menu.node_id )|choose( '', 'class="selected"' )}><div class="spacing"><a href={$menu.url_alias|ezurl}>{$menu.name|wash}</a></div></li>
-            {/section}
-        {/section}
+            {/if}
+        {/if}
     {/section}
     </ul>
     {/let}
@@ -43,11 +43,11 @@
     <ul>
     {section var=menu loop=$submenu_items}
 
-            {section show=eq( $menu.object.content_class.identifier, "link" )}
+            {if eq( $menu.object.content_class.identifier, "link" )}
                 <li {$menu.index|eq( 0 )|choose( '', 'class="first"' )}><div class="spacing"><a href={$menu.data_map.location.content}>{$menu.object.name|wash}</a></div></li>
-            {section-else}
+            {else}
                 <li {$menu.index|eq( 0 )|choose( '', 'class="first"' )}><div class="spacing"><a href={$menu.url_alias|ezurl}>{$menu.name|wash}</a></div></li>
-            {/section}
+            {/if}
         {/section}
     </ul>
 

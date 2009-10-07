@@ -3,15 +3,15 @@
 {* Multiple choice. *}
 <div class="block">
     <label>{'Multiple choice'|i18n( 'design/standard/class/datatype' )}:</label>
-    <input type="checkbox" name="ContentClass_ezenum_ismultiple_value_{$class_attribute.id}" value="{$class_attribute.data_int1}" {section show=$class_attribute.data_int1}checked="checked"{/section} />
+    <input type="checkbox" name="ContentClass_ezenum_ismultiple_value_{$class_attribute.id}" value="{$class_attribute.data_int1}" {if $class_attribute.data_int1}checked="checked"{/if} />
 </div>
 
 {* Checkbox style. *}
 <div class="block">
 <label>{'Style'|i18n( 'design/standard/class/datatype' )}:</label>
 <select name="ContentClass_ezenum_isoption_value_{$class_attribute.id}">
-<option value="0" {section show=eq( $class_attribute.data_int2, '0' )}selected="selected"{/section}>{'Checkboxes / radio buttons'|i18n( 'design/standard/class/datatype' )}</option>
-<option value="1" {section show=eq( $class_attribute.data_int2, '1' )}selected="selected"{/section}>{'Drop-down menu / multi menu'|i18n( 'design/standard/class/datatype' )}</option>
+<option value="0" {if eq( $class_attribute.data_int2, '0' )}selected="selected"{/if}>{'Checkboxes / radio buttons'|i18n( 'design/standard/class/datatype' )}</option>
+<option value="1" {if eq( $class_attribute.data_int2, '1' )}selected="selected"{/if}>{'Drop-down menu / multi menu'|i18n( 'design/standard/class/datatype' )}</option>
 </select>
 </div>
 
@@ -53,11 +53,11 @@
 <p>{'There are no elements in the list.'|i18n( 'design/standard/class/datatype' )}</p>
 {/section}
 
-{section show=$class_attribute.content.enum_list}
+{if $class_attribute.content.enum_list}
 <input class="button" type="submit" name="CustomActionButton[{$class_attribute.id}_remove_selected]" value="{'Remove selected'|i18n('design/standard/class/datatype')}" title="{'Remove selected elements.'|i18n( 'design/standard/class/datatype' )}" />
-{section-else}
+{else}
 <input class="button-disabled" type="submit" name="CustomActionButton[{$class_attribute.id}_remove_selected]" value="{'Remove selected'|i18n('design/standard/class/datatype')}" disabled="disabled" />
-{/section}
+{/if}
 
 <input class="button" type="submit" name="CustomActionButton[{$class_attribute.id}_new_enumelement]" value="{'New element'|i18n('design/standard/class/datatype')}" title="{'Add a new enum element.'|i18n( 'design/standard/class/datatype' )}"  />
 </fieldset>

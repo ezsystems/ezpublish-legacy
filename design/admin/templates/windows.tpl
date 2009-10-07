@@ -1,23 +1,23 @@
 {* Details window. *}
-{section show=ezpreference( 'admin_navigation_details' )}
+{if ezpreference( 'admin_navigation_details' )}
     {include uri='design:details.tpl'}
-{/section}
+{/if}
 
 {* Translations window. *}
-{section show=ezpreference( 'admin_navigation_translations' )}
+{if ezpreference( 'admin_navigation_translations' )}
     {include uri='design:translations.tpl'}
-{/section}
+{/if}
 
 {* Locations window. *}
-{section show=ezpreference( 'admin_navigation_locations' )}
+{if ezpreference( 'admin_navigation_locations' )}
     {include uri='design:locations.tpl'}
-{/section}
+{/if}
 
 {* Relations window. *}
-{section show=or( ezpreference( 'admin_navigation_relations' ),
+{if or( ezpreference( 'admin_navigation_relations' ),
                   and( is_set( $view_parameters.show_relations ), eq( $view_parameters.show_relations, 1 ) ) )}
     {include uri='design:relations.tpl'}
-{/section}
+{/if}
 
 {* States window. *}
 {if eq( ezpreference( 'admin_navigation_states' ), 1)}
@@ -25,8 +25,8 @@
 {/if}
 
 {* Children window.*}
-{section show=$node.object.content_class.is_container}
+{if $node.object.content_class.is_container}
     {include uri='design:children.tpl'}
-{section-else}
+{else}
     {include uri='design:no_children.tpl'}
-{/section}
+{/if}

@@ -33,7 +33,7 @@
 <tr class="{$Extensions.sequence}">
 
     {* Status. *}
-    <td><input type="checkbox" name="ActiveExtensionList[]" value="{$Extensions.item}" {section show=$selected_extension_array|contains($Extensions.item)}checked="checked"{/section} title="{'Activate or deactivate extension. Use the "Apply changes" button to apply the changes.'|i18n( 'design/admin/setup/extensions' )|wash}" /></td>
+    <td><input type="checkbox" name="ActiveExtensionList[]" value="{$Extensions.item}" {if $selected_extension_array|contains($Extensions.item)}checked="checked"{/if} title="{'Activate or deactivate extension. Use the "Apply changes" button to apply the changes.'|i18n( 'design/admin/setup/extensions' )|wash}" /></td>
 
     {* Name. *}
     <td>{$Extensions.item}</td>
@@ -52,11 +52,11 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-{section show=$available_extension_array}
+{if $available_extension_array}
 <input class="button" type="submit" name="ActivateExtensionsButton" value="{'Apply changes'|i18n( 'design/admin/setup/extensions' )}" title="{'Click this button to store changes if you have modified the status of the checkboxes above.'|i18n( 'design/admin/setup/extensions' )}" />
-{section-else}
+{else}
 <input class="button-disabled" type="submit" name="ActivateExtensionsButton" value="{'Apply changes'|i18n( 'design/admin/setup/extensions' )}" disabled="disabled" />
-{/section}
+{/if}
 <input class="button" type="submit" name="GenerateAutoloadArraysButton" value="{'Regenerate autoload arrays for extensions'|i18n( 'design/admin/setup/extensions' )}" title="{'Click this button to regenerate the autoload arrays used by the system for extensions.'|i18n( 'design/admin/setup/extensions' )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>

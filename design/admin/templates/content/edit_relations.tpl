@@ -32,17 +32,17 @@
         {section var=RelatedImageObjects loop=$grouped_related_contentobjects.images}
         <td>
         <div class="image-thumbnail-item">
-            {section show=$RelatedImageObjects.item.can_read }
+            {if $RelatedImageObjects.item.can_read }
                 {attribute_view_gui attribute=$RelatedImageObjects.item.data_map.image image_class=small}
                 <p>
                     <input type="checkbox" id="related-object-id-{$RelatedImageObjects.item.id}" name="DeleteRelationIDArray[]" value="{$RelatedImageObjects.item.id}" {if $related_contentobjects_id.common|contains( $RelatedImageObjects.item.id )|not}disabled="disabled"{/if} />
                     {$RelatedImageObjects.item.name|wash}
                 </p>
-            {section-else}
+            {else}
                 <p>
                     {$RelatedImageObjects.item.name|wash} - {"You do not have permission to view this object"|i18n( 'design/admin/content/edit' )}
                 </p>
-            {/section}
+            {/if}
            <input class="linkbox" type="text" value="&lt;embed href='ezobject://{$RelatedImageObjects.item.id}' /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field to embed the object.'|i18n( 'design/admin/content/edit' )}" /><br />
            <input class="linkbox" type="text" value="&lt;link href='ezobject://{$RelatedImageObjects.item.id}'&gt;&lt;/link&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field to link the object.'|i18n( 'design/admin/content/edit' )}" /><br />
             {def $relation_name_array = $empty_array}
@@ -84,7 +84,7 @@
 
             {section var=RelatedFileObjects loop=$grouped_related_contentobjects.files sequence=array( bglight, bgdark )}
                 <tr class="{$RelatedFileObjects.sequence|wash}">
-                    {section show=$RelatedFileObjects.item.can_read}
+                    {if $RelatedFileObjects.item.can_read}
                         <td class="checkbox"><input type="checkbox" id="related-object-id-{$RelatedFileObjects.item.id}" name="DeleteRelationIDArray[]" value="{$RelatedFileObjects.item.id}" {if $related_contentobjects_id.common|contains( $RelatedFileObjects.item.id )|not}disabled="disabled"{/if} /></td>
                         <td class="name">{$RelatedFileObjects.item.class_name|class_icon( small, $RelatedFileObjects.class_name )}&nbsp;{$RelatedFileObjects.item.name|wash}</td>
                         <td class="filetype">{$RelatedFileObjects.item.data_map.file.content.mime_type|wash}</td>
@@ -103,7 +103,7 @@
                             {$relation_name_array|implode( $relation_name_delimiter )}
                             {undef $relation_name_array}
                         </td>
-                    {section-else}
+                    {else}
                         <td class="checkbox">&nbsp;</td>
                         <td colspan="3">{$RelatedFileObjects.item.name|wash} - {"You do not have permission to view this object"|i18n( 'design/admin/content/edit' )}</td>
                         <td class="code">
@@ -120,7 +120,7 @@
                             {$relation_name_array|implode( $relation_name_delimiter )}
                             {undef $relation_name_array}
                         </td>
-                    {/section}
+                    {/if}
                 </tr>
 
             {/section}
@@ -147,7 +147,7 @@
             {section var=RelatedObjects loop=$grouped_related_contentobjects.objects sequence=array( bglight, bgdark )}
 
                 <tr class="{$RelatedObjects.sequence|wash}">
-                    {section show=$RelatedObjects.item.can_read}
+                    {if $RelatedObjects.item.can_read}
                         <td class="checkbox"><input type="checkbox" id="related-object-id-{$RelatedObjects.item.id}" name="DeleteRelationIDArray[]" value="{$RelatedObjects.item.id}" {if $related_contentobjects_id.common|contains( $RelatedObjects.item.id )|not}disabled="disabled"{/if} /></td>
                         <td class="name">{$RelatedObjects.item.class_name|class_icon( small, $RelatedObjects.class_name )}&nbsp;{$RelatedObjects.item.name|wash}</td>
                         <td class="class">{$RelatedObjects.item.class_name|wash}</td>
@@ -165,7 +165,7 @@
                             {$relation_name_array|implode( $relation_name_delimiter )}
                             {undef $relation_name_array}
                         </td>
-                    {section-else}
+                    {else}
                         <td class="checkbox">&nbsp;</td>
                         <td colspan="2">{$RelatedObjects.item.name|wash} - {"You do not have permission to view this object"|i18n( 'design/admin/content/edit' )}</td>
                         <td class="code">
@@ -182,7 +182,7 @@
                             {$relation_name_array|implode( $relation_name_delimiter )}
                             {undef $relation_name_array}
                         </td>
-                    {/section}
+                    {/if}
                 </tr>
 
             {/section}
@@ -203,11 +203,11 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
 
-    {section show=$related_contentobjects_id['common']|count|gt( 0 )}
+    {if $related_contentobjects_id['common']|count|gt( 0 )}
     <input class="button" type="submit" name="DeleteRelationButton" value="{'Remove selected'|i18n( 'design/admin/content/edit' )}" title="{'Remove the selected items from the list(s) above. It is only the relations that will be removed. The items will not be deleted.'|i18n( 'design/admin/content/edit' )}" />
-    {section-else}
+    {else}
     <input class="button-disabled" type="submit" name="DeleteRelationButton" value="{'Remove selected'|i18n( 'design/admin/content/edit' )}" disabled="disabled" />
-    {/section}
+    {/if}
 
     <input class="button" type="submit" name="BrowseObjectButton" value="{'Add existing'|i18n( 'design/admin/content/edit' )}" title="{'Add an existing item as a related object.'|i18n( 'design/admin/content/edit' )}" />
     <input class="button" type="submit" name="UploadFileRelationButton" value="{'Upload new'|i18n( 'design/admin/content/edit' )}" title="{'Upload a file and add it as a related object.'|i18n( 'design/admin/content/edit' )}" />

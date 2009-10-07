@@ -25,23 +25,23 @@
 </p>
 
 <h2>{"Workflow event"|i18n("design/standard/workflow")}</h2>
-{section show=$current_event|not}
+{if $current_event|not}
 <p>
 {"Workflow has not started yet, number of main events in workflow is"|i18n("design/standard/workflow")} <b>{$current_workflow.event_count}</b>.
 </p>
-{/section}
-{section show=$current_event}
+{/if}
+{if $current_event}
 <p>
 {"Current event position is"|i18n("design/standard/workflow")} <b>{$process.event_position}</b>.
 {"Event to be run is"|i18n("design/standard/workflow")} <i>{$current_event.workflow_type.name}</i> {"event"|i18n("design/standard/workflow")} <b>{$current_event.description} ({$process.event_id})</b>.
 </p>
-{/section}
+{/if}
 
-{section show=$event_status}
+{if $event_status}
 <p>
 {"Last event returned status"|i18n("design/standard/workflow")} <b>{$event_status}.
 </p>
-{/section}
+{/if}
 
 <h3>{"Workflow event list"|i18n("design/standard/workflow")}</h3>
 {section name=Workflow loop=$current_workflow.ordered_event_list}

@@ -22,33 +22,33 @@
 {* Created *}
 <p>
 <label>{'Created'|i18n( 'design/admin/content/removeeditversion' )}:</label>
-{section show=$version.contentobject.published}
+{if $version.contentobject.published}
 {$version.contentobject.published|l10n( shortdatetime )}<br />
 {$version.contentobject.current.creator.name|wash}
-{section-else}
+{else}
 {'Not yet published'|i18n( 'design/admin/content/removeeditversion' )}
-{/section}
+{/if}
 </p>
 
 {* Modified *}
 <p>
 <label>{'Modified'|i18n( 'design/admin/content/removeeditversion' )}:</label>
-{section show=$version.contentobject.modified}
+{if $version.contentobject.modified}
 {$version.contentobject.modified|l10n( shortdatetime )}<br />
 {fetch( content, object, hash( object_id, $version.contentobject.content_class.modifier_id ) ).name|wash}
-{section-else}
+{else}
 {'Not yet published'|i18n( 'design/admin/content/removeeditversion' )}
-{/section}
+{/if}
 </p>
 
 {* Published version *}
 <p>
 <label>{'Published version'|i18n( 'design/admin/content/removeeditversion' )}:</label>
-{section show=$version.contentobject.published}
+{if $version.contentobject.published}
 {$version.contentobject.current.version}
-{section-else}
+{else}
 {'Not yet published'|i18n( 'design/admin/content/removeeditversion' )}
-{/section}
+{/if}
 </p>
 
 {* Manage versions. *}

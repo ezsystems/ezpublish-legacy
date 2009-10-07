@@ -7,7 +7,7 @@
 <div class="block">
     <label>{'View mode'|i18n( 'design/standard/class/datatype' )}:</label>
     <p>
-        {section show=eq( $class_attribute.data_int1, 0 )}{'combobox'|i18n( 'design/standard/class/datatype' )}{/section}
-        {section show=eq( $class_attribute.data_int1, 1 )}{'icon view'|i18n( 'design/standard/class/datatype' )}{/section}
+        {if eq( $class_attribute.data_int1, 0 )}{'combobox'|i18n( 'design/standard/class/datatype' )}{/if}
+        {if eq( $class_attribute.data_int1, 1 )}{'icon view'|i18n( 'design/standard/class/datatype' )}{/if}
     </p>
 </div>

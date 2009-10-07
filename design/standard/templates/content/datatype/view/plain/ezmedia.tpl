@@ -5,12 +5,12 @@
 width="{$attribute.content.width}" height="{$attribute.content.height}">
 <param name="movie" value={concat("content/download/",$attribute.contentobject_id,"/",$attribute.content.contentobject_attribute_id,"/",$attribute.content.original_filename)|ezurl} />
 <param name="quality" value="{$attribute.content.quality}" />
-<param name="play" value="{section show=$attribute.content.is_autoplay}true{/section}" />
-<param name="loop" value="{section show=$attribute.content.is_loop}true{/section}" />
+<param name="play" value="{if $attribute.content.is_autoplay}true{/if}" />
+<param name="loop" value="{if $attribute.content.is_loop}true{/if}" />
 <embed src={concat("content/download/",$attribute.contentobject_id,"/",$attribute.content.contentobject_attribute_id,"/",$attribute.content.original_filename)|ezurl}
  quality="{$attribute.content.quality}" pluginspage="{$attribute.content.pluginspage}"
- width="{$attribute.content.width}" height="{$attribute.content.height}" play="{section show=$attribute.content.is_autoplay}true{/section}"
- loop="{section show=$attribute.content.is_loop}true{/section}" >
+ width="{$attribute.content.width}" height="{$attribute.content.height}" play="{if $attribute.content.is_autoplay}true{/if}"
+ loop="{if $attribute.content.is_loop}true{/if}" >
 </embed> 
 </object>
 {/case}
@@ -18,13 +18,13 @@ width="{$attribute.content.width}" height="{$attribute.content.height}">
 <object
 width="{$attribute.content.width}" height="{$attribute.content.height}">
 <param name="movie" value={concat("content/download/",$attribute.contentobject_id,"/",$attribute.content.contentobject_attribute_id,"/",$attribute.content.original_filename)|ezurl} />
-<param name="controller" value="{section show=$attribute.content.has_controller}true{/section}" />
-<param name="play" value="{section show=$attribute.content.is_autoplay}true{/section}" />
-<param name="loop" value="{section show=$attribute.content.is_loop}true{/section}" />
+<param name="controller" value="{if $attribute.content.has_controller}true{/if}" />
+<param name="play" value="{if $attribute.content.is_autoplay}true{/if}" />
+<param name="loop" value="{if $attribute.content.is_loop}true{/if}" />
 <embed src={concat("content/download/",$attribute.contentobject_id,"/",$attribute.content.contentobject_attribute_id,"/",$attribute.content.original_filename)|ezurl}
  pluginspage="{$attribute.content.pluginspage}"
- width="{$attribute.content.width}" height="{$attribute.content.height}" play="{section show=$attribute.content.is_autoplay}true{/section}" 
- loop="{section show=$attribute.content.is_loop}true{/section}" controller="{section show=$attribute.content.has_controller}true{/section}" >
+ width="{$attribute.content.width}" height="{$attribute.content.height}" play="{if $attribute.content.is_autoplay}true{/if}" 
+ loop="{if $attribute.content.is_loop}true{/if}" controller="{if $attribute.content.has_controller}true{/if}" >
 </embed> 
 </object>
 {/case}
@@ -46,10 +46,10 @@ width="{$attribute.content.width}" height="{$attribute.content.height}">
 width="{$attribute.content.width}" height="{$attribute.content.height}">
 <param name="src" value={concat("content/download/",$attribute.contentobject_id,"/",$attribute.content.contentobject_attribute_id,"/",$attribute.content.original_filename)|ezurl} />
 <param name="controls" value="{$attribute.content.controls}" />
-<param name="autostart" value="{section show=$attribute.content.is_autoplay}true{/section}" />
+<param name="autostart" value="{if $attribute.content.is_autoplay}true{/if}" />
 <embed src={concat("content/download/",$attribute.contentobject_id,"/",$attribute.content.contentobject_attribute_id,"/",$attribute.content.original_filename)|ezurl}
  pluginspage="{$attribute.content.pluginspage}"
- width="{$attribute.content.width}" height="{$attribute.content.height}" autostart="{section show=$attribute.content.is_autoplay}true{/section}" 
+ width="{$attribute.content.width}" height="{$attribute.content.height}" autostart="{if $attribute.content.is_autoplay}true{/if}" 
  controls="{$attribute.content.controls}" >
 </embed> </object>
 {/case}

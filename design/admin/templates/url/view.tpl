@@ -23,11 +23,11 @@
 <div class="context-information">
 <p>
     {'Last modified'|i18n( 'design/admin/url/view' )}:
-    {section show=$url_object.modified|gt( 0 )}
+    {if $url_object.modified|gt( 0 )}
         {$url_object.modified|l10n(shortdatetime)}
-    {section-else}
+    {else}
         {'Unknown'|i18n( 'design/admin/url/view' )}
-    {/section}
+    {/if}
 </p>
 </div>
 
@@ -42,21 +42,21 @@
 {* Address. *}
 <div class="block">
     <label>{'Status'|i18n( 'design/admin/url/view' )}:</label>
-    {section show=$url_object.is_valid}
+    {if $url_object.is_valid}
         {'Valid'|i18n( 'design/admin/url/view' )}
-    {section-else}
+    {else}
         {'Invalid'|i18n( 'design/admin/url/view' )}
-    {/section}
+    {/if}
 </div>
 
 {* Last checked. *}
 <div class="block">
     <label>{'Last checked'|i18n( 'design/admin/url/view' )}:</label>
-    {section show=$url_object.last_checked|gt(0)}
+    {if $url_object.last_checked|gt(0)}
         {$url_object.last_checked|l10n( shortdatetime )}
-    {section-else}
+    {else}
         {'This URL has not been checked.'|i18n( 'design/admin/url/view' )}
-    {/section}
+    {/if}
 </div>
 
 </div>
@@ -152,7 +152,7 @@
 
 {let object_version_status=$Objects.item.contentobject.versions[sub($Objects.item.version,1)].status}
 
-{section show=or(or(eq($view_filter_type,''),eq($view_filter_type,'all')),and(eq($view_filter_type,'published'),eq($object_version_status,1),eq($Objects.item.contentobject.status,1)))}
+{if or(or(eq($view_filter_type,''),eq($view_filter_type,'all')),and(eq($view_filter_type,'published'),eq($object_version_status,1),eq($Objects.item.contentobject.status,1)))}
 <tr class="{$Objects.sequence}">
     <td>{$Objects.item.contentobject.class_identifier|class_icon( 'small', $Objects.item.contentobject.class_identifier )}&nbsp;<a href={concat( '/content/versionview/', $Objects.item.contentobject.id, '/', $Objects.item.version )|ezurl} title="{'View the contents of version #%version_number.'|i18n( 'design/admin/url/view',, hash( '%version_number', $Objects.item.version, ) )}">{$Objects.item.name|wash}</a></td>
     {switch match=$Objects.item.contentobject.status}
@@ -171,7 +171,7 @@
     <td>{$Objects.item.version}</td>
     <td><a href={concat( 'content/edit/', $Objects.item.contentobject_id )|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/url/view' )}" title="{'Edit <%object_name>.'|i18n( 'design/admin/url/view',, hash( '%object_name', $Objects.item.name ) )|wash}" /></a></td>
 </tr>
-{/section}
+{/if}
 
 {/let}
 

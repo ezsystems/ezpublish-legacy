@@ -11,7 +11,7 @@
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <div class="block">
-{section show=$verify_user_email}
+{if $verify_user_email}
 <div class="feedback">
 <p>
 {'Your account was successfully created. An email will be sent to the specified
@@ -19,11 +19,11 @@ email address. Follow the instructions in that mail to activate
 your account.'|i18n('design/admin/user')}
 </p>
 </div>
-{section-else}
+{else}
 <div class="feedback">
 <h2>{"Your account was successfully created."|i18n("design/admin/user")}</h2>
 </div>
-{/section}
+{/if}
 </div>
 
 {* DESIGN: Content END *}</div></div></div>

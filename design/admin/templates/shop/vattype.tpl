@@ -53,19 +53,19 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
 <div class="button-left">
-    {section show=$vattype_array}
+    {if $vattype_array}
     <input class="button" type="submit" name="RemoveVatTypeButton" value="{'Remove selected'|i18n( 'design/admin/shop/vattype' )}" title="{'Remove selected VAT types.'|i18n( 'design/admin/shop/vattype' )}" />
-    {section-else}
+    {else}
     <input class="button-disabled" type="submit" name="RemoveVatTypeButton" value="{'Remove selected'|i18n( 'design/admin/shop/vattype' )}" disabled="disabled" />
-    {/section}
+    {/if}
     <input class="button" type="submit" name="AddVatTypeButton" value="{'New VAT type'|i18n( 'design/admin/shop/vattype' )}" title="{'Create a new VAT type.'|i18n( 'design/admin/shop/vattype' )}" />
 </div>
 <div class="button-right">
-    {section show=$vattype_array}
+    {if $vattype_array}
     <input class="button" type="submit" name="SaveVatTypeButton" value="{'Apply changes'|i18n( 'design/admin/shop/vattype' )}" title="{'Click this button to store changes if you have modified any of the fields above.'|i18n( 'design/admin/shop/vattype' )}" />
-    {section-else}
+    {else}
     <input class="button-disabled" type="submit" name="SaveVatTypeButton" value="{'Apply changes'|i18n( 'design/admin/shop/vattype' )}" disabled="disabled" />
-    {/section}
+    {/if}
 </div>
 <div class="break"></div>
 </div>

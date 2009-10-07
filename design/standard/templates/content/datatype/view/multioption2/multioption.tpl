@@ -26,27 +26,27 @@
            {section var=Option loop=$MultiOptionList.item.optionlist}
             <tr>
               <td> <input type="radio" value="{$Option.item.option_id}" name="eZOption[{$attribute.id}][{$MultiOptionList.item.multioption_id}]"
-             {* {section show=eq($Option.item.is_selectable, 1 )}*} id="{$attribute.id}_{$Option.item.option_id}"{*{/section}*}
+             {* {if eq($Option.item.is_selectable, 1 )}*} id="{$attribute.id}_{$Option.item.option_id}"{*{/if}*}
               {cond(eq( sum( $Option.index, 1 ), $default_option_id ), 'checked="checked"',true(),'')}
               onchange="ezmultioption_check_option( this, rules{$attribute.id}, {$attribute.id} );"
               {cond(not(eq($Option.item.is_selectable, 1 )),'disabled="disabled"', true(),'')}  />
               </td>
               <td  id="td-{$attribute.id}_{$Option.item.option_id}" >{$Option.item.value}{cond(ne( $Option.item.additional_price, '' ),$Option.item.additional_price|l10n( currency )|prepend('-'), true(),'')}</td>
               <td>
-              {section show=is_set($Option.item.object)}
+              {if is_set($Option.item.object)}
                 {let imgobj=fetch('content','object',hash(object_id,$Option.item.object))}
                 {content_view_gui content_object=$imgobj view='tiny' object_parameters=hash(size,"tiny") link_parameters=hash("href",$imgobj.main_node.url_alias, 'target', "_blank")}
                 {/let}
-              {/section}
+              {/if}
             </td>
           </tr>
          {/section}
        </table>
 {/section}
 
-{section show=is_set($MultiOptionList.item.child_group)}
+{if is_set($MultiOptionList.item.child_group)}
     {include uri='design:content/datatype/view/multioption2/multioption2.tpl' name=ChildGroup attribute=$attribute group=$MultiOptionList.item.child_group parent_group_id=$group.group_id parent_multioption_id=$MultiOptionList.item.id depth=sum($depth,1)}
-{/section}
+{/if}
 </li>
 {undef $default_option_id}
 {/section}

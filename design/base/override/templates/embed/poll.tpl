@@ -16,7 +16,7 @@
 
         {section name=OptionList loop=$attribute.content.option_list sequence=array(bglight,bgdark)}
             <input type="radio" name="ContentObjectAttribute_data_option_value_{$attribute.id}" value="{$OptionList:item.id}"
-           {section show=$OptionList:item.id|eq($option_id)}checked="checked"{/section}
+           {if $OptionList:item.id|eq($option_id)}checked="checked"{/if}
            />{$OptionList:item.value}<br />
         {/section}
 

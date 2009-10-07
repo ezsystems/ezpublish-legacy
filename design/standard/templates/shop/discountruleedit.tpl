@@ -29,7 +29,7 @@
         <div class="element">
              <label>{"Class"|i18n("design/standard/shop")}</label><div class="labelbreak"></div>
              <select name="Contentclasses[]" size="5" multiple="multiple" >
-                 <option value="-1" {section show=$class_any_selected}selected="selected"{/section} >{"Any"|i18n("design/standard/shop")}</option>
+                 <option value="-1" {if $class_any_selected}selected="selected"{/if} >{"Any"|i18n("design/standard/shop")}</option>
                  {section name=Classes loop=$product_class_list}
                      <option value="{$Classes:item.id}" {switch match=$Classes:item.id}{case in=$class_limitation_list} selected="selected"{/case}{case/}{/switch}>
                          {$Classes:item.name|wash}
@@ -41,7 +41,7 @@
         <div class="element">
             <label>{"Section"|i18n("design/standard/shop")}</label><div class="labelbreak"></div>
             <select name="Sections[]" size="5" multiple="multiple" >
-                 <option value="-1" {section show=$section_any_selected}selected="selected"{/section}>{"Any"|i18n("design/standard/shop")}</option>
+                 <option value="-1" {if $section_any_selected}selected="selected"{/if}>{"Any"|i18n("design/standard/shop")}</option>
                  {section name=Sections loop=$section_list}
                      <option value="{$Sections:item.id}" {switch match=$Sections:item.id}{case in=$section_limitation_list} selected="selected"{/case}{case/}{/switch}>
                         {$Sections:item.name|wash}
@@ -53,7 +53,7 @@
         <div class="element">
              <label>{"Object"|i18n("design/standard/shop")}</label><div class="labelbreak"></div>
              <table>
-             {section show=$product_list name=Products loop=$product_list}
+             {if $product_list name=Products loop=$product_list}
              <tr>
                  <td>
                      {$Products:item.name|wash}
@@ -63,19 +63,19 @@
                      <input type="hidden" name="Products[]" value="{$Products:item.id}" />
                  </td>
              </tr>
-             {section-else}
+             {else}
              <tr>
                  <td>
                      {'Not specified.'|i18n('design/standard/shop')}
                  </td>
              </tr>
-             {/section}
+             {/if}
              </table>
              <div class="buttonblock">
                  <input class="menubutton" type="image" name="BrowseProductButton" value="{'Find'|i18n('design/standard/shop')}" src={"find.png"|ezimage} />
-                 {section show=$product_list}
+                 {if $product_list}
                      <input class="menubutton" type="image" name="DeleteProductButton" value="{'Remove'|i18n('design/standard/shop')}" src={"trash.png"|ezimage} />
-                 {/section}
+                 {/if}
              </div>
         </div>
 

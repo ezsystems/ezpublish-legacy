@@ -37,11 +37,11 @@ Note: The packages will not be uninstalled.'|i18n('design/standard/package')|bre
 
 <h2>{'Packages'|i18n('design/standard/package')}</h2>
 
-{section show=$module_action|eq( 'CancelRemovePackage' )}
+{if $module_action|eq( 'CancelRemovePackage' )}
 <div class="feedback">
     <p>{'Package removal was canceled.'|i18n('design/standard/package')}</p>
 </div>
-{/section}
+{/if}
 
 
 <p>{'The following packages are available on this system'|i18n('design/standard/package')}</p>
@@ -50,16 +50,16 @@ Note: The packages will not be uninstalled.'|i18n('design/standard/package')|bre
 <select name="RepositoryID">
     <option value="">{'All'|i18n( 'design/standard/package' )}</option>
 {section var=repository loop=$repository_list}
-    <option value="{$repository.id|wash}"{section show=eq( $repository.id, $repository_id )} selected="selected"{/section}>{$repository.name|wash}</option>
+    <option value="{$repository.id|wash}"{if eq( $repository.id, $repository_id )} selected="selected"{/if}>{$repository.name|wash}</option>
 {/section}
 </select>
 &nbsp;<input type="submit" name="ChangeRepositoryButton" value="{'Change repository'|i18n( 'design/standard/package' )}" />
 
 <table class="list" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-    {section show=$can_remove}
+    {if $can_remove}
     <th width="1">{'Selection'|i18n('design/standard/package')}</th>
-    {/section}
+    {/if}
     <th>{'Name'|i18n('design/standard/package')}</th>
     <th>{'Version'|i18n('design/standard/package')}</th>
     <th>{'Summary'|i18n('design/standard/package')}</th>
@@ -67,26 +67,26 @@ Note: The packages will not be uninstalled.'|i18n('design/standard/package')|bre
 </tr>
 {section name=Package loop=$package_list sequence=array(bglight,bgdark)}
 <tr class="{$:sequence}">
-    {section show=$can_remove}
-    <td width="1">{section show=$:item.is_local}<input type="checkbox" name="PackageSelection[]" value="{$:item.name|wash}" />{/section}</td>
-    {/section}
+    {if $can_remove}
+    <td width="1">{if $:item.is_local}<input type="checkbox" name="PackageSelection[]" value="{$:item.name|wash}" />{/if}</td>
+    {/if}
     <td><a href={concat('package/view/full/',$:item.name)|ezurl}>{$:item.name|wash}</a></td>
-    <td>{$:item.version-number}-{$:item.release-number}{section show=$:item.release-timestamp}({$:item.release-timestamp|l10n( shortdatetime )}){/section}{section show=$:item.type} [{$:item.type|wash}]{/section}</td>
+    <td>{$:item.version-number}-{$:item.release-number}{if $:item.release-timestamp}({$:item.release-timestamp|l10n( shortdatetime )}){/if}{if $:item.type} [{$:item.type|wash}]{/if}</td>
     <td>{$:item.summary|wash}</td>
     <td>
-        {section show=$:item.install_type|eq( 'install' )}
-            {section show=$:item.is_installed}
+        {if $:item.install_type|eq( 'install' )}
+            {if $:item.is_installed}
                 {'Installed'|i18n('design/standard/package')}
-            {section-else}
+            {else}
                 {'Not installed'|i18n('design/standard/package')}
-            {/section}
-        {section-else}
+            {/if}
+        {else}
             {'Imported'|i18n('design/standard/package')}
-        {/section}
+        {/if}
     </td>
 </tr>
 {/section}
-{section show=and( $package_list|gt( 0 ),
+{if and( $package_list|gt( 0 ),
                    $can_remove )}
 <tr>
     <td colspan="5">
@@ -95,19 +95,19 @@ Note: The packages will not be uninstalled.'|i18n('design/standard/package')|bre
     </div>
     </td>
 </tr>
-{/section}
+{/if}
 </table>
 
 {let can_create=fetch( package, can_create )
      can_import=fetch( package, can_import )}
 
 <div class="buttonblock">
-{section show=$can_import}
+{if $can_import}
     <input class="button" type="submit" name="InstallPackageButton" value="{'Import package'|i18n('design/standard/package')}" />
-{/section}
-{section show=$can_create}
+{/if}
+{if $can_create}
     <input class="button" type="submit" name="CreatePackageButton" value="{'Create package'|i18n('design/standard/package')}" />
-{/section}
+{/if}
 </div>
 
 {/let}

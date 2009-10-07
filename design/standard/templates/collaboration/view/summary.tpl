@@ -13,7 +13,7 @@
 <tr>
   <td valign="top" >
 
-{section show=$latest_item_count}
+{if $latest_item_count}
 
 {include uri="design:collaboration/item_list.tpl" item_list=$latest_item_list}
 
@@ -24,9 +24,9 @@
          view_parameters=$view_parameters
          item_limit=$item_limit}
 
-{section-else}
+{else}
 <p>{"No new items to be handled."|i18n('design/standard/collaboration')}</p>
-{/section}
+{/if}
 
   </td>
 

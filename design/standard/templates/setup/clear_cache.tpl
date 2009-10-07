@@ -12,19 +12,19 @@
 <form id="clearcache" action={'setup/cachetoolbar'|ezurl} method="post">
 {default ui_context=''}
 <div class="block">
-{section show=is_set( $module_result.content_info )}
+{if is_set( $module_result.content_info )}
   <input type="hidden" name="NodeID" value="{$module_result.content_info.node_id}" />
   <input type="hidden" name="ObjectID" value="{$module_result.content_info.object_id}" />
-{/section}
+{/if}
 <select{eq( $ui_context, 'edit' )|choose( '', ' disabled="disabled"' )} name="CacheTypeValue">
    {section loop=$caches_list}
-      {section show=eq( $:item.2, false )}
+      {if eq( $:item.2, false )}
         <option{eq( $selected_cache_type, $:item.0 )|choose( '', ' selected="selected"' )} value="{$:item.0}">{$:item.1}</option>
-      {section-else}
-       {section show=is_set( $module_result.content_info )}
+      {else}
+       {if is_set( $module_result.content_info )}
         <option{eq( $selected_cache_type, $:item.0 )|choose( '', ' selected="selected"' )} value="{$:item.0}">{$:item.1}</option>
-       {/section}
-      {/section}
+       {/if}
+      {/if}
    {/section}
 </select>
 </div>

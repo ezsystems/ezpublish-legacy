@@ -13,9 +13,9 @@
 
 {* Check if top node. *}
 {section loop=$assigned_node_array}
-    {section show=$Node:item.parent_node|le( 1 )}
+    {if $Node:item.parent_node|le( 1 )}
         {set has_top_levels=true()}
-    {/section}
+    {/if}
 {/section}
 
 
@@ -40,12 +40,12 @@
     <th>{'Location'|i18n( 'design/admin/content/edit' )}</th>
     <th>{'Sub items'|i18n( 'design/admin/content/edit' )}</th>
     <th>{'Sorting of sub items'|i18n( 'design/admin/content/edit' )}</th>
-    {section show=$:has_top_levels|not}
+    {if $:has_top_levels|not}
     <th>{'Current visibility'|i18n( 'design/admin/content/edit' )}</th>
     <th>{'Visibility after publishing'|i18n( 'design/admin/content/edit' )}</th>
     <th>{'Main'|i18n( 'design/admin/content/edit' )}</th>
     <th>&nbsp;</th>
-    {/section}
+    {/if}
 </tr>
 
     {section loop=$assigned_node_array sequence=array( bglight, bgdark )}
@@ -70,11 +70,11 @@
 
 	{* Remove. *}
     <td>
-    {section show=or( $location_ui_enabled|not, and( $Node:item.node, $Node:item.node.can_remove|not ) )}
+    {if or( $location_ui_enabled|not, and( $Node:item.node, $Node:item.node.can_remove|not ) )}
 	<input type="checkbox" name="AssignmentIDSelection[]" value="{$Node:item.parent_node}" title="{'You do not have permission to remove this location.'|i18n( 'design/admin/content/edit' )}" disabled="disabled" />
-    {section-else}
+    {else}
 	<input type="checkbox" name="AssignmentIDSelection[]" value="{$Node:item.parent_node}" title="{'Select location for removal.'|i18n( 'design/admin/content/edit' )}" />
-    {/section}
+    {/if}
     </td>
 
     {* Location. *}
@@ -96,57 +96,57 @@
 
     {* Sub items. *}
     <td>
-    {section show=$Node:item.node|not}
+    {if $Node:item.node|not}
     0
-    {section-else}
+    {else}
     {$Node:item.node.children_count}
-    {/section}
+    {/if}
     </td>
 
     {* Sorting. *}
     <td>
     <select {if $location_ui_enabled|not}disabled="disabled" {/if}name="SortFieldMap[{$Node:item.id}]" title="{'Use this menu to set the sorting method for the sub items in this location.'|i18n( 'design/admin/content/edit' )}">
     {section name=Sort loop=$Node:sort_fields}
-    <option value="{$Node:Sort:key}" {section show=eq($Node:Sort:key,$Node:item.sort_field)}selected="selected"{/section}>{$Node:Sort:item}</option>
+    <option value="{$Node:Sort:key}" {if eq($Node:Sort:key,$Node:item.sort_field)}selected="selected"{/if}>{$Node:Sort:item}</option>
     {/section}
     </select>
 	<select {if $location_ui_enabled|not}disabled="disabled" {/if}name="SortOrderMap[{$Node:item.id}]" title="{'Use this menu to set the sorting direction for the sub items in this location.'|i18n( 'design/admin/content/edit' )}">
-    <option value="1" {section show=eq( $Node:item.sort_order, 1)}selected="selected"{/section}>{'Asc.'|i18n( 'design/admin/content/edit' )}</option>
-    <option value="0" {section show=eq( $Node:item.sort_order, 0)}selected="selected"{/section}>{'Desc.'|i18n( 'design/admin/content/edit' )}</option>
+    <option value="1" {if eq( $Node:item.sort_order, 1)}selected="selected"{/if}>{'Asc.'|i18n( 'design/admin/content/edit' )}</option>
+    <option value="0" {if eq( $Node:item.sort_order, 0)}selected="selected"{/if}>{'Desc.'|i18n( 'design/admin/content/edit' )}</option>
     </select>
     </td>
 
-    {section show=$:has_top_levels|not}
+    {if $:has_top_levels|not}
 
     {* Current/previous visibility status. *}
     <td>
-    {section show=$Node:item.node}
+    {if $Node:item.node}
         {$Node:item.node.hidden_status_string}
-    {section-else}
-        {section show=$Node:item.parent_node_obj.is_invisible}
+    {else}
+        {if $Node:item.parent_node_obj.is_invisible}
             {'Hidden by parent'|i18n( 'design/admin/content/edit' )}
-        {section-else}
+        {else}
             {'Visible'|i18n( 'design/admin/content/edit' )}
-        {/section}
-    {/section}
+        {/if}
+    {/if}
     </td>
 
     {* Visibility status after publishing. *}
     <td>
     <select {if $location_ui_enabled|not}disabled="disabled" {/if}name="FutureNodeHiddenState_{$Node:parent_node.node_id}">
     <option value="unchanged" selected="selected">{'Unchanged'|i18n( 'design/admin/content/edit' )}</option>
-    {section show=or($Node:item.node|not, $Node:item.node.is_hidden)}
+    {if or($Node:item.node|not, $Node:item.node.is_hidden)}
     <option value="visible">{'Visible'|i18n( 'design/admin/content/edit' )}</option>
-    {/section}
-    {section show=or($Node:item.node|not, $Node:item.node.is_hidden|not)}
+    {/if}
+    {if or($Node:item.node|not, $Node:item.node.is_hidden|not)}
     <option value="hidden">{'Hidden'|i18n( 'design/admin/content/edit' )}</option>
-    {/section}
+    {/if}
     </select>
     </td>
 
     {* Main node. *}
     <td>
-    <input {if $location_ui_enabled|not}disabled="disabled" {/if}type="radio" name="MainNodeID" {section show=eq($main_node_id,$Node:item.parent_node)}checked="checked"{/section} value="{$Node:item.parent_node}" title="{'Use these radio buttons to specify the main location (main node) for the object being edited.'|i18n( 'design/admin/content/edit' )}" />
+    <input {if $location_ui_enabled|not}disabled="disabled" {/if}type="radio" name="MainNodeID" {if eq($main_node_id,$Node:item.parent_node)}checked="checked"{/if} value="{$Node:item.parent_node}" title="{'Use these radio buttons to specify the main location (main node) for the object being edited.'|i18n( 'design/admin/content/edit' )}" />
     </td>
 
     {* Move. *}
@@ -156,16 +156,16 @@
     <input {if $location_ui_enabled|not}disabled="disabled" {/if}type="image" name="{concat( 'MoveNodeID_', $Node:item.parent_node )}" src={'move.gif'|ezimage} value="{$Node:item.parent_node}" title="{'Move to another location.'|i18n( 'design/admin/content/edit' )}" />
     {/case}
     {case}
-    {section show=$Node:item.from_node_id|gt( 0 )}
+    {if $Node:item.from_node_id|gt( 0 )}
     <input {if $location_ui_enabled|not}disabled="disabled" {/if}type="image" name="{concat( 'MoveNodeID_', $Node:item.parent_node )}" src={'move.gif'|ezimage} value="{$Node:item.parent_node}" title="{'Move to another location.'|i18n( 'design/admin/content/edit' )}" />
-    {section-else}
+    {else}
     &nbsp;
-    {/section}
+    {/if}
     {/case}
     {/switch}
     </td>
 
-    {/section}
+    {/if}
 
     </tr>
     {/let}
@@ -179,21 +179,21 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
 
-{section show=$:has_top_levels|not}
+{if $:has_top_levels|not}
 
-    {section show=and( $assigned_node_array|count|ge( 1 ), $location_ui_enabled )}
+    {if and( $assigned_node_array|count|ge( 1 ), $location_ui_enabled )}
     <input class="button" type="submit" name="RemoveAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/content/edit' )}" title="{'Remove selected locations.'|i18n( 'design/admin/content/edit' )}" />
-    {section-else}
+    {else}
     <input class="button-disabled" type="submit" name="RemoveAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/content/edit' )}" disabled="disabled" />
-    {/section}
+    {/if}
 
     <input {if $location_ui_enabled|not}disabled="disabled" class="button-disabled"{else}class="button"{/if} type="submit" name="BrowseNodeButton" value="{'Add locations'|i18n( 'design/admin/content/edit' )}" title="{'Add one or more locations for the object being edited.'|i18n( 'design/admin/content/edit' )}" />
 
-{section-else}
+{else}
     <input class="button-disabled" type="submit" name="RemoveAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/content/edit' )}" disabled="disabled"  title="{'You cannot add or remove locations because the object being edited belongs to a top node.'|i18n( 'design/admin/content/edit' )}" />
     <input class="button-disabled" type="submit" name="BrowseNodeButton" value="{'Add locations'|i18n( 'design/admin/content/edit' )}" disabled="disabled" title="{'You cannot add or remove locations because the object being edited belongs to a top node.'|i18n( 'design/admin/content/edit' )}" />
     <input type="hidden" name="MainNodeID" value="{$main_node_id}" />
-{/section}
+{/if}
 
 
 </div>

@@ -7,20 +7,20 @@
   \version 1.0
   \date    {currentdate()|l10n(datetime)}
 
-{section show=$creator_name}
+{if $creator_name}
   \author  {$creator_name}
-{/section}
+{/if}
 
 
 {$description_full|indent(2)}
 
-{section show=$example_code}
+{if $example_code}
 
   {'Example'|i18n('design/admin/setup/operatorcode')}:
 \code
 {$example_code}
 \endcode
-{/section}
+{/if}
 
 */
 
@@ -74,7 +74,7 @@ class {$full_class_name}
     {literal}}{/literal}
 
 
-{section show=$single_operator|not}
+{if $single_operator|not}
     /*!
      \return true to tell the template engine that the parameter list exists per operator type,
              this is needed for operator classes that have multiple operators.
@@ -85,9 +85,9 @@ class {$full_class_name}
     {literal}}{/literal}
 
 
-{/section}
+{/if}
 
-{section show=$parameter_check|eq(2)}
+{if $parameter_check|eq(2)}
     /*!
      See eZTemplateOperator::namedParameterList
     */
@@ -106,7 +106,7 @@ class {$full_class_name}
     {literal}}{/literal}
 
 
-{/section}
+{/if}
 
     /*!
      {'Executes the PHP function for the operator cleanup and modifies \a $operatorValue.'|i18n('design/admin/setup/operatorcode')}
@@ -114,13 +114,13 @@ class {$full_class_name}
     function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters, $placement )
     {literal}{{/literal}
 
-{section show=$parameter_check|eq(2)}
+{if $parameter_check|eq(2)}
         $firstParam = $namedParameters['first_param'];
         $secondParam = $namedParameters['second_param'];
 
-{/section}
+{/if}
 
-{section show=$parameter_check|eq(3)}
+{if $parameter_check|eq(3)}
         for ( $i = 0; $i < count( $operatorParameters ); ++$i )
         {literal}{{/literal}
             $operatorParameter =& $operatorParameters[$i];
@@ -128,21 +128,21 @@ class {$full_class_name}
             $operatorParameterValue = $tpl->elementValue( $operatorParameter, $rootNamespace, $currentNamespace );
         {literal}}{/literal}
 
-{/section}
+{/if}
 
-{section show=$single_operator}
+{if $single_operator}
         // {'Example code. This code must be modified to do what the operator should do. Currently it only trims text.'|i18n('design/admin/setup/operatorcode')}
-        {section show=$use_output}$operatorValue = {/section}trim({section show=$use_input} $operatorValue {/section});
-{section-else}
+        {if $use_output}$operatorValue = {/if}trim({if $use_input} $operatorValue {/if});
+{else}
         // {'Example code. This code must be modified to do what the operator should do. Currently it only trims text.'|i18n('design/admin/setup/operatorcode')}
         switch ( $operatorName )
         {literal}{{/literal}
             case '{$operator_name}':
             {literal}{{/literal}
-                {section show=$use_output}$operatorValue = {/section}trim({section show=$use_input} $operatorValue {/section});
+                {if $use_output}$operatorValue = {/if}trim({if $use_input} $operatorValue {/if});
             {literal}}{/literal} break;
         {literal}}{/literal}
-{/section}
+{/if}
 
     {literal}}{/literal}
 {literal}}{/literal}

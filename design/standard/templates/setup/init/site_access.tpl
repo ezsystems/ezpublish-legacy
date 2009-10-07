@@ -17,19 +17,19 @@
     <table border="0" cellspacing="0" cellpadding="0">
       <tr>
         <td class="normal">
-          <input type="radio" id="eZSetup_site_access_url" name="eZSetup_site_access" value="url" {section show=$site_type.access_type|eq( 'url' )}checked="checked"{/section} /><label class="radio" for="eZSetup_site_access_url">{"URL (recommended)"|i18n("design/standard/setup/init")}</label>
+          <input type="radio" id="eZSetup_site_access_url" name="eZSetup_site_access" value="url" {if $site_type.access_type|eq( 'url' )}checked="checked"{/if} /><label class="radio" for="eZSetup_site_access_url">{"URL (recommended)"|i18n("design/standard/setup/init")}</label>
         </td>
       </tr>
       <tr>
         <td class="normal">
 {*          <input type="radio" name="eZSetup_site_access" value="port">{"Port. Note: Requires web server configuration "|i18n("design/standard/setup/init")}</input>*}
-          <input type="radio" id="eZSetup_site_access_port" name="eZSetup_site_access" value="port" {section show=$site_type.access_type|eq( 'port' )}checked="checked"{/section} /><label class="radio" for="eZSetup_site_access_port">{"Port"|i18n("design/standard/setup/init")}</label>
+          <input type="radio" id="eZSetup_site_access_port" name="eZSetup_site_access" value="port" {if $site_type.access_type|eq( 'port' )}checked="checked"{/if} /><label class="radio" for="eZSetup_site_access_port">{"Port"|i18n("design/standard/setup/init")}</label>
         </td>
       </tr>
       <tr>
         <td class="normal">
 {*          <input type="radio" name="eZSetup_site_access" value="hostname">{"Hostname. Note: Requires DNS setup."|i18n("design/standard/setup/init")}</input>*}
-          <input type="radio" id="eZSetup_site_access_host" name="eZSetup_site_access" value="hostname" {section show=$site_type.access_type|eq( 'hostname' )}checked="checked"{/section} /><label class="radio" for="eZSetup_site_access_host">{"Hostname"|i18n("design/standard/setup/init")}</label>
+          <input type="radio" id="eZSetup_site_access_host" name="eZSetup_site_access" value="hostname" {if $site_type.access_type|eq( 'hostname' )}checked="checked"{/if} /><label class="radio" for="eZSetup_site_access_host">{"Hostname"|i18n("design/standard/setup/init")}</label>
         </td>
       </tr>
     </table>

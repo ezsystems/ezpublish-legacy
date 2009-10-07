@@ -8,50 +8,50 @@
             can_copy=false()}
 
     {section loop=$search_result}
-        {section show=$:item.object.can_remove}
+        {if $:item.object.can_remove}
             {set can_remove=true()}
-        {/section}
-        {section show=$:item.object.can_edit}
+        {/if}
+        {if $:item.object.can_edit}
             {set can_edit=true()}
-        {/section}
-        {section show=$:item.object.can_create}
+        {/if}
+        {if $:item.object.can_create}
             {set can_copy=true()}
-        {/section}
+        {/if}
     {/section}
 
     <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
     <tr>
-        {section show=$:can_remove}
+        {if $:can_remove}
             <th width="1">
                 &nbsp;
             </th>
-        {/section}
+        {/if}
         <th>
             {"Name"|i18n("design/standard/node/view")}
         </th>
         <th>
             {"Class"|i18n("design/standard/node/view")}
         </th>
-        {section show=$:can_edit}
+        {if $:can_edit}
             <th width="1">
                 {"Edit"|i18n("design/standard/node/view")}
             </th>
-        {/section}
-        {section show=$:can_copy}
+        {/if}
+        {if $:can_copy}
             <th width="1">
                 {"Copy"|i18n("design/standard/node/view")}
             </th>
-        {/section}
+        {/if}
     </tr>
     {section name=SearchResult loop=$search_result show=$search_result sequence=array(bglight,bgdark)}
         <tr class="{$:sequence}">
-            {section show=$:item.object.can_remove}
+            {if $:item.object.can_remove}
                 <td align="right" width="1">
-                    {section show=$:item.object.can_remove}
+                    {if $:item.object.can_remove}
                         <input type="checkbox" name="DeleteIDArray[]" value="{$:item.node_id}" />
-                    {/section}
+                    {/if}
                 </td>
-            {/section}
+            {/if}
             <td>
                 <a href={concat('content/view/full/',$:item.node_id)|ezurl}>
 		<a href={concat('content/view/full/',$:item.node_id)|ezurl}>
@@ -73,23 +73,23 @@
                 {$:item.object.class_name|wash}
             </td>
 
-            {section show=$:item.object.can_edit}
+            {if $:item.object.can_edit}
                 <td width="1">
-                    {section show=$:item.object.can_edit}
+                    {if $:item.object.can_edit}
                         <a href={concat( "content/edit/", $:item.contentobject_id )|ezurl}><img src={"edit.gif"|ezimage} alt="{'Edit'|i18n('design/standard/node/view')}" /></a>
-                    {/section}
+                    {/if}
                 </td>
-            {/section}
-            {section show=$:item.object.can_create}
+            {/if}
+            {if $:item.object.can_create}
                 <td>
                     <a href={concat( "content/copy/", $:item.contentobject_id )|ezurl}><img src={"copy.gif"|ezimage} alt="{'Copy'|i18n( 'design/standard/node/view' )}" /></a>
                 </td>
-            {/section}
+            {/if}
         </tr>
     {/section}
     </table>
-    {section show=$:can_remove}
+    {if $:can_remove}
         <input type="submit" name="RemoveButton" value="{'Remove'|i18n('design/standard/node/view')}" />
-    {/section}
+    {/if}
     {/let}
 {/section}

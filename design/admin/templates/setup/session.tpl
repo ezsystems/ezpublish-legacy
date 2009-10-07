@@ -5,11 +5,11 @@
 <form name="trashaction" method="post" action={concat( '/setup/session/', cond( $user_id, concat( $user_id, '/' ), '' ), cond( $view_parameters.offset|gt( 0 ), concat( '(offset)/', $view_parameters.offset ), '' ) )|ezurl}>
 
 {* Messages *}
-{section show=$sessions_removed}
+{if $sessions_removed}
 <div class="message-feedback">
 <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {"The sessions were successfully removed."|i18n( "design/admin/setup/session" )}</h2>
 </div>
-{/section}
+{/if}
 
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
@@ -66,14 +66,14 @@
 <div class="context-attributes">
 
     {* List of sessions for a specific user *}
-    {section show=$user_id}
+    {if $user_id}
         {let session_user=fetch( content,object, hash( 'object_id', $user_id ) )}
         <p>{'Displaying sessions for %username'|i18n( 'design/admin/setup/session',, hash( '%username', $session_user.name ) )}</p>
         {/let}
         <div class="buttonblock">
             <input class="button" type="submit" name="ShowAllUsersButton" value="{"Sessions for all users"|i18n( "design/admin/setup/session" )}" />
         </div>
-    {section-else}
+    {else}
             <div class="block">
             <label>{'Users'|i18n( 'design/admin/setup/session' )}:</label>
             <select class="combobox" name="FilterType">
@@ -90,22 +90,22 @@
 </div>
 <input type="hidden" name="InactiveUsersCheckExists" />
 
-    {/section}
+    {/if}
 
 {section show=$sessions_list}
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection'|i18n( 'design/admin/setup/session' )}" onclick="ezjs_toggleCheckboxes( document.trashaction,
-{section show=$user_id}'SessionKeyArray[]'{section-else}'UserIDArray[]'{/section}
+{if $user_id}'SessionKeyArray[]'{else}'UserIDArray[]'{/if}
 ); return false;" title="{'Invert selection.'|i18n( 'design/admin/setup/session' )}" /></th>
 
 <th>
     <a class="topline" href={concat( '/setup/session/(offset)/', $view_parameters.offset, '/(sortby)/login' )|ezurl}>{"Login"|i18n( "design/admin/setup/session" )}</a>
 </th>
-{section show=$user_id|not}
+{if $user_id|not}
 <th>
     {"Count"|i18n( "design/admin/setup/session" )}
 </th>
-{/section}
+{/if}
 <th>
     <a class="topline" href={concat( '/setup/session/(offset)/', $view_parameters.offset, '/(sortby)/email' )|ezurl}>{"Email"|i18n( "design/admin/setup/session" )}</a>
 </th>
@@ -123,20 +123,20 @@
 <tr valign="top" class="{$session.sequence}">
     {let session_user=fetch( content,object, hash( 'object_id', $session.user_id ) )}
     <td width="1%">
-    {section show=$user_id}
+    {if $user_id}
         <input type="checkbox" name="SessionKeyArray[]" value="{$session.session_key|wash}" title="{'Select session for removal.'|i18n( 'design/admin/setup/session' )}" />
-    {section-else}
+    {else}
         <input type="checkbox" name="UserIDArray[]" value="{$session.user_id}" title="{'Select session for removal.'|i18n( 'design/admin/setup/session' )}" />
-    {/section}
+    {/if}
     </td>
     <td width="15%">
         <a href={$session_user.main_node.url_alias|ezurl}>{$session.login}</a>
     </td>
-    {section show=$user_id|not}
+    {if $user_id|not}
     <td width="1%">
         <a href={concat( 'setup/session/', $session.user_id )|ezurl}>{$session.count}</a>
     </td>
-    {/section}
+    {/if}
     <td width="15%">
         <a href="mailto:{$session.email|wash}">{$session.email|wash}</a>
     </td>
@@ -148,11 +148,11 @@
         {$session.idle.hour}:{$session.idle.minute}:{$session.idle.second}
     </td>
     <td width="19%">
-      {section show=or($session.idle.minute|lt(0), $session.idle.hour|lt(0))}
+      {if or($session.idle.minute|lt(0), $session.idle.hour|lt(0))}
           {"Time skew detected"|i18n( "design/admin/setup/session")}
-      {section-else}
+      {else}
           {$session.idle_time|l10n( shortdatetime )}
-      {/section}
+      {/if}
     </td>
 
     {/let}
@@ -174,11 +174,11 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-{section show=$sessions_list}
+{if $sessions_list}
 <input class="button" type="submit" name="RemoveSelectedSessionsButton" value="{'Remove selected'|i18n( 'design/admin/setup/session' )}" title="{'Remove selected sessions.'|i18n( 'design/admin/setup/session' )}" />
-{section-else}
+{else}
 <input class="button-disabled" type="submit" name="RemoveSelectedSessionsButton" value="{'Remove selected'|i18n( 'design/admin/setup/session' )}" disabled="disabled" />
-{/section}
+{/if}
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>

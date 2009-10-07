@@ -10,59 +10,59 @@
 
         {default last_item      = false() }
 
-            {section show=is_set($is_root_node)}
+            {if is_set($is_root_node)}
                 {set isRootNode=$is_root_node}
-            {/section}
-            {section show=$skip_self_node|not()}
+            {/if}
+            {if $skip_self_node|not()}
 
                 <li id="n{$:parentNode.node.node_id}"
-                {section show=eq($chapter_level,1)}
-                    {section show=eq($unfold_node,$parentNode.node.node_id)}
+                {if eq($chapter_level,1)}
+                    {if eq($unfold_node,$parentNode.node.node_id)}
                         class="topchapter-selected"
-                        {section-else}
+                        {else}
                         class="topchapter"
-                    {/section}
+                    {/if}
 
-                    {section-else}
-                    {section show=and($:last_item, eq($parentNode.node.node_id, $current_node_id))}
+                    {else}
+                    {if and($:last_item, eq($parentNode.node.node_id, $current_node_id))}
                         class="lastli currentnode"
-                        {section-else}
-                        {section show=$:last_item}
+                        {else}
+                        {if $:last_item}
                             class="lastli"
-                        {/section}
-                        {section show=eq($parentNode.node.node_id, $current_node_id)}
+                        {/if}
+                        {if eq($parentNode.node.node_id, $current_node_id)}
                             class="currentnode"
-                        {/section}
-                {/section}{/section}>
+                        {/if}
+                {/if}{/if}>
                 {* Fold/Unfold/Empty: [-]/[+]/[ ] *}
-                {section show=or($:haveChildren, $:isRootNode)}
+                {if or($:haveChildren, $:isRootNode)}
                    <a class="openclose" href="#" title="{'Fold/Unfold'|i18n('design/standard/simplified_treemenu')}"></a>
-                {section-else}
+                {else}
                     <span class="openclose"></span>
-                {/section}
+                {/if}
 
                 {* Icon *}
                 {* Label *}
                 {* Tooltip *}
-                {section show=$:showToolTips|eq('enabled')}
-                    {section show=$:parentNode.node.is_invisible}
+                {if $:showToolTips|eq('enabled')}
+                    {if $:parentNode.node.is_invisible}
                         {set visibility = 'Hidden by superior'}
-                    {/section}
-                    {section show=$:parentNode.node.is_hidden}
+                    {/if}
+                    {if $:parentNode.node.is_hidden}
                         {set visibility = 'Hidden'}
-                    {/section}
+                    {/if}
                     {set toolTip = 'Node ID: %node_id Visibility: %visibility' |
                                     i18n("simplified_treemenu/show_simplified_menu", , hash( '%node_id'      , $:parentNode.node.node_id,
                                                                                              '%visibility'   , $:visibility ) ) }
-                {section-else}
+                {else}
                     {set toolTip = ''}
-                {/section}
+                {/if}
 
                 {* Text *}
                 {* Do not indent this line; otherwise links will contain empty space at the end! *}
-                {let defaultItemClickAction = $:parentNode.node.path_identification_string|ezurl(no)}<a class="nodetext" href="{$:defaultItemClickAction}" title="{$:toolTip}">{/let}{section show=$:parentNode.node.is_hidden}<span class="node-name-hidden">{$:parentNode.object.name|wash}</span>{section-else}{section show=$:parentNode.node.is_invisible}<span class="node-name-hiddenbyparent">{$:parentNode.object.name|wash}</span>{section-else}<span class="node-name-normal">{$:parentNode.object.name|wash}</span>{/section}{/section}{section show=$:parentNode.node.is_hidden}<span class="node-hidden">(Hidden)</span></a>{section-else}{section show=$:parentNode.node.is_invisible}<span class="node-hiddenbyparent">(Hidden by parent)</span></a>{section-else}</a>{/section}{/section}
+                {let defaultItemClickAction = $:parentNode.node.path_identification_string|ezurl(no)}<a class="nodetext" href="{$:defaultItemClickAction}" title="{$:toolTip}">{/let}{if $:parentNode.node.is_hidden}<span class="node-name-hidden">{$:parentNode.object.name|wash}</span>{else}{if $:parentNode.node.is_invisible}<span class="node-name-hiddenbyparent">{$:parentNode.object.name|wash}</span>{else}<span class="node-name-normal">{$:parentNode.object.name|wash}</span>{/if}{/if}{if $:parentNode.node.is_hidden}<span class="node-hidden">(Hidden)</span></a>{else}{if $:parentNode.node.is_invisible}<span class="node-hiddenbyparent">(Hidden by parent)</span></a>{else}</a>{/if}{/if}
 
-            {/section}
+            {/if}
 
                 {* Show children *}
                 {set chapter_level=sum($chapter_level,1)}
@@ -73,9 +73,9 @@
                         {/section}
 </ul>
                 {/section}
-            {section show=$skip_self_node|not()}
+            {if $skip_self_node|not()}
                 </li>
-            {/section}
+            {/if}
 
         {/default}
     {/let}

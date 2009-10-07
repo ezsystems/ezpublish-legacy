@@ -20,33 +20,33 @@
 {* Created *}
 <p>
 <label>{'Created'|i18n( 'design/admin/content/versions' )}:</label>
-{section show=$object.published}
+{if $object.published}
 {$object.published|l10n( shortdatetime )}<br />
 {$object.current.creator.name|wash}
-{section-else}
+{else}
 {'Not yet published'|i18n( 'design/admin/content/versions' )}
-{/section}
+{/if}
 </p>
 
 {* Modified *}
 <p>
 <label>{'Modified'|i18n( 'design/admin/content/versions' )}:</label>
-{section show=$object.modified}
+{if $object.modified}
 {$object.modified|l10n( shortdatetime )}<br />
 {fetch( content, object, hash( object_id, $object.content_class.modifier_id ) ).name|wash}
-{section-else}
+{else}
 {'Not yet published'|i18n( 'design/admin/content/versions' )}
-{/section}
+{/if}
 </p>
 
 {* Published version*}
 <p>
 <label>{'Published version'|i18n( 'design/admin/content/versions' )}:</label>
-{section show=$object.published}
+{if $object.published}
 {$object.current_version}
-{section-else}
+{else}
 {'Not yet published'|i18n( 'design/admin/content/versions' )}
-{/section}
+{/if}
 </p>
 
 </div></div></div></div></div></div>
@@ -131,11 +131,11 @@
 
     {* Remove. *}
     <td>
-        {section show=and( $Versions.item.can_remove, array( 0, 3, 4, 5 )|contains( $Versions.item.status ) )}
+        {if and( $Versions.item.can_remove, array( 0, 3, 4, 5 )|contains( $Versions.item.status ) )}
             <input type="checkbox" name="DeleteIDArray[]" value="{$Versions.item.id}" title="{'Select version #%version_number for removal.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
-        {section-else}
+        {else}
             <input type="checkbox" name="" value="" disabled="disabled" title="{'Version #%version_number cannot be removed because it is either the published version of the object or because you do not have permission to remove it.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
-        {/section}
+        {/if}
     </td>
 
     {* Version/view. *}
@@ -185,11 +185,11 @@
 
     {* Edit button. *}
     <td>
-        {section show=and( array(0, 5)|contains($Versions.item.status), $Versions.item.creator_id|eq( $user_id ), $can_edit ) }
+        {if and( array(0, 5)|contains($Versions.item.status), $Versions.item.creator_id|eq( $user_id ), $can_edit ) }
         <input class="button" type="submit" name="EditButton[{$Versions.item.version}]" value="{'Edit'|i18n( 'design/admin/content/versions' )}" title="{'Edit the contents of version #%version_number.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
-        {section-else}
+        {else}
         <input class="button-disabled" type="submit" name="" value="{'Edit'|i18n( 'design/admin/content/versions' )}" disabled="disabled" title="{'You cannot edit the contents of version #%version_number either because it is not a draft or because you do not have permission to edit the object.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
-        {/section}
+        {/if}
     </td>
 
 </tr>
@@ -224,9 +224,9 @@
 </div>
 
 <div class="right">
-{section show=is_set( $redirect_uri )}
+{if is_set( $redirect_uri )}
 <input class="text" type="hidden" name="RedirectURI" value="{$redirect_uri}" />
-{/section}
+{/if}
 <input class="button" type="submit" name="BackButton" value="{'Back'|i18n( 'design/admin/content/versions' )}" />
 </div>
 <div class="break"></div>

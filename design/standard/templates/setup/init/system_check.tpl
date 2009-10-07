@@ -54,11 +54,11 @@
 </p><p>
 {"Some issues may be ignored by checking the <i>Ignore this test</i> checkbox(es); however, this is not recommended."|i18n("design/standard/setup/init")}
 </p>
-{section show=eq( $optional_test.result, 2 )}
+{if eq( $optional_test.result, 2 )}
 <p>
 {"It is also possible to do some finetuning of your system, click <i>Finetune</i> instead <i>Next</i> if you want to see the finetuning hints."|i18n("design/standard/setup/init")}
 </p>
-{/section}
+{/if}
 
 {*  {"The system check found some issues that need to be resolved before the setup can continue."|i18n("design/standard/setup/init")}
   {"Please have a look through the results below for more information on what the problems are."|i18n("design/standard/setup/init")}

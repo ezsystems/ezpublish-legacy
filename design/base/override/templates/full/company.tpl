@@ -9,17 +9,17 @@
 
     <h1><a href={$node.url_alias|ezurl}>{$node.name|wash}</a> ( {attribute_view_gui attribute=$node.data_map.company_number} )</h1>
 
-    {section show=$versionview_mode}
-    {section show=$node.object.can_edit}
+    {if $versionview_mode}
+    {if $node.object.can_edit}
         <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/base')}" />
-    {/section}
-    {/section}
+    {/if}
+    {/if}
 
-    {section show=$node.data_map.logo.content}
+    {if $node.data_map.logo.content}
         <div class="attribute-image">
             {attribute_view_gui attribute=$node.data_map.logo.content.data_map.image alignment=right}
         </div>
-    {/section}
+    {/if}
 
     <div class="attribute-matrix">
     <h2>{"Contact information"|i18n("design/base")}</h2>

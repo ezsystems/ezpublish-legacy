@@ -4,7 +4,7 @@
     <div class="class-article">
 
         <h1>{$node.data_map.title.content|wash()}</h1>
-        {section show=$node.data_map.author.content.is_empty|not()}
+        {if $node.data_map.author.content.is_empty|not()}
         <div class="attribute-byline">
         <p class="author">
              {attribute_view_gui attribute=$node.data_map.author}
@@ -13,25 +13,25 @@
              {$node.object.published|l10n(date)}
         </p>
         </div>
-        {/section}
+        {/if}
 
-        {section show=$node.data_map.image.content}
+        {if $node.data_map.image.content}
             <div class="attribute-image">
                 {attribute_view_gui attribute=$node.data_map.image align=right}
             </div>
-        {/section}
+        {/if}
 
-        {section show=$node.data_map.intro.content.is_empty|not}
+        {if $node.data_map.intro.content.is_empty|not}
             <div class="attribute-short">
                 {attribute_view_gui attribute=$node.data_map.intro}
             </div>
-        {/section}
+        {/if}
 
-        {section show=$node.data_map.body.content.is_empty|not}
+        {if $node.data_map.body.content.is_empty|not}
             <div class="attribute-long">
                 {attribute_view_gui attribute=$node.data_map.body}
             </div>
-        {/section}
+        {/if}
 
         <div class="attribute-tipafriend">
           <p>
@@ -56,7 +56,7 @@
                 </div>
 
                 {* Are we allowed to create new object under this node? *}
-                {section show=fetch( content, access,
+                {if fetch( content, access,
                                      hash( access, 'create',
                                            contentobject, $node,
                                            contentclass_id, 'comment' ) )}
@@ -65,9 +65,9 @@
                     <input type="hidden" name="NodeID" value="{$node.node_id}" />
                     <input class="button new_comment" type="submit" name="NewButton" value="{'New Comment'|i18n( 'design/base' )}" />
                     </form>
-                {section-else}
+                {else}
                     <h3>{"You are not allowed to create comments."|i18n("design/base")}</h3>
-                {/section}
+                {/if}
         {/section}
         {/section}
 

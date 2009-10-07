@@ -30,9 +30,9 @@
             <input type="hidden" name="single_select_{$attribute.id}" value="1" />
             {if ne( count( $nodesList ), 0)}
             <select name="{$attribute_base}_data_object_relation_list_{$attribute.id}[]">
-                {section show=$attribute.contentclass_attribute.is_required|not}
-                    <option value="no_relation" {section show=eq( $attribute.content.relation_list|count, 0 )} selected="selected"{/section}>{'No relation'|i18n( 'design/standard/content/datatype' )}</option>
-                {/section}
+                {if $attribute.contentclass_attribute.is_required|not}
+                    <option value="no_relation" {if eq( $attribute.content.relation_list|count, 0 )} selected="selected"{/if}>{'No relation'|i18n( 'design/standard/content/datatype' )}</option>
+                {/if}
                 {section var=node loop=$nodesList}
                     <option value="{$node.contentobject_id}"
                     {if ne( count( $attribute.content.relation_list ), 0)}
@@ -53,9 +53,9 @@
 
         {case match=2} {* radio buttons list *}
             <input type="hidden" name="single_select_{$attribute.id}" value="1" />
-            {section show=$attribute.contentclass_attribute.is_required|not}
+            {if $attribute.contentclass_attribute.is_required|not}
                 <input type="radio" name="{$attribute_base}_data_object_relation_list_{$attribute.id}[]" value="no_relation"
-                {section show=eq( $attribute.content.relation_list|count, 0 )} checked="checked"{/section}>{'No relation'|i18n( 'design/standard/content/datatype' )}<br />{/section}
+                {if eq( $attribute.content.relation_list|count, 0 )} checked="checked"{/if}>{'No relation'|i18n( 'design/standard/content/datatype' )}<br />{/if}
             {section var=node loop=$nodesList}
                 <input type="radio" name="{$attribute_base}_data_object_relation_list_{$attribute.id}[]" value="{$node.contentobject_id}"
                 {if ne( count( $attribute.content.relation_list ), 0)}
@@ -137,11 +137,11 @@
             <div class="buttonblock">
             <div class="templatebasedeor">
             <ul>
-                {section show=$attribute.contentclass_attribute.is_required|not}
+                {if $attribute.contentclass_attribute.is_required|not}
 		    <li>
-                         <input value="no_relation" type="radio" name="{$attribute_base}_data_object_relation_list_{$attribute.id}[]" {section show=eq( $attribute.content.relation_list|count, 0 )} checked="checked"{/section}>{'No relation'|i18n( 'design/standard/content/datatype' )}<br />
+                         <input value="no_relation" type="radio" name="{$attribute_base}_data_object_relation_list_{$attribute.id}[]" {if eq( $attribute.content.relation_list|count, 0 )} checked="checked"{/if}>{'No relation'|i18n( 'design/standard/content/datatype' )}<br />
                     </li>
-                {/section}
+                {/if}
                 {section var=node loop=$nodesList}
                     <li>
                         <input type="radio" name="{$attribute_base}_data_object_relation_list_{$attribute.id}[]" value="{$node.contentobject_id}"
@@ -236,15 +236,15 @@
 
         {section name=Attribute loop=$:version.contentobject_attributes}
         <div class="block">
-        {section show=$:item.display_info.edit.grouped_input}
+        {if $:item.display_info.edit.grouped_input}
         <fieldset>
         <legend>{$:item.contentclass_attribute.name}</legend>
         {attribute_edit_gui attribute_base=concat( $attribute_base, '_ezorl_edit_object_', $Relation:item.contentobject_id ) html_class='half' attribute=$:item}
         </fieldset>
-        {section-else}
+        {else}
         <label>{$:item.contentclass_attribute.name}:</label>
         {attribute_edit_gui attribute_base=concat( $attribute_base, '_ezorl_edit_object_', $Relation:item.contentobject_id ) html_class='half' attribute=$:item}
-        {/section}
+        {/if}
 
         </div>
         {/section}
@@ -286,22 +286,22 @@
         <p>{'There are no related objects.'|i18n( 'design/standard/content/datatype' )}</p>
         {/section}
 
-        {section show=$attribute.content.relation_list}
+        {if $attribute.content.relation_list}
         <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_remove_objects]" value="{'Remove selected'|i18n( 'design/standard/content/datatype' )}" />&nbsp;
         <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_edit_objects]" value="{'Edit selected'|i18n( 'design/standard/content/datatype' )}" />
-        {section-else}
+        {else}
         <input class="button-disabled" type="submit" name="CustomActionButton[{$attribute.id}_remove_objects]" value="{'Remove selected'|i18n( 'design/standard/content/datatype' )}" disabled="disabled" />&nbsp;
         <input class="button-disabled" type="submit" name="CustomActionButton[{$attribute.id}_edit_objects]" value="{'Edit selected'|i18n( 'design/standard/content/datatype' )}" disabled="disabled" />
-        {/section}
+        {/if}
 
-        {section show=array( 0, 2 )|contains( $class_content.type )}
+        {if array( 0, 2 )|contains( $class_content.type )}
         <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_browse_objects]" value="{'Add objects'|i18n( 'design/standard/content/datatype' )}" />
-        {section show=$browse_object_start_node}
+        {if $browse_object_start_node}
         <input type="hidden" name="{$attribute_base}_browse_for_object_start_node[{$attribute.id}]" value="{$browse_object_start_node|wash}" />
-        {/section}
-        {section-else}
+        {/if}
+        {else}
         <input class="button-disabled" type="submit" name="CustomActionButton[{$attribute.id}_browse_objects]" value="{'Add objects'|i18n( 'design/standard/content/datatype' )}" disabled="disabled" />
-        {/section}
+        {/if}
 
         {section show=and( $can_create, array( 0, 1 )|contains( $class_content.type ) )}
         <div class="block">
@@ -310,9 +310,9 @@
         <option value="{$:item.id}">{$:item.name|wash}</option>
         {/section}
         </select>
-        {section show=$new_object_initial_node_placement}
+        {if $new_object_initial_node_placement}
         <input type="hidden" name="{$attribute_base}_object_initial_node_placement[{$attribute.id}]" value="{$new_object_initial_node_placement|wash}" />
-        {/section}
+        {/if}
 
         <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_new_class]" value="{'Create new object'|i18n( 'design/standard/content/datatype' )}" />
         </div>
@@ -364,14 +364,14 @@
         {section-else}
         <p>{'There are no related objects.'|i18n( 'design/standard/content/datatype' )}</p>
         {/section}
-        {section show=$attribute.content.relation_list}
+        {if $attribute.content.relation_list}
         <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_remove_objects]" value="{'Remove selected'|i18n( 'design/standard/content/datatype' )}" />&nbsp;
-        {section-else}
+        {else}
         <input class="button-disabled" type="submit" name="CustomActionButton[{$attribute.id}_remove_objects]" value="{'Remove selected'|i18n( 'design/standard/content/datatype' )}" disabled="disabled" />&nbsp;
-        {/section}
-        {section show=$browse_object_start_node}
+        {/if}
+        {if $browse_object_start_node}
         <input type="hidden" name="{$attribute_base}_browse_for_object_start_node[{$attribute.id}]" value="{$browse_object_start_node|wash}" />
-        {/section}
+        {/if}
         <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_browse_objects]" value="{'Add objects'|i18n( 'design/standard/content/datatype' )}" />
 
         {/section}

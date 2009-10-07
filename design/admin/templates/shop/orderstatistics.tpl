@@ -63,7 +63,7 @@
     <tr class="{$Products.sequence}">
         {if and( $Products.product, $Products.product.main_node )}
             {let node_url=$Products.product.main_node.url_alias}
-                <td class="name">{$Products.product.class_identifier|class_icon( small, $Products.product.class_name )}&nbsp;{section show=$node_url}<a href={$node_url|ezurl}>{/section}{$Products.product.name|wash}{section show=$node_url}</a>{/section}</td>
+                <td class="name">{$Products.product.class_identifier|class_icon( small, $Products.product.class_name )}&nbsp;{if $node_url}<a href={$node_url|ezurl}>{/if}{$Products.product.name|wash}{if $node_url}</a>{/if}</td>
             {/let}
         {else}
             <td class="name">{false()|class_icon( small )}&nbsp;{$Products.name|wash}</td>
@@ -128,16 +128,16 @@
 <div class="block">
 
 <select name="Year" title="{'Select the year for which you want to view statistics.'|i18n( 'design/admin/shop/orderstatistics' )}">
-    <option value="0" {section show=eq($year,0)}selected="selected"{/section}>[{'All years'|i18n( 'design/admin/shop/orderstatistics' )}]</option>
+    <option value="0" {if eq($year,0)}selected="selected"{/if}>[{'All years'|i18n( 'design/admin/shop/orderstatistics' )}]</option>
     {section var=YearValue loop=$year_list}
-        <option value="{$YearValue}" {section show=eq($YearValue,$year)}selected="selected"{/section}>{$YearValue}</option>
+        <option value="{$YearValue}" {if eq($YearValue,$year)}selected="selected"{/if}>{$YearValue}</option>
     {/section}
 </select>
 
 <select name="Month" title="{'Select the month for which you want to view statistics.'|i18n( 'design/admin/shop/orderstatistics' )}">
-    <option value="0" {section show=eq($month,0)}selected="selected"{/section}>[{'All months'|i18n( 'design/admin/shop/orderstatistics' )}]</option>
+    <option value="0" {if eq($month,0)}selected="selected"{/if}>[{'All months'|i18n( 'design/admin/shop/orderstatistics' )}]</option>
     {section var=MonthItem loop=$month_list}
-        <option value="{$MonthItem.value}" {section show=eq($MonthItem.value,$month)}selected="selected"{/section}>{$MonthItem.name|wash}</option>
+        <option value="{$MonthItem.value}" {if eq($MonthItem.value,$month)}selected="selected"{/if}>{$MonthItem.name|wash}</option>
     {/section}
 </select>
 

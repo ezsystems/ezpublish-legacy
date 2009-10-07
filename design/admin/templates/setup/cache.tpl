@@ -1,33 +1,33 @@
 {* Feedbacks. *}
-{section show=$cache_cleared.content}
+{if $cache_cleared.content}
     <div class="message-feedback">
         <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Content view cache was cleared'|i18n( 'design/admin/setup/cache' )}</h2>
     </div>
-{/section}
+{/if}
 
-{section show=$cache_cleared.all}
+{if $cache_cleared.all}
     <div class="message-feedback">
         <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'All caches were cleared'|i18n( 'design/admin/setup/cache' )}</h2>
     </div>
-{/section}
+{/if}
 
-{section show=$cache_cleared.ini}
+{if $cache_cleared.ini}
     <div class="message-feedback">
         <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Ini file cache was cleared'|i18n( 'design/admin/setup/cache' )}</h2>
     </div>
-{/section}
+{/if}
 
-{section show=$cache_cleared.template}
+{if $cache_cleared.template}
     <div class="message-feedback">
         <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Template cache was cleared'|i18n( 'design/admin/setup/cache' )}</h2>
     </div>
-{/section}
+{/if}
 
-{section show=$cache_cleared.static}
+{if $cache_cleared.static}
     <div class="message-feedback">
         <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Static content cache was regenerated'|i18n( 'design/admin/setup/cache' )}</h2>
     </div>
-{/section}
+{/if}
 
 {section show=$cache_cleared.list}
     <div class="message-feedback">
@@ -118,11 +118,11 @@
 
 {* Checkbox *}
 <tr class="{$Caches.sequence}">
-{section show=$cache_enabled.list[$Caches.item.id]}
+{if $cache_enabled.list[$Caches.item.id]}
 <td><input type="checkbox" name="CacheList[]" value="{$Caches.item.id}" title="{'Select the <%cache_name> for clearing.'|i18n( 'design/admin/setup/cache',, hash( '%cache_name', $Caches.item.name ) )|wash}" /></td>
-{section-else}
+{else}
 <td><input type="checkbox" name="CacheList[]" value="{$Caches.item.id}" disabled="disabled" title="{'The <%cache_name> is disabled and thus it cannot be marked for clearing.'|i18n( 'design/admin/setup/cache',, hash( '%cache_name', $Caches.item.name ) )|wash}" /></td>
-{/section}
+{/if}
 
 {* Name *}
 <td>{$Caches.item.name}&nbsp;</td>

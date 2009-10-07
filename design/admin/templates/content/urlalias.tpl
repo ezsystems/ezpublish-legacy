@@ -250,17 +250,17 @@
 {* Language dropdown. *}    
 <div class="block">
     <label>{"Language:"|i18n( 'design/admin/content/urlalias' )}</label>
-    {section show=$node.can_edit}
+    {if $node.can_edit}
         <select name="LanguageCode" title="{'Choose the language for the new URL alias.'|i18n( 'design/admin/content/urlalias' )}">
         {foreach $languages as $language}
                    <option value="{$language.locale}"{if $language.locale|eq($node.object.current_language)} selected="selected"{/if}>{$language.name|wash}</option>
         {/foreach}
         </select>
-    {section-else}
+    {else}
         <select name="LanguageCode" disabled="disabled">
             <option value="">{'Not available'|i18n( 'design/admin/content/urlalias')}</option>
         </select>
-    {/section}
+    {/if}
 
 </div>
 

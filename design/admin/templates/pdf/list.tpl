@@ -29,13 +29,13 @@
     {* Name. *}
     <td>{'pdfexport'|icon( 'small', 'PDF Export'|i18n( 'design/admin/pdf/list' ) )}&nbsp;
     {section show=$PDFExports.item.status|eq(1)}
-      {section show=and( is_set( $PDFExports.item.source_node ), $PDFExports.item.source_node )}
+      {if and( is_set( $PDFExports.item.source_node ), $PDFExports.item.source_node )}
            <a href={$PDFExports.item.filepath|ezroot}>
-      {/section}
+      {/if}
       {$PDFExports.item.title|wash}
-      {section show=and( is_set( $PDFExports.item.source_node ), $PDFExports.item.source_node )}
+      {if and( is_set( $PDFExports.item.source_node ), $PDFExports.item.source_node )}
           </a>
-      {/section}
+      {/if}
     {section-else show=$PDFExports.item.status|eq(2)}
       <a href={concat('pdf/edit/', $PDFExports.item.id, '/generate')|ezurl}>{$PDFExports.item.title|wash}</a>
     {/section}
@@ -65,11 +65,11 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-{section show=$pdfexport_list}
+{if $pdfexport_list}
     <input class="button" type="submit" name="RemoveExportButton" value="{'Remove selected'|i18n( 'design/admin/pdf/list' )}" title="{'Remove selected PDF exports.'|i18n( 'design/admin/pdf/list' )}" />
-{section-else}
+{else}
     <input class="button-disabled" type="submit" name="RemoveExportButton" value="{'Remove selected'|i18n( 'design/admin/pdf/list' )}" disabled="disabled" />
-{/section}
+{/if}
 
 <input class="button" type="submit" name="NewPDFExport" value="{'New PDF export'|i18n( 'design/admin/pdf/list' )}" title="{'Create a new PDF export.'|i18n( 'design/admin/pdf/list' )}" />
 </div>

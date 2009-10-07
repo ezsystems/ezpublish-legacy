@@ -12,7 +12,7 @@
   </p>
 
 
-{section show=eq( $site_access_illegal, 1 )}
+{if eq( $site_access_illegal, 1 )}
     <blockquote class="error">
         <h2>{"Warning"|i18n("design/standard/setup/init")}</h2>
         <p>
@@ -30,18 +30,18 @@
 	{/switch}
         </p>
     </blockquote>
-{/section}
+{/if}
 
-{section show=eq( $db_already_chosen, 1 )}
+{if eq( $db_already_chosen, 1 )}
     <blockquote class="error">
         <h2>{"Warning"|i18n("design/standard/setup/init")}</h2>
         <p>
             {"You have chosen the same database for two or more site templates. Please change where indicated by *"|i18n("design/standard/setup/init")}
         </p>
     </blockquote>
-{/section}
+{/if}
 
-{section show=eq( $db_not_empty, 1 )}
+{if eq( $db_not_empty, 1 )}
     <blockquote class="error">
         <h2>{"Warning"|i18n("design/standard/setup/init")}</h2>
         <p>
@@ -52,7 +52,7 @@ The setup can continue with the initialization but may damage the present data."
             {"Select what to do from the drop-down box."|i18n("design/standard/setup/init")}
         </p>
     </blockquote>
-{/section}
+{/if}
 
 {section var=site_error show=$site_type.errors|count|gt( 0 ) loop=$site_type.errors}
     <blockquote class="error">
@@ -60,19 +60,19 @@ The setup can continue with the initialization but may damage the present data."
         <p>
             {$site_error.text}
         </p>
-        {section show=$site_error.url}
+        {if $site_error.url}
             <a href="{$site_error.url.href}" target="_other">{$site_error.url.text|wash}</a>
-        {/section}
+        {/if}
     </blockquote>
 {/section}
 
 <div align="top" class="site-thumbnail">
-    {section show=eq( $site_type.site_access_illegal, 1 )}<div style="color: #ff7f00;">*</div>{/section}
-    {section show=is_set( $site_type.thumbnail )}
+    {if eq( $site_type.site_access_illegal, 1 )}<div style="color: #ff7f00;">*</div>{/if}
+    {if is_set( $site_type.thumbnail )}
         <img class="site-type" src={concat( "design/standard/images/setup/thumbnails/", $site_type.thumbnail )|ezroot}>
-        {section-else}
+        {else}
         <img class="site-type" src={"design/standard/images/setup/eZ_setup_template_default.png"|ezroot}>
-    {/section}
+    {/if}
 </div>
 
 <div align="bottom">
@@ -119,32 +119,32 @@ The setup can continue with the initialization but may damage the present data."
     </tr>
 
     <tr>
-        {if or( eq( $db_not_empty, 1 ), eq( $db_charset_differs, 1 ) )}<td class="invalid">* {else}<td>{/if}<label class="textfield">{"Database"|i18n("design/standard/setup/init")}</label>{section show=eq( $site_type.db_already_chosen, 1 )}<div style="color: #ff7f00;">*</div>{/section}: </td>
+        {if or( eq( $db_not_empty, 1 ), eq( $db_charset_differs, 1 ) )}<td class="invalid">* {else}<td>{/if}<label class="textfield">{"Database"|i18n("design/standard/setup/init")}</label>{if eq( $site_type.db_already_chosen, 1 )}<div style="color: #ff7f00;">*</div>{/if}: </td>
         <td>
         {section show=$database_available|count|gt( 0 )}
             <select name="eZSetup_site_templates_database">
             {section var=db loop=$database_available}
-                <option value="{$db.item}" {section show=$db.item|eq( $site_type.database )}selected="selected"{/section}>{$db.item|wash}</option>
+                <option value="{$db.item}" {if $db.item|eq( $site_type.database )}selected="selected"{/if}>{$db.item|wash}</option>
             {/section}
             </select>
         {section-else}
-            <input type="text" size="30" name="eZSetup_site_templates_database" value="{section show=count( $site_type.database )}{$site_type.database}{section-else}{$database_default}{/section}" />
+            <input type="text" size="30" name="eZSetup_site_templates_database" value="{if count( $site_type.database )}{$site_type.database}{else}{$database_default}{/if}" />
         {/section}
         </td>
     </tr>
-    {section show=eq( $site_type.db_not_empty, 1 )}
+    {if eq( $site_type.db_not_empty, 1 )}
         <tr>
             <td class="invalid"><label class="textfield">{"Action: "|i18n("design/standard/setup/init")}</label></td>
             <td>
             <select name="eZSetup_site_templates_existing_database">
-            <option value="1"{section show=eq($site_type.existing_database, 1)} selected="selected"{/section}>{"Leave the data and add new"|i18n("design/standard/setup/init")}</option>
-            <option value="2"{section show=eq($site_type.existing_database, 2)} selected="selected"{/section}>{"Remove existing data"|i18n("design/standard/setup/init")}</option>
-            <option value="3"{section show=eq($site_type.existing_database, 3)} selected="selected"{/section}>{"Leave the data and do nothing"|i18n("design/standard/setup/init")}</option>
-            <option value="4"{section show=ge($site_type.existing_database, 4)} selected="selected"{/section}>{"I have chosen a new database"|i18n("design/standard/setup/init")}</option>
+            <option value="1"{if eq($site_type.existing_database, 1)} selected="selected"{/if}>{"Leave the data and add new"|i18n("design/standard/setup/init")}</option>
+            <option value="2"{if eq($site_type.existing_database, 2)} selected="selected"{/if}>{"Remove existing data"|i18n("design/standard/setup/init")}</option>
+            <option value="3"{if eq($site_type.existing_database, 3)} selected="selected"{/if}>{"Leave the data and do nothing"|i18n("design/standard/setup/init")}</option>
+            <option value="4"{if ge($site_type.existing_database, 4)} selected="selected"{/if}>{"I have chosen a new database"|i18n("design/standard/setup/init")}</option>
             </select>
             </td>
        </tr>
-   {/section}
+   {/if}
    </table>
    </fieldset>
 </div>

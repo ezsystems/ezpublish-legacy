@@ -14,11 +14,11 @@
 
 <div class="message-confirmation">
 
-{section show=$confirm_list|count|eq( 1 )}
+{if $confirm_list|count|eq( 1 )}
 <h2>{'Are you sure you want to remove the language?'|i18n( 'design/admin/content/confirmtranslationremove' )}</h2>
-{section-else}
+{else}
 <h2>{'Are you sure you want to remove the languages?'|i18n( 'design/admin/content/confirmtranslationremove' )}</h2>
-{/section}
+{/if}
 
 <ul>
 {section var=Translations loop=$confirm_list}

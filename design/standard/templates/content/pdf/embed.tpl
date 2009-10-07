@@ -3,24 +3,24 @@
          border_size=0
          image_variation="false"
          align="center"}
-{section show=$object.class_name|eq( 'Image' )}
-         {section show=is_set($attribute_parameters.size)}
+{if $object.class_name|eq( 'Image' )}
+         {if is_set($attribute_parameters.size)}
                 {set image_variation=$object.data_map.image.content[$attribute_parameters.size]}
-         {section-else}
+         {else}
                 {set image_variation=$object.data_map.image.content[ezini( 'ImageSettings', 'DefaultEmbedAlias', 'content.ini' )]}
-         {/section}
-         {section show=is_set($attribute_parameters.align)}
+         {/if}
+         {if is_set($attribute_parameters.align)}
                 {set align=$attribute_parameters.align}
-         {section-else}
+         {else}
                 {set align="center"}
-         {/section}
+         {/if}
          {pdf(image,hash(src,$image_variation.full_path,
                          width,$image_variation.width,
                          height,$image_variation.height,
                          border,$border_size,
                          align,$align))}
-{section-else}
+{else}
    {pdf(link, hash( url, concat('content/view/full/',$object.main_node_id)|ezurl(no),
                     text, $object.name|wash(pdf) ) ) }
-{/section}
+{/if}
 {/default}

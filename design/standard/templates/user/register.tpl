@@ -5,11 +5,11 @@
 <h1>{"Register user"|i18n("design/standard/user")}</h1>
 </div>
 
-{section show=and( and( is_set( $checkErrNodeId ), $checkErrNodeId ), eq( $checkErrNodeId, true ) )}
+{if and( and( is_set( $checkErrNodeId ), $checkErrNodeId ), eq( $checkErrNodeId, true ) )}
     <div class="message-error">
         <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {$errMsg}</h2>
     </div>
-{/section}
+{/if}
 
 {section show=$validation.processed}
 
@@ -42,11 +42,11 @@
     </div>
 
     <div class="buttonblock">
-    {section show=and( is_set( $checkErrNodeId ), $checkErrNodeId )|not()}
+    {if and( is_set( $checkErrNodeId ), $checkErrNodeId )|not()}
         <input class="button" type="submit" name="PublishButton" value="{'Register'|i18n('design/standard/user')}" />
-    {section-else}
+    {else}
         <input class="button" type="submit" name="PublishButton" disabled="disabled" value="{'Register'|i18n('design/standard/user')}" />
-    {/section}
+    {/if}
         <input class="button" type="submit" name="CancelButton" value="{'Discard'|i18n('design/standard/user')}" />
     </div>
 {section-else}

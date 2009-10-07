@@ -61,7 +61,7 @@
     <td class="number" align="right"><a href={concat( '/infocollector/view/', $Collections.item.id )|ezurl}>{$Collections.item.id}</a></td>
     <td>{$Collections.item.created|l10n( shortdatetime )}</td>
     <td>{$Collections.item.modified|l10n( shortdatetime )}</td>
-    <td>{section show=$Collections.item.creator} {$Collections.item.creator.contentobject.name|wash} {section-else} {'Unknown user'|i18n( 'design/admin/infocollector/collectionlist' )} {/section}</td>
+    <td>{if $Collections.item.creator} {$Collections.item.creator.contentobject.name|wash} {else} {'Unknown user'|i18n( 'design/admin/infocollector/collectionlist' )} {/if}</td>
 </tr>
 {/section}
 </table>
@@ -87,11 +87,11 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-{section show=$collection_array}
+{if $collection_array}
 <input class="button" type="submit" name="RemoveCollectionsButton" value="{'Remove selected'|i18n( 'design/admin/infocollector/collectionlist' )}" title="{'Remove selected collection.'|i18n( 'design/admin/infocollector/collectionlist' )}" />
-{section-else}
+{else}
 <input class="button-disabled" type="submit" name="RemoveCollectionsButton" value="{'Remove selected'|i18n( 'design/admin/infocollector/collectionlist' )}" disabled="disabled" />
-{/section}
+{/if}
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>

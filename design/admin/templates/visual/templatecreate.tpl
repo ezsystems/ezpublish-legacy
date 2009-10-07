@@ -1,14 +1,14 @@
-{section show=eq( $error, 'permission_denied' )}
+{if eq( $error, 'permission_denied' )}
 <div class="message-error">
 <h2>{'Could not create template, permission denied.'|i18n( 'design/admin/visual/templatecreate' )}</h2>
 </div>
-{/section}
+{/if}
 
-{section show=eq( $error, 'invalid_name' )}
+{if eq( $error, 'invalid_name' )}
 <div class="message-error">
 <h2>{'Invalid name. You can only use the characters a-z, numbers and _.'|i18n( 'design/admin/visual/templatecreate' )}</h2>
 </div>
-{/section}
+{/if}
 
 <form method="post" action={concat( '/visual/templatecreate', $template )|ezurl}>
 
@@ -67,7 +67,7 @@
         <option value="-1">{'All classes'|i18n( 'design/admin/visual/templatecreate' )}</option>
         {section name=Class loop=fetch('content', 'can_instantiate_class_list')}
             {let contentClass = fetch( content, class, hash( class_id, $Class:item.id ) )}
-                <option value="{$Class:contentClass.identifier}" {section show=eq($Class:contentClass.id, $override_keys['classID'])}selected{/section}>{$Class:item.name|wash}</option>
+                <option value="{$Class:contentClass.identifier}" {if eq($Class:contentClass.id, $override_keys['classID'])}selected{/if}>{$Class:item.name|wash}</option>
             {/let}
         {/section}
     </select>

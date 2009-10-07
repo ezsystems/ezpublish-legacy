@@ -7,11 +7,11 @@
                                                                array( concat( $item.content.content_object_id ) ) ) )}
 {switch match=$item.data_int3}
 {case match=0}
-    {section show=$item.is_creator}
+    {if $item.is_creator}
         {set item_text="%1 awaits approval by editor"|i18n('design/admin/collaboration/handler/view/line/ezapprove',,array(concat("<i>",$object_name|wash,"</i>")))}
-    {section-else}
+    {else}
         {set item_text="%1 awaits your approval"|i18n('design/admin/collaboration/handler/view/line/ezapprove',,array(concat("<i>",$object_name|wash,"</i>")))}
-    {/section}
+    {/if}
 {/case}
 {case match=1}
     {set item_text="%1 was approved for publishing"|i18n('design/admin/collaboration/handler/view/line/ezapprove',,array(concat("<i>",$object_name|wash,"</i>")))}

@@ -3,12 +3,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{$site.http_equiv.Content-language|wash}" lang="{$site.http_equiv.Content-language|wash}">
 
 <head>
-<title>{$site.title}{section show=$site.page_title|wash} - {$site.page_title|wash}{/section}</title>
+<title>{$site.title}{if $site.page_title|wash} - {$site.page_title|wash}{/if}</title>
 
 {* check if we need a http-equiv refresh *}
-{section show=$site.redirect}
+{if $site.redirect}
 <meta http-equiv="Refresh" content="{$site.redirect.timer}; URL={$site.redirect.location}" />
-{/section}
+{/if}
 {section name=HTTP loop=$site.http_equiv}
 <meta http-equiv="{$HTTP:key}" content="{$HTTP:item}" />
 
@@ -42,7 +42,7 @@
      <h1><font color="white">eZ Publish 4<sup>TM</sup></font></h1>
      </td>
      <td width="70%" bgcolor="#4987bc">
-     {section show=$access_type}<h1><font color="white">({$access_type.name})</font></h1>{/section}
+     {if $access_type}<h1><font color="white">({$access_type.name})</font></h1>{/if}
      </td>
   </tr>
   </table>

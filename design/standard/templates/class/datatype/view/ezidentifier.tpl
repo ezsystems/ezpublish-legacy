@@ -3,21 +3,21 @@
     <div class="element">
         <label>{'Pretext'|i18n( 'design/standard/class/datatype' )}:</label>
         <p>
-            {section show=$class_attribute.data_text1}
+            {if $class_attribute.data_text1}
                 {$class_attribute.data_text1|wash}
-            {section-else}
+            {else}
                 <i>{'Empty'|i18n( 'design/standard/class/datatype' )}</i>
-            {/section}
+            {/if}
         </p>
     </div>
 
     <div class="element">
         <label>{'Posttext'|i18n( 'design/standard/class/datatype' )}:</label>
-        <p>{section show=$class_attribute.data_text2}
+        <p>{if $class_attribute.data_text2}
                {$class_attribute.data_text2|wash}
-           {section-else}
+           {else}
                <i>{'Empty'|i18n( 'design/standard/class/datatype' )}</i>
-           {/section}
+           {/if}
         </p>
     </div>
 
@@ -37,9 +37,9 @@
 
 <div class="block">
     <label>{'Current value'|i18n( 'design/standard/class/datatype' )}:</label>
-    {section show=$class_attribute.data_int2|sub( $class_attribute.data_int3|count )}
+    {if $class_attribute.data_int2|sub( $class_attribute.data_int3|count )}
         <p>{$class_attribute.data_text1|wash}{$class_attribute.data_int3|indent( $class_attribute.data_int2|sub( $class_attribute.data_int3|count ), 'custom', '0' )}{$class_attribute.data_text2|wash}</p>
-    {section-else}
+    {else}
         <p>{$class_attribute.data_text1|wash}{$class_attribute.data_int3}{$class_attribute.data_text2|wash}</p>
-    {/section}
+    {/if}
 </div>

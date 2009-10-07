@@ -16,7 +16,7 @@
 <div class="context-block">
 
 <form name="registerform" method="post" action={'/user/register/'|ezurl} enctype="multipart/form-data">
-{section show=count($content_attributes)|gt(0)}
+{if count($content_attributes)|gt(0)}
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
 <h1 class="context-title">{'Register new user'|i18n( 'design/admin/user/register' )}</h1>
@@ -44,7 +44,7 @@
 
 <input type="hidden" name="" value="" />
 
-{section-else}
+{else}
 {* Warning *}
 <div class="message-warning">
 <h2>{'Unable to register new user'|i18n( 'design/admin/user/register' )}</h2>
@@ -56,7 +56,7 @@
     </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
-{/section}
+{/if}
 
 </form>
 

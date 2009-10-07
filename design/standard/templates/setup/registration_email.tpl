@@ -16,10 +16,10 @@ Site info:
 {*  Functionality - {$site_type.extra_functionality|implode( ', ' )*}
 
 
-{section show=$webserver}
+{if $webserver}
 Web server info:
 Version - {$webserver.version}
-{/section}
+{/if}
 
 
 PHP info:
@@ -28,12 +28,12 @@ Version - {$phpversion.found}
 OS info
 Name - {$os.name}
 
-{section show=$system.is_valid}
+{if $system.is_valid}
 CPU Type - {$system.cpu_type}
 CPU Speed - {$system.cpu_speed} {$system.cpu_unit}
 Memory Size - {$system.memory_size} ({$system.memory_size|si( byte )})
 
-{/section}
+{/if}
 
 Database info:
 Type - {$database_info.info.name}
@@ -41,21 +41,21 @@ Driver - {$database_info.info.driver}
 
 
 Email info:
-Transport - {section show=eq($email_info.type,1)}sendmail{section-else}SMTP{/section}
+Transport - {if eq($email_info.type,1)}sendmail{else}SMTP{/if}
 
 
 Image conversion:
 
-{section show=$imagemagick_program.result}
+{if $imagemagick_program.result}
 ImageMagick was found and used.
 Path - {$imagemagick_program.path}
 Executable - {$imagemagick_program.program}
-{/section}
+{/if}
 
 
-{section show=$imagegd_extension.result}
+{if $imagegd_extension.result}
 ImageGD extension was found and used.
-{/section}
+{/if}
 
 
 Regional info:
@@ -70,7 +70,7 @@ Critical tests
 
 {section name=Critical loop=$tests_run}
 
-{$:key} - {section show=$:item}Success{section-else}Failure{/section}
+{$:key} - {if $:item}Success{else}Failure{/if}
 
 {/section}
 
@@ -79,6 +79,6 @@ Other tests:
 
 {section name=Other loop=$optional_tests}
 
-{$:item[1]} - {section show=eq($:item[0],1)}Success{section-else}Failure{/section}
+{$:item[1]} - {if eq($:item[0],1)}Success{else}Failure{/if}
 
 {/section}

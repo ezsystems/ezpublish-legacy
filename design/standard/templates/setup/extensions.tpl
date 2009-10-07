@@ -19,9 +19,9 @@
 <form method="post" action={"/setup/extensions"|ezurl}>
 {section name=Extensions loop=$available_extension_array}
 <input type="checkbox" name="ActiveExtensionList[]" value="{$:item}"
-{section show=$selected_extension_array|contains($Extensions:item)}
+{if $selected_extension_array|contains($Extensions:item)}
  checked
-{/section}
+{/if}
  />{$:item}<br />
 {/section}
 <br />

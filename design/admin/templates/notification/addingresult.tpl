@@ -9,11 +9,11 @@
 <div class="block">
 
 {let node=fetch( content, node, hash( node_id, $node_id) )}
-{section show=$already_exists}
+{if $already_exists}
 <p>{'Notification for node <%node_name> already exists.'|i18n( 'design/admin/notification/addingresult',, hash( '%node_name', $node.name ) )|wash}</p>
-{section-else}
+{else}
 <p>{'Notification for node <%node_name> was added successfully.'|i18n( 'design/admin/notification/addingresult',, hash( '%node_name', $node.name ) )|wash}</p>
-{/section}
+{/if}
 {/let}
 </div>
 

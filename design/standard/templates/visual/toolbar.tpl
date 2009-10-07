@@ -25,11 +25,11 @@
 <tr>
     <td></td>
     <td>
-    {section show=eq($toolbar_position,right)}
+    {if eq($toolbar_position,right)}
         <img src={concat( "toolbar/", $Tool.name|wash, ".png" )|ezimage} alt="{$Tool.name|wash}" />
-    {section-else}
+    {else}
         <img src={concat( "toolbar/", $Tool.name|wash, "_line.png" )|ezimage} alt="{$Tool.name|wash}" />
-    {/section}
+    {/if}
     <br /> <!-- Break before list of parameters -->
         <table>
         {section var=Parameter loop=$Tool.parameters}
@@ -47,11 +47,11 @@
                                 0 )}
             {case match=1}
                 {let used_node=fetch( content, node, hash( node_id, $Parameter.value ) )}
-                {section show=$used_node}
+                {if $used_node}
                     {$used_node.object.content_class.identifier|class_icon( small, $used_node.object.content_class.name|wash )}&nbsp;{$used_node.name|wash} ({$Parameter.value})
-                {section-else}
+                {else}
                     {$Parameter.value|wash}
-                {/section}
+                {/if}
                 {/let}
                 <input type="submit" name="BrowseButton[{$Tool.index}_parameter_{$Parameter.name|wash}]" value="{'Browse'|i18n( 'design/standard/visual/toolbar' )}" />
                 <input type="hidden" name="{$Tool.index}_parameter_{$Parameter.name|wash}" size="20" value="{$Parameter.value|wash}">
@@ -60,7 +60,7 @@
                 {let class_list=fetch( class, list )}
                 <select name="{$Tool.index}_parameter_{$Parameter.name|wash}">
                 {section var=class loop=$class_list}
-                    <option value="{$class.identifier|wash}" {section show=eq( $class.identifier, $Parameter.value )}selected="selected"{/section}>{$class.name|wash}</option>
+                    <option value="{$class.identifier|wash}" {if eq( $class.identifier, $Parameter.value )}selected="selected"{/if}>{$class.name|wash}</option>
                 {/section}
                 </select>
                 {/let}
@@ -69,34 +69,34 @@
                 {let class_list=fetch( class, list ) match_list=$Parameter.value|explode( ',' )}
                 <select multiple="multiple" name="CustomInputList[{$Tool.index}_parameter_{$Parameter.name|wash}][]">
                 {section var=class loop=$class_list}
-                    <option value="{$class.identifier|wash}" {section show=$match_list|contains( $class.identifier )}selected="selected"{/section}>{$class.name|wash}</option>
+                    <option value="{$class.identifier|wash}" {if $match_list|contains( $class.identifier )}selected="selected"{/if}>{$class.name|wash}</option>
                 {/section}
                 </select>
                 {/let}
             {/case}
             {case match=4}
                 {let used_node=fetch( content, node, hash( node_id, $Parameter.value ) )}
-                {section show=$used_node}
+                {if $used_node}
                     {$used_node.object.content_class.identifier|class_icon( small, $used_node.object.content_class.name|wash )}&nbsp;{$used_node.object.name|wash} ({$Parameter.value})
-                {section-else}
+                {else}
                     {$Parameter.value|wash}
-                {/section}
+                {/if}
                 {/let}
                 <input type="submit" name="BrowseButton[{$Tool.index}_parameter_{$Parameter.name|wash}]" value="{'Browse'|i18n( 'design/standard/visual/toolbar' )}" />
                 <input type="hidden" name="{$Tool.index}_parameter_{$Parameter.name|wash}" size="20" value="{$Parameter.value|wash}" />
             {/case}
             {case match=5}
-                {section show=array( 'true', 'false' )|contains( $Parameter.value )}
-                    <label for="{$Tool.index}_parameter_{$Parameter.name|wash}_true"><input type="radio" name="{$Tool.index}_parameter_{$Parameter.name|wash}" id="{$Tool.index}_parameter_{$Parameter.name|wash}_true" value="true" {section show=$Parameter.value|ne( 'false' )}checked="checked"{/section} />{'True'|i18n( 'design/standard/visual/toolbar' )}</label>
-                    <label for="{$Tool.index}_parameter_{$Parameter.name|wash}_false"><input type="radio" name="{$Tool.index}_parameter_{$Parameter.name|wash}" id="{$Tool.index}_parameter_{$Parameter.name|wash}_false" value="false" {section show=$Parameter.value|eq( 'false' )}checked="checked"{/section} />{'False'|i18n( 'design/standard/visual/toolbar' )}</label>
-                {section-else}
-                  {section show=array( 'yes', 'no' )|contains( $Parameter.value )}
-                      <label for="{$Tool.index}_parameter_{$Parameter.name|wash}_true"><input type="radio" name="{$Tool.index}_parameter_{$Parameter.name|wash}" id="{$Tool.index}_parameter_{$Parameter.name|wash}_true" value="yes" {section show=$Parameter.value|ne( 'no' )}checked="checked"{/section} />{'Yes'|i18n( 'design/standard/visual/toolbar' )}</label>
-                      <label for="{$Tool.index}_parameter_{$Parameter.name|wash}_false"><input type="radio" name="{$Tool.index}_parameter_{$Parameter.name|wash}" id="{$Tool.index}_parameter_{$Parameter.name|wash}_false" value="no" {section show=$Parameter.value|eq( 'no' )}checked="checked"{/section} />{'No'|i18n( 'design/standard/visual/toolbar' )}</label>
-                  {section-else}
+                {if array( 'true', 'false' )|contains( $Parameter.value )}
+                    <label for="{$Tool.index}_parameter_{$Parameter.name|wash}_true"><input type="radio" name="{$Tool.index}_parameter_{$Parameter.name|wash}" id="{$Tool.index}_parameter_{$Parameter.name|wash}_true" value="true" {if $Parameter.value|ne( 'false' )}checked="checked"{/if} />{'True'|i18n( 'design/standard/visual/toolbar' )}</label>
+                    <label for="{$Tool.index}_parameter_{$Parameter.name|wash}_false"><input type="radio" name="{$Tool.index}_parameter_{$Parameter.name|wash}" id="{$Tool.index}_parameter_{$Parameter.name|wash}_false" value="false" {if $Parameter.value|eq( 'false' )}checked="checked"{/if} />{'False'|i18n( 'design/standard/visual/toolbar' )}</label>
+                {else}
+                  {if array( 'yes', 'no' )|contains( $Parameter.value )}
+                      <label for="{$Tool.index}_parameter_{$Parameter.name|wash}_true"><input type="radio" name="{$Tool.index}_parameter_{$Parameter.name|wash}" id="{$Tool.index}_parameter_{$Parameter.name|wash}_true" value="yes" {if $Parameter.value|ne( 'no' )}checked="checked"{/if} />{'Yes'|i18n( 'design/standard/visual/toolbar' )}</label>
+                      <label for="{$Tool.index}_parameter_{$Parameter.name|wash}_false"><input type="radio" name="{$Tool.index}_parameter_{$Parameter.name|wash}" id="{$Tool.index}_parameter_{$Parameter.name|wash}_false" value="no" {if $Parameter.value|eq( 'no' )}checked="checked"{/if} />{'No'|i18n( 'design/standard/visual/toolbar' )}</label>
+                  {else}
                       <input type="text" name="{$Tool.index}_parameter_{$Parameter.name|wash}" size="20" value="{$Parameter.value|wash}" />
-                  {/section}
-                {/section}
+                  {/if}
+                {/if}
             {/case}
             {case}
                 <input type="text" name="{$Tool.index}_parameter_{$Parameter.name|wash}" size="20" value="{$Parameter.value|wash}" />

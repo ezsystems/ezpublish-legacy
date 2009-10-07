@@ -2,16 +2,16 @@
 {*?template charset=latin1?*}
 {include uri='design:setup/setup_header.tpl' setup=$setup}
 
-{section show=and($email_info.sent,$email_info.result|not)}
+{if and($email_info.sent,$email_info.result|not)}
 <div class="error">
 <p>
   <h2>{"Sending email failed"|i18n("design/standard/setup/init")}</h2>
   <ul>
-    <li>{"Failed to send the registration email using"|i18n("design/standard/setup/init")} {section show=eq($email_info.type,1)}{"sendmail"|i18n("design/standard/setup/init")}{section-else}{"SMTP"|i18n("design/standard/setup/init")}{/section}.</li>
+    <li>{"Failed to send the registration email using"|i18n("design/standard/setup/init")} {if eq($email_info.type,1)}{"sendmail"|i18n("design/standard/setup/init")}{else}{"SMTP"|i18n("design/standard/setup/init")}{/if}.</li>
   </ul>
 </p>
 </div>
-{/section}
+{/if}
 
 <h2>{"Congratulations, eZ Publish should now run on your system."|i18n("design/standard/setup/init")}</h2>
 <p>

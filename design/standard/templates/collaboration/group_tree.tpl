@@ -13,7 +13,7 @@
 {let group_item_count=$:item.item_count}
   <td class="{$:sequence}">
     <p><nobr><img src={"1x1.gif"|ezimage} width="{mul(sub($:item.depth,$current_depth),$summary_indentation)}" height="1" alt="" border="0" />
-    <a href={concat("collaboration/group/list/",$:item.id)|ezurl}>{$:item.title|wash}</a>{section show=$:group_item_count|gt(0)} <b>({$:group_item_count})</b>{/section}</nobr></p>
+    <a href={concat("collaboration/group/list/",$:item.id)|ezurl}>{$:item.title|wash}</a>{if $:group_item_count|gt(0)} <b>({$:group_item_count})</b>{/if}</nobr></p>
   </td>
 {/let}
 </tr>

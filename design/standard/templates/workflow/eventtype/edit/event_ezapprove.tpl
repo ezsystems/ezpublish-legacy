@@ -4,9 +4,9 @@
 <div class="element">
     <label>{'Affected sections'|i18n( 'design/admin/workflow/eventtype/edit' )}:</label>
     <select name="WorkflowEvent_event_ezapprove_section_{$event.id}[]" size="5" multiple="multiple">
-    <option value="-1"{section show=$event.selected_sections|contains( -1 )} selected="selected"{/section}>{'All sections'|i18n( 'design/admin/workflow/eventtype/edit' )}</option>
+    <option value="-1"{if $event.selected_sections|contains( -1 )} selected="selected"{/if}>{'All sections'|i18n( 'design/admin/workflow/eventtype/edit' )}</option>
     {section var=Sections loop=$event.workflow_type.sections}
-    <option value="{$Sections.item.value}"{section show=$event.selected_sections|contains( $Sections.item.value )} selected="selected"{/section}>{$Sections.item.name|wash}</option>
+    <option value="{$Sections.item.value}"{if $event.selected_sections|contains( $Sections.item.value )} selected="selected"{/if}>{$Sections.item.name|wash}</option>
     {/section}
     </select>
 </div>
@@ -15,9 +15,9 @@
 <div class="element">
     <label>{'Affected languages'|i18n( 'design/standard/workflow/eventtype/edit' )}:</label>
     <select name="WorkflowEvent_event_ezapprove_language_{$event.id}[]" size="5" multiple="multiple">
-    <option value="-1"{section show=eq( count( $event.language_list ), 0 )} selected="selected"{/section}>{'All languages'|i18n( 'design/standard/workflow/eventtype/edit' )}</option>
+    <option value="-1"{if eq( count( $event.language_list ), 0 )} selected="selected"{/if}>{'All languages'|i18n( 'design/standard/workflow/eventtype/edit' )}</option>
     {section var=Language loop=$event.workflow_type.languages}
-    <option value="{$Language.item.id}"{section show=is_set( $event.language_list[$Language.item.id] )} selected="selected"{/section}>{$Language.item.name|wash}</option>
+    <option value="{$Language.item.id}"{if is_set( $event.language_list[$Language.item.id] )} selected="selected"{/if}>{$Language.item.name|wash}</option>
     {/section}
     </select>
 </div>
@@ -45,9 +45,9 @@
 {/section}
 
 <input class="button" type="submit" name="CustomActionButton[{$event.id}_RemoveApproveUsers]" value="{'Remove selected'|i18n( 'design/admin/workflow/eventtype/edit' )}"
-       {section show=$event.approve_users|not}disabled="disabled"{/section} />
+       {if $event.approve_users|not}disabled="disabled"{/if} />
 <input class="button" type="submit" name="CustomActionButton[{$event.id}_AddApproveUsers]" value="{'Add users'|i18n( 'design/admin/workflow/eventtype/edit' )}"
-       {section show=$event.approve_users}disabled="disabled"{/section} />
+       {if $event.approve_users}disabled="disabled"{/if} />
 
 </fieldset>
 </div>
@@ -75,9 +75,9 @@
 {/section}
 
 <input class="button" type="submit" name="CustomActionButton[{$event.id}_RemoveApproveGroups]" value="{'Remove selected'|i18n( 'design/admin/workflow/eventtype/edit' )}"
-       {section show=$event.approve_groups|not}disabled="disabled"{/section} />
+       {if $event.approve_groups|not}disabled="disabled"{/if} />
 <input class="button" type="submit" name="CustomActionButton[{$event.id}_AddApproveGroups]" value="{'Add groups'|i18n( 'design/admin/workflow/eventtype/edit' )}"
-       {section show=$event.approve_groups}disabled="disabled"{/section} />
+       {if $event.approve_groups}disabled="disabled"{/if} />
 
 </fieldset>
 </div>
@@ -105,7 +105,7 @@
 {/section}
 
 <input class="button" type="submit" name="CustomActionButton[{$event.id}_RemoveExcludeUser]" value="{'Remove selected'|i18n( 'design/admin/workflow/eventtype/edit' )}"
-       {section show=$event.selected_usergroups|not}disabled="disabled"{/section} />
+       {if $event.selected_usergroups|not}disabled="disabled"{/if} />
 <input class="button" type="submit" name="CustomActionButton[{$event.id}_AddExcludeUser]" value="{'Add groups'|i18n( 'design/admin/workflow/eventtype/edit' )}" />
 
 </fieldset>

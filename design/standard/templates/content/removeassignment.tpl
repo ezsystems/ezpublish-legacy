@@ -14,7 +14,7 @@ If you do all the children will be removed as well.'|i18n( 'design/standard/loca
 {section var=remove_item loop=$remove_list sequence=array( bglight, bgdark )}
 <tr class="{$remove_item.sequence}">
     <td>{$remove_item.node.object.class_identifier|class_icon( small, $remove_item.node.object.class_name )}{section var=path_node loop=$remove_item.node.path}{$path_node.name|wash}{delimiter} / {/delimiter}{/section}</td>
-    <td>{section show=$remove_item.count|eq( 1 )}{$remove_item.count} child{section-else}{$remove_item.count} children{/section}</td>
+    <td>{if $remove_item.count|eq( 1 )}{$remove_item.count} child{else}{$remove_item.count} children{/if}</td>
 </tr>
 {/section}
 </table>

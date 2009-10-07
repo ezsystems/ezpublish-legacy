@@ -5,16 +5,16 @@
   <h1>{"Database initialization"|i18n("design/standard/setup/init")}</h1>
 </div>
 
-{section show=$db_error}
+{if $db_error}
   <blockquote class="error">
   <p>
       {$db_error.text}
   </p>
-  {section show=$db_error.url}
+  {if $db_error.url}
       <a href="{$db_error.url.href}" target="_other">{$db_error.url.text|wash}</a>
-  {/section}
+  {/if}
   </blockquote>
-{/section}
+{/if}
 
 <p>
 {"Please input database access information in the form below."|i18n("design/standard/setup/init")}
@@ -22,7 +22,7 @@
 
 <form method="post" action="{$script}">
 
-{section show=eq( $db_not_empty, 1 )}
+{if eq( $db_not_empty, 1 )}
 <h2>{"Warning"|i18n("design/standard/setup/init")}</h2>
 <p>
  {"Your database already contains data."|i18n("design/standard/setup/init")}
@@ -80,7 +80,7 @@
 </tr>
 </table>
 </fieldset>
-{/section}
+{/if}
 
 <fieldset>
 <legend>{'Database'|i18n( 'design/standard/setup/init' )}:</legend>
@@ -112,12 +112,12 @@
   <td class="normal"><label class="textfield">{"Password"|i18n("design/standard/setup/init")}:</label></td>
   <td class="normal"><input type="password" name="eZSetupDatabasePassword" size="16" value="{$database_info.password|wash}" /></td>
 </tr>
-{section show=or(eq($database_info.info.driver,'ezmysql'), eq($database_info.info.driver,'ezmysqli'))}
+{if or(eq($database_info.info.driver,'ezmysql'), eq($database_info.info.driver,'ezmysqli'))}
 <tr>
   <td class="normal"><label class="textfield">{"Socket (optional)"|i18n("design/standard/setup/init")}:</label></td>
   <td class="normal"><input type="text" name="eZSetupDatabaseSocket" size="16" value="{$database_info.socket|wash}" /></td>
 </tr>
-{/section}
+{/if}
 </table>
 </fieldset>
   {include uri='design:setup/init/navigation.tpl'}

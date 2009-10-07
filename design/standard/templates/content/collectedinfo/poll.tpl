@@ -3,38 +3,38 @@
 
 <h1>{'Poll results'|i18n( 'design/standard/content/poll' )}</h1>
 
-{section show=$error}
+{if $error}
 
-{section show=$error_anonymous_user}
+{if $error_anonymous_user}
 <div class="warning">
     <p>{'Anonymous users are not allowed to vote in this poll. Please log in.'|i18n('design/standard/content/poll')}</p>
 </div>
-{/section}
+{/if}
 
-{section show=$error_existing_data}
+{if $error_existing_data}
 <div class="warning">
     <p>{'You have already voted in this poll.'|i18n('design/standard/content/poll')}</p>
 </div>
-{/section}
+{/if}
 
-{/section}
+{/if}
 
 <h2>{$node.name|wash}</h2>
 
 {section loop=$object.contentobject_attributes}
-    {section show=$:item.contentclass_attribute.is_information_collector}
+    {if $:item.contentclass_attribute.is_information_collector}
 
         <h3>{$:item.contentclass_attribute.name}</h3>
         {attribute_result_gui view=count attribute=$:item}
 
-    {section-else}
+    {else}
 
-        {section show=$attribute_hide_list|contains($:item.contentclass_attribute.identifier)|not}
+        {if $attribute_hide_list|contains($:item.contentclass_attribute.identifier)|not}
             <h3>{$:item.contentclass_attribute.name}</h3>
             {attribute_view_gui attribute=$:item}
-        {/section}
+        {/if}
 
-    {/section}
+    {/if}
 
 {/section}
 

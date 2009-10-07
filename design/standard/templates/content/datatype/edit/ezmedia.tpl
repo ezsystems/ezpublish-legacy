@@ -19,7 +19,7 @@
 {* Current file. *}
 <div class="block">
 <label>{'Current file'|i18n( 'design/standard/content/datatype' )}:</label>
-{section show=$attribute.content.filename}
+{if $attribute.content.filename}
 <table class="list" cellspacing="0">
 <tr>
     <th>{'Filename'|i18n( 'design/standard/content/datatype' )}</th>
@@ -32,17 +32,17 @@
     <td>{$attribute.content.filesize|si( byte )}</td>
 </tr>
 </table>
-{section-else}
+{else}
 <p>{'There is no file.'|i18n( 'design/standard/content/datatype' )}</p>
-{/section}
+{/if}
 </div>
 
 {* Remove button. *}
-{section show=$attribute.content.filename}
+{if $attribute.content.filename}
     <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_delete_media]" value="{'Remove'|i18n('design/standard/content/datatype')}" title="{'Remove the file from this draft.'|i18n( 'design/standard/content/datatype' )}" />
-{section-else}
+{else}
     <input class="button-disabled" type="submit" name="CustomActionButton[{$attribute.id}_delete_media]" value="{'Remove'|i18n('design/standard/content/datatype')}" disabled="disabled" />
-{/section}
+{/if}
 
 
 
@@ -127,12 +127,12 @@
 
 <div class="element">
     <label>{'Autoplay'|i18n( 'design/standard/content/datatype' )}:</label>
-    <input type="checkbox" name="{$attribute_base}_data_media_is_autoplay_{$attribute.id}" value="1" {section show=$attribute.content.is_autoplay}checked="checked"{/section} />
+    <input type="checkbox" name="{$attribute_base}_data_media_is_autoplay_{$attribute.id}" value="1" {if $attribute.content.is_autoplay}checked="checked"{/if} />
 </div>
 
 <div class="element">
     <label>{'Loop'|i18n( 'design/standard/content/datatype' )}:</label>
-    <input type="checkbox" name="{$attribute_base}_data_media_is_loop_{$attribute.id}" value="1" {section show=$attribute.content.is_loop}checked="checked"{/section} />
+    <input type="checkbox" name="{$attribute_base}_data_media_is_loop_{$attribute.id}" value="1" {if $attribute.content.is_loop}checked="checked"{/if} />
 </div>
 
 <div class="break"></div>
@@ -165,17 +165,17 @@
 
 <div class="element">
     <label>{'Controller'|i18n( 'design/standard/content/datatype' )}:</label>
-    <input type="checkbox" name="{$attribute_base}_data_media_has_controller_{$attribute.id}" value="1" {section show=$attribute.content.has_controller}checked="checked"{/section} />
+    <input type="checkbox" name="{$attribute_base}_data_media_has_controller_{$attribute.id}" value="1" {if $attribute.content.has_controller}checked="checked"{/if} />
 </div>
 
 <div class="element">
     <label>{'Autoplay'|i18n( 'design/standard/content/datatype' )}:</label>
-    <input type="checkbox" name="{$attribute_base}_data_media_is_autoplay_{$attribute.id}" value="1" {section show=$attribute.content.is_autoplay}checked="checked"{/section} />
+    <input type="checkbox" name="{$attribute_base}_data_media_is_autoplay_{$attribute.id}" value="1" {if $attribute.content.is_autoplay}checked="checked"{/if} />
 </div>
 
 <div class="element">
     <label>{'Loop'|i18n( 'design/standard/content/datatype' )}:</label>
-    <input type="checkbox" name="{$attribute_base}_data_media_is_loop_{$attribute.id}" value="1" {section show=$attribute.content.is_loop}checked="checked"{/section} />
+    <input type="checkbox" name="{$attribute_base}_data_media_is_loop_{$attribute.id}" value="1" {if $attribute.content.is_loop}checked="checked"{/if} />
 </div>
 
 <div class="break"></div>
@@ -263,7 +263,7 @@
 
 <div class="element">
     <label>{'Autoplay'|i18n( 'design/standard/content/datatype' )}:</label>
-    <input type="checkbox" name="{$attribute_base}_data_media_is_autoplay_{$attribute.id}" value="1" {section show=$attribute.content.is_autoplay}checked="checked"{/section} />
+    <input type="checkbox" name="{$attribute_base}_data_media_is_autoplay_{$attribute.id}" value="1" {if $attribute.content.is_autoplay}checked="checked"{/if} />
 </div>
 
 <div class="break"></div>
@@ -321,12 +321,12 @@
 
 <div class="element">
     <label>{'Controller'|i18n( 'design/standard/content/datatype' )}:</label>
-    <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_controller" type="checkbox" name="{$attribute_base}_data_media_has_controller_{$attribute.id}" value="1" {section show=$attribute.content.has_controller}checked="checked"{/section} />
+    <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_controller" type="checkbox" name="{$attribute_base}_data_media_has_controller_{$attribute.id}" value="1" {if $attribute.content.has_controller}checked="checked"{/if} />
 </div>
 
 <div class="element">
     <label>{'Autoplay'|i18n( 'design/standard/content/datatype' )}:</label>
-    <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_autoplay" type="checkbox" name="{$attribute_base}_data_media_is_autoplay_{$attribute.id}" value="1" {section show=$attribute.content.is_autoplay}checked="checked"{/section} />
+    <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_autoplay" type="checkbox" name="{$attribute_base}_data_media_is_autoplay_{$attribute.id}" value="1" {if $attribute.content.is_autoplay}checked="checked"{/if} />
 </div>
 
 <div class="break"></div>

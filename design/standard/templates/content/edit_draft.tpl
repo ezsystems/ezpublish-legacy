@@ -3,11 +3,11 @@
      has_other_drafts=false()
      current_creator=fetch(user,current_user)}
 {section loop=$draft_versions}
-    {section show=eq($item.creator_id,$current_creator.contentobject_id)}
+    {if eq($item.creator_id,$current_creator.contentobject_id)}
         {set has_own_drafts=true()}
-    {section-else}
+    {else}
         {set has_other_drafts=true()}
-    {/section}
+    {/if}
 {/section}
 <form method="post" action={concat('content/edit/',$object.id,'/',$edit_language,'/',$from_language)|ezurl}>
 
@@ -27,35 +27,35 @@
 </p>
 </div>
 
-{section show=and($has_own_drafts,$has_other_drafts)}
+{if and($has_own_drafts,$has_other_drafts)}
 <p>
    {"This object is already being edited by yourself or someone else.
     You can either continue editing one of your drafts or you can create a new draft."|i18n('design/standard/content/edit')}    
 </p>
-{section-else}
-    {section show=$has_own_drafts}
+{else}
+    {if $has_own_drafts}
     <p>
       {"This object is already being edited by you.
         You can either continue editing one of your drafts or you can create a new draft."|i18n('design/standard/content/edit')}        
     </p>
-    {/section}
-    {section show=$has_other_drafts}
+    {/if}
+    {if $has_other_drafts}
     <p>
       {"This object is already being edited by someone else.
         You should either contact the person about the draft or create a new draft for personal editing."|i18n('design/standard/content/edit')}
     </p>
-    {/section}
-{/section}
+    {/if}
+{/if}
 
 <h2>{'Current drafts'|i18n('design/standard/content/edit')}</h2>
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0">
 <tr>
-    {section show=$has_own_drafts}
+    {if $has_own_drafts}
         <th>
             &nbsp;
         </th>
-    {/section}
+    {/if}
     <th>
         {'Version'|i18n('design/standard/content/edit')}
     </th>
@@ -74,17 +74,17 @@
 </tr>
 {section name=Draft loop=$draft_versions sequence=array(bglight,bgdark)}
 <tr class="{$:sequence}">
-    {section show=$has_own_drafts}
+    {if $has_own_drafts}
         <td width="1">
-            {section show=eq($:item.creator_id,$current_creator.contentobject_id)}
+            {if eq($:item.creator_id,$current_creator.contentobject_id)}
                 <input type="radio" name="SelectedVersion" value="{$:item.version}"
                     {run-once}
                         checked="checked"
                     {/run-once}
                  />
-            {/section}
+            {/if}
         </td>
-    {/section}
+    {/if}
     <td width="1">
         {$:item.version}
     </td>
@@ -104,18 +104,18 @@
 {/section}
 </table>
 
-{section show=and($has_own_drafts,$has_other_drafts)}
+{if and($has_own_drafts,$has_other_drafts)}
     <input class="defaultbutton" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/content/edit')}" />
     <input class="button" type="submit" name="NewDraftButton" value="{'New draft'|i18n('design/standard/content/edit')}" />
-{section-else}
-    {section show=$has_own_drafts}
+{else}
+    {if $has_own_drafts}
         <input class="defaultbutton" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/content/edit')}" />
         <input class="button" type="submit" name="NewDraftButton" value="{'New draft'|i18n('design/standard/content/edit')}" />
-    {/section}
-    {section show=$has_other_drafts}
+    {/if}
+    {if $has_other_drafts}
         <input class="defaultbutton" type="submit" name="NewDraftButton" value="{'New draft'|i18n('design/standard/content/edit')}" />
-    {/section}
-{/section}
+    {/if}
+{/if}
 
 </form>
 {/let}

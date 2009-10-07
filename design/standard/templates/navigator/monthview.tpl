@@ -9,41 +9,41 @@
     <th colspan="{sum( $month.weekdays|count, $show_week|choose( 0, 1 ) )}">
     <table class="calendar-navigator">
     <tr>
-        {section show=is_array( $month.previous )}<td><div class="calendar-previous"><a href={$month.previous.link|ezurl} title="{$month.previous.month} {$month.previous.year}"><span class="calendar-arrow">&laquo;</span> </a></div></td>{/section}
+        {if is_array( $month.previous )}<td><div class="calendar-previous"><a href={$month.previous.link|ezurl} title="{$month.previous.month} {$month.previous.year}"><span class="calendar-arrow">&laquo;</span> </a></div></td>{/if}
         <td>
         <div class="calendar-date">
             <a href={$month.current.link|ezurl} title="{$month.current.month} {$month.current.year}"><span class="calendar-month">{$month.month}</span>&nbsp;<span class="calendar-year">{$month.year}</span></a>
         </div>
         </td>
-        {section show=is_array( $month.next )}<td><div class="calendar-next"><a href={$month.next.link|ezurl} title="{$month.next.month} {$month.next.year}"><span class="calendar-arrow">&raquo;</span> </a></div></td>{/section}
+        {if is_array( $month.next )}<td><div class="calendar-next"><a href={$month.next.link|ezurl} title="{$month.next.month} {$month.next.year}"><span class="calendar-arrow">&raquo;</span> </a></div></td>{/if}
     </tr>
     </table>
     </th>
 </tr>
 <tr class="calendar-day-names">
-    {section show=$show_week}<th>&nbsp;</th>{/section}
+    {if $show_week}<th>&nbsp;</th>{/if}
         {section var=weekday loop=$month.weekdays}
             <th class="calendar-day-{$weekday.item.class|wash}">{$weekday.item.day|wash}</th>
         {/section}
 </tr>
 {section var=week loop=$month.weeks}
 <tr class="calendar-days">
-    {section show=$show_week}<td class="calendar-week">{$week.key}</td>{/section}
+    {if $show_week}<td class="calendar-week">{$week.key}</td>{/if}
     {section var=day loop=$week.item}
-        {section show=is_boolean( $day.item )}
+        {if is_boolean( $day.item )}
             <td class="calendar-empty">&nbsp;</td>
-        {/section}
-        {section show=is_numeric( $day.item )}
+        {/if}
+        {if is_numeric( $day.item )}
             <td>{$day.item}</td>
-        {/section}
-        {section show=is_array( $day.item )}
+        {/if}
+        {if is_array( $day.item )}
             {let day_number=$day.item.day
                  day_class=first_set( $day.item.class, false() )
                  day_link=first_set( $day.item.link, false() )
                  day_highlight=first_set( $day.item.highlight, false() )}
-            <td{section show=$day_class|count|gt( 0 )} class="calendar-day-{$day_class|wash}"{/section}>{section show=$day_link|count|gt( 0 )}<a href={$day_link|ezurl}>{/section}{section show=and( is_boolean( $day_highlight ), $day_highlight )}<strong class="calendar-day-highlight">{/section}{$day_number}{section show=and( is_boolean( $day_highlight ), $day_highlight )}</strong>{/section}{section show=$day_link|count|gt( 0 )}</a>{/section}</td>
+            <td{if $day_class|count|gt( 0 )} class="calendar-day-{$day_class|wash}"{/if}>{if $day_link|count|gt( 0 )}<a href={$day_link|ezurl}>{/if}{if and( is_boolean( $day_highlight ), $day_highlight )}<strong class="calendar-day-highlight">{/if}{$day_number}{if and( is_boolean( $day_highlight ), $day_highlight )}</strong>{/if}{if $day_link|count|gt( 0 )}</a>{/if}</td>
             {/let}
-        {/section}
+        {/if}
     {/section}
 </tr>
 {/section}

@@ -3,11 +3,11 @@
     <label>{'Class'|i18n( 'design/admin/workflow/eventtype/edit' )}:</label>
     <select name="WorkflowEvent_event_ezwaituntildate_class_{$event.id}[]">
     {section var=Classes loop=$event.workflow_type.contentclass_list}
-        {section show=and( and( is_set( $selectedClass ), $selectedClass ), eq( $selectedClass, $Classes.item.id ) )}
+        {if and( and( is_set( $selectedClass ), $selectedClass ), eq( $selectedClass, $Classes.item.id ) )}
 		<option value="{$Classes.item.id}" selected=true>{$Classes.item.name|wash}</option>
-        {section-else}
+        {else}
                 <option value="{$Classes.item.id}">{$Classes.item.name|wash}</option>
-	{/section}
+	{/if}
     {/section}
     </select>
     <input class="button" type="submit" name="CustomActionButton[{$event.id}_load_class_attribute_list]" value="{'Update attributes'|i18n( 'design/admin/workflow/eventtype/edit' )}" />
@@ -52,7 +52,7 @@
 <p>{'There are no combinations'|i18n( 'design/admin/workflow/eventtype/edit' )}</p>
 {/section}
 <div class="controlbar">
-<input class="button" type="submit" name="CustomActionButton[{$event.id}_remove_selected]" value="{'Remove selected'|i18n( 'design/admin/workflow/eventtype/edit' )}" {section show=$event.content.entry_list|not}disabled="disabled"{/section} />
+<input class="button" type="submit" name="CustomActionButton[{$event.id}_remove_selected]" value="{'Remove selected'|i18n( 'design/admin/workflow/eventtype/edit' )}" {if $event.content.entry_list|not}disabled="disabled"{/if} />
 </div>
 </div>
 
@@ -60,6 +60,6 @@
 {* Modify publishing dates *}
 <div class="block">
 <label>{"Modify the objects' publishing dates"|i18n( 'design/admin/workflow/eventtype/edit' )}:</label>
-<input type="checkbox" name="WorkflowEvent_data_waituntildate_modifydate_{$event.id}[]" value="1" {section show=$event.data_int1}checked="checked"{/section} />
+<input type="checkbox" name="WorkflowEvent_data_waituntildate_modifydate_{$event.id}[]" value="1" {if $event.data_int1}checked="checked"{/if} />
 </div>
 

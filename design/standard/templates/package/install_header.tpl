@@ -5,8 +5,8 @@
 
     <h1>{'Package install wizard: %wizardname'|i18n( 'design/standard/package',, hash( '%wizardname', $creator.name|wash ) )}</h1>
 
-    {section show=$persistent_data.thumbnail}
+    {if $persistent_data.thumbnail}
         <img src={$persistent_data.thumbnail.url|ezroot} alt="{$persistent_data.thumbnail.filename|wash}" />
-    {/section}
+    {/if}
 
     <h2>{$current_step.name|wash}</h2>

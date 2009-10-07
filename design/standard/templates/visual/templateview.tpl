@@ -13,9 +13,9 @@
 </ul>
 {/section}
 
-{section show=$ini_not_saved}
+{if $ini_not_saved}
 <p>{'The override.ini file could not be modified because of insufficient permission.'|i18n( 'design/standard/visual/templateview' )}</p>
-{/section}
+{/if}
 
 </div>
 {/section}
@@ -48,11 +48,11 @@
 
 <select name="CurrentSiteAccess">
 {section name=SiteAccess loop=ezini('SiteAccessSettings','RelatedSiteAccessList')}
-    {section show=eq($current_siteaccess,$:item)}
+    {if eq($current_siteaccess,$:item)}
         <option value="{$SiteAccess:item}" selected="selected">{$:item}</option>
-    {section-else}
+    {else}
         <option value="{$SiteAccess:item}">{$:item}</option>
-    {/section}
+    {/if}
 {/section}
 </select>
 
@@ -75,11 +75,11 @@
     <td><input type="checkbox" name="RemoveOverrideArray[]" value="{$CustomMatch.item.override_name}" /></td>
     <td>{$CustomMatch.item.override_name}</td>
 
-    {section show=$CustomMatch.item.match_file}
+    {if $CustomMatch.item.match_file}
     <td>{$CustomMatch.item.match_file}</td>
-    {section-else}
+    {else}
     <td><i>{'No file matched'|i18n( 'design/standard/visual/templateview' )}</i></td>
-    {/section}
+    {/if}
 
     <td>
         {section show=is_set( $CustomMatch.item.conditions )}
@@ -93,11 +93,11 @@
     </td>
     <td><input type="text" name="PriorityArray[{$CustomMatch.item.override_name}]" size="2" value="{$CustomMatch.number}" /></td>
 
-    {section show=$CustomMatch.item.match_file}
+    {if $CustomMatch.item.match_file}
     <td><a href={concat( '/visual/templateedit/', $CustomMatch.item.match_file)|ezurl} title="{'Edit override template.'|i18n( 'design/standard/visual/templateview' )}"><img src={'edit.gif'|ezimage} alt="Edit" /></a></td>
-    {section-else}
+    {else}
     <td><img src={'edit-disabled.gif'|ezimage} alt="" /></td>
-    {/section}
+    {/if}
 
 </tr>
 {/section}
@@ -117,20 +117,20 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
     <div class="block">
         <div class="button-left">
-        {section show=$template_settings.custom_match}
+        {if $template_settings.custom_match}
         <input class="button" type="submit" name="RemoveOverrideButton" value="{'Remove selected'|i18n( 'design/standard/visual/templateview' )}" title="{'Remove selected template overrides.'|i18n( 'design/standard/visual/templateview' )}" />
-        {section-else}
+        {else}
         <input class="button-disabled" type="submit" name="RemoveOverrideButton" value="{'Remove selected'|i18n( 'design/standard/visual/templateview' )}" disabled="disabled"/>
-        {/section}
+        {/if}
 
         <input class="button" type="submit" name="NewOverrideButton" value="{'New override'|i18n( 'design/standard/visual/templateview' )}" title="{'Create a new template override.'|i18n( 'design/standard/visual/templateview' )}" />
         </div>
         <div class="button-right">
-            {section show=$template_settings.custom_match}
+            {if $template_settings.custom_match}
             <input class="button" type="submit" name="UpdateOverrideButton" value="{'Update priorities'|i18n( 'design/standard/visual/templateview' )}" />
-            {section-else}
+            {else}
             <input class="button-disabled" type="submit" name="UpdateOverrideButton" value="{'Update priorities'|i18n( 'design/standard/visual/templateview' )}" disabled="disabled"/>
-            {/section}
+            {/if}
         </div>
         <div class="break"></div>
     </div>

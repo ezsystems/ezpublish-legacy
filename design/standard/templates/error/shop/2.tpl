@@ -4,6 +4,6 @@
 <p>{"The requested object and current basket have incompatible price datatypes."|i18n("design/standard/error/shop")}</p>
 </div>
 
-{section show=$embed_content}
+{if $embed_content}
     {$embed_content}
-{/section}
+{/if}

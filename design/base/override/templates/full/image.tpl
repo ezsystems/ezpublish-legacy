@@ -25,45 +25,45 @@
 
         <h1>{$node.name|wash}</h1>
 
-        {section show=is_unset( $versionview_mode )}
+        {if is_unset( $versionview_mode )}
         <div class="content-navigator">
-            {section show=$previous_image}
+            {if $previous_image}
                 <div class="content-navigator-previous">
                     <div class="content-navigator-arrow">&laquo;&nbsp;</div><a href={$previous_image[0].url_alias|ezurl} title="{$previous_image[0].name|wash}">{'Previous image'|i18n( 'design/base' )}</a>
                 </div>
-            {section-else}
+            {else}
                 <div class="content-navigator-previous-disabled">
                     <div class="content-navigator-arrow">&laquo;&nbsp;</div>{'Previous image'|i18n( 'design/base' )}
                 </div>
-            {/section}
+            {/if}
 
-            {section show=$previous_image}
+            {if $previous_image}
                 <div class="content-navigator-separator">|</div>
-            {section-else}
+            {else}
                 <div class="content-navigator-separator-disabled">|</div>
-            {/section}
+            {/if}
 
             {let forum=$node.parent}
                 <div class="content-navigator-forum-link"><a href={$forum.url_alias|ezurl}>{$forum.name|wash}</a></div>
             {/let}
 
-            {section show=$next_image}
+            {if $next_image}
                 <div class="content-navigator-separator">|</div>
-            {section-else}
+            {else}
                 <div class="content-navigator-separator-disabled">|</div>
-            {/section}
+            {/if}
 
-            {section show=$next_image}
+            {if $next_image}
                 <div class="content-navigator-next">
                     <a href={$next_image[0].url_alias|ezurl} title="{$next_image[0].name|wash}">{'Next image'|i18n( 'design/base' )}</a><div class="content-navigator-arrow">&nbsp;&raquo;</div>
                 </div>
-            {section-else}
+            {else}
                 <div class="content-navigator-next-disabled">
                     {'Next image'|i18n( 'design/base' )}<div class="content-navigator-arrow">&nbsp;&raquo;</div>
                 </div>
-            {/section}
+            {/if}
         </div>
-        {/section}
+        {/if}
 
         <div class="attribute-image">
             <p>{attribute_view_gui attribute=$node.data_map.image image_class=large}</p>

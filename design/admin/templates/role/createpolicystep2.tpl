@@ -24,11 +24,11 @@
 
 <div class="block">
 <label>{'Selected module'|i18n( 'design/admin/role/createpolicystep2' )}:</label>
-{section show=$current_module|eq( '*' )}
+{if $current_module|eq( '*' )}
 {'All modules'|i18n( 'design/admin/role/createpolicystep2' )}
-{section-else}
+{else}
 {$current_module|upfirst()}
-{/section}
+{/if}
 </div>
 
 <div class="block">
@@ -71,11 +71,11 @@
 {section-else}
 
 <p>
-{section show=$current_module|eq( '*' )}
+{if $current_module|eq( '*' )}
 {'It is not possible to grant limited access to all modules at once. To grant unlimited access to all modules and their functions, go back to step one and select "Grant access to all functions". To grant limited access to different functions within different modules, you must set up a collection of policies.'|i18n( 'design/admin/role/createpolicystep2',, hash( '%module_name', $current_module ) )}
-{section-else}
+{else}
 {'The selected module (%module_name) does not support limitations on the function level. Please go back to step one and use the "Grant access to all functions" option instead.'|i18n( 'design/admin/role/createpolicystep2',, hash( '%module_name', $current_module ) )}
-{/section}
+{/if}
 </p>
 
 {/section}

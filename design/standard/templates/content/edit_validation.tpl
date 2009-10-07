@@ -3,15 +3,15 @@
         {section show=or($validation.attributes,$validation.placement,$validation.custom_rules)}
 
           <div class="warning">
-          {section show=or(and($validation.attributes,$validation.placement),$validation.custom_rules)}
+          {if or(and($validation.attributes,$validation.placement),$validation.custom_rules)}
             <h2>{"Validation failed"|i18n("design/standard/content/edit")}</h2>
-          {section-else}
-            {section show=$validation.attributes}
+          {else}
+            {if $validation.attributes}
             <h2>{"Input did not validate"|i18n("design/standard/content/edit")}</h2>
-            {section-else}
+            {else}
             <h2>{"Location did not validate"|i18n("design/standard/content/edit")}</h2>
-            {/section}
-          {/section}
+            {/if}
+          {/if}
           <ul>
           {section name=UnvalidatedPlacements loop=$validation.placement show=$validation.placement}
             <li>{$:item.text}</li>

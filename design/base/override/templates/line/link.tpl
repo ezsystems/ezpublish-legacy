@@ -5,17 +5,17 @@
 
     <h2>{$node.name|wash}</h2>
 
-    {section show=$node.data_map.description.has_content}
+    {if $node.data_map.description.has_content}
         <div class="attribute-long">
             {attribute_view_gui attribute=$node.data_map.description}
         </div>
-    {/section}
+    {/if}
 
-    {section show=$node.data_map.location.has_content}
+    {if $node.data_map.location.has_content}
         <div class="attribute-link">
-            <p><a href="{$node.data_map.location.content}">{section show=$node.data_map.location.data_text|count|gt( 0 )}{$node.data_map.location.data_text|wash}{section-else}{$node.data_map.location.content|wash}{/section}</a></p>
+            <p><a href="{$node.data_map.location.content}">{if $node.data_map.location.data_text|count|gt( 0 )}{$node.data_map.location.data_text|wash}{else}{$node.data_map.location.content|wash}{/if}</a></p>
         </div>
-    {/section}
+    {/if}
 
     </div>
 </div>

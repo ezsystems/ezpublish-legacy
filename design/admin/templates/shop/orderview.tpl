@@ -39,13 +39,13 @@
 </tr>
 {section name=ProductItem loop=$order.product_items show=$order.product_items sequence=array(bglight,bgdark)}
 <tr>
-    {section show=and( $ProductItem:item.item_object.contentobject, $ProductItem:item.item_object.contentobject.main_node )}
+    {if and( $ProductItem:item.item_object.contentobject, $ProductItem:item.item_object.contentobject.main_node )}
     {let node_url=$ProductItem:item.item_object.contentobject.main_node.url_alias}
-    <td>{$ProductItem:item.item_object.contentobject.class_identifier|class_icon( small,$ProductItem:item.item_object.contentobject.class_name )}&nbsp;{section show=$:node_url}<a href={$:node_url|ezurl}>{/section}{$ProductItem:item.item_object.contentobject.name|wash}{section show=$:node_url}</a>{/section}</td>
+    <td>{$ProductItem:item.item_object.contentobject.class_identifier|class_icon( small,$ProductItem:item.item_object.contentobject.class_name )}&nbsp;{if $:node_url}<a href={$:node_url|ezurl}>{/if}{$ProductItem:item.item_object.contentobject.name|wash}{if $:node_url}</a>{/if}</td>
     {/let}
-    {section-else}
+    {else}
     <td>{false()|class_icon( small )}&nbsp;{$ProductItem:item.item_object.name|wash}</td>
-    {/section}
+    {/if}
 	<td class="number" align="right">{$ProductItem:item.item_count}</td>
 	<td class="number" align="right">{$ProductItem:item.vat_value}&nbsp;%</td>
 	<td class="number" align="right">{$ProductItem:item.price_ex_vat|l10n( 'currency', $locale, $symbol )}</td>
@@ -140,7 +140,7 @@
 {section var=history loop=$order_status_history sequence=array( bglight, bgdark )}
 
 <tr class="{$history.sequence}">
-    {section show=eq( $order.status_modified, $history.modified )}
+    {if eq( $order.status_modified, $history.modified )}
     {* The current history element should be highlighted *}
 
     <td class="date"><strong>{$history.modified|l10n( shortdatetime )}</strong></td>
@@ -150,7 +150,7 @@
     <td><a href={$modifier.main_node.url|ezurl} title="{'This is the person who modified the status of the order. Click to view the user information.'|i18n( 'design/admin/shop/orderview' )}"><strong>{$modifier.name|wash}</strong></a></td>
     {/let}
 
-    {section-else}
+    {else}
 
     <td class="date">{$history.modified|l10n( shortdatetime )}</td>
 	<td>{$history.status_name|wash}</td>
@@ -159,7 +159,7 @@
     <td><a href={$modifier.main_node.url|ezurl} title="{'This is the person who modified the status of the order. Click to view the user information.'|i18n( 'design/admin/shop/orderview' )}">{$modifier.name|wash}</a></td>
     {/let}
 
-    {/section}
+    {/if}
 </tr>
 
 {/section}

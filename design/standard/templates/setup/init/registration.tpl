@@ -36,7 +36,7 @@
 <br/>
 
 <div align="right">
-<input type="checkbox" name="eZSetupSendRegistration" {section show=$send_registration}checked="checked"{/section}value="checked" id="ez_reg_me" /><label class="checkbox" for="ez_reg_me">{"Send registration"|i18n("design/standard/setup/init")}</label>
+<input type="checkbox" name="eZSetupSendRegistration" {if $send_registration}checked="checked"{/if}value="checked" id="ez_reg_me" /><label class="checkbox" for="ez_reg_me">{"Send registration"|i18n("design/standard/setup/init")}</label>
 </div>
 
   <div class="buttonblock" align="right">

@@ -19,7 +19,7 @@
 <td>
 <select name="Time_{$handler.id_string}">
 {section name=Time loop=$handler.available_hours}
-<option value="{$Time:item}" {section show=eq( $Time:item,$settings.time )}selected="selected"{/section}>{$Time:item}</option>
+<option value="{$Time:item}" {if eq( $Time:item,$settings.time )}selected="selected"{/if}>{$Time:item}</option>
 {/section}
 </select>
 </td>
@@ -34,7 +34,7 @@
 <td>
 <select name="Weekday_{$handler.id_string}">
 {section name=WeekDays loop=$handler.all_week_days}
-<option value="{$WeekDays:item}" {section show=eq( $WeekDays:item, $settings.day )}selected="selected"{/section}>{$WeekDays:item}</option>
+<option value="{$WeekDays:item}" {if eq( $WeekDays:item, $settings.day )}selected="selected"{/if}>{$WeekDays:item}</option>
 {/section}
 </select>
 </td>
@@ -49,7 +49,7 @@
 <td>
 <select name="Monthday_{$handler.id_string}">
 {section name=MonthDays loop=$handler.all_month_days}
-<option value="{$MonthDays:item}" {section show=eq( $MonthDays:item, $settings.day )}selected="selected"{/section}>{$MonthDays:item}</option>
+<option value="{$MonthDays:item}" {if eq( $MonthDays:item, $settings.day )}selected="selected"{/if}>{$MonthDays:item}</option>
 {/section}
 </select>
 </td>

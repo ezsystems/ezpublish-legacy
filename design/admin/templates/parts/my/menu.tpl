@@ -30,18 +30,18 @@
 <div class="settings">
 <ul>
     <li class="nobullet">{'Locations'|i18n( 'design/admin/parts/my/menu')}:
-    {section show=ezpreference( 'admin_edit_show_locations' )}
+    {if ezpreference( 'admin_edit_show_locations' )}
         <span class="current">{'on'|i18n( 'design/admin/parts/my/menu' )}</span>&nbsp;<a href={'/user/preferences/set/admin_edit_show_locations/0'|ezurl} title="{'Disable location window when editing content.'|i18n( 'design/admin/parts/my/menu' )}">{'off'|i18n( 'design/admin/parts/my/menu' )}</a>
-    {section-else}
+    {else}
         <a href={'/user/preferences/set/admin_edit_show_locations/1'|ezurl} title="{'Enable location window when editing content.'|i18n( 'design/admin/parts/my/menu' )}">{'on'|i18n( 'design/admin/parts/my/menu' )}</a>&nbsp;<span class="current">{'off'|i18n( 'design/admin/parts/my/menu' )}</span>
-    {/section}
+    {/if}
     </li>
     <li class="nobullet">{'Re-edit'|i18n( 'design/admin/parts/my/menu')}:
-    {section show=ezpreference( 'admin_edit_show_re_edit' )}
+    {if ezpreference( 'admin_edit_show_re_edit' )}
         <span class="current">{'on'|i18n( 'design/admin/parts/my/menu' )}</span>&nbsp;<a href={'/user/preferences/set/admin_edit_show_re_edit/0'|ezurl} title="{'Disable &quot;Back to edit&quot; checkbox when editing content.'|i18n( 'design/admin/parts/my/menu' )}">{'off'|i18n( 'design/admin/parts/my/menu' )}</a>
-    {section-else}
+    {else}
         <a href={'/user/preferences/set/admin_edit_show_re_edit/1'|ezurl} title="{'Enable &quot;Back to edit&quot; checkbox when editing content.'|i18n( 'design/admin/parts/my/menu' )}">{'on'|i18n( 'design/admin/parts/my/menu' )}</a>&nbsp;<span class="current">{'off'|i18n( 'design/admin/parts/my/menu' )}</span>
-    {/section}
+    {/if}
     </li>
 </ul>
 </div>

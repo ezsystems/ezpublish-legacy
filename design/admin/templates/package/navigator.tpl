@@ -6,15 +6,15 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 
 
-{section show=$current_step.next_step}
+{if $current_step.next_step}
     <div class="block">
         <input class="button" type="submit" name="NextStepButton" value="{'Next %arrowright'|i18n( 'design/admin/package',, hash( '%arrowright', '&raquo;' ) )}" />
     </div>
-{section-else}
+{else}
     <div class="block">
         <input class="button" type="submit" name="NextStepButton" value="{'Continue'|i18n( 'design/admin/package' )}" />
     </div>
-{/section}
+{/if}
 
 
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>

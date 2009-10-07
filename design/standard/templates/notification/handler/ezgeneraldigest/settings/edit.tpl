@@ -8,7 +8,7 @@
         <label>{'Time of day'|i18n('design/standard/notification')}:</label>
         <select name="Time_{$handler.id_string}">
         {section name=Time loop=$handler.available_hours}
-            <option value="{$Time:item}" {section show=eq($Time:item,$settings.time)}selected="selected"{/section}>{$Time:item}</option>
+            <option value="{$Time:item}" {if eq($Time:item,$settings.time)}selected="selected"{/if}>{$Time:item}</option>
         {/section}
         </select>
     </div>
@@ -22,7 +22,7 @@
         <label>{'Weekly, day of week'|i18n('design/standard/notification')}:</label>
         <select name="Weekday_{$handler.id_string}">
         {section name=WeekDays loop=$handler.all_week_days}
-            <option value="{$WeekDays:item}" {section show=eq($WeekDays:item,$settings.day)}selected="selected"{/section}>{$WeekDays:item}</option>
+            <option value="{$WeekDays:item}" {if eq($WeekDays:item,$settings.day)}selected="selected"{/if}>{$WeekDays:item}</option>
         {/section}
         </select>
         <div class="break"></div>
@@ -31,7 +31,7 @@
         <label>{'Monthly, day of month'|i18n('design/standard/notification')}:</label>
         <select name="Monthday_{$handler.id_string}">
         {section name=MonthDays loop=$handler.all_month_days}
-            <option value="{$MonthDays:item}" {section show=eq($MonthDays:item,$settings.day)}selected="selected"{/section}>{$MonthDays:item}</option>
+            <option value="{$MonthDays:item}" {if eq($MonthDays:item,$settings.day)}selected="selected"{/if}>{$MonthDays:item}</option>
         {/section}
         </select>
         <div>{'If the day of month number you have chosen is larger than the number of days in the current month, then the last day of the current month will be used instead.'|i18n('design/standard/notification')}</div>

@@ -8,11 +8,11 @@
      participant_list=fetch("collaboration","participant_map",hash("item_id",$collab_item.id))
      message_list=fetch("collaboration","message_list",hash("item_id",$collab_item.id,"limit",$message_limit,"offset",$message_offset))}
 
-{section show=$content_version|null()|not()}
+{if $content_version|null()|not()}
   {set-block variable=contentobject_link}
     {content_version_view_gui view=text_linked content_version=$content_version}
   {/set-block}
-{/section}
+{/if}
 
 <div class="context-block">
 
@@ -31,49 +31,49 @@
 {switch match=$collab_item.data_int3}
 {case match=0}
 
-{section show=$collab_item.is_creator}
+{if $collab_item.is_creator}
     <p>{"The content object %1 awaits approval before it can be published."|i18n('design/admin/collaboration/handler/view/full/ezapprove',,array($contentobject_link))}</p>
     <p>{"Do you want to send a message to the person approving it?"|i18n('design/admin/collaboration/handler/view/full/ezapprove')}</p>
-{section-else}
+{else}
     <p>{"The content object %1 needs your approval before it can be published."|i18n('design/admin/collaboration/handler/view/full/ezapprove',,array($contentobject_link))}</p>
     <p>{"Do you approve of the content object being published?"|i18n('design/admin/collaboration/handler/view/full/ezapprove')}</p>
-{/section}
+{/if}
 
 {/case}
 {case match=1}
-  {section show=and( is_set( $contentobject_link ),$contentobject_link )}
+  {if and( is_set( $contentobject_link ),$contentobject_link )}
         <p>{"The content object %1 was approved and will be published when the publishing workflow continues."|i18n('design/admin/collaboration/handler/view/full/ezapprove',,array($contentobject_link))}</p>
-  {section-else}
+  {else}
         <p>{"The content object %1 [deleted] was approved and will be published once the publishing workflow continues."|i18n('design/admin/collaboration/handler/view/full/ezapprove',,array($collab_item.content.content_object_id))}</p>
-  {/section}
+  {/if}
 {/case}
 {case in=array(2,3)}
-  {section show=$collab_item.is_creator}
-    {section show=and( is_set( $contentobject_link ),$contentobject_link )}
+  {if $collab_item.is_creator}
+    {if and( is_set( $contentobject_link ),$contentobject_link )}
         <p>{"The content object %1 was not accepted but is still available as a draft."|i18n('design/admin/collaboration/handler/view/full/ezapprove',,array($contentobject_link))}</p>
-    {section-else}
+    {else}
         <p>{"The content object %1 [deleted] was not accepted but is available as a draft again."|i18n('design/admin/collaboration/handler/view/full/ezapprove',,array($collab_item.content.content_object_id))}</p>
-    {/section}
-    {section show=$content_version|null()|not()}
+    {/if}
+    {if $content_version|null()|not()}
       <p>{"You may edit the draft and publish it, in which case an approval is required again."|i18n('design/admin/collaboration/handler/view/full/ezapprove')}</p>
       <p><a href={concat("content/edit/",$content_version.contentobject_id)|ezurl}>{"Edit the object"|i18n('design/admin/collaboration/handler/view/full/ezapprove')}</a></p>
-    {/section}
-  {section-else}
-    {section show=and( is_set( $contentobject_link ),$contentobject_link )}
+    {/if}
+  {else}
+    {if and( is_set( $contentobject_link ),$contentobject_link )}
         <p>{"The content object %1 was not accepted but will be available as a draft for the author."|i18n('design/admin/collaboration/handler/view/full/ezapprove',,array($contentobject_link))}</p>
-    {section-else}
+    {else}
         <p>{"The content object %1 [deleted] was not accepted but will be available as a draft for the author."|i18n('design/admin/collaboration/handler/view/full/ezapprove',,array($collab_item.content.content_object_id))}</p>
-    {/section}
+    {/if}
     <p>{"The author can edit the draft and publish it again, in which case a new approval is required."|i18n('design/admin/collaboration/handler/view/full/ezapprove')}</p>
-  {/section}
+  {/if}
 {/case}
 {case/}
 {/switch}
 
-{section show=eq($collab_item.data_int3,0)}
+{if eq($collab_item.data_int3,0)}
     <label>{"Comment"|i18n('design/admin/collaboration/handler/view/full/ezapprove')}:</label>
     <textarea class="box" name="Collaboration_ApproveComment" cols="40" rows="5"></textarea>
-{/section}
+{/if}
 </div>
 
 
@@ -89,25 +89,25 @@
 <input type="hidden" name="CollaborationItemID" value="{$collab_item.id}" />
 
 <div class="block">
-{section show=eq($collab_item.data_int3,0)}
+{if eq($collab_item.data_int3,0)}
 
     <input class="button" type="submit" name="CollaborationAction_Comment" value="{'Add Comment'|i18n('design/admin/collaboration/handler/view/full/ezapprove')}" />
 
-    {section show=$collab_item.is_creator|not}
+    {if $collab_item.is_creator|not}
     <input class="button" type="submit" name="CollaborationAction_Accept" value="{'Approve'|i18n('design/admin/collaboration/handler/view/full/ezapprove')}" />
     <input class="button" type="submit" name="CollaborationAction_Deny" value="{'Deny'|i18n('design/admin/collaboration/handler/view/full/ezapprove')}" />
-    {section-else}
+    {else}
     <input class="button-disabled" type="submit" name="CollaborationAction_Accept" value="{'Approve'|i18n('design/admin/collaboration/handler/view/full/ezapprove')}" disabled="disabled" />
     <input class="button-disabled" type="submit" name="CollaborationAction_Deny" value="{'Deny'|i18n('design/admin/collaboration/handler/view/full/ezapprove')}" disabled="disabled" />
-    {/section}
+    {/if}
 
-{section-else}
+{else}
 
     <input class="button-disabled" type="submit" name="CollaborationAction_Comment" value="{'Add Comment'|i18n('design/admin/collaboration/handler/view/full/ezapprove')}" disabled="disabled" />
 
     <input class="button-disabled" type="submit" name="CollaborationAction_Accept" value="{'Approve'|i18n('design/admin/collaboration/handler/view/full/ezapprove')}" disabled="disabled" />
     <input class="button-disabled" type="submit" name="CollaborationAction_Deny" value="{'Deny'|i18n('design/admin/collaboration/handler/view/full/ezapprove')}" disabled="disabled" />
-{/section}
+{/if}
 </div>
 
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
@@ -115,7 +115,7 @@
 
 </div>
 
-{section show=$content_version|null()|not()}
+{if $content_version|null()|not()}
 <div class="context-block">
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
@@ -145,7 +145,7 @@
 {* DESIGN: Content END *}</div></div></div></div></div></div>
 
 </div>
-{/section}
+{/if}
 
 <div class="context-block">
 

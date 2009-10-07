@@ -24,9 +24,9 @@
 </p>
 
 {section loop=$bookmark_list}
-  {section show=$:item.node.object.can_edit}
+  {if $:item.node.object.can_edit}
     {set can_edit=true()}
-  {/section}
+  {/if}
 {/section}
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
@@ -42,11 +42,11 @@
     <th width="30%">
         {"Section"|i18n("design/standard/content/view")}
     </th>
-    {section show=$can_edit}
+    {if $can_edit}
         <th width="1">
              {'Edit'|i18n('design/standard/content/view')}
         </th>
-    {/section}
+    {/if}
 </tr>
 
 {section name=Bookmark loop=$bookmark_list sequence=array(bgdark,bglight)}
@@ -67,13 +67,13 @@
         {$:item.node.object.section_id}
     </td>
 
-    {section show=$can_edit}
+    {if $can_edit}
         <td width="1">
-            {section show=$:item.node.object.can_edit}
+            {if $:item.node.object.can_edit}
                 <a href={concat("content/edit/",$:item.node.contentobject_id)|ezurl}><img src={"edit.gif"|ezimage} alt="{'Edit'|i18n('design/standard/content/view')}" /></a>
-            {/section}
+            {/if}
         </td>
-    {/section}
+    {/if}
 </tr>
 {/section}
 

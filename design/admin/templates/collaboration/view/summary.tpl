@@ -20,7 +20,7 @@
 
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
-{section show=$latest_item_count}
+{if $latest_item_count}
 
 {include uri="design:collaboration/item_list.tpl" item_list=$latest_item_list}
 
@@ -31,11 +31,11 @@
          view_parameters=$view_parameters
          item_limit=$item_limit}
 
-{section-else}
+{else}
 <div class="block">
 <p>{"No new items to be handled."|i18n('design/admin/collaboration/view/summary')}</p>
 </div>
-{/section}
+{/if}
 
 {* DESIGN: Content END *}</div></div></div></div></div></div>
 

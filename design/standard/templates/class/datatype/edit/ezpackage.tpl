@@ -7,7 +7,7 @@
 <div class="block">
 <label>{'View mode'|i18n( 'design/standard/class/datatype' )}:</label>
 <select name="ContentClass_ezpackage_view_mode_{$class_attribute.id}" size="1">
-      <option value="0" {section show=eq( $class_attribute.data_int1, 0 )}selected="selected"{/section}>{'Combo box'|i18n( 'design/standard/class/datatype' )}</option>
-      <option value="1" {section show=eq( $class_attribute.data_int1, 1 )}selected="selected"{/section}>{'Icon view'|i18n( 'design/standard/class/datatype' )}</option>
+      <option value="0" {if eq( $class_attribute.data_int1, 0 )}selected="selected"{/if}>{'Combo box'|i18n( 'design/standard/class/datatype' )}</option>
+      <option value="1" {if eq( $class_attribute.data_int1, 1 )}selected="selected"{/if}>{'Icon view'|i18n( 'design/standard/class/datatype' )}</option>
 </select>
 </div>

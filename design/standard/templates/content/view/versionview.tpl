@@ -8,11 +8,11 @@
 
 {default content_object=$node.object}
 
-{section show=$assignment}
+{if $assignment}
    {node_view_gui view=full with_children=false() versionview_mode=true() is_editable=false() is_standalone=false() content_object=$object node_name=$object.name content_node=$assignment.temp_node node=$node}
-{section-else}
+{else}
   {node_view_gui view=full with_children=false() versionview_mode=true() is_editable=false() is_standalone=false() content_object=$object node_name=$object.name content_node=$node node=$node}
-{/section}
+{/if}
 
 <form method="post" action={concat("content/versionview/",$object.id,"/",$object_version,"/",$language)|ezurl}>
 
@@ -24,7 +24,7 @@
 
 <select name="SelectedLanguage" >
 {section name=Translation loop=$version.language_list}
-<option value="{$Translation:item.locale.locale_code}" {section show=eq($Translation:item.locale.locale_code,$object_languagecode)}selected="selected"{/section}>{$Translation:item.locale.intl_language_name}</option>
+<option value="{$Translation:item.locale.locale_code}" {if eq($Translation:item.locale.locale_code,$object_languagecode)}selected="selected"{/if}>{$Translation:item.locale.intl_language_name}</option>
 {/section}
 </select>
 </div>
@@ -39,7 +39,7 @@
 
 <select name="SelectedPlacement" >
 {section loop=$Placement:node_assignment_list}
-<option value="{$Placement:item.id}" {section show=eq($Placement:item.id,$placement)}selected="selected"{/section}>{$Placement:item.parent_node_obj.name|wash}</option>
+<option value="{$Placement:item.id}" {if eq($Placement:item.id,$placement)}selected="selected"{/if}>{$Placement:item.parent_node_obj.name|wash}</option>
 {/section}
 </select>
 </div>
@@ -56,7 +56,7 @@
 
 <select name="SelectedSitedesign" >
 {section loop=$Sitedesign:sitedesign_list}
-<option value="{$Sitedesign:item}" {section show=eq($Sitedesign:item,$sitedesign)}selected="selected"{/section}>{$Sitedesign:item|wash}</option>
+<option value="{$Sitedesign:item}" {if eq($Sitedesign:item,$sitedesign)}selected="selected"{/if}>{$Sitedesign:item|wash}</option>
 {/section}
 </select>
 </div>
@@ -65,13 +65,13 @@
 <div class="break"></div>
 </div>
 
-{section show=or( $version.language_list|count|gt( 1 ),
+{if or( $version.language_list|count|gt( 1 ),
                   $version.node_assignments|count|gt( 1 ),
                   $Sitedesign:sitedesign_list|count|gt( 1 ) )}
 <div class="buttonblock">
 <input class="button" type="submit" name="ChangeSettingsButton" value="{'Change'|i18n('design/standard/content/view')}" />
 </div>
-{/section}
+{/if}
 {/let}
 
 <input type="hidden" name="ContentObjectID" value="{$object.id}" />
@@ -80,14 +80,14 @@
 <input type="hidden" name="ContentObjectPlacementID" value="{$placement}" />
 
 <div class="buttonblock">
-{section show=and(eq($version.status,0),$is_creator,$object.can_edit)}
+{if and(eq($version.status,0),$is_creator,$object.can_edit)}
 <input class="button" type="submit" name="PreviewPublishButton" value="{'Publish'|i18n('design/standard/content/view')}" />
 <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/content/view')}" />
-{/section}
+{/if}
 
-{section show=$allow_versions_button}
+{if $allow_versions_button}
 <input class="button" type="submit" name="VersionsButton" value="{'Versions'|i18n('design/standard/content/view')}" />
-{/section}
+{/if}
 </div>
 
 {/section}

@@ -6,11 +6,11 @@
 
         <h1>{$node.name|wash()}</h1>
 
-    {section show=$node.data_map.image.content}
+    {if $node.data_map.image.content}
         <div class="attribute-image">
             {attribute_view_gui alignment=right image_class=medium attribute=$node.data_map.image.content.data_map.image}
         </div>
-    {/section}
+    {/if}
 
         <div class="attribute-short">
            {attribute_view_gui attribute=$node.data_map.short_description}
@@ -26,7 +26,7 @@
           </p>
         </div>
 
-        {section show=is_unset( $versionview_mode )}
+        {if is_unset( $versionview_mode )}
         <div class="content-action">
         <form method="post" action={"content/action"|ezurl}>
             <input type="submit" class="defaultbutton" name="ActionAddToBasket" value="{"Add to basket"|i18n("design/base")}" />
@@ -35,7 +35,7 @@
             <input type="hidden" name="ViewMode" value="full" />
         </form>
         </div>
-        {/section}
+        {/if}
 
         <div class="attribute-pdf">
           <p>
@@ -51,7 +51,7 @@
         </div>
 
         {* Are we allowed to create new object under this node? *}
-        {section show=$node.object.can_create}
+        {if $node.object.can_create}
         <div class="content-action">
             <form method="post" action={"content/action"|ezurl}>
                 <input type="hidden" name="ClassIdentifier" value="review" />
@@ -59,11 +59,11 @@
                 <input class="button" type="submit" name="NewButton" value="{'New review'|i18n( 'design/base' )}" />
             </form>
         </div>
-        {section-else}
+        {else}
             <div class="message-warning">
                <h3>{"You are not allowed to create comments."|i18n("design/base")}</h3>
             </div>
-        {/section}
+        {/if}
 
         {let related_purchase=fetch( shop, related_purchase, hash( contentobject_id, $node.contentobject_id,
                                                                limit, 10 ) )}

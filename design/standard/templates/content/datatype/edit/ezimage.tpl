@@ -5,7 +5,7 @@
 {* Current image. *}
 <div class="block">
 <label>{'Current image'|i18n( 'design/standard/content/datatype' )}:</label>
-{section show=$attribute_content.original.is_valid}
+{if $attribute_content.original.is_valid}
 
 <table class="list" cellspacing="0">
 <tr>
@@ -21,15 +21,15 @@
     <td>{$attribute.content.original.filesize|si( byte )}</td>
 </tr>
 </table>
-{section-else}
+{else}
 <p>{'There is no image file.'|i18n( 'design/standard/content/datatype' )}</p>
-{/section}
+{/if}
 
-{section show=$attribute_content.original.is_valid}
+{if $attribute_content.original.is_valid}
 <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_delete_image]" value="{'Remove image'|i18n( 'design/standard/content/datatype' )}" />
-{section-else}
+{else}
 <input class="button-disabled" type="submit" name="CustomActionButton[{$attribute.id}_delete_image]" value="{'Remove image'|i18n( 'design/standard/content/datatype' )}" disabled="disabled" />
-{/section}
+{/if}
 </div>
 
 {* New image file for upload. *}

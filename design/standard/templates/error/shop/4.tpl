@@ -6,6 +6,6 @@
 {undef}
 </div>
 
-{section show=$embed_content}
+{if $embed_content}
     {$embed_content}
-{/section}
+{/if}

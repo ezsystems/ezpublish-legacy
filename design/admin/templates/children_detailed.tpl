@@ -23,9 +23,9 @@
         <th class="section">{'Section'|i18n( 'design/admin/node/view/full' )}</th>
 
         {* Priority column *}
-        {section show=eq( $node.sort_array[0][0], 'priority' )}
+        {if eq( $node.sort_array[0][0], 'priority' )}
             <th class="priority">{'Priority'|i18n( 'design/admin/node/view/full' )}</th>
-        {/section}
+        {/if}
 
         {* Copy column *}
         <th class="copy">&nbsp;</th>
@@ -46,11 +46,11 @@
 
         {* Remove checkbox *}
         <td>
-        {section show=$Nodes.item.can_remove}
+        {if $Nodes.item.can_remove}
             <input type="checkbox" name="DeleteIDArray[]" value="{$Nodes.item.node_id}" title="{'Use these checkboxes to select items for removal. Click the "Remove selected" button to remove the selected items.'|i18n( 'design/admin/node/view/full' )|wash}" />
-            {section-else}
+            {else}
             <input type="checkbox" name="DeleteIDArray[]" value="{$Nodes.item.node_id}" title="{'You do not have permission to remove this item.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
-        {/section}
+        {/if}
         </td>
 
         {* Name *}
@@ -72,24 +72,24 @@
         <td>{section show=$section_object}<a href={concat( '/section/view/', $Nodes.object.section_id )|ezurl}>{$section_object.name|wash}</a>{section-else}<i>{'Unknown'|i18n( 'design/admin/node/view/full' )}</i>{/section}</td>
 
         {* Priority *}
-        {section show=eq( $node.sort_array[0][0], 'priority' )}
+        {if eq( $node.sort_array[0][0], 'priority' )}
             <td>
-            {section show=$node.can_edit}
+            {if $node.can_edit}
                 <input class="priority" type="text" name="Priority[]" size="3" value="{$Nodes.item.priority}" title="{'Use the priority fields to control the order in which the items appear. You can use both positive and negative integers. Click the "Update priorities" button to apply the changes.'|i18n( 'design/admin/node/view/full' )|wash}" />
                 <input type="hidden" name="PriorityID[]" value="{$Nodes.item.node_id}" />
-                {section-else}
+                {else}
                 <input class="priority" type="text" name="Priority[]" size="3" value="{$Nodes.item.priority}" title="{'You are not allowed to update the priorities because you do not have permission to edit <%node_name>.'|i18n( 'design/admin/node/view/full',, hash( '%node_name', $node_name ) )|wash}" disabled="disabled" />
-            {/section}
+            {/if}
             </td>
-        {/section}
+        {/if}
 
     {* Copy button *}
     <td>
-    {section show=$can_copy}
+    {if $can_copy}
     <a href={concat( 'content/copy/', $Nodes.item.contentobject_id )|ezurl}><img src={'copy.gif'|ezimage} alt="{'Copy'|i18n( 'design/admin/node/view/full' )}" title="{'Create a copy of <%child_name>.'|i18n( 'design/admin/node/view/full',, hash( '%child_name', $child_name ) )|wash}" /></a>
-    {section-else}
+    {else}
     <img src={'copy-disabled.gif'|ezimage} alt="{'Copy'|i18n( 'design/admin/node/view/full' )}" title="{'You cannot make a copy of <%child_name> because you do not have create permission for <%node_name>.'|i18n( 'design/admin/node/view/full',, hash( '%child_name', $child_name, '%node_name', $node_name ) )|wash}" />
-    {/section}
+    {/if}
     </td>
 
     {* Move button. *}
@@ -100,11 +100,11 @@
         {* Edit button *}
         {* section show=$can_edit *}
         <td>
-        {section show=$Nodes.item.can_edit}
+        {if $Nodes.item.can_edit}
             <a href={concat( 'content/edit/', $Nodes.item.contentobject_id )|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/node/view/full' )}" title="{'Edit <%child_name>.'|i18n( 'design/admin/node/view/full',, hash( '%child_name', $child_name ) )|wash}" /></a>
-        {section-else}
+        {else}
             <img src={'edit-disabled.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permission to edit <%child_name>.'|i18n( 'design/admin/node/view/full',, hash( '%child_name', $child_name ) )|wash}" />
-        {/section}
+        {/if}
         </td>
         {* /section *}
   </tr>

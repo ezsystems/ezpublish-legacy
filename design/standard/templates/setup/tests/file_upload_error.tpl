@@ -3,7 +3,7 @@
 {*<h3>{$result_number}. {"File uploading is disabled"|i18n("design/standard/setup/tests")}</h3>*}
 <h3>{$result_number}. {"File uploading is not possible"|i18n("design/standard/setup/tests")}</h3>
 
-{section show=$upload_results.php_upload_is_enabled|not}
+{if $upload_results.php_upload_is_enabled|not}
 <p>
  {"File uploading is not enabled which means that it's impossible for eZ Publish to handle file uploading. All other parts of eZ Publish will still work fine but it's recommended to enable file uploads."|i18n("design/standard/setup/tests")}
 </p>
@@ -12,7 +12,7 @@
  {"Enabling file uploads is done by setting %1 in php.ini. Refer to the PHP manual for how to set configuration switches"|i18n("design/standard/setup/tests",,array('<tt class="option">file_uploads = "1"</tt>'))}
  {"More information on enabling the extension can be found by reading %1 and %2"|i18n("design/standard/setup/tests",,array('<a target="_other" href="http://www.php.net/manual/en/features.file-upload.php">file uploads</a>','<a target="_other" href="http://www.php.net/manual/en/configuration.directives.php#ini.file-uploads">configuration directives</a>'))}.
 </p>
-{/section}
+{/if}
 
 {section show=$upload_results.upload_dir_exists|not}
 {* START: directory existance *}
@@ -23,14 +23,14 @@
  {"Create the directory %upload_dir on your system. If you do not have the possibility to create this yourself ask the administrator to create it for you."|i18n( 'design/standard/setup/tests',, hash( '%upload_dir', concat( '<i>', $upload_results.php_upload_dir, '</i>' ) ) )}
 </p>
 
-{section show=$upload_results.php_upload_is_root}
+{if $upload_results.php_upload_is_root}
 <blockquote class="note">
 <p>
  <b>{'Note'|i18n( 'design/standard/setup/tests' )}:</b>{'The upload directory is currently placed in the directory of the root user.
 This is a security problem and should be changed to another global temporary directory'|i18n( 'design/standard/setup/tests' )}
 </p>
 </blockquote>
-{/section}
+{/if}
 
 {* START: mkdir examples *}
 <h3>{'Shell commands'|i18n( 'design/standard/setup/tests' )}</h3>
@@ -51,14 +51,14 @@ This is a security problem and should be changed to another global temporary dir
  {"You must change the permission on the directory %upload_dir. If you do not have the possibility to create this yourself ask the administrator to do this for you."|i18n( 'design/standard/setup/tests',, hash( '%upload_dir', concat( '<i>', $upload_results.php_upload_dir, '</i>' ) ) )}
 </p>
 
-{section show=$upload_results.php_upload_is_root}
+{if $upload_results.php_upload_is_root}
 <blockquote class="note">
 <p>
  <b>{'Note'|i18n( 'design/standard/setup/tests' )}:</b>{'The upload directory is currently placed in the directory of the root user.
 This is a security problem and should be changed to another global temporary directory'|i18n( 'design/standard/setup/tests' )}
 </p>
 </blockquote>
-{/section}
+{/if}
 
 {* START: chmod examples *}
 {section show=$upload_results.user_info.has_extension}

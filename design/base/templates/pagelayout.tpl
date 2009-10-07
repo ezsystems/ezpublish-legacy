@@ -45,25 +45,25 @@ div#maincontent-design { width: 100%; } /* This is needed to avoid width bug in 
         <div id="header">
             <div id="header-design">
                 {*<img src={"/images/t1/t1-logo-placeholder.gif"|ezdesign} height="70" width="211" alt="Company logo" />*}
-                {section show=$pagedesign.data_map.image.content.is_valid|not()}
+                {if $pagedesign.data_map.image.content.is_valid|not()}
                     <h1><a href={"/"|ezurl}>{ezini('SiteSettings','SiteName')}</a></h1>
-                {section-else}
+                {else}
                     <a href={"/"|ezurl}><img src={$pagedesign.data_map.image.content[logo].full_path|ezroot} alt="{$pagedesign.data_map.image.content[logo].text}" /></a>
-                {/section}
+                {/if}
             </div>{* id="header-design" *}
         </div>{* id="header" *}
         {/let}
 
 {/cache-block}
 
-    {section show=ezini('Toolbar_top','Tool','toolbar.ini')|count}
+    {if ezini('Toolbar_top','Tool','toolbar.ini')|count}
         <div id="toolbar-top">
             <div class="toolbar-design">
                 {tool_bar name=top view=line}
             </div>{* id="toolbar-design" *}
              <div class="break"></div>
         </div>{* id="toolbar-top" *}
-    {/section}
+    {/if}
 
     {default current_user=fetch('user','current_user')}
     {cache-block keys=array($uri_string, $current_user.role_id_list|implode( ',' ), $current_user.limited_assignment_value_list|implode( ',' ))}
@@ -94,7 +94,7 @@ div#maincontent-design { width: 100%; } /* This is needed to avoid width bug in 
     {/cache-block}
     {/default}
 
-        {section show=ezini( 'Toolbar_right', 'Tool', 'toolbar.ini' )|count}
+        {if ezini( 'Toolbar_right', 'Tool', 'toolbar.ini' )|count}
             <div id="rightmenu">
                 <div id="rightmenu-design">
                     <h3 class="hide">Right menu</h3>
@@ -105,24 +105,24 @@ div#maincontent-design { width: 100%; } /* This is needed to avoid width bug in 
                     </div>{* id="toolbar-right" *}
                 </div>{* id="rightmenu-design" *}
             </div>{* id="rightmenu" *}
-        {/section}
+        {/if}
 
         <hr class="hide" />
 
         {cache-block}
             {let maincontentstyle='maincontent-bothmenus'}
 
-            {section show=eq(ezini('SelectedMenu','LeftMenu','menu.ini'),'')}
+            {if eq(ezini('SelectedMenu','LeftMenu','menu.ini'),'')}
                 {set maincontentstyle='maincontent-noleftmenu'}
-            {/section}
+            {/if}
 
-            {section show=ezini('Toolbar_right','Tool','toolbar.ini')|count|eq(0)}
-                {section show=$maincontentstyle|eq('maincontent-noleftmenu')}
+            {if ezini('Toolbar_right','Tool','toolbar.ini')|count|eq(0)}
+                {if $maincontentstyle|eq('maincontent-noleftmenu')}
                     {set maincontentstyle='maincontent-nomenus'}
-                {section-else}
+                {else}
                     {set maincontentstyle='maincontent-norightmenu'}
-                {/section}
-            {/section}
+                {/if}
+            {/if}
 
             <div id="maincontent" class="{$maincontentstyle}">
                 <div id="fix">
@@ -143,14 +143,14 @@ div#maincontent-design { width: 100%; } /* This is needed to avoid width bug in 
 
     <hr class="hide" />
 
-    {section show=ezini('Toolbar_bottom','Tool','toolbar.ini')|count}
+    {if ezini('Toolbar_bottom','Tool','toolbar.ini')|count}
         <div id="toolbar-bottom">
             <div class="toolbar-design">
                 {tool_bar name=bottom view=line}
             </div>{* id="toolbar-design" *}
             <div class="break"></div>
         </div>{* id="toolbar-bottom" *}
-    {/section}
+    {/if}
 
     <div id="footer">
         <div id="footer-design">

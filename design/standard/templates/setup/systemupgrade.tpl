@@ -25,12 +25,12 @@
   {/section}
 {/section}
 
-{section show=$upgrade_sql}
-  {section show=$upgrade_sql|eq('ok')}
+{if $upgrade_sql}
+  {if $upgrade_sql|eq('ok')}
     <div class="feedback">
     {"Database check OK"|i18n("design/standard/setup")}
     </div>
-  {section-else}
+  {else}
     <div class="feedback">
     {"Warning, your database is not consistent with the distribution database."|i18n("design/standard/setup")}<br />
     {"To revert your database to distribution setup, run the following SQL queries"|i18n("design/standard/setup")}:<br />
@@ -38,8 +38,8 @@
       {$upgrade_sql|wash|break}
     </p>
     </div>
-  {/section}
-{/section}
+  {/if}
+{/if}
 
 <div class="buttonblock">
 <p>{"Click a button to check file consistency."|i18n("design/standard/setup")}

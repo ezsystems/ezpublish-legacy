@@ -139,13 +139,13 @@
 
 <select id="trash_sort_field" title="{$sort_title}">
 {foreach $sort_fields as $key => $item}
-    <option value="{$key}" {section show=eq( $key, $trash_sort_field )}selected="selected"{/section}>{$item}</option>
+    <option value="{$key}" {if eq( $key, $trash_sort_field )}selected="selected"{/if}>{$item}</option>
 {/foreach}
 </select>
 
 <select id="trash_sort_order" title="{$sort_title}">
-    <option value="0"{section show=eq($trash_sort_order, '0')} selected="selected"{/section}>{'Descending'|i18n( 'design/admin/node/view/full' )}</option>
-    <option value="1"{section show=eq($trash_sort_order, '1')} selected="selected"{/section}>{'Ascending'|i18n( 'design/admin/node/view/full' )}</option>
+    <option value="0"{if eq($trash_sort_order, '0')} selected="selected"{/if}>{'Descending'|i18n( 'design/admin/node/view/full' )}</option>
+    <option value="1"{if eq($trash_sort_order, '1')} selected="selected"{/if}>{'Ascending'|i18n( 'design/admin/node/view/full' )}</option>
 </select>
 
 <input class="button" type="submit" onclick="return trashSortingSelection({'content/trash'|ezurl('single')})" name="SetSorting" value="{'Set'|i18n( 'design/admin/node/view/full' )}" title="{$sort_title}" />

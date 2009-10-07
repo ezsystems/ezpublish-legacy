@@ -41,7 +41,7 @@
 
 <div class="block">
 <label>{'Allow fuzzy match'|i18n( 'design/standard/class/datatype' )}:</label>
-<input type="checkbox" name="ContentClass_ezobjectrelation_selection_fuzzy_match_{$class_attribute.id}" {section show=$content.fuzzy_match}checked="checked"{/section} />
+<input type="checkbox" name="ContentClass_ezobjectrelation_selection_fuzzy_match_{$class_attribute.id}" {if $content.fuzzy_match}checked="checked"{/if} />
 <input type="hidden" name="ContentClass_ezobjectrelation_selection_fuzzy_match_helper_{$class_attribute.id}" value="1" />
 </div>
 

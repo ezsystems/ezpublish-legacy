@@ -10,8 +10,8 @@
 <link rel="Copyright" href={"/ezinfo/copyright"|ezurl} />
 <link rel="Author" href={"/ezinfo/about"|ezurl} />
 
-{section show=$enable_print}
+{if $enable_print}
 <link rel="Alternate" href={concat("layout/set/print/",$site.uri.original_uri)|ezurl} media="print" title="{'Printable version'|i18n('design/standard/layout')}" />
-{/section}
+{/if}
 
 {/default}

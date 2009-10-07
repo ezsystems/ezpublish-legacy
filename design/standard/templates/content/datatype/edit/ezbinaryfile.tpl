@@ -4,7 +4,7 @@
 {* Current file. *}
 <div class="block">
 <label>{'Current file'|i18n( 'design/standard/content/datatype' )}:</label>
-{section show=$attribute.content}
+{if $attribute.content}
 <table class="list" cellspacing="0">
 <tr>
 <th>{'Filename'|i18n( 'design/standard/content/datatype' )}</th>
@@ -17,15 +17,15 @@
 <td>{$attribute.content.filesize|si( byte )}</td>
 </tr>
 </table>
-{section-else}
+{else}
 <p>{'There is no file.'|i18n( 'design/standard/content/datatype' )}</p>
-{/section}
+{/if}
 
-{section show=$attribute.content}
+{if $attribute.content}
 <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_delete_binary]" value="{'Remove'|i18n( 'design/standard/content/datatype' )}" title="{'Remove the file from this draft.'|i18n( 'design/standard/content/datatype' )}" />
-{section-else}
+{else}
 <input class="button-disabled" type="submit" name="CustomActionButton[{$attribute.id}_delete_binary]" value="{'Remove'|i18n( 'design/standard/content/datatype' )}" disabled="disabled" />
-{/section}
+{/if}
 </div>
 
 {* New file. *}

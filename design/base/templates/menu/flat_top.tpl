@@ -13,15 +13,15 @@
     <ul>
     {section var=menu loop=$menuitems}
             {let selected=and( count( $module_result.path )|gt(1), eq( $module_result.path[1].node_id, $menu.node_id ) )}
-            {section show=eq( $menu.object.content_class.identifier, "link" )}
+            {if eq( $menu.object.content_class.identifier, "link" )}
                 <li {$selected|choose( '', 'class="selected"' )}><div class="spacing"><a href={$menu.data_map.location.content|ezurl}>{$menu.object.name|wash}</a></div></li>
-            {section-else}
-                {section show=eq( sum( $menu.index, 1 ), $menuitems|count )}
+            {else}
+                {if eq( sum( $menu.index, 1 ), $menuitems|count )}
                 <li class="last {$selected|choose( '', 'selected' )}"><div class="spacing"><a href={$menu.url_alias|ezurl}>{$menu.name|wash}</a></div></li>
-                {section-else}
+                {else}
                 <li {$selected|choose( '', 'class="selected"' )}><div class="spacing"><a href={$menu.url_alias|ezurl}>{$menu.name|wash}</a></div></li>
-                {/section}
-            {/section}
+                {/if}
+            {/if}
             {/let}
     {/section}
     </ul>

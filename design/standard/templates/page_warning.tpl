@@ -5,7 +5,7 @@
   {section name=Warning loop=$warning_list}
 <tr>
     <td>
-      <h3 class="error">{section show=$Warning:item.identifier}<a href="#{$Warning:item.identifier}">{/section}{$Warning:item.error.type}::{$Warning:item.error.number}{section show=is_set( $Warning:item.error.count )} [{$Warning:item.error.count}]{/section}{section show=$Warning:item.identifier}</a>{/section}</h3>
+      <h3 class="error">{if $Warning:item.identifier}<a href="#{$Warning:item.identifier}">{/if}{$Warning:item.error.type}::{$Warning:item.error.number}{if is_set( $Warning:item.error.count )} [{$Warning:item.error.count}]{/if}{if $Warning:item.identifier}</a>{/if}</h3>
       <ul class="error">
         <li>{$Warning:item.text}</li>
       </ul>

@@ -1,14 +1,14 @@
 {*?template charset=latin1?*}
 {let selected=''}
-{section show=eq($navigationpart_identifier,$menu_item.navigationpart_identifier ) }
+{if eq($navigationpart_identifier,$menu_item.navigationpart_identifier ) }
     {set selected='selected selected-'}
-{/section}
+{/if}
 <li class="{$selected}{$menu_item.position}"><div>
 
-{section show=$menu_item.enabled}
+{if $menu_item.enabled}
 <a href={$menu_item.url|ezurl} title="{$menu_item.tooltip}">{$menu_item.name|wash}</a>
- {section-else}
+ {else}
 <span class="disabled">{$menu_item.name|wash}</span>
-{/section}
+{/if}
 </div></li>
 {/let}

@@ -33,11 +33,11 @@
 {* Fuzzy match. *}
 <div class="block">
     <label>{'Allow fuzzy match'|i18n( 'design/standard/class/datatype' )}:</label>
-    {section show=$content.fuzzy_match}
+    {if $content.fuzzy_match}
         <p>{'Yes'|i18n( 'design/standard/class/datatype' )}</p>
-    {section-else}
+    {else}
         <p>{'No'|i18n( 'design/standard/class/datatype' )}</p>
-    {/section}
+    {/if}
 </div>
 
 {/let}

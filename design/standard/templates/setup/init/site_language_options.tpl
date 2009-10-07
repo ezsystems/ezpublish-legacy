@@ -15,7 +15,7 @@
     {"Monolingual (one language)"|i18n("design/standard/setup/init")}
   </td>
   <td class="normal">
-    <input type="radio" name="eZSetupLanguageType" value="1" {section show=eq($regional_info.language_type,1)}checked="checked"{/section} />
+    <input type="radio" name="eZSetupLanguageType" value="1" {if eq($regional_info.language_type,1)}checked="checked"{/if} />
   </td>
 </tr>
 <tr>
@@ -23,19 +23,19 @@
     {"Multilingual (multiple languages with one charset)"|i18n("design/standard/setup/init")}
   </td>
   <td class="normal">
-    <input type="radio" name="eZSetupLanguageType" value="2" {section show=eq($regional_info.language_type,2)}checked="checked"{/section} />
+    <input type="radio" name="eZSetupLanguageType" value="2" {if eq($regional_info.language_type,2)}checked="checked"{/if} />
   </td>
 </tr>
-{section show=$database_info.supports_unicode}
+{if $database_info.supports_unicode}
 <tr>
   <td class="normal">
     {"Multilingual (Unicode, no limit)"|i18n("design/standard/setup/init")}
   </td>
   <td class="normal">
-    <input type="radio" name="eZSetupLanguageType" value="3" {section show=eq($regional_info.language_type,3)}checked="checked"{/section} />
+    <input type="radio" name="eZSetupLanguageType" value="3" {if eq($regional_info.language_type,3)}checked="checked"{/if} />
   </td>
 </tr>
-{/section}
+{/if}
 </table>
 </div>
 

@@ -7,30 +7,30 @@
      page_uri_suffix=false()
      node_array=array()
      bookmark_list=fetch('content','bookmarks',array())}
-{section show=is_set( $node_list )}
+{if is_set( $node_list )}
     {def $page_uri=$requested_uri }
     {set browse_list_count = $node_list_count
          node_array        = $node_list
          page_uri_suffix   = concat( '?', $requested_uri_suffix)}
-{section-else}
+{else}
     {def $page_uri=concat( '/content/browse/', $main_node.node_id )}
 
     {set browse_list_count=fetch( content, list_count, hash( parent_node_id, $node_id, depth, 1, objectname_filter, $view_parameters.namefilter))
          node_array=fetch( content, list, hash( parent_node_id, $node_id, depth, 1, offset, $view_parameters.offset, limit, $number_of_items, sort_by, $main_node.sort_array, objectname_filter, $view_parameters.namefilter ) )}
-{/section}
+{/if}
 
-{section show=eq( $browse.return_type, 'NodeID' )}
+{if eq( $browse.return_type, 'NodeID' )}
     {set select_name='SelectedNodeIDArray'}
     {set select_attribute='node_id'}
-{/section}
+{/if}
 
-{section show=eq( $browse.selection, 'single' )}
+{if eq( $browse.selection, 'single' )}
     {set select_type='radio'}
-{/section}
+{/if}
 
-{section show=$browse.description_template}
+{if $browse.description_template}
     {include name=Description uri=$browse.description_template browse=$browse }
-{section-else}
+{else}
 
 <div class="context-block">
 
@@ -55,7 +55,7 @@
 
 </div>
 
-{/section}
+{/if}
 
 <form name="browse" method="post" action={$browse.from_page|ezurl}>
 
@@ -69,29 +69,29 @@
 <ul class="oe-bookmarks">
 {section var=Nodes loop=$bookmark_list show=$bookmark_list}
   <li>
-  {section show=$browse.ignore_nodes_select|contains($Nodes.item.node_id)|not()}
-     {section show=is_array($browse.class_array)}
-         {section show=$browse.class_array|contains($Nodes.item.node.object.content_class.identifier)}
+  {if $browse.ignore_nodes_select|contains($Nodes.item.node_id)|not()}
+     {if is_array($browse.class_array)}
+         {if $browse.class_array|contains($Nodes.item.node.object.content_class.identifier)}
              <input type="{$select_type}" name="{$select_name}[]" value="{$Nodes.item.node[$select_attribute]}" />
-         {section-else}
+         {else}
              &nbsp;
-         {/section}
-     {section-else}
+         {/if}
+     {else}
          <input type="{$select_type}" name="{$select_name}[]" value="{$Nodes.item.node[$select_attribute]}" />
-     {/section}
-  {section-else}
+     {/if}
+  {else}
       &nbsp;
-  {/section}
+  {/if}
 
-   {section show=$browse.ignore_nodes_click|contains( $Nodes.item.node_id )|not}
-        {section show=$Nodes.item.node.object.content_class.is_container}
+   {if $browse.ignore_nodes_click|contains( $Nodes.item.node_id )|not}
+        {if $Nodes.item.node.object.content_class.is_container}
             {$Nodes.item.node.object.class_identifier|class_icon( small, $Nodes.item.node.object.class_name )}&nbsp;<a href={concat( '/content/browse/', $Nodes.item.node_id )|ezurl}>{$Nodes.item.name|wash}</a>
-        {section-else}
+        {else}
             {$Nodes.item.node.object.class_identifier|class_icon( small, $Nodes.item.node.object.class_name )}&nbsp;{$Nodes.item.name|wash}
-        {/section}
-    {section-else}
+        {/if}
+    {else}
         {$Nodes.item.node.object.class_identifier|class_icon( small, $Nodes.item.node.object.class_name )}&nbsp;{$Nodes.item.name|wash}
-    {/section}
+    {/if}
     </li>
 {/section}
 </ul>
@@ -101,20 +101,20 @@
 
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-{section show=is_unset( $node_list )}
+{if is_unset( $node_list )}
     {let current_node=fetch( content, node, hash( node_id, $browse.start_node ) )}
-    {section show=$browse.start_node|gt( 1 )}
+    {if $browse.start_node|gt( 1 )}
         <h2 class="context-title">
         <a href={concat( '/content/browse/', $main_node.parent_node_id, '/' )|ezurl}><img src={'back-button-16x16.gif'|ezimage} alt="{'Back'|i18n( 'design/admin/content/browse' )}" /></a>
         {$current_node.object.content_class.identifier|class_icon( original, $current_node.object.content_class.name|wash )}&nbsp;{$current_node.name|wash}&nbsp;[{$browse_list_count}]</h2>
-    {section-else}
+    {else}
     <h2 class="context-title"><img src={'back-button-16x16.gif'|ezimage} alt="Back" /> {'folder'|class_icon( small, $current_node.object.content_class.name|wash )}&nbsp;{'Top level'|i18n( 'design/admin/content/browse' )}&nbsp;[{$current_node.children_count}]</h2>
-    {/section}
+    {/if}
     {/let}
-{section-else}
+{else}
  <h2 class="context-title"><img src={'back-button-16x16.gif'|ezimage} alt="Back" /> {'folder'|class_icon( small)}&nbsp;{'Search result'|i18n( 'design/admin/content/browse' )}&nbsp;[{$browse_list_count}]</h2>
 
-{/section}
+{/if}
 {* DESIGN: Subline *}<div class="header-subline"></div>
 
 {* DESIGN: Header END *}</div></div></div></div></div></div>
@@ -195,13 +195,13 @@
 {/section}
 
 <input type="hidden" name="BrowseActionName" value="{$browse.action_name}" />
-{section show=$browse.browse_custom_action}
+{if $browse.browse_custom_action}
     <input type="hidden" name="{$browse.browse_custom_action.name}" value="{$browse.browse_custom_action.value}" />
-{/section}
+{/if}
 
-{section show=$cancel_action}
+{if $cancel_action}
 <input type="hidden" name="BrowseCancelURI" value="{$cancel_action}" />
-{/section}
+{/if}
 
 {* DESIGN: Content END *}</div></div></div>
 

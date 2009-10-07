@@ -34,20 +34,20 @@
 
     {* Module. *}
     <td>
-        {section show=eq( $Policies.item.module_name, '*' )}
+        {if eq( $Policies.item.module_name, '*' )}
             <i>{'all modules'|i18n( 'design/admin/role/view' )} </i>
-        {section-else}
+        {else}
             {$Policies.item.module_name}
-        {/section}
+        {/if}
     </td>
 
     {* Function. *}
     <td>
-        {section show=eq( $Policies.item.function_name, '*' )}
+        {if eq( $Policies.item.function_name, '*' )}
             <i>{'all functions'|i18n( 'design/admin/role/view' )} </i>
-        {section-else}
+        {else}
             {$Policies.item.function_name}
-        {/section}
+        {/if}
     </td>
 
     {* Limitations. *}
@@ -155,11 +155,11 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
 
-{section show=$user_array}
+{if $user_array}
 <input class="button" type="submit" name="RemoveRoleAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/role/view' )}" title="{'Remove selected users and/or user groups.'|i18n( 'design/admin/role/view' )}" />
-{section-else}
+{else}
 <input class="button-disabled" type="submit" name="RemoveRoleAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/role/view' )}" disabled="disabled" />
-{/section}
+{/if}
 
 <input class="button" type="submit" name="AssignRoleButton" value="{'Assign'|i18n( 'design/admin/role/view' )}" title="{'Assign the <%role_name> role to a user or a user group.'|i18n( 'design/admin/role/view',, hash( '%role_name', $role.name ) )|wash}" />
 </div>

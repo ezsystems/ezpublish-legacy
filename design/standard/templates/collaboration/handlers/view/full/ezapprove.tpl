@@ -8,11 +8,11 @@
      participant_list=fetch("collaboration","participant_map",hash("item_id",$collab_item.id))
      message_list=fetch("collaboration","message_list",hash("item_id",$collab_item.id,"limit",$message_limit,"offset",$message_offset))}
 
-{section show=$content_version|null()|not()}
+{if $content_version|null()|not()}
   {set-block variable=contentobject_link}
     {content_version_view_gui view=text_linked content_version=$content_version}
   {/set-block}
-{/section}
+{/if}
 
 <table cellspacing="4" cellpadding="4" border="0">
 <tr>
@@ -27,29 +27,29 @@
 {switch match=$collab_item.data_int3}
 {case match=0}
 
-{section show=$collab_item.is_creator}
+{if $collab_item.is_creator}
 <p>{"The content object %1 awaits approval before it can be published."|i18n('design/standard/collaboration/approval',,array($contentobject_link))}</p>
 <p>{"Do you want to send a message to the person approving it?"|i18n('design/standard/collaboration/approval')}</p>
-{section-else}
+{else}
 <p>{"The content object %1 needs your approval before it can be published."|i18n('design/standard/collaboration/approval',,array($contentobject_link))}</p>
 <p>{"Do you approve of the content object being published?"|i18n('design/standard/collaboration/approval')}</p>
-{/section}
+{/if}
 
 {/case}
 {case match=1}
   <p>{"The content object %1 was approved and will be published when the publishing workflow continues."|i18n('design/standard/collaboration/approval',,array($contentobject_link))}</p>
 {/case}
 {case in=array(2,3)}
-  {section show=$collab_item.is_creator}
+  {if $collab_item.is_creator}
     <p>{"The content object %1 was not accepted but is still available as a draft."|i18n('design/standard/collaboration/approval',,array($contentobject_link))}</p>
-    {section show=$content_version|null()|not()}
+    {if $content_version|null()|not()}
       <p>{"You may re-edit the draft and publish it, in which case an approval is required again."|i18n('design/standard/collaboration/approval')}</p>
       <p><a href={concat("content/edit/",$content_version.contentobject_id)|ezurl}>{"Edit the object"|i18n('design/standard/collaboration/approval')}</a></p>
-    {/section}
-  {section-else}
+    {/if}
+  {else}
     <p>{"The content object %1 was not accepted but will be available as a draft for the author."|i18n('design/standard/collaboration/approval',,array($contentobject_link))}</p>
     <p>{"The author can re-edit the draft and publish it again, in which case a new approval item is made."|i18n('design/standard/collaboration/approval')}</p>
-  {/section}
+  {/if}
 {/case}
 {case/}
 {/switch}
@@ -61,7 +61,7 @@
 
 <br/>
 
-{section show=eq($collab_item.data_int3,0)}
+{if eq($collab_item.data_int3,0)}
 <label>{"Comment"|i18n('design/standard/collaboration/approval')}</label><div class="break"/>
 <textarea name="Collaboration_ApproveComment" cols="40" rows="5"></textarea>
 
@@ -70,12 +70,12 @@
 
 &nbsp;
 
-{section show=$collab_item.is_creator|not}
+{if $collab_item.is_creator|not}
 <input type="submit" name="CollaborationAction_Accept" value="{'Approve'|i18n('design/standard/collaboration/approval')}" />
 <input type="submit" name="CollaborationAction_Deny" value="{'Deny'|i18n('design/standard/collaboration/approval')}" />
-{/section}
+{/if}
 </div>
-{/section}
+{/if}
 
 </div>
 
@@ -83,9 +83,9 @@
 
   <td rowspan="2" valign="top">
 
-{section show=$content_version|null()|not()}
+{if $content_version|null()|not()}
   {content_version_view_gui view=plain content_version=$content_version}
-{/section}
+{/if}
 
   </td>
 

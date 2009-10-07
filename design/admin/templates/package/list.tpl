@@ -61,11 +61,11 @@ Note: The packages will not be uninstalled.'|i18n('design/admin/package/list')|b
 </div>
 
 {section-else}
-{section show=$module_action|eq( 'CancelRemovePackage' )}
+{if $module_action|eq( 'CancelRemovePackage' )}
 <div class="message-feedback">
     <p>{'Package removal was canceled.'|i18n('design/admin/package/list')}</p>
 </div>
-{/section}
+{/if}
 
 {* ## START default window ## *}
 
@@ -86,7 +86,7 @@ Note: The packages will not be uninstalled.'|i18n('design/admin/package/list')|b
 <select name="RepositoryID">
     <option value="">{'All'|i18n( 'design/admin/package/list' )}</option>
 {section var=repository loop=$repository_list}
-    <option value="{$repository.id|wash}"{section show=eq( $repository.id, $repository_id )} selected="selected"{/section}>{$repository.name|wash}</option>
+    <option value="{$repository.id|wash}"{if eq( $repository.id, $repository_id )} selected="selected"{/if}>{$repository.name|wash}</option>
 {/section}
 </select>
 &nbsp;<input class="button" type="submit" name="ChangeRepositoryButton" value="{'Change repository'|i18n( 'design/admin/package/list' )}" />
@@ -104,24 +104,24 @@ Note: The packages will not be uninstalled.'|i18n('design/admin/package/list')|b
 </tr>
 {section name=Package loop=$package_list sequence=array(bglight,bgdark)}
 <tr class="{$:sequence}">
-    {section show=$can_remove}
+    {if $can_remove}
     <td width="1"><input type="checkbox" name="PackageSelection[]" value="{$:item.name|wash}"/></td>
-    {section-else}
+    {else}
       <input type="checkbox" disabled="disabled">
-    {/section}
+    {/if}
     <td><a href={concat('package/view/full/',$:item.name)|ezurl}>{$:item.name|wash}</a></td>
-    <td>{$:item.version-number}-{$:item.release-number}{section show=$:item.release-timestamp}({$:item.release-timestamp|l10n( shortdatetime )}){/section}{section show=$:item.type} [{$:item.type|wash}]{/section}</td>
+    <td>{$:item.version-number}-{$:item.release-number}{if $:item.release-timestamp}({$:item.release-timestamp|l10n( shortdatetime )}){/if}{if $:item.type} [{$:item.type|wash}]{/if}</td>
     <td>{$:item.summary|wash}</td>
     <td>
-        {section show=$:item.install_type|eq( 'install' )}
-            {section show=$:item.is_installed}
+        {if $:item.install_type|eq( 'install' )}
+            {if $:item.is_installed}
                 {'Installed'|i18n('design/admin/package/list')}
-            {section-else}
+            {else}
                 {'Not installed'|i18n('design/admin/package/list')}
-            {/section}
-        {section-else}
+            {/if}
+        {else}
             {'Imported'|i18n('design/admin/package/list')}
-        {/section}
+        {/if}
     </td>
 </tr>
 {/section}
@@ -142,10 +142,10 @@ Note: The packages will not be uninstalled.'|i18n('design/admin/package/list')|b
      can_import=fetch( package, can_import )}
 
 <div class="block">
-  <input class="button" type="submit" name="RemovePackageButton" value="{'Remove selected'|i18n('design/admin/package/list')}" {section show=and( $package_list|gt( 0 ), $can_remove )|not}disabled="disabled"{/section} />
+  <input class="button" type="submit" name="RemovePackageButton" value="{'Remove selected'|i18n('design/admin/package/list')}" {if and( $package_list|gt( 0 ), $can_remove )|not}disabled="disabled"{/if} />
 
-  <input class="button" type="submit" name="InstallPackageButton" value="{'Import new package'|i18n('design/admin/package/list')}" {section show=$can_import|not}disabled="disabled"{/section}/>
-  <input class="button" type="submit" name="CreatePackageButton" value="{'Create new package'|i18n('design/admin/package/list')}" {section show=$can_create|not}disabled="disabled"{/section} />
+  <input class="button" type="submit" name="InstallPackageButton" value="{'Import new package'|i18n('design/admin/package/list')}" {if $can_import|not}disabled="disabled"{/if}/>
+  <input class="button" type="submit" name="CreatePackageButton" value="{'Create new package'|i18n('design/admin/package/list')}" {if $can_create|not}disabled="disabled"{/if} />
 </div>
 
 {/let}

@@ -56,16 +56,16 @@
 
     {* Location. *}
     <td>
-    {section show=$reverse_list_count_children_array[$children_item.object.id]|gt( 0 )}
+    {if $reverse_list_count_children_array[$children_item.object.id]|gt( 0 )}
         <a href={concat( $children_item.object.main_node.url_alias, '/(show_relations)/1#relations' )|ezurl}>
-    {/section}
+    {/if}
 	{section var=path_node loop=$children_item.path|append( $children_item )}
               {$path_node.name|wash}
               {delimiter} / {/delimiter}
         {/section}
-    {section show=$reverse_list_count_children_array[$children_item.object.id]|gt( 0 )}
+    {if $reverse_list_count_children_array[$children_item.object.id]|gt( 0 )}
           </a>
-    {/section}
+    {/if}
     </td>
 
     {* Type. *}
@@ -76,9 +76,9 @@
     {* Objects referring to this item. *}
     <td>
       {$reverse_list_count_children_array[$children_item.object.id]}
-      {section show=$reverse_list_count_children_array[$children_item.object.id]|gt( 0 )}
+      {if $reverse_list_count_children_array[$children_item.object.id]|gt( 0 )}
         ( <a href={concat( $children_item.object.main_node.url_alias, '/(show_relations)/1#relations' )|ezurl}>list</a> )
-      {/section}
+      {/if}
     </td>
 
 </tr>

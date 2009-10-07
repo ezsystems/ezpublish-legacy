@@ -5,11 +5,11 @@
 
         <h2><a href={$node.url_alias|ezurl}>{$node.name|wash()}</a></h2>
 
-       {section show=$node.data_map.short_description.content.is_empty|not}
+       {if $node.data_map.short_description.content.is_empty|not}
         <div class="attribute-short">
         {attribute_view_gui attribute=$node.data_map.short_description}
         </div>
-       {/section}
+       {/if}
 
         <div class="attribute-link">
             <p><a href={$node.url_alias|ezurl}>{"View list"|i18n("design/base")}</a></p>

@@ -9,21 +9,21 @@
     <tr>
         <td class="menu" colspan="2">
 	    <p class="menufieldlabel">{"Created"|i18n("design/standard/content/edit")}</p>
-	    {section show=$object.published}
+	    {if $object.published}
 	    <p class="menufield">{$object.published|l10n(date)}</p>
-	    {section-else}
+	    {else}
 	    <p class="menufield">
 	    {"Not yet published"|i18n("design/standard/content/edit")}
 	    </p>
-	    {/section}
+	    {/if}
 	    <p class="menufieldlabel">{"Last Modified"|i18n("design/standard/content/edit")}</p>
-	    {section show=$object.modified}
+	    {if $object.modified}
 	    <p class="menufield">{$object.modified|l10n(date)}</p>
-	    {section-else}
+	    {else}
 	    <p class="menufield">
 	    {"Not yet published"|i18n("design/standard/content/edit")}
 	    </p>
-	    {/section}
+	    {/if}
         </td>
     </tr>
     <tr>
@@ -115,10 +115,10 @@
           <div class="buttonblock">
 {*          <input class="menubutton" type="submit" name="BrowseObjectButton" value="{'Find'|i18n('design/standard/content/edit')}" />*}
             <input class="menubutton" type="image" name="BrowseObjectButton" value="{'Find'|i18n('design/standard/content/edit')}" src={"find.png"|ezimage} />
-    {section show=$related_contentobjects}
+    {if $related_contentobjects}
 {*          <input class="menubutton" type="submit" name="DeleteRelationButton" value="{'Remove'|i18n('design/standard/content/edit')}" />*}
             <input class="menubutton" type="image" name="DeleteRelationButton" value="{'Remove'|i18n('design/standard/content/edit')}" src={"trash.png"|ezimage} />
-    {/section}
+    {/if}
           </div>
         </td>
     </tr>

@@ -13,10 +13,10 @@
 {pdf(execute, $pdf_definition, hash( size, A4,
                                      orientation, portrait ) )}
 
-{section show=$generate_stream|eq(1)}
+{if $generate_stream|eq(1)}
   {pdf(stream)}
-{/section}
+{/if}
 
-{section show=$generate_file|eq(1)}
+{if $generate_file|eq(1)}
   {pdf(close, $filename)}
-{/section}
+{/if}

@@ -5,17 +5,17 @@
 
     <h1>{attribute_view_gui attribute=$node.data_map.name}</h1>
 
-    {section show=$node.data_map.description.content.is_empty|not}
+    {if $node.data_map.description.content.is_empty|not}
         <div class="attribute-long">
             {attribute_view_gui attribute=$node.data_map.description}
         </div>
-    {/section}
+    {/if}
 
-    {section show=ne($node.data_map.location.content,'')}
+    {if ne($node.data_map.location.content,'')}
         <div class="attribute-link">
             <p><a href="{$node.data_map.location.content}">{$node.data_map.location.data_text}</a></p>
         </div>
-    {/section}
+    {/if}
 
     </div>
 </div>

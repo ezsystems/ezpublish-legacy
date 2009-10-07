@@ -5,11 +5,11 @@
 
     <h1>{$node.data_map.name.content|wash()}</h1>
 
-    {section show=$node.data_map.description.content.is_empty|not}
+    {if $node.data_map.description.content.is_empty|not}
         <div class="attribute-long">
             {attribute_view_gui attribute=$node.data_map.description}
         </div>
-    {/section}
+    {/if}
 
     <div class="attribute-file">
         <p>{attribute_view_gui attribute=$node.data_map.file icon_title=$node.name}</p>

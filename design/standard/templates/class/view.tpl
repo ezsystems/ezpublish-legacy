@@ -33,20 +33,20 @@
 
 <div class="block">
     <label>{"Container"|i18n("design/standard/class/view")}:</label><div class="labelbreak"></div>
-    {section show=$class.is_container|eq(1)}
+    {if $class.is_container|eq(1)}
         {"Yes"|i18n("design/standard/class/view")}
-    {section-else}
+    {else}
         {"No"|i18n("design/standard/class/view")}
-    {/section}
+    {/if}
 </div>
 
 <div class="block">
     <label>{"Objects always available (default value)"|i18n("design/standard/class/view")}:</label><div class="labelbreak"></div>
-    {section show=$class.always_available|eq(0)}
+    {if $class.always_available|eq(0)}
         {"No"|i18n("design/standard/class/view")}
-    {section-else}
+    {else}
         {"Yes"|i18n("design/standard/class/view")}
-    {/section}
+    {/if}
 </div>
 
 <div class="block">
@@ -110,31 +110,31 @@
     <td class="{$Attributes:sequence}" rowspan="2" width="20%" valign="top">
 
         <div class="block">
-            <p>{section show=$Attributes:item.is_required}{"Is required"|i18n("design/standard/class/view")}{section-else}{"Is not required"|i18n("design/standard/class/view")}{/section}</p>
+            <p>{if $Attributes:item.is_required}{"Is required"|i18n("design/standard/class/view")}{else}{"Is not required"|i18n("design/standard/class/view")}{/if}</p>
         </div>
 
-        {section show=$Attributes:item.data_type.is_indexable}
+        {if $Attributes:item.data_type.is_indexable}
         <div class="block">
-            <p>{section show=$Attributes:item.is_searchable}{"Is searchable"|i18n("design/standard/class/view")}{section-else}{"Is not searchable"|i18n("design/standard/class/view")}{/section}</p>
+            <p>{if $Attributes:item.is_searchable}{"Is searchable"|i18n("design/standard/class/view")}{else}{"Is not searchable"|i18n("design/standard/class/view")}{/if}</p>
         </div>
-        {section-else}
+        {else}
         <div class="block">
             <p>{"Is not searchable"|i18n("design/standard/class/view")}</p>
         </div>
-        {/section}
+        {/if}
 
-        {section show=$Attributes:item.data_type.is_information_collector}
+        {if $Attributes:item.data_type.is_information_collector}
         <div class="block">
-            <p>{section show=$Attributes:item.is_information_collector}{"Collects information"|i18n("design/standard/class/view")}{section-else}{"Does not collect information"|i18n("design/standard/class/view")}{/section}</p>
+            <p>{if $Attributes:item.is_information_collector}{"Collects information"|i18n("design/standard/class/view")}{else}{"Does not collect information"|i18n("design/standard/class/view")}{/if}</p>
         </div> 
-        {section-else}
+        {else}
         <div class="block">
             <p>{"Does not collect information"|i18n("design/standard/class/view")}</p>
         </div>
-        {/section}
+        {/if}
 
         <div class="block">
-            <p>{section show=or( $Attributes.item.can_translate|eq(0), $Attributes.item.data_type.properties.translation_allowed|not )}{'Translation is disabled'|i18n( 'design/standard/class/view' )}{section-else}{'Translation is enabled'|i18n( 'design/standard/class/view' )}{/section}</p>
+            <p>{if or( $Attributes.item.can_translate|eq(0), $Attributes.item.data_type.properties.translation_allowed|not )}{'Translation is disabled'|i18n( 'design/standard/class/view' )}{else}{'Translation is enabled'|i18n( 'design/standard/class/view' )}{/if}</p>
         </div>
 
     </td>

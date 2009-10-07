@@ -8,11 +8,11 @@
     <h1>{$node.name|wash} ( {attribute_view_gui attribute=$node.data_map.job_title} )</h1>
 
     {* Picture. *}
-    {section show=$node.data_map.picture.content}
+    {if $node.data_map.picture.content}
         <div class="attribute-image">
             {attribute_view_gui attribute=$node.data_map.picture.content.data_map.image alignment=right}
         </div>
-    {/section}
+    {/if}
 
     {* Contact information. *}
     <div class="attribute-matrix">

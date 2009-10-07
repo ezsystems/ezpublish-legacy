@@ -6,17 +6,17 @@
 
 <h1>{$object.name|wash}</h1>
 
-{section show=$error}
+{if $error}
 
-{section show=$error_existing_data}
+{if $error_existing_data}
 <p>{'You have already submitted feedback. The previously submitted data was:'|i18n('design/standard/content/feedback')}</p>
-{/section}
+{/if}
 
-{section-else}
+{else}
 
 <p>{'Thanks for your feedback. The following information was collected.'|i18n('design/standard/content/feedback')}</p>
 
-{/section}
+{/if}
 
 <div class="block">
 {section loop=$collection.attributes}

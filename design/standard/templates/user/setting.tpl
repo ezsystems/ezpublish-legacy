@@ -13,7 +13,7 @@
 </div>
 
 <div class="block">
-<input type="checkbox" name="is_enabled" {section show=$userSetting.is_enabled}checked{/section} >&nbsp;<label class="check">{"Is enabled"|i18n("design/standard/user")}</label><div class="labelbreak"></div>
+<input type="checkbox" name="is_enabled" {if $userSetting.is_enabled}checked{/if} >&nbsp;<label class="check">{"Is enabled"|i18n("design/standard/user")}</label><div class="labelbreak"></div>
 </div>
 
 <div class="buttonblock">

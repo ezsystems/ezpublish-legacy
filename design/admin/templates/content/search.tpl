@@ -34,12 +34,12 @@
     <input class="button"  name="SearchButton" type="submit" value="{'Search'|i18n( 'design/admin/content/search' )}" />
 </div>
 
-{section show=and(count($search_subtree_array)|eq(1),$search_subtree_array.0|ne(1))}
+{if and(count($search_subtree_array)|eq(1),$search_subtree_array.0|ne(1))}
 <div class="block">
 <label><input type="radio" name="SubTreeArray" value="1" />{'All content'|i18n('design/admin/content/search')}</label>
 <label><input type="radio" name="SubTreeArray" value="{$search_subtree_array.0}" checked="checked" />{'The same location'|i18n('design/admin/content/search')}</label>
 </div>
-{/section}
+{/if}
 
 <div class="block">
     {let adv_url=concat( '/content/advancedsearch/', $search_text|count|gt( 0 )|choose('', concat( '?SearchText=', $search_text|urlencode ) ) )|ezurl}
@@ -59,7 +59,7 @@
 {/section}
 
 {* No matches. *}
-{section show=$search_count|not}
+{if $search_count|not}
 <h2>{'No results were found while searching for <%1>'|i18n( 'design/admin/content/search',, array( $search_text ) )|wash}</h2>
     <p>{'Search tips'|i18n( 'design/admin/content/search' )}</p>
     <ul>
@@ -68,7 +68,7 @@
         <li>{'Try more general keywords.'|i18n( 'design/admin/content/search' )}</li>
         <li>{'Fewer keywords result in more matches. Try reducing keywords until you get a result.'|i18n( 'design/admin/content/search' )}</li>
     </ul>
-{/section}
+{/if}
 
 </div>
 {* DESIGN: Content END *}</div></div></div></div></div></div>
@@ -76,7 +76,7 @@
 </div>
 
 {* Search result. *}
-{section show=$search_count}
+{if $search_count}
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 <h2 class="context-title">{'Search for <%1> returned %2 matches'|i18n( 'design/admin/content/search',, array( $search_text, $search_count ) )|wash}</h2>
@@ -100,7 +100,7 @@
 </div>
 {* DESIGN: Content END *}</div></div></div></div></div></div>
 </div>
-{/section}
+{/if}
 
 </form>
 {/let}

@@ -14,8 +14,8 @@
     </div>
 
 
-    {section show=is_unset( $versionview_mode )}
-    {section show=$node.object.can_create}
+    {if is_unset( $versionview_mode )}
+    {if $node.object.can_create}
         <form method="post" action={"content/action/"|ezurl}>
             <input class="button forum-new-topic" type="submit" name="NewButton" value="{'New topic'|i18n( 'design/base' )}" />
             <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
@@ -24,13 +24,13 @@
             <input type="hidden" name="NodeID" value="{$node.node_id}" />
             <input type="hidden" name="ClassIdentifier" value="forum_topic" />
         </form>
-    {section-else}
+    {else}
         <p>
         {"You need to be logged in to get access to the forums. Log in  %login_link_start%here%login_link_end%"|i18n( "design/base",,
          hash( '%login_link_start%', concat( '<a href=', '/user/login/'|ezurl, '>' ), '%login_link_end%', '</a>' ) )}
         </p>
-    {/section}
-    {/section}
+    {/if}
+    {/if}
 
 
     <div class="content-view-children">
@@ -56,7 +56,7 @@
              topic_reply_pages=sum( int( div( sum( $topic_reply_count, 1 ), 20 ) ), cond( mod( sum( topic_reply_count, 1 ), 20 )|gt( 0 ), 1, 0 ) )}
         <tr class="{$topic.sequence}">
             <td class="topic">
-                <p>{section show=$topic.object.data_map.sticky.content}<img class="forum-topic-sticky" src={"sticky-16x16-icon.gif"|ezimage} height="16" width="16" align="middle" alt="" />{/section}
+                <p>{if $topic.object.data_map.sticky.content}<img class="forum-topic-sticky" src={"sticky-16x16-icon.gif"|ezimage} height="16" width="16" align="middle" alt="" />{/if}
                 <a href={$topic.url_alias|ezurl}>{$topic.object.name|wash}</a></p>
                 {section show=$topic_reply_count|gt( sub( 20, 1 ) )}
                     <p>
@@ -93,11 +93,11 @@
                    <p class="date">{$reply.object.published|l10n(shortdatetime)}</p>
                    <p class="author">{$reply.object.owner.name|wash}</p>
                 </div>
-                {section show=$topic_reply_count|gt( 19 )}
+                {if $topic_reply_count|gt( 19 )}
                     <p><a href={concat( $reply.parent.url_alias, '/(offset)/', sub( $topic_reply_count, mod( $topic_reply_count, 20 ) ) , '#msg', $reply.node_id )|ezurl}>{$reply.name|wash}</a></p>
-                {section-else}
+                {else}
                     <p><a href={concat( $reply.parent.url_alias, '#msg', $reply.node_id )|ezurl}>{$reply.name|wash}</a></p>
-                {/section}
+                {/if}
                 {/section}
            {/let}
            </td>

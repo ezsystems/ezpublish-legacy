@@ -10,13 +10,13 @@
      select_type='checkbox'
      select_attribute='contentobject_id'}
 
-{section show=eq($browse.return_type,'NodeID')}
+{if eq($browse.return_type,'NodeID')}
     {set select_name='SelectedNodeIDArray'}
     {set select_attribute='node_id'}
-{/section}
-{section show=eq($browse.selection,'single')}
+{/if}
+{if eq($browse.selection,'single')}
     {set select_type='radio'}
-{/section}
+{/if}
 
 <form action={concat($browse.from_page)|ezurl} method="post">
 
@@ -25,16 +25,16 @@
 
     <td width="80%" valign="top">
 
-{section show=$browse.description_template}
+{if $browse.description_template}
     {include name=Description uri=$browse.description_template browse=$browse main_node=$main_node}
-{section-else}
+{else}
     <div class="maincontentheader">
     <h1>{"Browse"|i18n("design/standard/content/browse")} - {$main_node.name|wash}</h1>
     </div>
 
     <p>{'To select objects, choose the appropriate radio button or checkbox(es), then click the "Select" button.'|i18n("design/standard/content/browse")}</p>
     <p>{'To select an object that is a child of one of the displayed objects, click the object name for a list of the children of the object.'|i18n("design/standard/content/browse")}</p>
-{/section}
+{/if}
 
         {* Browse listing start *}
         <table class="list" width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -53,7 +53,7 @@
         </tr>
         <tr>
             <td class="bglight">
-            {section show=and( or( $browse.permission|not,
+            {if and( or( $browse.permission|not,
                                    cond( is_set( $browse.permission.contentclass_id ),
                                          fetch( content, access,
                                                 hash( access, $browse.permission.access,
@@ -63,28 +63,28 @@
                                                 hash( access, $browse.permission.access,
                                                       contentobject, $main_node ) ) ) ),
                                $browse.ignore_nodes_select|contains( $main_node.node_id )|not() )}
-	      {section show=is_array($browse.class_array)}
-	        {section show=$browse.class_array|contains($main_node.object.content_class.identifier)}
-		  <input type="{$select_type}" name="{$select_name}[]" value="{$main_node[$select_attribute]}" {section show=eq($browse.selection,'single')}checked="checked"{/section} />
-		{section-else}
+	      {if is_array($browse.class_array)}
+	        {if $browse.class_array|contains($main_node.object.content_class.identifier)}
+		  <input type="{$select_type}" name="{$select_name}[]" value="{$main_node[$select_attribute]}" {if eq($browse.selection,'single')}checked="checked"{/if} />
+		{else}
 		    &nbsp;
-		{/section}
-	      {section-else}
-	        <input type="{$select_type}" name="{$select_name}[]" value="{$main_node[$select_attribute]}" {section show=eq($browse.selection,'single')}checked="checked"{/section} />
-	      {/section}
-	    {section-else}
+		{/if}
+	      {else}
+	        <input type="{$select_type}" name="{$select_name}[]" value="{$main_node[$select_attribute]}" {if eq($browse.selection,'single')}checked="checked"{/if} />
+	      {/if}
+	    {else}
 	        &nbsp;
-            {/section}
+            {/if}
             </td>
 
             <td class="bglight">
 {*                 {node_view_gui view=line content_node=$main_node node_url=concat( 'content/browse', $main_node.parent_node_id, '/' )} *}
                 {node_view_gui view=line content_node=$main_node node_url=false()}
-                {section show=$main_node.depth|gt(1)}
+                {if $main_node.depth|gt(1)}
                     <a href={concat("/content/browse/",$main_node.parent_node_id,"/")|ezurl}>
                         [{'Up one level'|i18n('design/standard/content/browse')}]
                     </a>
-                {/section}
+                {/if}
             </td>
 
             <td class="bglight">
@@ -98,7 +98,7 @@
         {section name=Object loop=$object_array sequence=array(bgdark,bglight)}
         <tr class="{$Object:sequence}">
             <td>
-            {section show=and( or( $browse.permission|not,
+            {if and( or( $browse.permission|not,
                                    cond( is_set( $browse.permission.contentclass_id ),
                                          fetch( content, access,
                                                 hash( access, $browse.permission.access,
@@ -108,16 +108,16 @@
                                                 hash( access, $browse.permission.access,
                                                       contentobject, $:item ) ) ) ),
                                $browse.ignore_nodes_select|contains($:item.node_id)|not() )}
-              {section show=is_array($browse.class_array)}
-                {section show=$browse.class_array|contains($:item.object.content_class.identifier)}
+              {if is_array($browse.class_array)}
+                {if $browse.class_array|contains($:item.object.content_class.identifier)}
                   <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
-                {section-else}
+                {else}
                   &nbsp;
-                {/section}
-              {section-else}
+                {/if}
+              {else}
                 <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
-              {/section}
-            {/section}
+              {/if}
+            {/if}
             </td>
 
             <td>
@@ -165,7 +165,7 @@
         <tr class="{$:sequence}">
             {let top_node=fetch( content, node, hash( node_id, $:item ) )}
             <td width="1">
-            {section show=and( or( $browse.permission|not,
+            {if and( or( $browse.permission|not,
                                    cond( is_set( $browse.permission.contentclass_id ),
                                          fetch( content, access,
                                                 hash( access, $browse.permission.access,
@@ -175,14 +175,14 @@
                                                 hash( access, $browse.permission.access,
                                                       contentobject, $:top_node ) ) ) ),
                                $browse.ignore_nodes_select|contains( $:item )|not() )}
-              {section show=is_array($browse.class_array)|not()}
+              {if is_array($browse.class_array)|not()}
                 <input type="{$select_type}" name="{$select_name}[]" value="{$:item}" />
-              {section-else}
+              {else}
                 &nbsp;
-              {/section}
-            {section-else}
+              {/if}
+            {else}
               &nbsp;
-            {/section}
+            {/if}
             </td>
 
             <td>
@@ -203,7 +203,7 @@
         {section name=Bookmark loop=$bookmark_list show=$bookmark_list sequence=array(bgdark,bglight)}
         <tr class="{$:sequence}">
             <td width="1">
-            {section show=and( or( $browse.permission|not,
+            {if and( or( $browse.permission|not,
                                    cond( is_set( $browse.permission.contentclass_id ),
                                          fetch( content, access,
                                                 hash( access, $browse.permission.access,
@@ -213,18 +213,18 @@
                                                 hash( access, $browse.permission.access,
                                                       contentobject, $:item.node ) ) ) ),
                                $browse.ignore_nodes_select|contains( $:item.node_id )|not() )}
-              {section show=is_array($browse.class_array)}
-                {section show=$browse.class_array|contains($:item.object.content_class.identifier)}
+              {if is_array($browse.class_array)}
+                {if $browse.class_array|contains($:item.object.content_class.identifier)}
                   <input type="{$select_type}" name="{$select_name}[]" value="{$:item.node[$select_attribute]}" />
-                {section-else}
+                {else}
                   &nbsp;
-                {/section}
-              {section-else}
+                {/if}
+              {else}
                 <input type="{$select_type}" name="{$select_name}[]" value="{$:item.node[$select_attribute]}" />
-              {/section}
-            {section-else}
+              {/if}
+            {else}
               &nbsp;
-            {/section}
+            {/if}
             </td>
 
             <td>
@@ -259,7 +259,7 @@
             {section name=Recent loop=$recent_list sequence=array(bgdark,bglight)}
             <tr class="{$:sequence}">
                 <td width="1">
-                {section show=and( or( $browse.permission|not,
+                {if and( or( $browse.permission|not,
                                        cond( is_set( $browse.permission.contentclass_id ),
                                              fetch( content, access,
                                                     hash( access, $browse.permission.access,
@@ -269,14 +269,14 @@
                                                     hash( access, $browse.permission.access,
                                                           contentobject, $:item.node ) ) ) ),
                                    $browse.ignore_nodes_select|contains( $:item.node_id )|not() )}
-                  {section show=is_array($browse.class_array)|not()}
+                  {if is_array($browse.class_array)|not()}
                     <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
-                  {section-else}
+                  {else}
                     &nbsp;
-                  {/section}
-                {section-else}
+                  {/if}
+                {else}
                   &nbsp;
-                {/section}
+                {/if}
                 </td>
 
                 <td>
@@ -315,16 +315,16 @@
 {/section}
 
 <input type="hidden" name="BrowseActionName" value="{$browse.action_name}" />
-{section show=$browse.browse_custom_action}
+{if $browse.browse_custom_action}
 <input type="hidden" name="{$browse.browse_custom_action.name}" value="{$browse.browse_custom_action.value}" />
-{/section}
+{/if}
 
         <input class="button" type="submit" name="SelectButton" value="{'Select'|i18n('design/standard/content/browse')}" />
 
 
-{section show=$cancel_action}
+{if $cancel_action}
 <input type="hidden" name="BrowseCancelURI" value="{$cancel_action}" />
-{/section}
+{/if}
  <input class="button" type="submit" name="BrowseCancelButton" value="{'Cancel'|i18n( 'design/standard/content/browse' )}" />
 </form>
 
