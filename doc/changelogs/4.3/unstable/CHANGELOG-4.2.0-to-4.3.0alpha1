@@ -4,6 +4,7 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Implemented enhancement #15490: LDAP login handler improvements
 - Implemented enhancement #11988: Add debug to email feature
 - Implemented enhancement #11244: Fetch function for shop orders
+- Implemented enhancement #15630: Avoid fatal error when fetching nodes from inconsistent databases
 
 *Design:
 
