@@ -37,7 +37,7 @@
 
 <div class="block">
     <label>{'Current value'|i18n( 'design/standard/class/datatype' )}:</label>
-    {if $class_attribute.data_int2|sub( $class_attribute.data_int3|count )}
+    {if gt( $class_attribute.data_int2|sub( $class_attribute.data_int3|count ), 0 )}
         <p>{$class_attribute.data_text1|wash}{$class_attribute.data_int3|indent( $class_attribute.data_int2|sub( $class_attribute.data_int3|count ), 'custom', '0' )}{$class_attribute.data_text2|wash}</p>
     {else}
         <p>{$class_attribute.data_text1|wash}{$class_attribute.data_int3}{$class_attribute.data_text2|wash}</p>
