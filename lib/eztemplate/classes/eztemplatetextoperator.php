@@ -249,6 +249,12 @@ class eZTemplateTextOperator
             } break;
             case $this->IndentName:
             {
+                if( $namedParameters['indent_count'] < 0 )
+                {
+                    eZDebug::writeError( 'The value of the "count" argument is negative, indent() will not be called' );
+                    break;
+                }
+
                 $indentCount = $namedParameters['indent_count'];
                 $indentType = $namedParameters['indent_type'];
                 $filler = false;
