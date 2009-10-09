@@ -87,42 +87,21 @@ abstract class eZURLAliasFilter
      */
     public static function processFilters( $text, $languageObject, $caller )
     {
-        $filters = array();
-        if ( isset( $GLOBALS['eZURLAliasFilters'] ) )
-        {
-            $filters = $GLOBALS['eZURLAliasFilters'];
-        }
-        else
-        {
-            // No filters are cached in memory, load them and cache for later use
+        $ini = eZINI::instance( 'site.ini' );
+        $filterClassList = $ini->variable( 'URLTranslator', 'FilterClasses' );
 
-            $ini = eZINI::instance();
-            $extensionList = $ini->variable( 'URLTranslator', 'Extensions' );
-            $pathList = eZExtension::expandedPathList( $extensionList, 'urlfilters' );
-            $filterNames = $ini->variable( 'URLTranslator', 'Filters' );
-            foreach ( $filterNames as $filterName )
+        foreach ( $filterClassList as $filterClass )
+        {
+            if( !class_exists( $filterClass ) )
             {
-                foreach ( $pathList as $path )
-                {
-                    $filterPath = $path . '/' . strtolower( $filterName ) . '.php';
-                    if ( !file_exists( $filterPath ) )
-                        continue;
-                    include_once( $filterPath );
-                    if ( !class_exists( $filterName ) )
-                    {
-                        eZDebug::writeError( "URLAlias filter class named '$filterName' does not exist after loading PHP file $filterPath, ignoring entry." );
-                        break;
-                    }
-                    $filters[] = new $filterName;
-                }
+                eZDebug::writeError( $filterClass . ' does not exist, please run bin/php/ezpgenerateautoload.php', __METHOD__ );
+                continue;
             }
-            $GLOBALS['eZURLAliasFilters'] = $filters;
-        }
 
-        foreach ( $filters as $filter )
-        {
+            $filter = new $filterClass();
             $text = $filter->process( $text, $languageObject, $caller );
         }
+
         return $text;
     }
 }

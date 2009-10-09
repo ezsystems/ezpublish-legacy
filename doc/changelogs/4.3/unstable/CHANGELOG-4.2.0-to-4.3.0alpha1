@@ -8,6 +8,7 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Implemented enhancement #15631: Improve the debug message in eZImageAliasHandler::initializeFromFile()
 - Implemented enhancement #11997: Add time measurement to runcronjobs.php
 - Implemented enhancement #15643: Warnings about non existing cache files should be Debug
+- Implemented enhancement #15644: eZURLAliasFilter should take benefit of the autoload system
 
 *Design:
 
