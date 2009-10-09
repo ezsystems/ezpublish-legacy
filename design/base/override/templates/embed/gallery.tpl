@@ -5,7 +5,7 @@
 
     {let children=fetch_alias( children, hash( parent_node_id, $object.main_node_id, limit, 5 ) ) }
     <div class="content-view-children">
-    {section var=child loop=$children sequence=array(bglight,bgdark)}
+    {section var=child loop=$children}
          {node_view_gui view=listitem content_node=$child}
     {/section}
     </div>

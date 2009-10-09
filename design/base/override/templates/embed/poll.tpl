@@ -14,7 +14,7 @@
 
         <h3>{$attribute.content.name}</h3>
 
-        {section name=OptionList loop=$attribute.content.option_list sequence=array(bglight,bgdark)}
+        {section name=OptionList loop=$attribute.content.option_list}
             <input type="radio" name="ContentObjectAttribute_data_option_value_{$attribute.id}" value="{$OptionList:item.id}"
            {if $OptionList:item.id|eq($option_id)}checked="checked"{/if}
            />{$OptionList:item.value}<br />

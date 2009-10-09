@@ -16,7 +16,7 @@
 							class_filter_array, array( 'folder' ),
 							sort_by, array( $sort_by, false() ) ) ) )}
 <b>{$title}:</b>
-{section name=Node loop=$node_list sequence=array(bglight,bgdark)}
+{section name=Node loop=$node_list}
 	{node_view_gui view=toolline content_node=$Node:item}
 {/section}
 <br />

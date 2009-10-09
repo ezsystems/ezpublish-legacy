@@ -4,7 +4,7 @@
 {$attribute.content.name}
 </div>
 
-{section var=Multioptions loop=$attribute.content.multioption_list sequence=array( bglight, bgdark )}
+{section var=Multioptions loop=$attribute.content.multioption_list}
 <div class="block">
 <label>{$Multioptions.item.name}:</label>
 <select name="eZOption[{$attribute.id}][]">

@@ -19,7 +19,7 @@
          symbol = $currency.symbol}
 {/if}
 
-{section name=ProductItem loop=$order.product_items show=$order.product_items sequence=array(bglight,bgdark)}
+{section name=ProductItem loop=$order.product_items show=$order.product_items}
 {$ProductItem:item.item_count}x {$ProductItem:item.object_name} {$ProductItem:item.price_inc_vat|l10n( 'currency', $locale, $symbol )}: {$ProductItem:item.total_price_inc_vat|l10n( 'currency', $locale, $symbol )}
 
 {/section}
@@ -27,7 +27,7 @@
 
 {"Subtotal of items"|i18n("design/standard/shop")}:  {$order.product_total_inc_vat|l10n( 'currency', $locale, $symbol )}
 
-{section name=OrderItem loop=$order.order_items show=$order.order_items sequence=array(bglight,bgdark)}
+{section name=OrderItem loop=$order.order_items show=$order.order_items}
 {$OrderItem:item.description}: 	{$OrderItem:item.price_inc_vat|l10n( 'currency', $locale, $symbol )}
 {/section}
 

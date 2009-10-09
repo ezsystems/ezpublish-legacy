@@ -22,7 +22,7 @@
         <div class="toollist-design">
         <h2>{$title}</h2>
         <div class="content-view-children">
-        {section name=Node loop=$node_list sequence=array(bglight,bgdark)}
+        {section name=Node loop=$node_list}
             {node_view_gui view=listitem content_node=$Node:item}
         {/section}
         </div>

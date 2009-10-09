@@ -20,7 +20,7 @@
                                                           attribute_filter, $time_filter ) )}
 
             <div class="content-view-children">
-                {section var=child loop=$list_items show=$list_items sequence=array(bglight,bgdark)}
+                {section var=child loop=$list_items show=$list_items}
                     {node_view_gui view=line content_node=$child}
                 {section-else}
                      <p>{"There is no new content since your last visit."|i18n("design/standard/content/newcontent")}</p>

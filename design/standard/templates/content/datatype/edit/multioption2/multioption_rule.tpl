@@ -1,6 +1,6 @@
 
 {section show=$group.multioption_list}
-{section var=MultiOptionList loop=$group.multioption_list sequence=array( bglight, bgdark )}
+{section var=MultiOptionList loop=$group.multioption_list}
     <label>{$MultiOptionList.item.name}</label>
 <table class="multioption" cellspacing="0">
 <tr>

@@ -4,7 +4,7 @@
     <h2>{$object.name|wash()}</h2>
     <div class="content-view-children">
     <ul>
-    {section var=child loop=$children sequence=array(bglight,bgdark)}
+    {section var=child loop=$children}
        <li><a href={$child.url_alias|wash()}>{$child.name|wash()}</a></li>
     {/section}
     </ul>

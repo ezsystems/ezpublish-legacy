@@ -15,7 +15,7 @@
 		       size, 18,
 		       align, center ) )}
     
-    {section name=Object loop=$related sequence=array(bglight,bgdark)}
+    {section name=Object loop=$related}
       {content_pdf_gui view=line content_object=$Object:item}
     {/section}
 

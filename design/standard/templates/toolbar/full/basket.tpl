@@ -18,7 +18,7 @@
                      symbol = $currency.symbol}
             {/if}
             <ul>
-                {section var=product loop=$basket_items sequence=array( odd, even )}
+                {section var=product loop=$basket_items}
                     <li>
                     {$product.item.item_count} x <a href={cond( $use_urlalias, $product.item.item_object.contentobject.main_node.url_alias,
                                                                 concat( "content/view/full/", $product.item.node_id ) )|ezurl}>{$product.item.object_name}</a>

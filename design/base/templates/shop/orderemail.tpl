@@ -50,8 +50,7 @@
 
 
 {if $order_info.additional_info|count|gt(0)}
-{foreach $order_info.price_info.items as $vat_value => $order_info
-           sequence array(bglight, bgdark) as $sequence}
+{foreach $order_info.price_info.items as $vat_value => $order_info}
 {if $order_info.total_price_vat|gt(0)}
 {"Total VAT"|i18n("design/base/shop")} ({$vat_value}%) {$order_info.total_price_vat|l10n( 'currency', $locale, $symbol )}
 

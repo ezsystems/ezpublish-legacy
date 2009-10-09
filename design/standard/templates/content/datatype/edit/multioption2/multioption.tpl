@@ -1,6 +1,6 @@
 {section show=$group.multioption_list}
     <table class="multioption" >
-    {section var=MultiOptionList loop=$group.multioption_list sequence=array( bglight, bgdark )}
+    {section var=MultiOptionList loop=$group.multioption_list}
         <tr>
             <th class="tight"><input type="checkbox" name="{$attribute_base}_data_multioption_remove_{$attribute.id}_{$group.group_id}[]" value="{$MultiOptionList.id}" title="{'Select multioption for removal.'|i18n( 'design/standard/content/datatype' )}" /></th>
             <td>
@@ -21,7 +21,7 @@
                 </tr>
 
 
-                {section var=OptionList loop=$MultiOptionList.item.optionlist sequence=array( bglight, bgdark )}
+                {section var=OptionList loop=$MultiOptionList.item.optionlist}
                     <tr>
                         {* Remove. *}
                         <td><input type="checkbox" name="{$attribute_base}_data_option_remove_{$attribute.id}_{$group.group_id}_{$MultiOptionList.id}[]" value="{$OptionList.id}" title="{'Select option for removal.'|i18n('design/standard/content/datatype')}" /></td>

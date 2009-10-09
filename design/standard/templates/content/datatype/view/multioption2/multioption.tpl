@@ -1,5 +1,5 @@
 <ul>
-{section var=MultiOptionList loop=$group.multioption_list sequence=array( bglight, bgdark )}
+{section var=MultiOptionList loop=$group.multioption_list}
     <li>
         <label>{$MultiOptionList.item.name}:</label>
 {def $default_option_id=0}

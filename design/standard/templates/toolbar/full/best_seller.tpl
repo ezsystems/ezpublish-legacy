@@ -30,7 +30,7 @@
             <div class="toollist-design">
                 <h2>{"Best sellers"|i18n("design/standard/toolbar")}</h2>
                 <div class="content-view-children">
-                {section var=productObject loop=$bestseller_list sequence=array(bglight,bgdark)}
+                {section var=productObject loop=$bestseller_list}
                     {node_view_gui view=listitem content_node=$productObject.main_node}
                 {/section}
                 </div>

@@ -46,7 +46,7 @@
             {/if}
 
             <div class="content-view-children">
-                {section var=child loop=$list_items sequence=array(bglight,bgdark)}
+                {section var=child loop=$list_items}
                     {node_view_gui view=line content_node=$child}
                 {/section}
             </div>

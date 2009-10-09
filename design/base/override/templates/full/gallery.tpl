@@ -36,7 +36,7 @@
            <div class="content-view-children">
                <table>
                <tr>
-               {section var=child loop=$children sequence=array( bglight, bgdark )}
+               {section var=child loop=$children}
                    <td>
                       {node_view_gui view=galleryline content_node=$child}
                    </td>

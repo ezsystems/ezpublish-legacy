@@ -1,6 +1,6 @@
 <table class="list-thumbnails" cellspacing="0">
   <tr>
-    {section var=Nodes loop=$node_array sequence=array( bglight, bgdark )}
+    {section var=Nodes loop=$node_array}
     {* Note: The tpl code for $ignore_nodes_merge with the eq, unique and count
              is just a replacement for a missing template operator.
              If there are common elements the unique array will have less elements

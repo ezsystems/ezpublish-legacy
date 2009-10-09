@@ -24,7 +24,7 @@
 </tr>
 
 {* For all roles... *}
-{section var=AssignedRoles loop=$assigned_roles sequence=array( bglight, bgdark )}
+{section var=AssignedRoles loop=$assigned_roles}
 
 {* For each policy (if any) within a role... *}
 {let role_without_cond_policies = fetch(role,role,hash(role_id,$AssignedRoles.item.id))}

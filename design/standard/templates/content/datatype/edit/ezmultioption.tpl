@@ -9,7 +9,7 @@
 
 {section show=$attribute.content.multioption_list}
 <table class="special" cellspacing="0">
-{section var=MultiOptionList loop=$attribute.content.multioption_list sequence=array( bglight, bgdark )}
+{section var=MultiOptionList loop=$attribute.content.multioption_list}
 <tr>
 <th class="tight"><input type="checkbox" name="{$attribute_base}_data_multioption_remove_{$attribute.id}[]" value="{$MultiOptionList.id}" title="{'Select multioption for removal.'|i18n( 'design/standard/content/datatype' )}" /></th>
 <th>{$MultiOptionList.index}</th>

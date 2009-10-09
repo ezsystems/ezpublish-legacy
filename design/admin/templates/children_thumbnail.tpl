@@ -3,7 +3,7 @@
 <div class="content-navigation-childlist">
 <table class="list-thumbnails" cellspacing="0">
     <tr>
-    {section var=Nodes loop=$children sequence=array( bglight, bgdark )}
+    {section var=Nodes loop=$children}
     {let child_name=$Nodes.item.name|wash}
         <td width="25%">
         {node_view_gui view=thumbnail content_node=$Nodes.item}

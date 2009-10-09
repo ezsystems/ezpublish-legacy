@@ -99,7 +99,7 @@ function checkAll()
 
     {let related_objects=$content_version.related_contentobject_array}
 
-      {section name=ContentObject  loop=$related_objects show=$related_objects  sequence=array(bglight,bgdark)}
+      {section name=ContentObject  loop=$related_objects show=$related_objects}
         <div class="block">
         {content_view_gui view=text_linked content_object=$Object:ContentObject:item}
         </div>

@@ -11,7 +11,7 @@
 {/section}
 
 
-{section name=Object loop=$related_contentobject_array show=$related_contentobject_array sequence=array(bglight,bgdark)}
+{section name=Object loop=$related_contentobject_array show=$related_contentobject_array}
   {content_pdf_gui view=text_linked content_object=$Object:item}
 {/section}
 {/default}

@@ -37,7 +37,7 @@
 	<th>{'Total price ex. VAT'|i18n( 'design/admin/shop/orderview' )}</th>
 	<th>{'Total price inc. VAT'|i18n( 'design/admin/shop/orderview' )}</th>
 </tr>
-{section name=ProductItem loop=$order.product_items show=$order.product_items sequence=array(bglight,bgdark)}
+{section name=ProductItem loop=$order.product_items show=$order.product_items}
 <tr>
     {if and( $ProductItem:item.item_object.contentobject, $ProductItem:item.item_object.contentobject.main_node )}
     {let node_url=$ProductItem:item.item_object.contentobject.main_node.url_alias}
@@ -85,7 +85,7 @@
     <td class="number" align="right">{$order.product_total_inc_vat|l10n( 'currency', $locale, $symbol )}</td>
 </tr>
 
-{section name=OrderItem loop=$order.order_items show=$order.order_items sequence=array(bglight,bgdark)}
+{section name=OrderItem loop=$order.order_items show=$order.order_items}
 <tr>
 	<td>{$OrderItem:item.description}:</td>
 	<td class="number" align="right">{$OrderItem:item.price_ex_vat|l10n( 'currency', $locale, $symbol )}</td>

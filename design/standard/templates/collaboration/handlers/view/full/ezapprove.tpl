@@ -96,10 +96,10 @@
 </div>
 
 <div class="object">
-   {section name=Role loop=$participant_list sequence=array(bglight,bgdark)}
+   {section name=Role loop=$participant_list}
    <label>{$:item.name|wash}</label>
    <table cellspacing="0" cellpadding="0" border="0">
-   {section name=Participant loop=$:item.items sequence=array(bglight,bgdark)}
+   {section name=Participant loop=$:item.items}
    <tr>
      <td>
      {collaboration_participation_view view=text_linked collaboration_participant=$:item}

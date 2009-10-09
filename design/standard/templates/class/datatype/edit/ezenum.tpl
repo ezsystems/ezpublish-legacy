@@ -27,7 +27,7 @@
 <th>{'Value'|i18n( 'design/standard/class/datatype' )}</th>
 </tr>
 
-{section var=Enums loop=$class_attribute.content.enum_list sequence=array( bglight,bgdark )}
+{section var=Enums loop=$class_attribute.content.enum_list}
 <tr>
 
     {* Remove. *}

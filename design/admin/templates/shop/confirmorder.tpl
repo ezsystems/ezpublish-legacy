@@ -90,7 +90,7 @@
     <td class="number" align="right">{$order.product_total_inc_vat|l10n( 'currency', $locale, $symbol )}</td>
 </tr>
 
-{section var=OrderItems loop=$order.order_items show=$order.order_items sequence=array( bglight, bgdark )}
+{section var=OrderItems loop=$order.order_items show=$order.order_items}
 <tr>
     <td>{$OrderItems.item.description}:</td>
     <td class="number" align="right">{$OrderItems.item.price_ex_vat|l10n( 'currency', $locale, $symbol )}</td>

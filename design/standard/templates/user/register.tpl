@@ -29,7 +29,7 @@
 {/section}
 
 {section show=count($content_attributes)|gt(0)}
-    {section name=ContentObjectAttribute loop=$content_attributes sequence=array(bglight,bgdark)}
+    {section name=ContentObjectAttribute loop=$content_attributes}
     <input type="hidden" name="ContentObjectAttribute_id[]" value="{$ContentObjectAttribute:item.id}" />
     <div class="block">
         <label>{$ContentObjectAttribute:item.contentclass_attribute.name}</label><div class="labelbreak"></div>
