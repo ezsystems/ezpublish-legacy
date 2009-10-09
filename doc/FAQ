@@ -3,4 +3,4 @@ FAQ for ezjscore 1.0
 
 Q: I used the ezcss_require()/ezscript_require() template operator in my code but no css/js files are included in my html page
 A: You need to put the ezcss_load()/ezscript_load() template operator in your pagelayout template.
-   For an example, see the templates provided in the extension in desugn/ezwebin/templates
+   For an example, see the templates provided in the extension in design/ezwebin/templates
