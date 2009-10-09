@@ -674,7 +674,6 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     */
     static function allDesignBases( $siteAccess = false )
     {
-        // in memory caching
         if ( $siteAccess )
         {
             if ( isset( $GLOBALS['eZTemplateDesignResourceSiteAccessBases'] ) )
@@ -688,6 +687,14 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             {
                 $GLOBALS['eZTemplateDesignResourceSiteAccessBases'] = array();
             }
+
+            $ini = eZINI::instance( 'site.ini', 'settings', null, null, true );
+            $ini->prependOverrideDir( "siteaccess/$siteAccess", false, 'siteaccess' );
+            eZExtension::prependExtensionSiteAccesses( $siteAccess, $ini, false, 'siteaccess' );
+            $ini->loadCache();
+
+            $standardDesign = $ini->variable( "DesignSettings", "StandardDesign" );
+            $siteDesign = $ini->variable( "DesignSettings", "SiteDesign" );
         }
         else
         {
@@ -695,129 +702,22 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             {
                 return $GLOBALS['eZTemplateDesignResourceBases'];
             }
-        }
 
-        $designLocationCache = false;
-        $ini = eZINI::instance( 'site.ini' );
-        if( $ini->variable( 'DesignSettings', 'DesignLocationCache' ) == 'enabled' )
-            $designLocationCache = true;
-
-        /*
-         * We disable design cache in case of DB clustering
-         * because it will add 2 SQL queries per HTTP request
-         */
-        $ini = eZINI::instance( 'file.ini' );
-        if( $ini->variable( 'ClusteringSettings', 'FileHandler' ) == 'eZDBFileHandler')
-            $designLocationCache = false;
-
-        if( $designLocationCache )
-        {
-            $cachePath = eZSys::cacheDirectory() . '/designbases_cache.php';
-            $clusterFileHandler = eZClusterFileHandler::instance( $cachePath );
-
-            if( $clusterFileHandler->fileExists( $cachePath ) )
-            {
-                // return cache content
-                $designBaseList = unserialize( $clusterFileHandler->fetchContents() );
-
-                // store design base list in memory for the current request
-                if ( $siteAccess )
-                {
-                    $GLOBALS['eZTemplateDesignResourceSiteAccessBases'][$siteAccess] = $designBaseList;
-
-                    return $designBaseList;
-                }
-                else
-                {
-                    $GLOBALS['eZTemplateDesignResourceBases'] = $designBaseList;
-
-                    return $designBaseList;
-                }
-            }
-            else
-            {
-                // find design locations store into the cache and return it
-                $designBaseList = self::findDesignBase( $ini, $siteAccess );
-
-                // stores it on the disk
-                $clusterFileHandler->fileStoreContents( $cachePath,
-                                                        serialize( $designBaseList ),
-                                                        'designbases',
-                                                        'php' );
-
-                // store design base list in memory for the current request
-                if ( $siteAccess )
-                {
-                    $GLOBALS['eZTemplateDesignResourceSiteAccessBases'][$siteAccess] = $designBaseList;
-
-                    return $designBaseList;
-                }
-                else
-                {
-                    $GLOBALS['eZTemplateDesignResourceBases'] = $designBaseList;
-
-                    return $designBaseList;
-                }
-            }
-        }
-        else
-        {
-            // find design locations store into the cache and return it
-            $designBaseList = self::findDesignBase( $ini, $siteAccess );
-
-            // store design base list in memory for the current request
-            if ( $siteAccess )
-            {
-                $GLOBALS['eZTemplateDesignResourceSiteAccessBases'][$siteAccess] = $designBaseList;
-
-                return $designBaseList;
-            }
-            else
-            {
-                $GLOBALS['eZTemplateDesignResourceBases'] = $designBaseList;
-
-                return $designBaseList;
-            }
-        }
-    }
-
-    /**
-     * Find the location on design bases on the disk
-     *
-     * @param $ini an eZINI object
-     * @param $siteAccess Wether to use siteaccesses or not
-     * @return array The list of design bases
-     */
-    private static function findDesignBase( eZINI $ini, $siteAccess = false )
-    {
-        if( $siteAccess )
-        {
-            $ini = eZINI::instance( 'site.ini', 'settings', null, null, true );
-            $ini->prependOverrideDir( "siteaccess/$siteAccess", false, 'siteaccess' );
-            eZExtension::prependExtensionSiteAccesses( $siteAccess, $ini, false, 'siteaccess' );
-            $ini->loadCache();
-
-            $standardDesign = $ini->variable( 'DesignSettings', 'StandardDesign' );
-            $siteDesign     = $ini->variable( 'DesignSettings', 'SiteDesign' );
-
-        }
-        else
-        {
             $ini = eZINI::instance();
             $standardDesign = eZTemplateDesignResource::designSetting( 'standard' );
-            $siteDesign     = eZTemplateDesignResource::designSetting( 'site' );
+            $siteDesign = eZTemplateDesignResource::designSetting( 'site' );
         }
 
         $siteDesignList = $ini->variable( 'DesignSettings', 'AdditionalSiteDesignList' );
 
         array_unshift( $siteDesignList, $siteDesign );
         $siteDesignList[] = $standardDesign;
-        $siteDesignList   = array_unique( $siteDesignList );
+        $siteDesignList = array_unique( $siteDesignList );
 
-        $designBaseList     = array();
+        $bases = array();
         $extensionDirectory = eZExtension::baseDirectory();
-        $designStartPath    = eZTemplateDesignResource::designStartPath();
-        $extensions         = eZTemplateDesignResource::designExtensions();
+        $designStartPath = eZTemplateDesignResource::designStartPath();
+        $extensions = eZTemplateDesignResource::designExtensions();
 
         foreach ( $siteDesignList as $design )
         {
@@ -826,18 +726,27 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                 $path = "$extensionDirectory/$extension/$designStartPath/$design";
                 if ( file_exists( $path ) )
                 {
-                    $designBaseList[] = $path;
+                    $bases[] = $path;
                 }
             }
 
             $path = "$designStartPath/$design";
             if ( file_exists( $path ) )
             {
-                $designBaseList[] = $path;
+                $bases[] = $path;
             }
         }
 
-        return $designBaseList;
+        if ( $siteAccess )
+        {
+            $GLOBALS['eZTemplateDesignResourceSiteAccessBases'][$siteAccess] = $bases;
+        }
+        else
+        {
+            $GLOBALS['eZTemplateDesignResourceBases'] = $bases;
+        }
+
+        return $bases;
     }
 
     /*!
