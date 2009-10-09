@@ -489,6 +489,7 @@ return array(
       'eZURI'                                              => 'lib/ezutils/classes/ezuri.php',
       'eZURL'                                              => 'kernel/classes/datatypes/ezurl/ezurl.php',
       'eZURLAliasFilter'                                   => 'kernel/classes/ezurlaliasfilter.php',
+      'eZURLAliasFilterAppendNodeID'                       => 'kernel/private/classes/urlaliasfilters/ezurlaliasfilterappendnodeid.php',
       'eZURLAliasML'                                       => 'kernel/classes/ezurlaliasml.php',
       'eZURLAliasQuery'                                    => 'kernel/classes/ezurlaliasquery.php',
       'eZURLFunctionCollection'                            => 'kernel/url/ezurlfunctioncollection.php',
