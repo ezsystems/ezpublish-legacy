@@ -183,7 +183,7 @@ else
 $classList = array();
 if ( $classListData )
 {
-    $classList['0'] = 'None';
+    $classList['-0-'] = 'None';
     foreach ( $classListData as $class )
     {
         if ( isset( $classListDescription[$class] ) )
@@ -196,7 +196,7 @@ if ( $classListData )
 $classListInline = array();
 if ( $classListInlineData )
 {
-    $classListInline['0'] = 'None';
+    $classListInline['-0-'] = 'None';
     foreach ( $classListInlineData as $class )
     {
         if ( isset( $classListDescriptionInline[$class] ) )

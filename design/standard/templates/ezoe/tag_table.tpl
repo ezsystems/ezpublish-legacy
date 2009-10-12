@@ -15,7 +15,7 @@ var ezTagName = '{$tag_name|wash}',{literal} tableSizeGrid = {'rows': 0, 'cols':
 
 
 
-tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
+tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
     tagName: ezTagName,
     form: 'EditForm',
     cancelButton: 'CancelButton',
@@ -24,15 +24,15 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         if ( el ) return;
         var td = ez.$$('#table_cell_size_grid td div'), table = ez.$('table_cell_size_grid');
         td.forEach(function(o, i){
-            o.addEvent('mouseover', ez.fn.bind(tableSizeGridMouse, this, o, i, false ) );
-            o.addEvent('click', ez.fn.bind(tableSizeGridMouse, this, o, i, true ) );
+            o.addEvent('mouseover', eZOEPopupUtils.BIND( tableSizeGridMouse, this, o, i, false ) );
+            o.addEvent('click', eZOEPopupUtils.BIND( tableSizeGridMouse, this, o, i, true ) );
         }, td);
-        table.addEvent('mouseout', ez.fn.bind(tableSizeGridMouse, td, 0, -1, false ));
-        ez.$('table_cell_size').show();
+        table.addEvent('mouseout', eZOEPopupUtils.BIND( tableSizeGridMouse, td, 0, -1, false ));
+        jQuery('#table_cell_size').show();
         tableSizeGrid['cols'] = ez.$('table_cell_size_grid_cols');
         tableSizeGrid['rows'] = ez.$('table_cell_size_grid_rows');
-        tableSizeGrid['cols'].addEvent('keyup', ez.fn.bind(tableSizeGridInput, td, true ));
-        tableSizeGrid['rows'].addEvent('keyup', ez.fn.bind(tableSizeGridInput, td, true ));
+        tableSizeGrid['cols'].addEvent('keyup', eZOEPopupUtils.BIND( tableSizeGridInput, td, true ));
+        tableSizeGrid['rows'].addEvent('keyup', eZOEPopupUtils.BIND( tableSizeGridInput, td, true ));
         tableSizeGridInput.call( td, true );
     },
     tagGenerator: function( tag, customTag )
@@ -50,7 +50,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
     },
     tagAttributeEditor: function( ed, el, args )
     {
-        args['class'] = ez.string.trim( args['class'] + ( args['border'] == 0 ? ' mceItemTable' : ''))
+        args['class'] = jQuery.trim( args['class'] + ( args['border'] == 0 ? ' mceItemTable' : ''))
         ed.dom.setAttribs( el, args );
     }
 }));

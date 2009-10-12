@@ -17,7 +17,7 @@ var viewListData = {$view_list}, classListData = {$class_list}, attributeDefault
 
 {literal}
 
-tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
+tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
     tagName: 'embed',
     form: 'EditForm',
     cancelButton: 'CancelButton',
@@ -36,7 +36,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         selectors.callEach('addEvent', 'change', loadEmbedPreview );
 
         if ( el && el.nodeName !== 'IMG' )//&& el.id.split('_')[1] == eZOEPopupUtils.embedObject.id )
-            ez.$('embed_preview').el.innerHTML = el.innerHTML;
+            jQuery('#embed_preview').html( el.innerHTML );
         else
             loadEmbedPreview();
 
@@ -47,7 +47,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
     {
         if ( contentType === 'images' || compatibilityMode === 'enabled' )
             return '<img id="__mce_tmp" src="javascript:void(0);" />';
-        if ( ez.$('embed_inline_source').el.checked )
+        if ( jQuery('#embed_inline_source').attr( 'checked' ) )
            return '<span id="__mce_tmp"></span>';
         return '<div id="__mce_tmp"></div>';
     },
@@ -61,7 +61,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
             edBody = edBody.parentNode
         }
         if ( edBody.nodeName === 'BODY'
-        && edBody.childNodes.length <= (ez.array.indexOf( edBody.childNodes, el ) +1) )
+        && edBody.childNodes.length <= (jQuery.inArray( el, edBody.childNodes ) +1) )
         {
             var p = doc.createElement('p');
             p.innerHTML = ed.isIE ? '&nbsp;' : '<br />';
@@ -70,7 +70,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
     },
     tagAttributeEditor: function( ed, el, args )
     {
-        args['inline'] = ez.$('embed_inline_source').el.checked ? 'true' : 'false';
+        args['inline'] = jQuery('#embed_inline_source').attr( 'checked' ) ? 'true' : 'false';
         el = eZOEPopupUtils.switchTagTypeIfNeeded( el, (contentType === 'images' || compatibilityMode === 'enabled' ? 'img' : (args['inline'] === 'true' ? 'span' : 'div') ) );
         if ( compatibilityMode === 'enabled' )
         {
@@ -80,7 +80,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         else
         {
             if ( args['align'] === 'middle' ) args['align'] = 'center';
-            ed.dom.setHTML( el, ez.$('embed_preview').el.innerHTML );
+            ed.dom.setHTML( el, jQuery('#embed_preview').html() );
         }
         args['title']   = eZOEPopupUtils.safeHtml( eZOEPopupUtils.embedObject['name'] );
         ed.dom.setAttribs( el, args );
@@ -92,33 +92,33 @@ function inlineSelectorChange( e, el )
 {
     // toogles data when the user clicks inline, since
     // embed and embed-inline have different settings
-    var viewList = ez.$('embed_view_source'), classList = ez.$('embed_class_source'), inline = el.checked;
+    var viewList = jQuery('#embed_view_source'), classList = jQuery('#embed_class_source'), inline = el.checked;
     var tag = inline ? 'embed-inline' : 'embed', editorEl = eZOEPopupUtils.settings.editorElement, def = attributeDefaults[ tag ];
     if ( tag === selectedTagName ) return;
     selectedTagName = tag;
     eZOEPopupUtils.settings.selectedTag = tag;
-    eZOEPopupUtils.removeChildren( viewList.el );
-    eZOEPopupUtils.removeChildren( classList.el );
-    eZOEPopupUtils.addSelectOptions( viewList.el, viewListData[ tag ] );
-    eZOEPopupUtils.addSelectOptions( classList.el, classListData[ tag ] );
-    ez.$( inline ? 'embed_customattributes' : 'embed-inline_customattributes' ).hide();
-    ez.$( !inline ? 'embed_customattributes' : 'embed-inline_customattributes' ).show();
+    eZOEPopupUtils.removeChildren( viewList[0] );
+    eZOEPopupUtils.removeChildren( classList[0] );
+    eZOEPopupUtils.addSelectOptions( viewList[0], viewListData[ tag ] );
+    eZOEPopupUtils.addSelectOptions( classList[0], classListData[ tag ] );
+    jQuery( inline ? '#embed_customattributes' : '#embed-inline_customattributes' ).hide();
+    jQuery( !inline ? '#embed_customattributes' : '#embed-inline_customattributes' ).show();
 
     if ( editorEl )
     {
         var viewValue = editorEl.getAttribute('view');
-        var classValue = ez.string.trim( editorEl.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable)/g, '') );
+        var classValue = jQuery.trim( editorEl.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable)/g, '') );
     }
 
     if ( viewValue && viewListData[ tag ].join !== undefined && (' ' + viewListData[ tag ].join(' ') + ' ').indexOf( ' ' + viewValue + ' ' ) !== -1 )
-        viewList.el.value = viewValue;
+        viewList.val( viewValue );
     else if ( def['view'] !== undefined )
-        viewList.el.value = def['view'];
+        viewList.val( def['view'] );
 
     if ( classValue && classListData[ tag ][ classValue ] !== undefined )
-        classList.el.value = classValue;
+        classList.val( classValue );
     else if ( def['class'] !== undefined )
-        classList.el.value = def['class'];
+        classList.val( def['class'] );
     
     if ( tinymce.isIE && contentType !== 'images' && e !== false )
         loadEmbedPreview();
@@ -127,17 +127,17 @@ function inlineSelectorChange( e, el )
 
 function setEmbedAlign( e, el )
 {
-    ez.$('embed_preview_image').el.align = el.value;
+    jQuery('#embed_preview_image').attr( 'align', el.value );
 }
 
 function loadImageSize( e, el )
 {
     // Dynamically loads image sizes as they are requested
     // global objects: ez
-    var imageAttributes = eZOEPopupUtils.embedObject['image_attributes'], previewImageNode = ez.$('embed_preview_image'), eds = tinyMCEPopup.editor.settings;
+    var imageAttributes = eZOEPopupUtils.embedObject['image_attributes'], previewImageNode = jQuery('#embed_preview_image'), eds = tinyMCEPopup.editor.settings;
     if ( !imageAttributes || !eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ] )
     {
-        previewImageNode.el.src = attachmentIcon;
+        previewImageNode.attr( 'src', attachmentIcon );
         return;
     }
     var attribObj = eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'] || false, size = el.value;
@@ -147,7 +147,7 @@ function loadImageSize( e, el )
     }
     else if ( attribObj[size] )
     {
-        previewImageNode.el.src = eds.ez_root_url + attribObj[size]['url'];
+        previewImageNode.attr( 'src', eds.ez_root_url + attribObj[size]['url'] );
         tinyMCEPopup.resizeToInnerSize();
     }
     else
@@ -157,9 +157,9 @@ function loadImageSize( e, el )
             ez.script( 'eZOEPopupUtils.ajaxLoadResponse=' + r.responseText );
             if ( eZOEPopupUtils.ajaxLoadResponse )
             {
-                var size = ez.$('embed_size_source').el.value, imageAttributes = eZOEPopupUtils.embedObject['image_attributes'];
+                var size = jQuery('#embed_size_source').val(), imageAttributes = eZOEPopupUtils.embedObject['image_attributes'];
                 eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'][ size ] = eZOEPopupUtils.ajaxLoadResponse['data_map'][ imageAttributes[0] ]['content'][ size ];
-                previewImageNode.el.src = eds.ez_root_url + eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'][ size ]['url'];
+                previewImageNode.attr( 'src', eds.ez_root_url + eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'][ size ]['url'] );
             }
         });
     }
@@ -170,10 +170,10 @@ function loadEmbedPreview( )
     // Dynamically loads embed preview when attributes change
     // global objects: ez         
     var url = tinyMCEPopup.editor.settings.ez_extension_url + '/embed_view/' + eZOEPopupUtils.embedObject['contentobject_id'];
-    var postData = ez.$$('#embed_attributes input,#embed_attributes select').callEach('postData').join('&');
-    eZOEPopupUtils.ajax.load( url, postData, function(r)
+    var postData = jQuery('#embed_attributes input, #embed_attributes select').serialize();
+    eZOEPopupUtils.ajax.load( url, postData, function( r )
     {
-        ez.$('embed_preview').el.innerHTML = r.responseText;
+    	jQuery('#embed_preview').html( r.responseText );
     });
 }
 
@@ -207,7 +207,7 @@ function loadEmbedPreview( )
                                  'alt', 'hidden',
                                  'class', 'select',
                                  'align', hash(
-                                               '0', 'None'|i18n('design/standard/ezoe'),
+                                               '-0-', 'None'|i18n('design/standard/ezoe'),
                                                'left', 'Left'|i18n('design/standard/ezoe'),
                                                'middle', 'Center'|i18n('design/standard/ezoe'),
                                                'right', 'Right'|i18n('design/standard/ezoe')

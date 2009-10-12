@@ -9,7 +9,7 @@
 <script type="text/javascript">
 <!--
 
-tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {ldelim}
+tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {ldelim}
     tagName: '{$tag_name|wash}',
     form: 'EditForm',
     cancelButton: 'CancelButton',
@@ -20,7 +20,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {ldelim}
     onInit: function( el, tag, ed )
     {
         if ( el === false && this.settings.editorSelectedText !== false )
-            ez.$('anchor_id_source').el.value = this.settings.editorSelectedText;
+            document.getElementById('anchor_id_source').value = this.settings.editorSelectedText;
     },
     tagAttributeEditor: function( ed, el, args )
     {

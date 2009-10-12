@@ -7,9 +7,9 @@
 {def $skin = ezini('EditorSettings', 'Skin', 'ezoe.ini',,true() )}
 
 {if $module_result.persistent_variable.scripts}
-    {ezscript( array( 'tiny_mce_popup.js', 'ezoe/popup_validate.js', $module_result.persistent_variable.scripts ) )}
+    {ezscript( array( 'ezjsc::jquery', 'tiny_mce_popup.js', 'ezoe/popup_validate.js', $module_result.persistent_variable.scripts ) )}
 {else}
-    {ezscript( array( 'tiny_mce_popup.js', 'ezoe/popup_validate.js' ) )}
+    {ezscript( array( 'ezjsc::jquery', 'tiny_mce_popup.js', 'ezoe/popup_validate.js' ) )}
 {/if}
 
 <style type="text/css">

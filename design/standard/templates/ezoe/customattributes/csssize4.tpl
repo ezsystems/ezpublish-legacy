@@ -92,7 +92,7 @@
 
 eZOEPopupUtils.settings.customAttributeInitHandler['{$custom_attribute_id}_source'] = {literal} function( el, value )
 {
-    if ( ez.string.trim( value ) === '' ) return;
+    if ( jQuery.trim( value ) === '' ) return;
     var valArr = (value +'').split(/\s/g), base_id = el.id.replace('_source', ''), inp, sel, tid;
     for(var i = 0, l = ez.min( valArr.length, 4 ); i < l; i++)
     {
@@ -108,11 +108,11 @@ eZOEPopupUtils.settings.customAttributeInitHandler['{$custom_attribute_id}_sourc
 
 eZOEPopupUtils.settings.customAttributeSaveHandler['{$custom_attribute_id}_source'] = {literal} function( el, value )
 {
-    var inp, sel, tempval = [], base_id = el.id.replace('_source', ''), tid, hasValue = false;
+    var inp, sel, tempval = [], base_id = '#' + el.id.replace('_source', ''), tid, hasValue = false;
     for(var i = 0; i < 4; i++)
     {
         tid = (i === 0 ? '' : '_' + i);
-        inp = ez.$( base_id + '_source' + tid ).el, sel = ez.$( base_id + '_sizetype' + tid ).el;
+        inp = jQuery( base_id + '_source' + tid )[0], sel = jQuery( base_id + '_sizetype' + tid )[0];
         if ( inp.value !== '' ) hasValue = true;
         tempval.push( inp.value + ( sel.selectedIndex !== -1 ? sel.options[sel.selectedIndex].value : '' ) );
     }

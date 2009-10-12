@@ -254,8 +254,8 @@ var AutoValidator = {
 
 	innerText : function(n) {
 		if ( n.textContent !== undefined )
-			return ez.string.trim( n.textContent );
-		return ez.string.trim( n.innerText );
+			return jQuery.trim( n.textContent );
+		return jQuery.trim( n.innerText );
 	},
 
 	getValidatorLang : function(string, replace) {

@@ -34,7 +34,7 @@ eZOEPopupUtils.bookmarks = function( offset )
 {
     // browse personal bookmarks by offset
     eZOEPopupUtils.bookmarksAjax.load( tinyMCEPopup.editor.settings.ez_extension_url + '/bookmarks/' + (offset || 0), '', eZOEPopupUtils.bookmarksCallBack  );
-    ez.$('bookmarks_progress' ).show();
+    jQuery('#bookmarks_progress' ).show();
 };
 
 eZOEPopupUtils.bookmarksCallBack = function( r )

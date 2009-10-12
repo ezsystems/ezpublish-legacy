@@ -7,7 +7,7 @@
                                            )}
 <script type="text/javascript">
 <!--
-var contentType = '{$content_type}', classFilter = ez.$c();
+var contentType = '{$content_type}', classFilter = [];
 
 {foreach $class_filter_array as $class_filter}
     classFilter.push('{$class_filter}');
@@ -38,7 +38,7 @@ tinyMCEPopup.onInit.add( function(){
 if ( contentType === 'images' )
 {
     eZOEPopupUtils.settings.browseClassGenerator = function( n, hasImage ){
-        if ( hasImage && classFilter.indexOf( n.class_identifier ) !== -1 )
+        if ( hasImage && jQuery.inArray( n.class_identifier, classFilter ) !== -1 )
             return '';
         if ( n.children_count )
             return 'node_not_image';

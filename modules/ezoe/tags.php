@@ -130,7 +130,7 @@ else
     else
         $classListDescription = array();
 
-    $classList['0'] = 'None';
+    $classList['-0-'] = 'None';
     if ( $contentIni->hasVariable( $tagName, 'AvailableClasses' ) )
     {
         foreach ( $contentIni->variable( $tagName, 'AvailableClasses' ) as $class )
@@ -174,7 +174,7 @@ if ( $tagName === 'td' || $tagName === 'th' )
 {
     // generate javascript data for td / th classes
     $tagName2 = $tagName === 'td' ? 'th' : 'td';
-    $cellClassList = array( $tagName => $classList, $tagName2 => array('0' => 'None') );
+    $cellClassList = array( $tagName => $classList, $tagName2 => array('-0-' => 'None') );
 
     if ( $contentIni->hasVariable( $tagName2, 'ClassDescription' ) )
         $classListDescription = $contentIni->variable( $tagName2, 'ClassDescription' );

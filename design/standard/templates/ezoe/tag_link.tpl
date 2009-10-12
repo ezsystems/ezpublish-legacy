@@ -14,7 +14,7 @@ eZOEPopupUtils.settings.customAttributeStyleMap = {$custom_attribute_style_map};
 eZOEPopupUtils.settings.tagEditTitleText = "{'Edit %tag_name tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', concat('&lt;', $tag_name_alias, '&gt;') ))|wash('javascript')}";
 {literal}
 
-tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
+tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
     tagName: ezTagName,
     form: 'EditForm',
     cancelButton: 'CancelButton'
@@ -40,7 +40,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
             <h2 style="padding: 0 0 4px 0;" id="tag-edit-title">{'New %tag_name tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', concat('&lt;', $tag_name_alias, '&gt;') ))}</h2>
         </div>
         
-        {def $viewModes = hash('0', '[default]'|i18n('design/standard/ezoe'))}
+        {def $viewModes = hash('-0-', '[default]'|i18n('design/standard/ezoe'))}
         {foreach ezini( 'link', 'AvailableViewModes', 'content.ini')  as $viewMode}
             {set $viewModes = $viewModes|merge(  hash( $viewMode, $viewMode|upfirst ) )}
         {/foreach} 
@@ -54,7 +54,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
                  tag_name=$tag_name
                  attributes=hash( 'href', 'link',
                                   'view', $viewModes,
-                                  'target', hash('0', 'None'|i18n('design/standard/ezoe'), '_blank', 'New window (_blank)'|i18n('design/standard/ezoe')),
+                                  'target', hash('-0-', 'None'|i18n('design/standard/ezoe'), '_blank', 'New window (_blank)'|i18n('design/standard/ezoe')),
                                   'class', $class_list,
                                   'title', '',
                                   'id', ''

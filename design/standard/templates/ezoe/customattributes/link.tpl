@@ -1,7 +1,7 @@
 <select id="{$custom_attribute_id}_source_types" class="mceItemSkip" title="{"List of possible link types. Link types that use the '://' format are technically called protocols."|i18n('design/standard/ezoe')}">
 {if ezini_hasvariable( $custom_attribute_settings, 'LinkType', 'ezoe_attributes.ini' )}
 {foreach ezini( $custom_attribute_settings, 'LinkType', 'ezoe_attributes.ini' ) as $custom_value => $custom_name}
-    <option value="{if $custom_value|ne('0')}{$custom_value|wash}{/if}"{if $custom_attribute_default|contains( $custom_value )} selected="selected"{/if}>{$custom_name|wash}</option>
+    <option value="{if $custom_value|ne('-0-')}{$custom_value|wash}{/if}"{if $custom_attribute_default|contains( $custom_value )} selected="selected"{/if}>{$custom_name|wash}</option>
 {/foreach}
 {else}
     <option value="eznode://">{'eznode'|i18n('design/standard/ezoe')}</option>
@@ -71,7 +71,7 @@ eZOEPopupUtils.settings.onInitDoneArray.push( function( editorElement )
 
         if ( id === 0 || ( url[0] !== 'eznode' && url[0] !== 'ezobject' ) ) return true;
 
-        ezoeLinkAttribute.timeOut = setTimeout( ez.fn.bind( ezoeLinkAttribute.ajaxCheck, this, url[0] + '_' + id ), 320 );
+        ezoeLinkAttribute.timeOut = setTimeout( eZOEPopupUtils.BIND( ezoeLinkAttribute.ajaxCheck, this, url[0] + '_' + id ), 320 );
         return true;
     });
     //ezoeLinkAttribute.typeSet( link[1], link[0] );
@@ -86,8 +86,8 @@ eZOEPopupUtils.settings.onInitDoneArray.push( function( editorElement )
     ezoeLinkAttribute.slides = ez.$$('div.panel');//ezoeLinkAttribute.slides is global object used by custom selectByEmbedId function
     var navigation = ez.$('embed_search_go_back_link', base_id+'_search_link', base_id+'_browse_link', base_id+'_bookmarks_link', 'embed_browse_go_back_link', 'embed_bookmarks_go_back_link' );
     ezoeLinkAttribute.slides.accordion( navigation, {duration: 100, transition: ez.fx.sinoidal, accordionAutoFocusTag: 'input[type=text]'}, {opacity: 0, display: 'none'} );
-    navigation[4].addEvent('click', ez.fn.bind( ezoeLinkAttribute.slides.accordionGoto, ezoeLinkAttribute.slides, 0 ) ).addClass('accordion_navigation');
-    navigation[5].addEvent('click', ez.fn.bind( ezoeLinkAttribute.slides.accordionGoto, ezoeLinkAttribute.slides, 0 ) ).addClass('accordion_navigation');
+    navigation[4].addEvent('click', eZOEPopupUtils.BIND( ezoeLinkAttribute.slides.accordionGoto, ezoeLinkAttribute.slides, 0 ) ).addClass('accordion_navigation');
+    navigation[5].addEvent('click', eZOEPopupUtils.BIND( ezoeLinkAttribute.slides.accordionGoto, ezoeLinkAttribute.slides, 0 ) ).addClass('accordion_navigation');
 
     ezoeLinkAttribute.typeSet( link[1], link[0] );
 });

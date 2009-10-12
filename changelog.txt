@@ -57,6 +57,7 @@ eZ Online Editor 5.0 extension Changelog
 * Implemented: Added support for After the Deadline spellchecker
 * Fixed #015647: Extra paragraphs added when pasting text from websites in non IE browsers
 * Added kernel-datatype-ezxmltext-ezoe debug setting to debug oe html parser
+* Fixed #015649: Class 'None' sometimes saved when changing tag type in popup dialog
 
 5.0.0
 * Fixed regression #13650: [header] ezoe adds a level each time it is called

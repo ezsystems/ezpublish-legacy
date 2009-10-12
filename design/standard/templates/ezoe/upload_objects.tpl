@@ -7,7 +7,7 @@
                                            )}
 <script type="text/javascript">
 <!--
-var contentType = '{$content_type}', classFilter = ez.$c();
+var contentType = '{$content_type}', classFilter = [];
 
 {foreach $class_filter_array as $class_filter}
     classFilter.push('{$class_filter}');

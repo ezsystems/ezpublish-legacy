@@ -14,18 +14,18 @@ eZOEPopupUtils.settings.customAttributeStyleMap = {$custom_attribute_style_map};
 eZOEPopupUtils.settings.tagEditTitleText = "{'Edit %tag_name tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', concat('&lt;', $tag_name_alias, '&gt;') ))|wash('javascript')}";
 {literal} 
 
-tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
+tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
     tagName: ezTagName,
     form: 'EditForm',
     cancelButton: 'CancelButton',
     tagAttributeEditor:    function( ed, el, args )
     {
-        var mode = ez.$('cell_args_apply_to').el.value, nodes, x = 0, target = this.settings.tagSelector.el.value;
+        var mode = document.getElementById('cell_args_apply_to').value, nodes, x = 0, target = this.settings.tagSelector[0].value;
 
         if ( mode === 'row' )
         {
             // get nodes (cells) in this row
-            nodes = ez.$$('> *', el.parentNode );
+            nodes = jQuery('> *', el.parentNode );
         }
         else if ( mode === 'column' )
         {
@@ -35,7 +35,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
                 if ( c[i] === el ) x = i + 1;
             };
             // get nodes (cells) in this column
-            nodes = ez.$$('tr > *:nth-child(' + x + ')', el.parentNode.parentNode );
+            nodes = jQuery('tr > *:nth-child(' + x + ')', el.parentNode.parentNode );
         }
 
         if ( !nodes )
@@ -43,19 +43,19 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
             el = eZOEPopupUtils.switchTagTypeIfNeeded( el, target );
             ed.dom.setAttribs(el, args);
         }
-        else nodes.forEach(function( o )
+        else nodes.each(function( i, el )
         {
-            o.el = eZOEPopupUtils.switchTagTypeIfNeeded( o.el, target );
-            ed.dom.setAttribs( o.el, args );
+            el = eZOEPopupUtils.switchTagTypeIfNeeded( el, target );
+            ed.dom.setAttribs( el, args );
         });
     },
     tagSelector: ezTagName + '_tag_source',
-    tagSelectorCallBack: function( e, el )
+    tagSelectorCallBack: function( e )
     {
         if ( e === false ) return false;
-        var classes = ez.$( eZOEPopupUtils.settings.tagName + '_class_source' ).el, editorEl = eZOEPopupUtils.settings.editorElement || false;
+        var classes = jQuery( '#' + eZOEPopupUtils.settings.tagName + '_class_source' )[0], editorEl = eZOEPopupUtils.settings.editorElement || false;
         eZOEPopupUtils.removeChildren( classes );
-        eZOEPopupUtils.addSelectOptions( classes, cellClassList[ el.value ] );
+        eZOEPopupUtils.addSelectOptions( classes, cellClassList[ this.value ] );
         if ( editorEl && editorEl.className )
             classes.value = editorEl.className;
         eZOEPopupUtils.toggleCustomAttributes.call( this );

@@ -15,7 +15,7 @@ eZOEPopupUtils.settings.tagEditTitleText = "{'Edit %tag_name tag'|i18n('design/s
 {literal} 
 
 
-tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
+tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
     tagName: ezTagName,
     form: 'EditForm',
     cancelButton: 'CancelButton',
@@ -81,7 +81,7 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
             edBody = edBody.parentNode
         }
         if ( edBody.nodeName === 'BODY'
-        && edBody.childNodes.length <= (ez.array.indexOf( edBody.childNodes, temp ) +1) )
+        && edBody.childNodes.length <= (jQuery.inArray( temp, edBody.childNodes ) +1) )
         {
             var p = doc.createElement('p');
             p.innerHTML = ed.isIE ? '&nbsp;' : '<br />';
@@ -103,15 +103,15 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
         if ( el.nodeName !== 'DIV' && origin === 'DIV' )
         {
             // remove p tag if inline tag
-            var childs = ez.$$('> *', el);
-            if ( childs.length === 1 && childs[0].el.nodeName === 'P' )
-                el.innerHTML = childs[0].el.innerHTML;
+            var childs = jQuery('> *', el);
+            if ( childs.size() === 1 && childs[0].nodeName === 'P' )
+                el.innerHTML = childs[0].innerHTML;
         }
         else if ( el.nodeName === 'DIV' && origin !== 'DIV' )
         {
             // add p tag if block tag and no child tags
-            var childs = ez.$$('> *', el);
-            if ( childs.length === 0 || childs[0].el.nodeName !== 'P' )
+            var childs = jQuery('> *', el);
+            if ( childs.size() === 0 || childs[0].nodeName !== 'P' )
                 el.innerHTML = '<p>' + el.innerHTML + '</p>';
         }
         ed.dom.setAttrib( el, 'type', 'custom' );
@@ -132,12 +132,12 @@ tinyMCEPopup.onInit.add( ez.fn.bind( eZOEPopupUtils.init, window, {
 
 function filterOutCustomBlockTags( n )
 {
-    var inlineTags = ez.$c();
-    ez.$$('input[id*=_inline_source]').forEach(function( o ){
-        if ( o.el.checked ) inlineTags.push( o.el.id.split('_inline_')[0] );
+    var inlineTags = [];
+    jQuery('input[id*=_inline_source]').each(function( i, node ){
+        if ( node.checked ) inlineTags.push( node.id.split('_inline_')[0] );
     });
-    ez.$$('#custom_name_source option').forEach(function( o ){
-        if ( inlineTags.indexOf( o.el.value ) === -1 ) o.el.parentNode.removeChild( o.el );
+    jQuery('#custom_name_source option').each(function( i, node ){
+        if ( jQuery.inArray( node.value, inlineTags ) === -1 ) node.parentNode.removeChild( node );
     });
 }
 
