@@ -89,6 +89,8 @@ class eZSMTPTransport extends eZMailTransport
         if ( $ini->variable( 'MailSettings', 'DebugSending' ) == 'enabled' )
         {
             $sendData["recipients"] = array( $ini->variable( 'MailSettings', 'DebugReceiverEmail' ) );
+            $sendData['CcRecipients'] = array();
+            $sendData['BccRecipients'] = array();
         }
         else
         {
