@@ -555,14 +555,17 @@ class eZOEXMLInput extends eZXMLInputHandler
 
             if ( self::browserSupportsDHTMLType() === 'Trident' ) // IE
             {
-                $text = preg_replace( "/[\n\t]/", '', $text);
+                $text = str_replace( array( "\n", "\t" ), '', $text);
             }
             else
             {
-                $text = preg_replace( "/[\n\t]/", ' ', $text);
+                $text = str_replace( "\n", '', $text);
+                $text = str_replace( "\t", ' ', $text);
             }
 
-            //eZDebug::writeDebug( $text, __METHOD__ );
+            eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext-ezoe',
+                                        $text,
+                                        __METHOD__ . ' html from client' );
 
             include_once( 'extension/ezoe/ezxmltext/handlers/input/ezoeinputparser.php' );
 
@@ -628,6 +631,10 @@ class eZOEXMLInput extends eZXMLInputHandler
                                                      eZContentObject::RELATION_LINK );
 
             $xmlString = eZXMLTextType::domString( $document );
+
+            eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext-ezoe',
+                                        $xmlString,
+                                        __METHOD__ . ' generated xml' );
 
             $contentObjectAttribute->setAttribute( 'data_text', $xmlString );
             $contentObjectAttribute->setValidationLog( $parser->Messages );

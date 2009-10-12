@@ -55,6 +55,8 @@ eZ Online Editor 5.0 extension Changelog
 * Use jQuery variant of tinyMCE to reduce size.
 * Implemented: Human readable feedback on custom attribute validation error
 * Implemented: Added support for After the Deadline spellchecker
+* Fixed #015647: Extra paragraphs added when pasting text from websites in non IE browsers
+* Added kernel-datatype-ezxmltext-ezoe debug setting to debug oe html parser
 
 5.0.0
 * Fixed regression #13650: [header] ezoe adds a level each time it is called
