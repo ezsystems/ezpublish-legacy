@@ -130,41 +130,6 @@ function setEmbedAlign( e, el )
     jQuery('#embed_preview_image').attr( 'align', el.value );
 }
 
-function loadImageSize( e, el )
-{
-    // Dynamically loads image sizes as they are requested
-    // global objects: ez
-    var imageAttributes = eZOEPopupUtils.embedObject['image_attributes'], previewImageNode = jQuery('#embed_preview_image'), eds = tinyMCEPopup.editor.settings;
-    if ( !imageAttributes || !eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ] )
-    {
-        previewImageNode.attr( 'src', attachmentIcon );
-        return;
-    }
-    var attribObj = eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'] || false, size = el.value;
-    if ( !attribObj || !previewImageNode || !attribObj['original']['url'] )
-    {
-        // Image attribute or node missing
-    }
-    else if ( attribObj[size] )
-    {
-        previewImageNode.attr( 'src', eds.ez_root_url + attribObj[size]['url'] );
-        tinyMCEPopup.resizeToInnerSize();
-    }
-    else
-    {
-        var url = eds.ez_extension_url + '/load/' + eZOEPopupUtils.embedObject['contentobject_id'];
-        eZOEPopupUtils.ajax.load( url, 'imagePreGenerateSizes=' + size, function(r){
-            ez.script( 'eZOEPopupUtils.ajaxLoadResponse=' + r.responseText );
-            if ( eZOEPopupUtils.ajaxLoadResponse )
-            {
-                var size = jQuery('#embed_size_source').val(), imageAttributes = eZOEPopupUtils.embedObject['image_attributes'];
-                eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'][ size ] = eZOEPopupUtils.ajaxLoadResponse['data_map'][ imageAttributes[0] ]['content'][ size ];
-                previewImageNode.attr( 'src', eds.ez_root_url + eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'][ size ]['url'] );
-            }
-        });
-    }
-}
-
 function loadEmbedPreview( )
 {
     // Dynamically loads embed preview when attributes change

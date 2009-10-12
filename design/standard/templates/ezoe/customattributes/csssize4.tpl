@@ -99,7 +99,7 @@ eZOEPopupUtils.settings.customAttributeInitHandler['{$custom_attribute_id}_sourc
         tid = (i === 0 ? '' : '_' + i);
         inp = ez.$( base_id + '_source' + tid ).el;
         inp.value = ez.num( valArr[i], 0, 'int' );
-        ez.$( base_id + '_sizetype' + tid ).el.selectedIndex = ez.$$('#' + base_id + '_sizetype' + tid + ' option').map(function( o )
+        document.getElementById( base_id + '_sizetype' + tid ).selectedIndex = ez.$$('#' + base_id + '_sizetype' + tid + ' option').map(function( o )
         {
             return o.el.value;
         }).indexOf( valArr[i].replace( inp.value, '' ) );

@@ -116,9 +116,6 @@ function inlineSelectorChange( e, el )
         classList.val( classValue );
     else if ( def['class'] !== undefined )
         classList.val( def['class'] );
-    
-    if ( tinymce.isIE && contentType !== 'images' && e !== false )
-        loadEmbedPreview();
 }
 
 
