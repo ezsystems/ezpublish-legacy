@@ -172,6 +172,12 @@ class eZCache
                                        'enabled' => true,
                                        'path' => false,
                                        'function' => array( 'eZCache', 'clearStateLimitations' ) ),
+                                array( 'name' => ezi18n( 'kernel/cache', 'Design base cache' ),
+                                       'id' => 'design_base',
+                                       'tag' => array( 'template' ),
+                                       'enabled' => true,
+                                       'path' => false,
+                                       'function' => array( 'eZCache', 'clearDesignBaseCache' ) )
                                 );
         }
         return $cacheList;
@@ -596,6 +602,19 @@ class eZCache
 
         $fileHandler = eZClusterFileHandler::instance();
         $fileHandler->fileDelete( $cachePath, 'statelimitations_' );
+    }
+
+    /**
+     * Clears the design base cache
+     *
+     * @param $cacheItem array the cache item that describes the cache tag/id
+     */
+    public static function clearDesignBaseCache( $cacheItem )
+    {
+        $cachePath = eZSys::cacheDirectory();
+
+        $fileHandler = eZClusterFileHandler::instance();
+        $fileHandler->fileDeleteByWildcard( $cachePath . '/' . eZTemplateDesignResource::DESIGN_BASE_CACHE_NAME . '*' );
     }
 }
 

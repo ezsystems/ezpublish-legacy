@@ -9,6 +9,7 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Implemented enhancement #11997: Add time measurement to runcronjobs.php
 - Implemented enhancement #15643: Warnings about non existing cache files should be Debug
 - Implemented enhancement #15644: eZURLAliasFilter should take benefit of the autoload system
+- Implemented enhancement #13730: file_exists optimization - cache the location of design base directories
 
 *Design:
 
