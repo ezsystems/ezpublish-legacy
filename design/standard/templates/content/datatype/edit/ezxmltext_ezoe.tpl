@@ -109,7 +109,7 @@
         spellchecker_languages : '{$spell_languages}',
         atd_rpc_url : {'/ezoe/atd_rpc?url='|ezurl},
         atd_rpc_id  : "your API key here", 
-        atd_css_url : {'javascript/plugins/AtD/css/content.css'|ezdesign},
+        atd_css_url : {'javascript/plugins/AtD/css/content.css'|ezdesign}
     {rdelim};
     
     {literal}
