@@ -44,23 +44,6 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
     {
         return '<img id="__mce_tmp" src="javascript:void(0);" />';
     },
-    onTagGenerated:  function( el, ed, args )
-    {
-        // append a paragraph if user just inserted a embed tag in editor and it's the last tag
-        var edBody = el.parentNode, doc = ed.getDoc();
-        if ( edBody.nodeName !== 'BODY' )
-        {
-            el = edBody;
-            edBody = edBody.parentNode
-        }
-        if ( edBody.nodeName === 'BODY'
-        && edBody.childNodes.length <= (jQuery.inArray( el, edBody.childNodes ) +1) )
-        {
-            var p = doc.createElement('p');
-            p.innerHTML = ed.isIE ? '&nbsp;' : '<br />';
-            edBody.appendChild( p );
-        }
-    },
     tagAttributeEditor: function( ed, el, args )
     {
         args['inline'] = jQuery('#embed_inline_source').attr( 'checked' ) ? 'true' : 'false';

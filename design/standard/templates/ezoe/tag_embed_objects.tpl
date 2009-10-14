@@ -54,6 +54,9 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
     onTagGenerated:  function( el, ed, args )
     {
         // append a paragraph if user just inserted a embed tag in editor and it's the last tag
+        if ( el.nodeName !== 'DIV' )
+            return false;
+
         var edBody = el.parentNode, doc = ed.getDoc();
         if ( edBody.nodeName !== 'BODY' )
         {
