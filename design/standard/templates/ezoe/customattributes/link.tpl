@@ -33,52 +33,52 @@
 // register function to be called on end of init
 eZOEPopupUtils.settings.onInitDoneArray.push( function( editorElement )
 {
-    var base_id = ezoeLinkAttribute.id, link = ez.$(base_id+'_source_types', base_id+'_source' );
-    link[0].addEvent('change', function( e, el )
+    var base_id = '#' + ezoeLinkAttribute.id, drop = jQuery( base_id+'_source_types'), inp = jQuery( base_id+'_source' );
+    drop.change(function( e )
     {
-        var base_id = ezoeLinkAttribute.id, inp = document.getElementById( base_id+'_source' );
-        if ( el.value === 'ezobject://' )
+        var base_id = ezoeLinkAttribute.id, input = document.getElementById( base_id+'_source' );
+        if ( this.value === 'ezobject://' )
         {
-            inp.value = el.value + ezoeLinkAttribute.node['contentobject_id'];
+        	input.value = this.value + ezoeLinkAttribute.node['contentobject_id'];
             ezoeLinkAttribute.namePreview( ezoeLinkAttribute.node['name'] );
         }
-        else if ( el.value === 'eznode://' )
+        else if ( this.value === 'eznode://' )
         {
-            inp.value = el.value + ezoeLinkAttribute.node['node_id'];
+        	input.value = this.value + ezoeLinkAttribute.node['node_id'];
             ezoeLinkAttribute.namePreview( ezoeLinkAttribute.node['name'] );
         }
         else
         {
-            inp.value = el.value;
+        	input.value = this.value;
             ezoeLinkAttribute.namePreview( undefined );
         }
     });
 
     // add event to href input to lookup name on object or nodes
-    link[1].addEvent('keyup', function( e, el ){
+    inp.keyup( function( e )
+    {
         e = e || window.event;
-        var c = e.keyCode || e.which, base_id = ezoeLinkAttribute.id, link = ez.$(base_id+'_source_types', el );
+        var c = e.keyCode || e.which, base_id = '#' + ezoeLinkAttribute.id, dropdown = jQuery( base_id + '_source_types' );
         clearTimeout( ezoeLinkAttribute.timeOut );
 
         // break if user is pressing arrow keys
         if ( c > 36 && c < 41 ) return true;
 
-        ezoeLinkAttribute.typeSet( link[1], link[0] );
+        ezoeLinkAttribute.typeSet( this, dropdown[0] );
 
-        if ( el.value.indexOf( '://' ) === -1 ) return true;
+        if ( this.value.indexOf( '://' ) === -1 ) return true;
 
-        var url = el.value.split('://'), id = ez.num( url[1], 0, 'int' );
+        var url = this.value.split('://'), id = ez.num( url[1], 0, 'int' );
 
         if ( id === 0 || ( url[0] !== 'eznode' && url[0] !== 'ezobject' ) ) return true;
 
         ezoeLinkAttribute.timeOut = setTimeout( eZOEPopupUtils.BIND( ezoeLinkAttribute.ajaxCheck, this, url[0] + '_' + id ), 320 );
         return true;
     });
-    //ezoeLinkAttribute.typeSet( link[1], link[0] );
 
-    if ( link[1].el.value.indexOf( '://' ) !== -1 )
+    if ( inp.val().indexOf( '://' ) !== -1 )
     {
-        var url = link[1].el.value.split('://'), id = ez.num( url[1], 0, 'int' );
+        var url = inp.val().split('://'), id = ez.num( url[1], 0, 'int' );
         if ( id !== 0 && ( url[0] === 'eznode' || url[0] === 'ezobject' ) )
             ezoeLinkAttribute.ajaxCheck( url[0] + '_' + id );
     }
@@ -89,7 +89,7 @@ eZOEPopupUtils.settings.onInitDoneArray.push( function( editorElement )
     navigation[4].addEvent('click', eZOEPopupUtils.BIND( ezoeLinkAttribute.slides.accordionGoto, ezoeLinkAttribute.slides, 0 ) ).addClass('accordion_navigation');
     navigation[5].addEvent('click', eZOEPopupUtils.BIND( ezoeLinkAttribute.slides.accordionGoto, ezoeLinkAttribute.slides, 0 ) ).addClass('accordion_navigation');
 
-    ezoeLinkAttribute.typeSet( link[1], link[0] );
+    ezoeLinkAttribute.typeSet( inp[0], drop[0] );
 });
 
 
@@ -113,13 +113,13 @@ eZOEPopupUtils.settings.browseLinkGenerator = function( n, mode, ed )
 // override so selected element is redirected to link input
 eZOEPopupUtils.selectByEmbedId = function( object_id, node_id, name )
 {
-    var base_id = ezoeLinkAttribute.id, link = ez.$(base_id+'_source_types', base_id+'_source', base_id+'_source_info');
-    if ( link[0].el.value === 'ezobject://' )
-        link[1].el.value = 'ezobject://' + object_id;
+    var base_id = '#' + ezoeLinkAttribute.id, drop = jQuery( base_id+'_source_types'), inp = jQuery( base_id+'_source' ), info = jQuery( base_id+'_source_info' )
+    if ( drop.val() === 'ezobject://' )
+        inp.val( 'ezobject://' + object_id );
     else
-        link[1].el.value = 'eznode://' + node_id;
-    ezoeLinkAttribute.typeSet( link[1], link[0] );
-    ezoeLinkAttribute.namePreview( name, link[2].el );
+    	inp.val( 'eznode://' + node_id );
+    ezoeLinkAttribute.typeSet( inp[0], drop[0] );
+    ezoeLinkAttribute.namePreview( name, info[0] );
     ezoeLinkAttribute.slides.accordionGoto.call( ezoeLinkAttribute.slides, 0 );
     ezoeLinkAttribute.node = {'contentobject_id': object_id, 'node_id': node_id, 'name': name }
 };
