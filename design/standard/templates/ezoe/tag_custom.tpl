@@ -42,17 +42,17 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
                 filterOutCustomBlockTags( );
         }
     },
-    tagGenerator: function( tag, customTag, selectedHtml )
+    tagCreator: function( ed, tag, customTag, selectedHtml )
     {
         if ( !selectedHtml ) selectedHtml = customTag;
 
         if ( customTag === 'underline' )
         {
-            return '<u id="__mce_tmp" type="custom">' + selectedHtml + '<\/u>';
+            return eZOEPopupUtils.insertHTMLCleanly( ed, '<u id="__mce_tmp" type="custom">' + selectedHtml + '<\/u>', '__mce_tmp' );
         }
         else if ( customTag === 'sub' || customTag === 'sup' )
         {
-            return '<' + customTag + ' id="__mce_tmp" type="custom">' + selectedHtml + '<\/' + customTag + '>';
+            return eZOEPopupUtils.insertHTMLCleanly( ed, '<' + customTag + ' id="__mce_tmp" type="custom">' + selectedHtml + '<\/' + customTag + '>', '__mce_tmp' );
         }
         else if ( document.getElementById( customTag + '_inline_source' ).checked )
         {
@@ -61,14 +61,14 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
                 var customImgUrl = document.getElementById( customTag + '_image_url_source' ), imageSrc = imageIcon;
                 if ( customImgUrl && customImgUrl.value )
                     imageSrc = customImgUrl.value;
-                return '<img id="__mce_tmp" type="custom" src="' + imageSrc + '" />';
+                return eZOEPopupUtils.insertHTMLCleanly( ed, '<img id="__mce_tmp" type="custom" src="' + imageSrc + '" />', '__mce_tmp' );
             }
             else
-                return '<span id="__mce_tmp" type="custom">' + selectedHtml + '<\/span>';
+                return eZOEPopupUtils.insertHTMLCleanly( ed, '<span id="__mce_tmp" type="custom">' + selectedHtml + '<\/span>', '__mce_tmp' );
         }
         else
         {
-            return '<div id="__mce_tmp" type="custom"><p>' + selectedHtml + '<\/p><\/div>';
+            return eZOEPopupUtils.insertTagCleanly( ed, 'div', '<p>' + selectedHtml + '<\/p>', {'type': 'custom' } );
         }
     },
     onTagGenerated:  function( el, ed, args )

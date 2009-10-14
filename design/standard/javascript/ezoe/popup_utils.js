@@ -191,8 +191,7 @@ var eZOEPopupUtils = {
             // create new node if none is defined and if tag type is defined in ezXmlToXhtmlHash or tagGenerator is defined
             if ( s.tagGenerator )
             {
-                eZOEPopupUtils.insertHTMLCleanly( ed, s.tagGenerator.call( eZOEPopupUtils, s.tagName, s.selectedTag, s.editorSelectedHtml ), '__mce_tmp' );
-                s.editorElement = ed.dom.get('__mce_tmp');
+            	s.editorElement = eZOEPopupUtils.insertHTMLCleanly( ed, s.tagGenerator.call( eZOEPopupUtils, s.tagName, s.selectedTag, s.editorSelectedHtml ), '__mce_tmp' );
             }
             else if ( s.tagCreator )
             {
@@ -218,8 +217,7 @@ var eZOEPopupUtils = {
             }
             else if ( eZOEPopupUtils.xmlToXhtmlHash[s.tagName] )
             {
-                eZOEPopupUtils.insertHTMLCleanly( ed, '<' + eZOEPopupUtils.xmlToXhtmlHash[s.tagName] + ' id="__mce_tmp">' + '&nbsp;' + '</' + eZOEPopupUtils.xmlToXhtmlHash[s.tagName] + '>', '__mce_tmp' );
-                s.editorElement = ed.dom.get('__mce_tmp');
+            	s.editorElement = eZOEPopupUtils.insertTagCleanly( ed, eZOEPopupUtils.xmlToXhtmlHash[s.tagName], '&nbsp;' );
             }
             if ( s.onTagGenerated )
             {
@@ -257,7 +255,7 @@ var eZOEPopupUtils = {
     insertHTMLCleanly: function( ed, html, id )
     {
         // makes sure block nodes do not break the html structure they are inserted into
-        var paragraphCleanup = false;
+        var paragraphCleanup = false, newElement;
         if ( html.indexOf( '<div' ) === 0 || html.indexOf( '<pre' ) === 0 )
         {
             var edCurrentNode = ed.selection.getNode();
@@ -270,23 +268,47 @@ var eZOEPopupUtils = {
 
         ed.execCommand('mceInsertRawHTML', false, html, {skip_undo : 1} );
 
-        if ( paragraphCleanup )
+        newElement = ed.dom.get( id );
+        if ( paragraphCleanup ) this.paragraphCleanup( ed, newElement );
+        return newElement;
+    },
+
+    insertTagCleanly: function( ed, tag, content, args )
+    {
+        var edCurrentNode = ed.selection.getNode(), newElement = edCurrentNode.ownerDocument.createElement( tag );
+        if ( tag !== 'img' ) newElement.innerHTML = content;
+
+    	if ( edCurrentNode.nextSibling )
+    		edCurrentNode.parentNode.insertBefore( newElement, edCurrentNode.nextSibling );
+    	else
+    		edCurrentNode.parentNode.appendChild( newElement );
+
+        if ( (tag === 'div' || tag === 'pre') && edCurrentNode && edCurrentNode.nodeName.toLowerCase() === 'p' )
         {
-            var editorElement = ed.dom.get( id ), emptyContent = [ '', '<br>', '<BR>', '&nbsp;', ' ', " " ];
-            // cleanup broken paragraphs after inserting block tags into paragraphs
-            if ( editorElement.previousSibling
-                 && editorElement.previousSibling.nodeName.toLowerCase() === 'p'
-                 && ( !editorElement.previousSibling.hasChildNodes() || jQuery.inArray( editorElement.previousSibling.innerHTML, emptyContent ) !== -1 ))
-            {
-                editorElement.parentNode.removeChild( editorElement.previousSibling );
-            }
-            if ( editorElement.nextSibling
-                    && editorElement.nextSibling.nodeName.toLowerCase() === 'p'
-                    && ( !editorElement.nextSibling.hasChildNodes() || jQuery.inArray( editorElement.nextSibling.innerHTML, emptyContent ) !== -1 ))
-           {
-               editorElement.parentNode.removeChild( editorElement.nextSibling );
-           }
+        	this.paragraphCleanup( ed, newElement );
         }
+
+        if ( args ) ed.dom.setAttribs( newElement, args );
+
+        return newElement;
+    },
+    
+    paragraphCleanup: function( ed, el )
+    {
+        var emptyContent = [ '', '<br>', '<BR>', '&nbsp;', ' ', " " ];
+        // cleanup broken paragraphs after inserting block tags into paragraphs
+        if ( el.previousSibling
+             && el.previousSibling.nodeName.toLowerCase() === 'p'
+             && ( !el.previousSibling.hasChildNodes() || jQuery.inArray( el.previousSibling.innerHTML, emptyContent ) !== -1 ))
+        {
+        	el.parentNode.removeChild( el.previousSibling );
+        }
+        if ( el.nextSibling
+                && el.nextSibling.nodeName.toLowerCase() === 'p'
+                && ( !el.nextSibling.hasChildNodes() || jQuery.inArray( el.nextSibling.innerHTML, emptyContent ) !== -1 ))
+       {
+        	el.parentNode.removeChild( el.nextSibling );
+       }
     },
 
     safeHtml: function( value )
@@ -390,7 +412,7 @@ var eZOEPopupUtils = {
         {
         	var o = jQuery( el ), name = el.name;
         	if ( o.hasClass('mceItemSkip') || !name ) return;
-            args[name] = o[0].value;
+            args[name] = el.value;
             // see if there is a save hander that needs to do some work on the value
             if ( handler[el.id] !== undefined && handler[el.id].call !== undefined )
                 args[name] = handler[el.id].call( o, el, args[name] );
