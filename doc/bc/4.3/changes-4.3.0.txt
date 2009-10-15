@@ -9,6 +9,11 @@ INI setting changes
   As a first step towards removing the shop functionality from the kernel and
   move it into an extension, we have now disabled this tab by default.
   You can re-enable it by adding Tabs[]=shop to menu.ini[TopAdminMenu]
+  
+- Design tab hidden by default
+
+  All menu entries from design tab except Template, has been moved to setup tab.
+  If you want to enable design tab and / or Template link, see menu.ini.
 
 
 Change of behavior 
@@ -17,9 +22,10 @@ Change of behavior
 - Look & Feel url hardcoded in ini
 
   Because of enhancement  "#15672: Use ini setting for menu items in admin", url to
-  Look and Feel object is defined in menu.ini[Leftmenu_design]Links[] using object
-  id 54. If you have an old install this object id might be a different one and 
-  you'll need to override the setting.
+  Look and Feel object is defined in menu.ini[Leftmenu_setup]Links[]
+  ( and if you have re-enabled design tab also menu.ini[Leftmenu_design]Links[] )
+  using object id 54. If you have an old install this object id might be a different one
+  and you'll need to override the setting.
 
 
 
