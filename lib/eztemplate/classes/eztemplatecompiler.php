@@ -2262,115 +2262,118 @@ $rbracket
 
                     $resourceMap = array();
                     $hasCompiledCode = false;
-                    foreach ( $uriMap as $uriKey => $originalURI )
+                    if ( is_array( $uriMap ) )
                     {
-                        $uri = $originalURI;
-                        if ( $resource )
-                            $uri = $resource . ':' . $uri;
-                        unset( $tmpResourceData );
-                        $tmpResourceData = $tpl->resourceData( $resourceObject, $uri, $node[1], $originalURI );
-                        $uriText = $php->thisVariableText( $uri, 0, 0, false );
-
-                        $resourceCanCache = true;
-                        if ( !$resourceObject->servesStaticData() )
-                            $resourceCanCache = false;
-                        if ( !$tpl->isCachingAllowed() )
-                            $resourceCanCache = false;
-
-                        $tmpResourceData['text'] = null;
-                        $tmpResourceData['root-node'] = null;
-                        $tmpResourceData['compiled-template'] = false;
-                        $tmpResourceData['time-stamp'] = null;
-                        $tmpResourceData['key-data'] = null;
-                        $tmpResourceData['use-comments'] = eZTemplateCompiler::isCommentsEnabled();
-                        $subSpacing = 0;
-                        $hasResourceData = false;
-
-                        $savedLocale = setlocale( LC_CTYPE, null );
-                        if ( isset( $GLOBALS['eZTemplateCompilerResourceCache'][$tmpResourceData['template-filename']] ) )
+                        foreach ( $uriMap as $uriKey => $originalURI )
                         {
-                            $tmpFileName = $tmpResourceData['template-filename'];
+                            $uri = $originalURI;
+                            if ( $resource )
+                                $uri = $resource . ':' . $uri;
                             unset( $tmpResourceData );
-                            $tmpResourceData = $GLOBALS['eZTemplateCompilerResourceCache'][$tmpFileName];
-                            $tmpResourceData['compiled-template'] = true;
+                            $tmpResourceData = $tpl->resourceData( $resourceObject, $uri, $node[1], $originalURI );
+                            $uriText = $php->thisVariableText( $uri, 0, 0, false );
+
+                            $resourceCanCache = true;
+                            if ( !$resourceObject->servesStaticData() )
+                                $resourceCanCache = false;
+                            if ( !$tpl->isCachingAllowed() )
+                                $resourceCanCache = false;
+
+                            $tmpResourceData['text'] = null;
+                            $tmpResourceData['root-node'] = null;
+                            $tmpResourceData['compiled-template'] = false;
+                            $tmpResourceData['time-stamp'] = null;
+                            $tmpResourceData['key-data'] = null;
                             $tmpResourceData['use-comments'] = eZTemplateCompiler::isCommentsEnabled();
-                            $hasResourceData = true;
-                            $hasCompiledCode = true;
-                        }
-                        else if ( $useFallbackCode )
-                        {
-                            // If we can use fallback code we don't need to compile the templates in advance
-                            // Simply fake that it has been compiled by setting some variables
-                            // Note: Yes this is a hack, but rewriting this code is not an easy task
-                            if ( $resourceObject->handleResource( $tpl, $tmpResourceData, $node[4], $node[5] ) )
+                            $subSpacing = 0;
+                            $hasResourceData = false;
+
+                            $savedLocale = setlocale( LC_CTYPE, null );
+                            if ( isset( $GLOBALS['eZTemplateCompilerResourceCache'][$tmpResourceData['template-filename']] ) )
                             {
+                                $tmpFileName = $tmpResourceData['template-filename'];
+                                unset( $tmpResourceData );
+                                $tmpResourceData = $GLOBALS['eZTemplateCompilerResourceCache'][$tmpFileName];
                                 $tmpResourceData['compiled-template'] = true;
+                                $tmpResourceData['use-comments'] = eZTemplateCompiler::isCommentsEnabled();
                                 $hasResourceData = true;
                                 $hasCompiledCode = true;
                             }
-                        }
-                        else
-                        {
-                            if ( $resourceObject->handleResource( $tpl, $tmpResourceData, $node[4], $node[5] ) )
+                            else if ( $useFallbackCode )
                             {
-                                if ( !$tmpResourceData['compiled-template'] and
-                                     $tmpResourceData['root-node'] === null )
+                                // If we can use fallback code we don't need to compile the templates in advance
+                                // Simply fake that it has been compiled by setting some variables
+                                // Note: Yes this is a hack, but rewriting this code is not an easy task
+                                if ( $resourceObject->handleResource( $tpl, $tmpResourceData, $node[4], $node[5] ) )
                                 {
-                                    $root =& $tmpResourceData['root-node'];
-                                    $root = array( eZTemplate::NODE_ROOT, false );
-                                    $templateText =& $tmpResourceData["text"];
-                                    $keyData = $tmpResourceData['key-data'];
-                                    $rootNamespace = '';
-                                    $tpl->parse( $templateText, $root, $rootNamespace, $tmpResourceData );
-                                    $hasResourceData = false;
-                                }
-
-                                /* We always DO need to execute this part if we
-                                 * don't have any fallback code. If we can
-                                 * generate the fallback code we make the
-                                 * included template compile on demand */
-                                if ( !$tmpResourceData['compiled-template'] and
-                                     $resourceCanCache and
-                                     $tpl->canCompileTemplate( $tmpResourceData, $node[5] ) and
-                                     !$useFallbackCode )
-                                {
-                                    $generateStatus = $tpl->compileTemplate( $tmpResourceData, $node[5] );
-
-                                    // Time limit #2:
-                                    /* We reset the time limit to 60 seconds to
-                                     * ensure that remaining template has
-                                     * enough time to compile. However if time
-                                     * limit is unlimited (0) we leave it be */
-                                    $maxExecutionTime = ini_get( 'max_execution_time' );
-                                    if ( $maxExecutionTime != 0 && $maxExecutionTime < 60 )
-                                    {
-                                        @set_time_limit( 60 );
-                                    }
-
-                                    if ( $generateStatus )
-                                        $tmpResourceData['compiled-template'] = true;
+                                    $tmpResourceData['compiled-template'] = true;
+                                    $hasResourceData = true;
+                                    $hasCompiledCode = true;
                                 }
                             }
-                            $GLOBALS['eZTemplateCompilerResourceCache'][$tmpResourceData['template-filename']] =& $tmpResourceData;
-                        }
-                        setlocale( LC_CTYPE, $savedLocale );
-                        $textName = eZTemplateCompiler::currentTextName( $parameters );
-                        if ( $tmpResourceData['compiled-template'] )
-                        {
-                            $hasCompiledCode = true;
-//                            if ( !eZTemplateCompiler::isFallbackResourceCodeEnabled() )
-//                                $useFallbackCode = false;
-                            $keyData = $tmpResourceData['key-data'];
-                            $templatePath = $tmpResourceData['template-name'];
-                            $key = $resourceObject->cacheKey( $keyData, $tmpResourceData, $templatePath, $node[5] );
-                            $cacheFileName = eZTemplateCompiler::compilationFilename( $key, $tmpResourceData );
+                            else
+                            {
+                                if ( $resourceObject->handleResource( $tpl, $tmpResourceData, $node[4], $node[5] ) )
+                                {
+                                    if ( !$tmpResourceData['compiled-template'] and
+                                         $tmpResourceData['root-node'] === null )
+                                    {
+                                        $root =& $tmpResourceData['root-node'];
+                                        $root = array( eZTemplate::NODE_ROOT, false );
+                                        $templateText =& $tmpResourceData["text"];
+                                        $keyData = $tmpResourceData['key-data'];
+                                        $rootNamespace = '';
+                                        $tpl->parse( $templateText, $root, $rootNamespace, $tmpResourceData );
+                                        $hasResourceData = false;
+                                    }
 
-                            $directory = eZTemplateCompiler::compilationDirectory();
-                            $phpScript = eZDir::path( array( $directory, $cacheFileName ) );
-                            $phpScriptText = $php->thisVariableText( $phpScript, 0, 0, false );
-                            $resourceMap[$uriKey] = array( 'key' => $uriKey,
-                                                           'uri' => $uri,
-                                                           'phpscript' => $phpScript );
+                                    /* We always DO need to execute this part if we
+                                     * don't have any fallback code. If we can
+                                     * generate the fallback code we make the
+                                     * included template compile on demand */
+                                    if ( !$tmpResourceData['compiled-template'] and
+                                         $resourceCanCache and
+                                         $tpl->canCompileTemplate( $tmpResourceData, $node[5] ) and
+                                         !$useFallbackCode )
+                                    {
+                                        $generateStatus = $tpl->compileTemplate( $tmpResourceData, $node[5] );
+
+                                        // Time limit #2:
+                                        /* We reset the time limit to 60 seconds to
+                                         * ensure that remaining template has
+                                         * enough time to compile. However if time
+                                         * limit is unlimited (0) we leave it be */
+                                        $maxExecutionTime = ini_get( 'max_execution_time' );
+                                        if ( $maxExecutionTime != 0 && $maxExecutionTime < 60 )
+                                        {
+                                            @set_time_limit( 60 );
+                                        }
+
+                                        if ( $generateStatus )
+                                            $tmpResourceData['compiled-template'] = true;
+                                    }
+                                }
+                                $GLOBALS['eZTemplateCompilerResourceCache'][$tmpResourceData['template-filename']] =& $tmpResourceData;
+                            }
+                            setlocale( LC_CTYPE, $savedLocale );
+                            $textName = eZTemplateCompiler::currentTextName( $parameters );
+                            if ( $tmpResourceData['compiled-template'] )
+                            {
+                                $hasCompiledCode = true;
+    //                            if ( !eZTemplateCompiler::isFallbackResourceCodeEnabled() )
+    //                                $useFallbackCode = false;
+                                $keyData = $tmpResourceData['key-data'];
+                                $templatePath = $tmpResourceData['template-name'];
+                                $key = $resourceObject->cacheKey( $keyData, $tmpResourceData, $templatePath, $node[5] );
+                                $cacheFileName = eZTemplateCompiler::compilationFilename( $key, $tmpResourceData );
+
+                                $directory = eZTemplateCompiler::compilationDirectory();
+                                $phpScript = eZDir::path( array( $directory, $cacheFileName ) );
+                                $phpScriptText = $php->thisVariableText( $phpScript, 0, 0, false );
+                                $resourceMap[$uriKey] = array( 'key' => $uriKey,
+                                                               'uri' => $uri,
+                                                               'phpscript' => $phpScript );
+                            }
                         }
                     }
 
