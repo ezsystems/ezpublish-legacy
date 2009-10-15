@@ -4,6 +4,12 @@ Changes to BC and behavior  in version 4.3.0
 INI setting changes
 -------------------
 
+- Webshop tab hidden by default
+
+  As a first step towards removing the shop functionality from the kernel and
+  move it into an extension, we have now disabled this tab by default.
+  You can re-enable it by adding Tabs[]=shop to menu.ini[TopAdminMenu]
+
 
 Change of behavior 
 -------------------

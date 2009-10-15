@@ -11,6 +11,7 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Implemented enhancement #15644: eZURLAliasFilter should take benefit of the autoload system
 - Implemented enhancement #13730: file_exists optimization - cache the location of design base directories
 - Implemented enhancement #15672: Use ini setting for menu items in admin
+- Implemented enhancement #15670: Hide webshop tab by default
 
 *Design:
 
