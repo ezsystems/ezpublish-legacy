@@ -10,6 +10,54 @@
     {/if}
 {/foreach}
 
+<div id="leftmenu">
+<div id="leftmenu-design">
+
+<div class="objectinfo">
+
+<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+
+<h4>{'Object information'|i18n( 'design/admin/content/edit_languages' )}</h4>
+
+</div></div></div></div></div></div>
+
+<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+
+{* Object ID *}
+<p>
+<label>{'ID'|i18n( 'design/admin/content/edit_languages' )}:</label>
+0
+</p>
+
+{* Created *}
+<p>
+<label>{'Created'|i18n( 'design/admin/content/edit_languages' )}:</label>
+{'Not yet published'|i18n( 'design/admin/content/edit_languages' )}
+</p>
+
+{* Modified *}
+<p>
+<label>{'Modified'|i18n( 'design/admin/content/edit_languages' )}:</label>
+{'Not yet published'|i18n( 'design/admin/content/edit_languages' )}
+</p>
+
+{* Published version *}
+<p>
+<label>{'Published version'|i18n( 'design/admin/content/edit_languages' )}:</label>
+{'Not yet published'|i18n( 'design/admin/content/edit_languages' )}
+</p>
+
+</div></div></div></div></div></div>
+
+</div>
+
+</div>
+</div>
+
+<div id="maincontent"><div id="fix">
+<div id="maincontent-design">
+<!-- Maincontent START -->
+
 <form name="CreateLanguages" action={'content/action'|ezurl} method="post">
 
 <div class="context-block">
@@ -87,3 +135,8 @@
 </div>
 
 </form>
+
+<!-- Maincontent END -->
+</div>
+<div class="break"></div>
+</div></div>
