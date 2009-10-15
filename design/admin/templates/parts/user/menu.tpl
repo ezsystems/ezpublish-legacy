@@ -46,7 +46,7 @@
 {/if}
 </div>
 
-{* Roles & policies + trashcan. *}
+{* trashcan. *}
 {if ne( $ui_context, 'browse')}
 <div id="trash">
 <ul>
@@ -84,22 +84,14 @@
 
 </div>
 
-{* Roles & policies + trashcan. *}
+{* Roles & policies *}
 {if ne( $ui_context, 'browse')}
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-
-<h4>{'Access control'|i18n( 'design/admin/parts/user/menu' )}</h4>
-
-{* DESIGN: Header END *}</div></div></div></div></div></div>
-
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
-
-<ul>
-    <li><a href={'role/list/'|ezurl} title="{'Manage permission settings.'|i18n( 'design/admin/parts/user/menu' )}">{'Roles and policies'|i18n( 'design/admin/parts/user/menu' )}</a></li>
-</ul>
-
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+	{* See parts/ini_menu.tpl and menu.ini for more info, or parts/setup/menu.tpl for full example *}
+	{include uri='design:parts/ini_menu.tpl' ini_section='Leftmenu_user' i18n_hash=hash(
+	    '_access_controll',    'Access control'|i18n( 'design/admin/parts/user/menu' ),
+	    '_roles_and_policies', 'Roles and policies'|i18n( 'design/admin/parts/user/menu' ),
+	)}
 
 {/if}
 
