@@ -730,7 +730,7 @@ class eZContentCacheManager
     {
         $ini = eZINI::instance();
         if ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) === 'enabled' )
-            eZContentCacheManager::clearTemplateBlockCache( $objectID );
+            eZContentCacheManager::clearTemplateBlockCache( $objectID, true );
     }
 
     /*!
@@ -738,7 +738,7 @@ class eZContentCacheManager
      Clears template-block cache and template-block with subtree_expiry parameter caches for specified object
      without checking 'TemplateCache' ini setting. If $objectID is \c false all template block caches will be cleared.
     */
-    static function clearTemplateBlockCache( $objectID )
+    static function clearTemplateBlockCache( $objectID, $checkViewCacheClassSettings = false )
     {
         // ordinary template block cache
         eZContentObject::expireTemplateBlockCache();
@@ -748,8 +748,25 @@ class eZContentCacheManager
         $object = false;
         if ( $objectID )
             $object = eZContentObject::fetch( $objectID );
-        if ( $object )
-            $nodeList = $object->assignedNodes();
+        if ( $object instanceof eZContentObject )
+        {
+            $getAssignedNodes = true;
+            if ( $checkViewCacheClassSettings )
+            {
+                $ini = eZINI::instance('viewcache.ini');
+                $objectClassIdentifier = $object->attribute('class_identifier');
+                if ( $ini->hasVariable( $objectClassIdentifier, 'ClearCacheBlocks' )
+                  && $ini->variable( $objectClassIdentifier, 'ClearCacheBlocks' ) === 'disabled' )
+                {
+                    $getAssignedNodes = false;
+                }
+            }
+
+            if ( $getAssignedNodes )
+            {
+                $nodeList = $object->assignedNodes();
+            }
+        }
 
         eZSubtreeCache::cleanup( $nodeList );
     }
