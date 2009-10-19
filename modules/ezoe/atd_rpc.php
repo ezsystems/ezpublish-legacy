@@ -56,6 +56,10 @@ $data = AtD_http_post($postText, 'service.afterthedeadline.com', $url);
 header('Content-Type: text/xml');
 echo $data[1];
 
+echo "<!--\r\n";
+eZDebug::printReport( false, false );
+echo "\r\n-->\r\n";
+
 eZDB::checkTransactionCounter();
 eZExecution::cleanExit();
 

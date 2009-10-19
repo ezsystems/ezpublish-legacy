@@ -173,8 +173,12 @@ $output = array(
     "error" => null
 );
 
+echo "/*\r\n";
+eZDebug::printReport( false, false );
+echo "*/\r\n";
+
 // Return JSON encoded string
-echo $json->encode($output);
+echo $json->encode( $output );
 
 eZDB::checkTransactionCounter();
 eZExecution::cleanExit();
