@@ -48,7 +48,7 @@ class ezjscServerFunctionsJs extends ezjscServerFunctions
     }
 
     /**
-     * Figgures out where to load yui2 files from and prepends them to $packerFiles
+     * Figures out where to load yui2 files from and prepends them to $packerFiles
      *
      * @param array $args
      * @param array $packerFiles ByRef list of files to pack (by ezjscPacker)
@@ -94,7 +94,7 @@ class ezjscServerFunctionsJs extends ezjscServerFunctions
     }
 
     /**
-     * Figgures out where to load yui3 files from and prepends them to $packerFiles
+     * Figures out where to load yui3 files from and prepends them to $packerFiles
      *
      * @param array $args
      * @param array $packerFiles ByRef list of files to pack (by ezjscPacker)
@@ -132,7 +132,7 @@ class ezjscServerFunctionsJs extends ezjscServerFunctions
     }
 
     /**
-     * Generates the javascript needed to do server calls directly from javascript in yui3.0
+     * Generates the JavaScript needed to do server calls directly from JavaScript in yui3.0
      *
      * @param array $args
      * @return string YUI 3.0 JavaScript plugin string
@@ -150,7 +150,7 @@ YUI( YUI3_config ).add('io-ez', function( Y )
         callArgs = callArgs.join !== undefined ? callArgs.join( _seperator ) : callArgs;
         var url = _serverUrl + 'call/' + encodeURIComponent( callArgs );
 
-        // force POST methode
+        // force POST method
         if ( c === undefined )
             c = {on:{}, data: '', headers: {}, method: 'POST'};
         else
@@ -212,7 +212,7 @@ YUI( YUI3_config ).add('io-ez', function( Y )
     }
 
     /**
-     * Figgures out where to load jQuery files from and prepends them to $packerFiles
+     * Figures out where to load jQuery files from and prepends them to $packerFiles
      *
      * @param array $args
      * @param array $packerFiles ByRef list of files to pack (by ezjscPacker)
@@ -234,7 +234,7 @@ YUI( YUI3_config ).add('io-ez', function( Y )
     }
 
     /**
-     * Generates the javascript needed to do server calls directly from javascript in jquery
+     * Generates the JavaScript needed to do server calls directly from JavaScript in jQuery
      *
      * @param array $args
      * @return string jQuery JavaScript plugin string
@@ -260,7 +260,7 @@ YUI( YUI3_config ).add('io-ez', function( Y )
     _ez.seperator = _seperator;
     $.ez = _ez; 
 
-    // methode version, for loading response into elements
+    // Method version, for loading response into elements
     // NB: Does not use json (not possible with .load), so ezjscore/call will return string
     function _ezLoad( callArgs, post, selector, callBack )
     {

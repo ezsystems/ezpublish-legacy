@@ -76,9 +76,6 @@ if ( !isset( $uriParams[1] ) )
     return;
 }
 
-// set global module repositories in case this is called from index_ajax.php
-eZModule::setGlobalPathList( eZModule::activeModuleRepositories() );
-
 // find module
 $uri = eZURI::instance();
 $moduleName = $uri->element();
