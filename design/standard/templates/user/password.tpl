@@ -19,7 +19,7 @@
     {/if}
     {if $newPasswordTooShort}
         <div class="warning">
-            <h2>{"The new password must be at least %1 characters long. Please retype your new password."|i18n( 'design/standard/user/','',array( ezini('UserSettings','MinPasswordLength') ) )}</h2>
+            <h2>{"The new password must be at least %1 characters long. Please retype your new password."|i18n( 'design/standard/user','',array( ezini('UserSettings','MinPasswordLength') ) )}</h2>
         </div>
     {/if}
 
