@@ -214,12 +214,12 @@ class ezjscPackerTemplateFunctions
             {
                 if ( $namedParameters['ignore_loaded'] )
                 {
-                    $ret = ezjscPacker::buildStylesheetFiles( $namedParameters['script_array'], $namedParameters['pack_level'] );
+                    $ret = ezjscPacker::buildJavascriptFiles( $namedParameters['script_array'], $namedParameters['pack_level'] );
                 }
                 else
                 {
                     $diff = self::setPersistentArray( 'js_files', $namedParameters['script_array'], $tpl, true, true, true );
-                    $ret = ezjscPacker::buildStylesheetFiles( $diff, $namedParameters['pack_level'] );
+                    $ret = ezjscPacker::buildJavascriptFiles( $diff, $namedParameters['pack_level'] );
                 }
             } break;
             case 'ezcss_load':

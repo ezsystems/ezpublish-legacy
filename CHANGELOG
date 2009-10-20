@@ -3,6 +3,7 @@
 - Fixed bug: ie6 issue with Y.io.ez
 - Updated YUI 3.0.0 to GA
 - Fixed bug #15606: Admin Content Tree images not found
+- Fixed bug #15699: eZJSCore: possible function mixup for ezscriptfiles template operator
 
 
 # v1.0.0  29 Sept 2009
