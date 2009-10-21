@@ -51,8 +51,10 @@ $lastModified = gmdate( 'D, d M Y H:i:s', time() ) . ' GMT';
 
 if ( $cacheTime <= 0 )
 {
-    $xmlDoc = $RSSExport->attribute( 'rss-xml' );
-    $rssContent = $xmlDoc->saveXML();
+    // use the new attribute rss-xml-content instead of the deprecated attribute rss-xml
+    // it returns the RSS as an XML string instead of a DomDocument object
+    $xmlDoc = $RSSExport->attribute( 'rss-xml-content' );
+    $rssContent = $xmlDoc;
 }
 else
 {
@@ -69,10 +71,12 @@ else
 
     if ( !$cacheFile->exists() or ( time() - $cacheFile->mtime() > $cacheTime ) )
     {
-        $xmlDoc = $RSSExport->attribute( 'rss-xml' );
+        // use the new attribute rss-xml-content instead of the deprecated attribute rss-xml
+        // it returns the RSS as an XML string instead of a DomDocument object
+        $xmlDoc = $RSSExport->attribute( 'rss-xml-content' );
         // Get current charset
         $charset = eZTextCodec::internalCharset();
-        $rssContent = $xmlDoc->saveXML();
+        $rssContent = $xmlDoc;
         $cacheFile->storeContents( $rssContent, 'rsscache', 'xml' );
     }
     else
