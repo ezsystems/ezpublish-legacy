@@ -13,7 +13,7 @@
 
 <div class="context-attributes">
 
-    {section show=not($valid)}
+    {if not( $valid )}
         <div class="warning">
             <h2>{'Invalid input'|i18n( 'design/admin/rss/edit_export' )}</h2>
             <ul>
@@ -23,7 +23,7 @@
 {*                <li>{'If RSS Export is Active then a valid Access URL is required.'|i18n( 'design/admin/rss/edit_export' )}</li>*}
             </ul>
         </div>
-    {/section}
+    {/if}
 
     <div class="block">
     <label>{'Name'|i18n( 'design/admin/rss/edit_export' )}:</label>
@@ -51,49 +51,48 @@
     <input type="text" readonly="readonly" size="45" value="{$rss_export.image_path|wash}" />
     <input class="button" type="submit" name="BrowseImageButton" value="{'Browse'|i18n( 'design/admin/rss/edit_export' )}" title="{'Click this button to select an image for the RSS export. Note that images only work with RSS version 2.0'|i18n('design/admin/rss/edit_export')}" />
     </div>
-    {section name=RemoveImage show=eq( $rss_export.image_id, 0 )|not }
+    {if ne( $rss_export.image_id, 0 )}
       <div class="block">
         <input class="button" type="submit" name="RemoveImageButton" value="{'Remove image'|i18n( 'design/admin/rss/edit_export' )}" title="{'Click to remove image from RSS export.'|i18n('design/admin/rss/edit_export')}" />
       </div>
-    {/section}
+    {/if}
 
     <div class="block">
     <label>{'RSS version'|i18n( 'design/admin/rss/edit_export' )}:</label>
     <select name="RSSVersion" title="{'Use this drop-down menu to select the RSS version to use for the export. You must select RSS 2.0 in order to export the image selected above.'|i18n('design/admin/rss/edit_export')}">
-    {section name=Version loop=$rss_version_array}
+    {foreach $rss_version_array as $rss_version_item}
     <option
-    {section name=DefaultSet show=eq( $rss_export.rss_version, 0 )}
-      {section name=Default show=eq( $Version:item, $rss_version_default )}
+    {if eq( $rss_export.rss_version, '' )}
+      {if eq( $rss_version_item, $rss_version_default )}
         selected="selected"
-      {/section}
-    {section-else}
-      {section name=Default2 show=eq( $Version:item, $rss_export.rss_version )}
+      {/if}
+    {else}
+      {if eq( $rss_version_item, $rss_export.rss_version )}
         selected="selected"
-      {/section}
-    {/section}
-      value="{$:item}">{$:item|wash}
-    </option>
-    {/section}
+      {/if}
+    {/if}
+      value="{$rss_version_item}">{$rss_version_item|wash}</option>
+    {/foreach}
     </select>
     </div>
 
     <div class="block">
     <label>{'Number of objects'|i18n( 'design/admin/rss/edit_export' )}:</label>
     <select name="NumberOfObjects" title="{'Use this drop-down to select the maximum number of objects included in the RSS feed.'|i18n('design/admin/rss/edit_export')}">
-    {section name=Number loop=$number_of_objects_array}
+    {foreach $number_of_objects_array as $number_of_objects_item}
     <option
-    {section name=DefaultSet show=eq( $rss_export.number_of_objects, 0 )}
-      {section name=Default show=eq( $Number:item, $number_of_objects_default )}
+    {if eq( $rss_export.number_of_objects, 0 )}
+      {if eq( $number_of_objects_item, $number_of_objects_default )}
         selected="selected"
-      {/section}
-    {section-else}
-      {section name=Default2 show=eq( $Number:item, $rss_export.number_of_objects )}
+      {/if}
+    {else}
+      {if eq( $number_of_objects_item, $rss_export.number_of_objects )}
         selected="selected"
-      {/section}
-    {/section}
-      value="{$:item}">{$:item|wash}
+      {/if}
+    {/if}
+      value="{$number_of_objects_item}">{$number_of_objects_item|wash}
     </option>
-    {/section}
+    {/foreach}
     </select>
     </div>
 
