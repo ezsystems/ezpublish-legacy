@@ -54,26 +54,26 @@ catch ( ezcSystemInfoReaderCantScanOSException $e )
 if ( $info instanceof ezcSystemInfo )
 {
     // Workaround until ezcTemplate is used, as properties can not be accessed directly in ezp templates.
-	$systemInfo = array(
+    $systemInfo = array(
         'cpu_type' => $info->cpuType,
         'cpu_speed' => $info->cpuSpeed,
         'cpu_count' =>$info->cpuCount,
         'memory_size' => $info->memorySize
     );
 
-	if ( $info->phpAccelerator !== null )
-	{
-	    $phpAcceleratorInfo = array(   'name' => $info->phpAccelerator->name,
-	                                   'url' => $info->phpAccelerator->url,
-	                                   'enabled' => $info->phpAccelerator->isEnabled,
-	                                   'version_integer' => $info->phpAccelerator->versionInt,
-	                                   'version_string' => $info->phpAccelerator->versionString
-	    );
-	}
-	else
-	{
-		$phpAcceleratorInfo = array();
-	}
+    if ( $info->phpAccelerator !== null )
+    {
+        $phpAcceleratorInfo = array(   'name' => $info->phpAccelerator->name,
+                                       'url' => $info->phpAccelerator->url,
+                                       'enabled' => $info->phpAccelerator->isEnabled,
+                                       'version_integer' => $info->phpAccelerator->versionInt,
+                                       'version_string' => $info->phpAccelerator->versionString
+        );
+    }
+    else
+    {
+        $phpAcceleratorInfo = array();
+    }
 }
 else
 {
