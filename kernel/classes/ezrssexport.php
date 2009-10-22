@@ -939,9 +939,8 @@ class eZRSSExport extends eZPersistentObject
                 if( !$doesMatch )
                 {
                     // no match
-                    eZDebug::writeWarning( __METHOD__ . ': Cannot find matching RSS source node for content object in '.__FILE__.', Line '.__LINE__ );
-                    $retValue = null;
-                    return $retValue;
+                    eZDebug::writeError( 'Cannot find matching RSS attributes for datamap on node: ' . $node->attribute( 'node_id' ), __METHOD__ );
+                    return null;
                 }
 
                 // title RSS element with respective class attribute content
