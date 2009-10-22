@@ -855,7 +855,7 @@ class eZRSSExport extends eZPersistentObject
         }
         else
         {
-            $baseItemURL = $this->attribute( 'url' ).'/'; //.$this->attribute( 'site_access' ).'/';
+            $baseItemURL = $this->attribute( 'url' ) . '/'; //.$this->attribute( 'site_access' ).'/';
         }
 
         $feed = new ezcFeed();
@@ -863,13 +863,13 @@ class eZRSSExport extends eZPersistentObject
         $feed->title = $this->attribute( 'title' );
 
         $link = $feed->add( 'link' );
-        $link->href = ' ' . $this->attribute( 'link' );
+        $link->href = $baseItemURL . 'rss/feed/' . $this->attribute( 'access_url' );
 
         $feed->description = $this->attribute( 'description' );
         $feed->language = $this->attribute( 'language' );
 
         // to add the <atom:link> element needed for RSS2
-        $feed->id = $baseItemURL . "rss/feed/" . $this->attribute( 'access_url' );
+        $feed->id = $baseItemURL . 'rss/feed/' . $this->attribute( 'access_url' );
 
         // required for ATOM
         $feed->updated = time();
