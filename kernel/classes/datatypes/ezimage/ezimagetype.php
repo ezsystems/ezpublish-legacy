@@ -72,6 +72,15 @@ class eZImageType extends eZDataType
         }
     }
 
+    /**
+     * Validate the object attribute input in http. If there is validation failure, there failure message will be put into $contentObjectAttribute->ValidationError
+     * @param $http: http object
+     * @param $base:
+     * @param $contentObjectAttribute: content object attribute being validated
+     * @return validation result- eZInputValidator::STATE_INVALID or eZInputValidator::STATE_ACCEPTED
+     * 
+     * @see kernel/classes/eZDataType#validateObjectAttributeHTTPInput($http, $base, $objectAttribute)
+     */
     function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $classAttribute = $contentObjectAttribute->contentClassAttribute();
@@ -143,6 +152,15 @@ class eZImageType extends eZDataType
         return eZInputValidator::STATE_ACCEPTED;
     }
 
+    /**
+     * Fetch object attribute http input, override the ezDataType method
+     * This method is triggered when submiting a http form which includes Image class
+     * Image is stored into file system every time there is a file input and validation result is valid.
+     * @param $http http object 
+     * @param $base
+     * @param $contentObjectAttribute : the content object attribute being handled
+     * @return true if content object is not null, false if content object is null
+     */
     function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $result = false;
@@ -155,26 +173,33 @@ class eZImageType extends eZDataType
         }
 
         $content = $contentObjectAttribute->attribute( 'content' );
-        $httpFileName = $base . "_data_imagename_" . $contentObjectAttribute->attribute( "id" );
+        if($content)
+        {   
+               //deal with alternative text         
+               if($hasImageAltText)
+               {
+                      $content->setAttribute( 'alternative_text', $imageAltText );       
+               }       
 
-        if ( eZHTTPFile::canFetch( $httpFileName ) )
-        {
-            $httpFile = eZHTTPFile::fetch( $httpFileName );
-            if ( $httpFile )
-            {
-                if ( $content )
-                {
-                    $content->setHTTPFile( $httpFile );
-                    $result = true;
-                }
-            }
-        }
-
-        if ( $content )
-        {
-            if ( $hasImageAltText )
-                $content->setAttribute( 'alternative_text', $imageAltText );
-            $result = true;
+               //deal with file uploaded
+               $httpFileName = $base . "_data_imagename_" . $contentObjectAttribute->attribute( "id" );
+               if ( eZHTTPFile::canFetch( $httpFileName ) )
+               {
+                   $httpFile = eZHTTPFile::fetch( $httpFileName );
+                   if ( $httpFile )
+                   {
+                          //if there is content and validation is accepted, store the object
+                       if ( $content )
+                       {
+                           if($contentObjectAttribute->IsValid===eZInputValidator::STATE_ACCEPTED)
+                           {
+                                        $content->initializeFromHTTPFile( $httpFile, $imageAltText );
+                                        $content->store( $contentObjectAttribute );
+                           }
+                       }
+                   }            
+               }
+               $result = true;
         }
 
         return $result;
@@ -182,21 +207,7 @@ class eZImageType extends eZDataType
 
     function storeObjectAttribute( $contentObjectAttribute )
     {
-        $imageHandler = $contentObjectAttribute->attribute( 'content' );
-        if ( $imageHandler )
-        {
-            $httpFile = $imageHandler->httpFile( true );
-            if ( $httpFile )
-            {
-                $imageAltText = $imageHandler->attribute( 'alternative_text' );
-
-                $imageHandler->initializeFromHTTPFile( $httpFile, $imageAltText );
-            }
-            if ( $imageHandler->isStorageRequired() )
-            {
-                $imageHandler->store( $contentObjectAttribute );
-            }
-        }
+      
     }
 
     /*!
@@ -481,7 +492,7 @@ class eZImageType extends eZDataType
         $content = $objectAttribute->attribute( 'content' );
         if ( $delimiterPos === false )
         {
-        	$content->initializeFromFile( $string, '' );
+               $content->initializeFromFile( $string, '' );
         }
         else
         {

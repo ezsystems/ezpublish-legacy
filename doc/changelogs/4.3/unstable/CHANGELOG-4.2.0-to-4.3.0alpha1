@@ -47,3 +47,4 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Fixed bug #13394: allow google news to index ezpublish web site (static cache compatible)
 - Fixed bug #15646: Ugly display when use the "create here" function
 - Fixed bug #15678: Template compiler causes warning if node has not URI map
+- Fixed bug #14361: Image / File is lost if draft saving fails
