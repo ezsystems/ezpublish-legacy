@@ -727,7 +727,7 @@ class eZContentClassAttribute extends eZPersistentObject
             $phpCache = new eZPHPCreator( $cacheDir,
                                           'classattributeidentifiers_' . $dbName . '.php',
                                           '',
-                                          array( 'clustering' => 'classattributeidentifiers' ) );
+                                          array( 'clustering' => 'classattridentifiers' ) );
 
             eZExpiryHandler::registerShutdownFunction();
             $handler = eZExpiryHandler::instance();
