@@ -36,7 +36,7 @@ class eZRSSEditFunction
      \param HTTP
      \param publish ( true/false )
     */
-    static function storeRSSExport( $Module, $http, $publish = false )
+    static function storeRSSExport( $Module, $http, $publish = false, $skipValuesID = null )
     {
         $valid = true;
         $validationErrors = array();
@@ -61,6 +61,11 @@ class eZRSSEditFunction
         /* Create the new RSS feed */
         for ( $itemCount = 0; $itemCount < $http->postVariable( 'Item_Count' ); $itemCount++ )
         {
+            if ( $skipValuesID == $http->postVariable( 'Item_ID_'.$itemCount ) )
+            {
+                continue;
+            }
+
             $rssExportItem = eZRSSExportItem::fetch( $http->postVariable( 'Item_ID_'.$itemCount ), true, eZRSSExport::STATUS_DRAFT );
             if( $rssExportItem == null )
             {
@@ -174,6 +179,46 @@ class eZRSSEditFunction
         return array( 'valid' => $valid,
                       'published' => $published,
                       'validation_errors' => $validationErrors );
+    }
+
+    /**
+     * Set RSSExportItem defaults based on site.ini [RSSSettings] settings
+     * 
+     * @param eZRSSExportItem $rssExportItem
+     * @return bool True if changes where made
+     */
+    static function setItemDefaults( eZRSSExportItem $rssExportItem )
+    {
+        $nodeId = $rssExportItem->attribute( 'source_node_id' );
+        $node = $nodeId ? eZContentObjectTreeNode::fetch( $nodeId ) : null;
+
+        if ( !$node instanceof eZContentObjectTreeNode )
+            return false;
+
+        $config = eZINI::instance( 'site.ini' );
+        $nodeClassIdentifier =  $node->attribute( 'class_identifier' );
+        $defaultFeedItemClasses = $config->variable( 'RSSSettings', 'DefaultFeedItemClasses' );
+        if ( !isset( $defaultFeedItemClasses[$nodeClassIdentifier] ) )
+            return false;
+
+        $feedItemClasses = explode( ';', $defaultFeedItemClasses[$nodeClassIdentifier] );
+        $iniSection = 'RSSSettings_' . $feedItemClasses[0];
+        if ( !$config->hasVariable( $iniSection, 'FeedObjectAttributeMap' ) )
+            return false;
+
+        $feedObjectAttributeMap = $config->variable( $iniSection, 'FeedObjectAttributeMap' );
+        $subNodesMap = $config->hasVariable( $iniSection, 'Subnodes' ) ? $config->variable( $iniSection, 'Subnodes' ) : array();
+
+        $rssExportItem->setAttribute( 'class_id', eZContentObjectTreeNode::classIDByIdentifier( $feedItemClasses[0] ) );
+        $rssExportItem->setAttribute( 'title', $feedObjectAttributeMap['title'] );
+        if ( isset( $feedObjectAttributeMap['description'] ) )
+            $rssExportItem->setAttribute( 'description', $feedObjectAttributeMap['description'] );
+
+        if ( isset( $feedObjectAttributeMap['category'] ) )
+            $rssExportItem->setAttribute( 'category', $feedObjectAttributeMap['category'] );
+
+        $rssExportItem->setAttribute( 'subnodes', isset( $subNodesMap[$nodeClassIdentifier] ) && $subNodesMap[$nodeClassIdentifier] === 'true' );
+        $rssExportItem->store();
     }
 }
 ?>

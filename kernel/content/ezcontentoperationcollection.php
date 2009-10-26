@@ -320,7 +320,7 @@ class eZContentOperationCollection
             {
                 if ( $fromNodeID == 0 || $fromNodeID == -1 )
                 {
-                    eZDebug::writeError( "NodeAssignment '", $nodeAssignment->attribute( 'id' ), "' is marked with op_code='$opCode' but has no data in from_node_id. Cannot use it for moving node." );
+                    eZDebug::writeError( "NodeAssignment '" . $nodeAssignment->attribute( 'id' ) . "' is marked with op_code='$opCode' but has no data in from_node_id. Cannot use it for moving node.", __METHOD__ );
                 }
                 else
                 {
@@ -711,7 +711,7 @@ class eZContentOperationCollection
        if( !eZContentObjectTreeNodeOperations::move( $nodeID, $newParentNodeID ) )
        {
            eZDebug::writeError( "Failed to move node $nodeID as child of parent node $newParentNodeID",
-                                'content/action' );
+                                __METHOD__ );
 
            return array( 'status' => false );
        }
@@ -1229,7 +1229,7 @@ class eZContentOperationCollection
             if ( !$object->removeTranslation( $languageID ) )
             {
                 eZDebug::writeError( "Object with id $objectID: cannot remove the translation with language id $languageID!",
-                                     'content/translation' );
+                                     __METHOD__ );
             }
         }
 
@@ -1285,6 +1285,124 @@ class eZContentOperationCollection
     static public function executePrePublishTrigger( $objectID, $version )
     {
 
+    }
+
+    /**
+    * Creates a RSS/ATOM Feed export for a node
+    *
+    * @param int $nodeID Node ID
+    *
+    * @since 4.3
+    **/
+    static public function createFeedForNode( $nodeID )
+    {
+        $hasExport = eZRSSFunctionCollection::hasExportByNode( $nodeID );
+        if ( isset( $hasExport['result'] ) && $hasExport['result'] )
+        {
+            eZDebug::writeError( 'There is already a rss/atom export feed for this node: ' . $nodeID, __METHOD__ );
+            return array( 'status' => false );
+        }
+
+        $node = eZContentObjectTreeNode::fetch( $nodeID );
+        $currentClassIdentifier = $node->attribute( 'class_identifier' );
+
+        $config = eZINI::instance( 'site.ini' );
+        $feedItemClasses = $config->variable( 'RSSSettings', 'DefaultFeedItemClasses' );
+
+        if ( !$feedItemClasses || !isset( $feedItemClasses[ $currentClassIdentifier ] ) )
+        {
+            eZDebug::writeError( "EnableRSS: content class $currentClassIdentifier is not defined in site.ini[RSSSettings]DefaultFeedItemClasses[<class_id>].", __METHOD__ );
+            return array( 'status' => false );
+        }
+
+        $object = $node->object();
+        $objectID = $object->attribute('id');
+        $currentUserID = eZUser::currentUserID();
+        $rssExportItems = array();
+
+        $db = eZDB::instance();
+        $db->begin();
+
+        $rssExport = eZRSSExport::create( $currentUserID );
+        $rssExport->setAttribute( 'access_url', 'rss_feed_' . $nodeID );
+        $rssExport->setAttribute( 'node_id', $nodeID );
+        $rssExport->setAttribute( 'main_node_only', '1' );
+        $rssExport->setAttribute( 'number_of_objects', $config->variable( 'RSSSettings', 'NumberOfObjectsDefault' ) );
+        $rssExport->setAttribute( 'rss_version', $config->variable( 'RSSSettings', 'DefaultVersion' ) );
+        $rssExport->setAttribute( 'status', eZRSSExport::STATUS_VALID );
+        $rssExport->setAttribute( 'title', $object->name() );
+        $rssExport->store();
+
+        $rssExportID = $rssExport->attribute( 'id' );
+
+        foreach( explode( ';', $feedItemClasses[$currentClassIdentifier] ) as $classIdentifier )
+        {
+            $iniSection = 'RSSSettings_' . $classIdentifier;
+            if ( $config->hasVariable( $iniSection, 'FeedObjectAttributeMap' ) )
+            {
+                $feedObjectAttributeMap = $config->variable( $iniSection, 'FeedObjectAttributeMap' );
+                $subNodesMap = $config->hasVariable( $iniSection, 'Subnodes' ) ? $config->variable( $iniSection, 'Subnodes' ) : array();
+    
+                $rssExportItem = eZRSSExportItem::create( $rssExportID );
+                $rssExportItem->setAttribute( 'class_id', eZContentObjectTreeNode::classIDByIdentifier( $classIdentifier ) );
+                $rssExportItem->setAttribute( 'title', $feedObjectAttributeMap['title'] );
+                if ( isset( $feedObjectAttributeMap['description'] ) )
+                    $rssExportItem->setAttribute( 'description', $feedObjectAttributeMap['description'] );
+        
+                if ( isset( $feedObjectAttributeMap['category'] ) )
+                    $rssExportItem->setAttribute( 'category', $feedObjectAttributeMap['category'] );
+
+                $rssExportItem->setAttribute( 'source_node_id', $nodeID );
+                $rssExportItem->setAttribute( 'status', eZRSSExport::STATUS_VALID );
+                $rssExportItem->setAttribute( 'subnodes', isset( $subNodesMap[$currentClassIdentifier] ) && $subNodesMap[$currentClassIdentifier] === 'true' );
+                $rssExportItem->store();
+            }
+            else
+            {
+                eZDebug::writeError( "site.ini[$iniSection]Source[] setting is not defined.", __METHOD__ );
+            }
+        }
+
+        $db->commit();
+        
+        eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
+
+        return array( 'status' => true );
+    }
+
+    /**
+    * Removes a RSS/ATOM Feed export for a node
+    *
+    * @param int $nodeID Node ID
+    *
+    * @since 4.3
+    **/
+    static public function removeFeedForNode( $nodeID )
+    {
+        $rssExport = eZPersistentObject::fetchObject( eZRSSExport::definition(),
+                                                null,
+                                                array( 'node_id' => $nodeID,
+                                                       'status' => eZRSSExport::STATUS_VALID ),
+                                                true );
+        if ( !$rssExport instanceof eZRSSExport )
+        {
+            eZDebug::writeError( 'DisableRSS: There is no rss/atom feeds left to delete for this node: '. $nodeID, __METHOD__ );
+            return array( 'status' => false );
+        }
+
+        $node = eZContentObjectTreeNode::fetch( $nodeID );
+        if ( !$node instanceof eZContentObjectTreeNode )
+        {
+            eZDebug::writeError( 'DisableRSS: Could not fetch node: '. $nodeID, __METHOD__ );
+            return array( 'status' => false );
+        }
+
+        $objectID = $node->attribute('contentobject_id');
+        $rssExport->removeThis();
+
+        eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
+
+        return array( 'status' => true );
     }
 }
 ?>

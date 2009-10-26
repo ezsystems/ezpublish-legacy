@@ -99,7 +99,8 @@ if ( $http->hasPostVariable( 'Item_Count' ) )
     {
         if ( $http->hasPostVariable( 'SourceBrowse_'.$itemCount ) )
         {
-            eZRSSEditFunction::storeRSSExport( $Module, $http );
+            $skipValues = $http->hasPostVariable( 'Ignore_Values_On_Browse_' . $itemCount ) && $http->postVariable( 'Ignore_Values_On_Browse_' . $itemCount );
+            eZRSSEditFunction::storeRSSExport( $Module, $http, false, $skipValues ? $http->postVariable( 'Item_ID_'.$itemCount ) : null );//
             eZContentBrowse::browse( array( 'action_name' => 'RSSObjectBrowse',
                                             'description_template' => 'design:rss/browse_source.tpl',
                                             'from_page' => '/rss/edit_export/'. $RSSExportID .'/'. $http->postVariable( 'Item_ID_'.$itemCount ) .'/NodeSource' ),
@@ -191,6 +192,12 @@ if ( is_numeric( $RSSExportID ) )
             {
                 $rssExportItem = eZRSSExportItem::fetch( $Params['RSSExportItemID'], true, eZRSSExport::STATUS_DRAFT );
                 $rssExportItem->setAttribute( 'source_node_id', $nodeIDArray[0] );
+                
+                if ( $rssExportItem->attribute('title') == '' && $rssExportItem->attribute('description') == '' )
+                {
+                    eZRSSEditFunction::setItemDefaults( $rssExportItem );
+                }
+
                 $rssExportItem->store();
             }
         } break;

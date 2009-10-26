@@ -1259,6 +1259,60 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
     {
         return $module->run( "collectinformation", array() );
     }
+    else if( $http->hasPostVariable( 'CreateNodeFeed' ) || $http->hasPostVariable( 'RemoveNodeFeed' ) )
+    {
+        // First, do permission checking
+        $user = eZUser::currentUser();
+        $hasAccess = $user->hasAccessTo( 'rss', 'edit' );
+        if ( $hasAccess['accessWord'] === 'no' )
+        {
+            return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
+        }
+
+        // Then make sure we have node id parameter
+        if ( !$http->hasPostVariable( 'NodeID' ) )
+        {
+            eZDebug::writeError( 'Create/ Remove NodeFeed: missing node ID parameter.', 'content-action-handler' );
+            return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
+        }
+
+        $nodeID = $http->postVariable( 'NodeID' );
+        if ( $http->hasPostVariable( 'CreateNodeFeed' ) )
+        {
+            if ( eZOperationHandler::operationIsAvailable( 'content_createnodefeed' ) )
+            {
+                $operationResult = eZOperationHandler::execute( 'content',
+                                                                'createnodefeed', array( 'node_id' => $nodeID ),
+                                                                null,
+                                                                true );
+            }
+            else
+            {
+                $operationResult = eZContentOperationCollection::createFeedForNode( $nodeID );
+            }
+        }
+        else // DisableRSS
+        {
+            if ( eZOperationHandler::operationIsAvailable( 'content_removenodefeed' ) )
+            {
+                $operationResult = eZOperationHandler::execute( 'content',
+                                                                'removenodefeed', array( 'node_id' => $nodeID ),
+                                                                null,
+                                                                true );
+            }
+            else
+            {
+                $operationResult = eZContentOperationCollection::removeFeedForNode( $nodeID );
+            }
+        }
+
+        if ( !isset( $operationResult['status'] ) || !$operationResult['status'] )
+        {
+            return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
+        }
+
+        return $module->redirectToView( 'view', array( 'full', $nodeID ) );
+    }
     else
     {
         $baseDirectory = eZExtension::baseDirectory();

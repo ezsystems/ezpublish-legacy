@@ -15,6 +15,7 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Implemented enhancement #15671: Hide Design tab by default
 - Implemented enhancement #15364: Cache-blocks expiration by class
 - Implemented enhancement #15701: Add ATOM support for exporting RSS feeds
+- Implemented enhancement #15707: Simplify creating new RSS feed from a node
 
 *Design:
 - Implemented enhancement #15714: Add a link to object history from node view

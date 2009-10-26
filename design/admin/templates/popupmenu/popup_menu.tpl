@@ -81,6 +81,16 @@ menuArray['ClassMenu']['elements']['view-cache-delete'] = new Array();
 menuArray['ClassMenu']['elements']['view-cache-delete']['url'] = {"%currentURL%"|ezurl};
 menuArray['ClassMenu']['elements']['recursive-view-cache-delete'] = new Array();
 menuArray['ClassMenu']['elements']['recursive-view-cache-delete']['url'] = {"%currentURL%"|ezurl};
+menuArray['ClassMenu']['elements']['class-createnodefeed'] = new Array();
+menuArray['ClassMenu']['elements']['class-createnodefeed']['url'] = {"/content/view/full/%nodeID%"|ezurl};
+menuArray['ClassMenu']['elements']['class-createnodefeed']['disabled_class'] = 'menu-item-disabled';
+menuArray['ClassMenu']['elements']['class-createnodefeed']['disabled_for'] = new Array();
+menuArray['ClassMenu']['elements']['class-createnodefeed']['disabled_for']['class-createnodefeed'] = 'yes';
+menuArray['ClassMenu']['elements']['class-removenodefeed'] = new Array();
+menuArray['ClassMenu']['elements']['class-removenodefeed']['url'] = {"/content/view/full/%nodeID%"|ezurl};
+menuArray['ClassMenu']['elements']['class-removenodefeed']['disabled_class'] = 'menu-item-disabled';
+menuArray['ClassMenu']['elements']['class-removenodefeed']['disabled_for'] = new Array();
+menuArray['ClassMenu']['elements']['class-removenodefeed']['disabled_for']['class-removenodefeed'] = 'yes';
 menuArray['ClassMenu']['elements']['class-history'] = new Array();
 menuArray['ClassMenu']['elements']['class-history']['url'] = {"content/history/%objectID%"|ezurl};
 menuArray['ClassMenu']['elements']['url-alias'] = new Array();
@@ -249,6 +259,11 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
 -->
     <a id="recursive-view-cache-delete" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )" onclick="ezpopmenu_submitForm( 'menu-form-recursive-view-cache-delete' ); return false;">{"Delete view cache from here"|i18n("design/admin/popupmenu")}</a>
     <hr />
+    <a id="class-createnodefeed" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )"
+       onclick="ezpopmenu_submitForm( 'menu-form-createnodefeed' ); return false;">{"Create node RSS/ATOM feed"|i18n("design/admin/popupmenu")}</a>
+    <a id="class-removenodefeed" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )"
+       onclick="ezpopmenu_submitForm( 'menu-form-removenodefeed' ); return false;">{"Remove node RSS/ATOM feed"|i18n("design/admin/popupmenu")}</a>
+    <hr />
     <a id="override-view" class="more" href="#" onmouseover="ezpopmenu_hide('OverrideByClassSiteAccess'); ezpopmenu_hide('OverrideByNodeSiteAccess'); ezpopmenu_showSubLevel( event, 'OverrideSiteAccess', 'override-view' ); return false;">{"Template overrides"|i18n("design/admin/popupmenu")}</a>
     <a id="override-by-class-view" class="more" href="#" onmouseover="ezpopmenu_hide('OverrideSiteAccess'); ezpopmenu_hide('OverrideByNodeSiteAccess'); ezpopmenu_showSubLevel( event, 'OverrideByClassSiteAccess', 'override-by-class-view' ); return false;">{"New class override"|i18n("design/admin/popupmenu")}</a>
     <a id="override-by-node-view" class="more" href="#" onmouseover="ezpopmenu_hide('OverrideSiteAccess'); ezpopmenu_hide('OverrideByClassSiteAccess'); ezpopmenu_showSubLevel( event, 'OverrideByNodeSiteAccess', 'override-by-node-view' ); return false;">{"New node override"|i18n("design/admin/popupmenu")}</a>
@@ -351,6 +366,20 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
   <input type="hidden" name="DeleteIDArray[]" value="%bookmarkID%" />
   <input type="hidden" name="RemoveButton" value="x" />
   <input type="hidden" name="NeedRedirectBack" value="x" />
+</form>
+
+{* Add node feed. *}
+<form id="menu-form-createnodefeed" method="post" action={"/content/action"|ezurl}>
+  <input type="hidden" name="ContentObjectID" value="%objectID%" />
+  <input type="hidden" name="NodeID" value="%nodeID%" />
+  <input type="hidden" name="CreateNodeFeed" value="x" />
+</form>
+
+{* Remove node feed *}
+<form id="menu-form-removenodefeed" method="post" action={"/content/action"|ezurl}>
+  <input type="hidden" name="ContentObjectID" value="%objectID%" />
+  <input type="hidden" name="NodeID" value="%nodeID%" />
+  <input type="hidden" name="RemoveNodeFeed" value="x" />
 </form>
 
 {* Remove node. *}

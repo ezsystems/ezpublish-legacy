@@ -695,4 +695,52 @@ $OperationList['updateobjectstate'] = array( 'name' => 'updateobjectstate',
                                                        )
                                                  )
                               );
+
+$OperationList['createnodefeed'] = array( 'name' => 'createnodefeed',
+                                          'default_call_method' => array( 'include_file' => 'kernel/content/ezcontentoperationcollection.php',
+                                          'class' => 'eZContentOperationCollection' ),
+                                'parameter_type' => 'standard',
+                                'parameters' => array(  array( 'name' => 'node_id',
+                                                               'type' => 'integer',
+                                                               'required' => true) ),
+                                'keys' => array( 'node_id' ),
+                                'body' => array( array( 'type' => 'trigger',
+                                                        'name' => 'pre_createnodefeed',
+                                                        'keys' => array( 'node_id' ),
+                                                       ),
+                                                 array( 'type' => 'method',
+                                                        'name' => 'createnodefeed',
+                                                        'frequency' => 'once',
+                                                        'method' => 'createFeedForNode',
+                                                        ),
+                                                 array( 'type' => 'trigger',
+                                                        'name' => 'post_createnodefeed',
+                                                        'keys' => array( 'node_id' )
+                                                       )
+                                                 )
+                              );
+
+$OperationList['removenodefeed'] = array( 'name' => 'removenodefeed',
+                                          'default_call_method' => array( 'include_file' => 'kernel/content/ezcontentoperationcollection.php',
+                                          'class' => 'eZContentOperationCollection' ),
+                                'parameter_type' => 'standard',
+                                'parameters' => array(  array( 'name' => 'node_id',
+                                                               'type' => 'integer',
+                                                               'required' => true) ),
+                                'keys' => array( 'node_id' ),
+                                'body' => array( array( 'type' => 'trigger',
+                                                        'name' => 'pre_removenodefeed',
+                                                        'keys' => array( 'node_id' ),
+                                                       ),
+                                                 array( 'type' => 'method',
+                                                        'name' => 'removenodefeed',
+                                                        'frequency' => 'once',
+                                                        'method' => 'removeFeedForNode',
+                                                        ),
+                                                 array( 'type' => 'trigger',
+                                                        'name' => 'post_removenodefeed',
+                                                        'keys' => array( 'node_id' )
+                                                       )
+                                                 )
+                              );
 ?>

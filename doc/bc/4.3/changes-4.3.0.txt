@@ -15,6 +15,11 @@ INI setting changes
   All menu entries from design tab except Template, has been moved to setup tab.
   If you want to enable design tab and / or Template link, see menu.ini.
 
+- site.ini[RSSSettings]DefaultVersion
+
+  Changed default version from 1.0 to 2.0 as RSS 2.0 is the most widespread feed
+  format, and the fact that it support images in the feed.
+
 
 Change of behavior 
 -------------------

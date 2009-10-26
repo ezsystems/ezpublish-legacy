@@ -330,6 +330,7 @@ return array(
       'eZPublishSDK'                                       => 'lib/version.php',
       'eZPublishType'                                      => 'kernel/classes/notification/event/ezpublish/ezpublishtype.php',
       'eZRSSEditFunction'                                  => 'kernel/rss/edit_functions.php',
+      'eZRSSFunctionCollection'                            => 'kernel/rss/ezrssfunctioncollection.php',
       'eZRSSExport'                                        => 'kernel/classes/ezrssexport.php',
       'eZRSSExportItem'                                    => 'kernel/classes/ezrssexportitem.php',
       'eZRSSImport'                                        => 'kernel/classes/ezrssimport.php',
