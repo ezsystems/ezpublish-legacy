@@ -260,9 +260,9 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
     <a id="recursive-view-cache-delete" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )" onclick="ezpopmenu_submitForm( 'menu-form-recursive-view-cache-delete' ); return false;">{"Delete view cache from here"|i18n("design/admin/popupmenu")}</a>
     <hr />
     <a id="class-createnodefeed" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )"
-       onclick="ezpopmenu_submitForm( 'menu-form-createnodefeed' ); return false;">{"Create node RSS/ATOM feed"|i18n("design/admin/popupmenu")}</a>
+       onclick="ezpopmenu_submitForm( 'menu-form-createnodefeed' ); return false;">{"Create RSS/ATOM feed"|i18n("design/admin/popupmenu")}</a>
     <a id="class-removenodefeed" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )"
-       onclick="ezpopmenu_submitForm( 'menu-form-removenodefeed' ); return false;">{"Remove node RSS/ATOM feed"|i18n("design/admin/popupmenu")}</a>
+       onclick="ezpopmenu_submitForm( 'menu-form-removenodefeed' ); return false;">{"Remove RSS/ATOM feed"|i18n("design/admin/popupmenu")}</a>
     <hr />
     <a id="override-view" class="more" href="#" onmouseover="ezpopmenu_hide('OverrideByClassSiteAccess'); ezpopmenu_hide('OverrideByNodeSiteAccess'); ezpopmenu_showSubLevel( event, 'OverrideSiteAccess', 'override-view' ); return false;">{"Template overrides"|i18n("design/admin/popupmenu")}</a>
     <a id="override-by-class-view" class="more" href="#" onmouseover="ezpopmenu_hide('OverrideSiteAccess'); ezpopmenu_hide('OverrideByNodeSiteAccess'); ezpopmenu_showSubLevel( event, 'OverrideByClassSiteAccess', 'override-by-class-view' ); return false;">{"New class override"|i18n("design/admin/popupmenu")}</a>
