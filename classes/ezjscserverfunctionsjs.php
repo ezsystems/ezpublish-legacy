@@ -43,7 +43,7 @@ class ezjscServerFunctionsJs extends ezjscServerFunctions
     public static function time( $args )
     {
         if ( $args && isset( $args[0] ) )
-            return $args[0]. '_' . time();
+            return htmlspecialchars( $args[0] ) . '_' . time();
         return time();
     }
 
