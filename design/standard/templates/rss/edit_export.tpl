@@ -151,6 +151,7 @@
 
          <label>{"Description"|i18n("design/standard/rss/edit")}:</label><div class="labelbreak"></div>
          <select name="Item_Class_Attribute_Description_{$Source:index}">
+         <option value="">[{"Skip"|i18n("design/standard/rss/edit")}]</option>
          {section name=ClassAttribute loop=$rss_export.item_list[$Source:index].class_attributes}
          <option value="{$:item.identifier|wash}"
              {section name=ShowSelected show=eq($Source:item.description,$:item.identifier)}

@@ -53,7 +53,7 @@ class eZRSSExport extends eZPersistentObject
 
     static function definition()
     {
-        return array( "fields" => array( "id" => array( 'name' => 'ID',
+        return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
                                                         'default' => 0,
                                                         'required' => true ),
@@ -127,17 +127,17 @@ class eZRSSExport extends eZPersistentObject
                                                                     'datatype' => 'integer',
                                                                     'default' => 0,
                                                                     'required' => true ) ),
-                      "keys" => array( "id", 'status' ),
+                      'keys' => array( 'id', 'status' ),
                       'function_attributes' => array( 'item_list' => 'itemList',
                                                       'modifier' => 'modifier',
                                                       'rss-xml' => 'rssXml', // deprecated
                                                       'rss-xml-content' => 'rssXmlContent', // new attribute which uses the Feed component
                                                       'image_path' => 'imagePath',
                                                       'image_node' => 'imageNode' ),
-                      "increment_key" => "id",
-                      "sort" => array( "title" => "asc" ),
-                      "class_name" => "eZRSSExport",
-                      "name" => "ezrss_export" );
+                      'increment_key' => 'id',
+                      'sort' => array( 'title' => 'asc' ),
+                      'class_name' => 'eZRSSExport',
+                      'name' => 'ezrss_export' );
 
     }
 
@@ -866,7 +866,7 @@ class eZRSSExport extends eZPersistentObject
         $link->href = $baseItemURL . 'rss/feed/' . $this->attribute( 'access_url' );
 
         $feed->description = $this->attribute( 'description' );
-        $feed->language = $this->attribute( 'language' );
+        $feed->language = $locale->httpLocaleCode();
 
         // to add the <atom:link> element needed for RSS2
         $feed->id = $baseItemURL . 'rss/feed/' . $this->attribute( 'access_url' );
@@ -928,7 +928,9 @@ class eZRSSExport extends eZPersistentObject
                         $doesMatch = true;
                         // now fetch the attributes
                         $title =  $dataMap[$attributeMapping[0]->attribute( 'title' )];
-                        $description =  $dataMap[$attributeMapping[0]->attribute( 'description' )];
+                        // description is optional
+                        $descAttributeIdentifier = $attributeMapping[0]->attribute( 'description' );
+                        $description = $descAttributeIdentifier ? $dataMap[$descAttributeIdentifier] : false;
                         // category is optional
                         $catAttributeIdentifier = $attributeMapping[0]->attribute( 'category' );
                         $category = $catAttributeIdentifier ? $dataMap[$catAttributeIdentifier] : false;
@@ -969,18 +971,20 @@ class eZRSSExport extends eZPersistentObject
                 $author->email = '';
 
                 // description RSS element with respective class attribute content
-                $descriptionContent =  $description->attribute( 'content' );
-                if ( $descriptionContent instanceof eZXMLText )
+                if ( $description )
                 {
-                    $outputHandler =  $descriptionContent->attribute( 'output' );
-                    $itemDescriptionText = $outputHandler->attribute( 'output_text' );
+                    $descriptionContent = $description->attribute( 'content' );
+                    if ( $descriptionContent instanceof eZXMLText )
+                    {
+                        $outputHandler =  $descriptionContent->attribute( 'output' );
+                        $itemDescriptionText = $outputHandler->attribute( 'output_text' );
+                    }
+                    else
+                    {
+                        $itemDescriptionText = $descriptionContent;
+                    }
+                    $item->description = $itemDescriptionText;
                 }
-                else
-                {
-                    $itemDescriptionText = $descriptionContent;
-                }
-
-                $item->description = $itemDescriptionText;
 
                 // category RSS element with respective class attribute content
                 if ( $category )

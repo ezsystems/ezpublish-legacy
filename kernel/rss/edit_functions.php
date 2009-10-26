@@ -105,7 +105,7 @@ class eZRSSEditFunction
                                                   'Invalid selection for title class %1 does not have attribute "%2"', null,
                                                   array( $class->attribute( 'name'), $titleClassAttributeIdentifier ) );
                 }
-                if ( !isset( $dataMap[$descriptionClassAttributeIdentifier] ) )
+                if ( $descriptionClassAttributeIdentifier != '' && !isset( $dataMap[$descriptionClassAttributeIdentifier] ) )
                 {
                     $valid = false;
                     $validationErrors[] = ezi18n( 'kernel/rss/edit_export',

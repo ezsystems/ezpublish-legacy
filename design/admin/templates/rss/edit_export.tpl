@@ -165,6 +165,7 @@
        <div class="block">
          <label>{'Description'|i18n( 'design/admin/rss/edit_export' )}:</label>
          <select name="Item_Class_Attribute_Description_{$Source:index}" title="{'Use this drop-down to select the attribute that should be exported as the description of the RSS export entry.'|i18n('design/admin/rss/edit_export')}" onchange="document.getElementById('Ignore_Values_On_Browse_{$Source:index}').value=0;">
+         <option value="">[{'Skip'|i18n('design/admin/rss/edit_export')}]</option>
          {section name=ClassAttribute loop=$rss_export.item_list[$Source:index].class_attributes}
          <option value="{$:item.identifier|wash}"
              {section name=ShowSelected show=eq( $Source:item.description, $:item.identifier )}
