@@ -124,6 +124,7 @@
 
        <input type="hidden" name="Item_ID_{$Source:index}" value="{$Source:item.id}" />
        <input type="hidden" name="Ignore_Values_On_Browse_{$Source:index}" id="Ignore_Values_On_Browse_{$Source:index}" value="{$Source:item.title|eq('')}" />
+
        <div class="block">
        <label>{'Source path'|i18n( 'design/admin/rss/edit_export' )}:</label>
        <input type="text" readonly="readonly" size="45" value="{$Source:item.source_path|wash}" />
@@ -163,7 +164,7 @@
        </div>
 
        <div class="block">
-         <label>{'Description'|i18n( 'design/admin/rss/edit_export' )}:</label>
+         <label>{'Description'|i18n( 'design/admin/rss/edit_export' )} ({'optional'|i18n( 'design/admin/rss/edit_export' )}):</label>
          <select name="Item_Class_Attribute_Description_{$Source:index}" title="{'Use this drop-down to select the attribute that should be exported as the description of the RSS export entry.'|i18n('design/admin/rss/edit_export')}" onchange="document.getElementById('Ignore_Values_On_Browse_{$Source:index}').value=0;">
          <option value="">[{'Skip'|i18n('design/admin/rss/edit_export')}]</option>
          {section name=ClassAttribute loop=$rss_export.item_list[$Source:index].class_attributes}
@@ -187,6 +188,7 @@
          {/section}
          </select>
        </div>
+
        {/section}
 
        <input class="button" type="submit" name="{concat( 'RemoveSource_', $Source:index )}" value="{'Remove this source'|i18n( 'design/admin/rss/edit_export' )}" title="{'Click to remove this source from the RSS export.'|i18n('design/admin/rss/edit_export')}" />

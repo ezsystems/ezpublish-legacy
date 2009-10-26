@@ -147,9 +147,10 @@
              {/section}>{$:item.name|wash}</option>
          {/section}
          </select>
-	 <br/>
 
-         <label>{"Description"|i18n("design/standard/rss/edit")}:</label><div class="labelbreak"></div>
+	     <br/>
+
+         <label>{"Description"|i18n("design/standard/rss/edit")} ({"optional"|i18n("design/standard/rss/edit")}):</label><div class="labelbreak"></div>
          <select name="Item_Class_Attribute_Description_{$Source:index}">
          <option value="">[{"Skip"|i18n("design/standard/rss/edit")}]</option>
          {section name=ClassAttribute loop=$rss_export.item_list[$Source:index].class_attributes}
@@ -159,7 +160,8 @@
              {/section}>{$:item.name|wash}</option>
          {/section}
          </select>
-	 <br/>
+
+	     <br/>
 
          <label>{"Category"|i18n("design/standard/rss/edit")} ({"optional"|i18n("design/standard/rss/edit")}):</label><div class="labelbreak"></div>
          <select name="Item_Class_Attribute_Category_{$Source:index}">
@@ -171,7 +173,8 @@
              {/section}>{$:item.name|wash}</option>
          {/section}
          </select>
-	 <br/>
+
+	     <br/>
 
        {/section}
 
