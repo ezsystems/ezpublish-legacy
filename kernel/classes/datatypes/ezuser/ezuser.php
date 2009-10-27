@@ -1880,7 +1880,8 @@ WHERE user_id = '" . $userID . "' AND
     {
         return array( 'content'  => $this->generateAccessArray(),
                       'scope'    => 'user-info-cache',
-                      'datatype' => 'php' );
+                      'datatype' => 'php',
+                      'store'    => true );
     }
 
 

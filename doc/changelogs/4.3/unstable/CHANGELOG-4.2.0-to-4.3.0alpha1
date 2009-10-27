@@ -52,3 +52,4 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Fixed bug #14361: Image / File is lost if draft saving fails
 - Fixed bug #14616: classattributeidentifiers cache doesn't work (at all) with clustering + ezdb
 - Fixed bug #15724: Custom remove action does not work in ezauthortype when using different base name
+- Fixed bug #15725: ez2fs - user cache don't work
