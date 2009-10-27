@@ -1,3 +1,7 @@
+Release 6 Oct 09
+-------
+- Brought plugin in sync with several fixes made on WP.com
+
 Release  8 Sept 09
 -------
 - More updates than you can shake a stick at. 

@@ -236,7 +236,7 @@
 
             each(dom.select('span', object.node).reverse(), function(n) 
             {
-               if (n && (dom.hasClass(n, 'hiddenGrammarError') || dom.hasClass(n, 'hiddenSpellError') || dom.hasClass(n, 'hiddenSuggestion') || dom.hasClass(n, 'mceItemHidden') || (dom.getAttrib(n, 'class') == "" && dom.getAttrib(n, 'style') == "" && dom.getAttrib(n, 'id') == ""))) 
+               if (n && (dom.hasClass(n, 'hiddenGrammarError') || dom.hasClass(n, 'hiddenSpellError') || dom.hasClass(n, 'hiddenSuggestion') || dom.hasClass(n, 'mceItemHidden') || (dom.getAttrib(n, 'class') == "" && dom.getAttrib(n, 'style') == "" && dom.getAttrib(n, 'id') == "" && !dom.hasClass(n, 'Apple-style-span') && dom.getAttrib(n, 'mce_name') == ""))) 
                {
                   dom.remove(n, 1);
                }
@@ -263,7 +263,7 @@
 
          if (name == 'AtD') 
          {
-            return controlManager.createButton(name, { title: 'Proofread Writing', cmd: 'mceWritingImprovementTool', scope: control });
+            return controlManager.createButton(name, { title: 'Proofread Writing', image: this.url + '/atdbuttontr.gif', cmd: 'mceWritingImprovementTool', scope: control });
          }
       },
 
@@ -309,7 +309,7 @@
 
          each(dom.select('span').reverse(), function(n) 
          {
-            if (n && (dom.hasClass(n, 'hiddenGrammarError') || dom.hasClass(n, 'hiddenSpellError') || dom.hasClass(n, 'hiddenSuggestion') || dom.hasClass(n, 'mceItemHidden') || (dom.getAttrib(n, 'class') == "" && dom.getAttrib(n, 'style') == "" && dom.getAttrib(n, 'id') == ""))) 
+            if (n && (dom.hasClass(n, 'hiddenGrammarError') || dom.hasClass(n, 'hiddenSpellError') || dom.hasClass(n, 'hiddenSuggestion') || dom.hasClass(n, 'mceItemHidden') || (dom.getAttrib(n, 'class') == "" && dom.getAttrib(n, 'style') == "" && dom.getAttrib(n, 'id') == "" && !dom.hasClass(n, 'Apple-style-span') && dom.getAttrib(n, 'mce_name') == "")))
             {
                if (!w || n.innerHTML == w)
                {
@@ -336,7 +336,7 @@
          struct.type = type;
          struct.string = error_s;
          struct.tokens = tokens;
-         struct.regexp = new RegExp(error_s.replace(/\s+/g, seps) + "\\b"); /* may as well do it now, saves effort in the future */
+         struct.regexp = new RegExp("(?!"+error_s+"<)" + error_s.replace(/\s+/g, seps) + "\\b"); /* may as well do it now, saves effort in the future */
          struct.used   = false; /* flag whether we've used this rule or not */ 
 
          return struct;
@@ -352,25 +352,25 @@
             var pre    = error["pre"];
             var first  = tokens[0];
 
-            if (errors[first] == undefined)
+            if (errors['__' + first] == undefined)
             {
-               errors[first] = new Object();
-               errors[first].pretoks  = {};
-               errors[first].defaults = new Array();
+               errors['__' + first] = new Object();
+               errors['__' + first].pretoks  = {};
+               errors['__' + first].defaults = new Array();
             }
 
             if (pre == "")
             {
-               errors[first].defaults.push(parent.makeError(error["word"], tokens, type, seps, pre));
+               errors['__' + first].defaults.push(parent.makeError(error["word"], tokens, type, seps, pre));
             }
             else
             {
-               if (errors[first].pretoks[pre] == undefined)
+               if (errors['__' + first].pretoks['__' + pre] == undefined)
                {
-                  errors[first].pretoks[pre] = new Array();
+                  errors['__' + first].pretoks['__' + pre] = new Array();
                }
 
-               errors[first].pretoks[pre].push(parent.makeError(error["word"], tokens, type, seps, pre));
+               errors['__' + first].pretoks['__' + pre].push(parent.makeError(error["word"], tokens, type, seps, pre));
             }
          });
       },
@@ -482,13 +482,13 @@
                while (tokenIterate.hasNext())
                {
                   var token = tokenIterate.next();
-                  var current  = errors[token];
+                  var current  = errors['__' + token];
                   var defaults;
 
                   if (current != undefined && current.pretoks != undefined)
                   {
                      defaults = current.defaults;
-                     current = current.pretoks[previous];
+                     current = current.pretoks['__' + previous];
 
                      var done = false;
                      var prev, curr;
