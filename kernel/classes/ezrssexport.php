@@ -352,27 +352,34 @@ class eZRSSExport extends eZPersistentObject
      */
     function rssXmlContent()
     {
-        switch ( $this->attribute( 'rss_version' ) )
+        try
         {
-            case '1.0':
+            switch ( $this->attribute( 'rss_version' ) )
             {
-                return $this->generateFeed( 'rss1' );
-            } break;
+                case '1.0':
+                {
+                    return $this->generateFeed( 'rss1' );
+                } break;
 
-            case '2.0':
-            {
-                return $this->generateFeed( 'rss2' );
-            } break;
+                case '2.0':
+                {
+                    return $this->generateFeed( 'rss2' );
+                } break;
 
-            case 'ATOM':
-            {
-                return $this->generateFeed( 'atom' );
-            } break;
+                case 'ATOM':
+                {
+                    return $this->generateFeed( 'atom' );
+                } break;
 
-            default:
-            {
-                return null;
-            } break;
+                default:
+                {
+                    return null;
+                } break;
+            }
+        }
+        catch ( ezcFeedException $e )
+        {
+            return '<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang=""><title>The RSS feed you were trying to access contains some errors and cannot be generated: ' . $e->getMessage() . ' Please contact the webmaster.</title></feed>';
         }
 
         return null;
