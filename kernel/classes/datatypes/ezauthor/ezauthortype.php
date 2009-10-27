@@ -251,7 +251,7 @@ class eZAuthorType extends eZDataType
             case "remove_selected" :
             {
                 $author = $contentObjectAttribute->content( );
-                $postvarname = "ContentObjectAttribute" . "_data_author_remove_" . $contentObjectAttribute->attribute( "id" );
+                $postvarname = $parameters['base_name'] . "_data_author_remove_" . $contentObjectAttribute->attribute( "id" );
                 if ( !$http->hasPostVariable( $postvarname ) )
                     break;
                 $array_remove = $http->postVariable( $postvarname );
