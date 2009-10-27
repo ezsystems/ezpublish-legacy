@@ -76,7 +76,7 @@ else
         $xmlDoc = $RSSExport->attribute( 'rss-xml-content' );
         // Get current charset
         $charset = eZTextCodec::internalCharset();
-        $rssContent = $xmlDoc;
+        $rssContent = trim( $xmlDoc );
         $cacheFile->storeContents( $rssContent, 'rsscache', 'xml' );
     }
     else
@@ -107,11 +107,13 @@ else
 // Set header settings
 $httpCharset = eZTextCodec::httpCharset();
 header( 'Last-Modified: ' . $lastModified );
+
 if ( $RSSExport->attribute( 'rss_version' ) === 'ATOM' )
     header( 'Content-Type: application/xml; charset=' . $httpCharset );
 else
     header( 'Content-Type: application/rss+xml; charset=' . $httpCharset );
-header( 'Content-Length: '.strlen($rssContent) );
+
+header( 'Content-Length: ' . strlen( $rssContent ) );
 header( 'X-Powered-By: eZ Publish' );
 
 while ( @ob_end_clean() );
@@ -119,5 +121,6 @@ while ( @ob_end_clean() );
 echo $rssContent;
 
 eZExecution::cleanExit();
+
 
 ?>

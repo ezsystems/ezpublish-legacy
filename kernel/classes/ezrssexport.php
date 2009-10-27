@@ -863,7 +863,7 @@ class eZRSSExport extends eZPersistentObject
         $feed->title = $this->attribute( 'title' );
 
         $link = $feed->add( 'link' );
-        $link->href = $baseItemURL . 'rss/feed/' . $this->attribute( 'access_url' );
+        $link->href = $baseItemURL;
 
         $feed->description = $this->attribute( 'description' );
         $feed->language = $locale->httpLocaleCode();
@@ -873,9 +873,13 @@ class eZRSSExport extends eZPersistentObject
 
         // required for ATOM
         $feed->updated = time();
-        $author = $feed->add( 'author' );
-        $author->name = '';
-        $author->email = '';
+        $author        = $feed->add( 'author' );
+        $author->email = $config->variable( 'MailSettings', 'AdminEmail' );
+        $creatorObject = eZContentObject::fetch( $this->attribute( 'creator_id' ) );
+        if ( $creatorObject instanceof eZContentObject )
+        {
+            $author->name = $creatorObject->attribute('name');
+        }
 
         $imageURL = $this->fetchImageURL();
         if ( $imageURL !== false )
@@ -887,7 +891,7 @@ class eZRSSExport extends eZPersistentObject
 
             $image->url = $imageURL;
             $image->title = $this->attribute( 'title' );
-            $image->link = $this->attribute( 'url' );
+            $image->link = $baseItemURL;
         }
 
         $cond = array(
@@ -966,9 +970,13 @@ class eZRSSExport extends eZPersistentObject
 
                 $item->id = $nodeURL;
 
-                $author = $item->add( 'author' );
-                $author->name = '';
-                $author->email = '';
+                $itemCreatorObject = $node->attribute('creator');
+                if ( $itemCreatorObject instanceof eZContentObject )
+                {
+                    $author = $item->add( 'author' );
+                    $author->name = $itemCreatorObject->attribute('name');
+                    $author->email = $config->variable( 'MailSettings', 'AdminEmail' );
+                }
 
                 // description RSS element with respective class attribute content
                 if ( $description )
@@ -1004,8 +1012,11 @@ class eZRSSExport extends eZPersistentObject
                         $itemCategoryText = $categoryContent;
                     }
 
-                    $cat = $item->add( 'category' );
-                    $cat->term = $itemCategoryText;
+                    if ( $itemCategoryText )
+                    {
+                        $cat = $item->add( 'category' );
+                        $cat->term = $itemCategoryText;
+                    }
                 }
 
                 $item->published = $object->attribute( 'published' );
