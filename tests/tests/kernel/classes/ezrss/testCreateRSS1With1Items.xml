@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://purl.org/rss/1.0/">
+  <channel rdf:about="http://@ezp_server@/rss/feed/" xml:lang="en-GB">
+    <title>RSS 1.0 feed</title>
+    <link>http://@ezp_server@/</link>
+    <description>This feed is of &lt;b&gt;RSS 1.0&lt;/b&gt; type.</description>
+    <items>
+      <rdf:Seq>
+        <rdf:li resource="http://@ezp_server@/testCreateRSS1With1Items/Test-object-0-for-testCreateRSS1With1Items"/>
+      </rdf:Seq>
+    </items>
+  </channel>
+  <item rdf:about="http://@ezp_server@/testCreateRSS1With1Items/Test-object-0-for-testCreateRSS1With1Items">
+    <title>Test object #0 for testCreateRSS1With1Items</title>
+    <link>http://@ezp_server@/testCreateRSS1With1Items/Test-object-0-for-testCreateRSS1With1Items</link>
+    <description>&lt;p&gt;
+Summary for Test object #0 for testCreateRSS1With1Items
+&lt;/p&gt;
+</description>
+  </item>
+</rdf:RDF>

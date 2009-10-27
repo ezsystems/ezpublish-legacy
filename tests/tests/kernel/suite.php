@@ -32,6 +32,8 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'eZDFSFileHandlerDFSBackendTest' );
         $this->addTestSuite( 'eZWorkflowEventRegression' );
         $this->addTestSuite( 'eZURLWildcardTest' );
+
+        // This test suite is commented out until it will be fixed to work on any machine
         // $this->addTestSuite( 'eZWebDAVBackendContentRegressionTest' );
         $this->addTestSuite( 'eZLDAPUserTest' );
         $this->addTestSuite( 'eZSiteInstallerTest' );
@@ -44,6 +46,9 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'eZSubtreeNotificationRuleTest' );
         $this->addTestSuite( 'eZPackageRegression' );
         $this->addTestSuite( 'eZContentFunctionsTest' );
+
+        // This test suite is commented out until it will be fixed to work on any machine
+        // $this->addTestSuite( 'eZRSSExportTest' );
     }
 
     public static function suite()

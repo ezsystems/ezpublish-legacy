@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>RSS 2.0 feed</title>
+    <link>http://ezp/</link>
+    <description>This feed is of &lt;b&gt;RSS 2.0&lt;/b&gt; type.</description>
+    <language>en-GB</language>
+    <managingEditor>as@ez.no (Administrator User)</managingEditor>
+    <pubDate>XXX</pubDate>
+    <lastBuildDate>Tue, 27 Oct 2009 15:59:26 +0000</lastBuildDate>
+    <generator>XXX</generator>
+    <docs>http://www.rssboard.org/rss-specification</docs>
+    <atom:link href="http://ezp/rss/feed/" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Test object #0 for testCreateRSS2With1Items</title>
+      <link>http://ezp/testCreateRSS2With1Items/Test-object-0-for-testCreateRSS2With1Items</link>
+      <description>&lt;p&gt;
+Summary for Test object #0 for testCreateRSS2With1Items
+&lt;/p&gt;
+</description>
+      <author>as@ez.no (Administrator User)</author>
+      <guid>http://ezp/testCreateRSS2With1Items/Test-object-0-for-testCreateRSS2With1Items</guid>
+      <pubDate>XXX</pubDate>
+    </item>
+  </channel>
+</rss>
