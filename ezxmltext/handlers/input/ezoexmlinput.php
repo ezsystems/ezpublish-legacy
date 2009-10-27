@@ -589,7 +589,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 if ( !$textChild ||
                      ( $lastChild->childNodes->length == 1 &&
                        $textChild->nodeType == XML_TEXT_NODE &&
-                       ( $textChild->textContent == " " || $textChild->textContent == ' ' ||$textChild->textContent == '' ) ) )
+                       ( $textChild->textContent == " " || $textChild->textContent == ' ' || $textChild->textContent == '' || $textChild->textContent == '&nbsp;' ) ) )
                 {
                     $parent->removeChild( $lastChild );
                 }
@@ -1066,7 +1066,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                     break;
                 }
 
-                $tagContent = htmlspecialchars( $tagContent );
+                //$tagContent = htmlspecialchars( $tagContent );
 
                 if ( $this->allowMultipleSpaces )
                 {
