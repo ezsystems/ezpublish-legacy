@@ -43,7 +43,7 @@
  *                                   [, string $media='all'
  *                                   [, string $type='text/css'
  *                                   [, string $rel='stylesheet'
- *                                   [, string $charset='utf-8'
+ *                                   [, string $charset=''
  *                                   [, int $pack_level=3]]]]])
  *
  * ezscriptfiles( array|string $scripts[, int $pack_level=2[, bool $ignore_loaded=false]] )
@@ -139,9 +139,9 @@ class ezjscPackerTemplateFunctions
                                             'rel' => array( 'type' => 'string',
                                                   'required' => false,
                                                   'default' => 'stylesheet' ),
-                                            'charset' => array( 'type' => 'string',
+                                            'charset' => array( 'type' => 'string', // Deprecated (not valid html)
                                                   'required' => false,
-                                                  'default' => 'utf-8' ),
+                                                  'default' => '' ),
                                             'pack_level' => array( 'type' => 'integer',
                                                   'required' => false,
                                                   'default' => 3 ) ),
@@ -231,7 +231,6 @@ class ezjscPackerTemplateFunctions
                                                          $namedParameters['media'],
                                                          $namedParameters['type'],
                                                          $namedParameters['rel'],
-                                                         $namedParameters['charset'],
                                                          $namedParameters['pack_level'] );
                     self::$loaded['css_files'] = true;
                     break;
@@ -259,7 +258,6 @@ class ezjscPackerTemplateFunctions
                                                      $namedParameters['media'],
                                                      $namedParameters['type'],
                                                      $namedParameters['rel'],
-                                                     $namedParameters['charset'],
                                                      $namedParameters['pack_level'] );
             } break;
             case 'ezcssfiles':

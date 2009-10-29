@@ -4,6 +4,8 @@
 - Updated YUI 3.0.0 to GA
 - Fixed bug #15606: Admin Content Tree images not found
 - Fixed bug #15699: eZJSCore: possible function mixup for ezscriptfiles template operator
+- Removed charset attribute from all html tags but script with src attribute (html validation)
+- Deprecated charset parameter on ezcss, ezcss_load and ezcss_requried template operators!
 
 
 # v1.0.0  29 Sept 2009

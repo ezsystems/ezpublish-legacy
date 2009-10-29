@@ -77,6 +77,7 @@ class ezjscPacker
         $http = eZHTTPTool::instance();
         $useFullUrl = ( isset( $http->UseFullUrl ) && $http->UseFullUrl );
         $packedFiles = ezjscPacker::packFiles( $scriptFiles, 'javascript/', '.js', $packLevel, $wwwInCacheHash );
+        if ( $charset ) $charset = " charset=\"$charset\"";
         foreach ( $packedFiles as $packedFile )
         {
             // Is this a js file or js content?
@@ -86,11 +87,11 @@ class ezjscPacker
                 {
                     $packedFile = $http->createRedirectUrl( $packedFile, array( 'pre_url' => false ) );
                 }
-                $ret .= "<script$lang type=\"$type\" src=\"$packedFile\" charset=\"$charset\"></script>\r\n";
+                $ret .= "<script$lang type=\"$type\" src=\"$packedFile\"$charset></script>\r\n";
             }
             else
             {
-                $ret .=  $packedFile ? "<script$lang type=\"$type\" charset=\"$charset\">\r\n$packedFile\r\n</script>\r\n" : '';
+                $ret .=  $packedFile ? "<script$lang type=\"$type\">\r\n$packedFile\r\n</script>\r\n" : '';
             }
         }
         return $ret;
@@ -105,10 +106,9 @@ class ezjscPacker
      * @param string $rel Should be 'stylesheet'
      * @param int $packLevel Level of packing, values: 0-3
      * @param bool $wwwInCacheHash To add www path in cahce hash or not
-     * @param string $charset 
      * @return string Html with generated tags
      */
-    static function buildStylesheetTag( $cssFiles, $media = 'all', $type = 'text/css', $rel = 'stylesheet', $charset = 'utf-8', $packLevel = 3, $wwwInCacheHash = true )
+    static function buildStylesheetTag( $cssFiles, $media = 'all', $type = 'text/css', $rel = 'stylesheet', $packLevel = 3, $wwwInCacheHash = true )
     {
         $ret = '';
         $packedFiles = ezjscPacker::packFiles( $cssFiles, 'stylesheets/', '_' . $media . '.css', $packLevel, $wwwInCacheHash );
@@ -123,7 +123,7 @@ class ezjscPacker
                 {
                     $packedFile = $http->createRedirectUrl( $packedFile, array( 'pre_url' => false ) );
                 }
-                $ret .= "<link rel=\"$rel\" type=\"$type\" href=\"$packedFile\" media=\"$media\" charset=\"$charset\" />\r\n";
+                $ret .= "<link rel=\"$rel\" type=\"$type\" href=\"$packedFile\" media=\"$media\" />\r\n";
             }
             else
             {
