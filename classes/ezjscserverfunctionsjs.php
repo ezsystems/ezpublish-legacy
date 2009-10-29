@@ -148,7 +148,7 @@ YUI( YUI3_config ).add('io-ez', function( Y )
     function _ez( callArgs, c )
     {
         callArgs = callArgs.join !== undefined ? callArgs.join( _seperator ) : callArgs;
-        var url = _serverUrl + 'call/' + encodeURIComponent( callArgs );
+        var url = _serverUrl + 'call/';
 
         // force POST method
         if ( c === undefined )
@@ -250,7 +250,7 @@ YUI( YUI3_config ).add('io-ez', function( Y )
     function _ez( callArgs, post, callBack )
     {
         callArgs = callArgs.join !== undefined ? callArgs.join( _seperator ) : callArgs;
-        var url = _serverUrl + 'call/' + encodeURIComponent( callArgs );
+        var url = _serverUrl + 'call/';
         post = post === undefined ? {} : post;
         post['ezjscServer_function_arguments'] = callArgs;
 
@@ -265,7 +265,7 @@ YUI( YUI3_config ).add('io-ez', function( Y )
     function _ezLoad( callArgs, post, selector, callBack )
     {
         callArgs = callArgs.join !== undefined ? callArgs.join( _seperator ) : callArgs;
-        var url = _serverUrl + 'call/' + encodeURIComponent( callArgs );
+        var url = _serverUrl + 'call/';
         post = post === undefined ? {} : post;
         post['ezjscServer_function_arguments'] = callArgs;
 
