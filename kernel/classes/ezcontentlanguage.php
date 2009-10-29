@@ -939,6 +939,11 @@ class eZContentLanguage extends eZPersistentObject
                $GLOBALS['eZContentLanguagePrioritizedLanguages'],
                $GLOBALS['eZContentLanguageMask'],
                $GLOBALS['eZContentLanguageCronjobMode'] );
+
+        // With the solution to #14227 we also need to clear the cached
+        // list of languages
+        $cachePath = eZSys::cacheDirectory() . '/ezcontentlanguage_cache.php';
+        eZClusterFileHandler::instance()->fileDelete( $cachePath );
     }
 }
 

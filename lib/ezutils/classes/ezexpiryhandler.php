@@ -202,6 +202,17 @@ class eZExpiryHandler
     }
 
     /**
+     * Returns the data modification status
+     *
+     * @return bool true if data was modified, false if it wasn't
+     * @deprecated 4.2 will be removed in 4.3
+     **/
+    public function isModified()
+    {
+        return $this->IsModified;
+    }
+
+    /**
      * Indicates if thre shutdown function has been registered
      * @var bool
      **/

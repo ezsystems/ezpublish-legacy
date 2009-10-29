@@ -1841,6 +1841,86 @@ You will need to change the class of the node by using the swap functionality.' 
         eZContentClassAttribute::expireCache();
     }
 
+    /**
+     * Computes the version history limit for a content class
+     *
+     * @param mixed $class
+     *        Content class ID, content class identifier or content class object
+     * @return int
+     * @since 4.2
+     */
+    public static function versionHistoryLimit( $class )
+    {
+        // default version limit
+        $contentINI = eZINI::instance( 'content.ini' );
+        $versionLimit = $contentINI->variable( 'VersionManagement', 'DefaultVersionHistoryLimit' );
+
+        // version limit can't be < 2
+        if ( $versionLimit < 2 )
+        {
+            eZDebug::writeWarning( "Global version history limit must be equal to or higher than 2", __METHOD__ );
+            $versionLimit = 2;
+        }
+
+        // we need to take $class down to a class ID
+        if ( is_numeric( $class ) )
+        {
+            if (!eZContentClass::classIdentifierByID( $class ) )
+            {
+                eZDebug::writeWarning( "class integer parameter doesn't match any content class ID", __METHOD__ );
+                return $versionLimit;
+            }
+            $classID = (int)$class;
+        }
+        // literal identifier
+        elseif ( is_string( $class ) )
+        {
+            $classID = eZContentClass::classIDByIdentifier( $class );
+            if ( !$classID )
+            {
+                eZDebug::writeWarning( "class string parameter doesn't match any content class identifier", __METHOD__ );
+                return $versionLimit;
+            }
+        }
+        // eZContentClass object
+        elseif ( is_object( $class ) )
+        {
+            if ( !$class instanceof eZContentClass )
+            {
+                eZDebug::writeWarning( "class object parameter is not an eZContentClass", __METHOD__ );
+                return  $versionLimit;
+            }
+            else
+            {
+                $classID = $class->attribute( 'id' );
+            }
+        }
+
+        $classLimitSetting = $contentINI->variable( 'VersionManagement', 'VersionHistoryClass' );
+        $classArray = array_keys( $classLimitSetting );
+        $limitsArray = array_values( $classLimitSetting );
+
+        $classArray = eZContentClass::classIDByIdentifier( $classArray );
+
+        foreach ( $classArray as $index => $id )
+        {
+            if ( $id == $classID )
+            {
+                $limit = $limitsArray[$index];
+                // version limit can't be < 2
+                if ( $limit < 2 )
+                {
+                    $classIdentifier = eZContentClass::classIdentifierByID( $classID );
+                    eZDebug::writeWarning( "Version history limit for class {$classIdentifier} must be equal to or higher than 2", __METHOD__ );
+                    $limit = 2;
+                }
+                $versionLimit = $limit;
+            }
+        }
+
+        return $versionLimit;
+    }
+
     /// \privatesection
     public $ID;
     // serialized array of translated class names
