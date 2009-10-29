@@ -1,0 +1,24 @@
+Changes from 4.2.0rc1 to 4.2.0rc2
+
+*Kernel:
+- BC: Implemented #15229: Restore eZURLWildcard::isCacheExpired()
+- BC: Implemented #15531: Restore eZExpiryHandler::isModified()
+- Implemented enhancement #15326: Improve debugging and documentation of SiteLanguageList
+  (Merged from trunk (4.3.0alpha1) rev. 24144)
+
+*Design:
+
+*eZTemplate:
+
+*eZLocale:
+
+*Package system:
+
+*Scripts:
+
+*Translations:
+
+*Bugfixes:
+- Fixed bug #15478: Node assignment is not removed when removing node from child list
+- Fixed issue #15523: New objects of content classes installed by the package system have incorrect names and url aliases
+- Fixed issue #15263: After package import, object name is empty

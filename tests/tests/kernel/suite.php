@@ -42,6 +42,15 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'eZRoleTest' );
         $this->addTestSuite( 'eZUserDiscountRuleTest' );
         $this->addTestSuite( 'eZSubtreeNotificationRuleTest' );
+        $this->addTestSuite( 'eZImageAliasHandlerRegression' );
+        $this->addTestSuite( 'eZContentLanguageRegression' );
+        $this->addTestSuite( 'eZContentOperationCollectionRegression' );
+        $this->addTestSuite( 'eZContentClassTest' );
+        $this->addTestSuite( 'eZPackageRegression' );
+        $this->addTestSuite( 'eZContentFunctionsTest' );
+
+        // This test suite is commented out until it will be fixed to work on any machine
+        // $this->addTestSuite( 'eZRSSExportTest' );
     }
 
     public static function suite()

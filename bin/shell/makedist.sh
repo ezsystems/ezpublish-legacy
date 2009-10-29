@@ -570,7 +570,7 @@ fi
 
 if [ -z $SKIPCHECKPHP ]; then
     echo -n "Checking syntax of PHP files"
-    ./bin/shell/phpcheck.sh --exit-on-error -q cronjobs kernel lib support update tests/classes benchmarks/classes
+    ./bin/shell/phpcheck.sh --exit-on-error -q cronjobs kernel lib support update benchmarks/classes
     if [ $? -ne 0 ]; then
         echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
         echo "Some PHP files have syntax errors"
@@ -579,7 +579,7 @@ if [ -z $SKIPCHECKPHP ]; then
         exit 1
     fi
 
-    ./bin/php/ezcheckphptag.php -q --no-print cronjobs kernel lib support update tests/classes benchmarks/classes
+    ./bin/php/ezcheckphptag.php -q --no-print cronjobs kernel lib support update benchmarks/classes
     if [ $? -ne 0 ]; then
         echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
         echo "Some PHP files have bad PHP starting and ending tag usage"
@@ -1323,24 +1323,24 @@ fi
 # *****   Bundle ezc *****
 #
 
-echo -n "Bundling eZ Components 2009.1.1"
+echo -n "Bundling eZ Components 2009.1.2"
 
 # download
-if [ ! -e "$DEST_ROOT/ezcomponents-2009.1.1.tar.bz2" ]; then
-    wget --directory-prefix=$DEST_ROOT http://ezcomponents.org/files/downloads/ezcomponents-2009.1.1.tar.bz2
+if [ ! -e "$DEST_ROOT/ezcomponents-2009.1.2.tar.bz2" ]; then
+    wget --directory-prefix=$DEST_ROOT http://ezcomponents.org/files/downloads/ezcomponents-2009.1.2.tar.bz2
 fi
 
-if [ ! -e "$DEST_ROOT/ezcomponents-2009.1.1" ]; then
+if [ ! -e "$DEST_ROOT/ezcomponents-2009.1.2" ]; then
     # extract
-    tar -vxjf $DEST_ROOT/ezcomponents-2009.1.1.tar.bz2 -C $DEST_ROOT
+    tar -vxjf $DEST_ROOT/ezcomponents-2009.1.2.tar.bz2 -C $DEST_ROOT
     
     # remove design, docs and tests directories
-    find $DEST_ROOT/ezcomponents-2009.1.1 -mindepth 2 -maxdepth 2 -type d \( -name  "design" -o -name "docs" -o -name "tests" \) -print -a -exec rm -R --force {} \;
+    find $DEST_ROOT/ezcomponents-2009.1.2 -mindepth 2 -maxdepth 2 -type d \( -name  "design" -o -name "docs" -o -name "tests" \) -print -a -exec rm -R --force {} \;
 
 fi
 
 # copy to build location
-cp -R $DEST_ROOT/ezcomponents-2009.1.1 $DEST_ROOT/$BASE/lib/ezc
+cp -R $DEST_ROOT/ezcomponents-2009.1.2 $DEST_ROOT/$BASE/lib/ezc
 
 ez_result_output $? "Failed to bundle eZ Components"|| exit 1
 

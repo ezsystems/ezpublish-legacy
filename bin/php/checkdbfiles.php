@@ -63,6 +63,7 @@ $dbTypes[] = 'postgresql';
 
 $branches = array();
 $branches[] = '4.1';
+$branches[] = '4.2';
 
 // Controls the lowest version which will be exported and verified against current data
 $lowestExportVersion = '4.1';
@@ -85,6 +86,9 @@ $versions41 = array( 'unstable' => array(  array( '4.0.0',       '4.1.0alpha1' )
                      'stable' => array( array( '4.0.0', '4.1.0' ) ) );
 $versions42 = array( 'unstable' => array( array( '4.1.0',   '4.2.0alpha1' ),
                                           array( '4.2.0alpha1', '4.2.0beta1' ),
+					                      array( '4.2.0beta1', '4.2.0rc1' ),
+					                      array( '4.2.0rc1', '4.2.0rc2' ),
+					                      array( '4.2.0rc2', '4.2.0' ),
                                         ),
                      'unstable_subdir' => 'unstable',
                      'stable' => array( array( '4.2.0', '4.2.1' ),

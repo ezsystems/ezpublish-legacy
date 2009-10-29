@@ -1186,21 +1186,7 @@ class eZContentObject extends eZPersistentObject
         // Check if we have enough space in version list
         if ( $versionCheck )
         {
-            $contentINI = eZINI::instance( 'content.ini' );
-            $versionlimit = $contentINI->variable( 'VersionManagement', 'DefaultVersionHistoryLimit' );
-            $limitList =  eZContentClass::classIDByIdentifier( $contentINI->variable( 'VersionManagement', 'VersionHistoryClass' ) );
-            $classID = $this->attribute( 'contentclass_id' );
-            foreach ( $limitList as $key => $value )
-            {
-                if ( $classID == $key )
-                {
-                    $versionlimit = $value;
-                }
-            }
-            if ( $versionlimit < 2 )
-            {
-                $versionlimit = 2;
-            }
+            $versionlimit = eZContentClass::versionHistoryLimit( $this->attribute( 'contentclass_id' ) );
             $versionCount = $this->getVersionCount();
             if ( $versionCount >= $versionlimit )
             {

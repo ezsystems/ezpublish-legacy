@@ -1,0 +1,21 @@
+Changes from 4.2.0rc2 to 4.2.0
+
+*Kernel:
+- Implemented enhancement #15575 (Refactor Version History Limit handling)
+- Implemented enhancement #15574 (Throw a warning when VersionLimit < 2)
+
+*Design:
+
+*eZTemplate:
+
+*eZLocale:
+
+*Package system:
+
+*Scripts:
+
+*Translations:
+
+*Bugfixes:
+- Fixed bug #15561: eZContentObjectTreeNode::fetch() SQL error when conditions argument is given
+- Fixed bug #15579: VersionManagement.VersionHistoryClass doesn't work
