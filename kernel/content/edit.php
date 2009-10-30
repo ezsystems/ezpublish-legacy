@@ -140,22 +140,14 @@ if ( $http->hasPostVariable( 'NewDraftButton' ) )
     }
     $isAccessChecked = true;
 
-    $contentINI = eZINI::instance( 'content.ini' );
-    $versionlimit = $contentINI->variable( 'VersionManagement', 'DefaultVersionHistoryLimit' );
     // Kept for backwards compatibility
     if ( $http->hasPostVariable( 'ContentObjectLanguageCode' ) )
     {
         $EditLanguage = $http->postVariable( 'ContentObjectLanguageCode' );
     }
 
-    $limitList = eZContentClass::classIDByIdentifier( $contentINI->variable( 'VersionManagement', 'VersionHistoryClass' ) );
-    foreach ( $limitList as $key => $value )
-    {
-        if ( $classID == $key )
-            $versionlimit = $value;
-    }
-    if ( $versionlimit < 2 )
-        $versionlimit = 2;
+    // Check the new version against history limit for class $classID
+    $versionlimit = eZContentClass::versionHistoryLimit( $classID );
     $versionCount = $obj->getVersionCount();
     if ( $versionCount < $versionlimit )
     {
@@ -500,7 +492,8 @@ elseif ( is_numeric( $EditVersion ) )
     // Check if $user can edit the current version.
     // We should not allow to edit content without creating a new version.
     if ( ( $version->attribute( 'status' ) != eZContentObjectVersion::STATUS_INTERNAL_DRAFT and
-           $version->attribute( 'status' ) != eZContentObjectVersion::STATUS_DRAFT )
+           $version->attribute( 'status' ) != eZContentObjectVersion::STATUS_DRAFT and
+           $version->attribute( 'status' ) != eZContentObjectVersion::STATUS_REPEAT )
           or $version->attribute( 'creator_id' ) != $user->id() )
     {
         return $Module->redirectToView( 'history', array( $ObjectID, $version->attribute( "version" ), $EditLanguage ) );

@@ -17,6 +17,16 @@ Changes from 4.1.3 to 4.1.4
   (Merged from trunk (4.2.0Beta1) Rev. 23909)
 - Implemented enhancement #14813: Improved behavior of ContinueShoppingButton in basket.
   (Merged from trunk (4.2.0Alpha1) Rev. 23458)
+- Fixed bug #15523: New objects of content classes installed by the package system have incorrect names and url aliases
+  (Merged from trunk (4.3.0alpha1) rev. 24140)
+- Fixed bug #15263: After package import, object name is empty
+  (Merged from trunk (4.3.0alpha1) rev. 24140)
+- Implemented enhancement #15326: Improve debugging and documentation of SiteLanguageList
+  (Merged from trunk (4.3.0alpha1) rev. 24144)
+- Implemented enhancement #15575 Refactor Version History Limit handling
+  (Merged from release/4.2.0 rev. 24178)
+- Implemented enhancement #15574 Throw a warning when VersionLimit < 2
+  (Merged from release/4.2.0 rev. 24178)
 
 *Design:
 
@@ -27,6 +37,8 @@ Changes from 4.1.3 to 4.1.4
 *Package system:
 
 *Scripts:
+- Added script update/common/scripts/4.2/fixorphanimages.php
+  Cleans up the image alias files that weren't removed due to issue #15155
 
 *Translations:
 - Implemented enhancement #15420: German phrasebook and readme file
@@ -40,7 +52,7 @@ Changes from 4.1.3 to 4.1.4
   (Merged from trunk Rev. 23680)
 - Fixed bug #14366: Duplicate remote_id in ezcontentobject_tree - for LDAP users
   (Merged from trunk Rev. 23683)
-- Fixed issue #15046: WebDav not working on 4.1.2 (patch).
+- Fixed bug #15046: WebDav not working on 4.1.2 (patch).
   (Merged from trunk Rev. 23769)
 - Fixed bug #11695: Return correct hostname when behing a proxy
   (Merged from trunk Rev. 23688)
@@ -173,3 +185,21 @@ Changes from 4.1.3 to 4.1.4
   (Merged from trunk (4.2.0beta1) rev. 24050)
 - Fixed bug #15089: eZ Simplified XML input does not handle whitespace in XML attribute definitions
   (Merged from trunk (4.2.0beta1) rev. 24056)
+- Fixed bug #15454: Make eZSession::getUserSessionHash() to return default hash instead of empty string
+  (Merged from trunk rev. 24074)
+- Fixed bug #15016: replace all direct usage of implodeWithTypeCast() with generateSQLINStatement()
+  (Merged from trunk rev. 24026)
+- Fixed bug #14371: Workflow template repeat broken by security patch
+  (Merged from trunk (4.2.0beta1) rev. 24043)
+- Fixed bug #15155: eZImageType::deleteStoredObjectAttribute doesn't clean original image
+  (Merged from trunk (4.2.0beta1) rev. 24053 and release/4.2.0 rev. 24104
+- Fixed bug #14850: cache_ttl=0 and stalecache conflict
+  (Merged from trunk (4.2.0beta1) rev. 23939-23941)
+- Fixed bug #15388: Warning in eznotificationtransport.php when $transportImpl is null
+  (Merged from release/4.2.0 rev. 24111)
+- Fixed bug #15478: Node assignment is not removed when removing node from child list
+  (Merged from release/4.2.0 rev. 24120)
+- Fixed bug #15561: eZContentObjectTreeNode::fetch() SQL error when conditions argument is given
+  (Merged from release/4.2.0 rev. 24170)
+- Fixed bug #15579: VersionManagement.VersionHistoryClass doesn't work
+  (Merged from release/4.2.0 rev. 24180)

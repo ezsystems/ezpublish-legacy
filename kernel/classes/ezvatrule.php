@@ -116,23 +116,27 @@ class eZVatRule extends eZPersistentObject
     }
 
     /**
-     * Fetch number of VAT rules referencing given product category.
+     * Fetch number of VAT rules referencing given product categories
      *
-     * \param $categories Category (single or list) to count VAT rules for.
-     * \public
-     * \static
+     * @param $categories Category (single or list) to count VAT rules for.
+     *
+     * @return int
      */
     static function fetchCountByCategory( $categories )
     {
         $db = eZDB::instance();
 
         $query = "SELECT COUNT(*) AS count FROM ezvatrule vr, ezvatrule_product_category vrpc " .
-                 "WHERE vr.id=vrpc.vatrule_id AND vrpc.product_category_id";
+                 "WHERE vr.id=vrpc.vatrule_id AND ";
 
         if ( is_array( $categories ) )
-            $query .= " IN ('" . $db->implodeWithTypeCast( ',', $categories, 'int' ) . "')";
+        {
+            $query .= $db->generateSQLINStatement( $categories, 'vrpc.product_category_id', false, false, 'int' );
+        }
         else
-            $query .= "=" . (int) $categories;
+        {
+            $query .= "vrpc.product_category_id =" . (int) $categories;
+        }
 
         $rows = $db->arrayQuery( $query );
 
@@ -159,7 +163,6 @@ class eZVatRule extends eZPersistentObject
                                                                    'name' => 'count' ) ) );
         return $rows[0]['count'];
     }
-
 
     static function create()
     {

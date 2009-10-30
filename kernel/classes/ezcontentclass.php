@@ -170,6 +170,7 @@ class eZContentClass extends eZPersistentObject
                       "class_name" => "eZContentClass",
                       "sort" => array( "id" => "asc" ),
                       "name" => "ezcontentclass" );
+        return $definition;
     }
 
     function __clone()
@@ -916,12 +917,7 @@ You will need to change the class of the node by using the swap functionality.' 
     function store( $store_childs = false, $fieldFilters = null )
     {
 
-        global $eZContentClassObjectCache;
-
-        if ( isset( $eZContentClassObjectCache[$this->ID] ) )
-        {
-            unset( $eZContentClassObjectCache[$this->ID] );
-        }
+        self::expireCache();
 
         $db = eZDB::instance();
         $db->begin();
@@ -1721,7 +1717,7 @@ You will need to change the class of the node by using the swap functionality.' 
      *
      * @static
      * @since Version 4.1
-     * @param string|array $identifier identifier string or array of identifiers (array support added in 4.1.1) 
+     * @param string|array $identifier identifier string or array of identifiers (array support added in 4.1.1)
      * @return int|false Returns classid or false
      */
     public static function classIDByIdentifier( $identifier )
@@ -1774,9 +1770,7 @@ You will need to change the class of the node by using the swap functionality.' 
      */
     protected static function classIdentifiersHash()
     {
-        static $identifierHash = null;
-
-        if ( $identifierHash === null )
+        if ( self::$identifierHash === null )
         {
             $db = eZDB::instance();
             $dbName = md5( $db->DB );
@@ -1798,7 +1792,7 @@ You will need to change the class of the node by using the swap functionality.' 
             if ( $phpCache->canRestore( $expiryTime ) )
             {
                 $var = $phpCache->restore( array( 'identifierHash' => 'identifier_hash' ) );
-                $identifierHash = $var['identifierHash'];
+                self::$identifierHash = $var['identifierHash'];
             }
             else
             {
@@ -1806,18 +1800,18 @@ You will need to change the class of the node by using the swap functionality.' 
                 $query = "SELECT id, identifier FROM ezcontentclass where version=0";
                 $identifierArray = $db->arrayQuery( $query );
 
-                $identifierHash = array();
+                self::$identifierHash = array();
                 foreach ( $identifierArray as $identifierRow )
                 {
-                    $identifierHash[$identifierRow['identifier']] = $identifierRow['id'];
+                    self::$identifierHash[$identifierRow['identifier']] = $identifierRow['id'];
                 }
 
                 // Store identifier list to cache file
-                $phpCache->addVariable( 'identifier_hash', $identifierHash );
+                $phpCache->addVariable( 'identifier_hash', self::$identifierHash );
                 $phpCache->store();
             }
         }
-        return $identifierHash;
+        return self::$identifierHash;
     }
 
     /*!
@@ -1841,6 +1835,92 @@ You will need to change the class of the node by using the swap functionality.' 
         return $classIDArray;
     }
 
+    public static function expireCache()
+    {
+        self::$identifierHash = null;
+        eZContentClassAttribute::expireCache();
+    }
+
+    /**
+     * Computes the version history limit for a content class
+     * 
+     * @param mixed $class
+     *        Content class ID, content class identifier or content class object
+     * @return int
+     * @since 4.2
+     */
+    public static function versionHistoryLimit( $class )
+    {
+        // default version limit
+        $contentINI = eZINI::instance( 'content.ini' );
+        $versionLimit = $contentINI->variable( 'VersionManagement', 'DefaultVersionHistoryLimit' );
+        
+        // version limit can't be < 2
+        if ( $versionLimit < 2 )
+        {
+            eZDebug::writeWarning( "Global version history limit must be equal to or higher than 2", __METHOD__ );
+            $versionLimit = 2;
+        }
+
+        // we need to take $class down to a class ID
+        if ( is_numeric( $class ) )
+        {
+            if (!eZContentClass::classIdentifierByID( $class ) )
+            {
+                eZDebug::writeWarning( "class integer parameter doesn't match any content class ID", __METHOD__ );
+                return $versionLimit;
+            }
+            $classID = (int)$class;
+        }
+        // literal identifier
+        elseif ( is_string( $class ) )
+        {
+            $classID = eZContentClass::classIDByIdentifier( $class );
+            if ( !$classID )
+            {
+                eZDebug::writeWarning( "class string parameter doesn't match any content class identifier", __METHOD__ );
+                return $versionLimit;
+            }
+        }
+        // eZContentClass object
+        elseif ( is_object( $class ) )
+        {
+            if ( !$class instanceof eZContentClass )
+            {
+                eZDebug::writeWarning( "class object parameter is not an eZContentClass", __METHOD__ );
+                return  $versionLimit;
+            }
+            else
+            {
+                $classID = $class->attribute( 'id' );
+            }
+        }
+        
+        $classLimitSetting = $contentINI->variable( 'VersionManagement', 'VersionHistoryClass' );
+        $classArray = array_keys( $classLimitSetting );
+        $limitsArray = array_values( $classLimitSetting );
+        
+        $classArray = eZContentClass::classIDByIdentifier( $classArray );
+        
+        foreach ( $classArray as $index => $id )
+        {
+            if ( $id == $classID )
+            {
+                $limit = $limitsArray[$index];
+                // version limit can't be < 2
+                if ( $limit < 2 )
+                {
+                    $classIdentifier = eZContentClass::classIdentifierByID( $classID );
+                    eZDebug::writeWarning( "Version history limit for class {$classIdentifier} must be equal to or higher than 2", __METHOD__ );
+                    $limit = 2;
+                }
+                $versionLimit = $limit;
+            }
+        }
+
+        return $versionLimit;
+    }
+
     /// \privatesection
     public $ID;
     // serialized array of translated class names
@@ -1860,6 +1940,11 @@ You will need to change the class of the node by using the swap functionality.' 
     public $IsContainer;
     public $CanInstantiateLanguages;
     public $LanguageMask;
+
+    /**
+     * In-memory cache for class identifiers / id matching
+     **/
+    private static $identifierHash = null;
 }
 
 ?>

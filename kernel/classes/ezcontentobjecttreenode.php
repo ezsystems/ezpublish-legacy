@@ -2845,14 +2845,21 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return eZContentObjectTreeNode::fetch( false, false, $asObject, array( "path_identification_string" => $pathString ) );
     }
 
+    /**
+     * Fetches path_identification_string for a list of nodes
+     *
+     * @param array(int) $nodeList
+     *
+     * @return array Associative array
+     **/
     static function fetchAliasesFromNodeList( $nodeList )
     {
         if ( !is_array( $nodeList ) || count( $nodeList ) < 1 )
             return array();
 
         $db = eZDB::instance();
-        $nodeIDs = $db->implodeWithTypeCast( ', ', $nodeList, 'int' );
-        $query = "SELECT node_id, path_identification_string FROM ezcontentobject_tree WHERE node_id IN ( $nodeIDs )";
+        $where = $db->generateSQLINStatement( $nodeList, 'node_id', false, false, 'int' );
+        $query = "SELECT node_id, path_identification_string FROM ezcontentobject_tree WHERE $where";
         $pathListArray = $db->arrayQuery( $query );
         return $pathListArray;
     }
@@ -2896,19 +2903,20 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return null;
     }
 
-    /*!
-      Fetches the main nodes for an array of object id's
-
-      \param $objectIDArray an array of object IDs
-      \param $asObject if the list of content object tree nodes needs to be returned as an object (default, true) or as an array (false)
-      \return an array of content object tree nodes, or null if $objectIDArray is empty
-    */
+    /**
+     * Fetches the main nodes for an array of object id's
+     * @param array(int) $objectIDArray an array of object IDs
+     * @param bool $asObject
+     *        Wether to return the result as an array of eZContentObjectTreeNode
+     *        (true) or as an array of associative arrays (false)
+     * @return array(array|eZContentObjectTreeNode)
+     **/
     static function findMainNodeArray( $objectIDArray, $asObject = true )
     {
         if ( count( $objectIDArray ) )
         {
             $db = eZDB::instance();
-            $objectIDString = $db->implodeWithTypeCast( ',', $objectIDArray, 'int' );
+            $objectIDINSQL = $db->generateSQLINStatement( $objectIDArray, 'ezcontentobject_tree.contentobject_id', false, false, 'int' );
             $query="SELECT ezcontentobject.*,
                            ezcontentobject_tree.*,
                            ezcontentclass.serialized_name_list as class_serialized_name_list,
@@ -2917,7 +2925,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     FROM ezcontentobject_tree,
                          ezcontentobject,
                          ezcontentclass
-                    WHERE ezcontentobject_tree.contentobject_id in ( $objectIDString ) AND
+                    WHERE $objectIDINSQL AND
                           ezcontentobject_tree.main_node_id = ezcontentobject_tree.node_id AND
                           ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
                           ezcontentclass.version=0  AND
@@ -2979,16 +2987,16 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 {
                     if( count( $nodeID ) === 1 )
                     {
-                        $sqlCondition = 'node_id = ' . (int) $nodeID[0] . ' AND';
+                        $sqlCondition = 'node_id = ' . (int) $nodeID[0] . ' AND ';
                     }
                     else
                     {
-                        $sqlCondition = $db->generateSQLInStatement( $nodeID, 'node_id', false, true, 'int' ) . ' AND';
+                        $sqlCondition = $db->generateSQLInStatement( $nodeID, 'node_id', false, true, 'int' ) . ' AND ';
                     }
                 }
                 else
                 {
-                    $sqlCondition = 'node_id = ' . (int) $nodeID . ' AND';
+                    $sqlCondition = 'node_id = ' . (int) $nodeID . ' AND ';
                 }
             }
 
@@ -3029,7 +3037,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       $languageFilter
                       $versionNameJoins";
         }
-
         $nodeListArray = $db->arrayQuery( $query );
 
         if ( count( $nodeListArray ) > 0 )
@@ -5137,6 +5144,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      * @param int|array $objectIDs
      * @param bool $groupByObjectId groups parent node ids by object id they belong to.
      * @param bool $onlyMainNode limits result to parent node id of main node.
+     *
      * @return array Returns array of parent node id's
      */
     static function getParentNodeIdListByContentObjectID( $objectIDs, $groupByObjectId = false, $onlyMainNode = false )
@@ -5144,15 +5152,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( !$objectIDs )
             return null;
         if ( !is_array( $objectIDs ) )
-          $objectIDs = array( $objectIDs );
+            $objectIDs = array( $objectIDs );
 
         $db = eZDB::instance();
         $query = 'SELECT
                     parent_node_id, contentobject_id
                   FROM
                     ezcontentobject_tree
-                  WHERE
-                    contentobject_id in (' . $db->implodeWithTypeCast( ', ', $objectIDs, 'int' ) . ')';
+                  WHERE ' . $db->generateSQLINStatement( $objectIDs, 'contentobject_id', false, false, 'int' );
 
         if ( $onlyMainNode )
         {
