@@ -329,7 +329,7 @@ class eZMultiplexerType extends eZWorkflowEventType
                     $childProcess->store();
                     return eZWorkflowType::STATUS_DEFERRED_TO_CRON_REPEAT;
                 }
-                else if ( $childStatus ==  eZWorkflow::STATUS_FETCH_TEMPLATE )
+                else if ( $childStatus == eZWorkflow::STATUS_FETCH_TEMPLATE or $childStatus == eZWorkflow::STATUS_FETCH_TEMPLATE_REPEAT )
                 {
                     $process->Template =& $childProcess->Template;
                     return eZWorkflowType::STATUS_FETCH_TEMPLATE_REPEAT;

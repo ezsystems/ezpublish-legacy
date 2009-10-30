@@ -787,10 +787,14 @@ class eZContentObject extends eZPersistentObject
         return $object;
     }
 
-    /*!
-     Fetches the content object with the given ID
-     \note Uses the static function createFetchSQLString() to generate the SQL
-    */
+    /**
+     * Fetches a content object by ID
+     * @param int $id ID of the content object to fetch
+     * @param bool $asObject
+     *        Return the result as an object (true) or an assoc. array (false)
+     *
+     * @return eZContentObject
+     **/
     static function fetch( $id, $asObject = true )
     {
         global $eZContentObjectContentObjectCache;
@@ -944,9 +948,18 @@ class eZContentObject extends eZPersistentObject
         return $obj;
     }
 
-    /*!
-     Fetches the content object from the ID array
-    */
+    /**
+     * Fetches a content object list based on an array of content object ids
+     *
+     * @param array $idArray array of content object ids
+     * @param bool $asObject
+     *        Wether to get the result as an array of eZContentObject or an
+     *        array of associative arrays
+     *
+     * @return array(contentObjectID => eZContentObject|array)
+     *         array of eZContentObject (if $asObject = true) or array of
+     *         associative arrays (if $asObject = false)
+     **/
     static function fetchIDArray( $idArray, $asObject = true )
     {
         global $eZContentObjectContentObjectCache;
@@ -966,7 +979,7 @@ class eZContentObject extends eZPersistentObject
 
         $db = eZDB::instance();
         // All elements from $uniqueIDArray should be casted to (int)
-        $objectInSQL = $db->implodeWithTypeCast( ', ', $uniqueIDArray, 'int' );
+        $objectWhereINSQL = $db->generateSQLINStatement( $uniqueIDArray, 'ezcontentobject.id', false, false, 'int' );
         $query = "SELECT ezcontentclass.serialized_name_list as class_serialized_name_list, ezcontentobject.* $versionNameTargets
                       FROM
                          ezcontentclass,
@@ -974,7 +987,7 @@ class eZContentObject extends eZPersistentObject
                          $versionNameTables
                       WHERE
                          ezcontentclass.id=ezcontentobject.contentclass_id AND
-                         ezcontentobject.id IN ( $objectInSQL )
+                         $objectWhereINSQL
                          $versionNameJoins";
 
         $resRowArray = $db->arrayQuery( $query );
@@ -3132,25 +3145,33 @@ class eZContentObject extends eZPersistentObject
                                           array( 'AllRelations' => eZContentObject::RELATION_EMBED ) );
     }
 
-    /*!
-     \return the number of related or reverse related objects
-     \param $attributeID :  ( makes sense only when $params['AllRelations'] not set or eZContentObject::RELATION_ATTRIBUTE )
-                            >0              - return relations made with attribute ID ( "related object(s)" datatype )
-                            0 or false  ( $params['AllRelations'] is eZContentObject::RELATION_ATTRIBUTE )
-                                            - return relations made with any attributes
-                            false       ( $params['AllRelations'] not set )
-                                            - return ALL relations (deprecated, use "$params['AllRelations'] = true" instead)
-     \param $params : other parameters from template fetch function :
-                $params['AllRelations'] - relation type filter :
-                            true    - return ALL relations, including attribute-level
-                            false   - return object-level relations
-                            >0      - bit mask of EZ_CONTENT_OBJECT_RELATION_* values
-                $params['SortBy']           - related objects sorting mode.
-                            Supported modes: class_identifier, class_name, modified, name, published, section
-                $params['IgnoreVisibility'] - ignores 'hidden' state of related objects if true
-     \param $reverseRelatedObjects : if "true" returns reverse related contentObjects
-                                     if "false" returns related contentObjects
-    */
+    /**
+     * Fetch the number of (reverse) related objects
+     *
+     * @param int $version
+     * @param int $attributeID
+     *        This parameter only makes sense if $params[AllRelations] is unset,
+     *        set to false, or matches eZContentObject::RELATION_ATTRIBUTE
+     *        Possible values:
+     *        - 0 or false:
+     *          Count relations made with any attribute
+     *        - >0
+     *          Count relations made with attribute $attributeID
+     * @param int|false $reverseRelatedObjects
+     *        Wether to count related objects (false) or reverse related
+     *        objects (false)
+     * @param array|false $params
+     *        Various params, as an associative array.
+     *        Possible values:
+     *        - AllRelations (bool|int)
+     *          true: count ALL relations, object and attribute level
+     *          false: only count object level relations
+     *          other: bit mask of eZContentObject::RELATION_* constants
+     *        - IgnoreVisibility (bool)
+     *          If true, 'hidden' status will be ignored
+     *
+     * @return int The number of (reverse) related objects for the object
+     **/
     function relatedObjectCount( $version = false, $attributeID = 0, $reverseRelatedObjects = false, $params = false )
     {
         $objectID = $this->ID;
@@ -3200,7 +3221,7 @@ class eZContentObject extends eZPersistentObject
             {
                 if ( count( $objectID ) > 0 )
                 {
-                    $objectIDSQL = ' AND ezcontentobject_link.to_contentobject_id in (' . $db->implodeWithTypeCast( ', ', $objectID, 'int' ) . ') AND
+                    $objectIDSQL = ' AND ' . $db->generateSQLINStatement( $objectID, 'ezcontentobject_link.to_contentobject_id', false, false, 'int' ) . ' AND
                                     ezcontentobject_link.from_contentobject_version=ezcontentobject.current_version';
                 }
                 else

@@ -9,6 +9,8 @@ Changes from 4.0.6 to 4.0.7
   (Merged from trunk (4.2.0Beta1) Rev. 23890)
 - Implemented enhancement #14813: Improved behavior of ContinueShoppingButton in basket.
   (Merged from trunk (4.2.0Alpha1) Rev. 23458)
+- Implemented enhancement #15326: Improve debugging and documentation of SiteLanguageList
+  (Merged from trunk (4.3.0alpha1) rev. 24144)
 
 *Design:
 
@@ -17,6 +19,8 @@ Changes from 4.0.6 to 4.0.7
 *Package system:
 
 *Scripts:
+- Added script update/common/scripts/4.2/fixorphanimages.php
+  Cleans up the image alias files that weren't removed due to issue #15155
 
 *Translations:
 - Implemented enhancement #15420: German phrasebook and readme file
@@ -135,3 +139,11 @@ Changes from 4.0.6 to 4.0.7
   (Merged from trunk (4.2.0beta1) rev. 24050)
 - Fixed bug #15089: eZ Simplified XML input does not handle whitespace in XML attribute definitions
   (Merged from trunk (4.2.0beta1) rev. 24056)
+- Fixed bug #15016: replace all direct usage of implodeWithTypeCast() with generateSQLINStatement()
+  (Merged from trunk (4.2.0beta1) rev. 24026)
+- Fixed bug #14371: Workflow template repeat broken by security patch
+  (Merged from trunk (4.2.0beta1) rev. 24043)
+- Fixed bug #15155: eZImageType::deleteStoredObjectAttribute doesn't clean original image
+  (Merged from trunk (4.2.0beta1) rev. 24053 and release/4.2.0 rev. 24104
+- Fixed bug #15561: eZContentObjectTreeNode::fetch() SQL error when conditions argument is given
+  (Merged from release/4.2.0 rev. 24170)

@@ -28,16 +28,9 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*!
-  \class eZProductCollection ezproductcollection.php
-  \brief eZProductCollection is a container class which handles groups of products
-  \ingroup eZKernel
-
-*/
-
-//include_once( "kernel/classes/ezpersistentobject.php" );
-//include_once( "lib/ezdb/classes/ezdb.php" );
-
+/**
+ * eZProductCollection is a container class which handles groups of products
+ **/
 class eZProductCollection extends eZPersistentObject
 {
     function eZProductCollection( $row )
@@ -65,30 +58,33 @@ class eZProductCollection extends eZPersistentObject
                       "name" => "ezproductcollection" );
     }
 
-    /*!
-     Creates a new empty collection and returns it.
-    */
+    /**
+     * Creates a new empty collection and returns it.
+     *
+     * @return eZProductCollection
+     **/
     static function create( )
     {
         $row = array( "created" => time() );
         return new eZProductCollection( $row );
     }
 
-    /*!
-     Clones the collection object and returns it. The ID of the clone is erased.
-    */
+    /**
+     * Clones the collection object and returns it.
+     * The ID of the clone is erased.
+     **/
     function __clone()
     {
         $this->setAttribute( 'id', null );
     }
 
-    /*!
-     Copies the collection object, the collection items and options.
-     \return the new collection object.
-     \note The new collection will already be present in the database.
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
-    */
+    /**
+     * Copies the collection object, the collection items and options.
+     *
+     * @note The new collection will already be present in the database.
+     *
+     * @return eZProductCollection The new collection object.
+     **/
     function copy()
     {
         $collection = clone $this;
@@ -106,9 +102,15 @@ class eZProductCollection extends eZPersistentObject
         return $collection;
     }
 
-    /*!
-     \return the product collection with ID \a $productCollectionID.
-    */
+    /**
+     * Fetches an eZProductCollection based on its ID
+     *
+     * @param int $productCollectionID
+     * @param bool $asObject
+     *        If true, return an object. if false, returns an array
+     *
+     * @return array|eZProductCollection
+     **/
     static function fetch( $productCollectionID, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZProductCollection::definition(),
@@ -117,9 +119,14 @@ class eZProductCollection extends eZPersistentObject
                                                 $asObject );
     }
 
-    /*!
-     \return all production collection items as an array.
-    */
+    /**
+     * Returns all production collection items as an array.
+     *
+     * @param bool $asObject
+     *        If true, return an object. if false, returns an array
+     *
+     * @return array(eZProductCollection|array)
+     **/
     function itemList( $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
@@ -159,13 +166,14 @@ class eZProductCollection extends eZPersistentObject
         return $isValid;
     }
 
-    /*!
-     \static
-     Removes all product collections which are specified in the array \a $productCollectionIDList.
-     Will also remove the product collection items.
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
-    */
+    /**
+     * Removes all product collections based on a product collection ID list
+     * Will also remove the product collection items.
+     *
+     * @param array $productCollectionIDList array of eZProductCollection IDs
+     *
+     * @return void
+     **/
     static function cleanupList( $productCollectionIDList )
     {
         $db = eZDB::instance();
@@ -178,8 +186,8 @@ class eZProductCollection extends eZPersistentObject
 
         //include_once( 'kernel/classes/ezproductcollectionitem.php' );
         eZProductCollectionItem::cleanupList( $productCollectionIDList );
-        $idText = $db->implodeWithTypeCast( ', ', $productCollectionIDList, 'int' );
-        $db->query( "DELETE FROM ezproductcollection WHERE id IN ( $idText )" );
+        $where = $db->generateSQLINStatement( $productCollectionIDList, 'id', false, false, 'int' );
+        $db->query( "DELETE FROM ezproductcollection WHERE {$where}" );
         $db->commit();
     }
 }

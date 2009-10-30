@@ -825,7 +825,7 @@ class eZContentFunctionCollection
         $sqlClassIDs = '';
         if ( $classIDArray != null )
         {
-            $sqlClassIDs = 'AND ezkeyword.class_id IN (' . $db->implodeWithTypeCast( ',', $classIDArray, 'int' ) . ') ';
+            $sqlClassIDs = 'AND ' . $db->generateSQLINStatement( $classIDArray, 'ezkeyword.class_id', false, false, 'int' ) . ' ';
         }
 
         $sqlToExcludeDuplicates = '';
@@ -989,7 +989,7 @@ class eZContentFunctionCollection
         $sqlClassIDString = '';
         if ( is_array( $classIDArray ) and count( $classIDArray ) )
         {
-            $sqlClassIDString = 'AND ezkeyword.class_id IN (' . $db->implodeWithTypeCast( ',', $classIDArray, 'int' ) . ')';
+            $sqlClassIDString = 'AND ' . $db->generateSQLINStatement( $classIDArray, 'ezkeyword.class_id', false, false, 'int' ) . ' ';
         }
 
         // composing sql for matching tag word, it could be strict equiality or LIKE clause

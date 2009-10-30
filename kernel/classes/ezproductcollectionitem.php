@@ -299,18 +299,20 @@ class eZProductCollectionItem extends eZPersistentObject
         return false;
     }
 
-    /*!
-     \static
-     Removes all product collection items which related to the product collections specified in the array \a $productCollectionIDList.
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
-    */
+    /**
+     * Removes all product collection items which related to the product
+     * collections specified in the parameter array
+     *
+     * @param array $productCollectionIDList array of eZProductCollection IDs
+     *
+     * @return void
+     **/
     static function cleanupList( $productCollectionIDList )
     {
         $db = eZDB::instance();
         $db->begin();
-        $idText = $db->implodeWithTypeCast( ', ', $productCollectionIDList, 'int' );
-        $rows = $db->arrayQuery( "SELECT id FROM ezproductcollection_item WHERE productcollection_id IN ( $idText )" );
+        $inText = $db->generateSQLINStatement( $productCollectionIDList, 'productcollection_id', false, false, 'int' );
+        $rows = $db->arrayQuery( "SELECT id FROM ezproductcollection_item WHERE $inText" );
         if ( count( $rows ) > 0 )
         {
             $itemIDList = array();
@@ -321,9 +323,8 @@ class eZProductCollectionItem extends eZPersistentObject
             //include_once( 'kernel/classes/ezproductcollectionitemoption.php' );
             eZProductCollectionItemOption::cleanupList( $itemIDList );
         }
-        $db->query( "DELETE FROM ezproductcollection_item WHERE productcollection_id IN ( $idText )" );
+        $db->query( "DELETE FROM ezproductcollection_item WHERE $inText" );
         $db->commit();
-
     }
 
     /// Stores the content object

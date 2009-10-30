@@ -152,15 +152,22 @@ class eZUserDiscountRule extends eZPersistentObject
         return $rules;
     }
 
+    /**
+     * Fetches the eZDiscountRules matching an array of eZUserID
+     *
+     * @param array(eZUserID) $idArray Array of user ID
+     *
+     * @return array(eZDiscountRule)
+     **/
     static function &fetchByUserIDArray( $idArray )
     {
         $db = eZDB::instance();
-        $groupString = $db->implodeWithTypeCast( ',', $idArray, 'int' );
+        $inString = $db->generateSQLINStatement( $idArray, 'ezuser_discountrule.contentobject_id', false, false, 'int' );
         $query = "SELECT DISTINCT ezdiscountrule.id,
                                   ezdiscountrule.name
                   FROM ezdiscountrule,
                        ezuser_discountrule
-                  WHERE ezuser_discountrule.contentobject_id IN ( $groupString ) AND
+                  WHERE $inString AND
                         ezuser_discountrule.discountrule_id = ezdiscountrule.id";
         $ruleArray = $db->arrayQuery( $query );
 

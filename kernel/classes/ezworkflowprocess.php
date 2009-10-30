@@ -365,9 +365,13 @@ class eZWorkflowProcess extends eZPersistentObject
                             $done = true;
                         } break;
                         case eZWorkflowType::STATUS_FETCH_TEMPLATE:
-                        case eZWorkflowType::STATUS_FETCH_TEMPLATE_REPEAT:
                         {
                             $workflowStatus = eZWorkflow::STATUS_FETCH_TEMPLATE;
+                            $done = true;
+                        } break;
+                        case eZWorkflowType::STATUS_FETCH_TEMPLATE_REPEAT:
+                        {
+                            $workflowStatus = eZWorkflow::STATUS_FETCH_TEMPLATE_REPEAT;
                             $done = true;
                         } break;
                         case eZWorkflowType::STATUS_REDIRECT:
