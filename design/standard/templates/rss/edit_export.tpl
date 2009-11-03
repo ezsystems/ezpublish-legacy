@@ -176,6 +176,19 @@
 
 	     <br/>
 
+         <label>{"Enclosure (media)"|i18n("design/standard/rss/edit")} ({"optional"|i18n("design/standard/rss/edit")}):</label><div class="labelbreak"></div>
+         <select name="Item_Class_Attribute_Enclosure_{$Source:index}">
+         <option value="">[{"Skip"|i18n("design/standard/rss/edit")}]</option>
+         {foreach $rss_export.item_list[$Source:index].class_attributes as $class_attribute}
+         <option value="{$class_attribute.identifier|wash}"
+             {if eq( $Source:item.enclosure, $class_attribute.identifier )}
+                 selected="selected"
+             {/if}>{$class_attribute.name|wash}</option>
+         {/foreach}
+         </select>
+
+         <br/>
+
        {/section}
 
        {include uri="design:gui/button.tpl"

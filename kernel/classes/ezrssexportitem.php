@@ -51,7 +51,7 @@ class eZRSSExportItem extends eZPersistentObject
 
     static function definition()
     {
-        return array( "fields" => array( "id" => array( 'name' => 'ID',
+        return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
                                                         'default' => 0,
                                                         'required' => true ),
@@ -88,6 +88,10 @@ class eZRSSExportItem extends eZPersistentObject
                                                            'datatype' => 'string',
                                                            'default' => '',
                                                            'required' => true ),
+                                         'enclosure' => array( 'name' => 'Enclosure',
+                                                           'datatype' => 'string',
+                                                           'default' => '',
+                                                           'required' => false ),
                                          'status' => array( 'name' => 'Status',
                                                             'datatype' => 'integer',
                                                             'default' => 0,
@@ -96,13 +100,13 @@ class eZRSSExportItem extends eZPersistentObject
                                                               'datatype' => 'integer',
                                                               'default' => 0,
                                                               'required' => true ) ),
-                      "keys" => array( "id", 'status' ),
+                      'keys' => array( 'id', 'status' ),
                       'function_attributes' => array( 'class_attributes' => 'classAttributes',
                                                       'source_node' => 'sourceNode',
                                                       'source_path' => 'sourcePath' ),
-                      "increment_key" => "id",
-                      "class_name" => "eZRSSExportItem",
-                      "name" => "ezrss_export_item" );
+                      'increment_key' => 'id',
+                      'class_name' => 'eZRSSExportItem',
+                      'name' => 'ezrss_export_item' );
     }
 
     /*!
@@ -121,6 +125,7 @@ class eZRSSExportItem extends eZPersistentObject
                       'url_id' => '',
                       'description' => '',
                       'title' => '',
+                      'enclosure' => '',
                       'status' => 0,
                       'subnodes' => 0);
         return new eZRSSExportItem( $row );

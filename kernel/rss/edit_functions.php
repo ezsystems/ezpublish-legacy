@@ -61,7 +61,7 @@ class eZRSSEditFunction
         /* Create the new RSS feed */
         for ( $itemCount = 0; $itemCount < $http->postVariable( 'Item_Count' ); $itemCount++ )
         {
-            if ( $skipValuesID == $http->postVariable( 'Item_ID_'.$itemCount ) )
+            if ( $skipValuesID == $http->postVariable( 'Item_ID_' . $itemCount ) )
             {
                 continue;
             }
@@ -121,9 +121,13 @@ class eZRSSEditFunction
                 }
             }
 
-            $rssExportItem->setAttribute( 'title', $http->postVariable( 'Item_Class_Attribute_Title_'.$itemCount ) );
-            $rssExportItem->setAttribute( 'description', $http->postVariable( 'Item_Class_Attribute_Description_'.$itemCount ) );
-            $rssExportItem->setAttribute( 'category', $http->postVariable( 'Item_Class_Attribute_Category_'.$itemCount ) );
+            $rssExportItem->setAttribute( 'title', $http->postVariable( 'Item_Class_Attribute_Title_' . $itemCount ) );
+            $rssExportItem->setAttribute( 'description', $http->postVariable( 'Item_Class_Attribute_Description_' . $itemCount ) );
+            $rssExportItem->setAttribute( 'category', $http->postVariable( 'Item_Class_Attribute_Category_' . $itemCount ) );
+
+            if ( $http->hasPostVariable( 'Item_Class_Attribute_Enclosure_' . $itemCount ) )
+                $rssExportItem->setAttribute( 'enclosure', $http->postVariable( 'Item_Class_Attribute_Enclosure_' . $itemCount ) );
+
             if( $publish && $valid )
             {
                 $rssExportItem->setAttribute( 'status', 1 );
@@ -216,6 +220,9 @@ class eZRSSEditFunction
 
         if ( isset( $feedObjectAttributeMap['category'] ) )
             $rssExportItem->setAttribute( 'category', $feedObjectAttributeMap['category'] );
+
+        if ( isset( $feedObjectAttributeMap['enclosure'] ) )
+            $rssExportItem->setAttribute( 'enclosure', $feedObjectAttributeMap['enclosure'] );
 
         $rssExportItem->setAttribute( 'subnodes', isset( $subNodesMap[$nodeClassIdentifier] ) && $subNodesMap[$nodeClassIdentifier] === 'true' );
         $rssExportItem->store();

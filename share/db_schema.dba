@@ -5532,6 +5532,12 @@ $schema = array (
         'type' => 'varchar',
         'default' => NULL,
       ),
+      'enclosure' => 
+      array (
+        'length' => 255,
+        'type' => 'varchar',
+        'default' => NULL,
+      ),
     ),
     'indexes' => 
     array (

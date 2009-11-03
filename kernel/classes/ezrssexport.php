@@ -945,6 +945,9 @@ class eZRSSExport extends eZPersistentObject
                         // category is optional
                         $catAttributeIdentifier = $attributeMapping[0]->attribute( 'category' );
                         $category = $catAttributeIdentifier ? $dataMap[$catAttributeIdentifier] : false;
+                        // enclosure is optional
+                        $enclosureAttributeIdentifier = $attributeMapping[0]->attribute( 'enclosure' );
+                        $enclosure = $enclosureAttributeIdentifier ? $dataMap[$enclosureAttributeIdentifier] : false;
                         break;
                     }
                 }
@@ -988,15 +991,28 @@ class eZRSSExport extends eZPersistentObject
                 // description RSS element with respective class attribute content
                 if ( $description )
                 {
-                    $descriptionContent = $description->attribute( 'content' );
-                    if ( $descriptionContent instanceof eZXMLText )
+                    $descContent = $description->attribute( 'content' );
+                    if ( $descContent instanceof eZXMLText )
                     {
-                        $outputHandler =  $descriptionContent->attribute( 'output' );
+                        $outputHandler =  $descContent->attribute( 'output' );
                         $itemDescriptionText = $outputHandler->attribute( 'output_text' );
+                    }
+                    else if ( $descContent instanceof eZImageAliasHandler )
+                    {
+                        $itemImage   = $descContent->hasAttribute( 'rssitem' ) ? $descContent->attribute( 'rssitem' ) : $descContent->attribute( 'rss' );
+                        $origImage   = $descContent->attribute( 'original' );
+                        eZURI::transformURI( $itemImage['full_path'], true, 'full' );
+                        eZURI::transformURI( $origImage['full_path'], true, 'full' );
+                        $itemDescriptionText = '&lt;a href="' . htmlspecialchars( $origImage['full_path'] )
+                                             . '"&gt;&lt;img alt="' . htmlspecialchars( $descContent->attribute( 'alternative_text' ) )
+                                             . '" src="' . htmlspecialchars( $itemImage['full_path'] )
+                                             . '" width="' . $itemImage['width']
+                                             . '" height="' . $itemImage['height']
+                                             . '" /&gt;&lt;/a&gt;';
                     }
                     else
                     {
-                        $itemDescriptionText = $descriptionContent;
+                        $itemDescriptionText = $descContent;
                     }
                     $item->description = $itemDescriptionText;
                 }
@@ -1023,6 +1039,48 @@ class eZRSSExport extends eZPersistentObject
                     {
                         $cat = $item->add( 'category' );
                         $cat->term = $itemCategoryText;
+                    }
+                }
+                
+                // enclosure RSS element with respective class attribute content
+                if ( $enclosure )
+                {
+                    $encItemURL       = false;
+                    $enclosureContent = $enclosure->attribute( 'content' );
+                    if ( $enclosureContent instanceof eZMedia )
+                    {
+                        $enc         = $item->add( 'enclosure' );
+                        $enc->length = $enclosureContent->attribute('filesize');
+                        $enc->type   = $enclosureContent->attribute('mime_type');
+                        $encItemURL = 'content/download/' . $enclosure->attribute('contentobject_id')
+                                    . '/' . $enclosureContent->attribute( 'contentobject_attribute_id' )
+                                    . '/' . urlencode( $enclosureContent->attribute( 'original_filename' ) );
+                        eZURI::transformURI( $encItemURL, false, 'full' );
+                    }
+                    else if ( $enclosureContent instanceof eZBinaryFile )
+                    {
+                        $enc         = $item->add( 'enclosure' );
+                        $enc->length = $enclosureContent->attribute('filesize');
+                        $enc->type   = $enclosureContent->attribute('mime_type');
+                        $encItemURL = 'content/download/' . $enclosure->attribute('contentobject_id')
+                                    . '/' . $enclosureContent->attribute( 'contentobject_attribute_id' )
+                                    . '/version/' . $enclosureContent->attribute( 'version' )
+                                    . '/file/' . urlencode( $enclosureContent->attribute( 'original_filename' ) );
+                        eZURI::transformURI( $encItemURL, false, 'full' );
+                    }
+                    else if ( $enclosureContent instanceof eZImageAliasHandler )
+                    {
+                        $enc         = $item->add( 'enclosure' );
+                        $origImage   = $enclosureContent->attribute( 'original' );
+                        $enc->length = $origImage['filesize'];
+                        $enc->type   = $origImage['mime_type'];
+                        $encItemURL  = $origImage['full_path'];
+                        eZURI::transformURI( $encItemURL, true, 'full' );
+                    }
+
+                    if ( $encItemURL )
+                    {
+                        $enc->url = $encItemURL;
                     }
                 }
 

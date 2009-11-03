@@ -1374,6 +1374,10 @@ class eZSiteInstaller
             $rssExportItem->setAttribute( 'source_node_id', $item['source_node_id'] );
             $rssExportItem->setAttribute( 'status', $item['status'] );
             $rssExportItem->setAttribute( 'title', $item['title'] );
+            if ( isset( $item['enclosure'] ) )
+            {
+                $rssExportItem->setAttribute( 'enclosure', $item['enclosure'] );
+            }
             $rssExportItem->store();
         }
     }

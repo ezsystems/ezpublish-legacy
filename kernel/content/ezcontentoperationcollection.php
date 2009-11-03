@@ -1352,6 +1352,9 @@ class eZContentOperationCollection
                 if ( isset( $feedObjectAttributeMap['category'] ) )
                     $rssExportItem->setAttribute( 'category', $feedObjectAttributeMap['category'] );
 
+                if ( isset( $feedObjectAttributeMap['enclosure'] ) )
+                    $rssExportItem->setAttribute( 'enclosure', $feedObjectAttributeMap['enclosure'] );
+
                 $rssExportItem->setAttribute( 'source_node_id', $nodeID );
                 $rssExportItem->setAttribute( 'status', eZRSSExport::STATUS_VALID );
                 $rssExportItem->setAttribute( 'subnodes', isset( $subNodesMap[$currentClassIdentifier] ) && $subNodesMap[$currentClassIdentifier] === 'true' );

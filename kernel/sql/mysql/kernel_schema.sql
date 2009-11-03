@@ -1221,6 +1221,7 @@ CREATE TABLE ezrss_export_item (
   status int(11) NOT NULL default '0',
   subnodes int(11) NOT NULL default '0',
   title varchar(255) default NULL,
+  enclosure varchar(255) default NULL,
   PRIMARY KEY  (id,status),
   KEY ezrss_export_rsseid (rssexport_id)
 ) ENGINE=InnoDB;

@@ -2309,7 +2309,8 @@ CREATE TABLE ezrss_export_item (
     source_node_id integer,
     status integer DEFAULT 0 NOT NULL,
     subnodes integer DEFAULT 0 NOT NULL,
-    title character varying(255)
+    title character varying(255),
+    enclosure character varying(255)
 );
 
 
