@@ -515,7 +515,7 @@ class eZWorkflowProcess extends eZPersistentObject
     }
 
     static function fetchForContent( $workflowID, $userID,
-                               $contentID, $content_version, $nodeID,
+                               $contentID, $contentVersion, $nodeID,
                                $asObject = true )
     {
         $conds = array( 'workflow_id' => $workflowID,
