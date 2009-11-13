@@ -60,6 +60,7 @@ eZ Online Editor 5.0 extension Changelog
 * Fixed #15649: Class 'None' sometimes saved when changing tag type in popup dialog
 * Fixed #15659: Empty paragraph created below inserted image
 * Fixed #14370: Inserting non break space doesn't work
+* Fixed #15732: Content view of some tags corrupted during insertion of new tag in OE content with latest OE
 
 5.0.0
 * Fixed regression #13650: [header] ezoe adds a level each time it is called

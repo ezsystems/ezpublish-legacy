@@ -252,6 +252,9 @@ var eZOEPopupUtils = {
         return false;
     },
 
+    /*
+     * Insert raw html and tries to cleanup any issues that might happen (related to paragraphs and block tags)
+     */
     insertHTMLCleanly: function( ed, html, id )
     {
         // makes sure block nodes do not break the html structure they are inserted into
@@ -266,13 +269,16 @@ var eZOEPopupUtils = {
             }
         }
 
-        ed.execCommand('mceInsertRawHTML', false, html, {skip_undo : 1} );
+        ed.execCommand('mceInsertContent', false, html, {skip_undo : 1} );
 
         newElement = ed.dom.get( id );
         if ( paragraphCleanup ) this.paragraphCleanup( ed, newElement );
         return newElement;
     },
 
+    /*
+     * Only for use for block tags ( appends or prepends tag relative to current tag )
+     */
     insertTagCleanly: function( ed, tag, content, args )
     {
         var edCurrentNode = ed.selection.getNode(), newElement = edCurrentNode.ownerDocument.createElement( tag );
