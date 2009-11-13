@@ -1070,20 +1070,32 @@ Datatype branch:
 4.2.0:
 - Release branch=release/4.2.0
 - Release branch start=24061
-- Release branch end=
-- Release date
+- Release branch end=24181
+- Release date 30-Sep-2009
+- From revision=24181
+- Version url=http://svn.ez.no/svn/ezpublish/versions/4.2.0
+- Date 30-Sep-2009
+- Revision=24331
 
 4.1.4:
 - Release branch=release/4.1.4
 - Release branch start=24067
-- Release branch end=
+- Release branch end=24188
 - Release branch configured=
+- From revision=24188
+- Revision=24332
+- Date 28-Sep-2009
+- Release date 29-Sep-2009
 
 4.0.7:
 - Release branch=release/4.0.7
 - Release branch start=24070
-- Release branch end=
+- Release branch end=24191
 - Release branch configured=
+- From revision=24191
+- Revision=24333
+- Date 28-Sep-2009
+- Release date 29-Sep-2009
 
 4.2.0rc1:
 - From revision=24114
