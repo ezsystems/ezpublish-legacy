@@ -95,6 +95,7 @@
         theme_ez_content_css : '{ezcssfiles( $content_css_list, 3, true() )|implode(',')}',
         theme_ez_statusbar_open_dialog : {cond( ezini('EditorSettings', 'TagPathOpenDialog', 'ezoe.ini',,true())|eq('enabled'), 'true', 'false' )},
         popup_css : {concat("stylesheets/skins/", $skin, "/dialog.css")|ezdesign},
+        //popup_css_add : {"stylesheets/core.css"|ezdesign},
         save_callback : "eZOeCleanUpEmbedTags",
         gecko_spellcheck : true,
         table_inline_editing : true, // table edit controlls in gecko
@@ -108,7 +109,15 @@
         spellchecker_rpc_url : {'/ezoe/spellcheck_rpc'|ezurl},
         spellchecker_languages : '{$spell_languages}',
         atd_rpc_url : {'/ezoe/atd_rpc?url='|ezurl},
-        atd_rpc_id  : "your API key here", 
+        atd_rpc_id  : "your API key here",
+        /* this list contains the categories of errors we want to show */
+        atd_show_types              : "Bias Language,Cliches,Complex Expression,Double Negatives,Hidden Verbs,Jargon Language,Passive voice,Phrases to Avoid,Redundant Expression",
+        /* strings this plugin should ignore */
+        atd_ignore_strings          : "AtD,rsmudge",
+        /* enable "Ignore Always" menu item, uses cookies by default. Set atd_ignore_rpc_url to a URL AtD should send ignore requests to. */
+        atd_ignore_enable           : "true",
+        /* the URL to the button image to display */
+        //atd_button_url              : "atdbuttontr.gif",
         atd_css_url : {'javascript/plugins/AtD/css/content.css'|ezdesign}
     {rdelim};
     

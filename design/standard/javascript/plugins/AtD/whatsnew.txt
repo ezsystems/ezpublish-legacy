@@ -1,3 +1,8 @@
+Release 3 Nov 09
+-------
+- Overhauled readme, change log, and added a demo.html file.</li>
+- Fixed a bug where highlighted errors could step on eachother (sometimes).
+
 Release 6 Oct 09
 -------
 - Brought plugin in sync with several fixes made on WP.com

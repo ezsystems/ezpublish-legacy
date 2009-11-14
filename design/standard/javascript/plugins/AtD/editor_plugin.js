@@ -263,7 +263,7 @@
 
          if (name == 'AtD') 
          {
-            return controlManager.createButton(name, { title: 'Proofread Writing', image: this.url + '/atdbuttontr.gif', cmd: 'mceWritingImprovementTool', scope: control });
+            return controlManager.createButton(name, { title: 'Proofread Writing', image: this.editor.getParam('atd_button_url', this.url + '/atdbuttontr.gif'), cmd: 'mceWritingImprovementTool', scope: control });
          }
       },
 
@@ -292,7 +292,7 @@
 
       _getSeparators : function() 
       {
-         var re = '', i, str = this.editor.getParam('spellchecker_word_separator_chars', '"\\s!#$%&()*+,./:;<=>?@[\]^_{|}§©«®±¶·¸»¼½¾¿×÷¤\u201d\u201c');
+         var re = '', i, str = this.editor.getParam('spellchecker_word_separator_chars', '"\xa0\\s!#$%&()*+,./:;<=>?@[\]^_{|}§©«®±¶·¸»¼½¾¿×÷¤\u201d\u201c');
 
          // Build word separator regexp
          for (i=0; i<str.length; i++)
@@ -311,13 +311,13 @@
          {
             if (n && (dom.hasClass(n, 'hiddenGrammarError') || dom.hasClass(n, 'hiddenSpellError') || dom.hasClass(n, 'hiddenSuggestion') || dom.hasClass(n, 'mceItemHidden') || (dom.getAttrib(n, 'class') == "" && dom.getAttrib(n, 'style') == "" && dom.getAttrib(n, 'id') == "" && !dom.hasClass(n, 'Apple-style-span') && dom.getAttrib(n, 'mce_name') == "")))
             {
-               if (!w || n.innerHTML == w)
-               {
-                  dom.remove(n, 1);
-               }
-               else if (n.innerHTML == '&nbsp;')
+               if (n.innerHTML == '&nbsp;')
                {
                   dom.replace(n, ' '); /* part of an IE hack */
+               }
+               else if (!w || n.innerHTML == w)
+               {
+                  dom.remove(n, 1);
                }
             }
          });
@@ -456,7 +456,7 @@
 
          this._walk(this.editor.getBody(), function(n) 
          {
-            if (n.nodeType == 3 && !dom.hasClass("hiddenSpellError") && !dom.hasClass("hiddenGrammarError") && !dom.hasClass("hiddenSuggestion")) 
+            if (n.nodeType == 3 && !dom.hasClass(n ,"hiddenSpellError") && !dom.hasClass(n, "hiddenGrammarError") && !dom.hasClass(n, "hiddenSuggestion")) 
             {
                nl.push(n);
             }
@@ -475,7 +475,7 @@
                var tokens = n.nodeValue.split(seps); /* split on the unencoded string so we get access to quotes as " */
                var previous = ""; 
 
-               var newNode;
+               var doReplaces = [];
 
                tokenIterate.init(tokens);
 
@@ -500,20 +500,16 @@
                      {
                         if (!done && error != undefined && !error.used && error.regexp.test(curr))
                         {
-                            var oldlen = curr.length;
- 
-                            curr = curr.replace(error.regexp, '<span class="'+error.type+'" pre="'+previous+'">$&</span>');
-                            v = prev + curr;
-                            newNode = dom.create('span', { 'class' : 'mceItemHidden' }, v); /* this might be a bug, mceItemHidden isn't showing up as the class */
+                           var oldlen = curr.length;
 
-                            error.used = true;
-                            done = true;
+                           doReplaces.push([error.regexp, '<span class="'+error.type+'" pre="'+previous+'">$&</span>']);
 
-                            if (previous != '')
-                               tokenIterate.skip(error.tokens.length - 1, 0);
+                           error.used = true;
+                           done = true;
 
-                            token = error.tokens[error.tokens.length - 1]; /* make sure the "previous" token is set to the right value at the end of the loop */
-                         }
+                           tokenIterate.skip(error.tokens.length - 1, 0);
+                           token = error.tokens[error.tokens.length - 1]; /* make sure the "previous" token is set to the right value at the end of the loop */
+                        }
                      };
 
                      if (current != undefined)
@@ -532,9 +528,67 @@
                   previous = token;
                }
  
-               /* swap our beautiful new node in pls */
-               if (newNode != undefined)
+               /* do the actual replacements on this span */
+               if (doReplaces.length > 0)
                {
+                  newNode = n;
+
+                  for (var x = 0; x < doReplaces.length; x++)
+                  {
+                     var regexp = doReplaces[x][0], result = doReplaces[x][1];
+
+                      /* it's assumed that this function is only being called on text nodes (nodeType == 3), the iterating is necessary
+                         because eventually the whole thing gets wrapped in an mceItemHidden span and from there it's necessary to
+                         handle each node individually. */
+                     var bringTheHurt = function(node)
+                     {
+                        if (node.nodeType == 3)
+                        {
+                           /* sometimes IE likes to ignore the space between two spans, solution is to insert a placeholder span with
+                              a non-breaking space.  The markup removal code substitutes this span for a space later */
+                           if (navigator.appName == 'Microsoft Internet Explorer' && node.nodeValue.length > 0 && node.nodeValue.substr(0, 1) == ' ')
+                           {
+                              return dom.create('span', { 'class' : 'mceItemHidden' }, '<span class="mceItemHidden">&nbsp;</span>' + node.nodeValue.substr( 1, node.nodeValue.length - 1 ).replace(regexp, result) );
+                           }
+                           else
+                           {
+                              return dom.create('span', { 'class' : 'mceItemHidden' }, node.nodeValue.replace(regexp, result) );
+                           }
+                        }
+                        else
+                        {
+                           var contents = node.childNodes;
+
+                           for (var y = 0; y < contents.length; y++)                      
+                           {
+                              if (contents[y].nodeType == 3 && regexp.test(contents[y].nodeValue))
+                              {
+                                 var nnode;
+
+                                 if (navigator.appName == 'Microsoft Internet Explorer' && contents[y].nodeValue.length > 0 && contents[y].nodeValue.substr(0, 1) == ' ')
+                                 {
+                                    nnode = dom.create('span', { 'class' : 'mceItemHidden' }, '<span class="mceItemHidden">&nbsp;</span>' + contents[y].nodeValue.substr( 1, contents[y].nodeValue.length - 1 ).replace(regexp, result) );
+                                 }
+                                 else
+                                 {
+                                    nnode = dom.create('span', { 'class' : 'mceItemHidden' }, contents[y].nodeValue.replace(regexp, result) );
+                                 }
+                                 dom.replace(nnode, contents[y]);
+                                 dom.remove(nnode, 1);
+
+                        
+                    
+                                 return node; /* we did a replacement so we can call it quits, errors only get used once */
+                              }
+                           }
+
+                           return node;
+                        }
+                     };
+
+                     newNode = bringTheHurt(newNode);
+                  }
+
                   dom.replace(newNode, n);
                }
             }
