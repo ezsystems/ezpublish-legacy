@@ -20,7 +20,7 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
     cancelButton: 'CancelButton',
     tagAttributeEditor:    function( ed, el, args )
     {
-        var mode = document.getElementById('cell_args_apply_to').value, nodes, x = 0, target = this.settings.tagSelector[0].value;
+        var mode = document.getElementById('cell_args_apply_to').value, nodes = false, x = 0, target = this.settings.tagSelector[0].value, skipRows = 0, rowSpanArray = [];
 
         if ( mode === 'row' )
         {
@@ -29,21 +29,77 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
         }
         else if ( mode === 'column' )
         {
-            // figgure out what column we are in
-            for (var i = 0, c = el.parentNode.childNodes, l = c.length; i < l; i++ ) 
+            // Figgure out what column we are in adjusted by cell with colspan
+	        var colspans = 1, rowIndex = el.parentNode.rowIndex;
+	        for (var i = 0, c = el.parentNode.childNodes, l = c.length; i < l; i++ ) 
+	        {
+	            if ( c[i] === el ) x = i + colspans;
+	            else if ( c[i].colSpan > 1 ) colspans += c[i].colSpan -1;
+	        };
+
+	        // Addjust the column index if any prevous cells in table uses rowspan that might affect it
+	        if ( rowIndex > 0 )
+	        {
+                var row = el.parentNode, rowSpan = 1;
+		        while ( row = row.previousSibling )
+		        {
+		        	jQuery('td[rowspan]', row ).each(function( i, cell ){
+                        if ( cell.rowSpan >  rowSpan )
+                        {
+                            x++;
+                        }
+			        });
+			        rowSpan++;
+			    }
+		    }
+
+            // Get nodes (cells) in this column
+            jQuery('tr', el.parentNode.parentNode ).each( function( trIndex, tr )
             {
-                if ( c[i] === el ) x = i + 1;
-            };
-            // get nodes (cells) in this column
-            nodes = jQuery('tr > *:nth-child(' + x + ')', el.parentNode.parentNode );
+                // count down rowSpan values and remove the ones that has reached 0
+                for( var i = 0, l = rowSpanArray.length; i < l; i++ )
+                {
+                	rowSpanArray[i]--;
+                	if ( rowSpanArray[i] < 1 ) rowSpanArray.splice( i, 1 );
+                }
+                if ( skipRows === 0 )
+                {
+	                var colIndex = x - rowSpanArray.length;
+	                jQuery('td', tr ).each( function( i, td )
+	                {
+	                    if ( colIndex === ( i + 1 ) )
+	                    {
+                             // add current cell to selected nodes array
+                             if ( nodes === false ) nodes = jQuery( td );
+                             else nodes.push( td );
+
+                             // If this cell has rowspan, make sure we skip the next rows
+	                         if ( td.rowSpan > 1 ) skipRows = td.rowSpan - 1;
+	                    }
+	                    else if ( colIndex > ( i + 1 ) )
+	                    {
+                            // correct col index when some cells use colSpan
+	                        if ( td.colSpan >  1 ) colIndex -= td.colSpan - 1;
+	                        // store rowspans that will effect column index in the next rows
+	                        if ( td.rowSpan > 1 ) rowSpanArray.push( td.rowSpan);
+	                        
+	                    }
+	                });
+                }
+                else
+                {
+                	skipRows--;
+                }
+            });
         }
 
-        if ( !nodes )
+        // Apply changes to selected node(s)
+        if ( !nodes || !nodes.size() )
         {
             el = eZOEPopupUtils.switchTagTypeIfNeeded( el, target );
-            ed.dom.setAttribs(el, args);
+            ed.dom.setAttribs( el, args );
         }
-        else nodes.each(function( i, el )
+        else nodes.each( function( i, el )
         {
             el = eZOEPopupUtils.switchTagTypeIfNeeded( el, target );
             ed.dom.setAttribs( el, args );
