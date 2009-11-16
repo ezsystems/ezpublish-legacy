@@ -198,7 +198,7 @@ function loadImageSize( e, el )
 
         {include uri="design:ezoe/customattributes.tpl" tag_name="embed" hide=$tag_name|ne('embed') custom_attributes=$custom_attributes.embed}
         {include uri="design:ezoe/customattributes.tpl" tag_name="embed-inline" hide=$tag_name|ne('embed-inline') custom_attributes=$custom_attributes.embed-inline}
-
+    
         <div class="block"> 
             <div class="left">
                 <input id="SaveButton" name="SaveButton" type="submit" value="{'OK'|i18n('design/standard/ezoe')}" />
@@ -208,6 +208,9 @@ function loadImageSize( e, el )
                 <a id="embed_switch_link" href={concat( 'ezoe/upload/', $object_id,'/', $object_version,'/', $content_type )|ezurl}>
                     {'Switch embed image'|i18n('design/standard/ezoe')}
                 </a>
+                {if $embed_object.can_read}
+                    &nbsp; <a href="{concat('content/edit/', $embed_object.id, '/f/', $embed_object.current_language )|ezurl('no')}" target="_blank">{'Edit image'|i18n('design/standard/ezoe')}</a>
+                {/if}
             </div>
         </div>
 

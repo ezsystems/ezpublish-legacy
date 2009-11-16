@@ -62,6 +62,7 @@ eZ Online Editor 5.0 extension Changelog
 * Fixed #14370: Inserting non break space doesn't work
 * Fixed #15732: Content view of some tags corrupted during insertion of new tag in OE content with latest OE
 * Fixed #15663: "Apply to: column" target cells are shifted when rowspan is used
+* Implemented #15633: Allow editing embed content object attributes after upload
 
 5.0.0
 * Fixed regression #13650: [header] ezoe adds a level each time it is called

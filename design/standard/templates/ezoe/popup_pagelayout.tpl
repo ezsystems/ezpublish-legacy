@@ -4,12 +4,13 @@
 <head>
     <title>{$module_result.persistent_variable.title}</title>
 
+
 {def $skin = ezini('EditorSettings', 'Skin', 'ezoe.ini',,true() )}
 
-{if $module_result.persistent_variable.scripts}
-    {ezscript( array( 'ezjsc::jquery', 'tiny_mce_popup.js', 'ezoe/popup_validate.js', $module_result.persistent_variable.scripts ) )}
+{if and( is_set( $module_result.persistent_variable ), $module_result.persistent_variable.scripts )}
+    {ezscript_load( array( 'ezjsc::jquery', 'tiny_mce_popup.js', 'ezoe/popup_validate.js', $module_result.persistent_variable.scripts ) )}
 {else}
-    {ezscript( array( 'ezjsc::jquery', 'tiny_mce_popup.js', 'ezoe/popup_validate.js' ) )}
+    {ezscript_load( array( 'ezjsc::jquery', 'tiny_mce_popup.js', 'ezoe/popup_validate.js' ) )}
 {/if}
 
 <style type="text/css">
@@ -39,7 +40,7 @@ table#browse_box_prev tfoot td { padding-top: 5px; }
 -->
 </style>
 {/literal}
-{if $module_result.persistent_variable.css}
+{if and( is_set( $module_result.persistent_variable ), $module_result.persistent_variable.css )}
 {foreach $module_result.persistent_variable.css as $css}
     <link type="text/css" rel="stylesheet" href={$css|explode( '<skin>' )|implode( $skin )|ezdesign} />
 

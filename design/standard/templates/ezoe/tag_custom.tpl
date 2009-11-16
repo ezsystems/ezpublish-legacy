@@ -61,7 +61,7 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
                 var customImgUrl = document.getElementById( customTag + '_image_url_source' ), imageSrc = imageIcon;
                 if ( customImgUrl && customImgUrl.value )
                     imageSrc = customImgUrl.value;
-                return eZOEPopupUtils.insertHTMLCleanly( ed, '<img id="__mce_tmp" type="custom" src="' + imageSrc + '" />', '__mce_tmp' );
+                return eZOEPopupUtils.insertHTMLCleanly( ed, '<img id="__mce_tmp" type="custom" src="' + imageSrc + '" \/>', '__mce_tmp' );
             }
             else
                 return eZOEPopupUtils.insertHTMLCleanly( ed, '<span id="__mce_tmp" type="custom">' + selectedHtml + '<\/span>', '__mce_tmp' );
@@ -84,7 +84,7 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
         && edBody.childNodes.length <= (jQuery.inArray( temp, edBody.childNodes ) +1) )
         {
             var p = doc.createElement('p');
-            p.innerHTML = ed.isIE ? '&nbsp;' : '<br />';
+            p.innerHTML = ed.isIE ? '&nbsp;' : '<br \/>';
             edBody.appendChild( p );
         }
     },
@@ -112,7 +112,7 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
             // add p tag if block tag and no child tags
             var childs = jQuery('> *', el);
             if ( childs.size() === 0 || childs[0].nodeName !== 'P' )
-                el.innerHTML = '<p>' + el.innerHTML + '</p>';
+                el.innerHTML = '<p>' + el.innerHTML + '<\/p>';
         }
         ed.dom.setAttrib( el, 'type', 'custom' );
 

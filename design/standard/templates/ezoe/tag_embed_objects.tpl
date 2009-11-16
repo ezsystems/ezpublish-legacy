@@ -206,6 +206,9 @@ function loadEmbedPreview( )
                 <a id="embed_switch_link" href={concat( 'ezoe/upload/', $object_id,'/', $object_version,'/', $content_type )|ezurl}>
                     {'Switch embed object'|i18n('design/standard/ezoe')}
                 </a>
+                {if $embed_object.can_read}
+                    &nbsp; <a href="{concat('content/edit/', $embed_object.id, '/f/', $embed_object.current_language )|ezurl('no')}" target="_blank">{'Edit object'|i18n('design/standard/ezoe')}</a>
+                {/if}
             </div>
         </div>
 

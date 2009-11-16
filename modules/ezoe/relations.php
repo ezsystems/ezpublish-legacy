@@ -287,6 +287,8 @@ $tpl->setVariable( 'custom_attribute_style_map', json_encode( $ezoeIni->variable
 
 $tpl->setVariable( 'persistent_variable', array() );
 
+$tpl->setVariable( 'original_uri_string', eZURI::instance()->originalURIString() );
+
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:ezoe/tag_embed_' . $contentType . '.tpl' );
 $Result['pagelayout'] = 'design:ezoe/popup_pagelayout.tpl';
