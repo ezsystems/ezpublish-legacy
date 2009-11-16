@@ -15,8 +15,8 @@
         // Binds arguments to a function, so when you call the returned wrapper function,
         // arguments are intact and arguments passed to the wrapper function is appended.
         // first argument is function, second is 'this' and the rest is arguments
-        var __args = jQuery.makeArray(arguments), __fn = __args.shift(), __obj = __args.shift();
-        return function(){return __fn.apply( __obj, __args.concat( jQuery.makeArray(arguments) ) )};
+        var __args = Array.prototype.slice.call( arguments ), __fn = __args.shift(), __obj = __args.shift();
+        return function(){return __fn.apply( __obj, __args.concat( Array.prototype.slice.call( arguments ) ) )};
     };
 
     tinymce.create('tinymce.themes.eZTheme', {

@@ -595,8 +595,8 @@ var eZOEPopupUtils = {
         // Binds arguments to a function, so when you call the returned wrapper function,
         // arguments are intact and arguments passed to the wrapper function is appended.
         // first argument is function, second is 'this' and the rest is arguments
-        var __args = jQuery.makeArray(arguments), __fn = __args.shift(), __obj = __args.shift();
-        return function(){return __fn.apply( __obj, __args.concat( jQuery.makeArray(arguments) ) )};
+        var __args = Array.prototype.slice.call( arguments ), __fn = __args.shift(), __obj = __args.shift();
+        return function(){return __fn.apply( __obj, __args.concat( Array.prototype.slice.call( arguments ) ) )};
     },
 
     searchEnter: function( e, isButton )
@@ -654,6 +654,7 @@ var eZOEPopupUtils = {
             if ( data['node'] && data['node']['name'] )
             {
                 tr = document.createElement("tr"), td = document.createElement("td");
+                tr.className = 'browse-path-list';
                 td.className = 'thight';
                 tr.appendChild( td );
                 td = document.createElement("td")
@@ -776,6 +777,7 @@ var eZOEPopupUtils = {
         return eZOEPopupUtils.browseCallBack( r, 'search', function( tbody, mode, ed ){
             var tr = document.createElement("tr"), td = document.createElement("td"), tag = document.createElement("span");
             tr.appendChild( document.createElement("td") );
+            tr.className = 'search-result-empty';
             td.setAttribute('colspan', '3');
             tag.innerHTML = ed.getLang('ez.empty_search_result').replace('<search_string>', jQuery('#SearchText').val() );
             td.appendChild( tag );

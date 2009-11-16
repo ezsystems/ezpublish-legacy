@@ -71,14 +71,14 @@ var ez = {
             // Binds arguments to a function, so when you call the returned wrapper function,
             // arguments are intact and arguments passed to the wrapper function is appended.
             // first argument is function, second is 'this' and the rest is arguments
-            var args = ez.$c(arguments), __fn = args.shift(), __object = args.shift();
-            return function(){ return __fn.apply(__object, args.concat( ez.$c(arguments) ))};
+            var args = Array.prototype.slice.call( arguments ), __fn = args.shift(), __object = args.shift();
+            return function(){ return __fn.apply(__object, args.concat( Array.prototype.slice.call( arguments ) ))};
         },
         bindEvent: function()
         {
             // Same as above, but includes the arguments to the wrapper function first(ie events) (prepended)
-            var args = ez.$c(arguments), __fn = args.shift(), __object = args.shift();
-            return function(){ return __fn.apply(__object, ez.$c(arguments).concat( args ))};
+            var args = Array.prototype.slice.call( arguments ), __fn = args.shift(), __object = args.shift();
+            return function(){ return __fn.apply(__object, Array.prototype.slice.call( arguments ).concat( args ))};
         },
         strip: function( fn )
         {
