@@ -101,6 +101,7 @@
                    /* style checker options */
                types["Cliches"]              = 1;
                types["Complex Expression"]   = 1;
+               types["Diacritical Marks"]    = 1;
                types["Jargon Language"]      = 1;
                types["Phrases to Avoid"]     = 1;
                types["Redundant Expression"] = 1;
@@ -175,7 +176,7 @@
                             //console.log(errorUrl);
                          }
  
-                         if (types[errorDescription] == undefined)
+                         if (types[errorDescription] == undefined && types[errorType] == undefined)
                          {
                             if (errorType == "suggestion")
                                enrichment.push({ word: errorString, pre: errorContext });                  
@@ -187,7 +188,8 @@
                          if (errorType == "spelling" || errorDescription == "Homophone")
                             spellingErrors.push({ word: errorString, pre: errorContext });                  
 
-                         //console.log('desc: ' + errorDescription + ', word: ' + errorString);
+                         if (errorDescription == "Cliches")
+                           suggestion["description"] = "Clich&eacute;s"; /* done here for backwards compatability with current user settings */
                      }
                   }
                }
@@ -196,11 +198,7 @@
 
                var ecount = spellingErrors.length + grammarErrors.length + enrichment.length;
 
-               if (ecount == 0)
-               {
-                  ed.windowManager.alert('No writing errors were found.');
-               }
-               else
+               if (ecount > 0)
                {
                   /* build up a data structure so the world will know our greatness!!!! */
 
@@ -208,8 +206,11 @@
 
                   /* markup the users text with our nifty markup */
                 
-                  plugin.markMyWords(errorStruct);
+                  ecount = plugin.markMyWords(errorStruct);
                }
+ 
+               if (ecount == 0)
+                  ed.windowManager.alert('No writing errors were found.');
             });
          });
           
@@ -336,7 +337,17 @@
          struct.type = type;
          struct.string = error_s;
          struct.tokens = tokens;
-         struct.regexp = new RegExp("(?!"+error_s+"<)" + error_s.replace(/\s+/g, seps) + "\\b"); /* may as well do it now, saves effort in the future */
+
+         /* browsers apparently match non-ASCII characters as word boundaries, this check looks for this case */
+         if (new RegExp(error_s + '\b').test(error_s))
+         {
+            struct.regexp = new RegExp("(?!"+error_s+"<)" + error_s.replace(/\s+/g, seps) + "\\b");
+         }
+         else
+         {
+            struct.regexp = new RegExp("(?!"+error_s+"<)" + error_s.replace(/\s+/g, seps));
+         }
+
          struct.used   = false; /* flag whether we've used this rule or not */ 
 
          return struct;
@@ -450,6 +461,7 @@
          var dom = ed.dom;
          var nl = new Array();
          var se = ed.selection, b = se.getBookmark();
+         var ecount = 0; /* number of errors we've highlighted */
 
          /* Collect all text nodes */
          /* Our goal--ignore nodes that are already wrapped */
@@ -544,6 +556,8 @@
                      {
                         if (node.nodeType == 3)
                         {
+                           ecount++;
+
                            /* sometimes IE likes to ignore the space between two spans, solution is to insert a placeholder span with
                               a non-breaking space.  The markup removal code substitutes this span for a space later */
                            if (navigator.appName == 'Microsoft Internet Explorer' && node.nodeValue.length > 0 && node.nodeValue.substr(0, 1) == ' ')
@@ -576,7 +590,7 @@
                                  dom.replace(nnode, contents[y]);
                                  dom.remove(nnode, 1);
 
-                        
+                                 ecount++; /* increment the error count */
                     
                                  return node; /* we did a replacement so we can call it quits, errors only get used once */
                               }
@@ -595,6 +609,7 @@
          });
 
          se.moveToBookmark(b);
+         return ecount;
       },
 
       _showMenu : function(ed, e) 

@@ -111,7 +111,7 @@
         atd_rpc_url : {'/ezoe/atd_rpc?url='|ezurl},
         atd_rpc_id  : "your API key here",
         /* this list contains the categories of errors we want to show */
-        atd_show_types              : "Bias Language,Cliches,Complex Expression,Double Negatives,Hidden Verbs,Jargon Language,Passive voice,Phrases to Avoid,Redundant Expression",
+        atd_show_types              : "Bias Language,Cliches,Complex Expression,Double Negatives,Hidden Verbs,Jargon Language,Passive voice,Phrases to Avoid,Redundant Expression, Diacritical Marks",
         /* strings this plugin should ignore */
         atd_ignore_strings          : "AtD,rsmudge",
         /* enable "Ignore Always" menu item, uses cookies by default. Set atd_ignore_rpc_url to a URL AtD should send ignore requests to. */
