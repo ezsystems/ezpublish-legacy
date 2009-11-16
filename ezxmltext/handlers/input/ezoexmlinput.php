@@ -67,6 +67,11 @@ class eZOEXMLInput extends eZXMLInputHandler
             $allowMultipleSpaces = $ezxmlIni->variable( 'InputSettings', 'AllowMultipleSpaces' );
             $this->allowMultipleSpaces = $allowMultipleSpaces === 'true' ? true : false;
         }
+        if ( $ezxmlIni->hasVariable( 'InputSettings', 'AllowNumericEntities' ) )
+        {
+            $allowNumericEntities = $ezxmlIni->variable( 'InputSettings', 'AllowNumericEntities' );
+            $this->allowNumericEntities = $allowNumericEntities === 'true' ? true : false;
+        }
     }
     
      /**
@@ -1066,8 +1071,8 @@ class eZOEXMLInput extends eZXMLInputHandler
                     break;
                 }
 
-                // Commented out to not break intended special chars
-                //$tagContent = htmlspecialchars( $tagContent );
+                $tagContent = htmlspecialchars( $tagContent );
+                $tagContent = str_replace ( '&amp;nbsp;', '&nbsp;', $tagContent );
 
                 if ( $this->allowMultipleSpaces )
                 {
@@ -1083,6 +1088,9 @@ class eZOEXMLInput extends eZXMLInputHandler
                     $tagContent[0] = ';';
                     $tagContent = '&nbsp' . $tagContent;
                 }
+                
+                if ( $this->allowNumericEntities )
+                    $text = preg_replace( '/&amp;#([0-9]+);/', '&#\1;', $text );
 
                 $output .= $tagContent;
 
@@ -1908,6 +1916,7 @@ class eZOEXMLInput extends eZXMLInputHandler
     public $eZPublishVersion;
 
     public $allowMultipleSpaces = true;
+    protected $allowNumericEntities = false;
 }
 
 ?>
