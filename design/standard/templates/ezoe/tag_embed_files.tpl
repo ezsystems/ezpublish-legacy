@@ -203,9 +203,7 @@ function loadEmbedPreview( )
                 <input id="CancelButton" name="CancelButton" type="reset" value="{'Cancel'|i18n('design/standard/ezoe')}" />
             </div>
             <div class="right" style="text-align: right;">
-                <a id="embed_switch_link" href={concat( 'ezoe/upload/', $object_id,'/', $object_version,'/', $content_type )|ezurl}>
-                    {'Switch embed file'|i18n('design/standard/ezoe')}
-                </a>
+                <a id="embed_switch_link" href={concat( 'ezoe/upload/', $object_id,'/', $object_version,'/', $content_type )|ezurl}>{'Switch embed file'|i18n('design/standard/ezoe')}</a>
                 {if $embed_object.can_read}
                     &nbsp; <a href="{concat('content/edit/', $embed_object.id, '/f/', $embed_object.current_language )|ezurl('no')}" target="_blank">{'Edit file'|i18n('design/standard/ezoe')}</a>
                 {/if}
