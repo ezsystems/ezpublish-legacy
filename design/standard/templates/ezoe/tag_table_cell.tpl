@@ -20,7 +20,7 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
     cancelButton: 'CancelButton',
     tagAttributeEditor:    function( ed, el, args )
     {
-        var mode = document.getElementById('cell_args_apply_to').value, nodes = false, x = 0, target = this.settings.tagSelector[0].value, skipRows = 0, rowSpanArray = [];
+        var mode = document.getElementById('cell_args_apply_to').value, nodes = false, x = 0, target = this.settings.tagSelector[0].value;
 
         if ( mode === 'row' )
         {
@@ -30,7 +30,7 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
         else if ( mode === 'column' )
         {
             // Figgure out what column we are in adjusted by cell with colspan
-	        var colspans = 1, rowIndex = el.parentNode.rowIndex;
+	        var colspans = 1, rowIndex = el.parentNode.rowIndex, skipRows = 0, rowSpanArray = [];
 	        for (var i = 0, c = el.parentNode.childNodes, l = c.length; i < l; i++ ) 
 	        {
 	            if ( c[i] === el ) x = i + colspans;
