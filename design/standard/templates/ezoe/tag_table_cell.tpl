@@ -40,16 +40,16 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
 	        // Addjust the column index if any prevous cells in table uses rowspan that might affect it
 	        if ( rowIndex > 0 )
 	        {
-                var row = el.parentNode, rowSpan = 1;
+                var row = el.parentNode, rowSpanOffset = 1;
 		        while ( row = row.previousSibling )
 		        {
 		        	jQuery('td[rowspan]', row ).each(function( i, cell ){
-                        if ( cell.rowSpan >  rowSpan )
+                        if ( cell.rowSpan >  rowSpanOffset )
                         {
                             x++;
                         }
 			        });
-			        rowSpan++;
+		        	rowSpanOffset++;
 			    }
 		    }
 
