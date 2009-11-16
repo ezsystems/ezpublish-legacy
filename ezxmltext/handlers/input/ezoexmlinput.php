@@ -1066,6 +1066,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                     break;
                 }
 
+                // Commented out to not break intended special chars
                 //$tagContent = htmlspecialchars( $tagContent );
 
                 if ( $this->allowMultipleSpaces )
