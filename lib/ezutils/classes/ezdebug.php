@@ -1059,9 +1059,9 @@ class eZDebug
     {
         $lnet = ip2long( $network );
         $lip = ip2long( $ipaddress );
-        $binnet = str_pad( decbin( $lnet ), 32, "0", "STR_PAD_LEFT" );
-        $firstpart = substr($binnet,0,$mask);
-        $binip = str_pad( decbin( $lip ), 32, "0", "STR_PAD_LEFT" );
+        $binnet = str_pad( decbin( $lnet ), 32, '0', STR_PAD_LEFT );
+        $firstpart = substr( $binnet, 0, $mask );
+        $binip = str_pad( decbin( $lip ), 32, '0', STR_PAD_LEFT );
         $firstip = substr( $binip, 0, $mask );
         return( strcmp( $firstpart, $firstip ) == 0 );
     }
