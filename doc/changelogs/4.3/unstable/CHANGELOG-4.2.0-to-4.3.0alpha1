@@ -56,3 +56,4 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Fixed bug #15725: ez2fs - user cache don't work
 - Fixed bug #15639: remote_id of a node is changed at various places
 - Fixed bug #14865: ezcache.php --purge disregards --expiry
+- Fixed bug #15848: Syntax error in ezdebug.php
