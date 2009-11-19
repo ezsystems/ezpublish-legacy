@@ -1177,8 +1177,19 @@ class eZImageManager
                 {
                     if ( !$handler )
                         continue;
+
+                    $handlerFilters = array();
+                    $leftoverFilters = array();
+                    foreach ( $filters as $filter )
+                    {
+                        if ( $handler->isFilterSupported( $filter ) )
+                            $handlerFilters[] = $filter;
+                        else
+                            $leftoverFilters[] = $filter;
+                    }
+
                     $outputMimeData = $handler->outputMIMEType( $this, $currentMimeData, $destinationMimeData, $this->SupportedFormats, $aliasName );
-                    if ( $outputMimeData['name'] == $destinationMimeData['name'] )
+                    if ( $outputMimeData['name'] == $destinationMimeData['name'] and count( $handlerFilters ) > 0 )
                     {
                         $nextMimeData = $outputMimeData;
                         $nextHandler = $handler;
@@ -1199,15 +1210,7 @@ class eZImageManager
                         $sourceFile->deleteLocal();
                     return false;
                 }
-                $handlerFilters = array();
-                $leftoverFilters = array();
-                foreach ( $filters as $filter )
-                {
-                    if ( $nextHandler->isFilterSupported( $filter ) )
-                        $handlerFilters[] = $filter;
-                    else
-                        $leftoverFilters[] = $filter;
-                }
+
                 $useTempImage = false;
                 if ( $nextMimeData['name'] == $destinationMimeData['name'] and
                      count( $leftoverFilters ) == 0 )
