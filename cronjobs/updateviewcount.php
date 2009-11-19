@@ -60,6 +60,7 @@ $fileDir = $logFileIni->variable( 'AccessLogFileSettings', 'StorageDir' );
 $fileName = $logFileIni->variable( 'AccessLogFileSettings', 'LogFileName' );
 
 $prefixes = $logFileIni->variable( 'AccessLogFileSettings', 'SitePrefix' );
+$pathPrefixes = $logFileIni->variable( 'AccessLogFileSettings', 'PathPrefix' );
 
 $ini = eZINI::instance();
 $logDir = $ini->variable( 'FileSettings', 'LogDir' );
@@ -135,7 +136,7 @@ if ( is_file( $logFilePath ) )
                         }
                     }
 
-                    if ( preg_match( "/content\/view\/full\//", $url ) )
+                    if ( strpos( $url, 'content/view/full/' ) !== false )
                     {
                         $url = str_replace( "content/view/full/", "", $url );
                         $url = str_replace( "/", "", $url );
@@ -160,8 +161,24 @@ if ( is_file( $logFilePath ) )
                             {
                                 $pathIdentificationString = $db->escapeString( $firstElement );
 
-                                //check in database, if fount, add to contentArray, else add to nonContentArray.
+                                //check in database, if found, add to contentArray, else add to nonContentArray.
                                 $result = eZURLAliasML::fetchNodeIDByPath( $pathIdentificationString );
+
+                                // Fix for sites using PathPrefix
+                                $pathPrefixIndex = 0;
+                                while ( !$result )
+                                {
+                                    if ( $pathPrefixIndex < count( $pathPrefixes ) )
+                                    {
+                                        // Try prepending each of the existing pathPrefixes, to see if one of them matches an existing node
+                                        $pathIdentificationString = $db->escapeString( $pathPrefixes[$pathPrefixIndex] . '/' . $firstElement );
+                                        $result = eZURLAliasML::fetchNodeIDByPath( $pathIdentificationString );
+                                    }
+                                    else
+                                        break;
+                                    $pathPrefixIndex++;
+                                }
+
                                 if ( $result )
                                 {
                                     $contentArray[] = $firstElement;

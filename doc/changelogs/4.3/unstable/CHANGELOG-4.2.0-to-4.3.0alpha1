@@ -60,3 +60,4 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Fixed bug #14865: ezcache.php --purge disregards --expiry
 - Fixed bug #15848: Syntax error in ezdebug.php
 - Fixed bug #15740: Current imagemanager can`t execute image aliases that have different image handler`s filters.
+- Fixed bug #15045: Fix for updateviewcount.php when using PathPrefix
