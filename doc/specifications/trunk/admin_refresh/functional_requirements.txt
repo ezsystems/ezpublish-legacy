@@ -1,9 +1,9 @@
 eZ Publish: Admin Interface, Requirements, 4.3
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:Authors: André Rømcke
-:Revision: $Revision$
-:Date: $Date$
+$Author$
+$Revision$
+$Date$
 :Status: Draft
 
 
