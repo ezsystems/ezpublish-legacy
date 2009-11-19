@@ -18,6 +18,7 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Implemented enhancement #15707: Simplify creating new RSS feed from a node
 - Implemented enhancement #15716: RSS Export description should be optional
 - Implemented enhancement #15739: Better image / media / file support in RSS export (<enclosure> and <description>)
+- Implemented enhancement #15812: Improve debug output of template foreach function
 
 *Design:
 - Implemented enhancement #15714: Add a link to object history from node view
@@ -58,4 +59,3 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Fixed bug #14865: ezcache.php --purge disregards --expiry
 - Fixed bug #15848: Syntax error in ezdebug.php
 - Fixed bug #15740: Current imagemanager can`t execute image aliases that have different image handler`s filters.
-- Fixed bug #15812: Improve debug output of template foreach function
