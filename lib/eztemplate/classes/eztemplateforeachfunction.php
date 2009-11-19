@@ -176,10 +176,10 @@ class eZTemplateForeachFunction
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( \$$offset < 0 || \$$offset >= \$$nItems )\n{\n".
                                                                "    \$$offset = ( \$$offset < 0 ) ? 0 : \$$nItems;\n".
                                                                "    if ( \$$nItems || \$$offset < 0 )\n {\n".
-                                                               "        eZDebug::writeWarning(\"Invalid 'offset' parameter specified.\");   \n}\n}" );
+                                                               "        eZDebug::writeWarning(\"Invalid 'offset' parameter specified. Array count: \$$nItems\");   \n}\n}" );
         // fix definitely incorrect max
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( \$$max < 0 || \$$offset + \$$max > \$$nItems )\n{\n".
-                                                               "    if ( \$$max < 0 )\n eZDebug::writeWarning(\"Invalid 'max' parameter specified.\");\n".
+                                                               "    if ( \$$max < 0 )\n eZDebug::writeWarning(\"Invalid 'max' parameter specified: \$$max\");\n".
                                                                "    \$$max = \$$nItems - \$$offset;\n}" );
 
         // initialize first and last indexes to iterate between them
