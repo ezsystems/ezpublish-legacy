@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <title>eZ Publish 4.3 admin layout prototype</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+    <!--
+        Code is tested on all major browser, and should work on recent versions of Opera, Safari, Chrome, Firefox and IE
+        Rounded borders is only supported on Firefox 3.5+, Safari 3.0+, Chrome 1.0+ and Opera 10.20+
+    -->
+<style>
+<!--
+body
+{
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+
+p { margin:0.1em 0;  }
+
+a, a:visited { color: blue; }
+a:hover { color: green; }
+
+/* Header */
+#header, #columns
+{
+    text-align: left;
+}
+
+#header, #footer
+{
+    background-color: #fafafa;
+}
+
+#header:after, #path:after, #columns:after, #footer:after /* Terminate floating elements flow */
+{
+    content: "-";
+    height: 0;
+    font-size: 0;
+    visibility: hidden;
+    display: block;
+    clear: both;
+}
+
+#header { border-bottom: 1px solid #ddd; }
+
+div#header-user-links
+{
+    float: right;
+    max-width: 565px;
+    padding: 0 0 0 6px;
+}
+
+div#header-user-links form > div
+{
+    background-color: #eee;
+    float: right;
+    text-align: right;
+    padding: 4px 10px 1px 10px;
+    min-height: 26px;
+}
+
+div#header-user-links form > span
+{
+  float: left;
+  padding-top: 4px;
+}
+
+#header-user-logo { float: left; }
+
+#header menu
+{
+    float: left;
+    margin: 0;
+    padding-left: 2px;
+    padding-top: 2px;
+}
+
+#header menu li
+{
+    float: left;
+    width: 100px;
+    padding: 4px;
+    list-style-type: none;
+    text-align: center;
+	background-color: #ddd;
+	border: 1px solid #fff;
+	border-bottom: 0 none;
+	border-left: 0 none;
+	min-height: 20px;
+	/* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3 (next "11.0" version) and IE9 */
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    border-top-left-radius:  5px;
+    border-top-right-radius: 5px;
+}
+
+#header menu li a { text-decoration: none; }
+
+#path
+{
+    border-bottom: 1px solid #ddd;
+    padding: 2px 10px 2px 10px;
+    font-size: 90%;
+    text-align: left;
+}
+
+/* Columns */
+#leftmenu { float: left; width: 160px; }
+#rightmenu { float: right; width: 160px; overflow-x: hidden; }
+
+div.menuitem
+{
+    background-color: #ddd;
+    margin-top: 20px;
+    overflow: hidden;
+}
+
+div.menuheader
+{
+    text-align: center;
+    border-bottom: 1px solid #fafafa;
+}
+
+#rightmenu div.menuitem
+{
+    margin: 0 0 12px 12px;
+    width: 148px;
+}
+
+div.menucontent { padding: 10px; }
+
+#leftmenu div.menucontent
+{
+    min-height: 200px;
+}
+
+#maincontent
+{
+    margin: 0 160px 0 160px;
+    min-height: 200px;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    padding: 100px;
+    text-align: center;
+}
+
+/* Content */
+
+#maincontent ol
+{
+    text-align: left;
+}
+
+/* general form styling */
+
+form input[type=text]
+{
+    color: #ccc;
+    border: 1px solid #ccc;
+} 
+
+form input[type=text].active
+{
+    color: #000;
+    background: #ddeff6;  
+    border: 1px solid #0099d4;
+} 
+
+/*  size / hide controll css */
+
+a.menuitem-hide-show, a.hidecontrol, div.sizecontrol a
+{
+    text-decoration: none;
+    color: green;
+    font-size: 80%;
+}
+
+a.menuitem-hide-show
+{
+    float: right;
+    text-align: center;
+    padding: 2px;
+    border: 1px solid green;
+    line-height: 7px;
+    height: 9px;
+    width: 8px;
+    margin: 2px;
+    /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3 (next "11.0" version) and IE9 */
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    background-color: lightblue;
+}
+
+a.hidecontrol
+{
+    display: block;
+    padding: 2px 0 2px 1px;
+}
+
+div.sizecontrol
+{
+    text-align: center;
+}
+
+div.sizecontrol a
+{
+    padding: 2px;
+}
+
+/* Change extrra menu to be hidden by default */
+#rightmenu { width: 12px; }
+#maincontent { margin-right: 12px; }
+
+-->
+</style>
+<!--[if lt IE 8]>
+<style>
+#header, #path, #columns, #footer /* Terminate floating elements flow in IE < 8 */
+{
+    height: 1%;
+}
+</style>
+<![endif]-->
+</head>
+<body>
+    <div id="page">
+    <div id="header">
+        <div id="header-user-links">
+            <form>
+                <span><a href="#">Logout (User name)</a> &nbsp;</span>
+                <div>
+                <span id="header-user-logo" title="eZ Publish version 4.3.1">eZ logo</span> &nbsp;
+                <select name="SubTreeSomething" title="Search location, to be able to narrow down the search results!">
+                    <option id="">All Content</option>
+                    <option id="2">Content</option>
+                    <option id="43">Media</option>
+                    <option id="5">Users</option>
+                    <option id="x" disabled="disabled">Current location</option>
+                </select>
+                <input type="text" name="SearchText" value="" defaultValue="Search text" />
+                <input type="submit" name="SearchBtn" value="Search" />
+                </div>
+            </form>
+        </div>
+        <menu>
+            <li><a href="#">Tab</a></li>
+            <li><a href="#">Tab</a></li>
+            <li><a href="#">Tab</a></li>
+            <li><a href="#">Tab</a></li>
+            <li><a href="#">Tab</a></li>
+        </menu>
+    </div>
+    <div id="path">
+        <a href="#">Home</a> <span>&gt;</span> <a href="#">About</a> <span>&gt;</span> <a href="#">eZ Publish</a> <span>&gt;</span> <a href="#">4.3</a> <span>&gt;</span> Admin restyling concepts
+    </div>
+    <div id="columns">
+        <div id="leftmenu" class="sidemenu">
+            
+            <div class="menuitem">
+                <div class="menuheader">
+                Treemenu  <a href="#" class="menuitem-hide-show">-</a>
+                </div>
+                <div class="menucontent">
+                    Treemenu content
+                    <br />
+                    <br />
+                </div>
+            </div>
+            <div class="sizecontrol">
+                <a href="JavaScript:void(0)" targetsize="160">small</a>
+                <a href="JavaScript:void(0)" targetsize="230">medium</a>
+                <a href="JavaScript:void(0)" targetsize="300">big</a>
+            </div>
+        </div>
+        <div id="rightmenu" class="sidemenu">
+            <a href="JavaScript:void(0)" class="hidecontrol">&lt;</a>
+            <div class="menuitem">
+	            <div class="menuheader">
+	            Extramenu 1  <a href="#" class="menuitem-hide-show">-</a>
+	            </div>
+	            <div class="menucontent">
+                    Extramenu 1 content
+                    <br />
+                </div>
+            </div>
+            <div class="menuitem">
+                <div class="menuheader">
+                Extramenu 2  <a href="#" class="menuitem-hide-show">-</a>
+                </div>
+                <div class="menucontent">
+                    Extramenu 2 content
+                    <br />
+                    <br />
+                    <br />
+                </div>
+            </div>
+            <div class="menuitem">
+                <div class="menuheader">
+                Extramenu 3  <a href="#" class="menuitem-hide-show">-</a>
+                </div>
+                <div class="menucontent">
+                    Extramenu 3 content
+                    <br />
+                    <br />
+                </div>
+            </div>
+        </div>
+        <div id="maincontent">
+            <h1>eZ Publish 4.3: Admin restyling concepts</h1>
+            <p>Goal: Reclaim screen space </p>
+            <ol>
+                <li>Resize window to see how menu wraps under search + logo box automatically making up the full width if site has so many tabs that they needs more space</li>
+                <li>Click on green link on right menus to hide/show menu</li>
+                <li>Click on green link on left menus to change menu size</li>
+                <li>(UI) Click on <i>Search text</i>, there are some small usability enhancments there so it is easier to use and understand. (the color styling there could be reused on all input fields to make it consistant anf make it clear where current focus is)</li>
+            </ol>
+        </div>
+    </div>
+    <div id="footer">
+       Footer
+    </div>
+    </div>
+<script type="text/javascript">
+<!--
+
+var inputTextBoxes = jQuery('input[defaultValue]'), rightSizeControlLinks = jQuery( '#rightmenu a.hidecontrol' );
+var leftSizeControlLinks = jQuery( '#leftmenu div.sizecontrol a' ), hideControlLinks = jQuery( 'a.menuitem-hide-show' );
+
+// insert default values on input fields that has those
+// ( they are empty by default to work better for screen readers and non javascript clients  )
+inputTextBoxes.each(function( i, el ){
+    if ( el.value === '' ) el.value = el.getAttribute( 'defaultValue' );
+});
+
+// set class for styiling on focus
+inputTextBoxes.focus(function(e){
+    jQuery(this).addClass("active");
+    if ( this.value === this.getAttribute( 'defaultValue' ) )
+        this.value = '';
+});
+
+// remove class for styling on unfocus
+inputTextBoxes.blur(function(e){
+    jQuery(this).removeClass("active");
+    if ( this.value === '' && this.getAttribute( 'defaultValue' ) !== '' )
+        this.value = this.getAttribute( 'defaultValue' );
+});
+
+// Animate left & right menu width on click
+rightSizeControlLinks.click(function(e){
+    var link = jQuery( this ), linkbox = jQuery( '#rightmenu' ), hide = linkbox.width() > 15, main = jQuery('#maincontent');
+    linkbox.animate({
+        width: ( hide ? '12px' : '160px')
+    }, 650 );
+    main.animate({ marginRight: ( hide ? '12px' : '160px')}, 650 );
+    link.html( hide ? '&lt;' : '&gt;' );
+});
+
+leftSizeControlLinks.click(function(e){
+    var link = jQuery( this ), linkbox = jQuery( '#leftmenu' ), main = jQuery('#maincontent'), target = this.getAttribute('targetsize');
+    linkbox.animate({
+        width: target + 'px'
+    }, 500 );
+    main.animate({ marginLeft: target + 'px' }, 500 );
+});
+
+hideControlLinks.click(function(e){
+    var link = jQuery( this ), header = jQuery( 'div.menuheader', this.parentNode.parentNode ), box = jQuery( this.parentNode.parentNode ), hide = box.height() > header.height();
+    if ( hide ) box.attr( 'targetsize', box.height() );
+    box.animate({
+        height: ( hide ? header.height(): box.attr( 'targetsize' ) ) + 'px'
+    }, 300 );
+    link.html( hide ? '+' : '-' );
+});
+
+
+-->
+</script>
+</body>
+</html>
