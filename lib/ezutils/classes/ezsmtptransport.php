@@ -98,7 +98,12 @@ class eZSMTPTransport extends eZMailTransport
             $sendData['CcRecipients'] = $mail->ccReceiverTextList();
             $sendData['BccRecipients'] = $mail->bccReceiverTextList();
         }
-        $sendData['headers'] = $mail->headerTextList();
+
+        $excludeHeaders = $ini->variable( 'MailSettings', 'ExcludeHeaders' );
+        if ( count( $excludeHeaders ) > 0 )
+            $sendData['headers'] = $mail->headerTextList( array( 'exclude-headers' => $excludeHeaders ) );
+        else
+            $sendData['headers'] = $mail->headerTextList();
         $sendData['body'] = $mail->body();
 
         $smtp = new smtp( $parameters );
