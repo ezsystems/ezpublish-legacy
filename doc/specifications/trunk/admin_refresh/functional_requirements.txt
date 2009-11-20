@@ -93,6 +93,9 @@ Should: Be able to remove attribute without page refresh
 Should: Be able to move attributes without page refresh
 Could: Allow using drag and drop to move attributes
 
+Add Ajax feature to re order sub items using drag and drop
+Could: Merge drag and drop feature from ezwt extension
+
 [Not planned] Rewrite context menu code, to remove old JavaScript code.
 Should: Use context menu code from YUI 3.0 or jQuery UI
 Should: Make it easier to extend the menu's from extensions
