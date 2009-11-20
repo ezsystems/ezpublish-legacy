@@ -80,6 +80,7 @@ Could: Provide a box for comment approval (ezjscomment)
 
 Reduce scrolling on large pages
 Could: Have store/discard buttons on top of content & class edit forms as well as bottom
+       or using a fixed position bar that always stays on screen.
 
 New Ajax features for relation object and list content attributes.
 Should: Add a inline Ajax search interface to find possible relations
