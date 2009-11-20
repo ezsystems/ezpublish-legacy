@@ -78,6 +78,9 @@ Should: Be extend able so extensions can add blocks
 Could: Provide a box for highest/lowest rated content (ezstarrating)
 Could: Provide a box for comment approval (ezjscomment)
 
+Reduce scrolling on large pages
+Could: Have store/discard buttons on top of content & class edit forms as well as bottom
+
 New Ajax features for relation object and list content attributes.
 Should: Add a inline Ajax search interface to find possible relations
 Should: Be able to remove relations without page refresh
