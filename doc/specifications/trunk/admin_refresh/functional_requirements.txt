@@ -38,8 +38,9 @@ Making the interface more intuitive involves improving usability and removing / 
 / hiding features that users does not need during the operation they are performing.
 Identified tasks:
 * Hide right menu by default
-* Have seperate preferences for media tab / pr tab for admin_children_viewmode and
-  admin_navigation_* (user preferences for the middle column in admin)
+* Have seperate preferences for media tab / pr tab for admin_children_viewmode
+  (user preferences for the sub items in admin)
+* Move actions from context menu'es to a more accessible place in interfacer
 
 A overview of user task need a dashboard, where she can follow here own
 content, approval and other tasks she might do on a regular basis.
@@ -48,7 +49,7 @@ content, approval and other tasks she might do on a regular basis.
 
 Features (in prioritized order for 4.3)
 --------------------------------------
-New admin interface style.
+#1 New admin interface style.
 Should: Look more modern and up to date
 Should: Reclaim screen real estate for content area
 Should: Not require any new kernel features or changes
@@ -57,18 +58,18 @@ Should: Not make any changes to the layout / wire frame except
         for other features of this document
 Could: Make admin style more accessible for modern mobile devices
 
-New possibility to hide the right menu, and hide it by default.
+#2 New possibility to hide the right menu, and hide it by default.
 Should: Not involve any page refresh to show / hide it.
 Should: Move logout link to header so it is always accessible.
 Could: Make the code for layout change general so it can be reused by
        size selector on left menu, as well as the hide / show buttons on
        right menu and left menu items.
 
-Change how preferences for middle column is handled
+#3 Change how preferences for middle column is handled
 Should: Make admin_children_viewmode pr tab (Navigation part)
-Could: Make admin_navigation_* pr tab (Navigation part)
+Could: Make admin_navigation_* pr tab (Navigation part)(Note: see #5.3 )
 
-New dashboard as login page
+#4 New dashboard as login page
 Should: Be the default login page in admin interface
 Should: Provide box for last published content
 Should: Provide box for last modified content by current user
@@ -78,36 +79,32 @@ Should: Be extend able so extensions can add blocks
 Could: Provide a box for highest/lowest rated content (ezstarrating)
 Could: Provide a box for comment approval (ezjscomment)
 
-Reduce scrolling on large pages
+#5 Reduce scrolling on large pages
 Could: Have store/discard buttons on top of content & class edit forms as well as bottom
        or using a fixed position bar that always stays on screen.
 Could: Move "create here" input to top box instead of bottom
 Could: Move upper buttons (Preview, details,..) + related blocks to a tabbed, 
        minimize able block beneath top block.
 
-New Ajax features for relation object and list content attributes.
+#6 New Ajax features for relation object and list content attributes.
 Should: Add a inline Ajax search interface to find possible relations
 Should: Be able to remove relations without page refresh
 Could: Be able to reorder relations without page refresh (list)
 Could: Provide drag and drop features to relations for reordering(list)
 
-New Ajax features for adding policies to roles.
+#7 New Ajax features for adding policies to roles.
 Should: Be able to select module and function without any page refresh
 
-New Ajax functionality for class edit interface.
+#8 New Ajax functionality for class edit interface.
 Should: Be able to add attribute without page refresh
 Should: Be able to remove attribute without page refresh
 Should: Be able to move attributes without page refresh
 Could: Allow using drag and drop to move attributes
 
-Add Ajax feature to re order sub items using drag and drop
+#9 Add Ajax feature to re order sub items using drag and drop
 Could: Merge drag and drop feature from ezwt extension
 
-[Not planned] Rewrite context menu code, to remove old JavaScript code.
-Should: Use context menu code from YUI 3.0 or jQuery UI
-Should: Make it easier to extend the menu's from extensions
-
-[Not planned] New Ajax interface for browsing node(s)
+#10 [Not planned] New Ajax interface for browsing node(s)
 Could: Use when selection node / sub tree limitations on role policies
 Could: Use when selecting target for move to operation
 Could: Use when selecting target for copy to operation
