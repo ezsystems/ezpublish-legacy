@@ -82,6 +82,8 @@ Reduce scrolling on large pages
 Could: Have store/discard buttons on top of content & class edit forms as well as bottom
        or using a fixed position bar that always stays on screen.
 Could: Move "create here" input to top box instead of bottom
+Could: Move upper buttons (Preview, details,..) + related blocks to a tabbed, 
+       minimize able block beneath top block.
 
 New Ajax features for relation object and list content attributes.
 Should: Add a inline Ajax search interface to find possible relations
