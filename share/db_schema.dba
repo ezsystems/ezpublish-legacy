@@ -2762,162 +2762,6 @@ $schema = array (
       ),
     ),
   ),
-  'ezdbfile' => 
-  array (
-    'name' => 'ezdbfile',
-    'fields' => 
-    array (
-      'datatype' => 
-      array (
-        'length' => 60,
-        'type' => 'varchar',
-        'not_null' => '1',
-        'default' => 'application/octet-stream',
-      ),
-      'expired' => 
-      array (
-        'length' => 1,
-        'type' => 'tinyint',
-        'not_null' => '1',
-        'default' => '0',
-      ),
-      'mtime' => 
-      array (
-        'length' => 11,
-        'type' => 'int',
-        'not_null' => '1',
-        'default' => 0,
-      ),
-      'name' => 
-      array (
-        'type' => 'text',
-        'not_null' => '1',
-        'default' => false,
-      ),
-      'name_hash' => 
-      array (
-        'length' => 34,
-        'type' => 'varchar',
-        'not_null' => '1',
-        'default' => '',
-      ),
-      'name_trunk' => 
-      array (
-        'type' => 'text',
-        'not_null' => '1',
-        'default' => false,
-      ),
-      'scope' => 
-      array (
-        'length' => 20,
-        'type' => 'varchar',
-        'not_null' => '1',
-        'default' => '',
-      ),
-      'size' => 
-      array (
-        'length' => 20,
-        'type' => 'bigint',
-        'not_null' => '1',
-        'default' => '0',
-      ),
-    ),
-    'indexes' => 
-    array (
-      'PRIMARY' => 
-      array (
-        'type' => 'primary',
-        'fields' => 
-        array (
-          0 => 'name_hash',
-        ),
-      ),
-      'ezdbfile_expired_name' => 
-      array (
-        'type' => 'non-unique',
-        'fields' => 
-        array (
-          0 => 'expired',
-          1 => 
-          array (
-            'name' => 'name',
-            'mysql:length' => 250,
-          ),
-        ),
-      ),
-      'ezdbfile_mtime' => 
-      array (
-        'type' => 'non-unique',
-        'fields' => 
-        array (
-          0 => 'mtime',
-        ),
-      ),
-      'ezdbfile_name' => 
-      array (
-        'type' => 'non-unique',
-        'fields' => 
-        array (
-          0 => 
-          array (
-            'name' => 'name',
-            'mysql:length' => 250,
-          ),
-        ),
-      ),
-      'ezdbfile_name_trunk' => 
-      array (
-        'type' => 'non-unique',
-        'fields' => 
-        array (
-          0 => 
-          array (
-            'name' => 'name_trunk',
-            'mysql:length' => 250,
-          ),
-        ),
-      ),
-    ),
-  ),
-  'ezdbfile_data' => 
-  array (
-    'name' => 'ezdbfile_data',
-    'fields' => 
-    array (
-      'filedata' => 
-      array (
-        'type' => 'blob',
-        'not_null' => '1',
-        'default' => '',
-      ),
-      'name_hash' => 
-      array (
-        'length' => 34,
-        'type' => 'varchar',
-        'not_null' => '1',
-        'default' => '',
-      ),
-      'offset' => 
-      array (
-        'length' => 11,
-        'type' => 'int',
-        'not_null' => '1',
-        'default' => 0,
-      ),
-    ),
-    'indexes' => 
-    array (
-      'PRIMARY' => 
-      array (
-        'type' => 'primary',
-        'fields' => 
-        array (
-          0 => 'name_hash',
-          1 => 'offset',
-        ),
-      ),
-    ),
-  ),
   'ezdiscountrule' => 
   array (
     'name' => 'ezdiscountrule',
@@ -5651,12 +5495,6 @@ $schema = array (
         'type' => 'varchar',
         'default' => NULL,
       ),
-      'enclosure' => 
-      array (
-        'length' => 255,
-        'type' => 'varchar',
-        'default' => NULL,
-      ),
       'id' => 
       array (
         'type' => 'auto_increment',
@@ -5689,6 +5527,12 @@ $schema = array (
         'default' => 0,
       ),
       'title' => 
+      array (
+        'length' => 255,
+        'type' => 'varchar',
+        'default' => NULL,
+      ),
+      'enclosure' => 
       array (
         'length' => 255,
         'type' => 'varchar',
@@ -8053,13 +7897,6 @@ $schema = array (
       ),
     ),
   ),
-  '_info' => 
-  array (
-    'format' => 'generic',
-  ),
-);
-// This array contains the database data
-$data = array (
   '_info' => 
   array (
     'format' => 'generic',
