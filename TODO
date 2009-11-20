@@ -20,7 +20,7 @@ KNOWN ENHANCEMENT REQUESTS Postponed to future version:
 * Improve support for flash and video (look into using the media pugin in TinyMCE)
 
 * Improve Browse view (also used in search and bookmarks), look at MCFileMangager & MCImageManager
- plugins demo for tinymce (on their website) for alternative approach.
+ plugins demo for tinymce (on their website) for alternative approach (especially for browsing media)
  
 * Support custom attributes in embed tag preview (in dialog)
 
