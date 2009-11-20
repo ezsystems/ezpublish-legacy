@@ -3208,7 +3208,7 @@ class eZContentObject extends eZPersistentObject
         {
             if ( isset( $params['IgnoreVisibility'] ) )
             {
-                $showInvisibleNodesCond = self::createFilterByVisibilitySQLString( $params['IgnoreVisibility'] );
+                $showInvisibleNodesCond = self::createFilterByVisibilitySQLString( $params['IgnoreVisibility'], 'inner_object' );
             }
         }
 
@@ -3217,7 +3217,7 @@ class eZContentObject extends eZPersistentObject
         if ( $attributeID && ( $relationTypeMask === false || $relationTypeMask === eZContentObject::RELATION_ATTRIBUTE ) )
         {
             $attributeID =(int) $attributeID;
-            $relationTypeMasking .= " AND contentclassattribute_id=$attributeID ";
+            $relationTypeMasking .= " AND inner_link.contentclassattribute_id = $attributeID ";
             $relationTypeMask = eZContentObject::RELATION_ATTRIBUTE;
         }
         elseif ( is_bool( $relationTypeMask ) )
@@ -3227,21 +3227,22 @@ class eZContentObject extends eZPersistentObject
 
         if ( $db->databaseName() == 'oracle' )
         {
-            $relationTypeMasking .= " AND bitand( relation_type, $relationTypeMask ) <> 0 ";
+            $relationTypeMasking .= " AND bitand( inner_link.relation_type, $relationTypeMask ) <> 0 ";
         }
         else
         {
-            $relationTypeMasking .= " AND ( relation_type & $relationTypeMask ) <> 0 ";
+            $relationTypeMasking .= " AND ( inner_link.relation_type & $relationTypeMask ) <> 0 ";
         }
 
         if ( $reverseRelatedObjects )
         {
+            $outerObjectIDSQL = 'outer_object.id = outer_link.from_contentobject_id';
             if ( is_array( $objectID ) )
             {
                 if ( count( $objectID ) > 0 )
                 {
-                    $objectIDSQL = ' AND ' . $db->generateSQLINStatement( $objectID, 'ezcontentobject_link.to_contentobject_id', false, false, 'int' ) . ' AND
-                                    ezcontentobject_link.from_contentobject_version=ezcontentobject.current_version';
+                    $objectIDSQL = ' AND ' . $db->generateSQLINStatement( $objectID, 'inner_link.to_contentobject_id', false, false, 'int' ) . ' AND
+                                     inner_link.from_contentobject_version = inner_object.current_version';
                 }
                 else
                 {
@@ -3251,24 +3252,29 @@ class eZContentObject extends eZPersistentObject
             else
             {
                 $objectID = (int) $objectID;
-                $objectIDSQL = ' AND ezcontentobject_link.to_contentobject_id = ' .  $objectID . ' AND
-                                ezcontentobject_link.from_contentobject_version=ezcontentobject.current_version';
+                $objectIDSQL = " AND inner_link.to_contentobject_id = $objectID
+                                 AND inner_link.from_contentobject_version = inner_object.current_version";
             }
-            $select = " count( DISTINCT ezcontentobject.id ) AS count";
         }
         else
         {
-            $select = " count( ezcontentobject_link.from_contentobject_id ) as count ";
-            $objectIDSQL = " AND ezcontentobject_link.from_contentobject_id='$objectID'
-                                AND ezcontentobject_link.from_contentobject_version='$version'";
+            $outerObjectIDSQL = 'outer_object.id = outer_link.to_contentobject_id';
+            $objectIDSQL = " AND inner_link.from_contentobject_id = $objectID
+                             AND inner_link.from_contentobject_version = $version";
         }
-        $query = "SELECT $select
+
+        $query = "SELECT
+                    COUNT( outer_object.id ) AS count
                   FROM
-                    ezcontentobject, ezcontentobject_link
+                    ezcontentobject outer_object, ezcontentobject inner_object, ezcontentobject_link outer_link
+                  INNER JOIN
+                    ezcontentobject_link inner_link ON outer_link.id = inner_link.id
                   WHERE
-                    ezcontentobject.id=ezcontentobject_link.from_contentobject_id AND
-                    ezcontentobject.status=" . eZContentObject::STATUS_PUBLISHED . " AND
-                    ezcontentobject_link.op_code='0'
+                    $outerObjectIDSQL
+                    AND outer_object.status = " . eZContentObject::STATUS_PUBLISHED . "
+                    AND inner_object.id = inner_link.from_contentobject_id
+                    AND inner_object.status = " . eZContentObject::STATUS_PUBLISHED . "
+                    AND inner_link.op_code = 0
                     $objectIDSQL
                     $relationTypeMasking
                     $showInvisibleNodesCond";

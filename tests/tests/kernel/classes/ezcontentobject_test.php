@@ -140,7 +140,7 @@ class eZContentObjectTest extends ezpDatabaseTestCase
         // Test overall relation count
         $this->assertEquals(
             14, $contentObject->relatedObjectCount( false, false, false, $paramAllRelations ),
-            "Overall relation count should be 10" );
+            "Overall relation count should be 14" );
 
         // Test relation count for each attribute
         $this->assertEquals(
@@ -179,6 +179,14 @@ class eZContentObjectTest extends ezpDatabaseTestCase
         $this->assertEquals(
             1, $relatedContentObject->relatedObjectCount( false, $attributes['single_relation_2'], true, $paramAttributeRelations ),
             "Attribute reverse relation count on single_relation_2 should be 1" );
+
+        // Test that trashed objects are not counted as related (issue #15142)
+        $trashObject = eZContentObject::fetch( $relatedObjects[9] );
+        $trashObject->removeThis();
+        $this->assertEquals(
+            13, $contentObject->relatedObjectCount( false, false, false, $paramAllRelations ),
+            "Relation count after move to trash should be 13" );
     }
 }
+
 ?>
