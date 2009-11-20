@@ -53,17 +53,24 @@ div#header-user-links
 
 div#header-user-links form > div
 {
-    background-color: #eee;
+    background-color: #fff;
     float: right;
     text-align: right;
-    padding: 4px 10px 1px 10px;
-    min-height: 26px;
+    padding: 2px 10px 1px 10px;
+    min-height: 24px;
+    border: 1px solid #aaa;
+    border-top: 0 none;
+    border-right: 0 none;
+    /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("11.0") and IE9 */
+    -moz-border-radius-bottomleft: 5px;
+    -webkit-border-bottom-left-radius: 5px;
+    border-bottom-left-radius:  5px;
 }
 
 div#header-user-links form > span
 {
   float: left;
-  padding-top: 4px;
+  padding-top: 2px;
 }
 
 #header-user-logo { float: left; }
@@ -73,18 +80,26 @@ div#header-user-links form > span
     float: left;
     margin: 0;
     padding-left: 2px;
-    padding-top: 2px;
+    padding-top: 6px;
 }
 
 #header menu li
 {
     float: left;
-    width: 100px;
-    padding: 4px;
     list-style-type: none;
     text-align: center;
-    background-color: #ddd;
-    border: 1px solid #fff;
+}
+
+#header menu li a
+{
+    display: block;
+    color: #555;
+    font-weight: bold;
+    text-decoration: none;
+    min-width: 100px;
+    padding: 2px;
+    background-color: #fff;
+    border: 1px solid #aaa;
     border-bottom: 0 none;
     border-left: 0 none;
     min-height: 20px;
@@ -97,7 +112,7 @@ div#header-user-links form > span
     border-top-right-radius: 5px;
 }
 
-#header menu li a { text-decoration: none; }
+#header menu li a:hover { color: green; }
 
 #path
 {
@@ -171,14 +186,14 @@ form input[type=text].active
 
 /*  size / hide controll css */
 
-a.menuitem-hide-show, a.hidecontrol, div.sizecontrol a
+a.item-hide-show, a.hidecontrol, div.sizecontrol a
 {
     text-decoration: none;
     color: green;
     font-size: 80%;
 }
 
-a.menuitem-hide-show
+a.item-hide-show
 {
     float: right;
     text-align: center;
@@ -231,7 +246,6 @@ div.sizecontrol a
     <div id="header">
         <div id="header-user-links">
             <form>
-                <span><a href="#">Logout (User name)</a> &nbsp;</span>
                 <div>
                 <span id="header-user-logo" title="eZ Publish version 4.3.1">eZ logo</span> &nbsp;
                 <select name="SubTreeSomething" title="Search location, to be able to narrow down the search results!">
@@ -244,6 +258,7 @@ div.sizecontrol a
                 <input type="text" name="SearchText" value="" defaultValue="Search text" />
                 <input type="submit" name="SearchBtn" value="Search" />
                 </div>
+                <span><a href="#">Logout (User name)</a> &nbsp;</span>
             </form>
         </div>
         <menu>
@@ -262,7 +277,7 @@ div.sizecontrol a
             
             <div class="menuitem">
                 <div class="menuheader">
-                Treemenu  <a href="#" class="menuitem-hide-show">-</a>
+                Treemenu  <a href="#" class="item-hide-show" headerbox="div.menuheader">-</a>
                 </div>
                 <div class="menucontent">
                     Treemenu content
@@ -280,7 +295,7 @@ div.sizecontrol a
             <a href="JavaScript:void(0)" class="hidecontrol">&lt;</a>
             <div class="menuitem">
                 <div class="menuheader">
-                Extramenu 1  <a href="#" class="menuitem-hide-show">-</a>
+                Extramenu 1  <a href="#" class="item-hide-show" headerbox="div.menuheader">-</a>
                 </div>
                 <div class="menucontent">
                     Extramenu 1 content
@@ -289,7 +304,7 @@ div.sizecontrol a
             </div>
             <div class="menuitem">
                 <div class="menuheader">
-                Extramenu 2  <a href="#" class="menuitem-hide-show">-</a>
+                Extramenu 2  <a href="#" class="item-hide-show" headerbox="div.menuheader">-</a>
                 </div>
                 <div class="menucontent">
                     Extramenu 2 content
@@ -300,7 +315,7 @@ div.sizecontrol a
             </div>
             <div class="menuitem">
                 <div class="menuheader">
-                Extramenu 3  <a href="#" class="menuitem-hide-show">-</a>
+                Extramenu 3  <a href="#" class="item-hide-show" headerbox="div.menuheader">-</a>
                 </div>
                 <div class="menucontent">
                     Extramenu 3 content
@@ -328,30 +343,34 @@ div.sizecontrol a
 <!--
 
 var inputTextBoxes = jQuery('input[defaultValue]'), rightSizeControlLinks = jQuery( '#rightmenu a.hidecontrol' );
-var leftSizeControlLinks = jQuery( '#leftmenu div.sizecontrol a' ), hideControlLinks = jQuery( 'a.menuitem-hide-show' );
+var leftSizeControlLinks = jQuery( '#leftmenu div.sizecontrol a' ), hideControlLinks = jQuery( 'a.item-hide-show' );
 
 // insert default values on input fields that has those
 // ( they are empty by default to work better for screen readers and non javascript clients  )
-inputTextBoxes.each(function( i, el ){
+inputTextBoxes.each(function( i, el )
+{
     if ( el.value === '' ) el.value = el.getAttribute( 'defaultValue' );
 });
 
 // set class for styiling on focus
-inputTextBoxes.focus(function(e){
+inputTextBoxes.focus(function(e)
+{
     jQuery(this).addClass("active");
     if ( this.value === this.getAttribute( 'defaultValue' ) )
         this.value = '';
 });
 
 // remove class for styling on unfocus
-inputTextBoxes.blur(function(e){
+inputTextBoxes.blur(function(e)
+{
     jQuery(this).removeClass("active");
     if ( this.value === '' && this.getAttribute( 'defaultValue' ) !== '' )
         this.value = this.getAttribute( 'defaultValue' );
 });
 
 // Animate left & right menu width on click
-rightSizeControlLinks.click(function(e){
+rightSizeControlLinks.click(function(e)
+{
     var link = jQuery( this ), linkbox = jQuery( '#rightmenu' ), hide = linkbox.width() > 15, main = jQuery('#maincontent');
     linkbox.animate({
         width: ( hide ? '12px' : '160px')
@@ -360,7 +379,8 @@ rightSizeControlLinks.click(function(e){
     link.html( hide ? '&lt;' : '&gt;' );
 });
 
-leftSizeControlLinks.click(function(e){
+leftSizeControlLinks.click(function(e)
+{
     var link = jQuery( this ), linkbox = jQuery( '#leftmenu' ), main = jQuery('#maincontent'), target = this.getAttribute('targetsize');
     linkbox.animate({
         width: target + 'px'
@@ -368,8 +388,9 @@ leftSizeControlLinks.click(function(e){
     main.animate({ marginLeft: target + 'px' }, 500 );
 });
 
-hideControlLinks.click(function(e){
-    var link = jQuery( this ), header = jQuery( 'div.menuheader', this.parentNode.parentNode ), box = jQuery( this.parentNode.parentNode ), hide = box.height() > header.height();
+hideControlLinks.click(function(e)
+{
+    var link = jQuery( this ), box = jQuery( this.parentNode.parentNode ), header = jQuery( this.getAttribute('headerbox'), box ), hide = box.height() > header.height();
     if ( hide ) box.attr( 'targetsize', box.height() );
     box.animate({
         height: ( hide ? header.height(): box.attr( 'targetsize' ) ) + 'px'
