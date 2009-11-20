@@ -38,9 +38,9 @@ Making the interface more intuitive involves improving usability and removing / 
 / hiding features that users does not need during the operation they are performing.
 Identified tasks:
 * Hide right menu by default
-* Have seperate preferences for media tab / pr tab for admin_children_viewmode
+* Have separate preferences for media tab / pr tab for admin_children_view mode
   (user preferences for the sub items in admin)
-* Move actions from context menu'es to a more accessible place in interfacer
+* Move actions from context menu's to a more accessible place in the interface
 
 A overview of user task need a dashboard, where she can follow here own
 content, approval and other tasks she might do on a regular basis.
@@ -56,6 +56,7 @@ Should: Not require any new kernel features or changes
 Should: Continue being flexible width design
 Should: Not make any changes to the layout / wire frame except
         for other features of this document
+Should: Be less over designed and have better text contrast (black on white)
 Could: Make admin style more accessible for modern mobile devices
 
 #2 New possibility to hide the right menu, and hide it by default.
@@ -66,7 +67,7 @@ Could: Make the code for layout change general so it can be reused by
        right menu and left menu items.
 
 #3 Change how preferences for middle column is handled
-Should: Make admin_children_viewmode pr tab (Navigation part)
+Should: Make admin_children_view mode pr tab (Navigation part)
 Could: Make admin_navigation_* pr tab (Navigation part)(Note: see #5.3 )
 
 #4 New dashboard as login page
@@ -83,7 +84,7 @@ Could: Provide a box for comment approval (ezjscomment)
 Could: Have store/discard buttons on top of content & class edit forms as well as bottom
        or using a fixed position bar that always stays on screen.
 Could: Move "create here" input to top box instead of bottom
-Could: Move upper buttons (Preview, details,..) + related blocks to a tabbed, 
+Could: Move upper buttons (Preview, details,..) + related blocks to a tabbed,
        minimize able block beneath top block.
 
 #6 New Ajax features for relation object and list content attributes.
