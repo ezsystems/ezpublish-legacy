@@ -679,10 +679,11 @@ jQuery('div.tabbox menu li a').click( function( e )
 });
 
 // disable buttons when clicked
-jQuery('input[type=submit]').click( function()
+jQuery('form').submit(function()
 {
 	// use timeout to make sure data is sent
-	window.setTimeout( function(){ jQuery('input,select').attr( 'disabled', true ).attr( 'title', 'Form control has been disabled since you are currently submiting this form using "' + this.name + '" button!' ) }, 5 )
+	var formElement = this;
+	window.setTimeout( function(){ jQuery('input,select', formElement).attr( 'disabled', true ).attr( 'title', 'Form control has been disabled since you are currently submiting this form using "' + formElement.name + '" button!' ) }, 5 )
 	return false;
 });
 
