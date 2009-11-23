@@ -74,6 +74,7 @@ Could: Make admin_navigation_* pr tab (Navigation part)(Note: see #5.3 )
 Should: Be the default login page in admin interface
 Should: Provide box for last published content
 Should: Provide box for last modified content by current user
+Should: Provide a box for own object drafts
 Should: Provide short links to user specific task like changing password
 Should: Provide a box for content for approval
 Should: Be extend able so extensions can add blocks
