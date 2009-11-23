@@ -419,16 +419,16 @@ div.tabbox div.tabcontent
                             <option id="blog">Blog</option>
                             <option id="folder">Folder</option>
                         </select>
-                        <input type="submit" name="Create" value="Create here"  />
+                        <input type="submit" name="Create" value="Create here" title="Create content as sub item of this page select type with drop down box next to this button first!" />
 
                         <span class="vertical-seperator">&nbsp;</span>
 
-                        <select name="Language" title="Language you want to edit in!">
+                        <select name="Language" title="To select language you want to edit in!">
                             <option id="eng-us">Eng-US</option>
                             <option id="ger-de">Ger-DE</option>
                             <option id="fre-fr">Fre-FR</option>
                         </select>
-                        <input type="submit" name="Edit" value="Edit" />
+                        <input type="submit" name="Edit" value="Edit" title="Edit current page!" />
                         <input type="submit" name="Move" value="Move" />
                         <input type="submit" name="Copy" value="Copy" />
                         <input type="submit" name="Remove" value="Remove" />
@@ -467,6 +467,7 @@ div.tabbox div.tabcontent
                              <ol>
                                 <li>Add context menu to sub items on far right side when you hover over the line (like dropbox web interface)</li>
                                 <li>The final result will need to be able to work correctly (with page reloads) for tabs, size controll and show/hide controlls if javascript is disabled or not suppoorted.</li>
+                                <li>Always refer to Nodes and Objects as "Pages" and if placment specific: "Placment". And (Content Object) Class should refer to as "Page type" or "Type" for short. This way only deverlopers will need to learn what a Node, Object and Class is!</li>
                             </ol>
                             
                         </div>
@@ -571,8 +572,8 @@ div.tabbox div.tabcontent
 					</tbody>
 					</table>
 					<form method="post">
-                        <input type="submit" name="Remove" value="Remove Selected"  />
-                        <input type="submit" name="Move" value="Move Selected"  />
+                        <input type="submit" name="Remove" value="Remove Selected" title="Remove selected elements from list above using the checkboxes and then clicking this button!"  />
+                        <input type="submit" name="Move" value="Move Selected"  title="Move selected elements from list above using the checkboxes and then clicking this button!" />
                         
                         
                         <div class="float-right">
