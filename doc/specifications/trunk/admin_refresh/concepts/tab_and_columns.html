@@ -326,8 +326,8 @@ div.tabbox div.tabcontent
                     <option id="5">Users</option>
                     <option id="x" disabled="disabled">Current location</option>
                 </select>
-                <input type="text" name="SearchText" value="" defaultValue="Search text" />
-                <input type="submit" name="SearchBtn" value="Search" />
+                <input type="text" name="SearchText" value="" defaultValue="Search text" title="Search string, what you want to search for." />
+                <input type="submit" name="SearchBtn" value="Search" title="Perform a search and look for the string as you have typed in to 'Search text' input form and using the location as selected in location dropdown box." />
                 </div>
                 <span><a href="#">Logout (User name)</a> &nbsp;</span>
             </form>
@@ -369,13 +369,13 @@ div.tabbox div.tabcontent
             </div>
 
             <div class="sizecontrol">
-                <a href="JavaScript:void(0)" targetsize="160">small</a>
-                <a href="JavaScript:void(0)" targetsize="230">medium</a>
-                <a href="JavaScript:void(0)" targetsize="300">big</a>
+                <a href="JavaScript:void(0)" targetsize="160" title="Change width of left menu column to small size!">small</a>
+                <a href="JavaScript:void(0)" targetsize="230" title="Change width of left menu column to medium size!">medium</a>
+                <a href="JavaScript:void(0)" targetsize="300" title="Change width of left menu column to big size!">big</a>
             </div>
         </div>
         <div id="rightmenu" class="sidemenu">
-            <a href="JavaScript:void(0)" class="hidecontrol">&lt;</a>
+            <a href="JavaScript:void(0)" class="hidecontrol" title="Click to hide/show the right menu with advance menu options.">&lt;</a>
             <div class="menuitem">
                 <div class="menuheader">
                 Extramenu 1  <a href="#" class="item-hide-show" headerbox="div.menuheader">-</a>
@@ -423,18 +423,18 @@ div.tabbox div.tabcontent
 
                         <span class="vertical-seperator">&nbsp;</span>
 
-                        <select name="Language" title="To select language you want to edit in!">
+                        <select name="Language" title="To select language you want to edit current page in!">
                             <option id="eng-us">Eng-US</option>
                             <option id="ger-de">Ger-DE</option>
                             <option id="fre-fr">Fre-FR</option>
                         </select>
-                        <input type="submit" name="Edit" value="Edit" title="Edit current page!" />
-                        <input type="submit" name="Move" value="Move" />
-                        <input type="submit" name="Copy" value="Copy" />
-                        <input type="submit" name="Remove" value="Remove" />
+                        <input type="submit" name="Edit" value="Edit" title="Edit current page in the language as selected in the language dropp down!" />
+                        <input type="submit" name="Move" value="Move" title="Move current page and it's sub items to another location." />
+                        <input type="submit" name="Copy" value="Copy" title="Copy curent current page but not it's sub items to another location." />
+                        <input type="submit" name="Remove" value="Remove" title="Remove curent current page and it's sub items, and optionally store them in the trashbin in case you regret it (trashbin is emptied on regular interval, so make sure you actually want to remove the content!)." />
                         
                         
-                        <a href="#" class="float-right">Manage versions</a>
+                        <a href="#" class="float-right" title="Click to get list of versions of this page and be able to manage/edit/remove them.">Manage versions</a>
         
                     </form>
                 </div>
@@ -522,7 +522,7 @@ div.tabbox div.tabcontent
 			        </thead>
 				    <tbody>
 					    <tr class="bglight">
-					        <td><input type="checkbox" title='Use these checkboxes to select items for removal. Click the "Remove selected" button to remove the selected items.' value="162" name="DeleteIDArray[]"/></td>
+					        <td><input type="checkbox" title='Use these checkboxes to select items to perform som action on them. Click the "&lt;action&gt; selected" button to perform the disired action on the elements you have selected.' value="162" name="DeleteIDArray[]"/></td>
 					        <td><a href="#">Some article about something</a></td>
 					        <td class="class">Article</td>
 					        <td class="modifier"><a href="/trunk/index.php/ezwebin_site_admin/Users/Administrator-users/Administrator-User">Administrator User</a></td>
@@ -530,7 +530,7 @@ div.tabbox div.tabcontent
 					        <td class="contexmenu"></td>
 					    </tr>
                         <tr class="bgdark">
-                            <td><input type="checkbox" title='Use these checkboxes to select items for removal. Click the "Remove selected" button to remove the selected items.' value="162" name="DeleteIDArray[]"/></td>
+                            <td><input type="checkbox" title='Use these checkboxes to select items to perform som action on them. Click the "&lt;action&gt; selected" button to perform the disired action on the elements you have selected.' value="162" name="DeleteIDArray[]"/></td>
                             <td><a href="#">Some article about something</a></td>
                             <td class="class">Article</td>
                             <td class="modifier"><a href="/trunk/index.php/ezwebin_site_admin/Users/Administrator-users/Administrator-User">Administrator User</a></td>
@@ -538,7 +538,7 @@ div.tabbox div.tabcontent
                             <td class="contexmenu"></td>
                         </tr>
                         <tr class="bglight">
-                            <td><input type="checkbox" title='Use these checkboxes to select items for removal. Click the "Remove selected" button to remove the selected items.' value="162" name="DeleteIDArray[]"/></td>
+                            <td><input type="checkbox" title='Use these checkboxes to select items to perform som action on them. Click the "&lt;action&gt; selected" button to perform the disired action on the elements you have selected.' value="162" name="DeleteIDArray[]"/></td>
                             <td><a href="#">Some article about something</a></td>
                             <td class="class">Article</td>
                             <td class="modifier"><a href="/trunk/index.php/ezwebin_site_admin/Users/Administrator-users/Administrator-User">Administrator User</a></td>
@@ -546,7 +546,7 @@ div.tabbox div.tabcontent
                             <td class="contexmenu"></td>
                         </tr>
                         <tr class="bgdark">
-                            <td><input type="checkbox" title='Use these checkboxes to select items for removal. Click the "Remove selected" button to remove the selected items.' value="162" name="DeleteIDArray[]"/></td>
+                            <td><input type="checkbox" title='Use these checkboxes to select items to perform som action on them. Click the "&lt;action&gt; selected" button to perform the disired action on the elements you have selected.' value="162" name="DeleteIDArray[]"/></td>
                             <td><a href="#">Some article about something</a></td>
                             <td class="class">Article</td>
                             <td class="modifier"><a href="/trunk/index.php/ezwebin_site_admin/Users/Administrator-users/Administrator-User">Administrator User</a></td>
@@ -554,7 +554,7 @@ div.tabbox div.tabcontent
                             <td class="contexmenu"></td>
                         </tr>
                         <tr class="bglight">
-                            <td><input type="checkbox" title='Use these checkboxes to select items for removal. Click the "Remove selected" button to remove the selected items.' value="162" name="DeleteIDArray[]"/></td>
+                            <td><input type="checkbox" title='Use these checkboxes to select items to perform som action on them. Click the "&lt;action&gt; selected" button to perform the disired action on the elements you have selected.' value="162" name="DeleteIDArray[]"/></td>
                             <td><a href="#">Some article about something</a></td>
                             <td class="class">Article</td>
                             <td class="modifier"><a href="/trunk/index.php/ezwebin_site_admin/Users/Administrator-users/Administrator-User">Administrator User</a></td>
@@ -562,7 +562,7 @@ div.tabbox div.tabcontent
                             <td class="contexmenu"></td>
                         </tr>
                         <tr class="bgdark">
-                            <td><input type="checkbox" title='Use these checkboxes to select items for removal. Click the "Remove selected" button to remove the selected items.' value="162" name="DeleteIDArray[]"/></td>
+                            <td><input type="checkbox" title='Use these checkboxes to select items to perform som action on them. Click the "&lt;action&gt; selected" button to perform the disired action on the elements you have selected.' value="162" name="DeleteIDArray[]"/></td>
                             <td><a href="#">Some article about something</a></td>
                             <td class="class">Article</td>
                             <td class="modifier"><a href="/trunk/index.php/ezwebin_site_admin/Users/Administrator-users/Administrator-User">Administrator User</a></td>
@@ -681,7 +681,8 @@ jQuery('div.tabbox menu li a').click( function( e )
 // disable buttons when clicked
 jQuery('input[type=submit]').click( function()
 {
-	jQuery('input[type=submit]').attr( 'disabled', true );
+	jQuery('input,select').attr( 'disabled', true ).attr( 'title', 'Form control has been disabled since you are currently submiting this form using "' + this.name + '" button!' )
+	return false;
 });
 
 -->
