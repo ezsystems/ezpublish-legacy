@@ -4,36 +4,32 @@
 <!--
 function checkAll()
 {
-
     if ( document.trashaction.selectall.value == "Select all" )
-
     {
-
         document.trashaction.selectall.value = "Deselect all";
 
         with (document.trashaction)
-	{
+        {
             for (var i=0; i < elements.length; i++)
-	    {
+            {
                 if (elements[i].type == 'checkbox' && ( elements[i].name == 'SessionKeyArray[]' || elements[i].name == 'UserIDArray[]' ) )
                      elements[i].checked = true;
-	    }
+            }
         }
-     }
-     else
-     {
+    }
+    else
+    {
+        document.trashaction.selectall.value = "Select all";
 
-         document.trashaction.selectall.value = "Select all";
-
-         with (document.trashaction)
-	 {
+        with (document.trashaction)
+        {
             for (var i=0; i < elements.length; i++)
-	    {
+            {
                 if (elements[i].type == 'checkbox' && ( elements[i].name == 'SessionKeyArray[]' || elements[i].name == 'UserIDArray[]' ) )
                      elements[i].checked = false;
-	    }
-         }
-     }
+            }
+        }
+    }
 }
 
 //-->
@@ -43,9 +39,19 @@ function checkAll()
 <h1>{"Session admin"|i18n( "design/standard/setup/session" )}</h1>
 
 {if $sessions_removed}
-<div class="feedback">
-{"The sessions were successfully removed."|i18n( "design/standard/setup/session" )}
-</div>
+    {if $gc_sessions_completed}
+	  <div class="feedback">
+	    {"The sessions were successfully removed."|i18n( "design/standard/setup/session" )}
+	  </div>
+	{else}
+      <div class="feedback">
+            <h2>{"Some timed out sessions were successfully removed."|i18n( "design/admin/setup/session" )}</h2>
+            <p>
+                {"But to avoid execution timeout you'll need to perform the action several times to complete the operation."|i18n( "design/admin/setup/session" )}<br />
+                {"Alternatively clear the timed out session data from command-line using:"|i18n( "design/admin/setup/session" )} <i>&gt;php bin/php/ezsessiongc.php</i>
+            </p>
+      </div>
+    {/if}
 {/if}
 
 <div class="objectheader">

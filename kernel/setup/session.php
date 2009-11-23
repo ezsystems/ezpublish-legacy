@@ -29,6 +29,7 @@ require_once( 'kernel/common/template.php' );
 
 $tpl = templateInit();
 $sessionsRemoved = false;
+$gcSessionsCompleted = true;
 $http = eZHTTPTool::instance();
 
 $module = $Params['Module'];
@@ -74,7 +75,7 @@ else if ( $module->isCurrentAction( 'RemoveAllSessions' ) )
 }
 else if ( $module->isCurrentAction( 'RemoveTimedOutSessions' ) )
 {
-    eZSession::garbageCollector();
+    $gcSessionsCompleted = eZSession::garbageCollector();
     $sessionsRemoved = true;
 }
 else if ( $module->isCurrentAction( 'RemoveSelectedSessions' ) )
@@ -352,6 +353,7 @@ if ( $param['offset'] >= $sessionsActive and $sessionsActive != 0 )
     $module->redirectTo( '/setup/session' );
 }
 
+$tpl->setVariable( "gc_sessions_completed", $gcSessionsCompleted );
 $tpl->setVariable( "sessions_removed", $sessionsRemoved );
 $tpl->setVariable( "sessions_active", $sessionsActive );
 $tpl->setVariable( "sessions_count", $sessionsCount );

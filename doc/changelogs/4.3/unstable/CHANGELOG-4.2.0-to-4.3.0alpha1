@@ -20,6 +20,7 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Implemented enhancement #15739: Better image / media / file support in RSS export (<enclosure> and <description>)
 - Implemented enhancement #15812: Improve debug output of template foreach function
 - Implemented enhancement #15641: BCC - sending problem with the notification mail
+- Implemented enhancement #12490: let session clean up in admin interface work without grinding db to a halt
 
 *Design:
 - Implemented enhancement #15714: Add a link to object history from node view

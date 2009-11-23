@@ -6,9 +6,19 @@
 
 {* Messages *}
 {if $sessions_removed}
-<div class="message-feedback">
-<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {"The sessions were successfully removed."|i18n( "design/admin/setup/session" )}</h2>
-</div>
+    {if $gc_sessions_completed}
+		<div class="message-feedback">
+		<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {"The sessions were successfully removed."|i18n( "design/admin/setup/session" )}</h2>
+		</div>
+    {else}
+		<div class="message-feedback">
+		    <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {"Some timed out sessions were successfully removed."|i18n( "design/admin/setup/session" )}</h2>
+		    <p>
+		        {"But to avoid execution timeout you'll need to perform the action several times to complete the operation."|i18n( "design/admin/setup/session" )}<br />
+		        {"Alternatively clear the timed out session data from command-line using:"|i18n( "design/admin/setup/session" )} <i>&gt;php bin/php/ezsessiongc.php</i>
+		    </p>
+		</div>
+    {/if}
 {/if}
 
 

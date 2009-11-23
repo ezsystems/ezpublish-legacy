@@ -330,18 +330,48 @@ class eZSession
      * Deletes all expired session data in the database, this function is 
      * register in {@link eZSession::registerFunctions()}
      * 
-     * @static
+     * @param int $commitrows When > 0, a db commit will be issue after every
+     *            chunk of commitrows has been deleted avoiding long table locks and and timeouts
+     *            if number is sufficiently low. 
+     * @return bool Return boolean to signal if gc completed or if it stopped to avoid timeout.
      */
-    static public function garbageCollector()
+    static public function garbageCollector( $commitrows = 10000 )
     {
         $db = eZDB::instance();
-        $time = time();
+        $gcCompleted = true;
+        $requestTime = $_SERVER['REQUEST_TIME'];
+        // Get max execution time, set to 300 if unlimited to avoid triggering other timouts
+        $maxExecutionTime = ini_get( 'max_execution_time' ) || 300;
+        self::triggerCallback( 'gc_pre', array( $db, $requestTime ) );
 
-        self::triggerCallback( 'gc_pre', array( $db, $time ) );
+        if ( $commitrows !== 0 )
+        {
+            // Calculate approx. the slicing of timestamps that will delete N rows at a time
+            // assuming that sessions are evenly distributed in time
+            $res = $db->arrayQuery( 'SELECT COUNT(*) AS count, MIN(expiration_time) AS oldest FROM ezsession WHERE expiration_time < ' . $requestTime );
+            if ( $res && $res[0]['count'] > 0 && $res[0]['oldest'] < $requestTime )
+            {
+                $date      = $res[0]['oldest'];
+                $timeslice = intval( $commitrows * ( $requestTime - $res[0]['oldest'] ) / $res[0]['count'] );
+                do
+                {
+                    $date += $timeslice;
+                    if ( $date > $requestTime ) $date = $requestTime;
+                    $db->query( 'DELETE FROM ezsession WHERE expiration_time < ' . $date );
+                    $db->commitquery();
+                    // Make sure we're in a safe distance (above 5 seconds) from execution timeout
+                    $withinTimout = ( time() - $requestTime  ) < ( $maxExecutionTime - 5 );
+                } while ( $date < $requestTime && $withinTimout );
+                $gcCompleted = $withinTimout || $date >= $requestTime;
+            }
+        }
+        else
+        {
+            $db->query( 'DELETE FROM ezsession WHERE expiration_time < ' . $requestTime );
+        }
 
-        $db->query( "DELETE FROM ezsession WHERE expiration_time < $time" );
-
-        self::triggerCallback( 'gc_post', array( $db, $time ) );
+        self::triggerCallback( 'gc_post', array( $db, $requestTime ) );
+        return $gcCompleted;
     }
 
     /**
