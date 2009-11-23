@@ -139,11 +139,11 @@ class ezjscServerFunctionsJs extends ezjscServerFunctions
      */
     public static function yui3io( $args )
     {
-        $url = self::getIndexDir() . 'ezjscore/';
+        $rootUrl = self::getIndexDir();
         return "
 YUI( YUI3_config ).add('io-ez', function( Y )
 {
-    var _serverUrl = '$url', _seperator = '@SEPERATOR$', _configBak;
+    var _rootUrl = '$rootUrl', _serverUrl = _rootUrl + 'ezjscore/', _seperator = '@SEPERATOR$', _configBak;
 
     function _ez( callArgs, c )
     {
@@ -205,6 +205,7 @@ YUI( YUI3_config ).add('io-ez', function( Y )
     }
 
     _ez.url = _serverUrl;
+    _ez.root_url = _rootUrl;
     _ez.seperator = _seperator;
     Y.io.ez = _ez;
 }, '3.0.0' ,{requires:['io-base', 'json-parse']});
@@ -241,10 +242,10 @@ YUI( YUI3_config ).add('io-ez', function( Y )
      */
     public static function jqueryio( $args )
     {
-        $url = self::getIndexDir() . 'ezjscore/';
+        $rootUrl = self::getIndexDir();
         return "
 (function($) {
-    var _serverUrl = '$url', _seperator = '@SEPERATOR$';
+    var _rootUrl = '$rootUrl', _serverUrl = _rootUrl + 'ezjscore/', _seperator = '@SEPERATOR$';
 
     // (static) function version
     function _ez( callArgs, post, callBack )
@@ -257,6 +258,7 @@ YUI( YUI3_config ).add('io-ez', function( Y )
         return $.post( url, post, callBack, 'json' );
     };
     _ez.url = _serverUrl;
+    _ez.root_url = _rootUrl;
     _ez.seperator = _seperator;
     $.ez = _ez;
 
