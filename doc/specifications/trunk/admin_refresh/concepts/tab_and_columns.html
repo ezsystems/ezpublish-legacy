@@ -43,7 +43,7 @@ menu li a
     min-width: 100px;
     min-height: 20px;
     padding: 2px;
-    border: 1px solid #aaa;
+    border: 1px solid #bbb;
     border-bottom: 0 none;
     /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("11.0") and IE9 */
     -moz-border-radius-topleft: 5px;
@@ -60,11 +60,6 @@ menu li a
     text-align: left;
 }
 
-#header, #footer
-{
-    background-color: #f0f0f0;
-}
-
 .float-break:after /* Terminate floating elements flow */
 {
     content: "-";
@@ -77,13 +72,10 @@ menu li a
 
 #header
 { 
-    border-bottom: 1px solid #ddd;
-    /* Supported on FF 3.6+, Safari 4.0+ and Chrome */
-    background-image: -moz-linear-gradient(top, white 30%, #f0f0f0);
-    background-image: -webkit-gradient(linear, 0% 0%, 0% 70%, from(white), to(#f0f0f0));
+    border-bottom: 1px solid #bbb;
 }
 
-#footer { border-top: 1px solid #ddd; }
+#footer { border-top: 1px solid #bbb; background-color: #f0f0f0; }
 
 div#header-user-links
 {
@@ -99,7 +91,7 @@ div#header-user-links form > div
     text-align: right;
     padding: 2px 10px 1px 10px;
     min-height: 24px;
-    border: 1px solid #aaa;
+    border: 1px solid #bbb;
     border-top: 0 none;
     border-right: 0 none;
     /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("11.0") and IE9 */
@@ -133,7 +125,7 @@ div#header-user-links form > span
 
 #path
 {
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #bbb;
     padding: 2px 10px 3px 10px;
     font-size: 90%;
     text-align: left;
@@ -147,7 +139,7 @@ div.menuitem
 {
     margin-top: 20px;
     overflow: hidden;
-    border: 1px solid #aaa;
+    border: 1px solid #bbb;
 }
 
 div.menuheader
@@ -188,7 +180,7 @@ div.boxheader
 
 div.boxitem
 {
-   border: 1px solid #aaa;
+   border: 1px solid #bbb;
 }
 
 div.boxheader
@@ -200,7 +192,7 @@ span.vertical-seperator
 {
     height: 100%;
     width: 0px;
-    border-left: 1px solid #aaa;
+    border-left: 1px solid #bbb;
     margin-left: 15px;
     margin-right: 15px;
 }
@@ -209,7 +201,7 @@ span.vertical-seperator
 {
     margin: 0 160px 0 160px;
     min-height: 200px;
-    border-right: 1px solid #ddd;
+    border-right: 1px solid #bbb;
     padding: 1px 20px 0 20px;
 }
 
@@ -249,7 +241,7 @@ a.item-hide-show
     float: right;
     text-align: center;
     padding: 2px;
-    border: 1px solid #aaa;
+    border: 1px solid #bbb;
     color: #555;
     line-height: 7px;
     height: 9px;
@@ -287,12 +279,12 @@ div.tabbox menu li.selected a
 }
 div.tabbox menu
 {
-    border-bottom: 1px solid #aaa;
+    border-bottom: 1px solid #bbb;
 }
 
 div.tabbox div.tabcontent
 {
-    border: 1px solid #aaa;
+    border: 1px solid #bbb;
     border-top: 0 none;
     padding: 20px;
     height: 150px;
@@ -468,14 +460,15 @@ div.tabbox div.tabcontent
                                 <li>Moves all the controls for the current page to the top to avoid scrolling.</li>
                                 <li>Hides right menu by default to hide features that are not relevant for a editor (or even most admins) during normal use.</li>
                                 <li>Slims down the top header considerably to get more space for content area, also implements support for small screens (down to 200px) by automatically wrapping the header.</li>
-                                
+                                <li>Use tabs for misc object details (Preview,Details,...) to save scrolling to sub items and screen space.</li>
                             </ol>
                             <br />
                             Other ideas:
                              <ol>
                                 <li>Add context menu to sub items on far right side when you hover over the line (like dropbox web interface)</li>
-                                
+                                <li>The final result will need to be able to work correctly (with page reloads) for tabs, size controll and show/hide controlls if javascript is disabled or not suppoorted.</li>
                             </ol>
+                            
                         </div>
                         <div class="tabcontent hide">
                             Details<br />
