@@ -89,20 +89,26 @@ else if ( $http->hasPostVariable( 'EmptyButton' )  )
     $access = $user->hasAccessTo( 'content', 'cleantrash' );
     if ( $access['accessWord'] == 'yes' )
     {
-        $objectList = eZPersistentObject::fetchObjectList( eZContentObject::definition(),
-                                                           null,
-                                                           array( 'status' => eZContentObject::STATUS_ARCHIVED ),
-                                                           null,
-                                                           null,
-                                                           true );
-
         $db = eZDB::instance();
-        $db->begin();
-        foreach ( $objectList as $object )
+        while ( true )
         {
-            $object->purge();
+            // Fetch 100 objects at a time, to limit transaction size
+            $objectList = eZPersistentObject::fetchObjectList( eZContentObject::definition(),
+                                                               null,
+                                                               array( 'status' => eZContentObject::STATUS_ARCHIVED ),
+                                                               null,
+                                                               100,
+                                                               true );
+            if ( count( $objectList ) < 1 )
+                break;
+
+            $db->begin();
+            foreach ( $objectList as $object )
+            {
+                $object->purge();
+            }
+            $db->commit();
         }
-        $db->commit();
     }
     else
     {
