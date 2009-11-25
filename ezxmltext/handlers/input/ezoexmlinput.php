@@ -1049,9 +1049,10 @@ class eZOEXMLInput extends eZXMLInputHandler
     */
     function &inputTagXML( &$tag, $currentSectionLevel, $tdSectionLevel = null )
     {
-        $output = '';
-        $tagName = $tag instanceof DOMNode ? $tag->nodeName : '';
+        $output       = '';
+        $tagName      = $tag instanceof DOMNode ? $tag->nodeName : '';
         $childTagText = '';
+
         // render children tags
         if ( $tag->hasChildNodes() )
         {
@@ -1110,8 +1111,16 @@ class eZOEXMLInput extends eZXMLInputHandler
                 $idString  = '';
                 $tplSuffix = '';
 
-                if ( !$size ) $size = 'medium';
-                if ( !$view ) $view = $tagName;
+                if ( !$size )
+                {
+                    $contentIni = eZINI::instance( 'content.ini' );
+                    $size       = $contentIni->variable( 'ImageSettings', 'DefaultEmbedAlias' );
+                }
+
+                if ( !$view )
+                {
+                    $view = $tagName;
+                }
 
                 $objectAttr = '';                
                 $objectAttr .= ' alt="' . $size . '"';
