@@ -85,6 +85,15 @@ class eZSession
     // Name of session handler, change if you override class with autoload
     const HANDLER_NAME = 'ezdb';
 
+    // Seconds before timeout occurs that gc function stops to make sure request completes 
+    const GC_TIMEOUT_MARGIN = 5;
+
+    // Max execution time if php's setting evaluates to false, to avoid hitting http server timeout
+    const GC_MAX_EXECUTION_TIME = 300;
+
+    // Same as above when in CLI mode
+    const GC_MAX_EXECUTION_TIME_CLI = 3000;
+
     /**
      * User id, see {@link eZSession::userID()}.
      *
@@ -330,40 +339,48 @@ class eZSession
      * Deletes all expired session data in the database, this function is 
      * register in {@link eZSession::registerFunctions()}
      * 
-     * @param int $commitrows When > 0, a db commit will be issue after every
-     *            chunk of commitrows has been deleted avoiding long table locks and and timeouts
-     *            if number is sufficiently low. 
+     * @param int $sessionsPrIteration Will delete only this amount of sessions at a time to avoid timeout, set to 0 to disable
+     *            (keep bellow 1000 to not cause issues on Oracle)
      * @return bool Return boolean to signal if gc completed or if it stopped to avoid timeout.
      */
-    static public function garbageCollector( $commitrows = 10000 )
+    static public function garbageCollector( $sessionsPrIteration = 50 )
     {
         $db = eZDB::instance();
         $gcCompleted = true;
         $requestTime = $_SERVER['REQUEST_TIME'];
-        // Get max execution time, set to 300 if unlimited to avoid triggering other timouts
-        $maxExecutionTime = ini_get( 'max_execution_time' ) || 300;
         self::triggerCallback( 'gc_pre', array( $db, $requestTime ) );
 
-        if ( $commitrows !== 0 )
+        if ( $sessionsPrIteration )
         {
-            // Calculate approx. the slicing of timestamps that will delete N rows at a time
-            // assuming that sessions are evenly distributed in time
-            $res = $db->arrayQuery( 'SELECT COUNT(*) AS count, MIN(expiration_time) AS oldest FROM ezsession WHERE expiration_time < ' . $requestTime );
-            if ( $res && $res[0]['count'] > 0 && $res[0]['oldest'] < $requestTime )
+            $timedOut = false;
+            $maxExecutionTime = ini_get( 'max_execution_time' );
+            if ( !$maxExecutionTime )
             {
-                $date      = $res[0]['oldest'];
-                $timeslice = intval( $commitrows * ( $requestTime - $res[0]['oldest'] ) / $res[0]['count'] );
-                do
-                {
-                    $date += $timeslice;
-                    if ( $date > $requestTime ) $date = $requestTime;
-                    $db->query( 'DELETE FROM ezsession WHERE expiration_time < ' . $date );
-                    $db->commitquery();
-                    // Make sure we're in a safe distance (above 5 seconds) from execution timeout
-                    $withinTimout = ( time() - $requestTime  ) < ( $maxExecutionTime - 5 );
-                } while ( $date < $requestTime && $withinTimout );
-                $gcCompleted = $withinTimout || $date >= $requestTime;
+                if ( PHP_SAPI === 'cli' )
+                    $maxExecutionTime = self::GC_MAX_EXECUTION_TIME_CLI;
+                else
+                    $maxExecutionTime = self::GC_MAX_EXECUTION_TIME;
             }
+
+            do
+            {
+                $startTime = time();
+                $rows = $db->arrayQuery( 'SELECT session_key FROM ezsession WHERE expiration_time < ' . $requestTime ,  array( 'offset' => 0, 'limit' => $sessionsPrIteration, 'column' => 'session_key' ) );
+                if ( $rows )
+                {
+                    $keyINString = '\'' . implode( '\', \'', $rows ) . '\'';// generateSQLINStatement does not add quotes when casting to string
+                    $db->query( "DELETE FROM ezsession WHERE session_key IN ( $keyINString )" );
+
+                    $stopTime = time();
+                    $remaningTime = $maxExecutionTime - self::GC_TIMEOUT_MARGIN - ( $stopTime - $requestTime );
+                    if ( $remaningTime < ( $stopTime - $startTime ) )
+                    {
+                        $timedOut = true;
+                        break;
+                    }
+                }
+            } while ( $rows );
+            $gcCompleted = !$timedOut || !$rows;
         }
         else
         {

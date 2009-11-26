@@ -41,6 +41,15 @@
  */
 
 
+// Functions for session to make sure baskets are cleaned up
+function eZSessionBasketGarbageCollector( $db, $time )
+{
+    eZBasket::cleanupExpired( $time );
+}
+
+// Fill in hooks
+eZSession::addCallback( 'gc_pre', 'eZSessionBasketGarbageCollector');
+
 eZSession::garbageCollector();
 
 ?>
