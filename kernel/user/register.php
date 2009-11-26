@@ -63,6 +63,19 @@ $db->begin();
 // Create new user object if user is not logged in
 if ( !$http->hasSessionVariable( "RegisterUserID" ) )
 {
+    if ( $http->hasSessionVariable( 'StartedRegistration' ) )
+    {
+        eZDebug::writeWarning( 'Cancel module run to protect against multiple form submits', 'user/register' );
+        $http->removeSessionVariable( "RegisterUserID" );
+        $http->removeSessionVariable( 'StartedRegistration' );
+        $db->commit();
+        return eZModule::HOOK_STATUS_CANCEL_RUN;
+    }
+    else if ( $http->hasPostVariable( 'PublishButton' ) or $http->hasPostVariable( 'CancelButton' ) )
+    {
+        $http->setSessionVariable( 'StartedRegistration', 1 );
+    }
+
     $ini = eZINI::instance();
     $errMsg = '';
     $checkErrNodeId = false;
@@ -102,6 +115,15 @@ if ( !$http->hasSessionVariable( "RegisterUserID" ) )
 }
 else if ( $http->hasSessionVariable( "RegisterUserID" ) )
 {
+    if ( $http->hasSessionVariable( 'StartedRegistration' ) )
+    {
+        eZDebug::writeWarning( 'Cancel module run to protect against multiple form submits', 'user/register' );
+        $http->removeSessionVariable( "RegisterUserID" );
+        $http->removeSessionVariable( 'StartedRegistration' );
+        $db->commit();
+        return eZModule::HOOK_STATUS_CANCEL_RUN;
+    }
+
     $userID = $http->sessionVariable( "RegisterUserID" );
 }
 
@@ -122,6 +144,7 @@ if ( !function_exists( 'checkContentActions' ) )
 
             $http = eZHTTPTool::instance();
             $http->removeSessionVariable( "RegisterUserID" );
+            $http->removeSessionVariable( 'StartedRegistration' );
             return eZModule::HOOK_STATUS_CANCEL_RUN;
         }
 
@@ -234,6 +257,7 @@ if ( !function_exists( 'checkContentActions' ) )
 
             $http->removeSessionVariable( "GeneratedPassword" );
             $http->removeSessionVariable( "RegisterUserID" );
+            $http->removeSessionVariable( 'StartedRegistration' );
 
             // check for redirectionvariable
             if ( $http->hasSessionVariable( 'RedirectAfterUserRegister' ) )
