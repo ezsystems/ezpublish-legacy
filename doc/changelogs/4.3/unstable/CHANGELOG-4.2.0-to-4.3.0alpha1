@@ -65,3 +65,4 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Fixed bug #15142: Related object counted even if it is moved to trash
 - Fixed bug #15862: Register user can create duplicate entry
 - Fixed bug #10687: Empty trash always fails on huge number of objects
+- Fixed bug #14354: Strict standards: Declaration of eZOrderItem::remove() should be compatible with that of eZPersistentObject::remove()
