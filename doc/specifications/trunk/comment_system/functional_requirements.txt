@@ -1,0 +1,74 @@
+eZ Publish: Comment / UGC system, Requirements, 4.3
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+$Author: ar $
+$Revision: 24353 $
+$Date: 2009-11-19 17:44:16 +0100 (to, 19 nov 2009) $
+:Status: Draft
+
+
+Preface
+-------
+eZ Publish already has possibility to have comments and has since the
+start. But for large customers using the content structure is not
+optimal for scalability as overhead of node / object / attributes
+are to high for user generated content (UGC) on high throughput sites.
+Beside scalability there is high demand for better approval, moderation,
+reporting and spam handling of user generated content.
+
+
+
+
+
+Features (in prioritized order for 4.3)
+--------------------------------------
+
+#1 New ezjscomment extension
+Should: Use custom table with fields for id, text, name, webpage, email,
+        time, user id, object id, objectattribute id, language
+Should: Support posting by logged in and not logged in users
+Should: Fill out name and email (and webpage if you want in template) if logged in
+Should: Store name / email / web address in cookie for later use if
+        user is not logged in and checks a 'Remember me' checkbox 
+Should: Tie in to objects with datatype ()
+Should: Support read and write permissions (use ezp roles to control access)
+Should: Be able to enable/disable and hide/show comments
+        pr object attribute (on datatype content view)
+Should: Use ezjscore and make comment interface ajaxed (opt in)
+Should: Be extendable to be able to plugin captcha and
+        spam detection system
+Should: Support listing comments with template and ajax with paging
+Could: Support automatically disabling commenting pr attribute after n days
+Could: Support reply to comment, thus supporting threaded comments.
+Could: Have fields for ip and session key for moderation use
+Could: Store comment count on object attribute so it has the count without querying table
+Might: Need additional table columns for moderation unless moderation
+       system (#2) provides separate storage for content waiting for moderation
+
+
+#2 Moderation features
+Should: Add a tab in admin for ugc moderation
+Should: Allow forcing moderation by setting or permissions
+Should: Separate between approved, not approved(deleted/hidden) and un moderated (auto approved) content
+Should: Support email notification to approver
+Should: Be implemented abstracted so it can be re used later for other
+        types of user generated content.
+
+#2.1 User reporting features (user moderation)
+Should: Support reporting ugc comments
+Should: Support notifications to admin when content is reported
+Could: Support automatic un publishing content when reported n times if
+       not previously moderated (auto approved)
+
+
+#3 Notification support for comments
+Should: Allow logged in / not logged in commenter to opt in to notifications
+        on object in comment form
+Should: Trigger notification system on comment publish
+Should: Support sending collection of notifications in one mail on timely intervals
+Should: Have a interface for changing notification
+
+
+#4 eZFind/search support for comments [for later]
+Should: Provide text string of comments to normal search engine
+Should: Support sub attribute filter or something similar in ezfind
