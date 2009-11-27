@@ -46,6 +46,13 @@ A overview of user task need a dashboard, where she can follow here own
 content, approval and other tasks she might do on a regular basis.
 
 
+Community preface
+-----------------
+Some members in our community has written some articles on what they would like to 
+see changed in the Admin interface, here are some of them:
+http://www.stuffandcontent.com/2009/10/ez-publish-admin-interface-overhaul.html
+http://pwet.fr/blog/some_thougths_about_the_admin_interface_refresh_of_ez_publish
+
 
 Features (in prioritized order for 4.3)
 --------------------------------------
@@ -57,7 +64,9 @@ Should: Continue being flexible width design
 Should: Not make any changes to the layout / wire frame except
         for other features of this document
 Should: Be less over designed and have better text contrast (black on white)
+Should: Add for attribute on all form lables so they work as inteded (WAI)
 Could: Make admin style more accessible for modern mobile devices
+Could: Color code / style buttons depending on what they do: delete / get / store
 
 #2 New possibility to hide the right menu, and hide it by default.
 Should: Not involve any page refresh to show / hide it.
@@ -67,7 +76,8 @@ Could: Make the code for layout change general so it can be reused by
        right menu and left menu items.
 
 #3 Change how preferences for middle column is handled
-Should: Make admin_children_view mode pr tab (Navigation part)
+Should: Make admin_children_view mode pr tab (Navigation part), so it is 
+        possible to show media using thumbnails and content using detailed list.
 Could: Make admin_navigation_* pr tab (Navigation part)(Note: see #5.3 )
 
 #4 New dashboard as login page
@@ -106,7 +116,22 @@ Could: Allow using drag and drop to move attributes
 #9 Add Ajax feature to re order sub items using drag and drop
 Could: Merge drag and drop feature from ezwt extension
 
-#10 [Not planned] New Ajax interface for browsing node(s)
+#10 [Not planned] Provide context sensitive help system
+Should: Have a visible help link in header at all times opening a new tab.
+Should: Send module + view as parameters to help view so specific help information 
+        on for instance content/edit can be shown when clicked during editing.
+Should: Support extensions so they can provide context sensitive help as well.
+Could: Be organized so that you'll have general information on the module and
+       specific help pr view.
+Could: Host the help content online, so it is always up to date, and centralized.
+       Thus modules (incl. extensions) only need to provide a url to help pags.
+       If so, there should be guidelines on requirements for these help pages
+       and project.ez.no could provide such a interface for projects.
+       Also there should be possible to disable external help by setting if 
+       it is hosted externally, maybe provide a whitelist of domains you allow
+       to link to for help.
+
+#11 [Not planned] New Ajax interface for browsing node(s)
 Could: Use when selection node / sub tree limitations on role policies
 Could: Use when selecting target for move to operation
 Could: Use when selecting target for copy to operation
