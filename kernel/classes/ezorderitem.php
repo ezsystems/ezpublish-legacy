@@ -139,11 +139,6 @@ class eZOrderItem extends eZPersistentObject
         return $this->Price;
     }
 
-    function remove()
-    {
-        return eZPersistentObject::removeObject( eZOrderItem::definition(), array( "id" => $this->ID ) );
-    }
-
     /*!
      \static
      Removes all order items from the database.
