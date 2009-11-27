@@ -18,9 +18,9 @@ Overall there is a need to update the admin interface to adhere more closely to 
 applications have evolved with the improved usability, simplified interfaces, ajaxified
 features and clean designs that users are becoming used to in the web 2.0 era.
 
-For the outdated, this comes down to over styled design compared to other admin interfaces.
+For the out dated part, this comes down to over styled design compared to other admin interfaces.
 Both in overwhelming the user with options to click, to much screen real-estate wasted on
-styling and a outdated styling.
+styling and a out dated styling.
 
 For slowness, this is first and foremost number of clicks and page refreshes you have
 to go true to accomplish some key tasks. Identified key tasks are:
@@ -64,7 +64,7 @@ Should: Continue being flexible width design
 Should: Not make any changes to the layout / wire frame except
         for other features of this document
 Should: Be less over designed and have better text contrast (black on white)
-Should: Add for attribute on all form lables so they work as inteded (WAI)
+Should: Add for attribute on all form labels so they work as intended (WAI)
 Could: Make admin style more accessible for modern mobile devices
 Could: Color code / style buttons depending on what they do: delete / get / store
 
@@ -128,7 +128,7 @@ Could: Host the help content online, so it is always up to date, and centralized
        If so, there should be guidelines on requirements for these help pages
        and project.ez.no could provide such a interface for projects.
        Also there should be possible to disable external help by setting if 
-       it is hosted externally, maybe provide a whitelist of domains you allow
+       it is hosted externally, maybe provide a white list of domains you allow
        to link to for help.
 
 #11 [Not planned] New Ajax interface for browsing node(s)
