@@ -62,7 +62,7 @@ class eZUser extends eZPersistentObject
 
     const AUTHENTICATE_ALL = 3; //EZ_USER_AUTHENTICATE_LOGIN | EZ_USER_AUTHENTICATE_EMAIL;
 
-    private static $anonymousId = null;
+    protected static $anonymousId = null;
 
     function eZUser( $row )
     {
@@ -1039,18 +1039,19 @@ WHERE user_id = '" . $userID . "' AND
             return $GLOBALS["eZUserGlobalInstance_$id"];
         }
 
+        $userId = $id;
         $currentUser = null;
         $http = eZHTTPTool::instance();
         // If not specified get the current user
-        if ( $id === false )
+        if ( $userId === false )
         {
-            $id = $http->sessionVariable( 'eZUserLoggedInID' );
+            $userId = $http->sessionVariable( 'eZUserLoggedInID' );
 
-            if ( !is_numeric( $id ) )
+            if ( !is_numeric( $userId ) )
             {
-                $id = self::anonymousId();
-                $http->setSessionVariable( 'eZUserLoggedInID', $id );
-                eZSessionSetUserID( $id );
+                $userId = self::anonymousId();
+                $http->setSessionVariable( 'eZUserLoggedInID', $userId );
+                eZSessionSetUserID( $userId );
             }
         }
 
@@ -1071,9 +1072,9 @@ WHERE user_id = '" . $userID . "' AND
             if ( $http->hasSessionVariable( 'eZUserInfoCache' ) )
                 $userInfo = $http->sessionVariable( 'eZUserInfoCache' );
 
-            if ( isset( $userInfo[$id] ) )
+            if ( isset( $userInfo[$userId] ) )
             {
-                $userArray = $userInfo[$id];
+                $userArray = $userInfo[$userId];
 
                 if ( is_numeric( $userArray['contentobject_id'] ) )
                 {
@@ -1085,17 +1086,18 @@ WHERE user_id = '" . $userID . "' AND
 
         if ( $fetchFromDB == true )
         {
-            $currentUser = eZUser::fetch( $id );
+            $currentUser = eZUser::fetch( $userId );
 
             if ( $currentUser )
             {
                 $userInfo = array();
-                $userInfo[$id] = array( 'contentobject_id' => $currentUser->attribute( 'contentobject_id' ),
+                $userInfo[$userId] = array( 'contentobject_id' => $currentUser->attribute( 'contentobject_id' ),
                                         'login' => $currentUser->attribute( 'login' ),
                                         'email' => $currentUser->attribute( 'email' ),
                                         'password_hash' => $currentUser->attribute( 'password_hash' ),
                                         'password_hash_type' => $currentUser->attribute( 'password_hash_type' )
                                         );
+                eZSessionSetUserID( $userId );
                 $http->setSessionVariable( 'eZUserInfoCache', $userInfo );
                 $http->setSessionVariable( 'eZUserInfoCache_Timestamp', time() );
             }
@@ -1146,16 +1148,16 @@ WHERE user_id = '" . $userID . "' AND
                     $currentUser = $ssoUser;
 
                     $userInfo = array();
-                    $userInfo[$id] = array( 'contentobject_id' => $currentUser->attribute( 'contentobject_id' ),
+                    $userInfo[$userId] = array( 'contentobject_id' => $currentUser->attribute( 'contentobject_id' ),
                                             'login' => $currentUser->attribute( 'login' ),
                                             'email' => $currentUser->attribute( 'email' ),
                                             'password_hash' => $currentUser->attribute( 'password_hash' ),
                                             'password_hash_type' => $currentUser->attribute( 'password_hash_type' )
                                             );
+                    eZSessionSetUserID( $userId );
                     $http->setSessionVariable( 'eZUserInfoCache', $userInfo );
                     $http->setSessionVariable( 'eZUserInfoCache_Timestamp', time() );
-                    $http->setSessionVariable( 'eZUserLoggedInID', $id );
-                    eZSessionSetUserID( $currentUser->attribute( 'contentobject_id' ) );
+                    $http->setSessionVariable( 'eZUserLoggedInID', $userId );
 
                     eZUser::updateLastVisit( $currentUser->attribute( 'contentobject_id' ) );
                     eZUser::setCurrentlyLoggedInUser( $currentUser, $currentUser->attribute( 'contentobject_id' ) );
@@ -1165,20 +1167,20 @@ WHERE user_id = '" . $userID . "' AND
             }
         }
 
-        $anonymousUserID = $ini->variable( 'UserSettings', 'AnonymousUserID' );
-        if ( $id <> $anonymousUserID )
+        $anonymousUserID = self::anonymousId();
+        if ( $userId <> $anonymousUserID )
         {
             $sessionInactivityTimeout = $ini->variable( 'Session', 'ActivityTimeout' );
             if ( !isset( $GLOBALS['eZSessionIdleTime'] ) )
             {
-                eZUser::updateLastVisit( $id );
+                eZUser::updateLastVisit( $userId );
             }
             else
             {
                 $sessionIdle = $GLOBALS['eZSessionIdleTime'];
                 if ( $sessionIdle > $sessionInactivityTimeout )
                 {
-                    eZUser::updateLastVisit( $id );
+                    eZUser::updateLastVisit( $userId );
                 }
             }
         }
