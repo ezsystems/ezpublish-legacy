@@ -68,10 +68,14 @@ might decide to degrade gracefully and not enable key JavaScript / Ajax
 enhancements if it requires additional coding or workaround to support IE6.
 
 
+========
+Features
+========
 
-Features (in prioritized order for 4.3)
-=======================================
-#1 New admin interface style.
+In prioritized order for 4.3:
+
+#1 New admin interface style
+----------------------------
 Should: Look more modern and up to date
 Should: Reclaim screen real estate for content area
 Should: Not require any new kernel features or changes
@@ -85,7 +89,8 @@ Could: Color code / style buttons depending on what they do: delete / get / stor
 Could: Use CSS sprites for small image buttons, icons and logos to reduce download
        amount and size for admin graphic 
 
-#1.1 New possibility to hide the right menu, and hide it by default.
+#1.1 New possibility to hide the right menu, and hide it by default
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Should: Not involve any page refresh to show / hide it.
 Should: Move logout link to header so it is always accessible.
 Could: Make the code for layout change general so it can be reused by
@@ -93,11 +98,13 @@ Could: Make the code for layout change general so it can be reused by
        right menu and left menu items.
 
 #1.2 Change how preferences for middle column is handled
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Should: Make admin_children_view mode pr tab (Navigation part), so it is 
         possible to show media using thumbnails and content using detailed list.
 Could: Make admin_navigation_* pr tab (Navigation part)(Note: see #5.3 )
 
 #1.3 Reduce scrolling on large pages
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Could: Have store/discard buttons on top of content & class edit forms as well as bottom
        or using a fixed position bar that always stays on screen.
 Could: Move "create here" input to top box instead of bottom
@@ -105,6 +112,7 @@ Could: Move upper buttons (Preview, details,..) + related blocks to a tabbed,
        minimize able block beneath top block.
 
 #2 New dashboard as login page
+------------------------------
 Should: Be the default login page in admin interface
 Should: Provide box for last published content
 Should: Provide box for last modified content by current user
@@ -115,25 +123,30 @@ Should: Be extend able so extensions can add blocks
 Could: Provide a box for highest/lowest rated content (ezstarrating)
 Could: Provide a box for comment approval (ezjscomment)
 
-#3 New Ajax features for relation object and list content attributes.
+#3 New Ajax features for relation object and list content attributes
+--------------------------------------------------------------------
 Should: Add a inline Ajax search interface to find possible relations
 Should: Be able to remove relations without page refresh
 Could: Be able to reorder relations without page refresh (list)
 Could: Provide drag and drop features to relations for reordering(list)
 
-#4 New Ajax features for adding policies to roles.
+#4 New Ajax features for adding policies to roles
+-------------------------------------------------
 Should: Be able to select module and function without any page refresh
 
-#5 New Ajax functionality for class edit interface.
+#5 New Ajax functionality for class edit interface
+--------------------------------------------------
 Should: Be able to add attribute without page refresh
 Should: Be able to remove attribute without page refresh
 Should: Be able to move attributes without page refresh
 Could: Allow using drag and drop to move attributes
 
 #6 Add Ajax feature to re order sub items using drag and drop
+-------------------------------------------------------------
 Could: Merge drag and drop feature from ezwt extension
 
 #7 [Not planned] Provide context sensitive help system
+------------------------------------------------------
 Should: Have a visible help link in header at all times opening a new tab.
 Should: Send module + view as parameters to help view so specific help information 
         on for instance content/edit can be shown when clicked during editing.
@@ -149,6 +162,7 @@ Could: Host the help content online, so it is always up to date, and centralized
        to link to for help.
 
 #8 [Not planned] New Ajax interface for browsing node(s)
+--------------------------------------------------------
 Could: Use when selection node / sub tree limitations on role policies
 Could: Use when selecting target for move to operation
 Could: Use when selecting target for copy to operation

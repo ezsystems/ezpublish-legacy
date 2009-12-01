@@ -20,13 +20,14 @@ Beside scalability there is high demand for better approval, moderation,
 reporting and spam handling of UGC.
 
 
+========
+Features
+========
 
-
-
-Features (in prioritized order for 4.3)
-=======================================
+In prioritized order for 4.3:
 
 #1 New comment extension
+------------------------
 Should: Use custom table with fields for id, text, name, webpage, email,
         time, user id, object id, objectattribute id, language
 Should: Support posting by logged in and not logged in users
@@ -48,8 +49,8 @@ Could: Store comment count on object attribute so it has the count without query
 Might: Need additional table columns for moderation unless moderation
        system (#2) provides separate storage for content waiting for moderation
 
-
 #2 New moderation system
+------------------------
 Should: Add a tab in admin for UGC moderation
 Should: Allow automatically approval by setting or permissions
 Should: Separate between approved, not approved(deleted/hidden) and un moderated (auto approved) content
@@ -58,15 +59,15 @@ Could: Support email notification to approver
 Could: Be implemented abstracted so it can be re used later for other
        types of UGC.
 
-
 #2.1 User reporting features (user moderation)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Should: Support reporting UGC
 Could: Support notifications to admin when content is reported
 Could: Support automatic un publishing content when reported n times if
        not previously moderated (auto approved)
 
-
 #3 Notification support for comments
+------------------------------------
 Terms: subscriber = A logged in or anonymous user with mail
        subscription = A relation between subscriber and the content she subscribes to 
 Should: Allow commenter to subscribe on notifications pr object in comment form
@@ -75,7 +76,7 @@ Should: Have a interface for changing subscription
 Should: Send approval request of subscription  to email if anonymous (once pr subscription)
 Could: Support sending collection of subscription in one mail on timely intervals
 
-
 #4 eZFind/search support for comments [for later]
+-------------------------------------------------
 Should: Provide text string of comments to normal search engine
 Should: Support sub attribute filter or something similar in ezfind
