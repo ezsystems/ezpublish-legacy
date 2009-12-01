@@ -70,19 +70,19 @@ Could: Color code / style buttons depending on what they do: delete / get / stor
 Could: Use CSS sprites for small image buttons, icons and logos to reduce download
        amount and size for admin graphic 
 
-#1.2 New possibility to hide the right menu, and hide it by default.
+#1.1 New possibility to hide the right menu, and hide it by default.
 Should: Not involve any page refresh to show / hide it.
 Should: Move logout link to header so it is always accessible.
 Could: Make the code for layout change general so it can be reused by
        size selector on left menu, as well as the hide / show buttons on
        right menu and left menu items.
 
-#1.3 Change how preferences for middle column is handled
+#1.2 Change how preferences for middle column is handled
 Should: Make admin_children_view mode pr tab (Navigation part), so it is 
         possible to show media using thumbnails and content using detailed list.
 Could: Make admin_navigation_* pr tab (Navigation part)(Note: see #5.3 )
 
-#1.4 Reduce scrolling on large pages
+#1.3 Reduce scrolling on large pages
 Could: Have store/discard buttons on top of content & class edit forms as well as bottom
        or using a fixed position bar that always stays on screen.
 Could: Move "create here" input to top box instead of bottom
