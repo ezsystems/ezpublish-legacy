@@ -66,6 +66,8 @@ IE6 on a functional level. Meaning all functions should work as expected in it, 
 we will not strive to remain pixel perfect at the esthetic level. In addition we
 might decide to degrade gracefully and not enable key JavaScript / Ajax 
 enhancements if it requires additional coding or workaround to support IE6.
+For CSS this will mean we'll take advantage of CSS 2 features that has been
+around for 11 years have been implemented in all other A-Grade browsers.
 
 
 ========
