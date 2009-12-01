@@ -54,6 +54,18 @@ http://www.stuffandcontent.com/2009/10/ez-publish-admin-interface-overhaul.html
 http://pwet.fr/blog/some_thougths_about_the_admin_interface_refresh_of_ez_publish
 
 
+A note on browser compatibility
+-------------------------------
+We follow the YUI A-Grade Browser Support Chart, meaning we fully support all major
+browsers. However, we all (developers and their managers) know how painfully it can
+be to support Internet Explorer 6(IE6). Therefore we will only choose to support
+IE6 on a functional level. Meaning all functions should work as expected in it, but
+we will not strive to remain pixel perfect at the esthetic level. In addition we
+might decide to degrade gracefully and not enable key JavaScript / Ajax 
+enhancements if it requires additional coding or workaround to support IE6.
+
+
+
 Features (in prioritized order for 4.3)
 --------------------------------------
 #1 New admin interface style.
