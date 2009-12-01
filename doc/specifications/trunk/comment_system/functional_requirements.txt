@@ -6,9 +6,12 @@ $Revision: 24353 $
 $Date: 2009-11-19 17:44:16 +0100 (to, 19 nov 2009) $
 :Status: Draft
 
+.. contents::
 
+=======
 Preface
--------
+=======
+
 eZ Publish already has possibility to have comments and has since the
 start. But for large customers using the content structure is not
 optimal for scalability as overhead of node / object / attributes
@@ -21,9 +24,9 @@ reporting and spam handling of UGC.
 
 
 Features (in prioritized order for 4.3)
---------------------------------------
+=======================================
 
-#1 New ezjscomment extension
+#1 New comment extension
 Should: Use custom table with fields for id, text, name, webpage, email,
         time, user id, object id, objectattribute id, language
 Should: Support posting by logged in and not logged in users

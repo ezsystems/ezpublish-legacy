@@ -6,9 +6,12 @@ $Revision$
 $Date$
 :Status: Draft
 
+.. contents::
 
+=======
 Preface
--------
+=======
+
 Current admin design, both in its styling and in its UI has been increasingly
 subject to criticism for being outdated, slow, impossible to extend cleanly,
 unintuitive and a lack of a central place to get a overview of all the task a user
@@ -67,7 +70,7 @@ enhancements if it requires additional coding or workaround to support IE6.
 
 
 Features (in prioritized order for 4.3)
---------------------------------------
+=======================================
 #1 New admin interface style.
 Should: Look more modern and up to date
 Should: Reclaim screen real estate for content area
