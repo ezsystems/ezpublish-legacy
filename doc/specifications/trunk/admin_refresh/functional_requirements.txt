@@ -67,6 +67,8 @@ Should: Be less over designed and have better text contrast (black on white)
 Should: Add for attribute on all form labels so they work as intended (WAI)
 Could: Make admin style more accessible for modern mobile devices
 Could: Color code / style buttons depending on what they do: delete / get / store
+Could: Use CSS sprites for small image buttons, icons and logos to reduce download
+       amount and size for admin graphic 
 
 #1.2 New possibility to hide the right menu, and hide it by default.
 Should: Not involve any page refresh to show / hide it.
