@@ -113,6 +113,10 @@ Could: Move "create here" input to top box instead of bottom
 Could: Move upper buttons (Preview, details,..) + related blocks to a tabbed,
        minimize able block beneath top block.
 
+#1.4 Optimize speed of admin interface
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Should: Sync pagelayout structure with ezwebin and enable cache-block's for header
+
 #2 New dashboard as login page
 ------------------------------
 Should: Be the default login page in admin interface
