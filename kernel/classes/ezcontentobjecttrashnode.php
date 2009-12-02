@@ -165,6 +165,21 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
     function storeToTrash()
     {
         $this->store();
+
+        $db = eZDB::instance();
+        $db->begin();
+
+        $contentObject = $this->attribute( 'object' );
+        $contentobjectAttributes = $contentObject->allContentObjectAttributes( $contentObject->attribute( 'id' ) );
+        foreach ( $contentobjectAttributes as $contentobjectAttribute )
+        {
+            $dataType = $contentobjectAttribute->dataType();
+            if ( !$dataType )
+                continue;
+            $dataType->trashStoredObjectAttribute( $contentobjectAttribute );
+        }
+
+        $db->commit();
     }
 
     static function purgeForObject( $contentObjectID )

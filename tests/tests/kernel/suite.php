@@ -48,6 +48,9 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'eZContentClassTest' );
         //$this->addTestSuite( 'eZPackageRegression' ); // Missing test
         //$this->addTestSuite( 'eZContentFunctionsTest' ); // Missing test
+        $this->addTestSuite( 'eZBinaryFileTypeRegression' );
+        $this->addTestSuite( 'eZMediaTypeRegression' );
+        $this->addTestSuite( 'eZImageTypeRegression' );
 
         // This test suite is commented out until it will be fixed to work on any machine
         // $this->addTestSuite( 'eZRSSExportTest' );
