@@ -116,6 +116,7 @@ Could: Move upper buttons (Preview, details,..) + related blocks to a tabbed,
 #1.4 Optimize speed of admin interface
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Should: Sync pagelayout structure with ezwebin and enable cache-block's for header
+        This should also make it easier to override sections of pagelayout like webin 1.4+
 
 #2 New dashboard as login page
 ------------------------------
