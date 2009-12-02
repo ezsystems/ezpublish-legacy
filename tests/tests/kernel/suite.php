@@ -24,6 +24,9 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'eZContentObjectStateTest' );
         $this->addTestSuite( 'eZContentObjectStateGroupTest' );
         // $this->addTestSuite( 'eZWebDAVBackendContentRegressionTest' );
+        $this->addTestSuite( 'eZBinaryFileTypeRegression' );
+        $this->addTestSuite( 'eZMediaTypeRegression' );
+        $this->addTestSuite( 'eZImageTypeRegression' );
     }
 
     public static function suite()
