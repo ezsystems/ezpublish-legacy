@@ -1,0 +1,1923 @@
+/* ADMIN CSS 20041123 */
+
+/* PAGELAYOUT MAIN STYLES */
+
+body
+{
+    background-color: #ecece4;
+    margin: 0;
+    padding: 0;
+}
+
+div#header
+{
+    background-image: url(../images/top-background-repeat.gif);
+    background-position: top left;
+    background-repeat: repeat-x;
+}
+
+div#header-design
+{
+    height: 75px;
+    background-image: url(../images/top-background.gif);
+    background-position: top left;
+    background-repeat: no-repeat;
+}
+
+div#logo
+{
+    position: relative;
+    float: left;
+    margin: 16px 0 0 10px;
+}
+
+div#logo p
+{
+    color: #ffffff;
+    position: absolute;
+    left: 271px;
+    top: 8px;
+    white-space: nowrap;
+}
+
+div#search
+{
+    margin: 1.5em 1em 0 0;
+    float: right;
+}
+
+div#search form
+{
+}
+
+div#search div.block
+{
+    margin: 0;
+}
+
+div#search input#searchtext
+{
+    font-size: 1em;
+    width: 16em;
+}
+
+div#search p
+{
+    font-size: 0.8em;
+    color: #ffffff;
+    margin: 0;
+    text-align: left;
+}
+
+div#search p.select
+{
+    float: left;
+    margin-top: 0.2em;
+}
+
+div#search p.select input
+{
+    vertical-align: middle;
+}
+
+div#search a
+{
+    color: #ffffff;
+}
+
+div#search p.advanced
+{
+    margin-top: 0.2em;
+    text-align: right;
+}
+
+div#search label
+{
+    display: inline;
+}
+
+div#search label.disabled, div#search span.disabled
+{
+    color: #1a324a;
+}
+
+div#userstatus
+{
+    float: right;
+}
+
+div#topmenu
+{
+    margin-top: -4px;
+}
+
+div#topmenu-design
+{
+    background-image: url(../images/topmenu-background.gif);
+    background-position: top left;
+    background-repeat: repeat-x;
+    text-align: left;
+    height: 1%;
+}
+
+div#topmenu div.loginpagemenu
+{
+    height: 2em;
+}
+
+div#topmenu ul
+{
+    margin: 0;
+    padding: 0 0 0 1em;
+}
+
+div#topmenu li, div#topmenu li div
+{
+    margin: 0;
+    padding: 0;
+    display: block;
+    float: left;
+}
+
+div#topmenu li
+{
+    background-image: url(../images/topmenu-background.gif);
+}
+
+div#topmenu li.selected
+{
+    background-image: url(../images/topmenu-background-sel.gif);
+    background-position: top left;
+    background-repeat: repeat-x;
+}
+
+div#topmenu li div
+{
+    background-image: url(../images/topmenu-leftedge.gif);
+    background-position: top left;
+    background-repeat: no-repeat;
+}
+
+div#topmenu li.first div
+{
+    background-image: url(../images/topmenu-leftedge-f.gif);
+    background-position: top left;
+    background-repeat: no-repeat;
+}
+
+div#topmenu li.selected div
+{
+    background-image: url(../images/topmenu-leftedge-sel.gif);
+    background-position: top left;
+    background-repeat: no-repeat;
+}
+
+div#topmenu li.selected-first div
+{
+    background-image: url(../images/topmenu-leftedge-sel-f.gif);
+    background-position: top left;
+    background-repeat: no-repeat;
+}
+
+div#topmenu li div a, div#topmenu span.disabled
+{
+    background-image: url(../images/topmenu-rightedge.gif);
+    background-position: top right;
+    background-repeat: no-repeat;
+    display: block;
+    float: left;
+    font-weight: normal;
+    padding: 0.4em 16px 0.2em 16px; /* Must be set on a-level, not li-level, to work correctly in konqueror */
+    text-decoration: none;
+}
+
+div#topmenu li.last div a, div#topmenu li.last span.disabled
+{
+    background-image: url(../images/topmenu-rightedge-l.gif);
+    background-position: top right;
+    background-repeat: no-repeat;
+}
+
+div#topmenu li.selected-last div a
+{
+    background-image: url(../images/topmenu-rightedge-sel-l.gif);
+    background-position: top right;
+    background-repeat: no-repeat;
+}
+
+div#topmenu li a
+{
+   color: #254b71;
+}
+
+div#topmenu li a:hover
+{
+   color: #000000;
+}
+
+div#topmenu li.selected a, div#topmenu li.selected span.disabled
+{
+    color: #ffffff;
+    background-image: url(../images/topmenu-rightedge-sel.gif);
+    background-position: top right;
+    background-repeat: no-repeat;
+    display: block;
+    float: left;
+    font-weight: bold;
+    padding: 0.3em 16px 0.3em 16px; /* Must be set on a-level, not li-level, to work correctly in konqueror */
+    text-decoration: none;
+}
+
+div#topmenu li.selected span.disabled
+{
+    color: #bfbeb6;
+}
+
+div#topmenu li.selected a:hover
+{
+   color: #ffffff;
+}
+
+div#topmenu div.break
+{
+    height: 2px;
+    font-size: 1px;
+    margin-top: -2px;
+}
+
+span.disabled, label.disabled
+{
+    color: #bfbeb6;
+}
+
+div#path-design
+{
+    background-color: #cfcfc0;
+    background-image: url(../images/path-background.gif);
+    background-position: top left;
+    background-repeat: repeat-x;
+    padding: 0.5em;
+}
+
+div#path p, div#path a
+{
+    color: #75756c;
+    margin: 0;
+}
+
+div#path a:hover
+{
+    color: #000000;
+}
+
+div#path span.disabled
+{
+}
+
+div#columns
+{
+    height: 100%; /* Set to avoid bug in IE 5.5 */
+}
+
+div#leftmenu ul, div#rightmenu ul
+{
+    margin-left: 1.5em;
+}
+
+div#leftmenu ul, div#rightmenu ul
+{
+    list-style-type: none;
+    margin-left: 0;
+}
+
+div#leftmenu ul li, div#rightmenu ul li
+{
+    margin-left: 0;
+}
+
+div#leftmenu li a, div#rightmenu li a
+{
+    background-image: url(../images/list-bullet.gif);
+    background-position: 0.2em 0.4em;
+    background-repeat: no-repeat;
+    padding-left: 18px;
+    display: block;
+}
+
+div#leftmenu li span.disabled, div#rightmenu li span.disabled
+{
+    background-image: url(../images/list-bullet-disabled.gif);
+    background-position: 0.2em 0.4em;
+    background-repeat: no-repeat;
+    padding-left: 18px;
+    display: block;
+}
+
+div#leftmenu div#content-tree li a, div#rightmenu div#bookmarks li a, div#rightmenu div#bookmarks li span.disabled, div#leftmenu li.nobullet a
+{
+    background-image: none;
+    padding-left: 0;
+    display: inline;
+}
+
+div#leftmenu
+{
+    float: left;
+    width: 13em;
+}
+
+div#leftmenu-design
+{
+    margin: 0.5em 0.1em 0 0.5em;
+}
+
+div#leftmenu div.box-header, div#rightmenu div.box-header
+{
+    background-image: url(../images/menuheader-background.gif);
+    background-repeat: repeat-y;
+    background-color: #8a9fb6;
+    border-bottom: 1px solid #bfbfb7;
+}
+
+div#leftmenu div.box-header h4, div#rightmenu  div.box-header h4
+{
+    color: #ffffff;
+    margin: 0;
+    padding: 0.4em 0.75em 0.4em 0.75em;
+    white-space: nowrap;
+}
+
+div#leftmenu h5, div#rightmenu h5
+{
+    color: #000000;
+    background-color: #BABAAD;
+    padding: 0.2em;
+    white-space: nowrap;
+}
+
+div#leftmenu div.box-tc, div#rightmenu div.box-tc, div#maincontent div.box-tc
+{
+    background-image: url(../images/box-edge.gif);
+    background-position: top;
+    background-repeat: repeat-x;
+}
+
+div#leftmenu div.box-bc, div#rightmenu div.box-bc
+{
+    background-image: url(../images/box-bc.gif);
+    background-position: bottom;
+    background-repeat: repeat-x;
+    background-color: #fefefb;
+    margin-bottom: 0.5em;
+}
+
+div#leftmenu div.box-ml, div#rightmenu div.box-ml
+{
+    background-image: url(../images/box-edge.gif);
+    background-position: left;
+    background-repeat: repeat-y;
+}
+
+div#leftmenu div.box-mr, div#rightmenu div.box-mr
+{
+    background-image: url(../images/box-edge.gif);
+    background-position: right;
+    background-repeat: repeat-y;
+}
+
+div#leftmenu div.box-tl, div#rightmenu div.box-tl
+{
+    background-image: url(../images/box-tl.gif);
+    background-position: top left;
+    background-repeat: no-repeat;
+}
+
+div#leftmenu div.box-tr, div#rightmenu div.box-tr
+{
+    background-image: url(../images/box-tr.gif);
+    background-position: top right;
+    background-repeat: no-repeat;
+}
+
+div#leftmenu div.box-bl, div#rightmenu div.box-bl
+{
+    background-image: url(../images/box-bl.gif);
+    background-position: bottom left;
+    background-repeat: no-repeat;
+}
+
+div#leftmenu div.box-br, div#rightmenu div.box-br
+{
+    background-image: url(../images/box-br.gif);
+    background-position: bottom right;
+    background-repeat: no-repeat;
+}
+
+div#leftmenu div#content-tree div.box-content
+{
+    padding: 0 1px 0.5em 1px; 
+}
+
+div#leftmenu div.box-content
+{
+    padding: 0.25em 0.5em 0.5em 0.5em;  
+}
+
+div#leftmenu div.box-content p
+{
+    margin: 0;
+    padding: 0.25em 0 0.25em 0;
+}
+
+div#leftmenu div.box-content div.block
+{
+    padding: 0.25em 0 0.25em 0;  
+}
+
+div#leftmenu div.box-content div.element p
+{
+    margin: 0;
+}
+
+div#rightmenu div.box-content
+{
+    padding: 0.3em 0.3em 0.5em 0.3em;  
+}
+
+div#rightmenu div.box-content div.block
+{
+    padding: 0.25em 0.5em 0.25em 0.3em;  
+}
+
+div#leftmenu div.translations label
+{
+    font-weight: normal;
+    white-space: normal;
+}
+
+div#trash ul
+{
+    margin-left: 0.25em;
+    padding-left: 0.5em;
+}
+
+div#trash li
+{
+    list-style-type: none;
+}
+
+div#trash li a
+{
+    text-decoration: none;
+}
+
+div#trash li a:hover
+{
+    color: #000000;
+    text-decoration: underline;
+}
+
+div#trash li img
+{
+    vertical-align: middle;
+}
+
+div.widthcontrol p
+{
+    text-align: center;
+    font-size: 0.85em;
+}
+
+div.widthcontrol a, div.settings a
+{
+    color: #8a8a85;
+    padding: 0 0.25em 0 0.25em;
+    text-decoration: none;
+}
+
+div.widthcontrol a:hover, div.settings a:hover
+{
+    color: #ffffff;
+    background-color: #2D537A;
+    text-decoration: none;
+}
+
+div.widthcontrol span.current, div.settings span.current
+{
+    color: #254b71;
+    background-color: #C8CFD7;
+    padding: 0 0.25em 0 0.25em;
+    text-decoration: none;
+}
+
+div#rightmenu 
+{
+    float: right;
+    width: 13em;
+}
+
+div#rightmenu-design
+{
+    margin: 0.5em 0.5em 0 0.1em;
+}
+
+div#currentuser, div#bookmarks
+{
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+div#currentuser p
+{
+    margin: 0.25em 0 0 0;
+}
+
+div#bookmarks p
+{
+    margin: 0;
+}
+
+div#currentuser ul
+{
+    margin-top: 0.25em;
+    margin-bottom: 0;
+    padding-bottom: 0.5em;
+}
+
+div#currentuser a
+{
+    font-weight: bold;
+}
+
+div#history ul, div#bookmarks ul
+{
+    margin: 0 0.3em 0 0.3em;
+}
+
+div#history li, div#bookmarks li
+{
+    list-style-type: none;
+    margin-bottom: 0.2em;
+}
+
+div#history img, div#bookmarks img
+{
+    vertical-align: middle;
+}
+
+a.showhide, div#rightmenu span.openclose
+{
+    font-family: "Courier New", Courier, monospace;
+    text-decoration: none;
+    color: #2d537a;
+    background-color: #8a9fb6;
+    padding: 0 0.3em 0 0.3em;
+    border: 1px solid #a7bbd1;
+    border-right-color: #2d537a;
+    border-bottom-color: #2d537a;
+    display: block;
+    float: right;
+}
+
+a.showhide span.bracket, div#rightmenu span.openclose span.bracket
+{
+    display: none;
+}
+
+a.showhide:hover
+{
+    color: #2d537a;
+    text-decoration: none;
+}
+
+div#maincontent
+{
+    margin-left: 13.5em;
+    margin-right: 13.5em;
+    height: 100%; /* Set to avoid bug in IE 5.5 */
+}
+
+div#fix /* Breaks unwanted connection between the content of the maincontent box and the menues on the left and right in some browsers */
+{
+    float: left;
+    width: 100%;
+}
+
+div#footer
+{
+    text-align: center;
+}
+
+div#footer address
+{
+    font-size: 0.85em;
+    color: #7a8fa6;
+    font-style: normal;
+}
+
+div#footer a
+{
+    color: #2d537a;
+}
+
+h4
+{
+    margin-top: 0;
+}
+
+h4 a
+{
+    color: #ffffff;
+}
+
+h4 a:hover
+{
+    color: #e0e0e0;
+}
+
+h4 span.openclose
+{
+    font-size: 1em;
+    color: #ffffff;
+}
+
+h4 a.openclose:hover
+{
+    color: #ffffff;
+}
+
+div.extramenuitems
+{
+    text-align: center;
+}
+
+
+/* CONTENTSTRUCTURE TREE MENU STYLES */
+
+div#contentstructure
+{
+    width: 100%;
+    overflow: auto;
+    overflow: -moz-scrollbars-horizontal;  /* hide vertical scrollbar in Mozilla */
+    padding-top: 0.5em;
+    position: relative; /* to fix a bug in Opera */
+}
+
+div#contentstructure ul#content_tree_menu
+{
+    margin-top: 0;    
+    margin-left: 0.25em;
+    padding-left: 0.5em;
+}
+
+div#contentstructure ul#content_tree_menu ul
+{
+    margin: 0;
+    padding-top: 4px;
+    padding-bottom: 0;
+}
+
+div#contentstructure ul#content_tree_menu ul ul
+{
+    margin-left: 0;
+}
+
+div#contentstructure ul#content_tree_menu li
+{
+    list-style-type: none;
+    white-space: nowrap;
+    position: relative;
+}
+
+div#contentstructure ul#content_tree_menu ul li
+{
+    margin: 0;
+    padding-top: 0;
+    padding-left: 20px;
+    padding-bottom: 4px;
+    background-image: url(../images/bg_content_tree_li.gif);
+    background-repeat: no-repeat;
+}
+
+div#contentstructure ul#content_tree_menu ul li.lastli
+{
+    background-image: url(../images/bg_content_tree_li_last.gif);
+    padding-bottom: 2px;
+}
+
+div#contentstructure ul#content_tree_menu li img
+{
+    vertical-align: middle;
+}
+
+div#contentstructure a.nodeicon
+{
+    margin-left: 0;
+    padding-left: 0;
+}
+
+div#contentstructure a.nodetext
+{
+    color: #315578;
+    text-decoration: none;
+}
+
+div#contentstructure a.nodetext:hover
+{
+    color: #000000;
+    text-decoration: underline;
+}
+
+div#contentstructure li.currentnode a.nodetext:hover
+{
+    text-decoration: none;
+}
+
+div#contentstructure li.currentnode li a.nodetext:hover
+{
+    color: #000000;
+    text-decoration: underline;
+}
+
+div#contentstructure li span.node-name-normal
+{
+    font-weight: normal;
+}
+
+div#contentstructure li.currentnode a.nodetext span.node-name-normal, div#contentstructure li.currentnode a.nodetext span.node-name-hidden, div#contentstructure li.currentnode a.nodetext span.node-name-hiddenbyparent /* Highlighting of current node */
+{
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #f08c00;
+    padding: 0 0.25em 0 0.2em;
+}
+
+div#contentstructure li.currentnode li a.nodetext span.node-name-normal, div#contentstructure li.currentnode li a.nodetext span.node-name-hidden, div#contentstructure li.currentnode li a.nodetext span.node-name-hiddenbyparent
+{
+    font-weight: normal;
+    color: #315578;
+    background-color: transparent;
+    padding: 0;
+}
+
+div#contentstructure li a.nodetext span.node-name-hidden, div#contentstructure li.currentnode li a.nodetext span.node-name-hidden
+{
+    font-weight: normal;
+    font-style: normal;
+    background-color: #e0e0c9;
+    padding: 0 0.2em 0 0.2em;
+}
+
+div#contentstructure li a.nodetext span.node-name-hiddenbyparent, div#contentstructure li.currentnode li a.nodetext span.node-name-hiddenbyparent
+{
+    font-weight: normal;
+    font-style: normal;
+    background-color: #eff0e4;
+    padding: 0 0.2em 0 0.2em;
+}
+
+div#contentstructure span.node-hidden, div#contentstructure span.node-hiddenbyparent
+{
+    display: none;
+}
+
+a.openclose, span.openclose
+{
+    text-decoration: none;
+}
+
+a.openclose img, span.openclose img
+{
+    margin: 0;
+    cursor: default;
+}
+
+div#contentstructure a.openclose, div#contentstructure span.openclose
+{
+    color: #315578;
+}
+
+div#contentstructure span.openclose
+{
+    visibility: hidden;
+}
+
+/* The following are used in the dynamic tree menu */
+div#contentstructure ul#content_tree_menu ul a.openclose-open, div#contentstructure ul#content_tree_menu ul a.openclose-close, div#contentstructure ul#content_tree_menu ul a.openclose-busy, div#contentstructure ul#content_tree_menu ul a.openclose-error
+{
+    position: absolute;
+    left: 0;
+    _left: -20px; /* to fix a bug in IE 6 */
+    top: 0;
+    width: 16px;
+    height: 16px;
+    background-image: url( '../images/content_tree-open.gif' );
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+div#contentstructure ul#content_tree_menu ul a.openclose-close
+{
+    background-image: url( '../images/content_tree-close.gif' );
+}
+
+div#contentstructure ul#content_tree_menu ul a.openclose-busy
+{
+    background-image: url( '../images/content_tree-busy.gif' );
+    cursor: progress;
+}
+
+div#contentstructure ul#content_tree_menu ul a.openclose-error
+{
+    background-image: url( '../images/content_tree-error.gif' );
+}
+
+div#contentstructure ul#content_tree_menu div.loaded
+{
+    display: block;
+}
+
+div#contentstructure ul#content_tree_menu div.hidden
+{
+    display: none;
+}
+
+/* MAIN CONTENT TOP MENU (in navigation mode) */
+
+div.menu-block
+{
+    padding: 0.5em 0 0 0;
+    text-align: center;
+}
+
+div.menu-block ul
+{
+    margin: 0;
+    padding: 0;
+}
+
+div.menu-block li
+{
+    display: block;
+    float: left;
+    width: 16.66%;
+    background-color: #ffffff;
+}
+
+div.menu-block li._25
+{
+    width: 25%;
+}
+
+div.menu-block li._20
+{
+    width: 20%;
+}
+
+div.context-user div.menu-block li
+{
+    width: 14%;
+}
+
+div.menu-block a
+{
+    font-size: 0.85em;
+    display: block;
+    padding: 0 0.2em 0.1em 0.2em;
+    text-decoration: none;
+}
+
+div.menu-block li.enabled a
+{
+    color: #ffffff;
+    background-image: url(../images/button-enabled-bl.gif);
+    background-position: bottom left;
+    background-repeat: no-repeat;
+}
+
+div.menu-block li.enabled a:hover
+{
+    color: #ffffff;
+    text-decoration: none;
+}
+
+div.menu-block li.disabled a
+{
+    color: #000000;
+    background-image: url(../images/button-disabled-bl.gif);
+    background-position: bottom left;
+    background-repeat: no-repeat;
+}
+
+div.menu-block li.disabled a:hover
+{
+    color: #000000;
+    text-decoration: none;
+}
+
+div.menu-block li.enabled
+{
+    background-image: url(../images/button-enabled-tc.gif);
+    background-position: top left;
+    background-repeat: repeat-x;
+}
+
+div.menu-block li.disabled
+{
+    background-image: url(../images/button-disabled-tc.gif);
+    background-position: top left;
+    background-repeat: repeat-x;
+}
+
+div.menu-block li.enabled div.button-bl
+{
+    background-image: url(../images/button-enabled-bl.gif);
+    background-repeat: no-repeat;
+    background-position: bottom left;
+}
+
+div.menu-block li.disabled div.button-bl
+{
+    background-image: url(../images/button-disabled-bl.gif);
+    background-repeat: no-repeat;
+    background-position: bottom left;
+}
+
+div.menu-block li.enabled div.button-tl
+{
+    background-image: url(../images/button-enabled-tl.gif);
+    background-repeat: no-repeat;
+    background-position: top left;
+}
+
+div.menu-block li.disabled div.button-tl
+{
+    background-image: url(../images/button-disabled-tl.gif);
+    background-repeat: no-repeat;
+    background-position: top left;
+}
+
+div.menu-block li.enabled div.button-tr
+{
+    background-image: url(../images/button-enabled-tr.gif);
+    background-repeat: no-repeat;
+    background-position: top right;
+}
+
+div.menu-block li.disabled div.button-tr
+{
+    background-image: url(../images/button-disabled-tr.gif);
+    background-repeat: no-repeat;
+    background-position: top right;
+}
+
+div.menu-block li.enabled div.button-br
+{
+    background-image: url(../images/button-enabled-br.gif);
+    background-repeat: no-repeat;
+    background-position: bottom right;
+}
+
+div.menu-block li.disabled div.button-br
+{
+    background-image: url(../images/button-disabled-br.gif);
+    background-repeat: no-repeat;
+    background-position: bottom right;
+}
+
+div.menu-block li.enabled div.button-bc
+{
+    background-image: url(../images/button-enabled-bc.gif);
+    background-repeat: repeat-x;
+    background-position: bottom left;
+}
+
+div.menu-block li.disabled div.button-bc
+{
+    background-image: url(../images/button-disabled-bc.gif);
+    background-repeat: repeat-x;
+    background-position: bottom left;
+}
+
+
+/* MAINCONTENT GENERAL STYLES */
+
+div#maincontent div.box-header
+{
+    background-image: url(../images/mainheader-background.gif);
+    background-repeat: repeat-y;
+    background-color: #8a9fb6;
+}
+
+div#maincontent div.box-bc
+{
+    background-image: url(../images/box-bc.gif);
+    background-position: bottom left;
+    background-repeat: repeat-x;
+    background-color: #fefefb;
+}
+
+div#maincontent div.controlbar div.box-bc
+{
+    background-image: url(../images/controlbar-background.gif);
+    background-position: bottom;
+    background-repeat: repeat-x;
+    background-color: #e7e8e0;
+}
+
+div#maincontent div.box-ml
+{
+    background-image: url(../images/box-edge.gif);
+    background-position: left;
+    background-repeat: repeat-y;
+}
+
+div#maincontent div.box-mr
+{
+    background-image: url(../images/box-edge.gif);
+    background-position: right;
+    background-repeat: repeat-y;
+}
+
+div#maincontent div.box-tl
+{
+    background-image: url(../images/box-tl.gif);
+    background-position: top left;
+    background-repeat: no-repeat;
+}
+
+div#maincontent div.box-tr
+{
+    background-image: url(../images/box-tr.gif);
+    background-position: top right;
+    background-repeat: no-repeat;
+}
+
+div#maincontent div.box-bl
+{
+    background-image: url(../images/box-bl.gif);
+    background-position: bottom left;
+    background-repeat: no-repeat;
+}
+
+div#maincontent div.box-br
+{
+    background-image: url(../images/box-br.gif);
+    background-position: bottom right;
+    background-repeat: no-repeat;
+}
+
+div.box-content
+{
+    padding: 0 2px 3px 1px;
+}
+
+div.content-edit div.box-content
+{
+    position: relative;
+}
+
+div.box-content div.block
+{
+    margin: 0;
+    padding: 0.5em;
+}
+
+div#maincontent div.box-content div.block div.block
+{
+    padding: 0;
+}
+
+div.box-content div.block p
+{
+    margin: 0;
+    padding: 0.25em 0 0.25em 0;
+}
+
+div.box-content div.context-toolbar div.block
+{
+    padding: 0;
+}
+
+div.box-content div p
+{
+    padding: 0;
+}
+
+div#maincontent div.box-content fieldset div.block
+{
+    margin: 0.5em 0 0.5em 0;
+}
+
+div.controlbar div.box-br
+{
+    padding: 0.2em 0.5em 0.4em 0.5em;
+}
+
+div.mainobject-window
+{
+    background-color: #f8f8f4;
+    margin: 0 1px 0 1px;    
+    padding: 0 0 0 0.5em;
+    border: 6px solid #ecece4;
+}
+
+div.content-navigation div.mainobject-window div.fixedsize
+{
+    float: left;
+    width: 100%;
+    height: 200px;
+    overflow: auto;
+}
+
+div.content-navigation div.mainobject-window div.holdinplace
+{
+    padding-right: 0.5em;
+}
+
+div#maincontent div.content-translation div.block div.original
+{
+    background-color: #ecece4;
+    margin: 0.5em 0 0.5em 0;
+    padding: 0.2em;
+    border: 1px dashed #bfbeb6;
+}
+
+div.content-translation div.translation
+{
+    margin: 0.5em 0 0.5em 0;
+}
+
+div.notranslations li
+{
+    width: 20%;
+}
+
+div.context-block
+{
+    margin: 0.5em 0 1em 0;
+}
+
+h1.context-title, h2.context-title
+{
+    font-weight: bold;
+    color: #ffffff;
+    padding: 0.4em 0.2em 0.4em 0.5em;
+    margin: 0;
+}
+
+h1.context-title
+{
+    font-size: 1.2em;
+}
+
+h2.context-title
+{
+    font-size: 1em;
+}
+
+div.header-mainline, div.header-subline
+{
+    font-size: 1px;
+    height: 7px;
+    margin: 0 1px 0 1px;    
+}
+
+div.header-mainline
+{
+    background-image: url(../images/mainheader-mainline.gif);
+    background-repeat: repeat-y;
+    background-position: top left;
+    background-color: #ef8c00;
+} 
+
+div.header-subline
+{
+    background-image: url(../images/mainheader-subline.gif);
+    background-repeat: repeat-y;
+    background-position: top left;
+    background-color: #b5bec7;
+}
+
+h2.context-content
+{
+    font-size: 1em;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #00a0a0;
+    padding: 0.2em;
+    margin: 0;
+}
+
+div.context-block h1.context-title img, div.context-block h2.context-title img
+{
+    vertical-align: middle;
+}
+
+div.context-block h2.context-title span.input
+{
+    width: 20px;
+}
+
+div.context-block table.list, div.context-block table.special
+{
+    margin: 0;
+    padding: 0;
+}
+
+
+/* CONTEXT TOOLBAR AND INFORMATION */
+
+div.context-toolbar
+{
+    background-color: #fefefb;
+}
+
+div.context-toolbar div.block
+{
+    margin: 0;
+}
+
+div.context-toolbar label
+{
+    display: inline;
+    font-size: 0.85em;
+    vertical-align: middle;
+}
+
+div.context-toolbar select
+{
+    font-size: 0.85em;
+    padding: 0;
+}
+
+div.context-toolbar input.button
+{
+    font-size: 0.85em;
+}
+
+div.context-toolbar div.break
+{
+    font-size: 1px;
+    height: 1px;
+    clear: both;
+}
+
+div.context-information
+{
+    background-color: #fefefb;
+    margin: 0 1px 0 1px;
+    padding: 0 0.5em 0 0.5em;
+}
+
+div.context-information p
+{
+    color: #8a8a85;
+}
+
+div.context-information p.modified
+{
+    width: 48%;
+    float: left;
+}
+
+div.context-information p.translation
+{
+    width: 48%;
+    float: right;
+    text-align: right;
+}
+
+div.content-edit p.translation
+{
+    position: absolute;
+    top: 0;
+    right: 0.5em;
+}
+
+div.context-information a
+{
+    color: #8a8a85;
+    text-decoration: underline;
+}
+
+div.context-block div.context-toolbar p, div.context-block div.context-information p
+{
+    font-size: 0.85em;
+    margin: 0;
+    padding: 0.1em 0.2em 0.1em 0.2em;
+}
+
+div.context-toolbar a, div.context-toolbar span.current
+{
+    color: #254b71;
+    padding: 0 0.25em 0 0.25em;
+    text-decoration: none;
+}
+
+div.context-toolbar span.current, div.context-toolbar span.current
+{
+    color: #254b71;
+    background-color: #c8cfd7;
+}
+
+div.context-toolbar a:hover
+{
+    color: #ffffff;
+    background-color: #2d537a;
+    text-decoration: none;
+}
+
+
+/* CONTEXT ATTRIBUTES */
+
+div.context-attributes
+{
+    background-color: #fefefb;
+    padding: 0.5em 0.5em 0.5em 0.5em;
+}
+
+div.context-attributes div.block
+{
+    padding-left: 0;
+    padding-right: 0;
+}
+
+div.context-attributes h2, div.context-attributes h3
+{
+    margin-top: 0.25em;
+}
+
+div.attribute-byline p.author
+{
+    float: left;
+}
+
+div.attribute-byline p.date
+{
+    float: right;
+}
+
+a.nodeicon
+{ 
+  text-decoration: none;
+}
+
+span.required, span.nontranslatable, span.collector
+{
+    font-style: italic;
+    font-weight: normal;
+}
+
+span.defaulttranslation
+{
+    font-weight: bold;
+}
+
+
+/* CONTEXT CONTROLBAR */
+
+div.controlbar div.block
+{
+    margin: 0.5em 0 0.5em 0;
+    padding-bottom: 1px; /* Set to avoid Mozilla bug */
+}
+
+div.controlbar label
+{
+    display: inline;
+    color: #979690;
+}
+
+div.content-control
+{
+    margin: 1em 0 0.5em 0;
+    padding: 0.5em;
+    border: 1px solid #bfbfb7;
+    background-color: #e7e8e0;
+}
+
+div.content-edit div.box-content h3
+{
+    margin: 0;
+    padding: 0.5em;
+    color: #A09F98;
+}
+
+
+/* VIEWBAR */
+
+div.content-view-children div.viewbar
+{
+    margin-top: 2em;
+    margin-bottom: 0;
+}
+
+div.viewbar label, div.controlbar label
+{
+    padding: 0;
+    display: inline;
+    vertical-align: bottom;
+}
+
+div.viewbar select, div.controlbar select
+{
+    vertical-align: bottom;
+    margin-right: 0.5em;
+}
+
+div.viewbar input.menubutton
+{
+    margin: 0 0.5em 0 0;
+    padding: 0;
+    vertical-align: bottom;
+}
+
+/* PAGENAVIGATOR */
+
+div.pagenavigator
+{
+    text-align: center;
+}
+
+div.pagenavigator span.previous
+{
+    display: block;
+    float: left;
+}
+
+div.pagenavigator span.next
+{
+    display: block;
+    float: right;
+}
+
+div.pagenavigator span.disabled
+{
+    color: #d0d0d0;
+}
+
+
+/* TABLES */
+
+div.content-navigation-childlist table.list th
+{
+    width: 1%;
+}
+
+div.content-navigation-childlist table.list th.name, div.content-edit table.list th.name
+{
+    width: 99%;
+}
+
+table.list img
+{
+    vertical-align: middle;
+}
+
+div.content-edit table.list td.filesize
+{
+    white-space: nowrap;
+}
+
+table.list th.icon, table.list td.icon, table.list th.class, table.list td.class, table.list th.checkbox, table.list td.checkbox
+{
+    width: 1%;
+}
+
+table.list td.class
+{
+    white-space: nowrap;
+}
+
+table.list td.modifier, table.list td.modified
+{
+    white-space: nowrap;
+}
+
+table.list-thumbnails
+{
+    width: 100%;
+    background-color: #ffffff;
+}
+
+table.list-thumbnails td
+{
+    border: 4px solid #ffffff;
+    padding: 0.5em;
+    vertical-align: middle;
+    background-color: #f8f8f8;
+    height: 150px;
+    text-align: center;
+}
+
+table.list-thumbnails div.controls
+{
+    margin-top: 0.5em;
+}
+
+table.list-thumbnails div.controls input, table.list-thumbnails div.controls img
+{
+    vertical-align: middle;
+}
+
+input.linkbox
+{
+    border: 1px dashed #bfbeb6;
+    background-color: #f8f8f8;
+    font-size: 0.85em;
+    width: 14em;
+}
+
+tr.bglight input.linkbox
+{
+    border: 1px dashed #bfbeb6;
+    background-color: #f8f8f4;
+}
+
+tr.bgdark input.linkbox
+{
+    border: 1px dashed #bfbeb6;
+    background-color: #f4f4ec;
+}
+
+table.list input.priority
+{
+    width: 2em;
+}
+
+
+/* LABELS */
+
+div.inline label
+{
+    display: inline;
+}
+
+/* Labels used for radiobuttons */
+label.radio
+{
+    display: inline;
+}
+
+div.date label, div.time label
+{
+    font-size: 0.85em;
+    font-weight: normal;
+}
+
+fieldset label
+{
+    font-weight: normal;
+}
+
+div#rightmenu label
+{
+    font-weight: normal;
+}
+
+table.cache th
+{
+    background-color: transparent;
+    border-top: none;
+    border-right: none;    
+    vertical-align: middle;
+    padding-left: 0.5em;
+}
+
+/* INDEX VIEW */
+
+div.content-viewindex ul
+{
+    margin-left: 22px;
+}
+
+div.content-viewindex li
+{
+    list-style-type: none;    
+}
+
+
+/* POLL VIEW */
+
+div.content-poll-results
+{
+    width: 100%;
+}
+
+div.content-poll-results ul
+{
+    margin-left: 0;
+}
+
+div.content-poll-results li
+{
+    list-style-type: none;
+}
+
+div.content-poll-results span.option
+{
+    font-weight: bold;
+    float: left;
+}
+
+div.content-poll-results span.votes
+{
+    font-weight: normal;
+}
+
+div.content-poll-results span.value
+{
+    font-weight: bold;
+    margin-top: 1.7em;
+    float: right;
+}
+
+div.content-poll-results div.resultblock
+{
+    width: 100%;
+    margin: -1.2em 0 0.5em 0;
+    float: left;
+}
+
+div.content-poll-results div.resultedge-start
+{
+    padding-right: 4em;
+}
+
+div.content-poll-results div.resultedge-end
+{
+    border: 1px solid black;
+}
+
+div.content-poll-results div.resultbox
+{
+    background-image: url(../images/poll-bg.gif);
+    background-repeat: repeat-x;
+    background-position: top;
+    background-color: #bcbbaf;
+    width: 100%;
+}
+
+div.content-poll-results div.resultbar
+{
+    background-image: url(../images/poll-result-bg.gif);
+    background-repeat: repeat-x;
+    background-position: top;
+    background-color: #4b7198;
+    height: 20px;
+}
+
+div.content-poll-results div.result-divider
+{
+    height: 20px;
+}
+
+
+/* PACKAGE LISTING (in look and feel) */
+
+div.package_element
+{
+    float: left;
+}
+
+
+/* POPUP MENU */
+
+div.popupmenu
+{
+    width: 14em;
+    font-size: 0.85em;
+    margin: 0px;
+    padding: 4px;
+    background-color: #ecece4;
+    border: 2px solid #ffffff;
+    border-bottom-color: #bfbeb6;
+    border-right-color: #bfbeb6;
+    z-index: +1; 
+
+    /* These two are essential */
+    position: absolute;
+    visibility: hidden;
+}
+
+div.popupmenu#EditSubmenu
+{
+    z-index: +2;
+}
+
+div.popupmenu div.popupmenuheader
+{
+    margin: -2px -2px 0.5em -2px;
+    background-image: url(../images/popup-menuheader-background.gif);
+    background-repeat: repeat-y;
+    background-position: top left;
+    border: 1px solid #ffffff;
+    border-bottom-color: #bfbeb6;
+    border-right-color: #bfbeb6;
+}
+
+div.popupmenu h3
+{
+    margin: 0;
+    padding: 0.2em 0.5em 0.2em 0.5em;
+    float: left;
+}
+
+div.popupmenu div.window-close
+{
+    float: right;
+    padding: 1px;
+}
+
+div.popupmenu div.window-close p
+{
+    font-weight: bold;
+    color: #000000;
+    background-color: #ecece4;
+    margin: 0;
+    padding: 0.1em 0.3em 0.1em 0.3em;
+    border: 1px solid #ffffff;
+    border-bottom-color: #bfbeb6;
+    border-right-color: #bfbeb6;
+}
+
+div.popupmenu a
+{
+    color: #000000;
+    padding: 0.1em 0.3em 0.1em 0.3em;
+    text-decoration: none;
+    cursor: default;
+    display: block;
+}
+
+div.popupmenu a.more
+{
+    background-image: url(../images/more-arrow.gif);
+    background-repeat: no-repeat;
+    background-position: right center;
+}
+
+div.popupmenu a.menu-item-disabled
+{
+    color: #CECECE;
+}
+
+div.popupmenu a:hover
+{
+    color: #ffffff;
+    background-color: #2d537a;
+    text-decoration: none;
+    cursor: default;
+}
+
+div.popupmenu hr
+{
+    border: none;
+    border-top: 1px solid #c0c0c0;
+}
+
+span.overriden
+{
+    color: red;
+}
+
+/* OE FIX */
+
+div.oe-window
+{
+    border-bottom: 1px solid #ffffff;
+    clear: both;
+}
+
+/* Misc */
+
+span.userstatus-disabled
+{
+    font-style: italic;
+}
+span.userstatus-enabled
+{
+    font-weight: bold;
+}
+
+div.indent
+{
+    margin-left: 1em;
+}
+
+/* Diff styles */
+
+div#diffview ul
+{
+    margin: 0 0 0.5em 0;
+    padding: 0.25em 0.5em 0.25em 0.5em;
+    border-bottom: 1px solid #808080;
+    display: block;
+}
+
+div#diffview li
+{
+    font-size: 0.85em;
+    margin: 0 0.5em 0 0;
+    padding: 0;
+    display: inline;
+    list-style-type: none;
+}
+
+div.attribute-view-diff
+{
+    padding: 0.25em;
+    border: 1px solid #d7d7d2;
+}
+
+div.attribute-view-diff label
+{
+   color: #75756c;
+}
+
+div.attribute-view-diff-old
+{
+    padding-bottom: 0.25em;
+    border-bottom: 1px dashed #bfbfb7;
+}
+
+div.attribute-view-diff-new
+{
+    padding-top: 0.25em;
+}
+
+ins
+{
+    color: #008000;
+    text-decoration: none;
+    border-bottom: 1px solid #00b000;
+}
+
+del
+{
+    color: #d98078;
+    text-decoration: line-through;
+}
+
+ins:hover, del:hover
+{
+    background-color: #ffffff;
+}
+
+ins:hover
+{
+    color: #006000;
+    border-bottom: none;
+}
+
+del:hover
+{
+    color: #852c25;
+    text-decoration: none;
+}
+
+div.blockchanges ins, div.blockchanges del
+{
+    color: #000000;
+    padding-left: 0.5em;
+    text-decoration: none;
+    border-bottom: none;
+    display: block;
+}
+
+div.blockchanges ins
+{
+    border-left: 0.5em solid #008000;
+}
+
+div.blockchanges del
+{
+    border-left: 0.5em solid #d98078;
+}
+
+div.previous ins
+{
+    display: none;
+}
+
+div.previous del
+{
+    color: #000000;
+    background-color: #ffff00;
+    border-bottom: none;
+    text-decoration: none   
+}
+
+div.latest del
+{
+    display: none;
+}
+
+div.latest ins
+{
+    color: #000000;
+    background-color: #ffff00;
+    border-bottom: none;
+    text-decoration: none;
+}
