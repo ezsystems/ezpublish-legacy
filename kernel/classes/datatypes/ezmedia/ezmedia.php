@@ -185,6 +185,27 @@ class eZMedia extends eZPersistentObject
         }
     }
 
+    static function fetchByFileName( $filename, $version = null, $asObject = true )
+    {
+        if ( $version == null )
+        {
+            return eZPersistentObject::fetchObjectList( eZMedia::definition(),
+                                                        null,
+                                                        array( 'filename' => $filename ),
+                                                        null,
+                                                        null,
+                                                        $asObject );
+        }
+        else
+        {
+            return eZPersistentObject::fetchObject( eZMedia::definition(),
+                                                    null,
+                                                    array( 'filename' => $filename,
+                                                           'version' => $version ),
+                                                    $asObject );
+        }
+    }
+
     static function removeByID( $id, $version )
     {
         if( $version == null )
