@@ -80,9 +80,8 @@ class eZClusterFileHandler
     }
 
     /**
-     * \public
-     * \static
-     * \return list of directories used to search cluster file handlers for.
+     * @deprecated 4.3 No longer used as we rely on ezpExtension & autoloads
+     * @return array list of directories used to search cluster file handlers for
      */
     static function searchPathArray()
     {
