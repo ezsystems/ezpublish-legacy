@@ -274,6 +274,7 @@ if ( !function_exists( 'checkContentActions' ) )
                 $templateResult = $tpl->fetch( 'design:user/registrationinfo.tpl' );
                 if ( $tpl->hasVariable( 'content_type' ) )
                     $mail->setContentType( $tpl->variable( 'content_type' ) );
+
                 $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
                 if ( !$emailSender )
                     $emailSender = $ini->variable( 'MailSettings', 'AdminEmail' );
@@ -305,16 +306,24 @@ if ( !function_exists( 'checkContentActions' ) )
                         if ( $tpl->hasVariable( 'content_type' ) )
                             $mail->setContentType( $tpl->variable( 'content_type' ) );
 
-                        $feedbackReceiver = $ini->variable( 'UserSettings', 'RegistrationEmail' );
-                        if ( !$feedbackReceiver )
-                            $feedbackReceiver = $ini->variable( "MailSettings", "AdminEmail" );
+                        $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
+                        if ( $tpl->hasVariable( 'email_sender' ) )
+                            $emailSender = $tpl->variable( 'email_sender' );
+                        else if ( !$emailSender )
+                            $emailSender = $ini->variable( 'MailSettings', 'AdminEmail' );
 
-                        $subject = ezi18n( 'kernel/user/register', 'New user registered' );
-                        if ( $tpl->hasVariable( 'subject' ) )
-                            $subject = $tpl->variable( 'subject' );
+                        $feedbackReceiver = $ini->variable( 'UserSettings', 'RegistrationEmail' );
                         if ( $tpl->hasVariable( 'email_receiver' ) )
                             $feedbackReceiver = $tpl->variable( 'email_receiver' );
+                        else if ( !$feedbackReceiver )
+                            $feedbackReceiver = $ini->variable( 'MailSettings', 'AdminEmail' );
 
+                        if ( $tpl->hasVariable( 'subject' ) )
+                            $subject = $tpl->variable( 'subject' );
+                        else
+                            $subject = ezi18n( 'kernel/user/register', 'New user registered' );
+
+                        $mail->setSender( $emailSender );
                         $mail->setReceiver( $feedbackReceiver );
                         $mail->setSubject( $subject );
                         $mail->setBody( $templateResult );
