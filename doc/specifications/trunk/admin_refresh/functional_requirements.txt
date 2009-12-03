@@ -118,6 +118,16 @@ Could: Move upper buttons (Preview, details,..) + related blocks to a tabbed,
 Should: Sync pagelayout structure with ezwebin and enable cache-block's for header
         This should also make it easier to override sections of pagelayout like webin 1.4+
 
+#1.5 Only show options that user has access to
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Should: Allow Tabs to specify policy to check for access
+Should: Allow Links in Leftmenu_* to specify policy to check for access
+
+#1.6 Only options that are relevant for the current context
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Should: Show create here classes only defined placed in class group that relates to structure part
+        (Content class in Content tab, Media classes in Media tab ....)
+
 #2 New dashboard as login page
 ------------------------------
 Should: Be the default login page in admin interface
