@@ -29,7 +29,7 @@ In prioritized order for 4.3:
 #1 New comment extension
 ------------------------
 Should: Use custom table with fields for id, text, name, webpage, email,
-        time, user id, object id, objectattribute id, language
+        time, user id, object id, object attribute id, language
 Should: Support posting by logged in and not logged in users
 Should: Automatically fill in name, email and webpage if logged in
 Should: Store name / email / web address in cookie for later use if
