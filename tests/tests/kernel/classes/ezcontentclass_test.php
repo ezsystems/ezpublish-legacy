@@ -16,17 +16,17 @@ class eZContentClassTest extends ezpDatabaseTestCase
         parent::__construct();
         $this->setName( "eZContentClass Unit Tests" );
     }*/
-    
+
     public function setUp()
     {
         parent::setUp();
     }
-    
+
     public function tearDown()
     {
         parent::tearDown();
     }
-    
+
     /**
      * Unit test for eZContentClass::classIDByIdentifier()
      * @dataProvider providerForTestClassIDByIdentifier
@@ -36,7 +36,7 @@ class eZContentClassTest extends ezpDatabaseTestCase
         $transformedClassArray = eZContentClass::classIDByIdentifier( $sourceArray );
         $this->assertEquals( $expectedArray, $transformedClassArray );
     }
-    
+
     /**
      * Data provider for self::testClassIDByIdentifier()
      * @see testClassIDByIdentifier()
@@ -49,7 +49,7 @@ class eZContentClassTest extends ezpDatabaseTestCase
             array( eZContentClass::classIDByIdentifier( eZINI::instance( 'content.ini' )->variable( 'VersionManagement', 'VersionHistoryClass' ) ), array() ),
         );
     }
-    
+
     /**
      * Unit test for eZContentClass::versionHistoryLimit()
      * @dataProvider providerForTestVersionHistoryLimit
@@ -62,13 +62,13 @@ class eZContentClassTest extends ezpDatabaseTestCase
             list( $INIVariable, $INIValue ) = $settings;
             ezpINIHelper::setINISetting( 'content.ini', 'VersionManagement', $INIVariable, $INIValue );
         }
-        
+
         $limit = ezContentClass::versionHistoryLimit( $class );
         $this->assertEquals( $expectedLimit, $limit );
-        
+
         ezpINIHelper::restoreINISettings();
     }
-    
+
     /**
      * Data provider for testVersionHistoryLimit()
      */
@@ -80,31 +80,31 @@ class eZContentClassTest extends ezpDatabaseTestCase
                 array(),
                 'article', 10
             ),
-            
+
             // custom default limit (15) with the article ID as INT
             array(
                 array( array( 'DefaultVersionHistoryLimit', 15 ) ),
                 2, 15
             ),
-            
+
             // custom limits for article (7) and folder (5)
             array(
                 array( array( 'VersionHistoryClass', array( 'article' => 7, 1 => 5 ) ) ),
                 'article', 7
             ),
-            
+
             // different custom limits (article: 13, image: 6) and object as a parameter
             array(
                 array( array( 'VersionHistoryClass', array( 'article' => 13, 'image' => 6 ) ) ),
                 eZContentClass::fetchByIdentifier( 'image' ), 6,
             ),
-        
+
             // error case, unknown class, should return the default limit
             array(
                 array(),
                 'foobaredclassname', 10
             ),
-            
+
             // error case again, unknown class, with a custom default limit
             array(
                 array( array( 'DefaultVersionHistoryLimit', 12 ) ),
@@ -112,8 +112,8 @@ class eZContentClassTest extends ezpDatabaseTestCase
             ),
         );
     }
-    
-    
+
+
 }
 
 ?>
