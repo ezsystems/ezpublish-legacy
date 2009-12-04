@@ -62,7 +62,7 @@ class eZContentClassTest extends ezpDatabaseTestCase
             ezpINIHelper::setINISetting( 'content.ini', 'VersionManagement', $INIVariable, $INIValue );
         }
 
-        $limit = ezContentClass::versionHistoryLimit( $class );
+        $limit = eZContentClass::versionHistoryLimit( $class );
         $this->assertEquals( $expectedLimit, $limit );
 
         ezpINIHelper::restoreINISettings();
@@ -92,12 +92,6 @@ class eZContentClassTest extends ezpDatabaseTestCase
                 'article', 7
             ),
 
-            // different custom limits (article: 13, image: 6) and object as a parameter
-            array(
-                array( array( 'VersionHistoryClass', array( 'article' => 13, 'image' => 6 ) ) ),
-                eZContentClass::fetchByIdentifier( 'image' ), 6,
-            ),
-
             // error case, unknown class, should return the default limit
             array(
                 array(),
@@ -112,7 +106,32 @@ class eZContentClassTest extends ezpDatabaseTestCase
         );
     }
 
+    /**
+     * Unit test for eZContentClass::versionHistoryLimit() with object parameters
+     * 
+     * Replica of testVersionHistoryLimit() but you cannot make calls
+     * to the eZ API which relies on a database, as this is not present
+     * in the provider methods.
+     */
+    public function testVersionHistoryLimitWithObjectParameter()
+    {
+        // different custom limits (article: 13, image: 6) and object as a parameter
+        $INISettings = array( array( 'VersionHistoryClass', array( 'article' => 13, 'image' => 6 ) ) );
+        $class = eZContentClass::fetchByIdentifier( 'image' );
+        $expectedLimit = 6;
 
+        // change the INI limit settings
+        foreach( $INISettings as $settings )
+        {
+            list( $INIVariable, $INIValue ) = $settings;
+            ezpINIHelper::setINISetting( 'content.ini', 'VersionManagement', $INIVariable, $INIValue );
+        }
+
+        $limit = eZContentClass::versionHistoryLimit( $class );
+        self::assertEquals( $expectedLimit, $limit );
+
+        ezpINIHelper::restoreINISettings();
+    }
 }
 
 ?>
