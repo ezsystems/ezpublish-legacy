@@ -1,7 +1,6 @@
 // jquery code to a allow changing width  on left menu by dragging
 jQuery(function( $ )
 {
-	console.log( 'init' );
 	var contentTreeDrag = {
     		elements : false,
     		timeout : null,
