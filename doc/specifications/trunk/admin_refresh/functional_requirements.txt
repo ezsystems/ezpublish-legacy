@@ -133,7 +133,7 @@ Should: Show create here classes only defined placed in class group that relates
 Should: Be the default login page in admin interface
 Should: Provide box for last published content
 Should: Provide box for last modified content by current user
-Should: Provide a box for own object drafts
+Should: Provide a box for own object drafts (stored drafts)
 Should: Provide short links to user specific task like changing password
 Should: Provide a box for content for approval
 Should: Be extend able so extensions can add blocks
