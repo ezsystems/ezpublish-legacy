@@ -8,7 +8,7 @@ body
     font-size: 0.8em; /* Base size for all elements; other size definitions relates to this */
     background-color: #ffffff;
     margin: 0;
-    padding: 1em;
+    padding: 0;
 }
 
 /* HEADERS */
@@ -79,8 +79,6 @@ pre, code
 
 pre
 {
-    background-color: #f8f8f8;
-    border: 1px solid #e0e0e0;
     margin: 1em 0 1em 0;
     padding: 0.2em;
 }
@@ -103,9 +101,6 @@ table.list, table.special
 {
     width: 100%;
     margin: 1em 0 1em 0;
-    border-left: 1px solid #ecece4;
-    border-right: 1px solid #ecece4;
-    border-bottom: 1px solid #f0f0f0;
     empty-cells: show;
 }
 
@@ -130,43 +125,17 @@ table.list td.na-rate, table.special td.na-rate
 {
     text-align: right;
     font-style: italic;
-    color: #C0C0C0;
 }
 
 table.list th, table.special th
 {
-    color: #254b71;
-    background-color: #b5bec7;
-    border: 1px solid #ecece4;
     border-top-width: 2px;
-    font-weight: normal;
     white-space: nowrap;
 }
 
 table.list td
 {
-    border-top: 1px solid #f0f0f0;
     font-weight: normal;
-}
-
-tr.bglight
-{
-    background-color: #f8f8f4;
-}
-
-tr.bgdark
-{
-    background-color: #f4f4ec;
-}
-
-table.list tr.bglight:hover, table.list tr.bgdark:hover
-{
-    background-color: #ffffff;
-}
-
-table.list tr.object-cannot-remove td
-{
-    color: #ff0000;
 }
 
 th.tight, td.tight
@@ -179,17 +148,6 @@ td.nowrap
     white-space: nowrap;
 }
 
-div.context-attributes table.list th, div.context-attributes table.special th, div.mainobject-window table.list th, div.mainobject-window table.special th
-{
-    color: #404040;
-    background-color: #bfbfb7;
-}
-
-div.context-attributes table table.list th, div.context-attributes table table.special th, div.onlineeditor th
-{
-    color: #404040;
-    background-color: #ddddd5;
-}
 
 /* ORDERED AND UNORDERED LISTS */
 
@@ -288,14 +246,6 @@ input.button
 {
     font-size: 0.9em;
     font-weight: normal;
-    color: #ffffff;
-    border: 2px solid #ffffff;
-    border-bottom: 2px solid #2f475f;
-    border-right: 2px solid #2f475f;
-    background-color: #4d7299;
-    background-image: url(../images/inputbutton-enabled-bg.gif);
-    background-repeat: repeat-x;
-    background-position: top;
     padding: 0em 0.25em 0em 0.25em;
 }
 
@@ -303,14 +253,6 @@ div.context-attributes input.button, div.onlineeditor input.button, div.onlineed
 {
     font-size: 0.9em;
     font-weight: normal;
-    color: #ffffff;
-    border: 2px solid #ffffff;
-    border-bottom: 2px solid #2f475f;
-    border-right: 2px solid #2f475f;
-    background-color: #898985;
-    background-image: url(../images/inputbutton-attribute-bg.gif);
-    background-repeat: repeat-x;
-    background-position: top;
     padding: 0em 0.25em 0em 0.25em;
 }
 
@@ -319,13 +261,6 @@ input.button-disabled
     font-size: 0.9em;
     font-weight: normal;
     color: #404040;
-    border: 2px solid #f0f0f0;
-    border-bottom: 2px solid #b0b0b0;
-    border-right: 2px solid #b0b0b0;
-    background-color: #cdcdcd;
-    background-image: url(../images/inputbutton-disabled-bg.gif);
-    background-repeat: repeat-x;
-    background-position: top;
     padding: 0em 0.25em 0em 0.25em;
 }
 
@@ -584,64 +519,13 @@ div.oe-window
     clear: both;
 }
 
-/* multioption */
-table.multioption, table.multioption table
+.float-break:after /* Terminate floating elements flow */
 {
-    width: 100%;
-    margin: 0;
-    border-top: 1px solid #ecece4;
-    border-left: 1px solid #ecece4;
+    content: "-";
+    height: 0;
+    font-size: 0;
+    visibility: hidden;
+    display: block;
+    clear: both;
 }
 
-table.multioption table
-{
-    margin-top: 0.5em;
-}
-
-table.multioption th, table.multioption td
-{
-    padding: 0.25em;
-    border-right: 1px solid #ecece4;
-    border-bottom: 1px solid #ecece4;
-    vertical-align: top;
-    text-align: left;
-}
-
-table.multioption th
-{
-    background-color: #bfbfb7;
-}
-
-table.multioption div.controlbar div.block
-{
-    padding: 0;
-}
-
-table.multioption input.box
-{
-    width: 98%;
-}
-
-fieldset.multioption label
-{
-    font-weight: bold;
-    margin: 0.5em 0 0.5em 0;
-}
-
-option.disabled
-{
-    color: #a0a0a0;
-}    
-
-div.attribute-multioption ul
-{
-    margin: 0 0 0 1em;
-    padding: 0;
-}
-
-div.attribute-multioption li
-{
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-}

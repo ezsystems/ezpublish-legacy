@@ -1,6 +1,6 @@
 <div id="bookmarks">
 
-<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr">{if $first}<div class="box-tl"><div class="box-tr">{/if}
+<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
 {section show=ezpreference( 'admin_bookmark_menu' )}
     {if and( ne( $ui_context, 'edit' ), ne( $ui_context, 'browse' ) )}
@@ -13,13 +13,10 @@
      {/if}
     {/if}
 
-</div></div></div></div>{if $first}</div></div>{/if}
+</div></div></div></div></div></div>
 
-{if $last}
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
-{else}
-<div class="box-ml"><div class="box-mr"><div class="box-content">
-{/if}
+
 
 {let bookmark_list=fetch( content, bookmarks )}
 {section show=$bookmark_list}
@@ -58,7 +55,7 @@
 {/if}
 </div>
 
-</div></div></div>{if $last}</div></div></div>{/if}
+</div></div></div></div></div></div>
 
 {section-else}
     {if and( ne( $ui_context,'edit' ), ne( $ui_context, 'browse' ) )}
@@ -71,12 +68,7 @@
     {/if}
     {/if}
     
-</div></div></div></div>{if $first}</div></div>{/if}
-
-{if $last}
-<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 </div></div></div></div></div></div>
-{/if}
 
 {/section}                       
 </div>

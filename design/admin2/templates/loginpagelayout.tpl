@@ -3,83 +3,53 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{$site.http_equiv.Content-language|wash}" lang="{$site.http_equiv.Content-language|wash}">
 
 <head>
-{include uri="design:page_head.tpl"}
+{cache-block keys=array( $navigation_part.identifier, $module_result.navigation_part, $ui_context, $ui_component )}{* Pr tab cache *}
 
-<script language="JavaScript" type="text/javascript" src={"javascript/tools/ezjsselection.js"|ezdesign}></script>
-{section name=JavaScript loop=ezini( 'JavaScriptSettings', 'JavaScriptList', 'design.ini' ) }
-<script language="JavaScript" type="text/javascript" src={concat( 'javascript/',$:item )|ezdesign}></script>
-{/section}
+{include uri='design:page_head.tpl'}
 
-<style type="text/css">
-    @import url({'stylesheets/core.css'|ezdesign});
-    @import url({'stylesheets/site.css'|ezdesign});
-    @import url({'stylesheets/debug.css'|ezdesign});
-{section var=css_file loop=ezini( 'StylesheetSettings', 'CSSFileList', 'design.ini' )}
-    @import url({concat( 'stylesheets/',$css_file )|ezdesign});
-{/section}
-</style>
 
-{literal}
-<!--[if IE]>
-<style type="text/css">
-div#leftmenu div.box-bc, div#rightmenu div.box-bc { border-bottom: 1px solid #bfbeb6; /* Strange IE bug fix */ }
-div#contentstructure { overflow-x: auto; overflow-y: hidden; } /* hide vertical scrollbar in IE */
-div.menu-block li { width: 19%; } /* Avoid width bug in IE */
-div.notranslations li { width: 24%; } /* Avoid width bug in IE */
-div.context-user div.menu-block li { width: 14%; } /* Avoid width bug in IE */
-input.button, input.button-disabled { padding: 0 0.5em 0 0.5em; overflow: visible; }
-input.box, textarea.box { width: 98%; }
-td input.box, td textarea.box { width: 97%; }
-div#search p.select { margin-top: 0; }
-div#search p.advanced { margin-top: 0.3em; }
-div.content-navigation div.mainobject-window div.fixedsize { float: none; width: auto; }
-div.fixedsize input.box, div.fixedsize textarea.box, div.fixedsize table.list { width: 95%; }
-</style>
-<![endif]-->
-<!--[if lt IE 6.0]>
-<style type="text/css">
-div#maincontent div.context-block { width: 100%; } /* Avoid width bug in IE 5.5 */
-div#maincontent div#maincontent-design { width: 98%; } /* Avoid width bug in IE 5.5 */
-</style>
-<![endif]-->
-<!--[if IE 6.0]>
-<style type="text/css">
-div#maincontent div.box-bc { border-bottom: 1px solid #bfbfb7; /* Strange IE bug fix */ }
-div#leftmenu-design { margin: 0.5em 4px 0.5em 0.5em; }
-</style>
-<![endif]-->
-{/literal}
+{include uri='design:page_head_style.tpl'}
+{include uri='design:page_head_script.tpl'}
 
 </head>
 
 <body>
 
-<div id="allcontent">
-
+<div id="page">
 <div id="header">
-<div id="header-design">
+<div id="header-design" class="float-break">
 
-<div id="logo">
-<img src={'ezpublish-logo-4-symbol.gif'|ezimage} width="256" height="40" alt="eZ Publish" border="0" />
-<p>version {fetch(setup,version)}</p>
+    <div id="header-search">
+    <form action={'/content/search/'|ezurl} method="get">
+            <select name="SubTreeArray" title="{'Search location, to be able to narrow down the search results!'|i18n('design/admin/pagelayout')}" disabled="disabled">
+                <option value="1" title="{'Search everthing!'|i18n( 'design/admin/pagelayout' )}">{'Everything'|i18n( 'design/admin/pagelayout' )}</option>
+            </select>
+            <input id="searchtext" name="SearchText" type="text" size="20" value="{if is_set( $search_text )}{$search_text|wash}{/if}" disabled="disabled" defaultValue="{'Search text'|i18n( 'design/admin/pagelayout' )}" />
+            <input id="searchbutton" class="button-disabled" name="SearchButton" type="submit" value="{'Search'|i18n( 'design/admin/pagelayout' )}" disabled="disabled" />
+            <p class="advanced hide"><span class="disabled">{'Advanced'|i18n( 'design/admin/pagelayout' )}</span></p>
+    </form>
+    </div>
+
+    <div id="header-logo">
+        <a href="http://ez.no" title="eZ Publish {fetch( 'setup', 'version' )}" target="_blank">eZ logo</a>
+    </div>
+
+    <div id="header-usermenu">
+        <span id="header-usermenu-logout" class="disabled">{'Logout'|i18n( 'design/admin/pagelayout' )}</span>
+    </div>
+
+    <div id="header-topmenu">
+        &nbsp;
+    </div>
+
+</div>
 </div>
 
-</div>
-</div>
-
-<div id="topmenu">
-<div id="topmenu-design">
-
-<div class="loginpagemenu"></div>
-
-</div>
-</div>
+<hr class="hide" />
 
 <div id="path">
 <div id="path-design">
-
-&nbsp;
-
+    &nbsp;
 </div>
 </div>
 
@@ -102,10 +72,11 @@ div#leftmenu-design { margin: 0.5em 4px 0.5em 0.5em; }
 </div>
 </div>
 
+{/cache-block}
 <hr class="hide" />
 
-<div id="maincontent"><div id="fix">
-<div id="maincontent-design">
+<div id="maincontent">
+<div id="maincontent-design" class="float-break"><div id="fix">
 
 {* Main area START *}
 

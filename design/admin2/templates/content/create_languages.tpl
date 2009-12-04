@@ -54,8 +54,8 @@
 </div>
 </div>
 
-<div id="maincontent"><div id="fix">
-<div id="maincontent-design">
+<div id="maincontent">
+<div id="maincontent-design" class="float-break"><div id="fix">
 <!-- Maincontent START -->
 
 <form name="CreateLanguages" action={'content/action'|ezurl} method="post">

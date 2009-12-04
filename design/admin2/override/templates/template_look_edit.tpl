@@ -8,8 +8,8 @@
 </div>
 </div>
 
-<div id="maincontent"><div id="fix">
-<div id="maincontent-design">
+<div id="maincontent">
+<div id="maincontent-design" class="float-break"><div id="fix">
 <!-- Maincontent START -->
 
 {include uri='design:content/edit_validation.tpl'}

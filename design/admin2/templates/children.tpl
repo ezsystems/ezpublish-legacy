@@ -171,194 +171,54 @@
     </div>
 
     <div class="right">
+    
     {* Update priorities button *}
     {if and( eq( $node.sort_array[0][0], 'priority' ), $node.can_edit, $children_count )}
         <input class="button" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n( 'design/admin/node/view/full' )}" title="{'Apply changes to the priorities of the items in the list above.'|i18n( 'design/admin/node/view/full' )}" />
     {else}
         <input class="button-disabled" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n( 'design/admin/node/view/full' )}" title="{'You cannot update the priorities because you do not have permission to edit the current item or because a non-priority sorting method is used.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
     {/if}
+    
+	<span class="vertical-seperator">&nbsp;</span>
+
+	<label class="inline">{'Sorting'|i18n( 'design/admin/node/view/full' )}:</label>
+
+	{let sort_fields=hash( 6, 'Class identifier'|i18n( 'design/admin/node/view/full' ),
+	                       7, 'Class name'|i18n( 'design/admin/node/view/full' ),
+	                       5, 'Depth'|i18n( 'design/admin/node/view/full' ),
+	                       3, 'Modified'|i18n( 'design/admin/node/view/full' ),
+	                       9, 'Name'|i18n( 'design/admin/node/view/full' ),
+	                       8, 'Priority'|i18n( 'design/admin/node/view/full' ),
+	                       2, 'Published'|i18n( 'design/admin/node/view/full' ),
+	                       4, 'Section'|i18n( 'design/admin/node/view/full' ) )
+	    title='You cannot set the sorting method for the current location because you do not have permission to edit the current item.'|i18n( 'design/admin/node/view/full' )
+	    disabled=' disabled="disabled"' }
+
+	{if $node.can_edit}
+	    {set title='Use these controls to set the sorting method for the sub items of the current location.'|i18n( 'design/admin/node/view/full' )}
+	    {set disabled=''}
+	    <input type="hidden" name="ContentObjectID" value="{$node.contentobject_id}" />
+	{/if}
+
+	<select name="SortingField" title="{$title}"{$disabled}>
+	{section var=Sort loop=$sort_fields}
+	    <option value="{$Sort.key}" {if eq( $Sort.key, $node.sort_field )}selected="selected"{/if}>{$Sort.item}</option>
+	{/section}
+	</select>
+
+	<select name="SortingOrder" title="{$title}"{$disabled}>
+	    <option value="0"{if eq($node.sort_order, 0)} selected="selected"{/if}>{'Descending'|i18n( 'design/admin/node/view/full' )}</option>
+	    <option value="1"{if eq($node.sort_order, 1)} selected="selected"{/if}>{'Ascending'|i18n( 'design/admin/node/view/full' )}</option>
+	</select>
+
+	<input {if $disabled}class="button-disabled"{else}class="button"{/if} type="submit" name="SetSorting" value="{'Set'|i18n( 'design/admin/node/view/full' )}" title="{$title}" {$disabled} />
+
+	{/let}
     </div>
 
     <div class="break"></div>
 </div>
 
-
-{* The "Create new here" thing: *}
-<div class="block">
-    {section show=$node.can_create}
-    <div class="left">
-    <input type="hidden" name="NodeID" value="{$node.node_id}" />
-
-   {if $node.path_array|contains( ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) )}
-       {def $can_create_classes = fetch( 'content', 'can_instantiate_class_list', hash( 'group_id', ezini( 'ClassGroupIDs', 'Users', 'content.ini' ), 'parent_node', $node ) )}
-   {else}
-       {def $can_create_classes = fetch( 'content', 'can_instantiate_class_list', hash( 'group_id', array( ezini( 'ClassGroupIDs', 'Users', 'content.ini' ), ezini( 'ClassGroupIDs', 'Setup', 'content.ini' ) ), 'parent_node', $node, 'filter_type', 'exclude' ) )}
-   {/if}
-
-    {def $can_create_languages=fetch( content, prioritized_languages )}
-
-    {if ne( $can_create_languages|count, 1 )}
-    <script type="text/javascript">
-    <!--
-        {literal}
-        function updateLanguageSelector( classSelector )
-        {
-            languageSelector = classSelector.form.ContentLanguageCode;
-            if ( !languageSelector )
-            {
-                return;
-            }
-
-            classID = classSelector.value;
-            languages = languagesByClassID[classID];
-            candidateIndex = -1;
-
-            for ( var index = 0; index < languageSelector.options.length; index++ )
-            {
-                var value = languageSelector.options[index].value;
-                var disabled = true;
-
-                for ( var indexj = 0; indexj < languages.length; indexj ++ )
-                {
-                    if ( languages[indexj] == value )
-                    {
-                        disabled = false;
-                        break;
-                    }
-                }
-
-                if ( !disabled && candidateIndex == -1 )
-                {
-                    candidateIndex = index;
-                }
-
-                languageSelector.options[index].disabled = disabled;
-                if ( disabled )
-                {
-                    languageSelector.options[index].style.color = '#888888';
-                    if ( languageSelector.options[index].text.substring( 0, 1 ) != '(' )
-                    {
-                        languageSelector.options[index].text = '(' + languageSelector.options[index].text + ')';
-                    }
-                }
-                else
-                {
-                    languageSelector.options[index].style.color = '#000000';
-                    if ( languageSelector.options[index].text.substring( 0, 1 ) == '(' )
-                    {
-                        languageSelector.options[index].text = languageSelector.options[index].text.substring( 1, languageSelector.options[index].text.length - 1 );
-                    }
-                }
-            }
-
-            if ( languageSelector.options[languageSelector.selectedIndex].disabled )
-            {
-                window.languageSelectorIndex = candidateIndex;
-                languageSelector.selectedIndex = candidateIndex;
-            }
-        }
-
-        function checkLanguageSelector( languageSelector )
-        {
-            if ( languageSelector.options[languageSelector.selectedIndex].disabled )
-            {
-                languageSelector.selectedIndex = window.languageSelectorIndex;
-                return;
-            }
-            window.languageSelectorIndex = languageSelector.selectedIndex;
-        }
-
-        window.onload = function() { updateLanguageSelector( document.getElementById( 'ClassID' ) ); }
-        {/literal}
-
-        languagesByClassID = new Array();
-        {foreach $can_create_classes as $class}
-        languagesByClassID[{$class.id}] = [ {foreach $class.can_instantiate_languages as $tmp_language}'{$tmp_language}'{delimiter}, {/delimiter} {/foreach} ];
-    {/foreach}
-    // -->
-    </script>
-    {/if}
-
-    {if and( is_set( $can_create_languages[0] ), eq( $can_create_languages|count, 1 ) )}
-        <select id="ClassID" name="ClassID" title="{'Use this menu to select the type of item you want to create then click the "Create here" button. The item will be created in the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
-    {else}
-        <select id="ClassID" name="ClassID" onchange="updateLanguageSelector(this)" title="{'Use this menu to select the type of item you want to create then click the "Create here" button. The item will be created in the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
-    {/if}
-        {section var=CanCreateClasses loop=$can_create_classes}
-        {if $CanCreateClasses.item.can_instantiate_languages}
-            <option value="{$CanCreateClasses.item.id}">{$CanCreateClasses.item.name|wash()}</option>
-        {/if}
-        {/section}
-    </select>
-
-    {if and( is_set( $can_create_languages[0] ), eq( $can_create_languages|count, 1 ) )}
-        <input name="ContentLanguageCode" value="{$can_create_languages[0].locale}" type="hidden" />
-    {else}
-        <select name="ContentLanguageCode" onchange="checkLanguageSelector(this)" title="{'Use this menu to select the language you want to use for the creation then click the "Create here" button. The item will be created in the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
-            {foreach $can_create_languages as $tmp_language}
-                <option value="{$tmp_language.locale|wash()}">{$tmp_language.name|wash()}</option>
-            {/foreach}
-       </select>
-    {/if}
-    {undef $can_create_languages $can_create_classes}
-
-
-    <input class="button" type="submit" name="NewButton" value="{'Create here'|i18n( 'design/admin/node/view/full' )}" title="{'Create a new item in the current location. Use the menu on the left to select the type of  item.'|i18n( 'design/admin/node/view/full' )}" />
-    <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
-    <input type="hidden" name="ContentObjectID" value="{$node.contentobject_id}" />
-    <input type="hidden" name="ViewMode" value="full" />
-    </div>
-    {section-else}
-    <div class="left">
-    <select id="ClassID" name="ClassID" disabled="disabled">
-    <option value="">{'Not available'|i18n( 'design/admin/node/view/full' )}</option>
-    </select>
-    <input class="button-disabled" type="submit" name="NewButton" value="{'Create here'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permission to create new items in the current location.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
-    </div>
-    {/section}
-
-{* Sorting *}
-<div class="right">
-<label>{'Sorting'|i18n( 'design/admin/node/view/full' )}:</label>
-
-{let sort_fields=hash( 6, 'Class identifier'|i18n( 'design/admin/node/view/full' ),
-                       7, 'Class name'|i18n( 'design/admin/node/view/full' ),
-                       5, 'Depth'|i18n( 'design/admin/node/view/full' ),
-                       3, 'Modified'|i18n( 'design/admin/node/view/full' ),
-                       9, 'Name'|i18n( 'design/admin/node/view/full' ),
-                       8, 'Priority'|i18n( 'design/admin/node/view/full' ),
-                       2, 'Published'|i18n( 'design/admin/node/view/full' ),
-                       4, 'Section'|i18n( 'design/admin/node/view/full' ) )
-    title='You cannot set the sorting method for the current location because you do not have permission to edit the current item.'|i18n( 'design/admin/node/view/full' )
-    disabled=' disabled="disabled"' }
-
-{if $node.can_edit}
-    {set title='Use these controls to set the sorting method for the sub items of the current location.'|i18n( 'design/admin/node/view/full' )}
-    {set disabled=''}
-    <input type="hidden" name="ContentObjectID" value="{$node.contentobject_id}" />
-{/if}
-
-<select name="SortingField" title="{$title}"{$disabled}>
-{section var=Sort loop=$sort_fields}
-    <option value="{$Sort.key}" {if eq( $Sort.key, $node.sort_field )}selected="selected"{/if}>{$Sort.item}</option>
-{/section}
-</select>
-
-<select name="SortingOrder" title="{$title}"{$disabled}>
-    <option value="0"{if eq($node.sort_order, 0)} selected="selected"{/if}>{'Descending'|i18n( 'design/admin/node/view/full' )}</option>
-    <option value="1"{if eq($node.sort_order, 1)} selected="selected"{/if}>{'Ascending'|i18n( 'design/admin/node/view/full' )}</option>
-</select>
-
-<input {if $disabled}class="button-disabled"{else}class="button"{/if} type="submit" name="SetSorting" value="{'Set'|i18n( 'design/admin/node/view/full' )}" title="{$title}" {$disabled} />
-
-{/let}
-
-
-</div>
-
-<div class="break"></div>
-
-</div>
 
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 
