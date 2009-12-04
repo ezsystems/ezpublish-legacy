@@ -46,7 +46,6 @@ class eZContentClassTest extends ezpDatabaseTestCase
         return array(
             array( array( 1, 'article', 'image', 12, 13 ), array( 1, 2, 5, 12, 13 ) ),
             array( array( 'article', 'image', 'comment' ), array( 2, 5, 13 ) ),
-            array( eZContentClass::classIDByIdentifier( eZINI::instance( 'content.ini' )->variable( 'VersionManagement', 'VersionHistoryClass' ) ), array() ),
         );
     }
 
