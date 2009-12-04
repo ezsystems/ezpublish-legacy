@@ -83,6 +83,58 @@ class eZMediaType extends eZDataType
     }
 
     /*!
+     The object is being moved to trash, do any necessary changes to the attribute.
+     Rename file and update db row with new name, so that access to the file using old links no longer works.
+    */
+    function trashStoredObjectAttribute( $contentObjectAttribute, $version = null )
+    {
+        $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
+        $sys = eZSys::instance();
+        $storage_dir = $sys->storageDirectory();
+
+        if ( $version == null )
+            $mediaFiles = eZMedia::fetch( $contentObjectAttributeID );
+        else
+            $mediaFiles = array( eZMedia::fetch( $contentObjectAttributeID, $version ) );
+
+        foreach ( $mediaFiles as $mediaFile )
+        {
+            if ( $mediaFile == null )
+                continue;
+            $mimeType =  $mediaFile->attribute( "mime_type" );
+            list( $prefix, $suffix ) = split ('[/]', $mimeType );
+            $orig_dir = $storage_dir . '/original/' . $prefix;
+            $fileName = $mediaFile->attribute( "filename" );
+
+            // Check if there are any other records in ezmedia that point to that fileName.
+            $mediaObjectsWithSameFileName = eZMedia::fetchByFileName( $fileName );
+
+            $filePath = $orig_dir . "/" . $fileName;
+            $file = eZClusterFileHandler::instance( $filePath );
+
+            if ( $file->exists() and count( $mediaObjectsWithSameFileName ) <= 1 )
+            {
+                // create dest filename in the same manner as eZHTTPFile::store()
+                // grab file's suffix
+                $fileSuffix = eZFile::suffix( $fileName );
+                // prepend dot
+                if ( $fileSuffix )
+                    $fileSuffix = '.' . $fileSuffix;
+                // grab filename without suffix
+                $fileBaseName = basename( $fileName, $fileSuffix );
+                // create dest filename
+                $newFileName = md5( $fileBaseName . microtime() . mt_rand() ) . $fileSuffix;
+                $newFilePath = $orig_dir . "/" . $newFileName;
+
+                // rename the file, and update the database data
+                $file->move( $newFilePath );
+                $mediaFile->setAttribute( 'filename', $newFileName );
+                $mediaFile->store();
+            }
+        }
+    }
+
+    /*!
      Delete stored attribute
     */
     function deleteStoredObjectAttribute( $contentObjectAttribute, $version = null )

@@ -105,6 +105,56 @@ class eZImageType extends eZDataType
     }
 
     /*!
+     The object is being moved to trash, do any necessary changes to the attribute.
+     Rename file and update db row with new name, so that access to the file using old links no longer works.
+    */
+    function trashStoredObjectAttribute( $contentObjectAttribute, $version = null )
+    {
+        $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
+        $imageHandler = $contentObjectAttribute->attribute( 'content' );
+        $imageFiles = eZImageFile::fetchForContentObjectAttribute( $contentObjectAttributeID );
+
+        foreach ( $imageFiles as $imageFile )
+        {
+            if ( $imageFile == null )
+                continue;
+            $existingFilepath = $imageFile;
+
+            // Check if there are any other records in ezimagefile that point to that filename.
+            $imageObjectsWithSameFileName = eZImageFile::fetchByFilepath( $existingFilepath );
+
+            $file = eZClusterFileHandler::instance( $existingFilepath );
+
+            if ( $file->exists() and count( $imageObjectsWithSameFileName ) <= 1 )
+            {
+                $orig_dir = dirname( $existingFilepath ) . '/trashed';
+                $fileName = basename( $existingFilepath );
+
+                // create dest filename in the same manner as eZHTTPFile::store()
+                // grab file's suffix
+                $fileSuffix = eZFile::suffix( $fileName );
+                // prepend dot
+                if ( $fileSuffix )
+                    $fileSuffix = '.' . $fileSuffix;
+                // grab filename without suffix
+                $fileBaseName = basename( $fileName, $fileSuffix );
+                // create dest filename
+                $newFileBaseName = md5( $fileBaseName . microtime() . mt_rand() );
+                $newFileName = $newFileBaseName . $fileSuffix;
+                $newFilepath = $orig_dir . '/' . $newFileName;
+
+                // rename the file, and update the database data
+                $imageHandler->updateAliasPath( $orig_dir, $newFileBaseName );
+                if ( $imageHandler->isStorageRequired() )
+                {
+                    $imageHandler->store( $contentObjectAttribute );
+                    $contentObjectAttribute->store();
+                }
+            }
+        }
+    }
+
+    /*!
      \reimp
     */
     function deleteStoredObjectAttribute( $contentObjectAttribute, $version = null )

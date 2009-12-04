@@ -135,6 +135,58 @@ class eZBinaryFileType extends eZDataType
     }
 
     /*!
+     The object is being moved to trash, do any necessary changes to the attribute.
+     Rename file and update db row with new name, so that access to the file using old links no longer works.
+    */
+    function trashStoredObjectAttribute( $contentObjectAttribute, $version = null )
+    {
+        $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
+        $sys = eZSys::instance();
+        $storage_dir = $sys->storageDirectory();
+
+        if ( $version == null )
+            $binaryFiles = eZBinaryFile::fetch( $contentObjectAttributeID );
+        else
+            $binaryFiles = array( eZBinaryFile::fetch( $contentObjectAttributeID, $version ) );
+
+        foreach ( $binaryFiles as $binaryFile )
+        {
+            if ( $binaryFile == null )
+                continue;
+            $mimeType =  $binaryFile->attribute( "mime_type" );
+            list( $prefix, $suffix ) = split ('[/]', $mimeType );
+            $orig_dir = $storage_dir . '/original/' . $prefix;
+            $fileName = $binaryFile->attribute( "filename" );
+
+            // Check if there are any other records in ezbinaryfile that point to that fileName.
+            $binaryObjectsWithSameFileName = eZBinaryFile::fetchByFileName( $fileName );
+
+            $filePath = $orig_dir . "/" . $fileName;
+            $file = eZClusterFileHandler::instance( $filePath );
+
+            if ( $file->exists() and count( $binaryObjectsWithSameFileName ) <= 1 )
+            {
+                // create dest filename in the same manner as eZHTTPFile::store()
+                // grab file's suffix
+                $fileSuffix = eZFile::suffix( $fileName );
+                // prepend dot
+                if ( $fileSuffix )
+                    $fileSuffix = '.' . $fileSuffix;
+                // grab filename without suffix
+                $fileBaseName = basename( $fileName, $fileSuffix );
+                // create dest filename
+                $newFileName = md5( $fileBaseName . microtime() . mt_rand() ) . $fileSuffix;
+                $newFilePath = $orig_dir . "/" . $newFileName;
+
+                // rename the file, and update the database data
+                $file->move( $newFilePath );
+                $binaryFile->setAttribute( 'filename', $newFileName );
+                $binaryFile->store();
+            }
+        }
+    }
+
+    /*!
      Delete stored attribute
     */
     function deleteStoredObjectAttribute( $contentObjectAttribute, $version = null )

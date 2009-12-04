@@ -859,6 +859,14 @@ class eZDataType
     }
 
     /*!
+     Do any necessary changes to stored object attribute when moving an object to trash.
+     \note Default implementation does nothing.
+    */
+    function trashStoredObjectAttribute( $objectAttribute, $version = null )
+    {
+    }
+
+    /*!
      Clean up stored object attribute
      \note Default implementation does nothing.
     */
