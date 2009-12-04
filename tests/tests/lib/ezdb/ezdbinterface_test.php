@@ -4,7 +4,7 @@ class eZDBInterfaceTest extends ezpDatabaseTestCase
 {
     public function setUp()
     {
-        $this->db = $this->sharedFixture;
+        parent::setUp();
     }
 
     public static function providerForTestImplodeWithTypeCast()
@@ -49,7 +49,8 @@ class eZDBInterfaceTest extends ezpDatabaseTestCase
      **/
     public function testImplodeWithTypeCast( $array, $glue, $type, $expected )
     {
-        $ret = $this->db->implodeWithTypeCast( $glue, $array, $type );
+        $db = eZDB::instance();
+        $ret = $db->implodeWithTypeCast( $glue, $array, $type );
         $this->assertEquals( $expected, $ret );
     }
 
@@ -58,7 +59,8 @@ class eZDBInterfaceTest extends ezpDatabaseTestCase
      **/
     public function testGenerateSQLINStatement( $elements, $columnName, $not, $unique, $type, $expected )
     {
-        $ret = $this->db->generateSQLINStatement(
+        $db = eZDB::instance();
+        $ret = $db->generateSQLINStatement(
             $elements, $columnName, $not, $unique, $type );
         $this->assertEquals( $expected, $ret );
     }
@@ -66,7 +68,6 @@ class eZDBInterfaceTest extends ezpDatabaseTestCase
     /**
     * @var eZDBInterface
     **/
-    protected $db;
 }
 
 ?>
