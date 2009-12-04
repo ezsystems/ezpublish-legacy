@@ -38,9 +38,10 @@ jQuery(function( $ )
 		    {
 			    if ( contentTreeDrag.elements  )
 			    {
-			    	var els = contentTreeDrag.elements, offset = els[0].offset().left, pos = e.pageX;
-			    	els[0].css( 'width', ( pos + 3 ) - offset + 'px' );
-			    	els[1].css( 'marginLeft', ( pos - offset ) + 'px' );
+			    	var els = contentTreeDrag.elements, offset = els[0].offset().left, pos = e.pageX, size = pos - offset;
+			    	if ( size < 20 ) size = 20;
+			    	els[0].css( 'width', ( size + 3 )  + 'px' );
+			    	els[1].css( 'marginLeft', ( size ) + 'px' );
 			    }
 			},
 			save: function()

@@ -169,6 +169,193 @@ span.vertical-seperator
 #maincontent div.box-header { margin-top: 0.5em; }
 
 
+/* CONTENTSTRUCTURE TREE MENU STYLES */
+
+div#contentstructure
+{
+    overflow-x: auto;
+}
+
+div#contentstructure ul#content_tree_menu
+{
+    margin-top: 0;    
+    margin-left: 0.25em;
+    padding-left: 0.5em;
+}
+
+div#contentstructure ul#content_tree_menu ul
+{
+    margin: 0;
+    padding-top: 4px;
+    padding-bottom: 0;
+}
+
+div#contentstructure ul#content_tree_menu ul ul
+{
+    margin-left: 0;
+}
+
+div#contentstructure ul#content_tree_menu li
+{
+    list-style-type: none;
+    white-space: nowrap;
+    position: relative;
+}
+
+div#contentstructure ul#content_tree_menu ul li
+{
+    margin: 0;
+    padding-top: 0;
+    padding-left: 20px;
+    padding-bottom: 4px;
+    background-image: url(../images/bg_content_tree_li.gif);
+    background-repeat: no-repeat;
+}
+
+div#contentstructure ul#content_tree_menu ul li.lastli
+{
+    background-image: url(../images/bg_content_tree_li_last.gif);
+    padding-bottom: 2px;
+}
+
+div#contentstructure ul#content_tree_menu li img
+{
+    vertical-align: middle;
+}
+
+div#contentstructure a.nodeicon
+{
+    margin-left: 0;
+    padding-left: 0;
+}
+
+div#contentstructure a.nodetext
+{
+    color: #315578;
+    text-decoration: none;
+}
+
+div#contentstructure a.nodetext:hover
+{
+    color: #000000;
+    text-decoration: underline;
+}
+
+div#contentstructure li.currentnode a.nodetext:hover
+{
+    text-decoration: none;
+}
+
+div#contentstructure li.currentnode li a.nodetext:hover
+{
+    color: #000000;
+    text-decoration: underline;
+}
+
+div#contentstructure li span.node-name-normal
+{
+    font-weight: normal;
+}
+
+div#contentstructure li.currentnode a.nodetext span.node-name-normal, div#contentstructure li.currentnode a.nodetext span.node-name-hidden, div#contentstructure li.currentnode a.nodetext span.node-name-hiddenbyparent /* Highlighting of current node */
+{
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #f08c00;
+    padding: 0 0.25em 0 0.2em;
+}
+
+div#contentstructure li.currentnode li a.nodetext span.node-name-normal, div#contentstructure li.currentnode li a.nodetext span.node-name-hidden, div#contentstructure li.currentnode li a.nodetext span.node-name-hiddenbyparent
+{
+    font-weight: normal;
+    color: #315578;
+    background-color: transparent;
+    padding: 0;
+}
+
+div#contentstructure li a.nodetext span.node-name-hidden, div#contentstructure li.currentnode li a.nodetext span.node-name-hidden
+{
+    font-weight: normal;
+    font-style: normal;
+    background-color: #e0e0c9;
+    padding: 0 0.2em 0 0.2em;
+}
+
+div#contentstructure li a.nodetext span.node-name-hiddenbyparent, div#contentstructure li.currentnode li a.nodetext span.node-name-hiddenbyparent
+{
+    font-weight: normal;
+    font-style: normal;
+    background-color: #eff0e4;
+    padding: 0 0.2em 0 0.2em;
+}
+
+div#contentstructure span.node-hidden, div#contentstructure span.node-hiddenbyparent
+{
+    display: none;
+}
+
+a.openclose, span.openclose
+{
+    text-decoration: none;
+}
+
+a.openclose img, span.openclose img
+{
+    margin: 0;
+    cursor: default;
+}
+
+div#contentstructure a.openclose, div#contentstructure span.openclose
+{
+    color: #315578;
+}
+
+div#contentstructure span.openclose
+{
+    visibility: hidden;
+}
+
+/* The following are used in the dynamic tree menu */
+div#contentstructure ul#content_tree_menu ul a.openclose-open, div#contentstructure ul#content_tree_menu ul a.openclose-close, div#contentstructure ul#content_tree_menu ul a.openclose-busy, div#contentstructure ul#content_tree_menu ul a.openclose-error
+{
+    position: absolute;
+    left: 0;
+    _left: -20px; /* to fix a bug in IE 6 */
+    top: 0;
+    width: 16px;
+    height: 16px;
+    background-image: url( '../images/content_tree-open.gif' );
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+div#contentstructure ul#content_tree_menu ul a.openclose-close
+{
+    background-image: url( '../images/content_tree-close.gif' );
+}
+
+div#contentstructure ul#content_tree_menu ul a.openclose-busy
+{
+    background-image: url( '../images/content_tree-busy.gif' );
+    cursor: progress;
+}
+
+div#contentstructure ul#content_tree_menu ul a.openclose-error
+{
+    background-image: url( '../images/content_tree-error.gif' );
+}
+
+div#contentstructure ul#content_tree_menu div.loaded
+{
+    display: block;
+}
+
+div#contentstructure ul#content_tree_menu div.hidden
+{
+    display: none;
+}
+
+
 /* FOOTER */
 
 #footer
