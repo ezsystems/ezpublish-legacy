@@ -452,28 +452,36 @@ div#fix
     list-style-type: none;
     padding: 0;
     margin: 0;
-    width: 16.4%;
+    width: 16.6666%;
+}
+
+.context-user .menu-block li
+{
+    width: 14.285%;
+}
+
+.menu-block li a
+{
+    margin-left: 1px;
+    text-decoration: none;
+    display: block;
     border: 1px solid #aaa;
     /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     border-radius: 5px;
 }
-.menu-block li.disabled
+
+.menu-block li:first-child a
+{
+    margin-left: 0;
+}
+
+.menu-block li.disabled a
 {
     background-color:#f3f3f3;
 }
 
-.menu-block li a
-{
-    text-decoration: none;
-    display: block;
-}
-
-.context-user .menu-block li
-{
-    width: 14.1%;
-}
 
 /* WIDTH CONTROL */
 .widthcontroled .box-bc
