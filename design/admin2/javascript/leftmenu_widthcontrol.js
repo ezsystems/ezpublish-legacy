@@ -1,25 +1,13 @@
-/*YUI( YUI3_config ).use( 'node', 'io-ez', function( Y )
-{
-
-    Y.on( "contentready", function( e )
-    {
-        //Y.io.ez( 'ezjsc::time', {data: 'postData=hi!', on: {success: function(id,r){ alert(r.responseJSON.content) }}} );
-        Y.one('#content-tree').addClass( 'widthcontroled' )
-        var widthcontrol = Y.one( '#content-tree div.widthcontrol' ).addClass( 'js-widthcontroled' );
-        Y.on('mousedown', contentTreeDrag.down, widthcontrol );
-        //widthcontrol.on('mouseup', contentTreeDrag.up );
-    }, '#content-tree' );
-
-});*/
 // jquery code to a allow changing width  on left menu by dragging
 jQuery(function( $ )
 {
-    var contentTreeDrag = {
+	console.log( 'init' );
+	var contentTreeDrag = {
     		elements : false,
     		timeout : null,
     	    down: function( e )
     	    {
-	            contentTreeDrag.elements = [ $( '#leftmenu' ), $( '#maincontent' ) ];
+    	        contentTreeDrag.elements = [ $( '#leftmenu' ), $( '#maincontent' ) ];
 	            if ( contentTreeDrag.timeout !== null )
 	            {
 	                clearTimeout( contentTreeDrag.timeout );
@@ -55,11 +43,17 @@ jQuery(function( $ )
 				var test = jQuery('<div style="display: none; font-size: 1em; margin: 0; padding:0; height: auto; line-height: 1; border:0;">&nbsp;</div>').appendTo('#columns'), scale = test.height();
 				test.remove();
 				return (px / scale).toFixed(8);
+			},
+			refresh: function()
+			{
+				// for ie7..
+				$( '#content-tree div.widthcontrol' ).html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;').css( 'fontSize', '11px' ).css('bottom', '0px');
 			}
     };
-    $('#content-tree').addClass( 'widthcontroled' );
     var wc = $( '#content-tree div.widthcontrol' ).addClass( 'js-widthcontroled' );
     wc.bind( 'mousedown', contentTreeDrag.down );
     $( document ).bind('mouseup click', contentTreeDrag.up );
     $( document ).bind('mousemove', contentTreeDrag.on );
+    $('#content-tree').addClass( 'widthcontroled' );
+    setTimeout( contentTreeDrag.refresh, 400 );
 });

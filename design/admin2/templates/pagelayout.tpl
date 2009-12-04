@@ -11,8 +11,8 @@
 {if or( $hide_right_menu, $admin_left_size )}
 	<style type="text/css">
 	{if $hide_right_menu}
-	    div#page div#rightmenu  {ldelim} width: 0.4em; {rdelim}
-	    div#page div#maincontent {ldelim} margin-right: 0.4em; {rdelim}
+	    div#page div#rightmenu  {ldelim} width: 1em; {rdelim}
+	    div#page div#maincontent {ldelim} margin-right: 1em; {rdelim}
 	{/if}
 	{if $admin_left_size}
 	    {def $left_menu_widths = ezini( 'LeftMenuSettings', 'MenuWidth', 'menu.ini')}
@@ -156,12 +156,15 @@
 
 <div id="rightmenu">
 <div id="rightmenu-design">
+<a id="rightmenu-showhide" class="hide"></a>
 
 {tool_bar name='admin_right' view=full}
 {tool_bar name='admin_developer' view=full}
 
 </div>
 </div>
+
+<script language="javascript" type="text/javascript" src={"javascript/rightmenu_widthcontrol.js"|ezdesign} charset="utf-8"></script>
 
 <hr class="hide" />
 

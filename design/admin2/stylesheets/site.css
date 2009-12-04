@@ -154,10 +154,18 @@ span.vertical-seperator
 #rightmenu-design
 {
     margin: 0 0.5em 0 0.1em;
+    position: relative;
 }
 
 /* This is not supported by IE6, some DOM cleanup is needed to avoid it */
-#rightmenu-design > div { margin-top: 0.5em; }
+#rightmenu-design > div
+{
+	margin-top: 0.5em;
+	min-width: 12em;
+}
+
+#rightmenu-design ul, #leftmenu-design ul { margin-left: 1.5em; color: #aaa; }
+
 
 #maincontent
 {
@@ -314,7 +322,6 @@ div#contentstructure span.openclose
     visibility: hidden;
 }
 
-/* The following are used in the dynamic tree menu */
 div#contentstructure ul#content_tree_menu ul a.openclose-open, div#contentstructure ul#content_tree_menu ul a.openclose-close, div#contentstructure ul#content_tree_menu ul a.openclose-busy, div#contentstructure ul#content_tree_menu ul a.openclose-error
 {
     position: absolute;
@@ -485,12 +492,45 @@ div#fix
 	width: 11px;
 	height: 11px;
 	cursor: e-resize;
+	overflow: hidden;
 }
 
 .widthcontrol.js-widthcontroled p
 {
 	display: none;
 }
+
+#rightmenu-showhide
+{
+    position: absolute;
+    width: 95%;
+    height: 14px;
+    text-align: left;
+    top: 0;
+    left: 0;
+    text-decoration: none;
+    padding: 2px;
+}
+
+/* CONTENT */
+
+table.list tr.bgdark
+{
+    background-color: #f5f5f5;
+}
+
+table.list tr th
+{
+    background-color: #fff;
+    border-bottom: 1px solid #f5f5f5;
+    border-top: 1px solid #f5f5f5;
+}
+
+table.list tr:hover
+{
+    background-color: #dfdfdf;
+}
+
 
 
 /* GENERIC DIFF STYLES */
