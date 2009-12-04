@@ -2,27 +2,34 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{$site.http_equiv.Content-language|wash}" lang="{$site.http_equiv.Content-language|wash}">
 <head>
 
-	{* Do some left + right menu stuff before cache-block's *}
-	{def $hide_right_menu  = ezpreference( 'admin_right_menu_hide' )
-	     $admin_left_width = ezpreference( 'admin_left_menu_width' )
-	     $user_hash        = concat( $current_user.role_id_list|implode( ',' ), ',', $current_user.limited_assignment_value_list|implode( ',' ) )}
-	{if or( $hide_right_menu, $admin_left_width )}
-		<style type="text/css">
-		{if $hide_right_menu}
-		    div#page div#rightmenu  {ldelim} width: 0.4em; {rdelim}
-		    div#page div#maincontent {ldelim} margin-right: 0.4em; {rdelim}
-		{/if}
-		{if $admin_left_width}
-		    {def $left_menu_widths = ezini( 'LeftMenuSettings', 'MenuWidth', 'menu.ini')
-		         $left_menu_width  = $left_menu_widths[$admin_left_width]}
-		    div#page div#leftmenu {ldelim} width: {$left_menu_width|int}em; {rdelim}
-		    div#page div#maincontent {ldelim} margin-left: {$left_menu_width|int}em; {rdelim}
-		    {undef $left_menu_widths $left_menu_width}
-		{/if}
-		</style>
-	{/if}
+{* Do some left + right menu stuff before cache-block's *}
+{def $hide_right_menu  = ezpreference( 'admin_right_menu_hide' )
+     $admin_left_size  = ezpreference( 'admin_left_menu_size' )
+     $left_size_hash   = 0
+     $user_hash        = concat( $current_user.role_id_list|implode( ',' ), ',', $current_user.limited_assignment_value_list|implode( ',' ) )}
 
-{cache-block keys=array( $module_result.uri, $user_hash )}{* Pr uri cache *}
+{if or( $hide_right_menu, $admin_left_size )}
+	<style type="text/css">
+	{if $hide_right_menu}
+	    div#page div#rightmenu  {ldelim} width: 0.4em; {rdelim}
+	    div#page div#maincontent {ldelim} margin-right: 0.4em; {rdelim}
+	{/if}
+	{if $admin_left_size}
+	    {def $left_menu_widths = ezini( 'LeftMenuSettings', 'MenuWidth', 'menu.ini')}
+	    {if is_set( $left_menu_widths[$admin_left_size] )}
+	        {set $left_size_hash = $left_menu_widths[$admin_left_size]}
+		    div#leftmenu {ldelim} width: {$left_size_hash|int}em; {rdelim}
+		    div#maincontent {ldelim} margin-left: {$left_size_hash|int}em; {rdelim}
+	    {else}
+		    div#page div#leftmenu {ldelim} width: {$admin_left_size|wash}; {rdelim}
+		    div#page div#maincontent {ldelim} margin-left: {$admin_left_size|wash}; {rdelim}
+		{/if}
+	    {undef $left_menu_widths}
+	{/if}
+	</style>
+{/if}
+
+{cache-block keys=array( $module_result.uri, $user_hash, $left_size_hash )}{* Pr uri cache *}
 
 {include uri='design:page_head.tpl'}
 

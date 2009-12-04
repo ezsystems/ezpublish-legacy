@@ -210,7 +210,7 @@ div#fix
 .box-bc
 {
     border: 1px solid #bbb;
-    border-top: 0 none;
+    border-top-width: 0;
     /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
     -moz-border-radius-bottomleft: 5px;
     -moz-border-radius-bottomright: 5px;
@@ -218,6 +218,16 @@ div#fix
     -webkit-border-bottom-right-radius: 5px;
     border-bottom-left-radius:  5px;
     border-bottom-right-radius: 5px;
+}
+
+.controlbar .box-bc
+{
+    background-color: #fbfbfb;
+}
+
+.controlbar .box-bc .box-ml
+{
+    border-top: 1px solid #ddd;
 }
 
 .box-ml
@@ -249,7 +259,7 @@ div#fix
     list-style-type: none;
     padding: 0;
     margin: 0;
-    width: 16.5%;
+    width: 16.4%;
     border: 1px solid #aaa;
     /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
     -moz-border-radius: 5px;
@@ -272,12 +282,28 @@ div#fix
     width: 14.1%;
 }
 
-/* WIDTH CONTROLL */
+/* WIDTH CONTROL */
 .widthcontroled .box-bc
 {
-	/*background-image: url('../images/2/chrome_expand_corner.gif');
+	background-image: url('../images/2/chrome_expand_corner.gif');
 	background-repeat: no-repeat;
-	background-position: bottom right;*/
+	background-position: bottom right;
+	position: relative;
+}
+
+.widthcontrol.js-widthcontroled
+{
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	width: 11px;
+	height: 11px;
+	cursor: e-resize;
+}
+
+.widthcontrol.js-widthcontroled p
+{
+	display: none;
 }
 
 

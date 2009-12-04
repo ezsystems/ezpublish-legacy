@@ -5,7 +5,7 @@
 {/if}
 
 {if $load_javascript_list}
- {ezscript_load( ezini( 'JavaScriptSettings', 'JavaScriptList', 'design.ini' ) )}
+ {ezscript_load( ezini( 'JavaScriptSettings', 'JavaScriptList', 'design.ini' )|append( 'ezjsc::jquery' )|append( 'ezjsc::jqueryio' ) )}
 {else}
- {ezscript_load()}
+ {ezscript_load( array( 'ezjsc::jquery', 'ezjsc::jqueryio' ) )}
 {/if}

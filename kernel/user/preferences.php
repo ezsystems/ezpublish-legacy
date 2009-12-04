@@ -44,6 +44,13 @@ else
     eZPreferences::setValue( $key, $value );
 }
 
+// For use by ajax calls
+if ( $function === 'set_and_exit' )
+{
+    eZDB::checkTransactionCounter();
+    eZExecution::cleanExit();
+}
+
 // Extract URL to redirect to from user parameters.
 $urlArray = array_splice( $Params['Parameters'], 3 );
 foreach ( $urlArray as $key => $val ) // remove all the array elements that don't seem like URL parts
