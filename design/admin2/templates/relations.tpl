@@ -64,7 +64,7 @@
                 {/if}
             </td>
             </tr>
-            {if eq( $tr_class,'bdark' )}
+            {if eq( $tr_class,'bgdark' )}
                 {set $tr_class='bglight'}
             {else}
                 {set $tr_class='bgdark'}
