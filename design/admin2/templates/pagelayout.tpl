@@ -3,7 +3,7 @@
 <head>
 
 {* Do some left + right menu stuff before cache-block's *}
-{def $hide_right_menu  = ezpreference( 'admin_right_menu_hide' )
+{def $hide_right_menu  = ezpreference( 'admin_right_menu_show' )|not
      $admin_left_size  = ezpreference( 'admin_left_menu_size' )
      $left_size_hash   = 0
      $user_hash        = concat( $current_user.role_id_list|implode( ',' ), ',', $current_user.limited_assignment_value_list|implode( ',' ) )}

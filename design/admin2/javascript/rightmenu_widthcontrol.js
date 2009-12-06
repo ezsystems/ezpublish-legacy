@@ -33,8 +33,7 @@ jQuery(function( $ )
     });
     function saveRightMenuStatus()
     {
-		var value  = $( '#rightmenu' ).width() < 20 ? '1' : '';
-		var url = $.ez.url.replace( 'ezjscore/', 'user/preferences/' ) + 'set_and_exit/admin_right_menu_hide/' + value;
-		$.post( url, {}, function(){} );
+		var show  = $( '#rightmenu' ).width() < 22 ? '' : '1';
+		$.post( $.ez.url.replace( 'ezjscore/', 'user/preferences/set_and_exit/admin_right_menu_show/' ) + show );
     }
 });

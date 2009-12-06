@@ -5,10 +5,10 @@ a:hover { color: green; }
 span.vertical-seperator
 {
     height: 100%;
-    width: 0px;
-    border-left: 1px solid #bbb;
-    margin-left: 15px;
-    margin-right: 15px;
+    width: 4px;
+    border-right: 1px solid #bbb;
+    margin-left: 12px;
+    margin-right: 16px;
 }
 
 .inline { display: inline; }
@@ -175,6 +175,8 @@ span.vertical-seperator
 }
 
 #maincontent div.box-header { margin-top: 0.5em; }
+
+#maincontent div.box-header div.block div.right { padding-top: 1.3em; }
 
 
 /* CONTENTSTRUCTURE TREE MENU STYLES */
@@ -369,6 +371,7 @@ div#contentstructure ul#content_tree_menu div.hidden
 	border-top: 1px solid #bbb;
 	background-color: #f3f3f3;
 	text-align: center;
+	padding: 0.8em;
 }
 
 /* GENERIC */
@@ -390,7 +393,9 @@ div#fix
 
 .box-header
 {
+    background-color: #fbfbfb;
 	border: 1px solid #bbb;
+	border-bottom-width: 0;
     /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
     -moz-border-radius-topleft: 5px;
     -moz-border-radius-topright: 5px;
@@ -398,6 +403,11 @@ div#fix
     -webkit-border-top-right-radius: 5px;
     border-top-left-radius:  5px;
     border-top-right-radius: 5px;
+}
+
+.box-header .box-tc
+{
+    border-bottom: 1px solid #ddd;
 }
 
 .box-bc
@@ -427,13 +437,20 @@ div#fix
 {
     border-left: 1px solid #bbb;
     border-right: 1px solid #bbb;
-    padding: 1em;
+    padding: 0.2em;
 }
 
 .box-bc .box-ml, .box-header .box-ml
 {
     border: 0 none;
     padding: 0.1em 0.5em 0.1em 0.5em; /* 0.1 needed to avoid gaps in border */
+}
+
+
+div.context-information
+{
+	color: #777;
+	font-size: 0.8em;
 }
 
 
@@ -522,6 +539,15 @@ div#fix
 
 /* CONTENT */
 
+div.mainobject-window
+{
+	max-height: 200px;
+	overflow-y: scroll;
+	border: 1px solid #dfdfdf;
+	padding: 0.5em;
+	background-color: #fdfdfd;
+}
+
 table.list tr.bgdark
 {
     background-color: #f5f5f5;
@@ -533,9 +559,57 @@ table.list tr th
     border-bottom: 2px solid #f5f5f5;
 }
 
-table.list tr:hover
+table.list tr:hover, table.list tr:hover th
 {
     background-color: #dfdfdf;
+}
+
+/* CONTEXT MENU */
+table.context-enabled tr td.context-menu
+{
+	width: 3em;
+	padding: 1px;
+	padding-bottom: 0;
+	padding-left: 0;
+	height: 24px;
+}
+
+
+table.context-enabled tr:hover td.context-menu > div.hide
+{
+    display: block;
+    position: relative;
+    height: 24px;
+    width: 3em;
+    text-align: right;
+    background-image: url('../images/2/context_menu_hover_arrow.png');
+    background-repeat: no-repeat;
+    background-position: center 9px;
+}
+
+table.context-enabled td.context-menu > div.hide:hover
+{
+    background-color: #f5f5f5;
+}
+
+table.context-enabled td.context-menu > div.hide:hover div.context-menu-box
+{
+    display: block;
+    position: absolute;
+    top: 101%;
+    right: -1px;
+    width: 10em;
+    z-index: 100;
+    background-color: #f5f5f5;
+    padding: 1em;
+    text-align: left;
+    border: 1px solid #dfdfdf;
+    border-top: 0 none;
+    -moz-box-shadow: 4px 4px 4px #eaeaea;
+    -webkit-box-shadow: 1px 1px 5px #aaa;
+    box-shadow: 1px 1px 5px #aaa;
+
+    
 }
 
 
