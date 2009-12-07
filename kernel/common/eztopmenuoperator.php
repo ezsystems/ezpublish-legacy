@@ -94,7 +94,7 @@ class eZTopMenuOperator
                                           'required' => true,
                                           'default' => 'content' ),
                       'filter_on_access' => array( 'type' => 'bool',
-                                          'required' => true,
+                                          'required' => false,
                                           'default' => false ) );
     }
 
