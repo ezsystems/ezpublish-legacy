@@ -162,6 +162,7 @@
     <a id="rightmenu-showhide" href={'/user/preferences/set/admin_right_menu_show/1'|ezurl}>&lt;</a>
 {else}
     <a id="rightmenu-showhide" href={'/user/preferences/set/admin_right_menu_show/0'|ezurl}>&gt;</a>
+    <script language="javascript" type="text/javascript" src={"javascript/rightmenu_widthcontrol.js"|ezdesign} charset="utf-8"></script>
 {/if}
 
 {tool_bar name='admin_right' view=full}
@@ -169,8 +170,6 @@
 
 </div>
 </div>
-
-<script language="javascript" type="text/javascript" src={"javascript/rightmenu_widthcontrol.js"|ezdesign} charset="utf-8"></script>
 
 <hr class="hide" />
 

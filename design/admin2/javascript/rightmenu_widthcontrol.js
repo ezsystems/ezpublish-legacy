@@ -2,9 +2,8 @@ jQuery(function( $ )
 {
 
     var link = $('#rightmenu-showhide'), timeout = null;
-    if ( link.width() <= 22 ) return true; // force page refresh on show when not loaded
 
-    link.attr('href', 'JavaScript:void(0);').html( '&gt;' ).click(function()
+    link.attr('href', 'JavaScript:void(0);').html( link.width() <= 22 ? '&lt;' : '&gt;' ).click(function()
     {
         if ( timeout !== null )
         {
