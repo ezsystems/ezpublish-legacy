@@ -69,3 +69,4 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Fixed bug #14983: Files are still available when object is moved to trash
 - Fixed bug #14331: user/register - RegistrationEmail to Admin without EmailSender
 - Fixed bug #15911: Still inconsistent use of the name "eZ Publish"
+- Fixed bug #15733: ezcontentobjecttrashnode generate an sql error
