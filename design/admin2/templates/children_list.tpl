@@ -37,14 +37,14 @@
 
         {* Name *}
         <td>{node_view_gui view=line content_node=$Nodes.item}
-	{if $nodeContent.class_identifier|eq('user')}
-		{if not($nodeContent.data_map['user_account'].content.is_enabled)}
-		   <span class="userstatus-disabled">{'(disabled)'|i18n("design/admin/node/view/full")}</span>
-		{/if}
-		{if $nodeContent.data_map['user_account'].content.is_locked}
-		   <span class="userstatus-disabled">{'(locked)'|i18n("design/admin/node/view/full")}</span>
-		{/if}
-	{/if}		
+    {if $nodeContent.class_identifier|eq('user')}
+        {if not($nodeContent.data_map['user_account'].content.is_enabled)}
+           <span class="userstatus-disabled">{'(disabled)'|i18n("design/admin/node/view/full")}</span>
+        {/if}
+        {if $nodeContent.data_map['user_account'].content.is_locked}
+           <span class="userstatus-disabled">{'(locked)'|i18n("design/admin/node/view/full")}</span>
+        {/if}
+    {/if}        
          </td>
 
         {* Class type *}

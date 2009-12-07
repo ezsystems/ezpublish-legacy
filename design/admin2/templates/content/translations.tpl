@@ -14,10 +14,10 @@
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/content/translations' )}" title="{'Invert selection.'|i18n( 'design/admin/content/translations' )}" onclick="ezjs_toggleCheckboxes( document.languageform, 'DeleteIDArray[]' ); return false;"/></th>
     <th>{'Language'|i18n( 'design/admin/content/translations' )}</th>
-	<th>{'Country/region'|i18n( 'design/admin/content/translations' )}</th>
-	<th>{'Locale'|i18n( 'design/admin/content/translations' )}</th>
-	<th class="tight">{'Translations'|i18n( 'design/admin/content/translations' )}</th>
-	<th class="tight">{'Classes translations'|i18n( 'design/admin/content/translations' )}</th>
+    <th>{'Country/region'|i18n( 'design/admin/content/translations' )}</th>
+    <th>{'Locale'|i18n( 'design/admin/content/translations' )}</th>
+    <th class="tight">{'Translations'|i18n( 'design/admin/content/translations' )}</th>
+    <th class="tight">{'Classes translations'|i18n( 'design/admin/content/translations' )}</th>
 </tr>
 
 {section var=Translations loop=$available_translations sequence=array( bglight, bgdark )}
@@ -25,7 +25,7 @@
 {def $class_count=$Translations.item.class_count}
 <tr class="{$Translations.sequence}">
     {* Remove. *}
-	<td>
+    <td>
     {if or($object_count, $class_count)}
         <input type="checkbox" name="DeleteIDArray[]" value="" title="{'The language cannot be removed because it is in use.'|i18n( 'design/admin/content/translations' )}" disabled="disabled" />
     {else}
@@ -34,7 +34,7 @@
     </td>
 
     {* Language. *}
-	<td>
+    <td>
     <img src="{$Translations.item.translation.locale_object.locale_code|flag_icon}" alt="{$Translations.item.translation.locale_object.intl_language_name}" />
     <a href={concat( '/content/translations/', $Translations.item.translation.id )|ezurl}>
     {if $Translations.item.translation.name|wash}
@@ -45,16 +45,16 @@
     </td>
 
     {* Country/region. *}
-	<td>{$Translations.item.translation.locale_object.country_name|wash}</td>
+    <td>{$Translations.item.translation.locale_object.country_name|wash}</td>
 
     {* Locale. *}
-	<td>{$Translations.item.translation.locale_object.locale_code|wash}</td>
+    <td>{$Translations.item.translation.locale_object.locale_code|wash}</td>
 
     {* Object count *}
-	<td class="number" align="right">{$object_count}</td>
+    <td class="number" align="right">{$object_count}</td>
 
     {* Class count *}
-	<td class="number" align="right">{$class_count}</td>
+    <td class="number" align="right">{$class_count}</td>
 </tr>
 {undef $object_count}
 {undef $class_count}

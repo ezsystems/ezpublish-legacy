@@ -51,12 +51,12 @@
 <table class="list" cellspacing="0">
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/shop/archivelist' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/archivelist' )}" onclick="ezjs_toggleCheckboxes( document.archivelist, 'OrderIDArray[]' ); return false;" /></th>
-	<th class="tight">{'ID'|i18n( 'design/admin/shop/archivelist' )}</th>
-	<th class="wide">{'Customer'|i18n( 'design/admin/shop/archivelist' )}</th>
-	<th class="tight">{'Total (ex. VAT)'|i18n( 'design/admin/shop/archivelist' )}</th>
-	<th class="tight">{'Total (inc. VAT)'|i18n( 'design/admin/shop/archivelist' )}</th>
-	<th class="wide">{'Time'|i18n( 'design/admin/shop/archivelist' )}</th>
-	<th class="wide">{'Status'|i18n( 'design/admin/shop/archivelist' )}</th>
+    <th class="tight">{'ID'|i18n( 'design/admin/shop/archivelist' )}</th>
+    <th class="wide">{'Customer'|i18n( 'design/admin/shop/archivelist' )}</th>
+    <th class="tight">{'Total (ex. VAT)'|i18n( 'design/admin/shop/archivelist' )}</th>
+    <th class="tight">{'Total (inc. VAT)'|i18n( 'design/admin/shop/archivelist' )}</th>
+    <th class="wide">{'Time'|i18n( 'design/admin/shop/archivelist' )}</th>
+    <th class="wide">{'Status'|i18n( 'design/admin/shop/archivelist' )}</th>
 </tr>
 
 {section var=Orders loop=$archive_list sequence=array( bglight, bgdark )}
@@ -72,18 +72,18 @@
 
 <tr class="{$Orders.sequence}">
     <td><input type="checkbox" name="OrderIDArray[]" value="{$Orders.item.id}" title="{'Select order for removal.'|i18n( 'design/admin/shop/archivelist' )}" /></td>
-	<td><a href={concat( '/shop/orderview/', $Orders.item.id, '/' )|ezurl}>{$Orders.item.order_nr}</a></td>
-	<td><a href={concat( '/shop/customerorderview/', $Orders.item.user_id, '/', $Orders.item.account_email )|ezurl}>{$Orders.item.account_name}</a></td>
+    <td><a href={concat( '/shop/orderview/', $Orders.item.id, '/' )|ezurl}>{$Orders.item.order_nr}</a></td>
+    <td><a href={concat( '/shop/customerorderview/', $Orders.item.user_id, '/', $Orders.item.account_email )|ezurl}>{$Orders.item.account_name}</a></td>
 
     {* NOTE: These two attribute calls are slow, they cause the system to generate lots of SQLs.
              The reason is that their values are not cached in the order tables *}
-	<td class="number" align="right">{$Orders.item.total_ex_vat|l10n( 'currency', $locale, $symbol )}</td>
-	<td class="number" align="right">{$Orders.item.total_inc_vat|l10n( 'currency', $locale, $symbol )}</td>
+    <td class="number" align="right">{$Orders.item.total_ex_vat|l10n( 'currency', $locale, $symbol )}</td>
+    <td class="number" align="right">{$Orders.item.total_inc_vat|l10n( 'currency', $locale, $symbol )}</td>
 
-	<td>{$Orders.item.created|l10n( shortdatetime )}</td>
-	<td>
+    <td>{$Orders.item.created|l10n( shortdatetime )}</td>
+    <td>
     {$Orders.status_name|wash}
-	</td>
+    </td>
 </tr>
 {/section}
 </table>

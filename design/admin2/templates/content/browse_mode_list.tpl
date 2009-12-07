@@ -31,15 +31,15 @@
         {if $browse.permission.contentclass_id}
             {if is_array( $browse.permission.contentclass_id )}
                 {foreach $browse.permission.contentclass_id as $contentclass_id}
-		            {set $browse_permission = fetch( 'content', 'access', hash( 'access', $browse.permission.access,
-		                                                               'contentobject',   $Nodes.item,
-		                                                               'contentclass_id', $contentclass_id ) )}
-		            {if $browse_permission|not}{break}{/if}
-		        {/foreach}
+                    {set $browse_permission = fetch( 'content', 'access', hash( 'access', $browse.permission.access,
+                                                                       'contentobject',   $Nodes.item,
+                                                                       'contentclass_id', $contentclass_id ) )}
+                    {if $browse_permission|not}{break}{/if}
+                {/foreach}
             {else}
-	            {set $browse_permission = fetch( 'content', 'access', hash( 'access', $browse.permission.access,
-	                                                               'contentobject',   $Nodes.item,
-	                                                               'contentclass_id', $browse.permission.contentclass_id ) )}
+                {set $browse_permission = fetch( 'content', 'access', hash( 'access', $browse.permission.access,
+                                                                   'contentobject',   $Nodes.item,
+                                                                   'contentclass_id', $browse.permission.contentclass_id ) )}
             {/if}
         {else}
             {set $browse_permission = fetch( 'content', 'access', hash( 'access', $browse.permission.access,

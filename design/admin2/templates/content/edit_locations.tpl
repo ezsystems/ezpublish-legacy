@@ -68,28 +68,28 @@
     {/if}
     <tr class="{$Node:sequence}">
 
-	{* Remove. *}
+    {* Remove. *}
     <td>
     {if or( $location_ui_enabled|not, and( $Node:item.node, $Node:item.node.can_remove|not ) )}
-	<input type="checkbox" name="AssignmentIDSelection[]" value="{$Node:item.parent_node}" title="{'You do not have permission to remove this location.'|i18n( 'design/admin/content/edit' )}" disabled="disabled" />
+    <input type="checkbox" name="AssignmentIDSelection[]" value="{$Node:item.parent_node}" title="{'You do not have permission to remove this location.'|i18n( 'design/admin/content/edit' )}" disabled="disabled" />
     {else}
-	<input type="checkbox" name="AssignmentIDSelection[]" value="{$Node:item.parent_node}" title="{'Select location for removal.'|i18n( 'design/admin/content/edit' )}" />
+    <input type="checkbox" name="AssignmentIDSelection[]" value="{$Node:item.parent_node}" title="{'Select location for removal.'|i18n( 'design/admin/content/edit' )}" />
     {/if}
     </td>
 
     {* Location. *}
     <td>
     {$:nameStart}
-	{switch match=$Node:parent_node.node_id}
-	{case match=1}
-	{'Top node'|i18n( 'design/admin/content/edit' )}
-	{/case}
-	{case}
+    {switch match=$Node:parent_node.node_id}
+    {case match=1}
+    {'Top node'|i18n( 'design/admin/content/edit' )}
+    {/case}
+    {case}
     {section name=Path loop=$Node:parent_node.path}
-	{$Node:Path:item.name|wash} /
-	{/section}
+    {$Node:Path:item.name|wash} /
+    {/section}
     {$Node:parent_node.name|wash}
-	{/case}
+    {/case}
     {/switch} / {$object.name|wash}
     {$:nameEnd}
     </td>
@@ -110,7 +110,7 @@
     <option value="{$Node:Sort:key}" {if eq($Node:Sort:key,$Node:item.sort_field)}selected="selected"{/if}>{$Node:Sort:item}</option>
     {/section}
     </select>
-	<select {if $location_ui_enabled|not}disabled="disabled" {/if}name="SortOrderMap[{$Node:item.id}]" title="{'Use this menu to set the sorting direction for the sub items in this location.'|i18n( 'design/admin/content/edit' )}">
+    <select {if $location_ui_enabled|not}disabled="disabled" {/if}name="SortOrderMap[{$Node:item.id}]" title="{'Use this menu to set the sorting direction for the sub items in this location.'|i18n( 'design/admin/content/edit' )}">
     <option value="1" {if eq( $Node:item.sort_order, 1)}selected="selected"{/if}>{'Asc.'|i18n( 'design/admin/content/edit' )}</option>
     <option value="0" {if eq( $Node:item.sort_order, 0)}selected="selected"{/if}>{'Desc.'|i18n( 'design/admin/content/edit' )}</option>
     </select>

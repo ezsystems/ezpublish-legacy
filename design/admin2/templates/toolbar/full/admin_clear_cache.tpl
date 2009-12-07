@@ -18,7 +18,7 @@
 
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
-	{include uri='design:setup/clear_cache.tpl'}
+    {include uri='design:setup/clear_cache.tpl'}
 
 </div></div></div></div></div></div>
 

@@ -28,14 +28,14 @@
 <b>{'Product items'|i18n( 'design/admin/shop/orderview' )}</b>
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<th>{'Product'|i18n( 'design/admin/shop/orderview' )}</th>
-	<th>{'Count'|i18n( 'design/admin/shop/orderview' )}</th>
-	<th>{'VAT'|i18n( 'design/admin/shop/orderview' )}</th>
-	<th>{'Price ex. VAT'|i18n( 'design/admin/shop/orderview' )}</th>
-	<th>{'Price inc. VAT'|i18n( 'design/admin/shop/orderview' )}</th>
-	<th>{'Discount'|i18n( 'design/admin/shop/orderview' )}</th>
-	<th>{'Total price ex. VAT'|i18n( 'design/admin/shop/orderview' )}</th>
-	<th>{'Total price inc. VAT'|i18n( 'design/admin/shop/orderview' )}</th>
+    <th>{'Product'|i18n( 'design/admin/shop/orderview' )}</th>
+    <th>{'Count'|i18n( 'design/admin/shop/orderview' )}</th>
+    <th>{'VAT'|i18n( 'design/admin/shop/orderview' )}</th>
+    <th>{'Price ex. VAT'|i18n( 'design/admin/shop/orderview' )}</th>
+    <th>{'Price inc. VAT'|i18n( 'design/admin/shop/orderview' )}</th>
+    <th>{'Discount'|i18n( 'design/admin/shop/orderview' )}</th>
+    <th>{'Total price ex. VAT'|i18n( 'design/admin/shop/orderview' )}</th>
+    <th>{'Total price inc. VAT'|i18n( 'design/admin/shop/orderview' )}</th>
 </tr>
 {section name=ProductItem loop=$order.product_items show=$order.product_items}
 <tr>
@@ -46,13 +46,13 @@
     {else}
     <td>{false()|class_icon( small )}&nbsp;{$ProductItem:item.item_object.name|wash}</td>
     {/if}
-	<td class="number" align="right">{$ProductItem:item.item_count}</td>
-	<td class="number" align="right">{$ProductItem:item.vat_value}&nbsp;%</td>
-	<td class="number" align="right">{$ProductItem:item.price_ex_vat|l10n( 'currency', $locale, $symbol )}</td>
-	<td class="number" align="right">{$ProductItem:item.price_inc_vat|l10n( 'currency', $locale, $symbol )}</td>
-	<td class="number" align="right">{$ProductItem:item.discount_percent}&nbsp;%</td>
-	<td class="number" align="right">{$ProductItem:item.total_price_ex_vat|l10n( 'currency', $locale, $symbol )}</td>
-	<td class="number" align="right">{$ProductItem:item.total_price_inc_vat|l10n( 'currency', $locale, $symbol )}</td>
+    <td class="number" align="right">{$ProductItem:item.item_count}</td>
+    <td class="number" align="right">{$ProductItem:item.vat_value}&nbsp;%</td>
+    <td class="number" align="right">{$ProductItem:item.price_ex_vat|l10n( 'currency', $locale, $symbol )}</td>
+    <td class="number" align="right">{$ProductItem:item.price_inc_vat|l10n( 'currency', $locale, $symbol )}</td>
+    <td class="number" align="right">{$ProductItem:item.discount_percent}&nbsp;%</td>
+    <td class="number" align="right">{$ProductItem:item.total_price_ex_vat|l10n( 'currency', $locale, $symbol )}</td>
+    <td class="number" align="right">{$ProductItem:item.total_price_inc_vat|l10n( 'currency', $locale, $symbol )}</td>
 </tr>
 {section show=$ProductItem:item.item_object.option_list}
 <tr>
@@ -87,9 +87,9 @@
 
 {section name=OrderItem loop=$order.order_items show=$order.order_items}
 <tr>
-	<td>{$OrderItem:item.description}:</td>
-	<td class="number" align="right">{$OrderItem:item.price_ex_vat|l10n( 'currency', $locale, $symbol )}</td>
-	<td class="number" align="right">{$OrderItem:item.price_inc_vat|l10n( 'currency', $locale, $symbol )}</td>
+    <td>{$OrderItem:item.description}:</td>
+    <td class="number" align="right">{$OrderItem:item.price_ex_vat|l10n( 'currency', $locale, $symbol )}</td>
+    <td class="number" align="right">{$OrderItem:item.price_inc_vat|l10n( 'currency', $locale, $symbol )}</td>
 </tr>
 {/section}
 <tr>
@@ -132,8 +132,8 @@
 {section show=$order_status_history|count|gt( 0 )}
 <table class="list" cellspacing="0">
 <tr>
-	<th>{'Date'|i18n( 'design/admin/shop/orderview' )}</th>
-	<th>{'Status'|i18n( 'design/admin/shop/orderview' )}</th>
+    <th>{'Date'|i18n( 'design/admin/shop/orderview' )}</th>
+    <th>{'Status'|i18n( 'design/admin/shop/orderview' )}</th>
     <th>{'Person'|i18n( 'design/admin/shop/orderview' )}</th>
 </tr>
 
@@ -144,7 +144,7 @@
     {* The current history element should be highlighted *}
 
     <td class="date"><strong>{$history.modified|l10n( shortdatetime )}</strong></td>
-	<td><strong>{$history.status_name|wash}</strong></td>
+    <td><strong>{$history.status_name|wash}</strong></td>
 
     {let modifier=$history.modifier}
     <td><a href={$modifier.main_node.url|ezurl} title="{'This is the person who modified the status of the order. Click to view the user information.'|i18n( 'design/admin/shop/orderview' )}"><strong>{$modifier.name|wash}</strong></a></td>
@@ -153,7 +153,7 @@
     {else}
 
     <td class="date">{$history.modified|l10n( shortdatetime )}</td>
-	<td>{$history.status_name|wash}</td>
+    <td>{$history.status_name|wash}</td>
 
     {let modifier=$history.modifier}
     <td><a href={$modifier.main_node.url|ezurl} title="{'This is the person who modified the status of the order. Click to view the user information.'|i18n( 'design/admin/shop/orderview' )}">{$modifier.name|wash}</a></td>

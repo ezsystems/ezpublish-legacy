@@ -78,10 +78,10 @@
 {/section})
         {/section}
         <input type="hidden" name="ProductItemIDList[]" value="{$WishedItems.item.id}" />
-	</td>
+    </td>
 
     {* Quantity. *}
-    {* <td><input type="text" name="ProductItemCountList[]" value="{$WishedItems.item.item_count}" size="3" />	</td> *}
+    {* <td><input type="text" name="ProductItemCountList[]" value="{$WishedItems.item.item_count}" size="3" />    </td> *}
 
     {* VAT. *}
     {* <td>{$WishedItems.item.vat_value}%</td> *}

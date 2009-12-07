@@ -36,11 +36,11 @@
 {section show=$order_list}
 <table class="list" cellspacing="0">
 <tr>
-	<th>{'ID'|i18n( 'design/admin/shop/customerorderview' )}</th>
-	<th>{'Total (ex. VAT)'|i18n( 'design/admin/shop/customerorderview' )}</th>
-	<th>{'Total (inc. VAT)'|i18n( 'design/admin/shop/customerorderview' )}</th>
-	<th>{'Time'|i18n( 'design/admin/shop/customerorderview' )}</th>
-	<th>{'Status'|i18n( 'design/admin/shop/customerorderview' )}</th>
+    <th>{'ID'|i18n( 'design/admin/shop/customerorderview' )}</th>
+    <th>{'Total (ex. VAT)'|i18n( 'design/admin/shop/customerorderview' )}</th>
+    <th>{'Total (inc. VAT)'|i18n( 'design/admin/shop/customerorderview' )}</th>
+    <th>{'Time'|i18n( 'design/admin/shop/customerorderview' )}</th>
+    <th>{'Status'|i18n( 'design/admin/shop/customerorderview' )}</th>
 </tr>
 {section var=Orders loop=$order_list sequence=array( bglight, bgdark )}
 {set currency = fetch( 'shop', 'currency', hash( 'code', $Orders.item.productcollection.currency_code ) ) }
@@ -53,11 +53,11 @@
 {/if}
 
 <tr class="{$Orders.sequence}">
-	<td><a href={concat( '/shop/orderview/', $Orders.item.id, '/' )|ezurl}>{$Orders.item.order_nr}</a></td>
-	<td class="number" align="right">{$Orders.item.total_ex_vat|l10n( 'currency', $locale, $symbol )}</td>
-	<td class="number" align="right">{$Orders.item.total_inc_vat|l10n( 'currency', $locale, $symbol )}</td>
-	<td>{$Orders.item.created|l10n( shortdatetime )}</td>
-	<td>{$Orders.item.status_name|wash}</td>
+    <td><a href={concat( '/shop/orderview/', $Orders.item.id, '/' )|ezurl}>{$Orders.item.order_nr}</a></td>
+    <td class="number" align="right">{$Orders.item.total_ex_vat|l10n( 'currency', $locale, $symbol )}</td>
+    <td class="number" align="right">{$Orders.item.total_inc_vat|l10n( 'currency', $locale, $symbol )}</td>
+    <td>{$Orders.item.created|l10n( shortdatetime )}</td>
+    <td>{$Orders.item.status_name|wash}</td>
 </tr>
 {/section}
 </table>
@@ -82,10 +82,10 @@
 {section show=$product_list}
 <table class="list" cellspacing="0">
 <tr>
-	<th>{'Product'|i18n( 'design/admin/shop/customerorderview' )}</th>
+    <th>{'Product'|i18n( 'design/admin/shop/customerorderview' )}</th>
     <th>{'Quantity'|i18n( 'design/admin/shop/customerorderview' )}</th>
-	<th>{'Total (ex. VAT)'|i18n( 'design/admin/shop/customerorderview' )}</th>
-	<th>{'Total (inc. VAT)'|i18n( 'design/admin/shop/customerorderview' )}</th>
+    <th>{'Total (ex. VAT)'|i18n( 'design/admin/shop/customerorderview' )}</th>
+    <th>{'Total (inc. VAT)'|i18n( 'design/admin/shop/customerorderview' )}</th>
 </tr>
 
 {def $quantity_text = ''

@@ -167,7 +167,7 @@
 {if $upload.parent_nodes|count|eq( 0 )}
 <div class="block">
     <label>{'Location'|i18n( 'design/admin/content/upload' )}:</label>
-    <select	name="UploadLocationChoice" class="combobox locationchoice" title="{'The location where the uploaded file should be placed.'|i18n( 'design/admin/content/upload' )}">
+    <select    name="UploadLocationChoice" class="combobox locationchoice" title="{'The location where the uploaded file should be placed.'|i18n( 'design/admin/content/upload' )}">
         <option value="auto">{'Automatic'|i18n( 'design/admin/content/upload' )}</option>
 
 {def $root_node_value=ezini( 'LocationSettings', 'RootNode', 'upload.ini' )
@@ -192,7 +192,7 @@
         {/if}
 {/foreach}
 {undef $root_node_value $root_node $selection_list}
-  	</select>
+      </select>
 
 </div>
 {/if}

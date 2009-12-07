@@ -30,9 +30,9 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr block thight-block">
 
-	<div class="left">
-	<h2 class="context-title"><a href={$node.depth|gt(1)|choose('/'|ezurl,$node.parent.url_alias|ezurl )} title="{'Up one level.'|i18n(  'design/admin/node/view/full'  )}"><img src={'back-button-16x16.gif'|ezimage} alt="{'Up one level.'|i18n( 'design/admin/node/view/full' )}" title="{'Up one level.'|i18n( 'design/admin/node/view/full' )}" /></a>&nbsp;{'Sub items [%children_count]'|i18n( 'design/admin/node/view/full',, hash( '%children_count', $children_count ) )}</h2>
-	</div>
+    <div class="left">
+    <h2 class="context-title"><a href={$node.depth|gt(1)|choose('/'|ezurl,$node.parent.url_alias|ezurl )} title="{'Up one level.'|i18n(  'design/admin/node/view/full'  )}"><img src={'back-button-16x16.gif'|ezimage} alt="{'Up one level.'|i18n( 'design/admin/node/view/full' )}" title="{'Up one level.'|i18n( 'design/admin/node/view/full' )}" /></a>&nbsp;{'Sub items [%children_count]'|i18n( 'design/admin/node/view/full',, hash( '%children_count', $children_count ) )}</h2>
+    </div>
 
     <div class="right">
     <label class="inline">{'Sorting'|i18n( 'design/admin/node/view/full' )}:</label>
@@ -158,21 +158,21 @@
     {/section}
 
 
-	{* Display the actual list of nodes. *}
-	{switch match=$admin_children_viewmode}
-	
-	{case match='thumbnail'}
-	    {include uri='design:children_thumbnail.tpl'}
-	{/case}
-	
-	{case match='detailed'}
-	    {include uri='design:children_detailed.tpl'}
-	{/case}
-	
-	{case}
-	    {include uri='design:children_list.tpl'}
-	{/case}
-	{/switch}
+    {* Display the actual list of nodes. *}
+    {switch match=$admin_children_viewmode}
+    
+    {case match='thumbnail'}
+        {include uri='design:children_thumbnail.tpl'}
+    {/case}
+    
+    {case match='detailed'}
+        {include uri='design:children_detailed.tpl'}
+    {/case}
+    
+    {case}
+        {include uri='design:children_list.tpl'}
+    {/case}
+    {/switch}
 
 {* Else: there are no children. *}
 {else}

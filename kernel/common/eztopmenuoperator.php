@@ -92,8 +92,12 @@ class eZTopMenuOperator
     {
         return array( 'context' => array( 'type' => 'string',
                                           'required' => true,
-                                          'default' => 'content' ) );
+                                          'default' => 'content' ),
+                      'filter_on_access' => array( 'type' => 'bool',
+                                          'required' => true,
+                                          'default' => false ) );
     }
+
     function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
 
@@ -101,27 +105,62 @@ class eZTopMenuOperator
 
         if ( !$ini->hasVariable( 'TopAdminMenu', 'Tabs' ) )
         {
-            eZDebug::writeError( "Top Admin menu is not configured. Ini  setting [TopAdminMenu] Tabs[] is missing" );
+            eZDebug::writeError( 'Top Admin menu is not configured. Ini  setting [TopAdminMenu] Tabs[] is missing' );
             $operatorValue = array();
             return;
         }
 
-        $context = $namedParameters['context'];
-
-        $tabIDs = $ini->variable( 'TopAdminMenu', 'Tabs' );
-
         $menu = array();
-
+        $context = $namedParameters['context'];
+        $tabIDs = $ini->variable( 'TopAdminMenu', 'Tabs' );
         foreach ( $tabIDs as $tabID )
         {
-            $shownList = $ini->variable( 'Topmenu_' . $tabID , "Shown" );
+            $shownList = $ini->variable( 'Topmenu_' . $tabID , 'Shown' );
             if ( isset( $shownList[$context] ) && $shownList[$context] === 'false' )
             {
                 continue;
             }
 
             $menuItem = array();
-            $urlList = $ini->variable( 'Topmenu_' . $tabID , "URL" );
+            $menuItem['access'] = true;
+            if ( $ini->hasVariable( 'Topmenu_' . $tabID , 'PolicyList' ) )
+            {
+                $policyList = $ini->variable( 'Topmenu_' . $tabID , 'PolicyList' );
+                foreach( $policyList as $policy )
+                {
+                    // Value is either "<node_id>" or "<module>/<function>"
+                    if ( strpos( $policy, '/' ) !== false )
+                    {
+                        if ( !isset( $user ) )
+                            $user = eZUser::currentUser();
+
+                        list( $module, $function ) = explode( '/', $policy );
+                        $result = $user->hasAccessTo( $module, $function );
+                        
+                        if ( $result['accessWord'] !== 'yes' )
+                        {
+                            $menuItem['access'] = false;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        $node = eZContentObjectTreeNode::fetch( $policy );
+                        if ( !$node instanceof eZContentObjectTreeNode || !$node->attribute('can_read') )
+                        {
+                            $menuItem['access'] = false;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if ( $namedParameters['filter_on_access'] && !$menuItem['access'] )
+            {
+                continue;
+            }
+
+            $urlList = $ini->variable( 'Topmenu_' . $tabID , 'URL' );
             if ( isset( $urlList[$context] ) )
             {
                 $menuItem['url'] = $urlList[$context];
@@ -131,7 +170,7 @@ class eZTopMenuOperator
                 $menuItem['url'] = $urlList['default'];
             }
 
-            $enabledList = $ini->variable( 'Topmenu_' . $tabID , "Enabled" );
+            $enabledList = $ini->variable( 'Topmenu_' . $tabID , 'Enabled' );
             if ( isset( $enabledList[$context] ) )
             {
                 if ( $enabledList[$context] == 'true' )
@@ -147,23 +186,25 @@ class eZTopMenuOperator
                     $menuItem['enabled'] = false;
             }
 
-            if ( $ini->hasVariable( 'Topmenu_' . $tabID , 'Name' ) &&  $ini->variable( 'Topmenu_' . $tabID , "Name" ) != '' )
+            if ( $ini->hasVariable( 'Topmenu_' . $tabID , 'Name' ) &&  $ini->variable( 'Topmenu_' . $tabID , 'Name' ) != '' )
             {
-                $menuItem['name'] = $ini->variable( 'Topmenu_' . $tabID , "Name" );
+                $menuItem['name'] = $ini->variable( 'Topmenu_' . $tabID , 'Name' );
             }
             else
             {
                 $menuItem['name'] = $this->DefaultNames[$tabID]['name'];
             }
-            if ( $ini->hasVariable( 'Topmenu_' . $tabID , 'Tooltip' ) &&  $ini->variable( 'Topmenu_' . $tabID , "Tooltip" ) != '' )
+
+            if ( $ini->hasVariable( 'Topmenu_' . $tabID , 'Tooltip' ) &&  $ini->variable( 'Topmenu_' . $tabID , 'Tooltip' ) != '' )
             {
-                $menuItem['tooltip'] =  $ini->variable( 'Topmenu_' . $tabID , "Tooltip" );
+                $menuItem['tooltip'] =  $ini->variable( 'Topmenu_' . $tabID , 'Tooltip' );
             }
             else
             {
                 $menuItem['tooltip'] = isset( $this->DefaultNames[$tabID]['tooltip'] ) ? $this->DefaultNames[$tabID]['tooltip'] : '';
             }
-            $menuItem['navigationpart_identifier'] =  $ini->variable( 'Topmenu_' . $tabID , "NavigationPartIdentifier" );
+
+            $menuItem['navigationpart_identifier'] =  $ini->variable( 'Topmenu_' . $tabID , 'NavigationPartIdentifier' );
             $menuItem['position'] = 'middle';
             $menu[] = $menuItem;
 

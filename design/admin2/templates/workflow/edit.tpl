@@ -94,7 +94,7 @@
 
 {if and( is_set( $selectedClass ), $selectedClass )}
         {event_edit_gui event=$Events.item selectedClass=$selectedClass}
-{else}	
+{else}    
         {event_edit_gui event=$Events.item}
 {/if}
 

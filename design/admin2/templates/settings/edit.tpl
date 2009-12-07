@@ -62,7 +62,7 @@
         {'Location (prioritized list shown)'|i18n( 'design/admin/settings' )|wash}
     </th>
     <th >
-	{'Value'|i18n( 'design/admin/settings' )|wash}
+    {'Value'|i18n( 'design/admin/settings' )|wash}
     </th>
 </tr>
 <tr>
@@ -71,20 +71,20 @@
     </td>
     <td>
         {if and( is_set( $values['default'] ), ne( $values['default'], false() ))}
-	    {$values['default']}
-	{else}
-	    {'No value'|i18n( 'design/admin/settings' )|wash}
-	{/if}
+        {$values['default']}
+    {else}
+        {'No value'|i18n( 'design/admin/settings' )|wash}
+    {/if}
     </td>
 </tr>
 <tr>
     <td><label><input type="radio" name="SettingPlacement" {if eq( $placement, "siteaccess" )}checked="checked"{/if} value="siteaccess">{'Siteaccess setting'|i18n('design/admin/settings')}</label></td>
     <td>
-	{if and( is_set( $values['siteaccess'] ), ne( $values['siteaccess'], false() ) )}
-	    {$values['siteaccess']}
-	{else}
-	    {'No value'|i18n( 'design/admin/settings' )|wash}
-	{/if}
+    {if and( is_set( $values['siteaccess'] ), ne( $values['siteaccess'], false() ) )}
+        {$values['siteaccess']}
+    {else}
+        {'No value'|i18n( 'design/admin/settings' )|wash}
+    {/if}
     </td>
 </tr>
 {foreach $values['extensions'] as $extension_name=>$extension_value}
@@ -92,10 +92,10 @@
     <td><label><input type="radio" name="SettingPlacement" value="{$extension_name}">{$extension_name}</label></td>
     <td>
         {if ne( $extension_value, false() )}
-	    {$extension_value}
-	{else}
-	    {'No value'|i18n( 'design/admin/settings' )|wash}
-	{/if}
+        {$extension_value}
+    {else}
+        {'No value'|i18n( 'design/admin/settings' )|wash}
+    {/if}
     </td>
 </tr>
 {/foreach}
@@ -103,10 +103,10 @@
     <td><label><input type="radio" name="SettingPlacement" value="override" {if ne( $placement, "siteaccess" )}checked="checked"{/if}>{'Override setting (global)'|i18n( 'design/admin/settings' )}</label></td>
     <td>
         {if and( is_set( $values['override'] ), ne( $values['override'], false() ) )}
-	    {$values['override']}
-	{else}
-	    {'No value'|i18n( 'design/admin/settings' )|wash}
-	{/if}
+        {$values['override']}
+    {else}
+        {'No value'|i18n( 'design/admin/settings' )|wash}
+    {/if}
     </td>
 </tr>
 </table>

@@ -46,16 +46,16 @@
 <table class="list" cellspacing="0">
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit' )}" title="{'Invert selection.'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit' )}" onclick="ezjs_toggleCheckboxes( document.notification, 'SelectedRuleIDArray_{$handler.id_string}[]' ); return false;" /></th>
-	<th>{'Name'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit' )}</th>
-	<th>{'Type'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit' )}</th>
-	<th>{'Section'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit' )}</th>
+    <th>{'Name'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit' )}</th>
+    <th>{'Type'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit' )}</th>
+    <th>{'Section'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit' )}</th>
 </tr>
 
 {section var=Rules loop=$subscribed_nodes sequence=array( bglight, bgdark )}
 <tr class="{$Rules.sequence}">
-	<td><input type="checkbox" name="SelectedRuleIDArray_{$handler.id_string}[]" value="{$Rules.item.id}" title="{'Select item for removal.'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit' )}" /></td>
+    <td><input type="checkbox" name="SelectedRuleIDArray_{$handler.id_string}[]" value="{$Rules.item.id}" title="{'Select item for removal.'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit' )}" /></td>
     <td>{$Rules.item.node.class_identifier|class_icon( small, $Rules.item.node.class_name )}&nbsp;<a href={concat( '/content/view/full/', $Rules.item.node.node_id, '/' )|ezurl}>{$Rules.item.node.name|wash}</a></td>
-	<td>{$Rules.item.node.object.content_class.name|wash}</td>
+    <td>{$Rules.item.node.object.content_class.name|wash}</td>
     <td>{let section_object=fetch( section, object, hash( section_id, $Rules.item.node.object.section_id ) )}{section show=$section_object}{$section_object.name|wash}{section-else}<i>{'Unknown'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit' )}</i>{/section}{/let}</td>
 </tr>
 {/section}

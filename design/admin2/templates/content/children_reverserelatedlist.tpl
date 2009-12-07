@@ -40,7 +40,7 @@
 <div class="content-navigation-childlist-remove">
     <table class="list" cellspacing="0">
     <tr>
-	{* Item column *}
+    {* Item column *}
         <th colspan="2">{'Item'|i18n( 'design/admin/content/children_reverserelatedlist' )}</th>
         {* Class type column *}
         <th>{'Type'|i18n( 'design/admin/node/removeobject' )}</th>
@@ -59,7 +59,7 @@
     {if $reverse_list_count_children_array[$children_item.object.id]|gt( 0 )}
         <a href={concat( $children_item.object.main_node.url_alias, '/(show_relations)/1#relations' )|ezurl}>
     {/if}
-	{section var=path_node loop=$children_item.path|append( $children_item )}
+    {section var=path_node loop=$children_item.path|append( $children_item )}
               {$path_node.name|wash}
               {delimiter} / {/delimiter}
         {/section}

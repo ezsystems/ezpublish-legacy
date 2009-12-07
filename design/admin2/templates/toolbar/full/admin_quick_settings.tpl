@@ -9,12 +9,12 @@
    {/if}
 </div></div></div></div></div></div>
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
-	{let siteaccess=ezpreference( 'admin_quicksettings_siteaccess' )
-	     select_siteaccess=true}
-	
-	{include uri='design:setup/quick_settings.tpl'}
-	
-	{/let}
+    {let siteaccess=ezpreference( 'admin_quicksettings_siteaccess' )
+         select_siteaccess=true}
+    
+    {include uri='design:setup/quick_settings.tpl'}
+    
+    {/let}
 </div></div></div></div></div></div>
 
 {else}

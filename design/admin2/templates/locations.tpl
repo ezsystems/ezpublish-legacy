@@ -5,11 +5,11 @@
      can_edit_node=$node.can_edit
      can_remove_location=false()
      can_manage_location=or(fetch( 'content', 'access',
-                	    hash( 'access', 'manage_locations',
-		            	'contentobject', $node)),
-			    fetch( 'content', 'access',
-                	    hash( 'access', 'create',
-		            	'contentobject', $node)))}
+                        hash( 'access', 'manage_locations',
+                        'contentobject', $node)),
+                fetch( 'content', 'access',
+                        hash( 'access', 'create',
+                        'contentobject', $node)))}
 
 <form name="locationsform" method="post" action={'content/action'|ezurl}>
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />

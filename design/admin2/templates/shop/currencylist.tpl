@@ -77,7 +77,7 @@
         <td><input type="checkbox" name="DeleteCurrencyList[]" value="{$currency.code}" title="{'Use these checkboxes to select items for removal. Click the "Remove selected" button to  remove the selected items.'|i18n( 'design/admin/shop/currencylist' )|wash()}" /></td>
         <td>
             {if is_set( $currency_names[$currency.code] )}
-    	        {$currency_names[$currency.code]}
+                {$currency_names[$currency.code]}
             {else}
                 {'Unknown currency name'|i18n( 'design/admin/shop/currencylist' )}
             {/if}

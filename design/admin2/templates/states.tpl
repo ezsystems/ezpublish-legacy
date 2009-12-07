@@ -16,23 +16,23 @@
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 <table class="list" cellspacing="0">
 {if $node.object.allowed_assign_state_list|count}
-	<tr>
-	    <th class="tight">{'Content object state group'|i18n( 'design/admin/node/view/full' )}</th>
-	    <th class="wide">{'Available states'|i18n( 'design/admin/node/view/full' )}</th>
-	</tr>
+    <tr>
+        <th class="tight">{'Content object state group'|i18n( 'design/admin/node/view/full' )}</th>
+        <th class="wide">{'Available states'|i18n( 'design/admin/node/view/full' )}</th>
+    </tr>
 
-	{foreach $node.object.allowed_assign_state_list as $allowed_assign_state_info sequence array( bglight, bgdark ) as $sequence}
-	<tr class="{$sequence}">
-	    <td>{$allowed_assign_state_info.group.current_translation.name|wash}</td>
-	    <td>
-		    <select name="SelectedStateIDList[]" {if $allowed_assign_state_info.states|count|eq(1)}disabled="disabled"{/if}>
-		    {foreach $allowed_assign_state_info.states as $state}
-		        <option value="{$state.id}" {if $node.object.state_id_array|contains($state.id)}selected="selected"{/if}>{$state.current_translation.name|wash}</option>
-		    {/foreach}
-		    </select>
-	    </td>
-	</tr>
-	{/foreach}
+    {foreach $node.object.allowed_assign_state_list as $allowed_assign_state_info sequence array( bglight, bgdark ) as $sequence}
+    <tr class="{$sequence}">
+        <td>{$allowed_assign_state_info.group.current_translation.name|wash}</td>
+        <td>
+            <select name="SelectedStateIDList[]" {if $allowed_assign_state_info.states|count|eq(1)}disabled="disabled"{/if}>
+            {foreach $allowed_assign_state_info.states as $state}
+                <option value="{$state.id}" {if $node.object.state_id_array|contains($state.id)}selected="selected"{/if}>{$state.current_translation.name|wash}</option>
+            {/foreach}
+            </select>
+        </td>
+    </tr>
+    {/foreach}
 {else}
     <tr class="bgdark">
     <td colspan="2">

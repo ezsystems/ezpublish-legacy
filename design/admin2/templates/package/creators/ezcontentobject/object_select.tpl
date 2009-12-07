@@ -14,17 +14,17 @@
 
     <label>{'Selected nodes'|i18n('design/admin/package')}</label>
     <table class="list" width="100%" cellpadding="0" cellspacing="0" border="0">
-	<tr>
-        <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Invert selection." onclick="ezjs_toggleCheckboxes( document.objectlist, 'DeleteIDArray[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/package' )}" /></th>	    <th>{"Node"|i18n("design/admin/package")}</th>
-	    <th>{"Export type"|i18n("design/admin/package")}</th>
-	</tr>
+    <tr>
+        <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Invert selection." onclick="ezjs_toggleCheckboxes( document.objectlist, 'DeleteIDArray[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/package' )}" /></th>        <th>{"Node"|i18n("design/admin/package")}</th>
+        <th>{"Export type"|i18n("design/admin/package")}</th>
+    </tr>
         {section var=node loop=$node_list sequence=array(bglight,bgdark)}
-	    <tr class="{$node.sequence}">
-		<td width="1" align="right"><input type="checkbox" name="DeleteIDArray[]" value="{$node.item.id}"></td>
+        <tr class="{$node.sequence}">
+        <td width="1" align="right"><input type="checkbox" name="DeleteIDArray[]" value="{$node.item.id}"></td>
         <td>{fetch(content,node,hash(node_id,$node.item.id)).name|wash}</td>
-		<td>{$node.item.type}</td>
-	    </tr>
-	{/section}
+        <td>{$node.item.type}</td>
+        </tr>
+    {/section}
     </table>
 
     {section-else}

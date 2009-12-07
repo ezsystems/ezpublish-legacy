@@ -1,5 +1,5 @@
 <div class="content-navigation-childlist">
-    <table class="list" cellspacing="0">
+    <table class="list context-enabled" cellspacing="0">
     <tr>
         {* Remove column *}
         <th class="remove"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" title="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" onclick="ezjs_toggleCheckboxes( document.children, 'DeleteIDArray[]' ); return false;" /></th>
@@ -35,6 +35,9 @@
 
         {* Edit column *}
         <th class="edit">&nbsp;</th>
+
+        {* Context menu column *}
+        <th class="context-header">&nbsp;</th>
     </tr>
 
     {section var=Nodes loop=$children sequence=array( bglight, bgdark )}
@@ -83,22 +86,21 @@
             </td>
         {/if}
 
-    {* Copy button *}
-    <td>
-    {if $can_copy}
-    <a href={concat( 'content/copy/', $Nodes.item.contentobject_id )|ezurl}><img src={'copy.gif'|ezimage} alt="{'Copy'|i18n( 'design/admin/node/view/full' )}" title="{'Create a copy of <%child_name>.'|i18n( 'design/admin/node/view/full',, hash( '%child_name', $child_name ) )|wash}" /></a>
-    {else}
-    <img src={'copy-disabled.gif'|ezimage} alt="{'Copy'|i18n( 'design/admin/node/view/full' )}" title="{'You cannot make a copy of <%child_name> because you do not have create permission for <%node_name>.'|i18n( 'design/admin/node/view/full',, hash( '%child_name', $child_name, '%node_name', $node_name ) )|wash}" />
-    {/if}
-    </td>
+        {* Copy button *}
+        <td>
+        {if $can_copy}
+        <a href={concat( 'content/copy/', $Nodes.item.contentobject_id )|ezurl}><img src={'copy.gif'|ezimage} alt="{'Copy'|i18n( 'design/admin/node/view/full' )}" title="{'Create a copy of <%child_name>.'|i18n( 'design/admin/node/view/full',, hash( '%child_name', $child_name ) )|wash}" /></a>
+        {else}
+        <img src={'copy-disabled.gif'|ezimage} alt="{'Copy'|i18n( 'design/admin/node/view/full' )}" title="{'You cannot make a copy of <%child_name> because you do not have create permission for <%node_name>.'|i18n( 'design/admin/node/view/full',, hash( '%child_name', $child_name, '%node_name', $node_name ) )|wash}" />
+        {/if}
+        </td>
 
-    {* Move button. *}
-    <td>
-    <a href={concat( 'content/move/', $Nodes.item.node_id )|ezurl}><img src={'move.gif'|ezimage} alt="{'Move'|i18n( 'design/admin/node/view/full' )}" title="{'Move <%child_name> to another location.'|i18n( 'design/admin/node/view/full',, hash( '%child_name', $child_name ) )|wash}" /></a>
-    </td>
+        {* Move button. *}
+        <td>
+        <a href={concat( 'content/move/', $Nodes.item.node_id )|ezurl}><img src={'move.gif'|ezimage} alt="{'Move'|i18n( 'design/admin/node/view/full' )}" title="{'Move <%child_name> to another location.'|i18n( 'design/admin/node/view/full',, hash( '%child_name', $child_name ) )|wash}" /></a>
+        </td>
 
         {* Edit button *}
-        {* section show=$can_edit *}
         <td>
         {if $Nodes.item.can_edit}
             <a href={concat( 'content/edit/', $Nodes.item.contentobject_id )|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/node/view/full' )}" title="{'Edit <%child_name>.'|i18n( 'design/admin/node/view/full',, hash( '%child_name', $child_name ) )|wash}" /></a>
@@ -106,7 +108,42 @@
             <img src={'edit-disabled.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permission to edit <%child_name>.'|i18n( 'design/admin/node/view/full',, hash( '%child_name', $child_name ) )|wash}" />
         {/if}
         </td>
-        {* /section *}
+        
+        {* Context menu  *}
+        <td class="context-menu">
+        <div class="context-menu-root hide">
+        <ul class="context-menu-box hide">
+            <li><a>item</a></li>
+            <li><a>item</a></li>
+            <li><a>item</a></li>
+            <li class="context-menu-container"><a>item</a>
+                <div class="context-menu-subitems hide">
+                <ul class="context-menu-box">
+                    <li><a>item</a></li>
+                    <li><a>item</a></li>
+                    <li><a>item</a></li>
+                    <li class="context-menu-container"><a>item</a>
+                        <div class="context-menu-subitems hide">
+                        <ul class="context-menu-box">
+                            <li><a>item</a></li>
+                            <li><a>item</a></li>
+                            <li><a>item</a></li>
+                            <li><a>item</a></li>
+                            <li><a>item</a></li>
+                        </ul>
+                        </div>
+                    </li>
+                    <li><a>item</a></li>
+                    <li><a>item</a></li>
+                </ul>
+                </div>
+            </li>
+            <li><a>item</a></li>
+            <li><a>item</a></li>
+        </ul>
+        </div>
+
+        </td>
   </tr>
 
 {/let}

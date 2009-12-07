@@ -255,13 +255,13 @@
 
 <div class="right">
 
-	{* Link to manage versions *}
-	<a href={concat("content/history/", $node.contentobject_id )|ezurl} title="{'View and manage (copy, delete, etc.) the versions of this object.'|i18n( 'design/admin/content/edit' )}">{'Manage versions'|i18n( 'design/admin/content/edit' )}</a>
-	
-	{* Custom content action buttons. *}
-	{section var=ContentActions loop=$node.object.content_action_list}
-	    <input class="button" type="submit" name="{$ContentActions.item.action}" value="{$ContentActions.item.name}" />
-	{/section}
+    {* Link to manage versions *}
+    <a href={concat("content/history/", $node.contentobject_id )|ezurl} title="{'View and manage (copy, delete, etc.) the versions of this object.'|i18n( 'design/admin/content/edit' )}">{'Manage versions'|i18n( 'design/admin/content/edit' )}</a>
+    
+    {* Custom content action buttons. *}
+    {section var=ContentActions loop=$node.object.content_action_list}
+        <input class="button" type="submit" name="{$ContentActions.item.action}" value="{$ContentActions.item.name}" />
+    {/section}
 </div>
 
 {* The preview button has been commented out. Might be absent until better preview functionality is implemented. *}

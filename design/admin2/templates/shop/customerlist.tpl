@@ -14,10 +14,10 @@
 {section show=$customer_list}
 <table class="list" cellspacing="0">
 <tr>
-	<th class="wide">{'Name'|i18n( 'design/admin/shop/customerlist' )}</th>
-	<th class="tight">{'Orders'|i18n( 'design/admin/shop/customerlist' )}</th>
-	<th class="tight">{'Total (ex. VAT)'|i18n( 'design/admin/shop/customerlist' )}</th>
-	<th class="tight">{'Total (inc. VAT)'|i18n( 'design/admin/shop/customerlist' )}</th>
+    <th class="wide">{'Name'|i18n( 'design/admin/shop/customerlist' )}</th>
+    <th class="tight">{'Orders'|i18n( 'design/admin/shop/customerlist' )}</th>
+    <th class="tight">{'Total (ex. VAT)'|i18n( 'design/admin/shop/customerlist' )}</th>
+    <th class="tight">{'Total (inc. VAT)'|i18n( 'design/admin/shop/customerlist' )}</th>
 </tr>
 
 {def $currency = false()
@@ -62,8 +62,8 @@
     <tr class="{$Customers.sequence}">
         <td class="name"><a href={concat( '/shop/customerorderview/', $Customers.user_id, '/', $Customers.email )|ezurl}>{$Customers.account_name}</a></td>
         <td class="number" align="right">{$order_count_text}</td>
-    	<td class="number" align="right">{$sum_ex_vat_text}</td>
-    	<td class="number" align="right">{$sum_inc_vat_text}</td>
+        <td class="number" align="right">{$sum_ex_vat_text}</td>
+        <td class="number" align="right">{$sum_inc_vat_text}</td>
     </tr>
 
 {section-else}
