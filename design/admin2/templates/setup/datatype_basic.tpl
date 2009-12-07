@@ -23,8 +23,8 @@
 </div>
 
 <div class="block">
-<label>{'Handle input on class level'|i18n( 'design/admin/setup/rad/datatype' )}:</label>
-<input type="checkbox" name="ClassInput" value="1" />
+<label for="ezsetup_raddatatype_classinput">{'Handle input on class level'|i18n( 'design/admin/setup/rad/datatype' )}:</label>
+<input id="ezsetup_raddatatype_classinput" type="checkbox" name="ClassInput" value="1" />
 </div>
 
 </div>

@@ -237,27 +237,27 @@
 <div class="block">
     {* Name field. *}
     <div class="halfelement">
-        <label>{"URL alias name:"|i18n( 'design/admin/content/urlalias' )}</label>
-        <input class="box" type="text" name="AliasText" value="{$aliasText|wash}" title="{'Enter the URL for the new alias. Use forward slashes (/) to create subentries.'|i18n( 'design/admin/content/urlalias' )}" />
+        <label for="ezcontent_urlalias_name">{"URL alias name:"|i18n( 'design/admin/content/urlalias' )}</label>
+        <input id="ezcontent_urlalias_name" class="box" type="text" name="AliasText" value="{$aliasText|wash}" title="{'Enter the URL for the new alias. Use forward slashes (/) to create subentries.'|i18n( 'design/admin/content/urlalias' )}" />
     </div>
 
     <div class="halfelement">
-        <label>{"Destination:"|i18n( 'design/admin/content/urlalias' )}</label>
-        <input disabled="disabled" class="box" type="text" name="DestinationText" value="{$node.name|shorten(40)|wash}" title="{'Destination.'|i18n( 'design/admin/content/urlalias' )}" />
+        <label for="ezcontent_urlalias_destination">{"Destination:"|i18n( 'design/admin/content/urlalias' )}</label>
+        <input id="ezcontent_urlalias_destination" disabled="disabled" class="box" type="text" name="DestinationText" value="{$node.name|shorten(40)|wash}" title="{'Destination.'|i18n( 'design/admin/content/urlalias' )}" />
     </div>    
 </div>
 
 {* Language dropdown. *}    
 <div class="block">
-    <label>{"Language:"|i18n( 'design/admin/content/urlalias' )}</label>
+    <label for="ezcontent_urlalias_language">{"Language:"|i18n( 'design/admin/content/urlalias' )}</label>
     {if $node.can_edit}
-        <select name="LanguageCode" title="{'Choose the language for the new URL alias.'|i18n( 'design/admin/content/urlalias' )}">
+        <select id="ezcontent_urlalias_language" name="LanguageCode" title="{'Choose the language for the new URL alias.'|i18n( 'design/admin/content/urlalias' )}">
         {foreach $languages as $language}
                    <option value="{$language.locale}"{if $language.locale|eq($node.object.current_language)} selected="selected"{/if}>{$language.name|wash}</option>
         {/foreach}
         </select>
     {else}
-        <select name="LanguageCode" disabled="disabled">
+        <select id="ezcontent_urlalias_language" name="LanguageCode" disabled="disabled">
             <option value="">{'Not available'|i18n( 'design/admin/content/urlalias')}</option>
         </select>
     {/if}

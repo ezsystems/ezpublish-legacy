@@ -27,8 +27,8 @@
 
 {* show the section selector *}
 <div class="block">
-    <label>{'Choose section'|i18n( 'design/admin/node/view/full' )}:</label>
-    <select name="SelectedSectionId">
+    <label for="SelectedSectionId">{'Choose section'|i18n( 'design/admin/node/view/full' )}:</label>
+    <select id="SelectedSectionId" name="SelectedSectionId">
     {foreach $sections as $section}
         {if eq( $section.id, $object.section_id )}
         <option value="{$section.id}" selected="selected">{$section.name|wash}</option>

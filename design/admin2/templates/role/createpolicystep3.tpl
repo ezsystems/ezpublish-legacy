@@ -69,13 +69,13 @@
 {if $function_limitations|count|gt(1)}
 <div class="element">
 {/if}
-<label>{$Limitations:item.name|wash}:</label>
-<select name="{$Limitations:item.name}[]" size="8" {if or( not( is_set( $Limitations:item.single_select ) ), not($Limitations:item.single_select) ) }multiple="multiple"{/if} >
+<label for="ezrole_createpolizy_limitations">{$Limitations:item.name|wash}:</label>
+<select id="ezrole_createpolizy_limitations" name="{$Limitations:item.name}[]" size="8" {if or( not( is_set( $Limitations:item.single_select ) ), not($Limitations:item.single_select) ) }multiple="multiple"{/if} >
 <option value="-1" {switch match=$current_limitation_list[$Limitations:item.name]}
 {case match=-1} selected="selected"{/case}{case}{/case}{/switch}>{'Any'|i18n( 'design/admin/role/createpolicystep3' )}</option>
 {section name=LimitationValues loop=$Limitations:item.values}
 <option value="{$Limitations:LimitationValues:item.value}" {switch match=$Limitations:LimitationValues:item.value}
-{case in=$current_limitation_list[$Limitations:item.name]}selected="selected"{/case}{case}{/case}{/switch}>{$Limitations:LimitationValues:item.Name}</option>
+{case in=$current_limitation_list[$Limitations:item.name]}selected="selected"{/case}{case}{/case}{/switch}>{$Limitations:LimitationValues:item.Name|wash}</option>
 {/section}
 </select>
 {if $function_limitations|count|gt(1)}
@@ -90,7 +90,7 @@
 {switch match=$Limitations.item.name}
 
 {* Nodes *}
-{case match="Node"}
+{case match='Node'}
 <div class="block">
 <fieldset>
 <legend>{'Nodes [%node_count]'|i18n( 'design/admin/role/createpolicystep3',, hash( '%node_count', $node_list|count ) )}</legend>
@@ -124,7 +124,7 @@
 {/case}
 
 {* Subtrees *}
-{case match="Subtree"}
+{case match='Subtree'}
 <div class="block">
 <fieldset>
 <legend>{'Subtrees [%subtree_count]'|i18n( 'design/admin/role/createpolicystep3',, hash( '%subtree_count', $subtree_list|count ) )}</legend>

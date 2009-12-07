@@ -13,18 +13,18 @@
     <p>{'Provide information about the maintainer of the package.'|i18n('design/admin/package')}</p>
 
     <div class="block">
-        <label>{'Name'|i18n('design/admin/package','Maintainer name')}</label>
-        <input class="box" type="text" name="PackageMaintainerPerson" value="{$persistent_data.maintainer_person|wash}" />
+        <label for="PackageMaintainerPerson">{'Name'|i18n('design/admin/package','Maintainer name')}</label>
+        <input id="PackageMaintainerPerson" class="box" type="text" name="PackageMaintainerPerson" value="{$persistent_data.maintainer_person|wash}" />
     </div>
 
     <div class="block">
-        <label>{'Email'|i18n('design/admin/package')}</label>
-        <input class="box" type="text" name="PackageMaintainerEmail" value="{$persistent_data.maintainer_email|wash}" />
+        <label for="PackageMaintainerEmail">{'Email'|i18n('design/admin/package')}</label>
+        <input id="PackageMaintainerEmail" class="box" type="text" name="PackageMaintainerEmail" value="{$persistent_data.maintainer_email|wash}" />
     </div>
 
     <div class="block">
-        <label>{'Role'|i18n( 'design/admin/package', 'Maintainer role' )}</label>
-        <select class="combobox" name="PackageMaintainerRole">
+        <label for="PackageMaintainerRole">{'Role'|i18n( 'design/admin/package', 'Maintainer role' )}</label>
+        <select id="PackageMaintainerRole" class="combobox" name="PackageMaintainerRole">
         {section var=role loop=$maintainer_role_list}
             <option value="{$role.id|wash}">{$role.name|wash}</option>
         {/section}

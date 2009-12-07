@@ -25,8 +25,8 @@
 </div>
 
 <div class="block">
-<label>{'Generates output'|i18n( 'design/admin/setup/rad/templateoperator' )}:</label>
-<input type="checkbox" name="OutputCheck" value="1" checked="checked" />
+<label for="ezsetup_radtemplateoperator_output">{'Generates output'|i18n( 'design/admin/setup/rad/templateoperator' )}:</label>
+<input id="ezsetup_radtemplateoperator_output" type="checkbox" name="OutputCheck" value="1" checked="checked" />
 </div>
 
 <div class="block">

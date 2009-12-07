@@ -32,8 +32,8 @@
 </p>
 
 <div class="block">
-    <label>{'Module'|i18n( 'design/admin/role/createpolicystep1' )}:</label>
-    <select name="Modules">
+    <label for="ezrole_createpolizy_module">{'Module'|i18n( 'design/admin/role/createpolicystep1' )}:</label>
+    <select id="ezrole_createpolizy_module" name="Modules">
     <option value="*">{'Every module'|i18n( 'design/admin/role/createpolicystep1' )}</option>
     {section var=Modules loop=$modules }
     <option value="{$Modules.item}">{$Modules.item}</option>

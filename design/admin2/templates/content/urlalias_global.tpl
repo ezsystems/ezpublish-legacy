@@ -227,14 +227,14 @@
 
 <div class="block">
 {* Alias name field. *}
-    <label>{'New URL alias'|i18n( 'design/admin/content/urlalias_global' )}:</label>
-    <input class="box" type="text" name="AliasSourceText" value="{$aliasSourceText|wash}" title="{'Enter the URL for the new alias. Use forward slashes (/) to create subentries.'|i18n( 'design/admin/content/urlalias_global' )}" />
+    <label for="ezcontent_urlalias_global_source">{'New URL alias'|i18n( 'design/admin/content/urlalias_global' )}:</label>
+    <input id="ezcontent_urlalias_global_source" class="box" type="text" name="AliasSourceText" value="{$aliasSourceText|wash}" title="{'Enter the URL for the new alias. Use forward slashes (/) to create subentries.'|i18n( 'design/admin/content/urlalias_global' )}" />
 </div>
 
 <div class="block">
 {* Destination field. *}
-    <label>{'Destination (path to existing functionality or resource)'|i18n( 'design/admin/content/urlalias_global' )}:</label>
-    <input class="box" type="text" name="AliasDestinationText" value="{$aliasDestinationText|wash}" title="{'Enter the destination URL for the new alias. Use forward slashes (/) to create subentries.'|i18n( 'design/admin/content/urlalias_global' )}" />
+    <label for="ezcontent_urlalias_global_destination">{'Destination (path to existing functionality or resource)'|i18n( 'design/admin/content/urlalias_global' )}:</label>
+    <input id="ezcontent_urlalias_global_destination" class="box" type="text" name="AliasDestinationText" value="{$aliasDestinationText|wash}" title="{'Enter the destination URL for the new alias. Use forward slashes (/) to create subentries.'|i18n( 'design/admin/content/urlalias_global' )}" />
 </div>
 
 <div class="block">

@@ -12,7 +12,7 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
-<table class="list" cellspacing="0">
+<table class="list" cellspacing="0" summary="{'List of class groups'|i18n( 'design/admin/class/grouplist' )}">
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/class/grouplist' )}" title="{'Invert selection.'|i18n( 'design/admin/class/grouplist' )}" onclick="ezjs_toggleCheckboxes( document.GroupList, 'DeleteIDArray[]' ); return false;"/></th>
     <th>{'Name'|i18n( 'design/admin/class/grouplist' )}</th>
@@ -71,7 +71,7 @@
 
 {section show=$latest_classes}
 
-    <table class="list" cellspacing="0">
+    <table class="list" cellspacing="0" summary="{'List of recently modified classes'|i18n( 'design/admin/class/grouplist' )}">
     <tr>
         <th>{'Name'|i18n( 'design/admin/class/grouplist')}</th>
         <th class="tight">{'ID'|i18n( 'design/admin/class/grouplist' )}</th>

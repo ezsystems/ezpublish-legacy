@@ -1,6 +1,6 @@
 <form method="post" action={concat( $Module.functions.policyedit.uri, '/', $policy_id, '/' )|ezurl}>
 
-<div class="contex-block">
+<div class="context-block">
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
@@ -36,8 +36,8 @@
 {if $function_limitations|count|gt( 1 )}
 <div class="element">
 {/if}
-<label>{$Limitations:item.name|wash}:</label>
-<select name="{$Limitations:item.name}[]" size="8" multiple="multiple">
+<label for="ezrole_createpolizy_limitations">{$Limitations:item.name|wash}:</label>
+<select id="ezrole_createpolizy_limitations" name="{$Limitations:item.name}[]" size="8" {if or( not( is_set( $Limitations:item.single_select ) ), not($Limitations:item.single_select) ) }multiple="multiple"{/if} >
 <option value="-1" {switch match=$current_limitation_list[$Limitations:item.name]}
 {case match=-1} selected="selected"{/case}{case}{/case}{/switch}>{'Any'|i18n( 'design/admin/role/policyedit' )}</option>
 {section name=LimitationValues loop=$Limitations:item.values}

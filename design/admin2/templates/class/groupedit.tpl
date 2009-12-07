@@ -16,7 +16,7 @@
 
 {* Name. *}
 <div class="block">
-    <label>{'Name'|i18n( 'design/admin/class/groupedit' )}:</label>
+    <label for="classGroupName">{'Name'|i18n( 'design/admin/class/groupedit' )}:</label>
     <input class="halfbox" id="classGroupName" name="Group_name" value="{$classgroup.name|wash}" />
 </div>
 

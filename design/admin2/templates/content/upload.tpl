@@ -166,8 +166,8 @@
 
 {if $upload.parent_nodes|count|eq( 0 )}
 <div class="block">
-    <label>{'Location'|i18n( 'design/admin/content/upload' )}:</label>
-    <select    name="UploadLocationChoice" class="combobox locationchoice" title="{'The location where the uploaded file should be placed.'|i18n( 'design/admin/content/upload' )}">
+    <label for="ezcontent_upload_location_choice">{'Location'|i18n( 'design/admin/content/upload' )}:</label>
+    <select	id="ezcontent_upload_location_choice" name="UploadLocationChoice" class="combobox locationchoice" title="{'The location where the uploaded file should be placed.'|i18n( 'design/admin/content/upload' )}">
         <option value="auto">{'Automatic'|i18n( 'design/admin/content/upload' )}</option>
 
 {def $root_node_value=ezini( 'LocationSettings', 'RootNode', 'upload.ini' )
@@ -198,13 +198,13 @@
 {/if}
 
 <div class="block">
-    <label>{"Name"|i18n( 'design/admin/content/upload' )}:</label>
-    <input class="halfbox" name="ObjectName" type="text" />
+    <label for="ezcontent_upload_object_name">{"Name"|i18n( 'design/admin/content/upload' )}:</label>
+    <input id="ezcontent_upload_object_name" class="halfbox" name="ObjectName" type="text" />
 </div>
 
 <div class="block">
-    <label>{'File'|i18n( 'design/admin/content/upload' )}:</label>
-    <input class="halfbox" name="UploadFile" type="file" title="{'Select the file that you want to upload.'|i18n( 'design/admin/content/upload' )}" />
+    <label for="ezcontent_upload_file">{'File'|i18n( 'design/admin/content/upload' )}:</label>
+    <input id="ezcontent_upload_file" class="halfbox" name="UploadFile" type="file" title="{'Select the file that you want to upload.'|i18n( 'design/admin/content/upload' )}" />
     <input type="hidden" name="MAX_FILE_SIZE" value="50000000" />
 </div>
 

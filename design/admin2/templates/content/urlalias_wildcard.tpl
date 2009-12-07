@@ -171,21 +171,21 @@
 
 <div class="block">
 {* Wildcard pattern. *}
-    <label>{'New URL wildcard'|i18n( 'design/admin/content/urlalias_wildcard' )}:</label>
-    <input class="box" type="text" name="WildcardSourceText" value="{$wildcardSourceText|wash}" title="{'Enter the URL for the new wildcard. Example: developer/*'|i18n( 'design/admin/content/urlalias_wildcard' )}" />
+    <label for="ezcontent_urlalias_wildcard_source">{'New URL wildcard'|i18n( 'design/admin/content/urlalias_wildcard' )}:</label>
+    <input id="ezcontent_urlalias_wildcard_source" class="box" type="text" name="WildcardSourceText" value="{$wildcardSourceText|wash}" title="{'Enter the URL for the new wildcard. Example: developer/*'|i18n( 'design/admin/content/urlalias_wildcard' )}" />
 </div>
 
 <div class="block">
 {* Destination field. *}
-    <label>{'Destination'|i18n( 'design/admin/content/urlalias_wildcard' )}:</label>
-    <input class="box" type="text" name="WildcardDestinationText" value="{$wildcardDestinationText|wash}" title="{'Enter the destination URL for the new wildcard. Example: dev/{1\}'|i18n( 'design/admin/content/urlalias_wildcard' )}" />
+    <label for="ezcontent_urlalias_wildcard_destination">{'Destination'|i18n( 'design/admin/content/urlalias_wildcard' )}:</label>
+    <input id="ezcontent_urlalias_wildcard_destination" class="box" type="text" name="WildcardDestinationText" value="{$wildcardDestinationText|wash}" title="{'Enter the destination URL for the new wildcard. Example: dev/{1\}'|i18n( 'design/admin/content/urlalias_wildcard' )}" />
 </div>
 
 <div class="block">
 
 {* Redirecting URL flag. *}
 <div class="block">
-    <input type="checkbox" name="WildcardType" {if $wildcardType}checked="checked"{/if}/><label class="radio" title="{'Perform redirecting.'|i18n( 'design/admin/content/urlalias_wildcard' )}">{'Redirecting URL'|i18n( 'design/admin/content/urlalias' )}</label>
+    <input type="checkbox" name="WildcardType"{if $wildcardType} checked="checked"{/if} /><label class="radio" title="{'Perform redirecting.'|i18n( 'design/admin/content/urlalias_wildcard' )}">{'Redirecting URL'|i18n( 'design/admin/content/urlalias' )}</label>
 </div>
 
 </div>

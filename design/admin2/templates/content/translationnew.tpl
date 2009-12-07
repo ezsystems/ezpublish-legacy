@@ -39,7 +39,7 @@ function toggleInputs( selection )
 
 {* Translation. *}
 <div class="block">
-<label>{'Translation'|i18n( 'design/admin/content/translationnew' )}:</label>
+<label for="localeSelector">{'Translation'|i18n( 'design/admin/content/translationnew' )}:</label>
 <select id="localeSelector" name="LocaleID" onchange="toggleInputs(this); return false;">
   <option value="-1">{'Custom'|i18n( 'design/admin/content/translationnew' )}</option>
   {section var=Translations loop=fetch( content, locale_list, hash( with_variations, false() ) )}
@@ -52,13 +52,13 @@ function toggleInputs( selection )
 
 {* Custom name. *}
 <div class="block">
-<label>{'Name of custom translation'|i18n( 'design/admin/content/translationnew' )}:</label>
+<label for="field1">{'Name of custom translation'|i18n( 'design/admin/content/translationnew' )}:</label>
 <input id="field1" type="text" name="TranslationName" value=""  size="20" />
 </div>
 
 {* Custom locale. *}
 <div class="block">
-<label>{'Locale for custom translation'|i18n( 'design/admin/content/translationnew' )}:</label>
+<label for="field2">{'Locale for custom translation'|i18n( 'design/admin/content/translationnew' )}:</label>
 <input id="field2" type="text" name="TranslationLocale" value="" size="8" />
 </div>
 

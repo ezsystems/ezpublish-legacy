@@ -54,8 +54,8 @@
 </p>
 
 <div class="block">
-<label>{'Function'|i18n( 'design/admin/role/createpolicystep2' )}:</label>
-<select name="ModuleFunction">
+<label for="ezrole_createpolizy_function">{'Function'|i18n( 'design/admin/role/createpolicystep2' )}:</label>
+<select id="ezrole_createpolizy_function" name="ModuleFunction">
 {section name=Functions loop=$functions}
 <option value="{$Functions:item}">{$Functions:item}</option>
 {/section}

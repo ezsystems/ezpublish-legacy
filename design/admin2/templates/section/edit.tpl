@@ -16,14 +16,14 @@
 
 {* Name. *}
 <div class="block">
-<label>{'Name'|i18n( 'design/admin/section/edit' )}:</label>
+<label for="sectionName">{'Name'|i18n( 'design/admin/section/edit' )}:</label>
 <input class="box" id="sectionName" type="text" name="Name" value="{$section.name|wash}" />
 </div>
 
 {* Navigation part. *}
 <div class="block">
-<label>{'Navigation part'|i18n( 'design/admin/section/edit' )}:</label>
-<select name="NavigationPartIdentifier">
+<label for="NavigationPartIdentifier">{'Navigation part'|i18n( 'design/admin/section/edit' )}:</label>
+<select id="NavigationPartIdentifier" name="NavigationPartIdentifier">
 {section var=part loop=fetch( content, navigation_parts )}
     <option value="{$part.identifier|wash}" {if eq( $section.navigation_part_identifier, $part.identifier )}selected="selected"{/if}>{$part.name|wash}</option>
 {/section}

@@ -45,7 +45,7 @@
 {/section}
 
 {* Main window *}
-<form action={concat( $module.functions.edit.uri, '/', $class.id, '/(language)/', $language_code )|ezurl} method="post" id="ClassEditForm" name="ClassEdit">
+<form action={concat( $module.functions.edit.uri, '/', $class.id, '/(language)/', $language_code )|ezurl} method="post" id="ClassEdit" name="ClassEdit">
 <input type="hidden" name="ContentClassHasInput" value="1" />
 
 <div class="context-block">
@@ -70,47 +70,47 @@
 
     {* Name. *}
     <div class="block">
-    <label>{'Name'|i18n( 'design/admin/class/edit' )}:</label>
+    <label for="className">{'Name'|i18n( 'design/admin/class/edit' )}:</label>
     <input class="box" type="text" id="className" name="ContentClass_name" size="30" value="{$class.nameList[$language_code]|wash}" title="{'Use this field to set the informal name of the class. The name field can contain whitespaces and special characters.'|i18n( 'design/admin/class/edit' )|wash}" />
     </div>
 
     {* Identifier. *}
     <div class="block">
-    <label>{'Identifier'|i18n( 'design/admin/class/edit' )}:</label>
-    <input class="box" type="text" name="ContentClass_identifier" size="30" value="{$class.identifier|wash}" title="{'Use this field to set the internal name of the class. The identifier will be used in templates and in PHP code. Allowed characters are letters, numbers and underscores.'|i18n( 'design/admin/class/edit' )|wash}" />
+    <label for="ContentClass_identifier">{'Identifier'|i18n( 'design/admin/class/edit' )}:</label>
+    <input class="box" type="text" id="ContentClass_identifier" name="ContentClass_identifier" size="30" value="{$class.identifier|wash}" title="{'Use this field to set the internal name of the class. The identifier will be used in templates and in PHP code. Allowed characters are letters, numbers and underscores.'|i18n( 'design/admin/class/edit' )|wash}" />
     </div>
 
     {* Object name pattern. *}
     <div class="block">
-    <label>{'Object name pattern'|i18n( 'design/admin/class/edit' )}:</label>
-    <input class="box" type="text" name="ContentClass_contentobject_name" size="30" value="{$class.contentobject_name|wash}" title="{'Use this field to configure how the name of the objects are generated. Type in the identifiers of the attributes that should be used. The identifiers must be enclosed in angle brackets. Text outside angle brackets will be included as it is shown here.'|i18n( 'design/admin/class/edit' )|wash}" />
+    <label for="ContentClass_contentobject_name">{'Object name pattern'|i18n( 'design/admin/class/edit' )}:</label>
+    <input class="box" type="text" id="ContentClass_contentobject_name" name="ContentClass_contentobject_name" size="30" value="{$class.contentobject_name|wash}" title="{'Use this field to configure how the name of the objects are generated. Type in the identifiers of the attributes that should be used. The identifiers must be enclosed in angle brackets. Text outside angle brackets will be included as it is shown here.'|i18n( 'design/admin/class/edit' )|wash}" />
     </div>
 
     {* URL alias name pattern. *}
     <div class="block">
-    <label>{'URL alias name pattern'|i18n( 'design/admin/class/edit' )}:</label>
-    <input class="box" type="text" name="ContentClass_url_alias_name" size="30" value="{$class.url_alias_name|wash}" title="{'Use this field to configure how the url alias of the objects are generated (applies to nice URLs). Type in the identifiers of the attributes that should be used. The identifiers must be enclosed in angle brackets. Text outside angle brackets will be included as is.'|i18n( 'design/admin/class/edit' )|wash}" />
+    <label for="ContentClass_url_alias_name">{'URL alias name pattern'|i18n( 'design/admin/class/edit' )}:</label>
+    <input class="box" type="text" id="ContentClass_url_alias_name" name="ContentClass_url_alias_name" size="30" value="{$class.url_alias_name|wash}" title="{'Use this field to configure how the url alias of the objects are generated (applies to nice URLs). Type in the identifiers of the attributes that should be used. The identifiers must be enclosed in angle brackets. Text outside angle brackets will be included as is.'|i18n( 'design/admin/class/edit' )|wash}" />
     </div>
 
     {* Container. *}
     <div class="block">
-    <label>{'Container'|i18n( 'design/admin/class/edit' )}:</label>
+    <label for="ContentClass_is_container_checked">{'Container'|i18n( 'design/admin/class/edit' )}:</label>
     <input type="hidden" name="ContentClass_is_container_exists" value="1" />
-    <input type="checkbox" name="ContentClass_is_container_checked" value="{$class.is_container}" {if $class.is_container|eq( 1 )}checked="checked"{/if} title="{'Use this checkbox to allow instances of the class to have sub items. If checked, it will be possible to create new sub items. If not checked, the sub items will not be displayed.'|i18n( 'design/admin/class/edit' )|wash}" />
+    <input type="checkbox" id="ContentClass_is_container_checked" name="ContentClass_is_container_checked" value="{$class.is_container}" {if $class.is_container|eq( 1 )}checked="checked"{/if} title="{'Use this checkbox to allow instances of the class to have sub items. If checked, it will be possible to create new sub items. If not checked, the sub items will not be displayed.'|i18n( 'design/admin/class/edit' )|wash}" />
     </div>
 
     {* Class Default Sorting *}
     <div class="block">
-    <label>{'Default sorting of children'|i18n( 'design/admin/class/edit' )}:</label>
+    <label for="ContentClass_default_sorting_field">{'Default sorting of children'|i18n( 'design/admin/class/edit' )}:</label>
     {def $sort_fields=fetch( content, available_sort_fields )
          $title='Use these controls to set the default sorting method for the sub items of instances of the content class.'|i18n( 'design/admin/class/edit' )|wash }
     <input type="hidden" name="ContentClass_default_sorting_exists" value="1" />
-    <select name="ContentClass_default_sorting_field" title="{$title}">
+    <select id="ContentClass_default_sorting_field" name="ContentClass_default_sorting_field" title="{$title}">
     {foreach $sort_fields as $sf_key => $sf_item}
         <option value="{$sf_key}" {if eq( $sf_key, $class.sort_field )}selected="selected"{/if}>{$sf_item}</option>
     {/foreach}
     </select>
-    <select name="ContentClass_default_sorting_order" title="{$title}">
+    <select id="ContentClass_default_sorting_order" name="ContentClass_default_sorting_order" title="{$title}">
         <option value="0"{if eq($class.sort_order, 0)} selected="selected"{/if}>{'Descending'|i18n( 'design/admin/class/edit' )}</option>
         <option value="1"{if eq($class.sort_order, 1)} selected="selected"{/if}>{'Ascending'|i18n( 'design/admin/class/edit' )}</option>
     </select>
@@ -119,9 +119,9 @@
 
     {* Object availablility. *}
     <div class="block">
-    <label>{'Default object availability'|i18n( 'design/standard/class/edit' )}:</label>
+    <label for="ContentClass_always_available">{'Default object availability'|i18n( 'design/standard/class/edit' )}:</label>
     <input type="hidden" name="ContentClass_always_available_exists" value="1" />
-    <input type="checkbox" name="ContentClass_always_available"{if $class.always_available|eq(1)} checked="checked"{/if} title="{'Use this checkbox to set the default availability for the objects of this class. The availability controls whether an object should be shown even if it does not exist in one of the languages specified by the "SiteLanguageList" setting. If this is the case, the system will use the main language of the object.'|i18n( 'design/admin/class/edit' )|wash}" />
+    <input type="checkbox" id="ContentClass_always_available" name="ContentClass_always_available"{if $class.always_available|eq(1)} checked="checked"{/if} title="{'Use this checkbox to set the default availability for the objects of this class. The availability controls whether an object should be shown even if it does not exist in one of the languages specified by the "SiteLanguageList" setting. If this is the case, the system will use the main language of the object.'|i18n( 'design/admin/class/edit' )|wash}" />
     </div>
 
 <div class="block">
@@ -129,7 +129,7 @@
 </div>
 {section show=$attributes}
 
-<table id="ezcca-edit-list" class="list" cellspacing="0">
+<table id="ezcca-edit-list" class="list" cellspacing="0" summary="{'List of class attributes'|i18n( 'design/admin/class/edit' )}">
 {section var=Attributes loop=$attributes}
 
 <tr>
@@ -154,14 +154,14 @@
 
 {* Attribute name. *}
 <div class="block">
-<label>{'Name'|i18n( 'design/admin/class/edit' )}:</label>
-<input class="box" type="text" name="ContentAttribute_name[]" value="{$Attributes.item.nameList[$language_code]|wash}" title="{'Use this field to set the informal name of the attribute. This field can contain whitespaces and special characters.'|i18n( 'design/admin/class/edit' )|wash}" />
+<label for="ContentAttribute_name_{$Attributes.item.id}">{'Name'|i18n( 'design/admin/class/edit' )}:</label>
+<input class="box" type="text" id="ContentAttribute_name_{$Attributes.item.id}" name="ContentAttribute_name[]" value="{$Attributes.item.nameList[$language_code]|wash}" title="{'Use this field to set the informal name of the attribute. This field can contain whitespaces and special characters.'|i18n( 'design/admin/class/edit' )|wash}" />
 </div>
 
 {* Attribute identifier. *}
 <div class="block">
-<label>{'Identifier'|i18n( 'design/admin/class/edit' )}:</label>
-<input class="box" type="text" name="ContentAttribute_identifier[]" value="{$Attributes.item.identifier}" title="{'Use this field to set the internal name of the attribute. The identifier will be used in templates and in PHP code. Allowed characters are letters, numbers and underscores.'|i18n( 'design/admin/class/edit' )|wash}" />
+<label for="ContentAttribute_identifier_{$Attributes.item.id}">{'Identifier'|i18n( 'design/admin/class/edit' )}:</label>
+<input class="box" type="text" id="ContentAttribute_identifier_{$Attributes.item.id}" name="ContentAttribute_identifier[]" value="{$Attributes.item.identifier}" title="{'Use this field to set the internal name of the attribute. The identifier will be used in templates and in PHP code. Allowed characters are letters, numbers and underscores.'|i18n( 'design/admin/class/edit' )|wash}" />
 </div>
 
 <!-- Attribute input End -->
@@ -170,36 +170,36 @@
 <div class="block inline">
 
 {* Required. *}
-<label>
-<input type="checkbox" name="ContentAttribute_is_required_checked[]" value="{$Attributes.item.id}"  {if $Attributes.item.is_required}checked="checked"{/if} title="{'Use this checkbox to specify whether the user should be forced to enter information into the attribute.'|i18n( 'design/admin/class/edit' )|wash}" />
+<label for="ContentAttribute_is_required_{$Attributes.item.id}">
+<input type="checkbox" id="ContentAttribute_is_required_{$Attributes.item.id}" name="ContentAttribute_is_required_checked[]" value="{$Attributes.item.id}"  {if $Attributes.item.is_required}checked="checked"{/if} title="{'Use this checkbox to specify whether the user should be forced to enter information into the attribute.'|i18n( 'design/admin/class/edit' )|wash}" />
 {'Required'|i18n( 'design/admin/class/edit' )}
 </label>
 
 {* Searchable. *}
 
-<label>
+<label for="ContentAttribute_is_searchable_{$Attributes.item.id}">
 {if $Attributes.item.data_type.is_indexable}
-<input type="checkbox" name="ContentAttribute_is_searchable_checked[]" value="{$Attributes.item.id}"  {if $Attributes.item.is_searchable}checked="checked"{/if} title="{'Use this checkbox to specify whether the contents of the attribute should be indexed by the search engine.'|i18n( 'design/admin/class/edit' )|wash}" />
+<input type="checkbox" id="ContentAttribute_is_searchable_{$Attributes.item.id}" name="ContentAttribute_is_searchable_checked[]" value="{$Attributes.item.id}"  {if $Attributes.item.is_searchable}checked="checked"{/if} title="{'Use this checkbox to specify whether the contents of the attribute should be indexed by the search engine.'|i18n( 'design/admin/class/edit' )|wash}" />
 {else}
-<input type="checkbox" name="ContentAttribute_is_searchable_checked[]" value="" disabled="disabled" title="{'The <%datatype_name> datatype does not support search indexing.'|i18n( 'design/admin/class/edit',, hash( '%datatype_name', $Attributes.item.data_type.information.name ) )|wash}" />
+<input type="checkbox" id="ContentAttribute_is_searchable_{$Attributes.item.id}" name="ContentAttribute_is_searchable_checked[]" value="" disabled="disabled" title="{'The <%datatype_name> datatype does not support search indexing.'|i18n( 'design/admin/class/edit',, hash( '%datatype_name', $Attributes.item.data_type.information.name ) )|wash}" />
 {/if}
 {'Searchable'|i18n( 'design/admin/class/edit' )}
 </label>
 
 {* Information collector. *}
-<label>
+<label for="ContentAttribute_is_information_collector_{$Attributes.item.id}">
 {if $Attributes.item.data_type.is_information_collector}
-<input type="checkbox" name="ContentAttribute_is_information_collector_checked[]" value="{$Attributes.item.id}"  {if $Attributes.item.is_information_collector}checked="checked"{/if} title="{'Use this checkbox to specify whether the attribute should collect input from users.'|i18n( 'design/admin/class/edit' )|wash}" />
+<input type="checkbox" id="ContentAttribute_is_information_collector_{$Attributes.item.id}" name="ContentAttribute_is_information_collector_checked[]" value="{$Attributes.item.id}"  {if $Attributes.item.is_information_collector}checked="checked"{/if} title="{'Use this checkbox to specify whether the attribute should collect input from users.'|i18n( 'design/admin/class/edit' )|wash}" />
 {else}
-<input type="checkbox" name="ContentAttribute_is_information_collector_checked[]" value="" disabled="disabled" title="{'The <%datatype_name> datatype cannot be used as an information collector.'|i18n( 'design/admin/class/edit',, hash( '%datatype_name', $Attributes.item.data_type.information.name ) )|wash}" />
+<input type="checkbox" id="ContentAttribute_is_information_collector_{$Attributes.item.id}" name="ContentAttribute_is_information_collector_checked[]" value="" disabled="disabled" title="{'The <%datatype_name> datatype cannot be used as an information collector.'|i18n( 'design/admin/class/edit',, hash( '%datatype_name', $Attributes.item.data_type.information.name ) )|wash}" />
 {/if}
 {'Information collector'|i18n( 'design/admin/class/edit' )}
 </label>
 
 
 {* Disable translation. *}
-<label>
-<input type="checkbox" name="ContentAttribute_can_translate_checked[]" value="{$Attributes.item.id}" {if or( $Attributes.item.can_translate|eq(0), $Attributes.item.data_type.properties.translation_allowed|not )}checked="checked"{/if} {if $Attributes.item.data_type.properties.translation_allowed|not}disabled="disabled"{/if} title="{'Use this checkbox for attributes that contain non-translatable content.'|i18n( 'design/admin/class/edit' )|wash}" />
+<label for="ContentAttribute_can_translate_{$Attributes.item.id}">
+<input type="checkbox" id="ContentAttribute_can_translate_{$Attributes.item.id}" name="ContentAttribute_can_translate_checked[]" value="{$Attributes.item.id}" {if or( $Attributes.item.can_translate|eq(0), $Attributes.item.data_type.properties.translation_allowed|not )}checked="checked"{/if} {if $Attributes.item.data_type.properties.translation_allowed|not}disabled="disabled"{/if} title="{'Use this checkbox for attributes that contain non-translatable content.'|i18n( 'design/admin/class/edit' )|wash}" />
 {'Disable translation'|i18n( 'design/admin/class/edit' )}
 </label>
 
