@@ -1,16 +1,17 @@
 jQuery(function( $ )
 {
 
-    var link = $('#rightmenu-showhide').removeClass( 'hide' ), timeout = null;
-    link.html( link.width() <= 10 ? '&lt;' : '&gt;' );
-    link.click(function()
+    var link = $('#rightmenu-showhide'), timeout = null;
+    if ( link.width() <= 22 ) return true; // force page refresh on show when not loaded
+
+    link.attr('href', 'JavaScript:void(0);').html( '&gt;' ).click(function()
     {
         if ( timeout !== null )
         {
             clearTimeout( timeout );
             timeout = null;
         }
-        var link = $( this ), linkbox = $( '#rightmenu' ), hidden = linkbox.width() < 20;
+        var link = $( this ), linkbox = $( '#rightmenu' ), hidden = linkbox.width() < 22;
         if ( hidden )
         {
             $('#maincontent').css( 'marginRight', '13em' );

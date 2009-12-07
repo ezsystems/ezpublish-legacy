@@ -29,7 +29,7 @@
 {/if}
 
 {* Children window.*}
-{if $node.object.content_class.is_container}
+{if $node.is_container}
     {include uri='design:children.tpl'}
 {else}
     {include uri='design:no_children.tpl'}

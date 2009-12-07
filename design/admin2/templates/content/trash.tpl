@@ -22,7 +22,7 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
-{section show=$trash_list}
+{if $trash_list}
 {* Items per page selector. *}
 <div class="context-toolbar">
 <div class="block">
@@ -93,13 +93,13 @@
 {/section}
 </table>
 
-{section-else}
+{else}
 
 <div class="block">
     <p>{'There are no items in the trash'|i18n( 'design/admin/content/trash' )}.</p>
 </div>
 
-{/section}
+{/if}
 
 <div class="context-toolbar">
 {include name=navigator

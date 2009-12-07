@@ -55,7 +55,7 @@
 <tr class="{$Rules.sequence}">
     <td><input type="checkbox" name="SelectedRuleIDArray_{$handler.id_string}[]" value="{$Rules.item.id}" title="{'Select item for removal.'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit' )}" /></td>
     <td>{$Rules.item.node.class_identifier|class_icon( small, $Rules.item.node.class_name )}&nbsp;<a href={concat( '/content/view/full/', $Rules.item.node.node_id, '/' )|ezurl}>{$Rules.item.node.name|wash}</a></td>
-    <td>{$Rules.item.node.object.content_class.name|wash}</td>
+    <td>{$Rules.item.node.class_name|wash}</td>
     <td>{let section_object=fetch( section, object, hash( section_id, $Rules.item.node.object.section_id ) )}{section show=$section_object}{$section_object.name|wash}{section-else}<i>{'Unknown'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit' )}</i>{/section}{/let}</td>
 </tr>
 {/section}

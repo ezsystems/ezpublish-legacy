@@ -71,7 +71,7 @@
   <li>
   {if $browse.ignore_nodes_select|contains($Nodes.item.node_id)|not()}
      {if is_array($browse.class_array)}
-         {if $browse.class_array|contains($Nodes.item.node.object.content_class.identifier)}
+         {if $browse.class_array|contains($Nodes.item.node.class_identifier)}
              <input type="{$select_type}" name="{$select_name}[]" value="{$Nodes.item.node[$select_attribute]}" />
          {else}
              &nbsp;
@@ -84,13 +84,13 @@
   {/if}
 
    {if $browse.ignore_nodes_click|contains( $Nodes.item.node_id )|not}
-        {if $Nodes.item.node.object.content_class.is_container}
-            {$Nodes.item.node.object.class_identifier|class_icon( small, $Nodes.item.node.object.class_name )}&nbsp;<a href={concat( '/content/browse/', $Nodes.item.node_id )|ezurl}>{$Nodes.item.name|wash}</a>
+        {if $Nodes.item.node.is_container}
+            {$Nodes.item.node.class_identifier|class_icon( small, $Nodes.item.node.class_name )}&nbsp;<a href={concat( '/content/browse/', $Nodes.item.node_id )|ezurl}>{$Nodes.item.name|wash}</a>
         {else}
-            {$Nodes.item.node.object.class_identifier|class_icon( small, $Nodes.item.node.object.class_name )}&nbsp;{$Nodes.item.name|wash}
+            {$Nodes.item.node.class_identifier|class_icon( small, $Nodes.item.node.class_name )}&nbsp;{$Nodes.item.name|wash}
         {/if}
     {else}
-        {$Nodes.item.node.object.class_identifier|class_icon( small, $Nodes.item.node.object.class_name )}&nbsp;{$Nodes.item.name|wash}
+        {$Nodes.item.node.class_identifier|class_icon( small, $Nodes.item.node.class_name )}&nbsp;{$Nodes.item.name|wash}
     {/if}
     </li>
 {/section}
@@ -106,9 +106,9 @@
     {if $browse.start_node|gt( 1 )}
         <h2 class="context-title">
         <a href={concat( '/content/browse/', $main_node.parent_node_id, '/' )|ezurl}><img src={'back-button-16x16.gif'|ezimage} alt="{'Back'|i18n( 'design/admin/content/browse' )}" /></a>
-        {$current_node.object.content_class.identifier|class_icon( original, $current_node.object.content_class.name|wash )}&nbsp;{$current_node.name|wash}&nbsp;[{$browse_list_count}]</h2>
+        {$current_node.class_identifier|class_icon( original, $current_node.class_name|wash )}&nbsp;{$current_node.name|wash}&nbsp;[{$browse_list_count}]</h2>
     {else}
-    <h2 class="context-title"><img src={'back-button-16x16.gif'|ezimage} alt="Back" /> {'folder'|class_icon( small, $current_node.object.content_class.name|wash )}&nbsp;{'Top level'|i18n( 'design/admin/content/browse' )}&nbsp;[{$current_node.children_count}]</h2>
+    <h2 class="context-title"><img src={'back-button-16x16.gif'|ezimage} alt="Back" /> {'folder'|class_icon( small, $current_node.class_name|wash )}&nbsp;{'Top level'|i18n( 'design/admin/content/browse' )}&nbsp;[{$current_node.children_count}]</h2>
     {/if}
     {/let}
 {else}

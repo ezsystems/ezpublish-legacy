@@ -318,26 +318,28 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
 
     function originalParent()
     {
-        $parent = eZContentObjectTreeNode::fetch( $this->attribute( 'parent_node_id' ) );
-        $thisPathArray = $this->attribute( 'path_array' );
+        if ( $this->originalNodeParent === 0 )
+            $this->originalNodeParent = eZContentObjectTreeNode::fetch( $this->attribute( 'parent_node_id' ) );
 
-        if ( is_object( $parent ) and count( $thisPathArray ) > 0 )
+        if ( $this->pathArray === 0 && $this->originalNodeParent instanceof eZContentObjectTreeNode )
+            $this->pathArray = $this->attribute( 'path_array' );
+
+        if ( $this->pathArray && count( $this->pathArray ) > 0 )
         {
-            $realParentPathArray = $parent->attribute( 'path_array' );
+            $realParentPathArray = $this->originalNodeParent->attribute( 'path_array' );
             $realParentPath = implode( '/', $realParentPathArray );
 
-            array_pop( $thisPathArray );
-            $thisParentPath = implode( '/', $thisPathArray );
+            array_pop( $this->pathArray );
+            $thisParentPath = implode( '/', $this->pathArray );
 
             if ( $thisParentPath == $realParentPath )
             {
                 // original parent exists at the same placement
-                return $parent;
+                return $this->originalNodeParent;
             }
         }
         // original parent was moved or deleted
-        $ret = null;
-        return $ret;
+        return null;
     }
 
     function originalParentPathIdentificationString()
@@ -352,6 +354,9 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
         $path = substr( $path, 0, strrpos( $path, '/') );
         return $path;
     }
+
+    protected $originalNodeParent = 0;
+    protected $pathArray = 0;
 }
 
 ?>

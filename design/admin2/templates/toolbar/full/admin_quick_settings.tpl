@@ -1,6 +1,6 @@
 <div id="quicksettings-tool">
+{if and( $hide_right_menu|not, ezpreference( 'admin_quicksettings_menu' ) )}
 
-{if ezpreference( 'admin_quicksettings_menu' )}
 <div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
    {if eq( $ui_context, 'edit' )}
      <h4><span class="disabled openclose"><span class="bracket">[</span>-<span class="bracket">]</span></span> <span class="disabled">{'Quick settings'|i18n( 'design/admin/pagelayout' )}</span></h4>

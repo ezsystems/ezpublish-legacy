@@ -1,8 +1,8 @@
 <div id="clearcache-tool">
+{if and( $hide_right_menu|not, ezpreference( 'admin_clearcache_menu' ) )}
 
 <div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-{if ezpreference( 'admin_clearcache_menu' )}
     {if and( ne( $ui_context, 'edit' ), ne( $ui_context, 'browse' ) )}
      <h4><a class="showhide" href={'/user/preferences/set/admin_clearcache_menu/0'|ezurl} title="{'Hide clear cache menu.'|i18n( 'design/admin/pagelayout' )}"><span class="bracket">[</span>-<span class="bracket">]</span></a> <a href={'/setup/cache/'|ezurl} title="{'Cache management page'|i18n( 'design/admin/pagelayout' )}">{'Clear cache'|i18n( 'design/admin/pagelayout' )}</a></h4>
     {else}
@@ -23,6 +23,8 @@
 </div></div></div></div></div></div>
 
 {else}
+
+<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
     {if and( ne( $ui_context,'edit' ), ne( $ui_context, 'browse' ) )}
      <h4><a class="showhide" href={'/user/preferences/set/admin_clearcache_menu/1'|ezurl} title="{'Show clear cache menu.'|i18n( 'design/admin/pagelayout' )}"><span class="bracket">[</span>+<span class="bracket">]</span></a> <a href={'/setup/cache/'|ezurl} title="{'Cache management page'|i18n( 'design/admin/pagelayout' )}">{'Clear cache'|i18n( 'design/admin/pagelayout' )}</a></h4>

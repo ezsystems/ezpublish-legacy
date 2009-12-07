@@ -48,7 +48,7 @@
             {case match=1}
                 {let used_node=fetch( content, node, hash( node_id, $Parameter.value ) )}
                 {if $used_node}
-                    {$used_node.object.content_class.identifier|class_icon( small, $used_node.object.content_class.name|wash )}&nbsp;{$used_node.name|wash} ({$Parameter.value})
+                    {$used_node.class_identifier|class_icon( small, $used_node.class_name|wash )}&nbsp;{$used_node.name|wash} ({$Parameter.value})
                 {else}
                     {$Parameter.value|wash}
                 {/if}
@@ -77,7 +77,7 @@
             {case match=4}
                 {let used_node=fetch( content, node, hash( node_id, $Parameter.value ) )}
                 {if $used_node}
-                    {$used_node.object.content_class.identifier|class_icon( small, $used_node.object.content_class.name|wash )}&nbsp;{$used_node.object.name|wash} ({$Parameter.value})
+                    {$used_node.class_identifier|class_icon( small, $used_node.class_name|wash )}&nbsp;{$used_node.object.name|wash} ({$Parameter.value})
                 {else}
                     {$Parameter.value|wash}
                 {/if}
