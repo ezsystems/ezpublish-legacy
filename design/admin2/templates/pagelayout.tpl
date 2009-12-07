@@ -5,6 +5,7 @@
 {* Do some uncacheable left + right menu stuff before cache-block's *}
 {def $hide_right_menu  = ezpreference( 'admin_right_menu_show' )|not
      $admin_left_size  = ezpreference( 'admin_left_menu_size' )
+     $admin_treemenu   = ezpreference( 'admin_treemenu' )
      $left_size_hash   = 0
      $user_hash        = concat( $current_user.role_id_list|implode( ',' ), ',', $current_user.limited_assignment_value_list|implode( ',' ) )}
 {if or( $hide_right_menu, $admin_left_size )}
@@ -28,7 +29,7 @@
     </style>
 {/if}
 
-{cache-block keys=array( $module_result.uri, $user_hash, $left_size_hash ) ignore_content_expiry}{* Pr uri cache *}
+{cache-block keys=array( $module_result.uri, $user_hash, $left_size_hash, $admin_treemenu ) ignore_content_expiry}{* Pr uri cache *}
 
 {include uri='design:page_head.tpl'}
 
