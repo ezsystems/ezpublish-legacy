@@ -278,7 +278,7 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
                         $objectNameFilterSQL
                         $languageFilter
                         ";
-        if ( $sortingInfo['sortingFields'] && strlen( $sortingInfo['sortingFields'] ) > 5  )
+        if ( !$asCount && $sortingInfo['sortingFields'] && strlen( $sortingInfo['sortingFields'] ) > 5  )
             $query .= " ORDER BY $sortingInfo[sortingFields]";
 
         $db = eZDB::instance();
