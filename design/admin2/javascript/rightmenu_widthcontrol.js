@@ -1,9 +1,9 @@
 jQuery(function( $ )
 {
 
-    var link = $('#rightmenu-showhide'), timeout = null;
+    var link = $('#rightmenu-showhide'), linkbox = $( '#rightmenu' ), timeout = null;
 
-    link.attr('href', 'JavaScript:void(0);').html( link.width() <= 22 ? '&lt;' : '&gt;' ).click(function()
+    link.attr('href', 'JavaScript:void(0);').html( linkbox.width() <= 22 ? '+' : '-' ).click(function()
     {
         if ( timeout !== null )
         {
@@ -23,13 +23,13 @@ jQuery(function( $ )
         else
         {
             linkbox.animate({
-                width: '1em'
+                width: '1.1em'
             }, 650, 'swing', function(){
-                $('#maincontent').css( 'marginRight', '1em' );
+                $('#maincontent').css( 'marginRight', '1.1em' );
                 timeout = setTimeout( saveRightMenuStatus, 500 );
             } );
         }
-        link.html( hidden ? '&gt;' : '&lt;' );
+        link.html( hidden ? '-' : '+' );
     });
     function saveRightMenuStatus()
     {
