@@ -37,7 +37,7 @@
 </div>
 
 <div id="header-logo">
-    <a href="http://ez.no" title="eZ Publish {fetch( 'setup', 'version' )}" target="_blank">eZ logo</a>
+    <a href="http://ez.no" title="eZ Publish {fetch( 'setup', 'version' )}" target="_blank">&nbsp;</a>
 </div>
 
 <div id="header-usermenu">

@@ -74,6 +74,9 @@ a.imageTextLink:hover span
  {
     background-color: #fff;
     border-bottom: 1px solid #bbb;
+    background-image: url('../images/2/ez-logo-bg.png');
+    background-repeat: repeat-x;
+    background-position: left 2px;;
  }
 
 #header-logo
@@ -84,6 +87,18 @@ a.imageTextLink:hover span
     -webkit-border-bottom-left-radius: 5px;
     border-bottom-left-radius:  5px;
 }
+
+#header-logo a
+{
+	display: block;
+    background-image: url('../images/2/ez-logo.png');
+    background-repeat: no-repeat;
+    background-position: left -1px;;
+    width: 74px;
+    height: 25px;
+    text-decoration: none;
+}
+
 
 #header-usermenu
 {
