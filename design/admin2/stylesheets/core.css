@@ -53,13 +53,13 @@ p
 
 a
 {
-    color: #315578;
+    color: #195f98;
     text-decoration: underline;
 }
 
 a:hover
 {
-    color: #000000;
+    color: green;
     text-decoration: underline;
     cursor: pointer;
 }
