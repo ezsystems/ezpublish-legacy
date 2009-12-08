@@ -9,7 +9,7 @@
 </div>
 
 <div class="block">
-    <label>{'Default selection'|i18n( 'design/standard/class/datatype' )}:</label>
+    <label for="default_selection_{$class_attribute.id}">{'Default selection'|i18n( 'design/standard/class/datatype' )}:</label>
     <select id="default_selection_{$class_attribute.id}" name="ContentClass_ezcountry_default_country_list_{$class_attribute.id}[]" multiple="multiple" title="{'Select which countries by default'|i18n( 'design/standard/class/datatype' )}">
     {def $alpha_2 = ''}
     {foreach $all_country_list as $country}

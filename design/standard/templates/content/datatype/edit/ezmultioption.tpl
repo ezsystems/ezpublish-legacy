@@ -20,8 +20,8 @@
 <td colspan="3">
 
 <div class="block">
-<label>{'Name'|i18n( 'design/standard/content/datatype' )}:</label>
-<input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}" class="box ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="text" name = "{$attribute_base}_data_multioption_name_{$attribute.id}_{$MultiOptionList.id}" value="{$MultiOptionList.name}" />
+<label for="ezcoa-{$attribute.id}_{$attribute.contentclass_attribute_identifier}_{$MultiOptionList.id}_name">{'Name'|i18n( 'design/standard/content/datatype' )}:</label>
+<input id="ezcoa-{$attribute.id}_{$attribute.contentclass_attribute_identifier}_{$MultiOptionList.id}" class="box ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="text" name="{$attribute_base}_data_multioption_name_{$attribute.id}_{$MultiOptionList.id}" value="{$MultiOptionList.name}" />
 <input type="hidden" name="{$attribute_base}_data_multioption_id_{$attribute.id}[]" value="{$MultiOptionList.id}" />
 </div>
 

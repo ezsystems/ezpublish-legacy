@@ -8,8 +8,8 @@
 
     {* Default value. *}
     <div class="element">
-    <label>{'Default value'|i18n( 'design/standard/class/datatype' )}:</label>
-    <select name="ContentClass_ezdatetime_default_{$class_attribute.id}">
+    <label for="ContentClass_ezdatetime_default_{$class_attribute.id}">{'Default value'|i18n( 'design/standard/class/datatype' )}:</label>
+    <select id="ContentClass_ezdatetime_default_{$class_attribute.id}" name="ContentClass_ezdatetime_default_{$class_attribute.id}">
     <option value="0" {if eq( $class_attribute.data_int1, 0 )}selected="selected"{/if}>{'Empty'|i18n( 'design/standard/class/datatype' )}</option>
     <option value="1" {if eq( $class_attribute.data_int1, 1 )}selected="selected"{/if}>{'Current datetime'|i18n( 'design/standard/class/datatype' )}</option>
     <option value="2" {if eq( $class_attribute.data_int1, 2 )}selected="selected"{/if}>{'Adjusted current datetime'|i18n( 'design/standard/class/datatype' )}</option>
@@ -27,20 +27,20 @@
     <div class="block">
     {* Year. *}
     <div class="element">
-        <label>{'Year'|i18n( 'design/standard/class/datatype' )}:</label>
-        <input type="text" name="ContentClass_ezdatetime_year_{$class_attribute.id}" size="5" value="{if $class_attribute.content.year}{$class_attribute.content.year}{/if}" />
+        <label for="ContentClass_ezdatetime_year_{$class_attribute.id}">{'Year'|i18n( 'design/standard/class/datatype' )}:</label>
+        <input type="text" id="ContentClass_ezdatetime_year_{$class_attribute.id}" name="ContentClass_ezdatetime_year_{$class_attribute.id}" size="5" value="{if $class_attribute.content.year}{$class_attribute.content.year}{/if}" />
     </div>
 
     {* Month. *}
     <div class="element">
-        <label>{'Month'|i18n( 'design/standard/class/datatype' )}:</label>
-        <input type="text" name="ContentClass_ezdatetime_month_{$class_attribute.id}" size="3" value="{if $class_attribute.content.month}{$class_attribute.content.month}{/if}" />
+        <label for="ContentClass_ezdatetime_month_{$class_attribute.id}">{'Month'|i18n( 'design/standard/class/datatype' )}:</label>
+        <input type="text" id="ContentClass_ezdatetime_month_{$class_attribute.id}" name="ContentClass_ezdatetime_month_{$class_attribute.id}" size="3" value="{if $class_attribute.content.month}{$class_attribute.content.month}{/if}" />
     </div>
 
     {* Day. *}
     <div class="element">
-        <label>{'Day'|i18n( 'design/standard/class/datatype' )}:</label>
-        <input type="text" name="ContentClass_ezdatetime_day_{$class_attribute.id}" size="3" value="{if $class_attribute.content.day}{$class_attribute.content.day}{/if}" />
+        <label for="ContentClass_ezdatetime_day_{$class_attribute.id}">{'Day'|i18n( 'design/standard/class/datatype' )}:</label>
+        <input type="text" id="ContentClass_ezdatetime_day_{$class_attribute.id}" name="ContentClass_ezdatetime_day_{$class_attribute.id}" size="3" value="{if $class_attribute.content.day}{$class_attribute.content.day}{/if}" />
         &nbsp;
         &nbsp;
         &nbsp;
@@ -48,20 +48,20 @@
 
     {* Hour. *}
     <div class="element">
-        <label>{'Hour'|i18n( 'design/standard/class/datatype' )}:</label>
-        <input type="text" name="ContentClass_ezdatetime_hour_{$class_attribute.id}" size="3" value="{if $class_attribute.content.hour}{$class_attribute.content.hour}{/if}" />
+        <label for="ContentClass_ezdatetime_hour_{$class_attribute.id}">{'Hour'|i18n( 'design/standard/class/datatype' )}:</label>
+        <input type="text" id="ContentClass_ezdatetime_hour_{$class_attribute.id}" name="ContentClass_ezdatetime_hour_{$class_attribute.id}" size="3" value="{if $class_attribute.content.hour}{$class_attribute.content.hour}{/if}" />
     </div>
 
     {* Minute. *}
     <div class="element">
-        <label>{'Minute'|i18n( 'design/standard/class/datatype' )}:</label>
-        <input type="text" name="ContentClass_ezdatetime_minute_{$class_attribute.id}" size="3" value="{if $class_attribute.content.minute}{$class_attribute.content.minute}{/if}" />
+        <label for="ContentClass_ezdatetime_minute_{$class_attribute.id}">{'Minute'|i18n( 'design/standard/class/datatype' )}:</label>
+        <input type="text" id="ContentClass_ezdatetime_minute_{$class_attribute.id}" name="ContentClass_ezdatetime_minute_{$class_attribute.id}" size="3" value="{if $class_attribute.content.minute}{$class_attribute.content.minute}{/if}" />
     </div>
 
     {* Second. *}
     <div class="element">
-        <label>{'Second'|i18n( 'design/standard/class/datatype' )}:</label>
-        <input type="text" name="ContentClass_ezdatetime_second_{$class_attribute.id}" size="3" value="{if $class_attribute.content.second}{$class_attribute.content.second}{/if}" />
+        <label for="ContentClass_ezdatetime_second_{$class_attribute.id}">{'Second'|i18n( 'design/standard/class/datatype' )}:</label>
+        <input type="text" id="ContentClass_ezdatetime_second_{$class_attribute.id}" name="ContentClass_ezdatetime_second_{$class_attribute.id}" size="3" value="{if $class_attribute.content.second}{$class_attribute.content.second}{/if}" />
     </div>
 
     <div class="break"></div>

@@ -4,7 +4,7 @@
         <tr>
             <th class="tight"><input type="checkbox" name="{$attribute_base}_data_multioption_remove_{$attribute.id}_{$group.group_id}[]" value="{$MultiOptionList.id}" title="{'Select multioption for removal.'|i18n( 'design/standard/content/datatype' )}" /></th>
             <td>
-            <label>{'Multioption:'|i18n( 'design/standard/content/datatype' )}</label>
+            <label for="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}">{'Multioption:'|i18n( 'design/standard/content/datatype' )}</label>
             <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}" class="box ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="text" name = "{$attribute_base}_data_multioption_name_{$attribute.id}_{$group.group_id}_{$MultiOptionList.multioption_id}" value="{$MultiOptionList.item.name}" />
             <input type="hidden" name="{$attribute_base}_data_multioption_id_{$attribute.id}_{$group.group_id}[]" value="{$MultiOptionList.multioption_id}" />
 

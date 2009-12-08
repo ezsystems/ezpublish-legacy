@@ -4,7 +4,7 @@
          parent_multioption_id=-1}
 {if $depth|lt(2)}
     <div class="block">
-        <label>{'Group'|i18n( 'design/standard/content/datatype' )}:</label>
+        <label for="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}">{'Group'|i18n( 'design/standard/content/datatype' )}:</label>
         <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}" class="box ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="text" name="{$attribute_base}_data_optiongroup_name_{$attribute.id}_{$parent_group_id}[]" value="{$group.name}" />
         <input type="hidden" name="{$attribute_base}_data_optiongroup_id_{$attribute.id}_{$parent_group_id}[]" value="{$group.group_id}" />
 

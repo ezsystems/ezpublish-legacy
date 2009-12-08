@@ -1,7 +1,7 @@
 <ul>
 {section var=MultiOptionList loop=$group.multioption_list}
     <li>
-        <label>{$MultiOptionList.item.name}:</label>
+        <label for="{$attribute.id}_{$group.group_id}_{$MultiOptionList.item.multioption_id}">{$MultiOptionList.item.name}:</label>
 {def $default_option_id=0}
 {section show=$MultiOptionList.item.default_option_id|gt(0)}
     {set $default_option_id=$MultiOptionList.item.default_option_id}
@@ -26,7 +26,7 @@
            {section var=Option loop=$MultiOptionList.item.optionlist}
             <tr>
               <td> <input type="radio" value="{$Option.item.option_id}" name="eZOption[{$attribute.id}][{$MultiOptionList.item.multioption_id}]"
-             {* {if eq($Option.item.is_selectable, 1 )}*} id="{$attribute.id}_{$Option.item.option_id}"{*{/if}*}
+              id="{$attribute.id}_{$group.group_id}_{$MultiOptionList.item.multioption_id}"
               {cond(eq( sum( $Option.index, 1 ), $default_option_id ), 'checked="checked"',true(),'')}
               onchange="ezmultioption_check_option( this, rules{$attribute.id}, {$attribute.id} );"
               {cond(not(eq($Option.item.is_selectable, 1 )),'disabled="disabled"', true(),'')}  />

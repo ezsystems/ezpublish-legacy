@@ -74,7 +74,7 @@
 </div>
 
 <div class="block">
-<label>{'VAT'|i18n( 'design/standard/content/datatype' )}:</label>
+<label for="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_inc_ex_vat">{'VAT'|i18n( 'design/standard/content/datatype' )}:</label>
 <select id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_inc_ex_vat" class="ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" name="{$attribute_base}_ezmultiprice_inc_ex_vat_{$attribute.id}">
 <option value="1" {if eq( $attribute.content.is_vat_included, true() )}selected="selected"{/if}>{'Price inc. VAT'|i18n( 'design/standard/content/datatype' )}</option>
 <option value="2" {if eq( $attribute.content.is_vat_included, false() )}selected="selected"{/if}>{'Price ex. VAT'|i18n( 'design/standard/content/datatype' )}</option>
