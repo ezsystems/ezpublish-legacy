@@ -9,6 +9,7 @@
 - Only use POST parameters for ezjscore/call parameters to avoid reaching url limit and 
   logging parameters in wwwserver logs
 - Add missing include_once('kernel/common/i18n.php'); in index_ajax.php
+- Make sure admin user has access to /call even if PolicyOmitList/AnonymousAccessList is commented
 
 
 # v1.0.0  29 Sept 2009
