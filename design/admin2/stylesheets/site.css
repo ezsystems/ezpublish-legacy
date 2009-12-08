@@ -44,6 +44,17 @@ a#rightmenu-showhide.show-hide-control
 	float: left;
 }
 
+a.imageTextLink
+{
+    text-decoration: none;
+}
+
+a.imageTextLink:hover span
+{
+    text-decoration: underline;
+}
+
+
 
 /* HEADER */
 #header
@@ -272,26 +283,13 @@ div#contentstructure a.nodeicon
     padding-left: 0;
 }
 
-div#contentstructure a.nodetext
-{
-    color: #315578;
-    text-decoration: none;
-}
-
-div#contentstructure a.nodetext:hover
-{
-    color: #000000;
-    text-decoration: underline;
-}
-
-div#contentstructure li.currentnode a.nodetext:hover
+div#contentstructure li.currentnode a.imageTextLink:hover
 {
     text-decoration: none;
 }
 
-div#contentstructure li.currentnode li a.nodetext:hover
+div#contentstructure li.currentnode li a.imageTextLink:hover span
 {
-    color: #000000;
     text-decoration: underline;
 }
 
@@ -300,21 +298,20 @@ div#contentstructure li span.node-name-normal
     font-weight: normal;
 }
 
-div#contentstructure li.currentnode a.nodetext span.node-name-normal, div#contentstructure li.currentnode a.nodetext span.node-name-hidden, div#contentstructure li.currentnode a.nodetext span.node-name-hiddenbyparent /* Highlighting of current node */
+div#contentstructure li.currentnode a.imageTextLink span.node-name-normal, div#contentstructure li.currentnode a.imageTextLink span.node-name-hidden, div#contentstructure li.currentnode a.imageTextLink span.node-name-hiddenbyparent /* Highlighting of current node */
 {
     font-weight: bold;
     padding: 0 0.25em 0 0.2em;
 }
 
-div#contentstructure li.currentnode li a.nodetext span.node-name-normal, div#contentstructure li.currentnode li a.nodetext span.node-name-hidden, div#contentstructure li.currentnode li a.nodetext span.node-name-hiddenbyparent
+div#contentstructure li.currentnode li a.imageTextLink span.node-name-normal, div#contentstructure li.currentnode li a.imageTextLink span.node-name-hidden, div#contentstructure li.currentnode li a.imageTextLink span.node-name-hiddenbyparent
 {
     font-weight: normal;
-    color: #315578;
     background-color: transparent;
     padding: 0;
 }
 
-div#contentstructure li a.nodetext span.node-name-hidden, div#contentstructure li.currentnode li a.nodetext span.node-name-hidden
+div#contentstructure li a.imageTextLink span.node-name-hidden, div#contentstructure li.currentnode li a.imageTextLink span.node-name-hidden
 {
     font-weight: normal;
     font-style: normal;
@@ -322,7 +319,7 @@ div#contentstructure li a.nodetext span.node-name-hidden, div#contentstructure l
     padding: 0 0.2em 0 0.2em;
 }
 
-div#contentstructure li a.nodetext span.node-name-hiddenbyparent, div#contentstructure li.currentnode li a.nodetext span.node-name-hiddenbyparent
+div#contentstructure li a.imageTextLink span.node-name-hiddenbyparent, div#contentstructure li.currentnode li a.imageTextLink span.node-name-hiddenbyparent
 {
     font-weight: normal;
     font-style: normal;
@@ -344,11 +341,6 @@ a.openclose img, span.openclose img
 {
     margin: 0;
     cursor: default;
-}
-
-div#contentstructure a.openclose, div#contentstructure span.openclose
-{
-    color: #315578;
 }
 
 div#contentstructure span.openclose
@@ -393,6 +385,95 @@ div#contentstructure ul#content_tree_menu div.loaded
 div#contentstructure ul#content_tree_menu div.hidden
 {
     display: none;
+}
+
+
+/* POPUP MENU */
+
+div.popupmenu
+{
+    width: 14em;
+    font-size: 0.85em;
+    margin: 0px;
+    padding: 4px;
+    background-color: #fff;
+    border: 1px solid #bbb;
+    z-index: +1; 
+
+    /* These two are essential */
+    position: absolute;
+    visibility: hidden;
+}
+
+div.popupmenu#EditSubmenu
+{
+    z-index: +2;
+}
+
+div.popupmenu div.popupmenuheader
+{
+    background-color: #fbfbfb;
+    border-bottom: 1px solid #bbb;
+}
+
+div.popupmenu h3
+{
+    margin: 0;
+    padding: 0.2em 0.5em 0.2em 0.5em;
+    float: left;
+}
+
+div.popupmenu div.window-close
+{
+    float: right;
+    padding: 1px;
+}
+
+div.popupmenu div.window-close p
+{
+    font-weight: bold;
+    color: #000000;
+    background-color: #ecece4;
+    margin: 0;
+    padding: 0.1em 0.3em 0.1em 0.3em;
+    border: 1px solid #ffffff;
+    border-bottom-color: #bfbeb6;
+    border-right-color: #bfbeb6;
+}
+
+div.popupmenu a
+{
+    color: #000000;
+    padding: 0.1em 0.3em 0.1em 0.3em;
+    text-decoration: none;
+    cursor: default;
+    display: block;
+}
+
+div.popupmenu a.more
+{
+    background-image: url(../images/more-arrow.gif);
+    background-repeat: no-repeat;
+    background-position: right center;
+}
+
+div.popupmenu a.menu-item-disabled
+{
+    color: #CECECE;
+}
+
+div.popupmenu a:hover
+{
+    color: #ffffff;
+    background-color: #2d537a;
+    text-decoration: none;
+    cursor: default;
+}
+
+div.popupmenu hr
+{
+    border: none;
+    border-top: 1px solid #c0c0c0;
 }
 
 

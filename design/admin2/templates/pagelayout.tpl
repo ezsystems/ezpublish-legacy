@@ -46,59 +46,11 @@
 <div id="header">
 <div id="header-design" class="float-break">
 
-    <div id="header-search">
-    <form action={'/content/search/'|ezurl} method="get">
-        {def $current_node_id         = first_set( $module_result.node_id, 0 )
-             $selected_search_node_id = first_set( $search_subtree_array[0], 0 )
-             $searching_disabled      = $ui_context|eq( 'edit' )}
-        {if $searching_disabled}
-            <select name="SubTreeArray" title="{'Search location, to be able to narrow down the search results!'|i18n('design/admin/pagelayout')}" disabled="disabled">
-                <option value="1" title="{'Search everthing!'|i18n( 'design/admin/pagelayout' )}">{'Everything'|i18n( 'design/admin/pagelayout' )}</option>
-            </select>
-            <input id="searchtext" name="SearchText" type="text" size="20" value="{if is_set( $search_text )}{$search_text|wash}{/if}" disabled="disabled" defaultValue="{'Search text'|i18n( 'design/admin/pagelayout' )}" />
-            <input id="searchbutton" class="button-disabled" name="SearchButton" type="submit" value="{'Search'|i18n( 'design/admin/pagelayout' )}" disabled="disabled" />
-            <p class="advanced hide"><span class="disabled">{'Advanced'|i18n( 'design/admin/pagelayout' )}</span></p>
-        {else}
-            <select name="SubTreeArray" title="{'Search location, to be able to narrow down the search results!'|i18n('design/admin/pagelayout')}">
-                <option value="1" title="{'Search everthing!'|i18n( 'design/admin/pagelayout' )}">{'Everything'|i18n( 'design/admin/pagelayout' )}</option>
-                <option value="{ezini( 'NodeSettings', 'RootNode', 'content.ini' )}" title="{'Search content!'|i18n( 'design/admin/pagelayout' )}">{'Content'|i18n( 'design/admin/pagelayout' )}</option>
-                <option value="{ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' )}" title="{'Search media!'|i18n( 'design/admin/pagelayout' )}">{'Media'|i18n( 'design/admin/pagelayout' )}</option>
-                <option value="{ezini( 'NodeSettings', 'UserRootNode', 'content.ini' )}" title="{'Search users!'|i18n( 'design/admin/pagelayout' )}">{'Users'|i18n( 'design/admin/pagelayout' )}</option>
-                {if $selected_search_node_id|gt( 1 )}
-                    <option value="{$selected_search_node_id}" selected="selected">{'The same location'|i18n( 'design/admin/pagelayout' )}</option>
-                {elseif $current_node_id}
-                    <option value="{$current_node_id}">{'Current location'|i18n( 'design/admin/pagelayout' )}</option>
-                {/if}
-            </select>
-            <input id="searchtext" name="SearchText" type="text" size="20" value="{if is_set( $search_text )}{$search_text|wash}{/if}" defaultValue="{'Search text'|i18n( 'design/admin/pagelayout' )}" />
-            <input id="searchbutton" class="button" name="SearchButton" type="submit" value="{'Search'|i18n( 'design/admin/pagelayout' )}" />
-            {if eq( $ui_context, 'browse' ) }
-                <input name="Mode" type="hidden" value="browse" />
-                <input name="BrowsePageLimit" type="hidden" value="{min( ezpreference( 'admin_list_limit' ), 3)|choose( 10, 10, 25, 50 )}" />
-                <p class="advanced hide"><span class="disabled">{'Advanced'|i18n( 'design/admin/pagelayout' )}</span></p>
-            {else}
-                <p class="advanced hide"><a href={'/content/advancedsearch'|ezurl} title="{'Advanced search.'|i18n( 'design/admin/pagelayout' )}">{'Advanced'|i18n( 'design/admin/pagelayout' )}</a></p>
-            {/if}
-        {/if}
-        {undef $current_node_id $selected_search_node_id $searching_disabled}
-    </form>
-    </div>
+    {* HEADER ( SEARCH, LOGO AND USERMENU ) *}
+    {include uri='design:page_header.tpl'}
 
-    <div id="header-logo">
-        <a href="http://ez.no" title="eZ Publish {fetch( 'setup', 'version' )}" target="_blank">eZ logo</a>
-    </div>
-
-    <div id="header-usermenu">
-        <a href={'/user/logout'|ezurl} title="{'Logout from the system.'|i18n( 'design/admin/pagelayout' )}" id="header-usermenu-logout">{'Logout'|i18n( 'design/admin/pagelayout' )}</a>
-    </div>
-
-    <div id="header-topmenu">
-    <ul>
-    {foreach topmenu($ui_context, true() ) as $menu}
-        {include uri='design:page_topmenuitem.tpl' menu_item=$menu navigationpart_identifier=$navigation_part.identifier}
-    {/foreach}
-    </ul>
-    </div>
+    {* TOP MENU / TABS *}
+    {include uri='design:page_topmenu.tpl'}
 
 </div>
 </div>
@@ -108,9 +60,7 @@
 
 <div id="path">
 <div id="path-design">
-
-{include uri='design:page_toppath.tpl'}
-
+    {include uri='design:page_toppath.tpl'}
 </div>
 </div>
 
@@ -119,113 +69,74 @@
 
 <div id="columns">
 
+{* LEFT MENU / CONTENT STRUCTURE MENU *}
 {if and( eq( $ui_context, 'edit' ), eq( $ui_component, 'content' ) )}
 {else}
-<div id="leftmenu">
-<div id="leftmenu-design">
-
-{if is_set( $module_result.left_menu )}
-    {include uri=$module_result.left_menu}
-{else}
-    {* 
-        Get navigationpart identifier variable depends if the call is an contenobject
-        or a custom module 
-    *}
-    {def $navigation_part_name = $navigation_part.identifier}
-    {if $navigation_part_name|eq('')}
-        {set $navigation_part_name = $module_result.navigation_part}
-    {/if}
-    {* 
-        Include automatically the menu template for the $navigation_part_name
-        ez $part_name navigationpart =>  parts/$part_name/menu.tpl
-    *}
-    {def $extract_length = sub( count_chars( $navigation_part_name ), '14' )
-         $part_name = $navigation_part_name|extract( '2', $extract_length )}
-
-    {include uri=concat( 'design:parts/', $part_name, '/menu.tpl' )}
-
-    {undef $extract_length $part_name $navigation_part_name}
-{/if}
-
-</div>
-</div>
-
-<hr class="hide" />
-
+    {include uri='design:page_leftmenu.tpl'}
 {/if}
 
 {/cache-block}{* /Pr uri cache *}
 
+
+{* RIGHT MENU *}
 <div id="rightmenu">
 <div id="rightmenu-design">
-{if $hide_right_menu}
-    <a id="rightmenu-showhide" class="show-hide-control" href={'/user/preferences/set/admin_right_menu_show/1'|ezurl}>+</a>
-{else}
-    <a id="rightmenu-showhide" class="show-hide-control" href={'/user/preferences/set/admin_right_menu_show/0'|ezurl}>-</a>
-    <script language="javascript" type="text/javascript" src={"javascript/rightmenu_widthcontrol.js"|ezdesign} charset="utf-8"></script>
-{/if}
+	{if $hide_right_menu}
+	    <a id="rightmenu-showhide" class="show-hide-control" href={'/user/preferences/set/admin_right_menu_show/1'|ezurl}>+</a>
+	{else}
+	    <a id="rightmenu-showhide" class="show-hide-control" href={'/user/preferences/set/admin_right_menu_show/0'|ezurl}>-</a>
+	    <script language="javascript" type="text/javascript" src={"javascript/rightmenu_widthcontrol.js"|ezdesign} charset="utf-8"></script>
+	{/if}
 
-{tool_bar name='admin_right' view=full}
-{tool_bar name='admin_developer' view=full}
-
+	{tool_bar name='admin_right' view=full}
+	{tool_bar name='admin_developer' view=full}
 </div>
 </div>
 
 <hr class="hide" />
 
-
+{* Main area START *}
 {if and( eq( $ui_context, 'edit' ), eq( $ui_component, 'content' ) )}
-{* Main area START *}
-
-{include uri='design:page_mainarea.tpl'}
-
-{* Main area END *}
+	{include uri='design:page_mainarea.tpl'}
 {else}
-
-<div id="maincontent">
-<div id="maincontent-design" class="float-break"><div id="fix">
-<!-- Maincontent START -->
-{* Main area START *}
-
-{include uri='design:page_mainarea.tpl'}
-
-{* Main area END *}
-<!-- Maincontent END -->
-</div>
-<div class="break"></div>
-</div></div>
-
+	<div id="maincontent">
+	<div id="maincontent-design" class="float-break"><div id="fix">
+	<!-- Maincontent START -->
+	{include uri='design:page_mainarea.tpl'}
+	<!-- Maincontent END -->
+	</div>
+	<div class="break"></div>
+	</div></div>
 {/if}
+{* Main area END *}
+
+
 <div class="break"></div>
-</div>
+</div><!-- div id="columns" -->
 
 <hr class="hide" />
 
+
+{cache-block ignore_content_expiry}
 <div id="footer" class="float-break">
 <div id="footer-design">
-
-{include uri='design:page_copyright.tpl'}
-
+    {include uri='design:page_copyright.tpl'}
 </div>
 </div>
 
 <div class="break"></div>
-</div>
+</div><!-- div id="page" -->
+
+{* The popup menu include must be outside all divs. It is hidden by default. *}
+{include uri='design:popupmenu/popup_menu.tpl'}
+
+{/cache-block}
 
 <script type="text/javascript">
 <!--
 document.getElementById('header-usermenu-logout').innerHTML += ' ({$current_user.login|wash})';{* contentobject.name *}
 
-/* Avoid javascript erros for some prevously used js functions and log error to console instead */
 {literal}
-var ez_createAArray = function()
-{
-    if ( window.console !== undefined )
-        window.console.log( 'ezpopmenu_*() / ez_createAArray() is removed from eZ Publish 4.3 admin, use context hover menu instead!' );
-    return false;
-}, ezpopmenu_showTopLevel = ez_createAArray, ezpopmenu_showSubLevel = ez_createAArray, ezpopmenu_submitForm = ez_createAArray;
-
-/* Submit a form dynamicly with only targer url and {key:value[,key2:value2]} pairs for variables using post method by default */
 function ezSubmitForm( action, params, method )
 {
     var form = document.createElement('form'), inp;
@@ -247,14 +158,12 @@ function ezSubmitForm( action, params, method )
 {
     var searchtext = document.getElementById('searchtext');
     if ( searchtext && !searchtext.disabled )
-    	searchtext.focus();
+        searchtext.focus();
 })();
-
 {/literal}
 
 // -->
 </script>
-
 
 {* This comment will be replaced with actual debug report (if debug is on). *}
 <!--DEBUG_REPORT-->

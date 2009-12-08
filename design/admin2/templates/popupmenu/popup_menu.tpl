@@ -1,137 +1,87 @@
-{def $multilingual_site=fetch( content, translation_list )|count|gt( 1 )}
+{def $multilingual_site = fetch( content, translation_list )|count|gt( 1 )}
 
-<script language="JavaScript1.2" type="text/javascript">
+<script type="text/javascript">
 <!--
-var menuArray = new Array();
-menuArray['ContextMenu'] = new Array();
-menuArray['ContextMenu']['depth'] = 0;
-menuArray['ContextMenu']['headerID'] = 'menu-header';
-menuArray['ContextMenu']['elements'] = new Array();
-menuArray['ContextMenu']['elements']['menu-view'] = new Array();
-menuArray['ContextMenu']['elements']['menu-view']['url'] = {"/content/view/full/%nodeID%"|ezurl};
-menuArray['ContextMenu']['elements']['menu-edit'] = new Array();
-menuArray['ContextMenu']['elements']['menu-edit']['url'] = {"/content/edit/%objectID%"|ezurl};
-menuArray['ContextMenu']['elements']['menu-copy'] = new Array();
-menuArray['ContextMenu']['elements']['menu-copy']['url'] = {"/content/copy/%objectID%"|ezurl};
-menuArray['ContextMenu']['elements']['menu-copy-subtree']= new Array();
-menuArray['ContextMenu']['elements']['menu-copy-subtree']['url'] = {"/content/copysubtree/%nodeID%"|ezurl};
-menuArray['ContextMenu']['elements']['menu-create-here']= new Array();
-menuArray['ContextMenu']['elements']['menu-create-here']['disabled_class'] = 'menu-item-disabled';
+var menuArray = {ldelim}{rdelim};
+menuArray['ContextMenu'] = {ldelim} 'depth': 0, 'headerID': 'menu-header' {rdelim};
+menuArray['ContextMenu']['elements'] = {ldelim}{rdelim};
+menuArray['ContextMenu']['elements']['menu-view'] = {ldelim} 'url': {"/content/view/full/%nodeID%"|ezurl} {rdelim};
+menuArray['ContextMenu']['elements']['menu-edit'] = {ldelim} 'url': {"/content/edit/%objectID%"|ezurl} {rdelim};
+menuArray['ContextMenu']['elements']['menu-copy'] = {ldelim} 'url': {"/content/copy/%objectID%"|ezurl} {rdelim};
+menuArray['ContextMenu']['elements']['menu-copy-subtree']= {ldelim} 'url': {"/content/copysubtree/%nodeID%"|ezurl} {rdelim};
+menuArray['ContextMenu']['elements']['menu-create-here']= {ldelim} 'disabled_class': 'menu-item-disabled' {rdelim};
 
-{*menuArray['ContextMenu']['elements']['child-menu-create-here'] = new Array();
-menuArray['ContextMenu']['elements']['child-menu-create-here']['disabled_class'] = 'menu-item-disabled';*}
+{*menuArray['ContextMenu']['elements']['child-menu-create-here'] = {ldelim} 'disabled_class': 'menu-item-disabled' {rdelim};*}
 
 {* Edit menu *}
-menuArray['EditSubmenu'] = new Array();
-menuArray['EditSubmenu']['depth'] = 1;
-menuArray['EditSubmenu']['elements'] = new Array();
-menuArray['EditSubmenu']['elements']['edit-languages'] = new Array();
-menuArray['EditSubmenu']['elements']['edit-languages']['variable'] = '%languages%';
+menuArray['EditSubmenu'] = {ldelim} 'depth': 1 {rdelim};
+menuArray['EditSubmenu']['elements'] = {ldelim}{rdelim};
+menuArray['EditSubmenu']['elements']['edit-languages'] = {ldelim} 'variable': '%languages%' {rdelim};
 menuArray['EditSubmenu']['elements']['edit-languages']['content'] = '<a href={"/content/edit/%objectID%/f/%locale%"|ezurl} onmouseover="ezpopmenu_mouseOver( \'EditSubmenu\' )">%name%<\/a>';
-menuArray['EditSubmenu']['elements']['edit-languages-another'] = new Array();
-menuArray['EditSubmenu']['elements']['edit-languages-another']['url'] = {"/content/edit/%objectID%/a"|ezurl};
+menuArray['EditSubmenu']['elements']['edit-languages-another'] = {ldelim} 'url': {"/content/edit/%objectID%/a"|ezurl} {rdelim};
 
 {* CreateHere menu *}
-menuArray['CreateHereMenu'] = new Array();
-menuArray['CreateHereMenu']['depth'] = 1; // this is a first level submenu of ContextMenu
-menuArray['CreateHereMenu']['elements'] = new Array();
-menuArray['CreateHereMenu']['elements']['menu-classes'] = new Array();
-menuArray['CreateHereMenu']['elements']['menu-classes']['variable'] = '%classList%';
+menuArray['CreateHereMenu'] = {ldelim} 'depth': 1 {rdelim};
+menuArray['CreateHereMenu']['elements'] = {ldelim}{rdelim};
+menuArray['CreateHereMenu']['elements']['menu-classes'] = {ldelim} 'variable': '%classList%' {rdelim};
 menuArray['CreateHereMenu']['elements']['menu-classes']['content'] = '<a id="menu-item-create-here" href="#" onclick="ezpopmenu_submitForm( \'menu-form-create-here\', new Array( \'classID\', \'%classID%\' ) ); return false;">%name%<\/a>';
 
 {* Advanced menu *}
-menuArray['Advanced'] = new Array();
-menuArray['Advanced']['depth'] = 1; // this is a first level submenu of ContextMenu
-menuArray['Advanced']['elements'] = new Array();
-menuArray['Advanced']['elements']['menu-hide'] = new Array();
-menuArray['Advanced']['elements']['menu-hide']['url'] = {"/content/hide/%nodeID%"|ezurl};
-menuArray['Advanced']['elements']['menu-list'] = new Array();
-menuArray['Advanced']['elements']['menu-list']['url'] = {"content/view/sitemap/%nodeID%"|ezurl};
-menuArray['Advanced']['elements']['reverse-related'] = new Array();
-menuArray['Advanced']['elements']['reverse-related']['url'] = {"content/reverserelatedlist/%nodeID%"|ezurl};
-menuArray['Advanced']['elements']['menu-history'] = new Array();
-menuArray['Advanced']['elements']['menu-history']['url'] = {"content/history/%objectID%"|ezurl};
-menuArray['Advanced']['elements']['menu-url-alias'] = new Array();
-menuArray['Advanced']['elements']['menu-url-alias']['url'] = {"content/urlalias/%nodeID%"|ezurl};
+menuArray['Advanced'] = {ldelim} 'depth': 1 {rdelim};
+menuArray['Advanced']['elements'] = {ldelim}{rdelim};
+menuArray['Advanced']['elements']['menu-hide'] = {ldelim} 'url': {"/content/hide/%nodeID%"|ezurl} {rdelim};
+menuArray['Advanced']['elements']['menu-list'] = {ldelim} 'url': {"content/view/sitemap/%nodeID%"|ezurl} {rdelim};
+menuArray['Advanced']['elements']['reverse-related'] = {ldelim} 'url': {"content/reverserelatedlist/%nodeID%"|ezurl} {rdelim};
+menuArray['Advanced']['elements']['menu-history'] = {ldelim} 'url': {"content/history/%objectID%"|ezurl} {rdelim};
+menuArray['Advanced']['elements']['menu-url-alias'] = {ldelim} 'url': {"content/urlalias/%nodeID%"|ezurl} {rdelim};
 
-menuArray['SubitemsContextMenu'] = new Array();
-menuArray['SubitemsContextMenu']['depth'] = 0;
-menuArray['SubitemsContextMenu']['headerID'] = 'child-menu-header';
-menuArray['SubitemsContextMenu']['elements'] = new Array();
-menuArray['SubitemsContextMenu']['elements']['child-menu-view'] = new Array();
-menuArray['SubitemsContextMenu']['elements']['child-menu-view']['url'] = {"/content/view/full/%nodeID%"|ezurl};
-menuArray['SubitemsContextMenu']['elements']['child-menu-edit'] = new Array();
-menuArray['SubitemsContextMenu']['elements']['child-menu-edit']['url'] = {"/content/edit/%objectID%"|ezurl};
-menuArray['SubitemsContextMenu']['elements']['child-menu-copy'] = new Array();
-menuArray['SubitemsContextMenu']['elements']['child-menu-copy']['url'] = {"/content/copy/%objectID%"|ezurl};
-menuArray['SubitemsContextMenu']['elements']['child-menu-copy-subtree'] = new Array();
-menuArray['SubitemsContextMenu']['elements']['child-menu-copy-subtree']['url'] = {"/content/copysubtree/%nodeID%"|ezurl};
-menuArray['SubitemsContextMenu']['elements']['child-menu-create-here'] = new Array();
-menuArray['SubitemsContextMenu']['elements']['child-menu-create-here']['disabled_class'] = 'menu-item-disabled';
+menuArray['SubitemsContextMenu'] = {ldelim} 'depth': 0, 'headerID': 'child-menu-header' {rdelim};
+menuArray['SubitemsContextMenu']['elements'] = {ldelim}{rdelim};
+menuArray['SubitemsContextMenu']['elements']['child-menu-view'] = {ldelim} 'url': {"/content/view/full/%nodeID%"|ezurl} {rdelim};
+menuArray['SubitemsContextMenu']['elements']['child-menu-edit'] = {ldelim} 'url': {"/content/edit/%objectID%"|ezurl} {rdelim};
+menuArray['SubitemsContextMenu']['elements']['child-menu-copy'] = {ldelim} 'url': {"/content/copy/%objectID%"|ezurl} {rdelim};
+menuArray['SubitemsContextMenu']['elements']['child-menu-copy-subtree'] = {ldelim} 'url': {"/content/copysubtree/%nodeID%"|ezurl} {rdelim};
+menuArray['SubitemsContextMenu']['elements']['child-menu-create-here'] = {ldelim} 'disabled_class': 'menu-item-disabled' {rdelim};
 
-menuArray['ClassMenu'] = new Array();
-menuArray['ClassMenu']['depth'] = 0;
-menuArray['ClassMenu']['headerID'] = 'class-header';
-menuArray['ClassMenu']['elements'] = new Array();
-menuArray['ClassMenu']['elements']['class-view'] = new Array();
-menuArray['ClassMenu']['elements']['class-view']['url'] = {"/class/view/%classID%"|ezurl};
-menuArray['ClassMenu']['elements']['class-edit'] = new Array();
-menuArray['ClassMenu']['elements']['class-edit']['url'] = {"/class/edit/%classID%"|ezurl};
-menuArray['ClassMenu']['elements']['view-cache-delete'] = new Array();
-menuArray['ClassMenu']['elements']['view-cache-delete']['url'] = {"%currentURL%"|ezurl};
-menuArray['ClassMenu']['elements']['recursive-view-cache-delete'] = new Array();
-menuArray['ClassMenu']['elements']['recursive-view-cache-delete']['url'] = {"%currentURL%"|ezurl};
-menuArray['ClassMenu']['elements']['class-createnodefeed'] = new Array();
-menuArray['ClassMenu']['elements']['class-createnodefeed']['url'] = {"/content/view/full/%nodeID%"|ezurl};
+menuArray['ClassMenu'] = {ldelim} 'depth': 0, 'headerID': 'class-header' {rdelim};
+menuArray['ClassMenu']['elements'] = {ldelim}{rdelim};
+menuArray['ClassMenu']['elements']['class-view'] = {ldelim} 'url': {"/class/view/%classID%"|ezurl} {rdelim};
+menuArray['ClassMenu']['elements']['class-edit'] = {ldelim} 'url': {"/class/edit/%classID%"|ezurl} {rdelim};
+menuArray['ClassMenu']['elements']['view-cache-delete'] = {ldelim} 'url': {"%currentURL%"|ezurl} {rdelim};
+menuArray['ClassMenu']['elements']['recursive-view-cache-delete'] = {ldelim} 'url': {"%currentURL%"|ezurl} {rdelim};
+menuArray['ClassMenu']['elements']['class-createnodefeed'] = {ldelim} 'url': {"/content/view/full/%nodeID%"|ezurl} {rdelim};
 menuArray['ClassMenu']['elements']['class-createnodefeed']['disabled_class'] = 'menu-item-disabled';
-menuArray['ClassMenu']['elements']['class-createnodefeed']['disabled_for'] = new Array();
-menuArray['ClassMenu']['elements']['class-createnodefeed']['disabled_for']['class-createnodefeed'] = 'yes';
-menuArray['ClassMenu']['elements']['class-removenodefeed'] = new Array();
-menuArray['ClassMenu']['elements']['class-removenodefeed']['url'] = {"/content/view/full/%nodeID%"|ezurl};
+menuArray['ClassMenu']['elements']['class-createnodefeed']['disabled_for'] = {ldelim} 'class-createnodefeed': 'yes' {rdelim};
+menuArray['ClassMenu']['elements']['class-removenodefeed'] = {ldelim} 'url': {"/content/view/full/%nodeID%"|ezurl} {rdelim};
 menuArray['ClassMenu']['elements']['class-removenodefeed']['disabled_class'] = 'menu-item-disabled';
-menuArray['ClassMenu']['elements']['class-removenodefeed']['disabled_for'] = new Array();
-menuArray['ClassMenu']['elements']['class-removenodefeed']['disabled_for']['class-removenodefeed'] = 'yes';
-menuArray['ClassMenu']['elements']['class-history'] = new Array();
-menuArray['ClassMenu']['elements']['class-history']['url'] = {"content/history/%objectID%"|ezurl};
-menuArray['ClassMenu']['elements']['url-alias'] = new Array();
-menuArray['ClassMenu']['elements']['url-alias']['url'] = {"content/urlalias/%nodeID%"|ezurl};
+menuArray['ClassMenu']['elements']['class-removenodefeed']['disabled_for'] = {ldelim} 'class-removenodefeed': 'yes' {rdelim};
+menuArray['ClassMenu']['elements']['class-history'] = {ldelim} 'url': {"content/history/%objectID%"|ezurl} {rdelim};
+menuArray['ClassMenu']['elements']['url-alias'] = {ldelim} 'url': {"content/urlalias/%nodeID%"|ezurl} {rdelim};
 
 {* Edit Class submenu *}
-menuArray['EditClassSubmenu'] = new Array();
-menuArray['EditClassSubmenu']['depth'] = 1;
-menuArray['EditClassSubmenu']['elements'] = new Array();
-menuArray['EditClassSubmenu']['elements']['edit-class-languages'] = new Array();
-menuArray['EditClassSubmenu']['elements']['edit-class-languages']['variable'] = '%languages%';
+menuArray['EditClassSubmenu'] = {ldelim} 'depth': 1 {rdelim};
+menuArray['EditClassSubmenu']['elements'] = {ldelim}{rdelim};
+menuArray['EditClassSubmenu']['elements']['edit-class-languages'] = {ldelim} 'variable': '%languages%' {rdelim};
 menuArray['EditClassSubmenu']['elements']['edit-class-languages']['content'] = '<a href={"/class/edit/%classID%/(language)/%locale%"|ezurl} onmouseover="ezpopmenu_mouseOver( \'EditClassSubmenu\' )">%name%<\/a>';
-menuArray['EditClassSubmenu']['elements']['edit-class-another-language'] = new Array();
-menuArray['EditClassSubmenu']['elements']['edit-class-another-language']['url'] = {"/class/edit/%classID%"|ezurl};
+menuArray['EditClassSubmenu']['elements']['edit-class-another-language'] = {ldelim} 'url': {"/class/edit/%classID%"|ezurl} {rdelim};
 menuArray['EditClassSubmenu']['elements']['edit-class-another-language']['disabled_class'] = 'menu-item-disabled';
 
-menuArray['BookmarkMenu'] = new Array();
-menuArray['BookmarkMenu']['depth'] = 0;
-menuArray['BookmarkMenu']['headerID'] = 'bookmark-header';
-menuArray['BookmarkMenu']['elements'] = new Array();
-menuArray['BookmarkMenu']['elements']['bookmark-view'] = new Array();
-menuArray['BookmarkMenu']['elements']['bookmark-view']['url'] = {"/content/view/full/%nodeID%"|ezurl};
-menuArray['BookmarkMenu']['elements']['bookmark-edit'] = new Array();
-menuArray['BookmarkMenu']['elements']['bookmark-edit']['url'] = {"/content/edit/%objectID%"|ezurl};
+menuArray['BookmarkMenu'] = {ldelim} 'depth': 0, 'headerID': 'bookmark-header' {rdelim};
+menuArray['BookmarkMenu']['elements'] = {ldelim}{rdelim};
+menuArray['BookmarkMenu']['elements']['bookmark-view'] = {ldelim} 'url': {"/content/view/full/%nodeID%"|ezurl} {rdelim};
+menuArray['BookmarkMenu']['elements']['bookmark-edit'] = {ldelim} 'url': {"/content/edit/%objectID%"|ezurl} {rdelim};
 
 {* Site access popup menu for override*}
-menuArray['OverrideSiteAccess'] = new Array();
-menuArray['OverrideSiteAccess']['depth'] = 1;
+menuArray['OverrideSiteAccess'] = {ldelim} 'depth': 1 {rdelim};
 
 {* Site access popup menu for override by class*}
-menuArray['OverrideByClassSiteAccess'] = new Array();
-menuArray['OverrideByClassSiteAccess']['depth'] = 1;
+menuArray['OverrideByClassSiteAccess'] = {ldelim} 'depth': 1 {rdelim};
 
 {* Site access popup menu for override by node*}
-menuArray['OverrideByNodeSiteAccess'] = new Array();
-menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
+menuArray['OverrideByNodeSiteAccess'] = {ldelim} 'depth': 1 {rdelim};
 
 // -->
 </script>
-<script language="JavaScript" type="text/javascript" src={'javascript/lib/ezjslibdomsupport.js'|ezdesign}></script>
-<script language="JavaScript" type="text/javascript" src={'javascript/lib/ezjslibmousetracker.js'|ezdesign}></script>
 <script language="JavaScript" type="text/javascript" src={'javascript/popupmenu/ezpopupmenu.js'|ezdesign}></script>
 
 <!-- Treemenu icon click popup menu -->
