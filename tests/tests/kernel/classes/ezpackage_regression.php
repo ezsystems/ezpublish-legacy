@@ -28,10 +28,10 @@ class eZPackageRegression extends ezpDatabaseTestCase
     }
 
     /**
-    * Regression test for issue #15223
+    * Regression test for issue #15263
     * Content object name/url of imported content classes aren't generated correctly
     *
-    * @url http://issues.ez.no/15223
+    * @url http://issues.ez.no/15263
     *
     * @outline
     * 1) Expire and force generation of class attribute cache
@@ -40,7 +40,7 @@ class eZPackageRegression extends ezpDatabaseTestCase
     * 4) Publish an object of the imported class
     * 5) The object name / url alias shouldn't be the expected one
     **/
-    public function testIssue15223()
+    public function testIssue15263()
     {
         $adminUser = eZUser::fetchByName( 'admin' );
         $previousUser = eZUser::currentUser();
@@ -55,19 +55,24 @@ class eZPackageRegression extends ezpDatabaseTestCase
         // 1) Load a test package
         $packageName = 'ezpackage_regression_testIssue15223.ezpkg';
         $packageFilename = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . $packageName;
-        $package = eZPackage::import( $packageFilename, $packageName );
-        if ( !$package instanceof eZPackage )
+        $packageImportTried = false;
+
+        while( !$packageImportTried )
         {
-            $package = eZPackage::fetch( $packageName );
-            if ( $package instanceof $package )
+            $package = eZPackage::import( $packageFilename, $packageName );
+            if ( !$package instanceof eZPackage )
             {
-                $package->remove();
-                $package = eZPackage::import( $packageFilename, $packageName );
+                if ( $package === eZPackage::STATUS_ALREADY_EXISTS )
+                {
+                    $packageToRemove = eZPackage::fetch( $packageName );
+                    $packageToRemove->remove();
+                }
+                else
+                {
+                    self::fail( "An error occured loading the package '$packageFilename'" );
+                }
             }
-            else
-            {
-                $this->fail( "An error occured loading the package '$packageFilename'" );
-            }
+            $packageImportTried = true;
         }
 
         // 2) Install the package
@@ -100,8 +105,8 @@ class eZPackageRegression extends ezpDatabaseTestCase
         }
         else
         {
-            $this->assertEquals( "eZPackageRegression::testIssue15223", $publishedNode->attribute( 'name' ) );
-            $this->assertEquals( "eZPackageRegression-testIssue15223",  $publishedNode->attribute( 'url_alias' ) );
+            $this->assertEquals( "eZPackageRegression::testIssue15263", $publishedNode->attribute( 'name' ) );
+            $this->assertEquals( "eZPackageRegression-testIssue15263",  $publishedNode->attribute( 'url_alias' ) );
         }
 
         // Remove the installed package & restore the logged in user

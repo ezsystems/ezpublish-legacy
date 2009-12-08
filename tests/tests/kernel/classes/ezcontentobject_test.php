@@ -16,6 +16,16 @@ class eZContentObjectTest extends ezpDatabaseTestCase
         $this->setName( "eZContentObject Unit Tests" );
     }
 
+    public function setUp()
+    {
+        parent::setUp();
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+    }
+
     /**
      * Unit test for eZContentObject::fetchIDArray()
      *
