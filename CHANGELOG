@@ -8,6 +8,7 @@
 - Deprecated charset parameter on ezcss, ezcss_load and ezcss_requried template operators!
 - Only use POST parameters for ezjscore/call parameters to avoid reaching url limit and 
   logging parameters in wwwserver logs
+- Add missing include_once('kernel/common/i18n.php'); in index_ajax.php
 
 
 # v1.0.0  29 Sept 2009
