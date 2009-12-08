@@ -193,7 +193,10 @@ YUI( YUI3_config ).add('io-ez', function( Y )
         var c = _configBak;
         if ( c.on.successCallback !== undefined )
         {
-            c.on.successCallback( id, returnObject );
+            if ( c.arguments !== undefined )
+                c.on.successCallback( id, returnObject, c.arguments );
+            else
+                c.on.successCallback( id, returnObject, null );
         }
         else if ( window.console !== undefined )
         {
