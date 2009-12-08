@@ -201,7 +201,7 @@ function _showTopLevel( event, menuID, substituteValues, menuHeader, disableIDLi
 
     if( disableIDList != -1 )
     {
-    	CurrentDisableIDList = disableIDList.push !== undefined ? disableIDList : [disableIDList];
+        CurrentDisableIDList = disableIDList.push !== undefined ? disableIDList : [disableIDList];
     }
 
     CurrentDisableMenuID = disableMenuID;
@@ -310,11 +310,11 @@ function _doItemSubstitution( menuID, menuHeader )//not
         var disabledForElement = false;
         if ( typeof( menuArray[menuID]['elements'][i]['disabled_for'] ) != 'undefined' && CurrentDisableIDList )
         {
-        	for ( var disI = 0, disL = CurrentDisableIDList.length; disI < disL; disI++ )
-        	{
-        		if ( disabledForElement = menuArray[menuID]['elements'][i]['disabled_for'][ CurrentDisableIDList[disI] ] === 'yes'  )
-        			break;
-        	}
+            for ( var disI = 0, disL = CurrentDisableIDList.length; disI < disL; disI++ )
+            {
+                if ( disabledForElement = menuArray[menuID]['elements'][i]['disabled_for'][ CurrentDisableIDList[disI] ] === 'yes'  )
+                    break;
+            }
         }
 
         if ( typeof( menuArray[menuID]['elements'][i]['disabled_class'] ) != 'undefined' &&
@@ -521,7 +521,7 @@ function _hideHigher( level, el )//not
  */
 function _mouseOver( id )
 {
-	_hideHigher( menuArray[id]['depth'] );
+    _hideHigher( menuArray[id]['depth'] );
 }
 
 /*

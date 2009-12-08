@@ -32,13 +32,13 @@ a.show-hide-control, span.show-hide-control
 
 span.show-hide-control.disabled
 {
-	border-color: #ddd;
-	color: #999;
+    border-color: #ddd;
+    color: #999;
 }
 
 a#rightmenu-showhide.show-hide-control
 {
-	float: left;
+    float: left;
 }
 
 a.imageTextLink
@@ -87,7 +87,7 @@ a.imageTextLink:hover span
 
 #header-logo a
 {
-	display: block;
+    display: block;
     background-image: url('../images/2/ez-logo.png');
     background-repeat: no-repeat;
     background-position: left -1px;;
@@ -99,8 +99,8 @@ a.imageTextLink:hover span
 
 #header-usermenu
 {
-	padding-top: 3px;
-	padding-bottom: 0;
+    padding-top: 3px;
+    padding-bottom: 0;
 }
 
 
@@ -149,7 +149,7 @@ a.imageTextLink:hover span
 
 #header-topmenu ul li span.disabled
 {
-	color: #555;
+    color: #555;
 }
 
 #header-topmenu ul li.selected a
@@ -187,14 +187,14 @@ a.imageTextLink:hover span
 
 #leftmenu
 {
-	float: left;
-	width: 13em;
-	overflow: hidden;
+    float: left;
+    width: 13em;
+    overflow: hidden;
 }
 
 #leftmenu-design
 {
-	margin: 0 0.1em 0 0.5em;
+    margin: 0 0.1em 0 0.5em;
 }
 
 #leftmenu-design div.box-header { margin-top: 0.5em; }
@@ -215,8 +215,8 @@ a.imageTextLink:hover span
 /* This is not supported by IE6, some DOM cleanup is needed to avoid it */
 #rightmenu-design > div
 {
-	margin-top: 0.5em;
-	min-width: 12em;
+    margin-top: 0.5em;
+    min-width: 12em;
 }
 
 #rightmenu-design ul, #leftmenu-design ul { margin-left: 1.5em; color: #aaa; }
@@ -493,10 +493,10 @@ div.popupmenu hr
 
 #footer
 {
-	border-top: 1px solid #bbb;
-	background-color: #f3f3f3;
-	text-align: center;
-	padding: 0.8em;
+    border-top: 1px solid #bbb;
+    background-color: #f3f3f3;
+    text-align: center;
+    padding: 0.8em;
 }
 
 /* GENERIC */
@@ -519,8 +519,8 @@ div#fix
 .box-header
 {
     background-color: #fbfbfb;
-	border: 1px solid #bbb;
-	border-bottom-width: 0;
+    border: 1px solid #bbb;
+    border-bottom-width: 0;
     /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
     -moz-border-radius-topleft: 5px;
     -moz-border-radius-topright: 5px;
@@ -574,8 +574,8 @@ div#fix
 
 div.context-information
 {
-	color: #777;
-	font-size: 0.8em;
+    color: #777;
+    font-size: 0.8em;
 }
 
 
@@ -589,7 +589,7 @@ div.context-information
 
 .menu-block li
 {
-	float: left;
+    float: left;
     text-align: center;
     list-style-type: none;
     padding: 0;
@@ -628,37 +628,37 @@ div.context-information
 /* WIDTH CONTROL */
 .widthcontroled .box-bc
 {
-	background-image: url('../images/2/chrome_expand_corner.png');
-	background-repeat: no-repeat;
-	background-position: bottom right;
-	position: relative;
+    background-image: url('../images/2/chrome_expand_corner.png');
+    background-repeat: no-repeat;
+    background-position: bottom right;
+    position: relative;
 }
 
 .widthcontrol.js-widthcontroled
 {
-	position: absolute;
-	bottom: 0px;
-	right: 0px;
-	width: 11px;
-	height: 11px;
-	cursor: e-resize;
-	overflow: hidden;
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    width: 11px;
+    height: 11px;
+    cursor: e-resize;
+    overflow: hidden;
 }
 
 .widthcontrol.js-widthcontroled p
 {
-	display: none;
+    display: none;
 }
 
 /* CONTENT */
 
 div.mainobject-window
 {
-	max-height: 200px;
-	overflow-y: scroll;
-	border: 1px solid #dfdfdf;
-	padding: 0.5em;
-	background-color: #fdfdfd;
+    max-height: 200px;
+    overflow-y: scroll;
+    border: 1px solid #dfdfdf;
+    padding: 0.5em;
+    background-color: #fdfdfd;
 }
 
 table.list tr.bgdark
@@ -680,11 +680,11 @@ table.list tr:hover, table.list tr:hover th
 /* SUBITEMS CONTEXT MENU */
 table.context-enabled tr td.context-menu
 {
-	width: 2.6em;
-	padding: 1px;
-	padding-bottom: 0;
-	padding-left: 0;
-	height: 24px;
+    width: 2.6em;
+    padding: 1px;
+    padding-bottom: 0;
+    padding-left: 0;
+    height: 24px;
 }
 
 
@@ -708,7 +708,7 @@ table.context-enabled td.context-menu div.context-menu-root:hover
 div.context-menu-root:hover > ul.context-menu-box,
 li.context-menu-container:hover > div.context-menu-subitems
 {
-	display: block;
+    display: block;
 }
 
 div.context-menu-root ul.context-menu-box
@@ -764,7 +764,7 @@ div.context-menu-root ul.context-menu-box li.context-menu-container
 
 div.context-menu-root ul.context-menu-box li.context-menu-container:hover
 {
-	border-color: #dfdfdf;
+    border-color: #dfdfdf;
 }
 
 

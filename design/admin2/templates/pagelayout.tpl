@@ -81,15 +81,15 @@
 {* RIGHT MENU *}
 <div id="rightmenu">
 <div id="rightmenu-design">
-	{if $hide_right_menu}
-	    <a id="rightmenu-showhide" class="show-hide-control" href={'/user/preferences/set/admin_right_menu_show/1'|ezurl}>+</a>
-	{else}
-	    <a id="rightmenu-showhide" class="show-hide-control" href={'/user/preferences/set/admin_right_menu_show/0'|ezurl}>-</a>
-	    <script language="javascript" type="text/javascript" src={"javascript/rightmenu_widthcontrol.js"|ezdesign} charset="utf-8"></script>
-	{/if}
+    {if $hide_right_menu}
+        <a id="rightmenu-showhide" class="show-hide-control" href={'/user/preferences/set/admin_right_menu_show/1'|ezurl}>+</a>
+    {else}
+        <a id="rightmenu-showhide" class="show-hide-control" href={'/user/preferences/set/admin_right_menu_show/0'|ezurl}>-</a>
+        <script language="javascript" type="text/javascript" src={"javascript/rightmenu_widthcontrol.js"|ezdesign} charset="utf-8"></script>
+    {/if}
 
-	{tool_bar name='admin_right' view=full}
-	{tool_bar name='admin_developer' view=full}
+    {tool_bar name='admin_right' view=full}
+    {tool_bar name='admin_developer' view=full}
 </div>
 </div>
 
@@ -97,16 +97,16 @@
 
 {* Main area START *}
 {if and( eq( $ui_context, 'edit' ), eq( $ui_component, 'content' ) )}
-	{include uri='design:page_mainarea.tpl'}
+    {include uri='design:page_mainarea.tpl'}
 {else}
-	<div id="maincontent">
-	<div id="maincontent-design" class="float-break"><div id="fix">
-	<!-- Maincontent START -->
-	{include uri='design:page_mainarea.tpl'}
-	<!-- Maincontent END -->
-	</div>
-	<div class="break"></div>
-	</div></div>
+    <div id="maincontent">
+    <div id="maincontent-design" class="float-break"><div id="fix">
+    <!-- Maincontent START -->
+    {include uri='design:page_mainarea.tpl'}
+    <!-- Maincontent END -->
+    </div>
+    <div class="break"></div>
+    </div></div>
 {/if}
 {* Main area END *}
 

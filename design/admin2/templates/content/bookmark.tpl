@@ -52,9 +52,9 @@
 *}
 
 {else}
-	<div class="block">
-	<p>{'There are no bookmarks in the list.'|i18n( 'design/admin/content/bookmark' )}</p>
-	</div>
+    <div class="block">
+    <p>{'There are no bookmarks in the list.'|i18n( 'design/admin/content/bookmark' )}</p>
+    </div>
 {/if}
 
 
