@@ -1,0 +1,224 @@
+==============================
+How-To configure eZDFS cluster
+==============================
+
+About
+=====
+
+eZDFS stands for Distributed File System.
+
+This handler's principle can be summarized as follows: cluster files are mainly
+stored on NFS, while their metadata (size, mtime, expiry status) are maitained
+in a DB table similar to the one used by eZDB.
+NFS is used to read and write the reference copy of clusterized files. Cache
+files will be copied locally when used by a frontend. Images & binary files
+(when accessed directly via the browser) will be streamed directly from NFS.
+
+eZDFS: Global architecture configuration
+========================================
+The most important aspects of architecture are the NFS mount point and the
+cluster database.
+
+Each instance of eZ publish sharing the same relational database has to use the
+same cluster database, and each should have a local mount point to the same
+NFS export, configured in the exact same way.
+
+Example:
+NFS-server:/exports/myvardir
+eZpublish-server1:/var/www/var/nfsmount => mount of NFS-server:/exports/myvardir
+eZpublish-server2:/var/www/var/nfsmount => mount of NFS-server:/exports/myvardir
+eZpublish-server3:/var/www/var/nfsmount => mount of NFS-server:/exports/myvardir
+
+The var directories should in NO CASE be shared among instances, since they will
+automatically be synchronized. This is valid for both eZDB and eZDFS. The
+cluster handlers take care of synchronizing data from/to the centralized
+repository.
+
+Installing
+==========
+
+Creating the database structure
+-------------------------------
+The database structure required to hold clusterized files informations has to be
+created. This table can be created either on the same MySQL server as the one
+used for the relational database, or on a different one. For large scale
+websites, a dedicated MySQL server can really improve performances.
+
+The definition of this table can be found in the eZDFS MySQL driver class file
+(kernel/private/classes/clusterfilehandlers/dfsbackends/mysql.php). It is
+exactly the same as the one you can find below::
+
+    CREATE TABLE ezdfsfile (
+      `name` text NOT NULL,
+      name_trunk text NOT NULL,
+      name_hash varchar(34) NOT NULL DEFAULT '',
+      datatype varchar(60) NOT NULL DEFAULT 'application/octet-stream',
+      scope varchar(25) NOT NULL DEFAULT '',
+      size bigint(20) unsigned NOT NULL DEFAULT '0',
+      mtime int(11) NOT NULL DEFAULT '0',
+      expired tinyint(1) NOT NULL DEFAULT '0',
+      `status` tinyint(1) NOT NULL DEFAULT '0',
+      PRIMARY KEY (name_hash),
+      KEY ezdfsfile_name (`name`(250)),
+      KEY ezdfsfile_name_trunk (name_trunk(250)),
+      KEY ezdfsfile_mtime (mtime),
+      KEY ezdfsfile_expired_name (expired,`name`(250))
+    ) ENGINE=InnoDB;
+
+NFS
+---
+Since eZDFS is based on NFS, a local mount point to a NFS server has to be
+available & writeable by the webserver's user on each server that will use
+eZ Publish.
+
+How the mount points are configured depends on the software vendor of the NFS
+solution.
+
+Configuring the cluster handler
+-------------------------------
+Each eZ Publish instance that share the same var directory has to be configured
+correctly in order to get the cluster handler working. Everything is configured
+in file.ini (you should of course create a global override for this file).
+
+Setting the cluster handler to eZDFS
+''''''''''''''''''''''''''''''''''''
+
+This is done by setting in file.ini the ClusteringSettings.FileHandler directive
+to eZDFSFileHandler::
+
+    # in settings/override/file.ini.append.php
+    [ClusteringSettings]
+    FileHandler=eZDFSFileHandler
+
+Configuring the handler itself is done in the same file, in the INI block
+eZDFSClusteringSettings. Most settings are self explanatory, but more details
+are however available below::
+
+    # in settings/override/file.ini.append.php
+    [eZDFSClusteringSettings]
+    # Path to the NFS mount point
+    # Can be relative to the eZ publish root, or absolute.
+    # The example below will work for a mount of NFS to the subdirectory
+    # var/nfsmount in the eZ Publish root. Any location is possible
+    MountPointPath=var/nfsmount
+
+    # Database backend (only one available at the moment)
+    DBBackend=eZDFSFileHandlerMySQLBackend
+    # Hostname of the MySQL server where the ezdfsfile table lies
+    DBHost=localhost
+    # MySQL port
+    DBPort=3306
+    # Database name
+    DBName=ezpublishcluster
+    # Database user
+    DBUser=ezpublish
+    # Password for the user above
+    DBPassword=ezpublish
+
+Configuring the index_* files for clustering
+--------------------------------------------
+
+In order to make cluster files available via direct HTTP requests (images,
+binary files, etc), it is required to use a configuration script and rewrite
+rules.
+
+The configuration scripts are included in the release. The one used by apache
+to serve binary files request is index_cluster.php (included in the backport
+release), and it will be referenced in the rewrite configuration.
+
+This file contains configuration constants, and will include the file
+index_image.php (part of the eZ Publish distribution) when executed. This file
+will then include `index_image_dfscluster.php`, the final script that will read
+and stream the files to the browser.
+
+You will find below an example for index_cluster.php, matching the INI
+configuration above (settings will usually match between INI and this file)::
+
+    <?php
+    // DFS parameters
+    // the cluster handler name
+    define( 'STORAGE_BACKEND', 'dfsmysql' );
+    // database host (eZDFSClusteringSettings.DBHost)
+    define( 'STORAGE_HOST', 'localhost' );
+    // database user (eZDFSClusteringSettings.DBUser)
+    define( 'STORAGE_USER', 'ezpublish' );
+    // database user password (eZDFSClusteringSettings.DBPassword)
+    define( 'STORAGE_PASS', 'ezpublish' );
+    define( 'STORAGE_DB', 'ezpublishcluster' );
+    define( 'MOUNT_POINT_PATH', 'var/nfsmount' );
+
+    include_once( 'index_image.php' );
+    ?>
+
+Cluster rewrite rules
+---------------------
+mod_rewrite is mandatory to get the above index_cluster.php script to deliver
+binary files & images. These rules are actually quite simple: they rewrite
+every request for a content image / binary file to index_cluster.php, which
+will then deliver the files directly through HTTP from the NFS server.
+
+These rules are the same than the ones used for eZDB ( http://ez.no/doc/ez_publish/technical_manual/4_0/features/clustering/setting_it_up ).
+These rules can however be found below::
+
+    RewriteEngine On
+
+    Rewriterule ^/var/([^/]+/)?storage/images-versioned/.*  /index_cluster.php  [L]
+    Rewriterule ^/var/([^/]+/)?storage/images/.*            /index_cluster.php  [L]
+
+    # Other eZ Publish rewrite rules
+
+These rules *have* to be found *before* the standard eZ Publish rewrite rules.
+
+Note:
+As for the standard cluster, it is more than strongly recommended to use some
+sort of rewrite proxy to cache the binary files request, since these will
+directly query DB (eZDB) / NFS+DB (eZDFS) and may lead to performance issues.
+
+Clusterizing the files
+----------------------
+Once everything is correctly configured, binary data (image & files) have to
+be clusterized.
+
+This can be achieved using the clusterize.php script::
+
+    php bin/php/clusterize.php -v
+
+The script will push all the images found in ezimage and the binary files found
+in ezbinaryfile to the ezdfsfile table (metadata), and the file themselves to
+the configured NFS mount point.
+
+*Note:* this process can take a long time depending on the amount of files
+the eZ Publish instance contains. If the process is interrupted for any reason,
+it can be safely restarted.
+
+Clear the eZ Publish cache
+--------------------------
+Use the command line ezcache.php script::
+
+
+    $ezpublishroot: php bin/php/ezcache.php --clear-all
+
+If you are configuring multiple servers, execute this command on each server.
+
+Troubleshooting
+===============
+
+Once everything has been configured and binary content has been clusterized,
+testing can sometimes be complicated.
+
+First, override the debug.ini file (to settings/override/file.ini.append.php),
+and enable the kernel-clustering debug key::
+
+    [GeneralCondition]
+    kernel-clustering=enabled
+
+It will present your with much more debug information regarding the cluster.
+Refresh any page of your website. The page itself should work correctly.
+
+If images are not displayed, it is most likely that something is wrong with
+either your rewrite rules, or your index_cluster.php file. The best way to
+locate the error is to load an image directly in the browser (usually using
+the contextual menu on an image, and choosing "Open image in a new tab" or
+similar). If a "Module not found" error is shown instead of the image, this
+means that your rewrite rule is not correctly configured. If a PHP error is
+shown, it means that your index_cluster.php configuration might be wrong.
