@@ -578,6 +578,8 @@ div.context-information
     font-size: 0.8em;
 }
 
+div.context-block { margin-bottom: 1.2em; }
+
 
 /* MENU-BLOCK (buttons for node info) */
 
@@ -757,7 +759,7 @@ div.context-menu-root ul.context-menu-box li
 div.context-menu-root ul.context-menu-box li.context-menu-container
 {
     position: relative;
-    background-image: url('../images/2/context_menu_hover_arrow.png');
+    background-image: url('../images/2/more-arrow.gif');
     background-repeat: no-repeat;
     background-position: left center;
 }
