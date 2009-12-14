@@ -62,25 +62,25 @@
 <table class="list cache" cellspacing="0">
 
 {* Template cache. *}
-<tr class="bglight">
+<tr>
 <th width="60%">{'Template overrides and compiled templates'|i18n( 'design/admin/setup/cache' )}:</th>
 <td width="40%"><input class="button" type="submit" name="ClearTemplateCacheButton" value="{'Clear template caches'|i18n( 'design/admin/setup/cache' )}" title="{'This operation will clear all the template override caches and the compiled templates. It may lead to slower site performance until the caches are recreated.'|i18n( 'design/admin/setup/cache' )}" /></td>
 </tr>
 
 {* Content cache. *}
-<tr class="bgdark">
+<tr>
 <th>{'Content views and template blocks'|i18n( 'design/admin/setup/cache' )}:</th>
 <td><input class="button" type="submit" name="ClearContentCacheButton" value="{'Clear content caches'|i18n( 'design/admin/setup/cache' )}" title="{'This operation will clear all caches that are related to either template views or cache blocks inside the pagelayout template. Use it if you have modified templates or if you have made changes inside a cache block.'|i18n( 'design/admin/setup/cache' )}"/></td>
 </tr>
 
 {* Configuration cache. *}
-<tr class="bglight">
+<tr>
 <th>{'Configuration (ini) caches'|i18n( 'design/admin/setup/cache' )}:</th>
 <td><input class="button" type="submit" name="ClearINICacheButton" value="{'Clear Ini caches'|i18n( 'design/admin/setup/cache' )}" title="{'This operation will clear all the configuration caches. Use it to force the system to re-read the configuration files if you have changed settings.'|i18n( 'design/admin/setup/cache' )}" /></td>
 </tr>
 
 {* All caches. *}
-<tr class="bgdark">
+<tr>
 <th>{'Everything'|i18n( 'design/admin/setup/cache' )}:</th>
 <td><input class="button" type="submit" name="ClearAllCacheButton" value="{'Clear all caches'|i18n( 'design/admin/setup/cache' )}" title="{'This operation will clear all the caches and may lead to slow site response times until the caches are recreated.'|i18n( 'design/admin/setup/cache' )}" /></td>
 </tr>
