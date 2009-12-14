@@ -62,10 +62,28 @@ div.box-content div.block
     padding: 0.5em;
 }
 
-div.box-content div.context-information.block, div.box-content div.context-toolbar.block
+div.box-content div.context-toolbar.block
+{
+    padding: 0 0.5em 0 0.5em;
+}
+
+div.context-information
 {
     margin: 0 1px 0 1px;
     padding: 0 0.5em 0 0.5em;
+}
+
+div.context-information p.modified
+{
+    width: 48%;
+    float: left;
+}
+
+div.context-information p.translation
+{
+    width: 48%;
+    float: right;
+    text-align: right;
 }
 
 /* HEADER */
