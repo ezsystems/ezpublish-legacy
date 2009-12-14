@@ -6,8 +6,8 @@
      all_class_list=fetch( class, list )}
 
 <div class="block">
-<label>{'Selection method'|i18n( 'design/standard/class/datatype' )}:</label>
-<select name="ContentClass_ezobjectrelationlist_selection_type_{$class_attribute.id}">
+<label for="eccaorl_selection_{$class_attribute.id}">{'Selection method'|i18n( 'design/standard/class/datatype' )}:</label>
+<select id="eccaorl_selection_{$class_attribute.id}" name="ContentClass_ezobjectrelationlist_selection_type_{$class_attribute.id}">
     <option value="0" {eq( $content.selection_type, 0 )|choose( '', 'selected="selected"' )}>{'Browse'|i18n( 'design/standard/class/datatype' )}</option>
     <option value="1" {eq( $content.selection_type, 1 )|choose( '', 'selected="selected"' )}>{'Drop-down list'|i18n( 'design/standard/class/datatype' )}</option>
     <option value="2" {eq( $content.selection_type, 2 )|choose( '', 'selected="selected"' )}>{'List with radio buttons'|i18n( 'design/standard/class/datatype' )}</option>
@@ -20,8 +20,8 @@
 
 <div class="block">
     {if eq( ezini( 'BackwardCompatibilitySettings', 'AdvancedObjectRelationList' ), 'enabled' )}
-        <label>{'Type'|i18n( 'design/standard/class/datatype' )}:</label>
-        <select name="ContentClass_ezobjectrelationlist_type_{$class_attribute.id}">
+        <label for="eccaorl_type_{$class_attribute.id}">{'Type'|i18n( 'design/standard/class/datatype' )}:</label>
+        <select id="eccaorl_type_{$class_attribute.id}" name="ContentClass_ezobjectrelationlist_type_{$class_attribute.id}">
         <option value="0" {if eq( $type, 0 )}selected="selected"{/if}>{'New and existing objects'|i18n( 'design/standard/class/datatype' )}</option>
         <option value="1" {if eq( $type, 1 )}selected="selected"{/if}>{'Only new objects'|i18n( 'design/standard/class/datatype' )}</option>
         <option value="2" {if eq( $type, 2 )}selected="selected"{/if}>{'Only existing objects'|i18n( 'design/standard/class/datatype' )}</option>
@@ -32,8 +32,8 @@
 </div>
 
 <div class="block">
-    <label>{'Allowed classes'|i18n( 'design/standard/class/datatype' )}:</label>
-    <select name="ContentClass_ezobjectrelationlist_class_list_{$class_attribute.id}[]" multiple="multiple" title="{'Select which classes user can create'|i18n( 'design/standard/class/datatype' )}">
+    <label for="eccaorl_allowed_{$class_attribute.id}">{'Allowed classes'|i18n( 'design/standard/class/datatype' )}:</label>
+    <select id="eccaorl_allowed_{$class_attribute.id}" name="ContentClass_ezobjectrelationlist_class_list_{$class_attribute.id}[]" multiple="multiple" title="{'Select which classes user can create'|i18n( 'design/standard/class/datatype' )}">
     <option value="" {if $class_list|lt(1)}selected="selected"{/if}>{'Any'|i18n( 'design/standard/class/datatype' )}</option>
     {section name=Class loop=$all_class_list}
     <option value="{$:item.identifier|wash}" {if $class_list|contains($:item.identifier)}selected="selected"{/if}>{$:item.name}</option>

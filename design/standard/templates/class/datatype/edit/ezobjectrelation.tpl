@@ -2,8 +2,8 @@
 {let content=$class_attribute.content}
 
 <div class="block">
-<label>{'Selection method'|i18n( 'design/standard/class/datatype' )}:</label>
-<select name="ContentClass_ezobjectrelation_selection_type_{$class_attribute.id}">
+<label for="eccaor_selection_{$class_attribute.id}">{'Selection method'|i18n( 'design/standard/class/datatype' )}:</label>
+<select id="eccaor_selection_{$class_attribute.id}" name="ContentClass_ezobjectrelation_selection_type_{$class_attribute.id}">
     <option value="0" {eq( $content.selection_type, 0 )|choose( '', 'selected="selected"' )}>{'Browse'|i18n( 'design/standard/class/datatype' )}</option>
     <option value="1" {eq( $content.selection_type, 1 )|choose( '', 'selected="selected"' )}>{'Drop-down list'|i18n( 'design/standard/class/datatype' )}</option>
 {* Commented out because somebody forgot to implement this functionality... *}
@@ -40,8 +40,8 @@
 </div>
 
 <div class="block">
-<label>{'Allow fuzzy match'|i18n( 'design/standard/class/datatype' )}:</label>
-<input type="checkbox" name="ContentClass_ezobjectrelation_selection_fuzzy_match_{$class_attribute.id}" {if $content.fuzzy_match}checked="checked"{/if} />
+<label for="eccaor_fuzzy_match_{$class_attribute.id}">{'Allow fuzzy match'|i18n( 'design/standard/class/datatype' )}:</label>
+<input id="eccaor_fuzzy_match_{$class_attribute.id}" type="checkbox" name="ContentClass_ezobjectrelation_selection_fuzzy_match_{$class_attribute.id}" {if $content.fuzzy_match}checked="checked"{/if} />
 <input type="hidden" name="ContentClass_ezobjectrelation_selection_fuzzy_match_helper_{$class_attribute.id}" value="1" />
 </div>
 
