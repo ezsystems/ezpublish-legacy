@@ -199,7 +199,7 @@ function _showTopLevel( event, menuID, substituteValues, menuHeader, disableIDLi
         CurrentSubstituteValues = substituteValues;
     }
 
-    if( disableIDList != -1 )
+    if( disableIDList && disableIDList != -1 )
     {
         CurrentDisableIDList = disableIDList.push !== undefined ? disableIDList : [disableIDList];
     }

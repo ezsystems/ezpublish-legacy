@@ -52,6 +52,7 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
     <div class="block">
+        <input class="button button-disabled" disabled="disabled" type="submit" id="PublishButton" name="PublishButton" value="{'OK'|i18n( 'design/admin/user/register' )}" onclick="window.setTimeout( disableButtons, 1 ); return true;" />
         <input class="button" type="submit" id="CancelButton" name="CancelButton" value="{'Back'|i18n( 'design/admin/user/register' )}" onclick="window.setTimeout( disableButtons, 1 ); return true;" />
     </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
@@ -70,7 +71,7 @@
 <!--
     window.onload=function()
     {
-        with( registerform )
+        with( document.registerform )
         {
             for( var i=0; i<elements.length; i++ )
             {

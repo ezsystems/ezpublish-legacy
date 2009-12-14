@@ -186,6 +186,11 @@ menuArray['OverrideByNodeSiteAccess'] = {ldelim} 'depth': 1 {rdelim};
     <hr />
     <a id="menu-history" href="#" onmouseover="ezpopmenu_mouseOver( 'Advanced' )">{'Manage versions'|i18n( 'design/admin/popupmenu' )}</a>
     <a id="menu-url-alias" href="#" onmouseover="ezpopmenu_mouseOver( 'Advanced' )">{'Manage URL aliases'|i18n( 'design/admin/popupmenu' )}</a>
+
+    {* Include additional advanced menu items  based on .ini settings *}
+    {foreach ezini( 'AdditionalMenuSettings', 'AdvancedMenuTemplateArray', 'admininterface.ini' ) as $template}
+        {include uri=concat('design:', $template )}
+    {/foreach}
 </div>
 
 
@@ -220,6 +225,11 @@ menuArray['OverrideByNodeSiteAccess'] = {ldelim} 'depth': 1 {rdelim};
     <hr />
     <a id="class-history" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )">{'Manage versions'|i18n( 'design/admin/popupmenu' )}</a>
     <a id="url-alias" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )">{'Manage URL aliases'|i18n( 'design/admin/popupmenu' )}</a>
+    
+    {* Include additional class menu items  based on .ini settings *}
+    {foreach ezini( 'AdditionalMenuSettings', 'ClassMenuTemplateArray', 'admininterface.ini' ) as $template}
+        {include uri=concat('design:', $template )}
+    {/foreach}
 </div>
 
 <!-- Edit class submenu -->
@@ -246,6 +256,11 @@ menuArray['OverrideByNodeSiteAccess'] = {ldelim} 'depth': 1 {rdelim};
     <hr />
     <a id="bookmark-remove" href="#" onmouseover="ezpopmenu_mouseOver( 'BookmarkMenu' )"
         onclick="ezpopmenu_submitForm( 'menu-form-removebookmark' ); return false;">{"Remove bookmark"|i18n("design/admin/popupmenu")}</a>
+
+    {* Include additional bookmark menu items  based on .ini settings *}
+    {foreach ezini( 'AdditionalMenuSettings', 'BookmarkMenuTemplateArray', 'admininterface.ini' ) as $template}
+        {include uri=concat('design:', $template )}
+    {/foreach}
 </div>
 
 <!-- Site access for override popup menu -->
