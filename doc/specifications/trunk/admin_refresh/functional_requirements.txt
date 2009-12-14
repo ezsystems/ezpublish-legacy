@@ -111,11 +111,11 @@ Could: Have store/discard buttons on top of content & class edit forms as well a
        or using a fixed position bar that always stays on screen.
 Could: Move "create here" input to top box instead of bottom
 Could: Move upper buttons (Preview, details,..) + related blocks to a tabbed,
-       minimize able block beneath top block.
+       minimize able block beneath top block. (similar for class/view boxes)
 
 #1.4 Optimize speed of admin interface
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Should: Sync pagelayout structure with ezwebin and enable cache-block's for header
+Should: Sync pagelayout structure with ezwebin and enable cache-block's
         This should also make it easier to override sections of pagelayout like webin 1.4+
 
 #1.5 Only show options that user has access to
