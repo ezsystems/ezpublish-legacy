@@ -311,11 +311,6 @@ div.block /* Use this style around groups of objects which are connected in some
     clear: both;
 }
 
-div.thight-block
-{
-    margin: 0;
-}
-
 div.block div.element, div.buttonblock div.element, div.block div.halfelement /* Use this style if several objects are to be stacked horizontally within the same block */
 {
     padding-right: 1em !important;

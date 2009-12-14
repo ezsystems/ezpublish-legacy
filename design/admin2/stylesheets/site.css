@@ -1,4 +1,9 @@
+/*
+  site.css styles for admin design
+*/
 
+
+/* Some misc unsrted styles */
 span.vertical-seperator
 {
     height: 100%;
@@ -51,7 +56,11 @@ a.imageTextLink:hover span
     text-decoration: underline;
 }
 
-
+div.context-information.block, div.context-toolbar.block
+{
+    margin: 0 1px 0 1px;
+    padding: 0 0.5em 0 0.5em;
+}
 
 /* HEADER */
 #header
@@ -535,6 +544,11 @@ div#fix
     border-bottom: 1px solid #ddd;
 }
 
+.box-header .block
+{
+    margin: 0;
+}
+
 .box-bc
 {
     border: 1px solid #bbb;
@@ -578,7 +592,15 @@ div.context-information
     font-size: 0.8em;
 }
 
-div.context-block { margin-bottom: 1.2em; }
+div.context-block
+{
+    margin-bottom: 1.2em;
+}
+
+div.context-block h1.context-title img, div.context-block h2.context-title img
+{
+    vertical-align:middle;
+}
 
 
 /* MENU-BLOCK (buttons for node info) */

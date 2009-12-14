@@ -78,6 +78,7 @@
         <th>{'Identifier'|i18n( 'design/admin/class/grouplist' )}</th>
         <th>{'Modifier'|i18n( 'design/admin/class/grouplist' )}</th>
         <th>{'Modified'|i18n( 'design/admin/class/grouplist' )}</th>
+        <th>{'Objects'|i18n('design/admin/class/grouplist')}</th>
         <th class="tight">&nbsp;</th>
     </tr>
 
@@ -98,6 +99,9 @@
 
             {* Modified. *}
             <td>{$LatestClasses.item.modified|l10n(shortdatetime)}</td>
+
+            {* Object count. *}
+            <td class="number" align="right">{$LatestClasses.item.object_count}</td>
 
             {* Edit. *}
             <td><a href={concat( 'class/edit/', $LatestClasses.item.id, '/(language)/', $LatestClasses.item.top_priority_language_locale )|ezurl}><img class="button" src={'edit.gif'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/class/grouplist' )}" title="{'Edit the <%class_name> class.'|i18n( 'design/admin/class/grouplist',, hash( '%class_name', $LatestClasses.item.name) )|wash}" /></a></td>

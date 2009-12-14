@@ -28,7 +28,7 @@
 {/if}
 
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr block thight-block">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr block">
 
     <div class="left">
     <h2 class="context-title"><a href={$node.depth|gt(1)|choose('/'|ezurl,$node.parent.url_alias|ezurl )} title="{'Up one level.'|i18n(  'design/admin/node/view/full'  )}"><img src={'back-button-16x16.gif'|ezimage} alt="{'Up one level.'|i18n( 'design/admin/node/view/full' )}" title="{'Up one level.'|i18n( 'design/admin/node/view/full' )}" /></a>&nbsp;{'Sub items [%children_count]'|i18n( 'design/admin/node/view/full',, hash( '%children_count', $children_count ) )}</h2>
@@ -81,8 +81,7 @@
 {if $children}
 
 {* Items per page and view mode selector. *}
-<div class="context-toolbar">
-<div class="block thight-block">
+<div class="context-toolbar block">
 <div class="left">
     <p>
     {switch match=$number_of_items}
@@ -134,7 +133,6 @@
 
 <div class="break"></div>
 
-</div>
 </div>
 
     {* Copying operation is allowed if the user can create stuff under the current node. *}

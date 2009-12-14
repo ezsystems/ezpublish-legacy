@@ -16,7 +16,7 @@
 
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h1 class="context-title">{$class.identifier|class_icon( 'normal', $class.nameList[$language_code]|wash )}&nbsp;{'%class_name [Class]'|i18n( 'design/admin/class/view',, hash( '%class_name', $class.nameList[$language_code] ) )|wash}</h1>
+<h1 class="context-title" title="{'Class name and number of objects of it.'|i18n( 'design/admin/class/view' )}">{$class.identifier|class_icon( 'normal', $class.nameList[$language_code]|wash )}&nbsp;{$class.nameList[$language_code]|wash} [{$class.object_count}]</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -24,10 +24,10 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
-<div class="context-information">
-<p class="modified">{'Last modified: %time, %username'|i18n( 'design/admin/class/view',, hash( '%username',$class.modifier.contentobject.name, '%time', $class.modified|l10n( shortdatetime ) ) )|wash}</p>
+<div class="context-information block">
+<div class="left"><p class="modified">{'Last modified: %time, %username'|i18n( 'design/admin/class/view',, hash( '%username',$class.modifier.contentobject.name, '%time', $class.modified|l10n( shortdatetime ) ) )|wash}</p></div>
 {def $locale = fetch( 'content', 'locale', hash( 'locale_code', $language_code ) )}
-<p class="translation">{$locale.intl_language_name}&nbsp;<img src="{$language_code|flag_icon}" alt="{$language_code}" style="vertical-align: middle;" /></p>
+<div class="right"><p class="translation">{$locale.intl_language_name}&nbsp;<img src="{$language_code|flag_icon}" alt="{$language_code}" style="vertical-align: middle;" /></p></div>
 {undef $locale}
 </div>
 
