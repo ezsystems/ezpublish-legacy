@@ -56,7 +56,13 @@ a.imageTextLink:hover span
     text-decoration: underline;
 }
 
-div.context-information.block, div.context-toolbar.block
+div.box-content div.block
+{
+    margin: 0;
+    padding: 0.5em;
+}
+
+div.box-content div.context-information.block, div.box-content div.context-toolbar.block
 {
     margin: 0 1px 0 1px;
     padding: 0 0.5em 0 0.5em;
@@ -691,7 +697,7 @@ table.list, table.special, table.list th, table.special th
 	border-collapse: collapse;
 }
 
-table.list tr.bgdark, table.special tr.bgdark
+table.list tr.bgdark
 {
     background-color: #f5f5f5;
 }
