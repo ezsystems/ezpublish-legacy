@@ -20,11 +20,11 @@
      $children = array()}
 
 {if $children_count}
-    {set $children = fetch( content, list, hash( parent_node_id, $node.node_id,
-                                            sort_by, $node.sort_array,
-                                            limit, $number_of_items,
-                                            offset, $view_parameters.offset,
-                                            objectname_filter, $view_parameters.namefilter ) )}
+    {set $children = fetch( 'content', 'list', hash( 'parent_node_id', $node.node_id,
+                                            'sort_by', $node.sort_array,
+                                            'limit', $number_of_items,
+                                            'offset', $view_parameters.offset,
+                                            'objectname_filter', $view_parameters.namefilter ) )}
 {/if}
 
 
@@ -184,6 +184,7 @@
 {/if}
 
 <div class="context-toolbar">
+{* Alphabetical navigation can be enabled with content.ini [AlphabeticalFilterSettings] ContentFilterList[]  *}
 {include name=navigator
          uri='design:navigator/alphabetical.tpl'
          page_uri=$node.url_alias

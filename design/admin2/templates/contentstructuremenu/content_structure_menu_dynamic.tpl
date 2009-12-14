@@ -1,26 +1,26 @@
-{def $root_node_id=ezini('TreeMenu','RootNodeID','contentstructuremenu.ini')}
+{def $root_node_id = ezini('TreeMenu','RootNodeID','contentstructuremenu.ini')}
 {if is_set( $custom_root_node_id )}
-    {set $root_node_id=$custom_root_node_id}
+    {set $root_node_id = $custom_root_node_id}
 {/if}
-{def $root_node=fetch('content','node',hash('node_id',$root_node_id))
-     $user_class_group_id=ezini('ClassGroupIDs', 'Users', 'content.ini')
-     $setup_class_group_id=ezini('ClassGroupIDs', 'Setup', 'content.ini')
-     $user_root_node_id=ezini('NodeSettings', 'UserRootNode', 'content.ini')
-     $filter_type=cond($root_node.path_array|contains($user_root_node_id), 'include', 'exclude')
-     $filter_groups=cond($root_node.path_array|contains($user_root_node_id), array( $user_class_group_id ), array($user_class_group_id, $setup_class_group_id))
+{def $root_node            = fetch('content','node',hash('node_id',$root_node_id))
+     $user_class_group_id  = ezini('ClassGroupIDs', 'Users', 'content.ini')
+     $setup_class_group_id = ezini('ClassGroupIDs', 'Setup', 'content.ini')
+     $user_root_node_id    = ezini('NodeSettings', 'UserRootNode', 'content.ini')
+     $filter_type          = cond($root_node.path_array|contains($user_root_node_id), 'include', 'exclude')
+     $filter_groups        = cond($root_node.path_array|contains($user_root_node_id), array( $user_class_group_id ), array($user_class_group_id, $setup_class_group_id))
     }
 <script language="JavaScript" type="text/javascript" src={"javascript/lib/ezjslibcookiesupport.js"|ezdesign}></script>
 {if ezini('TreeMenu','PreloadClassIcons','contentstructuremenu.ini')|eq('enabled')}
     <script language="JavaScript" type="text/javascript" src={"javascript/lib/ezjslibimagepreloader.js"|ezdesign}></script>
 {/if}
 
-{def $click_action=ezini('TreeMenu','ItemClickAction','contentstructuremenu.ini')}
+{def $click_action = ezini('TreeMenu','ItemClickAction','contentstructuremenu.ini')}
 {if and( is_set( $csm_menu_item_click_action ), $click_action|not )}
-    {set $click_action=$csm_menu_item_click_action}
+    {set $click_action = $csm_menu_item_click_action}
 {/if}
 
 {if $click_action}
-    {set $click_action=$click_action|ezurl(no)}
+    {set $click_action = $click_action|ezurl(no)}
 {/if}
 
 <script type="text/javascript" src={"javascript/yui/2.7.0/build/utilities/utilities.js"|ezdesign}></script>
@@ -60,15 +60,15 @@ Array.prototype.removeFirst = function( value )
 
 function ContentStructureMenu()
 {
-    this.cookieName = "contentStructureMenu";
+    this.cookieName     = "contentStructureMenu";
     this.cookieValidity = 3650; // days
-    this.cookie = ezjslib_getCookie( this.cookieName );
-    this.open = ( this.cookie )? this.cookie.split( '/' ): [];
+    this.cookie         = ezjslib_getCookie( this.cookieName );
+    this.open           = ( this.cookie )? this.cookie.split( '/' ): [];
 {/literal}
 
-    this.action = "{$click_action}";
+    this.action  = "{$click_action}";
     this.context = "{$ui_context}";
-    this.expiry = "{fetch('content','content_tree_menu_expiry')}";
+    this.expiry  = "{fetch('content','content_tree_menu_expiry')}";
 
 {cache-block keys=array( $filter_type ) expiry="0" ignore_content_expiry}
     this.languages = {*
@@ -89,7 +89,7 @@ function ContentStructureMenu()
 {def $iconInfo = icon_info('class')
      $classIconsSize = ezini('TreeMenu','ClassIconsSize','contentstructuremenu.ini')}
 
-    this.iconsList = new Array();
+    this.iconsList   = new Array();
     var wwwDirPrefix = "{ezsys('wwwdir')}/{$iconInfo.theme_path}/{$iconInfo.size_path_list[$classIconsSize]}/";
     {foreach $iconInfo.icons as $class => $icon}{*
         *}this.iconsList['{$class}'] = wwwDirPrefix + "{$icon}";
@@ -99,9 +99,9 @@ function ContentStructureMenu()
     ezjslib_preloadImageList( this.iconsList );
     {/if}
 
-    this.showTips = {if ezini('TreeMenu','ToolTips','contentstructuremenu.ini')|eq('enabled')}true{else}false{/if};
+    this.showTips       = {if ezini('TreeMenu','ToolTips','contentstructuremenu.ini')|eq('enabled')}true{else}false{/if};
     this.createHereMenu = "{ezini('TreeMenu','CreateHereMenu','contentstructuremenu.ini')}";
-    this.autoOpen = {if ezini('TreeMenu','AutoopenCurrentNode','contentstructuremenu.ini')|eq('enabled')}true{else}false{/if};
+    this.autoOpen       = {if ezini('TreeMenu','AutoopenCurrentNode','contentstructuremenu.ini')|eq('enabled')}true{else}false{/if};
 {/cache-block}
 
 
@@ -113,7 +113,7 @@ function ContentStructureMenu()
     this.updateCookie = function()
     {
         this.cookie = this.open.join('/');
-        expireDate = new Date();
+        expireDate  = new Date();
         expireDate.setTime( expireDate.getTime() + this.cookieValidity * 86400000 );
         ezjslib_setCookie( this.cookieName, this.cookie, expireDate );
     }
@@ -300,8 +300,8 @@ function ContentStructureMenu()
 
         html += '</a>';
         html += '<div id="c'
-            + item.node_id
-            + '"></div>';
+             + item.node_id
+             + '"></div>';
         html += '</li>';
 
         return html;
@@ -491,7 +491,7 @@ function ContentStructureMenu()
             var aElement = aElements[index];
             if ( aElement.className == 'openclose-close' )
             {
-                var nodeID = aElement.id.substr( 1 );
+                var nodeID        = aElement.id.substr( 1 );
                 var subdivElement = document.getElementById( 'c' + nodeID );
                 if ( subdivElement )
                 {
@@ -506,7 +506,7 @@ function ContentStructureMenu()
         if ( aElement )
         {
             divElement.className = 'hidden';
-            aElement.className = 'openclose-open';
+            aElement.className   = 'openclose-open';
             this.setClosed( parentNodeID );
         }
     }
@@ -518,10 +518,9 @@ function ContentStructureMenu()
 
 <script type="text/javascript">
 <!--
-    var path = [{foreach $module_result.path as $element}{$element.node_id}{delimiter}, {/delimiter}{/foreach}];
+    var path         = [{foreach $module_result.path as $element}{$element.node_id}{delimiter}, {/delimiter}{/foreach}];
     var autoOpenPath = path;
-
-    var treeMenu = new ContentStructureMenu();
+    var treeMenu     = new ContentStructureMenu();
 
 {cache-block keys=$root_node_id expiry="0"}
 
