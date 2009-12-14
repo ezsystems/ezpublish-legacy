@@ -51,7 +51,7 @@
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{$class.identifier|class_icon( 'normal', $class.name|wash )}&nbsp;{'Edit <%class_name> [Class]'|i18n( 'design/admin/class/edit',, hash( '%class_name', $class.nameList[$language_code] ) )|wash}</h1>
+<h1 class="context-title" title="{'Class name and number of objects'|i18n( 'design/admin/class/view' )}">{$class.identifier|class_icon( 'normal', $class.name|wash )}&nbsp;{'Edit <%class_name> [%object_count]'|i18n( 'design/admin/class/edit',, hash( '%class_name', $class.nameList[$language_code], '%object_count', $class.object_count ) )|wash}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -59,10 +59,10 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
-<div class="context-information">
-<p class="modified">{'Last modified'|i18n( 'design/admin/class/edit' )}:&nbsp;{$class.modified|l10n( shortdatetime )},&nbsp;{$class.modifier.contentobject.name|wash}</p>
+<div class="context-information block">
+<div class="left"><p class="modified">{'Last modified'|i18n( 'design/admin/class/edit' )}:&nbsp;{$class.modified|l10n( shortdatetime )},&nbsp;{$class.modifier.contentobject.name|wash}</p></div>
 {def $locale = fetch( 'content', 'locale', hash( 'locale_code', $language_code ) )}
-<p class="translation">{$locale.intl_language_name}&nbsp;<img src="{$language_code|flag_icon}" alt="{$language_code}" style="vertical-align: middle;" /></p>
+<div class="right"><p class="translation">{$locale.intl_language_name}&nbsp;<img src="{$language_code|flag_icon}" alt="{$language_code}" style="vertical-align: middle;" /></p></div>
 {undef $locale}
 </div>
 
@@ -129,8 +129,8 @@
 </div>
 {section show=$attributes}
 
-<table id="ezcca-edit-list" class="list" cellspacing="0" summary="{'List of class attributes'|i18n( 'design/admin/class/edit' )}">
-{section var=Attributes loop=$attributes}
+<table id="ezcca-edit-list" class="special" cellspacing="0" summary="{'List of class attributes'|i18n( 'design/admin/class/edit' )}">
+{section var=Attributes loop=$attributes sequence=array( bglight, bgdark )}
 
 <tr>
     <th class="tight"><input type="checkbox" name="ContentAttribute_id_checked[]" value="{$Attributes.item.id}" title="{'Select attribute for removal. Click the "Remove selected attributes" button to remove the selected attributes.'|i18n( 'design/admin/class/edit' )|wash}" /></th>
@@ -144,7 +144,7 @@
     </th>
 </tr>
 
-<tr>
+<tr class="{$Attributes.sequence}">
 <td>&nbsp;</td>
 <!-- Attribute input Start -->
 <td colspan="2">
@@ -167,16 +167,18 @@
 <!-- Attribute input End -->
 
 <!-- Attribute flags Start -->
-<div class="block inline">
+<div class="block">
 
 {* Required. *}
+<div class="element">
 <label for="ContentAttribute_is_required_{$Attributes.item.id}">
 <input type="checkbox" id="ContentAttribute_is_required_{$Attributes.item.id}" name="ContentAttribute_is_required_checked[]" value="{$Attributes.item.id}"  {if $Attributes.item.is_required}checked="checked"{/if} title="{'Use this checkbox to specify whether the user should be forced to enter information into the attribute.'|i18n( 'design/admin/class/edit' )|wash}" />
 {'Required'|i18n( 'design/admin/class/edit' )}
 </label>
+</div>
 
 {* Searchable. *}
-
+<div class="element">
 <label for="ContentAttribute_is_searchable_{$Attributes.item.id}">
 {if $Attributes.item.data_type.is_indexable}
 <input type="checkbox" id="ContentAttribute_is_searchable_{$Attributes.item.id}" name="ContentAttribute_is_searchable_checked[]" value="{$Attributes.item.id}"  {if $Attributes.item.is_searchable}checked="checked"{/if} title="{'Use this checkbox to specify whether the contents of the attribute should be indexed by the search engine.'|i18n( 'design/admin/class/edit' )|wash}" />
@@ -185,8 +187,10 @@
 {/if}
 {'Searchable'|i18n( 'design/admin/class/edit' )}
 </label>
+</div>
 
 {* Information collector. *}
+<div class="element">
 <label for="ContentAttribute_is_information_collector_{$Attributes.item.id}">
 {if $Attributes.item.data_type.is_information_collector}
 <input type="checkbox" id="ContentAttribute_is_information_collector_{$Attributes.item.id}" name="ContentAttribute_is_information_collector_checked[]" value="{$Attributes.item.id}"  {if $Attributes.item.is_information_collector}checked="checked"{/if} title="{'Use this checkbox to specify whether the attribute should collect input from users.'|i18n( 'design/admin/class/edit' )|wash}" />
@@ -195,13 +199,17 @@
 {/if}
 {'Information collector'|i18n( 'design/admin/class/edit' )}
 </label>
+<div class="break"></div>
+</div>
 
 
 {* Disable translation. *}
+<div class="element">
 <label for="ContentAttribute_can_translate_{$Attributes.item.id}">
 <input type="checkbox" id="ContentAttribute_can_translate_{$Attributes.item.id}" name="ContentAttribute_can_translate_checked[]" value="{$Attributes.item.id}" {if or( $Attributes.item.can_translate|eq(0), $Attributes.item.data_type.properties.translation_allowed|not )}checked="checked"{/if} {if $Attributes.item.data_type.properties.translation_allowed|not}disabled="disabled"{/if} title="{'Use this checkbox for attributes that contain non-translatable content.'|i18n( 'design/admin/class/edit' )|wash}" />
 {'Disable translation'|i18n( 'design/admin/class/edit' )}
 </label>
+</div>
 
 </div>
 
