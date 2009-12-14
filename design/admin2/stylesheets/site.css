@@ -685,7 +685,13 @@ div.mainobject-window
     background-color: #fdfdfd;
 }
 
-table.list tr.bgdark
+table.list, table.special, table.list th, table.special th
+{
+	border: 1px solid #fdfdfd;
+	border-collapse: collapse;
+}
+
+table.list tr.bgdark, table.special tr.bgdark
 {
     background-color: #f5f5f5;
 }
@@ -693,7 +699,11 @@ table.list tr.bgdark
 table.list tr th
 {
     background-color: #fff;
-    border-bottom: 2px solid #f5f5f5;
+}
+
+table.special tr th
+{
+	background-color: #dfdfdf;
 }
 
 table.list tr:hover, table.list tr:hover th

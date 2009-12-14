@@ -104,10 +104,6 @@ table.list, table.special
     empty-cells: show;
 }
 
-div.context-attributes table table.list, div.context-attributes table table.special
-{
-}
-
 table.list th, table.list td, table.special th, table.special td
 {
     padding: 0.25em;
@@ -129,7 +125,6 @@ table.list td.na-rate, table.special td.na-rate
 
 table.list th, table.special th
 {
-    border-top-width: 2px;
     white-space: nowrap;
 }
 
