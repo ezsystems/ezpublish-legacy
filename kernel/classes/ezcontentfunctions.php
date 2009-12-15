@@ -93,7 +93,8 @@ class eZContentFunctions
      *                      - 'class_identifier' : The classIdentifier for this new object.
      *                                             using the classID is not possible.
      *                      - 'creator_id'       : The eZUser::contentObjectID to use as creator
-     *                                             of this new eZContentObject
+     *                                             of this new eZContentObject, uses current user
+     *                                             and stores object id in current session if not set
      *                      - 'attributes'       : The list of attributes to store, in order to now
      *                                             which values you can use for this key, you have to
      *                                             read the code of the fromString and toString functions

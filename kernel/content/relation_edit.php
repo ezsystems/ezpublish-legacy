@@ -186,8 +186,6 @@ function checkRelationActions( $module, $class, $object, $version, $contentObjec
     {
         if ( $http->hasPostVariable( 'ClassID' ) )
         {
-            $user = eZUser::currentUser();
-            $userID = $user->attribute( 'contentobject_id' );
             if ( $http->hasPostVariable( 'SectionID' ) )
             {
                 $sectionID = $http->postVariable( 'SectionID' );
@@ -200,7 +198,7 @@ function checkRelationActions( $module, $class, $object, $version, $contentObjec
             $class = eZContentClass::fetch( $contentClassID );
             $db = eZDB::instance();
             $db->begin();
-            $relatedContentObject = $class->instantiate( $userID, $sectionID );
+            $relatedContentObject = $class->instantiate( false, $sectionID );
             $db->commit();
             $newObjectID = $relatedContentObject->attribute( 'id' );
             $relatedContentVersion = $relatedContentObject->attribute( 'current' );

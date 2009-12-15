@@ -260,7 +260,7 @@ class eZContentClass extends eZPersistentObject
     /*!
      Creates a new content object instance and stores it.
 
-     \param userID user ID (optional), current user if not set
+     \param userID user ID (optional), current user if not set (also store object id in session if $userID = false)
      \param sectionID section ID (optional), 0 if not set
      \param versionNumber version number, create initial version if not set
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
@@ -270,9 +270,9 @@ class eZContentClass extends eZPersistentObject
     {
         $attributes = $this->fetchAttributes();
 
-        $user = eZUser::currentUser();
         if ( $userID === false )
         {
+            $user   = eZUser::currentUser();
             $userID = $user->attribute( 'contentobject_id' );
         }
 
@@ -320,7 +320,7 @@ class eZContentClass extends eZPersistentObject
             $attribute->instantiate( $object->attribute( 'id' ), $languageCode );
         }
 
-        if ( $user->isAnonymous() )
+        if ( $user instanceof eZUser && $user->isAnonymous() )
         {
             $createdObjectIDList = eZPreferences::value( 'ObjectCreationIDList' );
             if ( !$createdObjectIDList )

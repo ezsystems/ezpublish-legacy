@@ -32,6 +32,13 @@ Change of behavior
   using object id 54. If you have an old install this object id might be a different one
   and you'll need to override the setting.
 
+eZContentClass::instantiate() changes
+-------------------------------------
+
+- $userID now has to be false if you want to create objects for current user
+  If you don't set it to false, new object id will no longer be stored in user
+  session for use by policy system to let annonymous user re edit object. 
+
 
 
 Renamed methods

@@ -74,3 +74,4 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Fixed bug #15921: In-memory cache for eZContentClass is not cleared on expireCache()
 - Fixed bug #13503: Labels tags don't have for attribute
 - Fixed bug #15852: PHP Warning: str_repeat() warning with negative count parameter
+- Fixed bug #15744: Permission Error in eZContentClass::instantiate

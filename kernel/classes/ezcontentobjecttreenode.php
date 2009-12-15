@@ -3256,14 +3256,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     function createObject( $contentClassID, $parentNodeID = 2 )
     {
-        $user = eZUser::currentUser();
-        $userID = $user->attribute( 'contentobject_id' );
-
         $class = eZContentClass::fetch( $contentClassID );
         $parentNode = eZContentObjectTreeNode::fetch( $parentNodeID );
         $parentContentObject = $parentNode->attribute( 'object' );
         $sectionID = $parentContentObject->attribute( 'section_id' );
-        $object = $class->instantiate( $userID, $sectionID );
+        $object = $class->instantiate( false, $sectionID );
 
 //        $parentContentObject = $parentNode->attribute( 'contentobject' );
 
