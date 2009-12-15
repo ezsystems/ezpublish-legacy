@@ -430,7 +430,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         $parent = $element->parentNode;
 
         if ( ( $parent->nodeName == 'li' && $parent->childNodes->length == 1 ) ||
-             ( $parent->nodeName == 'td' && $parent->childNodes->length == 1 && !$this->RenderParagraphInTableCells ) )
+             ( ( $parent->nodeName == 'td' || $parent->nodeName == 'th' ) && $parent->childNodes->length == 1 && !$this->RenderParagraphInTableCells ) )
         {
             return $childrenOutput;
         }
