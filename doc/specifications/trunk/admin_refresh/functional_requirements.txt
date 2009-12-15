@@ -162,7 +162,24 @@ Could: Allow using drag and drop to move attributes
 -------------------------------------------------------------
 Could: Merge drag and drop feature from ezwt extension
 
-#7 [Not planned] Provide context sensitive help system
+#7 Enhance the eZ Publish Content Class Model for richer edit ui
+----------------------------------------------------------------
+Should: Add translatable description text per class for use as help
+        text for editors (ie serialized_description_list)
+Should: Add translatable description text per class attribute for
+        use as help text for editors
+Should: Add translatable (long)text attribute on class attributes
+        for use as translatable default string on string/text and
+        as options on selection datatype (ie serialized_data_text)
+Should: Add class attribute category / type to be able to group
+        specific attributes together (types should be extendable)
+Could:  Allow category / type setting to specify if they should be
+        displayed in node view or not
+Wishful:Add class inheritance to be able to extend other classes
+        that have a set of common attributes and overload the
+        ones that differ (and/or add additional ones).
+
+#8 [Not planned] Provide context sensitive help system
 ------------------------------------------------------
 Should: Have a visible help link in header at all times opening a new tab.
 Should: Send module + view as parameters to help view so specific help information 
@@ -178,7 +195,7 @@ Could: Host the help content online, so it is always up to date, and centralized
        it is hosted externally, maybe provide a white list of domains you allow
        to link to for help.
 
-#8 [Not planned] New Ajax interface for browsing node(s)
+#9 [Not planned] New Ajax interface for browsing node(s)
 --------------------------------------------------------
 Could: Use when selection node / sub tree limitations on role policies
 Could: Use when selecting target for move to operation
