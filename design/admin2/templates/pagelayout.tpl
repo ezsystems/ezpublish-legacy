@@ -7,20 +7,16 @@
      $admin_left_size  = ezpreference( 'admin_left_menu_size' )
      $admin_treemenu   = ezpreference( 'admin_treemenu' )
      $left_size_hash   = 0
-     $content_edit     = and( eq( $ui_context, 'edit' ), eq( $ui_component, 'content' ) )
+     $ui_context_edit  = eq( $ui_context, 'edit' )
+     $content_edit     = and( $ui_context_edit, eq( $ui_component, 'content' ) )
      $user_hash        = concat( $current_user.role_id_list|implode( ',' ), ',', $current_user.limited_assignment_value_list|implode( ',' ) )}
 {if or( $hide_right_menu, $admin_left_size, $content_edit )}
     <style type="text/css">
-    {if or( $hide_right_menu, $content_edit )}
+    {if or( $hide_right_menu, $ui_context_edit )}
         div#page div#rightmenu   {ldelim} width: 1.1em; {rdelim}
         div#page div#maincontent {ldelim} margin-right: 1.1em; {rdelim}
     {/if}
-    {*if $content_edit}
-        {def $left_menu_widths = ezini( 'LeftMenuSettings', 'MenuWidth', 'menu.ini')}
-        {set $left_size_hash = $left_menu_widths['medium']}
-        div#leftmenu    {ldelim} width: {$left_size_hash|int}em; {rdelim}
-        div#maincontent {ldelim} margin-left: {$left_size_hash|int}em; {rdelim*}
-    {if and($admin_left_size, $content_edit|not  )}
+    {if and($admin_left_size, $ui_context_edit|not  )}
         {def $left_menu_widths = ezini( 'LeftMenuSettings', 'MenuWidth', 'menu.ini')}
         {if is_set( $left_menu_widths[$admin_left_size] )}
             {set $left_size_hash = $left_menu_widths[$admin_left_size]}
@@ -88,7 +84,7 @@
 {* RIGHT MENU *}
 <div id="rightmenu">
 <div id="rightmenu-design">
-    {if $content_edit|not}
+    {if $ui_context_edit|not}
 	    {if $hide_right_menu}
 	        <a id="rightmenu-showhide" class="show-hide-control" href={'/user/preferences/set/admin_right_menu_show/1'|ezurl}>+</a>
 	    {else}
