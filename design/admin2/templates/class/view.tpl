@@ -35,25 +35,25 @@
 
 <div class="block">
 <div class="left">
-	<div class="block">
-	    <label>{'Name'|i18n( 'design/admin/class/view' )}:</label>
-	    {$class.nameList[$language_code]|wash}
-	</div>
+    <div class="block">
+        <label>{'Name'|i18n( 'design/admin/class/view' )}:</label>
+        {$class.nameList[$language_code]|wash}
+    </div>
 
-	<div class="block">
-	    <label>{'Identifier'|i18n( 'design/admin/class/view' )}:</label>
-	    {$class.identifier|wash}
-	</div>
+    <div class="block">
+        <label>{'Identifier'|i18n( 'design/admin/class/view' )}:</label>
+        {$class.identifier|wash}
+    </div>
 
-	<div class="block">
-	    <label>{'Object name pattern'|i18n( 'design/admin/class/view' )}:</label>
-	    {$class.contentobject_name|wash}
-	</div>
+    <div class="block">
+        <label>{'Object name pattern'|i18n( 'design/admin/class/view' )}:</label>
+        {$class.contentobject_name|wash}
+    </div>
 
-	<div class="block">
-	    <label>{'URL alias name pattern'|i18n( 'design/admin/class/view' )}:</label>
-	    {$class.url_alias_name|wash}
-	</div>
+    <div class="block">
+        <label>{'URL alias name pattern'|i18n( 'design/admin/class/view' )}:</label>
+        {$class.url_alias_name|wash}
+    </div>
 </div>
 
 <div class="right">
@@ -66,26 +66,26 @@
         {/if}
     </div>
 
-	<div class="block">
-	    <label>{'Default object availability'|i18n( 'design/admin/class/view' )}:</label>
-	    {if $class.always_available|eq(0)}
-	        {'Not available'|i18n( 'design/admin/class/view' )}
-	    {else}
-	        {'Available'|i18n( 'design/admin/class/view' )}
-	    {/if}
-	</div>
+    <div class="block">
+        <label>{'Default object availability'|i18n( 'design/admin/class/view' )}:</label>
+        {if $class.always_available|eq(0)}
+            {'Not available'|i18n( 'design/admin/class/view' )}
+        {else}
+            {'Available'|i18n( 'design/admin/class/view' )}
+        {/if}
+    </div>
 
-	{*** Class Default Sorting ***}
-	<div class="block">
-	<label>{'Default sorting of children'|i18n( 'design/admin/class/view' )}:</label>
-	{def $sort_fields=fetch( content, available_sort_fields )}
-	{if is_set( $sort_fields[$class.sort_field] )} {$sort_fields[$class.sort_field]} {else}{$class.sort_field}{/if} / {if eq($class.sort_order, 0)}{'Descending'|i18n( 'design/admin/class/edit' )}{else}{'Ascending'|i18n( 'design/admin/class/edit' )}{/if}
-	{undef $sort_fields}</div>
+    {*** Class Default Sorting ***}
+    <div class="block">
+    <label>{'Default sorting of children'|i18n( 'design/admin/class/view' )}:</label>
+    {def $sort_fields=fetch( content, available_sort_fields )}
+    {if is_set( $sort_fields[$class.sort_field] )} {$sort_fields[$class.sort_field]} {else}{$class.sort_field}{/if} / {if eq($class.sort_order, 0)}{'Descending'|i18n( 'design/admin/class/edit' )}{else}{'Ascending'|i18n( 'design/admin/class/edit' )}{/if}
+    {undef $sort_fields}</div>
 
-	<div class="block">
-	    <label>{'Object count'|i18n( 'design/admin/class/view' )}:</label>
-	    {$class.object_count}
-	</div>
+    <div class="block">
+        <label>{'Object count'|i18n( 'design/admin/class/view' )}:</label>
+        {$class.object_count}
+    </div>
 </div>
 <div class="break"></div>
 </div>

@@ -85,12 +85,12 @@
 <div id="rightmenu">
 <div id="rightmenu-design">
     {if $ui_context_edit|not}
-	    {if $hide_right_menu}
-	        <a id="rightmenu-showhide" class="show-hide-control" href={'/user/preferences/set/admin_right_menu_show/1'|ezurl}>+</a>
-	    {else}
-	        <a id="rightmenu-showhide" class="show-hide-control" href={'/user/preferences/set/admin_right_menu_show/0'|ezurl}>-</a>
-	        <script language="javascript" type="text/javascript" src={"javascript/rightmenu_widthcontrol.js"|ezdesign} charset="utf-8"></script>
-	    {/if}
+        {if $hide_right_menu}
+            <a id="rightmenu-showhide" class="show-hide-control" href={'/user/preferences/set/admin_right_menu_show/1'|ezurl}>+</a>
+        {else}
+            <a id="rightmenu-showhide" class="show-hide-control" href={'/user/preferences/set/admin_right_menu_show/0'|ezurl}>-</a>
+            <script language="javascript" type="text/javascript" src={"javascript/rightmenu_widthcontrol.js"|ezdesign} charset="utf-8"></script>
+        {/if}
     {/if}
 
     {tool_bar name='admin_right' view=full}

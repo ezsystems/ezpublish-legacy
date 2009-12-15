@@ -1,9 +1,8 @@
 <div id="header-search">
 <form action={'/content/search/'|ezurl} method="get">
     {def $current_node_id         = first_set( $module_result.node_id, 0 )
-         $selected_search_node_id = first_set( $search_subtree_array[0], 0 )
-         $searching_disabled      = $ui_context|eq( 'edit' )}
-    {if $searching_disabled}
+         $selected_search_node_id = first_set( $search_subtree_array[0], 0 )}
+    {if $ui_context_edit}
         <select name="SubTreeArray" title="{'Search location, to be able to narrow down the search results!'|i18n('design/admin/pagelayout')}" disabled="disabled">
             <option value="1" title="{'Search everthing!'|i18n( 'design/admin/pagelayout' )}">{'Everything'|i18n( 'design/admin/pagelayout' )}</option>
         </select>
@@ -32,14 +31,22 @@
             <p class="advanced hide"><a href={'/content/advancedsearch'|ezurl} title="{'Advanced search.'|i18n( 'design/admin/pagelayout' )}">{'Advanced'|i18n( 'design/admin/pagelayout' )}</a></p>
         {/if}
     {/if}
-    {undef $current_node_id $selected_search_node_id $searching_disabled}
+    {undef $current_node_id $selected_search_node_id}
 </form>
 </div>
 
 <div id="header-logo">
+{if $ui_context_edit}
+    <span title="eZ Publish {fetch( 'setup', 'version' )}" target="_blank">&nbsp;</span>
+{else}
     <a href="http://ez.no" title="eZ Publish {fetch( 'setup', 'version' )}" target="_blank">&nbsp;</a>
+{/if}
 </div>
 
 <div id="header-usermenu">
+{if $ui_context_edit}
+    <span title="{'Logout from the system.'|i18n( 'design/admin/pagelayout' )}" id="header-usermenu-logout" class="disabled">{'Logout'|i18n( 'design/admin/pagelayout' )}</span>
+{else}
     <a href={'/user/logout'|ezurl} title="{'Logout from the system.'|i18n( 'design/admin/pagelayout' )}" id="header-usermenu-logout">{'Logout'|i18n( 'design/admin/pagelayout' )}</a>
+{/if}
 </div>
