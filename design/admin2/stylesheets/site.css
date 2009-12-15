@@ -733,11 +733,6 @@ table.list, table.special, table.list th, table.special th
 	border-collapse: collapse;
 }
 
-table.list tr.bgdark
-{
-    background-color: #f5f5f5;
-}
-
 table.list tr th
 {
     background-color: #fff;
@@ -746,6 +741,11 @@ table.list tr th
 table.special tr th
 {
 	background-color: #dfdfdf;
+}
+
+table.list tr.bgdark, table.list tr.bgdark th
+{
+    background-color: #f5f5f5;
 }
 
 table.list tr:hover, table.list tr:hover th
