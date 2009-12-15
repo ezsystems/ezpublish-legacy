@@ -221,7 +221,7 @@ div.context-information p.translation
 #leftmenu
 {
     float: left;
-    width: 13em;
+    width: 15em;
     overflow: hidden;
 }
 
@@ -257,7 +257,7 @@ div.context-information p.translation
 
 #maincontent
 {
-    margin: 0 13em 0 13em;
+    margin: 0 13em 0 15em;
     min-height: 200px;
     padding: 0 1em 1em 1em;
 }
@@ -265,6 +265,15 @@ div.context-information p.translation
 #maincontent div.box-header { margin-top: 0.5em; }
 
 #maincontent div.box-header div.block div.right { padding-top: 1.3em; }
+
+
+/* LEFTMENU */
+
+div#leftmenu div.translations label
+{
+    font-weight: normal;
+    white-space: normal;
+}
 
 
 /* CONTENTSTRUCTURE TREE MENU STYLES */
@@ -609,6 +618,15 @@ div#fix
     padding: 0.1em 0.5em 0.1em 0.5em; /* 0.1 needed to avoid gaps in border */
 }
 
+h1.context-title
+{
+    font-size: 1.2em;
+}
+
+h2.context-title
+{
+    font-size: 1em;
+}
 
 div.context-information
 {

@@ -7,14 +7,20 @@
      $admin_left_size  = ezpreference( 'admin_left_menu_size' )
      $admin_treemenu   = ezpreference( 'admin_treemenu' )
      $left_size_hash   = 0
+     $content_edit     = and( eq( $ui_context, 'edit' ), eq( $ui_component, 'content' ) )
      $user_hash        = concat( $current_user.role_id_list|implode( ',' ), ',', $current_user.limited_assignment_value_list|implode( ',' ) )}
-{if or( $hide_right_menu, $admin_left_size )}
+{if or( $hide_right_menu, $admin_left_size, $content_edit )}
     <style type="text/css">
-    {if $hide_right_menu}
+    {if or( $hide_right_menu, $content_edit )}
         div#page div#rightmenu   {ldelim} width: 1.1em; {rdelim}
         div#page div#maincontent {ldelim} margin-right: 1.1em; {rdelim}
     {/if}
-    {if $admin_left_size}
+    {*if $content_edit}
+        {def $left_menu_widths = ezini( 'LeftMenuSettings', 'MenuWidth', 'menu.ini')}
+        {set $left_size_hash = $left_menu_widths['medium']}
+        div#leftmenu    {ldelim} width: {$left_size_hash|int}em; {rdelim}
+        div#maincontent {ldelim} margin-left: {$left_size_hash|int}em; {rdelim*}
+    {if and($admin_left_size, $content_edit|not  )}
         {def $left_menu_widths = ezini( 'LeftMenuSettings', 'MenuWidth', 'menu.ini')}
         {if is_set( $left_menu_widths[$admin_left_size] )}
             {set $left_size_hash = $left_menu_widths[$admin_left_size]}
@@ -71,7 +77,7 @@
 <div id="columns">
 
 {* LEFT MENU / CONTENT STRUCTURE MENU *}
-{if and( eq( $ui_context, 'edit' ), eq( $ui_component, 'content' ) )}
+{if $content_edit}
 {else}
     {include uri='design:page_leftmenu.tpl'}
 {/if}
@@ -82,11 +88,13 @@
 {* RIGHT MENU *}
 <div id="rightmenu">
 <div id="rightmenu-design">
-    {if $hide_right_menu}
-        <a id="rightmenu-showhide" class="show-hide-control" href={'/user/preferences/set/admin_right_menu_show/1'|ezurl}>+</a>
-    {else}
-        <a id="rightmenu-showhide" class="show-hide-control" href={'/user/preferences/set/admin_right_menu_show/0'|ezurl}>-</a>
-        <script language="javascript" type="text/javascript" src={"javascript/rightmenu_widthcontrol.js"|ezdesign} charset="utf-8"></script>
+    {if $content_edit|not}
+	    {if $hide_right_menu}
+	        <a id="rightmenu-showhide" class="show-hide-control" href={'/user/preferences/set/admin_right_menu_show/1'|ezurl}>+</a>
+	    {else}
+	        <a id="rightmenu-showhide" class="show-hide-control" href={'/user/preferences/set/admin_right_menu_show/0'|ezurl}>-</a>
+	        <script language="javascript" type="text/javascript" src={"javascript/rightmenu_widthcontrol.js"|ezdesign} charset="utf-8"></script>
+	    {/if}
     {/if}
 
     {tool_bar name='admin_right' view=full}
@@ -97,7 +105,7 @@
 <hr class="hide" />
 
 {* Main area START *}
-{if and( eq( $ui_context, 'edit' ), eq( $ui_component, 'content' ) )}
+{if $content_edit}
     {include uri='design:page_mainarea.tpl'}
 {else}
     <div id="maincontent">
