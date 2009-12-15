@@ -197,7 +197,18 @@ function eZFatalError()
 {
     header("HTTP/1.1 500 Internal Server Error");
     print( "<b>Fatal error</b>: eZ Publish did not finish its request<br/>" );
-    print( "<p>The execution of eZ Publish was abruptly ended, the debug output is present below.</p>" );
+    if ( ini_get('display_errors') == 1 )
+    {
+        $ini = eZINI::instance();
+        if ( $ini->variable( 'DebugSettings', 'DebugOutput' ) === 'enabled' )
+            print( "<p>The execution of eZ Publish was abruptly ended, the debug output is present below.</p>" );
+        else
+            print( "<p>The execution of eZ Publish was abruptly ended, debug information can be found in the log files normally placed in var/log/*</p>" );
+    }
+    else
+    {
+        print( "<p>The execution of eZ Publish was abruptly ended. Contact website owner with current url and what you did, and owner will be able to debug the issue further.</p>" );
+    }
     $templateResult = null;
     eZDisplayResult( $templateResult );
 }
