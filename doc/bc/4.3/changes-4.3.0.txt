@@ -37,7 +37,7 @@ eZContentClass::instantiate() changes
 
 - $userID now has to be false if you want to create objects for current user
   If you don't set it to false, new object id will no longer be stored in user
-  session for use by policy system to let annonymous user re edit object. 
+  session for use by policy system to let anonymous user re edit object. 
 
 
 
