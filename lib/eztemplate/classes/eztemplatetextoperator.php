@@ -155,22 +155,40 @@ class eZTemplateTextOperator
         {
             $tmpCount = 0;
             $values[] = $parameters[0];
-            $indentation = str_repeat( $filler, $count );
-            $code = ( "%output% = '$indentation' . str_replace( '\n', '\n$indentation', %1% );\n" );
+            if ( $count < 0 )
+            {
+                //$code = ( $tpl->error( "indent", "Count parameter can not be negative" );
+                $code = ( "\$tpl->error( \"indent\", \"Count parameter can not be negative, string won't be indented\" );\n" .
+                          "%output% = %1%;\n" );
+            }
+            else
+            {
+                $indentation = str_repeat( $filler, $count );
+                $code = ( "%output% = '$indentation' . str_replace( '\n', '\n$indentation', %1% );\n" );
+            }
         }
         else if ( $filler and $type )
         {
             $tmpCount = 1;
             $values[] = $parameters[0];
             $values[] = $parameters[1];
-            $code = ( "%tmp1% = str_repeat( '$filler', %2% );\n" .
-                      "%output% = %tmp1% . str_replace( '\n', '\n' . %tmp1%, %1% );\n" );
+            $code = ( "if ( %2% < 0 )\n{" .
+                      "\$tpl->error( \"indent\", \"Count parameter can not be negative, string won't be indented\" );\n" .
+                      "%output% = %1%;\n" .
+                      "}else{\n" .
+                      "%tmp1% = str_repeat( '$filler', %2% );\n" .
+                      "%output% = %tmp1% . str_replace( '\n', '\n' . %tmp1%, %1% );\n" .
+                      "}\n");
         }
         else
         {
             $tmpCount = 2;
-            $code = "if ( %3% == 'tab' )\n{\n\t%tmp1% = \"\\t\";\n}\nelse ";
-            $code .= "if ( %3% == 'space' )\n{\n\t%tmp1% = ' ';\n}\nelse\n";
+            $code = ( "if ( %2% < 0 ){\n" .
+                     "\$tpl->error( \"indent\", \"Count parameter can not be negative, string won't be indented\" );\n" .
+                     "%output% = %1%;\n" .
+                     "}else{" .
+                     "if ( %3% == 'tab' )\n{\n\t%tmp1% = \"\\t\";\n}\nelse " .
+                     "if ( %3% == 'space' )\n{\n\t%tmp1% = ' ';\n}\nelse\n" );
             if ( count ( $parameters ) == 4 )
             {
                 $code .= "{\n\t%tmp1% = %4%;\n}\n";
@@ -181,6 +199,7 @@ class eZTemplateTextOperator
             }
             $code .= ( "%tmp2% = str_repeat( %tmp1%, %2% );\n" .
                        "%output% = %tmp2% . str_replace( '\n', '\n' . %tmp2%, %1% );\n" );
+            $code .= "}\n";
             foreach ( $parameters as $parameter )
             {
                 $values[] = $parameter;
