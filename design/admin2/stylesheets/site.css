@@ -609,6 +609,11 @@ div#fix
     border-top: 1px solid #ddd;
 }
 
+.controlbar-top .box-bc .box-ml
+{
+	border-top: 0 none;
+}
+
 .box-ml
 {
     border-left: 1px solid #bbb;
