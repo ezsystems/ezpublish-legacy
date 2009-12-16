@@ -320,7 +320,7 @@ class eZContentClass extends eZPersistentObject
             $attribute->instantiate( $object->attribute( 'id' ), $languageCode );
         }
 
-        if ( $user instanceof eZUser && $user->isAnonymous() )
+        if ( isset( $user ) && $user instanceof eZUser && $user->isAnonymous() )
         {
             $createdObjectIDList = eZPreferences::value( 'ObjectCreationIDList' );
             if ( !$createdObjectIDList )

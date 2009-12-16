@@ -3468,11 +3468,9 @@ class eZContentObject extends eZPersistentObject
             // Set section of the newly created object to the section's value of it's parent object
             $sectionID = $parentObject->attribute( 'section_id' );
 
-            $userID = eZUser::currentUserID();
-
             $db = eZDB::instance();
             $db->begin();
-            $contentObject = $class->instantiateIn( $languageCode, $userID, $sectionID, false, eZContentObjectVersion::STATUS_INTERNAL_DRAFT );
+            $contentObject = $class->instantiateIn( $languageCode, false, $sectionID, false, eZContentObjectVersion::STATUS_INTERNAL_DRAFT );
             $nodeAssignment = $contentObject->createNodeAssignment( $parentNode->attribute( 'node_id' ),
                                                                     true, $remoteID,
                                                                     $class->attribute( 'sort_field' ),
