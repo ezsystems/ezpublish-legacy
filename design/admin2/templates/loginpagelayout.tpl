@@ -36,7 +36,7 @@
 
 
     <div id="header-usermenu">
-        <span id="header-usermenu-logout" class="disabled">{'Logout'|i18n( 'design/admin/pagelayout' )}</span>
+        <span title="{'Logout from the system.'|i18n( 'design/admin/pagelayout' )}" id="header-usermenu-logout" class="disabled">{'Logout'|i18n( 'design/admin/pagelayout' )}</span>
     </div>
 
     <div id="header-topmenu">
