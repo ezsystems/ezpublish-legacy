@@ -89,7 +89,7 @@ div.context-information p.translation
 /* FULL EDIT VIEW */
 #page.main-column-only #header, #page.main-column-only #path,
 #page.main-column-only #leftmenu, #page.main-column-only #rightmenu,
-#page.main-column-only #footer
+#page.main-column-only #footer, #page.main-column-only #debug
 {
     display: none;
 }
@@ -493,11 +493,11 @@ div.popupmenu
     padding: 4px;
     background-color: #fff;
     border: 1px solid #bbb;
-    z-index: +1; 
 
-    /* These two are essential */
+    /* These three are essential */
     position: absolute;
-    visibility: hidden;
+    z-index: +1;
+    display: none;
 }
 
 div.popupmenu#EditSubmenu

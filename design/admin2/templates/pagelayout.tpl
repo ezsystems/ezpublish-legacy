@@ -131,7 +131,6 @@
 </div>
 
 <div class="break"></div>
-</div><!-- div id="page" -->
 
 {* The popup menu include must be outside all divs. It is hidden by default. *}
 {include uri='design:popupmenu/popup_menu.tpl'}
@@ -173,6 +172,7 @@ function ezSubmitForm( action, params, method )
 
 {* This comment will be replaced with actual debug report (if debug is on). *}
 <!--DEBUG_REPORT-->
+</div><!-- div id="page" -->
 
 </body>
 </html>

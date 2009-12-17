@@ -65,7 +65,7 @@ eZ Publish provides a default template for this purpose. It is located in popupm
 - The css of the outer div must have the following CSS attributes set:
   position: absolute;
   z-index: +1;
-  visibility: hidden;
+  display: none;
 - The menuitems must be of type "a".
 - Both the menu and the menuitems must be given and "id". This id is used in the menuArray to set up that menu/item.
 - Each menuitem must call ezpopmenu_mouseOver or one of the methods spawning a metnu on the mouseover event. The name of the enclosing menu must be given as parameter.
@@ -243,7 +243,7 @@ function _showSubLevel( event, menuID, overItem )
 function _makeVisible( menuID )//not
 {
     var el = document.getElementById( menuID );
-    if( el ) el.style.visibility = 'visible';
+    if( el ) el.style.display = 'block';
     VisibleMenus[menuArray[menuID]['depth']] = menuID;
 
     document.getElementById( menuID ).onmouseover = function() { document.onmousedown = null; }
@@ -510,7 +510,7 @@ function _hideHigher( level, el )//not
     for ( var i = level + 1, l = VisibleMenus.length; i < l && VisibleMenus[i] != 'none' ; i++ )
     {
         el = document.getElementById( VisibleMenus[i] );
-        if( el ) el.style.visibility = 'hidden';
+        if( el ) el.style.display = 'none';
         VisibleMenus[i] = 'none';
     }
 }
