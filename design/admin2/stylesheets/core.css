@@ -237,11 +237,18 @@ optgroup
     font-style: normal;
 }
 
-input.button
+input.button, input.defaultbutton
 {
     font-size: 0.9em;
     font-weight: normal;
     padding: 0em 0.25em 0em 0.25em;
+}
+
+input.defaultbutton
+{
+	font-weight: bold;
+	padding: 0em 0.45em 0em 0.45em;
+	color: #F15D21;
 }
 
 div.context-attributes input.button, div.onlineeditor input.button, div.onlineeditor button

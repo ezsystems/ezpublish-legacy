@@ -189,7 +189,7 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
 {if $can_edit}
-    <input class="button" type="submit" name="LanguageSelection" value="{'Edit'|i18n('design/admin/content/edit_languages')}" />
+    <input class="defaultbutton" type="submit" name="LanguageSelection" value="{'Edit'|i18n('design/admin/content/edit_languages')}" />
 {else}
     <input class="button-disabled" disabled="disabled" type="submit" name="LanguageSelection" value="{'OK'|i18n('design/admin/content/edit_languages')}" />
 {/if}
