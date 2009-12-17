@@ -19,6 +19,7 @@ class eZUtilsTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'eZURIRegression' );
         $this->addTestSuite( 'eZMutexRegression' );
         $this->addTestSuite( 'eZMailTest' );
+        $this->addTestSuite( 'eZMailEzcTest' );
         $this->addTestSuite( 'eZDebugRegression' );
         $this->addTestSuite( 'eZPHPCreatorRegression' );
     }

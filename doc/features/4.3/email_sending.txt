@@ -12,3 +12,46 @@ sending without worrying about test emails being sent to your end users.
 
 This feature applies to emails sent through the eZMail API. Mails sent using
 PHPs mail() function, or other methods, will not be affected.
+
+
+New SMTP class
+--------------
+
+The class smtp is replaced with ezcMailSmtpTransport from eZ Components. The class eZMail will be deprecated in favour of ezcMail from eZ Components.
+
+To avoid breaking BC, the class eZMail will be rewritten to store its data in an ezcMail object. Existing code relying on eZMail will not be affected, but it is expected that ezcMail will replace eZMail completely in a future release of eZ Publish.
+
+The eZMail class was used like this (with old smtp class which will be removed)::
+
+    <?php
+    $mail = new eZMail();
+    $mail->setSender( $fromEmail, $yourName );
+    $mail->setReceiver( $receiversEmail, $receiversName );
+    $mail->setSubject( $subject );
+ 
+    $smtp = new smtp( $parameters );
+    $smtpConnected = $smtp->connect();
+    if ( $smtpConnected )
+    {
+        $result = $smtp->send( $sendData );
+    }
+    ?>
+    
+Since the smtp class will be removed, ezcMailSmtpTransport from eZ Components can be used temporarily instead (the class eZSMTPTransport is using ezcMailSmtpTransport instead of smtp as well)::
+
+    <?php
+    $smtp = new ezcMailSmtpTransport( $host, $username, $password, $port );
+    $smtp->send( $mail->Mail );
+    ?>
+
+Instead of the code above, ezcMail will be used together with the SMTP transport from eZ Components (MTA transport will work as well):
+
+    <?php
+    $mail = new ezcMail();
+    $mail->from = new ezcMailAddress( $fromEmail, $yourName );
+    $mail->addTo( new ezcMailAddress( $receiversEmail, $receiversName ) );
+    $mail->subject = $subject;
+    
+    $smtp = new ezcMailSmtpTransport( $host, $username, $password, $port );
+    $smtp->send( $mail );
+    ?>

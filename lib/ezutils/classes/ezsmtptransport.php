@@ -80,7 +80,7 @@ class eZSMTPTransport extends eZMailTransport
             if ( $emailSender )
                 $mail->setSenderText( $emailSender );
         }
-
+/*
         $sendData = array();
 //        $sendData['from'] = $mail->senderText();
         $from = $mail->sender();
@@ -105,7 +105,13 @@ class eZSMTPTransport extends eZMailTransport
         else
             $sendData['headers'] = $mail->headerTextList();
         $sendData['body'] = $mail->body();
-
+*/
+        $smtp = new ezcMailSmtpTransport( $parameters['host'], $user, $password, 
+        $parameters['port'] );
+        // @todo: add code for DebugSending setting
+        
+        $result = $smtp->send( $mail->Mail );
+/*
         $smtp = new smtp( $parameters );
         $smtpConnected = $smtp->connect();
         if ( $smtpConnected )
@@ -128,6 +134,7 @@ class eZSMTPTransport extends eZMailTransport
             $mailSent = false;
         }
         return $mailSent;
+*/
     }
 }
 
