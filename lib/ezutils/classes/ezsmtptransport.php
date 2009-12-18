@@ -108,8 +108,15 @@ class eZSMTPTransport extends eZMailTransport
 */
         $smtp = new ezcMailSmtpTransport( $parameters['host'], $user, $password, 
         $parameters['port'] );
-        // @todo: add code for DebugSending setting
-        
+
+        // If in debug mode, send to debug email address and nothing else
+        if ( $ini->variable( 'MailSettings', 'DebugSending' ) == 'enabled' )
+        {
+            $mail->Mail->to = array( new ezcMailAddress( $ini->variable( 'MailSettings', 'DebugReceiverEmail' ) ) );
+            $mail->Mail->cc = array();
+            $mail->Mail->bcc = array();
+        }
+      
         $result = $smtp->send( $mail->Mail );
 /*
         $smtp = new smtp( $parameters );
