@@ -19,7 +19,7 @@ New SMTP class
 
 The class smtp is replaced with ezcMailSmtpTransport from eZ Components. The class eZMail will be deprecated in favour of ezcMail from eZ Components.
 
-To avoid breaking BC, the class eZMail will be rewritten to store its data in an ezcMail object. Existing code relying on eZMail will not be affected, but it is expected that ezcMail will replace eZMail completely in a future release of eZ Publish.
+To avoid breaking BC, the class eZMail will be rewritten to store its data in an ezcMail object. The data will be stored also in existing structures inside eZMail to allow sendmail and file transports to work as before. Existing code relying on eZMail will not be affected, but it is expected that ezcMail will replace eZMail completely in a future release of eZ Publish.
 
 The eZMail class was used like this (with old smtp class which will be removed)::
 

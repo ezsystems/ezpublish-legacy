@@ -122,13 +122,15 @@ class eZMail
     */
     function receiverEmailText( $convert = true )
     {
+/*
         $addresses = array();
         foreach ( $this->Mail->to as $address )
         {
             $addresses[] = $address->email;
         }
         return implode( ', ', $addresses );
-//        return $this->composeEmailItems( $this->ReceiverElements, true, 'email', $convert );
+*/
+        return $this->composeEmailItems( $this->ReceiverElements, true, 'email', $convert );
     }
 
     /*!
@@ -138,8 +140,8 @@ class eZMail
     */
     function receiverText( $convert = true )
     {
-        return ezcMailTools::composeEmailAddresses( $this->Mail->to );
-//        return $this->composeEmailItems( $this->ReceiverElements, true, false, $convert );
+//        return ezcMailTools::composeEmailAddresses( $this->Mail->to );
+        return $this->composeEmailItems( $this->ReceiverElements, true, false, $convert );
     }
 
     /*!
@@ -149,13 +151,15 @@ class eZMail
     */
     function ccReceiverTextList( $convert = true )
     {
+/*
         $addresses = array();
         foreach ( $this->Mail->cc as $address )
         {
             $addresses[] = $address->email;
         }
         return implode( ', ', $addresses );
-//        return $this->composeEmailItems( $this->CcElements, false, 'email', $convert );
+*/
+        return $this->composeEmailItems( $this->CcElements, false, 'email', $convert );
     }
 
     /*!
@@ -163,13 +167,15 @@ class eZMail
     */
     function bccReceiverTextList( $convert = true )
     {
+/*
         $addresses = array();
         foreach ( $this->Mail->bcc as $address )
         {
             $addresses[] = $address->email;
         }
         return implode( ', ', $addresses );
-//        return $this->composeEmailItems( $this->BccElements, false, 'email', $convert );
+*/
+        return $this->composeEmailItems( $this->BccElements, false, 'email', $convert );
     }
 
     /*!
@@ -179,13 +185,15 @@ class eZMail
     */
     function receiverTextList( $convert = true )
     {
+/*
         $addresses = array();
         foreach ( $this->Mail->to as $address )
         {
             $addresses[] = $address->email;
         }
         return implode( ', ', $addresses );
-//        return $this->composeEmailItems( $this->ReceiverElements, false, 'email', $convert );
+*/
+        return $this->composeEmailItems( $this->ReceiverElements, false, 'email', $convert );
     }
 
     /*!
@@ -195,13 +203,15 @@ class eZMail
     */
     function receiverElements()
     {
+/*
         $addresses = array();
         foreach ( $this->Mail->to as $address )
         {
             $addresses[] = array( 'name' => $address->name, 'email' => $address->email );
         }
         return $addresses;
-//        return $this->ReceiverElements;
+*/
+        return $this->ReceiverElements;
     }
 
     /*!
@@ -211,13 +221,15 @@ class eZMail
      */
     function ccElements()
     {
+/*
         $addresses = array();
         foreach ( $this->Mail->cc as $address )
         {
             $addresses[] = array( 'name' => $address->name, 'email' => $address->email );
         }
         return $addresses;
-//        return $this->CcElements;
+*/
+        return $this->CcElements;
     }
 
     /*!
@@ -227,13 +239,15 @@ class eZMail
      */
     function bccElements()
     {
+/*
         $addresses = array();
         foreach ( $this->Mail->bcc as $address )
         {
             $addresses[] = array( 'name' => $address->name, 'email' => $address->email );
         }
         return $addresses;
-//        return $this->BccElements;
+*/
+        return $this->BccElements;
     }
 
 
@@ -244,10 +258,10 @@ class eZMail
     */
     function replyTo( $convert = true )
     {
-        return $this->Mail->getHeader( 'Reply-To' );
-//        if ( !$convert )
-//            return $this->ReplyTo;
-//        return $this->convertHeaderText( $this->ReplyTo );
+//        return $this->Mail->getHeader( 'Reply-To' );
+        if ( !$convert )
+            return $this->ReplyTo;
+        return $this->convertHeaderText( $this->ReplyTo );
     }
 
     /*!
@@ -257,8 +271,8 @@ class eZMail
     */
     function sender( $convert = true )
     {
-        return $this->Mail->from;
-/*        if ( !$convert )
+//        return $this->Mail->from;
+        if ( !$convert )
             return $this->From;
 
         if ( is_array( $this->From ) )
@@ -276,7 +290,6 @@ class eZMail
         }
 
         return $this->From;
-*/
     }
 
     /*!
@@ -286,12 +299,11 @@ class eZMail
     */
     function senderText( $convert = true )
     {
-        return ezcMailTools::composeEmailAddress( $this->Mail->from );
-/*        $text = eZMail::composeEmailName( $this->From );
+//        return ezcMailTools::composeEmailAddress( $this->Mail->from );
+        $text = eZMail::composeEmailName( $this->From );
         if ( !$convert )
             return $text;
         return $this->convertHeaderText( $text );
-*/
     }
 
     /*!
@@ -302,8 +314,8 @@ class eZMail
     */
     function mimeVersion()
     {
-        return $this->Mail->getHeader( 'MIME-Version' );
-//        return $this->MIMEVersion;
+//        return $this->Mail->getHeader( 'MIME-Version' );
+        return $this->MIMEVersion;
     }
 
     /*!
@@ -313,8 +325,8 @@ class eZMail
     */
     function contentType()
     {
-        return $this->Mail->getHeader( 'Content-Type' );
-//        return $this->ContentType['type'];
+//        return $this->Mail->getHeader( 'Content-Type' );
+        return $this->ContentType['type'];
     }
 
     /*!
@@ -335,8 +347,8 @@ class eZMail
     */
     function contentTransferEncoding()
     {
-        return $this->Mail->getHeader( 'Content-Transfer-Encoding' );
-//        return $this->ContentType['transfer-encoding'];
+//        return $this->Mail->getHeader( 'Content-Transfer-Encoding' );
+        return $this->ContentType['transfer-encoding'];
     }
 
     /*!
@@ -346,9 +358,9 @@ class eZMail
     */
     function contentDisposition()
     {
-        return $this->Mail->getHeader( 'Content-Disposition' );
+//        return $this->Mail->getHeader( 'Content-Disposition' );
 //        return $this->Mail->contentDisposition->disposition;
-//        return $this->ContentType['disposition'];
+        return $this->ContentType['disposition'];
     }
 
     /*!
@@ -358,10 +370,10 @@ class eZMail
     */
    function userAgent( $convert = true )
     {
-        return $this->Mail->getHeader( 'User-Agent' );
-//        if ( !$convert )
-//            return $this->UserAgent;
-//        return $this->convertHeaderText( $this->UserAgent );
+//        return $this->Mail->getHeader( 'User-Agent' );
+        if ( !$convert )
+            return $this->UserAgent;
+        return $this->convertHeaderText( $this->UserAgent );
     }
 
     /*!
@@ -372,7 +384,7 @@ class eZMail
     function setMIMEVersion( $version )
     {
         $this->Mail->setHeader( 'MIME-Version', $version );
-//        $this->MIMEVersion = $version;
+        $this->MIMEVersion = $version;
     }
 
     /*!
@@ -404,7 +416,7 @@ class eZMail
     function setUserAgent( $agent )
     {
         $this->Mail->setHeader( 'User-Agent', $agent );
-//    $this->UserAgent = $agent;
+        $this->UserAgent = $agent;
     }
 
     /*!
@@ -414,8 +426,13 @@ class eZMail
     */
     function setReceiverElements( $toElements )
     {
-        $this->Mail->to = $toElements;
-//        $this->ReceiverElements = $toElements;
+        $this->Mail->to = array();
+        foreach ( $toElements as $address )
+        {
+            $name = isset( $address['name'] ) ? $address['name'] : false;
+            $this->Mail->addTo( new ezcMailAddress( $address['email'], $name ) );
+        }
+        $this->ReceiverElements = $toElements;
     }
 
     /*!
@@ -427,9 +444,9 @@ class eZMail
     */
     function setReceiver( $email, $name = false )
     {
-        return $this->Mail->to = array( new ezcMailAddress( $email, $name ) );
-//        $this->ReceiverElements = array( array( 'name' => $name,
-//                                                'email' => $email ) );
+        $this->Mail->to = array( new ezcMailAddress( $email, $name ) );
+        $this->ReceiverElements = array( array( 'name' => $name,
+                                                'email' => $email ) );
     }
 
     /*!
@@ -443,8 +460,8 @@ class eZMail
     {
         $this->extractEmail( $text, $email, $name );
         $this->Mail->to = array( new ezcMailAddress( $email, $name ) );
-//        $this->ReceiverElements = array( array( 'name' => $name,
-//                                                'email' => $email ) );
+        $this->ReceiverElements = array( array( 'name' => $name,
+                                                'email' => $email ) );
     }
 
     /*!
@@ -455,10 +472,9 @@ class eZMail
     function addReceiver( $email, $name = false )
     {
         $this->Mail->addTo( new ezcMailAddress( $email, $name ) );
-//        $this->ReceiverElements[] = array( 'name' => $name,
-//                                           'email' => $email );
+        $this->ReceiverElements[] = array( 'name' => $name,
+                                           'email' => $email );
     }
-
 
     /*!
       Sets the receiver address.
@@ -468,8 +484,8 @@ class eZMail
     function setReplyTo( $email, $name = false )
     {
         $this->Mail->setHeader( 'Reply-To', new ezcMailAddress( $email, $name ) );
-//        $this->ReplyTo = array( 'name' => $name,
-//                                'email' => $email );
+        $this->ReplyTo = array( 'name' => $name,
+                                'email' => $email );
     }
 
     /*!
@@ -480,8 +496,8 @@ class eZMail
     function setSender( $email, $name = false )
     {
         $this->Mail->from = new ezcMailAddress( $email, $name );
-//        $this->From = array( 'name' => $name,
-//                             'email' => $email );
+        $this->From = array( 'name' => $name,
+                             'email' => $email );
     }
 
     /*!
@@ -493,8 +509,8 @@ class eZMail
     {
         $this->extractEmail( $text, $email, $name );
         $this->Mail->from = new ezcMailAddress( $email, $name );
-//        $this->From = array( 'name' => $name,
-//                             'email' => $email );
+        $this->From = array( 'name' => $name,
+                             'email' => $email );
     }
 
     /*!
@@ -505,11 +521,12 @@ class eZMail
     function setCcElements( $newCc )
     {
         $this->Mail->cc = array();
-        foreach ( $newCc as $name => $email )
+        foreach ( $newCc as $address )
         {
-            $this->Mail->addCc( new ezcMailAddress( $email, $name ) );
+            $name = isset( $address['name'] ) ? $address['name'] : false;
+            $this->Mail->addCc( new ezcMailAddress( $address['email'], $name ) );
         }
-//        $this->CcElements = $newCc;
+        $this->CcElements = $newCc;
     }
 
     /*!
@@ -520,8 +537,8 @@ class eZMail
     function addCc( $email, $name = false )
     {
         $this->Mail->addCc( new ezcMailAddress( $email, $name ) );
-//        $this->CcElements[] = array( 'name' => $name,
-//                                     'email' => $email );
+        $this->CcElements[] = array( 'name' => $name,
+                                     'email' => $email );
     }
 
     /*!
@@ -532,11 +549,12 @@ class eZMail
     function setBccElements( $newBcc )
     {
         $this->Mail->bcc = array();
-        foreach ( $newBcc as $name => $email )
+        foreach ( $newBcc as $address )
         {
-            $this->Mail->addBcc( new ezcMailAddress( $email, $name ) );
+            $name = isset( $address['name'] ) ? $address['name'] : false;
+            $this->Mail->addBcc( new ezcMailAddress( $address['email'], $name ) );
         }
-//        $this->BccElements = $newBcc;
+        $this->BccElements = $newBcc;
     }
 
     /*!
@@ -547,8 +565,8 @@ class eZMail
     function addBcc( $email, $name = false )
     {
         $this->Mail->addBcc( new ezcMailAddress( $email, $name ) );
-//        $this->BccElements[] = array( 'name' => $name,
-//                                      'email' => $email );
+        $this->BccElements[] = array( 'name' => $name,
+                                      'email' => $email );
     }
 
     /*!
@@ -568,9 +586,9 @@ class eZMail
     */
     function addExtraHeader( $headerName, $headerValue )
     {
-        return $this->Mail->setHeader( $headerName, $headerValue );
-//        return $this->ExtraHeaders[] = array( 'name' => $headerName,
-//                                              'content' => $headerValue );
+        $this->Mail->setHeader( $headerName, $headerValue );
+        return $this->ExtraHeaders[] = array( 'name' => $headerName,
+                                              'content' => $headerValue );
     }
 
     /*!
@@ -581,18 +599,18 @@ class eZMail
     function setExtraHeader( $headerName, $headerValue )
     {
         $this->Mail->setHeader( $headerName, $headerValue );
-//        for ( $i = 0; $i < count( $this->ExtraHeaders ); ++$i )
-//        {
-//            $extraHeader =& $this->ExtraHeaders[$i];
-//            if ( isset( $extraHeader['name'] ) and
-//                 $extraHeader['name'] == $headerName )
-//            {
-//                $extraHeader = array( 'name' => $headerName,
-//                                      'content' => $headerValue );
-//                return true;
-//            }
-//        }
-//        $this->addExtraHeader( $headerName, $headerValue );
+        for ( $i = 0; $i < count( $this->ExtraHeaders ); ++$i )
+        {
+            $extraHeader =& $this->ExtraHeaders[$i];
+            if ( isset( $extraHeader['name'] ) and
+                 $extraHeader['name'] == $headerName )
+            {
+                $extraHeader = array( 'name' => $headerName,
+                                      'content' => $headerValue );
+                return true;
+            }
+        }
+        $this->addExtraHeader( $headerName, $headerValue );
     }
 
     /*!
@@ -602,8 +620,8 @@ class eZMail
     */
     function setExtraHeaders( $headers )
     {
-        return $this->Mail->setHeaders( $headers );
-//        return $this->ExtraHeaders = $headers;
+        $this->Mail->setHeaders( $headers );
+        return $this->ExtraHeaders = $headers;
     }
 
     /*!
@@ -614,8 +632,8 @@ class eZMail
      */
     function messageID()
     {
-        return $this->Mail->messageId;
-//        return $this->MessageID;
+//        return $this->Mail->messageId;
+        return $this->MessageID;
     }
 
     /*!
@@ -624,10 +642,9 @@ class eZMail
       \deprecated
     */
     function setMessageID( $newMessageID )
-    {
-        
+    {      
         $this->Mail->messageId = $newMessageID;
-//        $this->MessageID = $newMessageID;
+        $this->MessageID = $newMessageID;
     }
 
     /*!
@@ -657,10 +674,10 @@ class eZMail
     */
     function subject( $convert = true )
     {
-        return $this->Mail->subject;
-//        if ( !$convert )
-//            return $this->Subject;
-//        return $this->convertHeaderText( $this->Subject );
+//        return $this->Mail->subject;
+        if ( !$convert )
+            return $this->Subject;
+        return $this->convertHeaderText( $this->Subject );
     }
 
     /*!
@@ -671,7 +688,7 @@ class eZMail
     function setSubject( $newSubject )
     {
         $this->Mail->subject = trim( $newSubject );
-//        $this->Subject = trim( $newSubject );
+        $this->Subject = trim( $newSubject );
     }
 
     /*!
@@ -681,10 +698,10 @@ class eZMail
     */
     function body( $convert = true )
     {
-        return $this->Mail->body;
-//        if ( !$convert )
-//            return $this->BodyText;
-//        return $this->convertText( $this->BodyText );
+//        return $this->Mail->body;
+        if ( !$convert )
+            return $this->BodyText;
+        return $this->convertText( $this->BodyText );
     }
 
     /*!
@@ -704,8 +721,8 @@ class eZMail
         {
             $this->Mail->body = new ezcMailText( $newBody );
         }
-//        $newBody = preg_replace( "/\r\n|\r|\n/", eZMail::lineSeparator(), $newBody );
-//        $this->BodyText = $newBody;
+        $newBody = preg_replace( "/\r\n|\r|\n/", eZMail::lineSeparator(), $newBody );
+        $this->BodyText = $newBody;
     }
 
     /*!
