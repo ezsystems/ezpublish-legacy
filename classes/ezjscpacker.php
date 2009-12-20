@@ -67,7 +67,7 @@ class ezjscPacker
      * @param string $lang Optionaly set to 'Javascript'
      * @param string $charset 
      * @param int $packLevel Level of packing, values: 0-3
-     * @param bool $wwwInCacheHash To add www path in cahce hash or not
+     * @param bool $wwwInCacheHash To add www path in cache hash or not
      * @return string Html with generated tags
      */
     static function buildJavascriptTag( $scriptFiles, $type = 'text/javascript', $lang = '', $charset = 'utf-8', $packLevel = 2, $wwwInCacheHash = true )
@@ -105,7 +105,7 @@ class ezjscPacker
      * @param string $type Should be 'text/css'
      * @param string $rel Should be 'stylesheet'
      * @param int $packLevel Level of packing, values: 0-3
-     * @param bool $wwwInCacheHash To add www path in cahce hash or not
+     * @param bool $wwwInCacheHash To add www path in cache hash or not
      * @return string Html with generated tags
      */
     static function buildStylesheetTag( $cssFiles, $media = 'all', $type = 'text/css', $rel = 'stylesheet', $packLevel = 3, $wwwInCacheHash = true )
