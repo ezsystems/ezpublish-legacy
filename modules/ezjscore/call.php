@@ -53,7 +53,11 @@ else if ( isset( $Params['function_arguments'] ) )
 else
     $callList = array();
 
-$contentType = ezjscAjaxContent::getHttpAccept();
+// Allow get parameter to be set to test in browser
+if ( isset( $_GET['ContentType'] ) )
+    $contentType = $_GET['ContentType'];
+else
+    $contentType = ezjscAjaxContent::getHttpAccept();
 
 // set http headers
 if ( $contentType === 'xml' )
