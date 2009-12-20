@@ -282,6 +282,131 @@ YUI( YUI3_config ).add('io-ez', function( Y )
     }
 
     /**
+     * Returns search results based on given post params 
+     * 
+     * @param mixed $args Only used if post parameter is not set
+     *              0 => SearchStr
+     *              1 => SearchOffset
+     *              2 => SearchLimit (10 by default, max 50)
+     * @return array
+     */
+    public static function search( $args )
+    {
+        $http = eZHTTPTool::instance();
+
+        if ( $http->hasPostVariable( 'SearchStr' ) )
+            $searchStr = trim( $http->postVariable( 'SearchStr' ) );
+        else if ( isset( $args[0] ) )
+            $searchStr = trim( $args[0] );
+
+        if ( $http->hasPostVariable( 'SearchOffset' ))
+            $searchOffset = (int) $http->postVariable( 'SearchOffset' );
+        else if ( isset( $args[1] ) )
+            $searchOffset = (int) $args[1];
+        else
+            $searchOffset = 0;
+
+        if ( $http->hasPostVariable( 'SearchLimit' ))
+            $searchLimit = (int) $http->postVariable( 'SearchLimit' );
+        else if ( isset( $args[2] ) )
+            $searchLimit = (int) $args[2];
+        else
+            $searchLimit = 10;
+
+        // Do not allow to search for more then 50 items at a time
+        if ( $searchLimit > 50 ) $searchLimit = 50;
+
+        // Prepare node encoding parameters
+        $encodeParams = array();
+        if ( self::hasPostValue( $http, 'EncodingLoadImages' ) )
+            $encodeParams['loadImages'] = true;
+
+        if ( self::hasPostValue( $http, 'EncodingFetchChildrenCount' ) )
+            $encodeParams['fetchChildrenCount'] = true;
+
+        // Prepare search parameters
+        $params = array( 'SearchOffset' => $searchOffset,
+                         'SearchLimit' => $searchLimit,
+                         'SortArray' => array( 'published', 0 )
+        );
+        if ( self::hasPostValue( $http, 'SearchContentClassAttributeID' ) )
+             $params['SearchContentClassAttributeID'] = self::makePostArray( $http, 'SearchContentClassAttributeID' );
+        else if ( self::hasPostValue( $http, 'SearchContentClassID' ) )
+             $params['SearchContentClassID'] = self::makePostArray( $http, 'SearchContentClassID' );
+
+        if ( self::hasPostValue( $http, 'SearchSubTreeArray' ) )
+             $params['SearchSubTreeArray'] = self::makePostArray( $http, 'SearchSubTreeArray' );
+
+        if ( self::hasPostValue( $http, 'SearchSectionID' ) )
+             $params['SearchSectionID'] = self::makePostArray( $http, 'SearchSectionID' );
+
+        if ( self::hasPostValue( $http, 'SearchDate' ) )
+        {
+             $params['SearchDate'] = (int) $http->postVariable( 'SearchDate' );
+        }
+        else if ( self::hasPostValue( $http, 'SearchTimestamp' ) )
+        {
+            $params['SearchTimestamp'] = self::makePostArray( $http, 'SearchTimestamp' );
+            if ( !isset( $params['SearchTimestamp'][1] ) )
+                $params['SearchTimestamp'] = $params['SearchTimestamp'][0];
+        }
+        
+        $result = array( 'SearchOffset' => $searchOffset,
+                         'SearchLimit' => $searchLimit,
+                         'SearchResultCount' => 0,
+                         'SearchCount' => 0,
+                         'SearchResult' => array(),
+        );
+
+        // Only search if there is something to search for
+        if ( $searchStr )
+        {
+            $searchList = eZSearch::search( $searchStr, $params );
+
+            $result['SearchResultCount'] = count( $searchList['SearchResult'] );
+            $result['SearchCount'] = $searchList['SearchCount'];
+            $result['SearchResult'] = ezjscAjaxContent::nodeEncode( $searchList['SearchResult'], $encodeParams, false );
+        }
+
+        return $result;
+    }
+
+    /**
+     * Creates an array out of a post parameter, return empty array if post parameter is not set.
+     * Splits string on ',' in case of comma seperated values.
+     * 
+     * @param eZHTTPTool $http
+     * @param string $key
+     * @return array
+     */
+    protected static function makePostArray( eZHTTPTool $http, $key )
+    {
+        if ( $http->hasPostVariable( $key ) && $http->postVariable( $key ) !== '' )
+        {
+            $value = $http->postVariable( $key );
+            if ( is_array( $value ) )
+                return $str;
+            elseif( strpos($value, ',') === false )
+                return array( $value );
+            else
+                return explode( ',', $value );
+        }
+        return array();
+    }
+
+    /**
+     * Checks if a post variable exitst and has a value
+     * 
+     * @param eZHTTPTool $http
+     * @param string $key
+     * @return bool
+     */
+    protected static function hasPostValue( eZHTTPTool $http, $key )
+    {
+        return $http->hasPostVariable( $key ) && $http->postVariable( $key ) !== '';
+    }
+
+    /**
      * Reimp
      */
     public static function getCacheTime( $functionName )

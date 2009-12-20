@@ -13,6 +13,7 @@
 - Add html comments around inline css and javascript
 - Add support for c.arguments on Y.io.ez() like Y.io() has
 - Added support for setting ContentType with get parameter on ezjscore/call for development use
+- Added ezjsc::search for re use by other extensions (same parameters as the one in ezflow and ezoe)
 
 
 # v1.0.0  29 Sept 2009
