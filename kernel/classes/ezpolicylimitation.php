@@ -247,8 +247,8 @@ class eZPolicyLimitation extends eZPersistentObject
         $limitation = $functions[$currentFunction ][$this->attribute( 'identifier' )];
 
         if ( $limitation &&
-             count( $limitation[ 'values' ] == 0 ) &&
-             array_key_exists( 'class', $limitation ) )
+             isset( $limitation['class'] ) &&
+             count( $limitation[ 'values' ] == 0 ) )
         {
             $basePath = 'kernel/'; //set default basepath for limitationValueClasses
             if( array_key_exists( 'extension', $limitation ) && $limitation['extension'] )
@@ -266,7 +266,7 @@ class eZPolicyLimitation extends eZPersistentObject
                 $limitationValueArray[] = $limitationValuePair;
             }
         }
-        else if ( $limitation['name'] == "Node" )
+        else if ( $limitation['name'] === 'Node' )
         {
             foreach ( $valueList as $value )
             {
@@ -276,10 +276,11 @@ class eZPolicyLimitation extends eZPersistentObject
                 $limitationValuePair = array();
                 $limitationValuePair['Name'] = $node['name'];
                 $limitationValuePair['value'] = $value;
+                $limitationValuePair['node_data'] = $node;
                 $limitationValueArray[] = $limitationValuePair;
             }
         }
-        else if ( $limitation['name'] == "Subtree" )
+        else if ( $limitation['name'] === 'Subtree' )
         {
             foreach ( $valueList as $value )
             {
@@ -289,6 +290,7 @@ class eZPolicyLimitation extends eZPersistentObject
                     $limitationValuePair = array();
                     $limitationValuePair['Name'] = $subtreeObject['name'];
                     $limitationValuePair['value'] = $value;
+                    $limitationValuePair['node_data'] = $subtreeObject;
                     $limitationValueArray[] = $limitationValuePair;
                 }
             }

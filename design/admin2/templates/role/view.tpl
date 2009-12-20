@@ -55,10 +55,14 @@
         {section show=$Policies.item.limitations}
             {section var=Limitations loop=$Policies.item.limitations}
                 {$Limitations.item.identifier|wash}(
-                {section var=LimitationValues loop=$Limitations.item.values_as_array_with_names}
-                    {$LimitationValues.item.Name|wash}
+                {foreach $Limitations.item.values_as_array_with_names as $limitation_value}
+                    {if is_set( $limitation_value.node_data )}
+                        <a href={concat( 'content/view/full/', $limitation_value.node_data.node_id )|ezurl} title="{'Path: \'/%path_string\', Class identifier: \'%class_identifier\''|i18n( 'design/admin/role/view',, hash( '%path_string', $limitation_value.node_data.path_identification_string, '%class_identifier', $limitation_value.node_data.class_identifier ) )|wash}">{$limitation_value.Name|wash}</a>
+                    {else}
+                        {$limitation_value.Name|wash}
+                    {/if}
                     {delimiter}, {/delimiter}
-                {/section})
+                {/foreach})
                 {delimiter}, {/delimiter}
             {/section}
         {section-else}
@@ -126,11 +130,11 @@
                     limit_location_pinpoint=$limit_location_array|count|sub(2)
                     limit_node_id=$limit_location_array[$limit_location_pinpoint]
                     limit_node=fetch('content','node', hash('node_id', $limit_node_id ))}
-              <a href={concat( '/content/view/full/', $limit_node_id )|ezurl}>{$Users.item.limit_ident|wash}:&nbsp;"{$limit_node.name}"&nbsp;({$Users.item.limit_value|wash})</a>
+              <a href={concat( '/content/view/full/', $limit_node_id )|ezurl} title="{'Path: \'/%path_string\', Class identifier: \'%class_identifier\''|i18n( 'design/admin/role/view',, hash( '%path_string', $limit_node.path_identification_string, '%class_identifier', $limit_node.class_identifier ) )|wash}">{$Users.item.limit_ident|wash}:&nbsp;"{$limit_node.name|wash}"&nbsp;({$Users.item.limit_value|wash})</a>
               {/let}
           {section-else}
               {let limit_section=fetch( 'section', 'object', hash( 'section_id', $Users.item.limit_value ) )}
-              <a href={concat( '/section/view/', $Users.item.limit_value )|ezurl}>{$Users.item.limit_ident|wash}:&nbsp;"{$limit_section.name}"&nbsp;({$Users.item.limit_value|wash})</a>
+              <a href={concat( '/section/view/', $Users.item.limit_value )|ezurl}>{$Users.item.limit_ident|wash}:&nbsp;"{$limit_section.name|wash}"&nbsp;({$Users.item.limit_value|wash})</a>
               {/let}
           {/section}
         {section-else}
