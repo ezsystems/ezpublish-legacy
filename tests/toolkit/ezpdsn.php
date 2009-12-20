@@ -42,7 +42,10 @@ class ezpDsn
     {
         $parts = ezcDbFactory::parseDSN( $dsn );
         if ( isset( $parts['hostspec'] ) )
+        {
+            $parts['host'] = $parts['hostspec'];
             $parts['server'] = $parts['hostspec'];
+        }
 
         if ( isset( $parts['username'] ) )
             $parts['user'] = $parts['username'];
