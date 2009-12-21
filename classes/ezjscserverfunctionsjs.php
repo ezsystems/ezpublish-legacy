@@ -358,6 +358,10 @@ YUI( YUI3_config ).add('io-ez', function( Y )
                          'SearchResult' => array(),
         );
 
+        // Possibility to keep track of callback reference for use in js callback function
+        if ( $http->hasPostVariable( 'CallbackID' ) )
+            $result['CallbackID'] = $http->postVariable( 'CallbackID' );
+
         // Only search if there is something to search for
         if ( $searchStr )
         {
