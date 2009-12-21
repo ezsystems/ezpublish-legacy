@@ -77,7 +77,7 @@ if ( !isset( $uriParams[1] ) )
 }
 
 // find module
-$uri = eZURI::instance();
+$uri = eZURI::instance( eZSys::requestURI() );
 $moduleName = $uri->element();
 $module = eZModule::findModule( $moduleName );
 if ( !$module instanceof eZModule )
