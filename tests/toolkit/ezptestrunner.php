@@ -15,6 +15,7 @@ PHPUnit_Util_Filter::addFileToFilter( __FILE__ );
 class ezpTestRunner extends PHPUnit_TextUI_TestRunner
 {
     static $consoleInput;
+    public static $phpBinary;
 
     public static function main()
     {
@@ -156,6 +157,11 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
         $debug->shorthelp = "Turns on debugout output from PHPUnit.";
         $consoleInput->registerOption( $debug );
 
+        // Temporary workaround for selenium suite, as this info is not readily available in ant
+        $phpBin = new ezcConsoleOption( '', 'php-binary', ezcConsoleInput::TYPE_STRING );
+        $phpBin->shorthelp = "The location of the PHP binary";
+        $consoleInput->registerOption( $phpBin );
+
         // Set up dependencies
         $dbPerTest->addDependency( new ezcConsoleOptionRule( $dsn ) );
     }
@@ -224,6 +230,11 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
         {
             self::displayHelp( self::$consoleInput );
             exit();
+        }
+
+        if ( $consoleInput->getOption( 'php-binary' )->value )
+        {
+            self::$phpBinary = $consoleInput->getOption( 'php-binary' )->value;
         }
     }
 
