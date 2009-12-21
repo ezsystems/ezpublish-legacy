@@ -324,6 +324,9 @@ YUI( YUI3_config ).add('io-ez', function( Y )
         if ( self::hasPostValue( $http, 'EncodingFetchChildrenCount' ) )
             $encodeParams['fetchChildrenCount'] = true;
 
+        if ( self::hasPostValue( $http, 'EncodingFetchSection' ) )
+            $encodeParams['fetchSection'] = true;
+
         // Prepare search parameters
         $params = array( 'SearchOffset' => $searchOffset,
                          'SearchLimit' => $searchLimit,

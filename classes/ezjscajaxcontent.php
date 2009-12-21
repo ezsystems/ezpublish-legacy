@@ -202,6 +202,7 @@ class ezjscAjaxContent
         $params = array_merge( array(
                             'dataMap' => array(), // collection of identifiers you want to load, load all with array('all')
                             'fetchPath' => false, // fetch node path
+                            'fetchSection' => false, // fetch section
                             'fetchChildrenCount' => false,
                             'dataMapType' => array(), //if you want to filter datamap by type
                             'loadImages' => false,
@@ -232,6 +233,24 @@ class ezjscAjaxContent
         $ret['owner_id']         = (int) $contentObject->attribute( 'owner_id' );
         $ret['class_id']         = (int) $contentObject->attribute( 'contentclass_id' );
         $ret['class_name']       = $contentObject->attribute( 'class_name' );
+
+        if ( $params['fetchSection'] )
+        {
+            $section = eZSection::fetch( $ret['section_id']  );
+            if ( $section instanceof eZSection )
+            {
+                $ret['section'] = array(
+                    'id'                         => $section->attribute('id'),
+                    'name'                       => $section->attribute('name'),
+                    'navigation_part_identifier' => $section->attribute('navigation_part_identifier'),
+                    'locale'                     => $section->attribute('locale'),
+                );
+            }
+            else
+            {
+                $ret['section'] = null;
+            }
+        }
 
         if ( $node )
         {
