@@ -13,7 +13,7 @@
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
 {section show=count( $member_groups )}
-<table class="list" cellspacing="0">
+<table class="list" cellspacing="0" summary="{'List of roles assigned with and without limitations for current node.'|i18n( 'design/admin/node/view/full' )}">
 <tr>
     <th>{'Name'|i18n( 'design/admin/node/view/full' )}</th>
     <th>{'Limitation'|i18n( 'design/admin/node/view/full' )}</th>

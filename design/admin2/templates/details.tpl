@@ -11,7 +11,7 @@
 
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
-<table class="list" cellspacing="0">
+<table class="list" cellspacing="0" summary="{'Node and object details like creator, when it was created, section it belongs to, number of versions and translations, Node ID and Object ID.'|i18n( 'design/admin/node/view/full' )}">
 <tr>
     <th>{'Creator'|i18n( 'design/admin/node/view/full' )}</th>
     <th>{'Created'|i18n( 'design/admin/node/view/full' )}</th>

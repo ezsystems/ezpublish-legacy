@@ -29,7 +29,7 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
-<table class="list" cellspacing="0">
+<table class="list" cellspacing="0" summary="{'Locations (aka Nodes) for current object.'|i18n( 'design/admin/node/view/full' )}">
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" title="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" onclick="ezjs_toggleCheckboxes( document.locationsform, 'LocationIDSelection[]' ); return false;"/></th>
     <th class="wide">{'Location'|i18n( 'design/admin/node/view/full' )}</th>
@@ -136,8 +136,8 @@
     {/if}
 
 {else}
-    <input class="button-disabled" type="submit" name="" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title="{'You cannot remove any locations because you do not have permission to edit the current item.'|i18n( 'design/admin/node/view/full' )}" />
-    <input class="button-disabled" type="submit" name="" value="{'Add locations'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title="{'You cannot add new locations because you do not have permission to edit the current item.'|i18n( 'design/admin/node/view/full' )}" />
+    <input class="button-disabled" type="submit" name="RemoveAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title="{'You cannot remove any locations because you do not have permission to edit the current item.'|i18n( 'design/admin/node/view/full' )}" />
+    <input class="button-disabled" type="submit" name="AddAssignmentButton" value="{'Add locations'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title="{'You cannot add new locations because you do not have permission to edit the current item.'|i18n( 'design/admin/node/view/full' )}" />
 {/if}
 </div>
 
@@ -151,7 +151,7 @@
 {/if}
 
 {else}
-    <input class="button-disabled" type="submit" name="" value="{'Set main'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title="{'You cannot set the main location because you do not have permission to edit the current item.'|i18n( 'design/admin/node/view/full' )}" />
+    <input class="button-disabled" type="submit" name="UpdateMainAssignmentButton" value="{'Set main'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title="{'You cannot set the main location because you do not have permission to edit the current item.'|i18n( 'design/admin/node/view/full' )}" />
 {/if}
 </div>
 

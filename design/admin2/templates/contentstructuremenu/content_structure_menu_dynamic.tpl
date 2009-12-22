@@ -159,7 +159,7 @@ function ContentStructureMenu()
                 + item.node_id
                 + ', '
                 + item.modified_subnode
-                +' )"></a>';
+                +' )"><\/a>';
         }
 
         var languages = "[";
@@ -250,7 +250,7 @@ function ContentStructureMenu()
                 + '" alt="" title="['
                 + this.classes[item.class_id].name.replace(/>/g,'&gt;').replace(/"/g, '&quot;')
 {/literal}
-                + '] {"Click on the icon to display a context-sensitive menu."|i18n('design/admin/contentstructuremenu')|wash(xhtml)|wash(javascript)}" /></a>';
+                + '] {"Click on the icon to display a context-sensitive menu."|i18n('design/admin/contentstructuremenu')|wash(xhtml)|wash(javascript)}" /><\/a>';
 {literal}
         }
         else
@@ -283,26 +283,26 @@ function ContentStructureMenu()
                                                            'normal' )
             + '">'
             + item.name
-            + '</span>';
+            + '<\/span>';
 
         if ( item.is_hidden )
         {
 {/literal}
-            html += '<span class="node-hidden"> ({"Hidden"|i18n('design/admin/contentstructuremenu')|wash(xhtml)|wash(javascript)})</span>';
+            html += '<span class="node-hidden"> ({"Hidden"|i18n('design/admin/contentstructuremenu')|wash(xhtml)|wash(javascript)})<\/span>';
 {literal}
         }
         else if ( item.is_invisible )
         {
 {/literal}
-            html += '<span class="node-hiddenbyparent"> ({"Hidden by superior"|i18n('design/admin/contentstructuremenu')|wash(xhtml)|wash(javascript)})</span>';
+            html += '<span class="node-hiddenbyparent"> ({"Hidden by superior"|i18n('design/admin/contentstructuremenu')|wash(xhtml)|wash(javascript)})<\/span>';
 {literal}
         }
 
-        html += '</a>';
+        html += '<\/a>';
         html += '<div id="c'
              + item.node_id
-             + '"></div>';
-        html += '</li>';
+             + '"><\/div>';
+        html += '<\/li>';
 
         return html;
     }
@@ -383,7 +383,7 @@ function ContentStructureMenu()
                     var item = result.children[i];
                     html += thisThis.generateEntry( item, i == result.children.length - 1, false );
                 }
-                html += '</ul>';
+                html += '<\/ul>';
 
                 divElement.innerHTML += html;
                 divElement.className = 'loaded';
@@ -537,7 +537,7 @@ function ContentStructureMenu()
 
     document.writeln( '<ul id="content_tree_menu">' );
     document.writeln( treeMenu.generateEntry( rootNode, false, true ) );
-    document.writeln( '</ul>' );
+    document.writeln( '<\/ul>' );
 
     treeMenu.load( false, {$root_node_id}, {$root_node.modified_subnode} );
 {/cache-block}

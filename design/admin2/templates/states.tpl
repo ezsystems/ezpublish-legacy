@@ -1,5 +1,5 @@
 {* States window. *}
-<form name="locationsform" method="post" action={'state/assign'|ezurl}>
+<form name="statesform" method="post" action={'state/assign'|ezurl}>
 <input type="hidden" name="ObjectID" value="{$node.object.id}" />
 <input type="hidden" name="RedirectRelativeURI" value="{$node.url_alias}" />
 
@@ -14,7 +14,7 @@
 {* DESIGN: Header END *}</div></div></div></div></div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
-<table class="list" cellspacing="0">
+<table class="list" cellspacing="0" summary="{'States and their states groups for current object.'|i18n( 'design/admin/node/view/full' )}">
 {if $node.object.allowed_assign_state_list|count}
     <tr>
         <th class="tight">{'Content object state group'|i18n( 'design/admin/node/view/full' )}</th>

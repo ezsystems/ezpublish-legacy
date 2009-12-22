@@ -15,7 +15,7 @@
 
 {section show=$assigned_policies}
 
-<table class="list" cellspacing="0">
+<table class="list" cellspacing="0" summary="{'Policy list and the Role that are assignet to current node.'|i18n( 'design/admin/node/view/full' )}">
 <tr>
     <th>{'Role'|i18n( 'design/admin/node/view/full' )}</th>
     <th>{'Module'|i18n( 'design/admin/node/view/full' )}</th>

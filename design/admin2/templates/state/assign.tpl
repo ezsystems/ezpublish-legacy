@@ -1,4 +1,4 @@
-<form name="locationsform" method="post" action={'state/assign'|ezurl}>
+<form name="statesform" method="post" action={'state/assign'|ezurl}>
 <input type="hidden" name="ObjectID" value="{$node.object.id}" />
 <input type="hidden" name="RedirectRelativeURI" value="{$node.url_alias}" />
 

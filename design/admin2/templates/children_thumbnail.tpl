@@ -1,7 +1,7 @@
 {* This template displays a collection of child nodes as thumbnails. *}
 {* It is included/used from within the children.tpl if the user's viewmode is set to list. *}
 <div class="content-navigation-childlist">
-<table class="list-thumbnails" cellspacing="0">
+<table class="list-thumbnails" cellspacing="0" summary="{'List of sub items of current node, with controlls to edit, remove and move them directly.'|i18n( 'design/admin/node/view/full' )}">
     <tr>
     {section var=Nodes loop=$children}
     {let child_name=$Nodes.item.name|wash}

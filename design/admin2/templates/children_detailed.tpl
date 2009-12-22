@@ -1,5 +1,5 @@
 <div class="content-navigation-childlist">
-    <table class="list context-enabled" cellspacing="0">
+    <table class="list context-enabled" cellspacing="0" summary="{'List of sub items of current node, with controlls to edit, remove and move them directly.'|i18n( 'design/admin/node/view/full' )}">
     <tr>
         {* Remove column *}
         <th class="remove"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" title="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" onclick="ezjs_toggleCheckboxes( document.children, 'DeleteIDArray[]' ); return false;" /></th>
