@@ -23,6 +23,7 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Implemented enhancement #12490: let session clean up in admin interface work without grinding db to a halt
 - Implemented enhancement #14858: Make errors more newbie friendly, like "the debug output is present below"
 - Implemented enhancement #15968: Replace smtp class with ezcMailSmtpTransport
+- Implemented enhancement #3005: Increase performance eZTreeMenuOperator
 
 *Design:
 - Implemented enhancement #15714: Add a link to object history from node view

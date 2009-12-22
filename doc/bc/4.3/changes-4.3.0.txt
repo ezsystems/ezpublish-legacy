@@ -32,6 +32,13 @@ Change of behavior
   using object id 54. If you have an old install this object id might be a different one
   and you'll need to override the setting.
 
+- eZTreeMenuOperator/ 'treemenu' does not return pre generated data_map
+
+  Because of enhancement  "#3005: Increase performance eZTreeMenuOperator", data_map
+  is no longer part of the hash-structure for each element, and you'll need to access
+  it as normal using the node (so $item.node.data_map instead of $item.data_map ).
+  
+
 eZContentClass::instantiate() changes
 -------------------------------------
 

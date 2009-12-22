@@ -71,7 +71,10 @@ class eZTreeMenuOperator
                                                     'default' => 15 ),
                       'language' => array( 'type' => 'string|array',
                                            'required' => false,
-                                           'default' => false ) );
+                                           'default' => false ),
+                      'load_data_map' => array( 'type' => 'boolean',
+                                           'required' => false,
+                                           'default' => null ) );
     }
 
     function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
@@ -83,6 +86,7 @@ class eZTreeMenuOperator
         $tmpModulePath = $namedParameters['path'];
         $classFilter = $namedParameters['class_filter'];
         $language = $namedParameters['language'];
+        $loadDataMap = $namedParameters['load_data_map'];
         // node_id is not used anymore
         if ( !empty( $namedParameters['node_id'] ) )
         {
@@ -98,8 +102,9 @@ class eZTreeMenuOperator
             $classFilter = array( 1 );
         }
         $classFilter = ( count( $classFilter ) == 1 and !isset( $classFilter[0] ) ) ? array( 1 ) : $classFilter;
-        if ( !$tmpModulePath[count($tmpModulePath)-1]['url'] and isset( $tmpModulePath[count($tmpModulePath)-1]['node_id'] ) )
-            $tmpModulePath[count($tmpModulePath)-1]['url'] = "/content/view/full/" . $tmpModulePath[count($tmpModulePath)-1]['node_id'];
+        $tmpModulePathCount = count( $tmpModulePath );
+        if ( !$tmpModulePath[ $tmpModulePathCount -1 ]['url'] and isset( $tmpModulePath[ $tmpModulePathCount -1 ]['node_id'] ) )
+            $tmpModulePath[ $tmpModulePathCount -1 ]['url'] = '/content/view/full/' . $tmpModulePath[ $tmpModulePathCount -1 ]['node_id'];
 
         $depthSkip = $namedParameters['depth_skip'];
         $indentationLevel = $namedParameters['indentation_level'];
@@ -112,7 +117,7 @@ class eZTreeMenuOperator
         while ( !$done && isset( $tmpModulePath[$i+$depthSkip] ) )
         {
             // get node id
-            $elements = explode( "/", $tmpModulePath[$i+$depthSkip]['url'] );
+            $elements = explode( '/', $tmpModulePath[$i+$depthSkip]['url'] );
             $nodeID = false;
             if ( isset( $elements[4] ) )
                 $nodeID = $elements[4];
@@ -131,7 +136,7 @@ class eZTreeMenuOperator
                 if ( !isset( $node ) ) { $operatorValue = $pathArray; return; }
                 if ( isset( $tmpModulePath[$i+$depthSkip+1] ) )
                 {
-                    $nextElements = explode( "/", $tmpModulePath[$i+$depthSkip+1]['url'] );
+                    $nextElements = explode( '/', $tmpModulePath[$i+$depthSkip+1]['url'] );
                     if ( isset( $nextElements[4] ) )
                     {
                         $nextNodeID = $nextElements[4];
@@ -152,8 +157,10 @@ class eZTreeMenuOperator
                                                                          'ClassFilterArray' => $classFilter ),
                                                                   $nodeID );
 
-                /// Fill objects with attributes, speed boost
-                eZContentObject::fillNodeListAttributes( $menuChildren );
+                /// Fill objects with attributes, speed boost, only use if load_data_map is true
+                // or if less then 16 nodes and param is not set (null)
+                if ( $loadDataMap || (  $loadDataMap === null && count( $menuChildren ) <= 15 ) )
+                    eZContentObject::fillNodeListAttributes( $menuChildren );
 
                 $tmpPathArray = array();
                 foreach ( $menuChildren as $child )
@@ -162,24 +169,14 @@ class eZTreeMenuOperator
                     $tmpNodeID = $child->attribute( 'node_id' );
 
                     $url = "/content/view/full/$tmpNodeID/";
-                    $urlAlias = "/" . $child->attribute( 'url_alias' );
-
-                    $mainNode = $child->attribute( 'main_node_id' );
-                    $dataMap = $child->attribute( 'data_map' );
-                    $childrenCount = $child->attribute( 'children_count' );
+                    $urlAlias = '/' . $child->attribute( 'url_alias' );
+                    $hasChildren = $child->attribute( 'is_container' ) && $child->attribute( 'children_count' ) > 0;
                     $contentObject = $child->attribute( 'object' );
-                    $isMain = false;
-                    if ( $mainNode == $tmpNodeID )
-                        $isMain = true;
-
-                    $hasChildren = false;
-                    if ( $childrenCount > 0 )
-                        $hasChildren = true;
 
                     $indent = ($i - 1) * $indentationLevel;
 
                     $isSelected = false;
-                    $nextNextElements = ( $isSelectedMethod == 'node' and isset( $tmpModulePath[$i+$depthSkip+2]['url'] ) ) ? explode( "/", $tmpModulePath[$i+$depthSkip+2]['url'] ) : null;
+                    $nextNextElements = ( $isSelectedMethod == 'node' and isset( $tmpModulePath[$i+$depthSkip+2]['url'] ) ) ? explode( '/', $tmpModulePath[$i+$depthSkip+2]['url'] ) : null;
                     if ( $nextNodeID === $tmpNodeID and !isset( $nextNextElements[4] ) )
                     {
                         $isSelected = true;
@@ -187,9 +184,8 @@ class eZTreeMenuOperator
 
                     $tmpPathArray[] = array( 'id' => $tmpNodeID,
                                              'level' => $i,
-                                             'data_map' => $dataMap,
                                              'class_name' => $contentObject->classname(),
-                                             'is_main_node' => $isMain,
+                                             'is_main_node' => $child->attribute( 'is_main' ),
                                              'has_children' => $hasChildren,
                                              'indent' => $indent,
                                              'url_alias' => $urlAlias,
@@ -218,7 +214,12 @@ class eZTreeMenuOperator
                 if ( $level == 0 )
                 {
                     $node = eZContentObjectTreeNode::fetch( 2 );
-                    if ( !isset( $node ) ) { $operatorValue = $pathArray; return; }
+                    if ( !$node instanceof eZContentObjectTreeNode )
+                    {
+                        $operatorValue = $pathArray;
+                        return;
+                    }
+
                     $menuChildren = eZContentObjectTreeNode::subTreeByNodeID( array( 'Depth' => 1,
                                                                              'Offset' => 0,
                                                                              'SortBy' => $node->sortArray(),
@@ -227,8 +228,10 @@ class eZTreeMenuOperator
                                                                              'ClassFilterArray' => $classFilter ),
                                                                       2 );
 
-                    /// Fill objects with attributes, speed boost
-                    eZContentObject::fillNodeListAttributes( $menuChildren );
+                    /// Fill objects with attributes, speed boost, only use if load_data_map is true
+                    // or if less then 16 nodes and param is not set (null)
+                    if ( $loadDataMap || (  $loadDataMap === null && count( $menuChildren ) < 16 ) )
+                        eZContentObject::fillNodeListAttributes( $menuChildren );
 
                     $pathArray = array();
                     foreach ( $menuChildren as $child )
@@ -237,10 +240,11 @@ class eZTreeMenuOperator
                         $tmpNodeID = $child->attribute( 'node_id' );
 
                         $url = "/content/view/full/$tmpNodeID/";
-                        $urlAlias = "/" . $child->attribute( 'url_alias' );
+                        $urlAlias = '/' . $child->attribute( 'url_alias' );
 
                         $pathArray[] = array( 'id' => $tmpNodeID,
                                               'level' => $i,
+                                              'is_main_node' => $child->attribute( 'is_main' ),
                                               'url_alias' => $urlAlias,
                                               'url' => $url,
                                               'text' => $name,
