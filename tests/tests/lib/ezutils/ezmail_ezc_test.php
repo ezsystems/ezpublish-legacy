@@ -47,7 +47,7 @@ class eZMailEzcTest extends ezpTestCase
 
         $result = $mail->receiverEmailText();
         $expected = $mail->composeEmailItems( array( array( 'email' => $this->adminEmail, 'name' => $this->adminName ) ), true, 'email', true );
-//        var_dump( __FUNCTION__ . ' ' . $expected . '/' . $result );
+
         $this->assertEquals( $expected, $result );
     }
 
@@ -56,10 +56,13 @@ class eZMailEzcTest extends ezpTestCase
         $mail = new eZMail();
         $mail->setReceiver( $this->adminEmail, $this->adminName );
 
-        $result = $mail->receiverText();
-        $expected = $mail->composeEmailItems( array( array( 'email' => $this->adminEmail, 'name' => $this->adminName ) ), true, false, true );
-//        var_dump( __FUNCTION__ . ' ' . $expected . '/' . $result );
-        $this->assertEquals( $expected, $result );
+        $ezpResult = $mail->receiverText();
+        $ezcResult = $mail->Mail->to;
+        $ezpExpected = $mail->composeEmailItems( array( array( 'email' => $this->adminEmail, 'name' => $this->adminName ) ), true, false, true );
+        $ezcExpected = array( new ezcMailAddress( $this->adminEmail, $this->adminName ) );
+
+        $this->assertEquals( $ezpExpected, $ezpResult );
+        $this->assertEquals( $ezcExpected, $ezcResult );
     }
 
     public function testRegressionCcEmail()
@@ -69,7 +72,7 @@ class eZMailEzcTest extends ezpTestCase
 
         $result = $mail->ccReceiverTextList();
         $expected = array( 'ezp-unittests-01@ez.no' );
-//        var_dump( __FUNCTION__ . ' ' . $expected . '/' . $result );
+
         $this->assertEquals( $expected, $result );
     }
 
@@ -78,11 +81,14 @@ class eZMailEzcTest extends ezpTestCase
         $mail = new eZMail();
         $mail->addCc( $this->adminEmail, $this->adminName );
 
-        $result = $mail->ccElements();
-        $expected = 
+        $ezpResult = $mail->ccElements();
+        $ezcResult = $mail->Mail->cc;
+        $ezpExpected = 
         array( array( 'email' => $this->adminEmail, 'name' => $this->adminName ) );
-//        var_dump( __FUNCTION__ . ' ' . $expected . '/' . $result );
-        $this->assertEquals( $expected, $result );
+        $ezcExpected = array( new ezcMailAddress( $this->adminEmail, $this->adminName ) );
+
+        $this->assertEquals( $ezpExpected, $ezpResult );
+        $this->assertEquals( $ezcExpected, $ezcResult );
     }
 
     public function testRegressionBccEmail()
@@ -92,7 +98,7 @@ class eZMailEzcTest extends ezpTestCase
 
         $result = $mail->bccReceiverTextList();
         $expected = array( 'ezp-unittests-01@ez.no' );
-//        var_dump( __FUNCTION__ . ' ' . $expected . '/' . $result );
+
         $this->assertEquals( $expected, $result );
     }
 
@@ -101,11 +107,14 @@ class eZMailEzcTest extends ezpTestCase
         $mail = new eZMail();
         $mail->addBcc( $this->adminEmail, $this->adminName );
 
-        $result = $mail->bccElements();
-        $expected = 
+        $ezpResult = $mail->bccElements();
+        $ezcResult = $mail->Mail->bcc;
+        $ezpExpected = 
         array( array( 'email' => $this->adminEmail, 'name' => $this->adminName ) );
-//        var_dump( __FUNCTION__ . ' ' . $expected . '/' . $result );
-        $this->assertEquals( $expected, $result );
+        $ezcExpected = array( new ezcMailAddress( $this->adminEmail, $this->adminName ) );
+
+        $this->assertEquals( $ezpExpected, $ezpResult );
+        $this->assertEquals( $ezcExpected, $ezcResult );
     }
 
     public function testRegressionSubject()
@@ -113,10 +122,12 @@ class eZMailEzcTest extends ezpTestCase
         $mail = new eZMail();
         $mail->setSubject( __FUNCTION__ );
 
-        $result = $mail->subject();
+        $ezpResult = $mail->subject();
+        $ezcResult = $mail->Mail->subject;
         $expected = __FUNCTION__;
-//        var_dump( __FUNCTION__ . ' ' . $expected . '/' . $result );
-        $this->assertEquals( $expected, $result );
+
+        $this->assertEquals( $expected, $ezpResult );
+        $this->assertEquals( $expected, $ezcResult );
     }
 
     public function testRegressionUserAgent()
@@ -124,10 +135,12 @@ class eZMailEzcTest extends ezpTestCase
         $mail = new eZMail();
         $mail->setUserAgent( __FUNCTION__ );
 
-        $result = $mail->userAgent();
+        $ezpResult = $mail->userAgent();
+        $ezcResult = $mail->Mail->getHeader( 'User-Agent' );
         $expected = __FUNCTION__;
-//        var_dump( __FUNCTION__ . ' ' . $expected . '/' . $result );
-        $this->assertEquals( $expected, $result );
+
+        $this->assertEquals( $expected, $ezpResult );
+        $this->assertEquals( $expected, $ezcResult );
     }
 
     public function testRegressionBodyString()
@@ -135,10 +148,13 @@ class eZMailEzcTest extends ezpTestCase
         $mail = new eZMail();
         $mail->setBody( __FUNCTION__ );
 
-        $result = $mail->body();
-        $expected = __FUNCTION__;
-//        var_dump( __FUNCTION__ . ' ' . $expected . '/' . $result );
-        $this->assertEquals( $expected, $result );
+        $ezpResult = $mail->body();
+        $ezcResult = $mail->Mail->body;
+        $ezpExpected = __FUNCTION__;
+        $ezcExpected = new ezcMailText( __FUNCTION__ );
+
+        $this->assertEquals( $ezpExpected, $ezpResult );
+        $this->assertEquals( $ezcExpected, $ezcResult );
     }
 }
 
