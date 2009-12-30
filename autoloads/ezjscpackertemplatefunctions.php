@@ -111,7 +111,7 @@ class ezjscPackerTemplateFunctions
                                                   'default' => 'text/javascript' ),
                                                'language' => array( 'type' => 'string',
                                                   'required' => false,
-                                                  'default' => 'javascript' ),
+                                                  'default' => '' ),// Opt in, not valid xhtml/html5
                                                'charset' => array( 'type' => 'string',
                                                   'required' => false,
                                                   'default' => 'utf-8' ),
