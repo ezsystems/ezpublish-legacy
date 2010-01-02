@@ -91,7 +91,7 @@ class ezjscPacker
             }
             else
             {
-                $ret .=  $packedFile ? "<script$lang type=\"$type\">\r\n<!--\r\n$packedFile\r\n// -->\r\n</script>\r\n" : '';
+                $ret .=  $packedFile ? "<script$lang type=\"$type\">\r\n$packedFile\r\n</script>\r\n" : '';
             }
         }
         return $ret;
@@ -114,6 +114,7 @@ class ezjscPacker
         $packedFiles = ezjscPacker::packFiles( $cssFiles, 'stylesheets/', '_' . $media . '.css', $packLevel, $wwwInCacheHash );
         $http = eZHTTPTool::instance();
         $useFullUrl = ( isset( $http->UseFullUrl ) && $http->UseFullUrl );
+        $media = $media && $media !== 'all' ? ' media="' . $media . '"' : '';
         foreach ( $packedFiles as $packedFile )
         {
             // Is this a css file or css content?
@@ -123,11 +124,11 @@ class ezjscPacker
                 {
                     $packedFile = $http->createRedirectUrl( $packedFile, array( 'pre_url' => false ) );
                 }
-                $ret .= "<link rel=\"$rel\" type=\"$type\" href=\"$packedFile\" media=\"$media\" />\r\n";
+                $ret .= "<link rel=\"$rel\" type=\"$type\" href=\"$packedFile\"$media />\r\n";
             }
             else
             {
-                $ret .= $packedFile ? "<style rel=\"$rel\" type=\"$type\" media=\"$media\">\r\n<!--\r\n$packedFile\r\n-->\r\n</style>\r\n" : '';
+                $ret .= $packedFile ? "<style rel=\"$rel\" type=\"$type\"$media>\r\n$packedFile\r\n</style>\r\n" : '';
             }
         }
         return $ret;
