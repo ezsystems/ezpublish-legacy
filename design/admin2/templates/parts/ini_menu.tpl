@@ -56,7 +56,7 @@
             {/foreach}
             </ul>
         {else}
-            <ul>
+            <ul class="leftmenu-items">
             {foreach $url_list as $link_name => $link_url}
                 {set $has_access = true()}
                 {* Check access pr link *}
@@ -78,7 +78,7 @@
                     {/foreach}
                 {/if}
                 {if $has_access}
-                    <li><div><a href={$link_url|ezurl}>{first_set( $i18n_hash[ $link_name ], $link_name )|wash}</a></div></li>
+                    <li{if and( $uri_string|begins_with( $link_url ), $uri_string|count_chars|gt( 4 ) )} class="current"{/if}><div><a href={$link_url|ezurl}>{first_set( $i18n_hash[ $link_name ], $link_name )|wash}</a></div></li>
                 {else}
                     <li class="disabled-no-access"><div><span class="disabled">{first_set( $i18n_hash[ $link_name ], $link_name )|wash}</span></div></li>
                 {/if}

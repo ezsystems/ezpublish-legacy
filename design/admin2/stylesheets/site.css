@@ -316,6 +316,11 @@ div#leftmenu div.translations label
     white-space: normal;
 }
 
+ul.leftmenu-items li.current a
+{
+    font-weight: bold;
+}
+
 
 /* CONTENTSTRUCTURE TREE MENU STYLES */
 
