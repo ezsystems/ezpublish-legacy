@@ -161,7 +161,7 @@ var VisibleMenus = [];
   Controls the popup offsets of the menu relative to the mouse position.
   Default values are offsetX = 8 and offsetY = 4.
  */
-function _initOffsets( offsetX, offsetY )//not
+function _initOffsets( offsetX, offsetY )
 {
     EZPOPMENU_OFFSET = offsetX;
     EZPOPMENU_SUBTOPOFFSET = offsetY;
@@ -172,7 +172,7 @@ function _initOffsets( offsetX, offsetY )//not
  This function can be used if you want to change some substitution values dynamically,
  E.g based on the element you chose in the menu.
 */
-function _setSubstituteValue( key, value )//not
+function _setSubstituteValue( key, value )
 {
   if( CurrentSubstituteValues != -1 )
   {
@@ -230,9 +230,9 @@ function _showSubLevel( event, menuID, overItem )
 
     _hideHigher( menuArray[menuID]['depth'] - 1 ); //hide all other submenus
 
-    // make menu visible
-    _moveSubLevelOnScreen( menuID, overItem );
+    // make menu visible (show first since width is used in _moveSubLevelOnScreen)
     _makeVisible( menuID );
+    _moveSubLevelOnScreen( menuID, overItem );
 }
 
 /*!
@@ -240,7 +240,7 @@ function _showSubLevel( event, menuID, overItem )
   This method also sets the necessary variables in order to make the menu
   disappear when appropriate.
  */
-function _makeVisible( menuID )//not
+function _makeVisible( menuID )
 {
     var el = document.getElementById( menuID );
     if( el ) el.style.display = 'block';
@@ -255,7 +255,7 @@ function _makeVisible( menuID )//not
   Substitute the values of the items in the menu with the items given to the first
   showTopLEvel call.
  */
-function _doItemSubstitution( menuID, menuHeader )//not
+function _doItemSubstitution( menuID, menuHeader )
 {
     // Do URL replace for all items in that menu
     for ( var i in menuArray[menuID]['elements'] )
@@ -352,7 +352,7 @@ function _doItemSubstitution( menuID, menuHeader )//not
     }
 }
 
-function _substituteString( replaceString, substituteValues )//not
+function _substituteString( replaceString, substituteValues )
 {
     // loop though substitute values and substitute for each of them
     for ( var substItem in substituteValues )
@@ -372,7 +372,7 @@ function _substituteString( replaceString, substituteValues )//not
   The menu is repositioned like most OS's do if it doesn't fit at the normal position: is moved
   to the opposite side of the mouse pointer/menu.
 */
-function _moveTopLevelOnScreen( menuID, mousePos )//not
+function _moveTopLevelOnScreen( menuID, mousePos )
 {
     var menuElement = document.getElementById( menuID ), screenData = _getScreenProperties();
     var newX = 0; var newY = 0;
@@ -419,7 +419,7 @@ function _mouseHandler( e )
   TODO: If you have several submenus we should store any side adjustment in order to
   always adjust to the same side
 */
-function _moveSubLevelOnScreen( menuID, alignItem )//not
+function _moveSubLevelOnScreen( menuID, alignItem )
 {
     var menuElement = document.getElementById( menuID ), screenData = _getScreenProperties();
     var newX = 0; var newY = 0;
@@ -505,7 +505,7 @@ function _hideAll()
 /*
  * Hide all menus above 'level'
  */
-function _hideHigher( level, el )//not
+function _hideHigher( level, el )
 {
     for ( var i = level + 1, l = VisibleMenus.length; i < l && VisibleMenus[i] != 'none' ; i++ )
     {
