@@ -395,12 +395,14 @@ div#contentstructure li span.node-name-normal
 
 div#contentstructure li.currentnode a.imageTextLink span.node-name-normal, div#contentstructure li.currentnode a.imageTextLink span.node-name-hidden, div#contentstructure li.currentnode a.imageTextLink span.node-name-hiddenbyparent /* Highlighting of current node */
 {
+    color: green;
     font-weight: bold;
     padding: 0 0.25em 0 0.2em;
 }
 
 div#contentstructure li.currentnode li a.imageTextLink span.node-name-normal, div#contentstructure li.currentnode li a.imageTextLink span.node-name-hidden, div#contentstructure li.currentnode li a.imageTextLink span.node-name-hiddenbyparent
 {
+    color: #195f98;
     font-weight: normal;
     background-color: transparent;
     padding: 0;

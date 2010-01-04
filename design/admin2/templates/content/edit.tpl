@@ -10,13 +10,7 @@
 
 <div id="maincontent">
 <div id="maincontent-design" class="float-break"><div id="fix">
-<!-- Maincontent START -->
 
-{include uri='design:content/edit_validation.tpl'}
-
-<div class="content-edit">
-
-<div class="context-block">
 
 <div id="controlbar-top" class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
@@ -33,6 +27,16 @@
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
+
+<!-- Maincontent START -->
+
+{include uri='design:content/edit_validation.tpl'}
+
+<div class="content-edit">
+
+<div class="context-block">
+
+
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
