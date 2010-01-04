@@ -25,15 +25,12 @@
             <span class="disabled">{'Change user info'|i18n( 'design/admin/pagelayout' )}</span>
         {/if}</div></li>
         <li><div><a href={'/user/password/'|ezurl} title="{'Change password for <%username>.'|i18n( 'design/admin/pagelayout',, hash( '%username', $current_user.contentobject.name ) )|wash}">{'Change password'|i18n( 'design/admin/pagelayout' )}</a></div></li>
-    
-        <li><div><a href={'/user/logout'|ezurl} title="{'Logout from the system.'|i18n( 'design/admin/pagelayout' )}">{'Logout'|i18n( 'design/admin/pagelayout' )}</a></div></li>
         </ul>
     {else}
         <p><img src={'current-user-disabled.gif'|ezimage} height="22" width="22" alt="" style="text-align: left; vertical-align: middle;" /> {$current_user.contentobject.name|wash}</p>
         <ul>
         <li><div><span class="disabled">{'Change user info'|i18n( 'design/admin/pagelayout' )}</span></div></li>
         <li><div><span class="disabled">{'Change password'|i18n( 'design/admin/pagelayout' )}</span></div></li>
-        <li><div><span class="disabled">{'Logout'|i18n( 'design/admin/pagelayout' )}</span></div></li>
         </ul>
     {/if}
     </div></div></div></div></div></div>
