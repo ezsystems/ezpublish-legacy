@@ -228,7 +228,6 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
 
     /**
      * Test scenario for LDAP login using UseGroupAttribute with LDAPUserGroupAttributeType=dn
-     * for issue #: ...
      *
      * Test Outline
      * ------------
@@ -246,7 +245,6 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
      *   The second user has three node assignments.
      *   The first two assignments are the existing StarWars and RebelAlliance groups.
      *   The third assignment is the newly created Jedi group.
-     * @link http://issues.ez.no/ ...
      */
     public function testLoginUserUseGroupAttributeDN()
     {
@@ -424,6 +422,13 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
      *
      * @result: User is placed in the RebelAlliance group
      * @expected: User is placed in the RebelAlliance group
+     *
+     * 1. Change mapping settings, RebelAlliance => StarWars
+     * 2. Login with username and password
+     * 3. Check parent nodes of user object
+     *
+     * @result: User is placed in the StarWars group
+     * @expected: User is placed in the StarWars group
      */
     public function testLoginUserSimpleMappingExistingUser()
     {
@@ -455,6 +460,17 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
         $user = eZLDAPUser::loginUser( 'leia', 'bunhead' );
         $contentObject = $user->attribute( 'contentobject' );
         self::assertEquals( array( $this->rebelGroupNodeId ),
+                            $contentObject->attribute( 'parent_nodes' ) );
+
+        // Change mapping and login again
+        $this->ldapINI->setVariable( 'LDAPSettings', 'LDAPUserGroupMap', array( 'StarWars' => 'StarWars',
+                                                                                'RebelAlliance' => 'StarWars',
+                                                                                'Rogues' => 'Rogues' ) );
+
+        // The user should have moved to the StarWars group
+        $user = eZLDAPUser::loginUser( 'leia', 'bunhead' );
+        $contentObject = $user->attribute( 'contentobject' );
+        self::assertEquals( array( $this->starWarsGroupNodeId ),
                             $contentObject->attribute( 'parent_nodes' ) );
     }
 
