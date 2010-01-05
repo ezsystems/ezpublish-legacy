@@ -9,7 +9,7 @@
 <div class="block">
 <div class="left">
 {* The "Create new here" thing: *}
-{if $node.can_create}
+{if and( $node.is_container,  $node.can_create)}
     <input type="hidden" name="NodeID" value="{$node.node_id}" />
     {if $node.path_array|contains( ezini( 'NodeSettings', 'RootNode', 'content.ini' ) )}
         {def $can_create_classes = fetch( 'content', 'can_instantiate_class_list', hash( 'group_id', ezini( 'ClassGroupIDs', 'Content', 'content.ini' ), 'parent_node', $node ) )}
