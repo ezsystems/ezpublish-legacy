@@ -316,8 +316,19 @@ div#leftmenu div.translations label
     white-space: normal;
 }
 
+ul.leftmenu-items li a
+{
+	text-decoration: none;
+}
+
+ul.leftmenu-items li a:hover
+{
+    text-decoration: unerline;
+}
+
 ul.leftmenu-items li.current a
 {
+    color: green;
     font-weight: bold;
 }
 
