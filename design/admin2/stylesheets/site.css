@@ -841,6 +841,16 @@ table.list tr:hover, table.list tr:hover th
     background-color: #dfdfdf;
 }
 
+div.content-navigation-childlist table.list th
+{
+    width:1%;
+}
+
+div.content-navigation-childlist table.list th.name, div.content-edit table.list th.name
+{
+    width: auto;
+}
+
 
 /* SUBITEMS CONTEXT MENU */
 
@@ -852,6 +862,13 @@ table.context-enabled tr td.context-menu
     padding-left: 0;
     height: 24px;
 }
+
+div.content-navigation-childlist table.context-enabled th.context-header
+{
+    width: 2.6em;
+    padding-right: 1px;
+}
+
 
 table.context-enabled tr:hover td.context-menu div.context-menu-root
 {
