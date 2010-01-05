@@ -93,7 +93,7 @@ class eZMediaType extends eZDataType
         $storage_dir = $sys->storageDirectory();
 
         if ( $version == null )
-            $mediaFiles = eZMedia::fetch( $contentObjectAttributeID );
+            $mediaFiles = eZMedia::fetch( $contentObjectAttributeID, null );
         else
             $mediaFiles = array( eZMedia::fetch( $contentObjectAttributeID, $version ) );
 
@@ -102,7 +102,7 @@ class eZMediaType extends eZDataType
             if ( $mediaFile == null )
                 continue;
             $mimeType =  $mediaFile->attribute( "mime_type" );
-            list( $prefix, $suffix ) = split ('[/]', $mimeType );
+            list( $prefix, $suffix ) = explode( '/', $mimeType );
             $orig_dir = $storage_dir . '/original/' . $prefix;
             $fileName = $mediaFile->attribute( "filename" );
 
