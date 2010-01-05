@@ -36,7 +36,7 @@
 {else}
     <tr class="bgdark">
     <td colspan="2">
-    <em>{'No content object state is configured. This can be done %urlstart here %urlend.'|i18n( 'design/admin/node/view/full', '', hash( '%urlstart', concat( '<a href=', 'state/groups'|ezurl, '>' ), 
+    <em>{'No content object state is configured. This can be done %urlstart here%urlend.'|i18n( 'design/admin/node/view/full', '', hash( '%urlstart', concat( '<a href=', 'state/groups'|ezurl, '>' ), 
                                                                                                                                           '%urlend', '</a>' ) )}</em>
     </td>
     </tr>
