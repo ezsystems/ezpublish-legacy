@@ -783,7 +783,7 @@ class eZLDAPUser extends eZUser
 
         $debugArray = array( 'Updating user data',
                              'createNewUser' => $createNewUser,
-                             'userDataChanged' => $userDataChanged,
+                             'userDataChanged' => isset( $userDataChanged ) ? $userDataChanged : null,
                              'login' => $login,
                              'first_name' => $first_name,
                              'last_name' => $last_name,
