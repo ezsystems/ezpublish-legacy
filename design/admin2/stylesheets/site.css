@@ -780,6 +780,7 @@ div.context-block h1.context-title img, div.context-block h2.context-title img
     display: none;
 }
 
+
 /* CONTENT */
 
 div.mainobject-window
@@ -789,6 +790,29 @@ div.mainobject-window
     border: 1px solid #dfdfdf;
     padding: 0.5em;
     background-color: #fdfdfd;
+}
+
+div.content-navigation div.mainobject-window div.holdinplace
+{
+    padding-right: 0.5em;
+}
+
+div#maincontent div.content-translation div.block div.original
+{
+    background-color: #f5f5f5;
+    margin: 0.5em 0 0.5em 0;
+    padding: 0.2em;
+    border: 1px dashed #ddd;
+}
+
+div.content-translation div.translation
+{
+    margin: 0.5em 0 0.5em 0;
+}
+
+div.notranslations li
+{
+    width: 20%;
 }
 
 table.list, table.special, table.list th, table.special th
@@ -817,7 +841,9 @@ table.list tr:hover, table.list tr:hover th
     background-color: #dfdfdf;
 }
 
+
 /* SUBITEMS CONTEXT MENU */
+
 table.context-enabled tr td.context-menu
 {
     width: 2.6em;
@@ -826,7 +852,6 @@ table.context-enabled tr td.context-menu
     padding-left: 0;
     height: 24px;
 }
-
 
 table.context-enabled tr:hover td.context-menu div.context-menu-root
 {
@@ -908,8 +933,8 @@ div.context-menu-root ul.context-menu-box li.context-menu-container:hover
 }
 
 
-
 /* GENERIC DIFF STYLES */
+
 ins
 {
     color: #008000;
