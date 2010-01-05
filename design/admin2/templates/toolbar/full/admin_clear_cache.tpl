@@ -4,7 +4,7 @@
 <div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
     {if and( ne( $ui_context, 'edit' ), ne( $ui_context, 'browse' ) )}
-     <h4><a class="show-hide-control" href={'/user/preferences/set/admin_clearcache_menu/0'|ezurl} title="{'Hide clear cache menu.'|i18n( 'design/admin/pagelayout' )}">-</a> <a href={'/setup/cache/'|ezurl} title="{'Cache management page'|i18n( 'design/admin/pagelayout' )}">{'Clear cache'|i18n( 'design/admin/pagelayout' )}</a></h4>
+     <h4><a class="show-hide-control" href={'/user/preferences/set/admin_clearcache_menu/0'|ezurl} title="{'Hide clear cache menu.'|i18n( 'design/admin/pagelayout' )}">-</a> {'Clear cache'|i18n( 'design/admin/pagelayout' )}</h4>
     {else}
      {if eq( $ui_context, 'edit' )}
        <h4><span class="disabled show-hide-control">-</span> <span class="disabled">{'Clear cache'|i18n( 'design/admin/pagelayout' )}</span></h4>
@@ -27,7 +27,7 @@
 <div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
     {if and( ne( $ui_context,'edit' ), ne( $ui_context, 'browse' ) )}
-     <h4><a class="show-hide-control" href={'/user/preferences/set/admin_clearcache_menu/1'|ezurl} title="{'Show clear cache menu.'|i18n( 'design/admin/pagelayout' )}">+</a> <a href={'/setup/cache/'|ezurl} title="{'Cache management page'|i18n( 'design/admin/pagelayout' )}">{'Clear cache'|i18n( 'design/admin/pagelayout' )}</a></h4>
+     <h4><a class="show-hide-control" href={'/user/preferences/set/admin_clearcache_menu/1'|ezurl} title="{'Show clear cache menu.'|i18n( 'design/admin/pagelayout' )}">+</a> {'Clear cache'|i18n( 'design/admin/pagelayout' )}</h4>
     {else}
      {if eq( $ui_context, 'edit' )}
       <h4><span class="disabled show-hide-control">+</span> <span class="disabled">{'Clear cache'|i18n( 'design/admin/pagelayout' )}</span></h4>
