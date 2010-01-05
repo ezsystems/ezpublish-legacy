@@ -80,3 +80,4 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Fixed bug #15744: Permission Error in eZContentClass::instantiate
 - Fixed bug #12719: setting RenderParagraphInTableCells doesn't work for th
 - Fixed bug #15983: Allowing kernel override in config.php may cause a Fatal Error
+- Fixed bug #15991: When registering with an empty password, validation error displays "The passwords do not match."
