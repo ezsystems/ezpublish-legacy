@@ -50,7 +50,7 @@ class eZMediaTypeRegression extends ezpDatabaseTestCase
         $object->refresh();
 
         $contentObjectAttributeID = $fileAttribute->attribute( "id" );
-        $files = eZMedia::fetch( $contentObjectAttributeID );
+        $files = eZMedia::fetch( $contentObjectAttributeID, null );
         foreach ( $files as $file )
         {
             // Read stored path, move to trash, and read stored path again
