@@ -75,7 +75,7 @@ class eZImageType extends eZDataType
             $existingFilepath = $imageFile;
 
             // Check if there are any other records in ezimagefile that point to that filename.
-            $imageObjectsWithSameFileName = eZImageFile::fetchByFilepath( $existingFilepath );
+            $imageObjectsWithSameFileName = eZImageFile::fetchByFilepath( false, $existingFilepath );
 
             $file = eZClusterFileHandler::instance( $existingFilepath );
 
