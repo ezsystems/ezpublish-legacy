@@ -841,7 +841,8 @@ table.list tr:hover, table.list tr:hover th
     background-color: #dfdfdf;
 }
 
-div.content-navigation-childlist table.list th
+div.content-navigation-childlist table.list th,
+table.list th.icon, table.list td.icon, table.list th.class, table.list td.class, table.list th.checkbox, table.list td.checkbox
 {
     width:1%;
 }
@@ -849,6 +850,16 @@ div.content-navigation-childlist table.list th
 div.content-navigation-childlist table.list th.name, div.content-edit table.list th.name
 {
     width: auto;
+}
+
+table.list img
+{
+    vertical-align: middle;
+}
+
+table.list td.modifier, table.list td.modified, table.list td.class, div.content-edit table.list td.filesize
+{
+    white-space: nowrap;
 }
 
 
