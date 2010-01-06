@@ -1201,7 +1201,7 @@ WHERE user_id = '" . $userID . "' AND
 
                     eZUser::updateLastVisit( $currentUser->attribute( 'contentobject_id' ) );
                     eZUser::setCurrentlyLoggedInUser( $currentUser, $currentUser->attribute( 'contentobject_id' ) );
-                    eZHTTPTool::redirect( eZSys::wwwDir() . eZSys::indexFile( false ) . eZSys::requestURI(), array(), 201 );
+                    eZHTTPTool::redirect( eZSys::wwwDir() . eZSys::indexFile( false ) . eZSys::requestURI(), array(), 302 );
 
                 }
             }
