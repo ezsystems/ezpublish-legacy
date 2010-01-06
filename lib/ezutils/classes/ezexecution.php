@@ -182,13 +182,7 @@ class eZExecution
         }
         else if ( self::$eZDocumentRoot === null )
         {
-            self::$eZDocumentRoot = str_replace( 
-                DIRECTORY_SEPARATOR . 'lib' . 
-                DIRECTORY_SEPARATOR . 'ezutils'. 
-                DIRECTORY_SEPARATOR . 'classes',
-                '',
-                dirname( __FILE__ )
-            );
+            self::$eZDocumentRoot = getcwd();
         }
     }
 
