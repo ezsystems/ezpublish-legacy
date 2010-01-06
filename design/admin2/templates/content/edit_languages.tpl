@@ -111,13 +111,15 @@
 
 {* Translation a user is able to create *}
 {set-block variable=$nonexisting_languages_output}
+{def $select_first_language = $object_create_languages|count|eq( 1 )}
 {foreach $object_create_languages as $language}
 
     <label>
-       <input name="EditLanguage" type="radio" value="{$language.locale}" /> {$language.name|wash}
+       <input name="EditLanguage" type="radio" value="{$language.locale}"{if $select_first_language} checked="checked"{/if} /> {$language.name|wash}
     </label>
     <div class="labelbreak"></div>
 {/foreach}
+{undef $select_first_language}
 {/set-block}
 
 {if $nonexisting_languages_output|trim}
