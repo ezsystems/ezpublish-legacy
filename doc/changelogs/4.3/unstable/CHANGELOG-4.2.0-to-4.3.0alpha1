@@ -84,3 +84,4 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Fixed bug #15991: When registering with an empty password, validation error displays "The passwords do not match."
 - Fixed bug #12890: (Caching-)File problems when using sysmlinks in an installation
 - Fixed bug #16002: Redirect after a login on SSO system (with an SSO Handler extension) is done with a meta redirect
+- Fixed bug #15572: User registration validation error text is incomplete (when password length < minpasswordlength)
