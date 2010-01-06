@@ -1,5 +1,8 @@
+{if $hide_right_menu|not}{* Only fetch policy if right menu is visible *}
+{if fetch( 'user', 'has_access_to', hash( 'module', 'setup', 'function', 'setup' ) )}
+
 <div id="quicksettings-tool">
-{if and( $hide_right_menu|not, ezpreference( 'admin_quicksettings_menu' ) )}
+{if ezpreference( 'admin_quicksettings_menu' )}
 
 <div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
    {if eq( $ui_context, 'edit' )}
@@ -9,11 +12,9 @@
    {/if}
 </div></div></div></div></div></div>
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
-    {let siteaccess=ezpreference( 'admin_quicksettings_siteaccess' )
-         select_siteaccess=true}
-    
-    {include uri='design:setup/quick_settings.tpl'}
-    
+    {let siteaccess        = ezpreference( 'admin_quicksettings_siteaccess' )
+         select_siteaccess = true}
+        {include uri='design:setup/quick_settings.tpl'}
     {/let}
 </div></div></div></div></div></div>
 
@@ -21,11 +22,14 @@
 
 <div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
      {if eq( $ui_context, 'edit' )}
-      <h4><span class="disabled show-hide-control">+</span> <span class="disabled">{'Quick settings'|i18n( 'design/admin/pagelayout' )}</span></h4>
+         <h4><span class="disabled show-hide-control">+</span> <span class="disabled">{'Quick settings'|i18n( 'design/admin/pagelayout' )}</span></h4>
      {else}
-      <h4><a class="show-hide-control" href={'/user/preferences/set/admin_quicksettings_menu/1'|ezurl} title="{'Quick settings'|i18n( 'design/admin/pagelayout' )}">+</a>{'Quick settings'|i18n( 'design/admin/pagelayout' )}</h4>
+         <h4><a class="show-hide-control" href={'/user/preferences/set/admin_quicksettings_menu/1'|ezurl} title="{'Quick settings'|i18n( 'design/admin/pagelayout' )}">+</a>{'Quick settings'|i18n( 'design/admin/pagelayout' )}</h4>
      {/if}
 </div></div></div></div></div></div>
 
 {/if}
 </div>
+
+{/if}
+{/if}

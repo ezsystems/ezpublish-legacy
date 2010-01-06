@@ -293,6 +293,7 @@ div#page.main-column-only a.controlbar-top-full-screen-toggle
 
 #rightmenu-design ul, #leftmenu-design ul { margin-left: 1.5em; color: #aaa; }
 
+#rightmenu label { font-weight:normal; }
 
 #maincontent
 {

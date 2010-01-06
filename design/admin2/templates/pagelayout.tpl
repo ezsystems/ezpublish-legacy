@@ -95,8 +95,8 @@
         {/if}
     {/if}
 
-    {tool_bar name='admin_right' view=full}
-    {tool_bar name='admin_developer' view=full}
+    {tool_bar name='admin_right' view='full'}
+    {tool_bar name='admin_developer' view='full'}
 </div>
 </div>
 
