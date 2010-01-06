@@ -17,6 +17,7 @@ class eZSiteInstallerTest extends ezpDatabaseTestCase
      */
     public function setup()
     {
+    	parent::setup();
         eZSys::setServerVariable( 'HTTP_HOST', 'localhost' );
     }
 

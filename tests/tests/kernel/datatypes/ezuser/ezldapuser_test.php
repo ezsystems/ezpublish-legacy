@@ -152,14 +152,12 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
-        if ( !self::ldapIsEnabled() )
+        if ( self::ldapIsEnabled() )
         {
-            return;
+            $this->mainGroup->remove();
         }
 
-        $this->mainGroup->remove();
+        parent::tearDown();
     }
 
     /**
