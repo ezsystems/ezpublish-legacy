@@ -49,43 +49,6 @@ a.image-text:hover > span
 }
 
 
-/* FULL EDIT VIEW */
-#page.main-column-only #header, #page.main-column-only #path,
-#page.main-column-only #leftmenu, #page.main-column-only #rightmenu,
-#page.main-column-only #footer, #page.main-column-only #debug
-{
-  display: none;
-}
-
-div#page.main-column-only div#maincontent
-{
-  margin: 0;
-}
-
-div#page.main-column-only #controlbar-top
-{
-  position: fixed;
-  min-width: 49%;
-  right: 0;
-  top: 0;
-}
-
-a.controlbar-top-full-screen-toggle
-{
-  height: 16px;
-  width: 16px;
-  display: block;
-  text-decoration: none;
-  background-image: url('../images/2/view-fullscreen.png');
-  background-repeat: no-repeat;
-  background-position: left top;
-}
-
-div#page.main-column-only a.controlbar-top-full-screen-toggle
-{
-  background-image: url('../images/2/emblem-unreadable.png');
-}
-
 /* HEADER */
 #header-usermenu, #header-logo, #header-search
 {
@@ -162,11 +125,16 @@ div#page.main-column-only a.controlbar-top-full-screen-toggle
   color: green;
 }
 
+#header-topmenu ul li.first
+{
+  margin-left: 0.1em;
+}
+
 /* PATH */
 
 #path
 {
-  padding: 3px 10px 4px 10px;
+  padding: 4px 10px 4px 10px;
   font-size: 90%;
   text-align: left;
 }
@@ -629,6 +597,7 @@ div.context-block h1.context-title img, div.context-block h2.context-title img
 
 
 /* WIDTH CONTROL */
+
 .widthcontroled .box-bc
 {
   background-image: url('../images/2/chrome_expand_corner.png');
@@ -653,6 +622,44 @@ div.context-block h1.context-title img, div.context-block h2.context-title img
   display: none;
 }
 
+
+/* FULL EDIT VIEW ( main-column-only class toggle ) */
+
+#page.main-column-only #header, #page.main-column-only #path,
+#page.main-column-only #leftmenu, #page.main-column-only #rightmenu,
+#page.main-column-only #footer, #page.main-column-only #debug
+{
+  display: none;
+}
+
+div#page.main-column-only div#maincontent
+{
+  margin: 0;
+}
+
+div#page.main-column-only #controlbar-top
+{
+  position: fixed;
+  min-width: 49%;
+  right: 0;
+  top: 0;
+}
+
+a.controlbar-top-full-screen-toggle
+{
+  height: 16px;
+  width: 16px;
+  display: block;
+  text-decoration: none;
+  background-image: url('../images/2/view-fullscreen.png');
+  background-repeat: no-repeat;
+  background-position: left top;
+}
+
+div#page.main-column-only a.controlbar-top-full-screen-toggle
+{
+  background-image: url('../images/2/emblem-unreadable.png');
+}
 
 
 /* SUBITEMS CONTEXT MENU (TODO: Remove if not used) */
@@ -734,8 +741,8 @@ div.context-menu-root ul.context-menu-box li
   list-style-type: none;
   padding: 0.3em 0.2em 0.3em 1.2em;
   border: 1px solid #f5f5f5;
-  border-left: 0 none;
-  border-right: 0 none;
+  border-left-width: 0;
+  border-right-width: 0;
   margin: 0;
 }
 

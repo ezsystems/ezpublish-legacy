@@ -113,7 +113,7 @@ ins:hover, del:hover
 ins:hover
 {
   color: #006000;
-  border-bottom: none;
+  border-bottom-width: 0;
 }
 
 del:hover
@@ -127,7 +127,7 @@ div.blockchanges ins, div.blockchanges del
   color: #000000;
   padding-left: 0.5em;
   text-decoration: none;
-  border-bottom: none;
+  border-bottom-width: 0;
   display: block;
 }
 
@@ -150,7 +150,7 @@ div.previous del
 {
   color: #000000;
   background-color: #ffff00;
-  border-bottom: none;
+  border-bottom-width: 0;
   text-decoration: none   
 }
 
@@ -163,6 +163,6 @@ div.latest ins
 {
   color: #000000;
   background-color: #ffff00;
-  border-bottom: none;
+  border-bottom-width: 0;
   text-decoration: none;
 }

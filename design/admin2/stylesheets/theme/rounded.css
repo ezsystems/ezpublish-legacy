@@ -47,7 +47,7 @@ span.show-hide-control.disabled
 {
   background-color: #f3f3f3;
   border: 1px solid #bbb;
-  border-bottom: 0 none;
+  border-bottom-width: 0;
   /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
   -moz-border-radius-topleft: 5px;
   -moz-border-radius-topright: 5px;
@@ -62,15 +62,14 @@ span.show-hide-control.disabled
   border-bottom: 1px solid #fff;
   margin-bottom: -1px;
   background-color: #fff;
-  border-left-width: 1px;
 }
 
 
 /* PATH */
 
-#path
+#path span
 {
-  border-bottom: 1px solid #bbb;
+  color: #888;
 }
 
 /* BOX MODEL */
@@ -117,9 +116,19 @@ span.show-hide-control.disabled
   border-top: 1px solid #ddd;
 }
 
+#controlbar-top .box-bc
+{
+  margin-top: 0.5em;
+  border-top-width: 1px;
+  /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+
 #controlbar-top .box-bc .box-ml
 {
-  border-top: 0 none;
+  border-top-width: 0;
 }
 
 .box-ml

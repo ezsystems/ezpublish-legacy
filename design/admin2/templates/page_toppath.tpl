@@ -1,7 +1,7 @@
 {let name=Path
      use_urlalias=ezini('URLTranslator','Translation')|eq('enabled')}
 
-    <p class="path">&gt;
+    <p class="path"><span class="path-here-text">{'You are here:'|i18n( 'design/admin/pagelayout/path' )}</span>
     {section loop=$module_result.path}
         {if $:item.url}
             {if ne($ui_context,'edit')}
@@ -11,7 +11,7 @@
             <span class="disabled">{$:item.text|shorten( 18 )|wash}</span>
             {/if}
         {else}
-            {$:item.text|wash}
+            <span class="path">{$:item.text|wash}</span>
         {/if}
 
         {delimiter}
