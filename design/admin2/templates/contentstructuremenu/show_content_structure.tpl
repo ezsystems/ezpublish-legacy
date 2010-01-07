@@ -58,15 +58,15 @@
                     {if $:csm_menu_item_click_action|eq('')}
                         {if eq( $:translation, 'enabled' )}
                             {let defaultItemClickAction = $:parentNode.node.path_identification_string|ezurl(no)}
-                                <a class="imageTextLink" href="{$:defaultItemClickAction}" title="{$:toolTip|wash}">
+                                <a class="image-text" href="{$:defaultItemClickAction}" title="{$:toolTip|wash}">
                             {/let}
                         {else}
                             {let defaultItemClickAction = concat('content/view/full/',$:parentNode.node.node_id)|ezurl(no)}
-                                <a class="imageTextLink" href="{$:defaultItemClickAction}" title="{$:toolTip|wash}">
+                                <a class="image-text" href="{$:defaultItemClickAction}" title="{$:toolTip|wash}">
                             {/let}
                         {/if}
                         {* Do not indent this line; otherwise links will contain empty space at the end! *}
-                        {else}<a class="imageTextLink" href="{$:csm_menu_item_click_action}/{$:parentNode.node.node_id}" title="{$:toolTip|wash}">{/if}{if $:parentNode.node.is_hidden}<span class="node-name-hidden">{$:parentNode.object.name|wash}</span>{else}{if $:parentNode.node.is_invisible}<span class="node-name-hiddenbyparent">{$:parentNode.object.name|wash}</span>{else}<span class="node-name-normal">{$:parentNode.object.name|wash}</span>{/if}{/if}{if $:parentNode.node.is_hidden}<span class="node-hidden">(Hidden)</span></a>{else}{if $:parentNode.node.is_invisible}<span class="node-hiddenbyparent">(Hidden by parent)</span></a>{else}</a>{/if}
+                        {else}<a class="image-text" href="{$:csm_menu_item_click_action}/{$:parentNode.node.node_id}" title="{$:toolTip|wash}">{/if}{if $:parentNode.node.is_hidden}<span class="node-name-hidden">{$:parentNode.object.name|wash}</span>{else}{if $:parentNode.node.is_invisible}<span class="node-name-hiddenbyparent">{$:parentNode.object.name|wash}</span>{else}<span class="node-name-normal">{$:parentNode.object.name|wash}</span>{/if}{/if}{if $:parentNode.node.is_hidden}<span class="node-hidden">(Hidden)</span></a>{else}{if $:parentNode.node.is_invisible}<span class="node-hiddenbyparent">(Hidden by parent)</span></a>{else}</a>{/if}
                     {/if}
                 {else}
                     {if $:parentNode.node.is_hidden}

@@ -1,0 +1,154 @@
+/* ADMIN2 ROUNDED CSS 20100107 */
+
+/* GENERIC */
+
+a.show-hide-control, span.show-hide-control
+{
+  background-color: white;
+  border: 1px solid #bbb;
+  /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+
+span.show-hide-control.disabled
+{
+  border-color: #ddd;
+}
+
+/* HEADER */
+#header
+{ 
+  border-bottom: 1px solid #bbb;
+}
+
+#header-logo, #header-search
+{
+  border-bottom: 1px solid #bbb;
+  background-color: #fff;
+  background-image: url('../../images/2/header-gradient.png');
+  background-repeat: repeat-x;
+  background-position: left 2px;
+}
+
+#header-logo
+{
+  border-left: 1px solid #bbb;
+  /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
+  -moz-border-radius-bottomleft: 5px;
+  -webkit-border-bottom-left-radius: 5px;
+  border-bottom-left-radius:  5px;
+}
+
+
+/* TOP MENU (TABS) */
+#header-topmenu ul li a, #header-topmenu ul li span.disabled
+{
+  background-color: #f3f3f3;
+  border: 1px solid #bbb;
+  border-bottom: 0 none;
+  /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
+  -moz-border-radius-topleft: 5px;
+  -moz-border-radius-topright: 5px;
+  -webkit-border-top-left-radius: 5px;
+  -webkit-border-top-right-radius: 5px;
+  border-top-left-radius:  5px;
+  border-top-right-radius: 5px;
+}
+
+#header-topmenu ul li.selected a
+{
+  border-bottom: 1px solid #fff;
+  margin-bottom: -1px;
+  background-color: #fff;
+  border-left-width: 1px;
+}
+
+
+/* PATH */
+
+#path
+{
+  border-bottom: 1px solid #bbb;
+}
+
+/* BOX MODEL */
+
+.box-header
+{
+  background-color: #fbfbfb;
+  border: 1px solid #bbb;
+  border-bottom-width: 0;
+  /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
+  -moz-border-radius-topleft: 5px;
+  -moz-border-radius-topright: 5px;
+  -webkit-border-top-left-radius: 5px;
+  -webkit-border-top-right-radius: 5px;
+  border-top-left-radius:  5px;
+  border-top-right-radius: 5px;
+}
+
+.box-header .box-tc
+{
+  border-bottom: 1px solid #ddd;
+}
+
+.box-bc
+{
+  border: 1px solid #bbb;
+  border-top-width: 0;
+  /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
+  -moz-border-radius-bottomleft: 5px;
+  -moz-border-radius-bottomright: 5px;
+  -webkit-border-bottom-left-radius: 5px;
+  -webkit-border-bottom-right-radius: 5px;
+  border-bottom-left-radius:  5px;
+  border-bottom-right-radius: 5px;
+}
+
+.controlbar .box-bc
+{
+  background-color: #fbfbfb;
+}
+
+.controlbar .box-bc .box-ml
+{
+  border-top: 1px solid #ddd;
+}
+
+#controlbar-top .box-bc .box-ml
+{
+  border-top: 0 none;
+}
+
+.box-ml
+{
+  border-left: 1px solid #bbb;
+  border-right: 1px solid #bbb;
+}
+
+.box-bc .box-ml, .box-header .box-ml
+{
+  border: 0 none;
+}
+
+/* MENU-BLOCK (buttons for node info TODO: Remove if transformed to tabs instead ) */
+.menu-block li a
+{
+  border: 1px solid #aaa;
+  /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+
+
+
+/* FOOTER */
+
+#footer
+{
+  border-top: 1px solid #bbb;
+  background-color: #f3f3f3;
+}

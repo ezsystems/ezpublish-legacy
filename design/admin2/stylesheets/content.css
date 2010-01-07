@@ -1,0 +1,168 @@
+/* ADMIN2 CONTENT CSS 20100107 */
+
+/* GENERIC */
+
+pre
+{
+  background-color: #f8f8f8;
+  border: 1px solid #e0e0e0;
+}
+
+
+/* CONTENT */
+
+div.mainobject-window
+{
+  max-height: 200px;
+  overflow-y: scroll;
+  border: 1px solid #dfdfdf;
+  padding: 0.5em;
+  background-color: #fdfdfd;
+}
+
+div.content-navigation div.mainobject-window div.holdinplace
+{
+  padding-right: 0.5em;
+}
+
+div#maincontent div.content-translation div.block div.original
+{
+  background-color: #f5f5f5;
+  margin: 0.5em 0 0.5em 0;
+  padding: 0.2em;
+  border: 1px dashed #ddd;
+}
+
+div.content-translation div.translation
+{
+  margin: 0.5em 0 0.5em 0;
+}
+
+div.notranslations li
+{
+  width: 20%;
+}
+
+table.list, table.special, table.list th, table.special th
+{
+  border: 1px solid #fdfdfd;
+  border-collapse: collapse;
+}
+
+table.list tr th
+{
+  background-color: #fff;
+}
+
+table.special tr th
+{
+  background-color: #dfdfdf;
+}
+
+table.list tr.bgdark, table.list tr.bgdark th
+{
+  background-color: #f5f5f5;
+}
+
+table.list tr:hover, table.list tr:hover th
+{
+  background-color: #dfdfdf;
+}
+
+div.content-navigation-childlist table.list th,
+table.list th.icon, table.list td.icon, table.list th.class, table.list td.class, table.list th.checkbox, table.list td.checkbox
+{
+  width:1%;
+}
+
+div.content-navigation-childlist table.list th.name, div.content-edit table.list th.name
+{
+  width: auto;
+}
+
+table.list img
+{
+  vertical-align: middle;
+}
+
+table.list td.modifier, table.list td.modified, table.list td.class, div.content-edit table.list td.filesize
+{
+  white-space: nowrap;
+}
+
+/* GENERIC DIFF STYLES */
+
+ins
+{
+  color: #008000;
+  text-decoration: none;
+  border-bottom: 1px solid #00b000;
+}
+
+del
+{
+  color: #d98078;
+  text-decoration: line-through;
+}
+
+ins:hover, del:hover
+{
+  background-color: #ffffff;
+}
+
+ins:hover
+{
+  color: #006000;
+  border-bottom: none;
+}
+
+del:hover
+{
+  color: #852c25;
+  text-decoration: none;
+}
+
+div.blockchanges ins, div.blockchanges del
+{
+  color: #000000;
+  padding-left: 0.5em;
+  text-decoration: none;
+  border-bottom: none;
+  display: block;
+}
+
+div.blockchanges ins
+{
+  border-left: 0.5em solid #008000;
+}
+
+div.blockchanges del
+{
+  border-left: 0.5em solid #d98078;
+}
+
+div.previous ins
+{
+  display: none;
+}
+
+div.previous del
+{
+  color: #000000;
+  background-color: #ffff00;
+  border-bottom: none;
+  text-decoration: none   
+}
+
+div.latest del
+{
+  display: none;
+}
+
+div.latest ins
+{
+  color: #000000;
+  background-color: #ffff00;
+  border-bottom: none;
+  text-decoration: none;
+}

@@ -1,0 +1,753 @@
+/* ADMIN2 LAYOUT CSS 20100107 */
+
+/* GENERIC */
+div#fix
+{
+  float: left;
+  width: 100%;
+}
+
+span.vertical-seperator
+{
+  height: 100%;
+  width: 4px;
+  border-right: 1px solid #bbb;
+  margin-left: 12px;
+  margin-right: 16px;
+}
+
+.inline { display: inline; }
+
+a.show-hide-control, span.show-hide-control
+{
+  float: right;
+  text-align: center;
+  padding: 2px;
+  margin: 2px;
+  height: 9px;
+  width: 8px;
+  line-height: 7px;
+  font-size: 12px;
+  color: #555;
+  text-decoration: none;
+}
+
+span.show-hide-control.disabled
+{
+  color: #999;
+}
+
+/* link with image and text (in a span) inside it */
+a.image-text
+{
+  text-decoration: none;
+}
+
+a.image-text:hover > span
+{
+  text-decoration: underline;
+}
+
+
+/* FULL EDIT VIEW */
+#page.main-column-only #header, #page.main-column-only #path,
+#page.main-column-only #leftmenu, #page.main-column-only #rightmenu,
+#page.main-column-only #footer, #page.main-column-only #debug
+{
+  display: none;
+}
+
+div#page.main-column-only div#maincontent
+{
+  margin: 0;
+}
+
+div#page.main-column-only #controlbar-top
+{
+  position: fixed;
+  min-width: 49%;
+  right: 0;
+  top: 0;
+}
+
+a.controlbar-top-full-screen-toggle
+{
+  height: 16px;
+  width: 16px;
+  display: block;
+  text-decoration: none;
+  background-image: url('../images/2/view-fullscreen.png');
+  background-repeat: no-repeat;
+  background-position: left top;
+}
+
+div#page.main-column-only a.controlbar-top-full-screen-toggle
+{
+  background-image: url('../images/2/emblem-unreadable.png');
+}
+
+/* HEADER */
+#header-usermenu, #header-logo, #header-search
+{
+  float: right;
+  text-align: right;
+  padding: 2px 10px 1px 10px;
+  min-height: 25px;
+}
+
+#header-logo a, #header-logo span
+{
+  display: block;
+  width: 74px;
+  height: 25px;
+  text-decoration: none;
+  background-image: url('../images/2/ez-logo.png');
+  background-repeat: no-repeat;
+  background-position: left -1px;
+}
+
+#header-logo span
+{
+  background-image: url('../images/2/ez-logo-faded.png');
+}
+
+
+#header-usermenu
+{
+  padding-top: 4px;
+  padding-bottom: 0;
+}
+
+
+/* TOP MENU (TABS) */
+#header-topmenu
+{
+  padding-left: 2px;
+  padding-top: 8px;
+  float: left;
+  min-height: 25px;
+}
+
+#header-topmenu ul
+{
+  margin: 0;
+}
+
+#header-topmenu ul li
+{
+  float: left;
+  text-align: center;
+  list-style-type: none;
+  margin: 0;
+}
+
+#header-topmenu ul li a, #header-topmenu ul li span.disabled
+{
+  display: block;
+  font-weight: bold;
+  text-decoration: none;
+  min-width: 100px;
+  min-height: 20px;
+  padding: 2px 6px 2px 6px;
+  margin-left: 1px;
+}
+
+#header-topmenu ul li span.disabled, span.disabled
+{
+  color: #555;
+}
+
+#header-topmenu ul li.selected a
+{
+  color: green;
+}
+
+/* PATH */
+
+#path
+{
+  padding: 3px 10px 4px 10px;
+  font-size: 90%;
+  text-align: left;
+}
+
+#path p { margin: 0; }
+
+/* COLUMNS */
+
+#maincontent
+{
+  margin: 0 13em 0 15em;
+  min-height: 200px;
+  padding: 0 1em 1em 1em;
+}
+
+#maincontent div.box-header
+{
+  margin-top: 0.5em;
+}
+
+#leftmenu
+{
+  float: left;
+  width: 15em;
+  overflow: hidden;
+}
+
+#rightmenu
+{ 
+  float: right;
+  width: 13em;
+  overflow-x: hidden;
+}
+
+
+
+/* RIGHTMENU */
+
+#rightmenu-design
+{
+  margin: 0 0.5em 0 0.1em;
+  position: relative;
+}
+
+/* This is not supported by IE6, some DOM cleanup is needed to avoid it */
+#rightmenu-design > div
+{
+  margin-top: 0.5em;
+  min-width: 12em;
+}
+
+#rightmenu-design ul
+{
+  color: #aaa;
+  margin-left: 1.5em;
+}
+#rightmenu label { font-weight:normal; }
+#maincontent div.box-header div.block div.right { padding-top: 1.3em; }
+
+a#rightmenu-showhide.show-hide-control
+{
+  float: left;
+}
+
+
+/* LEFTMENU */
+
+#leftmenu-design
+{
+  margin: 0 0.1em 0 0.5em;
+}
+
+#leftmenu-design ul { margin-left: 1.5em; color: #aaa; }
+#leftmenu-design div.box-header { margin-top: 0.5em; }
+
+div#leftmenu div.translations label
+{
+  font-weight: normal;
+  white-space: normal;
+}
+
+ul.leftmenu-items li a
+{
+  text-decoration: none;
+}
+
+ul.leftmenu-items li a:hover
+{
+  text-decoration: unerline;
+}
+
+ul.leftmenu-items li.current a
+{
+  color: green;
+  font-weight: bold;
+}
+
+
+
+/* FOOTER */
+
+#footer
+{
+  text-align: center;
+  padding: 0.8em;
+}
+
+
+
+/* CONTENTSTRUCTURE TREE MENU STYLES */
+
+div#contentstructure
+{
+  overflow-x: auto;
+  padding-top: 0.5em;
+}
+
+div#contentstructure ul#content_tree_menu
+{
+  margin-top: 0;  
+  margin-left: 0.25em;
+  padding-left: 0.5em;
+}
+
+div#contentstructure ul#content_tree_menu ul
+{
+  margin: 0;
+  padding-top: 4px;
+  padding-bottom: 0;
+}
+
+div#contentstructure ul#content_tree_menu ul ul
+{
+  margin-left: 0;
+}
+
+div#contentstructure ul#content_tree_menu li
+{
+  list-style-type: none;
+  white-space: nowrap;
+  position: relative;
+}
+
+div#contentstructure ul#content_tree_menu ul li
+{
+  margin: 0;
+  padding-top: 0;
+  padding-left: 20px;
+  padding-bottom: 4px;
+  background-image: url(../images/bg_content_tree_li.gif);
+  background-repeat: no-repeat;
+}
+
+div#contentstructure ul#content_tree_menu ul li.lastli
+{
+  background-image: url(../images/bg_content_tree_li_last.gif);
+  padding-bottom: 2px;
+}
+
+div#contentstructure ul#content_tree_menu li img
+{
+  vertical-align: middle;
+}
+
+div#contentstructure a.nodeicon
+{
+  margin-left: 0;
+  padding-left: 0;
+}
+
+div#contentstructure li span.node-name-normal
+{
+  font-weight: normal;
+}
+
+div#contentstructure li.currentnode > a.image-text span.node-name-normal, div#contentstructure li.currentnode > a.image-text span.node-name-hidden, div#contentstructure li.currentnode > a.image-text span.node-name-hiddenbyparent /* Highlighting of current node */
+{
+  color: green;
+  font-weight: bold;
+  padding: 0 0.25em 0 0.2em;
+}
+
+div#contentstructure li a.image-text span.node-name-hidden, div#contentstructure li.currentnode li a.image-text span.node-name-hidden
+{
+  font-weight: normal;
+  font-style: normal;
+  background-color: #ddd;
+  padding: 0 0.2em 0 0.2em;
+}
+
+div#contentstructure li a.image-text span.node-name-hiddenbyparent, div#contentstructure li.currentnode li a.image-text span.node-name-hiddenbyparent
+{
+  font-weight: normal;
+  font-style: normal;
+  background-color: #eee;
+  padding: 0 0.2em 0 0.2em;
+}
+
+div#contentstructure span.node-hidden, div#contentstructure span.node-hiddenbyparent
+{
+  display: none;
+}
+
+a.openclose, span.openclose
+{
+  text-decoration: none;
+}
+
+a.openclose img, span.openclose img
+{
+  margin: 0;
+  cursor: default;
+}
+
+div#contentstructure span.openclose
+{
+  visibility: hidden;
+}
+
+div#contentstructure ul#content_tree_menu ul a.openclose-open, div#contentstructure ul#content_tree_menu ul a.openclose-close, div#contentstructure ul#content_tree_menu ul a.openclose-busy, div#contentstructure ul#content_tree_menu ul a.openclose-error
+{
+  position: absolute;
+  left: 0;
+  _left: -20px; /* to fix a bug in IE 6 */
+  top: 0;
+  width: 16px;
+  height: 16px;
+  background-image: url( '../images/content_tree-open.gif' );
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+div#contentstructure ul#content_tree_menu ul a.openclose-close
+{
+  background-image: url( '../images/content_tree-close.gif' );
+}
+
+div#contentstructure ul#content_tree_menu ul a.openclose-busy
+{
+  background-image: url( '../images/content_tree-busy.gif' );
+  cursor: progress;
+}
+
+div#contentstructure ul#content_tree_menu ul a.openclose-error
+{
+  background-image: url( '../images/content_tree-error.gif' );
+}
+
+div#contentstructure ul#content_tree_menu div.loaded
+{
+  display: block;
+}
+
+div#contentstructure ul#content_tree_menu div.hidden
+{
+  display: none;
+}
+
+
+
+/* POPUP MENU */
+
+div.popupmenu
+{
+  width: 14em;
+  font-size: 0.85em;
+  margin: 0px;
+  padding: 4px;
+  background-color: #fff;
+  border: 1px solid #bbb;
+
+  /* These three are essential */
+  position: absolute;
+  z-index: +1;
+  display: none;
+}
+
+div.popupmenu div.popupmenuheader
+{
+  background-color: #fbfbfb;
+  border-bottom: 1px solid #bbb;
+}
+
+div.popupmenu#EditSubmenu
+{
+  z-index: +2;
+}
+
+div.popupmenu h3
+{
+  margin: 0;
+  padding: 0.2em 0.5em 0.2em 0.5em;
+  float: left;
+}
+
+div.popupmenu div.window-close
+{
+  float: right;
+  padding: 1px;
+}
+
+div.popupmenu div.window-close p
+{
+  margin: 0;
+  color: #000000;
+  font-weight: bold;
+  background-color: #ecece4;
+  padding: 0.1em 0.3em 0.1em 0.3em;
+  border: 1px solid #ffffff;
+  border-bottom-color: #bfbeb6;
+  border-right-color: #bfbeb6;
+}
+
+div.popupmenu a
+{
+  color: #000000;
+  padding: 0.1em 0.3em 0.1em 0.3em;
+  text-decoration: none;
+  cursor: default;
+  display: block;
+}
+
+div.popupmenu a.more
+{
+  background-image: url(../images/more-arrow.gif);
+  background-repeat: no-repeat;
+  background-position: right center;
+}
+
+div.popupmenu a.menu-item-disabled
+{
+  color: #CECECE;
+}
+
+div.popupmenu a:hover
+{
+  color: #ffffff;
+  background-color: #2d537a;
+  text-decoration: none;
+  cursor: default;
+}
+
+div.popupmenu hr
+{
+  border: none;
+  border-top: 1px solid #c0c0c0;
+}
+
+
+
+/* BOX MODEL */
+
+.box-content div.block
+{
+  margin: 0;
+  padding: 0.5em;
+}
+
+.box-content div.context-toolbar.block
+{
+  padding: 0 0.5em 0 0.5em;
+}
+
+.box-header .block
+{
+  margin: 0;
+}
+
+.box-ml
+{
+  padding: 0.2em;
+}
+
+.box-bc .box-ml, .box-header .box-ml
+{
+  padding: 0.1em 0.5em 0.1em 0.5em; /* 0.1 needed to avoid gaps in border */
+}
+
+h1.context-title
+{
+  font-size: 1.2em;
+}
+
+h2.context-title
+{
+  font-size: 1em;
+}
+
+div.context-information
+{
+  color: #777;
+  font-size: 0.8em;
+  margin: 0 1px 0 1px;
+  padding: 0 0.5em 0 0.5em;
+}
+
+div.context-information p.modified
+{
+  width: 48%;
+  float: left;
+}
+
+div.context-information p.translation
+{
+  width: 48%;
+  float: right;
+  text-align: right;
+}
+
+div.context-block
+{
+  margin-bottom: 1.2em;
+}
+
+div.context-block h1.context-title img, div.context-block h2.context-title img
+{
+  vertical-align: middle;
+}
+
+
+/* MENU-BLOCK (buttons for node info TODO: Remove if transformed to tabs instead ) */
+
+.menu-block ul
+{
+  width: 100%;
+  margin: 0.5em 0 0 0;
+}
+
+.menu-block li
+{
+  float: left;
+  text-align: center;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  width: 16.6666%;
+}
+
+.context-user .menu-block li
+{
+  width: 14.285%;
+}
+
+.menu-block li a
+{
+  margin-left: 1px;
+  text-decoration: none;
+  display: block;
+}
+
+.menu-block li:first-child a
+{
+  margin-left: 0;
+}
+
+.menu-block li.disabled a
+{
+  background-color:#f3f3f3;
+}
+
+
+/* WIDTH CONTROL */
+.widthcontroled .box-bc
+{
+  background-image: url('../images/2/chrome_expand_corner.png');
+  background-repeat: no-repeat;
+  background-position: bottom right;
+  position: relative;
+}
+
+.widthcontrol.js-widthcontroled
+{
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  width: 11px;
+  height: 11px;
+  cursor: e-resize;
+  overflow: hidden;
+}
+
+.widthcontrol.js-widthcontroled p
+{
+  display: none;
+}
+
+
+
+/* SUBITEMS CONTEXT MENU (TODO: Remove if not used) */
+
+table.context-enabled tr td.context-menu
+{
+  width: 2.6em;
+  padding: 1px;
+  padding-bottom: 0;
+  padding-left: 0;
+  height: 24px;
+}
+
+div.content-navigation-childlist table.context-enabled th.context-header
+{
+  width: 2.6em;
+  padding-right: 1px;
+}
+
+
+table.context-enabled tr:hover td.context-menu div.context-menu-root
+{
+  display: block;
+  position: relative;
+  height: 24px;
+  width: 2.6em;
+  text-align: right;
+  background-image: url('../images/2/context_menu_hover_arrow.png');
+  background-repeat: no-repeat;
+  background-position: center 9px;
+}
+
+table.context-enabled td.context-menu div.context-menu-root:hover
+{
+  background-color: #f5f5f5;
+}
+
+div.context-menu-root:hover > ul.context-menu-box,
+li.context-menu-container:hover > div.context-menu-subitems
+{
+  display: block;
+}
+
+div.context-menu-root ul.context-menu-box
+{
+  padding: 0;
+  margin: 0;
+  width: 10em;
+  text-align: left;
+  background-color: #f5f5f5;
+  border: 1px solid #dfdfdf;
+  -moz-box-shadow: 4px 4px 4px #eaeaea;
+  -webkit-box-shadow: 4px 4px 4px #eaeaea;
+  box-shadow: 4px 4px 4px #eaeaea;
+}
+
+div.context-menu-root > ul.context-menu-box
+{
+  position: absolute;
+  z-index: 100;
+  top: 100%;
+  right: -1px;
+  border-top: 0 none;
+}
+/* div.context-menu-subitems is a wrapper to add some air around sub menu to
+   make it less likely that you lose focus for moving cursor slightly off the menu 
+*/
+div.context-menu-root ul.context-menu-box div.context-menu-subitems
+{
+  position: absolute;
+  z-index: 100;
+  top: -15px;
+  right: 100%;
+  padding: 14px 0 10px 10px;
+}
+
+div.context-menu-root ul.context-menu-box li
+{
+  list-style-type: none;
+  padding: 0.3em 0.2em 0.3em 1.2em;
+  border: 1px solid #f5f5f5;
+  border-left: 0 none;
+  border-right: 0 none;
+  margin: 0;
+}
+
+div.context-menu-root ul.context-menu-box li.context-menu-container
+{
+  position: relative;
+  background-image: url('../images/2/more-arrow.gif');
+  background-repeat: no-repeat;
+  background-position: left center;
+}
+
+div.context-menu-root ul.context-menu-box li.context-menu-container:hover
+{
+  border-color: #dfdfdf;
+}

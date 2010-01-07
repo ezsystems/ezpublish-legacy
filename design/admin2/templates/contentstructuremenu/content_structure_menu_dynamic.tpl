@@ -259,7 +259,7 @@ function ContentStructureMenu()
                 + icon
                 + '" alt="" />';
         }
-        html += '&nbsp;<a class="imageTextLink" href="'
+        html += '&nbsp;<a class="image-text" href="'
             + ( ( this.action )? this.action + '/' + item.node_id:
                                  item.url )
             + '"';

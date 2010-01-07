@@ -8,9 +8,10 @@
      $hide_right_menu  = or( $ui_context_edit, ezpreference( 'admin_right_menu_show' )|not )
      $admin_left_size  = ezpreference( 'admin_left_menu_size' )
      $admin_treemenu   = ezpreference( 'admin_treemenu' )
+     $admin_theme      = ezpreference( 'admin_theme' )
      $left_size_hash   = 0
      $user_hash        = concat( $current_user.role_id_list|implode( ',' ), ',', $current_user.limited_assignment_value_list|implode( ',' ), ',', ezpreference( 'admin_edit_show_re_edit' ) )
-     $pref_hash        = concat( ezpreference( 'admin_edit_show_re_edit' ), ',', ezpreference( 'admin_edit_show_locations' ) )}
+     $pref_hash        = concat( ezpreference( 'admin_edit_show_re_edit' ), ',', ezpreference( 'admin_edit_show_locations' ), $admin_theme )}
 
 {if or( $hide_right_menu, $admin_left_size )}
 <style type="text/css">
@@ -39,7 +40,7 @@
 {include uri='design:page_head.tpl'}
 
 {* Pr tab cache *}
-{cache-block keys=array( $navigation_part.identifier, $module_result.navigation_part, $ui_context, $ui_component, $user_hash ) ignore_content_expiry}
+{cache-block keys=array( $navigation_part.identifier, $module_result.navigation_part, $ui_context, $ui_component, $user_hash, $admin_theme ) ignore_content_expiry}
 
 {include uri='design:page_head_style.tpl'}
 {include uri='design:page_head_script.tpl'}
