@@ -1064,6 +1064,9 @@ WHERE user_id = '" . $userID . "' AND
 
         // give user new session id
         eZSession::regenerate();
+        
+        // set the property used to prevent SSO from running again
+        self::$userHasLoggedOut = true;
     }
 
     /**
@@ -1149,8 +1152,11 @@ WHERE user_id = '" . $userID . "' AND
 
         $ini = eZINI::instance();
 
-        // Check if the user is not logged in, and if a automatic single sign on plugin is enabled
-        if ( is_object( $currentUser ) and !$currentUser->isLoggedIn() )
+        // Check if:
+        // - the user has not logged out,
+        // - the user is not logged in,
+        // - and if a automatic single sign on plugin is enabled.
+        if ( !self::$userHasLoggedOut and is_object( $currentUser ) and !$currentUser->isLoggedIn() )
         {
             $ssoHandlerArray = $ini->variable( 'UserSettings', 'SingleSignOnHandlerArray' );
             if ( count( $ssoHandlerArray ) > 0 )
@@ -2889,6 +2895,14 @@ WHERE user_id = '" . $userID . "' AND
     public $Groups;
     public $OriginalPassword;
     public $OriginalPasswordConfirm;
+    
+    /**
+    * Used to keep track that a logout was performed, and therefore prevent
+    * auto-login from happening if an SSO is used
+    * @var bool
+    * @since 4.3
+    **/
+    protected static $userHasLoggedOut = false;
 }
 
 ?>
