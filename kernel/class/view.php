@@ -93,7 +93,7 @@ $tpl->setVariable( 'validation', $validation );
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:class/view.tpl' );
 $Result['path'] = array( array( 'url' => '/class/grouplist/',
-                                'text' => ezi18n( 'kernel/class', 'Classes' ) ) );
+                                'text' => ezi18n( 'kernel/class', 'Class groups' ) ) );
 if ( $mainGroupID !== false )
 {
     $Result['path'][] = array( 'url' => '/class/classlist/' . $mainGroupID,

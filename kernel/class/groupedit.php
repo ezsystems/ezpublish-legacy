@@ -90,5 +90,9 @@ $tpl->setVariable( "classgroup", $classgroup );
 
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:class/groupedit.tpl" );
+$Result['path'] = array( array( 'url' => '/class/grouplist/',
+                                'text' => ezi18n( 'kernel/class', 'Class groups' ) ),
+                         array( 'url' => false,
+                                'text' => $classgroup->attribute( 'name' ) ) );
 
 ?>

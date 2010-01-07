@@ -34,6 +34,7 @@ $GroupName = $Params['GroupName'];
 $EditLanguage = $Params['Language'];
 $FromLanguage = false;
 $ClassVersion = null;
+$mainGroupID = false;
 
 
 switch ( $Params['FunctionName'] )
@@ -72,7 +73,7 @@ if ( is_numeric( $ClassID ) )
         {
             return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
         }
-        $classGroups= eZContentClassClassGroup::fetchGroupList( $ClassID, eZContentClass::VERSION_STATUS_DEFINED );
+        $classGroups = eZContentClassClassGroup::fetchGroupList( $ClassID, eZContentClass::VERSION_STATUS_DEFINED );
         foreach ( $classGroups as $classGroup )
         {
             $groupID = $classGroup->attribute( 'group_id' );
@@ -80,12 +81,24 @@ if ( is_numeric( $ClassID ) )
             $ingroup = eZContentClassClassGroup::create( $ClassID, eZContentClass::VERSION_STATUS_TEMPORARY, $groupID, $groupName );
             $ingroup->store();
         }
+        if ( count( $classGroups ) > 0 )
+        {
+            $mainGroupID = $classGroups[0]->attribute( 'group_id' );
+            $mainGroupName = $classGroups[0]->attribute( 'group_name' );
+        }
     }
     else
     {
         $user = eZUser::currentUser();
         $contentIni = eZINI::instance( 'content.ini' );
         $timeOut = $contentIni->variable( 'ClassSettings', 'DraftTimeout' );
+
+        $groupList = $class->fetchGroupList();
+        if ( count( $groupList ) > 0 )
+        {
+            $mainGroupID = $groupList[0]->attribute( 'group_id' );
+            $mainGroupName = $groupList[0]->attribute( 'group_name' );
+        }
 
         if ( $class->attribute( 'modifier_id' ) != $user->attribute( 'contentobject_id' ) &&
              $class->attribute( 'modified' ) + $timeOut > time() )
@@ -101,7 +114,14 @@ if ( is_numeric( $ClassID ) )
             $Result = array();
             $Result['content'] = $tpl->fetch( 'design:class/edit_denied.tpl' );
             $Result['path'] = array( array( 'url' => '/class/grouplist/',
-                                            'text' => ezi18n( 'kernel/class', 'Class list' ) ) );
+                                            'text' => ezi18n( 'kernel/class', 'Class groups' ) ) );
+            if ( $mainGroupID !== false )
+            {
+                $Result['path'][] = array( 'url' => '/class/classlist/' . $mainGroupID,
+                                           'text' => $mainGroupName );
+            }
+            $Result['path'][] = array( 'url' => false,
+                                       'text' => $class->attribute( 'name' ) );
             return $Result;
         }
     }
@@ -264,8 +284,15 @@ if ( !$EditLanguage )
 
             $Result = array();
             $Result['content'] = $tpl->fetch( 'design:class/select_language.tpl' );
-            $Result['path'] = array( array( 'url' => '/class/edit/',
-                                            'text' => ezi18n( 'kernel/class', 'Class edit' ) ) );
+            $Result['path'] = array( array( 'url' => '/class/grouplist/',
+                                            'text' => ezi18n( 'kernel/class', 'Class groups' ) ) );
+            if ( $mainGroupID !== false )
+            {
+                $Result['path'][] = array( 'url' => '/class/classlist/' . $mainGroupID,
+                                           'text' => $mainGroupName );
+            }
+            $Result['path'][] = array( 'url' => false,
+                                       'text' => $class->attribute( 'name' ) );
             return $Result;
         }
     }
@@ -756,7 +783,14 @@ $tpl->setVariable( 'language_code', $EditLanguage );
 
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:class/edit.tpl' );
-$Result['path'] = array( array( 'url' => '/class/edit/',
-                                'text' => ezi18n( 'kernel/class', 'Class edit' ) ) );
+$Result['path'] = array( array( 'url' => '/class/grouplist/',
+                                'text' => ezi18n( 'kernel/class', 'Class groups' ) ) );
+if ( $mainGroupID !== false )
+{
+    $Result['path'][] = array( 'url' => '/class/classlist/' . $mainGroupID,
+                               'text' => $mainGroupName );
+}
+$Result['path'][] = array( 'url' => false,
+                           'text' => $class->attribute( 'name' ) );
 
 ?>

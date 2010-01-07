@@ -30,7 +30,7 @@ $GroupID = null;
 if ( isset( $Params["GroupID"] ) )
     $GroupID = $Params["GroupID"];
 $http = eZHTTPTool::instance();
-$deleteIDArray = $http->sessionVariable( "DeleteClassIDArray" );
+$deleteIDArray = $http->hasSessionVariable( 'DeleteClassIDArray' ) ? $http->sessionVariable( 'DeleteClassIDArray' ) : array();
 $DeleteResult = array();
 $alreadyRemoved = array();
 
@@ -38,9 +38,8 @@ if ( !$http->hasPostVariable( 'ConfirmButton' ) && !$http->hasPostVariable( 'Can
 {
     // we will remove class - group relations rather than classes if they belongs to more than 1 group:
     $updateDeleteIDArray = true;
-    foreach ( array_keys( $deleteIDArray ) as $key )
+    foreach ( $deleteIDArray as $key => $classID )
     {
-        $classID = $deleteIDArray[$key];
         // for each classes tagged for deleting:
         $class = eZContentClass::fetch( $classID );
         if ( $class )
@@ -127,5 +126,7 @@ $tpl->setVariable( 'can_remove', $canRemove );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:class/removeclass.tpl" );
 $Result['path'] = array( array( 'url' => '/class/grouplist/',
-                                'text' => ezi18n( 'kernel/class', 'Classes' ) ) );
+                                'text' => ezi18n( 'kernel/class', 'Class groups' ) ) );
+$Result['path'][] = array( 'url' => false,
+                           'text' => ezi18n( 'kernel/class', 'Remove classes' ) );
 ?>

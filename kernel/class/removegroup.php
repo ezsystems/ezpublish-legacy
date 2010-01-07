@@ -28,7 +28,7 @@
 
 $Module = $Params['Module'];
 $http = eZHTTPTool::instance();
-$deleteIDArray = $http->sessionVariable( "DeleteGroupIDArray" );
+$deleteIDArray = $http->hasSessionVariable( 'DeleteGroupIDArray' ) ? $http->sessionVariable( 'DeleteGroupIDArray' ) : array();
 $groupsInfo = array();
 $deleteResult = array();
 $deleteClassIDList = array();
@@ -94,6 +94,8 @@ $tpl->setVariable( "module", $Module );
 $tpl->setVariable( "groups_info", $groupsInfo );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:class/removegroup.tpl" );
-$Result['path'] = array( array( 'url' => '/class/removegroup/',
+$Result['path'] = array( array( 'url' => '/class/grouplist/',
+                                'text' => ezi18n( 'kernel/class', 'Class groups' ) ),
+                         array( 'url' => false,
                                 'text' => ezi18n( 'kernel/class', 'Remove class groups' ) ) );
 ?>
