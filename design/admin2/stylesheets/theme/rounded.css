@@ -55,6 +55,9 @@ span.show-hide-control.disabled
   -webkit-border-top-right-radius: 5px;
   border-top-left-radius:  5px;
   border-top-right-radius: 5px;
+  background-image: url('../../images/2/header-gradient.png');
+  background-repeat: repeat-x;
+  background-position: left top;
 }
 
 #header-topmenu ul li.selected a
@@ -62,6 +65,7 @@ span.show-hide-control.disabled
   border-bottom: 1px solid #fff;
   margin-bottom: -1px;
   background-color: #fff;
+  background-image: none;
 }
 
 
