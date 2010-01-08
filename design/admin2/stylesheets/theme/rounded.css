@@ -82,7 +82,7 @@ span.show-hide-control.disabled
 /* HEADER */
 #header
 { 
-  border-bottom: 1px solid #bbb;
+  border-bottom: 1px solid #999;
 }
 
 .loginpage #header
@@ -92,7 +92,7 @@ span.show-hide-control.disabled
 
 #header-logo, #header-search
 {
-  border-bottom: 1px solid #bbb;
+  border-bottom: 1px solid #999;
   background-color: #fff;
   background-image: url('../../images/2/header-gradient.png');
   background-repeat: repeat-x;
@@ -101,7 +101,7 @@ span.show-hide-control.disabled
 
 #header-logo
 {
-  border-left: 1px solid #bbb;
+  border-left: 1px solid #999;
   /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
   -moz-border-radius-bottomleft: 5px;
   -webkit-border-bottom-left-radius: 5px;
