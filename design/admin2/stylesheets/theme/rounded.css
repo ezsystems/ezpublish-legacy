@@ -36,7 +36,7 @@ span.show-hide-control.disabled
 
 .loginpage #columns
 {
-  height: 64%;
+  height: 74%;
 }
 
 .loginpage #columns #maincontent
@@ -75,7 +75,7 @@ span.show-hide-control.disabled
 
 .loginpage #debug
 {
-  margin-bottom: 4em;
+  padding-bottom: 4em;
 }
 
 /* HEADER */
