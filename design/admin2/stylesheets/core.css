@@ -2,6 +2,11 @@
 
 /* BODY */
 
+html
+{
+  height: 100%; /* To be able to have full page designs in themes */
+}
+
 body
 {
     font-family: Arial, Helvetica, sans-serif; /* Base font family for most elements */
