@@ -1,13 +1,19 @@
-{def $root_node_id = ezini('TreeMenu','RootNodeID','contentstructuremenu.ini')}
+{def $root_node_id = ezini( 'TreeMenu', 'RootNodeID', 'contentstructuremenu.ini')}
 {if is_set( $custom_root_node_id )}
     {set $root_node_id = $custom_root_node_id}
+{elseif and( is_set( $search_subtree_array[0] ), $search_subtree_array[0]|ne( '1' ) )}
+    {def $search_node = fetch( 'content', 'node', hash( 'node_id', $search_subtree_array[0] ))}
+    {if is_set( $search_node.path_array[1] )}
+        {set $root_node_id = $search_node.path_array[1]}
+    {/if}
+    {undef $search_node}
 {/if}
-{def $root_node            = fetch('content','node',hash('node_id',$root_node_id))
+{def $root_node            = fetch( 'content', 'node', hash( 'node_id', $root_node_id ) )
      $user_class_group_id  = ezini('ClassGroupIDs', 'Users', 'content.ini')
      $setup_class_group_id = ezini('ClassGroupIDs', 'Setup', 'content.ini')
      $user_root_node_id    = ezini('NodeSettings', 'UserRootNode', 'content.ini')
-     $filter_type          = cond($root_node.path_array|contains($user_root_node_id), 'include', 'exclude')
-     $filter_groups        = cond($root_node.path_array|contains($user_root_node_id), array( $user_class_group_id ), array($user_class_group_id, $setup_class_group_id))
+     $filter_type          = cond( $root_node.path_array|contains( $user_root_node_id ), 'include', 'exclude')
+     $filter_groups        = cond( $root_node.path_array|contains( $user_root_node_id ), array( $user_class_group_id ), array($user_class_group_id, $setup_class_group_id))
     }
 <script language="JavaScript" type="text/javascript" src={"javascript/lib/ezjslibcookiesupport.js"|ezdesign}></script>
 {if ezini('TreeMenu','PreloadClassIcons','contentstructuremenu.ini')|eq('enabled')}
