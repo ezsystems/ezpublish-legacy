@@ -50,8 +50,9 @@ span.show-hide-control.disabled
   background: #f5f5f5 url('../../images/2/header-gradient.png') repeat-x left top scroll;
 }
 
-.loginpage #columns #maincontent .box-header .box-tc
+.loginpage #columns #maincontent .box-header .box-ml
 {
+  margin-right: 0.3em;
   background: transparent url('../../images/2/ez-logo.png') no-repeat right top scroll;
 }
 
