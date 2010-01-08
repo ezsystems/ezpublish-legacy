@@ -86,7 +86,7 @@ a.image-text:hover > span
 #header-topmenu
 {
   padding-left: 2px;
-  padding-top: 8px;
+  padding-top: 15px;
   float: left;
   min-height: 25px;
 }
@@ -122,7 +122,7 @@ a.image-text:hover > span
 
 #header-topmenu ul li.selected a
 {
-  color: green;
+  color: #086C41;
 }
 
 #header-topmenu ul li.first
@@ -228,7 +228,7 @@ ul.leftmenu-items li a:hover
 
 ul.leftmenu-items li.current a
 {
-  color: green;
+  color: #086C41;
   font-weight: bold;
 }
 
@@ -312,7 +312,7 @@ div#contentstructure li span.node-name-normal
 
 div#contentstructure li.currentnode > a.image-text span.node-name-normal, div#contentstructure li.currentnode > a.image-text span.node-name-hidden, div#contentstructure li.currentnode > a.image-text span.node-name-hiddenbyparent /* Highlighting of current node */
 {
-  color: green;
+  color: #086C41;
   font-weight: bold;
   padding: 0 0.25em 0 0.2em;
 }
@@ -658,7 +658,7 @@ a.controlbar-top-full-screen-toggle
 
 div#page.main-column-only a.controlbar-top-full-screen-toggle
 {
-  background-image: url('../images/2/emblem-unreadable.png');
+  background-image: url('../images/2/exit-fullscreen.png');
 }
 
 

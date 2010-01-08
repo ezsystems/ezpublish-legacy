@@ -113,7 +113,7 @@ span.show-hide-control.disabled
 #header-topmenu ul li a, #header-topmenu ul li span.disabled
 {
   background-color: #f3f3f3;
-  border: 1px solid #bbb;
+  border: 1px solid #999;
   border-bottom-width: 0;
   /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
   -moz-border-radius-topleft: 5px;
@@ -147,8 +147,8 @@ span.show-hide-control.disabled
 
 .box-header
 {
-  background-color: #fbfbfb;
-  border: 1px solid #bbb;
+  background: #FEFEFE url('../../images/2/header-gradient.png') repeat-x left bottom scroll;
+  border: 1px solid #999;
   border-bottom-width: 0;
   /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
   -moz-border-radius-topleft: 5px;
@@ -161,12 +161,12 @@ span.show-hide-control.disabled
 
 .box-header .box-tc
 {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #ccc;
 }
 
 .box-bc
 {
-  border: 1px solid #bbb;
+  border: 1px solid #999;
   border-top-width: 0;
   /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
   -moz-border-radius-bottomleft: 5px;
@@ -184,7 +184,7 @@ span.show-hide-control.disabled
 
 .controlbar .box-bc .box-ml
 {
-  border-top: 1px solid #ddd;
+  border-top: 1px solid #ccc;
 }
 
 #controlbar-top .box-bc
@@ -204,8 +204,8 @@ span.show-hide-control.disabled
 
 .box-ml
 {
-  border-left: 1px solid #bbb;
-  border-right: 1px solid #bbb;
+  border-left: 1px solid #999;
+  border-right: 1px solid #999;
 }
 
 .box-bc .box-ml, .box-header .box-ml
@@ -229,6 +229,6 @@ span.show-hide-control.disabled
 
 #footer
 {
-  border-top: 1px solid #bbb;
+  border-top: 1px solid #999;
   background-color: #f3f3f3;
 }

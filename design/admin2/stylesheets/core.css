@@ -23,6 +23,7 @@ h1, h2, h3, h4, h5, h6
     font-weight: bold;
     margin: 1em 0 0.5em 0;
     padding: 0;
+    color: #F15D22;
 }
 
 h1
@@ -58,13 +59,13 @@ p
 
 a
 {
-    color: #195f98;
+    color: #094564;
     text-decoration: underline;
 }
 
 a:hover
 {
-    color: green;
+    color: #086C41;
     text-decoration: underline;
     cursor: pointer;
 }
@@ -253,7 +254,7 @@ input.defaultbutton
 {
 	font-weight: bold;
 	padding: 0em 0.45em 0em 0.45em;
-	color: #195f98;
+	color: #094564;
 }
 
 div.context-attributes input.button, div.onlineeditor input.button, div.onlineeditor button
@@ -448,7 +449,7 @@ div.message-error span.time
 
 label.message-error, legend.message-error
 {
-    color: #ff0000;
+    color: maroon;
 }
 
 /* MISC STYLES */
