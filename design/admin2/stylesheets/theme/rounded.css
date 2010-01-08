@@ -2,6 +2,11 @@
 
 /* GENERIC */
 
+body
+{
+  background-color: #f5f5f5;
+}
+
 a.show-hide-control, span.show-hide-control
 {
   background-color: white;
@@ -22,6 +27,7 @@ span.show-hide-control.disabled
 .loginpage, .loginpage #page
 {
   height: 100%;
+  background-color: #fefefe;
 }
 
 .loginpage #path
@@ -83,6 +89,7 @@ span.show-hide-control.disabled
 #header
 { 
   border-bottom: 1px solid #999;
+  background-color: #fefefe;
 }
 
 .loginpage #header
@@ -129,9 +136,9 @@ span.show-hide-control.disabled
 
 #header-topmenu ul li.selected a
 {
-  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid #f5f5f5;
   margin-bottom: -1px;
-  background-color: #fff;
+  background-color: #f5f5f5;
   background-image: none;
 }
 
@@ -166,6 +173,7 @@ span.show-hide-control.disabled
 
 .box-bc
 {
+  background-color: #fff;
   border: 1px solid #999;
   border-top-width: 0;
   /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
@@ -179,7 +187,7 @@ span.show-hide-control.disabled
 
 .controlbar .box-bc
 {
-  background-color: #fbfbfb;
+  background: #FEFEFE url('../../images/2/footer-gradient.png') repeat-x left top scroll;
 }
 
 .controlbar .box-bc .box-ml
@@ -204,6 +212,7 @@ span.show-hide-control.disabled
 
 .box-ml
 {
+  background-color: #fff;
   border-left: 1px solid #999;
   border-right: 1px solid #999;
 }
@@ -211,6 +220,7 @@ span.show-hide-control.disabled
 .box-bc .box-ml, .box-header .box-ml
 {
   border: 0 none;
+  background-color: transparent;
 }
 
 /* MENU-BLOCK (buttons for node info TODO: Remove if transformed to tabs instead ) */
