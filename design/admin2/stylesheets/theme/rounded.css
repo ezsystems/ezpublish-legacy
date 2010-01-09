@@ -134,7 +134,7 @@ span.show-hide-control.disabled
   background-position: left top;
 }
 
-#header-topmenu ul li.selected a
+#header-topmenu ul li.selected a, #header-topmenu ul li.selected span.disabled
 {
   border-bottom: 1px solid #f5f5f5;
   margin-bottom: -1px;
