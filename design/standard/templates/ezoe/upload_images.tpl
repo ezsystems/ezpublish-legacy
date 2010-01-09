@@ -71,7 +71,7 @@ if ( contentType === 'images' )
                 </tr>
                 <tr>
                     <td class="column1"><label id="srclabel" for="fileName">{'File'|i18n('design/standard/ezoe')}</label></td>
-                    <td colspan="2"><input name="fileName" type="file" id="fileName" size="50" value="" title="{'Choose file to upload from your local machine.'|i18n('design/standard/ezoe/wai')}" /></td>
+                    <td colspan="2"><input name="fileName" type="file" id="fileName" size="50" accept="image/*" value="" title="{'Choose file to upload from your local machine.'|i18n('design/standard/ezoe/wai')}" /></td>
                 </tr>
                 <tr id="embedlistsrcrow">
                     <td class="column1"><label for="location">{'Location'|i18n('design/standard/ezoe')}</label></td>
