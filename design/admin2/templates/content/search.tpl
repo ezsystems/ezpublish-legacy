@@ -25,7 +25,7 @@
 
 {* DESIGN: Header END *}</div></div>
 
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 <div class="context-attributes">
 
@@ -71,7 +71,7 @@
 {/if}
 
 </div>
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 </div>
 
@@ -85,7 +85,7 @@
 
 {* DESIGN: Header END *}</div></div>
 
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 {include name=Result uri='design:content/searchresult.tpl' search_result=$search_result}
 
@@ -98,7 +98,7 @@
          view_parameters=$view_parameters
          item_limit=$page_limit}
 </div>
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 </div>
 {/if}
 

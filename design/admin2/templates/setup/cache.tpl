@@ -57,7 +57,7 @@
 
 {* DESIGN: Header END *}</div></div>
 
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 <table class="list cache" cellspacing="0">
 
@@ -87,7 +87,7 @@
 
 </table>
 
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 </div>
 
@@ -159,7 +159,7 @@
 
 {* DESIGN: Header END *}</div></div>
 
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 <table class="list cache" cellspacing="0">
 
@@ -171,7 +171,7 @@
 
 </table>
 
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 </div>
 

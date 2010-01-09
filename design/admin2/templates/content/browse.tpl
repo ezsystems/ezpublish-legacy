@@ -42,7 +42,7 @@
 
 {* DESIGN: Header END *}</div></div>
 
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 <div class="block">
 
@@ -51,7 +51,7 @@
 
 </div>
 
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 </div>
 
@@ -61,11 +61,12 @@
 
 {section show=or(eq($browse.action_name,"SelectLinkNodeID"),eq($browse.action_name,"SelectLinkObjectID"),eq($browse.action_name,"AddRelatedObjectToOE"))}
 <div class="context-block">
+
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 <h2 class="context-title">{'Bookmarks'|i18n( 'design/admin/content/browse' )}</h2>
-
 {* DESIGN: Header END *}</div></div>
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 <ul class="oe-bookmarks">
 {section var=Nodes loop=$bookmark_list show=$bookmark_list}
   <li>
@@ -95,7 +96,7 @@
     </li>
 {/section}
 </ul>
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 </div>
 {/section}
 
@@ -214,8 +215,8 @@
 {* DESIGN: Control bar END *}</div></div>
 </div>
 
+</div>
+
 </form>
 
 {/let}
-
-</div>

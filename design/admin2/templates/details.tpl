@@ -9,7 +9,7 @@
 
 {* DESIGN: Header END *}</div></div>
 
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 <table class="list" cellspacing="0" summary="{'Node and object details like creator, when it was created, section it belongs to, number of versions and translations, Node ID and Object ID.'|i18n( 'design/admin/node/view/full' )}">
 <tr>
@@ -32,6 +32,6 @@
 </tr>
 </table>
 
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 </div>

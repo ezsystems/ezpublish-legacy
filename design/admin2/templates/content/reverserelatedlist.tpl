@@ -11,7 +11,7 @@
 
 {* DESIGN: Header END *}</div></div>
 
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 {if and( is_set( $children_list ), $children_list )}
     {include uri='design:content/children_reverserelatedlist.tpl'}
@@ -21,6 +21,6 @@
 </div>
 {/if}
 
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 </div>

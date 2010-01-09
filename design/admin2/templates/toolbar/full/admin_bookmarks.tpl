@@ -18,7 +18,7 @@
 
 {* DESIGN: Header END *}</div></div>
 
-<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 
     {def $bookmark_list = fetch( 'content', 'bookmarks', hash( 'limit', 20 ) )
@@ -60,7 +60,7 @@
 	{/if}
     </div>
 
-</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 {else}
 

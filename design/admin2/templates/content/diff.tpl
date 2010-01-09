@@ -119,7 +119,7 @@ function show( element, method )
 <h2 class="context-title">{'Differences between versions %oldVersion and %newVersion'|i18n( 'design/admin/content/diff',, hash( '%oldVersion', $oldVersion, '%newVersion', $newVersion ) )}</h2>
 
 {* DESIGN: Header END *}</div></div>
-<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 <div id="diffview">
 
@@ -138,5 +138,5 @@ document.write('<div class="context-toolbar"><div class="block"><ul><li><a href=
 
 </div>
 
-</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 {/if}

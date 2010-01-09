@@ -134,7 +134,7 @@
     <div class="break"></div>
 </div>
 
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 <div class="mainobject-window" title="{$content_version.contentobject.name|wash} {'Node ID'|i18n( 'design/admin/node/view/full' )}: {$content_version.contentobject.main_node_id}, {'Object ID'|i18n( 'design/admin/node/view/full' )}: {$content_version.contentobject_id}">
     {content_version_view_gui view=plain content_version=$content_version}
@@ -142,7 +142,7 @@
 
 </div></div>
 
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 </div>
 {/if}
@@ -157,7 +157,7 @@
 
 {* DESIGN: Header END *}</div></div>
 
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 <div class="block">
 {section name=Role loop=$participant_list}
@@ -168,7 +168,7 @@
 {/section}
 </div>
 
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 </div>
 
@@ -184,7 +184,7 @@
 
 {* DESIGN: Header END *}</div></div>
 
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
   <table class="special" cellspacing="0">
   {section name=Message loop=$message_list sequence=array(bglight,bgdark)}
@@ -194,7 +194,7 @@
   {/section}
   </table>
 
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 </div>
 

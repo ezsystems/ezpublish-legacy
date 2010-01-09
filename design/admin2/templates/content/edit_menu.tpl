@@ -67,7 +67,7 @@
 
 {* DESIGN: Header END *}</div></div>
 
-<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 {* Created *}
 <p>
@@ -96,7 +96,7 @@
 <input class="button" type="submit" name="StoreExitButton" value="{'Store and exit'|i18n( 'design/admin/content/edit' )}" title="{'Store the draft that is being edited and exit from edit mode.'|i18n( 'design/admin/content/edit' )}" />
 </div>
 
-</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 </div>
 
 <!-- Translation box start-->
@@ -108,7 +108,7 @@
 
 {* DESIGN: Header END *}</div></div>
 
-<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 <label>
 <input type="radio" name="FromLanguage" value=""{if $from_language|not} checked="checked"{/if}{if $object.status|eq(0)} disabled="disabled"{/if} /> {'No translation'|i18n( 'design/admin/content/edit' )}
@@ -128,7 +128,7 @@
 <input {if $object.status|eq(0)}class="button-disabled" disabled="disabled"{else} class="button"{/if} type="submit" name="FromLanguageButton" value="{'Translate'|i18n( 'design/admin/content/edit' )}" title="{'Edit the current object showing the selected language as a reference.'|i18n( 'design/admin/content/edit' )}" />
 </div>
 
-</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 </div>
 
 <!-- Translation box end-->

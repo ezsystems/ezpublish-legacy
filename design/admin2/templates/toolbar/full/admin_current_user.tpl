@@ -7,7 +7,7 @@
 {* DESIGN: Header END *}</div></div>
 
 {if $hide_right_menu|not}
-    <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+    {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
     
     {if and( ne( $ui_context, 'edit' ), ne( $ui_context, 'browse' ) )}
         {def $user_node = $current_user.contentobject.main_node
@@ -34,7 +34,7 @@
         <li><div><span class="disabled">{'Change password'|i18n( 'design/admin/pagelayout' )}</span></div></li>
         </ul>
     {/if}
-    </div></div></div></div></div></div>
+    {* DESIGN: Content END *}</div></div></div>
 {/if}
 
 </div>

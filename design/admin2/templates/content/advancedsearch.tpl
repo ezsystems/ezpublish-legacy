@@ -174,7 +174,7 @@ selected="selected"
 
 {* DESIGN: Header END *}</div></div>
 
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 {include name=Result
          uri='design:content/searchresult.tpl'
@@ -190,7 +190,7 @@ selected="selected"
          item_limit=$page_limit}
 </div>
 
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 </div>
 {/section}

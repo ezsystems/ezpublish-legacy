@@ -111,7 +111,7 @@
 <div class="box-header"><div class="box-ml"><div class="box-mr">
 <h4>{'View control'|i18n( 'design/admin/content/view/versionview' )}</h4>
 </div></div></div>
-<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 {* Translation *}
 {if fetch( content, translation_list )|count|gt( 1 )}
@@ -180,7 +180,7 @@
 </div>
 
 </div>
-</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 </div>
 
 </div>
@@ -212,7 +212,7 @@
 
 {* DESIGN: Header END *}</div></div>
 
-<div class="box-ml"><div class="box-mr">
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-content">
 
 <div class="context-information">
 <p class="modified">&nbsp;</p>
@@ -235,7 +235,7 @@
 </div>
 
 
-</div></div>
+{* DESIGN: Content END *}</div></div>
 
 {* Buttonbar for content window. *}
 <div class="controlbar">

@@ -165,7 +165,7 @@
 <h2 class="context-title">{'Generated aliases [%count]'|i18n( 'design/admin/content/urlalias',, hash('%count', count( $elements ) ) )}</h2>
 
 {* DESIGN: Header END *}</div></div>
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 <div class="block">
 <p>{"Note that these entries are automatically generated from the name of the object. To change these names you must edit the object in the specific language and publish the changes."|i18n( 'design/admin/content/urlalias' )}</p>
@@ -216,7 +216,7 @@
 </table>
 
 
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 </div>
 {* Generated aliases context block end *}
 

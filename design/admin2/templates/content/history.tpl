@@ -8,7 +8,7 @@
 
 {* DESIGN: Header END *}</div></div>
 
-<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 {* Object ID *}
 <p>
@@ -48,7 +48,7 @@
 {/if}
 </p>
 
-</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 </div>
 
@@ -276,7 +276,7 @@
 <h2 class="context-title">{'Published version'|i18n( 'design/admin/content/history' )}</h2>
 
 {* DESIGN: Header END *}</div></div>
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 
 <table class="list" cellspacing="0">
@@ -345,7 +345,7 @@
 {undef $initial_language}
 </table>
 
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 </div>
 {* Published context block end *}
 
@@ -356,7 +356,7 @@
 <h2 class="context-title">{'New drafts [%newerDraftCount]'|i18n( 'design/admin/content/history',, hash( '%newerDraftCount', $newerDraftVersionListCount ) )}</h2>
 
 {* DESIGN: Header END *}</div></div>
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 {if $newerDraftVersionList|count|ge(1)}
 <table class="list" cellspacing="0">
@@ -429,7 +429,7 @@
 </div>
 {/if}
 
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 </div>
 
 </form>
@@ -447,7 +447,7 @@ function show( element, method )
 <h2 class="context-title">{'Differences between versions %oldVersion and %newVersion'|i18n( 'design/admin/content/history',, hash( '%oldVersion', $oldVersion, '%newVersion', $newVersion ) )}</h2>
 
 {* DESIGN: Header END *}</div></div>
-<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 <div id="diffview">
 
@@ -466,7 +466,7 @@ document.write('<div class="context-toolbar"><div class="block"><ul><li><a href=
 
 </div>
 
-</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 <div class="block">
 <div class="left">

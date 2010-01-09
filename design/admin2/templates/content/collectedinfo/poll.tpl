@@ -26,7 +26,7 @@
 
 {* DESIGN: Header END *}</div></div>
 
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 {section var=Attributes loop=$object.contentobject_attributes}
     {if $Attributes.item.contentclass_attribute.is_information_collector}
@@ -52,6 +52,6 @@
 <p>{'%count total votes'|i18n( 'design/admin/content/collectedinfo/poll',, hash( '%count', fetch( content, collected_info_count, hash( object_id, $object.id ) ) ) )}</p>
 </div>
 
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 </div>

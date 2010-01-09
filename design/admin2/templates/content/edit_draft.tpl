@@ -9,7 +9,7 @@
 
 {* DESIGN: Header END *}</div></div>
 
-<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 {* Object ID *}
 <p>
@@ -49,7 +49,7 @@
 {/if}
 </p>
 
-</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
 
 </div>
 
