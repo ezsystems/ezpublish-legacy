@@ -24,7 +24,7 @@
 <tr class="{$Groups.sequence}">
     <td><input type="checkbox" name="ContentClass_id_checked[]" value="{$Groups.item.id}" title="{'Select workflow group for removal.'|i18n( 'design/admin/workflow/grouplist' )}" /></td>
     <td><a href={concat( $module.functions.workflowlist.uri, '/', $Groups.item.id )|ezurl}>{$Groups.item.name|wash}</a></td>
-    <td><a href={concat( $module.functions.groupedit.uri, '/', $Groups.item.id )|ezurl}><img name="edit" src={'edit.gif'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/workflow/grouplist' )}" title="{'Edit the <%workflow_group_name> workflow group.'|i18n( 'design/admin/workflow/grouplist',, hash( '%workflow_group_name', $Groups.item.name ) )|wash}" /></a></td>
+    <td><a href={concat( $module.functions.groupedit.uri, '/', $Groups.item.id )|ezurl}><img src={'edit.gif'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/workflow/grouplist' )}" title="{'Edit the <%workflow_group_name> workflow group.'|i18n( 'design/admin/workflow/grouplist',, hash( '%workflow_group_name', $Groups.item.name ) )|wash}" /></a></td>
 </tr>
 {/section}
 {section-else}

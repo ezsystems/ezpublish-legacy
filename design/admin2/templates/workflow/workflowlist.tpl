@@ -76,7 +76,7 @@
     {/let}
     </td>
     <td>{$Workflows.item.modified|l10n( shortdatetime )}</td>
-    <td><a href={concat( $module.functions.edit.uri, '/', $Workflows.item.id )|ezurl}><img name="edit" src={'edit.gif'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/workflow/workflowlist' )}" title="{'Edit the <%workflow_name> workflow.'|i18n( 'design/admin/workflow/workflowlist',, hash( '%workflow_name', $Workflows.item.name ) )|wash}" /></a></td>
+    <td><a href={concat( $module.functions.edit.uri, '/', $Workflows.item.id )|ezurl}><img src={'edit.gif'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/workflow/workflowlist' )}" title="{'Edit the <%workflow_name> workflow.'|i18n( 'design/admin/workflow/workflowlist',, hash( '%workflow_name', $Workflows.item.name ) )|wash}" /></a></td>
     </tr>
    {/section}
 </table>
