@@ -16,13 +16,13 @@
 
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h1 class="context-title">{"Approval"|i18n('design/admin/collaboration/handler/view/full/ezapprove')}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
@@ -81,7 +81,7 @@
 
 <div class="controlbar">
 
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 
 <input type="hidden" name="CollaborationActionCustom" value="custom" />
 <input type="hidden" name="CollaborationTypeIdentifier" value="ezapprove" />
@@ -110,7 +110,7 @@
 {/if}
 </div>
 
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 
 </div>
@@ -118,13 +118,13 @@
 {if $content_version|null()|not()}
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h2 class="context-title">{"Preview"|i18n('design/admin/collaboration/handler/view/full/ezapprove')}</h2>
 
-{* DESIGN: Mainline *}<div class="header-subline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Header END *}</div></div>
 
 <div class="box-ml"><div class="box-mr">
 
@@ -149,13 +149,13 @@
 
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h2 class="context-title">{"Participants"|i18n('design/admin/collaboration/handler/view/full/ezapprove')}</h2>
 
-{* DESIGN: Mainline *}<div class="header-subline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
@@ -176,13 +176,13 @@
 
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h2 id="messages" class="context-title">{"Messages"|i18n('design/admin/collaboration/handler/view/full/ezapprove')}</h2>
 
-{* DESIGN: Mainline *}<div class="header-subline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 

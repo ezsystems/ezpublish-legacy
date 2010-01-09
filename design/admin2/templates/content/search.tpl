@@ -18,12 +18,12 @@
 <form action={'/content/search/'|ezurl} method="get">
 
 <div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 <h1 class="context-title">{'Search'|i18n( 'design/admin/content/search' )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
@@ -78,12 +78,12 @@
 {* Search result. *}
 {if $search_count}
 <div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 <h2 class="context-title">{'Search for <%1> returned %2 matches'|i18n( 'design/admin/content/search',, array( $search_text, $search_count ) )|wash}</h2>
 
-{* DESIGN: Mainline *}<div class="header-subline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 

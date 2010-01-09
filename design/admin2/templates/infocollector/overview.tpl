@@ -4,13 +4,13 @@
 
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h1 class="context-title">{'Objects that have collected information [%object_count]'|i18n( 'design/admin/infocollector/overview',, hash( '%object_count', $object_count ) )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
@@ -88,7 +88,7 @@
 
 {* Buttons. *}
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
 {if $object_array}
 <input class="button" type="submit" name="RemoveObjectCollectionButton" value="{'Remove selected'|i18n( 'design/admin/infocollector/overview' )}" title="{'Remove all information that was collected by the selected objects.'|i18n( 'design/admin/infocollector/overview' )}" />
@@ -96,7 +96,7 @@
 <input class="button-disabled" type="submit" name="RemoveObjectCollectionButton" value="{'Remove selected'|i18n( 'design/admin/infocollector/overview' )}" disabled="disabled" />
 {/if}
 </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 
 </div>

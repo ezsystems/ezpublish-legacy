@@ -3,11 +3,11 @@
 
 <div class="objectinfo">
 
-<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h4>{'Object information'|i18n( 'design/admin/content/edit_draft' )}</h4>
 
-</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
@@ -115,13 +115,13 @@
 
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h2 class="context-title">{'Current drafts [%draft_count]'|i18n( 'design/admin/content/edit_draft',, hash( '%draft_count', $draft_versions|count ) )}</h2>
 
-{* DESIGN: Subline *}<div class="header-subline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
@@ -179,7 +179,7 @@
 
 {* DESIGN: Content END *}</div></div></div>
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
 {if $has_own_drafts}
 <input class="defaultbutton" type="submit" name="EditButton" value="{'Edit selected'|i18n( 'design/admin/content/edit_draft' )}" title="{'Edit the selected draft.'|i18n( 'design/admin/content/edit_draft' )}" />
@@ -191,7 +191,7 @@
 <input class="button" type="submit" name="CancelDraftButton" value="{'Cancel'|i18n( 'design/admin/content/edit_draft' )}" title="{'Cancel the edit operation.'|i18n( 'design/admin/content/edit_draft' )}" />
 <input type="hidden" name="DoNotEditAfterNewDraft" value="1" />
 </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 
 </div>
 </div>

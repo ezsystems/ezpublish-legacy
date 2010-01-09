@@ -1,9 +1,9 @@
 {if eq( $ui_context, 'edit' )}
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h4>{'Role information'|i18n( 'design/admin/parts/user/menu' )}</h4>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
@@ -23,7 +23,7 @@
 
 <div id="content-tree">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 {if ezpreference( 'admin_treemenu' )}
 <h4><a class="show-hide-control" href={'/user/preferences/set/admin_treemenu/0'|ezurl} title="Hide users and user groups.">-</a> {'User accounts'|i18n( 'design/admin/parts/user/menu' )}</h4>
@@ -31,7 +31,7 @@
 <h4><a class="show-hide-control" href={'/user/preferences/set/admin_treemenu/1'|ezurl} title="Show users and user groups.">+</a> {'User accounts'|i18n( 'design/admin/parts/user/menu' )}</h4>
 {/if}
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 

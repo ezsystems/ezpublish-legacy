@@ -3,7 +3,7 @@
 
 {* DESIGN: Content END *}</div></div></div>
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 
 
 {if $current_step.next_step}
@@ -17,5 +17,5 @@
 {/if}
 
 
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>

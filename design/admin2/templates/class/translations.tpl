@@ -7,15 +7,15 @@
 
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h2 class="context-title">{'Translations [%translations]'|i18n( 'design/admin/class/view',, hash( '%translations', $translations_count ) )}</h2>
 
-{* DESIGN: Subline *}<div class="header-subline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
 
-{* DESIGN: Content START *}{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Header END *}</div></div>
+
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
 <div class="block">
 <fieldset>

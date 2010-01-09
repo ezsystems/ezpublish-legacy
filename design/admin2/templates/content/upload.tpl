@@ -8,11 +8,11 @@
 
 <div class="objectinfo">
 
-<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h4>{'Object information'|i18n( 'design/admin/content/upload' )}</h4>
 
-</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-br"><div class="box-bl"><div class="box-content">
 
@@ -64,11 +64,11 @@
 
 <div class="drafts">
 
-<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h4>{'Current draft'|i18n( 'design/admin/content/upload' )}</h4>
 
-</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
@@ -126,13 +126,13 @@
 {else}
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h1 class="context-title">{'File upload'|i18n( 'design/admin/content/upload' )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
@@ -150,13 +150,13 @@
 
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h2 class="context-title">{'Upload file'|i18n( 'design/admin/content/upload' )}</h2>
 
-{* DESIGN: Subline *}<div class="header-subline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
@@ -212,14 +212,14 @@
 
 {* DESIGN: Content END *}</div></div></div>
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
 
 <input class="button" type="submit" name="UploadFileButton" value="{'Upload'|i18n( 'design/admin/content/upload' )}" title="{'Proceed with uploading the selected file.'|i18n( 'design/admin/content/upload' )}" />
 <input class="button" type="submit" name="CancelUploadButton" value="{'Cancel'|i18n( 'design/admin/content/upload' )}" title="{'Abort the upload operation.'|i18n( 'design/admin/content/upload' )}" />
 
 </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 
 </div>

@@ -3,12 +3,12 @@
      subscribed_nodes=fetch( 'notification', 'subscribed_nodes', hash( 'limit', $number_of_items, 'offset', $view_parameters.offset ) )
      subscribed_nodes_count=fetch( 'notification', 'subscribed_nodes_count')}
 <div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 <h2 class="context-title">{'My item notifications [%notification_count]'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit',, hash( '%notification_count', $subscribed_nodes_count ) )}</h2>
 
-{* DESIGN: Mainline *}<div class="header-subline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
@@ -79,7 +79,7 @@
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
     <div class="block">
         {if $subscribed_nodes}
         <input class="button" type="submit" name="RemoveRule_{$handler.id_string}" value="{'Remove selected'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit' )}" title="{'Remove selected items.'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit' )}" />
@@ -89,7 +89,7 @@
 
         <input class="button" type="submit" name="NewRule_{$handler.id_string}" value="{'Add items'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit' )}" title="{'Add items to your personal notification list.'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit' )}" />
     </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 
 </div>

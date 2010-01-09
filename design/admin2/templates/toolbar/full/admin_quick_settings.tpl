@@ -4,13 +4,16 @@
 <div id="quicksettings-tool">
 {if ezpreference( 'admin_quicksettings_menu' )}
 
-<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
+
    {if eq( $ui_context, 'edit' )}
      <h4><span class="disabled show-hide-control">-</span> <span class="disabled">{'Quick settings'|i18n( 'design/admin/pagelayout' )}</span></h4>
    {else}
      <h4><a class="show-hide-control" href={'/user/preferences/set/admin_quicksettings_menu/0'|ezurl} title="{'Hide quick settings'|i18n( 'design/admin/pagelayout' )}">-</a> {'Quick settings'|i18n( 'design/admin/pagelayout' )}</h4>
    {/if}
-</div></div></div></div></div></div>
+
+{* DESIGN: Header END *}</div></div>
+
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
     {let siteaccess        = ezpreference( 'admin_quicksettings_siteaccess' )
          select_siteaccess = true}
@@ -20,13 +23,15 @@
 
 {else}
 
-<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
+
      {if eq( $ui_context, 'edit' )}
          <h4><span class="disabled show-hide-control">+</span> <span class="disabled">{'Quick settings'|i18n( 'design/admin/pagelayout' )}</span></h4>
      {else}
          <h4><a class="show-hide-control" href={'/user/preferences/set/admin_quicksettings_menu/1'|ezurl} title="{'Quick settings'|i18n( 'design/admin/pagelayout' )}">+</a>{'Quick settings'|i18n( 'design/admin/pagelayout' )}</h4>
      {/if}
-</div></div></div></div></div></div>
+
+{* DESIGN: Header END *}</div></div>
 
 {/if}
 </div>

@@ -1,13 +1,13 @@
 <form action={'shop/discountgroup'|ezurl} method="post">
 
 <div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h1 class="context-title">{'%discount_group [Discount group]'|i18n( 'design/admin/shop/discountgroupmembershipview',, hash( '%discount_group', $discountgroup.name ) )|wash}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
@@ -23,14 +23,14 @@
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
 <input type="hidden" name="discountGroupIDList[]" value="{$discountgroup.id}" />
 <input type="hidden" name="EditGroupID" value="{$discountgroup.id}" />
 <input class="button" type="submit" name="EditGroupButton" value="{'Edit'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" title="{'Edit this discount group.'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" />
 <input class="button" type="submit" name="RemoveDiscountGroupButton" value="{'Remove'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" title="{'Remove this discount group.'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" />
 </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 
 </div>
@@ -41,13 +41,13 @@
 <form action={concat( $module.functions.discountgroupview.uri, '/', $discountgroup.id )|ezurl} method="post" name="DiscountGroupView">
 
 <div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h2 class="context-title">{'Discount rules [%rule_count]'|i18n( 'design/admin/shop/discountgroupmembershipview',, hash( '%rule_count', $rule_list|count ) )}</h2>
 
-{* DESIGN: Mainline *}<div class="header-subline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
@@ -80,7 +80,7 @@
 
 <div class="controlbar">
 
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 
 <div class="block">
     {if $rule_list}
@@ -91,7 +91,7 @@
     <input class="button" type="submit" name="AddRuleButton" value="{'New discount rule'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" title="{'Create a new discount rule and add it to the <%discount_group_name> discount group.'|i18n( 'design/admin/shop/discountgroupmembershipview',, hash( '%discount_group_name', $discountgroup.name ) )|wash}" />
 </div>
 
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 
 </div>
 </div>
@@ -100,12 +100,12 @@
 
 
 <div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 <h2 class="context-title">{'Customers (users and user groups) [%customer_count]'|i18n( 'design/admin/shop/discountgroupmembershipview',, hash( '%customer_count', $customers|count) )}</h2>
 
-{* DESIGN: Mainline *}<div class="header-subline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
@@ -133,7 +133,7 @@
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
     {if $customers}
     <input class="button" type="submit" name="RemoveCustomerButton" value="{'Remove selected'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" title="{'Remove selected users and/or user groups.'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" />
@@ -142,7 +142,7 @@
     {/if}
     <input class="button" type="submit" name="AddCustomerButton" value="{'Add customers'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" title="{'Add users and/or user groups to the <%discount_group_name> discount group.'|i18n( 'design/admin/shop/discountgroupmembershipview',, hash( '%discount_group_name', $discountgroup.name ) )|wash}" />
 </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 
 </div>

@@ -5,11 +5,11 @@
 
 <div class="objectinfo">
 
-<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h4>{'Object information'|i18n( 'design/admin/content/view/versionview' )}</h4>
 
-</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-br"><div class="box-bl"><div class="box-content">
 
@@ -69,11 +69,11 @@
 
 <div class="versioninfo">
 
-<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h4>{'Version information'|i18n( 'design/admin/content/view/versionview' )}</h4>
 
-</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-content">
 
@@ -204,13 +204,13 @@
 {* Content window. *}
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h1 class="context-title"><a href={concat( '/class/view/', $object.contentclass_id )|ezurl} onclick="ezpopmenu_showTopLevel( event, 'ClassMenu', ez_createAArray( new Array( '%classID%', {$object.contentclass_id},'%objectID%',{$object.id},'%nodeID%',{$node.node_id},'%currentURL%','{$node.url|wash( javascript )}')), '{$object.content_class.name|wash(javascript)}', ['class-createnodefeed', 'class-removenodefeed'] ); return false;">{$object.content_class.identifier|class_icon( normal, $node.class_name )}</a>&nbsp;{$object.name|wash}&nbsp;[{$object.content_class.name|wash}]</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 <div class="box-ml"><div class="box-mr">
 
@@ -239,7 +239,7 @@
 
 {* Buttonbar for content window. *}
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
 <form method="post" action={concat( 'content/versionview/', $object.id, '/', $version.version, '/', $language, '/', $from_language )|ezurl}>
 {* version.status 0 is draft
@@ -254,7 +254,7 @@
 {/if}
 </form>
 </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 </div>
 

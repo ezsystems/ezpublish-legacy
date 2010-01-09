@@ -3,12 +3,12 @@
 {let number_of_items=min( ezpreference( 'admin_role_list_limit' ), 3)|choose( 10, 10, 25, 50 )}
 
 <div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 <h1 class="context-title">{'Roles [%role_count]'|i18n( 'design/admin/role/list',, hash( '%role_count', $role_count ) )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
@@ -78,12 +78,12 @@
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
     <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/role/list' )}" title="{'Remove selected roles.'|i18n( 'design/admin/role/list' )}" />
     <input class="button" type="submit" name="NewButton" value="{'New role'|i18n( 'design/admin/role/list' )}" title="{'Create a new role.'|i18n( 'design/admin/role/list' )}" />
 </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 
 </div>

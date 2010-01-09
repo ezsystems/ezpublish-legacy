@@ -2,13 +2,13 @@
 
 <div class="context-block" id="content-relation-items">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h2 class="context-title">{'Related objects [%related_objects]'|i18n( 'design/admin/content/edit',, hash( '%related_objects', $related_contentobjects|count ) )}</h2>
 
-{* DESIGN: Subline *}<div class="header-subline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
@@ -200,7 +200,7 @@
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
 
     {if $related_contentobjects_id['common']|count|gt( 0 )}
@@ -212,7 +212,7 @@
     <input class="button" type="submit" name="BrowseObjectButton" value="{'Add existing'|i18n( 'design/admin/content/edit' )}" title="{'Add an existing item as a related object.'|i18n( 'design/admin/content/edit' )}" />
     <input class="button" type="submit" name="UploadFileRelationButton" value="{'Upload new'|i18n( 'design/admin/content/edit' )}" title="{'Upload a file and add it as a related object.'|i18n( 'design/admin/content/edit' )}" />
 </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 
 </div>

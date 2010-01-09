@@ -55,10 +55,10 @@
 
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 <h1 class="context-title">{'URL aliases for <%node_name> [%alias_count]'|i18n( 'design/admin/content/urlalias',, hash( '%node_name', $node.name, '%alias_count', $filter.count ) )|wash}</h1>
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {* list here *}
@@ -128,7 +128,7 @@
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 
 {* buttons here *}
 <div class="block">
@@ -152,7 +152,7 @@
 </div>
 
 
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 
 </div>
 
@@ -161,10 +161,10 @@
 {* Generated aliases context block start *}
 {* Generated aliases window. *}
 <div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 <h2 class="context-title">{'Generated aliases [%count]'|i18n( 'design/admin/content/urlalias',, hash('%count', count( $elements ) ) )}</h2>
-{* DESIGN: Subline *}<div class="header-subline"></div>
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Header END *}</div></div>
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
 <div class="block">
@@ -227,10 +227,10 @@
 {* Create new alias context block start *}
 {* Create new alias window. *}
 <div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 <h2 class="context-title">{'Create new alias'|i18n( 'design/admin/content/urlalias' )}</h2>
-{* DESIGN: Subline *}<div class="header-subline"></div>
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Header END *}</div></div>
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 
@@ -293,13 +293,13 @@
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 
 <div class="block">
 {* Create button. *}
     <input class="button" type="submit" name="NewAliasButton" value="{'Create'|i18n( 'design/admin/content/urlalias_global' )}" title="{'Create a new global URL alias.'|i18n( 'design/admin/content/urlalias_global' )}" />
 </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 
 <div class="break"></div>

@@ -62,7 +62,7 @@ span.show-hide-control.disabled
   background: transparent url('../../images/2/ez-logo.png') no-repeat right top scroll;
 }
 
-.loginpage #columns #maincontent .box-header .box-tc h1
+.loginpage #columns #maincontent .box-header .box-ml h1
 {
   margin: 0.35em 0 0.1em 0.2em;
 }

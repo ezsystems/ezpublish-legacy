@@ -17,13 +17,13 @@
 
 <form name="registerform" method="post" action={'/user/register/'|ezurl} enctype="multipart/form-data">
 {if count($content_attributes)|gt(0)}
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h1 class="context-title">{'Register new user'|i18n( 'design/admin/user/register' )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
@@ -34,12 +34,12 @@
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
     <div class="block">
         <input class="button" type="submit" id="PublishButton" name="PublishButton" value="{'OK'|i18n( 'design/admin/user/register' )}" onclick="window.setTimeout( disableButtons, 1 ); return true;" />
         <input class="button" type="submit" id="CancelButton" name="CancelButton" value="{'Cancel'|i18n( 'design/admin/user/register' )}" onclick="window.setTimeout( disableButtons, 1 ); return true;" />
     </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 
 <input type="hidden" name="" value="" />
@@ -50,12 +50,12 @@
 <h2>{'Unable to register new user'|i18n( 'design/admin/user/register' )}</h2>
 </div>
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
     <div class="block">
         <input class="button button-disabled" disabled="disabled" type="submit" id="PublishButton" name="PublishButton" value="{'OK'|i18n( 'design/admin/user/register' )}" onclick="window.setTimeout( disableButtons, 1 ); return true;" />
         <input class="button" type="submit" id="CancelButton" name="CancelButton" value="{'Back'|i18n( 'design/admin/user/register' )}" onclick="window.setTimeout( disableButtons, 1 ); return true;" />
     </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 {/if}
 

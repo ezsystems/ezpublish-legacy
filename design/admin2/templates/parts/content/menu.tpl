@@ -1,6 +1,6 @@
 <div id="content-tree">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 {if ezpreference( 'admin_treemenu' )}
 <h4><a class="show-hide-control" href={'/user/preferences/set/admin_treemenu/0'|ezurl} title="{'Hide content structure.'|i18n( 'design/admin/parts/content/menu' )}">-</a> {'Content structure'|i18n( 'design/admin/parts/content/menu' )}</h4>
@@ -8,7 +8,7 @@
 <h4><a class="show-hide-control" href={'/user/preferences/set/admin_treemenu/1'|ezurl} title="{'Show content structure.'|i18n( 'design/admin/parts/content/menu' )}">+</a> {'Content structure'|i18n( 'design/admin/parts/content/menu' )}</h4>
 {/if}
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 

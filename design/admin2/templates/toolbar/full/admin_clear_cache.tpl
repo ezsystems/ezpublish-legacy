@@ -4,7 +4,7 @@
 <div id="clearcache-tool">
 {if ezpreference( 'admin_clearcache_menu' )}
 
-<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
     {if and( ne( $ui_context, 'edit' ), ne( $ui_context, 'browse' ) )}
         <h4><a class="show-hide-control" href={'/user/preferences/set/admin_clearcache_menu/0'|ezurl} title="{'Hide clear cache menu.'|i18n( 'design/admin/pagelayout' )}">-</a> {'Clear cache'|i18n( 'design/admin/pagelayout' )}</h4>
@@ -16,7 +16,7 @@
 	    {/if}
     {/if}
     
-</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
@@ -27,7 +27,7 @@
 
 {else}
 
-<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
     {if and( ne( $ui_context,'edit' ), ne( $ui_context, 'browse' ) )}
         <h4><a class="show-hide-control" href={'/user/preferences/set/admin_clearcache_menu/1'|ezurl} title="{'Show clear cache menu.'|i18n( 'design/admin/pagelayout' )}">+</a> {'Clear cache'|i18n( 'design/admin/pagelayout' )}</h4>
@@ -39,7 +39,7 @@
 	    {/if}
     {/if}
     
-</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {/if}
 </div>

@@ -16,13 +16,13 @@
 {* ## START messages ## *}
 {section show=$remove_list}
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h1 class="context-title">{'Remove section?'|i18n( 'design/admin/package/list' )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
@@ -47,7 +47,7 @@ Note: The packages will not be uninstalled.'|i18n('design/admin/package/list')|b
 
 <div class="controlbar">
 
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 
 <div class="block">
 
@@ -56,7 +56,7 @@ Note: The packages will not be uninstalled.'|i18n('design/admin/package/list')|b
 
 </div>
 
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 
 </div>
 
@@ -69,13 +69,13 @@ Note: The packages will not be uninstalled.'|i18n('design/admin/package/list')|b
 
 {* ## START default window ## *}
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h1 class="context-title">{'Packages'|i18n('design/admin/package/list')}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
@@ -135,7 +135,7 @@ Note: The packages will not be uninstalled.'|i18n('design/admin/package/list')|b
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 
 
 {let can_create=fetch( package, can_create )
@@ -150,7 +150,7 @@ Note: The packages will not be uninstalled.'|i18n('design/admin/package/list')|b
 
 {/let}
 
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 
 {/section}

@@ -1,12 +1,12 @@
 <form name="pdfexportlist" method="post" action={'pdf/list'|ezurl}>
 
 <div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 <h1 class="context-title">{'PDF exports [%export_count]'|i18n( 'design/admin/pdf/list',, hash( '%export_count', $pdfexport_list|count ) )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
@@ -63,7 +63,7 @@
 
 {* Buttons. *}
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
 {if $pdfexport_list}
     <input class="button" type="submit" name="RemoveExportButton" value="{'Remove selected'|i18n( 'design/admin/pdf/list' )}" title="{'Remove selected PDF exports.'|i18n( 'design/admin/pdf/list' )}" />
@@ -73,7 +73,7 @@
 
 <input class="button" type="submit" name="NewPDFExport" value="{'New PDF export'|i18n( 'design/admin/pdf/list' )}" title="{'Create a new PDF export.'|i18n( 'design/admin/pdf/list' )}" />
 </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div>
 </div>
 
 </div>

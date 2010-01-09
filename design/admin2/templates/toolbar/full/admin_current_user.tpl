@@ -1,10 +1,11 @@
 <div id="currentuser">
 
-<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h4>{'Current user'|i18n( 'design/admin/pagelayout' )}</h4>
 
-</div></div></div></div></div></div>
+{* DESIGN: Header END *}</div></div>
+
 {if $hide_right_menu|not}
     <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
     
