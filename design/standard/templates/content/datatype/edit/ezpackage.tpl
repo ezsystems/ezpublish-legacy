@@ -23,11 +23,11 @@
 
 <div class="block">
 {section name=Package loop=$:package_list}
- <div class="package_element" align="bottom">
-      <label for="ezpackage_data_text_{$attribute.id}_{$:item.name|wash}"><img class="package-thumbnail" src={$:item|ezpackage( thumbnail )|ezroot} /></label>
+ <div class="package_element">
+      <label for="ezpackage_data_text_{$attribute.id}_{$:item.name|wash}"><img class="package-thumbnail" src={$:item|ezpackage( thumbnail )|ezroot} alt="{$:item.summary|wash}" /></label>
       <br />
       <input type="radio" id="ezpackage_data_text_{$attribute.id}_{$:item.name|wash}" name="{$attribute_base}_ezpackage_data_text_{$attribute.id}" value="{$:item.name|wash}"
-      {if eq( $:item.name, $package_attr_name )} checked{/if} /><label for="{$:item.name|wash}">{$:item.summary|wash}:</label>
+      {if eq( $:item.name, $package_attr_name )} checked{/if} /><label for="ezpackage_data_text_{$attribute.id}_{$:item.name|wash}">{$:item.summary|wash}:</label>
  </div>
  {delimiter modulo=4}
     </div>

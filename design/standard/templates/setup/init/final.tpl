@@ -27,12 +27,12 @@
     <tr>
 
       <td class="setup_site_templates">*}
-        <div align="top">
+        <div>
           <a href="{$site_type.url|wash}" target="_other">
             <img class="site-type" src={"design/standard/images/setup/eZ_setup_template_default.png"|ezroot} alt="{$site_type.title|wash}" />
           </a>
         </div>
-        <div align="bottom">
+        <div>
       <table border="0" cellspacing="0" cellpadding="0">
         <tr>
           <td>{"Title"|i18n("design/standard/setup/init")}:&nbsp;</td>

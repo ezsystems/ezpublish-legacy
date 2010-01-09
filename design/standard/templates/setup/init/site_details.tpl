@@ -75,7 +75,7 @@ The setup can continue with the initialization but may damage the present data."
     {/if}
 </div>
 
-<div align="bottom">
+<div>
     <fieldset>
     <legend>{'Details for site'|i18n( 'design/standard/setup' )}:</legend>
     <table border="0" cellspacing="2" cellpadding="0">
