@@ -141,7 +141,7 @@ ul.tabs li.first a
 
 div.tab-content
 {
-  height: 220px;
+  height: 20em;
   overflow-y: scroll;
   padding: 0.5em;
 }
