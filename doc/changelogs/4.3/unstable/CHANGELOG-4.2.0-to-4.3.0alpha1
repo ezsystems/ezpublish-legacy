@@ -88,3 +88,4 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Fixed bug #16002: Redirect after a login on SSO system (with an SSO Handler extension) is done with a meta redirect
 - Fixed bug #15572: User registration validation error text is incomplete (when password length < minpasswordlength)
 - Fixed bug #16009: SSO handlers can lead to an infinite loop on user/logout
+- Fixed bug #16011: invalid html using attribute(show)
