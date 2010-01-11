@@ -34,6 +34,11 @@
         <a href={concat( $node_url_alias, '/(tab)/relations' )|ezurl} title="{'Hide object relation overview.'|i18n( 'design/admin/node/view/full' )}">{'Relations'|i18n( 'design/admin/node/view/full' )}</a>
     </li>
 
+    {* State assignment *}
+    <li id="node-tab-states" class="last{if $node_tab_index|eq('states')} selected{/if}">
+        <a href={concat( $node_url_alias, '/(tab)/states' )|ezurl} title="{'Hide state assignment widget.'|i18n( 'design/admin/node/view/full' )}">{'Object states'|i18n( 'design/admin/node/view/full' )}</a>
+    </li>
+
     {* Roles *}
     <li id="node-tab-roles" class="middle{if $node_tab_index|eq('roles')} selected{/if}">
         <a href={concat( $node_url_alias, '/(tab)/roles' )|ezurl} title="{'Hide role overview.'|i18n( 'design/admin/node/view/full' )}">{'Roles'|i18n( 'design/admin/node/view/full' )}</a>
@@ -42,12 +47,6 @@
     {* Policies *}
     <li id="node-tab-policies" class="middle{if $node_tab_index|eq('policies')} selected{/if}">
         <a href={concat( $node_url_alias, '/(tab)/policies' )|ezurl} title="{'Hide policy overview.'|i18n( 'design/admin/node/view/full' )}">{'Policies'|i18n( 'design/admin/node/view/full' )}</a>
-    </li>
-
-
-    {* State assignment *}
-    <li id="node-tab-states" class="last{if $node_tab_index|eq('states')} selected{/if}">
-        <a href={concat( $node_url_alias, '/(tab)/states' )|ezurl} title="{'Hide state assignment widget.'|i18n( 'design/admin/node/view/full' )}">{'Object states'|i18n( 'design/admin/node/view/full' )}</a>
     </li>
 </ul>
 {undef $node_url_alias $node_tab_index}
