@@ -192,7 +192,6 @@ a.image-text:hover > span
   margin-left: 1.5em;
 }
 #rightmenu label { font-weight:normal; }
-#maincontent div.box-header div.block div.right { padding-top: 1.3em; }
 
 a#rightmenu-showhide.show-hide-control
 {
@@ -496,11 +495,6 @@ div.popupmenu hr
 .box-content div.context-toolbar.block
 {
   padding: 0 0.5em 0 0.5em;
-}
-
-.box-header .block
-{
-  margin: 0;
 }
 
 .box-ml
