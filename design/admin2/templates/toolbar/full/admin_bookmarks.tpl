@@ -67,7 +67,7 @@
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
     {if and( ne( $ui_context,'edit' ), ne( $ui_context, 'browse' ) )}
-        <h4><a class="show-hide-control" href={'/user/preferences/set/admin_bookmark_menu/1'|ezurl} title="{'Show bookmarks.'|i18n( 'design/admin/pagelayout' )}">+</a> {'Bookmarks'|i18n( 'design/admin/pagelayout' )}/h4>
+        <h4><a class="show-hide-control" href={'/user/preferences/set/admin_bookmark_menu/1'|ezurl} title="{'Show bookmarks.'|i18n( 'design/admin/pagelayout' )}">+</a> {'Bookmarks'|i18n( 'design/admin/pagelayout' )}</h4>
     {else}
 	    {if eq( $ui_context, 'edit' )}
 	        <h4><span class="disabled show-hide-control">+</span> <span class="disabled">{'Bookmarks'|i18n( 'design/admin/pagelayout' )}</span></h4>
