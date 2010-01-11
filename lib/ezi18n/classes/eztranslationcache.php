@@ -202,7 +202,7 @@ class eZTranslationCache
 
         $cache =& $translationCache[$key];
 
-        if ( file_exists( eZTranslationCache::cacheDirectory() ) )
+        if ( !file_exists( eZTranslationCache::cacheDirectory() ) )
         {
             eZDir::mkdir( eZTranslationCache::cacheDirectory(), false, true );
         }
