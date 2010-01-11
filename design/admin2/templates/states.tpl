@@ -3,17 +3,6 @@
 <input type="hidden" name="ObjectID" value="{$node.object.id}" />
 <input type="hidden" name="RedirectRelativeURI" value="{$node.url_alias}" />
 
-<div class="context-block">
-
-{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
-
-<h2 class="context-title">{'Object states'|i18n( 'design/admin/node/view/full' )}</h2>
-
-
-
-{* DESIGN: Header END *}</div></div>
-
-{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 <table class="list" cellspacing="0" summary="{'States and their states groups for current object.'|i18n( 'design/admin/node/view/full' )}">
 {if $node.object.allowed_assign_state_list|count}
     <tr>
@@ -42,10 +31,7 @@
     </tr>
 {/if}
 </table>
-{* DESIGN: Content END *}</div></div></div>
 
-<div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
 <div class="button-left">
     {if $node.object.allowed_assign_state_list|count}
@@ -57,8 +43,5 @@
 
 <div class="break"></div>
 </div>
-{* DESIGN: Control bar END *}</div></div>
 
-</div>
-</div>
 </form>

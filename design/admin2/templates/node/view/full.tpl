@@ -1,5 +1,4 @@
 {include uri='design:infocollection_validation.tpl'}
-{include uri='design:window_controls.tpl'}
 
 <div class="content-navigation">
 
@@ -46,17 +45,12 @@
 <div class="break"></div>
 </div>
 
-{* Content preview in content window. *}
-{if ezpreference( 'admin_navigation_content'  )}
-<div class="mainobject-window" title="{$node.name|wash} {'Node ID'|i18n( 'design/admin/node/view/full' )}: {$node.node_id}, {'Object ID'|i18n( 'design/admin/node/view/full' )}: {$node.object.id}">
-<div class="fixedsize">{* Fix for overflow bug in Opera *}
-<div class="holdinplace">{* Fix for some width bugs in IE *}
-    {node_view_gui content_node=$node view=admin_preview}
+<div class="tab-block">
+{include uri='design:window_controls.tpl'}
+
+{include uri="design:windows.tpl"}
+{ezscript_require( 'node_tabs.js' )}
 </div>
-</div>
-<div class="break"></div>{* Terminate overflow bug fix *}
-</div>
-{/if}
 
 {* DESIGN: Content END *}</div></div>
 
@@ -130,6 +124,11 @@
 
 </div>
 
-{include uri="design:windows.tpl"}
+{* Children window.*}
+{if $node.is_container}
+    {include uri='design:children.tpl'}
+{else}
+    {include uri='design:no_children.tpl'}
+{/if}
 
 </div>

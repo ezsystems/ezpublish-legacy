@@ -11,20 +11,6 @@ pre
 
 /* CONTENT */
 
-div.mainobject-window
-{
-  max-height: 200px;
-  overflow-y: scroll;
-  border: 1px solid #dfdfdf;
-  padding: 0.5em;
-  background-color: #fdfdfd;
-}
-
-div.content-navigation div.mainobject-window div.holdinplace
-{
-  padding-right: 0.5em;
-}
-
 div#maincontent div.content-translation div.block div.original
 {
   background-color: #f5f5f5;

@@ -1,15 +1,4 @@
 {* Details window. *}
-<div class="context-block">
-
-{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
-
-<h2 class="context-title">{'Details'|i18n( 'design/admin/node/view/full' )}</h2>
-
-
-
-{* DESIGN: Header END *}</div></div>
-
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 <table class="list" cellspacing="0" summary="{'Node and object details like creator, when it was created, section it belongs to, number of versions and translations, Node ID and Object ID.'|i18n( 'design/admin/node/view/full' )}">
 <tr>
@@ -31,7 +20,3 @@
     <td class="number" align="right">{$node.object.id}</td>
 </tr>
 </table>
-
-{* DESIGN: Content END *}</div></div></div>
-
-</div>

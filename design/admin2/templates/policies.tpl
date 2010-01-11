@@ -1,18 +1,6 @@
 {let assigned_roles=fetch( user, member_of, hash( id, $node.contentobject_id ) )
      assigned_policies=fetch( user, user_role, hash( user_id, $node.contentobject_id ) )}
 
-<div class="context-block">
-
-{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
-
-<h2 class="context-title">{'Available policies [%policy_count]'|i18n( 'design/admin/node/view/full',, hash( '%policy_count', $assigned_policies|count ) )}</h2>
-
-
-
-{* DESIGN: Header END *}</div></div>
-
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
-
 {section show=$assigned_policies}
 
 <table class="list" cellspacing="0" summary="{'Policy list and the Role that are assignet to current node.'|i18n( 'design/admin/node/view/full' )}">
@@ -87,9 +75,5 @@
     <p>{'There are no available policies.'|i18n( 'design/admin/node/view/full' )}</p>
 </div>
 {/section}
-
-{* DESIGN: Content END *}</div></div></div>
-
-</div>
 
 {/let}

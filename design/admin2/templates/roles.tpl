@@ -1,17 +1,5 @@
 {let member_groups=fetch( user, member_of, hash( id, $node.contentobject_id ) )}
 
-<div class="context-block">
-
-{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
-
-<h2 class="context-title">{'Assigned roles [%roles_count]'|i18n( 'design/admin/node/view/full',, hash( '%roles_count', $member_groups|count ) )}</h2>
-
-
-
-{* DESIGN: Header END *}</div></div>
-
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
-
 {section show=count( $member_groups )}
 <table class="list" cellspacing="0" summary="{'List of roles assigned with and without limitations for current node.'|i18n( 'design/admin/node/view/full' )}">
 <tr>
@@ -53,9 +41,5 @@
     <p>{'There are no assigned roles.'|i18n( 'design/admin/node/view/full' )}</p>
 </div>
 {/section}
-
-{* DESIGN: Content END *}</div></div></div>
-
-</div>
 
 {/let}

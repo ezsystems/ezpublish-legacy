@@ -1,18 +1,6 @@
 {* Relations windows. *}
-<a name="relations"></a>
-<div class="context-block">
-
-{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
-
 {def $related_objects_count = fetch( 'content', 'related_objects_count', hash( 'object_id', $node.object.id , 'all_relations', true() ) )}
 {def $reverse_related_objects_count = fetch( 'content', 'reverse_related_objects_count', hash( 'object_id', $node.object.id , 'all_relations', true() ) )}
-<h2 class="context-title">{'Relations [%relation_count]'|i18n( 'design/admin/node/view/full',, hash( '%relation_count', sum( $related_objects_count, $reverse_related_objects_count ) ) )}</h2>
-
-
-
-{* DESIGN: Header END *}</div></div>
-
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 {* Related objects list. *}
 
@@ -130,7 +118,3 @@
     <tr><td>{'The item being viewed is not used by any other objects.'|i18n( 'design/admin/node/view/full' )}</td></tr>
 {/if}
 </table>
-
-{* DESIGN: Content END *}</div></div></div>
-
-</div>

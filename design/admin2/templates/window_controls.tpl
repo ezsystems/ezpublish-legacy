@@ -1,88 +1,43 @@
-{* Window controls. *}
-<div class="menu-block{if fetch( content, translation_list )|count|eq( 1 )} notranslations{/if}">
-
-{def $translations_count=count($node.object.available_languages)
-    $li_width="" }
-{def $can_create_languages=fetch( content, prioritized_languages )}
-{if le($can_create_languages, 1) }
-    {set $li_width="_20"}
+{* Window controls *}
+{def $node_url_alias = $node.url_alias
+     $node_tab_index = first_set( $view_parameters.tab, ezpreference( 'admin_navigation_content' ), 'preview' )}
+{if or( $node_tab_index|eq( '0' ), $node_tab_index|eq( '1' ) )}
+    {set $node_tab_index = 'preview'}
 {/if}
+<ul class="tabs">
+    {* Content preview *}
+    <li id="node-tab-preview" class="first{if $node_tab_index|eq('preview')}  selected{/if}">
+        <a href={concat( $node_url_alias, '/(tab)/preview' )|ezurl} title="{'Hide preview of content.'|i18n( 'design/admin/node/view/full' )}">{'Preview'|i18n( 'design/admin/node/view/full' )}</a>
+    </li>
 
-<ul>
-    {* Content preview. *}
-    {if ezpreference( 'admin_navigation_content' )}
-    <li class="enabled {$li_width}">
-        <a href={'/user/preferences/set/admin_navigation_content/0'|ezurl} title="{'Hide preview of content.'|i18n( 'design/admin/node/view/full' )}">{'Preview'|i18n( 'design/admin/node/view/full' )}</a>
+    {* Details *}
+    <li id="node-tab-details" class="middle{if $node_tab_index|eq('details')}  selected{/if}">
+        <a href={concat( $node_url_alias, '/(tab)/details' )|ezurl} title="{'Hide details.'|i18n( 'design/admin/node/view/full' )}">{'Details'|i18n( 'design/admin/node/view/full' )}</a>
     </li>
-    {else}
-    <li class="disabled {$li_width}">
-        <a href={'/user/preferences/set/admin_navigation_content/1'|ezurl} title="{'Show preview of content.'|i18n( 'design/admin/node/view/full' )}">{'Preview'|i18n( 'design/admin/node/view/full' )}</a>
-    </li>
-    {/if}
 
-    {* Details. *}
-    {if ezpreference( 'admin_navigation_details' )}
-    <li class="enabled {$li_width}">
-        <a href={'/user/preferences/set/admin_navigation_details/0'|ezurl} title="{'Hide details.'|i18n( 'design/admin/node/view/full' )}">{'Details'|i18n( 'design/admin/node/view/full' )}</a>
+    {* Translations *}
+    {if fetch( 'content', 'translation_list' )|count|gt( 1 )}
+    {if fetch( 'content', 'prioritized_languages' )|count|gt( 1 ) }
+    <li id="node-tab-translations" class="middle{if $node_tab_index|eq('translations')}  selected{/if}">
+        <a href={concat( $node_url_alias, '/(tab)/translations' )|ezurl} title="{'Hide available translations.'|i18n( 'design/admin/node/view/full' )}">{'Translations'|i18n( 'design/admin/node/view/full' )}</a>
     </li>
-    {else}
-    <li class="disabled {$li_width}">
-        <a href={'/user/preferences/set/admin_navigation_details/1'|ezurl} title="{'Show details.'|i18n( 'design/admin/node/view/full' )}">{'Details'|i18n( 'design/admin/node/view/full' )}</a>
-    </li>
-    {/if}
-
-    {if fetch( content, translation_list )|count|gt( 1 )}
-    {* Translations. *}
-    {if gt($can_create_languages, 1) }
-    {if ezpreference( 'admin_navigation_translations' )}
-    <li class="enabled {$li_width}">
-        <a href={'/user/preferences/set/admin_navigation_translations/0'|ezurl} title="{'Hide available translations.'|i18n( 'design/admin/node/view/full' )}">{'Translations'|i18n( 'design/admin/node/view/full' )}</a>
-    </li>
-    {else}
-    <li class="disabled {$li_width}">
-            <a href={'/user/preferences/set/admin_navigation_translations/1'|ezurl} title="{'Show available translations.'|i18n( 'design/admin/node/view/full' )}">{'Translations'|i18n( 'design/admin/node/view/full' )}</a>
-    </li>
-    {/if}
     {/if}
     {/if}
 
-    {* Locations. *}
-    {if ezpreference( 'admin_navigation_locations' )}
-    <li class="enabled {$li_width}">
-        <a href={'/user/preferences/set/admin_navigation_locations/0'|ezurl} title="{'Hide location overview.'|i18n( 'design/admin/node/view/full' )}">{'Locations'|i18n( 'design/admin/node/view/full' )}</a>
+    {* Locations *}
+    <li id="node-tab-locations" class="middle{if $node_tab_index|eq('locations')}  selected{/if}">
+        <a href={concat( $node_url_alias, '/(tab)/locations' )|ezurl} title="{'Hide location overview.'|i18n( 'design/admin/node/view/full' )}">{'Locations'|i18n( 'design/admin/node/view/full' )}</a>
     </li>
-    {else}
-    <li class="disabled {$li_width}">
-        <a href={'/user/preferences/set/admin_navigation_locations/1'|ezurl} title="{'Show location overview.'|i18n( 'design/admin/node/view/full' )}">{'Locations'|i18n( 'design/admin/node/view/full' )}</a>
-    </li>
-    {/if}
 
-    {* Relations. *}
-    {if ezpreference( 'admin_navigation_relations' )}
-    <li class="enabled {$li_width}">
-        <a href={'/user/preferences/set/admin_navigation_relations/0'|ezurl} title="{'Hide object relation overview.'|i18n( 'design/admin/node/view/full' )}">{'Relations'|i18n( 'design/admin/node/view/full' )}</a>
+    {* Relations *}
+    <li id="node-tab-relations" class="middle{if $node_tab_index|eq('relations')}  selected{/if}">
+        <a href={concat( $node_url_alias, '/(tab)/relations' )|ezurl} title="{'Hide object relation overview.'|i18n( 'design/admin/node/view/full' )}">{'Relations'|i18n( 'design/admin/node/view/full' )}</a>
     </li>
-    {else}
-    <li class="disabled {$li_width}">
-        <a href={'/user/preferences/set/admin_navigation_relations/1'|ezurl} title="{'Show object relation overview.'|i18n( 'design/admin/node/view/full' )}">{'Relations'|i18n( 'design/admin/node/view/full' )}</a>
+
+    {* State assignment *}
+    <li id="node-tab-states" class="last{if $node_tab_index|eq('states')}  selected{/if}">
+        <a href={concat( $node_url_alias, '/(tab)/states' )|ezurl} title="{'Hide state assignment widget.'|i18n( 'design/admin/node/view/full' )}">{'Object states'|i18n( 'design/admin/node/view/full' )}</a>
     </li>
-    {/if}
-    
-    {* State assignment. *}
-    {if eq( ezpreference( 'admin_navigation_states' ), 1 )}
-    <li class="enabled {$li_width}">
-        <a href={'/user/preferences/set/admin_navigation_states/0'|ezurl} title="{'Hide state assignment widget.'|i18n( 'design/admin/node/view/full' )}">{'Object states'|i18n( 'design/admin/node/view/full' )}</a>
-    </li>
-    {else}
-    <li class="disabled {$li_width}">
-        <a href={'/user/preferences/set/admin_navigation_states/1'|ezurl} title="{'Show state assignment widget.'|i18n( 'design/admin/node/view/full' )}">{'Object states'|i18n( 'design/admin/node/view/full' )}</a>
-    </li>
-    {/if}    
-    
 </ul>
-
-<div class="break"></div>
-
-{undef $li_width $translations_count}
-
-</div>
+{undef $node_url_alias $node_tab_index}
+<div class="float-break"></div>

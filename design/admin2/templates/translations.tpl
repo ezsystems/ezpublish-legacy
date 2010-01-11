@@ -10,18 +10,6 @@
 <input type="hidden" name="ViewMode" value="{$viewmode|wash}" />
 <input type="hidden" name="ContentObjectLanguageCode" value="{$language_code|wash}" />
 
-<div class="context-block">
-
-{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
-
-<h2 class="context-title">{'Translations [%translations]'|i18n( 'design/admin/node/view/full',, hash( '%translations', $node.object.current.language_list|count ) )}</h2>
-
-
-
-{* DESIGN: Header END *}</div></div>
-
-{* DESIGN: Content START *}{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
-
 <div class="block">
 <fieldset>
 <legend>{'Existing languages'|i18n( 'design/admin/node/view/full' )}</legend>
@@ -130,10 +118,6 @@
 {else}
     <input class="button-disabled" disabled="disabled" type="submit" name="UpdateAlwaysAvailableButton" value="{'Update'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permission to change this setting.'|i18n( 'design/admin/node/view/full' )}" />
 {/if}
-</div>
-
-{* DESIGN: Content END *}</div></div></div>
-
 </div>
 
 </form>

@@ -17,18 +17,6 @@
 <input type="hidden" name="ViewMode" value="{$viewmode|wash}" />
 <input type="hidden" name="ContentObjectLanguageCode" value="{$language_code|wash}" />
 
-<div class="context-block">
-
-{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
-
-<h2 class="context-title">{'Locations [%locations]'|i18n( 'design/admin/node/view/full',, hash( '%locations', $assigned_nodes|count ) )}</h2>
-
-
-
-{* DESIGN: Header END *}</div></div>
-
-{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
-
 <table class="list" cellspacing="0" summary="{'Locations (aka Nodes) for current object.'|i18n( 'design/admin/node/view/full' )}">
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" title="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" onclick="ezjs_toggleCheckboxes( document.locationsform, 'LocationIDSelection[]' ); return false;"/></th>
@@ -109,15 +97,10 @@
 {/foreach}
 </table>
 
-{* DESIGN: Content END *}</div></div></div>
-
 {* Required to get the main node selection to work,
    unchecked radio buttons will not be sent by browser. *}
 <input type="hidden" name="HasMainAssignment" value="1" />
 
-<div class="controlbar">
-
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 
 <div class="block">
 <div class="button-left">
@@ -156,11 +139,6 @@
 </div>
 
 <div class="break"></div>
-</div>
-
-{* DESIGN: Control bar END *}</div></div>
-
-</div>
 </div>
 
 </form>

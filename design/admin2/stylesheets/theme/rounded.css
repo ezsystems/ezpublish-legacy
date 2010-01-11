@@ -117,11 +117,13 @@ span.show-hide-control.disabled
 
 
 /* TOP MENU (TABS) */
-#header-topmenu ul li a, #header-topmenu ul li span.disabled
+#header-topmenu ul li a, #header-topmenu ul li span.disabled, ul.tabs li a
 {
   background-color: #f3f3f3;
   border: 1px solid #999;
   border-bottom-width: 0;
+  min-width: 100px;
+  min-height: 20px;
   /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
   -moz-border-radius-topleft: 5px;
   -moz-border-radius-topright: 5px;
@@ -134,12 +136,39 @@ span.show-hide-control.disabled
   background-position: left top;
 }
 
-#header-topmenu ul li.selected a, #header-topmenu ul li.selected span.disabled
+ul.tabs li a
+{
+	border-color: #ddd;
+	margin-top: 2px;
+	min-height: 16px;
+}
+
+#header-topmenu ul li.selected a, #header-topmenu ul li.selected span.disabled, ul.tabs li.selected a
 {
   border-bottom: 1px solid #f5f5f5;
   margin-bottom: -1px;
   background-color: #f5f5f5;
   background-image: none;
+}
+
+ ul.tabs li.selected a,  ul.tabs li:hover a
+{
+  margin-top: 0;
+  min-height: 18px;
+}
+
+ ul.tabs li.selected a
+{
+  margin-top: 0;
+  min-height: 18px;
+  border-bottom-color: #fff;
+  background-color: #fff;
+}
+
+div.tab-content
+{
+  border: 1px solid #ddd;
+  background-color: #fff;
 }
 
 
@@ -221,18 +250,6 @@ div.box-header div.box-ml
 #controlbar-top .box-bc .box-ml
 {
   border-top-width: 0;
-}
-
-
-/* MENU-BLOCK (buttons for node info TODO: Remove if transformed to tabs instead ) */
-
-.menu-block li a
-{
-  border: 1px solid #aaa;
-  /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
 }
 
 
