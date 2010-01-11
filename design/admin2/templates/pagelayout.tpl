@@ -141,7 +141,8 @@
 
 <script type="text/javascript">
 <!--
-document.getElementById('header-usermenu-logout').innerHTML += ' ({$current_user.login|wash})';{* contentobject.name *}
+document.getElementById('header-usermenu').innerHTML += '<span class="vertical-seperator">&nbsp;</span>'
+  + '<a id="header-usermenu-edit" href={concat("content/edit/", $current_user.contentobject_id)|ezurl} title="{"Click to edit your user data."|i18n( "design/admin/pagelayout" )}">{$current_user.login|wash}<\/a>';{* contentobject.name *}
 
 {literal}
 function ezSubmitForm( action, params, method )

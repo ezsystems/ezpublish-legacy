@@ -11,10 +11,10 @@
         <p class="advanced hide"><span class="disabled">{'Advanced'|i18n( 'design/admin/pagelayout' )}</span></p>
     {else}
         {def $search_selections = hash(
-            '1',                                                     array( 'Search everthing!'|i18n( 'design/admin/pagelayout' ), 'Everything'|i18n( 'design/admin/pagelayout' ) ),
-            ezini( 'NodeSettings', 'RootNode', 'content.ini' ),      array( 'Search content!'|i18n( 'design/admin/pagelayout' ),   'Content'|i18n( 'design/admin/pagelayout' ) ),
-            ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ), array( 'Search media!'|i18n( 'design/admin/pagelayout' ),     'Media'|i18n( 'design/admin/pagelayout' ) ),
-            ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ),  array( 'Search users!'|i18n( 'design/admin/pagelayout' ),     'Users'|i18n( 'design/admin/pagelayout' ) )
+            '1',                                                     array( 'Search everything!'|i18n( 'design/admin/pagelayout' ), 'Everything'|i18n( 'design/admin/pagelayout' ) ),
+            ezini( 'NodeSettings', 'RootNode', 'content.ini' ),      array( 'Search content!'|i18n( 'design/admin/pagelayout' ),    'Content'|i18n( 'design/admin/pagelayout' ) ),
+            ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ), array( 'Search media!'|i18n( 'design/admin/pagelayout' ),      'Media'|i18n( 'design/admin/pagelayout' ) ),
+            ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ),  array( 'Search users!'|i18n( 'design/admin/pagelayout' ),      'Users'|i18n( 'design/admin/pagelayout' ) )
         )}
         <select name="SubTreeArray" title="{'Search location, to be able to narrow down the search results!'|i18n('design/admin/pagelayout')}">
         {foreach $search_selections as $search_selection_key => $search_selection_text}
