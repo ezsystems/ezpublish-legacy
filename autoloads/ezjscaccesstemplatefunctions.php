@@ -78,6 +78,19 @@ class ezjscAccessTemplateFunctions
         }
     }
 
+    /**
+     * Check access to a specific module/function with limitation values.
+     * See eZ Publish documentation on more info on module, function and 
+     * limitation values. Example: a user can have content/read permissions
+     * but it can be limited to a specific limitation like a section, a node
+     * or node tree. 1.0 limitation: returns false if one of provided values
+     * don't match but ignores limitations not specified in $limitations.
+     * 
+     * @param string $module
+     * @param string $function
+     * @param array|null $limitations A hash of limitation keys and values
+     * @return bool
+     */
     public static function hasAccessToLimitation( $module, $function, $limitations = null )
     {
         // Like fetch(user,has_access_to), but with support for limitations
@@ -93,27 +106,67 @@ class ezjscAccessTemplateFunctions
             }
             else
             {
-                // User has access unless limitations don't match
-                foreach ( $result['policies'] as $limitationArray  )
+                // User has access unless provided limitations don't match
+                $missingLimitations = array();
+                foreach ( $result['policies'] as $userLimitationArray  )
                 {
-                    foreach ( $limitationArray as $limitationKey => $limitationValues  )
+                    foreach ( $userLimitationArray as $userLimitationKey => $userLimitationValues  )
                     {
-                        if ( isset( $limitations[$limitationKey] ) )
+                        if ( isset( $limitations[$userLimitationKey] ) )
                         {
-                            if ( !in_array( $limitations[$limitationKey], $limitationValues ) )
+                            // Handle subtree matching specifically as we need to match path string 
+                            if ( $userLimitationKey === 'User_Subtree' || $userLimitationKey === 'Subtree' )
                             {
-                                return false;
+                                $pathMatch = false;
+                                foreach ( $userLimitationValues as $subtreeString )
+                                {
+                                    if ( strstr( $limitations[$userLimitationKey], $subtreeString ) )
+                                    {
+                                        $pathMatch = true;
+                                        break;
+                                    }
+                                }
+                                if ( !$pathMatch )
+                                {
+                                    eZDebug::writeDebug( "Unmatched[$module/$function]: " . $userLimitationKey . ' '. $limitations[$userLimitationKey] . ' != ' . $subtreeString, __METHOD__ );
+                                    return false;
+                                }
+                            }
+                            else
+                            {
+                                if ( is_array( $limitations[$userLimitationKey] ) )
+                                {
+                                    // All provided limitations must exist in $userLimitationValues
+                                    foreach( $limitations[$userLimitationKey] as $limitationValue )
+                                    {
+                                        if ( !in_array( $limitationValue, $userLimitationValues ) )
+                                        {
+                                            eZDebug::writeDebug( "Unmatched[$module/$function]: " . $userLimitationKey . ' ' . $limitationValue . ' != [' . implode( ', ', $userLimitationValues ) . ']', __METHOD__ );
+                                            return false;
+                                        }
+                                    }
+                                }
+                                else if ( !in_array( $limitations[$userLimitationKey], $userLimitationValues ) )
+                                {
+                                    eZDebug::writeDebug( "Unmatched[$module/$function]: " . $userLimitationKey . ' ' . $limitations[$userLimitationKey] . ' != [' . implode( ', ', $userLimitationValues ) . ']', __METHOD__ );
+                                    return false;
+                                }
                             }
                         }
                         else
                         {
-                            // TODO: build limitation array of unmatched policies
+                            $missingLimitations[] = $userLimitationKey;
                         }
                     }
+                }
+                if ( isset( $missingLimitations[0] ) )
+                {
+                    eZDebug::writeNotice( "Matched, but missing limitations[$module/$function]: " . implode( ', ', $missingLimitations ), __METHOD__ );
                 }
                 return true;
             }
         }
+        eZDebug::writeDebug( 'No user instance', __METHOD__ );
         return false;
     }
 }

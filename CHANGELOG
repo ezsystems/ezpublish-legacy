@@ -17,6 +17,7 @@
 - Fixed ezjscore/run issue with eZ Publish 4.0.0 / 4.0.1 on eZURI::instance()
 - Disabled language attribute by default on ezscript() for xhtml strict / xhtml1.1 / html5 validation
 - BC: Fixed setting typo LocaleScript -> LocalScript in ezjscore.ini
+- Added support for more general use of has_access_to_limitation including array values for limitations
 
 
 # v1.0.0  29 Sept 2009
