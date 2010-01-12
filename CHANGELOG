@@ -4,7 +4,7 @@
 - Updated YUI 3.0.0 to GA
 - Fixed bug #15606: Admin Content Tree images not found
 - Fixed bug #15699: eZJSCore: possible function mixup for ezscriptfiles template operator
-- Removed charset attribute from all html tags but script with src attribute (html validation)
+- BC: Removed charset attribute from all html tags but script with src attribute (html validation)
 - Deprecated charset parameter on ezcss, ezcss_load and ezcss_requried template operators!
 - Only use POST parameters for ezjscore/call parameters to avoid reaching url limit and 
   logging parameters in wwwserver logs
@@ -16,6 +16,7 @@
 - Added ezjsc::search for re use by other extensions (same parameters as the one in ezflow and ezoe)
 - Fixed ezjscore/run issue with eZ Publish 4.0.0 / 4.0.1 on eZURI::instance()
 - Disabled language attribute by default on ezscript() for xhtml strict / xhtml1.1 / html5 validation
+- BC: Fixed setting typo LocaleScript -> LocalScript in ezjscore.ini
 
 
 # v1.0.0  29 Sept 2009

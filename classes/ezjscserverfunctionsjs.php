@@ -64,8 +64,8 @@ class ezjscServerFunctionsJs extends ezjscServerFunctions
         }
         else
         {
-            $scriptFiles = $ezjscoreIni->variable( 'eZJSCore', 'LocaleScripts' );
-            $scriptBases = $ezjscoreIni->variable( 'eZJSCore', 'LocaleScriptBasePath' );
+            $scriptFiles = $ezjscoreIni->variable( 'eZJSCore', 'LocalScripts' );
+            $scriptBases = $ezjscoreIni->variable( 'eZJSCore', 'LocalScriptBasePath' );
             $packerFiles = array_merge( array( $scriptFiles['yui2'], 'ezjsc::yui2conf::' . $scriptBases['yui2'] ), $packerFiles );
         }
         return '';
@@ -110,8 +110,8 @@ class ezjscServerFunctionsJs extends ezjscServerFunctions
         }
         else
         {
-            $scriptFiles = $ezjscoreIni->variable( 'eZJSCore', 'LocaleScripts' );
-            $scriptBases = $ezjscoreIni->variable( 'eZJSCore', 'LocaleScriptBasePath' );
+            $scriptFiles = $ezjscoreIni->variable( 'eZJSCore', 'LocalScripts' );
+            $scriptBases = $ezjscoreIni->variable( 'eZJSCore', 'LocalScriptBasePath' );
             $packerFiles = array_merge( array( $scriptFiles['yui3'], 'ezjsc::yui3conf::' . $scriptBases['yui3'] ), $packerFiles );
         }
         return '';
@@ -231,7 +231,7 @@ YUI( YUI3_config ).add('io-ez', function( Y )
         }
         else
         {
-            $scriptFiles = $ezjscoreIni->variable( 'eZJSCore', 'LocaleScripts' );
+            $scriptFiles = $ezjscoreIni->variable( 'eZJSCore', 'LocalScripts' );
             $packerFiles = array_merge( array( $scriptFiles['jquery'] ), $packerFiles );
         }
         return '';
