@@ -141,6 +141,7 @@ ul.tabs li a
 	border-color: #ddd;
 	margin-top: 2px;
 	min-height: 16px;
+    min-width: 85px;
 }
 
 #header-topmenu ul li.selected a, #header-topmenu ul li.selected span.disabled, ul.tabs li.selected a
@@ -163,6 +164,11 @@ ul.tabs li a
   min-height: 18px;
   border-bottom-color: #fff;
   background-color: #fff;
+}
+
+ul.tabs.context-user li#node-tab-states
+{
+  display: none;
 }
 
 div.tab-content
