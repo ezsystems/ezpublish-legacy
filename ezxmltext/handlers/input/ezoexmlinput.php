@@ -1373,7 +1373,7 @@ class eZOEXMLInput extends eZXMLInputHandler
 
                     $LIcustomAttributePart = self::getCustomAttrPart( $listItemNode, $listItemStyleString );
 
-                    $noParagraphs = $listItemNode->childNodes->length <= 1;
+                    $noParagraphs = self::childTagCount( $listItemNode ) <= 1;
                     $listItemContent = '';
                     foreach ( $listItemNode->childNodes as $itemChildNode )
                     {
@@ -1897,6 +1897,21 @@ class eZOEXMLInput extends eZXMLInputHandler
             self::$embedIsCompatibilityMode = $ezoeIni->variable('EditorSettings', 'CompatibilityMode' ) === 'enabled';
         }
         return self::$embedIsCompatibilityMode;
+    }
+
+    /* Count child elements, ignoring whitespace and text
+     * 
+     * @param DOMElement $parent
+     * @return int
+     */
+    protected static function childTagCount( DOMElement $parent )
+    {
+        $count = 0;
+        foreach( $parent->childNodes as $child )
+        {
+            if ( $child instanceof DOMElement ) $count++;
+        }
+        return $count;
     }
 
     protected static $serverURL   = null;
