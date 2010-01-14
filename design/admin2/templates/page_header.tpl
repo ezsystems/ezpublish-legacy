@@ -36,7 +36,7 @@
             <p class="advanced hide"><a href={'/content/advancedsearch'|ezurl} title="{'Advanced search.'|i18n( 'design/admin/pagelayout' )}">{'Advanced'|i18n( 'design/admin/pagelayout' )}</a></p>
         {/if}
     {/if}
-    {undef $current_node_id $selected_search_node_id}
+    {undef $current_node_id $selected_search_node}
 </form>
 </div>
 
