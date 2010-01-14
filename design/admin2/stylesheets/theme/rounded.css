@@ -2,11 +2,6 @@
 
 /* GENERIC */
 
-body
-{
-  background-color: #f5f5f5;
-}
-
 a.show-hide-control, span.show-hide-control
 {
   background-color: white;
@@ -19,7 +14,7 @@ a.show-hide-control, span.show-hide-control
 
 span.show-hide-control.disabled
 {
-  border-color: #ddd;
+  border-color: #ccc;
 }
 
 /* LOGIN PAGE (center it) */
@@ -53,13 +48,12 @@ span.show-hide-control.disabled
 
 .loginpage #columns #maincontent .box-header
 {
-  background: #f5f5f5 url('../../images/2/header-gradient.png') repeat-x left top scroll;
+  background: #fff url('../../images/2/gradient-to-dark.png') repeat-x left top scroll;
 }
 
 .loginpage #columns #maincontent .box-header .box-ml
 {
   margin-right: 0.3em;
-  background: transparent url('../../images/2/ez-logo.png') no-repeat right top scroll;
 }
 
 .loginpage #columns #maincontent .box-header .box-ml h1
@@ -97,62 +91,88 @@ span.show-hide-control.disabled
 	border-bottom-width: 0;
 }
 
-#header-logo, #header-search
+#header-logo a, #header-logo span
+{
+  float: left;
+  text-align: left;
+  padding: 5px 10px 5px;
+  min-height: 25px;
+}
+
+#header-logo a, #header-logo span
+{
+  display: block;
+  width: 102px;
+  height: 35px;
+  text-decoration: none;
+  background-image: url('../../images/2/ezpublish-black.png');
+  background-repeat: no-repeat;
+  background-position: 8px 8px;
+}
+
+/*
+#header-search
 {
   border-bottom: 1px solid #999;
   background-color: #fff;
-  background-image: url('../../images/2/header-gradient.png');
+  background-image: url('../../images/2/gradient-to-dark.png');
   background-repeat: repeat-x;
   background-position: left 2px;
 }
+*/
 
 #header-logo
 {
   border-left: 1px solid #999;
   /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
-  -moz-border-radius-bottomleft: 5px;
-  -webkit-border-bottom-left-radius: 5px;
-  border-bottom-left-radius:  5px;
+  -moz-border-radius-bottomleft: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  border-bottom-left-radius:  3px;
 }
 
 
 /* TOP MENU (TABS) */
 #header-topmenu ul li a, #header-topmenu ul li span.disabled, ul.tabs li a
 {
+  margin-top: 2px;
   background-color: #f3f3f3;
   border: 1px solid #999;
   border-bottom-width: 0;
   min-width: 100px;
   min-height: 20px;
   /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
-  -moz-border-radius-topleft: 5px;
-  -moz-border-radius-topright: 5px;
-  -webkit-border-top-left-radius: 5px;
-  -webkit-border-top-right-radius: 5px;
-  border-top-left-radius:  5px;
-  border-top-right-radius: 5px;
-  background-image: url('../../images/2/header-gradient.png');
+  -moz-border-radius-topleft: 3px;
+  -moz-border-radius-topright: 3px;
+  -webkit-border-top-left-radius: 3px;
+  -webkit-border-top-right-radius: 3px;
+  border-top-left-radius:  3px;
+  border-top-right-radius: 3px;
+  background-image: url('../../images/2/gradient-to-darker.png');
   background-repeat: repeat-x;
   background-position: left top;
 }
 
 ul.tabs li a
 {
-	border-color: #ddd;
-	margin-top: 2px;
+	border-color: #ccc;
 	min-height: 16px;
     min-width: 85px;
 }
 
+#header-topmenu ul li.selected a, #header-topmenu ul li a:hover{
+  margin-top: 0;
+  min-height: 22px;
+}
+
 #header-topmenu ul li.selected a, #header-topmenu ul li.selected span.disabled, ul.tabs li.selected a
 {
-  border-bottom: 1px solid #f5f5f5;
+  border-bottom: 1px solid #fff;
   margin-bottom: -1px;
-  background-color: #f5f5f5;
+  background-color: #fff;
   background-image: none;
 }
 
- ul.tabs li.selected a,  ul.tabs li:hover a
+ ul.tabs li.selected a,  ul.tabs li a:hover
 {
   margin-top: 0;
   min-height: 18px;
@@ -173,7 +193,7 @@ ul.tabs.context-user li#node-tab-states
 
 div.tab-content
 {
-  border: 1px solid #ddd;
+  border: 1px solid #ccc;
   background-color: #fff;
 }
 
@@ -182,42 +202,72 @@ div.tab-content
 
 #path span
 {
-  color: #888;
+  color: #333;
 }
 
 /* BOX MODEL */
 
+#leftmenu
+{
+  background-image: url('../../images/2/chrome_expand_corner.png');
+  background-repeat: no-repeat;
+  background-position: bottom right;
+  position: relative;
+  border: 1px solid #999;
+  border-left: 0px none;
+  /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
+  -moz-border-radius-topright: 3px;
+  -moz-border-radius-bottomright: 3px;
+  -webkit-border-top-right-radius: 3px;
+  -webkit-border-bottom-right-radius: 3px;
+  border-top-right-radius:  3px;
+  border-bottom-right-radius: 3px;
+}
+
+#rightmenu
+{
+  position: relative;
+  border: 1px solid #999;
+  border-right: 0px none;
+  /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
+  -moz-border-radius-topleft: 3px;
+  -moz-border-radius-bottomleft: 3px;
+  -webkit-border-top-left-radius: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  border-top-left-radius:  3px;
+  border-bottom-left-radius: 3px;
+}
+
 .box-header
 {
-  background: #FEFEFE url('../../images/2/header-gradient.png') repeat-x left bottom scroll;
-  border: 1px solid #999;
+  border: 0px solid #999;
   border-bottom-width: 0;
   /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
-  -moz-border-radius-topleft: 5px;
-  -moz-border-radius-topright: 5px;
-  -webkit-border-top-left-radius: 5px;
-  -webkit-border-top-right-radius: 5px;
-  border-top-left-radius:  5px;
-  border-top-right-radius: 5px;
+  -moz-border-radius-topleft: 3px;
+  -moz-border-radius-topright: 3px;
+  -webkit-border-top-left-radius: 3px;
+  -webkit-border-top-right-radius: 3px;
+  border-top-left-radius:  3px;
+  border-top-right-radius: 3px;
 }
 
 .box-bc
 {
   background-color: #fff;
-  border: 1px solid #999;
+  border: 0px solid #999;
   border-top-width: 0;
   /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
-  -moz-border-radius-bottomleft: 5px;
-  -moz-border-radius-bottomright: 5px;
-  -webkit-border-bottom-left-radius: 5px;
-  -webkit-border-bottom-right-radius: 5px;
-  border-bottom-left-radius:  5px;
-  border-bottom-right-radius: 5px;
+  -moz-border-radius-bottomleft: 3px;
+  -moz-border-radius-bottomright: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  -webkit-border-bottom-right-radius: 3px;
+  border-bottom-left-radius:  3px;
+  border-bottom-right-radius: 3px;
 }
 
 .controlbar .box-bc
 {
-  background: #FEFEFE url('../../images/2/footer-gradient.png') repeat-x left top scroll;
+  /* background: #FEFEFE url('../../images/2/gradient-to-light.png') repeat-x left top scroll; */
 }
 
 #controlbar-top .box-bc
@@ -225,16 +275,18 @@ div.tab-content
   margin-top: 0.5em;
   border-top-width: 1px;
   /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
 }
 
 .box-ml
 {
   background-color: #fff;
+  /*
   border-left: 1px solid #999;
   border-right: 1px solid #999;
+  */
 }
 
 .box-bc .box-ml, .box-header .box-ml
@@ -250,7 +302,7 @@ div.box-header div.box-ml
 
 .controlbar .box-bc .box-ml
 {
-  border-top: 1px solid #ccc;
+  /* border-top: 1px solid #ccc; */
 }
 
 #controlbar-top .box-bc .box-ml
@@ -258,12 +310,20 @@ div.box-header div.box-ml
   border-top-width: 0;
 }
 
-
+/* TABLE */
+table.list th
+{
+  background: #FEFEFE url('../../images/2/gradient-to-light.png') repeat-x left top scroll;
+  font-weight: bold;
+  height: 30px;
+  border-bottom: 1px solid #ccc;
+  vertical-align: middle;
+}
 
 /* FOOTER */
 
 #footer
 {
   border-top: 1px solid #999;
-  background-color: #f3f3f3;
+  background-color: #fff;
 }

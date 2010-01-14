@@ -23,7 +23,6 @@ h1, h2, h3, h4, h5, h6
     font-weight: bold;
     margin: 1em 0 0.5em 0;
     padding: 0;
-    color: #F15D22;
 }
 
 h1
@@ -65,7 +64,7 @@ a
 
 a:hover
 {
-    color: #086C41;
+    color: #ed4c19; /*1C4C0F | cc3300 */
     text-decoration: underline;
     cursor: pointer;
 }
@@ -106,7 +105,8 @@ th, td
 table.list, table.special
 {
     width: 100%;
-    margin: 0.1em 0 0.1em 0;
+    margin: 1em 0 1em 0;
+    border: 1px solid #ccc;
     empty-cells: show;
 }
 
@@ -127,16 +127,40 @@ table.list td.na-rate, table.special td.na-rate
 {
     text-align: right;
     font-style: italic;
+    color: #C0C0C0;
 }
 
 table.list th, table.special th
 {
+    border-top-width: 2px;
+    font-weight: normal;
     white-space: nowrap;
 }
 
 table.list td
 {
+    border-top: 1px solid #f0f0f0;
     font-weight: normal;
+}
+
+tr.bglight
+{
+    background-color: #fff;
+}
+
+tr.bgdark
+{
+    background-color: #f8f8f8;
+}
+
+table.list tr.bglight:hover, table.list tr.bgdark:hover
+{
+    background-color: #f5f5f5;
+}
+
+table.list tr.object-cannot-remove td
+{
+    color: #ff0000;
 }
 
 th.tight, td.tight
@@ -147,6 +171,18 @@ th.tight, td.tight
 td.nowrap 
 {
     white-space: nowrap;
+}
+
+div.context-attributes table.list th, div.context-attributes table.special th, div.mainobject-window table.list th, div.mainobject-window table.special th
+{
+    color: #404040;
+    background-color: #bfbfb7;
+}
+
+div.context-attributes table table.list th, div.context-attributes table table.special th, div.onlineeditor th
+{
+    color: #404040;
+    background-color: #ddddd5;
 }
 
 

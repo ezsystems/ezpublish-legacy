@@ -50,34 +50,17 @@ a.image-text:hover > span
 
 
 /* HEADER */
-#header-usermenu, #header-logo, #header-search
+#header-usermenu, #header-search
 {
   float: right;
   text-align: right;
-  padding: 2px 10px 1px 10px;
+  padding: 5px 10px 1px;
   min-height: 25px;
 }
 
-#header-logo a, #header-logo span
-{
-  display: block;
-  width: 74px;
-  height: 25px;
-  text-decoration: none;
-  background-image: url('../images/2/ez-logo.png');
-  background-repeat: no-repeat;
-  background-position: left -1px;
-}
-
-#header-logo span
-{
-  background-image: url('../images/2/ez-logo-faded.png');
-}
-
-
 #header-usermenu
 {
-  padding-top: 4px;
+  padding-top: 10px;
   padding-bottom: 0;
 }
 
@@ -86,7 +69,7 @@ a.image-text:hover > span
 #header-topmenu
 {
   padding-left: 2px;
-  padding-top: 15px;
+  padding-top: 20px;
   float: left;
   min-height: 25px;
 }
@@ -126,7 +109,7 @@ ul.tabs
 
 #header-topmenu ul li.selected a, ul.tabs li.selected a
 {
-  color: #086C41;
+  color: #000;
 }
 
 #header-topmenu ul li.first a
@@ -150,7 +133,7 @@ div.tab-content
 
 #path
 {
-  padding: 6px 1em 4px 1em;
+  padding: 10px 1em 10px 1em;
   font-size: 90%;
   text-align: left;
 }
@@ -243,7 +226,7 @@ ul.leftmenu-items li a:hover
 
 ul.leftmenu-items li.current a
 {
-  color: #086C41;
+  color: #000;
   font-weight: bold;
 }
 
@@ -327,7 +310,7 @@ div#contentstructure li span.node-name-normal
 
 div#contentstructure li.currentnode > a.image-text span.node-name-normal, div#contentstructure li.currentnode > a.image-text span.node-name-hidden, div#contentstructure li.currentnode > a.image-text span.node-name-hiddenbyparent /* Highlighting of current node */
 {
-  color: #086C41;
+  color: #000;
   font-weight: bold;
   padding: 0 0.25em 0 0.2em;
 }
@@ -535,7 +518,7 @@ h2.context-title
 
 div.context-information
 {
-  color: #777;
+  color: #333;
   font-size: 0.8em;
   margin: 0 1px 0 1px;
   padding: 0 0.5em 0 0.5em;
