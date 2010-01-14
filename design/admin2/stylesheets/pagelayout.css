@@ -547,6 +547,41 @@ div.context-block h1.context-title img, div.context-block h2.context-title img
   vertical-align: middle;
 }
 
+/* MENU-BLOCK */
+
+.menu-block ul
+{
+  width: 100%;
+  margin: 0.5em 0 0 0;
+}
+
+.menu-block li
+{
+  float: left;
+  text-align: center;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  width: 16.6666%;
+}
+
+.menu-block li a
+{
+  margin-left: 1px;
+  text-decoration: none;
+  display: block;
+  border: 1px solid #999;
+}
+
+.menu-block li:first-child a
+{
+  margin-left: 0;
+}
+
+.menu-block li.disabled a
+{
+  background-color:#f3f3f3;
+}
 
 /* WIDTH CONTROL */
 

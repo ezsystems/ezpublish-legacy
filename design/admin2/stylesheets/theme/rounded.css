@@ -302,6 +302,15 @@ div.box-header div.box-ml
   border-top-width: 0;
 }
 
+/* MENU-BLOCK */
+
+.menu-block li a
+{
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+
 /* TABLE */
 table.list th
 {

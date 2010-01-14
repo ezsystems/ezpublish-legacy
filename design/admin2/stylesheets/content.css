@@ -11,6 +11,12 @@ pre
 
 /* CONTENT */
 
+div.mainobject-window iframe
+{
+	border: 1px solid #e0e0e0;
+}
+
+
 div#maincontent div.content-translation div.block div.original
 {
   background-color: #f5f5f5;
