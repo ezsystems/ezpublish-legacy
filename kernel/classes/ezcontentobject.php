@@ -5845,13 +5845,12 @@ class eZContentObject extends eZPersistentObject
         $access = $user->hasAccessTo( 'state', 'assign' );
 
         $db = eZDB::instance();
+        $sql = 'SELECT ezcobj_state.id
+                FROM   ezcobj_state, ezcobj_state_group
+                WHERE  ezcobj_state.group_id = ezcobj_state_group.id
+                    AND ezcobj_state_group.identifier NOT LIKE \'ez%\'';
         if ( $access['accessWord'] == 'yes' )
         {
-            $sql = 'SELECT ezcobj_state.id
-                    FROM   ezcobj_state, ezcobj_state_group
-                    WHERE  ezcobj_state.group_id = ezcobj_state_group.id
-                       AND ezcobj_state_group.identifier NOT LIKE \'ez%\'';
-
             $allowedStateIDList = $db->arrayQuery( $sql, array( 'column' => 'id' ) );
         }
         else if ( $access['accessWord'] == 'limited' )
