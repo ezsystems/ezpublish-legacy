@@ -15,10 +15,6 @@
 
 {if or( $hide_right_menu, $admin_left_size )}
 <style type="text/css">
-{if $hide_right_menu}
-    div#page div#rightmenu   {ldelim} width: 1.1em; {rdelim}
-    div#page div#maincontent {ldelim} margin-right: 1.1em; {rdelim}
-{/if}
 {if and( $admin_left_size, $ui_context_edit|not  )}
     {def $left_menu_widths = ezini( 'LeftMenuSettings', 'MenuWidth', 'menu.ini')}
     {if is_set( $left_menu_widths[$admin_left_size] )}
@@ -48,7 +44,7 @@
 </head>
 <body>
 
-<div id="page">
+<div id="page"{if $ui_context_edit} class="hide-rightmenu"{elseif $hide_right_menu} class="collapsed-rightmenu"{/if}>
 <div id="header">
 <div id="header-design" class="float-break">
 
@@ -87,17 +83,14 @@
 {* RIGHT MENU *}
 <div id="rightmenu">
 <div id="rightmenu-design">
-    {if $ui_context_edit|not}
-        {if $hide_right_menu}
-            <a id="rightmenu-showhide" class="show-hide-control" href={'/user/preferences/set/admin_right_menu_show/1'|ezurl}>+</a>
-        {else}
-            <a id="rightmenu-showhide" class="show-hide-control" href={'/user/preferences/set/admin_right_menu_show/0'|ezurl}>-</a>
-            <script language="javascript" type="text/javascript" src={"javascript/rightmenu_widthcontrol.js"|ezdesign} charset="utf-8"></script>
-        {/if}
-    {/if}
-
+{if or( $hide_right_menu, $ui_context_edit )}
+    <a id="rightmenu-showhide" class="show-hide-control" title="{'Show / Hide rightmenu'|i18n( 'design/admin/pagelayout/rightmenu' )}" href={'/user/preferences/set/admin_right_menu_show/1'|ezurl}>+</a>
+{else}
+    <a id="rightmenu-showhide" class="show-hide-control" title="{'Hide / Show rightmenu'|i18n( 'design/admin/pagelayout/rightmenu' )}" href={'/user/preferences/set/admin_right_menu_show/0'|ezurl}>-</a>
+    <script language="javascript" type="text/javascript" src={"javascript/rightmenu_widthcontrol.js"|ezdesign} charset="utf-8"></script>
     {tool_bar name='admin_right' view='full'}
     {tool_bar name='admin_developer' view='full'}
+{/if}
 </div>
 </div>
 

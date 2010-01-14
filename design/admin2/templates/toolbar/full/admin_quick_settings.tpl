@@ -1,4 +1,3 @@
-{if $hide_right_menu|not}{* Only fetch policy if right menu is visible *}
 {if fetch( 'user', 'has_access_to', hash( 'module', 'setup', 'function', 'setup' ) )}
 
 <div id="quicksettings-tool">
@@ -36,5 +35,4 @@
 {/if}
 </div>
 
-{/if}
 {/if}
