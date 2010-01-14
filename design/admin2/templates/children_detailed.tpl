@@ -1,5 +1,5 @@
 <div class="content-navigation-childlist">
-    <table class="list context-enabled" cellspacing="0" summary="{'List of sub items of current node, with controlls to edit, remove and move them directly.'|i18n( 'design/admin/node/view/full' )}">
+    <table class="list" cellspacing="0" summary="{'List of sub items of current node, with controlls to edit, remove and move them directly.'|i18n( 'design/admin/node/view/full' )}">
     <tr>
         {* Remove column *}
         <th class="remove"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" title="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" onclick="ezjs_toggleCheckboxes( document.children, 'DeleteIDArray[]' ); return false;" /></th>
@@ -35,15 +35,12 @@
 
         {* Edit column *}
         <th class="edit">&nbsp;</th>
-
-        {* Context menu column *}
-        <th class="context-header">&nbsp;</th>
     </tr>
 
-    {section var=Nodes loop=$children sequence=array( bglight, bgdark )}
-    {let child_name=$Nodes.item.name|wash
-         node_name=$node.name
-         section_object=fetch( section, object, hash( section_id, $Nodes.object.section_id ) )}
+{section var=Nodes loop=$children sequence=array( bglight, bgdark )}
+{let child_name     = $Nodes.item.name|wash
+     node_name      = $node.name
+     section_object = fetch( section, object, hash( section_id, $Nodes.object.section_id ) )}
 
         <tr class="{$Nodes.sequence}">
 
@@ -107,42 +104,6 @@
         {else}
             <img src={'edit-disabled.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permission to edit <%child_name>.'|i18n( 'design/admin/node/view/full',, hash( '%child_name', $child_name ) )|wash}" />
         {/if}
-        </td>
-        
-        {* Context menu  *}
-        <td class="context-menu">
-        <div class="context-menu-root hide">
-        <ul class="context-menu-box hide">
-            <li><a>item</a></li>
-            <li><a>item</a></li>
-            <li><a>item</a></li>
-            <li class="context-menu-container"><a>item</a>
-                <div class="context-menu-subitems hide">
-                <ul class="context-menu-box">
-                    <li><a>item</a></li>
-                    <li><a>item</a></li>
-                    <li><a>item</a></li>
-                    <li class="context-menu-container"><a>item</a>
-                        <div class="context-menu-subitems hide">
-                        <ul class="context-menu-box">
-                            <li><a>item</a></li>
-                            <li><a>item</a></li>
-                            <li><a>item</a></li>
-                            <li><a>item</a></li>
-                            <li><a>item</a></li>
-                        </ul>
-                        </div>
-                    </li>
-                    <li><a>item</a></li>
-                    <li><a>item</a></li>
-                </ul>
-                </div>
-            </li>
-            <li><a>item</a></li>
-            <li><a>item</a></li>
-        </ul>
-        </div>
-
         </td>
   </tr>
 
