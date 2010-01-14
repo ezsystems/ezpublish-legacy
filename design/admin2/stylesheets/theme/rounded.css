@@ -1,4 +1,10 @@
 /* ADMIN2 ROUNDED CSS 20100107 */
+/*
+   The border-radius (rounded corner) css is supported in
+   FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9.
+   And fallbacks gracefully to normal corners in older browsers. 
+*/
+
 
 /* GENERIC */
 
@@ -6,7 +12,6 @@ a.show-hide-control, span.show-hide-control
 {
   background-color: white;
   border: 1px solid #bbb;
-  /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   border-radius: 3px;
@@ -134,7 +139,6 @@ span.show-hide-control.disabled
   border-bottom-width: 0;
   min-width: 100px;
   min-height: 20px;
-  /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
   -moz-border-radius-topleft: 3px;
   -moz-border-radius-topright: 3px;
   -webkit-border-top-left-radius: 3px;
@@ -209,7 +213,6 @@ div.tab-content
   position: relative;
   border: 1px solid #999;
   border-left: 0px none;
-  /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
   -moz-border-radius-topright: 3px;
   -moz-border-radius-bottomright: 3px;
   -webkit-border-top-right-radius: 3px;
@@ -223,7 +226,6 @@ div.tab-content
   position: relative;
   border: 1px solid #999;
   border-right: 0px none;
-  /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
   -moz-border-radius-topleft: 3px;
   -moz-border-radius-bottomleft: 3px;
   -webkit-border-top-left-radius: 3px;
@@ -236,7 +238,6 @@ div.tab-content
 {
   border: 0px solid #999;
   border-bottom-width: 0;
-  /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
   -moz-border-radius-topleft: 3px;
   -moz-border-radius-topright: 3px;
   -webkit-border-top-left-radius: 3px;
@@ -250,7 +251,6 @@ div.tab-content
   background-color: #fff;
   border: 0px solid #ccc;
   border-top-width: 0;
-  /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
   -moz-border-radius-bottomleft: 3px;
   -moz-border-radius-bottomright: 3px;
   -webkit-border-bottom-left-radius: 3px;
@@ -269,7 +269,6 @@ div.tab-content
   margin-top: 0.5em;
   border-width: 1px;
   background: #FEFEFE url('../../images/2/gradient-to-light.png') repeat-x left top scroll;
-  /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   border-radius: 3px;
