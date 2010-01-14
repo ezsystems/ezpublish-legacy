@@ -102,26 +102,6 @@ span.show-hide-control.disabled
   background-position: 8px 8px;
 }
 
-/*
-#header-search
-{
-  border-bottom: 1px solid #999;
-  background-color: #fff;
-  background-image: url('../../images/2/gradient-to-dark.png');
-  background-repeat: repeat-x;
-  background-position: left 2px;
-}
-*/
-
-#header-logo
-{
-  border-left: 1px solid #999;
-  /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
-  -moz-border-radius-bottomleft: 3px;
-  -webkit-border-bottom-left-radius: 3px;
-  border-bottom-left-radius:  3px;
-}
-
 
 /* TOP MENU (TABS) */
 #header-topmenu ul li a, #header-topmenu ul li span.disabled, ul.tabs li a
