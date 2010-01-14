@@ -46,24 +46,9 @@ span.show-hide-control.disabled
   margin: auto;
 }
 
-.loginpage #columns #maincontent .box-header
+.loginpage #leftmenu, .loginpage #rightmenu
 {
-  background: #fff url('../../images/2/gradient-to-dark.png') repeat-x left top scroll;
-}
-
-.loginpage #columns #maincontent .box-header .box-ml
-{
-  margin-right: 0.3em;
-}
-
-.loginpage #columns #maincontent .box-header .box-ml h1
-{
-  margin: 0.35em 0 0.1em 0.2em;
-}
-
-.loginpage #columns #maincontent .controlbar .block
-{
-  margin: 0.2em;
+	border: 0 none;
 }
 
 .loginpage #footer
