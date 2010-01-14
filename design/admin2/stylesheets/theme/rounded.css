@@ -102,6 +102,28 @@ span.show-hide-control.disabled
   background-position: 8px 6px;
 }
 
+#searchbutton
+{
+  background-image:url(../../images/2/gradient-red.png);
+  background-position: bottom;
+  background-repeat:repeat-x;
+  background-color: ff8c00;
+  color:white;
+  font-weight:bold;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius:  3px;
+  border:1px solid #999;
+}
+
+#searchbutton.button-disabled
+{
+  background-image:url(../../images/2/gradient-to-darker.png);
+  background-position: bottom;
+  background-repeat:repeat-x;
+  color: #999;
+  font-weight:normal;
+}
 
 /* TOP MENU (TABS) */
 #header-topmenu ul li a, #header-topmenu ul li span.disabled, ul.tabs li a
