@@ -248,7 +248,7 @@ div.tab-content
 .box-bc
 {
   background-color: #fff;
-  border: 0px solid #999;
+  border: 0px solid #ccc;
   border-top-width: 0;
   /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
   -moz-border-radius-bottomleft: 3px;
@@ -267,7 +267,8 @@ div.tab-content
 #controlbar-top .box-bc
 {
   margin-top: 0.5em;
-  border-top-width: 1px;
+  border-width: 1px;
+  background: #FEFEFE url('../../images/2/gradient-to-light.png') repeat-x left top scroll;
   /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
