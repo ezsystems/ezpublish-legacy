@@ -168,9 +168,6 @@ div.tab-content
   overflow-x: hidden;
 }
 
-div#page.collapsed-rightmenu div#rightmenu   { width: 1.1em; }
-div#page.collapsed-rightmenu div#maincontent { margin-right: 1.1em; }
-
 div#page.hide-rightmenu div#rightmenu   { display: none; }
 div#page.hide-rightmenu div#maincontent { margin-right: 0; }
 
