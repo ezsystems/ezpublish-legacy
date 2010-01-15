@@ -207,9 +207,6 @@ div.tab-content
 
 #leftmenu
 {
-  background-image: url('../../images/2/chrome_expand_corner.png');
-  background-repeat: no-repeat;
-  background-position: bottom right;
   position: relative;
   border: 1px solid #999;
   border-left: 0px none;
