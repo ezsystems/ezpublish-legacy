@@ -68,7 +68,7 @@ class eZCLI
         }
         $this->EndlineString = $endl;
         $this->WebOutput = $webOutput;
-        $this->TerminalStyles = array( 'warning' => "\033[1;35m",
+        $this->TerminalStyles = array( 'warning' => "\033[1;33m",
                                        'warning-end' => "\033[0;39m",
                                        'error' => "\033[1;31m",
                                        'error-end' => "\033[0;39m",
@@ -76,6 +76,8 @@ class eZCLI
                                        'failure-end' => "\033[0;39m",
                                        'notice' => "\033[0;32m",
                                        'notice-end' => "\033[0;39m",
+                                       'strict' => "\033[0;35m",
+                                       'strict-end' => "\033[0;39m",
                                        'debug' => "\033[0;30m",
                                        'debug-end' => "\033[0;39m",
                                        'timing' => "\033[1;34m",
