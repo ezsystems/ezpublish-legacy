@@ -130,7 +130,7 @@ div.tab-content
 
 /* PATH */
 
-#path
+#subheader
 {
   padding: 10px 1em 10px 1em;
   font-size: 90%;
@@ -612,7 +612,7 @@ div.context-block h1.context-title img, div.context-block h2.context-title img
 
 /* FULL EDIT VIEW ( main-column-only class toggle ) */
 
-#page.main-column-only #header, #page.main-column-only #path,
+#page.main-column-only #header, #page.main-column-only #subheader,
 #page.main-column-only #leftmenu, #page.main-column-only #rightmenu,
 #page.main-column-only #footer, #page.main-column-only #debug
 {

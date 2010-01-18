@@ -49,6 +49,7 @@
 <body>
 
 <div id="page"{if $ui_context_edit} class="hide-rightmenu"{/if}>
+
 <div id="header">
 <div id="header-design" class="float-break">
 
@@ -64,13 +65,22 @@
 
 <hr class="hide" />
 
-<div id="path">
+<div id="subheader">
+<div id="subheader-design" class="float-break">
+
+    <div id="path">
 	<div id="path-design">
     {include uri='design:page_toppath.tpl'}
 	</div>
-	<div id="search">
-    {include uri='design:page_search.tpl'}
 	</div>
+
+	<div id="search">
+	<div id="search-design">
+    {include uri='design:page_search.tpl'}
+    </div>
+	</div>
+
+</div>
 </div>
 
 
@@ -141,8 +151,14 @@
 
 <script type="text/javascript">
 <!--
+
+{if $content_edit}{* TODO: remove content/edit link when dashboard is available *}
 document.getElementById('header-usermenu').innerHTML += '<span class="vertical-seperator">&nbsp;</span>'
-  + '<a id="header-usermenu-edit" href={concat("content/edit/", $current_user.contentobject_id)|ezurl} title="{"Click to edit your user data."|i18n( "design/admin/pagelayout" )}">{$current_user.login|wash}<\/a>';{* contentobject.name *}
+  + '<span id="header-usermenu-edit" class="disabled">{$current_user.login|wash}<\/span>';{* contentobject.name *}
+{else}
+cument.getElementById('header-usermenu').innerHTML += '<span class="vertical-seperator">&nbsp;</span>'
+	  + '<a id="header-usermenu-edit" href={concat("content/edit/", $current_user.contentobject_id)|ezurl} title="{"Click to edit your user data."|i18n( "design/admin/pagelayout" )}">{$current_user.login|wash}<\/a>';{* contentobject.name *}
+{/if}
 
 {literal}
 function ezSubmitForm( action, params, method )

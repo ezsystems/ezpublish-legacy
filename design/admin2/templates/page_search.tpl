@@ -1,5 +1,3 @@
-<div id="search">
-<p class="search">
 <form action={'/content/search/'|ezurl} method="get">
     {def $current_node_id         = first_set( $module_result.node_id, 0 )
          $selected_search_node = first_set( $search_subtree_array[0], 0 )}
@@ -39,5 +37,3 @@
     {/if}
     {undef $current_node_id $selected_search_node}
 </form>
-</p>
-</div>

@@ -24,8 +24,8 @@
 
 <hr class="hide" />
 
-<div id="path">
-<div id="path-design">
+<div id="subheader">
+<div id="subheader-design">
     &nbsp;
 </div>
 </div>

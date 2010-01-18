@@ -29,7 +29,7 @@ span.show-hide-control.disabled
   background-color: #fefefe;
 }
 
-.loginpage #path
+.loginpage #subheader
 {
   display: none;
 }
@@ -181,7 +181,7 @@ div.tab-content
   color: #333;
 }
 
-#path-design
+#path
 {
 	float: left;
 }
