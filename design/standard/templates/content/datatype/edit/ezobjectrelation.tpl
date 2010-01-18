@@ -25,6 +25,10 @@
     <p>{'No relation'|i18n( 'design/standard/content/datatype' )}</p>
 {/section}
 
+{if $attribute.class_content.default_selection_node}
+    <input type="hidden" name="{$attribute_base}_browse_for_object_start_node[{$attribute.id}]" value="{$attribute.class_content.default_selection_node|wash}" />
+{/if}
+
 {if $attribute.content}
     <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_remove_object]" value="{'Remove object'|i18n( 'design/standard/content/datatype' )}" />
     <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_browse_object]" value="{'Add object'|i18n( 'design/standard/content/datatype' )}" />
