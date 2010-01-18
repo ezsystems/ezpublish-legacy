@@ -104,7 +104,9 @@
     {else}
     <input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/class/classlist' )}" disabled="disabled" />
     {/if}
+    </div>
 
+    <div class="right">
     {def $languages=fetch( 'content', 'prioritized_languages' )}
     {if gt( $languages|count, 1 )}
         <select name="ClassLanguageCode" title="{'Use this menu to select the language you to want use then click the "New class" button. The item will be created within the current location.'|i18n( 'design/admin/class/classlist' )|wash()}">
