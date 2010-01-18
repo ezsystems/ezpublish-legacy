@@ -1,31 +1,31 @@
 // jquery code to a allow changing width  on left menu by dragging
 jQuery(function( $ )
 {
-    var contentTreeDrag = {
+    var leftMenuDrag = {
             elements : false,
             timeout : null,
             down: function( e )
             {
-                contentTreeDrag.elements = [ $( '#leftmenu' ), $( '#maincontent' ) ];
-                if ( contentTreeDrag.timeout !== null )
+    	        leftMenuDrag.elements = [ $( '#leftmenu' ), $( '#maincontent' ) ];
+                if ( leftMenuDrag.timeout !== null )
                 {
-                    clearTimeout( contentTreeDrag.timeout );
-                    contentTreeDrag.timeout = null;
+                    clearTimeout( leftMenuDrag.timeout );
+                    leftMenuDrag.timeout = null;
                 }
             },
             up: function( e )
             {
-                if ( contentTreeDrag.elements )
+                if ( leftMenuDrag.elements )
                 {
-                    contentTreeDrag.elements = false;
-                    contentTreeDrag.timeout = setTimeout( contentTreeDrag.save, 500 );
+                    leftMenuDrag.elements = false;
+                    leftMenuDrag.timeout = setTimeout( leftMenuDrag.save, 500 );
                 }
             },
             on: function( e )
             {
-                if ( contentTreeDrag.elements  )
+                if ( leftMenuDrag.elements  )
                 {
-                    var els = contentTreeDrag.elements, offset = els[0].offset().left, pos = e.pageX, size = pos - offset;
+                    var els = leftMenuDrag.elements, offset = els[0].offset().left, pos = e.pageX, size = pos - offset;
                     if ( size < 20 ) size = 20;
                     els[0].css( 'width', ( size + 3 )  + 'px' );
                     els[1].css( 'marginLeft', ( size ) + 'px' );
@@ -34,7 +34,7 @@ jQuery(function( $ )
             save: function()
             {
                 var px  = $( '#leftmenu' ).width();
-                var url = $.ez.url.replace( 'ezjscore/', 'user/preferences/' ) + 'set_and_exit/admin_left_menu_size/' + contentTreeDrag.em( px ) + 'em';
+                var url = $.ez.url.replace( 'ezjscore/', 'user/preferences/' ) + 'set_and_exit/admin_left_menu_size/' + leftMenuDrag.em( px ) + 'em';
                 $.post( url, {}, function(){} );
             },
             em: function( px )
@@ -46,13 +46,13 @@ jQuery(function( $ )
             refresh: function()
             {
                 // for ie7..
-                $( '#content-tree div.widthcontrol' ).html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;').css( 'fontSize', '11px' ).css('bottom', '0px');
+                $( '#leftmenu div.widthcontrol' ).html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;').css( 'fontSize', '11px' ).css('bottom', '0px');
             }
     };
-    var wc = $( '#content-tree div.widthcontrol' ).addClass( 'js-widthcontroled' );
-    wc.bind( 'mousedown', contentTreeDrag.down );
-    $( document ).bind('mouseup click', contentTreeDrag.up );
-    $( document ).bind('mousemove', contentTreeDrag.on );
-    $('#content-tree').addClass( 'widthcontroled' );
-    setTimeout( contentTreeDrag.refresh, 400 );
+    var wc = $( '#leftmenu div.widthcontrol' ).addClass( 'js-widthcontroled' );
+    wc.bind( 'mousedown', leftMenuDrag.down );
+    $( document ).bind('mouseup click', leftMenuDrag.up );
+    $( document ).bind('mousemove', leftMenuDrag.on );
+    $('#leftmenu').addClass( 'widthcontroled' );
+    setTimeout( leftMenuDrag.refresh, 400 );
 });

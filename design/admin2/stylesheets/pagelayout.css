@@ -589,11 +589,8 @@ div.context-block h1.context-title img, div.context-block h2.context-title img
 
 /* WIDTH CONTROL */
 
-.widthcontroled .box-bc
+#leftmenu.widthcontroled
 {
-  background-image: url('../images/2/chrome_expand_corner.png');
-  background-repeat: no-repeat;
-  background-position: bottom right;
   position: relative;
 }
 
@@ -606,6 +603,9 @@ div.context-block h1.context-title img, div.context-block h2.context-title img
   height: 11px;
   cursor: e-resize;
   overflow: hidden;
+  background-image: url('../images/2/chrome_expand_corner.png');
+  background-repeat: no-repeat;
+  background-position: bottom right;
 }
 
 .widthcontrol.js-widthcontroled p
