@@ -132,7 +132,7 @@ div.tab-content
 
 #subheader
 {
-  padding: 10px 1em 10px 1em;
+  padding: 8px 6px 6px 6px;
   font-size: 90%;
   text-align: left;
 }
@@ -155,6 +155,7 @@ div.tab-content
   float: left;
   width: 15em;
   overflow: hidden;
+  margin-top: 5px;
 }
 
 #rightmenu
@@ -162,6 +163,7 @@ div.tab-content
   float: right;
   width: 13em;
   overflow-x: hidden;
+  margin-top: 5px;
 }
 
 div#page.hide-rightmenu div#rightmenu   { display: none; }
@@ -202,7 +204,7 @@ a#rightmenu-showhide.show-hide-control
 
 #leftmenu-design
 {
-  margin: 0 0.1em 0 0.5em;
+  margin: 0 0.5em 0 0.2em;
 }
 
 #leftmenu-design ul { margin-left: 1.5em; color: #aaa; }
@@ -503,17 +505,17 @@ div.popupmenu hr
 
 .box-bc .box-ml, .box-header .box-ml
 {
-  padding: 0.1em 0.5em 0.1em 0.5em; /* 0.1 needed to avoid gaps in border */
+  padding: 0.1em 0.5em 0.1em 0.2em; /* 0.1 needed to avoid gaps in border */
 }
 
 h1.context-title
 {
-  font-size: 1.2em;
+  font-size: 1.4em;
 }
 
 h2.context-title
 {
-  font-size: 1em;
+  font-size: 1.2em;
 }
 
 div.context-information

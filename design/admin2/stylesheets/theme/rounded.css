@@ -103,7 +103,7 @@ span.show-hide-control.disabled
   text-decoration: none;
   background-image: url('../../images/2/ezpublish-black.png');
   background-repeat: no-repeat;
-  background-position: 8px 6px;
+  background-position: 8px 10px;
 }
 
 /* TOP MENU (TABS) */
@@ -190,7 +190,10 @@ div.tab-content
 {
 	text-align:right;
 }
-/* SEARCH  */
+
+/* SEARCH  
+CPG: Will create a concistent stye for buttons in the three stages normal, default button, disabled 
+
 #searchbutton
 {
   background-image:url(../../images/2/gradient-red.png);
@@ -213,6 +216,7 @@ div.tab-content
   color: #999;
   font-weight:normal;
 }
+*/
 
 /* BOX MODEL */
 
@@ -300,6 +304,7 @@ div.tab-content
 div.box-header div.box-ml
 {
   border-bottom: 1px solid #ccc;
+  margin-bottom: 10px;
 }
 
 .controlbar .box-bc .box-ml
