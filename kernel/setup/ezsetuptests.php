@@ -183,26 +183,26 @@ function eZSetupTestFileUpload( $type )
         {
             // Windows machines use the TEMP and TMP env variable.
             // TEMP is checked first.
-            $uploadDir = isset( $_ENV['TEMP'] ) ? $_ENV['TEMP'] : '';
-            if ( strlen( $uploadDir ) == 0 )
+            $uploadDir = eZSys::hasEnvironmentVariable( 'TEMP' ) ? eZSys::environmentVariable( 'TEMP' ) : '';
+            if ( $uploadDir === '' )
             {
-                $uploadDir = isset( $_ENV['TMP'] ) ? $_ENV['TMP'] : '';
+                $uploadDir = eZSys::hasEnvironmentVariable( 'TMP' ) ? eZSys::environmentVariable( 'TMP' ) : '';
             }
             // When TEMP/TMP is not set we have to guess the directory
             // The only valid guess is %SYSTEMROOT%/TEMP
             // If %SYSTEMROOT% is missing we keep the string empty
-            if ( strlen( $uploadDir ) == 0 )
+            if ( $uploadDir === '' )
             {
-                if ( isset( $_ENV['SYSTEMROOT'] ) )
+                if ( eZSys::hasEnvironmentVariable( 'SYSTEMROOT' ) )
                 {
-                    $uploadDir = $_ENV['SYSTEMROOT'] . '/TEMP';
+                    $uploadDir = eZSys::environmentVariable( 'SYSTEMROOT' ) . '/TEMP';
                 }
             }
         }
         else if ( $osType == 'unix' or
                   $osType == 'mac' )
         {
-            $uploadDir = isset( $_ENV['TMPDIR'] ) ? $_ENV['TMPDIR'] : '';
+            $uploadDir = eZSys::hasEnvironmentVariable( 'TMPDIR' ) ? eZSys::environmentVariable( 'TMPDIR' ) : '';
             // When TMPDIR is not set we have to guess the directory
             // On Unix systems we expect /tmp to be used
             if ( strlen( $uploadDir ) == 0 )

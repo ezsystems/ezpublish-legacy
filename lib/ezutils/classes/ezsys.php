@@ -723,22 +723,29 @@ class eZSys
     }
 
     /*!
-     \return the variable named \a $variableName in the global \c $_ENV variable.
+     \return the variable named \a $variableName in the global \c ENV variable.
              If the variable is not present an error is shown and \c null is returned.
     */
     static function &environmentVariable( $variableName, $quiet = false )
     {
-        $_ENV;
-        if ( !isset( $_ENV[$variableName] ) )
+        if ( getenv($variableName) === false )
         {
             if ( !$quiet )
             {
                 eZDebug::writeError( "Environment variable '$variableName' does not exist", 'eZSys::environmentVariable' );
             }
-            $retValue = null;
-            return $retValue;
+            return null;
         }
-        return $_ENV[$variableName];
+        return getenv($variableName);
+    }
+
+    /*!
+     \return the true if variable named \a $variableName exists.
+             If the variable is not present false is returned.
+    */
+    static function hasEnvironmentVariable( $variableName )
+    {
+        return getenv($variableName) !== false;
     }
 
     /*!
@@ -747,8 +754,7 @@ class eZSys
     */
     static function setEnvironmentVariable( $variableName, $variableValue )
     {
-        $_ENV;
-        $_ENV[$variableName] = $variableValue;
+        putenv( "$variableName=$variableValue" );
     }
 
     function attributes()

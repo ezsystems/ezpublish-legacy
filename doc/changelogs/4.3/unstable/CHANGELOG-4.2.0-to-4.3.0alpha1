@@ -26,6 +26,7 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Implemented enhancement #3005: Increase performance eZTreeMenuOperator
 - Implemented enhancement #16012: Clean up bread crumb (view path) usage in class module
 - Implemented enhancement #1785: ezpreferences redirect isn't working if no referer is given
+- Implemented enhancement #15511: Use getenv() instead of $_ENV for better PHP 5.3 compatibility
 
 *Design:
 - Implemented enhancement #15714: Add a link to object history from node view
