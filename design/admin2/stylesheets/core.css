@@ -160,7 +160,7 @@ table.list tr.bglight:hover, table.list tr.bgdark:hover
 
 table.list tr.object-cannot-remove td
 {
-    color: #ff0000;
+    color: red;
 }
 
 th.tight, td.tight
@@ -177,12 +177,6 @@ div.context-attributes table.list th, div.context-attributes table.special th, d
 {
     color: #404040;
     background-color: #fefefe;
-}
-
-div.context-attributes table table.list th, div.context-attributes table table.special th, div.onlineeditor th
-{
-    color: #404040;
-    background-color: #ddddd5;
 }
 
 
