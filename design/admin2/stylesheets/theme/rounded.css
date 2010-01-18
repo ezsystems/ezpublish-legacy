@@ -5,7 +5,6 @@
    And fallbacks gracefully to normal corners in older browsers. 
 */
 
-
 /* GENERIC */
 
 a.show-hide-control, span.show-hide-control
@@ -80,7 +79,7 @@ span.show-hide-control.disabled
 #header
 { 
   border-bottom: 1px solid #999;
-  background-color: #fefefe;
+  background: #FEFEFE url('../../images/2/gradient-to-light.png') repeat-x left top scroll;
 }
 
 .loginpage #header
@@ -105,29 +104,6 @@ span.show-hide-control.disabled
   background-image: url('../../images/2/ezpublish-black.png');
   background-repeat: no-repeat;
   background-position: 8px 6px;
-}
-
-#searchbutton
-{
-  background-image:url(../../images/2/gradient-red.png);
-  background-position: bottom;
-  background-repeat:repeat-x;
-  background-color: ff8c00;
-  color:white;
-  font-weight:bold;
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  border-radius:  3px;
-  border:1px solid #999;
-}
-
-#searchbutton.button-disabled
-{
-  background-image:url(../../images/2/gradient-to-darker.png);
-  background-position: bottom;
-  background-repeat:repeat-x;
-  color: #999;
-  font-weight:normal;
 }
 
 /* TOP MENU (TABS) */
@@ -160,6 +136,7 @@ ul.tabs li a
 #header-topmenu ul li.selected a, #header-topmenu ul li a:hover{
   margin-top: 0;
   min-height: 22px;
+  color: #094564;
 }
 
 #header-topmenu ul li.selected a, #header-topmenu ul li.selected span.disabled, ul.tabs li.selected a
@@ -174,6 +151,7 @@ ul.tabs li a
 {
   margin-top: 0;
   min-height: 18px;
+  color: #094564;
 }
 
  ul.tabs li.selected a
@@ -201,6 +179,39 @@ div.tab-content
 #path span
 {
   color: #333;
+}
+
+#path-design
+{
+	float: left;
+}
+
+#search
+{
+	text-align:right;
+}
+/* SEARCH  */
+#searchbutton
+{
+  background-image:url(../../images/2/gradient-red.png);
+  background-position: bottom;
+  background-repeat:repeat-x;
+  background-color: ff8c00;
+  color:white;
+  font-weight:bold;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius:  3px;
+  border:1px solid #999;
+}
+
+#searchbutton.button-disabled
+{
+  background-image:url(../../images/2/gradient-to-darker.png);
+  background-position: bottom;
+  background-repeat:repeat-x;
+  color: #999;
+  font-weight:normal;
 }
 
 /* BOX MODEL */
@@ -325,5 +336,5 @@ table.list th
 #footer
 {
   border-top: 1px solid #999;
-  background-color: #fff;
+  background: #FEFEFE url('../../images/2/gradient-to-light.png') repeat-x left top scroll;
 }

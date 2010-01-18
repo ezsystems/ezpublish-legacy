@@ -65,9 +65,12 @@
 <hr class="hide" />
 
 <div id="path">
-<div id="path-design">
+	<div id="path-design">
     {include uri='design:page_toppath.tpl'}
-</div>
+	</div>
+	<div id="search">
+    {include uri='design:page_search.tpl'}
+	</div>
 </div>
 
 
