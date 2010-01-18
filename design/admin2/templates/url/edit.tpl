@@ -33,11 +33,11 @@
 {literal}
 <script language="JavaScript" type="text/javascript">
 <!--
-    window.onload=function()
-    {
-        document.getElementById('address').select();
-        document.getElementById('address').focus();
-    }
+jQuery(function( $ )//called on document.ready
+{
+    document.getElementById('address').select();
+    document.getElementById('address').focus();
+});
 -->
 </script>
 {/literal}

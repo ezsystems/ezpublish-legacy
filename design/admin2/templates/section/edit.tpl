@@ -50,11 +50,11 @@
 {literal}
 <script language="JavaScript" type="text/javascript">
 <!--
-    window.onload=function()
-    {
-        document.getElementById('sectionName').select();
-        document.getElementById('sectionName').focus();
-    }
+jQuery(function( $ )//called on document.ready
+{
+    document.getElementById('sectionName').select();
+    document.getElementById('sectionName').focus();
+});
 -->
 </script>
 {/literal}

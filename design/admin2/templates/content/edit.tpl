@@ -142,30 +142,30 @@
 {literal}
 <script language="JavaScript" type="text/javascript">
 <!--
-    window.onload=function()
+jQuery(function( $ )//called on document.ready
+{
+    with( document.editform )
     {
-        with( document.editform )
+        for( var i = 0, l = elements.length; i < l; i++ )
         {
-            for( var i=0; i<elements.length; i++ )
+            if( elements[i].type == 'text' )
             {
-                if( elements[i].type == 'text' )
-                {
-                    elements[i].select();
-                    elements[i].focus();
-                    return;
-                }
+                elements[i].select();
+                elements[i].focus();
+                return;
             }
         }
     }
+});
 
-    function confirmDiscard( question )
-    {
-        // Disable/bypass the reload-based (plain HTML) confirmation interface.
-        document.editform.DiscardConfirm.value = "0";
+function confirmDiscard( question )
+{
+    // Disable/bypass the reload-based (plain HTML) confirmation interface.
+    document.editform.DiscardConfirm.value = "0";
 
-        // Ask user if she really wants do it, return this to the handler.
-        return confirm( question );
-    }
+    // Ask user if she really wants do it, return this to the handler.
+    return confirm( question );
+}
 -->
 </script>
 {/literal}

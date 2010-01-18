@@ -79,16 +79,16 @@
 {literal}
 <script language="JavaScript" type="text/javascript">
 <!--
-    window.onload=function()
-    {
-        var lastAddedItem = document.getElementById('LastAdded');
+jQuery(function( $ )//called on document.ready
+{
+    var lastAddedItem = document.getElementById('LastAdded');
 
-        if ( lastAddedItem != null )
-        {
-            lastAddedItem.select();
-            lastAddedItem.focus();
-        }
+    if ( lastAddedItem != null )
+    {
+        lastAddedItem.select();
+        lastAddedItem.focus();
     }
+});
 -->
 </script>
 {/literal}

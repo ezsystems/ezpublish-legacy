@@ -229,11 +229,11 @@
 {literal}
 <script language="JavaScript" type="text/javascript">
 <!--
-    window.onload=function()
-    {
-        document.getElementById('exportName').select();
-        document.getElementById('exportName').focus();
-    }
+jQuery(function( $ )//called on document.ready
+{
+    document.getElementById('exportName').select();
+    document.getElementById('exportName').focus();
+});
 -->
 </script>
 {/literal}

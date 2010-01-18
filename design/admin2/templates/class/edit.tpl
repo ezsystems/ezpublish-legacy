@@ -279,11 +279,11 @@
 {literal}
 <script language="JavaScript" type="text/javascript">
 <!--
-    window.onload=function()
-    {
+jQuery(function( $ )//called on document.ready
+{
         document.getElementById('className').select();
         document.getElementById('className').focus();
-    }
+});
 -->
 </script>
 {/literal}

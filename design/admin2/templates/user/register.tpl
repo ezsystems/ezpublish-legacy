@@ -69,26 +69,26 @@
 {literal}
 <script language="JavaScript" type="text/javascript">
 <!--
-    window.onload=function()
+jQuery(function( $ )//called on document.ready
+{
+    with( document.registerform )
     {
-        with( document.registerform )
+        for( var i=0; i<elements.length; i++ )
         {
-            for( var i=0; i<elements.length; i++ )
+            if( elements[i].type == 'text' )
             {
-                if( elements[i].type == 'text' )
-                {
-                    elements[i].focus();
-                    return;
-                }
+                elements[i].focus();
+                return;
             }
         }
     }
+});
 
-    function disableButtons()
-    {
-        document.getElementById( 'PublishButton' ).disabled = true;
-        document.getElementById( 'CancelButton' ).disabled = true;
-    }
+function disableButtons()
+{
+    document.getElementById( 'PublishButton' ).disabled = true;
+    document.getElementById( 'CancelButton' ).disabled = true;
+}
 -->
 </script>
 {/literal}

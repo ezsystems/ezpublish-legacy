@@ -127,11 +127,11 @@
 {literal}
 <script language="JavaScript" type="text/javascript">
 <!--
-    window.onload=function()
-    {
-        document.getElementById('pdfTitle').select();
-        document.getElementById('pdfTitle').focus();
-    }
+jQuery(function( $ )//called on document.ready
+{
+    document.getElementById('pdfTitle').select();
+    document.getElementById('pdfTitle').focus();
+});
 -->
 </script>
 {/literal}

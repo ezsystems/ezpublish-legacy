@@ -132,11 +132,11 @@
 {literal}
 <script language="JavaScript" type="text/javascript">
 <!--
-    window.onload=function()
-    {
-        document.getElementById('importName').select();
-        document.getElementById('importName').focus();
-    }
+jQuery(function( $ )//called on document.ready
+{
+    document.getElementById('importName').select();
+    document.getElementById('importName').focus();
+});
 -->
 </script>
 {/literal}

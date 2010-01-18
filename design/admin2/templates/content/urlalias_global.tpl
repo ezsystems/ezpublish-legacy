@@ -282,21 +282,21 @@
 {literal}
 <script language="JavaScript" type="text/javascript">
 <!--
-    window.onload=function()
+jQuery(function( $ )//called on document.ready
+{
+    with( document.aliasform )
     {
-        with( document.aliasform )
+        for( var i=0; i<elements.length; i++ )
         {
-            for( var i=0; i<elements.length; i++ )
+            if( elements[i].type == 'text' && elements[i].name == 'AliasSourceText' )
             {
-                if( elements[i].type == 'text' && elements[i].name == 'AliasSourceText' )
-                {
-                    elements[i].select();
-                    elements[i].focus();
-                    return;
-                }
+                elements[i].select();
+                elements[i].focus();
+                return;
             }
         }
     }
+});
 -->
 </script>
 {/literal}
