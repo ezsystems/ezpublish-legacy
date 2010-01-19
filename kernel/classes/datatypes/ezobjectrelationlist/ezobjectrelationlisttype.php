@@ -185,22 +185,24 @@ class eZObjectRelationListType extends eZDataType
         $postVariableName = $base . "_data_object_relation_list_" . $contentObjectAttribute->attribute( "id" );
         $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
         $classContent = $contentClassAttribute->content();
-        // Check if selection type is not browse
+
+        $selectedObjectIDArray = $http->hasPostVariable( $postVariableName ) ? $http->postVariable( $postVariableName ) : false;
+        
+        // If we got an empty object id list
+        if ( ( $selectedObjectIDArray === false && $classContent['selection_type'] != 0 ) || ( isset( $selectedObjectIDArray[0] ) && $selectedObjectIDArray[0] === 'no_relation' ) )
+        {
+            $content['relation_list'] = array();
+        	$contentObjectAttribute->setContent( $content );
+            $contentObjectAttribute->store();
+            return true;
+        }
+
+        // Check if selection type is not browse 
         if ( $classContent['selection_type'] != 0 )
         {
-            $selectedObjectIDArray = $http->hasPostVariable( $postVariableName ) ? $http->postVariable( $postVariableName ) : false;
             $priority = 0;
-            // We should clear content
             $content['relation_list'] = array();
-            // If we got an empty object id list
-            if ( $selectedObjectIDArray === false or ( isset( $selectedObjectIDArray[0] ) and $selectedObjectIDArray[0] == 'no_relation' ) )
-            {
-                $contentObjectAttribute->setContent( $content );
-                $contentObjectAttribute->store();
-                return true;
-            }
-
-            foreach ( $selectedObjectIDArray as $objectID )
+        	foreach ( $selectedObjectIDArray as $objectID )
             {
                 // Check if the given object ID has a numeric value, if not go to the next object.
                 if ( !is_numeric( $objectID ) )
@@ -218,22 +220,47 @@ class eZObjectRelationListType extends eZDataType
             return true;
         }
 
+        $priorities               = array();
+        $priorityBase             = $base . '_priority';
         $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
-        $priorityBase = $base . '_priority';
-        $priorities = array();
         if ( $http->hasPostVariable( $priorityBase ) )
             $priorities = $http->postVariable( $priorityBase );
-        $reorderedRelationList = array();
+
+        // Add new relations
+        if ( $selectedObjectIDArray )
+        {
+            foreach ( $selectedObjectIDArray as $x => $objectID )
+            {
+                // Check if the given object ID has a numeric value, if not go to the next object.
+                if ( !is_numeric( $objectID ) )
+                {
+                    eZDebug::writeError( "Related object ID (objectID): '$objectID', is not a numeric value.",
+                                         "eZObjectRelationListType::fetchObjectAttributeHTTPInput" );
+
+                    continue;
+                }
+                for ( $y = 0, $c = count( $content['relation_list'] ); $y < $c; ++$y )
+                {
+                	if ( $objectID == $content['relation_list'][$y]['contentobject_id'] )
+                	{
+                		continue 2;
+                	}
+                }
+                $content['relation_list'][] = $this->appendObject( $objectID, $priorities[$contentObjectAttributeID][$x], $contentObjectAttribute );
+            }
+        }
+
+        $reorderedRelationList    = array();
         // Contains existing priorities
         $existsPriorities = array();
 
-        for ( $i = 0; $i < count( $content['relation_list'] ); ++$i )
+        for ( $i = 0, $c = count( $content['relation_list'] ); $i < $c; ++$i )
         {
             $priorities[$contentObjectAttributeID][$i] = (int) $priorities[$contentObjectAttributeID][$i];
             $existsPriorities[$i] = $priorities[$contentObjectAttributeID][$i];
 
             // Change objects' priorities providing their uniqueness.
-            for ( $j = 0; $j < count( $content['relation_list'] ); ++$j )
+            for ( $j = 0; $j < $c; ++$j )
             {
                 if ( $i == $j ) continue;
                 if ( $priorities[$contentObjectAttributeID][$i] == $priorities[$contentObjectAttributeID][$j] )
