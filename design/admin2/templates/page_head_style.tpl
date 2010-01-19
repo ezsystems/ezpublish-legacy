@@ -8,6 +8,10 @@
     {def $load_main_css = true()}
 {/if}
 
+{if is_unset( $admin_theme )}
+    {def $admin_theme = ''}
+{/if}
+
 {if $admin_theme}
     {def $admin_theme_css = concat( 'theme/', $admin_theme, '.css' )}
 {else}

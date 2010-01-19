@@ -1,9 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{$site.http_equiv.Content-language|wash}" lang="{$site.http_equiv.Content-language|wash}">
-
+{def $admin_theme = ezpreference( 'admin_theme' )}
 <head>
-{cache-block keys=array( $navigation_part.identifier, $module_result.navigation_part, $ui_context, $ui_component )}{* Pr tab cache *}
+{cache-block keys=array( $navigation_part.identifier, $module_result.navigation_part, $ui_context, $ui_component, $admin_theme )}{* Pr tab cache *}
 
 {include uri='design:page_head.tpl'}
 

@@ -166,8 +166,8 @@ div.tab-content
   margin-top: 5px;
 }
 
-div#page.hide-rightmenu div#rightmenu   { display: none; }
-div#page.hide-rightmenu div#maincontent { margin-right: 0; }
+div#columns.hide-rightmenu div#rightmenu   { display: none; }
+div#columns.hide-rightmenu div#maincontent { margin-right: 0; }
 
 
 

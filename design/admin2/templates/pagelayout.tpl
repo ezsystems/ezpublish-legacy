@@ -3,15 +3,21 @@
 <head>
 
 {* Do some uncacheable left + right menu stuff before cache-block's *}
-{def $ui_context_edit  = eq( $ui_context, 'edit' )
-     $content_edit     = and( $ui_context_edit, eq( $ui_component, 'content' ) )
+{def $ui_context_edit      = eq( $ui_context, 'edit' )
+     $content_edit         = and( $ui_context_edit, eq( $ui_component, 'content' ) )
+     $hide_right_menu      = first_set( $module_result.persistent_variable.extra_menu, $ui_context_edit|not )|not
      $collapse_right_menu  = ezpreference( 'admin_right_menu_show' )|not
-     $admin_left_size  = ezpreference( 'admin_left_menu_size' )
-     $admin_treemenu   = ezpreference( 'admin_treemenu' )
-     $admin_theme      = ezpreference( 'admin_theme' )
-     $left_size_hash   = 0
-     $user_hash        = concat( $current_user.role_id_list|implode( ',' ), ',', $current_user.limited_assignment_value_list|implode( ',' ), ',', ezpreference( 'admin_edit_show_re_edit' ) )
-     $pref_hash        = concat( ezpreference( 'admin_edit_show_re_edit' ), ',', ezpreference( 'admin_edit_show_locations' ), $admin_theme )}
+     $admin_left_size      = ezpreference( 'admin_left_menu_size' )
+     $admin_treemenu       = ezpreference( 'admin_treemenu' )
+     $admin_theme          = ezpreference( 'admin_theme' )
+     $left_size_hash       = 0
+     $user_hash = concat( $current_user.role_id_list|implode( ',' ), ',', $current_user.limited_assignment_value_list|implode( ',' ), ',', ezpreference( 'admin_edit_show_re_edit' ) )
+     $pref_hash = concat( ezpreference( 'admin_edit_show_re_edit' ), ',', ezpreference( 'admin_edit_show_locations' ), $admin_theme, $hide_right_menu )}
+
+{if $hide_right_menu}
+    {set $collapse_right_menu = false()}
+{/if}
+
 
 {if and( $ui_context_edit|not, or( $collapse_right_menu, $admin_left_size ))}
 <style type="text/css">
@@ -48,7 +54,7 @@
 </head>
 <body>
 
-<div id="page"{if $ui_context_edit} class="hide-rightmenu"{/if}>
+<div id="page">
 
 <div id="header">
 <div id="header-design" class="float-break">
@@ -86,7 +92,7 @@
 
 <hr class="hide" />
 
-<div id="columns">
+<div id="columns"{if $hide_right_menu} class="hide-rightmenu"{/if}>
 
 {* LEFT MENU / CONTENT STRUCTURE MENU *}
 {if $content_edit}
@@ -100,7 +106,7 @@
 {* RIGHT MENU *}
 <div id="rightmenu">
 <div id="rightmenu-design">
-{if or( $collapse_right_menu, $ui_context_edit )}
+{if or( $hide_right_menu, $collapse_right_menu )}
     <a id="rightmenu-showhide" class="show-hide-control" title="{'Show / Hide rightmenu'|i18n( 'design/admin/pagelayout/rightmenu' )}" href={'/user/preferences/set/admin_right_menu_show/1'|ezurl}>+</a>
 {else}
     <a id="rightmenu-showhide" class="show-hide-control" title="{'Hide / Show rightmenu'|i18n( 'design/admin/pagelayout/rightmenu' )}" href={'/user/preferences/set/admin_right_menu_show/0'|ezurl}>-</a>
