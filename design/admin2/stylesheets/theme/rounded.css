@@ -321,7 +321,6 @@ input.button, input.defaultbutton, input.button-disabled{
     border-style: solid;
     border-width: 1px;
     color: #fff;
-    font-weight:bold;
     width:auto;
     overflow:visible;
 }
