@@ -103,7 +103,7 @@ ul.tabs
 
 #header-topmenu ul li span.disabled, span.disabled
 {
-  color: #555;
+  color: #999;
 }
 
 #header-topmenu ul li.selected a, ul.tabs li.selected a
@@ -125,7 +125,7 @@ div.tab-content
 {
   height: 20em;
   overflow-y: scroll;
-  padding: 0.5em;
+  padding: 1em 0.5em 0.5em;
 }
 
 /* PATH */
