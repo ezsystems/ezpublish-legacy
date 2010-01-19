@@ -15,7 +15,7 @@
 
 <body class="loginpage">
 
-<div id="page">
+<div id="page" class="{$navigation_part.identifier} section_id_{first_set( $module_result.section_id, 0 )}">
 <div id="header">
 <div id="header-design" class="float-break">
 
