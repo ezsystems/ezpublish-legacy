@@ -297,7 +297,7 @@ input.button-disabled
 {
     font-size: 0.9em;
     font-weight: normal;
-    color: #404040;
+    color: #999;
     padding: 0em 0.25em 0em 0.25em;
 }
 
@@ -397,7 +397,6 @@ div.message-confirmation, div.message-feedback, div.message-warning, div.message
     margin: 0.5em 0 1em 0;
     padding: 0.25em 1em 0.75em 1em;
     border: 6px solid #000000;
-    background-color: #f8f8f4;
 }
 
 div.box-content div.message-confirmation, div.box-content div.message-feedback, div.box-content  div.message-warning, div.box-content  div.message-error
@@ -406,11 +405,6 @@ div.box-content div.message-confirmation, div.box-content div.message-feedback, 
     padding: 0.25em 0.5em 0.25em 0.5em;
     border: none;
     background-color: transparent;
-}
-
-div.message-feedback
-{
-    border-color: #7ed376;
 }
 
 div.message-feedback h2
@@ -458,23 +452,6 @@ div.message-feedback span.time, div.message-warning span.time, div.message-error
     float: right;
 }
 
-div.message-feedback span.time
-{
-    background-image: url(../images/fade-feedback.gif);
-    background-repeat: repeat;
-}
-
-div.message-warning span.time
-{
-    background-image: url(../images/fade-warning.gif);
-    background-repeat: repeat;
-}
-
-div.message-error span.time
-{
-    background-image: url(../images/fade-error.gif);
-    background-repeat: repeat;
-}
 
 label.message-error, legend.message-error
 {
