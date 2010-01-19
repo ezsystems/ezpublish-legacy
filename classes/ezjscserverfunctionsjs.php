@@ -336,6 +336,8 @@ YUI( YUI3_config ).add('io-ez', function( Y )
              $params['SearchContentClassAttributeID'] = self::makePostArray( $http, 'SearchContentClassAttributeID' );
         else if ( self::hasPostValue( $http, 'SearchContentClassID' ) )
              $params['SearchContentClassID'] = self::makePostArray( $http, 'SearchContentClassID' );
+        else if ( self::hasPostValue( $http, 'SearchContentClassIdentifier' ) )
+             $params['SearchContentClassID'] = eZContentClass::classIDByIdentifier( self::makePostArray( $http, 'SearchContentClassIdentifier' ) );
 
         if ( self::hasPostValue( $http, 'SearchSubTreeArray' ) )
              $params['SearchSubTreeArray'] = self::makePostArray( $http, 'SearchSubTreeArray' );
@@ -359,6 +361,7 @@ YUI( YUI3_config ).add('io-ez', function( Y )
                          'SearchResultCount' => 0,
                          'SearchCount' => 0,
                          'SearchResult' => array(),
+                         'SearchString' => $searchStr,
         );
 
         // Possibility to keep track of callback reference for use in js callback function

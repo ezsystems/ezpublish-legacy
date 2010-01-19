@@ -18,6 +18,9 @@
 - Disabled language attribute by default on ezscript() for xhtml strict / xhtml1.1 / html5 validation
 - BC: Fixed setting typo LocaleScript -> LocalScript in ezjscore.ini
 - Added support for more general use of has_access_to_limitation including array values for limitations
+- ezjsc::search: Added support for SearchContentClassIdentifier (requires ezp 4.1 or higher)
+- ezjsc::search: Return SearchString as part of returned result for js callback use
+- Bump required eZ Publish version to 4.1
 
 
 # v1.0.0  29 Sept 2009

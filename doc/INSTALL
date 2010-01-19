@@ -1,4 +1,4 @@
-eZ JSCore 1.0 extension installation documentation
+eZ JSCore 1.1 extension installation documentation
 
 About eZ JSCore
 ===========
@@ -11,7 +11,7 @@ content.
 Requirements
 ============
 
-    eZ Publish 4.0 and higher
+    eZ Publish 4.1 and higher
 
     PHP 5.2.1 and higher
     or
