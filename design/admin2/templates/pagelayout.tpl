@@ -5,7 +5,7 @@
 {* Do some uncacheable left + right menu stuff before cache-block's *}
 {def $ui_context_edit      = eq( $ui_context, 'edit' )
      $content_edit         = and( $ui_context_edit, eq( $ui_component, 'content' ) )
-     $hide_right_menu      = first_set( $module_result.persistent_variable.extra_menu, $ui_context_edit|not )|not
+     $hide_right_menu      = first_set( $module_result.content_info.persistent_variable.extra_menu, $ui_context_edit|not )|not
      $collapse_right_menu  = ezpreference( 'admin_right_menu_show' )|not
      $admin_left_size      = ezpreference( 'admin_left_menu_size' )
      $admin_treemenu       = ezpreference( 'admin_treemenu' )
