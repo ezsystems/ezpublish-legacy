@@ -397,6 +397,7 @@ div.message-confirmation, div.message-feedback, div.message-warning, div.message
     margin: 0.5em 0 1em 0;
     padding: 0.25em 1em 0.75em 1em;
     border: 6px solid #000000;
+    background-color: #fcfcfc;
 }
 
 div.box-content div.message-confirmation, div.box-content div.message-feedback, div.box-content  div.message-warning, div.box-content  div.message-error
@@ -407,13 +408,22 @@ div.box-content div.message-confirmation, div.box-content div.message-feedback, 
     background-color: transparent;
 }
 
-div.message-feedback h2
+div.message-feedback h2, div.message-warning h2, div.message-error h2
 {
-    background-image: url(../images/message-feedback.gif);
     background-repeat: no-repeat;
     background-position: 0 0;
     margin-left: 0.5em;
     padding: 0.25em 0.5em 0.5em 2.5em;
+}
+
+div.message-feedback
+{
+    border-color: #7ed376;
+}
+
+div.message-feedback h2
+{
+    background-image: url(../images/message-feedback.gif);
 }
 
 div.message-warning
@@ -424,10 +434,6 @@ div.message-warning
 div.message-warning h2
 {
     background-image: url(../images/message-warning.gif);
-    background-repeat: no-repeat;
-    background-position: 0 0;
-    margin-left: 0.5em;
-    padding: 0.25em 0.5em 0.5em 2.5em;
 }
 
 div.message-error
@@ -438,10 +444,6 @@ div.message-error
 div.message-error h2
 {
     background-image: url(../images/message-error.gif);
-    background-repeat: no-repeat;
-    background-position: 0 0;
-    margin-left: 0.5em;
-    padding: 0.25em 0.5em 0.5em 2.5em;
 }
 
 div.message-feedback span.time, div.message-warning span.time, div.message-error span.time
