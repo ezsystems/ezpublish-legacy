@@ -6,29 +6,56 @@
 
 {* Browse. *}
 {case match=0}
-<div class="block">
+<div class="block" id="ezobjectrelation_browse_{$attribute.id}">
 
-{section show=$attribute.content}
-<table class="list" cellspacing="0">
+<table class="list{if $attribute.content|not} hide{/if}" cellspacing="0">
+<thead>
 <tr>
     <th>{'Name'|i18n( 'design/standard/content/datatype' )}</th>
     <th>{'Type'|i18n( 'design/standard/content/datatype' )}</th>
     <th>{'Section'|i18n( 'design/standard/content/datatype' )}</th>
+    <th>{'Published'|i18n( 'design/standard/content/datatype' )}</th>
 </tr>
-<tr>
-    <td>{$attribute.content.class_identifier|class_icon( small, $attribute.content.class_name )}&nbsp;{$attribute.content.name|wash}</td>
-    <td>{$attribute.content.class_name|wash}</td>
-    <td>{fetch( section, object, hash( section_id, $attribute.content.section_id ) ).name|wash}</td>
-</tr>
-</table>
-{section-else}
-    <p>{'No relation'|i18n( 'design/standard/content/datatype' )}</p>
-{/section}
+</thead>
+<tbody>
+<tr class="bglight">
+{if $attribute.content}
 
+    {* Name *}
+    <td>{$attribute.content.name|wash()}</td>
+
+    {* Type *}
+    <td>{$attribute.content.class_name|wash()}</td>
+
+    {* Section *}
+    <td>{fetch( section, object, hash( section_id, $attribute.content.section_id ) ).name|wash}</td>
+
+    {* Published. *}
+    <td>{if $attribute.content.status|ne( 1 )}
+            {'No'|i18n( 'design/standard/content/datatype' )}
+        {else}
+            {'Yes'|i18n( 'design/standard/content/datatype' )}
+        {/if}
+    </td>
+{else}
+    <td>--name--</td>
+    <td>--class-name--</td>
+    <td>--section-name--</td>
+    <td>--published--</td>
+{/if}
+</tr>
+</tbody>
+</table>
+
+{if $attribute.content|not}
+    <p>{'There are no related object.'|i18n( 'design/standard/content/datatype' )}</p>
+{/if}
+
+<div class="block inline-block ezobject-relation-browse">
+<div class="left">
 {if $attribute.class_content.default_selection_node}
     <input type="hidden" name="{$attribute_base}_browse_for_object_start_node[{$attribute.id}]" value="{$attribute.class_content.default_selection_node|wash}" />
 {/if}
-
 {if $attribute.content}
     <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_remove_object]" value="{'Remove object'|i18n( 'design/standard/content/datatype' )}" />
     <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_browse_object]" value="{'Add object'|i18n( 'design/standard/content/datatype' )}" />
@@ -38,7 +65,15 @@
 {/if}
 
 <input type="hidden" name="{$attribute_base}_data_object_relation_id_{$attribute.id}" value="{$attribute.data_int}" />
-
+</div>
+<div class="right">
+    <input type="text" class="halfbox hide ezobject-relation-search-text" />
+    <input type="submit" class="button hide ezobject-relation-search-btn" name="CustomActionButton[{$attribute.id}_browse_object]" value="{'Find object'|i18n( 'design/standard/content/datatype' )}" />
+</div>
+<div class="break"></div>
+<div class="block inline-block ezobject-relation-search-browse"></div>
+</div>
+{include uri='design:content/datatype/edit/ezobjectrelation_ajax_search.tpl'}
 </div>
 {/case}
 
