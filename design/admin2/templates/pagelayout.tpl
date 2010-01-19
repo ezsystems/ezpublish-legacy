@@ -158,7 +158,7 @@
 <script type="text/javascript">
 <!--
 
-{if $content_edit}{* TODO: remove content/edit link when dashboard is available *}
+{if $ui_context_edit}{* TODO: remove content/edit link when dashboard is available *}
 document.getElementById('header-usermenu').innerHTML += '<span class="vertical-seperator">&nbsp;</span>'
   + '<span id="header-usermenu-edit" class="disabled">{$current_user.login|wash}<\/span>';{* contentobject.name *}
 {else}
