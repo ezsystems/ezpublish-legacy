@@ -128,9 +128,12 @@
 <label>{'Class attributes'|i18n( 'design/admin/class/edit' )}:</label>
 </div>
 {section show=$attributes}
+{def $priority_value = 0}
 
 <table id="ezcca-edit-list" class="special" cellspacing="0" summary="{'List of class attributes'|i18n( 'design/admin/class/edit' )}">
 {section var=Attributes loop=$attributes sequence=array( bglight, bgdark )}
+
+{set $priority_value = $priority_value|sum( 10 )}
 
 <tr>
     <th class="tight"><input type="checkbox" name="ContentAttribute_id_checked[]" value="{$Attributes.item.id}" title="{'Select attribute for removal. Click the "Remove selected attributes" button to remove the selected attributes.'|i18n( 'design/admin/class/edit' )|wash}" /></th>
@@ -139,7 +142,7 @@
       <div class="listbutton">
           <input type="image" src={'button-move_down.gif'|ezimage} alt="{'Down'|i18n( 'design/admin/class/edit' )}" name="MoveDown_{$Attributes.item.id}" title="{'Use the order buttons to set the order of the class attributes. The up arrow moves the attribute one place up. The down arrow moves the attribute one place down.'|i18n( 'design/admin/class/edit' )|wash}" />&nbsp;
           <input type="image" src={'button-move_up.gif'|ezimage} alt="{'Up'|i18n( 'design/admin/class/edit' )}" name="MoveUp_{$Attributes.item.id}" title="{'Use the order buttons to set the order of the class attributes. The up arrow moves the attribute one place up. The down arrow moves the attribute one place down.'|i18n( 'design/admin/class/edit' )|wash}" />
-<input size="2" type="text" name="ContentAttribute_priority[]" value="{$Attributes.number}" />
+          <input size="2" maxlength="4" type="text" name="ContentAttribute_priority[]" value="{$priority_value}" />
       </div>
     </th>
 </tr>
@@ -223,7 +226,7 @@
 {/section}
 
 </table>
-
+{undef $priority_value}
 {section-else}
 
 <div class="block">
