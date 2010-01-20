@@ -354,11 +354,11 @@ class ezjscPacker
             eZDebug::writeWarning( "Could not find any files: " . var_export( $fileArray, true ), __METHOD__ );
             return array();
         }
-        /*else if ( !isset( $validFiles[1] ) && $validFiles[0] && !$validFiles[0] instanceof ezjscServerRouter )
+        else if ( !isset( $validFiles[1] ) && $validFiles[0] && !$validFiles[0] instanceof ezjscServerRouter )
         {
         	// return if there is only one file in array to save us from caching it
         	return array_merge( $httpFiles, $validWWWFiles );
-        }*/
+        }
 
         // generate cache file name and path
         $cacheName = md5( $cacheName . $packLevel ) . $fileExtension;
