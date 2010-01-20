@@ -126,9 +126,9 @@
 <!--
 jQuery(function( $ )//called on document.ready
 {
-    with( editform )
+    with( document.editform )
     {
-        for( var i=0; i<elements.length; i++ )
+        for( var i = 0, l = elements.length; i < l; i++ )
         {
             if( elements[i].type == 'text' )
             {

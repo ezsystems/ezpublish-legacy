@@ -286,7 +286,7 @@ jQuery(function( $ )//called on document.ready
 {
     with( document.aliasform )
     {
-        for( var i=0; i<elements.length; i++ )
+        for( var i = 0, l = elements.length; i < l; i++ )
         {
             if( elements[i].type == 'text' && elements[i].name == 'AliasSourceText' )
             {
