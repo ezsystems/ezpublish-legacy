@@ -286,7 +286,6 @@ jQuery(function( $ )//called on document.ready
     	el = $('#className');
     window.scrollTo(0, Math.max( el.offset().top - 180, 0 ));
     el.focus();
-    
 });
 -->
 </script>
