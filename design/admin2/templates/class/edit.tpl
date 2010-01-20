@@ -144,7 +144,7 @@
     </th>
 </tr>
 
-<tr class="{$Attributes.sequence}">
+<tr class="{$Attributes.sequence}"{if $last_changed_id|eq( $Attributes.item.id )} id="LastChangedID"{/if}>
 <td>&nbsp;</td>
 <!-- Attribute input Start -->
 <td colspan="2">
@@ -281,8 +281,12 @@
 <!--
 jQuery(function( $ )//called on document.ready
 {
-        document.getElementById('className').select();
-        document.getElementById('className').focus();
+    var el = $('#LastChangedID input[name^=ContentAttribute_name]');
+    if ( !el.size() )
+    	el = $('#className');
+    window.scrollTo(0, Math.max( el.offset().top - 180, 0 ));
+    el.focus();
+    
 });
 -->
 </script>

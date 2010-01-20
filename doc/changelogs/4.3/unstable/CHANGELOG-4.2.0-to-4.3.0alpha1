@@ -30,6 +30,7 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Implemented enhancement #16043: Browse from default location on Add Object in ezobjectrelation like ezobjectrelationlist does
 - Implemented enhancement #16049: Add support for adding relations more easily on ezobjectrelationlist in browse mode
 - Implemented enhancement #11716: Allow "objectrelationlist" datatype inheriting by using non static syntax for non static methods
+- Implemented enhancement #16027: Class editor always set focus on class name insted of new created attribute
 
 *Design:
 - Implemented enhancement #15714: Add a link to object history from node view

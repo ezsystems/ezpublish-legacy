@@ -35,6 +35,7 @@ $EditLanguage = $Params['Language'];
 $FromLanguage = false;
 $ClassVersion = null;
 $mainGroupID = false;
+$lastChangedID = false;
 
 
 switch ( $Params['FunctionName'] )
@@ -211,6 +212,7 @@ if ( $http->hasPostVariable( 'DiscardButton' ) )
 if ( $http->hasPostVariable( 'AddGroupButton' ) && $http->hasPostVariable( 'ContentClass_group' ) )
 {
     eZClassFunctions::addGroup( $ClassID, $ClassVersion, $http->postVariable( 'ContentClass_group' ) );
+    $lastChangedID = 'group';
 }
 if ( $http->hasPostVariable( 'RemoveGroupButton' ) && $http->hasPostVariable( 'group_id_checked' ) )
 {
@@ -728,13 +730,14 @@ if ( $canStore )
 
 if ( $http->hasPostVariable( 'NewButton' ) )
 {
-    $new_attribute = eZContentClassAttribute::create( $ClassID, $cur_datatype, array(), $EditLanguage );
+    $newAttribute = eZContentClassAttribute::create( $ClassID, $cur_datatype, array(), $EditLanguage );
     $attrcnt = count( $attributes ) + 1;
-    $new_attribute->setName( ezi18n( 'kernel/class/edit', 'new attribute' ) . $attrcnt, $EditLanguage );
-    $dataType = $new_attribute->dataType();
-    $dataType->initializeClassAttribute( $new_attribute );
-    $new_attribute->store();
-    $attributes[] = $new_attribute;
+    $newAttribute->setName( ezi18n( 'kernel/class/edit', 'new attribute' ) . $attrcnt, $EditLanguage );
+    $dataType = $newAttribute->dataType();
+    $dataType->initializeClassAttribute( $newAttribute );
+    $newAttribute->store();
+    $attributes[] = $newAttribute;
+    $lastChangedID = $newAttribute->attribute('id');
 }
 else if ( $http->hasPostVariable( 'MoveUp' ) )
 {
@@ -780,6 +783,8 @@ $tpl->setVariable( 'attributes', $attributes );
 $tpl->setVariable( 'datatypes', $datatypes );
 $tpl->setVariable( 'datatype', $cur_datatype );
 $tpl->setVariable( 'language_code', $EditLanguage );
+$tpl->setVariable( 'last_changed_id', $lastChangedID );
+
 
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:class/edit.tpl' );
