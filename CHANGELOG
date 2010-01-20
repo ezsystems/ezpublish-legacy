@@ -10,7 +10,6 @@
   logging parameters in wwwserver logs
 - Add missing include_once('kernel/common/i18n.php'); in index_ajax.php
 - Make sure admin user has access to /call even if PolicyOmitList/AnonymousAccessList is commented
-- Add html comments around inline css and javascript
 - Add support for c.arguments on Y.io.ez() like Y.io() has
 - Added support for setting ContentType with get parameter on ezjscore/call for development use
 - Added ezjsc::search for re use by other extensions (same parameters as the one in ezflow and ezoe)
@@ -21,6 +20,7 @@
 - ezjsc::search: Added support for SearchContentClassIdentifier (requires ezp 4.1 or higher)
 - ezjsc::search: Return SearchString as part of returned result for js callback use
 - Bump required eZ Publish version to 4.1
+- Implemented #15811: ez JS Packer option to include mofied time in file url
 
 
 # v1.0.0  29 Sept 2009

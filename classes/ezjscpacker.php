@@ -81,7 +81,7 @@ class ezjscPacker
         foreach ( $packedFiles as $packedFile )
         {
             // Is this a js file or js content?
-            if ( isset( $packedFile[4] ) && strripos( $packedFile, '.js' ) === ( strlen( $packedFile ) -3 ) )
+            if ( isset( $packedFile[4] ) && ( strpos( $packedFile, '.js?ts=' ) !== false || strripos( $packedFile, '.js' ) === ( strlen( $packedFile ) -3 ) ) )
             {
                 if ( $useFullUrl )
                 {
@@ -118,7 +118,7 @@ class ezjscPacker
         foreach ( $packedFiles as $packedFile )
         {
             // Is this a css file or css content?
-            if ( isset( $packedFile[5] ) && strripos( $packedFile, '.css' ) === ( strlen( $packedFile ) -4 ) )
+            if ( isset( $packedFile[5] ) && ( strpos( $packedFile, '.css?ts=' ) !== false || strripos( $packedFile, '.css' ) === ( strlen( $packedFile ) -4 ) ) )
             {
                 if ( $useFullUrl )
                 {
@@ -344,14 +344,21 @@ class ezjscPacker
             $cacheName   .= $file . '_';
         }
 
-        // if packing is disabled, return the valid paths / content we have generated
-        if ( $packLevel === 0 ) return array_merge( $httpFiles, $validWWWFiles );
-
-        if ( !$validFiles )
+        if ( $packLevel === 0 )
+        {
+            // if packing is disabled, return the valid paths / content we have generated
+        	return array_merge( $httpFiles, $validWWWFiles );
+        }
+        else if ( !$validFiles )
         {
             eZDebug::writeWarning( "Could not find any files: " . var_export( $fileArray, true ), __METHOD__ );
             return array();
         }
+        /*else if ( !isset( $validFiles[1] ) && $validFiles[0] && !$validFiles[0] instanceof ezjscServerRouter )
+        {
+        	// return if there is only one file in array to save us from caching it
+        	return array_merge( $httpFiles, $validWWWFiles );
+        }*/
 
         // generate cache file name and path
         $cacheName = md5( $cacheName . $packLevel ) . $fileExtension;
@@ -362,7 +369,8 @@ class ezjscPacker
             // check last modified time and return path to cache file if valid
             if ( $lastmodified <= filemtime( $cachePath . $cacheName ) )
             {
-                $httpFiles[] = $packerInfo['www_dir'] . $cachePath . $cacheName;
+                // Append last modified timestamp to force browser and proxy cache to refresh file
+                $httpFiles[] = $packerInfo['www_dir'] . $cachePath . $cacheName . '?ts=' . $lastmodified;
                 return $httpFiles;
             }
         }
@@ -414,7 +422,8 @@ class ezjscPacker
         // save file and return path if sucsessfull
         if( eZFile::create( $cacheName, $cachePath, $content ) )
         {
-            $httpFiles[] = $packerInfo['www_dir'] . $cachePath . $cacheName;
+            // Append last modified timestamp to force browser and proxy cache to refresh file
+            $httpFiles[] = $packerInfo['www_dir'] . $cachePath . $cacheName . '?ts=' . $lastmodified;
             return $httpFiles;
         }
 
