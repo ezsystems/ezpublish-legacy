@@ -57,8 +57,8 @@ class eZCache
     */
     static function fetchList()
     {
-        $cacheList =& $GLOBALS['eZCacheList'];
-        if ( !isset( $cacheList ) )
+        static $cacheList = null;
+        if ( $cacheList === null )
         {
             $ini = eZINI::instance();
             $textToImageIni = eZINI::instance( 'texttoimage.ini' );
@@ -164,7 +164,7 @@ class eZCache
                                        'tag' => array( 'content' ),
                                        'path' => false,
                                        'enabled' => true,
-                                       'function' => 'eZCacheClearContentTreeMenu' ),
+                                       'function' => array( 'eZCache', 'clearContentTreeMenu' ) ),
                                 array( 'name' => ezi18n( 'kernel/cache', 'State limitations cache' ),
                                        'id' => 'state_limitations',
                                        'tag' => array( 'content' ),
@@ -672,6 +672,7 @@ function eZCacheClearTemplateBlockCache( $cacheItem )
 /*!
   Helper function for eZCache::clearContentTreeMenu.
   \note Static functions in classes cannot be used as callback functions in PHP 4, that is why we need this helper.
+  \deprecated Callback to static class function is now done directly.
 */
 function eZCacheClearContentTreeMenu( $cacheItem )
 {

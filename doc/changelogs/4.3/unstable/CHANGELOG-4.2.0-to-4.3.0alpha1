@@ -32,6 +32,7 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Implemented enhancement #11716: Allow "objectrelationlist" datatype inheriting by using non static syntax for non static methods
 - Implemented enhancement #16027: Class editor always set focus on class name insted of new created attribute
 - Implemented enhancement #11183: class edit: attribute numbers could be a multiple of 10
+- Implemented enhancement #14745: deprecate eZCacheClearContentTreeMenu in favour of eZCache::ClearContentTreeMenu
 
 *Design:
 - Implemented enhancement #15714: Add a link to object history from node view
