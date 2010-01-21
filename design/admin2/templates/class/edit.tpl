@@ -295,6 +295,7 @@ jQuery(function( $ )//called on document.ready
     window.scrollTo(0, Math.max( el.offset().top - 180, 0 ));
     el.focus();
 
+    // Axaify all move up/down buttons
     var moveButtons = $('#ezcca-edit-list div.listbutton input[name^=Move]');
     moveButtons.click(function( e )
     {
