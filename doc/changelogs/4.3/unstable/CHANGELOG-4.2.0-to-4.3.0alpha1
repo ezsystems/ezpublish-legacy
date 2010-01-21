@@ -35,6 +35,9 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Implemented enhancement #14745: deprecate eZCacheClearContentTreeMenu in favour of eZCache::ClearContentTreeMenu
 - Implemented enhancement #16051: Class edit: Allow moving attributes up/down withouth page refresh
 - Implemented enhancement #12860: A noninvasive (non-hack) way of extending the cache clear list
+- Implemented enhancement #1895: Add description field for class & class attributes
+- Implemented enhancement #16056: Add class attribute category field for data map grouping
+- Implemented enhancement #16057: Add data_text_i18n to class attributes for translatable class attribute data use
 
 *Design:
 - Implemented enhancement #15714: Add a link to object history from node view

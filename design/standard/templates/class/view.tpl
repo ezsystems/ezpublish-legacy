@@ -27,6 +27,11 @@
 </div>
 
 <div class="block">
+    <label>{'Description'|i18n( 'design/standard/class/view' )}:</label>
+    <p>{$class.description|wash}</p>
+</div>
+
+<div class="block">
     <label>{"Object name pattern"|i18n("design/standard/class/view")}</label><div class="labelbreak"></div>
     <p>{$class.contentobject_name|wash}</p>
 </div>
@@ -83,7 +88,7 @@
 {section name=Attributes loop=$attributes sequence=array("bglight","bgdark")}
 
 <tr>
-    <td colspan="3"><b>{$:number}. {$:item.name|wash} ({$:item.data_type.information.name|wash}) (id:{$:item.id}) </b></td>
+    <td colspan="4"><b>{$:number}. {$:item.name|wash} ({$:item.data_type.information.name|wash}) (id:{$:item.id}) </b></td>
 </tr>
 
 <tr>
@@ -105,7 +110,12 @@
         </div>
     </td>
 
-
+    <td class="{$Attributes.sequence}">
+        <div class="block">
+            <label>{'Description'|i18n( 'design/standard/class/view' )}:</label>
+            <p>{$Attributes.item.description|wash}</p>
+        </div>
+    </td>
 
     <td class="{$Attributes:sequence}" rowspan="2" width="20%" valign="top">
 
@@ -142,7 +152,7 @@
 </tr>
 
 <tr>
-    <td class="{$Attributes:sequence}" colspan="2">
+    <td class="{$Attributes:sequence}" colspan="3">
         {class_attribute_view_gui class_attribute=$Attributes:item}
     </td>
 </tr>

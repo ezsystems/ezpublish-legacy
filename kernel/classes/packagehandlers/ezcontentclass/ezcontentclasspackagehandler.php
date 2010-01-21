@@ -363,7 +363,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
             $attributeIsTranslatable = strtolower( $classAttributeNode->getAttribute( 'translatable' ) ) == 'true';
             $attributeSerializedNameListNode = $classAttributeNode->getElementsByTagName( 'serialized-name-list' )->item( 0 );
             $attributeSerializedNameListContent = $attributeSerializedNameListNode ? $attributeSerializedNameListNode->textContent : false;
-            $attributeSerializedNameList = new eZContentClassAttributeNameList( $attributeSerializedNameListContent );
+            $attributeSerializedNameList = new eZSerializedObjectNameList( $attributeSerializedNameListContent );
             if ( $attributeSerializedNameList->isEmpty() )
                 $attributeSerializedNameList->initFromString( $classAttributeNode->getElementsByTagName( 'name' )->item( 0 )->textContent ); // for backward compatibility( <= 3.8 )
             $attributeSerializedNameList->validate( );

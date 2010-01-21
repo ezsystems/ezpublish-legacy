@@ -492,6 +492,11 @@ div.popupmenu hr
   padding: 0.5em;
 }
 
+div.box-content div.block.inline-block
+{
+  padding: 0;
+}
+
 .box-content div.context-toolbar.block
 {
   padding: 0 0.5em 0 0.5em;
@@ -517,7 +522,7 @@ h2.context-title
   font-size: 1.2em;
 }
 
-div.context-information
+div.context-information, span.classattribute-description
 {
   color: #333;
   font-size: 0.8em;
@@ -525,7 +530,20 @@ div.context-information
   padding: 0 0.5em 0 0.5em;
 }
 
-div.context-information p.modified
+span.classattribute-description, p.class-description
+{
+  font-weight: normal;
+  white-space: normal;
+  padding-left: 1em;
+  min-height: 15px;
+}
+
+span.classattribute-description:hover, p.class-description:hover, div.context-information p:hover
+{
+  color: #111;
+}
+
+div.context-information p.modified, div.context-information p.left
 {
   width: 48%;
   float: left;
@@ -647,4 +665,23 @@ a.controlbar-top-full-screen-toggle
 div#page.main-column-only a.controlbar-top-full-screen-toggle
 {
   background-image: url('../images/2/exit-fullscreen.png');
+}
+
+
+/* CLASS ATTRIBUTE GROUPING */
+
+fieldset.ezcca-collapsible legend a
+{
+  text-decoration: none;
+}
+
+fieldset.ezcca-collapsible.ezcca-collapsed
+{
+  border-width: 1px 0 0 0;
+  height: 1em;
+}
+
+fieldset.ezcca-collapsible.ezcca-collapsed legend
+{
+  margin-left: 1px;
 }

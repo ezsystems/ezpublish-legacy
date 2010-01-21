@@ -193,6 +193,7 @@ class eZContentObject extends eZPersistentObject
                                                       "can_move_from" => "canMoveFrom",
                                                       'can_view_embed' => 'canViewEmbed',
                                                       "data_map" => "dataMap",
+                                                      "grouped_data_map" => "groupedDataMap",
                                                       "main_parent_node_id" => "mainParentNodeID",
                                                       "assigned_nodes" => "assignedNodes",
                                                       "parent_nodes" => "parentNodeIDArray",
@@ -516,6 +517,51 @@ class eZContentObject extends eZPersistentObject
     function dataMap()
     {
         return $this->fetchDataMap();
+    }
+
+    /**
+     * Generates a map with all the content object attributes where the keys are
+     * the attribute identifiers grouped by class attribute category.
+     * 
+     * @note Result is not cached, so make sure you don't call this over and over.
+     * 
+     * @return array 
+     */
+    public function groupedDataMap()
+    {
+        return self::createGroupedDataMap( $this->fetchDataMap() );
+    }
+    
+    /**
+     * Generates a map with all the content object attributes where the keys are
+     * the attribute identifiers grouped by class attribute category.
+     * 
+     * @note Result is not cached, so make sure you don't call this over and over.
+     * 
+     * @param array $contentObjectAttributes Array of eZContentObjectAttribute objects
+     * @return array 
+     */
+    public static function createGroupedDataMap( $contentObjectAttributes )
+    {
+        $groupedDataMap  = array();
+        $contentINI      = eZINI::instance( 'content.ini' );
+        $categorys       = $contentINI->variable( 'ClassAttributeSettings', 'CategoryList' );
+        $defaultCategory = $contentINI->variable( 'ClassAttributeSettings', 'DefaultCategory' );
+        foreach( $contentObjectAttributes as $attribute )
+        {
+            $classAttribute      = $attribute->contentClassAttribute();
+            $attributeCategory   = $classAttribute->attribute('category');
+            $attributeIdentifier = $classAttribute->attribute( 'identifier' );
+            if ( !isset( $categorys[ $attributeCategory ] ) || !$attributeCategory )
+                $attributeCategory = $defaultCategory;
+
+            if ( !isset( $groupedDataMap[ $attributeCategory ] ) )
+                $groupedDataMap[ $attributeCategory ] = array();
+
+            $groupedDataMap[ $attributeCategory ][$attributeIdentifier] = $attribute;
+            
+        }
+        return $groupedDataMap;
     }
 
     /*!

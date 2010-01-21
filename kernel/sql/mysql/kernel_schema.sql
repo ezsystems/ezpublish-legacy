@@ -306,6 +306,7 @@ CREATE TABLE ezcontentclass (
   modifier_id int(11) NOT NULL default '0',
   remote_id varchar(100) NOT NULL default '',
   serialized_name_list longtext,
+  serialized_description_list longtext,
   sort_field int(11) NOT NULL default '1',
   sort_order int(11) NOT NULL default '1',
   url_alias_name varchar(255) default NULL,
@@ -334,6 +335,7 @@ CREATE TABLE ezcontentclass_attribute (
   data_text3 varchar(50) default NULL,
   data_text4 varchar(255) default NULL,
   data_text5 longtext,
+  serialized_data_text longtext,
   data_type_string varchar(50) NOT NULL default '',
   id int(11) NOT NULL auto_increment,
   identifier varchar(50) NOT NULL default '',
@@ -342,7 +344,9 @@ CREATE TABLE ezcontentclass_attribute (
   is_searchable int(11) NOT NULL default '0',
   placement int(11) NOT NULL default '0',
   serialized_name_list longtext NOT NULL,
+  serialized_description_list longtext,
   version int(11) NOT NULL default '0',
+  category varchar(25) NOT NULL default '',
   PRIMARY KEY  (id,version),
   KEY ezcontentclass_attr_ccid (contentclass_id)
 ) ENGINE=InnoDB;

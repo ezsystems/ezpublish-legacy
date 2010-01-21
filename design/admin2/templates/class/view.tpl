@@ -46,6 +46,11 @@
     </div>
 
     <div class="block">
+        <label>{'Description'|i18n( 'design/admin/class/view' )}:</label>
+        {$class.descriptionList[$language_code]|wash}
+    </div>
+
+    <div class="block">
         <label>{'Object name pattern'|i18n( 'design/admin/class/view' )}:</label>
         {$class.contentobject_name|wash}
     </div>
@@ -93,10 +98,13 @@
 <h2>{'Attributes'|i18n( 'design/admin/class/view' )}</h2>
 <table class="special" cellspacing="0">
 
+{def $attribute_categorys        = ezini( 'ClassAttributeSettings', 'CategoryList', 'content.ini' )
+     $attribute_default_category = ezini( 'ClassAttributeSettings', 'DefaultCategory', 'content.ini' )}
+
 {section var=Attributes loop=$attributes sequence=array( bglight, bgdark )}
 
 <tr>
-    <th colspan="3">{$Attributes.number}.&nbsp;{$Attributes.item.nameList[$language_code]|wash}&nbsp;[{$Attributes.item.data_type.information.name|wash}]&nbsp;(id:{$Attributes.item.id})</th>
+    <th colspan="5">{$Attributes.number}.&nbsp;{$Attributes.item.nameList[$language_code]|wash}&nbsp;[{$Attributes.item.data_type.information.name|wash}]&nbsp;(id:{$Attributes.item.id})</th>
 </tr>
 
 <tr class="{$Attributes.sequence}">
@@ -116,10 +124,32 @@
             <p>{$Attributes.item.identifier|wash}</p>
         </div>
     </td>
+
+    <td class="{$Attributes.sequence}">
+        <div class="block">
+            <label>{'Category'|i18n( 'design/admin/class/view' )}:</label>
+	        {if $Attributes.item.category|not}
+	            <p>{'Default'|i18n( 'design/admin/class/edit' )} ({$attribute_categorys[ $attribute_default_category ]|wash})</p>
+	        {elseif is_set( $attribute_categorys[ $Attributes.item.category ] )}
+                <p>{$attribute_categorys[ $Attributes.item.category ]|wash}</p>
+            {else}
+                <p>{$attribute_categorys[ $attribute_default_category ]|wash}</p>
+            {/if}
+        </div>
+    </td>
+
+    <td class="{$Attributes.sequence}">
+        <div class="block">
+            <label>{'Description'|i18n( 'design/admin/class/view' )}:</label>
+            <p>{$Attributes.item.descriptionList[$language_code]|wash}</p>
+        </div>
+    </td>
+
     <td rowspan="2">
-<div class="block">
-<label>{'Flags'|i18n( 'design/admin/class/view' )}:</label>
-</div>
+
+		<div class="block">
+		  <label>{'Flags'|i18n( 'design/admin/class/view' )}:</label>
+		</div>
 
         <div class="block">
             <p>{if $Attributes.item.is_required}{'Is required'|i18n( 'design/admin/class/view' )}{else}{'Is not required'|i18n( 'design/admin/class/view' )}{/if}</p>
@@ -152,11 +182,13 @@
 </tr>
 
 <tr class="{$Attributes.sequence}">
-    <td colspan="2">
+    <td colspan="4">
         {class_attribute_view_gui class_attribute=$Attributes.item}
     </td>
 </tr>
 {/section}
+
+{undef $attribute_categorys $attribute_default_category}
 
 </table>
 

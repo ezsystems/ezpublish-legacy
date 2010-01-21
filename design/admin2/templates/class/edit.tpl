@@ -80,6 +80,12 @@
     <input class="box" type="text" id="ContentClass_identifier" name="ContentClass_identifier" size="30" value="{$class.identifier|wash}" title="{'Use this field to set the internal name of the class. The identifier will be used in templates and in PHP code. Allowed characters are letters, numbers and underscores.'|i18n( 'design/admin/class/edit' )|wash}" />
     </div>
 
+    {* Description. *}
+    <div class="block">
+    <label for="classDescription">{'Description'|i18n( 'design/admin/class/edit' )}:</label>
+    <input class="box" type="text" id="classDescription" name="ContentClass_description" size="30" value="{$class.descriptionList[$language_code]|wash}" title="{'Use this field to set the informal description of the class. The description field can contain whitespaces and special characters.'|i18n( 'design/admin/class/edit' )|wash}" />
+    </div>
+
     {* Object name pattern. *}
     <div class="block">
     <label for="ContentClass_contentobject_name">{'Object name pattern'|i18n( 'design/admin/class/edit' )}:</label>
@@ -127,8 +133,11 @@
 <div class="block">
 <label>{'Class attributes'|i18n( 'design/admin/class/edit' )}:</label>
 </div>
-{section show=$attributes}
-{def $priority_value = 0}
+{if $attributes}
+
+{def $attribute_categorys        = ezini( 'ClassAttributeSettings', 'CategoryList', 'content.ini' )
+     $attribute_default_category = ezini( 'ClassAttributeSettings', 'DefaultCategory', 'content.ini' )
+     $priority_value = 0}
 
 <table id="ezcca-edit-list" class="special" cellspacing="0" summary="{'List of class attributes'|i18n( 'design/admin/class/edit' )}">
 <tbody>
@@ -168,6 +177,12 @@
 <div class="block">
 <label for="ContentAttribute_identifier_{$Attributes.item.id}">{'Identifier'|i18n( 'design/admin/class/edit' )}:</label>
 <input class="box" type="text" id="ContentAttribute_identifier_{$Attributes.item.id}" name="ContentAttribute_identifier[]" value="{$Attributes.item.identifier}" title="{'Use this field to set the internal name of the attribute. The identifier will be used in templates and in PHP code. Allowed characters are letters, numbers and underscores.'|i18n( 'design/admin/class/edit' )|wash}" />
+</div>
+
+{* Attribute description. *}
+<div class="block">
+<label for="ContentAttribute_description_{$Attributes.item.id}">{'Description'|i18n( 'design/admin/class/edit' )}:</label>
+<input class="box" type="text" id="ContentAttribute_description_{$Attributes.item.id}" name="ContentAttribute_description[]" value="{$Attributes.item.descriptionList[$language_code]|wash}" title="{'Use this field to set the informal description of the attribute. This field can contain whitespaces and special characters.'|i18n( 'design/admin/class/edit' )|wash}" />
 </div>
 
 <!-- Attribute input End -->
@@ -217,6 +232,19 @@
 </label>
 </div>
 
+{* Category. *}
+<div class="element">
+<label for="ContentAttribute_category_{$Attributes.item.id}">
+<select id="ContentAttribute_category_{$Attributes.item.id}" name="ContentAttribute_category_select[]"  title="{'Use this category to group attributes together in edit interface, some categories might also be hidden in full view if they are for instance only meta attributes.'|i18n( 'design/admin/class/edit' )|wash}" />
+    <option value="">{'Default'|i18n( 'design/admin/class/edit' )} ({$attribute_categorys[ $attribute_default_category ]|wash})</option>
+    {foreach $attribute_categorys as $categoryIdentifier => $categoryName}
+        <option value="{$categoryIdentifier|wash}"{if $categoryIdentifier|eq( $Attributes.item.category )} selected="selected"{/if}>{$categoryName|wash}</option>
+    {/foreach}
+</select>
+{'Category'|i18n( 'design/admin/class/edit' )}
+</label>
+</div>
+
 </div>
 
 {class_attribute_edit_gui class_attribute=$Attributes.item}
@@ -231,13 +259,13 @@
 {/section}
 </tbody>
 </table>
-{undef $priority_value}
-{section-else}
+{undef $attribute_categorys $attribute_default_category $priority_value}
+{else}
 
 <div class="block">
 <p>{'This class does not have any attributes.'|i18n( 'design/admin/class/edit' )}</p>
 </div>
-{/section}
+{/if}
 
 
 

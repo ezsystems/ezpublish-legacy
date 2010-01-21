@@ -60,6 +60,12 @@ class eZContentClass extends eZPersistentObject
                 $this->NameList->initFromSerializedList( $row['serialized_name_list'] );
             else
                 $this->NameList->initDefault();
+
+            $this->DescriptionList = new eZSerializedObjectNameList();
+            if ( isset( $row['serialized_description_list'] ) )
+                $this->DescriptionList->initFromSerializedList( $row['serialized_description_list'] );
+            else
+                $this->DescriptionList->initDefault();
         }
         $this->DataMap = false;
     }
@@ -75,6 +81,10 @@ class eZContentClass extends eZPersistentObject
                                                              'default' => 0,
                                                              'required' => true ),
                                          "serialized_name_list" => array( 'name' => 'SerializedNameList',
+                                                                          'datatype' => 'string',
+                                                                          'default' => '',
+                                                                          'required' => true ),
+                                         'serialized_description_list' => array( 'name' => 'SerializedDescriptionList',
                                                                           'datatype' => 'string',
                                                                           'default' => '',
                                                                           'required' => true ),
@@ -159,6 +169,8 @@ class eZContentClass extends eZPersistentObject
                                                       'can_instantiate_languages' => 'canInstantiateLanguages',
                                                       'name' => 'name',
                                                       'nameList' => 'nameList',
+                                                      'description' => 'description',
+                                                      'descriptionList' => 'descriptionList',
                                                       'languages' => 'languages',
                                                       'prioritized_languages' => 'prioritizedLanguages',
                                                       'prioritized_languages_js_array' => 'prioritizedLanguagesJsArray',
@@ -219,6 +231,14 @@ class eZContentClass extends eZPersistentObject
             $nameList->initFromString( $optionalValues['name'], $languageLocale );
         else
             $nameList->initFromString( '', $languageLocale );
+            
+        $descriptionList = new eZSerializedObjectNameList();
+        if ( isset( $optionalValues['serialized_description_list'] ) )
+            $descriptionList->initFromSerializedList( $optionalValues['serialized_description_list'] );
+        else if ( isset( $optionalValues['description'] ) )
+            $descriptionList->initFromString( $optionalValues['description'], $languageLocale );
+        else
+            $descriptionList->initFromString( '', $languageLocale );
 
         $languageMask = $nameList->languageMask();
         $initialLanguageID = $nameList->alwaysAvailableLanguageID();
@@ -228,6 +248,7 @@ class eZContentClass extends eZPersistentObject
             "id" => null,
             "version" => 1,
             "serialized_name_list" => $nameList->serializeNames(),
+            'serialized_description_list' => $descriptionList->serializeNames(),
             "identifier" => "",
             "contentobject_name" => "",
             "creator_id" => $userID,
@@ -947,6 +968,7 @@ You will need to change the class of the node by using the swap functionality.' 
         $handler->store();
 
         $this->setAttribute( 'serialized_name_list', $this->NameList->serializeNames() );
+        $this->setAttribute( 'serialized_description_list', $this->DescriptionList->serializeNames() );
 
         eZPersistentObject::store( $fieldFilters );
 
@@ -1047,6 +1069,7 @@ You will need to change the class of the node by using the swap functionality.' 
         eZContentCacheManager::clearAllContentCache();
 
         $this->setAttribute( 'serialized_name_list', $this->NameList->serializeNames() );
+        $this->setAttribute( 'serialized_description_list', $this->DescriptionList->serializeNames() );
         eZPersistentObject::store();
         $this->NameList->store( $this );
 
@@ -1501,6 +1524,19 @@ You will need to change the class of the node by using the swap functionality.' 
         return eZContentClassNameList::nameFromSerializedString( $serializedNameList );
     }
 
+    /*!
+     \static
+     Returns a contentclass description from serialized array \a $serializedNameList using
+     top language from siteaccess language list or 'always available' name
+     from \a $serializedNameList.
+
+     \return string with contentclass description.
+    */
+    static function descriptionFromSerializedString( $serializedDescriptionList )
+    {
+        return eZSerializedObjectNameList::nameFromSerializedString( $serializedNameList );
+    }
+
     function hasNameInLanguage( $languageLocale )
     {
         $hasName = $this->NameList->hasNameInLocale( $languageLocale );
@@ -1529,6 +1565,32 @@ You will need to change the class of the node by using the swap functionality.' 
         $this->setAttribute( 'language_mask', $languageMask | $languageID );
     }
 
+    function nameList()
+    {
+        return $this->NameList->nameList();
+    }
+
+    /*!
+     Returns a contentclass description in \a $languageLocale language.
+     Uses siteaccess language list or 'always available' language if \a $languageLocale is 'false'.
+
+     \return string with contentclass name.
+    */
+    function description( $languageLocale = false )
+    {
+        return $this->DescriptionList->name( $languageLocale );
+    }
+
+    function setDescription( $description, $languageLocale = false )
+    {
+        $this->DescriptionList->setName( $description, $languageLocale );
+    }
+
+    function descriptionList()
+    {
+        return $this->DescriptionList->nameList();
+    }
+
     function setAlwaysAvailableLanguageID( $languageID, $updateChilds = true )
     {
         $db = eZDB::instance();
@@ -1545,11 +1607,13 @@ You will need to change the class of the node by using the swap functionality.' 
         {
             $this->setAttribute( 'language_mask', (int)$this->attribute( 'language_mask' ) | 1 );
             $this->NameList->setAlwaysAvailableLanguage( $languageLocale );
+            $this->DescriptionList->setAlwaysAvailableLanguage( $languageLocale );
         }
         else
         {
             $this->setAttribute( 'language_mask', (int)$this->attribute( 'language_mask' ) & ~1 );
             $this->NameList->setAlwaysAvailableLanguage( false );
+            $this->DescriptionList->setAlwaysAvailableLanguage( false );
         }
         $this->store();
 
@@ -1652,11 +1716,6 @@ You will need to change the class of the node by using the swap functionality.' 
         return $language;
     }
 
-    function nameList()
-    {
-        return $this->NameList->nameList();
-    }
-
     /*!
      Removes translated name for specified by \a $languageID language.
     */
@@ -1694,6 +1753,7 @@ You will need to change the class of the node by using the swap functionality.' 
 
         $languageLocale = $language->attribute( 'locale' );
         $this->NameList->removeName( $languageLocale );
+        $this->DescriptionList->removeName( $languageLocale );
 
         $this->store();
 
@@ -1928,6 +1988,8 @@ You will need to change the class of the node by using the swap functionality.' 
     public $SerializedNameList;
     // unserialized class names
     public $NameList;
+    // unserialized class description
+    public $DescriptionList;
     public $Identifier;
     public $ContentObjectName;
     public $Version;

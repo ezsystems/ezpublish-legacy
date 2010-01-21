@@ -262,20 +262,29 @@ if ( $http->hasPostVariable( 'SelectLanguageButton' ) && $http->hasPostVariable(
     foreach ( array_keys( $attributes ) as $key )
     {
         $name = '';
+        $description = '';
+        $i18nDataText = '';
         if ( $FromLanguage != 'None' )
         {
-            $name = $attributes[$key]->name( $FromLanguage );
+            $name         = $attributes[$key]->name( $FromLanguage );
+            $description  = $attributes[$key]->description( $FromLanguage );
+            $i18nDataText = $attributes[$key]->dataTextI18n( $FromLanguage );
         }
         $attributes[$key]->setName( $name, $EditLanguage );
+        $attributes[$key]->setDescription( $description, $EditLanguage );
+        $attributes[$key]->setDataTextI18n( $i18nDataText, $EditLanguage );
     }
 
     $name = '';
+    $description = '';
     if ( $FromLanguage != 'None' )
     {
         $name = $class->name( $FromLanguage );
+        $description = $class->description( $FromLanguage );
     }
 
     $class->setName( $name, $EditLanguage );
+    $class->setDescription( $description, $EditLanguage );
 }
 
 // No language was specified in the URL, we need to figure out
@@ -366,8 +375,10 @@ if ( $contentClassHasInput )
 {
     if ( $validationRequired )
     {
-        foreach ( $attributes as $attribute )
+        foreach ( $attributes as $key => $attribute )
         {
+            // set locale for use by datatype while storing data
+            $attributes[$key]->setEditLocale( $EditLanguage );
             $dataType = $attribute->dataType();
             $status = $dataType->validateClassAttributeHTTPInput( $http, 'ContentClass', $attribute );
             if ( $status == eZInputValidator::STATE_INTERMEDIATE )
@@ -382,16 +393,18 @@ if ( $contentClassHasInput )
                                                   'name' => $attributeName );
             }
         }
-        $validation['processed'] = true;
-        $validation['attributes'] = $unvalidatedAttributes;
-        $requireVariable = 'ContentAttribute_is_required_checked';
-        $searchableVariable = 'ContentAttribute_is_searchable_checked';
-        $informationCollectorVariable = 'ContentAttribute_is_information_collector_checked';
-        $canTranslateVariable = 'ContentAttribute_can_translate_checked';
-        $requireCheckedArray = array();
-        $searchableCheckedArray = array();
+        $validation['processed']          = true;
+        $validation['attributes']         = $unvalidatedAttributes;
+        $requireVariable                  = 'ContentAttribute_is_required_checked';
+        $searchableVariable               = 'ContentAttribute_is_searchable_checked';
+        $informationCollectorVariable     = 'ContentAttribute_is_information_collector_checked';
+        $canTranslateVariable             = 'ContentAttribute_can_translate_checked';
+        $categoryArray                    = array();
+        $requireCheckedArray              = array();
+        $searchableCheckedArray           = array();
         $informationCollectorCheckedArray = array();
-        $canTranslateCheckedArray = array();
+        $canTranslateCheckedArray         = array();
+
         if ( $http->hasPostVariable( $requireVariable ) )
             $requireCheckedArray = $http->postVariable( $requireVariable );
         if ( $http->hasPostVariable( $searchableVariable ) )
@@ -403,6 +416,9 @@ if ( $contentClassHasInput )
 
         if ( $http->hasPostVariable( 'ContentAttribute_priority' ) )
             $placementArray = $http->postVariable( 'ContentAttribute_priority' );
+            
+        if ( $http->hasPostVariable( 'ContentAttribute_category_select' ) )
+            $categoryArray = $http->postVariable( 'ContentAttribute_category_select' );
 
         foreach ( $attributes as $key => $attribute )
         {
@@ -412,6 +428,7 @@ if ( $contentClassHasInput )
             $attribute->setAttribute( 'is_information_collector', in_array( $attributeID, $informationCollectorCheckedArray ) );
             // Set can_translate to 0 if user has clicked Disable translation in GUI
             $attribute->setAttribute( 'can_translate', !in_array( $attributeID, $canTranslateCheckedArray ) );
+            $attribute->setAttribute( 'category', $categoryArray[$key] );
 
             $placement = (int) $placementArray[$key];
             if ( $attribute->attribute( 'placement' ) != $placement )
@@ -438,7 +455,7 @@ if ( $contentClassHasInput )
     if ( $http->hasPostVariable( 'ContentAttribute_name' ) )
     {
         $attributeNames = $http->postVariable( 'ContentAttribute_name' );
-        foreach( array_keys( $attributes ) as $key )
+        foreach( $attributes as $key => $attribute )
         {
             if ( isset( $attributeNames[$key] ) )
             {
@@ -447,10 +464,27 @@ if ( $contentClassHasInput )
         }
     }
 
+    if ( $http->hasPostVariable( 'ContentAttribute_description' ) )
+    {
+        $attributeNames = $http->postVariable( 'ContentAttribute_description' );
+        foreach( $attributes as $key => $attribute )
+        {
+            if ( isset( $attributeNames[$key] ) )
+            {
+                $attributes[$key]->setDescription( $attributeNames[$key], $EditLanguage );
+            }
+        }
+    }
+
     eZHTTPPersistence::fetch( 'ContentClass', eZContentClass::definition(), $class, $http, false );
     if ( $http->hasPostVariable( 'ContentClass_name' ) )
     {
         $class->setName( $http->postVariable( 'ContentClass_name' ), $EditLanguage );
+    }
+
+    if ( $http->hasPostVariable( 'ContentClass_description' ) )
+    {
+        $class->setDescription( $http->postVariable( 'ContentClass_description' ), $EditLanguage );
     }
 
     if ( $http->hasVariable( 'ContentClass_is_container_exists' ) )

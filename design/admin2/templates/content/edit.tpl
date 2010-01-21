@@ -49,6 +49,9 @@
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <div class="context-information">
+<p class="left class-description">
+    {$object.content_class.description|wash}
+</p>
 <p class="translation">
 {let language_index=0
      from_language_index=0

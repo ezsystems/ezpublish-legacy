@@ -1418,6 +1418,7 @@ CREATE TABLE ezcontentclass (
     modifier_id integer DEFAULT 0 NOT NULL,
     remote_id character varying(100) DEFAULT ''::character varying NOT NULL,
     serialized_name_list text,
+    serialized_description_list text,
     sort_field integer DEFAULT 1 NOT NULL,
     sort_order integer DEFAULT 1 NOT NULL,
     url_alias_name character varying(255),
@@ -1446,6 +1447,7 @@ CREATE TABLE ezcontentclass_attribute (
     data_text3 character varying(50),
     data_text4 character varying(255),
     data_text5 text,
+    serialized_data_text text,
     data_type_string character varying(50) DEFAULT ''::character varying NOT NULL,
     id integer DEFAULT nextval('ezcontentclass_attribute_s'::text) NOT NULL,
     identifier character varying(50) DEFAULT ''::character varying NOT NULL,
@@ -1454,7 +1456,9 @@ CREATE TABLE ezcontentclass_attribute (
     is_searchable integer DEFAULT 0 NOT NULL,
     placement integer DEFAULT 0 NOT NULL,
     serialized_name_list text NOT NULL,
-    "version" integer DEFAULT 0 NOT NULL
+    serialized_description_list text,
+    "version" integer DEFAULT 0 NOT NULL,
+    category character varying(25) DEFAULT ''::character varying NOT NULL
 );
 
 

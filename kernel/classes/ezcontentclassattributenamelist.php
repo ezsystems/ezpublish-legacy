@@ -26,6 +26,11 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
+
+/**
+ * @deprecated Use eZSerializedObjectNameList directly instead!
+ */
+
 class eZContentClassAttributeNameList extends eZSerializedObjectNameList
 {
     function eZContentClassAttributeNameList( $serializedNameList = false )

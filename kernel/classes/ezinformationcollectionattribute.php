@@ -192,7 +192,7 @@ class eZInformationCollectionAttribute extends eZPersistentObject
         $db = eZDB::instance();
         $nameArray = $db->arrayQuery( "SELECT serialized_name_list FROM ezcontentclass_attribute WHERE id='$this->ContentClassAttributeID'" );
 
-        return eZContentClassAttributeNameList::nameFromSerializedString( $nameArray[0]['serialized_name_list'] );
+        return eZSerializedObjectNameList::nameFromSerializedString( $nameArray[0]['serialized_name_list'] );
     }
 
     /*!

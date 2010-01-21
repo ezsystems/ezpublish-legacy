@@ -238,10 +238,12 @@ class eZSerializedObjectNameList
 
     function setName( $name, $languageLocale = false )
     {
+        $oldName = $this->name( $languageLocale );
         if ( !$languageLocale )
             $languageLocale = $this->topPriorityLanguageLocale();
 
         $this->setNameByLanguageLocale( $name, $languageLocale );
+        return $oldName;
     }
 
     function setNameByLanguageLocale( $name, $languageLocale )

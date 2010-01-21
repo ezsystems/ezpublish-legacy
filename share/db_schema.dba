@@ -1371,6 +1371,11 @@ $schema = array (
         'type' => 'longtext',
         'default' => false,
       ),
+      'serialized_description_list' => 
+      array (
+        'type' => 'longtext',
+        'default' => false,
+      ),
       'sort_field' => 
       array (
         'length' => 11,
@@ -1511,6 +1516,11 @@ $schema = array (
         'type' => 'longtext',
         'default' => false,
       ),
+      'serialized_data_text' => 
+      array (
+        'type' => 'longtext',
+        'default' => false,
+      ),
       'data_type_string' => 
       array (
         'length' => 50,
@@ -1564,12 +1574,24 @@ $schema = array (
         'not_null' => '1',
         'default' => false,
       ),
+      'serialized_description_list' => 
+      array (
+        'type' => 'longtext',
+        'default' => false,
+      ),
       'version' => 
       array (
         'length' => 11,
         'type' => 'int',
         'not_null' => '1',
         'default' => 0,
+      ),
+      'category' => 
+      array (
+        'length' => 25,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
       ),
     ),
     'indexes' => 
