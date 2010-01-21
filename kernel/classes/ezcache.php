@@ -64,6 +64,7 @@ class eZCache
             $textToImageIni = eZINI::instance( 'texttoimage.ini' );
             $cacheList = array( array( 'name' => ezi18n( 'kernel/cache', 'Content view cache' ),
                                        'id' => 'content',
+                                       'is-clustered' => true,
                                        'tag' => array( 'content' ),
                                        'expiry-key' => 'content-view-cache',
                                        'enabled' => $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled',
@@ -108,6 +109,7 @@ class eZCache
                                        'function' => array( 'eZCache', 'clearSortKey' ) ),
                                 array( 'name' => ezi18n( 'kernel/cache', 'URL alias cache' ),
                                        'id' => 'urlalias',
+                                       'is-clustered' => true,
                                        'tag' => array( 'content' ),
                                        'enabled' => true,
                                        'path' => 'wildcard' ),
@@ -129,6 +131,7 @@ class eZCache
                                        'path' => 'template' ),
                                 array( 'name' => ezi18n( 'kernel/cache', 'Template block cache' ),
                                        'id' => 'template-block',
+                                       'is-clustered' => true,
                                        'tag' => array( 'template', 'content' ),
                                        'expiry-key' => 'global-template-block-cache',
                                        'enabled' => $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled',
@@ -149,11 +152,13 @@ class eZCache
                                        'purge-function' => array( 'eZCache', 'purgeTextToImageCache' ) ),
                                 array( 'name' => ezi18n( 'kernel/cache', 'RSS cache' ),
                                        'id' => 'rss_cache',
+                                       'is-clustered' => true,
                                        'tag' => array( 'content' ),
                                        'enabled' => true,
                                        'path' => 'rss' ),
                                 array( 'name' => ezi18n( 'kernel/cache', 'User info cache' ),
                                        'id' => 'user_info_cache',
+                                       'is-clustered' => true,
                                        'tag' => array( 'user' ),
                                        'expiry-key' => 'user-access-cache',
                                        'enabled' => true,
@@ -179,6 +184,59 @@ class eZCache
                                        'path' => false,
                                        'function' => array( 'eZCache', 'clearDesignBaseCache' ) )
                                 );
+
+            // Append cache items defined (in ini) by extensions, see site.ini[Cache] for details
+            foreach ( $ini->variable( 'Cache', 'CacheItems' ) as $cacheItemKey )
+            {
+            	$name = 'Cache_' . $cacheItemKey;
+            	if ( !$ini->hasSection( $name ) )
+            	{
+            		eZDebug::writeWarning( "Missing site.ini section: '$name', skipping!", __METHOD__ );
+            		continue;
+            	}
+
+            	$cacheItem = array();
+            	if ( $ini->hasVariable( $name, 'name' ) )
+            	    $cacheItem['name'] = $ini->variable( $name, 'name' );
+                else
+                    $cacheItem['name'] = ucwords( $cacheItemKey );
+
+            	if ( $ini->hasVariable( $name, 'id' ) )
+            	    $cacheItem['id'] = $ini->variable( $name, 'id' );
+                else
+                    $cacheItem['id'] = $cacheItemKey;
+
+            	if ( $ini->hasVariable( $name, 'isClustered' ) )
+            	    $cacheItem['is-clustered'] = $ini->variable( $name, 'isClustered' );
+                else
+                    $cacheItem['is-clustered'] = false;
+
+            	if ( $ini->hasVariable( $name, 'tags' ) )
+            	    $cacheItem['tags'] = $ini->variable( $name, 'tags' );
+                else
+                    $cacheItem['tags'] = array();
+
+            	if ( $ini->hasVariable( $name, 'expiryKey' ) )
+            	    $cacheItem['expiry-key'] = $ini->variable( $name, 'expiryKey' );
+
+            	if ( $ini->hasVariable( $name, 'enabled' ) )
+            	    $cacheItem['enabled'] = $ini->variable( $name, 'enabled' );
+                else
+                    $cacheItem['enabled'] = true;
+
+            	if ( $ini->hasVariable( $name, 'path' ) )
+            	    $cacheItem['path'] = $ini->variable( $name, 'path' );
+                else
+                    $cacheItem['path'] = false;
+
+            	if ( $ini->hasVariable( $name, 'class' ) )
+            	    $cacheItem['function'] = array( $ini->variable( $name, 'class' ), 'clearCache' );
+
+            	if ( $ini->hasVariable( $name, 'purgeClass' ) )
+            	    $cacheItem['purge-function'] = array( $ini->variable( $name, 'purgeClass' ), 'purgeCache' );
+
+            	$cacheList[] = $cacheItem;
+            }
         }
         return $cacheList;
     }
@@ -391,26 +449,21 @@ class eZCache
         if ( isset( $cacheItem[$functionName] ) )
         {
             $function = $cacheItem[$functionName];
-            call_user_func_array( $function, array( $cacheItem ) );
+            if ( is_callable( $function ) )
+                call_user_func_array( $function, array( $cacheItem ) );
+            else
+                eZDebug::writeError("Could not call cache item $functionName for id '$cacheItem[id]', is it a static public function?", __METHOD__ );
         }
         else
         {
             $cachePath = eZSys::cacheDirectory() . "/" . $cacheItem['path'];
 
-            switch ( $cacheItem['id'] )
-            {
-                case 'template-block':
-                case 'content':
-                case 'urlalias': // wildcard cache
-                case 'rss_cache':
-                case 'user_info_cache':
-                    $isContentRelated = true;
-                    break;
-                default:
-                    $isContentRelated = false;
-            }
+            if ( isset( $cacheItem['is-clustered'] ) )
+                $isClustered = $cacheItem['is-clustered'];
+            else
+                $isClustered = false;
 
-            if ( $isContentRelated )
+            if ( $isClustered )
             {
                 $fileHandler = eZClusterFileHandler::instance( $cachePath );
                 if ( $purge )
