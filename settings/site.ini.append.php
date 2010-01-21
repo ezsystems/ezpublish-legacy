@@ -19,6 +19,16 @@ PolicyOmitList[]=ezjscore/call
 AnonymousAccessList[]=ezjscore/hello
 AnonymousAccessList[]=ezjscore/call
 
+# Cache item entry (for eZ Publish 4.3 and up)
+[Cache]
+CacheItems[]=ezjscore
+
+[Cache_ezjscore]
+name=eZJSCore Public Packer cache
+id=ezjscore-packer
+tags[]=content
+tags[]=template
+path=public
 
 
 

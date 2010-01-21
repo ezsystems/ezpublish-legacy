@@ -22,6 +22,7 @@
 - Bump required eZ Publish version to 4.1
 - Implemented #15811: ez JS Packer option to include mofied time in file url
 - Packer: Don't wast cycles on packing and caching if there is only one file, serve it directly
+- Fixed bug #15972: ezcache.php --clear-all does not clear ezjscore cache
 
 
 # v1.0.0  29 Sept 2009
