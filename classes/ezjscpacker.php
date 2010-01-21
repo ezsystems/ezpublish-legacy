@@ -360,7 +360,7 @@ class ezjscPacker
         	return array_merge( $httpFiles, $validWWWFiles );
         }
 
-        $cachePath = $packerInfo['cache_dir'] . $subPat
+        $cachePath = $packerInfo['cache_dir'] . $subPath;
 
         // See if cahe file exists and if it has expired (only if time is not part of name)
         if ( $ezjscINI->hasVariable('Packer', 'AppendLastModifiedTime') === 'enabled' )
