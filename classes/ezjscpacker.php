@@ -81,7 +81,7 @@ class ezjscPacker
         foreach ( $packedFiles as $packedFile )
         {
             // Is this a js file or js content?
-            if ( isset( $packedFile[4] ) && ( strpos( $packedFile, '.js?ts=' ) !== false || strripos( $packedFile, '.js' ) === ( strlen( $packedFile ) -3 ) ) )
+            if ( isset( $packedFile[4] ) && strripos( $packedFile, '.js' ) === ( strlen( $packedFile ) -3 ) )
             {
                 if ( $useFullUrl )
                 {
@@ -118,7 +118,7 @@ class ezjscPacker
         foreach ( $packedFiles as $packedFile )
         {
             // Is this a css file or css content?
-            if ( isset( $packedFile[5] ) && ( strpos( $packedFile, '.css?ts=' ) !== false || strripos( $packedFile, '.css' ) === ( strlen( $packedFile ) -4 ) ) )
+            if ( isset( $packedFile[5] ) && strripos( $packedFile, '.css' ) === ( strlen( $packedFile ) -4 ) )
             {
                 if ( $useFullUrl )
                 {
@@ -369,8 +369,7 @@ class ezjscPacker
             // check last modified time and return path to cache file if valid
             if ( $lastmodified <= filemtime( $cachePath . $cacheName ) )
             {
-                // Append last modified timestamp to force browser and proxy cache to refresh file
-                $httpFiles[] = $packerInfo['www_dir'] . $cachePath . $cacheName . '?ts=' . $lastmodified;
+                $httpFiles[] = $packerInfo['www_dir'] . $cachePath . $cacheName;
                 return $httpFiles;
             }
         }
@@ -422,8 +421,7 @@ class ezjscPacker
         // save file and return path if sucsessfull
         if( eZFile::create( $cacheName, $cachePath, $content ) )
         {
-            // Append last modified timestamp to force browser and proxy cache to refresh file
-            $httpFiles[] = $packerInfo['www_dir'] . $cachePath . $cacheName . '?ts=' . $lastmodified;
+            $httpFiles[] = $packerInfo['www_dir'] . $cachePath . $cacheName;
             return $httpFiles;
         }
 
