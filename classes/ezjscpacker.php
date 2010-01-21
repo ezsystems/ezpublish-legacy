@@ -360,18 +360,30 @@ class ezjscPacker
         	return array_merge( $httpFiles, $validWWWFiles );
         }
 
-        // generate cache file name and path
-        $cacheName = md5( $cacheName . $packLevel ) . $fileExtension;
-        $cachePath = $packerInfo['cache_dir'] . $subPath;
+        $cachePath = $packerInfo['cache_dir'] . $subPat
 
-        if ( file_exists( $cachePath . $cacheName ) )
+        // See if cahe file exists and if it has expired (only if time is not part of name)
+        if ( $ezjscINI->hasVariable('Packer', 'AppendLastModifiedTime') === 'enabled' )
         {
-            // check last modified time and return path to cache file if valid
-            if ( $lastmodified <= filemtime( $cachePath . $cacheName ) )
-            {
-                $httpFiles[] = $packerInfo['www_dir'] . $cachePath . $cacheName;
-                return $httpFiles;
-            }
+        	$cacheName = md5( $cacheName . $packLevel ) . '_' . $lastmodified . $fileExtension;
+            if ( file_exists( $cachePath . $cacheName ) )
+	        {
+	            $httpFiles[] = $packerInfo['www_dir'] . $cachePath . $cacheName;
+	            return $httpFiles;
+	        }
+        }
+        else
+        {
+        	$cacheName = md5( $cacheName . $packLevel ) . $fileExtension;
+	        if ( file_exists( $cachePath . $cacheName ) )
+	        {
+	            // check last modified time and return path to cache file if valid
+	            if ( $lastmodified <= filemtime( $cachePath . $cacheName ) )
+	            {
+	                $httpFiles[] = $packerInfo['www_dir'] . $cachePath . $cacheName;
+	                return $httpFiles;
+	            }
+	        }
         }
 
         // Merge file content and create new cache file
