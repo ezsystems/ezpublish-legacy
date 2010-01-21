@@ -2,7 +2,7 @@
 {if $ui_context_edit}
     <span title="eZ Publish {fetch( 'setup', 'version' )}">&nbsp;</span>
 {else}
-    <a href="http://ez.no" title="eZ Publish {fetch( 'setup', 'version' )}" target="_blank">&nbsp;</a>
+    <a href="{'/'ezurl( 'no' )}" title="eZ Publish {fetch( 'setup', 'version' )}">&nbsp;</a>
 {/if}
 </div>
 
