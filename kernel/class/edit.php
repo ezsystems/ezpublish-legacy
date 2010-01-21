@@ -223,6 +223,31 @@ if ( $http->hasPostVariable( 'RemoveGroupButton' ) && $http->hasPostVariable( 'g
     }
 }
 
+
+// Ajax actions ( normal ones have "<action>_<attribute_id>" form and are fixed up later in $dataType->fixupClassAttributeHTTPInput )
+if ( $http->hasPostVariable( 'MoveUp' ) )
+{
+    $attribute = eZContentClassAttribute::fetch( $http->postVariable( 'MoveUp' ), true, eZContentClass::VERSION_STATUS_TEMPORARY,
+                                                  array( 'contentclass_id', 'version', 'placement' ) );
+    if ( $attribute instanceof eZContentClassAttribute )
+        $attribute->move( false );
+    else
+        header( $_SERVER['SERVER_PROTOCOL'] . ' 400 Bad Request' );
+    eZDB::checkTransactionCounter();
+    eZExecution::cleanExit();
+}
+else if ( $http->hasPostVariable( 'MoveDown' ) )
+{
+    $attribute = eZContentClassAttribute::fetch( $http->postVariable( 'MoveDown' ), true, eZContentClass::VERSION_STATUS_TEMPORARY,
+                                                  array( 'contentclass_id', 'version', 'placement' ) );
+    if ( $attribute instanceof eZContentClassAttribute )
+        $attribute->move( true );
+    else
+        header( $_SERVER['SERVER_PROTOCOL'] . ' 400 Bad Request' );
+    eZDB::checkTransactionCounter();
+    eZExecution::cleanExit();
+}
+
 // Fetch attributes and definitions
 $attributes = $class->fetchAttributes();
 

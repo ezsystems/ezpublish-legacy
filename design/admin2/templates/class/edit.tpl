@@ -131,10 +131,14 @@
 {def $priority_value = 0}
 
 <table id="ezcca-edit-list" class="special" cellspacing="0" summary="{'List of class attributes'|i18n( 'design/admin/class/edit' )}">
+<tbody>
 {section var=Attributes loop=$attributes sequence=array( bglight, bgdark )}
 
 {set $priority_value = $priority_value|sum( 10 )}
 
+<tr class="ezcca-edit-list-item {$Attributes.sequence}"{if $last_changed_id|eq( $Attributes.item.id )} id="LastChangedID"{/if}>
+<td>
+<table cellspacing="0" summary="{'Class attribute item'|i18n( 'design/admin/class/edit' )}">
 <tr>
     <th class="tight"><input type="checkbox" name="ContentAttribute_id_checked[]" value="{$Attributes.item.id}" title="{'Select attribute for removal. Click the "Remove selected attributes" button to remove the selected attributes.'|i18n( 'design/admin/class/edit' )|wash}" /></th>
     <th class="wide">{$Attributes.number}. {$Attributes.item.name|wash} [{$Attributes.item.data_type.information.name|wash}] (id:{$Attributes.item.id})</th>
@@ -146,8 +150,7 @@
       </div>
     </th>
 </tr>
-
-<tr class="{$Attributes.sequence}"{if $last_changed_id|eq( $Attributes.item.id )} id="LastChangedID"{/if}>
+<tr>
 <td>&nbsp;</td>
 <!-- Attribute input Start -->
 <td colspan="2">
@@ -219,12 +222,14 @@
 {class_attribute_edit_gui class_attribute=$Attributes.item}
 
 </td>
+</tr>
 <!-- Attribute flags End -->
-
+</table>
+</td>
 </tr>
 
 {/section}
-
+</tbody>
 </table>
 {undef $priority_value}
 {section-else}
@@ -289,6 +294,42 @@ jQuery(function( $ )//called on document.ready
     	el = $('#className');
     window.scrollTo(0, Math.max( el.offset().top - 180, 0 ));
     el.focus();
+
+    var moveButtons = $('#ezcca-edit-list div.listbutton input[name^=Move]');
+    moveButtons.click(function( e )
+    {
+    	e.preventDefault();
+    	var tr = $(this).closest('tr.ezcca-edit-list-item'), param = this.name.split('_'), up = param[0] === 'MoveUp';
+
+    	// swap items in dom
+    	if ( up )
+    	{
+
+            var swap = tr.prev();
+        	if ( !swap.size() )
+                return false;
+        	swap.before( tr );
+        }
+    	else
+    	{
+            var swap = tr.next();
+        	if ( !swap.size() )
+                return false;
+        	swap.after( tr );
+        }
+
+        // swap priority number
+        var inp = tr.find('input[name^=ContentAttribute_priority]'), inp2 = swap.find('input[name^=ContentAttribute_priority]'), inpv = inp.val();
+        inp.val( inp2.val() );
+        inp2.val( inpv );
+
+        // store with ajax request
+        var postVar = { 'ContentClassHasInput': 0 };
+        postVar[ param[0] ] = param[1];
+        $.post( $('#ClassEdit').attr('action'), postVar );
+        return false;
+    });
+    
 });
 -->
 </script>
