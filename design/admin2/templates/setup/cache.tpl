@@ -165,7 +165,7 @@
 
 {* Static content cache. *}
 <tr class="bgdark">
-<th width="60%">{'Regenerate static content cache'|i18n( 'design/admin/setup/cache' )}:</th>
+<td width="60%">{'Regenerate static content cache'|i18n( 'design/admin/setup/cache' )}:</td>
 <td width="40%"><input class="button" type="submit" name="RegenerateStaticCacheButton" value="{'Create new'|i18n( 'design/admin/setup/cache' )}" title="{'This operation will regenerate all the static content caches that are configured. This action can take  some time depending on the specifications of the server and the number of locations that are configured to be statically cached. If you encounter time-out problems, use the &quot;bin/php/makestaticcache.php&quot; shell script.'|i18n( 'design/admin/setup/cache' )}" /></td>
 </tr>
 

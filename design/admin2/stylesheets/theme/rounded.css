@@ -179,6 +179,7 @@ div.tab-content
 #path span
 {
   color: #333;
+  font-size: 90%;
 }
 
 #path
@@ -288,6 +289,7 @@ div.box-header div.box-ml
 #controlbar-top .box-bc .box-ml
 {
   border-top-width: 0;
+  margin: 0px 3px 0px 3px;
 }
 
 /* MENU-BLOCK */
@@ -313,26 +315,39 @@ table.list th
 
 input.button, input.defaultbutton, input.button-disabled
 {
-    background-color: #D1DFE9;
-    background-image: url(../../images/2/gradient-btn-enabled.png);
-	background-position: center bottom;
-	background-repeat: repeat-x;
-    border-color: #aaa #ccc #ccc #aaa;
-    border-style: solid;
-    border-width: 1px;
-    color: #fff;
-    width: auto;
-    overflow: visible;
+  background-color: #D1DFE9;
+  background-image: url(../../images/2/gradient-blue.png);
+  background-position: center bottom;
+  background-repeat: repeat-x;
+  border: 1px solid #dedede;
+  border-color: #aaa #ccc #ccc #aaa;
+  border-width: 1px;
+  color: #fff;	
+  width: auto;
+  overflow: visible;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
 }
 
 input.button, input.defaultbutton, input.button-disabled
 {
-    padding:1px 8px; /* IE6 */
+    padding: 1px 8px; /* IE6 */
 }
 
 *:first-child+html input.button[type], input.defaultbutton[type], input.button-disabled[type]
 {
-    padding:1px 8px; /* IE7 */
+    padding: 1px 8px; /* IE7 */
+}
+
+input.defaultbutton
+{
+    background-color: #f5f5f5;
+    background-image: url(../../images/2/gradient-orange.png);
+	background-position: center top;
+	background-repeat: repeat-x;
+	border-color: #ddd;
+	color: #fff;
 }
 
 input.button-disabled
