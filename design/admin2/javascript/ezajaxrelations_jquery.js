@@ -38,7 +38,7 @@ jQuery(function( $ )
                 var html = '', arr = data.content.SearchResult, pub = $('#ezobjectrelation-search-published-text');
                 for ( var i = 0, l = arr.length; i < l; i++ )
                 {
-                	html += '<a href="JavaScript:ezajaxrelationsSearchAddObject( \'' + boxID + '\', ' + arr[i].id + ',\'' + arr[i].name + '\',\'' + arr[i].class_name + '\',\'' + arr[i].section.name + '\',\'' + pub.val() + '\'  );">' + arr[i].name + '<\/a><br \/>';
+                	html += '<a onclick="return ezajaxrelationsSearchAddObject( this, \'' + boxID + '\', ' + arr[i].id + ',\'' + arr[i].name + '\',\'' + arr[i].class_name + '\',\'' + arr[i].section.name + '\',\'' + pub.val() + '\'  );">' + arr[i].name + '<\/a><br \/>';
                 }
             	$( boxID + ' div.ezobject-relation-search-browse'  ).html( html ).show();
             }
@@ -55,13 +55,23 @@ jQuery(function( $ )
     }
 
     // function for selecting a search result object
-    function _addObject( boxID, id, name, className, sectionName, publishedTxt )
+    function _addObject( link, boxID, id, name, className, sectionName, publishedTxt )
     {
+    	link.onclick = function(){return false;};
+    	link.className = 'disabled';
     	var tr = $( boxID + ' table tbody tr:last-child' ), tds = tr.find('td'), listMode = tds.size() > 4;
     	if ( listMode )
     	{
-    	    tr = tr.clone(true).insertAfter(tr);
-    	    tds = tr.find('td').slice( 1 );
+    	    if ( tds[1].innerHTML !== '--name--' )
+    	    {
+    		    tr = tr.clone(true).insertAfter(tr);
+    	        tds = tr.find('td').slice( 1 );
+    	    }
+    	    else
+    	    {
+    	    	tds = tds.slice( 1 );
+    	    }
+    	    tr[0].className = tr[0].className === 'bgdark' ? 'bglight' : 'bgdark';
     	    var priority = tr.find('td:last-child input');
     	    priority.val( parseInt( priority.val() ) + 1 );
     	    tr.find('td:first-child input').val( id );
