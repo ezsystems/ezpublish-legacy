@@ -81,6 +81,11 @@ table.list td.modifier, table.list td.modified, table.list td.class, div.content
   white-space: nowrap;
 }
 
+table tbody tr.ezasi-sort-drag-handler
+{
+    cursor: move;
+}
+
 /* GENERIC DIFF STYLES */
 
 ins
