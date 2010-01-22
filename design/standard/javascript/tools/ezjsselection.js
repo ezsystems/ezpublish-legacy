@@ -37,9 +37,9 @@ function ezjs_toggleCheckboxes( formname, checkboxname )
 {
     with( formname )
 	{
-        for( var i=0; i<elements.length; i++ )
+        for( var i = 0, l = elements.length; i < l; i++ )
         {
-            if( elements[i].type == 'checkbox' && elements[i].name == checkboxname && elements[i].disabled == "" )
+            if( elements[i].type === 'checkbox' && elements[i].name == checkboxname && elements[i].disabled == false )
             {
                 if( elements[i].checked == true )
                 {
