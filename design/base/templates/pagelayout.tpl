@@ -17,9 +17,15 @@
     {section var=css_file loop=ezini( 'StylesheetSettings', 'CSSFileList', 'design.ini' )}
         @import url({concat( 'stylesheets/', $css_file )|ezdesign});
     {/section}
+    {section var=css_file loop=ezini( 'StylesheetSettings', 'FrontendCSSFileList', 'design.ini' )}
+        @import url({concat( 'stylesheets/', $css_file )|ezdesign});
+    {/section}
 </style>
 
 {section name=JavaScript loop=ezini( 'JavaScriptSettings', 'JavaScriptList', 'design.ini' ) }
+    <script language="JavaScript" type="text/javascript" src={concat( 'javascript/',$:item )|ezdesign}></script>
+{/section}
+{section name=JavaScript loop=ezini( 'JavaScriptSettings', 'FrontendJavaScriptList', 'design.ini' ) }
     <script language="JavaScript" type="text/javascript" src={concat( 'javascript/',$:item )|ezdesign}></script>
 {/section}
 

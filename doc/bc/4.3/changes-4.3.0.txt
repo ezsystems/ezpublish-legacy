@@ -20,6 +20,16 @@ INI setting changes
   Changed default version from 1.0 to 2.0 as RSS 2.0 is the most widespread feed
   format, and the fact that it support images in the feed.
 
+- design.ini [StylesheetSettings]CSSFileList
+
+  Deprecated in favour of FrontendCSSFileList & BackendCSSFileList
+  settings, will be removed in a future version (normally in two versions).
+
+- design.ini [JavaScriptSettings]JavaScriptList
+
+  Deprecated in favour of FrontendJavaScriptList & BackendJavaScriptList
+  settings, will be removed in a future version (normally in two versions).
+
 
 Change of behavior 
 -------------------

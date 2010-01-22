@@ -8,4 +8,7 @@
     {foreach ezini( 'JavaScriptSettings', 'JavaScriptList', 'design.ini' ) as $item}
     <script language="JavaScript" type="text/javascript" src={concat( 'javascript/',$item )|ezdesign}></script>
     {/foreach}
+    {foreach ezini( 'JavaScriptSettings', 'BackendJavaScriptList', 'design.ini' ) as $item}
+    <script language="JavaScript" type="text/javascript" src={concat( 'javascript/',$item )|ezdesign}></script>
+    {/foreach}
 {/if}

@@ -22,7 +22,7 @@
 
   {* load main css files and requried css files *}
   {if $load_css_file_list}
-    {ezcss_load( array( 'core.css', 'debug.css', 'pagelayout.css', 'content.css', $admin_theme_css, ezini( 'StylesheetSettings', 'CSSFileList', 'design.ini' ) ) )}
+    {ezcss_load( array( 'core.css', 'debug.css', 'pagelayout.css', 'content.css', $admin_theme_css, ezini( 'StylesheetSettings', 'BackendCSSFileList', 'design.ini' ) ) )}
   {else}
     {ezcss_load( array( 'core.css', 'debug.css', 'pagelayout.css', 'content.css', $admin_theme_css ) )}
   {/if}

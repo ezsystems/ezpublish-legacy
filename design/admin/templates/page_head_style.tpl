@@ -13,6 +13,9 @@
     {foreach ezini( 'StylesheetSettings', 'CSSFileList', 'design.ini' ) as $css_file}
         @import url({concat( 'stylesheets/',$css_file )|ezdesign});
     {/foreach}
+    {foreach ezini( 'StylesheetSettings', 'BackendCSSFileList', 'design.ini' ) as $css_file}
+        @import url({concat( 'stylesheets/',$css_file )|ezdesign});
+    {/foreach}
 {/if}
 </style>
 
