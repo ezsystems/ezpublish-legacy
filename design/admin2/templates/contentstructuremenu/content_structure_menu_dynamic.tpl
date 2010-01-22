@@ -1,7 +1,9 @@
-{def $root_node_id = ezini( 'TreeMenu', 'RootNodeID', 'contentstructuremenu.ini')}
 {if is_set( $custom_root_node_id )}
-    {set $root_node_id = $custom_root_node_id}
-{elseif and( is_set( $search_subtree_array[0] ), $search_subtree_array[0]|ne( '1' ) )}
+    {def $root_node_id = $custom_root_node_id}
+{else}
+    {def $root_node_id=ezini('TreeMenu','RootNodeID','contentstructuremenu.ini')}
+{/if}
+{if and( is_set( $search_subtree_array[0] ), $search_subtree_array[0]|ne( '1' ) )}
     {def $search_node = fetch( 'content', 'node', hash( 'node_id', $search_subtree_array[0] ))}
     {if is_set( $search_node.path_array[1] )}
         {set $root_node_id = $search_node.path_array[1]}
@@ -14,8 +16,7 @@
      $user_root_node_id    = ezini('NodeSettings', 'UserRootNode', 'content.ini')
      $filter_type          = cond( $root_node.path_array|contains( $user_root_node_id ), 'include', 'exclude')
      $filter_groups        = cond( $root_node.path_array|contains( $user_root_node_id ), array( $user_class_group_id ), array($user_class_group_id, $setup_class_group_id))
-    }
-<script language="JavaScript" type="text/javascript" src={"javascript/lib/ezjslibcookiesupport.js"|ezdesign}></script>
+}
 {if ezini('TreeMenu','PreloadClassIcons','contentstructuremenu.ini')|eq('enabled')}
     <script language="JavaScript" type="text/javascript" src={"javascript/lib/ezjslibimagepreloader.js"|ezdesign}></script>
 {/if}
@@ -29,54 +30,26 @@
     {set $click_action = $click_action|ezurl(no)}
 {/if}
 
-<script type="text/javascript" src={"javascript/yui/2.7.0/build/utilities/utilities.js"|ezdesign}></script>
-<script type="text/javascript" src={"javascript/yui/2.7.0/build/json/json-min.js"|ezdesign}></script>
 {literal}
 <script type="text/javascript">
 <!--
-
-if( !Array.prototype.inArray )
-{
-    Array.prototype.inArray = function( value )
-    {
-        for ( var i = 0; i < this.length; i++ )
-        {
-            if ( this[i] == value )
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-}
-
-Array.prototype.removeFirst = function( value )
-{
-    for ( var i = 0; i < this.length; i++ )
-    {
-        if ( this[i] == value )
-        {
-            this.splice( i, 1 );
-            return true;
-        }
-    }
-
-    return false;
-}
-
 function ContentStructureMenu()
 {
     this.cookieName     = "contentStructureMenu";
     this.cookieValidity = 3650; // days
-    this.cookie         = ezjslib_getCookie( this.cookieName );
+    this.cookie         = _getCookie( this.cookieName );
     this.open           = ( this.cookie )? this.cookie.split( '/' ): [];
 {/literal}
 
-    this.action  = "{$click_action}";
-    this.context = "{$ui_context}";
-    this.expiry  = "{fetch('content','content_tree_menu_expiry')}";
+{default current_user=fetch('user','current_user')}
+    this.perm = "{concat($current_user.role_id_list|implode(','),'|',$current_user.limited_assignment_value_list|implode(','))|md5}";
+{/default}
 
-{cache-block keys=array( $filter_type ) expiry="0" ignore_content_expiry}
+    this.expiry = "{fetch('content','content_tree_menu_expiry')}";
+    this.action = "{$click_action}";
+    this.context = "{$ui_context}";
+
+{cache-block keys=array( $filter_type ) expiry=0 ignore_content_expiry}
     this.languages = {*
         *}{ldelim}{*
             *}{foreach fetch('content','translation_list') as $language}{*
@@ -95,7 +68,7 @@ function ContentStructureMenu()
 {def $iconInfo = icon_info('class')
      $classIconsSize = ezini('TreeMenu','ClassIconsSize','contentstructuremenu.ini')}
 
-    this.iconsList   = new Array();
+    this.iconsList   = [];
     var wwwDirPrefix = "{ezsys('wwwdir')}/{$iconInfo.theme_path}/{$iconInfo.size_path_list[$classIconsSize]}/";
     {foreach $iconInfo.icons as $class => $icon}{*
         *}this.iconsList['{$class}'] = wwwDirPrefix + "{$icon}";
@@ -108,12 +81,6 @@ function ContentStructureMenu()
     this.showTips       = {if ezini('TreeMenu','ToolTips','contentstructuremenu.ini')|eq('enabled')}true{else}false{/if};
     this.createHereMenu = "{ezini('TreeMenu','CreateHereMenu','contentstructuremenu.ini')}";
     this.autoOpen       = {if ezini('TreeMenu','AutoopenCurrentNode','contentstructuremenu.ini')|eq('enabled')}true{else}false{/if};
-{/cache-block}
-
-
-{default current_user=fetch('user','current_user')}
-    this.perm = "{concat($current_user.role_id_list|implode(','),'|',$current_user.limited_assignment_value_list|implode(','))|md5}";
-{/default}
 
 {literal}
     this.updateCookie = function()
@@ -121,26 +88,50 @@ function ContentStructureMenu()
         this.cookie = this.open.join('/');
         expireDate  = new Date();
         expireDate.setTime( expireDate.getTime() + this.cookieValidity * 86400000 );
-        ezjslib_setCookie( this.cookieName, this.cookie, expireDate );
+        _setCookie( this.cookieName, this.cookie, expireDate );
+    };
+
+    // cookie functions
+    function _setCookie( name, value, expires, path )
+    {
+        document.cookie = name + '=' + escape(value) + ( expires ? '; expires=' + expires.toUTCString(): '' ) + '; path='+ (path ? path : '/');
+    }
+
+    function _getCookie( name )
+    {
+        var n = name + '=', c = document.cookie, start = c.indexOf( n ), end = c.indexOf( ";", start );
+        if ( start != -1 )
+        {
+            start += n.length;
+            return unescape( c.substring( start, ( end === -1 ? c.length : end ) ) );
+        }
+        return null;
+    }
+
+    function _delCookie( name )
+    {
+    	_setCookie( name, '', ( new Date() - 86400000 ) );
     }
 
     this.setOpen = function( nodeID )
     {
-        if ( this.open.inArray( nodeID ) )
+        if ( jQuery.inArray( '' + nodeID, this.open ) !== -1 )
         {
             return;
         }
         this.open[this.open.length] = nodeID;
         this.updateCookie();
-    }
+    };
 
     this.setClosed = function( nodeID )
     {
-        if ( this.open.removeFirst( nodeID ) )
+    	var openIndex = jQuery.inArray( '' + nodeID, this.open );
+        if ( openIndex !== -1 )
         {
+        	this.open.splice( openIndex, 1 );
             this.updateCookie();
         }
-    }
+    };
 
     this.generateEntry = function( item, lastli, rootNode )
     {
@@ -149,7 +140,7 @@ function ContentStructureMenu()
         {
             liclass += ' lastli';
         }
-        if ( path && ( path[path.length-1] == item.node_id || ( !item.has_children && path.inArray( item.node_id ) ) ) )
+        if ( path && ( path[path.length-1] == item.node_id || ( !item.has_children && jQuery.inArray( item.node_id, path ) !== -1 ) ) )
         {
             liclass += ' currentnode';
         }
@@ -311,7 +302,7 @@ function ContentStructureMenu()
         html += '<\/li>';
 
         return html;
-    }
+    };
 
     this.load = function( aElement, nodeID, modifiedSubnode )
     {
@@ -368,26 +359,16 @@ function ContentStructureMenu()
 
         var thisThis = this;
 
-        var callbacks = {
-
-            result: false,
-
-            success: function(o)
-            {
-                try 
+        var request = jQuery.ajax({
+            'url': url,
+            'dataType': 'json',
+            'success': function( data, textStatus )
+            {             
+                var html = '<ul>', item;
+                for ( var i = 0, l = data.children_count; i < l; i++ )
                 {
-                    result = YAHOO.lang.JSON.parse(o.responseText);
-                }
-                catch (x) 
-                {
-                    return false;
-                }
-                
-                var html = '<ul>';
-                for ( var i = 0; i < result.children.length; i++ )
-                {
-                    var item = result.children[i];
-                    html += thisThis.generateEntry( item, i == result.children.length - 1, false );
+                    item = data.children[i];
+                    html += thisThis.generateEntry( item, i == data.children_count - 1, false );
                 }
                 html += '<\/ul>';
 
@@ -400,16 +381,16 @@ function ContentStructureMenu()
 
                 thisThis.setOpen( nodeID );
                 thisThis.openUnder( nodeID );
-                
+
                 return;
             },
-
-            failure: function(o) {
+            'error': function( xhr, textStatus, errorThrown )
+            {
                 if ( aElement )
                 {
                     aElement.className = 'openclose-error';
 
-                    switch( o.status )
+                    switch( xhr.status )
                     {
                         case 403:
                         {
@@ -438,12 +419,10 @@ function ContentStructureMenu()
                     }
                 }
             }
-        }
-
-        var request = YAHOO.util.Connect.asyncRequest('GET', url, callbacks);
+        });
 
         return false;
-    }
+    };
 
     this.openUnder = function( parentNodeID )
     {
@@ -465,13 +444,13 @@ function ContentStructureMenu()
             var liCandidate = children[i];
             if ( liCandidate.nodeType == 1 && liCandidate.id )
             {
-                var nodeID = parseInt( liCandidate.id.substr( 1 ) );
-                if ( this.autoOpen && autoOpenPath.inArray( nodeID ) )
+                var nodeID = liCandidate.id.substr( 1 ), openIndex = jQuery.inArray( nodeID, autoOpenPath );
+                if ( this.autoOpen && openIndex !== -1 )
                 {
-                    autoOpenPath.removeFirst( nodeID );
+                    autoOpenPath.splice( openIndex, 1 );
                     this.setOpen( nodeID );
                 }
-                if ( this.open.inArray( nodeID ) )
+                if ( jQuery.inArray( nodeID, this.open ) !== -1 )
                 {
                     var aElement = document.getElementById( 'a' + nodeID );
                     if ( aElement )
@@ -481,7 +460,7 @@ function ContentStructureMenu()
                 }
             }
         }
-    }
+    };
 
     this.collapse = function( parentNodeID )
     {
@@ -515,20 +494,21 @@ function ContentStructureMenu()
             aElement.className   = 'openclose-open';
             this.setClosed( parentNodeID );
         }
-    }
+    };
 }
 
 // -->
 </script>
 {/literal}
+{/cache-block}
 
 <script type="text/javascript">
 <!--
-    var path         = [{foreach $module_result.path as $element}{$element.node_id}{delimiter}, {/delimiter}{/foreach}];
+    var path         = [{foreach $module_result.path as $element}'{$element.node_id}'{delimiter}, {/delimiter}{/foreach}];
     var autoOpenPath = path;
     var treeMenu     = new ContentStructureMenu();
 
-{cache-block keys=$root_node_id expiry="0"}
+{cache-block keys=$root_node_id expiry=0}
 
     var rootNode = {ldelim}{*
         *}"node_id":{$root_node_id},{*
