@@ -33,12 +33,14 @@
 {literal}
 <script type="text/javascript">
 <!--
-function ContentStructureMenu()
+function ContentStructureMenu( path, persistent )
 {
     this.cookieName     = "contentStructureMenu";
     this.cookieValidity = 3650; // days
-    this.cookie         = _getCookie( this.cookieName );
+    this.useCookie      = persistent;
+    this.cookie         = this.useCookie ? _getCookie( this.cookieName ) : '';
     this.open           = ( this.cookie )? this.cookie.split( '/' ): [];
+    this.autoOpenPath   = path;
 {/literal}
 
 {default current_user=fetch('user','current_user')}
@@ -85,6 +87,8 @@ function ContentStructureMenu()
 {literal}
     this.updateCookie = function()
     {
+        if ( !this.useCookie )
+            return; 
         this.cookie = this.open.join('/');
         expireDate  = new Date();
         expireDate.setTime( expireDate.getTime() + this.cookieValidity * 86400000 );
@@ -444,10 +448,10 @@ function ContentStructureMenu()
             var liCandidate = children[i];
             if ( liCandidate.nodeType == 1 && liCandidate.id )
             {
-                var nodeID = liCandidate.id.substr( 1 ), openIndex = jQuery.inArray( nodeID, autoOpenPath );
+                var nodeID = liCandidate.id.substr( 1 ), openIndex = jQuery.inArray( nodeID, this.autoOpenPath );
                 if ( this.autoOpen && openIndex !== -1 )
                 {
-                    autoOpenPath.splice( openIndex, 1 );
+                    this.autoOpenPath.splice( openIndex, 1 );
                     this.setOpen( nodeID );
                 }
                 if ( jQuery.inArray( nodeID, this.open ) !== -1 )
@@ -504,9 +508,11 @@ function ContentStructureMenu()
 
 <script type="text/javascript">
 <!--
+var treeMenu;
+(function(){ldelim}
     var path         = [{foreach $module_result.path as $element}'{$element.node_id}'{delimiter}, {/delimiter}{/foreach}];
-    var autoOpenPath = path;
-    var treeMenu     = new ContentStructureMenu();
+    var persistence  = {if ezini('TreeMenu','MenuPersistence','contentstructuremenu.ini')|eq('enabled')}true{else}false{/if};
+    treeMenu         = new ContentStructureMenu( path, persistence );
 
 {cache-block keys=$root_node_id expiry=0}
 
@@ -526,6 +532,7 @@ function ContentStructureMenu()
     document.writeln( '<\/ul>' );
 
     treeMenu.load( false, {$root_node_id}, {$root_node.modified_subnode} );
+{rdelim})();
 {/cache-block}
 
 // -->
