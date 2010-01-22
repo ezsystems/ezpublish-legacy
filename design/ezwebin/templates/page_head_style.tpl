@@ -8,7 +8,8 @@
                       'pagelayout.css',
                       'content.css',
                       'websitetoolbar.css',
-                      ezini( 'StylesheetSettings', 'CSSFileList', 'design.ini' ) ))}
+                      ezini( 'StylesheetSettings', 'CSSFileList', 'design.ini' ),
+                      ezini( 'StylesheetSettings', 'FrontendCSSFileList', 'design.ini' ) ))}
 {else}
   {ezcss_load( array( 'core.css',
                       'debug.css',
