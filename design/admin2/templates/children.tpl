@@ -1,23 +1,27 @@
 <div class="content-view-children">
 
+{* Generic children list for admin interface. *}
+{def $item_type    = ezpreference( 'admin_list_limit' )
+     $number_of_items = min( $item_type, 3)|choose( 10, 10, 25, 50 )
+     $can_remove   = false()
+     $can_move     = false()
+     $can_edit     = false()
+     $can_create   = false()
+     $can_copy     = false()
+     $current_path = first_set( $node.path_array[1], 1 )
+     $admin_children_viewmode = ezpreference( 'admin_children_viewmode' )
+     $children_count = fetch( content, list_count, hash( 'parent_node_id', $node.node_id,
+                                                      'objectname_filter', $view_parameters.namefilter ) )
+     $children    = array()
+     $priority    = and( eq( $node.sort_array[0][0], 'priority' ), $node.can_edit, $children_count )
+     $priority_dd = and( $priority, $admin_children_viewmode|ne( 'thumbnail' ) )}
+     
+
 <!-- Children START -->
 
 <div class="context-block">
 <form name="children" method="post" action={'content/action'|ezurl}>
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
-{* Generic children list for admin interface. *}
-{def $item_type = ezpreference( 'admin_list_limit' )
-     $number_of_items = min( $item_type, 3)|choose( 10, 10, 25, 50 )
-     $can_remove = false()
-     $can_move = false()
-     $can_edit = false()
-     $can_create = false()
-     $can_copy = false()
-     $current_path = first_set( $node.path_array[1], 1 )
-     $admin_children_viewmode = ezpreference( 'admin_children_viewmode' )
-     $children_count = fetch( content, list_count, hash( 'parent_node_id', $node.node_id,
-                                                      'objectname_filter', $view_parameters.namefilter ) )
-     $children = array()}
 
 {if $children_count}
     {set $children = fetch( 'content', 'list', hash( 'parent_node_id', $node.node_id,
@@ -177,10 +181,10 @@
     <div class="right">
     
     {* Update priorities button *}
-    {if and( eq( $node.sort_array[0][0], 'priority' ), $node.can_edit, $children_count )}
-        <input class="button" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n( 'design/admin/node/view/full' )}" title="{'Apply changes to the priorities of the items in the list above.'|i18n( 'design/admin/node/view/full' )}" />
+    {if priority}
+        <input id="ezasi-update-priority" class="button" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n( 'design/admin/node/view/full' )}" title="{'Apply changes to the priorities of the items in the list above.'|i18n( 'design/admin/node/view/full' )}" />
     {else}
-        <input class="button-disabled" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n( 'design/admin/node/view/full' )}" title="{'You cannot update the priorities because you do not have permission to edit the current item or because a non-priority sorting method is used.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
+        <input id="ezasi-update-priority" class="button-disabled" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n( 'design/admin/node/view/full' )}" title="{'You cannot update the priorities because you do not have permission to edit the current item or because a non-priority sorting method is used.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
     {/if}
     </div>
 
@@ -340,13 +344,13 @@
         <input type="hidden" name="ContentObjectID" value="{$node.contentobject_id}" />
     {/if}
 
-    <select name="SortingField" title="{$title}"{$disabled}>
+    <select id="ezasi-sort-field" name="SortingField" title="{$title}"{$disabled}>
     {section var=Sort loop=$sort_fields}
         <option value="{$Sort.key}" {if eq( $Sort.key, $node.sort_field )}selected="selected"{/if}>{$Sort.item}</option>
     {/section}
     </select>
 
-    <select name="SortingOrder" title="{$title}"{$disabled}>
+    <select  id="ezasi-sort-order" name="SortingOrder" title="{$title}"{$disabled}>
         <option value="0"{if eq($node.sort_order, 0)} selected="selected"{/if}>{'Descending'|i18n( 'design/admin/node/view/full' )}</option>
         <option value="1"{if eq($node.sort_order, 1)} selected="selected"{/if}>{'Ascending'|i18n( 'design/admin/node/view/full' )}</option>
     </select>
@@ -367,6 +371,13 @@
 </form>
 
 </div>
+
+{if $priority_dd}
+{ezscript_require( array( 'ezjsc::yui3', 'ezjsc::yui3io', 'ezajaxsubitems_sortdd.js' ) )}
+<script type="text/javascript">
+eZAjaxSubitemsSortDD.init();
+</script>
+{/if}
 
 <!-- Children END -->
 

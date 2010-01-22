@@ -1,5 +1,6 @@
 <div class="content-navigation-childlist">
-    <table class="list" cellspacing="0" summary="{'List of sub items of current node, with controlls to edit, remove and move them directly.'|i18n( 'design/admin/node/view/full' )}">
+    <table id="ezasi-subitems-list" class="list" cellspacing="0" summary="{'List of sub items of current node, with controlls to edit, remove and move them directly.'|i18n( 'design/admin/node/view/full' )}">
+    <thead>
     <tr>
         {* Remove column *}
         <th class="remove"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" title="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" onclick="ezjs_toggleCheckboxes( document.children, 'DeleteIDArray[]' ); return false;" /></th>
@@ -18,6 +19,8 @@
         {* Edit column *}
         <th class="edit">&nbsp;</th>
     </tr>
+    </thead>
+    <tbody>
 
     {section var=Nodes loop=$children sequence=array( bglight, bgdark )}
     {let child_name=$Nodes.item.name|wash
@@ -54,7 +57,7 @@
         {if eq( $node.sort_array[0][0], 'priority' )}
             <td>
             {if $node.can_edit}
-                <input type="text" name="Priority[]" size="3" value="{$Nodes.item.priority}" title="{'Use the priority fields to control the order in which the items appear. You can use both positive and negative integers. Click the "Update priorities" button to apply the changes.'|i18n( 'design/admin/node/view/full' )|wash()}" />
+                <input class="priority ezasi-priority-input" type="text" name="Priority[]" size="3" value="{$Nodes.item.priority}" title="{'Use the priority fields to control the order in which the items appear. You can use both positive and negative integers. Click the "Update priorities" button to apply the changes.'|i18n( 'design/admin/node/view/full' )|wash()}" />
                 <input type="hidden" name="PriorityID[]" value="{$Nodes.item.node_id}" />
                 {else}
                 <input type="text" name="Priority[]" size="3" value="{$Nodes.item.priority}" title="{'You are not allowed to update the priorities because you do not have permission to edit <%node_name>.'|i18n( 'design/admin/node/view/full',, hash( '%node_name', $node_name ) )|wash}" disabled="disabled" />
@@ -74,7 +77,7 @@
 
 {/let}
 {/section}
-
+</tbody>
 </table>
 </div>
 
