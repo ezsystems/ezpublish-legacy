@@ -41,9 +41,9 @@ Making the interface more intuitive involves improving usability and removing / 
 / hiding features that users does not need during the operation they are performing.
 Identified tasks:
 * Hide right menu by default
-* Have separate preferences for media tab / pr tab for admin_children_view mode
-  (user preferences for the sub items in admin)
-* Move actions from context menu's to a more accessible place in the interface
+* Customize media tab to for better media asset managment 
+* Reduce page space used by node boxes (preview, details,...) to easier browse
+  sub items and actions on sub items pane. 
 
 A overview of user task need a dashboard, where she can follow here own
 content, approval and other tasks she might do on a regular basis.
@@ -67,7 +67,7 @@ we will not strive to remain pixel perfect at the esthetic level. In addition we
 might decide to degrade gracefully and not enable key JavaScript / Ajax 
 enhancements if it requires additional coding or workaround to support IE6.
 For CSS this will mean we'll take advantage of CSS 2 features that has been
-around for 11 years have been implemented in all other A-Grade browsers.
+around for 11 years and have been implemented in all other A-Grade browsers.
 
 
 ========
@@ -93,7 +93,7 @@ Could: Use CSS sprites for small image buttons, icons and logos to reduce downlo
 
 #1.1 New possibility to hide the right menu, and hide it by default
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Should: Not involve any page refresh to show / hide it.
+Should: Not involve any page refresh to (show /) hide it.
 Should: Move logout link to header so it is always accessible.
 Could: Make the code for layout change general so it can be reused by
        size selector on left menu, as well as the hide / show buttons on
@@ -142,7 +142,7 @@ Could: Provide a box for comment approval (ezjscomment)
 #3 New Ajax features for relation object and list content attributes
 --------------------------------------------------------------------
 Should: Add a inline Ajax search interface to find possible relations
-Should: Be able to remove relations without page refresh
+Could: Be able to remove relations without page refresh
 Could: Be able to reorder relations without page refresh (list)
 Could: Provide drag and drop features to relations for reordering(list)
 
@@ -152,9 +152,11 @@ Should: Be able to select module and function without any page refresh
 
 #5 New Ajax functionality for class edit interface
 --------------------------------------------------
-Should: Be able to add attribute without page refresh
-Should: Be able to remove attribute without page refresh
 Should: Be able to move attributes without page refresh
+Should: Be able to add attribute without page refresh
+OR
+Should: Set focus on added attribute after page refresh
+Could: Be able to remove attribute without page refresh
 Could: Allow using drag and drop to move attributes
 
 #6 Add Ajax feature to re order sub items using drag and drop
