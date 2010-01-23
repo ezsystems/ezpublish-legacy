@@ -149,17 +149,12 @@ tr.bglight
 
 tr.bgdark
 {
-    background-color: #f8f8f8;
+    background-color: #f5f5f5;
 }
 
-table.list tr.bglight:hover, table.list tr.bgdark:hover
+tr.bglight:hover, tr.bgdark:hover
 {
     background-color: #e8e8e8;
-}
-
-table.list tr.object-cannot-remove td
-{
-    color: red;
 }
 
 th.tight, td.tight
