@@ -510,7 +510,7 @@ function ContentStructureMenu( path, persistent )
 <!--
 var treeMenu;
 (function(){ldelim}
-    var path         = [{foreach $module_result.path as $element}'{$element.node_id}'{delimiter}, {/delimiter}{/foreach}];
+    var path         = [{if is_set( $module_result.path[0].node_id)}{foreach $module_result.path as $element}'{$element.node_id}'{delimiter}, {/delimiter}{/foreach}{/if}];
     var persistence  = {if ezini('TreeMenu','MenuPersistence','contentstructuremenu.ini')|eq('enabled')}true{else}false{/if};
     treeMenu         = new ContentStructureMenu( path, persistence );
 
