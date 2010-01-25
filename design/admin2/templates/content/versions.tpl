@@ -134,7 +134,7 @@
         {if and( $Versions.item.can_remove, array( 0, 3, 4, 5 )|contains( $Versions.item.status ) )}
             <input type="checkbox" name="DeleteIDArray[]" value="{$Versions.item.id}" title="{'Select version #%version_number for removal.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
         {else}
-            <input type="checkbox" name="" value="" disabled="disabled" title="{'Version #%version_number cannot be removed because it is either the published version of the object or because you do not have permission to remove it.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
+            <input type="checkbox" name="_Disabled" value="" disabled="disabled" title="{'Version #%version_number cannot be removed because it is either the published version of the object or because you do not have permission to remove it.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
         {/if}
     </td>
 
@@ -169,7 +169,7 @@
 
     {section show=and( $can_edit, $can_edit_lang )}
         {section show=eq( $Versions.item.status, 5 )}
-            <input class="button-disabled" type="submit" name="" value="{'Copy'|i18n( 'design/admin/content/versions' )}" disabled="disabled" title="{'There is no need to make copies of untouched drafts.'|i18n( 'design/admin/content/versions' )}" />
+            <input class="button-disabled" type="submit" name="_Disabled" value="{'Copy'|i18n( 'design/admin/content/versions' )}" disabled="disabled" title="{'There is no need to make copies of untouched drafts.'|i18n( 'design/admin/content/versions' )}" />
         {section-else}
         <select name="CopyVersionLanguage[{$Versions.item.version}]">
             {section var=Languages loop=$Versions.item.language_list}
@@ -178,7 +178,7 @@
         </select>&nbsp;<input class="button" type="submit" name="CopyVersionButton[{$Versions.item.version}]" value="{'Copy'|i18n( 'design/admin/content/versions' )}" title="{'Create a copy of version #%version_number.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
         {/section}
     {section-else}
-        <input class="button-disabled" type="submit" name="" value="{'Copy'|i18n( 'design/admin/content/versions' )}" disabled="disabled" title="{'You cannot make copies of versions because you do not have permission to edit the object.'|i18n( 'design/admin/content/versions' )}" />
+        <input class="button-disabled" type="submit" name="_Disabled" value="{'Copy'|i18n( 'design/admin/content/versions' )}" disabled="disabled" title="{'You cannot make copies of versions because you do not have permission to edit the object.'|i18n( 'design/admin/content/versions' )}" />
     {/section}
     {undef $can_edit_lang}
     </td>
@@ -188,7 +188,7 @@
         {if and( array(0, 5)|contains($Versions.item.status), $Versions.item.creator_id|eq( $user_id ), $can_edit ) }
         <input class="button" type="submit" name="EditButton[{$Versions.item.version}]" value="{'Edit'|i18n( 'design/admin/content/versions' )}" title="{'Edit the contents of version #%version_number.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
         {else}
-        <input class="button-disabled" type="submit" name="" value="{'Edit'|i18n( 'design/admin/content/versions' )}" disabled="disabled" title="{'You cannot edit the contents of version #%version_number either because it is not a draft or because you do not have permission to edit the object.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
+        <input class="button-disabled" type="submit" name="_Disabled" value="{'Edit'|i18n( 'design/admin/content/versions' )}" disabled="disabled" title="{'You cannot edit the contents of version #%version_number either because it is not a draft or because you do not have permission to edit the object.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
         {/if}
     </td>
 

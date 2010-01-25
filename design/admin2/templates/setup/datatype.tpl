@@ -22,7 +22,7 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
 <input type="hidden" value="basic" name="OperatorStep" />
-<input class="button" type="submit" name="" value="{'Restart'|i18n( 'design/admin/setup/rad/datatype' )}" disabled="disabled" />
+<input class="button" type="submit" name="_Disabled" value="{'Restart'|i18n( 'design/admin/setup/rad/datatype' )}" disabled="disabled" />
 <input class="button" type="submit" name="DatatypeStepButton" value="{'Next'|i18n( 'design/admin/setup/rad/datatype' )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div>

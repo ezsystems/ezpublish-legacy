@@ -53,7 +53,7 @@
 
 {* Manage versions. *}
 <div class="block">
-<input class="button-disabled" type="submit" name="" value="{'Manage versions'|i18n( 'design/admin/content/removeeditversion' )}" disabled="disabled" />
+<input class="button-disabled" type="submit" name="_Disabled" value="{'Manage versions'|i18n( 'design/admin/content/removeeditversion' )}" disabled="disabled" />
 </div>
 
 {* DESIGN: Content END *}</div></div></div>

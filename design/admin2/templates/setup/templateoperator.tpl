@@ -24,7 +24,7 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
 <input type="hidden" value="basic" name="OperatorStep" />
-<input class="button" type="submit" name="" value="{'Restart'|i18n( 'design/admin/setup/rad' )}" disabled="disabled" />
+<input class="button" type="submit" name="_Disabled" value="{'Restart'|i18n( 'design/admin/setup/rad' )}" disabled="disabled" />
 <input class="button" type="submit" value="{'Next'|i18n( 'design/admin/setup/rad' )}" name="TemplateOperatorStepButton" />
 </div>
 {* DESIGN: Control bar END *}</div></div>

@@ -54,7 +54,7 @@
             {if $browse.class_array|contains( $Nodes.item.object.content_class.identifier )}
                 <input type="{$select_type}" name="{$select_name}[]" value="{$Nodes.item[$select_attribute]}" />
             {else}
-                <input type="{$select_type}" name="" value="" disabled="disabled" />
+                <input type="{$select_type}" name="_Disabled" value="" disabled="disabled" />
             {/if}
         {else}
             {if and( or( eq( $browse.action_name, 'MoveNode' ), eq( $browse.action_name, 'CopyNode' ), eq( $browse.action_name, 'AddNodeAssignment' ) ), $Nodes.item.object.content_class.is_container|not )}
@@ -64,7 +64,7 @@
             {/if}
         {/if}
     {else}
-        <input type="{$select_type}" name="" value="" disabled="disabled" />
+        <input type="{$select_type}" name="_Disabled" value="" disabled="disabled" />
     {/if}
     {/let}
     </td>

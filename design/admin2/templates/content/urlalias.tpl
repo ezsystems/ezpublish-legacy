@@ -142,7 +142,7 @@
             <input class="button-disabled" type="submit" name="RemoveAllAliasesButton" value="{'Remove all'|i18n( 'design/admin/content/urlalias' )}" title="{'There are no removable aliases.'|i18n( 'design/admin/content/urlalias' )}" disabled="disabled" />
             {/if}
         {else}
-            <input class="button-disabled" type="submit" name="" value="{'Remove selected'|i18n( 'design/admin/content/urlalias' )}" disabled="disabled" title="{'You cannot remove any aliases because you do not have permission to edit the current item.'|i18n( 'design/admin/content/urlalias' )}" />
+            <input class="button-disabled" type="submit" name="_Disabled" value="{'Remove selected'|i18n( 'design/admin/content/urlalias' )}" disabled="disabled" title="{'You cannot remove any aliases because you do not have permission to edit the current item.'|i18n( 'design/admin/content/urlalias' )}" />
             <input class="button-disabled" type="submit" name="RemoveAllAliasesButton" value="{'Remove all'|i18n( 'design/admin/content/urlalias' )}" title="{'You cannot remove any aliases because you do not have permission to edit the current item.'|i18n( 'design/admin/content/urlalias' )}" disabled="disabled" />
         {/if}
     </div>

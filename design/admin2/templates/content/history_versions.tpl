@@ -25,7 +25,7 @@
         {if and( $version.can_remove, array( 0, 3, 4, 5 )|contains( $version.status ) )}
             <input type="checkbox" name="DeleteIDArray[]" value="{$version.id}" title="{'Select version #%version_number for removal.'|i18n( 'design/admin/content/history',, hash( '%version_number', $version.version ) )}" />
         {else}
-            <input type="checkbox" name="" value="" disabled="disabled" title="{'Version #%version_number cannot be removed because it is either the published version of the object or because you do not have permission to remove it.'|i18n( 'design/admin/content/history',, hash( '%version_number', $version.version ) )}" />
+            <input type="checkbox" name="_Disabled" value="" disabled="disabled" title="{'Version #%version_number cannot be removed because it is either the published version of the object or because you do not have permission to remove it.'|i18n( 'design/admin/content/history',, hash( '%version_number', $version.version ) )}" />
         {/if}
     </td>
 
@@ -60,13 +60,13 @@
 
         {if and( $can_edit, $can_edit_lang )}
           {if eq( $version.status, 5 )}
-            <input type="image" src={'copy-disabled.gif'|ezimage} name="" value="" disabled="disabled" title="{'There is no need to make copies of untouched drafts.'|i18n( 'design/admin/content/history' )}" />
+            <input type="image" src={'copy-disabled.gif'|ezimage} name="_Disabled" value="" disabled="disabled" title="{'There is no need to make copies of untouched drafts.'|i18n( 'design/admin/content/history' )}" />
           {else}
             <input type="hidden" name="CopyVersionLanguage[{$version.version}]" value="{$initial_language.locale}" />
             <input type="image" src={'copy.gif'|ezimage} name="HistoryCopyVersionButton[{$version.version}]" value="" title="{'Create a copy of version #%version_number.'|i18n( 'design/admin/content/history',, hash( '%version_number', $version.version ) )}" />
           {/if}
         {else}
-            <input type="image" src={'copy-disabled.gif'|ezimage} name="" value="" disabled="disabled" title="{'You cannot make copies of versions because you do not have permission to edit the object.'|i18n( 'design/admin/content/history' )}" />
+            <input type="image" src={'copy-disabled.gif'|ezimage} name="_Disabled" value="" disabled="disabled" title="{'You cannot make copies of versions because you do not have permission to edit the object.'|i18n( 'design/admin/content/history' )}" />
         {/if}
     {undef $can_edit_lang}
     </td>
