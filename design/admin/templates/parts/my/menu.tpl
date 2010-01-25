@@ -9,6 +9,8 @@
     '_change_password',    'Change password'|i18n( 'design/admin/parts/my/menu' ),
     '_my_shopping_basket', 'My shopping basket'|i18n( 'design/admin/parts/my/menu' ),
     '_my_wish_list',       'My wish list'|i18n( 'design/admin/parts/my/menu' ),
+    '_edit_profile',       'Edit profile'|i18n( 'design/admin/parts/my/menu' ),
+    '_dashboard',          'Dashboard'|i18n( 'design/admin/parts/my/menu' ),
 )}
 
 
