@@ -127,7 +127,10 @@ if ( $http->hasPostVariable( 'ChangeRoleName' ) )
 }
 if ( $http->hasPostVariable( 'AddModule' ) )
 {
-    $currentModule = $http->postVariable( 'Modules' );
+    if ( $http->hasPostVariable( 'Modules' ) )
+	    $currentModule = $http->postVariable( 'Modules' );
+    else if ( $http->hasPostVariable( 'CurrentModule' ) )
+	    $currentModule = $http->postVariable( 'CurrentModule' );
     $policy = eZPolicy::createNew( $roleID, array( 'ModuleName'=> $currentModule,
                                                    'FunctionName' => '*' ) );
 }
@@ -266,7 +269,10 @@ if ( $http->hasPostVariable( 'RemovePolicies' ) and
 
 if ( $http->hasPostVariable( 'CustomFunction' ) )
 {
-    $currentModule = $http->postVariable( 'Modules' );
+    if ( $http->hasPostVariable( 'Modules' ) )
+	    $currentModule = $http->postVariable( 'Modules' );
+    else if ( $http->hasPostVariable( 'CurrentModule' ) )
+	    $currentModule = $http->postVariable( 'CurrentModule' );
     if ( $currentModule != '*' )
     {
         $mod = eZModule::exists( $currentModule );
