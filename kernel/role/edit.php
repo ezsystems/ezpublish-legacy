@@ -717,6 +717,13 @@ if ( $http->hasPostVariable( 'CreatePolicy' ) || $http->hasPostVariable( 'Step1'
     $http->setSessionVariable( 'RoleWasChanged', true );
     $Module->setTitle( 'Edit ' . $role->attribute( 'name' ) );
     $tpl->setVariable( 'modules', $modules );
+
+    $moduleList = array();
+    foreach( $modules as $module )
+    {
+    	$moduleList[] = eZModule::exists( $module );
+    }
+    $tpl->setVariable( 'module_list', $moduleList );
     $tpl->setVariable( 'role', $role );
     $tpl->setVariable( 'module', $Module );
 
