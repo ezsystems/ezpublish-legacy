@@ -1,4 +1,4 @@
-<form action={concat( $module.functions.edit.uri, '/', $role.id, '/' )|ezurl} method="post" >
+<form id="createpolicyform" action={concat( $module.functions.edit.uri, '/', $role.id, '/' )|ezurl} method="post" >
 
 <div class="context-block">
 
@@ -32,8 +32,9 @@
 </p>
 
 <div class="block">
-    <label for="ezrole_createpolizy_module">{'Module'|i18n( 'design/admin/role/createpolicystep1' )}:</label>
-    <select id="ezrole_createpolizy_module" name="Modules">
+<div class="element">
+    <label for="ezrole-createpolizy-module">{'Module'|i18n( 'design/admin/role/createpolicystep1' )}:</label>
+    <select id="ezrole-createpolizy-module" name=CurrentModule>
     <option value="*">{'Every module'|i18n( 'design/admin/role/createpolicystep1' )}</option>
     {section var=Modules loop=$modules }
     <option value="{$Modules.item}">{$Modules.item}</option>
@@ -41,9 +42,21 @@
     </select>
 </div>
 
+<div class="element">
+	<label for="ezrole-createpolizy-function">{'Function'|i18n( 'design/admin/role/createpolicystep2' )}:</label>
+	<select id="ezrole-createpolizy-function" name="ModuleFunction" disabled="disabled">
+	    <option value="*">{'Every function'|i18n( 'design/admin/role/createpolicystep1' )}</option>
+	</select>
+</div>
+</div>
+
+
 <div class="block">
-<input class="button" type="submit" name="AddModule" value="{'Grant access to all functions'|i18n( 'design/admin/role/createpolicystep1' )}" />
-<input class="button" type="submit" name="CustomFunction" value="{'Grant access to one function'|i18n( 'design/admin/role/createpolicystep1' )}" />
+<input class="button button-module" type="submit" name="AddModule" value="{'Grant access to all functions'|i18n( 'design/admin/role/createpolicystep1' )}" />
+<input class="button button-module" type="submit" name="CustomFunction" value="{'Grant access to one function'|i18n( 'design/admin/role/createpolicystep1' )}" />
+
+<input class="button-disabled button-function" disabled="disabled" type="submit" name="AddFunction" value="{'Grant full access'|i18n( 'design/admin/role/createpolicystep2' )}"  />
+<input class="button-disabled button-function" disabled="disabled" type="submit" name="Limitation" value="{'Grant limited access'|i18n( 'design/admin/role/createpolicystep2' )}" />
 </div>
 
 </div>
@@ -53,12 +66,50 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
-<input class="button-disabled" type="submit" name="" value="{'OK'|i18n( 'design/admin/role/createpolicystep1' )}" disabled="disabled" />
+<input class="button-disabled" type="submit" name="_Disabled" value="{'OK'|i18n( 'design/admin/role/createpolicystep1' )}" disabled="disabled" />
 <input class="button" type="submit" value="{'Cancel'|i18n( 'design/admin/role/createpolicystep1' )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div>
 </div>
 
 </div>
-
 </form>
+
+<script type="text/javascript">
+<!--
+
+jQuery(function( $ )
+{ldelim}
+    var moduleList = {ldelim}{rdelim}, everyFunction = "{'Every function'|i18n( 'design/admin/role/createpolicystep1' )}";
+    {foreach $module_list as $module}
+        moduleList['{$module.name}'] = [{foreach $module.available_functions as $fn => $lim}'{$fn}'{delimiter}, {/delimiter}{/foreach}];
+    {/foreach}
+{literal}
+    $('#ezrole-createpolizy-module').change(function(e)
+    {
+        if ( moduleList[ this.value ] && moduleList[ this.value ].length )
+        {
+        	setFunctionOptions( moduleList[ this.value ] );
+        	$('#createpolicyform input.button-module').removeClass('button').addClass('button-disabled').attr('disabled', true);
+        	$('#createpolicyform input.button-function').removeClass('button-disabled').addClass('button').attr('disabled', false);
+        }
+        else
+        {
+        	setFunctionOptions( [everyFunction], true );
+        	$('#createpolicyform input.button-function').removeClass('button').addClass('button-disabled').attr('disabled', true);
+        	$('#createpolicyform input.button-module').removeClass('button-disabled').addClass('button').attr('disabled', false)
+        }
+    });
+    function setFunctionOptions( list, disable )
+    {
+        $('#ezrole-createpolizy-function').empty().append( jQuery.map( list, function( item, i )
+        {
+            return '<option value="' + item + '">' + item + '</option>';
+        } ).join() ).attr( 'disabled', disable === true ).val( disable === true ? '*' : list[0] );
+    			    	
+    }
+});
+{/literal}
+
+//-->
+</script>

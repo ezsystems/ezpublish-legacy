@@ -54,8 +54,8 @@
 </p>
 
 <div class="block">
-<label for="ezrole_createpolizy_function">{'Function'|i18n( 'design/admin/role/createpolicystep2' )}:</label>
-<select id="ezrole_createpolizy_function" name="ModuleFunction">
+<label for="ezrole-createpolizy-function">{'Function'|i18n( 'design/admin/role/createpolicystep2' )}:</label>
+<select id="ezrole-createpolizy-function" name="ModuleFunction">
 {section name=Functions loop=$functions}
 <option value="{$Functions:item}">{$Functions:item}</option>
 {/section}
@@ -93,7 +93,7 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
-<input class="button-disabled" type="submit" name="" value="{'OK'|i18n( 'design/admin/role/createpolicystep2' )}" disabled="disabled" />
+<input class="button-disabled" type="submit" name="_Disabled" value="{'OK'|i18n( 'design/admin/role/createpolicystep2' )}" disabled="disabled" />
 <input class="button" type="submit" value="{'Cancel'|i18n( 'design/admin/role/createpolicystep2' )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div>
