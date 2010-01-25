@@ -42,6 +42,7 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Implemented enhancement #16062: Add setting to control content structure menu persistence to be able to disable it
 - Implemented enhancement #16066: Create a configurable dashboard for the eZ Publish backend and frontend
 - Implemented enhancement #15339: Add view_parameters support in user/edit
+- Implemented enhancement #15693: Possibility to specify required permissions on admin menu items and tab links
 
 *Design:
 - Implemented enhancement #15714: Add a link to object history from node view
