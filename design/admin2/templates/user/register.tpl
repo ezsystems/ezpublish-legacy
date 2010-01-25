@@ -42,8 +42,6 @@
 {* DESIGN: Control bar END *}</div></div>
 </div>
 
-<input type="hidden" name="" value="" />
-
 {else}
 {* Warning *}
 <div class="message-warning">

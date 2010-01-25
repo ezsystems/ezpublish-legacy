@@ -32,7 +32,7 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
 <form method="post" action={concat( '/section/edit/', $section.id )|ezurl}>
-<input class="button" type="submit" name="" value="{'Edit'|i18n( 'design/admin/section/view' )}" title="{'Edit this section.'|i18n( 'design/admin/section/view' )}" />
+<input class="button" type="submit" name="_DefaultButton" value="{'Edit'|i18n( 'design/admin/section/view' )}" title="{'Edit this section.'|i18n( 'design/admin/section/view' )}" />
 </form>
 </div>
 {* DESIGN: Control bar END *}</div></div>

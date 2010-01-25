@@ -69,7 +69,7 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
 <form method="post" action={concat( 'url/edit/', $url_object.id )|ezurl}>
-    <input class="button "type="submit" name="" value="{'Edit'|i18n( 'design/admin/url/view' )}" title="{'Edit this URL.'|i18n( 'design/admin/url/view' )}" />
+    <input class="button "type="submit" name="_DefaultButton" value="{'Edit'|i18n( 'design/admin/url/view' )}" title="{'Edit this URL.'|i18n( 'design/admin/url/view' )}" />
 </form>
 </div>
 {* DESIGN: Control bar END *}</div></div>

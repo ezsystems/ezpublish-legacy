@@ -216,8 +216,8 @@
                 </select>
             {/if}
             {undef $languages $availableLanguages}
-            <input class="button" type="submit" name="" value="{'Edit'|i18n( 'design/admin/class/view' )}" title="{'Edit this class.'|i18n( 'design/admin/class/view' )}" />
-            {* <input class="button" type="submit" name="" value="{'Remove'|i18n( 'design/admin/class/view' )}" /> *}
+            <input class="button" type="submit" name="_DefaultButton" value="{'Edit'|i18n( 'design/admin/class/view' )}" title="{'Edit this class.'|i18n( 'design/admin/class/view' )}" />
+            {* <input class="button" type="submit" name="_DefaultButton" value="{'Remove'|i18n( 'design/admin/class/view' )}" /> *}
         </form>
     </div>
 {* DESIGN: Control bar END *}</div></div>
