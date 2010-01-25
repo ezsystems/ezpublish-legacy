@@ -1,5 +1,8 @@
 <form name="editform" id="editform" enctype="multipart/form-data" method="post" action={concat( '/content/edit/', $object.id, '/', $edit_version, '/', $edit_language|not|choose( concat( $edit_language, '/' ), '/' ), $is_translating_content|not|choose( concat( $from_language, '/' ), '' ) )|ezurl}>
 
+{* This is to force form to use publish action instead of 'Manage version' button on enter key press in input and textarea elements. *}
+<input class="defaultbutton hide" type="submit" id="ezedit-default-button" name="PublishButton" value="{'Store draft'|i18n( 'design/admin/content/edit' )}" />
+
 <div id="leftmenu">
 <div id="leftmenu-design">
 
