@@ -332,49 +332,48 @@ input.button, input.defaultbutton, input.button-disabled
 
 input.button, input.defaultbutton, input.button-disabled
 {
-    padding: 1px 8px; /* IE6 */
+  padding: 1px 8px; /* IE6 */
 }
 
 *:first-child+html input.button[type], input.defaultbutton[type], input.button-disabled[type]
 {
-    padding: 1px 8px; /* IE7 */
+  padding: 1px 8px; /* IE7 */
 }
 
 input.defaultbutton
 {
-    background-color: #f5f5f5;
-    background-image: url(../../images/2/gradient-orange.png);
-	background-position: center top;
-	background-repeat: repeat-x;
-	border-color: #ddd;
-	color: #fff;
+  background-color: #f5f5f5;
+  background-image: url(../../images/2/gradient-orange.png);
+  background-position: center top;
+  background-repeat: repeat-x;
+  border-color: #ddd;
+  color: #fff;
 }
 
 input.button-disabled
 {
-    background-color:#f5f5f5;
-    background-image:url(../../images/2/gradient-btn-disabled.png);
-	background-position:center top;
-	background-repeat:repeat-x;
-	border-color: #ddd;
-	color: #777;
+  background-color:#f5f5f5;
+  background-image:url(../../images/2/gradient-btn-disabled.png);
+  background-position:center top;
+  background-repeat:repeat-x;
+  border-color: #ddd;
+  color: #777;
 }
 
-#searchbutton
+/* SEARCH */
+#searchtext
 {
-	background: transparent url(../../images/2/search.png) no-repeat center top;
-	width: 18px;
-	height: 18px;
-	margin: 0px 5px;
-	padding: 0;
-	border: 0 none;
-	text-indent: -1000em;
+  border: 1px solid #999;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  background-image:url('../../images/2/btn-search-16x16.png');
+  background-position:right center;
+  background-repeat:no-repeat;
+  line-height:18px !important;
+  height:18px;
+  padding: 5px 20px 0px 5px;
 }
 
-#searchbutton.button-disabled
-{
-	background: transparent url(../../images/2/search-disabled.png) no-repeat center top;
-}
 
 /* FOOTER */
 

@@ -64,7 +64,7 @@ a
 
 a:hover
 {
-    color: #1c4c0f;
+    color: #3e8d29;
     text-decoration: underline;
     cursor: pointer;
 }
@@ -414,7 +414,7 @@ div.message-feedback h2, div.message-warning h2, div.message-error h2
 
 div.message-feedback
 {
-    border-color: #7ed376;
+    border-color: #3e8d29;
 }
 
 div.message-feedback h2
