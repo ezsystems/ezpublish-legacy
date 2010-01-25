@@ -18,9 +18,7 @@
                       'websitetoolbar.css' ))}
 {/if}
 
-<style type="text/css">
-    @import url({ezini('StylesheetSettings','ClassesCSS','design.ini')|ezroot(no)});
-    @import url({ezini('StylesheetSettings','SiteCSS','design.ini')|ezroot(no)});
-</style>
+<link rel="stylesheet" type="text/css" href={ezini('StylesheetSettings','ClassesCSS','design.ini')|ezroot()} media="all" />
+<link rel="stylesheet" type="text/css" href={ezini('StylesheetSettings','SiteCSS','design.ini')|ezroot()} media="all" />
 <link rel="stylesheet" type="text/css" href={"stylesheets/print.css"|ezdesign} media="print" />
 <!--[if lte IE 7]><style type="text/css"> @import url({"stylesheets/browsers/ie7lte.css"|ezdesign(no)});</style> <![endif]-->
