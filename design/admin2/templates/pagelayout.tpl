@@ -157,13 +157,7 @@
 <script type="text/javascript">
 <!--
 
-{if $ui_context_edit}{* TODO: remove content/edit link when dashboard is available *}
-document.getElementById('header-usermenu').innerHTML += '<span class="vertical-seperator">&nbsp;<\/span>'
-  + '<span id="header-usermenu-edit" class="disabled">{$current_user.login|wash}<\/span>';{* contentobject.name *}
-{else}
-document.getElementById('header-usermenu').innerHTML += '<span class="vertical-seperator">&nbsp;<\/span>'
-	  + '<a id="header-usermenu-edit" href={concat("content/edit/", $current_user.contentobject_id)|ezurl} title="{"Click to edit your user data."|i18n( "design/admin/pagelayout" )}">{$current_user.login|wash}<\/a>';{* contentobject.name *}
-{/if}
+document.getElementById('header-usermenu-logout').innerHTML += ' (<span class="header-usermenu-name">{$current_user.login|wash}<\/span>)'
 
 {literal}
 function ezSubmitForm( action, params, method )
