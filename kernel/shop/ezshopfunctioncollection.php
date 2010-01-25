@@ -219,6 +219,17 @@ class eZShopFunctionCollection
         return array ( 'result' => $count );
     }
 
+    /**
+     * Returns wish list for currently logged in user
+     * 
+     * @return array
+     */
+    function fetchCurrentWishList()
+    {
+        $wishList = eZWishList::currentWishList();
+        return array( 'result' => $wishList );
+    }
+
     /*!
      Returns the order with id \a $orderID.
     */

@@ -71,8 +71,8 @@ class eZTopMenuOperator
                                                 'Setup' ),
                               'tooltip'=> ezi18n( 'design/admin/pagelayout',
                                                   'Configure settings and manage advanced functionality.' ) ),
-            'my_account' => array( 'name' => ezi18n( 'design/admin/pagelayout',
-                                                     'My account' ),
+            'dashboard' => array( 'name' => ezi18n( 'design/admin/pagelayout',
+                                                     'Dashboard' ),
                                    'tooltip'=> ezi18n( 'design/admin/pagelayout',
                                                        'Manage items and settings that belong to your account.' ) ) );
     }

@@ -517,6 +517,13 @@ $ViewList['treemenu'] = array(
     'default_navigation_part' => 'ezmynavigationpart',
     'params' => array( 'NodeID', 'Modified', 'Expiry', 'Perm' ) );
 
+$ViewList['dashboard'] = array(
+    'functions' => array( 'dashboard' ),
+    'script' => 'dashboard.php',
+    'default_navigation_part' => 'ezmynavigationpart',
+    'params' => array( ),
+    'unordered_params' => array( ) );
+
 $ClassID = array(
     'name'=> 'Class',
     'values'=> array(),
@@ -730,5 +737,6 @@ $FunctionList['pendinglist'] = array();
 $FunctionList['restore'] = array();
 $FunctionList['cleantrash'] = array();
 $FunctionList['tipafriend'] = array();
+$FunctionList['dashboard'] = array();
 
 ?>

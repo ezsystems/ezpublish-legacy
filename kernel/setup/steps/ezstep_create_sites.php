@@ -1167,6 +1167,7 @@ language_locale='eng-GB'";
                 $tmpINI->setVariable( 'SiteAccessSettings', 'RequireUserLogin', 'true' );
                 $tmpINI->setVariable( 'DesignSettings', 'SiteDesign', 'admin' );
                 $tmpINI->setVariable( 'SiteSettings', 'LoginPage', 'custom' );
+                $tmpINI->setVariable( 'SiteSettings', 'IndexPage', 'content/dashboard' );
             }
             $tmpINI->save( false, '.append.php', false, true, "settings/siteaccess/$adminSiteaccessName", $resetArray );
         }
@@ -1182,6 +1183,7 @@ language_locale='eng-GB'";
             $siteINI->setVariable( 'SiteAccessSettings', 'RequireUserLogin', 'true' );
             $siteINI->setVariable( 'DesignSettings', 'SiteDesign', 'admin' );
             $siteINI->setVariable( 'SiteSettings', 'LoginPage', 'custom' );
+            $siteINI->setVariable( 'SiteSettings', 'IndexPage', 'content/dashboard' );
             $siteINI->save( false, '.append.php', false, false, "settings/siteaccess/$adminSiteaccessName", true );
         }
         if ( !$siteINIStored )

@@ -110,6 +110,14 @@ $FunctionList['wish_list_count'] = array( 'name' => 'wish_list_count',
                                           'parameters' => array( array( 'name' => 'production_id',
                                                                         'type' => 'integer',
                                                                         'required' => true ) ) );
+
+$FunctionList['current_wish_list'] = array( 'name' => 'current_wish_list',
+                                            'operation_types' => array( 'read' ),
+                                            'call_method' => array( 'class' => 'eZShopFunctionCollection',
+                                                                    'method' => 'fetchCurrentWishList' ),
+                                            'parameter_type' => 'standard',
+                                            'parameters' => array() );
+
 $FunctionList['order'] = array( 'name' => 'order',
                                 'operation_types' => array( 'read' ),
                                 'call_method' => array( 'class' => 'eZShopFunctionCollection',

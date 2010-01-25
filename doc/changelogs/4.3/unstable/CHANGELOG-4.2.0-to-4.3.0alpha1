@@ -40,6 +40,7 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Implemented enhancement #16057: Add data_text_i18n to class attributes for translatable class attribute data use
 - Implemented enhancement #16059: DEPRECATED CSSFileList|JavaScriptList in favour of [Frontend|Backend][CSSFileList|JavaScriptList] settings
 - Implemented enhancement #16062: Add setting to control content structure menu persistence to be able to disable it
+- Implemented enhancement #16066: Create a configurable dashboard for the eZ Publish backend and frontend
 
 *Design:
 - Implemented enhancement #15714: Add a link to object history from node view
