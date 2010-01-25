@@ -237,12 +237,14 @@ class ezjscPacker
             }
         }
 
+        $customHosts = $ezjscINI->variable('Packer', 'CustomHosts');
         $packerInfo = array(
             'file_extension' => $fileExtension,
             'pack_level' => $packLevel,
             'sub_path' => $subPath,
             'cache_dir' => self::getCacheDir(),
             'www_dir' => self::getWwwDir(),
+            'custom_host' => (isset( $customHosts[$fileExtension] ) ? $customHosts[$fileExtension] : ''),
         );
 
         // needed for image includes to work on ezp installs with mixed access methods (virtualhost + url based setup)
@@ -368,7 +370,7 @@ class ezjscPacker
         	$cacheName = md5( $cacheName . $packLevel ) . '_' . $lastmodified . $fileExtension;
             if ( file_exists( $cachePath . $cacheName ) )
 	        {
-	            $httpFiles[] = $packerInfo['www_dir'] . $cachePath . $cacheName;
+	            $httpFiles[] = $packerInfo['custom_host'] . $packerInfo['www_dir'] . $cachePath . $cacheName;
 	            return $httpFiles;
 	        }
         }
@@ -380,7 +382,7 @@ class ezjscPacker
 	            // check last modified time and return path to cache file if valid
 	            if ( $lastmodified <= filemtime( $cachePath . $cacheName ) )
 	            {
-	                $httpFiles[] = $packerInfo['www_dir'] . $cachePath . $cacheName;
+	                $httpFiles[] = $packerInfo['custom_host'] . $packerInfo['www_dir'] . $cachePath . $cacheName;
 	                return $httpFiles;
 	            }
 	        }
@@ -433,7 +435,7 @@ class ezjscPacker
         // save file and return path if sucsessfull
         if( eZFile::create( $cacheName, $cachePath, $content ) )
         {
-            $httpFiles[] = $packerInfo['www_dir'] . $cachePath . $cacheName;
+            $httpFiles[] = $packerInfo['custom_host'] . $packerInfo['www_dir'] . $cachePath . $cacheName;
             return $httpFiles;
         }
 

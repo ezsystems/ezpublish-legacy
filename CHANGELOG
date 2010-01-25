@@ -25,6 +25,7 @@
 - Fixed bug #15972: ezcache.php --clear-all does not clear ezjscore cache
 - Implemented enhancement #16059: DEPRECATED CSSFileList|JavaScriptList in favour of [Frontend|Backend][CSSFileList|JavaScriptList] settings
 - Updated jQuery to 1.4.0
+- Implemented enhancement #16068: ezjscore Packer option to specify domain for js/css url
 
 
 # v1.0.0  29 Sept 2009
