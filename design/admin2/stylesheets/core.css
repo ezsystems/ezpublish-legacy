@@ -424,7 +424,7 @@ div.message-feedback h2
 
 div.message-warning
 {
-    border-color: #d9d978;
+    border-color: #ffcc00;
 }
 
 div.message-warning h2
@@ -434,7 +434,7 @@ div.message-warning h2
 
 div.message-error
 {
-    border-color: #d98078;
+    border-color: #800517;
 }
 
 div.message-error h2
