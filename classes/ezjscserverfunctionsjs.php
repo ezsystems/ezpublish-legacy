@@ -150,14 +150,17 @@ YUI( YUI3_config ).add('io-ez', function( Y )
         callArgs = callArgs.join !== undefined ? callArgs.join( _seperator ) : callArgs;
         var url = _serverUrl + 'call/';
 
-        // force POST method
+        // Merge configuration object
         if ( c === undefined )
             c = {on:{}, data: '', headers: {}, method: 'POST'};
         else
-            c = Y.merge( {on:{}, data: '', headers: {}}, c, {method: 'POST'} );
+            c = Y.merge( {on:{}, data: '', headers: {}, method: 'POST'}, c );
 
-        // append function arguments as post param for encoding safety
-        c.data += ( c.data !== '' ? '&' : '' ) + 'ezjscServer_function_arguments=' + callArgs;
+        // Append function arguments as post param if method is POST
+        if ( c.method === 'POST' )
+            c.data += ( c.data !== '' ? '&' : '' ) + 'ezjscServer_function_arguments=' + callArgs;
+        else
+            url += encodeURIComponent( callArgs );
 
         // force json transport
         c.headers.Accept = 'application/json,text/javascript,*/*';
@@ -255,10 +258,12 @@ YUI( YUI3_config ).add('io-ez', function( Y )
     {
         callArgs = callArgs.join !== undefined ? callArgs.join( _seperator ) : callArgs;
         var url = _serverUrl + 'call/';
-        post = post === undefined ? {} : post;
-        post['ezjscServer_function_arguments'] = callArgs;
-
-        return $.post( url, post, callBack, 'json' );
+        if ( post )
+        {
+            post['ezjscServer_function_arguments'] = callArgs;
+            return $.post( url, post, callBack, 'json' );
+        }
+        return $.get( url + encodeURIComponent( callArgs ), {}, callBack, 'json' );
     };
     _ez.url = _serverUrl;
     _ez.root_url = _rootUrl;
@@ -271,8 +276,10 @@ YUI( YUI3_config ).add('io-ez', function( Y )
     {
         callArgs = callArgs.join !== undefined ? callArgs.join( _seperator ) : callArgs;
         var url = _serverUrl + 'call/';
-        post = post === undefined ? {} : post;
-        post['ezjscServer_function_arguments'] = callArgs;
+        if ( post )
+            post['ezjscServer_function_arguments'] = callArgs;
+        else
+            url += encodeURIComponent( callArgs );
 
         return this.load( url + ( selector ? ' ' + selector : '' ), post, callBack );
     };
