@@ -37,7 +37,9 @@
 {if and(count($search_subtree_array)|eq(1),$search_subtree_array.0|ne(1))}
 <div class="block">
 <label><input type="radio" name="SubTreeArray" value="1" />{'All content'|i18n('design/admin/content/search')}</label>
-<label><input type="radio" name="SubTreeArray" value="{$search_subtree_array.0}" checked="checked" />{'The same location'|i18n('design/admin/content/search')}</label>
+{def $search_node = fetch('content', 'node', hash( 'node_id', $search_subtree_array.0 ))}
+<label><input type="radio" name="SubTreeArray" value="{$search_subtree_array.0}" checked="checked" />{'The same location'|i18n('design/admin/content/search')} ({$search_node.name|wash})</label>
+{undef $search_node}
 </div>
 {/if}
 
