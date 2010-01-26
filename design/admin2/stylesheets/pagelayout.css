@@ -50,17 +50,11 @@ a.image-text:hover > span
 
 
 /* HEADER */
-#header-usermenu, #header-search
+#header-usermenu
 {
   float: right;
   text-align: right;
-  padding: 5px 10px 1px;
-}
-
-#header-usermenu
-{
-  padding-top: 25px;
-  padding-bottom: 0;
+  padding: 1.95em 10px 0;
 }
 
 
