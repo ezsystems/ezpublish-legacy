@@ -14,9 +14,9 @@
 
 <div class="block">
 
-{foreach $blocks as $block sequence array( ' object-left', 'object-right' ) as $position}
+{foreach $blocks as $block sequence array( 'left', 'right' ) as $position}
 
-    <div class="{$position} halfelement">
+    <div class="{$position}">
     {if $block.template}
         {include uri=concat( 'design:', $block.template )}
     {else}
@@ -25,14 +25,15 @@
     </div>
     
     {delimiter modulo=2}
-    <div class="break"></div>
+    <div class="float-break"></div>
     {/delimiter}
 
 {/foreach}
 
 </div>
 
-<div class="break"></div>
+<div class="float-break"></div>
+
 
 {* DESIGN: Content END *}</div></div></div></div></div></div>
 
