@@ -363,7 +363,6 @@ div.message-confirmation, div.message-feedback, div.message-warning, div.message
     margin: 0.5em 0 1em 0;
     padding: 0.25em 1em 0.75em 1em;
     border: 6px solid #000000;
-    background-color: #fcfcfc;
 }
 
 div.box-content div.message-confirmation, div.box-content div.message-feedback, div.box-content  div.message-warning, div.box-content  div.message-error
@@ -404,7 +403,7 @@ div.message-warning h2
 
 div.message-error
 {
-    border-color: #800517;
+    border-color: #C11B17;
 }
 
 div.message-error h2
