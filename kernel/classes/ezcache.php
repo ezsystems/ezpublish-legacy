@@ -212,9 +212,9 @@ class eZCache
                     $cacheItem['is-clustered'] = false;
 
             	if ( $ini->hasVariable( $name, 'tags' ) )
-            	    $cacheItem['tags'] = $ini->variable( $name, 'tags' );
+            	    $cacheItem['tag'] = $ini->variable( $name, 'tags' );
                 else
-                    $cacheItem['tags'] = array();
+                    $cacheItem['tag'] = array();
 
             	if ( $ini->hasVariable( $name, 'expiryKey' ) )
             	    $cacheItem['expiry-key'] = $ini->variable( $name, 'expiryKey' );
