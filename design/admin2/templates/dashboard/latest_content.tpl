@@ -5,7 +5,7 @@
                                                        'sort_by', array( 'modified', false() ),
                                                        'attribute_filter', array( array( 'owner', '=', $user.contentobject_id ) ) ) )}
 
-<h2>{'Your latest content'|i18n( 'design/admin/dashboard/latest_content' )}</h2>
+<h2>{'My latest content'|i18n( 'design/admin/dashboard/latest_content' )}</h2>
 
 {if $latest_content}
 

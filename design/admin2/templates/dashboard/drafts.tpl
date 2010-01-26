@@ -4,7 +4,7 @@
 
 {def $drafts = fetch( 'content', 'draft_version_list', hash( 'limit', $block.number_of_items ) )}
 
-<h2>{'Your drafts'|i18n( 'design/admin/dashboard/drafts' )}</h2>
+<h2>{'My drafts'|i18n( 'design/admin/dashboard/drafts' )}</h2>
 
 {if $drafts}
 

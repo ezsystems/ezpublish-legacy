@@ -4,7 +4,7 @@
 
 {def $pending_items = fetch( 'content', 'pending_list', hash( 'limit', $block.number_of_items ) )}
 
-<h2>{'Your pending items'|i18n( 'design/admin/dashboard/pending_list' )}</h2>
+<h2>{'My pending items'|i18n( 'design/admin/dashboard/pending_list' )}</h2>
 
 {if $pending_items}
 
