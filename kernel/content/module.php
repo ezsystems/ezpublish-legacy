@@ -710,6 +710,7 @@ $FunctionList['remove'] = array( 'Class' => $ClassID,
                                  'Node' => $Node,
                                  'Subtree' => $Subtree
                                  );
+$FunctionList['remove'] = array_merge( $FunctionList['remove'], $stateLimitations );
 
 $FunctionList['versionread'] = array( 'Class' => $ClassID,
                                       'Section' => $SectionID,
