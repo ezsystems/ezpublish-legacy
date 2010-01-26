@@ -167,7 +167,7 @@ ul.tabs.context-user li#node-tab-states
   display: none;
 }
 
-div.tab-content
+.tab-content
 {
   border: 1px solid #ccc;
   background-color: #fff;
@@ -220,36 +220,6 @@ div.tab-content
   border-bottom-left-radius: 3px;
 }
 
-.box-header
-{
-  border: 0px solid #999;
-  border-bottom-width: 0;
-  -moz-border-radius-topleft: 3px;
-  -moz-border-radius-topright: 3px;
-  -webkit-border-top-left-radius: 3px;
-  -webkit-border-top-right-radius: 3px;
-  border-top-left-radius:  3px;
-  border-top-right-radius: 3px;
-}
-
-.box-bc
-{
-  background-color: #fff;
-  border: 0px solid #ccc;
-  border-top-width: 0;
-  -moz-border-radius-bottomleft: 3px;
-  -moz-border-radius-bottomright: 3px;
-  -webkit-border-bottom-left-radius: 3px;
-  -webkit-border-bottom-right-radius: 3px;
-  border-bottom-left-radius:  3px;
-  border-bottom-right-radius: 3px;
-}
-
-.controlbar .box-bc
-{
-  /* background: #FEFEFE url('../../images/2/gradient-to-light.png') repeat-x left top scroll; */
-}
-
 #controlbar-top .box-bc
 {
   margin-top: 0.5em;
@@ -263,10 +233,6 @@ div.tab-content
 .box-ml
 {
   background-color: #fff;
-  /*
-  border-left: 1px solid #999;
-  border-right: 1px solid #999;
-  */
 }
 
 .box-bc .box-ml, .box-header .box-ml
@@ -275,15 +241,9 @@ div.tab-content
   background-color: transparent;
 }
 
-div.box-header div.box-ml
+.box-header .box-ml
 {
   border-bottom: 1px solid #ccc;
-  margin-bottom: 10px;
-}
-
-.controlbar .box-bc .box-ml
-{
-  /* border-top: 1px solid #ccc; */
 }
 
 #controlbar-top .box-bc .box-ml
@@ -313,6 +273,48 @@ table.list th
 }
 
 /* BUTTONS */
+p.table-preferences
+{
+  -moz-border-radius-bottomleft: 3px;
+  -moz-border-radius-bottomright: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  -webkit-border-bottom-right-radius: 3px;
+  border: 1px solid #CCCCCC;
+  background-color: #D1DFE9;
+  background-image: url(../../images/2/gradient-to-darker.png);
+  background-position: center bottom;
+  background-repeat: repeat-x;
+  margin: -4px -4px 15px;
+}
+
+p.table-preferences .current
+{
+  background-color: #D1DFE9;
+  background-image: url(../../images/2/gradient-blue.png);
+  background-position: center bottom;
+  background-repeat: repeat-x;
+  padding: 1px 10px;
+  color: #fff;
+}
+
+p.table-preferences .current:first-child
+{
+  -moz-border-radius-bottomleft:3px;
+  -webkit-border-bottom-left-radius: 3px;
+}
+
+p.table-preferences .current:last-child
+{
+  -moz-border-radius-bottomright:3px;
+  -webkit-border-bottom-right-radius: 3px;
+}
+
+p.table-preferences a
+{
+  padding: 1px 10px;
+  text-decoration: none;
+  color: #094564;
+}
 
 input.button, input.defaultbutton, input.button-disabled
 {

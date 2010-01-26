@@ -46,7 +46,7 @@
 {* Items per page and view mode selector. *}
 <div class="context-toolbar">
 <div class="button-left">
-    <p>
+    <p class='table-preferences'>
     {switch match=$number_of_items}
     {case match=25}
         <a href={'/user/preferences/set/admin_list_limit/1'|ezurl} title="{'Show 10 items per page.'|i18n( 'design/admin/node/view/full' )}">10</a>
@@ -71,7 +71,7 @@
     </p>
 </div>
 <div class="button-right">
-        <p>
+        <p class='table-preferences'>
         {switch match=$admin_children_viewmode}
         {case match='thumbnail'}
         <a href={'/user/preferences/set/admin_children_viewmode/list'|ezurl} title="{'Display sub items using a simple list.'|i18n( 'design/admin/node/view/full' )}">{'List'|i18n( 'design/admin/node/view/full' )}</a>
