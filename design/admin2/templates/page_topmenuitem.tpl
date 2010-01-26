@@ -1,4 +1,4 @@
-{def $liclass=''}
+{def $liclass='unselected '}
 {if eq( $navigationpart_identifier, $menu_item.navigationpart_identifier ) }
     {set $liclass='selected '}
 {/if}
