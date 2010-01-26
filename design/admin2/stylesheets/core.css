@@ -187,12 +187,6 @@ td.number, table.list td.right
     text-align: right;
 }
 
-div.context-attributes table.list th, div.context-attributes table.special th, div.mainobject-window table.list th, div.mainobject-window table.special th
-{
-    color: #404040;
-    background-color: #fefefe;
-}
-
 
 /* ORDERED AND UNORDERED LISTS */
 
@@ -310,13 +304,6 @@ input.button-disabled
 {
     cursor: default;
     color: #999;
-}
-
-div.context-attributes input.button, div.onlineeditor input.button, div.onlineeditor button
-{
-    font-size: 0.9em;
-    font-weight: normal;
-    padding: 0em 0.25em 0em 0.25em;
 }
 
 input.box, textarea.box

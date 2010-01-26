@@ -75,6 +75,11 @@ table.list td.modifier, table.list td.modified, table.list td.class, div.content
   white-space: nowrap;
 }
 
+div.context-attributes table.list th, div.context-attributes table.special th, div.mainobject-window table.list th, div.mainobject-window table.special th
+{
+    color: #404040;
+    background-color: #fefefe;
+}
 
 div.list-thumbnails div.list-thumbnails-item
 {
