@@ -536,13 +536,13 @@ span.classattribute-description:hover, p.class-description:hover, div.context-in
   color: #111;
 }
 
-div.context-information p.modified, div.context-information p.left
+div.context-information p.left
 {
   width: 48%;
   float: left;
 }
 
-div.context-information p.translation
+div.context-information p.right
 {
   width: 48%;
   float: right;

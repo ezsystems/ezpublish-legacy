@@ -55,10 +55,10 @@
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/shop/currencylist' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/currencylist' )}" onclick="ezjs_toggleCheckboxes( document.currencylist, 'DeleteCurrencyList[]' ); return false;" /></th>
     <th class="name">{'Name'|i18n( 'design/admin/shop/currencylist' )}</th>
-    <th class="class">{'Code'|i18n( 'design/admin/shop/currencylist' )}</th>
-    <th class="class">{'Symbol'|i18n( 'design/admin/shop/currencylist' )}</th>
-    <th class="class">{'Locale'|i18n( 'design/admin/shop/currencylist' )}</th>
-    <th class="class">{'Status'|i18n( 'design/admin/shop/currencylist' )}</th>
+    <th class="nowrap">{'Code'|i18n( 'design/admin/shop/currencylist' )}</th>
+    <th class="nowrap">{'Symbol'|i18n( 'design/admin/shop/currencylist' )}</th>
+    <th class="nowrap">{'Locale'|i18n( 'design/admin/shop/currencylist' )}</th>
+    <th class="nowrap">{'Status'|i18n( 'design/admin/shop/currencylist' )}</th>
     <th class="tight">{'Auto rate'|i18n( 'design/admin/shop/currencylist' )}</th>
     <th class="tight">{'Custom rate'|i18n( 'design/admin/shop/currencylist' )}</th>
     <th class="tight">{'Factor'|i18n( 'design/admin/shop/currencylist' )}</th>

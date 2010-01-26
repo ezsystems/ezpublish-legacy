@@ -30,15 +30,15 @@
 {if $can_edit}
     <table class="list" cellspacing="0">
         <tr>
-            <td class="class">{'Currency code'|i18n( 'design/admin/shop/editcurrency' )}</td>
+            <td class="nowrap">{'Currency code'|i18n( 'design/admin/shop/editcurrency' )}</td>
             <td><input type="text" name="CurrencyData[code]" value="{$currency_data['code']}" />{'(Use three capital letters)'|i18n( 'design/admin/shop/editcurrency' )}</td>
         </tr>
         <tr>
-            <td class="class">{'Currency symbol'|i18n( 'design/admin/shop/editcurrency' )}</td>
+            <td class="nowrap">{'Currency symbol'|i18n( 'design/admin/shop/editcurrency' )}</td>
             <td><input type="text" name="CurrencyData[symbol]" value="{$currency_data['symbol']}" /></td>
         </tr>
         <tr>
-            <td class="class">{'Formatting locale'|i18n( 'design/admin/shop/editcurrency' )}</td>
+            <td class="nowrap">{'Formatting locale'|i18n( 'design/admin/shop/editcurrency' )}</td>
             <td><select name="CurrencyData[locale]" title="{'Select locale for formatting price values.'|i18n( 'design/admin/shop/editcurrency' )}">
                 {foreach $locale_list as $locale}
                     <option value="{$locale.locale_full_code}" {if $locale.locale_full_code|compare( $currency_data['locale'] )}selected="selected"{/if}>{$locale.locale_full_code}</option>
@@ -47,11 +47,11 @@
             </td>
         </tr>
         <tr>
-            <td class="class">{'Custom rate'|i18n( 'design/admin/shop/editcurrency' )}</td>
+            <td class="nowrap">{'Custom rate'|i18n( 'design/admin/shop/editcurrency' )}</td>
             <td><input type="text" name="CurrencyData[custom_rate_value]" value="{$currency_data['custom_rate_value']}" /></td>
         </tr>
         <tr>
-            <td class="class">{'Rate factor'|i18n( 'design/admin/shop/editcurrency' )}</td>
+            <td class="nowrap">{'Rate factor'|i18n( 'design/admin/shop/editcurrency' )}</td>
             <td><input type="text" name="CurrencyData[rate_factor]" value="{$currency_data['rate_factor']}" /></td>
         </tr>
     </table>

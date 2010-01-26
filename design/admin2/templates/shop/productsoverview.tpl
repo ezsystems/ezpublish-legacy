@@ -93,13 +93,13 @@
 <table class="list" cellspacing="0">
 <tr>
     <th class="name">{'Name'|i18n( 'design/admin/shop/productsoverview' )}</th>
-    <th class="class">{'Price'|i18n( 'design/admin/shop/productsoverview' )}</th>
+    <th class="nowrap">{'Price'|i18n( 'design/admin/shop/productsoverview' )}</th>
 </tr>
 
 {foreach $product_list as $product sequence array( bglight, bgdark ) as $bg_class_style}
     <tr class="{$bg_class_style}">
         <td class="name"><a href={$product.url_alias|ezurl}>{$product.object.name|wash()}</a></td>
-        <td class="class">{$product.data_map[$price_attribute_identifier].content.inc_vat_price|l10n('currency', $locale, $symbol )}</td>
+        <td class="nowrap">{$product.data_map[$price_attribute_identifier].content.inc_vat_price|l10n('currency', $locale, $symbol )}</td>
     </tr>
 {/foreach}
 

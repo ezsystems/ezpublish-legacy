@@ -92,7 +92,7 @@
     {/let}
 
     </td>
-    <td class="class">
+    <td class="class nowrap">
     {$Nodes.item.object.content_class.name|wash}
     </td>
  </tr>

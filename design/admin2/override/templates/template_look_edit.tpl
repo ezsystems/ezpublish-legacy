@@ -29,7 +29,7 @@
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <div class="context-information">
-<p class="translation">
+<p class="right translation">
 {let language_index=0
      from_language_index=0
      default_translation=$content_version.translation

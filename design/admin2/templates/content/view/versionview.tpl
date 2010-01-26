@@ -215,8 +215,8 @@
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-content">
 
 <div class="context-information">
-<p class="modified">&nbsp;</p>
-<p class="translation">
+<p class="left modified">&nbsp;</p>
+<p class="right translation">
 {$object_languagecode|locale().intl_language_name} <img src="{$object_languagecode|flag_icon}" alt="{$object_languagecode}" style="vertical-align: middle;" />
 </p>
 <p class="full-screen">

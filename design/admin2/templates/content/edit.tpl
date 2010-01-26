@@ -53,7 +53,7 @@
 <p class="left class-description">
     {$object.content_class.description|wash}
 </p>
-<p class="translation">
+<p class="right translation">
 {let language_index=0
      from_language_index=0
      translation_list=$content_version.translation_list}

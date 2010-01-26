@@ -76,8 +76,8 @@
             <tr>
                 <th>&nbsp;</th>
                 <th class="name">{'Name'|i18n( 'design/admin/content/edit' )}</th>
-                <th class="class">{'File type'|i18n( 'design/admin/content/edit' )}</th>
-                <th class="filesize">{'Size'|i18n( 'design/admin/content/edit' )}</th>
+                <th class="filetype nowrap">{'File type'|i18n( 'design/admin/content/edit' )}</th>
+                <th class="filesize nowrap">{'Size'|i18n( 'design/admin/content/edit' )}</th>
                 <th class="code">{'XML code'|i18n( 'design/admin/content/edit' )}</th>
                 <th class="code">{'Relation type'|i18n( 'design/admin/content/edit' )}</th>
             </tr>
@@ -88,7 +88,7 @@
                         <td class="checkbox"><input type="checkbox" id="related-object-id-{$RelatedFileObjects.item.id}" name="DeleteRelationIDArray[]" value="{$RelatedFileObjects.item.id}" {if $related_contentobjects_id.common|contains( $RelatedFileObjects.item.id )|not}disabled="disabled"{/if} /></td>
                         <td class="name">{$RelatedFileObjects.item.class_name|class_icon( small, $RelatedFileObjects.class_name )}&nbsp;{$RelatedFileObjects.item.name|wash}</td>
                         <td class="filetype">{$RelatedFileObjects.item.data_map.file.content.mime_type|wash}</td>
-                        <td class="filesize">{$RelatedFileObjects.item.data_map.file.content.filesize|si( byte )}</td>
+                        <td class="filesize nowrap">{$RelatedFileObjects.item.data_map.file.content.filesize|si( byte )}</td>
                         <td class="code">
                             <input class="linkbox" type="text" value="&lt;embed href='ezobject://{$RelatedFileObjects.item.id}' /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field to embed the object.'|i18n( 'design/admin/content/edit' )}" /><br />
                             <input class="linkbox" type="text" value="&lt;link href='ezobject://{$RelatedFileObjects.item.id}'&gt;&lt;/link&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field to link the object.'|i18n( 'design/admin/content/edit' )}" />
@@ -139,7 +139,7 @@
             <tr>
                 <th>&nbsp;</th>
                 <th class="name">{'Name'|i18n( 'design/admin/content/edit' )}</th>
-                <th class="class">{'Type'|i18n( 'design/admin/content/edit' )}</th>
+                <th class="class nowrap">{'Type'|i18n( 'design/admin/content/edit' )}</th>
                 <th class="code">{'XML code'|i18n( 'design/admin/content/edit' )}</th>
                 <th class="code">{'Relation type'|i18n( 'design/admin/content/edit' )}</th>
             </tr>
@@ -150,7 +150,7 @@
                     {if $RelatedObjects.item.can_read}
                         <td class="checkbox"><input type="checkbox" id="related-object-id-{$RelatedObjects.item.id}" name="DeleteRelationIDArray[]" value="{$RelatedObjects.item.id}" {if $related_contentobjects_id.common|contains( $RelatedObjects.item.id )|not}disabled="disabled"{/if} /></td>
                         <td class="name">{$RelatedObjects.item.class_name|class_icon( small, $RelatedObjects.class_name )}&nbsp;{$RelatedObjects.item.name|wash}</td>
-                        <td class="class">{$RelatedObjects.item.class_name|wash}</td>
+                        <td class="class nowrap">{$RelatedObjects.item.class_name|wash}</td>
                         <td class="code">
                             <input class="linkbox" type="text" value="&lt;embed href='ezobject://{$RelatedObjects.item.id}' /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field to embed the object.'|i18n( 'design/admin/content/edit' )}" /><br />
                             <input class="linkbox" type="text" value="&lt;link href='ezobject://{$RelatedObjects.item.id}'&gt;&lt;/link&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field to link the object.'|i18n( 'design/admin/content/edit' )}" />

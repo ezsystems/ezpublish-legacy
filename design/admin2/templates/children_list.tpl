@@ -9,7 +9,7 @@
         <th class="name">{'Name'|i18n( 'design/admin/node/view/full' )}</th>
 
         {* Class type column *}
-        <th class="class">{'Type'|i18n( 'design/admin/node/view/full' )}</th>
+        <th class="class nowrap">{'Type'|i18n( 'design/admin/node/view/full' )}</th>
 
         {* Priority column *}
         {if eq( $node.sort_array[0][0], 'priority' )}
@@ -51,7 +51,7 @@
          </td>
 
         {* Class type *}
-        <td class="class">{$Nodes.item.class_name|wash()}</td>
+        <td class="class nowrap">{$Nodes.item.class_name|wash()}</td>
 
         {* Priority *}
         {if eq( $node.sort_array[0][0], 'priority' )}

@@ -129,8 +129,8 @@
 <div class="box-ml"><div class="box-mr">
 
 <div class="context-information">
-    <p class="modified">{'Published at'|i18n( 'design/admin/node/view/full' )}: {$content_version.modified|l10n(shortdatetime)}, <a href={$content_version.creator.main_node.url_alias|ezurl}>{$content_version.creator.name|wash}</a></p>
-    <p class="translation">{$content_version.initial_language.locale_object.intl_language_name}&nbsp;<img src="{$content_version.initial_language.locale|flag_icon}" alt="{$content_version.initial_language.locale_object.intl_language_name}" style="vertical-align: middle;" /></p>
+    <p class="modified left">{'Published at'|i18n( 'design/admin/node/view/full' )}: {$content_version.modified|l10n(shortdatetime)}, <a href={$content_version.creator.main_node.url_alias|ezurl}>{$content_version.creator.name|wash}</a></p>
+    <p class="translation right">{$content_version.initial_language.locale_object.intl_language_name}&nbsp;<img src="{$content_version.initial_language.locale|flag_icon}" alt="{$content_version.initial_language.locale_object.intl_language_name}" style="vertical-align: middle;" /></p>
     <div class="break"></div>
 </div>
 

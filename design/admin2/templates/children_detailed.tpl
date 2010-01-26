@@ -12,13 +12,13 @@
         <th class="hidden_invisible">{'Visibility'|i18n( 'design/admin/node/view/full' )}</th>
 
         {* Class type column *}
-        <th class="class">{'Type'|i18n( 'design/admin/node/view/full' )}</th>
+        <th class="class nowrap">{'Type'|i18n( 'design/admin/node/view/full' )}</th>
 
         {* Modifier column *}
         <th class="modifier">{'Modifier'|i18n( 'design/admin/node/view/full' )}</th>
 
         {* Modified column *}
-        <th class="modified">{'Modified'|i18n( 'design/admin/node/view/full' )}</th>
+        <th class="modified nowrap">{'Modified'|i18n( 'design/admin/node/view/full' )}</th>
 
         {* Section column *}
         <th class="section">{'Section'|i18n( 'design/admin/node/view/full' )}</th>
@@ -62,13 +62,13 @@
         <td class="nowrap">{$Nodes.item.hidden_status_string}</td>
 
         {* Class type *}
-        <td class="class">{$Nodes.item.class_name|wash}</td>
+        <td class="class nowrap">{$Nodes.item.class_name|wash}</td>
 
         {* Modifier *}
         <td class="modifier"><a href={$Nodes.item.object.current.creator.main_node.url_alias|ezurl}>{$Nodes.item.object.current.creator.name|wash}</a></td>
 
         {* Modified *}
-        <td class="modified">{$Nodes.item.object.modified|l10n( shortdatetime )}</td>
+        <td class="modified nowrap">{$Nodes.item.object.modified|l10n( shortdatetime )}</td>
 
         {* Section *}
         <td>{section show=$section_object}<a href={concat( '/section/view/', $Nodes.object.section_id )|ezurl}>{$section_object.name|wash}</a>{section-else}<i>{'Unknown'|i18n( 'design/admin/node/view/full' )}</i>{/section}</td>
