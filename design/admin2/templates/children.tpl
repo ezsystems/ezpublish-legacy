@@ -360,7 +360,7 @@
     </div>
 
     <div class="float-break"></div>
-
+</div>
 
 {* DESIGN: Control bar END *}</div></div>
 
