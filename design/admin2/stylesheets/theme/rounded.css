@@ -363,7 +363,7 @@ input.button-disabled
 /* SEARCH */
 #searchtext
 {
-  border: 1px solid #999;
+  border: 1px solid #ccc;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   background-image:url('../../images/2/btn-search-16x16.png');
@@ -371,7 +371,17 @@ input.button-disabled
   background-repeat:no-repeat;
   line-height:18px !important;
   height:18px;
-  padding: 5px 20px 0px 5px;
+  padding: 4px 20px 0px 5px;
+}
+
+#searchtext:focus
+{
+  border-color: #999;
+}
+
+#searchtext.disabled
+{
+  background-color: #efefef;
 }
 
 

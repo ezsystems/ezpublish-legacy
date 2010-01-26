@@ -128,7 +128,7 @@ div.tab-content
 {
   padding: 8px 6px 6px 6px;
   text-align: left;
-  min-height: 25px;
+  min-height: 24px;
 }
 
 #path p { margin: 0.5em 0 0 0; }
@@ -141,8 +141,6 @@ div.tab-content
   min-height: 200px;
   padding: 0 1em 1em 1em;
 }
-
-
 
 #leftmenu
 {
