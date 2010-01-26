@@ -128,9 +128,10 @@ div.tab-content
 {
   padding: 8px 6px 6px 6px;
   text-align: left;
+  min-height: 25px;
 }
 
-#path p { margin: 0; }
+#path p { margin: 0.5em 0 0 0; }
 
 /* COLUMNS */
 
