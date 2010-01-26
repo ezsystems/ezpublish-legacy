@@ -26,10 +26,10 @@
 
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
-    <div class="block">
+    <div class="button-left">
     <input class="button" type="submit" name="RemoveGroupButton" value="{'Remove from selected'|i18n( 'design/admin/class/view' )}" title="{'Remove the <%class_name> class from the selected class groups.'|i18n( 'design/admin/class/view',, hash( '%class_name', $class.name ) )|wash}" />
     </div>
-    <div class="block">
+    <div class="button-right">
     {section show=sub( count( $class.group_list ),count( $class.ingroup_list ) )}
         <select name="ContentClass_group" title="{'Select a group that the <%class_name> class should be added to.'|i18n( 'design/admin/class/view',, hash( '%class_name', $class.name ) )|wash}">
         {section name=AllGroup loop=$class.group_list}

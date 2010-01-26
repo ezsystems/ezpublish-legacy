@@ -94,8 +94,7 @@
 
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
-<div class="block">
-    <div class="left">
+    <div class="button-left">
     <input type="hidden" name = "CurrentGroupID" value="{$GroupID}" />
     <input type="hidden" name = "CurrentGroupName" value="{$group.name|wash}" />
 
@@ -106,7 +105,7 @@
     {/if}
     </div>
 
-    <div class="right">
+    <div class="button-right">
     {def $languages=fetch( 'content', 'prioritized_languages' )}
     {if gt( $languages|count, 1 )}
         <select name="ClassLanguageCode" title="{'Use this menu to select the language you to want use then click the "New class" button. The item will be created within the current location.'|i18n( 'design/admin/class/classlist' )|wash()}">
@@ -122,8 +121,7 @@
     <input class="button" type="submit" name="NewButton" value="{'New class'|i18n( 'design/admin/class/classlist' )}" title="{'Create a new class within the <%class_group_name> class group.'|i18n( 'design/admin/class/classlist',, hash( '%class_group_name', $group.name ) )|wash}" />
     </div>
 
-    <div class="break"></div>
-</div>
+    <div class="float-break"></div>
 
 
 {* DESIGN: Control bar END *}</div></div>

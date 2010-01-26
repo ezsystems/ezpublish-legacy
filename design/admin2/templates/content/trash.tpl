@@ -115,8 +115,7 @@
 
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
-<div class="block">
-<div class="left">
+<div class="button-left">
     {if $trash_list}
         <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/trash' )}"  title="{'Permanently remove the selected items.'|i18n( 'design/admin/content/trash' )}" />
         <input class="button" type="submit" name="EmptyButton"  value="{'Empty trash'|i18n( 'design/admin/content/trash' )}" title="{'Permanently remove all items from the trash.'|i18n( 'design/admin/content/trash' )}" />
@@ -126,7 +125,7 @@
     {/if}
 </div>
 {* Sorting *}
-<div class="right" id="trash-list-sort-control" style="display:none;">
+<div class="button-right" id="trash-list-sort-control" style="display:none;">
 <label>{'Sorting'|i18n( 'design/admin/node/view/full' )}:</label>
 
 {def $sort_fields = hash( 'class_identifier', 'Class identifier'|i18n( 'design/admin/node/view/full' ),
@@ -168,8 +167,7 @@ function trashSortingSelection( trashUrl )
 -->
 </script>
 {/literal}
-<div class="break"></div>
-</div>
+<div class="float-break"></div>
 {* DESIGN: Control bar END *}</div></div>
 </div>
 </div>

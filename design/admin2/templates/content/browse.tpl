@@ -124,9 +124,8 @@
 
 {* Items per page and view mode selector. *}
 <div class="context-toolbar">
-<div class="block">
 {if is_unset( $node_list )}{* changing limit while browsing search results not supported (search uses BrowsePageLimit GET parameter) *}
-<div class="left">
+<div class="button-left">
     <p>
     {switch match=$number_of_items}
     {case match=25}
@@ -152,7 +151,7 @@
     </p>
 </div>
 {/if}
-<div class="right">
+<div class="button-right">
     <p>
     {switch match=ezpreference( 'admin_children_browsemode' )}
     {case match='thumbnail'}
@@ -166,8 +165,7 @@
     {/switch}
     </p>
 </div>
-<div class="break"></div>
-</div>
+<div class="float-break"></div>
 </div>
 
 {* Display the actual list of nodes. *}

@@ -123,13 +123,13 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 
 <div class="block">
-<div class="left">
+<div class="button-left">
 <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/history' )}" title="{'Remove the selected versions from the object.'|i18n( 'design/admin/content/history' )}" />
 <input type="hidden" name="DoNotEditAfterCopy" value="" />
 </div>
 {if $object.can_diff}
 {def $languages=$object.languages}
-<div class="right">
+<div class="button-right">
 <form action={concat( $module.functions.history.uri, '/', $object.id, '/' )|ezurl} method="post">
         <select name="Language">
             {foreach $languages as $lang}
@@ -156,7 +156,7 @@
 
 
 <div class="block">
-<div class="left">
+<div class="button-left">
 <form name="versionsback" action={concat( '/content/history/', $object.id, '/' )|ezurl} method="post">
 {if is_set( $redirect_uri )}
 <input class="text" type="hidden" name="RedirectURI" value="{$redirect_uri}" />

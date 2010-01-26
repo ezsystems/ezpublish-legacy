@@ -116,10 +116,10 @@
 {/section}
 
 <div class="block">
-<div class="left">
+<div class="button-left">
 <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n('design/admin/visual/toolbar')}" />
 </div>
-<div class="right">
+<div class="button-right">
 <input class="button" type="submit" name="UpdatePlacementButton" value="{'Update priorities'|i18n('design/admin/visual/toolbar')}" />
 </div>
 </div>

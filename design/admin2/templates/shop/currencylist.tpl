@@ -138,37 +138,35 @@
 
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 
-<div class="block">
-    {if $currency_list}
-        <div class="left">
-            {* Remove button *}
-            <input class="button" type="submit" name="RemoveCurrencyButton" value="{'Remove selected'|i18n( 'design/admin/shop/currencylist' )}" title="{'Remove selected currencies from the list above.'|i18n( 'design/admin/shop/currencylist' )}" />
-            {* New button *}
-            <input class="button" type="submit" name="NewCurrencyButton" value="{'New currency'|i18n( 'design/admin/shop/currencylist' )}" title="{'Add new currency to the list above.'|i18n( 'design/admin/shop/currencylist' )}" />
-        </div>
-        <div class="right">
-            {* Update auto rates button *}
-            {def $exchangeRatesUpdateHandler = ezini( 'ExchangeRatesSettings', 'ExchangeRatesUpdateHandler', 'shop.ini' )}
-            {if $exchangeRatesUpdateHandler}
-                <input class="button" type="submit" name="UpdateAutoRatesButton" value="{'Update auto rates'|i18n( 'design/admin/shop/currencylist' )}" title="{'Update auto rates.'|i18n( 'design/admin/shop/currencylist' )}" />
-            {else}
-                <input class="button-disabled" type="submit" disabled="disabled" name="UpdateAutoRatesButton" value="{'Update auto rates'|i18n( 'design/admin/shop/currencylist' )}" title="{'Update auto rates.'|i18n( 'design/admin/shop/currencylist' )}" />
-            {/if}
-            {* Update autoprices button *}
-            <input class="button" type="submit" name="UpdateAutopricesButton" value="{'Update autoprices'|i18n( 'design/admin/shop/currencylist' )}" title="{'Update autoprices.'|i18n( 'design/admin/shop/currencylist' )}" />
+{if $currency_list}
+    <div class="button-left">
+        {* Remove button *}
+        <input class="button" type="submit" name="RemoveCurrencyButton" value="{'Remove selected'|i18n( 'design/admin/shop/currencylist' )}" title="{'Remove selected currencies from the list above.'|i18n( 'design/admin/shop/currencylist' )}" />
+        {* New button *}
+        <input class="button" type="submit" name="NewCurrencyButton" value="{'New currency'|i18n( 'design/admin/shop/currencylist' )}" title="{'Add new currency to the list above.'|i18n( 'design/admin/shop/currencylist' )}" />
+    </div>
+    <div class="button-right">
+        {* Update auto rates button *}
+        {def $exchangeRatesUpdateHandler = ezini( 'ExchangeRatesSettings', 'ExchangeRatesUpdateHandler', 'shop.ini' )}
+        {if $exchangeRatesUpdateHandler}
+            <input class="button" type="submit" name="UpdateAutoRatesButton" value="{'Update auto rates'|i18n( 'design/admin/shop/currencylist' )}" title="{'Update auto rates.'|i18n( 'design/admin/shop/currencylist' )}" />
+        {else}
+            <input class="button-disabled" type="submit" disabled="disabled" name="UpdateAutoRatesButton" value="{'Update auto rates'|i18n( 'design/admin/shop/currencylist' )}" title="{'Update auto rates.'|i18n( 'design/admin/shop/currencylist' )}" />
+        {/if}
+        {* Update autoprices button *}
+        <input class="button" type="submit" name="UpdateAutopricesButton" value="{'Update autoprices'|i18n( 'design/admin/shop/currencylist' )}" title="{'Update autoprices.'|i18n( 'design/admin/shop/currencylist' )}" />
 
-            {* Apply changes button *}
-            <input class="button" type="submit" name="ApplyChangesButton" value="{'Apply changes'|i18n( 'design/admin/shop/currencylist' )}" title="{'Apply statuses, custom rates, factor values.'|i18n( 'design/admin/shop/currencylist' )}" />
-        </div>
-    {else}
-        <div class="left">
-            {* New button *}
-            <input class="button" type="submit" name="NewCurrencyButton" value="{'New currency'|i18n( 'design/admin/shop/currencylist' )}" title="{'Add new currency to the list above.'|i18n( 'design/admin/shop/currencylist' )}" />
-        </div>
-    {/if}
+        {* Apply changes button *}
+        <input class="button" type="submit" name="ApplyChangesButton" value="{'Apply changes'|i18n( 'design/admin/shop/currencylist' )}" title="{'Apply statuses, custom rates, factor values.'|i18n( 'design/admin/shop/currencylist' )}" />
+    </div>
+{else}
+    <div class="button-left">
+        {* New button *}
+        <input class="button" type="submit" name="NewCurrencyButton" value="{'New currency'|i18n( 'design/admin/shop/currencylist' )}" title="{'Add new currency to the list above.'|i18n( 'design/admin/shop/currencylist' )}" />
+    </div>
+{/if}
 
-    <div class="break"></div>
-</div>
+<div class="float-break"></div>
 {* DESIGN: Control bar END *}</div></div>
 
 </div>

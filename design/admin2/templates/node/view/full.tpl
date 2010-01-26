@@ -62,8 +62,7 @@
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
 <input type="hidden" name="ContentObjectID" value="{$node.contentobject_id}" />
 
-<div class="block">
-<div class="left">
+<div class="button-left">
 {* Edit button. *}
 {def $can_create_languages = $node.object.can_create_languages
      $languages            = fetch( 'content', 'prioritized_languages' )}
@@ -105,7 +104,7 @@
 
 </div>
 
-<div class="right">
+<div class="button-right">
     {* Link to manage versions *}
     <a href={concat("content/history/", $node.contentobject_id )|ezurl} title="{'View and manage (copy, delete, etc.) the versions of this object.'|i18n( 'design/admin/content/edit' )}">{'Manage versions'|i18n( 'design/admin/content/edit' )}</a>
     
@@ -115,8 +114,7 @@
     {/section}
 </div>
 
-<div class="break"></div>
-</div>
+<div class="float-break"></div>
 </form>
 {* DESIGN: Control bar END *}</div></div>
 </div>

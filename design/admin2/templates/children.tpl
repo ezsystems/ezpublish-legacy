@@ -44,8 +44,8 @@
 {if $children}
 
 {* Items per page and view mode selector. *}
-<div class="context-toolbar block">
-<div class="left">
+<div class="context-toolbar">
+<div class="button-left">
     <p>
     {switch match=$number_of_items}
     {case match=25}
@@ -70,7 +70,7 @@
         {/switch}
     </p>
 </div>
-<div class="right">
+<div class="button-right">
         <p>
         {switch match=$admin_children_viewmode}
         {case match='thumbnail'}
@@ -94,8 +94,7 @@
         </p>
 </div>
 
-<div class="break"></div>
-
+<div class="float-break"></div>
 </div>
 
     {* Copying operation is allowed if the user can create stuff under the current node. *}
@@ -163,9 +162,9 @@
 
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 
-<div class="block">
+
     {* Remove and move button *}
-    <div class="left">
+    <div class="button-left">
         {if $can_remove}
             <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" title="{'Remove the selected items from the list above.'|i18n( 'design/admin/node/view/full' )}" />
         {else}
@@ -178,7 +177,7 @@
         {/if}
     </div>
 
-    <div class="right">
+    <div class="button-right">
     
     {* Update priorities button *}
     {if $priority}
@@ -188,12 +187,12 @@
     {/if}
     </div>
 
-    <div class="break"></div>
-</div>
+    <div class="float-break"></div>
+
 
 
 <div class="block">
-    <div class="left">
+    <div class="button-left">
     {* The "Create new here" thing: *}
     {if and( $node.is_container,  $node.can_create)}
     <input type="hidden" name="NodeID" value="{$node.node_id}" />
@@ -324,7 +323,7 @@
 	{/if}
     </div>
 
-    <div class="right">
+    <div class="button-right">
     <label class="inline">{'Sorting'|i18n( 'design/admin/node/view/full' )}:</label>
 
     {let sort_fields=hash( 6, 'Class identifier'|i18n( 'design/admin/node/view/full' ),
@@ -360,8 +359,7 @@
     {/let}
     </div>
 
-    <div class="break"></div>
-</div>
+    <div class="float-break"></div>
 
 
 {* DESIGN: Control bar END *}</div></div>

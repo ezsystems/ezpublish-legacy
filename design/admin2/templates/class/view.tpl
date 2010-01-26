@@ -92,7 +92,7 @@
         {$class.object_count}
     </div>
 </div>
-<div class="break"></div>
+<div class="float-break"></div>
 </div>
 
 <h2>{'Attributes'|i18n( 'design/admin/class/view' )}</h2>
@@ -198,7 +198,6 @@
 
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
-    <div class="block">
         <form action={concat( '/class/edit/', $class.id )|ezurl} method="post">
 
             {def $languages=$class.prioritized_languages
@@ -219,7 +218,6 @@
             <input class="button" type="submit" name="_DefaultButton" value="{'Edit'|i18n( 'design/admin/class/view' )}" title="{'Edit this class.'|i18n( 'design/admin/class/view' )}" />
             {* <input class="button" type="submit" name="_DefaultButton" value="{'Remove'|i18n( 'design/admin/class/view' )}" /> *}
         </form>
-    </div>
 {* DESIGN: Control bar END *}</div></div>
 </div>
 

@@ -216,21 +216,18 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 
-<div class="block">
-
-<div class="left">
+<div class="button-left">
 <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/versions' )}" title="{'Remove the selected versions from the object.'|i18n( 'design/admin/content/versions' )}" />
 <input type="hidden" name="DoNotEditAfterCopy" value="" />
 </div>
 
-<div class="right">
+<div class="button-right">
 {if is_set( $redirect_uri )}
 <input class="text" type="hidden" name="RedirectURI" value="{$redirect_uri}" />
 {/if}
 <input class="button" type="submit" name="BackButton" value="{'Back'|i18n( 'design/admin/content/versions' )}" />
 </div>
-<div class="break"></div>
-</div>
+<div class="float-break"></div>
 
 {* DESIGN: Control bar END *}</div></div>
 

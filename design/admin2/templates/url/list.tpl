@@ -26,8 +26,7 @@
 
 {* Items per page and view mode selector. *}
 <div class="context-toolbar">
-<div class="block">
-<div class="left">
+<div class="button-left">
     <p>
     {switch match=$number_of_items}
     {case match=25}
@@ -52,7 +51,7 @@
         {/switch}
     </p>
 </div>
-<div class="right">
+<div class="button-right">
 <p>
 {switch match=$view_mode}
 {case match='valid'}
@@ -75,8 +74,7 @@
 {/switch}
 </p>
 </div>
-<div class="break"></div>
-</div>
+<div class="float-break"></div>
 </div>
 
 {section show=$url_list}

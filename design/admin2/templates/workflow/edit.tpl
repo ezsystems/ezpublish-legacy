@@ -78,7 +78,7 @@
 <input type="checkbox" name="WorkflowEvent_id_checked[]" value="{$Events.item.id}" />
 &nbsp;
 {$Events.number}({$Events.item.placement})&nbsp;{$Events.item.workflow_type.group_name}&nbsp;/&nbsp;{$Events.item.workflow_type.name|wash}
-<div class="right">
+<div class="button-right">
 <a href={concat( $module.functions.down.uri, '/', $workflow.id, '/', $Events.item.id )|ezurl}><img src={'button-move_down.gif'|ezimage} height="16" width="16" alt="{'Move down'|i18n( 'design/admin/workflow/edit' )}" title="{'Move down'|i18n( 'design/admin/workflow/edit' )}" /></a>
 &nbsp;
 <a href={concat( $module.functions.up.uri, '/', $workflow.id, '/', $Events.item.id )|ezurl}><img src={'button-move_up.gif'|ezimage} height="16" width="16" alt="{'Move up'|i18n( 'design/admin/workflow/edit' )}" title="{'Move up'|i18n( 'design/admin/workflow/edit' )}" /></a>

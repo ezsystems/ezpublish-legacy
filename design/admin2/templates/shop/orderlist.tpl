@@ -15,8 +15,7 @@
 
 {section show=$order_list}
 <div class="context-toolbar">
-<div class="block">
-<div class="left">
+<div class="button-left">
 <p>
 {if eq( ezpreference( 'admin_orderlist_sortfield' ), 'user_name' )}
     <a href={'/user/preferences/set/admin_orderlist_sortfield/time/shop/orderlist/'|ezurl}>{'Time'|i18n( 'design/admin/shop/orderlist' )}</a>
@@ -27,7 +26,7 @@
 {/if}
 </p>
 </div>
-<div class="right">
+<div class="button-right">
 <p>
 {if eq( ezpreference( 'admin_orderlist_sortorder' ), 'desc' )}
     <a href={'/user/preferences/set/admin_orderlist_sortorder/asc/shop/orderlist/'|ezurl}>{'Ascending'|i18n( 'design/admin/shop/orderlist' )}</a>
@@ -39,9 +38,7 @@
 </p>
 </div>
 
-<div class="break"></div>
-
-</div>
+<div class="float-break"></div>
 </div>
 
 {def $currency = false()
