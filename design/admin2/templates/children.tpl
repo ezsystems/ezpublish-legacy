@@ -47,8 +47,8 @@
 <div class="context-toolbar">
 <div class="button-left">
     <p class="table-preferences">
-    {switch match=$number_of_items}
-    {case match=25}
+        {switch match=$number_of_items}
+        {case match=25}
         <a href={'/user/preferences/set/admin_list_limit/1'|ezurl} title="{'Show 10 items per page.'|i18n( 'design/admin/node/view/full' )}">10</a>
         <span class="current">25</span>
         <a href={'/user/preferences/set/admin_list_limit/3'|ezurl} title="{'Show 50 items per page.'|i18n( 'design/admin/node/view/full' )}">50</a>
