@@ -485,11 +485,6 @@ div.popupmenu hr
   padding: 0.5em;
 }
 
-div.box-content div.block.inline-block
-{
-  padding: 0;
-}
-
 .box-content div.context-toolbar.block
 {
   padding: 0 0.5em 0 0.5em;
