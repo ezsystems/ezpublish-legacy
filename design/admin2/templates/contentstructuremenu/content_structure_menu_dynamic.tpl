@@ -1,7 +1,10 @@
 {if is_set( $custom_root_node_id )}
     {def $root_node_id = $custom_root_node_id}
 {else}
-    {def $root_node_id=ezini('TreeMenu','RootNodeID','contentstructuremenu.ini')}
+    {def $root_node_id = ezini('TreeMenu','RootNodeID','contentstructuremenu.ini')}
+{/if}
+{if is_unset( $menu_persistence )}
+    {def $menu_persistence = ezini('TreeMenu','MenuPersistence','contentstructuremenu.ini')|eq('enabled')}
 {/if}
 {if and( is_set( $search_subtree_array[0] ), $search_subtree_array[0]|ne( '1' ) )}
     {def $search_node = fetch( 'content', 'node', hash( 'node_id', $search_subtree_array[0] ))}
@@ -14,9 +17,14 @@
      $user_class_group_id  = ezini('ClassGroupIDs', 'Users', 'content.ini')
      $setup_class_group_id = ezini('ClassGroupIDs', 'Setup', 'content.ini')
      $user_root_node_id    = ezini('NodeSettings', 'UserRootNode', 'content.ini')
-     $filter_type          = cond( $root_node.path_array|contains( $user_root_node_id ), 'include', 'exclude')
-     $filter_groups        = cond( $root_node.path_array|contains( $user_root_node_id ), array( $user_class_group_id ), array($user_class_group_id, $setup_class_group_id))
 }
+{if $root_node_id|gt( 1 )}
+    {def $filter_type          = cond( $root_node.path_array|contains( $user_root_node_id ), 'include', 'exclude')
+         $filter_groups        = cond( $root_node.path_array|contains( $user_root_node_id ), array( $user_class_group_id ), array( $user_class_group_id, $setup_class_group_id ))}
+{else}
+    {def $filter_type          = 'exclude'
+         $filter_groups        = array()}
+{/if}
 {if ezini('TreeMenu','PreloadClassIcons','contentstructuremenu.ini')|eq('enabled')}
     <script language="JavaScript" type="text/javascript" src={"javascript/lib/ezjslibimagepreloader.js"|ezdesign}></script>
 {/if}
@@ -72,10 +80,13 @@ function ContentStructureMenu( path, persistent )
 
     this.iconsList   = [];
     var wwwDirPrefix = "{ezsys('wwwdir')}/{$iconInfo.theme_path}/{$iconInfo.size_path_list[$classIconsSize]}/";
+
     {foreach $iconInfo.icons as $class => $icon}{*
         *}this.iconsList['{$class}'] = wwwDirPrefix + "{$icon}";
     {/foreach}
+
     this.iconsList['__default__'] = wwwDirPrefix + "{$iconInfo.default}";
+
     {if ezini('TreeMenu','PreloadClassIcons','contentstructuremenu.ini')|eq('enabled')}
     ezjslib_preloadImageList( this.iconsList );
     {/if}
@@ -229,7 +240,7 @@ function ContentStructureMenu( path, persistent )
 
         var classIdentifier = this.classes[item.class_id].identifier;
         var icon = ( this.iconsList[classIdentifier] )? this.iconsList[classIdentifier]: this.iconsList['__default__'];
-        if ( this.context != 'browse' )
+        if ( this.context != 'browse' && item.node_id > 1 )
         {
             html += '<a class="nodeicon" href="#" onclick="ezpopmenu_showTopLevel( event, \'ContextMenu\', {\'%nodeID%\':'
                 + item.node_id
@@ -511,14 +522,14 @@ function ContentStructureMenu( path, persistent )
 var treeMenu;
 (function(){ldelim}
     var path         = [{if is_set( $module_result.path[0].node_id)}{foreach $module_result.path as $element}'{$element.node_id}'{delimiter}, {/delimiter}{/foreach}{/if}];
-    var persistence  = {if ezini('TreeMenu','MenuPersistence','contentstructuremenu.ini')|eq('enabled')}true{else}false{/if};
+    var persistence  = {if $menu_persistence}true{else}false{/if};
     treeMenu         = new ContentStructureMenu( path, persistence );
 
 {cache-block keys=$root_node_id expiry=0}
 
     var rootNode = {ldelim}{*
         *}"node_id":{$root_node_id},{*
-        *}"object_id":{$root_node.object.id},{*
+        *}"object_id":{if $root_node.object.id}{$root_node.object.id}{else}0{/if},{*
         *}"class_id":{$root_node.object.contentclass_id},{*
         *}"has_children":{if $root_node.children_count}true{else}false{/if},{*
         *}"name":"{$root_node.name|wash(javascript)}",{*
