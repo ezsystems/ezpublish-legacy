@@ -492,7 +492,7 @@ div.popupmenu hr
 
 .box-bc .box-ml, .box-header .box-ml
 {
-  padding: 0.1em 0.5em 0.1em 0.2em; /* 0.1 needed to avoid gaps in border */
+  padding: 0.1em 0em 0.1em 0.2em; /* 0.1 needed to avoid gaps in border */
 }
 
 h1.context-title

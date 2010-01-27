@@ -55,7 +55,7 @@
 {* DESIGN: Content END *}</div></div>
 
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
+{* DESIGN: Control bar START *}
 
 <form method="post" action={'content/action'|ezurl}>
 <input type="hidden" name="TopLevelNode" value="{$node.object.main_node_id}" />
@@ -63,6 +63,7 @@
 <input type="hidden" name="ContentObjectID" value="{$node.contentobject_id}" />
 
 <div class="button-left">
+<div class='block'>
 {* Edit button. *}
 {def $can_create_languages = $node.object.can_create_languages
      $languages            = fetch( 'content', 'prioritized_languages' )}
@@ -101,10 +102,11 @@
 {else}
     <input class="button-disabled" type="submit" name="ActionRemove" value="{'Remove'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permission to remove this item.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
 {/if}
-
+</div>
 </div>
 
 <div class="button-right">
+	<p class='versions'>
     {* Link to manage versions *}
     <a href={concat("content/history/", $node.contentobject_id )|ezurl} title="{'View and manage (copy, delete, etc.) the versions of this object.'|i18n( 'design/admin/content/edit' )}">{'Manage versions'|i18n( 'design/admin/content/edit' )}</a>
     
@@ -112,11 +114,12 @@
     {section var=ContentActions loop=$node.object.content_action_list}
         <input class="button" type="submit" name="{$ContentActions.item.action}" value="{$ContentActions.item.name}" />
     {/section}
+    </p>
 </div>
 
 <div class="float-break"></div>
 </form>
-{* DESIGN: Control bar END *}</div></div>
+{* DESIGN: Control bar END *}
 </div>
 
 

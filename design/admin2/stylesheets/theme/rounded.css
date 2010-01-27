@@ -258,7 +258,7 @@ ul.tabs.context-user li#node-tab-states
 }
 
 /* BUTTONS */
-p.table-preferences
+p.versions
 {
   -moz-border-radius-bottomleft: 3px;
   -moz-border-radius-bottomright: 3px;
@@ -273,6 +273,24 @@ p.table-preferences
   background-position: center bottom;
   background-repeat: repeat-x;
   margin: 0 0 0.6em;
+  padding: 4px 10px;
+}
+
+p.table-preferences
+{
+  -moz-border-radius-bottomleft: 3px;
+  -moz-border-radius-bottomright: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  -webkit-border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  border: 1px solid #CCCCCC;
+  border-top: 0 none;
+  background-color: #D1DFE9;
+  background-image: url(../../images/2/gradient-to-darker.png);
+  background-position: center bottom;
+  background-repeat: repeat-x;
+  margin: 0 0 1.2em;
 }
 
 p.table-preferences .current

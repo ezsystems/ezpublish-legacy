@@ -158,11 +158,12 @@
 
 
 {* Button bar for remove and update priorities buttons. *}
+<div class='block'>
 <div class="controlbar">
 
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
+{* DESIGN: Control bar START *}
 
-
+    
     {* Remove and move button *}
     <div class="button-left">
         {if $can_remove}
@@ -178,7 +179,6 @@
     </div>
 
     <div class="button-right">
-    
     {* Update priorities button *}
     {if $priority}
         <input id="ezasi-update-priority" class="button" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n( 'design/admin/node/view/full' )}" title="{'Apply changes to the priorities of the items in the list above.'|i18n( 'design/admin/node/view/full' )}" />
@@ -362,10 +362,10 @@
     <div class="float-break"></div>
 </div>
 
-{* DESIGN: Control bar END *}</div></div>
+{* DESIGN: Control bar END *}
 
 </div>
-
+</div>
 </form>
 
 </div>
