@@ -497,7 +497,7 @@ div.box-content div.block.inline-block
 
 .box-ml
 {
-  padding: 0.2em;
+  /*padding: 0.2em;*/
 }
 
 .box-bc .box-ml, .box-header .box-ml

@@ -280,11 +280,12 @@ p.table-preferences
   -webkit-border-bottom-left-radius: 3px;
   -webkit-border-bottom-right-radius: 3px;
   border: 1px solid #CCCCCC;
+  border-top: 0 none;
   background-color: #D1DFE9;
   background-image: url(../../images/2/gradient-to-darker.png);
   background-position: center bottom;
   background-repeat: repeat-x;
-  margin: -4px -4px 15px;
+  margin:0 0 0.8em;
 }
 
 p.table-preferences .current
