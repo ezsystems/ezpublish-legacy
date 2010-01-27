@@ -16,8 +16,7 @@
 {section show=$pending_list}
 {* Items per page and view mode selector. *}
 <div class="context-toolbar">
-<div class="block">
-<div class="left">
+<div class="button-left">
     <p>
     {switch match=$number_of_items}
     {case match=25}
@@ -42,8 +41,7 @@
         {/switch}
     </p>
 </div>
-<div class="break"></div>
-</div>
+<div class="float-break"></div>
 </div>
 
 <table class="list" cellspacing="0">

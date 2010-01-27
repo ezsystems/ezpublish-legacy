@@ -16,7 +16,7 @@
 {* Items per page and view mode selector. *}
 <div class="context-toolbar">
 <div class="button-left">
-    <p>
+    <p class="table-preferences">
     {switch match=$number_of_items}
     {case match=25}
         <a href={'/user/preferences/set/admin_search_stats_limit/1'|ezurl}>10</a>

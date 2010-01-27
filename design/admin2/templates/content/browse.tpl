@@ -126,7 +126,7 @@
 <div class="context-toolbar">
 {if is_unset( $node_list )}{* changing limit while browsing search results not supported (search uses BrowsePageLimit GET parameter) *}
 <div class="button-left">
-    <p>
+    <p class="table-preferences">
     {switch match=$number_of_items}
     {case match=25}
         <a href={'/user/preferences/set/admin_list_limit/1'|ezurl}>10</a>
@@ -152,7 +152,7 @@
 </div>
 {/if}
 <div class="button-right">
-    <p>
+    <p class="table-preferences">
     {switch match=ezpreference( 'admin_children_browsemode' )}
     {case match='thumbnail'}
       <a href={'/user/preferences/set/admin_children_browsemode/list'|ezurl} title="{'Display sub items using a simple list.'|i18n( 'design/admin/content/browse' )}">{'List'|i18n( 'design/admin/content/browse' )}</a>

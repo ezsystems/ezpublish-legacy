@@ -27,7 +27,7 @@
 {* Items per page and view mode selector. *}
 <div class="context-toolbar">
 <div class="button-left">
-    <p>
+    <p class="table-preferences">
     {switch match=$number_of_items}
     {case match=25}
         <a href={'/user/preferences/set/admin_url_list_limit/1'|ezurl}>10</a>
@@ -52,7 +52,7 @@
     </p>
 </div>
 <div class="button-right">
-<p>
+<p class="table-preferences">
 {switch match=$view_mode}
 {case match='valid'}
 <a href={'/url/list/all'|ezurl} title="{'Show all URLs.'|i18n( 'design/admin/url/list' )}">{'All'|i18n( 'design/admin/url/list' )}</a>

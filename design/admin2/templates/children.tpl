@@ -71,7 +71,7 @@
     </p>
 </div>
 <div class="button-right">
-        <p class='table-preferences'>
+    <p class='table-preferences'>
         {switch match=$admin_children_viewmode}
         {case match='thumbnail'}
         <a href={'/user/preferences/set/admin_children_viewmode/list'|ezurl} title="{'Display sub items using a simple list.'|i18n( 'design/admin/node/view/full' )}">{'List'|i18n( 'design/admin/node/view/full' )}</a>
@@ -91,7 +91,7 @@
         <a href={'/user/preferences/set/admin_children_viewmode/detailed'|ezurl} title="{'Display sub items using a detailed list.'|i18n( 'design/admin/node/view/full' )}">{'Detailed'|i18n( 'design/admin/node/view/full' )}</a>
         {/case}
         {/switch}
-        </p>
+    </p>
 </div>
 
 <div class="float-break"></div>

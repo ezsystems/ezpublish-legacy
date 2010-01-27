@@ -21,9 +21,8 @@
 
 {* Items per page and view mode selector. *}
 <div class="context-toolbar">
-<div class="block">
-<div class="left">
-    <p>
+<div class="button-left">
+    <p class="table-preferences">
     {switch match=$number_of_items}
         {case match=25}
         <a href={'/user/preferences/set/admin_list_limit/1/content/draft'|ezurl}>10</a>
@@ -46,7 +45,6 @@
     </p>
 </div>
 <div class="break"></div>
-</div>
 </div>
 
 <table class="list" cellspacing="0">

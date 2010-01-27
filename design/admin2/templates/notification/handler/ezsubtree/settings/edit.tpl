@@ -15,9 +15,8 @@
 {section show=$subscribed_nodes}
 {* Items per page *}
 <div class="context-toolbar">
-<div class="block">
-<div class="left">
-<p>
+<div class="button-left">
+<p class="table-preferences">
     {switch match=$number_of_items}
     {case match=25}
         <a href={'/user/preferences/set/admin_list_limit/1/notification/settings'|ezurl}>10</a>
@@ -39,8 +38,7 @@
     {/switch}
 </p>
 </div>
-<div class="break"></div>
-</div>
+<div class="float-break"></div>
 </div>
 
 <table class="list" cellspacing="0">

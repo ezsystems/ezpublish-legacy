@@ -11,9 +11,8 @@
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <div class="context-toolbar">
-<div class="block">
-<div class="left">
-    <p>
+<div class="button-left">
+    <p class="table-preferences">
     {switch match=$page_limit}
     {case match=25}
         <a href={'/user/preferences/set/admin_workflow_processlist_limit/1'|ezurl} title="{'Show 10 items per page.'|i18n( 'design/admin/node/view/full' )}">10</a>
@@ -37,8 +36,7 @@
         {/switch}
     </p>
 </div>
-<div class="block"></div>
-</div>
+<div class="float-block"></div>
 </div>
 
 {if $trigger_list}

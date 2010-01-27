@@ -25,9 +25,8 @@
 {if $trash_list}
 {* Items per page selector. *}
 <div class="context-toolbar">
-<div class="block">
-<div class="left">
-    <p>
+<div class="button-left">
+    <p class="table-preferences">
     {switch match=$number_of_items}
     {case match=25}
         <a href={'/user/preferences/set/admin_list_limit/1'|ezurl}>10</a>
@@ -51,7 +50,7 @@
         {/switch}
     </p>
 </div>
-<div class="break"></div>
+<div class="float-break"></div>
 </div>
 </div>
 
@@ -126,7 +125,7 @@
 </div>
 {* Sorting *}
 <div class="button-right" id="trash-list-sort-control" style="display:none;">
-<label>{'Sorting'|i18n( 'design/admin/node/view/full' )}:</label>
+<label class="inline">{'Sorting'|i18n( 'design/admin/node/view/full' )}:</label>
 
 {def $sort_fields = hash( 'class_identifier', 'Class identifier'|i18n( 'design/admin/node/view/full' ),
                        'class_name', 'Class name'|i18n( 'design/admin/node/view/full' ),

@@ -60,8 +60,7 @@
 
 {* Items per page selector. *}
 <div class="context-toolbar">
-<div class="block">
-<div class="left">
+<div class="button-left">
     <p>
     {switch match=$limit}
 
@@ -86,8 +85,7 @@
         {/switch}
     </p>
 </div>
-<div class="break"></div>
-</div>
+<div class="float-break"></div>
 </div>
 
 <table class="list" cellspacing="0">

@@ -3,9 +3,8 @@
 
 {* DESIGN: Subline *}
 <div class="context-toolbar">
-<div class="block">
-<div class="left">
-    <p>
+<div class="button-left">
+    <p class="table-preferences">
     {switch match=$number_of_items}
     {case match=25}
         <a href={'/user/preferences/set/reverse_children_list_limit/1'|ezurl} title="{'Show 10 items per page.'|i18n( 'design/admin/node/view/full' )}">10</a>
@@ -30,9 +29,7 @@
     </p>
 </div>
 
-<div class="break"></div>
-
-</div>
+<div class="float-break"></div>
 </div>
 
 {* DESIGN: Content START *}
