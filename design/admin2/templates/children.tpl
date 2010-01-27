@@ -349,12 +349,12 @@
     {/section}
     </select>
 
-    <select  id="ezasi-sort-order" name="SortingOrder" title="{$title}"{$disabled}>
+    <select id="ezasi-sort-order" name="SortingOrder" title="{$title}"{$disabled}>
         <option value="0"{if eq($node.sort_order, 0)} selected="selected"{/if}>{'Descending'|i18n( 'design/admin/node/view/full' )}</option>
         <option value="1"{if eq($node.sort_order, 1)} selected="selected"{/if}>{'Ascending'|i18n( 'design/admin/node/view/full' )}</option>
     </select>
 
-    <input {if $disabled}class="button-disabled"{else}class="button"{/if} type="submit" name="SetSorting" value="{'Set'|i18n( 'design/admin/node/view/full' )}" title="{$title}" {$disabled} />
+    <input  id="ezasi-sort-set" {if $disabled}class="button-disabled"{else}class="button"{/if} type="submit" name="SetSorting" value="{'Set'|i18n( 'design/admin/node/view/full' )}" title="{$title}" {$disabled} />
 
     {/let}
     </div>
@@ -370,12 +370,31 @@
 
 </div>
 
+
+{* Load drag and drop code if sortField=priority and access rights are ok *}
 {if $priority_dd}
 {ezscript_require( array( 'ezjsc::yui3', 'ezjsc::yui3io', 'ezajaxsubitems_sortdd.js' ) )}
 <script type="text/javascript">
 eZAjaxSubitemsSortDD.init();
 </script>
 {/if}
+
+
+{* Highlight "SetSorting" button on change *}
+{literal}
+<script type="text/javascript">
+jQuery('#ezasi-sort-field, #ezasi-sort-order').each( function(){
+	jQuery( this ).attr( 'initial', this.value );
+} ).change(function(){
+	var t = $(this), o = $(this.id === 'ezasi-sort-field' ? '#ezasi-sort-order' : '#ezasi-sort-field'), s = $('#ezasi-sort-set');
+	// signal in gui if user needs to save this or not
+	if ( t.val() === t.attr('initial') && o.val() === o.attr('initial') )
+		s.removeClass('defaultbutton').addClass('button');
+	else
+		s.removeClass('button').addClass('defaultbutton');
+});
+</script>
+{/literal}
 
 <!-- Children END -->
 
