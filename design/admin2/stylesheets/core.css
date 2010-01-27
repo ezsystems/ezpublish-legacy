@@ -157,7 +157,7 @@ table.list tr.bglight
     background-color: #fff;
 }
 
-table.list tr.bgdark
+table.list tr.bgdark, table.special tr.bgdark
 {
     background-color: #f5f5f5;
 }

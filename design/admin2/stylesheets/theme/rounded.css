@@ -262,16 +262,6 @@ ul.tabs.context-user li#node-tab-states
   border-radius: 3px;
 }
 
-/* TABLE */
-table.list th
-{
-  background: #FEFEFE url('../../images/2/gradient-to-light.png') repeat-x left top scroll;
-  font-weight: bold;
-  height: 30px;
-  border-bottom: 1px solid #ccc;
-  vertical-align: middle;
-}
-
 /* BUTTONS */
 p.table-preferences
 {

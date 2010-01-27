@@ -39,9 +39,18 @@ table.list, table.special, table.list th, table.special th
   border-collapse: collapse;
 }
 
-table.special tr th
+table.list th, table.special th
 {
-  background-color: #dfdfdf;
+  background: #FEFEFE url('../images/2/gradient-to-light.png') repeat-x left top scroll;
+  font-weight: bold;
+  height: 30px;
+  border-bottom: 1px solid #ccc;
+  vertical-align: middle;
+}
+
+table.special th
+{
+  border-top: 1px solid #ccc;
 }
 
 table.list tr.bgdark, table.list tr.bgdark th
@@ -75,7 +84,7 @@ table.list td.modifier, table.list td.modified, table.list td.class, div.content
   white-space: nowrap;
 }
 
-div.context-attributes table.list th, div.context-attributes table.special th, div.mainobject-window table.list th, div.mainobject-window table.special th
+div.context-attributes table.list th, div.mainobject-window table.list th
 {
     color: #404040;
     background-color: #fefefe;
