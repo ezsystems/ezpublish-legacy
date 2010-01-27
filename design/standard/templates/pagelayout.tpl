@@ -25,6 +25,8 @@
 
 {include uri="design:page_head.tpl"}
 
+{include uri='design:page_head_displaystyles.tpl'}
+
 </head>
 
 <body style="background: url(/design/standard/images/grid-background.gif);">

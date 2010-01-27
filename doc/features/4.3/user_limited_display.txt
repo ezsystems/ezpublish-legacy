@@ -1,0 +1,48 @@
+User limited items hide/show with CSS
+=====================================
+
+A small, but potentially useful, feature has been added to trunk.
+
+It works around the fact that ViewCache is role based and not user based. A good
+example of an old feature where it could be used are eZ publish based forums:
+when users have the content/edit/owner(self) policy, they must be offered a link
+to edit their own posts. But since forums are cached using ViewCache, each page
+is shared among all users, and if you use a content/edit policy check for each
+link, you will end up with a user specific cache used by several users.
+
+This can be worked around:
+- using AJAX, but with a high performances cost
+- by showing the links to all users, with a usability loss
+- or by disabling ViewCache
+
+This feature provides another workaround, that will in most cases offer the
+expected user experience, with no security or performance added costs.
+
+The page_head_displaystyles.tpl template
+----------------------------------------
+
+This template defines two styles:
+
+* .limitdisplay-user
+  This class will completely hide any item it is applied to
+
+*  .limitdisplay-user-<UserID>
+  This class will show items that match the currently logged in user ID
+  
+This template is part of standard, and is included from standard, webin and flow
+pagelayout.tpl.
+
+Using it
+--------
+
+When a link/button should only be shown to its "owner" (the edit/owner(self))
+example above, just apply two classes to it::
+
+    class="limitdisplay-user limitdisplay-user-{$current_user.contentobject_id}"
+    
+The first class will hide these for everybody, while the second one will
+make the item visible for its owner.
+
+If styles aren't applied due to a specific user agent, etc, the items will be
+visible for anyone, but server side security checks will still ensure full
+security for your data.
