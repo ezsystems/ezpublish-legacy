@@ -1,6 +1,5 @@
-
-{def $search_node_id = first_set( $search_subtree_array[0], $module_result.path[0].node_id, 0 )}
-{if $search_node_id}
+{def $search_node_id = first_set( $search_subtree_array[0], $module_result.path[0].node_id, 1 )}
+{if eq( $ui_component, 'content' )}
 <form action={'/content/search/'|ezurl} method="get">
     {if $ui_context_edit}
         <input id="searchtext" name="SearchText" class="disabled" type="text" size="20" value="{if is_set( $search_text )}{$search_text|wash}{/if}" disabled="disabled" title="{'Search text'|i18n( 'design/admin/pagelayout' )}" />
