@@ -6,6 +6,9 @@
 {if is_unset( $menu_persistence )}
     {def $menu_persistence = ezini('TreeMenu','MenuPersistence','contentstructuremenu.ini')|eq('enabled')}
 {/if}
+{if is_unset( $hide_node_list )}
+    {def $hide_node_list = array()}
+{/if}
 {if and( is_set( $search_subtree_array[0] ), $search_subtree_array[0]|ne( '1' ) )}
     {def $search_node = fetch( 'content', 'node', hash( 'node_id', $search_subtree_array[0] ))}
     {if is_set( $search_node.path_array[1] )}
@@ -58,6 +61,7 @@ function ContentStructureMenu( path, persistent )
     this.expiry = "{fetch('content','content_tree_menu_expiry')}";
     this.action = "{$click_action}";
     this.context = "{$ui_context}";
+    this.hideNodes = [{$hide_node_list|implode(',')}];
 
 {cache-block keys=array( $filter_type ) expiry=0 ignore_content_expiry}
     this.languages = {*
@@ -379,11 +383,19 @@ function ContentStructureMenu( path, persistent )
             'dataType': 'json',
             'success': function( data, textStatus )
             {             
-                var html = '<ul>', item;
+                var html = '<ul>', items = [];
+                // Filter out nodes to hide
                 for ( var i = 0, l = data.children_count; i < l; i++ )
                 {
-                    item = data.children[i];
-                    html += thisThis.generateEntry( item, i == data.children_count - 1, false );
+                    if ( jQuery.inArray( data.children[i].node_id, thisThis.hideNodes ) === -1 )
+                    {
+                    	items.push( data.children[i] );
+                    }
+                }
+                // Generate html content
+                for ( var i = 0, l = items.length; i < l; i++ )
+                {
+                    html += thisThis.generateEntry( items[i], i == l - 1, false );
                 }
                 html += '<\/ul>';
 
