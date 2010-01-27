@@ -111,3 +111,4 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Fixed bug #16038: "Notice: Undefined index: strict[-end]" in cli
 - Fixed bug #8991: JavaScript window.onload event often gets confiscated by one single function
 - Fixed bug #16037 Undefined variable: contentVersion in kernel\classes\ezworkflowprocess.php on line 521
+- Fixed bug #15979: ActiveExtensions Array order in site.ini changes on autoload generation

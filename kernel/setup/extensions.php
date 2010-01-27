@@ -36,8 +36,16 @@ $tpl = templateInit();
 
 $extensionDir = eZExtension::baseDirectory();
 $availableExtensionArray = eZDir::findSubItems( $extensionDir, 'dl' );
-sort( $availableExtensionArray );
 
+// open site.ini for reading
+$siteINI = eZINI::instance();
+$siteINI->load();
+$selectedExtensionArray       = $siteINI->variable( 'ExtensionSettings', "ActiveExtensions" );
+$selectedAccessExtensionArray = $siteINI->variable( 'ExtensionSettings', "ActiveAccessExtensions" );
+$selectedExtensions           = array_merge( $selectedExtensionArray, $selectedAccessExtensionArray );
+$selectedExtensions           = array_unique( $selectedExtensions );
+
+// When the user clicks on "Apply changes" button in admin interface in the Extensions section
 if ( $module->isCurrentAction( 'ActivateExtensions' ) )
 {
     $ini = eZINI::instance( 'module.ini' );
@@ -54,9 +62,18 @@ if ( $module->isCurrentAction( 'ActivateExtensions' ) )
         $selectedExtensionArray = array();
     }
 
+    // The file settings/override/site.ini.append.php is updated like this:
+    // - take the existing list of extensions from site.ini.append.php (to preserve their order)
+    // - remove from the list the extensions that the user unchecked in the admin interface
+    // - add to the list the extensions checked by the user in the admin interface, but to the end of the list
+    $intersection = array_intersect( $selectedExtensions, $selectedExtensionArray );
+    $difference = array_diff( $selectedExtensionArray, $selectedExtensions );
+    $toSave = array_merge( $intersection, $difference );
+    $toSave = array_unique( $toSave );
+
     // open settings/override/site.ini.append[.php] for writing
     $writeSiteINI = eZINI::instance( 'site.ini.append', 'settings/override', null, null, false, true );
-    $writeSiteINI->setVariable( "ExtensionSettings", "ActiveExtensions", $selectedExtensionArray );
+    $writeSiteINI->setVariable( "ExtensionSettings", "ActiveExtensions", $toSave );
     $writeSiteINI->save( 'site.ini.append', '.php', false, false );
     eZCache::clearByTag( 'ini' );
 
@@ -74,7 +91,7 @@ if ( $module->isCurrentAction( 'ActivateExtensions' ) )
     updateAutoload( $tpl );
 }
 
-// open site.ini for reading
+// open site.ini for reading (need to do it again to take into account the changes made to site.ini after clicking "Apply changes" button above
 $siteINI = eZINI::instance();
 $siteINI->load();
 $selectedExtensionArray       = $siteINI->variable( 'ExtensionSettings', "ActiveExtensions" );
