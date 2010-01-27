@@ -46,24 +46,17 @@
 
 <div id="content-tree">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
-
-{if ezpreference( 'admin_treemenu' )}
-<h4><a class="show-hide-control" href={'/user/preferences/set/admin_treemenu/0'|ezurl} title="{'Hide content structure.'|i18n( 'design/admin/parts/content/menu' )}">-</a> {'Site structure'|i18n( 'design/admin/parts/content/menu' )}</h4>
-{else}
-<h4><a class="show-hide-control" href={'/user/preferences/set/admin_treemenu/1'|ezurl} title="{'Show content structure.'|i18n( 'design/admin/parts/content/menu' )}">+</a> {'Site structure'|i18n( 'design/admin/parts/content/menu' )}</h4>
-{/if}
-
+<h4>{'Site structure'|i18n( 'design/admin/parts/content/menu' )}</h4>
 {* DESIGN: Header END *}</div></div>
+
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 {* Treemenu. *}
 <div id="contentstructure">
-{if ezpreference( 'admin_treemenu' )}
-    {if ezini('TreeMenu','Dynamic','contentstructuremenu.ini')|eq('enabled')}
-        {include uri='design:contentstructuremenu/content_structure_menu_dynamic.tpl' custom_root_node_id=1 menu_persistence=false() hide_node_list=array(ezini( 'NodeSettings', 'DesignRootNode', 'content.ini'), ezini( 'NodeSettings', 'SetupRootNode', 'content.ini'))}
-    {else}
-        {include uri='design:contentstructuremenu/content_structure_menu.tpl' custom_root_node_id=1}
-    {/if}
+{if ezini('TreeMenu','Dynamic','contentstructuremenu.ini')|eq('enabled')}
+    {include uri='design:contentstructuremenu/content_structure_menu_dynamic.tpl' custom_root_node_id=1 menu_persistence=false() hide_node_list=array(ezini( 'NodeSettings', 'DesignRootNode', 'content.ini'), ezini( 'NodeSettings', 'SetupRootNode', 'content.ini'))}
+{else}
+    {include uri='design:contentstructuremenu/content_structure_menu.tpl' custom_root_node_id=1}
 {/if}
 </div>
 

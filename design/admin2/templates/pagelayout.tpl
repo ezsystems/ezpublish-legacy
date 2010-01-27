@@ -8,7 +8,6 @@
      $hide_right_menu      = first_set( $module_result.content_info.persistent_variable.extra_menu, $ui_context_edit|not )|not
      $collapse_right_menu  = ezpreference( 'admin_right_menu_show' )|not
      $admin_left_size      = ezpreference( 'admin_left_menu_size' )
-     $admin_treemenu       = ezpreference( 'admin_treemenu' )
      $admin_theme          = ezpreference( 'admin_theme' )
      $left_size_hash       = 0
      $user_hash = concat( $current_user.role_id_list|implode( ',' ), ',', $current_user.limited_assignment_value_list|implode( ',' ), ',', ezpreference( 'admin_edit_show_re_edit' ) )
@@ -41,7 +40,7 @@
 {/if}
 
 {* Pr uri cache (donsn't use ignore_content_expiry because of content structure menu ) *}
-{cache-block keys=array( $module_result.uri, $user_hash, $pref_hash, $left_size_hash, $admin_treemenu )}
+{cache-block keys=array( $module_result.uri, $user_hash, $pref_hash, $left_size_hash )}
 
 {include uri='design:page_head.tpl'}
 
