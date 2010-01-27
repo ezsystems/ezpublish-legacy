@@ -335,7 +335,7 @@ input.defaultbutton, input.button-disabled
   border-color: #ddd;
 }
 
-input.defaultbuttone
+input.defaultbutton
 {
   background-image: url(../../images/2/gradient-orange.png);
   color: #fff;
