@@ -48,6 +48,31 @@
 <form action={concat( $module.functions.edit.uri, '/', $class.id, '/(language)/', $language_code )|ezurl} method="post" id="ClassEdit" name="ClassEdit">
 <input type="hidden" name="ContentClassHasInput" value="1" />
 
+<div id="controlbar-top" class="controlbar">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
+<div class="block">
+<div class="element">
+    <input class="defaultbutton" type="submit" name="StoreButton"   value="{'OK'|i18n( 'design/admin/class/edit' )}" title="{'Store changes and exit from edit mode.'|i18n( 'design/admin/class/edit' )|wash}" />
+
+    {if eq( ezini( 'ClassSettings', 'ApplyButton', 'content.ini' ), 'enabled' )}
+    <input class="button" type="submit" name="ApplyButton"   value="{'Apply'|i18n( 'design/admin/class/edit' )}" title="{'Store changes and continue editing.'|i18n( 'design/admin/class/edit' )|wash}" />
+    {/if}
+
+    <input class="button" type="submit" name="DiscardButton" value="{'Cancel'|i18n( 'design/admin/class/edit' )}" title="{'Discard all changes and exit from edit mode.'|i18n( 'design/admin/class/edit' )|wash}" />
+</div>
+<div class="element">
+	{include uri="design:class/datatypes.tpl" name=DataTypes id_name=DataTypeString datatypes=$datatypes current=$datatype}
+	<input class="button" type="submit" name="NewButton" value="{'Add attribute'|i18n( 'design/admin/class/edit' )}" title="{'Add a new attribute to the class. Use the menu on the left to select the attribute type.'|i18n( 'design/admin/class/edit' )|wash}" />
+</div>
+<div class="button-right">
+    <a href="JavaScript:void(0);" onclick="jQuery('#page').toggleClass('main-column-only');" class="controlbar-top-full-screen-toggle" title="{'Toggle fullscreen editing!'|i18n( 'design/admin/content/edit' )}">&nbsp;</a>
+</div>
+<div class="float-break"></div>
+</div>
+{* DESIGN: Control bar END *}</div></div>
+</div>
+
+
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
@@ -235,7 +260,7 @@
 {* Category. *}
 <div class="element">
 <label for="ContentAttribute_category_{$Attributes.item.id}">
-<select id="ContentAttribute_category_{$Attributes.item.id}" name="ContentAttribute_category_select[]"  title="{'Use this category to group attributes together in edit interface, some categories might also be hidden in full view if they are for instance only meta attributes.'|i18n( 'design/admin/class/edit' )|wash}" />
+<select id="ContentAttribute_category_{$Attributes.item.id}" name="ContentAttribute_category_select[]"  title="{'Use this category to group attributes together in edit interface, some categories might also be hidden in full view if they are for instance only meta attributes.'|i18n( 'design/admin/class/edit' )|wash}">
     <option value="">{'Default'|i18n( 'design/admin/class/edit' )} ({$attribute_categorys[ $attribute_default_category ]|wash})</option>
     {foreach $attribute_categorys as $categoryIdentifier => $categoryName}
         <option value="{$categoryIdentifier|wash}"{if $categoryIdentifier|eq( $Attributes.item.category )} selected="selected"{/if}>{$categoryName|wash}</option>
@@ -267,27 +292,6 @@
 </div>
 {/if}
 
-
-
-
-<div class="controlbar">
-
-{* Remove selected attributes button *}
-<div class="block">
-{if $attributes}
-<input class="button" type="submit" name="RemoveButton" value="{'Remove selected attributes'|i18n( 'design/admin/class/edit' )}" title="{'Remove the selected attributes.'|i18n( 'design/admin/class/edit' )|wash}" />
-{else}
-<input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected attributes'|i18n( 'design/admin/class/edit' )}" title="{'Remove the selected attributes.'|i18n( 'design/admin/class/edit' )|wash}" disabled="disabled" />
-{/if}
-</div>
-
-<div class="block">
-{include uri="design:class/datatypes.tpl" name=DataTypes id_name=DataTypeString datatypes=$datatypes current=$datatype}
-<input class="button" type="submit" name="NewButton" value="{'Add attribute'|i18n( 'design/admin/class/edit' )}" title="{'Add a new attribute to the class. Use the menu on the left to select the attribute type.'|i18n( 'design/admin/class/edit' )|wash}" />
-</div>
-
-</div>
-
 </div>
 
 {* DESIGN: Content END *}</div></div></div>
@@ -295,7 +299,25 @@
 
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
-    <div class="block">
+
+<div class="block">
+	{* Remove selected attributes button *}
+	<div class="button-left">
+	{if $attributes}
+	<input class="button" type="submit" name="RemoveButton" value="{'Remove selected attributes'|i18n( 'design/admin/class/edit' )}" title="{'Remove the selected attributes.'|i18n( 'design/admin/class/edit' )|wash}" />
+	{else}
+	<input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected attributes'|i18n( 'design/admin/class/edit' )}" title="{'Remove the selected attributes.'|i18n( 'design/admin/class/edit' )|wash}" disabled="disabled" />
+	{/if}
+	</div>
+	
+	<div class="button-right">
+	{include uri="design:class/datatypes.tpl" name=DataTypes id_name=DataTypeString datatypes=$datatypes current=$datatype}
+	<input class="button" type="submit" name="NewButton" value="{'Add attribute'|i18n( 'design/admin/class/edit' )}" title="{'Add a new attribute to the class. Use the menu on the left to select the attribute type.'|i18n( 'design/admin/class/edit' )|wash}" />
+	</div>
+	<div class="float-break"></div>
+</div>
+
+<div class="block">
     <input class="defaultbutton" type="submit" name="StoreButton"   value="{'OK'|i18n( 'design/admin/class/edit' )}" title="{'Store changes and exit from edit mode.'|i18n( 'design/admin/class/edit' )|wash}" />
 
     {if eq( ezini( 'ClassSettings', 'ApplyButton', 'content.ini' ), 'enabled' )}
@@ -303,7 +325,7 @@
     {/if}
 
     <input class="button" type="submit" name="DiscardButton" value="{'Cancel'|i18n( 'design/admin/class/edit' )}" title="{'Discard all changes and exit from edit mode.'|i18n( 'design/admin/class/edit' )|wash}" />
-    </div>
+</div>
 {* DESIGN: Control bar END *}</div></div>
 </div>
 
