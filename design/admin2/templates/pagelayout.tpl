@@ -79,12 +79,6 @@
 	</div>
 	</div>
 
-	<div id="search">
-	<div id="search-design">
-    {include uri='design:page_search.tpl'}
-    </div>
-	</div>
-
 </div>
 </div>
 

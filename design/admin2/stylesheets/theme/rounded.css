@@ -184,7 +184,10 @@ ul.tabs.context-user li#node-tab-states
 
 #search
 {
-	text-align:right;
+  text-align: right;
+  float: right;
+  padding: 1.5em 5px 0;
+  text-align: right;
 }
 
 /* BOX MODEL */
@@ -213,6 +216,7 @@ ul.tabs.context-user li#node-tab-states
   -webkit-border-bottom-left-radius: 3px;
   border-top-left-radius:  3px;
   border-bottom-left-radius: 3px;
+  background-color: #F8F8F8;
 }
 
 #controlbar-top .box-bc
@@ -248,6 +252,20 @@ ul.tabs.context-user li#node-tab-states
   padding: 0.5em;
 }
 
+.context-information
+{
+  background-color:#f8f8f8;
+  border: 1px solid #ccc;
+  border-top: 0px none;
+  -moz-border-radius-bottomleft: 3px;
+  -moz-border-radius-bottomright: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  -webkit-border-bottom-right-radius: 3px;
+  border-bottom-left-radius:  3px;
+  border-bottom-right-radius: 3px;
+  margin-bottom: 10px;
+}
+
 /* MENU-BLOCK */
 
 .menu-block li a
@@ -258,7 +276,7 @@ ul.tabs.context-user li#node-tab-states
 }
 
 /* BUTTONS */
-p.versions
+p.versions 
 {
   -moz-border-radius-bottomleft: 3px;
   -moz-border-radius-bottomright: 3px;
@@ -268,7 +286,7 @@ p.versions
   border-bottom-right-radius: 3px;
   border: 1px solid #CCCCCC;
   border-top: 0 none;
-  background-color: #D1DFE9;
+  background-color: #f5f5f5;
   background-image: url(../../images/2/gradient-to-darker.png);
   background-position: center bottom;
   background-repeat: repeat-x;
@@ -276,7 +294,7 @@ p.versions
   padding: 4px 10px;
 }
 
-p.table-preferences
+p.view-preferences
 {
   -moz-border-radius-bottomleft: 3px;
   -moz-border-radius-bottomright: 3px;
@@ -293,31 +311,31 @@ p.table-preferences
   margin: 0 0 1.2em;
 }
 
-p.table-preferences .current
+p.view-preferences .current
 {
   background-color: #D1DFE9;
-  background-image: url(../../images/2/gradient-blue.png);
+  background-image: url(../../images/2/gradient-green.png);
   background-position: center bottom;
   background-repeat: repeat-x;
   padding: 1px 10px;
   color: #fff;
 }
 
-p.table-preferences .current:first-child
+p.view-preferences .current:first-child
 {
   -moz-border-radius-bottomleft: 3px;
   -webkit-border-bottom-left-radius: 3px;
   border-bottom-left-radius: 3px;
 }
 
-p.table-preferences .current:last-child
+p.view-preferences .current:last-child
 {
   -moz-border-radius-bottomright: 3px;
   -webkit-border-bottom-right-radius: 3px;
   border-bottom-right-radius: 3px;
 }
 
-p.table-preferences a
+p.view-preferences a
 {
   padding: 1px 10px;
   text-decoration: none;

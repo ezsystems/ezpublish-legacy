@@ -362,7 +362,7 @@ function show( element, method )
 <div id="diffview">
 
 <script type="text/javascript">
-document.write('<div class="context-toolbar"><div class="block"><ul><li><a href="#" onclick="show(\'diffview\', \'previous\'); return false;">{'Old version'|i18n( 'design/admin/content/history' )}</a></li><li><a href="#" onclick="show(\'diffview\', \'inlinechanges\'); return false;">{'Inline changes'|i18n( 'design/admin/content/history' )}</a></li><li><a href="#" onclick="show(\'diffview\', \'blockchanges\'); return false;">{'Block changes'|i18n( 'design/admin/content/history' )}</a></li><li><a href="#" onclick="show(\'diffview\', \'latest\'); return false;">{'New version'|i18n( 'design/admin/content/history' )}</a></li></ul></div></div>');
+document.write('<div class="context-toolbar"><div class="button-left"><p class="view-preferences"><a href="#" onclick="show(\'diffview\', \'previous\'); return false;">{'Old version'|i18n( 'design/admin/content/history' )}</a><a href="#" onclick="show(\'diffview\', \'inlinechanges\'); return false;">{'Inline changes'|i18n( 'design/admin/content/history' )}</a><a href="#" onclick="show(\'diffview\', \'blockchanges\'); return false;">{'Block changes'|i18n( 'design/admin/content/history' )}</a><a href="#" onclick="show(\'diffview\', \'latest\'); return false;">{'New version'|i18n( 'design/admin/content/history' )}</a></p></div></div>');
 </script>
 
 {foreach $object.data_map as $attr}
