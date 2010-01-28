@@ -368,15 +368,15 @@
         </tbody>
         </table>
         {if $attribute.content.relation_list|not}
-            <p>{'There are no related objects.'|i18n( 'design/standard/content/datatype' )}</p>
+            <p class="ezobject-relation-no-relation">{'There are no related objects.'|i18n( 'design/standard/content/datatype' )}</p>
         {/if}
 
         <div class="block inline-block ezobject-relation-browse">
         <div class="left">
 	        {if $attribute.content.relation_list}
-	            <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_remove_objects]" value="{'Remove selected'|i18n( 'design/standard/content/datatype' )}" />&nbsp;
+	            <input class="button ezobject-relation-remove-button" type="submit" name="CustomActionButton[{$attribute.id}_remove_objects]" value="{'Remove selected'|i18n( 'design/standard/content/datatype' )}" />&nbsp;
 	        {else}
-	            <input class="button-disabled" type="submit" name="CustomActionButton[{$attribute.id}_remove_objects]" value="{'Remove selected'|i18n( 'design/standard/content/datatype' )}" disabled="disabled" />&nbsp;
+	            <input class="button-disabled ezobject-relation-remove-button" type="submit" name="CustomActionButton[{$attribute.id}_remove_objects]" value="{'Remove selected'|i18n( 'design/standard/content/datatype' )}" disabled="disabled" />&nbsp;
 	        {/if}
 
 	        {if $browse_object_start_node}
