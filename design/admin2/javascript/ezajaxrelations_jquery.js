@@ -85,6 +85,8 @@ jQuery(function( $ )
     	tds.eq( 2 ).html( sectionName );
     	tds.eq( 3 ).html( publishedTxt );
     	$( boxID + ' table' ).removeClass('hide');
+    	$(boxID + ' .ezobject-relation-remove-button').removeClass('button-disabled').addClass('button').attr('disabled', false);
+    	$(boxID + ' .ezobject-relation-no-relation').addClass('hide');
     }
 
     // register searchAdd gloablly as it is used on search links
