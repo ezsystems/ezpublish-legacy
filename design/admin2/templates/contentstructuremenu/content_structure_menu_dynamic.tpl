@@ -538,6 +538,10 @@ var treeMenu;
     treeMenu         = new ContentStructureMenu( path, persistence );
 
 {cache-block keys=$root_node_id expiry=0}
+    {def $root_node_url = $root_node.url}
+    {if $root_node_url|eq('')}
+        {set $root_node_url = concat( 'content/view/full/', $root_node_id )}
+    {/if}
 
     var rootNode = {ldelim}{*
         *}"node_id":{$root_node_id},{*
@@ -545,7 +549,7 @@ var treeMenu;
         *}"class_id":{$root_node.object.contentclass_id},{*
         *}"has_children":{if $root_node.children_count}true{else}false{/if},{*
         *}"name":"{$root_node.name|wash(javascript)}",{*
-        *}"url":{$root_node.url|ezurl},{*
+        *}"url":{$root_node_url|ezurl},{*
         *}"modified_subnode":{$root_node.modified_subnode},{*
         *}"languages":["{$root_node.object.language_codes|implode('", "')}"],{*
         *}"class_list":[{foreach fetch('content','can_instantiate_class_list',hash('parent_node',$root_node, 'filter_type', $filter_type, 'group_id', $filter_groups)) as $class}{$class.id}{delimiter},{/delimiter}{/foreach}]{rdelim};

@@ -229,6 +229,9 @@ else
         $childResponse['has_children'] = ( $child->subTreeCount( $conditions ) )? 1: 0;
         $childResponse['name'] = $child->getName();
         $childResponse['url'] = $child->url();
+        // force system url on empty urls (root node)
+        if ( $childResponse['url'] === '' )
+            $childResponse['url'] = 'content/view/full/' . $childResponse['node_id'];
         eZURI::transformURI( $childResponse['url'] );
         $childResponse['modified_subnode'] = $child->ModifiedSubNode;
         $childResponse['languages'] = $childObject->availableLanguages();

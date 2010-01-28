@@ -114,3 +114,4 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Fixed bug #16037 Undefined variable: contentVersion in kernel\classes\ezworkflowprocess.php on line 521
 - Fixed bug #15979: ActiveExtensions Array order in site.ini changes on autoload generation
 - Fixed bug #16085: Only variable references should be returned by reference in \lib\ezutils\classes\ezsys.php on line 739
+- Fixed bug #16088: Make contenttreemenu and content/treemenu use system url if url is empty
