@@ -22,7 +22,7 @@ var eZAjaxSubitemsSortDD = function() {
                     Y.get('#ezasi-update-priority').set('disabled', true).replaceClass('button', 'button-disabled');
             }
         });
-        Y.get('#ezasi-subitems-list input.ezasi-priority-input').on('change', function( e )
+        Y.all('#ezasi-subitems-list input.ezasi-priority-input').on('change', function( e )
         {
         	// signal in gui that user needs to save this
         	Y.get('#ezasi-update-priority').replaceClass('button', 'defaultbutton');
