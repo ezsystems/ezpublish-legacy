@@ -726,7 +726,7 @@ class eZSys
      \return the variable named \a $variableName in the global \c ENV variable.
              If the variable is not present an error is shown and \c null is returned.
     */
-    static function &environmentVariable( $variableName, $quiet = false )
+    static function environmentVariable( $variableName, $quiet = false )
     {
         if ( getenv($variableName) === false )
         {
