@@ -11,10 +11,10 @@
      $current_path = first_set( $node.path_array[1], 1 )
      $admin_children_viewmode = ezpreference( 'admin_children_viewmode' )
      $children_count = fetch( content, list_count, hash( 'parent_node_id', $node.node_id,
-                                                      'objectname_filter', $view_parameters.namefilter ) )
+                                                         'objectname_filter', $view_parameters.namefilter ) )
      $children    = array()
      $priority    = and( eq( $node.sort_array[0][0], 'priority' ), $node.can_edit, $children_count )
-     $priority_dd = and( $priority, $admin_children_viewmode|ne( 'thumbnail' ) )}
+     $priority_dd = and( $priority, $admin_children_viewmode|ne( 'thumbnail' ), $view_parameters.offset|eq( 0 ) )}
      
 
 <!-- Children START -->
