@@ -50,9 +50,11 @@
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <div class="context-information">
+{if $object.content_class.description}
 <p class="left class-description">
     {$object.content_class.description|wash}
 </p>
+{/if}
 <p class="right translation">
 {let language_index=0
      from_language_index=0
