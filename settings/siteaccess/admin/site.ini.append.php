@@ -10,6 +10,7 @@
 
 [SiteSettings]
 DefaultPage=/content/view/full/2
+IndexPage=content/dashboard
 LoginPage=custom
 
 [SiteAccessSettings]
