@@ -1,7 +1,7 @@
 {let settings=$handler.settings}
 
 <div class="block">
-    <label><input type="checkbox" name="ReceiveDigest_{$handler.id_string}" {$settings.receive_digest|choose( '', checked)} /> {'Receive all messages combined in one digest'|i18n( 'design/admin/notification/handler/ezgeneraldigest/settings/edit' )}</label>
+    <label><input type="checkbox" name="ReceiveDigest_{$handler.id_string}" {$settings.receive_digest|choose( '', 'checked="checked"' )} /> {'Receive all messages combined in one digest'|i18n( 'design/admin/notification/handler/ezgeneraldigest/settings/edit' )}</label>
     
 </div>
 
@@ -11,7 +11,7 @@
 <table cellspacing="4">
 <tr>
 <td>
-<input type="radio" name="DigestType_{$handler.id_string}" value="3" {eq($settings.digest_type,3)|choose('',checked)} />
+<input type="radio" name="DigestType_{$handler.id_string}" value="3" {eq($settings.digest_type,3)|choose('', 'checked="checked"' )} />
 </td>
 <td>
 {'Daily, at'|i18n( 'design/admin/notification/handler/ezgeneraldigest/settings/edit' )}
@@ -26,7 +26,7 @@
 </tr>
 <tr>
 <td>
-<input type="radio" name="DigestType_{$handler.id_string}" value="1" {eq( $settings.digest_type, 1 )|choose( '', checked )} />
+<input type="radio" name="DigestType_{$handler.id_string}" value="1" {eq( $settings.digest_type, 1 )|choose( '', 'checked="checked"' )} />
 </td>
 <td>
 {'Once per week, on '|i18n( 'design/admin/notification/handler/ezgeneraldigest/settings/edit' )}
@@ -41,7 +41,7 @@
 </tr>
 <tr>
 <td>
-<input type="radio" name="DigestType_{$handler.id_string}" value="2" {eq( $settings.digest_type, 2)|choose( '', checked )} />
+<input type="radio" name="DigestType_{$handler.id_string}" value="2" {eq( $settings.digest_type, 2)|choose( '', 'checked="checked"' )} />
 </td>
 <td>
 {'Once per month, on day number'|i18n( 'design/admin/notification/handler/ezgeneraldigest/settings/edit' )}
