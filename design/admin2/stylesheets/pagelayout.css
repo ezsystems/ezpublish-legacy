@@ -131,7 +131,6 @@ div.tab-content
 #path span
 {
   color: #333;
-  font-size: 90%;
 }
 
 /* COLUMNS */
@@ -306,7 +305,6 @@ div#contentstructure li span.node-name-normal
 div#contentstructure li.currentnode > a.image-text span.node-name-normal, div#contentstructure li.currentnode > a.image-text span.node-name-hidden, div#contentstructure li.currentnode > a.image-text span.node-name-hiddenbyparent /* Highlighting of current node */
 {
   color: #E24602;
-  font-weight: bold;
   padding: 0 0.25em 0 0.2em;
 }
 
