@@ -119,7 +119,7 @@ div.tab-content
 
 /* PATH */
 
-#subheader
+#path
 {
   padding: 8px 6px 6px 6px;
   text-align: left;
@@ -613,7 +613,7 @@ div.context-block h1.context-title img, div.context-block h2.context-title img
 
 /* FULL EDIT VIEW ( main-column-only class toggle ) */
 
-#page.main-column-only #header, #page.main-column-only #subheader,
+#page.main-column-only #header, #page.main-column-only #path,
 #page.main-column-only #leftmenu, #page.main-column-only #rightmenu,
 #page.main-column-only #footer, #page.main-column-only #debug
 {

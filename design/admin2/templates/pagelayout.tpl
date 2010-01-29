@@ -70,15 +70,9 @@
 
 <hr class="hide" />
 
-<div id="subheader">
-<div id="subheader-design" class="float-break">
-
-    <div id="path">
-	<div id="path-design">
+<div id="path">
+<div id="path-design">
     {include uri='design:page_toppath.tpl'}
-	</div>
-	</div>
-
 </div>
 </div>
 
