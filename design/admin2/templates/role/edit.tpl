@@ -105,7 +105,7 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
-<input class="button" type="submit" name="Apply" value="{'OK'|i18n( 'design/admin/role/edit' )}" />
+<input class="defaultbutton" type="submit" name="Apply" value="{'OK'|i18n( 'design/admin/role/edit' )}" />
 <input class="button" type="submit" name="Discard" value="{'Cancel'|i18n( 'design/admin/role/edit' )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div>
