@@ -117,3 +117,4 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Fixed bug #16088: Make contenttreemenu and content/treemenu use system url if url is empty
 - Fixed bug #11532: it is not possible to use " in title of site without corupting html
 - Fixed bug #16089: All redirects to node 2 (content root node) end up on Dashboard page
+- Fixed bug #15970: Characters appended to node view urls are used in view cache tree structure
