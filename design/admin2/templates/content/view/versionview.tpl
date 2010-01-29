@@ -220,7 +220,7 @@
 {$object_languagecode|locale().intl_language_name} <img src="{$object_languagecode|flag_icon}" alt="{$object_languagecode}" style="vertical-align: middle;" />
 </p>
 <p class="full-screen">
-<a href={concat("content/versionview/",$object.id,"/",$view_version.version,"/",$language, "/site_access/", $siteaccess)|ezurl} target="_blank"><img src={"images/window_fullscreen.png"|ezdesign} /></a>
+<a href={concat("content/versionview/",$object.id,"/",$view_version.version,"/",$language, "/site_access/", $siteaccess)|ezurl} target="_blank"><img src={"images/view-fullscreen.png"|ezdesign} /></a>
 </p>
 <div class="break"></div>
 </div>

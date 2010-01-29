@@ -73,13 +73,14 @@ a.show-hide-control
 /* HEADER */
 #header
 { 
-  border-bottom: 1px solid #999;
-  background: #FEFEFE url('../../images/2/gradient-to-light.png') repeat-x left top scroll;
+  border-bottom: 1px solid #666;
+  background: #FEFEFE url('../../images/2/header.png') repeat-x left top scroll;
 }
 
 .loginpage #header
 {
 	border-bottom-width: 0;
+	background: #FEFEFE url('../../images/2/gradient-to-light.png') repeat-x left top scroll;
 }
 
 #header-logo a, #header-logo span
@@ -93,10 +94,10 @@ a.show-hide-control
 #header-logo a, #header-logo span
 {
   display: block;
-  width: 102px;
+  width: 250px;
   height: 35px;
   text-decoration: none;
-  background-image: url('../../images/2/ezpublish-black.png');
+  background-image: url('../../images/2/ezpublish-logo.png');
   background-repeat: no-repeat;
   background-position: 8px 10px;
 }
@@ -106,7 +107,7 @@ a.show-hide-control
 {
   margin-top: 2px;
   background-color: #f3f3f3;
-  border: 1px solid #999;
+  border: 1px solid #666;
   border-bottom-width: 0;
   min-width: 100px;
   min-height: 20px;
@@ -213,6 +214,7 @@ ul.tabs.context-user li#node-tab-states
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   border-radius: 3px;
+  border: 1px solid #ccc;
 }
 
 .box-ml
@@ -367,7 +369,7 @@ input.button-disabled
 /* SEARCH */
 #searchtext
 {
-  border: 1px solid #ccc;
+  border: 1px solid #333;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   border-radius: 3px;
@@ -397,3 +399,4 @@ input.button-disabled
   border-top: 1px solid #999;
   background: #FEFEFE url('../../images/2/gradient-to-light.png') repeat-x left top scroll;
 }
+

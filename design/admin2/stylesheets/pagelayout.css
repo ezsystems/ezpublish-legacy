@@ -305,7 +305,7 @@ div#contentstructure li span.node-name-normal
 
 div#contentstructure li.currentnode > a.image-text span.node-name-normal, div#contentstructure li.currentnode > a.image-text span.node-name-hidden, div#contentstructure li.currentnode > a.image-text span.node-name-hiddenbyparent /* Highlighting of current node */
 {
-  color: #000;
+  color: #E24602;
   font-weight: bold;
   padding: 0 0.25em 0 0.2em;
 }
@@ -645,7 +645,7 @@ a.controlbar-top-full-screen-toggle
   width: 16px;
   display: block;
   text-decoration: none;
-  background-image: url('../images/2/view-fullscreen.png');
+  background-image: url('../images/view-fullscreen.png');
   background-repeat: no-repeat;
   background-position: left top;
 }
