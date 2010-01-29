@@ -155,9 +155,9 @@ Should: Be able to select module and function without any page refresh
 #5 New Ajax functionality for class edit interface
 --------------------------------------------------
 Should: Be able to move attributes without page refresh
-Should: Be able to add attribute without page refresh
-OR
 Should: Set focus on added attribute after page refresh
+OR
+Should: Be able to add attribute without page refresh
 Could: Be able to remove attribute without page refresh
 Could: Allow using drag and drop to move attributes
 
