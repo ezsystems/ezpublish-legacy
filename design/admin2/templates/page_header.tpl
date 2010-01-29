@@ -6,10 +6,8 @@
 {/if}
 </div>
 
-<div id="search">
-	<div id="search-design">
+<div id="header-search">
     {include uri='design:page_search.tpl'}
-    </div>
 </div>
 
 <div id="header-usermenu">
