@@ -9,8 +9,7 @@
 #       directory using .append files.
 
 [SiteSettings]
-DefaultPage=/content/view/full/2
-IndexPage=content/dashboard
+DefaultPage=content/dashboard
 LoginPage=custom
 
 [SiteAccessSettings]
