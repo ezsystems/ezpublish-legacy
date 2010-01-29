@@ -128,6 +128,12 @@ div.tab-content
 
 #path p { margin: 0.5em 0 0 0; }
 
+#path span
+{
+  color: #333;
+  font-size: 90%;
+}
+
 /* COLUMNS */
 
 #maincontent

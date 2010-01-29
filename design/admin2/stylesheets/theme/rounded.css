@@ -168,20 +168,6 @@ ul.tabs.context-user li#node-tab-states
   background-color: #fff;
 }
 
-
-/* PATH */
-
-#path span
-{
-  color: #333;
-  font-size: 90%;
-}
-
-#path
-{
-	float: left;
-}
-
 #header-search
 {
   text-align: right;
