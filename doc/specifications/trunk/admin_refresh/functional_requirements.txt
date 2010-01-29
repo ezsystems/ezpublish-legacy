@@ -137,6 +137,7 @@ Should: Provide a box for own object drafts (stored drafts)
 Should: Provide short links to user specific task like changing password
 Should: Provide a box for your pending content for approval
 Should: Be extend able so extensions can add /override blocks
+Should: Hide right menu to use full screen area
 Could: Provide a box for highest/lowest rated content (ezstarrating)
 Could: Provide a box for comment approval (ezjscomment)
 
