@@ -143,6 +143,11 @@ ul.tabs li a
   background-image: none;
 }
 
+#header-usermenu a
+{
+  color: #ccc;
+}
+
  ul.tabs li.selected a,  ul.tabs li a:hover
 {
   margin-top: 0;
@@ -369,7 +374,7 @@ input.button-disabled
 /* SEARCH */
 #searchtext
 {
-  border: 1px solid #333;
+  border: 1px solid #666;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   border-radius: 3px;
@@ -383,7 +388,7 @@ input.button-disabled
 
 #searchtext:focus
 {
-  border-color: #999;
+  border-color: #000;
 }
 
 #searchtext.disabled
