@@ -364,10 +364,10 @@ function show( element, method )
 <div class="context-toolbar">
 <div class="button-left">
 <p class="view-preferences">
-    <a href="#" onclick="show('diffview', 'previous'); return false;">{'Old version'|i18n( 'design/admin/content/history' )}</a>
-    <a href="#" onclick="show('diffview', 'inlinechanges'); return false;">{'Inline changes'|i18n( 'design/admin/content/history' )}</a>
-    <a href="#" onclick="show('diffview', 'blockchanges'); return false;">{'Block changes'|i18n( 'design/admin/content/history' )}</a>
-    <a href="#" onclick="show('diffview', 'latest'); return false;">{'New version'|i18n( 'design/admin/content/history' )}</a>
+    <a href="JavaScript:void(0);" onclick="show('diffview', 'previous'); return false;">{'Old version'|i18n( 'design/admin/content/history' )}</a>
+    <a href="JavaScript:void(0);" onclick="show('diffview', 'inlinechanges'); return false;">{'Inline changes'|i18n( 'design/admin/content/history' )}</a>
+    <a href="JavaScript:void(0);" onclick="show('diffview', 'blockchanges'); return false;">{'Block changes'|i18n( 'design/admin/content/history' )}</a>
+    <a href="JavaScript:void(0);" onclick="show('diffview', 'latest'); return false;">{'New version'|i18n( 'design/admin/content/history' )}</a>
 </p>
 </div>
 <div class="float-break"></div>
