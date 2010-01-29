@@ -99,7 +99,7 @@ a.show-hide-control
   text-decoration: none;
   background-image: url('../../images/2/ezpublish-logo.png');
   background-repeat: no-repeat;
-  background-position: 8px 10px;
+  background-position: 8px 8px;
 }
 
 /* TOP MENU (TABS) */
@@ -287,7 +287,7 @@ p.versions
   padding: 4px 10px;
 }
 
-p.view-preferences
+p.table-preferences
 {
   -moz-border-radius-bottomleft: 3px;
   -moz-border-radius-bottomright: 3px;
@@ -304,7 +304,7 @@ p.view-preferences
   margin: 0 0 1.2em;
 }
 
-p.view-preferences .current
+p.table-preferences .current
 {
   background-color: #D1DFE9;
   background-image: url(../../images/2/gradient-green.png);
@@ -314,21 +314,21 @@ p.view-preferences .current
   color: #fff;
 }
 
-p.view-preferences .current:first-child
+p.table-preferences .current:first-child
 {
   -moz-border-radius-bottomleft: 3px;
   -webkit-border-bottom-left-radius: 3px;
   border-bottom-left-radius: 3px;
 }
 
-p.view-preferences .current:last-child
+p.table-preferences .current:last-child
 {
   -moz-border-radius-bottomright: 3px;
   -webkit-border-bottom-right-radius: 3px;
   border-bottom-right-radius: 3px;
 }
 
-p.view-preferences a
+p.table-preferences a
 {
   padding: 1px 10px;
   text-decoration: none;

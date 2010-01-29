@@ -357,13 +357,13 @@ function show( element, method )
 <h2 class="context-title">{'Differences between versions %oldVersion and %newVersion'|i18n( 'design/admin/content/history',, hash( '%oldVersion', $oldVersion, '%newVersion', $newVersion ) )}</h2>
 
 {* DESIGN: Header END *}</div></div>
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-content">
 
 <div id="diffview">
 
 <div class="context-toolbar">
 <div class="button-left">
-<p class="view-preferences">
+<p class="table-preferences">
     <a href="JavaScript:void(0);" onclick="show('diffview', 'previous'); return false;">{'Old version'|i18n( 'design/admin/content/history' )}</a>
     <a href="JavaScript:void(0);" onclick="show('diffview', 'inlinechanges'); return false;">{'Inline changes'|i18n( 'design/admin/content/history' )}</a>
     <a href="JavaScript:void(0);" onclick="show('diffview', 'blockchanges'); return false;">{'Block changes'|i18n( 'design/admin/content/history' )}</a>
