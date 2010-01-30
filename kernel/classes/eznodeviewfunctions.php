@@ -464,8 +464,17 @@ class eZNodeviewfunctions
 
         if ( !is_object( $node ) )
         {
-            return  array( 'content' => $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' ),
-                           'store'   => false );
+            if ( !$db->isConnected())
+            {
+                return  array( 'content' => $Module->handleError( eZError::KERNEL_NO_DB_CONNECTION, 'kernel' ),
+                               'store'   => false );
+     
+            }
+            else
+            {
+                return  array( 'content' => $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' ),
+                               'store'   => false );
+            }
         }
 
         $object = $node->attribute( 'object' );
