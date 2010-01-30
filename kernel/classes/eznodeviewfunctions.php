@@ -464,7 +464,7 @@ class eZNodeviewfunctions
 
         if ( !is_object( $node ) )
         {
-            if ( !$db->isConnected())
+            if ( !eZDB::instance()->isConnected())
             {
                 return  array( 'content' => $Module->handleError( eZError::KERNEL_NO_DB_CONNECTION, 'kernel' ),
                                'store'   => false );
