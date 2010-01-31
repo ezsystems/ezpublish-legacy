@@ -19,7 +19,7 @@
     {foreach $latest_content as $latest_node sequence array( 'bglight', 'bgdark' ) as $style}
         <tr class="{$style}">
             <td>
-                <a href="{$latest_node.url_alias|ezurl('no')}" title="{$latest_node.name|wash()}">{$latest_node.name|wash()|shorten('30')}</a>
+                <a href="{$latest_node.url_alias|ezurl('no')}" title="{$latest_node.name|wash()}">{$latest_node.name|wash()|shorten('28')}</a>
             </td>
             <td>
                 {$latest_node.class_name|wash()}
