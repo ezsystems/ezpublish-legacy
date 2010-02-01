@@ -104,7 +104,7 @@ a.show-hide-control
 }
 
 /* TOP MENU (TABS) */
-#header-topmenu ul li a, #header-topmenu ul li span.disabled, ul.tabs li a
+#header-topmenu ul li a, #header-topmenu ul li span.disabled, ul.tabs li a, ul.tabs li span.disabled
 {
   margin-top: 2px;
   background-color: #f3f3f3;
@@ -123,7 +123,7 @@ a.show-hide-control
   background-position: left top;
 }
 
-ul.tabs li a
+ul.tabs li a, ul.tabs li span.disabled
 {
 	border-color: #ccc;
 	min-height: 16px;
@@ -409,7 +409,7 @@ input.button-disabled
 
 /* CSS Media Query's to adjust layout based on screen width */
 
-@media all and (min-width: 1230px)
+@media all and (min-width: 1240px)
 {
 	#header-logo a, #header-logo span
 	{
@@ -424,7 +424,7 @@ input.button-disabled
         width: 32px;/* Use only eZ logo on small screens */
     }
 
-    #header-topmenu ul li a, #header-topmenu ul li span.disabled, ul.tabs li a
+    #header-topmenu ul li a, #header-topmenu ul li span.disabled
     {
         min-width: 90px;/* slightly smaller tabs */
     }

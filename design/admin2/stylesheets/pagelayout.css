@@ -81,7 +81,7 @@ ul.tabs
   margin: 0;
 }
 
-#header-topmenu ul li a, #header-topmenu ul li span.disabled, ul.tabs li a
+#header-topmenu ul li a, #header-topmenu ul li span.disabled, ul.tabs li a, ul.tabs li span.disabled
 {
   display: block;
   font-weight: bold;
