@@ -52,6 +52,7 @@ a.show-hide-control
   background-position: top right;
 }
 
+
 .loginpage #leftmenu, .loginpage #rightmenu
 {
 	border: 0 none;
@@ -94,12 +95,21 @@ a.show-hide-control
 #header-logo a, #header-logo span
 {
   display: block;
-  width: 250px;
+  width: 90px;
   height: 35px;
   text-decoration: none;
   background-image: url('../../images/2/ezpublish-logo.png');
   background-repeat: no-repeat;
   background-position: 8px 8px;
+}
+
+@media screen and (min-width: 1200px)
+{
+	#header-logo a, #header-logo span
+	{
+        /* Use full eZ Publish logo on large screens */
+        width: 250px;
+	}
 }
 
 /* TOP MENU (TABS) */
