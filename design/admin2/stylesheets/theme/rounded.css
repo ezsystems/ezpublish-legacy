@@ -75,7 +75,7 @@ a.show-hide-control
 #header
 { 
   border-bottom: 1px solid #666;
-  background: #FEFEFE url('../../images/2/header.png') repeat-x left top scroll;
+  background: #2ebae0 url('../../images/2/header.png') repeat-x left top scroll;
 }
 
 .loginpage #header
@@ -103,13 +103,22 @@ a.show-hide-control
   background-position: 8px 8px;
 }
 
-@media screen and (min-width: 1200px)
+@media screen and (min-width: 1230px)
 {
 	#header-logo a, #header-logo span
 	{
         /* Use full eZ Publish logo on large screens */
         width: 250px;
 	}
+}
+
+@media all and (max-width: 1020px)
+{
+    #header-logo a, #header-logo span
+    {
+        /* Use only eZ logo on small screens */
+        width: 32px;
+    }
 }
 
 /* TOP MENU (TABS) */
@@ -119,7 +128,7 @@ a.show-hide-control
   background-color: #f3f3f3;
   border: 1px solid #666;
   border-bottom-width: 0;
-  min-width: 100px;
+  min-width: 95px;
   min-height: 20px;
   -moz-border-radius-topleft: 3px;
   -moz-border-radius-topright: 3px;
