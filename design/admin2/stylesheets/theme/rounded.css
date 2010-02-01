@@ -103,24 +103,6 @@ a.show-hide-control
   background-position: 8px 8px;
 }
 
-@media screen and (min-width: 1230px)
-{
-	#header-logo a, #header-logo span
-	{
-        /* Use full eZ Publish logo on large screens */
-        width: 250px;
-	}
-}
-
-@media all and (max-width: 1020px)
-{
-    #header-logo a, #header-logo span
-    {
-        /* Use only eZ logo on small screens */
-        width: 32px;
-    }
-}
-
 /* TOP MENU (TABS) */
 #header-topmenu ul li a, #header-topmenu ul li span.disabled, ul.tabs li a
 {
@@ -128,7 +110,7 @@ a.show-hide-control
   background-color: #f3f3f3;
   border: 1px solid #666;
   border-bottom-width: 0;
-  min-width: 95px;
+  min-width: 94px;
   min-height: 20px;
   -moz-border-radius-topleft: 3px;
   -moz-border-radius-topright: 3px;
@@ -424,3 +406,26 @@ input.button-disabled
   background: #FEFEFE url('../../images/2/gradient-to-light.png') repeat-x left top scroll;
 }
 
+
+/* CSS Media Query's to adjust layout based on screen width */
+
+@media all and (min-width: 1230px)
+{
+	#header-logo a, #header-logo span
+	{
+        width: 250px;/* Use full eZ Publish logo on large screens */
+	}
+}
+
+@media all and (max-width: 1070px)
+{
+    #header-logo a, #header-logo span
+    {
+        width: 32px;/* Use only eZ logo on small screens */
+    }
+
+    #header-topmenu ul li a, #header-topmenu ul li span.disabled, ul.tabs li a
+    {
+        min-width: 90px;/* slightly smaller tabs */
+    }
+}
