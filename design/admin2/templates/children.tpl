@@ -371,9 +371,14 @@
 </div>
 
 
-{* Load drag and drop code if sortField=priority and access rights are ok *}
-{if $priority_dd}
+
+{* Load drag and drop code if access rights are ok (but not depending on node sort as pagelayout cache-block does not include that in key) *}
+{if $node.can_edit}
 {ezscript_require( array( 'ezjsc::yui3', 'ezjsc::yui3io', 'ezajaxsubitems_sortdd.js' ) )}
+{/if}
+
+{* Execute drag and drop code if sortField=priority and access rights are ok *}
+{if $priority_dd}
 <script type="text/javascript">
 eZAjaxSubitemsSortDD.init();
 </script>
