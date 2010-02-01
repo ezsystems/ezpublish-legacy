@@ -409,7 +409,7 @@ input.button-disabled
 
 /* CSS Media Query's to adjust layout based on screen width */
 
-@media all and (min-width: 1240px)
+@media all and (min-width: 1250px)
 {
 	#header-logo a, #header-logo span
 	{
@@ -417,7 +417,7 @@ input.button-disabled
 	}
 }
 
-@media all and (max-width: 1070px)
+@media all and (max-width: 1080px)
 {
     #header-logo a, #header-logo span
     {
