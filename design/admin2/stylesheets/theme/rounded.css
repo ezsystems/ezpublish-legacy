@@ -164,11 +164,6 @@ ul.tabs li a, ul.tabs li span.disabled
   background-color: #fff;
 }
 
-ul.tabs.context-user li#node-tab-states
-{
-  display: none;
-}
-
 .tab-content
 {
   border: 1px solid #ccc;

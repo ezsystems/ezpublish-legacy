@@ -8,8 +8,11 @@
      $states_count        = $states|count
      $related_objects_count = fetch( 'content', 'related_objects_count', hash( 'object_id', $node.object.id , 'all_relations', true() ) )
      $reverse_related_objects_count = fetch( 'content', 'reverse_related_objects_count', hash( 'object_id', $node.object.id , 'all_relations', true() ) )
+     $valid_tabs = array( 'preview', 'details', 'translations', 'locations', 'relations', 'states' )
 }
 {if or( $node_tab_index|eq( '0' ), $node_tab_index|eq( '1' ) )}
+    {set $node_tab_index = 'preview'}
+{elseif $valid_tabs|contains( $node_tab_index )|not()}
     {set $node_tab_index = 'preview'}
 {/if}
 <ul class="tabs">

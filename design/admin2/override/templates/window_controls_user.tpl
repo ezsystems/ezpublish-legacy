@@ -9,8 +9,11 @@
      $related_objects_count = fetch( 'content', 'related_objects_count', hash( 'object_id', $node.object.id , 'all_relations', true() ) )
      $reverse_related_objects_count = fetch( 'content', 'reverse_related_objects_count', hash( 'object_id', $node.object.id , 'all_relations', true() ) )
      $assigned_policies   = fetch( 'user', 'user_role', hash( 'user_id', $node.contentobject_id ) )
+     $valid_tabs = array( 'preview', 'details', 'translations', 'locations', 'relations', 'roles', 'policies' )
 }
 {if or( $node_tab_index|eq( '0' ), $node_tab_index|eq( '1' ) )}
+    {set $node_tab_index = 'preview'}
+{elseif $valid_tabs|contains( $node_tab_index )|not()}
     {set $node_tab_index = 'preview'}
 {/if}
 <ul class="tabs context-user">
@@ -43,10 +46,11 @@
         <a href={concat( $node_url_alias, '/(tab)/relations' )|ezurl} title="{'Show object relation overview.'|i18n( 'design/admin/node/view/full' )}">{'Relations (%count)'|i18n( 'design/admin/node/view/full',, hash( '%count', sum( $related_objects_count, $reverse_related_objects_count ) ) )}</a>
     </li>
 
-    {* State assignment *}
+    {* State assignment 
     <li id="node-tab-states" class="last{if $node_tab_index|eq('states')} selected{/if}">
         <a href={concat( $node_url_alias, '/(tab)/states' )|ezurl} title="{'Show state assignment widget.'|i18n( 'design/admin/node/view/full' )}">{'Object states (%count)'|i18n( 'design/admin/node/view/full',, hash( '%count', $states_count ) )}</a>
     </li>
+    *}
 
     {* Roles *}
     <li id="node-tab-roles" class="middle{if $node_tab_index|eq('roles')} selected{/if}">
@@ -91,11 +95,11 @@
 <div class="break"></div>
 </div>
 
-{* States window *}
+{* States window 
 <div id="node-tab-states-content" class="tab-content{if $node_tab_index|ne('states')} hide{else} selected{/if}">
     {include uri='design:states.tpl'}
 <div class="break"></div>
-</div>
+</div> *}
 
 {* Member of roles window *}
 <div id="node-tab-roles-content" class="tab-content{if $node_tab_index|ne('roles')} hide{else} selected{/if}">
