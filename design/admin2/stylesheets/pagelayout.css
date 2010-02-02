@@ -706,20 +706,9 @@ p.table-preferences a
 
 input.button, input.defaultbutton, input.button-disabled
 {
-    color: #fff;    
     width: auto;
     overflow: visible;
     padding: 0.1em 0.8em;;
-}
-
-input.defaultbutton
-{
-    color: #fff;
-}
-
-input.button-disabled
-{
-    color: #777;
 }
 
 /* SEARCH */

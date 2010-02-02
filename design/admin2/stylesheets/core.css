@@ -4,7 +4,7 @@
 
 html
 {
-  height: 100%; /* To be able to have full page designs in themes */
+    height: 100%; /* To be able to have full page designs in themes */
 }
 
 body /* These becomes the initial settings for most other elements */

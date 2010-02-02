@@ -237,6 +237,7 @@ p.table-preferences .current:last-child
 
 input.button, input.defaultbutton, input.button-disabled
 {
+    color: #fff;
     background: #D1DFE9 url(../../images/2/gradient-blue.png) repeat-x center bottom scroll;
     border: 1px solid #dedede;
     border-color: #aaa #ccc #ccc #aaa;
@@ -259,6 +260,7 @@ input.defaultbutton
 
 input.button-disabled
 {
+    color: #777;
     background-image: url(../../images/2/gradient-btn-disabled.png);
 }
 
