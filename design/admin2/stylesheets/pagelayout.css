@@ -1,6 +1,8 @@
 /* ADMIN2 LAYOUT CSS 20100107 */
 
+
 /* GENERIC */
+
 div#fix
 {
   float: left;
@@ -45,6 +47,7 @@ a.image-text:hover > span
 
 
 /* HEADER */
+
 #header-usermenu
 {
   float: right;
@@ -52,13 +55,40 @@ a.image-text:hover > span
   padding: 1em 10px 0;
 }
 
+#header-usermenu a
+{
+    color: #ccc;
+    text-decoration: none;
+}
+
 #header-usermenu span.header-usermenu-name
 {
-	display: block;
+  display: block;
+}
+
+#header-logo a, #header-logo span
+{
+  float: left;
+  width: 90px;
+  height: 35px;
+  display: block;
+  text-align: left;
+  padding: 5px 10px 5px;
+  text-decoration: none;
+  background: transparent url('../images/2/ezpublish-logo.png') no-repeat 8px 8px scroll;
+}
+
+#header-search
+{
+  text-align: right;
+  float: right;
+  padding: 1.4em 5px 0;
+  text-align: right;
 }
 
 
 /* TOP MENU (TABS) */
+
 #header-topmenu
 {
   padding-left: 2px;
@@ -93,16 +123,39 @@ ul.tabs
   text-decoration: none;
   padding: 2px 6px 2px 6px;
   margin-left: 1px;
+  margin-top: 2px;
+  min-width: 94px;
+  min-height: 20px;
+}
+
+ul.tabs li a, ul.tabs li span.disabled
+{
+  min-height: 16px;
+  min-width: 85px;
+}
+
+#header-topmenu ul li.selected a, #header-topmenu ul li a:hover
+{
+  margin-top: 0;
+  min-height: 22px;
+  color: #094564;
+}
+
+#header-topmenu ul li.selected a, #header-topmenu ul li.selected span.disabled, ul.tabs li.selected a
+{
+  margin-bottom: -1px;
+}
+
+ul.tabs li.selected a, ul.tabs li a:hover
+{
+    margin-top: 0;
+    min-height: 18px;
+    color: #094564;
 }
 
 #header-topmenu ul li span.disabled, span.disabled
 {
   color: #999;
-}
-
-#header-topmenu ul li.selected a, ul.tabs li.selected a
-{
-  color: #000;
 }
 
 #header-topmenu ul li.first a
@@ -122,6 +175,7 @@ div.tab-content
   padding: 1em 0.5em 0.5em;
 }
 
+
 /* PATH */
 
 #path
@@ -137,6 +191,7 @@ div.tab-content
 {
   color: #333;
 }
+
 
 /* COLUMNS */
 
@@ -171,7 +226,6 @@ div.tab-content
 
 div#columns.hide-rightmenu div#rightmenu  { display: none; }
 div#columns.hide-rightmenu div#maincolumn { margin-right: 0; }
-
 
 
 /* RIGHTMENU */
@@ -365,9 +419,7 @@ div#contentstructure ul#content_tree_menu ul a.openclose-open, div#contentstruct
   top: 0;
   width: 16px;
   height: 16px;
-  background-image: url( '../images/content_tree-open.gif' );
-  background-repeat: no-repeat;
-  background-position: center center;
+  background-image: transparent url( '../images/content_tree-open.gif' ) no-repeat center center scroll;
 }
 
 div#contentstructure ul#content_tree_menu ul a.openclose-close
@@ -511,6 +563,17 @@ div.popupmenu hr
   padding: 0.1em 0em 0.1em 0em; /* 0.1 needed to avoid gaps in border */
 }
 
+#controlbar-top .box-bc
+{
+  margin-top: 0.5em;
+}
+
+#controlbar-top .box-bc .box-ml
+{
+  margin: 0px 3px 0px 3px;
+  padding: 0.5em;
+}
+
 h1.context-title
 {
   font-size: 1.4em;
@@ -526,6 +589,7 @@ div.context-information, span.classattribute-description
   color: #333;
   font-size: 0.8em;
   padding: 0 0.5em 0 0.5em;
+  margin-bottom: 10px;
 }
 
 span.classattribute-description, p.class-description
@@ -609,6 +673,60 @@ div.context-block h1.context-title img, div.context-block h2.context-title img
 {
   background-color: #f3f3f3;
 }
+
+
+/* BUTTONS */
+
+p.versions 
+{
+    margin: 0 0 0.6em;
+    padding: 4px 10px;
+}
+
+p.table-preferences
+{
+    margin: 0 0 1.2em;
+}
+
+p.table-preferences .current
+{
+    color: #000;
+    font-weight: bold;
+    padding: 1px 10px;
+}
+
+p.table-preferences a
+{
+    padding: 1px 10px;
+    text-decoration: none;
+    color: #094564;
+}
+
+input.button, input.defaultbutton, input.button-disabled
+{
+    color: #fff;    
+    width: auto;
+    overflow: visible;
+    padding: 0.1em 0.8em;;
+}
+
+input.defaultbutton
+{
+    color: #fff;
+}
+
+input.button-disabled
+{
+    color: #777;
+}
+
+/* SEARCH */
+#searchtext
+{
+    height: 18px;
+    padding: 4px 20px 0 5px;
+}
+
 
 /* WIDTH CONTROL */
 

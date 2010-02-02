@@ -9,63 +9,60 @@
 
 a.show-hide-control
 {
-  background-color: white;
-  border: 1px solid #bbb;
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
+    background-color: white;
+    border: 1px solid #bbb;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
 }
 
 /* LOGIN PAGE (center it) */
 
 .loginpage, .loginpage #page
 {
-  height: 100%;
-  background-color: #fefefe;
+    height: 100%;
 }
 
 .loginpage #header
 {
-  height: 25%;
+    height: 25%;
 }
 
 .loginpage #columns
 {
-  height: 74%;
+    height: 74%;
 }
 
 .loginpage #columns #maincontent
 {
-  max-width: 48em;
-  margin: auto;
+    max-width: 48em;
+    margin: auto;
 }
 
 .loginpage #columns #maincontent .box-header
 {
-  background-image: url('../../images/2/ezpublish-black.png');
-  background-repeat: no-repeat;
-  background-position: top right;
+    background: transparent url('../../images/2/ezpublish-black.png') no-repeat top right scroll;
 }
 
 .loginpage #footer
 {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
 }
 
 .loginpage #debug
 {
-  padding-bottom: 4em;
+    padding-bottom: 4em;
 }
 
 
 /* HEADER */
 #header
 { 
-  border-bottom: 1px solid #666;
-  background: #2ebae0 url('../../images/2/header.png') repeat-x left top scroll;
+    border-bottom: 1px solid #666;
+    background: #2ebae0 url('../../images/2/header.png') repeat-x left top scroll;
 }
 
 .loginpage #header
@@ -74,339 +71,225 @@ a.show-hide-control
 	background: #FEFEFE url('../../images/2/gradient-to-light.png') repeat-x left top scroll;
 }
 
-#header-logo a, #header-logo span
-{
-  float: left;
-  text-align: left;
-  padding: 5px 10px 5px;
-  min-height: 25px;
-}
-
-#header-logo a, #header-logo span
-{
-  display: block;
-  width: 90px;
-  height: 35px;
-  text-decoration: none;
-  background-image: url('../../images/2/ezpublish-logo.png');
-  background-repeat: no-repeat;
-  background-position: 8px 8px;
-}
-
 /* TOP MENU (TABS) */
+
 #header-topmenu ul li a, #header-topmenu ul li span.disabled, ul.tabs li a, ul.tabs li span.disabled
 {
-  margin-top: 2px;
-  background-color: #f3f3f3;
-  border: 1px solid #666;
-  border-bottom-width: 0;
-  min-width: 94px;
-  min-height: 20px;
-  -moz-border-radius-topleft: 3px;
-  -moz-border-radius-topright: 3px;
-  -webkit-border-top-left-radius: 3px;
-  -webkit-border-top-right-radius: 3px;
-  border-top-left-radius:  3px;
-  border-top-right-radius: 3px;
-  background-image: url('../../images/2/gradient-to-darker.png');
-  background-repeat: repeat-x;
-  background-position: left top;
+    border: 1px solid #666;
+    border-bottom-width: 0;
+    background: #f3f3f3 url('../../images/2/gradient-to-darker.png') repeat-x left top scroll;
+    -moz-border-radius-topleft: 3px;
+    -moz-border-radius-topright: 3px;
+    -webkit-border-top-left-radius: 3px;
+    -webkit-border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
 }
 
 ul.tabs li a, ul.tabs li span.disabled
 {
-	border-color: #ccc;
-	min-height: 16px;
-    min-width: 85px;
-}
-
-#header-topmenu ul li.selected a, #header-topmenu ul li a:hover{
-  margin-top: 0;
-  min-height: 22px;
-  color: #094564;
+    border-color: #ccc;
 }
 
 #header-topmenu ul li.selected a, #header-topmenu ul li.selected span.disabled, ul.tabs li.selected a
 {
-  border-bottom: 1px solid #fff;
-  margin-bottom: -1px;
-  background-color: #fff;
-  background-image: none;
-}
-
-#header-usermenu a
-{
-  color: #ccc;
-  text-decoration: none;
-}
-
- ul.tabs li.selected a,  ul.tabs li a:hover
-{
-  margin-top: 0;
-  min-height: 18px;
-  color: #094564;
-}
-
- ul.tabs li.selected a
-{
-  margin-top: 0;
-  min-height: 18px;
-  border-bottom-color: #fff;
-  background-color: #fff;
+    border-bottom: 1px solid #fff;
+    background: #fff none;
 }
 
 .tab-content
 {
-  border: 1px solid #ccc;
-  background-color: #fff;
+    border: 1px solid #ccc;
+    background-color: #fff;
 }
 
-#header-search
-{
-  text-align: right;
-  float: right;
-  padding: 1.4em 5px 0;
-  text-align: right;
-}
 
 /* BOX MODEL */
 
 #leftmenu
 {
-  position: relative;
-  border: 1px solid #999;
-  border-left: 0px none;
-  -moz-border-radius-topright: 3px;
-  -moz-border-radius-bottomright: 3px;
-  -webkit-border-top-right-radius: 3px;
-  -webkit-border-bottom-right-radius: 3px;
-  border-top-right-radius:  3px;
-  border-bottom-right-radius: 3px;
+    border: 1px solid #999;
+    border-left: 0 none;
+    -moz-border-radius-topright: 3px;
+    -moz-border-radius-bottomright: 3px;
+    -webkit-border-top-right-radius: 3px;
+    -webkit-border-bottom-right-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
 }
 
 #rightmenu
 {
-  position: relative;
-  border: 1px solid #999;
-  border-right: 0px none;
-  -moz-border-radius-topleft: 3px;
-  -moz-border-radius-bottomleft: 3px;
-  -webkit-border-top-left-radius: 3px;
-  -webkit-border-bottom-left-radius: 3px;
-  border-top-left-radius:  3px;
-  border-bottom-left-radius: 3px;
-  background-color: #F8F8F8;
+    border: 1px solid #999;
+    border-right: 0 none;
+    -moz-border-radius-topleft: 3px;
+    -moz-border-radius-bottomleft: 3px;
+    -webkit-border-top-left-radius: 3px;
+    -webkit-border-bottom-left-radius: 3px;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    background-color: #F8F8F8;
 }
 
 #controlbar-top .box-bc
 {
-  margin-top: 0.5em;
-  border-width: 1px;
-  background: #FEFEFE url('../../images/2/gradient-to-light.png') repeat-x left top scroll;
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-  border: 1px solid #ccc;
+    border: 1px solid #ccc;
+    background: #FEFEFE url('../../images/2/gradient-to-light.png') repeat-x left top scroll;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
 }
 
 .box-ml
 {
-  background-color: #fff;
+    background-color: #fff;
 }
 
 .box-bc .box-ml, .box-header .box-ml
 {
-  border: 0 none;
-  background-color: transparent;
+    border: 0 none;
+    background-color: transparent;
 }
 
 .box-header .box-ml
 {
-  border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
 }
 
 #controlbar-top .box-bc .box-ml
 {
-  border-top-width: 0;
-  margin: 0px 3px 0px 3px;
-  padding: 0.5em;
+    border-top-width: 0;
 }
 
-.context-information
+div.context-information
 {
-  background-color:#f8f8f8;
-  border: 1px solid #ccc;
-  border-top: 0px none;
-  -moz-border-radius-bottomleft: 3px;
-  -moz-border-radius-bottomright: 3px;
-  -webkit-border-bottom-left-radius: 3px;
-  -webkit-border-bottom-right-radius: 3px;
-  border-bottom-left-radius:  3px;
-  border-bottom-right-radius: 3px;
-  margin-bottom: 10px;
+    background-color:#f8f8f8;
+    border: 1px solid #ccc;
+    border-top: 0 none;
+    -moz-border-radius-bottomleft: 3px;
+    -moz-border-radius-bottomright: 3px;
+    -webkit-border-bottom-left-radius: 3px;
+    -webkit-border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
 }
 
 /* MENU-BLOCK */
 
 .menu-block li a
 {
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
 }
 
 /* BUTTONS */
 p.versions 
 {
-  -moz-border-radius-bottomleft: 3px;
-  -moz-border-radius-bottomright: 3px;
-  -webkit-border-bottom-left-radius: 3px;
-  -webkit-border-bottom-right-radius: 3px;
-  border-bottom-left-radius: 3px;
-  border-bottom-right-radius: 3px;
-  border: 1px solid #CCCCCC;
-  border-top: 0 none;
-  background-color: #f5f5f5;
-  background-image: url(../../images/2/gradient-to-darker.png);
-  background-position: center bottom;
-  background-repeat: repeat-x;
-  margin: 0 0 0.6em;
-  padding: 4px 10px;
+    -moz-border-radius-bottomleft: 3px;
+    -moz-border-radius-bottomright: 3px;
+    -webkit-border-bottom-left-radius: 3px;
+    -webkit-border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border: 1px solid #CCCCCC;
+    border-top: 0 none;
+    background: #f5f5f5 url(../../images/2/gradient-to-darker.png) repeat-x center bottom scroll;
 }
 
 p.table-preferences
 {
-  -moz-border-radius-bottomleft: 3px;
-  -moz-border-radius-bottomright: 3px;
-  -webkit-border-bottom-left-radius: 3px;
-  -webkit-border-bottom-right-radius: 3px;
-  border-bottom-left-radius: 3px;
-  border-bottom-right-radius: 3px;
-  border: 1px solid #CCCCCC;
-  border-top: 0 none;
-  background-color: #D1DFE9;
-  background-image: url(../../images/2/gradient-to-darker.png);
-  background-position: center bottom;
-  background-repeat: repeat-x;
-  margin: 0 0 1.2em;
+    -moz-border-radius-bottomleft: 3px;
+    -moz-border-radius-bottomright: 3px;
+    -webkit-border-bottom-left-radius: 3px;
+    -webkit-border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border: 1px solid #CCCCCC;
+    border-top: 0 none;
+    background: #D1DFE9 url(../../images/2/gradient-to-darker.png) repeat-x center bottom scroll;
 }
 
 p.table-preferences :first-child
 {
-  border-right: 1px solid #ccc;
+    border-right: 1px solid #ccc;
 }
 
 p.table-preferences :last-child
 {
-  border-left: 1px solid #ccc;
-}
-
-p.table-preferences .current
-{
-  background-position: center bottom;
-  background-repeat: repeat-x;
-  color: #000;
-  font-weight: bold;
-  padding: 1px 10px;
+    border-left: 1px solid #ccc;
 }
 
 p.table-preferences .current:first-child
 {
-  -moz-border-radius-bottomleft: 3px;
-  -webkit-border-bottom-left-radius: 3px;
-  border-bottom-left-radius: 3px;
-  border-left: 1px;
+    -moz-border-radius-bottomleft: 3px;
+    -webkit-border-bottom-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    border-left: 1px;
 }
 
 p.table-preferences .current:last-child
 {
-  -moz-border-radius-bottomright: 3px;
-  -webkit-border-bottom-right-radius: 3px;
-  border-bottom-right-radius: 3px;
-}
-
-p.table-preferences a
-{
-  padding: 1px 10px;
-  text-decoration: none;
-  color: #094564;
+    -moz-border-radius-bottomright: 3px;
+    -webkit-border-bottom-right-radius: 3px;
+    border-bottom-right-radius: 3px;
 }
 
 input.button, input.defaultbutton, input.button-disabled
 {
-  background-color: #D1DFE9;
-  background-image: url(../../images/2/gradient-blue.png);
-  background-position: center bottom;
-  background-repeat: repeat-x;
-  border: 1px solid #dedede;
-  border-color: #aaa #ccc #ccc #aaa;
-  color: #fff;	
-  width: auto;
-  overflow: visible;
-  padding: 0.1em 0.8em;
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
+    background: #D1DFE9 url(../../images/2/gradient-blue.png) repeat-x center bottom scroll;
+    border: 1px solid #dedede;
+    border-color: #aaa #ccc #ccc #aaa;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
 }
 
 input.defaultbutton, input.button-disabled
 {
-  background-color: #f5f5f5;
-  background-position: center top;
-  border-color: #ddd;
+    background-color: #f5f5f5;
+    background-position: center top;
+    border-color: #ddd;
 }
 
 input.defaultbutton
 {
-  background-image: url(../../images/2/gradient-orange.png);
-  color: #fff;
+    background-image: url(../../images/2/gradient-orange.png);
 }
 
 input.button-disabled
 {
-  background-image: url(../../images/2/gradient-btn-disabled.png);
-  color: #777;
+    background-image: url(../../images/2/gradient-btn-disabled.png);
 }
 
 /* SEARCH */
 #searchtext
 {
-  border: 1px solid #666;
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-  background-image: url('../../images/2/btn-search-16x16.png');
-  background-position: right center;
-  background-repeat: no-repeat;
-  line-height: 18px !important;
-  height: 18px;
-  padding: 4px 20px 0px 5px;
+    border: 1px solid #666;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    background: #fff url('../../images/2/btn-search-16x16.png') no-repeat right center scroll;
+    line-height: 18px !important;
 }
 
 #searchtext:focus
 {
-  border-color: #000;
+    border-color: #000;
 }
 
 #searchtext.disabled
 {
-  background-color: #efefef;
+    background-color: #efefef;
 }
-
-/* DASHBOARD */
-#ez-version
-{
-  color: #095f99;
-  font-weight: bold;
-}  
 
 
 /* FOOTER */
 
 #footer
 {
-  border-top: 1px solid #999;
-  background: #FEFEFE url('../../images/2/gradient-to-light.png') repeat-x left top scroll;
+    border-top: 1px solid #999;
+    background: #FEFEFE url('../../images/2/gradient-to-light.png') repeat-x left top scroll;
 }
 
 

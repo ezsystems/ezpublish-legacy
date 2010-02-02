@@ -126,6 +126,15 @@ table tbody tr.ezasi-sort-drag-handler
     cursor: move;
 }
 
+
+/* DASHBOARD */
+
+#ez-version
+{
+    color: #095f99;
+    font-weight: bold;
+}    
+
 /* GENERIC DIFF STYLES */
 
 ins
