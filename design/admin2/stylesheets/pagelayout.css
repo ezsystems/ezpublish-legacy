@@ -304,6 +304,7 @@ div#contentstructure li span.node-name-normal
 
 div#contentstructure li.currentnode > a.image-text span.node-name-normal, div#contentstructure li.currentnode > a.image-text span.node-name-hidden, div#contentstructure li.currentnode > a.image-text span.node-name-hiddenbyparent /* Highlighting of current node */
 {
+  font-weight: bold;
   color: #E24602;
   padding: 0 0.25em 0 0.2em;
 }
