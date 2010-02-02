@@ -14,9 +14,8 @@
 
 {* Items per page selector. *}
 <div class="context-toolbar">
-<div class="block">
-<div class="left">
-<p>
+<div class="button-left">
+<p class="table-preferences">
 {switch match=$limit}
 {case match=25}
 <a href={concat('/user/preferences/set/', $list_limit_preference_name, '/1')|ezurl}>10</a>
@@ -40,7 +39,6 @@
 </p>
 </div>
 <div class="break"></div>
-</div>
 </div>
 
 <table class="list" cellspacing="0">

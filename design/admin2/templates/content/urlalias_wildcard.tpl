@@ -56,9 +56,8 @@
 
 {* Items per page selector. *}
 <div class="context-toolbar">
-<div class="block">
-<div class="left">
-    <p>
+<div class="button-left">
+    <p class="table-preferences">
     {foreach $limitList as $limitEntry}
         {if eq($limitID, $limitEntry['id'])}
             <span class="current">{$limitEntry['value']}</span>
@@ -69,8 +68,6 @@
     </p>
 </div>
 <div class="break"></div>
-
-</div>
 </div>
 
 

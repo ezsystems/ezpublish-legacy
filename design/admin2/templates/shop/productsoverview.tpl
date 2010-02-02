@@ -61,7 +61,7 @@
 {* Items per page selector. *}
 <div class="context-toolbar">
 <div class="button-left">
-    <p>
+    <p class="table-preferences">
     {switch match=$limit}
 
         {case match=25}
