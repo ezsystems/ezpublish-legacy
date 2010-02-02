@@ -13,7 +13,7 @@ jQuery(function( $ )
         var link = $( this ), linkbox = $( '#rightmenu' ), hidden = linkbox.width() < 22;
         if ( hidden )
         {
-            $('#maincontent').css( 'marginRight', '13em' );
+            $('#maincolumn').css( 'marginRight', '13em' );
             linkbox.animate({
                 width: '13em'
             }, 650, 'swing', function(){
@@ -25,7 +25,7 @@ jQuery(function( $ )
             linkbox.animate({
                 width: '1.1em'
             }, 650, 'swing', function(){
-                $('#maincontent').css( 'marginRight', '1.1em' );
+                $('#maincolumn').css( 'marginRight', '1.1em' );
                 timeout = setTimeout( saveRightMenuStatus, 500 );
             } );
         }

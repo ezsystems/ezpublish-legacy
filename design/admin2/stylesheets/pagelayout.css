@@ -135,9 +135,15 @@ div.tab-content
 
 /* COLUMNS */
 
+#maincolumn
+{
+  margin-right: 13em;
+}
+
+
 #maincontent
 {
-  margin: 0 13em 0 15em;
+  margin: 0 0 0 15em;
   min-height: 200px;
   padding: 0 1em 1em 1em;
 }
@@ -158,8 +164,8 @@ div.tab-content
   margin-top: 5px;
 }
 
-div#columns.hide-rightmenu div#rightmenu   { display: none; }
-div#columns.hide-rightmenu div#maincontent { margin-right: 0; }
+div#columns.hide-rightmenu div#rightmenu  { display: none; }
+div#columns.hide-rightmenu div#maincolumn { margin-right: 0; }
 
 
 

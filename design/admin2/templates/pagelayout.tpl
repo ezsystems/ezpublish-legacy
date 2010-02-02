@@ -11,27 +11,26 @@
      $admin_theme          = ezpreference( 'admin_theme' )
      $left_size_hash       = 0
      $user_hash = concat( $current_user.role_id_list|implode( ',' ), ',', $current_user.limited_assignment_value_list|implode( ',' ), ',', ezpreference( 'admin_edit_show_re_edit' ) )
-     $pref_hash = concat( ezpreference( 'admin_edit_show_re_edit' ), ',', ezpreference( 'admin_edit_show_locations' ), $admin_theme, $hide_right_menu )}
+}
 
 {if $hide_right_menu}
     {set $collapse_right_menu = false()}
 {/if}
 
-
 {if and( $ui_context_edit|not, or( $collapse_right_menu, $admin_left_size ))}
 <style type="text/css">
 {if $collapse_right_menu}
-    div#page div#rightmenu   {ldelim} width: 1.1em; {rdelim}
-    div#page div#maincontent {ldelim} margin-right: 1.1em; {rdelim}
+    div#page div#rightmenu  {ldelim} width: 1.1em; {rdelim}
+    div#page div#maincolumn {ldelim} margin-right: 1.1em; {rdelim}
 {/if}
 {if $admin_left_size}
     {def $left_menu_widths = ezini( 'LeftMenuSettings', 'MenuWidth', 'menu.ini')}
     {if is_set( $left_menu_widths[$admin_left_size] )}
         {set $left_size_hash = $left_menu_widths[$admin_left_size]}
-        div#leftmenu    {ldelim} width: {$left_size_hash|int}em; {rdelim}
+        div#leftmenu   {ldelim} width: {$left_size_hash|int}em; {rdelim}
         div#maincontent {ldelim} margin-left: {$left_size_hash|int}em; {rdelim}
     {else}
-        div#page div#leftmenu    {ldelim} width: {$admin_left_size|wash}; {rdelim}
+        div#page div#leftmenu   {ldelim} width: {$admin_left_size|wash}; {rdelim}
         div#page div#maincontent {ldelim} margin-left: {$admin_left_size|wash}; {rdelim}
     {/if}
     {undef $left_menu_widths}
@@ -39,16 +38,16 @@
 </style>
 {/if}
 
-{* Pr uri cache (donsn't use ignore_content_expiry because of content structure menu ) *}
-{cache-block keys=array( $module_result.uri, $user_hash, $pref_hash, $left_size_hash )}
+{* Pr uri header cache *}
+{cache-block keys=array( $module_result.uri, $user_hash, $admin_theme ) ignore_content_expiry}
 
 {include uri='design:page_head.tpl'}
 
-{* Pr tab cache *}
-{cache-block keys=array( $navigation_part.identifier, $module_result.navigation_part, $ui_context, $ui_component, $user_hash, $admin_theme ) ignore_content_expiry}
-
 {include uri='design:page_head_style.tpl'}
 {include uri='design:page_head_script.tpl'}
+
+{* Pr tab header cache *}
+{cache-block keys=array( $navigation_part.identifier, $module_result.navigation_part, $ui_context, $ui_component, $user_hash ) ignore_content_expiry}
 
 </head>
 <body>
@@ -69,25 +68,9 @@
 {/cache-block}{* /Pr tab cache *}
 
 <hr class="hide" />
-
-<div id="path">
-<div id="path-design">
-    {include uri='design:page_toppath.tpl'}
-</div>
-</div>
-
-<hr class="hide" />
-
-<div id="columns"{if $hide_right_menu} class="hide-rightmenu"{/if}>
-
-{* LEFT MENU / CONTENT STRUCTURE MENU *}
-{if $content_edit}
-{else}
-    {include uri='design:page_leftmenu.tpl'}
-{/if}
-
 {/cache-block}{* /Pr uri cache *}
 
+<div id="columns"{if $hide_right_menu} class="hide-rightmenu"{/if}>
 
 {* RIGHT MENU *}
 <div id="rightmenu">
@@ -103,7 +86,26 @@
 </div>
 </div>
 
+
+<div id="maincolumn">
+
+{* Pr uri Path/Left menu cache (dosn't use ignore_content_expiry because of content structure menu  ) *}
+{cache-block keys=array( $module_result.uri, $user_hash, ezpreference( 'admin_edit_show_re_edit' ), ezpreference( 'admin_edit_show_locations' ), $left_size_hash )}
+<div id="path">
+<div id="path-design">
+    {include uri='design:page_toppath.tpl'}
+</div>
+</div>
+
 <hr class="hide" />
+
+{* LEFT MENU / CONTENT STRUCTURE MENU *}
+{if $content_edit}
+{else}
+    {include uri='design:page_leftmenu.tpl'}
+{/if}
+
+{/cache-block}{* /Pr uri cache *}
 
 {* Main area START *}
 {if $content_edit}
@@ -119,6 +121,7 @@
     </div></div>
 {/if}
 {* Main area END *}
+</div>
 
 
 <div class="break"></div>
