@@ -220,12 +220,12 @@ else
 
 // view mode list
 if ( $contentIni->hasVariable( 'embed', 'AvailableViewModes' ) )
-    $viewList = array_unique( $contentIni->variable( 'embed', 'AvailableViewModes' ) );
+    $viewList = array_unique( $contentIni->variable( 'embed', 'AvailableViewModes' ), SORT_STRING );
 else
     $viewList = array();
 
 if ( $contentIni->hasVariable( 'embed-inline', 'AvailableViewModes' ) )
-    $viewListInline = array_unique( $contentIni->variable( 'embed-inline', 'AvailableViewModes' ) );
+    $viewListInline = array_unique( $contentIni->variable( 'embed-inline', 'AvailableViewModes' ), SORT_STRING );
 else
     $viewListInline = array();
 
