@@ -19,7 +19,7 @@ jQuery(function( $ )
         		li.addClass('selected');
         		$( '#' + li.attr('id') + '-content' ).addClass('selected').removeClass('hide');
 
-        		// Sticky Tabs..
+        		// Sticky Tabs! TODO: Should use cookie instead to avoid generating new view cache hash maybe..
         		NodeTab.timeout = setTimeout( function(){ NodeTab.save( li.attr('id') ) }, 500 );
         	}
         	return false;
