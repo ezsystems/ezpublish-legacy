@@ -280,7 +280,7 @@ ul.leftmenu-items li a
 
 ul.leftmenu-items li a:hover
 {
-  text-decoration: unerline;
+  text-decoration: underline;
 }
 
 ul.leftmenu-items li.current a
@@ -419,7 +419,7 @@ div#contentstructure ul#content_tree_menu ul a.openclose-open, div#contentstruct
   top: 0;
   width: 16px;
   height: 16px;
-  background-image: transparent url( '../images/content_tree-open.gif' ) no-repeat center center scroll;
+  background: transparent url( '../images/content_tree-open.gif' ) no-repeat center center scroll;
 }
 
 div#contentstructure ul#content_tree_menu ul a.openclose-close
