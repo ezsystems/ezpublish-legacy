@@ -538,15 +538,25 @@ span.classattribute-description:hover, p.class-description:hover, div.context-in
 
 div.context-information p.left
 {
-  width: 48%;
+  width: 47%;
   float: left;
 }
 
 div.context-information p.right
 {
-  width: 48%;
+  width: 52%;
   float: right;
   text-align: right;
+}
+
+div.content-navigation div.context-information p.left
+{
+  width: 69%;
+}
+
+div.content-navigation div.context-information p.right
+{
+  width: 30%;
 }
 
 div.context-block
