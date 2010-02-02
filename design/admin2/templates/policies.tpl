@@ -1,5 +1,3 @@
-{let assigned_roles=fetch( user, member_of, hash( id, $node.contentobject_id ) )}
-
 {section show=$assigned_policies}
 
 <table class="list" cellspacing="0" summary="{'Policy list and the Role that are assignet to current node.'|i18n( 'design/admin/node/view/full' )}">
@@ -78,5 +76,3 @@
     <p>{'There are no available policies.'|i18n( 'design/admin/node/view/full' )}</p>
 </div>
 {/section}
-
-{/let}

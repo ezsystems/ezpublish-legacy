@@ -1,13 +1,11 @@
-{let member_groups=fetch( user, member_of, hash( id, $node.contentobject_id ) )}
-
-{section show=count( $member_groups )}
+{section show=$assigned_roles}
 <table class="list" cellspacing="0" summary="{'List of roles assigned with and without limitations for current node.'|i18n( 'design/admin/node/view/full' )}">
 <tr>
     <th>{'Name'|i18n( 'design/admin/node/view/full' )}</th>
     <th>{'Limitation'|i18n( 'design/admin/node/view/full' )}</th>
     <th class="tight">&nbsp;</th>
 </tr>
-{section var=Roles loop=$member_groups sequence=array( bglight, bgdark )}
+{section var=Roles loop=$assigned_roles sequence=array( 'bglight', 'bgdark' )}
     <tr class="{$Roles.sequence}">
 
         {* Role name. *}
@@ -41,5 +39,3 @@
     <p>{'There are no assigned roles.'|i18n( 'design/admin/node/view/full' )}</p>
 </div>
 {/section}
-
-{/let}

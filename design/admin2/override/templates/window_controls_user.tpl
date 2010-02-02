@@ -9,6 +9,7 @@
      $related_objects_count = fetch( 'content', 'related_objects_count', hash( 'object_id', $node.object.id , 'all_relations', true() ) )
      $reverse_related_objects_count = fetch( 'content', 'reverse_related_objects_count', hash( 'object_id', $node.object.id , 'all_relations', true() ) )
      $assigned_policies   = fetch( 'user', 'user_role', hash( 'user_id', $node.contentobject_id ) )
+     $assigned_roles       = fetch( 'user', 'member_of', hash( 'id', $node.contentobject_id ) )
      $valid_tabs = array( 'preview', 'details', 'translations', 'locations', 'relations', 'roles', 'policies' )
 }
 {if or( $node_tab_index|eq( '0' ), $node_tab_index|eq( '1' ) )}
@@ -54,7 +55,7 @@
 
     {* Roles *}
     <li id="node-tab-roles" class="middle{if $node_tab_index|eq('roles')} selected{/if}">
-        <a href={concat( $node_url_alias, '/(tab)/roles' )|ezurl} title="{'Show role overview.'|i18n( 'design/admin/node/view/full' )}">{'Roles'|i18n( 'design/admin/node/view/full' )}</a>
+        <a href={concat( $node_url_alias, '/(tab)/roles' )|ezurl} title="{'Show role overview.'|i18n( 'design/admin/node/view/full' )}">{'Roles (%count)'|i18n( 'design/admin/node/view/full',, hash( '%count', $assigned_roles|count ) )}</a>
     </li>
 
     {* Policies *}
@@ -64,54 +65,7 @@
 </ul>
 <div class="float-break"></div>
 
-
-{* Preview window *}
-<div id="node-tab-preview-content" class="tab-content{if $node_tab_index|ne('preview')} hide{else} selected{/if}">
-    {include uri='design:preview.tpl'}
-<div class="break"></div>
-</div>
-
-{* Details window *}
-<div id="node-tab-details-content" class="tab-content{if $node_tab_index|ne('details')} hide{else} selected{/if}">
-    {include uri='design:details.tpl'}
-<div class="break"></div>
-</div>
-
-{* Translations window *}
-<div id="node-tab-translations-content" class="tab-content{if $node_tab_index|ne('translations')} hide{else} selected{/if}">
-    {include uri='design:translations.tpl'}
-<div class="break"></div>
-</div>
-
-{* Locations window *}
-<div id="node-tab-locations-content" class="tab-content{if $node_tab_index|ne('locations')} hide{else} selected{/if}">
-    {include uri='design:locations.tpl'}
-<div class="break"></div>
-</div>
-
-{* Relations window *}
-<div id="node-tab-relations-content" class="tab-content{if $node_tab_index|ne('relations')} hide{else} selected{/if}">
-    {include uri='design:relations.tpl'}
-<div class="break"></div>
-</div>
-
-{* States window 
-<div id="node-tab-states-content" class="tab-content{if $node_tab_index|ne('states')} hide{else} selected{/if}">
-    {include uri='design:states.tpl'}
-<div class="break"></div>
-</div> *}
-
-{* Member of roles window *}
-<div id="node-tab-roles-content" class="tab-content{if $node_tab_index|ne('roles')} hide{else} selected{/if}">
-    {include uri='design:roles.tpl'}
-<div class="break"></div>
-</div>
-
-{* Policy list window *}
-<div id="node-tab-policies-content" class="tab-content{if $node_tab_index|ne('policies')} hide{else} selected{/if}">
-    {include uri='design:policies.tpl'}
-<div class="break"></div>
-</div>
+{include uri='design:windows.tpl'}
 
 {ezscript_require( 'node_tabs.js' )}
 {undef}
