@@ -4,8 +4,8 @@
 
 pre
 {
-  background-color: #f8f8f8;
-  border: 1px solid #e0e0e0;
+    background-color: #f8f8f8;
+    border: 1px solid #e0e0e0;
 }
 
 
@@ -18,60 +18,60 @@ div.mainobject-window iframe
 
 div#maincontent div.content-translation div.block div.original
 {
-  background-color: #f5f5f5;
-  margin: 0.5em 0 0.5em 0;
-  padding: 0.2em;
-  border: 1px dashed #ddd;
+    background-color: #f5f5f5;
+    margin: 0.5em 0 0.5em 0;
+    padding: 0.2em;
+    border: 1px dashed #ddd;
 }
 
 div.content-translation div.translation
 {
-  margin: 0.5em 0 0.5em 0;
+    margin: 0.5em 0 0.5em 0;
 }
 
 div.notranslations li
 {
-  width: 20%;
+    width: 20%;
 }
 
 table.list, table.special, table.list th, table.special th
 {
-  border-collapse: collapse;
+    border-collapse: collapse;
 }
 
 table.list th, table.special th
 {
-  background: #FEFEFE url('../images/2/gradient-to-light.png') repeat-x left top scroll;
-  font-weight: bold;
-  height: 30px;
-  border-bottom: 1px solid #ccc;
-  vertical-align: middle;
+    background: #FEFEFE url('../images/2/gradient-to-light.png') repeat-x left top scroll;
+    font-weight: bold;
+    height: 30px;
+    border-bottom: 1px solid #ccc;
+    vertical-align: middle;
 }
 
 table.special th
 {
-  border-top: 1px solid #ccc;
+    border-top: 1px solid #ccc;
 }
 
 table.list tr.bgdark, table.list tr.bgdark th
 {
-  background-color: #f5f5f5;
+    background-color: #f5f5f5;
 }
 
 div.content-navigation-childlist table.list th,
 table.list th.icon, table.list td.icon, table.list th.class, table.list td.class, table.list th.checkbox, table.list td.checkbox
 {
-  width:1%;
+    width:1%;
 }
 
 div.content-navigation-childlist table.list th.name, div.content-edit table.list th.name
 {
-  width: auto;
+    width: auto;
 }
 
 table.list img
 {
-  vertical-align: middle;
+    vertical-align: middle;
 }
 
 table.list tr.object-cannot-remove td
@@ -81,7 +81,7 @@ table.list tr.object-cannot-remove td
 
 table.list td.modifier, table.list td.modified, table.list td.class, div.content-edit table.list td.filesize
 {
-  white-space: nowrap;
+    white-space: nowrap;
 }
 
 div.context-attributes table.list th, div.mainobject-window table.list th
@@ -133,81 +133,81 @@ table tbody tr.ezasi-sort-drag-handler
 {
     color: #095f99;
     font-weight: bold;
-}    
+}
 
 /* GENERIC DIFF STYLES */
 
 ins
 {
-  color: #008000;
-  text-decoration: none;
-  border-bottom: 1px solid #00b000;
+    color: #008000;
+    text-decoration: none;
+    border-bottom: 1px solid #00b000;
 }
 
 del
 {
-  color: #d98078;
-  text-decoration: line-through;
+    color: #d98078;
+    text-decoration: line-through;
 }
 
 ins:hover, del:hover
 {
-  background-color: #ffffff;
+    background-color: #ffffff;
 }
 
 ins:hover
 {
-  color: #006000;
-  border-bottom-width: 0;
+    color: #006000;
+    border-bottom-width: 0;
 }
 
 del:hover
 {
-  color: #852c25;
-  text-decoration: none;
+    color: #852c25;
+    text-decoration: none;
 }
 
 div.blockchanges ins, div.blockchanges del
 {
-  color: #000000;
-  padding-left: 0.5em;
-  text-decoration: none;
-  border-bottom-width: 0;
-  display: block;
+    color: #000000;
+    padding-left: 0.5em;
+    text-decoration: none;
+    border-bottom-width: 0;
+    display: block;
 }
 
 div.blockchanges ins
 {
-  border-left: 0.5em solid #008000;
+    border-left: 0.5em solid #008000;
 }
 
 div.blockchanges del
 {
-  border-left: 0.5em solid #d98078;
+    border-left: 0.5em solid #d98078;
 }
 
 div.previous ins
 {
-  display: none;
+    display: none;
 }
 
 div.previous del
 {
-  color: #000000;
-  background-color: #ffff00;
-  border-bottom-width: 0;
-  text-decoration: none   
+    color: #000000;
+    background-color: #ffff00;
+    border-bottom-width: 0;
+    text-decoration: none     
 }
 
 div.latest del
 {
-  display: none;
+    display: none;
 }
 
 div.latest ins
 {
-  color: #000000;
-  background-color: #ffff00;
-  border-bottom-width: 0;
-  text-decoration: none;
+    color: #000000;
+    background-color: #ffff00;
+    border-bottom-width: 0;
+    text-decoration: none;
 }

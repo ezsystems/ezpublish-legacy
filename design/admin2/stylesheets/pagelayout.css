@@ -5,44 +5,44 @@
 
 div#fix
 {
-  float: left;
-  width: 100%;
+    float: left;
+    width: 100%;
 }
 
 span.vertical-seperator
 {
-  height: 100%;
-  width: 4px;
-  border-right: 1px solid #bbb;
-  margin-left: 12px;
-  margin-right: 16px;
+    height: 100%;
+    width: 4px;
+    border-right: 1px solid #bbb;
+    margin-left: 12px;
+    margin-right: 16px;
 }
 
 .inline { display: inline; }
 
 a.show-hide-control
 {
-  float: right;
-  text-align: center;
-  padding: 2px;
-  margin: 2px;
-  height: 9px;
-  width: 8px;
-  line-height: 7px;
-  font-size: 12px;
-  color: #555;
-  text-decoration: none;
+    float: right;
+    text-align: center;
+    padding: 2px;
+    margin: 2px;
+    height: 9px;
+    width: 8px;
+    line-height: 7px;
+    font-size: 12px;
+    color: #555;
+    text-decoration: none;
 }
 
 /* link with image and text (in a span) inside it */
 a.image-text
 {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 a.image-text:hover > span
 {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 
@@ -50,9 +50,9 @@ a.image-text:hover > span
 
 #header-usermenu
 {
-  float: right;
-  text-align: center;
-  padding: 1em 10px 0;
+    float: right;
+    text-align: center;
+    padding: 1em 10px 0;
 }
 
 #header-usermenu a
@@ -63,27 +63,27 @@ a.image-text:hover > span
 
 #header-usermenu span.header-usermenu-name
 {
-  display: block;
+    display: block;
 }
 
 #header-logo a, #header-logo span
 {
-  float: left;
-  width: 90px;
-  height: 35px;
-  display: block;
-  text-align: left;
-  padding: 5px 10px 5px;
-  text-decoration: none;
-  background: transparent url('../images/2/ezpublish-logo.png') no-repeat 8px 8px scroll;
+    float: left;
+    width: 90px;
+    height: 35px;
+    display: block;
+    text-align: left;
+    padding: 5px 10px 5px;
+    text-decoration: none;
+    background: transparent url('../images/2/ezpublish-logo.png') no-repeat 8px 8px scroll;
 }
 
 #header-search
 {
-  text-align: right;
-  float: right;
-  padding: 1.4em 5px 0;
-  text-align: right;
+    text-align: right;
+    float: right;
+    padding: 1.4em 5px 0;
+    text-align: right;
 }
 
 
@@ -91,59 +91,59 @@ a.image-text:hover > span
 
 #header-topmenu
 {
-  padding-left: 2px;
-  padding-top: 20px;
-  float: left;
-  min-height: 25px;
+    padding-left: 2px;
+    padding-top: 20px;
+    float: left;
+    min-height: 25px;
 }
 
 #header-topmenu ul, ul.tabs
 {
-  margin: 0;
+    margin: 0;
 }
 
 ul.tabs
 {
-  width: 100%;
-  margin: 0.5em 0 0 0;
+    width: 100%;
+    margin: 0.5em 0 0 0;
 }
 
 #header-topmenu ul li, ul.tabs li
 {
-  float: left;
-  text-align: center;
-  list-style-type: none;
-  margin: 0;
+    float: left;
+    text-align: center;
+    list-style-type: none;
+    margin: 0;
 }
 
 #header-topmenu ul li a, #header-topmenu ul li span.disabled, ul.tabs li a, ul.tabs li span.disabled
 {
-  display: block;
-  font-weight: bold;
-  text-decoration: none;
-  padding: 2px 6px 2px 6px;
-  margin-left: 1px;
-  margin-top: 2px;
-  min-width: 94px;
-  min-height: 20px;
+    display: block;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 2px 6px 2px 6px;
+    margin-left: 1px;
+    margin-top: 2px;
+    min-width: 94px;
+    min-height: 20px;
 }
 
 ul.tabs li a, ul.tabs li span.disabled
 {
-  min-height: 16px;
-  min-width: 85px;
+    min-height: 16px;
+    min-width: 85px;
 }
 
 #header-topmenu ul li.selected a, #header-topmenu ul li a:hover
 {
-  margin-top: 0;
-  min-height: 22px;
-  color: #094564;
+    margin-top: 0;
+    min-height: 22px;
+    color: #094564;
 }
 
 #header-topmenu ul li.selected a, #header-topmenu ul li.selected span.disabled, ul.tabs li.selected a
 {
-  margin-bottom: -1px;
+    margin-bottom: -1px;
 }
 
 ul.tabs li.selected a, ul.tabs li a:hover
@@ -155,24 +155,24 @@ ul.tabs li.selected a, ul.tabs li a:hover
 
 #header-topmenu ul li span.disabled, span.disabled
 {
-  color: #999;
+    color: #999;
 }
 
 #header-topmenu ul li.first a
 {
-  margin-left: 0.1em;
+    margin-left: 0.1em;
 }
 
 ul.tabs li.first a
 {
-  margin-left: 0;
+    margin-left: 0;
 }
 
 div.tab-content
 {
-  height: 20em;
-  overflow-y: scroll;
-  padding: 1em 0.5em 0.5em;
+    height: 20em;
+    overflow-y: scroll;
+    padding: 1em 0.5em 0.5em;
 }
 
 
@@ -180,88 +180,91 @@ div.tab-content
 
 #path
 {
-  padding: 8px 6px 6px 6px;
-  text-align: left;
-  min-height: 24px;
+    padding: 8px 6px 6px 6px;
+    text-align: left;
+    min-height: 24px;
 }
 
 #path p { margin: 0.5em 0 0 0; }
 
 #path span
 {
-  color: #333;
+    color: #333;
 }
+
 
 
 /* COLUMNS */
 
 #maincolumn
 {
-  margin-right: 13em;
+    margin-right: 13em;
 }
 
 
 #maincontent
 {
-  margin: 0 0 0 15em;
-  min-height: 200px;
-  padding: 0 1em 1em 1em;
+    margin: 0 0 0 15em;
+    min-height: 200px;
+    padding: 0 1em 1em 1em;
 }
 
 #leftmenu
 {
-  float: left;
-  width: 15em;
-  overflow: hidden;
-  margin-top: 5px;
+    float: left;
+    width: 15em;
+    overflow: hidden;
+    margin-top: 5px;
 }
 
 #rightmenu
 { 
-  float: right;
-  width: 13em;
-  overflow-x: hidden;
-  margin-top: 5px;
+    float: right;
+    width: 13em;
+    overflow-x: hidden;
+    margin-top: 5px;
 }
 
-div#columns.hide-rightmenu div#rightmenu  { display: none; }
+div#columns.hide-rightmenu div#rightmenu    { display: none; }
 div#columns.hide-rightmenu div#maincolumn { margin-right: 0; }
+
 
 
 /* RIGHTMENU */
 
 #rightmenu-design
 {
-  margin: 0 0.5em 0 0.1em;
-  position: relative;
+    margin: 0 0.5em 0 0.1em;
+    position: relative;
 }
 
 /* This is not supported by IE6, some DOM cleanup is needed to avoid it */
 #rightmenu-design > div
 {
-  margin-top: 0.5em;
-  min-width: 12em;
+    margin-top: 0.5em;
+    min-width: 12em;
 }
 
 #rightmenu-design ul
 {
-  color: #aaa;
-  margin-left: 1.5em;
+    color: #aaa;
+    margin-left: 1.5em;
 }
 #rightmenu label { font-weight:normal; }
 
 a#rightmenu-showhide.show-hide-control
 {
-  float: left;
-  margin-left: 1px;
+    float: left;
+    margin-left: 1px;
 }
+
 
 
 /* LEFTMENU */
 
 #leftmenu-design
 {
-  margin: 0 0.5em 0 0.2em;
+    margin: 0 0.5em 0 0.2em;
 }
 
 #leftmenu-design ul { margin-left: 1.5em; color: #aaa; }
@@ -269,34 +272,33 @@ a#rightmenu-showhide.show-hide-control
 
 div#leftmenu div.translations label
 {
-  font-weight: normal;
-  white-space: normal;
+    font-weight: normal;
+    white-space: normal;
 }
 
 ul.leftmenu-items li a
 {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 ul.leftmenu-items li a:hover
 {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 ul.leftmenu-items li.current a
 {
-  color: #E24602;
-  font-weight: bold;
+    color: #E24602;
+    font-weight: bold;
 }
-
 
 
 /* FOOTER */
 
 #footer
 {
-  text-align: center;
-  padding: 0.8em;
+    text-align: center;
+    padding: 0.8em;
 }
 
 
@@ -305,147 +307,147 @@ ul.leftmenu-items li.current a
 
 div#contentstructure
 {
-  overflow-x: auto;
-  padding-top: 0.5em;
+    overflow-x: auto;
+    padding-top: 0.5em;
 }
 
 div#contentstructure ul#content_tree_menu
 {
-  margin-top: 0;  
-  margin-left: 0.25em;
-  padding-left: 0.5em;
+    margin-top: 0;    
+    margin-left: 0.25em;
+    padding-left: 0.5em;
 }
 
 div#contentstructure ul#content_tree_menu ul
 {
-  margin: 0;
-  padding-top: 4px;
-  padding-bottom: 0;
+    margin: 0;
+    padding-top: 4px;
+    padding-bottom: 0;
 }
 
 div#contentstructure ul#content_tree_menu ul ul
 {
-  margin-left: 0;
+    margin-left: 0;
 }
 
 div#contentstructure ul#content_tree_menu li
 {
-  list-style-type: none;
-  white-space: nowrap;
-  position: relative;
+    list-style-type: none;
+    white-space: nowrap;
+    position: relative;
 }
 
 div#contentstructure ul#content_tree_menu ul li
 {
-  margin: 0;
-  padding-top: 0;
-  padding-left: 20px;
-  padding-bottom: 4px;
-  background-image: url(../images/bg_content_tree_li.gif);
-  background-repeat: no-repeat;
+    margin: 0;
+    padding-top: 0;
+    padding-left: 20px;
+    padding-bottom: 4px;
+    background-image: url(../images/bg_content_tree_li.gif);
+    background-repeat: no-repeat;
 }
 
 div#contentstructure ul#content_tree_menu ul li.lastli
 {
-  background-image: url(../images/bg_content_tree_li_last.gif);
-  padding-bottom: 2px;
+    background-image: url(../images/bg_content_tree_li_last.gif);
+    padding-bottom: 2px;
 }
 
 div#contentstructure ul#content_tree_menu li img
 {
-  vertical-align: middle;
+    vertical-align: middle;
 }
 
 div#contentstructure a.nodeicon
 {
-  margin-left: 0;
-  padding-left: 0;
+    margin-left: 0;
+    padding-left: 0;
 }
 
 div#contentstructure li span.node-name-normal
 {
-  font-weight: normal;
+    font-weight: normal;
 }
 
 div#contentstructure li.currentnode > a.image-text span.node-name-normal, div#contentstructure li.currentnode > a.image-text span.node-name-hidden, div#contentstructure li.currentnode > a.image-text span.node-name-hiddenbyparent /* Highlighting of current node */
 {
-  font-weight: bold;
-  color: #E24602;
-  padding: 0 0.25em 0 0.2em;
+    font-weight: bold;
+    color: #E24602;
+    padding: 0 0.25em 0 0.2em;
 }
 
 div#contentstructure li a.image-text span.node-name-hidden, div#contentstructure li.currentnode li a.image-text span.node-name-hidden
 {
-  font-weight: normal;
-  font-style: normal;
-  background-color: #ddd;
-  padding: 0 0.2em 0 0.2em;
+    font-weight: normal;
+    font-style: normal;
+    background-color: #ddd;
+    padding: 0 0.2em 0 0.2em;
 }
 
 div#contentstructure li a.image-text span.node-name-hiddenbyparent, div#contentstructure li.currentnode li a.image-text span.node-name-hiddenbyparent
 {
-  font-weight: normal;
-  font-style: normal;
-  background-color: #eee;
-  padding: 0 0.2em 0 0.2em;
+    font-weight: normal;
+    font-style: normal;
+    background-color: #eee;
+    padding: 0 0.2em 0 0.2em;
 }
 
 div#contentstructure span.node-hidden, div#contentstructure span.node-hiddenbyparent
 {
-  display: none;
+    display: none;
 }
 
 a.openclose, span.openclose
 {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 a.openclose img, span.openclose img
 {
-  margin: 0;
-  cursor: default;
+    margin: 0;
+    cursor: default;
 }
 
 div#contentstructure span.openclose
 {
-  visibility: hidden;
+    visibility: hidden;
 }
 
 div#contentstructure ul#content_tree_menu ul a.openclose-open, div#contentstructure ul#content_tree_menu ul a.openclose-close, div#contentstructure ul#content_tree_menu ul a.openclose-busy, div#contentstructure ul#content_tree_menu ul a.openclose-error
 {
-  position: absolute;
-  left: 0;
-  _left: -20px; /* to fix a bug in IE 6 */
-  top: 0;
-  width: 16px;
-  height: 16px;
-  background: transparent url( '../images/content_tree-open.gif' ) no-repeat center center scroll;
+    position: absolute;
+    left: 0;
+    _left: -20px; /* to fix a bug in IE 6 */
+    top: 0;
+    width: 16px;
+    height: 16px;
+    background: transparent url( '../images/content_tree-open.gif' ) no-repeat center center scroll;
 }
 
 div#contentstructure ul#content_tree_menu ul a.openclose-close
 {
-  background-image: url( '../images/content_tree-close.gif' );
+    background-image: url( '../images/content_tree-close.gif' );
 }
 
 div#contentstructure ul#content_tree_menu ul a.openclose-busy
 {
-  background-image: url( '../images/content_tree-busy.gif' );
-  cursor: progress;
+    background-image: url( '../images/content_tree-busy.gif' );
+    cursor: progress;
 }
 
 div#contentstructure ul#content_tree_menu ul a.openclose-error
 {
-  background-image: url( '../images/content_tree-error.gif' );
+    background-image: url( '../images/content_tree-error.gif' );
 }
 
 div#contentstructure ul#content_tree_menu div.loaded
 {
-  display: block;
+    display: block;
 }
 
 div#contentstructure ul#content_tree_menu div.hidden
 {
-  display: none;
+    display: none;
 }
 
 
@@ -454,88 +456,88 @@ div#contentstructure ul#content_tree_menu div.hidden
 
 div.popupmenu
 {
-  width: 14em;
-  font-size: 0.85em;
-  margin: 0px;
-  padding: 4px;
-  background-color: #fff;
-  border: 1px solid #bbb;
+    width: 14em;
+    font-size: 0.85em;
+    margin: 0px;
+    padding: 4px;
+    background-color: #fff;
+    border: 1px solid #bbb;
 
-  /* These three are essential */
-  position: absolute;
-  z-index: +1;
-  display: none;
+    /* These three are essential */
+    position: absolute;
+    z-index: +1;
+    display: none;
 }
 
 div.popupmenu div.popupmenuheader
 {
-  background-color: #fbfbfb;
-  border-bottom: 1px solid #bbb;
+    background-color: #fbfbfb;
+    border-bottom: 1px solid #bbb;
 }
 
 div.popupmenu#EditSubmenu
 {
-  z-index: +2;
+    z-index: +2;
 }
 
 div.popupmenu h3
 {
-  margin: 0;
-  padding: 0.2em 0.5em 0.2em 0.5em;
-  float: left;
+    margin: 0;
+    padding: 0.2em 0.5em 0.2em 0.5em;
+    float: left;
 }
 
 div.popupmenu div.window-close
 {
-  float: right;
-  padding: 1px;
+    float: right;
+    padding: 1px;
 }
 
 div.popupmenu div.window-close p
 {
-  margin: 0;
-  color: #000000;
-  font-weight: bold;
-  background-color: #ecece4;
-  padding: 0.1em 0.3em 0.1em 0.3em;
-  border: 1px solid #ffffff;
-  border-bottom-color: #bfbeb6;
-  border-right-color: #bfbeb6;
+    margin: 0;
+    color: #000000;
+    font-weight: bold;
+    background-color: #ecece4;
+    padding: 0.1em 0.3em 0.1em 0.3em;
+    border: 1px solid #ffffff;
+    border-bottom-color: #bfbeb6;
+    border-right-color: #bfbeb6;
 }
 
 div.popupmenu a
 {
-  color: #000000;
-  padding: 0.1em 0.3em 0.1em 0.3em;
-  text-decoration: none;
-  cursor: default;
-  display: block;
+    color: #000000;
+    padding: 0.1em 0.3em 0.1em 0.3em;
+    text-decoration: none;
+    cursor: default;
+    display: block;
 }
 
 div.popupmenu a.more
 {
-  background-image: url(../images/more-arrow.gif);
-  background-repeat: no-repeat;
-  background-position: right center;
+    background-image: url(../images/more-arrow.gif);
+    background-repeat: no-repeat;
+    background-position: right center;
 }
 
 div.popupmenu a.menu-item-disabled
 {
-  color: #CECECE;
+    color: #CECECE;
 }
 
 div.popupmenu a:hover
 {
-  color: #ffffff;
-  background-color: #2d537a;
-  text-decoration: none;
-  cursor: default;
+    color: #ffffff;
+    background-color: #2d537a;
+    text-decoration: none;
+    cursor: default;
 }
 
 div.popupmenu hr
 {
-  border: none;
-  border-top: 1px solid #c0c0c0;
+    border: none;
+    border-top: 1px solid #c0c0c0;
 }
 
 
@@ -544,134 +546,134 @@ div.popupmenu hr
 
 .box-content div.block
 {
-  margin: 0;
-  padding: 0.5em;
+    margin: 0;
+    padding: 0.5em;
 }
 
 .box-content div.context-toolbar.block
 {
-  padding: 0 0.5em 0 0.5em;
+    padding: 0 0.5em 0 0.5em;
 }
 
 .box-ml
 {
-  /*padding: 0.2em;*/
+    /*padding: 0.2em;*/
 }
 
 .box-bc .box-ml, .box-header .box-ml
 {
-  padding: 0.1em 0em 0.1em 0em; /* 0.1 needed to avoid gaps in border */
+    padding: 0.1em 0em 0.1em 0em; /* 0.1 needed to avoid gaps in border */
 }
 
 #controlbar-top .box-bc
 {
-  margin-top: 0.5em;
+    margin-top: 0.5em;
 }
 
 #controlbar-top .box-bc .box-ml
 {
-  margin: 0px 3px 0px 3px;
-  padding: 0.5em;
+    margin: 0px 3px 0px 3px;
+    padding: 0.5em;
 }
 
 h1.context-title
 {
-  font-size: 1.4em;
+    font-size: 1.4em;
 }
 
 h2.context-title
 {
-  font-size: 1.2em;
+    font-size: 1.2em;
 }
 
 div.context-information, span.classattribute-description
 {
-  color: #333;
-  font-size: 0.8em;
-  padding: 0 0.5em 0 0.5em;
-  margin-bottom: 10px;
+    color: #333;
+    font-size: 0.8em;
+    padding: 0 0.5em 0 0.5em;
+    margin-bottom: 10px;
 }
 
 span.classattribute-description, p.class-description
 {
-  font-weight: normal;
-  white-space: normal;
-  padding-left: 1em;
-  min-height: 15px;
+    font-weight: normal;
+    white-space: normal;
+    padding-left: 1em;
+    min-height: 15px;
 }
 
 span.classattribute-description:hover, p.class-description:hover, div.context-information p:hover
 {
-  color: #111;
+    color: #111;
 }
 
 div.context-information p.left
 {
-  width: 47%;
-  float: left;
+    width: 47%;
+    float: left;
 }
 
 div.context-information p.right
 {
-  width: 52%;
-  float: right;
-  text-align: right;
+    width: 52%;
+    float: right;
+    text-align: right;
 }
 
 div.content-navigation div.context-information p.left
 {
-  width: 69%;
+    width: 69%;
 }
 
 div.content-navigation div.context-information p.right
 {
-  width: 30%;
+    width: 30%;
 }
 
 div.context-block
 {
-  margin-bottom: 1.2em;
+    margin-bottom: 1.2em;
 }
 
 div.context-block h1.context-title img, div.context-block h2.context-title img
 {
-  vertical-align: middle;
+    vertical-align: middle;
 }
 
 /* MENU-BLOCK */
 
 .menu-block ul
 {
-  width: 100%;
-  margin: 0.5em 0 0 0;
+    width: 100%;
+    margin: 0.5em 0 0 0;
 }
 
 .menu-block li
 {
-  float: left;
-  text-align: center;
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  width: 16.6666%;
+    float: left;
+    text-align: center;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    width: 16.6666%;
 }
 
 .menu-block li a
 {
-  margin-left: 1px;
-  text-decoration: none;
-  display: block;
-  border: 1px solid #999;
+    margin-left: 1px;
+    text-decoration: none;
+    display: block;
+    border: 1px solid #999;
 }
 
 .menu-block li:first-child a
 {
-  margin-left: 0;
+    margin-left: 0;
 }
 
 .menu-block li.disabled a
 {
-  background-color: #f3f3f3;
+    background-color: #f3f3f3;
 }
 
 
@@ -732,26 +734,26 @@ input.button-disabled
 
 #leftmenu.widthcontroled
 {
-  position: relative;
+    position: relative;
 }
 
 .widthcontrol.js-widthcontroled
 {
-  position: absolute;
-  bottom: 0px;
-  right: 0px;
-  width: 11px;
-  height: 11px;
-  cursor: e-resize;
-  overflow: hidden;
-  background-image: url('../images/2/chrome_expand_corner.png');
-  background-repeat: no-repeat;
-  background-position: bottom right;
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    width: 11px;
+    height: 11px;
+    cursor: e-resize;
+    overflow: hidden;
+    background-image: url('../images/2/chrome_expand_corner.png');
+    background-repeat: no-repeat;
+    background-position: bottom right;
 }
 
 .widthcontrol.js-widthcontroled p
 {
-  display: none;
+    display: none;
 }
 
 
@@ -761,36 +763,36 @@ input.button-disabled
 #page.main-column-only #leftmenu, #page.main-column-only #rightmenu,
 #page.main-column-only #footer, #page.main-column-only #debug
 {
-  display: none;
+    display: none;
 }
 
 div#page.main-column-only div#maincontent
 {
-  margin: 0;
+    margin: 0;
 }
 
 div#page.main-column-only #controlbar-top
 {
-  position: fixed;
-  min-width: 49%;
-  right: 0;
-  top: 0;
+    position: fixed;
+    min-width: 49%;
+    right: 0;
+    top: 0;
 }
 
 a.controlbar-top-full-screen-toggle
 {
-  height: 16px;
-  width: 16px;
-  display: block;
-  text-decoration: none;
-  background-image: url('../images/view-fullscreen.png');
-  background-repeat: no-repeat;
-  background-position: left top;
+    height: 16px;
+    width: 16px;
+    display: block;
+    text-decoration: none;
+    background-image: url('../images/view-fullscreen.png');
+    background-repeat: no-repeat;
+    background-position: left top;
 }
 
 div#page.main-column-only a.controlbar-top-full-screen-toggle
 {
-  background-image: url('../images/2/exit-fullscreen.png');
+    background-image: url('../images/2/exit-fullscreen.png');
 }
 
 
@@ -798,16 +800,16 @@ div#page.main-column-only a.controlbar-top-full-screen-toggle
 
 fieldset.ezcca-collapsible legend a
 {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 fieldset.ezcca-collapsible.ezcca-collapsed
 {
-  border-width: 1px 0 0 0;
-  height: 1em;
+    border-width: 1px 0 0 0;
+    height: 1em;
 }
 
 fieldset.ezcca-collapsible.ezcca-collapsed legend
 {
-  margin-left: 1px;
+    margin-left: 1px;
 }
