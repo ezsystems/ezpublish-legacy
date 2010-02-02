@@ -73,7 +73,7 @@ class eZObjectRelationListType extends eZDataType
         $status = eZInputValidator::STATE_ACCEPTED;
         $postVariableName = $base . "_data_object_relation_list_" . $contentObjectAttribute->attribute( "id" );
         $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
-        $classContent = $contentClassAttribute->content();
+
         // Check if selection type is not browse
         if ( $classContent['selection_type'] != 0 )
         {
