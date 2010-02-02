@@ -270,7 +270,7 @@
                 languageSelector.options[index].disabled = disabled;
                 if ( disabled )
                 {
-                    languageSelector.options[index].style.color = '#888888';
+                    languageSelector.options[index].style.color = '#888';
                     if ( languageSelector.options[index].text.substring( 0, 1 ) != '(' )
                     {
                         languageSelector.options[index].text = '(' + languageSelector.options[index].text + ')';
@@ -278,7 +278,7 @@
                 }
                 else
                 {
-                    languageSelector.options[index].style.color = '#000000';
+                    languageSelector.options[index].style.color = '#000';
                     if ( languageSelector.options[index].text.substring( 0, 1 ) == '(' )
                     {
                         languageSelector.options[index].text = languageSelector.options[index].text.substring( 1, languageSelector.options[index].text.length - 1 );

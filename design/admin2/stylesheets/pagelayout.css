@@ -155,7 +155,7 @@ ul.tabs li.selected a, ul.tabs li a:hover
 
 #header-topmenu ul li span.disabled, span.disabled
 {
-    color: #999;
+    color: #888;
 }
 
 #header-topmenu ul li.first a
@@ -716,6 +716,11 @@ input.button, input.defaultbutton, input.button-disabled
 {
     height: 18px;
     padding: 4px 20px 0 5px;
+}
+
+#searchtext.passive
+{
+	color: #888;
 }
 
 

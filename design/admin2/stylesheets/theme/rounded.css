@@ -260,7 +260,7 @@ input.defaultbutton
 
 input.button-disabled
 {
-    color: #777;
+    color: #888;
     background-image: url(../../images/2/gradient-btn-disabled.png);
 }
 

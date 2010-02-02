@@ -303,7 +303,7 @@ input.defaultbutton
 input.button-disabled
 {
     cursor: default;
-    color: #999;
+    color: #888;
 }
 
 input.box, textarea.box

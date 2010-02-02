@@ -150,28 +150,26 @@
 document.getElementById('header-usermenu-logout').innerHTML += '<span class="header-usermenu-name">{$current_user.login|wash}<\/span>';
 
 {literal}
-function ezSubmitForm( action, params, method )
-{
-    var form = document.createElement('form'), inp;
-    form.className = 'hide';
-    form.action = action;
-    form.method = method ? method : 'post'; 
-    for ( key in params )
-    {
-        inp = document.createElement('input');
-        inp.name = key;
-        inp.value = params[key];
-        form.appendChild( inp );
-    }
-    document.body.appendChild( form );
-    form.submit();
-}
-
-(function()
+(function( $ )
 {
     var searchtext = document.getElementById('searchtext');
     if ( searchtext && !searchtext.disabled )
-        searchtext.focus();
+    {
+    	jQuery( searchtext ).val( searchtext.title
+    	).addClass('passive'
+    	).focus(function(){
+        	if ( this.value === this.title )
+        	{
+        	    jQuery( this ).removeClass('passive').val('');
+        	}
+        }).blur(function(){
+            if ( this.value === '' )
+            {
+                jQuery( this ).addClass('passive').val( this.title );
+            }
+        });
+    	
+    }
 })();
 {/literal}
 
