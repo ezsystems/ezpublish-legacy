@@ -119,10 +119,9 @@ function ContentStructureMenu( path, persistent )
     function _getCookie( name )
     {
         var n = name + '=', c = document.cookie, start = c.indexOf( n ), end = c.indexOf( ";", start );
-        if ( start != -1 )
+        if ( start !== -1 )
         {
-            start += n.length;
-            return unescape( c.substring( start, ( end === -1 ? c.length : end ) ) );
+            return unescape( c.substring( start + n.length, ( end === -1 ? c.length : end ) ) );
         }
         return null;
     }
