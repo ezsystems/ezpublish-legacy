@@ -82,9 +82,15 @@ class eZImageShellHandler extends eZImageHandler
         if ( $this->PreParameters )
             $argumentList[] = $this->PreParameters;
 
-        $qualityParameters = $this->QualityParameters;
         $frameRangeParameters = $this->FrameRangeParameters;
+        if ( $frameRangeParameters && isset( $frameRangeParameters[$sourceMimeData['name']] ) )
+        {
+            $sourceMimeData['url'] .= $frameRangeParameters[$sourceMimeData['name']];
+        }
 
+        $argumentList[] = eZSys::escapeShellArgument( $sourceMimeData['url'] );
+
+        $qualityParameters = $this->QualityParameters;
         if ( $qualityParameters and
              isset( $qualityParameters[$destinationMimeData['name']] ) )
         {
@@ -104,13 +110,6 @@ class eZImageShellHandler extends eZImageHandler
                 $argumentList[] = $this->textForFilter( $filterData );
             }
         }
-
-        if ( $frameRangeParameters && isset( $frameRangeParameters[$sourceMimeData['name']] ) )
-        {
-            $sourceMimeData['url'] .= $frameRangeParameters[$sourceMimeData['name']];
-        }
-
-        $argumentList[] = eZSys::escapeShellArgument( $sourceMimeData['url'] );
 
         $destinationURL = $destinationMimeData['url'];
         if ( $this->UseTypeTag )
