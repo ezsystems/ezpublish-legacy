@@ -1393,7 +1393,7 @@ class eZLocale
                 }
             }
             closedir( $dir );
-            $locales = array_unique( $locales );
+            $locales = array_unique( $locales, SORT_STRING );
             sort( $locales );
             if ( $asObject )
             {
@@ -1432,7 +1432,8 @@ class eZLocale
                 }
             }
             closedir( $dir );
-            sort( array_unique( $countries ) );
+            $countries = array_unique( $countries, SORT_STRING );
+            sort( $countries );
         }
         return $countries;
     }
@@ -1459,7 +1460,8 @@ class eZLocale
                 }
             }
             closedir( $dir );
-            sort( array_unique( $languages ) );
+            $languages = array_unique( $languages );
+            sort( $languages );
         }
         return $languages;
     }
