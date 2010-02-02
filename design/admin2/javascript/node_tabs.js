@@ -63,7 +63,6 @@ jQuery(function( $ )
 	var openTab = NodeTab.getCookie( 'adminNavigationTab' );
 	if ( openTab )
 	{
-		console.log( openTab );
 		NodeTab.open( 'node-tab-' + openTab );
 	}
 });
