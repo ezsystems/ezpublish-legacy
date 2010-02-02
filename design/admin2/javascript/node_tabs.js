@@ -19,8 +19,8 @@ jQuery(function( $ )
         		li.addClass('selected');
         		$( '#' + li.attr('id') + '-content' ).addClass('selected').removeClass('hide');
 
-        		// TODO: Look into if people really want it to be sticky like this
-        		//NodeTab.timeout = setTimeout( function(){ NodeTab.save( li.attr('id') ) }, 500 );
+        		// Sticky Tabs..
+        		NodeTab.timeout = setTimeout( function(){ NodeTab.save( li.attr('id') ) }, 500 );
         	}
         	return false;
         },
