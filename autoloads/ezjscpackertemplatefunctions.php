@@ -352,7 +352,7 @@ class ezjscPackerTemplateFunctions
 
         if ( $arrayUnique && isset( $persistentVariable[$key][1] ) )
         {
-            $persistentVariable[$key] = array_unique( $persistentVariable[$key] );
+            $persistentVariable[$key] = array_unique( $persistentVariable[$key], SORT_STRING );
         }
 
         // set the finnished array in the template
