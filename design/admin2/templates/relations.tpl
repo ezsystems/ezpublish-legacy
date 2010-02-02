@@ -1,17 +1,11 @@
 {* Relations windows. *}
-{def $related_objects_count = fetch( 'content', 'related_objects_count', hash( 'object_id', $node.object.id , 'all_relations', true() ) )}
-{def $reverse_related_objects_count = fetch( 'content', 'reverse_related_objects_count', hash( 'object_id', $node.object.id , 'all_relations', true() ) )}
 
 {* Related objects list. *}
-
 {def $relation_type_names = hash( 'common',   'Common'|i18n( 'design/admin/content/edit' ),
                                   'xml_embed', 'Embedded'|i18n( 'design/admin/content/edit' ),
                                   'xml_link',  'Linked'|i18n( 'design/admin/content/edit' ),
                                   'attribute', 'Attribute'|i18n( 'design/admin/content/edit' ) )}
 {def $relation_name_delimiter = ', '}
-
-{def $empty_array = array( 1 )}
-{set $empty_array = $empty_array|extract( 1 )}
 
 <table class="list" cellspacing="0" summary="{'Object relation list from current object.'|i18n( 'design/admin/node/view/full' )}">
 <tr>
@@ -39,7 +33,7 @@
                 {if and( ne( $attribute_id, 0 ), $related_objects_id_typed['attribute']|contains( $object.id ) )}
                     {$relation_type_names['attribute']} ( {$attr.name} )
                 {elseif eq( $attribute_id, 0 )}
-                    {def $relation_name_array = $empty_array}
+                    {def $relation_name_array = array()}
                     {foreach $related_objects_id_typed as $relation_type => $relation_id_array}
                         {if ne( $relation_type, 'attribute' )}
                             {if $relation_id_array|contains( $object.id )}
@@ -93,7 +87,7 @@
                 {if and( ne( $attribute_id, 0 ), $reverse_related_objects_id_typed['attribute']|contains( $object.id ) )}
                     {$relation_type_names['attribute']} ( {$attr.name} )
                 {elseif eq( $attribute_id, 0 )}
-                    {def $relation_name_array = $empty_array}
+                    {def $relation_name_array = array()}
                     {foreach $reverse_related_objects_id_typed as $relation_type => $relation_id_array}
                         {if ne( $relation_type, 'attribute' )}
                             {if $relation_id_array|contains( $object.id )}

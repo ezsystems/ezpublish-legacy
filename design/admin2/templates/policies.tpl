@@ -1,11 +1,11 @@
-{let assigned_roles=fetch( user, member_of, hash( id, $node.contentobject_id ) )
-     assigned_policies=fetch( user, user_role, hash( user_id, $node.contentobject_id ) )}
+{let assigned_roles=fetch( user, member_of, hash( id, $node.contentobject_id ) )}
 
 {section show=$assigned_policies}
 
 <table class="list" cellspacing="0" summary="{'Policy list and the Role that are assignet to current node.'|i18n( 'design/admin/node/view/full' )}">
 <tr>
     <th>{'Role'|i18n( 'design/admin/node/view/full' )}</th>
+    <th>{'Limited to'|i18n( 'design/admin/node/view/full' )}</th>
     <th>{'Module'|i18n( 'design/admin/node/view/full' )}</th>
     <th>{'Function'|i18n( 'design/admin/node/view/full' )}</th>
     <th>{'Limitation'|i18n( 'design/admin/node/view/full' )}</th>
@@ -20,12 +20,15 @@
 
 <tr class="{$Policy.sequence}">
 
-    {* Role name + limitation (if any). *}
+    {* Role name  *}
     <td>
     {$AssignedRoles.item.name|wash}
-    &nbsp;
+    </td>
+    
+    {* limitation (if any). *}
+    <td>
     {if $AssignedRoles.item.limit_identifier}
-        ({'limited to %limitation_identifier %limitation_value'|i18n( 'design/admin/node/view/full',, hash( '%limitation_identifier', $AssignedRoles.item.limit_identifier|downcase, '%limitation_value', $AssignedRoles.item.limit_value ) )})
+        {'%limitation_identifier %limitation_value'|i18n( 'design/admin/node/view/full',, hash( '%limitation_identifier', $AssignedRoles.item.limit_identifier|downcase, '%limitation_value', $AssignedRoles.item.limit_value ) )}
     {/if}
     </td>
 

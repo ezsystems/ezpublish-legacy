@@ -1,8 +1,5 @@
-{def $translations=$node.object.languages
-     $translations_count=$translations|count
-     $available_languages=fetch( content, prioritized_languages )}
-
 {if gt($available_languages,1)}
+{def $object_can_edit = $node.object.can_edit}
 
 <form name="translationsform" method="post" action={'content/translation'|ezurl}>
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
@@ -52,7 +49,7 @@
 {* Main. *}
 <td>
 
-{if $node.object.can_edit}
+{if $object_can_edit}
 
 <input type="radio"{if $Translations.item.id|eq($node.object.initial_language_id)} checked="checked"{/if} name="InitialLanguageID" value="{$Translations.item.id}" title="{'Use these radio buttons to select the desired main language.'|i18n( 'design/admin/node/view/full' )}" />
 
@@ -79,7 +76,7 @@
 
 <div class="block">
 <div class="button-left">
-{if $node.object.can_edit}
+{if $object_can_edit}
     {if $translations_count|gt( 1 )}
     <input class="button" type="submit" name="RemoveTranslationButton" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" title="{'Remove selected languages from the list above.'|i18n( 'design/admin/node/view/full' )}" />
     {else}
@@ -91,7 +88,7 @@
 </div>
 
 <div class="button-right">
-{if $node.object.can_edit}
+{if $object_can_edit}
     {if $translations_count|gt( 1 )}
     <input class="button" type="submit" name="UpdateInitialLanguageButton" value="{'Set main'|i18n( 'design/admin/node/view/full' )}" title="{'Select the desired main language using the radio buttons above then click this button to store the setting.'|i18n( 'design/admin/node/view/full' )}" />
     {else}
@@ -109,11 +106,11 @@
 </div>
 
 <div class="block">
-<input type="checkbox"{if $node.object.can_edit|not} disabled="disabled"{/if} name="AlwaysAvailable" value="1"{if $node.object.always_available} checked="checked"{/if} /> {'Use the main language if there is no prioritized translation.'|i18n( 'design/admin/node/view/full' )}
+<input type="checkbox"{if $object_can_edit|not} disabled="disabled"{/if} name="AlwaysAvailable" value="1"{if $node.object.always_available} checked="checked"{/if} /> {'Use the main language if there is no prioritized translation.'|i18n( 'design/admin/node/view/full' )}
 </div>
 
 <div class="block">
-{if $node.object.can_edit}
+{if $object_can_edit}
     <input class="button" type="submit" name="UpdateAlwaysAvailableButton" value="{'Update'|i18n( 'design/admin/node/view/full' )}" title="{'Use this button to store the value of the checkbox above.'|i18n( 'design/admin/node/view/full' )}" />
 {else}
     <input class="button-disabled" disabled="disabled" type="submit" name="UpdateAlwaysAvailableButton" value="{'Update'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permission to change this setting.'|i18n( 'design/admin/node/view/full' )}" />
@@ -123,6 +120,3 @@
 </form>
 
 {/if}
-
-{undef $translations
-       $translations_count}
