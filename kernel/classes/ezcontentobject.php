@@ -1011,7 +1011,7 @@ class eZContentObject extends eZPersistentObject
     {
         global $eZContentObjectContentObjectCache;
 
-        $uniqueIDArray = array_unique( $idArray );
+        $uniqueIDArray = array_unique( $idArray, SORT_STRING );
 
         $useVersionName = true;
         if ( $useVersionName )
@@ -3378,7 +3378,7 @@ class eZContentObject extends eZPersistentObject
             $toContentObjectIDs[] = $relation['to_contentobject_id'];
             $relationTypesArray[$relation['to_contentobject_id']] = (int) $relation['relation_type'];
         }
-        $toContentObjectIDs = array_unique( $toContentObjectIDs );
+        $toContentObjectIDs = array_unique( $toContentObjectIDs, SORT_STRING );
 
         $addedOrRemovedRelations = $db->arrayQuery( "SELECT to_contentobject_id, op_code, relation_type FROM ezcontentobject_link
                                                      WHERE contentclassattribute_id='0'
@@ -4463,7 +4463,7 @@ class eZContentObject extends eZPersistentObject
                 if ( $classIDArrayPart == '*' )
                 {
                     $fetchAll = true;
-                    $allowedLanguages['*'] = array_unique( array_merge( $allowedLanguages['*'], $languageCodeArrayPart ) );
+                    $allowedLanguages['*'] = array_unique( array_merge( $allowedLanguages['*'], $languageCodeArrayPart ), SORT_STRING );
                 }
                 else
                 {
@@ -4471,7 +4471,7 @@ class eZContentObject extends eZPersistentObject
                     {
                         if ( isset( $allowedLanguages[$class] ) )
                         {
-                            $allowedLanguages[$class] = array_unique( array_merge( $allowedLanguages[$class], $languageCodeArrayPart ) );
+                            $allowedLanguages[$class] = array_unique( array_merge( $allowedLanguages[$class], $languageCodeArrayPart ), SORT_STRING );
                         }
                         else
                         {
@@ -4540,7 +4540,7 @@ class eZContentObject extends eZPersistentObject
                 $id = $class->attribute( 'id' );
                 if ( isset( $allowedLanguages[$id] ) )
                 {
-                    $languageCodes = array_unique( array_merge( $allowedLanguages['*'], $allowedLanguages[$id] ) );
+                    $languageCodes = array_unique( array_merge( $allowedLanguages['*'], $allowedLanguages[$id] ), SORT_STRING );
                 }
                 else
                 {
@@ -5050,7 +5050,7 @@ class eZContentObject extends eZPersistentObject
                 if ( $hasTranslation )
                 {
                     $importedLanguages[] = $importedLanguage;
-                    $importedLanguages = array_unique( $importedLanguages );
+                    $importedLanguages = array_unique( $importedLanguages, SORT_STRING );
                 }
             }
         }
@@ -5396,7 +5396,7 @@ class eZContentObject extends eZPersistentObject
                 {
                     $exportedLanguage = $versionNodeChild->getAttribute( 'language' );
                     $exportedLanguages[] = $exportedLanguage;
-                    $exportedLanguages = array_unique( $exportedLanguages );
+                    $exportedLanguages = array_unique( $exportedLanguages, SORT_STRING );
                 }
             }
             unset( $versionNode );
@@ -5971,9 +5971,7 @@ class eZContentObject extends eZPersistentObject
             $allowedStateIDList = $stateIDArray;
         }
 
-        $allowedStateIDList = array_unique( $allowedStateIDList );
-
-        return $allowedStateIDList;
+        return array_unique( $allowedStateIDList, SORT_STRING );
     }
 
     function allowedAssignStateList( eZUser $user = null )

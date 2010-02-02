@@ -124,3 +124,4 @@ Changes from 4.2.0 to 4.3.0alpha1
 - added 5.2.9 compatibility (part of bug #015635: Workaround for PHP 5.2.9 array_unique issue)
 - Fixed bug #16022: Bad parameter order for some imagemagick version
 - Fixed bug #16105: Duplicate code in eZObjectRelationListType::validateObjectAttributeHTTPInput()
+- Fixed bug #15635: Workaround for PHP 5.2.9 array_unique issue

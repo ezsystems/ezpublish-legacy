@@ -862,7 +862,7 @@ class eZContentOperationCollection
             eZContentOperationCollection::registerSearchObject( $objectID, $object->attribute( 'current_version' ) );
         }
 
-        eZNodeAssignment::purgeByID( array_unique( $nodeAssignmentIDList ) );
+        eZNodeAssignment::purgeByID( array_unique( $nodeAssignmentIDList, SORT_STRING ) );
 
         if ( $mainNodeChanged )
         {

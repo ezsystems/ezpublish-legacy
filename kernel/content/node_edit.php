@@ -285,7 +285,7 @@ function storeNodeAssignments( $module, $class, $object, $version, $contentObjec
     eZDebugSetting::writeDebug( 'kernel-content-edit', $mainNodeID, "mainNodeID" );
 
 
-    $setPlacementNodeIDArray = array_unique( $setPlacementNodeIDArray );
+    $setPlacementNodeIDArray = array_unique( $setPlacementNodeIDArray, SORT_STRING );
     eZDebugSetting::writeDebug( 'kernel-content-edit', $setPlacementNodeIDArray, '$setPlacementNodeIDArray' );
     $remoteIDFieldMap = array();
     if ( $http->hasPostVariable( 'SetRemoteIDFieldMap' ) )
@@ -431,7 +431,7 @@ function checkNodeActions( $module, $class, $object, $version, $contentObjectAtt
         }
         if ( !$isTopLevel )
         {
-            $ignoreNodesSelect = array_unique( $ignoreNodesSelect );
+            $ignoreNodesSelect = array_unique( $ignoreNodesSelect, SORT_STRING );
             $objectID = $object->attribute( 'id' );
             $action = 'AddNodeAssignment';
             if ( $module->isCurrentAction( 'BrowseForPrimaryNodes' ) )

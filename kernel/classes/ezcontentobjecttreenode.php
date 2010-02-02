@@ -4998,7 +4998,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 if ( $classIDArrayPart == '*' )
                 {
                     $fetchAll = true;
-                    $allowedLanguages['*'] = array_unique( array_merge( $allowedLanguages['*'], $languageCodeArrayPart ) );
+                    $allowedLanguages['*'] = array_unique( array_merge( $allowedLanguages['*'], $languageCodeArrayPart ), SORT_STRING );
                 }
                 else
                 {
@@ -5006,7 +5006,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     {
                         if ( isset( $allowedLanguages[$class] ) )
                         {
-                            $allowedLanguages[$class] = array_unique( array_merge( $allowedLanguages[$class], $languageCodeArrayPart ) );
+                            $allowedLanguages[$class] = array_unique( array_merge( $allowedLanguages[$class], $languageCodeArrayPart ), SORT_STRING );
                         }
                         else
                         {
@@ -5075,7 +5075,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 $id = $class->attribute( 'id' );
                 if ( isset( $allowedLanguages[$id] ) )
                 {
-                    $languageCodes = array_unique( array_merge( $allowedLanguages['*'], $allowedLanguages[$id] ) );
+                    $languageCodes = array_unique( array_merge( $allowedLanguages['*'], $allowedLanguages[$id] ), SORT_STRING );
                 }
                 else
                 {
@@ -5935,7 +5935,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $objectIDList = array();
             foreach ( $subtreeChunk as $curNode )
                 $objectIDList[] = $curNode['contentobject_id'];
-            $objectIDList = array_unique( $objectIDList );
+            $objectIDList = array_unique( $objectIDList, SORT_STRING );
             unset( $subtreeChunk );
 
             foreach ( $objectIDList as $objectID )

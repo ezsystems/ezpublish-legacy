@@ -245,7 +245,7 @@ if ( $module->isCurrentAction( 'ConfirmRemoval' ) )
 $vatTypeArray = eZVatType::fetchList( true, true );
 
 if ( is_array( $errors ) )
-    $errors = array_unique( $errors );
+    $errors = array_unique( $errors, SORT_STRING );
 
 $tpl->setVariable( "vattype_array", $vatTypeArray );
 $tpl->setVariable( "module", $module );

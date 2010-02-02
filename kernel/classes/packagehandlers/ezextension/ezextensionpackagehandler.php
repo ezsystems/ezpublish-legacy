@@ -258,7 +258,7 @@ class eZExtensionPackageHandler extends eZPackageHandler
 
     function handleAddParameters( $packageType, $package, $cli, $arguments )
     {
-        $arguments = array_unique( $arguments );
+        $arguments = array_unique( $arguments, SORT_STRING );
         $extensionsToAdd = array();
 
         $siteINI = eZINI::instance();

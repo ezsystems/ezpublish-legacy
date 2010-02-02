@@ -86,8 +86,7 @@ class eZExtension
             $activeExtensions = array_merge( $activeExtensions,
                                              $globalActiveExtensions );
         }
-        $activeExtensions = array_unique( $activeExtensions );
-        return $activeExtensions;
+        return array_unique( $activeExtensions, SORT_STRING );
     }
 
     /*!

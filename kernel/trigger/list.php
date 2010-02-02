@@ -43,7 +43,7 @@ $Module = $Params['Module'];
 
 $wfINI = eZINI::instance( 'workflow.ini' );
 $operations = $wfINI->variableArray( 'OperationSettings', 'AvailableOperations' );
-$operations = array_unique( array_merge( $operations, $wfINI->variable( 'OperationSettings', 'AvailableOperationList' ) ) );
+$operations = array_unique( array_merge( $operations, $wfINI->variable( 'OperationSettings', 'AvailableOperationList' ) ), SORT_STRING );
 $possibleTriggers = array();
 
 $triggers = makeTriggerArray( eZTrigger::fetchList() );

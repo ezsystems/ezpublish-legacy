@@ -255,7 +255,7 @@ if ( !$isQuiet )
 
     if ( $customAlignTagList )
     {
-        $customAlignTagList = array_unique( $customAlignTagList );
+        $customAlignTagList = array_unique( $customAlignTagList, SORT_STRING );
         $cli->notice( "\nNOTICE: You now need to remove custom '$customAlignAttribute' attribute from the following tags in content.ini: " . implode(', ', $customAlignTagList) );
     }
 }

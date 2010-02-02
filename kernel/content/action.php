@@ -356,9 +356,9 @@ else if ( $module->isCurrentAction( 'MoveNodeRequest' ) )
         $ignoreNodesSelect[] = $element['parent_node_id'];
     }
 
-    $ignoreNodesSelect = array_unique( $ignoreNodesSelect );
-    $ignoreNodesSelectSubtree = array_unique( $ignoreNodesSelectSubtree );
-    $ignoreNodesClick = array_unique( $ignoreNodesClick );
+    $ignoreNodesSelect = array_unique( $ignoreNodesSelect, SORT_STRING );
+    $ignoreNodesSelectSubtree = array_unique( $ignoreNodesSelectSubtree, SORT_STRING );
+    $ignoreNodesClick = array_unique( $ignoreNodesClick, SORT_STRING );
     eZContentBrowse::browse( array( 'action_name' => 'MoveNode',
                                     'description_template' => 'design:content/browse_move_node.tpl',
                                     'keys' => array( 'class' => $class->attribute( 'id' ),
@@ -714,7 +714,7 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
 
         if ( !$isTopLevel )
         {
-            $ignoreNodesSelect = array_unique( $ignoreNodesSelect );
+            $ignoreNodesSelect = array_unique( $ignoreNodesSelect, SORT_STRING );
             $objectID = $object->attribute( 'id' );
             eZContentBrowse::browse( array( 'action_name' => 'AddNodeAssignment',
                                             'description_template' => 'design:content/browse_placement.tpl',
@@ -1035,14 +1035,14 @@ else if ( $http->hasPostVariable( 'MoveButton' ) )
             $parentObjectID = $parentObject->attribute( 'id' );
             $parentClass = $parentObject->contentClass();
 
-            $ignoreNodesSelect = array_unique( $ignoreNodesSelect );
-            $ignoreNodesSelectSubtree = array_unique( $ignoreNodesSelectSubtree );
-            $ignoreNodesClick = array_unique( $ignoreNodesClick );
+            $ignoreNodesSelect = array_unique( $ignoreNodesSelect, SORT_STRING );
+            $ignoreNodesSelectSubtree = array_unique( $ignoreNodesSelectSubtree, SORT_STRING );
+            $ignoreNodesClick = array_unique( $ignoreNodesClick, SORT_STRING );
 
-            $classIDArray = array_unique( $classIDArray );
-            $classIdentifierArray = array_unique( $classIdentifierArray );
-            $classGroupArray = array_unique( $classGroupArray );
-            $sectionIDArray = array_unique( $sectionIDArray );
+            $classIDArray = array_unique( $classIDArray, SORT_STRING );
+            $classIdentifierArray = array_unique( $classIdentifierArray, SORT_STRING );
+            $classGroupArray = array_unique( $classGroupArray, SORT_STRING );
+            $sectionIDArray = array_unique( $sectionIDArray, SORT_STRING );
 
             eZContentBrowse::browse( array( 'action_name' => 'MoveNode',
                                             'description_template' => 'design:content/browse_move_node.tpl',
@@ -1434,7 +1434,7 @@ else if ( $module->isCurrentAction( 'ClearViewCache' ) or
             {
                 $objectIDList[] = $subtreeNode['contentobject_id'];
             }
-            $objectIDList = array_unique( $objectIDList );
+            $objectIDList = array_unique( $objectIDList, SORT_STRING );
             unset( $subtree );
 
             foreach ( $objectIDList as $objectID )

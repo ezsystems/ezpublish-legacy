@@ -146,7 +146,7 @@ class eZStepSitePackages extends eZStepInstaller
 
         if ( isset( $this->PersistenceList['additional_packages'] ) )
             $recommended = array_unique( array_merge( $recommended,
-                                                      $this->PersistenceList['additional_packages'] ) );
+                                                      $this->PersistenceList['additional_packages'] ), SORT_STRING );
 
         $this->Tpl->setVariable( 'site_types', $siteTypes );
         $this->Tpl->setVariable( 'recommended_package_array', $recommended );

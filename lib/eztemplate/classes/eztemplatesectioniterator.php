@@ -89,8 +89,7 @@ class eZTemplateSectionIterator
             $attributes = $item->attributes();
         }
         $attributes = array_merge( $this->InternalAttributes, $attributes );
-        $attributes = array_unique( $attributes );
-        return $attributes;
+        return array_unique( $attributes, SORT_STRING );
     }
 
     /*!

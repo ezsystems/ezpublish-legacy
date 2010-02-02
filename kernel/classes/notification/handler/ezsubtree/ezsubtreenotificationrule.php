@@ -170,7 +170,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
         $userNodeIDList = array();
         foreach ( $userPart as $row )
             $userNodeIDList[] = $row['node_id'];
-        $userNodeIDList = array_unique( $userNodeIDList );
+        $userNodeIDList = array_unique( $userNodeIDList, SORT_STRING );
 
         if ( count( $userNodeIDList ) == 0 )
         {
@@ -194,7 +194,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
         foreach ( $nodePart as $row )
             if ( $row['contentobject_id'] != '0' )
                 $objectIDList[] = $row['contentobject_id'];
-        $objectIDList = array_unique( $objectIDList );
+        $objectIDList = array_unique( $objectIDList, SORT_STRING );
 
         if ( count( $objectIDList ) == 0 )
         {
@@ -311,7 +311,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
                 $userIDArray[(string)$userID] = false;
             }
         }
-        $acceptedUserArray = array_unique( $acceptedUserArray );
+        $acceptedUserArray = array_unique( $acceptedUserArray, SORT_STRING );
 
         foreach( array_keys( $acceptedUserArray ) as $key )
         {

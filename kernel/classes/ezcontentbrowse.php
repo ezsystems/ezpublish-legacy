@@ -307,7 +307,7 @@ class eZContentBrowse
                 }
                 $list[] = $intValue;
             }
-            return array_unique( $list );
+            return array_unique( $list, SORT_STRING );
         }
         return false;
     }

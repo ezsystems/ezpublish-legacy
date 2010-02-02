@@ -197,7 +197,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
             }
         }
         $nodeIDList[] = $contentNode->attribute( 'node_id' );
-        $nodeIDList = array_unique( $nodeIDList );
+        $nodeIDList = array_unique( $nodeIDList, SORT_STRING );
 
         $userList = eZSubtreeNotificationRule::fetchUserList( $nodeIDList, $contentObject );
 
