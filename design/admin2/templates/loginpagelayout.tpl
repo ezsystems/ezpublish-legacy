@@ -22,35 +22,11 @@
 </div>
 </div>
 
-<hr class="hide" />
-
-<div id="subheader">
-<div id="subheader-design">
-    &nbsp;
-</div>
-</div>
-
-
+{/cache-block}
 <hr class="hide" />
 
 <div id="columns">
-
-<div id="leftmenu">
-<div id="leftmenu-design">
-
-</div>
-</div>
-
-<hr class="hide" />
-
-<div id="rightmenu">
-<div id="rightmenu-design">
-
-</div>
-</div>
-
-{/cache-block}
-<hr class="hide" />
+<div id="maincolumn">
 
 <div id="maincontent">
 <div id="maincontent-design" class="float-break"><div id="fix">
@@ -67,6 +43,7 @@
 
 <div class="break"></div>
 </div>
+</div>
 
 <hr class="hide" />
 
@@ -75,10 +52,9 @@
 
 {include uri="design:page_copyright.tpl"}
 
-</div>
-</div>
-
 <div class="break"></div>
+</div>
+</div>
 
 {* This comment will be replaced with actual debug report (if debug is on). *}
 <!--DEBUG_REPORT-->

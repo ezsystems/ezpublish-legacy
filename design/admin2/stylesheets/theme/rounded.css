@@ -24,11 +24,6 @@ a.show-hide-control
   background-color: #fefefe;
 }
 
-.loginpage #path
-{
-  display: none;
-}
-
 .loginpage #header
 {
   height: 25%;
@@ -52,12 +47,6 @@ a.show-hide-control
   background-position: top right;
 }
 
-
-.loginpage #leftmenu, .loginpage #rightmenu
-{
-	border: 0 none;
-}
-
 .loginpage #footer
 {
   position: fixed;
@@ -70,6 +59,7 @@ a.show-hide-control
 {
   padding-bottom: 4em;
 }
+
 
 /* HEADER */
 #header
