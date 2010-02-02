@@ -57,9 +57,11 @@ a.image-text:hover > span
 
 #header-usermenu a
 {
-    color: #ccc;
+    color: #ddd;
     text-decoration: none;
 }
+
+#header-usermenu a:hover { color: #fff; }
 
 #header-usermenu span.header-usermenu-name
 {
