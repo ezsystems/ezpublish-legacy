@@ -89,7 +89,7 @@ class eZMultiPrice extends eZSimplePrice
                                                  'ex_vat_price_list',
                                                  'discount_inc_vat_price_list',
                                                  'discount_ex_vat_price_list' ),
-                                          eZSimplePrice::attributes() ) );
+                                          eZSimplePrice::attributes() ), SORT_STRING );
     }
 
     /*!

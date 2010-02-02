@@ -3028,7 +3028,7 @@ else
                  $variableDataType == eZTemplate::TYPE_ARRAY or
                  $variableDataType == eZTemplate::TYPE_BOOLEAN )
             {
-                $knownTypes = array_unique( array_merge( $knownTypes, array( $staticTypeMap[$variableDataType] ) ) );
+                $knownTypes = array_unique( array_merge( $knownTypes, array( $staticTypeMap[$variableDataType] ) ), SORT_STRING );
                 $dataValue = $variableDataItem[1];
                 $dataText = $php->thisVariableText( $dataValue, 0, 0, false );
                 $php->addCodePiece( "\$$variableAssignmentName = $dataText;\n", array( 'spacing' => $spacing ) );
@@ -3183,7 +3183,7 @@ END;
                             $knownTypes = array_merge( $knownTypes, $knownType );
                         else
                             $knownTypes[] = $knownType;
-                        $knownTypes = array_unique( $knownTypes );
+                        $knownTypes = array_unique( $knownTypes, SORT_STRING );
                     }
                     else
                         $knownTypes[] = 'static';
@@ -3205,7 +3205,7 @@ unset( \$" . $variableAssignmentName . "Data );\n",
             }
             else if ( $variableDataType == eZTemplate::TYPE_DYNAMIC_ARRAY )
             {
-                $knownTypes = array_unique( array_merge( $knownTypes, array( 'array' ) ) );
+                $knownTypes = array_unique( array_merge( $knownTypes, array( 'array' ) ), SORT_STRING );
                 $code = '%output% = array( ';
 
                 $matchMap = array( '%input%', '%output%' );
@@ -3335,11 +3335,11 @@ unset( \$" . $variableAssignmentName . "Data );\n",
                 if ( isset( $variableDataItem[5] ) and $variableDataItem[5] )
                 {
                     if ( is_array( $variableDataItem[5] ) )
-                        $knownTypes = array_unique( array_merge( $knownTypes, $variableDataItem[5] ) );
+                        $knownTypes = array_unique( array_merge( $knownTypes, $variableDataItem[5] ), SORT_STRING );
                     else if ( is_string( $variableDataItem[5] ) )
-                        $knownTypes = array_unique( array_merge( $knownTypes, array( $variableDataItem[5] ) ) );
+                        $knownTypes = array_unique( array_merge( $knownTypes, array( $variableDataItem[5] ) ), SORT_STRING );
                     else
-                        $knownTypes = array_unique( array_merge( $knownTypes, array( 'static' ) ) );
+                        $knownTypes = array_unique( array_merge( $knownTypes, array( 'static' ) ), SORT_STRING );
                 }
                 $code = str_replace( $matchMap, $replaceMap, $code );
                 $php->addCodePiece( $code, array( 'spacing' => $spacing ) );

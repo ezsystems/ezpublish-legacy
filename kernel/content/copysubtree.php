@@ -790,8 +790,8 @@ function browse( $Module, $srcNode )
         $ignoreNodesSelect[] = $element['node_id'];
         $ignoreNodesClick[]  = $element['node_id'];
     }
-    $ignoreNodesSelect = array_unique( $ignoreNodesSelect );
-    $ignoreNodesClick = array_unique( $ignoreNodesClick );
+    $ignoreNodesSelect = array_unique( $ignoreNodesSelect, SORT_STRING );
+    $ignoreNodesClick = array_unique( $ignoreNodesClick, SORT_STRING );
 
     $viewMode = 'full';
     if ( $Module->hasActionParameter( 'ViewMode' ) )

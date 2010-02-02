@@ -194,7 +194,7 @@ class eZContentCacheManager
                 $nodeIDList[] = $assignedNode['node_id'];
             }
         }
-        $nodeIDList = array_unique( $nodeIDList );
+        $nodeIDList = array_unique( $nodeIDList, SORT_STRING );
     }
 
     /*!
@@ -680,7 +680,7 @@ class eZContentCacheManager
             return false;
         }
 
-        $nodeList = array_unique( $nodeList );
+        $nodeList = array_unique( $nodeList, SORT_STRING );
 
         eZDebug::accumulatorStop( 'node_cleanup_list' );
 

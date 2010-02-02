@@ -154,7 +154,7 @@ class eZSearchEngine
         }
         eZContentObject::recursionProtectionEnd();
 
-        $indexArrayOnlyWords = array_unique( $indexArrayOnlyWords );
+        $indexArrayOnlyWords = array_unique( $indexArrayOnlyWords, SORT_STRING );
 
         $wordIDArray = $this->buildWordIDArray( $indexArrayOnlyWords );
 
@@ -975,7 +975,7 @@ class eZSearchEngine
                  $i = $this->TempTablesCount;
             }
 
-            $nonExistingWordCount = count( array_unique( $searchWordArray ) ) - count( $wordIDHash ) - $wildCardCount;
+            $nonExistingWordCount = count( array_unique( $searchWordArray ), SORT_STRING ) - count( $wordIDHash ) - $wildCardCount;
             $excludeWordCount = $searchWordCount - count( $stopWordArray );
 
             if ( ( count( $stopWordArray ) + $nonExistingWordCount ) == $searchWordCount && $this->TempTablesCount == 0 )

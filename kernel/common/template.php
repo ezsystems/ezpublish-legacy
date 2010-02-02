@@ -50,7 +50,7 @@ function templateInit( $name = false )
     $extensionAutoloadPath = $ini->variable( 'TemplateSettings', 'ExtensionAutoloadPath' );
     $extensionPathList = eZExtension::expandedPathList( $extensionAutoloadPath, 'autoloads' );
 
-    $autoLoadPathList = array_unique( array_merge( $compatAutoLoadPath, $autoLoadPathList, $extensionPathList ) );
+    $autoLoadPathList = array_unique( array_merge( $compatAutoLoadPath, $autoLoadPathList, $extensionPathList ), SORT_STRING );
 
     $tpl->setAutoloadPathList( $autoLoadPathList );
     $tpl->autoload();

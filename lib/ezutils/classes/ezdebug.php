@@ -1300,7 +1300,7 @@ showDebug();
             $groupKeys = array();
             if ( array_key_exists( $inGroup, $debug->TimeAccumulatorGroupList ) )
                 $groupKeys = $debug->TimeAccumulatorGroupList[$inGroup];
-            $debug->TimeAccumulatorGroupList[$inGroup] = array_unique( array_merge( $groupKeys, array( $key ) ) );
+            $debug->TimeAccumulatorGroupList[$inGroup] = array_unique( array_merge( $groupKeys, array( $key ) ), SORT_STRING );
             if ( array_key_exists( $inGroup, $debug->TimeAccumulatorList ) )
                 $debug->TimeAccumulatorList[$inGroup]['is_group'] = true;
         }

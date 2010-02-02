@@ -1183,7 +1183,7 @@ class eZDataType
         {
             $contentINI = eZINI::instance( 'content.ini' );
             $dataTypes = $contentINI->variable( 'DataTypeSettings', 'AvailableDataTypes' );
-            $allowedTypes = array_unique( $dataTypes );
+            $allowedTypes = array_unique( $dataTypes, SORT_STRING );
         }
         return $allowedTypes;
     }
@@ -1209,7 +1209,7 @@ class eZDataType
         $contentINI = eZINI::instance( 'content.ini' );
 
         $extensionDirectories = $contentINI->variable( 'DataTypeSettings', 'ExtensionDirectories' );
-        $extensionDirectories = array_unique( $extensionDirectories );
+        $extensionDirectories = array_unique( $extensionDirectories, SORT_STRING );
         $repositoryDirectories = $contentINI->variable( 'DataTypeSettings', 'RepositoryDirectories' );
         $triedDirectories = $repositoryDirectories;
 
@@ -1229,7 +1229,7 @@ class eZDataType
             }
         }
         $foundEventType = false;
-        $repositoryDirectories = array_unique( $repositoryDirectories );
+        $repositoryDirectories = array_unique( $repositoryDirectories, SORT_STRING );
         foreach ( $repositoryDirectories as $repositoryDirectory )
         {
             $includeFile = "$repositoryDirectory/$type/" . $type . "type.php";

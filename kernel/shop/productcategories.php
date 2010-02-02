@@ -196,7 +196,7 @@ elseif ( $module->isCurrentAction( 'StoreChanges' ) )
 $productCategories = eZProductCategory::fetchList();
 
 if ( is_array( $errors ) )
-    $errors = array_unique( $errors );
+    $errors = array_unique( $errors, SORT_STRING );
 
 $tpl->setVariable( 'categories', $productCategories );
 $tpl->setVariable( 'errors', $errors );

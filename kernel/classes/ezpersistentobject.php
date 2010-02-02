@@ -763,7 +763,7 @@ class eZPersistentObject
         eZPersistentObject::replaceFieldsWithShortNames( $db, $fields, $conds );
         if ( is_array( $field_filters ) )
             $field_array = array_unique( array_intersect(
-                                             $field_filters, array_keys( $fields ) ) );
+                                             $field_filters, array_keys( $fields ) ), SORT_STRING );
         else
             $field_array = array_keys( $fields );
         if ( $custom_fields !== null and is_array( $custom_fields ) )
@@ -1169,9 +1169,9 @@ static function definition()
         $def = $this->definition();
         $attrs = array_keys( $def["fields"] );
         if ( isset( $def["function_attributes"] ) )
-            $attrs = array_unique( array_merge( $attrs, array_keys( $def["function_attributes"] ) ) );
+            $attrs = array_unique( array_merge( $attrs, array_keys( $def["function_attributes"] ) ), SORT_STRING );
         if ( isset( $def["functions"] ) )
-            $attrs = array_unique( array_merge( $attrs, array_keys( $def["functions"] ) ) );
+            $attrs = array_unique( array_merge( $attrs, array_keys( $def["functions"] ) ), SORT_STRING );
         return $attrs;
     }
 

@@ -147,7 +147,7 @@ class eZWorkflowType
         {
             $wfINI = eZINI::instance( 'workflow.ini' );
             $eventTypes = $wfINI->variable( "EventSettings", "AvailableEventTypes" );
-            $GLOBALS["eZWorkflowAllowedTypes"] = array_unique( $eventTypes );
+            $GLOBALS["eZWorkflowAllowedTypes"] = array_unique( $eventTypes, SORT_STRING );
         }
         return $GLOBALS["eZWorkflowAllowedTypes"];
     }

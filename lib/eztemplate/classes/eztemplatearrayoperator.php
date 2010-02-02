@@ -615,11 +615,11 @@ class eZTemplateArrayOperator
             {
                 if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
                 {
-                    return array( eZTemplateNodeTool::createArrayElement( array_unique( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) ) ) );
+                    return array( eZTemplateNodeTool::createArrayElement( array_unique( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) ), SORT_STRING ) );
                 }
 
                 $values = array( $parameters[0] );
-                $code = '%output% = array_unique( %1% );';
+                $code = '%output% = array_unique( %1%, SORT_STRING );';
                 return array( eZTemplateNodeTool::createCodePieceElement( $code, $values ) );
             } break;
 
@@ -1904,7 +1904,7 @@ class eZTemplateArrayOperator
                 // Removes duplicate values from array:
                 case $this->UniqueName:
                 {
-                    $operatorValue = array_unique( $operatorValue );
+                    $operatorValue = array_unique( $operatorValue, SORT_STRING );
                 }break;
 
                 // Default case:

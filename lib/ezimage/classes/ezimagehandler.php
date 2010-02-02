@@ -79,7 +79,7 @@ class eZImageHandler
                 $this->SupportImageFilters[] = $filter['name'];
             }
         }
-        $this->SupportImageFilters = array_unique( $this->SupportImageFilters );
+        $this->SupportImageFilters = array_unique( $this->SupportImageFilters, SORT_STRING );
         $this->IsEnabled = $isEnabled;
     }
 
