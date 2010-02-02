@@ -300,14 +300,23 @@ p.table-preferences
   margin: 0 0 1.2em;
 }
 
+p.table-preferences :first-child
+{
+  border-right: 1px solid #ccc;
+}
+
+p.table-preferences :last-child
+{
+  border-left: 1px solid #ccc;
+}
+
 p.table-preferences .current
 {
-  background-color: #D1DFE9;
-  background-image: url(../../images/2/gradient-green.png);
   background-position: center bottom;
   background-repeat: repeat-x;
+  color: #000;
+  font-weight: bold;
   padding: 1px 10px;
-  color: #fff;
 }
 
 p.table-preferences .current:first-child
@@ -315,6 +324,7 @@ p.table-preferences .current:first-child
   -moz-border-radius-bottomleft: 3px;
   -webkit-border-bottom-left-radius: 3px;
   border-bottom-left-radius: 3px;
+  border-left: 1px;
 }
 
 p.table-preferences .current:last-child
@@ -391,6 +401,13 @@ input.button-disabled
 {
   background-color: #efefef;
 }
+
+/* DASHBOARD */
+#ez-version
+{
+  color: #095f99;
+  font-weight: bold;
+}  
 
 
 /* FOOTER */

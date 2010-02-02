@@ -2,7 +2,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
-<h2 class="context-title"><a href={$node.parent.url_alias|ezurl}><img src={'up-16x16-green.png'|ezimage} alt="{'Up one level'|i18n( 'design/admin/node/view/full' )}" title="{'Up one level'|i18n( 'design/admin/node/view/full' )}" /></a> {'Sub items [%children_count]'|i18n( 'design/admin/node/view/full',, hash( '%children_count', $node.children_count ) )}</h2>
+<h2 class="context-title"><a href={$node.parent.url_alias|ezurl}><img src={'up-16x16-grey.png'|ezimage} alt="{'Up one level'|i18n( 'design/admin/node/view/full' )}" title="{'Up one level'|i18n( 'design/admin/node/view/full' )}" /></a> {'Sub items [%children_count]'|i18n( 'design/admin/node/view/full',, hash( '%children_count', $node.children_count ) )}</h2>
 
 
 
