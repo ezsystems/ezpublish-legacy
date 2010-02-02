@@ -147,7 +147,7 @@
 <script type="text/javascript">
 <!--
 
-document.getElementById('header-usermenu-logout').innerHTML += ' (<span class="header-usermenu-name">{$current_user.login|wash}<\/span>)'
+document.getElementById('header-usermenu-logout').innerHTML += '<span class="header-usermenu-name">{$current_user.login|wash}<\/span>';
 
 {literal}
 function ezSubmitForm( action, params, method )

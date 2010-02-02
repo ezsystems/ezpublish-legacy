@@ -147,6 +147,7 @@ ul.tabs li a, ul.tabs li span.disabled
 #header-usermenu a
 {
   color: #ccc;
+  text-decoration: none;
 }
 
  ul.tabs li.selected a,  ul.tabs li a:hover
@@ -174,7 +175,7 @@ ul.tabs li a, ul.tabs li span.disabled
 {
   text-align: right;
   float: right;
-  padding: 1.5em 5px 0;
+  padding: 1.4em 5px 0;
   text-align: right;
 }
 
