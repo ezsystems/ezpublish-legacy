@@ -208,7 +208,8 @@
         {def $can_create_classes = fetch( 'content', 'can_instantiate_class_list', hash( 'group_id', array( ezini( 'ClassGroupIDs', 'Users', 'content.ini' ), ezini( 'ClassGroupIDs', 'Setup', 'content.ini' ) ), 'parent_node', $node, 'filter_type', 'exclude' ) )}
     {/if}
 
-    {def $can_create_languages = fetch( 'content', 'prioritized_languages' )}
+    {def $can_create_languages = fetch( 'content', 'prioritized_languages' )
+         $content_locale = ezini( 'RegionalSettings', 'ContentObjectLocale' )}
 
     {if and( is_set( $can_create_languages[0] ), eq( $can_create_languages|count, 1 ) )}
         <select id="ClassID" name="ClassID" title="{'Use this menu to select the type of item you want to create then click the "Create here" button. The item will be created in the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
@@ -227,7 +228,7 @@
     {else}
         <select name="ContentLanguageCode" onchange="checkLanguageSelector(this)" title="{'Use this menu to select the language you want to use for the creation then click the "Create here" button. The item will be created in the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
             {foreach $can_create_languages as $tmp_language}
-                <option value="{$tmp_language.locale|wash()}">{$tmp_language.name|wash()}</option>
+                <option value="{$tmp_language.locale|wash()}"{if $content_locale|eq( $tmp_language.locale )} selected="selected"{/if}>{$tmp_language.name|wash()}</option>
             {/foreach}
        </select>
     {/if}
