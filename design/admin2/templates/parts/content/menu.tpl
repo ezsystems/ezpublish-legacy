@@ -32,7 +32,7 @@
 {include uri='design:parts/ini_menu.tpl' ini_section='Leftmenu_content' i18n_hash=hash()}
 
 {* Left menu width control. *}
-<div class="widthcontrol">
+<div id="widthcontrol-links" class="widthcontrol">
 <p>
 {switch match=ezpreference( 'admin_left_menu_size' )}
     {case match='medium'}
@@ -60,6 +60,11 @@
     {/case}
 {/switch}
 </p>
+</div>
+
+{* This is the border placed to the left for draging width, js will handle disabling the one above and enabling this *}
+<div id="widthcontrol-handler" class="hide">
+<div class="widthcontrol-grippy"></div>
 </div>
 
 <script language="javascript" type="text/javascript" src={"javascript/leftmenu_widthcontrol.js"|ezdesign} charset="utf-8"></script>

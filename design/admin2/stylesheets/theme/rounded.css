@@ -118,18 +118,6 @@ ul.tabs li a, ul.tabs li span.disabled
 
 /* BOX MODEL */
 
-#leftmenu
-{
-    border: 1px solid #999;
-    border-left: 0 none;
-    -moz-border-radius-topright: 3px;
-    -moz-border-radius-bottomright: 3px;
-    -webkit-border-top-right-radius: 3px;
-    -webkit-border-bottom-right-radius: 3px;
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 3px;
-}
-
 a.show-hide-control
 {
     background-color: white;

@@ -1,5 +1,5 @@
 // jquery code to a allow changing width  on left menu by dragging
-jQuery(function( $ )
+(function( $ )
 {
     var leftMenuDrag = {
             elements : false,
@@ -42,17 +42,16 @@ jQuery(function( $ )
                 var test = jQuery('<div style="display: none; font-size: 1em; margin: 0; padding:0; height: auto; line-height: 1; border:0;">&nbsp;</div>').appendTo('#columns'), scale = test.height();
                 test.remove();
                 return (px / scale).toFixed(8);
-            },
-            refresh: function()
-            {
-                // for ie7..
-                $( '#leftmenu div.widthcontrol' ).html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;').css( 'fontSize', '11px' ).css('bottom', '0px');
             }
     };
-    var wc = $( '#leftmenu div.widthcontrol' ).addClass( 'js-widthcontroled' );
-    wc.bind( 'mousedown', leftMenuDrag.down );
-    $( document ).bind('mouseup click', leftMenuDrag.up );
-    $( document ).bind('mousemove', leftMenuDrag.on );
-    $('#leftmenu').addClass( 'widthcontroled' );
-    setTimeout( leftMenuDrag.refresh, 400 );
-});
+    var wl = $('#widthcontrol-links'), wh = $('#widthcontrol-handler'); 
+    if ( wl && wh )
+    {
+        wl.addClass( 'hide' );
+        wh.removeClass( 'hide' ) ;
+        wh.bind( 'mousedown', leftMenuDrag.down );
+        $( document ).bind('mouseup click', leftMenuDrag.up );
+        $( document ).bind('mousemove', leftMenuDrag.on );
+        $('#leftmenu').addClass( 'widthcontroled' );
+    }
+})( jQuery );

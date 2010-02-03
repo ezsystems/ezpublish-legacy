@@ -265,7 +265,7 @@ div#columns.hide-rightmenu div#maincolumn { margin-right: 0; }
 
 #leftmenu-design
 {
-    margin: 0 0.5em 0 0.2em;
+    margin: 0 1.8em 0 0.2em;
 }
 
 #leftmenu-design ul { margin-left: 1.5em; color: #aaa; }
@@ -291,6 +291,31 @@ ul.leftmenu-items li.current a
 {
     color: #E24602;
     font-weight: bold;
+}
+
+/* WIDTH CONTROL */
+
+#leftmenu.widthcontroled
+{
+    position: relative;
+}
+
+#widthcontrol-handler
+{
+    position: absolute;
+    right: 0;
+    top: 1em;
+    bottom: 0; /* strech div to full width of relative box */
+    width: 7px;
+    cursor: e-resize;
+    overflow: hidden;
+    background: #f5f5f5 url('../images/2/vertical-grippie.png') no-repeat right 30% scroll;
+}
+
+#widthcontrol-handler:hover
+{
+    background-position: left 30%;
+    background-color: #e9e9e9;
 }
 
 
@@ -720,33 +745,6 @@ input.button, input.defaultbutton, input.button-disabled
 #searchtext.passive
 {
 	color: #888;
-}
-
-
-/* WIDTH CONTROL */
-
-#leftmenu.widthcontroled
-{
-    position: relative;
-}
-
-.widthcontrol.js-widthcontroled
-{
-    position: absolute;
-    bottom: 0px;
-    right: 0px;
-    width: 11px;
-    height: 11px;
-    cursor: e-resize;
-    overflow: hidden;
-    background-image: url('../images/2/chrome_expand_corner.png');
-    background-repeat: no-repeat;
-    background-position: bottom right;
-}
-
-.widthcontrol.js-widthcontroled p
-{
-    display: none;
 }
 
 
