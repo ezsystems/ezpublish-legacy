@@ -74,16 +74,16 @@
 
 {* RIGHT MENU *}
 <div id="rightmenu">
-<div id="rightmenu-design">
 {if or( $hide_right_menu, $collapse_right_menu )}
-    <a id="rightmenu-showhide" class="show-hide-control" title="{'Show / Hide rightmenu'|i18n( 'design/admin/pagelayout/rightmenu' )}" href={'/user/preferences/set/admin_right_menu_show/1'|ezurl}>+</a>
+    <a id="rightmenu-showhide" class="show-hide-control" title="{'Show / Hide rightmenu'|i18n( 'design/admin/pagelayout/rightmenu' )}" href={'/user/preferences/set/admin_right_menu_show/1'|ezurl}>&laquo;</a>
 {else}
-    <a id="rightmenu-showhide" class="show-hide-control" title="{'Hide / Show rightmenu'|i18n( 'design/admin/pagelayout/rightmenu' )}" href={'/user/preferences/set/admin_right_menu_show/0'|ezurl}>-</a>
+    <a id="rightmenu-showhide" class="show-hide-control" title="{'Hide / Show rightmenu'|i18n( 'design/admin/pagelayout/rightmenu' )}" href={'/user/preferences/set/admin_right_menu_show/0'|ezurl}>&raquo;</a>
     <script language="javascript" type="text/javascript" src={"javascript/rightmenu_widthcontrol.js"|ezdesign} charset="utf-8"></script>
-    {tool_bar name='admin_right' view='full'}
-    {tool_bar name='admin_developer' view='full'}
+	<div id="rightmenu-design">
+	    {tool_bar name='admin_right' view='full'}
+	    {tool_bar name='admin_developer' view='full'}
+	</div>
 {/if}
-</div>
 </div>
 
 

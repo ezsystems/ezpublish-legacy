@@ -22,15 +22,14 @@ span.vertical-seperator
 
 a.show-hide-control
 {
-    float: right;
+    float: left;
     text-align: center;
-    padding: 2px;
-    margin: 2px;
+    padding: 3px;
+    margin: 10px 0 0 2px;
     height: 9px;
     width: 8px;
     line-height: 7px;
-    font-size: 12px;
-    color: #555;
+    font-size: 16px;
     text-decoration: none;
 }
 
@@ -228,7 +227,7 @@ div.tab-content
 #rightmenu
 { 
     float: right;
-    width: 13em;
+    width: 14em;
     overflow-x: hidden;
     margin-top: 5px;
 }
@@ -242,7 +241,7 @@ div#columns.hide-rightmenu div#maincolumn { margin-right: 0; }
 
 #rightmenu-design
 {
-    margin: 0 0.5em 0 0.1em;
+    margin: 3.5em 1em 0 1.2em;
     position: relative;
 }
 
@@ -259,12 +258,6 @@ div#columns.hide-rightmenu div#maincolumn { margin-right: 0; }
     margin-left: 1.5em;
 }
 #rightmenu label { font-weight:normal; }
-
-a#rightmenu-showhide.show-hide-control
-{
-    float: left;
-    margin-left: 1px;
-}
 
 
 
@@ -700,8 +693,6 @@ p.table-preferences
 
 p.table-preferences .current
 {
-    color: #000;
-    font-weight: bold;
     padding: 1px 10px;
 }
 

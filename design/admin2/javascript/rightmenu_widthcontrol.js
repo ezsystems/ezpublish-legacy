@@ -1,35 +1,35 @@
 jQuery(function( $ )
 {
 
-    var link = $('#rightmenu-showhide'), linkbox = $( '#rightmenu' ), timeout = null;
+    var link = $('#rightmenu-showhide'), rightmenu = $( '#rightmenu' ), timeout = null;
 
-    link.attr('href', 'JavaScript:void(0);').html( linkbox.width() <= 22 ? '+' : '-' ).click(function()
+    link.attr('href', 'JavaScript:void(0);').html( rightmenu.width() <= 22 ? '&laquo;' : '&raquo;' ).click(function()
     {
         if ( timeout !== null )
         {
             clearTimeout( timeout );
             timeout = null;
         }
-        var link = $( this ), linkbox = $( '#rightmenu' ), hidden = linkbox.width() < 22;
+        var link = $( this ), rightmenu = $( '#rightmenu' ), hidden = rightmenu.width() < 22;
         if ( hidden )
         {
             $('#maincolumn').css( 'marginRight', '14em' );
-            linkbox.animate({
-                width: '13em'
+            rightmenu.animate({
+                width: '14em'
             }, 650, 'swing', function(){
                 timeout = setTimeout( saveRightMenuStatus, 500 );
             } );
         }
         else
         {
-            linkbox.animate({
-                width: '1.1em'
+            rightmenu.animate({
+                width: '1.2em'
             }, 650, 'swing', function(){
-                $('#maincolumn').css( 'marginRight', '1.1em' );
+                $('#maincolumn').css( 'marginRight', '1.2em' );
                 timeout = setTimeout( saveRightMenuStatus, 500 );
             } );
         }
-        link.html( hidden ? '-' : '+' );
+        link.html( hidden ? '&raquo;' : '&laquo;' );
     });
     function saveRightMenuStatus()
     {
