@@ -1,6 +1,6 @@
 {def $pending_count = fetch( 'content', 'pending_count' )}
 
-{cache-block keys=array( $user.contentobject_id, $pending_count ) ignore_content_expiry}
+{cache-block keys=array( $user.contentobject_id, $pending_count )}
 
 {def $pending_items = fetch( 'content', 'pending_list', hash( 'limit', $block.number_of_items ) )}
 
