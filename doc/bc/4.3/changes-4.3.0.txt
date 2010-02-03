@@ -14,6 +14,11 @@ INI setting changes
 
   All menu entries from design tab except Template, has been moved to setup tab.
   If you want to enable design tab and / or Template link, see menu.ini.
+  
+- roles & policy link disabled in setup tab
+
+  Since this link also present on User accounts tab, and belongs there. This link
+  has been disabled on Setup tab in menu.ini under [Leftmenu_setup]
 
 - site.ini[RSSSettings]DefaultVersion
 
