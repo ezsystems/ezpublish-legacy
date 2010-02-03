@@ -21,6 +21,12 @@
 .loginpage #columns
 {
     height: 74%;
+    background-color: #fff;
+}
+
+.loginpage #columns #maincolumn
+{
+    border-right: 0 none;
 }
 
 .loginpage #columns #maincontent
