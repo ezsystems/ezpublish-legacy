@@ -1,6 +1,6 @@
 {def $draft_count = fetch( 'content', 'draft_count' )}
 
-{cache-block keys=array( $user.contentobject_id, $draft_count ) ignore_content_expiry}
+{cache-block keys=array( $user.contentobject_id, $draft_count )}
 
 {def $drafts = fetch( 'content', 'draft_version_list', hash( 'limit', $block.number_of_items ) )}
 
