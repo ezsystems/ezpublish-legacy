@@ -105,7 +105,7 @@ ul.tabs li a, ul.tabs li span.disabled
 {
 	#header-logo a, #header-logo span
 	{
-        width: 240px;/* Use full eZ Publish logo on large screens */
+        width: 230px;/* Use full eZ Publish logo on large screens */
 	}
 }
 
