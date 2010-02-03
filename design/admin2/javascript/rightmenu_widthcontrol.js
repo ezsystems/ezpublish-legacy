@@ -13,7 +13,7 @@ jQuery(function( $ )
         var link = $( this ), linkbox = $( '#rightmenu' ), hidden = linkbox.width() < 22;
         if ( hidden )
         {
-            $('#maincolumn').css( 'marginRight', '13em' );
+            $('#maincolumn').css( 'marginRight', '14em' );
             linkbox.animate({
                 width: '13em'
             }, 650, 'swing', function(){

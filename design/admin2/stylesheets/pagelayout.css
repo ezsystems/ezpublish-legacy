@@ -198,11 +198,17 @@ div.tab-content
 
 /* COLUMNS */
 
-#maincolumn
+#columns
 {
-    margin-right: 13em;
+    background-color: #f5f5f5;
 }
 
+#maincolumn
+{
+    background-color: #fff;
+    border-right: 1px #999 solid;
+    margin-right: 14em;
+}
 
 #maincontent
 {
