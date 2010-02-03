@@ -3,6 +3,9 @@
 {* This is to force form to use publish action instead of 'Manage version' button on enter key press in input and textarea elements. *}
 <input class="defaultbutton hide" type="submit" id="ezedit-default-button" name="PublishButton" value="{'Send for publishing'|i18n( 'design/admin/content/edit' )}" />
 
+{* Current gui locale, to be used for class [attribute] name & description fields *}
+{def $content_language = ezini( 'RegionalSettings', 'Locale' )}
+
 <div id="leftmenu">
 <div id="leftmenu-design">
 
@@ -41,7 +44,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
-<h1 class="context-title">{$object.class_identifier|class_icon( normal, $object.class_name )}&nbsp;{'Edit <%object_name> [%class_name]'|i18n( 'design/admin/content/edit',, hash( '%object_name', $object.name, '%class_name', $class.name ) )|wash}</h1>
+<h1 class="context-title">{$object.class_identifier|class_icon( normal, $object.class_name )}&nbsp;{'Edit <%object_name> [%class_name]'|i18n( 'design/admin/content/edit',, hash( '%object_name', $object.name, '%class_name', first_set( $class.nameList[$content_language], $class.name ) ) )|wash}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -52,7 +55,7 @@
 <div class="context-information">
 {if $object.content_class.description}
 <p class="left class-description">
-    {$object.content_class.description|wash}
+    {first_set( $class.descriptionList[$content_language], $class.description )|wash}
 </p>
 {/if}
 <p class="right translation">
