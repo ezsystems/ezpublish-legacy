@@ -719,13 +719,13 @@ p.table-preferences
 p.table-preferences .current
 {
     padding: 1px 10px;
+    font-weight: bold;
 }
 
 p.table-preferences a
 {
     padding: 1px 10px;
     text-decoration: none;
-    color: #094564;
 }
 
 input.button, input.defaultbutton, input.button-disabled
