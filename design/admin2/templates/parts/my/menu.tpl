@@ -44,6 +44,8 @@
 {* DESIGN: Content END *}</div></div></div>
 
 
+{def $custom_root_node = fetch( 'content', 'node', hash( 'node_id', 1 ) )}
+{if $custom_root_node.can_read}
 <div id="content-tree">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 <h4>{'Site structure'|i18n( 'design/admin/parts/content/menu' )}</h4>
@@ -54,11 +56,15 @@
 {* Treemenu. *}
 <div id="contentstructure">
 {if ezini('TreeMenu','Dynamic','contentstructuremenu.ini')|eq('enabled')}
-    {include uri='design:contentstructuremenu/content_structure_menu_dynamic.tpl' custom_root_node_id=1 menu_persistence=false() hide_node_list=array(ezini( 'NodeSettings', 'DesignRootNode', 'content.ini'), ezini( 'NodeSettings', 'SetupRootNode', 'content.ini'))}
+    {include uri='design:contentstructuremenu/content_structure_menu_dynamic.tpl' custom_root_node=$custom_root_node menu_persistence=false() hide_node_list=array(ezini( 'NodeSettings', 'DesignRootNode', 'content.ini'), ezini( 'NodeSettings', 'SetupRootNode', 'content.ini'))}
 {else}
     {include uri='design:contentstructuremenu/content_structure_menu.tpl' custom_root_node_id=1}
 {/if}
 </div>
+
+{* DESIGN: Content END *}</div></div></div>
+</div>
+{/if}
 
 {* Trashcan. *}
 {if ne( $ui_context, 'browse' )}
@@ -66,9 +72,6 @@
 <a class="image-text" href={concat( '/content/trash/', ezini( 'NodeSettings', 'RootNode', 'content.ini' ) )|ezurl} title="{'View and manage the contents of the trash bin.'|i18n( 'design/admin/parts/media/menu' )}"><img src={'trash-icon-16x16.gif'|ezimage} width="16" height="16" alt="Trash" />&nbsp;<span>{'Trash'|i18n( 'design/admin/parts/media/menu' )}</span></a>
 </div>
 {/if}
-{* DESIGN: Content END *}</div></div></div>
-</div>
-
 
 {* Left menu width control. *}
 <div id="widthcontrol-links" class="widthcontrol">

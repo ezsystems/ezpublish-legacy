@@ -1,7 +1,12 @@
-{if is_set( $custom_root_node_id )}
-    {def $root_node_id = $custom_root_node_id}
+{if is_set( $custom_root_node )}
+    {def $root_node    = $custom_root_node
+         $root_node_id = $root_node.node_id}
+{elseif is_set( $custom_root_node_id )}
+    {def $root_node_id = $custom_root_node_id
+         $root_node    = fetch( 'content', 'node', hash( 'node_id', $root_node_id ) )}
 {else}
-    {def $root_node_id = ezini('TreeMenu','RootNodeID','contentstructuremenu.ini')}
+    {def $root_node_id = ezini('TreeMenu','RootNodeID','contentstructuremenu.ini')
+         $root_node    = fetch( 'content', 'node', hash( 'node_id', $root_node_id ) )}
 {/if}
 {if is_unset( $menu_persistence )}
     {def $menu_persistence = ezini('TreeMenu','MenuPersistence','contentstructuremenu.ini')|eq('enabled')}
@@ -16,8 +21,7 @@
     {/if}
     {undef $search_node}
 {/if}
-{def $root_node            = fetch( 'content', 'node', hash( 'node_id', $root_node_id ) )
-     $user_class_group_id  = ezini('ClassGroupIDs', 'Users', 'content.ini')
+{def $user_class_group_id  = ezini('ClassGroupIDs', 'Users', 'content.ini')
      $setup_class_group_id = ezini('ClassGroupIDs', 'Setup', 'content.ini')
      $user_root_node_id    = ezini('NodeSettings', 'UserRootNode', 'content.ini')
 }
