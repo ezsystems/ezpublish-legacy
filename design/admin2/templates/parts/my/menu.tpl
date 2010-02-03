@@ -66,13 +66,6 @@
 </div>
 {/if}
 
-{* Trashcan. *}
-{if ne( $ui_context, 'browse' )}
-<div id="trash">
-<a class="image-text" href={concat( '/content/trash/', ezini( 'NodeSettings', 'RootNode', 'content.ini' ) )|ezurl} title="{'View and manage the contents of the trash bin.'|i18n( 'design/admin/parts/media/menu' )}"><img src={'trash-icon-16x16.gif'|ezimage} width="16" height="16" alt="Trash" />&nbsp;<span>{'Trash'|i18n( 'design/admin/parts/media/menu' )}</span></a>
-</div>
-{/if}
-
 {* Left menu width control. *}
 <div id="widthcontrol-links" class="widthcontrol">
 <p>
