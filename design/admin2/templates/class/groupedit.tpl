@@ -27,7 +27,7 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
-<input class="button" type="submit" name="StoreButton" value="{'OK'|i18n( 'design/admin/class/groupedit' )}" />
+<input class="defaultbutton" type="submit" name="StoreButton" value="{'OK'|i18n( 'design/admin/class/groupedit' )}" />
 <input class="button" type="submit" name="DiscardButton" value="{'Cancel'|i18n( 'design/admin/class/groupedit' )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div>
