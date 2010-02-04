@@ -29,9 +29,3 @@
     {include uri='design:relations.tpl'}
 <div class="break"></div>
 </div>
-
-{* States window *}
-<div id="node-tab-states-content" class="tab-content{if $node_tab_index|ne('states')} hide{else} selected{/if}">
-    {include uri='design:states.tpl'}
-<div class="break"></div>
-</div>

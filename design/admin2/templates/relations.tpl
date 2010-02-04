@@ -59,6 +59,7 @@
 {/if}
 </table>
 
+<br />
 {* Reverse related objects list. *}
 
 <table class="list" cellspacing="0" summary="{'Reverse object relation list to current object.'|i18n( 'design/admin/node/view/full' )}">

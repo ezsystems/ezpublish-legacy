@@ -30,12 +30,6 @@
 <div class="break"></div>
 </div>
 
-{* States window 
-<div id="node-tab-states-content" class="tab-content{if $node_tab_index|ne('states')} hide{else} selected{/if}">
-    {include uri='design:states.tpl'}
-<div class="break"></div>
-</div> *}
-
 {* Member of roles window *}
 <div id="node-tab-roles-content" class="tab-content{if $node_tab_index|ne('roles')} hide{else} selected{/if}">
     {include uri='design:roles.tpl'}

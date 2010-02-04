@@ -50,11 +50,6 @@
     <li id="node-tab-relations" class="middle{if $node_tab_index|eq('relations')}  selected{/if}">
         <a href={concat( $node_url_alias, '/(tab)/relations' )|ezurl} title="{'Show object relation overview.'|i18n( 'design/admin/node/view/full' )}">{'Relations (%count)'|i18n( 'design/admin/node/view/full',, hash( '%count', sum( $related_objects_count, $reverse_related_objects_count ) ) )}</a>
     </li>
-
-    {* State assignment *}
-    <li id="node-tab-states" class="last{if $node_tab_index|eq('states')}  selected{/if}">
-        <a href={concat( $node_url_alias, '/(tab)/states' )|ezurl} title="{'Show state assignment widget.'|i18n( 'design/admin/node/view/full' )}">{'Object states (%count)'|i18n( 'design/admin/node/view/full',, hash( '%count', $states_count ) )}</a>
-    </li>
 </ul>
 <div class="float-break"></div>
 
