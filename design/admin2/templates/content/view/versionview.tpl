@@ -246,7 +246,7 @@
    object.status 2 is archived *}
 {if or( and( eq( $version.status, 0 ), $is_creator, $object.can_edit ),
                   and( eq( $object.status, 2 ), $object.can_edit ) )}
-<input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/admin/content/view/versionview' )}" title="{'Edit the draft that is being displayed.'|i18n( 'design/admin/content/view/versionview' )}" />
+<input class="defaultbutton" type="submit" name="EditButton" value="{'Back to edit'|i18n( 'design/admin/content/view/versionview' )}" title="{'Edit the draft that is being displayed.'|i18n( 'design/admin/content/view/versionview' )}" />
 <input class="button" type="submit" name="PreviewPublishButton" value="{'Publish'|i18n( 'design/admin/content/view/versionview' )}" title="{'Publish the draft that is being displayed.'|i18n( 'design/admin/content/view/versionview' )}" />
 {else}
 <input class="button-disabled" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/admin/content/view/versionview' )}" disabled="disabled" title="{'This version is not a draft and therefore cannot be edited.'|i18n( 'design/admin/content/view/versionview' )}" />
