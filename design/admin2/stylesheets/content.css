@@ -41,7 +41,6 @@ table.list, table.special, table.list th, table.special th
 
 table.list th, table.special th
 {
-    background: #FEFEFE url('../images/2/gradient-to-light.png') repeat-x left top scroll;
     font-weight: bold;
     height: 30px;
     border-bottom: 1px solid #ccc;
@@ -86,8 +85,8 @@ table.list td.modifier, table.list td.modified, table.list td.class, div.content
 
 div.context-attributes table.list th, div.mainobject-window table.list th
 {
-    color: #404040;
-    background-color: #fefefe;
+    color: #333;
+    border-top: 1px solid #CCCCCC;
 }
 
 div.list-thumbnails div.list-thumbnails-item

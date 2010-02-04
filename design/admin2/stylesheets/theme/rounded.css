@@ -294,6 +294,12 @@ input.button-disabled
     color: #095f99;
 }
 
+table.list th, table.special th
+{
+    /*background: red;*/
+    background: #FAFAFA url('../../images/2/gradient-to-darker.png') repeat-x left bottom scroll;
+}
+
 /* FOOTER */
 
 #footer
