@@ -1,6 +1,8 @@
 {* Window controls *}
-{def $node_url_alias = $node.url_alias
-     $node_tab_index      = first_set( $view_parameters.tab, ezpreference( 'admin_navigation_content' ), 'preview' )
+{def $node_url_alias      = $node.url_alias
+     $preview_enabled     = ezpreference( 'admin_navigation_content' ) 
+     $default_tab         = cond( $preview_enabled, 'preview', 'details' )
+     $node_tab_index      = first_set( $view_parameters.tab, $default_tab )
      $available_languages = fetch( 'content', 'prioritized_languages' )
      $translations        = $node.object.languages
      $translations_count  = $translations|count
@@ -10,18 +12,22 @@
      $reverse_related_objects_count = fetch( 'content', 'reverse_related_objects_count', hash( 'object_id', $node.object.id , 'all_relations', true() ) )
      $assigned_policies   = fetch( 'user', 'user_role', hash( 'user_id', $node.contentobject_id ) )
      $assigned_roles       = fetch( 'user', 'member_of', hash( 'id', $node.contentobject_id ) )
-     $valid_tabs = array( 'preview', 'details', 'translations', 'locations', 'relations', 'roles', 'policies' )
+     $valid_tabs = array( $default_tab, 'details', 'translations', 'locations', 'relations', 'roles', 'policies' )
 }
-{if or( $node_tab_index|eq( '0' ), $node_tab_index|eq( '1' ) )}
-    {set $node_tab_index = 'preview'}
-{elseif $valid_tabs|contains( $node_tab_index )|not()}
-    {set $node_tab_index = 'preview'}
+{if $valid_tabs|contains( $node_tab_index )|not()}
+    {set $node_tab_index = $default_tab}
 {/if}
 <ul class="tabs context-user">
     {* Content preview *}
+    {if $preview_enabled}
     <li id="node-tab-preview" class="first{if $node_tab_index|eq('preview')} selected{/if}">
         <a href={concat( $node_url_alias, '/(tab)/preview' )|ezurl} title="{'Show preview of content.'|i18n( 'design/admin/node/view/full' )}">{'Preview'|i18n( 'design/admin/node/view/full' )}</a>
     </li>
+    {else}
+    <li id="node-tab-preview-disabled" class="first">
+        <span class="disabled" title="{'Tab is disabled, enable on dashboard.'|i18n( 'design/admin/node/view/full' )}">{'Preview'|i18n( 'design/admin/node/view/full' )}</span>
+    </li>
+    {/if}
 
     {* Details *}
     <li id="node-tab-details" class="middle{if $node_tab_index|eq('details')} selected{/if}">

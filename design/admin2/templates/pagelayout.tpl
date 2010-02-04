@@ -10,7 +10,7 @@
      $admin_left_size      = ezpreference( 'admin_left_menu_size' )
      $admin_theme          = ezpreference( 'admin_theme' )
      $left_size_hash       = 0
-     $user_hash = concat( $current_user.role_id_list|implode( ',' ), ',', $current_user.limited_assignment_value_list|implode( ',' ), ',', ezpreference( 'admin_edit_show_re_edit' ) )
+     $user_hash = concat( $current_user.role_id_list|implode( ',' ), ',', $current_user.limited_assignment_value_list|implode( ',' ) )
 }
 
 {if $hide_right_menu}
@@ -90,7 +90,7 @@
 <div id="maincolumn">
 
 {* Pr uri Path/Left menu cache (dosn't use ignore_content_expiry because of content structure menu  ) *}
-{cache-block keys=array( $module_result.uri, $user_hash, ezpreference( 'admin_edit_show_re_edit' ), ezpreference( 'admin_edit_show_locations' ), $left_size_hash )}
+{cache-block keys=array( $module_result.uri, $user_hash, ezpreference( 'admin_navigation_content' ), ezpreference( 'admin_edit_show_locations' ), $left_size_hash )}
 <div id="path">
 <div id="path-design">
     {include uri='design:page_toppath.tpl'}

@@ -27,14 +27,6 @@ jQuery(function( $ )
         		if ( save ) NodeTab.timeout = setTimeout( function(){ NodeTab.save( id ) }, 400 );
         	}
         },
-    	_ajax_not_in_use_save : function( id )// not in use to save view cache variations
-    	{
-            if ( id.indexOf( 'node-tab-' ) === 0 )
-            {
-        	    var url = $.ez.url.replace( 'ezjscore/', 'user/preferences/' ) + 'set_and_exit/admin_navigation_content/' + id.split('tab-')[1];
-        	    $.post( url, {}, function(){} );
-            }
-        },
     	save : function( id )
     	{
             if ( id.indexOf( 'node-tab-' ) === 0 )
