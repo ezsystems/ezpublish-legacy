@@ -37,7 +37,7 @@
 
 .loginpage #columns #maincontent .box-header
 {
-    background: transparent url('../../images/2/ezpublish-black.png') no-repeat top right scroll;
+    background: transparent url('../../images/2/ez-logo-black.png') no-repeat top right scroll;
 }
 
 .loginpage #footer
@@ -100,14 +100,6 @@ ul.tabs li a, ul.tabs li span.disabled
 }
 
 /* CSS Media Query's to adjust layout based on screen width */
-
-@media all and (min-width: 1250px)
-{
-	#header-logo a, #header-logo span
-	{
-        width: 230px;/* Use full eZ Publish logo on large screens */
-	}
-}
 
 @media all and (max-width: 1080px)
 {
