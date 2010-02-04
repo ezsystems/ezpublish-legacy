@@ -9,7 +9,8 @@
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <div class="context-information">
-<p>{'Last modified'|i18n( 'design/admin/class/classlist' )}: {$group.modified|l10n( shortdatetime )}, {$group_modifier.name|wash}</p>
+<p class="left">{'Last modified'|i18n( 'design/admin/class/classlist' )}: {$group.modified|l10n( shortdatetime )}, {$group_modifier.name|wash}</p>
+<div class="break"></div>
 </div>
 
 <div class="context-attributes">
