@@ -125,7 +125,7 @@ ul.tabs
     padding: 2px 6px 2px 6px;
     margin-left: 1px;
     margin-top: 2px;
-    min-width: 94px;
+    min-width: 95px;
     min-height: 20px;
 }
 
@@ -135,11 +135,17 @@ ul.tabs li a, ul.tabs li span.disabled
     min-width: 85px;
 }
 
-#header-topmenu ul li.selected a, #header-topmenu ul li a:hover
+#header-topmenu ul li.selected a, #header-topmenu ul li a:hover,
+ul.tabs li.selected a, ul.tabs li a:hover
 {
     margin-top: 0;
     min-height: 22px;
     color: #094564;
+}
+
+ul.tabs li.selected a, ul.tabs li a:hover
+{
+    min-height: 18px;
 }
 
 #header-topmenu ul li.selected a, #header-topmenu ul li.selected span.disabled, ul.tabs li.selected a
@@ -147,24 +153,17 @@ ul.tabs li a, ul.tabs li span.disabled
     margin-bottom: -1px;
 }
 
-ul.tabs li.selected a, ul.tabs li a:hover
-{
-    margin-top: 0;
-    min-height: 18px;
-    color: #094564;
-}
-
 #header-topmenu ul li span.disabled, span.disabled
 {
     color: #888;
 }
 
-#header-topmenu ul li.first a
+#header-topmenu ul li.first a, #header-topmenu ul li.first span.disabled
 {
     margin-left: 0.1em;
 }
 
-ul.tabs li.first a
+ul.tabs li.first a, ul.tabs li.first span.disabled
 {
     margin-left: 0;
 }
