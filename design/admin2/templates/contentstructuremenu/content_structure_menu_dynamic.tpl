@@ -288,7 +288,9 @@ function ContentStructureMenu( path, persistent )
 {/literal}
             html += ' title="{"Node ID"|i18n('design/admin/contentstructuremenu')|wash(xhtml)|wash(javascript)}: '
                 + item.node_id
-                + ' {"Visibility"|i18n('design/admin/contentstructuremenu')|wash(xhtml)|wash(javascript)}: '
+                + ', {"Object ID"|i18n('design/admin/contentstructuremenu')|wash(xhtml)|wash(javascript)}: '
+                + item.object_id
+                + ', {"Visibility"|i18n('design/admin/contentstructuremenu')|wash(xhtml)|wash(javascript)}: '
                 + ( ( item.is_hidden )? '{"Hidden"|i18n('design/admin/contentstructuremenu')|wash(xhtml)|wash(javascript)}':
                                         ( item.is_invisible )? '{"Hidden by superior"|i18n('design/admin/contentstructuremenu')|wash(xhtml)|wash(javascript)}':
                                                                '{"Visible"|i18n('design/admin/contentstructuremenu')|wash(xhtml)|wash(javascript)}' )
