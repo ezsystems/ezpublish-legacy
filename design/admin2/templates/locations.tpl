@@ -17,7 +17,7 @@
 <input type="hidden" name="ViewMode" value="{$viewmode|wash}" />
 <input type="hidden" name="ContentObjectLanguageCode" value="{$language_code|wash}" />
 
-<table class="list" cellspacing="0" summary="{'Locations (aka Nodes) for current object.'|i18n( 'design/admin/node/view/full' )}">
+<table id="tab-locations-list" class="list" cellspacing="0" summary="{'Locations (aka Nodes) for current object.'|i18n( 'design/admin/node/view/full' )}">
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" title="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" onclick="ezjs_toggleCheckboxes( document.locationsform, 'LocationIDSelection[]' ); return false;"/></th>
     <th class="wide">{'Location'|i18n( 'design/admin/node/view/full' )}</th>
@@ -80,7 +80,7 @@
     {if $assignment_node.can_edit}
 
     {if $assignment_count|gt( 1 ) }
-    <input type="radio" {if $assignment_node.is_main}checked="checked"{/if} name="MainAssignmentCheck" value="{$assignment_node.node_id}" title="{'Use these radio buttons to select the desired main location.'|i18n( 'design/admin/node/view/full' )}" />
+    <input type="radio" {if $assignment_node.is_main}checked="checked" class="main-locations-radio main-locations-radio-initial"{else}class="main-locations-radio"{/if} name="MainAssignmentCheck" value="{$assignment_node.node_id}" title="{'Use these radio buttons to select the desired main location.'|i18n( 'design/admin/node/view/full' )}" />
     {else}
     <input type="radio" {if $assignment_node.is_main}checked="checked"{/if} name="MainAssignmentCheck" value="{$assignment_node.node_id}" disabled="disabled" title="{'The item being displayed has only one location, which is by default the main location.'|i18n( 'design/admin/node/view/full' )}" />
     {/if}
@@ -128,7 +128,21 @@
 {if $can_edit_node}
 
 {if $assignment_count|gt( 1 )}
-    <input class="button" type="submit" name="UpdateMainAssignmentButton" value="{'Set main'|i18n( 'design/admin/node/view/full' )}" title="{'Select the desired main location using the radio buttons above then click this button to store the setting.'|i18n( 'design/admin/node/view/full' )}" />
+    <input id="tab-locations-list-set-main" class="button" type="submit" name="UpdateMainAssignmentButton" value="{'Set main'|i18n( 'design/admin/node/view/full' )}" title="{'Select the desired main location using the radio buttons above then click this button to store the setting.'|i18n( 'design/admin/node/view/full' )}" />
+    <script type="text/javascript">
+    {literal}
+    (function( $ )
+    {
+        $('#tab-locations-list input.main-locations-radio').change(function()
+        {
+            if ( this.className === 'main-locations-radio' )
+                $('#tab-locations-list-set-main').removeClass('button').addClass('defaultbutton');
+            else
+                $('#tab-locations-list-set-main').removeClass('defaultbutton').addClass('button');
+        });
+    })( jQuery );
+    {/literal}
+    </script>
 {else}
     <input class="button-disabled" type="submit" name="UpdateMainAssignmentButton" value="{'Set main'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title="{'You cannot set the main location because there is only one location present.'|i18n( 'design/admin/node/view/full' )}" />
 {/if}
