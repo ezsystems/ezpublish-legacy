@@ -464,11 +464,18 @@ div.block div.right /* Floats elements to the right in a block */
 div.button-left
 {
     float: left;
+    margin-right: 1em;
 }
 
 div.button-right
 {
     float: right;
+    margin-left: 1em;
+}
+
+div.button-header
+{
+    margin-top: 1em;
 }
 
 p.text-left, td.text-left, th.text-left, *.text-left

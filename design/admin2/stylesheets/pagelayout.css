@@ -20,6 +20,8 @@ span.vertical-seperator
 
 .inline { display: inline; }
 
+label.inline { padding-right: 0.1em; }
+
 a.show-hide-control
 {
     float: left;
@@ -659,7 +661,7 @@ div.content-navigation div.context-information p.right
 
 div.context-block
 {
-    margin-bottom: 1.2em;
+    margin-bottom: 1.5em;
 }
 
 div.context-block h1.context-title img, div.context-block h2.context-title img
