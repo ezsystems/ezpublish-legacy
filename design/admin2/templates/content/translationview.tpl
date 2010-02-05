@@ -1,7 +1,7 @@
 <form name="languageform" action={$module.functions.translations.uri|ezurl} method="post" >
 
 {* Translation window *}
-<div class="context-block">
+<div class="context-block content-translations content-translations-view">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 <h1 class="context-title">{'%translation [Translation]'|i18n( 'design/admin/content/translationview',, hash( '%translation', $translation.locale_object.intl_language_name ) ) }</h1>
 

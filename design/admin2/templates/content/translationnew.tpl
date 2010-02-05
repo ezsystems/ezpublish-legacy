@@ -1,22 +1,19 @@
 {literal}
-<script language="JavaScript1.2" type="text/javascript">
+<script type="text/javascript">
 <!--
 function toggleInputs( selection )
 {
-    nameField = document.getElementById( "field1" );
-    localeField = document.getElementById( "field2" );
+    var nameField = document.getElementById( "field1" );
+    var localeField = document.getElementById( "field2" );
 
     if( selection.value == "-1" )
     {
-        nameField.disabled = false;
-        localeField.disabled = false;
+        nameField.disabled = localeField.disabled = false;
     }
     else
     {
-        nameField.disabled = true;
-        localeField.disabled = true;
-        nameField.value="";
-        localeField.value="";
+        nameField.disabled = localeField.disabled = true;
+        nameField.value = localeField.value = "";
     }
 }
 //-->
@@ -25,7 +22,7 @@ function toggleInputs( selection )
 
 <form name="languageform" action={concat( 'content/translations' )|ezurl} method="post" >
 
-<div class="context-block">
+<div class="context-block content-translations content-translations-new">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 <h1 class="context-title">{'translation'|icon( 'normal', 'Translation'|i18n( 'design/admin/content/translationnew' ) )}&nbsp;{'New translation for content'|i18n( 'design/admin/content/translationnew' )}</h1>
 

@@ -5,7 +5,7 @@
 
 <form name="draftaction" action={concat( 'content/draft/' )|ezurl} method="post">
 
-<div class="context-block">
+<div class="context-block content-draft">
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 

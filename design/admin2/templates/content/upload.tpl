@@ -124,7 +124,7 @@
 {if $upload.description_template}
     {include name=Description uri=$upload.description_template upload=$upload}
 {else}
-<div class="context-block">
+<div class="context-block content-upload">
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 

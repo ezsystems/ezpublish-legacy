@@ -99,7 +99,7 @@
 
 <form name="versionsform" action={concat( '/content/versions/', $object.id, '/' )|ezurl} method="post">
 
-<div class="context-block">
+<div class="context-block content-versions">
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 

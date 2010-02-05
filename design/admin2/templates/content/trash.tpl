@@ -10,7 +10,7 @@
 
 <form name="trashform" action={'content/trash/'|ezurl} method="post" >
 
-<div class="context-block">
+<div class="context-block content-trash">
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 

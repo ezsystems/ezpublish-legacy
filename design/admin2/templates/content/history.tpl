@@ -98,7 +98,7 @@
 
 <form name="versionsform" action={concat( '/content/history/', $object.id, '/' )|ezurl} method="post">
 
-<div class="context-block">
+<div class="context-block content-history">
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 <h1 class="context-title">{'Versions for <%object_name> [%version_count]'|i18n( 'design/admin/content/history',, hash( '%object_name', $object.name, '%version_count', $list_count ) )|wash}</h1>

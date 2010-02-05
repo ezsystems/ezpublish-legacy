@@ -2,7 +2,7 @@
      $bookmark_node = 0}
 <form name="bookmarkaction" action={concat( 'content/bookmark/' )|ezurl} method="post" >
 
-<div class="context-block">
+<div class="context-block content-bookmark">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 <h1 class="context-title">{'My bookmarks [%bookmark_count]'|i18n( 'design/admin/content/bookmark',, hash( '%bookmark_count', $bookmark_list|count ) )}</h1>
 

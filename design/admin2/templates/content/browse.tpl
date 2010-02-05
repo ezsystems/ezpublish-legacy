@@ -32,7 +32,7 @@
     {include name=Description uri=$browse.description_template browse=$browse }
 {else}
 
-<div class="context-block">
+<div class="context-block content-browse">
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 

@@ -1,6 +1,6 @@
 {let version=fetch( content, version, hash( object_id, $upload.content.object_id, version_id, $upload.content.object_version ) )}
 
-<div class="context-block">
+<div class="context-block content-upload-related">
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 

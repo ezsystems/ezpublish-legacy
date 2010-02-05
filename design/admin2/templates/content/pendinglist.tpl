@@ -3,7 +3,7 @@
      list_count=fetch( content, pending_count )
      pending_list=fetch( content, pending_list, hash( limit, $number_of_items, offset, $view_parameters.offset ) )}
 
-<div class="context-block">
+<div class="context-block content-pendinglist">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 <h1 class="context-title">{'My pending items [%pending_count]'|i18n( 'design/admin/content/pendinglist',, hash( '%pending_count', $list_count ) )}</h1>
 

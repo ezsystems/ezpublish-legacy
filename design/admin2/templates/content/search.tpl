@@ -17,7 +17,7 @@
 
 <form action={'/content/search/'|ezurl} method="get">
 
-<div class="context-block">
+<div class="context-block content-search">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 <h1 class="context-title">{'Search'|i18n( 'design/admin/content/search' )}</h1>
 

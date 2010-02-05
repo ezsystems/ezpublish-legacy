@@ -53,7 +53,7 @@
 
 <form name="aliasform" method="post" action={concat('content/urlalias/', $node.node_id)|ezurl}>
 
-<div class="context-block">
+<div class="context-block content-urlalias">
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 <h1 class="context-title">{'URL aliases for <%node_name> [%alias_count]'|i18n( 'design/admin/content/urlalias',, hash( '%node_name', $node.name, '%alias_count', $filter.count ) )|wash}</h1>

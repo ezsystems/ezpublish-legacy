@@ -5,7 +5,7 @@
      $languages=fetch( content, prioritized_languages )
      $initLang=false()
 }
-<div class="context-block">
+<div class="context-block content-diff">
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 <h1 class="context-title">{'Versions for <%object_name> [%version_count]'|i18n( 'design/admin/content/diff',, hash( '%object_name', $object.name, '%version_count', $list_count ) )|wash}</h1>

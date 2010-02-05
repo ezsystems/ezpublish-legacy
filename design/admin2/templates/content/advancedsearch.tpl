@@ -25,7 +25,7 @@
 {/section}
 
 <form action={'/content/advancedsearch/'|ezurl} method="get">
-<div class="context-block">
+<div class="context-block content-advancesearch">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h1 class="context-title">{'Advanced search'|i18n( 'design/admin/content/search' )}</h1>

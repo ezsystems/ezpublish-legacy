@@ -82,7 +82,7 @@
 
 <form name="aliasform" method="post" action={"content/urltranslator/"|ezurl}>
 
-<div class="context-block">
+<div class="context-block content-urlalias-global">
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 <h1 class="context-title">{'Globally defined URL aliases [%alias_count]'|i18n( 'design/admin/content/urlalias_global',, hash( '%alias_count', $filter.count ) )|wash}</h1>
