@@ -1,3 +1,4 @@
+<div class="block">
 {* Details window. *}
 
 <table class="list" cellspacing="0" summary="{'Node and object details like creator, when it was created, section it belongs to, number of versions and translations, Node ID and Object ID.'|i18n( 'design/admin/node/view/full' )}">
@@ -20,11 +21,11 @@
     <td class="number" align="right">{$node.object.id}</td>
 </tr>
 </table>
+</div>
 
 
-<br />
-<fieldset>
-<legend>{'Content state'|i18n( 'design/admin/node/view/full' )}</legend>
+<div class="block">
+<h6>{'Content state'|i18n( 'design/admin/node/view/full' )}</h6>
 
 {* States window. *}
 <form name="statesform" method="post" action={'state/assign'|ezurl}>
@@ -68,9 +69,8 @@
     <input type="submit" value="{'Set states'|i18n( 'design/admin/node/view/full' )}" name="AssignButton" class="button-disabled" title="{'No state to be applied to this content object. You might need to be assigned a more permissive access policy.'|i18n( 'design/admin/node/view/full' )}"/>
     {/if}
 </div>
-
 <div class="break"></div>
 </div>
 
 </form>
-</fieldset>
+</div>

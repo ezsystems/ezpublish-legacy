@@ -7,7 +7,6 @@
 <input type="hidden" name="ViewMode" value="{$viewmode|wash}" />
 <input type="hidden" name="ContentObjectLanguageCode" value="{$language_code|wash}" />
 
-<div class="block">
 <fieldset>
 <legend>{'Existing languages'|i18n( 'design/admin/node/view/full' )}</legend>
 
@@ -101,9 +100,11 @@
 
 <div class="break"></div>
 </div>
+
 </fieldset>
 
-</div>
+
+<div class="block">
 
 <div class="block">
 <input type="checkbox"{if $object_can_edit|not} disabled="disabled"{/if} name="AlwaysAvailable" value="1"{if $node.object.always_available} checked="checked"{/if} /> {'Use the main language if there is no prioritized translation.'|i18n( 'design/admin/node/view/full' )}
@@ -116,6 +117,8 @@
     <input class="button-disabled" disabled="disabled" type="submit" name="UpdateAlwaysAvailableButton" value="{'Update'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permission to change this setting.'|i18n( 'design/admin/node/view/full' )}" />
 {/if}
 </div>
+</div>
+
 
 </form>
 
