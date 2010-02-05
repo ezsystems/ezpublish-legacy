@@ -93,7 +93,6 @@
 
 
 {def $page_limit   = 30
-     $version_list = fetch( 'content', 'version_list',  hash( 'contentobject', $object, 'limit', $page_limit, 'offset', $view_parameters.offset ))
      $list_count   = fetch( 'content', 'version_count', hash( 'contentobject', $object ))}
 
 <form name="versionsform" action={concat( '/content/history/', $object.id, '/' )|ezurl} method="post">
@@ -106,7 +105,95 @@
 {* DESIGN: Header END *}</div></div>
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
-{include uri='design:content/history_versions.tpl' version_list=$version_list}
+{if $list_count}
+<table class="list" cellspacing="0">
+<tr>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Toggle selection" onclick="ezjs_toggleCheckboxes( document.versionsform, 'DeleteIDArray[]' ); return false;" /></th>
+    <th>{'Version'|i18n( 'design/admin/content/history' )}</th>
+    <th>{'Status'|i18n( 'design/admin/content/history' )}</th>
+    <th>{'Modified translation'|i18n( 'design/admin/content/history' )}</th>
+    <th>{'Creator'|i18n( 'design/admin/content/history' )}</th>
+    <th>{'Created'|i18n( 'design/admin/content/history' )}</th>
+    <th>{'Modified'|i18n( 'design/admin/content/history' )}</th>
+    <th class="tight">&nbsp;</th>
+    <th class="tight">&nbsp;</th>
+</tr>
+
+{def $version_list = fetch( 'content', 'version_list',  hash( 'contentobject', $object, 'limit', $page_limit, 'offset', $view_parameters.offset ))}
+{foreach $version_list as $version sequence array( 'bglight', 'bgdark' ) as $seq}
+
+{def $initial_language = $version.initial_language
+     $can_edit_lang = 0}
+<tr class="{$seq}">
+
+    {* Remove. *}
+    <td>
+        {if and( $version.can_remove, array( 0, 3, 4, 5 )|contains( $version.status ) )}
+            <input type="checkbox" name="DeleteIDArray[]" value="{$version.id}" title="{'Select version #%version_number for removal.'|i18n( 'design/admin/content/history',, hash( '%version_number', $version.version ) )}" />
+        {else}
+            <input type="checkbox" name="_Disabled" value="" disabled="disabled" title="{'Version #%version_number cannot be removed because it is either the published version of the object or because you do not have permission to remove it.'|i18n( 'design/admin/content/history',, hash( '%version_number', $version.version ) )}" />
+        {/if}
+    </td>
+
+    {* Version/view. *}
+    <td><a href={concat( '/content/versionview/', $object.id, '/', $version.version, '/', $initial_language.locale )|ezurl} title="{'View the contents of version #%version_number. Translation: %translation.'|i18n( 'design/admin/content/history',, hash( '%version_number', $version.version, '%translation', $initial_language.name ) )}">{$version.version}</a></td>
+
+    {* Status. *}
+    <td>{$version.status|choose( 'Draft'|i18n( 'design/admin/content/history' ), 'Published'|i18n( 'design/admin/content/history' ), 'Pending'|i18n( 'design/admin/content/history' ), 'Archived'|i18n( 'design/admin/content/history' ), 'Rejected'|i18n( 'design/admin/content/history' ), 'Untouched draft'|i18n( 'design/admin/content/history' ) )}</td>
+
+    {* Modified translation. *}
+    <td>
+        <img src="{$initial_language.locale|flag_icon}" alt="{$initial_language.locale}" />&nbsp;<a href={concat('/content/versionview/', $object.id, '/', $version.version, '/', $initial_language.locale, '/' )|ezurl} title="{'View the contents of version #%version_number. Translation: %translation.'|i18n( 'design/admin/content/history',, hash( '%translation', $initial_language.name, '%version_number', $version.version ) )}" >{$initial_language.name|wash}</a>
+    </td>
+
+    {* Creator. *}
+    <td>{$version.creator.name|wash}</td>
+
+    {* Created. *}
+    <td>{$version.created|l10n( shortdatetime )}</td>
+
+    {* Modified. *}
+    <td>{$version.modified|l10n( shortdatetime )}</td>
+
+    {* Copy button. *}
+    <td align="right" class="right">
+    {foreach $object.can_edit_languages as $edit_language}
+        {if eq( $edit_language.id, $initial_language.id )}
+        {set $can_edit_lang = 1}
+        {/if}
+    {/foreach}
+
+        {if and( $can_edit, $can_edit_lang )}
+          {if eq( $version.status, 5 )}
+            <input type="image" src={'copy-disabled.gif'|ezimage} name="_Disabled" value="" disabled="disabled" title="{'There is no need to make copies of untouched drafts.'|i18n( 'design/admin/content/history' )}" />
+          {else}
+            <input type="hidden" name="CopyVersionLanguage[{$version.version}]" value="{$initial_language.locale}" />
+            <input type="image" src={'copy.gif'|ezimage} name="HistoryCopyVersionButton[{$version.version}]" value="" title="{'Create a copy of version #%version_number.'|i18n( 'design/admin/content/history',, hash( '%version_number', $version.version ) )}" />
+          {/if}
+        {else}
+            <input type="image" src={'copy-disabled.gif'|ezimage} name="_Disabled" value="" disabled="disabled" title="{'You cannot make copies of versions because you do not have permission to edit the object.'|i18n( 'design/admin/content/history' )}" />
+        {/if}
+    </td>
+
+    {* Edit button. *}
+    <td>
+        {if and( array(0, 5)|contains($version.status), $version.creator_id|eq( $user_id ), $can_edit ) }
+            <input type="image" src={'edit.gif'|ezimage} name="HistoryEditButton[{$version.version}]" value="" title="{'Edit the contents of version #%version_number.'|i18n( 'design/admin/content/history',, hash( '%version_number', $version.version ) )}" />
+        {else}
+            <input type="image" src={'edit-disabled.gif'|ezimage} name="HistoryEditButton[{$version.version}]" value="" disabled="disabled" title="{'You cannot edit the contents of version #%version_number either because it is not a draft or because you do not have permission to edit the object.'|i18n( 'design/admin/content/history',, hash( '%version_number', $version.version ) )}" />
+        {/if}
+    </td>
+
+</tr>
+{undef $initial_language $can_edit_lang}
+{/foreach}
+{undef $version_list}
+</table>
+{else}
+    <div class="block">
+    <p>{'This object does not have any versions.'|i18n( 'design/admin/content/history' )}</p>
+    </div>
+{/if}
 
 <div class="context-toolbar">
 {include name=navigator
