@@ -436,7 +436,7 @@ div.block /* Used around groups of objects which are connected in some way, and 
     clear: both;
 }
 
-div.block div.element, div.block div.halfelement /* Use this style if several objects are to be stacked horizontally within the same block */
+div.block div.element, div.block div.halfelement /* Used if several objects are to be stacked horizontally within the same block */
 {
     padding-right: 1em;
     float: left;
