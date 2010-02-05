@@ -149,7 +149,7 @@ class eZTemplateAttributeOperator
                     $itemValue = $item;
                 if ( $as_html )
                 {
-                    $spacing = str_repeat( ">", $cur_level );
+                    $spacing = str_repeat( "&gt;", $cur_level );
                     if ( $show_values )
                         $txt .= "<tr><td>$spacing$key</td>\n<td>$type</td>\n<td>$itemValue</td>\n</tr>\n";
                     else
@@ -193,7 +193,7 @@ class eZTemplateAttributeOperator
                     $itemValue = $item;
                 if ( $as_html )
                 {
-                    $spacing = str_repeat( ">", $cur_level );
+                    $spacing = str_repeat( "&gt;", $cur_level );
                     if ( $show_values )
                         $txt .= "<tr><td>$spacing$key</td>\n<td>$type</td>\n<td>$itemValue</td>\n</tr>\n";
                     else
