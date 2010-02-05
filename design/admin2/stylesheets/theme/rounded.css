@@ -140,18 +140,13 @@ a.show-hide-control:hover
     border-radius: 3px;
 }
 
-.box-ml
-{
-    background-color: #fff;
-}
-
 .box-bc .box-ml, .box-header .box-ml
 {
     border: 0 none;
     background-color: transparent;
 }
 
-.box-header .box-ml
+.box-header
 {
     border-bottom: 1px solid #ccc;
 }

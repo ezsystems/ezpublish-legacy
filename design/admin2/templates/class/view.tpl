@@ -15,20 +15,21 @@
 
 
 <div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
+{* DESIGN: Header START *}<div class="box-header">
 <h1 class="context-title" title="{'Class name and number of objects'|i18n( 'design/admin/class/view' )}">{$class.identifier|class_icon( 'normal', $class.nameList[$language_code]|wash )}&nbsp;{$class.nameList[$language_code]|wash} [{$class.object_count}]</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div>
+{* DESIGN: Header END *}</div>
 
-{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-content">
 
 <div class="context-information">
 <p class="left modified">{'Last modified: %time, %username'|i18n( 'design/admin/class/view',, hash( '%username',$class.modifier.contentobject.name, '%time', $class.modified|l10n( shortdatetime ) ) )|wash}</p>
 {def $locale = fetch( 'content', 'locale', hash( 'locale_code', $language_code ) )}
 <p class="right translation">{$locale.intl_language_name}&nbsp;<img src="{$language_code|flag_icon}" alt="{$language_code}" style="vertical-align: middle;" /></p>
 {undef $locale}
+<div class="break"></div>
 </div>
 
 <div class="context-attributes">
@@ -194,10 +195,10 @@
 
 </div>
 
-{* DESIGN: Content END *}</div></div></div>
-
+{* DESIGN: Content END *}</div>
+<div class="block">
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
+{* DESIGN: Control bar START *}<div class="box-bc">
         <form action={concat( '/class/edit/', $class.id )|ezurl} method="post">
 
             {def $languages=$class.prioritized_languages
@@ -218,9 +219,9 @@
             <input class="button" type="submit" name="_DefaultButton" value="{'Edit'|i18n( 'design/admin/class/view' )}" title="{'Edit this class.'|i18n( 'design/admin/class/view' )}" />
             {* <input class="button" type="submit" name="_DefaultButton" value="{'Remove'|i18n( 'design/admin/class/view' )}" /> *}
         </form>
-{* DESIGN: Control bar END *}</div></div>
+{* DESIGN: Control bar END *}</div>
 </div>
-
+</div>
 {include uri="design:class/windows.tpl"}
 
 </div>

@@ -1,14 +1,14 @@
 {*-- Class group Start --*}
 <form action={concat( $module.functions.view.uri, '/', $class.id )|ezurl} method="post">
 <div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
+{* DESIGN: Header START *}<div class="box-header">
 <h2 class="context-title">{'Member of class groups [%group_count]'|i18n( 'design/admin/class/view',, hash( '%group_count', $class.ingroup_list|count ) )}</h2>
 
 
 
-{* DESIGN: Header END *}</div></div>
+{* DESIGN: Header END *}</div>
 
-{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-content">
 
 <table class="list" cellspacing="0">
 <tr>
@@ -22,10 +22,11 @@
 </tr>
 {/section}
 </table>
-{* DESIGN: Content END *}</div></div></div>
+{* DESIGN: Content END *}</div>
 
+<div class="block">
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
+{* DESIGN: Control bar START *}<div class="box-bc">
     <div class="button-left">
     <input class="button" type="submit" name="RemoveGroupButton" value="{'Remove from selected'|i18n( 'design/admin/class/view' )}" title="{'Remove the <%class_name> class from the selected class groups.'|i18n( 'design/admin/class/view',, hash( '%class_name', $class.name ) )|wash}" />
     </div>
@@ -46,7 +47,8 @@
         <input class="button-disabled" type="submit" name="AddGroupButton" value="{'Add to class group'|i18n( 'design/admin/class/view' )}" disabled="disabled" title="{'The <%class_name> class already exists within all class groups.'|i18n( 'design/admin/class/view',, hash( '%class_name', $class_name ) )|wash}" />
     {/section}
     </div>
-{* DESIGN: Control bar END *}</div></div>
+{* DESIGN: Control bar END *}</div>
+</div>
 </div>
 </div>
 </form>

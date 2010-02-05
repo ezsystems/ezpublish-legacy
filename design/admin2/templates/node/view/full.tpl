@@ -5,7 +5,7 @@
 {* Content window. *}
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
+{* DESIGN: Header START *}<div class="box-header">
 
 {def $js_class_languages = $node.object.content_class.prioritized_languages_js_array
      $disable_another_language = cond( eq( 0, count( $node.object.content_class.can_create_languages ) ),"'edit-class-another-language'", '-1' )
@@ -34,10 +34,10 @@
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div>
+{* DESIGN: Header END *}</div>
 
 
-{* DESIGN: Content START *}<div class="box-ml"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-content">
 
 <div class="context-information">
 <p class="left modified">{'Last modified'|i18n( 'design/admin/node/view/full' )}: {$node.object.modified|l10n(shortdatetime)}, <a href={$node.object.current.creator.main_node.url_alias|ezurl}>{$node.object.current.creator.name|wash}</a> ({'Node ID'|i18n( 'design/admin/node/view/full' )}: {$node.node_id}, {'Object ID'|i18n( 'design/admin/node/view/full' )}: {$node.object.id})</p>
@@ -51,7 +51,7 @@
 
 </div>
 
-{* DESIGN: Content END *}</div></div>
+{* DESIGN: Content END *}</div>
 
 <div class="controlbar">
 {* DESIGN: Control bar START *}
