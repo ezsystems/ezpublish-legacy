@@ -5939,9 +5939,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
       Returns available classes as Js array.
       Checks if the node is container, if yes emptyStr will be returned.
     */
-    static function availableClassesJsArray()
+    function availableClassesJsArray()
     {
-        return eZContentObjectTreeNode::availableClassListJsArray( array( 'node' => &$this ) );
+        return eZContentObjectTreeNode::availableClassListJsArray( array( 'node' => $this ) );
     }
 
     /*
@@ -5961,6 +5961,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             $createHereMenu = 'simplified';
         }
+
         if ( $createHereMenu != 'simplified' and $createHereMenu != 'full' )
             return $falseValue;
 
