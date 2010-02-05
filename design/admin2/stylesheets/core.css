@@ -182,7 +182,7 @@ td.nowrap
     white-space: nowrap;
 }
 
-td.number, table.list td.number, table.list td.right
+td.number, table.list td.number, table.special td.number, table.list td.right
 {
     text-align: right;
 }
