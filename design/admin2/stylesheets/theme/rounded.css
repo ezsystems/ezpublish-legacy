@@ -289,15 +289,31 @@ input.button-disabled
     background-color: #efefef;
 }
 
-/* MISC */
+/* DASHBOARD */
 #ez-version
 {
     color: #E24602;
 }
 
+.content-dashboard .box-header
+{
+     background: transparent url('../../images/2/welcome.png') no-repeat scroll right bottom;
+     padding: 35px 0 0;
+}
+
+.content-dashboard .box-header h1
+{
+     visibility: hidden;
+}
+
+.dashboard-item
+{
+    margin-top: 2em;
+}
+
+/* MISC */
 table.list th, table.special th
 {
-    /*background: red;*/
     background: #FAFAFA url('../../images/2/gradient-to-darker.png') repeat-x left bottom scroll;
 }
 
