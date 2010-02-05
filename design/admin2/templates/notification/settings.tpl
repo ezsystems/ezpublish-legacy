@@ -9,7 +9,7 @@
 
 {* DESIGN: Header END *}</div></div>
 
-{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-content">
 
 <div class="context-attributes">
 {section var=Handlers loop=$handlers}
@@ -18,14 +18,14 @@
 {/section}
 </div>
 
-{* DESIGN: Content END *}</div></div></div>
+{* DESIGN: Content END *}</div>
 
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
+{* DESIGN: Control bar START *}
 <div class="block">
     <input class="button" type="submit" name="Store" value="{'Apply changes'|i18n( 'design/admin/notification/settings' )}" />
 </div>
-{* DESIGN: Control bar END *}</div></div>
+{* DESIGN: Control bar END *}
 </div>
 
 </div>
