@@ -141,7 +141,14 @@ class eZUserType extends eZDataType
                 $generatePasswordIfEmpty = $ini->variable( "UserSettings", "GeneratePasswordIfEmpty" ) == 'true';
                 if ( !$generatePasswordIfEmpty || ( $password != "" ) )
                 {
-                    if ( ( $password != $passwordConfirm ) || ( $password == "" ) )
+                    if ( $password == "" )
+                    {
+                        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                             'The password cannot be empty.',
+                                                                             'eZUserType' ) );
+                        return eZInputValidator::STATE_INVALID;
+                    }
+                    if ( $password != $passwordConfirm )
                     {
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                              'The passwords do not match.',
