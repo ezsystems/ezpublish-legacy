@@ -46,7 +46,7 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
-<input class="button" type="submit" name="UpdateSettingButton" value="{'OK'|i18n( 'design/admin/user/setting' )}" />
+<input class="defaultbutton" type="submit" name="UpdateSettingButton" value="{'OK'|i18n( 'design/admin/user/setting' )}" />
 <input class="button" type="submit" name="CancelSettingButton" value="{'Cancel'|i18n( 'design/admin/user/setting' )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div>

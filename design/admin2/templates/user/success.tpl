@@ -32,7 +32,7 @@ your account.'|i18n('design/admin/user')}
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
 <form action={"/"|ezurl} method="post">
-    <input class="button" type="submit" value="{'OK'|i18n( 'design/admin/user' )}" />
+    <input class="defaultbutton" type="submit" value="{'OK'|i18n( 'design/admin/user' )}" />
 </form>
 </div>
 {* DESIGN: Control bar END *}</div></div>
