@@ -12,7 +12,7 @@
 <form id="clearcache" action={'setup/cachetoolbar'|ezurl} method="post">
 {default ui_context=''}
 <div class="block">
-{if is_set( $module_result.content_info )}
+{if is_set( $module_result.content_info.node_id )}
   <input type="hidden" name="NodeID" value="{$module_result.content_info.node_id}" />
   <input type="hidden" name="ObjectID" value="{$module_result.content_info.object_id}" />
 {/if}
