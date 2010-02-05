@@ -2498,7 +2498,7 @@ class eZTemplate
     function appendTemplateFetch( $actualTemplateName )
     {
         $this->TemplateFetchList[] = $actualTemplateName;
-        $this->TemplateFetchList = array_unique( $this->TemplateFetchList, SORT_STRING );
+        $this->TemplateFetchList = array_unique( $this->TemplateFetchList );
     }
 
     /*!

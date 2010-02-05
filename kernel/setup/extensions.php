@@ -43,7 +43,7 @@ $siteINI->load();
 $selectedExtensionArray       = $siteINI->variable( 'ExtensionSettings', "ActiveExtensions" );
 $selectedAccessExtensionArray = $siteINI->variable( 'ExtensionSettings', "ActiveAccessExtensions" );
 $selectedExtensions           = array_merge( $selectedExtensionArray, $selectedAccessExtensionArray );
-$selectedExtensions           = array_unique( $selectedExtensions, SORT_STRING );
+$selectedExtensions           = array_unique( $selectedExtensions );
 
 // When the user clicks on "Apply changes" button in admin interface in the Extensions section
 if ( $module->isCurrentAction( 'ActivateExtensions' ) )
@@ -69,7 +69,7 @@ if ( $module->isCurrentAction( 'ActivateExtensions' ) )
     $intersection = array_intersect( $selectedExtensions, $selectedExtensionArray );
     $difference = array_diff( $selectedExtensionArray, $selectedExtensions );
     $toSave = array_merge( $intersection, $difference );
-    $toSave = array_unique( $toSave, SORT_STRING );
+    $toSave = array_unique( $toSave );
 
     // open settings/override/site.ini.append[.php] for writing
     $writeSiteINI = eZINI::instance( 'site.ini.append', 'settings/override', null, null, false, true );
@@ -97,7 +97,7 @@ $siteINI->load();
 $selectedExtensionArray       = $siteINI->variable( 'ExtensionSettings', "ActiveExtensions" );
 $selectedAccessExtensionArray = $siteINI->variable( 'ExtensionSettings', "ActiveAccessExtensions" );
 $selectedExtensions           = array_merge( $selectedExtensionArray, $selectedAccessExtensionArray );
-$selectedExtensions           = array_unique( $selectedExtensions, SORT_STRING );
+$selectedExtensions           = array_unique( $selectedExtensions );
 
 if ( $module->isCurrentAction( 'GenerateAutoloadArrays' ) )
 {

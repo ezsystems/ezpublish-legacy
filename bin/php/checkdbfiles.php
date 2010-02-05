@@ -133,7 +133,7 @@ function handleVersionList( $basePath, $subdir,
                 }
                 closedir( $dh );
             }
-            $fileList = array_unique( $fileList, SORT_STRING );
+            $fileList = array_unique( $fileList );
             $scannedDirs[] = $updatePath;
         }
     }

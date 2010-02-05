@@ -1189,7 +1189,7 @@ class eZOrder extends eZPersistentObject
             }
             if ( count( $accessList ) > 0 )
             {
-                $accessList = array_unique( array_merge( $accessList, array( $currentStatusID ) ), SORT_STRING );
+                $accessList = array_unique( array_merge( $accessList, array( $currentStatusID ) ) );
                 $statuses = eZOrderStatus::fetchOrderedList( true, false );
                 foreach ( $statuses as $status )
                 {

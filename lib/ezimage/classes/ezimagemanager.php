@@ -168,7 +168,7 @@ class eZImageManager
             return false;
         $this->ImageHandlers[] = $handler;
         $this->ImageFilters = array_merge( $this->ImageFilters, $handler->supportedImageFilters() );
-        $this->ImageFilters = array_unique( $this->ImageFilters, SORT_STRING );
+        $this->ImageFilters = array_unique( $this->ImageFilters );
         return true;
     }
 

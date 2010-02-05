@@ -137,7 +137,7 @@ function eZSetupMergePersistenceList( &$persistenceList, $persistenceDataList )
                      $merged = array_merge( $oldValues[$persistenceValueName], $persistenceValueData['value'] );
                      if ( isset( $persistenceValueData['unique'] ) and
                           $persistenceValueData['unique'] )
-                          $merged = array_unique( $merged, SORT_STRING );
+                          $merged = array_unique( $merged );
                      $oldValues[$persistenceValueName] = $merged;
                 }
                 else
@@ -228,7 +228,7 @@ function eZSetupLanguageList( &$languageList, &$defaultLanguage, &$defaultExtraL
     {
         $defaultLanguage = 'eng-GB';
     }
-    $defaultExtraLanguages = array_unique( array_diff( $defaultExtraLanguages, array( $defaultLanguage ) ), SORT_STRING );
+    $defaultExtraLanguages = array_unique( array_diff( $defaultExtraLanguages, array( $defaultLanguage ) ) );
 }
 
 ?>

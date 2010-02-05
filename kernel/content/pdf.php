@@ -76,7 +76,7 @@ if ( isset( $Params['AttributeValidation'] ) )
 // Check if read operations should be used
 $workflowINI = eZINI::instance( 'workflow.ini' );
 $operationList = $workflowINI->variableArray( 'OperationSettings', 'AvailableOperations' );
-$operationList = array_unique( array_merge( $operationList, $workflowINI->variable( 'OperationSettings', 'AvailableOperationList' ) ), SORT_STRING );
+$operationList = array_unique( array_merge( $operationList, $workflowINI->variable( 'OperationSettings', 'AvailableOperationList' ) ) );
 if ( in_array( 'content_read', $operationList ) )
 {
     $useTriggers = true;

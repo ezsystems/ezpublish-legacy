@@ -105,7 +105,7 @@ function findErrors( $vatRules )
     if ( is_array( $errors ) )
     {
         // Remove duplicated error messages.
-        $errors = array_unique( $errors, SORT_STRING );
+        $errors = array_unique( $errors );
         sort( $errors );
     }
 

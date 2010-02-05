@@ -261,7 +261,7 @@ class eZCache
             if ( $tagList !== false )
                 $tagEntries = array_merge( $tagEntries, $tagList );
         }
-        return array_unique( $tagEntries, SORT_STRING );
+        return array_unique( $tagEntries );
     }
 
     /*!

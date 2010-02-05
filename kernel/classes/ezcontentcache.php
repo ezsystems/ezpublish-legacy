@@ -302,7 +302,7 @@ class eZContentCache
                 $relatedSiteAccessList = array( $relatedSiteAccessList );
             }
             $relatedSiteAccessList[] = $GLOBALS['eZCurrentAccess']['name'];
-            $siteAccesses = array_unique( $relatedSiteAccessList, SORT_STRING );
+            $siteAccesses = array_unique( $relatedSiteAccessList );
         }
         else
         {

@@ -89,7 +89,7 @@ class eZContentObjectEditHandler
     static function initialize()
     {
         $contentINI = eZINI::instance( 'content.ini' );
-        foreach ( array_unique( $contentINI->variable( 'EditSettings', 'ExtensionDirectories' ), SORT_STRING ) as $extensionDirectory )
+        foreach( array_unique( $contentINI->variable( 'EditSettings', 'ExtensionDirectories' ) ) as $extensionDirectory )
         {
             $fileName = eZExtension::baseDirectory() . '/' . $extensionDirectory . '/content/' . $extensionDirectory . 'handler.php';
             if ( file_exists( $fileName ) )
@@ -117,7 +117,7 @@ class eZContentObjectEditHandler
     {
         $result = array();
         $contentINI = eZINI::instance( 'content.ini' );
-        foreach ( array_unique( $contentINI->variable( 'EditSettings', 'ExtensionDirectories' ), SORT_STRING ) as $extensionDirectory )
+        foreach( array_unique( $contentINI->variable( 'EditSettings', 'ExtensionDirectories' ) ) as $extensionDirectory )
         {
             $fileName = eZExtension::baseDirectory() . '/' . $extensionDirectory . '/content/' . $extensionDirectory . 'handler.php';
             if ( file_exists( $fileName ) )

@@ -250,7 +250,7 @@ class ezpUrlObjectLinkUpdate
                         $currentEntryLogged = true;
                     }
 
-                    $urlIdArray = array_unique( $urlIdArray, SORT_STRING );
+                    $urlIdArray = array_unique( $urlIdArray );
 
                     foreach ( $urlIdArray as $url )
                     {

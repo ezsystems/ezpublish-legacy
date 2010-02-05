@@ -186,7 +186,7 @@ foreach ( array_reverse( $contentObject->versions( false ) ) as $versionHash ) /
             $viewVersionObject = $tmpVersionObject;
             // Do not stop the loop here, since we want to gather all translations in the object in $foundTranslationList
         }
-        $foundTranslationList = array_unique( array_merge( $foundTranslationList, $languageCodes ), SORT_STRING );
+        $foundTranslationList = array_unique( array_merge( $foundTranslationList, $languageCodes ) );
     }
 }
 // Could not find version with the desired language, so we use the current edit version

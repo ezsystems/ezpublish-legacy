@@ -120,7 +120,7 @@ class eZURLType extends eZDataType
             $urls = eZURLObjectLink::fetchLinkList( $contentObjectAttributeID, $version, false );
             eZURLObjectLink::removeURLlinkList( $contentObjectAttributeID, $version );
         }
-        $urls = array_unique( $urls, SORT_STRING );
+        $urls = array_unique( $urls );
 
         $db = eZDB::instance();
         $db->begin();

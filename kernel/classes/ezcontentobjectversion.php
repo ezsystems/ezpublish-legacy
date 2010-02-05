@@ -972,7 +972,7 @@ class eZContentObjectVersion extends eZPersistentObject
             $versionStatus = array( $versionStatus );
         }
 
-        $versionStatus = array_unique( $versionStatus, SORT_STRING );
+        $versionStatus = array_unique( $versionStatus );
         $checkIntersect = array_intersect( $versionStatus, $statuses );
         if ( count( $checkIntersect ) != count( $versionStatus ) )
         {

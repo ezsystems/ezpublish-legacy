@@ -73,7 +73,8 @@ function getThirdPartySoftware( $pathToFile )
     if ( !isset( $thirdPartySoftware ) )
         return array();
 
-    return array_unique( $thirdPartySoftware, SORT_STRING );
+    $thirdPartySoftware = array_unique( $thirdPartySoftware );
+    return $thirdPartySoftware;
 }
 
 /*!
@@ -86,7 +87,7 @@ function getExtensionsInfo()
     $selectedExtensionArray       = $siteINI->variable( 'ExtensionSettings', "ActiveExtensions" );
     $selectedAccessExtensionArray = $siteINI->variable( 'ExtensionSettings', "ActiveAccessExtensions" );
     $selectedExtensions           = array_merge( $selectedExtensionArray, $selectedAccessExtensionArray );
-    $selectedExtensions           = array_unique( $selectedExtensions, SORT_STRING );
+    $selectedExtensions           = array_unique( $selectedExtensions );
     $result = array();
     foreach ( $selectedExtensions as $extension )
     {

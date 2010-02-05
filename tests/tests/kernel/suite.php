@@ -35,7 +35,7 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
 
         // This test suite is commented out until it will be fixed to work on any machine
         // $this->addTestSuite( 'eZWebDAVBackendContentRegressionTest' );
-        //$this->addTestSuite( 'eZLDAPUserTest' );
+        $this->addTestSuite( 'eZLDAPUserTest' );
         $this->addTestSuite( 'eZSiteInstallerTest' );
         $this->addTestSuite( 'eZCountryTypeTest' );
         $this->addTestSuite( 'eZProductCollectionTest' );

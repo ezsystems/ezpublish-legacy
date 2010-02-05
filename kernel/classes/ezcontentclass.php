@@ -525,7 +525,7 @@ class eZContentClass extends eZPersistentObject
                 if ( $classIDArrayPart == '*' )
                 {
                     $fetchAll = true;
-                    $allowedLanguages['*'] = array_unique( array_merge( $allowedLanguages['*'], $languageCodeArrayPart ), SORT_STRING );
+                    $allowedLanguages['*'] = array_unique( array_merge( $allowedLanguages['*'], $languageCodeArrayPart ) );
                 }
                 else
                 {
@@ -533,7 +533,7 @@ class eZContentClass extends eZPersistentObject
                     {
                         if ( isset( $allowedLanguages[$class] ) )
                         {
-                            $allowedLanguages[$class] = array_unique( array_merge( $allowedLanguages[$class], $languageCodeArrayPart ), SORT_STRING );
+                            $allowedLanguages[$class] = array_unique( array_merge( $allowedLanguages[$class], $languageCodeArrayPart ) );
                         }
                         else
                         {
@@ -603,7 +603,7 @@ class eZContentClass extends eZPersistentObject
                 $id = $class->attribute( 'id' );
                 if ( isset( $allowedLanguages[$id] ) )
                 {
-                    $languageCodes = array_unique( array_merge( $allowedLanguages['*'], $allowedLanguages[$id] ), SORT_STRING );
+                    $languageCodes = array_unique( array_merge( $allowedLanguages['*'], $allowedLanguages[$id] ) );
                 }
                 else
                 {
