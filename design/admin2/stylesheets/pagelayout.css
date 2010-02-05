@@ -172,7 +172,7 @@ div.tab-content
 {
     height: 20em;
     overflow-y: scroll;
-    padding: 1em 0.5em 0.5em;
+    padding: 1em;
 }
 
 
@@ -568,18 +568,6 @@ div.popupmenu hr
 
 
 /* BOX MODEL */
-
-.box-content div.block
-{
-    margin: 0;
-    padding: 0.5em;
-}
-
-.box-content div.block div.block
-{
-    margin: 0.5em 0;
-    padding: 0;
-}
 
 .box-content div.context-toolbar.block
 {
