@@ -38,6 +38,7 @@
 .loginpage #columns #maincontent .box-header
 {
     background: transparent url('../../images/2/ez-logo-black.png') no-repeat top right scroll;
+    padding-top: 1em;
 }
 
 .loginpage #footer
@@ -298,6 +299,16 @@ table.list th, table.special th
 {
     /*background: red;*/
     background: #FAFAFA url('../../images/2/gradient-to-darker.png') repeat-x left bottom scroll;
+}
+
+#leftmenu-design ul
+{
+    color: #333;
+}
+
+.settings .current
+{
+    font-weight: bold;
 }
 
 /* FOOTER */
