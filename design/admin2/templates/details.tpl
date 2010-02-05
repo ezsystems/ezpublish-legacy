@@ -32,7 +32,7 @@
 <input type="hidden" name="ObjectID" value="{$node.object.id}" />
 <input type="hidden" name="RedirectRelativeURI" value="{$node.url_alias}" />
 
-<table class="list" cellspacing="0" summary="{'States and their states groups for current object.'|i18n( 'design/admin/node/view/full' )}">
+<table id="tab-details-states-list" class="list" cellspacing="0" summary="{'States and their states groups for current object.'|i18n( 'design/admin/node/view/full' )}">
 {if $states_count}
     <tr>
         <th class="tight">{'State group'|i18n( 'design/admin/node/view/full' )}</th>
@@ -64,9 +64,9 @@
 <div class="block">
 <div class="button-left">
     {if $states_count}
-    <input type="submit" value="{'Set states'|i18n( 'design/admin/node/view/full' )}" name="AssignButton" class="button" title="{'Apply states from the list above.'|i18n( 'design/admin/node/view/full' )}" />
+    <input type="submit" id="tab-details-set-states" value="{'Set states'|i18n( 'design/admin/node/view/full' )}" name="AssignButton" class="button" title="{'Apply states from the list above.'|i18n( 'design/admin/node/view/full' )}" />
     {else}
-    <input type="submit" value="{'Set states'|i18n( 'design/admin/node/view/full' )}" name="AssignButton" class="button-disabled" title="{'No state to be applied to this content object. You might need to be assigned a more permissive access policy.'|i18n( 'design/admin/node/view/full' )}"/>
+    <input type="submit" id="tab-details-set-states" value="{'Set states'|i18n( 'design/admin/node/view/full' )}" name="AssignButton" class="button-disabled" disabled="disabled" title="{'No state to be applied to this content object. You might need to be assigned a more permissive access policy.'|i18n( 'design/admin/node/view/full' )}"/>
     {/if}
 </div>
 <div class="break"></div>
@@ -74,3 +74,18 @@
 
 </form>
 </div>
+<script type="text/javascript">
+{literal}
+(function( $ )
+{
+    $('#tab-details-states-list select').change(function()
+    {
+        var btn = $('#tab-details-set-states');
+        if ( !btn.attr('disabled') )
+        {
+            btn.removeClass('button').addClass('defaultbutton');
+        }
+    });
+})( jQuery );
+{/literal}
+</script>
