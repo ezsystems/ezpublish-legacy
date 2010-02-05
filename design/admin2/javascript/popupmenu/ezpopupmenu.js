@@ -604,4 +604,9 @@ window.ezpopmenu_hide = _hide;
 window.ezpopmenu_submitForm = _submitForm;
 window.ezpopmenu_showSubLevel = _showSubLevel;
 
+if ( window.menuArray === undefined )
+{
+    window.menuArray = {};
+}
+
 })();// Scope end
