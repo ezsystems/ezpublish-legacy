@@ -23,9 +23,10 @@
 </table>
 </div>
 
+<br />
 
 <div class="block">
-<h6>{'Content state'|i18n( 'design/admin/node/view/full' )}</h6>
+<h3>{'Content state'|i18n( 'design/admin/node/view/full' )}</h3>
 
 {* States window. *}
 <form name="statesform" method="post" action={'state/assign'|ezurl}>
