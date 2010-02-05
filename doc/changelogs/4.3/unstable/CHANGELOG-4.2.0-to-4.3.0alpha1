@@ -127,3 +127,4 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Fixed bug #16105: Duplicate code in eZObjectRelationListType::validateObjectAttributeHTTPInput()
 - Fixed bug #16093: "Your Drafts" information
 - Fixed bug #16094: "Your pending Items"
+- Fixed bug #16126: availableClassesJsArray wrongly defined as static causing create here menu on sub items to fail
