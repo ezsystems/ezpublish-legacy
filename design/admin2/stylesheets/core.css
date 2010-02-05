@@ -339,7 +339,7 @@ fieldset label
     color: #000000;
 }
 
-fieldset input.button
+fieldset input.button, fieldset input.defaultbutton, fieldset input.button-disabled
 {
     margin-top: 0.5em;
 }
