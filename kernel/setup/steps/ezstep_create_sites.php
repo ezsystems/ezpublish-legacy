@@ -987,7 +987,7 @@ language_locale='eng-GB'";
                              'class_remote_map' => $classRemoteMap,
                              //'extra_functionality' => $extraFunctionality,
                              'preview_design' => $userDesignName,
-                             'design_list' => array( $userDesignName, 'admin' ),
+                             'design_list' => array( $userDesignName, 'admin2', 'admin' ),
                              'user_siteaccess' => $userSiteaccessName,
                              'admin_siteaccess' => $adminSiteaccessName,
                              'package_object' => $sitePackage,
@@ -1165,7 +1165,8 @@ language_locale='eng-GB'";
                 $siteINIAdminStored = true;
                 $tmpINI->setVariables( $siteINIChanges );
                 $tmpINI->setVariable( 'SiteAccessSettings', 'RequireUserLogin', 'true' );
-                $tmpINI->setVariable( 'DesignSettings', 'SiteDesign', 'admin' );
+                $tmpINI->setVariable( 'DesignSettings', 'SiteDesign', 'admin2' );
+                $tmpINI->setVariable( 'DesignSettings', 'AdditionalSiteDesignList', array( 'admin' ) );
                 $tmpINI->setVariable( 'SiteSettings', 'LoginPage', 'custom' );
                 $tmpINI->setVariable( 'SiteSettings', 'DefaultPage', 'content/dashboard' );
             }
@@ -1181,7 +1182,8 @@ language_locale='eng-GB'";
 
             $siteINI->setVariables( $siteINIChanges );
             $siteINI->setVariable( 'SiteAccessSettings', 'RequireUserLogin', 'true' );
-            $siteINI->setVariable( 'DesignSettings', 'SiteDesign', 'admin' );
+            $siteINI->setVariable( 'DesignSettings', 'SiteDesign', 'admin2' );
+            $tmpINI->setVariable( 'DesignSettings', 'AdditionalSiteDesignList', array( 'admin' ) );
             $siteINI->setVariable( 'SiteSettings', 'LoginPage', 'custom' );
             $siteINI->setVariable( 'SiteSettings', 'DefaultPage', 'content/dashboard' );
             $siteINI->save( false, '.append.php', false, false, "settings/siteaccess/$adminSiteaccessName", true );
