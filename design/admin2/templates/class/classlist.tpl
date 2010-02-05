@@ -1,12 +1,12 @@
 <div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
+{* DESIGN: Header START *}<div class="box-header">
 <h1 class="context-title">{$group.name|wash|classgroup_icon( 'normal', $group.name|wash )}&nbsp;{'%group_name [Class group]'|i18n( 'design/admin/class/classlist',, hash( '%group_name', $group.name ) )|wash}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div>
+{* DESIGN: Header END *}</div>
 
-{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-content">
 
 <div class="context-information">
 <p class="left">{'Last modified'|i18n( 'design/admin/class/classlist' )}: {$group.modified|l10n( shortdatetime )}, {$group_modifier.name|wash}</p>
@@ -27,10 +27,10 @@
 
 </div>
 
-{* DESIGN: Content END *}</div></div></div>
-
+{* DESIGN: Content END *}</div>
+<div class="block">
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
+{* DESIGN: Control bar START *}<div class="box-bc">
 <div class="block">
 <form action={'class/grouplist'|ezurl} method="post" name="GroupList">
     <input type="hidden" name="DeleteIDArray[]" value="{$group.id}" />
@@ -39,23 +39,20 @@
     <input class="button" type="submit" name="RemoveGroupButton" value="{'Remove'|i18n( 'design/admin/class/classlist' )}" title="{'Remove this class group.'|i18n( 'design/admin/class/classlist' )}" />
 </form>
 </div>
-{* DESIGN: Control bar END *}</div></div>
+{* DESIGN: Control bar END *}</div>
+</div>
 </div>
 
 </div>
 
-
+<div class="break"></div>
 <form action={concat( 'class/classlist/', $GroupID )|ezurl} method="post" name="ClassList">
-
 <div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
+{* DESIGN: Header START *}<div class="box-header">
 <h2 class="context-title"><a href={'/class/grouplist'|ezurl}><img src={'up-16x16-grey.png'|ezimage} alt="{'Back to class groups.'|i18n( 'design/admin/class/classlist' )}" title="{'Back to class groups.'|i18n( 'design/admin/class/classlist' )}" /></a>&nbsp;{'Classes inside <%group_name> [%class_count]'|i18n( 'design/admin/class/classlist',, hash( '%group_name', $group.name, '%class_count', $class_count ) )|wash}</h2>
+{* DESIGN: Header END *}</div>
 
-
-
-{* DESIGN: Header END *}</div></div>
-
-{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-content">
 
 {section show=$class_count}
 <table class="list" cellspacing="0" summary="{'List of classes inside %group_name class group [%class_count]'|i18n( 'design/admin/class/classlist',, hash( '%group_name', $group.name, '%class_count', $class_count ) )|wash}">
@@ -91,10 +88,11 @@
 </div>
 {/section}
 
-{* DESIGN: Content END *}</div></div></div>
+{* DESIGN: Content END *}</div>
 
+<div class="block">
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
+{* DESIGN: Control bar START *}<div class="box-bc">
     <div class="button-left">
     <input type="hidden" name = "CurrentGroupID" value="{$GroupID}" />
     <input type="hidden" name = "CurrentGroupName" value="{$group.name|wash}" />
@@ -125,7 +123,8 @@
     <div class="float-break"></div>
 
 
-{* DESIGN: Control bar END *}</div></div>
+{* DESIGN: Control bar END *}</div>
+</div>
 </div>
 
 </div>
