@@ -6,8 +6,7 @@
 <h1>{'Summary'|i18n('design/standard/collaboration')}</h1>
 
 {let group_tree=fetch("collaboration","group_tree",hash("parent_group_id",$parent_group_id))
-     latest_item_count=fetch("collaboration","item_count",hash("is_active",true()))
-     latest_item_list=fetch("collaboration","item_list",hash("limit",$item_limit,"offset",$offset,"is_active",true()))}
+     latest_item_count=fetch("collaboration","item_count",hash("is_active",true()))}
 
 <table width="100%" cellspacing="6" cellpadding="0" border="0">
 <tr>
@@ -15,7 +14,7 @@
 
 {if $latest_item_count}
 
-{include uri="design:collaboration/item_list.tpl" item_list=$latest_item_list}
+{include uri="design:collaboration/item_list.tpl" item_list=fetch( "collaboration", "item_list", hash( "limit", $item_limit, "offset", $offset, "is_active", true() ) )}
 
 {include name=Navigator
          uri='design:navigator/google.tpl'

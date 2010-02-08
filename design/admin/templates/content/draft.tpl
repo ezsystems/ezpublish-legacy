@@ -1,7 +1,6 @@
 {let item_type=ezpreference( 'admin_list_limit' )
      number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 )
-     list_count=fetch('content','draft_count')
-     draft_list=fetch( content, draft_version_list, hash( limit, $number_of_items, offset, $view_parameters.offset ) )}
+     list_count=fetch('content','draft_count')}
 
 <form name="draftaction" action={concat( 'content/draft/' )|ezurl} method="post">
 
@@ -17,7 +16,7 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
-{section show=$draft_list}
+{if $list_count}
 
 {* Items per page and view mode selector. *}
 <div class="context-toolbar">
@@ -60,7 +59,7 @@
     <th class="tight">&nbsp;</th>
 </tr>
 
-{section var=Drafts loop=$draft_list sequence=array( bglight, bgdark )}
+{section var=Drafts loop=fetch( content, draft_version_list, hash( limit, $number_of_items, offset, $view_parameters.offset ) ) sequence=array( bglight, bgdark )}
 <tr class="{$Drafts.sequence}">
     <td><input type="checkbox" name="DeleteIDArray[]" value="{$Drafts.item.id}" title="{'Select draft for removal.'|i18n( 'design/admin/content/draft' )}" /></td>
     <td>{$Drafts.item.contentobject.content_class.identifier|class_icon( small, $Drafts.item.contentobject.content_class.name|wash )}&nbsp;<a href={concat( '/content/versionview/', $Drafts.item.contentobject.id, '/', $Drafts.item.version, '/', $Drafts.item.initial_language.locale, '/' )|ezurl}>{$Drafts.item.version_name|wash}</a></td>
@@ -72,11 +71,11 @@
 </tr>
 {/section}
 </table>
-{section-else}
+{else}
 <div class="block">
 <p>{'There are no drafts that belong to you.'|i18n( 'design/admin/content/draft' )}</p>
 </div>
-{/section}
+{/if}
 
 <div class="context-toolbar">
 {include name=navigator
@@ -92,7 +91,7 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-{if $draft_list}
+{if $list_count}
     <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/draft')}" title="{'Remove selected drafts.'|i18n( 'design/admin/content/draft' )}" />
     <input class="button" type="submit" name="EmptyButton"  value="{'Remove all'|i18n( 'design/admin/content/draft')}" onclick="return confirmDiscard( '{'Are you sure you want to remove all drafts?'|i18n( 'design/admin/content/draft' )|wash(javascript)}' );" title="{'Remove all drafts that belong to you.'|i18n( 'design/admin/content/draft' )}" />
 {else}

@@ -1,7 +1,6 @@
 {let item_type=ezpreference( 'admin_list_limit' )
      number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 )
-     list_count=fetch( content, pending_count )
-     pending_list=fetch( content, pending_list, hash( limit, $number_of_items, offset, $view_parameters.offset ) )}
+     list_count=fetch( content, pending_count )}
 
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
@@ -13,7 +12,7 @@
 
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
-{section show=$pending_list}
+{if $list_count}
 {* Items per page and view mode selector. *}
 <div class="context-toolbar">
 <div class="block">
@@ -54,7 +53,7 @@
     <th>{'Modified'|i18n( 'design/admin/content/pendinglist' )}</th>
 </tr>
 
-{section var=PendingItems loop=$pending_list sequence=array(bglight,bgdark)}
+{section var=PendingItems loop=fetch( content, pending_list, hash( limit, $number_of_items, offset, $view_parameters.offset ) ) sequence=array(bglight,bgdark)}
 <tr class="{$PendingItems.sequence}">
     <td>{$PendingItems.item.contentobject.content_class.identifier|class_icon( small, $PendingItems.item.contentobject.content_class.name|wash )}&nbsp;<a href={concat( '/content/versionview/', $PendingItems.item.contentobject.id, '/', $PendingItems.item.version, '/' )|ezurl}>{$PendingItems.item.version_name|wash}</a></td>
     <td>{$PendingItems.item.contentobject.content_class.name|wash}</td>
@@ -73,11 +72,11 @@
          item_limit=$number_of_items}
 </div>
 
-{section-else}
+{else}
 <div class="block">
 <p>{'The pending list is empty.'|i18n( 'design/admin/content/pendinglist' )}</p>
 </div>
-{/section}
+{/if}
 
 {* DESIGN: Content END *}</div></div></div></div></div></div>
 

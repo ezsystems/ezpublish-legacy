@@ -94,7 +94,6 @@
 
 
 {let page_limit=30
-     version_list=fetch(content,version_list,hash(contentobject, $object,limit,$page_limit,offset,$view_parameters.offset))
      list_count=fetch(content,version_count, hash(contentobject, $object))}
 
 <form name="versionsform" action={concat( '/content/versions/', $object.id, '/' )|ezurl} method="post">
@@ -111,7 +110,7 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
-{section show=$version_list}
+{if $list_count}
 <table class="list" cellspacing="0">
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Toggle selection" onclick="ezjs_toggleCheckboxes( document.versionsform, 'DeleteIDArray[]' ); return false;" /></th>
@@ -125,7 +124,9 @@
     <th class="tight">&nbsp;</th>
 </tr>
 
-{section var=Versions loop=$version_list sequence=array( bglight, bgdark )}
+{section var=Version loop=fetch( content, version_list, hash( contentobject, $object,
+                                                              limit, $page_limit,
+                                                              offset, $view_parameters.offset ) ) sequence=array( bglight, bgdark )}
 {def $initial_language = $Versions.item.initial_language}
 <tr class="{$Versions.sequence}">
 
@@ -196,11 +197,11 @@
 {undef $initial_language}
 {/section}
 </table>
-{section-else}
+{else}
 <div class="block">
 <p>{'This object does not have any versions.'|i18n( 'design/admin/content/versions' )}</p>
 </div>
-{/section}
+{/if}
 
 <div class="context-toolbar">
 {include name=navigator

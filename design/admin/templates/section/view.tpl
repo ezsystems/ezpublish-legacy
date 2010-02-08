@@ -143,7 +143,6 @@
 {* Objects window. *}
 {let item_type=ezpreference( 'admin_list_limit' )
      number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 )
-     objects=fetch( section, object_list, hash( section_id, $section.id, limit,$number_of_items, offset, $view_parameters.offset ) )
      objects_count=fetch( 'section', 'object_list_count', hash( section_id, $section.id ) )}
 
 <div class="context-block">
@@ -158,24 +157,24 @@
 
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
-{section show=$objects}
+{if $objects_count}
 <table class="list" cellspacing="0">
 <tr>
 <th>{'Name'|i18n( 'design/admin/section/view' )}</th>
 </tr>
 
-{section var=Objects loop=$objects sequence=array( bgdark, bglight )}
+{section var=Objects loop=fetch( section, object_list, hash( section_id, $section.id, limit,$number_of_items, offset, $view_parameters.offset ) ) sequence=array( bgdark, bglight )}
 <tr class="{$Objects.sequence}">
     {if $Objects.item.main_node_id}
     <td>{$Objects.item.main_node.class_identifier|class_icon( small, $Objects.item.main_node.class_name )}&nbsp;<a href={$Objects.main_node.url_alias|ezurl}>{$Objects.item.name|wash}</a></td>
     {/if}
 </tr>
 {/section}
-{section-else}
+{else}
 <div class="block">
 <p>{'This section is not assigned to any objects.'|i18n( 'design/admin/section/view' )}</p>
 </div>
-{/section}
+{/if}
 
 
 </table>

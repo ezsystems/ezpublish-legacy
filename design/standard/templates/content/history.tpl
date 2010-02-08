@@ -36,7 +36,6 @@
 
 
 {def $page_limit=30
-     $version_list=fetch(content,version_list,hash(contentobject, $object,limit,$page_limit,offset,$view_parameters.offset))
      $list_count=fetch(content,version_count, hash(contentobject, $object))}
 
 <form name="versionsform" action={concat( '/content/history/', $object.id, '/' )|ezurl} method="post">
@@ -49,7 +48,7 @@
 {* DESIGN: Header END *}</div></div></div></div></div></div>
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
-{if $version_list}
+{if $list_count}
 <table class="list" cellspacing="0">
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Toggle selection" onclick="ezjs_toggleCheckboxes( document.versionsform, 'DeleteIDArray[]' ); return false;" /></th>
@@ -64,7 +63,7 @@
 </tr>
 
 
-{foreach $version_list as $version
+{foreach fetch( content, version_list, hash( contentobject, $object, limit, $page_limit, offset, $view_parameters.offset ) ) as $version
 	sequence array( bglight, bgdark ) as $seq
 }
 

@@ -135,7 +135,7 @@ function checkAll()
 <input type="hidden" name="ViewMode" value="full" />
 
 
-{section show=$with_children}
+{if and( $with_children, $list_count )}
 
 {let name=Child
      children=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset,depth_operator,eq))
@@ -261,7 +261,7 @@ function checkAll()
          item_limit=$page_limit}
 
 
-{/section}
+{/if}
 
 
 {if $is_standalone}

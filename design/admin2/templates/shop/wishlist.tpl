@@ -1,6 +1,5 @@
 {let item_type=ezpreference( 'admin_list_limit' )
      number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 )
-     wish_list_items=fetch( 'shop', 'wish_list', hash( 'production_id', $wish_list.productcollection_id, 'offset', $view_parameters.offset, 'limit', number_of_items ) )
      wish_list_count=fetch( 'shop', 'wish_list_count', hash( 'production_id', $wish_list.productcollection_id ) )}
 <form name="wishlistform" method="post" action={'/shop/wishlist/'|ezurl}>
 
@@ -16,7 +15,7 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
-{section show=$wish_list_items}
+{if $wish_list_count}
 {* Items per page *}
 <div class="context-toolbar">
 <div class="button-left">
@@ -59,7 +58,7 @@
     <th>{'Total price (inc. VAT)'|i18n( 'design/admin/shop/wishlist')}</th>
 *}
 </tr>
-{section var=WishedItems loop=$wish_list_items sequence=array( bglight, bgdark )}
+{section var=WishedItems loop=fetch( 'shop', 'wish_list', hash( 'production_id', $wish_list.productcollection_id, 'offset', $view_parameters.offset, 'limit', number_of_items ) ) sequence=array( bglight, bgdark )}
 <tr class="{$WishedItems.sequence}">
 
     {* Remove. *}
@@ -113,11 +112,11 @@
          item_limit=$number_of_items}
 </div>
 
-{section-else}
+{else}
 <div class="block">
 <p>{'The wish list is empty.'|i18n( 'design/admin/shop/wishlist')}</p>
 </div>
-{/section}
+{/if}
 
 {* DESIGN: Content END *}</div></div></div>
 

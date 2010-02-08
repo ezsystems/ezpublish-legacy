@@ -20,29 +20,29 @@
         {section show=$node.data_map.show_children.content}
             {let page_limit=10
                  list_items=array()
-                 list_count=0}
+                 list_count=fetch_alias( children_count, hash( parent_node_id, $node.node_id ) )}
 
-            {if or( $view_parameters.day, $view_parameters.month, $view_parameters.year )}
-                {let time_filter=array( and,
-                                        array( 'published', '>=',
-                                               maketime( 0, 0, 0,
-                                                         $view_parameters.month, cond( $view_parameters.day, $view_parameters.day, 1 ), $view_parameters.year ) ),
-                                        array( 'published', '<=',
-                                               maketime( 23, 59, 59,
-                                                         cond( $view_parameters.day, $view_parameters.month, $view_parameters.month|inc ), cond( $view_parameters.day, $view_parameters.day, 0 ), $view_parameters.year ) ) )}
-                {set list_items=fetch_alias( children, hash( parent_node_id, $node.node_id,
-                                                             offset, $view_parameters.offset,
-                                                             attribute_filter, $time_filter,
-                                                             sort_by, $node.sort_array,
-                                                             limit, $page_limit ) )
-                     list_count=fetch_alias( children_count, hash( parent_node_id, $node.node_id ) )}
-                {/let}
-            {else}
-                {set list_items=fetch_alias( children, hash( parent_node_id, $node.node_id,
-                                                             offset, $view_parameters.offset,
-                                                             sort_by, $node.sort_array,
-                                                             limit, $page_limit ) )}
-                {set list_count=fetch_alias( children_count, hash( parent_node_id, $node.node_id ) )}
+            {if $list_count}
+                {if or( $view_parameters.day, $view_parameters.month, $view_parameters.year )}
+                    {let time_filter=array( and,
+                                            array( 'published', '>=',
+                                                maketime( 0, 0, 0,
+                                                            $view_parameters.month, cond( $view_parameters.day, $view_parameters.day, 1 ), $view_parameters.year ) ),
+                                            array( 'published', '<=',
+                                                maketime( 23, 59, 59,
+                                                            cond( $view_parameters.day, $view_parameters.month, $view_parameters.month|inc ), cond( $view_parameters.day, $view_parameters.day, 0 ), $view_parameters.year ) ) )}
+                    {set list_items=fetch_alias( children, hash( parent_node_id, $node.node_id,
+                                                                offset, $view_parameters.offset,
+                                                                attribute_filter, $time_filter,
+                                                                sort_by, $node.sort_array,
+                                                                limit, $page_limit ) )}
+                    {/let}
+                {else}
+                    {set list_items=fetch_alias( children, hash( parent_node_id, $node.node_id,
+                                                                offset, $view_parameters.offset,
+                                                                sort_by, $node.sort_array,
+                                                                limit, $page_limit ) )}
+                {/if}
             {/if}
 
             <div class="content-view-children">

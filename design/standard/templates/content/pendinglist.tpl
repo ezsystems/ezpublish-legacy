@@ -8,9 +8,7 @@
 <h1>{"My pending list"|i18n("design/standard/content/view")}</h1>
 </div>
 
-{let pending_list=fetch('content','pending_list',hash(limit,$page_limit,offset,$view_parameters.offset))}
-
-{section show=$pending_list}
+{if $list_count}
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -21,7 +19,8 @@
     <th>{"Last modified"|i18n("design/standard/content/view")}</th>
 </tr>
 
-{section name=PendingList loop=$pending_list sequence=array(bglight,bgdark)}
+{section name=PendingList loop=fetch( 'content', 'pending_list', hash( limit, $page_limit, offset, $view_parameters.offset ) )
+         sequence=array(bglight,bgdark)}
 <tr class="{$PendingList:sequence}">
    <td>
         <a href={concat("/content/versionview/",$PendingList:item.contentobject.id,"/",$PendingList:item.version,"/")|ezurl}>{$PendingList:item.contentobject.content_class.identifier|class_icon( small, $PendingList:item.contentobject.content_class.name )}&nbsp;{$PendingList:item.contentobject.name|wash}</a>
@@ -48,12 +47,11 @@
          view_parameters=$view_parameters
          item_limit=$page_limit}
 
-{section-else}
+{else}
 
 <div class="feedback">
 <h2>{"Your pending list is empty"|i18n("design/standard/content/view")}</h2>
 </div>
 
-{/section}
-{/let}
+{/if}
 {/let}

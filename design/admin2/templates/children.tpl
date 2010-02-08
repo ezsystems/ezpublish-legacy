@@ -12,7 +12,6 @@
      $admin_children_viewmode = ezpreference( 'admin_children_viewmode' )
      $children_count = fetch( content, list_count, hash( 'parent_node_id', $node.node_id,
                                                          'objectname_filter', $view_parameters.namefilter ) )
-     $children    = array()
      $priority    = and( eq( $node.sort_array[0][0], 'priority' ), $node.can_edit, $children_count )
      $priority_dd = and( $priority, $admin_children_viewmode|ne( 'thumbnail' ), $view_parameters.offset|eq( 0 ) )}
      
@@ -22,15 +21,6 @@
 <div class="context-block">
 <form name="children" method="post" action={'content/action'|ezurl}>
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
-
-{if $children_count}
-    {set $children = fetch( 'content', 'list', hash( 'parent_node_id', $node.node_id,
-                                            'sort_by', $node.sort_array,
-                                            'limit', $number_of_items,
-                                            'offset', $view_parameters.offset,
-                                            'objectname_filter', $view_parameters.namefilter ) )}
-{/if}
-
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
@@ -180,7 +170,7 @@
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {* If there are children: show list and buttons that belong to the list. *}
-{if $children}
+{if $children_count}
 
 {* Items per page and view mode selector. *}
 <div class="context-toolbar">
@@ -241,7 +231,11 @@
 
     {* Check if the current user is allowed to *}
     {* edit or delete any of the children.     *}
-    {section var=Children loop=$children}
+    {section var=Children loop=fetch( content, list, hash( 'parent_node_id', $node.node_id,
+                                                           'sort_by', $node.sort_array,
+                                                           'limit', $number_of_items,
+                                                           'offset', $view_parameters.offset,
+                                                           'objectname_filter', $view_parameters.namefilter ) )}
         {if $Children.item.can_remove}
             {set can_remove=true()}
         {/if}
@@ -401,5 +395,5 @@ jQuery('#ezasi-sort-field, #ezasi-sort-order').each( function(){
 
 <!-- Children END -->
 
-{undef $item_type $number_of_items $can_remove $can_move $can_edit $can_create $can_copy $current_path $admin_children_viewmode $children_count $children}
+{undef $item_type $number_of_items $can_remove $can_move $can_edit $can_create $can_copy $current_path $admin_children_viewmode $children_count}
 </div>

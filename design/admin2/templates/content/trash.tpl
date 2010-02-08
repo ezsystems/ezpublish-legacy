@@ -2,10 +2,6 @@
      number_of_items = min( $item_type, 3)|choose( 10, 10, 25, 50 )
      trash_sort_field = first_set(  $view_parameters.sort_field, 'name' )
      trash_sort_order = first_set(  $view_parameters.sort_order, '1' )
-     trash_list = fetch( 'content', 'trash_object_list', hash( 'limit',  $number_of_items,
-                                                         'offset', $view_parameters.offset,
-                                                         'sort_by', array( $trash_sort_field, $trash_sort_order ),
-                                                         'objectname_filter', $view_parameters.namefilter ) )
      list_count = fetch( 'content', 'trash_count', hash( 'objectname_filter', $view_parameters.namefilter ) ) }
 
 <form name="trashform" action={'content/trash/'|ezurl} method="post" >
@@ -22,7 +18,7 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
-{if $trash_list}
+{if $list_count}
 {* Items per page selector. *}
 <div class="context-toolbar">
 <div class="button-left">
@@ -64,7 +60,10 @@
     <th class="tight">&nbsp;</th>
 </tr>
 
-{section var=tObjects loop=$trash_list sequence=array( bglight, bgdark )}
+{section var=tObjects loop=fetch( 'content', 'trash_object_list', hash( 'limit',  $number_of_items,
+                                                                        'offset', $view_parameters.offset,
+                                                                        'sort_by', array( $trash_sort_field, $trash_sort_order ),
+                                                                        'objectname_filter', $view_parameters.namefilter ) ) sequence=array( bglight, bgdark )}
 {let cur_c_object=$tObjects.item.object}
 
 <tr class="{$tObjects.sequence}">
@@ -115,7 +114,7 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="button-left">
-    {if $trash_list}
+    {if $list_count}
         <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/trash' )}"  title="{'Permanently remove the selected items.'|i18n( 'design/admin/content/trash' )}" />
         <input class="button" type="submit" name="EmptyButton"  value="{'Empty trash'|i18n( 'design/admin/content/trash' )}" title="{'Permanently remove all items from the trash.'|i18n( 'design/admin/content/trash' )}" />
     {else}

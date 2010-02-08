@@ -1,6 +1,5 @@
 {let item_type=ezpreference( 'admin_list_limit' )
      number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 )
-     subscribed_nodes=fetch( 'notification', 'subscribed_nodes', hash( 'limit', $number_of_items, 'offset', $view_parameters.offset ) )
      subscribed_nodes_count=fetch( 'notification', 'subscribed_nodes_count')}
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
@@ -12,7 +11,7 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
-{section show=$subscribed_nodes}
+{if $subscribed_nodes_count}
 {* Items per page *}
 <div class="context-toolbar">
 <div class="block">
@@ -51,7 +50,7 @@
 	<th>{'Section'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit' )}</th>
 </tr>
 
-{section var=Rules loop=$subscribed_nodes sequence=array( bglight, bgdark )}
+{section var=Rules loop=fetch( 'notification', 'subscribed_nodes', hash( 'limit', $number_of_items, 'offset', $view_parameters.offset ) ) sequence=array( bglight, bgdark )}
 <tr class="{$Rules.sequence}">
 	<td><input type="checkbox" name="SelectedRuleIDArray_{$handler.id_string}[]" value="{$Rules.item.id}" title="{'Select item for removal.'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit' )}" /></td>
     <td>{$Rules.item.node.class_identifier|class_icon( small, $Rules.item.node.class_name )}&nbsp;<a href={concat( '/content/view/full/', $Rules.item.node.node_id, '/' )|ezurl}>{$Rules.item.node.name|wash}</a></td>
@@ -70,11 +69,11 @@
          item_limit=$number_of_items}
 </div>
 
-{section-else}
+{else}
 <div class="block">
 <p>{'You have not subscribed to receive notifications about any items.'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit' )}</p>
 </div>
-{/section}
+{/if}
 
 {* DESIGN: Content END *}</div></div></div>
 

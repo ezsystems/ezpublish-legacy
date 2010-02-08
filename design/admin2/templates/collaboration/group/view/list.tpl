@@ -3,8 +3,7 @@
          offset=$view_parameters.offset item_limit=10
          summary_indentation=10}
 
-{let  group_item_count=fetch("collaboration","item_count",hash("parent_group_id",$collab_group.id))
-      group_item_list=fetch("collaboration","item_list",hash("limit",$item_limit,"offset",$offset,"parent_group_id",$collab_group.id))}
+{let  group_item_count=fetch("collaboration","item_count",hash("parent_group_id",$collab_group.id))}
 
 
 <div class="context-block">
@@ -21,7 +20,7 @@
 
 {if $group_item_count}
 
-{include uri="design:collaboration/item_list.tpl" item_list=$group_item_list}
+{include uri="design:collaboration/item_list.tpl" item_list=fetch( "collaboration", "item_list", hash( "limit", $item_limit, "offset", $offset, "parent_group_id", $collab_group.id ) )}
 
 {include name=Navigator
          uri='design:navigator/google.tpl'

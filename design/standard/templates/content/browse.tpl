@@ -2,7 +2,6 @@
 {let browse_indentation=5
      page_limit=15
      browse_list_count=fetch(content,list_count,hash(parent_node_id,$node_id,depth,1))
-     object_array=fetch(content,list,hash(parent_node_id,$node_id,depth,1,offset,$view_parameters.offset,limit,$page_limit,sort_by,$main_node.sort_array))
      bookmark_list=fetch('content','bookmarks',array())
      recent_list=fetch('content','recent',array())
 
@@ -95,46 +94,49 @@
             {$main_node.object.section_id}
             </td>
         </tr>
-        {section name=Object loop=$object_array sequence=array(bgdark,bglight)}
-        <tr class="{$Object:sequence}">
-            <td>
-            {if and( or( $browse.permission|not,
-                                   cond( is_set( $browse.permission.contentclass_id ),
-                                         fetch( content, access,
-                                                hash( access, $browse.permission.access,
-                                                      contentobject, $:item,
-                                                      contentclass_id, $browse.permission.contentclass_id ) ),
-                                         fetch( content, access,
-                                                hash( access, $browse.permission.access,
-                                                      contentobject, $:item ) ) ) ),
-                               $browse.ignore_nodes_select|contains($:item.node_id)|not() )}
-              {if is_array($browse.class_array)}
-                {if $browse.class_array|contains($:item.object.content_class.identifier)}
-                  <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
+        {if $browse_list_count}
+            {section name=Object loop=fetch( content, list, hash( parent_node_id, $node_id, depth, 1, offset, $view_parameters.offset, limit, $page_limit, sort_by, $main_node.sort_array ) )
+                     sequence=array(bgdark,bglight)}
+            <tr class="{$Object:sequence}">
+                <td>
+                {if and( or( $browse.permission|not,
+                                    cond( is_set( $browse.permission.contentclass_id ),
+                                            fetch( content, access,
+                                                    hash( access, $browse.permission.access,
+                                                        contentobject, $:item,
+                                                        contentclass_id, $browse.permission.contentclass_id ) ),
+                                            fetch( content, access,
+                                                    hash( access, $browse.permission.access,
+                                                        contentobject, $:item ) ) ) ),
+                                $browse.ignore_nodes_select|contains($:item.node_id)|not() )}
+                {if is_array($browse.class_array)}
+                    {if $browse.class_array|contains($:item.object.content_class.identifier)}
+                    <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
+                    {else}
+                    &nbsp;
+                    {/if}
                 {else}
-                  &nbsp;
+                    <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
                 {/if}
-              {else}
-                <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
-              {/if}
-            {/if}
-            </td>
+                {/if}
+                </td>
 
-            <td>
-                <img src={"1x1.gif"|ezimage} width="{mul(sub($:item.depth,$main_node.depth),$browse_indentation)}" height="1" alt="" border="0" />
+                <td>
+                    <img src={"1x1.gif"|ezimage} width="{mul(sub($:item.depth,$main_node.depth),$browse_indentation)}" height="1" alt="" border="0" />
 
-                 {node_view_gui view=line content_node=$Object:item node_url=cond( $browse.ignore_nodes_click|contains($Object:item.node_id)|not(), concat( 'content/browse/', $Object:item.node_id, '/' ), false() )}
-            </td>
+                    {node_view_gui view=line content_node=$Object:item node_url=cond( $browse.ignore_nodes_click|contains($Object:item.node_id)|not(), concat( 'content/browse/', $Object:item.node_id, '/' ), false() )}
+                </td>
 
-            <td>
-                    {$Object:item.object.content_class.name|wash}
-            </td>
+                <td>
+                        {$Object:item.object.content_class.name|wash}
+                </td>
 
-            <td>
-                    {$:item.object.section_id}
-            </td>
-        </tr>
-        {/section}
+                <td>
+                        {$:item.object.section_id}
+                </td>
+            </tr>
+            {/section}
+        {/if}
         </table>
         {* Browse listing end *}
 

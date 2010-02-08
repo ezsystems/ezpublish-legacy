@@ -3,9 +3,6 @@
          is_editable=true()
 	 is_standalone=true()}
 
-{let page_limit=3
-     list_count=and($with_children,fetch('content','list_count',hash(parent_node_id,$node.node_id)))}
-
 {default content_object=$node.object}
 
 {if $assignment}
@@ -93,5 +90,4 @@
 {/section}
 </form>
 {/default}
-{/let}
 {/default}

@@ -13,7 +13,6 @@
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {def $sort_by = array()
-     $product_list = false()
      $product_list_count = 0
      $product_class_list_valid = and( is_array( $product_class_list ), count( $product_class_list ) )
      $sorting_field_list = hash( 'none', 'None'|i18n( 'design/admin/shop/productsoverview' ),
@@ -28,23 +27,23 @@
         {set sort_by = array( 'attribute', $sorting_order, concat( $product_class.identifier, '/', $price_attribute_identifier ) )}
     {/if}
 
-    {set product_list = fetch( 'content', 'tree', hash( 'parent_node_id', 2,
-                                                         'sort_by', $sort_by,
-                                                         'main_node_only', true(),
-                                                         'offset', $view_parameters.offset,
-                                                         'limit', $limit,
-                                                         'class_filter_type', 'include',
-                                                         'class_filter_array', array( $product_class.id ) ) )
-         product_list_count = fetch( 'content', 'tree_count', hash( 'parent_node_id', 2,
-                                                         'main_node_only', true(),
-                                                         'class_filter_type', 'include',
-                                                         'class_filter_array', array( $product_class.id ) ) ) }
+    {set product_list_count = fetch( 'content', 'tree_count', hash( 'parent_node_id', 2,
+                                                                    'main_node_only', true(),
+                                                                    'class_filter_type', 'include',
+                                                                    'class_filter_array', array( $product_class.id ) ) ) }
 {/if}
 
 {* show list of products *}
-{if and( is_array( $product_list ), count( $product_list ) )}
+{if $product_list_count}
 
-{def $currency_code = $product_list[0].data_map[$price_attribute_identifier].content.currency
+{def $product_list = fetch( 'content', 'tree', hash( 'parent_node_id', 2,
+                                                     'sort_by', $sort_by,
+                                                     'main_node_only', true(),
+                                                     'offset', $view_parameters.offset,
+                                                     'limit', $limit,
+                                                     'class_filter_type', 'include',
+                                                     'class_filter_array', array( $product_class.id ) ) )
+     $currency_code = $product_list[0].data_map[$price_attribute_identifier].content.currency
      $currency = false()
      $locale = false()
      $symbol = false()}

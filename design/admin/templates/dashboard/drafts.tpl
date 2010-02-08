@@ -2,11 +2,9 @@
 
 {cache-block keys=array( $user.contentobject_id, $draft_count )}
 
-{def $drafts = fetch( 'content', 'draft_version_list', hash( 'limit', $block.number_of_items ) )}
-
 <h2>{'Your drafts'|i18n( 'design/admin/dashboard/drafts' )}</h2>
 
-{if $drafts}
+{if $draft_count}
 
 <table class="list" cellpadding="0" cellspacing="0" border="0">
     <tr>
@@ -16,7 +14,7 @@
         <th>{'Modified'|i18n( 'design/admin/dashboard/drafts' )}</th>
         <th class="tight"></th>
     </tr>
-    {foreach $drafts as $draft sequence array( 'bglight', 'bgdark' ) as $style}
+    {foreach fetch( 'content', 'draft_version_list', hash( 'limit', $block.number_of_items ) ) as $draft sequence array( 'bglight', 'bgdark' ) as $style}
         <tr class="{$style}">
             <td>
                 <a href="{concat( '/content/versionview/', $draft.contentobject.id, '/', $draft.version, '/', $draft.initial_language.locale, '/' )|ezurl('no')}" title="{$draft.name|wash()}">
@@ -46,8 +44,6 @@
 {'Currently you do not have any drafts available.'|i18n( 'design/admin/dashboard/drafts' )}
 
 {/if}
-
-{undef $drafts}
 
 {/cache-block}
 

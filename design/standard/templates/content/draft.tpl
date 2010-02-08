@@ -47,9 +47,7 @@ function checkAll()
 <h1>{"My drafts"|i18n("design/standard/content/view")}</h1>
 </div>
 
-{let draft_list=fetch('content','draft_version_list',hash(limit,$page_limit,offset,$view_parameters.offset))}
-
-{section show=$draft_list}
+{if $list_count}
 
 <div class="buttonblock">
 <input type="submit" name="EmptyButton" value="{'Empty Draft'|i18n('design/standard/content/view')}" />
@@ -72,7 +70,8 @@ function checkAll()
     <th>{"Edit"|i18n("design/standard/content/view")}</th>
 </tr>
 
-{section name=Draft loop=$draft_list sequence=array(bglight,bgdark)}
+{section name=Draft loop=fetch( 'content', 'draft_version_list', hash( limit, $page_limit, offset, $view_parameters.offset ) )
+         sequence=array(bglight,bgdark)}
 <tr class="{$Draft:sequence}">
     <td align="left" width="1">
         <input type="checkbox" name="DeleteIDArray[]" value="{$Draft:item.id}" />
@@ -116,12 +115,11 @@ function checkAll()
          view_parameters=$view_parameters
          item_limit=$page_limit}
 
-{section-else}
+{else}
 
 <div class="feedback">
 <h2>{"You have no drafts"|i18n("design/standard/content/view")}</h2>
 </div>
 
-{/section}
-{/let}
+{/if}
 {/let}

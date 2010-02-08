@@ -4,19 +4,17 @@
     <div class="class-gallery">
 
         {let page_limit=1
-             children=fetch_alias( children, hash( parent_node_id, $node.node_id,
-                                                  offset, $view_parameters.offset,
-			        		  limit, $page_limit ) )
              list_count=fetch_alias( children_count, hash( parent_node_id, $node.node_id ) )}
 
-
-        {section show=$children}
-           <div class="content-view-children">
-               {section var=child loop=$children}
-                  {node_view_gui view=galleryslide content_node=$child parent_name=$node.name}
-               {/section}
-           </div>
-        {/section}
+        {if $list_count}
+            <div class="content-view-children">
+                {foreach fetch_alias( children, hash( parent_node_id, $node.node_id,
+                                                      offset, $view_parameters.offset,
+                                                      limit, $page_limit ) ) as $child}
+                    {node_view_gui view=galleryslide content_node=$child parent_name=$node.name}
+                {/foreach}
+            </div>
+        {/if}
 
         {include name=navigator
                  uri='design:navigator/gallery.tpl'
