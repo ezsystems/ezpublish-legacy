@@ -40,7 +40,8 @@ $ViewList["view"] = array(
     "script" => "view.php",
     "default_navigation_part" => 'ezsetupnavigationpart',
     "params" => array( "ClassID" ),
-    'unordered_params' => array( 'language' => 'Language' ) );
+    'unordered_params' => array( 'language' => 'Language',
+                                 'scriptid' => 'ScheduledScriptID' ) );
 $ViewList["copy"] = array(
     "script" => "copy.php",
     'ui_context' => 'edit',

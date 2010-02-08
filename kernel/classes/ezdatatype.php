@@ -666,17 +666,80 @@ class eZDataType
     }
 
 
-    /*!
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
+    /**
+     * @note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     *       the calls within a db transaction; thus within db->begin and db->commit.
+     *
+     * @param eZContentClassAttribute $classAttribute Content class attribute of the datatype
      */
     function storeDefinedClassAttribute( $classAttribute )
     {
     }
 
+    /**
+     * @note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     *       the calls within a db transaction; thus within db->begin and db->commit.
+     * @param eZContentClassAttribute $classAttribute Content class attribute of the datatype
+     */
+    function storeModifiedClassAttribute( $classAttribute )
+    {
+    }
+
+    /**
+     * @note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     *       the calls within a db transaction; thus within db->begin and db->commit.
+     * @param eZContentClassAttribute $classAttribute Content class attribute of the datatype
+     * @param int $version Version of the attribute to be stored
+     */
+    function storeVersionedClassAttribute( $classAttribute, $version )
+    {
+        switch ( $version )
+        {
+            case eZContentClass::VERSION_STATUS_DEFINED:
+                $this->storeDefinedClassAttribute( $classAttribute );
+                break;
+
+            case eZContentClass::VERSION_STATUS_MODIFIED:
+                $this->storeModifiedClassAttribute( $classAttribute );
+                break;
+        }
+    }
+
+    /**
+     * @param eZContentClassAttribute $classAttribute Content class attribute of the datatype
+     */
     function preStoreDefinedClassAttribute( $classAttribute )
     {
         $this->preStoreClassAttribute( $classAttribute, $classAttribute->attribute( 'version' ) );
+    }
+
+    /**
+     * @param eZContentClassAttribute $classAttribute Content class attribute of the datatype
+     */
+    function preStoreModifiedClassAttribute( $classAttribute )
+    {
+        $this->preStoreClassAttribute( $classAttribute, $classAttribute->attribute( 'version' ) );
+    }
+
+    /**
+     * Hook function which is called before an content class attribute is stored
+     *
+     * @see eZContentClassAttribute::storeVersioned()
+     * @param eZContentClassAttribute $classAttribute Content class attribute of the datatype
+     * @param int $version Version of the attribute to be stored
+     */
+    function preStoreVersionedClassAttribute( $classAttribute, $version )
+    {
+        switch ( $version )
+        {
+            case eZContentClass::VERSION_STATUS_DEFINED:
+                $this->preStoreDefinedClassAttribute( $classAttribute );
+                break;
+
+            case eZContentClass::VERSION_STATUS_MODIFIED:
+                $this->preStoreModifiedClassAttribute( $classAttribute );
+                break;
+        }
     }
 
     /*!

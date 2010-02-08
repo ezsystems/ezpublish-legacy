@@ -807,7 +807,7 @@ class eZContentClass extends eZPersistentObject
     function remove( $removeAttributes = false, $version = eZContentClass::VERSION_STATUS_DEFINED )
     {
         // If we are not allowed to remove just return false
-        if ( $this->Version != eZContentClass::VERSION_STATUS_TEMPORARY && !$this->isRemovable() )
+        if ( $this->Version == eZContentClass::VERSION_STATUS_DEFINED && !$this->isRemovable() )
             return false;
 
         if ( is_array( $removeAttributes ) or $removeAttributes )
@@ -1012,51 +1012,71 @@ You will need to change the class of the node by using the swap functionality.' 
         $this->setAttribute( 'creator_id', $userID );
     }
 
-    /*!
-     Stores the current class as a defined version, updates the contentobject_name
-     attribute and recreates the class group entries.
-     \note It will remove any existing temporary or defined classes before storing.
-    */
-    function storeDefined( $attributes )
+    /**
+     * Stores the current class as a defined version, updates the contentobject_name
+     * attribute and recreates the class group entries.
+     *
+     * @note It will remove any existing temporary or defined classes before storing.
+     *
+     * @param array $attributes array of attributes of the content class
+     */
+    public function storeDefined( $attributes )
     {
+        $this->storeVersioned( $attributes, self::VERSION_STATUS_DEFINED );
+    }
+
+    /**
+     * Stores the current class as a modified version, updates the contentobject_name
+     * attribute and recreates the class group entries.
+     *
+     * @note It will remove classes in the previous and specified version before storing.
+     * 
+     * @param array $attributes array of attributes
+     * @param int $version version status
+     * @since Version 4.3
+     */
+    public function storeVersioned( $attributes, $version )
+    {
+        switch ( $version )
+        {
+            case self::VERSION_STATUS_DEFINED:
+                $previousVersion = self::VERSION_STATUS_MODIFIED;
+                break;
+            case self::VERSION_STATUS_MODIFIED:
+                $previousVersion = self::VERSION_STATUS_TEMPORARY;
+                break;
+        }
+
         $db = eZDB::instance();
         $db->begin();
 
-        $this->removeAttributes( false, eZContentClass::VERSION_STATUS_DEFINED );
-        $this->removeAttributes( false, eZContentClass::VERSION_STATUS_TEMPORARY );
+        $this->removeAttributes( false, $version );
+        $this->removeAttributes( false, $previousVersion );
         $this->remove( false );
-        $this->setVersion( eZContentClass::VERSION_STATUS_DEFINED, $attributes );
-        // include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-        $user = eZUser::currentUser();
-        $user_id = $user->attribute( "contentobject_id" );
-        $this->setAttribute( "modifier_id", $user_id );
+        $this->setVersion( $version, $attributes );
+        $this->setAttribute( "modifier_id", eZUser::currentUser()->attribute( "contentobject_id" ) );
         $this->setAttribute( "modified", time() );
         $this->adjustAttributePlacements( $attributes );
         foreach( $attributes as $attribute )
         {
-            $attribute->storeDefined();
+            $attribute->storeVersioned( $version );
         }
 
         // Set contentobject_name to something sensible if it is missing
-        if ( count( $attributes ) > 0 )
+        if ( count( $attributes ) > 0 && trim( $this->attribute( 'contentobject_name' ) ) == '' )
         {
-            $identifier = $attributes[0]->attribute( 'identifier' );
-            $identifier = '<' . $identifier . '>';
-            if ( trim( $this->attribute( 'contentobject_name' ) ) == '' )
-            {
-                $this->setAttribute( 'contentobject_name', $identifier );
-            }
+            $this->setAttribute( 'contentobject_name', '<' . $attributes[0]->attribute( 'identifier' ) . '>' );
         }
 
         // Recreate class member entries
-        eZContentClassClassGroup::removeClassMembers( $this->ID, eZContentClass::VERSION_STATUS_DEFINED );
-        $classgroups = eZContentClassClassGroup::fetchGroupList( $this->ID, eZContentClass::VERSION_STATUS_TEMPORARY );
-        foreach( $classgroups as $classgroup )
+        eZContentClassClassGroup::removeClassMembers( $this->ID, $version );
+        
+        foreach( eZContentClassClassGroup::fetchGroupList( $this->ID, $previousVersion ) as $classgroup )
         {
-            $classgroup->setAttribute( 'contentclass_version', eZContentClass::VERSION_STATUS_DEFINED );
+            $classgroup->setAttribute( 'contentclass_version', $version );
             $classgroup->store();
         }
-        eZContentClassClassGroup::removeClassMembers( $this->ID, eZContentClass::VERSION_STATUS_TEMPORARY );
+        eZContentClassClassGroup::removeClassMembers( $this->ID, $previousVersion );
 
         eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();

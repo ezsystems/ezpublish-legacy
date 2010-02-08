@@ -89,6 +89,7 @@ $tpl->setVariable( 'class', $class );
 $tpl->setVariable( 'attributes', $attributes );
 $tpl->setVariable( 'datatypes', $datatypes );
 $tpl->setVariable( 'validation', $validation );
+$tpl->setVariable( 'scheduled_script_id', (int) $Params['ScheduledScriptID'] );
 
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:class/view.tpl' );

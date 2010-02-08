@@ -64,6 +64,19 @@ if ( $http->hasPostVariable( 'EditLanguage' ) )
 
 if ( is_numeric( $ClassID ) )
 {
+    $class = eZContentClass::fetch( $ClassID, true, eZContentClass::VERSION_STATUS_MODIFIED );
+    if ( is_object( $class ) )
+    {
+        require_once( 'kernel/common/template.php' );
+        $tpl = templateInit();
+        $tpl->setVariable( 'class', $class );
+        $tpl->setVariable( "access_type", $GLOBALS['eZCurrentAccess'] );
+
+        return array( 'content' => $tpl->fetch( 'design:class/edit_locked.tpl' ),
+                      'path' => array( array( 'url' => '/class/grouplist/',
+                                              'text' => ezi18n( 'kernel/class', 'Class list' ) ) ) );
+    }
+
     $class = eZContentClass::fetch( $ClassID, true, eZContentClass::VERSION_STATUS_TEMPORARY );
 
     // If temporary version does not exist fetch the current and add temperory class to corresponding group
@@ -670,8 +683,6 @@ if ( $validationRequired )
 if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
 {
 
-    $id = $class->attribute( 'id' );
-    $oldClassAttributes = $class->fetchAttributes( $id, true, eZContentClass::VERSION_STATUS_DEFINED );
     $newClassAttributes = $class->fetchAttributes( );
 
     // validate class name and identifier; check presence of class attributes
@@ -699,6 +710,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
     // validate class identifier
 
     $db = eZDB::instance();
+    $db->begin();
     $classCount = $db->arrayQuery( "SELECT COUNT(*) AS count FROM ezcontentclass WHERE  identifier='$classIdentifier' AND version=" . eZContentClass::VERSION_STATUS_DEFINED . " AND id <> $classID" );
     if ( $classCount[0]['count'] > 0 )
     {
@@ -706,10 +718,10 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
         $basicClassPropertiesValid = false;
     }
     unset( $classList );
-    unset( $db );
 
     if ( !$basicClassPropertiesValid )
     {
+        $db->commit();
         $canStore = false;
         $validation['processed'] = false;
     }
@@ -717,69 +729,29 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
     {
         if ( !$http->hasSessionVariable( 'ClassCanStoreTicket' ) )
         {
+            $db->commit();
             return $Module->redirectToView( 'view', array( $ClassID ), array( 'Language' => $EditLanguage ) );
         }
 
-        // Class cleanup, update existing class objects according to new changes
-        $db = eZDB::instance();
-        $db->begin();
+        $unorderedParameters = array( 'Language' => $EditLanguage );
 
-        $objects = null;
-        $objectCount = eZContentObject::fetchSameClassListCount( $ClassID );
-        if ( $objectCount > 0 )
+        // Is there existing objects of this content class?
+        if ( eZContentObject::fetchSameClassListCount( $ClassID ) > 0 )
         {
-            // Delete object attributes which have been removed.
-            foreach ( $oldClassAttributes as $oldClassAttribute )
-            {
-                $attributeExist = false;
-                $oldClassAttributeID = $oldClassAttribute->attribute( 'id' );
-                foreach ( $newClassAttributes as $newClassAttribute )
-                {
-                    $newClassAttributeID = $newClassAttribute->attribute( 'id' );
-                    if ( $oldClassAttributeID == $newClassAttributeID )
-                        $attributeExist = true;
-                }
-                if ( !$attributeExist )
-                {
-                    $objectAttributes = eZContentObjectAttribute::fetchSameClassAttributeIDList( $oldClassAttributeID );
-                    foreach ( $objectAttributes as $objectAttribute )
-                    {
-                        $objectAttributeID = $objectAttribute->attribute( 'id' );
-                        $objectAttribute->removeThis( $objectAttributeID );
-                    }
-                }
-            }
-            $class->storeDefined( $attributes );
-
-            // Add object attributes which have been added.
-            foreach ( $attributes as $newClassAttribute )
-            {
-                $attributeExist = false;
-                $newClassAttributeID = $newClassAttribute->attribute( 'id' );
-                foreach ( $oldClassAttributes as $oldClassAttribute )
-                {
-                    $oldClassAttributeID = $oldClassAttribute->attribute( 'id' );
-                    if ( $oldClassAttributeID == $newClassAttributeID )
-                    {
-                        $attributeExist = true;
-                        break;
-                    }
-                }
-                if ( !$attributeExist )
-                {
-                    $newClassAttribute->initializeObjectAttributes( $objects );
-                }
-            }
+            eZExtension::getHandlerClass( new ezpExtensionOptions( array( 'iniFile' => 'site.ini',
+                                                                          'iniSection'   => 'ContentSettings',
+                                                                          'iniVariable'  => 'ContentClassEditHandler' ) ) )
+                    ->store( $class, $attributes, $unorderedParameters );
         }
         else
         {
-            $class->storeDefined( $attributes );
+            $unorderedParameters['ScheduledScriptID'] = 0;
+            $class->storeVersioned( $attributes, eZContentClass::VERSION_STATUS_DEFINED );
         }
 
         $db->commit();
-
         $http->removeSessionVariable( 'ClassCanStoreTicket' );
-        return $Module->redirectToView( 'view', array( $ClassID ), array( 'Language' => $EditLanguage ) );
+        return $Module->redirectToView( 'view', array( $ClassID ), $unorderedParameters );
     }
 }
 

@@ -306,11 +306,30 @@ class eZContentClassAttribute extends eZPersistentObject
         return $stored;
     }
 
-    /*!
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
+    /**
+     * Store the content class in the version status "defined".
+     *
+     * @note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     *       the calls within a db transaction; thus within db->begin and db->commit.
+     *
+     * @return null|false false if the operation failed
      */
     function storeDefined()
+    {
+        return $this->storeVersioned( eZContentClass::VERSION_STATUS_DEFINED );
+    }
+
+    /**
+     * Store the content class in the specified version status.
+     * 
+     * @note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     *       the calls within a db transaction; thus within db->begin and db->commit.
+     *
+     * @param int $version version status
+     * @since Version 4.3
+     * @return null|false false if the operation failed
+     */
+    function storeVersioned( $version )
     {
         $dataType = $this->dataType();
         if ( !$dataType )
@@ -322,20 +341,18 @@ class eZContentClassAttribute extends eZPersistentObject
 
         $db = eZDB::instance();
         $db->begin();
-        $dataType->preStoreDefinedClassAttribute( $this );
+        $dataType->preStoreVersionedClassAttribute( $this, $version );
 
         $this->setAttribute( 'serialized_name_list', $this->NameList->serializeNames() );
         $this->setAttribute( 'serialized_description_list', $this->DescriptionList->serializeNames() );
         $this->setAttribute( 'serialized_data_text', $this->DataTextI18nList->serializeNames() );
 
-        $stored = eZPersistentObject::store();
+        eZPersistentObject::store();
 
         // store the content data for this attribute
         $info = $dataType->attribute( "information" );
-        $dataType->storeDefinedClassAttribute( $this );
+        $dataType->storeVersionedClassAttribute( $this, $version );
         $db->commit();
-
-        return $stored;
     }
 
     /*!

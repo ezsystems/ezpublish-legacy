@@ -13,6 +13,15 @@
 {/section}
 {/section}
 
+{if $scheduled_script_id|gt(0)}
+    <div class="message-warning">
+        <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Class storing deferred'|i18n( 'design/admin/class/view' )}</h2>
+        <p>
+            {'The storing of the class has been deferred because existing objects need to be updated. The process has been scheduled to run in the background and will be started automatically. Please do not edit the class again until the process has finished. You can monitor the progress of the background process here:'|i18n( 'design/admin/class/view' )}<br />
+            <b><a href={concat('scriptmonitor/view/',$scheduled_script_id)|ezurl}>{'Background process monitor'|i18n( 'design/admin/class/view' )}</a></b>
+        </p>
+    </div>
+{/if}
 
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
