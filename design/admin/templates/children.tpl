@@ -14,7 +14,12 @@
      can_create=false()
      can_copy=false()
      children_count=fetch( content, list_count, hash( parent_node_id, $node.node_id,
-                                                      objectname_filter, $view_parameters.namefilter ) )}
+                                                      objectname_filter, $view_parameters.namefilter ) )
+     children=fetch( content, list, hash( parent_node_id, $node.node_id,
+                                          sort_by, $node.sort_array,
+                                          limit, $number_of_items,
+                                          offset, $view_parameters.offset,
+                                          objectname_filter, $view_parameters.namefilter ) ) }
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
@@ -27,7 +32,7 @@
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {* If there are children: show list and buttons that belong to the list. *}
-{if $children_count}
+{section show=$children}
 
 {* Items per page and view mode selector. *}
 <div class="context-toolbar">
@@ -91,11 +96,7 @@
 
     {* Check if the current user is allowed to *}
     {* edit or delete any of the children.     *}
-    {section var=Children loop=fetch( content, list, hash( parent_node_id, $node.node_id,
-                                                           sort_by, $node.sort_array,
-                                                           limit, $number_of_items,
-                                                           offset, $view_parameters.offset,
-                                                           objectname_filter, $view_parameters.namefilter ) )}
+    {section var=Children loop=$children}
         {if $Children.item.can_remove}
             {set can_remove=true()}
         {/if}
@@ -128,13 +129,13 @@
 {/switch}
 
 {* Else: there are no children. *}
-{else}
+{section-else}
 
 <div class="block">
     <p>{'The current item does not contain any sub items.'|i18n( 'design/admin/node/view/full' )}</p>
 </div>
 
-{/if}
+{/section}
 
 <div class="context-toolbar">
 {include name=navigator
