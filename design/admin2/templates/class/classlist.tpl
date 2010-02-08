@@ -16,12 +16,12 @@
 <div class="context-attributes">
 
 <div class="block">
-<label>{'ID'|i18n( 'design/admin/class/classlist' )}:</label>
+<h6>{'ID'|i18n( 'design/admin/class/classlist' )}:</h6>
 {$group.id}
 </div>
 
 <div class="block">
-<label>{'Name'|i18n( 'design/admin/class/classlist' )}:</label>
+<h6>{'Name'|i18n( 'design/admin/class/classlist' )}:</h6>
 {$group.name|wash}
 </div>
 

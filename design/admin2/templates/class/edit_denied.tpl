@@ -30,17 +30,17 @@
 <div class="context-attributes">
 
 <div class="block">
-<label>{'Class'|i18n( 'design/admin/class/edit_denied' )}:</label>
+<h6>{'Class'|i18n( 'design/admin/class/edit_denied' )}:</h6>
 {$class.name|wash}
 </div>
 
 <div class="block">
-<label>{'Current modifier'|i18n( 'design/admin/class/edit_denied' )}:</label>
+<h6>{'Current modifier'|i18n( 'design/admin/class/edit_denied' )}:</h6>
 <a href={$class.modifier.contentobject.main_node.url_alias|ezurl}>{$class.modifier.contentobject.name|wash}</a>
 </div>
 
 <div class="block">
-<label>{'Unlock time'|i18n( 'design/admin/class/edit_denied' )}:</label>
+<h6>{'Unlock time'|i18n( 'design/admin/class/edit_denied' )}:</h6>
 {sum( $class.modified, $lock_timeout )|l10n( shortdatetime )}
 </div>
 

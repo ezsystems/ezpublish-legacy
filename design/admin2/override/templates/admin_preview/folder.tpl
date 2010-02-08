@@ -20,7 +20,7 @@
 
         {* Children. *}
         <div class="content-control">
-            <label>{'Show children'|i18n( 'design/admin/preview/folder' )}:</label>
+            <h6>{'Show children'|i18n( 'design/admin/preview/folder' )}:</h6>
             {if $node.data_map.show_children.content}
                 <p>{'Yes'|i18n( 'design/admin/preview/folder' )}</p>
                 {else}

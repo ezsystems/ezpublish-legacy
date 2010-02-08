@@ -15,13 +15,13 @@
 
 {* Object ID *}
 <p>
-<label>{'ID'|i18n( 'design/admin/content/view/versionview' )}:</label>
+<h6>{'ID'|i18n( 'design/admin/content/view/versionview' )}:</h6>
 {$object.id}
 </p>
 
 {* Created *}
 <p>
-<label>{'Created'|i18n( 'design/admin/content/view/versionview' )}:</label>
+<h6>{'Created'|i18n( 'design/admin/content/view/versionview' )}:</h6>
 {if $object.published}
 {$object.published|l10n( shortdatetime )}<br />
 {$object.current.creator.name|wash}
@@ -32,7 +32,7 @@
 
 {* Modified *}
 <p>
-<label>{'Modified'|i18n( 'design/admin/content/view/versionview' )}:</label>
+<h6>{'Modified'|i18n( 'design/admin/content/view/versionview' )}:</h6>
 {if $object.modified}
 {$object.modified|l10n( shortdatetime )}<br />
 {fetch( content, object, hash( object_id, $object.content_class.modifier_id ) ).name|wash}
@@ -43,7 +43,7 @@
 
 {* Published version *}
 <p>
-<label>{'Published version'|i18n( 'design/admin/content/view/versionview' )}:</label>
+<h6>{'Published version'|i18n( 'design/admin/content/view/versionview' )}:</h6>
 {if $object.status|eq( 1 )} {* status equal to 1 means it is published *}
 {$object.main_node.contentobject_version}
 {else}
@@ -79,27 +79,27 @@
 
 {* Created *}
 <p>
-<label>{'Created'|i18n( 'design/admin/content/view/versionview' )}:</label>
+<h6>{'Created'|i18n( 'design/admin/content/view/versionview' )}:</h6>
 {$version.created|l10n( shortdatetime )}<br />
 {$version.creator.name|wash}
 </p>
 
 {* Last modified *}
 <p>
-<label>{'Last modified'|i18n( 'design/admin/content/view/versionview' )}:</label>
+<h6>{'Last modified'|i18n( 'design/admin/content/view/versionview' )}:</h6>
 {$version.modified|l10n( shortdatetime )}<br />
 {$version.creator.name|wash}
 </p>
 
 {* Status *}
 <p>
-<label>{'Status'|i18n( 'design/admin/content/view/versionview' )}:</label>
+<h6>{'Status'|i18n( 'design/admin/content/view/versionview' )}:</h6>
 {$version.status|choose( 'Draft'|i18n( 'design/admin/content/view/versionview' ), 'Published / current'|i18n( 'design/admin/content/view/versionview' ), 'Pending'|i18n( 'design/admin/content/view/versionview' ), 'Archived'|i18n( 'design/admin/content/view/versionview' ), 'Rejected'|i18n( 'design/admin/content/view/versionview' ) )}
 </p>
 
 {* Version *}
 <p>
-<label>{'Version'|i18n( 'design/admin/content/view/versionview' )}:</label>
+<h6>{'Version'|i18n( 'design/admin/content/view/versionview' )}:</h6>
 {$version.version}
 </p>
 
@@ -115,7 +115,7 @@
 
 {* Translation *}
 {if fetch( content, translation_list )|count|gt( 1 )}
-    <label>{'Translation'|i18n( 'design/admin/content/view/versionview' )}:</label>
+    <h6>{'Translation'|i18n( 'design/admin/content/view/versionview' )}:</h6>
     <div class="block">
     {if $translation_list|count|gt( 1 )}
         {def $locale_object = false}
@@ -143,7 +143,7 @@
 
 {* Location *}
 {section show=$version.node_assignments|count|gt( 0 )}
-<label>{'Location'|i18n( 'design/admin/content/view/versionview' )}:</label>
+<h6>{'Location'|i18n( 'design/admin/content/view/versionview' )}:</h6>
 <div class="block">
 {section show=$version.node_assignments|count|gt( 1 )}
 {section var=Locations loop=$version.node_assignments}
@@ -160,7 +160,7 @@
 {/section}
 
 {* Design *}
-<label>{'Siteaccess'|i18n( 'design/admin/content/view/versionview' )}:</label>
+<h6>{'Siteaccess'|i18n( 'design/admin/content/view/versionview' )}:</h6>
 <div class="block">
 {if $site_access_locale_map|count|gt( 1 )}
     {foreach $site_access_locale_map as $related_site_access => $related_site_access_locale}

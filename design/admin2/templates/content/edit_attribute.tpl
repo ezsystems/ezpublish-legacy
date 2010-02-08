@@ -11,7 +11,7 @@
 {foreach $content_attributes_grouped as $attribute_identifier => $attribute}
 {def $contentclass_attribute = $attribute.contentclass_attribute}
 <div class="block ezcca-edit-datatype-{$attribute.data_type_string} ezcca-edit-{$attribute_identifier}">
-{* Show view GUI if we can't edit, oterwise: show edit GUI. *}
+{* Show view GUI if we can't edit, otherwise: show edit GUI. *}
 {if and( eq( $attribute.can_translate, 0 ), ne( $object.initial_language_code, $attribute.language_code ) )}
     <label>{first_set( $contentclass_attribute.nameList[$content_language], $contentclass_attribute.name )|wash}
         {if $attribute.can_translate|not} <span class="nontranslatable">({'not translatable'|i18n( 'design/admin/content/edit_attribute' )})</span>{/if}:

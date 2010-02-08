@@ -71,8 +71,8 @@
 {/switch}
 
 {if eq($collab_item.data_int3,0)}
-    <label>{"Comment"|i18n('design/admin/collaboration/handler/view/full/ezapprove')}:</label>
-    <textarea class="box" name="Collaboration_ApproveComment" cols="40" rows="5"></textarea>
+    <label for="Collaboration_ApproveComment">{"Comment"|i18n('design/admin/collaboration/handler/view/full/ezapprove')}:</label>
+    <textarea class="box" id="Collaboration_ApproveComment" name="Collaboration_ApproveComment" cols="40" rows="5"></textarea>
 {/if}
 </div>
 
@@ -161,7 +161,7 @@
 
 <div class="block">
 {section name=Role loop=$participant_list}
-<label>{$:item.name|wash}:</label>
+<h6>{$:item.name|wash}:</h6>
 {section name=Participant loop=$:item.items}
 <p>{collaboration_participation_view view=text_linked collaboration_participant=$:item}</p>
 {/section}

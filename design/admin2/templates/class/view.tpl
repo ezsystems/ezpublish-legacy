@@ -37,34 +37,34 @@
 <div class="block">
 <div class="left">
     <div class="block">
-        <label>{'Name'|i18n( 'design/admin/class/view' )}:</label>
+        <h6>{'Name'|i18n( 'design/admin/class/view' )}:</h6>
         {$class.nameList[$language_code]|wash}
     </div>
 
     <div class="block">
-        <label>{'Identifier'|i18n( 'design/admin/class/view' )}:</label>
+        <h6>{'Identifier'|i18n( 'design/admin/class/view' )}:</h6>
         {$class.identifier|wash}
     </div>
 
     <div class="block">
-        <label>{'Description'|i18n( 'design/admin/class/view' )}:</label>
+        <h6>{'Description'|i18n( 'design/admin/class/view' )}:</h6>
         {$class.descriptionList[$language_code]|wash}
     </div>
 
     <div class="block">
-        <label>{'Object name pattern'|i18n( 'design/admin/class/view' )}:</label>
+        <h6>{'Object name pattern'|i18n( 'design/admin/class/view' )}:</h6>
         {$class.contentobject_name|wash}
     </div>
 
     <div class="block">
-        <label>{'URL alias name pattern'|i18n( 'design/admin/class/view' )}:</label>
+        <h6>{'URL alias name pattern'|i18n( 'design/admin/class/view' )}:</h6>
         {$class.url_alias_name|wash}
     </div>
 </div>
 
 <div class="right">
     <div class="block">
-        <label>{'Container'|i18n( 'design/admin/class/view' )}:</label>
+        <h6>{'Container'|i18n( 'design/admin/class/view' )}:</h6>
         {if $class.is_container|eq(1)}
             {'Yes'|i18n( 'design/admin/class/view' )}
         {else}
@@ -73,7 +73,7 @@
     </div>
 
     <div class="block">
-        <label>{'Default object availability'|i18n( 'design/admin/class/view' )}:</label>
+        <h6>{'Default object availability'|i18n( 'design/admin/class/view' )}:</h6>
         {if $class.always_available|eq(0)}
             {'Not available'|i18n( 'design/admin/class/view' )}
         {else}
@@ -83,13 +83,13 @@
 
     {*** Class Default Sorting ***}
     <div class="block">
-    <label>{'Default sorting of children'|i18n( 'design/admin/class/view' )}:</label>
+    <h6>{'Default sorting of children'|i18n( 'design/admin/class/view' )}:</h6>
     {def $sort_fields=fetch( content, available_sort_fields )}
     {if is_set( $sort_fields[$class.sort_field] )} {$sort_fields[$class.sort_field]} {else}{$class.sort_field}{/if} / {if eq($class.sort_order, 0)}{'Descending'|i18n( 'design/admin/class/edit' )}{else}{'Ascending'|i18n( 'design/admin/class/edit' )}{/if}
     {undef $sort_fields}</div>
 
     <div class="block">
-        <label>{'Object count'|i18n( 'design/admin/class/view' )}:</label>
+        <h6>{'Object count'|i18n( 'design/admin/class/view' )}:</h6>
         {$class.object_count}
     </div>
 </div>
@@ -114,21 +114,21 @@
         <input type="hidden" name="ContentAttribute_position[]" value="{$Attributes.item.placement}" />
 
         <div class="block">
-            <label>{'Name'|i18n( 'design/admin/class/view' )}:</label>
+            <h6>{'Name'|i18n( 'design/admin/class/view' )}:</h6>
             <p>{$Attributes.item.nameList[$language_code]|wash}</p>
         </div>
     </td>
 
     <td class="{$Attributes.sequence}">
         <div class="block">
-            <label>{'Identifier'|i18n( 'design/admin/class/view' )}:</label>
+            <h6>{'Identifier'|i18n( 'design/admin/class/view' )}:</h6>
             <p>{$Attributes.item.identifier|wash}</p>
         </div>
     </td>
 
     <td class="{$Attributes.sequence}">
         <div class="block">
-            <label>{'Category'|i18n( 'design/admin/class/view' )}:</label>
+            <h6>{'Category'|i18n( 'design/admin/class/view' )}:</h6>
 	        {if $Attributes.item.category|not}
 	            <p>{'Default'|i18n( 'design/admin/class/edit' )} ({$attribute_categorys[ $attribute_default_category ]|wash})</p>
 	        {elseif is_set( $attribute_categorys[ $Attributes.item.category ] )}
@@ -141,7 +141,7 @@
 
     <td class="{$Attributes.sequence}">
         <div class="block">
-            <label>{'Description'|i18n( 'design/admin/class/view' )}:</label>
+            <h6>{'Description'|i18n( 'design/admin/class/view' )}:</h6>
             <p>{$Attributes.item.descriptionList[$language_code]|wash}</p>
         </div>
     </td>
@@ -149,7 +149,7 @@
     <td rowspan="2">
 
 		<div class="block">
-		  <label>{'Flags'|i18n( 'design/admin/class/view' )}:</label>
+		  <h6>{'Flags'|i18n( 'design/admin/class/view' )}:</h6>
 		</div>
 
         <div class="block">

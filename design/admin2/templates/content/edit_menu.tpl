@@ -10,13 +10,13 @@
 
 {* Object ID *}
 <p>
-<label>{'ID'|i18n( 'design/admin/content/edit' )}:</label>
+<h6>{'ID'|i18n( 'design/admin/content/edit' )}:</h6>
 {$object.id}
 </p>
 
 {* Created *}
 <p>
-<label>{'Created'|i18n( 'design/admin/content/edit' )}:</label>
+<h6>{'Created'|i18n( 'design/admin/content/edit' )}:</h6>
 {if $object.published}
 {$object.published|l10n( shortdatetime )}<br />
 {$object.owner.name|wash}
@@ -27,7 +27,7 @@
 
 {* Modified *}
 <p>
-<label>{'Modified'|i18n( 'design/admin/content/edit' )}:</label>
+<h6>{'Modified'|i18n( 'design/admin/content/edit' )}:</h6>
 {if $object.modified}
 {$object.modified|l10n( shortdatetime )}<br />
 {$object.current.creator.name|wash}
@@ -38,7 +38,7 @@
 
 {* Published version *}
 <p>
-<label>{'Published version'|i18n( 'design/admin/content/edit' )}:</label>
+<h6>{'Published version'|i18n( 'design/admin/content/edit' )}:</h6>
 {if $object.published}
 {$object.current.version}
 {else}
@@ -71,21 +71,21 @@
 
 {* Created *}
 <p>
-<label>{'Created'|i18n( 'design/admin/content/edit' )}:</label>
+<h6>{'Created'|i18n( 'design/admin/content/edit' )}:</h6>
 {$content_version.created|l10n( shortdatetime )}<br />
 {$content_version.creator.name|wash}
 </p>
 
 {* Modified *}
 <p>
-<label>{'Modified'|i18n( 'design/admin/content/edit' )}:</label>
+<h6>{'Modified'|i18n( 'design/admin/content/edit' )}:</h6>
 {$content_version.modified|l10n( shortdatetime )}<br />
 {$content_version.creator.name|wash}
 </p>
 
 {* Version *}
 <p>
-<label>{'Version'|i18n( 'design/admin/content/edit' )}:</label>
+<h6>{'Version'|i18n( 'design/admin/content/edit' )}:</h6>
 {$edit_version}
 </p>
 

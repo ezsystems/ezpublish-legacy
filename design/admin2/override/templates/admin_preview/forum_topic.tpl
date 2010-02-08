@@ -10,7 +10,7 @@
     </div>
 
     <div class="content-control">
-        <label>Sticky:</label>
+        <h6>Sticky:</h6>
         {attribute_view_gui attribute=$node.data_map.sticky}
         </div>
     </div>

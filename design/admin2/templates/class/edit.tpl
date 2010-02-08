@@ -158,7 +158,7 @@
     </div>
 
 <div class="block">
-<label>{'Class attributes'|i18n( 'design/admin/class/edit' )}:</label>
+<h3>{'Class attributes'|i18n( 'design/admin/class/edit' )}:</h3>
 </div>
 {if $attributes}
 

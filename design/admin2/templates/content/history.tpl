@@ -12,13 +12,13 @@
 
 {* Object ID *}
 <p>
-<label>{'ID'|i18n( 'design/admin/content/history' )}:</label>
+<h6>{'ID'|i18n( 'design/admin/content/history' )}:</h6>
 {$object.id}
 </p>
 
 {* Created *}
 <p>
-<label>{'Created'|i18n( 'design/admin/content/history' )}:</label>
+<h6>{'Created'|i18n( 'design/admin/content/history' )}:</h6>
 {if $object.published}
 {$object.published|l10n( shortdatetime )}<br />
 {$object.current.creator.name|wash}
@@ -29,7 +29,7 @@
 
 {* Modified *}
 <p>
-<label>{'Modified'|i18n( 'design/admin/content/history' )}:</label>
+<h6>{'Modified'|i18n( 'design/admin/content/history' )}:</h6>
 {if $object.modified}
 {$object.modified|l10n( shortdatetime )}<br />
 {fetch( content, object, hash( object_id, $object.content_class.modifier_id ) ).name|wash}
@@ -40,7 +40,7 @@
 
 {* Published version*}
 <p>
-<label>{'Published version'|i18n( 'design/admin/content/history' )}:</label>
+<h6>{'Published version'|i18n( 'design/admin/content/history' )}:</h6>
 {if $object.published}
 {$object.current_version}
 {else}

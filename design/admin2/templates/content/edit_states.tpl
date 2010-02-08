@@ -11,8 +11,8 @@
 
 {foreach $object.allowed_assign_state_list as $allowed_assign_state_info}
 <div class="block">
-    <label>{$allowed_assign_state_info.group.current_translation.name|wash}</label>
-    <select name="SelectedStateIDList[]" {if $allowed_assign_state_info.states|count|eq(1)}disabled="disabled"{/if}>
+    <label for="SelectedStateIDList">{$allowed_assign_state_info.group.current_translation.name|wash}</label>
+    <select id="SelectedStateIDList" name="SelectedStateIDList[]" {if $allowed_assign_state_info.states|count|eq(1)}disabled="disabled"{/if}>
     {foreach $allowed_assign_state_info.states as $state}
         <option value="{$state.id}" {if $object.state_id_array|contains($state.id)}selected="selected"{/if}>{$state.current_translation.name|wash}</option>
     {/foreach}

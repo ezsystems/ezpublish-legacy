@@ -32,7 +32,7 @@
     {if $Attributes.item.contentclass_attribute.is_information_collector}
 
         <div class="block">
-        <label>{$Attributes.item.contentclass_attribute.name|wash}:</label>
+        <h6>{$Attributes.item.contentclass_attribute.name|wash}:</h6>
         {attribute_result_gui view=count attribute=$Attributes.item}
         </div>
 
@@ -40,7 +40,7 @@
 
         {if $attribute_hide_list|contains( $Attributes.item.contentclass_attribute.identifier )|not}
             <div class="block">
-            <label>{$Attributes.item.contentclass_attribute.name|wash}:</label>
+            <h6>{$Attributes.item.contentclass_attribute.name|wash}:</h6>
             {attribute_view_gui attribute=$Attributes.item}
             </div>
         {/if}

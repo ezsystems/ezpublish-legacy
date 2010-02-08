@@ -25,7 +25,7 @@
 
     {section var=CollectedAttributes loop=$collection.attributes}
         <div class="block">
-            <label>{$CollectedAttributes.item.contentclass_attribute_name|wash}:</label>
+            <h6>{$CollectedAttributes.item.contentclass_attribute_name|wash}:</h6>
             {attribute_result_gui view=info attribute=$CollectedAttributes.item}
         </div>
     {/section}
