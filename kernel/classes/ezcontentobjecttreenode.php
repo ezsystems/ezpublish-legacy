@@ -1598,7 +1598,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                 $groupPermTempTable = $db->generateUniqueTempTableName( 'ezgroup_perm_tmp_%' );
                                 $sqlPermissionTempTables[] = $groupPermTempTable;
 
-                                $db->createTempTable( "CREATE TEMPORARY TABLE $groupPermTempTable ( user_id int )" );
+                                $db->createTempTable( "CREATE TEMPORARY TABLE $groupPermTempTable ( user_id int NOT NULL PRIMARY KEY )" );
                                 $db->query( "INSERT INTO $groupPermTempTable
                                                     SELECT DISTINCT contentobject_id AS user_id
                                                     FROM     ezcontentobject_tree
