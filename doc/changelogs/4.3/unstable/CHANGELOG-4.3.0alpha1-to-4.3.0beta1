@@ -1,7 +1,6 @@
-Changes from 4.2.0 to 4.3.0alpha1
+Changes from 4.3.0alpha1 to 4.3.0beta1
 
 *Kernel:
-- Implemented enhancement #16124: eZContentObjectTreeNode::createPermissionCheckingSQL() should define an index in temporary table
 
 *Design:
 

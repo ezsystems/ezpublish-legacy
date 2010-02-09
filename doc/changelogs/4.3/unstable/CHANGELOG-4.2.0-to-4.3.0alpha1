@@ -48,6 +48,7 @@ Changes from 4.2.0 to 4.3.0alpha1
 - Implemented enhancement #14998: Split popupmenu/popup_menu.tpl into smaller templates
 - Implemented enhancement #15741: Optimize templates to not call count and fetch without checking count value first
 - Implemented enhancement #16133: Putting the logic of content objects modifications in a handler when content class get modified
+- Implemented enhancement #16124: eZContentObjectTreeNode::createPermissionCheckingSQL() should define an index in temporary table
 
 *Design:
 - Implemented enhancement #15714: Add a link to object history from node view
