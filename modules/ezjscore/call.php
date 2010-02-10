@@ -34,6 +34,7 @@
 $http           = eZHTTPTool::instance();
 $callType       = isset($Params['type']) ? $Params['type'] : 'call';
 $callFnList     = array();
+$debugOutput    = isset($Params['debug']) ? $Params['debug'] : false;
 
 // prefere post parameters, as they are more encoding safe
 if ( $http->hasPostVariable( 'ezjscServer_call_seperator' ) )
@@ -147,6 +148,21 @@ function multipleezjscServerCalls( $calls, $contentType = 'json' )
         $r[] = ezjscAjaxContent::autoEncode( $response, $contentType );
     }
     return $r;
+}
+
+
+
+if ( $debugOutput && ( $contentType === 'xml' || $contentType === 'xhtml' ) )
+{
+    echo "<!--\r\n";
+    eZDebug::printReport( false, false );
+    echo "\r\n-->";
+}
+else if ( $debugOutput && $contentType === 'json' )
+{
+    echo "/*\r\n";
+    eZDebug::printReport( false, false );
+    echo "\r\n*/";
 }
 
 eZDB::checkTransactionCounter();

@@ -3,6 +3,7 @@
 - Fixed #016129: hasAccessToLimitation ezjscore 1.0.1 function does not properly check multiple policies
   BC: has_access_to_limitation now has a fourth parameter 'debug', that needs to be true to get debug
       on unmatched policy's
+- Added a fourth parameter on ezjscore/call to be able to enable debug in response
 
 
 

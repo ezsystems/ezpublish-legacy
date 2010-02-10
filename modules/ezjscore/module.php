@@ -39,7 +39,7 @@ $ViewList['hello'] = array(
 $ViewList['call'] = array(
     'functions' => array( 'call' ),
     'script' => 'call.php',
-    'params' => array( 'function_arguments', 'type', 'interval' )
+    'params' => array( 'function_arguments', 'type', 'interval', 'debug' )
     );
 
 $ViewList['run'] = array(
