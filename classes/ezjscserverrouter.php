@@ -156,21 +156,11 @@ class ezjscServerRouter
      */
     public static function hasAccess( $requiredFunctions, $functionName = null )
     {
-    	$currentUser = eZUser::currentUser();
-    	$accessResult = $currentUser->hasAccessTo( 'ezjscore', 'call' );
-        if ( $accessResult[ 'accessWord' ] === 'yes'  )
-        {
-            return true;
-        }
-        else if ( $accessResult[ 'accessWord' ] === 'no'  )
-        {
-            return false;
-        }
-
-        // Rest is $accessResult[ 'accessWord' ] === 'limited'
+        // Build limitation array
         $functionName = $functionName !== null ? '_' . $functionName : '';
     	$ezjscoreIni = eZINI::instance( 'ezjscore.ini' );
         $ezjscoreFunctionList = $ezjscoreIni->variable( 'ezjscServer', 'FunctionList' );
+        $limitationList = array();
         foreach( $requiredFunctions as $requiredFunction )
         {
         	$permissionName = $requiredFunction . $functionName;
@@ -179,18 +169,9 @@ class ezjscServerRouter
         		eZDebug::writeWarning( "'$permissionName' is not defined in ezjscore.ini[ezjscServer]FunctionList", __METHOD__ );
         		return false;
         	}
-
-             // Something with $accessResult
-             foreach ( $accessResult['policies'] as $pkey => $limitationArray  )
-             {
-                if ( isset( $limitationArray['FunctionList'] ) )
-                {
-                    if ( !in_array( $permissionName, $limitationArray['FunctionList'] ) )
-                        return false;
-                }
-             }
+            $limitationList[] = $permissionName;
         }
-        return true;
+        return ezjscAccessTemplateFunctions::hasAccessToLimitation( 'ezjscore', 'call', array( 'FunctionList', $limitationList ) );
     }
 
     /**
