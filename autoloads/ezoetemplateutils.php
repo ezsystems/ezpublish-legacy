@@ -51,12 +51,14 @@ class eZOETemplateUtils
 
     function namedParameterList()
     {
-        return array( 'ezoe_ini_section' => array( 'section' => array( 'type' => 'string',
-                                              'required' => true,
-                                              'default' => '' ),
-                                                'file' => array( 'type' => 'string',
-                                              'required' => false,
-                                              'default' => 'site.ini' )
+        return array( 'ezoe_ini_section' => array( 'section' => array( 
+                                                       'type' => 'string',
+                                                       'required' => true,
+                                                       'default' => '' ),
+                                                   'file' => array( 
+                                                       'type' => 'string',
+                                                       'required' => false,
+                                                       'default' => 'site.ini' )
                                            ));
     }
 
@@ -64,7 +66,6 @@ class eZOETemplateUtils
     {
         $ret = '';
 
-        
         switch ( $operatorName )
         {
             case 'ezoe_ini_section':
