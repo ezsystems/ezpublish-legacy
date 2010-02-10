@@ -127,7 +127,7 @@ class eZNotificationEventType
         {
             $notificationINI = eZINI::instance( 'notification.ini' );
             $eventTypes = $notificationINI->variable( 'NotificationEventTypeSettings', 'AvailableEventTypes' );
-            $allowedTypes = array_unique( $eventTypes, SORT_STRING );
+            $allowedTypes = array_unique( $eventTypes );
         }
         return $allowedTypes;
     }

@@ -97,7 +97,7 @@ $siteINI->load();
 $selectedExtensionArray       = $siteINI->variable( 'ExtensionSettings', "ActiveExtensions" );
 $selectedAccessExtensionArray = $siteINI->variable( 'ExtensionSettings', "ActiveAccessExtensions" );
 $selectedExtensions           = array_merge( $selectedExtensionArray, $selectedAccessExtensionArray );
-$selectedExtensions           = array_unique( $selectedExtensions, SORT_STRING );
+$selectedExtensions           = array_unique( $selectedExtensions );
 
 if ( $module->isCurrentAction( 'GenerateAutoloadArrays' ) )
 {

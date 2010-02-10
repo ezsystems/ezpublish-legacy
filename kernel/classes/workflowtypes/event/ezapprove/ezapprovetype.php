@@ -290,7 +290,7 @@ class eZApproveType extends eZWorkflowEventType
                 }
             }
             $approveUserIDArray = array_merge( $approveUserIDArray, $editors );
-            $approveUserIDArray = array_unique( $approveUserIDArray, SORT_STRING );
+            $approveUserIDArray = array_unique( $approveUserIDArray );
 
             $collaborationID = false;
             $db = eZDb::instance();
@@ -388,7 +388,7 @@ class eZApproveType extends eZWorkflowEventType
         if ( !$http->hasSessionVariable( 'BrowseParameters' ) )
         {
             // check approve-users
-            $approversIDs = array_unique( $this->attributeDecoder( $workflowEvent, 'approve_users' ), SORT_STRING );
+            $approversIDs = array_unique( $this->attributeDecoder( $workflowEvent, 'approve_users' ) );
             if ( is_array( $approversIDs ) and
                  count( $approversIDs ) > 0 )
             {
@@ -400,7 +400,7 @@ class eZApproveType extends eZWorkflowEventType
             if ( $returnState != eZInputValidator::STATE_INVALID )
             {
                 // check approve-groups
-                $userGroupIDList = array_unique( $this->attributeDecoder( $workflowEvent, 'approve_groups' ), SORT_STRING );
+                $userGroupIDList = array_unique( $this->attributeDecoder( $workflowEvent, 'approve_groups' ) );
                 if ( is_array( $userGroupIDList ) and
                      count( $userGroupIDList ) > 0 )
                 {
@@ -425,7 +425,7 @@ class eZApproveType extends eZWorkflowEventType
                 // check excluded-groups
                 if ( $returnState != eZInputValidator::STATE_INVALID )
                 {
-                    $userGroupIDList = array_unique( $this->attributeDecoder( $workflowEvent, 'selected_usergroups' ), SORT_STRING );
+                    $userGroupIDList = array_unique( $this->attributeDecoder( $workflowEvent, 'selected_usergroups' ) );
                     if ( is_array( $userGroupIDList ) and
                          count( $userGroupIDList ) > 0 )
                     {
@@ -561,21 +561,21 @@ class eZApproveType extends eZWorkflowEventType
                                     }
                                     $event->setAttribute( 'data_text3', implode( ',',
                                                                                  array_unique( array_merge( $this->attributeDecoder( $event, 'approve_users' ),
-                                                                                                            $objectIDArray ), SORT_STRING ) ) );
+                                                                                                            $objectIDArray ) ) ) );
                                 } break;
 
                             case 'AddApproveGroups':
                                 {
                                     $event->setAttribute( 'data_text4', implode( ',',
                                                                                  array_unique( array_merge( $this->attributeDecoder( $event, 'approve_groups' ),
-                                                                                                            $objectIDArray ), SORT_STRING ) ) );
+                                                                                                            $objectIDArray ) ) ) );
                                 } break;
 
                             case 'AddExcludeUser':
                                 {
                                     $event->setAttribute( 'data_text2', implode( ',',
                                                                                  array_unique( array_merge( $this->attributeDecoder( $event, 'selected_usergroups' ),
-                                                                                                            $objectIDArray ), SORT_STRING ) ) );
+                                                                                                            $objectIDArray ) ) ) );
                                 } break;
 
                             case 'AddExcludedGroups':

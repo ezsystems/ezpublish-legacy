@@ -92,7 +92,7 @@ class eZKeyword
         if ( !is_array( $keywordString ) )
         {
             $keywordArray = explode( ',', $keywordString );
-            $keywordArray = array_unique( $keywordArray, SORT_STRING );
+            $keywordArray = array_unique ( $keywordArray );
         }
         foreach ( array_keys( $keywordArray ) as $key )
         {
@@ -268,7 +268,7 @@ class eZKeyword
         {
             $this->KeywordArray[] = $wordArray[$wordKey]['keyword'];
         }
-        $this->KeywordArray = array_unique( $this->KeywordArray, SORT_STRING );
+        $this->KeywordArray = array_unique ( $this->KeywordArray );
     }
 
     /*!

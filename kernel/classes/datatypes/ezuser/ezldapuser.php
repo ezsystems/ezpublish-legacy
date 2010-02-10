@@ -715,7 +715,7 @@ class eZLDAPUser extends eZUser
             return false;
         }
         $parentNodeIDs[] = $defaultUserPlacement;
-        $parentNodeIDs = array_unique( $parentNodeIDs, SORT_STRING );
+        $parentNodeIDs = array_unique( $parentNodeIDs );
 
 
         $login      = $userAttributes[ 'login' ];

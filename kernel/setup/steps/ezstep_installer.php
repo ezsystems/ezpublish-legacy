@@ -139,7 +139,7 @@ class eZStepInstaller
             {
                 $commonCharsets[] = eZCharsetInfo::realCharsetCode( $charset );
             }
-            $commonCharsets = array_unique( $commonCharsets, SORT_STRING );
+            $commonCharsets = array_unique( $commonCharsets );
 
             for ( $i = 1; $i < count( $allLanguages ); ++$i )
             {
@@ -150,7 +150,7 @@ class eZStepInstaller
                 {
                     $realCharsets[] = eZCharsetInfo::realCharsetCode( $charset );
                 }
-                $realCharsets = array_unique( $realCharsets, SORT_STRING );
+                $realCharsets = array_unique( $realCharsets );
                 $commonCharsets = array_intersect( $commonCharsets, $realCharsets );
             }
         }
@@ -191,7 +191,7 @@ class eZStepInstaller
             {
                 $commonCharsets[] = eZCharsetInfo::realCharsetCode( $charset );
             }
-            $commonCharsets = array_unique( $commonCharsets, SORT_STRING );
+            $commonCharsets = array_unique( $commonCharsets );
 
             for ( $i = 1; $i < count( $allLanguages ); ++$i )
             {
@@ -202,7 +202,7 @@ class eZStepInstaller
                 {
                     $realCharsets[] = eZCharsetInfo::realCharsetCode( $charset );
                 }
-                $realCharsets = array_unique( $realCharsets, SORT_STRING );
+                $realCharsets = array_unique( $realCharsets );
                 $commonCharsets = array_intersect( $commonCharsets, $realCharsets );
             }
         }
@@ -213,7 +213,7 @@ class eZStepInstaller
             if ( in_array( $primaryLanguage->charset(), $usableCharsets ) )
             {
                 array_unshift( $usableCharsets, $primaryLanguage->charset() );
-                $usableCharsets = array_unique( $usableCharsets, SORT_STRING );
+                $usableCharsets = array_unique( $usableCharsets );
             }
         }
         else

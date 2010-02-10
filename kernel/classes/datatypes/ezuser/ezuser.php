@@ -1927,7 +1927,8 @@ WHERE user_id = '" . $userID . "' AND
                     return array( '*' );
                 }
             }
-            return array_unique( $allowedSectionIDList, SORT_STRING );
+            $allowedSectionIDList = array_unique( $allowedSectionIDList );
+            return $allowedSectionIDList;
         }
         return array();
     }
@@ -2033,7 +2034,8 @@ WHERE user_id = '" . $userID . "' AND
                     return array( '*' );
                 }
             }
-            return array_unique( $allowedSectionIDList, SORT_STRING );
+            $allowedSectionIDList = array_unique( $allowedSectionIDList );
+            return $allowedSectionIDList;
         }
         return array();
     }
@@ -2071,7 +2073,7 @@ WHERE user_id = '" . $userID . "' AND
             {
                 // Now we are trying to fetch classes by collected ids list to return
                 // class list consisting of existing classes's identifiers only.
-                $allowedClassList = array_unique( $allowedClassList, SORT_STRING );
+                $allowedClassList = array_unique( $allowedClassList );
                 // include_once( 'kernel/classes/ezcontentclass.php' );
                 $classList = eZContentClass::fetchList( eZContentClass::VERSION_STATUS_DEFINED, false, false, null, null, $allowedClassList );
                 if ( is_array( $classList ) and count( $classList ) > 0 )
@@ -2178,7 +2180,7 @@ WHERE user_id = '" . $userID . "' AND
                         {
                             $patterns = array();
                             $replacements = array();
-                            $matches = array_unique( $matches[1], SORT_STRING );
+                            $matches = array_unique( $matches[1] );
                             foreach ( $matches as $match )
                             {
                                 if ( !isset( $replacements[$match] ) )
@@ -2443,7 +2445,7 @@ WHERE user_id = '" . $userID . "' AND
                     }
                     $userGroupArray[] = new eZContentObject( $group );
                 }
-                $pathArray = array_unique( $pathArray, SORT_STRING );
+                $pathArray = array_unique( $pathArray );
 
                 if ( count( $pathArray ) != 0 )
                 {
@@ -2518,7 +2520,7 @@ WHERE user_id = '" . $userID . "' AND
 
                 if ( count( $pathArray ) > 0 )
                 {
-                    $pathArray = array_unique( $pathArray, SORT_STRING );
+                    $pathArray = array_unique ($pathArray);
                     $extraGroups = $db->arrayQuery( "SELECT c.contentobject_id as id
                                                     FROM ezcontentobject_tree  c,
                                                          ezcontentobject d

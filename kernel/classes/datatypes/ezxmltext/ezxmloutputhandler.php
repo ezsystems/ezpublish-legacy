@@ -262,7 +262,7 @@ class eZXMLOutputHandler
             $objectRelatedObjectIDArray,
             $embedRelatedObjectIDArray,
             $embedInlineRelatedObjectIDArray );
-        $relatedObjectIDArray = array_unique( $relatedObjectIDArray, SORT_STRING );
+        $relatedObjectIDArray = array_unique( $relatedObjectIDArray );
 
         if ( count( $relatedObjectIDArray ) > 0 )
         {
@@ -274,7 +274,7 @@ class eZXMLOutputHandler
             $embedNodeIDArray,
             $embedInlineNodeIDArray
         );
-        $nodeIDArray = array_unique( $nodeIDArray, SORT_STRING );
+        $nodeIDArray = array_unique( $nodeIDArray );
 
         if ( count( $nodeIDArray ) > 0 )
         {

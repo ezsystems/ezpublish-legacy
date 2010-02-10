@@ -346,7 +346,7 @@ $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object I
                       ) ); // Section ID, 0 so far
 
 eZSection::setGlobalID( $object->attribute( 'section_id' ) );
-$versionArray =( isset( $versionArray ) and is_array( $versionArray ) ) ? array_unique( $versionArray, SORT_STRING ) : array();
+$versionArray =( isset( $versionArray ) and is_array( $versionArray ) ) ? array_unique( $versionArray ) : array();
 $LastAccessesVersionURI = $http->hasSessionVariable( 'LastAccessesVersionURI' ) ? $http->sessionVariable( 'LastAccessesVersionURI' ) : null;
 $explodedURI = $LastAccessesVersionURI ? explode ( '/', $LastAccessesVersionURI ) : null;
 if ( $LastAccessesVersionURI and is_array( $versionArray ) and !in_array( $explodedURI[3], $versionArray ) )

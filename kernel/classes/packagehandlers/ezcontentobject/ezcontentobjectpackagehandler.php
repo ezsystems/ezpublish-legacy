@@ -219,7 +219,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     {
         $this->Package = $package;
         $remoteIDArray = array();
-        $this->NodeIDArray = array_unique( $this->NodeIDArray, SORT_STRING );
+        $this->NodeIDArray = array_unique( $this->NodeIDArray );
         foreach( $this->NodeIDArray as $nodeID )
         {
             $this->NodeObjectArray[(string)$nodeID] = eZContentObjectTreeNode::fetch( $nodeID );
@@ -642,7 +642,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                         }
                     }
                 }
-                $datatypeText = implode( '|', array_unique( $datatypeList, SORT_STRING ) );
+                $datatypeText = implode( '|', array_unique( $datatypeList ) );
 
                 foreach( array_keys( $overrideINI->groups() ) as $blockName )
                 {
@@ -830,7 +830,8 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             $contentObject = $nodeObject->object();
             $classIDArray[] = $contentObject->attribute( 'contentclass_id' );
         }
-        return array_unique( $classIDArray, SORT_STRING );
+        $classIDArray = array_unique( $classIDArray );
+        return $classIDArray;
     }
 
     /*!

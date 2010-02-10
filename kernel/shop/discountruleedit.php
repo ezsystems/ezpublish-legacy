@@ -178,7 +178,7 @@ if ( $module->isCurrentAction( 'FindProduct' ) )
     if ( $result )
     {
         $discountRuleSelectedProducts = array_merge( $discountRuleSelectedProducts, $result );
-        $discountRuleSelectedProducts = array_unique( $discountRuleSelectedProducts, SORT_STRING );
+        $discountRuleSelectedProducts = array_unique( $discountRuleSelectedProducts );
     }
 }
 

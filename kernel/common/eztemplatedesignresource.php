@@ -247,7 +247,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     */
     static function fileMatch( $bases, $element, $path, &$triedFiles )
     {
-        $bases = array_unique( $bases, SORT_STRING );
+        $bases = array_unique( $bases );
         foreach ( $bases as $base )
         {
             $resource = $element != '' ? "$base/$element" : $base;
@@ -712,7 +712,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
         array_unshift( $siteDesignList, $siteDesign );
         $siteDesignList[] = $standardDesign;
-        $siteDesignList = array_unique( $siteDesignList, SORT_STRING );
+        $siteDesignList = array_unique( $siteDesignList );
 
         $bases = array();
         $extensionDirectory = eZExtension::baseDirectory();

@@ -87,7 +87,7 @@ class eZImageFile extends eZPersistentObject
             {
                 $files[] = $row['filepath'];
             }
-            return array_unique( $files, SORT_STRING );
+            return array_unique( $files );
         }
         else
             return $rows;
