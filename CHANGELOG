@@ -1,3 +1,11 @@
+# v1.1.0beta1
+
+- Fixed #016129: hasAccessToLimitation ezjscore 1.0.1 function does not properly check multiple policies
+  BC: has_access_to_limitation now has a fourth parameter 'debug', that needs to be true to get debug
+      on unmatched policy's
+
+
+
 # v1.1.0alpha1
 
 - Fixed bug: ie6 issue with Y.io.ez
@@ -27,6 +35,7 @@
 - Updated jQuery to 1.4.1
 - Implemented enhancement #16068: ezjscore Packer option to specify domain for js/css url
 - Add possibility to use GET method if specified (yui3io: in c parameter, jqueryio: with post parameter)
+
 
 
 # v1.0.0  29 Sept 2009
