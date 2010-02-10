@@ -1393,7 +1393,7 @@ class eZLocale
                 }
             }
             closedir( $dir );
-            $locales = array_unique( $locales, SORT_STRING );
+            $locales = array_unique( $locales );
             sort( $locales );
             if ( $asObject )
             {
@@ -1432,7 +1432,7 @@ class eZLocale
                 }
             }
             closedir( $dir );
-            $countries = array_unique( $countries, SORT_STRING );
+            $countries = array_unique( $countries );
             sort( $countries );
         }
         return $countries;
