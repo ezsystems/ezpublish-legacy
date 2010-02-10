@@ -36,7 +36,7 @@ if ( !$class )
 
 $classCopy = clone $class;
 $classCopy->initializeCopy( $class );
-$classCopy->setAttribute( 'version', 1 );
+$classCopy->setAttribute( 'version', eZContentClass::VERSION_STATUS_MODIFIED );
 $classCopy->store();
 
 $mainGroupID = false;
@@ -69,7 +69,7 @@ foreach ( array_keys( $classAttributes ) as $classAttributeKey )
     }
 
     $classAttributeCopy->setAttribute( 'contentclass_id', $classCopy->attribute( 'id' ) );
-    $classAttributeCopy->setAttribute( 'version', 1 );
+    $classAttributeCopy->setAttribute( 'version', eZContentClass::VERSION_STATUS_MODIFIED );
     $classAttributeCopy->store();
     $classAttributeCopies[] =& $classAttributeCopy;
     unset( $classAttributeCopy );
