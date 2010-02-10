@@ -36,7 +36,7 @@
 - Implemented enhancement #16059: DEPRECATED CSSFileList|JavaScriptList in favour of [Frontend|Backend][CSSFileList|JavaScriptList] settings
 - Updated jQuery to 1.4.1
 - Implemented enhancement #16068: ezjscore Packer option to specify domain for js/css url
-- Add possibility to use GET method if specified (yui3io: in c parameter, jqueryio: with post parameter)
+- Add possibility to use GET method if specified (yui3io: in c parameter, jqueryio: with false post parameter)
 
 
 
