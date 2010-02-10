@@ -27,7 +27,6 @@
 - Updated jQuery to 1.4.1
 - Implemented enhancement #16068: ezjscore Packer option to specify domain for js/css url
 - Add possibility to use GET method if specified (yui3io: in c parameter, jqueryio: with post parameter)
-- Fixed #15635: Workaround for PHP 5.2.9 array_unique issue
 
 
 # v1.0.0  29 Sept 2009

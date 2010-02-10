@@ -453,7 +453,7 @@ class ezjscPacker
     {
         if ( preg_match_all("/url\(\s*[\'|\"]?([A-Za-z0-9_\-\/\.\\%?&#]+)[\'|\"]?\s*\)/ix", $fileContent, $urlMatches) )
         {
-           $urlMatches = array_unique( $urlMatches[1], SORT_STRING );
+           $urlMatches = array_unique( $urlMatches[1] );
            $cssPathArray   = explode( '/', $file );
            // Pop the css file name
            array_pop( $cssPathArray );
