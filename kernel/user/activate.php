@@ -35,9 +35,11 @@ include_once( 'kernel/classes/datatypes/ezuser/ezuseraccountkey.php' );
 $Module =& $Params['Module'];
 //$http =& eZHTTPTool::instance();
 $hash =& $Params['Hash'];
+$mainNodeID =& $Params['MainNodeID'];
 
 // Check if key exists
 $accountActivated = false;
+$alreadyActive = false;
 $accountKey = eZUserAccountKey::fetchByKey( $hash );
 
 if ( $accountKey )
@@ -61,6 +63,21 @@ if ( $accountKey )
     // Remove key
     $accountKey->remove( $userID );
 }
+// Backported main_node_id support from stable/3.8
+elseif( $mainNodeID )
+{
+    $userContentObject = eZContentObject::fetchByNodeID( $mainNodeID );
+    if ( $userContentObject !== null )
+    {
+        $userSetting = eZUserSetting::fetch( $userContentObject->attribute( 'id' ) );
+
+        if ( $userSetting !== null && $userSetting->attribute( 'is_enabled' ) )
+        {
+            $alreadyActive = true;
+        }
+     }
+}
+
 
 
 // Template handling
@@ -69,6 +86,7 @@ $tpl =& templateInit();
 
 $tpl->setVariable( 'module', $Module );
 $tpl->setVariable( 'account_activated', $accountActivated );
+$tpl->setVariable( 'already_active', $alreadyActive );
 
 // This line is deprecated, the correct name of the variable should
 // be 'account_activated' as shown above.

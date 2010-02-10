@@ -107,10 +107,19 @@ $ViewList['register'] = array(
     'single_post_actions' => array( 'PublishButton' => 'Publish',
                                     'CancelButton' => 'Cancel',
                                     'CustomActionButton' => 'CustomAction' ) );
+// Backported activate from stable/3.8
+//$ViewList['activate'] = array(
+//    'script' => 'activate.php',
+//    'params' => array( 'Hash' ) );
+
 
 $ViewList['activate'] = array(
+    'functions' => array( 'login' ),
     'script' => 'activate.php',
-    'params' => array( 'Hash' ) );
+    'ui_context' => 'authentication',
+    'default_navigation_part' => 'ezmynavigationpart',
+    'params' => array( 'Hash', 'MainNodeID' ) );
+
 
 $ViewList['success'] = array(
     'script' => 'success.php',
