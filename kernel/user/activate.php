@@ -63,7 +63,6 @@ if ( $accountKey )
     // Remove key
     $accountKey->remove( $userID );
 }
-// Backported main_node_id support from stable/3.8
 elseif( $mainNodeID )
 {
     $userContentObject = eZContentObject::fetchByNodeID( $mainNodeID );
@@ -77,7 +76,6 @@ elseif( $mainNodeID )
         }
      }
 }
-
 
 
 // Template handling
