@@ -64,7 +64,6 @@ eZ Online Editor 5.0 extension Changelog
 * Fixed #15663: "Apply to: column" target cells are shifted when rowspan is used
 * Implemented #15633: Allow editing embed content object attributes after upload
 * Fixed #15882: Embed size when not set in ezxml hardcoded to medium, should use DefaultEmbedAlias
-* Fixed #15635: Workaround for PHP 5.2.9 array_unique issue
 
 5.0.0
 * Fixed regression #13650: [header] ezoe adds a level each time it is called
