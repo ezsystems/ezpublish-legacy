@@ -133,7 +133,7 @@ class eZSearchEngine
                                                    'ContentClassAttributeID' => $attribute->attribute( 'contentclassattribute_id' ),
                                                    'identifier' => $metaDataPart['id'],
                                                    'integer_value' => $integerValue );
-                            $indexArrayOnlyWords[] = $word;
+                            $indexArrayOnlyWords[$word] = 1;
                             $wordCount++;
                             //if we have "www." before word than
                             //treat it as url and add additional entry to the index
@@ -144,7 +144,7 @@ class eZSearchEngine
                                                        'ContentClassAttributeID' => $attribute->attribute( 'contentclassattribute_id' ),
                                                        'identifier' => $metaDataPart['id'],
                                                        'integer_value' => $integerValue );
-                                $indexArrayOnlyWords[] = $additionalUrlWord;
+                                $indexArrayOnlyWords[$additionalUrlWord] = 1;
                                 $wordCount++;
                             }
                         }
@@ -154,9 +154,7 @@ class eZSearchEngine
         }
         eZContentObject::recursionProtectionEnd();
 
-        $indexArrayOnlyWords = array_unique( $indexArrayOnlyWords );
-
-        $wordIDArray = $this->buildWordIDArray( $indexArrayOnlyWords );
+        $wordIDArray = $this->buildWordIDArray( array_keys( $indexArrayOnlyWords ) );
 
         $db = eZDB::instance();
         $db->begin();

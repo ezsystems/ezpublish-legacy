@@ -17,3 +17,4 @@ Changes from 4.3.0alpha1 to 4.3.0beta1
 *Bugfixes:
 - Fixed bug #16158: eZ JSCore should be enabled by default after running the setup wizard
 - Fixed bug #11038: eZP might go into an infinite loop if MySQL closes it connections causing apache to segfault (now also fixed for mysqli)
+- Fixed bug #14615: Database errors in search engine logic using PHP 5.2.9
