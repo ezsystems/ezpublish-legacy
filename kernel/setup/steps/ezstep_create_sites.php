@@ -1034,7 +1034,7 @@ language_locale='eng-GB'";
 
         // Enable OE and ODF extensions by default
         $extensionsToEnable = array();
-        foreach ( array( 'ezoe', 'ezodf' ) as $extension )
+        foreach ( array( 'ezjscore', 'ezoe', 'ezodf' ) as $extension )
         {
             if ( file_exists( "extension/$extension" ) )
             {

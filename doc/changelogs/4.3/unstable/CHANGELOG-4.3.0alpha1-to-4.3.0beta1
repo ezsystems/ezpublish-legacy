@@ -15,3 +15,4 @@ Changes from 4.3.0alpha1 to 4.3.0beta1
 *Translations:
 
 *Bugfixes:
+- Fixed bug #16158: eZ JSCore should be enabled by default after running the setup wizard
