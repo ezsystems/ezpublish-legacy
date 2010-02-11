@@ -420,7 +420,7 @@ class eZCache
             }
             else
             {
-                eZDir::recursiveDelete( $cachePath );
+                eZDir::recursiveDelete( $cachePath, true );
             }
         }
     }
@@ -544,7 +544,7 @@ class eZCache
     */
     static function clearGlobalINICache( $cacheItem )
     {
-        eZDir::recursiveDelete( $cacheItem['path'] );
+        eZDir::recursiveDelete( $cacheItem['path'], true );
     }
 
     /*!
