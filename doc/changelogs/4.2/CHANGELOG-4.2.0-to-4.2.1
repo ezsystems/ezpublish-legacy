@@ -115,3 +115,5 @@ Changes from 4.2.0 to 4.2.1
   (Merged from trunk (4.3.0alpha1) rev. 24526)
 - Fixed bug #16126: availableClassesJsArray wrongly defined as static causing create here menu on sub items to fail
   (Merged from trunk (4.3.0alpha1) rev. 24881)
+- Fixed bug #11038: eZP might go into an infinite loop if MySQL closes it connections causing apache to segfault (now also fixed for mysqli)
+  (Merged from trunk (4.3.0beta1) rev. 24902)
