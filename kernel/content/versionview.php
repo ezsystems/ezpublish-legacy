@@ -27,16 +27,35 @@
 //
 
 
-require_once( 'kernel/common/template.php' );
-require_once( 'access.php' );
-
+$http = eZHTTPTool::instance();
 $Offset = $Params['Offset'];
 $viewParameters = array( 'offset' => $Offset );
 
+
+if ( $http->hasPostVariable( 'BackButton' )  )
+{
+    $userRedirectURI = '';
+    if ( $http->hasPostVariable( 'RedirectURI' ) )
+    {
+        $redurectURI = $http->postVariable( 'RedirectURI' );
+        $http->removeSessionVariable( 'LastAccessesVersionURI' );
+        return $Module->redirectTo( $redurectURI );
+    }
+    if ( $http->hasSessionVariable( "LastAccessesURI" ) )
+        $userRedirectURI = $http->sessionVariable( "LastAccessesURI" );
+    return $Module->redirectTo( $userRedirectURI );
+}
+
+require_once( 'kernel/common/template.php' );
 $tpl = templateInit();
 // Will be sent from the content/edit page and should be kept
 // incase the user decides to continue editing.
 $FromLanguage = $Params['FromLanguage'];
+
+if ( $http->hasSessionVariable( 'LastAccessesVersionURI' ) )
+{
+    $tpl->setVariable( 'redirect_uri', $http->sessionVariable( 'LastAccessesVersionURI' ) );
+}
 
 $ini = eZINI::instance();
 
