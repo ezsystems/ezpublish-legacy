@@ -399,6 +399,7 @@ class eZExtension
         $handlerParams = $options->handlerParams;
         $aliasSection  = $options->aliasSection;
         $aliasVariable = $options->aliasVariable;
+        $aliasOptionalIndex = $options->aliasOptionalIndex;
 
         $ini = eZINI::instance( $iniFile );
 
@@ -426,7 +427,11 @@ class eZExtension
                 $aliasSection = $iniSection;
             }
             $aliasHandlers = $ini->variable( $aliasSection, $aliasVariable );
-            if ( is_array( $aliasHandlers ) && isset( $aliasHandlers[ $handlers ] ) )
+            if ( $aliasOptionalIndex !== null && isset( $aliasHandlers[ $aliasOptionalIndex ] ) )
+            {
+                $handlers = array( $aliasHandlers[ $aliasOptionalIndex ], $handlers );
+            }
+            else if ( isset( $aliasHandlers[ $handlers ] ) )
             {
                 $handlers = array( $aliasHandlers[ $handlers ], $handlers );
             }

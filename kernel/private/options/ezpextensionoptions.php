@@ -40,6 +40,9 @@
  *
  * @property string $aliasVariable
  *      Default : null
+ *      
+  * @property string $aliasOptionalIndex
+ *      Default : null
  *
  * @throws ezcBasePropertyNotFoundException
  *         If $options contains an undefined property
@@ -63,6 +66,7 @@ class ezpExtensionOptions extends ezcBaseOptions
         $this->handlerParams  = null;
         $this->aliasSection   = null;
         $this->aliasVariable  = null;
+        $this->aliasOptionalIndex = null;
 
         parent::__construct( $options );
     }
@@ -85,6 +89,7 @@ class ezpExtensionOptions extends ezcBaseOptions
             case 'callMethod':
             case 'aliasSection':
             case 'aliasVariable':
+            case 'aliasOptionalIndex':
                 if( $value !== null and !is_string( $value ) )
                 {
                     throw new ezcBaseValueException( $name, $value );

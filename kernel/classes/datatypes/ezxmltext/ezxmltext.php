@@ -86,11 +86,11 @@ class eZXMLText
 
             case 'pdf_output' :
             {
-                if ( $this->XMLOutputHandler === null )
+                if ( $this->PDFOutputHandler === null )
                 {
-                    $this->XMLOutputHandler = $this->outputHandler( $this->XMLData, 'ezpdf', true, $this->ContentObjectAttribute );
+                    $this->PDFOutputHandler = $this->outputHandler( $this->XMLData, 'ezpdf', true, $this->ContentObjectAttribute );
                 }
-                return $this->XMLOutputHandler;
+                return $this->PDFOutputHandler;
             }break;
 
             case 'xml_data' :
@@ -136,9 +136,10 @@ class eZXMLText
                               'iniVariable'   => 'HandlerClass',
                               'callMethod'    => 'isValid',
                               'handlerParams' => array( $xmlData,
-                                                        false,
+                                                        $type,
                                                         $contentObjectAttribute ),
-                              'aliasVariable' => ( $useAlias ? 'AliasClasses' : null ) );
+                              'aliasVariable' => ( $useAlias ? 'AliasClasses' : null ),
+                              'aliasOptionalIndex' => ( $type ? $type : null ) );
 
         $options = new ezpExtensionOptions( $optionArray );
 
@@ -159,9 +160,10 @@ class eZXMLText
                               'iniVariable'   => 'HandlerClass',
                               'callMethod'    => 'isValid',
                               'handlerParams' => array( $xmlData,
-                                                        false,
+                                                        $type,
                                                         $contentObjectAttribute ),
-                              'aliasVariable' => ( $useAlias ? 'AliasClasses' : null )  );
+                              'aliasVariable' => ( $useAlias ? 'AliasClasses' : null ),
+                              'aliasOptionalIndex' => ( $type ? $type : null ) );
 
         $options = new ezpExtensionOptions( $optionArray );
 
