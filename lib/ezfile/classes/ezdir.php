@@ -272,32 +272,46 @@ class eZDir
     }
 
 
-    /*!
-     \static
-     Removes the directory and all it's contents, recursive.
-    */
-    static function recursiveDelete( $dir )
+    /**
+     * Removes a directory and all it's contents, recursively.
+     *
+     * @param string $dir Directory to remove
+     * @param bool $rootCheck Check whether $dir is supposed to be contained in
+     *                        eZ Publish root directory
+     * @return bool True if the operation succeeded, false otherwise
+     */
+    static function recursiveDelete( $dir, $rootCheck = false )
     {
-        if ( $handle = @opendir( $dir ) )
+        // RecursiveDelete fails if ...
+        // $dir is not a directory
+        if ( !is_dir( $dir ) )
+            return false;
+
+        // rootCheck is enabled and $dir is not part of the root directory
+        if ( $rootCheck && strpos( dirname( realpath( $dir ) ) . DIRECTORY_SEPARATOR, realpath( eZSys::rootDir() ) . DIRECTORY_SEPARATOR ) === false )
+            return false;
+
+        // the directory cannot be opened
+        if ( ! ( $handle = @opendir( $dir ) ) )
+            return false;
+
+        while ( ( $file = readdir( $handle ) ) !== false )
         {
-            while ( ( $file = readdir( $handle ) ) !== false )
+            if ( ( $file == "." ) || ( $file == ".." ) )
             {
-                if ( ( $file == "." ) || ( $file == ".." ) )
-                {
-                    continue;
-                }
-                if ( is_dir( $dir . '/' . $file ) )
-                {
-                    eZDir::recursiveDelete( $dir . '/' . $file );
-                }
-                else
-                {
-                    unlink( $dir . '/' . $file );
-                }
+                continue;
             }
-            @closedir( $handle );
-            rmdir( $dir );
+            if ( is_dir( $dir . '/' . $file ) )
+            {
+                eZDir::recursiveDelete( $dir . '/' . $file );
+            }
+            else
+            {
+                unlink( $dir . '/' . $file );
+            }
         }
+        @closedir( $handle );
+        return rmdir( $dir );
     }
 
     /*!
