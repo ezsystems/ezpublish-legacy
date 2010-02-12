@@ -39,138 +39,6 @@
     </div>
 
     <div class="button-right button-header">
-
-    {* The "Create new here" thing: *}
-    <label for="ClassID" class="inline">{'Create'|i18n( 'design/admin/node/view/full' )}</label>
-
-    {if and( $node.is_container,  $node.can_create)}
-        <input type="hidden" name="NodeID" value="{$node.node_id}" />
-        {if $node.path_array|contains( ezini( 'NodeSettings', 'RootNode', 'content.ini' ) )}
-            {def $can_create_classes = fetch( 'content', 'can_instantiate_class_list', hash( 'group_id', ezini( 'ClassGroupIDs', 'Content', 'content.ini' ), 'parent_node', $node ) )}
-        {elseif $node.path_array|contains( ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) )}
-            {def $can_create_classes = fetch( 'content', 'can_instantiate_class_list', hash( 'group_id', ezini( 'ClassGroupIDs', 'Media', 'content.ini' ), 'parent_node', $node ) )}
-        {elseif $node.path_array|contains( ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) )}
-            {def $can_create_classes = fetch( 'content', 'can_instantiate_class_list', hash( 'group_id', ezini( 'ClassGroupIDs', 'Users', 'content.ini' ), 'parent_node', $node ) )}
-        {elseif $node.path_array|contains( ezini( 'NodeSettings', 'SetupRootNode', 'content.ini' ) )}
-            {def $can_create_classes = fetch( 'content', 'can_instantiate_class_list', hash( 'group_id', ezini( 'ClassGroupIDs', 'Setup', 'content.ini' ), 'parent_node', $node ) )}
-        {else}
-            {def $can_create_classes = fetch( 'content', 'can_instantiate_class_list', hash( 'group_id', array( ezini( 'ClassGroupIDs', 'Users', 'content.ini' ), ezini( 'ClassGroupIDs', 'Setup', 'content.ini' ) ), 'parent_node', $node, 'filter_type', 'exclude' ) )}
-        {/if}
-    
-        {def $can_create_languages = fetch( 'content', 'prioritized_languages' )
-             $content_locale = ezini( 'RegionalSettings', 'ContentObjectLocale' )}
-    
-        {if and( is_set( $can_create_languages[0] ), eq( $can_create_languages|count, 1 ) )}
-            <select id="ClassID" name="ClassID" title="{'Use this menu to select the type of item you want to create then click the "Create here" button. The item will be created in the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
-        {else}
-            <select id="ClassID" name="ClassID" onchange="updateLanguageSelector(this)" title="{'Use this menu to select the type of item you want to create then click the "Create here" button. The item will be created in the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
-        {/if}
-            {foreach $can_create_classes as $can_create_class}
-            {if $can_create_class.can_instantiate_languages}
-                <option value="{$can_create_class.id}">{$can_create_class.name|wash()}</option>
-            {/if}
-            {/foreach}
-        </select>
-    
-        {if and( is_set( $can_create_languages[0] ), eq( $can_create_languages|count, 1 ) )}
-            <input name="ContentLanguageCode" value="{$can_create_languages[0].locale}" type="hidden" />
-        {else}
-            <label for="ClassContentLanguageCode" class="inline">{'in'|i18n( 'design/admin/node/view/full' )}</label>
-            <select id="ClassContentLanguageCode" name="ContentLanguageCode" onchange="checkLanguageSelector(this)" title="{'Use this menu to select the language you want to use for the creation then click the "Create here" button. The item will be created in the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
-                {foreach $can_create_languages as $tmp_language}
-                    <option value="{$tmp_language.locale|wash()}"{if $content_locale|eq( $tmp_language.locale )} selected="selected"{/if}>{$tmp_language.name|wash()}</option>
-                {/foreach}
-           </select>
-        {/if}
-    
-        <input class="button" type="submit" name="NewButton" value="{'Here'|i18n( 'design/admin/node/view/full' )}" title="{'Create a new item in the current location. Use the menu on the left to select the type of  item.'|i18n( 'design/admin/node/view/full' )}" />
-        <input type="hidden" name="ViewMode" value="full" />
-    
-        {if ne( $can_create_languages|count, 1 )}
-        <script type="text/javascript">
-        <!--
-            {literal}
-            function updateLanguageSelector( classSelector )
-            {
-                var languageSelector = classSelector.form.ContentLanguageCode;
-                if ( !languageSelector )
-                {
-                    return;
-                }
-    
-                var classID = classSelector.value, languages = languagesByClassID[classID], candidateIndex = -1;
-                for ( var index = 0, length = languageSelector.options.length; index < length; index++ )
-                {
-                    var value = languageSelector.options[index].value, disabled = true;
-    
-                    for ( var indexj = 0, lengthj = languages.length; indexj < lengthj; indexj++ )
-                    {
-                        if ( languages[indexj] == value )
-                        {
-                            disabled = false;
-                            break;
-                        }
-                    }
-    
-                    if ( !disabled && candidateIndex == -1 )
-                    {
-                        candidateIndex = index;
-                    }
-    
-                    languageSelector.options[index].disabled = disabled;
-                    if ( disabled )
-                    {
-                        languageSelector.options[index].style.color = '#888';
-                        if ( languageSelector.options[index].text.substring( 0, 1 ) != '(' )
-                        {
-                            languageSelector.options[index].text = '(' + languageSelector.options[index].text + ')';
-                        }
-                    }
-                    else
-                    {
-                        languageSelector.options[index].style.color = '#000';
-                        if ( languageSelector.options[index].text.substring( 0, 1 ) == '(' )
-                        {
-                            languageSelector.options[index].text = languageSelector.options[index].text.substring( 1, languageSelector.options[index].text.length - 1 );
-                        }
-                    }
-                }
-    
-                if ( languageSelector.options[languageSelector.selectedIndex].disabled )
-                {
-                    window.languageSelectorIndex = candidateIndex;
-                    languageSelector.selectedIndex = candidateIndex;
-                }
-            }
-    
-            function checkLanguageSelector( languageSelector )
-            {
-                if ( languageSelector.options[languageSelector.selectedIndex].disabled )
-                {
-                    languageSelector.selectedIndex = window.languageSelectorIndex;
-                    return;
-                }
-                window.languageSelectorIndex = languageSelector.selectedIndex;
-            }
-    
-            setTimeout( function() { updateLanguageSelector( document.getElementById( 'ClassID' ) ); }, 100 );
-    
-            var languagesByClassID = {};
-            {/literal}
-    
-            {foreach $can_create_classes as $class}
-            languagesByClassID[{$class.id}] = [ {foreach $class.can_instantiate_languages as $tmp_language}'{$tmp_language}'{delimiter}, {/delimiter} {/foreach} ];
-            {/foreach}
-        // -->
-        </script>
-        {/if}
-        {undef $can_create_languages $can_create_classes}
-    {else}
-        <select id="ClassID" name="ClassID" disabled="disabled">
-        <option value="">{'Not available'|i18n( 'design/admin/node/view/full' )}</option>
-        </select>
-        <input class="button-disabled" type="submit" name="NewButton" value="{'Here'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permission to create new items in the current location.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
-    {/if}
     </div>
 
 <div class="float-break"></div>
@@ -314,7 +182,6 @@
             <input class="button-disabled" type="submit" name="MoveButton" value="{'Move selected'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permission to move any of the items from the list above.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
         {/if}
     </div>
-
     <div class="button-right">
     {* Update priorities button *}
     {if $priority}
@@ -323,9 +190,144 @@
         <input id="ezasi-update-priority" class="button-disabled" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n( 'design/admin/node/view/full' )}" title="{'You cannot update the priorities because you do not have permission to edit the current item or because a non-priority sorting method is used.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
     {/if}
     </div>
+    <div class="float-break"></div>
+    <div class="block">
+    <div class="button-left">
+        {* The "Create new here" thing: *}
+        <label for="ClassID" class="inline">{'Create'|i18n( 'design/admin/node/view/full' )}</label>
+    
+        {if and( $node.is_container,  $node.can_create)}
+            <input type="hidden" name="NodeID" value="{$node.node_id}" />
+            {if $node.path_array|contains( ezini( 'NodeSettings', 'RootNode', 'content.ini' ) )}
+                {def $can_create_classes = fetch( 'content', 'can_instantiate_class_list', hash( 'group_id', ezini( 'ClassGroupIDs', 'Content', 'content.ini' ), 'parent_node', $node ) )}
+            {elseif $node.path_array|contains( ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) )}
+                {def $can_create_classes = fetch( 'content', 'can_instantiate_class_list', hash( 'group_id', ezini( 'ClassGroupIDs', 'Media', 'content.ini' ), 'parent_node', $node ) )}
+            {elseif $node.path_array|contains( ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) )}
+                {def $can_create_classes = fetch( 'content', 'can_instantiate_class_list', hash( 'group_id', ezini( 'ClassGroupIDs', 'Users', 'content.ini' ), 'parent_node', $node ) )}
+            {elseif $node.path_array|contains( ezini( 'NodeSettings', 'SetupRootNode', 'content.ini' ) )}
+                {def $can_create_classes = fetch( 'content', 'can_instantiate_class_list', hash( 'group_id', ezini( 'ClassGroupIDs', 'Setup', 'content.ini' ), 'parent_node', $node ) )}
+            {else}
+                {def $can_create_classes = fetch( 'content', 'can_instantiate_class_list', hash( 'group_id', array( ezini( 'ClassGroupIDs', 'Users', 'content.ini' ), ezini( 'ClassGroupIDs', 'Setup', 'content.ini' ) ), 'parent_node', $node, 'filter_type', 'exclude' ) )}
+            {/if}
+        
+            {def $can_create_languages = fetch( 'content', 'prioritized_languages' )
+                 $content_locale = ezini( 'RegionalSettings', 'ContentObjectLocale' )}
+        
+            {if and( is_set( $can_create_languages[0] ), eq( $can_create_languages|count, 1 ) )}
+                <select id="ClassID" name="ClassID" title="{'Use this menu to select the type of item you want to create then click the "Create here" button. The item will be created in the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
+            {else}
+                <select id="ClassID" name="ClassID" onchange="updateLanguageSelector(this)" title="{'Use this menu to select the type of item you want to create then click the "Create here" button. The item will be created in the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
+            {/if}
+                {foreach $can_create_classes as $can_create_class}
+                {if $can_create_class.can_instantiate_languages}
+                    <option value="{$can_create_class.id}">{$can_create_class.name|wash()}</option>
+                {/if}
+                {/foreach}
+            </select>
+        
+            {if and( is_set( $can_create_languages[0] ), eq( $can_create_languages|count, 1 ) )}
+                <input name="ContentLanguageCode" value="{$can_create_languages[0].locale}" type="hidden" />
+            {else}
+                <label for="ClassContentLanguageCode" class="inline">{'in'|i18n( 'design/admin/node/view/full' )}</label>
+                <select id="ClassContentLanguageCode" name="ContentLanguageCode" onchange="checkLanguageSelector(this)" title="{'Use this menu to select the language you want to use for the creation then click the "Create here" button. The item will be created in the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
+                    {foreach $can_create_languages as $tmp_language}
+                        <option value="{$tmp_language.locale|wash()}"{if $content_locale|eq( $tmp_language.locale )} selected="selected"{/if}>{$tmp_language.name|wash()}</option>
+                    {/foreach}
+               </select>
+            {/if}
+        
+            <input class="button" type="submit" name="NewButton" value="{'Here'|i18n( 'design/admin/node/view/full' )}" title="{'Create a new item in the current location. Use the menu on the left to select the type of  item.'|i18n( 'design/admin/node/view/full' )}" />
+            <input type="hidden" name="ViewMode" value="full" />
+        
+            {if ne( $can_create_languages|count, 1 )}
+            <script type="text/javascript">
+            <!--
+                {literal}
+                function updateLanguageSelector( classSelector )
+                {
+                    var languageSelector = classSelector.form.ContentLanguageCode;
+                    if ( !languageSelector )
+                    {
+                        return;
+                    }
+        
+                    var classID = classSelector.value, languages = languagesByClassID[classID], candidateIndex = -1;
+                    for ( var index = 0, length = languageSelector.options.length; index < length; index++ )
+                    {
+                        var value = languageSelector.options[index].value, disabled = true;
+        
+                        for ( var indexj = 0, lengthj = languages.length; indexj < lengthj; indexj++ )
+                        {
+                            if ( languages[indexj] == value )
+                            {
+                                disabled = false;
+                                break;
+                            }
+                        }
+        
+                        if ( !disabled && candidateIndex == -1 )
+                        {
+                            candidateIndex = index;
+                        }
+        
+                        languageSelector.options[index].disabled = disabled;
+                        if ( disabled )
+                        {
+                            languageSelector.options[index].style.color = '#888';
+                            if ( languageSelector.options[index].text.substring( 0, 1 ) != '(' )
+                            {
+                                languageSelector.options[index].text = '(' + languageSelector.options[index].text + ')';
+                            }
+                        }
+                        else
+                        {
+                            languageSelector.options[index].style.color = '#000';
+                            if ( languageSelector.options[index].text.substring( 0, 1 ) == '(' )
+                            {
+                                languageSelector.options[index].text = languageSelector.options[index].text.substring( 1, languageSelector.options[index].text.length - 1 );
+                            }
+                        }
+                    }
+        
+                    if ( languageSelector.options[languageSelector.selectedIndex].disabled )
+                    {
+                        window.languageSelectorIndex = candidateIndex;
+                        languageSelector.selectedIndex = candidateIndex;
+                    }
+                }
+        
+                function checkLanguageSelector( languageSelector )
+                {
+                    if ( languageSelector.options[languageSelector.selectedIndex].disabled )
+                    {
+                        languageSelector.selectedIndex = window.languageSelectorIndex;
+                        return;
+                    }
+                    window.languageSelectorIndex = languageSelector.selectedIndex;
+                }
+        
+                setTimeout( function() { updateLanguageSelector( document.getElementById( 'ClassID' ) ); }, 100 );
+        
+                var languagesByClassID = {};
+                {/literal}
+        
+                {foreach $can_create_classes as $class}
+                languagesByClassID[{$class.id}] = [ {foreach $class.can_instantiate_languages as $tmp_language}'{$tmp_language}'{delimiter}, {/delimiter} {/foreach} ];
+                {/foreach}
+            // -->
+            </script>
+            {/if}
+            {undef $can_create_languages $can_create_classes}
+        {else}
+            <select id="ClassID" name="ClassID" disabled="disabled">
+            <option value="">{'Not available'|i18n( 'design/admin/node/view/full' )}</option>
+            </select>
+            <input class="button-disabled" type="submit" name="NewButton" value="{'Here'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permission to create new items in the current location.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
+        {/if}
+    </div>
     
     <div class="button-right">
-    <label for="ezasi-sort-field" class="inline">{'Sorting'|i18n( 'design/admin/node/view/full' )}:</label>
+    <label for="ezasi-sort-field" class="inline">{'Publish items ordered by'|i18n( 'design/admin/node/view/full' )}:</label>
 
     {let sort_fields=hash( 6, 'Class identifier'|i18n( 'design/admin/node/view/full' ),
                            7, 'Class name'|i18n( 'design/admin/node/view/full' ),
@@ -359,9 +361,7 @@
 
     {/let}
     </div>
-
-    <div class="float-break"></div>
-
+    </div>
 
 {* DESIGN: Control bar END *}</div>
 </div>
