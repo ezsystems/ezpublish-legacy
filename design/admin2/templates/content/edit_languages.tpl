@@ -123,15 +123,22 @@
 {/set-block}
 
 {if $nonexisting_languages_output|trim}
+
     <div class="block">
     <fieldset>
-    <legend>{'New languages'|i18n('design/admin/content/edit_languages')}</legend>
+    <legend>{'New translation'|i18n('design/admin/content/edit_languages')}</legend>
     <p>{'Select the language you want to add'|i18n('design/admin/content/edit_languages')}:</p>
 
     <div class="indent">
         {$nonexisting_languages_output}
     </div>
+    </fieldset>
+    </div>
 
+
+    <div class="block">
+    <fieldset>
+    <legend>{'Existing translation'|i18n('design/admin/content/edit_languages')}</legend>
     <p>{'Select the language the added translation will be based on'|i18n('design/admin/content/edit_languages')}:</p>
 
     <div class="indent">
@@ -147,7 +154,6 @@
         <div class="labelbreak"></div>
     {/foreach}
     </div>
-
     </fieldset>
     </div>
 {else}
