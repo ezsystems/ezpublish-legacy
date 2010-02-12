@@ -5564,15 +5564,16 @@ class eZContentObject extends eZPersistentObject
     /*!
      \return the number of objects of the given class is created by the given user.
     */
-    static function fetchObjectCountByUserID( $classID, $userID )
+    static function fetchObjectCountByUserID( $classID, $userID, $status = false )
     {
         $count = 0;
         if ( is_numeric( $classID ) and is_numeric( $userID ) )
         {
-            $db = eZDB::instance();
-            $classID =(int) $classID;
-            $userID =(int) $userID;
-            $countArray = $db->arrayQuery( "SELECT count(*) AS count FROM ezcontentobject WHERE contentclass_id=$classID AND owner_id=$userID" );
+            $db         = eZDB::instance();
+            $classID    = (int) $classID;
+            $userID     = (int) $userID;
+            $statusSQL  = $status !== false ? ( ' AND status=' . (int) $status ) : '';
+            $countArray = $db->arrayQuery( "SELECT count(*) AS count FROM ezcontentobject WHERE contentclass_id=$classID AND owner_id=$userID$statusSQL" );
             $count = $countArray[0]['count'];
         }
         return $count;

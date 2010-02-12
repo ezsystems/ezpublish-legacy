@@ -1,6 +1,7 @@
 Changes from 4.3.0alpha1 to 4.3.0beta1
 
 *Kernel:
+- Implemented enhancement #15371: object_count_by_user_id counts empty-non-published drafts
 
 *Design:
 

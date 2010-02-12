@@ -908,6 +908,10 @@ $FunctionList['object_count_by_user_id'] = array( 'name' => 'object_count_by_use
                                                                      array( 'name' => 'user_id',
                                                                             'type' => 'integer',
                                                                             'required' => true,
+                                                                            'default' => false ),
+                                                                     array( 'name' => 'status',
+                                                                            'type' => 'integer',
+                                                                            'required' => false,
                                                                             'default' => false ) ) );
 
 $FunctionList['same_classattribute_node'] = array( 'name' => 'same_classattribute_node',

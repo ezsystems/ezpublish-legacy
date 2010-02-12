@@ -764,9 +764,9 @@ class eZContentFunctionCollection
         return $result;
     }
 
-    static public function fetchObjectCountByUserID( $classID, $userID )
+    static public function fetchObjectCountByUserID( $classID, $userID, $status = false )
     {
-        $objectCount = eZContentObject::fetchObjectCountByUserID( $classID, $userID );
+        $objectCount = eZContentObject::fetchObjectCountByUserID( $classID, $userID, $status );
         return array( 'result' => $objectCount );
     }
 
