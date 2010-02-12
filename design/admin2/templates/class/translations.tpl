@@ -9,7 +9,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
-<h2 class="context-title">{'Translations [%translations]'|i18n( 'design/admin/class/view',, hash( '%translations', $translations_count ) )}</h2>
+<h2 class="context-title">{'Translations (%translations)'|i18n( 'design/admin/class/view',, hash( '%translations', $translations_count ) )}</h2>
 
 
 

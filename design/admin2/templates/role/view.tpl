@@ -21,7 +21,7 @@
 
 <div class="block">
 <fieldset>
-<legend>{'Policies [%policies_count]'|i18n( 'design/admin/role/view',, hash( '%policies_count', $policies|count ) )}</legend>
+<legend>{'Policies (%policies_count)'|i18n( 'design/admin/role/view',, hash( '%policies_count', $policies|count ) )}</legend>
 {section show=$policies}
 <table class="list" cellspacing="0">
 <tr>
@@ -96,7 +96,7 @@
 
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
-<h2 class="context-title">{'Users and groups using the <%role_name> role [%users_count]'|i18n( 'design/admin/role/view',, hash('%role_name', $role.name, '%users_count', $user_array|count) )|wash}</h2>
+<h2 class="context-title">{'Users and groups using the <%role_name> role (%users_count)'|i18n( 'design/admin/role/view',, hash('%role_name', $role.name, '%users_count', $user_array|count) )|wash}</h2>
 
 
 

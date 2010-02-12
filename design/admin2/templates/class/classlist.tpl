@@ -49,13 +49,13 @@
 <form action={concat( 'class/classlist/', $GroupID )|ezurl} method="post" name="ClassList">
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header">
-<h2 class="context-title"><a href={'/class/grouplist'|ezurl}><img src={'up-16x16-grey.png'|ezimage} alt="{'Back to class groups.'|i18n( 'design/admin/class/classlist' )}" title="{'Back to class groups.'|i18n( 'design/admin/class/classlist' )}" /></a>&nbsp;{'Classes inside <%group_name> [%class_count]'|i18n( 'design/admin/class/classlist',, hash( '%group_name', $group.name, '%class_count', $class_count ) )|wash}</h2>
+<h2 class="context-title"><a href={'/class/grouplist'|ezurl}><img src={'up-16x16-grey.png'|ezimage} alt="{'Back to class groups.'|i18n( 'design/admin/class/classlist' )}" title="{'Back to class groups.'|i18n( 'design/admin/class/classlist' )}" /></a>&nbsp;{'Classes inside <%group_name> (%class_count)'|i18n( 'design/admin/class/classlist',, hash( '%group_name', $group.name, '%class_count', $class_count ) )|wash}</h2>
 {* DESIGN: Header END *}</div>
 
 {* DESIGN: Content START *}<div class="box-content">
 
 {section show=$class_count}
-<table class="list" cellspacing="0" summary="{'List of classes inside %group_name class group [%class_count]'|i18n( 'design/admin/class/classlist',, hash( '%group_name', $group.name, '%class_count', $class_count ) )|wash}">
+<table class="list" cellspacing="0" summary="{'List of classes inside %group_name class group (%class_count)'|i18n( 'design/admin/class/classlist',, hash( '%group_name', $group.name, '%class_count', $class_count ) )|wash}">
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/class/classlist' )}" title="{'Invert selection.'|i18n( 'design/admin/class/classlist' )}" onclick="ezjs_toggleCheckboxes( document.ClassList, 'DeleteIDArray[]' ); return false;" /></th>
     <th>{'Name'|i18n('design/admin/class/classlist')}</th>

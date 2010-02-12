@@ -2,7 +2,7 @@
 <form action={concat( $module.functions.view.uri, '/', $class.id )|ezurl} method="post">
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header">
-<h2 class="context-title">{'Member of class groups [%group_count]'|i18n( 'design/admin/class/view',, hash( '%group_count', $class.ingroup_list|count ) )}</h2>
+<h2 class="context-title">{'Member of class groups (%group_count)'|i18n( 'design/admin/class/view',, hash( '%group_count', $class.ingroup_list|count ) )}</h2>
 
 
 

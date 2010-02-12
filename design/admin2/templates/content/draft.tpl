@@ -8,7 +8,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
-<h1 class="context-title">{'My drafts [%draft_count]'|i18n(  'design/admin/content/draft',, hash( '%draft_count', $list_count ) )}</h1>
+<h1 class="context-title">{'My drafts (%draft_count)'|i18n(  'design/admin/content/draft',, hash( '%draft_count', $list_count ) )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 

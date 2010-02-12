@@ -2,7 +2,7 @@
 {let override_templates=fetch( class, override_template_list, hash( class_id, $class.id ) )}
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
-<h2 class="context-title">{'Override templates [%1]'|i18n( 'design/admin/class/view',, array( $override_templates|count ) )}</h2>
+<h2 class="context-title">{'Override templates (%1)'|i18n( 'design/admin/class/view',, array( $override_templates|count ) )}</h2>
 
 
 

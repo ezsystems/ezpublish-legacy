@@ -4,7 +4,7 @@
 
 <div class="context-block content-pendinglist">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
-<h1 class="context-title">{'My pending items [%pending_count]'|i18n( 'design/admin/content/pendinglist',, hash( '%pending_count', $list_count ) )}</h1>
+<h1 class="context-title">{'My pending items (%pending_count)'|i18n( 'design/admin/content/pendinglist',, hash( '%pending_count', $list_count ) )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 

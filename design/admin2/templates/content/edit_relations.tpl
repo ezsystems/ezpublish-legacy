@@ -4,7 +4,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
-<h2 class="context-title">{'Related objects [%related_objects]'|i18n( 'design/admin/content/edit',, hash( '%related_objects', $related_contentobjects|count ) )}</h2>
+<h2 class="context-title">{'Related objects (%related_objects)'|i18n( 'design/admin/content/edit',, hash( '%related_objects', $related_contentobjects|count ) )}</h2>
 
 
 
@@ -25,7 +25,7 @@
 
     {* Related images *}
     {section show=$grouped_related_contentobjects.images|count|gt( 0 )}
-    <h3>{'Related images [%related_images]'|i18n( 'design/admin/content/edit',, hash( '%related_images', $grouped_related_contentobjects.images|count ) )}</h3>
+    <h3>{'Related images (%related_images)'|i18n( 'design/admin/content/edit',, hash( '%related_images', $grouped_related_contentobjects.images|count ) )}</h3>
     <table class="list-thumbnails" cellspacing="0">
     <tr>
 
@@ -69,7 +69,7 @@
 
     {* Related files *}
     {section show=$grouped_related_contentobjects.files|count|gt( 0 )}
-    <h3>{'Related files [%related_files]'|i18n( 'design/admin/content/edit',, hash( '%related_files', $grouped_related_contentobjects.files|count ) )}</h3>
+    <h3>{'Related files (%related_files)'|i18n( 'design/admin/content/edit',, hash( '%related_files', $grouped_related_contentobjects.files|count ) )}</h3>
         <div class="file-detail-list">
 
             <table class="list" cellspacing="0">
@@ -132,7 +132,7 @@
 
     {* Related objects *}
     {section show=$grouped_related_contentobjects.objects|count|gt( 0 )}
-    <h3>{'Related content [%related_objects]'|i18n( 'design/admin/content/edit',, hash( '%related_objects', $grouped_related_contentobjects.objects|count ) )}</h3>
+    <h3>{'Related content (%related_objects)'|i18n( 'design/admin/content/edit',, hash( '%related_objects', $grouped_related_contentobjects.objects|count ) )}</h3>
         <div class="related-detail-list">
 
             <table class="list" cellspacing="0">

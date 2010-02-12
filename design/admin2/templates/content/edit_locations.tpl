@@ -25,7 +25,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
-<h2 class="context-title">{'Locations [%locations]'|i18n( 'design/admin/content/edit',, hash( '%locations', $assigned_node_array|count ) )}</h2>
+<h2 class="context-title">{'Locations (%locations)'|i18n( 'design/admin/content/edit',, hash( '%locations', $assigned_node_array|count ) )}</h2>
 
 
 

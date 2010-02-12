@@ -100,7 +100,7 @@
 <div class="context-block content-history">
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
-<h1 class="context-title">{'Versions for <%object_name> [%version_count]'|i18n( 'design/admin/content/history',, hash( '%object_name', $object.name, '%version_count', $list_count ) )|wash}</h1>
+<h1 class="context-title">{'Versions for <%object_name> (%version_count)'|i18n( 'design/admin/content/history',, hash( '%object_name', $object.name, '%version_count', $list_count ) )|wash}</h1>
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 {* DESIGN: Header END *}</div></div>
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
@@ -350,7 +350,7 @@
 {* Drafts window. *}
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
-<h2 class="context-title">{'New drafts [%newerDraftCount]'|i18n( 'design/admin/content/history',, hash( '%newerDraftCount', $newerDraftVersionListCount ) )}</h2>
+<h2 class="context-title">{'New drafts (%newerDraftCount)'|i18n( 'design/admin/content/history',, hash( '%newerDraftCount', $newerDraftVersionListCount ) )}</h2>
 
 {* DESIGN: Header END *}</div></div>
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">

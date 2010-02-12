@@ -4,7 +4,7 @@
 
 {* DESIGN: Header START *}<div class="box-header">
 
-<h1 class="context-title">{'Class groups [%group_count]'|i18n( 'design/admin/class/grouplist',, hash( '%group_count', $groups|count ) )|wash}</h1>
+<h1 class="context-title">{'Class groups (%group_count)'|i18n( 'design/admin/class/grouplist',, hash( '%group_count', $groups|count ) )|wash}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
