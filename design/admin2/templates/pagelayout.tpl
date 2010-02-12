@@ -20,8 +20,8 @@
 {if and( $ui_context_edit|not, or( $collapse_right_menu, $admin_left_size ))}
 <style type="text/css">
 {if $collapse_right_menu}
-    div#page div#rightmenu  {ldelim} width: 1.1em; {rdelim}
-    div#page div#maincolumn {ldelim} margin-right: 1.1em; {rdelim}
+    div#page div#rightmenu  {ldelim} width: 18px; {rdelim}
+    div#page div#maincolumn {ldelim} margin-right: 17px; {rdelim}
 {/if}
 {if $admin_left_size}
     {def $left_menu_widths = ezini( 'LeftMenuSettings', 'MenuWidth', 'menu.ini')}

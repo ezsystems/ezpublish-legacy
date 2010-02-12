@@ -13,9 +13,9 @@ jQuery(function( $ )
         var link = $( this ), rightmenu = $( '#rightmenu' ), hidden = rightmenu.width() < 22;
         if ( hidden )
         {
-            $('#maincolumn').css( 'marginRight', '14em' );
+            $('#maincolumn').css( 'marginRight', '180px' );
             rightmenu.animate({
-                width: '14em'
+                width: '181px'
             }, 650, 'swing', function(){
                 timeout = setTimeout( saveRightMenuStatus, 500 );
             } );
@@ -23,9 +23,9 @@ jQuery(function( $ )
         else
         {
             rightmenu.animate({
-                width: '1.2em'
+                width: '18px'
             }, 650, 'swing', function(){
-                $('#maincolumn').css( 'marginRight', '1.2em' );
+                $('#maincolumn').css( 'marginRight', '17px' );
                 timeout = setTimeout( saveRightMenuStatus, 500 );
             } );
         }

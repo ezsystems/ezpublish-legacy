@@ -207,7 +207,7 @@ div.tab-content
 {
     background-color: #fff;
     border-right: 1px #999 solid;
-    margin-right: 14em;
+    margin-right: 180px;
 }
 
 #maincontent
@@ -228,7 +228,7 @@ div.tab-content
 #rightmenu
 { 
     float: right;
-    width: 14em;
+    width: 181px;
     overflow-x: hidden;
     margin-top: 5px;
 }
