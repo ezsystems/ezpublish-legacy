@@ -69,7 +69,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
-<h2 class="context-title">{'Translations [%translations]'|i18n( 'design/admin/node/view/full',, hash( '%translations', $group.languages|count ) )}</h2>
+<h2 class="context-title">{'Translations (%translations)'|i18n( 'design/admin/node/view/full',, hash( '%translations', $group.languages|count ) )}</h2>
 
 
 
@@ -105,7 +105,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
-<h2 class="context-title">{'Object states in this group [%state_count]'|i18n( 'design/admin/state/group', '', hash( '%state_count', $group.states|count ))}</h2>
+<h2 class="context-title">{'Object states in this group (%state_count)'|i18n( 'design/admin/state/group', '', hash( '%state_count', $group.states|count ))}</h2>
 
 
 

@@ -69,7 +69,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
-<h2 class="context-title">{'Member of groups [%group_count]'|i18n( 'design/admin/workflow/view',, hash( '%group_count', $workflow.ingroup_list|count ) )}</h2>
+<h2 class="context-title">{'Member of groups (%group_count)'|i18n( 'design/admin/workflow/view',, hash( '%group_count', $workflow.ingroup_list|count ) )}</h2>
 
 
 
@@ -125,7 +125,7 @@
 {* Events *}
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
-<h2 class="context-title">{'Events [%event_count]'|i18n( 'design/admin/workflow/view',, hash( '%event_count', $event_list|count ) )}</h2>
+<h2 class="context-title">{'Events (%event_count)'|i18n( 'design/admin/workflow/view',, hash( '%event_count', $event_list|count ) )}</h2>
 
 
 

@@ -3,7 +3,7 @@
      subscribed_nodes_count=fetch( 'notification', 'subscribed_nodes_count')}
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
-<h2 class="context-title">{'My item notifications [%notification_count]'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit',, hash( '%notification_count', $subscribed_nodes_count ) )}</h2>
+<h2 class="context-title">{'My item notifications (%notification_count)'|i18n( 'design/admin/notification/handler/ezsubtree/settings/edit',, hash( '%notification_count', $subscribed_nodes_count ) )}</h2>
 
 
 

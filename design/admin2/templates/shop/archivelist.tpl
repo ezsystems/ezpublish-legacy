@@ -5,7 +5,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
-<h1 class="context-title">{'Archived orders [%count]'|i18n( 'design/admin/shop/archivelist',, hash( '%count', $archive_list|count ) )}</h1>
+<h1 class="context-title">{'Archived orders (%count)'|i18n( 'design/admin/shop/archivelist',, hash( '%count', $archive_list|count ) )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 

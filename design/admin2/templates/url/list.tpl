@@ -6,15 +6,15 @@
 
 {switch match=$view_mode}
 {case match='valid'}
-    <h1 class="context-title">{'Valid URLs [%url_list_count]'|i18n( 'design/admin/url/list',, hash( '%url_list_count', $url_list_count) )}</h1>
+    <h1 class="context-title">{'Valid URLs (%url_list_count)'|i18n( 'design/admin/url/list',, hash( '%url_list_count', $url_list_count) )}</h1>
 {/case}
 
 {case match='invalid'}
-    <h1 class="context-title">{'Invalid URLs [%url_list_count]'|i18n( 'design/admin/url/list',, hash( '%url_list_count', $url_list_count) )}</h1>
+    <h1 class="context-title">{'Invalid URLs (%url_list_count)'|i18n( 'design/admin/url/list',, hash( '%url_list_count', $url_list_count) )}</h1>
 {/case}
 
 {case}
-    <h1 class="context-title">{'All URLs [%url_list_count]'|i18n( 'design/admin/url/list',, hash( '%url_list_count', $url_list_count) )}</h1>
+    <h1 class="context-title">{'All URLs (%url_list_count)'|i18n( 'design/admin/url/list',, hash( '%url_list_count', $url_list_count) )}</h1>
 {/case}
 {/switch}
 

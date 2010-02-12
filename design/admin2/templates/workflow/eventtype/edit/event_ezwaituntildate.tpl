@@ -32,7 +32,7 @@
 
 {* Class/attribute list *}
 <div class="block">
-<label>{'Class/attribute combinations [%count]'|i18n( 'design/admin/workflow/eventtype/edit',, hash( '%count', $event.content.entry_list|count ) )}:</label>
+<label>{'Class/attribute combinations (%count)'|i18n( 'design/admin/workflow/eventtype/edit',, hash( '%count', $event.content.entry_list|count ) )}:</label>
 {section show=$event.content.entry_list}
 <table class="list" cellspacing="0">
 <tr>

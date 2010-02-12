@@ -3,7 +3,7 @@
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
 <h1 class="context-title">
-{'"%contentObjectName" [%children_count]: Sub items that are used by other objects '|i18n( 'design/admin/content/reverserelatedlist',,
+{'"%contentObjectName" (%children_count): Sub items that are used by other objects '|i18n( 'design/admin/content/reverserelatedlist',,
                 hash( '%contentObjectName', $content_object_name ,
                       '%children_count', $reverse_list_children_count ) )}</h1>
 

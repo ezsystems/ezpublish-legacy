@@ -4,7 +4,7 @@
 
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
-<h1 class="context-title">{'Sections [%section_count]'|i18n( 'design/admin/section/list',, hash( '%section_count', $section_count ) )}</h1>
+<h1 class="context-title">{'Sections (%section_count)'|i18n( 'design/admin/section/list',, hash( '%section_count', $section_count ) )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 

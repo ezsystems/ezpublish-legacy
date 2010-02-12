@@ -4,7 +4,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
-<h1 class="context-title">{'Content object state groups [%group_count]'|i18n('design/admin/state_groups', '', hash( '%group_count', $group_count ))|wash}</h1>
+<h1 class="context-title">{'Content object state groups (%group_count)'|i18n('design/admin/state_groups', '', hash( '%group_count', $group_count ))|wash}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 

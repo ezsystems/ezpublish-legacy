@@ -7,7 +7,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
-<h1 class="context-title">{'My wish list [%item_count]'|i18n( 'design/admin/shop/wishlist',, hash( '%item_count', $wish_list_count ) )}</h1>
+<h1 class="context-title">{'My wish list (%item_count)'|i18n( 'design/admin/shop/wishlist',, hash( '%item_count', $wish_list_count ) )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 

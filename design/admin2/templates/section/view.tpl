@@ -52,7 +52,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
-<h2 class="context-title">{'Roles containing limitations associated with this section [%number_of_roles]'|i18n( 'design/admin/section/view',, hash( '%number_of_roles', $roles|count ) )}</h2>
+<h2 class="context-title">{'Roles containing limitations associated with this section (%number_of_roles)'|i18n( 'design/admin/section/view',, hash( '%number_of_roles', $roles|count ) )}</h2>
 
 
 
@@ -103,7 +103,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
-<h2 class="context-title">{'Users and user groups with role limitations associated with this section [%number_of_roles]'|i18n( 'design/admin/section/view',, hash( '%number_of_roles', $user_roles|count ) )}</h2>
+<h2 class="context-title">{'Users and user groups with role limitations associated with this section (%number_of_roles)'|i18n( 'design/admin/section/view',, hash( '%number_of_roles', $user_roles|count ) )}</h2>
 
 
 
@@ -149,7 +149,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
-<h2 class="context-title">{'Objects within this section [%number_of_objects]'|i18n( 'design/admin/section/view',, hash( '%number_of_objects', $objects_count ) )}</h2>
+<h2 class="context-title">{'Objects within this section (%number_of_objects)'|i18n( 'design/admin/section/view',, hash( '%number_of_objects', $objects_count ) )}</h2>
 
 
 

@@ -56,7 +56,7 @@
 <div class="context-block content-urlalias">
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
-<h1 class="context-title">{'URL aliases for <%node_name> [%alias_count]'|i18n( 'design/admin/content/urlalias',, hash( '%node_name', $node.name, '%alias_count', $filter.count ) )|wash}</h1>
+<h1 class="context-title">{'URL aliases for <%node_name> (%alias_count)'|i18n( 'design/admin/content/urlalias',, hash( '%node_name', $node.name, '%alias_count', $filter.count ) )|wash}</h1>
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 {* DESIGN: Header END *}</div></div>
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
@@ -162,7 +162,7 @@
 {* Generated aliases window. *}
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
-<h2 class="context-title">{'Generated aliases [%count]'|i18n( 'design/admin/content/urlalias',, hash('%count', count( $elements ) ) )}</h2>
+<h2 class="context-title">{'Generated aliases (%count)'|i18n( 'design/admin/content/urlalias',, hash('%count', count( $elements ) ) )}</h2>
 
 {* DESIGN: Header END *}</div></div>
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">

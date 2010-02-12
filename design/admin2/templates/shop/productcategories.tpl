@@ -14,7 +14,7 @@
 
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
-<h1 class="context-title">{'Product categories [%categories]'|i18n( 'design/admin/shop/productcategories',, hash( '%categories', $categories|count ) )}</h1>
+<h1 class="context-title">{'Product categories (%categories)'|i18n( 'design/admin/shop/productcategories',, hash( '%categories', $categories|count ) )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 

@@ -2,7 +2,7 @@
 
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
-<h1 class="context-title">{'PDF exports [%export_count]'|i18n( 'design/admin/pdf/list',, hash( '%export_count', $pdfexport_list|count ) )}</h1>
+<h1 class="context-title">{'PDF exports (%export_count)'|i18n( 'design/admin/pdf/list',, hash( '%export_count', $pdfexport_list|count ) )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 

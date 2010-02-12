@@ -119,7 +119,7 @@
 {* Status history *}
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
-<h2 class="context-title">{'Status history [%status_count]'|i18n( 'design/admin/shop/orderview',,
+<h2 class="context-title">{'Status history (%status_count)'|i18n( 'design/admin/shop/orderview',,
                             hash( '%status_count', fetch( shop, order_status_history_count, hash( 'order_id', $order.order_nr ) ) ) )}</h2>
 
 

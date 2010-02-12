@@ -93,7 +93,7 @@
 {case match='Node'}
 <div class="block">
 <fieldset>
-<legend>{'Nodes [%node_count]'|i18n( 'design/admin/role/createpolicystep3',, hash( '%node_count', $node_list|count ) )}</legend>
+<legend>{'Nodes (%node_count)'|i18n( 'design/admin/role/createpolicystep3',, hash( '%node_count', $node_list|count ) )}</legend>
 {section show=$node_list}
 <table class="list" cellspacing="0">
 <tr>
@@ -127,7 +127,7 @@
 {case match='Subtree'}
 <div class="block">
 <fieldset>
-<legend>{'Subtrees [%subtree_count]'|i18n( 'design/admin/role/createpolicystep3',, hash( '%subtree_count', $subtree_list|count ) )}</legend>
+<legend>{'Subtrees (%subtree_count)'|i18n( 'design/admin/role/createpolicystep3',, hash( '%subtree_count', $subtree_list|count ) )}</legend>
 {section show=$subtree_list}
 <table class="list" cellspacing="0">
 <tr>

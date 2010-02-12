@@ -6,7 +6,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
-<h1 class="context-title">{'Objects that have collected information [%object_count]'|i18n( 'design/admin/infocollector/overview',, hash( '%object_count', $object_count ) )}</h1>
+<h1 class="context-title">{'Objects that have collected information (%object_count)'|i18n( 'design/admin/infocollector/overview',, hash( '%object_count', $object_count ) )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 

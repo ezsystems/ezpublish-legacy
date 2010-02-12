@@ -2,7 +2,7 @@
 <div class="context-block">
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
-<h1 class="context-title">{'Workflow processes [%trigger_count]'|i18n( 'design/admin/workflow/processlist',, hash( '%trigger_count', $total_process_count ) )}</h1>
+<h1 class="context-title">{'Workflow processes (%trigger_count)'|i18n( 'design/admin/workflow/processlist',, hash( '%trigger_count', $total_process_count ) )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -47,7 +47,7 @@
 {$tentry.trigger.module_name}/{$tentry.trigger.function_name}/{$tentry.trigger.name}&nbsp;:&nbsp;[{$tentry.process_list|count}]
 </label>
 </div>
-{*'[%process_count]'|i18n( 'design/admin/workflow/processlist',, hash( '%process_count', $tentry.process_list|count ) )*}
+{*'(%process_count)'|i18n( 'design/admin/workflow/processlist',, hash( '%process_count', $tentry.process_list|count ) )*}
 <table class="list" cellspacing="0">
 <tr>
     <th>{'Workflow'|i18n( 'design/admin/workflow/processlist' )}</th>
