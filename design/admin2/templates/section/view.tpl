@@ -190,5 +190,16 @@
 
 {* DESIGN: Content END *}</div></div></div>
 
+
+<div class='block'>
+<div class="controlbar">{* DESIGN: Control bar START *}
+
+<form method="post" action={concat( '/section/assign/', $section.id )|ezurl}>
+<input class="button" type="submit" name="_DefaultButton" value="{'Assign subtree'|i18n( 'design/admin/section/view' )}" title="{'Assign subtree of objects to this section'|i18n( 'design/admin/section/view' )}" />
+</form>
+
+{* DESIGN: Control bar END *}</div>
+</div>
+
 </div>
 {/let}

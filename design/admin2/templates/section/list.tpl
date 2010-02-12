@@ -57,7 +57,7 @@
     <td class="number" align="right">{$Sections.item.id}</td>
     <td>
     {if or( $allowed_assign_sections|contains( $Sections.item.id ), $allowed_assign_sections|contains( '*' ) )}
-        <a href={concat( '/section/assign/', $Sections.item.id, '/')|ezurl}><img src={'assign.gif'|ezimage} alt="{'Assign'|i18n( 'design/admin/section/list' )}" title="{'Assign the <%section_name> section to a subtree.'|i18n( 'design/admin/section/list',, hash( '%section_name', $Sections.item.name ) )|wash}" /></a>
+        <a href={concat( '/section/assign/', $Sections.item.id, '/')|ezurl}><img src={'assign.gif'|ezimage} alt="{'Assign'|i18n( 'design/admin/section/list' )}" title="{'Assign a subtree to the <%section_name> section.'|i18n( 'design/admin/section/list',, hash( '%section_name', $Sections.item.name ) )|wash}" /></a>
     {else}
         <img src={'assign-disabled.gif'|ezimage} alt="{'Assign'|i18n( 'design/admin/section/list' )}" title="{'You are not allowed to assign the <%section_name> section.'|i18n( 'design/admin/section/list',, hash( '%section_name', $Sections.item.name ) )|wash}" />
     {/if}
