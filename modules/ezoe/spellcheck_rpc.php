@@ -6,7 +6,7 @@
  * @copyright Copyright � 2004-2007, Moxiecode Systems AB, All rights reserved.
  */
 
-include_once( 'extension/ezoe/modules/ezoe/classes/utils/mcejson.php' );
+//include_once( 'extension/ezoe/modules/ezoe/classes/utils/mcejson.php' );
 include_once( 'extension/ezoe/modules/ezoe/classes/SpellChecker.php' );
 
 /**
@@ -150,8 +150,9 @@ if (isset($config['general.remote_rpc_url']))
 }
 
 // Get JSON data
-$json = new Moxiecode_JSON();
-$input = $json->decode($raw);
+//$json = new Moxiecode_JSON();
+//$input = $json->decode( $raw );
+$input = json_decode( $raw, true );
 
 // Execute RPC
 if (isset($config['general.engine']) && class_exists( $config['general.engine'] ))
@@ -168,7 +169,7 @@ else
 
 // Request and response id should always be the same
 $output = array(
-    "id" => $input->id,
+    "id" => $input['id'],
     "result" => $result,
     "error" => null
 );
@@ -178,7 +179,8 @@ eZDebug::printReport( false, false );
 echo "*/\r\n";
 
 // Return JSON encoded string
-echo $json->encode( $output );
+//echo $json->encode( $output );
+echo json_encode( $output );
 
 eZDB::checkTransactionCounter();
 eZExecution::cleanExit();
