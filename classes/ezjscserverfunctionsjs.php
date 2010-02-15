@@ -414,7 +414,7 @@ YUI( YUI3_config ).add('io-ez', function( Y )
             $result['SearchResult'] = ezjscAjaxContent::nodeEncode( $searchList['SearchResult'], $encodeParams, false );
 
             // ezfind stuff
-            if ( $searchList['SearchExtras'] instanceof ezfSearchResultInfo )
+            if ( isset( $searchList['SearchExtras'] ) && $searchList['SearchExtras'] instanceof ezfSearchResultInfo )
             {
                 if ( isset( $param['SpellCheck'] ) )
                     $result['SearchExtras']['spellcheck'] = $searchList['SearchExtras']->attribute( 'spellcheck' );
