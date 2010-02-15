@@ -260,7 +260,11 @@ YUI( YUI3_config ).add('io-ez', function( Y )
         var url = _serverUrl + 'call/';
         if ( post )
         {
-            post['ezjscServer_function_arguments'] = callArgs;
+            // support serializeArray() format
+            if ( post.join !== undefined )
+                post.push( { 'name': 'ezjscServer_function_arguments', 'value': callArgs } );
+            else
+                post['ezjscServer_function_arguments'] = callArgs;
             return $.post( url, post, callBack, 'json' );
         }
         return $.get( url + encodeURIComponent( callArgs ), {}, callBack, 'json' );

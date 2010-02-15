@@ -6,6 +6,7 @@
 - Added a fourth parameter on ezjscore/call to be able to enable debug in response
 - Make ezjscServerRouter use hasAccessToLimitation to support multiple policies
 - Add support for spellchecker and facets support for ezfind
+- Add support for serializeArray() format as post parameter on jQuery.ez
 
 
 
