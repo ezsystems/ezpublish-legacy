@@ -31,9 +31,11 @@
 {'The "Grant access to all functions" button will create a policy that grants unlimited access to all functions of the selected module. If you wish to limit the access method to a specific function, use the "Grant access to a function" button. Please note that function limitation is only supported by some modules (the next step will reveal if it works or not).'|i18n( 'design/admin/role/createpolicystep1' )}
 </p>
 
+<div class="break"></div>
+
 <div class="block">
 <div class="element">
-    <label for="ezrole-createpolizy-module">{'Module'|i18n( 'design/admin/role/createpolicystep1' )}:</label>
+    <label class="inline" for="ezrole-createpolizy-module">{'Module'|i18n( 'design/admin/role/createpolicystep1' )}:</label>
     <select id="ezrole-createpolizy-module" name=CurrentModule>
     <option value="*">{'Every module'|i18n( 'design/admin/role/createpolicystep1' )}</option>
     {section var=Modules loop=$modules }
@@ -41,15 +43,20 @@
     {/section}
     </select>
 </div>
+</div>
 
+<div class="break"></div>
+
+<div class="block">
 <div class="element">
-	<label for="ezrole-createpolizy-function">{'Function'|i18n( 'design/admin/role/createpolicystep2' )}:</label>
+	<label class="inline" for="ezrole-createpolizy-function">{'Function'|i18n( 'design/admin/role/createpolicystep2' )}:</label>
 	<select id="ezrole-createpolizy-function" name="ModuleFunction" disabled="disabled">
 	    <option value="*">{'Every function'|i18n( 'design/admin/role/createpolicystep1' )}</option>
 	</select>
 </div>
 </div>
 
+<div class="break"></div>
 
 <div class="block">
 <input class="button button-module" type="submit" name="AddModule" value="{'Grant access to all functions'|i18n( 'design/admin/role/createpolicystep1' )}" />
