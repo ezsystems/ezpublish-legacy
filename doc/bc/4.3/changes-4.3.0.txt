@@ -82,3 +82,7 @@ Removed methods
 
 - All internal i18n.php functions have been removed, as in:
   ezcurrentLanguage(), ezinsertarguments() and eZTranslateText()
+  
+- eZArchiveHandler
+  This class and related sub-class eZTARArchiveHandler has been removed
+  They have been deprecated since 4.1.
