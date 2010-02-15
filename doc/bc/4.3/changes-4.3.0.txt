@@ -86,3 +86,10 @@ Removed methods
 - eZArchiveHandler
   This class and related sub-class eZTARArchiveHandler has been removed
   They have been deprecated since 4.1.
+  
+- eZModuleManager
+  eZModuleManager class has been deprecated since 4.1, in favor of the setting
+  [ModuleSettings] ModuleList in module.ini
+
+- eZImportLookupTable
+  This class is removed after being deprecated since 4.1
