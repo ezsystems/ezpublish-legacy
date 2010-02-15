@@ -336,9 +336,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         $objectParameters = array();
         $excludeAttrs = array( 'view', 'class', 'node_id', 'object_id' );
 
-        foreach ( array_keys( $attributes ) as $attrName )
+        foreach ( $attributes as $attrName => $value )
         {
-           $value = $attributes[$attrName];
            if ( !in_array( $attrName, $excludeAttrs ) )
            {
                if ( strpos( $attrName, ':' ) !== false )
@@ -446,10 +445,10 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         $inlineContent = '';
         foreach( $childrenOutput as $key => $childOutput )
         {
-            if ( $childOutput[0] === true ) // is inline
+            if ( $childOutput[0] === true )// is inline
                 $inlineContent .= $childOutput[1];
 
-            // Only render paragraph if current tag is block and prevoius was an inline tag
+            // Only render paragraph if current tag is block and previous was an inline tag
             // OR  if current one is inline and it's the last item in the child list
             if ( ( $childOutput[0] === false && $lastTagInline === true ) ||
                  ( $childOutput[0] === true && !isset( $childrenOutput[ $key + 1 ]  ) ) )
@@ -458,7 +457,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $inlineContent = '';
             }
 
-            if ( $childOutput[0] === false ) // is block
+            if ( $childOutput[0] === false )// is block
                 $tagText .= $childOutput[1];
 
             $lastTagInline = $childOutput[0];
@@ -489,19 +488,20 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
         foreach( $childrenOutput as $key=>$childOutput )
         {
-            if ( $childOutput[0] === true )
+            if ( $childOutput[0] === true )// is inline
                 $inlineContent .= $childOutput[1];
 
-            // Render only inline parts, block parts just passed to parent
+            // Only render tag if current tag is block and previous was an inline tag
+            // OR  if current one is inline and it's the last item in the child list
             if ( ( $childOutput[0] === false && $lastTagInline === true ) ||
-                 ( $childOutput[0] === true && !array_key_exists( $key + 1, $childrenOutput ) ) )
+                 ( $childOutput[0] === true && !isset( $childrenOutput[ $key + 1 ] ) ) )
             {
                 $tagText = $this->renderTag( $element, $inlineContent, $vars );
                 $renderedArray[] = array( true, $tagText );
                 $inlineContent = '';
             }
 
-            if ( $childOutput[0] === false )
+            if ( $childOutput[0] === false )// is block
                 $renderedArray[] = array( false, $childOutput[1] );
 
             $lastTagInline = $childOutput[0];
@@ -518,7 +518,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
         foreach( $childrenOutput as $key=>$childOutput )
         {
-            if ( $childOutput[0] === true )
+            if ( $childOutput[0] === true )// is inline
                 $inlineContent .= $childOutput[1];
 
             // Render line tag only if the last part of childrenOutput is inline and the next tag
@@ -529,7 +529,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $renderedArray[] = array( true, $inlineContent );
                 $inlineContent = '';
             }
-            elseif ( $childOutput[0] === true && !array_key_exists( $key + 1, $childrenOutput ) )
+            elseif ( $childOutput[0] === true && !isset( $childrenOutput[ $key + 1 ] ) )
             {
                 $next = $element->nextSibling;
                 if ( $next && $next->nodeName == 'line' )
@@ -541,7 +541,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     $renderedArray[] = array( true, $inlineContent );
             }
 
-            if ( $childOutput[0] === false )
+            if ( $childOutput[0] === false )// is block
                 $renderedArray[] = array( false, $childOutput[1] );
 
             $lastTagInline = $childOutput[0];
