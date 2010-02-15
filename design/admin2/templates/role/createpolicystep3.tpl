@@ -62,6 +62,8 @@
 <li>{'Click the "OK" button to finish the wizard. The policy will be added to the role that is currently being edited.'|i18n( 'design/admin/role/createpolicystep3' )}</li>
 </ol>
 
+<fieldset>
+<legend>{'Properties'|i18n( 'design/admin/role/createpolicystep3' )}</legend>
 <div class="block">
 {section name=Limitations loop=$function_limitations}
 {section-exclude match=$Limitations:item.name|eq('Subtree')}
@@ -83,6 +85,7 @@
 {/if}
 {/section}
 </div>
+</fieldset>
 
 
 {section var=Limitations loop=$function_limitations}
