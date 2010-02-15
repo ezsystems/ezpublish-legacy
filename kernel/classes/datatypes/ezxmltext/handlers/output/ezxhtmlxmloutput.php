@@ -440,23 +440,25 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             return $childrenOutput;
         }
 
-        // break paragraph by block tags
+        // Break paragraph by block tags (like table, ol, ul, header and paragraphs)
         $tagText = '';
         $lastTagInline = null;
         $inlineContent = '';
         foreach( $childrenOutput as $key => $childOutput )
         {
-            if ( $childOutput[0] === true )
+            if ( $childOutput[0] === true ) // is inline
                 $inlineContent .= $childOutput[1];
 
+            // Only render paragraph if current tag is block and prevoius was an inline tag
+            // OR  if current one is inline and it's the last item in the child list
             if ( ( $childOutput[0] === false && $lastTagInline === true ) ||
-                 ( $childOutput[0] === true && !array_key_exists( $key + 1, $childrenOutput ) ) )
+                 ( $childOutput[0] === true && !isset( $childrenOutput[ $key + 1 ]  ) ) )
             {
                 $tagText .= $this->renderTag( $element, $inlineContent, $vars );
                 $inlineContent = '';
             }
 
-            if ( $childOutput[0] === false )
+            if ( $childOutput[0] === false ) // is block
                 $tagText .= $childOutput[1];
 
             $lastTagInline = $childOutput[0];
