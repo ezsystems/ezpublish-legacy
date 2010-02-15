@@ -24,9 +24,13 @@
          $language         = '-'|concat( $ez_locale )
          $dependency_js_list   = array( 'ezoe::i18n::'|concat( $language ) )
          $spell_languages = '+English=en'
+         $directionality = 'ltr'
     }
     {if ezini_hasvariable( 'EditorSettings', 'SkinVariant', 'ezoe.ini',,true() )}
         {set $skin_variant = ezini('EditorSettings', 'SkinVariant', 'ezoe.ini',,true() )}
+    {/if}
+    {if ezini_hasvariable( 'EditorSettings', 'Directionality', 'ezoe.ini',,true() )}
+        {set $directionality = ezini('EditorSettings', 'Directionality', 'ezoe.ini',,true() )}
     {/if}
     {if $attribute.language_code|eq( $ez_locale )}
         {def $cur_locale = fetch( 'content', 'locale' )}
@@ -68,6 +72,7 @@
         skin : '{$skin}',
         skin_variant : '{$skin_variant}',
         plugins : "-{$plugin_list|implode(',-')}",
+        directionality : '{$directionality}',
         theme_advanced_buttons2 : "",
         theme_advanced_buttons3 : "",
         theme_advanced_blockformats : "p,pre,h1,h2,h3,h4,h5,h6",

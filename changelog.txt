@@ -2,6 +2,7 @@ eZ Online Editor 5.0 extension Changelog
 
 5.1.0Beta1
 * Fixed #15872: suggestions of spell checker have the wrong encoding
+* Added ezoe.ini setting for setting directionality
 
 
 5.1.0Alpha1
