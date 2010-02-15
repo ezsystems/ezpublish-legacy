@@ -35,7 +35,7 @@
 
 */
 
-require_once( 'kernel/common/i18n.php' );
+
 
 class eZKeywordType extends eZDataType
 {
@@ -46,7 +46,7 @@ class eZKeywordType extends eZDataType
     */
     function eZKeywordType()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', 'Keywords', 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, eZi18n::translate( 'kernel/classes/datatypes', 'Keywords', 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -89,7 +89,7 @@ class eZKeywordType extends eZDataType
             {
                 if ( !$classAttribute->attribute( 'is_information_collector' ) and $contentObjectAttribute->validateIsRequired() )
                 {
-                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                    $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
                                                                          'Input required.' ) );
                     return eZInputValidator::STATE_INVALID;
                 }
@@ -97,7 +97,7 @@ class eZKeywordType extends eZDataType
         }
         else if ( !$classAttribute->attribute( 'is_information_collector' ) and $contentObjectAttribute->validateIsRequired() )
         {
-            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes', 'Input required.' ) );
+            $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes', 'Input required.' ) );
             return eZInputValidator::STATE_INVALID;
         }
         return eZInputValidator::STATE_ACCEPTED;

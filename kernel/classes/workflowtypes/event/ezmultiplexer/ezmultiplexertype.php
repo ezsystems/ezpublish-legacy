@@ -2,7 +2,7 @@
 //
 // Definition of eZMultiplexerType class
 //
-// Created on: <01-Ноя-2002 15:34:23 sp>
+// Created on: <01-О©╫О©╫О©╫-2002 15:34:23 sp>
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ Publish
@@ -55,7 +55,7 @@ class eZMultiplexerType extends eZWorkflowEventType
     */
     function eZMultiplexerType()
     {
-        $this->eZWorkflowEventType( eZMultiplexerType::WORKFLOW_TYPE_STRING, ezi18n( 'kernel/workflow/event', 'Multiplexer' ) );
+        $this->eZWorkflowEventType( eZMultiplexerType::WORKFLOW_TYPE_STRING, eZi18n::translate( 'kernel/workflow/event', 'Multiplexer' ) );
     }
 
     function attributeDecoder( $event, $attr )

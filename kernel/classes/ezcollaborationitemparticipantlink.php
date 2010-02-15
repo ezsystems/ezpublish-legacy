@@ -283,13 +283,13 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
         {
             if ( empty( $GLOBALS['eZCollaborationParticipantRoleNameMap'] ) )
             {
-                require_once( 'kernel/common/i18n.php' );
+                
                 $GLOBALS['eZCollaborationParticipantRoleNameMap'] =
-                    array( self::ROLE_STANDARD => ezi18n( 'kernel/classes', 'Standard' ),
-                           self::ROLE_OBSERVER => ezi18n( 'kernel/classes', 'Observer' ),
-                           self::ROLE_OWNER => ezi18n( 'kernel/classes', 'Owner' ),
-                           self::ROLE_APPROVER => ezi18n( 'kernel/classes', 'Approver' ),
-                           self::ROLE_AUTHOR => ezi18n( 'kernel/classes', 'Author' ) );
+                    array( self::ROLE_STANDARD => eZi18n::translate( 'kernel/classes', 'Standard' ),
+                           self::ROLE_OBSERVER => eZi18n::translate( 'kernel/classes', 'Observer' ),
+                           self::ROLE_OWNER => eZi18n::translate( 'kernel/classes', 'Owner' ),
+                           self::ROLE_APPROVER => eZi18n::translate( 'kernel/classes', 'Approver' ),
+                           self::ROLE_AUTHOR => eZi18n::translate( 'kernel/classes', 'Author' ) );
             }
             $roleNameMap = $GLOBALS['eZCollaborationParticipantRoleNameMap'];
             if ( isset( $roleNameMap[$roleID] ) )

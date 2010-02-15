@@ -35,7 +35,7 @@
 
 */
 
-require_once( 'kernel/common/i18n.php' );
+
 class eZURLType extends eZDataType
 {
     const DATA_TYPE_STRING = 'ezurl';
@@ -45,7 +45,7 @@ class eZURLType extends eZDataType
     */
     function eZURLType()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', 'URL', 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, eZi18n::translate( 'kernel/classes/datatypes', 'URL', 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
         $this->MaxLenValidator = new eZIntegerValidator();
     }
@@ -91,7 +91,7 @@ class eZURLType extends eZDataType
             if ( $contentObjectAttribute->validateIsRequired() )
                 if ( ( $url == "" ) or ( $text == "" ) )
                 {
-                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                    $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
                                                                          'Input required.' ) );
                     return eZInputValidator::STATE_INVALID;
                 }
@@ -100,7 +100,7 @@ class eZURLType extends eZDataType
         }
         else if ( $contentObjectAttribute->validateIsRequired() )
         {
-            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes', 'Input required.' ) );
+            $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes', 'Input required.' ) );
             return eZInputValidator::STATE_INVALID;
         }
         return eZInputValidator::STATE_ACCEPTED;

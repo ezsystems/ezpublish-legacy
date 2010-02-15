@@ -373,6 +373,6 @@ $tpl->setVariable( "current_limitation_list", $currentLimitationList );
 $Result = array();
 
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezi18n( 'kernel/role', 'Editing policy' ) ) );
+                                'text' => eZi18n::translate( 'kernel/role', 'Editing policy' ) ) );
 $Result['content'] = $tpl->fetch( 'design:role/policyedit.tpl' );
 ?>

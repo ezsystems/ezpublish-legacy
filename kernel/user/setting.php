@@ -101,9 +101,9 @@ $tpl->setVariable( "max_failed_login_attempts", $maxFailedLoginAttempts );
 
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:user/setting.tpl" );
-$Result['path'] = array( array( 'text' => ezi18n( 'kernel/user', 'User' ),
+$Result['path'] = array( array( 'text' => eZi18n::translate( 'kernel/user', 'User' ),
                                 'url' => false ),
-                         array( 'text' => ezi18n( 'kernel/user', 'Setting' ),
+                         array( 'text' => eZi18n::translate( 'kernel/user', 'Setting' ),
                                 'url' => false ) );
 
 ?>

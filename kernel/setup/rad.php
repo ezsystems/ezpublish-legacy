@@ -35,7 +35,7 @@ $tpl = templateInit();
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:setup/rad.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezi18n( 'kernel/setup', 'Rapid Application Development' ) ) );
+                                'text' => eZi18n::translate( 'kernel/setup', 'Rapid Application Development' ) ) );
 
 
 ?>

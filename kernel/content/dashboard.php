@@ -107,7 +107,7 @@ $tpl->setVariable( 'persistent_variable', false );
 
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:content/dashboard.tpl' );
-$Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Dashboard' ),
+$Result['path'] = array( array( 'text' => eZi18n::translate( 'kernel/content', 'Dashboard' ),
                                 'url' => false ) );
 
 $contentInfoArray['persistent_variable'] = false;

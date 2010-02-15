@@ -128,7 +128,7 @@ else if ( $module->isCurrentAction( 'RemoveTranslation' ) )
     $Result = array();
     $Result['content'] = $tpl->fetch( 'design:class/removetranslation.tpl' );
     $Result['path'] = array( array( 'url' => false,
-                                    'text' => ezi18n( 'kernel/class', 'Remove translation' ) ) );
+                                    'text' => eZi18n::translate( 'kernel/class', 'Remove translation' ) ) );
 
     return;
 }

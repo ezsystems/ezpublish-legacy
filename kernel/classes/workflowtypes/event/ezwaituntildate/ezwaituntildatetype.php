@@ -45,7 +45,7 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
     */
     function eZWaitUntilDateType()
     {
-        $this->eZWorkflowEventType( eZWaitUntilDateType::WORKFLOW_TYPE_STRING, ezi18n( 'kernel/workflow/event', "Wait until date" ) );
+        $this->eZWorkflowEventType( eZWaitUntilDateType::WORKFLOW_TYPE_STRING, eZi18n::translate( 'kernel/workflow/event', "Wait until date" ) );
         $this->setTriggerTypes( array( 'content' => array( 'publish' => array( 'before',
                                                                                'after' ) ) ) );
     }

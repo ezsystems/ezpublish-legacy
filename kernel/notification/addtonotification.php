@@ -90,7 +90,7 @@ $tpl->setVariable( 'node_id', $nodeID );
 
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:notification/addingresult.tpl' );
-$Result['path'] = array( array( 'text' => ezi18n( 'kernel/notification', ($alreadyExists ? 'Notification already exists.' : 'Notification was added successfully!') ),
+$Result['path'] = array( array( 'text' => eZi18n::translate( 'kernel/notification', ($alreadyExists ? 'Notification already exists.' : 'Notification was added successfully!') ),
                                 'url' => false ) );
 
 ?>

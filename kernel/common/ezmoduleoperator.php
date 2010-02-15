@@ -36,7 +36,7 @@
   \brief The class eZModuleOperator does
 
 */
-require_once( 'kernel/common/i18n.php' );
+
 
 class eZModuleOperator
 {

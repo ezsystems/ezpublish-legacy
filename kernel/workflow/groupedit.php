@@ -46,7 +46,7 @@ else
     $user = eZUser::currentUser();
     $user_id = $user->attribute( "contentobject_id" );
     $workflowGroup = eZWorkflowGroup::create( $user_id );
-    $workflowGroup->setAttribute( "name", ezi18n( 'kernel/workflow/groupedit', "New WorkflowGroup" ) );
+    $workflowGroup->setAttribute( "name", eZi18n::translate( 'kernel/workflow/groupedit', "New WorkflowGroup" ) );
     $WorkflowGroupID = $workflowGroup->attribute( "id" );
 }
 
@@ -92,7 +92,7 @@ if ( $http->hasPostVariable( "StoreButton" ) )
     return;
 }
 
-$Module->setTitle( ezi18n( 'kernel/workflow', 'Edit workflow group' ) . ' ' .
+$Module->setTitle( eZi18n::translate( 'kernel/workflow', 'Edit workflow group' ) . ' ' .
                    $workflowGroup->attribute( "name" ) );
 
 // Template handling
@@ -110,9 +110,9 @@ $tpl->setVariable( "workflow_group", $workflowGroup );
 
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:workflow/groupedit.tpl" );
-$Result['path'] = array( array( 'text' => ezi18n( 'kernel/workflow', 'Workflow' ),
+$Result['path'] = array( array( 'text' => eZi18n::translate( 'kernel/workflow', 'Workflow' ),
                                 'url' => false ),
-                         array( 'text' => ezi18n( 'kernel/workflow', 'Group edit' ),
+                         array( 'text' => eZi18n::translate( 'kernel/workflow', 'Group edit' ),
                                 'url' => false ) );
 
 

@@ -31,7 +31,7 @@
 /*! \file
 */
 
-require_once( 'kernel/common/i18n.php' );
+
 
 /*!
   \class eZStepEmailSettings ezstep_email_settings.php
@@ -118,7 +118,7 @@ class eZStepEmailSettings extends eZStepInstaller
         $result = array();
         // Display template
         $result['content'] = $this->Tpl->fetch( "design:setup/init/email_settings.tpl" );
-        $result['path'] = array( array( 'text' => ezi18n( 'design/standard/setup/init',
+        $result['path'] = array( array( 'text' => eZi18n::translate( 'design/standard/setup/init',
                                                           'Email settings' ),
                                         'url' => false ) );
         return $result;

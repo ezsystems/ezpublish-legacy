@@ -193,7 +193,7 @@ $res->setKeys( array( array( 'error_type', $errorType ), array( 'error_number', 
 
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:error/$errorType/$errorNumber.tpl" );
-$Result['path'] = array( array( 'text' => ezi18n( 'kernel/error', 'Error' ),
+$Result['path'] = array( array( 'text' => eZi18n::translate( 'kernel/error', 'Error' ),
                                 'url' => false ),
                          array( 'text' => "$errorType ($errorNumber)",
                                 'url' => false ) );

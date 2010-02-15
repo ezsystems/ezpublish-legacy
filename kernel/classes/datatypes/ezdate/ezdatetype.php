@@ -47,7 +47,7 @@ class eZDateType extends eZDataType
 
     function eZDateType()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Date", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, eZi18n::translate( 'kernel/classes/datatypes', "Date", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -57,7 +57,7 @@ class eZDateType extends eZDataType
         $state = eZDateTimeValidator::validateDate( $day, $month, $year );
         if ( $state == eZInputValidator::STATE_INVALID )
         {
-            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+            $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
                                                                  'Date is not valid.' ) );
             return eZInputValidator::STATE_INVALID;
         }
@@ -85,7 +85,7 @@ class eZDateType extends eZDataType
                      ( !$classAttribute->attribute( 'is_information_collector' ) and
                        $contentObjectAttribute->validateIsRequired() ) )
                 {
-                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                    $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
                                                                          'Missing date input.' ) );
                     return eZInputValidator::STATE_INVALID;
                 }
@@ -99,7 +99,7 @@ class eZDateType extends eZDataType
         }
         else if ( !$classAttribute->attribute( 'is_information_collector' ) and $contentObjectAttribute->validateIsRequired() )
         {
-            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes', 'Missing date input.' ) );
+            $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes', 'Missing date input.' ) );
             return eZInputValidator::STATE_INVALID;
         }
 
@@ -155,7 +155,7 @@ class eZDateType extends eZDataType
                 if ( !( $year == '' and $month == '' and $day == '' ) or
                      $contentObjectAttribute->validateIsRequired() )
                 {
-                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                    $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
                                                                          'Missing date input.' ) );
                     return eZInputValidator::STATE_INVALID;
                 }

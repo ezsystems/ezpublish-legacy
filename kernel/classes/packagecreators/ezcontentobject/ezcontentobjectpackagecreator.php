@@ -43,13 +43,13 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
     {
         $steps = array();
         $steps[] = array( 'id' => 'object',
-                          'name' => ezi18n( 'kernel/package', 'Content objects to include' ),
+                          'name' => eZi18n::translate( 'kernel/package', 'Content objects to include' ),
                           'methods' => array( 'initialize' => 'initializeObjectList',
                                               'load' => 'loadObjectList',
                                               'validate' => 'validateObjectList' ),
                           'template' => 'object_select.tpl' );
         $steps[] = array( 'id' => 'object_limits',
-                          'name' => ezi18n( 'kernel/package', 'Content object limits' ),
+                          'name' => eZi18n::translate( 'kernel/package', 'Content object limits' ),
                           'methods' => array( 'initialize' => 'initializeObjectLimits',
                                               'load' => 'loadObjectLimits',
                                               'validate' => 'validateObjectLimits' ),
@@ -58,7 +58,7 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
         $steps[] = $this->packageMaintainerStep();
         $steps[] = $this->packageChangelogStep();
         $this->eZPackageCreationHandler( $id,
-                                         ezi18n( 'kernel/package', 'Content object export' ),
+                                         eZi18n::translate( 'kernel/package', 'Content object export' ),
                                          $steps );
     }
 
@@ -170,8 +170,8 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
     {
         if ( count( $persistentData['node_list'] ) == 0 )
         {
-            $errorList[] = array( 'field' => ezi18n( 'kernel/package', 'Selected nodes' ),
-                                  'description' => ezi18n( 'kernel/package', 'You must select one or more node(s)/subtree(s) for export.' ) );
+            $errorList[] = array( 'field' => eZi18n::translate( 'kernel/package', 'Selected nodes' ),
+                                  'description' => eZi18n::translate( 'kernel/package', 'You must select one or more node(s)/subtree(s) for export.' ) );
             return false;
         }
 
@@ -236,16 +236,16 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
         $result = true;
         if ( count( $persistentData['object_options']['language_array'] ) == 0 )
         {
-            $errorList[] = array( 'field' => ezi18n( 'kernel/package', 'Selected nodes' ),
-                                  'description' => ezi18n( 'kernel/package', 'You must choose one or more languages.' ) );
+            $errorList[] = array( 'field' => eZi18n::translate( 'kernel/package', 'Selected nodes' ),
+                                  'description' => eZi18n::translate( 'kernel/package', 'You must choose one or more languages.' ) );
             $result = false;
         }
 
         if ( $persistentData['object_options']['include_templates'] &&
              count( $persistentData['object_options']['site_access_array'] ) == 0 )
         {
-            $errorList[] = array( 'field' => ezi18n( 'kernel/package', 'Selected nodes' ),
-                                  'description' => ezi18n( 'kernel/package', 'You must choose one or more site access.' ) );
+            $errorList[] = array( 'field' => eZi18n::translate( 'kernel/package', 'Selected nodes' ),
+                                  'description' => eZi18n::translate( 'kernel/package', 'You must choose one or more site access.' ) );
             $result = false;
         }
 

@@ -5124,10 +5124,10 @@ class eZContentObject extends eZPersistentObject
                     $options['error'] = array( 'error_code' => self::PACKAGE_ERROR_EXISTS,
                                                'element_id' => $remoteID,
                                                'description' => $description,
-                                               'actions' => array( self::PACKAGE_REPLACE => ezi18n( 'kernel/classes', 'Replace existing object' ),
-                                                                   self::PACKAGE_SKIP    => ezi18n( 'kernel/classes', 'Skip object' ),
-                                                                   self::PACKAGE_NEW     => ezi18n( 'kernel/classes', 'Keep existing and create a new one' ),
-                                                                   self::PACKAGE_UPDATE  => ezi18n( 'kernel/classes', 'Update existing object' ) ) );
+                                               'actions' => array( self::PACKAGE_REPLACE => eZi18n::translate( 'kernel/classes', 'Replace existing object' ),
+                                                                   self::PACKAGE_SKIP    => eZi18n::translate( 'kernel/classes', 'Skip object' ),
+                                                                   self::PACKAGE_NEW     => eZi18n::translate( 'kernel/classes', 'Keep existing and create a new one' ),
+                                                                   self::PACKAGE_UPDATE  => eZi18n::translate( 'kernel/classes', 'Update existing object' ) ) );
                     $retValue = false;
                     return $retValue;
                 } break;

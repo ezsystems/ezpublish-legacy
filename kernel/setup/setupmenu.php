@@ -34,12 +34,12 @@ $http = eZHTTPTool::instance();
 
 $contentIni = eZINI::instance( 'content.ini' );
 
-$Module->setTitle( ezi18n( 'kernel/setup', 'Setup menu' ) );
+$Module->setTitle( eZi18n::translate( 'kernel/setup', 'Setup menu' ) );
 $tpl = templateInit();
 
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:setup/setupmenu.tpl' );
 $Result['path'] = array( array( 'url' => '/setup/menu',
-                                'text' => ezi18n( 'kernel/setup', 'Setup menu' ) ) );
+                                'text' => eZi18n::translate( 'kernel/setup', 'Setup menu' ) ) );
 
 ?>

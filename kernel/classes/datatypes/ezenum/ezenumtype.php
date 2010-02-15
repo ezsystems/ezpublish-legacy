@@ -2,7 +2,7 @@
 //
 // Definition of eZEnumtype class
 //
-// Created on: <24-ßÂ-2002 14:33:53 wy>
+// Created on: <24-ï¿½ï¿½-2002 14:33:53 wy>
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ Publish
@@ -51,7 +51,7 @@ class eZEnumType extends eZDataType
     */
     function eZEnumType()
     {
-         $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', 'Enum', 'Datatype name' ),
+         $this->eZDataType( self::DATA_TYPE_STRING, eZi18n::translate( 'kernel/classes/datatypes', 'Enum', 'Datatype name' ),
                             array( 'serialize_supported' => true ) );
     }
 
@@ -215,7 +215,7 @@ class eZEnumType extends eZDataType
             {
                 if ( !$http->hasPostVariable( $base . '_select_data_enumelement_' . $contentObjectAttribute->attribute( 'id' ) ) )
                 {
-                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                    $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
                                                                          'At least one field should be chosen.' ) );
                     return eZInputValidator::STATE_INVALID;
                 }

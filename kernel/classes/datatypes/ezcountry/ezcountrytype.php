@@ -37,7 +37,7 @@
   Country is stored as text string.
 */
 
-require_once( 'kernel/common/i18n.php' );
+
 
 class eZCountryType extends eZDataType
 {
@@ -49,7 +49,7 @@ class eZCountryType extends eZDataType
 
     function eZCountryType()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', 'Country', 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, eZi18n::translate( 'kernel/classes/datatypes', 'Country', 'Datatype name' ),
                            array( 'serialize_supported' => true,
                                   'object_serialize_map' => array( 'data_text' => 'country' ) ) );
     }
@@ -213,7 +213,7 @@ class eZCountryType extends eZDataType
                 return eZInputValidator::STATE_ACCEPTED;
         }
 
-        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+        $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
                                                              'Input required.' ) );
         return eZInputValidator::STATE_INVALID;
     }
@@ -231,7 +231,7 @@ class eZCountryType extends eZDataType
                 return eZInputValidator::STATE_ACCEPTED;
         }
 
-        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+        $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
                                                              'Input required.' ) );
         return eZInputValidator::STATE_INVALID;
     }

@@ -414,7 +414,7 @@ class eZContentObjectState extends eZPersistentObject
         // missing identifier
         if ( !isset( $this->Identifier ) || $this->Identifier == '' )
         {
-            $messages[] = ezi18n( 'kernel/state/edit', 'Identifier: input required' );
+            $messages[] = eZi18n::translate( 'kernel/state/edit', 'Identifier: input required' );
             $isValid = false;
         }
         else
@@ -425,12 +425,12 @@ class eZContentObjectState extends eZPersistentObject
             if ( strcmp( $validIdentifier, $this->Identifier ) != 0 )
             {
                 // invalid identifier
-                $messages[] = ezi18n( 'kernel/state/edit', 'Identifier: invalid, it can only consist of characters in the range a-z, 0-9 and underscore.' );
+                $messages[] = eZi18n::translate( 'kernel/state/edit', 'Identifier: invalid, it can only consist of characters in the range a-z, 0-9 and underscore.' );
                 $isValid = false;
             }
             else if ( strlen( $this->Identifier ) > self::MAX_IDENTIFIER_LENGTH )
             {
-                $messages[] = ezi18n( 'kernel/state/edit', 'Identifier: invalid, maximum %max characters allowed.',
+                $messages[] = eZi18n::translate( 'kernel/state/edit', 'Identifier: invalid, maximum %max characters allowed.',
                                       null, array( '%max' => self::MAX_IDENTIFIER_LENGTH ) );
                 $isValid = false;
             }
@@ -440,7 +440,7 @@ class eZContentObjectState extends eZPersistentObject
                 $existingState = self::fetchByIdentifier( $this->Identifier, $this->GroupID );
                 if ( $existingState && ( !isset( $this->ID ) || $existingState->attribute( 'id' ) !== $this->ID ) )
                 {
-                    $messages[] = ezi18n( 'kernel/state/edit', 'Identifier: a content object state group with this identifier already exists, please give another identifier' );
+                    $messages[] = eZi18n::translate( 'kernel/state/edit', 'Identifier: a content object state group with this identifier already exists, please give another identifier' );
                     $isValid = false;
                 }
             }
@@ -461,19 +461,19 @@ class eZContentObjectState extends eZPersistentObject
             {
                 // if name nor description are set but translation is specified as main language
                 $isValid = false;
-                $messages[] = ezi18n( 'kernel/state/edit', '%language_name: this language is the default but neither name or description were provided for this language', null, array( '%language_name' => $translation->attribute( 'language' )->attribute( 'locale_object' )->attribute( 'intl_language_name' ) ) );
+                $messages[] = eZi18n::translate( 'kernel/state/edit', '%language_name: this language is the default but neither name or description were provided for this language', null, array( '%language_name' => $translation->attribute( 'language' )->attribute( 'locale_object' )->attribute( 'intl_language_name' ) ) );
             }
         }
 
         if ( $translationsWithData == 0 )
         {
             $isValid = false;
-            $messages[] =  ezi18n( 'kernel/state/edit', 'Translations: you need to add at least one localization' );
+            $messages[] =  eZi18n::translate( 'kernel/state/edit', 'Translations: you need to add at least one localization' );
         }
         else if ( empty( $this->DefaultLanguageID ) && $translationsWithData > 1 )
         {
             $isValid = false;
-            $messages[] =  ezi18n( 'kernel/state/edit', 'Translations: there are multiple localizations but you did not specify which is the default one' );
+            $messages[] =  eZi18n::translate( 'kernel/state/edit', 'Translations: there are multiple localizations but you did not specify which is the default one' );
         }
 
         return $isValid;

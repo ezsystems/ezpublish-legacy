@@ -57,7 +57,7 @@ if ( $http->hasPostVariable( 'RemoveGroupButton' ) && $http->hasPostVariable( 'g
 {
     if ( !eZClassFunctions::removeGroup( $ClassID, $ClassVersion, $http->postVariable( 'group_id_checked' ) ) )
     {
-        $validation['groups'][] = array( 'text' => ezi18n( 'kernel/class', 'You have to have at least one group that the class belongs to!' ) );
+        $validation['groups'][] = array( 'text' => eZi18n::translate( 'kernel/class', 'You have to have at least one group that the class belongs to!' ) );
         $validation['processed'] = true;
     }
 }
@@ -94,7 +94,7 @@ $tpl->setVariable( 'scheduled_script_id', (int) $Params['ScheduledScriptID'] );
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:class/view.tpl' );
 $Result['path'] = array( array( 'url' => '/class/grouplist/',
-                                'text' => ezi18n( 'kernel/class', 'Class groups' ) ) );
+                                'text' => eZi18n::translate( 'kernel/class', 'Class groups' ) ) );
 if ( $mainGroupID !== false )
 {
     $Result['path'][] = array( 'url' => '/class/classlist/' . $mainGroupID,

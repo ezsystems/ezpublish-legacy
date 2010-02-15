@@ -62,6 +62,14 @@ eZContentClass::instantiate() changes
   session for use by policy system to let anonymous user re edit object. 
 
 
+Deprecated methods
+------------------
+
+- ezi18n() and ezx18n() functions has been deprecated in favor of new
+  eZi18n::translate() function that takes advantage of autoloading so you don't need
+  to requrie_once the i18n.php file. These two function will be removed in a future
+  version.
+
 
 Renamed methods
 ---------------
@@ -71,3 +79,6 @@ Removed features
 
 Removed methods
 ---------------
+
+- All internal i18n.php functions have been removed, as in:
+  ezcurrentLanguage(), ezinsertarguments() and eZTranslateText()

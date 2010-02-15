@@ -30,7 +30,7 @@
 
 /*! \file
 */
-require_once( "kernel/common/i18n.php" );
+
 
 /*!
   \class eZStepSystemCheck ezstep_system_check.php
@@ -97,7 +97,7 @@ class eZStepSystemCheck extends eZStepInstaller
         $result = array();
         // Display template
         $result['content'] = $this->Tpl->fetch( "design:setup/init/system_check.tpl" );
-        $result['path'] = array( array( 'text' => ezi18n( 'design/standard/setup/init',
+        $result['path'] = array( array( 'text' => eZi18n::translate( 'design/standard/setup/init',
                                                           'System check' ),
                                         'url' => false ) );
         return $result;

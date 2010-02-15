@@ -36,7 +36,7 @@ $script = eZScript::instance( array( 'debug-message' => '',
                                       'use-extensions' => true ) );
 
 $script->startup();
-require_once( 'kernel/common/i18n.php' );
+
 
 $endl = $cli->endlineString();
 $webOutput = $cli->isWebOutput();

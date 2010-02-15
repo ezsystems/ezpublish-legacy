@@ -1,6 +1,6 @@
 <?php
 //
-// Created on: <12-Ноя-2002 16:14:13 sp>
+// Created on: <12-О©╫О©╫О©╫-2002 16:14:13 sp>
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ Publish
@@ -30,7 +30,7 @@
 */
 
 require_once( 'kernel/common/template.php' );
-require_once( 'kernel/common/i18n.php' );
+
 $http = eZHTTPTool::instance();
 
 $tpl = templateInit();
@@ -57,11 +57,11 @@ else
     $ChildObjectsCount = 0;
 $ChildObjectsCount .= " ";
 if ( $ChildObjectsCount == 1 )
-    $ChildObjectsCount .= ezi18n( 'kernel/content/removenode',
+    $ChildObjectsCount .= eZi18n::translate( 'kernel/content/removenode',
                                   'child',
                                   '1 child' );
 else
-    $ChildObjectsCount .= ezi18n( 'kernel/content/removenode',
+    $ChildObjectsCount .= eZi18n::translate( 'kernel/content/removenode',
                                   'children',
                                   'several children' );
 

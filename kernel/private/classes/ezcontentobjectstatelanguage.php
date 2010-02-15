@@ -73,13 +73,13 @@ class eZContentObjectStateLanguage extends eZPersistentObject
         $isValid = true;
         if ( isset( $this->Name ) && strlen( $this->Name ) > 45 )
         {
-            $messages[] = ezi18n( 'kernel/state/edit', 'Name in %language_name is too long. Maximum 45 characters allowed.', null, array( '%language_name' => $this->language()->attribute( 'locale_object' )->attribute( 'intl_language_name' ) ) );
+            $messages[] = eZi18n::translate( 'kernel/state/edit', 'Name in %language_name is too long. Maximum 45 characters allowed.', null, array( '%language_name' => $this->language()->attribute( 'locale_object' )->attribute( 'intl_language_name' ) ) );
             $isValid = false;
         }
 
         if ( ( !isset( $this->Name ) || $this->Name == '' ) && $this->Description != '' )
         {
-            $messages[] = ezi18n( 'kernel/state/edit', 'Name in %language_name: input required', null, array( '%language_name' => $this->language()->attribute( 'locale_object' )->attribute( 'intl_language_name' ) ) );
+            $messages[] = eZi18n::translate( 'kernel/state/edit', 'Name in %language_name: input required', null, array( '%language_name' => $this->language()->attribute( 'locale_object' )->attribute( 'intl_language_name' ) ) );
             $isValid = false;
         }
 

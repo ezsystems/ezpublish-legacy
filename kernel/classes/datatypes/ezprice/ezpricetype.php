@@ -47,7 +47,7 @@ class eZPriceType extends eZDataType
 
     function eZPriceType()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Price", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, eZi18n::translate( 'kernel/classes/datatypes', "Price", 'Datatype name' ),
                            array( 'serialize_supported' => true,
                                   'object_serialize_map' => array( 'data_float' => 'price' ) ) );
     }
@@ -63,7 +63,7 @@ class eZPriceType extends eZDataType
         $vatExInc = $http->postVariable( $base . '_ezprice_inc_ex_vat_' . $contentObjectAttribute->attribute( 'id' ) );
         if ( $vatExInc == 1 && $vatTypeID == -1 )
         {
-            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+            $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
                                                                  'Dynamic VAT cannot be included.' ) );
             return eZInputValidator::STATE_INVALID;
         }
@@ -83,13 +83,13 @@ class eZPriceType extends eZDataType
             if ( preg_match( "#^[0-9]+(.){0,1}[0-9]{0,2}$#", $data ) )
                 return eZInputValidator::STATE_ACCEPTED;
 
-            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+            $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
                                                                  'Invalid price.' ) );
             return eZInputValidator::STATE_INVALID;
         }
         else if ( $contentObjectAttribute->validateIsRequired() )
         {
-            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes', 'Input required.' ) );
+            $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes', 'Input required.' ) );
             return eZInputValidator::STATE_INVALID;
         }
         else
@@ -199,10 +199,10 @@ class eZPriceType extends eZDataType
 
     function contentActionList( $classAttribute )
     {
-        return array( array( 'name' => ezi18n( 'kernel/classes/datatypes', 'Add to basket' ),
+        return array( array( 'name' => eZi18n::translate( 'kernel/classes/datatypes', 'Add to basket' ),
                              'action' => 'ActionAddToBasket'
                              ),
-                      array( 'name' => ezi18n( 'kernel/classes/datatypes', 'Add to wish list' ),
+                      array( 'name' => eZi18n::translate( 'kernel/classes/datatypes', 'Add to wish list' ),
                              'action' => 'ActionAddToWishList'
                              ) );
     }

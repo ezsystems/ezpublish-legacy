@@ -110,7 +110,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
                     }
                 }
 
-                $description = $explainDescription ? ezi18n( 'kernel/package', "Content class '%classname' (%classidentifier)", false,
+                $description = $explainDescription ? eZi18n::translate( 'kernel/package', "Content class '%classname' (%classidentifier)", false,
                                                              array( '%classname' => $className,
                                                                     '%classidentifier' => $classIdentifier ) ) : '';
                 $explainInfo = array( 'description' => $description,
@@ -154,7 +154,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
                 {
                     $installParameters['error'] = array( 'error_code' => self::ERROR_HAS_OBJECTS,
                                                          'element_id' => $classRemoteID,
-                                                         'description' => ezi18n( 'kernel/package',
+                                                         'description' => eZi18n::translate( 'kernel/package',
                                                                                   "Removing class '%classname' will result in the removal of %objectscount object(s) of this class and all their sub-items. Are you sure you want to uninstall it?",
                                                                                   false,
                                                                                   array( '%classname' => $name,
@@ -223,7 +223,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
         if ( $class )
         {
             $className = $class->name();
-            $description = ezi18n( 'kernel/package', "Class '%classname' already exists.", false,
+            $description = eZi18n::translate( 'kernel/package', "Class '%classname' already exists.", false,
                                    array( '%classname' => $className ) );
 
             $choosenAction = $this->errorChoosenAction( self::ERROR_EXISTS,
@@ -256,14 +256,14 @@ class eZContentClassPackageHandler extends eZPackageHandler
                                                      'actions' => array() );
                 if ( $class->isRemovable() )
                 {
-                    $errorMsg = ezi18n( 'kernel/package', "Replace existing class" );
+                    $errorMsg = eZi18n::translate( 'kernel/package', "Replace existing class" );
                     $objectsCount = eZContentObject::fetchSameClassListCount( $class->attribute( 'id' ) );
                     if ( $objectsCount )
-                        $errorMsg .= ' ' . ezi18n( 'kernel/package', "(Warning! $objectsCount content object(s) and their sub-items will be removed)" );
+                        $errorMsg .= ' ' . eZi18n::translate( 'kernel/package', "(Warning! $objectsCount content object(s) and their sub-items will be removed)" );
                     $installParameters['error']['actions'][self::ACTION_REPLACE] = $errorMsg;
                 }
-                $installParameters['error']['actions'][self::ACTION_SKIP] = ezi18n( 'kernel/package', 'Skip installing this class' );
-                $installParameters['error']['actions'][self::ACTION_NEW] = ezi18n( 'kernel/package', 'Keep existing and create a new one' );
+                $installParameters['error']['actions'][self::ACTION_SKIP] = eZi18n::translate( 'kernel/package', 'Skip installing this class' );
+                $installParameters['error']['actions'][self::ACTION_NEW] = eZi18n::translate( 'kernel/package', 'Keep existing and create a new one' );
                 return false;
             }
         }

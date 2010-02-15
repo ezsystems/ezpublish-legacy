@@ -34,8 +34,6 @@
 
 */
 
-require_once( "kernel/common/i18n.php" );
-
 class eZWorkflowType
 {
     const STATUS_NONE = 0;
@@ -391,14 +389,14 @@ class eZWorkflowType
      */
     static function statusNameMap()
     {
-        return array( self::STATUS_NONE => ezi18n( 'kernel/classes', 'No state yet' ),
-                      self::STATUS_ACCEPTED => ezi18n( 'kernel/classes', 'Accepted event' ),
-                      self::STATUS_REJECTED => ezi18n( 'kernel/classes', 'Rejected event' ),
-                      self::STATUS_DEFERRED_TO_CRON => ezi18n( 'kernel/classes', 'Event deferred to cron job' ),
-                      self::STATUS_DEFERRED_TO_CRON_REPEAT => ezi18n( 'kernel/classes', 'Event deferred to cron job, event will be rerun' ),
-                      self::STATUS_RUN_SUB_EVENT => ezi18n( 'kernel/classes', 'Event runs a sub event' ),
-                      self::STATUS_WORKFLOW_CANCELLED => ezi18n( 'kernel/classes', 'Canceled whole workflow' ),
-                      self::STATUS_WORKFLOW_RESET => ezi18n( 'kernel/classes', 'Workflow was reset for reuse' ) );
+        return array( self::STATUS_NONE => eZi18n::translate( 'kernel/classes', 'No state yet' ),
+                      self::STATUS_ACCEPTED => eZi18n::translate( 'kernel/classes', 'Accepted event' ),
+                      self::STATUS_REJECTED => eZi18n::translate( 'kernel/classes', 'Rejected event' ),
+                      self::STATUS_DEFERRED_TO_CRON => eZi18n::translate( 'kernel/classes', 'Event deferred to cron job' ),
+                      self::STATUS_DEFERRED_TO_CRON_REPEAT => eZi18n::translate( 'kernel/classes', 'Event deferred to cron job, event will be rerun' ),
+                      self::STATUS_RUN_SUB_EVENT => eZi18n::translate( 'kernel/classes', 'Event runs a sub event' ),
+                      self::STATUS_WORKFLOW_CANCELLED => eZi18n::translate( 'kernel/classes', 'Canceled whole workflow' ),
+                      self::STATUS_WORKFLOW_RESET => eZi18n::translate( 'kernel/classes', 'Workflow was reset for reuse' ) );
     }
 
     /// \privatesection

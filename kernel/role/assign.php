@@ -1,7 +1,7 @@
 <?php
 //
 //
-// Created on: <16-ïËÔ-2002 10:45:47 sp>
+// Created on: <16-ï¿½ï¿½ï¿½-2002 10:45:47 sp>
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ Publish
@@ -113,7 +113,7 @@ else if ( is_string( $limitIdent ) && !isset( $limitValue ) )
             $Result = array();
             $Result['content'] = $tpl->fetch( 'design:role/assign_limited_section.tpl' );
             $Result['path'] = array( array( 'url' => false,
-                                            'text' => ezi18n( 'kernel/role', 'Limit on section' ) ) );
+                                            'text' => eZi18n::translate( 'kernel/role', 'Limit on section' ) ) );
             return;
         } break;
 

@@ -30,7 +30,7 @@
 
 /*! \file
 */
-require_once( "kernel/common/i18n.php" );
+
 
 /*!
   \class eZStepRegistration ezstep_registration.php
@@ -236,7 +236,7 @@ class eZStepRegistration extends eZStepInstaller
         $result = array();
         // Display template
         $result['content'] = $this->Tpl->fetch( "design:setup/init/registration.tpl" );
-        $result['path'] = array( array( 'text' => ezi18n( 'design/standard/setup/init',
+        $result['path'] = array( array( 'text' => eZi18n::translate( 'design/standard/setup/init',
                                                           'Registration' ),
                                         'url' => false ) );
         return $result;

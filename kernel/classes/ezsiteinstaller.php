@@ -1351,7 +1351,7 @@ class eZSiteInstaller
     */
     function setRSSExport( $params )
     {
-        require_once( 'kernel/common/i18n.php' );
+        
 
         // Create default rssExport object to use
         $rssExport = eZRSSExport::create( $params['creator'] );

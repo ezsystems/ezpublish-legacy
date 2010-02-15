@@ -249,8 +249,8 @@ $tpl->setVariable( 'placement', $settingPlacement );
 
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:settings/edit.tpl' );
-$Result['path'] = array( array( 'text' => ezi18n( 'settings/edit', 'Settings' ),
+$Result['path'] = array( array( 'text' => eZi18n::translate( 'settings/edit', 'Settings' ),
                                 'url' => false ),
-                         array( 'text' => ezi18n( 'settings/edit', 'Edit' ),
+                         array( 'text' => eZi18n::translate( 'settings/edit', 'Edit' ),
                                 'url' => false ) );
 ?>

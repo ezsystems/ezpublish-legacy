@@ -112,7 +112,6 @@ class eZi18nOperator
             }
         }
 
-        require_once( 'kernel/common/i18n.php' );
         $value = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
 
         $numParameters = count ( $parameters );
@@ -121,7 +120,7 @@ class eZi18nOperator
 
         if ( $numParameters < 4 )
         {
-            return array ( eZTemplateNodeTool::createStringElement( ezi18n( $context, $value, $comment, null ) ) );
+            return array ( eZTemplateNodeTool::createStringElement( eZi18n::translate( $context, $value, $comment, null ) ) );
         }
 
         $values = array();
@@ -129,7 +128,7 @@ class eZi18nOperator
         $ini = eZINI::instance();
         if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
         {
-            $language = ezcurrentLanguage();
+            $language = eZLocale::instance()->localeFullCode();
             if ( $language != "eng-GB" ) // eng-GB does not need translation
             {
                 $file = 'translation.ts';
@@ -164,7 +163,6 @@ class eZi18nOperator
 
     function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$value, $namedParameters )
     {
-        require_once( 'kernel/common/i18n.php' );
         switch ( $operatorName )
         {
             case $this->Name:
@@ -172,7 +170,7 @@ class eZi18nOperator
                 $context = $namedParameters['context'];
                 $comment = $namedParameters['comment'];
                 $arguments = $namedParameters['arguments'];
-                $value = ezi18n( $context, $value, $comment, $arguments );
+                $value = eZi18n::translate( $context, $value, $comment, $arguments );
             } break;
             case $this->ExtensionName:
             {
@@ -180,7 +178,7 @@ class eZi18nOperator
                 $context = $namedParameters['context'];
                 $comment = $namedParameters['comment'];
                 $arguments = $namedParameters['arguments'];
-                $value = ezx18n( $extension, $context, $value, $comment, $arguments );
+                $value = eZi18n::translate( $context, $value, $comment, $arguments );
             } break;
         }
     }

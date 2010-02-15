@@ -60,7 +60,7 @@ class eZMultiOption2Type extends eZDataType
     */
     function eZMultiOption2Type()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Multi-option2", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, eZi18n::translate( 'kernel/classes/datatypes', "Multi-option2", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -568,7 +568,7 @@ class eZMultiOption2Type extends eZDataType
             $failedOption = $optiongroup->findOption( $failedMultiOption, $selectedItem );
             if ( $failedOption['is_selectable'] != 1 )
             {
-                $objectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                $objectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
                                                               "You cannot choose option value \"%1\" from \"%2\" because it is unselectable " ),
                                                       $failedOption['value'],
                                                       $failedMultiOption['name'] );
@@ -593,7 +593,7 @@ class eZMultiOption2Type extends eZDataType
                         $wrongParentOptionID = $data[$ruleKey];
                         $wrongParentOption =  $optiongroup->findOption( $wrongParentMultiOption, $wrongParentOptionID );
 
-                        $objectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                        $objectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
                                                                       "You cannot choose option value \"%1\" from \"%2\"  \n if you selected option \"%3\" from \"%4\" " ),
                                                               $failedOption['value'],
                                                               $failedMultiOption['name'],

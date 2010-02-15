@@ -56,7 +56,7 @@ foreach ( $deleteIDArray as $deleteID )
             }
         }
         if ( $deletedClassName == '' )
-            $deletedClassName = ezi18n( 'kernel/class', '(no classes)' );
+            $deletedClassName = eZi18n::translate( 'kernel/class', '(no classes)' );
         $deleteResult[] = array( 'groupName'        => $GroupName,
                                  'deletedClassName' => $deletedClassName );
         $groupsInfo[] = array( 'group_name' => $GroupName,
@@ -85,7 +85,7 @@ if ( $http->hasPostVariable( "CancelButton" ) )
 {
     $Module->redirectTo( '/class/grouplist/' );
 }
-$Module->setTitle( ezi18n( 'kernel/class', 'Remove class groups' ) . ' ' . $GroupName );
+$Module->setTitle( eZi18n::translate( 'kernel/class', 'Remove class groups' ) . ' ' . $GroupName );
 require_once( "kernel/common/template.php" );
 $tpl = templateInit();
 
@@ -95,7 +95,7 @@ $tpl->setVariable( "groups_info", $groupsInfo );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:class/removegroup.tpl" );
 $Result['path'] = array( array( 'url' => '/class/grouplist/',
-                                'text' => ezi18n( 'kernel/class', 'Class groups' ) ),
+                                'text' => eZi18n::translate( 'kernel/class', 'Class groups' ) ),
                          array( 'url' => false,
-                                'text' => ezi18n( 'kernel/class', 'Remove class groups' ) ) );
+                                'text' => eZi18n::translate( 'kernel/class', 'Remove class groups' ) ) );
 ?>

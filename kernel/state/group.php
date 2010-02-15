@@ -76,8 +76,8 @@ $tpl->setVariable( 'group', $group );
 
 $Result = array(
     'path' => array(
-        array( 'url' => false, 'text' => ezi18n( 'kernel/state', 'State' ) ),
-        array( 'url' => 'state/groups', 'text' => ezi18n( 'kernel/state', 'Groups' ) ),
+        array( 'url' => false, 'text' => eZi18n::translate( 'kernel/state', 'State' ) ),
+        array( 'url' => 'state/groups', 'text' => eZi18n::translate( 'kernel/state', 'Groups' ) ),
         array( 'url' => false, 'text' => $group->attribute( 'current_translation' )->attribute( 'name' ) )
     ),
     'content' => $tpl->fetch( 'design:state/group.tpl' )

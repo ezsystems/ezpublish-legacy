@@ -396,7 +396,7 @@ class eZMultiPriceData extends eZPersistentObject
         }
 
         $error = array( 'code' => self::ERROR_OK,
-                        'description' => ezi18n( 'kernel/shop', "'Auto' prices were updated successfully." ) );
+                        'description' => eZi18n::translate( 'kernel/shop', "'Auto' prices were updated successfully." ) );
 
         return $error;
     }

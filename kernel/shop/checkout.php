@@ -1,6 +1,6 @@
 <?php
 //
-// Created on: <07-æÅ×-2003 14:21:36 sp>
+// Created on: <07-ï¿½ï¿½ï¿½-2003 14:21:36 sp>
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ Publish
@@ -106,7 +106,7 @@ if ( $order instanceof eZOrder )
 
                     $Result['content'] = $tpl->fetch( "design:shop/cancelcheckout.tpl" ) ;
                     $Result['path'] = array( array( 'url' => false,
-                                                    'text' => ezi18n( 'kernel/shop', 'Checkout' ) ) );
+                                                    'text' => eZi18n::translate( 'kernel/shop', 'Checkout' ) ) );
 
                     return;
                 }
@@ -142,7 +142,7 @@ if ( $order instanceof eZOrder )
                     $tpl->setVariable( 'orderID', $orderID );
                     $Result['content'] = $tpl->fetch( "design:shop/checkoutagain.tpl" ) ;
                     $Result['path'] = array( array( 'url' => false,
-                                                    'text' => ezi18n( 'kernel/shop', 'Checkout' ) ) );
+                                                    'text' => eZi18n::translate( 'kernel/shop', 'Checkout' ) ) );
                     return;
                 }
                 else
@@ -158,7 +158,7 @@ if ( $order instanceof eZOrder )
 
                     $Result['content'] = $tpl->fetch( "design:shop/cancelcheckout.tpl" ) ;
                     $Result['path'] = array( array( 'url' => false,
-                                                    'text' => ezi18n( 'kernel/shop', 'Checkout' ) ) );
+                                                    'text' => eZi18n::translate( 'kernel/shop', 'Checkout' ) ) );
                     return;
                 }
             }

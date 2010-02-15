@@ -3174,7 +3174,7 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
      */
     public static function virtualContentFolderName()
     {
-        return ezi18n( 'kernel/content', 'Content' );
+        return eZi18n::translate( 'kernel/content', 'Content' );
     }
 
     /**
@@ -3184,7 +3184,7 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
      */
     public static function virtualMediaFolderName()
     {
-        return ezi18n( 'kernel/content', 'Media' );
+        return eZi18n::translate( 'kernel/content', 'Media' );
     }
 }
 ?>

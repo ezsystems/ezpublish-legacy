@@ -57,7 +57,7 @@ if( $module->isCurrentAction( 'RemoveObjectCollection' ) && $http->hasPostVariab
     $Result = array();
     $Result['content'] = $tpl->fetch( 'design:infocollector/confirmremoval.tpl' );
     $Result['path'] = array( array( 'url' => false,
-                                    'text' => ezi18n( 'kernel/infocollector', 'Collected information' ) ) );
+                                    'text' => eZi18n::translate( 'kernel/infocollector', 'Collected information' ) ) );
     return;
 }
 
@@ -160,6 +160,6 @@ $tpl->setVariable( 'object_count', $numberOfInfoCollectorObjects );
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:infocollector/overview.tpl' );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezi18n( 'kernel/infocollector', 'Collected information' ) ) );
+                                'text' => eZi18n::translate( 'kernel/infocollector', 'Collected information' ) ) );
 
 ?>

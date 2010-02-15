@@ -62,7 +62,7 @@ class eZPDFExport extends eZPersistentObject
                                                         'required' => true ),
                                          'title' => array( 'name' => 'Title',
                                                            'datatype' => 'string',
-                                                           'default' => ezi18n( 'kernel/pdfexport', 'New PDF Export' ),
+                                                           'default' => eZi18n::translate( 'kernel/pdfexport', 'New PDF Export' ),
                                                            'required' => true ),
                                          'show_frontpage' => array( 'name' => 'DisplayFrontpage',
                                                                        'datatype' => 'integer',
@@ -150,7 +150,7 @@ class eZPDFExport extends eZPersistentObject
         $config = eZINI::instance( 'site.ini' );
         $dateTime = time();
         $row = array( 'id' => null,
-                      'title' => ezi18n( 'kernel/pdfexport', 'New PDF Export' ),
+                      'title' => eZi18n::translate( 'kernel/pdfexport', 'New PDF Export' ),
                       'show_frontpage' => 1,
                       'intro_text' => '',
                       'sub_text' => '',

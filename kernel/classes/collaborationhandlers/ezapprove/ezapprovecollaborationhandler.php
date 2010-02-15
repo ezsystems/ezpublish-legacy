@@ -44,8 +44,6 @@
 
 */
 
-require_once( 'kernel/common/i18n.php' );
-
 class eZApproveCollaborationHandler extends eZCollaborationItemHandler
 {
     /// Approval message type
@@ -69,7 +67,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
     function eZApproveCollaborationHandler()
     {
         $this->eZCollaborationItemHandler( 'ezapprove',
-                                           ezi18n( 'kernel/classes', 'Approval' ),
+                                           eZi18n::translate( 'kernel/classes', 'Approval' ),
                                            array( 'use-messages' => true,
                                                   'notification-types' => true,
                                                   'notification-collection-handling' => eZCollaborationItemHandler::NOTIFICATION_COLLECTION_PER_PARTICIPATION_ROLE ) );
@@ -77,7 +75,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
 
     function title( $collaborationItem )
     {
-        return ezi18n( 'kernel/classes', 'Approval' );
+        return eZi18n::translate( 'kernel/classes', 'Approval' );
     }
 
     function content( $collaborationItem )

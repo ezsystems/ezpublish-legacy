@@ -55,7 +55,7 @@ class eZIntegerType extends eZDataType
 
     function eZIntegerType()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Integer", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, eZi18n::translate( 'kernel/classes/datatypes', "Integer", 'Datatype name' ),
                            array( 'serialize_supported' => true,
                                   'object_serialize_map' => array( 'data_int' => 'value' ) ) );
         $this->IntegerValidator = new eZIntegerValidator();
@@ -77,7 +77,7 @@ class eZIntegerType extends eZDataType
                 $this->IntegerValidator->setRange( false, false );
                 $state = $this->IntegerValidator->validate( $data );
                 if( $state === eZInputValidator::STATE_INVALID || $state === eZInputValidator::STATE_INTERMEDIATE )
-                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                    $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
                                                                          'The input is not a valid integer.' ) );
                 else
                     return $state;
@@ -89,7 +89,7 @@ class eZIntegerType extends eZDataType
                 if( $state === eZInputValidator::STATE_ACCEPTED )
                     return eZInputValidator::STATE_ACCEPTED;
                 else
-                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                    $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
                                                                          'The number must be greater than %1' ),
                                                                  $min );
             } break;
@@ -100,7 +100,7 @@ class eZIntegerType extends eZDataType
                 if( $state===1 )
                     return eZInputValidator::STATE_ACCEPTED;
                 else
-                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                    $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
                                                                          'The number must be less than %1' ),
                                                                  $max );
             } break;
@@ -111,7 +111,7 @@ class eZIntegerType extends eZDataType
                 if( $state===1 )
                     return eZInputValidator::STATE_ACCEPTED;
                 else
-                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                    $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
                                                                          'The number is not within the required range %1 - %2' ),
                                                                  $min, $max );
             } break;
@@ -139,7 +139,7 @@ class eZIntegerType extends eZDataType
                 if ( !$classAttribute->attribute( 'is_information_collector' ) and
                      $contentObjectAttribute->validateIsRequired() )
                 {
-                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                    $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
                                                                          'Input required.' ) );
                     return eZInputValidator::STATE_INVALID;
                 }
@@ -153,7 +153,7 @@ class eZIntegerType extends eZDataType
         }
         else if ( !$classAttribute->attribute( 'is_information_collector' ) and $contentObjectAttribute->validateIsRequired() )
         {
-            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes', 'Input required.' ) );
+            $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes', 'Input required.' ) );
             return eZInputValidator::STATE_INVALID;
         }
         else
@@ -216,7 +216,7 @@ class eZIntegerType extends eZDataType
             {
                 if ( $contentObjectAttribute->validateIsRequired() )
                 {
-                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                    $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
                                                                          'Input required.' ) );
                     return eZInputValidator::STATE_INVALID;
                 }

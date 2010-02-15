@@ -30,7 +30,7 @@
 
 /*! \file
 */
-require_once( "kernel/common/i18n.php" );
+
 
 /*!
   \class eZStepDatabaseChoice ezstep_database_choice.php
@@ -142,7 +142,7 @@ class eZStepDatabaseChoice extends eZStepInstaller
         $result = array();
         // Display template
         $result['content'] = $this->Tpl->fetch( "design:setup/init/database_choice.tpl" );
-        $result['path'] = array( array( 'text' => ezi18n( 'design/standard/setup/init',
+        $result['path'] = array( array( 'text' => eZi18n::translate( 'design/standard/setup/init',
                                                           'Database choice' ),
                                         'url' => false ) );
         return $result;

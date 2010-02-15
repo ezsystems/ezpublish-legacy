@@ -198,7 +198,7 @@ class eZVatType extends eZPersistentObject
     {
         $row = array(
             "id" => null,
-            "name" => ezi18n( 'kernel/shop', 'VAT type' ),
+            "name" => eZi18n::translate( 'kernel/shop', 'VAT type' ),
             "percentage" => 0.0 );
         return new eZVatType( $row );
     }

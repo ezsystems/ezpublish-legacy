@@ -51,7 +51,7 @@ function applyChanges( $module, $http, $productCategories = false )
 
         if ( !$name )
         {
-            $errors[] = ezi18n( 'kernel/shop/productcategories', 'Empty category names are not allowed (corrected).' );
+            $errors[] = eZi18n::translate( 'kernel/shop/productcategories', 'Empty category names are not allowed (corrected).' );
             continue;
         }
 
@@ -71,7 +71,7 @@ function applyChanges( $module, $http, $productCategories = false )
  */
 function generateUniqueCategoryName( $productCategories )
 {
-    $commonPart = ezi18n( 'kernel/shop/productcategories', 'Product category' );
+    $commonPart = eZi18n::translate( 'kernel/shop/productcategories', 'Product category' );
     $maxNumber = 0;
     foreach ( $productCategories as $cat )
     {
@@ -140,7 +140,7 @@ if ( $module->isCurrentAction( 'Remove' ) )
         {
             $tpl->setVariable( 'dependencies', $deps );
             $tpl->setVariable( 'category_ids', join( ',', $catIDList ) );
-            $path = array( array( 'text' => ezi18n( 'kernel/shop/productcategories', 'Product categories' ),
+            $path = array( array( 'text' => eZi18n::translate( 'kernel/shop/productcategories', 'Product categories' ),
                                   'url' => false ) );
             $Result = array();
             $Result['path'] = $path;
@@ -202,7 +202,7 @@ $tpl->setVariable( 'categories', $productCategories );
 $tpl->setVariable( 'errors', $errors );
 
 $path = array();
-$path[] = array( 'text' => ezi18n( 'kernel/shop/productcategories', 'Product categories' ),
+$path[] = array( 'text' => eZi18n::translate( 'kernel/shop/productcategories', 'Product categories' ),
                  'url' => false );
 $Result = array();
 $Result['path'] = $path;

@@ -127,7 +127,6 @@ if ( $enable === 'true' )
         eZExecution::cleanExit();
     }
     require_once( "access.php" );
-    require_once( "kernel/common/i18n.php" );
 
     eZModule::setGlobalPathList( array( "kernel" ) );
     eZWebDAVContentBackend::appendLogEntry( "========================================" );

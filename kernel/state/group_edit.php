@@ -79,15 +79,15 @@ $tpl->setVariable( 'group', $group );
 if ( $GroupIdentifier === null )
 {
     $path = array(
-        array( 'url' => false, 'text' => ezi18n( 'kernel/state', 'State' ) ),
-        array( 'url' => false, 'text' => ezi18n( 'kernel/state', 'New group' ) )
+        array( 'url' => false, 'text' => eZi18n::translate( 'kernel/state', 'State' ) ),
+        array( 'url' => false, 'text' => eZi18n::translate( 'kernel/state', 'New group' ) )
     );
 }
 else
 {
     $path = array(
-        array( 'url' => false, 'text' => ezi18n( 'kernel/state', 'State' ) ),
-        array( 'url' => false, 'text' => ezi18n( 'kernel/state', 'Group edit' ) ),
+        array( 'url' => false, 'text' => eZi18n::translate( 'kernel/state', 'State' ) ),
+        array( 'url' => false, 'text' => eZi18n::translate( 'kernel/state', 'Group edit' ) ),
         array( 'url' => false, 'text' => $group->attribute( 'identifier' ) )
     );
 }

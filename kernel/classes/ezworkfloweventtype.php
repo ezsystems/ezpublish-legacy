@@ -34,13 +34,11 @@
 
 */
 
-require_once( "kernel/common/i18n.php" );
-
 class eZWorkflowEventType extends eZWorkflowType
 {
     function eZWorkflowEventType( $typeString, $name )
     {
-        $this->eZWorkflowType( "event", $typeString, ezi18n( 'kernel/workflow/event', "Event" ), $name );
+        $this->eZWorkflowType( "event", $typeString, eZi18n::translate( 'kernel/workflow/event', "Event" ), $name );
     }
 
     static function registerEventType( $typeString, $class_name )

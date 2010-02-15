@@ -378,7 +378,7 @@ $tpl->setVariable( 'current_siteaccess', $currentSiteAccess );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:visual/toolbar.tpl" );
 $Result['path'] = array( array( 'url' => 'visual/toolbarlist',
-                                'text' => ezi18n( 'kernel/design', 'Toolbar list' ) ) );
+                                'text' => eZi18n::translate( 'kernel/design', 'Toolbar list' ) ) );
 
 function removeRelatedCache( $siteAccess )
 {

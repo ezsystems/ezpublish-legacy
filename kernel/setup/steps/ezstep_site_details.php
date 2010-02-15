@@ -30,7 +30,7 @@
 
 /*! \file
 */
-require_once( "kernel/common/i18n.php" );
+
 
 /*!
   \class eZStepSiteDetails ezstep_site_details.php
@@ -461,7 +461,7 @@ class eZStepSiteDetails extends eZStepInstaller
         $result = array();
         // Display template
         $result['content'] = $this->Tpl->fetch( 'design:setup/init/site_details.tpl' );
-        $result['path'] = array( array( 'text' => ezi18n( 'design/standard/setup/init',
+        $result['path'] = array( array( 'text' => eZi18n::translate( 'design/standard/setup/init',
                                                           'Site details' ),
                                         'url' => false ) );
         return $result;

@@ -34,13 +34,11 @@
 
 */
 
-require_once( "kernel/common/i18n.php" );
-
 class eZWorkflowGroupType extends eZWorkflowType
 {
     function eZWorkflowGroupType( $typeString, $name )
     {
-        $this->eZWorkflowType( "group", $typeString, ezi18n( 'kernel/workflow/group', "Group" ), $name );
+        $this->eZWorkflowType( "group", $typeString, eZi18n::translate( 'kernel/workflow/group', "Group" ), $name );
     }
 
     static function registerGroupType( $typeString, $class_name )

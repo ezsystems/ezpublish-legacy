@@ -66,9 +66,9 @@ function applyChanges( $module, $http, $vatTypeArray = false )
         if ( !$name || $percentage < 0 || $percentage > 100 )
         {
             if ( !$name )
-                $errors[] = ezi18n( 'kernel/shop/vattype', 'Empty VAT type names are not allowed (corrected).' );
+                $errors[] = eZi18n::translate( 'kernel/shop/vattype', 'Empty VAT type names are not allowed (corrected).' );
             else
-                $errors[] = ezi18n( 'kernel/shop/vattype', 'Wrong VAT percentage (corrected).' );
+                $errors[] = eZi18n::translate( 'kernel/shop/vattype', 'Wrong VAT percentage (corrected).' );
 
             continue;
         }
@@ -90,7 +90,7 @@ function applyChanges( $module, $http, $vatTypeArray = false )
  */
 function generateUniqueVatTypeName( $vatTypes )
 {
-    $commonPart = ezi18n( 'kernel/shop', 'VAT type' );
+    $commonPart = eZi18n::translate( 'kernel/shop', 'VAT type' );
     $maxNumber = 0;
     foreach ( $vatTypes as $type )
     {
@@ -187,7 +187,7 @@ elseif ( $module->isCurrentAction( 'Remove' ) )
                         'If you do not neet to charge any VAT for your ' .
                         'products then just leave one VAT type and set ' .
                         'its percentage to zero.';
-            $errors[] = ezi18n( 'kernel/shop/vattype', $errorMsg );
+            $errors[] = eZi18n::translate( 'kernel/shop/vattype', $errorMsg );
             $showDeps = false;
         }
 
@@ -196,7 +196,7 @@ elseif ( $module->isCurrentAction( 'Remove' ) )
         $tpl->setVariable( 'errors', $errors ); // array of error messages, false if there are no errors
         $tpl->setVariable( 'dependencies', $deps );
         $tpl->setVariable( 'vat_type_ids', join( ',', $vatIDsToRemove ) );
-        $path = array( array( 'text' => ezi18n( 'kernel/shop', 'VAT types' ),
+        $path = array( array( 'text' => eZi18n::translate( 'kernel/shop', 'VAT types' ),
                               'url'  => false ) );
 
         $Result = array();
@@ -252,7 +252,7 @@ $tpl->setVariable( "module", $module );
 $tpl->setVariable( 'errors', $errors );
 
 $path = array();
-$path[] = array( 'text' => ezi18n( 'kernel/shop', 'VAT types' ),
+$path[] = array( 'text' => eZi18n::translate( 'kernel/shop', 'VAT types' ),
                  'url' => false );
 
 

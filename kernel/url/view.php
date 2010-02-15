@@ -120,8 +120,8 @@ $tpl->setVariable( 'url_view_count', $urlViewCount );
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:url/view.tpl' );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezi18n( 'kernel/url', 'URL' ) ),
+                                'text' => eZi18n::translate( 'kernel/url', 'URL' ) ),
                          array( 'url' => false,
-                                'text' => ezi18n( 'kernel/url', 'View' ) ) );
+                                'text' => eZi18n::translate( 'kernel/url', 'View' ) ) );
 
 ?>

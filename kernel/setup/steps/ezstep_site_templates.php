@@ -30,7 +30,7 @@
 
 /*! \file
 */
-require_once( "kernel/common/i18n.php" );
+
 
 /*!
   \class eZStepSiteTemplates ezstep_site_templates.php
@@ -74,7 +74,7 @@ class eZStepSiteTemplates extends eZStepInstaller
             }
             if ( $siteTemplatesCount == 0)
             {
-                $this->ErrorMsg = ezi18n( 'design/standard/setup/init',
+                $this->ErrorMsg = eZi18n::translate( 'design/standard/setup/init',
                                           'No templates chosen.' );
                 return false;
             }
@@ -82,7 +82,7 @@ class eZStepSiteTemplates extends eZStepInstaller
         }
         else
         {
-            $this->ErrorMsg = ezi18n( 'design/standard/setup/init',
+            $this->ErrorMsg = eZi18n::translate( 'design/standard/setup/init',
                                       'No templates chosen.' );
             return false;
         }
@@ -122,7 +122,7 @@ class eZStepSiteTemplates extends eZStepInstaller
         $result = array();
         // Display template
         $result['content'] = $this->Tpl->fetch( 'design:setup/init/site_templates.tpl' );
-        $result['path'] = array( array( 'text' => ezi18n( 'design/standard/setup/init',
+        $result['path'] = array( array( 'text' => eZi18n::translate( 'design/standard/setup/init',
                                                           'Site template selection' ),
                                         'url' => false ) );
         return $result;

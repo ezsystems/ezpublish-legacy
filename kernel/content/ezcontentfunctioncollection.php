@@ -1441,15 +1441,15 @@ class eZContentFunctionCollection
 
     static public function fetchAvailableSortFieldList()
     {
-        return array( 'result' => array( '6' => ezi18n( 'kernel/content', 'Class identifier' ),
-                                         '7' => ezi18n( 'kernel/content', 'Class name' ),
-                                         '5' => ezi18n( 'kernel/content', 'Depth' ),
-                                         '3' => ezi18n( 'kernel/content', 'Modified' ),
-                                         '9' => ezi18n( 'kernel/content', 'Name' ),
-                                         '1' => ezi18n( 'kernel/content', 'Path String' ),
-                                         '8' => ezi18n( 'kernel/content', 'Priority' ),
-                                         '2' => ezi18n( 'kernel/content', 'Published' ),
-                                         '4' => ezi18n( 'kernel/content', 'Section' ) ) );
+        return array( 'result' => array( '6' => eZi18n::translate( 'kernel/content', 'Class identifier' ),
+                                         '7' => eZi18n::translate( 'kernel/content', 'Class name' ),
+                                         '5' => eZi18n::translate( 'kernel/content', 'Depth' ),
+                                         '3' => eZi18n::translate( 'kernel/content', 'Modified' ),
+                                         '9' => eZi18n::translate( 'kernel/content', 'Name' ),
+                                         '1' => eZi18n::translate( 'kernel/content', 'Path String' ),
+                                         '8' => eZi18n::translate( 'kernel/content', 'Priority' ),
+                                         '2' => eZi18n::translate( 'kernel/content', 'Published' ),
+                                         '4' => eZi18n::translate( 'kernel/content', 'Section' ) ) );
     }
 
     static public function fetchCountryList( $filter, $value )

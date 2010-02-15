@@ -36,7 +36,7 @@
   \brief The class eZTopMenuOperator does
 
 */
-require_once( 'kernel/common/i18n.php' );
+
 
 class eZTopMenuOperator
 {
@@ -47,33 +47,33 @@ class eZTopMenuOperator
     {
         $this->Operators = array( $name );
         $this->DefaultNames = array(
-            'content' => array( 'name' => ezi18n( 'design/admin/pagelayout',
+            'content' => array( 'name' => eZi18n::translate( 'design/admin/pagelayout',
                                                   'Content structure' ),
-                                'tooltip'=> ezi18n( 'design/admin/pagelayout',
+                                'tooltip'=> eZi18n::translate( 'design/admin/pagelayout',
                                                     'Manage the main content structure of the site.' ) ),
-            'media' => array( 'name' => ezi18n( 'design/admin/pagelayout',
+            'media' => array( 'name' => eZi18n::translate( 'design/admin/pagelayout',
                                                 'Media library' ),
-                              'tooltip'=> ezi18n( 'design/admin/pagelayout',
+                              'tooltip'=> eZi18n::translate( 'design/admin/pagelayout',
                                                   'Manage images, files, documents, etc.' ) ),
-            'users' => array( 'name' => ezi18n( 'design/admin/pagelayout',
+            'users' => array( 'name' => eZi18n::translate( 'design/admin/pagelayout',
                                                 'User accounts' ),
-                              'tooltip'=> ezi18n( 'design/admin/pagelayout',
+                              'tooltip'=> eZi18n::translate( 'design/admin/pagelayout',
                                                   'Manage users, user groups and permission settings.' ) ),
-            'shop' => array( 'name' => ezi18n( 'design/admin/pagelayout',
+            'shop' => array( 'name' => eZi18n::translate( 'design/admin/pagelayout',
                                                'Webshop' ),
-                             'tooltip'=> ezi18n( 'design/admin/pagelayout',
+                             'tooltip'=> eZi18n::translate( 'design/admin/pagelayout',
                                                  'Manage customers, orders, discounts and VAT types; view sales statistics.' ) ),
-            'design' => array( 'name' => ezi18n( 'design/admin/pagelayout',
+            'design' => array( 'name' => eZi18n::translate( 'design/admin/pagelayout',
                                                  'Design' ),
-                               'tooltip'=> ezi18n( 'design/admin/pagelayout',
+                               'tooltip'=> eZi18n::translate( 'design/admin/pagelayout',
                                                    'Manage templates, menus, toolbars and other things related to appearence.' ) ),
-            'setup' => array( 'name' => ezi18n( 'design/admin/pagelayout',
+            'setup' => array( 'name' => eZi18n::translate( 'design/admin/pagelayout',
                                                 'Setup' ),
-                              'tooltip'=> ezi18n( 'design/admin/pagelayout',
+                              'tooltip'=> eZi18n::translate( 'design/admin/pagelayout',
                                                   'Configure settings and manage advanced functionality.' ) ),
-            'dashboard' => array( 'name' => ezi18n( 'design/admin/pagelayout',
+            'dashboard' => array( 'name' => eZi18n::translate( 'design/admin/pagelayout',
                                                      'Dashboard' ),
-                                   'tooltip'=> ezi18n( 'design/admin/pagelayout',
+                                   'tooltip'=> eZi18n::translate( 'design/admin/pagelayout',
                                                        'Manage items and settings that belong to your account.' ) ) );
     }
 

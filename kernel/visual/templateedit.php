@@ -41,7 +41,7 @@ $tpl = templateInit();
 
 $Result = array();
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezi18n( 'kernel/design', 'Template edit' ) ) );
+                                'text' => eZi18n::translate( 'kernel/design', 'Template edit' ) ) );
 
 $template = "";
 $i = 0;

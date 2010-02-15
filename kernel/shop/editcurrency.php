@@ -112,7 +112,7 @@ $pathText = '';
 if ( strlen( $originalCurrencyCode ) > 0 )
 {
     // going to edit existing currency
-    $pathText = ezi18n( 'kernel/shop', 'Edit currency' );
+    $pathText = eZi18n::translate( 'kernel/shop', 'Edit currency' );
 
     if ( $currencyParams['code'] === false )
     {
@@ -137,7 +137,7 @@ if ( strlen( $originalCurrencyCode ) > 0 )
 else
 {
     // going to create new currency
-    $pathText = ezi18n( 'kernel/shop', 'Create new currency' );
+    $pathText = eZi18n::translate( 'kernel/shop', 'Create new currency' );
 }
 
 require_once( 'kernel/common/template.php' );
@@ -168,14 +168,14 @@ function validateCurrencyData( &$currencyData )
     $floatValidator = new eZFloatValidator( 0 );
     if ( $floatValidator->validate( $currencyData['custom_rate_value'] ) == eZInputValidator::STATE_INVALID )
     {
-        $return = ezi18n( 'kernel/shop', "'%value' is not a valid custom rate value (positive number expected)",
+        $return = eZi18n::translate( 'kernel/shop', "'%value' is not a valid custom rate value (positive number expected)",
             'Error message', array( '%value' => $currencyData['custom_rate_value'] ) );
         $currencyData['custom_rate_value'] = '';
     }
     if ( $floatValidator->validate( $currencyData['rate_factor'] ) == eZInputValidator::STATE_INVALID )
     {
         if ( $return === false )
-            $return = ezi18n( 'kernel/shop', "'%value' is not a valid rate_factor value (positive number expected)",
+            $return = eZi18n::translate( 'kernel/shop', "'%value' is not a valid rate_factor value (positive number expected)",
                 'Error message', array( '%value' => $currencyData['rate_factor'] ) );
         $currencyData['rate_factor'] = '';
     }

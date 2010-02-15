@@ -367,7 +367,7 @@ class eZXMLInputParser
             {
                 $pos = $tagBeginPos + 1;
 
-                $this->handleError( self::ERROR_SYNTAX, ezi18n( 'kernel/classes/datatypes/ezxmltext', 'Wrong closing tag' ) );
+                $this->handleError( self::ERROR_SYNTAX, eZi18n::translate( 'kernel/classes/datatypes/ezxmltext', 'Wrong closing tag' ) );
                 return false;
             }
 
@@ -400,7 +400,7 @@ class eZXMLInputParser
                 $firstLoop = false;
             }
 
-            $this->handleError( self::ERROR_SYNTAX, ezi18n( 'kernel/classes/datatypes/ezxmltext', 'Wrong closing tag : &lt;/%1&gt;.', false, array( $closedTagName ) ) );
+            $this->handleError( self::ERROR_SYNTAX, eZi18n::translate( 'kernel/classes/datatypes/ezxmltext', 'Wrong closing tag : &lt;/%1&gt;.', false, array( $closedTagName ) ) );
 
             return false;
         }
@@ -419,7 +419,7 @@ class eZXMLInputParser
             {
                 $pos = $tagBeginPos + 1;
 
-                $this->handleError( self::ERROR_SYNTAX, ezi18n( 'kernel/classes/datatypes/ezxmltext', 'Wrong opening tag' ) );
+                $this->handleError( self::ERROR_SYNTAX, eZi18n::translate( 'kernel/classes/datatypes/ezxmltext', 'Wrong opening tag' ) );
                 return false;
             }
 
@@ -470,7 +470,7 @@ class eZXMLInputParser
                 }
                 else
                 {
-                    $this->handleError( self::ERROR_SYNTAX, ezi18n( 'kernel/classes/datatypes/ezxmltext', 'Unknown tag: &lt;%1&gt;.', false, array( $tagName ) ) );
+                    $this->handleError( self::ERROR_SYNTAX, eZi18n::translate( 'kernel/classes/datatypes/ezxmltext', 'Unknown tag: &lt;%1&gt;.', false, array( $tagName ) ) );
                     return false;
                 }
             }
@@ -505,7 +505,7 @@ class eZXMLInputParser
             {
                 // If $newTagName is an empty string then it's not a error
                 if ( $newTagName === false )
-                    $this->handleError( self::ERROR_SYNTAX, ezi18n( 'kernel/classes/datatypes/ezxmltext', "Can't convert tag's name: &lt;%1&gt;.", false, array( $tagName ) ) );
+                    $this->handleError( self::ERROR_SYNTAX, eZi18n::translate( 'kernel/classes/datatypes/ezxmltext', "Can't convert tag's name: &lt;%1&gt;.", false, array( $tagName ) ) );
 
                 return false;
             }
@@ -647,7 +647,7 @@ class eZXMLInputParser
                 if ( !in_array( $value, $classesList ) )
                 {
                     $this->handleError( self::ERROR_DATA,
-                                        ezi18n( 'kernel/classes/datatypes/ezxmltext', "Class '%1' is not allowed for element &lt;%2&gt; (check content.ini).",
+                                        eZi18n::translate( 'kernel/classes/datatypes/ezxmltext', "Class '%1' is not allowed for element &lt;%2&gt; (check content.ini).",
                                         false, array( $value, $element->nodeName ) ) );
                     continue;
                 }
@@ -693,7 +693,7 @@ class eZXMLInputParser
                 if ( !$presented )
                 {
                     $this->handleError( self::ERROR_SCHEMA,
-                                        ezi18n( 'kernel/classes/datatypes/ezxmltext', "Required attribute '%1' is not presented in tag &lt;%2&gt;.",
+                                        eZi18n::translate( 'kernel/classes/datatypes/ezxmltext', "Required attribute '%1' is not presented in tag &lt;%2&gt;.",
                                         false, array( $reqAttrName, $element->nodeName ) ) );
                 }
             }
@@ -938,7 +938,7 @@ class eZXMLInputParser
                 if ( $element->nodeName == 'custom' )
                 {
                     $this->handleError( self::ERROR_SCHEMA,
-                                        ezi18n( 'kernel/classes/datatypes/ezxmltext', "Custom tag '%1' is not allowed.",
+                                        eZi18n::translate( 'kernel/classes/datatypes/ezxmltext', "Custom tag '%1' is not allowed.",
                                         false, array( $element->getAttribute( 'name' ) ) ) );
                 }
                 $element = $parent->removeChild( $element );
@@ -954,7 +954,7 @@ class eZXMLInputParser
                 $element = $parent->removeChild( $element );
                 if ( !$element->getAttributeNS( 'http://ez.no/namespaces/ezpublish3/temporary/', 'new-element' ) )
                 {
-                    $this->handleError( self::ERROR_SCHEMA, ezi18n( 'kernel/classes/datatypes/ezxmltext', "&lt;%1&gt; tag can't be empty.",
+                    $this->handleError( self::ERROR_SCHEMA, eZi18n::translate( 'kernel/classes/datatypes/ezxmltext', "&lt;%1&gt; tag can't be empty.",
                                         false, array( $element->nodeName ) ) );
                     return false;
                 }
@@ -989,7 +989,7 @@ class eZXMLInputParser
                     }
 
                     $elementName = $element->nodeType == XML_ELEMENT_NODE ? '&lt;' . $element->nodeName . '&gt;' : $element->nodeName;
-                    $this->handleError( self::ERROR_SCHEMA, ezi18n( 'kernel/classes/datatypes/ezxmltext', "%1 is not allowed to be a child of &lt;%2&gt;.",
+                    $this->handleError( self::ERROR_SCHEMA, eZi18n::translate( 'kernel/classes/datatypes/ezxmltext', "%1 is not allowed to be a child of &lt;%2&gt;.",
                                         false, array( $elementName, $parent->nodeName ) ) );
                 }
                 $this->fixSubtree( $element, $element );
@@ -1071,7 +1071,7 @@ class eZXMLInputParser
             {
                 $removeAttr = true;
                 $this->handleError( self::ERROR_SCHEMA,
-                                    ezi18n( 'kernel/classes/datatypes/ezxmltext', "Attribute '%1' is not allowed in &lt;%2&gt; element.",
+                                    eZi18n::translate( 'kernel/classes/datatypes/ezxmltext', "Attribute '%1' is not allowed in &lt;%2&gt; element.",
                                     false, array( $fullName, $element->nodeName ) ) );
             }
             elseif ( $this->RemoveDefaultAttrs )

@@ -1384,7 +1384,7 @@ class eZPDFTable extends Cezpdf
         $sizes = isset( $params['size'] ) ? explode( ',', $params['size'] ) : '';
         $indents = isset( $params['indent'] ) ? explode( ',', $params['indent'] ) : '';
         $dots = isset( $params['dots'] ) ? $params['dots'] : '';
-        $contentText = isset( $params['contentText'] ) ? $params['contentText'] : ezi18n( 'lib/ezpdf/classes', 'Contents', 'Table of contents' );
+        $contentText = isset( $params['contentText'] ) ? $params['contentText'] : eZi18n::translate( 'lib/ezpdf/classes', 'Contents', 'Table of contents' );
 
         $this->insertTOC( $sizes, $indents, $dots, $contentText );
     }
@@ -1401,7 +1401,7 @@ class eZPDFTable extends Cezpdf
     {
         $this->ezNewPage();
         $fontSize = $this->fontSize();
-        Cezpdf::ezText( ezi18n( 'lib/ezpdf/classes', 'Index', 'Keyword index name' ) . '<C:callInsertTOC:Index,1>'."\n", 26, array('justification'=>'centre'));
+        Cezpdf::ezText( eZi18n::translate( 'lib/ezpdf/classes', 'Index', 'Keyword index name' ) . '<C:callInsertTOC:Index,1>'."\n", 26, array('justification'=>'centre'));
 
         if ( count( $this->KeywordArray ) == 0 )
             return;

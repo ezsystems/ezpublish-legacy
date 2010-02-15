@@ -44,7 +44,7 @@ class eZObjectRelationType extends eZDataType
     */
     function eZObjectRelationType()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Object relation", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, eZi18n::translate( 'kernel/classes/datatypes', "Object relation", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -74,14 +74,14 @@ class eZObjectRelationType extends eZDataType
 
             if ( $contentObjectAttribute->validateIsRequired() and $relatedObjectID == 0 )
             {
-                $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
                                                                      'Missing objectrelation input.' ) );
                 return eZInputValidator::STATE_INVALID;
             }
         }
         else if ( $contentObjectAttribute->validateIsRequired() )
         {
-            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes', 'Missing objectrelation input.' ) );
+            $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes', 'Missing objectrelation input.' ) );
             return eZInputValidator::STATE_INVALID;
         }
 

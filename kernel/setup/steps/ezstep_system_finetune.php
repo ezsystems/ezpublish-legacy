@@ -30,7 +30,7 @@
 
 /*! \file
 */
-require_once( "kernel/common/i18n.php" );
+
 
 /*!
   \class eZStepSystemCheck ezstep_system_check.php
@@ -102,7 +102,7 @@ class eZStepSystemFinetune extends eZStepInstaller
         $result = array();
         // Display template
         $result['content'] = $this->Tpl->fetch( "design:setup/init/system_finetune.tpl" );
-        $result['path'] = array( array( 'text' => ezi18n( 'design/standard/setup/init',
+        $result['path'] = array( array( 'text' => eZi18n::translate( 'design/standard/setup/init',
                                                           'System finetuning' ),
                                         'url' => false ) );
         return $result;

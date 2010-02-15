@@ -71,7 +71,7 @@ if ( !$object->canRead() )
 }
 
 $hostName = eZSys::hostname();
-$subject = ezi18n( 'kernel/content', 'Tip from %1: %2', null, array( $hostName, $nodeName ) );
+$subject = eZi18n::translate( 'kernel/content', 'Tip from %1: %2', null, array( $hostName, $nodeName ) );
 $comment = '';
 $overrideKeysAreSet = false;
 
@@ -98,9 +98,9 @@ if ( $http->hasPostVariable( 'SendButton' ) )
 
     // email validation
     if ( !eZMail::validate( $yourEmail ) )
-        $error_strings[] = ezi18n( 'kernel/content', 'The email address of the sender is not valid' );
+        $error_strings[] = eZi18n::translate( 'kernel/content', 'The email address of the sender is not valid' );
     if ( !eZMail::validate( $receiversEmail ) )
-        $error_strings[] = ezi18n( 'kernel/content', 'The email address of the receiver is not valid' );
+        $error_strings[] = eZi18n::translate( 'kernel/content', 'The email address of the receiver is not valid' );
 
     $fromEmail = null;
 
@@ -120,11 +120,11 @@ if ( $http->hasPostVariable( 'SendButton' ) )
     if ( $http->hasSessionVariable('ezpContentTipafriendList') )
     {
         if ( strpos( $http->sessionVariable('ezpContentTipafriendList'), $NodeID . '|' . $receiversEmail ) !== false )
-            $error_strings[] = ezi18n( 'kernel/content', "You have already sent a tipafriend mail to this reciver regarding '$nodeName' content" );
+            $error_strings[] = eZi18n::translate( 'kernel/content', "You have already sent a tipafriend mail to this reciver regarding '$nodeName' content" );
     }
 
     if ( !isset( $error_strings[0] ) && !eZTipafriendRequest::checkReceiver( $receiversEmail ) )
-        $error_strings[] = ezi18n( 'kernel/content', 'The receiver has already received the maximum number of tipafriend mails the last hours' );
+        $error_strings[] = eZi18n::translate( 'kernel/content', 'The receiver has already received the maximum number of tipafriend mails the last hours' );
 
     // no validation errors
     if ( count( $error_strings ) == 0 )
@@ -235,7 +235,7 @@ $tpl->setVariable( 'comment', $comment );
 
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:content/tipafriend.tpl' );
-$Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Tip a friend' ),
+$Result['path'] = array( array( 'text' => eZi18n::translate( 'kernel/content', 'Tip a friend' ),
                                 'url' => false ) );
 
 ?>

@@ -31,7 +31,7 @@
 /*! \file
 */
 
-require_once( "kernel/common/i18n.php" );
+
 
 /*!
   \class eZStepWelcome ezstep_welcome.php
@@ -109,7 +109,7 @@ class eZStepWelcome extends eZStepInstaller
         $this->Tpl->setVariable( 'optional_test', array( 'result' => $this->OptionalResult,
                                                          'results' => $this->OptionalResults ) );
         $result['content'] = $this->Tpl->fetch( 'design:setup/init/welcome.tpl' );
-        $result['path'] = array( array( 'text' => ezi18n( 'design/standard/setup/init',
+        $result['path'] = array( array( 'text' => eZi18n::translate( 'design/standard/setup/init',
                                                           'Welcome to eZ Publish' ),
                                     'url' => false ) );
 

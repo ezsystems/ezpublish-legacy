@@ -45,7 +45,7 @@ class eZImageType extends eZDataType
 
     function eZImageType()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Image", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, eZi18n::translate( 'kernel/classes/datatypes', "Image", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -154,7 +154,7 @@ class eZImageType extends eZDataType
              $imagefile = $_FILES[$httpFileName]['tmp_name'];
              if ( !$_FILES[$httpFileName]["size"] )
              {
-                $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
                                                                      'The image file must have non-zero size.' ) );
                 return eZInputValidator::STATE_INVALID;
              }
@@ -163,7 +163,7 @@ class eZImageType extends eZDataType
                 $info = getimagesize( $imagefile );
                 if ( !$info )
                 {
-                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                    $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
                                                                          'A valid image file is required.' ) );
                     return eZInputValidator::STATE_INVALID;
                 }
@@ -175,7 +175,7 @@ class eZImageType extends eZDataType
                  $nameMimeTypes = explode("/", $nameMimeType);
                  if ( $nameMimeTypes[0] != 'image' )
                  {
-                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                     $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
                                                                           'A valid image file is required.' ) );
                      return eZInputValidator::STATE_INVALID;
                  }
@@ -183,19 +183,19 @@ class eZImageType extends eZDataType
         }
         if ( $mustUpload && $canFetchResult == eZHTTPFile::UPLOADEDFILE_DOES_NOT_EXIST )
         {
-            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+            $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
                 'A valid image file is required.' ) );
             return eZInputValidator::STATE_INVALID;
         }
         if ( $canFetchResult == eZHTTPFile::UPLOADEDFILE_EXCEEDS_PHP_LIMIT )
         {
-            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+            $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
                 'The size of the uploaded image exceeds limit set by upload_max_filesize directive in php.ini. Please contact the site administrator.' ) );
             return eZInputValidator::STATE_INVALID;
         }
         if ( $canFetchResult == eZHTTPFile::UPLOADEDFILE_EXCEEDS_MAX_SIZE )
         {
-            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+            $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
                 'The size of the uploaded file exceeds the limit set for this site: %1 bytes.' ), $maxSize );
             return eZInputValidator::STATE_INVALID;
         }
@@ -289,7 +289,7 @@ class eZImageType extends eZDataType
         $handler = $objectAttribute->content();
         if ( !$handler )
         {
-            $result['errors'][] = array( 'description' => ezi18n( 'kernel/classes/datatypes/ezimage',
+            $result['errors'][] = array( 'description' => eZi18n::translate( 'kernel/classes/datatypes/ezimage',
                                                                   'Failed to fetch Image Handler. Please contact the site administrator.' ) );
             return false;
         }
@@ -312,7 +312,7 @@ class eZImageType extends eZDataType
         $handler = $objectAttribute->content();
         if ( !$handler )
         {
-            $result['errors'][] = array( 'description' => ezi18n( 'kernel/classes/datatypes/ezimage',
+            $result['errors'][] = array( 'description' => eZi18n::translate( 'kernel/classes/datatypes/ezimage',
                                                                   'Failed to fetch Image Handler. Please contact the site administrator.' ) );
             return false;
         }

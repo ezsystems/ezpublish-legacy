@@ -37,7 +37,7 @@
   \brief The class eZPackageType does
 
 */
-require_once( 'kernel/common/i18n.php' );
+
 
 class eZPackageType extends eZDataType
 {
@@ -52,7 +52,7 @@ class eZPackageType extends eZDataType
     */
     function eZPackageType()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', 'Package', 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, eZi18n::translate( 'kernel/classes/datatypes', 'Package', 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 

@@ -48,7 +48,7 @@ class eZRangeOptionType extends eZDataType
     */
     function eZRangeOptionType()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Range option", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, eZi18n::translate( 'kernel/classes/datatypes', "Range option", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -74,7 +74,7 @@ class eZRangeOptionType extends eZDataType
                 if ( ( !$classAttribute->attribute( 'is_information_collector' ) and
                        $contentObjectAttribute->validateIsRequired() ) )
                 {
-                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                    $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
                                                      'Missing range option input.' ) );
                     return eZInputValidator::STATE_INVALID;
                 }
@@ -84,7 +84,7 @@ class eZRangeOptionType extends eZDataType
         }
         else if ( !$classAttribute->attribute( 'is_information_collector' ) and $contentObjectAttribute->validateIsRequired() )
         {
-            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes', 'Missing range option input.' ) );
+            $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes', 'Missing range option input.' ) );
             return eZInputValidator::STATE_INVALID;
         }
         else

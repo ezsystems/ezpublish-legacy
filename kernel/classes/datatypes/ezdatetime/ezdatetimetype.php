@@ -52,7 +52,7 @@ class eZDateTimeType extends eZDataType
 
     function eZDateTimeType()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "Date and time", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, eZi18n::translate( 'kernel/classes/datatypes', "Date and time", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -64,7 +64,7 @@ class eZDateTimeType extends eZDataType
         $state = eZDateTimeValidator::validateDate( $day, $month, $year );
         if ( $state == eZInputValidator::STATE_INVALID )
         {
-            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+            $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
                                                                  'Date is not valid.' ) );
             return eZInputValidator::STATE_INVALID;
         }
@@ -73,7 +73,7 @@ class eZDateTimeType extends eZDataType
 
         if ( $state == eZInputValidator::STATE_INVALID )
         {
-            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+            $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
                                                                  'Time is not valid.' ) );
             return eZInputValidator::STATE_INVALID;
         }
@@ -119,7 +119,7 @@ class eZDateTimeType extends eZDataType
                      ( !$classAttribute->attribute( 'is_information_collector' ) and
                        $contentObjectAttribute->validateIsRequired() ) )
                 {
-                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                    $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
                                                                          'Missing datetime input.' ) );
                     return eZInputValidator::STATE_INVALID;
                 }
@@ -133,7 +133,7 @@ class eZDateTimeType extends eZDataType
         }
         else if ( !$classAttribute->attribute( 'is_information_collector' ) and $contentObjectAttribute->validateIsRequired() )
         {
-            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes', 'Missing datetime input.' ) );
+            $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes', 'Missing datetime input.' ) );
             return eZInputValidator::STATE_INVALID;
         }
         else
@@ -216,7 +216,7 @@ class eZDateTimeType extends eZDataType
                         ( !$useSeconds or $second == '' ) ) or
                      $contentObjectAttribute->validateIsRequired() )
                 {
-                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                    $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
                                                                          'Missing datetime input.' ) );
                     return eZInputValidator::STATE_INVALID;
                 }

@@ -42,7 +42,7 @@ if ( $Module->isCurrentAction( 'MD5Check' ) )
     {
         $tpl->setVariable( 'md5_result', 'failed' );
         $tpl->setVariable( 'failure_reason',
-                           ezi18n( 'kernel/setup', 'File %1 does not exist. '.
+                           eZi18n::translate( 'kernel/setup', 'File %1 does not exist. '.
                                     'You should copy it from the recent eZ Publish distribution.',
                                     null, array( MD5_SUM_LIST_FILE ) ) );
     }
@@ -81,5 +81,5 @@ if ( $Module->isCurrentAction( 'DBCheck' ) )
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:setup/systemupgrade.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezi18n( 'kernel/setup', 'System Upgrade' ) ) );
+                                'text' => eZi18n::translate( 'kernel/setup', 'System Upgrade' ) ) );
 ?>

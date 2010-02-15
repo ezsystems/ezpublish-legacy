@@ -295,7 +295,7 @@ class eZISBN13
                             $strictValidation = $ini->variable( 'ISBNSettings', 'StrictValidation' );
                             if ( $strictValidation == 'true' )
                             {
-                                $error = ezi18n( 'kernel/classes/datatypes', 'The registrant element of the ISBN number does not exist.' );
+                                $error = eZi18n::translate( 'kernel/classes/datatypes', 'The registrant element of the ISBN number does not exist.' );
                                 return false;
                             }
                         }
@@ -305,7 +305,7 @@ class eZISBN13
                         $strictValidation = $ini->variable( 'ISBNSettings', 'StrictValidation' );
                         if ( $strictValidation == 'true' )
                         {
-                            $error = ezi18n( 'kernel/classes/datatypes', 'The ISBN number has a incorrect registration group number.' );
+                            $error = eZi18n::translate( 'kernel/classes/datatypes', 'The ISBN number has a incorrect registration group number.' );
                             return false;
                         }
                     }
@@ -315,7 +315,7 @@ class eZISBN13
                     $strictValidation = $ini->variable( 'ISBNSettings', 'StrictValidation' );
                     if ( $strictValidation == 'true' )
                     {
-                        $error = ezi18n( 'kernel/classes/datatypes', 'The group element of the ISBN number does not exist.' );
+                        $error = eZi18n::translate( 'kernel/classes/datatypes', 'The group element of the ISBN number does not exist.' );
                         return false;
                     }
                 }
@@ -325,14 +325,14 @@ class eZISBN13
                 $strictValidation = $ini->variable( 'ISBNSettings', 'StrictValidation' );
                 if ( $strictValidation == 'true' )
                 {
-                    $error = ezi18n( 'kernel/classes/datatypes', '%1 is not a valid prefix of the ISBN number.', null, array( $prefix ) );
+                    $error = eZi18n::translate( 'kernel/classes/datatypes', '%1 is not a valid prefix of the ISBN number.', null, array( $prefix ) );
                     return false;
                 }
             }
         }
         else
         {
-            $error = ezi18n( 'kernel/classes/datatypes', 'All ISBN 13 characters need to be numeric' );
+            $error = eZi18n::translate( 'kernel/classes/datatypes', 'All ISBN 13 characters need to be numeric' );
             return false;
         }
         return true;
@@ -371,7 +371,7 @@ class eZISBN13
         if ( substr( $isbnNr, 0, self::PREFIX_LENGTH ) != self::PREFIX_978 and
              substr( $isbnNr, 0, self::PREFIX_LENGTH ) != self::PREFIX_979 )
         {
-            $error = ezi18n( 'kernel/classes/datatypes',
+            $error = eZi18n::translate( 'kernel/classes/datatypes',
                              '13 digit ISBN must start with 978 or 979' );
             return false;
         }
@@ -380,7 +380,7 @@ class eZISBN13
         $weight13 = 1;
         if ( strlen( $isbnNr ) != self::LENGTH )
         {
-            $error = ezi18n( 'kernel/classes/datatypes', 'ISBN length is invalid' );
+            $error = eZi18n::translate( 'kernel/classes/datatypes', 'ISBN length is invalid' );
             return false;
         }
 
@@ -391,7 +391,7 @@ class eZISBN13
             $val = $isbnNr{$i};
             if ( !is_numeric( $isbnNr{$i} ) )
             {
-                $error = ezi18n( 'kernel/classes/datatypes', 'All ISBN 13 characters need to be numeric' );
+                $error = eZi18n::translate( 'kernel/classes/datatypes', 'All ISBN 13 characters need to be numeric' );
                 return false;
             }
             $checksum13 = $checksum13 + $weight13 * $val;
@@ -402,7 +402,7 @@ class eZISBN13
             // Calculate the last digit from the 12 first numbers.
             $checkDigit = ( 10 - ( ( $checksum13 - ( ( $weight13 + 2 ) % 4 ) * $val ) % 10 ) ) % 10;
             //bad checksum
-            $error = ezi18n( 'kernel/classes/datatypes', 'Bad checksum, last digit should be %1', null, array( $checkDigit ) );
+            $error = eZi18n::translate( 'kernel/classes/datatypes', 'Bad checksum, last digit should be %1', null, array( $checkDigit ) );
             return false;
         }
 

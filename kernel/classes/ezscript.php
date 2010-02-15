@@ -256,7 +256,7 @@ class eZScript
         }
 
         $access = changeAccess( $access );
-        require_once( 'kernel/common/i18n.php' );
+        
 
         if ( $this->UseExtensions )
         {

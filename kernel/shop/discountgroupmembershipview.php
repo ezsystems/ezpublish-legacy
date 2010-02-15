@@ -139,7 +139,7 @@ foreach ( $ruleList as $rule )
         $ruleValues = eZDiscountSubRuleValue::fetchBySubRuleID( $discountRuleID );
         if ( $ruleValues != null )
         {
-            $limitation = ezi18n( 'kernel/shop', 'Classes' ).' ';
+            $limitation = eZi18n::translate( 'kernel/shop', 'Classes' ).' ';
             $firstLoop = true;
             foreach ( $ruleValues as $ruleValue )
             {
@@ -162,12 +162,12 @@ foreach ( $ruleList as $rule )
         }
         else
         {
-            $limitation = ezi18n( 'kernel/shop', 'Any class' );
+            $limitation = eZi18n::translate( 'kernel/shop', 'Any class' );
         }
         $sectionRuleValues = eZDiscountSubRuleValue::fetchBySubRuleID( $discountRuleID, 1 );
         if ( $sectionRuleValues != null )
         {
-            $limitation .= ' '.ezi18n( 'kernel/shop', 'in sections' ).' ';
+            $limitation .= ' '.eZi18n::translate( 'kernel/shop', 'in sections' ).' ';
             $firstLoop = true;
             foreach ( $sectionRuleValues as $sectionRuleValue )
             {
@@ -190,13 +190,13 @@ foreach ( $ruleList as $rule )
         }
         else
         {
-            $limitation .= ' '.ezi18n( 'kernel/shop', 'in any section' );
+            $limitation .= ' '.eZi18n::translate( 'kernel/shop', 'in any section' );
         }
         $productRuleValues = eZDiscountSubRuleValue::fetchBySubRuleID( $discountRuleID, 2 );
 
         if ( $productRuleValues != null )
         {
-            $limitation = ezi18n( 'kernel/shop', 'Products' ).' ';
+            $limitation = eZi18n::translate( 'kernel/shop', 'Products' ).' ';
             $firstLoop = true;
             foreach ( $productRuleValues as $productRuleValue )
             {
@@ -220,7 +220,7 @@ foreach ( $ruleList as $rule )
     }
     else
     {
-        $limitation = ezi18n( 'kernel/shop', 'Any product' );
+        $limitation = eZi18n::translate( 'kernel/shop', 'Any product' );
     }
 
     $item = array( "name" => $name,
@@ -238,5 +238,5 @@ $tpl->setVariable( "rule_list", $ruleArray );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:shop/discountgroupmembershipview.tpl" );
 $Result['path'] = array( array( 'url' => '/shop/discountgroup/',
-                                'text' => ezi18n( 'kernel/shop', 'Group view of discount rule' ) ) );
+                                'text' => eZi18n::translate( 'kernel/shop', 'Group view of discount rule' ) ) );
 ?>

@@ -545,6 +545,7 @@ return array(
       'eZXMLText'                                          => 'kernel/classes/datatypes/ezxmltext/ezxmltext.php',
       'eZXMLTextDiff'                                      => 'lib/ezdiff/classes/ezxmltextdiff.php',
       'eZXMLTextType'                                      => 'kernel/classes/datatypes/ezxmltext/ezxmltexttype.php',
+      'eZi18n'                                             => 'kernel/common/ezi18n.php',
       'eZi18nOperator'                                     => 'kernel/common/ezi18noperator.php',
       'ezpAutoloadCliOutput'                               => 'kernel/private/classes/ezpautoloadclioutput.php',
       'ezpAutoloadFileFindContext'                         => 'kernel/private/structs/ezpautoloadfilefindcontext.php',

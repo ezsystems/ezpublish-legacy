@@ -143,7 +143,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
                 if ( count( $objectNodes ) > self::MAX_LISTED_OBJECTS )
                 {
-                    return array( 'description' => ezi18n( 'kernel/package', '%number content objects', false,
+                    return array( 'description' => eZi18n::translate( 'kernel/package', '%number content objects', false,
                                                            array( '%number' => count( $objectNodes ) ) ) );
                 }
 
@@ -180,7 +180,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                 }
 
                 $objectNames[] = array( 'description' =>
-                                         ezi18n( 'kernel/package', 'Content object %objectname', false,
+                                         eZi18n::translate( 'kernel/package', 'Content object %objectname', false,
                                                  array( '%objectname' => $objectName ) ),
                                         'language_info' => $languageInfo );
             }
@@ -902,11 +902,11 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                         {
                             $installParameters['error'] = array( 'error_code' => eZContentObject::PACKAGE_ERROR_MODIFIED,
                                                                  'element_id' => $objectRemoteID,
-                                                                 'description' => ezi18n( 'kernel/package',
+                                                                 'description' => eZi18n::translate( 'kernel/package',
                                                                                           "Object '%objectname' has been modified since installation. Are you sure you want to remove it?",
                                                                                           false, array( '%objectname' => $name ) ),
-                                                                 'actions' => array( eZContentObject::PACKAGE_DELETE => ezi18n( 'kernel/package', 'Remove' ),
-                                                                                     eZContentObject::PACKAGE_KEEP => ezi18n( 'kernel/package', 'Keep object' ) ) );
+                                                                 'actions' => array( eZContentObject::PACKAGE_DELETE => eZi18n::translate( 'kernel/package', 'Remove' ),
+                                                                                     eZContentObject::PACKAGE_KEEP => eZi18n::translate( 'kernel/package', 'Keep object' ) ) );
                             return false;
                         }
                     }
@@ -935,12 +935,12 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                         {
                             $installParameters['error'] = array( 'error_code' => eZContentObject::PACKAGE_ERROR_HAS_CHILDREN,
                                                                  'element_id' => $objectRemoteID,
-                                                                 'description' => ezi18n( 'kernel/package',
+                                                                 'description' => eZi18n::translate( 'kernel/package',
                                                                                           "Object '%objectname' has %childrencount sub-item(s) that will be removed.",
                                                                                           false, array( '%objectname' => $name,
                                                                                                         '%childrencount' => $childrenCount ) ),
-                                                                 'actions' => array( eZContentObject::PACKAGE_DELETE => ezi18n( 'kernel/package', "Remove object and its sub-item(s)" ),
-                                                                                     eZContentObject::PACKAGE_KEEP => ezi18n( 'kernel/package', 'Keep object' ) ) );
+                                                                 'actions' => array( eZContentObject::PACKAGE_DELETE => eZi18n::translate( 'kernel/package', "Remove object and its sub-item(s)" ),
+                                                                                     eZContentObject::PACKAGE_KEEP => eZi18n::translate( 'kernel/package', 'Keep object' ) ) );
                             return false;
                         }
                     }

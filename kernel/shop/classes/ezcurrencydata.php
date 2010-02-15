@@ -317,14 +317,14 @@ class eZCurrencyData extends eZPersistentObject
         switch ( $errorCode )
         {
             case self::ERROR_INVALID_CURRENCY_CODE:
-                return ezi18n( 'kernel/shop/classes/ezcurrencydata', 'Invalid characters in currency code.' );
+                return eZi18n::translate( 'kernel/shop/classes/ezcurrencydata', 'Invalid characters in currency code.' );
 
             case self::ERROR_CURRENCY_EXISTS:
-                return ezi18n( 'kernel/shop/classes/ezcurrencydata', 'Currency already exists.' );
+                return eZi18n::translate( 'kernel/shop/classes/ezcurrencydata', 'Currency already exists.' );
 
             case self::ERROR_UNKNOWN:
             default:
-                return ezi18n( 'kernel/shop/classes/ezcurrencydata', 'Unknown error.' );
+                return eZi18n::translate( 'kernel/shop/classes/ezcurrencydata', 'Unknown error.' );
         }
     }
 

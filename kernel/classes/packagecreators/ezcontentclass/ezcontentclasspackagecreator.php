@@ -44,7 +44,7 @@ class eZContentClassPackageCreator extends eZPackageCreationHandler
     {
         $steps = array();
         $steps[] = array( 'id' => 'class',
-                          'name' => ezi18n( 'kernel/package', 'Content classes to include' ),
+                          'name' => eZi18n::translate( 'kernel/package', 'Content classes to include' ),
                           'methods' => array( 'initialize' => 'initializeClassData',
                                               'validate' => 'validateClassData',
                                               'commit' => 'commitClassData' ),
@@ -53,7 +53,7 @@ class eZContentClassPackageCreator extends eZPackageCreationHandler
         $steps[] = $this->packageMaintainerStep();
         $steps[] = $this->packageChangelogStep();
         $this->eZPackageCreationHandler( $id,
-                                         ezi18n( 'kernel/package', 'Content class export' ),
+                                         eZi18n::translate( 'kernel/package', 'Content class export' ),
                                          $steps );
     }
 
@@ -108,8 +108,8 @@ class eZContentClassPackageCreator extends eZPackageCreationHandler
         $result = true;
         if ( count( $classList ) == 0 )
         {
-            $errorList[] = array( 'field' => ezi18n( 'kernel/package', 'Class list' ),
-                                  'description' => ezi18n( 'kernel/package', 'You must select at least one class for inclusion' ) );
+            $errorList[] = array( 'field' => eZi18n::translate( 'kernel/package', 'Class list' ),
+                                  'description' => eZi18n::translate( 'kernel/package', 'You must select at least one class for inclusion' ) );
             $result = false;
         }
         return $result;

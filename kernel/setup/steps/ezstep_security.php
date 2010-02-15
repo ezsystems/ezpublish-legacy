@@ -30,7 +30,7 @@
 
 /*! \file
 */
-require_once( "kernel/common/i18n.php" );
+
 
 /*!
   \class eZStepSecurity ezstep_security.php
@@ -81,7 +81,7 @@ class eZStepSecurity extends eZStepInstaller
         $result = array();
         // Display template
         $result['content'] = $this->Tpl->fetch( 'design:setup/init/security.tpl' );
-        $result['path'] = array( array( 'text' => ezi18n( 'design/standard/setup/init',
+        $result['path'] = array( array( 'text' => eZi18n::translate( 'design/standard/setup/init',
                                                           'Securing site' ),
                                         'url' => false ) );
         return $result;

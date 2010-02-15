@@ -151,7 +151,7 @@ if ( is_numeric( $RSSExportID ) )
             $Result = array();
             $Result['content'] = $tpl->fetch( 'design:rss/edit_export_denied.tpl' );
             $Result['path'] = array( array( 'url' => false,
-                                            'text' => ezi18n( 'kernel/rss', 'Really Simple Syndication' ) ) );
+                                            'text' => eZi18n::translate( 'kernel/rss', 'Really Simple Syndication' ) ) );
             return $Result;
         }
         else if ( $timeOut > 0 && $rssExport->attribute( 'modified' ) + $timeOut < time() )
@@ -262,7 +262,7 @@ $tpl->setVariable( 'validation_errors', $validationErrors );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:rss/edit_export.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezi18n( 'kernel/rss', 'Really Simple Syndication' ) ) );
+                                'text' => eZi18n::translate( 'kernel/rss', 'Really Simple Syndication' ) ) );
 
 
 ?>

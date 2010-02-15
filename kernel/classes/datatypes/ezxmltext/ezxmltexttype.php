@@ -118,7 +118,7 @@ class eZXMLTextType extends eZDataType
 
     function eZXMLTextType()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', "XML block", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, eZi18n::translate( 'kernel/classes/datatypes', "XML block", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 

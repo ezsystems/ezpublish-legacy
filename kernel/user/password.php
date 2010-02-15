@@ -160,9 +160,9 @@ $tpl->setVariable( "newPasswordTooShort", $newPasswordTooShort );
 $tpl->setVariable( "message", $message );
 
 $Result = array();
-$Result['path'] = array( array( 'text' => ezi18n( 'kernel/user', 'User' ),
+$Result['path'] = array( array( 'text' => eZi18n::translate( 'kernel/user', 'User' ),
                                 'url' => false ),
-                         array( 'text' => ezi18n( 'kernel/user', 'Change password' ),
+                         array( 'text' => eZi18n::translate( 'kernel/user', 'Change password' ),
                                 'url' => false ) );
 $Result['content'] = $tpl->fetch( "design:user/password.tpl" );
 

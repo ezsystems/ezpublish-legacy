@@ -85,7 +85,7 @@ else if ( $module->isCurrentAction( 'ApplyChanges' ) )
     $db->commit();
 
     $error = array( 'code' => 0,
-                    'description' => ezi18n( 'kernel/shop', 'Changes were stored successfully.' ) );
+                    'description' => eZi18n::translate( 'kernel/shop', 'Changes were stored successfully.' ) );
 }
 else if ( $module->isCurrentAction( 'UpdateAutoprices' ) )
 {
@@ -129,7 +129,7 @@ $tpl->setVariable( 'show_error_message', $error !== false );
 $tpl->setVariable( 'error', $error );
 
 $Result = array();
-$Result['path'] = array( array( 'text' => ezi18n( 'kernel/shop', 'Available currency list' ),
+$Result['path'] = array( array( 'text' => eZi18n::translate( 'kernel/shop', 'Available currency list' ),
                                 'url' => false ) );
 $Result['content'] = $tpl->fetch( "design:shop/currencylist.tpl" );
 

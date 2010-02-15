@@ -30,7 +30,7 @@
 
 /*! \file
 */
-require_once( 'kernel/common/i18n.php' );
+
 /*!
   \class eZStepDatabaseInit ezstep_database_init.php
   \brief The class eZStepDatabaseInit does
@@ -237,7 +237,7 @@ class eZStepDatabaseInit extends eZStepInstaller
         $result = array();
         // Display template
         $result['content'] = $this->Tpl->fetch( 'design:setup/init/database_init.tpl' );
-        $result['path'] = array( array( 'text' => ezi18n( 'design/standard/setup/init',
+        $result['path'] = array( array( 'text' => eZi18n::translate( 'design/standard/setup/init',
                                                           'Database initalization' ),
                                         'url' => false ) );
         return $result;

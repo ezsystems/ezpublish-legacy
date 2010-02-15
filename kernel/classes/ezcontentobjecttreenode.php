@@ -5105,7 +5105,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             if( $node['node_id'] == 1 )
             {
                 if( !array_key_exists( 'name', $node ) || !$node['name'] )
-                    $node['name'] = ezi18n( 'kernel/content', 'Top Level Nodes' );
+                    $node['name'] = eZi18n::translate( 'kernel/content', 'Top Level Nodes' );
             }
 
             $object = new eZContentObjectTreeNode( $node );
@@ -5733,13 +5733,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
     {
         if( $this->IsHidden )
         {
-            return ezi18n( 'kernel/content', 'Hidden' );
+            return eZi18n::translate( 'kernel/content', 'Hidden' );
         }
         else if( $this->IsInvisible )
         {
-            return ezi18n( 'kernel/content', 'Hidden by superior' );
+            return eZi18n::translate( 'kernel/content', 'Hidden by superior' );
         }
-        return ezi18n( 'kernel/content', 'Visible' );
+        return eZi18n::translate( 'kernel/content', 'Visible' );
     }
 
     /*!

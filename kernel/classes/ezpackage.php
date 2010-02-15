@@ -463,12 +463,11 @@ class eZPackage
 
     static function maintainerRoleName( $roleID )
     {
-        require_once "kernel/common/i18n.php";
-        $nameMap = array( 'lead' => ezi18n( 'kernel/package', 'Lead' ),
-                          'developer' => ezi18n( 'kernel/package', 'Developer' ),
-                          'designer' => ezi18n( 'kernel/package', 'Designer' ),
-                          'contributor' => ezi18n( 'kernel/package', 'Contributor' ),
-                          'tester' => ezi18n( 'kernel/package', 'Tester' ) );
+        $nameMap = array( 'lead' => eZi18n::translate( 'kernel/package', 'Lead' ),
+                          'developer' => eZi18n::translate( 'kernel/package', 'Developer' ),
+                          'designer' => eZi18n::translate( 'kernel/package', 'Designer' ),
+                          'contributor' => eZi18n::translate( 'kernel/package', 'Contributor' ),
+                          'tester' => eZi18n::translate( 'kernel/package', 'Tester' ) );
         if ( isset( $nameMap[$roleID] ) )
             return $nameMap[$roleID];
         return false;
@@ -1615,13 +1614,12 @@ class eZPackage
     */
     static function packageRepositories( $parameters = array() )
     {
-        require_once "kernel/common/i18n.php";
         if ( isset( $parameters['path'] ) and $parameters['path'] )
         {
             $path = $parameters['path'];
             $packageRepositories = array( array( 'path' => $path,
                                              'id' => 'local',
-                                             'name' => ezi18n( 'kernel/package', 'Local' ),
+                                             'name' => eZi18n::translate( 'kernel/package', 'Local' ),
                                              'type' => 'local' ) );
         }
         else
@@ -1629,7 +1627,7 @@ class eZPackage
             $repositoryPath = eZPackage::repositoryPath();
             $packageRepositories = array( array( 'path' => $repositoryPath . '/local',
                                                  'id' => 'local',
-                                                 'name' => ezi18n( 'kernel/package', 'Local' ),
+                                                 'name' => eZi18n::translate( 'kernel/package', 'Local' ),
                                                  'type' => 'local' ) );
 
             $subdirs = eZDir::findSubitems( $repositoryPath, 'd' );

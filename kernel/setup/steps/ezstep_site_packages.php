@@ -28,7 +28,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-require_once( "kernel/common/i18n.php" );
+
 
 /*!
   \class eZStepSitePackages ezstep_site_packages.php
@@ -65,7 +65,7 @@ class eZStepSitePackages extends eZStepInstaller
         }
         else
         {
-            $this->ErrorMsg = ezi18n( 'design/standard/setup/init',
+            $this->ErrorMsg = eZi18n::translate( 'design/standard/setup/init',
                                       'No packages chosen.' );
             return false;
         }
@@ -158,7 +158,7 @@ class eZStepSitePackages extends eZStepInstaller
         $result = array();
         // Display template
         $result['content'] = $this->Tpl->fetch( 'design:setup/init/site_packages.tpl' );
-        $result['path'] = array( array( 'text' => ezi18n( 'design/standard/setup/init',
+        $result['path'] = array( array( 'text' => eZi18n::translate( 'design/standard/setup/init',
                                                           'Site functionality' ),
                                         'url' => false ) );
         return $result;

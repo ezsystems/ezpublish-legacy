@@ -92,7 +92,7 @@ class eZRSSEditFunction
             if ( !$class )
             {
                 $validated = false;
-                $validationErrors[] = ezi18n( 'kernel/rss/edit_export',
+                $validationErrors[] = eZi18n::translate( 'kernel/rss/edit_export',
                                               'Selected class does not exist' );
             }
             else
@@ -101,21 +101,21 @@ class eZRSSEditFunction
                 if ( !isset( $dataMap[$titleClassAttributeIdentifier] ) )
                 {
                     $valid = false;
-                    $validationErrors[] = ezi18n( 'kernel/rss/edit_export',
+                    $validationErrors[] = eZi18n::translate( 'kernel/rss/edit_export',
                                                   'Invalid selection for title class %1 does not have attribute "%2"', null,
                                                   array( $class->attribute( 'name'), $titleClassAttributeIdentifier ) );
                 }
                 if ( $descriptionClassAttributeIdentifier != '' && !isset( $dataMap[$descriptionClassAttributeIdentifier] ) )
                 {
                     $valid = false;
-                    $validationErrors[] = ezi18n( 'kernel/rss/edit_export',
+                    $validationErrors[] = eZi18n::translate( 'kernel/rss/edit_export',
                                                   'Invalid selection for description class %1 does not have attribute "%2"', null,
                                                   array( $class->attribute( 'name'), $descriptionClassAttributeIdentifier ) );
                 }
                 if ( $categoryClassAttributeIdentifier != '' && !isset( $dataMap[$categoryClassAttributeIdentifier] ) )
                 {
                     $valid = false;
-                    $validationErrors[] = ezi18n( 'kernel/rss/edit_export',
+                    $validationErrors[] = eZi18n::translate( 'kernel/rss/edit_export',
                                                   'Invalid selection for category class %1 does not have attribute "%2"', null,
                                                   array( $class->attribute( 'name'), $categoryClassAttributeIdentifier ) );
                 }

@@ -288,9 +288,9 @@ $tpl->setVariable( 'current_siteaccess', $currentSiteAccess );
 
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:settings/view.tpl' );
-$Result['path'] = array( array( 'text' => ezi18n( 'settings/view', 'Settings' ),
+$Result['path'] = array( array( 'text' => eZi18n::translate( 'settings/view', 'Settings' ),
                                 'url' => false ),
-                         array( 'text' => ezi18n( 'settings/view', 'View' ),
+                         array( 'text' => eZi18n::translate( 'settings/view', 'View' ),
                                 'url' => false ) );
 
 ?>

@@ -159,7 +159,7 @@ else
     else
     {
         // does not exist => create new one, but do not store...
-        $discountRuleName = ezi18n( 'design/admin/shop/discountruleedit', 'New discount rule' );
+        $discountRuleName = eZi18n::translate( 'design/admin/shop/discountruleedit', 'New discount rule' );
         $discountRulePercent = 0.0;
         $discountRuleSelectedClasses = array( -1 );
         $discountRuleSelectedSections = array( -1 );
@@ -298,6 +298,6 @@ $tpl->setVariable( 'section_any_selected', in_array( -1, $discountRuleSelectedSe
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:shop/discountruleedit.tpl' );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezi18n( 'kernel/shop', 'Editing rule' ) ) );
+                                'text' => eZi18n::translate( 'kernel/shop', 'Editing rule' ) ) );
 
 ?>

@@ -98,7 +98,7 @@ $tpl->setVariable( 'view_parameters', $viewParameters );
 
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:shop/productsoverview.tpl" );
-$Result['path'] = array( array( 'text' => ezi18n( 'kernel/shop', 'Products overview' ),
+$Result['path'] = array( array( 'text' => eZi18n::translate( 'kernel/shop', 'Products overview' ),
                                 'url' => false ) );
 
 ?>

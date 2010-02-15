@@ -89,6 +89,6 @@ $tpl->setVariable( 'repository_id', $repositoryID );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:package/list.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezi18n( 'kernel/package', 'Packages' ) ) );
+                                'text' => eZi18n::translate( 'kernel/package', 'Packages' ) ) );
 
 ?>

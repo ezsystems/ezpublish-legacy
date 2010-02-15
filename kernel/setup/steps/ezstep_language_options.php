@@ -30,7 +30,7 @@
 
 /*! \file
 */
-require_once( "kernel/common/i18n.php" );
+
 
 /*!
   \class eZStepLanguageOptions ezstep_language_options.php
@@ -209,7 +209,7 @@ class eZStepLanguageOptions extends eZStepInstaller
         // Display template
 
         $result['content'] = $this->Tpl->fetch( "design:setup/init/language_options.tpl" );
-        $result['path'] = array( array( 'text' => ezi18n( 'design/standard/setup/init',
+        $result['path'] = array( array( 'text' => eZi18n::translate( 'design/standard/setup/init',
                                                           'Language options' ),
                                         'url' => false ) );
         return $result;

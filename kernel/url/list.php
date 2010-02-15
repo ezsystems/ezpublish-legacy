@@ -112,7 +112,7 @@ $tpl->setVariable( 'view_mode', $ViewMode );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:url/list.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezi18n( 'kernel/url', 'URL' ) ),
+                                'text' => eZi18n::translate( 'kernel/url', 'URL' ) ),
                          array( 'url' => false,
-                                'text' => ezi18n( 'kernel/url', 'List' ) ) );
+                                'text' => eZi18n::translate( 'kernel/url', 'List' ) ) );
 ?>

@@ -36,7 +36,7 @@ $tpl->setVariable( "view_parameters", $Params['UserParameters'] );
 $tpl->setVariable( 'last_visit_timestamp', $user->lastVisit() );
 
 $Result['content'] = $tpl->fetch( 'design:content/newcontent.tpl' );
-$Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'New content' ),
+$Result['path'] = array( array( 'text' => eZi18n::translate( 'kernel/content', 'New content' ),
                                 'url' => false ) );
 
 

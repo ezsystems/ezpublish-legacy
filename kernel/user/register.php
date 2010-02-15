@@ -91,9 +91,9 @@ if ( !$http->hasSessionVariable( "RegisterUserID" ) )
         $Result = array();
         $Result['content'] = $tpl->fetch( 'design:user/register_user_not_valid.tpl' );
         $Result['path'] = array( array( 'url' => false,
-                                'text' => ezi18n( 'kernel/user', 'User' ) ),
+                                'text' => eZi18n::translate( 'kernel/user', 'User' ) ),
                          array( 'url' => false,
-                                'text' => ezi18n( 'kernel/user', 'Register' ) ) );
+                                'text' => eZi18n::translate( 'kernel/user', 'Register' ) ) );
         return $Result;
     }
     // else create user object
@@ -122,7 +122,7 @@ if ( !$http->hasSessionVariable( "RegisterUserID" ) )
     $count = $rows[0]['count'];
     if ( $count < 1 )
     {
-        $errMsg = ezi18n( 'design/standard/user', 'The node (%1) specified in [UserSettings].DefaultUserPlacement setting in site.ini does not exist!', null, array( $defaultUserPlacement ) );
+        $errMsg = eZi18n::translate( 'design/standard/user', 'The node (%1) specified in [UserSettings].DefaultUserPlacement setting in site.ini does not exist!', null, array( $defaultUserPlacement ) );
         $checkErrNodeId = true;
         eZDebug::writeError( "$errMsg" );
         $tpl->setVariable( 'errMsg', $errMsg );
@@ -292,7 +292,7 @@ if ( !function_exists( 'checkContentActions' ) )
                 if ( $tpl->hasVariable( 'subject' ) )
                     $subject = $tpl->variable( 'subject' );
                 else
-                    $subject = ezi18n( 'kernel/user/register', 'Registration info' );
+                    $subject = eZi18n::translate( 'kernel/user/register', 'Registration info' );
 
                 $mail->setSender( $emailSender );
                 $mail->setReceiver( $receiver );
@@ -334,7 +334,7 @@ if ( !function_exists( 'checkContentActions' ) )
                         if ( $tpl->hasVariable( 'subject' ) )
                             $subject = $tpl->variable( 'subject' );
                         else
-                            $subject = ezi18n( 'kernel/user/register', 'New user registered' );
+                            $subject = eZi18n::translate( 'kernel/user/register', 'New user registered' );
 
                         $mail->setSender( $emailSender );
                         $mail->setReceiver( $feedbackReceiver );
@@ -404,8 +404,8 @@ if ( $ini->variable( 'SiteSettings', 'LoginPage' ) == 'custom' )
 }
 
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezi18n( 'kernel/user', 'User' ) ),
+                                'text' => eZi18n::translate( 'kernel/user', 'User' ) ),
                          array( 'url' => false,
-                                'text' => ezi18n( 'kernel/user', 'Register' ) ) );
+                                'text' => eZi18n::translate( 'kernel/user', 'Register' ) ) );
 
 ?>

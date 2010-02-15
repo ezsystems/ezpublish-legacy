@@ -129,6 +129,6 @@ $tpl->setVariable( 'php_ini', $phpINI );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:setup/info.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezi18n( 'kernel/setup', 'System information' ) ) );
+                                'text' => eZi18n::translate( 'kernel/setup', 'System information' ) ) );
 
 ?>

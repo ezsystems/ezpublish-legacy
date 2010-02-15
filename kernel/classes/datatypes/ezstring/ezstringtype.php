@@ -41,7 +41,7 @@
 
 */
 
-require_once( 'kernel/common/i18n.php' );
+
 
 class eZStringType extends eZDataType
 {
@@ -56,7 +56,7 @@ class eZStringType extends eZDataType
     */
     function eZStringType()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezi18n( 'kernel/classes/datatypes', 'Text line', 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, eZi18n::translate( 'kernel/classes/datatypes', 'Text line', 'Datatype name' ),
                            array( 'serialize_supported' => true,
                                   'object_serialize_map' => array( 'data_text' => 'text' ) ) );
         $this->MaxLenValidator = new eZIntegerValidator();
@@ -96,7 +96,7 @@ class eZStringType extends eZDataType
         if ( $textCodec->strlen( $data ) > $maxLen and
              $maxLen > 0 )
         {
-            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+            $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
                                                                  'The input text is too long. The maximum number of characters allowed is %1.' ),
                                                          $maxLen );
             return eZInputValidator::STATE_INVALID;
@@ -118,7 +118,7 @@ class eZStringType extends eZDataType
                 if ( !$classAttribute->attribute( 'is_information_collector' ) and
                      $contentObjectAttribute->validateIsRequired() )
                 {
-                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                    $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
                                                                          'Input required.' ) );
                     return eZInputValidator::STATE_INVALID;
                 }
@@ -130,7 +130,7 @@ class eZStringType extends eZDataType
         }
         else if ( !$classAttribute->attribute( 'is_information_collector' ) and $contentObjectAttribute->validateIsRequired() )
         {
-            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes', 'Input required.' ) );
+            $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes', 'Input required.' ) );
             return eZInputValidator::STATE_INVALID;
         }
         return eZInputValidator::STATE_ACCEPTED;
@@ -147,7 +147,7 @@ class eZStringType extends eZDataType
             {
                 if ( $contentObjectAttribute->validateIsRequired() )
                 {
-                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                    $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
                                                                          'Input required.' ) );
                     return eZInputValidator::STATE_INVALID;
                 }

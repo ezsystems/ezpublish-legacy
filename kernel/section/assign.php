@@ -103,9 +103,9 @@ else
                         $Result = array();
                         $Result['content'] = $tpl->fetch( "design:section/assign_notification.tpl" );
                         $Result['path'] = array( array( 'url' => false,
-                                                        'text' => ezi18n( 'kernel/section', 'Sections' ) ),
+                                                        'text' => eZi18n::translate( 'kernel/section', 'Sections' ) ),
                                                  array( 'url' => false,
-                                                        'text' => ezi18n( 'kernel/section', 'Assign section' ) ) );
+                                                        'text' => eZi18n::translate( 'kernel/section', 'Assign section' ) ) );
                         return;
                     }
                 }
@@ -139,9 +139,9 @@ else
                     $Result = array();
                     $Result['content'] = $tpl->fetch( "design:section/assign_notification.tpl" );
                     $Result['path'] = array( array( 'url' => false,
-                                                    'text' => ezi18n( 'kernel/section', 'Sections' ) ),
+                                                    'text' => eZi18n::translate( 'kernel/section', 'Sections' ) ),
                                              array( 'url' => false,
-                                                    'text' => ezi18n( 'kernel/section', 'Assign section' ) ) );
+                                                    'text' => eZi18n::translate( 'kernel/section', 'Assign section' ) ) );
                     return;
                 }
             }
@@ -155,9 +155,9 @@ else
             $Result = array();
             $Result['content'] = $tpl->fetch( "design:section/assign_notification.tpl" );
             $Result['path'] = array( array( 'url' => false,
-                                            'text' => ezi18n( 'kernel/section', 'Sections' ) ),
+                                            'text' => eZi18n::translate( 'kernel/section', 'Sections' ) ),
                                      array( 'url' => false,
-                                            'text' => ezi18n( 'kernel/section', 'Assign section' ) ) );
+                                            'text' => eZi18n::translate( 'kernel/section', 'Assign section' ) ) );
             return;
         }
     }

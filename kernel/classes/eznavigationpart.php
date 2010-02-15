@@ -89,7 +89,7 @@ class eZNavigationPart
         $list = array();
         foreach ( $parts as $identifier => $name )
         {
-            $list[$identifier] = array( 'name' => ezi18n( 'kernel/navigationpart', $name, 'Navigation part' ),
+            $list[$identifier] = array( 'name' => eZi18n::translate( 'kernel/navigationpart', $name, 'Navigation part' ),
                                         'identifier' => $identifier );
         }
         return $list;
@@ -101,13 +101,13 @@ class eZNavigationPart
     */
     private static function i18nDummy()
     {
-        ezi18n( 'kernel/navigationpart', 'Content structure', 'Navigation part' );
-        ezi18n( 'kernel/navigationpart', 'Media library', 'Navigation part' );
-        ezi18n( 'kernel/navigationpart', 'User accounts', 'Navigation part' );
-        ezi18n( 'kernel/navigationpart', 'Webshop', 'Navigation part' );
-        ezi18n( 'kernel/navigationpart', 'Design', 'Navigation part' );
-        ezi18n( 'kernel/navigationpart', 'Setup', 'Navigation part' );
-        ezi18n( 'kernel/navigationpart', 'My account', 'Navigation part' );
+        eZi18n::translate( 'kernel/navigationpart', 'Content structure', 'Navigation part' );
+        eZi18n::translate( 'kernel/navigationpart', 'Media library', 'Navigation part' );
+        eZi18n::translate( 'kernel/navigationpart', 'User accounts', 'Navigation part' );
+        eZi18n::translate( 'kernel/navigationpart', 'Webshop', 'Navigation part' );
+        eZi18n::translate( 'kernel/navigationpart', 'Design', 'Navigation part' );
+        eZi18n::translate( 'kernel/navigationpart', 'Setup', 'Navigation part' );
+        eZi18n::translate( 'kernel/navigationpart', 'My account', 'Navigation part' );
     }
 
 }

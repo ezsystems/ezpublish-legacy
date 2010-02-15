@@ -48,8 +48,6 @@ global $script;
 */
 require_once 'autoload.php';
 
-require_once( 'kernel/common/i18n.php' );
-
 /**************************************************************
 * 'cli->output' wrappers                                      *
 ***************************************************************/

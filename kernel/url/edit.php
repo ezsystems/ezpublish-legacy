@@ -78,5 +78,5 @@ $tpl->setVariable( "url", $url );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:url/edit.tpl" );
 $Result['path'] = array( array( 'url' => '/url/edit/',
-                                'text' => ezi18n( 'kernel/url', 'URL edit' ) ) );
+                                'text' => eZi18n::translate( 'kernel/url', 'URL edit' ) ) );
 ?>

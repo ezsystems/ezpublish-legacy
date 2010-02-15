@@ -138,5 +138,5 @@ else
 $Result = array();
 $Result['content'] = $tpl->fetch( $templateName );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezi18n( 'kernel/package', 'Create package' ) ) );
+                                'text' => eZi18n::translate( 'kernel/package', 'Create package' ) ) );
 ?>

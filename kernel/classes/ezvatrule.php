@@ -246,7 +246,7 @@ class eZVatRule extends eZPersistentObject
         $categories = $this->attribute( 'product_categories' );
         if ( !$categories )
         {
-            $result = ezi18n( 'kernel/shop', 'Any' );
+            $result = eZi18n::translate( 'kernel/shop', 'Any' );
             return $result;
         }
 

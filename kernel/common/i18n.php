@@ -26,108 +26,21 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*!
- \return the current language used.
-*/
-function ezcurrentLanguage()
+
+/**
+ * @deprecated Temporary compatibility layer for extensions
+ */
+function ezi18n( $context, $source, $comment = null, $arguments = null )
 {
-    return eZLocale::instance()->localeFullCode();
+    return eZi18n::translate( $context, $source, $comment, $arguments );
 }
 
-/*!
- Replaces keys found in \a $text with values in \a $arguments.
- If \a $arguments is an associative array it will use the argument
- keys as replacement keys. If not it will convert the index to
- a key looking like %n, where n is a number between 1 and 9.
- Returns the new string.
-*/
-function ezinsertarguments( $text, $arguments )
+/**
+ * @deprecated Temporary compatibility layer for extensions
+ */
+function ezx18n( $extension, $context, $source, $comment = null, $arguments = null )
 {
-    if ( is_array( $arguments ) )
-    {
-        $replaceList = array();
-        foreach ( $arguments as $argumentKey => $argumentItem )
-        {
-            if ( is_int( $argumentKey ) )
-                $replaceList['%' . ( ($argumentKey%9) + 1 )] = $argumentItem;
-            else
-                $replaceList[$argumentKey] = $argumentItem;
-        }
-        $text = strtr( $text, $replaceList );
-    }
-    return $text;
-}
-
-/*!
- Translates the source \a $source with context \a $context and optional comment \a $comment
- and returns the translation.
- Uses eZTranslatorMananger::translate() to do the actual translation.
-
- If the site.ini settings RegionalSettings/TextTranslation is set to disabled this function
- will only return the source text.
-*/
-$ini = eZINI::instance();
-$useTextTranslation = $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled';
-
-if ( $useTextTranslation || eZTranslatorManager::dynamicTranslationsEnabled() )
-{
-    function ezi18n( $context, $source, $comment = null, $arguments = null )
-    {
-        return eZTranslateText( $context, $source, $comment, $arguments );
-    }
-
-    function ezx18n( $extension, $context, $source, $comment = null, $arguments = null )
-    {
-        return eZTranslateText( $context, $source, $comment, $arguments );
-    }
-
-    function eZTranslateText( $context, $source, $comment = null, $arguments = null )
-    {
-        $localeCode = eZLocale::instance()->localeFullCode();
-        if ( $localeCode == 'eng-GB' )
-        {
-            // we don't have ts-file for 'eng-GB'.
-            return ezinsertarguments( $source, $arguments );
-        }
-
-        $ini = eZINI::instance();
-        $useCache = $ini->variable( 'RegionalSettings', 'TranslationCache' ) != 'disabled';
-        eZTSTranslator::initialize( $context, $localeCode, 'translation.ts', $useCache );
-
-        // Bork translation: Makes it easy to see what is not translated.
-        // If no translation is found in the eZTSTranslator, a Bork translation will be returned.
-        // Bork is different than, but similar to, eng-GB, and is enclosed in square brackets [].
-        $developmentMode = $ini->variable( 'RegionalSettings', 'DevelopmentMode' ) != 'disabled';
-        if ( $developmentMode )
-        {
-            eZBorkTranslator::initialize();
-        }
-
-        $man = eZTranslatorManager::instance();
-        $trans = $man->translate( $context, $source, $comment );
-        if ( $trans !== null ) {
-            return ezinsertarguments( $trans, $arguments );
-        }
-
-        if ( $comment != null and strlen( $comment ) > 0 )
-            eZDebug::writeDebug( "Missing translation for message in context: '$context' with comment: '$comment'. The untranslated message is: '$source'", "ezi18n" );
-        else
-            eZDebug::writeDebug( "Missing translation for message in context: '$context'. The untranslated message is: '$source'", "ezi18n" );
-
-        return ezinsertarguments( $source, $arguments );
-    }
-}
-else
-{
-    function ezi18n( $context, $source, $comment = null, $arguments = null )
-    {
-        return ezinsertarguments( $source, $arguments );
-    }
-
-    function ezx18n( $extension, $context, $source, $comment = null, $arguments = null )
-    {
-        return ezinsertarguments( $source, $arguments );
-    }
+    return eZi18n::translate( $context, $source, $comment, $arguments );
 }
 
 ?>

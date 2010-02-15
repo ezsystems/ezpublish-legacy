@@ -404,7 +404,7 @@ eZModule::setGlobalPathList( $moduleRepositories );
 
 $check = eZHandlePreChecks( $siteBasics, $uri );
 
-require_once( 'kernel/common/i18n.php' );
+
 
 if ( $sessionRequired )
 {
@@ -858,7 +858,7 @@ if ( $module->exitStatus() == eZModule::STATUS_REDIRECT )
                                                               'number' => 1,
                                                               'count' => $GLOBALS['eZDebugErrorCount'] ),
                                             'identifier' => 'ezdebug-first-error',
-                                            'text' => ezi18n( 'index.php', 'Some errors occurred, see debug for more information.' ) ) );
+                                            'text' => eZi18n::translate( 'index.php', 'Some errors occurred, see debug for more information.' ) ) );
             }
 
             if ( isset( $GLOBALS['eZDebugWarning'] ) and
@@ -868,7 +868,7 @@ if ( $module->exitStatus() == eZModule::STATUS_REDIRECT )
                                                               'number' => 1,
                                                               'count' => $GLOBALS['eZDebugWarningCount'] ),
                                             'identifier' => 'ezdebug-first-warning',
-                                            'text' => ezi18n( 'index.php', 'Some general warnings occured, see debug for more information.' ) ) );
+                                            'text' => eZi18n::translate( 'index.php', 'Some general warnings occured, see debug for more information.' ) ) );
             }
         }
         require_once( "kernel/common/template.php" );
@@ -1007,7 +1007,7 @@ if ( $show_page_layout )
                                                               'number' => 1 ,
                                                               'count' => $GLOBALS['eZDebugErrorCount'] ),
                                             'identifier' => 'ezdebug-first-error',
-                                            'text' => ezi18n( 'index.php', 'Some errors occurred, see debug for more information.' ) ) );
+                                            'text' => eZi18n::translate( 'index.php', 'Some errors occurred, see debug for more information.' ) ) );
             }
 
             if ( isset( $GLOBALS['eZDebugWarning'] ) and
@@ -1017,7 +1017,7 @@ if ( $show_page_layout )
                                                               'number' => 1,
                                                               'count' => $GLOBALS['eZDebugWarningCount'] ),
                                             'identifier' => 'ezdebug-first-warning',
-                                            'text' => ezi18n( 'index.php', 'Some general warnings occured, see debug for more information.' ) ) );
+                                            'text' => eZi18n::translate( 'index.php', 'Some general warnings occured, see debug for more information.' ) ) );
             }
         }
 

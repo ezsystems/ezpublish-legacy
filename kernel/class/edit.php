@@ -74,7 +74,7 @@ if ( is_numeric( $ClassID ) )
 
         return array( 'content' => $tpl->fetch( 'design:class/edit_locked.tpl' ),
                       'path' => array( array( 'url' => '/class/grouplist/',
-                                              'text' => ezi18n( 'kernel/class', 'Class list' ) ) ) );
+                                              'text' => eZi18n::translate( 'kernel/class', 'Class list' ) ) ) );
     }
 
     $class = eZContentClass::fetch( $ClassID, true, eZContentClass::VERSION_STATUS_TEMPORARY );
@@ -128,7 +128,7 @@ if ( is_numeric( $ClassID ) )
             $Result = array();
             $Result['content'] = $tpl->fetch( 'design:class/edit_denied.tpl' );
             $Result['path'] = array( array( 'url' => '/class/grouplist/',
-                                            'text' => ezi18n( 'kernel/class', 'Class groups' ) ) );
+                                            'text' => eZi18n::translate( 'kernel/class', 'Class groups' ) ) );
             if ( $mainGroupID !== false )
             {
                 $Result['path'][] = array( 'url' => '/class/classlist/' . $mainGroupID,
@@ -162,7 +162,7 @@ else
         $user = eZUser::currentUser();
         $user_id = $user->attribute( 'contentobject_id' );
         $class = eZContentClass::create( $user_id, array(), $EditLanguage );
-        $class->setName( ezi18n( 'kernel/class/edit', 'New Class' ), $EditLanguage );
+        $class->setName( eZi18n::translate( 'kernel/class/edit', 'New Class' ), $EditLanguage );
         $class->store();
         $editLanguageID = eZContentLanguage::idByLocale( $EditLanguage );
         $class->setAlwaysAvailableLanguageID( $editLanguageID );
@@ -231,7 +231,7 @@ if ( $http->hasPostVariable( 'RemoveGroupButton' ) && $http->hasPostVariable( 'g
 {
     if ( !eZClassFunctions::removeGroup( $ClassID, $ClassVersion, $http->postVariable( 'group_id_checked' ) ) )
     {
-        $validation['groups'][] = array( 'text' => ezi18n( 'kernel/class', 'You have to have at least one group that the class belongs to!' ) );
+        $validation['groups'][] = array( 'text' => eZi18n::translate( 'kernel/class', 'You have to have at least one group that the class belongs to!' ) );
         $validation['processed'] = true;
     }
 }
@@ -334,7 +334,7 @@ if ( !$EditLanguage )
             $Result = array();
             $Result['content'] = $tpl->fetch( 'design:class/select_language.tpl' );
             $Result['path'] = array( array( 'url' => '/class/grouplist/',
-                                            'text' => ezi18n( 'kernel/class', 'Class groups' ) ) );
+                                            'text' => eZi18n::translate( 'kernel/class', 'Class groups' ) ) );
             if ( $mainGroupID !== false )
             {
                 $Result['path'][] = array( 'url' => '/class/classlist/' . $mainGroupID,
@@ -628,11 +628,11 @@ if ( $contentClassHasInput )
         {
             $datatypeValidation['processed'] = 1;
             $datatypeValidation['attributes'][] =
-                array( 'reason' => array( 'text' => ezi18n( 'kernel/class', 'Could not load datatype: ' ).
+                array( 'reason' => array( 'text' => eZi18n::translate( 'kernel/class', 'Could not load datatype: ' ).
                                            $attribute->attribute( 'data_type_string' )."\n".
-                                           ezi18n( 'kernel/class', 'Editing this content class may cause data corruption in your system.' ).'<br>'.
-                                           ezi18n( 'kernel/class', 'Press "Cancel" to safely exit this operation.').'<br>'.
-                                           ezi18n( 'kernel/class', 'Please contact your eZ Publish administrator to solve this problem.').'<br>' ),
+                                           eZi18n::translate( 'kernel/class', 'Editing this content class may cause data corruption in your system.' ).'<br>'.
+                                           eZi18n::translate( 'kernel/class', 'Press "Cancel" to safely exit this operation.').'<br>'.
+                                           eZi18n::translate( 'kernel/class', 'Please contact your eZ Publish administrator to solve this problem.').'<br>' ),
                        'item' => $attribute->attribute( 'data_type_string' ),
                        'identifier' => $attribute->attribute( 'data_type_string' ),
                        'id' => $key );
@@ -660,7 +660,7 @@ if ( $validationRequired )
                     $validation['attributes'][] = array( 'identifier' => $identifier2,
                                                          'name' => $classAttribute2->attribute( 'name' ),
                                                          'id' => $classAttribute2->attribute( 'id' ),
-                                                         'reason' => array ( 'text' => ezi18n( 'kernel/class', 'duplicate attribute placement' ) ) );
+                                                         'reason' => array ( 'text' => eZi18n::translate( 'kernel/class', 'duplicate attribute placement' ) ) );
                     $canStore = false;
                     break;
                 }
@@ -670,7 +670,7 @@ if ( $validationRequired )
                     $validation['attributes'][] = array( 'identifier' => $identifier,
                                                          'name' => $classAttribute->attribute( 'name' ),
                                                          'id' => $classAttribute->attribute( 'id' ),
-                                                         'reason' => array ( 'text' => ezi18n( 'kernel/class', 'duplicate attribute identifier' ) ) );
+                                                         'reason' => array ( 'text' => eZi18n::translate( 'kernel/class', 'duplicate attribute identifier' ) ) );
                     $canStore = false;
                     break;
                 }
@@ -696,14 +696,14 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
     // validate class name
     if( trim( $className ) == '' )
     {
-        $validation['class_errors'][] = array( 'text' => ezi18n( 'kernel/class', 'The class should have nonempty \'Name\' attribute.' ) );
+        $validation['class_errors'][] = array( 'text' => eZi18n::translate( 'kernel/class', 'The class should have nonempty \'Name\' attribute.' ) );
         $basicClassPropertiesValid = false;
     }
 
     // check presence of attributes
     if ( count( $newClassAttributes ) == 0 )
     {
-        $validation['class_errors'][] = array( 'text' => ezi18n( 'kernel/class', 'The class should have at least one attribute.' ) );
+        $validation['class_errors'][] = array( 'text' => eZi18n::translate( 'kernel/class', 'The class should have at least one attribute.' ) );
         $basicClassPropertiesValid = false;
     }
 
@@ -714,7 +714,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
     $classCount = $db->arrayQuery( "SELECT COUNT(*) AS count FROM ezcontentclass WHERE  identifier='$classIdentifier' AND version=" . eZContentClass::VERSION_STATUS_DEFINED . " AND id <> $classID" );
     if ( $classCount[0]['count'] > 0 )
     {
-        $validation['class_errors'][] = array( 'text' => ezi18n( 'kernel/class', 'There is a class already having the same identifier.' ) );
+        $validation['class_errors'][] = array( 'text' => eZi18n::translate( 'kernel/class', 'There is a class already having the same identifier.' ) );
         $basicClassPropertiesValid = false;
     }
     unset( $classList );
@@ -763,7 +763,7 @@ if ( $http->hasPostVariable( 'NewButton' ) )
 {
     $newAttribute = eZContentClassAttribute::create( $ClassID, $cur_datatype, array(), $EditLanguage );
     $attrcnt = count( $attributes ) + 1;
-    $newAttribute->setName( ezi18n( 'kernel/class/edit', 'new attribute' ) . $attrcnt, $EditLanguage );
+    $newAttribute->setName( eZi18n::translate( 'kernel/class/edit', 'new attribute' ) . $attrcnt, $EditLanguage );
     $dataType = $newAttribute->dataType();
     $dataType->initializeClassAttribute( $newAttribute );
     $newAttribute->store();
@@ -820,7 +820,7 @@ $tpl->setVariable( 'last_changed_id', $lastChangedID );
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:class/edit.tpl' );
 $Result['path'] = array( array( 'url' => '/class/grouplist/',
-                                'text' => ezi18n( 'kernel/class', 'Class groups' ) ) );
+                                'text' => eZi18n::translate( 'kernel/class', 'Class groups' ) ) );
 if ( $mainGroupID !== false )
 {
     $Result['path'][] = array( 'url' => '/class/classlist/' . $mainGroupID,
