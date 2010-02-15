@@ -21,3 +21,4 @@ Changes from 4.3.0alpha1 to 4.3.0beta1
 - Fixed bug #14615: Database errors in search engine logic using PHP 5.2.9
 - Fixed bug #15146: eZXMLText::outputHandler never returns eZPDFXMLOutput
 - Fixed bug #15823: Running cache clearing procedure from upgrade 4.2.0 using root removes all linux system files
+- Fixed bug #16180: Site structure on dashboard is buggy
