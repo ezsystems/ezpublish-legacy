@@ -464,7 +464,7 @@ YUI( YUI3_config ).add('io-ez', function( Y )
         {
             $value = $http->postVariable( $key );
             if ( is_array( $value ) )
-                return $str;
+                return $value;
             elseif( strpos($value, ',') === false )
                 return array( $value );
             else
