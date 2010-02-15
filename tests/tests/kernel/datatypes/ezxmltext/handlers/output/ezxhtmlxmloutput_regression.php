@@ -10,30 +10,6 @@
 class eZXHTMLXMLOutputRegression extends ezpDatabaseTestCase
 {
     protected $insertDefaultData = false;
-    protected $outputHandler;
-
-    public function setUp()
-    {
-        parent::setup();
-
-        $xmlData = '<?xml version="1.0" encoding="utf-8"?> <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
-        xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-        xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
-        <paragraph><ul><li>
-        <paragraph><link target="_blank" url_id="296">Accéder la plate-forme boursière</link></paragraph>
-        </li></ul></paragraph>
-        </section>';
-
-        $this->outputHandler = new eZXHTMLXMLOutput(
-            $xmlData, false, null
-        );
-    }
-
-    public function tearDown()
-    {
-        parent::tearDown();
-        $this->outputHandler = null;
-    }
 
     public function __construct()
     {
@@ -79,7 +55,11 @@ class eZXHTMLXMLOutputRegression extends ezpDatabaseTestCase
             ),
         );
 
-        $result = $this->outputHandler->renderParagraph(
+        $outputHandler = new eZXHTMLXMLOutput(
+            $xmlData, false, null
+        );
+
+        $result = $outputHandler->renderParagraph(
             $element, $childrenOutput, array( 'classification' => '' )
         );
 
