@@ -342,18 +342,29 @@ YUI( YUI3_config ).add('io-ez', function( Y )
                          'SearchLimit' => $searchLimit,
                          'SortArray' => array( 'published', 0 )
         );
+
         if ( self::hasPostValue( $http, 'SearchContentClassAttributeID' ) )
+        {
              $params['SearchContentClassAttributeID'] = self::makePostArray( $http, 'SearchContentClassAttributeID' );
+        }
         else if ( self::hasPostValue( $http, 'SearchContentClassID' ) )
+        {
              $params['SearchContentClassID'] = self::makePostArray( $http, 'SearchContentClassID' );
+        }
         else if ( self::hasPostValue( $http, 'SearchContentClassIdentifier' ) )
+        {
              $params['SearchContentClassID'] = eZContentClass::classIDByIdentifier( self::makePostArray( $http, 'SearchContentClassIdentifier' ) );
+        }
 
         if ( self::hasPostValue( $http, 'SearchSubTreeArray' ) )
+        {
              $params['SearchSubTreeArray'] = self::makePostArray( $http, 'SearchSubTreeArray' );
+        }
 
         if ( self::hasPostValue( $http, 'SearchSectionID' ) )
+        {
              $params['SearchSectionID'] = self::makePostArray( $http, 'SearchSectionID' );
+        }
 
         if ( self::hasPostValue( $http, 'SearchDate' ) )
         {
@@ -365,6 +376,16 @@ YUI( YUI3_config ).add('io-ez', function( Y )
             if ( !isset( $params['SearchTimestamp'][1] ) )
                 $params['SearchTimestamp'] = $params['SearchTimestamp'][0];
         }
+
+        if ( self::hasPostValue( $http, 'EnableSpellCheck' ) )
+        {
+            $params['SpellCheck'] = array( true );
+        }
+
+        if ( self::hasPostValue( $http, 'GetFacets' ) )
+        {
+            $params['facet'] = eZFunctionHandler::execute( 'ezfind', 'getDefaultSearchFacets', array() );
+        }
         
         $result = array( 'SearchOffset' => $searchOffset,
                          'SearchLimit' => $searchLimit,
@@ -372,6 +393,7 @@ YUI( YUI3_config ).add('io-ez', function( Y )
                          'SearchCount' => 0,
                          'SearchResult' => array(),
                          'SearchString' => $searchStr,
+                         'SearchExtras' => array()
         );
 
         // Possibility to keep track of callback reference for use in js callback function
@@ -386,7 +408,40 @@ YUI( YUI3_config ).add('io-ez', function( Y )
             $result['SearchResultCount'] = count( $searchList['SearchResult'] );
             $result['SearchCount'] = $searchList['SearchCount'];
             $result['SearchResult'] = ezjscAjaxContent::nodeEncode( $searchList['SearchResult'], $encodeParams, false );
-        }
+
+            // ezfind stuff
+            if ( $searchList['SearchExtras'] instanceof ezfSearchResultInfo )
+            {
+                if ( isset( $param['SpellCheck'] ) )
+                    $result['SearchExtras']['spellcheck'] = $searchList['SearchExtras']->attribute( 'spellcheck' );
+
+                if ( isset( $param['facet'] ) )
+                {
+                    $facetInfo = array();
+                    $retrievedFacets = $searchList['SearchExtras']->attribute( 'facet_fields' );
+
+                    foreach ( $params['facet'] as $key => $defaultFacet )
+                    {
+                        $facetData       = $retrievedFacets[$key];
+                        $facetInfo[$key] = array( 'name' => $defaultFacet['name'] );
+                        if ( $facetData !== null )
+                        {
+                            foreach ( $facetData['nameList'] as $key2 => $facetName )
+                            {
+                                if ( $key2 != '' )
+                                {
+                                    $tmp = array( 'name' => $facetName );
+                                    $tmp['url'] = '?SearchText=' . $searchStr . '&filter[]=' . $facetData['queryLimit'][$key2] . '&activeFacets[' . $defaultFacet['field'] . ':' . $defaultFacet['name'] . ']=' . $facetName;
+                                    $tmp['count'] = $facetData['countList'][$key2];
+                                    $facetInfo[$key]['list'] = $tmp;
+                                }
+                            }
+                        }
+                    }
+                    $result['SearchExtras']['facets'] = $facetInfo;
+                }
+            }//$searchList['SearchExtras'] instanceof ezfSearchResultInfo
+        }// $searchStr
 
         return $result;
     }
