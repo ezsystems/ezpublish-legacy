@@ -34,11 +34,6 @@ class eZXHTMLXMLOutputRegression extends ezpTestCase
                     </li></ul></paragraph>
                     </section>';
 
-        $dom = new DOMDocument('1.0', 'utf-8');
-        $dom->loadXML( $XMLString );
-        $xpath = new DOMXpath( $dom );
-        $element = $xpath->query( '/section/paragraph/ul/li/paragraph' )->item( 0 );
-
         $outputHandler = new eZXHTMLXMLOutput( $XMLString, false );
         $result = $outputHandler->outputText();
 
