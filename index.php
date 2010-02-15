@@ -404,7 +404,7 @@ eZModule::setGlobalPathList( $moduleRepositories );
 
 $check = eZHandlePreChecks( $siteBasics, $uri );
 
-
+require_once( 'kernel/common/i18n.php' );
 
 if ( $sessionRequired )
 {
