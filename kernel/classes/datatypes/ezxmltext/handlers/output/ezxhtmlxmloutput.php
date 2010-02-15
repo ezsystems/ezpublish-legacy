@@ -369,12 +369,16 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
     function initHandlerTable( $element, &$attributes, &$siblingParams, &$parentParams )
     {
         // Numbers of rows and cols are lower by 1 for back-compatibility.
-        $rows = $element->childNodes;
-        $rowCount = $rows->length;
-        $rowCount--;
+        $rowCount = self::childTagCount( $element ) -1;
         $lastRow = $element->lastChild;
-        $cols = $lastRow->childNodes;
-        $colCount = $cols->length;
+
+        while ( $lastRow && !( $lastRow instanceof DOMElement && $lastRow->nodeName == 'tr' ) )
+        {
+           $lastRow = $lastRow->previousSibling;
+        }
+
+        $colCount = self::childTagCount( $lastRow );
+
         if ( $colCount )
             $colCount--;
 
@@ -394,8 +398,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         $parentParams['table_row_count'] = $siblingParams['table_row_count'];
 
         // Number of cols is lower by 1 for back-compatibility.
-        $cols = $element->childNodes;
-        $colCount = $cols->length;
+        $colCount = self::childTagCount( $element );
         if ( $colCount )
             $colCount--;
 
@@ -429,8 +432,10 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         // don't render if inside 'li' or inside 'td' (by option)
         $parent = $element->parentNode;
 
-        if ( ( $parent->nodeName == 'li' && $parent->childNodes->length == 1 ) ||
-             ( ( $parent->nodeName == 'td' || $parent->nodeName == 'th' ) && $parent->childNodes->length == 1 && !$this->RenderParagraphInTableCells ) )
+
+        if ( ( $parent->nodeName == 'li' && self::childTagCount( $parent ) == 1 ) ||
+             ( $parent->nodeName == 'td' && !$this->RenderParagraphInTableCells && self::childTagCount( $parent ) == 1 ) )
+
         {
             return $childrenOutput;
         }
@@ -439,7 +444,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         $tagText = '';
         $lastTagInline = null;
         $inlineContent = '';
-        foreach( $childrenOutput as $key=>$childOutput )
+        foreach( $childrenOutput as $key => $childOutput )
         {
             if ( $childOutput[0] === true )
                 $inlineContent .= $childOutput[1];
@@ -457,6 +462,21 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             $lastTagInline = $childOutput[0];
         }
         return array( false, $tagText );
+    }
+
+    /* Count child elemnts, ignoring whitespace and text
+     *
+     * @param DOMElement $parent
+     * @return int
+     */
+    protected static function childTagCount( DOMElement $parent )
+    {
+        $count = 0;
+        foreach( $parent->childNodes as $child )
+        {
+            if ( $child instanceof DOMElement ) $count++;
+        }
+        return $count;
     }
 
     function renderInline( $element, $childrenOutput, $vars )

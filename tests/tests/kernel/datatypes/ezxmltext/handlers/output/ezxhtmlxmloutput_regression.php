@@ -7,7 +7,7 @@
  * @package tests
  */
 
-class eZXHTMLXMLOutputRegression extends ezpDatabaseTestCase
+class eZXHTMLXMLOutputRegression extends ezpTestCase
 {
     protected $insertDefaultData = false;
 
@@ -24,6 +24,8 @@ class eZXHTMLXMLOutputRegression extends ezpDatabaseTestCase
      */
     public function testRenderParagraph()
     {
+        require_once( 'kernel/common/template.php' );
+
         $XMLString = '<?xml version="1.0" encoding="utf-8"?> <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
                     xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
                     xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
@@ -35,34 +37,19 @@ class eZXHTMLXMLOutputRegression extends ezpDatabaseTestCase
         $dom = new DOMDocument('1.0', 'utf-8');
         $dom->loadXML( $XMLString );
         $xpath = new DOMXpath( $dom );
-        $element = $xpath->query( '/section/paragraph' )->item( 0 );
+        $element = $xpath->query( '/section/paragraph/ul/li/paragraph' )->item( 0 );
 
-        $childrenOutput = array (
-            0 =>
-            array (
-                0 => false,
-                1 => '
-            <ul>
+        $outputHandler = new eZXHTMLXMLOutput( $XMLString, false );
+        $result = $outputHandler->outputText();
 
-            <li> <p>
-            <a href="/" target="_blank">Accéder la plate-forme boursière</a>
-            </p>
-            </li>
+        $expectedResult = ' 
+<ul>
 
-            </ul>
+<li> <a href="/" target="_blank">Accéder à la plate-forme boursière</a> </li>
 
-            ',
-            ),
-        );
+</ul>
+ ';
 
-        $outputHandler = new eZXHTMLXMLOutput(
-            $xmlData, false, null
-        );
-
-        $result = $outputHandler->renderParagraph(
-            $element, $childrenOutput, array( 'classification' => '' )
-        );
-
-        $this->markTestIncomplete( 'DRAFT' );
+        $this->assertEquals( $expectedResult, $result );
     }
 }
