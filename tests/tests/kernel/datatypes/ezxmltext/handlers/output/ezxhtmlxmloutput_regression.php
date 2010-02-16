@@ -7,7 +7,7 @@
  * @package tests
  */
 
-class eZXHTMLXMLOutputRegression extends ezpTestCase
+class eZXHTMLXMLOutputRegression extends ezpDatabaseTestCase
 {
     protected $insertDefaultData = false;
 
