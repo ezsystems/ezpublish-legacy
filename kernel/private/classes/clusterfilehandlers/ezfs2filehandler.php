@@ -43,7 +43,7 @@ class eZFS2FileHandler extends eZFSFileHandler
     function __construct(  $filePath = false  )
     {
         parent::__construct( $filePath );
-        if ( !isset( $GLOBALS['eZFS2FileHandler_Settings'] ) )
+        if ( !isset( $GLOBALS['eZFS2FileHandler'] ) )
         {
             $siteINI = eZINI::instance();
             $GLOBALS['eZFS2FileHandler']['GenerationTimeout'] = $siteINI->variable( "ContentSettings", "CacheGenerationTimeout" );
@@ -392,11 +392,11 @@ class eZFS2FileHandler extends eZFSFileHandler
             $directory = dirname( $generatingFilePath ) . DIRECTORY_SEPARATOR;
 
             // the directory we're trying to create the file in does not exist
-            eZDebugSetting::writeDebug( 'kernel-clustering', $this->filePath, "Creation failed, checking if '$directory' exists" );
+            eZDebugSetting::writeDebug( 'kernel-clustering', $this->filePath . " creation failed, checking if '$directory' exists", __METHOD__ );
 
             if ( !file_exists( $directory ) )
             {
-                eZDebugSetting::writeDebug( 'kernel-clustering', $this->filePath, "Target directory does not exist, creating and trying again" );
+                eZDebugSetting::writeDebug( 'kernel-clustering', $this->filePath . " target directory does not exist, creating and trying again", __METHOD__ );
 
                 if ( eZDir::mkdir( $directory, false, true ) )
                     eZDebugSetting::writeDebug( 'kernel-clustering', "Directory '$directory' created, trying to start generation again", __METHOD__ );
@@ -420,12 +420,12 @@ class eZFS2FileHandler extends eZFSFileHandler
                     eZDebugSetting::writeDebug( 'kernel-clustering', "Remaining generation time: $remainingGenerationTime", __METHOD__ );
                     if ( $remainingGenerationTime < 0 )
                     {
-                        eZDebugSetting::writeDebug( 'kernel-clustering', $this->filePath, "Generating file exists, but generation has timedout, taking over" );
+                        eZDebugSetting::writeDebug( 'kernel-clustering', $this->filePath . " generating file exists, but generation has timedout, taking over", __METHOD__ );
                         touch( $generatingFilePath, time(), time() );
                     }
                     else
                     {
-                        eZDebugSetting::writeDebug( 'kernel-clustering', $this->filePath, "Failed opening file for writing, generation is underway" );
+                        eZDebugSetting::writeDebug( 'kernel-clustering', $this->filePath . " failed opening file for writing, generation is underway", __METHOD__ );
                         $ret = $remainingGenerationTime;
                     }
                 }
@@ -548,6 +548,7 @@ class eZFS2FileHandler extends eZFSFileHandler
     private function remainingCacheGenerationTime( $filePath )
     {
         clearstatcache();
+        eZDebugSetting::writeDebug( 'kernel-clustering', "clearstatcache called on $filePath", __METHOD__ );
         $mtime = @filemtime( $filePath );
         $remainingGenerationTime = ( $mtime + $this->generationTimeout ) - time();
         return $remainingGenerationTime;
@@ -566,7 +567,7 @@ class eZFS2FileHandler extends eZFSFileHandler
         $dirs = implode( ',', $dirList );
         $wildcard = $commonPath .'/{' . $dirs . '}/' . $commonSuffix . '*';
 
-        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileDeleteByDirList( '".implode(', ', $dirList)."', '$commonPath', '$commonSuffix' )" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileDeleteByDirList( '".implode(', ', $dirList)."', '$commonPath', '$commonSuffix' )", __METHOD__ );
 
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
         array_map( array( __CLASS__, '_expire' ), eZSys::globBrace( $wildcard ) );
@@ -580,7 +581,7 @@ class eZFS2FileHandler extends eZFSFileHandler
      **/
     function fileDelete( $path, $fnamePart = false )
     {
-        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileDelete( '$path' )" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileDelete( '$path' )", __METHOD__ );
 
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
 
@@ -620,7 +621,7 @@ class eZFS2FileHandler extends eZFSFileHandler
     function delete()
     {
         $path = $this->filePath;
-        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::delete( '$path' )" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::delete( '$path' )", __METHOD__ );
 
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
 
@@ -755,10 +756,9 @@ class eZFS2FileHandler extends eZFSFileHandler
         {
             case 'cacheType':
             {
-                static $cacheType = null;
-                if ( $cacheType == null )
-                    $cacheType = $this->_cacheType();
-                return $cacheType;
+                if ( $this->cacheType === null )
+                    $this->cacheType = $this->_cacheType();
+                return $this->cacheType;
             } break;
         }
     }
@@ -813,5 +813,12 @@ class eZFS2FileHandler extends eZFSFileHandler
     * @var int
     **/
     private $generationStartTimestamp = false;
+
+    /**
+    * Cached value of cache type
+    *
+    * @var string|null
+    **/
+    private $cacheType = null;
 }
 ?>
