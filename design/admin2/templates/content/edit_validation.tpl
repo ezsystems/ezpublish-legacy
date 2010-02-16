@@ -1,6 +1,6 @@
 {section show=$validation.processed}
     {section show=or( $validation.attributes, $validation.placement, $validation.custom_rules )}
-        <div class="message-warning">
+        <div class="message-error">
             <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The draft could not be stored.'|i18n( 'design/admin/content/edit' )}</h2>
 
             {section show=$validation.attributes}
