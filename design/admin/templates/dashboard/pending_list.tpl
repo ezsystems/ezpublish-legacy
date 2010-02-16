@@ -1,10 +1,6 @@
-{def $pending_count = fetch( 'content', 'pending_count' )}
+<h2>{'My pending items'|i18n( 'design/admin/dashboard/pending_list' )}</h2>
 
-{cache-block keys=array( $user.contentobject_id, $pending_count )}
-
-<h2>{'Your pending items'|i18n( 'design/admin/dashboard/pending_list' )}</h2>
-
-{if $pending_count}
+{if fetch( 'content', 'pending_count' )}
 
 <table class="list" cellpadding="0" cellspacing="0" border="0">
     <tr>
@@ -34,5 +30,3 @@
 <p>{'Currently you do not have any pending items available.'|i18n( 'design/admin/dashboard/pending_list' )}</p>
 
 {/if}
-
-{/cache-block}
