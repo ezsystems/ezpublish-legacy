@@ -223,41 +223,49 @@ class eZImageType extends eZDataType
         }
 
         $content = $contentObjectAttribute->attribute( 'content' );
-        if($content)
-        {   
-               //deal with alternative text         
-               if($hasImageAltText)
-               {
-                      $content->setAttribute( 'alternative_text', $imageAltText );       
-               }       
-
-               //deal with file uploaded
-               $httpFileName = $base . "_data_imagename_" . $contentObjectAttribute->attribute( "id" );
-               if ( eZHTTPFile::canFetch( $httpFileName ) )
-               {
-                   $httpFile = eZHTTPFile::fetch( $httpFileName );
-                   if ( $httpFile )
-                   {
-                          //if there is content and validation is accepted, store the object
-                       if ( $content )
-                       {
-                           if($contentObjectAttribute->IsValid===eZInputValidator::STATE_ACCEPTED)
-                           {
-                                        $content->initializeFromHTTPFile( $httpFile, $imageAltText );
-                                        $content->store( $contentObjectAttribute );
-                           }
-                       }
-                   }            
-               }
-               $result = true;
+        $httpFileName = $base . "_data_imagename_" . $contentObjectAttribute->attribute( "id" );
+        
+        if ( eZHTTPFile::canFetch( $httpFileName ) )
+        {
+            $httpFile = eZHTTPFile::fetch( $httpFileName );
+            if ( $httpFile )
+            {
+                if ( $content )
+                {
+                    $content->setHTTPFile( $httpFile );
+                    $result = true;
+                }
+            }
+        
         }
 
+        if ( $content )
+        {
+            if ( $hasImageAltText )
+                $content->setAttribute( 'alternative_text', $imageAltText );
+            $result = true;
+        }
+        
         return $result;
     }
 
     function storeObjectAttribute( $contentObjectAttribute )
     {
-      
+        $imageHandler = $contentObjectAttribute->attribute( 'content' );
+        if ( $imageHandler )
+        {
+            $httpFile = $imageHandler->httpFile( true );
+            if ( $httpFile )
+            {
+                $imageAltText = $imageHandler->attribute( 'alternative_text' );
+
+                $imageHandler->initializeFromHTTPFile( $httpFile, $imageAltText );
+            }
+            if ( $imageHandler->isStorageRequired() )
+            {
+                $imageHandler->store( $contentObjectAttribute );
+            }
+        }
     }
 
     /*!
