@@ -327,7 +327,7 @@
     </div>
     
     <div class="button-right">
-    <label for="ezasi-sort-field" class="inline">{'Publish items ordered by'|i18n( 'design/admin/node/view/full' )}:</label>
+    <label for="ezasi-sort-field" class="inline">{'Published order'|i18n( 'design/admin/node/view/full' )}:</label>
 
     {let sort_fields=hash( 6, 'Class identifier'|i18n( 'design/admin/node/view/full' ),
                            7, 'Class name'|i18n( 'design/admin/node/view/full' ),

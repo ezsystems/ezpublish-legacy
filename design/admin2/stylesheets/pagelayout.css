@@ -266,7 +266,7 @@ div#columns.hide-rightmenu div#maincolumn { margin-right: 0; }
 
 #leftmenu-design
 {
-    margin: 0 1.8em 0 0.2em;
+    margin: 0 1.8em 0 0.8em;
 }
 
 #leftmenu-design ul { margin-left: 1.5em; color: #aaa; }
@@ -576,6 +576,14 @@ div.popupmenu hr
     padding: 0 0.5em 0 0.5em;
 }
 
+div.box-content div.block {
+    padding-bottom: 1em;
+}
+
+fieldset.block {
+    padding-bottom: 0em;
+}
+
 .box-ml
 {
     /*padding: 0.2em;*/
@@ -589,6 +597,7 @@ div.popupmenu hr
 #controlbar-top .box-bc
 {
     margin-top: 0.5em;
+    margin-bottom: 1em;
 }
 
 #controlbar-top .box-bc .box-ml
@@ -612,7 +621,7 @@ div.context-information, span.classattribute-description
     color: #333;
     font-size: 0.8em;
     padding: 0 0.5em 0 0.5em;
-    margin-bottom: 10px;
+    margin-bottom: 1.5em;
 }
 
 span.classattribute-description, p.class-description
@@ -667,6 +676,7 @@ div.context-block
 div.context-block h1.context-title img, div.context-block h2.context-title img
 {
     vertical-align: middle;
+    margin-right: 0.5em;
 }
 
 /* MENU-BLOCK */
@@ -735,7 +745,7 @@ input.button, input.defaultbutton, input.button-disabled
 {
     width: auto;
     overflow: visible;
-    padding: 0.1em 0.8em;;
+    padding: 0.1em 0.5em;;
 }
 
 /* SEARCH */
