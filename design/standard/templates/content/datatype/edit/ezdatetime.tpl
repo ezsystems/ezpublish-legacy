@@ -48,7 +48,5 @@
 
 </div>
 
-<div class="break"></div>
-
 </div>
 {/default}
