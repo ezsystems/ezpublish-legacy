@@ -28,9 +28,12 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file
- Contains some useful kernel include functions which are nice to use in extensions.
-*/
+/**
+ * Contains some kernel include functions which was nice to use in extensions prior to autoloading and 4.0.
+ * 
+ * @package kernel
+ * @deprecated ALL functions in this file is deprecated as of 4.3
+ */
 
 function kernel_include( $name )
 {

@@ -70,6 +70,12 @@ Deprecated methods
   to requrie_once the i18n.php file. These two function will be removed in a future
   version.
 
+- kernel/common/ezincludefunctions.php 
+  All functions in this file has been deprecated, functions not already deprecated:
+  kernel_include(), kernel_common(), datatype_class(), extension_path(),
+  ext_include(), ext_activate(), ext_class(), lib_include(), lib_class() and kernel_class()
+  These functions will be removed in a future version.
+
 
 Renamed methods
 ---------------
