@@ -264,6 +264,11 @@ label
     white-space: nowrap;
 }
 
+label input
+{
+    vertical-align: sub;
+}
+
 input, select
 {
     font-family: Arial, Helvetica, sans-serif; /* Needs to be set for some browsers, to prevent other default font from being used */
