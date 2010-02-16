@@ -105,7 +105,7 @@ class ezpAutoloader
     /**
      * Resets the local, in-memory autoload cache.
      *
-     * If the autoload arrays are extended during a requsts lifetime, this
+     * If the autoload arrays are extended during a requests lifetime, this
      * method must be called, to make them available.
      *
      * @return void
