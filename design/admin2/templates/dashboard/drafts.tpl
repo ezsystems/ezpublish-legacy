@@ -1,10 +1,6 @@
-{def $draft_count = fetch( 'content', 'draft_count' )}
-
-{cache-block keys=array( $user.contentobject_id, $draft_count )}
-
 <h2>{'My drafts'|i18n( 'design/admin/dashboard/drafts' )}</h2>
 
-{if $draft_count}
+{if fetch( 'content', 'draft_count' )}
 
 <table class="list" cellpadding="0" cellspacing="0" border="0">
     <tr>
@@ -44,7 +40,3 @@
 {'Currently you do not have any drafts available.'|i18n( 'design/admin/dashboard/drafts' )}
 
 {/if}
-
-{/cache-block}
-
-{undef $draft_count}
