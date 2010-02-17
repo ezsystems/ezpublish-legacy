@@ -40,12 +40,12 @@ $script = eZScript::instance( array( 'description' => ( "eZ Publish SQL Schema d
 $script->startup();
 
 $options = $script->getOptions( "[type:][user:][host:][password;][port:][socket:][output-array][output-serialized][output-sql]" .
-                                "[diff-friendly][meta-data][table-type:][table-charset:][compatible-sql]" .
+                                "[diff-friendly][meta-data][table-type:][table-charset:][compatible-sql][no-sort]" .
                                 "[format:]" .
                                 "[output-types:][allow-multi-insert][schema-file:]",
                                 "[database][filename]",
                                 array( 'type' => ( "Which database type to use for source, can be one of:\n" .
-                                                          "mysql, postgresql" ),
+                                                          "mysql, postgresql, oracle" ),
                                        'host' => "Connect to host source database",
                                        'user' => "User for login to source database",
                                        'password' => "Password to use when connecting to source database",
@@ -55,6 +55,7 @@ $options = $script->getOptions( "[type:][user:][host:][password;][port:][socket:
                                        'output-serialized' => 'Create file with serialized data (Saves space)',
                                        'output-sql' => 'Create file with SQL data (DB friendly)',
                                        'compatible-sql' => 'Will turn SQL to be more compatible to existing dumps',
+                                       'no-sort' => 'Do not sort table columns in the dumped data structure',
                                        'table-type' => ( "The table storage type to use for SQL output when creating tables.\n" .
                                                          "MySQL: bdb, innodb and myisam\n" .
                                                          "PostgreSQL: \n" .
@@ -145,7 +146,10 @@ $dbschemaParameters = array( 'schema' => $includeSchema,
                              'compatible_sql' => $options['compatible-sql'],
                              'allow_multi_insert' => $options['allow-multi-insert'],
                              'diff_friendly' => $options['diff-friendly'] );
-
+if ( $options['no-sort'] )
+{
+    $dbschemaParameters['sort_columns'] = false;
+}
 
 $outputType = 'serialized';
 if ( $options['output-array'] )

@@ -99,7 +99,9 @@ class eZPgsqlSchema extends eZDBSchemaInterface
     function schema( $params = array() )
     {
         $params = array_merge( array( 'meta_data' => false,
-                                      'format' => 'generic' ),
+                                      'format' => 'generic',
+                                      'sort_columns' => true,
+                                      'sort_indexes' => true ),
                                $params );
         $schema = array();
 
@@ -236,7 +238,10 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 
             $fields[$row['attname']] = $field;
         }
-        ksort( $fields );
+        if ( $params['sort_columns'] )
+        {
+            ksort( $fields );
+        }
 
         return $fields;
     }
@@ -311,7 +316,10 @@ class eZPgsqlSchema extends eZDBSchemaInterface
                 $indexes[$kn]['fields'][$rank] = $fields[$id];
             }
         }
-        ksort( $indexes );
+        if ( $params['sort_indexes'] )
+        {
+            ksort( $indexes );
+        }
 
         return $indexes;
     }

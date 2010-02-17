@@ -5,6 +5,7 @@ Changes from 4.3.0alpha1 to 4.3.0beta1
 - Implemented enhancement #16192: Remove deprecated eZArchiveHandler class and sub classes
 - Implemented enhancement #16193: Remove deprecated eZModuleManager and eZImportLookupTable classes
 - Implemented enhancement #16200: Deprecate kernel/common/ezincludefunctions.php 
+- Implemented enhancement #15441: eZDBSchemaInterface subclasses do not allow to dump/rebuild a proper schema: table columns are always sorted
 
 *Design:
 
@@ -26,4 +27,4 @@ Changes from 4.3.0alpha1 to 4.3.0beta1
 - Fixed bug #15823: Running cache clearing procedure from upgrade 4.2.0 using root removes all linux system files
 - Fixed bug #16180: Site structure on dashboard is buggy
 - Fixed bug #16160: Call to undefined function ezi18n()
-- Fixed bug #015673: eZCollaborationItemHandler::handleCollaborationEvent() not oracle compatible
+- Fixed bug #15673: eZCollaborationItemHandler::handleCollaborationEvent() not oracle compatible

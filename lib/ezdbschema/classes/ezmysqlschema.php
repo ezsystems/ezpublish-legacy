@@ -49,7 +49,9 @@ class eZMysqlSchema extends eZDBSchemaInterface
     function schema( $params = array() )
     {
         $params = array_merge( array( 'meta_data' => false,
-                                      'format' => 'generic' ),
+                                      'format' => 'generic',
+                                      'sort_columns' => true,
+                                      'sort_indexes' => true ),
                                $params );
         $schema = array();
 
@@ -179,7 +181,10 @@ class eZMysqlSchema extends eZDBSchemaInterface
 
             $fields[$row['Field']] = $field;
         }
-        ksort( $fields );
+        if ( $params['sort_columns'] )
+        {
+            ksort( $fields );
+        }
 
         return $fields;
     }
@@ -227,7 +232,10 @@ class eZMysqlSchema extends eZDBSchemaInterface
             }
             $indexes[$kn]['fields'][$row['Seq_in_index'] - 1] = $indexFieldDef;
         }
-        ksort( $indexes );
+        if ( $params['sort_indexes'] )
+        {
+            ksort( $indexes );
+        }
 
         return $indexes;
     }
