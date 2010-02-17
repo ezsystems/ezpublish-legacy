@@ -17,7 +17,6 @@
 <div id="maincontent">
 <div id="maincontent-design" class="float-break"><div id="fix">
 
-{include uri='design:content/edit_validation.tpl'}
 
 <div id="controlbar-top" class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
@@ -35,6 +34,8 @@
 </div>
 
 <!-- Maincontent START -->
+
+{include uri='design:content/edit_validation.tpl'}
 
 <div class="content-edit">
 
