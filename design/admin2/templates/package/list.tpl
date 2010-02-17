@@ -6,25 +6,22 @@
                                repository_id, $repository_id ) )
      repository_list=fetch( package, repository_list )
      can_remove=fetch( package, can_remove )}
-<form name="packagelist" method="post" action={concat('package/list',
-                            $view_parameters.offset|gt(0)
-                            |choose('',
-                                    concat('/offset/',$view_parameters.offset)))|ezurl}>
+<form name="packagelist" method="post" action={concat('package/list', $view_parameters.offset|gt(0)|choose('', concat('/offset/',$view_parameters.offset)))|ezurl}>
 
 <div class="context-block">
 
 {* ## START messages ## *}
 {section show=$remove_list}
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
+{* DESIGN: Header START *}<div class="box-header">
 
 <h1 class="context-title">{'Remove section?'|i18n( 'design/admin/package/list' )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div>
+{* DESIGN: Header END *}</div>
 
-{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-content">
 
 <div class="message-confirmation">
 
@@ -43,53 +40,50 @@ Note: The packages will not be uninstalled.'|i18n('design/admin/package/list')|b
 
 </div>
 
-{* DESIGN: Content END *}</div></div></div>
+{* DESIGN: Content END *}</div>
 
 <div class="controlbar">
 
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
-
+{* DESIGN: Control bar START *}
 <div class="block">
-
-    <input class="button" type="submit" name="ConfirmRemovePackageButton" value="{'OK'|i18n('design/admin/package/list')}" />
+    <input class="defaultbutton" type="submit" name="ConfirmRemovePackageButton" value="{'Remove'|i18n('design/admin/package/list')}" />
     <input class="button" type="submit" name="CancelRemovePackageButton" value="{'Cancel'|i18n('design/admin/package/list')}" />
-
 </div>
-
-{* DESIGN: Control bar END *}</div></div>
+{* DESIGN: Control bar END *}
 
 </div>
 
 {section-else}
 {if $module_action|eq( 'CancelRemovePackage' )}
 <div class="message-feedback">
-    <p>{'Package removal was canceled.'|i18n('design/admin/package/list')}</p>
+    <h2>{'Package removal was canceled.'|i18n('design/admin/package/list')}</h2>
 </div>
 {/if}
 
 {* ## START default window ## *}
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
+{* DESIGN: Header START *}<div class="box-header">
 
 <h1 class="context-title">{'Packages'|i18n('design/admin/package/list')}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div>
+{* DESIGN: Header END *}</div>
 
-{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-content">
 
 <div class="context-attributes">
 
 <div class="block">
-<label>{'Repository'|i18n( 'design/admin/package/list' )}</label>
+<label class="inline">{'Change repository'|i18n( 'design/admin/package/list' )}:&nbsp;
 <select name="RepositoryID">
     <option value="">{'All'|i18n( 'design/admin/package/list' )}</option>
 {section var=repository loop=$repository_list}
     <option value="{$repository.id|wash}"{if eq( $repository.id, $repository_id )} selected="selected"{/if}>{$repository.name|wash}</option>
 {/section}
 </select>
-&nbsp;<input class="button" type="submit" name="ChangeRepositoryButton" value="{'Change repository'|i18n( 'design/admin/package/list' )}" />
+</label>
+<input class="button" type="submit" name="ChangeRepositoryButton" value="{'OK'|i18n( 'design/admin/package/list' )}" />
 </div>
 
 
@@ -132,25 +126,27 @@ Note: The packages will not be uninstalled.'|i18n('design/admin/package/list')|b
 
 
 </div>
-{* DESIGN: Content END *}</div></div></div>
+{* DESIGN: Content END *}</div>
 
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
-
+{* DESIGN: Control bar START *}
 
 {let can_create=fetch( package, can_create )
      can_import=fetch( package, can_import )}
 
 <div class="block">
-  <input class="button" type="submit" name="RemovePackageButton" value="{'Remove selected'|i18n('design/admin/package/list')}" {if and( $package_list|gt( 0 ), $can_remove )|not}disabled="disabled"{/if} />
-
-  <input class="button" type="submit" name="InstallPackageButton" value="{'Import new package'|i18n('design/admin/package/list')}" {if $can_import|not}disabled="disabled"{/if}/>
-  <input class="button" type="submit" name="CreatePackageButton" value="{'Create new package'|i18n('design/admin/package/list')}" {if $can_create|not}disabled="disabled"{/if} />
+    <div class="button-left">
+        <input class="button" type="submit" name="RemovePackageButton" value="{'Remove selected'|i18n('design/admin/package/list')}" {if and( $package_list|gt( 0 ), $can_remove )|not}disabled="disabled"{/if} />
+    </div>
+    <div class="button-right">
+        <input class="button" type="submit" name="InstallPackageButton" value="{'Import new package'|i18n('design/admin/package/list')}" {if $can_import|not}disabled="disabled"{/if}/>
+        <input class="button" type="submit" name="CreatePackageButton" value="{'Create new package'|i18n('design/admin/package/list')}" {if $can_create|not}disabled="disabled"{/if} />
+    </div>
 </div>
 
 {/let}
 
-{* DESIGN: Control bar END *}</div></div>
+{* DESIGN: Control bar END *}
 </div>
 
 {/section}
