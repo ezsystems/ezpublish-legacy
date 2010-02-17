@@ -1,14 +1,14 @@
 <form action={"rss/edit_import"|ezurl} method="post" name="RSSImport">
 
 <div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
+{* DESIGN: Header START *}<div class="box-header">
 <h2 class="context-title">{'Edit <%rss_import_name> [RSS Import]'|i18n( 'design/admin/rss/edit_import',, hash( '%rss_import_name', $rss_import.name ) )|wash}</h2>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div>
+{* DESIGN: Header END *}</div>
 
-{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-content">
 
 
 <div class="context-attributes">
@@ -33,7 +33,7 @@
     {* Destination path. *}
     <div class="block">
     <label for="rssImportDest">{"Destination path"|i18n( 'design/admin/rss/edit_import' )}:</label>
-    <input type="text" id="rssImportDest" readonly="readonly" size="45" value="{$rss_import.destination_path|wash}" />
+    <input class="halfbox" type="text" id="rssImportDest" readonly="readonly" size="45" value="{$rss_import.destination_path|wash}" />
     <input class="button" type="submit" name="DestinationBrowse" value="{'Browse'|i18n( 'design/admin/rss/edit_import' )}" title="{'Click this button to select the destination node where objects created by the import are located.'|i18n('design/admin/rss/edit_import')}" />
     </div>
 
@@ -111,7 +111,7 @@
 
     </div>
 
-{* DESIGN: Content END *}</div></div></div>
+{* DESIGN: Content END *}</div>
 
 
     {* Buttons. *}
@@ -119,7 +119,7 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
     <div class="block">
     <input type="hidden" name="RSSImport_ID" value={$rss_import.id} />
-    <input class="button" type="submit" name="StoreButton" value="{'OK'|i18n( 'design/admin/rss/edit_import' )}" title="{'Apply the changes and return to the RSS overview.'|i18n('design/admin/rss/edit_import')}" />
+    <input class="defaultbutton" type="submit" name="StoreButton" value="{'OK'|i18n( 'design/admin/rss/edit_import' )}" title="{'Apply the changes and return to the RSS overview.'|i18n('design/admin/rss/edit_import')}" />
     <input class="button" type="submit" name="RemoveButton" value="{'Cancel'|i18n( 'design/admin/rss/edit_import' )}" title="{'Cancel the changes and return to the RSS overview.'|i18n('design/admin/rss/edit_import')}" />
     </div>
 {* DESIGN: Control bar END *}</div></div>
