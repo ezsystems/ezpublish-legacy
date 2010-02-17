@@ -325,10 +325,12 @@ function _doItemSubstitution( menuID, menuHeader )
             CurrentDisabledMenusItems[hrefElement.id]['className'] = hrefElement.className;
             CurrentDisabledMenusItems[hrefElement.id]['href'] = hrefElement.href;
             CurrentDisabledMenusItems[hrefElement.id]['onmouseover'] = hrefElement.onmouseover;
+            CurrentDisabledMenusItems[hrefElement.id]['onclick'] = hrefElement.onclick;
 
             hrefElement.className = menuArray[menuID]['elements'][i]['disabled_class'];
             hrefElement.setAttribute( "href", '#' );
             hrefElement.onmouseover = "";
+            hrefElement.onclick = "";
 
         }
         else if ( typeof( menuArray[menuID]['elements'][i]['disabled_class'] ) != 'undefined' &&
@@ -340,6 +342,7 @@ function _doItemSubstitution( menuID, menuHeader )
                 hrefElement.className = CurrentDisabledMenusItems[hrefElement.id]['className'];
                 hrefElement.href = CurrentDisabledMenusItems[hrefElement.id]['href'];
                 hrefElement.onmouseover = CurrentDisabledMenusItems[hrefElement.id]['onmouseover'];
+                hrefElement.onclick = CurrentDisabledMenusItems[hrefElement.id]['onclick'];
             }
         }
     }
@@ -479,7 +482,6 @@ function _submitForm( formID, customSubstitute )
                 }
             }
         }
-
         formElement.submit();
     }
 }
