@@ -61,10 +61,15 @@
 
 <table class="list cache" cellspacing="0">
 
+<tr>
+    <th width="61%">{'Categories'|i18n( 'design/admin/setup/cache' )}</th>
+    <th width="39%">{''|i18n( 'design/admin/setup/cache' )}</th>
+</tr>
+
 {* Template cache. *}
 <tr class="bglight">
-<td width="60%">{'Template overrides and compiled templates'|i18n( 'design/admin/setup/cache' )}:</td>
-<td width="40%"><input class="button" type="submit" name="ClearTemplateCacheButton" value="{'Clear template caches'|i18n( 'design/admin/setup/cache' )}" title="{'This operation will clear all the template override caches and the compiled templates. It may lead to slower site performance until the caches are recreated.'|i18n( 'design/admin/setup/cache' )}" /></td>
+<td>{'Template overrides and compiled templates'|i18n( 'design/admin/setup/cache' )}:</td>
+<td><input class="button" type="submit" name="ClearTemplateCacheButton" value="{'Clear template caches'|i18n( 'design/admin/setup/cache' )}" title="{'This operation will clear all the template override caches and the compiled templates. It may lead to slower site performance until the caches are recreated.'|i18n( 'design/admin/setup/cache' )}" /></td>
 </tr>
 
 {* Content cache. *}
@@ -162,6 +167,10 @@
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
 
 <table class="list cache" cellspacing="0">
+<tr>
+    <th width="61%">{'Categories'|i18n( 'design/admin/setup/cache' )}</th>
+    <th width="39%">{''|i18n( 'design/admin/setup/cache' )}</th>
+</tr>
 
 {* Static content cache. *}
 <tr class="bgdark">
