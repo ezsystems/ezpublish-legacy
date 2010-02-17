@@ -72,15 +72,15 @@
 
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
+{* DESIGN: Header START *}<div class="box-header">
 
 <h2 class="context-title">{'Edit <%object_name>'|i18n( 'design/admin/content/edit_languages',, hash( '%object_name', $object.name ) )|wash}</h2>
 
 
 
-{* DESIGN: Header END *}</div></div>
+{* DESIGN: Header END *}</div>
 
-{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-content">
 
 <div class="context-attributes">
 
@@ -99,7 +99,7 @@
         <div class="block">
         <fieldset>
         <legend>{'Existing languages'|i18n('design/admin/content/edit_languages')}</legend>
-        <p>{'Select the language you want to edit'|i18n('design/admin/content/edit_languages')}:</p>
+        <p>{'Select the translation you want to edit'|i18n('design/admin/content/edit_languages')}:</p>
 
         <div class="indent">
             {$existing_languages_output}
@@ -127,7 +127,7 @@
     <div class="block">
     <fieldset>
     <legend>{'New translation'|i18n('design/admin/content/edit_languages')}</legend>
-    <p>{'Select the language you want to add'|i18n('design/admin/content/edit_languages')}:</p>
+    <p>{'Select the translation you want to add'|i18n('design/admin/content/edit_languages')}:</p>
 
     <div class="indent">
         {$nonexisting_languages_output}
@@ -138,7 +138,7 @@
 
     <div class="block">
     <fieldset>
-    <legend>{'Existing translation'|i18n('design/admin/content/edit_languages')}</legend>
+    <legend>{'Translate based on'|i18n('design/admin/content/edit_languages')}</legend>
     <p>{'Select the language the added translation will be based on'|i18n('design/admin/content/edit_languages')}:</p>
 
     <div class="indent">
@@ -192,9 +192,9 @@
 
 </div>
 
-{* DESIGN: Content END *}</div></div></div>
+{* DESIGN: Content END *}</div>
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
+{* DESIGN: Control bar START *}
 <div class="block">
 {if $can_edit}
     <input class="defaultbutton" type="submit" name="LanguageSelection" value="{'Edit'|i18n('design/admin/content/edit_languages')}" />
@@ -204,7 +204,7 @@
 
 <input class="button" type="submit" name="CancelDraftButton" value="{'Cancel'|i18n('design/admin/content/edit_languages')}" />
 </div>
-{* DESIGN: Control bar END *}</div></div>
+{* DESIGN: Control bar END *}
 
 </div>
 </div>
