@@ -1,12 +1,12 @@
 <div class="objectinfo">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
+{* DESIGN: Header START *}<div class="box-header">
 
 <h4>{'Object information'|i18n( 'design/admin/content/edit' )}</h4>
 
-{* DESIGN: Header END *}</div></div>
+{* DESIGN: Header END *}</div>
 
-<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-br"><div class="box-bl"><div class="box-content">
+<div class="box-content">
 
 {* Object ID *}
 <p>
@@ -55,19 +55,19 @@
 {/if}
 </div>
 
-</div></div></div></div></div></div>
+</div>
 
 </div>
 
 <div class="drafts">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
+{* DESIGN: Header START *}<div class="box-header">
 
 <h4>{'Current draft'|i18n( 'design/admin/content/edit' )}</h4>
 
-{* DESIGN: Header END *}</div></div>
+{* DESIGN: Header END *}</div>
 
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-content">
 
 {* Created *}
 <p>
@@ -93,22 +93,22 @@
 <input class="button" type="submit" name="PreviewButton" value="{'Preview'|i18n( 'design/admin/content/edit' )}" title="{'View the draft that is being edited.'|i18n( 'design/admin/content/edit' )}" />
 </div>
 
-{* DESIGN: Content END *}</div></div></div>
+{* DESIGN: Content END *}</div>
 </div>
 
 <!-- Translation box start-->
 <div class="translations">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
+{* DESIGN: Header START *}<div class="box-header">
 
-<h4>{'Translate from'|i18n( 'design/admin/content/edit' )}</h4>
+<h4>{'Existing translations'|i18n( 'design/admin/content/edit' )}</h4>
 
-{* DESIGN: Header END *}</div></div>
+{* DESIGN: Header END *}</div>
 
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
-
+{* DESIGN: Content START *}<div class="box-content">
+<p>{'Base translation on'|i18n( 'design/admin/content/edit' )}:</p>
 <label>
-<input type="radio" name="FromLanguage" value=""{if $from_language|not} checked="checked"{/if}{if $object.status|eq(0)} disabled="disabled"{/if} /> {'No translation'|i18n( 'design/admin/content/edit' )}
+<input type="radio" name="FromLanguage" value=""{if $from_language|not} checked="checked"{/if}{if $object.status|eq(0)} disabled="disabled"{/if} /> {'None'|i18n( 'design/admin/content/edit' )}
 </label>
 
 {if $object.status}
@@ -116,16 +116,16 @@
 <label>
 <input type="radio" name="FromLanguage" value="{$language.locale}"{if $language.locale|eq($from_language)} checked="checked"{/if} />
 <img src="{$language.locale|flag_icon}" alt="{$language.locale}" style="vertical-align: middle;" />
-{$language.name|wash}
+{$language.locale}
 </label>
 {/foreach}
 {/if}
 
 <div class="block">
-<input {if $object.status|eq(0)}class="button-disabled" disabled="disabled"{else} class="button"{/if} type="submit" name="FromLanguageButton" value="{'Translate'|i18n( 'design/admin/content/edit' )}" title="{'Edit the current object showing the selected language as a reference.'|i18n( 'design/admin/content/edit' )}" />
+<input {if $object.status|eq(0)}class="button-disabled" disabled="disabled"{else} class="button"{/if} type="submit" name="FromLanguageButton" value="{'View'|i18n( 'design/admin/content/edit' )}" title="{'Edit the current object showing the selected language as a reference.'|i18n( 'design/admin/content/edit' )}" />
 </div>
 
-{* DESIGN: Content END *}</div></div></div>
+{* DESIGN: Content END *}</div>
 </div>
 
 <!-- Translation box end-->
