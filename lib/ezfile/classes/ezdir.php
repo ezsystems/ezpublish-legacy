@@ -265,8 +265,9 @@ class eZDir
         if ( $includeEndSeparator and
              !$hasEndSeparator )
             $path .= $separator;
-        else if ( !$includeEndSeparator and
-                  $hasEndSeparator )
+        else if ( !$includeEndSeparator &&
+                  $hasEndSeparator &&
+                  $pathLen > 1 )
             $path = substr( $path, 0, $pathLen - 1 );
         return $path;
     }
