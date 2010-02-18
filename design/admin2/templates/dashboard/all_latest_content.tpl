@@ -2,9 +2,13 @@
 
 {cache-block keys=array( $user_hash )}
 
-{def $all_latest_content = fetch( 'content', 'tree', hash( 'parent_node_id', ezini( 'NodeSettings', 'RootNode', 'content.ini' ),
-                                                           'limit', $block.number_of_items,
-                                                           'sort_by', array( 'published', false() ) ) )}
+{* We only fetch items within last 60 days to make sure we don't generate to heavy sql queries *}
+{def $date_end = sub( currentdate(), 5184000 )
+     $all_latest_content = fetch( 'content', 'tree', hash( 'parent_node_id',   ezini( 'NodeSettings', 'RootNode', 'content.ini' ),
+                                                           'limit',            $block.number_of_items,
+                                                           'main_node_only',   true(),
+                                                           'attribute_filter', array( array( 'published', '>=',$date_end ) ),
+                                                           'sort_by',          array( 'published', false() ) ) )}
 
 <h2>{'All latest content'|i18n( 'design/admin/dashboard/all_latest_content' )}</h2>
 
@@ -21,7 +25,7 @@
     {foreach $all_latest_content as $latest_node sequence array( 'bglight', 'bgdark' ) as $style}
         <tr class="{$style}">
             <td>
-                <a href="{$latest_node.url_alias|ezurl('no')}" title="{$latest_node.name|wash()}">{$latest_node.name|shorten('28', '..')|wash()}</a>
+                <a href="{$latest_node.url_alias|ezurl('no')}" title="{$latest_node.name|wash()}">{$latest_node.name|shorten('30')|wash()}</a>
             </td>
             <td>
                 {$latest_node.class_name|wash()}
@@ -31,7 +35,7 @@
             </td>
             <td>
                 <a href="{$latest_node.object.owner.main_node.url_alias|ezurl('no')}" title="{$latest_node.object.owner.name|wash()}">
-                    {$latest_node.object.owner.name|shorten('12', '..')|wash()}
+                    {$latest_node.object.owner.name|shorten('13')|wash()}
                 </a>
             </td>
             <td>

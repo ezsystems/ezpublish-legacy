@@ -1,8 +1,9 @@
 {cache-block keys=array( $user.contentobject_id )}
 
-{def $latest_content = fetch( 'content', 'tree', hash( 'parent_node_id', ezini( 'NodeSettings', 'RootNode', 'content.ini' ),
-                                                       'limit', $block.number_of_items,
-                                                       'sort_by', array( 'modified', false() ),
+{def $latest_content = fetch( 'content', 'tree', hash( 'parent_node_id',   ezini( 'NodeSettings', 'RootNode', 'content.ini' ),
+                                                       'limit',            $block.number_of_items,
+                                                       'main_node_only',   true(),
+                                                       'sort_by',          array( 'modified', false() ),
                                                        'attribute_filter', array( array( 'owner', '=', $user.contentobject_id ) ) ) )}
 
 <h2>{'My latest content'|i18n( 'design/admin/dashboard/latest_content' )}</h2>
@@ -19,7 +20,7 @@
     {foreach $latest_content as $latest_node sequence array( 'bglight', 'bgdark' ) as $style}
         <tr class="{$style}">
             <td>
-                <a href="{$latest_node.url_alias|ezurl('no')}" title="{$latest_node.name|wash()}">{$latest_node.name|shorten('28', '..')|wash()}</a>
+                <a href="{$latest_node.url_alias|ezurl('no')}" title="{$latest_node.name|wash()}">{$latest_node.name|shorten('30')|wash()}</a>
             </td>
             <td>
                 {$latest_node.class_name|wash()}

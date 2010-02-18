@@ -33,3 +33,4 @@ Changes from 4.3.0alpha1 to 4.3.0beta1
 - Fixed bug #16207: Does not work to restore design tab in admin
 - Fixed bug #15845: eZDir does not accept the root directory
 - Fixed bug #16184: Regression in renderParagraph() after preserveWhiteSpace=false was removed with block tags
+- Fixed bug #16213: dashboard generate very slow queries
