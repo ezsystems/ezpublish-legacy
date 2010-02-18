@@ -179,7 +179,6 @@ class eZPostgreSQLDB extends eZDBInterface
 
                 if ($this->timeTaken() > $this->SlowSQLTimeout)
                 {
-                    eZDebug::instance();
                     eZDebug::accumulatorStop( 'postgresql_query' );
                     $this->reportQuery( 'eZPostgreSQLDB', $sql, false, $this->timeTaken() );
                 }
