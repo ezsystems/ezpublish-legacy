@@ -447,7 +447,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         {
             if ( $childOutput[0] === true )// is inline
             {
-                if( $childOutput[1] == ' ' )
+                if( $childOutput[1] === ' ' )
                 {
                     continue;
                 }
