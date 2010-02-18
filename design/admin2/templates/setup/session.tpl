@@ -29,19 +29,18 @@
 {/if}
 
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
+{* DESIGN: Header START *}<div class="box-header">
 
 <h1 class="context-title">{'Session administration'|i18n( "design/admin/setup/session" )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
-{* DESIGN: Header END *}</div></div>
+{* DESIGN: Header END *}</div>
 
-{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-content">
 
 <div class="context-attributes">
 
-<label>{"Sessions"|i18n( "design/admin/setup/session" )}:</label>
     <p>{"Total number of sessions"|i18n( "design/admin/setup/session" )}: {$sessions_active}<br/>
         {let logged_in_count=fetch( user, logged_in_count )
              anonymous_count=fetch( user, anonymous_count )}
@@ -51,10 +50,9 @@
     </p>
     <p>{"WARNING! When you remove sessions, users that are logged in will be logged out from the system."|i18n( "design/admin/setup/session" )}</p>
 
-
 </div>
 
-{* DESIGN: Content END *}</div></div></div>
+{* DESIGN: Content END *}</div>
 
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
@@ -71,13 +69,11 @@
 
 <div class="context-block">
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
+{* DESIGN: Header START *}<div class="box-header">
 
 <h2 class="context-title">{'Filtered sessions'|i18n( 'design/admin/setup/session' )}</h2>
 
-
-
-{* DESIGN: Header END *}</div></div>
+{* DESIGN: Header END *}</div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 <div class="context-attributes">
