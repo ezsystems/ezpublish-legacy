@@ -576,12 +576,14 @@ div.popupmenu hr
     padding: 0 0.5em 0 0.5em;
 }
 
-div.box-content div.block {
+.box-content div.block 
+{
     padding-bottom: 1em;
 }
 
-fieldset.block {
-    padding-bottom: 0em;
+.box-content table 
+{
+    margin-top: 1em;
 }
 
 .box-ml
@@ -745,7 +747,7 @@ input.button, input.defaultbutton, input.button-disabled
 {
     width: auto;
     overflow: visible;
-    padding: 0.1em 0.5em;;
+    padding: 0em 0.5em;;
 }
 
 /* SEARCH */
