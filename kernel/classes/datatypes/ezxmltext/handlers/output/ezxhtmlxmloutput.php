@@ -446,7 +446,14 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         foreach( $childrenOutput as $key => $childOutput )
         {
             if ( $childOutput[0] === true )// is inline
+            {
+                if( $childOutput[1] == ' ' )
+                {
+                    continue;
+                }
+
                 $inlineContent .= $childOutput[1];
+            }
 
             // Only render paragraph if current tag is block and previous was an inline tag
             // OR  if current one is inline and it's the last item in the child list
