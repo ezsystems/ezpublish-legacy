@@ -29,3 +29,4 @@ Changes from 4.3.0alpha1 to 4.3.0beta1
 - Fixed bug #16160: Call to undefined function ezi18n()
 - Fixed bug #15673: eZCollaborationItemHandler::handleCollaborationEvent() not oracle compatible
 - Fixed bug #16207: Does not work to restore design tab in admin
+- Fixed bug #15845: eZDir does not accept the root directory
