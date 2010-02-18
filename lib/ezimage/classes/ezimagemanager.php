@@ -1415,7 +1415,7 @@ class eZImageManager
     public $Types = array();
 
     /**
-     * Singelton instance of eZTemplate used by {@see eZImageManager::instance()}
+     * Singleton instance of eZImageManager used by {@see eZImageManager::instance()}
      * Reset with {@see eZImageManager::resetInstance()} 
      * 
      * @var null|eZImageManager
