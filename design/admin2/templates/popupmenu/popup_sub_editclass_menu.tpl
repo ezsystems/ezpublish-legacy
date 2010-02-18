@@ -15,5 +15,5 @@ menuArray['EditClassSubmenu']['elements']['edit-class-another-language']['disabl
     <hr />
     <!-- <a id="edit-class-another-language" href="#" onmouseover="ezpopmenu_mouseOver( 'EditClassSubmenu' )">{'Another language'|i18n( 'design/admin/popupmenu' )}</a> -->
     <!-- <div id="edit-class-another-language"></div> -->
-    <a id="edit-class-another-language" href="#" onmouseover="ezpopmenu_mouseOver( 'EditClassSubmenu' )">{'Another language'|i18n( 'design/admin/popupmenu' )}</a>
+    <a id="edit-class-another-language" href="#" onmouseover="ezpopmenu_mouseOver( 'EditClassSubmenu' )">{'New translation'|i18n( 'design/admin/popupmenu' )}</a>
 </div>

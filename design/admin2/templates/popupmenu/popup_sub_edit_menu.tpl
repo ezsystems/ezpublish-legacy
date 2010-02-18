@@ -12,5 +12,5 @@ menuArray['EditSubmenu']['elements']['edit-languages-another'] = {ldelim} 'url':
 <div class="popupmenu" id="EditSubmenu">
     <div id="edit-languages"></div>
     <hr />
-    <a id="edit-languages-another" href="#" onmouseover="ezpopmenu_mouseOver( 'EditSubmenu' )">{'Another language'|i18n( 'design/admin/popupmenu' )}</a>
+    <a id="edit-languages-another" href="#" onmouseover="ezpopmenu_mouseOver( 'EditSubmenu' )">{'New translation'|i18n( 'design/admin/popupmenu' )}</a>
 </div>

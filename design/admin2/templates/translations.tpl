@@ -8,7 +8,7 @@
 <input type="hidden" name="ContentObjectLanguageCode" value="{$language_code|wash}" />
 
 <fieldset>
-<legend>{'Existing languages'|i18n( 'design/admin/node/view/full' )}</legend>
+<legend>{'Existing translations'|i18n( 'design/admin/node/view/full' )}</legend>
 
 <table id="tab-translations-list" class="list" cellspacing="0" summary="{'Language list of translations for current object.'|i18n( 'design/admin/node/view/full' )}">
 <tr>

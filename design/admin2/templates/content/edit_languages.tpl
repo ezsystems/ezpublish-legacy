@@ -98,7 +98,7 @@
     {if $existing_languages_output|trim}
         <div class="block">
         <fieldset id="ezcoeditlanguages-existingts">
-        <legend>{'Existing languages'|i18n('design/admin/content/edit_languages')}</legend>
+        <legend>{'Existing translations'|i18n('design/admin/content/edit_languages')}</legend>
         <p>{'Select the translation you want to edit'|i18n('design/admin/content/edit_languages')}:</p>
 
         <div class="indent">
@@ -113,7 +113,6 @@
 {set-block variable=$nonexisting_languages_output}
 {def $select_first_language = $object_create_languages|count|eq( 1 )}
 {foreach $object_create_languages as $language}
-
     <label>
        <input name="EditLanguage" type="radio" value="{$language.locale}"{if $select_first_language} checked="checked"{/if} /> {$language.name|wash}
     </label>
