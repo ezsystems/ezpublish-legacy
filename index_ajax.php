@@ -280,7 +280,7 @@ if ( !hasAccessToBySetting( $moduleName, $viewName, $ini->variable( 'RoleSetting
 }
 
 // load i18n functions for use in views
-include_once('kernel/common/i18n.php');
+require_once( 'kernel/common/i18n.php' );
 
 // run module
 $uri->increase();
