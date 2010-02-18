@@ -128,9 +128,9 @@ if ( $http->hasPostVariable( 'ChangeRoleName' ) )
 if ( $http->hasPostVariable( 'AddModule' ) )
 {
     if ( $http->hasPostVariable( 'Modules' ) )
-	    $currentModule = $http->postVariable( 'Modules' );
+        $currentModule = $http->postVariable( 'Modules' );
     else if ( $http->hasPostVariable( 'CurrentModule' ) )
-	    $currentModule = $http->postVariable( 'CurrentModule' );
+        $currentModule = $http->postVariable( 'CurrentModule' );
     $policy = eZPolicy::createNew( $roleID, array( 'ModuleName'=> $currentModule,
                                                    'FunctionName' => '*' ) );
 }
@@ -270,9 +270,9 @@ if ( $http->hasPostVariable( 'RemovePolicies' ) and
 if ( $http->hasPostVariable( 'CustomFunction' ) )
 {
     if ( $http->hasPostVariable( 'Modules' ) )
-	    $currentModule = $http->postVariable( 'Modules' );
+        $currentModule = $http->postVariable( 'Modules' );
     else if ( $http->hasPostVariable( 'CurrentModule' ) )
-	    $currentModule = $http->postVariable( 'CurrentModule' );
+        $currentModule = $http->postVariable( 'CurrentModule' );
     if ( $currentModule != '*' )
     {
         $mod = eZModule::exists( $currentModule );
@@ -727,7 +727,7 @@ if ( $http->hasPostVariable( 'CreatePolicy' ) || $http->hasPostVariable( 'Step1'
     $moduleList = array();
     foreach( $modules as $module )
     {
-    	$moduleList[] = eZModule::exists( $module );
+        $moduleList[] = eZModule::exists( $module );
     }
     $tpl->setVariable( 'module_list', $moduleList );
     $tpl->setVariable( 'role', $role );

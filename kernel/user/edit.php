@@ -37,10 +37,10 @@ else
 {
     $currentUser = eZUser::currentUser();
     $UserID      = $currentUser->attribute( 'contentobject_id' );
-	if ( $currentUser->isAnonymous() )
-	{
-	    return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
-	}
+    if ( $currentUser->isAnonymous() )
+    {
+        return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
+    }
 }
 
 if ( isset( $Params['UserParameters'] ) )
