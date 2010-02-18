@@ -6,6 +6,7 @@ Changes from 4.3.0alpha1 to 4.3.0beta1
 - Implemented enhancement #16193: Remove deprecated eZModuleManager and eZImportLookupTable classes
 - Implemented enhancement #16200: Deprecate kernel/common/ezincludefunctions.php 
 - Implemented enhancement #15441: eZDBSchemaInterface subclasses do not allow to dump/rebuild a proper schema: table columns are always sorted
+- Updated bug #16197: Editing a class makes it loose it's class group
 
 *Design:
 

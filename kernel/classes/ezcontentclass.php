@@ -1035,15 +1035,7 @@ You will need to change the class of the node by using the swap functionality.' 
      */
     public function storeVersioned( $attributes, $version )
     {
-        switch ( $version )
-        {
-            case self::VERSION_STATUS_DEFINED:
-                $previousVersion = self::VERSION_STATUS_MODIFIED;
-                break;
-            case self::VERSION_STATUS_MODIFIED:
-                $previousVersion = self::VERSION_STATUS_TEMPORARY;
-                break;
-        }
+        $previousVersion = $this->attribute( 'version' );
 
         $db = eZDB::instance();
         $db->begin();
