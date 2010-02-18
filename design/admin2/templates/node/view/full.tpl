@@ -75,7 +75,7 @@
                        <option value="{$language.locale}"{if $language.locale|eq($node.object.current_language)} selected="selected"{/if}>{$language.name|wash}</option>
             {/foreach}
             {if gt( $can_create_languages|count, 0 )}
-                <option value="">{'Another language'|i18n( 'design/admin/node/view/full')}</option>
+                <option value="">{'New translation'|i18n( 'design/admin/node/view/full')}</option>
             {/if}
             </select>
     {/if}
