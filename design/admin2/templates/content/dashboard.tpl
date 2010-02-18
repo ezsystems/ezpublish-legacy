@@ -1,4 +1,4 @@
-{set scope=global persistent_variable=hash('extra_menu', false())}
+{* set scope=global persistent_variable=hash('extra_menu', false()) *}
 
 <div class="context-block content-dashboard">
     
