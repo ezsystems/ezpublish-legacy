@@ -523,7 +523,7 @@ class eZURLAliasMlRegression extends ezpDatabaseTestCase
         $query = self::buildSql( array( $child->mainNode->node_id ) );
         $result = $db->arrayQuery( $query );
 
-        self::assertEquals( (int) $result[0]['lang_mask'], 6 );
+        self::assertEquals( 6, (int) $result[0]['lang_mask'] );
     }
 
     /**
