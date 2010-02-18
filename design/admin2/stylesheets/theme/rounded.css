@@ -311,6 +311,41 @@ input.button-disabled
     margin-top: 2em;
 }
 
+
+/* PAGENAVIGATOR */
+
+div.pagenavigator
+{
+    text-align: center;
+}
+
+div.pagenavigator span.previous
+{
+    display: block;
+    float: left;
+}
+
+div.pagenavigator span.next
+{
+    display: block;
+    float: right;
+}
+
+div.pagenavigator span.disabled
+{
+    color: #d0d0d0;
+}
+
+
+/* FOOTER */
+
+#footer
+{
+    border-top: 1px solid #999;
+    background: #FEFEFE url('../../images/2/gradient-to-light.png') repeat-x left top scroll;
+}
+
+
 /* MISC */
 table.list th, table.special th
 {
@@ -327,11 +362,4 @@ table.list th, table.special th
     font-weight: bold;
 }
 
-/* FOOTER */
-
-#footer
-{
-    border-top: 1px solid #999;
-    background: #FEFEFE url('../../images/2/gradient-to-light.png') repeat-x left top scroll;
-}
 
