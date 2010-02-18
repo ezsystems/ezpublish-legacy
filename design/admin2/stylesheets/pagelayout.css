@@ -258,6 +258,11 @@ div#columns.hide-rightmenu div#maincolumn { margin-right: 0; }
     color: #aaa;
     margin-left: 1.5em;
 }
+
+#rightmenu-design #currentuserperferences ul li
+{
+    color: #333;
+}
 #rightmenu label { font-weight:normal; }
 
 
