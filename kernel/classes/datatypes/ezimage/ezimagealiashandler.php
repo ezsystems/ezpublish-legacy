@@ -80,8 +80,7 @@ class eZImageAliasHandler
     */
     function attributes()
     {
-        require_once( 'kernel/common/image.php' );
-        $imageManager = imageInit();
+        $imageManager = eZImageManager::factory();
         $aliasList = $imageManager->aliasList();
         return array_merge( array( 'alternative_text',
                                    'original_filename',
@@ -100,8 +99,8 @@ class eZImageAliasHandler
                               'original_filename',
                               'is_valid' ) ) )
             return true;
-        require_once( 'kernel/common/image.php' );
-        $imageManager = imageInit();
+
+        $imageManager = eZImageManager::factory();
         if ( $imageManager->hasAlias( $attributeName ) )
             return true;
         return false;
@@ -414,8 +413,7 @@ class eZImageAliasHandler
     */
     function imageAlias( $aliasName )
     {
-        require_once( 'kernel/common/image.php' );
-        $imageManager = imageInit();
+        $imageManager = eZImageManager::factory();
         if ( !$imageManager->hasAlias( $aliasName ) )
         {
             return null;
@@ -428,7 +426,7 @@ class eZImageAliasHandler
         }
         else
         {
-            $imageManager = imageInit();
+            $imageManager = eZImageManager::factory();
             if ( $imageManager->hasAlias( $aliasName ) )
             {
                 $original = $aliasList['original'];
@@ -652,8 +650,7 @@ class eZImageAliasHandler
                         $aliasEntry['filesize'] = $aliasFile->size();
                 }
 
-                require_once( 'kernel/common/image.php' );
-                $imageManager = imageInit();
+                $imageManager = eZImageManager::factory();
                 if ( $imageManager->isImageAliasValid( $aliasEntry ) )
                 {
                     $aliasList[$aliasEntry['name']] = $aliasEntry;
@@ -892,8 +889,7 @@ class eZImageAliasHandler
         $originalNode = $doc->createElement( "original" );
         $imageNode->appendChild( $originalNode );
 
-        require_once( 'kernel/common/image.php' );
-        $imageManager = imageInit();
+        $imageManager = eZImageManager::factory();
 
         $aliasName = 'original';
 
@@ -1200,8 +1196,7 @@ class eZImageAliasHandler
     */
     function initialize( $mimeData, $originalFilename, $imageAltText = false )
     {
-        require_once( 'kernel/common/image.php' );
-        $imageManager = imageInit();
+        $imageManager = eZImageManager::factory();
 
         $this->setOriginalAttributeDataValues( $this->ContentObjectAttributeData['id'],
                                                $this->ContentObjectAttributeData['version'],
@@ -1641,8 +1636,7 @@ class eZImageAliasHandler
 
         $fileName = false;
 
-        require_once( 'kernel/common/image.php' );
-        $imageManager = imageInit();
+        $imageManager = eZImageManager::factory();
 
         $mimeData = eZMimeType::findByFileContents( $fileName );
         $imageManager->analyzeImage( $mimeData );

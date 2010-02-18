@@ -28,20 +28,17 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
+
+/**
+ * Image manager instance
+ * 
+ * @package kernel
+ * @deprecated Deprecated as of 4.3, use {@link eZImageManager::factory()} instead.
+ */
+
 function imageInit()
 {
-    if ( isset( $GLOBALS['eZPublishImageManager'] ) )
-    {
-        return $GLOBALS['eZPublishImageManager'];
-    }
-
-    $GLOBALS['eZPublishImageManager'] = eZImageManager::instance();
-
-    $GLOBALS['eZPublishImageManager']->readINISettings();
-
-    eZImageAnalyzer::readAnalyzerSettingsFromINI();
-
-    return $GLOBALS['eZPublishImageManager'];
+    return eZImageManager::factory();
 }
 
 ?>

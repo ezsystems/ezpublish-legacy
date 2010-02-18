@@ -83,6 +83,9 @@ Deprecated methods
   ext_include(), ext_activate(), ext_class(), lib_include(), lib_class() and kernel_class()
   These functions will be removed in a future version.
 
+- kernel/common/image.php: imageInit()
+  Function will be removed in a future version, use eZImageManager::factory() instead.
+
 
 Renamed methods
 ---------------
@@ -106,3 +109,11 @@ Removed methods
 
 - eZImportLookupTable
   This class is removed after being deprecated since 4.1
+
+
+Removed globals
+---------------
+
+- eZImageManager
+  eZImageManager::instance() now uses static variable instead, this can be reset
+  with eZImageManager::resetInstance().

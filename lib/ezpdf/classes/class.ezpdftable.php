@@ -1182,8 +1182,7 @@ class eZPDFTable extends Cezpdf
                 $newFilename = eZSys::cacheDirectory() . '/' . md5( mt_rand() ) . '.jpg';
             }
 
-            require_once( 'kernel/common/image.php' );
-            $img = imageInit();
+            $img = eZImageManager::factory();
             $newImg = $img->convert( $filename,
                                      $newFilename,
                                      false,
@@ -1274,8 +1273,7 @@ class eZPDFTable extends Cezpdf
                 }
                 $newMimetype = eZMimeType::findByURL( $newFilename );
 
-                require_once( 'kernel/common/image.php' );
-                $img = imageInit();
+                $img = eZImageManager::factory();
                 $newImg = $img->convert( $mimetype,
                                          $newMimetype,
                                          false,

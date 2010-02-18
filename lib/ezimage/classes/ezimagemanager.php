@@ -1360,16 +1360,48 @@ class eZImageManager
 
     /**
      * Returns a shared instance of the eZImageManager class.
+     * Note: In most cases you'd want to use {@see self:factory()} instead.
      *
      * @return eZImageManager
      */
     static function instance()
     {
-        if ( !isset( $GLOBALS["eZImageManager"] ) )
+        if ( self::$instance === null )
         {
-            $GLOBALS["eZImageManager"] = new eZImageManager();
+            self::$instance = new self();
         }
-        return $GLOBALS["eZImageManager"];
+        return self::$instance;
+    }
+    
+    /**
+     * Returns a shared instance of the eZImageManager class and makes it ready for use.
+     * As in calls {@see self::readINISettings()} and {@see eZImageAnalyzer::readAnalyzerSettingsFromINI()}
+     *
+     * @since 4.3
+     * @return eZImageManager
+     */
+    static function factory()
+    {
+        if ( self::$factory === false )
+        {
+            self::$factory = true;
+            self::instance()->readINISettings();
+            eZImageAnalyzer::readAnalyzerSettingsFromINI();
+        }
+        return self::instance();
+    }
+
+    /**
+     * Reset a shared instance of the eZImageManager class and factory variable.
+     * As used by {@see eZImageManager::instance()} and {@see eZImageManager::factory()}
+     *
+     * @since 4.3
+     */
+    static function resetInstance()
+    {
+        self::$instance = null;
+        self::$factory = false;
+        
     }
 
     /// \privatesection
@@ -1381,5 +1413,21 @@ class eZImageManager
     public $RuleMap;
     public $MIMETypes;
     public $Types = array();
+
+    /**
+     * Singelton instance of eZTemplate used by {@see eZImageManager::instance()}
+     * Reset with {@see eZImageManager::resetInstance()} 
+     * 
+     * @var null|eZImageManager
+     */
+    protected static $instance;
+
+    /**
+     * Factory flag as used by {@see eZImageManager::factory()}
+     * Reset with {@see eZImageManager::resetInstance()} 
+     * 
+     * @var bool
+     */
+    protected static $factory = false;
 }
 ?>
