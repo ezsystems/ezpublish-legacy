@@ -46,12 +46,12 @@
 {* DESIGN: Content END *}</div>
 <div class="block">
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc">
+{* DESIGN: Control bar START *}
 <div class="block">
     <input class="button" type="submit" name="RemoveGroupButton" value="{'Remove selected'|i18n( 'design/admin/class/grouplist' )}" title="{'Remove the selected class groups. This will also remove all classes that only exist within the selected groups.'|i18n( 'design/admin/class/grouplist' )}" />
     <input class="button" type="submit" name="NewGroupButton" value="{'New class group'|i18n( 'design/admin/class/grouplist' )}" title="{'Create a new class group.'|i18n( 'design/admin/class/grouplist' )}" />
 </div>
-{* DESIGN: Control bar END *}</div>
+{* DESIGN: Control bar END *}
 </div>
 </div>
 
