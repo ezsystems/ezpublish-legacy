@@ -253,7 +253,7 @@ if ( !$options['no-verify-branches'] )
 
     if ( file_exists( $exportPath ) )
     {
-        eZDir::recursiveDelete( $exportPath );
+        eZDir::recursiveDelete( $exportPath, false );
     }
     eZDir::mkdir( $exportPath, false, true );
 }
@@ -376,7 +376,7 @@ if ( !$options['no-verify-branches'] )
     // Cleanup any exports
     if ( file_exists( $exportPath ) )
     {
-        eZDir::recursiveDelete( $exportPath );
+        eZDir::recursiveDelete( $exportPath, false );
     }
 }
 

@@ -480,7 +480,7 @@ class eZCache
             }
             else
             {
-                eZDir::recursiveDelete( $cachePath, true );
+                eZDir::recursiveDelete( $cachePath );
             }
         }
     }
@@ -539,7 +539,7 @@ class eZCache
     static function clearTemplateOverrideCache( $cacheItem )
     {
         $cachePath = eZSys::cacheDirectory() . '/' . $cacheItem['path'];
-        eZDir::recursiveDelete( $cachePath, true );
+        eZDir::recursiveDelete( $cachePath );
         eZTemplateDesignResource::clearInMemoryOverrideArray();
     }
 
@@ -619,7 +619,7 @@ class eZCache
     */
     static function clearGlobalINICache( $cacheItem )
     {
-        eZDir::recursiveDelete( $cacheItem['path'], true );
+        eZDir::recursiveDelete( $cacheItem['path'] );
     }
 
     /*!

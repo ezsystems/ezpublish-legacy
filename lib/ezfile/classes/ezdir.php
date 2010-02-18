@@ -280,7 +280,7 @@ class eZDir
      *                        eZ Publish root directory
      * @return bool True if the operation succeeded, false otherwise
      */
-    static function recursiveDelete( $dir, $rootCheck = false )
+    static function recursiveDelete( $dir, $rootCheck = true )
     {
         // RecursiveDelete fails if ...
         // $dir is not a directory
@@ -303,7 +303,7 @@ class eZDir
             }
             if ( is_dir( $dir . '/' . $file ) )
             {
-                eZDir::recursiveDelete( $dir . '/' . $file );
+                eZDir::recursiveDelete( $dir . '/' . $file, false );
             }
             else
             {

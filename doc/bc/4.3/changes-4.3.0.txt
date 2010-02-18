@@ -52,6 +52,13 @@ Change of behavior
   Because of enhancement  "#3005: Increase performance eZTreeMenuOperator", data_map
   is no longer part of the hash-structure for each element, and you'll need to access
   it as normal using the node (so $item.node.data_map instead of $item.data_map ).
+
+- eZDir::recursiveDelete() performs a new check by default
+
+  The directory to be removed must be under the root directory of eZ Publish,
+  unless the second parameter of the function is set to false. This is a
+  safety measure introduced to solve: "#015823: Running cache clearing
+  procedure from upgrade 4.2.0 using root removes all linux system files"
   
 
 eZContentClass::instantiate() changes

@@ -44,13 +44,13 @@ class eZDirTestOutsideRoot extends ezpTestCase
 
     public function testRemoveWithoutCheck()
     {
-        $this->assertTrue( eZDir::recursiveDelete( $this->rootDir . 'a/b/c/' ) );
+        $this->assertTrue( eZDir::recursiveDelete( $this->rootDir . 'a/b/c/', false ) );
         $this->assertFalse( file_exists( $this->rootDir . 'a/b/c' ) );
     }
 
     public function testRemoveWithoutCheckNoTrailingSlash()
     {
-        $this->assertTrue( eZDir::recursiveDelete( $this->rootDir . 'a/b/c' ) );
+        $this->assertTrue( eZDir::recursiveDelete( $this->rootDir . 'a/b/c', false ) );
         $this->assertFalse( file_exists( $this->rootDir . 'a/b/c' ) );
     }
 
@@ -62,13 +62,13 @@ class eZDirTestOutsideRoot extends ezpTestCase
 
     public function testRemoveRecursivelyWithoutCheck()
     {
-        $this->assertTrue( eZDir::recursiveDelete( $this->rootDir . 'a/' ) );
+        $this->assertTrue( eZDir::recursiveDelete( $this->rootDir . 'a/', false ) );
         $this->assertFalse( file_exists( $this->rootDir . 'a' ) );
     }
 
     public function testRemoveRecursivelyWithoutCheckNoTrailingSlash()
     {
-        $this->assertTrue( eZDir::recursiveDelete( $this->rootDir . 'a' ) );
+        $this->assertTrue( eZDir::recursiveDelete( $this->rootDir . 'a', false ) );
         $this->assertFalse( file_exists( $this->rootDir . 'a' ) );
     }
 
@@ -86,7 +86,7 @@ class eZDirTestOutsideRoot extends ezpTestCase
 
     public function testRemoveWithoutCheckNotExisting()
     {
-        $this->assertFalse( eZDir::recursiveDelete( $this->rootDir . 'doesNotExist' ) );
+        $this->assertFalse( eZDir::recursiveDelete( $this->rootDir . 'doesNotExist', false ) );
     }
 
     public function testRemoveWithCheckNotExisting()
