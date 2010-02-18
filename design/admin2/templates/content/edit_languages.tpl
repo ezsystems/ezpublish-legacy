@@ -97,7 +97,7 @@
 
     {if $existing_languages_output|trim}
         <div class="block">
-        <fieldset>
+        <fieldset id="ezcoeditlanguages-existingts">
         <legend>{'Existing languages'|i18n('design/admin/content/edit_languages')}</legend>
         <p>{'Select the translation you want to edit'|i18n('design/admin/content/edit_languages')}:</p>
 
@@ -125,7 +125,7 @@
 {if $nonexisting_languages_output|trim}
 
     <div class="block">
-    <fieldset>
+    <fieldset id="ezcoeditlanguages-newts">
     <legend>{'New translation'|i18n('design/admin/content/edit_languages')}</legend>
     <p>{'Select the translation you want to add'|i18n('design/admin/content/edit_languages')}:</p>
 
@@ -137,7 +137,7 @@
 
 
     <div class="block">
-    <fieldset>
+    <fieldset id="ezcoeditlanguages-sourcets">
     <legend>{'Translate based on'|i18n('design/admin/content/edit_languages')}</legend>
     <p>{'Select the language the added translation will be based on'|i18n('design/admin/content/edit_languages')}:</p>
 
@@ -173,7 +173,7 @@
 
         {if $existing_languages_output|trim}
             <div class="block">
-            <fieldset>
+            <fieldset id="ezcoeditlanguages-existingts">
             {set $can_edit=true()}
             <legend>{'Existing languages'|i18n('design/admin/content/edit_languages')}</legend>
             <p>{'However you can select one of the following languages for editing.'|i18n('design/admin/content/edit_languages')}:</p>
@@ -210,6 +210,37 @@
 </div>
 
 </form>
+
+
+<script type="text/javascript">
+<!--
+
+{literal}
+(function( $ )
+{
+    if ( document.getElementById('ezcoeditlanguages-sourcets') )
+    {
+        // setup onchange events
+        jQuery( '#ezcoeditlanguages-existingts input[type=radio]' ).change(function()
+        {
+            jQuery( '#ezcoeditlanguages-sourcets input[type=radio]' ).attr( 'disabled', true );
+        });
+        jQuery( '#ezcoeditlanguages-newts input[type=radio]' ).change(function()
+        {
+            jQuery( '#ezcoeditlanguages-sourcets input[type=radio]' ).attr( 'disabled', false );
+        });
+
+        // disable source translations if existing translation is selected
+        if ( jQuery( '#ezcoeditlanguages-existingts input[checked=checked]' ).size() > 0 )
+        {
+            jQuery( '#ezcoeditlanguages-sourcets input[type=radio]' ).attr( 'disabled', true );
+        }
+    }
+})( jQuery );
+{/literal}
+
+// -->
+</script>
 
 <!-- Maincontent END -->
 </div>

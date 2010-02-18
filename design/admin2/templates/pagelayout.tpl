@@ -171,7 +171,7 @@ document.getElementById('header-usermenu-logout').innerHTML += '<span class="hea
         });
     	
     }
-})();
+})( jQuery );
 {/literal}
 
 // -->
