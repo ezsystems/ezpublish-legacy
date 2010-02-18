@@ -447,7 +447,14 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         foreach( $childrenOutput as $key => $childOutput )
         {
             if ( $childOutput[0] === true )
+            {
+                if( $childOutput[1] == ' ' )
+                {
+                    continue;
+                }
+
                 $inlineContent .= $childOutput[1];
+            }
 
             if ( ( $childOutput[0] === false && $lastTagInline === true ) ||
                  ( $childOutput[0] === true && !array_key_exists( $key + 1, $childrenOutput ) ) )
