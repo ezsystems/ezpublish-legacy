@@ -188,54 +188,54 @@ class eZCache
             // Append cache items defined (in ini) by extensions, see site.ini[Cache] for details
             foreach ( $ini->variable( 'Cache', 'CacheItems' ) as $cacheItemKey )
             {
-            	$name = 'Cache_' . $cacheItemKey;
-            	if ( !$ini->hasSection( $name ) )
-            	{
-            		eZDebug::writeWarning( "Missing site.ini section: '$name', skipping!", __METHOD__ );
-            		continue;
-            	}
+                $name = 'Cache_' . $cacheItemKey;
+                if ( !$ini->hasSection( $name ) )
+                {
+                    eZDebug::writeWarning( "Missing site.ini section: '$name', skipping!", __METHOD__ );
+                    continue;
+                }
 
-            	$cacheItem = array();
-            	if ( $ini->hasVariable( $name, 'name' ) )
-            	    $cacheItem['name'] = $ini->variable( $name, 'name' );
+                $cacheItem = array();
+                if ( $ini->hasVariable( $name, 'name' ) )
+                    $cacheItem['name'] = $ini->variable( $name, 'name' );
                 else
                     $cacheItem['name'] = ucwords( $cacheItemKey );
 
-            	if ( $ini->hasVariable( $name, 'id' ) )
-            	    $cacheItem['id'] = $ini->variable( $name, 'id' );
+                if ( $ini->hasVariable( $name, 'id' ) )
+                    $cacheItem['id'] = $ini->variable( $name, 'id' );
                 else
                     $cacheItem['id'] = $cacheItemKey;
 
-            	if ( $ini->hasVariable( $name, 'isClustered' ) )
-            	    $cacheItem['is-clustered'] = $ini->variable( $name, 'isClustered' );
+                if ( $ini->hasVariable( $name, 'isClustered' ) )
+                    $cacheItem['is-clustered'] = $ini->variable( $name, 'isClustered' );
                 else
                     $cacheItem['is-clustered'] = false;
 
-            	if ( $ini->hasVariable( $name, 'tags' ) )
-            	    $cacheItem['tag'] = $ini->variable( $name, 'tags' );
+                if ( $ini->hasVariable( $name, 'tags' ) )
+                    $cacheItem['tag'] = $ini->variable( $name, 'tags' );
                 else
                     $cacheItem['tag'] = array();
 
-            	if ( $ini->hasVariable( $name, 'expiryKey' ) )
-            	    $cacheItem['expiry-key'] = $ini->variable( $name, 'expiryKey' );
+                if ( $ini->hasVariable( $name, 'expiryKey' ) )
+                    $cacheItem['expiry-key'] = $ini->variable( $name, 'expiryKey' );
 
-            	if ( $ini->hasVariable( $name, 'enabled' ) )
-            	    $cacheItem['enabled'] = $ini->variable( $name, 'enabled' );
+                if ( $ini->hasVariable( $name, 'enabled' ) )
+                    $cacheItem['enabled'] = $ini->variable( $name, 'enabled' );
                 else
                     $cacheItem['enabled'] = true;
 
-            	if ( $ini->hasVariable( $name, 'path' ) )
-            	    $cacheItem['path'] = $ini->variable( $name, 'path' );
+                if ( $ini->hasVariable( $name, 'path' ) )
+                    $cacheItem['path'] = $ini->variable( $name, 'path' );
                 else
                     $cacheItem['path'] = false;
 
-            	if ( $ini->hasVariable( $name, 'class' ) )
-            	    $cacheItem['function'] = array( $ini->variable( $name, 'class' ), 'clearCache' );
+                if ( $ini->hasVariable( $name, 'class' ) )
+                    $cacheItem['function'] = array( $ini->variable( $name, 'class' ), 'clearCache' );
 
-            	if ( $ini->hasVariable( $name, 'purgeClass' ) )
-            	    $cacheItem['purge-function'] = array( $ini->variable( $name, 'purgeClass' ), 'purgeCache' );
+                if ( $ini->hasVariable( $name, 'purgeClass' ) )
+                    $cacheItem['purge-function'] = array( $ini->variable( $name, 'purgeClass' ), 'purgeCache' );
 
-            	$cacheList[] = $cacheItem;
+                $cacheList[] = $cacheItem;
             }
         }
         return $cacheList;
