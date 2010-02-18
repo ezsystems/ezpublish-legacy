@@ -24,6 +24,7 @@ class eZXHTMLXMLOutputRegression extends ezpDatabaseTestCase
      *
      * @link http://issues.ez.no/15888
      * @note XML is created by hand for the unit test
+     *       Also note that whitespace between li and a might be incorrect, but is not covered by issue 15888
      */
     public function testRenderParagraph()
     {
@@ -83,7 +84,8 @@ class eZXHTMLXMLOutputRegression extends ezpDatabaseTestCase
      * Tests that eZXML from ezp3 and ezp4 produces the same
      * result
      * 
-     * @note XML is from customer issue #006854 (@TODO change link to public issue)
+     * @link http://issues.ez.no/16184
+     * @note XML is from actual customer xml
      */
     public function testeZP3eZP4XMLSameResult()
     {
