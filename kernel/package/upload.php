@@ -60,11 +60,11 @@ if ( $module->isCurrentAction( 'UploadPackage' ) )
             }
             else if ( $package == eZPackage::STATUS_ALREADY_EXISTS )
             {
-                $errorList[] = array( 'description' => eZi18n::translate( 'kernel/package', 'Package %packagename already exists, cannot import the package', false, array( '%packagename' => $packageName ) ) );
+                $errorList[] = array( 'description' => ezpI18n::translate( 'kernel/package', 'Package %packagename already exists, cannot import the package', false, array( '%packagename' => $packageName ) ) );
             }
             else if ( $package == eZPackage::STATUS_INVALID_NAME )
             {
-                $errorList[] = array( 'description' => eZi18n::translate( 'kernel/package', 'The package name %packagename is invalid, cannot import the package', false, array( '%packagename' => $packageName ) ) );
+                $errorList[] = array( 'description' => ezpI18n::translate( 'kernel/package', 'The package name %packagename is invalid, cannot import the package', false, array( '%packagename' => $packageName ) ) );
             }
             else
             {
@@ -95,8 +95,8 @@ $tpl->setVariable( 'error_list', $errorList );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:package/upload.tpl" );
 $Result['path'] = array( array( 'url' => 'package/list',
-                                'text' => eZi18n::translate( 'kernel/package', 'Packages' ) ),
+                                'text' => ezpI18n::translate( 'kernel/package', 'Packages' ) ),
                          array( 'url' => false,
-                                'text' => eZi18n::translate( 'kernel/package', 'Upload' ) ) );
+                                'text' => ezpI18n::translate( 'kernel/package', 'Upload' ) ) );
 
 ?>

@@ -65,7 +65,7 @@ class eZStepSitePackages extends eZStepInstaller
         }
         else
         {
-            $this->ErrorMsg = eZi18n::translate( 'design/standard/setup/init',
+            $this->ErrorMsg = ezpI18n::translate( 'design/standard/setup/init',
                                       'No packages chosen.' );
             return false;
         }
@@ -158,7 +158,7 @@ class eZStepSitePackages extends eZStepInstaller
         $result = array();
         // Display template
         $result['content'] = $this->Tpl->fetch( 'design:setup/init/site_packages.tpl' );
-        $result['path'] = array( array( 'text' => eZi18n::translate( 'design/standard/setup/init',
+        $result['path'] = array( array( 'text' => ezpI18n::translate( 'design/standard/setup/init',
                                                           'Site functionality' ),
                                         'url' => false ) );
         return $result;

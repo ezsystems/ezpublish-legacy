@@ -41,7 +41,7 @@ class eZProductCategoryType extends eZDataType
 
     function eZProductCategoryType()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, eZi18n::translate( 'kernel/classes/datatypes', "Product category", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::translate( 'kernel/classes/datatypes', "Product category", 'Datatype name' ),
                            array( 'serialize_supported' => true,
                                   'object_serialize_map' => array( 'data_int' => 'value' ) ) );
     }
@@ -79,7 +79,7 @@ class eZProductCategoryType extends eZDataType
                 return eZInputValidator::STATE_ACCEPTED;
         }
 
-        $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
+        $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
                                                              'Input required.' ) );
         return eZInputValidator::STATE_INVALID;
     }

@@ -412,31 +412,31 @@ class eZShopFunctions
                             }
 
                             $error['code'] = eZExchangeRatesUpdateHandler::OK;
-                            $error['description'] = eZi18n::translate( 'kernel/shop', "'Auto' rates were updated successfully." );
+                            $error['description'] = ezpI18n::translate( 'kernel/shop', "'Auto' rates were updated successfully." );
                         }
                         else
                         {
                             $error['code'] = eZExchangeRatesUpdateHandler::INVALID_BASE_CROSS_RATE;
-                            $error['description'] = eZi18n::translate( 'kernel/shop', "Unable to calculate cross-rate for currency-pair '%1'/'%2'", null, array( $handlerBaseCurrency, $shopBaseCurrency ) );
+                            $error['description'] = ezpI18n::translate( 'kernel/shop', "Unable to calculate cross-rate for currency-pair '%1'/'%2'", null, array( $handlerBaseCurrency, $shopBaseCurrency ) );
                         }
                     }
                     else
                     {
                         $error['code'] = eZExchangeRatesUpdateHandler::UNKNOWN_BASE_CURRENCY;
-                        $error['description'] = eZi18n::translate( 'kernel/shop', 'Unable to determine currency for retrieved rates.' );
+                        $error['description'] = ezpI18n::translate( 'kernel/shop', 'Unable to determine currency for retrieved rates.' );
                     }
                 }
                 else
                 {
                     $error['code'] = eZExchangeRatesUpdateHandler::EMPTY_RATE_LIST;
-                    $error['description'] = eZi18n::translate( 'kernel/shop', 'Retrieved empty list of rates.' );
+                    $error['description'] = ezpI18n::translate( 'kernel/shop', 'Retrieved empty list of rates.' );
                 }
             }
         }
         else
         {
             $error['code'] = eZExchangeRatesUpdateHandler::CANT_CREATE_HANDLER;
-            $error['description'] = eZi18n::translate( 'kernel/shop', 'Unable to create handler to update auto rates.' );
+            $error['description'] = ezpI18n::translate( 'kernel/shop', 'Unable to create handler to update auto rates.' );
 
         }
 

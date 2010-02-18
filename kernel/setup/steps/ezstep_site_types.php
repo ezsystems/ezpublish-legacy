@@ -94,7 +94,7 @@ class eZStepSiteTypes extends eZStepInstaller
 
             if ( $fp === false )
             {
-                $this->ErrorMsg = eZi18n::translate( 'design/standard/setup/init', 'Cannot write to file' ) .
+                $this->ErrorMsg = ezpI18n::translate( 'design/standard/setup/init', 'Cannot write to file' ) .
                     ': ' . $this->FileOpenErrorMsg;
                 return false;
             }
@@ -148,7 +148,7 @@ class eZStepSiteTypes extends eZStepInstaller
                 }
                 else
                 {
-                    $this->ErrorMsg = eZi18n::translate( 'design/standard/setup/init', 'Failed to copy %url to local file %filename', null,
+                    $this->ErrorMsg = ezpI18n::translate( 'design/standard/setup/init', 'Failed to copy %url to local file %filename', null,
                                               array( "%url" => $url,
                                                      "%filename" => $fileName ) );
                     return false;
@@ -189,7 +189,7 @@ class eZStepSiteTypes extends eZStepInstaller
         if ( $archiveName === false )
         {
             eZDebug::writeWarning( "Download of package '$packageName' from '$packageUrl' failed: $this->ErrorMsg" );
-            $this->ErrorMsg = eZi18n::translate( 'design/standard/setup/init',
+            $this->ErrorMsg = ezpI18n::translate( 'design/standard/setup/init',
                                       'Download of package \'%pkg\' failed. You may upload the package manually.',
                                       false, array( '%pkg' => $packageName ) );
 
@@ -212,7 +212,7 @@ class eZStepSiteTypes extends eZStepInstaller
                 eZDebug::writeNotice( "Invalid package" );
             }
 
-            $this->ErrorMsg = eZi18n::translate( 'design/standard/setup/init', 'Invalid package' );
+            $this->ErrorMsg = ezpI18n::translate( 'design/standard/setup/init', 'Invalid package' );
             return false;
         }
 
@@ -279,7 +279,7 @@ class eZStepSiteTypes extends eZStepInstaller
                 if ( !isset( $remotePackagesInfo[$requiredPackageName]['url'] ) )
                 {
                     eZDebug::writeWarning( "Download of package '$requiredPackageName' failed: the URL is unknown." );
-                    $this->ErrorMsg = eZi18n::translate( 'design/standard/setup/init',
+                    $this->ErrorMsg = ezpI18n::translate( 'design/standard/setup/init',
                                               'Download of package \'%pkg\' failed. You may upload the package manually.',
                                               false, array( '%pkg' => $requiredPackageName ) );
                     $this->ShowURL = true;
@@ -309,7 +309,7 @@ class eZStepSiteTypes extends eZStepInstaller
 
         if ( !eZHTTPFile::canFetch( 'PackageBinaryFile' ) )
         {
-            $this->ErrorMsg = eZi18n::translate( 'design/standard/setup/init',
+            $this->ErrorMsg = ezpI18n::translate( 'design/standard/setup/init',
                                       'No package selected for upload' ) . '.';
             return;
         }
@@ -317,7 +317,7 @@ class eZStepSiteTypes extends eZStepInstaller
         $file = eZHTTPFile::fetch( 'PackageBinaryFile' );
         if ( !$file )
         {
-            $this->ErrorMsg = eZi18n::translate( 'design/standard/setup/init',
+            $this->ErrorMsg = ezpI18n::translate( 'design/standard/setup/init',
                                       'Failed fetching upload package file' );
             return;
         }
@@ -345,7 +345,7 @@ class eZStepSiteTypes extends eZStepInstaller
         }
         else
         {
-            $this->ErrorMsg = eZi18n::translate( 'design/standard/setup/init',
+            $this->ErrorMsg = ezpI18n::translate( 'design/standard/setup/init',
                                   'Uploaded file is not an eZ Publish package' );
         }
     }
@@ -365,7 +365,7 @@ class eZStepSiteTypes extends eZStepInstaller
 
         if ( !$this->Http->hasPostVariable( 'eZSetup_site_type' ) )
         {
-            $this->ErrorMsg = eZi18n::translate( 'design/standard/setup/init',
+            $this->ErrorMsg = ezpI18n::translate( 'design/standard/setup/init',
                                       'No site package chosen.' );
             return false;
         }
@@ -384,7 +384,7 @@ class eZStepSiteTypes extends eZStepInstaller
             if ( is_object( $package ) )
             {
                 $downloaded = true;
-                $this->Message = eZi18n::translate( 'design/standard/setup/init', 'Package \'%packageName\' and it\'s dependencies have been downloaded successfully. Press \'Next\' to continue.', false, array( '%packageName' => $sitePackageName ) );
+                $this->Message = ezpI18n::translate( 'design/standard/setup/init', 'Package \'%packageName\' and it\'s dependencies have been downloaded successfully. Press \'Next\' to continue.', false, array( '%packageName' => $sitePackageName ) );
             }
         }
         else
@@ -393,7 +393,7 @@ class eZStepSiteTypes extends eZStepInstaller
             $sitePackageName = $sitePackageInfo;
 
             $package = eZPackage::fetch( $sitePackageName, false, false, false );
-            $this->ErrorMsg = eZi18n::translate( 'design/standard/setup/init', 'Invalid package' ) . '.';
+            $this->ErrorMsg = ezpI18n::translate( 'design/standard/setup/init', 'Invalid package' ) . '.';
         }
 
         // Verify package.
@@ -593,7 +593,7 @@ class eZStepSiteTypes extends eZStepInstaller
         $result = array();
         // Display template
         $result['content'] = $this->Tpl->fetch( 'design:setup/init/site_types.tpl' );
-        $result['path'] = array( array( 'text' => eZi18n::translate( 'design/standard/setup/init',
+        $result['path'] = array( array( 'text' => ezpI18n::translate( 'design/standard/setup/init',
                                                           'Site selection' ),
                                         'url' => false ) );
         return $result;
@@ -647,7 +647,7 @@ class eZStepSiteTypes extends eZStepInstaller
 
         if ( $idxFileName === false )
         {
-            $this->ErrorMsg = eZi18n::translate( 'design/standard/setup/init',
+            $this->ErrorMsg = ezpI18n::translate( 'design/standard/setup/init',
                                       'Retrieving remote site packages list failed. ' .
                                       'You may upload packages manually.' );
 

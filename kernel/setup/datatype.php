@@ -103,7 +103,7 @@ $tpl->setVariable( 'persistent_data', $persistentData );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:setup/$template" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => eZi18n::translate( 'kernel/setup', 'Datatype wizard' ) ) );
+                                'text' => ezpI18n::translate( 'kernel/setup', 'Datatype wizard' ) ) );
 
 
 function datatypeBasic( $tpl, &$persistentData, $stepData )

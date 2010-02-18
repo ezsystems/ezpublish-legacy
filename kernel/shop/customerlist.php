@@ -55,7 +55,7 @@ $tpl->setVariable( "module", $module );
 $tpl->setVariable( 'view_parameters', $viewParameters );
 
 $path = array();
-$path[] = array( 'text' => eZi18n::translate( 'kernel/shop', 'Customer list' ),
+$path[] = array( 'text' => ezpI18n::translate( 'kernel/shop', 'Customer list' ),
                  'url' => false );
 
 $Result = array();

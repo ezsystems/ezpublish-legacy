@@ -1441,15 +1441,15 @@ class eZContentFunctionCollection
 
     static public function fetchAvailableSortFieldList()
     {
-        return array( 'result' => array( '6' => eZi18n::translate( 'kernel/content', 'Class identifier' ),
-                                         '7' => eZi18n::translate( 'kernel/content', 'Class name' ),
-                                         '5' => eZi18n::translate( 'kernel/content', 'Depth' ),
-                                         '3' => eZi18n::translate( 'kernel/content', 'Modified' ),
-                                         '9' => eZi18n::translate( 'kernel/content', 'Name' ),
-                                         '1' => eZi18n::translate( 'kernel/content', 'Path String' ),
-                                         '8' => eZi18n::translate( 'kernel/content', 'Priority' ),
-                                         '2' => eZi18n::translate( 'kernel/content', 'Published' ),
-                                         '4' => eZi18n::translate( 'kernel/content', 'Section' ) ) );
+        return array( 'result' => array( '6' => ezpI18n::translate( 'kernel/content', 'Class identifier' ),
+                                         '7' => ezpI18n::translate( 'kernel/content', 'Class name' ),
+                                         '5' => ezpI18n::translate( 'kernel/content', 'Depth' ),
+                                         '3' => ezpI18n::translate( 'kernel/content', 'Modified' ),
+                                         '9' => ezpI18n::translate( 'kernel/content', 'Name' ),
+                                         '1' => ezpI18n::translate( 'kernel/content', 'Path String' ),
+                                         '8' => ezpI18n::translate( 'kernel/content', 'Priority' ),
+                                         '2' => ezpI18n::translate( 'kernel/content', 'Published' ),
+                                         '4' => ezpI18n::translate( 'kernel/content', 'Section' ) ) );
     }
 
     static public function fetchCountryList( $filter, $value )

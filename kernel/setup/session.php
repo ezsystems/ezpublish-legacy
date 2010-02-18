@@ -368,6 +368,6 @@ $tpl->setVariable( 'user_id', $userID );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:setup/session.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => eZi18n::translate( 'kernel/setup', 'Session admin' ) ) );
+                                'text' => ezpI18n::translate( 'kernel/setup', 'Session admin' ) ) );
 
 ?>

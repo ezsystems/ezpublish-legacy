@@ -111,7 +111,7 @@ class eZProductCategory extends eZPersistentObject
     {
         $row = array(
             "id" => null,
-            "name" => eZi18n::translate( 'kernel/shop/productcategories', 'Product category' ) );
+            "name" => ezpI18n::translate( 'kernel/shop/productcategories', 'Product category' ) );
         return new eZProductCategory( $row );
     }
 

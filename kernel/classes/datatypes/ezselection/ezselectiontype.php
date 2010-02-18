@@ -46,7 +46,7 @@ class eZSelectionType extends eZDataType
     */
     function eZSelectionType()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, eZi18n::translate( 'kernel/classes/datatypes', "Selection", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::translate( 'kernel/classes/datatypes', "Selection", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -174,7 +174,7 @@ class eZSelectionType extends eZDataType
                 if ( !$classAttribute->attribute( 'is_information_collector' ) &&
                      $contentObjectAttribute->validateIsRequired() )
                 {
-                    $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
+                    $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
                                                                          'Input required.' ) );
                     return eZInputValidator::STATE_INVALID;
                 }
@@ -182,7 +182,7 @@ class eZSelectionType extends eZDataType
         }
         else if ( !$classAttribute->attribute( 'is_information_collector' ) && $contentObjectAttribute->validateIsRequired() )
         {
-            $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes', 'Input required.' ) );
+            $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes', 'Input required.' ) );
             return eZInputValidator::STATE_INVALID;
         }
         return eZInputValidator::STATE_ACCEPTED;
@@ -212,7 +212,7 @@ class eZSelectionType extends eZDataType
 
             if ( $data == "" && $contentObjectAttribute->validateIsRequired() )
             {
-                $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes', 'Input required.' ) );
+                $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes', 'Input required.' ) );
                 return eZInputValidator::STATE_INVALID;
             }
             else

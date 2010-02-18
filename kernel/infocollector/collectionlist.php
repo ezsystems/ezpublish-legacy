@@ -55,7 +55,7 @@ if( $module->isCurrentAction( 'RemoveCollections' ) && $http->hasPostVariable( '
     $Result = array();
     $Result['content'] = $tpl->fetch( 'design:infocollector/confirmremoval.tpl' );
     $Result['path'] = array( array( 'url' => false,
-                                    'text' => eZi18n::translate( 'kernel/infocollector', 'Collected information' ) ) );
+                                    'text' => ezpI18n::translate( 'kernel/infocollector', 'Collected information' ) ) );
     return;
 }
 
@@ -123,7 +123,7 @@ $tpl->setVariable( 'collection_count', $numberOfCollections );
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:infocollector/collectionlist.tpl' );
 $Result['path'] = array( array( 'url' => '/infocollector/overview',
-                                'text' => eZi18n::translate( 'kernel/infocollector', 'Collected information' ) ),
+                                'text' => ezpI18n::translate( 'kernel/infocollector', 'Collected information' ) ),
                          array( 'url' => false,
                                 'text' => $objectName ) );
 

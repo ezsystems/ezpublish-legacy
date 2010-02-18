@@ -145,7 +145,7 @@ class eZRole extends eZPersistentObject
 
         $newRole = eZRole::createNew();
         $this->copyPolicies( $newRole->attribute( 'id' ) );
-        $newRole->setAttribute( 'name', eZi18n::translate( 'kernel/role/edit', 'Copy of %rolename', null,
+        $newRole->setAttribute( 'name', ezpI18n::translate( 'kernel/role/edit', 'Copy of %rolename', null,
                                                 array( '%rolename' => $this->attribute( 'name' ) ) ) );
         $newRole->store();
         $db->commit();
@@ -179,7 +179,7 @@ class eZRole extends eZPersistentObject
     */
     static function createNew()
     {
-        $role = new eZRole( array( 'name' => eZi18n::translate( 'kernel/role/edit', 'New role' ),
+        $role = new eZRole( array( 'name' => ezpI18n::translate( 'kernel/role/edit', 'New role' ),
                                    'is_new' => 1 ) );
         $role->store();
         return $role;

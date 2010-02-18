@@ -391,7 +391,7 @@ class eZPackageCreationHandler
     function packageInformationStep()
     {
         return array( 'id' => 'packageinfo',
-                      'name' => eZi18n::translate( 'kernel/package', 'Package information' ),
+                      'name' => ezpI18n::translate( 'kernel/package', 'Package information' ),
                       'methods' => array( 'initialize' => 'initializePackageInformation',
                                           'validate' => 'validatePackageInformation',
                                           'commit' => 'commitPackageInformation' ),
@@ -406,7 +406,7 @@ class eZPackageCreationHandler
     function packageMaintainerStep()
     {
         return array( 'id' => 'packagemaintainer',
-                      'name' => eZi18n::translate( 'kernel/package', 'Package maintainer' ),
+                      'name' => ezpI18n::translate( 'kernel/package', 'Package maintainer' ),
                       'methods' => array( 'initialize' => 'initializePackageMaintainer',
                                           'validate' => 'validatePackageMaintainer',
                                           'commit' => 'commitPackageMaintainer',
@@ -422,7 +422,7 @@ class eZPackageCreationHandler
     function packageChangelogStep()
     {
         return array( 'id' => 'packagechangelog',
-                      'name' => eZi18n::translate( 'kernel/package', 'Package changelog' ),
+                      'name' => ezpI18n::translate( 'kernel/package', 'Package changelog' ),
                       'methods' => array( 'initialize' => 'initializePackageChangelog',
                                           'validate' => 'validatePackageChangelog',
                                           'commit' => 'commitPackageChangelog' ),
@@ -437,7 +437,7 @@ class eZPackageCreationHandler
     function packageThumbnailStep()
     {
         return array( 'id' => 'packagethumbnail',
-                      'name' => eZi18n::translate( 'kernel/package', 'Package thumbnail' ),
+                      'name' => ezpI18n::translate( 'kernel/package', 'Package thumbnail' ),
                       'methods' => array( 'initialize' => 'initializePackageThumbnail',
                                           'validate' => 'validatePackageThumbnail',
                                           'commit' => 'commitPackageThumbnail' ),
@@ -688,8 +688,8 @@ class eZPackageCreationHandler
         $result = true;
         if ( $packageName == '' )
         {
-            $errorList[] = array( 'field' => eZi18n::translate( 'kernel/package', 'Package name' ),
-                                  'description' => eZi18n::translate( 'kernel/package', 'Package name is missing' ) );
+            $errorList[] = array( 'field' => ezpI18n::translate( 'kernel/package', 'Package name' ),
+                                  'description' => ezpI18n::translate( 'kernel/package', 'Package name is missing' ) );
             $result = false;
         }
         else
@@ -697,8 +697,8 @@ class eZPackageCreationHandler
             $existingPackage = eZPackage::fetch( $packageName, false, true );
             if ( $existingPackage )
             {
-                $errorList[] = array( 'field' => eZi18n::translate( 'kernel/package', 'Package name' ),
-                                      'description' => eZi18n::translate( 'kernel/package', 'A package named %packagename already exists, please give another name', false, array( '%packagename' => $packageName ) ) );
+                $errorList[] = array( 'field' => ezpI18n::translate( 'kernel/package', 'Package name' ),
+                                      'description' => ezpI18n::translate( 'kernel/package', 'A package named %packagename already exists, please give another name', false, array( '%packagename' => $packageName ) ) );
                 $result = false;
             }
             else
@@ -708,22 +708,22 @@ class eZPackageCreationHandler
                 $validPackageName = $trans->transformByGroup( $packageName, 'identifier' );
                 if ( strcmp( $validPackageName, $packageName ) != 0 )
                 {
-                    $errorList[] = array( 'field' => eZi18n::translate( 'kernel/package', 'Package name' ),
-                                          'description' => eZi18n::translate( 'kernel/package', "The package name %packagename is not valid, it can only contain characters in the range a-z, 0-9 and underscore.", false, array( '%packagename' => $packageName ) ) );
+                    $errorList[] = array( 'field' => ezpI18n::translate( 'kernel/package', 'Package name' ),
+                                          'description' => ezpI18n::translate( 'kernel/package', "The package name %packagename is not valid, it can only contain characters in the range a-z, 0-9 and underscore.", false, array( '%packagename' => $packageName ) ) );
                     $result = false;
                 }
             }
         }
         if ( !$packageSummary )
         {
-            $errorList[] = array( 'field' => eZi18n::translate( 'kernel/package', 'Summary' ),
-                                  'description' => eZi18n::translate( 'kernel/package', 'Summary is missing' ) );
+            $errorList[] = array( 'field' => ezpI18n::translate( 'kernel/package', 'Summary' ),
+                                  'description' => ezpI18n::translate( 'kernel/package', 'Summary is missing' ) );
             $result = false;
         }
         if ( !preg_match( "#^[0-9](\.[0-9]([a-zA-Z]+[0-9]*)?)*$#", $packageVersion ) )
         {
-            $errorList[] = array( 'field' => eZi18n::translate( 'kernel/package', 'Version' ),
-                                  'description' => eZi18n::translate( 'kernel/package', 'The version must only contain numbers (optionally followed by text) and must be delimited by dots (.), e.g. 1.0, 3.4.0beta1' ) );
+            $errorList[] = array( 'field' => ezpI18n::translate( 'kernel/package', 'Version' ),
+                                  'description' => ezpI18n::translate( 'kernel/package', 'The version must only contain numbers (optionally followed by text) and must be delimited by dots (.), e.g. 1.0, 3.4.0beta1' ) );
             $result = false;
         }
         return $result;
@@ -782,20 +782,20 @@ class eZPackageCreationHandler
         $result = true;
         if ( trim( $changelogPerson ) == '' )
         {
-            $errorList[] = array( 'field' => eZi18n::translate( 'kernel/package', 'Name' ),
-                                  'description' => eZi18n::translate( 'kernel/package', 'You must enter a name for the changelog' ) );
+            $errorList[] = array( 'field' => ezpI18n::translate( 'kernel/package', 'Name' ),
+                                  'description' => ezpI18n::translate( 'kernel/package', 'You must enter a name for the changelog' ) );
             $result = false;
         }
         if ( trim( $changelogEmail ) == '' )
         {
-            $errorList[] = array( 'field' => eZi18n::translate( 'kernel/package', 'Email' ),
-                                  'description' => eZi18n::translate( 'kernel/package', 'You must enter an email for the changelog' ) );
+            $errorList[] = array( 'field' => ezpI18n::translate( 'kernel/package', 'Email' ),
+                                  'description' => ezpI18n::translate( 'kernel/package', 'You must enter an email for the changelog' ) );
             $result = false;
         }
         if ( trim( $changelogText ) == '' )
         {
-            $errorList[] = array( 'field' => eZi18n::translate( 'kernel/package', 'Changelog' ),
-                                  'description' => eZi18n::translate( 'kernel/package', 'You must supply some text for the changelog entry' ) );
+            $errorList[] = array( 'field' => ezpI18n::translate( 'kernel/package', 'Changelog' ),
+                                  'description' => ezpI18n::translate( 'kernel/package', 'You must supply some text for the changelog entry' ) );
             $result = false;
         }
         return $result;
@@ -877,14 +877,14 @@ class eZPackageCreationHandler
         $result = true;
         if ( trim( $maintainerPerson ) == '' )
         {
-            $errorList[] = array( 'field' => eZi18n::translate( 'kernel/package', 'Name' ),
-                                  'description' => eZi18n::translate( 'kernel/package', 'You must enter a name of the maintainer' ) );
+            $errorList[] = array( 'field' => ezpI18n::translate( 'kernel/package', 'Name' ),
+                                  'description' => ezpI18n::translate( 'kernel/package', 'You must enter a name of the maintainer' ) );
             $result = false;
         }
         if ( trim( $maintainerEmail ) == '' )
         {
-            $errorList[] = array( 'field' => eZi18n::translate( 'kernel/package', 'Email' ),
-                                  'description' => eZi18n::translate( 'kernel/package', 'You must enter an email address of the maintainer' ) );
+            $errorList[] = array( 'field' => ezpI18n::translate( 'kernel/package', 'Email' ),
+                                  'description' => ezpI18n::translate( 'kernel/package', 'You must enter an email address of the maintainer' ) );
             $result = false;
         }
         return $result;

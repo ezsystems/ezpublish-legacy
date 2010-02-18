@@ -27,7 +27,7 @@
 //
 
 
-class eZi18n
+class ezpI18n
 {
     /**
      * Replaces keys found in \a $text with values in \a $arguments.
@@ -76,7 +76,7 @@ class eZi18n
     /**
      * Translates the source \a $source with context \a $context and optional comment \a $comment
      * and returns the translation if translations are enabled.
-     * Uses {@see eZi18n::translateText()}
+     * Uses {@see ezpI18n::translateText()}
      * 
      * Example:
      * translate( 'content/view', 'There are %count nodes in this list out of %total total nodes.', 'Children view of nodes for whole site', array( '%count' => $c, '%total' => $t ) );
@@ -139,9 +139,9 @@ class eZi18n
         }
 
         if ( $comment != null and strlen( $comment ) > 0 )
-            eZDebug::writeDebug( "Missing translation for message in context: '$context' with comment: '$comment'. The untranslated message is: '$source'", "ezi18n" );
+            eZDebug::writeDebug( "Missing translation for message in context: '$context' with comment: '$comment'. The untranslated message is: '$source'", __METHOD__ );
         else
-            eZDebug::writeDebug( "Missing translation for message in context: '$context'. The untranslated message is: '$source'", "ezi18n" );
+            eZDebug::writeDebug( "Missing translation for message in context: '$context'. The untranslated message is: '$source'", __METHOD__ );
 
         return self::insertArguments( $source, $arguments );
     }

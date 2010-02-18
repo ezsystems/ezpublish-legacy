@@ -52,9 +52,9 @@ $Result = array();
 $Result['content'] = $tpl->fetch( "design:shop/customerorderview.tpl" );
 $path = array();
 $path[] = array( 'url' => '/shop/orderlist',
-                 'text' => eZi18n::translate( 'kernel/shop', 'Order list' ) );
+                 'text' => ezpI18n::translate( 'kernel/shop', 'Order list' ) );
 $path[] = array( 'url' => false,
-                 'text' => eZi18n::translate( 'kernel/shop', 'Customer order view' ) );
+                 'text' => ezpI18n::translate( 'kernel/shop', 'Customer order view' ) );
 $Result['path'] = $path;
 
 ?>

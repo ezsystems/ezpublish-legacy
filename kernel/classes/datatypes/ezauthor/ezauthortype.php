@@ -41,7 +41,7 @@ class eZAuthorType extends eZDataType
 
     function eZAuthorType()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, eZi18n::translate( 'kernel/classes/datatypes', "Authors", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::translate( 'kernel/classes/datatypes', "Authors", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -77,7 +77,7 @@ class eZAuthorType extends eZDataType
             {
                 if ( trim( $nameList[0] ) == "" )
                 {
-                    $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
+                    $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
                                                                          'At least one author is required.' ) );
                     return eZInputValidator::STATE_INVALID;
                 }
@@ -94,7 +94,7 @@ class eZAuthorType extends eZDataType
                     $email =  $emailList[$i];
                     if ( trim( $name )== "" )
                     {
-                        $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
+                        $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
                                                                              'The author name must be provided.' ) );
                         return eZInputValidator::STATE_INVALID;
 
@@ -102,7 +102,7 @@ class eZAuthorType extends eZDataType
                     $isValidate =  eZMail::validate( $email );
                     if ( ! $isValidate )
                     {
-                        $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
+                        $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
                                                                              'The email address is not valid.' ) );
                         return eZInputValidator::STATE_INVALID;
                     }
@@ -113,7 +113,7 @@ class eZAuthorType extends eZDataType
         {
             if ( $contentObjectAttribute->validateIsRequired() )
             {
-                $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
+                $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
                                                                      'At least one author is required.' ) );
                 return eZInputValidator::STATE_INVALID;
             }

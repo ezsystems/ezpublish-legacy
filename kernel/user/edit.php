@@ -104,7 +104,7 @@ $tpl->setVariable( 'site_access', $GLOBALS['eZCurrentAccess'] );
 
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:user/edit.tpl" );
-$Result['path'] = array( array( 'text' =>  eZi18n::translate( 'kernel/user', 'User profile' ),
+$Result['path'] = array( array( 'text' =>  ezpI18n::translate( 'kernel/user', 'User profile' ),
                                 'url' => false ) );
 
 

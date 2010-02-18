@@ -111,9 +111,9 @@ $tpl->setVariable( 'account_avtivated', $accountActivated );
 
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:user/activate.tpl' );
-$Result['path'] = array( array( 'text' => eZi18n::translate( 'kernel/user', 'User' ),
+$Result['path'] = array( array( 'text' => ezpI18n::translate( 'kernel/user', 'User' ),
                                 'url' => false ),
-                         array( 'text' => eZi18n::translate( 'kernel/user', 'Activate' ),
+                         array( 'text' => ezpI18n::translate( 'kernel/user', 'Activate' ),
                                 'url' => false ) );
 $ini = eZINI::instance();
 if ( $ini->variable( 'SiteSettings', 'LoginPage' ) == 'custom' )

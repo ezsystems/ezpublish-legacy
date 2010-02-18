@@ -52,7 +52,7 @@ class eZPackageType extends eZDataType
     */
     function eZPackageType()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, eZi18n::translate( 'kernel/classes/datatypes', 'Package', 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::translate( 'kernel/classes/datatypes', 'Package', 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 

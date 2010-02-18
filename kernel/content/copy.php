@@ -188,9 +188,9 @@ function chooseObjectVersionsToCopy( $Module, &$Result, $object )
         $tpl->setVariable( 'selected_node_id', $selectedNodeIDArray[0] );
         $Result['content'] = $tpl->fetch( 'design:content/copy.tpl' );
         $Result['path'] = array( array( 'url' => false,
-                                        'text' => eZi18n::translate( 'kernel/content', 'Content' ) ),
+                                        'text' => ezpI18n::translate( 'kernel/content', 'Content' ) ),
                                  array( 'url' => false,
-                                        'text' => eZi18n::translate( 'kernel/content', 'Copy' ) ) );
+                                        'text' => ezpI18n::translate( 'kernel/content', 'Copy' ) ) );
 }
 
 /*

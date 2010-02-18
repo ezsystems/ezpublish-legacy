@@ -120,7 +120,7 @@ if ( $Module->isCurrentAction( 'BrowseSource' ) || // Store PDF export objects
         if ( $pdfExport->attribute( 'status' ) == eZPDFExport::CREATE_ONCE
              && $pdfExport->countGeneratingOnceExports() > 0 )
         {
-            $validation[ 'placement' ][] = array( 'text' => eZi18n::translate( 'kernel/pdf', 'An export with such filename already exists.' ) );
+            $validation[ 'placement' ][] = array( 'text' => ezpI18n::translate( 'kernel/pdf', 'An export with such filename already exists.' ) );
             $validation[ 'processed' ] = true;
             $inputValidated = false;
         }
@@ -192,7 +192,7 @@ if ( !$inputValidated )
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:pdf/edit.tpl' );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => eZi18n::translate( 'pdf/edit', 'PDF Export' ) ) );
+                                'text' => ezpI18n::translate( 'pdf/edit', 'PDF Export' ) ) );
 
 /*!
  \generate and output PDF data, either to file or stream

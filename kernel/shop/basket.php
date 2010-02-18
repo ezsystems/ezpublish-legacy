@@ -348,5 +348,5 @@ if ( $shippingInfo !== null )
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:shop/basket.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => eZi18n::translate( 'kernel/shop', 'Basket' ) ) );
+                                'text' => ezpI18n::translate( 'kernel/shop', 'Basket' ) ) );
 ?>

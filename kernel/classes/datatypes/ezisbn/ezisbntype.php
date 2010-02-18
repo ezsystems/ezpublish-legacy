@@ -42,7 +42,7 @@ class eZISBNType extends eZDataType
 
     function eZISBNType()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, eZi18n::translate( 'kernel/classes/datatypes', "ISBN", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::translate( 'kernel/classes/datatypes', "ISBN", 'Datatype name' ),
                            array( 'serialize_supported' => true,
                                   'object_serialize_map' => array( self::CONTENT_VALUE => 'isbn' ) ) );
     }
@@ -63,7 +63,7 @@ class eZISBNType extends eZDataType
 
             if ( $contentObjectAttribute->validateIsRequired() and ( !$number13 or $number13 == '' ) )
             {
-                $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
+                $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
                                                                      'Input required.' ) );
 
                 return eZInputValidator::STATE_INVALID;
@@ -84,7 +84,7 @@ class eZISBNType extends eZDataType
                 }
                 else
                 {
-                    $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
+                    $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
                                                                          'The ISBN number should be ISBN13, but seems to be ISBN10.' ) );
                     return eZInputValidator::STATE_INVALID;
                 }
@@ -99,7 +99,7 @@ class eZISBNType extends eZDataType
             }
             else
             {
-                $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
+                $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
                                                                      'The ISBN number is not correct. ' ) . $error );
                 return eZInputValidator::STATE_INVALID;
             }
@@ -137,14 +137,14 @@ class eZISBNType extends eZDataType
             }
             else
             {
-                $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
+                $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
                                                                      'The ISBN number is not correct. Please check the input for mistakes.' ) );
                 return eZInputValidator::STATE_INVALID;
             }
         }
         else
         {
-            $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
+            $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
                                                                  'The ISBN number is not correct. Please check the input for mistakes.' ) );
             return eZInputValidator::STATE_INVALID;
         }

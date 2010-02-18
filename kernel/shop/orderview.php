@@ -87,8 +87,8 @@ $tpl->setVariable( "order", $order );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:shop/orderview.tpl" );
 $Result['path'] = array( array( 'url' => 'shop/orderlist',
-                                'text' => eZi18n::translate( 'kernel/shop', 'Order list' ) ),
+                                'text' => ezpI18n::translate( 'kernel/shop', 'Order list' ) ),
                          array( 'url' => false,
-                                'text' => eZi18n::translate( 'kernel/shop', 'Order #%order_id', null, array( '%order_id' => $order->attribute( 'order_nr' ) ) ) ) );
+                                'text' => ezpI18n::translate( 'kernel/shop', 'Order #%order_id', null, array( '%order_id' => $order->attribute( 'order_nr' ) ) ) ) );
 
 ?>

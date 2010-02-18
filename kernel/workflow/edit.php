@@ -113,7 +113,7 @@ else
     $workflow = eZWorkflow::create( $user_id );
     $workflowCount = eZWorkflow::fetchListCount();
     ++$workflowCount;
-    $workflow->setAttribute( "name", eZi18n::translate( 'kernel/workflow/edit', "New Workflow" ) . "$workflowCount" );
+    $workflow->setAttribute( "name", ezpI18n::translate( 'kernel/workflow/edit', "New Workflow" ) . "$workflowCount" );
 
     $db = eZDB::instance();
     $db->begin();
@@ -167,7 +167,7 @@ if ( $http->hasPostVariable( "DeleteGroupButton" ) && $http->hasPostVariable( "g
     $selectedGroup = $http->postVariable( "group_id_checked" );
     if ( !eZWorkflowFunctions::removeGroup( $WorkflowID, $WorkflowVersion, $selectedGroup ) )
     {
-        $validation['groups'][] = array( 'text' => eZi18n::translate( 'kernel/workflow', 'You have to have at least one group that the workflow belongs to!' ) );
+        $validation['groups'][] = array( 'text' => ezpI18n::translate( 'kernel/workflow', 'You have to have at least one group that the workflow belongs to!' ) );
         $validation['processed'] = true;
     }
 }
@@ -335,7 +335,7 @@ else if ( $canStore )
     $workflow->store( $event_list );
 }
 
-$Module->setTitle( eZi18n::translate( 'kernel/workflow', 'Edit workflow' ) . ' ' . $workflow->attribute( "name" ) );
+$Module->setTitle( ezpI18n::translate( 'kernel/workflow', 'Edit workflow' ) . ' ' . $workflow->attribute( "name" ) );
 
 // Template handling
 require_once( "kernel/common/template.php" );
@@ -364,9 +364,9 @@ if ( isset( $GroupID ) )
 
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:workflow/edit.tpl" );
-$Result['path'] = array( array( 'text' => eZi18n::translate( 'kernel/workflow', 'Workflow' ),
+$Result['path'] = array( array( 'text' => ezpI18n::translate( 'kernel/workflow', 'Workflow' ),
                                 'url' => false ),
-                         array( 'text' => eZi18n::translate( 'kernel/workflow', 'Edit' ),
+                         array( 'text' => ezpI18n::translate( 'kernel/workflow', 'Edit' ),
                                 'url' => false ) );
 
 ?>

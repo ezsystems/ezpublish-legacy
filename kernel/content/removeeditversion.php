@@ -126,5 +126,5 @@ $tpl->setVariable( "object_language", $editLanguage );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:content/removeeditversion.tpl" );
 $Result['path'] = array( array( 'url' => '/content/removeeditversion/',
-                                'text' => eZi18n::translate( 'kernel/content', 'Remove editing version' ) ) );
+                                'text' => ezpI18n::translate( 'kernel/content', 'Remove editing version' ) ) );
 ?>

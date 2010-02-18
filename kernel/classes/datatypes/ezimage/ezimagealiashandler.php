@@ -285,7 +285,7 @@ class eZImageAliasHandler
                 $objectName = $this->attribute( 'alternative_text' );
                 if ( !$objectName )
                 {
-                    $objectName = eZi18n::translate( 'kernel/classes/datatypes', 'image', 'Default image name' );
+                    $objectName = ezpI18n::translate( 'kernel/classes/datatypes', 'image', 'Default image name' );
                 }
             }
         }
@@ -321,7 +321,7 @@ class eZImageAliasHandler
             $objectName = $this->attribute( 'alternative_text' );
             if ( !$objectName )
             {
-                $objectName = eZi18n::translate( 'kernel/classes/datatypes', 'image', 'Default image name' );
+                $objectName = ezpI18n::translate( 'kernel/classes/datatypes', 'image', 'Default image name' );
             }
         }
         $objectName = eZImageAliasHandler::normalizeImageName( $objectName );

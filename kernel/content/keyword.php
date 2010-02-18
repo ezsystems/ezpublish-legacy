@@ -46,7 +46,7 @@ $tpl->setVariable( 'alphabet', $Alphabet );
 
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:content/keyword.tpl' );
-$Result['path'] = array( array( 'text' => eZi18n::translate( 'kernel/content', 'Keywords' ),
+$Result['path'] = array( array( 'text' => ezpI18n::translate( 'kernel/content', 'Keywords' ),
                                 'url' => false ) );
 
 ?>

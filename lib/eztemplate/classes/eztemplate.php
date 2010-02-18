@@ -352,7 +352,7 @@ class eZTemplate
         if ( $ini->hasVariable( 'ControlSettings', 'MaxLevel' ) )
              $this->MaxLevel = $ini->variable( 'ControlSettings', 'MaxLevel' );
 
-        $this->MaxLevelWarning = eZi18n::translate( 'lib/template',
+        $this->MaxLevelWarning = ezpI18n::translate( 'lib/template',
                                          'The maximum nesting level of %max has been reached. The execution is stopped to avoid infinite recursion.',
                                          '',
                                          array( '%max' => $this->MaxLevel ) );
@@ -2140,7 +2140,7 @@ class eZTemplate
                 {
                     eZAppendWarningItem( array( 'error' => array( 'type' => 'template',
                                                                   'number' => eZTemplate::FILE_ERRORS ),
-                                                'text' => eZi18n::translate( 'lib/eztemplate', 'Some template errors occurred, see debug for more information.' ) ) );
+                                                'text' => ezpI18n::translate( 'lib/eztemplate', 'Some template errors occurred, see debug for more information.' ) ) );
                     $hasAppendWarning = true;
                 }
             }

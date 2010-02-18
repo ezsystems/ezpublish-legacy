@@ -40,7 +40,7 @@ class eZEmailType extends eZDataType
 
     function eZEmailType()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, eZi18n::translate( 'kernel/classes/datatypes', "Email", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::translate( 'kernel/classes/datatypes', "Email", 'Datatype name' ),
                            array( 'serialize_supported' => true,
                                   'object_serialize_map' => array( 'data_text' => 'email' ) ) );
     }
@@ -64,7 +64,7 @@ class eZEmailType extends eZDataType
     {
         if ( !eZMail::validate( $email ) )
         {
-            $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
+            $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
                                                                  'The email address is not valid.' ) );
             return eZInputValidator::STATE_INVALID;
         }
@@ -90,7 +90,7 @@ class eZEmailType extends eZDataType
                 if ( !$classAttribute->attribute( 'is_information_collector' ) and
                      $contentObjectAttribute->validateIsRequired() )
                 {
-                    $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
+                    $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
                                                                          'The email address is empty.' ) );
                     return eZInputValidator::STATE_INVALID;
                 }
@@ -103,7 +103,7 @@ class eZEmailType extends eZDataType
         }
         else if ( !$classAttribute->attribute( 'is_information_collector' ) and $contentObjectAttribute->validateIsRequired() )
         {
-            $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes', 'Missing email input.' ) );
+            $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes', 'Missing email input.' ) );
             return eZInputValidator::STATE_INVALID;
         }
 
@@ -138,7 +138,7 @@ class eZEmailType extends eZDataType
                 // if entered email is empty and required then return state invalid
                 if ( $contentObjectAttribute->validateIsRequired() )
                 {
-                    $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
+                    $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
                                                                          'The email address is empty.' ) );
                     return eZInputValidator::STATE_INVALID;
                 }

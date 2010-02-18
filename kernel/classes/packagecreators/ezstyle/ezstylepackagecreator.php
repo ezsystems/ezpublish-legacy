@@ -48,13 +48,13 @@ class eZStylePackageCreator extends eZPackageCreationHandler
         $steps = array();
         $steps[] = $this->packageThumbnailStep();
         $steps[] = array( 'id' => 'cssfile',
-                          'name' => eZi18n::translate( 'kernel/package', 'CSS files' ),
+                          'name' => ezpI18n::translate( 'kernel/package', 'CSS files' ),
                           'methods' => array( 'initialize' => 'initializeCSSFile',
                                               'validate' => 'validateCSSFile',
                                               'commit' => 'commitCSSFile' ),
                           'template' => 'cssfile.tpl' );
         $steps[] = array( 'id' => 'imagefiles',
-                          'name' => eZi18n::translate( 'kernel/package', 'Image files' ),
+                          'name' => ezpI18n::translate( 'kernel/package', 'Image files' ),
                           'methods' => array( 'initialize' => 'initializeImageFiles',
                                               'validate' => 'validateImageFiles',
                                               'commit' => 'commitImageFiles' ),
@@ -63,7 +63,7 @@ class eZStylePackageCreator extends eZPackageCreationHandler
         $steps[] = $this->packageMaintainerStep();
         $steps[] = $this->packageChangelogStep();
         $this->eZPackageCreationHandler( $id,
-                                         eZi18n::translate( 'kernel/package', 'Site style' ),
+                                         ezpI18n::translate( 'kernel/package', 'Site style' ),
                                          $steps );
     }
 
@@ -207,8 +207,8 @@ class eZStylePackageCreator extends eZPackageCreationHandler
         $result = true;
         if ( !$hasSiteFile or !$hasClassesFile )
         {
-            $errorList[] = array( 'field' => eZi18n::translate( 'kernel/package', 'CSS file' ),
-                                  'description' => eZi18n::translate( 'kernel/package', 'You must upload both CSS files' ) );
+            $errorList[] = array( 'field' => ezpI18n::translate( 'kernel/package', 'CSS file' ),
+                                  'description' => ezpI18n::translate( 'kernel/package', 'You must upload both CSS files' ) );
             return false;
         }
 
@@ -217,8 +217,8 @@ class eZStylePackageCreator extends eZPackageCreationHandler
         if ( !preg_match( "#\.css$#", strtolower( $siteFile->attribute( 'original_filename' ) ) ) or
              !preg_match( "#\.css$#", strtolower( $classesFile->attribute( 'original_filename' ) ) ) )
         {
-            $errorList[] = array( 'field' => eZi18n::translate( 'kernel/package', 'CSS file' ),
-                                  'description' => eZi18n::translate( 'kernel/package', 'File did not have a .css suffix, this is most likely not a CSS file' ) );
+            $errorList[] = array( 'field' => ezpI18n::translate( 'kernel/package', 'CSS file' ),
+                                  'description' => ezpI18n::translate( 'kernel/package', 'File did not have a .css suffix, this is most likely not a CSS file' ) );
             $result = false;
         }
         return $result;

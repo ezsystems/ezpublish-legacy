@@ -248,7 +248,7 @@ $tpl->setVariable( "location", $location );
 
 $Result['content'] = $tpl->fetch( 'design:content/restore.tpl' );
 $Result['path'] = array( array( 'uri'  => false,
-                                'text' => eZi18n::translate( "kernel/content/restore", "Restore object" ) ),
+                                'text' => ezpI18n::translate( "kernel/content/restore", "Restore object" ) ),
                          array( 'uri'  => false,
                                 'text' => $object->attribute( 'name' ) ) );
 

@@ -378,7 +378,7 @@ $tpl->setVariable( 'user_id', $user->attribute( 'contentobject_id' ) );
 
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:content/history.tpl' );
-$Result['path'] = array( array( 'text' => eZi18n::translate( 'kernel/content', 'History' ),
+$Result['path'] = array( array( 'text' => ezpI18n::translate( 'kernel/content', 'History' ),
                                 'url' => false ) );
 $section = eZSection::fetch( $object->attribute( 'section_id' ) );
 if ( $section )

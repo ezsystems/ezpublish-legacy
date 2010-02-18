@@ -74,7 +74,7 @@ class eZExtensionPackageHandler extends eZPackageHandler
             {
                 $root = $dom->documentElement;
                 $extensionName = $root->getAttribute( 'name' );
-                return array( 'description' => eZi18n::translate( 'kernel/package', 'Extension \'%extensionname\'', false,
+                return array( 'description' => ezpI18n::translate( 'kernel/package', 'Extension \'%extensionname\'', false,
                                                        array( '%extensionname' => $extensionName ) ) );
             }
         }
@@ -134,7 +134,7 @@ class eZExtensionPackageHandler extends eZPackageHandler
         $extensionName = $trans->transformByGroup( $name, 'urlalias' );
         if ( strcmp( $name, $extensionName ) !== 0 )
         {
-            $description = eZi18n::translate( 'kernel/package', 'Package contains an invalid extension name: %extensionname', false, array( '%extensionname' => $name ) );
+            $description = ezpI18n::translate( 'kernel/package', 'Package contains an invalid extension name: %extensionname', false, array( '%extensionname' => $name ) );
             $installParameters['error'] = array( 'error_code' => false,
                                                  'element_id' => $name,
                                                  'description' => $description );
@@ -149,7 +149,7 @@ class eZExtensionPackageHandler extends eZPackageHandler
         // Error: extension already exists.
         if ( file_exists( $extensionDir ) )
         {
-            $description = eZi18n::translate( 'kernel/package', "Extension '%extensionname' already exists.",
+            $description = ezpI18n::translate( 'kernel/package', "Extension '%extensionname' already exists.",
                                    false, array( '%extensionname' => $extensionName ) );
             $choosenAction = $this->errorChoosenAction( self::ERROR_EXISTS,
                                                         $installParameters, $description, $this->HandlerType );
@@ -167,8 +167,8 @@ class eZExtensionPackageHandler extends eZPackageHandler
                 $installParameters['error'] = array( 'error_code' => self::ERROR_EXISTS,
                                                      'element_id' => $extensionName,
                                                      'description' => $description,
-                                                     'actions' => array( self::ACTION_REPLACE => eZi18n::translate( 'kernel/package', "Replace extension" ),
-                                                                         self::ACTION_SKIP => eZi18n::translate( 'kernel/package', 'Skip' ) ) );
+                                                     'actions' => array( self::ACTION_REPLACE => ezpI18n::translate( 'kernel/package', "Replace extension" ),
+                                                                         self::ACTION_SKIP => ezpI18n::translate( 'kernel/package', 'Skip' ) ) );
                 return false;
             }
         }

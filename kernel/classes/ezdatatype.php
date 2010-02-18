@@ -953,7 +953,7 @@ class eZDataType
         {
             if ( $classAttribute->attribute( 'is_information_collector' ) == true )
             {
-                $actionList[] = array( 'name' => eZi18n::translate( 'kernel/classes/datatypes', 'Send', 'Datatype information collector action' ),
+                $actionList[] = array( 'name' => ezpI18n::translate( 'kernel/classes/datatypes', 'Send', 'Datatype information collector action' ),
                                        'action' => 'ActionCollectInformation' );
             }
         }

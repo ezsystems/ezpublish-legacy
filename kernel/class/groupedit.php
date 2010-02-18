@@ -40,7 +40,7 @@ else
     $user = eZUser::currentUser();
     $user_id = $user->attribute( "contentobject_id" );
     $classgroup = eZContentClassGroup::create( $user_id );
-    $classgroup->setAttribute( "name", eZi18n::translate( 'kernel/class/groupedit', "New Group" ) );
+    $classgroup->setAttribute( "name", ezpI18n::translate( 'kernel/class/groupedit', "New Group" ) );
     $classgroup->store();
     $GroupID = $classgroup->attribute( "id" );
     $Module->redirectTo( $Module->functionURI( "groupedit" ) . "/" . $GroupID );
@@ -91,7 +91,7 @@ $tpl->setVariable( "classgroup", $classgroup );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:class/groupedit.tpl" );
 $Result['path'] = array( array( 'url' => '/class/grouplist/',
-                                'text' => eZi18n::translate( 'kernel/class', 'Class groups' ) ),
+                                'text' => ezpI18n::translate( 'kernel/class', 'Class groups' ) ),
                          array( 'url' => false,
                                 'text' => $classgroup->attribute( 'name' ) ) );
 

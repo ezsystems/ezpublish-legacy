@@ -63,7 +63,7 @@ class eZRSSExport extends eZPersistentObject
                                                              'required' => false ),
                                          'title' => array( 'name' => 'Title',
                                                            'datatype' => 'string',
-                                                           'default' => eZi18n::translate( 'kernel/rss', 'New RSS Export' ),
+                                                           'default' => ezpI18n::translate( 'kernel/rss', 'New RSS Export' ),
                                                            'required' => true ),
                                          'url' => array( 'name' => 'URL',
                                                          'datatype' => 'string',
@@ -154,7 +154,7 @@ class eZRSSExport extends eZPersistentObject
         $dateTime = time();
         $row = array( 'id' => null,
                       'node_id', '',
-                      'title' => eZi18n::translate( 'kernel/classes', 'New RSS Export' ),
+                      'title' => ezpI18n::translate( 'kernel/classes', 'New RSS Export' ),
                       'site_access' => '',
                       'modifier_id' => $user_id,
                       'modified' => $dateTime,

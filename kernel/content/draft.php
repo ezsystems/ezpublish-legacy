@@ -81,7 +81,7 @@ $tpl->setVariable('view_parameters', $viewParameters );
 
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:content/draft.tpl' );
-$Result['path'] = array( array( 'text' => eZi18n::translate( 'kernel/content', 'My drafts' ),
+$Result['path'] = array( array( 'text' => ezpI18n::translate( 'kernel/content', 'My drafts' ),
                                 'url' => false ) );
 
 ?>

@@ -177,6 +177,6 @@ if ( $contentObject )
 
 $Result['content'] = $tpl->fetch( "design:content/reverserelatedlist.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => eZi18n::translate( 'kernel/content', "\"$contentObjectName\": Sub items that are used by other objects" ) ) );
+                                'text' => ezpI18n::translate( 'kernel/content', "\"$contentObjectName\": Sub items that are used by other objects" ) ) );
 
 ?>

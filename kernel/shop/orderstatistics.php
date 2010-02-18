@@ -76,11 +76,11 @@ $tpl->setVariable( "month_list", $monthList );
 $tpl->setVariable( "statistic_result", $statisticArray );
 
 $path = array();
-$path[] = array( 'text' => eZi18n::translate( 'kernel/shop', 'Statistics' ),
+$path[] = array( 'text' => ezpI18n::translate( 'kernel/shop', 'Statistics' ),
                  'url' => false );
 
 $Result = array();
-$Result['path'] = array( array( 'text' => eZi18n::translate( 'kernel/shop', 'Statistics' ),
+$Result['path'] = array( array( 'text' => ezpI18n::translate( 'kernel/shop', 'Statistics' ),
                                 'url' => false ) );
 
 $Result['content'] = $tpl->fetch( "design:shop/orderstatistics.tpl" );

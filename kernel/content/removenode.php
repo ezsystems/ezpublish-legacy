@@ -57,11 +57,11 @@ else
     $ChildObjectsCount = 0;
 $ChildObjectsCount .= " ";
 if ( $ChildObjectsCount == 1 )
-    $ChildObjectsCount .= eZi18n::translate( 'kernel/content/removenode',
+    $ChildObjectsCount .= ezpI18n::translate( 'kernel/content/removenode',
                                   'child',
                                   '1 child' );
 else
-    $ChildObjectsCount .= eZi18n::translate( 'kernel/content/removenode',
+    $ChildObjectsCount .= ezpI18n::translate( 'kernel/content/removenode',
                                   'children',
                                   'several children' );
 

@@ -35,7 +35,7 @@ $Module = $Params['Module'];
 if ( $SectionID == 0 )
 {
     $section = array( 'id' => 0,
-                      'name' => eZi18n::translate( 'kernel/section', 'New section' ),
+                      'name' => ezpI18n::translate( 'kernel/section', 'New section' ),
                       'navigation_part_identifier' => 'ezcontentnavigationpart' );
 }
 else
@@ -75,6 +75,6 @@ $tpl->setVariable( "section", $section );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:section/edit.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => eZi18n::translate( 'kernel/section', 'Edit Section' ) ) );
+                                'text' => ezpI18n::translate( 'kernel/section', 'Edit Section' ) ) );
 
 ?>

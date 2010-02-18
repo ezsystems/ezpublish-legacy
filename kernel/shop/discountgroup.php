@@ -74,5 +74,5 @@ $tpl->setVariable( "module", $module );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:shop/discountgroup.tpl" );
 $Result['path'] = array( array( 'url' => '/shop/discountgroup/',
-                                'text' => eZi18n::translate( 'kernel/shop', 'Discount group' ) ) );
+                                'text' => ezpI18n::translate( 'kernel/shop', 'Discount group' ) ) );
 ?>

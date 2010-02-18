@@ -155,7 +155,7 @@ else if ( !$node->canRead() )
 {
     $jsonText= arrayToJSON( array(
         'error_code' => -1,
-        'error_message' => eZi18n::translate( 'kernel/content', 'You do not have enough rights to access the requested node' ),
+        'error_message' => ezpI18n::translate( 'kernel/content', 'You do not have enough rights to access the requested node' ),
         'node_id' => $nodeID,
     ) );
 

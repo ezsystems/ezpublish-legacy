@@ -110,7 +110,7 @@ $tpl->setVariable( "selected_extension_array", $selectedExtensions );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:setup/extensions.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => eZi18n::translate( 'kernel/setup', 'Extension configuration' ) ) );
+                                'text' => ezpI18n::translate( 'kernel/setup', 'Extension configuration' ) ) );
 
 function updateAutoload( $tpl = null )
 {

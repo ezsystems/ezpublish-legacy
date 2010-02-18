@@ -118,7 +118,7 @@ class eZStepEmailSettings extends eZStepInstaller
         $result = array();
         // Display template
         $result['content'] = $this->Tpl->fetch( "design:setup/init/email_settings.tpl" );
-        $result['path'] = array( array( 'text' => eZi18n::translate( 'design/standard/setup/init',
+        $result['path'] = array( array( 'text' => ezpI18n::translate( 'design/standard/setup/init',
                                                           'Email settings' ),
                                         'url' => false ) );
         return $result;

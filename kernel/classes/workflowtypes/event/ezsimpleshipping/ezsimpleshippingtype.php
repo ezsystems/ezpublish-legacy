@@ -45,7 +45,7 @@ class eZSimpleShippingType extends eZWorkflowEventType
     */
     function eZSimpleShippingType()
     {
-        $this->eZWorkflowEventType( eZSimpleShippingType::WORKFLOW_TYPE_STRING, eZi18n::translate( 'kernel/workflow/event', "Simple shipping" ) );
+        $this->eZWorkflowEventType( eZSimpleShippingType::WORKFLOW_TYPE_STRING, ezpI18n::translate( 'kernel/workflow/event', "Simple shipping" ) );
         $this->setTriggerTypes( array( 'shop' => array( 'confirmorder' => array ( 'before' ) ) ) );
     }
 

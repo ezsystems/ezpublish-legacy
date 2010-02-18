@@ -49,7 +49,7 @@ class eZMultiPriceType extends eZDataType
 
     function eZMultiPriceType()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, eZi18n::translate( 'kernel/classes/datatypes', 'Multi-price', 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::translate( 'kernel/classes/datatypes', 'Multi-price', 'Datatype name' ),
                             array( 'serialize_supported' => true ) );
     }
 
@@ -66,7 +66,7 @@ class eZMultiPriceType extends eZDataType
 
         if ( $vatExInc == 1 && $vatTypeID == -1 )
         {
-            $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
+            $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
                                                                  'Dynamic VAT cannot be included.' ) );
             return eZInputValidator::STATE_INVALID;
         }
@@ -81,7 +81,7 @@ class eZMultiPriceType extends eZDataType
                 {
                     if ( !preg_match( "#^[0-9]+(.){0,1}[0-9]{0,2}$#", $value ) )
                     {
-                        $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes',
+                        $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
                                                                              "Invalid price for '%currencyCode' currency ",
                                                                              false,
                                                                              array( '%currencyCode' => $currencyCode ) ) );
@@ -92,7 +92,7 @@ class eZMultiPriceType extends eZDataType
         }
         else if ( $contentObjectAttribute->validateIsRequired() )
         {
-            $contentObjectAttribute->setValidationError( eZi18n::translate( 'kernel/classes/datatypes', 'Input required' ) );
+            $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes', 'Input required' ) );
             return eZInputValidator::STATE_INVALID;
         }
 
@@ -285,10 +285,10 @@ class eZMultiPriceType extends eZDataType
 
     function contentActionList( $classAttribute )
     {
-        return array( array( 'name' => eZi18n::translate( 'kernel/classes/datatypes', 'Add to basket' ),
+        return array( array( 'name' => ezpI18n::translate( 'kernel/classes/datatypes', 'Add to basket' ),
                              'action' => 'ActionAddToBasket'
                              ),
-                      array( 'name' => eZi18n::translate( 'kernel/classes/datatypes', 'Add to wish list' ),
+                      array( 'name' => ezpI18n::translate( 'kernel/classes/datatypes', 'Add to wish list' ),
                              'action' => 'ActionAddToWishList'
                              ) );
     }

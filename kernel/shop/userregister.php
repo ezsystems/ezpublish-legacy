@@ -181,5 +181,5 @@ $tpl->setVariable( "comment", $comment );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:shop/userregister.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => eZi18n::translate( 'kernel/shop', 'Enter account information' ) ) );
+                                'text' => ezpI18n::translate( 'kernel/shop', 'Enter account information' ) ) );
 ?>

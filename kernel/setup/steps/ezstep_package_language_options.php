@@ -163,7 +163,7 @@ class eZStepPackageLanguageOptions extends eZStepInstaller
 
         $result = array();
         $result['content'] = $this->Tpl->fetch( "design:setup/init/package_language_options.tpl" );
-        $result['path'] = array( array( 'text' => eZi18n::translate( 'design/standard/setup/init',
+        $result['path'] = array( array( 'text' => ezpI18n::translate( 'design/standard/setup/init',
                                                           'Package language options' ),
                                         'url' => false ) );
         return $result;

@@ -303,7 +303,7 @@ if ( $http->hasPostVariable( 'CustomFunction' ) )
     $Result = array();
 
     $Result['path'] = array( array( 'url' => false ,
-                                    'text' => eZi18n::translate( 'kernel/role',
+                                    'text' => ezpI18n::translate( 'kernel/role',
                                                       'Create new policy, step 2: select function' ) ) );
 
     $Result['content'] = $tpl->fetch( 'design:role/createpolicystep2.tpl' );
@@ -686,7 +686,7 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
 
         $Result = array();
         $Result['path'] = array( array( 'url' => false ,
-                                        'text' => eZi18n::translate( 'kernel/role',
+                                        'text' => ezpI18n::translate( 'kernel/role',
                                                           'Create new policy, step three: set function limitations' ) ) );
 
         $Result['content'] = $tpl->fetch( 'design:role/createpolicystep3.tpl' );
@@ -710,7 +710,7 @@ if ( $http->hasPostVariable( 'DiscardLimitation' )  || $http->hasPostVariable( '
 
     $Result = array();
     $Result['path'] = array( array( 'url' => false ,
-                                    'text' => eZi18n::translate( 'kernel/role',
+                                    'text' => ezpI18n::translate( 'kernel/role',
                                                       'Create new policy, step two: select function' ) ) );
 
     $Result['content'] = $tpl->fetch( 'design:role/createpolicystep2.tpl' );
@@ -735,7 +735,7 @@ if ( $http->hasPostVariable( 'CreatePolicy' ) || $http->hasPostVariable( 'Step1'
 
     $Result = array();
     $Result['path'] = array( array( 'url' => false ,
-                                    'text' => eZi18n::translate( 'kernel/role',
+                                    'text' => ezpI18n::translate( 'kernel/role',
                                                       'Create new policy, step one: select module' ) ) );
 
     $Result['content'] = $tpl->fetch( 'design:role/createpolicystep1.tpl' );

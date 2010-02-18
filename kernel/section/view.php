@@ -49,6 +49,6 @@ $tpl->setVariable( "section", $section );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:section/view.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => eZi18n::translate( 'kernel/section', 'View section' ) ) );
+                                'text' => ezpI18n::translate( 'kernel/section', 'View section' ) ) );
 
 ?>

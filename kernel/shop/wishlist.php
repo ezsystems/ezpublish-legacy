@@ -254,6 +254,6 @@ $tpl->setVariable( 'view_parameters', $viewParameters );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:shop/wishlist.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => eZi18n::translate( 'kernel/shop', 'Wishlist' ) ) );
+                                'text' => ezpI18n::translate( 'kernel/shop', 'Wishlist' ) ) );
 
 ?>

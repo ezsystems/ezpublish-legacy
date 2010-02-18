@@ -1575,12 +1575,12 @@ class eZWebDAVContentServer extends eZWebDAVServer
 
     static function virtualContentFolderName()
     {
-        return eZi18n::translate( 'kernel/content', "Content" );
+        return ezpI18n::translate( 'kernel/content', "Content" );
     }
 
     static function virtualMediaFolderName()
     {
-        return eZi18n::translate( 'kernel/content', "Media" );
+        return ezpI18n::translate( 'kernel/content', "Media" );
     }
 
     static function virtualInfoFileName()
