@@ -37,6 +37,7 @@
 
 */
 include_once( 'kernel/common/template.php' );
+require_once( 'kernel/common/i18n.php' );
 
 class eZOEXMLInput extends eZXMLInputHandler
 {

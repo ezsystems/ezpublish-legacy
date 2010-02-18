@@ -32,6 +32,8 @@
  * translations.
  */
 
+require_once( 'kernel/common/i18n.php' );
+
 class ezoeServerFunctions extends ezjscServerFunctions
 {
     /**
