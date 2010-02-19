@@ -103,7 +103,7 @@ var eZAjaxSubitemsSortDD = function() {
 
             // sortOrder: desc: 0, asc: 1
             // updateToIndex: set priority on all nodes up until this index
-            var priority = sortOrder ? -2: 2, updateToIndex = 0, inputs = Y.all('#ezasi-subitems-list input.ezasi-priority-input');
+            var priority = sortOrder ? -2 : 2, updateToIndex = 0, inputs = Y.all('#ezasi-subitems-list input.ezasi-priority-input');
             inputs.each(function(node, i)
             {
                 // Only set priority on nodes up until last node with priority
