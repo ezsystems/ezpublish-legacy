@@ -2690,7 +2690,7 @@ END;
                         if ( isset( $variableParameters['local-variable'] ) )
                         {
                             $php->addCodePiece( "if ( \$tpl->hasVariable( $variableNameText, $namespaceText ) )\n{\n" ); // if the variable already exists
-                            $php->addCodePiece( "    \$tpl->warning( '" . eZTemplateDefFunction::DEF_FUNCTION_NAME . "', \"Variable $variableNameText is already defined.\", " . $php->thisVariableText( $variablePlacement ) . " );\n" );
+                            $php->addCodePiece( "    \$tpl->warning( '" . eZTemplateDefFunction::DEF_FUNCTION_NAME . "', \"Variable '$variableName' is already defined.\", " . $php->thisVariableText( $variablePlacement ) . " );\n" );
                             $php->addCodePiece( "    \$tpl->setVariable( $variableNameText, $variableText, $namespaceText );\n}\nelse\n{\n" );
                             $php->addCodePiece( "    \$tpl->setLocalVariable( $variableNameText, $variableText, $namespaceText );\n}\n" ,
                                                 array( 'spacing' => $spacing ) );
