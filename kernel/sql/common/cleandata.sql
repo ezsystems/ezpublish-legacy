@@ -214,6 +214,7 @@ INSERT INTO ezcontentclass (
   modified,
   modifier_id,
   remote_id,
+  serialized_description_list,
   serialized_name_list,
   sort_field,
   sort_order,
@@ -232,6 +233,7 @@ INSERT INTO ezcontentclass (
   1082454875,
   14,
   'a3d405b81be900468eb153d774f4f0d2',
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:6:\"Folder\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   1,
   1,
@@ -251,6 +253,7 @@ INSERT INTO ezcontentclass (
   modified,
   modifier_id,
   remote_id,
+  serialized_description_list,
   serialized_name_list,
   sort_field,
   sort_order,
@@ -269,6 +272,7 @@ INSERT INTO ezcontentclass (
   1082454989,
   14,
   'c15b600eb9198b1924063b5a68758232',
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:7:\"Article\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   1,
   1,
@@ -288,6 +292,7 @@ INSERT INTO ezcontentclass (
   modified,
   modifier_id,
   remote_id,
+  serialized_description_list,
   serialized_name_list,
   sort_field,
   sort_order,
@@ -306,6 +311,7 @@ INSERT INTO ezcontentclass (
   1048494743,
   14,
   '25b4268cdcd01921b808a0d854b877ef',
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:10:\"User group\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   1,
   1,
@@ -325,6 +331,7 @@ INSERT INTO ezcontentclass (
   modified,
   modifier_id,
   remote_id,
+  serialized_description_list,
   serialized_name_list,
   sort_field,
   sort_order,
@@ -343,6 +350,7 @@ INSERT INTO ezcontentclass (
   1082018364,
   14,
   '40faa822edc579b02c25f6bb7beec3ad',
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:4:\"User\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   1,
   1,
@@ -362,6 +370,7 @@ INSERT INTO ezcontentclass (
   modified,
   modifier_id,
   remote_id,
+  serialized_description_list,
   serialized_name_list,
   sort_field,
   sort_order,
@@ -380,6 +389,7 @@ INSERT INTO ezcontentclass (
   1048494784,
   14,
   'f6df12aa74e36230eb675f364fccd25a',
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:5:\"Image\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   1,
   1,
@@ -399,6 +409,7 @@ INSERT INTO ezcontentclass (
   modified,
   modifier_id,
   remote_id,
+  serialized_description_list,
   serialized_name_list,
   sort_field,
   sort_order,
@@ -417,6 +428,7 @@ INSERT INTO ezcontentclass (
   1082455072,
   14,
   '74ec6507063150bc813549b22534ad48',
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:4:\"Link\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   1,
   1,
@@ -436,6 +448,7 @@ INSERT INTO ezcontentclass (
   modified,
   modifier_id,
   remote_id,
+  serialized_description_list,
   serialized_name_list,
   sort_field,
   sort_order,
@@ -454,6 +467,7 @@ INSERT INTO ezcontentclass (
   1052385669,
   14,
   '637d58bfddf164627bdfd265733280a0',
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:4:\"File\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   1,
   1,
@@ -473,6 +487,7 @@ INSERT INTO ezcontentclass (
   modified,
   modifier_id,
   remote_id,
+  serialized_description_list,
   serialized_name_list,
   sort_field,
   sort_order,
@@ -491,6 +506,7 @@ INSERT INTO ezcontentclass (
   1082455144,
   14,
   '000c14f4f475e9f2955dedab72799941',
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:7:\"Comment\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   1,
   1,
@@ -510,6 +526,7 @@ INSERT INTO ezcontentclass (
   modified,
   modifier_id,
   remote_id,
+  serialized_description_list,
   serialized_name_list,
   sort_field,
   sort_order,
@@ -528,6 +545,7 @@ INSERT INTO ezcontentclass (
   1081858024,
   14,
   'ffedf2e73b1ea0c3e630e42e2db9c900',
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:19:\"Common ini settings\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   1,
   1,
@@ -547,6 +565,7 @@ INSERT INTO ezcontentclass (
   modified,
   modifier_id,
   remote_id,
+  serialized_description_list,
   serialized_name_list,
   sort_field,
   sort_order,
@@ -565,6 +584,7 @@ INSERT INTO ezcontentclass (
   1081858045,
   14,
   '59b43cd9feaaf0e45ac974fb4bbd3f92',
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:13:\"Template look\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   1,
   1,
@@ -574,6 +594,7 @@ INSERT INTO ezcontentclass (
 
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -595,10 +616,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   2,
   0,
   0,
@@ -620,11 +644,14 @@ INSERT INTO ezcontentclass_attribute (
   1,
   1,
   1,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:5:\"Title\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -646,10 +673,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   1,
   0,
   0,
@@ -671,11 +701,14 @@ INSERT INTO ezcontentclass_attribute (
   1,
   1,
   1,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:4:\"Name\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -697,10 +730,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   3,
   0,
   0,
@@ -722,11 +758,14 @@ INSERT INTO ezcontentclass_attribute (
   1,
   1,
   1,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:4:\"Name\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -748,10 +787,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   3,
   0,
   0,
@@ -773,11 +815,14 @@ INSERT INTO ezcontentclass_attribute (
   0,
   1,
   2,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:11:\"Description\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -799,10 +844,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   4,
   0,
   0,
@@ -824,11 +872,14 @@ INSERT INTO ezcontentclass_attribute (
   1,
   1,
   1,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:10:\"First name\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -850,10 +901,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   4,
   0,
   0,
@@ -875,11 +929,14 @@ INSERT INTO ezcontentclass_attribute (
   1,
   1,
   2,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:9:\"Last name\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -901,10 +958,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   4,
   0,
   0,
@@ -926,11 +986,14 @@ INSERT INTO ezcontentclass_attribute (
   1,
   1,
   3,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:12:\"User account\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -952,10 +1015,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   5,
   0,
   0,
@@ -977,11 +1043,14 @@ INSERT INTO ezcontentclass_attribute (
   1,
   1,
   1,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:4:\"Name\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -1003,10 +1072,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   5,
   0,
   0,
@@ -1028,11 +1100,14 @@ INSERT INTO ezcontentclass_attribute (
   0,
   1,
   2,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:7:\"Caption\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -1054,10 +1129,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   5,
   0,
   0,
@@ -1079,11 +1157,14 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   3,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:5:\"Image\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -1105,10 +1186,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   1,
   0,
   0,
@@ -1130,11 +1214,14 @@ INSERT INTO ezcontentclass_attribute (
   0,
   1,
   3,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:17:\"Short description\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -1156,10 +1243,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   2,
   0,
   0,
@@ -1181,11 +1271,14 @@ INSERT INTO ezcontentclass_attribute (
   1,
   1,
   4,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:5:\"Intro\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -1207,10 +1300,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   2,
   0,
   0,
@@ -1232,11 +1328,14 @@ INSERT INTO ezcontentclass_attribute (
   0,
   1,
   5,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:4:\"Body\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -1258,10 +1357,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   0,
+  '',
   2,
   0,
   0,
@@ -1283,11 +1385,14 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   6,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:15:\"Enable comments\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -1309,10 +1414,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   11,
   0,
   0,
@@ -1334,11 +1442,14 @@ INSERT INTO ezcontentclass_attribute (
   1,
   1,
   1,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:4:\"Name\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -1360,10 +1471,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   11,
   0,
   0,
@@ -1385,11 +1499,14 @@ INSERT INTO ezcontentclass_attribute (
   0,
   1,
   2,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:11:\"Description\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -1411,10 +1528,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   11,
   0,
   0,
@@ -1436,11 +1556,14 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   3,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:8:\"Location\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -1462,10 +1585,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   12,
   0,
   0,
@@ -1487,11 +1613,14 @@ INSERT INTO ezcontentclass_attribute (
   1,
   1,
   1,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:4:\"Name\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -1513,10 +1642,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   12,
   0,
   0,
@@ -1538,11 +1670,14 @@ INSERT INTO ezcontentclass_attribute (
   0,
   1,
   2,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:11:\"Description\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -1564,10 +1699,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   12,
   0,
   0,
@@ -1589,11 +1727,14 @@ INSERT INTO ezcontentclass_attribute (
   1,
   0,
   3,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:4:\"File\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -1615,10 +1756,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   13,
   0,
   0,
@@ -1640,11 +1784,14 @@ INSERT INTO ezcontentclass_attribute (
   1,
   1,
   1,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:7:\"Subject\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -1666,10 +1813,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   13,
   0,
   0,
@@ -1691,11 +1841,14 @@ INSERT INTO ezcontentclass_attribute (
   1,
   1,
   2,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:6:\"Author\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -1717,10 +1870,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   13,
   0,
   0,
@@ -1742,11 +1898,14 @@ INSERT INTO ezcontentclass_attribute (
   1,
   1,
   3,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:7:\"Message\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -1768,10 +1927,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   2,
   0,
   0,
@@ -1793,11 +1955,14 @@ INSERT INTO ezcontentclass_attribute (
   0,
   1,
   2,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:11:\"Short title\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -1819,10 +1984,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   2,
   0,
   0,
@@ -1844,11 +2012,14 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   3,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:6:\"Author\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -1870,10 +2041,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   2,
   0,
   0,
@@ -1895,11 +2069,14 @@ INSERT INTO ezcontentclass_attribute (
   0,
   1,
   7,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:5:\"Image\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -1921,10 +2098,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   1,
   0,
   0,
@@ -1946,11 +2126,14 @@ INSERT INTO ezcontentclass_attribute (
   0,
   1,
   2,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:10:\"Short name\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -1972,10 +2155,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   1,
   0,
   0,
@@ -1997,11 +2183,14 @@ INSERT INTO ezcontentclass_attribute (
   0,
   1,
   4,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:11:\"Description\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -2023,10 +2212,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   0,
+  '',
   1,
   0,
   0,
@@ -2048,11 +2240,14 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   5,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:13:\"Show children\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -2074,10 +2269,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   14,
   0,
   0,
@@ -2099,11 +2297,14 @@ INSERT INTO ezcontentclass_attribute (
   0,
   1,
   1,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:4:\"Name\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -2125,10 +2326,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   14,
   0,
   0,
@@ -2150,11 +2354,14 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   2,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:10:\"Index Page\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -2176,10 +2383,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   14,
   0,
   0,
@@ -2201,11 +2411,14 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   3,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:12:\"Default Page\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -2227,10 +2440,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   14,
   0,
   0,
@@ -2252,11 +2468,14 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   4,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:12:\"Debug Output\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -2278,10 +2497,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   14,
   0,
   0,
@@ -2303,11 +2525,14 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   5,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:11:\"Debug By IP\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -2329,10 +2554,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   14,
   0,
   0,
@@ -2354,11 +2582,14 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   6,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:13:\"Debug IP List\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -2380,10 +2611,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   14,
   0,
   0,
@@ -2405,11 +2639,14 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   7,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:17:\"Debug Redirection\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -2431,10 +2668,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   14,
   0,
   0,
@@ -2456,11 +2696,14 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   8,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:12:\"View Caching\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -2482,10 +2725,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   14,
   0,
   0,
@@ -2507,11 +2753,14 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   9,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:14:\"Template Cache\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -2533,10 +2782,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   14,
   0,
   0,
@@ -2558,11 +2810,14 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   10,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:16:\"Template Compile\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -2584,10 +2839,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   14,
   0,
   0,
@@ -2609,11 +2867,14 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   11,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:16:\"Image Small Size\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -2635,10 +2896,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   14,
   0,
   0,
@@ -2660,11 +2924,14 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   12,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:17:\"Image Medium Size\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -2686,10 +2953,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   14,
   0,
   0,
@@ -2711,11 +2981,14 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   13,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:16:\"Image Large Size\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -2737,10 +3010,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   15,
   0,
   0,
@@ -2762,11 +3038,14 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   1,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:5:\"Title\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -2788,10 +3067,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   15,
   0,
   0,
@@ -2813,11 +3095,14 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   2,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:9:\"Meta data\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -2839,10 +3124,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   15,
   0,
   0,
@@ -2864,11 +3152,14 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   3,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:5:\"Image\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -2890,10 +3181,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   15,
   0,
   0,
@@ -2915,11 +3209,14 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   4,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:9:\"Sitestyle\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -2941,10 +3238,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   15,
   0,
   0,
@@ -2966,11 +3266,14 @@ INSERT INTO ezcontentclass_attribute (
   0,
   1,
   5,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:2:\"id\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -2992,10 +3295,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   15,
   0,
   0,
@@ -3017,11 +3323,14 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   6,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:5:\"Email\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -3043,10 +3352,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   15,
   0,
   0,
@@ -3068,11 +3380,14 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   7,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:8:\"Site URL\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -3094,10 +3409,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   4,
   0,
   0,
@@ -3119,11 +3437,14 @@ INSERT INTO ezcontentclass_attribute (
   0,
   1,
   4,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:9:\"Signature\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
   can_translate,
+  category,
   contentclass_id,
   data_float1,
   data_float2,
@@ -3145,10 +3466,13 @@ INSERT INTO ezcontentclass_attribute (
   is_required,
   is_searchable,
   placement,
+  serialized_data_text,
+  serialized_description_list,
   serialized_name_list,
   version
 ) VALUES (
   1,
+  '',
   4,
   0,
   0,
@@ -3170,6 +3494,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   5,
+  NULL,
+  NULL,
   'a:2:{s:6:\"eng-GB\";s:5:\"Image\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
@@ -22480,7 +22806,7 @@ INSERT INTO ezsite_data (
   value
 ) VALUES (
   'ezpublish-version',
-  '4.3.0alpha1'
+  '4.3.0beta1'
 );
 
 INSERT INTO ezurl (
