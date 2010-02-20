@@ -1,5 +1,5 @@
 {def $multilingual_site = fetch( 'content', 'translation_list' )|count|gt( 1 )}
-<script type="text/javascript" src={'javascript/popupmenu/ezpopupmenu.js'|ezdesign}></script>
+<!-- script type="text/javascript" src={'javascript/popupmenu/ezpopupmenu.js'|ezdesign}></script -->
 
 {include uri='design:popupmenu/popup_context_menu.tpl'}
 

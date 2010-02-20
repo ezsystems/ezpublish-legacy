@@ -1,5 +1,5 @@
 // jquery code to a allow changing width  on left menu by dragging
-(function( $ )
+jQuery(function( $ )
 {
     var leftMenuDrag = {
             elements : false,
@@ -54,4 +54,4 @@
         $( document ).bind('mousemove', leftMenuDrag.on );
         $('#leftmenu').addClass( 'widthcontroled' );
     }
-})( jQuery );
+});

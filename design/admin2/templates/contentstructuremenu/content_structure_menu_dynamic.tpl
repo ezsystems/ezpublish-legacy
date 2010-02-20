@@ -32,9 +32,10 @@
     {def $filter_type          = 'exclude'
          $filter_groups        = array()}
 {/if}
-{if ezini('TreeMenu','PreloadClassIcons','contentstructuremenu.ini')|eq('enabled')}
+{* Defined in design.ini BackendJavaScriptList[]
+ if ezini('TreeMenu','PreloadClassIcons','contentstructuremenu.ini')|eq('enabled')}
     <script language="JavaScript" type="text/javascript" src={"javascript/lib/ezjslibimagepreloader.js"|ezdesign}></script>
-{/if}
+{/if *}
 
 {def $click_action = ezini('TreeMenu','ItemClickAction','contentstructuremenu.ini')}
 {if and( is_set( $csm_menu_item_click_action ), $click_action|not )}
