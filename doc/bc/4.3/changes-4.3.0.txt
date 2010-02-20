@@ -74,7 +74,7 @@ Deprecated methods
 
 - ezi18n() and ezx18n() functions has been deprecated in favor of new
   ezpI18n::translate() function that takes advantage of autoloading so you don't need
-  to requrie_once the i18n.php file. These two function will be removed in a future
+  to require_once the i18n.php file. These two function will be removed in a future
   version.
 
 - kernel/common/ezincludefunctions.php 
