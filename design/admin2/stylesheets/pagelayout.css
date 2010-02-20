@@ -375,13 +375,13 @@ div#contentstructure ul#content_tree_menu ul li
     padding-top: 0;
     padding-left: 20px;
     padding-bottom: 4px;
-    background-image: url(../images/bg_content_tree_li.gif);
+    background-image: url(../images/bg_content_tree_li.png);
     background-repeat: no-repeat;
 }
 
 div#contentstructure ul#content_tree_menu ul li.lastli
 {
-    background-image: url(../images/bg_content_tree_li_last.gif);
+    background-position: left -9990px;
     padding-bottom: 2px;
 }
 
@@ -453,23 +453,23 @@ div#contentstructure ul#content_tree_menu ul a.openclose-open, div#contentstruct
     top: 0;
     width: 16px;
     height: 16px;
-    background: transparent url( '../images/content_tree-open.gif' ) no-repeat center center scroll;
+    background: transparent url( '../images/content_tree-icons.png' ) no-repeat center 0px scroll;
 }
 
 div#contentstructure ul#content_tree_menu ul a.openclose-close
 {
-    background-image: url( '../images/content_tree-close.gif' );
-}
-
-div#contentstructure ul#content_tree_menu ul a.openclose-busy
-{
-    background-image: url( '../images/content_tree-busy.gif' );
-    cursor: progress;
+    background-position: center -16px;
 }
 
 div#contentstructure ul#content_tree_menu ul a.openclose-error
 {
-    background-image: url( '../images/content_tree-error.gif' );
+    background-position: center -32px;
+}
+
+div#contentstructure ul#content_tree_menu ul a.openclose-busy
+{
+    background-position: center -48px;
+    cursor: progress;
 }
 
 div#contentstructure ul#content_tree_menu div.loaded
