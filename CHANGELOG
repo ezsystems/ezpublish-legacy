@@ -7,6 +7,8 @@
 - Make ezjscServerRouter use hasAccessToLimitation to support multiple policies
 - Add support for spellchecker and facets support for ezfind
 - Add support for serializeArray() format as post parameter on jQuery.ez
+- Updated jQuery to 1.4.2
+- Changed back to using ajax.googleapis.com for jQuery like 1.0, reported in #016229
 
 
 
