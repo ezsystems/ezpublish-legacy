@@ -204,7 +204,7 @@ class eZWordToImageOperator
             case 'flag_icon':
             {
                 $ini = eZINI::instance( 'icon.ini' );
-                $repository = $ini->variable( 'IconSettings', 'Repository' );
+                $repository = $ini->variable( 'FlagIcons', 'Repository' );
                 $theme = $ini->variable( 'FlagIcons', 'Theme' );
 
                 // Load icon settings from the theme
