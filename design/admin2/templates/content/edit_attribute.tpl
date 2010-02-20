@@ -79,7 +79,7 @@
 {/foreach}
 {run-once}
 {* if is_set( $content_attributes_grouped_data_map[1] ) *}
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 <!--
 {literal}
 
