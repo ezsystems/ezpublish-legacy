@@ -235,7 +235,7 @@ class eZStepRegistration extends eZStepInstaller
         $result = array();
         // Display template
         $result['content'] = $this->Tpl->fetch( "design:setup/init/registration.tpl" );
-        $result['path'] = array( array( 'text' => ezpI18n::translate( 'design/standard/setup/init',
+        $result['path'] = array( array( 'text' => ezpI18n::tr( 'design/standard/setup/init',
                                                           'Registration' ),
                                         'url' => false ) );
         return $result;

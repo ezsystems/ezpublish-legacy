@@ -83,7 +83,7 @@ class eZECBHandler extends eZExchangeRatesUpdateHandler
     function requestRates()
     {
         $error = array( 'code' => self::OK,
-                        'description' => ezpI18n::translate( 'kernel/shop', "'Autorates' were retrieved successfully" ) );
+                        'description' => ezpI18n::tr( 'kernel/shop', "'Autorates' were retrieved successfully" ) );
 
         $serverName = $this->serverName();
         $serverPort = $this->serverPort();
@@ -123,19 +123,19 @@ class eZECBHandler extends eZExchangeRatesUpdateHandler
                 else
                 {
                     $error['code'] = self::FAILED;
-                    $error['description'] = ezpI18n::translate( 'kernel/shop', "Unknown body format in HTTP response. Expected 'text/xml'" );
+                    $error['description'] = ezpI18n::tr( 'kernel/shop', "Unknown body format in HTTP response. Expected 'text/xml'" );
                 }
             }
             else
             {
                 $error['code'] = self::FAILED;
-                $error['description'] = ezpI18n::translate( 'kernel/shop', "Invalid HTTP response" );
+                $error['description'] = ezpI18n::tr( 'kernel/shop', "Invalid HTTP response" );
             }
         }
         else
         {
             $error['code'] = self::FAILED;
-            $error['description'] = ezpI18n::translate( 'kernel/shop', "Unable to send http request: %1:%2/%3", null, array( $serverName, $serverPort, $ratesURI ) );
+            $error['description'] = ezpI18n::tr( 'kernel/shop', "Unable to send http request: %1:%2/%3", null, array( $serverName, $serverPort, $ratesURI ) );
         }
 
         $this->setRateList( $ratesList );

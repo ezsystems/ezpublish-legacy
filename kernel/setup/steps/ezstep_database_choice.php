@@ -142,7 +142,7 @@ class eZStepDatabaseChoice extends eZStepInstaller
         $result = array();
         // Display template
         $result['content'] = $this->Tpl->fetch( "design:setup/init/database_choice.tpl" );
-        $result['path'] = array( array( 'text' => ezpI18n::translate( 'design/standard/setup/init',
+        $result['path'] = array( array( 'text' => ezpI18n::tr( 'design/standard/setup/init',
                                                           'Database choice' ),
                                         'url' => false ) );
         return $result;

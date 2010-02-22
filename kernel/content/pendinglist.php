@@ -47,6 +47,6 @@ $tpl->setVariable('view_parameters', $viewParameters );
 
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:content/pendinglist.tpl' );
-$Result['path'] = array( array( 'text' => ezpI18n::translate( 'kernel/content', 'My pending list' ),
+$Result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/content', 'My pending list' ),
                                 'url' => false ) );
 ?>

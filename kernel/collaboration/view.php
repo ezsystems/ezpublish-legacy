@@ -53,6 +53,6 @@ $tpl->setVariable( 'view_parameters', $viewParameters );
 $Result = array();
 $Result['content'] = $tpl->fetch( $template );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezpI18n::translate( 'kernel/collaboration', 'Collaboration' ) ) );
+                                'text' => ezpI18n::tr( 'kernel/collaboration', 'Collaboration' ) ) );
 
 ?>

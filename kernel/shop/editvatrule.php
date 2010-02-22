@@ -51,12 +51,12 @@ function checkEnteredData( $country, $categories, $vatType, $productCategories, 
     if ( !$country || !is_numeric( $vatType ) )
     {
         $errors = array();
-        $errorHeader = ezpI18n::translate( 'kernel/shop/editvatrule', 'Invalid data entered' );
+        $errorHeader = ezpI18n::tr( 'kernel/shop/editvatrule', 'Invalid data entered' );
 
         if ( !$country )
-            $errors[] = ezpI18n::translate( 'kernel/shop/editvatrule', 'Choose a country.' );
+            $errors[] = ezpI18n::tr( 'kernel/shop/editvatrule', 'Choose a country.' );
         if ( !is_numeric( $vatType ) )
-            $errors[] = ezpI18n::translate( 'kernel/shop/editvatrule', 'Choose a VAT type.' );
+            $errors[] = ezpI18n::tr( 'kernel/shop/editvatrule', 'Choose a VAT type.' );
 
         return array( $errorHeader, $errors );
     }
@@ -66,7 +66,7 @@ function checkEnteredData( $country, $categories, $vatType, $productCategories, 
      * conflicts with existing ones.
      */
 
-    $errorHeader = ezpI18n::translate( 'kernel/shop/editvatrule', 'Conflicting rule' );
+    $errorHeader = ezpI18n::tr( 'kernel/shop/editvatrule', 'Conflicting rule' );
     $vatRules = eZVatRule::fetchList();
 
     // If the rule is default one
@@ -81,11 +81,11 @@ function checkEnteredData( $country, $categories, $vatType, $productCategories, 
                 continue;
 
             if ( $country == '*' )
-                $errors[] = ezpI18n::translate( 'kernel/shop/editvatrule', 'Default rule for any country already exists.' );
+                $errors[] = ezpI18n::tr( 'kernel/shop/editvatrule', 'Default rule for any country already exists.' );
             else
             {
                 $errorMessage = "Default rule for country '%1' already exists.";
-                $errors[] = ezpI18n::translate( 'kernel/shop/editvatrule', $errorMessage, null, array( $country ) );
+                $errors[] = ezpI18n::tr( 'kernel/shop/editvatrule', $errorMessage, null, array( $country ) );
             }
 
             break;
@@ -123,7 +123,7 @@ function checkEnteredData( $country, $categories, $vatType, $productCategories, 
             else
                 $errorMessage = "There is already a rule defined for country '%1' containing the following categories: %2.";
 
-            $errors[] = ezpI18n::translate( 'kernel/shop/editvatrule', $errorMessage, null, array( $country, $intersectingCategories ) );
+            $errors[] = ezpI18n::tr( 'kernel/shop/editvatrule', $errorMessage, null, array( $country, $intersectingCategories ) );
         }
     }
 
@@ -166,7 +166,7 @@ else if ( in_array( $module->currentAction(), array(  'Create', 'StoreChanges' )
             if ( !is_object( $vatRule ) )
             {
                 //$ruleID = null;
-                $errors[] = ezpI18n::translate( 'kernel/shop/editvatrule', 'Rule not found' );
+                $errors[] = ezpI18n::tr( 'kernel/shop/editvatrule', 'Rule not found' );
                 break;
             }
         }
@@ -198,7 +198,7 @@ if ( is_numeric( $ruleID ) )
     $tplCategoryIDs  = $tplVatRule->attribute( 'product_categories_ids' );
     $tplVatTypeID    = $tplVatRule->attribute( 'vat_type' );
 
-    $pathText = ezpI18n::translate( 'kernel/shop/editvatrule', 'Edit VAT charging rule' );
+    $pathText = ezpI18n::tr( 'kernel/shop/editvatrule', 'Edit VAT charging rule' );
 }
 else
 {
@@ -207,7 +207,7 @@ else
     $tplVatTypeID = false;
     $tplCategoryIDs = array();
 
-    $pathText = ezpI18n::translate( 'kernel/shop/editvatrule', 'Create new VAT charging rule' );
+    $pathText = ezpI18n::tr( 'kernel/shop/editvatrule', 'Create new VAT charging rule' );
 }
 
 if ( $errors !== false )

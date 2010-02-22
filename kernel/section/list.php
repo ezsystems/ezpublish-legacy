@@ -95,7 +95,7 @@ if ( $http->hasPostVariable( 'RemoveSectionButton' ) )
                 $Result = array();
                 $Result['content'] = $tpl->fetch( "design:section/confirmremove.tpl" );
                 $Result['path'] = array( array( 'url' => false,
-                                                'text' => ezpI18n::translate( 'kernel/section', 'Sections' ) ) );
+                                                'text' => ezpI18n::tr( 'kernel/section', 'Sections' ) ) );
                 return;
             }
         }
@@ -154,6 +154,6 @@ $tpl->setVariable( 'allowed_assign_sections', $allowedAssignSectionList );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:section/list.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezpI18n::translate( 'kernel/section', 'Sections' ) ) );
+                                'text' => ezpI18n::tr( 'kernel/section', 'Sections' ) ) );
 
 ?>

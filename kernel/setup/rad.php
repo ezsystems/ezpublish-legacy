@@ -35,7 +35,7 @@ $tpl = eZTemplate::factory();
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:setup/rad.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezpI18n::translate( 'kernel/setup', 'Rapid Application Development' ) ) );
+                                'text' => ezpI18n::tr( 'kernel/setup', 'Rapid Application Development' ) ) );
 
 
 ?>

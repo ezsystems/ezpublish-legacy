@@ -271,7 +271,7 @@ eZDebug::writeNotice( 'The versions view has been deprecated, please use the /co
 
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:content/versions.tpl' );
-$Result['path'] = array( array( 'text' => ezpI18n::translate( 'kernel/content', 'Versions' ),
+$Result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/content', 'Versions' ),
                                 'url' => false ) );
 
 ?>

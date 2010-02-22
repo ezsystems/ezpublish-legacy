@@ -82,16 +82,16 @@ $tpl->setVariable( 'group', $group );
 if ( $StateIdentifier === null )
 {
     $path = array(
-        array( 'url' => false, 'text' => ezpI18n::translate( 'kernel/state', 'State' ) ),
-        array( 'url' => false, 'text' => ezpI18n::translate( 'kernel/state', 'New' ) ),
+        array( 'url' => false, 'text' => ezpI18n::tr( 'kernel/state', 'State' ) ),
+        array( 'url' => false, 'text' => ezpI18n::tr( 'kernel/state', 'New' ) ),
         array( 'url' => false, 'text' => $GroupIdentifier )
     );
 }
 else
 {
     $path = array(
-        array( 'url' => false, 'text' => ezpI18n::translate( 'kernel/state', 'State' ) ),
-        array( 'url' => false, 'text' => ezpI18n::translate( 'kernel/state', 'Edit' ) ),
+        array( 'url' => false, 'text' => ezpI18n::tr( 'kernel/state', 'State' ) ),
+        array( 'url' => false, 'text' => ezpI18n::tr( 'kernel/state', 'Edit' ) ),
         array( 'url' => false, 'text' => $GroupIdentifier ),
         array( 'url' => false, 'text' => $StateIdentifier ),
     );

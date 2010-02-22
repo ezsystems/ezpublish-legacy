@@ -43,7 +43,7 @@ class eZOptionType extends eZDataType
 
     function eZOptionType()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::translate( 'kernel/classes/datatypes', "Option", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Option", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -56,14 +56,14 @@ class eZOptionType extends eZDataType
 
             if ( $contentObjectAttribute->validateIsRequired() and !$value )
             {
-                $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
+                $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                      'Input required.' ) );
                 return eZInputValidator::STATE_INVALID;
             }
         }
         else
         {
-            $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
+            $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                  'Input required.' ) );
             return eZInputValidator::STATE_INVALID;
         }
@@ -96,7 +96,7 @@ class eZOptionType extends eZDataType
                 }
             if ( $contentObjectAttribute->validateIsRequired() and trim( $dataName ) == '' )
             {
-                $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
+                $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                      'NAME is required.' ) );
                 return eZInputValidator::STATE_INVALID;
             }
@@ -107,7 +107,7 @@ class eZOptionType extends eZDataType
                     $value =  $valueList[$i];
                     if ( trim( $value )== "" )
                     {
-                        $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
+                        $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                              'The option value must be provided.' ) );
                         return eZInputValidator::STATE_INVALID;
                     }
@@ -115,7 +115,7 @@ class eZOptionType extends eZDataType
                          strlen( $optionAdditionalPriceList[$i] ) &&
                          !preg_match( "#^[-|+]?[0-9]+(\.){0,1}[0-9]{0,2}$#", $optionAdditionalPriceList[$i] ) )
                     {
-                        $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
+                        $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                              'The Additional price value is not valid.' ) );
                         return eZInputValidator::STATE_INVALID;
                     }
@@ -127,7 +127,7 @@ class eZOptionType extends eZDataType
         {
             if ( $count == 0 )
             {
-                $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
+                $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                      'At least one option is required.' ) );
                 return eZInputValidator::STATE_INVALID;
             }

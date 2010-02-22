@@ -47,7 +47,7 @@ class eZExtensionPackageCreator extends eZPackageCreationHandler
     {
         $steps = array();
         $steps[] = array( 'id' => 'extensionlist',
-                          'name' => ezpI18n::translate( 'kernel/package', 'Extensions to include' ),
+                          'name' => ezpI18n::tr( 'kernel/package', 'Extensions to include' ),
                           'methods' => array( 'initialize' => 'initializeExtensionName',
                                               'load' => 'loadExtensionName',
                                               'validate' => 'validateExtensionName',
@@ -57,7 +57,7 @@ class eZExtensionPackageCreator extends eZPackageCreationHandler
         $steps[] = $this->packageMaintainerStep();
         $steps[] = $this->packageChangelogStep();
         $this->eZPackageCreationHandler( $id,
-                                         ezpI18n::translate( 'kernel/package', 'Extension export' ),
+                                         ezpI18n::tr( 'kernel/package', 'Extension export' ),
                                          $steps );
     }
 
@@ -120,8 +120,8 @@ class eZExtensionPackageCreator extends eZPackageCreationHandler
         if ( !$http->hasPostVariable( 'PackageExtensionNames' ) ||
              count( $http->postVariable( 'PackageExtensionNames' ) ) == 0 )
         {
-            $errorList[] = array( 'field' => ezpI18n::translate( 'kernel/package', 'Extension list' ),
-                                  'description' => ezpI18n::translate( 'kernel/package', 'You must select at least one extension' ) );
+            $errorList[] = array( 'field' => ezpI18n::tr( 'kernel/package', 'Extension list' ),
+                                  'description' => ezpI18n::tr( 'kernel/package', 'You must select at least one extension' ) );
             return false;
         }
         return true;

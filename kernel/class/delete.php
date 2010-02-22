@@ -67,5 +67,5 @@ $tpl->setVariable( "ClassObjectsCount", $ClassObjectsCount );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:class/delete.tpl" );
 $Result['path'] = array( array( 'url' => '/class/delete/',
-                                'text' => ezpI18n::translate( 'kernel/class', 'Remove class' ) ) );
+                                'text' => ezpI18n::tr( 'kernel/class', 'Remove class' ) ) );
 ?>

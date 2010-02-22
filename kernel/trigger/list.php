@@ -206,9 +206,9 @@ $tpl->setVariable( 'triggers', $triggers );
 $tpl->setVariable( 'module', $Module );
 
 $Result['content'] = $tpl->fetch( 'design:trigger/list.tpl' );
-$Result['path'] = array( array( 'text' => ezpI18n::translate( 'kernel/trigger', 'Trigger' ),
+$Result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/trigger', 'Trigger' ),
                                 'url' => false ),
-                         array( 'text' => ezpI18n::translate( 'kernel/trigger', 'List' ),
+                         array( 'text' => ezpI18n::tr( 'kernel/trigger', 'List' ),
                                 'url' => false ) );
 
 

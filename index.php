@@ -857,7 +857,7 @@ if ( $module->exitStatus() == eZModule::STATUS_REDIRECT )
                                                               'number' => 1,
                                                               'count' => $GLOBALS['eZDebugErrorCount'] ),
                                             'identifier' => 'ezdebug-first-error',
-                                            'text' => ezpI18n::translate( 'index.php', 'Some errors occurred, see debug for more information.' ) ) );
+                                            'text' => ezpI18n::tr( 'index.php', 'Some errors occurred, see debug for more information.' ) ) );
             }
 
             if ( isset( $GLOBALS['eZDebugWarning'] ) and
@@ -867,7 +867,7 @@ if ( $module->exitStatus() == eZModule::STATUS_REDIRECT )
                                                               'number' => 1,
                                                               'count' => $GLOBALS['eZDebugWarningCount'] ),
                                             'identifier' => 'ezdebug-first-warning',
-                                            'text' => ezpI18n::translate( 'index.php', 'Some general warnings occured, see debug for more information.' ) ) );
+                                            'text' => ezpI18n::tr( 'index.php', 'Some general warnings occured, see debug for more information.' ) ) );
             }
         }
 
@@ -1005,7 +1005,7 @@ if ( $show_page_layout )
                                                               'number' => 1 ,
                                                               'count' => $GLOBALS['eZDebugErrorCount'] ),
                                             'identifier' => 'ezdebug-first-error',
-                                            'text' => ezpI18n::translate( 'index.php', 'Some errors occurred, see debug for more information.' ) ) );
+                                            'text' => ezpI18n::tr( 'index.php', 'Some errors occurred, see debug for more information.' ) ) );
             }
 
             if ( isset( $GLOBALS['eZDebugWarning'] ) and
@@ -1015,7 +1015,7 @@ if ( $show_page_layout )
                                                               'number' => 1,
                                                               'count' => $GLOBALS['eZDebugWarningCount'] ),
                                             'identifier' => 'ezdebug-first-warning',
-                                            'text' => ezpI18n::translate( 'index.php', 'Some general warnings occured, see debug for more information.' ) ) );
+                                            'text' => ezpI18n::tr( 'index.php', 'Some general warnings occured, see debug for more information.' ) ) );
             }
         }
 

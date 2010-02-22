@@ -89,7 +89,7 @@ if ( strlen( $hashKey ) == 32 )
             $emailSender = $ini->variable( 'MailSettings', 'AdminEmail' );
         $mail->setSender( $emailSender );
         $mail->setReceiver( $receiver );
-        $subject = ezpI18n::translate( 'kernel/user/register', 'Registration info' );
+        $subject = ezpI18n::tr( 'kernel/user/register', 'Registration info' );
         if ( $tpl->hasVariable( 'subject' ) )
             $subject = $tpl->variable( 'subject' );
         if ( $tpl->hasVariable( 'content_type' ) )
@@ -175,7 +175,7 @@ if ( $module->isCurrentAction( "Generate" ) )
                 $emailSender = $ini->variable( 'MailSettings', 'AdminEmail' );
             $mail->setSender( $emailSender );
             $mail->setReceiver( $receiver );
-            $subject = ezpI18n::translate( 'kernel/user/register', 'Registration info' );
+            $subject = ezpI18n::tr( 'kernel/user/register', 'Registration info' );
             if ( $tpl->hasVariable( 'subject' ) )
                 $subject = $tpl->variable( 'subject' );
             $mail->setSubject( $subject );
@@ -193,9 +193,9 @@ if ( $module->isCurrentAction( "Generate" ) )
 
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:user/forgotpassword.tpl' );
-$Result['path'] = array( array( 'text' => ezpI18n::translate( 'kernel/user', 'User' ),
+$Result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/user', 'User' ),
                                 'url' => false ),
-                         array( 'text' => ezpI18n::translate( 'kernel/user', 'Forgot password' ),
+                         array( 'text' => ezpI18n::tr( 'kernel/user', 'Forgot password' ),
                                 'url' => false ) );
 
 if ( $ini->variable( 'SiteSettings', 'LoginPage' ) == 'custom' )

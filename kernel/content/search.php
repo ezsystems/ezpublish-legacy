@@ -202,7 +202,7 @@ else
 
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:content/search.tpl" );
-$Result['path'] = array( array( 'text' => ezpI18n::translate( 'kernel/content', 'Search' ),
+$Result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/content', 'Search' ),
                                 'url' => false ) );
 
 $searchData = false;

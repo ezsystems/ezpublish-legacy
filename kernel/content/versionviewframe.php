@@ -109,7 +109,7 @@ if ( $Module->isCurrentAction( 'Publish' ) and
             $Result['navigation_part'] = $section->attribute( 'navigation_part_identifier' );
             $Result['section_id'] = $section->attribute( 'id' );
         }
-        $Result['path'] = array( array( 'text' => ezpI18n::translate( 'kernel/content', 'Version preview' ),
+        $Result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/content', 'Version preview' ),
                                         'url' => false ) );
         return $Result;
     }

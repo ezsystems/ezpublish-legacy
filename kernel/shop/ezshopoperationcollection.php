@@ -91,8 +91,8 @@ class eZShopOperationCollection
         }
         else
         {
-            $header = ezpI18n::translate( 'kernel/shop', 'Error checking out' );
-            $msg = ezpI18n::translate( 'kernel/shop',
+            $header = ezpI18n::tr( 'kernel/shop', 'Error checking out' );
+            $msg = ezpI18n::tr( 'kernel/shop',
                            'Unable to calculate VAT percentage because your country is unknown. ' .
                            'You can either fill country manually in your account information (if you are a registered user) ' .
                            'or contact site administrator.' );

@@ -93,7 +93,7 @@ $tpl->setVariable('view_parameters', $viewParameters );
 
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:content/bookmark.tpl' );
-$Result['path'] = array( array( 'text' => ezpI18n::translate( 'kernel/content', 'My bookmarks' ),
+$Result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/content', 'My bookmarks' ),
                                 'url' => false ) );
 
 

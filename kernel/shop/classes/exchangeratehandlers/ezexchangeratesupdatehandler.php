@@ -136,7 +136,7 @@ class eZExchangeRatesUpdateHandler
     function requestRates()
     {
         $error = array( 'code' => self::FAILED,
-                        'description' => ezpI18n::translate( 'kernel/shop', "eZExchangeRatesUpdateHandler: you should reimplement 'requestRates' method" ) );
+                        'description' => ezpI18n::tr( 'kernel/shop', "eZExchangeRatesUpdateHandler: you should reimplement 'requestRates' method" ) );
 
         return $error;
     }

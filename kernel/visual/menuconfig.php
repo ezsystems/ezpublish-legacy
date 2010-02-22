@@ -131,6 +131,6 @@ $tpl->setVariable( 'current_siteaccess', $siteAccess );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:visual/menuconfig.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezpI18n::translate( 'design/standard/menuconfig', 'Menu management' ) ) );
+                                'text' => ezpI18n::tr( 'design/standard/menuconfig', 'Menu management' ) ) );
 
 ?>

@@ -303,7 +303,7 @@ class eZOrderStatus extends eZPersistentObject
         $row = array(
             'id' => null,
             'is_active' => true,
-            'name' => ezpI18n::translate( 'kernel/shop', 'Order status' ) );
+            'name' => ezpI18n::tr( 'kernel/shop', 'Order status' ) );
         return new eZOrderStatus( $row );
     }
 
@@ -321,7 +321,7 @@ class eZOrderStatus extends eZPersistentObject
                 'id' => null,
                 'status_id' => eZOrderStatus::UNDEFINED,
                 'is_active' => true,
-                'name' => ezpI18n::translate( 'kernel/shop', 'Undefined' ) );
+                'name' => ezpI18n::tr( 'kernel/shop', 'Undefined' ) );
             $GLOBALS['eZOrderStatusUndefined'] = new eZOrderStatus( $row );
         }
         return $GLOBALS['eZOrderStatusUndefined'];

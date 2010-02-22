@@ -97,7 +97,7 @@ class eZStepSystemCheck extends eZStepInstaller
         $result = array();
         // Display template
         $result['content'] = $this->Tpl->fetch( "design:setup/init/system_check.tpl" );
-        $result['path'] = array( array( 'text' => ezpI18n::translate( 'design/standard/setup/init',
+        $result['path'] = array( array( 'text' => ezpI18n::tr( 'design/standard/setup/init',
                                                           'System check' ),
                                         'url' => false ) );
         return $result;

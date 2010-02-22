@@ -249,8 +249,8 @@ $tpl->setVariable( 'package', $package );
 $Result = array();
 $Result['content'] = $tpl->fetch( $templateName );
 $Result['path'] = array( array( 'url' => 'package/list',
-                                'text' => ezpI18n::translate( 'kernel/package', 'Packages' ) ),
+                                'text' => ezpI18n::tr( 'kernel/package', 'Packages' ) ),
                          array( 'url' => false,
-                                'text' => ezpI18n::translate( 'kernel/package', 'Install' ) ) );
+                                'text' => ezpI18n::tr( 'kernel/package', 'Install' ) ) );
 
 ?>

@@ -217,7 +217,7 @@ $count = $filter->count();
 $aliasList = $filter->fetchAll();
 $path = array();
 $path[] = array( 'url'  => false,
-                 'text' => ezpI18n::translate( 'kernel/content/urlalias_global', 'Global URL aliases' ) );
+                 'text' => ezpI18n::tr( 'kernel/content/urlalias_global', 'Global URL aliases' ) );
 
 $languages = eZContentLanguage::prioritizedLanguages();
 

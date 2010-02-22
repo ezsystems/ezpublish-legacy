@@ -9,6 +9,7 @@ Changes from 4.3.0alpha1 to 4.3.0beta1
 - Updated bug #16197: Editing a class makes it loose it's class group
 - Implemented enhancement #16202: Deprecate imageInit()
 - Implemented enhancement #16216: Deprecate templateInit()
+- Implemented enhancement #16228: Rename ezpI18n::translate() to something shorter like ezpI18n::tr()
 
 *Design:
 

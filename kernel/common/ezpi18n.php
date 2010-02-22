@@ -87,7 +87,7 @@ class ezpI18n
      * @param array|null $arguments
      * @return string
      */
-    public static function translate( $context, $source, $comment = null, $arguments = null )
+    public static function tr( $context, $source, $comment = null, $arguments = null )
     {
         if ( self::isEnabled() )
         {

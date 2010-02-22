@@ -265,8 +265,8 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' )
     {
         $validation['attributes'][] = array( 'id' => '1',
                                              'identified' => 'generalid',
-                                             'name' => ezpI18n::translate( 'kernel/content', 'Error' ),
-                                             'description' => ezpI18n::translate( 'kernel/content', 'The request sent to the server was too big to be accepted. This probably means that you uploaded a file which was too big. The maximum allowed request size is %max_size_string.', null, array( '%max_size_string' => "$postMaxSize $postMaxSizeUnit" ) ) );
+                                             'name' => ezpI18n::tr( 'kernel/content', 'Error' ),
+                                             'description' => ezpI18n::tr( 'kernel/content', 'The request sent to the server was too big to be accepted. This probably means that you uploaded a file which was too big. The maximum allowed request size is %max_size_string.', null, array( '%max_size_string' => "$postMaxSize $postMaxSizeUnit" ) ) );
         $validation['processed'] = true;
     }
 }
@@ -370,7 +370,7 @@ if ( $Module->isCurrentAction( 'Publish' ) )
         // Check that node assignment node exists.
         if ( !$assignments[$key]->attribute( 'parent_node_obj' ) )
         {
-            $validation[ 'placement' ][] = array( 'text' => ezpI18n::translate( 'kernel/content', 'A node in the node assignment list has been deleted.' ) );
+            $validation[ 'placement' ][] = array( 'text' => ezpI18n::tr( 'kernel/content', 'A node in the node assignment list has been deleted.' ) );
             $validation[ 'processed' ] = true;
             $inputValidated = false;
             $invalidNodeAssignmentList[] = $assignments[$key]->attribute( 'parent_node' );
@@ -391,7 +391,7 @@ if ( $Module->isCurrentAction( 'Publish' ) )
     {
         if( eZPreferences::value( 'admin_edit_show_locations' ) == '0' )
         {
-            $validation[ 'placement' ][] = array( 'text' => ezpI18n::translate( 'kernel/content', 'No main node selected, please select one.' ) );
+            $validation[ 'placement' ][] = array( 'text' => ezpI18n::tr( 'kernel/content', 'No main node selected, please select one.' ) );
             $validation[ 'processed' ] = true;
             $inputValidated = false;
             eZDebugSetting::writeDebug( 'kernel-content-edit', "placement is not validated" );
@@ -519,9 +519,9 @@ $tpl->setVariable( 'view_parameters', $viewParameters );
 $Result = array();
 $Result['content'] = $tpl->fetch( $templateName );
 $Result['view_parameters'] = $viewParameters;
-// $Result['path'] = array( array( 'text' => ezpI18n::translate( 'kernel/content', 'Content' ),
+// $Result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/content', 'Content' ),
 //                                 'url' => false ),
-//                          array( 'text' => ezpI18n::translate( 'kernel/content', 'Edit' ),
+//                          array( 'text' => ezpI18n::tr( 'kernel/content', 'Edit' ),
 //                                 'url' => false ),
 //                          array( 'text' => $object->attribute( 'name' ),
 //                                 'url' => false ) );

@@ -105,7 +105,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $root = $document->documentElement;
                 if ( !$root->hasChildNodes() )
                 {
-                    $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
+                    $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                          'Content required' ) );
                     return eZInputValidator::STATE_INVALID;
                 }

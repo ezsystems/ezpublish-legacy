@@ -165,6 +165,6 @@ if ( $section )
 
 $Result['content'] = $tpl->fetch( "design:content/diff.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezpI18n::translate( 'kernel/content', 'Differences' ) ) );
+                                'text' => ezpI18n::tr( 'kernel/content', 'Differences' ) ) );
 
 ?>

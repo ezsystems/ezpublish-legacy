@@ -108,5 +108,5 @@ $tpl->setVariable( 'limit', $limit );
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:role/list.tpl' );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezpI18n::translate( 'kernel/role', 'Role list' ) ) );
+                                'text' => ezpI18n::tr( 'kernel/role', 'Role list' ) ) );
 ?>

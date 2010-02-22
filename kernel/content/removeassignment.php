@@ -139,5 +139,5 @@ $tpl->setVariable( 'remove_info', $info );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:content/removeassignment.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezpI18n::translate( 'kernel/content', 'Remove location' ) ) );
+                                'text' => ezpI18n::tr( 'kernel/content', 'Remove location' ) ) );
 ?>

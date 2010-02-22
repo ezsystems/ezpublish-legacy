@@ -76,7 +76,7 @@ else
     $Module->hasActionParameter( 'RedirectRelativeURI' ) ? $Module->redirectTo( $Module->actionParameter( 'RedirectRelativeURI' ) ) : $Module->redirectTo( '/' );
 
 $Result['path'] = array(
-                    array( 'url' => false, 'text' => ezpI18n::translate( 'kernel/state', 'State' ) ),
-                    array( 'url' => false, 'text' => ezpI18n::translate( 'kernel/state', 'Assign' ) )
+                    array( 'url' => false, 'text' => ezpI18n::tr( 'kernel/state', 'State' ) ),
+                    array( 'url' => false, 'text' => ezpI18n::tr( 'kernel/state', 'Assign' ) )
                    );
 ?>

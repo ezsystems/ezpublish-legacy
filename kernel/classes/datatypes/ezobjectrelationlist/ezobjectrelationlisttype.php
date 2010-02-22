@@ -51,7 +51,7 @@ class eZObjectRelationListType extends eZDataType
     */
     function eZObjectRelationListType()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::translate( 'kernel/classes/datatypes', "Object relations", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Object relations", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -80,7 +80,7 @@ class eZObjectRelationListType extends eZDataType
             $selectedObjectIDArray = $http->hasPostVariable( $postVariableName ) ? $http->postVariable( $postVariableName ) : false;
             if ( $contentObjectAttribute->validateIsRequired() and $selectedObjectIDArray === false )
             {
-                $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
+                $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                      'Missing objectrelation list input.' ) );
                 return eZInputValidator::STATE_INVALID;
             }
@@ -90,7 +90,7 @@ class eZObjectRelationListType extends eZDataType
         $content = $contentObjectAttribute->content();
         if ( $contentObjectAttribute->validateIsRequired() and count( $content['relation_list'] ) == 0 )
         {
-            $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
+            $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                  'Missing objectrelation list input.' ) );
             return eZInputValidator::STATE_INVALID;
         }

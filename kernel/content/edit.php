@@ -337,9 +337,9 @@ if ( $EditLanguage == false )
 
         $Result = array();
         $Result['content'] = $tpl->fetch( 'design:content/edit_languages.tpl' );
-        $Result['path'] = array( array( 'text' => ezpI18n::translate( 'kernel/content', 'Content' ),
+        $Result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/content', 'Content' ),
                                  'url' => false ),
-                          array( 'text' => ezpI18n::translate( 'kernel/content', 'Edit' ),
+                          array( 'text' => ezpI18n::tr( 'kernel/content', 'Edit' ),
                                  'url' => false ) );
         $section = eZSection::fetch( $obj->attribute( 'section_id' ) );
         if ( $section )

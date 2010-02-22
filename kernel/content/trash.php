@@ -121,7 +121,7 @@ $tpl->setVariable( 'view_parameters', $viewParameters );
 
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:content/trash.tpl' );
-$Result['path'] = array( array( 'text' => ezpI18n::translate( 'kernel/content', 'Trash' ),
+$Result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/content', 'Trash' ),
                                 'url' => false ) );
 
 

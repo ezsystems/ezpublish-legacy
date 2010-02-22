@@ -60,7 +60,7 @@ $tpl->setVariable( 'collab_group', $collabGroup );
 $Result = array();
 $Result['content'] = $tpl->fetch( $template );
 $Result['path'] = array( array( 'url' => 'collaboration/view/summary',
-                                'text' => ezpI18n::translate( 'kernel/collaboration', 'Collaboration' ) ),
+                                'text' => ezpI18n::tr( 'kernel/collaboration', 'Collaboration' ) ),
                          array( 'url' => false,
                                 'text' => 'Group' ),
                          array( 'url' => false,

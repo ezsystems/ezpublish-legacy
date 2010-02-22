@@ -119,7 +119,7 @@ $tpl->setVariable( 'sort_field', $sortField );
 $tpl->setVariable( 'sort_order', $sortOrder );
 
 $Result = array();
-$Result['path'] = array( array( 'text' => ezpI18n::translate( 'kernel/shop', 'Order list' ),
+$Result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/shop', 'Order list' ),
                                 'url' => false ) );
 
 $Result['content'] = $tpl->fetch( 'design:shop/orderlist.tpl' );

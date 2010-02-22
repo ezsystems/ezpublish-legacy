@@ -44,24 +44,24 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
     {
         $steps = array();
         $steps[] = array( 'id' => 'site_access',
-                          'name' => ezpI18n::translate( 'kernel/package', 'Site access mapping' ),
+                          'name' => ezpI18n::tr( 'kernel/package', 'Site access mapping' ),
                           'methods' => array( 'initialize' => 'initializeSiteAccess',
                                               'validate' => 'validateSiteAccess' ),
                           'template' => 'site_access.tpl' );
         $steps[] = array( 'id' => 'top_nodes',
-                          'name' => ezpI18n::translate( 'kernel/package', 'Top node placements' ),
+                          'name' => ezpI18n::tr( 'kernel/package', 'Top node placements' ),
                           'methods' => array( 'initialize' => 'initializeTopNodes',
                                               'validate' => 'validateTopNodes' ),
                           'template' => 'top_nodes.tpl' );
         $steps[] = array( 'id' => 'advanced_options',
-                          'name' => ezpI18n::translate( 'kernel/package', 'Advanced options' ),
+                          'name' => ezpI18n::tr( 'kernel/package', 'Advanced options' ),
                           'methods' => array( 'initialize' => 'initializeAdvancedOptions',
                                               'validate' => 'validateAdvancedOptions' ),
                           'template' => 'advanced_options.tpl' );
         $this->eZPackageInstallationHandler( $package,
                                              $type,
                                              $installItem,
-                                             ezpI18n::translate( 'kernel/package', 'Content object import' ),
+                                             ezpI18n::tr( 'kernel/package', 'Content object import' ),
                                              $steps );
     }
 
@@ -182,8 +182,8 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
         {
             if ( $persistentData['top_nodes_map'][$topNodeArrayKey]['new_node_id'] === false )
             {
-                $errorList[] = array( 'field' => ezpI18n::translate( 'kernel/package', 'Select parent nodes' ),
-                                      'description' => ezpI18n::translate( 'kernel/package', 'You must assign all nodes to new parent nodes.' ) );
+                $errorList[] = array( 'field' => ezpI18n::tr( 'kernel/package', 'Select parent nodes' ),
+                                      'description' => ezpI18n::tr( 'kernel/package', 'You must assign all nodes to new parent nodes.' ) );
                 $validate = false;
                 break;
             }

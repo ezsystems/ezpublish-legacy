@@ -235,5 +235,5 @@ $tpl->setVariable( 'move_to_trash'          , $moveToTrash );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:node/removeobject.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezpI18n::translate( 'kernel/content', 'Remove object' ) ) );
+                                'text' => ezpI18n::tr( 'kernel/content', 'Remove object' ) ) );
 ?>

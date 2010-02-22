@@ -67,7 +67,7 @@ class eZInstallScriptPackageHandler extends eZPackageHandler
         if ( !$description )
             return false;
 
-        return array( 'description' => ezpI18n::translate( 'kernel/package', 'Install script: %description', false,
+        return array( 'description' => ezpI18n::tr( 'kernel/package', 'Install script: %description', false,
                                                array( '%description' => $description ) ) );
     }
 

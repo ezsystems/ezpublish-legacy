@@ -477,9 +477,9 @@ $tpl->setVariable( 'design_extension', $designExtension );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:visual/templatecreate.tpl" );
 $Result['path'] = array( array( 'url' => "/visual/templatelist/",
-                                'text' => ezpI18n::translate( 'kernel/design', 'Template list' ) ),
+                                'text' => ezpI18n::tr( 'kernel/design', 'Template list' ) ),
                          array( 'url' => "/visual/templateview". $template,
-                                'text' => ezpI18n::translate( 'kernel/design', 'Template view' ) ),
+                                'text' => ezpI18n::tr( 'kernel/design', 'Template view' ) ),
                          array( 'url' => false,
-                                'text' => ezpI18n::translate( 'kernel/design', 'Create new template' ) ) );
+                                'text' => ezpI18n::tr( 'kernel/design', 'Create new template' ) ) );
 ?>

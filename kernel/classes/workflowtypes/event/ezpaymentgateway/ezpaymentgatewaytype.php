@@ -53,7 +53,7 @@ class eZPaymentGatewayType extends eZWorkflowEventType
     {
         $this->logger   = eZPaymentLogger::CreateForAdd( "var/log/eZPaymentGatewayType.log" );
 
-        $this->eZWorkflowEventType( eZPaymentGatewayType::WORKFLOW_TYPE_STRING, ezpI18n::translate( 'kernel/workflow/event', "Payment Gateway" ) );
+        $this->eZWorkflowEventType( eZPaymentGatewayType::WORKFLOW_TYPE_STRING, ezpI18n::tr( 'kernel/workflow/event', "Payment Gateway" ) );
         $this->loadAndRegisterGateways();
     }
 

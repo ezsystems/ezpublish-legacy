@@ -112,7 +112,7 @@ else if ( is_string( $limitIdent ) && !isset( $limitValue ) )
             $Result = array();
             $Result['content'] = $tpl->fetch( 'design:role/assign_limited_section.tpl' );
             $Result['path'] = array( array( 'url' => false,
-                                            'text' => ezpI18n::translate( 'kernel/role', 'Limit on section' ) ) );
+                                            'text' => ezpI18n::tr( 'kernel/role', 'Limit on section' ) ) );
             return;
         } break;
 

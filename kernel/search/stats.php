@@ -70,7 +70,7 @@ $tpl->setVariable( "search_list_count", $searchListCount[0]['count'] );
 
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:search/stats.tpl" );
-$Result['path'] = array( array( 'text' => ezpI18n::translate( 'kernel/search', 'Search stats' ),
+$Result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/search', 'Search stats' ),
                                 'url' => false ) );
 
 ?>

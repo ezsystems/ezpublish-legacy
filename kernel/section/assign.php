@@ -102,9 +102,9 @@ else
                         $Result = array();
                         $Result['content'] = $tpl->fetch( "design:section/assign_notification.tpl" );
                         $Result['path'] = array( array( 'url' => false,
-                                                        'text' => ezpI18n::translate( 'kernel/section', 'Sections' ) ),
+                                                        'text' => ezpI18n::tr( 'kernel/section', 'Sections' ) ),
                                                  array( 'url' => false,
-                                                        'text' => ezpI18n::translate( 'kernel/section', 'Assign section' ) ) );
+                                                        'text' => ezpI18n::tr( 'kernel/section', 'Assign section' ) ) );
                         return;
                     }
                 }
@@ -137,9 +137,9 @@ else
                     $Result = array();
                     $Result['content'] = $tpl->fetch( "design:section/assign_notification.tpl" );
                     $Result['path'] = array( array( 'url' => false,
-                                                    'text' => ezpI18n::translate( 'kernel/section', 'Sections' ) ),
+                                                    'text' => ezpI18n::tr( 'kernel/section', 'Sections' ) ),
                                              array( 'url' => false,
-                                                    'text' => ezpI18n::translate( 'kernel/section', 'Assign section' ) ) );
+                                                    'text' => ezpI18n::tr( 'kernel/section', 'Assign section' ) ) );
                     return;
                 }
             }
@@ -152,9 +152,9 @@ else
             $Result = array();
             $Result['content'] = $tpl->fetch( "design:section/assign_notification.tpl" );
             $Result['path'] = array( array( 'url' => false,
-                                            'text' => ezpI18n::translate( 'kernel/section', 'Sections' ) ),
+                                            'text' => ezpI18n::tr( 'kernel/section', 'Sections' ) ),
                                      array( 'url' => false,
-                                            'text' => ezpI18n::translate( 'kernel/section', 'Assign section' ) ) );
+                                            'text' => ezpI18n::tr( 'kernel/section', 'Assign section' ) ) );
             return;
         }
     }

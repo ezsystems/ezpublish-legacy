@@ -117,7 +117,7 @@ $tpl->setVariable( 'persistent_data', $persistentData );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:setup/$template" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezpI18n::translate( 'kernel/setup', 'Template operator wizard' ) ) );
+                                'text' => ezpI18n::tr( 'kernel/setup', 'Template operator wizard' ) ) );
 
 
 function templateOperatorBasic( $tpl, &$persistentData, $stepData )

@@ -115,9 +115,9 @@ $tpl->setVariable( 'view_parameters', $viewParameters );
 $Module->setTitle( "Workflow processes list" );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:workflow/processlist.tpl" );
-$Result['path'] = array( array( 'text' => ezpI18n::translate( 'kernel/workflow', 'Workflow' ),
+$Result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/workflow', 'Workflow' ),
                                 'url' => false ),
-                         array( 'text' => ezpI18n::translate( 'kernel/workflow', 'Process list' ),
+                         array( 'text' => ezpI18n::tr( 'kernel/workflow', 'Process list' ),
                                 'url' => false ) );
 
 ?>

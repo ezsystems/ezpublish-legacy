@@ -92,6 +92,6 @@ $tpl->setVariable( 'view_parameters', $viewParameters );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:visual/templatelist.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezpI18n::translate( 'kernel/design', 'Template list' ) ) );
+                                'text' => ezpI18n::tr( 'kernel/design', 'Template list' ) ) );
 
 ?>

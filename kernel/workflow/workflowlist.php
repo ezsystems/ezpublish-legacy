@@ -149,7 +149,7 @@ foreach( $tempworkflow_list as $tmpWorkflow )
     }
 }
 
-$Module->setTitle( ezpI18n::translate( 'kernel/workflow', 'Workflow list of group' ) . ' ' . $WorkflowGroupID );
+$Module->setTitle( ezpI18n::tr( 'kernel/workflow', 'Workflow list of group' ) . ' ' . $WorkflowGroupID );
 
 $WorkflowgroupInfo =  eZWorkflowGroup::fetch( $WorkflowGroupID );
 if ( !$WorkflowgroupInfo )
@@ -169,8 +169,8 @@ $tpl->setVariable( 'module', $Module );
 
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:workflow/workflowlist.tpl' );
-$Result['path'] = array( array( 'text' => ezpI18n::translate( 'kernel/workflow', 'Workflow' ),
+$Result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/workflow', 'Workflow' ),
                                 'url' => false ),
-                         array( 'text' => ezpI18n::translate( 'kernel/workflow', 'List' ),
+                         array( 'text' => ezpI18n::tr( 'kernel/workflow', 'List' ),
                                 'url' => false ) );
 ?>

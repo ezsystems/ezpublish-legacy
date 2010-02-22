@@ -570,15 +570,15 @@ class eZWorkflow extends eZPersistentObject
      */
     static function statusNameMap()
     {
-        return array( eZWorkflow::STATUS_NONE => ezpI18n::translate( 'kernel/classes', 'No state yet' ),
-                      eZWorkflow::STATUS_BUSY => ezpI18n::translate( 'kernel/classes', 'Workflow running' ),
-                      eZWorkflow::STATUS_DONE => ezpI18n::translate( 'kernel/classes', 'Workflow done' ),
-                      eZWorkflow::STATUS_FAILED => ezpI18n::translate( 'kernel/classes', 'Workflow failed an event' ),
-                      eZWorkflow::STATUS_DEFERRED_TO_CRON => ezpI18n::translate( 'kernel/classes', 'Workflow event deferred to cron job' ),
-                      eZWorkflow::STATUS_CANCELLED => ezpI18n::translate( 'kernel/classes', 'Workflow was canceled' ),
-                      eZWorkflow::STATUS_FETCH_TEMPLATE => ezpI18n::translate( 'kernel/classes', 'Workflow fetches template' ),
-                      eZWorkflow::STATUS_REDIRECT => ezpI18n::translate( 'kernel/classes', 'Workflow redirects user view' ),
-                      eZWorkflow::STATUS_RESET => ezpI18n::translate( 'kernel/classes', 'Workflow was reset for reuse' ) );
+        return array( eZWorkflow::STATUS_NONE => ezpI18n::tr( 'kernel/classes', 'No state yet' ),
+                      eZWorkflow::STATUS_BUSY => ezpI18n::tr( 'kernel/classes', 'Workflow running' ),
+                      eZWorkflow::STATUS_DONE => ezpI18n::tr( 'kernel/classes', 'Workflow done' ),
+                      eZWorkflow::STATUS_FAILED => ezpI18n::tr( 'kernel/classes', 'Workflow failed an event' ),
+                      eZWorkflow::STATUS_DEFERRED_TO_CRON => ezpI18n::tr( 'kernel/classes', 'Workflow event deferred to cron job' ),
+                      eZWorkflow::STATUS_CANCELLED => ezpI18n::tr( 'kernel/classes', 'Workflow was canceled' ),
+                      eZWorkflow::STATUS_FETCH_TEMPLATE => ezpI18n::tr( 'kernel/classes', 'Workflow fetches template' ),
+                      eZWorkflow::STATUS_REDIRECT => ezpI18n::tr( 'kernel/classes', 'Workflow redirects user view' ),
+                      eZWorkflow::STATUS_RESET => ezpI18n::tr( 'kernel/classes', 'Workflow was reset for reuse' ) );
     }
 
     /// \privatesection

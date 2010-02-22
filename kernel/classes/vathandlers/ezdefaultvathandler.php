@@ -206,7 +206,7 @@ class eZDefaultVATHandler
                                  " and category '" . $productCategory->attribute( 'name' ). "'." );
 
             return new eZVatType( array( "id" => 0,
-                                         "name" => ezpI18n::translate( 'kernel/shop', 'None' ),
+                                         "name" => ezpI18n::tr( 'kernel/shop', 'None' ),
                                          "percentage" => 0.0 ) );
         }
 

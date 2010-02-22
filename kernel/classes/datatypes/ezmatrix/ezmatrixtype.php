@@ -52,7 +52,7 @@ class eZMatrixType extends eZDataType
     */
     function eZMatrixType()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::translate( 'kernel/classes/datatypes', 'Matrix', 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', 'Matrix', 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -74,7 +74,7 @@ class eZMatrixType extends eZDataType
              }
         if ( $contentObjectAttribute->validateIsRequired() and ( $count == 0 or $data === false ) )
         {
-            $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
+            $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                  'Missing matrix input.' ) );
             return eZInputValidator::STATE_INVALID;
         }

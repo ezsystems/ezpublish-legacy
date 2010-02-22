@@ -44,7 +44,7 @@ if ( $Module->isCurrentAction( 'New' ) /*or
 {
     $tpl->setVariable( 'is_edit', $Module->isCurrentAction( 'Edit' ) );
     $Result['content'] = $tpl->fetch( 'design:content/translationnew.tpl' );
-    $Result['path'] = array( array( 'text' => ezpI18n::translate( 'kernel/content', 'Translation' ),
+    $Result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/content', 'Translation' ),
                                     'url' => false ),
                              array( 'text' => 'New',
                                     'url' => false ) );
@@ -84,7 +84,7 @@ if ( $Module->isCurrentAction( 'StoreNew' ) /* || $http->hasPostVariable( 'Store
             // The locale cannot be used so we show the edit page again.
             $tpl->setVariable( 'is_edit', $Module->isCurrentAction( 'Edit' ) );
             $Result['content'] = $tpl->fetch( 'design:content/translationnew.tpl' );
-            $Result['path'] = array( array( 'text' => ezpI18n::translate( 'kernel/content', 'Translation' ),
+            $Result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/content', 'Translation' ),
                                             'url' => false ),
                                      array( 'text' => 'New',
                                             'url' => false ) );
@@ -104,7 +104,7 @@ if ( $Module->isCurrentAction( 'StoreNew' ) /* || $http->hasPostVariable( 'Store
             // The locale cannot be used so we show the edit page again.
             $tpl->setVariable( 'is_edit', $Module->isCurrentAction( 'Edit' ) );
             $Result['content'] = $tpl->fetch( 'design:content/translationnew.tpl' );
-            $Result['path'] = array( array( 'text' => ezpI18n::translate( 'kernel/content', 'Translation' ),
+            $Result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/content', 'Translation' ),
                                             'url' => false ),
                                      array( 'text' => 'New',
                                             'url' => false ) );
@@ -140,7 +140,7 @@ if ( $Params['TranslationID'] )
     $tpl->setVariable( 'translation',  $translation );
 
     $Result['content'] = $tpl->fetch( 'design:content/translationview.tpl' );
-    $Result['path'] = array( array( 'text' => ezpI18n::translate( 'kernel/content', 'Content translations' ),
+    $Result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/content', 'Content translations' ),
                                     'url' => 'content/translations' ),
                              array( 'text' => $translation->attribute( 'name' ),
                                     'url' => false ) );
@@ -152,7 +152,7 @@ $availableTranslations = eZContentLanguage::fetchList();
 $tpl->setVariable( 'available_translations', $availableTranslations );
 
 $Result['content'] = $tpl->fetch( 'design:content/translations.tpl' );
-$Result['path'] = array( array( 'text' => ezpI18n::translate( 'kernel/content', 'Languages' ),
+$Result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/content', 'Languages' ),
                                 'url' => false ) );
 
 ?>

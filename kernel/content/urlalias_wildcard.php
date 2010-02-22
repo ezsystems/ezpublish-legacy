@@ -152,7 +152,7 @@ $viewParameters = array( 'offset' => $Offset );
 
 $path = array();
 $path[] = array( 'url'  => false,
-                 'text' => ezpI18n::translate( 'kernel/content/urlalias_wildcard', 'URL wildcard aliases' ) );
+                 'text' => ezpI18n::tr( 'kernel/content/urlalias_wildcard', 'URL wildcard aliases' ) );
 
 $tpl->setVariable( 'wildcard_list', $wildcardList );
 $tpl->setVariable( 'wildcards_limit', $wildcardsLimit );

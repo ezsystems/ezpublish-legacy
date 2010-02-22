@@ -176,8 +176,8 @@ $tpl->setVariable( 'extensions', $extensions );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:ezinfo/about.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezpI18n::translate( 'kernel/ezinfo', 'Info' ) ),
+                                'text' => ezpI18n::tr( 'kernel/ezinfo', 'Info' ) ),
                          array( 'url' => false,
-                                'text' => ezpI18n::translate( 'kernel/ezinfo', 'About' ) ) );
+                                'text' => ezpI18n::tr( 'kernel/ezinfo', 'About' ) ) );
 
 ?>

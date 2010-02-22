@@ -365,7 +365,7 @@ class eZStepCreateSites extends eZStepInstaller
         $result = array();
         // Display template
         $result['content'] = $this->Tpl->fetch( "design:setup/init/create_sites.tpl" );
-        $result['path'] = array( array( 'text' => ezpI18n::translate( 'design/standard/setup/init',
+        $result['path'] = array( array( 'text' => ezpI18n::tr( 'design/standard/setup/init',
                                                           'Creating sites' ),
                                         'url' => false ) );
         return $result;

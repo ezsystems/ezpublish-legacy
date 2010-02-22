@@ -83,7 +83,7 @@ switch( $operationResult['status'] )
             $Result = array();
             $Result['content'] = $tpl->fetch( "design:shop/confirmorder.tpl" );
             $Result['path'] = array( array( 'url' => false,
-                                            'text' => ezpI18n::translate( 'kernel/shop', 'Confirm order' ) ) );
+                                            'text' => ezpI18n::tr( 'kernel/shop', 'Confirm order' ) ) );
         }
     }break;
     case eZModuleOperationInfo::STATUS_HALTED:
@@ -121,10 +121,10 @@ switch( $operationResult['status'] )
         if ( isset( $operationResult['result']['content'] ) )
             $Result['content'] = $operationResult['result']['content'];
         else
-            $Result['content'] = ezpI18n::translate( 'kernel/shop', "The confirm order operation was canceled. Try to checkout again." );
+            $Result['content'] = ezpI18n::tr( 'kernel/shop', "The confirm order operation was canceled. Try to checkout again." );
 
         $Result['path'] = array( array( 'url' => false,
-                                        'text' => ezpI18n::translate( 'kernel/shop', 'Confirm order' ) ) );
+                                        'text' => ezpI18n::tr( 'kernel/shop', 'Confirm order' ) ) );
     }
 
 }
@@ -133,6 +133,6 @@ switch( $operationResult['status'] )
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:shop/confirmorder.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezpI18n::translate( 'kernel/shop', 'Confirm order' ) ) );
+                                'text' => ezpI18n::tr( 'kernel/shop', 'Confirm order' ) ) );
 */
 ?>

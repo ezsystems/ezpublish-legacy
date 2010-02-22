@@ -52,7 +52,7 @@ if ( $http->hasPostVariable( "DeleteGroupButton" ) && $http->hasPostVariable( "g
     $selectedGroup = $http->postVariable( "group_id_checked" );
     if ( !eZWorkflowFunctions::removeGroup( $WorkflowID, 0, $selectedGroup ) )
     {
-        $validation['groups'][] = array( 'text' => ezpI18n::translate( 'kernel/workflow', 'You have to have at least one group that the workflow belongs to!' ) );
+        $validation['groups'][] = array( 'text' => ezpI18n::tr( 'kernel/workflow', 'You have to have at least one group that the workflow belongs to!' ) );
         $validation['processed'] = true;
     }
 }
@@ -69,9 +69,9 @@ $tpl->setVariable( 'validation', $validation );
 
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:workflow/view.tpl" );
-$Result['path'] = array( array( 'text' => ezpI18n::translate( 'kernel/workflow', 'Workflow' ),
+$Result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/workflow', 'Workflow' ),
                                 'url' => false ),
-                         array( 'text' => ezpI18n::translate( 'kernel/workflow', 'View' ),
+                         array( 'text' => ezpI18n::tr( 'kernel/workflow', 'View' ),
                                 'url' => false ) );
 
 ?>

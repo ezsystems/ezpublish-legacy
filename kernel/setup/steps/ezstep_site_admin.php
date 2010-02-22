@@ -212,7 +212,7 @@ class eZStepSiteAdmin extends eZStepInstaller
         $result = array();
         // Display template
         $result['content'] = $this->Tpl->fetch( 'design:setup/init/site_admin.tpl' );
-        $result['path'] = array( array( 'text' => ezpI18n::translate( 'design/standard/setup/init',
+        $result['path'] = array( array( 'text' => ezpI18n::tr( 'design/standard/setup/init',
                                                           'Site administrator' ),
                                         'url' => false ) );
         return $result;

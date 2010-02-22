@@ -162,7 +162,7 @@ class eZRSSImport extends eZPersistentObject
 
         $dateTime = time();
         $row = array( 'id' => null,
-                      'name' => ezpI18n::translate( 'kernel/rss', 'New RSS Import' ),
+                      'name' => ezpI18n::tr( 'kernel/rss', 'New RSS Import' ),
                       'modifier_id' => $userID,
                       'modified' => $dateTime,
                       'creator_id' => $userID,

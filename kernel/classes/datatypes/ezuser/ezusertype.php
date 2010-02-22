@@ -41,7 +41,7 @@ class eZUserType extends eZDataType
 
     function eZUserType( )
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::translate( 'kernel/classes/datatypes', "User account", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "User account", 'Datatype name' ),
                            array( 'translation_allowed' => false,
                                   'serialize_supported' => true ) );
     }
@@ -85,7 +85,7 @@ class eZUserType extends eZDataType
             {
                 if ( $contentObjectAttribute->validateIsRequired() || trim( $email ) != '' )
                 {
-                    $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
+                    $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                          'The username must be specified.' ) );
                     return eZInputValidator::STATE_INVALID;
                 }
@@ -98,7 +98,7 @@ class eZUserType extends eZDataType
                     $userID = $existUser->attribute( 'contentobject_id' );
                     if ( $userID !=  $contentObjectAttribute->attribute( "contentobject_id" ) )
                     {
-                        $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
+                        $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                              'The username already exists, please choose another one.' ) );
                         return eZInputValidator::STATE_INVALID;
                     }
@@ -107,7 +107,7 @@ class eZUserType extends eZDataType
                 $isValidate = eZMail::validate( $email );
                 if ( !$isValidate )
                 {
-                    $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
+                    $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                          'The email address is not valid.' ) );
                     return eZInputValidator::STATE_INVALID;
                 }
@@ -122,7 +122,7 @@ class eZUserType extends eZDataType
                             $userID = $userByEmail->attribute( 'contentobject_id' );
                             if ( $userID !=  $contentObjectAttribute->attribute( "contentobject_id" ) )
                             {
-                                $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
+                                $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                                      'A user with this email already exists.' ) );
                                 return eZInputValidator::STATE_INVALID;
                             }
@@ -132,7 +132,7 @@ class eZUserType extends eZDataType
                 // validate user name
                 if ( !eZUser::validateLoginName( $loginName, $errorText ) )
                 {
-                    $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
+                    $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                          $errorText ) );
                     return eZInputValidator::STATE_INVALID;
                 }
@@ -143,14 +143,14 @@ class eZUserType extends eZDataType
                 {
                     if ( $password == "" )
                     {
-                        $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
+                        $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                              'The password cannot be empty.',
                                                                              'eZUserType' ) );
                         return eZInputValidator::STATE_INVALID;
                     }
                     if ( $password != $passwordConfirm )
                     {
-                        $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
+                        $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                              'The passwords do not match.',
                                                                              'eZUserType' ) );
                         return eZInputValidator::STATE_INVALID;
@@ -158,13 +158,13 @@ class eZUserType extends eZDataType
                     if ( !eZUser::validatePassword( $password ) )
                     {
                         $minPasswordLength = $ini->hasVariable( 'UserSettings', 'MinPasswordLength' ) ? $ini->variable( 'UserSettings', 'MinPasswordLength' ) : 3;
-                        $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
+                        $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                              'The password must be at least %1 characters long.', null, array( $minPasswordLength ) ) );
                         return eZInputValidator::STATE_INVALID;
                     }
                     if ( strtolower( $password ) == 'password' )
                     {
-                        $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
+                        $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                              'The password must not be "password".' ) );
                         return eZInputValidator::STATE_INVALID;
                     }
@@ -173,7 +173,7 @@ class eZUserType extends eZDataType
         }
         else if ( $contentObjectAttribute->validateIsRequired() )
         {
-            $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes', 'Input required.' ) );
+            $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes', 'Input required.' ) );
             return eZInputValidator::STATE_INVALID;
         }
         return eZInputValidator::STATE_ACCEPTED;
@@ -301,7 +301,7 @@ class eZUserType extends eZDataType
     */
     function classAttributeRemovableInformation( $contentClassAttribute, $includeAll = true )
     {
-        $result  = array( 'text' => ezpI18n::translate( 'kernel/classes/datatypes',
+        $result  = array( 'text' => ezpI18n::tr( 'kernel/classes/datatypes',
                                             "Cannot remove the account:" ),
                           'list' => array() );
         $currentUser = eZUser::currentUser();
@@ -313,7 +313,7 @@ class eZUserType extends eZDataType
 
         if ( $classID == $userObject->attribute( 'contentclass_id' ) )
         {
-            $result['list'][] = array( 'text' => ezpI18n::translate( 'kernel/classes/datatypes',
+            $result['list'][] = array( 'text' => ezpI18n::tr( 'kernel/classes/datatypes',
                                                          "The account owner is currently logged in." ) );
             if ( !$includeAll )
                 return $result;
@@ -323,7 +323,7 @@ class eZUserType extends eZDataType
         $rows = $db->arrayQuery( $sql );
         if ( count( $rows ) > 0 )
         {
-            $result['list'][] = array( 'text' => ezpI18n::translate( 'kernel/classes/datatypes',
+            $result['list'][] = array( 'text' => ezpI18n::tr( 'kernel/classes/datatypes',
                                                          "The account is currently used by the anonymous user." ) );
             if ( !$includeAll )
                 return $result;
@@ -336,7 +336,7 @@ class eZUserType extends eZDataType
         $rows = $db->arrayQuery( $sql );
         if ( count( $rows ) > 0 )
         {
-            $result['list'][] = array( 'text' => ezpI18n::translate( 'kernel/classes/datatypes',
+            $result['list'][] = array( 'text' => ezpI18n::tr( 'kernel/classes/datatypes',
                                                          "The account is currently used the administrator user." ) );
             if ( !$includeAll )
                 return $result;
@@ -349,7 +349,7 @@ class eZUserType extends eZDataType
         $rows = $db->arrayQuery( $sql );
         if ( $rows[0]['count'] == 0 )
         {
-            $result['list'][] = array( 'text' => ezpI18n::translate( 'kernel/classes/datatypes',
+            $result['list'][] = array( 'text' => ezpI18n::tr( 'kernel/classes/datatypes',
                                                          "You cannot remove the last class holding user accounts." ) );
             if ( !$includeAll )
                 return $result;

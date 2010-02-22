@@ -59,7 +59,7 @@ class eZMultiOptionType extends eZDataType
     */
     function eZMultiOptionType()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::translate( 'kernel/classes/datatypes', "Multi-option", 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', "Multi-option", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -97,7 +97,7 @@ class eZMultiOptionType extends eZDataType
                     {
                         if ( trim( $optionValueArray[$i] ) == "" )
                         {
-                            $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
+                            $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                                  'The option value must be provided.' ) );
                             return eZInputValidator::STATE_INVALID;
                         }
@@ -109,7 +109,7 @@ class eZMultiOptionType extends eZDataType
                     {
                         if ( strlen( $optionAdditionalPriceArray[$i] ) && !preg_match( "#^[-|+]?[0-9]+(\.){0,1}[0-9]{0,2}$#", $optionAdditionalPriceArray[$i] ) )
                         {
-                            $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
+                            $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                                  'The additional price for the multioption value is not valid.' ) );
                             return eZInputValidator::STATE_INVALID;
                         }
@@ -123,7 +123,7 @@ class eZMultiOptionType extends eZDataType
         {
             if ( $count == 0 )
             {
-                $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
+                $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                      'At least one option is required.' ) );
                 return eZInputValidator::STATE_INVALID;
             }
@@ -133,7 +133,7 @@ class eZMultiOptionType extends eZDataType
                              : '';
             if ( trim( $optionSetName ) == '' )
             {
-                $contentObjectAttribute->setValidationError( ezpI18n::translate( 'kernel/classes/datatypes',
+                $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                      'Option set name is required.' ) );
                 return eZInputValidator::STATE_INVALID;
             }

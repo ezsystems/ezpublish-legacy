@@ -79,8 +79,8 @@ $tpl->setVariable( 'languages', $languages );
 $Result = array(
     'content' => $tpl->fetch( 'design:state/groups.tpl' ),
     'path'    => array(
-        array( 'url' => false, 'text' => ezpI18n::translate( 'kernel/state', 'State' ) ),
-        array( 'url' => false, 'text' => ezpI18n::translate( 'kernel/state', 'Groups' ) )
+        array( 'url' => false, 'text' => ezpI18n::tr( 'kernel/state', 'State' ) ),
+        array( 'url' => false, 'text' => ezpI18n::tr( 'kernel/state', 'Groups' ) )
     )
 );
 

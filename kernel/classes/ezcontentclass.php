@@ -300,7 +300,7 @@ class eZContentClass extends eZPersistentObject
             $languageCode = eZContentObject::defaultLanguage();
         }
 
-        $object = eZContentObject::create( ezpI18n::translate( "kernel/contentclass", "New %1", null, array( $this->name( $languageCode ) ) ),
+        $object = eZContentObject::create( ezpI18n::tr( "kernel/contentclass", "New %1", null, array( $this->name( $languageCode ) ) ),
                                            $this->attribute( "id" ),
                                            $userID,
                                            $sectionID,
@@ -317,7 +317,7 @@ class eZContentClass extends eZPersistentObject
 
         $object->store();
         $object->assignDefaultStates();
-        $object->setName( ezpI18n::translate( "kernel/contentclass", "New %1", null, array( $this->name( $languageCode ) ) ), false, $languageCode );
+        $object->setName( ezpI18n::tr( "kernel/contentclass", "New %1", null, array( $this->name( $languageCode ) ) ), false, $languageCode );
 
         if ( !$versionNumber )
         {
@@ -839,7 +839,7 @@ class eZContentClass extends eZPersistentObject
     */
     function removableInformation( $includeAll = true )
     {
-        $result  = array( 'text' => ezpI18n::translate( 'kernel/contentclass', "Cannot remove class '%class_name':",
+        $result  = array( 'text' => ezpI18n::tr( 'kernel/contentclass', "Cannot remove class '%class_name':",
                                          null, array( '%class_name' => $this->attribute( 'name' ) ) ),
                        'list' => array() );
         $db      = eZDB::instance();
@@ -852,7 +852,7 @@ WHERE ezcot.depth = 1 AND
       ezco.id=ezcot.contentobject_id" );
         if ( count( $rows ) > 0 )
         {
-            $result['list'][] = array( 'text' => ezpI18n::translate( 'kernel/contentclass', 'The class is used by a top-level node and cannot be removed.
+            $result['list'][] = array( 'text' => ezpI18n::tr( 'kernel/contentclass', 'The class is used by a top-level node and cannot be removed.
 You will need to change the class of the node by using the swap functionality.' ) );
             if ( !$includeAll )
                 return $result;
@@ -989,7 +989,7 @@ You will need to change the class of the node by using the swap functionality.' 
     */
     function initializeCopy( &$originalClass )
     {
-        $name = ezpI18n::translate( 'kernel/class', 'Copy of %class_name', null,
+        $name = ezpI18n::tr( 'kernel/class', 'Copy of %class_name', null,
                         array( '%class_name' => $originalClass->attribute( 'name' ) ) );
         $identifier = 'copy_of_' . $originalClass->attribute( 'identifier' );
         $db = eZDB::instance();

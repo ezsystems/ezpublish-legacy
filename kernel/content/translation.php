@@ -182,7 +182,7 @@ else if ( $module->isCurrentAction( 'RemoveTranslation' ) )
     $Result = array();
     $Result['content'] = $tpl->fetch( 'design:content/removetranslation.tpl' );
     $Result['path'] = array( array( 'url' => false,
-                                    'text' => ezpI18n::translate( 'kernel/content', 'Remove translation' ) ) );
+                                    'text' => ezpI18n::tr( 'kernel/content', 'Remove translation' ) ) );
 
     return;
 }

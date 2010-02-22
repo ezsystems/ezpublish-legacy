@@ -41,7 +41,7 @@ $tpl = eZTemplate::factory();
 
 $Result = array();
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezpI18n::translate( 'kernel/design', 'Template edit' ) ) );
+                                'text' => ezpI18n::tr( 'kernel/design', 'Template edit' ) ) );
 
 $template = "";
 $i = 0;

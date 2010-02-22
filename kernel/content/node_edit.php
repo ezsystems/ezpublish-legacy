@@ -101,7 +101,7 @@ function checkNodeAssignments( $module, $class, $object, $version, $contentObjec
                 if ( !$isPermitted )
                 {
                     eZDebug::writeError( $newNode->pathWithNames(), "You are not allowed to place this object under:" );
-                    $validation[ 'placement' ][] = array( 'text' => ezpI18n::translate( 'kernel/content', 'You are not allowed to place this object under: %1', null, array( $newNode->pathWithNames() ) ) );
+                    $validation[ 'placement' ][] = array( 'text' => ezpI18n::tr( 'kernel/content', 'You are not allowed to place this object under: %1', null, array( $newNode->pathWithNames() ) ) );
                     $validation[ 'processed' ] = true;
                     // Error message.
                 }
@@ -186,7 +186,7 @@ function checkNodeMovements( $module, $class, $object, $version, $contentObjectA
                     if ( !$isPermitted )
                     {
                         eZDebug::writeError( $newNode->pathWithNames(), "You are not allowed to place this object under:" );
-                        $validation[ 'placement' ][] = array( 'text' => ezpI18n::translate( 'kernel/content', "You are not allowed to place this object under: %1", null, array( $newNode->pathWithNames() ) ) );
+                        $validation[ 'placement' ][] = array( 'text' => ezpI18n::tr( 'kernel/content', "You are not allowed to place this object under: %1", null, array( $newNode->pathWithNames() ) ) );
                         $validation[ 'processed' ] = true;
                         // Error message.
                     }

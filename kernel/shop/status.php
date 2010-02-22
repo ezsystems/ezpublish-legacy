@@ -58,12 +58,12 @@ if ( $http->hasPostVariable( "AddOrderStatusButton" ) )
 {
     $orderStatus = eZOrderStatus::create();
     $orderStatus->storeCustom();
-    $messages[] = array( 'description' => ezpI18n::translate( 'kernel/shop', 'New order status was successfully added.' ) );
+    $messages[] = array( 'description' => ezpI18n::tr( 'kernel/shop', 'New order status was successfully added.' ) );
 }
 
 if ( $http->hasPostVariable( "SaveOrderStatusButton" ) )
 {
-    $messages[] = array( 'description' => ezpI18n::translate( 'kernel/shop', 'Changes to order status were successfully stored.' ) );
+    $messages[] = array( 'description' => ezpI18n::tr( 'kernel/shop', 'Changes to order status were successfully stored.' ) );
 }
 
 if ( $http->hasPostVariable( "RemoveOrderStatusButton" ) )
@@ -87,9 +87,9 @@ if ( $http->hasPostVariable( "RemoveOrderStatusButton" ) )
         $hasRemoved = true;
     }
     if ( $hasRemoved )
-        $messages[] = array( 'description' => ezpI18n::translate( 'kernel/shop', 'Selected order statuses were successfully removed.' ) );
+        $messages[] = array( 'description' => ezpI18n::tr( 'kernel/shop', 'Selected order statuses were successfully removed.' ) );
     if ( $triedRemoveInternal )
-        $messages[] = array( 'description' => ezpI18n::translate( 'kernel/shop', 'Internal orders cannot be removed.' ) );
+        $messages[] = array( 'description' => ezpI18n::tr( 'kernel/shop', 'Internal orders cannot be removed.' ) );
 }
 
 $orderStatusArray = eZOrderStatus::fetchList( true, true );
@@ -100,9 +100,9 @@ $tpl->setVariable( "module", $module );
 $tpl->setVariable( "messages", $messages );
 
 $path = array();
-$path[] = array( 'text' => ezpI18n::translate( 'kernel/shop', 'Order list' ),
+$path[] = array( 'text' => ezpI18n::tr( 'kernel/shop', 'Order list' ),
                  'url' => 'shop/orderlist' );
-$path[] = array( 'text' => ezpI18n::translate( 'kernel/shop', 'Status' ),
+$path[] = array( 'text' => ezpI18n::tr( 'kernel/shop', 'Status' ),
                  'url' => false );
 
 $Result = array();

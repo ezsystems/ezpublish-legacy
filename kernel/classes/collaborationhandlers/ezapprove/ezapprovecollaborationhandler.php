@@ -67,7 +67,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
     function eZApproveCollaborationHandler()
     {
         $this->eZCollaborationItemHandler( 'ezapprove',
-                                           ezpI18n::translate( 'kernel/classes', 'Approval' ),
+                                           ezpI18n::tr( 'kernel/classes', 'Approval' ),
                                            array( 'use-messages' => true,
                                                   'notification-types' => true,
                                                   'notification-collection-handling' => eZCollaborationItemHandler::NOTIFICATION_COLLECTION_PER_PARTICIPATION_ROLE ) );
@@ -75,7 +75,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
 
     function title( $collaborationItem )
     {
-        return ezpI18n::translate( 'kernel/classes', 'Approval' );
+        return ezpI18n::tr( 'kernel/classes', 'Approval' );
     }
 
     function content( $collaborationItem )

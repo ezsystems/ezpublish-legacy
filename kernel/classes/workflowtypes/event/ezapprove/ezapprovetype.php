@@ -53,7 +53,7 @@ class eZApproveType extends eZWorkflowEventType
 
     function eZApproveType()
     {
-        $this->eZWorkflowEventType( eZApproveType::WORKFLOW_TYPE_STRING, ezpI18n::translate( 'kernel/workflow/event', "Approve" ) );
+        $this->eZWorkflowEventType( eZApproveType::WORKFLOW_TYPE_STRING, ezpI18n::tr( 'kernel/workflow/event', "Approve" ) );
         $this->setTriggerTypes( array( 'content' => array( 'publish' => array( 'before' ) ) ) );
     }
 

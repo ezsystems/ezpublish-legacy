@@ -64,14 +64,14 @@ else // no action yet: just displaying the template
     }
     $orderNumbersString = implode( ', ', $orderNumbersArray );
 
-    $Module->setTitle( ezpI18n::translate( 'shop', 'Remove orders' ) );
+    $Module->setTitle( ezpI18n::tr( 'shop', 'Remove orders' ) );
 
     $tpl = eZTemplate::factory();
     $tpl->setVariable( "module", $Module );
     $tpl->setVariable( "delete_result", $orderNumbersString );
     $Result = array();
 
-    $Result['path'] = array( array( 'text' => ezpI18n::translate( 'kernel/shop', 'Remove order' ),
+    $Result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/shop', 'Remove order' ),
                                     'url' => false ) );
     $Result['content'] = $tpl->fetch( "design:shop/removeorder.tpl" );
 }

@@ -117,6 +117,6 @@ $tpl->setVariable( 'cache_list', $cacheList );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:setup/cache.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezpI18n::translate( 'kernel/setup', 'Cache admin' ) ) );
+                                'text' => ezpI18n::tr( 'kernel/setup', 'Cache admin' ) ) );
 
 ?>

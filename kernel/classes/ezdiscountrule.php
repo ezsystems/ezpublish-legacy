@@ -82,7 +82,7 @@ class eZDiscountRule extends eZPersistentObject
     {
         $row = array(
             "id" => null,
-            "name" => ezpI18n::translate( "kernel/shop/discountgroup", "New discount group" ) );
+            "name" => ezpI18n::tr( "kernel/shop/discountgroup", "New discount group" ) );
         return new eZDiscountRule( $row );
     }
 

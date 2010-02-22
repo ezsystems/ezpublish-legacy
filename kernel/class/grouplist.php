@@ -77,7 +77,7 @@ if ( !isset( $TemplateData ) or !is_array( $TemplateData ) )
                                                    "type" => "class" ) ) );
 }
 
-$Module->setTitle( ezpI18n::translate( 'kernel/class', 'Class group list' ) );
+$Module->setTitle( ezpI18n::tr( 'kernel/class', 'Class group list' ) );
 $tpl = eZTemplate::factory();
 
 $user = eZUser::currentUser();
@@ -97,6 +97,6 @@ $tpl->setVariable( "module", $Module );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:class/grouplist.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezpI18n::translate( 'kernel/class', 'Class groups' ) ) );
+                                'text' => ezpI18n::tr( 'kernel/class', 'Class groups' ) ) );
 
 ?>

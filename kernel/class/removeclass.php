@@ -113,7 +113,7 @@ foreach ( $deleteIDArray as $deleteID )
 
 $canRemove = ( $canRemoveCount > 0 );
 
-$Module->setTitle( ezpI18n::translate( 'kernel/class', 'Remove classes %class_id', null, array( '%class_id' => $ClassID ) ) );
+$Module->setTitle( ezpI18n::tr( 'kernel/class', 'Remove classes %class_id', null, array( '%class_id' => $ClassID ) ) );
 $tpl = eZTemplate::factory();
 
 $tpl->setVariable( 'module', $Module );
@@ -125,7 +125,7 @@ $tpl->setVariable( 'can_remove', $canRemove );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:class/removeclass.tpl" );
 $Result['path'] = array( array( 'url' => '/class/grouplist/',
-                                'text' => ezpI18n::translate( 'kernel/class', 'Class groups' ) ) );
+                                'text' => ezpI18n::tr( 'kernel/class', 'Class groups' ) ) );
 $Result['path'][] = array( 'url' => false,
-                           'text' => ezpI18n::translate( 'kernel/class', 'Remove classes' ) );
+                           'text' => ezpI18n::tr( 'kernel/class', 'Remove classes' ) );
 ?>

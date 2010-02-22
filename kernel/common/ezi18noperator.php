@@ -120,7 +120,7 @@ class eZi18nOperator
 
         if ( $numParameters < 4 )
         {
-            return array ( eZTemplateNodeTool::createStringElement( ezpI18n::translate( $context, $value, $comment, null ) ) );
+            return array ( eZTemplateNodeTool::createStringElement( ezpI18n::tr( $context, $value, $comment, null ) ) );
         }
 
         $values = array();
@@ -170,7 +170,7 @@ class eZi18nOperator
                 $context = $namedParameters['context'];
                 $comment = $namedParameters['comment'];
                 $arguments = $namedParameters['arguments'];
-                $value = ezpI18n::translate( $context, $value, $comment, $arguments );
+                $value = ezpI18n::tr( $context, $value, $comment, $arguments );
             } break;
             case $this->ExtensionName:
             {
@@ -178,7 +178,7 @@ class eZi18nOperator
                 $context = $namedParameters['context'];
                 $comment = $namedParameters['comment'];
                 $arguments = $namedParameters['arguments'];
-                $value = ezpI18n::translate( $context, $value, $comment, $arguments );
+                $value = ezpI18n::tr( $context, $value, $comment, $arguments );
             } break;
         }
     }

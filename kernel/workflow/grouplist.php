@@ -97,7 +97,7 @@ if ( !isset( $TemplateData ) or !is_array( $TemplateData ) )
                                                    "type" => "class" ) ) );
 }
 
-$Module->setTitle( ezpI18n::translate( 'kernel/workflow', 'Workflow group list' ) );
+$Module->setTitle( ezpI18n::tr( 'kernel/workflow', 'Workflow group list' ) );
 $tpl = eZTemplate::factory();
 
 $user = eZUser::currentUser();
@@ -117,9 +117,9 @@ $tpl->setVariable( "module", $Module );
 
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:workflow/grouplist.tpl" );
-$Result['path'] = array( array( 'text' => ezpI18n::translate( 'kernel/workflow', 'Workflow' ),
+$Result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/workflow', 'Workflow' ),
                                 'url' => false ),
-                         array( 'text' => ezpI18n::translate( 'kernel/workflow', 'Group list' ),
+                         array( 'text' => ezpI18n::tr( 'kernel/workflow', 'Group list' ),
                                 'url' => false ) );
 
 

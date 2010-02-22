@@ -237,7 +237,7 @@ class eZStepDatabaseInit extends eZStepInstaller
         $result = array();
         // Display template
         $result['content'] = $this->Tpl->fetch( 'design:setup/init/database_init.tpl' );
-        $result['path'] = array( array( 'text' => ezpI18n::translate( 'design/standard/setup/init',
+        $result['path'] = array( array( 'text' => ezpI18n::tr( 'design/standard/setup/init',
                                                           'Database initalization' ),
                                         'url' => false ) );
         return $result;

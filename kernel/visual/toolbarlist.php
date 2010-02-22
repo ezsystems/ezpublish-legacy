@@ -73,7 +73,7 @@ $tpl->setVariable( 'current_siteaccess', $currentSiteAccess );
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:visual/toolbarlist.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezpI18n::translate( 'design/standard/toolbar', 'Toolbar management' ) ) );
+                                'text' => ezpI18n::tr( 'design/standard/toolbar', 'Toolbar management' ) ) );
 
 
 ?>

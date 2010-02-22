@@ -68,6 +68,6 @@ $tpl->setVariable( 'module', $Module );
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:workflow/list.tpl' );
 $Result['path'] = array( array( 'url' => '/workflow/list/',
-                                'text' => ezpI18n::translate( 'kernel/workflow', 'Workflow list' ) ) );
+                                'text' => ezpI18n::tr( 'kernel/workflow', 'Workflow list' ) ) );
 
 ?>

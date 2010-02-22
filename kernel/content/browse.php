@@ -207,7 +207,7 @@ if ( $templatePath )
 }
 elseif ( isset( $nodeList ) && !( isset( $object ) && isset( $node ) ) )
 {
-    $Result['path'] = array( array( 'text' => ezpI18n::translate( 'kernel/content', 'Search' ),
+    $Result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/content', 'Search' ),
                                     'url' => false ) );
 }
 else

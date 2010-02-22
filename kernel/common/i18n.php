@@ -32,7 +32,7 @@
  */
 function ezi18n( $context, $source, $comment = null, $arguments = null )
 {
-    return ezpI18n::translate( $context, $source, $comment, $arguments );
+    return ezpI18n::tr( $context, $source, $comment, $arguments );
 }
 
 /**
@@ -40,7 +40,7 @@ function ezi18n( $context, $source, $comment = null, $arguments = null )
  */
 function ezx18n( $extension, $context, $source, $comment = null, $arguments = null )
 {
-    return ezpI18n::translate( $context, $source, $comment, $arguments );
+    return ezpI18n::tr( $context, $source, $comment, $arguments );
 }
 
 ?>
