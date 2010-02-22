@@ -735,6 +735,10 @@ class eZScript
             {
                 $generalOptionList[] = array( '-v,--verbose...', "display more information, \nused multiple times will increase amount of information" );
             }
+            if( $useStandardOptions['root'] )
+            {
+                $generalOptionList[] = array( '-r,--allow-root-user', "Allows the script to be run by the root user" );
+            }
         }
         $description = $this->Description;
         $helpText =  "Usage: " . $program;
@@ -858,6 +862,7 @@ class eZScript
                                                       'log' => true,
                                                       'siteaccess' => true,
                                                       'verbose' => true,
+                                                      'root' => true,
                                                       'user' => false ),
                                                $useStandardOptions );
         }
@@ -910,6 +915,13 @@ class eZScript
                 $excludeOptions[] = 'v';
                 $excludeOptions[] = 'verbose';
             }
+            if( $useStandardOptions['root'] )
+            {
+                $optionString .= "[r?|allow-root-user?]";
+                $excludeOptions[] = 'r';
+                $excludeOptions[] = 'allow-root-user';
+            }
+
             $config = eZCLI::parseOptionString( $optionString, $optionConfig );
         }
         $cli = eZCLI::instance();
@@ -926,8 +938,36 @@ class eZScript
                 $this->initialize();
             $this->shutdown( 1 );
         }
+
         if ( $useStandardOptions )
         {
+            if( strtolower( PHP_OS ) != 'winnt' )
+            {
+                if( posix_getuid() === 0 )
+                {
+                    if( !$options['allow-root-user'] )
+                    {
+                        $cli->warning( "Running scripts as root may be dangerous." );
+                        $cli->warning( "If you think you know what you are doing, you can run this script with the " );
+                        $cli->warning( "root account by appending the parameter --allow-root-user." );
+
+                        exit( 1 );
+                    }
+                    else
+                    {
+                        // ho no, you are not going to be quiet while
+                        // running with root priviledges
+                        $this->setIsQuiet( false );
+
+                        $cli = eZCLI::instance();
+
+                        $cli->warning( 'With great power comes great responsibility.' );
+                        $cli->warning( "You have 10 seconds to break the script (press Ctrl-C)." );
+                        sleep( 10 );
+                    }
+                }
+            }
+
             if ( $options['quiet'] )
                 $this->setIsQuiet( true );
             $useColors = true;
