@@ -126,6 +126,10 @@ static uint getToken()
                     else if ( strcmp(yyIdent + 1, "zx18n") == 0 )
                         return Tok_x18n;
                     break;
+                case 't':
+                    if ( strcmp(yyIdent + 1, "r") == 0 )
+                        return Tok_i18n;
+                    break;
             }
             return Tok_Ident;
         } else {
