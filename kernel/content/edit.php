@@ -326,10 +326,7 @@ if ( $EditLanguage == false )
         }
 
         // No version found, ask the user.
-        require_once( 'kernel/common/template.php' );
-
-        $tpl = templateInit();
-
+        $tpl = eZTemplate::factory();
         $res = eZTemplateDesignResource::instance();
         $res->setKeys( array( array( 'object', $obj->attribute( 'id' ) ),
                               array( 'remote_id', $obj->attribute( 'remote_id' ) )
@@ -394,9 +391,7 @@ if ( !is_numeric( $EditVersion ) )
                 }
             }
 
-            require_once( 'kernel/common/template.php' );
-            $tpl = templateInit();
-
+            $tpl = eZTemplate::factory();
             $res = eZTemplateDesignResource::instance();
             $res->setKeys( array( array( 'object', $obj->attribute( 'id' ) ),
                                 array( 'remote_id', $obj->attribute( 'remote_id' ) ),
@@ -438,10 +433,9 @@ if ( !is_numeric( $EditVersion ) )
                     $mostRecentDraft = $currentDraft;
                 }
             }
-            require_once( 'kernel/common/template.php' );
-            $tpl = templateInit();
 
-                $res = eZTemplateDesignResource::instance();
+            $tpl = eZTemplate::factory();
+            $res = eZTemplateDesignResource::instance();
             $res->setKeys( array( array( 'object', $obj->attribute( 'id' ) ),
                                 array( 'remote_id', $obj->attribute( 'remote_id' ) ),
                                 array( 'class', $class->attribute( 'id' ) ),
@@ -673,9 +667,7 @@ if ( !function_exists( 'checkContentActions' ) )
                 $conflictingVersions = $version->hasConflicts( $EditLanguage );
                 if ( $conflictingVersions )
                 {
-                    require_once( 'kernel/common/template.php' );
-                    $tpl = templateInit();
-
+                    $tpl = eZTemplate::factory();
                     $res = eZTemplateDesignResource::instance();
                     $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ),
                                         array( 'remote_id', $object->attribute( 'remote_id' ) ),

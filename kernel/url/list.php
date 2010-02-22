@@ -101,8 +101,8 @@ $listCount = eZURL::fetchListCount( $countParameters );
 
 $viewParameters = array( 'offset' => $offset, 'limit'  => $limit );
 
-require_once( 'kernel/common/template.php' );
-$tpl = templateInit();
+
+$tpl = eZTemplate::factory();
 
 $tpl->setVariable( 'view_parameters', $viewParameters );
 $tpl->setVariable( 'url_list', $list );

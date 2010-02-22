@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-require_once( "kernel/common/template.php" );
+
 
 $http = eZHTTPTool::instance();
 $SectionID = $Params["SectionID"];
@@ -68,7 +68,7 @@ if ( $http->hasPostVariable( 'CancelButton' )  )
     $Module->redirectTo( $Module->functionURI( 'list' ) );
 }
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $tpl->setVariable( "section", $section );
 

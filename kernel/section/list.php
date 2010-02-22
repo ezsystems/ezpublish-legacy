@@ -26,10 +26,10 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-require_once( 'kernel/common/template.php' );
+
 $http = eZHTTPTool::instance();
 $Module = $Params['Module'];
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 $tpl->setVariable( 'module', $Module );
 
 $offset = $Params['Offset'];

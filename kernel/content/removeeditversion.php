@@ -117,8 +117,8 @@ if ( $http->hasPostVariable( "CancelButton" ) )
 
 $Module->setTitle( "Remove Editing Version" );
 
-require_once( "kernel/common/template.php" );
-$tpl = templateInit();
+
+$tpl = eZTemplate::factory();
 $tpl->setVariable( "Module", $Module );
 $tpl->setVariable( "object_id", $objectID );
 $tpl->setVariable( "object_version", $version );

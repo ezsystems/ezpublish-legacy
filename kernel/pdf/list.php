@@ -30,7 +30,7 @@
 
 $Module = $Params['Module'];
 
-require_once( 'kernel/common/template.php' );
+
 // Create new PDF Export
 if ( $Module->isCurrentAction( 'NewExport' ) )
 {
@@ -64,7 +64,7 @@ foreach( $exportArray as $export )
     $exportList[$export->attribute( 'id' )] = $export;
 }
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $tpl->setVariable( 'pdfexport_list', $exportList );
 

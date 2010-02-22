@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-require_once( 'kernel/common/template.php' );
+
 
 $http = eZHTTPTool::instance();
 $Module = $Params['Module'];
@@ -55,7 +55,7 @@ if( !$object )
 $objectID   = $collection->attribute( 'contentobject_id' );
 $objectName = $object->attribute( 'name' );
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 $tpl->setVariable( 'module', $Module );
 $tpl->setVariable( 'collection', $collection );
 

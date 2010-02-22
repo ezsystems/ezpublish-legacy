@@ -37,7 +37,7 @@ $module = $Params['Module'];
 $currentSiteAccess = ( $Params['SiteAccess'] ) ? $Params['SiteAccess'] : false;
 $toolbarPosition = ( $Params['Position'] ) ? $Params['Position'] : false;
 
-require_once( "kernel/common/template.php" );
+
 $http = eZHTTPTool::instance();
 
 $siteini = eZINI::instance();
@@ -368,7 +368,7 @@ if ( $toolbarIni->hasVariable( "Tool", "AvailableToolArray" ) )
     $availableToolArray = $toolbarIni->variable( "Tool", "AvailableToolArray" );
 }
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $tpl->setVariable( 'toolbar_position', $toolbarPosition );
 $tpl->setVariable( 'tool_list', $toolList );

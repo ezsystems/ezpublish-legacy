@@ -29,8 +29,8 @@
 $http = eZHTTPTool::instance();
 $module = $Params['Module'];
 
-require_once( 'kernel/common/template.php' );
-$tpl = templateInit();
+
+$tpl = eZTemplate::factory();
 $tpl->setVariable( "module_name", 'shop' );
 
 $orderID = $http->sessionVariable( 'MyTemporaryOrderID' );

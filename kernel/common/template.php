@@ -26,47 +26,16 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-
+/**
+ * Function to get template instance, load autoloads (operators) and set default settings.
+ *
+ * @deprecated Deprecated as of 4.3, use {@see eZTemplate::factory()} instead
+ * @param string $name (Not supported as it was prevoisly set on same instance anyway)
+ * @return eZTemplate
+ */
 function templateInit( $name = false )
 {
-    if ( $name === false &&
-         isset( $GLOBALS['eZPublishTemplate'] ) )
-    {
-        return $GLOBALS['eZPublishTemplate'];
-    }
-    if ( isset( $GLOBALS["eZPublishTemplate_$name"] ) )
-    {
-        return $GLOBALS["eZPublishTemplate_$name"];
-    }
-    $tpl = eZTemplate::instance();
-
-    $ini = eZINI::instance();
-    if ( $ini->variable( 'TemplateSettings', 'Debug' ) == 'enabled' )
-        eZTemplate::setIsDebugEnabled( true );
-
-    $compatAutoLoadPath = $ini->variableArray( 'TemplateSettings', 'AutoloadPath' );
-    $autoLoadPathList = $ini->variable( 'TemplateSettings', 'AutoloadPathList' );
-
-    $extensionAutoloadPath = $ini->variable( 'TemplateSettings', 'ExtensionAutoloadPath' );
-    $extensionPathList = eZExtension::expandedPathList( $extensionAutoloadPath, 'autoloads' );
-
-    $autoLoadPathList = array_unique( array_merge( $compatAutoLoadPath, $autoLoadPathList, $extensionPathList ) );
-
-    $tpl->setAutoloadPathList( $autoLoadPathList );
-    $tpl->autoload();
-
-    $tpl->registerResource( eZTemplateDesignResource::instance() );
-
-    if ( $name === false )
-    {
-        $GLOBALS['eZPublishTemplate'] = $tpl;
-    }
-    else
-    {
-        $GLOBALS["eZPublishTemplate_$name"] = $tpl;
-    }
-
-    return $tpl;
+    return eZTemplate::factory();
 }
 
 

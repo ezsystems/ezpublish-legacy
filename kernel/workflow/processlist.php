@@ -102,8 +102,8 @@ foreach ( $plist as $p )
 }
 
 // Template handling
-require_once( "kernel/common/template.php" );
-$tpl = templateInit();
+
+$tpl = eZTemplate::factory();
 
 $tpl->setVariable( "module", $Module );
 $tpl->setVariable( "trigger_list", $outList2 );

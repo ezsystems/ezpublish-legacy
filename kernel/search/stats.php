@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-require_once( "kernel/common/template.php" );
+
 if ( eZPreferences::value( 'admin_search_stats_limit' ) )
 {
     switch ( eZPreferences::value( 'admin_search_stats_limit' ) )
@@ -56,7 +56,7 @@ if ( $module->isCurrentAction( 'ResetSearchStats' ) )
 }
 
 $viewParameters = array( 'offset' => $offset, 'limit'  => $limit );
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $db = eZDB::instance();
 $query = "SELECT count(*) as count FROM ezsearch_search_phrase";

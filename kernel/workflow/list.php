@@ -58,8 +58,8 @@ foreach( $workflows as $workflow )
 
 $Module->setTitle( 'Workflow list' );
 
-require_once( 'kernel/common/template.php' );
-$tpl = templateInit();
+
+$tpl = eZTemplate::factory();
 
 $tpl->setVariable( 'workflow_list', $workflowList );
 $tpl->setVariable( 'group_list', $groupList );

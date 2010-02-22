@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-require_once( 'kernel/common/template.php' );
+
 
 /*!
  Get search limit
@@ -62,7 +62,7 @@ $Offset = $Params['Offset'];
 if ( $ViewMode == 'offset' )
     $ViewMode = '';
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $ini = eZINI::instance();
 $useSearchCode = $ini->variable( 'SearchSettings', 'SearchViewHandling' ) == 'default';

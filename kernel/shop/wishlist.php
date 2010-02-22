@@ -240,9 +240,9 @@ if ( $http->hasPostVariable( "StoreChangesButton" ) )
         return;
     }
 }
-require_once( "kernel/common/template.php" );
 
-$tpl = templateInit();
+
+$tpl = eZTemplate::factory();
 
 $wishList = eZWishList::currentWishList();
 

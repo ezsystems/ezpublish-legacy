@@ -87,8 +87,7 @@ if ( $Module->isCurrentAction( 'Publish' ) and
     $conflictingVersions = $versionObject->hasConflicts( $LanguageCode );
     if ( $conflictingVersions )
     {
-        require_once( 'kernel/common/template.php' );
-        $tpl = templateInit();
+        $tpl = eZTemplate::factory();
 
         $res = eZTemplateDesignResource::instance();
         $res->setKeys( array( array( 'object', $contentObject->attribute( 'id' ) ),

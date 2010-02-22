@@ -114,8 +114,7 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
         if ( count( $allLanguages ) > 1 &&
              $hasClassInformation )
         {
-            require_once( 'kernel/common/template.php' );
-            $tpl = templateInit();
+            $tpl = eZTemplate::factory();
 
             $tpl->setVariable( 'node_id', $http->postVariable( 'NodeID' ) );
             $tpl->setVariable( 'class_id', $contentClassID );

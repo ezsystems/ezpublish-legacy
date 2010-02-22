@@ -27,9 +27,9 @@
 //
 
 
-require_once( 'kernel/common/template.php' );
 
-$tpl = templateInit();
+
+$tpl = eZTemplate::factory();
 $user = eZUser::currentUser();
 
 $tpl->setVariable( "view_parameters", $Params['UserParameters'] );

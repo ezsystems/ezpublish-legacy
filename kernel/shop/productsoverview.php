@@ -29,7 +29,7 @@
 /*! \file
 */
 
-require_once( 'kernel/common/template.php' );
+
 $module = $Params['Module'];
 $offset = $Params['Offset'];
 $productClassIdentifier = $Params['ProductClass'];
@@ -87,7 +87,7 @@ $sortingOrder = eZPreferences::value( 'productsoverview_sorting_order' );
 
 $viewParameters = array( 'offset' => $offset );
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 $tpl->setVariable( 'product_class_list', $productClassList );
 $tpl->setVariable( 'product_class', $productClass );
 $tpl->setVariable( 'price_attribute_identifier', $priceAttributeIdentifier );

@@ -28,7 +28,7 @@
 
 /*! \file
 */
-require_once( 'kernel/common/template.php' );
+
 
 $Module =& $Params['Module'];
 $http = eZHTTPTool::instance();
@@ -39,7 +39,7 @@ if ( $Module->hasActionParameter( 'Offset' ) )
     $Offset = $Module->actionParameter( 'Offset' );
 }
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 $limit = 20;
 
 $infoCode = 'no-errors'; // This will be modified if info/warning is given to user.

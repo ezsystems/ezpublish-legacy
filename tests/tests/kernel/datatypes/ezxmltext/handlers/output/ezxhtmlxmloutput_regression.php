@@ -7,8 +7,6 @@
  * @package tests
  */
 
-require_once( 'kernel/common/template.php' );
-
 class eZXHTMLXMLOutputRegression extends ezpDatabaseTestCase
 {
     protected $insertDefaultData = false;

@@ -103,9 +103,8 @@ else if ( is_string( $limitIdent ) && !isset( $limitValue ) )
 
         case 'section':
         {
-            require_once( 'kernel/common/template.php' );
             $sectionArray = eZSection::fetchList( );
-            $tpl = templateInit();
+            $tpl = eZTemplate::factory();
             $tpl->setVariable( 'section_array', $sectionArray );
             $tpl->setVariable( 'role_id', $roleID );
             $tpl->setVariable( 'limit_ident', $limitIdent );

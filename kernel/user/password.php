@@ -145,8 +145,8 @@ if ( $http->hasPostVariable( "CancelButton" ) )
 
 $Module->setTitle( "Edit user information" );
 // Template handling
-require_once( "kernel/common/template.php" );
-$tpl = templateInit();
+
+$tpl = eZTemplate::factory();
 $tpl->setVariable( "module", $Module );
 $tpl->setVariable( "http", $http );
 $tpl->setVariable( "userID", $UserID );

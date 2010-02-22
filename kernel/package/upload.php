@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-require_once( "kernel/common/template.php" );
+
 $module = $Params['Module'];
 
 if ( !eZPackage::canUsePolicyFunction( 'import' ) )
@@ -87,7 +87,7 @@ else if ( $module->isCurrentAction( 'UploadCancel' ) )
     return;
 }
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $tpl->setVariable( 'package', $package );
 $tpl->setVariable( 'error_list', $errorList );

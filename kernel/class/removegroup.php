@@ -86,8 +86,7 @@ if ( $http->hasPostVariable( "CancelButton" ) )
     $Module->redirectTo( '/class/grouplist/' );
 }
 $Module->setTitle( ezpI18n::translate( 'kernel/class', 'Remove class groups' ) . ' ' . $GroupName );
-require_once( "kernel/common/template.php" );
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $tpl->setVariable( "DeleteResult", $deleteResult );
 $tpl->setVariable( "module", $Module );

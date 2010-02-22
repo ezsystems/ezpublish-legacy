@@ -338,8 +338,8 @@ else if ( $canStore )
 $Module->setTitle( ezpI18n::translate( 'kernel/workflow', 'Edit workflow' ) . ' ' . $workflow->attribute( "name" ) );
 
 // Template handling
-require_once( "kernel/common/template.php" );
-$tpl = templateInit();
+
+$tpl = eZTemplate::factory();
 
 $res = eZTemplateDesignResource::instance();
 

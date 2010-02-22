@@ -89,8 +89,8 @@ $maxFailedLoginAttempts = eZUser::maxNumberOfFailedLogin();
 
 $Module->setTitle( "Edit user settings" );
 // Template handling
-require_once( "kernel/common/template.php" );
-$tpl = templateInit();
+
+$tpl = eZTemplate::factory();
 $tpl->setVariable( "module", $Module );
 $tpl->setVariable( "http", $http );
 $tpl->setVariable( "userID", $UserID );

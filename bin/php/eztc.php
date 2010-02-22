@@ -87,9 +87,7 @@ $http->UseFullUrl = $useFullURL;
 if ( count( $options['arguments'] ) > 0 )
 {
     $ini = eZINI::instance();
-
-    require_once( 'kernel/common/template.php' );
-    $tpl = templateInit();
+    $tpl = eZTemplate::factory();
 
     $fileList = $options['arguments'];
 
@@ -135,8 +133,7 @@ else
 
     $designList = array_merge( array( $standardDesign ), $additionalSiteDesignList, array( $siteDesign ) );
 
-    require_once( 'kernel/common/template.php' );
-    $tpl = templateInit();
+    $tpl = eZTemplate::factory();
 
     $script->setIterationData( '.', '~' );
     if ( $forceCompile )

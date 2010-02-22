@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-require_once( "kernel/common/template.php" );
+
 $http = eZHTTPTool::instance();
 
 $module = $Params['Module'];
@@ -61,7 +61,7 @@ if ( $module->isCurrentAction( 'SkipPackage' ) )
     return $module->redirectToView( 'view', array( 'full', $package->attribute( 'name' ) ) );
 }
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 // Get all uninstall items and reverse array
 $uninstallItems = array_reverse( $package->installItemsList( false, false, false, false ) );

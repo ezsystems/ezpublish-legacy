@@ -30,7 +30,7 @@
 
 $Module = $Params['Module'];
 
-require_once( 'kernel/common/template.php' );
+
 $http = eZHTTPTool::instance();
 
 $valid = true;
@@ -142,7 +142,7 @@ if ( is_numeric( $RSSExportID ) )
              $rssExport->attribute( 'modified' ) + $timeOut > time() )
         {
             // locked editing
-            $tpl = templateInit();
+            $tpl = eZTemplate::factory();
 
             $tpl->setVariable( 'rss_export', $rssExport );
             $tpl->setVariable( 'rss_export_id', $rssExportID );
@@ -233,7 +233,7 @@ else // New RSSExport
     $db->commit();
 }
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 $config = eZINI::instance( 'site.ini' );
 
 $rssVersionArray = $config->variable( 'RSSSettings', 'AvailableVersionList' );

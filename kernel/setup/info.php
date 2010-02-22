@@ -35,10 +35,10 @@ if ( $mode and $mode === 'php' )
     eZExecution::cleanExit();
 }
 
-require_once( "kernel/common/template.php" );
+
 $http = eZHTTPTool::instance();
 $ini = eZINI::instance();
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 $db = eZDB::instance();
 
 try

@@ -30,7 +30,7 @@
 
 /*! \file
 */
-require_once( 'kernel/common/template.php' );
+
 $Module = $Params['Module'];
 $http = eZHTTPTool::instance();
 
@@ -88,7 +88,7 @@ else if ( $Module->isCurrentAction( 'AddBookmark' )  )
     }
 }
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 $tpl->setVariable('view_parameters', $viewParameters );
 
 $Result = array();

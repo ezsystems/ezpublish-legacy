@@ -67,8 +67,7 @@ if ( is_numeric( $ClassID ) )
     $class = eZContentClass::fetch( $ClassID, true, eZContentClass::VERSION_STATUS_MODIFIED );
     if ( is_object( $class ) )
     {
-        require_once( 'kernel/common/template.php' );
-        $tpl = templateInit();
+        $tpl = eZTemplate::factory();
         $tpl->setVariable( 'class', $class );
         $tpl->setVariable( "access_type", $GLOBALS['eZCurrentAccess'] );
 
@@ -117,8 +116,7 @@ if ( is_numeric( $ClassID ) )
         if ( $class->attribute( 'modifier_id' ) != $user->attribute( 'contentobject_id' ) &&
              $class->attribute( 'modified' ) + $timeOut > time() )
         {
-            require_once( 'kernel/common/template.php' );
-            $tpl = templateInit();
+            $tpl = eZTemplate::factory();
 
             $res = eZTemplateDesignResource::instance();
             $res->setKeys( array( array( 'class', $class->attribute( 'id' ) ) ) ); // Class ID
@@ -321,9 +319,7 @@ if ( !$EditLanguage )
         }
         else
         {
-            require_once( 'kernel/common/template.php' );
-
-            $tpl = templateInit();
+            $tpl = eZTemplate::factory();
 
             $res = eZTemplateDesignResource::instance();
             $res->setKeys( array( array( 'class', $class->attribute( 'id' ) ) ) ); // Class ID
@@ -800,8 +796,7 @@ $attributes = $class->fetchAttributes();
 $validation = array_merge( $validation, $datatypeValidation );
 
 // Template handling
-require_once( 'kernel/common/template.php' );
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 $res = eZTemplateDesignResource::instance();
 $res->setKeys( array( array( 'class', $class->attribute( 'id' ) ) ) ); // Class ID
 $tpl->setVariable( 'http', $http );

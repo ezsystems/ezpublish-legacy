@@ -36,9 +36,9 @@ if ( !is_object( $group ) )
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 }
 
-require_once 'kernel/common/template.php';
 
-$tpl = templateInit();
+
+$tpl = eZTemplate::factory();
 
 $currentAction = $Module->currentAction();
 

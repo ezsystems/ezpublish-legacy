@@ -182,8 +182,8 @@ either all version or the current one.
 function chooseObjectVersionsToCopy( $Module, &$Result, $object )
 {
         $selectedNodeIDArray = eZContentBrowse::result( $Module->currentAction() );
-        require_once( 'kernel/common/template.php' );
-        $tpl = templateInit();
+
+        $tpl = eZTemplate::factory();
         $tpl->setVariable( 'object', $object );
         $tpl->setVariable( 'selected_node_id', $selectedNodeIDArray[0] );
         $Result['content'] = $tpl->fetch( 'design:content/copy.tpl' );

@@ -40,9 +40,9 @@ if ( $group->isInternal() )
     return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 }
 
-require_once( 'kernel/common/template.php' );
 
-$tpl = templateInit();
+
+$tpl = eZTemplate::factory();
 
 $currentAction = $Module->currentAction();
 

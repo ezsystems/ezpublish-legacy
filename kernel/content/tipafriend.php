@@ -26,14 +26,14 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-require_once( "kernel/common/template.php" );
+
 
 $http = eZHTTPTool::instance();
 
 $NodeID = (int)$Params['NodeID'];
 $Module = $Params['Module'];
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 $tpl->setVariable( 'action', '' );
 
 $error_strings = array();
@@ -151,7 +151,7 @@ if ( $http->hasPostVariable( 'SendButton' ) )
         $overrideKeysAreSet = true;
 
         // fetch text from mail template
-        $mailtpl = templateInit();
+        $mailtpl = eZTemplate::factory();
         $mailtpl->setVariable( 'hostname', $hostName );
         $mailtpl->setVariable( 'nodename', $nodeName );
         $mailtpl->setVariable( 'node_id', $NodeID );

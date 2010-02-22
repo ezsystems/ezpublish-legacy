@@ -28,7 +28,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-require_once( "kernel/common/template.php" );
+
 $module = $Params['Module'];
 $discountGroupID = null;
 if ( isset( $Params["DiscountGroupID"] ) )
@@ -63,7 +63,7 @@ if ( $http->hasPostVariable( "ApplyButton" ) )
 }
 
 $module->setTitle( "Editing discount group" );
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 $tpl->setVariable( "module", $module );
 $tpl->setVariable( "discount_group", $discountGroup );
 

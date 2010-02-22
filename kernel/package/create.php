@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-require_once( 'kernel/common/template.php' );
+
 $module = $Params['Module'];
 
 $http = eZHTTPTool::instance();
@@ -65,7 +65,7 @@ else if ( $module->isCurrentAction( 'PackageStep' ) )
     }
 }
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $templateName = 'design:package/create.tpl';
 if ( $creator )

@@ -33,9 +33,9 @@ $parameters = $Params["Parameters"];
 $overrideKeys = array( 'nodeID' => $Params['NodeID'],
                        'classID' => $Params['ClassID'] );
 
-require_once( "kernel/common/template.php" );
+
 $ini = eZINI::instance();
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 // Todo: read from siteaccess settings
 $siteAccess = $Params['SiteAccess'];

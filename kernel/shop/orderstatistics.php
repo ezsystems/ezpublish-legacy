@@ -31,7 +31,7 @@
 */
 
 
-require_once( "kernel/common/template.php" );
+
 $module = $Params['Module'];
 $year = $Params['Year'];
 $month = $Params['Month'];
@@ -68,7 +68,7 @@ for ( $monthIndex = 1; $monthIndex <= 12; $monthIndex++ )
     $monthList[] = array( 'value' => $monthIndex, 'name' => $locale->longMonthName( $monthIndex ) );
 }
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 $tpl->setVariable( "year", $year );
 $tpl->setVariable( "month", $month );
 $tpl->setVariable( "year_list", $yearList );

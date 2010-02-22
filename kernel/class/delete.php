@@ -56,8 +56,7 @@ if ( $http->hasPostVariable( "CancelButton" ) )
     $Module->redirectTo( '/class/classlist/' . $GroupID );
 }
 $Module->setTitle( "Deletion of class " .$ClassID );
-require_once( "kernel/common/template.php" );
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 
 $tpl->setVariable( "module", $Module );

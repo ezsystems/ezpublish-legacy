@@ -98,8 +98,7 @@ if ( !isset( $TemplateData ) or !is_array( $TemplateData ) )
 }
 
 $Module->setTitle( ezpI18n::translate( 'kernel/workflow', 'Workflow group list' ) );
-require_once( "kernel/common/template.php" );
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $user = eZUser::currentUser();
 foreach( $TemplateData as $tpldata )

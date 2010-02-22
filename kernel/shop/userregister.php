@@ -29,8 +29,8 @@
 $http = eZHTTPTool::instance();
 $module = $Params['Module'];
 
-require_once( 'kernel/common/template.php' );
-$tpl = templateInit();
+
+$tpl = eZTemplate::factory();
 
 if ( $module->isCurrentAction( 'Cancel' ) )
 {

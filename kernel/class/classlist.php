@@ -70,8 +70,7 @@ if ( !isset( $TemplateData ) or !is_array( $TemplateData ) )
 }
 
 $Module->setTitle( ezpI18n::translate( 'kernel/class', 'Class list of group' ) . ' ' . $GroupID );
-require_once( "kernel/common/template.php" );
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $user = eZUser::currentUser();
 foreach( $TemplateData as $tpldata )

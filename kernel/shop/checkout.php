@@ -99,9 +99,8 @@ if ( $order instanceof eZOrder )
                 case eZModuleOperationInfo::STATUS_CANCELLED:
                 {
                     $Result = array();
-                    require_once( "kernel/common/template.php" );
-                    $tpl = templateInit();
 
+                    $tpl = eZTemplate::factory();
                     $tpl->setVariable( 'operation_result', $operationResult );
 
                     $Result['content'] = $tpl->fetch( "design:shop/cancelcheckout.tpl" ) ;
@@ -136,8 +135,8 @@ if ( $order instanceof eZOrder )
                 if ( $attempt < 4)
                 {
                     $Result = array();
-                    require_once( "kernel/common/template.php" );
-                    $tpl = templateInit();
+
+                    $tpl = eZTemplate::factory();
                     $tpl->setVariable( 'attempt', $attempt );
                     $tpl->setVariable( 'orderID', $orderID );
                     $Result['content'] = $tpl->fetch( "design:shop/checkoutagain.tpl" ) ;
@@ -151,8 +150,8 @@ if ( $order instanceof eZOrder )
                     $http->removeSessionVariable( "CheckoutAttempt" );
 
                     $Result = array();
-                    require_once( "kernel/common/template.php" );
-                    $tpl = templateInit();
+
+                    $tpl = eZTemplate::factory();
                     $tpl->setVariable ("ErrorCode", "NO_CALLBACK");
                     $tpl->setVariable ("OrderID", $orderID);
 

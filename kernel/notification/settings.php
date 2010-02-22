@@ -31,7 +31,7 @@
 /*! \file
 */
 
-require_once( 'kernel/common/template.php' );
+
 $http = eZHTTPTool::instance();
 
 $Module = $Params['Module'];
@@ -60,7 +60,7 @@ $db->commit();
 
 $viewParameters = array( 'offset' => $Params['Offset'] );
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 $tpl->setVariable( 'user', $user );
 $tpl->setVariable( 'view_parameters', $viewParameters );
 

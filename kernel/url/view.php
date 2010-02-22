@@ -107,8 +107,8 @@ if ( $Module->isCurrentAction( 'EditObject' ) )
     }
 }
 
-require_once( 'kernel/common/template.php' );
-$tpl = templateInit();
+
+$tpl = eZTemplate::factory();
 
 $tpl->setVariable( 'Module', $Module );
 $tpl->setVariable( 'url_object', $url );

@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-require_once( "kernel/common/template.php" );
+
 $module = $Params['Module'];
 $http = eZHTTPTool::instance();
 $messages = array();
@@ -94,7 +94,7 @@ if ( $http->hasPostVariable( "RemoveOrderStatusButton" ) )
 
 $orderStatusArray = eZOrderStatus::fetchList( true, true );
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 $tpl->setVariable( "orderstatus_array", $orderStatusArray );
 $tpl->setVariable( "module", $module );
 $tpl->setVariable( "messages", $messages );

@@ -28,8 +28,8 @@
 $Module = $Params['Module'];
 $Module->setTitle( "Successful registration" );
 // Template handling
-require_once( "kernel/common/template.php" );
-$tpl = templateInit();
+
+$tpl = eZTemplate::factory();
 $tpl->setVariable( "module", $Module );
 $ini = eZINI::instance();
 $verifyUserEmail = $ini->variable( 'UserSettings', 'VerifyUserEmail' );

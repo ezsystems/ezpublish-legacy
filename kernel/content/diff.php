@@ -27,7 +27,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-require_once( 'kernel/common/template.php' );
+
 
 $Module = $Params['Module'];
 $objectID = $Params['ObjectID'];
@@ -51,7 +51,7 @@ if ( !$contentObject->attribute( 'can_diff' ) )
     return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
 $http = eZHTTPTool::instance();
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $res = eZTemplateDesignResource::instance();
 $res->setKeys( array( array( 'object', $contentObject->attribute( 'id' ) ),

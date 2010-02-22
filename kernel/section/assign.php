@@ -93,8 +93,7 @@ else
                     }
                     if ( count( $deniedNodeIDList ) > 0 )
                     {
-                        require_once( 'kernel/common/template.php' );
-                        $tpl = templateInit();
+                        $tpl = eZTemplate::factory();
                         $tpl->setVariable( 'section_name', $section->attribute( 'name' ) );
                         $tpl->setVariable( 'error_number', 1 );
                         $deniedNodes = eZContentObjectTreeNode::fetch( $deniedNodeIDList );
@@ -132,8 +131,7 @@ else
                 }
                 else
                 {
-                    require_once( 'kernel/common/template.php' );
-                    $tpl = templateInit();
+                    $tpl = eZTemplate::factory();
                     $tpl->setVariable( 'section_name', $section->attribute( 'name' ) );
                     $tpl->setVariable( 'error_number', 2 );
                     $Result = array();
@@ -148,8 +146,7 @@ else
         }
         else
         {
-            require_once( 'kernel/common/template.php' );
-            $tpl = templateInit();
+            $tpl = eZTemplate::factory();
             $tpl->setVariable( 'section_name', $section->attribute( 'name' ) );
             $tpl->setVariable( 'error_number', 3 );
             $Result = array();

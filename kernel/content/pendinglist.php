@@ -31,7 +31,7 @@
 /*! \file
 */
 
-require_once( 'kernel/common/template.php' );
+
 $Module = $Params['Module'];
 $http = eZHTTPTool::instance();
 
@@ -42,7 +42,7 @@ $user = eZUser::currentUser();
 $userID = $user->id();
 
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 $tpl->setVariable('view_parameters', $viewParameters );
 
 $Result = array();

@@ -28,9 +28,9 @@
 
 $module = $Params['Module'];
 
-require_once( "kernel/common/template.php" );
+
 $ini = eZINI::instance();
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $steps = array( 'basic' => array( 'template' => 'datatype_basic.tpl',
                                   'function' => 'datatypeBasic' ),

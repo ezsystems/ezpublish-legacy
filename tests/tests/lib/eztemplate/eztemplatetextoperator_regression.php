@@ -35,13 +35,10 @@ class eZTemplateTextOperatorRegression extends ezpDatabaseTestCase
      */
     public function testIssue15852()
     {
-        require_once( 'kernel/common/template.php' );
-        
         set_error_handler( 'testErrorHandler' );
-        
-        $tpl = templateInit();
+        $tpl = eZTemplate::factory();
         $templateDirectory = dirname( __FILE__ ) . DIRECTORY_SEPARATOR;
-        
+
         // Static variable test
         $templateFile = "file:$templateDirectory/eztemplatetextoperator_regression_testIssue15852_static.tpl";
         $tpl->compileTemplateFile( $templateFile );
@@ -62,11 +59,12 @@ class eZTemplateTextOperatorRegression extends ezpDatabaseTestCase
             }
         }
         $this->assertEquals( "This is a string", $result, "The original, unindented string should have been returned" );
-        
+
         // Dynamic variable test
         $templateFile = "file:$templateDirectory/eztemplatetextoperator_regression_testIssue15852_dynamic.tpl";
         $tpl->compileTemplateFile( $templateFile );
         $tpl->setVariable( 'indent', -1 );
+
         try
         {
             $result = $tpl->fetch( $templateFile );
@@ -83,8 +81,9 @@ class eZTemplateTextOperatorRegression extends ezpDatabaseTestCase
                 throw $e;
             }
         }
+
         $this->assertEquals( "This is a string", $result, "The original, unindented string should have been returned" );
-        
+
         restore_error_handler();
     }
 }

@@ -25,13 +25,13 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-require_once( "kernel/common/template.php" );
+
 
 $NodeID = $Params['NodeID'];
 $Module = $Params['Module'];
 
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $Module->setTitle( "Error 404 object " . $NodeID . " not found" );
 

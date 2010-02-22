@@ -44,9 +44,9 @@ if ( $http->hasVariable( 'filterString' ) )
         $doFiltration = true;
 }
 
-require_once( "kernel/common/template.php" );
+
 $ini = eZINI::instance();
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $siteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
 

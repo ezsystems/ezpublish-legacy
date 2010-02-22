@@ -157,8 +157,8 @@ if ( !$WorkflowgroupInfo )
     return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
-require_once( 'kernel/common/template.php' );
-$tpl = templateInit();
+
+$tpl = eZTemplate::factory();
 $tpl->setVariable( "temp_workflow_list", $temp_list );
 $tpl->setVariable( "group_id", $WorkflowGroupID );
 $WorkflowGroupName = $WorkflowgroupInfo->attribute("name");

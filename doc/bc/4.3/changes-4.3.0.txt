@@ -59,15 +59,20 @@ Change of behavior
   unless the second parameter of the function is set to false. This is a
   safety measure introduced to solve: "#015823: Running cache clearing
   procedure from upgrade 4.2.0 using root removes all linux system files"
-  
+
+- templateInit( $name = false )
+
+  Parameter $name is now totally ignored as you have always gotten same instance anyway, so
+  instead make sure you call $tpl->resetVariables(); after you get instance instead.
+  Note: this function has also been deprecated, use eZTemplate::factory()
+
 
 eZContentClass::instantiate() changes
 -------------------------------------
 
 - $userID now has to be false if you want to create objects for current user
   If you don't set it to false, new object id will no longer be stored in user
-  session for use by policy system to let anonymous user re edit object. 
-
+  session for use by policy system to let anonymous user re edit object.
 
 Deprecated methods
 ------------------
@@ -85,6 +90,9 @@ Deprecated methods
 
 - kernel/common/image.php: imageInit()
   Function will be removed in a future version, use eZImageManager::factory() instead.
+
+- kernel/common/template.php: templateInit()
+  Function will be removed in a future version, use eZTemplate::factory() instead.
 
 
 Renamed methods
@@ -115,5 +123,17 @@ Removed globals
 ---------------
 
 - eZImageManager
+
   eZImageManager::instance() now uses static variable instead, this can be reset
   with eZImageManager::resetInstance().
+
+
+- eZPublishTemplate & eZPublishTemplate_*
+
+  See above notes on templateInit() (it reuses eZTemplate::factory, thus does not need these)
+
+
+- eZTemplateInstance
+
+  eZTemplate::instance() now uses static variable instead.
+

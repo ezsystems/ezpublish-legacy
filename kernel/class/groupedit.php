@@ -78,8 +78,7 @@ if ( $http->hasPostVariable( "StoreButton" ) )
 $Module->setTitle( "Edit class group " . $classgroup->attribute( "name" ) );
 
 // Template handling
-require_once( "kernel/common/template.php" );
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $res = eZTemplateDesignResource::instance();
 $res->setKeys( array( array( "classgroup", $classgroup->attribute( "id" ) ) ) );

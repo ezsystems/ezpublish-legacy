@@ -34,11 +34,11 @@
 $CustomerID = $Params['CustomerID'];
 $Email = $Params['Email'];
 $module = $Params['Module'];
-require_once( "kernel/common/template.php" );
+
 
 $http = eZHTTPTool::instance();
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $Email = urldecode( $Email );
 $productList = eZOrder::productList( $CustomerID, $Email );

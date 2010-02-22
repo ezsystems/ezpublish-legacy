@@ -30,7 +30,7 @@
 
 /*! \file
 */
-require_once( 'kernel/common/template.php' );
+
 $module = $Params['Module'];
 $http = eZHTTPTool::instance();
 
@@ -69,7 +69,7 @@ if ( !$contentNode->attribute( 'can_read' ) )
     return;
 }
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 if ( $http->hasSessionVariable( "LastAccessesURI" ) )
     $tpl->setVariable( 'redirect_url', $http->sessionVariable( "LastAccessesURI" ) );
 //else

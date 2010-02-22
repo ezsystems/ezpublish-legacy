@@ -29,8 +29,8 @@
 /*! \file
 */
 
-require_once( 'kernel/common/template.php' );
-$tpl = templateInit();
+
+$tpl = eZTemplate::factory();
 
 $Result = array();
 $Result['path'] = array( array( 'text' => ezpI18n::translate( 'kernel/shop', 'Preferred currency' ),

@@ -96,8 +96,8 @@ $Module->setTitle( ezpI18n::translate( 'kernel/workflow', 'Edit workflow group' 
                    $workflowGroup->attribute( "name" ) );
 
 // Template handling
-require_once( "kernel/common/template.php" );
-$tpl = templateInit();
+
+$tpl = eZTemplate::factory();
 
 $res = eZTemplateDesignResource::instance();
 $res->setKeys( array( array( "workflow_group", $workflowGroup->attribute( "id" ) ) ) ); // WorkflowGroup ID

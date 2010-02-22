@@ -36,7 +36,7 @@ function makeTriggerArray( $triggerList )
     return $triggerArray;
 }
 
-require_once( 'kernel/common/template.php' );
+
 $http = eZHTTPTool::instance();
 
 $Module = $Params['Module'];
@@ -168,7 +168,7 @@ if ( $http->hasPostVariable( 'NewButton' )  )
 }
 
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $triggers = eZTrigger::fetchList( array(
                                        'module' => $moduleName,

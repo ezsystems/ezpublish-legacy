@@ -242,8 +242,7 @@ function eZDisplayDebug()
              !$GLOBALS['eZRedirection'] )
 
         {
-            require_once( 'kernel/common/template.php' );
-            $tpl = templateInit();
+            $tpl = eZTemplate::factory();
             $result = "<tr><td>" . $tpl->fetch( 'design:setup/debug_toolbar.tpl' ) . "</td></tr>";
             eZDebug::appendTopReport( "Debug toolbar", $result );
         }
@@ -871,8 +870,8 @@ if ( $module->exitStatus() == eZModule::STATUS_REDIRECT )
                                             'text' => ezpI18n::translate( 'index.php', 'Some general warnings occured, see debug for more information.' ) ) );
             }
         }
-        require_once( "kernel/common/template.php" );
-        $tpl = templateInit();
+
+        $tpl = eZTemplate::factory();
         if ( count( $warningList ) == 0 )
             $warningList = false;
         $tpl->setVariable( 'site', $site );
@@ -946,8 +945,7 @@ $templateResult = null;
 eZDebug::setUseExternalCSS( $use_external_css );
 if ( $show_page_layout )
 {
-    require_once( "kernel/common/template.php" );
-    $tpl = templateInit();
+    $tpl = eZTemplate::factory();
     if ( $tpl->hasVariable( 'node' ) )
         $tpl->unsetVariable( 'node' );
 

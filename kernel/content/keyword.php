@@ -30,7 +30,7 @@
 
 /*! \file
 */
-require_once( 'kernel/common/template.php' );
+
 
 $Module = $Params['Module'];
 $Alphabet = rawurldecode( $Params['Alphabet'] );
@@ -39,7 +39,7 @@ $Offset = $Params['Offset'];
 $ClassID = $Params['ClassID'];
 $viewParameters = array( 'offset' => $Offset, 'classid' => $ClassID );
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $tpl->setVariable( 'view_parameters', $viewParameters );
 $tpl->setVariable( 'alphabet', $Alphabet );

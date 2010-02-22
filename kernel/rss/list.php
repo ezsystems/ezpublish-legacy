@@ -30,7 +30,7 @@
 
 $Module = $Params['Module'];
 
-require_once( "kernel/common/template.php" );
+
 $http = eZHTTPTool::instance();
 
 if ( $http->hasPostVariable( 'NewExportButton' ) )
@@ -93,7 +93,7 @@ foreach( $importArray as $import )
     $importList[$import->attribute( 'id' )] = $import;
 }
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $tpl->setVariable( 'rssexport_list', $exportList );
 $tpl->setVariable( 'rssimport_list', $importList );

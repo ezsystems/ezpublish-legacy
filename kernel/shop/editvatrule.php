@@ -219,8 +219,8 @@ if ( $errors !== false )
 
 $vatTypes = eZVatType::fetchList( true, true );
 
-require_once( 'kernel/common/template.php' );
-$tpl = templateInit();
+
+$tpl = eZTemplate::factory();
 
 $tpl->setVariable( 'error_header', $errorHeader );
 $tpl->setVariable( 'errors', $errors );

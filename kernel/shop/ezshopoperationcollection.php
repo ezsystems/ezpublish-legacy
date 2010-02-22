@@ -97,8 +97,7 @@ class eZShopOperationCollection
                            'You can either fill country manually in your account information (if you are a registered user) ' .
                            'or contact site administrator.' );
 
-            require_once( "kernel/common/template.php" );
-            $tpl = templateInit();
+            $tpl = eZTemplate::factory();
             $tpl->setVariable( "error_header",  $header );
             $tpl->setVariable( "error_list", array( $msg ) );
 

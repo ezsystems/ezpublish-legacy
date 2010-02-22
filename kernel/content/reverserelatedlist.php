@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-require_once( "kernel/common/template.php" );
+
 $http = eZHTTPTool::instance();
 
 $Module = $Params['Module'];
@@ -149,7 +149,7 @@ foreach( $rows as $child )
 $contentObjectName = $contentObjectTreeNode->attribute('name');
 $viewParameters = array( 'offset' => $Offset );
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $tpl->setVariable( 'children_list', $childrenList );
 $tpl->setVariable( 'view_parameters', $viewParameters );

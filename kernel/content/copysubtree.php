@@ -825,9 +825,8 @@ function chooseOptionsToCopy( $Module, &$Result, $srcNode, $chooseVersions, $cho
 {
         $selectedNodeIDArray = eZContentBrowse::result( $Module->currentAction() );
 
-        require_once( 'kernel/common/template.php' );
-        $tpl = templateInit();
 
+        $tpl = eZTemplate::factory();
         $tpl->setVariable( 'node', $srcNode );
         $tpl->setVariable( 'selected_node_id', $selectedNodeIDArray[0] );
         $tpl->setVariable( 'choose_versions', $chooseVersions );
@@ -843,8 +842,7 @@ function chooseOptionsToCopy( $Module, &$Result, $srcNode, $chooseVersions, $cho
 
 function showNotificationAfterCopying( $http, $Module, &$Result, &$Notifications, $srcNode )
 {
-    require_once( 'kernel/common/template.php' );
-    $tpl = templateInit();
+    $tpl = eZTemplate::factory();
 
     if ( $http->hasSessionVariable( "LastAccessesURI" ) )
     {

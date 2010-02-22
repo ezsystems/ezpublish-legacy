@@ -34,7 +34,7 @@
   \param $Module must be set by the code which includes this file
 */
 
-require_once( 'kernel/common/template.php' );
+
 
 if ( isset( $Module ) )
     $Module = $Params['Module'];
@@ -417,7 +417,7 @@ if ( isset( $Params['TemplateObject'] ) )
     $tpl = $Params['TemplateObject'];
 
 if ( !isset( $tpl ) || !( $tpl instanceof eZTemplate ) )
-    $tpl = templateInit();
+    $tpl = eZTemplate::factory();
 
 $tpl->setVariable( 'validation', $validation );
 $tpl->setVariable( 'validation_log', $validatedAttributes );

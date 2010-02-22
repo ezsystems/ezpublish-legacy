@@ -29,7 +29,7 @@
 $http = eZHTTPTool::instance();
 $module = $Params['Module'];
 
-require_once( "kernel/common/template.php" );
+
 $basket = eZBasket::currentBasket();
 $basket->updatePrices(); // Update the prices. Transaction not necessary.
 
@@ -308,7 +308,7 @@ if ( $http->hasPostVariable( "CheckoutButton" ) or ( $doCheckout === true ) )
 }
 $basket = eZBasket::currentBasket();
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 if ( isset( $Params['Error'] ) )
 {
     $tpl->setVariable( 'error', $Params['Error'] );

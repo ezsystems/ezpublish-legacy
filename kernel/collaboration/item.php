@@ -48,8 +48,7 @@ $collabTitle = $collabItem->title();
 
 $viewParameters = array( 'offset' => $Offset );
 
-require_once( 'kernel/common/template.php' );
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $tpl->setVariable( 'view_parameters', $viewParameters );
 $tpl->setVariable( 'collab_item', $collabItem );

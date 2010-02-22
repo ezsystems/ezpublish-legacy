@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-require_once( "kernel/common/template.php" );
+
 $module = $Params['Module'];
 $offset = (int)$Params['Offset'];
 
@@ -77,7 +77,7 @@ if ( $module->isCurrentAction( 'CreatePackage' ) )
     return $module->redirectToView( 'create' );
 }
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $viewParameters = array( 'offset' => $offset );
 

@@ -31,9 +31,9 @@
 $http = eZHTTPTool::instance();
 $module = $Params['Module'];
 
-require_once( "kernel/common/template.php" );
+
 $ini = eZINI::instance();
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 if ( $module->isCurrentAction( 'SelectCurrentSiteAccess' ) )
 {

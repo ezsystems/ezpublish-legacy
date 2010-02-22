@@ -46,8 +46,8 @@ if ( $http->hasPostVariable( 'BackButton' )  )
     return $Module->redirectTo( $userRedirectURI );
 }
 
-require_once( 'kernel/common/template.php' );
-$tpl = templateInit();
+
+$tpl = eZTemplate::factory();
 // Will be sent from the content/edit page and should be kept
 // incase the user decides to continue editing.
 $FromLanguage = $Params['FromLanguage'];

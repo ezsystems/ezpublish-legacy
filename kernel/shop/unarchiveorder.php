@@ -31,7 +31,7 @@
 /*! \file
 */
 
-require_once( "kernel/common/template.php" );
+
 $Module = $Params['Module'];
 $http = eZHTTPTool::instance();
 $orderIDArray = $http->sessionVariable( "OrderIDArray" );

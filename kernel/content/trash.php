@@ -31,7 +31,7 @@
 /*! \file
 */
 
-require_once( 'kernel/common/template.php' );
+
 $Module = $Params['Module'];
 $Offset = $Params['Offset'];
 if ( isset( $Params['UserParameters'] ) )
@@ -116,7 +116,7 @@ else if ( $http->hasPostVariable( 'EmptyButton' )  )
     }
 }
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 $tpl->setVariable( 'view_parameters', $viewParameters );
 
 $Result = array();

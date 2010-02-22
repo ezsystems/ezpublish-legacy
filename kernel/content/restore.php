@@ -27,7 +27,7 @@
 //
 
 
-require_once( 'kernel/common/template.php' );
+
 
 $objectID = $Params['ObjectID'];
 $module = $Params['Module'];
@@ -229,7 +229,7 @@ if ( $module->isCurrentAction( 'AddLocation' ) )
     return;
 }
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $res = eZTemplateDesignResource::instance();
 

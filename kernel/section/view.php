@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-require_once( "kernel/common/template.php" );
+
 
 $http = eZHTTPTool::instance();
 $SectionID = $Params["SectionID"];
@@ -41,7 +41,7 @@ if ( !$section )
     return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $tpl->setVariable( "view_parameters", $viewParameters );
 $tpl->setVariable( "section", $section );

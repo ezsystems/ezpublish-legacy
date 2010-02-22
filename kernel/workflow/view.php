@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-require_once( "kernel/common/template.php" );
+
 
 $Module = $Params['Module'];
 $http = eZHTTPTool::instance();
@@ -59,7 +59,7 @@ if ( $http->hasPostVariable( "DeleteGroupButton" ) && $http->hasPostVariable( "g
 
 $event_list = $workflow->fetchEvents();
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 $res = eZTemplateDesignResource::instance();
 $res->setKeys( array( array( "workflow", $workflow->attribute( "id" ) ) ) );
 

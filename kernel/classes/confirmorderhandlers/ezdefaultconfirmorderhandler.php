@@ -63,8 +63,7 @@ class eZDefaultConfirmOrderHandler
             $order = $params['order'];
             $email = $params['email'];
 
-            require_once( "kernel/common/template.php" );
-            $tpl = templateInit();
+            $tpl = eZTemplate::factory();
             $tpl->setVariable( 'order', $order );
             $templateResult = $tpl->fetch( 'design:shop/orderemail.tpl' );
 

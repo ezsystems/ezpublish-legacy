@@ -76,9 +76,7 @@ if ( count( $groupList ) > 0 )
 
 $Module->setTitle( "Edit class " . $class->attribute( "name" ) );
 
-require_once( "kernel/common/template.php" );
-$tpl = templateInit();
-
+$tpl = eZTemplate::factory();
 $res = eZTemplateDesignResource::instance();
 $res->setKeys( array( array( 'class', $class->attribute( "id" ) ),
                       array( 'class_identifier', $class->attribute( 'identifier' ) ) ) );

@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-require_once( 'kernel/common/template.php' );
+
 $NodeID = $Params['NodeID'];
 $Module = $Params['Module'];
 $LanguageCode = $Params['Language'];
@@ -301,7 +301,7 @@ function contentPDFGenerate( $cacheFile,
                           array( 'class_group', $object->attribute( 'match_ingroup_id_list' ) ),
                           array( 'class_identifier', $object->attribute( 'class_identifier' ) ) ) );
 
-    $tpl = templateInit();
+    $tpl = eZTemplate::factory();
 
     $tpl->setVariable( 'view_parameters', $viewParameters );
 

@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-require_once( 'kernel/common/template.php' );
+
 
 $module = $Params['Module'];
 $viewMode = 'full';
@@ -57,7 +57,7 @@ if ( !$object->attribute( 'can_read' ) )
 
 $http = eZHTTPTool::instance();
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $icMap = array();
 if ( $http->hasSessionVariable( 'InformationCollectionMap' ) )

@@ -31,7 +31,7 @@
 /*! \file
 */
 
-require_once( "kernel/common/template.php" );
+
 $http = eZHTTPTool::instance();
 
 $currentSiteAccess = false;
@@ -64,7 +64,7 @@ if ( $toolbarIni->hasVariable( "Toolbar", "AvailableToolBarArray" ) )
 {
     $toolbarArray =  $toolbarIni->variable( "Toolbar", "AvailableToolBarArray" );
 }
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $tpl->setVariable( 'toolbar_list', $toolbarArray );
 $tpl->setVariable( 'siteaccess_list', $siteAccessList );

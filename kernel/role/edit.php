@@ -29,9 +29,9 @@
 /*! \file
 */
 
-require_once( 'kernel/common/template.php' );
 
-$tpl = templateInit();
+
+$tpl = eZTemplate::factory();
 $Module = $Params['Module'];
 $roleID = $Params['RoleID'];
 

@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-require_once( 'kernel/common/template.php' );
+
 $http = eZHTTPTool::instance();
 
 
@@ -92,7 +92,7 @@ if ( $http->hasPostVariable( 'NewButton' )  )
 }
 
 $viewParameters = array( 'offset' => $offset );
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $roles = eZRole::fetchByOffset( $offset, $limit, $asObject = true, $ignoreTemp = true );
 $roleCount = eZRole::roleCount();

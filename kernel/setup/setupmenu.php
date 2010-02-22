@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-require_once( 'kernel/common/template.php' );
+
 
 $Module = $Params['Module'];
 
@@ -35,7 +35,7 @@ $http = eZHTTPTool::instance();
 $contentIni = eZINI::instance( 'content.ini' );
 
 $Module->setTitle( ezpI18n::translate( 'kernel/setup', 'Setup menu' ) );
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:setup/setupmenu.tpl' );

@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-require_once( 'kernel/common/template.php' );
+
 
 $Module = $Params['Module'];
 $http = eZHTTPTool::instance();
@@ -72,7 +72,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
          ( $userDataHandling == 'unique' and
            $collection ) )
     {
-        $tpl = templateInit();
+        $tpl = eZTemplate::factory();
 
         $attributeHideList = eZInformationCollection::attributeHideList();
         $informationCollectionTemplate = eZInformationCollection::templateForObject( $object );
@@ -242,7 +242,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
 
         if ( $sendEmail )
         {
-            $tpl = templateInit();
+            $tpl = eZTemplate::factory();
 
             $attributeHideList = eZInformationCollection::attributeHideList();
             $informationCollectionTemplate = eZInformationCollection::templateForObject( $object );

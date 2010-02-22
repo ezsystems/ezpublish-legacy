@@ -29,11 +29,11 @@
 /*! \file
 */
 
-require_once( 'kernel/common/template.php' );
+
 
 $http = eZHTTPTool::instance();
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $Module = $Params['Module'];
 $ObjectID = $Params['ObjectID'];

@@ -170,9 +170,7 @@ else if ( $module->isCurrentAction( 'RemoveTranslation' ) )
         return $module->redirectToView( 'view', array( $viewMode, $nodeID, $languageCode ) );
     }
 
-    require_once( "kernel/common/template.php" );
-
-    $tpl = templateInit();
+    $tpl = eZTemplate::factory();
 
     $tpl->setVariable( 'object_id', $objectID );
     $tpl->setVariable( 'object', $object );

@@ -28,12 +28,12 @@
 
 /*! \file
 */
-require_once( 'kernel/common/template.php' );
+
 
 $http = eZHTTPTool::instance();
 $Module = $Params['Module'];
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $tpl->setVariable( 'filter_proccessed', false );
 $tpl->setVariable( 'time_event_created', false );

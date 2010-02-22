@@ -40,9 +40,9 @@ switch( $listLimitPreferenceValue )
 
 $languages = eZContentLanguage::fetchList();
 
-require_once( 'kernel/common/template.php' );
 
-$tpl = templateInit();
+
+$tpl = eZTemplate::factory();
 
 eZDebug::writeDebug( $Module->currentAction() );
 if ( $Module->isCurrentAction( 'Remove' ) && $Module->hasActionParameter( 'RemoveIDList' ) )

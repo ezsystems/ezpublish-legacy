@@ -28,7 +28,7 @@
 
 /*! \file
 */
-require_once( 'kernel/common/template.php' );
+
 $Module = $Params['Module'];
 $http = eZHTTPTool::instance();
 
@@ -38,7 +38,7 @@ $viewParameters = array( 'offset' => $Offset );
 
 eZSSLZone::checkNodeID( 'content', 'urlalias', $NodeID );
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 $limit = 20;
 
 $node = eZContentObjectTreeNode::fetch( $NodeID );

@@ -114,8 +114,7 @@ foreach ( $deleteIDArray as $deleteID )
 $canRemove = ( $canRemoveCount > 0 );
 
 $Module->setTitle( ezpI18n::translate( 'kernel/class', 'Remove classes %class_id', null, array( '%class_id' => $ClassID ) ) );
-require_once( "kernel/common/template.php" );
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $tpl->setVariable( 'module', $Module );
 $tpl->setVariable( 'GroupID', $GroupID );

@@ -150,8 +150,8 @@ class eZStepRegistration extends eZStepInstaller
             return true;
         }
 
-        require_once( 'kernel/common/template.php' );
-        $mailTpl = templateInit( 'email' );
+        $mailTpl = eZTemplate::factory();
+        $mailTpl->resetVariables();
         $comments = false;
         if ( $this->Http->hasPostVariable( 'eZSetupRegistrationComment' ) )
         {
@@ -187,8 +187,8 @@ class eZStepRegistration extends eZStepInstaller
             {
                 if ( $this->PersistenceList['email_info']['send'] )
                 {
-                    require_once( 'kernel/common/template.php' );
-                    $mailTpl = templateInit( 'email' );
+                    $mailTpl = eZTemplate::factory();
+                    $mailTpl->resetVariables();
                     $bodyText = $this->generateRegistration( $mailTpl, $comments );
                     $subject = $mailTpl->variable( 'subject' );
 
@@ -219,9 +219,8 @@ class eZStepRegistration extends eZStepInstaller
 
     function display()
     {
-        require_once( 'kernel/common/template.php' );
-
-        $mailTpl  = templateInit( 'email' );
+        $mailTpl = eZTemplate::factory();
+        $mailTpl->resetVariables();
 
         $bodyText = $this->generateRegistration( $mailTpl, false );
         $send     = ( isset( $this->PersistenceList['email_info']['send'] ) )     ? $this->PersistenceList['email_info']['send'] : true;

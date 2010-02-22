@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-require_once( "kernel/common/template.php" );
+
 /*!
   Apply changes made to categories' names.
 
@@ -91,7 +91,7 @@ function generateUniqueCategoryName( $productCategories )
 
 $module = $Params['Module'];
 $http   = eZHTTPTool::instance();
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 $errors = false;
 
 // Remove checked categories.

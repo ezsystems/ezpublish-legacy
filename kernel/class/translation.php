@@ -116,9 +116,7 @@ else if ( $module->isCurrentAction( 'RemoveTranslation' ) )
         return $module->redirectToView( 'view', array( $classID ), array( $languageCode ) );
     }
 
-    require_once( "kernel/common/template.php" );
-
-    $tpl = templateInit();
+    $tpl = eZTemplate::factory();
 
     $tpl->setVariable( 'class_id', $classID );
     $tpl->setVariable( 'class', $class );

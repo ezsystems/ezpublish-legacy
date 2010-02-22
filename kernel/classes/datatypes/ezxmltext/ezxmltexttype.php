@@ -99,7 +99,6 @@ This is a <emphasize>block</emphasize> of text.
 
 */
 
-require_once( "kernel/common/template.php" );
 class eZXMLTextType extends eZDataType
 {
     const DATA_TYPE_STRING = "ezxmltext";

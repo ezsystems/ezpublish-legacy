@@ -27,7 +27,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-require_once( "kernel/common/template.php" );
+
 
 $Module = $Params['Module'];
 
@@ -217,7 +217,7 @@ if ( $totalChildCount == 0 )
     }
 }
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $tpl->setVariable( 'reverse_related'        , $info['reverse_related_count'] );
 $tpl->setVariable( 'module'                 , $Module );

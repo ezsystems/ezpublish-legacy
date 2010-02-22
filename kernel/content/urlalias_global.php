@@ -28,14 +28,14 @@
 
 /*! \file
 */
-require_once( 'kernel/common/template.php' );
+
 $Module = $Params['Module'];
 $http = eZHTTPTool::instance();
 
 $Offset = $Params['Offset'];
 $viewParameters = array( 'offset' => $Offset );
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 $limit = 20;
 
 // TODO: For PHP 5, merge similar code in urlalias.php and urlalias_global.php into a function/class.

@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-require_once( "kernel/common/template.php" );
+
 /**
  * Find errors in VAT charging rules.
  *
@@ -162,7 +162,7 @@ function compareVatRules($a, $b)
 
 $module = $Params['Module'];
 $http   = eZHTTPTool::instance();
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 if ( $http->hasPostVariable( "AddRuleButton" ) )
 {

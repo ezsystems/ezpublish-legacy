@@ -25,14 +25,14 @@
 //
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
-require_once( "kernel/common/template.php" );
+
 $settingTypeArray = array( 'array' => 'Array',
                            'true/false' => 'True/False',
                            'enable/disable' => 'Enabled/Disabled',
                            'string' => 'String',
                            'numeric' => 'Numeric' );
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 $http = eZHTTPTool::instance();
 //$ini = eZINI::instance();
 

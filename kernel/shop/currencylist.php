@@ -29,7 +29,7 @@
 /*! \file
 */
 
-require_once( 'kernel/common/template.php' );
+
 $module = $Params['Module'];
 $offset = $Params['Offset'];
 
@@ -119,7 +119,7 @@ $currencyCount = eZCurrencyData::fetchListCount();
 
 $viewParameters = array( 'offset' => $offset );
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $tpl->setVariable( 'currency_list', $currencyList );
 $tpl->setVariable( 'currency_list_count', $currencyCount );

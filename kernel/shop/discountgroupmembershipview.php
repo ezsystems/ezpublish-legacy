@@ -28,7 +28,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-require_once( "kernel/common/template.php" );
+
 $module = $Params['Module'];
 $discountGroupID = null;
 if ( isset( $Params["DiscountGroupID"] ) )
@@ -229,7 +229,7 @@ foreach ( $ruleList as $rule )
                    "limitation" => $limitation );
     $ruleArray[] = $item;
 }
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 $tpl->setVariable( "module", $module );
 $tpl->setVariable( "customers", $customers );
 $tpl->setVariable( "discountgroup", $discountGroup );

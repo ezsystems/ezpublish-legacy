@@ -28,10 +28,10 @@
 
 $Module = $Params['Module'];
 
-require_once( "kernel/common/template.php" );
+
 define( 'MD5_SUM_LIST_FILE', 'share/filelist.md5' );
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $tpl->setVariable( 'md5_result', false );
 $tpl->setVariable( 'upgrade_sql', false );

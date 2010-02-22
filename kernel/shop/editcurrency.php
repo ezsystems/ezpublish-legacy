@@ -140,8 +140,8 @@ else
     $pathText = ezpI18n::translate( 'kernel/shop', 'Create new currency' );
 }
 
-require_once( 'kernel/common/template.php' );
-$tpl = templateInit();
+
+$tpl = eZTemplate::factory();
 
 $tpl->setVariable( 'error', $error );
 $tpl->setVariable( 'can_edit', $canEdit );

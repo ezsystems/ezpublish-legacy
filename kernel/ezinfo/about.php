@@ -29,7 +29,7 @@
 define( 'EZ_ABOUT_CONTRIBUTORS_DIR', 'var/storage/contributors' );
 define( 'EZ_ABOUT_THIRDPARTY_SOFTWARE_FILE', 'var/storage/third_party_software.php' );
 
-require_once( 'kernel/common/template.php' );
+
 /*!
   Returns list of contributors;
   Searches all php files in \a $pathToDir and tries to fetch contributor's info
@@ -165,7 +165,7 @@ list( $whatIsEzPublish,
                                                 'eZ publish' => '<a href="http://ez.no/ezpublish">eZ Publish</a>' ),
                                          array( $whatIsEzPublish, $license, $contributors, $thirdPartySoftware, $extensions ) );
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 $tpl->setVariable( 'ezinfo', $ezinfo );
 $tpl->setVariable( 'what_is_ez_publish', $whatIsEzPublish );
 $tpl->setVariable( 'license', $license );

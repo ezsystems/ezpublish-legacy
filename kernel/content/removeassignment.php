@@ -27,7 +27,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-require_once( "kernel/common/template.php" );
+
 
 $module = $Params['Module'];
 $http   = eZHTTPTool::instance();
@@ -132,7 +132,7 @@ $assignmentData = array( 'object_id'      => $objectID,
                          'remove_list'    => $removeList );
 $info = array( 'can_remove_all' => $canRemoveAll );
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 $tpl->setVariable( 'assignment_data', $assignmentData );
 $tpl->setVariable( 'remove_info', $info );
 

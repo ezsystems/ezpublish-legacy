@@ -809,11 +809,10 @@ class eZContentCacheManager
                         eZSys::clearAccessPath();
                         eZSys::addAccessPath( $changeToSiteAccess );
                     }
-    
-                    require_once( 'kernel/common/template.php' );
-                    $tpl = templateInit();
+
+                    $tpl = eZTemplate::factory();
                     $res = eZTemplateDesignResource::instance();
-    
+
                     // Get the sitedesign and cached view preferences for this siteaccess
                     $siteini = eZINI::instance( 'site.ini', 'settings', null, null, false );
                     $siteini->prependOverrideDir( "siteaccess/$changeToSiteAccess", false, 'siteaccess' );

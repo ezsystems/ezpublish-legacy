@@ -67,8 +67,7 @@ elseif ( $objectID )
     // '/state/assign/<object_id>'
     if ( ( $object = eZContentObject::fetch( $objectID ) ) !== null  )
     {
-        require_once( 'kernel/common/template.php' );
-        $tpl = templateInit();
+        $tpl = eZTemplate::factory();
         $tpl->setVariable( 'node', $object->attribute( 'main_node' ) );
         $Result['content'] = $tpl->fetch( 'design:state/assign.tpl' );
     }

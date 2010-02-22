@@ -28,7 +28,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-require_once( "kernel/common/template.php" );
+
 $module = $Params['Module'];
 
 $http = eZHTTPTool::instance();
@@ -67,7 +67,7 @@ if ( $http->hasPostVariable( "RemoveDiscountGroupButton" ) )
     return;
 }
 $module->setTitle( "View discount group" );
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 $tpl->setVariable( "discountgroup_array", $discountGroupArray );
 $tpl->setVariable( "module", $module );
 

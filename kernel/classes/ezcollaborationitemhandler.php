@@ -171,8 +171,7 @@ class eZCollaborationItemHandler
         $db->begin();
         if ( $collectionHandling == self::NOTIFICATION_COLLECTION_ONE_FOR_ALL )
         {
-            require_once( 'kernel/common/template.php' );
-            $tpl = templateInit();
+            $tpl = eZTemplate::factory();
             $tpl->resetVariables();
             $tpl->setVariable( 'collaboration_item', $item );
             $result = $tpl->fetch( 'design:notification/handler/ezcollaboration/view/plain.tpl' );
@@ -216,8 +215,7 @@ class eZCollaborationItemHandler
                 $userCollection[$participantRole][] = $userItem;
             }
 
-            require_once( 'kernel/common/template.php' );
-            $tpl = templateInit();
+            $tpl = eZTemplate::factory();
             $tpl->resetVariables();
             foreach( $userCollection as $participantRole => $collectionItems )
             {

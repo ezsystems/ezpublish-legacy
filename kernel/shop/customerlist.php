@@ -31,14 +31,14 @@
 /*! \file
 */
 
-require_once( "kernel/common/template.php" );
+
 
 $module = $Params["Module"];
 
 $offset = $Params['Offset'];
 $limit = 15;
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $http = eZHTTPTool::instance();
 

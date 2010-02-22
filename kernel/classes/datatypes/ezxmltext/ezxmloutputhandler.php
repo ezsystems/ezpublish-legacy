@@ -180,7 +180,7 @@ class eZXMLOutputHandler
             return $output;
         }
 
-        $this->Tpl = templateInit();
+        $this->Tpl = eZTemplate::factory();
         $this->Res = eZTemplateDesignResource::instance();
         if ( $this->ContentObjectAttribute )
         {

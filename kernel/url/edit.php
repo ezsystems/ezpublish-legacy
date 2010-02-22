@@ -69,8 +69,8 @@ if ( $Module->isCurrentAction( 'Store' ) )
 $Module->setTitle( "Edit link " . $url->attribute( "id" ) );
 
 // Template handling
-require_once( "kernel/common/template.php" );
-$tpl = templateInit();
+
+$tpl = eZTemplate::factory();
 
 $tpl->setVariable( "Module", $Module );
 $tpl->setVariable( "url", $url );

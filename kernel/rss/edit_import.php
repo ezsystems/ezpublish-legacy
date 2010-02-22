@@ -30,7 +30,7 @@
 
 $Module = $Params['Module'];
 
-require_once( "kernel/common/template.php" );
+
 $http = eZHTTPTool::instance();
 
 //Get RSSImport id if it is accessable
@@ -147,7 +147,7 @@ if ( isset( $Params['BrowseType'] ) )
     }
 }
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 // Get classes and class attributes
 $classArray = eZContentClass::fetchList();
@@ -228,7 +228,7 @@ function checkTimeout( $rssImport )
          $rssImport->attribute( 'modified' ) + $timeOut > time() )
     {
         // locked editing
-        $tpl = templateInit();
+        $tpl = eZTemplate::factory();
 
         $tpl->setVariable( 'rss_import', $rssImport );
         $tpl->setVariable( 'rss_import_id', $rssImportID );

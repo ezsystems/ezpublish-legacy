@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-require_once( 'kernel/common/template.php' );
+
 $http = eZHTTPTool::instance();
 $module = $Params['Module'];
 $offset = $Params['Offset'];
@@ -49,7 +49,7 @@ if( $module->isCurrentAction( 'RemoveObjectCollection' ) && $http->hasPostVariab
         $collections += eZInformationCollection::fetchCollectionCountForObject( $objectID );
     }
 
-    $tpl = templateInit();
+    $tpl = eZTemplate::factory();
     $tpl->setVariable( 'module', $module );
     $tpl->setVariable( 'collections', $collections );
     $tpl->setVariable( 'remove_type', 'objects' );
@@ -150,7 +150,7 @@ foreach ( array_keys( $objects ) as $i )
 
 $viewParameters = array( 'offset' => $offset );
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 $tpl->setVariable( 'module', $module );
 $tpl->setVariable( 'limit', $limit );
 $tpl->setVariable( 'view_parameters', $viewParameters );

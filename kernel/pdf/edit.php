@@ -28,7 +28,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-require_once( 'kernel/common/template.php' );
+
 $Module = $Params['Module'];
 $http = eZHTTPTool::instance();
 
@@ -55,9 +55,8 @@ if ( isset( $Params['PDFExportID'] ) )
         if ( $pdfExport->attribute( 'modifier_id' ) != $user->attribute( 'contentobject_id' ) &&
              $pdfExport->attribute( 'modified' ) + $timeOut > time() )
         {
-            // TODO: In 3.6
-            // // locked editing
-            // $tpl = templateInit();
+            // @TODO: locked editing
+            // $tpl = eZTemplate::factory();
             // $tpl->setVariable ...
             // $Result = array();
             // $Result['content'] = $tpl->fetch( 'design:pdf/edit_denied.tpl' );
@@ -172,7 +171,7 @@ else if ( $Module->isCurrentAction( 'Discard' ) )
     return $Module->redirect( 'pdf', 'list' );
 }
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $tpl->setVariable( 'set_warning', $setWarning );
 
@@ -211,7 +210,7 @@ function generatePDF( $pdfExport, $toFile = false )
     {
         $object = $node->attribute( 'object' );
 
-        $tpl = templateInit();
+        $tpl = eZTemplate::factory();
 
         $tpl->setVariable( 'node', $node );
         $tpl->setVariable( 'generate_toc', 1 );

@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-require_once( "kernel/common/template.php" );
+
 $module = $Params['Module'];
 $viewMode = $Params['ViewMode'];
 $packageName = $Params['PackageName'];
@@ -57,7 +57,7 @@ else if ( $module->isCurrentAction( 'Uninstall' ) )
 
 $repositoryInformation = $package->currentRepositoryInformation();
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $tpl->setVariable( 'package_name', $packageName );
 $tpl->setVariable( 'repository_id', $repositoryID );

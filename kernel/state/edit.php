@@ -49,9 +49,9 @@ if ( !is_object( $state ) )
 }
 
 $redirectUrl = "state/group/$GroupIdentifier";
-require_once( 'kernel/common/template.php' );
 
-$tpl = templateInit();
+
+$tpl = eZTemplate::factory();
 
 $currentAction = $Module->currentAction();
 

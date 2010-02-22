@@ -282,8 +282,7 @@ class eZTrigger extends eZPersistentObject
             case eZWorkflow::STATUS_FETCH_TEMPLATE:
             case eZWorkflow::STATUS_FETCH_TEMPLATE_REPEAT:
             {
-                require_once( 'kernel/common/template.php' );
-                $tpl = templateInit();
+                $tpl = eZTemplate::factory();
                 $result = array();
                 foreach ( array_keys( $workflowProcess->Template['templateVars'] ) as $key )
                 {

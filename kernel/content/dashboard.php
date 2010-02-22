@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-require_once( 'kernel/common/template.php' );
+
 
 $ini = eZINI::instance( 'dashboard.ini' );
 $currentUser = eZUser::currentUser();
@@ -99,7 +99,7 @@ ksort( $orderedBlocks );
 
 $contentInfoArray = array();
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $tpl->setVariable( 'blocks', $orderedBlocks );
 $tpl->setVariable( 'user', $currentUser );

@@ -56,9 +56,9 @@ if ( $LanguageCode )
     $state->setCurrentLanguage( $LanguageCode );
 }
 
-require_once 'kernel/common/template.php';
 
-$tpl = templateInit();
+
+$tpl = eZTemplate::factory();
 $tpl->setVariable( 'group', $group );
 $tpl->setVariable( 'state', $state );
 

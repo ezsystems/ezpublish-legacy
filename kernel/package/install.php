@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-require_once( 'kernel/common/template.php' );
+
 $http = eZHTTPTool::instance();
 
 $module = $Params['Module'];
@@ -61,7 +61,7 @@ if ( !$package )
 
 $installItemArray = $package->installItemsList( false, eZSys::osType() );
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 if ( $module->isCurrentAction( 'SkipPackage' ) )
 {

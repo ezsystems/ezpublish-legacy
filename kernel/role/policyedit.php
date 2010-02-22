@@ -32,7 +32,7 @@
 */
 
 
-require_once( "kernel/common/template.php" );
+
 $Module = $Params['Module'];
 $policyID = $Params["PolicyID"];
 
@@ -357,7 +357,7 @@ foreach ( $limitationList as $limitation )
 }
 
 $Module->setTitle( "Edit policy" );
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 $tpl->setVariable( "Module", $Module );
 $tpl->setVariable( "current_function", $currentFunction );
 $tpl->setVariable( "role_id", $roleID );

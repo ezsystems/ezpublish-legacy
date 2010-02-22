@@ -28,7 +28,7 @@
 
 $OrderID = $Params['OrderID'];
 $module = $Params['Module'];
-require_once( "kernel/common/template.php" );
+
 
 $ini = eZINI::instance();
 $http = eZHTTPTool::instance();
@@ -79,7 +79,7 @@ if ( !$access )
 {
      return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 }
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 
 $tpl->setVariable( "order", $order );

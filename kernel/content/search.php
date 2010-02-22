@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-require_once( "kernel/common/template.php" );
+
 
 /*!
  Get search limit
@@ -62,7 +62,7 @@ if ( !is_numeric( $Offset ) )
     $Offset = 0;
 
 $searchPageLimit = 2;
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 $ini = eZINI::instance();
 $useSearchCode = $ini->variable( 'SearchSettings', 'SearchViewHandling' ) == 'default';
 $logSearchStats = $ini->variable( 'SearchSettings', 'LogSearchStats' ) == 'enabled';

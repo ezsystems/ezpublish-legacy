@@ -29,7 +29,7 @@
 // TODO: it was not in the original code, but we may consider to add support for "folder with products",
 //       not only products (i.e. objects with attribute of the ezprice datatype).
 
-require_once( 'kernel/common/template.php' );
+
 $module = $Params['Module'];
 
 if ( !isset( $Params['DiscountGroupID'] ) )
@@ -279,7 +279,7 @@ foreach ( $classList as $class )
 
 $sectionList = eZSection::fetchList();
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $tpl->setVariable( 'module', $module );
 $tpl->setVariable( 'discountgroup_id', $discountGroupID );

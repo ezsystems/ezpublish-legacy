@@ -30,7 +30,7 @@
 
 /*! \file
 */
-require_once( 'kernel/common/template.php' );
+
 $Module = $Params['Module'];
 $http = eZHTTPTool::instance();
 
@@ -75,7 +75,7 @@ if ( $http->hasPostVariable( 'EmptyButton' )  )
     $db->commit();
 }
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $tpl->setVariable('view_parameters', $viewParameters );
 

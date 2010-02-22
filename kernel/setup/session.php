@@ -25,9 +25,9 @@
 //
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
-require_once( 'kernel/common/template.php' );
 
-$tpl = templateInit();
+
+$tpl = eZTemplate::factory();
 $sessionsRemoved = false;
 $gcSessionsCompleted = true;
 $http = eZHTTPTool::instance();

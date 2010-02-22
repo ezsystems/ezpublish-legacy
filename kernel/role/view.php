@@ -29,7 +29,7 @@
 /*! \file
 */
 
-require_once( 'kernel/common/template.php' );
+
 
 $http = eZHTTPTool::instance();
 $Module = $Params['Module'];
@@ -117,7 +117,7 @@ if ( $http->hasPostVariable( 'RemoveRoleAssignmentButton' ) )
     $db->commit();
 }
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 
 $userArray = $role->fetchUserByRole();
 
