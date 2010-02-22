@@ -767,6 +767,19 @@ input.button, input.defaultbutton, input.button-disabled
 	color: #888;
 }
 
+.searchbuttonfield
+{
+    height: 17px;
+    position: absolute;
+    right: 8px;
+    top: 22px;
+    width: 17px;
+}
+
+.searchbuttonfield:hover
+{
+    cursor: pointer;
+}
 
 /* FULL EDIT VIEW ( main-column-only class toggle ) */
 
