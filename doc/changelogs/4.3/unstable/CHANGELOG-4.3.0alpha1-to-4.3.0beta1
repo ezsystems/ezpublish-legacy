@@ -39,3 +39,4 @@ Changes from 4.3.0alpha1 to 4.3.0beta1
 - Fixed bug #15665: Site fails when activating TemplateCompile-setting
 - Fixed bug #12655: Variable Repository in [FlagIcons] doesn't seem to be used
 - Fixed bug #15842: Running eZScript scripts as root should be discouraged
+- Fixed bug #14370: Inserting non break space doesn't work

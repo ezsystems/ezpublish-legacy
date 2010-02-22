@@ -93,6 +93,26 @@ END;
             self::fail( "XML parser does not handle spaces in attributes" );
         }
     }
+
+    /**
+     * Test for issue #14370: Inserting non break space doesn't work
+     * 
+     * @link http://issues.ez.no/14370
+     */
+    public function testNonBreakSpace()
+    {
+        $xmlData = '<paragraph>esp&nbsp;ace</paragraph>';
+
+        // Step 1: Create folder
+        $folder = new ezpObject( "folder", 2 );
+        $folder->name = "Non breaking space Test";
+        $folder->short_description = $xmlData;
+        $folder->publish();
+
+        $xhtml = $folder->short_description->attribute('output')->attribute( 'output_text' );
+
+        self::assertEquals( '<p>esp&nbsp;ace</p>', $xhtml );
+    }
 }
 
 ?>

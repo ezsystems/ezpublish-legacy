@@ -726,7 +726,7 @@ class eZXMLInputParser
         $text = str_replace( '&apos;', "'", $text );
         $text = str_replace( '&quot;', '"', $text );
         $text = str_replace( '&amp;', '&', $text );
-        $text = str_replace( '&nbsp;', ' ', $text );
+        $text = str_replace( '&nbsp;&nbsp;', '&nbsp;', $text );
         return $text;
     }
 
