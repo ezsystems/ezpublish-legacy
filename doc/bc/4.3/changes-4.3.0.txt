@@ -12,8 +12,8 @@ INI setting changes
   
 - Design tab hidden by default
 
-  All menu entries from design tab except Template, has been moved to setup tab.
-  If you want to enable design tab and / or Template link, see menu.ini.
+  Additionally Menu management left menu item has been moved to Setup tab.
+  To re-enable design tab add Tabs[]=design to menu.ini[TopAdminMenu]
   
 - roles & policy link disabled in setup tab
 
