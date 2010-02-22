@@ -59,7 +59,7 @@
 #header
 { 
     border-bottom: 1px solid #666;
-    background: #2ebae0 url('../../images/2/header.png') repeat-x left top scroll;
+    background: #2ebae0 url('../../images/2/gradient-header.png') repeat-x left top scroll;
 }
 
 .loginpage #header
@@ -242,7 +242,7 @@ p.table-preferences .current:last-child
 input.button, input.defaultbutton, input.button-disabled
 {
     color: #fff;
-    background: #D1DFE9 url(../../images/2/gradient-blue.png) repeat-x center bottom scroll;
+    background: #D1DFE9 url(../../images/2/gradient-btn-blue.png) repeat-x center bottom scroll;
     border: 1px solid #dedede;
     border-color: #aaa #ccc #ccc #aaa;
     -moz-border-radius: 3px;
@@ -259,7 +259,7 @@ input.defaultbutton, input.button-disabled
 
 input.defaultbutton
 {
-    background-image: url(../../images/2/gradient-orange.png);
+    background-image: url(../../images/2/gradient-btn-orange.png);
 }
 
 input.button-disabled
@@ -275,7 +275,7 @@ input.button-disabled
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;
-    background: #fff url('../../images/2/btn-search-16x16.png') no-repeat right center scroll;
+    background: #fff url('../../images/2/btn-search.png') no-repeat right center scroll;
     line-height: 18px !important;
 }
 
