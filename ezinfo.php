@@ -39,7 +39,7 @@ class ezjscoreInfo
                                                                               'Copyright' => 'Copyright (c) 2009, Yahoo! Inc. All rights reserved.',
                                                                               'License' => 'Licensed under the BSD License',),
                       'Includes the following third-party software (2)' => array( 'Name' => 'jQuery',
-                                                                              'Version' => "1.3.2",
+                                                                              'Version' => "1.4.2",
                                                                               'Copyright' => 'Copyright (c) 2009 John Resig',
                                                                               'License' => 'Dual licensed under the MIT and GPL licenses',),
                       'Includes the following third-party software (3)' => array( 'Name' => 'JSMin (jsmin-php)',
