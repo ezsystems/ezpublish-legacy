@@ -23,6 +23,7 @@ class eZXHTMLXMLOutputRegression extends ezpDatabaseTestCase
      * @link http://issues.ez.no/15888
      * @note XML is created by hand for the unit test
      *       Also note that whitespace between li and a might be incorrect, but is not covered by issue 15888
+     * @note Test depends on template output!!
      */
     public function testRenderParagraph()
     {

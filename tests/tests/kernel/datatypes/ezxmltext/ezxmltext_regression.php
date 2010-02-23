@@ -97,6 +97,7 @@ END;
     /**
      * Test for issue #14370: Inserting non break space doesn't work
      * 
+     * @note Test depends on template output!!
      * @link http://issues.ez.no/14370
      */
     public function testNonBreakSpace()
