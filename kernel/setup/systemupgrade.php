@@ -65,10 +65,25 @@ if ( $Module->isCurrentAction( 'DBCheck' ) )
 {
     $db = eZDB::instance();
     $dbSchema = eZDbSchema::instance();
-    // read original schema from dba file, then transform it to 'localized' version for current db
+    // read original schema from dba file
+    $originalSchema = eZDbSchema::read( 'share/db_schema.dba' );
+
+    // merge schemas from all active extensions that declare some db schema
+    $extensionsdir = eZExtension::baseDirectory();
+    foreach( eZextension::activeExtensions() as $activeextension )
+    {
+        if ( file_exists( $extensionsdir . '/' . $activeextension . '/share/db_schema.dba' ) )
+        {
+            if ( $extensionschema = eZDbSchema::read( $extensionsdir . '/' . $activeextension . '/share/db_schema.dba' ) )
+            {
+                $originalSchema = eZDbSchema::merge( $originalSchema, $extensionschema );
+            }
+        }
+    }
+
+    // transform schema to 'localized' version for current db
     // (we might as well convert $dbSchema to generic format and diff in generic format,
     // but eZDbSchemaChecker::diff does not know how to re-localize the generated sql
-    $originalSchema = eZDbSchema::read( 'share/db_schema.dba' );
     $dbSchema->transformSchema( $originalSchema, true );
     $differences = eZDbSchemaChecker::diff( $dbSchema->schema( array( 'format' => 'local' ) ), $originalSchema );
     $sqlDiff = $dbSchema->generateUpgradeFile( $differences );
