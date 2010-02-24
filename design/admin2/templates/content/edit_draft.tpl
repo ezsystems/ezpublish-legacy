@@ -1,57 +1,7 @@
 <div id="leftmenu">
 <div id="leftmenu-design">
 
-<div class="objectinfo">
-
-{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
-
-<h4>{'Object information'|i18n( 'design/admin/content/edit_draft' )}</h4>
-
-{* DESIGN: Header END *}</div></div>
-
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-content">
-
-{* Object ID *}
-<p>
-<h6>{'ID'|i18n( 'design/admin/content/edit_draft' )}:</h6>
-{$object.id}
-</p>
-
-{* Created *}
-<p>
-<h6>{'Created'|i18n( 'design/admin/content/edit_draft' )}:</h6>
-{if $object.published}
-{$object.published|l10n( shortdatetime )}<br />
-{$object.current.creator.name|wash}
-{else}
-{'Not yet published'|i18n( 'design/admin/content/edit_draft' )}
-{/if}
-</p>
-
-{* Modified *}
-<p>
-<h6>{'Modified'|i18n( 'design/admin/content/edit_draft' )}:</h6>
-{if $object.modified}
-{$object.modified|l10n( shortdatetime )}<br />
-{fetch( content, object, hash( object_id, $object.content_class.modifier_id ) ).name|wash}
-{else}
-{'Not yet published'|i18n( 'design/admin/content/edit_draft' )}
-{/if}
-</p>
-
-{* Published version *}
-<p>
-<h6>{'Published version'|i18n( 'design/admin/content/edit_draft' )}:</h6>
-{if $object.published}
-{$object.current_version}
-{else}
-{'Not yet published'|i18n( 'design/admin/content/edit_draft' )}
-{/if}
-</p>
-
-{* DESIGN: Content END *}</div></div></div>
-
-</div>
+{include uri="design:content/parts/object_information.tpl" object=$object manage_version_button=false()}
 
 </div>
 </div>
