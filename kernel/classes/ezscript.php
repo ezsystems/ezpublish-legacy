@@ -930,7 +930,7 @@ class eZScript
 
         if ( $useStandardOptions )
         {
-            if( strtolower( PHP_OS ) != 'winnt' )
+            if ( function_exists( 'posix_getuid' ) )
             {
                 if( posix_getuid() === 0 )
                 {
