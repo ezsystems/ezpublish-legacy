@@ -662,7 +662,7 @@ function eZSetupCheckExecutable( $type )
     $filesystemType = eZSys::filesystemType();
     $envSeparator = eZSys::envSeparator();
     $programs = eZSetupConfigVariableArray( $type, $filesystemType . '_Executable' );
-    $systemSearchPaths = explode( $envSeparator, eZSys::path() );
+    $systemSearchPaths = explode( $envSeparator, eZSys::path( true ) );
     $additionalSearchPaths = eZSetupConfigVariableArray( $type, $filesystemType . '_SearchPaths' );
     $excludePaths = eZSetupConfigVariableArray( $type, $filesystemType . '_ExcludePaths' );
     $imageIniPath = eZSetupImageConfigVariableArray( 'ShellSettings', 'ConvertPath' );
