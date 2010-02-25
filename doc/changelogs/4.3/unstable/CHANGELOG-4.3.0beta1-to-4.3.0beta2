@@ -16,3 +16,4 @@ Changes from 4.3.0alpha1 to 4.3.0beta1
 
 *Bugfixes:
 - Fixed bug #15157: admin history page, 'object information' tab, show wrong data
+- Fixed bug #16244: Dashboard templates only available in admin2
