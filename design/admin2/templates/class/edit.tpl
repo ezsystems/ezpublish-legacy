@@ -3,7 +3,7 @@
 {section show=$validation.processed}
 {* handle attribute validation errors *}
 {section show=$validation.attributes}
-<div class="message-warning">
+<div class="message-error">
 <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The class definition could not be stored.'|i18n( 'design/admin/class/edit' )}</h2>
 <p>{'The following information is either missing or invalid'|i18n( 'design/admin/class/edit' )}:</p>
 <ul>
@@ -33,7 +33,7 @@
 {section-else} {* !$validation|processed *}
 {* we're about to store the class, so let's handle basic class properties errors (name, identifier, presence of attributes) *}
     {section show=or( $validation.class_errors )}
-    <div class="message-warning">
+    <div class="message-error">
     <h2>{"The class definition contains the following errors"|i18n("design/admin/class/edit")}:</h2>
     <ul>
     {section var=ClassErrors loop=$validation.class_errors}
