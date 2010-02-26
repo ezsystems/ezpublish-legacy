@@ -1,63 +1,6 @@
-<div class="objectinfo">
 
-{* DESIGN: Header START *}<div class="box-header">
-
-<h4>{'Object information'|i18n( 'design/admin/content/edit' )}</h4>
-
-{* DESIGN: Header END *}</div>
-
-<div class="box-content">
-
-{* Object ID *}
-<p>
-<h6>{'ID'|i18n( 'design/admin/content/edit' )}:</h6>
-{$object.id}
-</p>
-
-{* Created *}
-<p>
-<h6>{'Created'|i18n( 'design/admin/content/edit' )}:</h6>
-{if $object.published}
-{$object.published|l10n( shortdatetime )}<br />
-{$object.owner.name|wash}
-{else}
-{'Not yet published'|i18n( 'design/admin/content/edit' )}
-{/if}
-</p>
-
-{* Modified *}
-<p>
-<h6>{'Modified'|i18n( 'design/admin/content/edit' )}:</h6>
-{if $object.modified}
-{$object.modified|l10n( shortdatetime )}<br />
-{$object.current.creator.name|wash}
-{else}
-{'Not yet published'|i18n( 'design/admin/content/edit' )}
-{/if}
-</p>
-
-{* Published version *}
-<p>
-<h6>{'Published version'|i18n( 'design/admin/content/edit' )}:</h6>
-{if $object.published}
-{$object.current.version}
-{else}
-{'Not yet published'|i18n( 'design/admin/content/edit' )}
-{/if}
-</p>
-
-{* Manage versions *}
-<div class="block">
-{if $object.versions|count|gt( 1 )}
-<input class="button" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/edit' )}" title="{'View and manage (copy, delete, etc.) the versions of this object.'|i18n( 'design/admin/content/edit' )}" />
-{else}
-<input class="button-disabled" type="submit" name="VersionsButton" value="{'Manage versions'|i18n( 'design/admin/content/edit' )}" disabled="disabled" title="{'You cannot manage the versions of this object because there is only one version available (the one that is being edited).'|i18n( 'design/admin/content/edit' )}" />
-{/if}
-</div>
-
-</div>
-
-</div>
+{include uri="design:content/parts/object_information.tpl" object=$object manage_version_button=true()}
+<br />
 
 <div class="drafts">
 
