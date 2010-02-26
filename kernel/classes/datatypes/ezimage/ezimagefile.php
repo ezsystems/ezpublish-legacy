@@ -99,23 +99,31 @@ class eZImageFile extends eZPersistentObject
      * @param string $filePath file path to look up as URL in the XML string
      * @param int $contentObjectAttributeID
      *
-     * @return array An array of ids and versions of image files where the url
-     *               is referenced
+     * @return array An array of content object attribute ids and versions of
+     *               image files where the url is referenced
      *
      * @todo Rewrite ! A where data_text LIKE '%xxx%' is a resource hog !
      **/
     static function fetchImageAttributesByFilepath( $filepath, $contentObjectAttributeID )
     {
-       $db = eZDB::instance();
-       $filepath = $db->escapeString( $filepath );
-       $contentObjectAttributeID =(int) $contentObjectAttributeID;
-       $query = "SELECT id, version
-                 FROM   ezcontentobject_attribute
-                 WHERE  id = $contentObjectAttributeID and
-                        data_text like '%url=\"$filepath\"%'";
+        $db = eZDB::instance();
+        $contentObjectAttributeID = (int) $contentObjectAttributeID;
+        $query = "SELECT contentclassattribute_id
+                  FROM   ezcontentobject_attribute
+                  WHERE  id = $contentObjectAttributeID
+                  LIMIT 1";
+        $rows = $db->arrayQuery( $query );
+        if ( count( $rows ) != 1 )
+            return array();
 
-       $rows = $db->arrayQuery( $query );
-       return $rows;
+        $contentClassAttributeID = (int)( $rows[0]['contentclassattribute_id'] );
+        $filepath = $db->escapeString( $filepath );
+        $query = "SELECT id, version
+                  FROM   ezcontentobject_attribute
+                  WHERE  contentclassattribute_id = $contentClassAttributeID and
+                         data_text like '%url=\"$filepath\"%'";
+        $rows = $db->arrayQuery( $query );
+        return $rows;
     }
 
     static function fetchByFilepath( $contentObjectAttributeID, $filepath, $asObject = true )

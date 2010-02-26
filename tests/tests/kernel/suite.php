@@ -27,6 +27,7 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'eZBinaryFileTypeRegression' );
         $this->addTestSuite( 'eZMediaTypeRegression' );
         $this->addTestSuite( 'eZImageTypeRegression' );
+        $this->addTestSuite( 'eZImageFileRegression' );
     }
 
     public static function suite()
