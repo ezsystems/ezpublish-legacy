@@ -1,60 +1,30 @@
 <?php
-//
-// Definition of eZCache class
-//
-// Created on: <09-Oct-2003 15:24:36 amos>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2010 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
+/**
+ * File containing the {@link eZCache} class
+ *
+ * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
+ * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
+ * @package kernel
+ *
+ */
 
-/*! \file
-*/
-
-/*!
-  \class eZCache ezcache.php
-  \brief Main class for dealing with caches in eZ Publish.
-
-  Has methods for clearing the various caches according
-  to tag, id or all caches. It also has information for all the caches.
-
-*/
-
-
-
+/**
+ * eZCache ezcache.php
+ *
+ * Main class for dealing with caches in eZ Publish.
+ *
+ * Has methods for clearing the various caches according
+ * to tag, id or all caches. It also has information for all the caches.
+ *
+ * @package Kernel
+ */
 class eZCache
 {
-    /*!
-     Constructor
-    */
-    function eZCache()
-    {
-    }
-
-    /*!
-     \static
-     \return a list of all cache items in the system.
-    */
+    /**
+     * Return a list of all cache items in the system.
+     *
+     * @return array The list of cache items
+     */
     static function fetchList()
     {
         static $cacheList = null;
@@ -99,6 +69,7 @@ class eZCache
                                        'expiry-key' => 'class-identifier-cache',
                                        'enabled' => true,
                                        'path' => false,
+                                       'is-clustered' => true,
                                        'function' => array( 'eZCache', 'clearClassID' ) ),
                                 array( 'name' => ezpI18n::tr( 'kernel/cache', 'Sort key cache' ),
                                        'id' => 'sortkey',
@@ -107,6 +78,7 @@ class eZCache
                                        'enabled' => true,
                                        'path' => false,
                                        'function' => array( 'eZCache', 'clearSortKey' ) ),
+                                       'is-clustered' => true,
                                 array( 'name' => ezpI18n::tr( 'kernel/cache', 'URL alias cache' ),
                                        'id' => 'urlalias',
                                        'is-clustered' => true,
@@ -124,6 +96,7 @@ class eZCache
                                        'path' => false,
                                        'enabled' => true,
                                        'function' => array( 'eZCache', 'clearImageAlias' ) ),
+                                       'is-clustered' => true,
                                 array( 'name' => ezpI18n::tr( 'kernel/cache', 'Template cache' ),
                                        'id' => 'template',
                                        'tag' => array( 'template' ),
@@ -150,6 +123,7 @@ class eZCache
                                        'path' => $textToImageIni->variable( 'PathSettings', 'CacheDir' ),
                                        'function' => array( 'eZCache', 'clearTextToImageCache' ),
                                        'purge-function' => array( 'eZCache', 'purgeTextToImageCache' ) ),
+                                       'is-clustered' => true,
                                 array( 'name' => ezpI18n::tr( 'kernel/cache', 'RSS cache' ),
                                        'id' => 'rss_cache',
                                        'is-clustered' => true,
@@ -171,6 +145,7 @@ class eZCache
                                        'enabled' => true,
                                        'function' => array( 'eZCache', 'clearContentTreeMenu' ) ),
                                 array( 'name' => ezpI18n::tr( 'kernel/cache', 'State limitations cache' ),
+                                       'is-clustered' => true,
                                        'id' => 'state_limitations',
                                        'tag' => array( 'content' ),
                                        'expiry-key' => 'state-limitations',
@@ -241,14 +216,14 @@ class eZCache
         return $cacheList;
     }
 
-    /*!
-     \static
-     Goes through the cache info list \a $cacheInfoList and finds all the unique tags.
-     \return An array with tag strings.
-     \param $cacheInfoList If \c false the list will automatically be fetched, if multiple
-                           eZCache functions are called it is a good idea to call
-                           fetchList() yourself and pass it as a parameter.
-    */
+    /**
+     * Goes through the cache info list $cacheInfoList and finds all the unique tags.
+     *
+     * @param bool|array $cacheInfoList If false the list will automatically be fetched, if multiple
+     * eZCache functions are called it is a good idea to call fetchList() yourself and pass it as a parameter.
+     *
+     * @return array An array with tag strings.
+     */
     static function fetchTagList( $cacheInfoList = false )
     {
         if ( !$cacheInfoList )
@@ -264,14 +239,14 @@ class eZCache
         return array_unique( $tagEntries );
     }
 
-    /*!
-     \static
-     Goes through the cache info list \a $cacheInfoList and finds all the unique ids.
-     \return An array with id strings.
-     \param $cacheInfoList If \c false the list will automatically be fetched, if multiple
-                           eZCache functions are called it is a good idea to call
-                           fetchList() yourself and pass it as a parameter.
-    */
+    /**
+     * Goes through the cache info list $cacheInfoList and finds all the unique ids.
+     *
+     * @param bool|array $cacheInfoList If false the list will automatically be fetched, if multiple
+     * eZCache functions are called it is a good idea to call fetchList() yourself and pass it as a parameter.
+     *
+     * @return array An array with id strings.
+     */
     static function fetchIDList( $cacheInfoList = false )
     {
         if ( !$cacheInfoList )
@@ -285,11 +260,13 @@ class eZCache
         return $idList;
     }
 
-    /*!
-     \static
-     Finds all cache entries using tag \a $tagName.
-     \return An array with cache items.
-    */
+    /**
+     * Finds all cache entries using tag $tagName.
+     *
+     * @param string $tagName The tag name
+     * @param bool|array $cacheInfoList The list of cache info per entry
+     * @return array An array with cache items.
+     */
     static function fetchByTag( $tagName, $cacheInfoList = false )
     {
         if ( !$cacheInfoList )
@@ -305,11 +282,13 @@ class eZCache
         return $cacheEntries;
     }
 
-    /*!
-     \static
-     Finds the first entry with the ID \a $id.
-     \return The cache info structure.
-    */
+    /**
+     * Finds the first entry with the ID $id.
+     *
+     * @param string $id The entry id.
+     * @param array|bool The list of cache info per entry
+     * @return array The cache info structure.
+     */
     static function fetchByID( $id, $cacheInfoList = false )
     {
         if ( !$cacheInfoList )
@@ -323,11 +302,13 @@ class eZCache
         return false;
     }
 
-    /*!
-     \static
-     Finds the entries matching and ID in the list \a $idList.
-     \return An array with cache info structures.
-    */
+    /**
+     * Finds the entries matching and ID in the list \a $idList.
+     *
+     * @param array $idList The list of cache ID
+     * @param array|bool The list of cache info per entry
+     * @return array An array with cache info structures.
+     */
     static function fetchByIDList( $idList, $cacheInfoList = false )
     {
         if ( !$cacheInfoList )
@@ -342,10 +323,12 @@ class eZCache
         return $cacheList;
     }
 
-    /*!
-     \static
-     Clears all cache items.
-    */
+    /**
+     * Clears all cache items.
+     *
+     * @param bool $cacheList
+     * @return bool True
+     */
     static function clearAll( $cacheList = false )
     {
         if ( !$cacheList )
@@ -358,10 +341,12 @@ class eZCache
         return true;
     }
 
-    /*!
-     \static
-     Finds all cache item which has the tag \a $tagName and clears them.
-    */
+    /**
+     * Finds all cache item which has the tag \a $tagName and clears them.
+     *
+     * @param string $tagName The tag name
+     * @param bool|array $cacheList The list of caches, default false
+     */
     static function clearByTag( $tagName, $cacheList = false )
     {
         if ( !$cacheList )
@@ -380,11 +365,13 @@ class eZCache
         return true;
     }
 
-    /*!
-     \static
-     Finds all cache item which has ID equal to one of the IDs in \a $idList.
-     You can also submit a single id to \a $idList.
-    */
+    /**
+     * Finds all cache item which has ID equal to one of the IDs in $idList.
+     * You can also submit a single id to $idList.
+     *
+     * @param array $idList The cache ID list
+     * @param bool|array $cacheList The list of caches, default false
+     */
     static function clearByID( $idList, $cacheList = false )
     {
         if ( !$cacheList )
@@ -405,20 +392,21 @@ class eZCache
         return true;
     }
 
-    /*!
-     \private
-     \static
-     Clears or purges the cache item \a $cacheItem.
-
-     If $purge is true then the system will ensure the entries are removed from local storage or database backend, otherwise it will use possible optimizations which might only invalidate the cache entry directly or use global expiry values.
-
-     \param $cacheItem Cache item array taken from fetchList()
-     \param $purge     Controls whether clearing/invalidation or purge is used.
-     \param $reporter  Callback which is called when the system has purged files from the system, called with filename and purge count as parameters.
-     \param $iterationSleep The amount of microseconds to sleep between each purge iteration, false means no sleep.
-     \param $iterationMax   The maximum number of items to purge in one iteration, false means use default limit.
-     \param $expiry         A timestamp which is matched against all cache items, if the modification of the cache is older than the expiry the cache is purged, false means no expiry checking.
-    */
+    /**
+     *
+     * Clears or purges the cache item $cacheItem.
+     *
+     * If $purge is true then the system will ensure the entries are removed from
+     * local storage or database backend, otherwise it will use possible optimizations
+     * which might only invalidate the cache entry directly or use global expiry values.
+     *
+     * @param $cacheItem Cache item array taken from fetchList()
+     * @param $purge     Controls whether clearing/invalidation or purge is used.
+     * @param $reporter  Callback which is called when the system has purged files from the system, called with filename and purge count as parameters.
+     * @param $iterationSleep The amount of microseconds to sleep between each purge iteration, false means no sleep.
+     * @param $iterationMax   The maximum number of items to purge in one iteration, false means use default limit.
+     * @param $expiry         A timestamp which is matched against all cache items, if the modification of the cache is older than the expiry the cache is purged, false means no expiry checking.
+     */
     static function clearItem( $cacheItem, $purge = false, $reporter = false, $iterationSleep = false, $iterationMax = false, $expiry = false )
     {
         // Get the global expiry value if one is set and compare it with supplied $expiry value.
@@ -485,12 +473,10 @@ class eZCache
         }
     }
 
-    /*!
-     \private
-     \static
-     Sets the image alias timestamp to the current timestamp,
-     this causes all image aliases to be recreated on viewing.
-    */
+    /**
+     * Sets the image alias timestamp to the current timestamp,
+     * this causes all image aliases to be recreated on viewing.
+     */
     static function clearImageAlias( $cacheItem )
     {
         eZExpiryHandler::registerShutdownFunction();
@@ -499,14 +485,12 @@ class eZCache
         $expiryHandler->store();
     }
 
-    /*!
-     \private
-     \static
-     Sets the content tree menu timestamp to the current date and time,
-     this is used as a GET parameter in the content/treemenu requests and thus
-     forces a browser to load the content tree menu from a server rather than
-     to use a cached copy.
-    */
+    /**
+     * Sets the content tree menu timestamp to the current date and time,
+     * this is used as a GET parameter in the content/treemenu requests and thus
+     * forces a browser to load the content tree menu from a server rather than
+     * to use a cached copy.
+     */
     static function clearContentTreeMenu( $cacheItem )
     {
         eZExpiryHandler::registerShutdownFunction();
@@ -515,11 +499,9 @@ class eZCache
         $expiryHandler->store();
     }
 
-    /*!
-     \private
-     \static
-     Removes all template block cache files and subtree entries.
-    */
+    /**
+     * Removes all template block cache files and subtree entries.
+     */
     static function clearTemplateBlockCache( $cacheItem )
     {
         eZExpiryHandler::registerShutdownFunction();
@@ -532,9 +514,7 @@ class eZCache
      * Removes all template override cache files, subtree entries
      * and clears in memory override cache.
      *
-     * @static
      * @since 4.2
-     * @access private
     */
     static function clearTemplateOverrideCache( $cacheItem )
     {
@@ -543,11 +523,9 @@ class eZCache
         eZTemplateDesignResource::clearInMemoryOverrideArray();
     }
 
-    /*!
-     \private
-     \static
-     Clears all content class identifier cache files from var/cache.
-    */
+    /**
+     * Clears all content class identifier cache files from var/cache.
+     */
     static function clearClassID( $cacheItem )
     {
         $cachePath = eZSys::cacheDirectory();
@@ -557,11 +535,9 @@ class eZCache
         $fileHandler->fileDelete( $cachePath, 'classattributeidentifiers_' );
     }
 
-    /*!
-     \private
-     \static
-     Clears all datatype sortkey cache files from var/cache.
-    */
+    /**
+     * Clears all datatype sortkey cache files from var/cache.
+     */
     static function clearSortKey( $cacheItem )
     {
         $cachePath = eZSys::cacheDirectory();
@@ -570,27 +546,9 @@ class eZCache
         $fileHandler->fileDelete( $cachePath, 'sortkey_' );
     }
 
-    /*!
-     \private
-     \static
-     Clears the expiry cache file *var/cache/expiry.php*.
-    */
-/* Code is disabled since it does not make sense to remove it, it is not a cache file.
-    function clearExpiry( $cacheItem )
-    {
-        $cachePath = eZSys::cacheDirectory();
-
-        require_once( 'kernel/classes/ezclusterfilehandler.php' );
-        $fileHandler = eZClusterFileHandler::instance( $cachePath . '/expiry.php' );
-        $fileHandler->delete();
-        $fileHandler->deleteLocal();
-    }*/
-
-    /*!
-     \private
-     \static
-     Clears all user-info caches by setting a new expiry value for the key *user-access-cache*.
-    */
+    /**
+     * Clears all user-info caches by setting a new expiry value for the key *user-access-cache*.
+     */
     static function clearUserInfoCache( $cacheItem )
     {
         eZExpiryHandler::registerShutdownFunction();
@@ -599,11 +557,9 @@ class eZCache
         $handler->store();
     }
 
-    /*!
-     \private
-     \static
-     Clears all content caches by setting a new expiry value for the key *content-view-cache*.
-    */
+    /**
+     * Clears all content caches by setting a new expiry value for the key *content-view-cache*.
+     */
     static function clearContentCache( $cacheItem )
     {
         eZExpiryHandler::registerShutdownFunction();
@@ -612,43 +568,35 @@ class eZCache
         $handler->store();
     }
 
-    /*!
-     \private
-     \static
-     Clear global ini cache
-    */
+    /**
+     * Clear global ini cache
+     */
     static function clearGlobalINICache( $cacheItem )
     {
         eZDir::recursiveDelete( $cacheItem['path'] );
     }
 
-    /*!
-     \private
-     \static
-     Clear texttoimage cache
-    */
+    /**
+     * Clear texttoimage cache
+     */
     static function clearTextToImageCache( $cacheItem )
     {
         $fileHandler = eZClusterFileHandler::instance( $cacheItem['path'] );
         $fileHandler->delete();
     }
 
-    /*!
-     \private
-     \static
-     Purge texttoimage cache
-    */
+    /**
+     * Purge texttoimage cache
+     */
     static function purgeTextToImageCache( $cacheItem )
     {
         $fileHandler = eZClusterFileHandler::instance( $cacheItem['path'] );
         $fileHandler->purge();
     }
 
-    /*!
-     \private
-     \static
-     Clears all state limitation cache files.
-    */
+    /**
+     * Clears all state limitation cache files.
+     */
     static function clearStateLimitations( $cacheItem )
     {
         $cachePath = eZSys::cacheDirectory();
@@ -671,62 +619,64 @@ class eZCache
     }
 }
 
-/*!
-  Helper function for eZCache::clearImageAlias.
-  \note Static functions in classes cannot be used as callback functions in PHP 4, that is why we need this helper.
-  \deprecated Callback to static class function is now done directly.
-*/
+/**
+ * Helper function for eZCache::clearImageAlias.
+ * Static functions in classes cannot be used as callback functions in PHP 4, that is why we need this helper.
+ *
+ * @deprecated Callback to static class function is now done directly.
+ */
 function eZCacheClearImageAlias( $cacheItem )
 {
     eZCache::clearImageAlias( $cacheItem );
 }
 
-/*!
-  Helper function for eZCache::clearClassID.
-  \note Static functions in classes cannot be used as callback functions in PHP 4, that is why we need this helper.
-  \deprecated Callback to static class function is now done directly.
-*/
+/**
+ * Helper function for eZCache::clearClassID.
+ * Static functions in classes cannot be used as callback functions in PHP 4, that is why we need this helper.
+ * @deprecated Callback to static class function is now done directly.
+ */
 function eZCacheClearClassID( $cacheItem )
 {
     eZCache::clearClassID( $cacheItem );
 }
 
-/*!
-  Helper function for eZCache::clearGlobalINICache.
-  \note Static functions in classes cannot be used as callback functions in PHP 4, that is why we need this helper.
-  \deprecated Callback to static class function is now done directly.
-*/
+/**
+ * Helper function for eZCache::clearGlobalINICache.
+ * Static functions in classes cannot be used as callback functions in PHP 4, that is why we need this helper.
+ * @deprecated Callback to static class function is now done directly.
+ */
 function eZCacheClearGlobalINI( $cacheItem )
 {
     eZCache::clearGlobalINICache( $cacheItem );
 }
 
-
-/*!
-  Helper function for eZCache::clearSortKey.
-  \note Static functions in classes cannot be used as callback functions in PHP 4, that is why we need this helper.
-  \deprecated Callback to static class function is now done directly.
-*/
+/**
+ *
+ * Helper function for eZCache::clearSortKey.
+ * Static functions in classes cannot be used as callback functions in PHP 4, that is why we need this helper.
+ * @deprecated Callback to static class function is now done directly.
+ */
 function eZCacheClearSortKey( $cacheItem )
 {
     eZCache::clearSortKey( $cacheItem );
 }
 
-/*!
-  Helper function for eZCache::clearTemplateBlockCache.
-  \note Static functions in classes cannot be used as callback functions in PHP 4, that is why we need this helper.
-  \deprecated Callback to static class function is now done directly.
-*/
+/**
+ * Helper function for eZCache::clearTemplateBlockCache.
+ * Static functions in classes cannot be used as callback functions in PHP 4, that is why we need this helper.
+ * @deprecated Callback to static class function is now done directly.
+ */
 function eZCacheClearTemplateBlockCache( $cacheItem )
 {
     eZCache::clearTemplateBlockCache( $cacheItem );
 }
 
-/*!
-  Helper function for eZCache::clearContentTreeMenu.
-  \note Static functions in classes cannot be used as callback functions in PHP 4, that is why we need this helper.
-  \deprecated Callback to static class function is now done directly.
-*/
+/**
+ *
+ * Helper function for eZCache::clearContentTreeMenu.
+ * Static functions in classes cannot be used as callback functions in PHP 4, that is why we need this helper.
+ * @deprecated Callback to static class function is now done directly.
+ */
 function eZCacheClearContentTreeMenu( $cacheItem )
 {
     eZCache::clearContentTreeMenu( $cacheItem );
