@@ -166,7 +166,7 @@ class eZDbSchema
     static function merge( $schema1, $schema2 )
     {
         $merged = $schema1;
-        foreach( $chema2 as $tablename => $tabledef )
+        foreach( $schema2 as $tablename => $tabledef )
         {
             if ( $tablename != '_info' )
             {
