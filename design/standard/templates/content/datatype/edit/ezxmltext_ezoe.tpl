@@ -108,6 +108,7 @@
         ez_root_url : {'/'|ezroot},
         ez_extension_url : {'/ezoe/'|ezurl},
         ez_js_url : {'/extension/ezoe/design/standard/javascript/'|ezroot},
+        /* Used by language pack / plugin url fixer bellow, do not change */
         ez_tinymce_url : {'javascript/tiny_mce.js'|ezdesign},
         ez_contentobject_id : {$attribute.contentobject_id},
         ez_contentobject_version : {$attribute.version},
@@ -125,7 +126,7 @@
         //atd_button_url              : "atdbuttontr.gif",
         atd_css_url : {'javascript/plugins/AtD/css/content.css'|ezdesign}
     {rdelim};
-    
+
     {literal}
 
     // make sure TinyMCE doesn't try to load language pack
