@@ -19,3 +19,4 @@ Changes from 4.3.0alpha1 to 4.3.0beta1
 - Fixed bug #16244: Dashboard templates only available in admin2
 - Fixed bug #16267: IIS setup process
 - Fixed bug #16114: Check that eZCache items that are clustered are defined as such
+- Fixed bug #16078: Discarding translated draft removes original image
