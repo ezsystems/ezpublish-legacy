@@ -32,7 +32,7 @@
 {/if}
 
 
-{* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
+{* DESIGN: Header START *}<div class="box-header">
 
     <div class="button-left">
     <h2 class="context-title"><a href={$node.depth|gt(1)|choose('/'|ezurl,$node.parent.url_alias|ezurl )} title="{'Up one level.'|i18n(  'design/admin/node/view/full'  )}"><img src={'up-16x16-grey.png'|ezimage} alt="{'Up one level.'|i18n( 'design/admin/node/view/full' )}" title="{'Up one level.'|i18n( 'design/admin/node/view/full' )}" /></a>&nbsp;{'Sub items (%children_count)'|i18n( 'design/admin/node/view/full',, hash( '%children_count', $children_count ) )}</h2>
@@ -43,9 +43,9 @@
 
 <div class="float-break"></div>
 
-{* DESIGN: Header END *}</div></div>
+{* DESIGN: Header END *}</div>
 
-{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-content">
 
 {* If there are children: show list and buttons that belong to the list. *}
 {if $children_count}
@@ -59,7 +59,6 @@
         <a href={'/user/preferences/set/admin_list_limit/1'|ezurl} title="{'Show 10 items per page.'|i18n( 'design/admin/node/view/full' )}">10</a>
         <span class="current">25</span>
         <a href={'/user/preferences/set/admin_list_limit/3'|ezurl} title="{'Show 50 items per page.'|i18n( 'design/admin/node/view/full' )}">50</a>
-
         {/case}
 
         {case match=50}
@@ -73,7 +72,6 @@
         <a href={'/user/preferences/set/admin_list_limit/2'|ezurl} title="{'Show 25 items per page.'|i18n( 'design/admin/node/view/full' )}">25</a>
         <a href={'/user/preferences/set/admin_list_limit/3'|ezurl} title="{'Show 50 items per page.'|i18n( 'design/admin/node/view/full' )}">50</a>
         {/case}
-
         {/switch}
     </p>
 </div>
@@ -100,6 +98,15 @@
         {/switch}
     </p>
 </div>
+
+{* Alphabetical navigation can be enabled with content.ini [AlphabeticalFilterSettings] ContentFilterList[]  *}
+{include name=navigator
+         uri='design:navigator/alphabetical.tpl'
+         page_uri=$node.url_alias
+         item_count=$children_count
+         view_parameters=$view_parameters
+         node_id=$node.node_id
+         item_limit=$number_of_items}
 
 <div class="float-break"></div>
 </div>
@@ -150,25 +157,13 @@
 
 {/if}
 
-<div class="context-toolbar">
-{* Alphabetical navigation can be enabled with content.ini [AlphabeticalFilterSettings] ContentFilterList[]  *}
-{include name=navigator
-         uri='design:navigator/alphabetical.tpl'
-         page_uri=$node.url_alias
-         item_count=$children_count
-         view_parameters=$view_parameters
-         node_id=$node.node_id
-         item_limit=$number_of_items}
-</div>
-
-{* DESIGN: Content END *}</div></div></div>
-
+{* DESIGN: Content END *}</div>
 
 {* Button bar for remove and update priorities buttons. *}
-<div class='block'>
-<div class="controlbar">{* DESIGN: Control bar START *}
 
-    
+<div class="subitems-controlbar">{* DESIGN: Control bar START *}
+
+<div class='block'>
     {* Remove and move button *}
     <div class="button-left">
         {if $can_remove}
@@ -191,7 +186,9 @@
     {/if}
     </div>
     <div class="float-break"></div>
-    <div class="block">
+</div>
+
+<div class='block'>
     <div class="button-left">
         {* The "Create new here" thing: *}
         <label for="ClassID" class="inline">{'Create'|i18n( 'design/admin/node/view/full' )}</label>
@@ -361,10 +358,11 @@
 
     {/let}
     </div>
-    </div>
-
-{* DESIGN: Control bar END *}</div>
+    <div class="float-break"></div>
+    
 </div>
+{* DESIGN: Control bar END *}</div>
+
 </form>
 
 </div>

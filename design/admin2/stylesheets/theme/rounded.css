@@ -161,11 +161,10 @@ a.show-hide-control:hover
     border-top-width: 0;
 }
 
-div.context-information
+.context-information, .subitems-controlbar
 {
     background-color:#f8f8f8;
     border: 1px solid #ccc;
-    border-top: 0 none;
     -moz-border-radius-bottomleft: 3px;
     -moz-border-radius-bottomright: 3px;
     -webkit-border-bottom-left-radius: 3px;
@@ -173,6 +172,18 @@ div.context-information
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
 }
+
+.context-information
+{
+    border-top: 0 none;
+}
+
+.subitems-controlbar
+{
+    padding: 0px 5px;
+    margin: 5px 0px;
+}
+
 
 /* MENU-BLOCK */
 
@@ -319,16 +330,28 @@ div.pagenavigator
     text-align: center;
 }
 
+div.pagenavigator a
+{
+    text-decoration: none;
+}
+
+div.pagenavigator p
+{
+    margin: 0em;
+}
+
 div.pagenavigator span.previous
 {
     display: block;
     float: left;
+    margin-left: 50px;
 }
 
 div.pagenavigator span.next
 {
     display: block;
     float: right;
+    margin-right: 50px;
 }
 
 div.pagenavigator span.disabled
