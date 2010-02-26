@@ -48,7 +48,9 @@ $tpl->setVariable( "section", $section );
 
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:section/view.tpl" );
-$Result['path'] = array( array( 'url' => false,
-                                'text' => ezpI18n::tr( 'kernel/section', 'View section' ) ) );
+$Result['path'] = array( array( 'url' => 'section/list',
+                                'text' => ezpI18n::tr( 'kernel/section', 'Sections' ) ),
+                         array( 'url' => false,
+                                'text' => $section->attribute('name') ) );
 
 ?>
