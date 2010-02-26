@@ -33,7 +33,7 @@
 // register function to be called on end of init
 eZOEPopupUtils.settings.onInitDoneArray.push( function( editorElement )
 {
-    var base_id = '#' + ezoeLinkAttribute.id, drop = jQuery( base_id+'_source_types'), inp = jQuery( base_id+'_source' );
+    var base_id = ezoeLinkAttribute.id, drop = jQuery( '#'+base_id+'_source_types'), inp = jQuery( '#'+base_id+'_source' );
     drop.change(function( e )
     {
         var base_id = ezoeLinkAttribute.id, input = document.getElementById( base_id+'_source' );
@@ -64,7 +64,7 @@ eZOEPopupUtils.settings.onInitDoneArray.push( function( editorElement )
         // break if user is pressing arrow keys
         if ( c > 36 && c < 41 ) return true;
 
-        ezoeLinkAttribute.typeSet( this, dropdown[0] );
+        ezoeLinkAttribute.typeSet( jQuery( this ), dropdown );
 
         if ( this.value.indexOf( '://' ) === -1 ) return true;
 
@@ -89,7 +89,7 @@ eZOEPopupUtils.settings.onInitDoneArray.push( function( editorElement )
     navigation[4].addEvent('click', eZOEPopupUtils.BIND( ezoeLinkAttribute.slides.accordionGoto, ezoeLinkAttribute.slides, 0 ) ).addClass('accordion_navigation');
     navigation[5].addEvent('click', eZOEPopupUtils.BIND( ezoeLinkAttribute.slides.accordionGoto, ezoeLinkAttribute.slides, 0 ) ).addClass('accordion_navigation');
 
-    ezoeLinkAttribute.typeSet( inp[0], drop[0] );
+    ezoeLinkAttribute.typeSet( inp, drop );
 });
 
 
@@ -118,8 +118,8 @@ eZOEPopupUtils.selectByEmbedId = function( object_id, node_id, name )
         inp.val( 'ezobject://' + object_id );
     else
     	inp.val( 'eznode://' + node_id );
-    ezoeLinkAttribute.typeSet( inp[0], drop[0] );
-    ezoeLinkAttribute.namePreview( name, info[0] );
+    ezoeLinkAttribute.typeSet( inp, drop );
+    ezoeLinkAttribute.namePreview( name, info );
     ezoeLinkAttribute.slides.accordionGoto.call( ezoeLinkAttribute.slides, 0 );
     ezoeLinkAttribute.node = {'contentobject_id': object_id, 'node_id': node_id, 'name': name }
 };
@@ -158,13 +158,15 @@ var ezoeLinkAttribute = {
     },
     typeSet : function( source, types )
     {
-        var selectedValue = '', sourceValue = source.el.value, options = types.el.options;
-        for ( var i = 0, l = options.length; i < l; i++ )
+        var selectedValue = '', sourceValue = source.val();
+        types.find("option").each( function( i )
         {
-            if ( options[i].value !== '' && sourceValue.indexOf( options[i].value ) === 0 )
-                selectedValue = options[i].value;
-        }
-        types.el.value = selectedValue;
+            if ( this.value !== '' && sourceValue.indexOf( this.value ) === 0 )
+            {
+                selectedValue = this.value;
+            }
+        });
+        types.val( selectedValue );
     }
 };
 
