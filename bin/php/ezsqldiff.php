@@ -65,6 +65,7 @@ $options = $script->getOptions( "[source-type:][source-host:][source-user:][sour
                                        'user' => "User for login to match and source database",
                                        'password' => "Password to use when connecting to match and source database",
                                        'socket' => 'Socket to connect to match and source database (only for MySQL)',
+                                       'lint-check' => 'Instead of comparing 2 datase schemas, verify source database schema for standards compliance',
                                        'reverse' => "Reverse the differences",
                                        'check-only' => "Don't show SQLs for the differences, just set exit code and return"
                                        ) );
