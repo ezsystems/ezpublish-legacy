@@ -72,7 +72,13 @@ if ( $Module->isCurrentAction( 'DBCheck' ) )
 
     $db = eZDB::instance();
     $dbSchema = eZDbSchema::instance();
-    $differences = eZDbSchemaChecker::diff( $dbSchema->schema(), eZDbSchema::read( 'share/db_schema.dba' ) );
+    // read original schema from dba file
+    $originalSchema = eZDbSchema::read( 'share/db_schema.dba' );
+    // transform schema to 'localized' version for current db
+    // (we might as well convert $dbSchema to generic format and diff in generic format,
+    // but eZDbSchemaChecker::diff does not know how to re-localize the generated sql
+    $dbSchema->transformSchema( $originalSchema, true );
+    $differences = eZDbSchemaChecker::diff( $dbSchema->schema( array( 'format' => 'local', 'force_autoincrement_rebuild' => true ) ), $originalSchema );
     $sqlDiff = $dbSchema->generateUpgradeFile( $differences );
 
     if ( strlen( $sqlDiff ) == 0 )
