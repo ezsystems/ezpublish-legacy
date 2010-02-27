@@ -41,7 +41,7 @@ $script->startup();
 
 $options = $script->getOptions( "[type:][user:][host:][password;][port:][socket:][output-array][output-serialized][output-sql]" .
                                 "[diff-friendly][meta-data][table-type:][table-charset:][compatible-sql][no-sort]" .
-                                "[format:]" .
+                                "[format:][table-list:]" .
                                 "[output-types:][allow-multi-insert][schema-file:]",
                                 "[database][filename]",
                                 array( 'type' => ( "Which database type to use for source, can be one of:\n" .
@@ -55,6 +55,7 @@ $options = $script->getOptions( "[type:][user:][host:][password;][port:][socket:
                                        'output-serialized' => 'Create file with serialized data (Saves space)',
                                        'output-sql' => 'Create file with SQL data (DB friendly)',
                                        'compatible-sql' => 'Will turn SQL to be more compatible to existing dumps',
+                                       'table-list' => 'A comma separated list of tables to include in dump (default is all tables)',
                                        'no-sort' => 'Do not sort table columns in the dumped data structure',
                                        'table-type' => ( "The table storage type to use for SQL output when creating tables.\n" .
                                                          "MySQL: bdb, innodb and myisam\n" .
@@ -149,6 +150,10 @@ $dbschemaParameters = array( 'schema' => $includeSchema,
 if ( $options['no-sort'] )
 {
     $dbschemaParameters['sort_columns'] = false;
+}
+if ( $options['table-list'] )
+{
+    $dbschemaParameters['table_include'] = explode( ',', $options['table-list'] );
 }
 
 $outputType = 'serialized';
