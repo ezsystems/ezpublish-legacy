@@ -46,7 +46,7 @@ $script = eZScript::instance( array( 'description' => ( "eZ Publish SQL Isbn dat
                                                         "Default is file, wich will be written to:\n" .
                                                         "  kernel/classes/datatypes/ezisbn/sql/<database>/cleandata.sql\n" .
                                                         "  kernel/classes/datatypes/ezisbn/share/db_data.dba\n\n" .
-                                                        "Script can be runned as:\n" .
+                                                        "Script can be run as:\n" .
                                                         "php bin/php/ezsqldumpisbndata.php --stdout-sql\n" .
                                                         "                                  --stdout-dba\n" .
                                                         "                                  --filename-sql=customname.sql\n" .

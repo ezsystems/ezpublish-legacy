@@ -165,7 +165,7 @@ class eZShopOperationCollection
      Operation entry: Adds order item: shipping.
      \params $orderID contains the order id for the shipping handler.
 
-     The function handleShipping() are runned in the process of confirmorder and
+     The function handleShipping() are runn in the process of confirmorder and
      is the final function for creating an order_item in the order confirmation.
 
      An example for an array that should be returned by the function

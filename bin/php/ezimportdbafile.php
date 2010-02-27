@@ -34,7 +34,7 @@ require 'autoload.php';
 
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "eZ Publish datatype sql update\n\n" .
-                                                        "Script can be runned as:\n" .
+                                                        "Script can be run as:\n" .
                                                         "bin/php/ezimportdbafile.php --datatype=\n\n" .
                                                         "Example: bin/php/ezimportdbafile.php --datatype=ezisbn" ),
                                      'use-session' => false,

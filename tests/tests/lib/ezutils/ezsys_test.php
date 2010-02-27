@@ -88,7 +88,7 @@ class eZSysTest extends ezpTestCase
     public function testGlobBraceSupported()
     {
         if ( !defined( 'GLOB_BRACE' ) )
-            self::markAsSkipped( "This test can only be runned on systems supporting GLOB_BRACE." );
+            self::markAsSkipped( "This test can only be run on systems supporting GLOB_BRACE." );
 
         $pattern = "kernel/classes/ez{content,url}*.php";
 

@@ -31,7 +31,7 @@
   \file
   \brief Converts ISBN-10 numbers to ISBN-13.
 
-  The script should be runned by command line with example:
+  The script should be run by command line with example:
 
   php bin/php/ezconvert2isbn13.php --all-classes
 

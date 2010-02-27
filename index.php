@@ -360,7 +360,7 @@ $tplINI = eZINI::instance( 'template.ini' );
 $tplINI->loadCache();
 
 // Check if this should be run in a cronjob
-// Need to be runned before eZHTTPTool::instance() because of eZSessionStart() which
+// Need to be run before eZHTTPTool::instance() because of eZSessionStart() which
 // is called from eZHandlePreChecks() below.
 $useCronjob = $ini->variable( 'Session', 'BasketCleanup' ) == 'cronjob';
 if ( !$useCronjob )

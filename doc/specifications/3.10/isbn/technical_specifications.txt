@@ -140,7 +140,7 @@ The script:
 bin/php/ezconvert2isbn13.php
 
 Will go through contentobject attributes with the isbn datatype and convert
-them to a valid isbn-13 number and should be runned after you've set the
+them to a valid isbn-13 number and should be run after you've set the
 ISBN-13 option for the contentclass attribute, when changing the contentclass.
 The script has the following commandline options:
 
@@ -192,7 +192,7 @@ Script to update the isbn group and ranges
 The script:
 cronjobs/updateisbn13.php
 
-Which should be runned with:
+Which should be run with:
 php runcronjobs.php isbn13 --file=ranges.js
 
 Where:
@@ -205,7 +205,7 @@ http://www.isbn-international.org/converter/ranges.htm).
 
 Which you need to copy to a local place on your server first.
 
-Each time the script is runned, all info in tables related to eZISBNGroup,
+Each time the script is run, all info in tables related to eZISBNGroup,
 eZISBNGroupRange, eZISBNRegistrantRange will be removed and replaced with info
 based on this file.
 
