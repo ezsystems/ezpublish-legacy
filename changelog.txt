@@ -1,11 +1,15 @@
 eZ Online Editor 5.0 extension Changelog
 
-5.1.0Beta1
+5.1.0beta2:
+* Fixed #16271: Links containing special characters are not stored correctly
+
+
+5.1.0beta1:
 * Fixed #15872: suggestions of spell checker have the wrong encoding
 * Added ezoe.ini setting for setting directionality
 
 
-5.1.0Alpha1
+5.1.0alpha1:
 * Fixed translation of anchor Name attribute
 * Implemented inline phpdoc for classes and functions
 * Fixed translation of link link-type and view selections
@@ -70,7 +74,8 @@ eZ Online Editor 5.0 extension Changelog
 * Implemented #15633: Allow editing embed content object attributes after upload
 * Fixed #15882: Embed size when not set in ezxml hardcoded to medium, should use DefaultEmbedAlias
 
-5.0.0
+
+5.0.0:
 * Fixed regression #13650: [header] ezoe adds a level each time it is called
 * Added note on unsupported TinyMCE buttons/ extensions in FAQ + ezoe.ini
 * Fixed bug #014375: pagebreak not stored if added with button w/ patch from Georg Franz
@@ -80,7 +85,8 @@ eZ Online Editor 5.0 extension Changelog
 * Enable inline table controls in gecko (table_inline_editing TinyMCE setting)
 * Fixed #014284: Needed translation improvements for oe5
 
-5.0rc12
+
+5.0rc12:
 * Fixed bug #14260: content.ini.[paragraph].AllowEmpty=false is ignored
 * Content type not translated in upload dialog caused by not stripping ending 's'
 * Partly fixed #014284: Needed translation improvements for oe5
@@ -93,7 +99,8 @@ eZ Online Editor 5.0 extension Changelog
 * Fixed bug #14317: wordmatch.ini used in kernel but only bundled with OE
 * Fixed bug #14364: Nested levels in IE
 
-5.0rc11
+
+5.0rc11:
 * Fixed regression #014110: IE7 double every paragraph break on every edit
 * Use sort_array from root node in Location drop down + use name as 2. sort rule
 * Add support for role limitations (SubTree & Section) on ezoe module and it's functions
@@ -103,19 +110,22 @@ eZ Online Editor 5.0 extension Changelog
 * Added possibility to browse from 'this' node, and use i18n() on word 'this'
 * Properly support eznode://path/to/node on link tags (bug from ezdhtml) fix from Jan Kudlica
 
-5.0rc10
+
+5.0rc10:
 * Fixed bug #14097: Custom-tags cause errors in var/error.log
 * Fixed bug #14099: Default selections in add-hyperlink popup dialogue behave oddly
 * Improved how csssize(4), htmlsize, cssborder handles default values
 * Allow editor row height of 2 and 5
 * Use larger popup dialog windows by default
 
-5.0rc9
+
+5.0rc9:
 * Implemented possibility to have same control over general attributes in gui as 
   you have over custom attributes.
 * Fixed regression #14080: Custom tags broken in rev 3390?
 
-5.0rc8
+
+5.0rc8:
 * Added support for node relations
 * Switched from using site.ini [MediaClassSettings]ImageClassIdentifiers[] to
   the setting already used by eZ Publish: content.ini [RelationGroupSettings]ImagesClassList[]
@@ -138,7 +148,8 @@ eZ Online Editor 5.0 extension Changelog
 * Added i18n strings for searchreplace plugin so it can be used out of the box
 * Implemented #14060: Addition of <sub> and <sup> buttons
 
-5.0rc7
+
+5.0rc7:
 * Changed javascript / stylesheet cache to use 'public/' path
   NOTE: Rewrite rules changed, see INSTALL for the new rewrite rule
 * Added Italian translation contributed by Sandra Parente
@@ -155,14 +166,14 @@ eZ Online Editor 5.0 extension Changelog
   NOTE: This introduced several new strings, see .ts files for type="unfinished"
 
 
-5.0rc6
+5.0rc6:
 * Fixed #13548: Javascript error, when embedding video objects with empty ezimage attribute
 * Regression #13486: Can't change properties of OL, LI or UL
 * Fixed #13599: Header removed from custom tags
 * updated to TinyMCE 3.2 and enabled (ez)inlinepopup by default
 
 
-5.0rc5
+5.0rc5:
 * Fixed ezoescript and ezoecss to load files in correct order when arrays are used
 * EditorDialogCSSFileList should prepend 'stylesheets/' folder automatically like
   other css ini settings.
@@ -181,15 +192,16 @@ eZ Online Editor 5.0 extension Changelog
 * Fixed: absolute urls to same domain where converted to relative urls by TinyMCE
 
 
-5.0rc4
+5.0rc4:
 * Fixed regression #013486: Can't change properties of OL, LI or UL
 
 
-5.0rc3
+5.0rc3:
 * regression in rc2 caused inserting embed tags not to work in some browsers
 * updated doc/ezoe_intro.odt with new screen shoots and text.
 
-5.0rc2
+
+5.0rc2:
 * Cleaned up i18n use and Nor-NO, and synced untranslated.ts with the Nor-NO file.
 * Language for TinyMCE now uses Locale from site ini instead of locale from xml attribute.
 * Fixed: Some strings in table dialog where not using i18n().
@@ -202,7 +214,8 @@ eZ Online Editor 5.0 extension Changelog
   partly fixing #013391: ezoe handles removed images incorrect
 * make ctrl+8|9 set pre tag instead of unsupported div|address tags
 
-5.0rc
+
+5.0rc:
 * Fixed #013320: (Development mode doesn't work fully)
 * Removed CustomAttributeStyleMap since it caused embed / embed-inline tags to be converted 
  to a font tag by the browser if you for instance used 'color' style for text-color.
@@ -219,7 +232,7 @@ eZ Online Editor 5.0 extension Changelog
 * Made it more clear that anchors are content less, and set anchor name to slected text on init
 
 
-5.0Beta4
+5.0Beta4:
 * Fixed bug #013151: No nice URLs with ezoe
 * Append paragraph if custom / embed tag is inserted as last tag in editor
 * reworked custom attribute settings in content.ini to be more streamlined.
@@ -249,7 +262,7 @@ eZ Online Editor 5.0 extension Changelog
 * Fixed bug #013199: New paragraph when publish with Opera
 
 
-5.0Beta3
+5.0Beta3:
 * Fixed bug #012989: Add a loading icon while system is searching (Insert image popup)
 * added image preview in search and browse view
 * Fixed bug #010888: table caption can't be added though required by WAI level 3
@@ -275,7 +288,8 @@ eZ Online Editor 5.0 extension Changelog
   (also fixed on embed tags)
 * Fixed related files in upload dialog not selectable
 
-5.0Beta2
+
+5.0Beta2:
 * Added debug as text comment in ajax view's (embed_view, expand, load and search)
 * Fixed bug #012950: Popup windows sizes are too small
 * Fixed bug #012947: Cannot click search button in link properties until a filter is selected
@@ -295,7 +309,8 @@ eZ Online Editor 5.0 extension Changelog
 * Fixed bug #012956: Selecting of table cells doesn't work in some browsers
 * Fixed bug #013037: Typo in Help popup
 
-5.0beta
+
+5.0beta:
 * clicking search buttons does not work (hides link dialog)
 * fixed some ie6 issues in browse / search and custom tag popup
 * let link / anchor buttons edit currently selected link / anchor
@@ -307,7 +322,8 @@ eZ Online Editor 5.0 extension Changelog
  * updated TinyMCE to 3.0.8
  * Added a help/about dialog, enabled help button.
 
-0.99
+
+0.99:
 * embed image issues ( 'view' not correct and not changable )
 * paging on embed search added
 * ed.selection.select() not working in Safari and Opera, switched to passing node as window param
@@ -333,7 +349,7 @@ eZ Online Editor 5.0 extension Changelog
 * disable list buttons inside headings
 
 
-0.98
+0.98:
 * string translations
 * fix for bug when custom attribute or custom tag had a '_' in name
 * switched custom block tag to use div tag to work better in TinyMCE
@@ -342,13 +358,13 @@ eZ Online Editor 5.0 extension Changelog
 * apply to whole column and row on table cell dialog
 * fixed custom attributes on table cells not correct if you switch cell type
 
-0.97 (internal)
+0.97 (internal):
 * disabled toolbar floating in ie 6 / 7 to work around floating bug
 * moved ez_core scripts to ezoe folder to avoid design override problems
 * Allow custom tags and table nesting
 
 
-0.96 (internal)
+0.96 (internal):
 * this extension is now known as ezoe and not eztinymce
 * updated TinyMCE to 3.0.5
 * added eZOEPacker ('ezoecss' and 'ezoescript' operators), to pack css and js
@@ -359,7 +375,7 @@ eZ Online Editor 5.0 extension Changelog
 * fixed change class list when td / th is changed
 
 
-0.95
+0.95:
 * fixed issue with new custom tags not being saved correctly
 * fixed js bug when you edit image
 * Preview align changes while you edit image properties
@@ -370,7 +386,7 @@ eZ Online Editor 5.0 extension Changelog
 * Added support for Skin Variants in ezoe.ini
 
 
-0.94
+0.94:
 * Fixed anchor insert
 * Preview of embed object tags while editing / inserting
 * Added th support (in cell properties popup)
@@ -378,14 +394,14 @@ eZ Online Editor 5.0 extension Changelog
 * experimental support for indenting / outdenting added on lists
 
 
-0.93
+0.93:
 * Fixed link insert not working
 * Changed text size to 0.8em (same as admin design) and font type
 * Enabled undo support in tag popup's
 * Fixed window size on merge table cell popup
 
 
-0.92
+0.92:
 * Fixed browser resize issue
 * Made upload warning more human readable
 * Made toolbar groupable (some ie7 issues left)
@@ -393,14 +409,14 @@ eZ Online Editor 5.0 extension Changelog
 * added DevelopmentMode setting to ezoe.ini
 
 
-0.91
+0.91:
 * load plugins and buttons from ezoe.ini
 * Load skin from ezoe.ini
 * Make toolbar floating so it wraps on small browser windows / screens
 * Fixed empty paragraphs disappearing in Gecko
 
 
-0.9
+0.9:
 * added table cols / rows size selector when you create new table
 * added setting from ezdhtml/trunk: site.ini [MediaClassSettings]ImageClassIdentifiers
   and marked ImageClassID as deprecated.
@@ -410,7 +426,7 @@ eZ Online Editor 5.0 extension Changelog
 * added ajax lookup for validation of eznode and ezobject links (when typing in link dialogue window)
 
 
-0.8
+0.8:
 * link and anchor dialogue
 * table and table cell dialogue
 * made custom attributes work on em and strong tags without class
@@ -421,7 +437,7 @@ eZ Online Editor 5.0 extension Changelog
 * added pagebreak and underline buttons, thy will show up if you enable custom tags with the same name!
 
 
-0.7
+0.7:
 * Modified browser support:
   ie 6+, Opera 9.2+, WebKit 522+ (~ Safari 3+) and Mozilla 1.7+ (~ Firefox 1.0+)
 * added custom and literal buttons and commands
@@ -431,7 +447,7 @@ eZ Online Editor 5.0 extension Changelog
 * added dialogue for custom tags
 
 
-0.6
+0.6:
 * Changed internal HTML format for:
   . Literals now use PRE tag instead of table
   . Custom tags (blocks) now use Span tags instead of table
@@ -444,7 +460,7 @@ eZ Online Editor 5.0 extension Changelog
 * made path show eZ xml tags instead of native html tag
 
 
-0.5
+0.5:
 * updated TinyMCE to 3.0rc2
 * added pixel size on size selection
 * Added optional Image filter attributes:
@@ -458,14 +474,14 @@ eZ Online Editor 5.0 extension Changelog
 * Updated ez_core to 0.91 and added animation and accordion in popups for tabs
 
 
-0.4
+0.4:
 * update TinyMCE to 3.0beta3
 * update ezimage plugin to new TinyMCE api
 * Added support for existing relations
 * Added caption support for images when uploading
 
 
-0.3
+0.3:
  * Converted code to PHP5
  * Updated TinyMCE to 2.1.3
  * cleaned json_content.php -> ezoeajaxcontent.php
@@ -475,10 +491,10 @@ eZ Online Editor 5.0 extension Changelog
  * Enabled support for all browsers (only disabled for IE < 6.0 for now)
 
 
-0.2 (only published on ez.no)
+0.2 (only published on ez.no):
  * Now uses Online editors xml handlers to do the xml -> html and back translation
    and created a tinymce image extension based on advimage to handle images.
 
 
-0.1 (only published as proof of concept on ez.no)
+0.1 (only published as proof of concept on ez.no):
 * intial testcase using javascript to translate tags to / from ez xml format

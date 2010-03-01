@@ -170,6 +170,37 @@
                 }
             });
 
+            ed.onBeforeGetContent.add(function(ed, o)
+            {
+                if ( o.save === true && o.format === 'html' )
+                { 
+                    var body = ed.getBody();
+
+                    // Remove the content of the embed tags that are just there for oe preview
+                    // purpose, this is to avoid that the ez xml parsers in some cases 
+                    // duplicates the embed tag
+                    jQuery.each( body.getElementsByTagName('div'), function( i, node )
+                    {
+                        if ( node && node.className.indexOf('mceNonEditable') !== -1 )
+                            node.innerHTML = '';
+                    });
+                    jQuery.each( body.getElementsByTagName('span'), function( i, node )
+                    {
+                        if ( node && node.className.indexOf('mceNonEditable') !== -1 )
+                            node.innerHTML = '';
+                    });
+
+                    // @todo: Might not be needed anymore now that we don't use save handler and overwrite html
+                    // Fix link cleanup issues in IE 6 / 7 (it adds the current url before the anchor and invalid urls)
+                    var currenthost = document.location.protocol + '//' + document.location.host;
+                    jQuery.each( body.getElementsByTagName('a'), function( i, node )
+                    {
+                        if ( node.href.indexOf( currenthost ) === 0 && node.getAttribute('mce_href') != node.href )
+                            node.href = node.getAttribute('mce_href');
+                    });
+                }
+            });
+
             if ( s.theme_ez_editor_css )
             {
                 var ui_css_arr = s.theme_ez_editor_css.split(',');

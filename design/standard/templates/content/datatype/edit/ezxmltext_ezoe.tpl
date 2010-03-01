@@ -101,7 +101,6 @@
         theme_ez_statusbar_open_dialog : {cond( ezini('EditorSettings', 'TagPathOpenDialog', 'ezoe.ini',,true())|eq('enabled'), 'true', 'false' )},
         popup_css : {concat("stylesheets/skins/", $skin, "/dialog.css")|ezdesign},
         //popup_css_add : {"stylesheets/core.css"|ezdesign},
-        save_callback : "eZOeCleanUpEmbedTags",
         gecko_spellcheck : true,
         table_inline_editing : true, // table edit controlls in gecko
         save_enablewhendirty : true,
@@ -154,29 +153,6 @@
             else
                 tinyMCE.execCommand( 'mceRemoveControl', false, id );
         }
-    }
-
-    function eZOeCleanUpEmbedTags( element_id, html, body )
-    {
-        // remove the content of the embed tags that are just there for oe preview
-        // purpose, this is to avoid that the ez xml parsers in some cases 
-        // duplicates the embed tag
-        jQuery.each( body.getElementsByTagName('div'), function( i, node ){
-            if ( node && node.className.indexOf('mceNonEditable') !== -1 )
-                node.innerHTML = '';
-        });
-        jQuery.each( body.getElementsByTagName('span'), function( i, node ){
-            if ( node && node.className.indexOf('mceNonEditable') !== -1 )
-                node.innerHTML = '';
-        });
-
-        // fix link cleanup issues in IE 6 / 7 (it adds the current url before the anchor and invalid urls)
-        var currenthost = document.location.protocol + '//' + document.location.host;
-        jQuery.each( body.getElementsByTagName('a'), function( i, node ){
-            if ( node.href.indexOf( currenthost ) === 0 && node.getAttribute('mce_href') != node.href )
-                node.href = node.getAttribute('mce_href');
-        });
-        return body.innerHTML;
     }
 
 
