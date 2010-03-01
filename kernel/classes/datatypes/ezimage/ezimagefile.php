@@ -109,7 +109,7 @@ class eZImageFile extends eZPersistentObject
     {
         $db = eZDB::instance();
         $contentObjectAttributeID = (int) $contentObjectAttributeID;
-        $query = "SELECT contentclassattribute_id
+        $query = "SELECT contentobject_id, contentclassattribute_id
                   FROM   ezcontentobject_attribute
                   WHERE  id = $contentObjectAttributeID
                   LIMIT 1";
@@ -117,11 +117,13 @@ class eZImageFile extends eZPersistentObject
         if ( count( $rows ) != 1 )
             return array();
 
+        $contentObjectID = (int)( $rows[0]['contentobject_id'] );
         $contentClassAttributeID = (int)( $rows[0]['contentclassattribute_id'] );
         $filepath = $db->escapeString( $filepath );
         $query = "SELECT id, version
                   FROM   ezcontentobject_attribute
-                  WHERE  contentclassattribute_id = $contentClassAttributeID and
+                  WHERE  contentobject_id = $contentObjectID and
+                         contentclassattribute_id = $contentClassAttributeID and
                          data_text like '%url=\"$filepath\"%'";
         $rows = $db->arrayQuery( $query );
         return $rows;
