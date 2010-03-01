@@ -1,7 +1,7 @@
 var rightMenuWidthControl = function()
 {
 
-    var link = jQuery('#rightmenu-showhide'), rightmenu = jQuery( '#rightmenu' ), timeout = null;
+    var link = jQuery('#rightmenu-showhide'), rightmenu = jQuery('#rightmenu'), timeout = null;
 
     link.attr('href', 'JavaScript:void(0);').html( rightmenu.width() <= 22 ? '&laquo;' : '&raquo;' ).click(function()
     {
@@ -10,10 +10,16 @@ var rightMenuWidthControl = function()
             clearTimeout( timeout );
             timeout = null;
         }
-        var link = jQuery( this ), rightmenu = jQuery( '#rightmenu' ), hidden = rightmenu.width() < 22;
+        
+        var link = jQuery( this ), rightmenu = jQuery('#rightmenu'), hidden = rightmenu.width() < 22;
+        var maincolumn = jQuery('#maincolumn'); 
+
         if ( hidden )
         {
-            jQuery('#maincolumn').css( 'marginRight', '180px' );
+        	maincolumn.animate({
+                marginRight: '180px'
+            }, 650, 'swing');
+
             rightmenu.animate({
                 width: '181px'
             }, 650, 'swing', function(){
@@ -22,15 +28,19 @@ var rightMenuWidthControl = function()
         }
         else
         {
-            rightmenu.animate({
+        	maincolumn.animate({
+                marginRight: '17px'
+            }, 650, 'swing');
+
+        	rightmenu.animate({
                 width: '18px'
             }, 650, 'swing', function(){
-                jQuery('#maincolumn').css( 'marginRight', '17px' );
                 timeout = setTimeout( saveRightMenuStatus, 500 );
             } );
         }
         link.html( hidden ? '&raquo;' : '&laquo;' );
     });
+    
     function saveRightMenuStatus()
     {
         var show  = jQuery( '#rightmenu' ).width() < 22 ? '' : '1';
