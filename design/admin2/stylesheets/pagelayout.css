@@ -682,8 +682,8 @@ div.context-block
 
 div.context-block h1.context-title img, div.context-block h2.context-title img
 {
-    vertical-align: middle;
-    margin-right: 0.5em;
+    vertical-align: bottom;
+    margin: -13px 8px 2px 0;
 }
 
 /* MENU-BLOCK */
