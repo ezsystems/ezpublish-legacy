@@ -84,7 +84,7 @@
 	</div>
     <!-- script type="text/javascript" src={"javascript/rightmenu_widthcontrol.js"|ezdesign} charset="utf-8"></script -->
     <script type="text/javascript">
-        rightMenuWidthCotroll();
+        rightMenuWidthControl();
     </script>
 {/if}
 </div>

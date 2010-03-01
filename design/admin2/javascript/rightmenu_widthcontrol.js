@@ -1,4 +1,4 @@
-var rightMenuWidthCotroll = function()
+var rightMenuWidthControl = function()
 {
 
     var link = jQuery('#rightmenu-showhide'), rightmenu = jQuery( '#rightmenu' ), timeout = null;
