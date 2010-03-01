@@ -91,11 +91,14 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
     public function tearDown()
     {
         // restore the previous file handler
-        $fileINI = eZINI::instance( 'file.ini' );
-        $fileINI->setVariable( 'ClusteringSettings', 'FileHandler', $this->previousFileHandler );
-        $this->previousFileHandler = null;
-        if ( isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) )
-            unset( $GLOBALS['eZClusterFileHandler_chosen_handler'] );
+        if ( $this->previousFileHandler !== null )
+        {
+            $fileINI = eZINI::instance( 'file.ini' );
+            $fileINI->setVariable( 'ClusteringSettings', 'FileHandler', $this->previousFileHandler );
+            $this->previousFileHandler = null;
+            if ( isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) )
+                unset( $GLOBALS['eZClusterFileHandler_chosen_handler'] );
+        }
 
         if ( $this->haveToRemoveDFSPath )
         {

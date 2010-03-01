@@ -21,3 +21,4 @@ Changes from 4.3.0beta1 to 4.3.0beta2
 - Fixed bug #16114: Check that eZCache items that are clustered are defined as such
 - Fixed bug #16078: Discarding translated draft removes original image
 - Fixed bug #15450: allow eZDBSchemaInterface::schema() to only recover definition of desired tables
+- Fixed bug #16290: eZDFSFileHandlerTest incorrectly restore settings which causes other tests to fail
