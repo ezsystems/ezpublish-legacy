@@ -94,7 +94,7 @@
 <div id="maincolumn">
 
 {* Pr uri Path/Left menu cache (dosn't use ignore_content_expiry because of content structure menu  ) *}
-{cache-block keys=array( $module_result.uri, $user_hash, ezpreference( 'admin_navigation_content' ), ezpreference( 'admin_edit_show_locations' ), $left_size_hash )}
+{cache-block keys=array( $module_result.uri, $user_hash, $left_size_hash )}
 
 <div id="path">
 <div id="path-design">
