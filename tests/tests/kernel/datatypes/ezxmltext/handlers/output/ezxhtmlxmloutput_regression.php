@@ -9,7 +9,6 @@
 
 class eZXHTMLXMLOutputRegression extends ezpDatabaseTestCase
 {
-    protected $insertDefaultData = false;
 
     public function __construct()
     {
