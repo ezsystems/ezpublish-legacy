@@ -145,6 +145,10 @@ YUI( YUI3_config ).add('io-ez', function( Y )
 {
     var _rootUrl = '$rootUrl', _serverUrl = _rootUrl + 'ezjscore/', _seperator = '@SEPERATOR$', _configBak;
 
+    // (static) Y.io.ez() uses Y.io()
+    //
+    // @param string callArgs
+    // @param object|undefined c Same format as second parameter of Y.io()
     function _ez( callArgs, c )
     {
         callArgs = callArgs.join !== undefined ? callArgs.join( _seperator ) : callArgs;
@@ -253,7 +257,11 @@ YUI( YUI3_config ).add('io-ez', function( Y )
 (function($) {
     var _rootUrl = '$rootUrl', _serverUrl = _rootUrl + 'ezjscore/', _seperator = '@SEPERATOR$';
 
-    // (static) function version
+    // (static) jQuery.ez() uses jQuery.post() (Or jQuery.get() if post paramer is false)
+    //
+    // @param string callArgs
+    // @param object|array|false|undefined post Uses get request if false or undefined
+    // @param function|undefined callBack
     function _ez( callArgs, post, callBack )
     {
         callArgs = callArgs.join !== undefined ? callArgs.join( _seperator ) : callArgs;
