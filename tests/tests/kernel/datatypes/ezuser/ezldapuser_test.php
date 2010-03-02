@@ -271,6 +271,7 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
         $user = eZLDAPUser::loginUser( 'yoda', 'dagobah4eva' );
         $contentObject = $user->attribute( 'contentobject' );
         $parentNodeIDs = $contentObject->attribute( 'parent_nodes' );
+        sort( $parentNodeIDs );
 
         // The user should be assigned to 3 groups
         self::assertEquals( 3, count( $parentNodeIDs ) );
@@ -522,6 +523,7 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
         $user = eZLDAPUser::loginUser( 'obi.wan', 'thesearenotthedroids' );
         $contentObject = $user->attribute( 'contentobject' );
         $parentNodeIDs = $contentObject->attribute( 'parent_nodes' );
+        sort( $parentNodeIDs );
 
         // The user should be assigned to 2 groups
         self::assertEquals( 2, count( $parentNodeIDs ) );
