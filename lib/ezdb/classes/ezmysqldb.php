@@ -177,7 +177,6 @@ class eZMySQLDB extends eZDBInterface
 
         if ( $charset !== null )
         {
-            $originalCharset = $charset;
             $charset = eZCharsetInfo::realCharsetCode( $charset );
             // Convert charset names into something MySQL will understand
             if ( isset( $this->CharsetMapping[ $charset ] ) )
@@ -317,7 +316,6 @@ class eZMySQLDB extends eZDBInterface
         if ( $this->IsConnected )
         {
             eZDebug::accumulatorStart( 'mysql_query', 'mysql_total', 'Mysql_queries' );
-            $orig_sql = $sql;
             // The converted sql should not be output
             if ( $this->InputTextCodec )
             {
