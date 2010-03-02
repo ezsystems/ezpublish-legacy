@@ -95,6 +95,9 @@ class eZDir
     */
     static function mkdir( $dir, $perm = false, $recursive = false )
     {
+        if ( file_exists( $dir ) )
+            return false;
+
         if ( $perm === false )
         {
             $perm = eZDir::directoryPermission();
