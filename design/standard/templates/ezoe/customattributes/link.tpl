@@ -33,10 +33,10 @@
 // register function to be called on end of init
 eZOEPopupUtils.settings.onInitDoneArray.push( function( editorElement )
 {
-    var base_id = ezoeLinkAttribute.id, drop = jQuery( '#'+base_id+'_source_types'), inp = jQuery( '#'+base_id+'_source' );
+    var lid = ezoeLinkAttribute.id, drop = jQuery( '#'+lid+'_source_types'), inp = jQuery( '#'+lid+'_source' );
     drop.change(function( e )
     {
-        var base_id = ezoeLinkAttribute.id, input = document.getElementById( base_id+'_source' );
+        var lid = ezoeLinkAttribute.id, input = document.getElementById( lid+'_source' );
         if ( this.value === 'ezobject://' )
         {
         	input.value = this.value + ezoeLinkAttribute.node['contentobject_id'];
@@ -58,7 +58,7 @@ eZOEPopupUtils.settings.onInitDoneArray.push( function( editorElement )
     inp.keyup( function( e )
     {
         e = e || window.event;
-        var c = e.keyCode || e.which, base_id = '#' + ezoeLinkAttribute.id, dropdown = jQuery( base_id + '_source_types' );
+        var c = e.keyCode || e.which, lid = ezoeLinkAttribute.id, dropdown = jQuery( '#'+lid + '_source_types' );
         clearTimeout( ezoeLinkAttribute.timeOut );
 
         // break if user is pressing arrow keys
@@ -84,7 +84,7 @@ eZOEPopupUtils.settings.onInitDoneArray.push( function( editorElement )
     }
 
     ezoeLinkAttribute.slides = ez.$$('div.panel');//ezoeLinkAttribute.slides is global object used by custom selectByEmbedId function
-    var navigation = ez.$('embed_search_go_back_link', base_id+'_search_link', base_id+'_browse_link', base_id+'_bookmarks_link', 'embed_browse_go_back_link', 'embed_bookmarks_go_back_link' );
+    var navigation = ez.$('embed_search_go_back_link', lid+'_search_link', lid+'_browse_link', lid+'_bookmarks_link', 'embed_browse_go_back_link', 'embed_bookmarks_go_back_link' );
     ezoeLinkAttribute.slides.accordion( navigation, {duration: 100, transition: ez.fx.sinoidal, accordionAutoFocusTag: 'input[type=text]'}, {opacity: 0, display: 'none'} );
     navigation[4].addEvent('click', eZOEPopupUtils.BIND( ezoeLinkAttribute.slides.accordionGoto, ezoeLinkAttribute.slides, 0 ) ).addClass('accordion_navigation');
     navigation[5].addEvent('click', eZOEPopupUtils.BIND( ezoeLinkAttribute.slides.accordionGoto, ezoeLinkAttribute.slides, 0 ) ).addClass('accordion_navigation');
@@ -113,7 +113,7 @@ eZOEPopupUtils.settings.browseLinkGenerator = function( n, mode, ed )
 // override so selected element is redirected to link input
 eZOEPopupUtils.selectByEmbedId = function( object_id, node_id, name )
 {
-    var base_id = '#' + ezoeLinkAttribute.id, drop = jQuery( base_id+'_source_types'), inp = jQuery( base_id+'_source' ), info = jQuery( base_id+'_source_info' )
+    var lid = ezoeLinkAttribute.id, drop = jQuery( '#'+lid+'_source_types'), inp = jQuery( '#'+lid+'_source' ), info = jQuery( '#'+lid+'_source_info' )
     if ( drop.val() === 'ezobject://' )
         inp.val( 'ezobject://' + object_id );
     else
