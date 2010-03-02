@@ -167,6 +167,16 @@
     {/switch}
     </p>
 </div>
+
+{include name=navigator
+         uri='design:navigator/alphabetical.tpl'
+         page_uri=$page_uri
+         page_uri_suffix=$page_uri_suffix
+         item_count=$browse_list_count
+         view_parameters=$view_parameters
+         node_id=$node_id
+         item_limit=$number_of_items}
+
 <div class="float-break"></div>
 </div>
 
@@ -180,16 +190,6 @@
     {/case}
 {/switch}
 
-<div class="context-toolbar">
-{include name=navigator
-         uri='design:navigator/alphabetical.tpl'
-         page_uri=$page_uri
-         page_uri_suffix=$page_uri_suffix
-         item_count=$browse_list_count
-         view_parameters=$view_parameters
-         node_id=$node_id
-         item_limit=$number_of_items}
-</div>
 
 {section var=PersistentData show=$browse.persistent_data loop=$browse.persistent_data}
     <input type="hidden" name="{$PersistentData.key|wash}" value="{$PersistentData.item|wash}" />
