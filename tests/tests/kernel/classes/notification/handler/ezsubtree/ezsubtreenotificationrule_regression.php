@@ -33,8 +33,6 @@ class eZSubtreeNotificationRuleRegression extends ezpDatabaseTestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
         eZPolicyLimitation::removeByID(
             $this->policy->attribute( 'id' )
         );
@@ -44,6 +42,8 @@ class eZSubtreeNotificationRuleRegression extends ezpDatabaseTestCase
         );
 
         $this->policy = null;
+
+        parent::tearDown();
     }
 
     /**
