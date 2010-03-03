@@ -24,3 +24,4 @@ Changes from 4.3.0beta1 to 4.3.0beta2
 - Fixed bug #15450: allow eZDBSchemaInterface::schema() to only recover definition of desired tables
 - Fixed bug #16290: eZDFSFileHandlerTest incorrectly restore settings which causes other tests to fail
 - Fixed bug #15891: ezjscore - file names are cutted
+- Fixed bug #16289: Preview tab disabled by default

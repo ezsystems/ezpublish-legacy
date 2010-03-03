@@ -35,6 +35,18 @@ INI setting changes
   Deprecated in favour of FrontendJavaScriptList & BackendJavaScriptList
   settings, will be removed in a future version (normally in two versions).
 
+- site.ini [ContentSettings]CachedViewPreferences[full]
+
+  admin2 design does not use any of the admin_navigation_* preferences anymore
+  expect admin_navigation_content, this setting should additionally now default 
+  to 1 instead of 0 so new users gets access to preview tab straight away.
+
+  So for cache efficiency and usability change this (or similar):
+  admin_navigation_states=0;admin_navigation_content=0;admin_navigation_details=0;admin_navigation_languages=0;admin_navigation_locations=0;admin_navigation_relations=0;admin_navigation_roles=0;admin_navigation_policies=0;admin_navigation_content=0;admin_navigation_translations=0;
+
+  Into:
+  admin_navigation_content=1;
+
 
 Change of behavior 
 -------------------
