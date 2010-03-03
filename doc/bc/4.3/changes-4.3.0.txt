@@ -40,12 +40,11 @@ INI setting changes
   admin2 design does not use any of the admin_navigation_* preferences anymore
   expect admin_navigation_content, this setting should additionally now default 
   to 1 instead of 0 so new users gets access to preview tab straight away.
+  Additinally many preferences on this setting was not really used within content/view
+  and therefore was not needed here and just further decreased cache efficiency.
 
-  So for cache efficiency and usability change this (or similar):
-  admin_navigation_states=0;admin_navigation_content=0;admin_navigation_details=0;admin_navigation_languages=0;admin_navigation_locations=0;admin_navigation_relations=0;admin_navigation_roles=0;admin_navigation_policies=0;admin_navigation_content=0;admin_navigation_translations=0;
-
-  Into:
-  admin_navigation_content=1;
+  So as of 4.3, setting in admin siteaccess is this by default:
+  CachedViewPreferences[full]=admin_navigation_content=1;admin_children_viewmode=list;admin_list_limit=1
 
 
 Change of behavior 
