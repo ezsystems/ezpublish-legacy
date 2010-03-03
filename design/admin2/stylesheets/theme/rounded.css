@@ -181,7 +181,12 @@ a.show-hide-control:hover
 .subitems-controlbar
 {
     padding: 0px 5px;
-    margin: 5px 0px;
+    margin: 0 0 5px 0;
+}
+
+.subitems-context-toolbar
+{
+    padding: 3px;
 }
 
 
@@ -344,14 +349,12 @@ div.pagenavigator span.previous
 {
     display: block;
     float: left;
-    margin-left: 50px;
 }
 
 div.pagenavigator span.next
 {
     display: block;
     float: right;
-    margin-right: 50px;
 }
 
 div.pagenavigator span.disabled

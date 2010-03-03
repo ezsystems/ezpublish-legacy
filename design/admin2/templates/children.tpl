@@ -99,15 +99,6 @@
     </p>
 </div>
 
-{* Alphabetical navigation can be enabled with content.ini [AlphabeticalFilterSettings] ContentFilterList[]  *}
-{include name=navigator
-         uri='design:navigator/alphabetical.tpl'
-         page_uri=$node.url_alias
-         item_count=$children_count
-         view_parameters=$view_parameters
-         node_id=$node.node_id
-         item_limit=$number_of_items}
-
 <div class="float-break"></div>
 </div>
 
@@ -157,11 +148,22 @@
 
 {/if}
 
+<div class="context-toolbar subitems-context-toolbar">
+{* Alphabetical navigation can be enabled with content.ini [AlphabeticalFilterSettings] ContentFilterList[]  *}
+{include name=navigator
+         uri='design:navigator/alphabetical.tpl'
+         page_uri=$node.url_alias
+         item_count=$children_count
+         view_parameters=$view_parameters
+         node_id=$node.node_id
+         item_limit=$number_of_items}
+</div>
+
 {* DESIGN: Content END *}</div>
 
 {* Button bar for remove and update priorities buttons. *}
 
-<div class="subitems-controlbar">{* DESIGN: Control bar START *}
+<div class="controlbar subitems-controlbar">{* DESIGN: Control bar START *}
 
 <div class='block'>
     {* Remove and move button *}
