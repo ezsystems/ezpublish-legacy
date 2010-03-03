@@ -683,10 +683,15 @@ div.context-block h1.context-title img, div.context-block h2.context-title img
 
 /* MENU-BLOCK */
 
+.menu-block
+{
+    padding: 0.5em 0 1em 0;
+}
+
 .menu-block ul
 {
+    margin: 0;
     width: 100%;
-    margin: 0.5em 0 0 0;
 }
 
 .menu-block li
@@ -696,12 +701,13 @@ div.context-block h1.context-title img, div.context-block h2.context-title img
     list-style-type: none;
     padding: 0;
     margin: 0;
-    width: 16.6666%;
+    
 }
 
 .menu-block li a
 {
-    margin-left: 1px;
+    padding: 0 0.5em;
+    margin-left: 4px;
     text-decoration: none;
     display: block;
     border: 1px solid #999;
