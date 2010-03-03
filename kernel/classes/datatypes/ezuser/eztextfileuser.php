@@ -265,6 +265,9 @@ class eZTextFileUser extends eZUser
                             $defaultSectionID = $ini->variable( "UserSettings", "DefaultSectionID" );
 
                             $remoteID = "TextFile_" . $login;
+
+                            $db->begin();
+
                             // The content object may already exist if this process has failed once before, before the eZUser object was created.
                             // Therefore we try to fetch the eZContentObject before instantiating it.
                             $contentObject = eZContentObject::fetchByRemoteID( $remoteID );
@@ -314,10 +317,15 @@ class eZTextFileUser extends eZUser
                             //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
                             $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID,
                                                                                                          'version' => 1 ) );
+
+                            $db->commit();
+
                             return $user;
                         }
                         else
                         {
+                            $db->begin();
+
                             // Update user information
                             $userID = $existUser->attribute( 'contentobject_id' );
                             $contentObject = eZContentObject::fetch( $userID );
@@ -356,6 +364,8 @@ class eZTextFileUser extends eZUser
 
                             // Reset number of failed login attempts
                             eZUser::setFailedLoginAttempts( $userID, 0 );
+
+                            $db->commit();
 
                             return $existUser;
                         }
