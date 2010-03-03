@@ -1,6 +1,7 @@
 Changes from 4.3.0beta1 to 4.3.0beta2
 
 *Kernel:
+- Implemented enhancement #16226: Translation of custom admin menu items - improved
 
 *Design:
 

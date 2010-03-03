@@ -36,11 +36,14 @@
 
 class eZi18nOperator
 {
-    function eZi18nOperator( $name = 'i18n', $extensionName = 'x18n' )
+    function eZi18nOperator( $name = 'i18n', $extensionName = 'x18n', $dynamicName = 'd18n' )
     {
-        $this->Operators = array( $name, $extensionName );
+        $this->Operators = array( $name, $extensionName, $dynamicName );
         $this->Name = $name;
         $this->ExtensionName = $extensionName;
+        // d18n is a i18n alias for use with dynamic variables as input
+        // where you don't want ezlupdate to pick up the string 
+        $this->DynamicName = $dynamicName;
     }
 
     /*!
@@ -64,7 +67,7 @@ class eZi18nOperator
     */
     function namedParameterList()
     {
-        return array( $this->Name => array( 'context' => array( 'type' => 'string',
+        $def = array( $this->Name => array( 'context' => array( 'type' => 'string',
                                                                 'required' => false,
                                                                 'default' => false ),
                                             'comment' => array( 'type' => 'string',
@@ -85,17 +88,21 @@ class eZi18nOperator
                                                      'arguments' => array( 'type' => 'hash',
                                                                            'required' => false,
                                                                            'default' => false ) ) );
+        $def[ $this->DynamicName ] = $def[ $this->Name ];
+        return $def;
     }
 
     function operatorTemplateHints()
     {
-        return array( $this->Name => array( 'input' => true,
+        $def = array( $this->Name => array( 'input' => true,
                                             'output' => true,
                                             'parameters' => true,
                                             'element-transformation' => true,
                                             'transform-parameters' => true,
                                             'input-as-parameter' => 'always',
                                             'element-transformation-func' => 'i18nTrans') );
+        $def[ $this->DynamicName ] = $def[ $this->Name ];
+        return $def;
     }
 
     function i18nTrans( $operatorName, &$node, $tpl, &$resourceData,
@@ -166,6 +173,7 @@ class eZi18nOperator
         switch ( $operatorName )
         {
             case $this->Name:
+            case $this->DynamicName:
             {
                 $context = $namedParameters['context'];
                 $comment = $namedParameters['comment'];

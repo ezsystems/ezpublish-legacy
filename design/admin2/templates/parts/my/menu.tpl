@@ -1,16 +1,16 @@
 {* See parts/ini_menu.tpl and menu.ini for more info, or parts/setup/menu.tpl for full example *}
 {include uri='design:parts/ini_menu.tpl' ini_section='Leftmenu_my' i18n_hash=hash(
-    '_my_account',         'My account'|i18n( 'design/admin/parts/my/menu' ),
-    '_my_drafts',          'My drafts'|i18n( 'design/admin/parts/my/menu' ),
-    '_my_pending',         'My pending items'|i18n( 'design/admin/parts/my/menu' ),
-    '_my_notifications',   'My notification settings'|i18n( 'design/admin/parts/my/menu' ),
-    '_my_bookmarks',       'My bookmarks'|i18n( 'design/admin/parts/my/menu' ),
-    '_collaboration',      'Collaboration'|i18n( 'design/admin/parts/my/menu' ),
-    '_change_password',    'Change password'|i18n( 'design/admin/parts/my/menu' ),
-    '_my_shopping_basket', 'My shopping basket'|i18n( 'design/admin/parts/my/menu' ),
-    '_my_wish_list',       'My wish list'|i18n( 'design/admin/parts/my/menu' ),
-    '_edit_profile',       'Edit profile'|i18n( 'design/admin/parts/my/menu' ),
-    '_dashboard',          'Dashboard'|i18n( 'design/admin/parts/my/menu' ),
+    'my_account',         'My account'|i18n( 'design/admin/parts/my/menu' ),
+    'my_drafts',          'My drafts'|i18n( 'design/admin/parts/my/menu' ),
+    'my_pending',         'My pending items'|i18n( 'design/admin/parts/my/menu' ),
+    'my_notifications',   'My notification settings'|i18n( 'design/admin/parts/my/menu' ),
+    'my_bookmarks',       'My bookmarks'|i18n( 'design/admin/parts/my/menu' ),
+    'collaboration',      'Collaboration'|i18n( 'design/admin/parts/my/menu' ),
+    'change_password',    'Change password'|i18n( 'design/admin/parts/my/menu' ),
+    'my_shopping_basket', 'My shopping basket'|i18n( 'design/admin/parts/my/menu' ),
+    'my_wish_list',       'My wish list'|i18n( 'design/admin/parts/my/menu' ),
+    'edit_profile',       'Edit profile'|i18n( 'design/admin/parts/my/menu' ),
+    'dashboard',          'Dashboard'|i18n( 'design/admin/parts/my/menu' ),
 )}
 
 
