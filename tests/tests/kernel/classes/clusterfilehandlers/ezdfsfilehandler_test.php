@@ -49,12 +49,12 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
      **/
     public function setUp()
     {
-        parent::setUp();
-
         if ( !( $this->sharedFixture instanceof eZMySQLDB ) )
         {
             self::markTestSkipped( "Not using mysql interface, skipping" );
         }
+
+        parent::setUp();
 
         // We need to clear the existing handler if it was loaded before the INI
         // settings changes

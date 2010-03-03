@@ -12,10 +12,10 @@ class eZPostgreSQLDBTest extends ezpDatabaseTestCase
 
     protected function setUp()
     {
-        parent::setUp();
-
-        if ( $this->sharedFixture->databaseName() !== "postgresql" )
+        if ( ezpTestRunner::dsn()->dbsyntax !== "postgresql" )
             self::markTestSkipped( "Not running PostgresSQL, skipping" );
+
+        parent::setUp();
 
         ezpTestDatabaseHelper::clean( $this->sharedFixture );
     }

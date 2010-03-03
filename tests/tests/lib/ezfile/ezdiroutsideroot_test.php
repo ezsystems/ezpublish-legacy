@@ -20,11 +20,11 @@ class eZDirTestOutsideRoot extends ezpTestCase
 
     public function setUp()
     {
-        parent::setUp();
         file_exists( $this->rootDir ) or @mkdir( $this->rootDir, 0777, true ) or $this->markTestSkipped( 'Cannot create temporary directories outside ezp root' );
         file_exists( $this->rootDir . 'a/b/c/' ) or @mkdir( $this->rootDir . 'a/b/c/', 0777, true ) or $this->markTestSkipped( 'Cannot create temporary directories outside ezp root' );
         touch( $this->rootDir . 'a/fileA' ) or $this->markTestSkipped( 'Cannot create temporary files outside ezp root' );
         touch( $this->rootDir . 'a/b/fileB' ) or $this->markTestSkipped( 'Cannot create temporary files outside ezp root' );
+        parent::setUp();
     }
 
     public function tearDown()
