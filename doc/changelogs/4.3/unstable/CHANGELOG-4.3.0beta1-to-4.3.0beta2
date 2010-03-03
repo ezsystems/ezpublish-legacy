@@ -27,3 +27,4 @@ Changes from 4.3.0beta1 to 4.3.0beta2
 - Fixed bug #16289: Preview tab disabled by default
 - Fixed bug #16285: Parent setUp() function should be called after testing whether a test should be skipped
 - Fixed bug #16313: CachedViewPreferences[] contains preferences that are not used in viewcached pages decreasing cache efficiency in backend
+- Fixed bug #16248: wrong use of array_intersect() in ezsubtreenotificationrule.php

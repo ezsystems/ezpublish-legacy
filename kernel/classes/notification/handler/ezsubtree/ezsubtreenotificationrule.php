@@ -437,11 +437,11 @@ class eZSubtreeNotificationRule extends eZPersistentObject
                 {
                     if ( in_array( $contentObject->attribute( 'owner_id' ), $userIDArray ) )
                     {
-                        $accessUserIDArray = array_intersect( $contentObject->attribute( 'owner_id' ), $accessUserIDArray );
+                        $accessUserIDArray = array( $contentObject->attribute( 'owner_id' ) );
                     }
-                    else if ( in_array( $contentObject->ID, $userIDArray ) )
+                    else if ( in_array( $contentObject->attribute( 'id' ), $userIDArray ) )
                     {
-                        $accessUserIDArray = array_intersect( $contentObject->ID, $accessUserIDArray );
+                        $accessUserIDArray = array( $contentObject->attribute( 'id' ) );
                     }
                     else
                     {
