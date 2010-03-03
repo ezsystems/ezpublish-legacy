@@ -20,6 +20,8 @@ class eZSubtreeNotificationRuleRegression extends ezpDatabaseTestCase
 
     public function setUp()
     {
+        parent::setUp();
+
         $this->policy = eZPolicy::createNew(
             1, array( 'ModuleName' => 'foo', 'FunctionName' => 'bar' )
         );
@@ -31,6 +33,8 @@ class eZSubtreeNotificationRuleRegression extends ezpDatabaseTestCase
 
     public function tearDown()
     {
+        parent::tearDown();
+
         eZPolicyLimitation::removeByID(
             $this->policy->attribute( 'id' )
         );
