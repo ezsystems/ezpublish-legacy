@@ -887,7 +887,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $sql = '';
             foreach ( $alphabet as $letter )
             {
-                $sql .= " AND ezcontentobject.name NOT LIKE '". $db->escapeString( $letter ) . "%'\n";
+                $sql .= " AND ezcontentobject.name NOT LIKE '". $db->escapeString( $letter ) . "%' ";
             }
             return $sql;
         }
@@ -1273,7 +1273,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 else
                 {
                     if ( $justFilterCount > 0 )
-                        $filterSQL['where'] .= "\n                            ( " . $attibuteFilterJoinSQL . " ) AND ";
+                        $filterSQL['where'] .= "                            ( " . $attibuteFilterJoinSQL . " ) AND ";
                 }
             } // end of 'if ( is_array( $filterArray ) )'
         }
@@ -1658,14 +1658,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                     $stateGroupTable = "ezcobj_state_grp_{$stateIndex}_perm";
                                     $stateAliasTables[$stateIdentifier] = $stateTable;
 
-                                    $sqlPermissionCheckingFrom .= ", ezcobj_state_link $stateLinkTable\r\n";
-                                    $sqlPermissionCheckingFrom .= ", ezcobj_state_group $stateGroupTable\r\n";
-                                    $sqlPermissionCheckingFrom .= ", ezcobj_state $stateTable\r\n";
+                                    $sqlPermissionCheckingFrom .= ", ezcobj_state_link $stateLinkTable ";
+                                    $sqlPermissionCheckingFrom .= ", ezcobj_state_group $stateGroupTable ";
+                                    $sqlPermissionCheckingFrom .= ", ezcobj_state $stateTable ";
 
-                                    $sqlPermissionCheckingWhere .= "AND $stateLinkTable.contentobject_id = ezcontentobject.id \r\n" .
-                                                                   "AND $stateTable.id = $stateLinkTable.contentobject_state_id \r\n" .
-                                                                   "AND $stateTable.group_id = $stateGroupTable.id \r\n" .
-                                                                   "AND $stateGroupTable.identifier='" . $db->escapeString( $stateIdentifier ) . "'\r\n\r\n";
+                                    $sqlPermissionCheckingWhere .= "AND $stateLinkTable.contentobject_id = ezcontentobject.id " .
+                                                                   "AND $stateTable.id = $stateLinkTable.contentobject_state_id " .
+                                                                   "AND $stateTable.group_id = $stateGroupTable.id " .
+                                                                   "AND $stateGroupTable.identifier='" . $db->escapeString( $stateIdentifier ) . "' ";
                                 }
 
                                 if ( count( $limitationArray[$ident] ) > 1 )
@@ -1690,7 +1690,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 }
                 $sqlParts[] = implode( ' AND ', $sqlPartPart );
             }
-            $sqlPermissionCheckingWhere .= ' AND ((' . implode( ")\r\n OR (", $sqlParts ) . ')) ';
+            $sqlPermissionCheckingWhere .= ' AND ((' . implode( ") OR (", $sqlParts ) . ')) ';
         }
 
         $sqlPermissionChecking = array( 'from' => $sqlPermissionCheckingFrom,
@@ -5034,8 +5034,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
 
             $filterTableSQL = ', ezcontentclass_classgroup ccg';
-            $filterSQL = ( " AND\n" .
-                           "      cc.id = ccg.contentclass_id AND\n" .
+            $filterSQL = ( " AND" .
+                           "      cc.id = ccg.contentclass_id AND" .
                            "      " );
             $filterSQL .= $db->generateSQLINStatement( $groupList, 'ccg.group_id', !$includeFilter, true, 'int' );
         }
@@ -5046,9 +5046,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             // If $asObject is true we fetch all fields in class
             $fields = $asObject ? "cc.*, $classNameFilter[nameField]" : "cc.id, $classNameFilter[nameField]";
-            $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
-                                     "FROM ezcontentclass cc$filterTableSQL, $classNameFilter[from]\n" .
-                                     "WHERE cc.version = " . eZContentClass::VERSION_STATUS_DEFINED . " $filterSQL AND $classNameFilter[where]\n" .
+            $rows = $db->arrayQuery( "SELECT DISTINCT $fields " .
+                                     "FROM ezcontentclass cc$filterTableSQL, $classNameFilter[from] " .
+                                     "WHERE cc.version = " . eZContentClass::VERSION_STATUS_DEFINED . " $filterSQL AND $classNameFilter[where] " .
                                      "ORDER BY $classNameFilter[nameField] ASC" );
             $classList = eZPersistentObject::handleRows( $rows, 'eZContentClass', $asObject );
         }
@@ -5063,10 +5063,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $classIDCondition = $db->generateSQLInStatement( $classIDArray, 'cc.id' );
             // If $asObject is true we fetch all fields in class
             $fields = $asObject ? "cc.*, $classNameFilter[nameField]" : "cc.id, $classNameFilter[nameField]";
-            $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
-                                     "FROM ezcontentclass cc$filterTableSQL, $classNameFilter[from]\n" .
-                                     "WHERE $classIDCondition AND\n" .
-                                     "      cc.version = " . eZContentClass::VERSION_STATUS_DEFINED . " $filterSQL AND $classNameFilter[where]\n" .
+            $rows = $db->arrayQuery( "SELECT DISTINCT $fields " .
+                                     "FROM ezcontentclass cc$filterTableSQL, $classNameFilter[from] " .
+                                     "WHERE $classIDCondition AND" .
+                                     "      cc.version = " . eZContentClass::VERSION_STATUS_DEFINED . " $filterSQL AND $classNameFilter[where] " .
                                      "ORDER BY $classNameFilter[nameField] ASC" );
             $classList = eZPersistentObject::handleRows( $rows, 'eZContentClass', $asObject );
         }

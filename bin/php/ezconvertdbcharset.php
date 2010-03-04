@@ -578,11 +578,11 @@ function unserializeContentClassAttributeNames()
 
 function serializeContentClassNames()
 {
-    $selectSQL = "SELECT contentclass_id as id,\n" .
-        "     contentclass_version as version,\n" .
-        "     language_id as is_always_available,\n" .
-        "     language_locale, name\n" .
-        "FROM ezcontentclass_name \n" .
+    $selectSQL = "SELECT contentclass_id as id," .
+        "     contentclass_version as version," .
+        "     language_id as is_always_available," .
+        "     language_locale, name " .
+        "FROM ezcontentclass_name " .
         "ORDER BY id, version";
 
     $table = 'ezcontentclass';
@@ -694,8 +694,8 @@ function storeSerializedName( $serializedName, $id, $version, $table )
 
         $db = eZDB::instance();
 
-        $updateSQL = "UPDATE $table\n" .
-            "SET serialized_name_list = '" . $db->escapeString( $serializedNameString ) . "'\n" .
+        $updateSQL = "UPDATE $table " .
+            "SET serialized_name_list = '" . $db->escapeString( $serializedNameString ) . "' " .
             "WHERE id = $id AND version = $version";
 
         $db->query( $updateSQL );
@@ -920,10 +920,10 @@ function xmlDatatypeSelectSQL( $dataTableInfo )
     $data_field = $dataTableInfo['data_field'];
     $datatype = $dataTableInfo['datatype'];
 
-    $selectSQL = "SELECT id, version, $data_field as xml_data\n" .
-                 "FROM $table\n" .
-                 "WHERE $data_field LIKE '<?xml%'\n" .
-                    "AND data_type_string = '$datatype'\n" .
+    $selectSQL = "SELECT id, version, $data_field as xml_data " .
+                 "FROM $table " .
+                 "WHERE $data_field LIKE '<?xml%' " .
+                    "AND data_type_string = '$datatype' " .
                     "ORDER BY id, version";
 
     return $selectSQL;
@@ -936,9 +936,9 @@ function xmlDatatypeUpdateSQL( $dataTableInfo, $row )
     $table = $dataTableInfo['table'];
     $data_field = $dataTableInfo['data_field'];
 
-    $updateSQL = "UPDATE $table\n" .
-                 "SET $data_field = '" . $db->escapeString( $row['xml_data'] ) . "'\n" .
-                 "WHERE id = " . $row['id'] . "\n" .
+    $updateSQL = "UPDATE $table " .
+                 "SET $data_field = '" . $db->escapeString( $row['xml_data'] ) . "' " .
+                 "WHERE id = " . $row['id'] . " " .
                     "AND version = " . $row['version'];
 
     return $updateSQL;
@@ -954,9 +954,9 @@ function xmlCustomDataSelectSQL( $dataTableInfo )
     $table = $dataTableInfo['table'];
     $data_field = $dataTableInfo['data_field'];
 
-    $selectSQL = "SELECT id, $data_field as xml_data\n" .
-                 "FROM $table\n" .
-                 "WHERE $data_field LIKE '<?xml%'\n" .
+    $selectSQL = "SELECT id, $data_field as xml_data " .
+                 "FROM $table " .
+                 "WHERE $data_field LIKE '<?xml%' " .
                  "ORDER BY id";
 
     return $selectSQL;
@@ -969,8 +969,8 @@ function xmlCustomDataUpdateSQL( $dataTableInfo, $row )
     $table = $dataTableInfo['table'];
     $data_field = $dataTableInfo['data_field'];
 
-    $updateSQL = "UPDATE $table\n" .
-                 "SET $data_field = '" . $db->escapeString( $row['xml_data'] ) . "'\n" .
+    $updateSQL = "UPDATE $table " .
+                 "SET $data_field = '" . $db->escapeString( $row['xml_data'] ) . "' " .
                  "WHERE id = " . $row['id'];
 
     return $updateSQL;

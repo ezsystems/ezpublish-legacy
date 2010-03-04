@@ -117,9 +117,9 @@ class eZContentObjectState extends eZPersistentObject
 
         $conditionsSQL = implode( ' AND ', $conditions );
 
-        $sql = "SELECT ezcobj_state.*, ezcobj_state_language.* \r\n" .
-               "FROM ezcobj_state, ezcobj_state_group, ezcobj_state_language \r\n" .
-               "WHERE $conditionsSQL \r\n" .
+        $sql = "SELECT ezcobj_state.*, ezcobj_state_language.* " .
+               "FROM ezcobj_state, ezcobj_state_group, ezcobj_state_language " .
+               "WHERE $conditionsSQL " .
                "ORDER BY ezcobj_state.priority";
 
         $rows = $db->arrayQuery( $sql, array( 'limit' => $limit, 'offset' => $offset ) );
@@ -491,10 +491,10 @@ class eZContentObjectState extends eZPersistentObject
      */
     public static function limitationList()
     {
-        $sql = "SELECT g.identifier group_identifier, s.identifier state_identifier, s.priority, s.id \r\n" .
-               "FROM ezcobj_state s, ezcobj_state_group g \r\n" .
-               "WHERE s.group_id=g.id \r\n" .
-               "AND g.identifier NOT LIKE 'ez%' \r\n" .
+        $sql = "SELECT g.identifier group_identifier, s.identifier state_identifier, s.priority, s.id " .
+               "FROM ezcobj_state s, ezcobj_state_group g " .
+               "WHERE s.group_id=g.id " .
+               "AND g.identifier NOT LIKE 'ez%' " .
                "ORDER BY g.identifier, s.priority";
         $db = eZDB::instance();
         $rows = $db->arrayQuery( $sql );

@@ -112,8 +112,8 @@ class eZContentObjectStateGroup extends eZPersistentObject
 
         $conditionsSQL = implode( ' AND ', $conditions );
 
-        $sql = "SELECT * \r\n" .
-               "FROM ezcobj_state_group, ezcobj_state_group_language \r\n".
+        $sql = "SELECT * " .
+               "FROM ezcobj_state_group, ezcobj_state_group_language ".
                "WHERE $conditionsSQL";
 
         $rows = $db->arrayQuery( $sql, array( 'limit' => $limit, 'offset' => $offset ) );
