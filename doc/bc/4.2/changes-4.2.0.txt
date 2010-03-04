@@ -87,4 +87,4 @@ Removed globals
 
 - eZMailTransport
 
-  eZMailTransport doesn't use globals anymore.
+  eZMailTransport does not use globals anymore.
