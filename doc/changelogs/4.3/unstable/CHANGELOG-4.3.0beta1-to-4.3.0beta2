@@ -12,6 +12,7 @@ Changes from 4.3.0beta1 to 4.3.0beta2
 *Package system:
 
 *Scripts:
+- Fixed bug #15522: Upgrade script for node assignments which are left behind
 
 *Translations:
 
