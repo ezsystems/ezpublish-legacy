@@ -46,6 +46,12 @@ INI setting changes
   So as of 4.3, setting in admin siteaccess is this by default:
   CachedViewPreferences[full]=admin_navigation_content=1;admin_children_viewmode=list;admin_list_limit=1
 
+- site.ini [MailSettings]TransportAlias
+
+  Added the list of available mail transports, used by the class eZMailTransport
+  to instantiate the transport class based on the setting [MailSettings]Transport
+  when sending an email.
+
 
 Change of behavior 
 -------------------
@@ -147,4 +153,8 @@ Removed globals
 - eZTemplateInstance
 
   eZTemplate::instance() now uses static variable instead.
+
+- eZMailTransport
+
+  eZMailTransport doesn't use globals anymore.
 

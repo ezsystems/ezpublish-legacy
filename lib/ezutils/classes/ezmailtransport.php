@@ -64,29 +64,19 @@ class eZMailTransport
         $ini = eZINI::instance();
 
         $transportType = trim( $ini->variable( 'MailSettings', 'Transport' ) );
-        $globalsKey = 'eZMailTransportHandler_' . strtolower( $transportType );
-        if ( !isset( $GLOBALS[$globalsKey] ) ||
-             !( $GLOBALS[$globalsKey] instanceof eZMailTransport ) )
+
+        $optionArray = array( 'iniFile'      => 'site.ini',
+                              'iniSection'   => 'MailSettings',
+                              'iniVariable'  => 'TransportAlias',
+                              'handlerIndex' => strtolower( $transportType ) );
+        $options = new ezpExtensionOptions( $optionArray );
+        $transportClass = eZExtension::getHandlerClass( $options );
+
+		if ( !is_object( $transportClass ) )
         {
-            $transportClassFile = 'ez' . strtolower( $transportType ) . 'transport.php';
-            $transportClassPath = 'lib/ezutils/classes/' . $transportClassFile;
-            $transportClass = 'eZ' . $transportType . 'Transport';
-            if ( !file_exists( $transportClassPath ) )
-            {
-                eZDebug::writeError( "Unknown mail transport type '$transportType', cannot send mail",
-                                     'eZMailTransport::send' );
-                return false;
-            }
-            include_once( $transportClassPath );
-            if ( !class_exists( $transportClass ) )
-            {
-                eZDebug::writeError( "No class available for mail transport type '$transportType', cannot send mail",
-                                     'eZMailTransport::send' );
-                return false;
-            }
-            $GLOBALS[$globalsKey] = new $transportClass();
+            eZDebug::writeError( "No class available for mail transport type '$transportType', cannot send mail", 'eZMailTransport::send' );
         }
-        return $GLOBALS[$globalsKey]->sendMail( $mail );
+        return $transportClass->sendMail( $mail );
     }
 }
 
