@@ -567,7 +567,7 @@ class eZURLAliasML extends eZPersistentObject
             // See if there is already a node in the same level with the same action
             if ( $newElementID === null )
             {
-                $query = "SELECT * FROM ezurlalias_ml\n" .
+                $query = "SELECT * FROM ezurlalias_ml " .
                          "WHERE parent = $parentID AND action = '{$actionStr}' AND is_original = 1 AND is_alias = 0";
                 $rows = $db->arrayQuery( $query );
                 if ( count( $rows ) > 0 )
@@ -581,7 +581,7 @@ class eZURLAliasML extends eZPersistentObject
             {
                 // Check if an already existing entry at the same level exists, with a different id
                 // if so the id must be updated.
-                $query = "SELECT * FROM ezurlalias_ml\n" .
+                $query = "SELECT * FROM ezurlalias_ml " .
                          "WHERE parent = $parentID AND action = '{$actionStr}' AND is_original = 1 AND is_alias = 0";
                 $rows = $db->arrayQuery( $query );
                 if ( count( $rows ) > 0 )
@@ -601,7 +601,7 @@ class eZURLAliasML extends eZPersistentObject
 
                 $bitOr = $db->bitOr( $db->bitAnd( 'lang_mask', ~1 ), $languageMask );
                 // Note: The `text` field is updated too, this ensures case-changes are stored.
-                $query = "UPDATE ezurlalias_ml SET link = id, lang_mask = {$bitOr}, text = '{$textEsc}', action = '{$actionStr}', action_type = '{$actionTypeStr}', is_alias = 0, is_original = 1\n" .
+                $query = "UPDATE ezurlalias_ml SET link = id, lang_mask = {$bitOr}, text = '{$textEsc}', action = '{$actionStr}', action_type = '{$actionTypeStr}', is_alias = 0, is_original = 1 " .
                          "WHERE parent = $parentID AND text_md5 = {$textMD5}";
                 $res = $db->query( $query );
                 if ( !$res ) return eZURLAliasML::dbError( $db );
@@ -626,7 +626,7 @@ class eZURLAliasML extends eZPersistentObject
             $bitAnd = $db->bitAnd( 'lang_mask', $languageID );
 
             // First we look at the entries to mark as history entries, if an entry comprise more languages, it must not be set as history element.
-            $query = "SELECT * FROM ezurlalias_ml\n" .
+            $query = "SELECT * FROM ezurlalias_ml " .
                      "WHERE action = '{$actionStr}' AND (${bitAnd} > 0) AND is_original = 1 AND is_alias = 0 AND (parent != $parentID OR text_md5 != {$textMD5})";
             $toBeUpdated = $db->arrayQuery( $query );
 
@@ -649,7 +649,7 @@ class eZURLAliasML extends eZPersistentObject
                 else
                 {
                     // Mark as history element.
-                    $query = "UPDATE ezurlalias_ml SET is_original = 0\n" .
+                    $query = "UPDATE ezurlalias_ml SET is_original = 0 " .
                              "WHERE action = '{$actionStr}' AND (${bitAnd} > 0) AND is_original = 1 AND is_alias = 0 AND (parent != $parentID OR text_md5 != {$textMD5})";
                     $res = $db->query( $query );
                     if ( !$res ) return eZURLAliasML::dbError( $db );
@@ -660,7 +660,7 @@ class eZURLAliasML extends eZPersistentObject
             // Look for other nodes with the same action and language
             // if found make then link to the new entry
             $bitAnd = $db->bitAnd( 'lang_mask', $languageID );
-            $query = "SELECT * FROM ezurlalias_ml\n" .
+            $query = "SELECT * FROM ezurlalias_ml " .
                      "WHERE action = '{$actionStr}' AND (${bitAnd} > 0) AND is_original = 0 AND (parent != $parentID OR text_md5 != {$textMD5})";
             $rows = $db->arrayQuery( $query );
             foreach ( $rows as $row )
@@ -674,7 +674,7 @@ class eZURLAliasML extends eZPersistentObject
                 $textMD5Tmp = eZURLALiasML::md5( $db, $row['text'] );
 
                 // OMS-urlalias-fix: We do not touch the lang_mask here
-                $res = $db->query( "UPDATE ezurlalias_ml SET id = {$idtmp}, link = {$newElementID}, is_alias = 0, is_original = 0\n" .
+                $res = $db->query( "UPDATE ezurlalias_ml SET id = {$idtmp}, link = {$newElementID}, is_alias = 0, is_original = 0 " .
                                    "WHERE parent = {$parentIDTmp} AND text_md5 = {$textMD5Tmp}" );
                 if ( !$res ) return eZURLAliasML::dbError( $db );
             }
@@ -686,7 +686,7 @@ class eZURLAliasML extends eZPersistentObject
             // OMS-urlalias-fix: We only want to update the links of entries within the same language.
             // Also, only to be applied on normal entries, not custom aliases
             $bitAnd = $db->bitAnd( 'lang_mask', $languageID );
-            $query = "UPDATE ezurlalias_ml SET link = {$newElementID}, is_alias = 0, is_original = 0\n" .
+            $query = "UPDATE ezurlalias_ml SET link = {$newElementID}, is_alias = 0, is_original = 0 " .
                      "WHERE action = '{$actionStr}' AND is_original = 0 AND is_alias = 0 AND (${bitAnd} > 0) AND (parent != $parentID OR text_md5 != {$textMD5})";
             $res = $db->query( $query );
             if ( !$res ) return eZURLAliasML::dbError( $db );
@@ -713,13 +713,13 @@ class eZURLAliasML extends eZPersistentObject
             // OMS-urlalias-fix: We are only updating child nodes within the same language,
             // and only for real system-generated url aliases. Custom aliases are left alone.
             $bitAnd = $db->bitAnd( 'lang_mask', $languageID );
-            $query = "SELECT id FROM ezurlalias_ml\n" .
+            $query = "SELECT id FROM ezurlalias_ml " .
                      "WHERE action = '{$actionStr}' AND is_alias = 0 AND (parent != $parentID OR text_md5 != {$textMD5})";
             $rows = $db->arrayQuery( $query );
             foreach ( $rows as $row )
             {
                 $oldParentID = (int)$row['id'];
-                $query = "UPDATE ezurlalias_ml SET parent = {$newElementID}\n" .
+                $query = "UPDATE ezurlalias_ml SET parent = {$newElementID} " .
                          "WHERE parent = {$oldParentID} AND (${bitAnd} > 0)";
                 $res = $db->query( $query );
                 if ( !$res ) return eZURLAliasML::dbError( $db );
@@ -1241,7 +1241,7 @@ class eZURLAliasML extends eZPersistentObject
             ++$i;
         }
         $elementOffset = $i - 1;
-        $query = "SELECT DISTINCT " . join( ", ", $selects ) . "\nFROM " . join( ", ", $tables ) . "\nWHERE " . join( "\nAND ", $conds );
+        $query = "SELECT DISTINCT " . join( ", ", $selects ) . " FROM " . join( ", ", $tables ) . " WHERE " . join( " AND ", $conds );
 
         $pathRows = $db->arrayQuery( $query );
         $elements = array();
@@ -1527,7 +1527,7 @@ class eZURLAliasML extends eZPersistentObject
             ++$i;
         }
 
-        $query = "SELECT " . join( ", ", $selects ) . "\nFROM " . join( ", ", $tables ) . "\nWHERE " . join( "\nAND ", $conds );
+        $query = "SELECT " . join( ", ", $selects ) . " FROM " . join( ", ", $tables ) . " WHERE " . join( " AND ", $conds );
         $return = false;
         $urlAliasArray = $db->arrayQuery( $query, array( 'limit' => 1 ) );
         if ( count( $urlAliasArray ) > 0 )

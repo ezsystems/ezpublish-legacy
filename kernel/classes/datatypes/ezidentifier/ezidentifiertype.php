@@ -278,11 +278,11 @@ class eZIdentifierType extends eZDataType
 
         $db = eZDB::instance();
 
-        $existingIDs = $db->arrayQuery( "SELECT data_int\n" .
-                                        "FROM   ezcontentobject_attribute\n" .
-                                        "WHERE  contentobject_id = $objectID AND\n" .
-                                        "       contentclassattribute_id = $classAttributeID AND\n" .
-                                        "       data_type_string = 'ezidentifier' AND\n" .
+        $existingIDs = $db->arrayQuery( "SELECT data_int " .
+                                        "FROM   ezcontentobject_attribute " .
+                                        "WHERE  contentobject_id = $objectID AND" .
+                                        "       contentclassattribute_id = $classAttributeID AND" .
+                                        "       data_type_string = 'ezidentifier' AND" .
                                         "       data_int != 0" );
         if ( count( $existingIDs ) > 0 )
         {
@@ -322,10 +322,10 @@ class eZIdentifierType extends eZDataType
                 $sortText = $db->escapeString( $trans->transformByGroup( $contentObjectAttribute->attribute( 'data_text' ),
                                                                          'lowercase' ) );
 
-                $db->query( "UPDATE ezcontentobject_attribute\n" .
-                            "SET    data_text = '$dataText', data_int = $dataInt, sort_key_string = '$sortText'\n" .
-                            "WHERE  contentobject_id = $objectID AND\n" .
-                            "       contentclassattribute_id = $classAttributeID AND\n" .
+                $db->query( "UPDATE ezcontentobject_attribute " .
+                            "SET    data_text = '$dataText', data_int = $dataInt, sort_key_string = '$sortText' " .
+                            "WHERE  contentobject_id = $objectID AND" .
+                            "       contentclassattribute_id = $classAttributeID AND" .
                             "       data_type_string = 'ezidentifier'" );
             }
 

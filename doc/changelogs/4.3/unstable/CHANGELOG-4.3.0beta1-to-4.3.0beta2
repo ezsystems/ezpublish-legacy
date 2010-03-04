@@ -30,3 +30,4 @@ Changes from 4.3.0beta1 to 4.3.0beta2
 - Fixed bug #16248: wrong use of array_intersect() in ezsubtreenotificationrule.php
 - Fixed bug #16048: eZTextFileUser login fail on mysql master/slave
 - Fixed bug #16288: New mail transport classes can not be placed inside extension
+- Fixed bug #16272: Formatting of SQL queries causes warnings in Postgresql

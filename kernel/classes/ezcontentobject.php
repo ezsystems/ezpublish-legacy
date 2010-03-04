@@ -659,20 +659,20 @@ class eZContentObject extends eZPersistentObject
 
             if ( !empty( $langCodeQuotedString ) )
             {
-                $languageText = "AND\n\t\t";
+                $languageText = "AND ";
                 $languageText .= $db->generateSQLINStatement( $langCodeQuotedString, 'ezcontentobject_attribute.language_code' );
             }
         }
 
         if ( !isset( $languageText ) )
         {
-            $languageText = "AND\n\t\t\t" . eZContentLanguage::sqlFilter( 'ezcontentobject_attribute', 'ezcontentobject_version' );
+            $languageText = "AND " . eZContentLanguage::sqlFilter( 'ezcontentobject_attribute', 'ezcontentobject_version' );
         }
 
-        $versionText = "AND\n\t\t ezcontentobject_attribute.version = '$version'";
+        $versionText = "AND ezcontentobject_attribute.version = '$version'";
 
-        $query = "SELECT\t ezcontentobject_attribute.*, ezcontentclass_attribute.identifier as identifier
-            FROM\t ezcontentobject_attribute, ezcontentclass_attribute, ezcontentobject_version
+        $query = "SELECT ezcontentobject_attribute.*, ezcontentclass_attribute.identifier as identifier
+            FROM ezcontentobject_attribute, ezcontentclass_attribute, ezcontentobject_version
             WHERE
                 ezcontentclass_attribute.version = ". eZContentClass::VERSION_STATUS_DEFINED . " AND
                 ezcontentclass_attribute.id = ezcontentobject_attribute.contentclassattribute_id AND
@@ -2022,18 +2022,18 @@ class eZContentObject extends eZPersistentObject
         if ( !$language || !isset( $this->ContentObjectAttributes[$version][$language] ) )
         {
 //             print( "uncached<br>" );
-            $versionText = "AND\n                    ezcontentobject_attribute.version = '$version'";
+            $versionText = "AND                    ezcontentobject_attribute.version = '$version'";
             if ( $language )
             {
-                $languageText = "AND\n                    ezcontentobject_attribute.language_code = '$language'";
+                $languageText = "AND                    ezcontentobject_attribute.language_code = '$language'";
             }
             else
             {
-                $languageText = "AND\n                    ".eZContentLanguage::sqlFilter( 'ezcontentobject_attribute', 'ezcontentobject_version' );
+                $languageText = "AND                    ".eZContentLanguage::sqlFilter( 'ezcontentobject_attribute', 'ezcontentobject_version' );
             }
             $attributeIDText = false;
             if ( $contentObjectAttributeID )
-                $attributeIDText = "AND\n                    ezcontentobject_attribute.id = '$contentObjectAttributeID'";
+                $attributeIDText = "AND                    ezcontentobject_attribute.id = '$contentObjectAttributeID'";
             $distinctText = false;
             if ( $distinctItemsOnly )
                 $distinctText = "GROUP BY ezcontentobject_attribute.id";
@@ -4496,8 +4496,8 @@ class eZContentObject extends eZPersistentObject
             }
 
             $filterTableSQL = ', ezcontentclass_classgroup ccg';
-            $filterSQL = ( " AND\n" .
-                           "      cc.id = ccg.contentclass_id AND\n" .
+            $filterSQL = ( " AND" .
+                           "      cc.id = ccg.contentclass_id AND" .
                            "      " );
             $filterSQL .= $db->generateSQLINStatement( $groupList, 'ccg.group_id', !$includeFilter, true, 'int' );
         }
@@ -4508,9 +4508,9 @@ class eZContentObject extends eZPersistentObject
         {
             // If $asObject is true we fetch all fields in class
             $fields = $asObject ? "cc.*, $classNameFilter[nameField]" : "cc.id, $classNameFilter[nameField]";
-            $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
-                                     "FROM ezcontentclass cc$filterTableSQL, $classNameFilter[from]\n" .
-                                     "WHERE cc.version = " . eZContentClass::VERSION_STATUS_DEFINED . " $filterSQL AND $classNameFilter[where]\n" .
+            $rows = $db->arrayQuery( "SELECT DISTINCT $fields " .
+                                     "FROM ezcontentclass cc$filterTableSQL, $classNameFilter[from] " .
+                                     "WHERE cc.version = " . eZContentClass::VERSION_STATUS_DEFINED . " $filterSQL AND $classNameFilter[where] " .
                                      "ORDER BY $classNameFilter[nameField] ASC" );
             $classList = eZPersistentObject::handleRows( $rows, 'eZContentClass', $asObject );
         }
@@ -4525,10 +4525,10 @@ class eZContentObject extends eZPersistentObject
             $classIDCondition = $db->generateSQLInStatement( $classIDArray, 'cc.id' );
             // If $asObject is true we fetch all fields in class
             $fields = $asObject ? "cc.*, $classNameFilter[nameField]" : "cc.id, $classNameFilter[nameField]";
-            $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
-                                     "FROM ezcontentclass cc$filterTableSQL, $classNameFilter[from]\n" .
-                                     "WHERE $classIDCondition AND\n" .
-                                     "      cc.version = " . eZContentClass::VERSION_STATUS_DEFINED . " $filterSQL AND $classNameFilter[where]\n" .
+            $rows = $db->arrayQuery( "SELECT DISTINCT $fields " .
+                                     "FROM ezcontentclass cc$filterTableSQL, $classNameFilter[from] " .
+                                     "WHERE $classIDCondition AND" .
+                                     "      cc.version = " . eZContentClass::VERSION_STATUS_DEFINED . " $filterSQL AND $classNameFilter[where] " .
                                      "ORDER BY $classNameFilter[nameField] ASC" );
             $classList = eZPersistentObject::handleRows( $rows, 'eZContentClass', $asObject );
         }

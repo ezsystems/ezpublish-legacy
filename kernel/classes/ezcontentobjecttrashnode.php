@@ -247,7 +247,7 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
 
         if ( $asCount )
         {
-            $query = "SELECT count(*) as count \n";
+            $query = "SELECT count(*) as count ";
         }
         else
         {
@@ -257,7 +257,7 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
                         ezcontentclass.serialized_name_list as class_serialized_name_list,
                         ezcontentclass.identifier as class_identifier
                         $versionNameTargets
-                        $sortingInfo[attributeTargetSQL] \n";
+                        $sortingInfo[attributeTargetSQL] ";
         }
         $query .= "FROM
                         ezcontentobject_trash ezcot,
