@@ -176,10 +176,10 @@ class eZOrderStatusHistory extends eZPersistentObject
         $db = eZDB::instance();
 
         $orderID = (int)$orderID;
-        $rows = $db->arrayQuery(  "SELECT ezorder_status_history.*, ezorder_status.name AS status_name\n" .
-                                  "FROM ezorder_status_history, ezorder_status\n" .
-                                  "WHERE order_id = $orderID AND\n" .
-                                  "      ezorder_status.status_id = ezorder_status_history.status_id\n" .
+        $rows = $db->arrayQuery(  "SELECT ezorder_status_history.*, ezorder_status.name AS status_name " .
+                                  "FROM ezorder_status_history, ezorder_status " .
+                                  "WHERE order_id = $orderID AND" .
+                                  "      ezorder_status.status_id = ezorder_status_history.status_id " .
                                   "ORDER BY ezorder_status_history.modified DESC" );
 
         return eZPersistentObject::handleRows( $rows, 'eZOrderStatusHistory', $asObject );
