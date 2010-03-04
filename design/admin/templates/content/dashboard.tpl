@@ -42,7 +42,7 @@
 <div class="object-right">
     {$right_blocks|implode('')}
 </div>
-<div class="float-break"></div>
+<div class="break"></div>
 </div>
 
 
