@@ -11,6 +11,12 @@ image.ini
   This change is to ensure that animated GIFs can be resized using default settings.
   Also implemented in 4.2.0 and 4.0.7.
 
+- site.ini [MailSettings]TransportAlias
+
+  Added the list of available mail transports, used by the class eZMailTransport
+  to instantiate the transport class based on the setting [MailSettings]Transport
+  when sending an email.
+
 
 Renamed methods
 ---------------
@@ -18,3 +24,11 @@ Renamed methods
 - eZSoapRequest::namespace() -> eZSoapRequest::ns()
 
   Renamed for php 5.3 support, see issue #13825.
+
+
+Removed globals
+---------------
+
+- eZMailTransport
+
+  eZMailTransport doesn't use globals anymore.
