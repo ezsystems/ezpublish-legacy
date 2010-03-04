@@ -11,6 +11,12 @@ image.ini
   This change is to ensure that animated GIFs can be resized using default settings.
   Also implemented in 4.1.4 and 4.0.7.
 
+- site.ini [MailSettings]TransportAlias
+
+  Added the list of available mail transports, used by the class eZMailTransport
+  to instantiate the transport class based on the setting [MailSettings]Transport
+  when sending an email.
+
 
 Change of behaviour
 -------------------
@@ -75,3 +81,10 @@ Removed methods
 ---------------
 Deprecated and removed eZExpiryHandler::IsModified() as it wasn't useful. Use
 the property eZExpiryHandler->IsModified instead.
+
+Removed globals
+---------------
+
+- eZMailTransport
+
+  eZMailTransport doesn't use globals anymore.
