@@ -93,7 +93,7 @@ class eZMySQLDB extends eZDBInterface
             }
             else
             {
-                $connection =& $this->DBWriteConnection;
+                $connection = $this->DBWriteConnection;
             }
 
             if ( $connection and $this->DBWriteConnection )
@@ -796,7 +796,8 @@ class eZMySQLDB extends eZDBInterface
     {
         if ( $this->IsConnected )
         {
-            mysql_close( $this->DBConnection );
+            if ( $this->UseSlaveServer === true )
+                mysql_close( $this->DBConnection );
             mysql_close( $this->DBWriteConnection );
         }
     }

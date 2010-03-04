@@ -772,7 +772,8 @@ class eZMySQLiDB extends eZDBInterface
     {
         if ( $this->IsConnected )
         {
-            mysqli_close( $this->DBConnection );
+            if ( $this->UseSlaveServer === true )
+                mysqli_close( $this->DBConnection );
             mysqli_close( $this->DBWriteConnection );
         }
     }

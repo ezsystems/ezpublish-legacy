@@ -32,3 +32,4 @@ Changes from 4.3.0beta1 to 4.3.0beta2
 - Fixed bug #16288: New mail transport classes can not be placed inside extension
 - Fixed bug #16272: Formatting of SQL queries causes warnings in Postgresql
 - Fixed bug #16327: Normalise the error handling across mysql, mysqli and postgresql
+- Fixed bug #16334: Database connection shouldn't be closed twice with MySQL/MySQLi backends
