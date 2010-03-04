@@ -332,8 +332,11 @@ YUI( YUI3_config ).add('io-ez', function( Y )
         else
             $searchLimit = 10;
 
-        // Do not allow to search for more then 50 items at a time
-        if ( $searchLimit > 50 ) $searchLimit = 50;
+        // Do not allow to search for more then x items at a time
+        $ini = eZINI::instance();
+        $maximumSearchLimit = $ini->variable( 'SearchSettings', 'MaximumSearchLimit' );
+        if ( $searchLimit > $maximumSearchLimit )
+            $searchLimit = $maximumSearchLimit;
 
         // Prepare node encoding parameters
         $encodeParams = array();
