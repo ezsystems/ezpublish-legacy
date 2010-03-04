@@ -453,7 +453,8 @@ class eZMySQLDB extends eZDBInterface
             }
             else
             {
-                eZDebug::writeError( "Query error: " . mysql_error( $connection ) . ". Query: ". $sql, "eZMySQLDB"  );
+                $errorMessage = "Query error: " . mysql_error( $connection ) . ". Query: ". $sql;
+                eZDebug::writeError( $errorMessage, "eZMySQLDB"  );
                 $oldRecordError = $this->RecordError;
                 // Turn off error handling while we unlock
                 $this->RecordError = false;
@@ -461,6 +462,10 @@ class eZMySQLDB extends eZDBInterface
                 $this->RecordError = $oldRecordError;
 
                 $this->reportError();
+
+                // This is to behave the same way as other RDBMS PHP API as PostgreSQL
+                // functions which throws an error with a failing request.
+                trigger_error( "mysql_query(): $errorMessage", E_USER_ERROR );
 
                 return false;
             }

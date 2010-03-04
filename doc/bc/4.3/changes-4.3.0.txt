@@ -83,6 +83,12 @@ Change of behavior
   instead make sure you call $tpl->resetVariables(); after you get instance instead.
   Note: this function has also been deprecated, use eZTemplate::factory()
 
+- Function query() of eZMySQLDB and eZMySQLiDB triggers an E_USER_ERROR in case of error
+
+  Previously, executing a bad query only resulted in "false" being returned as
+  well as an error entry in the var/error.log file. Now, executing a bad query
+  will stop the execution to have a common error handling between PostgreSQL,
+  MySQL and MySQLi backends.
 
 eZContentClass::instantiate() changes
 -------------------------------------
