@@ -586,14 +586,14 @@ div.popupmenu hr
     padding-bottom: 1em;
 }
 
-.box-ml
-{
-    /*padding: 0.2em;*/
-}
-
-.box-bc .box-ml, .box-header .box-ml
+.box-header
 {
     padding: 0.1em 0em 0.1em 0em; /* 0.1 needed to avoid gaps in border */
+}
+
+.box-bc .box-ml, .box-ml
+{
+    padding: 0em;
 }
 
 #controlbar-top .box-bc
