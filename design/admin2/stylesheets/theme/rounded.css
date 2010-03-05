@@ -230,29 +230,16 @@ p.table-preferences
     background: #D1DFE9 url(../../images/2/gradient-to-darker.png) repeat-x center bottom scroll;
 }
 
-p.table-preferences :first-child
+p.table-preferences > a, span
 {
-    border-right: 1px solid #ccc;
+    border: solid #CCC;
+    border-width: 0 1px 0 0;
+    padding-right: 1em;
 }
 
 p.table-preferences :last-child
 {
-    border-left: 1px solid #ccc;
-}
-
-p.table-preferences .current:first-child
-{
-    -moz-border-radius-bottomleft: 3px;
-    -webkit-border-bottom-left-radius: 3px;
-    border-bottom-left-radius: 3px;
-    border-left: 1px;
-}
-
-p.table-preferences .current:last-child
-{
-    -moz-border-radius-bottomright: 3px;
-    -webkit-border-bottom-right-radius: 3px;
-    border-bottom-right-radius: 3px;
+    border-right: 0px;
 }
 
 input.button, input.defaultbutton, input.button-disabled
