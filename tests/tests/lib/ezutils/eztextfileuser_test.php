@@ -17,7 +17,7 @@ class eZTextFileUserTest extends ezpDatabaseTestCase
     {
         parent::setUp();
 
-        ezpINIHelper::setINISetting( 'site.ini', 'UserSettings', 'LoginHandler[]', textfile );
+        ezpINIHelper::setINISetting( 'site.ini', 'UserSettings', 'LoginHandler[]', 'textfile' );
 
         ezpINIHelper::setINISetting( 'textfile.ini', 'TextFileSettings', 'TextFileEnabled', 'true' );
 
