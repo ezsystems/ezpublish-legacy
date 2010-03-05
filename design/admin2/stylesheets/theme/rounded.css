@@ -230,7 +230,7 @@ p.table-preferences
     background: #D1DFE9 url(../../images/2/gradient-to-darker.png) repeat-x center bottom scroll;
 }
 
-p.table-preferences > a, span
+p.table-preferences > a, p.table-preferences > span
 {
     border: solid #CCC;
     border-width: 0 1px 0 0;
