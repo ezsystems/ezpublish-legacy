@@ -1,6 +1,6 @@
 <?php
 
-class eZTextFileUserTest extends ezpTestCase
+class eZTextFileUserTest extends ezpDatabaseTestCase
 {
     public $username = 'foobar';
     public $password = 'foobar';
@@ -17,21 +17,28 @@ class eZTextFileUserTest extends ezpTestCase
     {
         parent::setUp();
 
-        $this->ini = eZINI::instance();
-        $this->ini->setVariable( 'UserSettings', 'LoginHandler[]', 'textfile' );
-        $this->ini->setVariable( 'TextFileSettings', 'TextFileEnabled', 'true' );
+        ezpINIHelper::setINISetting( 'site.ini', 'UserSettings', 'LoginHandler[]', textfile );
 
-        // this text file contains a new line at the end, which causes issue #16322
-        $this->ini->setVariable( 'TextFileSettings', 'FileName', 'textfile.csv' );
-        $this->ini->setVariable( 'TextFileSettings', 'FilePath', dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'data' );
-        $this->ini->setVariable( 'TextFileSettings', 'FileFieldSeparator', ',' );
-        $this->ini->setVariable( 'TextFileSettings', 'DefaultUserGroupType', 'id' );
-        $this->ini->setVariable( 'TextFileSettings', 'DefaultUserGroup', '13' );
-        $this->ini->setVariable( 'TextFileSettings', 'LoginAttribute', '1' );
-        $this->ini->setVariable( 'TextFileSettings', 'PasswordAttribute', '3' );
-        $this->ini->setVariable( 'TextFileSettings', 'FirstNameAttribute', '4' );
-        $this->ini->setVariable( 'TextFileSettings', 'LastNameAttribute', '5' );
-        $this->ini->setVariable( 'TextFileSettings', 'EmailAttribute', '2' );
+        ezpINIHelper::setINISetting( 'textfile.ini', 'TextFileSettings', 'TextFileEnabled', 'true' );
+
+        // the textfile.csv file contains a new line at the end, which causes issue #16322
+        ezpINIHelper::setINISetting( 'textfile.ini', 'TextFileSettings', 'FileName', 'textfile.csv' );
+        ezpINIHelper::setINISetting( 'textfile.ini', 'TextFileSettings', 'FilePath', dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'data' );
+        ezpINIHelper::setINISetting( 'textfile.ini', 'TextFileSettings', 'FileFieldSeparator', ',' );
+        ezpINIHelper::setINISetting( 'textfile.ini', 'TextFileSettings', 'DefaultUserGroupType', 'id' );
+        ezpINIHelper::setINISetting( 'textfile.ini', 'TextFileSettings', 'DefaultUserGroup', '13' );
+        ezpINIHelper::setINISetting( 'textfile.ini', 'TextFileSettings', 'LoginAttribute', '1' );
+        ezpINIHelper::setINISetting( 'textfile.ini', 'TextFileSettings', 'PasswordAttribute', '3' );
+        ezpINIHelper::setINISetting( 'textfile.ini', 'TextFileSettings', 'FirstNameAttribute', '4' );
+        ezpINIHelper::setINISetting( 'textfile.ini', 'TextFileSettings', 'LastNameAttribute', '5' );
+        ezpINIHelper::setINISetting( 'textfile.ini', 'TextFileSettings', 'EmailAttribute', '2' );
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        ezpINIHelper::restoreINISettings();
     }
 
     /**
