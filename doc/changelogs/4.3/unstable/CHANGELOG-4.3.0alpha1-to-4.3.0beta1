@@ -10,6 +10,7 @@ Changes from 4.3.0alpha1 to 4.3.0beta1
 - Implemented enhancement #16202: Deprecate imageInit()
 - Implemented enhancement #16216: Deprecate templateInit()
 - Implemented enhancement #16228: Rename ezpI18n::translate() to something shorter like ezpI18n::tr()
+- Implemented enhancement #15793: eZDFS: Image files and aliases are not removed when a objectversion is deleted
 
 *Design:
 
