@@ -358,7 +358,6 @@ jQuery(function( $ )//called on document.ready
     	// swap items in dom
     	if ( up )
     	{
-
             var swap = tr.prev();
         	if ( !swap.size() )
                 return false;
@@ -384,7 +383,7 @@ jQuery(function( $ )//called on document.ready
         return false;
     });
 
-    // disable bottom datatype dropp down when using button in top
+    // Disable bottom datatype dropp down when using new button in top
     jQuery('#NewButtonTop').click(function()
     {
         jQuery('#DataTypeString').attr('disabled', true);
