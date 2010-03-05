@@ -18,11 +18,11 @@ var rightMenuWidthControl = function()
         {
         	maincolumn.animate({
                 marginRight: '180px'
-            }, 650, 'swing');
+            }, 300, 'swing');
 
             rightmenu.animate({
                 width: '181px'
-            }, 650, 'swing', function(){
+            }, 300, 'swing', function(){
                 timeout = setTimeout( saveRightMenuStatus, 500 );
             } );
         }
@@ -30,11 +30,11 @@ var rightMenuWidthControl = function()
         {
         	maincolumn.animate({
                 marginRight: '17px'
-            }, 650, 'swing');
+            }, 300, 'swing');
 
         	rightmenu.animate({
                 width: '18px'
-            }, 650, 'swing', function(){
+            }, 300, 'swing', function(){
                 timeout = setTimeout( saveRightMenuStatus, 500 );
             } );
         }
