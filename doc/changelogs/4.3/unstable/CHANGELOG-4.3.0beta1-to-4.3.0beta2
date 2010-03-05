@@ -2,6 +2,7 @@ Changes from 4.3.0beta1 to 4.3.0beta2
 
 *Kernel:
 - Implemented enhancement #16226: Translation of custom admin menu items - improved
+- Implemented enhancement #16351: Add date picker on ezdate and ezdatetime in admin2 (same as in webin)
 
 *Design:
 

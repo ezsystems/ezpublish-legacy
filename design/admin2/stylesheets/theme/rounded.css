@@ -389,3 +389,15 @@ table.list th, table.special th
 }
 
 
+/* YUI 2 calendar (uses #page to force override) */
+
+#page .yui-calendar .calweekdaycell
+{
+    padding: 0.15em;
+}
+
+#page .yui-calcontainer
+{
+    border-color: #CCCCC3;
+}
+
