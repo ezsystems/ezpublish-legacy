@@ -541,7 +541,6 @@ return array(
       'eZXMLText'                                          => 'kernel/classes/datatypes/ezxmltext/ezxmltext.php',
       'eZXMLTextDiff'                                      => 'lib/ezdiff/classes/ezxmltextdiff.php',
       'eZXMLTextType'                                      => 'kernel/classes/datatypes/ezxmltext/ezxmltexttype.php',
-      'ezpI18n'                                            => 'kernel/common/ezpi18n.php',
       'eZi18nOperator'                                     => 'kernel/common/ezi18noperator.php',
       'ezpAutoloadCliOutput'                               => 'kernel/private/classes/ezpautoloadclioutput.php',
       'ezpAutoloadFileFindContext'                         => 'kernel/private/structs/ezpautoloadfilefindcontext.php',
@@ -549,11 +548,11 @@ return array(
       'ezpAutoloadOutput'                                  => 'kernel/private/interfaces/ezpautoloadoutput.php',
       'ezpAutoloader'                                      => 'autoload.php',
       'ezpExtensionOptions'                                => 'kernel/private/options/ezpextensionoptions.php',
+      'ezpI18n'                                            => 'kernel/common/ezpi18n.php',
       'ezpLanguageSwitcher'                                => 'kernel/private/classes/ezplanguageswitcher.php',
       'ezpLanguageSwitcherCapable'                         => 'kernel/private/interfaces/ezplanguageswitchercapable.php',
       'ezpLanguageSwitcherFunctionCollection'              => 'kernel/private/modules/switchlanguage/ezpLanguageSwitcherFunctionCollection.php',
       'ezpLanguageSwitcherOperator'                        => 'kernel/private/eztemplate/ezplanguageswitcheroperator.php',
-      'smtp'                                               => 'lib/ezutils/classes/ezsmtp.php',
     );
 
 ?>
