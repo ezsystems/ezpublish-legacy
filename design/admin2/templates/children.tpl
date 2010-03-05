@@ -197,17 +197,7 @@
     
         {if and( $node.is_container,  $node.can_create)}
             <input type="hidden" name="NodeID" value="{$node.node_id}" />
-            {if $node.path_array|contains( ezini( 'NodeSettings', 'RootNode', 'content.ini' ) )}
-                {def $can_create_classes = fetch( 'content', 'can_instantiate_class_list', hash( 'group_id', ezini( 'ClassGroupIDs', 'Content', 'content.ini' ), 'parent_node', $node ) )}
-            {elseif $node.path_array|contains( ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) )}
-                {def $can_create_classes = fetch( 'content', 'can_instantiate_class_list', hash( 'group_id', ezini( 'ClassGroupIDs', 'Media', 'content.ini' ), 'parent_node', $node ) )}
-            {elseif $node.path_array|contains( ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) )}
-                {def $can_create_classes = fetch( 'content', 'can_instantiate_class_list', hash( 'group_id', ezini( 'ClassGroupIDs', 'Users', 'content.ini' ), 'parent_node', $node ) )}
-            {elseif $node.path_array|contains( ezini( 'NodeSettings', 'SetupRootNode', 'content.ini' ) )}
-                {def $can_create_classes = fetch( 'content', 'can_instantiate_class_list', hash( 'group_id', ezini( 'ClassGroupIDs', 'Setup', 'content.ini' ), 'parent_node', $node ) )}
-            {else}
-                {def $can_create_classes = fetch( 'content', 'can_instantiate_class_list', hash( 'group_id', array( ezini( 'ClassGroupIDs', 'Users', 'content.ini' ), ezini( 'ClassGroupIDs', 'Setup', 'content.ini' ) ), 'parent_node', $node, 'filter_type', 'exclude' ) )}
-            {/if}
+            {def $can_create_classes = fetch( 'content', 'can_instantiate_class_list', hash( 'parent_node', $node ) )}
         
             {def $can_create_languages = fetch( 'content', 'prioritized_languages' )
                  $content_locale = ezini( 'RegionalSettings', 'ContentObjectLocale' )}
