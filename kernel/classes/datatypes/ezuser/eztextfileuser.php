@@ -233,7 +233,7 @@ class eZTextFileUser extends eZUser
 
             while ( !feof( $handle ) )
             {
-                $line = fgets( $handle, 4096 );
+                $line = trim( fgets( $handle, 4096 ) );
 
                 if ( $separator == "tab" )
                     $userArray = explode( "\t", $line );

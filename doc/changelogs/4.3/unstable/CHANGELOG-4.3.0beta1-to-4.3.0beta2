@@ -37,3 +37,4 @@ Changes from 4.3.0beta1 to 4.3.0beta2
 - Fixed bug #16327: Normalise the error handling across mysql, mysqli and postgresql
 - Fixed bug #16334: Database connection shouldn't be closed twice with MySQL/MySQLi backends
 - Fixed bug #16332: In-memory cache for eZContentClass when clearing class identifier cache
+- Fixed bug #16322: eZTextFileUser makes user names with newline (with patch)
