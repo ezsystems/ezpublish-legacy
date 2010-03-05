@@ -55,6 +55,19 @@ class ezpINIHelper
             $ini->setVariable( $block, $variable, $value );
         }
     }
+    
+    /**
+     * Changes multiple INI settings values using setINISetting
+     * @param array $settings set of INI settings, as an array of 4 values
+     */
+    public static function setINISettings( $settings )
+    {
+        foreach( $settings as $iniSettings )
+        {
+            list( $file, $block, $variable, $value ) = $iniSettings;
+            self::setINISetting( $file, $block, $variable, $value );
+        }
+    }
 
     /**
      * Modified INI settings, as an array of 4 keys array:

@@ -1399,6 +1399,31 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface
     }
 
     /**
+     * eZDFS does require binary purge.
+     * It does store files in DB + on NFS, and therefore doesn't remove files
+     * in real time
+     * 
+     * @since 4.3
+     */
+    public function requiresBinaryPurge()
+    {
+        return true;
+    }
+
+    /**
+     * Fetches the first $limit expired binary items from the DB
+     * 
+     * @param array $limit A 2 items array( offset, limit )
+     * 
+     * @return array(filepath)
+     * @since 4.3.0
+     */
+    public function fetchExpiredBinaryItems( $limit = array( 0 , 100 ) )
+    {
+        return self::$dbbackend->expiredFilesList( array( 'image', 'binaryfile' ), $limit );
+    }
+
+    /**
      * Database backend class
      * Provides metadata operations
      * @var eZDFSFileHandlerMySQLBackend
