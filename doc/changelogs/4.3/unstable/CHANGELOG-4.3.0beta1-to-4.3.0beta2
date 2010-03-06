@@ -39,3 +39,4 @@ Changes from 4.3.0beta1 to 4.3.0beta2
 - Fixed bug #16332: In-memory cache for eZContentClass when clearing class identifier cache
 - Fixed bug #16322: eZTextFileUser makes user names with newline (with patch)
 - Fixed bug #16357: Javascript in error in admin2 if LoadFromCDN is disabled
+- Fixed bug #16358: Missing comment indicator at menu.ini file
