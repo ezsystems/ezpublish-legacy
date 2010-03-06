@@ -77,6 +77,6 @@ $Result['content'] = $tpl->fetch( "design:section/edit.tpl" );
 $Result['path'] = array( array( 'url' => 'section/list',
                                 'text' => ezpI18n::tr( 'kernel/section', 'Sections' ) ),
                          array( 'url' => false,
-                                'text' => $section->attribute('name') ) );
+                                'text' => $section instanceof eZSection ? $section->attribute('name') : $section['name'] ) );
 
 ?>
