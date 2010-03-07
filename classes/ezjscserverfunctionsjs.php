@@ -392,12 +392,12 @@ YUI( YUI3_config ).add('io-ez', function( Y )
                 $params['SearchTimestamp'] = $params['SearchTimestamp'][0];
         }
 
-        if ( self::hasPostValue( $http, 'EnableSpellCheck' ) )
+        if ( self::hasPostValue( $http, 'EnableSpellCheck' ) || self::hasPostValue( $http, 'enable-spellcheck' ) )
         {
             $params['SpellCheck'] = array( true );
         }
 
-        if ( self::hasPostValue( $http, 'GetFacets' ) )
+        if ( self::hasPostValue( $http, 'GetFacets' ) || self::hasPostValue( $http, 'show-facets' ) )
         {
             $params['facet'] = eZFunctionHandler::execute( 'ezfind', 'getDefaultSearchFacets', array() );
         }
@@ -427,28 +427,31 @@ YUI( YUI3_config ).add('io-ez', function( Y )
             // ezfind stuff
             if ( isset( $searchList['SearchExtras'] ) && $searchList['SearchExtras'] instanceof ezfSearchResultInfo )
             {
-                if ( isset( $param['SpellCheck'] ) )
+                if ( isset( $params['SpellCheck'] ) )
                     $result['SearchExtras']['spellcheck'] = $searchList['SearchExtras']->attribute( 'spellcheck' );
+                    
 
-                if ( isset( $param['facet'] ) )
+                if ( isset( $params['facet'] ) )
                 {
                     $facetInfo = array();
                     $retrievedFacets = $searchList['SearchExtras']->attribute( 'facet_fields' );
+                    $baseSearchUrl = "/content/search/";
+                    eZURI::transformURI( $baseSearchUrl, false, 'full' );
 
                     foreach ( $params['facet'] as $key => $defaultFacet )
                     {
                         $facetData       = $retrievedFacets[$key];
-                        $facetInfo[$key] = array( 'name' => $defaultFacet['name'] );
+                        $facetInfo[$key] = array( 'name' => $defaultFacet['name'], 'list' => array() );
                         if ( $facetData !== null )
                         {
                             foreach ( $facetData['nameList'] as $key2 => $facetName )
                             {
                                 if ( $key2 != '' )
                                 {
-                                    $tmp = array( 'name' => $facetName );
-                                    $tmp['url'] = '?SearchText=' . $searchStr . '&filter[]=' . $facetData['queryLimit'][$key2] . '&activeFacets[' . $defaultFacet['field'] . ':' . $defaultFacet['name'] . ']=' . $facetName;
+                                    $tmp = array( 'value' => $facetName );
+                                    $tmp['url'] = $baseSearchUrl . '?SearchText=' . $searchStr . '&filter[]=' . $facetData['queryLimit'][$key2] . '&activeFacets[' . $defaultFacet['field'] . ':' . $defaultFacet['name'] . ']=' . $facetName;
                                     $tmp['count'] = $facetData['countList'][$key2];
-                                    $facetInfo[$key]['list'] = $tmp;
+                                    $facetInfo[$key]['list'][] = $tmp;
                                 }
                             }
                         }
