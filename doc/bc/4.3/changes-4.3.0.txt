@@ -119,7 +119,7 @@ Deprecated functionality
 
 - cronjobs/ldapusermanage.php
   This cronjob will be removed in a future version, functionality is part
-  regular ldap logins. See issue http://issues.ez.no/16319
+  of regular ldap logins. See issue http://issues.ez.no/16319
 
 Renamed methods
 ---------------
