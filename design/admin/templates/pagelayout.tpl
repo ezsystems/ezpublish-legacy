@@ -143,6 +143,9 @@
 <div id="leftmenu">
 <div id="leftmenu-design">
 
+{if is_set( $module_result.left_menu )}
+    {include uri=$module_result.left_menu}
+{else}
 {* 
     Get navigationpart identifier variable depends if the call is an contenobject
     or a custom module 
@@ -161,11 +164,8 @@
 
 {include uri=concat( 'design:parts/', $part_name, '/menu.tpl' )}
 
-{undef $extract_length $part_name}
-
-{section show=is_set( $module_result.left_menu )}
-    {include uri=$module_result.left_menu}
-{/section}
+	{undef $extract_length $part_name $navigation_part_name}
+{/if}
 
 </div>
 </div>

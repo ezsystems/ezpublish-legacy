@@ -449,6 +449,19 @@ class eZURLWildcard extends eZPersistentObject
     }
 
     /**
+     * Checks if the wildcard cache is expired
+     *
+     * @param int $timestamp Timestamp expiry should be checked against
+     *
+     * @return bool true if cache is expired
+     * @deprecated since 4.2.0
+     **/
+    public static function isCacheExpired( $timestamp )
+    {
+        return ( self::expiryTimestamp() > $timestamp );
+    }
+
+    /**
      * Assign function names to input variables. Generates the wildcard cache if
      * expired.
      *
