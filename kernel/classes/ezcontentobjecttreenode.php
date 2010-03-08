@@ -5545,8 +5545,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         if ( count( $pathArray ) > 0 )
         {
-            eZDB::instance()->query( 'UPDATE ezcontentobject_tree SET modified_subnode=' . time() .
-                                     ' WHERE ' . $db->generateSQLINStatement( $pathArray, 'node_id', false, true, 'int' ) );
+            $db = eZDB::instance();
+            $db->query( 'UPDATE ezcontentobject_tree SET modified_subnode=' . time() .
+                        ' WHERE ' . $db->generateSQLINStatement( $pathArray, 'node_id', false, true, 'int' ) );
         }
     }
 
