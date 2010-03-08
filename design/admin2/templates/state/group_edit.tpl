@@ -54,12 +54,13 @@
 <div class="break"></div>
 </div>
 
-<div class="block">
+
 {let $translations=$group.all_translations
      $useFieldsets=$translations|count|gt(1)}
     {foreach $translations as $translation}
     {if $useFieldsets}
-    <fieldset style="margin-bottom:1em;background-color: #fefefb;">
+    <div class="block">
+    <fieldset>
     <legend><img src="{$translation.language.locale|flag_icon}" /> {$translation.language.locale_object.intl_language_name|wash}</legend>
     {/if}
     <label>{"Name:"|i18n('design/admin/state/group_edit')}</label>
@@ -68,9 +69,10 @@
     <textarea rows="6" name="ContentObjectStateGroup_description[]" style="width:99%">{$translation.description|wash}</textarea>
     {if $useFieldsets}
     </fieldset>
+    </div>
     {/if}
     {/foreach}
-</div>
+
 
 {* DESIGN: Content END *}</div></div></div>
 
