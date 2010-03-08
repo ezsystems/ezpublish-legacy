@@ -802,6 +802,19 @@ CREATE SEQUENCE ezrss_import_s
 
 
 
+CREATE SEQUENCE ezscheduled_script_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+
+
+
+
+
+
 CREATE SEQUENCE ezsearch_object_word_link_s
     START 1
     INCREMENT 1
@@ -1417,8 +1430,8 @@ CREATE TABLE ezcontentclass (
     modified integer DEFAULT 0 NOT NULL,
     modifier_id integer DEFAULT 0 NOT NULL,
     remote_id character varying(100) DEFAULT ''::character varying NOT NULL,
-    serialized_name_list text,
     serialized_description_list text,
+    serialized_name_list text,
     sort_field integer DEFAULT 1 NOT NULL,
     sort_order integer DEFAULT 1 NOT NULL,
     url_alias_name character varying(255),
@@ -1433,6 +1446,7 @@ CREATE TABLE ezcontentclass (
 
 CREATE TABLE ezcontentclass_attribute (
     can_translate integer DEFAULT 1,
+    category character varying(25) DEFAULT ''::character varying NOT NULL,
     contentclass_id integer DEFAULT 0 NOT NULL,
     data_float1 double precision,
     data_float2 double precision,
@@ -1447,7 +1461,6 @@ CREATE TABLE ezcontentclass_attribute (
     data_text3 character varying(50),
     data_text4 character varying(255),
     data_text5 text,
-    serialized_data_text text,
     data_type_string character varying(50) DEFAULT ''::character varying NOT NULL,
     id integer DEFAULT nextval('ezcontentclass_attribute_s'::text) NOT NULL,
     identifier character varying(50) DEFAULT ''::character varying NOT NULL,
@@ -1455,10 +1468,10 @@ CREATE TABLE ezcontentclass_attribute (
     is_required integer DEFAULT 0 NOT NULL,
     is_searchable integer DEFAULT 0 NOT NULL,
     placement integer DEFAULT 0 NOT NULL,
-    serialized_name_list text NOT NULL,
+    serialized_data_text text,
     serialized_description_list text,
-    "version" integer DEFAULT 0 NOT NULL,
-    category character varying(25) DEFAULT ''::character varying NOT NULL
+    serialized_name_list text NOT NULL,
+    "version" integer DEFAULT 0 NOT NULL
 );
 
 
@@ -2308,13 +2321,13 @@ CREATE TABLE ezrss_export_item (
     category character varying(255),
     class_id integer,
     description character varying(255),
+    enclosure character varying(255),
     id integer DEFAULT nextval('ezrss_export_item_s'::text) NOT NULL,
     rssexport_id integer,
     source_node_id integer,
     status integer DEFAULT 0 NOT NULL,
     subnodes integer DEFAULT 0 NOT NULL,
-    title character varying(255),
-    enclosure character varying(255)
+    title character varying(255)
 );
 
 
@@ -2340,6 +2353,22 @@ CREATE TABLE ezrss_import (
     object_owner_id integer,
     status integer DEFAULT 0 NOT NULL,
     url text
+);
+
+
+
+
+
+
+
+CREATE TABLE ezscheduled_script (
+    command character varying(255) DEFAULT ''::character varying NOT NULL,
+    id integer DEFAULT nextval('ezscheduled_script_s'::text) NOT NULL,
+    last_report_timestamp integer DEFAULT 0 NOT NULL,
+    name character varying(50) DEFAULT ''::character varying NOT NULL,
+    process_id integer DEFAULT 0 NOT NULL,
+    progress integer DEFAULT 0,
+    user_id integer DEFAULT 0 NOT NULL
 );
 
 
@@ -3579,6 +3608,14 @@ CREATE INDEX ezrss_export_rsseid ON ezrss_export_item USING btree (rssexport_id)
 
 
 
+CREATE INDEX ezscheduled_script_timestamp ON ezscheduled_script USING btree (last_report_timestamp);
+
+
+
+
+
+
+
 CREATE INDEX ezsearch_object_word_link_frequency ON ezsearch_object_word_link USING btree (frequency);
 
 
@@ -4609,6 +4646,15 @@ ALTER TABLE ONLY ezrss_export_item
 
 ALTER TABLE ONLY ezrss_import
     ADD CONSTRAINT ezrss_import_pkey PRIMARY KEY (id, status);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezscheduled_script
+    ADD CONSTRAINT ezscheduled_script_pkey PRIMARY KEY (id);
 
 
 

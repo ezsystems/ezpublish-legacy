@@ -40,3 +40,5 @@ Changes from 4.3.0beta1 to 4.3.0beta2
 - Fixed bug #16357: Javascript in error in admin2 if LoadFromCDN is disabled
 - Fixed bug #16358: Missing comment indicator at menu.ini file
 - Fixed bug #16355: TC-102 - Adding a "Section" returns a Fatal Error
+- Fixed bug #16156: Modification of attribute category leads to database transaction error (ezscheduled_script table missing?)
+

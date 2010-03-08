@@ -1366,12 +1366,12 @@ $schema = array (
         'not_null' => '1',
         'default' => '',
       ),
-      'serialized_name_list' => 
+      'serialized_description_list' => 
       array (
         'type' => 'longtext',
         'default' => false,
       ),
-      'serialized_description_list' => 
+      'serialized_name_list' => 
       array (
         'type' => 'longtext',
         'default' => false,
@@ -1435,6 +1435,13 @@ $schema = array (
         'length' => 11,
         'type' => 'int',
         'default' => 1,
+      ),
+      'category' => 
+      array (
+        'length' => 25,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
       ),
       'contentclass_id' => 
       array (
@@ -1516,11 +1523,6 @@ $schema = array (
         'type' => 'longtext',
         'default' => false,
       ),
-      'serialized_data_text' => 
-      array (
-        'type' => 'longtext',
-        'default' => false,
-      ),
       'data_type_string' => 
       array (
         'length' => 50,
@@ -1568,15 +1570,20 @@ $schema = array (
         'not_null' => '1',
         'default' => 0,
       ),
-      'serialized_name_list' => 
+      'serialized_data_text' => 
       array (
         'type' => 'longtext',
-        'not_null' => '1',
         'default' => false,
       ),
       'serialized_description_list' => 
       array (
         'type' => 'longtext',
+        'default' => false,
+      ),
+      'serialized_name_list' => 
+      array (
+        'type' => 'longtext',
+        'not_null' => '1',
         'default' => false,
       ),
       'version' => 
@@ -1585,13 +1592,6 @@ $schema = array (
         'type' => 'int',
         'not_null' => '1',
         'default' => 0,
-      ),
-      'category' => 
-      array (
-        'length' => 25,
-        'type' => 'varchar',
-        'not_null' => '1',
-        'default' => '',
       ),
     ),
     'indexes' => 
@@ -5517,6 +5517,12 @@ $schema = array (
         'type' => 'varchar',
         'default' => NULL,
       ),
+      'enclosure' => 
+      array (
+        'length' => 255,
+        'type' => 'varchar',
+        'default' => NULL,
+      ),
       'id' => 
       array (
         'type' => 'auto_increment',
@@ -5549,12 +5555,6 @@ $schema = array (
         'default' => 0,
       ),
       'title' => 
-      array (
-        'length' => 255,
-        'type' => 'varchar',
-        'default' => NULL,
-      ),
-      'enclosure' => 
       array (
         'length' => 255,
         'type' => 'varchar',
@@ -5692,6 +5692,78 @@ $schema = array (
         array (
           0 => 'id',
           1 => 'status',
+        ),
+      ),
+    ),
+  ),
+  'ezscheduled_script' => 
+  array (
+    'name' => 'ezscheduled_script',
+    'fields' => 
+    array (
+      'command' => 
+      array (
+        'length' => 255,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+      'id' => 
+      array (
+        'type' => 'auto_increment',
+        'default' => false,
+      ),
+      'last_report_timestamp' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'name' => 
+      array (
+        'length' => 50,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+      'process_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'progress' => 
+      array (
+        'length' => 3,
+        'type' => 'int',
+        'default' => 0,
+      ),
+      'user_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+    ),
+    'indexes' => 
+    array (
+      'PRIMARY' => 
+      array (
+        'type' => 'primary',
+        'fields' => 
+        array (
+          0 => 'id',
+        ),
+      ),
+      'ezscheduled_script_timestamp' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'last_report_timestamp',
         ),
       ),
     ),
