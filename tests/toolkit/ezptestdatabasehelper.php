@@ -117,7 +117,14 @@ class ezpTestDatabaseHelper
         $schemaArray = array_merge( $schemaArray, $dataArray );
 
         $dbSchema = eZDbSchema::instance( $schemaArray );
-        $success = $dbSchema->insertSchema( array( 'schema' => true, 'data' => true ) );
+        if( ( $db instanceof eZMySQLDB ) || ( $db instanceof eZMySQLiDB ) )
+        {
+            $success = $dbSchema->insertSchema( array( 'schema' => true, 'data' => true, 'table_type' => 'innodb' ) );
+        }
+        else
+        {
+            $success = $dbSchema->insertSchema( array( 'schema' => true, 'data' => true ) );
+        }
 
         return $success;
     }
