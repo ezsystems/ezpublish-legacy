@@ -420,7 +420,7 @@ YUI( YUI3_config ).add('io-ez', function( Y )
         {
             $searchList = eZSearch::search( $searchStr, $params );
 
-            $result['SearchResultCount'] = count( $searchList['SearchResult'] );
+            $result['SearchResultCount'] = $searchList['SearchResult'] !== false ? count( $searchList['SearchResult'] ) : 0;
             $result['SearchCount'] = $searchList['SearchCount'];
             $result['SearchResult'] = ezjscAjaxContent::nodeEncode( $searchList['SearchResult'], $encodeParams, false );
 
