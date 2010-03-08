@@ -5541,20 +5541,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     function updateAndStoreModified()
     {
-        $pathArray = explode( '/', $this->attribute( 'path_string' ) );
-        $sql = '';
+        $pathArray = explode( '/', trim( $this->attribute( 'path_string' ), '/' ) );
 
-        for( $pathCount = 1; $pathCount < count( $pathArray ) - 1; ++$pathCount )
+        if ( count( $pathArray ) > 0 )
         {
-            $sql .= ( $pathCount != 1 ? 'OR ' : '' ) . 'node_id=\'' . $pathArray[$pathCount] . '\' ';
-        }
-
-        if ( $sql != '' )
-        {
-            $sql = 'UPDATE ezcontentobject_tree SET modified_subnode=' . time() .
-                 ' WHERE ' . $sql;
-            $db = eZDB::instance();
-            $db->query( $sql );
+            eZDB::instance()->query( 'UPDATE ezcontentobject_tree SET modified_subnode=' . time() .
+                                     ' WHERE ' . $db->generateSQLINStatement( $pathArray, 'node_id', false, true, 'int' ) );
         }
     }
 
