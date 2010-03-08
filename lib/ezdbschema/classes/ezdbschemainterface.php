@@ -118,7 +118,7 @@ class eZDBSchemaInterface
      \param $schema A schema definition array which defines tables to fetch from.
                     If \c false it will call schema() to fetch it.
      \param $tableNameList An array with tables to include, will further narrow
-                           tables in \a $schema. Use \c false to fetch all tables.
+                           tables in \a $scema. Use \c false to fetch all tables.
 
      \note You shouldn't need to reimplement this method since the default
            code will do simple SELECT queries
@@ -270,8 +270,7 @@ class eZDBSchemaInterface
         $params = array_merge( array( 'schema' => true,
                                       'data' => false,
                                       'allow_multi_insert' => false,
-                                      'diff_friendly' => false,
-                                      'table_include' => false ),
+                                      'diff_friendly' => false ),
                                $params );
         $includeSchema = $params['schema'];
         $includeData = $params['data'];
@@ -286,7 +285,7 @@ class eZDBSchemaInterface
             }
             if ( $includeData )
             {
-                $data = $this->data( $schema, $params['table_include'] );
+                $data = $this->data( $schema );
                 $this->transformData( $data, true );
                 fputs( $fp, $this->generateDataFile( $schema, $data, $params ) );
             }
@@ -307,8 +306,7 @@ class eZDBSchemaInterface
     function writeSerializedSchemaFile( $filename, $params = array() )
     {
         $params = array_merge( array( 'schema' => true,
-                                      'data' => false,
-                                      'table_include' => false ),
+                                      'data' => false ),
                                $params );
         $includeSchema = $params['schema'];
         $includeData = $params['data'];
@@ -319,7 +317,7 @@ class eZDBSchemaInterface
             if ( $includeSchema and $includeData )
             {
                 fputs( $fp, serialize( array( 'schema' => $schema,
-                                              'data' => $this->data( $schema, $params['table_include'] ) ) ) );
+                                              'data' => $this->data( $schema ) ) ) );
             }
             else if ( $includeSchema )
             {
@@ -346,8 +344,7 @@ class eZDBSchemaInterface
     function writeArraySchemaFile( $filename, $params = array() )
     {
         $params = array_merge( array( 'schema' => true,
-                                      'data' => false,
-                                      'table_incldue' => false ),
+                                      'data' => false ),
                                $params );
         $includeSchema = $params['schema'];
         $includeData = $params['data'];
@@ -369,7 +366,7 @@ class eZDBSchemaInterface
             }
             if ( $includeData )
             {
-                $data = $this->data( $schema, $params['table_include'] );
+                $data = $this->data( $schema );
                 fputs( $fp, "// This array contains the database data\n" );
                 if ( isset( $data['_info'] ) )
                 {
