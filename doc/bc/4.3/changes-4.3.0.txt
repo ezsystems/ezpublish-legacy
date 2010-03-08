@@ -54,10 +54,9 @@ INI setting changes
 
 - site.ini [DesignSettings]DesignLocationCache
 
-  Performance tweak for caching the location of design base directories. It is
-  disabled by default, and enabled after setup wizard has run. Enabling it
-  before running the setup wizard might throw notices if using a debugger at
-  the same time.
+  Cache locations of design base directories. This setting is disabled by
+  default,and enabled after setup wizard has run. Enabling it before running
+  the setup wizard might throw notices if using a debugger at the same time.
 
 
 Change of behavior 
