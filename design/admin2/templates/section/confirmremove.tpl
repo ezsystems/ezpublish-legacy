@@ -52,10 +52,10 @@
 
 <form action={$module.functions.list.uri|ezurl} method="post" name="SectionRemove">
     {if $allowed_sections_count}
-    <input class="button" type="submit" name="ConfirmRemoveSectionButton" value="{'OK'|i18n( 'design/admin/section/confirmremove' )}" />
+    <input class=""defaultbutton"" type="submit" name="ConfirmRemoveSectionButton" value="{'OK'|i18n( 'design/admin/section/confirmremove' )}" />
     <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n( 'design/admin/section/confirmremove' )}" />
     {else}
-    <input class="button" type="submit" value="{'OK'|i18n( 'design/admin/section/confirmremove' )}" />
+    <input class=""defaultbutton"" type="submit" value="{'OK'|i18n( 'design/admin/section/confirmremove' )}" />
     {/if}
 </form>
 

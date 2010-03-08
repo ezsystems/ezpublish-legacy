@@ -54,12 +54,12 @@
 <div class="break"></div>
 </div>
 
-<div class="block">
 {let $translations=$state.all_translations
      $useFieldsets=$translations|count|gt(1)}
     {foreach $translations as $translation}
     {if $useFieldsets}
-    <fieldset style="margin-bottom:1em;background-color: #fefefb;">
+    <div class="block">
+    <fieldset>
     <legend><img src="{$translation.language.locale|flag_icon}" /> {$translation.language.locale_object.intl_language_name|wash}</legend>
     {/if}
     <label>{"Name:"|i18n('design/admin/state/edit')}</label>
@@ -68,16 +68,17 @@
     <textarea rows="6" name="ContentObjectState_description[]" style="width:99%">{$translation.description|wash}</textarea>
     {if $useFieldsets}
     </fieldset>
+    </div>
     {/if}
     {/foreach}
-</div>
+
 
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
-  <input class="button" type="submit" name="StoreButton" value="{'Save changes'|i18n('design/admin/state/edit')|wash}" title="{'Save changes to this states.'|i18n( 'design/admin/state/edit' )|wash}" />
+  <input class="defaultbutton" type="submit" name="StoreButton" value="{'Save changes'|i18n('design/admin/state/edit')|wash}" title="{'Save changes to this states.'|i18n( 'design/admin/state/edit' )|wash}" />
   <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n('design/admin/state/edit')|wash}" title="{'Cancel saving any changes.'|i18n( 'design/admin/state/edit' )|wash}" />
 </div>
 

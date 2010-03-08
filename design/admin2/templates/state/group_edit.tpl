@@ -78,10 +78,10 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
   {if $group.id}
-  <input class="button" type="submit" name="StoreButton" value="{'Save changes'|i18n('design/admin/state/group_edit')|wash}" title="{'Save changes to this state group.'|i18n( 'design/admin/state/group_edit' )|wash}" />
+  <input class="defaultbutton" type="submit" name="StoreButton" value="{'Save changes'|i18n('design/admin/state/group_edit')|wash}" title="{'Save changes to this state group.'|i18n( 'design/admin/state/group_edit' )|wash}" />
   <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n('design/admin/state/group_edit')|wash}" title="{'Cancel saving any changes.'|i18n( 'design/admin/state/group_edit' )|wash}" />
   {else}
-  <input class="button" type="submit" name="StoreButton" value="{'Create'|i18n('design/admin/state/group_edit')|wash}" title="{'Create this state group.'|i18n( 'design/admin/state/group_edit' )|wash}" />
+  <input class="defaultbutton" type="submit" name="StoreButton" value="{'Create'|i18n('design/admin/state/group_edit')|wash}" title="{'Create this state group.'|i18n( 'design/admin/state/group_edit' )|wash}" />
   <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n('design/admin/state/group_edit')|wash}" title="{'Cancel creating this state group.'|i18n( 'design/admin/state/group_edit' )|wash}" />
   {/if}
 

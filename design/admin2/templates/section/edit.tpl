@@ -37,7 +37,7 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
-<input class="button" type="submit" name="StoreButton" value="{'OK'|i18n( 'design/admin/section/edit' )}" />
+<input class="defaultbutton" type="submit" name="StoreButton" value="{'OK'|i18n( 'design/admin/section/edit' )}" />
 <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n( 'design/admin/section/edit' )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div>
