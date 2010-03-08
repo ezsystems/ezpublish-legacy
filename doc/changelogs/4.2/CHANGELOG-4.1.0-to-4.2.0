@@ -233,3 +233,4 @@ Changes from 4.1.0 to 4.2.0
 - Fixed bug #15263: After package import, object name is empty
 - Fixed bug #15561: eZContentObjectTreeNode::fetch() SQL error when conditions argument is given
 - Fixed bug #15579: VersionManagement.VersionHistoryClass doesn't work
+- Fixed bug #008765: strip_tags in ezsearch strips too much (rev 24149)
