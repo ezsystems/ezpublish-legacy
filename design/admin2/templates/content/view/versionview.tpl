@@ -20,27 +20,27 @@
 
 {* Created *}
 <p>
-<h6>{'Created'|i18n( 'design/admin/content/view/versionview' )}:</h6>
+<label>{'Created'|i18n( 'design/admin/content/view/versionview' )}:</label>
 {$version.created|l10n( shortdatetime )}<br />
 {$version.creator.name|wash}
 </p>
 
 {* Last modified *}
 <p>
-<h6>{'Last modified'|i18n( 'design/admin/content/view/versionview' )}:</h6>
+<label>{'Last modified'|i18n( 'design/admin/content/view/versionview' )}:</label>
 {$version.modified|l10n( shortdatetime )}<br />
 {$version.creator.name|wash}
 </p>
 
 {* Status *}
 <p>
-<h6>{'Status'|i18n( 'design/admin/content/view/versionview' )}:</h6>
+<label>{'Status'|i18n( 'design/admin/content/view/versionview' )}:</label>
 {$version.status|choose( 'Draft'|i18n( 'design/admin/content/view/versionview' ), 'Published / current'|i18n( 'design/admin/content/view/versionview' ), 'Pending'|i18n( 'design/admin/content/view/versionview' ), 'Archived'|i18n( 'design/admin/content/view/versionview' ), 'Rejected'|i18n( 'design/admin/content/view/versionview' ) )}
 </p>
 
 {* Version *}
 <p>
-<h6>{'Version'|i18n( 'design/admin/content/view/versionview' )}:</h6>
+<label>{'Version'|i18n( 'design/admin/content/view/versionview' )}:</label>
 {$version.version}
 </p>
 

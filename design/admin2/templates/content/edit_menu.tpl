@@ -13,21 +13,21 @@
 
 {* Created *}
 <p>
-<h6>{'Created'|i18n( 'design/admin/content/edit' )}:</h6>
+<label>{'Created'|i18n( 'design/admin/content/edit' )}:</label>
 {$content_version.created|l10n( shortdatetime )}<br />
 {$content_version.creator.name|wash}
 </p>
 
 {* Modified *}
 <p>
-<h6>{'Modified'|i18n( 'design/admin/content/edit' )}:</h6>
+<label>{'Modified'|i18n( 'design/admin/content/edit' )}:</label>
 {$content_version.modified|l10n( shortdatetime )}<br />
 {$content_version.creator.name|wash}
 </p>
 
 {* Version *}
 <p>
-<h6>{'Version'|i18n( 'design/admin/content/edit' )}:</h6>
+<label>{'Version'|i18n( 'design/admin/content/edit' )}:</label>
 {$edit_version}
 </p>
 

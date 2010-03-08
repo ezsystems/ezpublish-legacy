@@ -25,25 +25,25 @@
 
 {* Object ID *}
 <p>
-<h6>{'ID'|i18n( 'design/admin/content/edit_languages' )}:</h6>
+<label>{'ID'|i18n( 'design/admin/content/edit_languages' )}:</label>
 0
 </p>
 
 {* Created *}
 <p>
-<h6>{'Created'|i18n( 'design/admin/content/edit_languages' )}:</h6>
+<label>{'Created'|i18n( 'design/admin/content/edit_languages' )}:</label>
 {'Not yet published'|i18n( 'design/admin/content/edit_languages' )}
 </p>
 
 {* Modified *}
 <p>
-<h6>{'Modified'|i18n( 'design/admin/content/edit_languages' )}:</h6>
+<label>{'Modified'|i18n( 'design/admin/content/edit_languages' )}:</label>
 {'Not yet published'|i18n( 'design/admin/content/edit_languages' )}
 </p>
 
 {* Published version *}
 <p>
-<h6>{'Published version'|i18n( 'design/admin/content/edit_languages' )}:</h6>
+<label>{'Published version'|i18n( 'design/admin/content/edit_languages' )}:</label>
 {'Not yet published'|i18n( 'design/admin/content/edit_languages' )}
 </p>
 

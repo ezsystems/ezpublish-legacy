@@ -10,13 +10,13 @@
 
 {* Object ID *}
 <p>
-<h6>{'ID'|i18n( 'design/admin/content/history' )}:</h6>
+<label>{'ID'|i18n( 'design/admin/content/history' )}:</label>
 {$object.id}
 </p>
 
 {* Created *}
 <p>
-<h6>{'Created'|i18n( 'design/admin/content/history' )}:</h6>
+<label>{'Created'|i18n( 'design/admin/content/history' )}:</label>
 {if $object.published}
 {$object.published|l10n( shortdatetime )}<br />
 {$object.owner.name|wash}
@@ -27,7 +27,7 @@
 
 {* Modified *}
 <p>
-<h6>{'Modified'|i18n( 'design/admin/content/history' )}:</h6>
+<label>{'Modified'|i18n( 'design/admin/content/history' )}:</label>
 {if $object.modified}
 {$object.modified|l10n( shortdatetime )}<br />
 {$object.current.creator.name|wash}
@@ -38,7 +38,7 @@
 
 {* Published version*}
 <p>
-<h6>{'Published version'|i18n( 'design/admin/content/history' )}:</h6>
+<label>{'Published version'|i18n( 'design/admin/content/history' )}:</label>
 {if $object.published}
 {$object.current_version}
 {else}
