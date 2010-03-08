@@ -97,8 +97,8 @@ eZContentClass::instantiate() changes
   If you don't set it to false, new object id will no longer be stored in user
   session for use by policy system to let anonymous user re edit object.
 
-Deprecated methods
-------------------
+Deprecated functionality
+------------------------
 
 - ezi18n() and ezx18n() functions has been deprecated in favor of new
   ezpI18n::tr() function that takes advantage of autoloading so you don't need
@@ -117,6 +117,9 @@ Deprecated methods
 - kernel/common/template.php: templateInit()
   Function will be removed in a future version, use eZTemplate::factory() instead.
 
+- cronjobs/ldapusermanage.php
+  This cronjob will be removed in a future version, functionality is part
+  regular ldap logins. See issue http://issues.ez.no/16319
 
 Renamed methods
 ---------------

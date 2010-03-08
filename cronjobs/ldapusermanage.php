@@ -31,6 +31,10 @@
 /*! \file
 */
 
+// This cronjob is deprecated, let this be known.
+$cli->output( "ldapusermanage is deprecated as of eZ Publish 4.3.0, and will be removed in a future eZ Publish release." );
+eZDebug::writeWarning( "ldapusermanage is deprecated as of eZ Publish 4.3.0, and will be removed in a future eZ Publish release.", __FILE__ );
+
 if ( !$isQuiet )
     $cli->output( "Checking LDAP users ..."  );
 
