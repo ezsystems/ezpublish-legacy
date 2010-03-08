@@ -15,7 +15,7 @@
     {/if}
 {/foreach}
 
-<h2 class="context-title">{"Section"|i18n( 'design/admin/node/view/full' )}: {$currentSectionName|wash} [{count($sections)}]</h2>
+<h4 class="context-title">{"Section"|i18n( 'design/admin/node/view/full' )}: {$currentSectionName|wash} [{count($sections)}]</h4>
 {undef $currentSectionName}
 
 {* DESIGN: Header END *}</div></div>

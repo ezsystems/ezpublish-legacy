@@ -1,6 +1,5 @@
 
 {include uri="design:content/parts/object_information.tpl" object=$object manage_version_button=true()}
-<br />
 
 <div class="drafts">
 
@@ -77,12 +76,12 @@
 
 {* Edit section *}
 <div class="sections">
-{include uri='design:content/edit_sections.tpl'}
+{include uri='design:content/parts/edit_sections.tpl'}
 </div>
 
 
 {* Edit states *}
 <div class="states">
-{include uri='design:content/edit_states.tpl'}
+{include uri='design:content/parts/edit_states.tpl'}
 </div>
 

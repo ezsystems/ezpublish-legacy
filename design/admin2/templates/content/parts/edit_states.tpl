@@ -2,7 +2,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
-<h2 class="context-title">{'States'|i18n('design/admin/content/edit')}</h2>
+<h4 class="context-title">{'States'|i18n('design/admin/content/edit')}</h4>
 
 {* DESIGN: Header END *}</div></div>
 
