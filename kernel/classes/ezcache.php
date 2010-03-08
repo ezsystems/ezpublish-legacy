@@ -496,6 +496,7 @@ class eZCache
         $fileHandler = eZClusterFileHandler::instance();
         $fileHandler->fileDelete( $cachePath, 'classidentifiers_' );
         $fileHandler->fileDelete( $cachePath, 'classattributeidentifiers_' );
+        eZContentClass::expireCache();
     }
 
     /*!
