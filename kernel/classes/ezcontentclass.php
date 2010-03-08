@@ -1837,6 +1837,7 @@ You will need to change the class of the node by using the swap functionality.' 
 
     public static function expireCache()
     {
+        unset( $GLOBALS['eZContentClassObjectCache'] );
         self::$identifierHash = null;
         eZContentClassAttribute::expireCache();
     }
