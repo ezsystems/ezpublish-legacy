@@ -52,6 +52,13 @@ INI setting changes
   to instantiate the transport class based on the setting [MailSettings]Transport
   when sending an email.
 
+- site.ini [DesignSettings]DesignLocationCache
+
+  Performance tweak for caching the location of design base directories. It is
+  disabled by default, and enabled after setup wizard has run. Enabling it
+  before running the setup wizard might throw notices if using a debugger at
+  the same time.
+
 
 Change of behavior 
 -------------------

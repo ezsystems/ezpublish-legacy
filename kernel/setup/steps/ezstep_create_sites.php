@@ -336,6 +336,9 @@ class eZStepCreateSites extends eZStepInstaller
             $ini->setVariable( 'MailSettings', 'TransportPassword', $emailInfo['password'] );
         }
 
+        // Enable performance tweak for design locations cache
+        $ini->setVariable( 'DesignSettings', 'DesignLocationCache', 'enabled' );
+
         if ( $saveData )
         {
             foreach ( $siteINISettings as $siteINISetting )

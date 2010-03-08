@@ -43,3 +43,4 @@ Changes from 4.3.0beta1 to 4.3.0beta2
 - Fixed bug #16156: Modification of attribute category leads to database transaction error (ezscheduled_script table missing?)
 - Fixed bug #16319: deprecate cronjob ldapusermanage.php
 - Fixed bug #16340: DB Deadlocks on ezcontentobject_tree when updating subnode (needs SQL IN() statement)
+- Fixed bug #16140: Wrong permissions in var inside tarball
