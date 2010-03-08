@@ -1835,6 +1835,14 @@ You will need to change the class of the node by using the swap functionality.' 
         return $classIDArray;
     }
 
+    /**
+     * Expires in-memory cache for eZContentClass.
+     * 
+     * Clears cache for fetched eZContentClass objects,
+     * class identifiers and class attributes.
+     *
+     * @since 4.2
+     */
     public static function expireCache()
     {
         unset( $GLOBALS['eZContentClassObjectCache'] );
