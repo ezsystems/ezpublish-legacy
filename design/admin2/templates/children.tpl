@@ -194,26 +194,44 @@
     <div class="button-left">
         {* The "Create new here" thing: *}
         <label for="ClassID" class="inline">{'Create'|i18n( 'design/admin/node/view/full' )}</label>
-    
         {if and( $node.is_container,  $node.can_create)}
             <input type="hidden" name="NodeID" value="{$node.node_id}" />
-            {def $can_create_classes = fetch( 'content', 'can_instantiate_class_list', hash( 'parent_node', $node ) )}
-        
+            {if $node.path_array|contains( ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) )}
+                {def $group_id = array( ezini( 'ClassGroupIDs', 'Users', 'content.ini' ),
+                                        ezini( 'ClassGroupIDs', 'Setup', 'content.ini' ) )}
+            {elseif $node.path_array|contains( ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) )}
+                {def $group_id = array( ezini( 'ClassGroupIDs', 'Setup', 'content.ini' ),
+                                        ezini( 'ClassGroupIDs', 'Content', 'content.ini' ),
+                                        ezini( 'ClassGroupIDs', 'Media', 'content.ini' ) )}
+            {else}
+                {def $group_id = false()}
+            {/if}
+
+            {def $can_create_classes = fetch( 'content', 'can_instantiate_class_list', hash( 'parent_node', $node,
+                                                                                             'filter_type', 'exclude',
+                                                                                             'group_id', $group_id,
+                                                                                             'group_by_class_group', true() ) )}
+
+
             {def $can_create_languages = fetch( 'content', 'prioritized_languages' )
                  $content_locale = ezini( 'RegionalSettings', 'ContentObjectLocale' )}
-        
+
             {if and( is_set( $can_create_languages[0] ), eq( $can_create_languages|count, 1 ) )}
                 <select id="ClassID" name="ClassID" title="{'Use this menu to select the type of item you want to create then click the "Create here" button. The item will be created in the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
             {else}
                 <select id="ClassID" name="ClassID" onchange="updateLanguageSelector(this)" title="{'Use this menu to select the type of item you want to create then click the "Create here" button. The item will be created in the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
             {/if}
-                {foreach $can_create_classes as $can_create_class}
-                {if $can_create_class.can_instantiate_languages}
-                    <option value="{$can_create_class.id}">{$can_create_class.name|wash()}</option>
-                {/if}
+                {foreach $can_create_classes as $group}
+                    <optgroup label="{$group.group_name}">
+                    {foreach $group.items as $can_create_class}
+                        {if $can_create_class.can_instantiate_languages}
+                        <option value="{$can_create_class.id}">{$can_create_class.name|wash()}</option>
+                        {/if}
+                    {/foreach}
+                    </optgroup>
                 {/foreach}
             </select>
-        
+
             {if and( is_set( $can_create_languages[0] ), eq( $can_create_languages|count, 1 ) )}
                 <input name="ContentLanguageCode" value="{$can_create_languages[0].locale}" type="hidden" />
             {else}

@@ -696,7 +696,11 @@ $FunctionList['can_instantiate_class_list'] = array( 'name' => 'can_instantiate_
                                                                             array( 'name' => 'as_object',
                                                                                    'type' => 'bool',
                                                                                    'required' => false,
-                                                                                   'default' => true ) ) );
+                                                                                   'default' => true ),
+                                                                            array( 'name' => 'group_by_class_group',
+                                                                                   'type' => 'bool',
+                                                                                   'required' => false,
+                                                                                   'default' => false ) ) );
 
 $FunctionList['can_instantiate_classes'] = array( 'name' => 'can_instantiate_classes',
                                                   'operation_types' => array( 'read' ),

@@ -572,7 +572,7 @@ class eZContentFunctionCollection
         return array( 'result' => $versionList[0]['count'] );
     }
 
-    static public function canInstantiateClassList( $groupID, $parentNode, $filterType = 'include', $fetchID, $asObject )
+    static public function canInstantiateClassList( $groupID, $parentNode, $filterType = 'include', $fetchID, $asObject, $groupByClassGroup = false )
     {
         $ClassGroupIDs = false;
 
@@ -595,6 +595,36 @@ class eZContentFunctionCollection
         else
         {
             $classList = eZContentClass::canInstantiateClassList( $asObject, $filterType == 'include', $ClassGroupIDs, $fetchID );
+        }
+
+        if ( $groupByClassGroup && $asObject )
+        {
+            $tmpClassList = array();
+
+            $ini = eZINI::instance( 'content.ini' );
+
+            foreach ( $classList as $class )
+            {
+                foreach ( $class->fetchGroupList() as $group )
+                {
+                    $groupID = $group->attribute( 'group_id' );
+
+                    if ( !in_array( $class->attribute('identifier'), $ini->variable( 'FetchFunctionSettings', 'InstClassListFilter' ) ) )
+                    {
+                        if ( isset( $tmpClassList[$groupID] ) )
+                        {
+                            $tmpClassList[$groupID]['items'][] = $class;
+                        }
+                        else
+                        {
+                            $tmpClassList[$groupID]['items'] = array( $class );
+                            $tmpClassList[$groupID]['group_name'] = $group->attribute( 'group_name' );
+                        }
+                    }
+                }
+            }
+
+            $classList = $tmpClassList;
         }
 
         return array( 'result' => $classList );
