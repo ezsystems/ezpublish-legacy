@@ -189,11 +189,12 @@
     </div>
     <div class="float-break"></div>
 </div>
+{* DESIGN: Control bar END *}</div>
 
 <div class='block'>
-    <div class="button-left">
+    <fieldset>
+        <legend>{'Create'|i18n( 'design/admin/node/view/full' )}</legend>
         {* The "Create new here" thing: *}
-        <label for="ClassID" class="inline">{'Create'|i18n( 'design/admin/node/view/full' )}</label>
         {if and( $node.is_container,  $node.can_create)}
             <input type="hidden" name="NodeID" value="{$node.node_id}" />
             {if $node.path_array|contains( ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) )}
@@ -331,47 +332,45 @@
             </select>
             <input class="button-disabled" type="submit" name="NewButton" value="{'Here'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permission to create new items in the current location.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
         {/if}
-    </div>
-    
-    <div class="button-right">
-    <label for="ezasi-sort-field" class="inline">{'Published order'|i18n( 'design/admin/node/view/full' )}:</label>
-
-    {let sort_fields=hash( 6, 'Class identifier'|i18n( 'design/admin/node/view/full' ),
-                           7, 'Class name'|i18n( 'design/admin/node/view/full' ),
-                           5, 'Depth'|i18n( 'design/admin/node/view/full' ),
-                           3, 'Modified'|i18n( 'design/admin/node/view/full' ),
-                           9, 'Name'|i18n( 'design/admin/node/view/full' ),
-                           8, 'Priority'|i18n( 'design/admin/node/view/full' ),
-                           2, 'Published'|i18n( 'design/admin/node/view/full' ),
-                           4, 'Section'|i18n( 'design/admin/node/view/full' ) )
-        title='You cannot set the sorting method for the current location because you do not have permission to edit the current item.'|i18n( 'design/admin/node/view/full' )
-        disabled=' disabled="disabled"' }
-
-    {if $node.can_edit}
-        {set title='Use these controls to set the sorting method for the sub items of the current location.'|i18n( 'design/admin/node/view/full' )}
-        {set disabled=''}
-        <input type="hidden" name="ContentObjectID" value="{$node.contentobject_id}" />
-    {/if}
-
-    <select id="ezasi-sort-field" name="SortingField" title="{$title}"{$disabled}>
-    {section var=Sort loop=$sort_fields}
-        <option value="{$Sort.key}" {if eq( $Sort.key, $node.sort_field )}selected="selected"{/if}>{$Sort.item}</option>
-    {/section}
-    </select>
-
-    <select id="ezasi-sort-order" name="SortingOrder" title="{$title}"{$disabled}>
-        <option value="0"{if eq($node.sort_order, 0)} selected="selected"{/if}>{'Descending'|i18n( 'design/admin/node/view/full' )}</option>
-        <option value="1"{if eq($node.sort_order, 1)} selected="selected"{/if}>{'Ascending'|i18n( 'design/admin/node/view/full' )}</option>
-    </select>
-
-    <input  id="ezasi-sort-set" {if $disabled}class="button-disabled"{else}class="button"{/if} type="submit" name="SetSorting" value="{'Set'|i18n( 'design/admin/node/view/full' )}" title="{$title}" {$disabled} />
-
-    {/let}
-    </div>
-    <div class="float-break"></div>
-    
+    </fieldset>
 </div>
-{* DESIGN: Control bar END *}</div>
+<div class="block">    
+    <fieldset>
+        <legend>{'Published order'|i18n( 'design/admin/node/view/full' )}</legend>
+    
+        {let sort_fields=hash( 6, 'Class identifier'|i18n( 'design/admin/node/view/full' ),
+                               7, 'Class name'|i18n( 'design/admin/node/view/full' ),
+                               5, 'Depth'|i18n( 'design/admin/node/view/full' ),
+                               3, 'Modified'|i18n( 'design/admin/node/view/full' ),
+                               9, 'Name'|i18n( 'design/admin/node/view/full' ),
+                               8, 'Priority'|i18n( 'design/admin/node/view/full' ),
+                               2, 'Published'|i18n( 'design/admin/node/view/full' ),
+                               4, 'Section'|i18n( 'design/admin/node/view/full' ) )
+            title='You cannot set the sorting method for the current location because you do not have permission to edit the current item.'|i18n( 'design/admin/node/view/full' )
+            disabled=' disabled="disabled"' }
+    
+        {if $node.can_edit}
+            {set title='Use these controls to set the sorting method for the sub items of the current location.'|i18n( 'design/admin/node/view/full' )}
+            {set disabled=''}
+            <input type="hidden" name="ContentObjectID" value="{$node.contentobject_id}" />
+        {/if}
+    
+        <select id="ezasi-sort-field" name="SortingField" title="{$title}"{$disabled}>
+        {section var=Sort loop=$sort_fields}
+            <option value="{$Sort.key}" {if eq( $Sort.key, $node.sort_field )}selected="selected"{/if}>{$Sort.item}</option>
+        {/section}
+        </select>
+    
+        <select id="ezasi-sort-order" name="SortingOrder" title="{$title}"{$disabled}>
+            <option value="0"{if eq($node.sort_order, 0)} selected="selected"{/if}>{'Descending'|i18n( 'design/admin/node/view/full' )}</option>
+            <option value="1"{if eq($node.sort_order, 1)} selected="selected"{/if}>{'Ascending'|i18n( 'design/admin/node/view/full' )}</option>
+        </select>
+    
+        <input  id="ezasi-sort-set" {if $disabled}class="button-disabled"{else}class="button"{/if} type="submit" name="SetSorting" value="{'Set'|i18n( 'design/admin/node/view/full' )}" title="{$title}" {$disabled} />
+    
+        {/let}
+    </fieldset>
+</div>
 
 </form>
 
