@@ -334,6 +334,7 @@
         {/if}
     </fieldset>
 </div>
+{if $children_count}
 <div class="block">    
     <fieldset>
         <legend>{'Published order'|i18n( 'design/admin/node/view/full' )}</legend>
@@ -371,6 +372,7 @@
         {/let}
     </fieldset>
 </div>
+{/if}
 
 </form>
 
