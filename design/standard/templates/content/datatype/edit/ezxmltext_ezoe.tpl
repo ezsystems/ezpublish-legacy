@@ -101,6 +101,7 @@
         theme_ez_statusbar_open_dialog : {cond( ezini('EditorSettings', 'TagPathOpenDialog', 'ezoe.ini',,true())|eq('enabled'), 'true', 'false' )},
         popup_css : {concat("stylesheets/skins/", $skin, "/dialog.css")|ezdesign},
         //popup_css_add : {"stylesheets/core.css"|ezdesign},
+        save_callback : "eZOeSaveCallback",
         gecko_spellcheck : true,
         table_inline_editing : true, // table edit controlls in gecko
         save_enablewhendirty : true,
@@ -155,6 +156,15 @@
         }
     }
 
+    // @LS: 10/03/2010
+    // Workaround for issue #16373
+    // If save_callback function is not defined then it is
+    // causing problems with nested ul/ol lists
+    // Might be Tiny MCE bug
+    function eZOeSaveCallback( element_id, html, body )
+    {
+        return body.innerHTML;
+    }
 
     {/literal}
     //-->

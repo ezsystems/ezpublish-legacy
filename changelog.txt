@@ -1,5 +1,8 @@
 eZ Online Editor 5.0 extension Changelog
 
+5.1.0rc1
+* Fixed bug #16373: TC-52 - Online Editor: The indented bullets (sorted and not sorted) are not being displayed as expected on preview
+
 5.1.0beta2:
 * Fixed #16271: Links containing special characters are not stored correctly
 
