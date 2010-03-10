@@ -139,7 +139,14 @@ function multipleezjscServerCalls( $calls, $contentType = 'json' )
         $response = array( 'error_text' => '', 'content' => '' );
         if( $call instanceOf ezjscServerRouter )
         {
-            $response['content'] =  $call->call();
+            try
+            {
+                $response['content'] =  $call->call();
+            }
+            catch ( Exception $e )
+            {
+                $response['error_text'] = $e->getMessage();
+            }
         }
         else
         {
