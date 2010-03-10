@@ -676,7 +676,7 @@ Deseja mais informações sobre essa questão?</translation>
     </message>
     <message>
         <source>Select special character</source>
-        <translation>Selecionar caractere especial</translation>
+        <translation>Selecione um caractere especial</translation>
     </message>
     <message>
         <source>All</source>
@@ -764,7 +764,7 @@ Deseja mais informações sobre essa questão?</translation>
     </message>
     <message>
         <source>Switch embed image</source>
-        <translation>Trocar imagem incorporado</translation>
+        <translation>Trocar imagem incorporada</translation>
     </message>
     <message>
         <source>Switch embed object</source>
@@ -1314,6 +1314,34 @@ Deseja mais informações sobre essa questão?</translation>
     <message>
         <source>To set the width of the tag, either as percentage by appending % or as pixel size by just using a number.</source>
         <translation>Para definir a largura da tag, seja como percentagem colocando % ou o tamanho em pixels utilizando apenas um número.</translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/node/view</name>
+    <message>
+        <source>Preview</source>
+        <translation>Preview</translation>
+    </message>
+</context>
+<context>
+    <name>kernel/classes/datatypes</name>
+    <message>
+        <source>Content required</source>
+        <translation>Conteúdo obrigatório</translation>
+    </message>
+</context>
+<context>
+    <name>kernel/classes/datatypes/ezxmltext</name>
+    <message>
+        <source>Invalid e-mail address: &apos;%1&apos;</source>
+        <translation>Endereço de email inválido: &apos;%1&apos;</translation>
+    </message>
+</context>
+<context>
+    <name>kernel/content</name>
+    <message>
+        <source>Top Level Nodes</source>
+        <translation>Raizes</translation>
     </message>
 </context>
 </TS>
