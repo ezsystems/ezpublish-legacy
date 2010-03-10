@@ -780,7 +780,7 @@ Vols rebre més informació al respecte?</translation>
     </message>
     <message>
         <source>Upload new</source>
-        <translation>Carregar nou</translation>
+        <translation type="obsolete">Carregar nou</translation>
     </message>
     <message>
         <source>File</source>
@@ -958,29 +958,81 @@ Vols rebre més informació al respecte?</translation>
         <source>There are no related images.</source>
         <translation>No hi ha imatges relacionades.</translation>
     </message>
+    <message>
+        <source>eznode</source>
+        <translation>eznode</translation>
+    </message>
+    <message>
+        <source>ezobject</source>
+        <translation>ezobject</translation>
+    </message>
+    <message>
+        <source>Ftp</source>
+        <translation>Ftp</translation>
+    </message>
+    <message>
+        <source>Http</source>
+        <translation>Http</translation>
+    </message>
+    <message>
+        <source>Https</source>
+        <translation>Https</translation>
+    </message>
+    <message>
+        <source>Mail</source>
+        <translation>Mail</translation>
+    </message>
+    <message>
+        <source>Anchor</source>
+        <translation>Ancora</translation>
+    </message>
+    <message>
+        <source>Other</source>
+        <translation>Altre</translation>
+    </message>
+    <message>
+        <source>Id not valid!</source>
+        <translation>Identificador no vàlid!</translation>
+    </message>
+    <message>
+        <source>Edit file</source>
+        <translation>Edita arxiu</translation>
+    </message>
+    <message>
+        <source>Edit image</source>
+        <translation>Edita imatge</translation>
+    </message>
+    <message>
+        <source>Edit object</source>
+        <translation>Edita objecte</translation>
+    </message>
+    <message>
+        <source>[default]</source>
+        <translation>[predeterminat]</translation>
+    </message>
+    <message>
+        <source>New window (_blank)</source>
+        <translation>Nova finestra (_blank)</translation>
+    </message>
+    <message>
+        <source>Upload new File</source>
+        <translation>Carrega nou objecte</translation>
+    </message>
+    <message>
+        <source>Upload new Image</source>
+        <translation>Carrega nova imatge</translation>
+    </message>
+    <message>
+        <source>Tags</source>
+        <translation>Etiqueta</translation>
+    </message>
+    <message>
+        <source>Upload new Object</source>
+        <translation>Carrega nou objecte</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/ezoe/contenttype</name>
-    <message>
-        <source>Image</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>File</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Object</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Flash</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Video</source>
-        <translation type="unfinished"></translation>
-    </message>    
 </context>
 <context>
     <name>design/standard/ezoe/handler</name>
@@ -1017,7 +1069,7 @@ Vols rebre més informació al respecte?</translation>
     </message>
     <message>
         <source>Make the selected text &lt;u&gt;underline&lt;/u&gt;. This button is only enabled if you have a custom tag named underline, template code to handle underline custom tags is not included in Online Editor.</source>
-        <translation>Fes que el text seleccionat &lt;u&gt; subratlla &lt;u&gt;. Aquest botó només està actiu si tens una etiqueta personalitzada amb el nom subratlla, el codi de plantilla per gestionar les etiquetes personalitzades de subratllat no està inclòs en l&apos;editor en línea.</translation>
+        <translation type="obsolete">Fes que el text seleccionat &lt;u&gt; subratlla &lt;u&gt;. Aquest botó només està actiu si tens una etiqueta personalitzada amb el nom subratlla, el codi de plantilla per gestionar les etiquetes personalitzades de subratllat no està inclòs en l&apos;editor en línea.</translation>
     </message>
     <message>
         <source>Create a bullet list. To create a new list item, press &quot;Enter&quot;. To end a list, press &quot;Enter&quot; key on an empty list item. If you click this button when the cursor is on a list item, the formatting will be removed.</source>
@@ -1175,6 +1227,54 @@ Vols rebre més informació al respecte?</translation>
         <source>Browse for a node / object in your bookmarks.</source>
         <translation>Navegar fins a un node / objecte en els teus marcadors.</translation>
     </message>
+    <message>
+        <source>Toggle &lt;u&gt;underline&lt;/u&gt; style on the selected text. This button is only enabled if you have a custom tag named underline.</source>
+        <translation>(Des)activa l&apos;estil &lt;u&gt;subratllat&lt;/u&gt; al text seleccionat. Aquest botó és actiu només si tens una etiqueta personalitzada anomenada underline.</translation>
+    </message>
+    <message>
+        <source>Toggle &lt;sub&gt;subscript&lt;/sub&gt; style on the selected text. This button is only enabled if you have a custom tag named subscript, template code to handle subscript custom tags is not included in Online Editor.</source>
+        <translation>(Des)activa l&apos;estil &lt;sub&gt;subindex&lt;/sub&gt; al text seleccionat. Aquest botó és només actiu si tens una etiqueta personalitzada anomenada subscript, no s&apos;inclouen plantilles per gestionar aquest tipus d&apos;estil a l&apos;Editor Online.</translation>
+    </message>
+    <message>
+        <source>Toggle &lt;sup&gt;superscript&lt;/sup&gt; style on the selected text. This button is only enabled if you have a custom tag named superscript, template code to handle superscript custom tags is not included in Online Editor.</source>
+        <translation>(Des)activa l&apos;estil &lt;sub&gt;superindex&lt;/sub&gt; al text seleccionat. Aquest botó és només actiu si tens una etiqueta personalitzada anomenada superscript, no s&apos;inclouen plantilles per gestionar aquest tipus d&apos;estil a l&apos;Editor Online.</translation>
+    </message>
+    <message>
+        <source>Toggle left align text, or float block content to the left.</source>
+        <translation>(Des)activa l&apos;alineació de text a l&apos;esquerra, o bloc flotant a l&apos;esquerra.</translation>
+    </message>
+    <message>
+        <source>Toggle center align text, or float block content to the center (Same as not aligned by default).</source>
+        <translation>(Des)activa l&apos;alineació de text al centre, o bloc flotant al centre (és el mateix que no alineat, com a predeterminat).</translation>
+    </message>
+    <message>
+        <source>Toggle right align text, or float block content to the right.</source>
+        <translation>(Des)activa l&apos;alineació de text a la dreta, o bloc flotant a la dreta.</translation>
+    </message>
+    <message>
+        <source>Toggle justify text, stretches the lines so that each line has equal width.</source>
+        <translation>(Des)activa text justificat, adapta les línies per tal que totes facin la mateixa amplada.</translation>
+    </message>
+    <message>
+        <source>Insert an file from the related file list, upload a new file, search for an existing file or browse for it. To upload a local file, click &quot;Upload new&quot; button choose the local file, specify the name of the new file, choose placement from list and then click &quot;Upload&quot; button. This button is not enabled by default.</source>
+        <translation>Inserta un arxiu des de la llista d&apos;arxius relacionats, carrega un nou arxiu, cerca un arxiu existent o navega per trobar-lo. Per carregar un arxiu local, prem el botó &quot;Carrega nou&quot;, tria l&apos;arxiu local, especifica el nom del nou arxiu, especifica on vols carregar-lo a la llista i prem el botó &quot;Carrega&quot;. Aquest botó no està activat de forma predeterminada.</translation>
+    </message>
+    <message>
+        <source>Allows you to spellcheck your text using google api or other depending on ezoe.ini settings. This button is not enabled by default.</source>
+        <translation>Et permet comprovar l&apos;rtografia del text fent servir l&apos;aplicació de google o una altra especificada a la configuració de ezoe.ini. Aquest botó no està activat de forma predeterminada.</translation>
+    </message>
+    <message>
+        <source>Find a string or a word in your text. This button is not enabled by default.</source>
+        <translation>Troba una cadena o una paraula al teu text. Aquest botó no està activat de forma predeterminada.</translation>
+    </message>
+    <message>
+        <source>Replace a string or a word in your text. This button is not enabled by default.</source>
+        <translation>Reemplaça la cadena o la paraula al teu text. Aquest botó està desactivat de forma predeterminada.</translation>
+    </message>
+    <message>
+        <source>You can switch text style from paragraph to header using keybord shortcut CTRL+1 to 6, and back to paragraph using CTRL+7</source>
+        <translation>Pots canviar l&apos;estil del text de paràgraf a capceletera fent servir les dreceres de teclat CTRL+1 al 6, o revertir a paràgraf prement CTRL+7</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/ezoe/searchreplace</name>
@@ -1236,6 +1336,45 @@ Vols rebre més informació al respecte?</translation>
     </message>
 </context>
 <context>
+    <name>design/standard/ezoe/validator</name>
+    <message>
+        <source>&amp;quot;%label&amp;quot; is required and must have a value</source>
+        <translation>&amp;quot;%label&amp;quot; és requerit i ha de tenir valor</translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be a valid number</source>
+        <translation>&amp;quot;%label&amp;quot; ha de ser un nombre vàlid</translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be a valid integer number</source>
+        <translation>&amp;quot;%label&amp;quot; ha de ser un nombre enter vàlid</translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be a valid absolute url address</source>
+        <translation>&amp;quot;%label&amp;quot; ha de ser una adreça url absoluta vàlida</translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be a valid email address</source>
+        <translation>&amp;quot;%label&amp;quot; ha de ser una adreça de correu vàlida</translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be a valid css size/unit value</source>
+        <translation>&amp;quot;%label&amp;quot; ha de ser una mida/unitat vàlida</translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be a valid html element id</source>
+        <translation>&amp;quot;%label&amp;quot; ha de ser un identificador d&apos;element html vàlid</translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be higher then %min</source>
+        <translation>&amp;quot;%label&amp;quot; ha de ser més gran de %min</translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be lower then %max</source>
+        <translation>&amp;quot;%label&amp;quot; ha de ser més petit de %max</translation>
+    </message>
+</context>
+<context>
     <name>design/standard/ezoe/wai</name>
     <message>
         <source>Enter the word you want to search for here, for instance the name of the content you are looking for.</source>
@@ -1284,6 +1423,10 @@ Vols rebre més informació al respecte?</translation>
     <message>
         <source>Description to the file your uploading, so internet clients can read more about it before they decide to download it.</source>
         <translation>Descripció de l&apos;arxiu que estàs pujant, de manera que els clients d&apos;Internet poden llegir més sobre ell abans de decidir descarregar-lo.</translation>
+    </message>
+    <message>
+        <source>Tags, aka Keywords are a comma separated list of words thats categorizes the content.</source>
+        <translation>Les paraules clau són una llista de paraules separades per coma que categoritzen el contingut.</translation>
     </message>
 </context>
 <context>

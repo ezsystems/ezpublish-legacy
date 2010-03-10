@@ -780,7 +780,7 @@ Do you want more information about this issue?</source>
     </message>
     <message>
         <source>Upload new</source>
-        <translation>Cargar nuevo</translation>
+        <translation type="obsolete">Cargar nuevo</translation>
     </message>
     <message>
         <source>File</source>
@@ -958,29 +958,81 @@ Do you want more information about this issue?</source>
         <source>There are no related images.</source>
         <translation>No hay imágenes relacionadas.</translation>
     </message>
+    <message>
+        <source>eznode</source>
+        <translation>eznode</translation>
+    </message>
+    <message>
+        <source>ezobject</source>
+        <translation>ezobject</translation>
+    </message>
+    <message>
+        <source>Ftp</source>
+        <translation>Ftp</translation>
+    </message>
+    <message>
+        <source>Http</source>
+        <translation>Http</translation>
+    </message>
+    <message>
+        <source>Https</source>
+        <translation>Https</translation>
+    </message>
+    <message>
+        <source>Mail</source>
+        <translation>Mail</translation>
+    </message>
+    <message>
+        <source>Anchor</source>
+        <translation>Ancla</translation>
+    </message>
+    <message>
+        <source>Other</source>
+        <translation>Otro</translation>
+    </message>
+    <message>
+        <source>Id not valid!</source>
+        <translation>Identificador no válido!</translation>
+    </message>
+    <message>
+        <source>Edit file</source>
+        <translation>Editar archivo</translation>
+    </message>
+    <message>
+        <source>Edit image</source>
+        <translation>Editar imagen</translation>
+    </message>
+    <message>
+        <source>Edit object</source>
+        <translation>Editar objeto</translation>
+    </message>
+    <message>
+        <source>[default]</source>
+        <translation>[predeterminado]</translation>
+    </message>
+    <message>
+        <source>New window (_blank)</source>
+        <translation>Nueva ventana (_blank)</translation>
+    </message>
+    <message>
+        <source>Upload new File</source>
+        <translation>Subir nuevo archivo</translation>
+    </message>
+    <message>
+        <source>Upload new Image</source>
+        <translation>Subir nueva imagen</translation>
+    </message>
+    <message>
+        <source>Tags</source>
+        <translation>Etiquetas</translation>
+    </message>
+    <message>
+        <source>Upload new Object</source>
+        <translation>Subir nuevo objeto</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/ezoe/contenttype</name>
-    <message>
-        <source>Image</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>File</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Object</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Flash</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Video</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>design/standard/ezoe/handler</name>
@@ -1021,7 +1073,7 @@ Do you want more information about this issue?</source>
     </message>
     <message>
         <source>Make the selected text &lt;u&gt;underline&lt;/u&gt;. This button is only enabled if you have a custom tag named underline, template code to handle underline custom tags is not included in Online Editor.</source>
-        <translation>Convertir el texto seleccionado en &lt;u&gt;subrayado&lt;/u&gt;. Este botón sólo aparece habilitado si cuenta con una etiqueta personalizada llamada subrayado; el código plantilla para gestionar las etiquetas personalizadasde subrayado no se incluyen en el Editor Online.</translation>
+        <translation type="obsolete">Convertir el texto seleccionado en &lt;u&gt;subrayado&lt;/u&gt;. Este botón sólo aparece habilitado si cuenta con una etiqueta personalizada llamada subrayado; el código plantilla para gestionar las etiquetas personalizadasde subrayado no se incluyen en el Editor Online.</translation>
     </message>
     <message>
         <source>Create a bullet list. To create a new list item, press &quot;Enter&quot;. To end a list, press &quot;Enter&quot; key on an empty list item. If you click this button when the cursor is on a list item, the formatting will be removed.</source>
@@ -1179,6 +1231,54 @@ Do you want more information about this issue?</source>
         <source>Browse for a node / object in your bookmarks.</source>
         <translation>Explorar a por un nodo / objeto en tus marcadores.</translation>
     </message>
+    <message>
+        <source>Toggle &lt;u&gt;underline&lt;/u&gt; style on the selected text. This button is only enabled if you have a custom tag named underline.</source>
+        <translation>(Des)activar el estilo &lt;u&gt;subrayado&lt;/u&gt; en el texto seleccionado. Este botón solo está activo si tienes una etiqueta personalizada llamada underline.</translation>
+    </message>
+    <message>
+        <source>Toggle &lt;sub&gt;subscript&lt;/sub&gt; style on the selected text. This button is only enabled if you have a custom tag named subscript, template code to handle subscript custom tags is not included in Online Editor.</source>
+        <translation>(Des)activar el estilo &lt;sub&gt;subíndice&lt;/sub&gt; en el texto seleccionado. Este botón solo está activo si tienes una etiqueta personalizada llamada subscript, no se incluye ninguna plantilla para gestionar este estilo en el Editor Online.</translation>
+    </message>
+    <message>
+        <source>Toggle &lt;sup&gt;superscript&lt;/sup&gt; style on the selected text. This button is only enabled if you have a custom tag named superscript, template code to handle superscript custom tags is not included in Online Editor.</source>
+        <translation>(Des)activar el estilo &lt;sub&gt;superíndice&lt;/sub&gt; en el texto seleccionado. Este botón solo está activo si tienes una etiqueta personalizada llamada superscript, no se incluye ninguna plantilla para gestionar este estilo en el Editor Online.</translation>
+    </message>
+    <message>
+        <source>Toggle left align text, or float block content to the left.</source>
+        <translation>(Des)activar alineación de texto a la izquierda, o bloque flotante a la izquierda.</translation>
+    </message>
+    <message>
+        <source>Toggle center align text, or float block content to the center (Same as not aligned by default).</source>
+        <translation>(Des)activa alineación de texto al centro, o bloque flotante al centro (Es lo mismo que no alineado por defecto).</translation>
+    </message>
+    <message>
+        <source>Toggle right align text, or float block content to the right.</source>
+        <translation>(Des)activar alineación de texto a la derecha, o bloque flotante a la derecha.</translation>
+    </message>
+    <message>
+        <source>Toggle justify text, stretches the lines so that each line has equal width.</source>
+        <translation>(Des)activar justificación de texto, ajusta las líneas para que todas tengan la misma anchura.</translation>
+    </message>
+    <message>
+        <source>Insert an file from the related file list, upload a new file, search for an existing file or browse for it. To upload a local file, click &quot;Upload new&quot; button choose the local file, specify the name of the new file, choose placement from list and then click &quot;Upload&quot; button. This button is not enabled by default.</source>
+        <translation>Insertar un archivo desde la lista de archivos relacionados, subir un nuevo archivo, buscar un archivo existente o navegar para encontrarlo. Para subir un archivo local, pulsa el botón &quot;Subir nuevo&quot; para elegir el archivo local, especifica el nombre del nuevo archivo, elige donde cargarlo en la lista y pulsa el botón &quot;Subir&quot;. Este botón no está activo por defecto.</translation>
+    </message>
+    <message>
+        <source>Allows you to spellcheck your text using google api or other depending on ezoe.ini settings. This button is not enabled by default.</source>
+        <translation>Permite comprobar la ortografía de tu texto usando la aplicación de google o cualquier otra especificada en la configuración ezoe.ini. Este botón no está activo por defecto.</translation>
+    </message>
+    <message>
+        <source>Find a string or a word in your text. This button is not enabled by default.</source>
+        <translation>Encuentra una cadena o palabra en tu texto. Este botón no está activo por defecto.</translation>
+    </message>
+    <message>
+        <source>Replace a string or a word in your text. This button is not enabled by default.</source>
+        <translation>Reemplaza una cadena o una palabra en tu texto. Este botón no está activo por defecto.</translation>
+    </message>
+    <message>
+        <source>You can switch text style from paragraph to header using keybord shortcut CTRL+1 to 6, and back to paragraph using CTRL+7</source>
+        <translation>Puedes cambiar el estilo del texto de paràgrafo a cabecera usando los atajos de teclado CTRL+1 al 6, o revertir a paràgrafo con CTRL+7</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/ezoe/searchreplace</name>
@@ -1240,6 +1340,45 @@ Do you want more information about this issue?</source>
     </message>
 </context>
 <context>
+    <name>design/standard/ezoe/validator</name>
+    <message>
+        <source>&amp;quot;%label&amp;quot; is required and must have a value</source>
+        <translation>&amp;quot;%label&amp;quot; es requerido y debe tener valor</translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be a valid number</source>
+        <translation>&amp;quot;%label&amp;quot; debe ser un número válido</translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be a valid integer number</source>
+        <translation>&amp;quot;%label&amp;quot; debe ser un número entero válido</translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be a valid absolute url address</source>
+        <translation>&amp;quot;%label&amp;quot; debe ser una dirección url absoluta válida</translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be a valid email address</source>
+        <translation>&amp;quot;%label&amp;quot; debe ser una dirección de correo válida</translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be a valid css size/unit value</source>
+        <translation>&amp;quot;%label&amp;quot; debe ser un valor de tamaño/unidad válido</translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be a valid html element id</source>
+        <translation>&amp;quot;%label&amp;quot; debe ser un identificador de elemento html válido</translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be higher then %min</source>
+        <translation>&amp;quot;%label&amp;quot; debe ser mayor de %min</translation>
+    </message>
+    <message>
+        <source>&amp;quot;%label&amp;quot; must be lower then %max</source>
+        <translation>&amp;quot;%label&amp;quot; debe ser menor de %max</translation>
+    </message>
+</context>
+<context>
     <name>design/standard/ezoe/wai</name>
     <message>
         <source>Upload file from your local machine.</source>
@@ -1288,6 +1427,10 @@ Do you want more information about this issue?</source>
     <message>
         <source>Lets you limit the content type your searching for, by limiting the eZ Publish content classes that are returned in the search result.</source>
         <translation>Permite limitar el tipo de contenido que estás buscando, limitando las clases de contenido eZ Publish que son devueltas en los resultados de búsqueda.</translation>
+    </message>
+    <message>
+        <source>Tags, aka Keywords are a comma separated list of words thats categorizes the content.</source>
+        <translation>Las palabras clave son una lista de palabras separadas por coma que categorizan el contenido.</translation>
     </message>
 </context>
 <context>
