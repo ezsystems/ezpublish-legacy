@@ -319,8 +319,10 @@
                 var languagesByClassID = {};
                 {/literal}
         
-                {foreach $can_create_classes as $class}
-                languagesByClassID[{$class.id}] = [ {foreach $class.can_instantiate_languages as $tmp_language}'{$tmp_language}'{delimiter}, {/delimiter} {/foreach} ];
+                {foreach $can_create_classes as $group}
+                    {foreach $group.items as $class}
+                    languagesByClassID[{$class.id}] = [ {foreach $class.can_instantiate_languages as $tmp_language}'{$tmp_language}'{delimiter}, {/delimiter} {/foreach} ];
+                    {/foreach}
                 {/foreach}
             // -->
             </script>
