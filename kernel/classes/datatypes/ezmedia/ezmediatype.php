@@ -140,11 +140,11 @@ class eZMediaType extends eZDataType
     function deleteStoredObjectAttribute( $contentObjectAttribute, $version = null )
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
-        $mediaFiles = eZMedia::fetch( $contentObjectAttributeID, null );
         $sys = eZSys::instance();
         $storage_dir = $sys->storageDirectory();
         if ( $version == null )
         {
+            $mediaFiles = eZMedia::fetch( $contentObjectAttributeID, null );
             foreach ( $mediaFiles as $mediaFile )
             {
                 $mimeType =  $mediaFile->attribute( "mime_type" );
@@ -163,6 +163,7 @@ class eZMediaType extends eZDataType
         }
         else
         {
+            $mediaFiles = eZMedia::fetchByContentObjectID( $contentObjectAttribute->attribute( 'contentobject_id' ) );
             $count = 0;
             $currentBinaryFile = eZMedia::fetch( $contentObjectAttributeID, $version );
             if ( $currentBinaryFile != null )
