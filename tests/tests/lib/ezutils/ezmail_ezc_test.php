@@ -43,7 +43,7 @@ class eZMailEzcTest extends ezpTestCase
         $mail->setReceiver( $this->adminEmail, $this->adminName );
         $mail->setSubject( __FUNCTION__ );
         $mail->setBody( __FUNCTION__ );
-        eZMailTransport::send( $mail );
+        $this->assertEquals( true, eZMailTransport::send( $mail ) );
     }
 
     public function testRegressionToEmail()
@@ -161,6 +161,19 @@ class eZMailEzcTest extends ezpTestCase
 
         $this->assertEquals( $ezpExpected, $ezpResult );
         $this->assertEquals( $ezcExpected, $ezcResult );
+    }
+
+    public function testRegressionWrongPasswordCatchException()
+    {
+        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'TransportPassword', 'wrong password' );
+        $mail = new eZMail();
+        $mail->setSender( $this->adminEmail, $this->adminName );
+        $mail->setReceiver( $this->adminEmail, $this->adminName );
+        $mail->setSubject( __FUNCTION__ );
+        $mail->setBody( __FUNCTION__ );
+
+        // catching the exception of wrong password and turning it into return false
+        $this->assertEquals( false, eZMailTransport::send( $mail ) );
     }
 }
 
