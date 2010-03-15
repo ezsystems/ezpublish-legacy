@@ -206,6 +206,41 @@ class eZMedia extends eZPersistentObject
         }
     }
 
+    /**
+     * Fetch media objects by content object id
+     * @param int $contentObjectID contentobject id
+     * @param string $languageCode language code
+     * @param boolean $asObject if return object
+     * @return array
+     */
+    static function fetchByContentObjectID( $contentObjectID, $languageCode = null, $asObject = true )
+    {
+        $condition = array();
+        $condition['contentobject_id'] = $contentObjectID;
+        $condition['data_type_string'] = 'ezmedia';
+        if ( $languageCode != null )
+        {
+            $condition['language_code'] = $languageCode;
+        }
+        $custom = array( array( 'operation' => 'DISTINCT id',
+                             'name' => 'id' ) );
+        $ids = eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
+                                             array(),
+                                             $condition,
+                                             null,
+                                             null,
+                                             false,
+                                             false,
+                                             $custom );
+        $mediaFiles = array();
+        foreach ( $ids as $id )
+        {
+            $mediaFileObjectAttribute = eZMedia::fetch( $id['id'], null, $asObject );
+            $mediaFiles = array_merge( $mediaFiles, $mediaFileObjectAttribute );
+        }
+        return $mediaFiles;
+    }
+
     static function removeByID( $id, $version )
     {
         if( $version == null )
