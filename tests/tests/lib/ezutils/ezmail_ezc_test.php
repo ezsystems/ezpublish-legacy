@@ -28,9 +28,9 @@ class eZMailEzcTest extends ezpTestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
         ezpINIHelper::restoreINISettings();
+
+        parent::tearDown();
     }
 
     /**
