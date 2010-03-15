@@ -80,32 +80,7 @@ class eZSMTPTransport extends eZMailTransport
             if ( $emailSender )
                 $mail->setSenderText( $emailSender );
         }
-/*
-        $sendData = array();
-//        $sendData['from'] = $mail->senderText();
-        $from = $mail->sender();
-        $sendData['from'] = isset( $from['email'] ) ? $from['email'] : '';
-        // If in debug mode, send to debug email address and nothing else
-        if ( $ini->variable( 'MailSettings', 'DebugSending' ) == 'enabled' )
-        {
-            $sendData["recipients"] = array( $ini->variable( 'MailSettings', 'DebugReceiverEmail' ) );
-            $sendData['CcRecipients'] = array();
-            $sendData['BccRecipients'] = array();
-        }
-        else
-        {
-            $sendData["recipients"] = $mail->receiverTextList();
-            $sendData['CcRecipients'] = $mail->ccReceiverTextList();
-            $sendData['BccRecipients'] = $mail->bccReceiverTextList();
-        }
 
-        $excludeHeaders = $ini->variable( 'MailSettings', 'ExcludeHeaders' );
-        if ( count( $excludeHeaders ) > 0 )
-            $sendData['headers'] = $mail->headerTextList( array( 'exclude-headers' => $excludeHeaders ) );
-        else
-            $sendData['headers'] = $mail->headerTextList();
-        $sendData['body'] = $mail->body();
-*/
         $smtp = new ezcMailSmtpTransport( $parameters['host'], $user, $password, 
         $parameters['port'] );
 
@@ -130,31 +105,6 @@ class eZSMTPTransport extends eZMailTransport
 
         // return true in case of no exceptions
         return true;
-
-/*
-        $smtp = new smtp( $parameters );
-        $smtpConnected = $smtp->connect();
-        if ( $smtpConnected )
-        {
-            $result = $smtp->send( $sendData );
-            $mailSent = true;
-            if ( isset( $smtp->errors ) and is_array( $smtp->errors ) and count( $smtp->errors ) > 0 )
-            {
-                $mailSent = false;
-                foreach ( $smtp->errors as $error )
-                {
-                    eZDebug::writeError( "Error sending SMTP mail: " . $error, "eZSMTPTransport::sendMail()" );
-                }
-            }
-            $smtp->quit();
-        }
-        else
-        {
-            eZDebug::writeError( 'Unable to connect to SMTP server ' . $parameters['host'], 'error.log', __METHOD__ );
-            $mailSent = false;
-        }
-        return $mailSent;
-*/
     }
 }
 
