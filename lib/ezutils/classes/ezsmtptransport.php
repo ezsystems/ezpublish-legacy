@@ -116,8 +116,21 @@ class eZSMTPTransport extends eZMailTransport
             $mail->Mail->cc = array();
             $mail->Mail->bcc = array();
         }
-      
-        $result = $smtp->send( $mail->Mail );
+
+        // send() from ezcMailSmtpTransport doesn't return anything (it uses exceptions in case
+        // something goes bad)
+        try
+        {
+            $smtp->send( $mail->Mail );
+        }
+        catch ( ezcMailException $e )
+        {
+            return false;
+        }
+
+        // return true in case of no exceptions
+        return true;
+
 /*
         $smtp = new smtp( $parameters );
         $smtpConnected = $smtp->connect();
