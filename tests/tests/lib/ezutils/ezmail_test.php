@@ -12,17 +12,23 @@ class eZMailTest extends ezpTestCase
         parent::setUp();
 
         // Setup default settings, change these in each test when needed
-        $this->ini = eZINI::instance();
-        $this->ini->setVariable( 'MailSettings', 'Transport', 'sendmail' );
-        $this->ini->setVariable( 'MailSettings', 'TransportServer', 'localhost' );
-        $this->ini->setVariable( 'MailSettings', 'TransportPort', 25 );
-        $this->ini->setVariable( 'MailSettings', 'TransportUser', '' );
-        $this->ini->setVariable( 'MailSettings', 'TransportPassword', '' );
-        $this->ini->setVariable( 'MailSettings', 'AdminEmail', 'ezp-unittests-01@ez.no' );
-        $this->ini->setVariable( 'MailSettings', 'EmailSender', 'ezp-unittests-01@ez.no' );
-        $this->ini->setVariable( 'MailSettings', 'EmailReplyTo', 'ezp-unittests-01@ez.no' );
-        $this->ini->setVariable( 'MailSettings', 'DebugSending', 'disabled' );
-        $this->ini->setVariable( 'MailSettings', 'DebugReceiverEmail', 'ezp-unittests-01@ez.no' );
+        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'Transport', 'sendmail' );
+        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'TransportServer', 'localhost' );
+        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'TransportPort', 25 );
+        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'TransportUser', '' );
+        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'TransportPassword', '' );
+        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'AdminEmail', 'ezp-unittests-01@ez.no' );
+        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'EmailSender', 'ezp-unittests-01@ez.no' );
+        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'EmailReplyTo', 'ezp-unittests-01@ez.no' );
+        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'DebugSending', 'disabled' );
+        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'DebugReceiverEmail', 'ezp-unittests-01@ez.no' );
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        ezpINIHelper::restoreINISettings();
     }
 
     public static function providerTestValidate()
@@ -698,17 +704,17 @@ class eZMailTest extends ezpTestCase
 
         if ( isset( $sendData['Transport'] ) and $sendData['Transport'] == 'SMTP' )
         {
-            $this->ini->setVariable( 'MailSettings', 'Transport', 'SMTP' );
+            ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'Transport', 'SMTP' );
         }
 
         if ( isset( $sendData['DebugSending'] ) and $sendData['DebugSending'] == true )
         {
-            $this->ini->setVariable( 'MailSettings', 'DebugSending', 'enabled' );
+            ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'DebugSending', 'enabled' );
             $users = self::getTestAccounts();
             $recipients[] = $users['01'];
         }
         else
-            $this->ini->setVariable( 'MailSettings', 'DebugSending', 'disabled' );
+            ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'DebugSending', 'disabled' );
 
         foreach ( $recipients as $recipient )
         {

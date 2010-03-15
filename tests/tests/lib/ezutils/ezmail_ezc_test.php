@@ -14,17 +14,23 @@ class eZMailEzcTest extends ezpTestCase
         parent::setUp();
 
         // Setup default settings, change these in each test when needed
-        $this->ini = eZINI::instance();
-        $this->ini->setVariable( 'MailSettings', 'Transport', 'SMTP' );
-        $this->ini->setVariable( 'MailSettings', 'TransportServer', 'smtp.ez.no' );
-        $this->ini->setVariable( 'MailSettings', 'TransportPort', 25 );
-        $this->ini->setVariable( 'MailSettings', 'TransportUser', 'ezcomponents@mail.ez.no' );
-        $this->ini->setVariable( 'MailSettings', 'TransportPassword', 'ezcomponents' );
-        $this->ini->setVariable( 'MailSettings', 'AdminEmail', $this->adminEmail );
-        $this->ini->setVariable( 'MailSettings', 'EmailSender', 'ezp-unittests-01@ez.no' );
-        $this->ini->setVariable( 'MailSettings', 'EmailReplyTo', 'ezp-unittests-01@ez.no' );
-        $this->ini->setVariable( 'MailSettings', 'DebugSending', 'disabled' );
-        $this->ini->setVariable( 'MailSettings', 'DebugReceiverEmail', 'ezp-unittests-01@ez.no' );
+        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'Transport', 'SMTP' );
+        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'TransportServer', 'smtp.ez.no' );
+        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'TransportPort', 25 );
+        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'TransportUser', 'ezcomponents@mail.ez.no' );
+        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'TransportPassword', 'ezcomponents' );
+        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'AdminEmail', $this->adminEmail );
+        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'EmailSender', 'ezp-unittests-01@ez.no' );
+        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'EmailReplyTo', 'ezp-unittests-01@ez.no' );
+        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'DebugSending', 'disabled' );
+        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'DebugReceiverEmail', 'ezp-unittests-01@ez.no' );
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        ezpINIHelper::restoreINISettings();
     }
 
     /**
