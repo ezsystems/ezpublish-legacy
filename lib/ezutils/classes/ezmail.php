@@ -397,7 +397,17 @@ class eZMail
                              $transferEncoding = false, $disposition = false, $boundary = false )
     {
         if ( $type )
+        {
             $this->ContentType['type'] = $type;
+            if ( $charset )
+            {
+                $this->Mail->setHeader( 'Content-Type', "{$type}; charset={$charset}" );
+            }
+            else
+            {
+                $this->Mail->setHeader( 'Content-Type', "{$type}" );
+            }
+        }
         if ( $charset )
             $this->ContentType['charset'] = $charset;
         if ( $transferEncoding )

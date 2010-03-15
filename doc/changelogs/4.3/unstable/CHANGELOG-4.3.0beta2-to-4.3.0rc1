@@ -17,3 +17,5 @@ Changes from 4.3.0beta2 to 4.3.0rc1
 *Bugfixes:
 - Fixed bug #16399: ezmbpaex : Not able to send notification emails
 - Fixed bug #16389: Fatal error if SMTP configuration is wrong
+- Fixed bug #16401: email for confirming when anonymous is subscribing to
+  comments is in plain text, but with html tags
