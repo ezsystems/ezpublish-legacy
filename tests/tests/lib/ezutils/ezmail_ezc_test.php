@@ -175,6 +175,22 @@ class eZMailEzcTest extends ezpTestCase
         // catching the exception of wrong password and turning it into return false
         $this->assertEquals( false, eZMailTransport::send( $mail ) );
     }
+
+    /**
+     * Test for issue #16401: email for confirming when anonymous is subscribing to
+     * comments is in plain text, but with html tags
+     */
+    public function testRegressionSetContentType()
+    {
+        $mail = new eZMail();
+        $mail->setBody( __FUNCTION__ );
+        $mail->setContentType( "text/html" );
+
+        $ezcResult = $mail->Mail->generate();
+
+        preg_match( "/Content-Type: text\/html/", $ezcResult, $matches );
+        $this->assertEquals( 1, count( $matches ) );
+    }
 }
 
 ?>

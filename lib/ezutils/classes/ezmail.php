@@ -399,14 +399,6 @@ class eZMail
         if ( $type )
         {
             $this->ContentType['type'] = $type;
-            if ( $charset )
-            {
-                $this->Mail->setHeader( 'Content-Type', "{$type}; charset={$charset}" );
-            }
-            else
-            {
-                $this->Mail->setHeader( 'Content-Type', "{$type}" );
-            }
         }
         if ( $charset )
             $this->ContentType['charset'] = $charset;
@@ -416,6 +408,17 @@ class eZMail
             $this->ContentType['disposition'] = $disposition;
         if ( $boundary )
             $this->ContentType['boundary'] = $boundary;
+
+        // if the body was already defined
+        if ( $this->Mail->body instanceof ezcMailText )
+        {
+            // if the content-type is in the form of e.g. 'text/plain'
+            if ( strpos( $this->ContentType['type'] ,'/' ) !== false )
+            {
+                list( $type, $subType ) = explode( '/', $this->ContentType['type'] );
+                $this->Mail->body->subType = $subType;
+            }
+        }
     }
 
     /*!
@@ -730,6 +733,13 @@ class eZMail
         else
         {
             $this->Mail->body = new ezcMailText( $newBody );
+
+            // if the content-type is in the form of 'text/plain'
+            if ( strpos( $this->ContentType['type'] ,'/' ) !== false )
+            {
+                list( $type, $subType ) = explode( '/', $this->ContentType['type'] );
+                $this->Mail->body->subType = $subType;
+            }
         }
         $newBody = preg_replace( "/\r\n|\r|\n/", eZMail::lineSeparator(), $newBody );
         $this->BodyText = $newBody;
