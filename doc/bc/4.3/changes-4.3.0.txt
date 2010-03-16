@@ -96,6 +96,12 @@ Change of behavior
   will stop the execution to have a common error handling between PostgreSQL,
   MySQL and MySQLi backends.
 
+  - Function loginUser() of eZUser doesn't use the email address for updating the hash
+
+    Previously when updating the HashType in site.ini to md5_user, loginUser() was
+    using the email address to store the hash. Now it uses the login column of
+    the ezuser table instead.
+
 eZContentClass::instantiate() changes
 -------------------------------------
 
