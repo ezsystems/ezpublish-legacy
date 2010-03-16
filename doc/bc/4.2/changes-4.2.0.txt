@@ -41,6 +41,12 @@ Change of behaviour
   have right template in place. This is required for module views which has
   default_navigation_part defined. Ref. to the enhancement request #14654.
 
+- Function loginUser() of eZUser doesn't use the email address for updating the hash
+
+  Previously when updating the HashType in site.ini to md5_user, loginUser() was
+  using the email address to store the hash. Now it uses the login column of
+  the ezuser table instead.
+
 Renamed methods
 ---------------
 
