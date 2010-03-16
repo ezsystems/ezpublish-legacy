@@ -843,7 +843,7 @@ WHERE user_id = '" . $userID . "' AND
                          strtolower( $ini->variable( 'UserSettings', 'UpdateHash' ) ) == 'true' )
                     {
                         $hashType = eZUser::hashType();
-                        $hash = eZUser::createHash( $login, $password, eZUser::site(),
+                        $hash = eZUser::createHash( $userRow['login'], $password, eZUser::site(),
                                                     $hashType );
                         $db->query( "UPDATE ezuser SET password_hash='$hash', password_hash_type='$hashType' WHERE contentobject_id='$userID'" );
                     }

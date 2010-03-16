@@ -32,3 +32,13 @@ Removed globals
 - eZMailTransport
 
   eZMailTransport does not use globals anymore.
+
+
+Change of behaviour
+-------------------
+
+- Function loginUser() of eZUser doesn't use the email address for updating the hash
+
+  Previously when updating the HashType in site.ini to md5_user, loginUser() was
+  using the email address to store the hash. Now it uses the login column of
+  the ezuser table instead.
