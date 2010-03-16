@@ -72,7 +72,7 @@ class eZMailTransport
         $options = new ezpExtensionOptions( $optionArray );
         $transportClass = eZExtension::getHandlerClass( $options );
 
-		if ( !is_object( $transportClass ) )
+        if ( !is_object( $transportClass ) )
         {
             eZDebug::writeError( "No class available for mail transport type '$transportType', cannot send mail", 'eZMailTransport::send' );
         }
