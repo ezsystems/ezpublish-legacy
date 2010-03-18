@@ -15,24 +15,25 @@
 
 .loginpage #header
 {
-    height: 25%;
+    height: 15%;
 }
 
 .loginpage #columns
 {
-    height: 74%;
+    height: 85%;
     background-color: #fff;
 }
 
 .loginpage #columns #maincolumn
 {
     border-right: 0 none;
+    margin-right: 0px;
 }
 
 .loginpage #columns #maincontent
 {
-    max-width: 48em;
-    margin: auto;
+    width: 48em;
+    margin: 0 auto;
 }
 
 .loginpage #columns #maincontent .box-header
@@ -106,12 +107,12 @@ ul.tabs li a, ul.tabs li span.disabled
 {
     #header-logo a, #header-logo span
     {
-        width: 30px;/* Use only eZ logo on small screens */
+        width: 50px;/* Use only eZ logo on small screens */
     }
 
     #header-topmenu ul li a, #header-topmenu ul li span.disabled
     {
-        min-width: 90px;/* slightly smaller tabs */
+        min-width: 80px;/* slightly smaller tabs */
     }
 }
 

@@ -72,11 +72,10 @@ a.image-text:hover > span
 #header-logo a, #header-logo span
 {
     float: left;
-    width: 90px;
-    height: 35px;
+    width: 110px;
+    height: 45px;
     display: block;
     text-align: left;
-    padding: 5px 10px 5px;
     text-decoration: none;
     background: transparent url('../images/2/ez-logo-white.png') no-repeat 8px 8px scroll;
 }
