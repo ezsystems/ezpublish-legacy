@@ -257,7 +257,6 @@ input.defaultbutton, input.button-disabled
 {
     background-color: #f5f5f5;
     background-position: center top;
-    border-color: #ddd;
 }
 
 input.defaultbutton
