@@ -42,7 +42,7 @@ class ezjscServerFunctions
      */
     public static function getCacheTime( $functionName )
     {
-    	return 0;
+        return 0;
     }
 }
 

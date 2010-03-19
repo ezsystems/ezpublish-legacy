@@ -165,7 +165,7 @@ class ezjscPacker
     static function getCacheDir()
     {
         static $cacheDir = null;
-    	if ( $cacheDir === null )
+        if ( $cacheDir === null )
         {
             $sys = eZSys::instance();
             $cacheDir = $sys->cacheDirectory() . '/public/';
@@ -177,7 +177,7 @@ class ezjscPacker
     static function getWwwDir()
     {
         static $wwwDir = null;
-    	if ( $wwwDir === null )
+        if ( $wwwDir === null )
         {
             $sys = eZSys::instance();
             $wwwDir = $sys->wwwDir() . '/';
@@ -349,7 +349,7 @@ class ezjscPacker
         if ( $packLevel === 0 )
         {
             // if packing is disabled, return the valid paths / content we have generated
-        	return array_merge( $httpFiles, $validWWWFiles );
+            return array_merge( $httpFiles, $validWWWFiles );
         }
         else if ( !$validFiles )
         {
@@ -358,8 +358,8 @@ class ezjscPacker
         }
         else if ( !isset( $validFiles[1] ) && $validFiles[0] && !$validFiles[0] instanceof ezjscServerRouter )
         {
-        	// return if there is only one file in array to save us from caching it
-        	return array_merge( $httpFiles, $validWWWFiles );
+            // return if there is only one file in array to save us from caching it
+            return array_merge( $httpFiles, $validWWWFiles );
         }
 
         $cachePath = $packerInfo['cache_dir'] . $subPath;
@@ -367,25 +367,25 @@ class ezjscPacker
         // See if cahe file exists and if it has expired (only if time is not part of name)
         if ( $ezjscINI->hasVariable('Packer', 'AppendLastModifiedTime') === 'enabled' )
         {
-        	$cacheName = md5( $cacheName . $packLevel ) . '_' . $lastmodified . $fileExtension;
+            $cacheName = md5( $cacheName . $packLevel ) . '_' . $lastmodified . $fileExtension;
             if ( file_exists( $cachePath . $cacheName ) )
-	        {
-	            $httpFiles[] = $packerInfo['custom_host'] . $packerInfo['www_dir'] . $cachePath . $cacheName;
-	            return $httpFiles;
-	        }
+            {
+                $httpFiles[] = $packerInfo['custom_host'] . $packerInfo['www_dir'] . $cachePath . $cacheName;
+                return $httpFiles;
+            }
         }
         else
         {
-        	$cacheName = md5( $cacheName . $packLevel ) . $fileExtension;
-	        if ( file_exists( $cachePath . $cacheName ) )
-	        {
-	            // check last modified time and return path to cache file if valid
-	            if ( $lastmodified <= filemtime( $cachePath . $cacheName ) )
-	            {
-	                $httpFiles[] = $packerInfo['custom_host'] . $packerInfo['www_dir'] . $cachePath . $cacheName;
-	                return $httpFiles;
-	            }
-	        }
+            $cacheName = md5( $cacheName . $packLevel ) . $fileExtension;
+            if ( file_exists( $cachePath . $cacheName ) )
+            {
+                // check last modified time and return path to cache file if valid
+                if ( $lastmodified <= filemtime( $cachePath . $cacheName ) )
+                {
+                    $httpFiles[] = $packerInfo['custom_host'] . $packerInfo['www_dir'] . $cachePath . $cacheName;
+                    return $httpFiles;
+                }
+            }
         }
 
         // Merge file content and create new cache file

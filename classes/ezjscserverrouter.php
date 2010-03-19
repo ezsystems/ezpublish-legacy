@@ -106,10 +106,10 @@ class ezjscServerRouter
 
         if ( $permissionFunctions !== false )
         {
-        	if ( !self::hasAccess( $permissionFunctions, ( $permissionPrFunction ? $functionName : null ) ) )
-        	{
-        	    return null;
-        	}
+            if ( !self::hasAccess( $permissionFunctions, ( $permissionPrFunction ? $functionName : null ) ) )
+            {
+                return null;
+            }
         }
 
         return new ezjscServerRouter( $className, $functionName, $arguments, $isTemplateFunction );
@@ -158,17 +158,17 @@ class ezjscServerRouter
     {
         // Build limitation array
         $functionName = $functionName !== null ? '_' . $functionName : '';
-    	$ezjscoreIni = eZINI::instance( 'ezjscore.ini' );
+        $ezjscoreIni = eZINI::instance( 'ezjscore.ini' );
         $ezjscoreFunctionList = $ezjscoreIni->variable( 'ezjscServer', 'FunctionList' );
         $limitationList = array();
         foreach( $requiredFunctions as $requiredFunction )
         {
-        	$permissionName = $requiredFunction . $functionName;
-        	if ( !in_array( $permissionName, $ezjscoreFunctionList ) )
-        	{
-        		eZDebug::writeWarning( "'$permissionName' is not defined in ezjscore.ini[ezjscServer]FunctionList", __METHOD__ );
-        		return false;
-        	}
+            $permissionName = $requiredFunction . $functionName;
+            if ( !in_array( $permissionName, $ezjscoreFunctionList ) )
+            {
+                eZDebug::writeWarning( "'$permissionName' is not defined in ezjscore.ini[ezjscServer]FunctionList", __METHOD__ );
+                return false;
+            }
             $limitationList[] = $permissionName;
         }
         return ezjscAccessTemplateFunctions::hasAccessToLimitation( 'ezjscore', 'call', array( 'FunctionList', $limitationList ) );

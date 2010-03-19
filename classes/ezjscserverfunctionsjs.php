@@ -511,9 +511,9 @@ YUI( YUI3_config ).add('io-ez', function( Y )
         static $mtime = null;
         if ( $mtime === null )
         {
-        	$mtime = filemtime( __FILE__ );
+            $mtime = filemtime( __FILE__ );
         }
-    	return $mtime;
+        return $mtime;
     }
 
     /**
@@ -524,7 +524,7 @@ YUI( YUI3_config ).add('io-ez', function( Y )
     protected static function getIndexDir()
     {
         static $cachedIndexDir = null;
-    	if ( $cachedIndexDir === null )
+        if ( $cachedIndexDir === null )
         {
             $cachedIndexDir = eZSys::indexDir() . '/';
         }
