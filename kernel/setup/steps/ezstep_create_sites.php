@@ -1037,7 +1037,9 @@ language_locale='eng-GB'";
 
         // Enable OE and ODF extensions by default
         $extensionsToEnable = array();
-        foreach ( array( 'ezjscore', 'ezoe', 'ezodf' ) as $extension )
+        // Included in "fat" install, needs to override $extraCommonSettings extensions
+        $extensionsPrepended = array( 'ezjscore' );
+        foreach ( array( 'ezoe', 'ezodf' ) as $extension )
         {
             if ( file_exists( "extension/$extension" ) )
             {
@@ -1053,7 +1055,7 @@ language_locale='eng-GB'";
             {
                 $settingAdded = true;
                 $extraCommonSettings[$key]['settings']['ExtensionSettings']['ActiveExtensions'] =
-                    array_merge( $extraCommonSettings[$key]['settings']['ExtensionSettings']['ActiveExtensions'], $extensionsToEnable );
+                    array_merge( $extensionsPrepended, $extraCommonSettings[$key]['settings']['ExtensionSettings']['ActiveExtensions'], $extensionsToEnable );
                 break;
             }
         }
@@ -1061,7 +1063,7 @@ language_locale='eng-GB'";
         if ( !$settingAdded )
         {
             $extraCommonSettings[] = array( 'name' => 'site.ini',
-                                            'settings' => array( 'ExtensionSettings' => array( 'ActiveExtensions' => $extensionsToEnable ) ) );
+                                            'settings' => array( 'ExtensionSettings' => array( 'ActiveExtensions' => array_merge( $extensionsPrepended, $extensionsToEnable ) ) ) );
         }
 
         // Enable dynamic tree menu for the admin interface by default
