@@ -118,7 +118,7 @@ class eZDBSchemaInterface
      \param $schema A schema definition array which defines tables to fetch from.
                     If \c false it will call schema() to fetch it.
      \param $tableNameList An array with tables to include, will further narrow
-                           tables in \a $scema. Use \c false to fetch all tables.
+                           tables in \a $schema. Use \c false to fetch all tables.
 
      \note You shouldn't need to reimplement this method since the default
            code will do simple SELECT queries
