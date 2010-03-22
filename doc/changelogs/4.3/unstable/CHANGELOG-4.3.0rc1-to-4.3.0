@@ -1,0 +1,18 @@
+Changes from 4.3.0rc1 to 4.3.0
+
+*Kernel:
+
+*Design:
+
+*eZTemplate:
+
+*eZLocale:
+
+*Package system:
+
+*Scripts:
+
+*Translations:
+
+*Bugfixes:
+- Fixed bug #016190: Adding ezmbpax attribute to userclass creates PHP notice
