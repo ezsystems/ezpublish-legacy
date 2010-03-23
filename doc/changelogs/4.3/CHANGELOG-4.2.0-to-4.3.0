@@ -194,3 +194,4 @@ Changes from 4.2.0 to 4.3.0
 - Fixed bug #16328: Wrong hash stored in database on hash update in ezUser.php
 - Fixed bug #016190: Adding ezmbpax attribute to userclass creates PHP notice
 - Fixed bug #016426: When removing an object's main location from subitems, none of the other locations are set as main
+- Fixed bug #014366: Duplicate remote_id in ezcontentobject_tree
