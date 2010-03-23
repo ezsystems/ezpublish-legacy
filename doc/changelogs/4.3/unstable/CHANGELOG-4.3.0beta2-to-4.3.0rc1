@@ -21,3 +21,4 @@ Changes from 4.3.0beta2 to 4.3.0rc1
 - Fixed bug #16401: email for confirming when anonymous is subscribing to
   comments is in plain text, but with html tags
 - Fixed bug #16328: Wrong hash stored in database on hash update in ezUser.php
+- Fixed bug #014366: Duplicate remote_id in ezcontentobject_tree
