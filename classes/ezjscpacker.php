@@ -362,29 +362,28 @@ class ezjscPacker
             return array_merge( $httpFiles, $validWWWFiles );
         }
 
-        $cachePath = $packerInfo['cache_dir'] . $subPath;
+        $cachePath = $packerInfo['cache_dir'] . $subPath . md5( $cacheName . $packLevel );
 
         // See if cahe file exists and if it has expired (only if time is not part of name)
         if ( $ezjscINI->hasVariable('Packer', 'AppendLastModifiedTime') === 'enabled' )
         {
-            $cacheName = md5( $cacheName . $packLevel ) . '_' . $lastmodified . $fileExtension;
-            if ( file_exists( $cachePath . $cacheName ) )
+            $cachePath .= '_' . $lastmodified . $fileExtension;
+            $clusterFileHandler = eZClusterFileHandler::instance( $cachePath );
+            if ( $clusterFileHandler->fileExists( $cachePath ) )
             {
-                $httpFiles[] = $packerInfo['custom_host'] . $packerInfo['www_dir'] . $cachePath . $cacheName;
+                $httpFiles[] = $packerInfo['custom_host'] . $packerInfo['www_dir'] . $cachePath;
                 return $httpFiles;
             }
         }
         else
         {
-            $cacheName = md5( $cacheName . $packLevel ) . $fileExtension;
-            if ( file_exists( $cachePath . $cacheName ) )
+            $cachePath .= $fileExtension;
+            $clusterFileHandler = eZClusterFileHandler::instance( $cachePath );
+            // check last modified time and return path to cache file if valid
+            if ( $clusterFileHandler->fileExists( $cachePath ) && $lastmodified <= $clusterFileHandler->mtime( $cachePath ) )
             {
-                // check last modified time and return path to cache file if valid
-                if ( $lastmodified <= filemtime( $cachePath . $cacheName ) )
-                {
-                    $httpFiles[] = $packerInfo['custom_host'] . $packerInfo['www_dir'] . $cachePath . $cacheName;
-                    return $httpFiles;
-                }
+                $httpFiles[] = $packerInfo['custom_host'] . $packerInfo['www_dir'] . $cachePath;
+                return $httpFiles;
             }
         }
 
@@ -432,14 +431,11 @@ class ezjscPacker
                 $content = ezjscPacker::optimizeScript( $content, $packLevel );
         }
 
-        // save file and return path if sucsessfull
-        if( eZFile::create( $cacheName, $cachePath, $content ) )
-        {
-            $httpFiles[] = $packerInfo['custom_host'] . $packerInfo['www_dir'] . $cachePath . $cacheName;
-            return $httpFiles;
-        }
+        // save file and return path
+        $clusterFileHandler->fileStoreContents( $cachePath, $content );
+        $httpFiles[] = $packerInfo['custom_host'] . $packerInfo['www_dir'] . $cachePath;
 
-        return array();
+        return $httpFiles;
     }
 
     /**

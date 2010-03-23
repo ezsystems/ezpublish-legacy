@@ -1,3 +1,6 @@
+# v1.1.0rc1
+- Fixed bug #16456: ezjscore not cluster aware?
+
 # v1.1.0beta1
 
 - Fixed #016129: hasAccessToLimitation ezjscore 1.0.1 function does not properly check multiple policies
