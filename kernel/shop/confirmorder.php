@@ -86,7 +86,9 @@ switch( $operationResult['status'] )
                                             'text' => ezi18n( 'kernel/shop', 'Confirm order' ) ) );
         }
     }break;
+    
     case eZModuleOperationInfo::STATUS_HALTED:
+    case eZModuleOperationInfo::STATUS_REPEAT:
     {
         if (  isset( $operationResult['redirect_url'] ) )
         {
