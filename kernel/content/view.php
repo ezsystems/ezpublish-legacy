@@ -130,6 +130,7 @@ if ( ( array_key_exists(  'status', $operationResult ) && $operationResult['stat
     switch( $operationResult['status'] )
     {
         case eZModuleOperationInfo::STATUS_HALTED:
+        case eZModuleOperationInfo::STATUS_REPEAT:
         {
             if ( isset( $operationResult['redirect_url'] ) )
             {

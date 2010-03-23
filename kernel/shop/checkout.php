@@ -69,6 +69,7 @@ if ( $order instanceof eZOrder )
             switch( $operationResult['status'] )
             {
                 case eZModuleOperationInfo::STATUS_HALTED:
+                case eZModuleOperationInfo::STATUS_REPEAT:
                 {
                     if (  isset( $operationResult['redirect_url'] ) )
                     {

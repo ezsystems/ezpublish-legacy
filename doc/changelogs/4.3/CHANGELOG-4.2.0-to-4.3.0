@@ -197,3 +197,4 @@ Changes from 4.2.0 to 4.3.0
 - Fixed bug #014366: Duplicate remote_id in ezcontentobject_tree
 - Fixed bug #014371: Workflow template repeat broken by security patch
   Missing patch part from last release
+- Fixed bug #015727: Workflow status STATUS_FETCH_TEMPLATE_REPEAT disappeared
