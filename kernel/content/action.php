@@ -793,7 +793,6 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
         $nodes[] = eZContentObjectTreeNode::fetch( $locationID );
     }
     $removeList = array();
-    $nodeRemoveList = array();
     foreach ( $nodes as $node )
     {
         if ( $node )
@@ -808,8 +807,7 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
                 $redirectNodeID = $node->attribute( 'parent_node_id' );
             }
 
-            $removeList[] = $node->attribute( 'node_id' );
-            $nodeRemoveList[] = $node;
+            $removeList[$node->attribute( 'node_id' )] = 1;
             $count = $node->childrenCount( false );
 
             if ( $count > 0 )
@@ -822,8 +820,7 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
     if ( $hasChildren )
     {
         $http->setSessionVariable( 'CurrentViewMode', $viewMode );
-        $http->setSessionVariable( 'DeleteIDArray', $removeList );
-        $http->setSessionVariable( 'ContentObjectID', $objectID );
+        $http->setSessionVariable( 'DeleteIDArray', array_keys( $removeList ) );
         $http->setSessionVariable( 'ContentNodeID', $nodeID );
         $http->setSessionVariable( 'ContentLanguage', $languageCode );
         return $module->redirectToView( 'removeobject' );
@@ -833,16 +830,13 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
         if ( eZOperationHandler::operationIsAvailable( 'content_removelocation' ) )
         {
             $operationResult = eZOperationHandler::execute( 'content',
-                                                            'removelocation', array( 'node_id'       => $nodeID,
-                                                                                     'object_id'     => $objectID,
-                                                                                     'node_list'     => $nodeRemoveList,
-                                                                                     'move_to_trash' => false ),
+                                                            'removelocation', array( 'node_list' => array_keys( $removeList ) ),
                                                             null,
                                                             true );
         }
         else
         {
-            eZContentOperationCollection::removeAssignment( $nodeID, $objectID, $nodeRemoveList, false );
+            eZContentOperationCollection::removeNodes( array_keys( $removeList ) );
         }
     }
 
@@ -931,7 +925,6 @@ else if ( $http->hasPostVariable( 'RemoveButton' ) )
         {
             $http->setSessionVariable( 'CurrentViewMode', $viewMode );
             $http->setSessionVariable( 'ContentNodeID', $contentNodeID );
-            $http->setSessionVariable( 'ContentObjectID', $contentObjectID );
             $http->setSessionVariable( 'HideRemoveConfirmation', $hideRemoveConfirm );
             $http->setSessionVariable( 'DeleteIDArray', $deleteIDArray );
             $object = eZContentObject::fetch( $contentObjectID );
@@ -1221,7 +1214,6 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
         {
             $http->setSessionVariable( 'CurrentViewMode', $viewMode );
             $http->setSessionVariable( 'ContentNodeID', $parentNodeID );
-            $http->setSessionVariable( 'ContentObjectID', $contentObjectID );
             $http->setSessionVariable( 'HideRemoveConfirmation', $hideRemoveConfirm );
             $http->setSessionVariable( 'DeleteIDArray', array( $contentNodeID ) );
 

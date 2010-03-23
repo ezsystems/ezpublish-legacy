@@ -35,7 +35,6 @@ $http = eZHTTPTool::instance();
 
 $viewMode = $http->sessionVariable( "CurrentViewMode" );
 $deleteIDArray = $http->sessionVariable( "DeleteIDArray" );
-$contentObjectID = $http->sessionVariable( 'ContentObjectID' );
 $contentNodeID = $http->sessionVariable( 'ContentNodeID' );
 
 $requestedURI = '';
@@ -63,7 +62,6 @@ if ( $http->hasPostVariable( "CancelButton" ) )
 {
     $http->removeSessionVariable( "CurrentViewMode" );
     $http->removeSessionVariable( "DeleteIDArray" );
-    $http->removeSessionVariable( 'ContentObjectID' );
     $http->removeSessionVariable( 'ContentNodeID' );
     $http->removeSessionVariable( 'userRedirectURIReverseRelatedList' );
     $http->removeSessionVariable( 'HideRemoveConfirmation' );
@@ -139,7 +137,7 @@ $deleteResult       = $info['delete_list'];
 $moveToTrashAllowed = $info['move_to_trash'];
 $totalChildCount    = $info['total_child_count'];
 $exceededLimit      = false;
-$deleteNodeArray    = array();
+$deleteNodeIdArray  = array();
 
 // Check if number of nodes being removed not more then MaxNodesRemoveSubtree setting.
 $maxNodesRemoveSubtree = $contentINI->hasVariable( 'RemoveSettings', 'MaxNodesRemoveSubtree' ) ?
@@ -150,7 +148,7 @@ $deleteItemsExist = true; // If false, we should disable 'OK' button if count of
 foreach ( array_keys( $deleteResult ) as $removeItemKey )
 {
     $removeItem =& $deleteResult[$removeItemKey];
-    $deleteNodeArray[] = $removeItem['node'];
+    $deleteNodeIdArray[$removeItem['node']->attribute( 'node_id' )] = 1;
     if ( $removeItem['child_count'] > $maxNodesRemoveSubtree )
     {
         $removeItem['exceeded_limit_of_subitems'] = true;
@@ -192,15 +190,13 @@ if ( $totalChildCount == 0 )
         {
             $operationResult = eZOperationHandler::execute( 'content',
                                                             'removelocation',
-                                                             array( 'node_id' => $contentNodeID,
-                                                                    'object_id' => $contentObjectID,
-                                                                    'node_list' => $deleteNodeArray,
+                                                             array( 'node_list' => array_keys( $deleteNodeIdArray ),
                                                                     'move_to_trash' => $moveToTrash ),
                                                               null, true );
         }
         else
         {
-            eZContentOperationCollection::removeAssignment( $contentNodeID, $contentObjectID, $deleteNodeArray, $moveToTrash );
+            eZContentOperationCollection::removeNodes( array_keys( $deleteNodeIdArray ) );
         }
 
         if ( $http->hasSessionVariable( 'RedirectURIAfterRemove' )

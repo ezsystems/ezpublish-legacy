@@ -813,6 +813,8 @@ class eZContentOperationCollection
     /**
      * Removes a nodeAssignment or a list of nodeAssigments
      *
+     * @deprecated
+     *
      * @param int $nodeID
      * @param int $objectID
      * @param array $removeList
@@ -884,6 +886,86 @@ class eZContentOperationCollection
         if ( in_array( $object->attribute( 'contentclass_id' ), $userClassIDArray ) )
         {
             eZUser::cleanupCache();
+        }
+
+        // we don't clear template block cache here since it's cleared in eZContentObjectTreeNode::removeNode()
+
+        return array( 'status' => true );
+    }
+
+    /**
+     * Removes nodes
+     *
+     * This function does not check about permissions, this is the responsibility of the caller!
+     *
+     * @param array $removeNodeIdList Array of Node ID to remove
+     *
+     * @return array An array with operation status, always true
+     */
+    static public function removeNodes( array $removeNodeIdList )
+    {
+        $mainNodeChanged      = array();
+        $nodeAssignmentIdList = array();
+        $objectIdList         = array();
+
+        $db = eZDB::instance();
+        $db->begin();
+
+        foreach ( $removeNodeIdList as $nodeId )
+        {
+            $node     = eZContentObjectTreeNode::fetch($nodeId);
+            $objectId = $node->attribute( 'contentobject_id' );
+            foreach ( eZNodeAssignment::fetchForObject( $objectId,
+                                                        eZContentObject::fetch( $objectId )->attribute( 'current_version' ),
+                                                        0, false ) as $nodeAssignmentKey => $nodeAssignment )
+            {
+                if ( $nodeAssignment['parent_node'] == $node->attribute( 'parent_node_id' ) )
+                {
+                    $nodeAssignmentIdList[$nodeAssignment['id']] = 1;
+                }
+            }
+
+            if ( $nodeId == $node->attribute( 'main_node_id' ) )
+                $mainNodeChanged[$objectId] = 1;
+            $node->removeThis();
+
+            if ( !isset( $objectIdList[$objectId] ) )
+                $objectIdList[$objectId] = eZContentObject::fetch( $objectId );
+        }
+
+        // Give other search engines that the default one a chance to reindex
+        // when removing locations.
+        if ( !eZSearch::getEngine() instanceof eZSearchEngine )
+        {
+            foreach ( $objectIdList as $objectId => $object )
+                eZContentOperationCollection::registerSearchObject( $objectId, $object->attribute( 'current_version' ) );
+        }
+
+        eZNodeAssignment::purgeByID( array_keys( $nodeAssignmentIdList ) );
+
+        foreach ( array_keys( $mainNodeChanged ) as $objectId )
+        {
+            $allNodes = $objectIdList[$objectId]->assignedNodes();
+            // Registering node that will be promoted as 'main'
+            $mainNodeChanged[$objectId] = $allNodes[0];
+            eZContentObjectTreeNode::updateMainNodeID( $allNodes[0]->attribute( 'node_id' ), $objectId, false, $allNodes[0]->attribute( 'parent_node_id' ) );
+        }
+
+        $db->commit();
+
+        //call appropriate method from search engine
+        eZSearchEngine::removeNodes( $removeNodeIdList );
+
+        $userClassIdList = eZUser::contentClassIDs();
+        foreach ( $objectIdList as $objectId => $object )
+        {
+            eZContentCacheManager::clearObjectViewCacheIfNeeded( $objectId );
+
+            // clear user policy cache if this was a user object
+            if ( in_array( $object->attribute( 'contentclass_id' ), $userClassIdList ) )
+            {
+                eZUser::cleanupCache();
+            }
         }
 
         // we don't clear template block cache here since it's cleared in eZContentObjectTreeNode::removeNode()

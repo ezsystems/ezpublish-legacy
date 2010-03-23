@@ -102,6 +102,11 @@ Change of behavior
   using the email address to store the hash. Now it uses the login column of
   the ezuser table instead.
 
+- The content/removelocation operation now requires a unique parameter
+  (node_list) which is an array of node ID which no longer have to belong to
+  the same object. 'node_id', 'object_id' and 'move_to_trash' parameters have
+  been removed.
+
 eZContentClass::instantiate() changes
 -------------------------------------
 
@@ -132,6 +137,10 @@ Deprecated functionality
 - cronjobs/ldapusermanage.php
   This cronjob will be removed in a future version, functionality is part
   of regular ldap logins. See issue http://issues.ez.no/16319
+
+- kernel/content/ezcontentoperationcollection.php: removeAssignment()
+  Function will be removed in a future version, use removeNodes() instead
+  which can work on nodes not belonging to the same object.
 
 Renamed methods
 ---------------

@@ -551,6 +551,25 @@ class eZSearch
         return false;
     }
 
+    /**
+     * Removes nodes from the search engine.
+     *
+     * @param array $nodeIdList Array of node ID to remove.
+     *
+     * @return false in case of error, otherwise return the result of the search engine call
+     */
+    public static function removeNodes( array $nodeIdList )
+    {
+        $searchEngine = self::getEngine();
+
+        if ( is_object( $searchEngine ) && method_exists( $searchEngine, 'removeNodes' ) )
+        {
+            return $searchEngine->removeNodes( $nodeIdList );
+        }
+
+        return false;
+    }
+
     public static function updateObjectState( $objectID, $objectStateList )
     {
         $searchEngine = eZSearch::getEngine();
