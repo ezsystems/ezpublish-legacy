@@ -696,6 +696,11 @@ if ( !function_exists( 'checkContentActions' ) )
             {
                 switch( $operationResult['status'] )
                 {
+                    case eZModuleOperationInfo::STATUS_REPEAT:
+                    {
+                        eZContentOperationCollection::setVersionStatus( $object->attribute( 'id' ),
+                            $version->attribute( 'version' ), eZContentObjectVersion::STATUS_REPEAT );
+                    }
                     case eZModuleOperationInfo::STATUS_HALTED:
                     {
                         if ( isset( $operationResult['redirect_url'] ) )

@@ -18,3 +18,5 @@ Changes from 4.3.0rc1 to 4.3.0
 - Fixed bug #016190: Adding ezmbpax attribute to userclass creates PHP notice
 - Fixed bug #016426: When removing an object's main location from subitems, none of the other locations are set as main
 - Fixed bug #014366: Duplicate remote_id in ezcontentobject_tree
+- Fixed bug #014371: Workflow template repeat broken by security patch
+  Missing patch part from last release
