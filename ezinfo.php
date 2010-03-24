@@ -28,7 +28,7 @@ class ezjscoreInfo
 {
     static function info()
     {
-        $eZCopyrightString = 'Copyright (C) 1999-' . date('Y') . ' eZ Systems AS';
+        $eZCopyrightString = 'Copyright (C) 1999-2009 eZ Systems AS';
 
         return array( 'Name'      => '<a href="http://projects.ez.no/ezjscore">eZ JSCore</a> extension',
                       'Version'   => '1.1.0Alpha1',
