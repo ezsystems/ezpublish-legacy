@@ -28,7 +28,7 @@ class ezoeInfo
 {
     static function info()
     {
-        $eZCopyrightString = 'Copyright (C) 1999-' . date('Y') . ' eZ Systems AS';
+        $eZCopyrightString = 'Copyright (C) 1999-2009 eZ Systems AS';
 
         return array( 'Name'      => '<a href="http://projects.ez.no/ezoe">eZ Online Editor</a> extension',
                       'Version'   => '5.1.0beta2',
