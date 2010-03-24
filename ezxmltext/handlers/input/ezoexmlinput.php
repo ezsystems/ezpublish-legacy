@@ -1271,15 +1271,28 @@ class eZOEXMLInput extends eZXMLInputHandler
                     $res = eZTemplateDesignResource::instance();
                     $res->setKeys( array( array('classification', $className) ) );
 
-                    $tpl = templateInit();
-                    $tpl->setVariable( 'view', $view );
-                    $tpl->setVariable( 'object', $object );
-                    $tpl->setVariable( 'link_parameters', array() );
-                    $tpl->setVariable( 'classification', $className );
-                    $tpl->setVariable( 'object_parameters', $objectParam );
-                    if ( isset( $node ) ) $tpl->setVariable( 'node', $node );
-                    $templateOutput = $tpl->fetch( 'design:content/datatype/view/ezxmltags/' .
-                                      $tagName . $tplSuffix . '.tpl' );
+                    if ( isset( $node ) )
+                    {
+                        $templateOutput = self::fetchTemplate( 'design:content/datatype/view/ezxmltags/' . $tagName . $tplSuffix . '.tpl', array(
+                            'view' => $view,
+                            'object' => $object,
+                            'link_parameters' => array(),
+                            'classification' => $className,
+                            'object_parameters' => $objectParam,
+                            'node' => $node,
+                        ));
+                    }
+                    else
+                    {
+                        $templateOutput = self::fetchTemplate( 'design:content/datatype/view/ezxmltags/' . $tagName . $tplSuffix . '.tpl', array(
+                            'view' => $view,
+                            'object' => $object,
+                            'link_parameters' => array(),
+                            'classification' => $className,
+                            'object_parameters' => $objectParam,
+                        ));
+                    }
+
                     $output .= '<' . $htmlTagName . ' id="' . $idString . '" title="' . $objectName . '"' .
                                $objectAttr . $customAttributePart . $styleString . '>' . $templateOutput .
                                '</' . $htmlTagName . '>';
@@ -1913,6 +1926,39 @@ class eZOEXMLInput extends eZXMLInputHandler
             if ( $child instanceof DOMElement ) $count++;
         }
         return $count;
+    }
+
+    /* Execute template cleanly, make sure we don't override parameters
+     * and back them up for setting them back when done.
+     * 
+     * @param string $template
+     * @param array $parameters Hash with name and value
+     * @return string
+     */
+    protected static function fetchTemplate( $template, $parameters = array() )
+    {
+        $tpl = templateInit();
+        $existingPramas = array();
+
+        foreach( $parameters as $name => $value )
+        {
+            if ( $tpl->hasVariable( $name ) )
+                $existingPramas[$name] = $tpl->variable( $name );
+
+            $tpl->setVariable( $name, $value );
+        }
+
+        $result = $tpl->fetch( $template );
+
+        foreach( $parameters as $name => $value )
+        {
+            if ( isset( $existingPramas[$name] ) )
+                $tpl->setVariable( $name, $existingPramas[$name] );
+            else
+                $tpl->unsetVariable( $name );
+        }
+
+        return $result;
     }
 
     protected static $serverURL   = null;
