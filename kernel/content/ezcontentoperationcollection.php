@@ -348,6 +348,10 @@ class eZContentOperationCollection
 
         if ( $updateFields )
         {
+            if ( strlen( $nodeAssignment->attribute( 'parent_remote_id' ) ) > 0 )
+            {
+                $existingNode->setAttribute( 'remote_id', $nodeAssignment->attribute( 'parent_remote_id' ) );
+            }
             $existingNode->setAttribute( 'sort_field', $nodeAssignment->attribute( 'sort_field' ) );
             $existingNode->setAttribute( 'sort_order', $nodeAssignment->attribute( 'sort_order' ) );
         }
