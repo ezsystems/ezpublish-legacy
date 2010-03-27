@@ -43,7 +43,7 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
                 var row = el.parentNode, rowSpanOffset = 1;
 		        while ( row = row.previousSibling )
 		        {
-		        	jQuery('td[rowspan]', row ).each(function( i, cell ){
+		        	jQuery('> *[rowspan]', row ).each(function( i, cell ){
                         if ( cell.rowSpan >  rowSpanOffset )
                         {
                             x++;
@@ -65,23 +65,23 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
                 if ( skipRows === 0 )
                 {
 	                var colIndex = x - rowSpanArray.length;
-	                jQuery('td', tr ).each( function( i, td )
+	                jQuery('> *', tr ).each( function( i, cell )
 	                {
 	                    if ( colIndex === ( i + 1 ) )
 	                    {
                              // add current cell to selected nodes array
-                             if ( nodes === false ) nodes = jQuery( td );
-                             else nodes.push( td );
+                             if ( nodes === false ) nodes = jQuery( cell );
+                             else nodes.push( cell );
 
                              // If this cell has rowspan, make sure we skip the next rows
-	                         if ( td.rowSpan > 1 ) skipRows = td.rowSpan - 1;
+	                         if ( cell.rowSpan > 1 ) skipRows = cell.rowSpan - 1;
 	                    }
 	                    else if ( colIndex > ( i + 1 ) )
 	                    {
                             // correct col index when some cells use colSpan
-	                        if ( td.colSpan >  1 ) colIndex -= td.colSpan - 1;
+	                        if ( cell.colSpan >  1 ) colIndex -= cell.colSpan - 1;
 	                        // store rowspans that will effect column index in the next rows
-	                        if ( td.rowSpan > 1 ) rowSpanArray.push( td.rowSpan);
+	                        if ( cell.rowSpan > 1 ) rowSpanArray.push( cell.rowSpan);
 	                        
 	                    }
 	                });
