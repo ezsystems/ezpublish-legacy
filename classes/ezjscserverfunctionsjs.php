@@ -392,12 +392,12 @@ YUI( YUI3_config ).add('io-ez', function( Y )
                 $params['SearchTimestamp'] = $params['SearchTimestamp'][0];
         }
 
-        if ( self::hasPostValue( $http, 'EnableSpellCheck' ) || self::hasPostValue( $http, 'enable-spellcheck', '0' ) )
+        if ( self::hasPostValue( $http, 'EnableSpellCheck' ) || self::hasPostValue( $http, 'enable-spellcheck' ) )
         {
             $params['SpellCheck'] = array( true );
         }
 
-        if ( self::hasPostValue( $http, 'GetFacets' ) || self::hasPostValue( $http, 'show-facets', '0' ) )
+        if ( self::hasPostValue( $http, 'GetFacets' ) || self::hasPostValue( $http, 'show-facets' ) )
         {
             $params['facet'] = eZFunctionHandler::execute( 'ezfind', 'getDefaultSearchFacets', array() );
         }
@@ -494,9 +494,9 @@ YUI( YUI3_config ).add('io-ez', function( Y )
      * @param string $key
      * @return bool
      */
-    protected static function hasPostValue( eZHTTPTool $http, $key, $falseValue = '' )
+    protected static function hasPostValue( eZHTTPTool $http, $key )
     {
-        return $http->hasPostVariable( $key ) && $http->postVariable( $key ) !== $falseValue;
+        return $http->hasPostVariable( $key ) && $http->postVariable( $key ) !== '';
     }
 
     /**
