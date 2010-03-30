@@ -1,5 +1,9 @@
 eZ Online Editor 5.x extension Changelog
 
+5.2.0alpah1
+- Fixed bug #16554: Applying table cell settings to row or column does not affect table headings
+
+
 5.1.0
 * Fixed bug #16469: embedding objects in another language causes serious problems in following not-translateable attributes
 
@@ -9,11 +13,9 @@ eZ Online Editor 5.x extension Changelog
 5.1.0beta2:
 * Fixed #16271: Links containing special characters are not stored correctly
 
-
 5.1.0beta1:
 * Fixed #15872: suggestions of spell checker have the wrong encoding
 * Added ezoe.ini setting for setting directionality
-
 
 5.1.0alpha1:
 * Fixed translation of anchor Name attribute
