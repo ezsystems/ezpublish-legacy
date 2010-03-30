@@ -13,11 +13,11 @@
 
    <ol>
      <li>Extract the contents of this zip file into the tiny_mce/plugins directory.</li>
-     <li>You'll need an API key from <a href="http://www.afterthedeadline.com">www.afterthedeadline.com</a>.  Registering is quick and painless (email address and password).</li>
+     <li>You'll need to make up an API key. Ideally your application name followed by a string that is unique to this user is best. There is a performance benefit to using the same key for subsequent requests.</li>
      <li>You'll need to set three variables in your TinyMCE init:
       <ul>
          <p><strong>atd_rpc_id</strong>
-         <br />Your API key</p>
+         <br />An API key that you make up (e.g., WPORG-dkfjhds)</p>
 
          <p><strong>atd_rpc_url</strong>
          <br />the URL to post to, a proxy PHP script is included.  This will redirect all calls to http://service.afterthedeadline.com/  Use: htp://yourserver.com/path/to/AtD/proxy.php?url= for this. <em>Note: the '?url=' portion is expected by the included proxy.php script</em></p>
@@ -26,8 +26,7 @@
          <br />the URL of the <a href="css/content.css">content.css</a> file. Edit this file to change the appearance of AtD errors.</p>
       </ul>
     </li>
-    <li>You'll need a proxy script on your server.  Use the included proxy.php if you can.  Otherwise you'll need to write your own.  If your TinyMCE is public facing then you should 
-        hardcode your API key into the proxy script.</li>
+    <li>You'll need a proxy script on your server. Use the included proxy.php if you can. Otherwise you'll need to write your own.</li>
 
     <li>As a final note, make sure your webpage is encoded in UTF-8 format. AJAX requests use the encoding of the parent website and AtD expects UTF-8. This is important as AtD has better support for accented characters and we're working to support more languages.</li>
   </ol>
@@ -87,6 +86,30 @@ enable them in the TinyMCE init parameters by setting the <code>atd_show_types</
 <p><code>atd_show_types: "Bias Language,Cliches,Complex Expression,Diacritical Marks,Double Negatives,Hidden Verbs,Jargon Language,Passive voice,Phrases to Avoid,Redundant Expression",</code></p>
 
 <p>You may omit any of these categories.  Note that categories are separated by commas with no whitespace.  The category names are case sensitive and yes, voice is lowercase in Passive voice.</p>
+
+<h3>Localization</h3>
+
+<p>To localize the strings in this extension, create an object with the localized strings. Here is an example:</p>
+
+<pre>var my_plugin_strings = {
+   menu_title_spelling: "Spelling",
+   menu_title_repeated_word: "Repeated	Word",
+   menu_option_explain: "Explain...",
+   menu_option_ignore_once: "Ignore suggestion",
+   menu_option_ignore_always: "Ignore always",
+   button_proofread_tooltip: "Proofread Writing"
+   message_no_errors_found: "No writing errors were found.",
+   message_server_error: "There was a problem communicating with the After the Deadline service. Try again in one minute."
+};</pre>
+
+<p>Then make TinyMCE use these strings:</p>
+
+<pre>tinyMCE.addI18n('en.AtD', my_plugin_strings);</pre>
+
+<p>Note: I used <em>en.AtD</em> to indicate <em>my_plugin_strings</em> are an English translation of this AtD extension. For other languages use
+<em><b>lang</b>.AtD</em> where <em><b>lang</b></em> is the two letter language code value specified for <em>language</em> in your TinyMCE init.</p>
+
+<p>These string labels are compatible with the <a href="http://www.afterthedeadline.com/download.slp?platform=jQuery">AtD/jQuery extension</a>.</p>
 
 <h3>What's New?</h3>
 

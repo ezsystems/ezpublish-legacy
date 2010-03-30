@@ -5,6 +5,41 @@
  <body>
    <h1>After the Deadline for TinyMCE - What's New?</h1>
 
+<h3>24 Mar 10</h3>
+
+<ul>
+      <li>Updated to latest AtD/Core module:
+      <ul>
+        <li>Added L10n string <em>menu_title_confused_word</em> to localize "Did you mean..."</li>
+        <li>Fixed two cases of parent variable polution (two for loops not declaring their vars)</li>
+        <li>Fixed bug preventing subsequent occurences of one error (w/ the same context) from highlighting</li>
+        <li>Error highlighter now uses beginning of word boundary to accurately find error location in text</li>
+        <li>Fixed bug preventing misspelled words in single quotes from being highlighted</li>
+      </ul></li>
+</ul>
+
+<h3>15 Feb 10</h3>
+
+<ul>
+ <li>Fixed a highlighting issue</li>
+ <li>Fixed I18n issue with AtD/Core module</li>
+ <li>Fixed a bug where AtD Core was ignoring show types setting</li>
+</ul>
+
+<h3>14 Jan 10</h3>
+
+<ul>
+ <li>Made plugin localizable. Just need string translations now :)</li>
+ <li>Plugin now uses AtD Core UI module. Created a make.sh script to combine Core UI script and editor plugin src. Will also minify them if jsmin is in the current path.</li>
+</ul>
+
+<h3>11 Dec 09</h3>
+
+<ul>
+ <lI>Error highlighting is better at not highlighting a suggestion within a word</li>
+ <li>Plugin now checks if a global constant, AtD_proofread_click_count exists. If it does--it increments it with each use.</li>
+</ul>
+
 <h3>12 Nov 09</h3>
 
 <ul>

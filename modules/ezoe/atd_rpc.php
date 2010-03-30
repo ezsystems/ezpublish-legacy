@@ -1,15 +1,17 @@
 <?php
 // After the Deadline Proxy Script
+// *phear*
 
+// You get the option of hardcoding your API key here.  Do this if you don't want people seeing
+// your key when they do View -> Source.  
+$API_KEY = "";
 
-$apiKey = '';
-
-// Get from ezoe.ini settings if defined and if it has any values
+// But better to set it in ezoe.ini[AtD]api_key
 $ezoeIni  = eZINI::instance( 'ezoe.ini' );
 if ( $ezoeIni->hasVariable( 'AtD', 'api_key' )
   && $ezoeIni->variable( 'AtD', 'api_key' ) !== '' )
 {
-    $apiKey = $ezoeIni->variable( 'AtD', 'api_key' );
+    $API_KEY = $ezoeIni->variable( 'AtD', 'api_key' );
 }
 
 if ( $_SERVER['REQUEST_METHOD'] === 'POST' )
@@ -17,10 +19,13 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' )
    $postText = trim( file_get_contents('php://input') );
 }
 
-if ( $apiKey !== '' )
+if ( $API_KEY !== '' )
 {
-   $postText .= '&key=' . $apiKey;
+   $postText .= '&key=' . $API_KEY;
 }
+
+// I am a vampire
+// I have lost my fangs
 
 $url = $_GET['url'];
 
@@ -50,10 +55,21 @@ function AtD_http_post($request, $host, $path, $port = 80)
    return $response;
 }
 
-$data = AtD_http_post($postText, 'service.afterthedeadline.com', $url);
+// So I'm sad and I feel lonely
+// So I cry and I'm very angry
+// And I hate some garlic
+// So I'm so no more sad and
+// Ache yeah yeah
 
-// Set RPC response headers
-header('Content-Type: text/xml');
+$data = AtD_http_post($postText, "service.afterthedeadline.com", $url);
+
+// I am a vampire and I am looking in the city
+// Pretty girls don't look at me
+// Don't look at me
+// Cause I don't have my fangs
+// But I have lost my fangs
+
+header("Content-Type: text/xml");
 echo $data[1];
 
 echo "<!--\r\n";
@@ -62,5 +78,7 @@ echo "\r\n-->\r\n";
 
 eZDB::checkTransactionCounter();
 eZExecution::cleanExit();
+
+// -- Antsy Pants, Vampire
 
 ?>
