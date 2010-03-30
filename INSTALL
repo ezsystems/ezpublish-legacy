@@ -1,16 +1,16 @@
-eZ Online Editor 5.0 extension INSTALL
+eZ Online Editor 5.x extension INSTALL
 
 
-What is the eZ Online Editor 5.0 extension?
+What is the eZ Online Editor 5.x extension?
 ===========================================
 
-   eZ Publish Online Editor 5.0 for eZ XML datatype.
+   eZ Publish Online Editor 5.x for eZ XML datatype.
 
 
 Requirements
 ============
 
-The following requirements exists for using eZ Online Editor 5.0 extension:
+The following requirements exists for using eZ Online Editor 5.x extension:
 
 o  eZ Publish version:
 
@@ -84,7 +84,7 @@ Information on the installation of eZ Publish can be found at:
 http://ez.no/doc
 
 
-Installing eZ Online Editor 5.0 extension
+Installing eZ Online Editor 5.x extension
 =========================================
 
 1. Download the ezoe package.

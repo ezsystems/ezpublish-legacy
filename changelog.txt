@@ -1,4 +1,4 @@
-eZ Online Editor 5.0 extension Changelog
+eZ Online Editor 5.x extension Changelog
 
 5.1.0
 * Fixed bug #16469: embedding objects in another language causes serious problems in following not-translateable attributes

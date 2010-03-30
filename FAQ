@@ -1,6 +1,6 @@
-eZ Online Editor 5.0 extension FAQ
+eZ Online Editor 5.x extension FAQ
 
-1. eZ Online Editor 5.0 is not activated in eZ Publish
+1. eZ Online Editor 5.x is not activated in eZ Publish
    Note: This is very general, look at the other questions
    bellow to see if they better suite your problem before
    you check these.
@@ -39,7 +39,7 @@ F.  Make sure you have cleared all the caches (both eZ Publish and browser).
 G.	Enable debug output or look in the error/warning logs of eZ Publish for clues
     on what is going wrong. 
 
-2. eZ Online Editor 5.0 is not activated in eZ Publish for other users then admin.
+2. eZ Online Editor 5.x is not activated in eZ Publish for other users then admin.
 =================================================================================
 
     ezoe has its own set of access policy rules, so you need to give your
