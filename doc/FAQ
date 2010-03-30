@@ -1,4 +1,4 @@
-FAQ for ezjscore 1.0
+FAQ for ezjscore 1.x
 ====================
 
 Q: I used the ezcss_require()/ezscript_require() template operator in my code but no css/js files are included in my html page

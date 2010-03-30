@@ -86,7 +86,7 @@ class ezjscAccessTemplateFunctions
      * See eZ Publish documentation on more info on module, function and 
      * limitation values. Example: a user can have content/read permissions
      * but it can be limited to a specific limitation like a section, a node
-     * or node tree. 1.0 limitation: returns false if one of provided values
+     * or node tree. Limitation: returns false if one of provided values
      * don't match but ignores limitations not specified in $limitations.
      * 
      * @param string $module
