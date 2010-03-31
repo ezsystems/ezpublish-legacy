@@ -65,9 +65,10 @@ $branches = array();
 $branches[] = '4.1';
 $branches[] = '4.2';
 $branches[] = '4.3';
+$branches[] = '4.4';
 
 // Controls the lowest version which will be exported and verified against current data
-$lowestExportVersion = '4.1';
+$lowestExportVersion = '4.3';
 
 /********************************************************
 *** NOTE: The following arrays do not follow the
@@ -100,15 +101,22 @@ $versions43 = array( 'unstable' => array( array( '4.2.0', '4.3.0alpha1' ),
                                           array( '4.3.0beta1', '4.3.0beta2' ),
                                           array( '4.3.0beta2', '4.3.0rc1' ),
                                           array( '4.3.0rc1', '4.3.0' ),
-					),
-		     'unstable_subdir' => 'unstable',
-		     'stable' => array( array( '4.2.0', '4.3.0' ) ),
-		   );
+                    ),
+             'unstable_subdir' => 'unstable',
+             'stable' => array( array( '4.2.0', '4.3.0' ) ),
+           );
+
+$versions43 = array( 'unstable' => array( array( '4.3.0', '4.4.0alpha1' ),
+                    ),
+             'unstable_subdir' => 'unstable',
+             'stable' => array(),
+           );
 
 
 $versions['4.1'] = $versions41;
 $versions['4.2'] = $versions42;
 $versions['4.3'] = $versions43;
+$versions['4.4'] = $versions44;
 
 $fileList = array();
 $missingFileList = array();
