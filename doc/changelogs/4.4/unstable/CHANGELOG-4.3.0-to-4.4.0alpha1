@@ -15,4 +15,4 @@ Changes from 4.3.0 to 4.4.0alpha1
 *Translations:
 
 *Bugfixes:
-
+- Fixed bug #010651: eZHTTPTool::sendHTTPRequest() doesn't support domain names with dashes

@@ -239,7 +239,7 @@ class eZHTTPTool
     */
     static function sendHTTPRequest( $uri, $port = 80, $postParameters = false, $userAgent = 'eZ Publish', $passthrough = true )
     {
-        preg_match( "/^((http[s]?:\/\/)([a-zA-Z0-9_.]+))?([\/]?[~]?(\.?[^.]+[~]?)*)/i", $uri, $matches );
+        preg_match( "/^((http[s]?:\/\/)([a-zA-Z0-9_.-]+))?([\/]?[~]?(\.?[^.]+[~]?)*)/i", $uri, $matches );
         $protocol = $matches[2];
         $host = $matches[3];
         $path = $matches[4];
