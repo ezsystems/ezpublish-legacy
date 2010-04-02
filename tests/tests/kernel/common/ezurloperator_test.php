@@ -9,9 +9,6 @@
 
 class eZURLOperatorTest extends ezpTestCase
 {
-    protected $operator;
-    protected $tpl;
-
     public function setUp()
     {
         $_POST = $_GET = $_COOKIE = array();
@@ -20,8 +17,6 @@ class eZURLOperatorTest extends ezpTestCase
     public function tearDown()
     {
         $_POST = $_GET = $_COOKIE = array();
-        $this->operator = null;
-        $this->tpl = null;
     }
 
     public function testeZHTTPOperatorGet()
