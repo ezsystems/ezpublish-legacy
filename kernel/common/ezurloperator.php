@@ -40,6 +40,7 @@ class eZURLOperator
     const HTTP_OPERATOR_TYPE_POST = 1;
     const HTTP_OPERATOR_TYPE_GET = 2;
     const HTTP_OPERATOR_TYPE_SESSION = 3;
+    const HTTP_OPERATOR_TYPE_COOKIE = 4;
 
     /*!
      Initializes the image operator with the operator name $name.
@@ -719,14 +720,22 @@ CODEPIECE;
                     if ( count( $operatorParameters ) > 1 )
                     {
                         $httpTypeName = strtolower( $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace ) );
-                        if ( $httpTypeName == 'post' )
-                            $httpType = eZURLOperator::HTTP_OPERATOR_TYPE_POST;
-                        else if ( $httpTypeName == 'get' )
-                            $httpType = eZURLOperator::HTTP_OPERATOR_TYPE_GET;
-                        else if ( $httpTypeName == 'session' )
-                            $httpType = eZURLOperator::HTTP_OPERATOR_TYPE_SESSION;
-                        else
+
+                        $availableTypeList = array(
+                            'post'    => eZURLOperator::HTTP_OPERATOR_TYPE_POST,
+                            'get'     => eZURLOperator::HTTP_OPERATOR_TYPE_GET,
+                            'session' => eZURLOperator::HTTP_OPERATOR_TYPE_SESSION,
+                            'cookie'  => eZURLOperator::HTTP_OPERATOR_TYPE_COOKIE,
+                        );
+
+                        if( !isset( $availableTypeList[$httpTypeName] ) )
+                        {
                             $tpl->warning( $operatorName, "Unknown http type '$httpTypeName'" );
+                        }
+                        else
+                        {
+                            $httpType = $availableTypeList[$httpTypeName];
+                        }
                     }
 
                     // If we should check for existence of http variable
@@ -787,6 +796,20 @@ CODEPIECE;
                                     return;
                                 }
                                 $tpl->error( $operatorName, "Unknown session variable '$httpName'" );
+                            }
+                        } break;
+                        case eZURLOperator::HTTP_OPERATOR_TYPE_COOKIE:
+                        {
+                            if ( array_key_exists( $httpName, $_COOKIE ) )
+                                $operatorValue = !$checkExistence ? $_COOKIE[$httpName] : true;
+                            else
+                            {
+                                if ( $checkExistence )
+                                {
+                                    $operatorValue = false;
+                                    return;
+                                }
+                                $tpl->error( $operatorName, "Unknown cookie variable '$httpName'" );
                             }
                         } break;
                     }
