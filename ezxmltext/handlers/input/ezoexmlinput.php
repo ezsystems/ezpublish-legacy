@@ -90,28 +90,26 @@ class eZOEXMLInput extends eZXMLInputHandler
                   );
 
      /**
-     * hasAttribute
-     * Function used by template system to look for callable ezoe functions
+     * List of template callable attributes
      *
-     * @param string $name
-     * @return bool
+     * @return array
      */
-    function hasAttribute( $name )
+    function attributes()
     {
-        return ( $name === 'is_editor_enabled' or
-                 $name === 'can_disable' or
-                 $name === 'editor_layout_settings' or
-                 $name === 'browser_supports_dhtml_type' or
-                 $name === 'is_compatible_version' or
-                 $name === 'version' or
-                 $name === 'ezpublish_version' or
-                 $name === 'xml_tag_alias' or
-                 $name === 'json_xml_tag_alias' or
-                 eZXMLInputHandler::hasAttribute( $name ) );
+        return array_merge( array( 
+                      'is_editor_enabled',
+                      'can_disable',
+                      'editor_layout_settings',
+                      'browser_supports_dhtml_type',
+                      'is_compatible_version',
+                      'version',
+                      'ezpublish_version',
+                      'xml_tag_alias',
+                      'json_xml_tag_alias' ),
+                      parent::attributes() );
     }
 
      /**
-     * attribute
      * Function used by template system to call ezoe functions
      *
      * @param string $name
@@ -138,7 +136,7 @@ class eZOEXMLInput extends eZXMLInputHandler
         else if ( $name === 'json_xml_tag_alias' )
             $attr =  json_encode( self::getXmlTagAliasList() );
         else
-            $attr = eZXMLInputHandler::attribute( $name );
+            $attr = parent::attribute( $name );
         return $attr;
     }
 
