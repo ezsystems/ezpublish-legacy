@@ -2,6 +2,7 @@ eZ Online Editor 5.x extension Changelog
 
 5.2.0alpah1
 - Fixed bug #16554: Applying table cell settings to row or column does not affect table headings
+- Fixed bug #16605: Online Editor adds a lot of Non Breaking spaces (nbsp)
 
 
 5.1.0
