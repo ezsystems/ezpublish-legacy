@@ -200,7 +200,7 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
         $options['coverageClover'] = $coverageXml ? $coverageXml : null;
         $options['reportDirectory'] = $coverageHtml ? $coverageHtml : null;
         $options['verbose'] = $verbose ? true : false;
-        $options['xmlLogfile'] = $logfile ? $logfile : null;
+        $options['junitLogfile'] = $logfile ? $logfile : null;
         $options['stopOnFailure'] = $stopOnFailure ? $stopOnFailure : null;
         $options['debug'] = $debug ? true : null;
 
