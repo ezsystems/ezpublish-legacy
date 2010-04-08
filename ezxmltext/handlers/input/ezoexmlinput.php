@@ -237,7 +237,6 @@ class eZOEXMLInput extends eZXMLInputHandler
      */
     public static function version()
     {
-        include_once( 'extension/ezoe/ezinfo.php' );
         $info = ezoeInfo::info();
         $version = $info['version'];
         return $version;
