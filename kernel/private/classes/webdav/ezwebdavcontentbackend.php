@@ -1870,7 +1870,7 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
         }
 
         // added by @ds 2008-12-07 to fix problems with IE6 SP2
-        $ini = eZIni::instance();
+        $ini = eZINI::instance();
         $prefixAdded = false;
         $prefix = $ini->hasVariable( 'SiteAccessSettings', 'PathPrefix' ) &&
                       $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) != '' ? eZURLAliasML::cleanURL( $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) ) : false;

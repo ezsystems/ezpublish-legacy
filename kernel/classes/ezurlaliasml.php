@@ -1451,7 +1451,7 @@ class eZURLAliasML extends eZPersistentObject
         $internalURIString = $uriString;
         $originalURIString = $uriString;
 
-        $ini = eZIni::instance();
+        $ini = eZINI::instance();
 
         $prefixAdded = false;
         $prefix = $ini->hasVariable( 'SiteAccessSettings', 'PathPrefix' ) &&
