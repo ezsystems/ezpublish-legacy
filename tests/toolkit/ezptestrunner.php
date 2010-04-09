@@ -380,12 +380,15 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
      */
     static public function getClassName( $file )
     {
-        // $file argument has / directory seperator, but the getFileName() method of ReflectionClass
-        // returns a path with platform specific style of directory seperator
+        // $file argument has / directory separator, but the getFileName() method of ReflectionClass
+        // returns a path with platform specific style of directory separator
         if ( DIRECTORY_SEPARATOR != '/' )
         {
            $file = strtr( $file, '/', DIRECTORY_SEPARATOR );
         }
+
+        // Resolve symlinks and expand path to file
+        $file = realpath( $file );
 
         $classes = get_declared_classes();
 
