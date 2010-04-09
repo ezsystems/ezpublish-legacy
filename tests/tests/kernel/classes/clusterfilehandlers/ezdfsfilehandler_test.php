@@ -65,7 +65,7 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
         // Load database parameters for cluster
         // The same DSN than the relational database is used
         $fileINI = eZINI::instance( 'file.ini' );
-        $this->previousFileHandler = $fileINI->variable( 'ClusteringSettings', 'FileHandler', 'eZDFSFileHandler' );
+        $this->previousFileHandler = $fileINI->variable( 'ClusteringSettings', 'FileHandler' );
         $fileINI->setVariable( 'ClusteringSettings', 'FileHandler', 'eZDFSFileHandler' );
 
         $dsn = ezpTestRunner::dsn()->parts;
