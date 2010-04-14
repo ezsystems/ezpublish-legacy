@@ -12,6 +12,9 @@
         <table class="properties">
         <tr>
             <td>
+                <input type="hidden" name="SearchLimit" value="10" />
+                <input type="hidden" name="EncodingLoadImages" value="1" />
+                <input type="hidden" name="EncodingFetchChildrenCount" value="1" />
                 <input id="SearchText" name="SearchStr" type="text" value="" onkeypress="return eZOEPopupUtils.searchEnter(event)" title="{'Enter the word you want to search for here, for instance the name of the content you are looking for.'|i18n('design/standard/ezoe/wai')}" />    
                 <select name="SearchContentClassID[]" multiple="multiple" size="4" style="vertical-align:middle" title="{'Lets you limit the content type your searching for, by limiting the eZ Publish content classes that are returned in the search result.'|i18n('design/standard/ezoe/wai')}">
                 <option value=""{if $:box_class_filter_array|not} selected="selected"{/if}>{"All"|i18n("design/standard/ezoe")}</option>

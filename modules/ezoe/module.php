@@ -70,24 +70,6 @@ $ViewList['load'] = array(
     'params' => array( 'EmbedID', 'DataMap', 'ImagePreGenerateSizes' )
     );
 
-$ViewList['search'] = array(
-    'functions' => array( 'editor' ),
-    'script' => 'search.php',
-    'params' => array( 'SearchStr', 'SearchOffset', 'SearchLimit', 'VarName')
-    );
-
-$ViewList['expand'] = array(
-    'functions' => array( 'editor' ),
-    'script' => 'expand.php',
-    'params' => array( 'NodeID', 'Offset', 'Limit' )
-    );
-
-$ViewList['bookmarks'] = array(
-    'functions' => array( 'editor' ),
-    'script' => 'bookmarks.php',
-    'params' => array( 'Offset', 'Limit' )
-    );
-
 $ViewList['spellcheck_rpc'] = array(
     'functions' => array( 'editor' ),
     'script' => 'spellcheck_rpc.php',
@@ -159,8 +141,8 @@ $FunctionList['editor'] = array( 'Class' => $ClassID,
 $FunctionList = array();
 $FunctionList['relations'] = array();
 $FunctionList['editor'] = array();
-$FunctionList['search'] = array();
-$FunctionList['browse'] = array();
+$FunctionList['search'] = array();// only used by template code to see if user should see this feature in ezoe
+$FunctionList['browse'] = array();// only used by template code to see if user should see this feature in ezoe
 $FunctionList['disable_editor'] = array();
 
 

@@ -620,38 +620,36 @@ var eZOEPopupUtils = {
     browse: function( nodeId, offset )
     {
         // browse for a specific node id and a offset on the child elements
-        eZOEPopupUtils.ajax.load( tinyMCEPopup.editor.settings.ez_extension_url + '/expand/' + nodeId + '/' + (offset || 0), '', eZOEPopupUtils.browseCallBack  );
+        var postData = jQuery('#browse_box input, #browse_box select').serializeArray(), o = offset ? offset : 0;
+        jQuery.ez('ezoe::browse::' + nodeId + '::' + o, postData, function( data ){ eZOEPopupUtils.browseCallBack( data, 'browse' ) } );
         jQuery('#browse_progress' ).show();
     },
 
     search: function( offset )
     {
         // serach for nodes with input and select form elements inside a 'search_box' container element
-        // global objects: ez
-        var postData = jQuery('#search_box input, #search_box select').serialize(), o = offset || 0;    
-        var url = tinyMCEPopup.editor.settings.ez_extension_url + '/search/x/'+ o +'/10';
         if ( jQuery.trim( jQuery('#SearchText').val() ) )
         {
-            eZOEPopupUtils.ajax.load( url, postData, eZOEPopupUtils.searchCallBack );
+            var postData = jQuery('#search_box input, #search_box select').serializeArray(), o = offset ? offset : 0;
+            jQuery.ez('ezjsc::search::x::' + o, postData, eZOEPopupUtils.searchCallBack );
             jQuery('#search_progress' ).show();
         }
     },
 
-    browseCallBack: function( r, mode, emptyCallBack )
+    browseCallBack: function( data, mode, emptyCallBack )
     {
         // call back function for the browse() ajax call, generates the html markup with paging and path header (if defined)
-        mode = mode || 'browse';
+        mode = mode ? mode : 'browse';
         jQuery('#' + mode + '_progress' ).hide();
-        ez.script( 'eZOEPopupUtils.ajaxLoadResponse=' + r.responseText );
         var ed = tinyMCEPopup.editor, tbody = jQuery('#' + mode + '_box_prev tbody')[0], thead = jQuery('#' + mode + '_box_prev thead')[0], tfoot = jQuery('#' + mode + '_box_prev tfoot')[0], tr, td, tag, hasImage, emptyList = true;
         eZOEPopupUtils.removeChildren( tbody );
         eZOEPopupUtils.removeChildren( thead );
         eZOEPopupUtils.removeChildren( tfoot );
-        if ( eZOEPopupUtils.ajaxLoadResponse )
+        if ( data && data.content !== ''  )
         {
-            var data = eZOEPopupUtils.ajaxLoadResponse, fn = mode + ( mode === 'browse' ? '('+ data['node']['node_id'] + ',' : '(' );
+            var fn = mode + ( mode === 'browse' ? '('+ data.content['node']['node_id'] + ',' : '(' );
             var classGenerator = eZOEPopupUtils.settings.browseClassGenerator, linkGenerator = eZOEPopupUtils.settings.browseLinkGenerator;
-            if ( data['node'] && data['node']['name'] )
+            if ( data.content['node'] && data.content['node']['name'] )
             {
                 tr = document.createElement("tr"), td = document.createElement("td");
                 tr.className = 'browse-path-list';
@@ -659,11 +657,11 @@ var eZOEPopupUtils = {
                 tr.appendChild( td );
                 td = document.createElement("td")
                 td.setAttribute('colspan', '3');
-                if ( data['node']['path'] !== false && data['node']['node_id'] != 1 )
+                if ( data.content['node']['path'] !== false && data.content['node']['node_id'] != 1 )
                 {
                     // Prepend root node so you can browse to the root of the installation
-                    data['node']['path'].splice(0,0,{'node_id':1, 'name': ed.getLang('ez.root_node_name'), 'class_name': 'Folder'});
-                    jQuery.each( data['node']['path'], function( i, n )
+                    data.content['node']['path'].splice(0,0,{'node_id':1, 'name': ed.getLang('ez.root_node_name'), 'class_name': 'Folder'});
+                    jQuery.each( data.content['node']['path'], function( i, n )
                     {
                         tag = document.createElement("a");
                         tag.setAttribute('href', 'JavaScript:eZOEPopupUtils.' + mode + '(' + n.node_id + ');');
@@ -677,16 +675,16 @@ var eZOEPopupUtils = {
                 }
 
                 tag = document.createElement("span");
-                tag.innerHTML = data['node']['name'];
+                tag.innerHTML = data.content['node']['name'];
                 td.appendChild( tag );
 
                 tr.appendChild( td );
                 thead.appendChild( tr );
             }
 
-            if ( data['list'] )
+            if ( data.content['list'] )
             {
-               jQuery.each( data['list'], function( i, n )
+               jQuery.each( data.content['list'], function( i, n )
                {
                    tr = document.createElement("tr"), td = document.createElement("td"), tag = document.createElement("input"), isImage = false;
                    tag.setAttribute('type', 'radio');
@@ -744,20 +742,20 @@ var eZOEPopupUtils = {
 
             tr = document.createElement("tr"), td = document.createElement("td");
             tr.appendChild( document.createElement("td") );
-            if ( data['offset'] !== 0 )
+            if ( data.content['offset'] > 0 )
             {
                 tag = document.createElement("a");
-                tag.setAttribute('href', 'JavaScript:eZOEPopupUtils.' + fn + (data['offset'] - data['limit']) + ');');
+                tag.setAttribute('href', 'JavaScript:eZOEPopupUtils.' + fn + (data.content['offset'] - data.content['limit']) + ');');
                 tag.innerHTML = '&lt;&lt; ' + ed.getLang('advanced.previous');
                 td.appendChild( tag );
             }
             tr.appendChild( td );
             td = document.createElement("td");
             td.setAttribute('colspan', '2');
-            if ( (data['offset'] + data['limit']) < data['total_count'] )
+            if ( (data.content['offset'] + data.content['limit']) < data.content['total_count'] )
             {
                 tag = document.createElement("a");
-                tag.setAttribute('href', 'JavaScript:eZOEPopupUtils.' + fn + (data['offset'] + data['limit']) + ');');
+                tag.setAttribute('href', 'JavaScript:eZOEPopupUtils.' + fn + (data.content['offset'] + data.content['limit']) + ');');
                 tag.innerHTML = ed.getLang('advanced.next') + ' &gt;&gt;';
                 td.appendChild( tag );
             }
@@ -771,10 +769,20 @@ var eZOEPopupUtils = {
         return false;
     },
 
-    searchCallBack : function( r )
+    searchCallBack : function( searchData )
     {
         // wrapper function for browseCallBack, called by ajax call in search()
-        return eZOEPopupUtils.browseCallBack( r, 'search', function( tbody, mode, ed ){
+        var data = { 'content': '' };
+        if ( searchData && searchData.content !== '' )
+        {
+            data['content'] = {
+                    'limit': searchData.content.SearchLimit,
+                    'offset': searchData.content.SearchOffset,
+                    'total_count': searchData.content.SearchCount,
+                    'list': searchData.content.SearchResult
+            };
+        }
+        return eZOEPopupUtils.browseCallBack( data, 'search', function( tbody, mode, ed ){
             var tr = document.createElement("tr"), td = document.createElement("td"), tag = document.createElement("span");
             tr.appendChild( document.createElement("td") );
             tr.className = 'search-result-empty';

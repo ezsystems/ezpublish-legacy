@@ -40,7 +40,6 @@ class ezoeServerFunctions extends ezjscServerFunctions
      * i18n
      * Provides all i18n strings for use by TinyMCE and other javascript dialogs.
      * 
-     * @static
      * @param array $args
      * @param string $fileExtension
      * @return string returns json string with translation data
@@ -372,6 +371,141 @@ class ezoeServerFunctions extends ezjscServerFunctions
         $i18nString = json_encode( $i18nArray );
 
         return 'tinyMCE.addI18n( ' . $i18nString . ' );';
+    }
+
+    /**
+     * Gets current users bookmarks by offset and limit
+     * 
+     * @param array $args  0 => offset:0, 1 => limit:10
+     * @return hash
+    */
+    public static function bookmarks( $args )
+    {
+        $offset = (int) isset( $args[0] ) ? $args[0] : 0;
+        $limit  = (int) isset( $args[1] ) ? $args[1] : 10;
+        $http   = eZHTTPTool::instance();
+        $user   = eZUser::currentUser();
+        $sort   = 'desc';
+
+        if ( !$user instanceOf eZUser )
+        {
+            throw new ezcBaseFunctionalityNotSupportedException( 'Bookmarks retrival', 'current user object is not of type eZUser' );
+        }
+
+        $userID = $user->attribute('contentobject_id');
+        if ( $http->hasPostVariable( 'SortBy' ) && $http->postVariable( 'SortBy' ) !== 'asc' )
+        {
+            $sort = 'asc';
+        }
+
+        // fetch bookmarks
+        $count = eZPersistentObject::count( eZContentBrowseBookmark::definition(), array( 'user_id' => $userID ) );
+        if ( $count )
+        {
+            $objectList = eZPersistentObject::fetchObjectList( eZContentBrowseBookmark::definition(),
+                                                            null,
+                                                            array( 'user_id' => $userID ),
+                                                            array( 'id' => $sort ),
+                                                            array( 'offset' => $offset, 'length' => $limit ),
+                                                            true );
+        }
+        else
+        {
+            $objectList = false;
+        }
+
+        // Simplify node list so it can be encoded
+        if ( $objectList )
+        {
+            $list = ezjscAjaxContent::nodeEncode( $objectList, array( 'loadImages' => true, 'fetchNodeFunction' => 'fetchNode', 'fetchChildrenCount' => true ), 'raw' );
+        }
+        else
+        {
+            $list = array();
+        }
+
+        return array(
+            'list' => $list,
+            'count' => count( $objectList ),
+            'total_count' => (int) $count,
+            'offset' => $offset,
+            'limit' => $limit,
+        );
+    }
+
+    /**
+     * Gets current users bookmarks by offset and limit
+     * 
+     * @param array $args  0 => node id:1, 1 => offset:0, 2 => limit:10
+     * @return hash
+    */
+    public static function browse( $args )
+    {
+        $nodeID = (int) isset( $args[0] ) ? $args[0] : 1;
+        $offset = (int) isset( $args[1] ) ? $args[1] : 0;
+        $limit  = (int) isset( $args[2] ) ? $args[2] : 10;
+        $http   = eZHTTPTool::instance();
+
+        if ( !$nodeID )
+        {
+            throw new ezcBaseFunctionalityNotSupportedException( 'Browse node list', 'Parent node id is not valid' );
+        }
+
+        $node = eZContentObjectTreeNode::fetch( $nodeID );
+        if ( !$node instanceOf eZContentObjectTreeNode )
+        {
+            throw new ezcBaseFunctionalityNotSupportedException( 'Browse node list', "Parent node '$nodeID' is not valid" );
+        }
+
+        $params = array( 'Depth' => 1,
+                'Limit'            => $limit,
+                'Offset'           => $offset,
+                'SortBy'           => $node->attribute( 'sort_array' ),
+                'DepthOperator'    => 'eq',
+                'AsObject'         => true
+        );
+
+        // Look for some (class filter and sort by) post params to use as fetch params
+        if ( $http->hasPostVariable( 'ClassFilterArray' ) && $http->postVariable( 'ClassFilterArray' ) !== '' )
+        {
+            $params['ClassFilterType']  = 'include';
+            $params['ClassFilterArray'] = $http->postVariable( 'ClassFilterArray' );
+        }
+
+        if ( $http->hasPostVariable( 'SortBy' ) && $http->postVariable( 'SortBy' ) !== '' )
+        {
+            $params['SortBy'] = $http->postVariable( 'SortBy' );
+        }
+
+        // fetch nodes and total node count
+        $count = $node->subTreeCount( $params );
+        if ( $count )
+        {
+            $nodeArray = $node->subTree( $params );
+        }
+        else
+        {
+            $nodeArray = false;
+        }
+
+        // generate json response from node list
+        if ( $nodeArray )
+        {
+            $list = ezjscAjaxContent::nodeEncode( $nodeArray, array( 'fetchChildrenCount' => true, 'loadImages' => true ), 'raw' );
+        }
+        else
+        {
+            $list = array();
+        }
+
+        return array(
+            'list' => $list,
+            'count' => count( $nodeArray ),
+            'total_count' => (int) $count,
+            'node' => ezjscAjaxContent::nodeEncode( $node, array('fetchPath' => true ), 'raw' ),
+            'offset' => $offset,
+            'limit' => $limit,
+        );
     }
 
     /**
