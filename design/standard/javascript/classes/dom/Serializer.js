@@ -1,8 +1,11 @@
 /**
- * $Id: Serializer.js 1232 2009-09-21 19:04:13Z spocke $
+ * Serializer.js
  *
- * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
 (function(tinymce) {
@@ -46,20 +49,18 @@
 				valid_nodes : 0,
 				node_filter : 0,
 				attr_filter : 0,
-				invalid_attrs : /^(mce_|_moz_|sizset|sizcache)/,
+				invalid_attrs : /^(_mce_|_moz_|sizset|sizcache)/,
 				closed : /^(br|hr|input|meta|img|link|param|area)$/,
 				entity_encoding : 'named',
 				entities : '160,nbsp,161,iexcl,162,cent,163,pound,164,curren,165,yen,166,brvbar,167,sect,168,uml,169,copy,170,ordf,171,laquo,172,not,173,shy,174,reg,175,macr,176,deg,177,plusmn,178,sup2,179,sup3,180,acute,181,micro,182,para,183,middot,184,cedil,185,sup1,186,ordm,187,raquo,188,frac14,189,frac12,190,frac34,191,iquest,192,Agrave,193,Aacute,194,Acirc,195,Atilde,196,Auml,197,Aring,198,AElig,199,Ccedil,200,Egrave,201,Eacute,202,Ecirc,203,Euml,204,Igrave,205,Iacute,206,Icirc,207,Iuml,208,ETH,209,Ntilde,210,Ograve,211,Oacute,212,Ocirc,213,Otilde,214,Ouml,215,times,216,Oslash,217,Ugrave,218,Uacute,219,Ucirc,220,Uuml,221,Yacute,222,THORN,223,szlig,224,agrave,225,aacute,226,acirc,227,atilde,228,auml,229,aring,230,aelig,231,ccedil,232,egrave,233,eacute,234,ecirc,235,euml,236,igrave,237,iacute,238,icirc,239,iuml,240,eth,241,ntilde,242,ograve,243,oacute,244,ocirc,245,otilde,246,ouml,247,divide,248,oslash,249,ugrave,250,uacute,251,ucirc,252,uuml,253,yacute,254,thorn,255,yuml,402,fnof,913,Alpha,914,Beta,915,Gamma,916,Delta,917,Epsilon,918,Zeta,919,Eta,920,Theta,921,Iota,922,Kappa,923,Lambda,924,Mu,925,Nu,926,Xi,927,Omicron,928,Pi,929,Rho,931,Sigma,932,Tau,933,Upsilon,934,Phi,935,Chi,936,Psi,937,Omega,945,alpha,946,beta,947,gamma,948,delta,949,epsilon,950,zeta,951,eta,952,theta,953,iota,954,kappa,955,lambda,956,mu,957,nu,958,xi,959,omicron,960,pi,961,rho,962,sigmaf,963,sigma,964,tau,965,upsilon,966,phi,967,chi,968,psi,969,omega,977,thetasym,978,upsih,982,piv,8226,bull,8230,hellip,8242,prime,8243,Prime,8254,oline,8260,frasl,8472,weierp,8465,image,8476,real,8482,trade,8501,alefsym,8592,larr,8593,uarr,8594,rarr,8595,darr,8596,harr,8629,crarr,8656,lArr,8657,uArr,8658,rArr,8659,dArr,8660,hArr,8704,forall,8706,part,8707,exist,8709,empty,8711,nabla,8712,isin,8713,notin,8715,ni,8719,prod,8721,sum,8722,minus,8727,lowast,8730,radic,8733,prop,8734,infin,8736,ang,8743,and,8744,or,8745,cap,8746,cup,8747,int,8756,there4,8764,sim,8773,cong,8776,asymp,8800,ne,8801,equiv,8804,le,8805,ge,8834,sub,8835,sup,8836,nsub,8838,sube,8839,supe,8853,oplus,8855,otimes,8869,perp,8901,sdot,8968,lceil,8969,rceil,8970,lfloor,8971,rfloor,9001,lang,9002,rang,9674,loz,9824,spades,9827,clubs,9829,hearts,9830,diams,338,OElig,339,oelig,352,Scaron,353,scaron,376,Yuml,710,circ,732,tilde,8194,ensp,8195,emsp,8201,thinsp,8204,zwnj,8205,zwj,8206,lrm,8207,rlm,8211,ndash,8212,mdash,8216,lsquo,8217,rsquo,8218,sbquo,8220,ldquo,8221,rdquo,8222,bdquo,8224,dagger,8225,Dagger,8240,permil,8249,lsaquo,8250,rsaquo,8364,euro',
 				valid_elements : '*[*]',
 				extended_valid_elements : 0,
-				valid_child_elements : 0,
 				invalid_elements : 0,
 				fix_table_elements : 1,
 				fix_list_elements : true,
 				fix_content_duplication : true,
 				convert_fonts_to_spans : false,
 				font_size_classes : 0,
-				font_size_style_values : 0,
 				apply_source_formatting : 0,
 				indent_mode : 'simple',
 				indent_char : '\t',
@@ -70,6 +71,11 @@
 			}, s);
 
 			t.dom = s.dom;
+			t.schema = s.schema;
+
+			// Use raw entities if no entities are defined
+			if (s.entity_encoding == 'named' && !s.entities)
+				s.entity_encoding = 'raw';
 
 			if (s.remove_redundant_brs) {
 				t.onPostProcess.add(function(se, o) {
@@ -159,7 +165,7 @@
 		 * @param {String} s List of entities in the following format: number,name,....
 		 */
 		setEntities : function(s) {
-			var t = this, a, i, l = {}, re = '', v;
+			var t = this, a, i, l = {}, v;
 
 			// No need to setup more than once
 			if (t.entityLookup)
@@ -177,106 +183,9 @@
 				l[String.fromCharCode(a[i])] = a[i + 1];
 
 				v = parseInt(a[i]).toString(16);
-				re += '\\u' + '0000'.substring(v.length) + v;
 			}
 
-			if (!re) {
-				t.settings.entity_encoding = 'raw';
-				return;
-			}
-
-			t.entitiesRE = new RegExp('[' + re + ']', 'g');
 			t.entityLookup = l;
-		},
-
-		/**
-		 * Sets the valid child rules. This enables you to specify what elements can be childrens of what parents.
-		 * Consult the Wiki for format description on this input.
-		 *
-		 * @method setValidChildRules
-		 * @param {String} s String with valid child rules.
-		 */
-		setValidChildRules : function(s) {
-			this.childRules = null;
-			this.addValidChildRules(s);
-		},
-
-		/**
-		 * Adds valid child rules. This enables you to specify what elements can be childrens of what parents.
-		 * Consult the Wiki for format description on this input.
-		 *
-		 * @method addValidChildRules
-		 * @param {String} s String with valid child rules to add.
-		 */
-		addValidChildRules : function(s) {
-			var t = this, inst, intr, bloc;
-
-			if (!s)
-				return;
-
-			inst = 'A|BR|SPAN|BDO|MAP|OBJECT|IMG|TT|I|B|BIG|SMALL|EM|STRONG|DFN|CODE|Q|SAMP|KBD|VAR|CITE|ABBR|ACRONYM|SUB|SUP|#text|#comment';
-			intr = 'A|BR|SPAN|BDO|OBJECT|APPLET|IMG|MAP|IFRAME|TT|I|B|U|S|STRIKE|BIG|SMALL|FONT|BASEFONT|EM|STRONG|DFN|CODE|Q|SAMP|KBD|VAR|CITE|ABBR|ACRONYM|SUB|SUP|INPUT|SELECT|TEXTAREA|LABEL|BUTTON|#text|#comment';
-			bloc = 'H[1-6]|P|DIV|ADDRESS|PRE|FORM|TABLE|LI|OL|UL|TD|CAPTION|BLOCKQUOTE|CENTER|DL|DT|DD|DIR|FIELDSET|FORM|NOSCRIPT|NOFRAMES|MENU|ISINDEX|SAMP';
-
-			each(s.split(','), function(s) {
-				var p = s.split(/\[|\]/), re;
-
-				s = '';
-				each(p[1].split('|'), function(v) {
-					if (s)
-						s += '|';
-
-					switch (v) {
-						case '%itrans':
-							v = intr;
-							break;
-
-						case '%itrans_na':
-							v = intr.substring(2);
-							break;
-
-						case '%istrict':
-							v = inst;
-							break;
-
-						case '%istrict_na':
-							v = inst.substring(2);
-							break;
-
-						case '%btrans':
-							v = bloc;
-							break;
-
-						case '%bstrict':
-							v = bloc;
-							break;
-					}
-
-					s += v;
-				});
-				re = new RegExp('^(' + s.toLowerCase() + ')$', 'i');
-
-				each(p[0].split('/'), function(s) {
-					t.childRules = t.childRules || {};
-					t.childRules[s] = re;
-				});
-			});
-
-			// Build regex
-			s = '';
-			each(t.childRules, function(v, k) {
-				if (s)
-					s += '|';
-
-				s += k;
-			});
-
-			t.parentElementsRE = new RegExp('^(' + s.toLowerCase() + ')$', 'i');
-
-			/*console.debug(t.parentElementsRE.toString());
-			each(t.childRules, function(v) {
-				console.debug(v.toString());
-			});*/
 		},
 
 		/**
@@ -584,6 +493,7 @@
 
 			// Serialize HTML DOM into a string
 			t.writer.reset();
+			t._info = o;
 			t._serializeNode(n, o.getInner);
 
 			// Post process
@@ -681,18 +591,28 @@
 			o.content = h;
 		},
 
-		_serializeNode : function(n, inn) {
-			var t = this, s = t.settings, w = t.writer, hc, el, cn, i, l, a, at, no, v, nn, ru, ar, iv, closed;
+		_serializeNode : function(n, inner) {
+			var t = this, s = t.settings, w = t.writer, hc, el, cn, i, l, a, at, no, v, nn, ru, ar, iv, closed, keep, type;
 
 			if (!s.node_filter || s.node_filter(n)) {
 				switch (n.nodeType) {
 					case 1: // Element
-						if (n.hasAttribute ? n.hasAttribute('mce_bogus') : n.getAttribute('mce_bogus'))
+						if (n.hasAttribute ? n.hasAttribute('_mce_bogus') : n.getAttribute('_mce_bogus'))
 							return;
 
-						iv = false;
+						iv = keep = false;
 						hc = n.hasChildNodes();
-						nn = n.getAttribute('mce_name') || n.nodeName.toLowerCase();
+						nn = n.getAttribute('_mce_name') || n.nodeName.toLowerCase();
+
+						// Get internal type
+						type = n.getAttribute('_mce_type');
+						if (type) {
+							if (!t._info.cleanup) {
+								iv = true;
+								return;
+							} else
+								keep = 1;
+						}
 
 						// Add correct prefix on IE
 						if (isIE) {
@@ -705,18 +625,20 @@
 							nn = nn.substring(4);
 
 						// Check if valid
-						if (!t.validElementsRE || !t.validElementsRE.test(nn) || (t.invalidElementsRE && t.invalidElementsRE.test(nn)) || inn) {
-							iv = true;
-							break;
+						if (!keep) {
+							if (!t.validElementsRE || !t.validElementsRE.test(nn) || (t.invalidElementsRE && t.invalidElementsRE.test(nn)) || inner) {
+								iv = true;
+								break;
+							}
 						}
 
 						if (isIE) {
 							// Fix IE content duplication (DOM can have multiple copies of the same node)
 							if (s.fix_content_duplication) {
-								if (n.mce_serialized == t.key)
+								if (n._mce_serialized == t.key)
 									return;
 
-								n.mce_serialized = t.key;
+								n._mce_serialized = t.key;
 							}
 
 							// IE sometimes adds a / infront of the node name
@@ -729,18 +651,23 @@
 						}
 
 						// Check if valid child
-						if (t.childRules) {
-							if (t.parentElementsRE.test(t.elementName)) {
-								if (!t.childRules[t.elementName].test(nn)) {
-									iv = true;
-									break;
-								}
+						if (s.validate_children) {
+							if (t.elementName && !t.schema.isValid(t.elementName, nn)) {
+								iv = true;
+								break;
 							}
 
 							t.elementName = nn;
 						}
 
 						ru = t.findRule(nn);
+						
+						// No valid rule for this element could be found then skip it
+						if (!ru) {
+							iv = true;
+							break;
+						}
+
 						nn = ru.name || nn;
 						closed = s.closed.test(nn);
 
@@ -800,6 +727,10 @@
 							}
 						}
 
+						// Keep type attribute
+						if (type && keep)
+							w.writeAttribute('_mce_type', type);
+
 						// Write text from script
 						if (nn === 'script' && tinymce.trim(n.innerHTML)) {
 							w.writeText('// '); // Padd it with a comment so it will parse on older browsers
@@ -812,7 +743,7 @@
 						if (ru.padd) {
 							// If it has only one bogus child, padd it anyway workaround for <td><br /></td> bug
 							if (hc && (cn = n.firstChild) && cn.nodeType === 1 && n.childNodes.length === 1) {
-								if (cn.hasAttribute ? cn.hasAttribute('mce_bogus') : cn.getAttribute('mce_bogus'))
+								if (cn.hasAttribute ? cn.hasAttribute('_mce_bogus') : cn.getAttribute('_mce_bogus'))
 									w.writeText('\u00a0');
 							} else if (!hc)
 								w.writeText('\u00a0'); // No children then padd it
@@ -822,10 +753,8 @@
 
 					case 3: // Text
 						// Check if valid child
-						if (t.childRules && t.parentElementsRE.test(t.elementName)) {
-							if (!t.childRules[t.elementName].test(n.nodeName))
-								return;
-						}
+						if (s.validate_children && t.elementName && !t.schema.isValid(t.elementName, '#text'))
+							return;
 
 						return w.writeText(n.nodeValue);
 
@@ -918,7 +847,7 @@
 					t.setEntities(s.entities);
 					l = t.entityLookup;
 
-					h = h.replace(t.entitiesRE, function(a) {
+					h = h.replace(/[\u007E-\uFFFF]/g, function(a) {
 						var v;
 
 						if (v = l[a])
@@ -948,7 +877,6 @@
 
 			t.setRules(s.valid_elements);
 			t.addRules(s.extended_valid_elements);
-			t.addValidChildRules(s.valid_child_elements);
 
 			if (s.invalid_elements)
 				t.invalidElementsRE = new RegExp('^(' + wildcardToRE(s.invalid_elements.replace(/,/g, '|').toLowerCase()) + ')$');

@@ -1,8 +1,11 @@
 /**
- * $Id: ColorSplitButton.js 1176 2009-08-04 09:42:14Z spocke $
+ * ColorSplitButton.js
  *
- * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
 (function(tinymce) {
@@ -168,7 +171,7 @@
 					style : {
 						backgroundColor : '#' + c
 					},
-					mce_color : '#' + c
+					_mce_color : '#' + c
 				});
 			});
 
@@ -190,7 +193,7 @@
 
 				e = e.target;
 
-				if (e.nodeName == 'A' && (c = e.getAttribute('mce_color')))
+				if (e.nodeName == 'A' && (c = e.getAttribute('_mce_color')))
 					t.setColor(c);
 
 				return Event.cancel(e); // Prevent IE auto save warning

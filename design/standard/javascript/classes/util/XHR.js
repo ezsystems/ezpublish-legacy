@@ -1,8 +1,11 @@
 /**
- * $Id: XHR.js 1194 2009-08-15 14:57:34Z spocke $
+ * XHR.js
  *
- * @author Moxiecode
- * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
 /**

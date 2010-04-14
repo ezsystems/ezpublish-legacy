@@ -1,8 +1,11 @@
 /**
- * $Id: Popup.js 1204 2009-08-19 12:12:07Z spocke $
+ * Popup.js
  *
- * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
 // Some global instances
@@ -126,15 +129,19 @@ tinyMCEPopup = {
 	 * @method resizeToInnerSize
 	 */
 	resizeToInnerSize : function() {
-		var t = this, n, b = document.body, vp = t.dom.getViewPort(window), dw, dh;
+		var t = this;
 
-		dw = t.getWindowArg('mce_width') - vp.w;
-		dh = t.getWindowArg('mce_height') - vp.h;
+		// Detach it to workaround a Chrome specific bug
+		// https://sourceforge.net/tracker/?func=detail&atid=635682&aid=2926339&group_id=103281
+		setTimeout(function() {
+			var vp = t.dom.getViewPort(window);
 
-		if (t.isWindow)
-			window.resizeBy(dw, dh);
-		else
-			t.editor.windowManager.resizeBy(dw, dh, t.id);
+			t.editor.windowManager.resizeBy(
+				t.getWindowArg('mce_width') - vp.w,
+				t.getWindowArg('mce_height') - vp.h,
+				t.id || window
+			);
+		}, 0);
 	},
 
 	/**
@@ -338,7 +345,7 @@ tinyMCEPopup = {
 
 		if (!tinymce.isIE && !t.isWindow) {
 			tinymce.dom.Event._add(document, 'focus', function() {
-				t.editor.windowManager.focus(t.id)
+				t.editor.windowManager.focus(t.id);
 			});
 		}
 

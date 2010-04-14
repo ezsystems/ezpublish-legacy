@@ -1,8 +1,11 @@
 /**
- * $Id: WindowManager.js 1176 2009-08-04 09:42:14Z spocke $
+ * WindowManager.js
  *
- * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
 (function(tinymce) {
@@ -158,6 +161,17 @@
 
 			if (cb)
 				cb.call(s || t);
+		},
+
+		/**
+		 * Resizes the specified window or id.
+		 *
+		 * @param {Number} dw Delta width.
+		 * @param {Number} dh Delta height.
+		 * @param {window/id} win Window if the dialog isn't inline. Id if the dialog is inline.
+		 */
+		resizeBy : function(dw, dh, win) {
+			win.resizeBy(dw, dh);
 		},
 
 		// Internal functions

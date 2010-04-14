@@ -1,14 +1,37 @@
 /**
- * $Id: DOMUtils.js 1233 2009-09-21 22:08:30Z spocke $
+ * DOMUtils.js
  *
- * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
 (function(tinymce) {
 	// Shorten names
-	var each = tinymce.each, is = tinymce.is;
-	var isWebKit = tinymce.isWebKit, isIE = tinymce.isIE;
+	var each = tinymce.each,
+		is = tinymce.is,
+		isWebKit = tinymce.isWebKit,
+		isIE = tinymce.isIE,
+		blockRe = /^(H[1-6R]|P|DIV|ADDRESS|PRE|FORM|T(ABLE|BODY|HEAD|FOOT|H|R|D)|LI|OL|UL|CAPTION|BLOCKQUOTE|CENTER|DL|DT|DD|DIR|FIELDSET|NOSCRIPT|MENU|ISINDEX|SAMP)$/,
+		boolAttrs = makeMap('checked,compact,declare,defer,disabled,ismap,multiple,nohref,noresize,noshade,nowrap,readonly,selected'),
+		mceAttribs = makeMap('src,href,style,coords,shape'),
+		encodedChars = {'&' : '&amp;', '"' : '&quot;', '<' : '&lt;', '>' : '&gt;'},
+		encodeCharsRe = /[<>&\"]/g,
+		simpleSelectorRe = /^([a-z0-9],?)+$/i,
+		tagRegExp = /<(\w+)((?:\s+\w+(?:\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|[^>\s]+))?)*)(\s*\/?)>/g,
+		attrRegExp = /(\w+)(?:\s*=\s*(?:(?:"((?:\\.|[^"])*)")|(?:'((?:\\.|[^'])*)')|([^>\s]+)))?/g;
+
+	function makeMap(str) {
+		var map = {}, i;
+
+		str = str.split(',');
+		for (i = str.length; i >= 0; i--)
+			map[str[i]] = 1;
+
+		return map;
+	};
 
 	/**
 	 * Utility class for various DOM manipulation and retrival functions.
@@ -43,7 +66,7 @@
 		 * @param {settings} s Optional settings collection.
 		 */
 		DOMUtils : function(d, s) {
-			var t = this;
+			var t = this, globalStyle;
 
 			t.doc = d;
 			t.win = window;
@@ -66,6 +89,16 @@
 				} catch (e) {
 					t.cssFlicker = true;
 				}
+			}
+
+			// Build styles list
+			if (s.valid_styles) {
+				t._styles = {};
+
+				// Convert styles into a rule list
+				each(s.valid_styles, function(value, key) {
+					t._styles[key] = tinymce.explode(value);
+				});
 			}
 
 			tinymce.addUnload(t.destroy, t);
@@ -289,10 +322,32 @@
 		 *
 		 * @method is
 		 * @param {Node/NodeList} n DOM node to match or an array of nodes to match.
-		 * @param {String} patt CSS pattern to match the element agains.
+		 * @param {String} selector CSS pattern to match the element agains.
 		 */
-		is : function(n, patt) {
-			return tinymce.dom.Sizzle.matches(patt, n.nodeType ? [n] : n).length > 0;
+		is : function(n, selector) {
+			var i;
+
+			// If it isn't an array then try to do some simple selectors instead of Sizzle for to boost performance
+			if (n.length === undefined) {
+				// Simple all selector
+				if (selector === '*')
+					return n.nodeType == 1;
+
+				// Simple selector just elements
+				if (simpleSelectorRe.test(selector)) {
+					selector = selector.toLowerCase().split(/,/);
+					n = n.nodeName.toLowerCase();
+
+					for (i = selector.length - 1; i >= 0; i--) {
+						if (selector[i] == n)
+							return true;
+					}
+
+					return false;
+				}
+			}
+
+			return tinymce.dom.Sizzle.matches(selector, n.nodeType ? [n] : n).length > 0;
 		},
 
 		// #endif
@@ -370,42 +425,30 @@
 		 * Removes/deletes the specified element(s) from the DOM.
 		 *
 		 * @method remove
-		 * @param {String/Element/Array} n ID of element or DOM element object or array containing multiple elements/ids.
-		 * @param {Boolean} k Optional state to keep children or not. If set to true all children will be placed at the location of the removed element.
+		 * @param {String/Element/Array} node ID of element or DOM element object or array containing multiple elements/ids.
+		 * @param {Boolean} keep_children Optional state to keep children or not. If set to true all children will be placed at the location of the removed element.
 		 * @return {Element/Array} HTML DOM element that got removed or array of elements depending on input.
 		 */
-		remove : function(n, k) {
-			var t = this;
+		remove : function(node, keep_children) {
+			return this.run(node, function(node) {
+				var parent, child;
 
-			return this.run(n, function(n) {
-				var p, g, i;
+				parent = node.parentNode;
 
-				p = n.parentNode;
-
-				if (!p)
+				if (!parent)
 					return null;
 
-				if (k) {
-					for (i = n.childNodes.length - 1; i >= 0; i--)
-						t.insertAfter(n.childNodes[i], n);
-
-					//each(n.childNodes, function(c) {
-					//	p.insertBefore(c.cloneNode(true), n);
-					//});
+				if (keep_children) {
+					while (child = node.firstChild) {
+						// IE 8 will crash if you don't remove completely empty text nodes
+						if (child.nodeType !== 3 || child.nodeValue)
+							parent.insertBefore(child, node);
+						else
+							node.removeChild(child);
+					}
 				}
 
-				// Fix IE psuedo leak
-				if (t.fixPsuedoLeaks) {
-					p = n.cloneNode(true);
-					k = 'IELeakGarbageBin';
-					g = t.get(k) || t.add(t.doc.body, 'div', {id : k, style : 'display:none'});
-					g.appendChild(n);
-					g.innerHTML = '';
-
-					return p;
-				}
-
-				return p.removeChild(n);
+				return parent.removeChild(node);
 			});
 		},
 
@@ -459,7 +502,7 @@
 
 				// Force update of the style data
 				if (t.settings.update_styles)
-					t.setAttrib(e, 'mce_style');
+					t.setAttrib(e, '_mce_style');
 			});
 		},
 
@@ -566,9 +609,9 @@
 						// No mce_style for elements with these since they might get resized by the user
 						if (s.keep_values) {
 							if (v && !t._isRes(v))
-								e.setAttribute('mce_style', v, 2);
+								e.setAttribute('_mce_style', v, 2);
 							else
-								e.removeAttribute('mce_style', 2);
+								e.removeAttribute('_mce_style', 2);
 						}
 
 						e.style.cssText = v;
@@ -584,13 +627,13 @@
 							if (s.url_converter)
 								v = s.url_converter.call(s.url_converter_scope || t, v, n, e);
 
-							t.setAttrib(e, 'mce_' + n, v, 2);
+							t.setAttrib(e, '_mce_' + n, v, 2);
 						}
 
 						break;
 					
 					case "shape":
-						e.setAttribute('mce_style', v);
+						e.setAttribute('_mce_style', v);
 						break;
 				}
 
@@ -640,7 +683,7 @@
 
 			// Try the mce variant for these
 			if (/^(src|href|style|coords|shape)$/.test(n)) {
-				v = e.getAttribute("mce_" + n);
+				v = e.getAttribute("_mce_" + n);
 
 				if (v)
 					return v;
@@ -670,10 +713,10 @@
 				v = v || e.style.cssText;
 
 				if (v) {
-					v = t.serializeStyle(t.parseStyle(v));
+					v = t.serializeStyle(t.parseStyle(v), e.nodeName);
 
 					if (t.settings.keep_values && !t._isRes(v))
-						e.setAttribute('mce_style', v);
+						e.setAttribute('_mce_style', v);
 				}
 			}
 
@@ -905,17 +948,26 @@
 		 *
 		 * @method serializeStyle
 		 * @param {Object} o Object to serialize as string for example: {border : '1px solid red'}
+		 * @param {String} name Optional element name.
 		 * @return {String} String representation of the style object for example: border: 1px solid red.
 		 */
-		serializeStyle : function(o) {
-			var s = '';
+		serializeStyle : function(o, name) {
+			var t = this, s = '';
 
-			each(o, function(v, k) {
+			function add(v, k) {
 				if (k && v) {
-					if (tinymce.isGecko && k.indexOf('-moz-') === 0)
+					// Remove browser specific styles like -moz- or -webkit-
+					if (k.indexOf('-') === 0)
 						return;
 
 					switch (k) {
+						case 'font-weight':
+							// Opera will output bold as 700
+							if (v == 700)
+								v = 'bold';
+
+							break;
+
 						case 'color':
 						case 'background-color':
 							v = v.toLowerCase();
@@ -924,7 +976,19 @@
 
 					s += (s ? ' ' : '') + k + ': ' + v + ';';
 				}
-			});
+			};
+
+			// Validate style output
+			if (name && t._styles) {
+				each(t._styles['*'], function(name) {
+					add(o[name], name);
+				});
+
+				each(t._styles[name.toLowerCase()], function(name) {
+					add(o[name], name);
+				});
+			} else
+				each(o, add);
 
 			return s;
 		},
@@ -1009,8 +1073,17 @@
 						re = new RegExp("(^|\\s+)" + c + "(\\s+|$)", "g");
 
 					v = e.className.replace(re, ' ');
+					v = tinymce.trim(v != ' ' ? v : '');
 
-					return e.className = tinymce.trim(v != ' ' ? v : '');
+					e.className = v;
+
+					// Empty class attr
+					if (!v) {
+						e.removeAttribute('class');
+						e.removeAttribute('className');
+					}
+
+					return v;
 				}
 
 				return e.className;
@@ -1097,6 +1170,10 @@
 
 				if (isIE) {
 					function set() {
+						// Remove all child nodes
+						while (e.firstChild)
+							e.firstChild.removeNode();
+
 						try {
 							// IE will remove comments from the beginning
 							// unless you padd the contents with something
@@ -1105,10 +1182,6 @@
 						} catch (ex) {
 							// IE sometimes produces an unknown runtime error on innerHTML if it's an block element within a block element for example a div inside a p
 							// This seems to fix this problem
-
-							// Remove all child nodes
-							while (e.firstChild)
-								e.firstChild.removeNode();
 
 							// Create new div with HTML contents and a BR infront to keep comments
 							x = t.create('div');
@@ -1127,7 +1200,7 @@
 					// DOM tree if contents like this <p><ul><li>Item 1</li></ul></p> is inserted
 					// It seems to be that IE doesn't like a root block element placed inside another root block element
 					if (t.settings.fix_ie_paragraphs)
-						h = h.replace(/<p><\/p>|<p([^>]+)><\/p>|<p[^\/+]\/>/gi, '<p$1 mce_keep="true">&nbsp;</p>');
+						h = h.replace(/<p><\/p>|<p([^>]+)><\/p>|<p[^\/+]\/>/gi, '<p$1 _mce_keep="true">&nbsp;</p>');
 
 					set();
 
@@ -1138,12 +1211,12 @@
 							n = nl[i];
 
 							if (!n.hasChildNodes()) {
-								if (!n.mce_keep) {
+								if (!n._mce_keep) {
 									x = 1; // Is broken
 									break;
 								}
 
-								n.removeAttribute('mce_keep');
+								n.removeAttribute('_mce_keep');
 							}
 						}
 					}
@@ -1152,13 +1225,13 @@
 					if (x) {
 						// So if we replace the p elements with divs and mark them and then replace them back to paragraphs
 						// after we use innerHTML we can fix the DOM tree
-						h = h.replace(/<p ([^>]+)>|<p>/ig, '<div $1 mce_tmp="1">');
+						h = h.replace(/<p ([^>]+)>|<p>/ig, '<div $1 _mce_tmp="1">');
 						h = h.replace(/<\/p>/g, '</div>');
 
 						// Set the new HTML with DIVs
 						set();
 
-						// Replace all DIV elements with he mce_tmp attibute back to paragraphs
+						// Replace all DIV elements with the _mce_tmp attibute back to paragraphs
 						// This is needed since IE has a annoying bug see above for details
 						// This is a slow process but it has to be done. :(
 						if (t.settings.fix_ie_paragraphs) {
@@ -1167,7 +1240,7 @@
 								n = nl[i];
 
 								// Is it a temp div
-								if (n.mce_tmp) {
+								if (n._mce_tmp) {
 									// Create new paragraph
 									p = t.doc.createElement('p');
 
@@ -1175,7 +1248,7 @@
 									n.cloneNode(false).outerHTML.replace(/([a-z0-9\-_]+)=/gi, function(a, b) {
 										var v;
 
-										if (b !== 'mce_tmp') {
+										if (b !== '_mce_tmp') {
 											v = n.getAttribute(b);
 
 											if (!v && b === 'class')
@@ -1205,7 +1278,7 @@
 		/**
 		 * Processes the HTML by replacing strong, em, del in gecko since it doesn't support them
 		 * properly in a RTE environment. It also converts any URLs in links and images and places
-		 * a converted value into a separate attribute with the mce prefix like mce_src or mce_href.
+		 * a converted value into a separate attribute with the mce prefix like _mce_src or _mce_href.
 		 *
 		 * @method processHTML
 		 * @param {String} h HTML to process.
@@ -1217,11 +1290,7 @@
 			if (!s.process_html)
 				return h;
 
-			// Convert strong and em to b and i in FF since it can't handle them
-			if (tinymce.isGecko) {
-				h = h.replace(/<(\/?)strong>|<strong( [^>]+)>/gi, '<$1b$2>');
-				h = h.replace(/<(\/?)em>|<em( [^>]+)>/gi, '<$1i$2>');
-			} else if (isIE) {
+			if (isIE) {
 				h = h.replace(/&apos;/g, '&#39;'); // IE can't handle apos
 				h = h.replace(/\s+(disabled|checked|readonly|selected)\s*=\s*[\"\']?(false|0)[\"\']?/gi, ''); // IE doesn't handle default values correct
 			}
@@ -1229,7 +1298,7 @@
 			// Fix some issues
 			h = h.replace(/<a( )([^>]+)\/>|<a\/>/gi, '<a$1$2></a>'); // Force open
 
-			// Store away src and href in mce_src and mce_href since browsers mess them up
+			// Store away src and href in _mce_src and mce_href since browsers mess them up
 			if (s.keep_values) {
 				// Wrap scripts and styles in comments for serialization purposes
 				if (/<script|noscript|style/i.test(h)) {
@@ -1254,7 +1323,7 @@
 							if (s.url_converter)
 								url = t.encode(s.url_converter.call(s.url_converter_scope || t, t.decode(url), 'src', 'script'));
 
-							return 'mce_src="' + url + '"';
+							return '_mce_src="' + url + '"';
 						});
 
 						// Wrap text contents
@@ -1274,7 +1343,7 @@
 							text = '<!--\nMCE_SCRIPT:' + (codeBlocks.length - 1) + '\n-->';
 						}
 
-						return '<mce:style' + attribs + '>' + text + '</mce:style><style ' + attribs + ' mce_bogus="1">' + text + '</style>';
+						return '<mce:style' + attribs + '>' + text + '</mce:style><style ' + attribs + ' _mce_bogus="1">' + text + '</style>';
 					});
 
 					// Wrap noscript elements
@@ -1285,53 +1354,46 @@
 
 				h = h.replace(/<!\[CDATA\[([\s\S]+)\]\]>/g, '<!--[CDATA[$1]]-->');
 
-				// Remove false bool attributes and force attributes into xhtml style attr="attr"
-				h = h.replace(/<([\w:]+) [^>]*(checked|compact|declare|defer|disabled|ismap|multiple|nohref|noshade|nowrap|readonly|selected)[^>]*>/gi, function(val) {
-					function handle(val, name, value) {
-						// Remove false/0 attribs
-						if (value === 'false' || value === '0')
-							return '';
+				// This function processes the attributes in the HTML string to force boolean
+				// attributes to the attr="attr" format and convert style, src and href to _mce_ versions
+				function processTags(html) {
+					return html.replace(tagRegExp, function(match, elm_name, attrs, end) {
+						return '<' + elm_name + attrs.replace(attrRegExp, function(match, name, value, val2, val3) {
+							var mceValue;
 
-						return ' ' + name + '="' + name + '"';
-					};
+							name = name.toLowerCase();
+							value = value || val2 || val3 || "";
 
-					val = val.replace(/ (checked|compact|declare|defer|disabled|ismap|multiple|nohref|noshade|nowrap|readonly|selected)=[\"]([^\"]+)[\"]/gi, handle); // W3C
-					val = val.replace(/ (checked|compact|declare|defer|disabled|ismap|multiple|nohref|noshade|nowrap|readonly|selected)=[\']([^\']+)[\']/gi, handle); // W3C
-					val = val.replace(/ (checked|compact|declare|defer|disabled|ismap|multiple|nohref|noshade|nowrap|readonly|selected)=([^\s\"\'>]+)/gi, handle); // IE
-					val = val.replace(/ (checked|compact|declare|defer|disabled|ismap|multiple|nohref|noshade|nowrap|readonly|selected)([\s>])/gi, ' $1="$1"$2'); // Force attr="attr"
+							// Treat boolean attributes
+							if (boolAttrs[name]) {
+								// false or 0 is treated as a missing attribute
+								if (value === 'false' || value === '0')
+									return;
 
-					return val;
-				});
+								return name + '="' + name + '"';
+							}
 
-				// Process all tags with src, href or style
-				h = h.replace(/<([\w:]+) [^>]*(src|href|style|shape|coords)[^>]*>/gi, function(a, n) {
-					function handle(m, b, c) {
-						var u = c;
+							// Is attribute one that needs special treatment
+							if (mceAttribs[name] && attrs.indexOf('_mce_' + name) == -1) {
+								mceValue = t.decode(value);
 
-						// Tag already got a mce_ version
-						if (a.indexOf('mce_' + b) != -1)
-							return m;
+								// Convert URLs to relative/absolute ones
+								if (s.url_converter && (name == "src" || name == "href"))
+									mceValue = s.url_converter.call(s.url_converter_scope || t, mceValue, name, elm_name);
 
-						if (b == 'style') {
-							// No mce_style for elements with these since they might get resized by the user
-							if (t._isRes(c))
-								return m;
+								// Process styles lowercases them and compresses them
+								if (name == 'style')
+									mceValue = t.serializeStyle(t.parseStyle(mceValue), name);
 
-							// Parse and serialize the style to convert for example uppercase styles like "BORDER: 1px"
-							u = t.encode(t.serializeStyle(t.parseStyle(u)));
-						} else if (b != 'coords' && b != 'shape') {
-							if (s.url_converter)
-								u = t.encode(s.url_converter.call(s.url_converter_scope || t, t.decode(c), b, n));
-						}
+								return name + '="' + value + '"' + ' _mce_' + name + '="' + t.encode(mceValue) + '"';
+							}
 
-						return ' ' + b + '="' + c + '" mce_' + b + '="' + u + '"';
-					};
+							return match;
+						}) + end + '>';
+					});
+				};
 
-					a = a.replace(/ (src|href|style|coords|shape)=[\"]([^\"]+)[\"]/gi, handle); // W3C
-					a = a.replace(/ (src|href|style|coords|shape)=[\']([^\']+)[\']/gi, handle); // W3C
-
-					return a.replace(/ (src|href|style|coords|shape)=([^\s\"\'>]+)/gi, handle); // IE
-				});
+				h = processTags(h);
 
 				// Restore script blocks
 				h = h.replace(/MCE_SCRIPT:([0-9]+)/g, function(val, idx) {
@@ -1379,7 +1441,7 @@
 
 			function setHTML(e, h, d) {
 				var n, tp;
-				
+
 				tp = d.createElement("body");
 				tp.innerHTML = h;
 
@@ -1427,7 +1489,7 @@
 			var e, n, v;
 
 			// Look for entities to decode
-			if (/&[^;]+;/.test(s)) {
+			if (/&[\w#]+;/.test(s)) {
 				// Decode the entities using a div element not super efficient but less code
 				e = this.doc.createElement("div");
 				e.innerHTML = s;
@@ -1437,7 +1499,7 @@
 				if (n) {
 					do {
 						v += n.nodeValue;
-					} while (n.nextSibling);
+					} while (n = n.nextSibling);
 				}
 
 				return v || s;
@@ -1453,51 +1515,35 @@
 		 * @param {String} s String to encode with entities.
 		 * @return {String} Entity encoded string.
 		 */
-		encode : function(s) {
-			return s ? ('' + s).replace(/[<>&\"]/g, function (c, b) {
-				switch (c) {
-					case '&':
-						return '&amp;';
-
-					case '"':
-						return '&quot;';
-
-					case '<':
-						return '&lt;';
-
-					case '>':
-						return '&gt;';
-				}
-
-				return c;
-			}) : s;
+		encode : function(str) {
+			return ('' + str).replace(encodeCharsRe, function(chr) {
+				return encodedChars[chr];
+			});
 		},
 
 		/**
 		 * Inserts a element after the reference element.
 		 *
 		 * @method insertAfter
-		 * @param {Element} Element to insert after the reference.
-		 * @param {Element/String/Array} r Reference element, element id or array of elements to insert after.
+		 * @param {Element} node Element to insert after the reference.
+		 * @param {Element/String/Array} reference_node Reference element, element id or array of elements to insert after.
 		 * @return {Element/Array} Element that got added or an array with elements. 
 		 */
-		insertAfter : function(n, r) {
-			var t = this;
+		insertAfter : function(node, reference_node) {
+			reference_node = this.get(reference_node);
 
-			r = t.get(r);
+			return this.run(node, function(node) {
+				var parent, nextSibling;
 
-			return this.run(n, function(n) {
-				var p, ns;
+				parent = reference_node.parentNode;
+				nextSibling = reference_node.nextSibling;
 
-				p = r.parentNode;
-				ns = r.nextSibling;
-
-				if (ns)
-					p.insertBefore(n, ns);
+				if (nextSibling)
+					parent.insertBefore(node, nextSibling);
 				else
-					p.appendChild(n);
+					parent.appendChild(node);
 
-				return n;
+				return node;
 			});
 		},
 
@@ -1514,7 +1560,7 @@
 
 			n = n.nodeName || n;
 
-			return /^(H[1-6]|HR|P|DIV|ADDRESS|PRE|FORM|TABLE|LI|OL|UL|TH|TBODY|TR|TD|CAPTION|BLOCKQUOTE|CENTER|DL|DT|DD|DIR|FIELDSET|NOSCRIPT|NOFRAMES|MENU|ISINDEX|SAMP)$/.test(n);
+			return blockRe.test(n);
 		},
 
 		/**
@@ -1534,21 +1580,40 @@
 
 			return t.run(o, function(o) {
 				if (k) {
-					each(o.childNodes, function(c) {
-						n.appendChild(c.cloneNode(true));
+					each(tinymce.grep(o.childNodes), function(c) {
+						n.appendChild(c);
 					});
-				}
-
-				// Fix IE psuedo leak for elements since replacing elements if fairly common
-				// Will break parentNode for some unknown reason
-				if (t.fixPsuedoLeaks && o.nodeType === 1) {
-					o.parentNode.insertBefore(n, o);
-					t.remove(o);
-					return n;
 				}
 
 				return o.parentNode.replaceChild(n, o);
 			});
+		},
+
+		/**
+		 * Renames the specified element to a new name and keep it's attributes and children.
+		 *
+		 * @method rename
+		 * @param {Element} elm Element to rename.
+		 * @param {String} name Name of the new element.
+		 * @return New element or the old element if it needed renaming.
+		 */
+		rename : function(elm, name) {
+			var t = this, newElm;
+
+			if (elm.nodeName != name.toUpperCase()) {
+				// Rename block element
+				newElm = t.create(name);
+
+				// Copy attribs to new block
+				each(t.getAttribs(elm), function(attr_node) {
+					t.setAttrib(newElm, attr_node.nodeName, t.getAttrib(elm, attr_node.nodeName));
+				});
+
+				// Replace block
+				t.replace(newElm, elm, 1);
+			}
+
+			return newElm || elm;
 		},
 
 		/**
@@ -1737,7 +1802,7 @@
 					o.push({specified : 1, nodeName : 'selected'});
 
 				// It's crazy that this is faster in IE but it's because it returns all attributes all the time
-				n.cloneNode(false).outerHTML.replace(/<\/?[\w:]+ ?|=[\"][^\"]+\"|=\'[^\']+\'|=\w+|>/gi, '').replace(/[\w:]+/gi, function(a) {
+				n.cloneNode(false).outerHTML.replace(/<\/?[\w:\-]+ ?|=[\"][^\"]+\"|=\'[^\']+\'|=[\w\-]+|>/gi, '').replace(/[\w:\-]+/gi, function(a) {
 					o.push({specified : 1, nodeName : a});
 				});
 
@@ -1779,6 +1844,31 @@
 		},
 
 		/**
+		 * Returns the index of the specified node within it's parent.
+		 *
+		 * @param {Node} node Node to look for.
+		 * @param {boolean} normalized Optional true/false state if the index is what it would be after a normalization.
+		 * @return {Number} Index of the specified node.
+		 */
+		nodeIndex : function(node, normalized) {
+			var idx = 0, lastNodeType, lastNode, nodeType;
+
+			if (node) {
+				for (lastNodeType = node.nodeType, node = node.previousSibling, lastNode = node; node; node = node.previousSibling) {
+					nodeType = node.nodeType;
+
+					// Handle normalization of text nodes
+					if (!normalized || nodeType != 3 || (lastNodeType != nodeType && node.nodeValue.length))
+						idx++;
+
+					lastNodeType = nodeType;
+				}
+			}
+
+			return idx;
+		},
+
+		/**
 		 * Splits an element into two new elements and places the specified split
 		 * element or element between the new ones. For example splitting the paragraph at the bold element in
 		 * this example <p>abc<b>abc</b>123</p> would produce <p>abc</p><b>abc</b><p>123</p>. 
@@ -1792,74 +1882,69 @@
 		split : function(pe, e, re) {
 			var t = this, r = t.createRng(), bef, aft, pa;
 
-			// W3C valid browsers tend to leave empty nodes to the left/right side of the contents, this makes sence
-			// but we don't want that in our code since it serves no purpose
+			// W3C valid browsers tend to leave empty nodes to the left/right side of the contents, this makes sense
+			// but we don't want that in our code since it serves no purpose for the end user
 			// For example if this is chopped:
 			//   <p>text 1<span><b>CHOP</b></span>text 2</p>
 			// would produce:
 			//   <p>text 1<span></span></p><b>CHOP</b><p><span></span>text 2</p>
 			// this function will then trim of empty edges and produce:
 			//   <p>text 1</p><b>CHOP</b><p>text 2</p>
-			function trimEdge(n, na) {
-				n = n[na];
+			function trim(node) {
+				var i, children = node.childNodes;
 
-				if (n && n[na] && n[na].nodeType == 1 && isEmpty(n[na]))
-					t.remove(n[na]);
-			};
+				if (node.nodeType == 1 && node.getAttribute('_mce_type') == 'bookmark')
+					return;
 
-			function isEmpty(n) {
-				n = t.getOuterHTML(n);
-				n = n.replace(/<(img|hr|table)/gi, '-'); // Keep these convert them to - chars
-				n = n.replace(/<[^>]+>/g, ''); // Remove all tags
+				for (i = children.length - 1; i >= 0; i--)
+					trim(children[i]);
 
-				return n.replace(/[ \t\r\n]+|&nbsp;|&#160;/g, '') == '';
-			};
+				if (node.nodeType != 9) {
+					// Keep non whitespace text nodes
+					if (node.nodeType == 3 && node.nodeValue.length > 0)
+						return;
 
-			// Added until Gecko can create real HTML documents using implementation.createHTMLDocument
-			// this is to future proof it if Gecko decides to implement the error checking for range methods.
-			function nodeIndex(n) {
-				var i = 0;
+					if (node.nodeType == 1) {
+						// If the only child is a bookmark then move it up
+						children = node.childNodes;
+						if (children.length == 1 && children[0] && children[0].nodeType == 1 && children[0].getAttribute('_mce_type') == 'bookmark')
+							node.parentNode.insertBefore(children[0], node);
 
-				while (n.previousSibling) {
-					i++;
-					n = n.previousSibling;
+						// Keep non empty elements or img, hr etc
+						if (children.length || /^(br|hr|input|img)$/i.test(node.nodeName))
+							return;
+					}
+
+					t.remove(node);
 				}
 
-				return i;
+				return node;
 			};
 
 			if (pe && e) {
 				// Get before chunk
-				r.setStart(pe.parentNode, nodeIndex(pe));
-				r.setEnd(e.parentNode, nodeIndex(e));
+				r.setStart(pe.parentNode, t.nodeIndex(pe));
+				r.setEnd(e.parentNode, t.nodeIndex(e));
 				bef = r.extractContents();
 
 				// Get after chunk
 				r = t.createRng();
-				r.setStart(e.parentNode, nodeIndex(e) + 1);
-				r.setEnd(pe.parentNode, nodeIndex(pe) + 1);
+				r.setStart(e.parentNode, t.nodeIndex(e) + 1);
+				r.setEnd(pe.parentNode, t.nodeIndex(pe) + 1);
 				aft = r.extractContents();
 
-				// Insert chunks and remove parent
+				// Insert before chunk
 				pa = pe.parentNode;
+				pa.insertBefore(trim(bef), pe);
 
-				// Remove right side edge of the before contents
-				trimEdge(bef, 'lastChild');
-
-				if (!isEmpty(bef))
-					pa.insertBefore(bef, pe);
-
+				// Insert middle chunk
 				if (re)
 					pa.replaceChild(re, e);
 				else
 					pa.insertBefore(e, pe);
 
-				// Remove left site edge of the after contents
-				trimEdge(aft, 'firstChild');
-
-				if (!isEmpty(aft))
-					pa.insertBefore(aft, pe);
-
+				// Insert after chunk
+				pa.insertBefore(trim(aft), pe);
 				t.remove(pe);
 
 				return re || e;

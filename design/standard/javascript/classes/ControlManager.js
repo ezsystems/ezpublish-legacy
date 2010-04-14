@@ -1,8 +1,11 @@
 /**
- * $Id: ControlManager.js 1190 2009-08-12 17:59:29Z spocke $
+ * ControlManager.js
  *
- * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
 (function(tinymce) {
@@ -168,7 +171,8 @@
 
 				if (!s.onclick) {
 					s.onclick = function(v) {
-						ed.execCommand(s.cmd, s.ui || false, s.value);
+						if (s.cmd)
+							ed.execCommand(s.cmd, s.ui || false, s.value);
 					};
 				}
 			});
