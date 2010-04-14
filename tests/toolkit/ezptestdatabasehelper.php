@@ -25,6 +25,14 @@ class ezpTestDatabaseHelper
      */
     public static function create( ezpDsn $dsn )
     {
+        //oracle unit test doesn't support creating database, just use database string
+        if ( $dsn->parts['phptype'] === 'oracle' )
+        {
+            $db = ezpDatabaseHelper::useDatabase( $dsn );
+            eZDBTool::cleanup( $db );
+            return $db;
+        }
+        
         $dbRoot = ezpDatabaseHelper::dbAsRootInstance( $dsn );
 
         if ( self::exists( $dbRoot, $dsn->database ) )
