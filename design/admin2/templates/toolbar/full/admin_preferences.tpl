@@ -1,9 +1,9 @@
 {if and( ne( $ui_context, 'edit' ), ne( $ui_context, 'browse' ))}
-<div id="currentuserperferences">
+<div id="currentuserpreferences">
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
-<h4>{'User perferences'|i18n( 'design/admin/pagelayout' )}</h4>
+<h4>{'User preferences'|i18n( 'design/admin/pagelayout' )}</h4>
 
 {* DESIGN: Header END *}</div></div>
 
