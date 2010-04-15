@@ -18,3 +18,4 @@ Changes from 4.3.0 to 4.4.0alpha1
 *Bugfixes:
 - Fixed bug #010651: eZHTTPTool::sendHTTPRequest() doesn't support domain names with dashes
 - Fixed bug #016550: eZ Publish is using "Etag", w3c says "ETag"
+- Fixed bug #015417: ezpgenerateautoloads.php doesn't work well with config.php autoloading
