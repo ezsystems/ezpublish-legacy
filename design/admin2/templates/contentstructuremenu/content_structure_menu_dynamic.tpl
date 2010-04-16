@@ -68,7 +68,7 @@ function ContentStructureMenu( path, persistent )
     this.context = "{$ui_context}";
     this.hideNodes = [{$hide_node_list|implode(',')}];
 
-{cache-block keys=array( $filter_type, $root_node_id|gt( 1 ) ) expiry=0 ignore_content_expiry}
+{cache-block keys=array( $root_node_id|gt( 1 ) ) expiry=0 ignore_content_expiry}
     this.languages = {*
         *}{ldelim}{*
             *}{foreach fetch('content','translation_list') as $language}{*
@@ -78,7 +78,7 @@ function ContentStructureMenu( path, persistent )
         *}{rdelim};
     this.classes = {*
         *}{ldelim}{*
-            *}{foreach fetch('class','list_by_groups',hash('group_filter',$filter_groups,'group_filter_type',$filter_type)) as $class}{*
+            *}{foreach fetch('class','list') as $class}{*
                 *}"{$class.id}":{ldelim}name:"{$class.name|wash(javascript)}",identifier:"{$class.identifier|wash(javascript)}"{rdelim}{*
                 *}{delimiter},{/delimiter}{*
             *}{/foreach}{*
