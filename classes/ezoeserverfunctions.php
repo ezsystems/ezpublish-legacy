@@ -120,15 +120,35 @@ class ezoeServerFunctions extends ezjscServerFunctions
             'nonbreaking' => array(
                 'nonbreaking_desc' => ezi18n( 'design/standard/ezoe', "Insert non-breaking space character")
             ),
-            /*'iespell' => array(
+            'iespell' => array(
                 'iespell_desc' => ezi18n( 'design/standard/ezoe', "Run spell checking"),
                 'download' => ezi18n( 'design/standard/ezoe', "ieSpell not detected. Do you want to install it now?")
             ),
             'advhr' => array(
                 'advhr_desc' => ezi18n( 'design/standard/ezoe', "Horizontale rule")
             ),
-            'emotions' => array(
+            /*'emotions' => array(
                 'emotions_desc' => ezi18n( 'design/standard/ezoe', "Emotions")
+            ),
+            'emotions_dlg' => array(
+                'title' => ezi18n( 'design/standard/ezoe', "Insert emotion"),
+                'desc' => ezi18n( 'design/standard/ezoe', "Emotions"),
+                'cool' => ezi18n( 'design/standard/ezoe', "Cool"),
+                'cry' => ezi18n( 'design/standard/ezoe', "Cry"),
+                'embarassed' => ezi18n( 'design/standard/ezoe', "Embarassed"),
+                'foot_in_mouth' => ezi18n( 'design/standard/ezoe', "Foot in mouth"),
+                'frown' => ezi18n( 'design/standard/ezoe', "Frown"),
+                'innocent' => ezi18n( 'design/standard/ezoe', "Innocent"),
+                'kiss' => ezi18n( 'design/standard/ezoe', "Kiss"),
+                'laughing' => ezi18n( 'design/standard/ezoe', "Laughing"),
+                'money_mouth' => ezi18n( 'design/standard/ezoe', "Money mouth"),
+                'sealed' => ezi18n( 'design/standard/ezoe', "Sealed"),
+                'smile' => ezi18n( 'design/standard/ezoe', "Smile"),
+                'surprised' => ezi18n( 'design/standard/ezoe', "Surprised"),
+                'tongue_out' => ezi18n( 'design/standard/ezoe', "Tongue out"),
+                'undecided' => ezi18n( 'design/standard/ezoe', "Undecided"),
+                'wink' => ezi18n( 'design/standard/ezoe', "Wink"),
+                'yell' => ezi18n( 'design/standard/ezoe', "Yell"),
             ),*/
             'searchreplace' => array(
                 'search_desc' => ezi18n( 'design/standard/ezoe', "Find"),
@@ -270,7 +290,7 @@ class ezoeServerFunctions extends ezjscServerFunctions
                 'code_desc' => ezi18n( 'design/standard/ezoe', "Edit HTML Source"),
                 'sub_desc' => ezi18n( 'design/standard/ezoe', "Subscript"),
                 'sup_desc' => ezi18n( 'design/standard/ezoe', "Superscript"),
-                //'hr_desc' => ezi18n( 'design/standard/ezoe', "Insert horizontal ruler"),
+                'hr_desc' => ezi18n( 'design/standard/ezoe', "Insert horizontal ruler"),
                 'removeformat_desc' => ezi18n( 'design/standard/ezoe', "Remove formatting"),
                 'custom1_desc' => ezi18n( 'design/standard/ezoe', "Your custom description here"),
                 //'forecolor_desc' => ezi18n( 'design/standard/ezoe', "Select text color"),
