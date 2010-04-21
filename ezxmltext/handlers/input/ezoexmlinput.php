@@ -1208,7 +1208,8 @@ class eZOEXMLInput extends eZXMLInputHandler
                                 $srcString   = $URL . '/' . $imageAlias['url'];
                                 $imageWidth  = $imageAlias['width'];
                                 $imageHeight = $imageAlias['height'];
-                                //eZDebug::writeDebug(var_export( array( $classAttribute->attribute( 'identifier' ), $dataTypeString, $size, $imageAlias ), true ), 'OE IMAGE' );
+                                //if ( $imageAlias['url'] === '' )
+                                //eZDebug::writeDebug(var_export( array( $classAttribute->attribute( 'identifier' ), $dataTypeString, $size, $imageAlias, $contentObjectAttribute->attribute( 'data_text' ) ), true ), 'OE IMAGE' );
                                 break;
                             }
                         }

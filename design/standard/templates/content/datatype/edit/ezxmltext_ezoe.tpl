@@ -87,7 +87,7 @@
         valid_child_elements: "a[%itrans_na],table[tr],tr[td|th],ol/ul[li],h1/h2/h3/h4/h5/h6/pre/strong/b/p/em/i/u/span/sub/sup/li[%itrans|#text]div/pre/td/th[%btrans|%itrans|#text]",
         // cleanup : false,
         // cleanup_serializer : 'xml',    
-        // entity_encoding : 'raw',
+        entity_encoding : 'raw', // needs to be enabled, as named entities will be double encoded in input_xml if disabled
         // remove_linebreaks : false,
         // apply_source_formatting : false,
         fix_list_elements : true,
