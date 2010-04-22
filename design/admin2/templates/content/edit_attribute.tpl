@@ -101,7 +101,7 @@ jQuery(function( $ )
         }
     });
     // We don't hide these by default for accebility reasons
-    $('fieldset.ezcca-collapsible').addClass('ezcca-collapsed').find('div.ezcca-collapsible-fieldset-content').hide();
+    // $('fieldset.ezcca-collapsible').addClass('ezcca-collapsed').find('div.ezcca-collapsible-fieldset-content').hide();
 });
 
 {/literal}
