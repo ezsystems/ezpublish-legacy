@@ -61,7 +61,7 @@
 
 {* Translation a user is able to create *}
 {set-block variable=$nonexisting_languages_output}
-{def $select_first_language = $object_create_languages|count|eq( 1 )}
+{def $select_first_language = and( $object_create_languages|count|eq( 1 ), $show_existing_languages|not ) }
 {foreach $object_create_languages as $language}
     <label>
        <input name="EditLanguage" type="radio" value="{$language.locale}"{if $select_first_language} checked="checked"{/if} /> {$language.name|wash}
