@@ -1,0 +1,27 @@
+Extension ordering
+==================
+
+Intro
+-----
+
+In eZ Publish 4.4, there is a mechanism that enables extensions to define
+in which order they should be loaded in regards to other, related, extensions.
+
+Requirements
+------------
+
+For this mechanism to be active, extensions should be recent enough to contain
+the needed metadata which are stored into a *loading.php* file contained at
+the root directory of the extension.
+
+Configuration
+-------------
+
+For the ordering to be active, the following configuration setting should be
+enabled in *site.ini.append.php*:
+
+::
+
+    [ExtensionSettings]
+    ExtensionOrdering=enabled
+

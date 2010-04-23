@@ -1,6 +1,7 @@
 Changes from 4.3.0 to 4.4.0alpha1
 
 *Kernel:
+- Implemented enhancement #016711: Making extension aware of the order/priority in which they need to be loaded
 - Implemented enhancement #016566: new ezurloperator for cookies
 
 *Design:

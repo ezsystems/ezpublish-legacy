@@ -57,37 +57,81 @@ class eZExtension
         return $extensionDirectory;
     }
 
-    /*!
-     \static
-     \return an array with extensions that has been activated.
-     \param $extensionType Decides which extension to include in the list, the follow values are possible.
-            - \c false - Means add both default and access extensions
-            - 'default' - Add only default extensions
-            - 'access' - Add only access extensions
-
-     Default extensions are those who are loaded before a siteaccess are determined while access extensions
-     are loaded after siteaccess is set.
-    */
-    static function activeExtensions( $extensionType = false )
+    /**
+     * Return an array with activated extensions.
+     *
+     * @note Default extensions are those who are loaded before a siteaccess are determined while access extensions
+     *       are loaded after siteaccess is set.
+     *
+     * @param false|string $extensionType Decides which extension to include in the list, the follow values are possible:
+     *                                    - false - Means add both default and access extensions
+     *                                    - 'default' - Add only default extensions
+     *                                    - 'access' - Add only access extensions
+     */
+    public static function activeExtensions( $extensionType = false )
     {
         $ini = eZINI::instance();
         $activeExtensions = array();
-        if ( !$extensionType or
-             $extensionType == 'default' )
+        if ( !$extensionType || $extensionType === 'default' )
             $activeExtensions = array_merge( $activeExtensions,
                                              $ini->variable( 'ExtensionSettings', 'ActiveExtensions' ) );
-        if ( !$extensionType or
-             $extensionType == 'access' )
+        if ( !$extensionType || $extensionType === 'access' )
             $activeExtensions = array_merge( $activeExtensions,
                                              $ini->variable( 'ExtensionSettings', 'ActiveAccessExtensions' ) );
-        $globalActiveExtensions =& $GLOBALS['eZActiveExtensions'];
-        if ( isset( $globalActiveExtensions ) )
-        {
+
+        if ( isset( $GLOBALS['eZActiveExtensions'] ) )
             $activeExtensions = array_merge( $activeExtensions,
-                                             $globalActiveExtensions );
-        }
+                                             $GLOBALS['eZActiveExtensions'] );
         $activeExtensions = array_unique( $activeExtensions );
-        return $activeExtensions;
+
+        if ( $ini->variable( 'ExtensionSettings', 'ExtensionOrdering' ) !== 'enabled' )
+            return $activeExtensions;
+
+        return self::extensionOrdering( $activeExtensions );
+    }
+
+    /**
+     * Returns the provided array reordered with loading order information taken into account.
+     *
+     * @see activeExtensions
+     *
+     * @param array $activeExtensions Array of extensions.
+     */
+    public static function extensionOrdering( array $activeExtensions )
+    {
+        $activeExtensionsSet = array_flip( $activeExtensions );
+
+        $dependencies = array();
+        foreach ( $activeExtensions as $extension )
+        {
+            $loadingOrderData = ezpExtension::getInstance( $extension )->getLoadingOrder();
+
+            // The extension should appear even without dependencies to be taken into account
+            if ( ! isset( $dependencies[$extension] ) )
+                $dependencies[$extension] = array();
+
+            if ( isset( $loadingOrderData['after'] ) )
+            {
+                foreach ( $loadingOrderData['after'] as $dependency )
+                {
+                    if ( isset( $activeExtensionsSet[$dependency] ) )
+                        $dependencies[$extension][] = $dependency;
+                }
+            }
+            if ( isset( $loadingOrderData['before'] ) )
+            {
+                foreach ( $loadingOrderData['before'] as $dependency )
+                {
+                    if ( isset( $activeExtensionsSet[$dependency] ) )
+                        $dependencies[$dependency][] = $extension;
+                }
+            }
+        }
+
+        $topologySort = new ezpTopologicalSort( $dependencies );
+        $activeExtensionsSorted = $topologySort->sort();
+
+        return $activeExtensionsSorted !== false ? $activeExtensionsSorted : $activeExtensions;
     }
 
     /*!
@@ -382,7 +426,7 @@ class eZExtension
 
     /**
      * Returns the correct handler defined in $iniFile configuration file
-     * A correct class name for the handler needs to be specified in the 
+     * A correct class name for the handler needs to be specified in the
      * ini settings, and the class needs to be present for the autoload system.
      *
      * @static

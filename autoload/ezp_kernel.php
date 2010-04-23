@@ -548,12 +548,15 @@ return array(
       'ezpAutoloadGeneratorOptions'                        => 'kernel/private/options/ezpautoloadgeneratoroptions.php',
       'ezpAutoloadOutput'                                  => 'kernel/private/interfaces/ezpautoloadoutput.php',
       'ezpAutoloader'                                      => 'autoload.php',
+      'ezpExtension'                                       => 'kernel/private/classes/ezpextension.php',
       'ezpExtensionOptions'                                => 'kernel/private/options/ezpextensionoptions.php',
       'ezpI18n'                                            => 'kernel/common/ezpi18n.php',
       'ezpLanguageSwitcher'                                => 'kernel/private/classes/ezplanguageswitcher.php',
       'ezpLanguageSwitcherCapable'                         => 'kernel/private/interfaces/ezplanguageswitchercapable.php',
       'ezpLanguageSwitcherFunctionCollection'              => 'kernel/private/modules/switchlanguage/ezpLanguageSwitcherFunctionCollection.php',
       'ezpLanguageSwitcherOperator'                        => 'kernel/private/eztemplate/ezplanguageswitcheroperator.php',
+      'ezpTopologicalSort'                                 => 'kernel/private/classes/ezptopologicalsort.php',
+      'ezpTopologicalSortNode'                             => 'kernel/private/classes/ezptopologicalsortnode.php',
     );
 
 ?>
