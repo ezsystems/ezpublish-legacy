@@ -807,8 +807,6 @@ class eZModule
      * 
      * @param string $uri The redirection URI
      * 
-     * @deprecated 4.3 Not used ANYWHERE in the kernel
-     * 
      * @return void
      **/
     function setRedirectURI( $uri )
