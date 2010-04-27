@@ -250,7 +250,7 @@ class eZImageGDHandler extends eZImageHandler
         return $this->createImageBorder( $imageObject, $filterData, $filterVariables, $sourceMimeData, $destinationMimeData );
     }
 
-    static function createImageBorder( $imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
+    function createImageBorder( $imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
     {
         $width = ImageSX( $imageObject );
         $height = ImageSY( $imageObject );
