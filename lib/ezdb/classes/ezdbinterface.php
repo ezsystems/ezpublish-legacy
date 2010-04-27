@@ -992,6 +992,10 @@ class eZDBInterface
             $adminEmail = $ini->variable( 'MailSettings', 'AdminEmail' );
             if ( !eZSys::isShellExecution() )
             {
+                if ( !headers_sent() )
+                {
+                    header("HTTP/1.1 500 Internal Server Error");
+                }
                 $site = eZSys::serverVariable( 'HTTP_HOST' );
                 $uri = eZSys::serverVariable( 'REQUEST_URI' );
 
