@@ -5,7 +5,7 @@ eZ Online Editor 5.x extension Changelog
 - Fixed bug #16554: Applying table cell settings to row or column does not affect table headings
 - Fixed bug #16605: Online Editor adds a lot of Non Breaking spaces (nbsp)
 - Fixed bug #16271: Links containing special characters are not stored correctly
-- Upgraded TinyMCE to 3.3.2
+- Upgraded TinyMCE to 3.3.4
 - Added emotions plugin support (as forked ezemotions plugin)
 
 

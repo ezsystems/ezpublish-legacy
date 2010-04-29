@@ -174,7 +174,9 @@ class ezoeServerFunctions extends ezjscServerFunctions
             'paste' => array(
                 'paste_text_desc' => ezi18n( 'design/standard/ezoe', "Paste as Plain Text"),
                 'paste_word_desc' => ezi18n( 'design/standard/ezoe', "Paste from Word"),
-                'selectall_desc' => ezi18n( 'design/standard/ezoe', "Select All")
+                'selectall_desc' => ezi18n( 'design/standard/ezoe', "Select All"),
+                'plaintext_mode_sticky' => ezi18n( 'design/standard/ezoe', "Paste is now in plain text mode. Click again to toggle back to regular paste mode. After you paste something you will be returned to regular paste mode."),
+                'plaintext_mode' => ezi18n( 'design/standard/ezoe', "Paste is now in plain text mode. Click again to toggle back to regular paste mode."),
             ),
             'paste_dlg' => array(
                 'text_title' => ezi18n( 'design/standard/ezoe', "Use CTRL+V on your keyboard to paste the text into the window."),
