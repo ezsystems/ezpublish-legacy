@@ -13,7 +13,7 @@ function _die( $value )
 $serverString = STORAGE_HOST;
 if ( !defined( 'STORAGE_SOCKET' ) )
     define ( 'STORAGE_SOCKET', false );
-if ( defined( 'STORAGE_PORT' ) )
+if ( !defined( 'STORAGE_PORT' ) )
     define ( 'STORAGE_PORT', false );
 
 $maxTries = 3;
@@ -33,7 +33,7 @@ if ( !mysqli_select_db( $db, STORAGE_DB ) )
 $filename = ltrim( $_SERVER['REQUEST_URI'], "/");
 
 // Fetch file metadata.
-$filePathHash = mysqli_real_escape_string( $filename );
+$filePathHash = mysqli_real_escape_string( $db, $filename );
 $sql = "SELECT * FROM " . TABLE_METADATA . " WHERE name_hash=MD5('$filePathHash')" ;
 if ( !$res = mysqli_query( $db, $sql ) )
     _die( "Failed to retrieve file metadata\n" );
@@ -56,7 +56,7 @@ The requested URL <?php echo htmlspecialchars( $filename ); ?> was not found on 
     exit( 1 );
 }
 
-mysql_free_result( $res );
+mysqli_free_result( $res );
 
 // Verify the filesize
 $sql = "SELECT SUM(LENGTH(filedata)) AS size FROM " . TABLE_DATA . " WHERE name_hash=MD5('$filePathHash')";
