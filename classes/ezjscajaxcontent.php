@@ -240,6 +240,13 @@ class ezjscAjaxContent
             $ret['published_date'] = self::formatLocaleDate( $contentObject->attribute( 'published' ), $params['formatDate'] );
         }
 
+        if ( isset( $params['fetchCreator'] ) )
+        {
+            $creator = $contentObject->attribute( 'current' )->attribute('creator');
+            $ret['creator'] = array( 'id' => $creator->attribute( 'id' ),
+                                     'name' => $creator->attribute('name') );
+        }
+
         if ( $params['fetchSection'] )
         {
             $section = eZSection::fetch( $ret['section_id']  );
