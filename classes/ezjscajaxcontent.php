@@ -273,10 +273,12 @@ class ezjscAjaxContent
                 $ret['is_container']     = (int) $class->attribute( 'is_container' );
             }
             
-            $ret['node_id']        = (int) $node->attribute( 'node_id' );
-            $ret['parent_node_id'] = (int) $node->attribute( 'parent_node_id' );
-            $ret['url_alias']      = $node->attribute( 'url_alias' );
-            $ret['depth']          = (int) $node->attribute( 'depth' );
+            $ret['node_id']              = (int) $node->attribute( 'node_id' );
+            $ret['parent_node_id']       = (int) $node->attribute( 'parent_node_id' );
+            $ret['url_alias']            = $node->attribute( 'url_alias' );
+            $ret['depth']                = (int) $node->attribute( 'depth' );
+            $ret['priority']             = (int) $node->attribute( 'priority' );
+            $ret['hidden_status_string'] = $node->attribute( 'hidden_status_string' );
 
             if ( $params['fetchPath'] )
             {
