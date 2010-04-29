@@ -19,14 +19,14 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
     tagName: ezTagName,
     form: 'EditForm',
     cancelButton: 'CancelButton',
-    cssClass: 'mceItemCustomTag',
+    cssClass: 'ezoeItemCustomTag',
     tagSelector: 'custom_name_source',
     onInit: function( el, tag, ed )
     {
         // custom block tags are not allowed inside custom inline tags
         if ( el )
         {
-            if ( eZOEPopupUtils.getParentByTag( el, 'span', 'mceItemCustomTag', 'custom' ) )
+            if ( eZOEPopupUtils.getParentByTag( el, 'span', 'ezoeItemCustomTag', 'custom' ) )
                 filterOutCustomBlockTags( );
             else if ( eZOEPopupUtils.getParentByTag( el, 'h1,h2,h3,h4,h5,h6' ) )
                 filterOutCustomBlockTags( );
@@ -36,7 +36,7 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
             var currentNode = ed.selection.getNode();
             if ( currentNode && currentNode.nodeName !== 'DIV' && tinymce.DOM.getAttrib( currentNode, 'type' ) === 'custom' )
                 filterOutCustomBlockTags( );
-            else if ( eZOEPopupUtils.getParentByTag( currentNode, 'span', 'mceItemCustomTag', 'custom', true ) )
+            else if ( eZOEPopupUtils.getParentByTag( currentNode, 'span', 'ezoeItemCustomTag', 'custom', true ) )
                 filterOutCustomBlockTags( );
             else if ( eZOEPopupUtils.getParentByTag( currentNode, 'h1,h2,h3,h4,h5,h6', false, false, true ) )
                 filterOutCustomBlockTags( );

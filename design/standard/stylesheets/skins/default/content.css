@@ -72,8 +72,8 @@ font[face=mceinline] {font-family:inherit !important}
 /*  Link styles */
 
 a { color: #0000ff; text-decoration: underline; }
-span.mceNonEditable a { color: black!important; text-decoration: none!important; }
-a span.mceNonEditable a { color: #0000ff!important; text-decoration: underline!important; }
+span.ezoeItemNonEditable a { color: black!important; text-decoration: none!important; }
+a span.ezoeItemNonEditable a { color: #0000ff!important; text-decoration: underline!important; }
 
 /* Literal style */
 
@@ -87,11 +87,11 @@ pre
 
 /* general block tags (embed and custom) */
 
-* html div.mceNonEditable,
-* html div.mceItemCustomTag { height: 1%; }
+* html div.ezoeItemNonEditable,
+* html div.ezoeItemCustomTag { height: 1%; }
 
-div.mceNonEditable:after,
-div.mceItemCustomTag:after
+div.ezoeItemNonEditable:after,
+div.ezoeItemCustomTag:after
 {
     content: "-";
     height: 0;
@@ -104,15 +104,15 @@ div.mceItemCustomTag:after
 
 /* custom tag style */
 
-div.mceItemCustomTag
+div.ezoeItemCustomTag
 { 
   padding: 0.5em;
   border: 1px solid #5090c0;
 }
 
-div.mceItemCustomTag, span.mceItemCustomTag { background-color: #ccffff; }
+div.ezoeItemCustomTag, span.ezoeItemCustomTag { background-color: #ccffff; }
 
-span.mceItemCustomTag p
+span.ezoeItemCustomTag p
 {
     display: inline;
     clear: none;
@@ -122,52 +122,52 @@ span.mceItemCustomTag p
 
 /* Visualisation of default inline custom tags */
 
-span.mceItemCustomTag.sub
+span.ezoeItemCustomTag.sub
 {
   vertical-align: sub;
   font-size: 0.8em;
 }
 
-span.mceItemCustomTag.sup
+span.ezoeItemCustomTag.sup
 {
   vertical-align: super;
   font-size: 0.8em;
 }
 
-span.mceItemCustomTag.strike
+span.ezoeItemCustomTag.strike
 {
   text-decoration: line-through;
 }
 
-span.mceItemCustomTag.underline
+span.ezoeItemCustomTag.underline
 {
   text-decoration: underline
 }
 
 /* Visualisation of default block custom tags */
 
-div.mceItemCustomTag.pagebreak
+div.ezoeItemCustomTag.pagebreak
 {
   height: 12px;
   border: 1px dotted #ccc;
   margin: 15px 0 15px 0;
 }
 
-div.mceItemCustomTag.pagebreak p { margin: 0; }
+div.ezoeItemCustomTag.pagebreak p { margin: 0; }
 
-div.mceItemCustomTag.separator
+div.ezoeItemCustomTag.separator
 {
     padding: 0;
     margin: 0.5em 0;
     clear: both;
 }
 
-div.mceItemCustomTag.separator p { margin: 2px; }
+div.ezoeItemCustomTag.separator p { margin: 2px; }
 
 
 /* change the style for embed tags */
 
-div.mceNonEditable, span.mceNonEditable
+div.ezoeItemNonEditable, span.ezoeItemNonEditable
 {
     background: transparent url('../../../images/tango/mail-attachment.png') no-repeat 0 2px scroll;
     min-height: 18px;
@@ -176,53 +176,53 @@ div.mceNonEditable, span.mceNonEditable
 
 /* core.css ez layout styles for embed tags */
 
-div.mceNonEditable div.block /* Used around groups of objects which are connected in some way, and requires extra margins to the surroundings */
+div.ezoeItemNonEditable div.block /* Used around groups of objects which are connected in some way, and requires extra margins to the surroundings */
 {
   margin: 0.5em 0 0.5em 0;
   padding: 0;
   clear: both;
 }
 
-div.mceNonEditable div.block div.element /* Used if several objects are to be stacked horizontally within the same block */
+div.ezoeItemNonEditable div.block div.element /* Used if several objects are to be stacked horizontally within the same block */
 {
   padding-right: 1em;
   float: left;
 }
 
-div.mceNonEditable div.block div.left /* Floats elements to the left in a block */
+div.ezoeItemNonEditable div.block div.left /* Floats elements to the left in a block */
 {
   width: 48%;
   float: left;
   clear: left;
 }
 
-div.mceNonEditable div.block div.right /* Floats elements to the right in a block */
+div.ezoeItemNonEditable div.block div.right /* Floats elements to the right in a block */
 {
   width: 48%;
   float: right;
   clear: right;
 }
 
-div.mceNonEditable div.object-left /* Used for floating images and other content elements to the left inside other content */
+div.ezoeItemNonEditable div.object-left /* Used for floating images and other content elements to the left inside other content */
 {
   margin: 0.25em 0.25em 0.25em 0;
   float: left;
   clear: left;
 }
 
-div.mceNonEditable div.object-right /* Used for floating images and other content elements to the right inside other content */
+div.ezoeItemNonEditable div.object-right /* Used for floating images and other content elements to the right inside other content */
 {
   margin: 0.25em 0 0.25em 0.25em;
   float: right;
   clear: right;
 }
 
-div.mceNonEditable div.split
+div.ezoeItemNonEditable div.split
 {
   clear: both;
 }
 
-div.mceNonEditable div.split:after /* Terminate floating elements flow */
+div.ezoeItemNonEditable div.split:after /* Terminate floating elements flow */
 {
   content: "-";
   height: 0;
@@ -232,29 +232,29 @@ div.mceNonEditable div.split:after /* Terminate floating elements flow */
   clear: both;
 }
 
-div.mceNonEditable div.split div.three-left
+div.ezoeItemNonEditable div.split div.three-left
 {
   width: 31%;
   float: left;
 }
 
-div.mceNonEditable div.split div.three-right
+div.ezoeItemNonEditable div.split div.three-right
 {
   width: 31%;
   float: right;
 }
 
-div.mceNonEditable div.split div.three-center
+div.ezoeItemNonEditable div.split div.three-center
 {
   margin: 0 35% 0 35%;
 }
 
-* html div.mceNonEditable .float-break
+* html div.ezoeItemNonEditable .float-break
 {
     height: 1%; /* Fix for IE */
 }
 
-div.mceNonEditable .float-break:after /* Terminate floating elements flow */
+div.ezoeItemNonEditable .float-break:after /* Terminate floating elements flow */
 {
     content: "-";
     height: 0;
@@ -264,7 +264,7 @@ div.mceNonEditable .float-break:after /* Terminate floating elements flow */
     clear: both;
 }
 
-div.mceNonEditable div.break /* Old method for terminating floating elements flow; kept for backwards compatibility */
+div.ezoeItemNonEditable div.break /* Old method for terminating floating elements flow; kept for backwards compatibility */
 {
     clear: both;
     font-size: 1px; /* Fix for IE */
@@ -275,7 +275,7 @@ div.mceNonEditable div.break /* Old method for terminating floating elements flo
 
 /* Validation error, currently used when you try to publish with a embed tag linking to a deleted object */
 
-.mceItemValidationError { border: 1px solid red; }
+.ezoeItemValidationError { border: 1px solid red; }
 
 
 /* Example of class visualization for paragraph element:

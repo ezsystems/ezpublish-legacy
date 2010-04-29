@@ -1165,12 +1165,12 @@ class eZOEXMLInput extends eZXMLInputHandler
                     }
                     else if ( $object->attribute( 'status' ) == eZContentObject::STATUS_ARCHIVED )
                     {
-                        $className .= ' mceItemObjectInTrash';
+                        $className .= ' ezoeItemObjectInTrash';
                         if ( self::$showEmbedValidationErrors )
                         {
                             $oeini = eZINI::instance( 'ezoe.ini' );
                             if ( $oeini->variable('EditorSettings', 'ValidateEmbedObjects' ) === 'enabled' )
-                                $className .= ' mceItemValidationError';
+                                $className .= ' ezoeItemValidationError';
                         }
                     }
                 }
@@ -1179,10 +1179,10 @@ class eZOEXMLInput extends eZXMLInputHandler
                     $objectName = 'Unknown';
                     $classIdentifier = false;
                     $tplSuffix = '_denied';
-                    $className .= ' mceItemObjectDeleted';
+                    $className .= ' ezoeItemObjectDeleted';
                     if ( self::$showEmbedValidationErrors )
                     {
-                        $className .= ' mceItemValidationError';
+                        $className .= ' ezoeItemValidationError';
                     }
                 }
 
@@ -1253,10 +1253,10 @@ class eZOEXMLInput extends eZXMLInputHandler
                         $objectAttr .= ' align="' . $alignment . '"';
 
                     if ( $className )
-                        $objectAttr .= ' class="mceNonEditable ' . $className . ' mceItemContentType' .
+                        $objectAttr .= ' class="ezoeItemNonEditable ' . $className . ' ezoeItemContentType' .
                                        ucfirst( $embedContentType ) . '"';
                     else
-                        $objectAttr .= ' class="mceNonEditable mceItemContentType' .
+                        $objectAttr .= ' class="ezoeItemNonEditable ezoeItemContentType' .
                                        ucfirst( $embedContentType ) . '"';
 
                     if ( $tagName === 'embed-inline' )
@@ -1318,7 +1318,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 else if ( $inline === true )
                 {
                     if ( !$childTagText ) $childTagText = '&nbsp;';
-                    $output .= '<span class="mceItemCustomTag ' . $name . '" type="custom"' .
+                    $output .= '<span class="ezoeItemCustomTag ' . $name . '" type="custom"' .
                                $customAttributePart . $styleString . '>' . $childTagText . '</span>';
                 }
                 else if ( $inline )
@@ -1329,7 +1329,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                         $imageUrl = self::getDesignFile( $inline );
                         $customAttributePart .= ' width="22" height="22"';
                     }
-                    $output .= '<img src="' . $imageUrl . '" class="mceItemCustomTag ' . $name .
+                    $output .= '<img src="' . $imageUrl . '" class="ezoeItemCustomTag ' . $name .
                                '" type="custom"' . $customAttributePart . $styleString . ' />';
                 }
                 else
@@ -1341,7 +1341,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                                                                 $currentSectionLevel,
                                                                 $tdSectionLevel );
                     }*/
-                    $output .= '<div class="mceItemCustomTag ' . $name . '" type="custom"' .
+                    $output .= '<div class="ezoeItemCustomTag ' . $name . '" type="custom"' .
                                $customAttributePart . $styleString . '>' . $customTagContent . '</div>';
                 }
             }break;

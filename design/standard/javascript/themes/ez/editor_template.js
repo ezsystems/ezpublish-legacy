@@ -184,12 +184,12 @@
                     // duplicates the embed tag
                     jQuery.each( body.getElementsByTagName('div'), function( i, node )
                     {
-                        if ( node && node.className.indexOf('mceNonEditable') !== -1 )
+                        if ( node && node.className.indexOf('ezoeItemNonEditable') !== -1 )
                             node.innerHTML = '';
                     });
                     jQuery.each( body.getElementsByTagName('span'), function( i, node )
                     {
-                        if ( node && node.className.indexOf('mceNonEditable') !== -1 )
+                        if ( node && node.className.indexOf('ezoeItemNonEditable') !== -1 )
                             node.innerHTML = '';
                     });
 
@@ -917,7 +917,7 @@
         },
 
         _nodeChanged : function(ed, cm, n, co, ob) {
-            var t = this, p, de = 0, v, c, c2, s = t.settings, cl, fz, fn, formatNames, matches, mceNonEditable = false, div = false, header, type = '', jn;
+            var t = this, p, de = 0, v, c, c2, s = t.settings, cl, fz, fn, formatNames, matches, ezoeItemNonEditable = false, div = false, header, type = '', jn;
 
             tinymce.each(t.stateControls, function(c) {
                 cm.setActive(c, ed.queryCommandState(t.controls[c][1]));
@@ -952,25 +952,25 @@
             c2 = cm.get('file')
             if ( c || c2 )
             {
-                if ( ( p && (p.nodeName === 'DIV' || p.nodeName === 'SPAN') && p.className.indexOf('mceNonEditable') !== -1 ) )
+                if ( ( p && (p.nodeName === 'DIV' || p.nodeName === 'SPAN') && p.className.indexOf('ezoeItemNonEditable') !== -1 ) )
                 {
-                    mceNonEditable = true;
-                    //console.log( 'mceNonEditable 1' );
+                    ezoeItemNonEditable = true;
+                    //console.log( 'ezoeItemNonEditable 1' );
                 }
-                else if ( (p = t.__getParentByTag( n, 'div,span', 'mceNonEditable') ) )
+                else if ( (p = t.__getParentByTag( n, 'div,span', 'ezoeItemNonEditable') ) )
                 {
-                	mceNonEditable = true;
-                	//console.log( 'mceNonEditable 2' );
+                	ezoeItemNonEditable = true;
+                	//console.log( 'ezoeItemNonEditable 2' );
                 }
                 //else
-                	//console.log( 'mceNonEditable 3' );
+                	//console.log( 'ezoeItemNonEditable 3' );
 
-                if ( mceNonEditable )
+                if ( ezoeItemNonEditable )
                 {
                 	ed.selection.select( p );
                 	div = p.nodeName === 'DIV';
                     n = p;
-                    type = p.className.indexOf('mceItemContentTypeFiles') !== -1 ? 'files' : 'objects';
+                    type = p.className.indexOf('ezoeItemContentTypeFiles') !== -1 ? 'files' : 'objects';
 
                     // change parent array now that n has changed
                     ob.parents = [];
@@ -984,17 +984,17 @@
 
                 if ( c )
                 {
-                    c.setActive( mceNonEditable && (!c2 || type === 'objects')  );
-                    c.setDisabled( header || (mceNonEditable && (type !== 'objects' && c2)) );
+                    c.setActive( ezoeItemNonEditable && (!c2 || type === 'objects')  );
+                    c.setDisabled( header || (ezoeItemNonEditable && (type !== 'objects' && c2)) );
                 }
                 if ( c2 )
                 {
-                    c2.setActive( mceNonEditable && (type === 'files')  );
-                    c2.setDisabled( header || (mceNonEditable && type !== 'files') );
+                    c2.setActive( ezoeItemNonEditable && (type === 'files')  );
+                    c2.setDisabled( header || (ezoeItemNonEditable && type !== 'files') );
                 }
             }
 
-            t.__setDisabled( mceNonEditable );
+            t.__setDisabled( ezoeItemNonEditable );
 
             cm.setDisabled('undo', !ed.undoManager.hasUndo() && !ed.typing);
             cm.setDisabled('redo', !ed.undoManager.hasRedo());
@@ -1094,7 +1094,7 @@
             }
 
             // buttons that are disabled when embed object tag is selectd
-            if ( mceNonEditable === false )
+            if ( ezoeItemNonEditable === false )
             {
                 if ( c = cm.get('anchor') )
                 {
@@ -1108,7 +1108,7 @@
                 p = getParent('IMG');
                 if (c = cm.get('image'))
                 {
-                    c.setActive(!!p && p.className.indexOf('mceItem') === -1);
+                    c.setActive(!!p && p.className.indexOf('ezoeItem') === -1);
                     c.setDisabled( header );
                 }
 
@@ -1335,10 +1335,10 @@
         {
             var ed = this.editor, e = ed.selection.getNode(), eurl = 'objects/', type = '/upload/', el;
 
-            if ( (ui.nodeName === 'DIV' || ui.nodeName === 'SPAN') && ui.className.indexOf('mceNonEditable') !== -1 )
+            if ( (ui.nodeName === 'DIV' || ui.nodeName === 'SPAN') && ui.className.indexOf('ezoeItemNonEditable') !== -1 )
                 e = ui;
 
-            if ( e = this.__getParentByTag( e, 'div,span', 'mceNonEditable', '', true ) )
+            if ( e = this.__getParentByTag( e, 'div,span', 'ezoeItemNonEditable', '', true ) )
             {
                 type = '/relations/';
                 el = e;
@@ -1351,10 +1351,10 @@
         {
             var ed = this.editor, e = ed.selection.getNode(), eurl = 'files/', type = '/upload/', el;
 
-            if ( (ui.nodeName === 'DIV' || ui.nodeName === 'SPAN') && ui.className.indexOf('mceNonEditable') !== -1 )
+            if ( (ui.nodeName === 'DIV' || ui.nodeName === 'SPAN') && ui.className.indexOf('ezoeItemNonEditable') !== -1 )
                 e = ui;
 
-            if ( e = this.__getParentByTag( e, 'div,span', 'mceNonEditable', '', true ) )
+            if ( e = this.__getParentByTag( e, 'div,span', 'ezoeItemNonEditable', '', true ) )
             {
                 type = '/relations/';
                 el = e;
@@ -1416,9 +1416,9 @@
         {
             var ed = this.editor, n = ed.selection.getNode();
             if ( n.nodeName === 'P' && n.parentNode.nodeName === 'BODY' )
-                ed.execCommand('mceInsertRawHTML', false, '</p><div type="custom" class="mceItemCustomTag pagebreak"><p>pagebreak</p></div><p>');
+                ed.execCommand('mceInsertRawHTML', false, '</p><div type="custom" class="ezoeItemCustomTag pagebreak"><p>pagebreak</p></div><p>');
             else if ( n.nodeName === 'BODY' )
-                ed.execCommand ('mceInsertRawHTML', false, '<div type="custom" class="mceItemCustomTag pagebreak"><p>pagebreak</p></div>');
+                ed.execCommand ('mceInsertRawHTML', false, '<div type="custom" class="ezoeItemCustomTag pagebreak"><p>pagebreak</p></div>');
             else
                 alert( 'Not a suported location for a pagebreak, place it in the root of your document!' );
         },
@@ -1568,7 +1568,7 @@
         },
 
         /**
-         * Blocks most events when mceNonEditable element is selected
+         * Blocks most events when ezoeItemNonEditable element is selected
          * activated by {@link this.__setDisabled()}
          * 
          * @param object ed Editor object
@@ -1579,7 +1579,7 @@
             if ( this.__disabled === false )
                 return true;
 
-            //console.log( 'mceNonEditable __block()' );
+            //console.log( 'ezoeItemNonEditable __block()' );
             
             e = e || window.event;            
             var k = e.which || e.keyCode;
@@ -1591,7 +1591,7 @@
             // Remove embed tag if user clicks del or backspace
             if ( k === 8 || k === 46 )
             {
-                var n = this.__getParentByTag( ed.selection.getNode(), 'DIV,SPAN', 'mceNonEditable', '', true );
+                var n = this.__getParentByTag( ed.selection.getNode(), 'DIV,SPAN', 'ezoeItemNonEditable', '', true );
                 if ( n !== undefined && n.parentNode && n.parentNode.removeNode !== undefined )
                 {
                     // Avoid that several embed tags are removed at once if they are placed side by side
@@ -1609,7 +1609,7 @@
 
         /**
          * Disables/enables all buttons based on s parameter, where s is true if
-         * mceNonEditable element (embed objects) is selected. 
+         * ezoeItemNonEditable element (embed objects) is selected. 
          * 
          * @param bool s
          */
@@ -1682,13 +1682,13 @@
                 case 'A':
                     return DOM.getAttrib(n, 'href') ? 'link' : 'anchor';
                 case 'DIV':
-                    if ( n.className.indexOf('mceNonEditable') !== -1 )
+                    if ( n.className.indexOf('ezoeItemNonEditable') !== -1 )
                         return 'embed' + (DOM.getAttrib(n, 'inline') === 'true' ? '-inline' : '');
                     else if ( DOM.getAttrib(n, 'type') === 'custom' )
                         return 'custom';
                     break;
                 case 'SPAN':
-                    if ( n.className.indexOf('mceNonEditable') !== -1 )
+                    if ( n.className.indexOf('ezoeItemNonEditable') !== -1 )
                         return 'embed' + (DOM.getAttrib(n, 'inline') === 'true' ? '-inline' : '');
                     else if ( DOM.getAttrib(n, 'type') === 'custom' )
                         return 'custom';
@@ -1714,7 +1714,7 @@
             {
                 case 'IMG':
                     if ( DOM.getAttrib(n, 'type') === 'custom' )
-                        return {'cmd':'mceCustom', 'val': n.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid)/g, '') };
+                        return {'cmd':'mceCustom', 'val': n.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|ezoeItem\w+|mceVisualAid)/g, '') };
                     else
                         return {'cmd':'mceImage', 'val': ''};
                 case 'PRE':
@@ -1727,14 +1727,14 @@
                     return {'cmd':'mceCustom', 'val': 'sup'};
                 case 'DIV':
                 case 'SPAN':
-                    if ( n.className.indexOf('mceNonEditable') !== -1 )
+                    if ( n.className.indexOf('ezoeItemNonEditable') !== -1 )
                     {
-                        if ( n.className.indexOf('mceItemContentTypeFiles') !== -1 )
+                        if ( n.className.indexOf('ezoeItemContentTypeFiles') !== -1 )
                             return {'cmd':'mceFile', 'val': ''};
                         return {'cmd':'mceObject', 'val': ''};
                     }
                     else if ( DOM.getAttrib(n, 'type') === 'custom' )
-                        return {'cmd':'mceCustom', 'val': n.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid)/g, '') };
+                        return {'cmd':'mceCustom', 'val': n.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|ezoeItem\w+|mceVisualAid)/g, '') };
                     break;
                 case 'TABLE':
                     return {'cmd':'mceInsertTable', 'val': ''};

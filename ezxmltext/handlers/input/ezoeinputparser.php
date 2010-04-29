@@ -45,7 +45,7 @@ class eZOEInputParser extends eZXMLInputParser
     /**
      * Used to strip out ezoe, tinymce & browser specific classes
      */    
-     const HTML_CLASS_REGEX = "/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable)/i";
+     const HTML_CLASS_REGEX = "/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|ezoeItem\w+|mceVisualAid)/i";
 
     /**
      * Maps input tags (html) to a output tag or a hander to 

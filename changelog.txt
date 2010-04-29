@@ -7,6 +7,10 @@ eZ Online Editor 5.x extension Changelog
 - Fixed bug #16271: Links containing special characters are not stored correctly
 - Upgraded TinyMCE to 3.3.4
 - Added emotions plugin support (as forked ezemotions plugin)
+- Fixed bug #16749: Custom tags layout disapear when switching to fullcreen mode
+  BC: All internal css classes for ezoe items using "mceItem" prefix has been changed to use "ezoeItem" prefix
+      and mceNonEditable is now ezoeItemNonEditable, this affects you if you have custom content.css code that
+      styles custom / embed tags!
 
 
 5.1.0

@@ -204,7 +204,7 @@ var eZOEPopupUtils = {
                 ed.execCommand('mceInsertLink', false, args, {skip_undo : 1} );
                 s.editorElement = ed.dom.get('__mce_tmp');
                 // fixup if we are inside embed tag
-                if ( tmp = eZOEPopupUtils.getParentByTag( s.editorElement, 'div,span', 'mceNonEditable' ) )
+                if ( tmp = eZOEPopupUtils.getParentByTag( s.editorElement, 'div,span', 'ezoeItemNonEditable' ) )
                 {
                     var span = document.createElement("span");
                     span.innerHTML = s.editorElement.innerHTML;
@@ -512,7 +512,7 @@ var eZOEPopupUtils = {
         	var o = jQuery( el ), name = el.name;
         	if ( o.hasClass('mceItemSkip') ) return;
             if ( name === 'class' )
-                var v = jQuery.trim( editorElement.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable)/g, '').replace( /eZOEPopupUtils.settings.cssClass.replace(' ', '|')/, '' ) );
+                var v = jQuery.trim( editorElement.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|ezoeItem\w+|mceVisualAid)/g, '').replace( /eZOEPopupUtils.settings.cssClass.replace(' ', '|')/, '' ) );
             else 
                 var v = tinyMCEPopup.editor.dom.getAttrib( editorElement, name );//editorElement.getAttribute( name );
             if ( v !== false && v !== null && v !== undefined )
