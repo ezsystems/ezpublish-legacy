@@ -954,7 +954,7 @@ class eZContentOperationCollection
         $db->commit();
 
         //call appropriate method from search engine
-        eZSearchEngine::removeNodes( $removeNodeIdList );
+        eZSearch::removeNodes( $removeNodeIdList );
 
         $userClassIdList = eZUser::contentClassIDs();
         foreach ( $objectIdList as $objectId => $object )
