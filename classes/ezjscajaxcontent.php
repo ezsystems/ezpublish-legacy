@@ -359,7 +359,9 @@ class ezjscAjaxContent
                         $ret['image_attributes'][] = $key;
                     }
 
-                    $imageArray['original']             = array( 'url' => $attrtibuteArray[ $key ]['content'] );
+                    if ( !isset( $imageArray['original'] ) )
+                        $imageArray['original'] = $content->attribute( 'original' );
+
                     $attrtibuteArray[ $key ]['content'] = $imageArray;
                 }
             }
