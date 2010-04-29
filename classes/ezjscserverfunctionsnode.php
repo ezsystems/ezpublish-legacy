@@ -21,7 +21,7 @@ class ezjscServerFunctionsNode extends ezjscServerFunctions
         $parentNodeID = isset( $args[0] ) ? $args[0] : null;
         $limit = isset( $args[1] ) ? $args[1] : 25;
         $offset = isset( $args[2] ) ? $args[2] : 0;
-        $sort = isset( $args[3] ) ? $args[3] : 'published';
+        $sort = isset( $args[3] ) ? self::sortMap( $args[3] ) : 'published';
         $order = isset( $args[4] ) ? $args[4] : false;
 
         if ( !$parentNodeID )
@@ -71,6 +71,31 @@ class ezjscServerFunctionsNode extends ezjscServerFunctions
                       'offset' => $offset,
                       'sort' => $sort,
                       'order' => $order );
+    }
+
+    /**
+     * A helper function which maps sort keys from encoded JSON node
+     * to supported values
+     *
+     * @static
+     * @param string $sort
+     * @return string
+     */
+    public static function sortMap( $sort )
+    {
+        switch ( $sort )
+        {
+            case 'modified_date':
+                $sortKey = 'modified';
+                break;
+            case 'published_date':
+                $sortKey = 'published';
+                break;
+            default:
+                $sortKey = $sort;
+        }
+
+        return $sortKey;
     }
 }
 
