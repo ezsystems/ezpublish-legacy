@@ -127,7 +127,7 @@ class ezoeServerFunctions extends ezjscServerFunctions
             'advhr' => array(
                 'advhr_desc' => ezi18n( 'design/standard/ezoe', "Horizontale rule")
             ),
-            /*'emotions' => array(
+            'emotions' => array(
                 'emotions_desc' => ezi18n( 'design/standard/ezoe', "Emotions")
             ),
             'emotions_dlg' => array(
@@ -149,7 +149,7 @@ class ezoeServerFunctions extends ezjscServerFunctions
                 'undecided' => ezi18n( 'design/standard/ezoe', "Undecided"),
                 'wink' => ezi18n( 'design/standard/ezoe', "Wink"),
                 'yell' => ezi18n( 'design/standard/ezoe', "Yell"),
-            ),*/
+            ),
             'searchreplace' => array(
                 'search_desc' => ezi18n( 'design/standard/ezoe', "Find"),
                 'replace_desc' => ezi18n( 'design/standard/ezoe', "Find/Replace")
