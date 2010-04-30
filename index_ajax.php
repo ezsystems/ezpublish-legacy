@@ -155,8 +155,8 @@ $access = accessType( $uri,
                       eZSys::indexFile() );
 $access = changeAccess( $access );
 
-// Check for new extension loaded by siteaccess ( disabled for performance reasons )
-//eZExtension::activateExtensions( 'access' );
+// Check for new extension loaded by siteaccess
+eZExtension::activateExtensions( 'access' );
 
 // check module name
 $moduleName = $uri->element();
@@ -168,7 +168,7 @@ if ( strpos( $moduleName, 'index.php' ) !== false  )
 
 if ( $moduleName === '' )
 {
-    exitWithInternalError( 'Did not find module info in url. (165)' );
+    exitWithInternalError( 'Did not find module info in url. (171)' );
 }
 
 // check db connection
