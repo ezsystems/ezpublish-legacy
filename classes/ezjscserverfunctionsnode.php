@@ -58,7 +58,8 @@ class ezjscServerFunctionsNode extends ezjscServerFunctions
         {
             $list = ezjscAjaxContent::nodeEncode( $nodeArray, array( 'formatDate' => 'shortdatetime', 
                                                                      'fetchSection' => true,
-                                                                     'fetchCreator' => true ), 'raw' );
+                                                                     'fetchCreator' => true,
+                                                                     'fetchClassIcon' => true ), 'raw' );
         }
         else
         {

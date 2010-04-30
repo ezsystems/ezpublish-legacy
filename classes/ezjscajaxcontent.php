@@ -247,6 +247,23 @@ class ezjscAjaxContent
                                      'name' => $creator->attribute('name') );
         }
 
+        if ( isset( $params['fetchClassIcon'] ) )
+        {
+            $operator = new eZWordToImageOperator();
+            $tpl = eZTemplate::instance();
+
+            $operatorValue = $contentObject->attribute( 'class_identifier' );
+
+            $operatorParameters = array( array( array( 1, 'small' ) ) );
+            $namedParameters = array();
+
+            $operatorName = 'class_icon';
+
+            $operator->modify( $tpl, $operatorName, $operatorParameters, '', '', $operatorValue, $namedParameters );
+
+            $ret['class_icon'] = $operatorValue;
+        }
+
         if ( $params['fetchSection'] )
         {
             $section = eZSection::fetch( $ret['section_id']  );
