@@ -26,9 +26,9 @@
 
 // Set a default time zone if none is given. The time zone can be overriden
 // in config.php or php.ini.
-if ( !ini_get( "date.timezone" ) )
+if ( !ini_get( 'date.timezone' ) )
 {
-    date_default_timezone_set( "UTC" );
+    date_default_timezone_set( 'UTC' );
 }
 
 define( 'MAX_AGE', 86400 );
@@ -43,7 +43,17 @@ if ( isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) )
 }
 
 require 'autoload.php';
-require_once( 'kernel/common/ezincludefunctions.php' );
+require 'lib/ezutils/classes/ezsession.php';
+require 'kernel/common/ezincludefunctions.php';
+
+// Tweaks ini filetime checks if not defined!
+// This makes ini system not check modified time so
+// that index_treemenu.php can assume that index.php does
+// this regular enough, set in config.php to override.
+if ( !defined('EZP_INI_FILEMTIME_CHECK') )
+{
+    define( 'EZP_INI_FILEMTIME_CHECK', false );
+}
 
 function ezupdatedebugsettings()
 {
@@ -73,35 +83,35 @@ $_SERVER['SCRIPT_FILENAME'] = str_replace( '/index_treemenu.php', '/index.php', 
 $_SERVER['PHP_SELF'] = str_replace( '/index_treemenu.php', '/index.php', $_SERVER['PHP_SELF'] );
 
 $ini = eZINI::instance();
-
 $timezone = $ini->variable( 'TimeZoneSettings', 'TimeZone' );
 if ( $timezone )
 {
     putenv( "TZ=$timezone" );
 }
 
+// init uri code
 $GLOBALS['eZGlobalRequestURI'] = eZSys::serverVariable( 'REQUEST_URI' );
-
-eZSys::init( 'index.php', $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost' ) == 'true' );
-
+eZSys::init( 'index.php', $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost' ) === 'true' );
 $uri = eZURI::instance( eZSys::requestURI() );
 
 $GLOBALS['eZRequestedURI'] = $uri;
 
-require_once 'pre_check.php';
+require 'pre_check.php';
 
 // Check for extension
 eZExtension::activateExtensions( 'default' );
-// Extension check end
 
-require_once 'access.php';
-
+// load siteaccess
+require 'access.php';
 $access = accessType( $uri,
                       eZSys::hostname(),
                       eZSys::serverPort(),
                       eZSys::indexFile() );
 $access = changeAccess( $access );
 $GLOBALS['eZCurrentAccess'] = $access;
+
+// Check for new extension loaded by siteaccess
+eZExtension::activateExtensions( 'access' );
 
 $db = eZDB::instance();
 if ( $db->isConnected() )
