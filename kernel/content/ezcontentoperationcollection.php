@@ -532,9 +532,14 @@ class eZContentOperationCollection
         }
     }
 
-    /*!
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
+    /**
+     * Registers the object in search engine.
+     *
+     * @note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     *       the calls within a db transaction; thus within db->begin and db->commit.
+     *
+     * @param int $objectID Id of the object.
+     * @param int $versionNum Version of the object.
      */
     static public function registerSearchObject( $objectID, $versionNum )
     {
@@ -542,36 +547,35 @@ class eZContentOperationCollection
         eZDebug::createAccumulatorGroup( 'search_total', 'Search Total' );
 
         $ini = eZINI::instance( 'site.ini' );
-        $delayedIndexing = $ini->variable( 'SearchSettings', 'DelayedIndexing' );
+        $insertPendingAction = false;
+        $object = null;
 
-        if ( $delayedIndexing == 'enabled' )
+        switch ( $ini->variable( 'SearchSettings', 'DelayedIndexing' ) )
         {
-            $db = eZDB::instance();
-            $rows = $db->arrayQuery( "SELECT param FROM ezpending_actions WHERE action='index_object' AND param = '$objectID'" );
-            if ( count( $rows ) == 0 )
-            {
-                $db->query( "INSERT INTO ezpending_actions( action, param ) VALUES ( 'index_object', '$objectID' )" );
-            }
+            case 'enabled':
+                $insertPendingAction = true;
+                break;
+            case 'classbased':
+                $classList = $ini->variable( 'SearchSettings', 'DelayedIndexingClassList' );
+                $object = eZContentObject::fetch( $objectID );
+                if ( is_array( $classList ) && in_array( $object->attribute( 'class_identifier' ), $classList ) )
+                {
+                    $insertPendingAction = true;
+                }
+        }
+
+        if ( $insertPendingAction )
+        {
+            eZDB::instance()->query( "INSERT INTO ezpending_actions( action, param ) VALUES ( 'index_object', '$objectID' )" );
             return;
         }
-        elseif ( $delayedIndexing == 'classbased' )
-        {
-            $classList = $ini->variable( 'SearchSettings', 'DelayedIndexingClassList' );
-            $object = eZContentObject::fetch( $objectID );
-            $classIdentifier = $object->attribute( 'class_identifier' );
-            if ( is_array( $classList ) && in_array( $classIdentifier, $classList ) )
-            {
-                $db = eZDB::instance();
-                $db->query( "INSERT INTO ezpending_actions( action, param ) VALUES ( 'index_object', '$objectID' )" );
-                return;
-            }
-        }
 
-        $object = eZContentObject::fetch( $objectID );
+        if ( $object === null )
+            $object = eZContentObject::fetch( $objectID );
+
         // Register the object in the search engine.
         $needCommit = eZSearch::needCommit();
-        $doDeleteFirst = eZSearch::needRemoveWithUpdate();
-        if ($doDeleteFirst)
+        if ( eZSearch::needRemoveWithUpdate() )
         {
             eZDebug::accumulatorStart( 'remove_object', 'search_total', 'remove object' );
             eZSearch::removeObject( $object, $needCommit );
