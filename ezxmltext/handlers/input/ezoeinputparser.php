@@ -1210,35 +1210,14 @@ class eZOEInputParser extends eZXMLInputParser
     function publishHandlerTable( $element, &$params )
     {
         $ret = null;
-
-        // Trying to convert CSS rules to XML attributes
-        // (for the case of pasting from external source)
-
-        $style = $element->getAttribute( 'style' );
-        if ( $style )
-        {
-            $styleArray = explode( ';', $style );
-            foreach( $styleArray as $styleString )
-            {
-                if ( !$styleString )
-                    continue;
-
-                list( $styleName, $styleValue ) = explode( ':', $styleString );
-                $styleName = trim( $styleName );
-                $styleValue = trim( $styleValue );
-                if ( $styleName )
-                {
-                    $element->setAttribute( $styleName, $styleValue );
-                }
-            }
-        }
+        self::elementStylesToAttribute( $element );
         return $ret;
     }
 
      /**
      * publishHandlerEmbed (Publish handler, pass 2 after schema validation)
-     * Publish handler for embed element, convert id to [object|node]_id parameter.
-     * And fixes align=middle value (if embed was image)
+     * Publish handler for embed element, convert id to [object|node]_id parameter,
+     * fixes align=middle value (if embed was image) and tries to map css to attributes
      *
      * @param DOMElement $element
      * @param array $param parameters for xml element
@@ -1285,7 +1264,7 @@ class eZOEInputParser extends eZXMLInputParser
         {
             $element->setAttribute( 'align', 'center' );
         }
-        //$this->convertCustomAttributes( $element );
+        self::elementStylesToAttribute( $element );
         return $ret;
     }
 
@@ -1337,6 +1316,12 @@ class eZOEInputParser extends eZXMLInputParser
         return $this->linkedObjectIDArray;
     }
 
+     /**
+     * Get list over currently deleted embeded objects, nodes and (optionally) objects in trash
+     *
+     * @param bool $includeTrash
+     * @return array
+     */
     function getDeletedEmbedIDArray( $includeTrash = false )
     {
         $arr = array();
@@ -1348,7 +1333,13 @@ class eZOEInputParser extends eZXMLInputParser
             $arr['trash'] = $this->thrashedEmbeddedObjectIDArray;
         return $arr;
     }
-    
+
+     /**
+     * Check if a custom tag is enabled
+     *
+     * @param string $name
+     * @return bool
+     */
     public static function customTagIsEnabled( $name )
     {
         if ( self::$customTagList === null )
@@ -1357,6 +1348,40 @@ class eZOEInputParser extends eZXMLInputParser
             self::$customTagList = $ini->variable( 'CustomTagSettings', 'AvailableCustomTags' );
         }
         return in_array( $name, self::$customTagList );
+    }
+
+     /**
+     * Trying to convert CSS rules to XML attributes
+     * (for the case of pasting from external source)
+     *
+     * @param DOMElement $element
+     */
+    protected static function elementStylesToAttribute( DOMElement $element )
+    {
+        $style = $element->getAttribute( 'style' );
+        if ( $style )
+        {
+            $styleArray = explode( ';', $style );
+            foreach( $styleArray as $styleString )
+            {
+                if ( !$styleString )
+                    continue;
+
+                list( $styleName, $styleValue ) = explode( ':', $styleString );
+                $styleName  = trim( $styleName );
+                $styleValue = trim( $styleValue );
+
+                if ( $styleName === 'float' )
+                    $styleName = 'align';
+                else if ( $styleName === 'text-align' )
+                    $styleName = 'align';
+
+                if ( $styleName )
+                {
+                    $element->setAttribute( $styleName, $styleValue );
+                }
+            }
+        }
     }
 
     protected $urlIDArray = array();

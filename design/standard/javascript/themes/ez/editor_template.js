@@ -152,6 +152,39 @@
                 }
                 else if (ed.settings.content_css !== false)
                     ed.dom.loadCSS(ed.baseURI.toAbsolute("themes/ez/skins/" + ed.settings.skin + "/content.css"));
+
+                // Add support for align attribute (until parser and theme supports style based alignment)
+                // taken from legacyoutput plugin
+                var alignElements = 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', serializer = ed.serializer;
+
+                // Override some internal formats to produce legacy elements and attributes
+                ed.formatter.register({
+                    // Change alignment formats to use the deprecated align attribute
+                    alignleft : {selector : alignElements, attributes : {align : 'left'}},
+                    aligncenter : {selector : alignElements, attributes : {align : 'center'}},
+                    alignright : {selector : alignElements, attributes : {align : 'right'}},
+                    alignfull : {selector : alignElements, attributes : {align : 'full'}},
+                });
+
+                // Force parsing of the serializer rules
+                serializer._setup();
+
+                // Add the missing and depreacted align attribute for the serialization engine
+                tinymce.each(alignElements.split(','), function(name) {
+                    var rule = serializer.rules[name], found;
+
+                    if (rule) {
+                        tinymce.each(rule.attribs, function(name, attr) {
+                            if (attr.name == 'align') {
+                                found = true;
+                                return false;
+                            }
+                        });
+
+                        if (!found)
+                            rule.attribs.push({name : 'align'});
+                    }
+                });
             });
 
             ed.onSetProgressState.add(function(ed, b, ti) {
