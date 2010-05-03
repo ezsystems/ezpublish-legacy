@@ -84,7 +84,6 @@ class eZOEXMLInput extends eZXMLInputHandler
      * @static
      */
     public static $nativeCustomTags = array(
-                  'underline' => 'u',
                   'sup' => 'sup',
                   'sub' => 'sub'
                   );
@@ -1550,7 +1549,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 {
                     $customAttributePart .= ' class="' . $className . '"';
                 }
-                $output .= '<i' . $customAttributePart . $styleString . '>' . $childTagText  . '</i>';
+                $output .= '<em' . $customAttributePart . $styleString . '>' . $childTagText  . '</em>';
             }break;
 
             case 'strong' :
@@ -1562,7 +1561,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 {
                     $customAttributePart .= ' class="' . $className . '"';
                 }
-                $output .= '<b' . $customAttributePart . $styleString . '>' . $childTagText  . '</b>';
+                $output .= '<strong' . $customAttributePart . $styleString . '>' . $childTagText  . '</strong>';
             }break;
 
             case 'line' :

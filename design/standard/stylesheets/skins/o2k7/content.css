@@ -134,6 +134,7 @@ span.ezoeItemCustomTag.strike
 
 span.ezoeItemCustomTag.underline
 {
+  background-color: transparent;
   text-decoration: underline
 }
 

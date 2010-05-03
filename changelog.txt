@@ -11,6 +11,7 @@ eZ Online Editor 5.x extension Changelog
   BC: All internal css classes for ezoe items using "mceItem" prefix has been changed to use "ezoeItem" prefix
       and mceNonEditable is now ezoeItemNonEditable, this affects you if you have custom content.css code that
       styles custom / embed tags!
+- Fixed bug #16732: tc-52:(Online Editor) - Underline format is not working
 
 
 5.1.0

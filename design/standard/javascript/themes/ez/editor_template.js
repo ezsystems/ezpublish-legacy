@@ -1195,7 +1195,7 @@
                         case 'custom':
                             if (v = DOM.getAttrib(n, 'style'))
                                 ti += 'style: ' + v + ' ';
-                            if ( n.nodeName === 'U' )
+                            if ( n.nodeName === 'U' || n.style.textDecoration === 'underline' )
                                 className = 'underline';
                             else if ( n.nodeName === 'SUB' )
                                 className = 'sub';
@@ -1214,7 +1214,7 @@
 
                     if (v = className ?  className : n.className)
                     {
-                        v = v.replace(/\b\s*(webkit|mce|Apple-)\w+\s*\b/g, '')
+                        v = v.replace(/\b\s*(webkit|mce|Apple-|ezoeItem)\w+\s*\b/g, '')
 
                         if (v) {
                             ti = ti + 'class: ' + v + ' ';
@@ -1692,6 +1692,8 @@
                         return 'embed' + (DOM.getAttrib(n, 'inline') === 'true' ? '-inline' : '');
                     else if ( DOM.getAttrib(n, 'type') === 'custom' )
                         return 'custom';
+                    else if ( n.style.textDecoration === 'underline' )
+                        return 'custom';
                     break;
                 case 'IMG':
                     if ( DOM.getAttrib(n, 'type') === 'custom' )
@@ -1735,6 +1737,8 @@
                     }
                     else if ( DOM.getAttrib(n, 'type') === 'custom' )
                         return {'cmd':'mceCustom', 'val': n.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|ezoeItem\w+|mceVisualAid)/g, '') };
+                    else if ( n.style.textDecoration === 'underline' )
+                        return {'cmd':'mceCustom', 'val': 'underline' };
                     break;
                 case 'TABLE':
                     return {'cmd':'mceInsertTable', 'val': ''};
