@@ -23,8 +23,8 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
     tagSelector: 'custom_name_source',
     onInit: function( el, tag, ed )
     {
-        // custom block tags are not allowed inside custom inline tags
-        if ( el )
+    // custom block tags are not allowed inside custom inline tags and headers
+    if ( el )
         {
             if ( eZOEPopupUtils.getParentByTag( el, 'span', 'ezoeItemCustomTag', 'custom' ) )
                 filterOutCustomBlockTags( );
