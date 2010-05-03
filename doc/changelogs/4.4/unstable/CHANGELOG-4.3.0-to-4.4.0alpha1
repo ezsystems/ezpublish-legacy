@@ -18,8 +18,8 @@ Changes from 4.3.0 to 4.4.0alpha1
 
 *Bugfixes:
 - Fixed bug #016761: Contentstructuretreemenu.ini in ActiveAccessExtension
+- Fixed bug #016747: HTTP status 500 missing when transaction error occurs
 - Fixed bug #016685: Fatal error with imageGD, php 5.3 and border image alias filter
 - Fixed bug #016550: eZ Publish is using "Etag", w3c says "ETag"
 - Fixed bug #015417: ezpgenerateautoloads.php doesn't work well with config.php autoloading
 - Fixed bug #010651: eZHTTPTool::sendHTTPRequest() doesn't support domain names with dashes
-- Fixed bug #016747: HTTP status 500 missing when transaction error occurs
