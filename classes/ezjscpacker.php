@@ -389,6 +389,7 @@ class ezjscPacker
 
         // Merge file content and create new cache file
         $content = '';
+        $isCSS = strpos( $fileExtension, '.css' ) !== false;
         foreach ( $validFiles as $file )
         {
             // if this is a js / css generator, call to get content
@@ -412,7 +413,7 @@ class ezjscPacker
             }
 
             // we need to fix relative background image paths if this is a css file
-            if ( strpos( $fileExtension, '.css' ) !== false )
+            if ( $isCSS )
             {
                 $fileContent = ezjscPacker::fixImgPaths( $fileContent, $file );
             }
@@ -425,14 +426,14 @@ class ezjscPacker
         // Pack the file to save bandwidth
         if ( $packLevel > 1 )
         {
-            if ( strpos( $fileExtension, '.css' ) !== false )
+            if ( $isCSS )
                 $content = ezjscPacker::optimizeCSS( $content, $packLevel );
             else
                 $content = ezjscPacker::optimizeScript( $content, $packLevel );
         }
 
         // save file and return path
-        $clusterFileHandler->fileStoreContents( $cachePath, $content );
+        $clusterFileHandler->fileStoreContents( $cachePath, $content, 'ezjscore', $isCSS ? 'text/css' : 'text/javascript' );
         $httpFiles[] = $packerInfo['custom_host'] . $packerInfo['www_dir'] . $cachePath;
 
         return $httpFiles;

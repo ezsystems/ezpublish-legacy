@@ -3,7 +3,7 @@
 - Upgraded YUI 3.x from 3.0.0 to 3.1.0
 - Fixed bug #16726: Src for original image in "Insert image" has a pipe ("|") at the end
 - Fixed bug #16761: ini settings and ActiveAccessExtension
-
+- Fixed bug #16669: wrong content-type header for packed js/css files using clustering
 
 # v1.1.0rc1
 - Fixed bug #16456: ezjscore not cluster aware?
