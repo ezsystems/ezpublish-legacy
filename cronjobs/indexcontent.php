@@ -42,7 +42,7 @@ $limit = 50;
 
 while( true )
 {
-    $entries = $db->arrayQuery( "SELECT param FROM ezpending_actions WHERE action = 'index_object'",
+    $entries = $db->arrayQuery( "SELECT DISTINCT param FROM ezpending_actions WHERE action = 'index_object'",
                                 array( 'limit' => $limit,
                                        'offset' => $offset ) );
 
