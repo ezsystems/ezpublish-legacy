@@ -32,8 +32,7 @@
 // Operator autoloading
 
 $eZTemplateOperatorArray = array();
-$eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatearrayoperator.php',
-                                    'class' => 'eZTemplateArrayOperator',
+$eZTemplateOperatorArray[] = array( 'class' => 'eZTemplateArrayOperator',
                                     'operator_names' => array( 'array',
                                                                'hash',
                                                                'array_prepend', // DEPRECATED/OBSOLETE
@@ -62,42 +61,32 @@ $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztempla
 
 
 
-$eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplateexecuteoperator.php',
-                                    'class' => 'eZTemplateExecuteOperator',
+$eZTemplateOperatorArray[] = array( 'class' => 'eZTemplateExecuteOperator',
                                     'operator_names' => array( 'fetch', 'fetch_alias' ) );
-$eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatelocaleoperator.php',
-                                    'class' => 'eZTemplateLocaleOperator',
+$eZTemplateOperatorArray[] = array( 'class' => 'eZTemplateLocaleOperator',
                                     'operator_names' => array( 'l10n', 'locale', 'datetime', 'currentdate', 'maketime', 'makedate', 'gettime' ) );
-$eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplateattributeoperator.php',
-                                    'class' => 'eZTemplateAttributeOperator',
+$eZTemplateOperatorArray[] = array( 'class' => 'eZTemplateAttributeOperator',
                                     'operator_names' => array( 'attribute' ) );
-$eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatenl2broperator.php',
-                                    'class' => 'eZTemplateNl2BrOperator',
+$eZTemplateOperatorArray[] = array( 'class' => 'eZTemplateNl2BrOperator',
                                     'operator_names' => array( 'nl2br' ) );
-$eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatetextoperator.php',
-                                    'class' => 'eZTemplateTextOperator',
+$eZTemplateOperatorArray[] = array( 'class' => 'eZTemplateTextOperator',
                                     'operator_names' => array( 'concat', 'indent' ) );
-$eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplateunitoperator.php',
-                                    'class' => 'eZTemplateUnitOperator',
+$eZTemplateOperatorArray[] = array( 'class' => 'eZTemplateUnitOperator',
                                     'operator_names' => array( 'si' ) );
-$eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatelogicoperator.php',
-                                    'class' => 'eZTemplateLogicOperator',
+$eZTemplateOperatorArray[] = array( 'class' => 'eZTemplateLogicOperator',
                                     'operator_names' => array( 'lt', 'gt', 'le',
                                                                'ge', 'eq', 'ne', 'null',
                                                                'not', 'true', 'false',
                                                                'or', 'and', 'choose' ) );
-$eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatetypeoperator.php',
-                                    'class' => 'eZTemplateTypeOperator',
+$eZTemplateOperatorArray[] = array( 'class' => 'eZTemplateTypeOperator',
                                     'operator_names' => array( 'is_array', 'is_boolean', 'is_integer',
                                                                'is_float', 'is_numeric', 'is_string',
                                                                'is_object', 'is_class', 'is_null',
                                                                'is_set', 'is_unset', 'get_type', 'get_class' ) );
-$eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatecontroloperator.php',
-                                    'class' => 'eZTemplateControlOperator',
+$eZTemplateOperatorArray[] = array( 'class' => 'eZTemplateControlOperator',
                                     'operator_names' => array( 'cond', 'first_set' ) );
 
-$eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatearithmeticoperator.php',
-                                    'class' => 'eZTemplateArithmeticOperator',
+$eZTemplateOperatorArray[] = array( 'class' => 'eZTemplateArithmeticOperator',
                                     'operator_names' => array( 'sum', 'sub', 'inc', 'dec',
                                                                'div', 'mod', 'mul',
                                                                'max', 'min',
@@ -107,15 +96,13 @@ $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztempla
                                                                'roman',
                                                                'rand' ) );
 
-$eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplateimageoperator.php',
-                                    'class' => 'eZTemplateImageOperator',
+$eZTemplateOperatorArray[] = array( 'class' => 'eZTemplateImageOperator',
                                     'operator_names' => array( 'texttoimage',
                                                                'image',
                                                                'imagefile' ) );
 
 
-$eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatestringoperator.php',
-                                    'class' => 'eZTemplateStringOperator',
+$eZTemplateOperatorArray[] = array( 'class' => 'eZTemplateStringOperator',
                                     'operator_names' => array( 'upcase',
                                                                'downcase',
                                                                'count_words',
@@ -133,8 +120,7 @@ $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztempla
                                                                'shorten',
                                                                'pad') );
 
-$eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatedigestoperator.php',
-                                    'class' => 'eZTemplateDigestOperator',
+$eZTemplateOperatorArray[] = array( 'class' => 'eZTemplateDigestOperator',
                                     'operator_names' => array( 'crc32',
                                                                'md5',
                                                                'rot13', ) );
@@ -144,89 +130,72 @@ $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztempla
 // Function autoloading
 
 $eZTemplateFunctionArray = array();
-$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatesectionfunction.php',
-                                    'class' => 'eZTemplateSectionFunction',
+$eZTemplateFunctionArray[] = array( 'class' => 'eZTemplateSectionFunction',
                                     'function_names' => array( 'section' ),
                                     'function_attributes' => array( 'delimiter',
                                                                     'section-exclude',
                                                                     'section-include',
                                                                     'section-else' ) );
-$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatedelimitfunction.php',
-                                    'class' => 'eZTemplateDelimitFunction',
+$eZTemplateFunctionArray[] = array( 'class' => 'eZTemplateDelimitFunction',
                                     'function_names' => array( 'ldelim', 'rdelim' ) );
-$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplateincludefunction.php',
-                                    'class' => 'eZTemplateIncludeFunction',
+$eZTemplateFunctionArray[] = array( 'class' => 'eZTemplateIncludeFunction',
                                     'function_names' => array( 'include' ) );
-$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplateswitchfunction.php',
-                                    'class' => 'eZTemplateSwitchFunction',
+$eZTemplateFunctionArray[] = array( 'class' => 'eZTemplateSwitchFunction',
                                     'function_names' => array( 'switch' ),
                                     'function_attributes' => array( 'case' ) );
-$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatesequencefunction.php',
-                                    'class' => 'eZTemplateSequenceFunction',
+$eZTemplateFunctionArray[] = array( 'class' => 'eZTemplateSequenceFunction',
                                     'function_names' => array( 'sequence' ) );
-$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatesetfunction.php',
-                                    'class' => 'eZTemplateSetFunction',
+$eZTemplateFunctionArray[] = array( 'class' => 'eZTemplateSetFunction',
                                     'function_names' => array( 'set', 'let', 'default' ) );
-$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplateblockfunction.php',
-                                    'class' => 'eZTemplateBlockFunction',
+$eZTemplateFunctionArray[] = array( 'class' => 'eZTemplateBlockFunction',
                                     'function_names' => array( 'set-block', 'append-block', 'run-once' ) );
 
-$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatedebugfunction.php',
-                                    'class' => 'eZTemplateDebugFunction',
+$eZTemplateFunctionArray[] = array( 'class' => 'eZTemplateDebugFunction',
                                     'function_names' => array( 'debug-timing-point', 'debug-accumulator',
                                                                'debug-log',
                                                                'debug-trace' ) );
 
-$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatecachefunction.php',
-                                    'class' => 'eZTemplateCacheFunction',
+$eZTemplateFunctionArray[] = array( 'class' => 'eZTemplateCacheFunction',
                                     'function_names' => array( 'cache-block' ) );
 
-$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatetoolbarfunction.php',
-                                    'class' => 'eZTemplateToolbarFunction',
+$eZTemplateFunctionArray[] = array( 'class' => 'eZTemplateToolbarFunction',
                                     'function_names' => array( 'tool_bar' ) );
 
-$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatemenufunction.php',
-                                    'class' => 'eZTemplateMenuFunction',
+$eZTemplateFunctionArray[] = array( 'class' => 'eZTemplateMenuFunction',
                                     'function_names' => array( 'menu' ) );
 
 // should we add 'break', 'continue' and 'skip' to the {if} attribute list?
-$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplateiffunction.php',
-                                    'class' => 'eZTemplateIfFunction',
+$eZTemplateFunctionArray[] = array( 'class' => 'eZTemplateIfFunction',
                                     'function_names' => array( 'if' ),
                                     'function_attributes' => array( 'elseif',
                                                                     'else' ) );
-$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatewhilefunction.php',
-                                    'class' => 'eZTemplateWhileFunction',
+$eZTemplateFunctionArray[] = array( 'class' => 'eZTemplateWhileFunction',
                                     'function_names' => array( 'while' ),
                                     'function_attributes' => array( 'delimiter',
                                                                     'break',
                                                                     'continue',
                                                                     'skip' ) );
-$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplateforfunction.php',
-                                    'class' => 'eZTemplateForFunction',
+$eZTemplateFunctionArray[] = array( 'class' => 'eZTemplateForFunction',
                                     'function_names' => array( 'for' ),
                                     'function_attributes' => array( 'delimiter',
                                                                     'break',
                                                                     'continue',
                                                                     'skip' ) );
 
-$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplateforeachfunction.php',
-                                    'class' => 'eZTemplateForeachFunction',
+$eZTemplateFunctionArray[] = array( 'class' => 'eZTemplateForeachFunction',
                                     'function_names' => array( 'foreach' ),
                                     'function_attributes' => array( 'delimiter',
                                                                     'break',
                                                                     'continue',
                                                                     'skip' ) );
-$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatedofunction.php',
-                                    'class' => 'eZTemplateDoFunction',
+$eZTemplateFunctionArray[] = array( 'class' => 'eZTemplateDoFunction',
                                     'function_names' => array( 'do' ),
                                     'function_attributes' => array( 'delimiter',
                                                                     'break',
                                                                     'continue',
                                                                     'skip' ) );
 
-$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatedeffunction.php',
-                                    'class' => 'eZTemplateDefFunction',
+$eZTemplateFunctionArray[] = array( 'class' => 'eZTemplateDefFunction',
                                     'function_names' => array( 'def', 'undef' ) );
 
 

@@ -8,8 +8,7 @@
  */
 
 $eZTemplateOperatorArray = array();
-$eZTemplateOperatorArray[] = array( 'script' => 'kernel/private/eztemplate/ezplanguageswitcheroperator.php',
-                                    'class' => 'ezpLanguageSwitcherOperator',
+$eZTemplateOperatorArray[] = array( 'class' => 'ezpLanguageSwitcherOperator',
                                     'operator_names' => array( 'language_switcher' ) );
 
 ?>

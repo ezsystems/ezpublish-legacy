@@ -33,8 +33,7 @@
 
 $eZTemplateOperatorArray = array();
 
-$eZTemplateOperatorArray[] = array( 'script' => 'lib/ezpdf/classes/ezpdf.php',
-                                    'class' => 'eZPDF',
+$eZTemplateOperatorArray[] = array( 'class' => 'eZPDF',
                                     'operator_names' => array( 'pdf' ) );
 
 ?>

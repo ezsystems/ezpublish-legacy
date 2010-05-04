@@ -33,70 +33,56 @@
 
 $eZTemplateOperatorArray = array();
 
-$eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezurloperator.php',
-                                    'class' => 'eZURLOperator',
+$eZTemplateOperatorArray[] = array( 'class' => 'eZURLOperator',
                                     'operator_names' => array( 'ezurl', 'ezroot', 'ezdesign', 'ezimage', 'exturl',
                                                                'ezsys', 'ezhttp', 'ezhttp_hasvariable', 'ezini', 'ezini_hasvariable' ) );
-$eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezi18noperator.php',
-                                    'class' => 'eZI18nOperator',
+
+$eZTemplateOperatorArray[] = array( 'class' => 'eZi18nOperator',
                                     'operator_names' => array( 'i18n', 'x18n', 'd18n' ) );
 
-$eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezalphabetoperator.php',
-                                    'class' => 'eZAlphabetOperator',
+$eZTemplateOperatorArray[] = array( 'class' => 'eZAlphabetOperator',
                                     'operator_names' => array( 'alphabet' ) );
 
-$eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezdateoperatorcollection.php',
-                                    'class' => 'eZDateOperatorCollection',
+$eZTemplateOperatorArray[] = array( 'class' => 'eZDateOperatorCollection',
                                     'operator_names' => array( 'month_overview' ) );
 
-$eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezautolinkoperator.php',
-                                    'class' => 'eZAutoLinkOperator',
+$eZTemplateOperatorArray[] = array( 'class' => 'eZAutoLinkOperator',
                                     'operator_names' => array( 'autolink' ) );
 
-$eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezsimpletagsoperator.php',
-                                    'class' => 'eZSimpleTagsOperator',
+$eZTemplateOperatorArray[] = array( 'class' => 'eZSimpleTagsOperator',
                                     'operator_names' => array( 'simpletags' ) );
 
-$eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/eztreemenuoperator.php',
-                                    'class' => 'eZTreeMenuOperator',
+$eZTemplateOperatorArray[] = array( 'class' => 'eZTreeMenuOperator',
                                     'operator_names' => array( 'treemenu' ) );
 
-$eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezcontentstructuretreeoperator.php',
-                                    'class' => 'eZContentStructureTreeOperator',
+$eZTemplateOperatorArray[] = array( 'class' => 'eZContentStructureTreeOperator',
                                     'operator_names' => array( 'content_structure_tree' ) );
 
-$eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezwordtoimageoperator.php',
-                                    'class' => 'eZWordToImageOperator',
+$eZTemplateOperatorArray[] = array( 'class' => 'eZWordToImageOperator',
                                     'operator_names' => array( 'wordtoimage',
                                                                'mimetype_icon', 'class_icon', 'classgroup_icon', 'action_icon', 'icon',
                                                                'flag_icon', 'icon_info' ) );
 
-$eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezkerneloperator.php',
-                                    'class' => 'eZKernelOperator',
+$eZTemplateOperatorArray[] = array( 'class' => 'eZKernelOperator',
                                     'operator_names' => array( 'ezpreference' ) );
 
 
-$eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatephpoperator.php',
-                                    'function' => 'eZPHPOperatorInit',
+$eZTemplateOperatorArray[] = array( 'function' => 'eZPHPOperatorInit',
                                     'operator_names_function' => 'eZPHPOperatorNameInit' );
-$eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezmoduleparamsoperator.php',
-                                    'class' => 'eZModuleParamsOperator',
+
+$eZTemplateOperatorArray[] = array( 'class' => 'eZModuleParamsOperator',
                                     'operator_names' => array( 'module_params' ) );
 
-$eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/eztopmenuoperator.php',
-                                    'class' => 'eZTopMenuOperator',
+$eZTemplateOperatorArray[] = array( 'class' => 'eZTopMenuOperator',
                                     'operator_names' => array( 'topmenu' ) );
 
-$eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezpackageoperator.php',
-                                    'class' => 'eZPackageOperator',
+$eZTemplateOperatorArray[] = array( 'class' => 'eZPackageOperator',
                                     'operator_names' => array( 'ezpackage' ) );
 
-$eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/eztocoperator.php',
-                                    'class' => 'eZTOCOperator',
+$eZTemplateOperatorArray[] = array( 'class' => 'eZTOCOperator',
                                     'operator_names' => array( 'eztoc' ) );
 
-$eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezmoduleoperator.php',
-                                    'class' => 'eZModuleOperator',
+$eZTemplateOperatorArray[] = array( 'class' => 'eZModuleOperator',
                                     'operator_names' => array( 'ezmodule' ) );
 
 // Function autoloading

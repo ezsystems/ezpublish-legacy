@@ -1752,10 +1752,9 @@ class eZTemplate
 
     function registerAutoloadFunctions( $functionDefinition )
     {
-        if ( ( ( isset( $functionDefinition['function'] ) or
-                 ( isset( $functionDefinition['script'] ) and
-                   isset( $functionDefinition['class'] ) ) ) and
-               ( isset( $functionDefinition['function_names_function'] ) or
+        if ( ( ( isset( $functionDefinition['function'] ) ||
+                 isset( $functionDefinition['class'] ) ) &&
+               ( isset( $functionDefinition['function_names_function'] ) ||
                  isset( $functionDefinition['function_names'] ) ) ) )
         {
             if ( isset( $functionDefinition['function_names_function'] ) )
@@ -1793,16 +1792,17 @@ class eZTemplate
         if ( isset( $functionDefinition['function'] ) )
         {
             $function = $functionDefinition['function'];
-//             print( "loadAndRegisterFunction: $function<br/>" );
             if ( function_exists( $function ) )
                 $functionObject = $function();
         }
-        else if ( isset( $functionDefinition['script'] ) )
+        else
         {
-            $script = $functionDefinition['script'];
+            if ( !class_exists( $functionDefinition['class'], false )
+                    && isset( $functionDefinition['script'] ) )
+            {
+                include_once( $functionDefinition['script'] );
+            }
             $class = $functionDefinition['class'];
-//             print( "loadAndRegisterFunction: $script<br/>" );
-            include_once( $script );
             if ( class_exists( $class ) )
                 $functionObject = new $class();
         }
@@ -1878,10 +1878,9 @@ class eZTemplate
 
     function registerAutoloadOperators( $operatorDefinition )
     {
-        if ( ( ( isset( $operatorDefinition['function'] ) or
-                 ( isset( $operatorDefinition['script'] ) and
-                   isset( $operatorDefinition['class'] ) ) ) and
-               ( isset( $operatorDefinition['operator_names_function'] ) or
+        if ( ( ( isset( $operatorDefinition['function'] ) ||
+                 isset( $operatorDefinition['class'] ) ) &&
+               ( isset( $operatorDefinition['operator_names_function'] ) ||
                  isset( $operatorDefinition['operator_names'] ) ) ) )
         {
             if ( isset( $operatorDefinition['operator_names_function'] ) )
@@ -1911,16 +1910,16 @@ class eZTemplate
         if ( isset( $operatorDefinition['function'] ) )
         {
             $function = $operatorDefinition['function'];
-//             print( "loadAndRegisterOperator: $function<br/>" );
             if ( function_exists( $function ) )
                 $operatorObject = $function();
         }
-        else if ( isset( $operatorDefinition['script'] ) )
+        else
         {
-            $script = $operatorDefinition['script'];
             $class = $operatorDefinition['class'];
-//             print( "loadAndRegisterOperator: $script<br/>" );
-            include_once( $script );
+            if ( !class_exists( $class, false ) && isset( $operatorDefinition['script'] ) )
+            {
+                include_once( $operatorDefinition['script'] );
+            }
             if ( class_exists( $class ) )
             {
                 if ( isset( $operatorDefinition['class_parameter'] ) )
