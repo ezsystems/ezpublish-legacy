@@ -232,8 +232,6 @@ class eZImageShellHandler extends eZImageHandler
 
             if ( $ini->hasVariable( $iniGroup, 'ExecutablePath' ) )
                 $path = $ini->variable( $iniGroup, 'ExecutablePath' );
-            if ( $ini->hasVariable( $iniGroup, 'ExecutablePath' ) )
-                $path = $ini->variable( $iniGroup, 'ExecutablePath' );
             if ( $ini->hasVariable( $iniGroup, 'PreParameters' ) )
                 $preParameters = $ini->variable( $iniGroup, 'PreParameters' );
             if ( $ini->hasVariable( $iniGroup, 'PostParameters' ) )
