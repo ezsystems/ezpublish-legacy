@@ -1,11 +1,7 @@
 eZ Online Editor 5.x extension Changelog
 
-5.2.0alpha1
-- Implemented enhancement #016711: Making extension aware of the order/priority in which they need to be loaded
-- Fixed bug #16554: Applying table cell settings to row or column does not affect table headings
-- Fixed bug #16605: Online Editor adds a lot of Non Breaking spaces (nbsp)
-- Fixed bug #16271: Links containing special characters are not stored correctly
-- Upgraded TinyMCE to 3.3.4
+5.2.0alpha2
+- Updated TinyMCE to 3.3.4
 - Added emotions plugin support (as forked ezemotions plugin)
 - Fixed bug #16749: Custom tags layout disapear when switching to fullcreen mode
   BC: All internal css classes for ezoe items using "mceItem" prefix has been changed to use "ezoeItem" prefix
@@ -13,6 +9,13 @@ eZ Online Editor 5.x extension Changelog
       styles custom / embed tags!
 - Fixed bug #16732: tc-52:(Online Editor) - Underline format is not working
 
+
+5.2.0alpha1
+- Implemented enhancement #016711: Making extension aware of the order/priority in which they need to be loaded
+- Fixed bug #16554: Applying table cell settings to row or column does not affect table headings
+- Fixed bug #16605: Online Editor adds a lot of Non Breaking spaces (nbsp)
+- Fixed bug #16271: Links containing special characters are not stored correctly
+- Upgraded TinyMCE to 3.3.2
 
 5.1.0
 * Fixed bug #16469: embedding objects in another language causes serious problems in following not-translateable attributes
