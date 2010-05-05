@@ -50,6 +50,16 @@ if ( $Module->isCurrentAction( 'MD5Check' ) )
     {
         $checkResult = eZMD5::checkMD5Sums( 'share/filelist.md5' );
 
+        $extensionsdir = eZExtension::baseDirectory();
+        foreach( eZextension::activeExtensions() as $activeextension )
+        {
+            if ( file_exists( $extensionsdir . '/' . $activeextension . '/share/filelist.md5' ) )
+            {
+                $checkResult = array_merge( $checkResult,eZMD5::checkMD5Sums( $extensionsdir . '/' . $activeextension . '/share/filelist.md5' ) );
+            }
+        }
+
+
         if ( count( $checkResult ) == 0 )
         {
             $tpl->setVariable( 'md5_result', 'ok' );

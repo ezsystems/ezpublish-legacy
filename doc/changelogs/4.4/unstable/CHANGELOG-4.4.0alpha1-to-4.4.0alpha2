@@ -1,0 +1,18 @@
+Changes from 4.4.0alpha1 to 4.4.0alpha2
+
+*Kernel:
+- Implemented enhancement #016782: Allow extensions to provide an md5 list of files to be checked
+
+*Design:
+
+*eZTemplate:
+
+*eZLocale:
+
+*Package system:
+
+*Scripts:
+
+*Translations:
+
+*Bugfixes:
