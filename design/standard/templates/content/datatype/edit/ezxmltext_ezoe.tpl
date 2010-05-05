@@ -187,6 +187,8 @@
     </div>
 <!-- End editor -->
 {else}
+    {* Require jQuery even when disabled to make sure user don't get cache issues when they enable editor *}
+    {ezscript_require( 'ezjsc::jquery' )}
     {let aliased_handler=$input_handler.aliased_handler}
     {include uri=concat("design:content/datatype/edit/",$aliased_handler.edit_template_name,".tpl") input_handler=$aliased_handler}
     <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_enable_editor]" value="{'Enable editor'|i18n('design/standard/content/datatype')}" /><br />
