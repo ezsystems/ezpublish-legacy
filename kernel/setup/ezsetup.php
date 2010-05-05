@@ -178,7 +178,7 @@ while( !$done && $step != null )
 
     if ( $persistenceList === null )
         $persistenceList = eZSetupFetchPersistenceList();
-    $tpl->setVariableRef( 'persistence_list', $persistenceList );
+    $tpl->setVariable( 'persistence_list', $persistenceList );
 
     // Try to include the relevant file
     $includeFile = $baseDir . 'steps/ezstep_'.$step['file'].'.php';

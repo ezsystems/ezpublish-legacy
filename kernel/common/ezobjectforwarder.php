@@ -770,7 +770,7 @@ class eZObjectForwarder
 
             $sub_text = "";
             $setVariableArray = array();
-            $tpl->setVariableRef( $rule["output_name"], $input_var, $outCurrentNamespace );
+            $tpl->setVariable( $rule["output_name"], $input_var, $outCurrentNamespace );
             $setVariableArray[] = $rule["output_name"];
             // Set design keys
             $tpl->setVariable( 'used', $designUsedKeys, $designKeyNamespace );
@@ -784,7 +784,7 @@ class eZObjectForwarder
                     continue;
                 }
                 $paramValue = $tpl->elementValue( $params[$paramName], $old_nspace, $currentNamespace, $functionPlacement );
-                $tpl->setVariableRef( $paramName, $paramValue, $outCurrentNamespace );
+                $tpl->setVariable( $paramName, $paramValue, $outCurrentNamespace );
                 $setVariableArray[] = $paramName;
             }
             // Set constant variables
@@ -796,7 +796,7 @@ class eZObjectForwarder
                          $constantTemplateVariableKey == $view_var or
                          $tpl->hasVariable( $constantTemplateVariableKey, $currentNamespace ) )
                         continue;
-                    $tpl->setVariableRef( $constantTemplateVariableKey, $constantTemplateVariableValue, $outCurrentNamespace );
+                    $tpl->setVariable( $constantTemplateVariableKey, $constantTemplateVariableValue, $outCurrentNamespace );
                     $setVariableArray[] = $constantTemplateVariableKey;
                 }
             }

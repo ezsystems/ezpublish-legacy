@@ -1,0 +1,42 @@
+Changes to BC and behavior  in version 4.3.0
+============================================
+
+INI setting changes
+-------------------
+
+
+
+
+Change of behavior 
+-------------------
+
+
+
+Deprecated functionality
+------------------------
+
+- eZTemplate->setVariableRef() functions have been deprecated
+  This function has not set variables by reference since before
+  4.0 (in php4 versions), hence it is now deprecated and setVariable()
+  should be used instead.
+
+- Third parameter ($attrs) on eZTemplate->hasVariable() and ->variable() functions
+  have been deprecated.
+  This parameter where not used at all in the kernel and will be removed in a
+  future versions.
+
+
+Renamed methods
+---------------
+
+Removed features
+----------------
+
+Removed methods
+---------------
+
+
+Removed globals
+---------------
+
+

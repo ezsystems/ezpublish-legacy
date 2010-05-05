@@ -1063,7 +1063,7 @@ class eZTemplateSectionFunction
             unset( $last );
 
             $iteratorObject =& $iteratorData['iterator'];
-            $tpl->setVariableRef( $variableIterator, $iteratorObject, $name );
+            $tpl->setVariable( $variableIterator, $iteratorObject, $name );
         }
         else
         {

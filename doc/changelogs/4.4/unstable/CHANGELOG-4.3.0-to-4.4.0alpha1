@@ -4,6 +4,7 @@ Changes from 4.3.0 to 4.4.0alpha1
 - Implemented enhancement #016711: Making extension aware of the order/priority in which they need to be loaded
 - Implemented enhancement #016566: new ezurloperator for cookies
 - Implemented enhancement #016265: Add ability to override classes providing template operators (with patch)
+- Implemented enhancement #016237: eZTemplate cleanup
 
 *Design:
 
