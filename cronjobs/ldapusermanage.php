@@ -491,8 +491,8 @@ foreach ( $LDAPUsers as $LDAPUser )
                     if ( array_key_exists( $parentNodeID, $noRemoveAssignmentList ) )
                     {
                         $noAddAssignmentList[] = $parentNodeID;
-                        $nodeAssignment ->setAttribute( 'parent_remote_id', 'LDAP_' . $parentNodeID );
-                        $nodeAssignment ->store();
+                        $nodeAssignment->setAttribute( 'parent_remote_id', uniqid( 'LDAP_' ) );
+                        $nodeAssignment->store();
                     }
                     else
                     {
@@ -520,7 +520,7 @@ foreach ( $LDAPUsers as $LDAPUser )
                             $newVersion->assignToNode( $newLDAPNode['parent_node_id'], $newLDAPNode['is_main'] );
                         }
                         $assignment = eZNodeAssignment::fetch( $contentObject->attribute( 'id' ), $newVersionNr, $newLDAPNode['parent_node_id'] );
-                        $assignment->setAttribute( 'parent_remote_id', "LDAP_" . $newLDAPNode['parent_node_id'] );
+                        $assignment->setAttribute( 'parent_remote_id', uniqid( 'LDAP_' ) );
                         $assignment->store();
                     }
                 }
