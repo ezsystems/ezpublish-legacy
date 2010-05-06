@@ -806,7 +806,7 @@ class eZLDAPUser extends eZUser
                                                                       'contentobject_version' => 1,
                                                                       'parent_node' => $parentNodeID,
                                                                       'is_main' => ( $defaultUserPlacement == $parentNodeID ? 1 : 0 ) ) );
-                $newNodeAssignment->setAttribute( 'parent_remote_id', "LDAP_" . $parentNodeID );
+                $newNodeAssignment->setAttribute( 'parent_remote_id', uniqid( 'LDAP_' ) );
                 $newNodeAssignment->store();
             }
 
@@ -946,7 +946,7 @@ class eZLDAPUser extends eZUser
                                                            'contentobject_version' => 1,
                                                            'parent_node' => $defaultPlacement,
                                                            'is_main' => 1 ) );
-        $nodeAssignment->setAttribute( 'parent_remote_id', "LDAP_" . $defaultPlacement );
+        $nodeAssignment->setAttribute( 'parent_remote_id', uniqid( 'LDAP_' ) );
         $nodeAssignment->store();
 
         foreach( $parentNodeIDs as $parentNodeID )
@@ -955,7 +955,7 @@ class eZLDAPUser extends eZUser
                                                                   'contentobject_version' => 1,
                                                                   'parent_node' => $parentNodeID,
                                                                   'is_main' => 0 ) );
-            $newNodeAssignment->setAttribute( 'parent_remote_id', "LDAP_" . $parentNodeID );
+            $newNodeAssignment->setAttribute( 'parent_remote_id', uniqid( 'LDAP_' ) );
             $newNodeAssignment->store();
         }
 
