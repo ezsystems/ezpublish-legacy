@@ -14,7 +14,7 @@ class ezpExtensionTest extends ezpTestCase
     public function setUp()
     {
         ezpINIHelper::setINISetting( 'site.ini', 'ExtensionSettings', 'ExtensionDirectory', 'tests/tests/kernel/classes/extensions' );
-        eZCache::clearByID( 'active_extensions' );
+        self::clearActiveExtensionsCache();
         parent::setUp();
     }
 
@@ -87,8 +87,8 @@ class ezpExtensionTest extends ezpTestCase
             'name' => "eZ Find",
             'version' => 'test version',
             'copyright' => "Copyright © 2008-2009 eZ Systems AS.",
-            'info_url' => "http://ez.no",
             'license' => "GNU General Public License v2.0",
+            'info_url' => "http://ez.no",
             'Includes the following third-party software' =>
             array( 'name' => 'Solr',
                    'version' => '1.4-dev-rev 814543',
@@ -120,5 +120,17 @@ class ezpExtensionTest extends ezpTestCase
         );
     }
 
+    /**
+     * @todo Move to a common extension testing class
+     */
+    private static function clearActiveExtensionsCache()
+    {
+        eZCache::clearByID( 'active_extensions' );
+
+        // currently required so that cache will actually be considered expired
+        // this is a design issue in eZExpiryHandler we need to address soon as it deeply impacts testing any feature
+        // that relies on it, and also impacts runtime on high-trafic sites.
+        sleep( 2 );
+    }
 }
 ?>

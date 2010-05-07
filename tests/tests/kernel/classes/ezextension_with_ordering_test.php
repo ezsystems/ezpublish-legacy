@@ -108,9 +108,16 @@ class eZExtensionWithOrderingTest extends ezpTestCase
         self::clearActiveExtensionsCache();
     }
 
+    /**
+     * @todo Move to a common extension testing class
+     */
     private static function clearActiveExtensionsCache()
     {
         eZCache::clearByID( 'active_extensions' );
+
+        // currently required so that cache will actually be considered expired
+        // this is a design issue in eZExpiryHandler we need to address soon as it deeply impacts testing any feature
+        // that relies on it, and also impacts runtime on high-trafic sites.
         sleep( 2 );
     }
 }
