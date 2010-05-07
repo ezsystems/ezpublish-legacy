@@ -75,6 +75,7 @@ class eZObjectRelationListType extends eZDataType
         $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
 
         // Check if selection type is not browse
+        $classContent = $contentClassAttribute->content();
         if ( $classContent['selection_type'] != 0 )
         {
             $selectedObjectIDArray = $http->hasPostVariable( $postVariableName ) ? $http->postVariable( $postVariableName ) : false;
@@ -1007,37 +1008,40 @@ class eZObjectRelationListType extends eZDataType
                         $priority = $content['relation_list'][$i]['priority'];
                 }
 
-                foreach ( $selectedObjectIDArray as $objectID )
+                if( $selectedObjectIDArray !== null )
                 {
-                    // Check if the given object ID has a numeric value, if not go to the next object.
-                    if ( !is_numeric( $objectID ) )
+                    foreach ( $selectedObjectIDArray as $objectID )
                     {
-                        eZDebug::writeError( "Related object ID (objectID): '$objectID', is not a numeric value.",
-                                             "eZObjectRelationListType::customObjectAttributeHTTPAction" );
-
-                        continue;
-                    }
-
-                    /* Here we check if current object is already in the related objects list.
-                     * If so, we don't add it again.
-                     * FIXME: Stupid linear search. Maybe there's some better way?
-                     */
-                    $found = false;
-                    foreach ( $content['relation_list'] as $i )
-                    {
-                        if ( $i['contentobject_id'] == $objectID )
+                        // Check if the given object ID has a numeric value, if not go to the next object.
+                        if ( !is_numeric( $objectID ) )
                         {
-                            $found = true;
-                            break;
-                        }
-                    }
-                    if ( $found )
-                        continue;
+                            eZDebug::writeError( "Related object ID (objectID): '$objectID', is not a numeric value.",
+                                                 "eZObjectRelationListType::customObjectAttributeHTTPAction" );
 
-                    ++$priority;
-                    $content['relation_list'][] = $this->appendObject( $objectID, $priority, $contentObjectAttribute );
-                    $contentObjectAttribute->setContent( $content );
-                    $contentObjectAttribute->store();
+                            continue;
+                        }
+
+                        /* Here we check if current object is already in the related objects list.
+                         * If so, we don't add it again.
+                         * FIXME: Stupid linear search. Maybe there's some better way?
+                         */
+                        $found = false;
+                        foreach ( $content['relation_list'] as $i )
+                        {
+                            if ( $i['contentobject_id'] == $objectID )
+                            {
+                                $found = true;
+                                break;
+                            }
+                        }
+                        if ( $found )
+                            continue;
+
+                        ++$priority;
+                        $content['relation_list'][] = $this->appendObject( $objectID, $priority, $contentObjectAttribute );
+                        $contentObjectAttribute->setContent( $content );
+                        $contentObjectAttribute->store();
+                    }
                 }
             }
         }
