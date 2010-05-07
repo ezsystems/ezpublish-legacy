@@ -13,15 +13,18 @@ class eZExtensionWithOrderingTest extends ezpTestCase
     {
         ezpINIHelper::setINISetting( 'site.ini', 'ExtensionSettings', 'ExtensionDirectory', 'tests/tests/kernel/classes/extensions/' );
         ezpINIHelper::setINISetting( 'site.ini', 'ExtensionSettings', 'ExtensionOrdering', 'enabled' );
+        self::clearActiveExtensionsCache();
     }
+
     public function tearDown()
     {
         ezpINIHelper::restoreINISettings();
+        self::clearActiveExtensionsCache();
     }
 
     public function testUnrelatedKeepOrder1()
     {
-        ezpINIHelper::setINISetting( 'site.ini', 'ExtensionSettings', 'ActiveExtensions', array( 'ezmultiupload', 'ezfind' ) );
+        self::setExtensions( array( 'ezmultiupload', 'ezfind' ) );
         $this->assertSame(
             array( 'ezmultiupload', 'ezfind' ),
             eZExtension::activeExtensions() );
@@ -29,7 +32,7 @@ class eZExtensionWithOrderingTest extends ezpTestCase
 
     public function testUnrelatedKeepOrder2()
     {
-        ezpINIHelper::setINISetting( 'site.ini', 'ExtensionSettings', 'ActiveExtensions', array( 'ezfind', 'ezmultiupload' ) );
+        self::setExtensions( array( 'ezfind', 'ezmultiupload' ) );
         $this->assertSame(
             array( 'ezfind', 'ezmultiupload' ),
             eZExtension::activeExtensions() );
@@ -37,7 +40,7 @@ class eZExtensionWithOrderingTest extends ezpTestCase
 
     public function testSimpleNoReordering()
     {
-        ezpINIHelper::setINISetting( 'site.ini', 'ExtensionSettings', 'ActiveExtensions', array( 'ezjscore', 'ezfind' ) );
+        self::setExtensions( array( 'ezjscore', 'ezfind' ) );
         $this->assertSame(
             array( 'ezjscore', 'ezfind' ),
             eZExtension::activeExtensions() );
@@ -45,7 +48,7 @@ class eZExtensionWithOrderingTest extends ezpTestCase
 
     public function testSimpleReordering()
     {
-        ezpINIHelper::setINISetting( 'site.ini', 'ExtensionSettings', 'ActiveExtensions', array( 'ezfind', 'ezjscore' ) );
+        self::setExtensions( array( 'ezfind', 'ezjscore' ) );
         $this->assertSame(
             array( 'ezjscore', 'ezfind' ),
             eZExtension::activeExtensions() );
@@ -53,7 +56,7 @@ class eZExtensionWithOrderingTest extends ezpTestCase
 
     public function testSimpleReorderingKeepInitialDummies()
     {
-        ezpINIHelper::setINISetting( 'site.ini', 'ExtensionSettings', 'ActiveExtensions', array( 'dummy1', 'dummy2', 'dummy3', 'ezfind', 'ezjscore' ) );
+        self::setExtensions( array( 'dummy1', 'dummy2', 'dummy3', 'ezfind', 'ezjscore' ) );
         $this->assertSame(
             array( 'dummy1', 'dummy2', 'dummy3', 'ezjscore', 'ezfind' ),
             eZExtension::activeExtensions() );
@@ -61,7 +64,7 @@ class eZExtensionWithOrderingTest extends ezpTestCase
 
     public function testComplexReordering()
     {
-        ezpINIHelper::setINISetting( 'site.ini', 'ExtensionSettings', 'ActiveExtensions', array( 'ezfind', 'ezflow', 'ezgmaplocation', 'ezjscore', 'ezmultiupload', 'ezoe', 'ezwebin', 'ezwt' ) );
+        self::setExtensions( array( 'ezfind', 'ezflow', 'ezgmaplocation', 'ezjscore', 'ezmultiupload', 'ezoe', 'ezwebin', 'ezwt' ) );
         $activeExtensions = eZExtension::activeExtensions();
         foreach ( array( 'ezfind', 'ezflow', 'ezgmaplocation', 'ezjscore', 'ezmultiupload', 'ezoe', 'ezwebin', 'ezwt' ) as $extension )
             $$extension = array_search( $extension, $activeExtensions );
@@ -78,7 +81,7 @@ class eZExtensionWithOrderingTest extends ezpTestCase
 
     public function testCycleInvolvesNoReordering1()
     {
-        ezpINIHelper::setINISetting( 'site.ini', 'ExtensionSettings', 'ActiveExtensions', array( 'cycle1', 'cycle2' ) );
+        self::setExtensions( array( 'cycle1', 'cycle2' ) );
         $this->assertSame(
             array( 'cycle1', 'cycle2' ),
             eZExtension::activeExtensions() );
@@ -86,10 +89,29 @@ class eZExtensionWithOrderingTest extends ezpTestCase
 
     public function testCycleInvolvesNoReordering2()
     {
-        ezpINIHelper::setINISetting( 'site.ini', 'ExtensionSettings', 'ActiveExtensions', array( 'cycle2', 'cycle1' ) );
+        self::setExtensions( array( 'cycle2', 'cycle1' ) );
         $this->assertSame(
             array( 'cycle2', 'cycle1' ),
             eZExtension::activeExtensions() );
+    }
+
+
+    /**
+     * Sets the active extensions
+     *
+     * @param string $type ActiveExtensions or ActiveAccessExtensions
+     * @param array $extensions Extensions to set as active ones
+     */
+    private static function setExtensions( $extensions, $type = 'ActiveExtensions' )
+    {
+        ezpINIHelper::setINISetting( 'site.ini', 'ExtensionSettings', $type, $extensions );
+        self::clearActiveExtensionsCache();
+    }
+
+    private static function clearActiveExtensionsCache()
+    {
+        eZCache::clearByID( 'active_extensions' );
+        sleep( 2 );
     }
 }
 ?>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<software>
+
+    <dependencies>
+        <extends>
+            <extension name="ezwebin" />
+            <extension name="ezflow" />
+        </extends>
+    </dependencies>
+
+</software>

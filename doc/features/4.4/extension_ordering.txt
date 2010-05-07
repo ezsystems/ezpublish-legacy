@@ -25,3 +25,17 @@ enabled in *site.ini.append.php*:
     [ExtensionSettings]
     ExtensionOrdering=enabled
 
+Caching
+-------
+Since this feature will increase each request processing time, the results are cached. This cache is stored differently
+depending on the active siteaccess and requested extensions level (global, siteaccess or both). It will contain the
+final, sorted if enabled (see "Configuration"), active extensions array.
+
+This cache can be cleared in multiple ways:
+
+- Using the setup/cache GUI, through the "Active extensions" checkbox at the bottom;
+- By clearing INI cache using the button in the top block on the ``setup/cache`` GUI;
+- By clearing INI cache from the command line using ``bin/php/ezcache.php --clear-tag=ini``
+- By clearing this specific cache from the command line using ``bin/php/ezcache.php --clear-id=active_extensions``
+
+This will be done automatically when enabling the extension from the ``setup/extensions`` GUI.

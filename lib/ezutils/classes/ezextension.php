@@ -39,6 +39,8 @@
 
 class eZExtension
 {
+    protected static $activeExtensionsCache = array();
+
     /*!
      Constructor
     */
@@ -70,24 +72,60 @@ class eZExtension
      */
     public static function activeExtensions( $extensionType = false )
     {
-        $ini = eZINI::instance();
-        $activeExtensions = array();
-        if ( !$extensionType || $extensionType === 'default' )
-            $activeExtensions = array_merge( $activeExtensions,
-                                             $ini->variable( 'ExtensionSettings', 'ActiveExtensions' ) );
-        if ( !$extensionType || $extensionType === 'access' )
-            $activeExtensions = array_merge( $activeExtensions,
-                                             $ini->variable( 'ExtensionSettings', 'ActiveAccessExtensions' ) );
+        if ( $extensionType === false || $extensionType === 'default' )
+        {
+            $cacheIdentifier = 'global';
+        }
+        else
+        {
+            $cacheIdentifier = "_{$GLOBALS['eZCurrentAccess']['name']}";
+        }
 
-        if ( isset( $GLOBALS['eZActiveExtensions'] ) )
-            $activeExtensions = array_merge( $activeExtensions,
-                                             $GLOBALS['eZActiveExtensions'] );
-        $activeExtensions = array_unique( $activeExtensions );
+        if ( isset ( self::$activeExtensionsCache[$cacheIdentifier] ) )
+        {
+            return self::$activeExtensionsCache[$cacheIdentifier];
+        }
 
-        if ( $ini->variable( 'ExtensionSettings', 'ExtensionOrdering' ) !== 'enabled' )
-            return $activeExtensions;
+        // cache has to be stored by siteaccess + $extensionType
+        $expiryHandler = eZExpiryHandler::instance();
+        $phpCache = new eZPHPCreator( eZSys::cacheDirectory(), "active_extensions{$cacheIdentifier}.php" );
+        $expiryTime = $expiryHandler->hasTimestamp( 'active-extensions-cache' ) ? $expiryHandler->timestamp( 'active-extensions-cache' ) : 0;
 
-        return self::extensionOrdering( $activeExtensions );
+        if ( !$phpCache->canRestore( $expiryTime ) )
+        {
+            $ini = eZINI::instance();
+            $activeExtensions = array();
+            if ( !$extensionType || $extensionType === 'default' )
+                $activeExtensions = array_merge( $activeExtensions,
+                                                 $ini->variable( 'ExtensionSettings', 'ActiveExtensions' ) );
+            if ( !$extensionType || $extensionType === 'access' )
+                $activeExtensions = array_merge( $activeExtensions,
+                                                 $ini->variable( 'ExtensionSettings', 'ActiveAccessExtensions' ) );
+
+            if ( isset( $GLOBALS['eZActiveExtensions'] ) )
+                $activeExtensions = array_merge( $activeExtensions,
+                                                 $GLOBALS['eZActiveExtensions'] );
+            $activeExtensions = array_unique( $activeExtensions );
+
+            if ( $ini->variable( 'ExtensionSettings', 'ExtensionOrdering' ) === 'enabled' )
+            {
+                self::$activeExtensionsCache[$cacheIdentifier] = self::extensionOrdering( $activeExtensions );
+            }
+            else
+            {
+                self::$activeExtensionsCache[$cacheIdentifier] = $activeExtensions;
+            }
+
+            $phpCache->addVariable( 'activeExtensions', self::$activeExtensionsCache[$cacheIdentifier] );
+            $phpCache->store();
+        }
+        else
+        {
+            $data = $phpCache->restore( array( 'activeExtensions' => 'activeExtensions' ) );
+            self::$activeExtensionsCache[$cacheIdentifier] = $data['activeExtensions'];
+        }
+
+        return self::$activeExtensionsCache[$cacheIdentifier];
     }
 
     /**
@@ -373,22 +411,7 @@ class eZExtension
     */
     static function extensionInfo( $extension )
     {
-        $infoFileName = eZDir::path( array( eZExtension::baseDirectory(), $extension, 'ezinfo.php' ) );
-        if ( file_exists( $infoFileName ) )
-        {
-            include_once( $infoFileName );
-            $className = $extension . 'Info';
-            if ( is_callable( array( $className, 'info' ) ) )
-            {
-                $result = call_user_func_array( array( $className, 'info' ), array() );
-                if ( is_array( $result ) )
-                {
-                    return $result;
-                }
-            }
-        }
-
-        return null;
+        return ezpExtension::getInstance( $extension )->getInfo();
     }
 
     /*!
@@ -525,6 +548,15 @@ class eZExtension
         }
 
         return false;
+    }
+
+    /**
+     * Clears the active extensions in-memory cache
+     * @return void
+     */
+    public static function clearActiveExtensionsMemoryCache()
+    {
+        self::$activeExtensionsCache = array();
     }
 }
 

@@ -157,8 +157,19 @@ class eZCache
                                        'tag' => array( 'template' ),
                                        'enabled' => true,
                                        'path' => false,
-                                       'function' => array( 'eZCache', 'clearDesignBaseCache' ) )
-                                );
+                                       'function' => array( 'eZCache', 'clearDesignBaseCache' ) ),
+                                /**
+                                 * caches the list of active extensions (per siteaccess and global)
+                                 * @see eZExtension::activeExtensions()
+                                 */
+                                array( 'name' => ezpI18n::tr( 'kernel/cache', 'Active extensions cache' ),
+                                       'id' => 'active_extensions',
+                                       'tag' => array( 'ini' ),
+                                       'expiry-key' => 'active-extensions-cache',
+                                       'enabled' => true,
+                                       'path' => false,
+                                       'function' => array( 'eZCache', 'clearActiveExtensions' ) ),
+                            );
 
             // Append cache items defined (in ini) by extensions, see site.ini[Cache] for details
             foreach ( $ini->variable( 'Cache', 'CacheItems' ) as $cacheItemKey )
@@ -604,6 +615,20 @@ class eZCache
 
         $fileHandler = eZClusterFileHandler::instance();
         $fileHandler->fileDelete( $cachePath, 'statelimitations_' );
+    }
+
+    /**
+     * Clears active extensions list cache
+     */
+    static function clearActiveExtensions( $cacheItem )
+    {
+        eZExpiryHandler::registerShutdownFunction();
+
+        $handler = eZExpiryHandler::instance();
+        $handler->setTimestamp( $cacheItem['expiry-key'], time() );
+        $handler->store();
+
+        eZExtension::clearActiveExtensionsMemoryCache();
     }
 
     /**
