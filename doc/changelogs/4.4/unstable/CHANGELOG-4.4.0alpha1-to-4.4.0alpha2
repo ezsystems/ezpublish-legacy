@@ -16,3 +16,4 @@ Changes from 4.4.0alpha1 to 4.4.0alpha2
 
 *Bugfixes:
  - Fixed bug #016527: warnings when using a login handler
+ - Fixed bug #014366: Duplicate remote_id in ezcontentobject_tree - for LDAP users
