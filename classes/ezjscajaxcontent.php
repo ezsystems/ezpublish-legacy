@@ -226,6 +226,7 @@ class ezjscAjaxContent
         $ret['name']             = $contentObject->attribute( 'name' );
         $ret['contentobject_id'] = $ret['id'] = (int) $contentObject->attribute( 'id' );
         $ret['main_node_id']     = (int)$contentObject->attribute( 'main_node_id' );
+        $ret['version']          = (int)$contentObject->attribute( 'current_version' );
         $ret['modified']         = $contentObject->attribute( 'modified' );
         $ret['published']        = $contentObject->attribute( 'published' );
         $ret['section_id']       = (int) $contentObject->attribute( 'section_id' );
