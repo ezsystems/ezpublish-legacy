@@ -60,7 +60,11 @@ class ezjscAjaxContent
      * @param array $aliasList
      * @return string
      */
-    public static function getHttpAccept( $default = 'xhtml', $aliasList = array( 'html' => 'xhtml', 'json' => 'json', 'javascript' => 'json', 'xml' => 'xml', 'text' => 'text' ) )
+    public static function getHttpAccept( $default = 'xhtml', $aliasList = array( 'html' => 'xhtml',
+                                                                                  'json' => 'json',
+                                                                                  'javascript' => 'json',
+                                                                                  'xml' => 'xml',
+                                                                                  'text' => 'text' ) )
     {
         if ( isset($_POST['http_accept']) )
             $acceptList = explode( ',', $_POST['http_accept'] );
@@ -370,9 +374,14 @@ class ezjscAjaxContent
                         foreach( $params['imageSizes'] as $size )
                         {
                             $imageArray[ $size ] = false;
-                            if ( in_array( $size, $params['imagePreGenerateSizes'] )
-                                && $content->hasAttribute( $size ) )
-                                $imageArray[ $size ] = $content->attribute( $size );
+                            if ( in_array( $size, $params['imagePreGenerateSizes'], true ) )
+                            {
+                                if ( $content->hasAttribute( $size ) )
+                                    $imageArray[ $size ] = $content->attribute( $size );
+                                else
+                                    eZDebug::writeError( "Image alias does not exist: '$size', missing from image.ini?",
+                                        __METHOD__ );
+                            }
                         }
                         $ret['image_attributes'][] = $key;
                     }
