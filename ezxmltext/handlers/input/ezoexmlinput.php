@@ -552,17 +552,9 @@ class eZOEXMLInput extends eZXMLInputHandler
         {
             $text = $http->postVariable( $base . '_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
 
-            $text = preg_replace( '#<!--.*?-->#s', '', $text ); // remove HTML comments
-            $text = str_replace( "\r", '', $text);
-
             if ( self::browserSupportsDHTMLType() === 'Trident' ) // IE
             {
-                $text = str_replace( array( "\n", "\t" ), '', $text);
-            }
-            else
-            {
-                $text = str_replace( "\n", '', $text);
-                $text = str_replace( "\t", ' ', $text);
+                $text = str_replace( "\t", '', $text);
             }
 
             eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext-ezoe',
@@ -570,9 +562,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                                         __METHOD__ . ' html from client' );
 
             include_once( 'extension/ezoe/ezxmltext/handlers/input/ezoeinputparser.php' );
-
             $parser = new eZOEInputParser();
-
             $document = $parser->process( $text );
 
             // Remove last empty paragraph (added in the output part)

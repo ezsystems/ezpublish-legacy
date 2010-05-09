@@ -175,7 +175,7 @@ class eZOEInputParser extends eZXMLInputParser
      * @param int $validateErrorLevel
      * @param int $detectErrorLevel
      * @param bool $parseLineBreaks flag if line breaks should be given meaning or not
-     * @param bool $removeDefaultAttrs singal if attributes of default value should not be saved.
+     * @param bool $removeDefaultAttrs signal if attributes of default value should not be saved.
      */
     function eZOEInputParser( $validateErrorLevel = eZXMLInputParser::ERROR_NONE,
                               $detectErrorLevel = eZXMLInputParser::ERROR_NONE,
@@ -190,6 +190,20 @@ class eZOEInputParser extends eZXMLInputParser
         $ini = eZINI::instance( 'content.ini' );
         if ( $ini->hasVariable( 'header', 'AnchorAsAttribute' ) )
             $this->anchorAsAttribute = $ini->variable( 'header', 'AnchorAsAttribute' ) !== 'disabled';
+    }
+
+    /**
+     * Process html text and transform it to xml.
+     *
+     * @param string $text
+     * @param bool $createRootNode
+     * @return false|DOMDocument
+    */
+    public function process( $text, $createRootNode = true )
+    {
+        $text = preg_replace( '#<!--.*?-->#s', '', $text ); // remove HTML comments
+        $text = str_replace( array("\xC2\xA0", ' ', '&#160;'), '&nbsp;', $text ); // replace Unicode non breaking space with html
+        return parent::process( $text, $createRootNode );
     }
 
      /**
