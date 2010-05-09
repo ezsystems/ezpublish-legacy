@@ -229,11 +229,19 @@ foreach ( $relatedObjects as $relatedObjectKey => $relatedObject )
             if ( in_array ( $dataTypeString, $imageDatatypeArray ) && $objectAttribute->hasContent() )
             {
                 $content = $objectAttribute->content();
-                if ( $content != null )
+                if ( $content == null )
+                    continue;
+
+                if ( $content->hasAttribute( 'small' ) )
                 {
                     $srcString = $content->imageAlias( 'small' );
                     $imageAttribute = $classAttribute->attribute('identifier');
                     break;
+                }
+                else
+                {
+                    eZDebug::writeError( "Image alias does not exist: small, missing from image.ini?",
+                        __METHOD__ );
                 }
             }
         }

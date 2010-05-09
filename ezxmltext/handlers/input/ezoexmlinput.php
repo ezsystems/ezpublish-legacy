@@ -1191,13 +1191,21 @@ class eZOEXMLInput extends eZXMLInputHandler
                         if ( in_array ( $dataTypeString, $imageDatatypeArray ) && $objectAttribute->hasContent() )
                         {
                             $content = $objectAttribute->content();
-                            if ( $content != null && $content->hasAttribute( $size ) )
+                            if ( $content == null )
+                                continue;
+
+                            if ( $content->hasAttribute( $size ) )
                             {
                                 $imageAlias  = $content->imageAlias( $size );
                                 $srcString   = $URL . '/' . $imageAlias['url'];
                                 $imageWidth  = $imageAlias['width'];
                                 $imageHeight = $imageAlias['height'];
                                 break;
+                            }
+                            else
+                            {
+                                eZDebug::writeError( "Image alias does not exist: $size, missing from image.ini?",
+                                    __METHOD__ );
                             }
                         }
                     }
