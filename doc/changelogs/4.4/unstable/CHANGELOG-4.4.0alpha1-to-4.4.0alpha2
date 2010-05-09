@@ -1,6 +1,7 @@
 Changes from 4.4.0alpha1 to 4.4.0alpha2
 
 *Kernel:
+- Implemented enhancement #016722: eZOE/eZ Publish should support several &nbsp; characters and not just one
 - Completed enhancement #016711: order/priority is handled through an XML file that also handles ezinfo.
   See doc/features/4.4/extensions_ordering_v2.txt
 
