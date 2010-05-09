@@ -1180,25 +1180,23 @@ class eZOEXMLInput extends eZXMLInputHandler
                 {
                     $ini = eZINI::instance();
                     $URL = self::getServerURL();
-                    $contentObjectAttributes = $object->contentObjectAttributes();
+                    $objectAttributes = $object->contentObjectAttributes();
                     $imageDatatypeArray = $ini->variable('ImageDataTypeSettings', 'AvailableImageDataTypes');
                     $imageWidth = 32;
                     $imageHeight = 32;
-                    foreach ( $contentObjectAttributes as $contentObjectAttribute )
+                    foreach ( $objectAttributes as $objectAttribute )
                     {
-                        $classAttribute = $contentObjectAttribute->contentClassAttribute();
+                        $classAttribute = $objectAttribute->contentClassAttribute();
                         $dataTypeString = $classAttribute->attribute( 'data_type_string' );
-                        if ( in_array ( $dataTypeString, $imageDatatypeArray ) )
+                        if ( in_array ( $dataTypeString, $imageDatatypeArray ) && $objectAttribute->hasContent() )
                         {
-                            $content = $contentObjectAttribute->content();
+                            $content = $objectAttribute->content();
                             if ( $content != null && $content->hasAttribute( $size ) )
                             {
                                 $imageAlias  = $content->imageAlias( $size );
                                 $srcString   = $URL . '/' . $imageAlias['url'];
                                 $imageWidth  = $imageAlias['width'];
                                 $imageHeight = $imageAlias['height'];
-                                //if ( $imageAlias['url'] === '' )
-                                //eZDebug::writeDebug(var_export( array( $classAttribute->attribute( 'identifier' ), $dataTypeString, $size, $imageAlias, $contentObjectAttribute->attribute( 'data_text' ) ), true ), 'OE IMAGE' );
                                 break;
                             }
                         }

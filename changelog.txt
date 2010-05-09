@@ -8,6 +8,7 @@ eZ Online Editor 5.x extension Changelog
       and mceNonEditable is now ezoeItemNonEditable, this affects you if you have custom content.css code that
       styles custom / embed tags!
 - Fixed bug #16732: tc-52:(Online Editor) - Underline format is not working
+- Fixed bug #016725: Check hasContent on image object attribute before it is used
 
 
 5.2.0alpha1
