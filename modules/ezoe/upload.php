@@ -221,14 +221,14 @@ foreach ( $relatedObjects as $relatedObjectKey => $relatedObject )
     
     if ( $groupName === 'images' )
     {
-        $contentObjectAttributes = $relatedObject->contentObjectAttributes();
-        
-        foreach ( $contentObjectAttributes as $contentObjectAttribute )
+        $objectAttributes = $relatedObject->contentObjectAttributes();
+        foreach ( $objectAttributes as $objectAttribute )
         {
-            $classAttribute = $contentObjectAttribute->contentClassAttribute();
-            if ( in_array ( $classAttribute->attribute( 'data_type_string' ), $imageDatatypeArray ) )
+            $classAttribute = $objectAttribute->contentClassAttribute();
+            $dataTypeString = $classAttribute->attribute( 'data_type_string' );
+            if ( in_array ( $dataTypeString, $imageDatatypeArray ) && $objectAttribute->hasContent() )
             {
-                $content = $contentObjectAttribute->content();
+                $content = $objectAttribute->content();
                 if ( $content != null )
                 {
                     $srcString = $content->imageAlias( 'small' );
