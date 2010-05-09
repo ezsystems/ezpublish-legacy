@@ -1224,7 +1224,7 @@ class eZXMLInputParser
         }
     }
 
-    public $DOMDocumentClass = 'DOMDOcument';
+    public $DOMDocumentClass = 'DOMDocument';
 
     public $XMLSchema;
     public $Document = null;
