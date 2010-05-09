@@ -361,7 +361,7 @@ class ezjscAjaxContent
                 $attrtibuteArray[ $key ]['content']    = $atr->toString();
 
                 // images
-                if ( in_array( $dataTypeString, $params['imageDataTypes'], true) !== false )
+                if ( in_array( $dataTypeString, $params['imageDataTypes'], true) && $atr->hasContent() )
                 {
                     $content    = $atr->attribute( 'content' );
                     $imageArray = array();

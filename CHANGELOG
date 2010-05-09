@@ -2,6 +2,7 @@
 - Fixed bug #16726: Src for original image in "Insert image" has a pipe ("|") at the end
 - Fixed bug #16761: ini settings and ActiveAccessExtension
 - Fixed bug #16669: wrong content-type header for packed js/css files using clustering
+- ezjscAjaxContent: Make sure image attribute has content before we add it to json image array
 
 # v1.2.0alpha1
 - Fixed bug #16393: TC-36 - eZFlow + eZFind show-facets and enable-spellchecker always enabled
