@@ -85,7 +85,6 @@ if ( !$object )
 // allowed size set in max_post_size in php.ini
 if ( $http->hasPostVariable( 'uploadButton' ) || $forcedUpload )
 {
-    //include_once( 'kernel/classes/ezcontentupload.php' );
     $upload = new eZContentUpload();
 
     $location = false;
@@ -151,7 +150,6 @@ if ( $http->hasPostVariable( 'uploadButton' ) || $forcedUpload )
                         break;
                     case 'ezxmltext':
                         $text = trim( $http->postVariable( $base ) );
-                        include_once( 'extension/ezoe/ezxmltext/handlers/input/ezoeinputparser.php' );
                         $parser = new eZOEInputParser();
                         $document = $parser->process( $text );
                         $xmlString = eZXMLTextType::domString( $document );

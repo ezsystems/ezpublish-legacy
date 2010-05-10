@@ -30,8 +30,6 @@
 // used for things like help and merge cells dialogs
 
 include_once( 'kernel/common/template.php' );
-include_once( 'extension/ezoe/ezinfo.php' );
-//include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
 $objectID      = isset( $Params['ObjectID'] ) ? (int) $Params['ObjectID'] : 0;
 $objectVersion = isset( $Params['ObjectVersion'] ) ? (int) $Params['ObjectVersion'] : 0;

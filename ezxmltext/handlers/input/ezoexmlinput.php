@@ -561,7 +561,6 @@ class eZOEXMLInput extends eZXMLInputHandler
                                         $text,
                                         __METHOD__ . ' html from client' );
 
-            include_once( 'extension/ezoe/ezxmltext/handlers/input/ezoeinputparser.php' );
             $parser = new eZOEInputParser();
             $document = $parser->process( $text );
 

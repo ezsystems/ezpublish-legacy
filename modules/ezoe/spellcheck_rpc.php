@@ -6,9 +6,6 @@
  * @copyright Copyright � 2004-2007, Moxiecode Systems AB, All rights reserved.
  */
 
-//include_once( 'extension/ezoe/modules/ezoe/classes/utils/mcejson.php' );
-include_once( 'extension/ezoe/modules/ezoe/classes/SpellChecker.php' );
-
 /**
  * Returns an request value by name without magic quoting.
  *

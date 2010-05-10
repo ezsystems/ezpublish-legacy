@@ -27,7 +27,6 @@
 //
 
 include_once( 'kernel/common/template.php' );
-include_once( 'extension/ezoe/ezxmltext/handlers/input/ezoexmlinput.php' );
 
 $objectID        = isset( $Params['ObjectID'] ) ? (int) $Params['ObjectID'] : 0;
 $objectVersion   = isset( $Params['ObjectVersion'] ) ? (int) $Params['ObjectVersion'] : 0;

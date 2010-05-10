@@ -1190,7 +1190,6 @@ class eZOEInputParser extends eZXMLInputParser
                     // Check mail address validity
                     if ( strpos( $url, 'mailto' ) === 0 && preg_match( "/^mailto:(.*)/i" , $url, $mailAddr ) )
                     {
-                        //include_once( 'lib/ezutils/classes/ezmail.php' );
                         if ( !eZMail::validate( $mailAddr[1] ) )
                         {
                             $this->isInputValid = false;
