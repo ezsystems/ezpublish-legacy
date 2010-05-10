@@ -133,7 +133,7 @@ ul.tabs
 ul.tabs li a, ul.tabs li span.disabled
 {
     min-height: 16px;
-    min-width: 85px;
+    min-width: 80px;
 }
 
 #header-topmenu ul li.selected a, #header-topmenu ul li a:hover,
@@ -397,7 +397,6 @@ div#contentstructure li span.node-name-normal
 
 div#contentstructure li.currentnode > a.image-text span.node-name-normal, div#contentstructure li.currentnode > a.image-text span.node-name-hidden, div#contentstructure li.currentnode > a.image-text span.node-name-hiddenbyparent /* Highlighting of current node */
 {
-    font-weight: bold;
     color: #E24602;
     padding: 0 0.25em 0 0.2em;
 }

@@ -1,6 +1,7 @@
 <div class="content-view-children">
 
 {* Generic children list for admin interface. *}
+{* TODO: admin_children_viewmode should be replaced w/the table column preferences *} 
 {def $item_type    = ezpreference( 'admin_list_limit' )
      $number_of_items = min( $item_type, 3)|choose( 10, 10, 25, 50 )
      $can_remove   = false()
@@ -52,53 +53,6 @@
 
 {* Items per page and view mode selector. *}
 <div class="context-toolbar">
-<div class="button-left">
-    <p class="table-preferences">
-        {switch match=$number_of_items}
-        {case match=25}
-        <a href={'/user/preferences/set/admin_list_limit/1'|ezurl} title="{'Show 10 items per page.'|i18n( 'design/admin/node/view/full' )}">10</a>
-        <span class="current">25</span>
-        <a href={'/user/preferences/set/admin_list_limit/3'|ezurl} title="{'Show 50 items per page.'|i18n( 'design/admin/node/view/full' )}">50</a>
-        {/case}
-
-        {case match=50}
-        <a href={'/user/preferences/set/admin_list_limit/1'|ezurl} title="{'Show 10 items per page.'|i18n( 'design/admin/node/view/full' )}">10</a>
-        <a href={'/user/preferences/set/admin_list_limit/2'|ezurl} title="{'Show 25 items per page.'|i18n( 'design/admin/node/view/full' )}">25</a>
-        <span class="current">50</span>
-        {/case}
-
-        {case}
-        <span class="current">10</span>
-        <a href={'/user/preferences/set/admin_list_limit/2'|ezurl} title="{'Show 25 items per page.'|i18n( 'design/admin/node/view/full' )}">25</a>
-        <a href={'/user/preferences/set/admin_list_limit/3'|ezurl} title="{'Show 50 items per page.'|i18n( 'design/admin/node/view/full' )}">50</a>
-        {/case}
-        {/switch}
-    </p>
-</div>
-<div class="button-right">
-    <p class="table-preferences">
-        {switch match=$admin_children_viewmode}
-        {case match='thumbnail'}
-        <a href={'/user/preferences/set/admin_children_viewmode/list'|ezurl} title="{'Display sub items using a simple list.'|i18n( 'design/admin/node/view/full' )}">{'List'|i18n( 'design/admin/node/view/full' )}</a>
-        <span class="current">{'Thumbnail'|i18n( 'design/admin/node/view/full' )}</span>
-        <a href={'/user/preferences/set/admin_children_viewmode/detailed'|ezurl} title="{'Display sub items using a detailed list.'|i18n( 'design/admin/node/view/full' )}">{'Detailed'|i18n( 'design/admin/node/view/full' )}</a>
-        {/case}
-
-        {case match='detailed'}
-        <a href={'/user/preferences/set/admin_children_viewmode/list'|ezurl} title="{'Display sub items using a simple list.'|i18n( 'design/admin/node/view/full' )}">{'List'|i18n( 'design/admin/node/view/full' )}</a>
-        <a href={'/user/preferences/set/admin_children_viewmode/thumbnail'|ezurl} title="{'Display sub items as thumbnails.'|i18n( 'design/admin/node/view/full' )}">{'Thumbnail'|i18n( 'design/admin/node/view/full' )}</a>
-        <span class="current">{'Detailed'|i18n( 'design/admin/node/view/full' )}</span>
-        {/case}
-
-        {case}
-        <span class="current">{'List'|i18n( 'design/admin/node/view/full' )}</span>
-        <a href={'/user/preferences/set/admin_children_viewmode/thumbnail'|ezurl} title="{'Display sub items as thumbnails.'|i18n( 'design/admin/node/view/full' )}">{'Thumbnail'|i18n( 'design/admin/node/view/full' )}</a>
-        <a href={'/user/preferences/set/admin_children_viewmode/detailed'|ezurl} title="{'Display sub items using a detailed list.'|i18n( 'design/admin/node/view/full' )}">{'Detailed'|i18n( 'design/admin/node/view/full' )}</a>
-        {/case}
-        {/switch}
-    </p>
-</div>
-
 <div class="float-break"></div>
 </div>
 
@@ -122,22 +76,10 @@
         {/if}
     {/section}
 
+    <input type="hidden" name="NodeID" value="{$node.node_id}" />
 
     {* Display the actual list of nodes. *}
-    {switch match=$admin_children_viewmode}
-    
-    {case match='thumbnail'}
-        {include uri='design:children_thumbnail.tpl'}
-    {/case}
-    
-    {case match='detailed'}
-        {include uri='design:children_detailed.tpl'}
-    {/case}
-    
-    {case}
-        {include uri='design:children_list.tpl'}
-    {/case}
-    {/switch}
+    {include uri='design:children_detailed.tpl'}
 
 {* Else: there are no children. *}
 {else}
@@ -145,52 +87,6 @@
 <div class="block">
     <p>{'The current item does not contain any sub items.'|i18n( 'design/admin/node/view/full' )}</p>
 </div>
-
-{/if}
-
-<div class="context-toolbar subitems-context-toolbar">
-{* Alphabetical navigation can be enabled with content.ini [AlphabeticalFilterSettings] ContentFilterList[]  *}
-{include name=navigator
-         uri='design:navigator/alphabetical.tpl'
-         page_uri=$node.url_alias
-         item_count=$children_count
-         view_parameters=$view_parameters
-         node_id=$node.node_id
-         item_limit=$number_of_items}
-</div>
-
-{* DESIGN: Content END *}</div>
-
-{* Button bar for remove and update priorities buttons. *}
-
-<div class="controlbar subitems-controlbar">{* DESIGN: Control bar START *}
-
-<div class='block'>
-    {* Remove and move button *}
-    <div class="button-left">
-        {if $can_remove}
-            <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" title="{'Remove the selected items from the list above.'|i18n( 'design/admin/node/view/full' )}" />
-        {else}
-            <input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permission to remove any of the items from the list above.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
-        {/if}
-        {if $can_move}
-            <input class="button" type="submit" name="MoveButton" value="{'Move selected'|i18n( 'design/admin/node/view/full' )}" title="{'Move the selected items from the list above.'|i18n( 'design/admin/node/view/full' )}" />
-        {else}
-            <input class="button-disabled" type="submit" name="MoveButton" value="{'Move selected'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permission to move any of the items from the list above.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
-        {/if}
-    </div>
-    <div class="button-right">
-    {* Update priorities button *}
-    {if $priority}
-        <input id="ezasi-update-priority" class="button" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n( 'design/admin/node/view/full' )}" title="{'Apply changes to the priorities of the items in the list above.'|i18n( 'design/admin/node/view/full' )}" />
-    {else}
-        <input id="ezasi-update-priority" class="button-disabled" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n( 'design/admin/node/view/full' )}" title="{'You cannot update the priorities because you do not have permission to edit the current item or because a non-priority sorting method is used.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
-    {/if}
-    </div>
-    <div class="float-break"></div>
-</div>
-{* DESIGN: Control bar END *}</div>
-
 <div class='block'>
     <fieldset>
         <legend>{'Create'|i18n( 'design/admin/node/view/full' )}</legend>
@@ -336,45 +232,9 @@
         {/if}
     </fieldset>
 </div>
-{if $children_count}
-<div class="block">    
-    <fieldset>
-        <legend>{'Published order'|i18n( 'design/admin/node/view/full' )}</legend>
-    
-        {let sort_fields=hash( 6, 'Class identifier'|i18n( 'design/admin/node/view/full' ),
-                               7, 'Class name'|i18n( 'design/admin/node/view/full' ),
-                               5, 'Depth'|i18n( 'design/admin/node/view/full' ),
-                               3, 'Modified'|i18n( 'design/admin/node/view/full' ),
-                               9, 'Name'|i18n( 'design/admin/node/view/full' ),
-                               8, 'Priority'|i18n( 'design/admin/node/view/full' ),
-                               2, 'Published'|i18n( 'design/admin/node/view/full' ),
-                               4, 'Section'|i18n( 'design/admin/node/view/full' ) )
-            title='You cannot set the sorting method for the current location because you do not have permission to edit the current item.'|i18n( 'design/admin/node/view/full' )
-            disabled=' disabled="disabled"' }
-    
-        {if $node.can_edit}
-            {set title='Use these controls to set the sorting method for the sub items of the current location.'|i18n( 'design/admin/node/view/full' )}
-            {set disabled=''}
-            <input type="hidden" name="ContentObjectID" value="{$node.contentobject_id}" />
-        {/if}
-    
-        <select id="ezasi-sort-field" name="SortingField" title="{$title}"{$disabled}>
-        {section var=Sort loop=$sort_fields}
-            <option value="{$Sort.key}" {if eq( $Sort.key, $node.sort_field )}selected="selected"{/if}>{$Sort.item}</option>
-        {/section}
-        </select>
-    
-        <select id="ezasi-sort-order" name="SortingOrder" title="{$title}"{$disabled}>
-            <option value="0"{if eq($node.sort_order, 0)} selected="selected"{/if}>{'Descending'|i18n( 'design/admin/node/view/full' )}</option>
-            <option value="1"{if eq($node.sort_order, 1)} selected="selected"{/if}>{'Ascending'|i18n( 'design/admin/node/view/full' )}</option>
-        </select>
-    
-        <input  id="ezasi-sort-set" {if $disabled}class="button-disabled"{else}class="button"{/if} type="submit" name="SetSorting" value="{'Set'|i18n( 'design/admin/node/view/full' )}" title="{$title}" {$disabled} />
-    
-        {/let}
-    </fieldset>
-</div>
 {/if}
+
+{* DESIGN: Content END *}</div>
 
 </form>
 
@@ -393,22 +253,6 @@ eZAjaxSubitemsSortDD.init();
 </script>
 {/if}
 
-
-{* Highlight "SetSorting" button on change *}
-{literal}
-<script type="text/javascript">
-jQuery('#ezasi-sort-field, #ezasi-sort-order').each( function(){
-	jQuery( this ).attr( 'initial', this.value );
-} ).change(function(){
-	var t = $(this), o = $(this.id === 'ezasi-sort-field' ? '#ezasi-sort-order' : '#ezasi-sort-field'), s = $('#ezasi-sort-set');
-	// signal in gui if user needs to save this or not
-	if ( t.val() === t.attr('initial') && o.val() === o.attr('initial') )
-		s.removeClass('defaultbutton').addClass('button');
-	else
-		s.removeClass('button').addClass('defaultbutton');
-});
-</script>
-{/literal}
 
 <!-- Children END -->
 

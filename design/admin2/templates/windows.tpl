@@ -29,3 +29,9 @@
     {include uri='design:relations.tpl'}
 <div class="break"></div>
 </div>
+
+{* Published ordering window *}
+<div id="node-tab-ordering-content" class="tab-content{if $node_tab_index|ne('ordering')} hide{else} selected{/if}">
+    {include uri='design:ordering.tpl'}
+<div class="break"></div>
+</div>

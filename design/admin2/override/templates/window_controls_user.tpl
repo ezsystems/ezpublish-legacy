@@ -53,6 +53,10 @@
         <a href={concat( $node_url_alias, '/(tab)/relations' )|ezurl} title="{'Show object relation overview.'|i18n( 'design/admin/node/view/full' )}">{'Relations (%count)'|i18n( 'design/admin/node/view/full',, hash( '%count', sum( $related_objects_count, $reverse_related_objects_count ) ) )}</a>
     </li>
 
+    <li id="node-tab-ordering" class="middle{if $node_tab_index|eq('ordering')}  selected{/if}">
+        <a href={concat( $node_url_alias, '/(tab)/ordering' )|ezurl} title="{'Show published ordering overview.'|i18n( 'design/admin/node/view/full' )}">{'Ordering'|i18n( 'design/admin/node/view/full')}</a>
+    </li>
+
     {* Roles *}
     <li id="node-tab-roles" class="middle{if $node_tab_index|eq('roles')} selected{/if}">
         <a href={concat( $node_url_alias, '/(tab)/roles' )|ezurl} title="{'Show role overview.'|i18n( 'design/admin/node/view/full' )}">{'Roles (%count)'|i18n( 'design/admin/node/view/full',, hash( '%count', $assigned_roles|count ) )}</a>

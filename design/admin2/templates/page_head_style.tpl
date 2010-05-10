@@ -16,15 +16,18 @@
     {def $admin_theme_css = concat( 'theme/', $admin_theme, '.css' )}
 {else}
     {def $admin_theme_css = 'theme/rounded.css'}
+    {def $admin_ydt_css = 'theme/yui_datatable.css'}
+    {def $admin_ymn_css = 'theme/yui_menu.css'}
+    {def $admin_yct_css = 'theme/yui_container.css'}
 {/if}
 
 {if $load_main_css}
 
   {* load main css files and requried css files *}
   {if $load_css_file_list}
-    {ezcss_load( array( 'core.css', 'debug.css', 'pagelayout.css', 'content.css', $admin_theme_css, ezini( 'StylesheetSettings', 'BackendCSSFileList', 'design.ini' ) ) )}
+    {ezcss_load( array( 'core.css', 'debug.css', 'pagelayout.css', 'content.css', $admin_theme_css, $admin_ydt_css, $admin_ymn_css, $admin_yct_css, ezini( 'StylesheetSettings', 'BackendCSSFileList', 'design.ini' ) ) )}
   {else}
-    {ezcss_load( array( 'core.css', 'debug.css', 'pagelayout.css', 'content.css', $admin_theme_css ) )}
+    {ezcss_load( array( 'core.css', 'debug.css', 'pagelayout.css', 'content.css', $admin_theme_css, $admin_ydt_css, $admin_ymn_css, $admin_yct_css ) )}
   {/if}
 
   {include uri='design:page_head_style_inline.tpl'}

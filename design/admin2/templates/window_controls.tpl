@@ -50,6 +50,11 @@
     <li id="node-tab-relations" class="middle{if $node_tab_index|eq('relations')}  selected{/if}">
         <a href={concat( $node_url_alias, '/(tab)/relations' )|ezurl} title="{'Show object relation overview.'|i18n( 'design/admin/node/view/full' )}">{'Relations (%count)'|i18n( 'design/admin/node/view/full',, hash( '%count', sum( $related_objects_count, $reverse_related_objects_count ) ) )}</a>
     </li>
+    
+    {* Ordering *}
+    <li id="node-tab-ordering" class="middle{if $node_tab_index|eq('ordering')}  selected{/if}">
+        <a href={concat( $node_url_alias, '/(tab)/ordering' )|ezurl} title="{'Show published ordering overview.'|i18n( 'design/admin/node/view/full' )}">{'Ordering'|i18n( 'design/admin/node/view/full')}</a>
+    </li>
 </ul>
 <div class="float-break"></div>
 

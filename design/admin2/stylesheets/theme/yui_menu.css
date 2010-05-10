@@ -1,0 +1,429 @@
+
+.yuimenu {
+    top: -999em;
+    left: -999em;
+}
+
+.yuimenubar {
+    position: static;
+}
+
+.yuimenu .yuimenu,.yuimenubar .yuimenu {
+    position: absolute;
+}
+
+.yuimenubar li,.yuimenu li {
+    list-style-type: none;
+}
+
+.yuimenubar ul,.yuimenu ul,.yuimenubar li,.yuimenu li,.yuimenu h6,.yuimenubar h6
+    {
+    margin: 0;
+    padding: 4px 0;
+}
+
+.yuimenuitemlabel,.yuimenubaritemlabel {
+    text-align: left;
+    white-space: nowrap;
+}
+
+.yuimenubar ul { *
+    zoom: 1;
+}
+
+.yuimenubar .yuimenu ul { *
+    zoom: normal;
+}
+
+.yuimenubar>.bd>ul:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    height: 0;
+    line-height: 0;
+}
+
+.yuimenubaritem {
+    float: left;
+}
+
+.yuimenubaritemlabel,.yuimenuitemlabel {
+    display: block;
+}
+
+.yuimenuitemlabel .helptext {
+    font-style: normal;
+    display: block;
+    margin: -1em 0 0 10em;
+}
+
+.yui-menu-shadow {
+    position: absolute;
+    visibility: hidden;
+    z-index: -1;
+}
+
+.yui-menu-shadow-visible {
+    top: 0px;
+    right: -4px;
+    left: 0px;
+    bottom: -4px;
+    visibility: visible;
+}
+
+.hide-scrollbars * {
+    overflow: hidden;
+}
+
+.hide-scrollbars select {
+    display: none;
+}
+
+.yuimenu.show-scrollbars,.yuimenubar.show-scrollbars {
+    overflow: visible;
+}
+
+.yuimenu.hide-scrollbars .yui-menu-shadow,.yuimenubar.hide-scrollbars .yui-menu-shadow
+    {
+    overflow: hidden;
+}
+
+.yuimenu.show-scrollbars .yui-menu-shadow,.yuimenubar.show-scrollbars .yui-menu-shadow {
+    overflow: auto;
+}
+
+.yui-overlay.yui-force-redraw {
+    margin-bottom: 1px;
+}
+
+.yuimenubar {
+    line-height: 2; *
+    line-height: 1.9;
+    border: solid 1px #808080;
+    background:
+        url("../../images/2/yui_sprite.png")
+        repeat-x 0 0;
+}
+
+.yuimenubarnav .yuimenubaritem {
+    border-right: solid 1px #ccc;
+}
+
+.yuimenubaritemlabel {
+    padding: 0 10px;
+    color: #000;
+    text-decoration: none;
+    cursor: default;
+    border-style: solid;
+    border-color: #808080;
+    border-width: 1px 0; *
+    position: relative;
+    margin: -1px 0;
+}
+
+.yuimenubaritemlabel:visited {
+    color: #000;
+}
+
+.yuimenubarnav .yuimenubaritemlabel {
+    padding-right: 20px; *
+    display: inline-block;
+}
+
+.yuimenubarnav .yuimenubaritemlabel-hassubmenu {
+    background:
+        url("../../images/2/yui_submenuindicator.png")
+        right center no-repeat;
+}
+
+.yuimenubaritem-selected {
+    background:
+        url("../../images/2/yui_sprite.png")
+        repeat-x 0 -1700px;
+}
+
+.yuimenubaritemlabel-selected {
+    border-color: #7D98B8;
+}
+
+.yuimenubarnav .yuimenubaritemlabel-selected {
+    border-left-width: 1px;
+    margin-left: -1px; *
+    left: -1px;
+}
+
+.yuimenubaritemlabel-disabled,.yuimenubaritemlabel-disabled:visited
+    {
+    cursor: default;
+    color: #A6A6A6;
+}
+
+.yuimenubarnav .yuimenubaritemlabel-hassubmenu-disabled {
+    background-image:
+        url("../../images/2/yui_submenuindicator_disabled.png")
+        ;
+}
+
+.yuimenu {
+    line-height: 1.5; *
+    line-height: 1.45;
+}
+
+.yuimenubar .yuimenu,.yuimenu .yuimenu {
+    font-size: 100%;
+}
+
+.yuimenu .bd { *
+    zoom: 1;
+    _zoom: normal;
+    border: solid 1px #999;
+    background-color: #F8F8F8;
+    -moz-border-radius-bottomleft: 3px;
+    -moz-border-radius-bottomright: 3px;
+    -webkit-border-bottom-left-radius: 3px;
+    -webkit-border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.yuimenu .yuimenu .bd { *
+    zoom: normal;
+}
+
+.yuimenu ul {
+    padding: 3px 0;
+    border-width: 1px 0 0 0;
+    border-color: #ccc;
+    border-style: solid;
+}
+
+.yuimenu ul.first-of-type {
+    border-width: 0;
+}
+
+.yuimenu h6 {
+    font-weight: bold;
+    border-style: solid;
+    border-color: #ccc;
+    border-width: 1px 0 0 0;
+    color: #666666;
+    padding: 3px 10px 0 10px;
+}
+
+.yuimenu ul.hastitle,.yuimenu h6.first-of-type
+    {
+    border-width: 0;
+}
+
+.yuimenu .yui-menu-body-scrolled {
+    border-color: #ccc #808080;
+    overflow: hidden;
+}
+
+.yuimenu .topscrollbar,.yuimenu .bottomscrollbar
+    {
+    height: 16px;
+    border: solid 1px #808080;
+    background: #fff
+        url("../../images/2/yui_sprite.png")
+        no-repeat 0 0;
+}
+
+.yuimenu .topscrollbar {
+    border-bottom-width: 0;
+    background-position: center -950px;
+}
+
+.yuimenu .topscrollbar_disabled {
+    background-position: center -975px;
+}
+
+.yuimenu .bottomscrollbar {
+    border-top-width: 0;
+    background-position: center -850px;
+}
+
+.yuimenu .bottomscrollbar_disabled {
+    background-position: center -875px;
+}
+
+.yuimenuitem {
+    _border-bottom: solid 1px #fff;
+}
+
+.yuimenuitemlabel {
+    padding: 0 20px;
+    color: #000;
+    text-decoration: none;
+    cursor: default;
+}
+
+.yuimenuitemlabel:visited {
+    color: #000;
+}
+
+.yuimenuitemlabel .helptext {
+    margin-top: -1.5em; *
+    margin-top: -1.45em;
+}
+
+.yuimenuitem-hassubmenu {
+    background-image:
+        url("../../images/2/yui_submenuindicator.png")
+        ;
+    background-position: right center;
+    background-repeat: no-repeat;
+}
+
+.yuimenuitem-checked {
+    background-image:
+        url("../../images/2/yui_checkbox.png")
+        ;
+    background-position: left center;
+    background-repeat: no-repeat;
+}
+
+.yui-menu-shadow-visible {
+    background-color: #000;
+    opacity: .12;
+    filter: alpha(opacity = 12);
+}
+
+.yuimenuitem-selected {
+    background-color: #D1DFE9;
+}
+
+.yuimenuitem-selected a{
+    color: #000;
+    text-decoration: none;
+}
+
+.yuimenuitemlabel-disabled,.yuimenuitemlabel-disabled:visited
+    {
+    cursor: default;
+    color: #A6A6A6;
+}
+
+.yuimenuitem-hassubmenu-disabled {
+    background-image:
+        url("../../images/2/yui_submenuindicator_disabled.png")
+        ;
+}
+
+.yuimenuitem-checked-disabled {
+    background-image:
+        url("../../images/2/yui_checkbox_disabled.png")
+        ;
+}
+
+/* TOP TOOLBAR LAYOUT*/
+
+#action-controls {
+    display: block;
+    float: left;
+    margin: 10px 0px;
+}
+
+#tpg {
+    display: block;
+    float: right;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+/* BOTTOM TOOLBAR LAYOUT */
+#bpg .yui-pg-backward {
+    display: block;
+    float: left;
+}
+
+#bpg .yui-pg-forward {
+    display: block;
+    float: right;
+}
+
+/* TOP TOOLBAR STYLE */
+.yui-button {
+    background: url("../../images/2/gradient-to-darker.png") repeat-x scroll center bottom #F5F5F5;
+    border-color: #CCCCCC;
+    border: 1px solid #CCCCCC;
+    text-decoration: none;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    overflow: visible;
+    width: auto;
+    cursor: pointer;
+    font-weight: normal;
+    text-align: center;
+    display:inline-block;
+    vertical-align:text-bottom;
+    margin: auto 0.25em;
+}
+
+.yui-button:hover {
+    border: 1px solid #999;
+}
+
+.yui-button button {
+    background: url("../../images/2/gradient-to-darker.png") repeat-x scroll center bottom #F5F5F5;
+    color: #0B4E7A;
+    cursor: pointer;
+    display: block;
+    border: none;
+    padding: 0.2em 0.5em;
+}
+
+.yui-button:first-child {
+    margin-left: 0px;
+}
+
+#ezbtn-more button {
+    background: url("../../images/2/icon-arrow-down.png") no-repeat scroll 98% 50% transparent;
+    padding-right: 1.7em;
+}
+
+#ezbtn-items-button { 
+    background: url(../../images/2/icon-check-16x16.png) no-repeat scroll 5% 50% transparent; 
+    padding-left: 2em;
+}
+
+#ezbtn-new-button {
+    background: url(../../images/2/icon-add-16x16.png) no-repeat scroll 5% 50% transparent;
+    padding-left: 2em;
+}
+
+#ezbtn-options-button {
+    background: url(../../images/2/icon-options-16x16.png) no-repeat scroll 5% 50% transparent;
+    padding-left: 2em;
+}
+
+#ezopt-remove {
+    background-image: url('../../images/2/icon-cancel-16x16.png');
+}
+
+#ezopt-move {
+    background-image: url('../../images/2/icon-move-16x16.png');
+}
+
+#ezopt-edit {
+    background-image: url('../../images/2/icon-edit-16x16.png');
+}
+
+#ezopt-preview {
+    background-image: url('../../images/2/icon-preview-16x16.png');
+}
+
+#ezopt-check {
+    background-image: url('../../images/2/icon-checked-16x16.png');
+}
+#ezopt-uncheck {
+    background-image: url('../../images/2/icon-unchecked-16x16.png');
+}
+
+#ezopt-move, #ezopt-remove, #ezopt-edit, #ezopt-preview, #ezopt-check, #ezopt-uncheck {
+    background-repeat: no-repeat;
+    background-position: 5% 50%;
+    padding-left: 0.5em;
+}
