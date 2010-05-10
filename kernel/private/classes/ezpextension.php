@@ -121,6 +121,8 @@ class ezpExtension
         // try extension.xml first
         if ( is_readable( $XMLFilePath = eZExtension::baseDirectory() . "/{$this->name}/extension.xml" ) )
         {
+            $infoFields = array( 'name', 'version', 'copyright', 'license', 'info_url' );
+
             libxml_use_internal_errors( true );
             $xml = simplexml_load_file( $XMLFilePath );
             // xml parsing error
@@ -134,11 +136,11 @@ class ezpExtension
             $metadataNode = $xml->metadata;
 
             // standard extension metadata
-            $return['name']      = (string)$metadataNode->name;
-            $return['version']   = (string)$metadataNode->version;
-            $return['copyright'] = (string)$metadataNode->copyright;
-            $return['license']   = (string)$metadataNode->license;
-            $return['info_url']  = (string)$metadataNode->info_url;
+            foreach( $infoFields as $field )
+            {
+                if ( (string)$metadataNode->$field !== '' )
+                    $return[$field] = (string)$metadataNode->$field;
+            }
 
             // 3rd party software
             $index = 1;
@@ -148,13 +150,11 @@ class ezpExtension
                 if ( $index > 1 )
                     $label .= " (" . $index . ")";
 
-                $return[$label] = array(
-                    'name'      => (string)$software->name,
-                    'version'   => (string)$software->version,
-                    'copyright' => (string)$software->copyright,
-                    'license'   => (string)$software->license,
-                    'info_url'  => (string)$software->info_url,
-                );
+                foreach( $infoFields as $field )
+                {
+                    if ( (string)$software->$field !== '' )
+                        $return[$label][$field] = (string)$software->$field;
+                }
                 $index++;
             }
 

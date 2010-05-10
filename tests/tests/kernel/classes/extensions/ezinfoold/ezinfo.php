@@ -55,7 +55,6 @@ class ezinfooldInfo
                 'Version' => '2.0',
                 'copyright' => 'Some other company.',
                 'license' => 'GNU Public license V2.0',
-                'info_url' => ''
             ),
         );
     }
