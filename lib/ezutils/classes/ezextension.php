@@ -72,23 +72,27 @@ class eZExtension
      */
     public static function activeExtensions( $extensionType = false )
     {
-        if ( $extensionType === false || $extensionType === 'default' )
+        if ( $extensionType === false )
+        {
+            $cacheIdentifier = "all_{$GLOBALS['eZCurrentAccess']['name']}";
+        }
+        elseif ( $extensionType === 'default' )
         {
             $cacheIdentifier = 'global';
         }
-        else
+        elseif ( $extensionType === 'access' )
         {
-            $cacheIdentifier = "_{$GLOBALS['eZCurrentAccess']['name']}";
+            $cacheIdentifier = "sa_{$GLOBALS['eZCurrentAccess']['name']}";
         }
-
         if ( isset ( self::$activeExtensionsCache[$cacheIdentifier] ) )
         {
             return self::$activeExtensionsCache[$cacheIdentifier];
         }
 
+
         // cache has to be stored by siteaccess + $extensionType
         $expiryHandler = eZExpiryHandler::instance();
-        $phpCache = new eZPHPCreator( eZSys::cacheDirectory(), "active_extensions{$cacheIdentifier}.php" );
+        $phpCache = new eZPHPCreator( eZSys::cacheDirectory(), "active_extensions_{$cacheIdentifier}.php" );
         $expiryTime = $expiryHandler->hasTimestamp( 'active-extensions-cache' ) ? $expiryHandler->timestamp( 'active-extensions-cache' ) : 0;
 
         if ( !$phpCache->canRestore( $expiryTime ) )
@@ -106,6 +110,7 @@ class eZExtension
                 $activeExtensions = array_merge( $activeExtensions,
                                                  $GLOBALS['eZActiveExtensions'] );
             $activeExtensions = array_unique( $activeExtensions );
+
 
             if ( $ini->variable( 'ExtensionSettings', 'ExtensionOrdering' ) === 'enabled' )
             {
@@ -214,7 +219,7 @@ class eZExtension
     */
     static function prependExtensionSiteAccesses( $accessName = false, $ini = false, $globalDir = true, $identifier = false, $order = true )
     {
-        $extensionList = eZExtension::activeExtensions();
+        $extensionList = eZExtension::activeExtensions( 'default' );
 
         if ( !$order )
         {
