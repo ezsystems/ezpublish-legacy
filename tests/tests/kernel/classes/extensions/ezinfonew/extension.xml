@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<software>
+    <metadata>
+        <name>New eZ Info</name>
+        <version>2.0</version>
+        <copyright>Copyright © 2010 eZ Systems AS.</copyright>
+        <license>GNU General Public License v2.0</license>
+        <info_url>http://ez.no</info_url>
+
+        <software>
+            <uses>
+                <name>Software 1</name>
+                <license>Apache License, Version 2.0</license>
+                <copyright>Some company.</copyright>
+                <info_url>http://company.com</info_url>s
+                <version>1.1</version>
+            </uses>
+            <uses>
+                <name>Software 2</name>
+                <license>GNU Public license V2.0</license>
+                <copyright>Some other company.</copyright>
+                <info_url></info_url>s
+                <version>2.0</version>
+            </uses>
+        </software>
+
+    </metadata>
+
+    <dependencies>
+        <requires>
+            <extension name="ezjscore" />
+        </requires>
+        <extends>
+            <extension name="ezwebin" />
+            <extension name="ezflow" />
+        </extends>
+    </dependencies>
+
+</software>

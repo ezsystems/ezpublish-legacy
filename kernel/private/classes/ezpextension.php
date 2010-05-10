@@ -141,11 +141,12 @@ class ezpExtension
             $return['info_url']  = (string)$metadataNode->info_url;
 
             // 3rd party software
-            foreach( $metadataNode->software->uses as $index => $software )
+            $index = 1;
+            foreach( $metadataNode->software->uses as $software )
             {
                 $label = "Includes the following third-party software";
-                if ( $index > 0 )
-                    $label .= " (" . $index + 1 . ")";
+                if ( $index > 1 )
+                    $label .= " (" . $index . ")";
 
                 $return[$label] = array(
                     'name'      => (string)$software->name,
@@ -154,7 +155,7 @@ class ezpExtension
                     'license'   => (string)$software->license,
                     'info_url'  => (string)$software->info_url,
                 );
-
+                $index++;
             }
 
             return $return;
