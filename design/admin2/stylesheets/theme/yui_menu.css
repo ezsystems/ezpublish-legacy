@@ -178,7 +178,7 @@
     zoom: 1;
     _zoom: normal;
     border: solid 1px #999;
-    background-color: #F8F8F8;
+    background-color: #FFF;
     -moz-border-radius-bottomleft: 3px;
     -moz-border-radius-bottomright: 3px;
     -webkit-border-bottom-left-radius: 3px;
@@ -217,7 +217,7 @@
 }
 
 .yuimenu .yui-menu-body-scrolled {
-    border-color: #ccc #808080;
+    border-color: #808080 #808080;
     overflow: hidden;
 }
 
@@ -225,7 +225,7 @@
     {
     height: 16px;
     border: solid 1px #808080;
-    background: #fff
+    background: #D1DFE9
         url("../../images/2/yui_sprite.png")
         no-repeat 0 0;
 }
