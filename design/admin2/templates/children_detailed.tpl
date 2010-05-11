@@ -1,5 +1,3 @@
-{ezscript_require('ezjsc::yui2', 'ezjsc::yui3')}
-
 <script type="text/javascript">
 var dataSourceURL = "{concat('ezjscore/call/ezjscnode::subtree::', $node.node_id)|ezurl('no')}";
 var rowsPerPage = {$number_of_items};

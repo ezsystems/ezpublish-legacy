@@ -240,6 +240,9 @@
 
 </div>
 
+{* Load yui code for subitems diplay even if current node has no children (since cache blocks  does not vary by this) *}
+{ezscript_require('ezjsc::yui2', 'ezjsc::yui3')}
+
 
 {* Load drag and drop code if access rights are ok (but not depending on node sort as pagelayout cache-block does not include that in key) *}
 {if $node.can_edit}
