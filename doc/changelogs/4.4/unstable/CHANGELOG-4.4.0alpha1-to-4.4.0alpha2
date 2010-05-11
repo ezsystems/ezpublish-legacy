@@ -19,7 +19,7 @@ Changes from 4.4.0alpha1 to 4.4.0alpha2
 
 *Bugfixes:
 - Fixed bug #016797: eZSimplifiedXMLEditOutput does not unescape &nbsp; like output handler does
+- Fixed bug #016713: eZImageType doesn't use real main node for image path
 - Fixed bug #016527: warnings when using a login handler
 - Fixed bug #016230: Notice "undefined variable" when saving a draft with an objectrelationlist attribute
 - Fixed bug #014366: Duplicate remote_id in ezcontentobject_tree - for LDAP users
-- Fixed bug #016713: eZImageType doesn't use real main node for image path
