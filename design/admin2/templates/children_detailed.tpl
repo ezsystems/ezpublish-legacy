@@ -1,6 +1,18 @@
 <script type="text/javascript">
 var dataSourceURL = "{concat('ezjscore/call/ezjscnode::subtree::', $node.node_id)|ezurl('no')}";
 var rowsPerPage = {$number_of_items};
+var sortOrder = {$node.sort_order};
+
+{switch match=$node.sort_field}
+{case match='2'} var sortKey="published_date"; {/case}
+{case match='3'} var sortKey="modified_date"; {/case}
+{case match='4'} var sortKey="section"; {/case}
+{case match='7'} var sortKey="class_name"; {/case}
+{case match='8'} var sortKey="priority"; {/case}
+{case match='9'} var sortKey="name"; {/case}
+{case} var sortKey="published_date"; {/case}
+{/switch}
+    
 var hiddenColumns = "{ezpreference( 'admin_hidden_columns' )}".split(',');
 var labelsObj = {ldelim}
 
@@ -25,7 +37,6 @@ var labelsObj = {ldelim}
                     {rdelim},
 
     TABLE_OPTIONS: {ldelim}
-
                         header: "{'Table options'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
                         header_noipp: "{'Number of items per page:'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
                         header_vtc: "{'Visible table columns:'|i18n( 'design/admin/node/view/full' )|wash('javascript')}"
@@ -58,7 +69,6 @@ var labelsObj = {ldelim}
 
 
 {rdelim};
-
 
 {if and( $node.is_container,  $node.can_create)}
     {if $node.path_array|contains( ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) )}
@@ -151,7 +161,6 @@ var labelsObj = {ldelim}
             {key:"section", label:labelsObj.DATA_TABLE_COLS.section, sortable:true, resizeable:true},
             {key:"priority", label: labelsObj.DATA_TABLE_COLS.priority, sortable:true, resizeable:true, 
                 editor: new YAHOO.widget.TextboxCellEditor({asyncSubmitter: updatePriority, disableBtns:true, validator:YAHOO.widget.DataTable.validateNumber}) }
-            //{key:"", label: "", sortable:false, resizeable:true}
         ];
 
         // Hide columns
@@ -233,11 +242,12 @@ var labelsObj = {ldelim}
         };
 
         var config = {
-            initialRequest: "::" + rowsPerPage + "::0?ContentType=json",             // Initial request for first page of data
-            dynamicData: true,                                                       // Enables dynamic server-driven data
+            initialRequest: "::" + rowsPerPage + "::0" + "::" + sortKey + "::" + sortOrder + "?ContentType=json",           // Initial request for first page of data
+            dynamicData: true,                                                                                              // Enables dynamic server-driven data
             generateRequest: buildQueryString,
-            sortedBy : {key:"published_date", dir:YAHOO.widget.DataTable.CLASS_ASC}, // Sets UI initial sort arrow
-            paginator: paginator,                                                    // Enables pagination
+            sortedBy : {key:sortKey, 
+                        dir:((sortOrder === "1") ? YAHOO.widget.DataTable.CLASS_ASC : YAHOO.widget.DataTable.CLASS_DESC) }, // Sets UI initial sort arrow
+            paginator: paginator,                                                                                           // Enables pagination
             MSG_LOADING: labelsObj.DATA_TABLE.msg_loading
         };
 
@@ -264,7 +274,7 @@ var labelsObj = {ldelim}
             return oPayload;
         }
 
-        // Create table options
+        // Table options
 
         // Shows dialog, creating one when necessary
         var colLayoutHasChanged = true;
@@ -335,7 +345,8 @@ var labelsObj = {ldelim}
             this.hide();
         };
 
-        // Create the SimpleDialog
+        // SimpleDialog for Table options
+        
         var tblOptsDialog = new YAHOO.widget.SimpleDialog("to-dialog-container", { width: "25em",
                                                                                    visible: false,
                                                                                    modal: true,
@@ -354,7 +365,7 @@ var labelsObj = {ldelim}
         tblOptsDialog.render();
 
         
-        // Create control buttons
+        // Toolbar buttons: Select, Create new, More actions
 
         var selectItemsBtnAction = function( type, args, item ) {
             $('#content-sub-items-list').find(':checkbox').attr('checked', item.value);
@@ -371,10 +382,6 @@ var labelsObj = {ldelim}
                                                        name: "select-items-button",
                                                        menu: selectItemsBtnActions,
                                                        container:"action-controls" });
-        selectItemsBtn.on("appendTo", function() {
-            selectItemsBtnActions.setBody(" ");
-            selectItemsBtnActions.body.id = "ezbtn-items-container";
-        });
     
         var createNewBtnAction = function( type, args ) {
             var event = args[0], item = args[1];
@@ -389,6 +396,7 @@ var labelsObj = {ldelim}
                                                      container:"action-controls" });
 
         var createNewBtnMenu  = createNewBtn.getMenu();
+        createNewBtnMenu.cfg.setProperty("scrollincrement", 10);
         createNewBtnMenu.subscribe("click", createNewBtnAction);
         
         for( var i = 0, l = createNewBthGroups.length; i < l; i++ ) {
@@ -424,6 +432,8 @@ var labelsObj = {ldelim}
                                                         container:"action-controls",
                                                         onclick: { fn: showTblOptsDialog, obj: this, scope: true } });
 
+        // Context menu on right-click
+        
         var contextMenuItemAction = function(type, args, dt) {
             var task = args[1];
             
