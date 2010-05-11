@@ -68,13 +68,13 @@ class ezpExtension
                 eZDebug::writeError( libxml_get_errors(), "ezpExtension( {$this->name} )::getLoadingOrder()" );
                 return null;
             }
-            foreach( $xml->dependencies as $dependenciesNode )
+            foreach ( $xml->dependencies as $dependenciesNode )
             {
-                foreach( $dependenciesNode as $dependencyType => $dependenciesNode )
+                foreach ( $dependenciesNode as $dependencyType => $dependenciesNode )
                 {
                     // @todo Use a mapping array instead
                     // @todo Implement error handling using exceptions
-                    switch( $dependencyType )
+                    switch ( $dependencyType )
                     {
                         case 'requires':
                             $relationship = 'after';
@@ -91,7 +91,7 @@ class ezpExtension
                     if ( !isset( $return[$relationship] ) )
                         $return[$relationship] = array();
 
-                    foreach( $dependenciesNode as $dependency )
+                    foreach ( $dependenciesNode as $dependency )
                     {
                         $return[$relationship][] = (string)$dependency['name'];
                     }
@@ -136,7 +136,7 @@ class ezpExtension
             $metadataNode = $xml->metadata;
 
             // standard extension metadata
-            foreach( $infoFields as $field )
+            foreach ( $infoFields as $field )
             {
                 if ( (string)$metadataNode->$field !== '' )
                     $return[$field] = (string)$metadataNode->$field;
@@ -144,13 +144,13 @@ class ezpExtension
 
             // 3rd party software
             $index = 1;
-            foreach( $metadataNode->software->uses as $software )
+            foreach ( $metadataNode->software->uses as $software )
             {
                 $label = "Includes the following third-party software";
                 if ( $index > 1 )
                     $label .= " (" . $index . ")";
 
-                foreach( $infoFields as $field )
+                foreach ( $infoFields as $field )
                 {
                     if ( (string)$software->$field !== '' )
                         $return[$label][$field] = (string)$software->$field;
