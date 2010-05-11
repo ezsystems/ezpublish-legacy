@@ -372,7 +372,7 @@ class eZImageType extends eZDataType
             foreach ( array_keys( $publishedNodes ) as $publishedNodeKey )
             {
                 $publishedNode = $publishedNodes[$publishedNodeKey];
-                if ( $publishedNode->attribute( 'main_node_id' ) )
+                if ( $publishedNode->attribute( 'is_main' ) )
                 {
                     $mainNode = $publishedNode;
                     break;
