@@ -173,7 +173,7 @@ class eZPgsqlSchema extends eZDBSchemaInterface
                 if ( $row['default'] === null )
                     $field['default'] = null;
                 else
-                    $field['default'] = (string)$this->parseDefault ( $row['default'], $autoinc );
+                    $field['default'] = $this->parseDefault ( $row['default'], $autoinc );
             }
             else
             {
@@ -453,6 +453,11 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 
     function parseDefault( $default, &$autoinc )
     {
+        if ( preg_match( "@^NULL::.*@", $default, $matches ) )
+        {
+            return null;
+        }
+
         // postgresql 7.x: nextval('ezbasket_s'::text)
         // postgresql 8.x: nextval(('ezbasket_s'::text)::regclass)
         if ( preg_match( "@^nextval\(\(?'([a-z_]+_s)'::text\)@", $default, $matches ) )
