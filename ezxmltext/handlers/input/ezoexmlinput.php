@@ -1075,7 +1075,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                     $tagContent[0] = ';';
                     $tagContent = '&nbsp' . $tagContent;
                 }
-                
+
                 if ( $this->allowNumericEntities )
                     $tagContent = preg_replace( '/&amp;#([0-9]+);/', '&#\1;', $tagContent );
 
