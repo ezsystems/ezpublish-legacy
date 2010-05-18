@@ -57,6 +57,8 @@ class ezpExtension
      */
     public function getLoadingOrder()
     {
+        $return = array( 'before' => array(), 'after' => array() );
+
         if ( is_readable( $XMLDependencyFile = eZExtension::baseDirectory() . "/{$this->name}/extension.xml" ) )
         {
             libxml_use_internal_errors( true );
@@ -97,16 +99,14 @@ class ezpExtension
                     }
                 }
             }
-            return $return;
         }
         // Backward compatibility layer with the temporary loading.php
         elseif ( is_readable( $PHPDependencyFile = eZExtension::baseDirectory() . "/{$this->name}/loading.php" ) )
         {
-            return require $PHPDependencyFile;
+            $return = require $PHPDependencyFile;
         }
-        // no dependency informations
-        else
-            return array();
+
+        return $return;
     }
 
     /**
