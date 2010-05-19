@@ -134,7 +134,6 @@ class ezjscPacker
         return $ret;
     }
 
-
     /**
      * Bulds javascript files
      *
@@ -244,7 +243,7 @@ class ezjscPacker
             'sub_path' => $subPath,
             'cache_dir' => self::getCacheDir(),
             'www_dir' => self::getWwwDir(),
-            'custom_host' => isset( $customHosts[$fileExtension] ) ? $customHosts[$fileExtension] : '',
+            'custom_host' => (isset( $customHosts[$fileExtension] ) ? $customHosts[$fileExtension] : ''),
         );
 
         // needed for image includes to work on ezp installs with mixed access methods (virtualhost + url based setup)
@@ -390,7 +389,7 @@ class ezjscPacker
         // Merge file content and create new cache file
         $content = '';
         $isCSS = strpos( $fileExtension, '.css' ) !== false;
-        foreach ( $validFiles as $file )
+        foreach( $validFiles as $i => $file )
         {
             // if this is a js / css generator, call to get content
             if ( $file instanceOf ezjscServerRouter )
@@ -412,10 +411,12 @@ class ezjscPacker
                 continue;
             }
 
-            // we need to fix relative background image paths if this is a css file
             if ( $isCSS )
             {
+                // We need to fix relative background image paths if this is a css file
                 $fileContent = ezjscPacker::fixImgPaths( $fileContent, $file );
+                // Remove @charset if this is not the first file (some browsers will ignore css after a second occurance of this)
+                if ( $i ) $fileContent = preg_replace('/^@charset[^;]+;/i', '', $fileContent);
             }
 
             $content .= "/* start: $file */\r\n";
@@ -496,10 +497,13 @@ class ezjscPacker
             $css = preg_replace( array( '/:\s+/', '/\s+:/' ), ':', $css );
             $css = preg_replace( array( '/,\s+/', '/\s+,/' ), ',', $css );
 
-            // remove unnecesery line breaks
+            // remove unnecessary line breaks...
             $css = str_replace( array( ";\n", '; ' ), ';', $css );
             $css = str_replace( array( "}\n", "\n}", ';}' ), '}', $css );
             $css = str_replace( array( "{\n", "\n{", '{;' ), '{', $css );
+            // ... and spaces as well
+            $css = str_replace(array('\s{\s', '\s{', '{\s' ), '{', $css );
+            $css = str_replace(array('\s}\s', '\s}', '}\s' ), '}', $css );
 
             // optimize css
             $css = str_replace( array( ' 0em', ' 0px', ' 0pt', ' 0pc' ), ' 0', $css );
@@ -507,9 +511,8 @@ class ezjscPacker
             $css = str_replace( ' 0 0 0 0;', ' 0;', $css );
             $css = str_replace( ':0 0 0 0;', ':0;', $css );
 
-            // these should use regex to work on all colors
-            $css = str_replace( array( '#ffffff', '#FFFFFF' ), '#fff', $css );
-            $css = str_replace( '#000000', '#000', $css );
+            // optimize hex colors from #bbbbbb to #bbb
+            $css = preg_replace( "/#([0-9a-fA-F])\\1([0-9a-fA-F])\\2([0-9a-fA-F])\\3/", "#\\1\\2\\3", $css );
         }
         return $css;
     }
@@ -524,7 +527,11 @@ class ezjscPacker
      */
     static function optimizeScript( $script, $packLevel )
     {
-        if ( $packLevel < 3 )
+        if ( $packLevel > 2 )
+        {
+            $script = JSMin::minify( $script );
+        }
+        else
         {
             // normalize line feeds
             $script = str_replace( array( "\r\n", "\r" ), "\n", $script );
@@ -535,10 +542,6 @@ class ezjscPacker
 
             // remove whitespace from start & end of line + singelline comment + multiple linefeeds
             $script = preg_replace( array( '/\n\s+/', '/\s+\n/', '#\n\s*//.*#', '/\n+/' ), "\n", $script );
-        }
-        else
-        {
-            $script = JSMin::minify( $script );
         }
         return $script;
     }

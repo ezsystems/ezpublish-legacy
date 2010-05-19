@@ -1,3 +1,8 @@
+
+# v1.2.0alpha3
+- Implemented #16495: Improvements of ezjscPacker::optimizeCSS()
+- Fixed bug #16635: ezjscore: @charset "utf-8"; is not stripped
+
 # v1.2.0alpha2
 - Fixed bug #16726: Src for original image in "Insert image" has a pipe ("|") at the end
 - Fixed bug #16761: ini settings and ActiveAccessExtension
