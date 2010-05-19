@@ -66,7 +66,7 @@ if ( $function === 'set_and_exit' )
 
 if ( $http->hasPostVariable( 'RedirectURIAfterSet' ) )
 {
-    $url = $http->hasPostVariable( 'RedirectURIAfterSet' );
+    $url = $http->postVariable( 'RedirectURIAfterSet' );
 }
 else
 {
