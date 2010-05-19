@@ -48,6 +48,8 @@
 .defaultSkin div.mceToolBarFlow { white-space: normal; }
 .defaultSkin div.mceToolbar div.mceToolbarGroupingElement { float: left; height: 26px; clear: none; }
 .defaultSkin div.mceToolbar span.mceToolbarElement { float: left; height: 26px; clear: none; }
+.defaultSkin .mceRight div.mceToolbar div.mceToolbarGroupingElement {float: right;}
+.defaultSkin .mceRight div.mceToolbar span.mceToolbarElement {float: right;}
 
 /**
  * IE6, IE7 and older versions of Opera has some issues with float and grouping, so we disable grouping

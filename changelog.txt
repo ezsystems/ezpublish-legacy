@@ -11,6 +11,7 @@ eZ Online Editor 5.x extension Changelog
 - Fixed bug #16732: tc-52:(Online Editor) - Underline format is not working
 - Fixed bug #16725: Check hasContent on image object attribute before it is used
 - Implemented enhancement #16703: Give better error feedback if image alias small (preview) and as defined in ezxmltext is missing
+- Implemented enhancement #16827: Better RTL support for the eZOE editor
 
 
 5.2.0alpha1

@@ -24,13 +24,17 @@
          $language         = '-'|concat( $ez_locale )
          $dependency_js_list   = array( 'ezoe::i18n::'|concat( $language ) )
          $spell_languages = '+English=en'
-         $directionality = 'ltr'
+         $directionality    = 'ltr'
+         $toolbar_alignment = 'left'
     }
     {if ezini_hasvariable( 'EditorSettings', 'SkinVariant', 'ezoe.ini',,true() )}
         {set $skin_variant = ezini('EditorSettings', 'SkinVariant', 'ezoe.ini',,true() )}
     {/if}
     {if ezini_hasvariable( 'EditorSettings', 'Directionality', 'ezoe.ini',,true() )}
         {set $directionality = ezini('EditorSettings', 'Directionality', 'ezoe.ini',,true() )}
+    {/if}
+    {if ezini_hasvariable( 'EditorSettings', 'ToolbarAlign', 'ezoe.ini',,true() )}
+        {set $toolbar_alignment = ezini('EditorSettings', 'ToolbarAlign', 'ezoe.ini',,true() )}
     {/if}
     {if $attribute.language_code|eq( $ez_locale )}
         {def $cur_locale = fetch( 'content', 'locale' )}
@@ -79,7 +83,7 @@
         theme_advanced_path_location : "bottom",
         theme_advanced_statusbar_location: "bottom",
         theme_advanced_toolbar_location : "top",
-        theme_advanced_toolbar_align : "left",
+        theme_advanced_toolbar_align : "{$toolbar_alignment}",
         theme_advanced_toolbar_floating : true,
         theme_advanced_resize_horizontal : false,
         theme_advanced_resizing : true,
