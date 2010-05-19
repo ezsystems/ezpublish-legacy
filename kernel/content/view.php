@@ -62,10 +62,12 @@ if ( $Month )
 if ( $Day )
     $Day = (int) $Day;
 
-$NodeID = (int)$NodeID;
+$NodeID = (int) $NodeID;
 
 if ( $NodeID < 2 )
-    $NodeID = 2;
+{
+    return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
+}
 
 $ini = eZINI::instance();
 $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' );
