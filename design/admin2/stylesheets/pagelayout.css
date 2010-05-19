@@ -812,34 +812,3 @@ div#page.main-column-only a.controlbar-top-full-screen-toggle
 {
     background-image: url('../images/2/exit-fullscreen.png');
 }
-
-
-/* CLASS ATTRIBUTE GROUPING */
-
-fieldset.ezcca-collapsible legend a
-{
-    text-decoration: none;
-    padding-left: 20px;
-}
-
-fieldset.ezcca-collapsible.ezcca-collapsed
-{
-    border-width: 1px 0 0 0;
-    height: 1em;
-    background-color: #FFF;
-}
-
-fieldset.ezcca-collapsible.ezcca-collapsed legend
-{
-    margin-left: 1px;
-}
-
-fieldset.ezcca-collapsible legend a
-{
-    background: url("../images/2/yui_sprite.png") no-repeat 0 -400px;
-}
-
-fieldset.ezcca-collapsible.ezcca-collapsed legend a
-{
-    background: url("../images/2/yui_sprite.png") no-repeat 0 -350px;
-}
