@@ -70,7 +70,7 @@ if ( $Module->isCurrentAction( 'DBCheck' ) )
 
     // merge schemas from all active extensions that declare some db schema
     $extensionsdir = eZExtension::baseDirectory();
-    foreach( eZextension::activeExtensions() as $activeextension )
+    foreach( eZExtension::activeExtensions() as $activeextension )
     {
         if ( file_exists( $extensionsdir . '/' . $activeextension . '/share/db_schema.dba' ) )
         {
