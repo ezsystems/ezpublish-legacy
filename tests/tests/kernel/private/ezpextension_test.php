@@ -42,25 +42,25 @@ class ezpExtensionTest extends ezpTestCase
             // valid extension.xml
             array(
                 'ezfind',
-                array( 'after' => array( 'ezjscore' ), 'before' => array( 'ezwebin', 'ezflow' ) ),
+                array( 'before' => array( 'ezwebin', 'ezflow' ), 'after' => array( 'ezjscore' ) ),
             ),
 
             // only 'requires' dependency
             array(
                 'ezdeprequires',
-                array( 'after' => array( 'ezjscore' ) ),
+                array( 'before' => array(), 'after' => array( 'ezjscore' ) ),
             ),
 
             // only 'uses' dependency
             array(
                 'ezdepuses',
-                array( 'after' => array( 'ezjscore' ) ),
+                array( 'before' => array(), 'after' => array( 'ezjscore' ) ),
             ),
 
             // only 'extends' dependency
             array(
                 'ezdepextends',
-                array( 'before' => array( 'ezwebin', 'ezflow' ) ),
+                array( 'before' => array( 'ezwebin', 'ezflow' ), 'after' => array() ),
             ),
 
             // invalid XML
