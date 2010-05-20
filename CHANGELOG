@@ -2,6 +2,7 @@
 # v1.2.0alpha3
 - Implemented #16495: Improvements of ezjscPacker::optimizeCSS()
 - Fixed bug #16635: ezjscore: @charset "utf-8"; is not stripped
+- Fixed bug #16831: ezjscore create one js cache file for all siteaccess (patch)
 
 # v1.2.0alpha2
 - Fixed bug #16726: Src for original image in "Insert image" has a pipe ("|") at the end

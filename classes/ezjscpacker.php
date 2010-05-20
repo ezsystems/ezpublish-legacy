@@ -66,16 +66,16 @@ class ezjscPacker
      * @param string $lang Optionaly set to 'Javascript'
      * @param string $charset
      * @param int $packLevel Level of packing, values: 0-3
-     * @param bool $wwwInCacheHash To add www path in cache hash or not
+     * @param bool $indexDirInCacheHash To add index path in cache hash or not
      * @return string Html with generated tags
      */
-    static function buildJavascriptTag( $scriptFiles, $type = 'text/javascript', $lang = '', $charset = 'utf-8', $packLevel = 2, $wwwInCacheHash = true )
+    static function buildJavascriptTag( $scriptFiles, $type = 'text/javascript', $lang = '', $charset = 'utf-8', $packLevel = 2, $indexDirInCacheHash = true )
     {
         $ret = '';
         $lang = $lang ? ' language="' . $lang . '"' : '';
         $http = eZHTTPTool::instance();
         $useFullUrl = ( isset( $http->UseFullUrl ) && $http->UseFullUrl );
-        $packedFiles = ezjscPacker::packFiles( $scriptFiles, 'javascript/', '.js', $packLevel, $wwwInCacheHash );
+        $packedFiles = ezjscPacker::packFiles( $scriptFiles, 'javascript/', '.js', $packLevel, $indexDirInCacheHash );
         if ( $charset )
             $charset = " charset=\"$charset\"";
         foreach ( $packedFiles as $packedFile )
@@ -105,13 +105,13 @@ class ezjscPacker
      * @param string $type Should be 'text/css'
      * @param string $rel Should be 'stylesheet'
      * @param int $packLevel Level of packing, values: 0-3
-     * @param bool $wwwInCacheHash To add www path in cache hash or not
+     * @param bool $indexDirInCacheHash To add index path in cache hash or not
      * @return string Html with generated tags
      */
-    static function buildStylesheetTag( $cssFiles, $media = 'all', $type = 'text/css', $rel = 'stylesheet', $packLevel = 3, $wwwInCacheHash = true )
+    static function buildStylesheetTag( $cssFiles, $media = 'all', $type = 'text/css', $rel = 'stylesheet', $packLevel = 3, $indexDirInCacheHash = true )
     {
         $ret = '';
-        $packedFiles = ezjscPacker::packFiles( $cssFiles, 'stylesheets/', '_' . $media . '.css', $packLevel, $wwwInCacheHash );
+        $packedFiles = ezjscPacker::packFiles( $cssFiles, 'stylesheets/', '_' . $media . '.css', $packLevel, $indexDirInCacheHash );
         $http = eZHTTPTool::instance();
         $useFullUrl = ( isset( $http->UseFullUrl ) && $http->UseFullUrl );
         $media = $media && $media !== 'all' ? ' media="' . $media . '"' : '';
@@ -139,12 +139,12 @@ class ezjscPacker
      *
      * @param array|string $scriptFiles Either array of file paths, or string with file path
      * @param int $packLevel Level of packing, values: 0-3
-     * @param bool $wwwInCacheHash To add www path in cahce hash or not
+     * @param bool $indexDirInCacheHash To add index path in cahce hash or not
      * @return array List of javascript files
      */
-    static function buildJavascriptFiles( $scriptFiles, $packLevel = 2, $wwwInCacheHash = true )
+    static function buildJavascriptFiles( $scriptFiles, $packLevel = 2, $indexDirInCacheHash = true )
     {
-        return ezjscPacker::packFiles( $scriptFiles, 'javascript/', '.js', $packLevel, $wwwInCacheHash );
+        return ezjscPacker::packFiles( $scriptFiles, 'javascript/', '.js', $packLevel, $indexDirInCacheHash );
     }
 
     /**
@@ -152,36 +152,45 @@ class ezjscPacker
      *
      * @param array|string $cssFiles Either array of file paths, or string with file path
      * @param int $packLevel Level of packing, values: 0-3
-     * @param bool $wwwInCacheHash To add www path in cahce hash or not
+     * @param bool $indexDirInCacheHash To add index path in cahce hash or not
      * @return array List of css files
      */
-    static function buildStylesheetFiles( $cssFiles, $packLevel = 3, $wwwInCacheHash = true )
+    static function buildStylesheetFiles( $cssFiles, $packLevel = 3, $indexDirInCacheHash = true )
     {
-        return ezjscPacker::packFiles( $cssFiles, 'stylesheets/', '_all.css', $packLevel, $wwwInCacheHash );
+        return ezjscPacker::packFiles( $cssFiles, 'stylesheets/', '_all.css', $packLevel, $indexDirInCacheHash );
     }
 
     // static :: gets the cache dir
-    static function getCacheDir()
+    protected static function getCacheDir()
     {
         static $cacheDir = null;
         if ( $cacheDir === null )
         {
-            $sys = eZSys::instance();
-            $cacheDir = $sys->cacheDirectory() . '/public/';
+            $cacheDir = eZSys::cacheDirectory() . '/public/';
         }
         return $cacheDir;
     }
 
     // static :: gets the www dir
-    static function getWwwDir()
+    protected static function getWwwDir()
     {
         static $wwwDir = null;
         if ( $wwwDir === null )
         {
-            $sys = eZSys::instance();
-            $wwwDir = $sys->wwwDir() . '/';
+            $wwwDir = eZSys::wwwDir() . '/';
         }
         return $wwwDir;
+    }
+
+    // static :: gets the index dir (including index.php and siteaccess anme if that is part of url)
+    protected static function getIndexDir()
+    {
+        static $indexDir = null;
+        if ( $indexDir === null )
+        {
+            $indexDir = eZSys::indexDir() . '/';
+        }
+        return $indexDir;
     }
 
     /**
@@ -196,10 +205,10 @@ class ezjscPacker
      * @param string $subPath In witch sub path of design folder to look for files.
      * @param string $fileExtension File extension name (for use on cache file)
      * @param int $packLevel Level of packing, values: 0-3
-     * @param bool $wwwInCacheHash To add www path in cahce hash or not
+     * @param bool $indexDirInCacheHash To add index path in cahce hash or not
      * @return array List of css files
      */
-    static function packFiles( $fileArray, $subPath = '', $fileExtension = '.js', $packLevel = 2, $wwwInCacheHash = false )
+    static function packFiles( $fileArray, $subPath = '', $fileExtension = '.js', $packLevel = 2, $indexDirInCacheHash = false )
     {
         if ( !$fileArray )
         {
@@ -243,13 +252,14 @@ class ezjscPacker
             'sub_path' => $subPath,
             'cache_dir' => self::getCacheDir(),
             'www_dir' => self::getWwwDir(),
+            'index_dir' => self::getIndexDir(),
             'custom_host' => (isset( $customHosts[$fileExtension] ) ? $customHosts[$fileExtension] : ''),
         );
 
         // needed for image includes to work on ezp installs with mixed access methods (virtualhost + url based setup)
-        if ( $wwwInCacheHash )
+        if ( $indexDirInCacheHash )
         {
-            $cacheName = $packerInfo['www_dir'];
+            $cacheName = $packerInfo['index_dir'];
         }
 
         while ( count( $fileArray ) > 0 )
