@@ -46,7 +46,7 @@
  This is better explained in ezjscore.ini[ezjscServer]
 
  buildStylesheetFiles and buildJavascriptFiles functions does not return html, just
- an array of file urls / content (from generators).
+ an array of file url's / content (from generators).
 */
 
 class ezjscPacker
@@ -59,11 +59,11 @@ class ezjscPacker
     }
 
     /**
-     * Bulds javascript tag(s) based on input files and packing level
+     * Builds javascript tag(s) based on input files and packing level
      *
      * @param array|string $scriptFiles Either array of file paths, or string with file path
      * @param string $type Should be 'text/javascript'
-     * @param string $lang Optionaly set to 'Javascript'
+     * @param string $lang Optionally set to 'Javascript'
      * @param string $charset
      * @param int $packLevel Level of packing, values: 0-3
      * @param bool $indexDirInCacheHash To add index path in cache hash or not
@@ -98,7 +98,7 @@ class ezjscPacker
     }
 
     /**
-     * Bulds stylesheet tag(s) based on input files and packing level
+     * Builds stylesheet tag(s) based on input files and packing level
      *
      * @param array|string $cssFiles Either array of file paths, or string with file path
      * @param string $media Should be media type, normally 'all'
@@ -135,11 +135,11 @@ class ezjscPacker
     }
 
     /**
-     * Bulds javascript files
+     * Builds javascript files
      *
      * @param array|string $scriptFiles Either array of file paths, or string with file path
      * @param int $packLevel Level of packing, values: 0-3
-     * @param bool $indexDirInCacheHash To add index path in cahce hash or not
+     * @param bool $indexDirInCacheHash To add index path in cache hash or not
      * @return array List of javascript files
      */
     static function buildJavascriptFiles( $scriptFiles, $packLevel = 2, $indexDirInCacheHash = true )
@@ -148,11 +148,11 @@ class ezjscPacker
     }
 
     /**
-     * Bulds stylesheet files
+     * Builds stylesheet files
      *
      * @param array|string $cssFiles Either array of file paths, or string with file path
      * @param int $packLevel Level of packing, values: 0-3
-     * @param bool $indexDirInCacheHash To add index path in cahce hash or not
+     * @param bool $indexDirInCacheHash To add index path in cache hash or not
      * @return array List of css files
      */
     static function buildStylesheetFiles( $cssFiles, $packLevel = 3, $indexDirInCacheHash = true )
@@ -182,7 +182,7 @@ class ezjscPacker
         return $wwwDir;
     }
 
-    // static :: gets the index dir (including index.php and siteaccess anme if that is part of url)
+    // static :: gets the index dir (including index.php and siteaccess name if that is part of url)
     protected static function getIndexDir()
     {
         static $indexDir = null;
@@ -205,7 +205,7 @@ class ezjscPacker
      * @param string $subPath In witch sub path of design folder to look for files.
      * @param string $fileExtension File extension name (for use on cache file)
      * @param int $packLevel Level of packing, values: 0-3
-     * @param bool $indexDirInCacheHash To add index path in cahce hash or not
+     * @param bool $indexDirInCacheHash To add index path in cache hash or not
      * @return array List of css files
      */
     static function packFiles( $fileArray, $subPath = '', $fileExtension = '.js', $packLevel = 2, $indexDirInCacheHash = false )
