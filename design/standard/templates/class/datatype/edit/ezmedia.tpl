@@ -7,6 +7,8 @@
     <option value="real_player" {if eq( $class_attribute.data_text1, 'real_player' )}selected="selected"{/if}>{'RealPlayer'|i18n( 'design/standard/class/datatype' )}</option>
     <option value="silverlight" {if eq( $class_attribute.data_text1, 'silverlight' )}selected="selected"{/if}>{'Silverlight'|i18n( 'design/standard/class/datatype' )}</option>
     <option value="windows_media_player" {if eq( $class_attribute.data_text1, 'windows_media_player' )}selected="selected"{/if}>{'Windows Media Player'|i18n( 'design/standard/class/datatype' )}</option>
+    <option value="html5_video" {if eq( $class_attribute.data_text1, 'html5_video' )}selected="selected"{/if}>{'Html5 Video'|i18n( 'design/standard/class/datatype' )}</option>
+    <option value="html5_audio" {if eq( $class_attribute.data_text1, 'html5_audio' )}selected="selected"{/if}>{'Html5 Audio'|i18n( 'design/standard/class/datatype' )}</option>
 </select>
 </div>
 

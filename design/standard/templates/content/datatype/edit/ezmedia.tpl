@@ -331,6 +331,77 @@
 </div>
 {/case}
 
+{* HTML5 Video *}
+{case match=html5_video}
+<div class="block">
+    <input type="hidden" name="MAX_FILE_SIZE" value="{$attribute.contentclass_attribute.data_int1|mul( 1024, 1024 )}" />
+    <label for="{$attribute_base}_media_{$attribute.id}_file">{'New file for upload'|i18n( 'design/standard/content/datatype' )}:</label>
+    <input class="box" id="{$attribute_base}_media_{$attribute.id}_file" name="{$attribute_base}_data_mediafilename_{$attribute.id}" type="file" />
+</div>
+
+<div class="block">
+
+<div class="element">
+    <label for="{$attribute_base}_media_{$attribute.id}_width">{'Width'|i18n( 'design/standard/content/datatype' )}:</label>
+    <input type="text" id="{$attribute_base}_media_{$attribute.id}_width" name="{$attribute_base}_data_media_width_{$attribute.id}" size="5" value="{$attribute.content.width}" />
+</div>
+
+<div class="element">
+    <label for="{$attribute_base}_media_{$attribute.id}_height">{'Height'|i18n( 'design/standard/content/datatype' )}:</label>
+    <input type="text" id="{$attribute_base}_media_{$attribute.id}_height" name="{$attribute_base}_data_media_height_{$attribute.id}" size="5" value="{$attribute.content.height}" />
+    &nbsp;
+    &nbsp;
+    &nbsp;
+</div>
+
+<div class="element">
+    <label for="{$attribute_base}_media_{$attribute.id}_controller">{'Controller'|i18n( 'design/standard/content/datatype' )}:</label>
+    <input id="{$attribute_base}_media_{$attribute.id}_controller" type="checkbox" name="{$attribute_base}_data_media_has_controller_{$attribute.id}" value="1" {if $attribute.content.has_controller}checked="checked"{/if} />
+</div>
+
+<div class="element">
+    <label for="{$attribute_base}_media_{$attribute.id}_autoplay">{'Autoplay'|i18n( 'design/standard/content/datatype' )}:</label>
+    <input type="checkbox" id="{$attribute_base}_media_{$attribute.id}_autoplay" name="{$attribute_base}_data_media_is_autoplay_{$attribute.id}" value="1" {if $attribute.content.is_autoplay}checked="checked"{/if} />
+</div>
+
+<div class="element">
+    <label for="{$attribute_base}_media_{$attribute.id}_loop">{'Loop'|i18n( 'design/standard/content/datatype' )}:</label>
+    <input type="checkbox" id="{$attribute_base}_media_{$attribute.id}_loop" name="{$attribute_base}_data_media_is_loop_{$attribute.id}" value="1" {if $attribute.content.is_loop}checked="checked"{/if} />
+</div>
+
+<div class="break"></div>
+</div>
+{/case}
+
+{* HTML5 Audio *}
+{case match=html5_audio}
+<div class="block">
+    <input type="hidden" name="MAX_FILE_SIZE" value="{$attribute.contentclass_attribute.data_int1|mul( 1024, 1024 )}" />
+    <label for="{$attribute_base}_media_{$attribute.id}_file">{'New file for upload'|i18n( 'design/standard/content/datatype' )}:</label>
+    <input class="box" id="{$attribute_base}_media_{$attribute.id}_file" name="{$attribute_base}_data_mediafilename_{$attribute.id}" type="file" />
+</div>
+
+<div class="block">
+
+<div class="element">
+    <label for="{$attribute_base}_media_{$attribute.id}_controller">{'Controller'|i18n( 'design/standard/content/datatype' )}:</label>
+    <input id="{$attribute_base}_media_{$attribute.id}_controller" type="checkbox" name="{$attribute_base}_data_media_has_controller_{$attribute.id}" value="1" {if $attribute.content.has_controller}checked="checked"{/if} />
+</div>
+
+<div class="element">
+    <label for="{$attribute_base}_media_{$attribute.id}_autoplay">{'Autoplay'|i18n( 'design/standard/content/datatype' )}:</label>
+    <input type="checkbox" id="{$attribute_base}_media_{$attribute.id}_autoplay" name="{$attribute_base}_data_media_is_autoplay_{$attribute.id}" value="1" {if $attribute.content.is_autoplay}checked="checked"{/if} />
+</div>
+
+<div class="element">
+    <label for="{$attribute_base}_media_{$attribute.id}_loop">{'Loop'|i18n( 'design/standard/content/datatype' )}:</label>
+    <input type="checkbox" id="{$attribute_base}_media_{$attribute.id}_loop" name="{$attribute_base}_data_media_is_loop_{$attribute.id}" value="1" {if $attribute.content.is_loop}checked="checked"{/if} />
+</div>
+
+<div class="break"></div>
+</div>
+{/case}
+
 
 
 {/switch}
