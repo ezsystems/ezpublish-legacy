@@ -26,6 +26,11 @@
  */
 class ezpContentCriteria
 {
+    public function __construct()
+    {
+        $this->accept = new ezpContentCriteriaSet();
+        $this->deny   = new ezpContentCriteriaSet();
+    }
 
     /**
      * Create a location criteria
@@ -33,8 +38,7 @@ class ezpContentCriteria
      */
     public static function location()
     {
-        $this->accept = new ezpContentCriteriaSet();
-        $this->deny   = new ezpContentCriteriaSet();
+        return new ezpContentLocationCriteria();
     }
 
     /**
@@ -47,6 +51,11 @@ class ezpContentCriteria
     public static function field( $fieldIdentifier )
     {
         return new ezpContentFieldCriteria( $fieldIdentifier );
+    }
+
+    public static function contentClass()
+    {
+        return new ezpContentClassCriteria();
     }
 
     /**
@@ -76,12 +85,12 @@ class ezpContentCriteria
      * Accept (positive) criteria list
      * @var ezpContentCriteriaSet
      */
-    private $accept;
+    public $accept;
 
     /**
      * Deny (negative) criteria list
      * @var ezpContentCriteriaSet
      */
-    private $deny;
+    public $deny;
 }
 ?>

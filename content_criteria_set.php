@@ -21,7 +21,7 @@ class ezpContentCriteriaSet implements ArrayAccess, Countable
      * @param mixed $offset
      * @param eZContentCriteria $value
      */
-    public function OffsetSet( $offset, $value )
+    public function offsetSet( $offset, $value )
     {
         $this->criteria[] = $value;
     }
@@ -31,11 +31,11 @@ class ezpContentCriteriaSet implements ArrayAccess, Countable
      *
      * @param mixed $offset
      */
-    public function OffsetGet( $offset ){}
+    public function offsetGet( $offset ){}
 
-    public function OffsetExists( $offset ){}
+    public function offsetExists( $offset ){}
 
-    public function OffsetUnset( $offset ){}
+    public function offsetUnset( $offset ){}
 
     /**
      * Returns the number of registered criteria
@@ -44,7 +44,7 @@ class ezpContentCriteriaSet implements ArrayAccess, Countable
      */
     public function count()
     {
-        return count( $criteria );
+        return count( $this->criteria );
     }
 
     private $criteria = array();

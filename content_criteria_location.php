@@ -23,7 +23,10 @@ class ezpContentLocationCriteria
      */
     public function subtree( ezpLocation $subtree )
     {
-
+        $this->subtree = $subtree;
+        return $this;
     }
+
+    private $subtree;
 }
 ?>
