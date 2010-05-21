@@ -1,16 +1,14 @@
 <?php
 /**
- * File containing the ezpContentFieldSet class.
+ * File containing the ezpContentFieldSet class
  *
  * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/gnu_gpl GNU GPL v2
  * @version //autogentag//
- * @package API/Content
+ * @package API
  */
 
 /**
- * Class that represents a content fields set.
- *
  * Allows for reading/writing of content fields (attributes) through an array like interface. This class is aimed at
  * being used through an ezpContent object, and the following examples will therefore use it.
  *
@@ -42,6 +40,8 @@
  * $article->fields->title = 'foo';
  * $article->fields->name = 'bar';
  * </code>
+ *
+ * @package API
  */
 class ezpContentFieldSet implements ArrayAccess
 {
@@ -55,9 +55,13 @@ class ezpContentFieldSet implements ArrayAccess
 
     }
 
+    /**
+     * Array exists handler. Can be used to check for existence of a language
+     *
+     * @note Again, this operation might not belong to the fields set (data map) but to the content itself
+    */
     public function offsetExists( $offset )
     {
-
     }
 
     /**
@@ -76,6 +80,7 @@ class ezpContentFieldSet implements ArrayAccess
     /**
      * Array get handler.
      * Will return the requested language's ezpFieldSet
+     *
      * @return ezpContentFieldSet
      */
     public function offsetGet( $offset )
