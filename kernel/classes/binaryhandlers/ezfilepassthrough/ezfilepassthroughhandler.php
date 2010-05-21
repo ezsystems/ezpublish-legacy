@@ -62,12 +62,21 @@ class eZFilePassthroughHandler extends eZBinaryFileHandler
             if ( isset( $_SERVER['HTTP_RANGE'] ) )
             {
                 $httpRange = trim( $_SERVER['HTTP_RANGE'] );
-                if ( preg_match( "/^bytes=(\d+)-(\d+)$/", $httpRange, $matches ) )
+                if ( preg_match( "/^bytes=(\d+)-(\d+)?$/", $httpRange, $matches ) )
                 {
                     $fileOffset = $matches[1];
-                    $fileLength = $matches[2] - $matches[1] + 1;
-                    header( "Content-Range: bytes $matches[1]-" . $matches[2] . "/$fileSize" );
-                    header( "HTTP/1.1 206 Partial content" );
+                    if ( isset( $matches[2] ) )
+                    {
+                        $fileLength = $matches[2] - $matches[1] + 1;
+                        $lastPos  = $matches[2];
+                    }
+                    else
+                    {
+                        $fileLength = $fileSize - $matches[1];
+                        $lastPos = $fileSize -1;
+                    }
+                    header( "Content-Range: bytes $matches[1]-" . $lastPos . "/$fileSize" );
+                    header( "HTTP/1.1 206 Partial Content" );
                     $contentLength = $fileLength;
                 }
             }
