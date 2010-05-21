@@ -62,7 +62,7 @@ if ( $fileName != "" and file_exists( $fileName ) )
         {
             $fileOffset = $matches[1];
             header( "Content-Range: bytes $fileOffset-" . $fileSize - 1 . "/$fileSize" );
-            header( "HTTP/1.1 206 Partial content" );
+            header( "HTTP/1.1 206 Partial Content" );
             $contentLength -= $fileOffset;
         }
     }
