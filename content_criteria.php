@@ -15,9 +15,10 @@
  * Example:
  * <code>
  * $criteria = new ezpContentCriteria();
- * $criteria->criteria[] = ezpContentCriteria::location->subtree(  ezpContentLocation::fromUrl( ‘/articles’ ) );
- * $criteria->criteria[] = ezpContentCriteria::field( 'title' )->like( 'foo' );
- * $criteria->criteria[] = ezpContentCriteria::field( 'summary' )->startsWith( 'abc' );
+ * $criteria->accept[] = ezpContentCriteria::location->subtree(  ezpContentLocation::fromUrl( ‘/articles’ ) );
+ * $criteria->accept[] = ezpContentCriteria::field( 'title' )->like( 'foo' );
+ * $criteria->accept[] = ezpContentCriteria::field( 'summary' )->startsWith( 'abc' );
+ * $criteria->deny[]   = ezpContentCriteria::field( 'title' )->startsWith( 'excludedString' );
  * $articles = ezpRepository::query( $criteria )
  * </code>
  *
@@ -32,7 +33,8 @@ class ezpContentCriteria
      */
     public static function location()
     {
-
+        $this->accept = new ezpContentCriteriaSet();
+        $this->deny   = new ezpContentCriteriaSet();
     }
 
     /**
@@ -46,7 +48,40 @@ class ezpContentCriteria
     {
         return new ezpContentFieldCriteria( $fieldIdentifier );
     }
-}
 
-$c = ezpContentCriteria::field( 'title' )->like( 'foo' );
+    /**
+     * Static method magic method
+     * Handles requests for custom criteria
+     *
+     * @param string $method Custom criteria name
+     * @param array $arguments Custom criteria arguments
+     */
+    public static function __callStatic( $method, $arguments )
+    {
+    }
+
+    /**
+     * Custom criteria factory.
+     *
+     * @note This is a PHP < 5.3 replacement for __callStatic. Use the static call if you use PHP 5.3+
+     *
+     * @param string $method
+     * @return ezpContentCriteriaInterface
+     */
+    public static function custom( $method, $arguments )
+    {
+    }
+
+    /**
+     * Accept (positive) criteria list
+     * @var ezpContentCriteriaSet
+     */
+    private $accept;
+
+    /**
+     * Deny (negative) criteria list
+     * @var ezpContentCriteriaSet
+     */
+    private $deny;
+}
 ?>
