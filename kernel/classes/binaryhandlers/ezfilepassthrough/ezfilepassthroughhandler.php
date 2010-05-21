@@ -62,12 +62,13 @@ class eZFilePassthroughHandler extends eZBinaryFileHandler
             if ( isset( $_SERVER['HTTP_RANGE'] ) )
             {
                 $httpRange = trim( $_SERVER['HTTP_RANGE'] );
-                if ( preg_match( "/^bytes=([0-9]+)-$/", $httpRange, $matches ) )
+                if ( preg_match( "/^bytes=(\d+)-(\d+)$/", $httpRange, $matches ) )
                 {
                     $fileOffset = $matches[1];
-                    header( "Content-Range: bytes $fileOffset-" . ( $fileSize - 1 ) . "/$fileSize" );
+                    $fileLength = $matches[2] - $matches[1] + 1;
+                    header( "Content-Range: bytes $matches[1]-" . $matches[2] . "/$fileSize" );
                     header( "HTTP/1.1 206 Partial content" );
-                    $contentLength -= $fileOffset;
+                    $contentLength = $fileLength;
                 }
             }
             // Figure out the time of last modification of the file right way to get the file mtime ... the
@@ -90,13 +91,15 @@ class eZFilePassthroughHandler extends eZBinaryFileHandler
             header( "Accept-Ranges: bytes" );
 
             $fh = fopen( "$fileName", "rb" );
-            if ( $fileOffset )
+            if ( $fileOffset !== false && $fileLength !== false )
             {
-                fseek( $fh, $fileOffset );
+                echo stream_get_contents( $fh, $contentLength, $fileOffset );
             }
-
-            ob_end_clean();
-            fpassthru( $fh );
+            else
+            {
+                ob_end_clean();
+                fpassthru( $fh );
+            }
             fclose( $fh );
 
             eZExecution::cleanExit();
