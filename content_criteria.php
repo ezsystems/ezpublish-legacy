@@ -10,6 +10,7 @@
 
 /**
  * This class is used to instantiate and manipulate content listing criterias.
+ * Each returned criteria will have its own particular filtering methods, as seen in the example below
  *
  * Example:
  * <code>
@@ -24,5 +25,28 @@
  */
 class ezpContentCriteria
 {
+
+    /**
+     * Create a location criteria
+     * @return ezpContentLocationCriteria
+     */
+    public static function location()
+    {
+
+    }
+
+    /**
+     * Create a field criteria
+     *
+     * @param mixed $fieldIdentifier
+     *
+     * @return ezpContentFieldCriteria
+     */
+    public static function field( $fieldIdentifier )
+    {
+        return new ezpContentFieldCriteria( $fieldIdentifier );
+    }
 }
+
+$c = ezpContentCriteria::field( 'title' )->like( 'foo' );
 ?>
