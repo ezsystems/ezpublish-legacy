@@ -164,9 +164,6 @@ class eZOEXMLInput extends eZXMLInputHandler
                 // Presto is not part of the user agent string on Opera < 9.6
                 if ( $browserInfo[1] >= 9.5 )
                     self::$browserType = 'Presto';
-                // Experimental Wii support
-                else if ( $browserInfo[1] >= 9.3 )
-                    self::$browserType = 'Presto';
             }
             else if ( strpos( $userAgent, 'Trident' ) !== false and
                  preg_match('/Trident\/([0-9\.]+)/i', $userAgent, $browserInfo ) )
@@ -188,6 +185,8 @@ class eZOEXMLInput extends eZXMLInputHandler
                     self::$browserType = 'Gecko';
             }
             elseif ( strpos( $userAgent, 'WebKit' ) !== false and
+                     strpos( $userAgent, ' iPad' ) === false and // IPhone / IPad does not have rich text editing support
+                     strpos( $userAgent, ' iPhone' ) === false and
                      preg_match('/WebKit\/([0-9\.]+)/i', $userAgent, $browserInfo ) )
             {
                 if ( $browserInfo[1] >= 522.0 )
