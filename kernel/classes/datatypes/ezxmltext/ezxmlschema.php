@@ -265,7 +265,7 @@ class eZXMLSchema
 
             if ( isset( $this->Schema['custom']['isInline'][$name] ) )
             {
-                if ( $this->Schema['custom']['isInline'][$name] == 'true' )
+                if ( $this->Schema['custom']['isInline'][$name] != 'false' )
                     $isInline = true;
             }
         }
