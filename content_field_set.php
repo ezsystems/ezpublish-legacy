@@ -50,15 +50,46 @@ class ezpContentFieldSet implements ArrayAccess
      * @param int $contentObjectID
      * @param string $locale If not provided, uses the default one for the active siteaccess
      */
-    public function __construct( $contentObjectID, $locale = null )
+    public function __construct()
     {
+    }
 
+    /**
+     * Initializes a level one ezpContentFieldSet from an eZContentObject
+     * @param eZContentObject $contentObject
+     * @return ezpContentFieldSet
+     */
+    public static function fromContentObject( eZContentObject $contentObject )
+    {
+        $set = new ezpContentFieldSet();
+        foreach( $contentObject->availableLanguages() as $language )
+        {
+            $set->childrenFieldSets[$language] =
+                ezpContentFieldSet::fromDataMap( $contentObject->fetchDataMap( false, $language ) );
+        }
+        return $set;
+    }
+
+    /**
+     * Initializes a level two ezpContentFieldSet from a content object data map
+     * @param array $dataMap
+     * @return ezpContentFieldSet
+     */
+    public static function fromDataMap( $dataMap )
+    {
+        $set = new ezpContentFieldSet();
+        foreach( $dataMap as $attribute )
+        {
+            $identifier = $attribute->attribute( 'contentclass_attribute_identifier' );
+            $set->contentObjectAttributes[$identifier] = $attribute;
+        }
+        return $set;
     }
 
     /**
      * Array exists handler. Can be used to check for existence of a language
      *
-     * @note Again, this operation might not belong to the fields set (data map) but to the content itself
+     * Again, this operation might not belong to the fields set (data map) but to the content itself
     */
     public function offsetExists( $offset )
     {
@@ -106,9 +137,10 @@ class ezpContentFieldSet implements ArrayAccess
     /**
      * Setter. Used to set attributes values.
      */
-    public function __set( $name, $value )
+    public function __set( $name, eZContentObjectAttribute $value )
     {
-        // Check if the attribute is a valid one
+        $this->contentObjectAttributes[$name] = $value;
+            // Check if the attribute is a valid one
         if ( isset( $this->contentObjectAttributes[$name] ) )
         {
             // needs to adapt itself to the given parameter (state object, string, etc)

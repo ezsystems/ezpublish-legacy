@@ -25,15 +25,33 @@ class ezpContentLocation extends ezpLocation
         $node = eZContentObjectTreeNode::fetch( 2 );
         if ( $node instanceof eZContentObjectTreeNode )
         {
-            $location = new ezpContentLocation();
-            $location->node = $node;
-
-            return $location;
+            return self::fromNode( $node );
         }
         else
         {
             throw new ezcBaseExtension( "Unable to find node with ID $nodeId" );
         }
+    }
+
+    /**
+     * Returns the ezpContentLocation object for a particular node object
+     * @param eZContentObjectTreeNode $node
+     * @return ezpContentLocation
+     */
+    public static function fromNode( eZContentObjectTreeNode $node )
+    {
+        $location = new ezpContentLocation();
+        $location->node = $node;
+
+        return $location;
+    }
+
+    public function getNodeId()
+    {
+        if ( $this->node !== null )
+            return $this->node->attribute( 'node_id' );
+        else
+            return null;
     }
 
     private $node;

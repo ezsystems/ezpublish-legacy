@@ -27,6 +27,15 @@ class ezpContentClassCriteria
         return $this;
     }
 
+    public function translate()
+    {
+        return array(
+            'type' => 'param',
+            'name' => array( 'ClassFilterType', 'ClassFilterArray' ),
+            'value' => array( 'include', $this->classes ),
+        );
+    }
+
     public $classes = array();
 }
 ?>

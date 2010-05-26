@@ -12,7 +12,7 @@
  * This class handles a list of content query criteria
  * @package API
  */
-class ezpContentCriteriaSet implements ArrayAccess, Countable
+class ezpContentCriteriaSet implements ArrayAccess, Countable, Iterator
 {
     /**
      * Array offset setter
@@ -47,6 +47,39 @@ class ezpContentCriteriaSet implements ArrayAccess, Countable
         return count( $this->criteria );
     }
 
+    //// Iterator interface
+
+    public function key()
+    {
+        return  $this->pointer;
+    }
+
+    public function current ()
+    {
+        return $this->criteria[$this->pointer];
+    }
+
+    public function next()
+    {
+        ++$this->pointer;
+    }
+
+    public function rewind()
+    {
+        $this->pointer = 0;
+    }
+
+    public function valid()
+    {
+        return isset( $this->criteria[$this->pointer] );
+    }
+
     private $criteria = array();
+
+    /**
+     * Iterator interface pointer
+     * @var int
+     */
+    private $pointer = 0;
 }
 ?>

@@ -12,8 +12,9 @@ echo "Status:\n";
 echo "\t" . count( $c->accept ) . " accept criteria\n";
 echo "\t" . count( $c->deny ) . " deny criteria\n";
 
-echo "\nRaw output:\n";
-var_dump( $c );
-
 $articles = ezpContentRepository::query( $c );
+foreach( $articles as $article )
+{
+    echo "name: {$article->fields['eng-GB']->title}\n";
+}
 ?>

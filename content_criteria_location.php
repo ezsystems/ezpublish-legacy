@@ -21,12 +21,23 @@ class ezpContentLocationCriteria
      * @param ezpLocation $subtree
      * @return ezpContentLocationCriteria
      */
-    public function subtree( ezpLocation $subtree )
+    public function subtree( ezpContentLocation $subtree )
     {
         $this->subtree = $subtree;
         return $this;
     }
 
+    /**
+     * Temporary function that translates the criteria to something eZContentObjectTreeNode understands
+     * @return array
+     */
+    public function translate()
+    {
+        return array( 'type' => 'location', 'value' => $this->subtree->getNodeId() );
+    }
+    /**
+     * @var ezpContentLocation
+     */
     private $subtree;
 }
 ?>

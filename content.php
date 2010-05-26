@@ -41,6 +41,23 @@ class ezpContent
     }
 
     /**
+     * Instanciates an ezpContent from an eZContentObjectTreeNode
+     * @param eZContentObjectTreeNode $node
+     * @return ezpContent
+     */
+    public static function fromNode( eZContentObjectTreeNode $node )
+    {
+        $content = new ezpContent();
+
+        // from a node, we need:
+        // - fields (data_map) - DONE
+        // - locations (nodes, including alternative ones)
+        $content->fields = ezpContentFieldSet::fromContentObject( $node->object() );
+
+        return $content;
+    }
+
+    /**
      * Content (object) attributes
      * @var ezpContentFieldSet
      */
@@ -48,7 +65,7 @@ class ezpContent
 
     /**
      * Content locations
-     * @var ezpLocationSet
+     * @var ezpContentLocationSet
      */
     public $locations;
 }

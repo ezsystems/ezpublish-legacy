@@ -8,11 +8,10 @@
  * @package API
  */
 /**
- * This class represents a specific location for a piece of content
+ * This class represents the locations for a piece of content
  * @package API
  */
 class ezpContentLocationSet
 {
-
 }
 ?>
