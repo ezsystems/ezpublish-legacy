@@ -5,7 +5,7 @@
     <fieldset>
         <legend>{'Published order'|i18n( 'design/admin/node/view/full' )}</legend>
     
-        {let sort_fields=hash( 6, 'Class identifier'|i18n( 'design/admin/node/view/full' ),
+        {def $sort_fields=hash( 6, 'Class identifier'|i18n( 'design/admin/node/view/full' ),
                                7, 'Class name'|i18n( 'design/admin/node/view/full' ),
                                5, 'Depth'|i18n( 'design/admin/node/view/full' ),
                                3, 'Modified'|i18n( 'design/admin/node/view/full' ),
@@ -13,8 +13,8 @@
                                8, 'Priority'|i18n( 'design/admin/node/view/full' ),
                                2, 'Published'|i18n( 'design/admin/node/view/full' ),
                                4, 'Section'|i18n( 'design/admin/node/view/full' ) )
-            title='You cannot set the sorting method for the current location because you do not have permission to edit the current item.'|i18n( 'design/admin/node/view/full' )
-            disabled=' disabled="disabled"' }
+            $title='You cannot set the sorting method for the current location because you do not have permission to edit the current item.'|i18n( 'design/admin/node/view/full' )
+            $disabled=' disabled="disabled"' }
     
         {if $node.can_edit}
             {set title='Use these controls to set the sorting method for the sub items of the current location.'|i18n( 'design/admin/node/view/full' )}
@@ -24,9 +24,9 @@
         
         <div class="block">{$title}</div>
         <select id="ezasi-sort-field" name="SortingField" title="{$title}"{$disabled}>
-        {section var=Sort loop=$sort_fields}
-            <option value="{$Sort.key}" {if eq( $Sort.key, $node.sort_field )}selected="selected"{/if}>{$Sort.item}</option>
-        {/section}
+        {foreach $sort_fields as $key => $field}
+            <option value="{$key}" {if eq( $key, $node.sort_field )}selected="selected"{/if}>{$field}</option>
+        {/foreach}
         </select>
     
         <select id="ezasi-sort-order" name="SortingOrder" title="{$title}"{$disabled}>
@@ -36,7 +36,7 @@
     
         <input  id="ezasi-sort-set" {if $disabled}class="button-disabled"{else}class="button"{/if} type="submit" name="SetSorting" value="{'Set'|i18n( 'design/admin/node/view/full' )}" title="{$title}" {$disabled} />
     
-        {/let}
+        {undef}
     </fieldset>
 </div>
 </form>
