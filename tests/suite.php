@@ -7,7 +7,7 @@
  * @package tests
  */
 
-class eZOeTestSuite extends ezpDatabaseTestSuite
+class eZOeTestSuite extends ezpTestSuite
 {
     public function __construct()
     {

@@ -7,7 +7,7 @@
  * @package tests
  */
 
-class eZOEXMLTextRegression extends ezpDatabaseTestCase
+class eZOEXMLTextRegression extends ezpTestCase
 {
     public function __construct()
     {
@@ -34,9 +34,8 @@ class eZOEXMLTextRegression extends ezpDatabaseTestCase
         $folder = new ezpObject( 'folder', 2 );
         $folder->name = 'Non breaking space Test for Pre tags';
         $folder->short_description = $xmlData;
-        $folder->publish();
 
-        // use handler directly as user does not have access to ezoe
+        // Use handler directly as user does not have access to ezoe (and this is not db test case)
         $oeHandler = new eZOEXMLInput( $folder->short_description->attribute('xml_data'), false,  $folder->short_description );
         $xhtml     = $oeHandler->attribute( 'input_xml' );
 
