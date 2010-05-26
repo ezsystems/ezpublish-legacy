@@ -22,6 +22,7 @@ Changes from 4.4.0alpha1 to 4.4.0alpha2
 - Fixed bug #016830: kernel/setup/systemupgrade.php - typo in php classname
 - Fixed bug #016829: Bug in user/preferences
 - Fixed bug #016828: content/view/full => if node_id is no numeric or < 2 ez should return an error_code
+- Fixed bug #016799: CSS class doesn't show when link is image, not text
 - Fixed bug #016797: eZSimplifiedXMLEditOutput does not unescape &nbsp; like output handler does
 - Fixed bug #016713: eZImageType doesn't use real main node for image path
 - Fixed bug #016542: System upgrade > check db consistency fails at comparing CHARACTER VARYING NULL fields
