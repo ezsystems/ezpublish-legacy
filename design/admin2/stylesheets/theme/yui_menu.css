@@ -399,31 +399,52 @@
     padding-left: 2em;
 }
 
-#ezopt-remove {
+#ezopt-menu-remove {
     background-image: url('../../images/2/icon-cancel-16x16.png');
 }
 
-#ezopt-move {
+#ezopt-menu-move {
     background-image: url('../../images/2/icon-move-16x16.png');
 }
 
-#ezopt-edit {
+#ezopt-menu-edit {
     background-image: url('../../images/2/icon-edit-16x16.png');
 }
 
-#ezopt-preview {
+#ezopt-menu-preview {
     background-image: url('../../images/2/icon-preview-16x16.png');
 }
 
-#ezopt-check {
+#ezopt-menu-check {
     background-image: url('../../images/2/icon-checked-16x16.png');
 }
-#ezopt-uncheck {
+#ezopt-menu-uncheck {
     background-image: url('../../images/2/icon-unchecked-16x16.png');
 }
 
-#ezopt-move, #ezopt-remove, #ezopt-edit, #ezopt-preview, #ezopt-check, #ezopt-uncheck {
+#ezopt-menu-view {
+    background-image: url('../../images/2/icon-open-16x16.png');
+}
+
+#ezopt-menu-copy, #ezopt-menu-copy-subtree {
+    background-image: url('../../images/2/icon-copy-16x16.png');
+}
+
+#ezopt-menu-multiupload {
+    background-image: url('../../images/2/icon-up-16x16.png');
+}
+
+#ezopt-menu-move, 
+#ezopt-menu-remove, 
+#ezopt-menu-edit, 
+#ezopt-menu-preview, 
+#ezopt-menu-check, 
+#ezopt-menu-uncheck,
+#ezopt-menu-view,
+#ezopt-menu-copy,
+#ezopt-menu-copy-subtree,
+#ezopt-menu-multiupload {
     background-repeat: no-repeat;
     background-position: 5% 50%;
-    padding-left: 0.5em;
+    padding-left: 1em;
 }

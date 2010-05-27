@@ -2,15 +2,18 @@
 var dataSourceURL = "{concat('ezjscore/call/ezjscnode::subtree::', $node.node_id)|ezurl('no')}";
 var rowsPerPage = {$number_of_items};
 var sortOrder = {$node.sort_order};
+var currentURL = "{$node.url|wash( javascript )}";
+var previewURL = {"/content/versionview/%objectID%/%version%"|ezurl};
+var editURL = {"/content/edit/%objectID%"|ezurl};
 
 {switch match=$node.sort_field}
-{case match='2'} var sortKey="published_date"; {/case}
-{case match='3'} var sortKey="modified_date"; {/case}
-{case match='4'} var sortKey="section"; {/case}
-{case match='7'} var sortKey="class_name"; {/case}
-{case match='8'} var sortKey="priority"; {/case}
-{case match='9'} var sortKey="name"; {/case}
-{case} var sortKey="published_date"; {/case}
+{case match='2'}var sortKey="published_date";{/case}
+{case match='3'}var sortKey="modified_date";{/case}
+{case match='4'}var sortKey="section";{/case}
+{case match='7'}var sortKey="class_name";{/case}
+{case match='8'}var sortKey="priority";{/case}
+{case match='9'}var sortKey="name";{/case}
+{case} var sortKey="published_date";{/case}
 {/switch}
     
 var hiddenColumns = "{ezpreference( 'admin_hidden_columns' )}".split(',');
@@ -62,8 +65,8 @@ var labelsObj = {ldelim}
 
     CONTEXT_MENU: {ldelim}
 
-                        edit: "{'Edit'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
-                        preview: "{'Preview'|i18n( 'design/admin/node/view/full' )|wash('javascript')}"
+                        preview: "{'Preview'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        edit: "{'Edit'|i18n( 'design/admin/node/view/full' )|wash('javascript')}"
 
                     {rdelim},
 
@@ -139,7 +142,7 @@ var labelsObj = {ldelim}
             var record = this.getRecord(), dataTable = this.getDataTable(), sortedBy = dataTable.get('sortedBy'), paginator = dataTable.get('paginator');
             
             var onSuccess = function(data) {
-                if ( sortedBy.key == 'priority' ) {
+                if (sortedBy.key == 'priority') {
                     dataTable.onPaginatorChangeRequest(paginator.getState({'page':paginator.getCurrentPage()}));
                 }
             }
@@ -164,10 +167,10 @@ var labelsObj = {ldelim}
         ];
 
         // Hide columns
-        for ( var i = 0, l = columnDefs.length; i < l; i++ ) {
+        for (var i = 0, l = columnDefs.length; i < l; i++) {
             var columnDef = columnDefs[i];
             
-            if ( ( jQuery.inArray( columnDef.key, hiddenColumns ) != -1 ) && columnDef.key != '' )
+            if ((jQuery.inArray(columnDef.key, hiddenColumns) != -1) && columnDef.key != '')
                 columnDef.hidden = true;
         }
 
@@ -259,7 +262,7 @@ var labelsObj = {ldelim}
         // Cell editing
         var highlightEditableCell = function(oArgs) {
             var elCell = oArgs.target;
-            if(YAHOO.util.Dom.hasClass(elCell, "yui-dt-editable")) {
+            if (YAHOO.util.Dom.hasClass(elCell, "yui-dt-editable")) {
                 this.highlightCell(elCell);
             }
         };
@@ -281,14 +284,14 @@ var labelsObj = {ldelim}
         var showTblOptsDialog = function(e) {
             YAHOO.util.Event.stopEvent(e);
 
-            if(colLayoutHasChanged) {
+            if (colLayoutHasChanged) {
                 // Populate Dialog
                 var colOptionsHTML = '<fieldset>';
                 colOptionsHTML += '<legend>' + labelsObj.TABLE_OPTIONS.header_noipp + '</legend><div class="block">';
 
                 var rowsPerPageDef = [ {id:1, count:10}, {id:2, count:25}, {id:3, count:50} ];
 
-                for ( var i = 0, l = rowsPerPageDef.length; i < l ; i++ ) {
+                for (var i = 0, l = rowsPerPageDef.length; i < l ; i++) {
                     var rowDef = rowsPerPageDef[i];
                     colOptionsHTML += '<div class="table-options-row"><span class="table-options-key">'+ rowDef.count + '</span>';
                     colOptionsHTML += '<span class="table-options-value"><input id="table-option-row-btn-' + rowDef.id + '" type="radio" name="TableOptionValue" value="' + rowDef.count + '"' + ( rowsPerPage == rowDef.count ? ' checked="checked"' : '' ) + ' /></span></div>';
@@ -306,18 +309,18 @@ var labelsObj = {ldelim}
                 colOptionsHTML += '<legend>' + labelsObj.TABLE_OPTIONS.header_vtc + '</legend><div class="block">';
 
                 // Create one section in the SimpleDialog for each column
-                for ( var i = 0, l = columns.length; i < l; i++ ) {
+                for (var i = 0, l = columns.length; i < l; i++) {
                     var column = columns[i], label = column.getDefinition().label, key = column.getDefinition().key;
 
                     // Skip empty columns
-                    if ( !label || !key )
+                    if (!label || !key)
                         continue;
 
                     colOptionsHTML += '<div class="table-options-row"><span class="table-options-key">'+ label + '</span>';
                     colOptionsHTML += '<span class="table-options-value"><input id="table-option-col-btn-' + i + '" type="checkbox" name="TableOptionColumn" value="' + key + '"' + ( jQuery.inArray( key, hiddenColumns ) < 0 ? ' checked="checked"' : ''  ) + ' /></span></div>';
 
                     YAHOO.util.Event.on("table-option-col-btn-" + i, "click", function(e, a) {
-                        if(this.checked) {
+                        if (this.checked) {
                             subItemsTable.showColumn(a);
                         }
                         else {
@@ -325,7 +328,7 @@ var labelsObj = {ldelim}
                         }
                         var hiddenKeys = [];
                         $('#to-dialog-container input[name=TableOptionColumn]').each(function(i, e) {
-                            if ( $(this).attr('checked') == false )
+                            if ($(this).attr('checked') == false)
                                 hiddenKeys.push( $(this).attr('value') );
                         });
                        
@@ -345,6 +348,7 @@ var labelsObj = {ldelim}
             this.hide();
         };
 
+        
         // SimpleDialog for Table options
         
         var tblOptsDialog = new YAHOO.widget.SimpleDialog("to-dialog-container", { width: "25em",
@@ -372,8 +376,8 @@ var labelsObj = {ldelim}
         }
 
         var selectItemsBtnActions = [
-            { text: labelsObj.ACTION_BUTTONS.select_sav, id: "ezopt-check", value: 1, onclick: { fn: selectItemsBtnAction } },
-            { text: labelsObj.ACTION_BUTTONS.select_sn, id: "ezopt-uncheck", value: 0, onclick: { fn: selectItemsBtnAction } }
+            { text: labelsObj.ACTION_BUTTONS.select_sav, id: "ezopt-menu-check", value: 1, onclick: { fn: selectItemsBtnAction } },
+            { text: labelsObj.ACTION_BUTTONS.select_sn, id: "ezopt-menu-uncheck", value: 0, onclick: { fn: selectItemsBtnAction } }
         ];
 
         var selectItemsBtn = new YAHOO.widget.Button({ type: "menu",
@@ -396,16 +400,16 @@ var labelsObj = {ldelim}
                                                      container:"action-controls" });
 
         var createNewBtnMenu  = createNewBtn.getMenu();
-        createNewBtnMenu.cfg.setProperty("scrollincrement", 10);
+        createNewBtnMenu.cfg.setProperty("scrollincrement", 5);
         createNewBtnMenu.subscribe("click", createNewBtnAction);
         
-        for( var i = 0, l = createNewBthGroups.length; i < l; i++ ) {
+        for (var i = 0, l = createNewBthGroups.length; i < l; i++) {
             var groupName = createNewBthGroups[i];
             createNewBtnMenu.setItemGroupTitle(groupName, i);
         }
 
         var moreActBtnAction = function( type, args, item ) {
-            if ( $('form[name=children] input[name=DeleteIDArray[]]:checked').length == 0 )
+            if ($('form[name=children] input[name=DeleteIDArray[]]:checked').length == 0)
                 return;
 
             if (item.value == 0) {
@@ -416,8 +420,8 @@ var labelsObj = {ldelim}
         }
 
         var moreActBtnActions = [
-            { text: labelsObj.ACTION_BUTTONS.more_actions_rs, id: "ezopt-remove", value: 0, onclick: { fn: moreActBtnAction } },
-            { text: labelsObj.ACTION_BUTTONS.more_actions_ms, id: "ezopt-move", value: 1, onclick: { fn: moreActBtnAction } }
+            { text: labelsObj.ACTION_BUTTONS.more_actions_rs, id: "ezopt-menu-remove", value: 0, onclick: { fn: moreActBtnAction } },
+            { text: labelsObj.ACTION_BUTTONS.more_actions_ms, id: "ezopt-menu-move", value: 1, onclick: { fn: moreActBtnAction } }
         ];
 
         var moreActBtn = new YAHOO.widget.Button({ type: "menu",
@@ -436,27 +440,12 @@ var labelsObj = {ldelim}
         
         var contextMenuItemAction = function(type, args, dt) {
             var task = args[1];
-            
             if (!task)
                 return;
 
             var row = dt.getTrEl(this.contextEventTarget);
-
             if (!row)
                 return;
-
-            var record = dt.getRecord(row);
-
-            switch(task.index) {
-                case 0: // Edit
-                    var objectId = record.getData('contentobject_id');
-                    $(location).attr( 'href', jQuery.ez.url.replace( 'ezjscore/', 'content/edit/' ) + objectId );
-                    break;
-                case 1: // Preview
-                    var objectId = record.getData('contentobject_id'), version = record.getData('version');
-                    $(location).attr( 'href', jQuery.ez.url.replace( 'ezjscore/', 'content/versionview/' ) + objectId + '/' + version );
-                    break;
-            }
         }
 
         var contextMenuShowAction = function(type, args, dt){ 
@@ -465,6 +454,24 @@ var labelsObj = {ldelim}
 
             // Right alignes the menu within the clicked tr
             //this.cfg.setProperty('context', [row, 'tr', 'br']);
+
+            //  Updates URL-"macros" in menuitems according to the selected node
+            var record = dt.getRecord(row);
+            var nodeId = record.getData('node_id');
+            var objectId = record.getData('contentobject_id');
+            var version = record.getData('version');
+
+            var items = this.getItems();
+            var len=items.length;
+            for (var i=0; i<len; i++) {
+                var item = items[i];
+                var url = item.cfg.getProperty('url');
+                url = url.replace('%nodeID%', nodeId);
+                url = url.replace('%objectID%', objectId);
+                url = url.replace('%currentURL%', currentURL);
+                url = url.replace('%version%', version);
+                item.cfg.setProperty('url', url);
+            }
         }
 
         var contextMenuHideAction = function(type, args, dt) {
@@ -473,8 +480,29 @@ var labelsObj = {ldelim}
         }
 
         var contextMenu = new YAHOO.widget.ContextMenu("ezdt-context-menu", {trigger:subItemsTable.getTbodyEl()});
-        contextMenu.addItem({ text: labelsObj.CONTEXT_MENU.edit, id:"ezopt-edit",});
-        contextMenu.addItem({ text: labelsObj.CONTEXT_MENU.preview, id:"ezopt-preview",});
+        contextMenu.cfg.setProperty("scrollincrement", 5);
+        contextMenu.addItem({ text: labelsObj.CONTEXT_MENU.edit, id: "ezopt-menu-edit", url: editURL});
+        contextMenu.addItem({ text: labelsObj.CONTEXT_MENU.preview, id: "ezopt-menu-preview", url: previewURL});
+
+        var whiteList = ['advanced', 'contextmenu'];        // Accepted menus (note: using keys, since not all menus have headerID)
+
+        $(menuArray).each(function() {                                      // Loop array returned from jquery
+            var group = 0;
+            $.each(this, function(key, value) {                             // Loop menuArray
+                var k = jQuery.trim(key).toLowerCase();
+                if (jQuery.inArray(k, whiteList) != -1) {                   // Validate menu against whiteList
+                    if (this.elements && this.elements.length != 0) {       // check for valid menu items
+                        $.each( this.elements, function(key, value) {       // Loop menu element per group
+                            if ($('#' + key).text() && value.url) {         // Check if element has html-markup'ed text
+                                contextMenu.addItem({ text: $('#' + key).text(), id:"ezopt-" + key, url: value.url }, group);
+                            }
+                        });
+                    }
+                    //contextMenu.setItemGroupTitle(k, group); 
+                    group += 1;
+                }
+            });
+        });
 
         // Render the ContextMenu instance to the parent container of the DataTable
         contextMenu.render('content-sub-items-list');
