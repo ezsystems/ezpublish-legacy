@@ -254,7 +254,11 @@ class eZXMLInputParser
         $this->performPass1( $text );
 
         //$this->Document->formatOutput = true;
-        eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $this->Document->saveXML(), 'XML after pass 1' );
+        $debug = eZDebugSetting::isConditionTrue( 'kernel-datatype-ezxmltext', eZDebug::LEVEL_DEBUG );
+        if ( $debug )
+        {
+            eZDebug::writeDebug( $this->Document->saveXML(), eZDebugSetting::changeLabel( 'kernel-datatype-ezxmltext', 'XML after pass 1' ) );
+        }
 
         if ( $this->QuitProcess )
         {
@@ -265,7 +269,10 @@ class eZXMLInputParser
         $this->performPass2();
 
         //$this->Document->formatOutput = true;
-        eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $this->Document->saveXML(), 'XML after pass 2' );
+        if ( $debug )
+        {
+            eZDebug::writeDebug( $this->Document->saveXML(), eZDebugSetting::changeLabel( 'kernel-datatype-ezxmltext', 'XML after pass 2' ) );
+        }
 
         if ( $this->QuitProcess )
         {
@@ -821,6 +828,8 @@ class eZXMLInputParser
         // Call "Init handler"
         $this->callOutputHandler( 'initHandler', $element, $tmp );
 
+        $debug = eZDebugSetting::isConditionTrue( 'kernel-datatype-ezxmltext', eZDebug::LEVEL_DEBUG );
+
         // Process children
         if ( $element->hasChildNodes() )
         {
@@ -839,13 +848,21 @@ class eZXMLInputParser
             $newElements = array();
             foreach ( $children as $child )
             {
-                eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', 'processing children, current child: ' . $child->nodeName );
+                if ( $debug )
+                {
+                    eZDebug::writeDebug( 'processing children, current child: ' . $child->nodeName, eZDebugSetting::changeLabel( 'kernel-datatype-ezxmltext', __METHOD__ ) );
+                }
+
                 $childReturn = $this->processSubtree( $child, $lastResult );
 
                 unset( $lastResult );
                 if ( isset( $childReturn['result'] ) )
                 {
-                    eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', 'return result is set for child ' . $child->nodeName );
+                    if ( $debug )
+                    {
+                        eZDebug::writeDebug( 'return result is set for child ' . $child->nodeName, eZDebugSetting::changeLabel( 'kernel-datatype-ezxmltext', __METHOD__ ) );
+                    }
+
                     $lastResult = $childReturn['result'];
                 }
 
@@ -860,35 +877,81 @@ class eZXMLInputParser
                 }
             }
 
-            eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $this->Document->saveXML(), 'XML before processNewElements for element ' . $element->nodeName );
+            if ( $debug )
+            {
+                eZDebug::writeDebug( $this->Document->saveXML(),
+                                     eZDebugSetting::changeLabel( 'kernel-datatype-ezxmltext',
+                                                                  'XML before processNewElements for element ' . $element->nodeName ) );
+            }
+
             // process elements created in children handlers
             $this->processNewElements( $newElements );
-            eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $this->Document->saveXML(), 'XML after processNewElements for element ' . $element->nodeName );
+
+            if ( $debug )
+            {
+                eZDebug::writeDebug( $this->Document->saveXML(),
+                                     eZDebugSetting::changeLabel( 'kernel-datatype-ezxmltext',
+                                                                  'XML after processNewElements for element ' . $element->nodeName ) );
+            }
         }
 
         // Call "Structure handler"
-        eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $this->Document->saveXML(), 'XML before callOutputHandler structHandler for element ' . $element->nodeName );
+        if ( $debug )
+        {
+            eZDebug::writeDebug( $this->Document->saveXML(),
+                                 eZDebugSetting::changeLabel( 'kernel-datatype-ezxmltext',
+                                                              'XML before callOutputHandler structHandler for element ' . $element->nodeName ) );
+        }
+
         $ret = $this->callOutputHandler( 'structHandler', $element, $lastHandlerResult );
-        eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $this->Document->saveXML(), 'XML after callOutputHandler structHandler for element ' . $element->nodeName );
-        eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $ret, 'return value of callOutputHandler structHandler for element ' . $element->nodeName );
+
+        if ( $debug )
+        {
+            eZDebug::writeDebug( $this->Document->saveXML(),
+                                 eZDebugSetting::changeLabel( 'kernel-datatype-ezxmltext',
+                                                              'XML after callOutputHandler structHandler for element ' . $element->nodeName ) );
+            eZDebug::writeDebug( $ret,
+                                 eZDebugSetting::changeLabel( 'kernel-datatype-ezxmltext',
+                                                              'return value of callOutputHandler structHandler for element ' . $element->nodeName ) );
+        }
 
         // Process by schema (check if element is allowed to exist)
         if ( !$this->processBySchemaPresence( $element ) )
         {
-            eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $this->Document->saveXML(), 'XML after processBySchemaPresence for element ' . $element->nodeName );
+            if ( $debug )
+            {
+                eZDebug::writeDebug( $this->Document->saveXML(),
+                                     eZDebugSetting::changeLabel( 'kernel-datatype-ezxmltext',
+                                                                  'XML after failed processBySchemaPresence for element ' . $element->nodeName ) );
+            }
             return $ret;
         }
 
-        eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $this->Document->saveXML(), 'XML after processBySchemaPresence for element ' . $element->nodeName );
+        if ( $debug )
+        {
+            eZDebug::writeDebug( $this->Document->saveXML(),
+                                 eZDebugSetting::changeLabel( 'kernel-datatype-ezxmltext',
+                                                              'XML after processBySchemaPresence for element ' . $element->nodeName ) );
+        }
 
         // Process by schema (check place in the tree)
         if ( !$this->processBySchemaTree( $element ) )
         {
-            eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $this->Document->saveXML(), 'XML after processBySchemaTree for element ' . $element->nodeName );
+            if ( $debug )
+            {
+                eZDebug::writeDebug( $this->Document->saveXML(),
+                                     eZDebugSetting::changeLabel( 'kernel-datatype-ezxmltext',
+                                                                  'XML after failed processBySchemaTree for element ' . $element->nodeName ) );
+            }
             return $ret;
         }
 
-        eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $this->Document->saveXML(), 'XML after processBySchemaTree for element ' . $element->nodeName );
+        if ( $debug )
+        {
+            eZDebug::writeDebug( $this->Document->saveXML(),
+                                 eZDebugSetting::changeLabel( 'kernel-datatype-ezxmltext',
+                                                              'XML after processBySchemaTree for element ' . $element->nodeName ) );
+        }
 
 
         $tmp = null;
@@ -1148,18 +1211,33 @@ class eZXMLInputParser
 
     function processNewElements( $createdElements )
     {
+        $debug = eZDebugSetting::isConditionTrue( 'kernel-datatype-ezxmltext', eZDebug::LEVEL_DEBUG );
         // Call handlers for newly created elements
         foreach ( $createdElements as $element )
         {
-            eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', 'processing new element ' . $element->nodeName );
-            $tmp = null;
+            if ( $debug )
+            {
+                eZDebug::writeDebug( 'processing new element ' . $element->nodeName, eZDebugSetting::changeLabel( 'kernel-datatype-ezxmltext' ) );
+            }
 
+            $tmp = null;
             if ( !$this->processBySchemaPresence( $element ) )
             {
-                eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $this->Document->saveXML(), 'xml string after processBySchemaPresence for new element ' . $element->nodeName );
+                if ( $debug )
+                {
+                    eZDebug::writeDebug( $this->Document->saveXML(),
+                                         eZDebugSetting::changeLabel( 'kernel-datatype-ezxmltext',
+                                                                      'xml string after failed processBySchemaPresence for new element ' . $element->nodeName ) );
+                }
                 continue;
             }
-            eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $this->Document->saveXML(), 'xml string after processBySchemaPresence for new element ' . $element->nodeName );
+
+            if ( $debug )
+            {
+                eZDebug::writeDebug( $this->Document->saveXML(),
+                                     eZDebugSetting::changeLabel( 'kernel-datatype-ezxmltext',
+                                                                  'xml string after processBySchemaPresence for new element ' . $element->nodeName ) );
+            }
 
 
             // Call "Structure handler"
@@ -1167,16 +1245,33 @@ class eZXMLInputParser
 
             if ( !$this->processBySchemaTree( $element ) )
             {
-                eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $this->Document->saveXML(), 'xml string after processBySchemaTree for new element ' . $element->nodeName );
+                if ( $debug )
+                {
+                    eZDebug::writeDebug( $this->Document->saveXML(),
+                                         eZDebugSetting::changeLabel( 'kernel-datatype-ezxmltext',
+                                                                      'xml string after failed processBySchemaTree for new element ' . $element->nodeName ) );
+                }
                 continue;
             }
-            eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $this->Document->saveXML(), 'xml string after processBySchemaTree for new element ' . $element->nodeName );
+
+            if ( $debug )
+            {
+                eZDebug::writeDebug( $this->Document->saveXML(),
+                                     eZDebugSetting::changeLabel( 'kernel-datatype-ezxmltext',
+                                                                  'xml string after processBySchemaTree for new element ' . $element->nodeName ) );
+            }
 
 
             $tmp2 = null;
             // Call "Publish handler"
             $this->callOutputHandler( 'publishHandler', $element, $tmp2 );
-            eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $this->Document->saveXML(), 'xml string after callOutputHandler publishHandler for new element ' . $element->nodeName );
+
+            if ( $debug )
+            {
+                eZDebug::writeDebug( $this->Document->saveXML(),
+                                     eZDebugSetting::changeLabel( 'kernel-datatype-ezxmltext',
+                                                                  'xml string after callOutputHandler publishHandler for new element ' . $element->nodeName ) );
+            }
 
             // Process attributes according to the schema
             if( $element->hasAttributes() )

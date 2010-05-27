@@ -97,13 +97,16 @@ class eZDebugSetting
         return false;
     }
 
-    /*!
-     \static
-     Creates a new debug label from the original and the condition and returns it.
-    */
-    static function changeLabel( $conditionName, $label )
+    /**
+     * Creates a new debug label from the original and the condition and returns it.
+     *
+     * @param string $conditionName
+     * @param string $label Optional
+     * @return string $label . '<' . $conditionName . '>'
+     */
+    static function changeLabel( $conditionName, $label = '' )
     {
-        if ( $label == "" )
+        if ( $label == '' )
             return '<' . $conditionName . '>';
         else
             return $label . ' <' . $conditionName . '>';

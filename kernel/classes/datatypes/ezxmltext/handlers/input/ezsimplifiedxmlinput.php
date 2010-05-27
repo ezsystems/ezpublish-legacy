@@ -153,7 +153,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
             $editOutput = new eZSimplifiedXMLEditOutput();
             $dom->formatOutput = true;
-            eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $dom->saveXML(), 'eZSimplifiedXMLInput::inputXML xml string stored in database' );
+            if ( eZDebugSetting::isConditionTrue( 'kernel-datatype-ezxmltext', eZDebug::LEVEL_DEBUG ) )
+                eZDebug::writeDebug( $dom->saveXML(), eZDebugSetting::changeLabel( 'kernel-datatype-ezxmltext', __METHOD__ . ' xml string stored in database' ) );
             $output = $editOutput->performOutput( $dom );
         }
         return $output;
