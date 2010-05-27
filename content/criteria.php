@@ -82,6 +82,38 @@ class ezpContentCriteria
     }
 
     /**
+     * Human readable string representation of the criteria, for debugging purpose
+     */
+    public function __toString()
+    {
+        $acceptCriteriaCount = count( $this->accept );
+        $denyCriteriaCount = count( $this->deny );
+
+        $string = "Criteria\n";
+        $string .=  "- $acceptCriteriaCount accept criteria";
+        if ( $acceptCriteriaCount > 0 )
+        {
+            $string .= ":\n";
+            foreach( $this->accept as $acceptCriteria )
+                $string .= "    - {$acceptCriteria}\n";
+        }
+        else
+            $string .= "\n";
+
+        $string .=  "- $denyCriteriaCount deny criteria";
+        if ( $denyCriteriaCount > 0 )
+        {
+            $string .= ":\n";
+            foreach( $this->deny as $denyCriteria )
+                $string .= "    - {$denyCriteria}\n";
+        }
+        else
+            $string .= "\n";
+
+        return $string;
+    }
+
+    /**
      * Accept (positive) criteria list
      * @var ezpContentCriteriaSet
      */

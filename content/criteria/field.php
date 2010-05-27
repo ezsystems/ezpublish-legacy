@@ -13,7 +13,7 @@
  *
  * @package API
  */
-class ezpContentFieldCriteria
+class ezpContentFieldCriteria implements ezpContentCriteriaInterface
 {
     public function __construct( $fieldIdentifier )
     {
@@ -55,5 +55,9 @@ class ezpContentFieldCriteria
     {
 
     }
+
+    public function translate() {}
+
+    public function __toString() {}
 }
 ?>

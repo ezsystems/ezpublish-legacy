@@ -54,6 +54,17 @@ class ezpContentLocation extends ezpLocation
             return null;
     }
 
+    /**
+     * Wrapper for node attributes
+     */
+    public function __get( $property )
+    {
+        if ( $this->node->hasAttribute( $property ) )
+            return $this->node->attribute( $property );
+        else
+            throw new ezcBasePropertyNotFoundException( $property );
+    }
+
     private $node;
 }
 ?>

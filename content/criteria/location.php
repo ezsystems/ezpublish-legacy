@@ -12,7 +12,7 @@
  * This class allows for configuration of a location based criteria
  * @package API
  */
-class ezpContentLocationCriteria
+class ezpContentLocationCriteria implements ezpContentCriteriaInterface
 {
     /**
      * Sets a subtree criteria.
@@ -35,6 +35,12 @@ class ezpContentLocationCriteria
     {
         return array( 'type' => 'location', 'value' => $this->subtree->getNodeId() );
     }
+
+    public function __toString()
+    {
+        return "part of subtree " . $this->subtree->getNodeId();
+    }
+
     /**
      * @var ezpContentLocation
      */
