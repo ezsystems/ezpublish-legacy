@@ -449,7 +449,10 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             {
                 if( $childOutput[1] === ' ' )
                 {
-                    continue;
+                    if ( isset( $childrenOutput[ $key + 1 ] ) )
+                        continue;
+                    else if ( isset( $childrenOutput[ $key - 1 ] ) && $childrenOutput[ $key - 1 ][0] === false )
+                        continue;
                 }
 
                 $inlineContent .= $childOutput[1];
@@ -539,6 +542,12 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             elseif ( $childOutput[0] === true && !isset( $childrenOutput[ $key + 1 ] ) )
             {
                 $next = $element->nextSibling;
+                // Make sure we get next element that is an element (ignoring whitespace)
+                while ( $next && !$next instanceof DOMElement )
+                {
+                   $next = $next->nextSibling;
+                }
+
                 if ( $next && $next->nodeName == 'line' )
                 {
                     $tagText = $this->renderTag( $element, $inlineContent, $vars );
