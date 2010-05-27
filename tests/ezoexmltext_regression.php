@@ -15,12 +15,6 @@ class eZOEXMLTextRegression extends ezpTestCase
         $this->setName( "eZXMLText Datatype OE Regression Tests" );
     }
 
-    public function setUp()
-    {
-        parent::setUp();
-        $this->language = eZContentLanguage::addLanguage( "nor-NO", "Norsk" );
-    }
-
     /**
      * Test for issue #16605: Online Editor adds a lot of Non Breaking spaces (nbsp)
      * 
