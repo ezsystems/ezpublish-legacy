@@ -17,14 +17,33 @@
  * - content metadata (publishing date, owner, etc)
  * - content locations
  *
- * Example:
+ * Example 1, with a one language object:
  * <code>
- * $article = ezpContent::create( "article" );
- * $article->fields->title = 'My article has a title';
- * $article->fields->body = 'My article also has a body';
- * $article->locations[] = $locationObject;
+ * $article = ezpContent::create( 'article' );
+ * $article->fields->title = 'foo';
+ * $article->fields->name = 'bar';
+ * </code>
  *
- * // publish using service object
+ * Example 2, with a multilingual object:
+ * <code>
+ * $article = ezpContent::create( 'article' );
+ * $article->fields['eng-GB']->title = 'foo';
+ * $article->fields['eng-GB']->name = 'bar';
+ * $article->fields['fre-FR']->title = 'foo';
+ * $article->fields['fre-FR']->name = 'bar';
+ * </code>
+ *
+ * Example 3, with a multilingual object but an alternative syntax
+ * <code>
+ * $article = ezpContent::create( 'article' );
+ *
+ * $article->setActiveLanguage( 'eng-GB' );
+ * $article->fields->title = 'foo';
+ * $article->fields->name = 'bar';
+ *
+ * $article->active_language = 'fre-FR';
+ * $article->fields->title = 'foo';
+ * $article->fields->name = 'bar';
  * </code>
  * @package API
  */
@@ -48,10 +67,6 @@ class ezpContent
     public static function fromNode( eZContentObjectTreeNode $node )
     {
         $content = new ezpContent();
-
-        // from a node, we need:
-        // - fields (data_map) - DONE
-        // - locations (nodes, including alternative ones)
         $content->fields = ezpContentFieldSet::fromContentObject( $node->object() );
 
         return $content;

@@ -20,6 +20,11 @@ class ezpContentField
 
     }
 
+    /**
+     * Initializes an ezpContentField using an eZContentObjectAttribute
+     * @param eZContentObjectAttribute $attribute
+     * @return ezpContentField
+     */
     public static function fromContentObjectAttribute( eZContentObjectAttribute $attribute )
     {
         $field = new self;

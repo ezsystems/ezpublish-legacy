@@ -10,36 +10,7 @@
 
 /**
  * Allows for reading/writing of content fields (attributes) through an array like interface. This class is aimed at
- * being used through an ezpContent object, and the following examples will therefore use it.
- *
- * Example 1, with a one language object:
- * <code>
- * $article = ezpContent::create( 'article' );
- * $article->fields->title = 'foo';
- * $article->fields->name = 'bar';
- * </code>
- *
- * Example 2, with a multilingual object:
- * <code>
- * $article = ezpContent::create( 'article' );
- * $article->fields['eng-GB']->title = 'foo';
- * $article->fields['eng-GB']->name = 'bar';
- * $article->fields['fre-FR']->title = 'foo';
- * $article->fields['fre-FR']->name = 'bar';
- * </code>
- *
- * Example 3, with a multilingual object but an alternative syntax
- * <code>
- * $article = ezpContent::create( 'article' );
- *
- * $article->setActiveLanguage( 'eng-GB' );
- * $article->fields->title = 'foo';
- * $article->fields->name = 'bar';
- *
- * $article->active_language = 'fre-FR';
- * $article->fields->title = 'foo';
- * $article->fields->name = 'bar';
- * </code>
+ * being used through an ezpContent object, and usage examples can be found there.
  *
  * @package API
  */
