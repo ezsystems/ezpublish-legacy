@@ -300,8 +300,13 @@
     text-decoration: none;
 }
 
-.yuimenuitemlabel-disabled,.yuimenuitemlabel-disabled:visited
-    {
+a.yuimenuitemlabel-disabled{
+    cursor: default;
+    color: #A6A6A6;
+    text-decoration: none;
+}
+
+.yuimenuitemlabel-disabled,.yuimenuitemlabel-disabled:visited {
     cursor: default;
     color: #A6A6A6;
 }

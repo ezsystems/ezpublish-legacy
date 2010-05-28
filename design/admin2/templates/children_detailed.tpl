@@ -55,6 +55,7 @@ var labelsObj = {ldelim}
                         more_actions: "{'More actions'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
                         more_actions_rs: "{'Remove selected'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
                         more_actions_ms: "{'Move selected'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        more_actions_no: "{'Use the checkboxes to select one or more items.'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
                         table_options: "{'Table options'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
                         first_page: "&laquo;&nbsp;{'first'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
                         previous_page: "&lsaquo;&nbsp;{'prev'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
@@ -420,17 +421,34 @@ var labelsObj = {ldelim}
         }
 
         var moreActBtnActions = [
-            { text: labelsObj.ACTION_BUTTONS.more_actions_rs, id: "ezopt-menu-remove", value: 0, onclick: { fn: moreActBtnAction } },
-            { text: labelsObj.ACTION_BUTTONS.more_actions_ms, id: "ezopt-menu-move", value: 1, onclick: { fn: moreActBtnAction } }
+            { text: labelsObj.ACTION_BUTTONS.more_actions_rs, id: "ezopt-menu-remove", value: 0, onclick: { fn: moreActBtnAction }, disabled: false },
+            { text: labelsObj.ACTION_BUTTONS.more_actions_ms, id: "ezopt-menu-move", value: 1, onclick: { fn: moreActBtnAction }, disabled: false }
+        ];
+
+        var noMoreActBtnActions = [
+            { text: labelsObj.ACTION_BUTTONS.more_actions_no, disabled: true }
         ];
 
         var moreActBtn = new YAHOO.widget.Button({ type: "menu",
                                                    id: "ezbtn-more",
                                                    label: labelsObj.ACTION_BUTTONS.more_actions,
                                                    name: "more-actions-button",
-                                                   menu: moreActBtnActions,
+                                                   menu: noMoreActBtnActions,
                                                    container:"action-controls" });
-
+        
+        //  enable menuitems when rows are checked
+        moreActBtn.getMenu().subscribe("beforeShow", function () {
+            if ($('form[name=children] input[name=DeleteIDArray[]]:checked').length == 0) {
+                this.clearContent();
+                this.addItems(noMoreActBtnActions);
+                this.render();
+            } else {
+                this.clearContent();
+                this.addItems(moreActBtnActions);
+                this.render();
+            }
+        });
+        
         var tableOptionsBtn = new YAHOO.widget.Button({ label: labelsObj.ACTION_BUTTONS.table_options,
                                                         id:"ezbtn-options",
                                                         container:"action-controls",
