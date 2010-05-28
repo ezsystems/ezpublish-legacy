@@ -32,7 +32,7 @@
  * <code>
  * $article = ezpContent::create( 'article' );
  *
- * $article->active_language = 'eng-GB';
+ * $article->setActiveLanguage( 'eng-GB' );
  * $article->fields->title = 'foo';
  * $article->fields->name = 'bar';
  *
@@ -175,6 +175,15 @@ class ezpContentFieldSet implements ArrayAccess
     public function __isset( $name )
     {
         return isset( $this->contentObjectAttributes[$name] );
+    }
+
+    /**
+     * Sets the currently active language when reading attribute(/object/node) properties
+     * @param string $language Language locale (xxx-XX)
+     * @return void
+     */
+    public function setActiveLanguage( $language )
+    {
     }
 
     /**
