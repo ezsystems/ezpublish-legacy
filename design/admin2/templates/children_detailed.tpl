@@ -504,8 +504,16 @@ var labelsObj = {ldelim}
             });
         });
 
+        //  hide the focus outline for MenuItem instances
+        contextMenu.subscribe("render", function () {
+            $.each(this.getItems(), function() {
+                this.element.firstChild.hideFocus = true;
+                });
+        });
+
         // Render the ContextMenu instance to the parent container of the DataTable
         contextMenu.render('content-sub-items-list');
+        
         contextMenu.clickEvent.subscribe(contextMenuItemAction, subItemsTable);
         contextMenu.subscribe('beforeShow', contextMenuShowAction, subItemsTable);
         contextMenu.subscribe('hide', contextMenuHideAction, subItemsTable);

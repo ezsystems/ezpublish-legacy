@@ -50,6 +50,7 @@
 
 .yuimenubaritemlabel,.yuimenuitemlabel {
     display: block;
+    outline: none;
 }
 
 .yuimenuitemlabel .helptext {
