@@ -81,7 +81,7 @@ class ezpContentFieldSet implements ArrayAccess
         foreach( $dataMap as $attribute )
         {
             $identifier = $attribute->attribute( 'contentclass_attribute_identifier' );
-            $set->contentObjectAttributes[$identifier] = $attribute;
+            $set->fields[$identifier] = ezpContentField::fromContentObjectAttribute( $attribute );
         }
         return $set;
     }
@@ -117,10 +117,10 @@ class ezpContentFieldSet implements ArrayAccess
     public function offsetGet( $offset )
     {
         // This needs to check if this language can be instanciated (e.g. is active on the installation)
-        if ( isset( $this->childrenFieldSets[$offset] ) )
-        {
-            return $this->childrenFieldSets[$offset];
-        }
+        if ( !isset( $this->childrenFieldSets[$offset] ) )
+            throw new Exception( "Language $offset could not be found on this ezpContent" );
+
+        return $this->childrenFieldSets[$offset];
     }
 
     /**
@@ -155,11 +155,20 @@ class ezpContentFieldSet implements ArrayAccess
      */
     public function __get( $name )
     {
-        // Check if the attribute is a valid one
-        if ( isset( $this->contentObjectAttributes[$name] ) )
+        // Request on a level 2 ezpFieldSet, that holds fields (attributes)
+        if ( isset( $this->fields[$name] ) )
         {
-            // needs to return something more sensitive, probably the state object for the attribute's content
-            return $this->contentObjectAttributes[$name]->toString();
+            return $this->fields[$name];
+        }
+        // direct request on a level 1 ezpFieldSet, that holds sub ezpFieldSet, but has a default language
+        else
+        {
+            if ( $this->activeLanguage === null )
+                throw new Exception( "You need to set an active language in order to query fields directly" );
+            else
+            {
+                return $this[$this->activeLanguage]->$name;
+            }
         }
     }
 
@@ -184,34 +193,26 @@ class ezpContentFieldSet implements ArrayAccess
      */
     public function setActiveLanguage( $language )
     {
-    }
-
-    /**
-     * Sets the currently active language when reading attribute(/object/node) properties
-     * @param string $language Language locale (xxx-XX)
-     * @return void
-     */
-    public function setActiveLanguage( $language )
-    {
+        $this->activeLanguage = $language;
     }
 
     /**
      * Reference to the parent field set
      * @var ezpContentFieldSet
      */
-    private $parentFieldSet;
+    protected $parentFieldSet;
 
     /**
      * Reference to the known children field sets
      * @var array( ezpContentFieldSet )
      */
-    private $childrenFieldSets;
+    protected $childrenFieldSets;
 
     /**
      * Fields set content object attributes
      * array( identifier => eZContentObjectAttribute )
      */
-    private $contentObjectAttributes;
+    protected $fields;
 
     /**
      * Currently active language, as a locale

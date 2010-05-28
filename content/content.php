@@ -58,6 +58,24 @@ class ezpContent
     }
 
     /**
+     * Instanciates an ezpContent from an eZContentObjectTreenode Id
+     * @param int $nodeId
+     * @return ezpContent
+     */
+    public static function fromNodeId( $nodeId )
+    {
+        $node = eZContentObjectTreeNode::fetch( 2 );
+        if ( $node instanceof eZContentObjectTreeNode )
+        {
+            return self::fromNode( $node );
+        }
+        else
+        {
+            throw new ezcBaseExtension( "Unable to find node with ID $nodeId" );
+        }
+    }
+
+    /**
      * Sets the currently active language for attributes handling
      * @param string $activeLanguage Locale, as xxx-XX
      * @return void

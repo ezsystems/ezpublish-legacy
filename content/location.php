@@ -9,8 +9,14 @@
  */
 
 /**
- * This class is used to manipulate a specific content location
+ * This class is used to manipulate a specific content location.
+ * It currently acts among others as a wrapper around eZContentObjectTreeNode, and therefore exposes
+ * some of
+ *
  * @package API
+ *
+ * @property node_id eZContentObjectTreeNode
+ * @property node_id eZContentObjectTreeNode
  */
 class ezpContentLocation extends ezpLocation
 {
@@ -46,25 +52,19 @@ class ezpContentLocation extends ezpLocation
         return $location;
     }
 
-    public function getNodeId()
-    {
-        if ( $this->node !== null )
-            return $this->node->attribute( 'node_id' );
-        else
-            return null;
-    }
-
     /**
      * Wrapper for node attributes
      */
     public function __get( $property )
     {
-        if ( $this->node->hasAttribute( $property ) )
+        if ( in_array( $property, self::$validNodeAttributes ) && $this->node->hasAttribute( $property ) )
             return $this->node->attribute( $property );
         else
             throw new ezcBasePropertyNotFoundException( $property );
     }
 
-    private $node;
+    protected $node;
+
+    protected static $validNodeAttributes = array( 'node_id', 'path_string', 'name' );
 }
 ?>
