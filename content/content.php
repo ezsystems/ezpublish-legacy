@@ -58,6 +58,16 @@ class ezpContent
     }
 
     /**
+     * Sets the currently active language for attributes handling
+     * @param string $activeLanguage Locale, as xxx-XX
+     * @return void
+     */
+    public function setActiveLanguage( $language )
+    {
+        $this->fields->setActiveLanguage( $language );
+    }
+
+    /**
      * Content (object) attributes
      * @var ezpContentFieldSet
      */
