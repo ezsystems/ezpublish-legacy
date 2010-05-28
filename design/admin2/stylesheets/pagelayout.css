@@ -136,7 +136,7 @@ ul.tabs li a, ul.tabs li span.disabled
     min-width: 80px;
 }
 
-#header-topmenu ul li.selected a, #header-topmenu ul li a:hover,
+#header-topmenu ul li.selected a, #header-topmenu ul li a:hover, #header-topmenu ul li.active a,
 ul.tabs li.selected a, ul.tabs li a:hover
 {
     margin-top: 0;

@@ -5,3 +5,15 @@
     {/foreach}
     </ul>
 </div>
+<script type="text/javascript" defer="defer">
+<!--
+
+{literal}
+jQuery( '#header-topmenu ul li' ).click(function()
+{
+    jQuery(this).addClass('active');
+});
+{/literal}
+
+// -->
+</script>
