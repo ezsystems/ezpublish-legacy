@@ -1,6 +1,6 @@
-{* Preview window *}
-{if $preview_enabled}
-<div id="node-tab-preview-content" class="tab-content{if $node_tab_index|ne('preview')} hide{else} selected{/if}">
+{* (Pre)view window *}
+{if $view_enabled}
+<div id="node-tab-view-content" class="tab-content{if $node_tab_index|ne('view')} hide{else} selected{/if}">
     {include uri='design:preview.tpl'}
 <div class="break"></div>
 </div>

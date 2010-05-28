@@ -3,7 +3,7 @@
 <!--
 menuArray['ContextMenu'] = {ldelim} 'depth': 0, 'headerID': 'menu-header' {rdelim};
 menuArray['ContextMenu']['elements'] = {ldelim}{rdelim};
-menuArray['ContextMenu']['elements']['menu-view'] = {ldelim} 'url': {"/content/view/full/%nodeID%"|ezurl} {rdelim};
+//menuArray['ContextMenu']['elements']['menu-view'] = {ldelim} 'url': {"/content/view/full/%nodeID%"|ezurl} {rdelim};
 menuArray['ContextMenu']['elements']['menu-edit'] = {ldelim} 'url': {"/content/edit/%objectID%"|ezurl} {rdelim};
 menuArray['ContextMenu']['elements']['menu-copy'] = {ldelim} 'url': {"/content/copy/%objectID%"|ezurl} {rdelim};
 menuArray['ContextMenu']['elements']['menu-copy-subtree']= {ldelim} 'url': {"/content/copysubtree/%nodeID%"|ezurl} {rdelim};
@@ -16,7 +16,7 @@ menuArray['ContextMenu']['elements']['menu-create-here']= {ldelim} 'disabled_cla
     <div class="popupmenuheader"><h3 id="menu-header">XXX</h3>
         <div class="break"></div>
     </div>
-    <a id="menu-view" href="#" onmouseover="ezpopmenu_mouseOver( 'ContextMenu' )">{"View"|i18n("design/admin/popupmenu")}</a>
+    <!-- a id="menu-view" href="#" onmouseover="ezpopmenu_mouseOver( 'ContextMenu' )">{"View"|i18n("design/admin/popupmenu")}</a -->
 {if $multilingual_site}
     <a id="menu-edit-in" class="more" href="#" onmouseover="ezpopmenu_showSubLevel( event, 'EditSubmenu', 'menu-edit-in' ); return false;">{'Edit in'|i18n( 'design/admin/popupmenu' )}</a>
 {else}

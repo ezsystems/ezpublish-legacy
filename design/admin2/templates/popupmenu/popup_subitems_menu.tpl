@@ -3,7 +3,7 @@
 <!--
 menuArray['SubitemsContextMenu'] = {ldelim} 'depth': 0, 'headerID': 'child-menu-header' {rdelim};
 menuArray['SubitemsContextMenu']['elements'] = {ldelim}{rdelim};
-menuArray['SubitemsContextMenu']['elements']['child-menu-view'] = {ldelim} 'url': {"/content/view/full/%nodeID%"|ezurl} {rdelim};
+//menuArray['SubitemsContextMenu']['elements']['child-menu-view'] = {ldelim} 'url': {"/content/view/full/%nodeID%"|ezurl} {rdelim};
 menuArray['SubitemsContextMenu']['elements']['child-menu-edit'] = {ldelim} 'url': {"/content/edit/%objectID%"|ezurl} {rdelim};
 menuArray['SubitemsContextMenu']['elements']['child-menu-copy'] = {ldelim} 'url': {"/content/copy/%objectID%"|ezurl} {rdelim};
 menuArray['SubitemsContextMenu']['elements']['child-menu-copy-subtree'] = {ldelim} 'url': {"/content/copysubtree/%nodeID%"|ezurl} {rdelim};

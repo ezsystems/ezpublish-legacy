@@ -1,7 +1,7 @@
 {* Window controls *}
 {def $node_url_alias      = $node.url_alias
-     $preview_enabled     = ezpreference( 'admin_navigation_content' ) 
-     $default_tab         = cond( $preview_enabled, 'preview', 'details' )
+     $view_enabled        = ezpreference( 'admin_navigation_content' ) 
+     $default_tab         = cond( $view_enabled, 'view', 'details' )
      $node_tab_index      = first_set( $view_parameters.tab, $default_tab )
      $available_languages = fetch( 'content', 'prioritized_languages' )
      $translations        = $node.object.languages
@@ -16,14 +16,14 @@
     {set $node_tab_index = $default_tab}
 {/if}
 <ul class="tabs">
-    {* Content preview *}
-    {if $preview_enabled}
-    <li id="node-tab-preview" class="first{if $node_tab_index|eq('preview')} selected{/if}">
-        <a href={concat( $node_url_alias, '/(tab)/preview' )|ezurl} title="{'Show preview of content.'|i18n( 'design/admin/node/view/full' )}">{'Preview'|i18n( 'design/admin/node/view/full' )}</a>
+    {* Content (pre)view *}
+    {if $view_enabled}
+    <li id="node-tab-view" class="first{if $node_tab_index|eq('view')} selected{/if}">
+        <a href={concat( $node_url_alias, '/(tab)/view' )|ezurl} title="{'Show simplified view of content.'|i18n( 'design/admin/node/view/full' )}">{'View'|i18n( 'design/admin/node/view/full' )}</a>
     </li>
     {else}
-    <li id="node-tab-preview-disabled" class="first">
-        <span class="disabled" title="{'Tab is disabled, enable on dashboard.'|i18n( 'design/admin/node/view/full' )}">{'Preview'|i18n( 'design/admin/node/view/full' )}</span>
+    <li id="node-tab-view-disabled" class="first">
+        <span class="disabled" title="{'Tab is disabled, enable in right menu'|i18n( 'design/admin/node/view/full' )}">{'View'|i18n( 'design/admin/node/view/full' )}</span>
     </li>
     {/if}
 
