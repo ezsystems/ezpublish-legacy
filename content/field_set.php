@@ -178,6 +178,15 @@ class ezpContentFieldSet implements ArrayAccess
     }
 
     /**
+     * Sets the currently active language when reading attribute(/object/node) properties
+     * @param string $language Language locale (xxx-XX)
+     * @return void
+     */
+    public function setActiveLanguage( $language )
+    {
+    }
+
+    /**
      * Reference to the parent field set
      * @var ezpContentFieldSet
      */
@@ -194,5 +203,11 @@ class ezpContentFieldSet implements ArrayAccess
      * array( identifier => eZContentObjectAttribute )
      */
     private $contentObjectAttributes;
+
+    /**
+     * Currently active language, as a locale
+     * @var string
+     */
+    protected $activeLanguage = false;
 }
 ?>
