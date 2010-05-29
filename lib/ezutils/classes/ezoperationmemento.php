@@ -2,7 +2,7 @@
 //
 // Definition of eZOperationMemento class
 //
-// Created on: <06-Ноя-2002 16:19:18 sp>
+// Created on: <06-О©╫О©╫О©╫-2002 16:19:18 sp>
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ Publish
@@ -172,7 +172,10 @@ class eZOperationMemento extends eZPersistentObject
         $string = '';
         foreach ( $parameters as $key => $value )
         {
-            $string .= $key . $value;
+            if ( is_array( $value ) ) 
+                $string .= $key . serialize( $value );
+            else
+                $string .= $key . $value;
         }
         return md5( $string );
     }
