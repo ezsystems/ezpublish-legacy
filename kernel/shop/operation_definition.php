@@ -99,7 +99,7 @@ $OperationList['updatebasket'] = array( 'name' => 'updatebasket',
                                                                       'type' => 'array',
                                                                       'required' => true )
                                                               ),
-                                        'keys' => array(  ),
+                                        'keys' => array( 'item_count_list', 'item_id_list' ),
                                         'body' => array( array( 'type' => 'trigger',
                                                                 'name' => 'pre_updatebasket',
                                                                 'keys' => array(  ) ),
