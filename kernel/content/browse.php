@@ -31,14 +31,31 @@ require_once( 'kernel/common/template.php' );
 $tpl = templateInit();
 $http = eZHTTPTool::instance();
 
-$browse = new eZContentBrowse();
 
 $Offset = $Params['Offset'];
-
 if ( !is_numeric( $Offset ) )
     $Offset = 0;
 
 $parents = array();
+
+// Make sure user has session (if not, then this can't possible be a valid browse request)
+if ( !eZSession::userHasSessionCookie() )
+{
+    return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
+}
+
+// Check that Browse parameters exists
+if ( !$http->hasSessionVariable( 'BrowseParameters' ) )
+{
+    return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
+}
+
+// Check if node parameters exist
+$browse = new eZContentBrowse();
+if ( !isset( $Params['NodeID'] ) && !isset( $Params['NodeList'] ) && !$browse->hasAttribute( 'start_node' ) )
+{
+    return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
+}
 
 // We get node list when browse is execiuted from search engine ( "search in browse" functionality )
 if ( isset( $Params['NodeList'] ) )
@@ -96,6 +113,7 @@ if ( $cancelAction == trim( $browse->attribute( 'from_page' ) ) )
     $cancelAction = false;
 }
 
+//setting keys for override
 $res = eZTemplateDesignResource::instance();
 
 $keyArray = array();
@@ -151,10 +169,6 @@ if (isset( $GLOBALS['eZDesignKeys']['section'] ))
     $globalSectionID = $GLOBALS['eZDesignKeys']['section'];
     unset($GLOBALS['eZDesignKeys']['section']);
 }
-
-
-//setting keys for override
-$res = eZTemplateDesignResource::instance();
 
 $Result = array();
 $Result['view_parameters'] = $viewParameters;
