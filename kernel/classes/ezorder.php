@@ -1473,11 +1473,11 @@ class eZOrder extends eZPersistentObject
         {
             foreach ( $orderItems as $orderItem )
             {
-                $totalPriceExVat = $orderItem->attribute( 'price_ex_vat' );
-                $totalPriceIncVat & $orderItem->attribute( 'price_inc_vat' );
-                $totalPriceVat = $totalPriceIncVat - $totalPriceExVat;
-                $vatValue = $orderItem->attribute( 'vat_value' );
-                $type = $orderItem->attribute( 'type' );
+                $totalPriceExVat  = $orderItem->attribute( 'price_ex_vat' );
+                $totalPriceIncVat = $orderItem->attribute( 'price_inc_vat' );
+                $totalPriceVat    = $totalPriceIncVat - $totalPriceExVat;
+                $vatValue         = $orderItem->attribute( 'vat_value' );
+                $type             = $orderItem->attribute( 'type' );
 
                 if ( !isset( $returnArray['price_info']['items'][$vatValue]['total_price_ex_vat'] ) )
                 {
