@@ -15,8 +15,9 @@ Change of behavior
   With the move to git, there is no such info anymore. This is not going to be
   replaced as the full version of eZ Publish is descriptive enough.
 
-  Function eZPublishSDK::revision() has been removed as well as constants
-  'VERSION_REVISION_STRING' and 'VERSION_REVISION' of the same class.
+  Functions eZPublishSDK::revision() and eZSetupFunctionCollection::fetchRevision()
+  has been removed as well as constants
+  'VERSION_REVISION_STRING' and 'VERSION_REVISION' from class eZPublishSDK.
 
 
 Deprecated functionality
@@ -46,9 +47,6 @@ Removed features
 
 Removed methods
 ---------------
-
-- Class eZSetupFunctionCollection has been removed as it did not provide more
-  information than what is available with class eZPublishSDK.
 
 Removed globals
 ---------------

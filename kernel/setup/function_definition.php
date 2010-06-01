@@ -68,12 +68,6 @@ $FunctionList['is_development'] = array( 'name' => 'is_development',
                                                                  'method' => 'fetchIsDevelopment' ),
                                          'parameter_type' => 'standard',
                                          'parameters' => array( ) );
-$FunctionList['revision'] = array( 'name' => 'revision',
-                                   'operation_types' => array( 'read' ),
-                                   'call_method' => array( 'class' => 'eZSetupFunctionCollection',
-                                                           'method' => 'fetchRevision' ),
-                                   'parameter_type' => 'standard',
-                                   'parameters' => array( ) );
 $FunctionList['database_version'] = array( 'name' => 'database_version',
                                            'operation_types' => array( 'read' ),
                                            'call_method' => array( 'class' => 'eZSetupFunctionCollection',
