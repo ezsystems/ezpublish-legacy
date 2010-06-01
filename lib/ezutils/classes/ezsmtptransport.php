@@ -81,6 +81,10 @@ class eZSMTPTransport extends eZMailTransport
                 $mail->setSenderText( $emailSender );
         }
 
+        $excludeHeaders = $ini->variable( 'MailSettings', 'ExcludeHeaders' );
+        if ( count( $excludeHeaders ) > 0 )
+            $mail->Mail->appendExcludeHeaders( $excludeHeaders );
+
         $smtp = new ezcMailSmtpTransport( $parameters['host'], $user, $password, 
         $parameters['port'] );
 
