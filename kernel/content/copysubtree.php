@@ -195,7 +195,6 @@ function copyPublishContentObject( $sourceObject,
     $newObject->store();
 
     $syncObjectIDListSrc[] = $sourceObjectID;
-    $syncObjectIDListNew[] = $newObject->attribute( 'id' );
 
     $curVersion        = $newObject->attribute( 'current_version' );
     $curVersionObject  = $newObject->attribute( 'current' );
@@ -260,11 +259,14 @@ function copyPublishContentObject( $sourceObject,
         $newObject->purge();
         eZDebug::writeError( "Cannot publish contentobject.",
                              "Subtree Copy Error!" );
+        $sourceObjectName = $srcNode->getName();
         $notifications['Warnings'][] = ezi18n( 'kernel/content/copysubtree',
-                                               "Cannot publish object (ID = %1).",
-                                               null, array( $sourceObjectID) );
+                                               "Cannot publish object (Name: %1, ID: %2).",
+                                               null, array( $sourceObjectName, $sourceObjectID ) );
         return -1;
     }
+    // Only if the object has been published successfully, the object id can be added into $syncObjectIDListNew
+    $syncObjectIDListNew[] = $newObject->attribute( 'id' );
 
     $objAssignments = $curVersionObject->attribute( 'node_assignments' );
     foreach ( $newNodeList as $newNode )
@@ -417,6 +419,7 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
         $notifications['Errors'][] = ezi18n( 'kernel/content/copysubtree',
                                             "Fatal error: cannot get subtree main node (ID = %1).",
                                             null, array( $srcNodeID ) );
+        $notifications['Result'] = false;
         return $notifications;
     }
     if ( !$destinationNode )
@@ -426,6 +429,7 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
         $notifications['Errors'][] = ezi18n( 'kernel/content/copysubtree',
                                             "Fatal error: cannot get destination node (ID = %1).",
                                             null, array( $dstNodeID ) );
+        $notifications['Result'] = false;
         return $notifications;
     }
 
@@ -515,19 +519,8 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
     array_shift( $syncNodeIDListSrc );
     array_shift( $syncNodeIDListNew );
 
-
     $countNewNodes = count( $syncNodeIDListNew );
     $countNewObjects = count( $syncObjectIDListNew );
-
-    $key = array_search( $sourceSubTreeMainNodeID, $syncNodeIDListSrc );
-    if ( $key === false )
-    {
-        eZDebug::writeDebug( "Root node of given subtree was not copied.",
-                             "Subtree copy:" );
-        $notifications['Notifications'][] = ezi18n( 'kernel/content/copysubtree',
-                                                    "Subtree was not copied." );
-        return $notifications;
-    }
 
     $notifications['Notifications'][] = ezi18n( 'kernel/content/copysubtree',
                                                 "Number of copied nodes - %1",
@@ -541,6 +534,15 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
 
     eZDebug::writeDebug( $objectIDBlackList, "Copy subtree: Not copied object IDs list:" );
     eZDebug::writeDebug( $nodeIDBlackList, "Copy subtree: Not copied node IDs list:" );
+
+    $key = array_search( $sourceSubTreeMainNodeID, $syncNodeIDListSrc );
+    if ( $key === false )
+    {
+        eZDebug::writeDebug( "Root node of given subtree was not copied.",
+                             "Subtree copy:" );
+        $notifications['Result'] = false;
+        return $notifications;
+    }
 
     // 2. fetch all new subtree
 
@@ -759,8 +761,7 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
     eZDebug::writeDebug( "Successfuly DONE.",
                          "Copy subtree:" );
 
-    $notifications['Notifications'][] = ezi18n( 'kernel/content/copysubtree',
-                                                "Successfully DONE." );
+    $notifications['Result'] = true;
     return $notifications;
 } // function copySubtree END
 
@@ -884,7 +885,8 @@ function showNotificationAfterCopying( $http, $Module, &$Result, &$Notifications
 $Result = array();
 $notifications = array( 'Notifications' => array(),
                         'Warnings' => array(),
-                        'Errors' => array() );
+                        'Errors' => array(),
+                        'Result' => false );
 $contentINI = eZINI::instance( 'content.ini' );
 
 // check if number of nodes being copied not more then MaxNodesCopySubtree setting
@@ -898,9 +900,7 @@ if ( $srcSubtreeNodesCount > $maxNodesCopySubtree )
                                            "the maximum possible nodes for subtree copying. ".
                                            "You can copy this subtree using Subtree Copy script.",
                                            null, array( $maxNodesCopySubtree ) );
-    $notifications['Notifications'][] = ezi18n( 'kernel/content/copysubtree',
-                                                "Subtree was not copied." );
-
+    $notifications['Result'] = false;
     showNotificationAfterCopying( $http, $Module, $Result, $notifications, $srcNode );
     return;
 }
