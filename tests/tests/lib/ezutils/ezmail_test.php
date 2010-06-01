@@ -844,6 +844,31 @@ class eZMailTest extends ezpTestCase
             imap_close( $mbox );
         }
     }
+
+    /**
+     * See site.ini [MailSettings] ExcludeHeaders
+     */
+    public function testExcludeHaders()
+    {
+        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'Transport', 'SMTP' );
+        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'ExcludeHeaders', array( 'bcc' ) );
+
+        $mail = new eZMail();
+        $mail->setReceiver( 'johndoe@example.com', 'John Doe' );
+        $mail->setSender( 'janedoe@example.com', 'Jane Doe' );
+        $mail->addBcc( 'jimdoe@example.com', 'Jim Doe' );
+        $mail->setSubject( 'Testing ExcludeHeaders' );
+        $mail->setBody( 'Jim should not get this email.' );
+
+        // BCC should be set at this point
+        $this->assertTrue( strpos( $mail->Mail->generateHeaders(), 'Bcc: Jim Doe <jimdoe@example.com>' ) > 0 );
+
+        // We don't care if the mail gets sent. What's important is what happens to the headers.
+        eZMailTransport::send( $mail );
+
+        // BCC should not be set anymore at this point, because of ExcludeHeaders
+        $this->assertFalse( strpos( $mail->Mail->generateHeaders(), 'Bcc: Jim Doe <jimdoe@example.com>' ) > 0 );
+    }
 }
 
 ?>
