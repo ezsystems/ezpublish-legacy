@@ -19,6 +19,7 @@ Changes from 4.4.0alpha1 to 4.4.0alpha2
 *Translations:
 
 *Bugfixes:
+- Fixed bug #016872: unclear error message of copy subtree
 - Fixed bug #016865: incorrect operator used for totalPriceIncVat in ezorder.php
 - Fixed bug #016861: content/browse gives a fatal error when user isn't logged in
 - Fixed bug #016848: Unable to make an IsInline[externalimage]=image custom tag inline (fix available)
