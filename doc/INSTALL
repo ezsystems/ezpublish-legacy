@@ -18,8 +18,8 @@ Requirements
     * PHP 5.1.2+ & PHP JSON extension
 
     * ezwebin / ezflow setup:
-      ezjscore does not extend ezwebin anymore as of version 1.2.0 and hence will only work on
-      webin 1.7.0 and higher.
+      ezjscore does not extend ezwebin anymore as of version 1.2.0 and hence will only work
+      with webin 1.7.0 and higher.
 
 
 Installation
