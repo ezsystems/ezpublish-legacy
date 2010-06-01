@@ -1,4 +1,4 @@
-eZ JSCore 1.1 extension installation documentation
+eZ JSCore 1.2 extension installation documentation
 
 About eZ JSCore
 ===========
@@ -11,11 +11,15 @@ content.
 Requirements
 ============
 
-    eZ Publish 4.1 and higher
+    * eZ Publish 4.1+
 
-    PHP 5.2.1 and higher
+    * PHP 5.2.1+
     or
-    PHP 5.1.2 and higher + PHP JSON extension
+    * PHP 5.1.2+ & PHP JSON extension
+
+    * ezwebin / ezflow setup:
+      ezjscore does not extend ezwebin anymore as of version 1.2.0 and hence will only work on
+      webin 1.7.0 and higher.
 
 
 Installation
