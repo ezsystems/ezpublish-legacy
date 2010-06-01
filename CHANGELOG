@@ -3,6 +3,8 @@
 - Implemented #16495: Improvements of ezjscPacker::optimizeCSS()
 - Fixed bug #16635: ezjscore: @charset "utf-8"; is not stripped
 - Fixed bug #16831: ezjscore create one js cache file for all siteaccess (patch)
+- Remove ezwebin template override to simplify webin + ezjscore setup (loading order does not matter anymore)
+  BC: Means ezjscore v1.2.0+ will not work on older ezwebin versions, only ezwebin 1.7.0 and up!
 
 # v1.2.0alpha2
 - Fixed bug #16726: Src for original image in "Insert image" has a pipe ("|") at the end
