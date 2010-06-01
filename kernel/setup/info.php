@@ -97,7 +97,6 @@ if ( function_exists( 'apache_get_version' ) )
 }
 
 $tpl->setVariable( 'ezpublish_version', eZPublishSDK::version() . " (" . eZPublishSDK::alias() . ")" );
-$tpl->setVariable( 'ezpublish_revision', eZPublishSDK::revision() );
 $tpl->setVariable( 'ezpublish_extensions', eZExtension::activeExtensions() );
 $tpl->setVariable( 'php_version', phpversion() );
 $tpl->setVariable( 'php_accelerator', $phpAcceleratorInfo );

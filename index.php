@@ -979,11 +979,6 @@ if ( $show_page_layout )
 
     $tpl->setVariable( "site", $site );
 
-    $ezinfo = array( 'version' => eZPublishSDK::version( true ),
-                     'version_alias' => eZPublishSDK::version( true, true ),
-                     'revision' => eZPublishSDK::revision() );
-
-    $tpl->setVariable( "ezinfo", $ezinfo );
     if ( isset( $tpl_vars ) and is_array( $tpl_vars ) )
     {
         foreach( $tpl_vars as $tpl_var_name => $tpl_var_value )

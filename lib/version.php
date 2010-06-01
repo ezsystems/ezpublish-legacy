@@ -37,9 +37,7 @@ class eZPublishSDK
     const VERSION_RELEASE = 0;
     const VERSION_STATE = 'alpha1';
     const VERSION_DEVELOPMENT = true;
-    const VERSION_REVISION_STRING = '$Rev$';
     const VERSION_ALIAS = '4.3';
-    const VERSION_REVISION = 19785;
 
     /*!
       \return the SDK version as a string
@@ -58,7 +56,6 @@ class eZPublishSDK
         {
             $versionText = eZPublishSDK::majorVersion() . '.' . eZPublishSDK::minorVersion();
 //            $development = eZPublishSDK::developmentVersion();
-//            $revision = eZPublishSDK::revision();
 //            if ( $development !== false )
 //                $versionText .= '.' . $development;
             if ( $withRelease )
@@ -107,14 +104,6 @@ class eZPublishSDK
     static function release()
     {
         return eZPublishSDK::VERSION_RELEASE;
-    }
-
-    /*!
-     \return the SVN revision number
-    */
-    static function revision()
-    {
-        return eZPublishSDK::VERSION_REVISION;
     }
 
     /*!

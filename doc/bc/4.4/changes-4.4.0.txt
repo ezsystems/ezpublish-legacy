@@ -10,6 +10,13 @@ INI setting changes
 Change of behavior 
 -------------------
 
+- Subversion revision number of eZ Publish is not accessible anymore.
+
+  With the move to git, there is no such info anymore. This is not going to be
+  replaced as the full version of eZ Publish is descriptive enough.
+
+  Function eZPublishSDK::revision() has been removed as well as constants
+  'VERSION_REVISION_STRING' and 'VERSION_REVISION' of the same class.
 
 
 Deprecated functionality
@@ -32,9 +39,16 @@ Renamed methods
 Removed features
 ----------------
 
+- Template variable 'ezinfo' is not defined by default anymore. It used to
+  contain keys: 'version', 'version_alias' and 'revision'.
+  Those information may still be retrieved using eZPublishSDK's functions,
+  except for the 'revision' key.
+
 Removed methods
 ---------------
 
+- Class eZSetupFunctionCollection has been removed as it did not provide more
+  information than what is available with class eZPublishSDK.
 
 Removed globals
 ---------------

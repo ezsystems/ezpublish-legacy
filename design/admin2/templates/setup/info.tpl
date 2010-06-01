@@ -29,11 +29,6 @@
     </div>
 
     <div class="block">
-        <label>{'SVN revision'|i18n( 'design/admin/setup/info', 'eZ Publish version' )}:</label>
-        {$ezpublish_revision}
-    </div>
-
-    <div class="block">
         <label>{'Extensions'|i18n( 'design/admin/setup/info', 'eZ Publish extensions' )}:</label>
         {if $ezpublish_extensions}
             {foreach $ezpublish_extensions as $extension}

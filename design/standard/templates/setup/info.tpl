@@ -13,9 +13,6 @@
         <td><p><b>{'Version'|i18n('design/standard/setup','eZ Publish version')}</b></p></td><td><p>{$ezpublish_version}</p></td>
     </tr>
     <tr>
-        <td><p><b>{'SVN revision'|i18n('design/standard/setup','eZ Publish version')}</b></p></td><td><p>{$ezpublish_revision}</p></td>
-    </tr>
-    <tr>
         <td><p><b>{'Extensions'|i18n('design/standard/setup','eZ Publish extensions')}</b></p></td>
         <td>
             <p>
