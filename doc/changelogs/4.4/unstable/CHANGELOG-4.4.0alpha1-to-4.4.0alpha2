@@ -23,6 +23,7 @@ Changes from 4.4.0alpha1 to 4.4.0alpha2
 - Fixed bug #016865: incorrect operator used for totalPriceIncVat in ezorder.php
 - Fixed bug #016861: content/browse gives a fatal error when user isn't logged in
 - Fixed bug #016848: Unable to make an IsInline[externalimage]=image custom tag inline (fix available)
+- Fixed bug #016838: iPhone and Content-Range support
 - Fixed bug #016830: kernel/setup/systemupgrade.php - typo in php classname
 - Fixed bug #016829: Bug in user/preferences
 - Fixed bug #016828: content/view/full => if node_id is no numeric or < 2 ez should return an error_code
@@ -34,7 +35,6 @@ Changes from 4.4.0alpha1 to 4.4.0alpha2
 - Fixed bug #016542: System upgrade > check db consistency fails at comparing CHARACTER VARYING NULL fields
 - Fixed bug #016527: warnings when using a login handler
 - Fixed bug #016230: Notice "undefined variable" when saving a draft with an objectrelationlist attribute
-- Fixed bug #014366: Duplicate remote_id in ezcontentobject_tree - for LDAP users
-- Fixed bug #016838: iPhone and Content-Range support
-- Fixed bug #014973: Update basket keys missing in operation_definition
 - Fixed bug #015641: BCC - sending problem with the notification mail (regression in 4.3 and 4.4)
+- Fixed bug #014973: Update basket keys missing in operation_definition
+- Fixed bug #014366: Duplicate remote_id in ezcontentobject_tree - for LDAP users
