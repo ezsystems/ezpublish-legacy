@@ -374,7 +374,7 @@ class ezjscPacker
         $cachePath = $packerInfo['cache_dir'] . $subPath . md5( $cacheName . $packLevel );
 
         // See if cahe file exists and if it has expired (only if time is not part of name)
-        if ( $ezjscINI->hasVariable( 'Packer', 'AppendLastModifiedTime' ) === 'enabled' )
+        if ( $ezjscINI->variable( 'Packer', 'AppendLastModifiedTime' ) === 'enabled' )
         {
             $cachePath .= '_' . $lastmodified . $fileExtension;
             $clusterFileHandler = eZClusterFileHandler::instance( $cachePath );
