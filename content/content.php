@@ -45,6 +45,11 @@
  * $article->fields->title = 'foo';
  * $article->fields->name = 'bar';
  * </code>
+ *
+ * @property-read string classIdentifier The content class identifier
+ * @property-read int datePublished The date the object was initially published, as a UNIX timestamp
+ * @property-read int dateModified The date the object was last modified, as a UNIX timestamp
+ * @property-read string name The object's name in the active language
  * @package API
  */
 class ezpContent
@@ -66,8 +71,11 @@ class ezpContent
      */
     public static function fromNode( eZContentObjectTreeNode $node )
     {
+        $object = $node->object();
+
         $content = new ezpContent();
-        $content->fields = ezpContentFieldSet::fromContentObject( $node->object() );
+        $content->fields = ezpContentFieldSet::fromContentObject( $object );
+        $content->object = $object;
 
         return $content;
     }
@@ -81,13 +89,38 @@ class ezpContent
     {
         $node = eZContentObjectTreeNode::fetch( 2 );
         if ( $node instanceof eZContentObjectTreeNode )
-        {
             return self::fromNode( $node );
-        }
         else
-        {
-            throw new ezcBaseExtension( "Unable to find node with ID $nodeId" );
-        }
+            throw new Exception( "Unable to find node with ID $nodeId" );
+    }
+
+    /**
+     * Instanciates an ezpContent from an eZContentObject Id
+     * @param int $objectId
+     * @return ezpContent
+     */
+    public static function fromObjectId( $objectId )
+    {
+        $object = eZContentObject::fetch( $objectId );
+        if ( $object instanceof eZContentObject )
+            return self::fromObject( $object );
+        else
+            throw new Exception( "Unable to find an eZContentObject with ID $objectId" );
+    }
+
+    /**
+     * Instanciates an ezpContent from an eZContentObject
+     * @param eZContentObject $objectId
+     * @return ezpContent
+     */
+    public static function fromObject( eZContentObject $object )
+    {
+        $content = new ezpContent();
+        $content->fields = ezpContentFieldSet::fromContentObject( $object );
+
+        $content->object = $object;
+
+        return $content;
     }
 
     /**
@@ -98,6 +131,27 @@ class ezpContent
     public function setActiveLanguage( $language )
     {
         $this->fields->setActiveLanguage( $language );
+    }
+
+    public function __get( $property )
+    {
+        switch( $property )
+        {
+            case 'classIdentifier':
+                return $this->object->attribute( 'class_identifier' );
+                break;
+            case 'name':
+                return $this->object->name();
+                break;
+            case 'datePublished':
+                return $this->object->attribute( 'published' );
+                break;
+            case 'dateModified':
+                return $this->object->attribute( 'modified' );
+                break;
+            default:
+                throw new ezcBasePropertyNotFoundException( $property );
+        }
     }
 
     /**
@@ -111,5 +165,11 @@ class ezpContent
      * @var ezpContentLocationSet
      */
     public $locations;
+
+    /**
+     * Actual content object
+     * @var eZContentObject
+     */
+    protected $object;
 }
 ?>
