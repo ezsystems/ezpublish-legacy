@@ -14,7 +14,7 @@
  *
  * @package API
  */
-class ezpContentFieldSet implements ArrayAccess
+class ezpContentFieldSet implements ArrayAccess, Iterator
 {
     /**
      * Initializes the fields set with a content object + language
@@ -33,11 +33,17 @@ class ezpContentFieldSet implements ArrayAccess
     public static function fromContentObject( eZContentObject $contentObject )
     {
         $set = new ezpContentFieldSet();
-        foreach( $contentObject->availableLanguages() as $language )
+        $languages = $contentObject->availableLanguages();
+        foreach( $languages as $language )
         {
             $set->childrenFieldSets[$language] =
                 ezpContentFieldSet::fromDataMap( $contentObject->fetchDataMap( false, $language ) );
         }
+
+        // this sequence is REALLY ugly
+        $set->setActiveLanguage( $languages[0] );
+        $set->initIterator();
+
         return $set;
     }
 
@@ -54,6 +60,7 @@ class ezpContentFieldSet implements ArrayAccess
             $identifier = $attribute->attribute( 'contentclass_attribute_identifier' );
             $set->fields[$identifier] = ezpContentField::fromContentObjectAttribute( $attribute );
         }
+        $set->initIterator();
         return $set;
     }
 
@@ -89,7 +96,9 @@ class ezpContentFieldSet implements ArrayAccess
     {
         // This needs to check if this language can be instanciated (e.g. is active on the installation)
         if ( !isset( $this->childrenFieldSets[$offset] ) )
+        {
             throw new Exception( "Language $offset could not be found on this ezpContent" );
+        }
 
         return $this->childrenFieldSets[$offset];
     }
@@ -158,6 +167,67 @@ class ezpContentFieldSet implements ArrayAccess
     }
 
     /**
+     * Iterator::key()
+     */
+    public function key()
+    {
+        echo __METHOD__ . "\n";
+        return current( $this->iteratorPointer );
+    }
+
+    /**
+     * Iterator::current()
+     */
+    public function current()
+    {
+        return $this->iteratorData[current( $this->iteratorPointer )];
+    }
+
+    /**
+     * Iterator::next()
+     */
+    public function next()
+    {
+        echo __METHOD__ . "\n";
+        next( $this->iteratorPointer );
+    }
+
+    /**
+     * Iterator::rewind()
+     */
+    public function rewind ()
+    {
+        reset( $this->iteratorPointer );
+    }
+
+    /**
+     * Iterator::valid()
+     */
+    public function valid()
+    {
+        echo __METHOD__ . "\n";
+        return isset( $this->iteratorData[current( $this->iteratorPointer )] );
+    }
+
+    /**
+     * Initializes the iterator based on the current field / languages list
+     */
+    protected function initIterator()
+    {
+        // level 1 ezpFieldSet
+        if ( $this->childrenFieldSets !== null )
+        {
+            $this->iteratorData = $this->childrenFieldSets[$this->activeLanguage]->fields;
+            $this->iteratorPointer = array_keys( $this->iteratorData );
+        }
+        else
+        {
+            $this->iteratorData =  $this->fields;
+            $this->iteratorPointer = array_keys( $this->iteratorData );
+        }
+    }
+
+    /**
      * Sets the currently active language when reading attribute(/object/node) properties
      * @param string $language Language locale (xxx-XX)
      * @return void
@@ -175,6 +245,7 @@ class ezpContentFieldSet implements ArrayAccess
 
     /**
      * Reference to the known children field sets
+     * Indexed by locale: xxx-XX => ezpContentFieldSet
      * @var array( ezpContentFieldSet )
      */
     protected $childrenFieldSets;
@@ -184,6 +255,19 @@ class ezpContentFieldSet implements ArrayAccess
      * array( identifier => eZContentObjectAttribute )
      */
     protected $fields;
+
+    /**
+     * Pointer used by the iterator
+     * @var array
+     */
+    protected $iteratorPointer = null;
+
+    /**
+     * Reference to the actual iterator data source
+     * Either self::fields, or self::childreFieldSets[language]::fields
+     * @var array
+     */
+    protected $iteratorData = null;
 
     /**
      * Currently active language, as a locale
