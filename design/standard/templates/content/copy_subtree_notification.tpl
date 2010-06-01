@@ -12,19 +12,31 @@
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <div class="block">
-{section show=$notifications.Warnings|count|gt(0)}
-<h4>Warnings:</h4>{section loop=$notifications.Warnings}<br/>{$item}{/section}
-<hr/>
-{/section}
+{if $notifications.Result|eq( true )}
+        <h2>{'Successfully DONE.'|i18n( 'kernel/content/copysubtree' )}</h2>
+{else}
+    <h2>{'Subtree was not copied.'||i18n( 'kernel/content/copysubtree' )}</h2>
+    {if $notifications.Errors|count|gt( 0 )}
+        <h4>Errors:</h4>
+        {foreach $notifications.Errors as $item}
+            {$item}<br />
+        {/foreach}
+    {/if}
+{/if}
 
-{section show=$notifications.Errors|count|gt(0)}
-<h4>Errors:</h4>{section loop=$notifications.Errors}<br/>{$item}{/section}
-<hr/>
-{/section}
+{if $notifications.Notifications|count|gt( 0 )}
+<h4>Information:</h4>
+{foreach $notifications.Notifications as $key => $item }
+    {$item}<br />
+{/foreach}
+{/if}
 
-{section show=$notifications.Notifications|count|gt(0)}
-{section loop=$notifications.Notifications}<br/>{$item}{/section}
-{/section}
+{if $notifications.Warnings|count|gt( 0 )}
+<h4>Warnings:</h4>
+{foreach $notifications.Warnings as $key => $item }
+    {$item}<br />
+{/foreach}
+{/if}
 
 </div>
 
