@@ -31,11 +31,11 @@ class ezoeInfo
         $eZCopyrightString = 'Copyright (C) 1999-2010 eZ Systems AS';
 
         return array( 'Name'      => '<a href="http://projects.ez.no/ezoe">eZ Online Editor</a> extension',
-                      'Version'   => '5.2.0alpha2',
+                      'Version'   => '5.2.0alpha3',
                       'Copyright' => $eZCopyrightString,
                       'License'   => 'GNU General Public License v2.0',
                       'Includes the following third-party software' => array( 'Name' => 'TinyMce Javascript HTML WYSIWYG editor',
-                                                                              'Version' => '3.3.4',
+                                                                              'Version' => '3.3.6',
                                                                               'Copyright' => 'Copyright (C) 2004-2010, Moxiecode Systems AB, All rights reserved.',
                                                                               'License' => 'GNU Lesser General Public License v2.1',),
                       'Includes the following library'              => array( 'Name' => 'eZ Core, tiny javascript library for ajax and stuff',

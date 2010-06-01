@@ -1,5 +1,9 @@
 eZ Online Editor 5.x extension Changelog
 
+5.2.0alpha3
+- Updated TinyMCE to 3.3.6
+
+
 5.2.0alpha2
 - Added extension.xml that replaces ezinfo.php and loading.php starting from eZ Publish 4.4
 - Updated TinyMCE to 3.3.4

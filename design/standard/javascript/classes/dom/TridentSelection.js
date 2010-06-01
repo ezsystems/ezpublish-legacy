@@ -42,11 +42,19 @@
 				marker = dom.create('a');
 				parent = checkRng.parentElement();
 				parent.appendChild(marker);
+				checkRng.moveToElementText(marker);
+				position = ieRange.compareEndPoints(start ? 'StartToStart' : 'EndToEnd', checkRng);
+				if (position > 0) {
+					// The position is after the end of the parent element.
+					// This is the case where IE puts the caret to the left edge of a table.
+					domRange[start ? 'setStartAfter' : 'setEndAfter'](parent);
+					dom.remove(marker);
+					return;
+				}
 
 				// Setup node list and endIndex
 				nodes = tinymce.grep(parent.childNodes);
 				endIndex = nodes.length - 1;
-
 				// Perform a binary search for the position
 				while (startIndex <= endIndex) {
 					index = Math.floor((startIndex + endIndex) / 2);
@@ -55,7 +63,6 @@
 					parent.insertBefore(marker, nodes[index]);
 					checkRng.moveToElementText(marker);
 					position = ieRange.compareEndPoints(start ? 'StartToStart' : 'EndToEnd', checkRng);
-
 					if (position > 0) {
 						// Marker is to the right
 						startIndex = index + 1;
@@ -64,6 +71,7 @@
 						endIndex = index - 1;
 					} else {
 						// Maker is where we are
+						found = true;
 						break;
 					}
 				}
@@ -217,9 +225,17 @@
 
 			// If same text container then we can do a more simple move
 			if (sc == ec && sc.nodeType == 3) {
-				ieRng.moveEnd('character', eo - so);
-				ieRng.select();
-				ieRng.scrollIntoView();
+				try {
+					ieRng.moveEnd('character', eo - so);
+					ieRng.select();
+					ieRng.scrollIntoView();
+				} catch (ex) {
+					// Some times a Runtime error of the 800a025e type gets thrown
+					// especially when the caret is placed before a table.
+					// This is a somewhat strange location for the caret.
+					// TODO: Find a better solution for this would possible require a rewrite of the setRng method
+				}
+
 				return;
 			}
 
