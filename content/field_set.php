@@ -41,7 +41,8 @@ class ezpContentFieldSet implements ArrayAccess, Iterator
         }
 
         // this sequence is REALLY ugly
-        $set->setActiveLanguage( $languages[0] );
+        reset( $languages );
+        $set->setActiveLanguage( current( $languages ) );
         $set->initIterator();
 
         return $set;
@@ -135,6 +136,7 @@ class ezpContentFieldSet implements ArrayAccess, Iterator
      */
     public function __get( $name )
     {
+        echo "--- __get( $name )\n";
         // Request on a level 2 ezpFieldSet, that holds fields (attributes)
         if ( isset( $this->fields[$name] ) )
         {
@@ -147,14 +149,14 @@ class ezpContentFieldSet implements ArrayAccess, Iterator
                 throw new Exception( "You need to set an active language in order to query fields directly" );
             else
             {
+                echo "Active language: {$this->activeLanguage}\n";
                 return $this[$this->activeLanguage]->$name;
             }
         }
     }
 
     /**
-     * Isset handler.
-     * Could be used to check if an attribute has content:
+     * Used to check if an attribute has content:
      * <code>
      * if ( isset( $content->fields->title ) )  <= no title
      * </code>
@@ -163,7 +165,22 @@ class ezpContentFieldSet implements ArrayAccess, Iterator
      */
     public function __isset( $name )
     {
-        return isset( $this->contentObjectAttributes[$name] );
+        if ( $this->fields == null )
+        {
+            if ( $this->activeLanguage === null )
+            {
+                throw new Exception( "You need to define ezpFieldSet::activeLanguage to query fields directly" );
+                return false;
+            }
+            else
+            {
+                return isset( $this->childrenFieldSets[$this->activeLanguage]->{$name} );
+            }
+        }
+        else
+        {
+            return isset( $this->fields[$name] );
+        }
     }
 
     /**
