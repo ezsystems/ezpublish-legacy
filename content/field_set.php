@@ -136,7 +136,6 @@ class ezpContentFieldSet implements ArrayAccess, Iterator
      */
     public function __get( $name )
     {
-        echo "--- __get( $name )\n";
         // Request on a level 2 ezpFieldSet, that holds fields (attributes)
         if ( isset( $this->fields[$name] ) )
         {
@@ -149,7 +148,6 @@ class ezpContentFieldSet implements ArrayAccess, Iterator
                 throw new Exception( "You need to set an active language in order to query fields directly" );
             else
             {
-                echo "Active language: {$this->activeLanguage}\n";
                 return $this[$this->activeLanguage]->$name;
             }
         }
