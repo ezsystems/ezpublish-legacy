@@ -44,6 +44,27 @@ class ezpContentField
             return '';
     }
 
+    public function __call( $method, $arguments )
+    {
+        if ( method_exists( $this->attribute, $method ) )
+            return call_user_func_array( array( $this->attribute, $method ), $arguments );
+        else
+            throw new ezcBasePropertyNotFoundException( $method );
+    }
+
+    public function __get( $property )
+    {
+        switch( $property )
+        {
+            // returns the serialized version of the attribute through the eZPackage mechanism
+            case 'serializedXML':
+                return $this->attribute->serialize( new eZPackage );
+                break;
+            default:
+                throw new ezcBasePropertyNotFoundException( $property );
+        }
+    }
+
     /**
      * @var eZContentObjectAttribute
      */
