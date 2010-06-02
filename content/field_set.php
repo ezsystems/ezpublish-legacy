@@ -171,7 +171,6 @@ class ezpContentFieldSet implements ArrayAccess, Iterator
      */
     public function key()
     {
-        echo __METHOD__ . "\n";
         return current( $this->iteratorPointer );
     }
 
@@ -188,7 +187,6 @@ class ezpContentFieldSet implements ArrayAccess, Iterator
      */
     public function next()
     {
-        echo __METHOD__ . "\n";
         next( $this->iteratorPointer );
     }
 
@@ -205,7 +203,6 @@ class ezpContentFieldSet implements ArrayAccess, Iterator
      */
     public function valid()
     {
-        echo __METHOD__ . "\n";
         return isset( $this->iteratorData[current( $this->iteratorPointer )] );
     }
 
