@@ -1179,7 +1179,7 @@ class eZOEInputParser extends eZXMLInputParser
                 if ( $url )
                 {
                     // Protection from XSS attack
-                    if ( strpos( $url, 'script' ) !== false && preg_match( "/^(java|vb)script:.*/i" , $url ) )
+                    if ( preg_match( "/^(java|vb)script:.*/i" , $url ) )
                     {
                         $this->isInputValid = false;
                         $this->Messages[] = "Using scripts in links is not allowed, '$url' has been removed";
@@ -1188,7 +1188,7 @@ class eZOEInputParser extends eZXMLInputParser
                     }
 
                     // Check mail address validity
-                    if ( strpos( $url, 'mailto' ) === 0 && preg_match( "/^mailto:(.*)/i" , $url, $mailAddr ) )
+                    if ( preg_match( "/^mailto:(.*)/i" , $url, $mailAddr ) )
                     {
                         if ( !eZMail::validate( $mailAddr[1] ) )
                         {
