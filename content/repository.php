@@ -73,6 +73,35 @@ class ezpContentRepository
         return $return;
     }
 
+    /**
+     * Fetches an ezpContent based on an identifier object.
+     *
+     * The content will be fetched depending on what aspects of the identifier object have been configured.
+     *
+     * Example 1:
+     * <code>
+     * $identifier = new ezpContentIdentifier;
+     * $identifier->objectId = 123;
+     * $content = ezpContentRepository::fetch( $identifier );
+     * </code>
+     *
+     * Example 2:
+     * <code>
+     * $identifier = new ezpContentIdentifier;
+     * $identifier->nodeId = 456;
+     * $content = ezpContentRepository::fetch( $identifier );
+     * </code>
+     *
+     * Further evolutions on ezpContentIdentifier will allow for unified fetching without adding new methods
+     *
+     * @param ezpContentIdentifier $identifier
+     * @return ezpContent
+     */
+    public static function fetch( ezpContentIdentifier $identifier )
+    {
+
+    }
+
     private static $defaultRootNode = 1;
 }
 ?>
