@@ -1171,10 +1171,10 @@ class eZDebug
     static function printReport( $newWindow = false, $as_html = true, $returnReport = false,
                            $allowedDebugLevels = false, $useAccumulators = true, $useTiming = true, $useIncludedFiles = false )
     {
-        if ( !eZDebug::isDebugEnabled() )
+        if ( !self::isDebugEnabled() )
             return null;
 
-        $debug = eZDebug::instance();
+        $debug = self::instance();
         $report = $debug->printReportInternal( $as_html, $returnReport & $newWindow, $allowedDebugLevels, $useAccumulators, $useTiming, $useIncludedFiles );
 
         if ( $newWindow == true )
@@ -1183,10 +1183,10 @@ class eZDebug
             $debugFileURL = $debugFilePath;
             eZURI::transformURI( $debugFileURL, true );
             print( "
-<SCRIPT LANGUAGE='JavaScript'>
-<!-- hide this script from old browsers
+<script type='text/javascript'>
+<!--
 
-function showDebug()
+(function()
 {
     var debugWindow;
 
@@ -1210,14 +1210,12 @@ function showDebug()
         debugWindow = window.open( '', 'ezdebug', 'width=500,height=550,status,scrollbars,resizable,screenX=0,screenY=20,left=20,top=40');
         debugWindow.document.location.href=\"$debugFileURL\";
     };
-}
+})();
 
-showDebug();
-
-// done hiding from old browsers -->
-</SCRIPT>
+// -->
+</script>
 " );
-            $header = "<html><head><title>eZ debug</title></head><body>";
+            $header = "<!DOCTYPE html><html><head><title>eZ debug</title></head><body>";
             $footer = "</body></html>";
             $fp = fopen( $debugFilePath, "w+" );
 
