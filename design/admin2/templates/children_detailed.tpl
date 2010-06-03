@@ -241,7 +241,7 @@ var labelsObj = {ldelim}
                 return "::" + state.pagination.rowsPerPage +
                        "::" + state.pagination.recordOffset +
                        "::" + state.sortedBy.key +
-                       "::" + ((state.sortedBy.dir === YAHOO.widget.DataTable.CLASS_ASC) ? "1" : "0") +
+                       "::" + ((state.sortedBy.dir === YAHOO.widget.DataTable.CLASS_ASC) ? "0" : "1") +
                        "?ContentType=json";
         };
 
