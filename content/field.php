@@ -61,7 +61,10 @@ class ezpContentField
                 return $this->attribute->serialize( new eZPackage );
                 break;
             default:
-                throw new ezcBasePropertyNotFoundException( $property );
+                if ( $this->attribute->hasAttribute( $property ) )
+                    return $this->attribute->attribute( $property );
+                else
+                    throw new ezcBasePropertyNotFoundException( $property );
         }
     }
 
