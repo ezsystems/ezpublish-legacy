@@ -131,6 +131,7 @@ class ezpContent
     public function setActiveLanguage( $language )
     {
         $this->fields->setActiveLanguage( $language );
+        $this->activeLanguage = $language;
     }
 
     public function __get( $property )
@@ -141,7 +142,10 @@ class ezpContent
                 return $this->object->attribute( 'class_identifier' );
                 break;
             case 'name':
-                return $this->object->name();
+                if ( $this->activeLanguage !== null )
+                    return $this->object->name( false, $this->activeLanguage );
+                else
+                    return $this->object->name();
                 break;
             case 'datePublished':
                 return $this->object->attribute( 'published' );
@@ -171,5 +175,11 @@ class ezpContent
      * @var eZContentObject
      */
     protected $object;
+
+    /**
+     * Active content language for this object
+     * @var string
+     */
+    public $activeLanguage;
 }
 ?>

@@ -43,7 +43,6 @@ class ezpContentFieldSet implements ArrayAccess, Iterator
         // this sequence is REALLY ugly
         reset( $languages );
         $set->setActiveLanguage( current( $languages ) );
-        $set->initIterator();
 
         return $set;
     }
@@ -247,6 +246,7 @@ class ezpContentFieldSet implements ArrayAccess, Iterator
     public function setActiveLanguage( $language )
     {
         $this->activeLanguage = $language;
+        $this->initIterator();
     }
 
     /**
