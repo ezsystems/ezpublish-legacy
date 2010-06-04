@@ -76,6 +76,7 @@ class ezpContent
         $content = new ezpContent();
         $content->fields = ezpContentFieldSet::fromContentObject( $object );
         $content->object = $object;
+        $content->locations = ezpContentLocation::fromNode( $node );
 
         return $content;
     }
