@@ -106,7 +106,9 @@ $versions43 = array( 'unstable' => array( array( '4.2.0', '4.3.0alpha1' ),
              'stable' => array( array( '4.2.0', '4.3.0' ) ),
            );
 
-$versions43 = array( 'unstable' => array( array( '4.3.0', '4.4.0alpha1' ),
+$versions44 = array( 'unstable' => array( array( '4.3.0', '4.4.0alpha1' ),
+                                         array( '4.4.0alpha1', '4.4.0alpha2' ),
+                                         array( '4.4.0alpha2', '4.4.0alpha3' ),
                     ),
              'unstable_subdir' => 'unstable',
              'stable' => array(),
