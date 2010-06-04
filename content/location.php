@@ -28,7 +28,7 @@ class ezpContentLocation extends ezpLocation
      */
     public static function fetchByNodeId( $nodeId )
     {
-        $node = eZContentObjectTreeNode::fetch( 2 );
+        $node = eZContentObjectTreeNode::fetch( $nodeId );
         if ( $node instanceof eZContentObjectTreeNode )
         {
             return self::fromNode( $node );
