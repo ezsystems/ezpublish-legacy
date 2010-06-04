@@ -1,11 +1,7 @@
 <?php
 // by node ID
-$id = new ezpContentIdentifier;
-$id->nodeId = 2;
-$content = ezpContentRepository::fetch( $id );
+$content = ezpContentRepository::fetch( ezpContentIdentifier::nodeId( 2, 4, 6 ) );
 
 // by object ID
-$id = new ezpContentIdentifier;
-$id->objectId = 2;
-$content = ezpContentRepository::fetch( $id );
+$content = ezpContentRepository::fetch( ezpContentIdentifier::objectId( 3, 6, 9 ) );
 ?>

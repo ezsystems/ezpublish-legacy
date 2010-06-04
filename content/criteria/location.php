@@ -33,12 +33,12 @@ class ezpContentLocationCriteria implements ezpContentCriteriaInterface
      */
     public function translate()
     {
-        return array( 'type' => 'location', 'value' => $this->subtree->getNodeId() );
+        return array( 'type' => 'location', 'value' => $this->subtree->node_id );
     }
 
     public function __toString()
     {
-        return "part of subtree " . $this->subtree->getNodeId();
+        return "part of subtree " . $this->subtree->node_id;
     }
 
     /**
