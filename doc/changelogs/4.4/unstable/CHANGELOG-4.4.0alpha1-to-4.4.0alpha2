@@ -19,7 +19,7 @@ Changes from 4.4.0alpha1 to 4.4.0alpha2
 *Translations:
 
 *Bugfixes:
-- Fixed bug #016879 Make debug popup XHTML Valid
+- Fixed bug #016879: Make debug popup XHTML Valid
 - Fixed bug #016872: unclear error message of copy subtree
 - Fixed bug #016865: incorrect operator used for totalPriceIncVat in ezorder.php
 - Fixed bug #016861: content/browse gives a fatal error when user isn't logged in
@@ -31,6 +31,7 @@ Changes from 4.4.0alpha1 to 4.4.0alpha2
 - Fixed bug #016814: Rendering problems in ezxmltext datatype
 - Fixed bug #016799: CSS class doesn't show when link is image, not text
 - Fixed bug #016797: eZSimplifiedXMLEditOutput does not unescape &nbsp; like output handler does
+- Fixed bug #016737: Oracle requires fields in ORDER BY to also be in the SELECT list or it will return an error
 - Fixed bug #016713: eZImageType doesn't use real main node for image path
 - Fixed bug #016648: eZOperationMemento::createKey() if one of the process parameters is array, generated key is incorrect
 - Fixed bug #016542: System upgrade > check db consistency fails at comparing CHARACTER VARYING NULL fields
