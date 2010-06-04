@@ -153,5 +153,66 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
         
         $this->assertType( 'eZContentObjectTreeNode', $node);
     }
+    
+/**
+     * Regesssion test for issue #16737
+     * 1) Test executing the sql and verify that it doesn't have database error.
+     * 2) Test the sorting in class_name, class_name with contentobject_id
+     * The test should pass in mysql, postgresql and oracle
+     */
+    public function testIssue16737()
+    {
+        //test generated result of createSortingSQLStrings
+        $sortList = array( array( 'class_name', true ) );
+        $result = eZContentObjectTreeNode::createSortingSQLStrings( $sortList );
+        $this->assertEquals( ', ezcontentclass_name.name as contentclass_name',
+                            strtolower( $result['attributeTargetSQL'] ) );
+        $this->assertEquals( 'contentclass_name asc', strtolower( $result['sortingFields'] ) );
+
+        $sortListTwo = array( array( 'class_name', false ),
+                              array( 'class_identifier', true ) );
+        $result = eZContentObjectTreeNode::createSortingSQLStrings( $sortListTwo );
+        $this->assertEquals( ', ezcontentclass_name.name as contentclass_name',
+                            strtolower( $result['attributeTargetSQL'] ));
+        $this->assertEquals( 'contentclass_name desc, ezcontentclass.identifier asc',
+                            strtolower( $result['sortingFields'] ) );
+
+        //test trash node with classname
+        $sortBy = array( array( 'class_name', true ),
+                         array( 'contentobject_id', true ) );
+        $params = array( 'SortBy', $sortBy );
+        $result = eZContentObjectTrashNode::trashList( $params );
+        $this->assertEquals( array(), $result );
+        $result = eZContentObjectTrashNode::trashList( $params, true );
+        $this->assertEquals( 0, $result );  //if there is an error, there will be fatal error message
+
+        //test subtreenode with classname
+        $parent = new ezpObject( 'folder', 1 );
+        $parent->publish();
+        $parentNodeID = $parent->mainNode->node_id;
+
+        $article = new ezpObject( 'article', $parentNodeID );
+        $article->publish();
+
+        $link = new ezpObject( 'link', $parentNodeID );
+        $link->publish();
+
+        $folder = new ezpObject( 'folder', $parentNodeID );
+        $folder->publish();
+
+        $folder2 = new ezpObject( 'folder', $parentNodeID );
+        $folder2->publish();
+
+        $sortBy = array( array( 'class_name', false ) );
+        $params = array( 'SortBy' => $sortBy );
+        $result = eZContentObjectTreeNode::subTreeByNodeID( $params, $parentNodeID );
+        $this->assertEquals( $article->mainNode->node_id, $result[count( $result )-1]->attribute( 'node_id' ) );
+
+        $sortBy = array( array( 'class_name', false ),
+                         array( 'contentobject_id', false ) );
+        $params = array( 'SortBy' => $sortBy );
+        $result = eZContentObjectTreeNode::subTreeByNodeID( $params, $parentNodeID );
+        $this->assertEquals( $folder2->mainNode->node_id, $result[1]->attribute( 'node_id' ) );
+    }
 }
 ?>
