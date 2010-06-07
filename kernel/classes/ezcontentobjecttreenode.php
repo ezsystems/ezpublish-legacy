@@ -702,7 +702,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         case 'class_name':
                         {
                             $classNameFilter = eZContentClassName::sqlFilter();
-                            $sortingFields .= $classNameFilter['nameField'];
+                            $sortingFields .= 'contentclass_name';
+                            $datatypeSortingTargetSQL .= ", $classNameFilter[nameField] AS contentclass_name";
                             $attributeFromSQL .= ", $classNameFilter[from]";
                             $attributeWhereSQL .= "$classNameFilter[where] AND ";
                         } break;
