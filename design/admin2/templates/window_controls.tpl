@@ -15,6 +15,7 @@
 {if $valid_tabs|contains( $node_tab_index )|not()}
     {set $node_tab_index = $default_tab}
 {/if}
+<div class="button-left"><a id="maincontent-showhide" class="show-hide-tabs" href="#">-</a></div>
 <ul class="tabs">
     {* Content (pre)view *}
     {if $view_enabled}

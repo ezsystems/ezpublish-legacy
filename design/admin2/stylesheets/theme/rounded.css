@@ -137,6 +137,36 @@ a.show-hide-control:hover
     border-color: #666;
 }
 
+a.show-hide-tabs
+{
+    background-color: white;
+    border: 1px solid #999;
+    padding: 0 5px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    background: #f3f3f3 url('../../images/2/gradient-to-darker.png') repeat-x left top scroll;
+    border: 1px solid #CCCCCC;
+    cursor: pointer;
+    font-weight: normal;
+    font-size: 1em;
+    overflow: visible;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: text-bottom;
+    width: auto;
+}
+
+a.show-hide-tabs:hover
+{
+    border-color: #999;
+}
+
+.tab-block .button-left 
+{
+    margin: 3px 7px 0 0;
+}
+
 #controlbar-top .box-bc
 {
     border: 1px solid #ccc;
