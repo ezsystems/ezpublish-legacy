@@ -3,37 +3,37 @@ jQuery(function( $ )
 {
     var NodeTab = {
         timeout : null,
-    	click : function( e )
+        click : function( e )
         {
-    	    NodeTab.open( e.target.parentNode.id, true );
-        	return false;
+            NodeTab.open( e.target.parentNode.id, true );
+            return false;
         },
-    	open : function( id, save )
+        open : function( id, save )
         {
-        	var li = $( '#' + id );
-        	if ( li.size() && !li.hasClass('selected') )
-        	{
+            var li = $( '#' + id );
+            if ( li.size() && !li.hasClass('selected') )
+            {
                 if ( NodeTab.timeout !== null )
                 {
                     clearTimeout( NodeTab.timeout );
                     NodeTab.timeout = null;
                 }
                 var block = $( li[0].parentNode.parentNode.parentNode );
-        		block.find("ul.tabs li.selected").removeClass('selected');
-        		block.find("div.tab-content.selected").addClass('hide').removeClass('selected');
-        		li.addClass('selected');
-        		$( '#' + id + '-content' ).addClass('selected').removeClass('hide');
+                block.find("ul.tabs li.selected").removeClass('selected');
+                block.find("div.tab-content.selected").addClass('hide').removeClass('selected');
+                li.addClass('selected');
+                $( '#' + id + '-content' ).addClass('selected').removeClass('hide');
 
-        		if ( save ) NodeTab.timeout = setTimeout( function(){ NodeTab.save( id ) }, 400 );
-        	}
+                if ( save ) NodeTab.timeout = setTimeout( function(){ NodeTab.save( id ) }, 400 );
+            }
         },
-    	save : function( id )
-    	{
+        save : function( id )
+        {
             if ( id.indexOf( 'node-tab-' ) === 0 )
             {
                 expireDate  = new Date();
                 expireDate.setTime( expireDate.getTime() + 365 * 86400000 );
-        	    NodeTab.setCookie( 'adminNavigationTab', id.split('tab-')[1], expireDate );
+                NodeTab.setCookie( 'adminNavigationTab', id.split('tab-')[1], expireDate );
             }
         },
         // cookie functions
@@ -51,10 +51,10 @@ jQuery(function( $ )
             return null;
         }
     };
-	$('div.tab-block ul.tabs li a').click( NodeTab.click );
-	var openTab = NodeTab.getCookie( 'adminNavigationTab' );
-	if ( openTab )
-	{
-		NodeTab.open( 'node-tab-' + openTab );
-	}
+    $('div.tab-block ul.tabs li a').click( NodeTab.click );
+    var openTab = NodeTab.getCookie( 'adminNavigationTab' );
+    if ( openTab )
+    {
+        NodeTab.open( 'node-tab-' + openTab );
+    }
 });

@@ -101,6 +101,11 @@ ul.tabs li a, ul.tabs li span.disabled
     background-color: #fff;
 }
 
+.tabs-content.disabled
+{
+    border-top: 1px solid #ccc;
+}
+
 /* CSS Media Query's to adjust layout based on screen width */
 
 @media all and (max-width: 1080px)
