@@ -2,12 +2,54 @@
 jQuery(function( $ )
 {
     var NodeTab = {
+
         timeout : null,
+
+        // click on a tab event
         click : function( e )
         {
             NodeTab.open( e.target.parentNode.id, true );
+
+            // enable tabs if disabled
+            var link = document.getElementById('maincontent-show');
+            if ( link )
+            {
+                NodeTab.toggle( $('div.tab-block ul.tabs'), $('div.tab-block div.tabs-content'), link );
+            }
+
             return false;
         },
+
+        // toggle tabs ( enable / disable state )
+        toggleClick : function( e )
+        {
+            NodeTab.toggle( $('div.tab-block ul.tabs'), $('div.tab-block div.tabs-content'), e.target );
+            return false;
+        },
+
+        // toggle tabs ( enable / disable state )
+        toggle : function( ul, div, link )
+        {
+            if ( ul.hasClass('disabled') )
+            {
+                ul.removeClass('disabled');
+                div.removeClass('disabled');
+                NodeTab.saveTabState( 1 );
+                link.innerHTML = '-';
+                link.id = 'maincontent-hide';
+            }
+            else
+            {
+                ul.addClass('disabled');
+                div.addClass('disabled');
+                NodeTab.saveTabState( 0 );
+                link.innerHTML = '+';
+                link.id = 'maincontent-show';
+            }
+            return false;
+        },
+
+        // open a tab & optionally save state
         open : function( id, save )
         {
             var li = $( '#' + id );
@@ -24,10 +66,19 @@ jQuery(function( $ )
                 li.addClass('selected');
                 $( '#' + id + '-content' ).addClass('selected').removeClass('hide');
 
-                if ( save ) NodeTab.timeout = setTimeout( function(){ NodeTab.save( id ) }, 400 );
+                if ( save ) NodeTab.timeout = setTimeout( function(){ NodeTab.saveOpenTab( id ) }, 400 );
             }
         },
-        save : function( id )
+
+        // save tab state (using ajax)
+        saveTabState : function( intBool )
+        {
+            var url = $.ez.url.replace( 'ezjscore/', 'user/preferences/set_and_exit/admin_navigation_content/' ) + intBool;
+            $.post( url, {}, function(){} );
+        },
+
+        // save open tab (using cookie)
+        saveOpenTab : function( id )
         {
             if ( id.indexOf( 'node-tab-' ) === 0 )
             {
@@ -36,11 +87,14 @@ jQuery(function( $ )
                 NodeTab.setCookie( 'adminNavigationTab', id.split('tab-')[1], expireDate );
             }
         },
-        // cookie functions
+
+        // set cookie value
         setCookie: function( name, value, expires, path )
         {
             document.cookie = name + '=' + escape(value) + ( expires ? '; expires=' + expires.toUTCString(): '' ) + '; path='+ (path ? path : '/');
         },
+
+        // get cookie value
         getCookie: function( name )
         {
             var n = name + '=', c = document.cookie, start = c.indexOf( n ), end = c.indexOf( ";", start );
@@ -51,9 +105,13 @@ jQuery(function( $ )
             return null;
         }
     };
+
     $('div.tab-block ul.tabs li a').click( NodeTab.click );
+
+    $('#maincontent-hide').click( NodeTab.toggleClick );
+
     var openTab = NodeTab.getCookie( 'adminNavigationTab' );
-    if ( openTab )
+    if ( openTab && $('div.tab-block ul.tabs.tabs-by-cookie #node-tab-' + openTab).size() )
     {
         NodeTab.open( 'node-tab-' + openTab );
     }

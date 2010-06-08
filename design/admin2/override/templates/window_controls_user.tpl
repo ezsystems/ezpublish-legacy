@@ -3,6 +3,7 @@
      $tabs_disabled       = ezpreference( 'admin_navigation_content' )|not
      $default_tab         = 'view'
      $node_tab_index      = first_set( $view_parameters.tab, $default_tab )
+     $read_open_tab_by_cookie = true()
      $available_languages = fetch( 'content', 'prioritized_languages' )
      $translations        = $node.object.languages
      $translations_count  = $translations|count
@@ -14,17 +15,23 @@
      $assigned_roles      = fetch( 'user', 'member_of', hash( 'id', $node.contentobject_id ) )
      $valid_tabs = array( $default_tab, 'details', 'translations', 'locations', 'relations', 'roles', 'policies' )
 }
-{if $valid_tabs|contains( $node_tab_index )|not()}
-    {set $node_tab_index = $default_tab}
-{/if}
 
 {if $tabs_disabled}
-    <div class="button-left"><a id="maincontent-showhide" class="show-hide-tabs" href={'/user/preferences/set/admin_navigation_content/1'|ezurl} title="{'Enable &quot;Tabs&quot; while browsing content.'|i18n( 'design/admin/parts/my/menu' )}">+</a></div>
+    <div class="button-left"><a id="maincontent-show" class="show-hide-tabs" href={'/user/preferences/set/admin_navigation_content/1'|ezurl} title="{'Enable &quot;Tabs&quot; by default  while browsing content.'|i18n( 'design/admin/parts/my/menu' )}">+</a></div>
 {else}
-    <div class="button-left"><a id="maincontent-showhide" class="show-hide-tabs" href={'/user/preferences/set/admin_navigation_content/0'|ezurl} title="{'Disable &quot;Tabs&quot; while browsing content.'|i18n( 'design/admin/parts/my/menu' )}">-</a></div>
+    <div class="button-left"><a id="maincontent-hide" class="show-hide-tabs" href={'/user/preferences/set/admin_navigation_content/0'|ezurl} title="{'Disable &quot;Tabs&quot; by default  while browsing content.'|i18n( 'design/admin/parts/my/menu' )}">-</a></div>
 {/if}
 
-<ul class="tabs context-user">
+{if $valid_tabs|contains( $node_tab_index )|not()}
+    {set $node_tab_index = $default_tab}
+{elseif is_set( $view_parameters.tab )}
+    {* Force tabs enabled if there is a tab index in the url and it's valid *}
+    {set $tabs_disabled = false()}
+    {* Signal to node_tab.js that tab is forced by url *}
+    {set $read_open_tab_by_cookie = false()}
+{/if}
+
+<ul class="tabs{if $tabs_disabled} disabled{/if}{if $read_open_tab_by_cookie} tabs-by-cookie{/if}">
     {* Content (pre)view *}
     <li id="node-tab-view" class="first{if $node_tab_index|eq('view')} selected{/if}">
         {if $tabs_disabled}
@@ -109,7 +116,7 @@
 <div class="tabs-content">
     {include uri='design:windows.tpl'}
 </div>
-{ezscript_require( 'node_tabs.js' )}
 {/if}
 
+{ezscript_require( 'node_tabs.js' )}
 {undef}
