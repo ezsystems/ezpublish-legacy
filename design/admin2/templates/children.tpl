@@ -1,7 +1,6 @@
 <div class="content-view-children">
 
 {* Generic children list for admin interface. *}
-{* TODO: admin_children_viewmode should be replaced w/the table column preferences *} 
 {def $item_type    = ezpreference( 'admin_list_limit' )
      $number_of_items = min( $item_type, 3)|choose( 10, 10, 25, 50 )
      $can_remove   = false()
@@ -14,8 +13,7 @@
      $children_count = fetch( content, list_count, hash( 'parent_node_id', $node.node_id,
                                                          'objectname_filter', $view_parameters.namefilter ) )
      $children    = array()
-     $priority    = and( eq( $node.sort_array[0][0], 'priority' ), $node.can_edit, $children_count )
-     $priority_dd = and( $priority, $admin_children_viewmode|ne( 'thumbnail' ), $view_parameters.offset|eq( 0 ) )}
+     $priority    = and( eq( $node.sort_array[0][0], 'priority' ), $node.can_edit, $children_count ) }
      
 
 <!-- Children START -->
@@ -88,19 +86,12 @@
 </div>
 
 {* Load yui code for subitems diplay even if current node has no children (since cache blocks  does not vary by this) *}
-{ezscript_require('ezjsc::yui2', 'ezjsc::yui3')}
+{ezscript_require( array('ezjsc::yui2', 'ezjsc::yui3', 'ezajaxsubitems_datatable.js') )}
 
 
 {* Load drag and drop code if access rights are ok (but not depending on node sort as pagelayout cache-block does not include that in key) *}
 {if $node.can_edit}
-{ezscript_require( array( 'ezjsc::yui3', 'ezjsc::yui3io', 'ezajaxsubitems_sortdd.js' ) )}
-{/if}
-
-{* Execute drag and drop code if sortField=priority and access rights are ok *}
-{if $priority_dd}
-<script type="text/javascript">
-eZAjaxSubitemsSortDD.init();
-</script>
+{ezscript_require( array( 'ezjsc::yui3', 'ezjsc::yui3io') )}
 {/if}
 
 
