@@ -1,6 +1,6 @@
 
 # v1.2.0alpha4
-- #016900: [patch] eZJSCore: clearing Packer cache in DB cluster
+- Fixed bug #016900: [patch] eZJSCore: clearing Packer cache in DB cluster
 
 
 # v1.2.0alpha3
