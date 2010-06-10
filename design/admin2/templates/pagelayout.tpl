@@ -5,6 +5,7 @@
 {* Do some uncacheable left + right menu stuff before cache-block's *}
 {def $ui_context_edit      = eq( $ui_context, 'edit' )
      $content_edit         = and( $ui_context_edit, eq( $ui_component, 'content' ) )
+     $hide_left_menu       = first_set( $module_result.content_info.persistent_variable.left_menu, $content_edit|not )|not
      $hide_right_menu      = first_set( $module_result.content_info.persistent_variable.extra_menu, $ui_context_edit|not )|not
      $collapse_right_menu  = ezpreference( 'admin_right_menu_show' )|not
      $admin_left_size      = ezpreference( 'admin_left_menu_size' )
@@ -105,7 +106,7 @@
 <hr class="hide" />
 
 {* LEFT MENU / CONTENT STRUCTURE MENU *}
-{if $content_edit}
+{if $hide_left_menu}
 {else}
     {include uri='design:page_leftmenu.tpl'}
 {/if}
@@ -113,7 +114,7 @@
 {/cache-block}{* /Pr uri cache *}
 
 {* Main area START *}
-{if $content_edit}
+{if $hide_left_menu}
     {include uri='design:page_mainarea.tpl'}
 {else}
     <div id="maincontent">
