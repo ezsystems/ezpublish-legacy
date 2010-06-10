@@ -1,5 +1,8 @@
 eZ Online Editor 5.x extension Changelog
 
+5.2.0alpha4
+- Updated TinyMCE to 3.3.7
+
 5.2.0alpha3
 - Updated TinyMCE to 3.3.6
 
