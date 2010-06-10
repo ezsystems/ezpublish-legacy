@@ -29,6 +29,7 @@ id=ezjscore-packer
 tags[]=content
 tags[]=template
 path=public
+isClustered=true
 
 
 
