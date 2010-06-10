@@ -17,4 +17,5 @@ Changes from 4.4.0alpha3 to 4.4.0alpha4
 *Translations:
 
 *Bugfixes:
+- Fixed wrong --iteration-limit parameter parsing for clusterbinarypurge.php, ref. issue #15793: eZDFS: Image files and aliases are not removed when a objectversion is deleted
 
