@@ -1,4 +1,8 @@
 
+# v1.2.0alpha4
+- #016900: [patch] eZJSCore: clearing Packer cache in DB cluster
+
+
 # v1.2.0alpha3
 - Implemented #16495: Improvements of ezjscPacker::optimizeCSS()
 - Fixed bug #16635: ezjscore: @charset "utf-8"; is not stripped
