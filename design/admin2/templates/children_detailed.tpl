@@ -129,9 +129,15 @@ var labelsObj = {ldelim}
     var createOptions = [];
 {/if}
 
-sortableSubitems(confObj, labelsObj, createGroups, createOptions);
-
 {literal}
+YUILoader.require(['datatable', 'button', 'container']);
+YUILoader.onSuccess = function() {
+    var ss = sortableSubitems();
+    ss.init(confObj, labelsObj, createGroups, createOptions);
+};
+var options = [];
+YUILoader.insert(options, 'js');
+
 })();
 {/literal}
 

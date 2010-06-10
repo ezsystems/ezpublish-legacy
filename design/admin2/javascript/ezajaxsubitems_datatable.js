@@ -1,7 +1,11 @@
-var sortableSubitems = function(confObj, labelsObj, createGroups, createOptions) {
+var sortableSubitems = function () {
 
-    YUILoader.onSuccess = function() {
+    var confObj = {};
+    var labelsObj = {};
+    var createGroups = [];
+    var createOptions = [];
 
+    function initDataTable(){
         var formatName = function(cell, record, column, data) {
             cell.innerHTML =  record.getData('class_icon') + '&nbsp' + '<a href="' + record.getData('url') + '" title="' + data + '">' + data + '</a>';
         }
@@ -34,8 +38,7 @@ var sortableSubitems = function(confObj, labelsObj, createGroups, createOptions)
             {key:"modified_date", label:labelsObj.DATA_TABLE_COLS.modified, sortable:true, resizeable:true},
             {key:"published_date", label:labelsObj.DATA_TABLE_COLS.published, sortable:true, resizeable:true, hidden:false},
             {key:"section", label:labelsObj.DATA_TABLE_COLS.section, sortable:true, resizeable:true},
-            {key:"priority", label: labelsObj.DATA_TABLE_COLS.priority, sortable:true, resizeable:true, 
-                editor: new YAHOO.widget.TextboxCellEditor({asyncSubmitter: updatePriority, disableBtns:true, validator:YAHOO.widget.DataTable.validateNumber}) }
+            {key:"priority", label: labelsObj.DATA_TABLE_COLS.priority, sortable:true, resizeable:true, editor: new YAHOO.widget.TextboxCellEditor({asyncSubmitter: updatePriority, disableBtns:true, validator:YAHOO.widget.DataTable.validateNumber}) }
             //,{key:"", label: " ", sortable:false, hidden:false}
         ];
 
@@ -411,11 +414,19 @@ var sortableSubitems = function(confObj, labelsObj, createGroups, createOptions)
         contextMenu.clickEvent.subscribe(contextMenuItemAction, subItemsTable);
         contextMenu.subscribe('beforeShow', contextMenuShowAction, subItemsTable);
         contextMenu.subscribe('hide', contextMenuHideAction, subItemsTable);
-    }
+    };
+    
+    return {
+        init: function (conf, labels, groups, options) {
+            confObj = conf
+            labelsObj = labels;
+            createGroups = groups;
+            createOptions = options;
 
-    YUILoader.require(['datatable', 'button', 'container']);
+            initDataTable();
 
-    // Load the files using the insert() method.
-    var options = [];
-    YUILoader.insert(options, 'js');
+        }
+    };
+ 
 };
+
