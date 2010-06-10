@@ -1,0 +1,19 @@
+Changes from 4.4.0alpha2 to 4.4.0alpha3
+
+*Kernel:
+
+*Design:
+
+*eZTemplate:
+- Implemented enhancement #002314: urldecode should be added by default in template.ini
+
+*eZLocale:
+
+*Package system:
+
+*Scripts:
+
+*Translations:
+
+*Bugfixes:
+
