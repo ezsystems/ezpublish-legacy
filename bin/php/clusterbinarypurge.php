@@ -46,7 +46,7 @@ if ( $options['iteration-sleep'] )
     $purgeHandler->optIterationSleep = (int)( $options['iteration-sleep'] * 1000000 );
 }
 
-if ( $options['iteration-max'] )
+if ( $options['iteration-limit'] )
 {
     $purgeHandler->optIterationLimit = (int)$options['iteration-limit'];
 }
