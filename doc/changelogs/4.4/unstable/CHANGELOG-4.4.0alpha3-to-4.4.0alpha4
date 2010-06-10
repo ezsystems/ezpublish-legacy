@@ -5,6 +5,7 @@ Changes from 4.4.0alpha2 to 4.4.0alpha3
 *Design:
 
 *eZTemplate:
+- Implemented enhancement #016901: Allow PHPOperatorList functions to work with parameter in template compile mode
 - Implemented enhancement #002314: urldecode should be added by default in template.ini
 
 *eZLocale:
