@@ -290,6 +290,22 @@ tr.yui-dt-odd {
 
 .yui-dt tbody tr:hover {
     background-color:#D1DFE9;
+/*    cursor: pointer;*/
+}
+
+.yui-dt tbody tr .yui-dt-liner .yui-dt-button{
+    background-color: transparent;
+    border: 0 none;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    vertical-align:middle;
+    width:16px;
+    height: 16px;
+}
+
+.yui-dt tbody tr:hover .yui-dt-liner .yui-dt-button{
+    background: url("../../images/2/icon-crank-16x16.png") no-repeat scroll center center transparent;
 }
 
 .yui-dt-list tr.yui-dt-even {

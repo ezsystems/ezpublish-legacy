@@ -4,6 +4,7 @@ var sortableSubitems = function () {
     var labelsObj = {};
     var createGroups = [];
     var createOptions = [];
+    var subItemsTable;
 
     function initDataTable(){
         var formatName = function(cell, record, column, data) {
@@ -14,6 +15,10 @@ var sortableSubitems = function () {
             cell.innerHTML = '<input type="checkbox" name="DeleteIDArray[]" value="' + record.getData('node_id') + '" />';
         }
 
+        var customButton = function(cell, record, column, data) {
+            cell.innerHTML = '<button class="yui-dt-button" type="button"><div class="hide">Click</div></button>';
+        }
+        
         var updatePriority = function(callback, v) {
             var record = this.getRecord(), dataTable = this.getDataTable(), sortedBy = dataTable.get('sortedBy'), paginator = dataTable.get('paginator');
             
@@ -31,15 +36,18 @@ var sortableSubitems = function () {
 
         var columnDefs = [
             {key:"", Label:"", formatter:customCheckbox},
+            {key:"", label:"", sortable:false, formatter:customButton},
             {key:"name", label:labelsObj.DATA_TABLE_COLS.name, sortable:true, resizeable:true, formatter:formatName},
             {key:"hidden_status_string", label: labelsObj.DATA_TABLE_COLS.visibility, sortable:false, resizeable:true},
             {key:"class_name", label:labelsObj.DATA_TABLE_COLS.type, sortable:true, resizeable:true},
             {key:"creator", label:labelsObj.DATA_TABLE_COLS.modifier, sortable:false, resizeable:true},
             {key:"modified_date", label:labelsObj.DATA_TABLE_COLS.modified, sortable:true, resizeable:true},
-            {key:"published_date", label:labelsObj.DATA_TABLE_COLS.published, sortable:true, resizeable:true, hidden:false},
+            {key:"published_date", label:labelsObj.DATA_TABLE_COLS.published, sortable:true, resizeable:true},
             {key:"section", label:labelsObj.DATA_TABLE_COLS.section, sortable:true, resizeable:true},
-            {key:"priority", label: labelsObj.DATA_TABLE_COLS.priority, sortable:true, resizeable:true, editor: new YAHOO.widget.TextboxCellEditor({asyncSubmitter: updatePriority, disableBtns:true, validator:YAHOO.widget.DataTable.validateNumber}) }
-            //,{key:"", label: " ", sortable:false, hidden:false}
+            {key:"node_id", label:labelsObj.DATA_TABLE_COLS.nodeid, sortable:true, resizeable:true},
+            {key:"contentobject_id", label:labelsObj.DATA_TABLE_COLS.contentid, sortable:true, resizeable:true},
+            {key:"priority", label: labelsObj.DATA_TABLE_COLS.priority, sortable:true, resizeable:true, 
+                editor: new YAHOO.widget.TextboxCellEditor({asyncSubmitter: updatePriority, disableBtns:true, validator:YAHOO.widget.DataTable.validateNumber}) }
         ];
 
         // Hide columns
@@ -65,7 +73,7 @@ var sortableSubitems = function () {
             resultsList: "content.list",
             fields: [
                 {key:"name"},
-                {key:"modified_date", },
+                {key:"modified_date"},
                 {key:"hidden_status_string"},
                 {key:"class_name"},
                 {key:"creator", parser:creatorParser},
@@ -131,7 +139,7 @@ var sortableSubitems = function () {
             MSG_LOADING: labelsObj.DATA_TABLE.msg_loading
         };
 
-        var subItemsTable = new YAHOO.widget.DataTable( "content-sub-items-list",
+        subItemsTable = new YAHOO.widget.DataTable( "content-sub-items-list",
                                                         columnDefs,
                                                         dataSource,
                                                         tableConfig );
@@ -332,8 +340,65 @@ var sortableSubitems = function () {
                                                         id:"ezbtn-options",
                                                         container:"action-controls",
                                                         onclick: { fn: showTblOptsDialog, obj: this, scope: true } });
+    };
 
-        // Context menu on right-click
+    function menuContent() {
+        
+     // Accepted menus from menuArray (note: using keys, since not all menus have headerID)
+        var whiteList = ['advanced', 'contextmenu'];
+        var menuItems = [];
+        
+        menuItems.push({ text: labelsObj.CONTEXT_MENU.edit, id: "ezopt-menu-edit", url: confObj.editURL});
+        menuItems.push({ text: labelsObj.CONTEXT_MENU.preview, id: "ezopt-menu-preview", url: confObj.previewURL});
+
+        $(menuArray).each(function() {                                      // Loop array returned from jquery
+            $.each(this, function(key, value) {                             // Loop menuArray
+                var k = jQuery.trim(key).toLowerCase();
+                if (jQuery.inArray(k, whiteList) != -1) {                   // Validate menu against whiteList
+                    if (this.elements && this.elements.length != 0) {       // check for valid menu items
+                        $.each( this.elements, function(key, value) {       // Loop menu element per group
+                            if ($('#' + key).text() && value.url) {         // Check if element has html-markup'ed text
+                                menuItems.push({ text: $('#' + key).text(), id:"ezopt-" + key, url: value.url });
+                            }
+                        });
+                    }
+                }
+            });
+        });
+
+        return menuItems;
+    };
+    
+    
+    // Updates URL-"macros" in menuitems according to the selected node
+    function formatMenuItems(menu, nodeId, objectId, version){ 
+        
+        $.each(menu.getItems(), function(index, item) {
+            var url = item.cfg.getProperty('url');
+            url = url.replace('%nodeID%', nodeId);
+            url = url.replace('%objectID%', objectId);
+            url = url.replace('%currentURL%', confObj.currentURL);
+            url = url.replace('%version%', version);
+            item.cfg.setProperty('url', url);
+        });
+    };
+
+    // Action wrapper for context menu
+    function formatMenuItemsAction(type, args, dt){ 
+        
+        var row = dt.getTrEl(this.contextEventTarget);
+        var record = dt.getRecord(row);
+        var nodeId = record.getData('node_id');
+        var objectId = record.getData('contentobject_id');
+        var version = record.getData('version');
+        
+        formatMenuItems(this, nodeId, objectId, version);
+    };
+    
+    
+    // Context menu on right-click
+    // Menu items are taken form the DOM array menuArray used by the ezpopupmenu.js
+    function initContextMenu() {
 
         var contextMenuItemAction = function(type, args, dt) {
             var task = args[1];
@@ -345,62 +410,21 @@ var sortableSubitems = function () {
                 return;
         }
 
-        var contextMenuShowAction = function(type, args, dt){ 
+        var contextMenuSelectAction = function(type, args, dt) {
             var row = dt.getTrEl(this.contextEventTarget);
             dt.selectRow(row);
-
-            // Right alignes the menu within the clicked tr
-            //this.cfg.setProperty('context', [row, 'tr', 'br']);
-
-            //  Updates URL-"macros" in menuitems according to the selected node
-            var record = dt.getRecord(row);
-            var nodeId = record.getData('node_id');
-            var objectId = record.getData('contentobject_id');
-            var version = record.getData('version');
-
-            var items = this.getItems();
-            var itemsLength = items.length;
-            for (var i=0; i < itemsLength; i++) {
-                var item = items[i];
-                var url = item.cfg.getProperty('url');
-                url = url.replace('%nodeID%', nodeId);
-                url = url.replace('%objectID%', objectId);
-                url = url.replace('%currentURL%', confObj.currentURL);
-                url = url.replace('%version%', version);
-                item.cfg.setProperty('url', url);
-            }
         }
-
-        var contextMenuHideAction = function(type, args, dt) {
+        
+        var contextMenuUnselectAction = function(type, args, dt) {
             var row = dt.getTrEl(this.contextEventTarget);
             dt.unselectRow(row);
         }
 
         var contextMenu = new YAHOO.widget.ContextMenu("ezdt-context-menu", {trigger:subItemsTable.getTbodyEl()});
         contextMenu.cfg.setProperty("scrollincrement", 5);
-        contextMenu.addItem({ text: labelsObj.CONTEXT_MENU.edit, id: "ezopt-menu-edit", url: confObj.editURL});
-        contextMenu.addItem({ text: labelsObj.CONTEXT_MENU.preview, id: "ezopt-menu-preview", url: confObj.previewURL});
-
-        var whiteList = ['advanced', 'contextmenu'];        // Accepted menus (note: using keys, since not all menus have headerID)
-
-        $(menuArray).each(function() {                                      // Loop array returned from jquery
-            var group = 0;
-            $.each(this, function(key, value) {                             // Loop menuArray
-                var k = jQuery.trim(key).toLowerCase();
-                if (jQuery.inArray(k, whiteList) != -1) {                   // Validate menu against whiteList
-                    if (this.elements && this.elements.length != 0) {       // check for valid menu items
-                        $.each( this.elements, function(key, value) {       // Loop menu element per group
-                            if ($('#' + key).text() && value.url) {         // Check if element has html-markup'ed text
-                                contextMenu.addItem({ text: $('#' + key).text(), id:"ezopt-" + key, url: value.url }, group);
-                            }
-                        });
-                    }
-                    //contextMenu.setItemGroupTitle(k, group); 
-                    group += 1;
-                }
-            });
-        });
-
+        var items = menuContent();
+        contextMenu.addItems(items);
+        
         //  hide the focus outline for MenuItem instances
         contextMenu.subscribe("render", function () {
             $.each(this.getItems(), function() {
@@ -410,12 +434,43 @@ var sortableSubitems = function () {
 
         // Render the ContextMenu instance to the parent container of the DataTable
         contextMenu.render('content-sub-items-list');
-
         contextMenu.clickEvent.subscribe(contextMenuItemAction, subItemsTable);
-        contextMenu.subscribe('beforeShow', contextMenuShowAction, subItemsTable);
-        contextMenu.subscribe('hide', contextMenuHideAction, subItemsTable);
+        contextMenu.subscribe('beforeShow', formatMenuItemsAction, subItemsTable);
+        contextMenu.subscribe('beforeShow', contextMenuSelectAction, subItemsTable);
+        contextMenu.subscribe('hide', contextMenuUnselectAction, subItemsTable);
     };
-    
+
+    function initLeftClickMenu() {
+        var leftClickMenu = new YAHOO.widget.Menu("ezdt-leftclick-menu");
+        leftClickMenu.cfg.setProperty("scrollincrement", 5);
+        
+        leftClickMenu.addItems(menuContent());
+        leftClickMenu.subscribe('beforeShow', formatMenuItemsAction, subItemsTable);
+        leftClickMenu.render('content-sub-items-list');
+        
+        // hide the focus outline for MenuItem instances
+        leftClickMenu.subscribe("render", function () {
+            $.each(this.getItems(), function() {
+                this.element.firstChild.hideFocus = true;
+                });
+        });
+        
+        subItemsTable.subscribe("buttonClickEvent", function(oArgs){
+            var target = oArgs.target;
+            var record = this.getRecord(oArgs.target);
+            var nodeId = record.getData('node_id');
+            var objectId = record.getData('contentobject_id');
+            var version = record.getData('version');
+            
+            leftClickMenu.cfg.setProperty("context", [target, "tr", "br"]);
+            formatMenuItems(leftClickMenu, nodeId, objectId, version); 
+            leftClickMenu.show();
+            
+        });
+        
+        
+    };
+
     return {
         init: function (conf, labels, groups, options) {
             confObj = conf
@@ -424,9 +479,10 @@ var sortableSubitems = function () {
             createOptions = options;
 
             initDataTable();
-
+            initContextMenu();
+            initLeftClickMenu();
         }
     };
  
-};
+}();
 

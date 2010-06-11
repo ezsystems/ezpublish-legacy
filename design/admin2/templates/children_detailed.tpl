@@ -43,7 +43,9 @@ var labelsObj = {ldelim}
                         modified: "{'Modified'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
                         published: "{'Published'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
                         section: "{'Section'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
-                        priority: "{'Priority'|i18n( 'design/admin/node/view/full' )|wash('javascript')}"
+                        priority: "{'Priority'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        nodeid: "{'Node ID'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        contentid: "{'Object ID'|i18n( 'design/admin/node/view/full' )|wash('javascript')}"
                     {rdelim},
 
     TABLE_OPTIONS: {ldelim}
@@ -74,7 +76,7 @@ var labelsObj = {ldelim}
 
                         preview: "{'Preview'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
                         edit: "{'Edit'|i18n( 'design/admin/node/view/full' )|wash('javascript')}"
-                    {rdelim},
+                    {rdelim}
 
 {rdelim};
 
@@ -132,8 +134,8 @@ var labelsObj = {ldelim}
 {literal}
 YUILoader.require(['datatable', 'button', 'container']);
 YUILoader.onSuccess = function() {
-    var ss = sortableSubitems();
-    ss.init(confObj, labelsObj, createGroups, createOptions);
+sortableSubitems.init(confObj, labelsObj, createGroups, createOptions);
+//    ss.init(confObj, labelsObj, createGroups, createOptions);
 };
 var options = [];
 YUILoader.insert(options, 'js');
