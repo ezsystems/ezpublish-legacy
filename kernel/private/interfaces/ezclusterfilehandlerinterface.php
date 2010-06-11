@@ -392,5 +392,13 @@ interface eZClusterFileHandlerInterface
      * @return bool
      **/
     public function requiresClusterizing();
+
+    /**
+     * This method indicates if the cluster file handler requires binary files
+     * to be purged in order to be physically deleted
+     *
+     * @since 4.3
+     */
+    public function requiresBinaryPurge();
 }
 ?>

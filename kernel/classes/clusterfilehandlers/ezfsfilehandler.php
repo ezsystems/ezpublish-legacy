@@ -1049,6 +1049,17 @@ class eZFSFileHandler
         return false;
     }
 
+    /**
+     * eZFS does not require binary purge.
+     * Files are stored on plain FS and removed using FS functions
+     *
+     * @since 4.3
+     */
+    public function requiresBinaryPurge()
+    {
+        return false;
+    }
+
     public $metaData = null;
     public $filePath;
 }
