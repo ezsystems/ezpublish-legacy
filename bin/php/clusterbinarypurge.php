@@ -53,7 +53,7 @@ if ( $options['iteration-limit'] )
 
 if ( $options['memory-monitoring'] )
 {
-    $purgeHandler->opt = true;
+    $purgeHandler->optMemoryMonitoring = true;
 }
 
 $purgeHandler->run();
