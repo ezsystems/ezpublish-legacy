@@ -2,7 +2,7 @@
 /**
  * This class handles purging of cluster items. It is used by both the script
  * and cronjob.
- * 
+ *
  * Performance note: this procedure should be quite nice to the server memory
  * wise. It has been monitored as reaching about 5MB memory usage on a thousand
  * items, and ended up with an almost constant usage. No particular setting
@@ -10,7 +10,7 @@
  *
  * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
- * 
+ *
  * @property bool optDryRun
  * @property int optIterationLimit
  * @property int optIterationSleep
@@ -27,25 +27,25 @@ class eZScriptClusterPurge
             'memory-monitoring' => false,
         );
     }
-    
+
     /**
      * Performs preliminary checks in order to ensure the process can be
      * started:
      * - does the active cluster handler require purging of binary files
-     * 
+     *
      * @return bool
      */
     public static function isRequired()
     {
         $clusterHandler = eZClusterFileHandler::instance();
         $result = $clusterHandler->requiresBinaryPurge();
-        
+
         return $result;
     }
-    
+
     /**
      * Executes the purge operation
-     * 
+     *
      * @todo Endless loop on fetch list. The expired items are returned over and over again
      **/
     public function run()
@@ -57,21 +57,21 @@ class eZScriptClusterPurge
             eZLog::rotateLog( self::LOG_FILE );
             $cli->notice( "Logging memory usage to " . self::LOG_FILE );
         }
-        
+
         if ( $this->optIterationSleep > 0 )
             $sleep = ( $this->optIterationSleep * 1000000 );
         else
             $sleep = false;
-        
+
         $limit = array( 0, $this->optIterationLimit );
-        
+
         $cli->output( "Purging expired binary items:" );
-        
+
         self::monitor( "start" );
-        
+
         // Fetch a limited list of purge items from the handler itself
         $clusterHandler = eZClusterFileHandler::instance();
-        while( $filesList = $clusterHandler->fetchExpiredBinaryItems( $limit ) )
+        while ( $filesList = $clusterHandler->fetchExpiredBinaryItems( $limit ) )
         {
             self::monitor( "iteration start" );
             foreach( $filesList as $file )
@@ -87,7 +87,7 @@ class eZScriptClusterPurge
             }
             if ( $sleep !== false )
                 usleep( $sleep );
-            
+
             // the offset only has to be increased in dry run mode
             // since each batch is not deleted
             if ( $this->optDryRun == true )
@@ -99,7 +99,7 @@ class eZScriptClusterPurge
 
         self::monitor( "end" );
     }
-    
+
     public function __get( $propertyName )
     {
         switch( $propertyName )
@@ -108,7 +108,7 @@ class eZScriptClusterPurge
             {
                 return $this->options['dry-run'];
             } break;
-            
+
             // no sleep in dry-run, it's not nap time !
             case 'optIterationSleep':
             {
@@ -117,7 +117,7 @@ class eZScriptClusterPurge
                 else
                     return $this->options['iteration-sleep'];
             } break;
-            
+
             case 'optIterationLimit':
             {
                 return $this->options['iteration-limit'];
@@ -129,7 +129,7 @@ class eZScriptClusterPurge
             } break;
         }
     }
-    
+
     /**
      * @todo Add type & value check
      */
@@ -141,12 +141,12 @@ class eZScriptClusterPurge
             {
                 $this->options['dry-run'] = $propertyValue;
             } break;
-            
+
             case 'optIterationSleep':
             {
                 return $this->options['iteration-sleep'] = $propertyValue;
             } break;
-            
+
             case 'optIterationLimit':
             {
                 $this->options['iteration-limit'] = $propertyValue;
@@ -158,17 +158,17 @@ class eZScriptClusterPurge
             } break;
         }
     }
-    
+
     public function monitor( $text )
     {
         if ( $this->opt == true )
         {
             eZLog::write( "mem [$text]: " . memory_get_usage(), self::LOG_FILE );
         }
-    }   
-     
+    }
+
     private $options = array();
-    
+
     const LOG_FILE = 'clusterbinarypurge.log';
 }
 ?>

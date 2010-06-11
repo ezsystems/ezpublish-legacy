@@ -1663,22 +1663,22 @@ class eZDBFileHandlerMysqlBackend
 
         return ( $row[0] + $this->dbparams['cache_generation_timeout'] ) - time();
     }
-    
+
     /**
      * Returns the list of expired binary files (images + binaries)
-     * 
+     *
      * @param array $scopes Array of scopes to consider. At least one.
      * @param int $limit Max number of items. Set to false for unlimited.
-     * 
+     *
      * @return array(filepath)
-     * 
+     *
      * @since 4.3
      */
     public function expiredFilesList( $scopes, $limit = array( 0, 100 ) )
     {
         if ( count( $scopes ) == 0 )
             throw new ezcBaseValueException( 'scopes', $scopes, "array of scopes", "parameter" );
-        
+
         $scopeString = $this->_sqlList( $scopes );
         $query = "SELECT name FROM " . TABLE_METADATA . " WHERE expired = 1 AND scope IN( $scopeString )";
         if ( $limit !== false )
