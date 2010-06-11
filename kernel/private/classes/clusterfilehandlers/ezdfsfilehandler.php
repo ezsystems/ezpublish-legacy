@@ -1412,9 +1412,9 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface
 
     /**
      * Fetches the first $limit expired binary items from the DB
-     * 
+     *
      * @param array $limit A 2 items array( offset, limit )
-     * 
+     *
      * @return array(filepath)
      * @since 4.3.0
      */
