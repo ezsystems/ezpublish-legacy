@@ -5,6 +5,6 @@ share/translations/
 lib/ezc/
 var/autoload/
 var/cache/
-var/ezwebin_site/
+var/*_site/
 var/log/
 var/storage/
