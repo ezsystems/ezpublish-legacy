@@ -1,0 +1,10 @@
+extension/
+settings/override/
+share/locale/
+share/translations/
+lib/ezc/
+var/autoload/
+var/cache/
+var/ezwebin_site/
+var/log/
+var/storage/
