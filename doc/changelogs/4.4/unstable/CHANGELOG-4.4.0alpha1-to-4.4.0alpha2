@@ -1,7 +1,6 @@
 Changes from 4.4.0alpha1 to 4.4.0alpha2
 
 *Kernel:
-- Implemented enhancement #016851: Only execute code for kernel-datatype-ezxmltext debug when enabled
 - Implemented enhancement #016722: eZOE/eZ Publish should support several &nbsp; characters and not just one
 - Completed enhancement #016711: order/priority is handled through an XML file that also handles ezinfo.
   See doc/features/4.4/extensions_ordering_v2.txt
@@ -19,26 +18,11 @@ Changes from 4.4.0alpha1 to 4.4.0alpha2
 *Translations:
 
 *Bugfixes:
-- Fixed bug #016879: Make debug popup XHTML Valid
-- Fixed bug #016872: unclear error message of copy subtree
-- Fixed bug #016865: incorrect operator used for totalPriceIncVat in ezorder.php
-- Fixed bug #016861: content/browse gives a fatal error when user isn't logged in
-- Fixed bug #016848: Unable to make an IsInline[externalimage]=image custom tag inline (fix available)
-- Fixed bug #016838: iPhone and Content-Range support
-- Fixed bug #016830: kernel/setup/systemupgrade.php - typo in php classname
 - Fixed bug #016829: Bug in user/preferences
 - Fixed bug #016828: content/view/full => if node_id is no numeric or < 2 ez should return an error_code
-- Fixed bug #016814: Rendering problems in ezxmltext datatype
-- Fixed bug #016799: CSS class doesn't show when link is image, not text
 - Fixed bug #016797: eZSimplifiedXMLEditOutput does not unescape &nbsp; like output handler does
-- Fixed bug #016737: Oracle requires fields in ORDER BY to also be in the SELECT list or it will return an error
 - Fixed bug #016713: eZImageType doesn't use real main node for image path
-- Fixed bug #016648: eZOperationMemento::createKey() if one of the process parameters is array, generated key is incorrect
 - Fixed bug #016542: System upgrade > check db consistency fails at comparing CHARACTER VARYING NULL fields
 - Fixed bug #016527: warnings when using a login handler
 - Fixed bug #016230: Notice "undefined variable" when saving a draft with an objectrelationlist attribute
-- Fixed bug #015641: BCC - sending problem with the notification mail (regression in 4.3 and 4.4)
-- Fixed bug #014973: Update basket keys missing in operation_definition
 - Fixed bug #014366: Duplicate remote_id in ezcontentobject_tree - for LDAP users
-- Fixed bug #010355: Confusing build and revision number
-- Fixed bug #008518: setup/info reports incorrect svn revision
