@@ -8,3 +8,4 @@ var/cache/
 var/*_site/
 var/log/
 var/storage/
+var/dfsmount/
