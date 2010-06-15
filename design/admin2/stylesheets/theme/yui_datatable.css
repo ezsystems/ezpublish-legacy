@@ -227,6 +227,8 @@ th.yui-dt-desc .yui-dt-liner {
 
 tbody .yui-dt-editable {
     cursor: pointer;
+    text-decoration: underline;
+    color: #0B4E7A;
 }
 
 .yui-dt-editor {
