@@ -1527,7 +1527,6 @@ CREATE TABLE ezcontentobject (
     current_version integer,
     id integer DEFAULT nextval('ezcontentobject_s'::text) NOT NULL,
     initial_language_id integer DEFAULT 0 NOT NULL,
-    is_published integer,
     language_mask integer DEFAULT 0 NOT NULL,
     modified integer DEFAULT 0 NOT NULL,
     name character varying(255),
