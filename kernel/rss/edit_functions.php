@@ -130,10 +130,10 @@ class eZRSSEditFunction
 
             if( $publish && $valid )
             {
-                $rssExportItem->setAttribute( 'status', 1 );
+                $rssExportItem->setAttribute( 'status', eZRSSExport::STATUS_VALID );
                 $rssExportItem->store();
                 // delete drafts
-                $rssExportItem->setAttribute( 'status', 0 );
+                $rssExportItem->setAttribute( 'status', eZRSSExport::STATUS_DRAFT );
                 $rssExportItem->remove();
             }
             else

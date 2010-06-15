@@ -1,0 +1,13 @@
+extension/
+settings/override/
+share/locale/
+share/translations/
+lib/ezc/
+var/autoload/
+var/cache/
+var/*_site/
+var/log/
+var/storage/
+var/dfsmount/
+var/test*
+var/somesubfolder/

@@ -298,7 +298,7 @@ class eZURL extends eZPersistentObject
                                              AND ezurl_object_link.$cObjAttrVersionColumn     = ezcontentobject_attribute.version
                                              AND ezcontentobject_attribute.contentobject_id   = ezcontentobject_version.contentobject_id
                                              AND ezcontentobject_attribute.version            = ezcontentobject_version.version
-                                             AND ezcontentobject_version.status               = 1
+                                             AND ezcontentobject_version.status               = " . eZContentObjectVersion::STATUS_PUBLISHED . "
                                                  $conditionQuery" );
                 return $urls[0]['count'];
             }
@@ -316,7 +316,7 @@ class eZURL extends eZPersistentObject
                               AND ezurl_object_link.$cObjAttrVersionColumn     = ezcontentobject_attribute.version
                               AND ezcontentobject_attribute.contentobject_id   = ezcontentobject_version.contentobject_id
                               AND ezcontentobject_attribute.version            = ezcontentobject_version.version
-                              AND ezcontentobject_version.status               = 1
+                              AND ezcontentobject_version.status               = " . eZContentObjectVersion::STATUS_PUBLISHED . "
                              $conditionQuery";
 
                 if ( !$offset && !$limit )

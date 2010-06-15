@@ -1237,7 +1237,7 @@ class eZContentObject extends eZPersistentObject
             if ( $versionCount >= $versionlimit )
             {
                 // Remove oldest archived version
-                $params = array( 'conditions'=> array( 'status' => 3 ) );
+                $params = array( 'conditions'=> array( 'status' => eZContentObjectVersion::STATUS_ARCHIVED ) );
                 $versions = $this->versions( true, $params );
                 if ( count( $versions ) > 0 )
                 {

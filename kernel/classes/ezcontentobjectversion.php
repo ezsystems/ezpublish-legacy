@@ -1643,7 +1643,7 @@ class eZContentObjectVersion extends eZPersistentObject
                     ezcontentobject_version.contentobject_id='$objectID'
                 AND ( ezcontentobject_version.status in ( " .
                       eZContentObjectVersion::STATUS_DRAFT . ", " . eZContentObjectVersion::STATUS_PENDING . ", " . eZContentObjectVersion::STATUS_INTERNAL_DRAFT .
-                      " ) OR ( ezcontentobject_version.status = '1' AND ezcontentobject_version.version = '$version' ) )
+                      " ) OR ( ezcontentobject_version.status = '" . self::STATUS_PUBLISHED . "' AND ezcontentobject_version.version = '$version' ) )
                 AND ezcontentobject_attribute.contentobject_id=ezcontentobject_version.contentobject_id
                 AND ezcontentobject_attribute.version=ezcontentobject_version.version
                 AND ezcontentobject_attribute.language_id!='$initialLanguageID'

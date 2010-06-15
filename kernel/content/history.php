@@ -81,7 +81,9 @@ if ( count( $object->versions() ) > 1 )
     foreach( $versionArray as $versionItem )
     {
         //Only return version numbers of archived or published items
-        if ( in_array( $versionItem['status'], array( 0, 1, 3 ) ) )
+        if ( in_array( $versionItem['status'], array( eZContentObjectVersion::STATUS_DRAFT,
+                                                      eZContentObjectVersion::STATUS_PUBLISHED,
+                                                      eZContentObjectVersion::STATUS_ARCHIVED ) ) )
         {
             $selectableVersions[] = $versionItem['version'];
         }
@@ -300,7 +302,7 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
     }
     else
     {
-        $params = array( 'conditions'=> array( 'status' => 3 ) );
+        $params = array( 'conditions'=> array( 'status' => eZContentObjectVersion::STATUS_ARCHIVED ) );
         $versions = $object->versions( true, $params );
         if ( count( $versions ) > 0 )
         {
