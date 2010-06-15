@@ -126,7 +126,7 @@ class eZRSSExportItem extends eZPersistentObject
                       'description' => '',
                       'title' => '',
                       'enclosure' => '',
-                      'status' => 0,
+                      'status' => eZRSSExport::STATUS_DRAFT,
                       'subnodes' => 0);
         return new eZRSSExportItem( $row );
     }

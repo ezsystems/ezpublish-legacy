@@ -160,7 +160,7 @@ class eZRSSExport extends eZPersistentObject
                       'modified' => $dateTime,
                       'creator_id' => $user_id,
                       'created' => $dateTime,
-                      'status' => 0,
+                      'status' => self::STATUS_DRAFT,
                       'url' => 'http://'. $config->variable( 'SiteSettings', 'SiteURL' ),
                       'description' => '',
                       'image_id' => 0,
@@ -247,7 +247,7 @@ class eZRSSExport extends eZPersistentObject
                                                 null,
                                                 array( 'access_url' => $access_url,
                                                        'active' => 1,
-                                                       'status' => 1 ),
+                                                       'status' => self::STATUS_VALID ),
                                                 $asObject );
     }
 
@@ -258,7 +258,7 @@ class eZRSSExport extends eZPersistentObject
     static function fetchList( $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZRSSExport::definition(),
-                                                    null, array( 'status' => 1 ), null, null,
+                                                    null, array( 'status' => self::STATUS_VALID ), null, null,
                                                     $asObject );
     }
 
