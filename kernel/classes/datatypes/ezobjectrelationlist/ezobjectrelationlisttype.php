@@ -476,7 +476,6 @@ class eZObjectRelationListType extends eZDataType
                         $object->setAttribute( 'published', $time );
                     $object->setAttribute( 'modified', $time );
                     $object->setAttribute( 'current_version', $version->attribute( 'version' ) );
-                    $object->setAttribute( 'is_published', true );
                     $objectName = $class->contentObjectName( $object, $version->attribute( 'version' ) );
                     $object->setName( $objectName, $version->attribute( 'version' ) );
                     $object->store();

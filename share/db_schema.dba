@@ -1804,12 +1804,6 @@ $schema = array (
         'not_null' => '1',
         'default' => 0,
       ),
-      'is_published' => 
-      array (
-        'length' => 11,
-        'type' => 'int',
-        'default' => NULL,
-      ),
       'language_mask' => 
       array (
         'length' => 11,

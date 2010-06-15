@@ -5,6 +5,7 @@ Changes from 4.4.0alpha3 to 4.4.0alpha4
 *Design:
 
 *eZTemplate:
+- Implemented enhancement #016903: 'is_published' field of ezcontentobject table is not used and should be dropped
 - Implemented enhancement #016901: Allow PHPOperatorList functions to work with parameter in template compile mode
 - Implemented enhancement #002314: urldecode should be added by default in template.ini
 
