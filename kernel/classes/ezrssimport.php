@@ -169,7 +169,7 @@ class eZRSSImport extends eZPersistentObject
                       'created' => $dateTime,
                       'object_owner_id' => $userID,
                       'url' => '',
-                      'status' => 0,
+                      'status' => self::STATUS_DRAFT,
                       'destination_node_id' => 0,
                       'class_id' => 0,
                       'class_title' => '',
@@ -234,7 +234,7 @@ class eZRSSImport extends eZPersistentObject
     {
         return eZPersistentObject::fetchObjectList( eZRSSImport::definition(),
                                                     null,
-                                                    array( 'status' => 1,
+                                                    array( 'status' => self::STATUS_VALID,
                                                            'active' => 1 ),
                                                     null,
                                                     null,
