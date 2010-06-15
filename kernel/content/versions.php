@@ -204,7 +204,7 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
     }
     else
     {
-        $params = array( 'conditions'=> array( 'status' => 3 ) );
+        $params = array( 'conditions'=> array( 'status' => eZContentObjectVersion::STATUS_ARCHIVED ) );
         $versions = $object->versions( true, $params );
         if ( count( $versions ) > 0 )
         {

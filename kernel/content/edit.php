@@ -163,7 +163,7 @@ if ( $http->hasPostVariable( 'NewDraftButton' ) )
     }
     else
     {
-        $params = array( 'conditions'=> array( 'status' => 3 ) );
+        $params = array( 'conditions'=> array( 'status' => eZContentObjectVersion::STATUS_ARCHIVED ) );
         $versions = $obj->versions( true, $params );
         if ( count( $versions ) > 0 )
         {
