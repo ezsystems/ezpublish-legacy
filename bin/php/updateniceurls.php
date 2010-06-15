@@ -454,7 +454,7 @@ function fetchPathIdentificationStringCount()
 {
     $db = eZDB::instance();
     $sql = 'SELECT count(*) AS count
-            FROM ezcontentobject WHERE ezcontentobject.status = 1';
+            FROM ezcontentobject WHERE ezcontentobject.status = ' . eZContentObject::STATUS_PUBLISHED;
     $rows = $db->arrayQuery( $sql );
     if ( count( $rows ) > 0 )
         return $rows[0]['count'];
@@ -465,7 +465,7 @@ function fetchPathIdentificationStringChunk( $offset, $fetchLimit )
 {
     $db = eZDB::instance();
     $sql = 'SELECT id
-            FROM ezcontentobject WHERE ezcontentobject.status = 1';
+            FROM ezcontentobject WHERE ezcontentobject.status = ' . eZContentObject::STATUS_PUBLISHED;
     $rows = $db->arrayQuery( $sql,
                              array( 'offset' => $offset,
                                     'limit' => $fetchLimit ) );
@@ -758,7 +758,7 @@ if ( $urlCount > 0 )
                         list( $column, $counter ) = displayProgress( 's', $urlImportStartTime, $counter, $urlCount, $column );
                         continue;
                     }
-                    if ( $tmprows[0]['status'] != 1 )
+                    if ( $tmprows[0]['status'] != eZContentObject::STATUS_PUBLISHED )
                     {
                         logError( "Found the alias " . var_export( $source, true ) . " with ID {$row['id']} which points to " . var_export( $action, true ) . " but that content-object/node is not currently published (status is {$tmprows[0]['status']})" );
                         list( $column, $counter ) = displayProgress( 's', $urlImportStartTime, $counter, $urlCount, $column );
