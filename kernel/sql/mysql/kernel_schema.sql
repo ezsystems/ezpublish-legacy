@@ -399,7 +399,6 @@ CREATE TABLE ezcontentobject (
   current_version int(11) default NULL,
   id int(11) NOT NULL auto_increment,
   initial_language_id int(11) NOT NULL default '0',
-  is_published int(11) default NULL,
   language_mask int(11) NOT NULL default '0',
   modified int(11) NOT NULL default '0',
   name varchar(255) default NULL,
