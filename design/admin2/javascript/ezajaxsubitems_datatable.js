@@ -1,10 +1,10 @@
 var sortableSubitems = function () {
 
-    var confObj = {};
-    var labelsObj = {};
-    var createGroups = [];
-    var createOptions = [];
-    var subItemsTable;
+    var confObj;
+    var labelsObj;
+    var createGroups;
+    var createOptions;
+    var dataTable;
     var menuItems;
 
     function initDataTable(){
@@ -341,9 +341,11 @@ var sortableSubitems = function () {
                                                         id:"ezbtn-options",
                                                         container:"action-controls",
                                                         onclick: { fn: showTblOptsDialog, obj: this, scope: true } });
+    
+    return subItemsTable;
     };
-    
-    
+
+
     // Menu items are taken from the DOM array menuArray used by the ezpopupmenu.js
     function menuContent() {
         
@@ -415,6 +417,7 @@ var sortableSubitems = function () {
         });
     }
 
+
     // Hide the focus outline for MenuItem instances
     var hideFocusAction = function(type, args, menu) {
         $.each(menu.getItems(), function(i,e) {
@@ -442,18 +445,19 @@ var sortableSubitems = function () {
             dt.selectRow(row);
         }
 
-        var contextMenu = new YAHOO.widget.ContextMenu("ezdt-context-menu", {trigger:subItemsTable.getTbodyEl()});
+        var contextMenu = new YAHOO.widget.ContextMenu("ezdt-context-menu", {trigger:dataTable.getTbodyEl()});
         contextMenu.cfg.setProperty("scrollincrement", 5);
+        contextMenu.cfg.setProperty("lazyLoad", true);
         contextMenu.addItems(menuItems);
         
         //contextMenu.subscribe("render", hideFocusAction, contextMenu);
 
         // Render the ContextMenu instance to the parent container of the DataTable
-        contextMenu.render('content-sub-items-list');
-        contextMenu.clickEvent.subscribe(contextMenuItemAction, subItemsTable);
-        contextMenu.subscribe('beforeShow', formatMenuItemsAction, subItemsTable);
-        contextMenu.subscribe('beforeShow', contextMenuSelectAction, subItemsTable);
-        contextMenu.subscribe('hide', unselectTableAction, subItemsTable);
+        contextMenu.render(dataTable.configs.element);
+        contextMenu.clickEvent.subscribe(contextMenuItemAction, dataTable);
+        contextMenu.subscribe('beforeShow', formatMenuItemsAction, dataTable);
+        contextMenu.subscribe('beforeShow', contextMenuSelectAction, dataTable);
+        contextMenu.subscribe('hide', unselectTableAction, dataTable);
         contextMenu.subscribe('hide', resetMenuItemsAction, contextMenu);
     };
 
@@ -462,23 +466,29 @@ var sortableSubitems = function () {
     
         var leftClickMenu = new YAHOO.widget.Menu("ezdt-leftclick-menu");
         leftClickMenu.cfg.setProperty("scrollincrement", 5);
+        leftClickMenu.cfg.setProperty("lazyLoad", true);
         leftClickMenu.addItems(menuItems);
+        leftClickMenu.render(dataTable.configs.element);
         
         // Hide menu when clicking Esc
-        subItemsTable.subscribe("keydown", function(e){
+        dataTable.subscribe("keydown", function(e){
             if (e.keyCode == 27) {
                 leftClickMenu.hide();
                 this.focus();
             }
         });
         
-        leftClickMenu.subscribe('hide', unselectTableAction, subItemsTable);
+        leftClickMenu.subscribe('hide', unselectTableAction, dataTable);
         leftClickMenu.subscribe('hide', resetMenuItemsAction, leftClickMenu);
-        leftClickMenu.render('content-sub-items-list');
+        
+        // NOTE: Regardless of this attempt, the focus is stuck on the clicked button
+        leftClickMenu.subscribe('show', function(args){
+            leftClickMenu.focus();
+        });
         
         //leftClickMenu.subscribe("render", hideFocusAction, leftClickMenu);
         
-        subItemsTable.subscribe("buttonClickEvent", function(args){
+        dataTable.subscribe("buttonClickEvent", function(args){
             var trgt = args.target;
             var row = this.getTrEl(trgt);
             var record = this.getRecord(trgt);
@@ -493,13 +503,12 @@ var sortableSubitems = function () {
             leftClickMenu.cfg.setProperty("context", [trgt, "tr", "bl"]);
             
             // Update menu items & show
-            formatMenuItems(leftClickMenu, nodeId, objectId, version); 
+            formatMenuItems(leftClickMenu, nodeId, objectId, version);
             leftClickMenu.show();
-            
         });
         
-        
     };
+
 
     return {
         init: function (conf, labels, groups, options) {
@@ -508,10 +517,10 @@ var sortableSubitems = function () {
             createGroups = groups;
             createOptions = options;
 
-            menuItems = menuContent();
-            initDataTable();
-            initContextMenu();
-            initLeftClickMenu();
+            menuItems = menuContent();      // Parsing DOM object menuArray once
+            dataTable = initDataTable();    // dataTable used by menus
+            initContextMenu();              // dataTable's context menu. Available in Opera via ctrl+left-click
+            initLeftClickMenu();            // dataTable's left-click alternative to the context menu
         }
     };
  
