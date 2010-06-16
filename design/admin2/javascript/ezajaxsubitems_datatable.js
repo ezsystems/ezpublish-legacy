@@ -464,6 +464,7 @@ var sortableSubitems = function () {
         leftClickMenu.cfg.setProperty("scrollincrement", 5);
         leftClickMenu.addItems(menuItems);
         
+        // Hide menu when clicking Esc
         subItemsTable.subscribe("keydown", function(e){
             if (e.keyCode == 27) {
                 leftClickMenu.hide();
