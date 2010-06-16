@@ -59,7 +59,7 @@
 <div class="break"></div>
 
 <div class="block">
-<input class="button button-module" type="submit" name="AddModule" value="{'Grant access to all functions'|i18n( 'design/admin/role/createpolicystep1' )}" />
+<input class="button" type="submit" name="AddModule" value="{'Grant access to all functions'|i18n( 'design/admin/role/createpolicystep1' )}" />
 <input class="button button-module" type="submit" name="CustomFunction" value="{'Grant access to one function'|i18n( 'design/admin/role/createpolicystep1' )}" />
 
 <input class="button-disabled button-function" disabled="disabled" type="submit" name="AddFunction" value="{'Grant full access'|i18n( 'design/admin/role/createpolicystep2' )}"  />
