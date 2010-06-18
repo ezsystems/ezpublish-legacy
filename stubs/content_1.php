@@ -7,7 +7,7 @@ $out = new ezcConsoleOutput();
 
 try {
     $folder = ezpContent::fromNodeId( 2 );
-    $folder->setActiveLanguage( 'ger-DE' );
+    $folder->setActiveLanguage( 'eng-GB' );
     $out->outputText( "Name: " );
     $out->outputLine( (string)$folder->fields->name );
 } catch( Exception $e ) {
