@@ -1671,7 +1671,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                                 if ( count( $limitationArray[$ident] ) > 1 )
                                 {
-                                    $sqlPartPart[] = $db->generateSQLInStatement( $limitationArray[$ident], "$stateTable.id" );
+                                    $sqlPartPart[] = $db->generateSQLINStatement( $limitationArray[$ident], "$stateTable.id" );
                                 }
                                 else
                                 {
@@ -1735,7 +1735,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         else if ( $sliceLength > 0 )
         {
             $db = eZDB::instance();
-            $pathString = ' ' . $db->generateSQLInStatement( $pathArray, 'node_id' ) . ' and ';
+            $pathString = ' ' . $db->generateSQLINStatement( $pathArray, 'node_id' ) . ' and ';
         }
 
         return $pathString;
@@ -3045,7 +3045,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     }
                     else
                     {
-                        $sqlCondition = $db->generateSQLInStatement( $nodeID, 'node_id', false, true, 'int' ) . ' AND ';
+                        $sqlCondition = $db->generateSQLINStatement( $nodeID, 'node_id', false, true, 'int' ) . ' AND ';
                     }
                 }
                 else
@@ -4236,7 +4236,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $limitationsToFix = eZPolicyLimitation::findByType( 'SubTree', $node->attribute( 'path_string' ), false );
             if ( count( $limitationsToFix ) > 0 )
             {
-                $limitationIDString = $db->generateSQLInStatement( $limitationsToFix, 'limitation_id' );
+                $limitationIDString = $db->generateSQLINStatement( $limitationsToFix, 'limitation_id' );
                 $subStringString =  $db->subString( 'value', $oldPathLength );
                 $newValue = $db->concatString( array( "'$newPath'", $subStringString ) );
 
@@ -5058,7 +5058,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 return $classList;
             }
 
-            $classIDCondition = $db->generateSQLInStatement( $classIDArray, 'cc.id' );
+            $classIDCondition = $db->generateSQLINStatement( $classIDArray, 'cc.id' );
             // If $asObject is true we fetch all fields in class
             $fields = $asObject ? "cc.*, $classNameFilter[nameField]" : "cc.id, $classNameFilter[nameField]";
             $rows = $db->arrayQuery( "SELECT DISTINCT $fields " .
