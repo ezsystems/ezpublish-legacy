@@ -58,10 +58,10 @@ class ezjscServerRouter
      */
     public static function getInstance( $arguments, $requireIniGroupe = true, $checkFunctionExistence = false )
     {
-        if ( !is_array( $arguments ) || count( $arguments ) < 2 )
+        if ( !is_array( $arguments ) || !isset( $arguments[1] ) )
         {
-            // returns null if argumenst are invalid
-            return null;   
+            // return null if arguments are invalid
+            return null;
         }
 
         $className = $callClassName = array_shift( $arguments );
@@ -94,7 +94,7 @@ class ezjscServerRouter
         }
         else if ( $requireIniGroupe )
         {
-            // return null if ini is not defined as a safty messure
+            // return null if ini is not defined as a safety measure
             // to avoid letting user call all eZ Publish classes
             return null;
         }

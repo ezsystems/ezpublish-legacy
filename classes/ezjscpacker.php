@@ -280,6 +280,10 @@ class ezjscPacker
             else if ( strpos( $file, '::' ) !== false )
             {
                 $server = self::serverCallHelper( explode( '::', $file )  );
+                if ( !$server instanceof ezjscServerRouter )
+                {
+                    continue;
+                }
 
                 $fileTime = $server->getCacheTime( $packerInfo );
 
@@ -567,7 +571,7 @@ class ezjscPacker
         $server = ezjscServerRouter::getInstance( $strServerCall );
         if ( !$server instanceof ezjscServerRouter )
         {
-            eZDebug::writeError( 'Not a valid ezjscServer function: ' . $strServerCall, __METHOD__ );
+            eZDebug::writeError( 'Not a valid ezjscServer function: ' . implode( '::', $strServerCall ), __METHOD__ );
             return null;
         }
         // make sure the function is present on the class
