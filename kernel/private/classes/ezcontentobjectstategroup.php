@@ -542,7 +542,7 @@ class eZContentObjectStateGroup extends eZPersistentObject
         {
             if ( $newDefaultStateID )
             {
-                $contentObjectStateIDCondition = $removeIDListCount > 1 ? $db->generateSQLINStatement( $removeIDList, 'contentobject_state_id' ) :
+                $contentObjectStateIDCondition = $removeIDListCount > 1 ? $db->generateSQLInStatement( $removeIDList, 'contentobject_state_id' ) :
                                                                           "contentobject_state_id=$removeIDList[0]";
                 $db->query( "UPDATE ezcobj_state_link
                              SET contentobject_state_id=$newDefaultStateID

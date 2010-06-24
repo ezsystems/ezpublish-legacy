@@ -4518,7 +4518,7 @@ class eZContentObject extends eZPersistentObject
                 return $classList;
             }
 
-            $classIDCondition = $db->generateSQLINStatement( $classIDArray, 'cc.id' );
+            $classIDCondition = $db->generateSQLInStatement( $classIDArray, 'cc.id' );
             // If $asObject is true we fetch all fields in class
             $fields = $asObject ? "cc.*, $classNameFilter[nameField]" : "cc.id, $classNameFilter[nameField]";
             $rows = $db->arrayQuery( "SELECT DISTINCT $fields " .

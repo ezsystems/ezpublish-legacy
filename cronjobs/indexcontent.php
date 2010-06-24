@@ -64,7 +64,7 @@ while( true )
             }
         }
 
-        $paramInSQL = $db->generateSQLINStatement( $objectIDList, 'param' );
+        $paramInSQL = $db->generateSQLInStatement( $objectIDList, 'param' );
 
         $db->query( "DELETE FROM ezpending_actions WHERE action = 'index_object' AND $paramInSQL" );
         $db->commit();
