@@ -36,7 +36,7 @@ var sortableSubitems = function () {
         }
 
         var columnDefs = [
-            {key:"", Label:"", formatter:customCheckbox},
+            {key:"", label:"", formatter:customCheckbox},
             {key:"", label:"", sortable:false, formatter:customButton},
             {key:"name", label:labelsObj.DATA_TABLE_COLS.name, sortable:true, resizeable:true, formatter:formatName},
             {key:"hidden_status_string", label: labelsObj.DATA_TABLE_COLS.visibility, sortable:false, resizeable:true},
@@ -52,8 +52,8 @@ var sortableSubitems = function () {
         ];
 
         // Hide columns
-        var defsLenght = columnDefs.length;
-        for (var i = 0, l = defsLenght; i < l; i++) {
+        var defsLength = columnDefs.length;
+        for (var i = 0, l = defsLength; i < l; i++) {
             var columnDef = columnDefs[i];
             
             if ((jQuery.inArray(columnDef.key, confObj.hiddenColumns) != -1) && columnDef.key != '')
@@ -126,7 +126,7 @@ var sortableSubitems = function () {
             return "::" + state.pagination.rowsPerPage +
                    "::" + state.pagination.recordOffset +
                    "::" + state.sortedBy.key +
-                   "::" + ((state.sortedBy.dir === YAHOO.widget.DataTable.CLASS_ASC) ? "0" : "1") +
+                   "::" + ((state.sortedBy.dir === YAHOO.widget.DataTable.CLASS_ASC) ? "1" : "0") +
                    "?ContentType=json";
         }
 

@@ -199,7 +199,7 @@ a.show-hide-tabs:hover
 
 .context-information, .subitems-controlbar
 {
-    background-color:#f8f8f8;
+    background-color: #F5F5F5;
     border: 1px solid #ccc;
     -moz-border-radius-bottomleft: 3px;
     -moz-border-radius-bottomright: 3px;
