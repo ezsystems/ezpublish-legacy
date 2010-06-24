@@ -179,7 +179,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
         }
 
         // Select affected nodes
-        $sqlINString = $db->generateSQLINstatement( $userNodeIDList, 'user_node.node_id', false, false, 'int' );
+        $sqlINString = $db->generateSQLINStatement( $userNodeIDList, 'user_node.node_id', false, false, 'int' );
         $sql = "SELECT DISTINCT user_node.node_id,
                                 user_node.path_string,
                                 user_tree.contentobject_id
