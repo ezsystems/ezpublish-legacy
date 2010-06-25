@@ -31,16 +31,10 @@
 
 $event = eZNotificationEvent::create( 'ezcurrenttime', array() );
 
-$db = eZDB::instance();
-$db->begin();
-
 $event->store();
 if ( !$isQuiet )
     $cli->output( "Starting notification event processing" );
 eZNotificationEventFilter::process();
-
-$db->commit();
-
 
 if ( !$isQuiet )
     $cli->output( "Done" );

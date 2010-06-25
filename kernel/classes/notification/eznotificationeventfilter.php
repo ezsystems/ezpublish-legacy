@@ -51,32 +51,44 @@ class eZNotificationEventFilter
      */
     static function process()
     {
-        $eventList = eZNotificationEvent::fetchUnhandledList();
+        $limit = 100;
+        $offset = 0;
         $availableHandlers = eZNotificationEventFilter::availableHandlers();
-        foreach( $eventList as $event )
+        do
         {
-            foreach( $availableHandlers as $handler )
+            $eventList = eZNotificationEvent::fetchUnhandledList( array( 'offset' => $offset, 'length' => $limit ) );
+            foreach( $eventList as $event )
             {
-                if ( $handler === false )
+                $db = eZDB::instance();
+                $db->begin();
+
+                foreach( $availableHandlers as $handler )
                 {
-                    eZDebug::writeError( "Notification handler does not exist: $handlerKey", 'eZNotificationEventFilter::process()' );
+                    if ( $handler === false )
+                    {
+                        eZDebug::writeError( "Notification handler does not exist: $handlerKey", 'eZNotificationEventFilter::process()' );
+                    }
+                    else
+                    {
+                        $handler->handle( $event );
+                    }
+                }
+                $itemCountLeft = eZNotificationCollectionItem::fetchCountForEvent( $event->attribute( 'id' ) );
+                if ( $itemCountLeft == 0 )
+                {
+                    $event->remove();
                 }
                 else
                 {
-                    $handler->handle( $event );
+                    $event->setAttribute( 'status', eZNotificationEvent::STATUS_HANDLED );
+                    $event->store();
                 }
+
+                $db->commit();
             }
-            $itemCountLeft = eZNotificationCollectionItem::fetchCountForEvent( $event->attribute( 'id' ) );
-            if ( $itemCountLeft == 0 )
-            {
-                $event->remove();
-            }
-            else
-            {
-                $event->setAttribute( 'status', eZNotificationEvent::STATUS_HANDLED );
-                $event->store();
-            }
-        }
+            eZContentObject::clearCache();
+        } while ( count( $eventList ) == $limit ); // If less than limit, we're on the last iteration
+
         eZNotificationCollection::removeEmpty();
     }
 
