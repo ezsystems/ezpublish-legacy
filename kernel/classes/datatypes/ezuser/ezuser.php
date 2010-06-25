@@ -1034,7 +1034,7 @@ WHERE user_id = '" . $userID . "' AND
     */
     function loginCurrent()
     {
-        $this->setCurrentlyLoggedInUser( $this, $this->ContentObjectID );
+        self::setCurrentlyLoggedInUser( $this, $this->ContentObjectID );
     }
 
     /*!
