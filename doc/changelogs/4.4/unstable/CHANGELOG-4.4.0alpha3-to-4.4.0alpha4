@@ -22,4 +22,5 @@ Changes from 4.4.0alpha3 to 4.4.0alpha4
 - Fixed bug #011887: List of countries needs to be updated
 - Fixed wrong --iteration-limit parameter parsing for clusterbinarypurge.php, ref. issue #15793: eZDFS: Image files and aliases are not removed when a objectversion is deleted
 - Fixed wrong variable name in clusterbinarypurge.php, ref. issue #15793: eZDFS: Image files and aliases are not removed when a objectversion is deleted
+- Fixed bug #16763: Notification cronjob eats all memory and crashes
 
