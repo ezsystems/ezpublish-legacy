@@ -381,6 +381,7 @@ return array(
       'eZSimplifiedXMLInput'                               => 'kernel/classes/datatypes/ezxmltext/handlers/input/ezsimplifiedxmlinput.php',
       'eZSimplifiedXMLInputParser'                         => 'kernel/classes/datatypes/ezxmltext/handlers/input/ezsimplifiedxmlinputparser.php',
       'eZSiteAccess'                                       => 'kernel/classes/ezsiteaccess.php',
+      'eZSiteData'                                         => 'kernel/classes/ezsitedata.php',
       'eZSiteInstaller'                                    => 'kernel/classes/ezsiteinstaller.php',
       'eZStaticCache'                                      => 'kernel/classes/ezstaticcache.php',
       'eZStepCreateSites'                                  => 'kernel/setup/steps/ezstep_create_sites.php',
