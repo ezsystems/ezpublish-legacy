@@ -308,6 +308,7 @@ return array(
       'eZPaymentGatewayType'                               => 'kernel/classes/workflowtypes/event/ezpaymentgateway/ezpaymentgatewaytype.php',
       'eZPaymentLogger'                                    => 'kernel/classes/workflowtypes/event/ezpaymentgateway/ezpaymentlogger.php',
       'eZPaymentObject'                                    => 'kernel/shop/classes/ezpaymentobject.php',
+      'eZPendingActions'                                   => 'kernel/classes/ezpendingactions.php',
       'eZPersistentObject'                                 => 'kernel/classes/ezpersistentobject.php',
       'eZPgsqlSchema'                                      => 'lib/ezdbschema/classes/ezpgsqlschema.php',
       'eZPlainTextParser'                                  => 'kernel/classes/datatypes/ezbinaryfile/plugins/ezplaintextparser.php',

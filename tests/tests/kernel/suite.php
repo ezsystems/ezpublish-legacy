@@ -70,6 +70,7 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
         // $this->addTestSuite( 'eZRSSExportTest' );
         
         $this->addTestSuite( 'eZSiteDataTest' );
+        $this->addTestSuite( 'eZPendingActionsTest' );
     }
 
     public static function suite()
