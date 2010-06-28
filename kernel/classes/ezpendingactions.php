@@ -46,8 +46,9 @@ class eZPendingActions extends eZPersistentObject
      *                                   First entry is the filter token (can be '=', '<', '<=', '>', '>=')
      *                                   Second entry is the filter value (timestamp)
      * @throws InvalidArgumentException
+     * @return array|null Array of eZPendingActions or null if no entry has been found
      */
-    public static function fetchByAction( $action, array $aCreationDateFilter=array() )
+    public static function fetchByAction( $action, array $aCreationDateFilter = array() )
     {
         $filterConds = array( 'action' => $action );
         
