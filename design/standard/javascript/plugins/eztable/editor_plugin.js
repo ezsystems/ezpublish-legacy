@@ -1133,7 +1133,7 @@
                 });
                 return c;
             }
-        },
+        }
 	});
 
 	// Register plugin
