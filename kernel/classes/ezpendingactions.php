@@ -50,27 +50,36 @@ class eZPendingActions extends eZPersistentObject
      */
     public static function fetchByAction( $action, array $aCreationDateFilter = array() )
     {
-        $filterConds = array( 'action' => $action );
-        
-        // Handle creation date filter
-        if( !empty( $aCreationDateFilter ) )
+        try
         {
-            if( count( $aCreationDateFilter ) != 2 )
+            $filterConds = array( 'action' => $action );
+            
+            // Handle creation date filter
+            if( !empty( $aCreationDateFilter ) )
             {
-                throw new InvalidArgumentException( __CLASS__.'::'.__METHOD__.' : Wrong number of entries for Creation date filter array' );
+                if( count( $aCreationDateFilter ) != 2 )
+                {
+                    throw new InvalidArgumentException( __CLASS__.'::'.__METHOD__.' : Wrong number of entries for Creation date filter array' );
+                }
+                
+                list( $filterToken, $filterValue ) = $aCreationDateFilter;
+                $aAuthorizedFilterTokens = array( '=', '<', '>', '<=', '>=' );
+                if( !is_string( $filterToken ) || !in_array( $filterToken, $aAuthorizedFilterTokens ) )
+                {
+                    throw new InvalidArgumentException( __CLASS__.'::'.__METHOD__.' : Wrong filter type for creation date filter' );
+                }
+                
+                $filterConds['created'] = array( $filterToken, $filterValue );
             }
             
-            list( $filterToken, $filterValue ) = $aCreationDateFilter;
-            $aAuthorizedFilterTokens = array( '=', '<', '>', '<=', '>=' );
-            if( !is_string( $filterToken ) || !in_array( $filterToken, $aAuthorizedFilterTokens ) )
-            {
-                throw new InvalidArgumentException( __CLASS__.'::'.__METHOD__.' : Wrong filter type for creation date filter' );
-            }
-            
-            $filterConds['created'] = array( $filterToken, $filterValue );
+            $result = parent::fetchObjectList( self::definition(), null, $filterConds );
+        }
+        catch( Exception $e )
+        {
+            eZDebug::writeError( $e->getMessage() );
+            $result = null;
         }
         
-        $result = parent::fetchObjectList( self::definition(), null, $filterConds );
         return $result;
     }
 

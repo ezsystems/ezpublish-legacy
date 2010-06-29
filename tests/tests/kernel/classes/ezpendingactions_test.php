@@ -104,11 +104,11 @@ class eZPendingActionsTest extends ezpDatabaseTestCase
      * Test for bad date filter token in eZPendingActions::fetchByAction()
      * @param $badFilter
      * @dataProvider providerForTestBadDateFilter
-     * @expectedException InvalidArgumentException
      */
     public function testBadDateFilter( $badFilter )
     {
         $res = eZPendingActions::fetchByAction( 'test', $badFilter );
+        $this->assertNull( $res );
     }
     
     /**
