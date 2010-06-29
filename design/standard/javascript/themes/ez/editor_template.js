@@ -163,7 +163,7 @@
                     alignleft : {selector : alignElements, attributes : {align : 'left'}},
                     aligncenter : {selector : alignElements, attributes : {align : 'center'}},
                     alignright : {selector : alignElements, attributes : {align : 'right'}},
-                    alignfull : {selector : alignElements, attributes : {align : 'full'}},
+                    alignfull : {selector : alignElements, attributes : {align : 'full'}}
                 });
 
                 // Force parsing of the serializer rules
