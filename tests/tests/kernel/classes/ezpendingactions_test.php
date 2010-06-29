@@ -46,30 +46,16 @@ class eZPendingActionsTest extends ezpDatabaseTestCase
     }
     
     /**
-     * Test for inserting a pending action
-     * @dataProvider providerForTestFecthByAction
-     * @param $action
-     * @param $created
-     * @param $params
-     */
-    public function testInsertPendingAction( $action, $created, $params )
-    {
-        $row = array(
-            'action'      => $action,
-            'created'     => $created,
-            'params'      => $params
-        );
-        
-        $obj = new eZPendingActions( $row );
-        $obj->store();
-        unset( $obj );
-    }
-    
-    /**
      * Unit test for fetchByAction() method
      */
     public function testFetchByAction()
     {
+        // Insert several fixtures at one time. Can't use @dataProvider to do that
+        $fixtures = $this->providerForTestFecthByAction();
+        foreach( $fixtures as $fixture )
+        {
+            $this->insertPendingAction( $fixture[0], $fixture[1], $fixture[2] );
+        }
         
         $res = eZPendingActions::fetchByAction( 'test' );
         $this->assertType( PHPUnit_Framework_Constraint_IsType::TYPE_ARRAY, $res );
@@ -101,6 +87,25 @@ class eZPendingActionsTest extends ezpDatabaseTestCase
     }
     
     /**
+     * Inserts a pending action
+     * @param $action
+     * @param $created
+     * @param $params
+     */
+    private function insertPendingAction( $action, $created, $params )
+    {
+        $row = array(
+            'action'      => $action,
+            'created'     => $created,
+            'param'       => $params
+        );
+        
+        $obj = new eZPendingActions( $row );
+        $obj->store();
+        unset( $obj );
+    }
+    
+    /**
      * Test for bad date filter token in eZPendingActions::fetchByAction()
      * @param $badFilter
      * @dataProvider providerForTestBadDateFilter
@@ -129,6 +134,13 @@ class eZPendingActionsTest extends ezpDatabaseTestCase
      */
     public function testRemoveByAction()
     {
+        // Insert several fixtures at one time. Can't use @dataProvider to do that
+        $fixtures = $this->providerForTestFecthByAction();
+        foreach( $fixtures as $fixture )
+        {
+            $this->insertPendingAction( $fixture[0], $fixture[1], $fixture[2] );
+        }
+        
         eZPendingActions::removeByAction( 'test' );
         $res = eZPendingActions::fetchByAction( 'test' );
         $this->assertTrue( empty( $res ) );
