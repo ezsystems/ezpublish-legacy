@@ -22,5 +22,6 @@ define( 'STORAGE_CHUNK_SIZE',  65535             );
 
 if ( !defined( 'STORAGE_BACKEND' ) )
     die( "No storage backend chosen.\n" );
+ini_set( 'display_errors', 0 );
 include_once( 'index_image_' . STORAGE_BACKEND . '.php' );
 ?>
