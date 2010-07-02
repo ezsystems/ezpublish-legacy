@@ -11,3 +11,5 @@ var/storage/
 var/dfsmount/
 var/test*
 var/somesubfolder/
+*.DS_Store
+.project

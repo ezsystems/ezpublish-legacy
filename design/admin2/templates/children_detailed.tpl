@@ -116,8 +116,8 @@ var labelsObj = {ldelim}
             {if $can_create_class.can_instantiate_languages}
             {ldelim} text: "{$can_create_class.name|wash()}", value: {$can_create_class.id} {rdelim}
 
-            {delimiter},{/delimiter}
             {/if}
+            {delimiter}{if $can_create_class.can_instantiate_languages},{/if}{/delimiter}
         {/foreach}
         ]
         {delimiter}
