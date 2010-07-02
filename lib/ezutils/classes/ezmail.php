@@ -102,14 +102,22 @@ class eZMail
         $version = eZPublishSDK::version();
 
         $this->MIMEVersion = '1.0';
+
+        $ini = eZINI::instance();
+
+        // Set the value from [MailSettings] OutputCharset as the desired mail charset
+        $charset = eZTextCodec::internalCharset();
+        if ( $ini->hasVariable( 'MailSettings', 'OutputCharset' ) )
+        {
+            $charset = $ini->variable( 'MailSettings', 'OutputCharset' );
+        }
+
         $this->ContentType = array( 'type' => 'text/plain',
-                                    'charset' => eZTextCodec::internalCharset(),
+                                    'charset' => $charset,
                                     'transfer-encoding' => '8bit',
                                     'disposition' => 'inline',
                                     'boundary' => false );
         $this->UserAgent = "eZ Publish, Version $version";
-
-        $ini = eZINI::instance();
 
         if ( $ini->hasVariable( 'MailSettings', 'ContentType' ) )
             $this->setContentType( $ini->variable( 'MailSettings', 'ContentType' ) );
@@ -740,6 +748,8 @@ class eZMail
                 list( $type, $subType ) = explode( '/', $this->ContentType['type'] );
                 $this->Mail->body->subType = $subType;
             }
+            $this->Mail->body->charset = $this->ContentType['charset'];
+            $this->Mail->body->encoding = $this->ContentType['transfer-encoding'];
         }
         $newBody = preg_replace( "/\r\n|\r|\n/", eZMail::lineSeparator(), $newBody );
         $this->BodyText = $newBody;

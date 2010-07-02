@@ -191,6 +191,24 @@ class eZMailEzcTest extends ezpTestCase
         preg_match( "/Content-Type: text\/html/", $ezcResult, $matches );
         $this->assertEquals( 1, count( $matches ) );
     }
+
+    /**
+     * Test for issue #16893: Wrong charset encoding in notification email
+     */
+    public function testRegressionSetContentTypeCharset()
+    {
+        // Set a custom charset in site.ini which will be tested
+        // if it's set properly in the sent mail
+        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'OutputCharset', 'custom-charset' );
+
+        $mail = new eZMail();
+        $mail->setBody( __FUNCTION__ );
+
+        $ezcResult = $mail->Mail->generate();
+
+        preg_match( "/Content-Type: text\/plain; charset=custom-charset/", $ezcResult, $matches );
+        $this->assertEquals( 1, count( $matches ) );
+    }
 }
 
 ?>
