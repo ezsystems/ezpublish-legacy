@@ -771,6 +771,7 @@ class eZHTTPTool
             $ch = curl_init( $url );
             if ( $justCheckURL )
             {
+                curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 2 );
                 curl_setopt( $ch, CURLOPT_TIMEOUT, 15 );
                 curl_setopt( $ch, CURLOPT_FAILONERROR, 1 );
                 curl_setopt( $ch, CURLOPT_NOBODY, 1 );
