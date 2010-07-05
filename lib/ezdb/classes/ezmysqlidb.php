@@ -428,7 +428,7 @@ class eZMySQLiDB extends eZDBInterface
                     if ( $analysisText !== false )
                         $text = "EXPLAIN\n" . $text . "\n\nANALYSIS:\n" . $analysisText;
 
-                    $this->reportQuery( ( $server == eZDBInterface::SERVER_MASTER ? 'on master : ' : '' ) . 'eZMySQLiDB', $text, $num_rows, $this->timeTaken() );
+                    $this->reportQuery( ( $server == eZDBInterface::SERVER_MASTER ? 'on master : ' : '' ) . 'eZMySQLiDB[' . $connection->host_info . ']', $text, $num_rows, $this->timeTaken() );
                 }
             }
             eZDebug::accumulatorStop( 'mysqli_query' );

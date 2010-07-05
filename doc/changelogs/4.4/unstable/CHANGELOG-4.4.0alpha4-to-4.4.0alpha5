@@ -8,6 +8,7 @@ Changes from 4.4.0alpha4 to 4.4.0alpha5
 - Implemented enhancement #016765: Add eZPersistentObject implementation to ezsite_data table
 - Implemented enhancement #014267: Generating static cache on publish can completely block redirection after content publication
 - Implemented enhancement #014266: Add CURL option CURLOPT_CONNECTTIMEOUT to eZHTTPTool::getDataByURL()
+- Implemented enhancement #012708: Master/slave server info in sql debug on mysqli
 
 *Design:
 
