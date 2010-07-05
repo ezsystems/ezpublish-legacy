@@ -1,6 +1,7 @@
 Changes from 4.4.0alpha3 to 4.4.0alpha4
 
 *Kernel:
+- Implemented enhancement #016791: admin2 content/edit_attribute.tpl - attribute-groups (fieldsets) has no unique css class
 - Implemented enhancement #016903: 'is_published' field of ezcontentobject table is not used and should be dropped
 
 *Design:
