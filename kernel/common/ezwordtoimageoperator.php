@@ -74,7 +74,10 @@ class eZWordToImageOperator
                     $wwwDirPrefix = eZSys::wwwDir() . "/";
                 foreach( $replaceIcon as $icon )
                 {
-                    $icons[] = '<img src="' . $wwwDirPrefix . $iconRoot .'/' . $icon . '"/>';
+                    // Issue 015718, constructing alt text from icon name
+                    $aReplaceIconName = explode( '.', $icon );
+                    $altText = $aReplaceIconName[0];
+                    $icons[] = '<img src="' . $wwwDirPrefix . $iconRoot .'/' . $icon . '" alt="'.$altText.'"/>';
                 }
 
                 $operatorValue = str_replace( $replaceText, $icons, $operatorValue );

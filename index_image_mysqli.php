@@ -30,7 +30,7 @@ if ( !$db )
 if ( !mysqli_select_db( $db, STORAGE_DB ) )
     _die( "Unable to select database " . STORAGE_DB . ".\n" );
 
-$filename = ltrim( $_SERVER['REQUEST_URI'], "/");
+$filename = ltrim( $_SERVER['SCRIPT_NAME'], "/"); // Issue #015459
 
 // Fetch file metadata.
 $filePathHash = mysqli_real_escape_string( $db, $filename );
