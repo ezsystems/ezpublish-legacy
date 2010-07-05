@@ -1,3 +1,6 @@
+<div class="content-view-full">
+ <div class="class-{$node.class_identifier}">
+
 {include uri='design:infocollection_validation.tpl'}
 
 <div class="content-navigation">
@@ -45,7 +48,7 @@
 <div class="break"></div>
 </div>
 
-<div class="tab-block">
+<div id="window-controls" class="tab-block">
 
 {include uri='design:window_controls.tpl'}
 
@@ -129,10 +132,15 @@
 </div>
 
 {* Children window.*}
+<div id="content-view-children">
 {if $node.is_container}
     {include uri='design:children.tpl'}
 {else}
     {include uri='design:no_children.tpl'}
 {/if}
+</div>
 
+</div>
+
+ </div>
 </div>
