@@ -134,7 +134,7 @@ class eZURLOperator
     function iniTrans( $operatorName, &$node, $tpl, &$resourceData,
                        $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
-        if ( count ( $parameters ) < 2 )
+        if ( !isset( $parameters[1] ) )
             return false;
 
         if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) &&
@@ -163,43 +163,48 @@ class eZURLOperator
                                   : false;
             }
 
-            if ( count( $parameters ) > 4 )
+            if ( isset( $parameters[4] ) )
             {
-                $inCache = eZTemplateNodeTool::elementStaticValue( $parameters[4] );
-                // Check if we should put implementaion of parsing ini variable to compiled php file
-                if ( $inCache === true )
-                {
-                    $values = array();
-                    $values[] = $parameters[0];
-                    $values[] = $parameters[1];
-
-                    $code = "//include_once( 'lib/ezutils/classes/ezini.php' );\n";
-
-                    if ( $iniPath !== false )
-                    {
-                        $values[] = $parameters[2];
-                        $values[] = $parameters[3];
-                        $code .= '%tmp1% = eZINI::instance( %3%, %4%, null, null, null, true );' . "\n";
-                    }
-                    elseif ( $iniName !== false )
-                    {
-                        $values[] = $parameters[2];
-                        $code .= '%tmp1% = eZINI::instance( %3% );' . "\n";
-                    }
-                    else
-                        $code .= '%tmp1% = eZINI::instance();' . "\n";
-
-                    $checkExist = $checkExistence ? 'true' : 'false';
-
-                    $code .= 'if ( %tmp1%->hasVariable( %1%, %2% ) )' . "\n" .
-                        '    %output% = ' . "!$checkExist" . ' ? %tmp1%->variable( %1%, %2% ) : true;' . "\n" .
-                        "else\n" .
-                        "    %output% = $checkExist ? false : '';\n";
-
-
-                    return array( eZTemplateNodeTool::createCodePieceElement( $code, $values, false, 1 ) );
-                }
+                $dynamic = eZTemplateNodeTool::elementStaticValue( $parameters[4] );
             }
+            else
+            {
+                $ini = eZINI::instance();
+                $dynamic = $ini->variable( 'eZINISettings', 'DynamicTemplateMode' ) === 'enabled';
+            }
+
+            // Check if we should put implementation of parsing ini variable to compiled php file
+            if ( $dynamic === true )
+            {
+                $values = array();
+                $values[] = $parameters[0];
+                $values[] = $parameters[1];
+
+                if ( $iniPath !== false )
+                {
+                    $values[] = $parameters[2];
+                    $values[] = $parameters[3];
+                    $code = '%tmp1% = eZINI::instance( %3%, %4%, null, null, null, true );' . "\n";
+                }
+                elseif ( $iniName !== false )
+                {
+                    $values[] = $parameters[2];
+                    $code = '%tmp1% = eZINI::instance( %3% );' . "\n";
+                }
+                else
+                    $code = '%tmp1% = eZINI::instance();' . "\n";
+
+                $checkExist = $checkExistence ? 'true' : 'false';
+
+                $code .= 'if ( %tmp1%->hasVariable( %1%, %2% ) )' . "\n" .
+                    '    %output% = ' . "!$checkExist" . ' ? %tmp1%->variable( %1%, %2% ) : true;' . "\n" .
+                    "else\n" .
+                    "    %output% = $checkExist ? false : '';\n";
+
+
+                return array( eZTemplateNodeTool::createCodePieceElement( $code, $values, false, 1 ) );
+            }
+
             if ( $iniPath !== false )
                 $ini = eZINI::instance( $iniName, $iniPath, null, null, null, true );
             elseif ( $iniName !== false )
