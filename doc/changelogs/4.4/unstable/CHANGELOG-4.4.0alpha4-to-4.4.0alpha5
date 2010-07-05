@@ -1,6 +1,7 @@
 Changes from 4.4.0alpha4 to 4.4.0alpha5
 
 *Kernel:
+- Implemented enhancement #016964: Default value for multioption should be none
 - Implemented enhancement #016963: Global setting to control default value of ezini[_has_variable] 'dynamic'
 - Implemented enhancement #016940: Add eZPersistentObject implementation to ezpending_actions table
 - Implemented enhancement #016789: admin2 node/view/full.tpl - add div ids for ajax

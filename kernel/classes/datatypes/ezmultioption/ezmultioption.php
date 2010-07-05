@@ -75,9 +75,9 @@
              ----------------------
              |                 |\/|
              ----------------------
-             | Model - A £ 100.00 |
-             | Model - B £ 200.00 |
-             | Model - C £ 300.00 |
+             | Model - A <A3> 100.00 |
+             | Model - B <A3> 200.00 |
+             | Model - C <A3> 300.00 |
              ----------------------
 
              Color
@@ -343,12 +343,6 @@ class eZMultiOption
                     $this->addOption( $newID, $option->getAttribute( "option_id" ), $option->getAttribute( "value" ), $option->getAttribute( "additional_price" ) );
                 }
             }
-        }
-        else
-        {
-            //The control come here while creaging new object for MultiOption
-            $nodeID = $this->addMultiOption( "", 0, false );
-            $this->addOption( $nodeID, "", "", "" );
         }
     }
 
