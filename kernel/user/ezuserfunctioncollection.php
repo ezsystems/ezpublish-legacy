@@ -94,14 +94,9 @@ class eZUserFunctionCollection
     function fetchUserRole( $userID )
     {
         $user = eZUser::fetch( $userID );
-        $userGroupObjects = $user ? $user->groups( true ) : array();
-        $userGroupArray = array();
-        foreach ( $userGroupObjects as $userGroupObject )
-        {
-            $userGroupArray[] = $userGroupObject->attribute( 'id' );
-        }
-        $userGroupArray[] = $userID;
-        $roleList = eZRole::fetchByUser( $userGroupArray );
+        $groups = $user ? $user->groups() : array();
+        $groups[] = $userID;
+        $roleList = eZRole::fetchByUser( $groups );
 
         $accessArray = array();
         foreach ( array_keys ( $roleList ) as $roleKey )

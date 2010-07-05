@@ -481,10 +481,10 @@ class eZRole extends eZPersistentObject
     /**
      * Returns the roles matching the given users' eZContentObject ID array
      *
-     * @param array $idArray Array of eZContentObject IDs, either groups or users
+     * @param array $idArray Array of eZContentObject IDs, either groups + user id or user id's only
+     *                       If only user id's, then remember to set $recursive to true
      * @param bool $recursive
-     *        If true, roles will be looked up for each given object's main node
-     *        path_array
+     *        If true, roles will be looked up for all nodes of the id's and it's parents
      *
      * @return array(eZRole)
      **/
@@ -574,12 +574,12 @@ class eZRole extends eZPersistentObject
         $handler->store();
     }
 
-    /*!
-      \static
-      \param user id
-      \return array containing complete access limitation description
-       Returns newly generated access array which corresponds to the array of user/group ids list.
-    */
+    /**
+     * Return access array by passing in list of groups user belongs to and his user id
+     *
+     * @param array $userIDArray List with user group id's and it's user id
+     * @return array Hash with complete access limitation description
+     */
     static function accessArrayByUserID( $userIDArray )
     {
         $roles = eZRole::fetchByUser( $userIDArray );
