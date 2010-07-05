@@ -364,7 +364,8 @@ class eZStaticCache
                         /* Generate content, if required */
                         if ( $content === false )
                         {
-                            $content = $http->getDataByURL( $fileName, false, eZStaticCache::USER_AGENT );
+                            if ( $http->getDataByURL( $fileName, true, eZStaticCache::USER_AGENT ) )
+                                $content = $http->getDataByURL( $fileName, false, eZStaticCache::USER_AGENT );
                         }
                         if ( $content === false )
                         {
@@ -500,7 +501,10 @@ class eZStaticCache
                     {
                         if ( !isset( $fileContentCache[$source] ) )
                         {
-                            $fileContentCache[$source] = $http->getDataByURL( $source, false, eZStaticCache::USER_AGENT );
+                            if ( $http->getDataByURL( $source, true, eZStaticCache::USER_AGENT ) )
+                                $fileContentCache[$source] = $http->getDataByURL( $source, false, eZStaticCache::USER_AGENT );
+                            else
+                                $fileContentCache[$source] = false;
                         }
                         if ( $fileContentCache[$source] === false )
                         {
