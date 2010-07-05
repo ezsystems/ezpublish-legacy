@@ -6,7 +6,7 @@
 
 {if $link}
 {"Click here to get new password"|i18n('design/standard/user/forgotpassword')}:
-http://{$site_url}{concat("user/forgotpassword/", $hash_key, '/')|ezurl(no)}
+{concat("user/forgotpassword/", $hash_key, '/')|ezurl(no,'full')}
 {else}
 
 
