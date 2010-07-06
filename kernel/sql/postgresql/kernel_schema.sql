@@ -2440,7 +2440,8 @@ CREATE TABLE ezsection (
     id integer DEFAULT nextval('ezsection_s'::text) NOT NULL,
     locale character varying(255),
     name character varying(255),
-    navigation_part_identifier character varying(100) DEFAULT 'ezcontentnavigationpart'::character varying
+    navigation_part_identifier character varying(100) DEFAULT 'ezcontentnavigationpart'::character varying,
+    section_identifier character varying(255)
 );
 
 

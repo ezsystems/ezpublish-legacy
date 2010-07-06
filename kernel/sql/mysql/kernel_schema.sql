@@ -1344,6 +1344,7 @@ CREATE TABLE ezsection (
   locale varchar(255) default NULL,
   name varchar(255) default NULL,
   navigation_part_identifier varchar(100) default 'ezcontentnavigationpart',
+  section_identifier varchar(255) default NULL,
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB;
 

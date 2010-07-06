@@ -6098,6 +6098,12 @@ $schema = array (
         'type' => 'varchar',
         'default' => 'ezcontentnavigationpart',
       ),
+      'section_identifier' =>
+      array (
+        'length' => 255,
+        'type' => 'varchar',
+        'default' => NULL,
+      ),
     ),
     'indexes' => 
     array (

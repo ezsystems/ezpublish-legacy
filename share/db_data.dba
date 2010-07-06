@@ -13159,6 +13159,7 @@ keywords=cms, publish, e-commerce, content management, development framework',
       1 => 'locale',
       2 => 'name',
       3 => 'navigation_part_identifier',
+      4 => 'section_identifier',
     ),
     'rows' => 
     array (
@@ -13168,6 +13169,7 @@ keywords=cms, publish, e-commerce, content management, development framework',
         1 => '',
         2 => 'Standard',
         3 => 'ezcontentnavigationpart',
+        4 => 'standard',
       ),
       1 => 
       array (
@@ -13175,6 +13177,7 @@ keywords=cms, publish, e-commerce, content management, development framework',
         1 => '',
         2 => 'Users',
         3 => 'ezusernavigationpart',
+        4 => 'users',
       ),
       2 => 
       array (
@@ -13182,6 +13185,7 @@ keywords=cms, publish, e-commerce, content management, development framework',
         1 => '',
         2 => 'Media',
         3 => 'ezmedianavigationpart',
+        4 => 'media',
       ),
       3 => 
       array (
@@ -13189,6 +13193,7 @@ keywords=cms, publish, e-commerce, content management, development framework',
         1 => '',
         2 => 'Setup',
         3 => 'ezsetupnavigationpart',
+        4 => 'setup',
       ),
       4 => 
       array (
@@ -13196,6 +13201,7 @@ keywords=cms, publish, e-commerce, content management, development framework',
         1 => '',
         2 => 'Design',
         3 => 'ezvisualnavigationpart',
+        4 => 'design',
       ),
     ),
   ),

@@ -22710,56 +22710,66 @@ INSERT INTO ezsection (
   id,
   locale,
   name,
-  navigation_part_identifier
+  navigation_part_identifier,
+  section_identifier
 ) VALUES (
   1,
   '',
   'Standard',
-  'ezcontentnavigationpart'
+  'ezcontentnavigationpart',
+  'standard'
 );
 INSERT INTO ezsection (
   id,
   locale,
   name,
-  navigation_part_identifier
+  navigation_part_identifier,
+  section_identifier
 ) VALUES (
   2,
   '',
   'Users',
-  'ezusernavigationpart'
+  'ezusernavigationpart',
+  'users'
 );
 INSERT INTO ezsection (
   id,
   locale,
   name,
-  navigation_part_identifier
+  navigation_part_identifier,
+  section_identifier
 ) VALUES (
   3,
   '',
   'Media',
-  'ezmedianavigationpart'
+  'ezmedianavigationpart',
+  'media'
 );
 INSERT INTO ezsection (
   id,
   locale,
   name,
-  navigation_part_identifier
+  navigation_part_identifier,
+  section_identifier
 ) VALUES (
   4,
   '',
   'Setup',
-  'ezsetupnavigationpart'
+  'ezsetupnavigationpart',
+  'setup'
 );
 INSERT INTO ezsection (
   id,
   locale,
   name,
-  navigation_part_identifier
+  navigation_part_identifier,
+  section_identifier
 ) VALUES (
   5,
   '',
   'Design',
-  'ezvisualnavigationpart'
+  'ezvisualnavigationpart',
+  'design'
 );
 
 INSERT INTO ezsite_data (
