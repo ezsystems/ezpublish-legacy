@@ -31,6 +31,7 @@
 $http = eZHTTPTool::instance();
 $SectionID = $Params["SectionID"];
 $Module = $Params['Module'];
+$tpl = eZTemplate::factory();
 
 if ( $SectionID == 0 )
 {
@@ -54,21 +55,48 @@ if ( $http->hasPostVariable( "StoreButton" ) )
         $section = new eZSection( array() );
     }
     $section->setAttribute( 'name', $http->postVariable( 'Name' ) );
+    $sectionIdentifier = trim( $http->postVariable( 'SectionIdentifier' ) );
+    $errorMessage = '';
+    if( $sectionIdentifier === '' )
+    {
+        $errorMessage = ezi18n( 'design/admin/section/edit', 'Identifier can not be empty' );
+
+    }
+    else if( preg_match( '/\W/', $sectionIdentifier ) )
+    {
+        $errorMessage = ezi18n( 'design/admin/section/edit', 'Identifier only allows letters, numbers or \'_\' ' );
+    }
+    else
+    {
+        $conditions = array( 'section_identifier' => $sectionIdentifier,
+                             'id' => array( '!=', $SectionID ) );
+        $existingSection = eZSection::fetchFilteredList( $conditions );
+        if( count( $existingSection ) > 0 )
+        {
+            $errorMessage = ezi18n( 'design/admin/section/edit', 'The identifier has been used in another section.' );
+        }
+    }
+    $section->setAttribute( 'section_identifier', $sectionIdentifier );
     $section->setAttribute( 'navigation_part_identifier', $http->postVariable( 'NavigationPartIdentifier' ) );
     if ( $http->hasPostVariable( 'Locale' ) )
         $section->setAttribute( 'locale', $http->postVariable( 'Locale' ) );
-    $section->store();
-    eZContentCacheManager::clearContentCacheIfNeededBySectionID( $section->attribute( 'id' ) );
-    $Module->redirectTo( $Module->functionURI( 'list' ) );
-    return;
+    if( $errorMessage === '' )
+    {
+        $section->store();
+        eZContentCacheManager::clearContentCacheIfNeededBySectionID( $section->attribute( 'id' ) );
+        $Module->redirectTo( $Module->functionURI( 'list' ) );
+        return;
+    }
+    else
+    {
+        $tpl->setVariable( 'error_message', $errorMessage );
+    }
 }
 
 if ( $http->hasPostVariable( 'CancelButton' )  )
 {
     $Module->redirectTo( $Module->functionURI( 'list' ) );
 }
-
-$tpl = eZTemplate::factory();
 
 $tpl->setVariable( "section", $section );
 

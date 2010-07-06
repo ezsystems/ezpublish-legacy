@@ -1,3 +1,10 @@
+{if is_set( $error_message )}
+<div class="message-error">
+    <h2>{'Section edit error'|i18n( 'design/admin/section/edit' )}</h2>
+    <p>{$error_message}</p>
+</div>
+{/if}
+
 <form method="post" action={concat( '/section/edit/', $section.id, '/' )|ezurl}>
 
 <div class="context-block">
@@ -18,6 +25,12 @@
 <div class="block">
 <label for="sectionName">{'Name'|i18n( 'design/admin/section/edit' )}:</label>
 <input class="box" id="sectionName" type="text" name="Name" value="{$section.name|wash}" />
+</div>
+
+{* Identifier. *}
+<div class="block">
+<label for="SectionIdentifier">{'Identifier'|i18n( 'design/admin/section/edit' )}:</label>
+<input class="box" id="SectionIdentifier" type="text" name="SectionIdentifier" value="{$section.section_identifier|wash}" />
 </div>
 
 {* Navigation part. *}
