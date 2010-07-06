@@ -1120,7 +1120,7 @@ class eZObjectRelationListType extends eZDataType
     */
     function removeRelationObject( $contentObjectAttribute, $deletionItem )
     {
-        if ( $this->isItemPublished( $deletionItem ) )
+        if ( self::isItemPublished( $deletionItem ) )
         {
             return;
         }
