@@ -28,3 +28,4 @@ Changes from 4.4.0alpha4 to 4.4.0alpha5
 - Fixed bug #015459: Cluster : Script for delivering images should not take into account query string
 - Fixed bug #012601: Undefined variable: _SESSION in ezhttptool.php under cli
 - Fixed bug #016003: forgotpasswordmail.tpl contains uneeded $site_url in a link
+- Fixed bug #016966: Bug in kernel/classes/datatypes/ezobjectrelationlist/ezobjectrelationlisttype.php
