@@ -19,6 +19,11 @@
 </div>
 
 <div class="block">
+<label>{'Identifier'|i18n( 'design/admin/section/view' )}:</label>
+{$section.section_identifier|wash}
+</div>
+
+<div class="block">
 <label>{'ID'|i18n( 'design/admin/section/view' )}:</label>
 {$section.id}
 </div>
