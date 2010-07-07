@@ -127,8 +127,18 @@ class eZTranslationCache
         $translationExtensions = $ini->variable( 'RegionalSettings', 'TranslationExtensions' );
 
         $uniqueParts = array( $internalCharset, $translationRepository, implode( ';', $translationExtensions ) );
-        $rootCacheDirectory = eZDir::path( array( eZSys::cacheDirectory(), 'translation', md5( implode( '-', $uniqueParts ) ) ) );
 
+        $sharedTsCacheDir = $ini->hasVariable( 'RegionalSettings', 'SharedTranslationCacheDir' ) ?
+                            trim( $ini->variable( 'RegionalSettings', 'SharedTranslationCacheDir' ) ) :
+                            '';
+        if ( $sharedTsCacheDir !== '')
+        {
+            $rootCacheDirectory = eZDir::path( array( $sharedTsCacheDir, md5( implode( '-', $uniqueParts ) ) ) );
+        }
+        else
+        {
+            $rootCacheDirectory = eZDir::path( array( eZSys::cacheDirectory(), 'translation', md5( implode( '-', $uniqueParts ) ) ) );
+        }
         return $rootCacheDirectory;
     }
 
