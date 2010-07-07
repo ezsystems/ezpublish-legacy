@@ -24,6 +24,9 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
+/**
+ * PHP 5.1 is our hard requirement, but PHP 5.2 or higher is highly recommended
+ */
 if ( version_compare( PHP_VERSION, '5.1' ) < 0 )
 {
     print( "<h1>Unsupported PHP version " . PHP_VERSION . "</h1>" );
