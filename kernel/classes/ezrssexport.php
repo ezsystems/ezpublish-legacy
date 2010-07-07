@@ -476,6 +476,11 @@ class eZRSSExport extends eZPersistentObject
 
             foreach ( $nodeArray as $node )
             {
+                if ( $node->attribute('is_hidden') && !eZContentObjectTreeNode::showInvisibleNodes() )
+                {
+                    // if the node is hidden skip past it and don't add it to the RSS export
+                    continue;
+                }
                 $object = $node->attribute( 'object' );
                 $dataMap = $object->dataMap();
                 if ( $useURLAlias === true )
@@ -688,6 +693,11 @@ class eZRSSExport extends eZPersistentObject
 
             foreach ( $nodeArray as $node )
             {
+                if ( $node->attribute('is_hidden') && !eZContentObjectTreeNode::showInvisibleNodes() )
+                {
+                    // if the node is hidden skip past it and don't add it to the RSS export
+                    continue;
+                }
                 $object = $node->attribute( 'object' );
                 $dataMap = $object->dataMap();
                 if ( $useURLAlias === true )
