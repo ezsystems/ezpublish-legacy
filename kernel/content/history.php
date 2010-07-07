@@ -348,7 +348,7 @@ $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object I
                       ) ); // Section ID, 0 so far
 
 $section = eZSection::fetch( $object->attribute( 'section_id' ) );
-if( $secion )
+if( $section )
 {
     $res->setKeys( array( array( 'section_identifier', $section->attribute( 'section_identifier' ) ) ) );
 }

@@ -135,6 +135,8 @@ if ( $http->hasPostVariable( 'SendButton' ) )
         $mail->setSubject( $subject );
 
         // fetch
+        $sectionID = $object->attribute( 'section_id' );
+        $section = eZSection::fetch( $sectionID );
         $res = eZTemplateDesignResource::instance();
         $res->setKeys( array( array( 'object',           $object->attribute( 'id' ) ),
                               array( 'remote_id',        $object->attribute( 'remote_id' ) ),
@@ -143,6 +145,7 @@ if ( $http->hasPostVariable( 'SendButton' ) )
                               array( 'class_identifier', $object->attribute( 'class_identifier' ) ),
                               array( 'class_group',      $object->attribute( 'match_ingroup_id_list' ) ),
                               array( 'section',          $object->attribute( 'section_id' ) ),
+                              array( 'section_identifier', $section->attribute( 'section_identifier' ) ),
                               array( 'node',             $NodeID ),
                               array( 'parent_node',      $node->attribute( 'parent_node_id' ) ),
                               array( 'depth',            $node->attribute( 'depth' ) ),
@@ -206,6 +209,8 @@ else if ( $http->hasPostVariable( 'CancelButton' ) )
 
 if ( !$overrideKeysAreSet )
 {
+    $sectionID = $object->attribute( 'section_id' );
+    $section = eZSection::fetch( $sectionID );
     $res = eZTemplateDesignResource::instance();
     $res->setKeys( array( array( 'object',           $object->attribute( 'id' ) ),
                           array( 'remote_id',        $object->attribute( 'remote_id' ) ),
@@ -214,6 +219,7 @@ if ( !$overrideKeysAreSet )
                           array( 'class_identifier', $object->attribute( 'class_identifier' ) ),
                           array( 'class_group',      $object->attribute( 'match_ingroup_id_list' ) ),
                           array( 'section',          $object->attribute( 'section_id' ) ),
+                          array( 'section_identifier', $section->attribute( 'section_identifier' ) ),
                           array( 'node',             $NodeID ),
                           array( 'parent_node',      $node->attribute( 'parent_node_id' ) ),
                           array( 'depth',            $node->attribute( 'depth' ) ),

@@ -139,7 +139,10 @@ if ( $useSearchCode )
 if ( $searchSectionID != -1 )
 {
     $res = eZTemplateDesignResource::instance();
-    $res->setKeys( array( array( 'section', $searchSectionID ) ) );
+    $section = eZSection::fetch( $searchSectionID );
+    $keyArray = array( array( 'section', $searchSectionID ),
+                       array( 'section_identifier', $section->attribute( 'section_identifier' ) ) );
+    $res->setKeys( $keyArray );
 }
 
 $viewParameters = array( 'offset' => $Offset );
