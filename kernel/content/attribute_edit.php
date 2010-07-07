@@ -466,7 +466,10 @@ if ( !isset( $OmitSectionSetting ) )
     $OmitSectionSetting = false;
 if ( $OmitSectionSetting !== true )
 {
-    eZSection::setGlobalID( $object->attribute( 'section_id' ) );
+    $sectionID = $object->attribute( 'section_id' );
+    $section = eZSection::fetch( $sectionID );
+    eZSection::setGlobalID( $sectionID );
+    $res->setKeys( array( array( 'section_identifier', $section->attribute( 'section_identifier' ) ) ) );
 }
 
 $object->setCurrentLanguage( $EditLanguage );

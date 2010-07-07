@@ -269,8 +269,11 @@ $tpl->setVariable( 'search_array_by_class_attribute_id', $searchArrayByClassAttr
 
 if ( $searchSectionID != -1 )
 {
+    $section = eZSection::fetch( $searchSectionID );
     $res = eZTemplateDesignResource::instance();
-    $res->setKeys( array( array( 'section', $searchSectionID ) ) );
+    $keyArray = array( array( 'section', $searchSectionID ),
+                       array( 'section_identifier', $section->attribute( 'section_identifier' ) ) );
+    $res->setKeys( $keyArray );
 }
 
 $Result = array();

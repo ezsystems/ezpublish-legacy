@@ -87,9 +87,15 @@ class eZNodeviewfunctions
 
         $section = eZSection::fetch( $object->attribute( 'section_id' ) );
         if ( $section )
+        {
             $navigationPartIdentifier = $section->attribute( 'navigation_part_identifier' );
+            $sectionIdentifier = $section->attribute( 'section_identifier' );
+        }
         else
+        {
             $navigationPartIdentifier = null;
+            $sectionIdentifier = null;
+        }
 
         $keyArray = array( array( 'object', $object->attribute( 'id' ) ),
                            array( 'node', $node->attribute( 'node_id' ) ),
@@ -105,7 +111,8 @@ class eZNodeviewfunctions
                            array( 'url_alias', $node->attribute( 'url_alias' ) ),
                            array( 'class_group', $object->attribute( 'match_ingroup_id_list' ) ),
                            array( 'state', $object->attribute( 'state_id_array' ) ),
-                           array( 'state_identifier', $object->attribute( 'state_identifier_array' ) ) );
+                           array( 'state_identifier', $object->attribute( 'state_identifier_array' ) ),
+                           array( 'section_identifier', $sectionIdentifier ) );
 
         $parentClassID = false;
         $parentClassIdentifier = false;

@@ -347,7 +347,13 @@ $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object I
                       array( 'section_id', $object->attribute( 'section_id' ) ) // Section ID
                       ) ); // Section ID, 0 so far
 
+$section = eZSection::fetch( $object->attribute( 'section_id' ) );
+if( $secion )
+{
+    $res->setKeys( array( array( 'section_identifier', $section->attribute( 'section_identifier' ) ) ) );
+}
 eZSection::setGlobalID( $object->attribute( 'section_id' ) );
+
 $versionArray =( isset( $versionArray ) and is_array( $versionArray ) ) ? array_unique( $versionArray ) : array();
 $LastAccessesVersionURI = $http->hasSessionVariable( 'LastAccessesVersionURI' ) ? $http->sessionVariable( 'LastAccessesVersionURI' ) : null;
 $explodedURI = $LastAccessesVersionURI ? explode ( '/', $LastAccessesVersionURI ) : null;
@@ -382,7 +388,6 @@ $Result = array();
 $Result['content'] = $tpl->fetch( 'design:content/history.tpl' );
 $Result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/content', 'History' ),
                                 'url' => false ) );
-$section = eZSection::fetch( $object->attribute( 'section_id' ) );
 if ( $section )
 {
     $Result['navigation_part'] = $section->attribute( 'navigation_part_identifier' );
