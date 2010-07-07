@@ -55,7 +55,6 @@ class eZFilePassthroughHandler extends eZBinaryFileHandler
             $file->fetch( true );
             $fileSize = $file->size();
             $mimeType =  $fileInfo['mime_type'];
-            $originalFileName = $fileInfo['original_filename'];
             $contentLength = $fileSize;
             $fileOffset = false;
             $fileLength = false;
@@ -92,10 +91,7 @@ class eZFilePassthroughHandler extends eZBinaryFileHandler
             header( "Content-Length: $contentLength" );
             header( "Content-Type: $mimeType" );
             header( "X-Powered-By: eZ Publish" );
-
-            $dispositionType = self::dispositionType( $mimeType );
-            header( "Content-disposition: $dispositionType; filename=\"$originalFileName\"" );
-
+            header( "Content-Disposition: " . self::dispositionType( $mimeType ) );
             header( "Content-Transfer-Encoding: binary" );
             header( "Accept-Ranges: bytes" );
 
