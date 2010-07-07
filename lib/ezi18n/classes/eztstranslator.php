@@ -61,6 +61,9 @@ class eZTSTranslator extends eZTranslatorHandler
         $this->CachedMessages = array();
         $this->HasRestoredCache = false;
         $this->RootCache = false;
+
+        if ( self::$expiryTimestamp === false )
+            self::$expiryTimestamp = eZExpiryHandler::instance()->getTimestamp( self::EXPIRY_KEY );
     }
 
     /*!
@@ -149,6 +152,8 @@ class eZTSTranslator extends eZTranslatorHandler
         {
             if ( !$tsTimeStamp && $checkMTime )
             {
+                // iterate over each known TS file, and get the highest timestamp
+                // this value will be used to check for cache validity
                 foreach ( $roots as $root )
                 {
                     $path = eZDir::path( array( $root, $locale, $charset, $filename ) );
@@ -171,6 +176,17 @@ class eZTSTranslator extends eZTranslatorHandler
                 }
                 $this->RootCache['timestamp'] = $tsTimeStamp;
             }
+
+            // the global ts-translation expiry timestamp can override the files' one
+            if ( self::$expiryTimestamp > $tsTimeStamp )
+            {
+                $tsTimeStamp = self::$expiryTimestamp;
+
+                // this duplicates the line above, but on purpose
+                $this->RootCache['timestamp'] = $tsTimeStamp;
+            }
+
+
             $key = 'cachecontexts';
             if ( $this->HasRestoredCache or
                  eZTranslationCache::canRestoreCache( $key, $tsTimeStamp ) )
@@ -326,6 +342,9 @@ class eZTSTranslator extends eZTranslatorHandler
         // Save translation cache
         if ( $this->UseCache == true && $this->BuildCache == true )
         {
+            // we store the current time as a reference for later calls
+            $time = time();
+
             eZDebug::accumulatorStart( 'tstranslator_store_cache', 'tstranslator', 'TS store cache' );
             if ( eZTranslationCache::contextCache( 'cachecontexts' ) == null )
             {
@@ -342,8 +361,11 @@ class eZTSTranslator extends eZTranslatorHandler
                     eZTranslationCache::setContextCache( $contextName, $context );
                 eZTranslationCache::storeCache( $contextName );
             }
+
             $this->BuildCache = false;
             eZDebug::accumulatorStop( 'tstranslator_store_cache' );
+
+            self::expireCache( $time );
         }
 
         return $status;
@@ -663,11 +685,42 @@ class eZTSTranslator extends eZTranslatorHandler
 
     /// \privatesection
     /// Contains the hash table with message translations
+    /**
+     * Expires the translation cache
+     *
+     * @param int $timestamp An optional timestamp cache should be exired from. Current timestamp used by default
+     *
+     * @return void
+     */
+    public static function expireCache( $timestamp = false )
+    {
+        eZExpiryHandler::registerShutdownFunction();
+
+        if ( $timestamp === false )
+            $timestamp = time();
+
+        $handler = eZExpiryHandler::instance();
+        $handler->setTimestamp( self::EXPIRY_KEY, $timestamp );
+        $handler->store();
+
+        self::$expiryTimestamp = $timestamp;
+    }
     public $Messages;
     public $File;
     public $UseCache;
     public $BuildCache;
     public $CachedMessages;
+
+    /**
+     * Translation expiry key used by eZExpiryHandler to manage translation caches
+     */
+    const EXPIRY_KEY = 'ts-translation-cache';
+
+    /**
+     * Current value of the translation expiry timestamp, used when regenerating caches
+     * @var int
+     */
+    private static $expiryTimestamp = false;
 }
 
 ?>
