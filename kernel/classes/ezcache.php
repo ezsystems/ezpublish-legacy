@@ -157,8 +157,15 @@ class eZCache
                                        'tag' => array( 'template' ),
                                        'enabled' => true,
                                        'path' => false,
-                                       'function' => array( 'eZCache', 'clearDesignBaseCache' ) )
-                                );
+                                       'function' => array( 'eZCache', 'clearDesignBaseCache' ) ),
+                                array( 'name' => ezpI18n::tr( 'kernel/cache', 'TS Translation cache' ),
+                                       'id' => 'translation',
+                                       'tag' => array( 'i18n' ),
+                                       'enabled' => true,
+                                       'expiry-key' => 'ts-translation-cache',
+                                       'path' => 'translation',
+                                       'function' => array( 'eZCache', 'clearTSTranslationCache' ) ),
+            );
 
             // Append cache items defined (in ini) by extensions, see site.ini[Cache] for details
             foreach ( $ini->variable( 'Cache', 'CacheItems' ) as $cacheItemKey )
@@ -617,6 +624,16 @@ class eZCache
 
         $fileHandler = eZClusterFileHandler::instance();
         $fileHandler->fileDeleteByWildcard( $cachePath . '/' . eZTemplateDesignResource::DESIGN_BASE_CACHE_NAME . '*' );
+    }
+
+    /**
+     * Clears the .ts translation cache
+     * @param array $cacheItem
+     * @return void
+     */
+    public static function clearTSTranslationCache( $cacheItem )
+    {
+        eZTSTranslator::expireCache();
     }
 }
 
