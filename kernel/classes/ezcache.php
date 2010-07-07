@@ -171,7 +171,14 @@ class eZCache
                                        'enabled' => true,
                                        'path' => false,
                                        'function' => array( 'eZCache', 'clearStateLimitations' ) ),
-                                );
+                                array( 'name' => ezi18n( 'kernel/cache', 'TS Translation cache' ),
+                                       'id' => 'translation',
+                                       'tag' => array( 'i18n' ),
+                                       'enabled' => true,
+                                       'expiry-key' => 'ts-translation-cache',
+                                       'path' => 'translation',
+                                       'function' => array( 'eZCache', 'clearTSTranslationCache' ) ),
+            );
         }
         return $cacheList;
     }
@@ -581,6 +588,16 @@ class eZCache
 
         $fileHandler = eZClusterFileHandler::instance();
         $fileHandler->fileDelete( $cachePath, 'statelimitations_' );
+    }
+
+    /**
+     * Clears the .ts translation cache
+     * @param array $cacheItem
+     * @return void
+     */
+    public static function clearTSTranslationCache( $cacheItem )
+    {
+        eZTSTranslator::expireCache();
     }
 }
 
