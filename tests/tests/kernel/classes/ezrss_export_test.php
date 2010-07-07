@@ -40,7 +40,8 @@ class eZRSSExportTest extends ezpDatabaseTestCase
         $GLOBALS['ezp_username'] = 'admin';
         $GLOBALS['ezp_password'] = 'publish';
 
-        $GLOBALS['ezp_server'] = 'ezp';
+        $GLOBALS['ezp_server'] = 'localhost:8080/ezpublish/index.php/eng';
+        $GLOBALS['ezp_admin_email'] = 'nospam@ez.no';
 
         $GLOBALS['test_data_folder'] = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'ezrss' . DIRECTORY_SEPARATOR;
     }
@@ -87,6 +88,17 @@ class eZRSSExportTest extends ezpDatabaseTestCase
  
         $objectId = (int)$object->attribute( 'id' );
         return $objectId;
+    }
+
+    /**
+     * Hides an object specified by $objectId.
+     *
+     * @param int $objectId
+     */
+    public function hideObject( $objectId )
+    {
+        $node = eZContentObjectTreeNode::fetchByContentObjectID( $objectId );
+        eZContentObjectTreeNode::hideSubTree( $node[0] );
     }
 
     /**
@@ -168,6 +180,7 @@ class eZRSSExportTest extends ezpDatabaseTestCase
 
         // Machine values cleaning
         $text = str_replace( '@ezp_server@', $GLOBALS['ezp_server'], $text );
+        $text = str_replace( '@ezp_admin_email@', $GLOBALS['ezp_admin_email'], $text );
         return $text;
     }
 
@@ -222,6 +235,81 @@ class eZRSSExportTest extends ezpDatabaseTestCase
                     "Test object #{$i} for " . __FUNCTION__,
                     "Summary for Test object #{$i} for " . __FUNCTION__ );
         }
+
+        $rssExport = $this->createEZPRSSExport( 'ATOM', $folderId, 'ATOM feed', 'This feed is of <b>ATOM</b> type.' );
+        $rssContent = $this->cleanRSSFeed( $rssExport->attribute( 'rss-xml-content' ) );
+
+        $expected = $this->cleanRSSFeed( file_get_contents( $GLOBALS['test_data_folder'] . __FUNCTION__ . '.xml' ) );
+
+        $this->assertEquals( $expected, $rssContent );
+    }
+
+    /**
+     * Test for issue #14480: 4.0.0 (and ? uppers) : Hidden nodes are displayed in RSS exports
+     */
+    public function testCreateRSS1With2Items1Hidden()
+    {
+        $folderId = $this->createEZPFolder( __FUNCTION__ );
+
+        $ids = array();
+        for ( $i = 0; $i < 2; $i++ )
+        {
+            $ids[] = $this->createEZPArticle( $folderId,
+                    "Test object #{$i} for " . __FUNCTION__,
+                    "Summary for Test object #{$i} for " . __FUNCTION__ );
+        }
+
+        $this->hideObject( $ids[1] );
+
+        $rssExport = $this->createEZPRSSExport( '1.0', $folderId, 'RSS 1.0 feed', 'This feed is of <b>RSS 1.0</b> type.' );
+        $rssContent = $this->cleanRSSFeed( $rssExport->attribute( 'rss-xml-content' ) );
+
+        $expected = $this->cleanRSSFeed( file_get_contents( $GLOBALS['test_data_folder'] . __FUNCTION__ . '.xml' ) );
+
+        $this->assertEquals( $expected, $rssContent );
+    }
+
+    /**
+     * Test for issue #14480: 4.0.0 (and ? uppers) : Hidden nodes are displayed in RSS exports
+     */
+    public function testCreateRSS2With2Items1Hidden()
+    {
+        $folderId = $this->createEZPFolder( __FUNCTION__ );
+
+        $ids = array();
+        for ( $i = 0; $i < 2; $i++ )
+        {
+            $ids[] = $this->createEZPArticle( $folderId,
+                    "Test object #{$i} for " . __FUNCTION__,
+                    "Summary for Test object #{$i} for " . __FUNCTION__ );
+        }
+
+        $this->hideObject( $ids[1] );
+
+        $rssExport = $this->createEZPRSSExport( '2.0', $folderId, 'RSS 2.0 feed', 'This feed is of <b>RSS 2.0</b> type.' );
+        $rssContent = $this->cleanRSSFeed( $rssExport->attribute( 'rss-xml-content' ) );
+
+        $expected = $this->cleanRSSFeed( file_get_contents( $GLOBALS['test_data_folder'] . __FUNCTION__ . '.xml' ) );
+
+        $this->assertEquals( $expected, $rssContent );
+    }
+
+    /**
+     * Test for issue #14480: 4.0.0 (and ? uppers) : Hidden nodes are displayed in RSS exports
+     */
+    public function testCreateATOMWith2Items1Hidden()
+    {
+        $folderId = $this->createEZPFolder( __FUNCTION__ );
+
+        $ids = array();
+        for ( $i = 0; $i < 2; $i++ )
+        {
+            $ids[] = $this->createEZPArticle( $folderId,
+                    "Test object #{$i} for " . __FUNCTION__,
+                    "Summary for Test object #{$i} for " . __FUNCTION__ );
+        }
+
+        $this->hideObject( $ids[1] );
 
         $rssExport = $this->createEZPRSSExport( 'ATOM', $folderId, 'ATOM feed', 'This feed is of <b>ATOM</b> type.' );
         $rssContent = $this->cleanRSSFeed( $rssExport->attribute( 'rss-xml-content' ) );

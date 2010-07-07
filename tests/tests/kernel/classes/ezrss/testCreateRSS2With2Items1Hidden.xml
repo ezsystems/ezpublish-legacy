@@ -12,11 +12,11 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <atom:link href="http://@ezp_server@/rss/feed/" rel="self" type="application/rss+xml"/>
     <item>
-      <title>Test object #0 for testCreateRSS2With1Items</title>
-      <link>http://@ezp_server@/testCreateRSS2With1Items/Test-object-0-for-testCreateRSS2With1Items</link>
-      <description>&lt;p&gt;Summary for Test object #0 for testCreateRSS2With1Items&lt;/p&gt;</description>
+      <title>Test object #0 for testCreateRSS2With2Items1Hidden</title>
+      <link>http://@ezp_server@/testCreateRSS2With2Items1Hidden/Test-object-0-for-testCreateRSS2With2Items1Hidden</link>
+      <description>&lt;p&gt;Summary for Test object #0 for testCreateRSS2With2Items1Hidden&lt;/p&gt;</description>
       <author>@ezp_admin_email@ (Administrator User)</author>
-      <guid>http://@ezp_server@/testCreateRSS2With1Items/Test-object-0-for-testCreateRSS2With1Items</guid>
+      <guid>http://@ezp_server@/testCreateRSS2With2Items1Hidden/Test-object-0-for-testCreateRSS2With2Items1Hidden</guid>
       <pubDate>XXX</pubDate>
     </item>
   </channel>

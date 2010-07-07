@@ -13,9 +13,6 @@
   <item rdf:about="http://@ezp_server@/testCreateRSS1With1Items/Test-object-0-for-testCreateRSS1With1Items">
     <title>Test object #0 for testCreateRSS1With1Items</title>
     <link>http://@ezp_server@/testCreateRSS1With1Items/Test-object-0-for-testCreateRSS1With1Items</link>
-    <description>&lt;p&gt;
-Summary for Test object #0 for testCreateRSS1With1Items
-&lt;/p&gt;
-</description>
+    <description>&lt;p&gt;Summary for Test object #0 for testCreateRSS1With1Items&lt;/p&gt;</description>
   </item>
 </rdf:RDF>

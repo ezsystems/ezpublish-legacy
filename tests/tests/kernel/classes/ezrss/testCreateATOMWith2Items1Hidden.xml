@@ -11,15 +11,15 @@
   <generator>XXX</generator>
   <subtitle>This feed is of &lt;b&gt;ATOM&lt;/b&gt; type.</subtitle>
   <entry>
-    <id>http://@ezp_server@/testCreateATOMWith1Items/Test-object-0-for-testCreateATOMWith1Items</id>
-    <title>Test object #0 for testCreateATOMWith1Items</title>
+    <id>http://@ezp_server@/testCreateATOMWith2Items1Hidden/Test-object-0-for-testCreateATOMWith2Items1Hidden</id>
+    <title>Test object #0 for testCreateATOMWith2Items1Hidden</title>
     <updated>XXX</updated>
     <author>
       <name>Administrator User</name>
       <email>@ezp_admin_email@</email>
     </author>
-    <link href="http://@ezp_server@/testCreateATOMWith1Items/Test-object-0-for-testCreateATOMWith1Items"/>
-    <summary>&lt;p&gt;Summary for Test object #0 for testCreateATOMWith1Items&lt;/p&gt;</summary>
+    <link href="http://@ezp_server@/testCreateATOMWith2Items1Hidden/Test-object-0-for-testCreateATOMWith2Items1Hidden"/>
+    <summary>&lt;p&gt;Summary for Test object #0 for testCreateATOMWith2Items1Hidden&lt;/p&gt;</summary>
     <published>XXX</published>
   </entry>
 </feed>
