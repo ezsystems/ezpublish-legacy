@@ -46,9 +46,36 @@ class eZSectionFunctionCollection
     {
     }
 
-    function fetchSectionObject( $sectionID )
+    /**
+     * Fetch section object given either section id or section identifier. There should be one and only one parameter.
+     * @param integer $sectionID
+     * @param string $sectionIdentifier
+     * @return object 
+     */
+    function fetchSectionObject( $sectionID = false, $sectionIdentifier = false )
     {
-        $sectionObject = eZSection::fetch( $sectionID );
+        if( $sectionID !== false )
+        {
+            if( $sectionIdentifier !== false )
+            {
+                $sectionObject = null;
+            }
+            else
+            {
+                $sectionObject = eZSection::fetch( $sectionID );
+            }
+        }
+        else
+        {
+            if( $sectionIdentifier === false )
+            {
+                $sectionObject = null;
+            }
+            else
+            {
+                $sectionObject = eZSection::fetchByIdentifier( $sectionIdentifier );
+            }
+        }
         if ( $sectionObject === null )
             return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => eZError::KERNEL_NOT_FOUND ) );

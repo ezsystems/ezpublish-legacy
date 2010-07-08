@@ -105,6 +105,39 @@ class eZSection extends eZPersistentObject
         return $section;
     }
 
+    /**
+     * fetch object by section identifier
+     * @param string $sectionIdentifier
+     * @param boolean $asObject
+     * @return object|null
+     */
+    static function fetchByIdentifier( $sectionIdentifier, $asObject = true )
+    {
+        global $eZContentSectionObjectCache;
+        if( !isset( $eZContentSectionObjectCache[$sectionIdentifier] ) || $asObject === false )
+        {
+            $section = eZPersistentObject::fetchObject( eZSection::definition(),
+                                                       null,
+                                                       array( "section_identifier" => $sectionIdentifier ),
+                                                       $asObject );
+            if( $asObject )
+            {
+                // the section identifier index refers to the id index object
+                $sectionID = $section->attribute( 'id' );
+                if( !isset( $eZContentSectionObjectCache[$sectionID] ) )
+                {
+                    $eZContentSectionObjectCache[$sectionID] = $section;
+                }
+                $eZContentSectionObjectCache[$sectionIdentifier] = $eZContentSectionObjectCache[$sectionID];
+            }
+        }
+        else
+        {
+            $section = $eZContentSectionObjectCache[$sectionIdentifier];
+        }
+        return $section;
+    }
+
     static function fetchFilteredList( $conditions = null, $offset = false, $limit = false, $asObject = true )
     {
         $limits = null;

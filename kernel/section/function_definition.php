@@ -37,7 +37,12 @@ $FunctionList['object'] = array( 'name' => 'object',
                                  'parameter_type' => 'standard',
                                  'parameters' => array( array( 'name' => 'section_id',
                                                                'type' => 'integer',
-                                                               'required' => true ) ) );
+                                                               'required' => false,
+                                                               'default' => false ),
+                                                        array( 'name' => 'section_identifier',
+                                                               'type' => 'string',
+                                                               'required' => false,
+                                                               'default' => false ) ) );
 
 $FunctionList['list'] = array( 'name' => 'list',
                                'call_method' => array( 'class' => 'eZSectionFunctionCollection',
