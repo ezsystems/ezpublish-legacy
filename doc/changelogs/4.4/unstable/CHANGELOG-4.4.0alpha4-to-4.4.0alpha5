@@ -32,4 +32,5 @@ Changes from 4.4.0alpha4 to 4.4.0alpha5
 - Fixed bug #016003: forgotpasswordmail.tpl contains uneeded $site_url in a link
 - Fixed bug #016966: Bug in kernel/classes/datatypes/ezobjectrelationlist/ezobjectrelationlisttype.php
 - Fixed bug #014480: 4.0.0 (and ? uppers) : Hidden nodes are displayed in RSS exports
+- Fixed bug #016611: staticcache_cleanup.php cronjob can fatal error
 
