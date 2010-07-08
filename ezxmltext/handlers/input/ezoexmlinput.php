@@ -494,10 +494,18 @@ class eZOEXMLInput extends eZXMLInputHandler
                 $hideButtons[] = 'justifyfull';
             }
              
-            foreach( $editorLayoutSettings['buttons'] as $button )
+            foreach( $editorLayoutSettings['buttons'] as $buttonString )
             {
-                if ( !in_array( $button, $hideButtons ) )
-                    $showButtons[] = trim( $button );
+                if ( strpos( $buttonString, ',' ) !== false )
+                {
+                    foreach( explode( ',', $buttonString ) as $button )
+                    {
+                        if ( !in_array( $button, $hideButtons ) )
+                            $showButtons[] = trim( $button );
+                    }
+                }
+                else if ( !in_array( $buttonString, $hideButtons ) )
+                    $showButtons[] = trim( $buttonString );
             }
 
             $editorLayoutSettings['buttons'] = $showButtons;

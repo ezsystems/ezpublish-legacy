@@ -1,7 +1,8 @@
 eZ Online Editor 5.x extension Changelog
 
 5.2.0alpha5
-
+- Make it easier to override groups of editor Buttons by grouping them in settings
+- Add support for ',' as button separator in eZOEXMLInput::getEditorLayoutSettings() for button filtering
 
 5.2.0alpha4
 - Updated TinyMCE to 3.3.7

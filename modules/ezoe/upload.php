@@ -41,7 +41,7 @@ if ( isset( $Params['ContentType'] ) && $Params['ContentType'] !== '' )
     $contentType   = $Params['ContentType'];
 }
 
-    
+
 if ( $objectID === 0  || $objectVersion === 0 )
 {
    echo ezi18n( 'design/standard/ezoe', 'Invalid or missing parameter: %parameter', null, array( '%parameter' => 'ObjectID/ObjectVersion' ) );
