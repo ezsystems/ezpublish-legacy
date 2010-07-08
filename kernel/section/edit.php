@@ -62,9 +62,9 @@ if ( $http->hasPostVariable( "StoreButton" ) )
         $errorMessage = ezi18n( 'design/admin/section/edit', 'Identifier can not be empty' );
 
     }
-    else if( preg_match( '/\W/', $sectionIdentifier ) )
+    else if( preg_match( '/(^[^A-Za-z])|\W/', $sectionIdentifier ) )
     {
-        $errorMessage = ezi18n( 'design/admin/section/edit', 'Identifier only allows letters, numbers or \'_\' ' );
+        $errorMessage = ezi18n( 'design/admin/section/edit', 'Identifier should consist of letters, numbers or \'_\' with letter prefix.' );
     }
     else
     {
