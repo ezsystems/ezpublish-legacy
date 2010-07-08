@@ -30,83 +30,82 @@
 */
 
 if ( !$isQuiet )
-{
     $cli->output( "Starting processing pending static cache cleanups" );
-}
 
 $db = eZDB::instance();
 
 $offset = 0;
 $limit = 20;
-$doneDestList = array();
-$fileContentCache = array();
 
-while( true )
+do
 {
-    $entries = $db->arrayQuery( "SELECT param FROM ezpending_actions WHERE action = 'static_store'",
+    $deleteParams = array();
+    $markInvalidParams = array();
+    $fileContentCache = array();
+
+    $rows = $db->arrayQuery( "SELECT DISTINCT param FROM ezpending_actions WHERE action = 'static_store'",
                                 array( 'limit' => $limit,
                                        'offset' => $offset ) );
-    $inSQL = '';
+    if ( !$rows || ( empty( $rows ) ) )
+        break;
 
-    if ( is_array( $entries ) and count( $entries ) )
+    foreach ( $rows as $row )
     {
-        $db->begin();
-        foreach ( $entries as $entry )
+        $param = $row['param'];
+        $paramList = explode( ',', $param );
+        $source = $paramList[1];
+        $destination = $paramList[0];
+        $invalid = isset( $paramList[2] ) ? $paramList[2] : null;
+
+        if ( !isset( $fileContentCache[$source] ) )
         {
-            $param = $entry['param'];
-            $destination = explode( ',', $param );
-            $source = $destination[1];
-            $destination = $destination[0];
-            $success = false;
+            if ( !$isQuiet )
+                $cli->output( "Fetching URL: $source" );
 
-            if ( !isset( $doneDestList[$destination] ) )
-            {
-                if ( !isset( $fileContentCache[$source] ) )
-                {
-                    if ( !$isQuiet )
-                    {
-                        $cli->output( "\tFetching URL: $source" );
-                    }
-                    $fileContentCache[$source] = eZHTTPTool::getDataByURL( $source, false, eZStaticCache::USER_AGENT );
-                }
-                if ( $fileContentCache[$source] === false )
-                {
-                    $cli->output( "\tCould not grab content from \"$source\", is the hostname correct and Apache running?" );
-                }
-                else
-                {
-                    eZStaticCache::storeCachedFile( $destination, $fileContentCache[$source] );
-                    $doneDestList[$destination] = 1;
-                    $success = true;
-                }
-            }
-            else
-            {
-                $success = true;
-            }
-
-            if ( $success )
-            {
-                if ( $inSQL != '' )
-                {
-                    $inSQL .= ', ';
-                }
-                $inSQL .= '\'' . $param . '\'';
-            }
+            $fileContentCache[$source] = eZHTTPTool::getDataByURL( $source, false, eZStaticCache::USER_AGENT );
         }
 
-        $db->query( "DELETE FROM ezpending_actions WHERE action='static_store' AND param IN ($inSQL)" );
+        if ( $fileContentCache[$source] === false )
+        {
+            $cli->error( "Could not grab content from \"$source\", is the hostname correct and Apache running?" );
+
+            if ( $invalid !== null )
+            {
+                $deleteParams[] = $param;
+
+                continue;
+            }
+
+            $markInvalidParams[] = $param;
+        }
+        else
+        {
+            eZStaticCache::storeCachedFile( $destination, $fileContentCache[$source] );
+
+            $deleteParams[] = $param;
+        }
+    }
+
+    if ( !empty( $markInvalidParams ) )
+    {
+        $db->begin();
+        $db->query( "UPDATE ezpending_actions SET param=( " . $db->concatString( array( "param", "',invalid'" ) ) . " ) WHERE param IN ( '" . implode( "','", $markInvalidParams ) . "' )" );
+        $db->commit();
+    }
+
+    if ( !empty( $deleteParams ) )
+    {
+        $db->begin();
+        $db->query( "DELETE FROM ezpending_actions WHERE action='static_store' AND param IN ( '" . implode( "','", $deleteParams ) . "' )" );
         $db->commit();
     }
     else
     {
-        break; // No valid result from ezpending_actions
+        $offset += $limit;
     }
-}
+} while ( true );
 
 if ( !$isQuiet )
-{
     $cli->output( "Done" );
-}
 
 ?>
