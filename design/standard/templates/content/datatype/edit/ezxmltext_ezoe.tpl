@@ -14,7 +14,7 @@
     {run-once}
     {* code that only run once (common for all xml blocks) *}
 
-    {def $plugin_list = ezini('EditorSettings', 'Plugins', 'ezoe.ini',,true()  )
+    {def $plugin_list = ezini('EditorSettings', 'Plugins', 'ezoe.ini',,true() )
          $skin        = ezini('EditorSettings', 'Skin', 'ezoe.ini',,true() )
          $skin_variant = ''
          $content_css_list_temp = ezini('StylesheetSettings', 'EditorCSSFileList', 'design.ini',,true())
@@ -80,9 +80,8 @@
         theme_advanced_buttons2 : "",
         theme_advanced_buttons3 : "",
         theme_advanced_blockformats : "p,pre,h1,h2,h3,h4,h5,h6",
-        theme_advanced_path_location : "bottom",
-        theme_advanced_statusbar_location: "bottom",
-        theme_advanced_toolbar_location : "top",
+        theme_advanced_statusbar_location: "{ezini('EditorSettings', 'PathLocation', 'ezoe.ini',,true() )}",
+        theme_advanced_toolbar_location : "{ezini('EditorSettings', 'ToolbarLocation', 'ezoe.ini',,true() )}",
         theme_advanced_toolbar_align : "{$toolbar_alignment}",
         theme_advanced_toolbar_floating : true,
         theme_advanced_resize_horizontal : false,

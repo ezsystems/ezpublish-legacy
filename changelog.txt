@@ -1,5 +1,8 @@
 eZ Online Editor 5.x extension Changelog
 
+5.2.0alpha5
+- Fix ToolbarLocation & PathLocation settings (was not used)
+
 5.2.0alpha4
 - Updated TinyMCE to 3.3.7
 - Fixed bug #016952: IE6 OE 5.0.2 fullscreen mode has no button box
