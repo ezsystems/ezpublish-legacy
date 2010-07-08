@@ -71,7 +71,6 @@ class eZUserType extends eZDataType
     function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . "_data_user_login_" . $contentObjectAttribute->attribute( "id" ) ) &&
-             $http->hasPostVariable( $base . "_data_user_login_" . $contentObjectAttribute->attribute( "id" ) ) &&
              $http->hasPostVariable( $base . "_data_user_email_" . $contentObjectAttribute->attribute( "id" ) ) &&
              $http->hasPostVariable( $base . "_data_user_password_" . $contentObjectAttribute->attribute( "id" ) ) &&
              $http->hasPostVariable( $base . "_data_user_password_confirm_" . $contentObjectAttribute->attribute( "id" ) ) )
