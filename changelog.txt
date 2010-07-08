@@ -1,7 +1,7 @@
 eZ Online Editor 5.x extension Changelog
 
 5.2.0alpha5
-- Fix ToolbarLocation & PathLocation settings (was not used)
+
 
 5.2.0alpha4
 - Updated TinyMCE to 3.3.7

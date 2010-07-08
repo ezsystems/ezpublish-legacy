@@ -80,14 +80,15 @@
         theme_advanced_buttons2 : "",
         theme_advanced_buttons3 : "",
         theme_advanced_blockformats : "p,pre,h1,h2,h3,h4,h5,h6",
-        theme_advanced_statusbar_location: "{ezini('EditorSettings', 'PathLocation', 'ezoe.ini',,true() )}",
-        theme_advanced_toolbar_location : "{ezini('EditorSettings', 'ToolbarLocation', 'ezoe.ini',,true() )}",
+        theme_advanced_path_location : false,// ignore, use theme_advanced_statusbar_location
+        theme_advanced_statusbar_location : "bottom",// correct value set by layout code bellow pr attribute
+        theme_advanced_toolbar_location : "top",// correct value set by layout code bellow pr attribute
         theme_advanced_toolbar_align : "{$toolbar_alignment}",
         theme_advanced_toolbar_floating : true,
         theme_advanced_resize_horizontal : false,
         theme_advanced_resizing : true,
-        valid_elements: "-strong/-b/-bold[class|customattributes],-em/-i/-emphasize[class|customattributes],span[id|type|class|title|customattributes|align|style],sub[class|customattributes|align],sup[class|customattributes|align],pre[class|title|customattributes],ol[class|customattributes],ul[class|customattributes],li[class|customattributes],a[href|name|target|view|title|class|id|customattributes],p[class|customattributes|align|style],img[src|class|alt|align|inline|id|customattributes|style|type],table[class|border|width|id|title|customattributes|ezborder|bordercolor|align|style],tr,th[class|width|rowspan|colspan|customattributes|align|style],td[class|width|rowspan|colspan|customattributes|align|style],div[id|type|class|title|customattributes|align|style],h1[class|customattributes|align|style],h2[class|customattributes|align|style],h3[class|customattributes|align|style],h4[class|customattributes|align|style],h5[class|customattributes|align|style],h6[class|customattributes|align|style],br",
-        valid_child_elements: "a[%itrans_na],table[tr],tr[td|th],ol/ul[li],h1/h2/h3/h4/h5/h6/pre/strong/b/p/em/i/u/span/sub/sup/li[%itrans|#text]div/pre/td/th[%btrans|%itrans|#text]",
+        valid_elements : "-strong/-b/-bold[class|customattributes],-em/-i/-emphasize[class|customattributes],span[id|type|class|title|customattributes|align|style],sub[class|customattributes|align],sup[class|customattributes|align],pre[class|title|customattributes],ol[class|customattributes],ul[class|customattributes],li[class|customattributes],a[href|name|target|view|title|class|id|customattributes],p[class|customattributes|align|style],img[src|class|alt|align|inline|id|customattributes|style|type],table[class|border|width|id|title|customattributes|ezborder|bordercolor|align|style],tr,th[class|width|rowspan|colspan|customattributes|align|style],td[class|width|rowspan|colspan|customattributes|align|style],div[id|type|class|title|customattributes|align|style],h1[class|customattributes|align|style],h2[class|customattributes|align|style],h3[class|customattributes|align|style],h4[class|customattributes|align|style],h5[class|customattributes|align|style],h6[class|customattributes|align|style],br",
+        valid_child_elements : "a[%itrans_na],table[tr],tr[td|th],ol/ul[li],h1/h2/h3/h4/h5/h6/pre/strong/b/p/em/i/u/span/sub/sup/li[%itrans|#text]div/pre/td/th[%btrans|%itrans|#text]",
         // cleanup : false,
         // cleanup_serializer : 'xml',    
         // entity_encoding : 'raw',
@@ -180,7 +181,6 @@
         eZOeAttributeSettings = eZOeGlobalSettings;
         eZOeAttributeSettings['ez_attribute_id'] = {$attribute.id};
         eZOeAttributeSettings['theme_advanced_buttons1'] = "{$layout_settings['buttons']|implode(',')}";
-        eZOeAttributeSettings['theme_advanced_path_location'] = "{$layout_settings['path_location']}";
         eZOeAttributeSettings['theme_advanced_statusbar_location'] = "{$layout_settings['path_location']}";
         eZOeAttributeSettings['theme_advanced_toolbar_location'] = "{$layout_settings['toolbar_location']}";
 
