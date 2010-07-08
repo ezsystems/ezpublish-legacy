@@ -34,4 +34,5 @@ Changes from 4.4.0alpha4 to 4.4.0alpha5
 - Fixed bug #014480: 4.0.0 (and ? uppers) : Hidden nodes are displayed in RSS exports
 - Fixed bug #016611: staticcache_cleanup.php cronjob can fatal error
 - Fixed bug #015769: Little mistake in eZUserType->validateObjectAttributeHTTPInput()
+- Fixed bug #016064: bug in edit/ezoption.tpl template, please wash poll name
 
