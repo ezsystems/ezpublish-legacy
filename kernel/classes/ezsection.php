@@ -116,25 +116,26 @@ class eZSection extends eZPersistentObject
         global $eZContentSectionObjectCache;
         if( !isset( $eZContentSectionObjectCache[$sectionIdentifier] ) || $asObject === false )
         {
-            $section = eZPersistentObject::fetchObject( eZSection::definition(),
+            $sectionFetched = eZPersistentObject::fetchObject( eZSection::definition(),
                                                        null,
                                                        array( "section_identifier" => $sectionIdentifier ),
                                                        $asObject );
             if( $asObject )
             {
                 // the section identifier index refers to the id index object
-                $sectionID = $section->attribute( 'id' );
+                $sectionID = $sectionFetched->attribute( 'id' );
                 if( !isset( $eZContentSectionObjectCache[$sectionID] ) )
                 {
-                    $eZContentSectionObjectCache[$sectionID] = $section;
+                    $eZContentSectionObjectCache[$sectionID] = $sectionFetched;
                 }
                 $eZContentSectionObjectCache[$sectionIdentifier] = $eZContentSectionObjectCache[$sectionID];
             }
+            else
+            {
+                return $sectionFetched;
+            }
         }
-        else
-        {
-            $section = $eZContentSectionObjectCache[$sectionIdentifier];
-        }
+        $section = $eZContentSectionObjectCache[$sectionIdentifier];
         return $section;
     }
 
