@@ -45,7 +45,6 @@ class eZPendingActions extends eZPersistentObject
      * @param array $aCreationDateFilter Created date filter array (default is empty array). Must be a 2 entries array. 
      *                                   First entry is the filter token (can be '=', '<', '<=', '>', '>=')
      *                                   Second entry is the filter value (timestamp)
-     * @throws InvalidArgumentException
      * @return array|null Array of eZPendingActions or null if no entry has been found
      */
     public static function fetchByAction( $action, array $aCreationDateFilter = array() )
