@@ -37,6 +37,10 @@ Change of behavior
   possible nor needed to clear/expire sessions from admin interface or command line interface.
   To get old behavoir back, enable db handler by setting site.ini/Session.Handler to eZSessionHandlerDB
 
+- eZExtension::activateExtensions()
+
+  Default value of of first parameter has been changed from false to 'default', see deprecation note bellow.
+
 - eZOperationHandler::operationIsAvailable()
 
   The $name parameter for this method is no longer optional. It did return false anyway if the parameter was omitted.
@@ -61,7 +65,19 @@ Deprecated functionality
   use post parameters in the future, and we recommend you to do the same for your custom code.
   * breaks when you have multiple windows open, something power users frequently do.
 
-* INI file suffix *.ini.php & *.ini.append
+- eZExtension::activateExtensions( false )
+
+  Strict error will be thrown if first parameter is false as of this version.
+  Reason is that changes in ini system requires clearer seperation between access and default
+  extensions. Thus extension loading should be done in at least two phases, normally with siteaccess
+  loading in between like index.php does and always have done it.
+
+- eZINI::parameterSet()
+
+  This function has been deprecated in favour of using the normal and more efficient:
+  eZINI::instance('<file>.ini')->hasVariable('SomeSection', 'SomeSetting')
+
+- INI file suffix *.ini.php & *.ini.append
 
   This ini suffix types have been deprecated, please use *.ini or *.ini.append.php
 
@@ -99,4 +115,9 @@ Removed methods
 Removed globals
 ---------------
 
+- eZINIOverrideDirList
+
+  eZINI now uses a private static variable to keep track of override folders, new api calls have
+  been added to be able modify it. ->overrideDirs() will still return an iterable list of dirs
+  but has a new parameter to specific if you'd want to get the internal raw structure instead.
 

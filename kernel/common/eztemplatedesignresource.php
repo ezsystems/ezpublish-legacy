@@ -596,15 +596,13 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         if ( $siteAccess )
         {
             // Get the design resources
-            $ini = eZINI::instance( 'site.ini', 'settings', null, null, true );
-            $ini->prependOverrideDir( "siteaccess/$siteAccess", false, 'siteaccess' );
-            eZExtension::prependExtensionSiteAccesses( $siteAccess, $ini, false, 'siteaccess' );
-            $ini->loadCache();
+            $ini = eZSiteAccess::getIni( $siteAccess, 'site.ini' );
 
             $overrideINI = eZINI::instance( 'override.ini', 'settings', null, null, true );
-            $overrideINI->prependOverrideDir( "siteaccess/$siteAccess", false, 'siteaccess' );
-            eZExtension::prependExtensionSiteAccesses( $siteAccess, $overrideINI, false, 'siteaccess', false );
-            $overrideINI->loadCache();
+
+            // overwrite overrideDirs from siteIni instance
+            $overrideINI->setOverrideDirs( $ini->overrideDirs( false ) );
+            $overrideINI->load();
 
             $standardBase = $ini->variable( "DesignSettings", "StandardDesign" );
             $keys[] = "siteaccess/$siteAccess";
@@ -617,17 +615,13 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             $ini = eZINI::instance();
             if ( $this->OverrideSiteAccess != false )
             {
-                $overrideINI = eZINI::instance( 'override.ini', 'settings', null, null, true );
-                eZExtension::prependExtensionSiteAccesses( $siteAccess, $overrideINI, false, 'siteaccess' );
-                $overrideINI->prependOverrideDir( "siteaccess/$this->OverrideSiteAccess", false, 'siteaccess', false );
-                $overrideINI->loadCache();
+                $overrideINI = eZSiteAccess::getIni( $siteAccess, 'override.ini' );
                 $keys[] = "siteaccess/$this->OverrideSiteAccess";
             }
             else
             {
                 $overrideINI = eZINI::instance( 'override.ini' );
-                $currentAccess = $GLOBALS['eZCurrentAccess'];
-                $siteAccess = $currentAccess['name'];
+                $siteAccess = $GLOBALS['eZCurrentAccess']['name'];
                 $keys[] = "siteaccess/$siteAccess";
             }
 
@@ -766,10 +760,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     {
         if( $siteAccess )
         {
-            $ini = eZINI::instance( 'site.ini', 'settings', null, null, true );
-            $ini->prependOverrideDir( "siteaccess/$siteAccess", false, 'siteaccess' );
-            eZExtension::prependExtensionSiteAccesses( $siteAccess, $ini, false, 'siteaccess' );
-            $ini->loadCache();
+            $ini = eZSiteAccess::getIni( $siteAccess, 'site.ini' );
 
             $standardDesign = $ini->variable( 'DesignSettings', 'StandardDesign' );
             $siteDesign     = $ini->variable( 'DesignSettings', 'SiteDesign' );
@@ -878,10 +869,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         // fetch the override array from a specific siteacces
         if ( $siteAccess )
         {
-            $overrideINI = eZINI::instance( 'override.ini', 'settings', null, null, true );
-            $overrideINI->prependOverrideDir( "siteaccess/$siteAccess", false, 'siteaccess' );
-            eZExtension::prependExtensionSiteAccesses( $siteAccess, $overrideINI, false, 'siteaccess', false );
-            $overrideINI->loadCache();
+            $overrideINI = eZSiteAccess::getIni( $siteAccess, 'override.ini' );
         }
         else
         {

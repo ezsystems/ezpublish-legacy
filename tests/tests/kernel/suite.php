@@ -71,7 +71,8 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
 
         // This test suite is commented out until it will be fixed to work on any machine
         // $this->addTestSuite( 'eZRSSExportTest' );
-        
+
+        $this->addTestSuite( 'eZSiteAccess_Test' );
         $this->addTestSuite( 'eZSiteDataTest' );
         $this->addTestSuite( 'eZPendingActionsTest' );
         $this->addTestSuite( 'eZSectionTest' );

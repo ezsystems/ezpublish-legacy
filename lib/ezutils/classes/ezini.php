@@ -67,12 +67,26 @@
 */
 class eZINI
 {
-    /*!
-     Has the date of the current cache code implementation as a timestamp,
-     if this changes(increases) the cache files will need to be recreated.
-    */
-    const CACHE_CODE_DATE = 1043407542;
+    /**
+     * Constant to signal ini debug mode for ini development
+     *
+     * @var bool
+     */
     const DEBUG_INTERNALS = false;
+
+    /**
+     * Constant path to directory for configuration cache
+     *
+     * @var string
+     */
+    const CONFIG_CACHE_DIR = 'var/cache/ini/';
+
+    /**
+     * Constant integer to check against configuration cache format revision
+     *
+     * @var int
+     */
+    const CONFIG_CACHE_REV = 2;
 
     // set EZP_INI_FILEMTIME_CHECK constant to false to improve performance by
     // not checking modified time on ini files. You can also set it to a string, the name
@@ -120,9 +134,14 @@ class eZINI
                 self::$checkFileMtime = true;
         }
 
+        if ( self::$GlobalOverrideDirArray === null )
+        {
+            self::$GlobalOverrideDirArray = self::defaultOverrideDirs();
+        }
+
         if ( $this->UseLocalOverrides == true )
         {
-            $this->LocalOverrideDirArray = $GLOBALS['eZINIOverrideDirList'];
+            $this->LocalOverrideDirArray = self::$GlobalOverrideDirArray;
         }
 
         if ( self::$filePermission === null )
@@ -224,15 +243,16 @@ class eZINI
         $GLOBALS['eZINITextCodecEnabled'] = $codec;
     }
 
-    /*!
-     \static
-     Check wether a specified parameter in a specified section is set in a specified file
-     \param fileName file name (optional)
-     \param rootDir directory (optional)
-     \param section section name
-     \param parameter parameter name
-     \return true if the the parameter is set.
-    */
+    /**
+     * Check whether a specified parameter in a specified section is set in a specified file
+     *
+     * @deprecated Since 4.4
+     * @param string fileName file name (optional)
+     * @param string rootDir directory (optional)
+     * @param string section section name
+     * @param string parameter parameter name
+     * @return bool True if the the parameter is set.
+     */
     static function parameterSet( $fileName = 'site.ini', $rootDir = 'settings', &$section, &$parameter )
     {
         if ( !eZINI::exists( $fileName, $rootDir ) )
@@ -396,7 +416,8 @@ class eZINI
         {
             $cacheFileName .= '-placement:' . $placement;
         }
-        return md5( $cacheFileName ) . '.php';
+        $filePreFix = explode( '.', $this->FileName);
+        return $filePreFix[0] . '-' . md5( $cacheFileName ) . '.php';
     }
 
     /*!
@@ -409,31 +430,8 @@ class eZINI
         eZDebug::accumulatorStart( 'ini', 'ini_load', 'Load cache' );
         if ( $reset )
             $this->reset();
-        $cachedDir = 'var/cache/ini/';
+        $cachedDir = self::CONFIG_CACHE_DIR;
         $inputFileTime = 0;
-
-        if ( self::$checkFileMtime === true or self::$checkFileMtime === $this->FileName )
-        {
-            eZDebug::accumulatorStart( 'ini_find_files', 'ini_load', 'FindInputFiles' );
-            $this->findInputFiles( $inputFiles, $iniFile );
-            eZDebug::accumulatorStop( 'ini_find_files' );
-            if ( count( $inputFiles ) === 0 )
-            {
-                eZDebug::accumulatorStop( 'ini' );
-                return false;
-            }
-
-            $currentTime = time();
-            foreach ( $inputFiles as $inputFile )
-            {
-                $fileTime = filemtime( $inputFile );
-                if ( $currentTime < $fileTime )
-                    eZDebug::writeError( 'Input file "' . $inputFile . '" has a timestamp higher then current time, ignoring timestamp to avoid infinite recursion!', 'eZINI::loadCache' );
-                else if ( $inputFileTime === 0 or
-                     $fileTime > $inputFileTime )
-                    $inputFileTime = $fileTime;
-            }
-        }
 
         $fileName = $this->cacheFileName( $placement );
         $cachedFile = $cachedDir . $fileName;
@@ -447,18 +445,9 @@ class eZINI
         }
 
         $loadCache = false;
-        $cacheTime = false;
         if ( file_exists( $cachedFile ) )
         {
             $loadCache = true;
-            if ( self::$checkFileMtime === true or self::$checkFileMtime === $this->FileName  )
-            {
-                $cacheTime = filemtime( $cachedFile );
-                if ( $cacheTime < $inputFileTime )
-                {
-                    $loadCache = false;
-                }
-            }
         }
 
         $useCache = false;
@@ -466,39 +455,60 @@ class eZINI
         {
             $useCache = true;
             if ( eZINI::isDebugEnabled() )
-                eZDebug::writeNotice( "Loading cache '$cachedFile' for file '" . $this->FileName . "'", "eZINI" );
-            $charset = null;
-            $blockValues = array();
+                eZDebug::writeNotice( "Loading cache '$cachedFile' for file '" . $this->FileName . "'", __METHOD__ );
             include( $cachedFile );
-            if ( !isset( $val ) or
-                 !isset( $eZIniCacheCodeDate ) or
-                 $eZIniCacheCodeDate != eZINI::CACHE_CODE_DATE )
+            if ( !isset( $data ) ||
+                 !isset( $data['rev'] ) ||
+                 $data['rev'] != eZINI::CONFIG_CACHE_REV )
             {
                 if ( eZINI::isDebugEnabled() )
-                    eZDebug::writeNotice( "Old structure in cache file used, recreating '$cachedFile' to new structure", "eZINI" );
+                    eZDebug::writeNotice( "Old structure in cache file used, recreating '$cachedFile' to new structure", __METHOD__ );
+                unset( $data );
                 $this->reset();
                 $useCache = false;
             }
-            else
+            else if ( self::$checkFileMtime === true || self::$checkFileMtime === $this->FileName )
             {
-                $this->Charset = $charset;
-                $this->ModifiedBlockValues = array();
-                if ( $placement )
+                eZDebug::accumulatorStart( 'ini_check_mtime', 'ini_load', 'Check MTime' );
+                $currentTime = time();
+                $cacheCreatedTime = strtotime( $data['created'] );
+                $iniFile = $data['file'];
+                $inputFiles = $data['files'];
+                foreach ( $inputFiles as $inputFile )
                 {
-                    $this->BlockValuesPlacement = $val;
+                    $fileTime = filemtime( $inputFile );
+                    if ( $currentTime < $fileTime )
+                    {
+                        eZDebug::writeError( 'Input file "' . $inputFile . '" has a timestamp higher then current time, ignoring to avoid infinite recursion!', __METHOD__ );
+                    }
+                    // Refresh cache if file does not exist anymore or it has been changed
+                    else if ( $fileTime === false ||
+                              $fileTime > $cacheCreatedTime )
+                    {
+                        unset( $data );
+                        $this->reset();
+                        $useCache = false;
+                        break;
+                    }
                 }
-                else
-                {
-                    $this->BlockValues = $val;
-                }
-                unset( $val );
+                eZDebug::accumulatorStop( 'ini_check_mtime' );
             }
         }
-        if ( !$useCache )
+        if ( $useCache && isset( $data ) )
+        {
+            $this->Charset = $data['charset'];
+            $this->ModifiedBlockValues = array();
+            if ( $placement )
+                $this->BlockValuesPlacement = $data['val'];
+            else
+                $this->BlockValues = $data['val'];
+            unset( $data );
+        }
+        else
         {
             if ( !isset( $inputFiles ) )
             {
-                eZDebug::accumulatorStart( 'ini_find_files', 'ini_load', 'FindInputFiles' );
+                eZDebug::accumulatorStart( 'ini_find_files', 'ini_load', 'Find INI Files' );
                 $this->findInputFiles( $inputFiles, $iniFile );
                 eZDebug::accumulatorStop( 'ini_find_files' );
                 if ( count( $inputFiles ) === 0 )
@@ -508,12 +518,12 @@ class eZINI
                 }
             }
 
-            eZDebug::accumulatorStart( 'ini_files_1', 'ini_load', 'Parse' );
+            eZDebug::accumulatorStart( 'ini_files_parse', 'ini_load', 'Parse' );
             $this->parse( $inputFiles, $iniFile, false, $placement );
-            eZDebug::accumulatorStop( 'ini_files_1' );
-            eZDebug::accumulatorStart( 'ini_files_2', 'ini_load', 'Save Cache' );
-            $cacheSaved = $this->saveCache( $cachedDir, $cachedFile, $placement ? $this->BlockValuesPlacement : $this->BlockValues );
-            eZDebug::accumulatorStop( 'ini_files_2' );
+            eZDebug::accumulatorStop( 'ini_files_parse' );
+            eZDebug::accumulatorStart( 'ini_files_save', 'ini_load', 'Save Cache' );
+            $cacheSaved = $this->saveCache( $cachedDir, $cachedFile, $placement ? $this->BlockValuesPlacement : $this->BlockValues, $inputFiles, $iniFile );
+            eZDebug::accumulatorStop( 'ini_files_save' );
 
             if ( $cacheSaved )
             {
@@ -525,44 +535,61 @@ class eZINI
         eZDebug::accumulatorStop( 'ini' );
     }
 
-    /*!
-     \private
-     Stores the content of the INI object to the cache file \a $cachedFile.
-    */
-    function saveCache( $cachedDir, $cachedFile, $data )
+    /**
+     * Stores the content of the INI object to the cache file \a $cachedFile.
+     *
+     * @param string $cachedDir Cache dir, usually "var/cache/ini/"
+     * @param string $cachedFile Name of cache file as returned by cacheFileName()
+     * @param array $data Configuration data as an associative array structure
+     * @param array $inputFiles List of input files used as basis for cache (for use in load cache to check mtime)
+     * @param string $iniFile Ini file path string returned by findInputFiles() for main ini file
+     * @return bool
+     */
+    protected function saveCache( $cachedDir, $cachedFile, array $data, array $inputFiles, $iniFile )
     {
         if ( !file_exists( $cachedDir ) )
         {
             if ( !eZDir::mkdir( $cachedDir, 0777, true ) )
             {
-                eZDebug::writeError( "Couldn't create cache directory $cachedDir, perhaps wrong permissions", "eZINI" );
+                eZDebug::writeError( "Couldn't create cache directory $cachedDir, perhaps wrong permissions", __METHOD__ );
                 return false;
             }
         }
+
+        // Save the data to a temp cached file
         $tmpCacheFile = $cachedFile . '_' . substr( md5( mt_rand() ), 0, 8 );
-        // save the data to a cached file
         $fp = @fopen( $tmpCacheFile, "w" );
         if ( $fp === false )
         {
-            eZDebug::writeError( "Couldn't create cache file '$cachedFile', perhaps wrong permissions", "eZINI" );
+            eZDebug::writeError( "Couldn't create cache file '$cachedFile', perhaps wrong permissions?", __METHOD__ );
             return false;
         }
-        fwrite( $fp, "<?php\n\$eZIniCacheCodeDate = " . eZINI::CACHE_CODE_DATE . ";\n" );
+
+        // Write cache data as a php structure with some meta information for use while reading cache
+        fwrite( $fp, "<?php\n// This is a auto generated ini cache file, time created:" . date( DATE_RFC822 ) . "\n" );
+
+        fwrite( $fp, "\$data = array(\n" );
+        fwrite( $fp, "'rev' => " . eZINI::CONFIG_CACHE_REV . ",\n" );
+        fwrite( $fp, "'created' => '" . date('c') . "',\n" );
 
         if ( $this->Codec )
-            fwrite( $fp, "\$charset = \"".$this->Codec->RequestedOutputCharsetCode."\";\n" );
+            fwrite( $fp, "'charset' => \"".$this->Codec->RequestedOutputCharsetCode."\",\n" );
         else
-            fwrite( $fp, "\$charset = \"$this->Charset\";\n" );
+            fwrite( $fp, "'charset' => \"$this->Charset\",\n" );
 
-        fwrite( $fp, "\$val = " . preg_replace( "@\n[\s]+@", '', var_export( $data, true ) ) . ";" );
+        fwrite( $fp, "'files' => " . preg_replace( "@\n[\s]+@", '', var_export( $inputFiles, true ) ) . ",\n" );
+        fwrite( $fp, "'file' => '$iniFile',\n" );
+
+        fwrite( $fp, "'val' => " . preg_replace( "@\n[\s]+@", '', var_export( $data, true ) ) . ");" );
         fwrite( $fp, "\n?>" );
         fclose( $fp );
-        eZFile::rename( $tmpCacheFile, $cachedFile );
 
+        // Rename cache temp file to final desitination and set permissions
+        eZFile::rename( $tmpCacheFile, $cachedFile );
         chmod( $cachedFile, self::$filePermission );
 
         if ( eZINI::isDebugEnabled() )
-            eZDebug::writeNotice( "Wrote cache file '$cachedFile'", "eZINI" );
+            eZDebug::writeNotice( "Wrote cache file '$cachedFile'", __METHOD__ );
 
         return true;
     }
@@ -596,12 +623,12 @@ class eZINI
     function parseFile( $file, $placement = false )
     {
         if ( eZINI::isDebugEnabled() )
-            eZDebug::writeNotice( "Parsing file '$file'", 'eZINI' );
+            eZDebug::writeNotice( "Parsing file '$file'", __METHOD__ );
 
         $contents = file_get_contents( $file );
         if ( $contents === false )
         {
-            eZDebug::writeError( "Failed opening file '$file' for reading", "eZINI" );
+            eZDebug::writeError( "Failed opening file '$file' for reading", __METHOD__ );
             return false;
         }
 
@@ -673,7 +700,7 @@ class eZINI
                     if ( isset( $this->BlockValuesPlacement[$currentBlock][$varName] ) &&
                          !is_array( $this->BlockValuesPlacement[$currentBlock][$varName] ) )
                     {
-                        eZDebug::writeError( "Wrong operation on the ini setting array '$varName'", 'eZINI' );
+                        eZDebug::writeError( "Wrong operation on the ini setting array '$varName'", __METHOD__ );
                         continue;
                     }
 
@@ -743,9 +770,9 @@ class eZINI
     */
     function resetCache()
     {
-        if ( file_exists( $this->CacheFile ) )
+        if ( $this->CacheFile && file_exists( $this->CacheFile ) )
             unlink( $this->CacheFile );
-        if ( file_exists( $this->PlacementCacheFile ) )
+        if ( $this->PlacementCacheFile && file_exists( $this->PlacementCacheFile ) )
             unlink( $this->PlacementCacheFile );
     }
 
@@ -814,7 +841,7 @@ class eZINI
         $fp = @fopen( $filePath, "w+");
         if ( !$fp )
         {
-            eZDebug::writeError( "Failed opening file '$filePath' for writing", "eZINI" );
+            eZDebug::writeError( "Failed opening file '$filePath' for writing", __METHOD__ );
             return false;
         }
         $writeOK = true;
@@ -972,101 +999,276 @@ class eZINI
         return $this->RootDir;
     }
 
-    /*!
-     \return the override directories, if no directories has been set "override" is returned.
-
-    The override directories are returned as an array of arrays. The first
-    value in the array is the override directory, the second is a boolean which
-    defines if the directory is relative to the rootDir() or not. If the second value
-    is false the override dir is relative, true means that the override dir is relative
-    to the eZ Publish root directory.
-    The third value of the array will contain the identifier of the override, if it exists.
-    Identifiers are useful if you want to overwrite the current override setting.
-    */
-    function overrideDirs()
+    /**
+     * Return the override directories witch raw override dir data, or within a scope if $scope is set,
+     * see {@link eZINI::defaultOverrideDirs()} for how the raw data looks like.
+     *
+     * @param string|null|false $scope See {@link eZINI::defaultOverrideDirs()} for possible scope values
+     *              If false then you'll get raw override dir structure, null (default) is a simplified
+     *              variant withouth scopes that is easy to iterate over.
+     * @return array
+     */
+    function overrideDirs( $scope = null )
     {
         if ( $this->UseLocalOverrides == true )
             $dirs =& $this->LocalOverrideDirArray;
         else
-            $dirs =& $GLOBALS['eZINIOverrideDirList'];
+            $dirs =& self::$GlobalOverrideDirArray;
 
-        if ( !isset( $dirs ) or !is_array( $dirs ) )
-            $dirs = array( array( "override", false, false ) );
-        return $dirs;
+        return self::overrideDirsByScope( $dirs, $scope );
     }
 
-    /*!
-     Appends the override directory \a $dir to the override directory list.
-     If global dir is set top
-    */
-    function prependOverrideDir( $dir, $globalDir = false, $identifier = false )
+    /**
+     * Return the global override directories witch raw override dir data, or within a scope if $scope is set,
+     * see {@link eZINI::defaultOverrideDirs()} for how the raw data looks like.
+     *
+     * @param string|false|null $scope See {@link eZINI::defaultOverrideDirs()} for possible scope values
+     *              If false then you'll get raw override dir structure, null (default) is a simplified
+     *              variant withouth scopes that is easy to iterate over.
+     * @return array
+     */
+    public static function globalOverrideDirs( $scope = null )
+    {
+        return self::overrideDirsByScope( self::$GlobalOverrideDirArray, $scope );
+    }
+
+    /**
+     * Return the override directories witch raw override dir data, or within a scope if $scope is set,
+     * see {@link eZINI::defaultOverrideDirs()} for how the raw data looks like.
+     *
+     * @param array $dirs Directories directly from internal raw structure (see above).
+     * @param string|null|false $scope See {@link eZINI::defaultOverrideDirs()} for possible scope values
+     *              If false then you'll get raw override dir structure, null (default) is a simplified
+     *              variant withouth scopes that is easy to iterate over.
+     * @return array
+     */
+    protected static function overrideDirsByScope( array $dirs, $scope = null )
+    {
+        if ( $scope !== null )
+        {
+            if ( $scope === false )
+                return $dirs;
+            if ( isset( $dirs[$scope] ) )
+                return $dirs[$scope];
+            eZDebug::writeWarning( "Undefined override dir scope: '$scope'", __METHOD__ );
+        }
+
+        return array_merge( $dirs['sa-extension'], $dirs['siteaccess'], $dirs['extension'], $dirs['override'] );
+    }
+
+    /**
+     * Default override directories as raw array data
+     *
+     * @return array An associated array of associated arrays of arrays..
+     *               First level keys are the scope and values are arrays
+     *               Second level keys are identifier (numberic if not defined by caller) and value is arrays
+     *               Third level contains (string) override dir, (bool) global flag if false then
+     *               relative to {@link $RootDir} and (string|false) optional identifier as used by
+     *               {@link eZINI::prependOverrideDir()} to match and replace values on.
+     */
+    static public function defaultOverrideDirs()
+    {
+        static $def =  array(
+                'sa-extension' => array(),
+                'siteaccess' => array(),
+                'extension' => array(),
+                'override' => array( array( 'override', false ) )
+        );
+        return $def;
+    }
+
+    /**
+     * Set the override directories witch raw override dir data, or within a scope if $scope is set,
+     * see {@link eZINI::defaultOverrideDirs()} for how the raw data looks like.
+     *
+     * @param array $newDirs
+     * @param string|false $scope See {@link eZINI::defaultOverrideDirs()} for possible scope values
+     */
+    function setOverrideDirs( array $newDirs, $scope = false )
+    {
+        if ( $this->UseLocalOverrides == true )
+            $dirs =& $this->LocalOverrideDirArray;
+        else
+            $dirs =& self::$GlobalOverrideDirArray;
+
+        if ( $scope === false )
+            $dirs = $newDirs;
+        else if ( isset( $dirs[$scope] ) )
+            $dirs[$scope] = $newDirs;
+        else
+            eZDebug::writeWarning( "Undefined override dir scope: '$scope'", __METHOD__ );
+
+        $this->CacheFile = false;
+    }
+
+    /**
+     * Reset the global override directories with data from {@link eZINI::defaultOverrideDirs()}
+     */
+    static public function resetGlobalOverrideDirs()
+    {
+        self::$GlobalOverrideDirArray = self::defaultOverrideDirs();
+    }
+
+    /**
+     * Reset the override directories with data from {@link eZINI::defaultOverrideDirs()}
+     */
+    public function resetOverrideDirs()
+    {
+        $this->setOverrideDirs( self::defaultOverrideDirs() );
+    }
+
+    /**
+     * Removes an override dir by identifier
+     * See {@link eZINI::defaultOverrideDirs()} for how these parameters are used.
+     *
+     * @param string $identifier Will remove existing directory with identifier it it exists
+     * @param string $scope By default 'extension'
+     * @return bool True if new dir was appended, false if there was a $identifier match and a overwrite
+     */
+    function removeOverrideDir( $identifier, $scope = 'extension' )
+    {
+        if ( $this->UseLocalOverrides == true )
+            $dirs =& $this->LocalOverrideDirArray;
+        else
+            $dirs =& self::$GlobalOverrideDirArray;
+
+        if ( !$identifier || !is_string( $identifier ) )
+        {
+            eZDebug::writeError( "\$identifier must be a string", __METHOD__ );
+            return false;
+        }
+
+        if ( !isset( $dirs[$scope] ) )
+        {
+            eZDebug::writeWarning( "Undefined override dir scope: '$scope' with dir: '$dir'", __METHOD__ );
+            $scope = 'extension';
+        }
+
+        $overrideRemoved = false;
+        if ( isset( $dirs[$scope][$identifier] ) )
+        {
+            unset( $dirs[$scope][$identifier] );
+            $overrideRemoved = true;
+            $this->CacheFile = false;
+        }
+
+        return $overrideRemoved;
+    }
+
+    /**
+     * Prepends the override directory $dir to the override directory list.
+     * Prepends override dir to 'extension' scope by default, bellow siteaccess and override settings.
+     * See {@link eZINI::defaultOverrideDirs()} for how these parameters are used.
+     *
+     * @param string $dir
+     * @param bool $globalDir
+     * @param string|false $identifier Will overwrite existing directory with same identifier if set
+     * @param string|null $scope
+     * @return bool True if new dir was prepended, false if there was a $identifier match and a overwrite
+     */
+    function prependOverrideDir( $dir, $globalDir = false, $identifier = false, $scope = null )
     {
         if ( eZINI::isDebugEnabled() )
-            eZDebug::writeNotice( "Changing override dir to '$dir'", "eZINI" );
+            eZDebug::writeNotice( "Prepending override dir '$dir'", "eZINI" );
 
         if ( $this->UseLocalOverrides == true )
             $dirs =& $this->LocalOverrideDirArray;
         else
-            $dirs =& $GLOBALS["eZINIOverrideDirList"];
+            $dirs =& self::$GlobalOverrideDirArray;
 
-        if ( !isset( $dirs ) or !is_array( $dirs ) )
-            $dirs = array( array( 'override', false, false ) );
+        $scope = self::selectOverrideScope( $scope, $identifier, $dir, 'extension' );
 
         // Check if the override with the current identifier already exists
         $overrideOverwritten = false;
-        if ( $identifier !== false )
+        if ( $identifier && isset( $dirs[$scope][$identifier] ) )
         {
-            foreach ( array_keys( $dirs ) as $dirKey )
-            {
-                if ( $dirs[$dirKey][2] == $identifier )
-                {
-                    $dirs[$dirKey][0] = $dir;
-                    $dirs[$dirKey][1] = $globalDir;
-                    $overrideOverwritten = true;
-                }
-            }
+            $dirs[$scope][$identifier] = array( $dir, $globalDir );
+            $overrideOverwritten = true;
+        }
+        else
+        {
+            if ( $identifier )
+                $dirs[$scope] = array_merge( array( $identifier => array( $dir, $globalDir ) ), $dirs[$scope] );
+            else
+                $dirs[$scope] = array_merge( array( array( $dir, $globalDir ) ), $dirs[$scope] );
         }
 
-        if ( $overrideOverwritten == false )
-            $dirs = array_merge( array( array( $dir, $globalDir, $identifier ) ), $dirs );
-
         $this->CacheFile = false;
+        return $overrideOverwritten === false;
      }
 
-    /*!
-     Appends the override directory \a $dir to the override directory list.
-    */
-    function appendOverrideDir( $dir, $globalDir = false, $identifier = false )
+    /**
+     * Appends the override directory $dir to the override directory list.
+     * Appends override dir to 'override' scope if scope is not defined, meaning above anything else.
+     * See {@link eZINI::defaultOverrideDirs()} for how these parameters are used.
+     *
+     * @param string $dir
+     * @param bool $globalDir
+     * @param string|false $identifier Will overwrite existing directory with same identifier if set
+     * @param string|null $scope
+     * @return bool True if new dir was appended, false if there was a $identifier match and a overwrite
+     */
+    function appendOverrideDir( $dir, $globalDir = false, $identifier = false, $scope = null )
     {
         if ( eZINI::isDebugEnabled() )
-            eZDebug::writeNotice( "Changing override dir to '$dir'", "eZINI" );
+            eZDebug::writeNotice( "Appending override dir '$dir'", __METHOD__ );
 
         if ( $this->UseLocalOverrides == true )
             $dirs =& $this->LocalOverrideDirArray;
         else
-            $dirs =& $GLOBALS["eZINIOverrideDirList"];
+            $dirs =& self::$GlobalOverrideDirArray;
 
-        if ( !isset( $dirs ) or !is_array( $dirs ) )
-            $dirs = array( 'override', false, false );
+        $scope = self::selectOverrideScope( $scope, $identifier, $dir, 'override' );
 
         // Check if the override with the current identifier already exists
         $overrideOverwritten = false;
-        if ( $identifier !== false )
+        if ( $identifier && isset( $dirs[$scope][$identifier] ) )
         {
-            foreach ( array_keys( $dirs ) as $dirKey )
-            {
-                if ( $dirs[$dirKey][2] == $identifier )
-                {
-                    $dirs[$dirKey][0] = $dir;
-                    $dirs[$dirKey][1] = $globalDir;
-                    $overrideOverwritten = true;
-                }
-            }
+            $dirs[$scope][$identifier] = array( $dir, $globalDir );
+            $overrideOverwritten = true;
+        }
+        else
+        {
+            if ( $identifier )
+                $dirs[$scope][$identifier] = array( $dir, $globalDir );
+            else
+                $dirs[$scope][] = array( $dir, $globalDir );
         }
 
-        if ( $overrideOverwritten == false )
-            $dirs[] = array( $dir, $globalDir, $identifier = false );
         $this->CacheFile = false;
+        return $overrideOverwritten === false;
+    }
+
+    /**
+     * Function to handle bc with code from pre 4.4 that does not know about scopes
+     *
+     * @since 4.4
+     * @param string|null $scope
+     * @param string $identifier
+     * @param string $dir
+     * @param string $default
+     * @return string
+     */
+    protected static function selectOverrideScope( $scope, $identifier, $dir, $default )
+    {
+        if ( $scope !== null )
+        {
+            $def = self::defaultOverrideDirs();
+            if ( isset( $def[$scope] ) )
+                return $scope;
+            eZDebug::writeWarning( "Undefined override dir scope: '$scope' with dir: '$dir'", __METHOD__ );
+        }
+        if ( $identifier === 'siteaccess' )
+            return 'siteaccess';
+        else if ( $identifier && strpos($identifier, 'extension:') === 0 )
+            return 'extension';
+        else if ( strpos($dir, 'siteaccess') !== false )
+            return 'siteaccess';
+        else if ( strpos($dir, 'extension') !== false )
+            return 'extension';
+
+        eZDebug::writeStrict( "Could not figgure out INI scope for \$identifier: '$identifier' with \$dir: '$dir', falling back to '$default'", __METHOD__ );
+        return $default;
     }
 
     /*!
@@ -1091,9 +1293,9 @@ class eZINI
         if ( isset( $this->BlockValues[$blockName][$varName] ) )
             return $this->BlockValues[$blockName][$varName];
         else if ( !isset( $this->BlockValues[$blockName] ) )
-            eZDebug::writeError( "Undefined group: '$blockName' in " . $this->FileName, "eZINI" );
+            eZDebug::writeError( "Undefined group: '$blockName' in " . $this->FileName, __METHOD__ );
         else
-            eZDebug::writeError( "Undefined variable: '$varName' in group '$blockName' in " . $this->FileName, "eZINI" );
+            eZDebug::writeError( "Undefined variable: '$varName' in group '$blockName' in " . $this->FileName, __METHOD__ );
         return false;
     }
 
@@ -1203,7 +1405,7 @@ class eZINI
     {
         if ( !isset( $this->BlockValues[$blockName] ) )
         {
-            eZDebug::writeError( "Unknown group: '$blockName'", "eZINI" );
+            eZDebug::writeError( "Unknown group: '$blockName'", __METHOD__ );
             $ret = null;
             return $ret;
         }
@@ -1290,9 +1492,10 @@ class eZINI
             break;
             case 4:
             {
-                $placement = 'siteaccess';
-                if ( $exploded[0] == 'extension' )
+                if ( $exploded[0] === 'extension' )
                     $placement = 'extension:' . $exploded[1];
+                else
+                    $placement = 'siteaccess';
             }
             break;
             case 6:
@@ -1441,13 +1644,14 @@ class eZINI
         return $impl;
     }
 
-    /*!
-     \static
-     Get instance siteaccess specific site.ini
-     \param siteAccess the site access to get ini for
-     \param iniFile the site access to get ini for
-     \return eZINI object, or false if not found
-    */
+    /**
+     * Get ini file for a specific siteaccess (not incl extesnions or overrides)
+     * use {@link eZSiteAccess::getIni()} instead if you want to have full ini env.
+     *
+     * @param string $siteAccess
+     * @param string $iniFile
+     * @return eZINI
+     */
     static function getSiteAccessIni( $siteAccess, $iniFile )
     {
         $saPath = eZSiteAccess::findPathToSiteAccess( $siteAccess );
@@ -1492,12 +1696,12 @@ class eZINI
     {
         foreach ( array_keys( $GLOBALS ) as $key )
         {
-            if ( ( $key && strpos( $key, 'eZINIGlobalInstance-' ) === 0  )
-                   || $key === 'eZINIOverrideDirList' )
+            if ( $key && strpos( $key, 'eZINIGlobalInstance-' ) === 0 )
             {
                 unset( $GLOBALS[$key] );
             }
         }
+        self::resetGlobalOverrideDirs();
     }
 
     /// \privatesection
@@ -1539,6 +1743,9 @@ class eZINI
 
     /// Contains the override dirs, if in local mode
     public $LocalOverrideDirArray;
+
+    /// Contains global override dirs
+    static protected $GlobalOverrideDirArray = null;
 
     /// If \c true then all file loads are done directly on the filename.
     public $DirectAccess;

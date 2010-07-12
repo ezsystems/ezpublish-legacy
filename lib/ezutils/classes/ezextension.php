@@ -39,6 +39,18 @@
 
 class eZExtension
 {
+    /**
+     * Constant path to directory for extensions ordering cache
+     *
+     * @var string
+     */
+    const CACHE_DIR = 'var/cache/';
+
+    /**
+     * In memory cache for ordered extensions
+     *
+     * @var array
+     */
     protected static $activeExtensionsCache = array();
 
     /*!
@@ -48,14 +60,17 @@ class eZExtension
     {
     }
 
-    /*!
-     \static
-     \return the base directory for extensions
-    */
-    static function baseDirectory()
+    /**
+     * return the base directory for extensions
+     *
+     * @param eZINI|null $siteINI Optional parameter to be able to only do change on specific instance of site.ini
+     * @return string
+     */
+    static function baseDirectory( eZINI $siteINI = null )
     {
-        $ini = eZINI::instance();
-        $extensionDirectory = $ini->variable( 'ExtensionSettings', 'ExtensionDirectory' );
+        if ( $siteINI === null )
+            $siteINI = eZINI::instance();
+        $extensionDirectory = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' );
         return $extensionDirectory;
     }
 
@@ -69,56 +84,72 @@ class eZExtension
      *                                    - false - Means add both default and access extensions
      *                                    - 'default' - Add only default extensions
      *                                    - 'access' - Add only access extensions
+     * @param eZINI|null $siteINI Optional parameter to be able to only do change on specific instance of site.ini
+     * @return array
      */
-    public static function activeExtensions( $extensionType = false )
+    public static function activeExtensions( $extensionType = false, eZINI $siteINI = null )
     {
-        if ( $extensionType === false )
+        if ( $siteINI === null )
         {
-            $cacheIdentifier = "all_{$GLOBALS['eZCurrentAccess']['name']}";
+            $siteINI = eZINI::instance();
         }
-        elseif ( $extensionType === 'default' )
+
+        $activeExtensions = array();
+        if ( !$extensionType || $extensionType === 'default' )
         {
-            $cacheIdentifier = 'global';
+            $activeExtensions = array_merge( $activeExtensions,
+                                             $siteINI->variable( 'ExtensionSettings', 'ActiveExtensions' ) );
         }
-        elseif ( $extensionType === 'access' )
+
+        if ( !$extensionType || $extensionType === 'access' )
         {
-            $cacheIdentifier = "sa_{$GLOBALS['eZCurrentAccess']['name']}";
+            $activeExtensions = array_merge( $activeExtensions,
+                                             $siteINI->variable( 'ExtensionSettings', 'ActiveAccessExtensions' ) );
         }
+
+        if ( isset( $GLOBALS['eZActiveExtensions'] ) )
+        {
+            $activeExtensions = array_merge( $activeExtensions,
+                                             $GLOBALS['eZActiveExtensions'] );
+        }
+
+        // return empty array as is to avoid further unneeded overhead
+        if ( !isset( $activeExtensions[0] ) )
+        {
+            return $activeExtensions;
+        }
+
+        // return array as is if ordering is disabled to avoid cache overhead
+        $activeExtensions = array_unique( $activeExtensions );
+        if ( $siteINI->variable( 'ExtensionSettings', 'ExtensionOrdering' ) !== 'enabled' )
+        {
+            // @todo Introduce a debug setting or re use existing dev mods to check that all extensions exists
+            return $activeExtensions;
+        }
+
+        $cacheIdentifier = md5( serialize( $activeExtensions ) );
         if ( isset ( self::$activeExtensionsCache[$cacheIdentifier] ) )
         {
             return self::$activeExtensionsCache[$cacheIdentifier];
         }
 
-
         // cache has to be stored by siteaccess + $extensionType
+        $extensionDirectory = self::baseDirectory();
         $expiryHandler = eZExpiryHandler::instance();
-        $phpCache = new eZPHPCreator( eZSys::cacheDirectory(), "active_extensions_{$cacheIdentifier}.php" );
+        $phpCache = new eZPHPCreator( self::CACHE_DIR, "active_extensions_{$cacheIdentifier}.php" );
         $expiryTime = $expiryHandler->hasTimestamp( 'active-extensions-cache' ) ? $expiryHandler->timestamp( 'active-extensions-cache' ) : 0;
 
         if ( !$phpCache->canRestore( $expiryTime ) )
         {
-            $ini = eZINI::instance();
-            $activeExtensions = array();
-            if ( !$extensionType || $extensionType === 'default' )
-                $activeExtensions = array_merge( $activeExtensions,
-                                                 $ini->variable( 'ExtensionSettings', 'ActiveExtensions' ) );
-            if ( !$extensionType || $extensionType === 'access' )
-                $activeExtensions = array_merge( $activeExtensions,
-                                                 $ini->variable( 'ExtensionSettings', 'ActiveAccessExtensions' ) );
+            self::$activeExtensionsCache[$cacheIdentifier] = self::extensionOrdering( $activeExtensions );
 
-            if ( isset( $GLOBALS['eZActiveExtensions'] ) )
-                $activeExtensions = array_merge( $activeExtensions,
-                                                 $GLOBALS['eZActiveExtensions'] );
-            $activeExtensions = array_unique( $activeExtensions );
-
-
-            if ( $ini->variable( 'ExtensionSettings', 'ExtensionOrdering' ) === 'enabled' )
+            // Check that all extensions defined actually exists before storing cache
+            foreach ( self::$activeExtensionsCache[$cacheIdentifier] as $activeExtension )
             {
-                self::$activeExtensionsCache[$cacheIdentifier] = self::extensionOrdering( $activeExtensions );
-            }
-            else
-            {
-                self::$activeExtensionsCache[$cacheIdentifier] = $activeExtensions;
+                if ( !file_exists( $extensionDirectory . '/' . $activeExtension ) )
+                {
+                    eZDebug::writeError( "Extension '$activeExtension' does not exist, looked for directory '" . $extensionDirectory . '/' . $activeExtension . "'", __METHOD__ );
+                }
             }
 
             $phpCache->addVariable( 'activeExtensions', self::$activeExtensionsCache[$cacheIdentifier] );
@@ -177,46 +208,56 @@ class eZExtension
         return $activeExtensionsSorted !== false ? $activeExtensionsSorted : $activeExtensions;
     }
 
-    /*!
-     \static
-     Will make sure that all extensions that has settings directories
-     are added to the eZINI override list.
-    */
-    static function activateExtensions( $extensionType = false )
+    /**
+     * Will make sure that all extensions that has settings directories
+     * are added to the eZINI override list.
+     *
+     * @param string $extensionType See {@link eZExtension::activeExtensions()}, value of false is deprecated as of 4.4
+     * @param eZINI|null $siteINI Optional parameter to be able to only do change on specific instance of site.ini
+     */
+    static function activateExtensions( $extensionType = 'default', eZINI $siteINI = null )
     {
-        $extensionDirectory = eZExtension::baseDirectory();
-        $activeExtensions = eZExtension::activeExtensions( $extensionType );
+        if ( $siteINI === null )
+        {
+            $siteINI = eZINI::instance();
+        }
+
+        if ( $extensionType === false )
+        {
+            eZDebug::writeStrict( "Setting parameter \$extensionType to false is deprecated as of 4.4, see doc/bc/4.4!", __METHOD__ );
+        }
+
+        $extensionDirectory = self::baseDirectory();
+        $activeExtensions   = self::activeExtensions( $extensionType, $siteINI );
         $hasExtensions = false;
-        $ini = eZINI::instance();
         foreach ( $activeExtensions as $activeExtension )
         {
             $extensionSettingsPath = $extensionDirectory . '/' . $activeExtension . '/settings';
-            if ( file_exists( $extensionSettingsPath ) )
-            {
-                $ini->prependOverrideDir( $extensionSettingsPath, true );
 
-                if ( isset( $GLOBALS['eZCurrentAccess'] ) )
-                {
-                    eZExtension::prependSiteAccess( $activeExtension );
-                }
-                $hasExtensions = true;
-            }
-            else if ( !file_exists( $extensionDirectory . '/' . $activeExtension ) )
-            {
-                eZDebug::writeWarning( "Extension '$activeExtension' does not exist, looked for directory '" . $extensionDirectory . '/' . $activeExtension . "'" );
-            }
+            if ( $extensionType === 'access' )
+                $siteINI->prependOverrideDir( $extensionSettingsPath, true, 'extension:' . $activeExtension, 'sa-extension' );
+            else
+                $siteINI->prependOverrideDir( $extensionSettingsPath, true, 'extension:' . $activeExtension, 'extension' );
+
+            if ( isset( $GLOBALS['eZCurrentAccess'] ) )
+                self::prependSiteAccess( $activeExtension, $GLOBALS['eZCurrentAccess']['name'], $siteINI );
+
+            $hasExtensions = true;
         }
         if ( $hasExtensions )
-            $ini->loadCache();
+            $siteINI->loadCache();
     }
 
-    /*!
-     \static
-
-     Prepend extension siteaccesses
-
-     \param accessName siteaccess name ( default false )
-    */
+    /**
+     * Prepend extension siteaccesses
+     *
+     * @param string|false $accessName Optional access name, will use global if false
+     * @param eZINI|false|null $ini
+     * @param true $globalDir
+     * @param string|false $identifier By setting to string "ext-siteaccess:<siteaccess>" only one location is supported
+     *                                 (identifier makes eZINI overwrite earlier prepends with same key)
+     * @param bool $order Prepend extensions in reverse order by setting this to false
+     */
     static function prependExtensionSiteAccesses( $accessName = false, $ini = false, $globalDir = true, $identifier = false, $order = true )
     {
         $extensionList = eZExtension::activeExtensions( 'default' );
@@ -228,17 +269,20 @@ class eZExtension
 
         foreach( $extensionList as $extension )
         {
-            eZExtension::prependSiteAccess( $extension, $accessName, $ini, $globalDir, $identifier );
+            self::prependSiteAccess( $extension, $accessName, $ini, $globalDir, $identifier );
         }
     }
 
-    /*!
-     \static
-
-     Prepend siteaccess for specified extension.
-
-     \param $extension name
-    */
+    /**
+     * Prepend siteaccess for specified extension
+     *
+     * @param string $extension Name of extension (folder name)
+     * @param string|false $accessName Optional access name, will use global if false
+     * @param eZINI|false|null $ini
+     * @param true $globalDir
+     * @param string|false $identifier By setting to string "ext-siteaccess:<siteaccess>" only one location is supported
+     *                                 (identifier makes eZINI overwrite earlier prepends with same key)
+     */
     static function prependSiteAccess( $extension, $accessName = false, $ini = false, $globalDir = true, $identifier = false )
     {
         if ( !$accessName )
@@ -248,14 +292,11 @@ class eZExtension
 
         $extensionSettingsPath = eZExtension::baseDirectory() . '/' . $extension;
 
-        if ( file_exists ( $extensionSettingsPath . '/settings/siteaccess/' . $accessName ) )
+        if ( !$ini instanceof eZINI )
         {
-            if ( !$ini )
-            {
-                $ini = eZINI::instance();
-            }
-            $ini->prependOverrideDir( $extensionSettingsPath . '/settings/siteaccess/' . $accessName, $globalDir );
+            $ini = eZINI::instance();
         }
+        $ini->prependOverrideDir( $extensionSettingsPath . '/settings/siteaccess/' . $accessName, $globalDir, $identifier, 'siteaccess' );
     }
 
     /*!

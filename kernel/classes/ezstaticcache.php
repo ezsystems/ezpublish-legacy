@@ -503,7 +503,7 @@ class eZStaticCache
     {
         return array( 'dir' => $dir,
                       'access_name' => $siteAccess,
-                      'site_url' => eZINI::getSiteAccessIni( $siteAccess, 'site.ini' )->variable( 'SiteSettings', 'SiteURL' ) );
+                      'site_url' => eZSiteAccess::getIni( $siteAccess, 'site.ini' )->variable( 'SiteSettings', 'SiteURL' ) );
     }
 
     /**

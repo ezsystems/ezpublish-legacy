@@ -156,10 +156,8 @@ if ( $Module->hasActionParameter( 'SiteAccess' ) )
 // Find ContentObjectLocale for all site accesses in RelatedSiteAccessList
 foreach ( $ini->variable( 'SiteAccessSettings', 'RelatedSiteAccessList' ) as $relatedSA )
 {
-    $relatedSAINI = eZINI::getSiteAccessIni( $relatedSA, 'site.ini' );
-    $siteaccessLocaleMap[$relatedSA] = $relatedSAINI->variable( 'RegionalSettings', 'ContentObjectLocale' );
+    $siteaccessLocaleMap[$relatedSA] = eZSiteAccess::getIni( $relatedSA, 'site.ini' )->variable( 'RegionalSettings', 'ContentObjectLocale' );
 }
-
 
 // Try to find a version that has the language we want, by going backwards in the version history
 // Also, gether unique list of translations in all versions up until this one
@@ -200,6 +198,13 @@ if ( $LanguageCode )
     $oldObjectLanguageCode = $contentObject->currentLanguage();
     $node->setCurrentLanguage( $LanguageCode );
     $contentObject->setCurrentLanguage( $LanguageCode );
+}
+
+$tpl = eZTemplate::factory();
+
+if ( $http->hasSessionVariable( 'LastAccessesVersionURI' ) )
+{
+    $tpl->setVariable( 'redirect_uri', $http->sessionVariable( 'LastAccessesVersionURI' ) );
 }
 
 $tpl->setVariable( 'site_access_locale_map', $siteaccessLocaleMap );

@@ -54,7 +54,7 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
     {
         if ( $this->destinationSiteAccessIni === null )
         {
-            $this->destinationSiteAccessIni = eZINI::getSiteAccessIni( $this->destinationSiteAccess, 'site.ini' );
+            $this->destinationSiteAccessIni = eZSiteAccess::getIni( $this->destinationSiteAccess, 'site.ini' );
         }
         return $this->destinationSiteAccessIni;
     }

@@ -46,18 +46,9 @@ if ( $http->hasPostVariable( 'BackButton' )  )
     return $Module->redirectTo( $userRedirectURI );
 }
 
-
-$tpl = eZTemplate::factory();
 // Will be sent from the content/edit page and should be kept
 // incase the user decides to continue editing.
 $FromLanguage = $Params['FromLanguage'];
-
-if ( $http->hasSessionVariable( 'LastAccessesVersionURI' ) )
-{
-    $tpl->setVariable( 'redirect_uri', $http->sessionVariable( 'LastAccessesVersionURI' ) );
-}
-
-$ini = eZINI::instance();
 
 $contentObject = eZContentObject::fetch( $ObjectID );
 if ( $contentObject === null )
@@ -142,8 +133,6 @@ foreach ( $nodeAssignments as $nodeAssignment )
     }
 }
 
-$contentINI = eZINI::instance( 'content.ini' );
-
 if ( $Module->isCurrentAction( 'ChangeSettings' ) )
 {
     if ( $Module->hasActionParameter( 'Language' ) )
@@ -173,8 +162,6 @@ else
 {
     $assignment = false;
 }
-
-$ini = eZINI::instance();
 
 if ( $assignment )
 {
@@ -246,9 +233,9 @@ else
     return;
 }
 
-$contentINI = eZINI::instance( 'content.ini' );
 if ( !$siteAccess )
 {
+    $contentINI = eZINI::instance( 'content.ini' );
     if ( $contentINI->hasVariable( 'VersionView', 'DefaultPreviewDesign' ) )
     {
         $siteAccess = $contentINI->variable( 'VersionView', 'DefaultPreviewDesign' );
@@ -261,10 +248,13 @@ if ( !$siteAccess )
 
 $access = $GLOBALS['eZCurrentAccess'];
 $access['name'] = $siteAccess;
-eZSiteAccess::change( $access );
 
-// Load the siteaccess extensions
-eZExtension::activateExtensions( 'access' );
+if ( $access['type'] === eZSiteAccess::TYPE_URI )
+{
+    $access['uri_part'] = array( $siteAccess );
+}
+
+eZSiteAccess::load( $access );
 
 // Change content object default language
 $GLOBALS['eZContentObjectDefaultLanguage'] = $LanguageCode;
@@ -274,9 +264,17 @@ eZContentLanguage::expireCache();
 
 $Module->setTitle( 'View ' . $class->attribute( 'name' ) . ' - ' . $contentObject->attribute( 'name' ) );
 
+$ini = eZINI::instance();
 $res = eZTemplateDesignResource::instance();
 $res->setDesignSetting( $ini->variable( 'DesignSettings', 'SiteDesign' ), 'site' );
 $res->setOverrideAccess( $siteAccess );
+
+$tpl = eZTemplate::factory();
+
+if ( $http->hasSessionVariable( 'LastAccessesVersionURI' ) )
+{
+    $tpl->setVariable( 'redirect_uri', $http->sessionVariable( 'LastAccessesVersionURI' ) );
+}
 
 $designKeys = array( array( 'object', $contentObject->attribute( 'id' ) ), // Object ID
                      array( 'node', $virtualNodeID ), // Node id
@@ -296,7 +294,7 @@ if ( $assignment )
 $res->setKeys( $designKeys );
 
 unset( $contentObject );
-$contentObject = $node->attribute( 'object' ); // do not remove &
+$contentObject = $node->attribute( 'object' );
 
 $Result = eZNodeviewfunctions::generateNodeViewData( $tpl, $node, $contentObject, $LanguageCode, 'full', 0, $viewParameters );
 

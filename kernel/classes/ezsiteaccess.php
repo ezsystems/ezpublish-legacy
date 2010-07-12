@@ -93,42 +93,6 @@ class eZSiteAccess
     }
 
     /**
-     * Re-initialises the current site access
-     *
-     * - clears all in-memory caches used by the INI system
-     * - re-builds the list of paths where INI files are searched for
-     * - re-searches module paths
-     *
-     * @return bool True if re-initialisation was successful
-     */
-    static function reInitialise()
-    {
-        if ( isset( $GLOBALS['eZCurrentAccess'] ) )
-        {
-            eZINI::resetAllGlobals();
-
-            eZExtension::activateExtensions( 'default' );
-            $accessName = $GLOBALS['eZCurrentAccess']['name'];
-            if ( file_exists( "settings/siteaccess/$accessName" ) )
-            {
-                $ini = eZINI::instance();
-                $ini->prependOverrideDir( "siteaccess/$accessName", false, 'siteaccess' );
-            }
-            eZExtension::prependExtensionSiteAccesses( $accessName );
-            eZExtension::activateExtensions( 'access' );
-
-            $moduleRepositories = eZModule::activeModuleRepositories();
-            eZModule::setGlobalPathList( $moduleRepositories );
-
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    /**
      * Goes trough the access matching rules and returns the access match.
      * The returned match is an associative array with:
      *  name     => string Name of the siteaccess (same as folder name)
@@ -490,47 +454,180 @@ class eZSiteAccess
         return $ret;
     }
 
+    /**
+     * Re-initialises the current site access
+     * If a siteaccess is set, then executes {@link eZSiteAccess::load()}
+     *
+     * @return bool True if re-initialisation was successful
+     */
+    static function reInitialise()
+    {
+        if ( isset( $GLOBALS['eZCurrentAccess'] ) )
+        {
+            self::load( $GLOBALS['eZCurrentAccess'] );
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
    /**
     * Changes the site access to what's defined in $access. It will change the
     * access path in eZSys and prepend an override dir to eZINI
+    * Note: does not load extensions, use {@link eZSiteAccess::load()} if you want that
     *
     * @since 4.4
     * @param array $access An associative array with 'name' (string), 'type' (int) and 'uri_part' (array).
+    *                      See {@link eZSiteAccess::match()} for array structure definition
+    * @param eZINI|null $siteINI Optional parameter to be able to only do change on specific instance of site.ini
+    *                   hence skip changing eZSys access paths (but not siteaccess, see {@link eZSiteAccess::load()})
     * @return array The $access parameter
     */
-    static function change( array $access )
+    static function change( array $access, eZINI $siteINI = null )
     {
-        eZSys::clearAccessPath();
-        $GLOBALS['eZCurrentAccess'] =& $access;
-
         $name = $access['name'];
-        if ( isset( $access['uri_part'] ) && $access['uri_part'] !== null )
-            eZSys::setAccessPath( $access['uri_part'], $name );
-        else
-            $access['uri_part'] = array();
-
-        $ini = eZINI::instance();
-        if ( file_exists( "settings/siteaccess/$name" ) )
+        $GLOBALS['eZCurrentAccess'] =& $access;
+        if ( $siteINI !== null )
         {
-            $ini->prependOverrideDir( "siteaccess/$name", false, 'siteaccess' );
+            $ini = $siteINI;
+        }
+        else
+        {
+            eZSys::clearAccessPath();
+            if ( isset( $access['uri_part'] ) && $access['uri_part'] !== null )
+                eZSys::setAccessPath( $access['uri_part'], $name );
+            else
+                $access['uri_part'] = array();
+
+            $ini = eZINI::instance();
         }
 
+        $ini->prependOverrideDir( "siteaccess/$name", false, 'siteaccess', 'siteaccess' );
+
         /* Make sure extension siteaccesses are prepended */
-        eZExtension::prependExtensionSiteAccesses( $name );
+        eZExtension::prependExtensionSiteAccesses( $name, $ini );
 
         $ini->loadCache();
 
-        eZUpdateDebugSettings();
-        if ( self::debugEnabled() )
+        if ( $siteINI === null )
         {
-            eZDebug::writeDebug( "Updated settings to use siteaccess '$name'", __METHOD__ );
+            eZUpdateDebugSettings();
+            if ( self::debugEnabled() )
+            {
+                eZDebug::writeDebug( "Updated settings to use siteaccess '$name'", __METHOD__ );
+            }
+        }
+
+        return $access;
+    }
+
+   /**
+    * Reloads extensions and changes siteaccess globally
+    * If you only want changes on a instance of ini, use {@link eZSiteAccess::getIni()}
+    *
+    * - clears all in-memory caches used by the INI system
+    * - re-builds the list of paths where INI files are searched for
+    * - runs {@link eZSiteAccess::change()}
+    * - re-searches module paths {@link eZModule::setGlobalPathList()}
+    *
+    * @since 4.4
+    * @param array $access An associative array with 'name' (string), 'type' (int) and 'uri_part' (array).
+    *                      See {@link eZSiteAccess::match()} for array structure definition
+    * @param eZINI|null $siteINI Optional parameter to be able to only do change on specific instance of site.ini
+    *                            If set, then global siteacceess will not be changed as well.
+    * @return array The $access parameter
+    */
+    static function load( array $access, eZINI $siteINI = null )
+    {
+        $currentSiteAccess = $GLOBALS['eZCurrentAccess'];
+        unset( $GLOBALS['eZCurrentAccess'] );
+
+        // Clear all ini override dirs
+        if ( $siteINI instanceof eZINI )
+        {
+            $siteINI->resetOverrideDirs();
+        }
+        else
+        {
+            eZINI::resetAllGlobals();
+            eZExtension::clearActiveExtensionsMemoryCache();
+            eZTemplateDesignResource::clearInMemoryOverrideArray();
+        }
+
+        // Reload extensions, siteaccess and access extensions
+        eZExtension::activateExtensions( 'default', $siteINI );
+        $access = self::change( $access, $siteINI );
+        eZExtension::activateExtensions( 'access', $siteINI );
+
+        // Restore current (old) siteacces if changes where only to be applied to locale instance of site.ini
+        if ( $siteINI instanceof eZINI )
+        {
+            $GLOBALS['eZCurrentAccess'] = $currentSiteAccess;
+        }
+        else
+        {
+            $moduleRepositories = eZModule::activeModuleRepositories();
+            eZModule::setGlobalPathList( $moduleRepositories );
         }
 
         return $access;
     }
 
     /**
-     * Get current siteaccess data
+     * Loads ini envermont for a specific siteaccess
+     *
+     * eg: eZSiteAccess::getIni( 'eng', 'site.ini' )
+     *
+     * @since 4.4
+     * @param string $siteAccess
+     * @param string $settingFile
+     * @return eZINI
+     */
+    static function getIni( $siteAccess, $settingFile = 'site.ini' )
+    {
+        // return global if siteaccess is same as requested
+        if ( isset( $GLOBALS['eZCurrentAccess'] )
+          && $GLOBALS['eZCurrentAccess']['name'] === $siteAccess )
+        {
+            return eZINI::instance( $settingFile );
+        }
+
+        // create a site ini instance using $useLocalOverrides = true
+        $siteIni = new eZINI( 'site.ini', 'settings', null, null, true );
+
+        // create a access definition reusing current if set but change name
+        $access = isset( $GLOBALS['eZCurrentAccess'] ) ?
+                  $GLOBALS['eZCurrentAccess'] :
+                  array( 'type' => eZSiteAccess::TYPE_STATIC, 'uri_part' => array() );
+        $access['name'] = $siteAccess;
+        if ( $access['type'] === eZSiteAccess::TYPE_URI )
+        {
+            $access['uri_part'] = array( $siteAccess );
+        }
+
+        // Load siteaccess but on our locale instance of site.ini only
+        $access = self::load( $access, $siteIni );
+
+        // if site.ini, return with no further work needed
+        if ( $settingFile === 'site.ini' )
+        {
+            return $siteIni;
+        }
+
+        // load settings file with $useLocalOverrides = true
+        $ini = new eZINI( $settingFile,'settings', null, null, true );
+
+        // overwrite overrideDirs from siteIni instance
+        $ini->setOverrideDirs( $siteIni->overrideDirs( false ) );
+        $ini->load();
+
+        return $ini;
+    }
+
+    /**
+     * Get current siteaccess data if set, see {@link eZSiteAccess::match()} for array structure
      *
      * @since 4.4
      * return array|null

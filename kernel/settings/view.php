@@ -105,67 +105,23 @@ if ( $http->hasPostVariable( 'RemoveButton' ) )
 if ( $http->hasPostVariable( 'ChangeINIFile' ) or
      ( $Params['SiteAccess'] and $Params['INIFile'] ) )
 {
-    /*
-        To get the right INIOverrideDirList we have do do something
-
-        1. We delete all entry how are related to the admin siteaccess which want to diplay an ini setting from another siteaccess
-        2. We load the new site.ini to get all extensionNames for the choosen siteaccess
-        3. We add all this extensions to the overrideDirList
-        4. create ini for displaying
-    */
-    // $currentSiteAccess = choosen sitaccess to display selected ini
-    if ( $GLOBALS['eZCurrentAccess']['name'] != $currentSiteAccess )
+    if ( $GLOBALS['eZCurrentAccess']['name'] !== $currentSiteAccess )
     {
-        // 1. delete all entry which are related to the old siteaccess
-        $newINIOverrideDirList = array();
-        foreach ( array_reverse( $GLOBALS['eZINIOverrideDirList'] ) as $dir )
-        {
-            $path = $dir[0];
-            if ( strpos( $path, 'siteaccess' ) !== false )
-            {
-                break;
-            }
-            else
-            {
-                $newINIOverrideDirList[] = $dir;
-            }
-        }
-        $iniOverrideDirListWithoutSiteaccess = array_reverse( $newINIOverrideDirList );
+        // create a site ini instance using $useLocalOverrides
+        $siteIni = eZSiteAccess::getIni( $currentSiteAccess, 'site.ini' );
 
-        $GLOBALS['eZINIOverrideDirList'] = $iniOverrideDirListWithoutSiteaccess;
+        // load settings file with $useLocalOverrides = true & $addArrayDefinition = true
+        $ini = new eZINI( $settingFile,'settings', null, false, true, false, true );
 
-        // normal siteaccess
-        if( file_exists( "settings/siteaccess/$currentSiteAccess" ) )
-        {
-            $GLOBALS['eZINIOverrideDirList'] = array_merge( array( array( "siteaccess/$currentSiteAccess", false, 'siteaccess' ) ) , $GLOBALS['eZINIOverrideDirList'] );
-        }
-        // extension sitaccess
-        else
-        {
-            eZExtension::prependExtensionSiteAccesses( $currentSiteAccess, false, true, 'siteaccess' );
-        }
-
-        // 2. create site.ini for the new siteaccess
-        $newSiteIni = eZINI::create( 'site.ini', 'settings', null, null, false );
-
-        // 3. load all extension which are activated in the sitaccess
-        $newActiveAccessExtensions = $newSiteIni->variable( 'ExtensionSettings', 'ActiveAccessExtensions' );
-        $activeExtensionOverrideDirList = array();
-        foreach ( array_reverse( $newActiveAccessExtensions ) as $extensionName )
-        {
-            $activeExtensionOverrideDirList[] = array( "extension/$extensionName/settings" , true, false );
-        }
-        $siteAccessOverrideDirListSetting = array_shift( $GLOBALS['eZINIOverrideDirList'] );
-
-        array_push( $activeExtensionOverrideDirList, $siteAccessOverrideDirListSetting );
-        $GLOBALS['eZINIOverrideDirList'] = array_merge( $activeExtensionOverrideDirList, $GLOBALS['eZINIOverrideDirList'] );
-
-        // now we have the right order for the overideDirList :-)
+        // overwrite overrideDirs from siteIni instance
+        $ini->setOverrideDirs( $siteIni->overrideDirs( false ) );
+        $ini->load();
     }
-
-    // 4. create ini for displaying
-    // create ini data with empty array definition so that count( placement array ) = count( ini files )
-    $ini = new eZINI( $settingFile,'settings', null, false, null, false, true );
+    else
+    {
+        // load settings file more or less normally but with $addArrayDefinition = true
+        $ini = new eZINI( $settingFile,'settings', null, false, null, false, true );
+    }
 
     $blocks = $ini->groups();
     $placements = $ini->groupPlacements();
@@ -272,10 +228,9 @@ $rootDir = 'settings';
 $iniFiles = eZDir::recursiveFindRelative( $rootDir, '', '.ini' );
 
 // find all .ini files in active extensions
-foreach ( $GLOBALS['eZINIOverrideDirList'] as $iniDataSet )
+foreach ( eZINI::globalOverrideDirs() as $iniDataSet )
 {
-    $rootDir = $iniDataSet[0];
-    $iniFiles = array_merge( $iniFiles, eZDir::recursiveFindRelative( $rootDir, '', '.ini' ) );
+    $iniFiles = array_merge( $iniFiles, eZDir::recursiveFindRelative( $iniDataSet[0], '', '.ini' ) );
 }
 
 // extract all .ini files without path
