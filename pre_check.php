@@ -6,7 +6,6 @@
  * @license http://ez.no/licenses/gnu_gpl GNU GPL v2
  * @version //autogentag//
  * @package index
- * @deprecated This file and its compatibility functions/constants will be removed in "4.6"
  */
 
 /**
