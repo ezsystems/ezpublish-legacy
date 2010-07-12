@@ -7,6 +7,7 @@ Changes from 4.4.0alpha4 to 4.4.0alpha5
 - Implemented enhancement #016940: Add eZPersistentObject implementation to ezpending_actions table
 - Implemented enhancement #016789: admin2 node/view/full.tpl - add div ids for ajax
 - Implemented enhancement #016765: Add eZPersistentObject implementation to ezsite_data table
+- Implemented enhancement #015359: access.php - new MatchOrder=host_uri
 - Implemented enhancement #014267: Generating static cache on publish can completely block redirection after content publication
 - Implemented enhancement #014266: Add CURL option CURLOPT_CONNECTTIMEOUT to eZHTTPTool::getDataByURL()
 - Implemented enhancement #012708: Master/slave server info in sql debug on mysqli

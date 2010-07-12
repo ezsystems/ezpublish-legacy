@@ -28,6 +28,7 @@ class eZSiteAccess
     const TYPE_STATIC = 6;
     const TYPE_SERVER_VAR = 7;
     const TYPE_URL = 8;
+    const TYPE_HTTP_HOST_URI = 9;
 
     const SUBTYPE_PRE = 1;
     const SUBTYPE_POST = 2;
@@ -302,6 +303,62 @@ class eZSiteAccess
                     }
                     else
                         continue;
+                } break;
+                case 'host_uri':
+                {
+                    $type = eZSiteAccess::TYPE_HTTP_HOST_URI;
+                    if ( $ini->hasVariable( 'SiteAccessSettings', 'HostUriMatchMapItems' ) )
+                    {
+                        $match_item = $uri->element( 0 );
+                        if ( $match_item )
+                        {
+                            $matchMapItems = $ini->variableArray( 'SiteAccessSettings', 'HostUriMatchMapItems' );
+                            foreach ( $matchMapItems as $matchMapItem )
+                            {
+                                $matchHost = $matchMapItem[0];
+                                $matchURI = $matchMapItem[1];
+                                $matchAccess = $matchMapItem[2];
+
+                                if ( $matchURI !== $match_item )
+                                    continue;
+
+                                switch( isset( $matchMapItem[3] ) ? $matchMapItem[3] : 'strict' )
+                                {
+                                    case 'strict':
+                                    {
+                                        $hasHostMatch = ( $matchHost === $host );
+                                    } break;
+                                    case 'start':
+                                    {
+                                        $hasHostMatch = ( strpos($host, $matchHost) === 0 );
+                                    } break;
+                                    case 'end':
+                                    {
+                                        $hasHostMatch = ( strstr($host, $matchHost) === $matchHost );
+                                    } break;
+                                    case 'part':
+                                    {
+                                        $hasHostMatch = ( strpos($host, $matchHost) !== false );
+                                    } break;
+                                    default:
+                                    {
+                                        $hasHostMatch = false;
+                                        eZDebug::writeError( "Unknown host_uri host match: $matchMapItem[3]", "access" );
+                                    } break;
+                                }
+
+                                if ( $hasHostMatch )
+                                {
+                                    $uri->increase( 1 );
+                                    $uri->dropBase();
+                                    $access['name'] = $matchAccess;
+                                    $access['type'] = $type;
+                                    $access['uri_part'] = array( $matchURI );
+                                    return $access;
+                                }
+                            }
+                        }
+                    }
                 } break;
                 case 'index':
                 {
