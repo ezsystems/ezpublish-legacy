@@ -263,11 +263,11 @@ if ( !$siteAccess )
 $access = $GLOBALS['eZCurrentAccess'];
 $access['name'] = $siteAccess;
 
-if ( $access['type'] == EZ_ACCESS_TYPE_URI )
+if ( $access['type'] == eZSiteAccess::TYPE_URI )
 {
     eZSys::clearAccessPath();
 }
-changeAccess( $access );
+eZSiteAccess::change( $access );
 
 // Load the siteaccess extensions
 eZExtension::activateExtensions( 'access' );

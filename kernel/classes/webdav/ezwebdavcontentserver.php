@@ -35,8 +35,6 @@
 
 */
 
-require_once( 'access.php' );
-
 class eZWebDAVContentServer extends eZWebDAVServer
 {
     const WEBDAV_INI_FILE = "webdav.ini";
@@ -830,9 +828,9 @@ class eZWebDAVContentServer extends eZWebDAVServer
     function setCurrentSite( $site )
     {
         $access = array( 'name' => $site,
-                         'type' => EZ_ACCESS_TYPE_STATIC );
+                         'type' => eZSiteAccess::TYPE_STATIC );
 
-        $access = changeAccess( $access );
+        $access = eZSiteAccess::change( $access );
         eZDebugSetting::writeDebug( 'kernel-siteaccess', $access, 'current siteaccess' );
 
         // Clear/flush global database instance.

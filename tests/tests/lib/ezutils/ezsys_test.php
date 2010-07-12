@@ -108,9 +108,9 @@ class eZSysTest extends ezpTestCase
      */
      private function setSiteAccess( $accessName )
      {
-         require_once( 'access.php' );
-         changeAccess( array( 'name' => $accessName, 'type' => EZ_ACCESS_TYPE_URI ) );
-         $GLOBALS['eZCurrentAccess']['access_alias'] = $accessName;
+         eZSiteAccess::change( array( 'name' => $accessName,
+                                      'type' => eZSiteAccess::TYPE_URI,
+                                      'uri_part' => array( $accessName ) ) );
      }
 }
 

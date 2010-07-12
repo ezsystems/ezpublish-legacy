@@ -341,13 +341,13 @@ require_once( 'kernel/common/ezincludefunctions.php' );
 eZExtension::activateExtensions( 'default' );
 // Extension check end
 
-require_once "access.php";
+include_once( 'access.php' );
 
-$access = accessType( $uri,
+$access = eZSiteAccess::match( $uri,
                       eZSys::hostname(),
                       eZSys::serverPort(),
                       eZSys::indexFile() );
-$access = changeAccess( $access );
+$access = eZSiteAccess::change( $access );
 eZDebugSetting::writeDebug( 'kernel-siteaccess', $access, 'current siteaccess' );
 
 // Check for activating Debug by user ID (Final checking. The first was in eZDebug::updateSettings())
@@ -527,11 +527,11 @@ while ( $moduleRunRequired )
     if ( $uri->isEmpty() )
     {
         $tmp_uri = new eZURI( $ini->variable( "SiteSettings", "IndexPage" ) );
-        $moduleCheck = accessAllowed( $tmp_uri );
+        $moduleCheck = eZModule::accessAllowed( $tmp_uri );
     }
     else
     {
-        $moduleCheck = accessAllowed( $uri );
+        $moduleCheck = eZModule::accessAllowed( $uri );
     }
 
     if ( !$moduleCheck['result'] )

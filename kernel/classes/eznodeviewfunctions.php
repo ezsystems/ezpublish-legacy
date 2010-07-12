@@ -296,9 +296,9 @@ class eZNodeviewfunctions
         $cacheHashArray[] = eZSys::indexFile();
 
         // add access type to cache hash if current access is uri type (so uri and host doesn't share cache)
-        if ( strpos( $viewCacheTweak, 'ignore_siteaccess_type' ) === false && $GLOBALS['eZCurrentAccess']['type'] === EZ_ACCESS_TYPE_URI )
+        if ( strpos( $viewCacheTweak, 'ignore_siteaccess_type' ) === false && $GLOBALS['eZCurrentAccess']['type'] === eZSiteAccess::TYPE_URI )
         {
-            $cacheHashArray[] = EZ_ACCESS_TYPE_URI;
+            $cacheHashArray[] = eZSiteAccess::TYPE_URI;
         }
 
         // Make the cache unique for every logged in user

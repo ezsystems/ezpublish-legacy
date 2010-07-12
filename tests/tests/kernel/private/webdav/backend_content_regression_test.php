@@ -315,7 +315,6 @@ class eZWebDAVBackendContentRegressionTest extends ezpTestRegressionTest
         $GLOBALS['ezc_webdav_testfolderid'] = $folder->mainNode->node_id;
 
         // var_dump( $GLOBALS['ezc_webdav_testfolder'] . ' (' . $GLOBALS['ezc_webdav_testfolderid'] . ')' );
-        require_once( "access.php" );
 
         eZExtension::activateExtensions( 'default' );
 

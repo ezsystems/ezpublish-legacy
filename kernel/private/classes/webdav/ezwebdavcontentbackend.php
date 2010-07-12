@@ -1378,9 +1378,9 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
     {
         eZWebDAVContentBackend::appendLogEntry( __FUNCTION__ . '1:' . $site );
         $access = array( 'name' => $site,
-                         'type' => EZ_ACCESS_TYPE_STATIC );
+                         'type' => eZSiteAccess::TYPE_STATIC );
 
-        $access = changeAccess( $access );
+        $access = eZSiteAccess::change( $access );
         eZWebDAVContentBackend::appendLogEntry( __FUNCTION__ . '2:' . $site );
 
         eZDebugSetting::writeDebug( 'kernel-siteaccess', $access, 'current siteaccess' );

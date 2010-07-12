@@ -102,12 +102,12 @@ require 'pre_check.php';
 eZExtension::activateExtensions( 'default' );
 
 // load siteaccess
-require 'access.php';
-$access = accessType( $uri,
+include_once( 'access.php' );
+$access = eZSiteAccess::match( $uri,
                       eZSys::hostname(),
                       eZSys::serverPort(),
                       eZSys::indexFile() );
-$access = changeAccess( $access );
+$access = eZSiteAccess::change( $access );
 $GLOBALS['eZCurrentAccess'] = $access;
 
 // Check for new extension loaded by siteaccess

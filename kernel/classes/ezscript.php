@@ -227,7 +227,6 @@ class eZScript
                                                  'dir_permission'  => octdec( $iniDirPermission ),
                                                  'var_directory'   => $iniVarDirectory ) );
 
-
         eZExecution::addCleanupHandler( 'eZDBCleanup' );
         eZExecution::addFatalErrorHandler( 'eZFatalError' );
 
@@ -246,18 +245,17 @@ class eZScript
         if ( $siteaccess )
         {
             $access = array( 'name' => $siteaccess,
-                             'type' => EZ_ACCESS_TYPE_STATIC );
+                             'type' => eZSiteAccess::TYPE_STATIC );
         }
         else
         {
             $ini = eZINI::instance();
             $siteaccess = $ini->variable( 'SiteSettings', 'DefaultAccess' );
             $access = array( 'name' => $siteaccess,
-                             'type' => EZ_ACCESS_TYPE_DEFAULT );
+                             'type' => eZSiteAccess::TYPE_DEFAULT );
         }
 
-        $access = changeAccess( $access );
-        
+        $access = eZSiteAccess::change( $access );
 
         if ( $this->UseExtensions )
         {

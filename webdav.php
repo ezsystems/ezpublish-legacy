@@ -126,7 +126,7 @@ if ( $enable === 'true' )
         // e.g. if run from the shell
         eZExecution::cleanExit();
     }
-    require_once( "access.php" );
+    include_once( "access.php" );
 
     eZModule::setGlobalPathList( array( "kernel" ) );
     eZWebDAVContentBackend::appendLogEntry( "========================================" );

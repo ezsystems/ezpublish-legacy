@@ -155,7 +155,7 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
 
         $this->baseDestinationUrl = rtrim( $this->baseDestinationUrl, '/' );
 
-        if ( $GLOBALS['eZCurrentAccess']['type'] === EZ_ACCESS_TYPE_URI )
+        if ( $GLOBALS['eZCurrentAccess']['type'] === eZSiteAccess::TYPE_URI )
         {
             $finalUrl = $this->baseDestinationUrl . '/' . $this->destinationSiteAccess . '/' . $urlAlias;
         }
@@ -195,11 +195,11 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
         $indexFile = trim( eZSys::indexFile( false ), '/' );
         switch ( $GLOBALS['eZCurrentAccess']['type'] )
         {
-            case EZ_ACCESS_TYPE_URI:
+            case eZSiteAccess::TYPE_URI:
                 eZURI::transformURI( $host, true, 'full' );
                 break;
 
-            case EZ_ACCESS_TYPE_HTTP_HOST:
+            case eZSiteAccess::TYPE_HTTP_HOST:
                 $host = $saIni->variable( 'SiteSettings', 'SiteURL' );
                 $host = "http://{$host}/";
                 break;

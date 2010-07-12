@@ -73,21 +73,21 @@ eZExtension::activateExtensions( 'default' );
 // Extension check end
 
 // Activate correct siteaccess
-require_once( 'access.php' );
+include_once( 'access.php' );
 $soapINI = eZINI::instance( 'soap.ini' );
 if ( $soapINI->variable( 'GeneralSettings', 'UseDefaultAccess' ) === 'enabled' )
 {
     $access = array( 'name' => $ini->variable( 'SiteSettings', 'DefaultAccess' ),
-                     'type' => EZ_ACCESS_TYPE_DEFAULT );
+                     'type' => eZSiteAccess::TYPE_DEFAULT );
 }
 else
 {
-    $access = accessType( $uri,
+    $access = eZSiteAccess::match( $uri,
                           eZSys::hostname(),
                           eZSys::serverPort(),
                           eZSys::indexFile() );
 }
-$access = changeAccess( $access );
+$access = eZSiteAccess::change( $access );
 // Siteaccess activation end
 
 // Check for activating Debug by user ID (Final checking. The first was in eZDebug::updateSettings())
