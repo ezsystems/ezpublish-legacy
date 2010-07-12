@@ -70,7 +70,6 @@ class eZSysTest extends ezpTestCase
         $ini->setVariable( 'SiteAccessSettings', 'RemoveSiteAccessIfDefaultAccess', 'disabled' );
         // -------------------------------------------------------------------
 
-
         // TEST --------------------------------------------------------------
         $indexFile = eZSys::indexFile();
         self::assertEquals( "/$defaultAccess", $indexFile );
@@ -79,7 +78,6 @@ class eZSysTest extends ezpTestCase
         $indexFile = eZSys::indexFile();
         self::assertEquals( "/$defaultAccess/testing/indexFile", $indexFile );
         // -------------------------------------------------------------------
-
 
         // TEST TEAR DOWN ----------------------------------------------------
         $ini->setVariable( 'SiteAccessSettings', 'RemoveSiteAccessIfDefaultAccess', $orgRemoveSiteaccess );
@@ -130,7 +128,6 @@ class eZSysTest extends ezpTestCase
         $ini->setVariable( 'SiteAccessSettings', 'RemoveSiteAccessIfDefaultAccess', 'enabled' );
         // -------------------------------------------------------------------
 
-
         // TEST --------------------------------------------------------------
         $indexFile = eZSys::indexFile();
         self::assertEquals( "", $indexFile );
@@ -165,7 +162,6 @@ class eZSysTest extends ezpTestCase
         // DISABLE RemoveSiteAccessIfDefaultAccess
         $ini->setVariable( 'SiteAccessSettings', 'RemoveSiteAccessIfDefaultAccess', 'disabled' );
         // -------------------------------------------------------------------
-
 
         // TEST --------------------------------------------------------------
         $indexFile = eZSys::indexFile();
