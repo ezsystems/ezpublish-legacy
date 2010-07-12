@@ -115,8 +115,8 @@ class eZSys
             eZSys::removeMagicQuotes();
         }
 
-        $this->AccessPath = array( 'siteaccess' => array(),
-                                   'path'       => array() );
+        $this->AccessPath = array( 'siteaccess' => array( 'name' => '', 'url' => array() ),
+                                   'path'       => array( 'name' => '', 'url' => array() ) );
     }
 
     function removeMagicQuotes()
@@ -528,23 +528,33 @@ class eZSys
     */
     static function indexFile( $withAccessPath = true )
     {
-        $instance = eZSys::instance();
-        $text = $instance->IndexFile;
+        $sys  = eZSys::instance();
+        $text = $sys->IndexFile;
 
-        if ( $withAccessPath && ( isset( $instance->AccessPath['siteaccess'][0] ) || isset( $instance->AccessPath['path'][0] ) ) )
+        if ( $withAccessPath && ( isset( $sys->AccessPath['siteaccess']['url'][0] ) || isset( $sys->AccessPath['path']['url'][0] ) ) )
         {
             $ini = eZINI::instance();
-            if ( isset( $instance->AccessPath['siteaccess'][0] ) &&
-                 $ini->variable( 'SiteAccessSettings', 'RemoveSiteAccessIfDefaultAccess' ) === 'enabled' &&
-                 $instance->AccessPath['siteaccess'][0] === $ini->variable( 'SiteSettings', 'DefaultAccess' ) )
+            if ( isset( $sys->AccessPath['siteaccess']['url'][0] ) &&
+                 $ini->variable( 'SiteAccessSettings', 'RemoveSiteAccessIfDefaultAccess' ) === 'enabled' )
             {
-                $accessPathArray = $instance->AccessPath;
-                array_shift( $accessPathArray['siteaccess'] ); //remove default siteaccess
-                $accessPath = implode( '/', array_merge( $accessPathArray['siteaccess'], $accessPathArray['path'] ) );
+                $defaultAccess = $ini->variable( 'SiteSettings', 'DefaultAccess' );
+                // 1st is proper match where code has used updated api as of 4.4, do not use siteaccess
+                if ( $sys->AccessPath['siteaccess']['name'] === $defaultAccess )
+                    $accessPath = implode( '/', $sys->AccessPath['path']['url'] );
+                // 2nd is for compatability with older code that used eZSys api withouth defining scopes, shift default siteaccess path
+                elseif ( $sys->AccessPath['siteaccess']['name'] === 'undefined' && $sys->AccessPath['siteaccess']['url'][0] === $defaultAccess )
+                {
+                    $accessPathArray = $sys->AccessPath;
+                    array_shift( $accessPathArray['siteaccess']['url'] ); //remove default siteaccess
+                    $accessPath = implode( '/', array_merge( $accessPathArray['siteaccess']['url'], $accessPathArray['path']['url'] ) );
+                }
+                // In case there is no default siteaccess match use full url
+                else
+                    $accessPath = implode( '/', array_merge( $sys->AccessPath['siteaccess']['url'], $sys->AccessPath['path']['url'] ) );
             }
             else
             {
-                $accessPath = implode( '/', array_merge( $instance->AccessPath['siteaccess'], $instance->AccessPath['path'] ) );
+                $accessPath = implode( '/', array_merge( $sys->AccessPath['siteaccess']['url'], $sys->AccessPath['path']['url'] ) );
             }
 
             $text .= '/' . $accessPath;
@@ -796,36 +806,52 @@ class eZSys
 
     /**
      * Appends the access path (parts of url that identifies siteaccess), used by {@link eZSys::indexFile()}
+     * NOTE: Does not make sense to use for siteaccess, as you would want to clear current path and set new one
+     *       normally, so preferably use {@link eZSys::setAccessPath()} in this case.
      *
      * @param array|string $path
+     * @param string $name An identifer of the name of the path provided {@link $AccessPath}
      * @param bool $siteaccess Hints if path is siteaccess related or not, needed in case subsequesnt code suddenly
      *                         changes siteaccess and needs to clear siteaccess scope
      */
-    static function addAccessPath( $path, $siteaccess = true )
+    static function addAccessPath( $path, $name = 'undefined', $siteaccess = true )
     {
         $instance = eZSys::instance();
         if ( !is_array( $path ) )
             $path = array( $path );
 
         if ( $siteaccess )
-            $instance->AccessPath['siteaccess'] = array_merge( $instance->AccessPath['siteaccess'], $path );
+        {
+            $instance->AccessPath['siteaccess']['name'] = $name;
+            if ( isset($instance->AccessPath['siteaccess']['url'][0]) )
+                $instance->AccessPath['siteaccess']['url'] = array_merge( $instance->AccessPath['siteaccess']['url'], $path );
+            else
+                $instance->AccessPath['siteaccess']['url'] = $path;
+        }
         else
-            $instance->AccessPath['path'] = array_merge( $instance->AccessPath['path'], $path );
+        {
+            $instance->AccessPath['path']['name'] = $name;
+            if ( isset($instance->AccessPath['path']['url'][0]) )
+                $instance->AccessPath['path']['url'] = array_merge( $instance->AccessPath['path']['url'], $path );
+            else
+                $instance->AccessPath['path']['url'] = $path;
+        }
     }
 
     /**
      * Set access path (parts of url that identifies siteaccess), used by {@link eZSys::indexFile()}
      *
      * @param array $path
+     * @param string $name An identifer of the name of the path provided {@link $AccessPath}
      * @param bool $siteaccess Hints if path is siteaccess related or not, needed in case subsequesnt code suddenly
      *                         changes siteaccess and needs to clear siteaccess scope
      */
-    static function setAccessPath( array $path = array(), $siteaccess = true  )
+    static function setAccessPath( array $path = array(), $name = 'undefined', $siteaccess = true  )
     {
         if ( $siteaccess )
-            eZSys::instance()->AccessPath['siteaccess'] = $path;
+            eZSys::instance()->AccessPath['siteaccess'] = array( 'name' => $name, 'url' => $path );
         else
-            eZSys::instance()->AccessPath['path'] = $path;
+            eZSys::instance()->AccessPath['path'] = array( 'name' => $name, 'url' => $path );
     }
 
     /**
@@ -834,9 +860,9 @@ class eZSys
     static function clearAccessPath( $siteaccess = true )
     {
         if ( $siteaccess )
-            eZSys::instance()->AccessPath['siteaccess'] = array();
+            eZSys::instance()->AccessPath['siteaccess'] = array( 'name' => '', 'url' => array() );
         else
-            eZSys::instance()->AccessPath['path'] = array();
+            eZSys::instance()->AccessPath['path'] = array( 'name' => '', 'url' => array() );
     }
 
     /**
@@ -1057,8 +1083,8 @@ class eZSys
             }
         }
 
-        $instance->AccessPath = array( 'siteaccess' => array(),
-                                       'path'       => array() );
+        $instance->AccessPath = array( 'siteaccess' => array( 'name' => '', 'url' => array() ),
+                                       'path'       => array( 'name' => '', 'url' => array() ) );
         $instance->SiteDir = $siteDir;
         $instance->WWWDir = $wwwDir;
         $instance->IndexFile = $index;
@@ -1229,8 +1255,14 @@ class eZSys
     public $SiteDir;
 
     /**
-     *  The access path of the current site view
-     *  @var array
+     * The access path of the current site view, associated array of associated arrays.
+     *
+     * On first level key is 'siteaccess' and 'path' to distinguish between siteaccess
+     * and general path. On second level you have (string)'name' and (array)'url',
+     * where url is the path and name is the name of the source (used to match siteaccess
+     * in {@link eZSys::indexFile()} for RemoveSiteAccessIfDefaultAccess matching) .
+     *
+     * @var array
      */
     protected $AccessPath;
 

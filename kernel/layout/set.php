@@ -57,7 +57,7 @@ if ( $layoutINI->hasGroup( $LayoutStyle ) )
     }
     else
     {
-        eZSys::addAccessPath( array( 'layout', 'set', $LayoutStyle ), false );
+        eZSys::addAccessPath( array( 'layout', 'set', $LayoutStyle ), 'layout', false );
     }
 
 

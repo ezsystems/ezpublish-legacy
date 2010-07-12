@@ -447,7 +447,7 @@ class eZSiteAccess
         if ( isset( $access['uri_part'] ) &&
              $access['uri_part'] !== null )
         {
-            eZSys::addAccessPath( $access['uri_part'] );
+            eZSys::setAccessPath( $access['uri_part'], $name );
         }
 
         $ini = eZINI::instance();

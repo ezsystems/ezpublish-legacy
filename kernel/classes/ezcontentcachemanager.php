@@ -804,7 +804,7 @@ class eZContentCacheManager
 
                     if ( $GLOBALS['eZCurrentAccess']['type'] == eZSiteAccess::TYPE_URI )
                     {
-                        eZSys::setAccessPath( array( $changeToSiteAccess ) );
+                        eZSys::setAccessPath( array( $changeToSiteAccess ), $changeToSiteAccess );
                     }
 
                     $tpl = eZTemplate::factory();
@@ -876,7 +876,7 @@ class eZContentCacheManager
 
                 if ( $GLOBALS['eZCurrentAccess']['type'] == eZSiteAccess::TYPE_URI )
                 {
-                    eZSys::setAccessPath( array( $currentSiteAccess ) );
+                    eZSys::setAccessPath( array( $currentSiteAccess ), $currentSiteAccess );
                 }
             }
         }

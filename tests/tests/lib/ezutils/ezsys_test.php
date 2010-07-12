@@ -15,6 +15,10 @@ class eZSysTest extends ezpTestCase
         $this->setName( "eZSysTest" );
     }
 
+    /**
+     * Test eZSys $AccessPath as it worked prior to 4.4 without propertied to
+     * define scope of path with RemoveSiteAccessIfDefaultAccess=enabled
+     */
     public function testIndexFileRemoveSiteAccessIfDefaultAccessEnabled()
     {
         // TEST SETUP --------------------------------------------------------
@@ -43,9 +47,14 @@ class eZSysTest extends ezpTestCase
 
         // TEST TEAR DOWN ----------------------------------------------------
         $ini->setVariable( 'SiteAccessSettings', 'RemoveSiteAccessIfDefaultAccess', $orgRemoveSiteaccess );
+        eZSys::clearAccessPath();
         // -------------------------------------------------------------------
     }
 
+    /**
+     * Test eZSys $AccessPath as it worked prior to 4.4 without propertied to
+     * define scope of path with RemoveSiteAccessIfDefaultAccess=disabled
+     */
     public function testIndexFileRemoveSiteAccessIfDefaultAccessDisabled()
     {
         // TEST SETUP --------------------------------------------------------
@@ -74,6 +83,7 @@ class eZSysTest extends ezpTestCase
 
         // TEST TEAR DOWN ----------------------------------------------------
         $ini->setVariable( 'SiteAccessSettings', 'RemoveSiteAccessIfDefaultAccess', $orgRemoveSiteaccess );
+        eZSys::clearAccessPath();
         // -------------------------------------------------------------------
     }
 
@@ -101,6 +111,77 @@ class eZSysTest extends ezpTestCase
         self::assertEquals( $eZSysGlob, $phpGlob, "Comparing glob() with eZSys::glob() using GLOB_MARK | GLOB_BRACE" );
     }
 
+    /**
+     * Test eZSys $AccessPath as it works as of 4.4 with propertied to
+     * define scope of path with RemoveSiteAccessIfDefaultAccess=enabled
+     */
+    public function testIndexFileRemoveSiteAccessIfDefaultAccessEnabled2()
+    {
+        // TEST SETUP --------------------------------------------------------
+        $ini = eZINI::instance();
+
+        $defaultAccess = $ini->variable( 'SiteSettings', 'DefaultAccess' );
+        $this->setSiteAccess( $defaultAccess );
+
+        // Make sure to preserve ini settings in case other tests depend on them
+        $orgRemoveSiteaccess = $ini->variable( 'SiteAccessSettings', 'RemoveSiteAccessIfDefaultAccess' );
+
+        // ENABLE RemoveSiteAccessIfDefaultAccess
+        $ini->setVariable( 'SiteAccessSettings', 'RemoveSiteAccessIfDefaultAccess', 'enabled' );
+        // -------------------------------------------------------------------
+
+
+        // TEST --------------------------------------------------------------
+        $indexFile = eZSys::indexFile();
+        self::assertEquals( "", $indexFile );
+
+        eZSys::setAccessPath( array( 'testing', 'indexFile' ), 'test-path', false );
+        $indexFile = eZSys::indexFile();
+        self::assertEquals( "/testing/indexFile", $indexFile );
+        // -------------------------------------------------------------------
+
+
+        // TEST TEAR DOWN ----------------------------------------------------
+        $ini->setVariable( 'SiteAccessSettings', 'RemoveSiteAccessIfDefaultAccess', $orgRemoveSiteaccess );
+        eZSys::clearAccessPath();
+        // -------------------------------------------------------------------
+    }
+
+    /**
+     * Test eZSys $AccessPath as it works as of 4.4 with propertied to
+     * define scope of path with RemoveSiteAccessIfDefaultAccess=disabled
+     */
+    public function testIndexFileRemoveSiteAccessIfDefaultAccessDisabled2()
+    {
+        // TEST SETUP --------------------------------------------------------
+        $ini = eZINI::instance();
+
+        $defaultAccess = $ini->variable( 'SiteSettings', 'DefaultAccess' );
+        $this->setSiteAccess( $defaultAccess );
+
+        // Make sure to preserve ini settings in case other tests depend on them
+        $orgRemoveSiteaccess = $ini->variable( 'SiteAccessSettings', 'RemoveSiteAccessIfDefaultAccess' );
+
+        // DISABLE RemoveSiteAccessIfDefaultAccess
+        $ini->setVariable( 'SiteAccessSettings', 'RemoveSiteAccessIfDefaultAccess', 'disabled' );
+        // -------------------------------------------------------------------
+
+
+        // TEST --------------------------------------------------------------
+        $indexFile = eZSys::indexFile();
+        self::assertEquals( "/$defaultAccess", $indexFile );
+
+        eZSys::setAccessPath( array( 'testing', 'indexFile' ), 'test-path', false );
+        $indexFile = eZSys::indexFile();
+        self::assertEquals( "/$defaultAccess/testing/indexFile", $indexFile );
+        // -------------------------------------------------------------------
+
+
+        // TEST TEAR DOWN ----------------------------------------------------
+        $ini->setVariable( 'SiteAccessSettings', 'RemoveSiteAccessIfDefaultAccess', $orgRemoveSiteaccess );
+        eZSys::clearAccessPath();
+        // -------------------------------------------------------------------
+    }
 
     /* -----------------------------------------------------------------------
      * HELPER FUNCTIONS
