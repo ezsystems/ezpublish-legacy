@@ -65,9 +65,14 @@ if ( $contentType === 'xml' )
 {
     header('Content-Type: text/xml; charset=utf-8');
 }
+else if ( $contentType === 'javascript' )
+{
+    $contentType = 'json';
+    header('Content-Type: text/javascript; charset=utf-8');
+}
 else if ( $contentType === 'json' )
 {
-    header('Content-Type: text/javascript; charset=utf-8');
+    header('Content-Type: application/json; charset=utf-8');
 }
 
 // abort if no calls where found
