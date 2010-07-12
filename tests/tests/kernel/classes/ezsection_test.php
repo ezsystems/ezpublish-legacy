@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the eZSection class.
+ * File containing the eZSectionTest class.
  *
  * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
@@ -48,6 +48,18 @@ class eZSectionTest extends ezpDatabaseTestCase
         // assert that the two object refer to same object
         $this->assertSame( $eZContentSectionObjectCache[$sectionID] , $section2 );
         $this->assertSame( eZSection::fetch( $sectionID ) , $section2 );
+
+        // fetchByID and fetchByIdentifier, assert that the result is the same
+        $section3 = new eZSection( array() );
+        $section3->setAttribute( 'name', 'Test Section3' );
+        $section3->setAttribute( 'section_identifier', 'test_section3' );
+        $section3->store();
+        $objectByID = eZSection::fetch( $section3->attribute( 'id' ) );
+        $objectByIdentifier = eZSection::fetchByIdentifier( 'test_section3' );
+        $this->assertSame( $objectByID, $objectByIdentifier );
+
+        $arrayByIdentifier = eZSection::fetch( $section3->attribute( 'id' ), false );
+        $this->assertTrue( is_array( $arrayByIdentifier ) );
     }
 
 }
