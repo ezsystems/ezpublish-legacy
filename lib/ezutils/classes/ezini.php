@@ -1347,7 +1347,7 @@ class eZINI
                        variable names as second key and variable values as values.
      \code
      $ini->setVariables( array( 'SiteSettings' => array( 'SiteName' => 'mysite',
-                                                         'SiteURL' => 'http://mysite.com' ) ) );
+                                                         'SiteURL'  => 'mysite.com' ) ) );
      \endcode
      \sa setVariable
     */

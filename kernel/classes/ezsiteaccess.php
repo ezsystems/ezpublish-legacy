@@ -504,11 +504,10 @@ class eZSiteAccess
         $GLOBALS['eZCurrentAccess'] =& $access;
 
         $name = $access['name'];
-        if ( isset( $access['uri_part'] ) &&
-             $access['uri_part'] !== null )
-        {
+        if ( isset( $access['uri_part'] ) && $access['uri_part'] !== null )
             eZSys::setAccessPath( $access['uri_part'], $name );
-        }
+        else
+            $access['uri_part'] = array();
 
         $ini = eZINI::instance();
         if ( file_exists( "settings/siteaccess/$name" ) )

@@ -199,7 +199,7 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
                 eZURI::transformURI( $host, true, 'full' );
                 break;
 
-            case eZSiteAccess::TYPE_HTTP_HOST:
+            default:
                 $host = $saIni->variable( 'SiteSettings', 'SiteURL' );
                 $host = "http://{$host}/";
                 break;

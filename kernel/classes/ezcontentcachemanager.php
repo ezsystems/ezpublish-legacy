@@ -876,7 +876,7 @@ class eZContentCacheManager
 
                 if ( $GLOBALS['eZCurrentAccess']['type'] == eZSiteAccess::TYPE_URI )
                 {
-                    eZSys::setAccessPath( array( $currentSiteAccess ), $currentSiteAccess );
+                    eZSys::setAccessPath( $GLOBALS['eZCurrentAccess']['uri_part'], $currentSiteAccess );
                 }
             }
         }
