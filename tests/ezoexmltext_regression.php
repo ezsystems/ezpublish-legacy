@@ -7,12 +7,17 @@
  * @package tests
  */
 
-class eZOEXMLTextRegression extends ezpTestCase
+class eZOEXMLTextRegression extends ezpDatabaseTestCase
 {
     public function __construct()
     {
         parent::__construct();
         $this->setName( "eZXMLText Datatype OE Regression Tests" );
+    }
+
+    public function setUp()
+    {
+        parent::setUp();
     }
 
     /**
