@@ -577,12 +577,14 @@ class eZRole extends eZPersistentObject
     /**
      * Return access array by passing in list of groups user belongs to and his user id
      *
-     * @param array $userIDArray List with user group id's and it's user id
+     * @param array $idArray Array of eZContentObject IDs, either groups + user id or user id's only
+     *                       If only user id's, then remember to set $recursive to true
+     * @param bool $recursive See {@link eZRole::fetchByUser()}
      * @return array Hash with complete access limitation description
      */
-    static function accessArrayByUserID( $userIDArray )
+    static function accessArrayByUserID( $idArray, $recursive = false )
     {
-        $roles = eZRole::fetchByUser( $userIDArray );
+        $roles = eZRole::fetchByUser( $idArray, $recursive );
         $userLimitation = false;
 
         $accessArray = array();
