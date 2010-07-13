@@ -313,6 +313,8 @@ class eZSiteAccess
                         if ( $match_item )
                         {
                             $matchMapItems = $ini->variableArray( 'SiteAccessSettings', 'HostUriMatchMapItems' );
+                            $matchMethodDefault = $ini->variableArray( 'SiteAccessSettings', 'HostUriMatchMethodDefault' );
+
                             foreach ( $matchMapItems as $matchMapItem )
                             {
                                 $matchHost = $matchMapItem[0];
@@ -322,7 +324,7 @@ class eZSiteAccess
                                 if ( $matchURI !== $match_item )
                                     continue;
 
-                                switch( isset( $matchMapItem[3] ) ? $matchMapItem[3] : 'strict' )
+                                switch( isset( $matchMapItem[3] ) ? $matchMapItem[3] : $matchMethodDefault )
                                 {
                                     case 'strict':
                                     {
