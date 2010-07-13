@@ -60,13 +60,9 @@
 <h2 class="context-title">{'Roles containing limitations associated with this section (%number_of_roles)'|i18n( 'design/admin/section/view',, hash( '%number_of_roles', $roles|count ) )}</h2>
 
 
-
 {* DESIGN: Header END *}</div></div>
 
-{* DESIGN: Content START *}
-<div class="box-bc"><div class="box-ml"><div class="box-mr">
-<div class="box-bl"><div class="box-br">
-<div class="box-content">
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {section show=$roles}
 <table class="list" cellspacing="0">
