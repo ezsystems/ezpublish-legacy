@@ -313,18 +313,19 @@ class eZSiteAccess
                         if ( $match_item )
                         {
                             $matchMapItems = $ini->variableArray( 'SiteAccessSettings', 'HostUriMatchMapItems' );
-                            $matchMethodDefault = $ini->variableArray( 'SiteAccessSettings', 'HostUriMatchMethodDefault' );
+                            $defaultHostMatchMethod = $ini->variable( 'SiteAccessSettings', 'HostUriMatchMethodDefault' );
 
                             foreach ( $matchMapItems as $matchMapItem )
                             {
-                                $matchHost = $matchMapItem[0];
-                                $matchURI = $matchMapItem[1];
-                                $matchAccess = $matchMapItem[2];
+                                $matchHost       = $matchMapItem[0];
+                                $matchURI        = $matchMapItem[1];
+                                $matchAccess     = $matchMapItem[2];
+                                $matchHostMethod = isset( $matchMapItem[3] ) ? $matchMapItem[3] : $defaultHostMatchMethod;
 
                                 if ( $matchURI !== $match_item )
                                     continue;
 
-                                switch( isset( $matchMapItem[3] ) ? $matchMapItem[3] : $matchMethodDefault )
+                                switch( $matchHostMethod )
                                 {
                                     case 'strict':
                                     {
@@ -345,7 +346,7 @@ class eZSiteAccess
                                     default:
                                     {
                                         $hasHostMatch = false;
-                                        eZDebug::writeError( "Unknown host_uri host match: $matchMapItem[3]", "access" );
+                                        eZDebug::writeError( "Unknown host_uri host match: $matchHostMethod", "access" );
                                     } break;
                                 }
 
@@ -393,7 +394,7 @@ class eZSiteAccess
                 } break;
                 default:
                 {
-                    eZDebug::writeError( "Unknown access match: $match", "access" );
+                    eZDebug::writeError( "Unknown access match: $matchprobe", "access" );
                 } break;
             }
 
