@@ -32,6 +32,7 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'eZDFSFileHandlerDFSBackendTest' );
         $this->addTestSuite( 'eZWorkflowEventRegression' );
         $this->addTestSuite( 'eZURLWildcardTest' );
+        $this->addTestSuite( 'eZUserAuthenticationTest' );
         // $this->addTestSuite( 'eZWebDAVBackendContentRegressionTest' );
         $this->addTestSuite( 'eZLDAPUserTest' );
         $this->addTestSuite( 'eZSiteInstallerTest' );
