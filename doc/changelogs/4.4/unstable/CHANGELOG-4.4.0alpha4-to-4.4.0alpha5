@@ -14,6 +14,7 @@ Changes from 4.4.0alpha4 to 4.4.0alpha5
 - Implemented enhancement #014781: translation cache isn't deleted at "Clear all caches"
 
 *Design:
+- Fixed bug #007629: Display problem on the left column with IE7 in admin
 
 *eZTemplate:
 
