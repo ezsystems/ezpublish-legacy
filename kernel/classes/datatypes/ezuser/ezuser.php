@@ -1464,7 +1464,7 @@ WHERE user_id = '" . $userID . "' AND
     */
     static function authenticateHash( $user, $password, $site, $type, $hash )
     {
-        return eZUser::createHash( $user, $password, $site, $type, $hash ) == $hash;
+        return eZUser::createHash( $user, $password, $site, $type, $hash ) === (string) $hash;
     }
 
     /*!

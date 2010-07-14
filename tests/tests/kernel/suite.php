@@ -23,6 +23,7 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'eZMultiPriceTypeRegression' );
         $this->addTestSuite( 'eZContentObjectStateTest' );
         $this->addTestSuite( 'eZContentObjectStateGroupTest' );
+        $this->addTestSuite( 'eZUserAuthenticationTest' );
         // $this->addTestSuite( 'eZWebDAVBackendContentRegressionTest' );
         $this->addTestSuite( 'eZBinaryFileTypeRegression' );
         $this->addTestSuite( 'eZMediaTypeRegression' );
