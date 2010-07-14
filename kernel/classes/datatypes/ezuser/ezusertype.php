@@ -375,6 +375,36 @@ class eZUserType extends eZDataType
         return $metaString;
     }
 
+    /**
+     * Returns the string representation of the attribute
+     * passed in $contentObjectAttribute.
+     *
+     * The string definition will looks like this :
+     * login|email|password_has|hash_identifier|is_enabled where :
+     *
+     * - login => user login cf : the login field in the ezuser table.
+     *
+     * - email => user email cf : the  email table field in the
+     *   ezuser table.
+     *
+     * - password_hash => use password hash, cf password_hash field in the
+     *   ezuser table.
+     *
+     * - hash_identifier => one of the hash name available in
+     *   {@link eZUser::passwordHashTypeName()}
+     *
+     * - is_enabled => whether the user is enabled or not, cf the is_enabled
+     *   field in the ezuser_setting table.
+     *
+     * Example:
+     * <code>
+     * foo|foo@ez.no|1234|md5_password|0
+     * </code>
+     *
+     * @uses eZUser::isEnabled()
+     * @param object $contentObjectAttribute A contentobject attribute of type user_account.
+     * @return string The string definition.
+     */
     function toString( $contentObjectAttribute )
     {
         $userID = $contentObjectAttribute->attribute( "contentobject_id" );
@@ -384,13 +414,33 @@ class eZUserType extends eZDataType
         }
         $user = $GLOBALS['eZUserObject_' . $userID];
 
-        return implode( '|', array( $user->attribute( 'login' ),
-                                    $user->attribute( 'email' ),
-                                    $user->attribute( 'password_hash' ),
-                                    eZUser::passwordHashTypeName( $user->attribute( 'password_hash_type' ) )  ) );
+        $userInfo = array(
+            $user->attribute( 'login' ),
+            $user->attribute( 'email' ),
+            $user->attribute( 'password_hash' ),
+            eZUser::passwordHashTypeName( $user->attribute( 'password_hash_type' ) ),
+            (int)$user->isEnabled()
+        );
+
+        return implode( '|', $userInfo );
     }
 
-
+    /**
+     * Populates the user_account datatype with the correct values
+     * based upon the string passed in $string.
+     *
+     * The string that must be passed looks like the following :
+     * login|email|password_hash|hash_identifier|is_enabled
+     *
+     * Example:
+     * <code>
+     * foo|foo@ez.no|1234|md5_password|0
+     * </code>
+     *
+     * @param object $contentObjectAttribute A contentobject attribute of type user_account.
+     * @param string $string The string as described in the example.
+     * @return object The newly created eZUser object
+     */
     function fromString( $contentObjectAttribute, $string )
     {
         if ( $string == '' )
@@ -413,6 +463,16 @@ class eZUserType extends eZDataType
 
         if ( isset( $userData[3] ) )
             $user->setAttribute( 'password_hash_type', eZUser::passwordHashTypeID( $userData[3] ) );
+
+        if( isset( $userData[4] ) )
+        {
+            $userSetting = eZUserSetting::fetch(
+                $contentObjectAttribute->attribute( 'contentobject_id' )
+            );
+            $userSetting->setAttribute( "is_enabled", (int)(bool)$userData[4] );
+            $userSetting->store();
+        }
+
         $user->store();
         return $user;
     }
@@ -435,6 +495,7 @@ class eZUserType extends eZDataType
             $userNode->setAttribute( 'email', $user->attribute( 'email' ) );
             $userNode->setAttribute( 'password_hash', $user->attribute( 'password_hash' ) );
             $userNode->setAttribute( 'password_hash_type', eZUser::passwordHashTypeName( $user->attribute( 'password_hash_type' ) ) );
+            $userNode->setAttribute( 'is_enabled', (int)$user->isEnabled() );
             $node->appendChild( $userNode );
         }
 
