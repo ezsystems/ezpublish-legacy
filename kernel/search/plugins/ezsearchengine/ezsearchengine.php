@@ -587,8 +587,7 @@ class eZSearchEngine
             else if ( is_array( $searchSectionID ) )
             {
                 // Build query for searching in an array of sections
-                $sectionString = implode( ', ', $searchSectionID );
-                $sectionQuery = "ezsearch_object_word_link.section_id IN ( $sectionString ) AND ";
+                $sectionQuery = $db->generateSQLINStatement( $searchSectionID, 'ezsearch_object_word_link.section_id', false, false, 'int' ) . " AND ";
             }
 
             $searchDateQuery = '';
@@ -605,11 +604,11 @@ class eZSearchEngine
                 {
                     if ( is_array( $searchTimestamp ) )
                     {
-                        $publishedDate = $searchTimestamp[0];
-                        $publishedDateStop = $searchTimestamp[1];
+                        $publishedDate = (int) $searchTimestamp[0];
+                        $publishedDateStop = (int) $searchTimestamp[1];
                     }
                     else
-                        $publishedDate = $searchTimestamp;
+                        $publishedDate = (int) $searchTimestamp;
                 }
                 else
                 {
