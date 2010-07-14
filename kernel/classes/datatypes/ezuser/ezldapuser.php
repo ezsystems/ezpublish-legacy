@@ -424,9 +424,6 @@ class eZLDAPUser extends eZUser
                     }
                 }
 
-                $adminUser = eZUser::fetchByName( 'admin' );
-                $adminUserContentObjectID = $adminUser->attribute( 'contentobject_id' );
-
                 // read group mapping LDAP settings
                 $LDAPGroupMappingType = $LDAPIni->variable( 'LDAPSettings', 'LDAPGroupMappingType' );
                 $LDAPUserGroupMap     = $LDAPIni->variable( 'LDAPSettings', 'LDAPUserGroupMap' );
@@ -538,8 +535,6 @@ class eZLDAPUser extends eZUser
                     }
                     else if ( $LDAPGroupMappingType == $ByMemberAttributeHierarhicaly )
                     {
-                        eZUser::setCurrentlyLoggedInUser( $adminUser, $adminUserContentObjectID );
-
                         $stack = array();
                         self::goAndPublishGroups( $requiredParams, $userData['dn'], $groupsTree, $stack, $groupSearchingDepth, true );
                     }
@@ -649,14 +644,12 @@ class eZLDAPUser extends eZUser
                                          'userAttributes' => $userAttributes,
                                          'isUtf8Encoding' => $isUtf8Encoding,
                                          'defaultUserPlacement' => $defaultUserPlacement,
-                                         'extraNodeAssignments' => $extraNodeAssignments,
-                                         'adminUserContentObjectID' => $adminUserContentObjectID
+                                         'extraNodeAssignments' => $extraNodeAssignments
                     );
                     eZDebug::writeNotice( var_export( $debugArray, true ), 'eZLDAPUser::loginUser' );
                 }
 
                 $oldUser = clone eZUser::currentUser();
-                eZUser::setCurrentlyLoggedInUser( $adminUser, $adminUserContentObjectID );
                 $existingUser = eZLDAPUser::publishUpdateUser( $extraNodeAssignments, $defaultUserPlacement, $userAttributes, $isUtf8Encoding );
 
                 if ( is_object( $existingUser ) )
