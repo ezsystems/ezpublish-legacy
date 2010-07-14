@@ -201,4 +201,5 @@ Changes from 4.2.0 to 4.3.0
 - Fixed bug #16397: SQL injection in search functionality
 - Fixed bug #16398: SQL injection in advanced search functionality
 - Fixed bug #16111: eZUser toString/fromString methods don't take into account if the user is enabled
+- Fixed bug #13428: eZLDAPUser implementation not safe
 
