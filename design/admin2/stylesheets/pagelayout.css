@@ -338,7 +338,7 @@ ul.leftmenu-items li.current a
 
 div#contentstructure
 {
-    overflow-x: auto;
+    overflow: hidden;
     padding-top: 0.5em;
 }
 
