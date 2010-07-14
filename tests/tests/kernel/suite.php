@@ -61,7 +61,6 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'eZContentClassRegression' );
         $this->addTestSuite( 'eZImageFileRegression' );
         $this->addTestSuite( 'eZURLOperatorTest' );
-        $this->addTestSuite( 'eZSectionTest' );
 
         $this->addTestSuite( 'ezpTopologicalSortTest' );
         $this->addTestSuite( 'eZExtensionWithOrderingTest' );
@@ -73,6 +72,7 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
         
         $this->addTestSuite( 'eZSiteDataTest' );
         $this->addTestSuite( 'eZPendingActionsTest' );
+        $this->addTestSuite( 'eZSectionTest' );
     }
 
     public static function suite()
