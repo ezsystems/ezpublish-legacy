@@ -62,6 +62,8 @@ class eZLDAPUser extends eZUser
         $loginEscaped = $db->escapeString( $login );
         $passwordEscaped = $db->escapeString( $password );
 
+        $loginLdapEscaped = self::ldap_escape( $login );
+
         $loginArray = array();
         if ( $authenticationMatch & eZUser::AUTHENTICATE_LOGIN )
             $loginArray[] = "login='$loginEscaped'";
@@ -263,7 +265,7 @@ class eZLDAPUser extends eZUser
                     return $user;
                 }
 
-                $LDAPFilter .= "($LDAPLoginAttribute=$login)";
+                $LDAPFilter .= "($LDAPLoginAttribute=$loginLdapEscaped)";
                 $LDAPFilter .= ")";
 
                 ldap_set_option( $ds, LDAP_OPT_SIZELIMIT, 0 );
@@ -1448,6 +1450,29 @@ class eZLDAPUser extends eZUser
         }
 
         return $groupName;
+    }
+
+    /*
+        Based on a similar function suggested at: http://php.net/manual/en/function.ldap-search.php
+    */
+    static function ldap_escape( $str, $for_dn = false )
+    {
+        // see: RFC2254
+        // http://msdn.microsoft.com/en-us/library/ms675768(VS.85).aspx
+        // http://www-03.ibm.com/systems/i/software/ldap/underdn.html
+
+        if ( $for_dn )
+        {
+            $metaChars = array( ',', '=', '+', '<', '>', ';', '\\', '"', '#' );
+            $quotedMetaChars = array( '\2c', '\3d', '\2b', '\3c', '\3e', '\3b', '\5c', '\22', '\23' );
+        }
+        else
+        {
+            $metaChars = array( '*', '(', ')', '\\', chr(0) );
+            $quotedMetaChars = array( '\2a', '\28', '\29', '\5c', '\00' );
+        }
+
+        return str_replace( $metaChars, $quotedMetaChars, $str );
     }
 
 }
