@@ -674,8 +674,7 @@ class eZSearchEngine
             else if ( is_array( $searchContentClassAttributeID ) )
             {
                 // Build query for searching in a number of attributes
-                $attributeString = implode( ', ', $searchContentClassAttributeID );
-                $classAttributeQuery = "ezsearch_object_word_link.contentclass_attribute_id IN ( $attributeString ) AND ";
+                $classAttributeQuery = $db->generateSQLINStatement( $searchContentClassAttributeID , 'ezsearch_object_word_link.contentclass_attribute_id', false, false, 'int' ) . ' AND ';
             }
 
             // Get the total number of objects

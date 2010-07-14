@@ -199,4 +199,5 @@ Changes from 4.2.0 to 4.3.0
 - Fixed bug #015727: Workflow status STATUS_FETCH_TEMPLATE_REPEAT disappeared
 - Fixed bug #16396: XSS vulnerability in advanced search
 - Fixed bug #16397: SQL injection in search functionality
+- Fixed bug #16398: SQL injection in advanced search functionality
 
