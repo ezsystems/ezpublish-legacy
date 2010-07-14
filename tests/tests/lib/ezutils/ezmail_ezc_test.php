@@ -157,7 +157,7 @@ class eZMailEzcTest extends ezpTestCase
         $ezpResult = $mail->body();
         $ezcResult = $mail->Mail->body;
         $ezpExpected = __FUNCTION__;
-        $ezcExpected = new ezcMailText( __FUNCTION__ );
+        $ezcExpected = new ezcMailText( __FUNCTION__, 'utf-8' );
 
         $this->assertEquals( $ezpExpected, $ezpResult );
         $this->assertEquals( $ezcExpected, $ezcResult );
