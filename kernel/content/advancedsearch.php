@@ -150,13 +150,20 @@ $subTreeArray = array();
 if ( $http->hasVariable( 'SubTreeArray' ) )
 {
     if ( is_array( $http->variable( 'SubTreeArray' ) ) )
+    {
         $subTreeList = $http->variable( 'SubTreeArray' );
+    }
     else
+    {
         $subTreeList = array( $http->variable( 'SubTreeArray' ) );
+    }
     foreach ( $subTreeList as $subTreeItem )
     {
-        if ( $subTreeItem > 0 )
+        // as form input is generally a string, is_int cannot be used for checking the value type
+        if ( is_numeric( $subTreeItem ) && $subTreeItem > 0  )
+        {
             $subTreeArray[] = $subTreeItem;
+        }
     }
 }
 
