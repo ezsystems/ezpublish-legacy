@@ -61,6 +61,7 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'eZContentClassRegression' );
         $this->addTestSuite( 'eZImageFileRegression' );
         $this->addTestSuite( 'eZURLOperatorTest' );
+        $this->addTestSuite( 'eZUserTypeRegression' );
 
         $this->addTestSuite( 'ezpTopologicalSortTest' );
         $this->addTestSuite( 'eZExtensionWithOrderingTest' );
