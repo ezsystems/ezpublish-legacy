@@ -91,12 +91,20 @@ class eZUserFunctionCollection
         return array( 'result' => $list );
     }
 
-    function fetchUserRole( $userID )
+    /**
+     * Fetch policy list
+     * Used by fetch( 'user', 'user_role', hash( 'user_id', $id ) ) template function.
+     *
+     * @param int $id User id or normal content object id in case of none user object (user group)
+     * @return array(string=>array)
+     */
+    function fetchUserRole( $id )
     {
-        $user = eZUser::fetch( $userID );
-        $groups = $user ? $user->groups() : array();
-        $groups[] = $userID;
-        $roleList = eZRole::fetchByUser( $groups );
+        $user = eZUser::fetch( $id );
+        if ( $user instanceof eZUser )
+            $roleList = $user->roles();
+        else // user group or other non user classes:
+            $roleList = eZRole::fetchByUser( array( $id ), true );
 
         $accessArray = array();
         foreach ( array_keys ( $roleList ) as $roleKey )
@@ -169,9 +177,22 @@ class eZUserFunctionCollection
         return array( 'result' => $resultArray );
     }
 
+    /**
+     * Fetch role list
+     * Used by fetch( 'user', 'member_of', hash( 'id', $id ) ) template function.
+     *
+     * @param int $id User id or normal content object id in case of none user object (user group)
+     * @return array(string=>array)
+     */
     function fetchMemberOf( $id )
     {
-        return array( 'result' => eZRole::fetchByUser( array( $id ), true ) );
+        $user = eZUser::fetch( $id );
+        if ( $user instanceof eZUser )
+            $roleList = $user->roles();
+        else // user group or other non user classes:
+            $roleList = eZRole::fetchByUser( array( $id ), true );
+
+        return array( 'result' => $roleList );
     }
 
     function hasAccessTo( $module, $view, $userID )
