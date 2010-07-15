@@ -59,8 +59,6 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
         {
             $deleteIDArray = $http->postVariable( 'DeleteIDArray' );
 
-            $db = eZDB::instance();
-            $db->begin();
             foreach ( $deleteIDArray as $deleteID )
             {
 
@@ -70,13 +68,11 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
                                                                    null,
                                                                    null,
                                                                    true );
-                eZDebug::writeNotice( $deleteID, "deleteID" );
-                foreach ( $objectList as $object )
+               foreach ( $objectList as $object )
                 {
                     $object->purge();
                 }
             }
-            $db->commit();
         }
         else
         {
@@ -89,7 +85,6 @@ else if ( $http->hasPostVariable( 'EmptyButton' )  )
     $access = $user->hasAccessTo( 'content', 'cleantrash' );
     if ( $access['accessWord'] == 'yes' )
     {
-        $db = eZDB::instance();
         while ( true )
         {
             // Fetch 100 objects at a time, to limit transaction size
@@ -102,12 +97,10 @@ else if ( $http->hasPostVariable( 'EmptyButton' )  )
             if ( count( $objectList ) < 1 )
                 break;
 
-            $db->begin();
             foreach ( $objectList as $object )
             {
                 $object->purge();
             }
-            $db->commit();
         }
     }
     else
