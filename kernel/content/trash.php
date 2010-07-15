@@ -68,7 +68,7 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
                                                                    null,
                                                                    null,
                                                                    true );
-               foreach ( $objectList as $object )
+                foreach ( $objectList as $object )
                 {
                     $object->purge();
                 }
