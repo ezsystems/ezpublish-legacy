@@ -9,6 +9,8 @@ Changes from 4.1.4 to 4.1.5
   (Merged from trunk (4.3.0alpha1) rev. 24346)
 - Implemented enhancement #15441: eZDBSchemaInterface subclasses do not allow to dump/rebuild a proper schema: table columns are always sorted
   (Merged from trunk (4.3.0beta1) rev. 24974)
+- Implemented enhancement #016993: transactions in content/trash must be reduced
+  (Merged from master (4.4alpha5) commit e9888af)
 
 *Design:
 
@@ -21,7 +23,7 @@ Changes from 4.1.4 to 4.1.5
 *Scripts:
 - Fixed bug #15522: Upgrade script for node assignments which are left behind
   (Merged from trunk (4.3.0beta2) rev. 25109)
- 
+
 *Translations:
 
 *Bugfixes:
@@ -121,7 +123,7 @@ Changes from 4.1.4 to 4.1.5
   (Merged from trunk (4.3.0beta1) rev. 24902)
 - Fixed bug #14615: Database errors in search engine logic using PHP 5.2.9
   (Merged from trunk (4.3.0beta1) rev. 24906)
-- Fixed bug #15823: Running cache clearing procedure from upgrade 4.2.0 using root removes all linux system files  
+- Fixed bug #15823: Running cache clearing procedure from upgrade 4.2.0 using root removes all linux system files
   (Merged from trunk (4.3.0beta1) rev. 24912)
 - Fixed bug #015673: eZCollaborationItemHandler::handleCollaborationEvent() not oracle compatible
   (Merged from trunk (4.3.0beta1) rev. 24957)
