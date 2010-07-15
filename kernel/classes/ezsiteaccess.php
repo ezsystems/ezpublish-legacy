@@ -142,7 +142,7 @@ class eZSiteAccess
      * @param string $file Example '/index.php'
      * @return array
      */
-    public static function match( eZURI $uri, $host, $port, $file )
+    public static function match( eZURI $uri, $host, $port = 80, $file = '/index.php' )
     {
         $ini = eZINI::instance();
         if ( $ini->hasVariable( 'SiteAccessSettings', 'StaticMatch' ) )
