@@ -310,58 +310,55 @@ class eZSiteAccess
                     if ( $ini->hasVariable( 'SiteAccessSettings', 'HostUriMatchMapItems' ) )
                     {
                         $match_item = $uri->element( 0 );
-                        if ( $match_item )
+                        $matchMapItems = $ini->variableArray( 'SiteAccessSettings', 'HostUriMatchMapItems' );
+                        $defaultHostMatchMethod = $ini->variable( 'SiteAccessSettings', 'HostUriMatchMethodDefault' );
+
+                        foreach ( $matchMapItems as $matchMapItem )
                         {
-                            $matchMapItems = $ini->variableArray( 'SiteAccessSettings', 'HostUriMatchMapItems' );
-                            $defaultHostMatchMethod = $ini->variable( 'SiteAccessSettings', 'HostUriMatchMethodDefault' );
+                            $matchHost       = $matchMapItem[0];
+                            $matchURI        = $matchMapItem[1];
+                            $matchAccess     = $matchMapItem[2];
+                            $matchHostMethod = isset( $matchMapItem[3] ) ? $matchMapItem[3] : $defaultHostMatchMethod;
 
-                            foreach ( $matchMapItems as $matchMapItem )
+                            if ( $matchURI !== '' && $matchURI !== $match_item )
+                                continue;
+
+                            switch( $matchHostMethod )
                             {
-                                $matchHost       = $matchMapItem[0];
-                                $matchURI        = $matchMapItem[1];
-                                $matchAccess     = $matchMapItem[2];
-                                $matchHostMethod = isset( $matchMapItem[3] ) ? $matchMapItem[3] : $defaultHostMatchMethod;
-
-                                if ( $matchURI !== '' && $matchURI !== $match_item )
-                                    continue;
-
-                                switch( $matchHostMethod )
+                                case 'strict':
                                 {
-                                    case 'strict':
-                                    {
-                                        $hasHostMatch = ( $matchHost === $host );
-                                    } break;
-                                    case 'start':
-                                    {
-                                        $hasHostMatch = ( strpos($host, $matchHost) === 0 );
-                                    } break;
-                                    case 'end':
-                                    {
-                                        $hasHostMatch = ( strstr($host, $matchHost) === $matchHost );
-                                    } break;
-                                    case 'part':
-                                    {
-                                        $hasHostMatch = ( strpos($host, $matchHost) !== false );
-                                    } break;
-                                    default:
-                                    {
-                                        $hasHostMatch = false;
-                                        eZDebug::writeError( "Unknown host_uri host match: $matchHostMethod", "access" );
-                                    } break;
-                                }
-
-                                if ( $hasHostMatch )
+                                    $hasHostMatch = ( $matchHost === $host );
+                                } break;
+                                case 'start':
                                 {
-                                    if ( $matchURI !== '' )
-                                    {
-                                        $uri->increase( 1 );
-                                        $uri->dropBase();
-                                        $access['uri_part'] = array( $matchURI );
-                                    }
-                                    $access['name'] = $matchAccess;
-                                    $access['type'] = $type;
-                                    return $access;
+                                    $hasHostMatch = ( strpos($host, $matchHost) === 0 );
+                                } break;
+                                case 'end':
+                                {
+                                    $hasHostMatch = ( strstr($host, $matchHost) === $matchHost );
+                                } break;
+                                case 'part':
+                                {
+                                    $hasHostMatch = ( strpos($host, $matchHost) !== false );
+                                } break;
+                                default:
+                                {
+                                    $hasHostMatch = false;
+                                    eZDebug::writeError( "Unknown host_uri host match: $matchHostMethod", "access" );
+                                } break;
+                            }
+
+                            if ( $hasHostMatch )
+                            {
+                                if ( $matchURI !== '' )
+                                {
+                                    $uri->increase( 1 );
+                                    $uri->dropBase();
+                                    $access['uri_part'] = array( $matchURI );
                                 }
+                                $access['name'] = $matchAccess;
+                                $access['type'] = $type;
+                                return $access;
                             }
                         }
                     }
