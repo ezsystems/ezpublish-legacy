@@ -322,7 +322,7 @@ class eZSiteAccess
                                 $matchAccess     = $matchMapItem[2];
                                 $matchHostMethod = isset( $matchMapItem[3] ) ? $matchMapItem[3] : $defaultHostMatchMethod;
 
-                                if ( $matchURI !== $match_item )
+                                if ( $matchURI !== '' && $matchURI !== $match_item )
                                     continue;
 
                                 switch( $matchHostMethod )
@@ -352,11 +352,14 @@ class eZSiteAccess
 
                                 if ( $hasHostMatch )
                                 {
-                                    $uri->increase( 1 );
-                                    $uri->dropBase();
+                                    if ( $matchURI !== '' )
+                                    {
+                                        $uri->increase( 1 );
+                                        $uri->dropBase();
+                                        $access['uri_part'] = array( $matchURI );
+                                    }
                                     $access['name'] = $matchAccess;
                                     $access['type'] = $type;
-                                    $access['uri_part'] = array( $matchURI );
                                     return $access;
                                 }
                             }
