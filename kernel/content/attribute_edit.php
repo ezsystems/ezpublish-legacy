@@ -441,7 +441,8 @@ foreach ( $assignments as $assignment )
 $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ),
                       array( 'remote_id', $object->attribute( 'remote_id' ) ),
                       array( 'class', $class->attribute( 'id' ) ),
-                      array( 'class_identifier', $class->attribute( 'identifier' ) )
+                      array( 'class_identifier', $class->attribute( 'identifier' ) ),
+                      array( 'class_group', $object->attribute( 'match_ingroup_id_list' ) )
                       ) );
 
 if ( $mainAssignment )
