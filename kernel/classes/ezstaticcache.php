@@ -1,150 +1,188 @@
 <?php
-//
-// Definition of eZStaticClass class
-//
-// Created on: <12-Jan-2005 10:29:21 dr>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2010 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
+/**
+ * File containing the eZStaticCache class
+ *
+ * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
+ * @license http://ez.no/licenses/gnu_gpl GNU GPL v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
-/*! \file
-*/
-
-/*!
-  \class eZStaticCache ezstaticcache.php
-  \brief Manages the static cache system.
-
-  This class can be used to generate static cache files usable
-  by the static cache system.
-
-  Generating static cache is done by instatiating the class and then
-  calling generateCache(). For example:
-  \code
-  $staticCache = new eZStaticCache();
-  $staticCache->generateCache();
-  \endcode
-
-  To generate the URLs that must always be updated call generateAlwaysUpdatedCache()
-
-*/
-
+/**
+ * The eZStaticCache class manages the static cache system.
+ *
+ * This class can be used to generate static cache files usable
+ * by the static cache system.
+ *
+ * Generating static cache is done by instantiating the class and then
+ * calling generateCache(). For example:
+ *
+ * <code>
+ * $staticCache = new eZStaticCache();
+ * $staticCache->generateCache();
+ * </code>
+ *
+ * To generate the URLs that must always be updated call generateAlwaysUpdatedCache()
+ *
+ * @package kernel
+ */
 class eZStaticCache
 {
+    /**
+     * User-Agent string
+     */
     const USER_AGENT = 'eZ Publish static cache generator';
 
-    /*!
-     Initialises the static cache object with settings from staticcache.ini.
-    */
-    function eZStaticCache()
+    /**
+     * The name of the host to fetch HTML data from.
+     *
+     * @deprecated deprecated since version 4.4, site.ini.[SiteSettings].SiteURL is used instead
+     * @var string
+     */
+    private $hostName;
+
+    /**
+     * The base path for the directory where static files are placed.
+     *
+     * @var string
+     */
+    private $staticStorage;
+
+    /**
+     * The maximum depth of URLs that will be cached.
+     *
+     * @var int
+     */
+    private $maxCacheDepth;
+
+    /**
+     * Array of URLs to cache.
+     *
+     * @var array(int=>string)
+     */
+    private $cachedURLArray = array();
+
+    /**
+     * An array with siteaccesses names that will be cached.
+     *
+     * @var array(int=>string)
+     */
+    private $cachedSiteAccesses = array();
+
+    /**
+     * An array with URLs that is to always be updated.
+     *
+     * @var array(int=>string)
+     */
+    private $alwaysUpdate;
+
+    /**
+     *  Initialises the static cache object with settings from staticcache.ini.
+     */
+    public function __construct()
     {
         $ini = eZINI::instance( 'staticcache.ini');
-        $this->HostName = $ini->variable( 'CacheSettings', 'HostName' );
-        $this->StaticStorageDir = $ini->variable( 'CacheSettings', 'StaticStorageDir' );
-        $this->MaxCacheDepth = $ini->variable( 'CacheSettings', 'MaxCacheDepth' );
-        $this->CachedURLArray = $ini->variable( 'CacheSettings', 'CachedURLArray' );
-        $this->CachedSiteAccesses = $ini->variable( 'CacheSettings', 'CachedSiteAccesses' );
-        $this->AlwaysUpdate = $ini->variable( 'CacheSettings', 'AlwaysUpdateArray' );
+        $this->hostName = $ini->variable( 'CacheSettings', 'HostName' );
+        $this->staticStorageDir = $ini->variable( 'CacheSettings', 'StaticStorageDir' );
+        $this->maxCacheDepth = $ini->variable( 'CacheSettings', 'MaxCacheDepth' );
+        $this->cachedURLArray = $ini->variable( 'CacheSettings', 'CachedURLArray' );
+        $this->cachedSiteAccesses = $ini->variable( 'CacheSettings', 'CachedSiteAccesses' );
+        $this->alwaysUpdate = $ini->variable( 'CacheSettings', 'AlwaysUpdateArray' );
     }
 
-    /*!
-     \return The currently configured host-name.
-    */
-    function hostName()
+    /**
+     * Getter method for {@link eZStaticCache::$hostName}
+     *
+     * @deprecated deprecated since version 4.4
+     * @return string The currently configured host-name.
+     */
+    public function hostName()
     {
-        return $this->HostName;
+        return $this->hostName;
     }
 
-    /*!
-     \return The currently configured storage directory for the static cache.
-    */
-    function storageDirectory()
+    /**
+     * Getter method for {@link eZStaticCache::$staticStorageDir}
+     *
+     * @return string The currently configured storage directory for the static cache.
+     */
+    public function storageDirectory()
     {
-        return $this->StaticStorageDir;
+        return $this->staticStorageDir;
     }
 
-    /*!
-     \return The maximum depth in the url which will be cached.
-    */
-    function maxCacheDepth()
+    /**
+     * Getter method for {@link eZStaticCache::$maxCacheDepth}
+     *
+     * @return int The maximum depth in the url which will be cached.
+     */
+    public function maxCacheDepth()
     {
-        return $this->MaxCacheDepth;
+        return $this->maxCacheDepth;
     }
 
-    /*!
-     \return An array with site-access names that should be cached.
-    */
-    function cachedSiteAccesses()
+    /**
+     * Getter method for {@link eZStaticCache::$cachedSiteAccesses}
+     *
+     * @return array An array with site-access names that should be cached.
+     */
+    public function cachedSiteAccesses()
     {
-        return $this->CachedSiteAccesses;
+        return $this->cachedSiteAccesses;
     }
 
-    /*!
-     \return An array with URLs that is to be cached statically, the URLs may contain wildcards.
-    */
-    function cachedURLArray()
+    /**
+     * Getter method for {@link eZStaticCache::$cachedURLArray}
+     *
+     * @return array An array with URLs that is to be cached statically, the URLs may contain wildcards.
+     */
+    public function cachedURLArray()
     {
-        return $this->CachedURLArray;
+        return $this->cachedURLArray;
     }
 
-    /*!
-     \return An array with URLs that is to always be updated.
-     \note These URLs are configured with \c AlwaysUpdateArray in \c staticcache.ini.
-     \sa generateAlwaysUpdatedCache()
-    */
+    /**
+     * Getter method for {@link eZStaticCache::$alwaysUpdate}
+     *
+     * These URLs are configured with AlwaysUpdateArray in staticcache.ini.
+     *
+     * @see eZStaticCache::generateAlwaysUpdatedCache()
+     * @return array An array with URLs that is to always be updated.
+     */
     function alwaysUpdateURLArray()
     {
-        return $this->AlwaysUpdate;
+        return $this->alwaysUpdate;
     }
 
-    /*!
-     Generates the caches for all URLs that must always be generated.
-
-     \sa alwaysUpdateURLArray().
-    */
-    function generateAlwaysUpdatedCache( $quiet = false, $cli = false, $delay = true )
+    /**
+     * Generates the caches for all URLs that must always be generated.
+     *
+     * @param bool $quiet If true then the function will not output anything.
+     * @param eZCLI|false $cli The eZCLI object or false if no output can be done.
+     * @param bool $delay
+     */
+    public function generateAlwaysUpdatedCache( $quiet = false, $cli = false, $delay = true )
     {
-        $hostname = $this->HostName;
-        $staticStorageDir = $this->StaticStorageDir;
-
-        foreach ( $this->AlwaysUpdate as $uri )
+        foreach ( $this->alwaysUpdate as $uri )
         {
             if ( !$quiet and $cli )
                 $cli->output( "caching: $uri ", false );
-            $this->storeCache( $uri, $hostname, $staticStorageDir, array(), false, $delay );
+            $this->storeCache( $uri, $this->staticStorageDir, array(), false, $delay );
             if ( !$quiet and $cli )
                 $cli->output( "done" );
         }
     }
 
-    /*!
-     Generates caches for all the urls of nodes in $nodeList.
-     $nodeList is an array with node entries, each entry is either the node ID or an associative array.
-     The associative array must have on of these entries:
-     - node_id - ID of the node
-     - path_identification_string - The path_identification_string from the node table, is used to fetch the node ID  if node_id is missing.
+    /**
+     * Generates caches for all the urls of nodes in $nodeList.
+     *
+     * The associative array must have on of these entries:
+     * - node_id - ID of the node
+     * - path_identification_string - The path_identification_string from the node table, is used to fetch the node ID if node_id is missing.
+     *
+     * @param array $nodeList An array with node entries, each entry is either the node ID or an associative array.
      */
-    function generateNodeListCache( $nodeList )
+    public function generateNodeListCache( $nodeList )
     {
         $db = eZDB::instance();
 
@@ -176,14 +214,15 @@ class eZStaticCache
         }
     }
 
-    /*!
-     Generates the static cache from the configured INI settings.
-
-     \param $force If \c true then it will create all static caches even if it is not outdated.
-     \param $quiet If \c true then the function will not output anything.
-     \param $cli The eZCLI object or \c false if no output can be done.
-    */
-    function generateCache( $force = false, $quiet = false, $cli = false, $delay = true )
+    /**
+     * Generates the static cache from the configured INI settings.
+     *
+     * @param bool $force If true then it will create all static caches even if it is not outdated.
+     * @param bool $quiet If true then the function will not output anything.
+     * @param eZCLI|false $cli The eZCLI object or false if no output can be done.
+     * @param bool $delay
+     */
+    public function generateCache( $force = false, $quiet = false, $cli = false, $delay = true )
     {
         $staticURLArray = $this->cachedURLArray();
         $db = eZDB::instance();
@@ -265,26 +304,22 @@ class eZStaticCache
         }
     }
 
-    /*!
-     \private
-     Generates the caches for the url \a $url using the currently configured hostName() and storageDirectory().
-
-     \param $url The URL to cache, e.g \c /news
-     \param $nodeID The ID of the node to cache, if supplied it will also cache content/view/full/xxx.
-     \param $skipExisting If \c true it will not unlink existing cache files.
-    */
-    function cacheURL( $url, $nodeID = false, $skipExisting = false, $delay = true )
+    /**
+     * Generates the caches for the url $url using the currently configured storageDirectory().
+     *
+     * @param string $url The URL to cache, e.g /news
+     * @param int|false $nodeID The ID of the node to cache, if supplied it will also cache content/view/full/xxx.
+     * @param bool $skipExisting If true it will not unlink existing cache files.
+     * @return bool
+     */
+    public function cacheURL( $url, $nodeID = false, $skipExisting = false, $delay = true )
     {
-        // Set default hostname
-        $hostname = $this->HostName;
-        $staticStorageDir = $this->StaticStorageDir;
-
         // Check if URL should be cached
-        if ( substr_count( $url, "/") >= $this->MaxCacheDepth )
+        if ( substr_count( $url, "/") >= $this->maxCacheDepth )
             return false;
 
         $doCacheURL = false;
-        foreach ( $this->CachedURLArray as $cacheURL )
+        foreach ( $this->cachedURLArray as $cacheURL )
         {
             if ( $url == $cacheURL )
             {
@@ -306,75 +341,85 @@ class eZStaticCache
             return false;
         }
 
-        $this->storeCache( $url, $hostname, $staticStorageDir, $nodeID ? array( "/content/view/full/$nodeID" ) : array(), $skipExisting, $delay );
+        $this->storeCache( $url, $this->staticStorageDir, $nodeID ? array( "/content/view/full/$nodeID" ) : array(), $skipExisting, $delay );
 
         return true;
     }
 
-    /*!
-     \private
-     Stores the static cache for \a $url and \a $hostname by fetching the web page using
-     fopen() and storing the fetched HTML data.
-
-     \param $url The URL to cache, e.g \c /news
-     \param $hostname The name of the host which serves web pages dynamically, see hostName().
-     \param $staticStorageDir The base directory for storing cache files, see storageDirectory().
-     \param $alternativeStaticLocations An array with additional URLs that should also be cached.
-     \param $skipUnlink If \c true it will not unlink existing cache files.
-    */
-    function storeCache( $url, $hostname, $staticStorageDir, $alternativeStaticLocations = array(), $skipUnlink = false, $delay = true )
+    /**
+     * Stores the static cache for $url and hostname defined in site.ini.[SiteSettings].SiteURL for cached siteaccess
+     * by fetching the web page using {@link eZHTTPTool::getDataByURL()} and storing the fetched HTML data.
+     *
+     * @param string $url The URL to cache, e.g /news
+     * @param string $staticStorageDir The base directory for storing cache files.
+     * @param array $alternativeStaticLocations
+     * @param bool $skipUnlink If true it will not unlink existing cache files.
+     * @param bool $delay
+     */
+    private function storeCache( $url, $staticStorageDir, $alternativeStaticLocations = array(), $skipUnlink = false, $delay = true )
     {
-        if ( is_array( $this->CachedSiteAccesses ) and count ( $this->CachedSiteAccesses ) )
-        {
-            $dirs = array();
-            foreach ( $this->CachedSiteAccesses as $dir )
-            {
-                $dirs[] = '/' . $dir ;
-            }
-        }
-        else
-        {
-            $dirs = array ('');
-        }
         $http = eZHTTPTool::instance();
 
-        foreach ( $dirs as $dir )
+        $dirs = array();
+
+        foreach ( $this->cachedSiteAccesses as $cachedSiteAccess )
         {
-            $cacheFiles = array();
+            $dirs[] = $this->buildCacheDirPath( $cachedSiteAccess );
+        }
 
-            $cacheFiles[] = $this->buildCacheFilename( $staticStorageDir, $dir . $url );
-            foreach ( $alternativeStaticLocations as $location )
+        foreach ( $dirs as $dirParts )
+        {
+            foreach ( $dirParts as $dirPart )
             {
-                $cacheFiles[] = $this->buildCacheFilename( $staticStorageDir, $dir . $location );
-            }
+                $dir = $dirPart['dir'];
+                $siteURL = $dirPart['site_url'];
 
-            /* Store new content */
-            $content = false;
-            foreach ( $cacheFiles as $file )
-            {
-                if ( !$skipUnlink || !file_exists( $file ) )
+                $cacheFiles = array();
+
+                $cacheFiles[] = $this->buildCacheFilename( $staticStorageDir, $dir . $url );
+                foreach ( $alternativeStaticLocations as $location )
                 {
-                    $fileName = "http://$hostname$dir$url";
-                    if ( $delay )
+                    $cacheFiles[] = $this->buildCacheFilename( $staticStorageDir, $dir . $location );
+                }
+
+                // Store new content
+                $content = false;
+                foreach ( $cacheFiles as $file )
+                {
+                    if ( !$skipUnlink || !file_exists( $file ) )
                     {
-                        $this->addAction( 'store', array( $file, $fileName ) );
-                    }
-                    else
-                    {
-                        /* Generate content, if required */
-                        if ( $content === false )
+                        // Deprecated since 4.4, will be removed in future version
+                        $fileName = "http://{$this->hostName}{$dir}{$url}";
+
+                        // staticcache.ini.[CacheSettings].HostName has been deprecated since version 4.4
+                        // hostname is read from site.ini.[SiteSettings].SiteURL per siteaccess
+                        // defined in staticcache.ini.[CacheSettings].CachedSiteAccesses
+                        if ( !$this->hostName )
                         {
-                            if ( $http->getDataByURL( $fileName, true, eZStaticCache::USER_AGENT ) )
-                                $content = $http->getDataByURL( $fileName, false, eZStaticCache::USER_AGENT );
+                            $fileName = "http://{$siteURL}{$url}";
                         }
-                        if ( $content === false )
+
+                        if ( $delay )
                         {
-                            eZDebug::writeNotice( "Could not grab content (from $fileName), is the hostname correct and Apache running?",
-                                                  'Static Cache' );
+                            $this->addAction( 'store', array( $file, $fileName ) );
                         }
                         else
                         {
-                            eZStaticCache::storeCachedFile( $file, $content );
+                            // Generate content, if required
+                            if ( $content === false )
+                            {
+                                if ( $http->getDataByURL( $fileName, true, eZStaticCache::USER_AGENT ) )
+                                    $content = $http->getDataByURL( $fileName, false, eZStaticCache::USER_AGENT );
+                            }
+                            if ( $content === false )
+                            {
+                                eZDebug::writeNotice( "Could not grab content (from $fileName), is the hostname correct and Apache running?",
+                                                      'Static Cache' );
+                            }
+                            else
+                            {
+                                eZStaticCache::storeCachedFile( $file, $content );
+                            }
                         }
                     }
                 }
@@ -382,25 +427,92 @@ class eZStaticCache
         }
     }
 
-    /*!
-     \private
-     \param $staticStorageDir The storage for cache files.
-     \param $url The URL for the current item, e.g \c /news
-     \return The full path to the cache file (index.html) based on the input parameters.
-    */
-    function buildCacheFilename( $staticStorageDir, $url )
+    /**
+     * Generates a full path to the cache file (index.html) based on the input parameters.
+     *
+     * @param string $staticStorageDir The storage for cache files.
+     * @param string $url The URL for the current item, e.g /news
+     * @return string The full path to the cache file (index.html).
+     */
+    private function buildCacheFilename( $staticStorageDir, $url )
     {
         $file = "{$staticStorageDir}{$url}/index.html";
         $file = preg_replace( '#//+#', '/', $file );
         return $file;
     }
 
-    /*!
-     \private
-     \static
-     Stores the cache file \a $file with contents \a $content.
-     Takes care of setting proper permissions on the new file.
-    */
+    /**
+     * Generates a cache directory parts including path, siteaccess name, site URL
+     * depending on the match order type.
+     *
+     * @param string $cachedSiteAccess
+     * @return array
+     */
+    private function buildCacheDirPath( $cachedSiteAccess )
+    {
+        $dirParts = array();
+
+        $ini = eZINI::instance();
+
+        $matchOderArray = $ini->variableArray( 'SiteAccessSettings', 'MatchOrder' );
+
+        foreach ( $matchOderArray as $matchOrderItem )
+        {
+            switch ( $matchOrderItem )
+            {
+                case 'host_uri':
+                    foreach ( $ini->variable( 'SiteAccessSettings', 'HostUriMatchMapItems' ) as $hostUriMatchMapItem )
+                    {
+                        $parts = explode( ';', $hostUriMatchMapItem );
+
+                        if ( $parts[2] === $cachedSiteAccess  )
+                        {
+                            $dirParts[] = $this->buildCacheDirPart( ( isset( $parts[0] ) ? '/' . $parts[0] : '' ) .
+                                                                        ( isset( $parts[1] ) ? '/' . $parts[1] : '' ), $cachedSiteAccess );
+                        }
+                    }
+                    break;
+                case 'host':
+                    foreach ( $ini->variable( 'SiteAccessSettings', 'HostMatchMapItems' ) as $hostMatchMapItem )
+                    {
+                        $parts = explode( ';', $hostMatchMapItem );
+
+                        if ( $parts[1] === $cachedSiteAccess  )
+                        {
+                            $dirParts[] = $this->buildCacheDirPart( ( isset( $parts[0] ) ? '/' . $parts[0] : '' ), $cachedSiteAccess );
+                        }
+                    }
+                    break;
+                default:
+                    $dirParts[] = $this->buildCacheDirPart( '/' . $cachedSiteAccess, $cachedSiteAccess );
+                    break;
+            }
+        }
+
+        return $dirParts;
+    }
+
+    /**
+     * A helper method used to create directory parts array
+     *
+     * @param string $dir
+     * @param string $siteAccess
+     * @return array
+     */
+    private function buildCacheDirPart( $dir, $siteAccess )
+    {
+        return array( 'dir' => $dir,
+                      'access_name' => $siteAccess,
+                      'site_url' => eZINI::getSiteAccessIni( $siteAccess, 'site.ini' )->variable( 'SiteSettings', 'SiteURL' ) );
+    }
+
+    /**
+     * Stores the cache file $file with contents $content.
+     * Takes care of setting proper permissions on the new file.
+     *
+     * @param string $file
+     * @param string $content
+     */
     static function storeCachedFile( $file, $content )
     {
         $dir = dirname( $file );
@@ -413,14 +525,16 @@ class eZStaticCache
 
         $tmpFileName = $file . '.' . md5( $file. uniqid( "ezp". getmypid(), true ) );
 
-        /* Remove files, this might be necessary for Windows */
+        // Remove files, this might be necessary for Windows
         @unlink( $tmpFileName );
 
-        /* Write the new cache file with the data attached */
+        // Write the new cache file with the data attached
         $fp = fopen( $tmpFileName, 'w' );
         if ( $fp )
         {
-            fwrite( $fp, $content . '<!-- Generated: '. date( 'Y-m-d H:i:s' ). " -->\n\n" );
+            $comment = ( eZINI::instance( 'staticcache.ini' )->variable( 'CacheSettings', 'AppendGeneratedTime' ) === 'true' ) ? "<!-- Generated: " . date( 'Y-m-d H:i:s' ). " -->\n\n" : null;
+
+            fwrite( $fp, $content . $comment );
             fclose( $fp );
             eZFile::rename( $tmpFileName, $file );
 
@@ -431,25 +545,28 @@ class eZStaticCache
         umask( $oldumask );
     }
 
-    /*!
-     Removes the static cache file (index.html) and its directory if it exists.
-     The directory path is based upon the URL \a $url and the configured static storage dir.
-     \param $url The URL for the curren item, e.g \c /news
-    */
+    /**
+     * Removes the static cache file (index.html) and its directory if it exists.
+     * The directory path is based upon the URL $url and the configured static storage dir.
+     *
+     * @param string $url The URL for the current item, e.g /news
+     */
     function removeURL( $url )
     {
-        $dir = eZDir::path( array( $this->StaticStorageDir, $url ) );
+        $dir = eZDir::path( array( $this->staticStorageDir, $url ) );
 
         @unlink( $dir . "/index.html" );
         @rmdir( $dir );
     }
 
-    /*!
-     \private
-     This function adds an action to the list that is used at the end of the
-     request to remove and regenerate static cache files.
-    */
-    function addAction( $action, $parameters )
+    /**
+     * This function adds an action to the list that is used at the end of the
+     * request to remove and regenerate static cache files.
+     *
+     * @param string $action
+     * @param array $parameters
+     */
+    private function addAction( $action, $parameters )
     {
         if (! isset( $GLOBALS['eZStaticCache-ActionList'] ) ) {
             $GLOBALS['eZStaticCache-ActionList'] = array();
@@ -457,10 +574,9 @@ class eZStaticCache
         $GLOBALS['eZStaticCache-ActionList'][] = array( $action, $parameters );
     }
 
-    /*!
-     \static
-     This function goes over the list of recorded actions and excecutes them.
-    */
+    /**
+     * This function goes over the list of recorded actions and excecutes them.
+     */
     static function executeActions()
     {
         if (! isset( $GLOBALS['eZStaticCache-ActionList'] ) ) {
@@ -521,18 +637,6 @@ class eZStaticCache
         }
         $GLOBALS['eZStaticCache-ActionList'] = array();
     }
-
-    /// \privatesection
-    /// The name of the host to fetch HTML data from.
-    public $HostName;
-    /// The base path for the directory where static files are placed.
-    public $StaticStorage;
-    /// The maximum depth of URLs that will be cached.
-    public $MaxCacheDepth;
-    /// Array of URLs to cache.
-    public $CachedURLArray;
-    /// An array with URLs that is to always be updated.
-    public $AlwaysUpdate;
 }
 
 ?>

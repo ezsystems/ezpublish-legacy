@@ -13,6 +13,7 @@ Changes from 4.4.0alpha4 to 4.4.0alpha5
 - Implemented enhancement #012708: Master/slave server info in sql debug on mysqli
 - Implemented enhancement #014781: translation cache isn't deleted at "Clear all caches"
 - Implemented enhancement #016993: transactions in content/trash must be reduced
+- Implemented enhancement #17004: Allow static cache to work with host, host_uri access matching types
 
 *Design:
 - Fixed bug #007629: Display problem on the left column with IE7 in admin
