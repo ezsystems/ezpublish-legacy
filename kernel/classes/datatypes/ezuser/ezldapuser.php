@@ -62,6 +62,8 @@ class eZLDAPUser extends eZUser
         $loginEscaped = $db->escapeString( $login );
         $passwordEscaped = $db->escapeString( $password );
 
+        $loginLdapEscaped = self::ldap_escape( $login );
+
         $loginArray = array();
         if ( $authenticationMatch & eZUser::AUTHENTICATE_LOGIN )
             $loginArray[] = "login='$loginEscaped'";
@@ -263,7 +265,7 @@ class eZLDAPUser extends eZUser
                     return $user;
                 }
 
-                $LDAPFilter .= "($LDAPLoginAttribute=$login)";
+                $LDAPFilter .= "($LDAPLoginAttribute=$loginLdapEscaped)";
                 $LDAPFilter .= ")";
 
                 ldap_set_option( $ds, LDAP_OPT_SIZELIMIT, 0 );
@@ -424,9 +426,6 @@ class eZLDAPUser extends eZUser
                     }
                 }
 
-                $adminUser = eZUser::fetchByName( 'admin' );
-                $adminUserContentObjectID = $adminUser->attribute( 'contentobject_id' );
-
                 // read group mapping LDAP settings
                 $LDAPGroupMappingType = $LDAPIni->variable( 'LDAPSettings', 'LDAPGroupMappingType' );
                 $LDAPUserGroupMap     = $LDAPIni->variable( 'LDAPSettings', 'LDAPUserGroupMap' );
@@ -538,8 +537,6 @@ class eZLDAPUser extends eZUser
                     }
                     else if ( $LDAPGroupMappingType == $ByMemberAttributeHierarhicaly )
                     {
-                        eZUser::setCurrentlyLoggedInUser( $adminUser, $adminUserContentObjectID );
-
                         $stack = array();
                         self::goAndPublishGroups( $requiredParams, $userData['dn'], $groupsTree, $stack, $groupSearchingDepth, true );
                     }
@@ -649,14 +646,12 @@ class eZLDAPUser extends eZUser
                                          'userAttributes' => $userAttributes,
                                          'isUtf8Encoding' => $isUtf8Encoding,
                                          'defaultUserPlacement' => $defaultUserPlacement,
-                                         'extraNodeAssignments' => $extraNodeAssignments,
-                                         'adminUserContentObjectID' => $adminUserContentObjectID
+                                         'extraNodeAssignments' => $extraNodeAssignments
                     );
                     eZDebug::writeNotice( var_export( $debugArray, true ), 'eZLDAPUser::loginUser' );
                 }
 
                 $oldUser = clone eZUser::currentUser();
-                eZUser::setCurrentlyLoggedInUser( $adminUser, $adminUserContentObjectID );
                 $existingUser = eZLDAPUser::publishUpdateUser( $extraNodeAssignments, $defaultUserPlacement, $userAttributes, $isUtf8Encoding );
 
                 if ( is_object( $existingUser ) )
@@ -1363,6 +1358,29 @@ class eZLDAPUser extends eZUser
         return true;
     }
 
+
+    /*
+        Based on a similar function suggested at: http://php.net/manual/en/function.ldap-search.php
+    */
+    static function ldap_escape( $str, $for_dn = false )
+    {
+        // see: RFC2254
+        // http://msdn.microsoft.com/en-us/library/ms675768(VS.85).aspx
+        // http://www-03.ibm.com/systems/i/software/ldap/underdn.html
+
+        if ( $for_dn )
+        {
+            $metaChars = array( ',', '=', '+', '<', '>', ';', '\\', '"', '#' );
+            $quotedMetaChars = array( '\2c', '\3d', '\2b', '\3c', '\3e', '\3b', '\5c', '\22', '\23' );
+        }
+        else
+        {
+            $metaChars = array( '*', '(', ')', '\\', chr(0) );
+            $quotedMetaChars = array( '\2a', '\28', '\29', '\5c', '\00' );
+        }
+
+        return str_replace( $metaChars, $quotedMetaChars, $str );
+    }
 
 }
 
