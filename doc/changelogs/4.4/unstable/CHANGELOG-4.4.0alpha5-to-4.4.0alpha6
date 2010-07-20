@@ -1,0 +1,19 @@
+Changes from 4.4.0alpha5 to 4.4.0alpha6
+
+*Kernel:
+
+*Design:
+
+*eZTemplate:
+
+*eZLocale:
+
+*Package system:
+
+*Scripts:
+
+*Translations:
+
+*Bugfixes:
+- Fixed bug #16738: LDAP login with method "GetGroupsTree" fails because of missing permissions of login script
+
