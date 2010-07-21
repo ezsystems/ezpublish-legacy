@@ -630,7 +630,6 @@ WHERE user_id = '" . $userID . "' AND
         return $GLOBALS["eZUserBuilitinInstance-$id"];
     }
 
-
     /*!
      \return the user id.
     */
@@ -1000,13 +999,11 @@ WHERE user_id = '" . $userID . "' AND
     {
     }
 
-    /*!
-     \static
-     Cleans up any cache or session variables that are set.
-     This at least called on login and logout but can be used other places
-     where you must ensure that the cache user values are refetched.
-     \param deprecated
-    */
+    /**
+     * Cleanup user related session values, for use by login / logout code
+     *
+     * @internal
+     */
     static function cleanup()
     {
         $http = eZHTTPTool::instance();
@@ -1052,7 +1049,7 @@ WHERE user_id = '" . $userID . "' AND
         $newUserID = self::anonymousId();
         eZSession::setUserID( $newUserID );
         $http->setSessionVariable( 'eZUserLoggedInID', $newUserID );
-        
+
         // Clear current basket if necessary
         $db = eZDB::instance();
         $db->begin();
@@ -1111,11 +1108,9 @@ WHERE user_id = '" . $userID . "' AND
             }
         }
 
-        $fetchFromDB = true;
-
-        // Check user cache
+        // Check user cache (this effectivly fetches user from cache)
+        // user not found if !isset( isset( $userCache['info'][$userId] ) )
         $userCache = self::getUserCacheByUserId( $userId );
-
         if ( isset( $userCache['info'][$userId] ) )
         {
             $userArray = $userCache['info'][$userId];
@@ -1123,33 +1118,11 @@ WHERE user_id = '" . $userID . "' AND
             {
                 $currentUser = new eZUser( $userArray );
                 $currentUser->setUserCache( $userCache );
-                $fetchFromDB = false;
-            }
-        }
-
-        if ( $fetchFromDB == true )
-        {
-            // should not be needed anymore, if $userCache is empty array, then the user does not exist
-            var_dump( 'getUserCacheByUserId(): Could not find user with id:' . $userId );
-            $currentUser = eZUser::fetch( $userId );
-
-            if ( $currentUser )
-            {
-                $userInfo = array();
-                $userInfo[$userId] = array( 'contentobject_id' => $currentUser->attribute( 'contentobject_id' ),
-                                        'login' => $currentUser->attribute( 'login' ),
-                                        'email' => $currentUser->attribute( 'email' ),
-                                        'password_hash' => $currentUser->attribute( 'password_hash' ),
-                                        'password_hash_type' => $currentUser->attribute( 'password_hash_type' )
-                                        );
-                eZSession::setUserID( $userId );
-                //$http->setSessionVariable( 'eZUserInfoCache', $userInfo );
-                //$http->setSessionVariable( 'eZUserInfoCache_Timestamp', time() );
             }
         }
 
         $ini = eZINI::instance();
-
+// @TODO : cleaunp SSO code for session use after GL has merged SSO fix for SSO issue
         // Check if:
         // - the user has not logged out,
         // - the user is not logged in,
@@ -1173,7 +1146,6 @@ WHERE user_id = '" . $userID . "' AND
                     }
                     else // check in extensions
                     {
-                        $ini = eZINI::instance();
                         $extensionDirectories = $ini->variable( 'UserSettings', 'ExtensionDirectory' );
                         $directoryList = eZExtension::expandedPathList( $extensionDirectories, 'sso_handler' );
                         foreach( $directoryList as $directory )
@@ -1275,9 +1247,22 @@ WHERE user_id = '" . $userID . "' AND
     }
 
     /**
+     * Get User cache from cache file for Anonymous user(usefull for sessionless users)
+     *
+     * @since 4.4
+     * @see eZUser::getUserCache()
+     * @return array
+     */
+    static public function getUserCacheByAnonymousId()
+    {
+        return self::getUserCacheByUserId( self::anonymousId() );
+    }
+
+    /**
      * Get User cache from cache file (usefull for sessionless users)
      *
      * @since 4.4
+     * @internal
      * @see eZUser::getUserCache()
      * @param int $userId
      * @return array
@@ -1326,34 +1311,38 @@ WHERE user_id = '" . $userID . "' AND
                        'groups' => array(),
                        'roles' => array(),
                        'role_limitations' => array(),
-                       'access_array' => array() );
+                       'access_array' => array(),
+                       'discount_rules' => array() );
         $user = eZUser::fetch( $userId );
         if ( $user instanceOf eZUser )
         {
-            // user info (prior: eZUserInfoCache)
+            // user info (session: eZUserInfoCache)
             $data['info'][$userId] = array( 'contentobject_id'   => $user->attribute( 'contentobject_id' ),
                                             'login'              => $user->attribute( 'login' ),
                                             'email'              => $user->attribute( 'email' ),
                                             'password_hash'      => $user->attribute( 'password_hash' ),
                                             'password_hash_type' => $user->attribute( 'password_hash_type' ) );
 
-            // user groups list (prior: eZUserGroupsCache)
+            // user groups list (session: eZUserGroupsCache)
             $groups = $user->generateGroupIdList();
             $data['groups'] = $groups;
 
-            // role list (prior: eZRoleIDList)
+            // role list (session: eZRoleIDList)
             $groups[] = $userId;
             $data['roles'] = eZRole::fetchIDListByUser( $groups );
 
-            // role limitation list (prior: eZRoleLimitationValueList)
+            // role limitation list (session: eZRoleLimitationValueList)
             $limitList = $user->limitList( false );
             foreach ( $limitList as $limit )
             {
                 $data['role_limitations'][] = $limit['limit_value'];
             }
 
-            // access array (prior: AccessArray)
-            $data['access_array'] = $user->generateAccessArray( false );
+            // access array (session: AccessArray)
+            $data['access_array'] = $user->generateAccessArray();
+
+            // discount rules (session: eZUserDiscountRules<userId>)
+            $data['discount_rules'] = eZUserDiscountRule::generateIDListByUserID( $userId );
         }
         return array( 'content'  => $data,
                       'scope'    => 'user-info-cache',
@@ -1799,16 +1788,16 @@ WHERE user_id = '" . $userID . "' AND
         return $this->AccessArray;
     }
 
-    /*
-     \private
-     Generates the accessArray for the user (for $this).
+   /**
+    * Generates the accessArray for the user (for $this).
+    * This function is uncached, and used as basis for user cache callback.
+    *
+    * @internal
+    * @return array
     */
-    function generateAccessArray( $useGroupsCache = true )
+    function generateAccessArray()
     {
-        if ( $useGroupsCache )
-            $idList = $this->groups();
-        else
-            $idList = $this->generateGroupIdList();
+        $idList = $this->generateGroupIdList();
         $idList[] = $this->attribute( 'contentobject_id' );
 
         $accessArray = eZRole::accessArrayByUserID( $idList );
@@ -1958,7 +1947,6 @@ WHERE user_id = '" . $userID . "' AND
                       'datatype' => 'php',
                       'store'    => true );
     }
-
 
     /*
      Returns list of sections which are allowed to assign to the given content object by the user.
@@ -2193,7 +2181,6 @@ WHERE user_id = '" . $userID . "' AND
                 }
             }
         }
-
 
         if ( $validView )
         {
@@ -2569,13 +2556,12 @@ WHERE user_id = '" . $userID . "' AND
     */
     function checkUser( &$siteBasics, $uri )
     {
-        $ini = eZINI::instance();
         $http = eZHTTPTool::instance();
         $check = array( "module" => "user",
                         "function" => "login" );
-        if ( eZSession::issetkey( 'eZUserLoggedInID', false ) and
-             $http->sessionVariable( "eZUserLoggedInID" ) != '' and
-             $http->sessionVariable( "eZUserLoggedInID" ) != $ini->variable( 'UserSettings', 'AnonymousUserID' ) )
+        if ( eZSession::issetkey( 'eZUserLoggedInID', false ) &&
+             $http->sessionVariable( "eZUserLoggedInID" ) != '' &&
+             $http->sessionVariable( "eZUserLoggedInID" ) != self::anonymousId() )
         {
             $currentUser = eZUser::currentUser();
             if ( !$currentUser->isEnabled() )
@@ -2589,8 +2575,9 @@ WHERE user_id = '" . $userID . "' AND
             }
         }
 
+        $ini        = eZINI::instance();
         $moduleName = $uri->element();
-        $viewName = $uri->element( 1 );
+        $viewName   = $uri->element( 1 );
         $anonymousAccessList = $ini->variable( "SiteAccessSettings", "AnonymousAccessList" );
         foreach ( $anonymousAccessList as $anonymousAccess )
         {

@@ -82,6 +82,7 @@ class eZUserDiscountRule extends eZPersistentObject
         eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'user-discountrules-cache', time() );
+        // @todo: If user is anonymus, clear user-info cache for him
         $handler->store();
         eZPersistentObject::store( $fieldFilters );
     }
@@ -107,38 +108,39 @@ class eZUserDiscountRule extends eZPersistentObject
 
     static function fetchIDListByUserID( $userID )
     {
-        $http = eZHTTPTool::instance();
-
-        eZExpiryHandler::registerShutdownFunction();
-        $handler = eZExpiryHandler::instance();
-        $expiredTimeStamp = 0;
-        if ( $handler->hasTimestamp( 'user-discountrules-cache' ) )
-            $expiredTimeStamp = $handler->timestamp( 'user-discountrules-cache' );
-
-        $ruleTimestamp =& $http->sessionVariable( 'eZUserDiscountRulesTimestamp' );
-
-        $ruleArray = false;
-        // check for cached version in session
-        if ( $ruleTimestamp > $expiredTimeStamp )
+        if ( $userID == eZUser::anonymousId() )
         {
-            if ( $http->hasSessionVariable( 'eZUserDiscountRules' . $userID ) )
-            {
-                $ruleArray =& $http->sessionVariable( 'eZUserDiscountRules' . $userID );
-            }
+                $userCache = eZUSer::getUserCacheByAnonymousId();
+                $ruleArray = $userCache['discount_rules'];
         }
-
-        if ( !is_array( $ruleArray ) )
+        else
         {
-            $userID = (int)$userID;
-            $db = eZDB::instance();
-            $query = "SELECT DISTINCT ezdiscountrule.id
-                  FROM ezdiscountrule,
-                       ezuser_discountrule
-                  WHERE ezuser_discountrule.contentobject_id = $userID AND
-                        ezuser_discountrule.discountrule_id = ezdiscountrule.id";
-            $ruleArray = $db->arrayQuery( $query );
-            $http->setSessionVariable( 'eZUserDiscountRules' . $userID, $ruleArray );
-            $http->setSessionVariable( 'eZUserDiscountRulesTimestamp', time() );
+            $http = eZHTTPTool::instance();
+
+            eZExpiryHandler::registerShutdownFunction();
+            $handler = eZExpiryHandler::instance();
+            $expiredTimeStamp = 0;
+            if ( $handler->hasTimestamp( 'user-discountrules-cache' ) )
+                $expiredTimeStamp = $handler->timestamp( 'user-discountrules-cache' );
+
+            $ruleTimestamp =& $http->sessionVariable( 'eZUserDiscountRulesTimestamp' );
+
+            $ruleArray = false;
+            // check for cached version in session
+            if ( $ruleTimestamp > $expiredTimeStamp )
+            {
+                if ( $http->hasSessionVariable( 'eZUserDiscountRules' . $userID ) )
+                {
+                    $ruleArray =& $http->sessionVariable( 'eZUserDiscountRules' . $userID );
+                }
+            }
+
+            if ( !is_array( $ruleArray ) )
+            {
+                $ruleArray = self::generateIDListByUserID( (int) $userID );
+                $http->setSessionVariable( 'eZUserDiscountRules' . $userID, $ruleArray );
+                $http->setSessionVariable( 'eZUserDiscountRulesTimestamp', time() );
+            }
         }
 
         $rules = array();
@@ -147,6 +149,24 @@ class eZUserDiscountRule extends eZPersistentObject
             $rules[] = $ruleRow['id'];
         }
         return $rules;
+    }
+
+    /**
+     * Get raw list of discount rules
+     *
+     * @internal
+     * @param int $userId
+     * @return array
+     */
+    static public function generateIDListByUserID( $userId )
+    {
+        $db = eZDB::instance();
+        $query = "SELECT DISTINCT ezdiscountrule.id
+              FROM ezdiscountrule,
+                   ezuser_discountrule
+              WHERE ezuser_discountrule.contentobject_id = $userId AND
+                    ezuser_discountrule.discountrule_id = ezdiscountrule.id";
+        return $db->arrayQuery( $query );
     }
 
     /**
