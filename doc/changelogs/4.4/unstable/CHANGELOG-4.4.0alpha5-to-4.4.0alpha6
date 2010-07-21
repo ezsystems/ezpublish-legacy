@@ -16,4 +16,5 @@ Changes from 4.4.0alpha5 to 4.4.0alpha6
 
 *Bugfixes:
 - Fixed bug #16738: LDAP login with method "GetGroupsTree" fails because of missing permissions of login script
+- Fixed bug #16983: Login on private section with sso extension causes infinite redirection loop
 

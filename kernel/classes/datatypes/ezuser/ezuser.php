@@ -1165,9 +1165,10 @@ WHERE user_id = '" . $userID . "' AND
                 if ( $ssoUser !== false )
                 {
                     $currentUser = $ssoUser;
+                    $userId = $currentUser->attribute( 'contentobject_id' );
 
                     $userInfo = array();
-                    $userInfo[$userId] = array( 'contentobject_id' => $currentUser->attribute( 'contentobject_id' ),
+                    $userInfo[$userId] = array( 'contentobject_id' => $userId,
                                             'login' => $currentUser->attribute( 'login' ),
                                             'email' => $currentUser->attribute( 'email' ),
                                             'password_hash' => $currentUser->attribute( 'password_hash' ),
@@ -1178,10 +1179,10 @@ WHERE user_id = '" . $userID . "' AND
                     $http->setSessionVariable( 'eZUserInfoCache_Timestamp', time() );
                     $http->setSessionVariable( 'eZUserLoggedInID', $userId );
 
-                    eZUser::updateLastVisit( $currentUser->attribute( 'contentobject_id' ) );
-                    eZUser::setCurrentlyLoggedInUser( $currentUser, $currentUser->attribute( 'contentobject_id' ) );
+                    eZUser::updateLastVisit( $userId );
+                    eZUser::setCurrentlyLoggedInUser( $currentUser, $userId );
                     eZHTTPTool::redirect( eZSys::wwwDir() . eZSys::indexFile( false ) . eZSys::requestURI(), array(), 302 );
-
+                    eZExecution::cleanExit();
                 }
             }
         }
