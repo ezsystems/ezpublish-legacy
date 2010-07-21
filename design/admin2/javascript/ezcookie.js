@@ -45,7 +45,19 @@ YUI.add('ezcookie', function(Y) {
         }
 
         /**
-         * Sets cookie
+         * Retrieves multiple values delimited by '|'
+         * @param {String} The name of the subcookie to retrieve.
+         * @return {Array} The cookie sub values as Strings or null if non-existant
+         * @private
+         */
+        function _getCookieSubMultiValue(subName) {
+            var sub = Y.Cookie.getSub(config.name, subName);
+            if (sub) { sub = unescape(sub).split('|'); }
+            return sub;
+        }
+
+        /**
+         * Sets or replaces cookie
          * @param The value to set for the cookie.
          * @private
          */
@@ -59,8 +71,9 @@ YUI.add('ezcookie', function(Y) {
         }
 
         /**
-         * Adds subcookie
-         * @param The name of the subcookie to set.
+         * Adds or replaces subcookie
+         * @param {String} The name of the subcookie to set.
+         * @param {String} The value of the subcookie.
          * @private
          */
         function _setCookieSubValue(subName, value) {
@@ -73,12 +86,28 @@ YUI.add('ezcookie', function(Y) {
         }
 
         /**
-         * Replaces all subcookies
+         * Sets or replaces all subcookies
          * @param {Object} An object containing name-value pairs.
          * @private
          */
         function _setCookieSubValues(nameValuePairs) {
             Y.Cookie.setSubs(config.name, nameValuePairs, {
+                path : "/",
+                expires : expiresDate,
+                secure : config.secure,
+                domain : config.domain
+            });
+        }
+
+        /**
+         * Adds or replaces subcookie with multiple delimited ('|') values
+         * @param {String} The name of the subcookie to set.
+         * @param {Array} The values of the subcookie to set.
+         * @private
+         */
+        function _setCookieSubMultiValue(subName, values) {
+            var joined = values.join('|');
+            Y.Cookie.setSub(config.name, subName, escape(joined), {
                 path : "/",
                 expires : expiresDate,
                 secure : config.secure,
@@ -100,9 +129,11 @@ YUI.add('ezcookie', function(Y) {
             setCookieValue : _setCookieValue,
             setCookieSubValue : _setCookieSubValue,
             setCookieSubValues : _setCookieSubValues,
+            setCookieSubMultiValue : _setCookieSubMultiValue,
             getCookieValue : _getCookieValue,
             getCookieSubValue : _getCookieSubValue,
-            getCookieSubValues : _getCookieSubValues
+            getCookieSubValues : _getCookieSubValues,
+            getCookieSubMultiValue : _getCookieSubMultiValue
         }
     }();
 
