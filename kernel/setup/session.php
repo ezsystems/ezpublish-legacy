@@ -33,6 +33,18 @@ $gcSessionsCompleted = true;
 $http = eZHTTPTool::instance();
 
 $module = $Params['Module'];
+
+
+if ( !eZSession::getHandlerInstance()->usesDatabaseTable() )
+{
+    $Result = array();
+    $Result['content'] = $tpl->fetch( "design:setup/session_no_db.tpl" );
+    $Result['path'] = array( array( 'url' => false,
+                                    'text' => ezpI18n::tr( 'kernel/setup', 'Session admin' ) ) );
+    return $Result;
+}
+
+
 $param['limit'] = 50;
 
 $filterType = 'registered';

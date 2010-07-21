@@ -930,7 +930,6 @@ else if ( $http->hasPostVariable( 'RemoveButton' ) )
             $object = eZContentObject::fetch( $contentObjectID );
             if ( $object instanceof eZContentObject )
             {
-                eZSection::setGlobalID( $object->attribute( 'section_id' ) );
                 $section = eZSection::fetch( $object->attribute( 'section_id' ) );
             }
             if ( isset($section) && $section )
@@ -1223,7 +1222,6 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
             $object = eZContentObject::fetchByNodeID( $contentNodeID );
             if ( $object instanceof eZContentObject )
             {
-                eZSection::setGlobalID( $object->attribute( 'section_id' ) );
                 $section = eZSection::fetch( $object->attribute( 'section_id' ) );
             }
             if ( isset($section) && $section )

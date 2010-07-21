@@ -420,10 +420,9 @@ if ( $dbRequired )
     if ( $sessionRequired and
          $db->isConnected() )
     {
-        eZSession::start();
+        eZSession::lazyStart();
     }
-
-    if ( !$db->isConnected() )
+    else if ( !$db->isConnected() )
         $warningList[] = array( 'error' => array( 'type' => 'kernel',
                                                   'number' => eZError::KERNEL_NO_DB_CONNECTION ),
                                 'text' => 'No database connection could be made, the system might not behave properly.' );
@@ -462,8 +461,6 @@ foreach( $headerList as $key => $value )
 {
     header( $key . ': ' . $value );
 }
-
-eZSection::initGlobalID();
 
 // Read role settings
 $globalPolicyCheckOmitList = $ini->variable( 'RoleSettings', 'PolicyOmitList' );
@@ -890,8 +887,9 @@ if ( $module->exitStatus() == eZModule::STATUS_REDIRECT )
 }
 
 // Store the last URI for access history for login redirection
-// Only if database is connected and only if there was no error or no redirects happen
-if ( is_object( $db ) and $db->isConnected() and
+// Only if database is connected, user has session and only if there was no error or no redirects happen
+if ( eZSession::hasStarted() &&
+     is_object( $db ) && $db->isConnected() &&
      $module->exitStatus() == eZModule::STATUS_OK )
 {
     $currentURI = $completeRequestedURI;

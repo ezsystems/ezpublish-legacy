@@ -180,65 +180,40 @@ class eZSection extends eZPersistentObject
         return $countArray[0]['count'];
     }
 
-    /*!
-     Makes sure the global section ID is propagated to the template override key.
+   /**
+    * Makes sure the global section ID is propagated to the template override key.
+    * @deprecated since 4.4, global section support has been removed
+    *
+    * @return false
     */
     static function initGlobalID()
     {
-        global $eZSiteBasics;
-        $sessionRequired = $eZSiteBasics['session-required'];
-        $sectionID = false;
-        if ( $sessionRequired )
-        {
-            $http = eZHTTPTool::instance();
-            $sectionArray = array();
-            if ( $http->hasSessionVariable( 'eZGlobalSection' ) )
-                $sectionArray = $http->sessionVariable( 'eZGlobalSection' );
-            if ( !isset( $sectionArray['id'] ) )
-            {
-                return false;
-            }
-            $sectionID = $sectionArray['id'];
-        }
-
-        if ( $sectionID )
-        {
-            // eZTemplateDesignResource will read this global variable
-            $GLOBALS['eZDesignKeys']['section'] = $sectionID;
-            return true;
-        }
         return false;
     }
 
-    /*!
-     Sets the current global section ID to \a $sectionID in the session and
-     the template override key.
+   /**
+    * Sets the current global section ID to \a $sectionID in the session and
+    * the template override key
+    * @deprecated since 4.4, global section support has been removed this
+    *             function only sets value to override values for bc.
+    *
+    *  @param int $sectionID
     */
     static function setGlobalID( $sectionID )
     {
-        $http = eZHTTPTool::instance();
-        $sectionArray = array();
-        if ( $http->hasSessionVariable( 'eZGlobalSection' ) )
-            $sectionArray = $http->sessionVariable( 'eZGlobalSection' );
-        $sectionArray['id'] = $sectionID;
-        $http->setSessionVariable( 'eZGlobalSection', $sectionArray );
-
         // eZTemplateDesignResource will read this global variable
         $GLOBALS['eZDesignKeys']['section'] = $sectionID;
     }
 
-    /*!
-     \return the global section ID or \c null if it is not set yet.
+   /**
+    * Return the global section ID or \c null if it is not set yet.
+    * @deprecated since 4.4, global section support has been removed and
+    *             null is always returned.
+    *
+    * @return null
     */
     static function globalID()
     {
-        $http = eZHTTPTool::instance();
-        if ( $http->hasSessionVariable( 'eZGlobalSection' ) )
-        {
-            $sectionArray = $http->sessionVariable( 'eZGlobalSection' );
-            if ( isset( $sectionArray['id'] ) )
-                return $sectionArray['id'];
-        }
         return null;
     }
 

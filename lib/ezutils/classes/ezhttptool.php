@@ -197,7 +197,7 @@ class eZHTTPTool
             return $_GET;
         if ( $attr == "session" )
         {
-            return $_SESSION;
+            return eZSession::get();
         }
         $retValue = null;
         return $retValue;
@@ -215,7 +215,6 @@ class eZHTTPTool
         {
             $GLOBALS["eZHTTPToolInstance"] = new eZHTTPTool();
             $GLOBALS["eZHTTPToolInstance"]->createPostVarsFromImageButtons();
-            eZSession::start();
         }
 
         return $GLOBALS["eZHTTPToolInstance"];
@@ -706,55 +705,92 @@ class eZHTTPTool
         }
     }
 
-    /*!
-     Sets the session variable $name to value $value.
-    */
+    /**
+     * Return the session id
+     *
+     * @deprecated Since 4.4, use ->sessionID instead!
+     * @return string
+     */
     function getSessionKey()
     {
         return session_id();
     }
 
+    /**
+     * Sets a new session id
+     *
+     * @deprecated Since 4.4, use ->setSessionID instead!
+     * @param string $sessionKey Allowed characters in the range a-z A-Z 0-9 , (comma) and - (minus)
+     * @return string Current(old) session id
+    */
     function setSessionKey( $sessionKey )
     {
         return session_id( $sessionKey );
     }
 
+    /**
+     * Sets the session variable $name to value $value.
+     *
+     * @param string $name
+     * @param mixed $value
+    */
     function setSessionVariable( $name, $value )
     {
-        $_SESSION[$name] =& $value;
+        eZSession::set( $name, $value );
     }
 
-    /*!
-     Removes the session variable $name.
-    */
+    /**
+     * Unset the session variable $name
+     *
+     * @param string $name
+     * @return bool
+     */
     function removeSessionVariable( $name )
     {
-        if ( isset( $_SESSION[$name] ) )
-            unset( $_SESSION[$name] );
+        return eZSession::unsetkey( $name );
     }
 
-    /*!
-     \return true if the session variable $name exist.
-    */
+    /**
+     * Check if session variable $name exists
+     *
+     * @param string $name
+     * @return bool
+     */
     function hasSessionVariable( $name )
     {
-        return isset( $_SESSION[$name] );
+        return eZSession::issetkey( $name );
     }
 
-    /*!
-     \return the session variable $name.
-    */
+    /**
+     * Get session variable $name
+     *
+     * @param string $name
+     * @return mixed ByRef
+     */
     function &sessionVariable( $name )
     {
-        return $_SESSION[$name];
+        return eZSession::get( $name );
     }
 
-    /*!
-     \return the session id
-    */
+    /**
+     * Return the session id
+     *
+     * @return string
+     */
     function sessionID()
     {
         return session_id();
+    }
+
+    /**
+     * Sets a new session id
+     *
+     * @param string $sessionKey Allowed characters in the range a-z A-Z 0-9 , (comma) and - (minus)
+     * @return string Current(old) session id
+    */
+    function setSessionID( $sessionKey )
+    {
+        return session_id( $sessionKey );
     }
 
     /*!

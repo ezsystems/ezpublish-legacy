@@ -185,7 +185,6 @@ $navigationPartIdentifier = false;
 if ( $sectionID !== false )
 {
     $designKeys[] = array( 'section', $sectionID ); // Section ID
-    eZSection::setGlobalID( $sectionID );
 
     $section = eZSection::fetch( $sectionID );
     if ( $section )

@@ -83,8 +83,6 @@ class eZNodeviewfunctions
                                           $viewParameters = array( 'offset' => 0, 'year' => false, 'month' => false, 'day' => false ),
                                           $collectionAttributes = false, $validation = false )
     {
-        eZSection::setGlobalID( $object->attribute( 'section_id' ) );
-
         $section = eZSection::fetch( $object->attribute( 'section_id' ) );
         if ( $section )
         {
@@ -112,6 +110,7 @@ class eZNodeviewfunctions
                            array( 'class_group', $object->attribute( 'match_ingroup_id_list' ) ),
                            array( 'state', $object->attribute( 'state_id_array' ) ),
                            array( 'state_identifier', $object->attribute( 'state_identifier_array' ) ),
+                           array( 'section', $object->attribute( 'section_id' ) ),
                            array( 'section_identifier', $sectionIdentifier ) );
 
         $parentClassID = false;
@@ -439,16 +438,14 @@ class eZNodeviewfunctions
                                    array( 'parent_class_id', $Result['content_info']['parent_class_id'] ),
                                    array( 'parent_class_identifier', $Result['content_info']['parent_class_identifier'] ),
                                    array( 'state', $Result['content_info']['state'] ),
-                                   array( 'state_identifier', $Result['content_info']['state_identifier'] ) );
+                                   array( 'state_identifier', $Result['content_info']['state_identifier'] ),
+                                   array( 'section', $Result['section_id'] ) );
 
                 if ( isset( $Result['content_info']['class_identifier'] ) )
                     $keyArray[] = array( 'class_identifier', $Result['content_info']['class_identifier'] );
 
                 $res = eZTemplateDesignResource::instance();
                 $res->setKeys( $keyArray );
-
-                // set section id
-                eZSection::setGlobalID( $Result['section_id'] );
 
                 return $Result;
             }

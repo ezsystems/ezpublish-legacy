@@ -73,15 +73,15 @@ function eZCheckUser( array &$siteBasics, eZURI $uri )
         return null;
     }
 
-    // if( !include_once( 'kernel/classes/datatypes/ezuser/ezuserloginhandler.php' ) )
-    //     return null;
-
-    $http = eZHTTPTool::instance();
     $ini = eZINI::instance();
     $requireUserLogin = ( $ini->variable( 'SiteAccessSettings', 'RequireUserLogin' ) == 'true' );
-    $forceLogin = $http->hasSessionVariable( eZUserLoginHandler::FORCE_LOGIN );
-    if ( !$requireUserLogin &&
-         !$forceLogin )
+    $forceLogin = false;
+    if ( eZSession::hasStarted() )
+    {
+        $http = eZHTTPTool::instance();
+        $forceLogin = $http->hasSessionVariable( eZUserLoginHandler::FORCE_LOGIN );
+    }
+    if ( !$requireUserLogin && !$forceLogin )
     {
         return null;
     }

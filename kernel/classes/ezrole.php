@@ -560,9 +560,6 @@ class eZRole extends eZPersistentObject
     {
         $http = eZHTTPTool::instance();
 
-        $http->removeSessionVariable( 'UserPolicies' );
-        $http->removeSessionVariable( 'UserLimitations' );
-        $http->removeSessionVariable( 'UserLimitationValues' );
         $http->removeSessionVariable( 'CanInstantiateClassesCachedForUser' );
         $http->removeSessionVariable( 'CanInstantiateClassList' );
         $http->removeSessionVariable( 'ClassesCachedForUser' );

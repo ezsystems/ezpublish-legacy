@@ -173,7 +173,8 @@ class eZContentCache
         $res = eZTemplateDesignResource::instance();
         $res->setKeys( array( array( 'node', $nodeID ),
                               array( 'view_offset', $offset ),
-                              array( 'viewmode', $viewMode )
+                              array( 'viewmode', $viewMode ),
+                              array( 'section', $cachedArray['section_id'] )
                               ) );
         $result['content_info'] = $cachedArray['content_info'];
         $result['content'] = $cachedArray['content'];
@@ -188,8 +189,6 @@ class eZContentCache
             }
         }
 
-        // set section id
-        eZSection::setGlobalID( $cachedArray['section_id'] );
         return $result;
     }
 

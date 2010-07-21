@@ -1,35 +1,16 @@
 <?php
-//
-// Definition of eZSession class
-//
-// Created on: <19-Aug-2002 12:49:18 bf>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2010 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
+/**
+ * File containing session interface
+ *
+ * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
+ * @license http://ez.no/licenses/gnu_gpl GNU GPL v2
+ * @version //autogentag//
+ * @package lib
+ */
 
 /*!
-  Re-implementation of PHP session management using database.
+  Session wrapper for session managment, with support for handlers.
+  Handler is defined by site.ini\[Session]\Handler setting.
 
   The session system has a hook system which allows external code to perform
   extra tasks before and after a certain action is executed. For instance to
@@ -48,23 +29,19 @@
   // eZSession::addCallback( 'destroy_pre', array('myClass', 'myCleanupStuff') );
   \endcode
 
-  When new data is inserted to the database it will call the \c update_pre and
-  \c update_post hooks. The signature of the function is
-  function insert( $db, $key, $escapedKey, $expirationTime, $userID, $value )
-
-  When existing data is updated in the databbase it will call the \c insert_pre
-  and \c insert_post hook. The signature of the function is
-  function update( $db, $key, $escapedKey, $expirationTime, $userID, $value )
-
   When a specific session is destroyed in the database it will call the
   \c destroy_pre and \c destroy_post hooks. The signature of the function is
   function destroy( $db, $key, $escapedKey )
+
+  When a specific session is regenerated (login/logout) and kept it will call
+  \c regenerate_pre and \c regenerate_post hooks. The signature of the function is
+  function regenerate( $db, $escapedNewKey, $escapedOldKey, $escUserID )
 
   When multiple sessions are expired (garbage collector) in the database it
   will call the \c gc_pre and \c gc_post hooks. The signature of the function is
   function gcollect( $db, $expiredTime )
 
-  When all sessionss are removed from the database it will call the
+  When all sessions are removed from the database it will call the
   \c cleanup_pre and \c cleanup_post hooks. The signature of the function is
   function cleanup( $db )
 
@@ -79,370 +56,186 @@
                       lower expiration times will be removed.
 */
 
-
+/** eZ Publish Session interface class
+ *
+ * @package lib
+ * @subpackage ezsession
+ */
 class eZSession
 {
-    // Name of session handler, change if you override class with autoload
-    const HANDLER_NAME = 'ezdb';
-
-    // Seconds before timeout occurs that gc function stops to make sure request completes 
-    const GC_TIMEOUT_MARGIN = 5;
-
-    // Max execution time if php's setting evaluates to false, to avoid hitting http server timeout
-    const GC_MAX_EXECUTION_TIME = 300;
-
-    // Same as above when in CLI mode
-    const GC_MAX_EXECUTION_TIME_CLI = 3000;
-
     /**
      * User id, see {@link eZSession::userID()}.
      *
-     * @static
-     * @access protected
+     * @var int
      */
     static protected $userID = 0;
 
     /**
-     * Flag session started, see {@link eZSession::start()}.
+     * Flag session has started, see {@link eZSession::start()}.
      *
-     * @static
-     * @access protected
+     * @var bool
      */
     static protected $hasStarted = false;
 
     /**
      * Flag request contains session cookie, set in {@link eZSession::registerFunctions()}.
      *
-     * @static
-     * @access protected
+     * @var bool|null
      */
     static protected $hasSessionCookie = null;
 
     /**
-     * Flag if user session validated when reading data from session, set in {@link eZSession::internalRead()}.
-     *
-     * @static
-     * @access protected
-     */
-    static protected $userSessionIsValid = null;
-
-    /**
-     * User session hash (ip + ua string), set in {@link eZSession::registerFunctions()}.
-     *
-     * @static
-     * @access protected
-     */
-    static protected $userSessionHash = null;
-
-    /**
      * List of callback actions, see {@link eZSession::addCallback()}.
      *
-     * @static
-     * @access protected
+     * @var array
      */
-    static protected $callbackFunctions = array(); 
+    static protected $callbackFunctions = array();
+
+    /**
+     * Current session handler or false, see {@link eZSession::getHandlerInstance()}.
+     *
+     * @var eZSessionHandler|null
+     */
+    static protected $handlerInstance = null;
 
     /**
      * Constructor (not used, this is an all static class)
+     */
+    protected function __construct()
+    {
+    }
+
+    /**
+     * Get session value (wrapper)
      *
-     * @access protected
+     * @param string|null $key Return the whole session array if null
+     * @param null|mixed $defaultValue Return this if not null and session has not started
+     * @return mixed|null $defaultValue if key does not exist, otherwise session value depending on $key
      */
-    protected function eZSession()
+    static public function &get( $key = null, $defaultValue = null )
     {
-    }
-
-    /**
-     * Does nothing, eZDB will open connection when needed.
-     * 
-     * @static
-     * @return true
-     */
-    static public function open()
-    {
-        return true;
-    }
-
-    /**
-     * Does nothing, eZDB will handle closing db connection.
-     * 
-     * @static
-     * @return true
-     */
-    static public function close()
-    {
-        return true;
-    }
-
-    /**
-     * Reads the session data from the database for a specific session id
-     *
-     * @static
-     * @param string $sessionId
-     * @return string|false Returns false if session doesn't exits, string in php session format if it does.
-     */
-    static public function read( $sessionId )
-    {
-        return self::internalRead( $sessionId, false );
-    }
-
-    /**
-     * Internal function that reads the session data from the database, this function
-     * is registered as session_read handler in {@link eZSession::registerFunctions()}
-     * Note: user will be "kicked out" as in get a new session id if {@link self::getUserSessionHash()} does
-     * not equals to the existing user_hash unless the user_hash is empty.
-     *
-     * @static
-     * @access private
-     * @param string $sessionId
-     * @param bool $isCurrentUserSession
-     * @return string|false Returns false if session doesn't exits
-     */
-    static public function internalRead( $sessionId, $isCurrentUserSession = true )
-    {
-        $db = eZDB::instance();
-        $escKey = $db->escapeString( $sessionId );
-
-        $sessionRes = $isCurrentUserSession && !self::$hasSessionCookie ? false : $db->arrayQuery( "SELECT data, user_id, user_hash, expiration_time FROM ezsession WHERE session_key='$escKey'" );
-
-        if ( $sessionRes !== false and count( $sessionRes ) == 1 )
+        if ( self::$hasStarted === false )
         {
-            if ( $isCurrentUserSession )
-            {
-                if ( $sessionRes[0]['user_hash'] && $sessionRes[0]['user_hash'] != self::getUserSessionHash() )
-                {
-                    eZDebug::writeNotice( 'User ('. $sessionRes[0]['user_id'] .') hash did not match, regenerating session id for the user to avoid potentially hijack session attempt.', 'eZSession::internalRead' );
-                    self::regenerate( false );
-                    self::$userID = 0;
-                    self::$userSessionIsValid = false;
-                    return false;
-                }
-                else if ( self::$userSessionIsValid === null )
-                {
-                    self::$userSessionIsValid = true;
-                }
-                self::$userID = $sessionRes[0]['user_id'];
-            }
-            $ini = eZINI::instance();
-
-            $sessionUpdatesTime = $sessionRes[0]['expiration_time'] - $ini->variable( 'Session', 'SessionTimeout' );
-            $sessionIdle = time() - $sessionUpdatesTime;
-
-            $GLOBALS['eZSessionIdleTime'] = $sessionIdle;
-
-            return $sessionRes[0]['data'];
+            if ( $defaultValue !== null )
+                return $defaultValue;
+            self::start();
         }
-        else
-        {
-            return false;
-        }
+
+        if ( $key === null )
+            return $_SESSION;
+        else if ( isset( $_SESSION[ $key ] ) )
+            return $_SESSION[ $key ];
+        return $defaultValue;
     }
 
     /**
-     * Inserts|Updates the session data in the database for a specific session id
+     * Set session value (wrapper)
      *
-     * @static
-     * @param string $sessionId
-     * @param string $value session data (in php session data format)
-     */
-    static public function write( $sessionId, $value )
-    {
-        return self::internalWrite( $sessionId, $value, false );
-    }
-
-    /**
-     * Internal function that inserts|updates the session data in the database, this function
-     * is registered as session_write handler in {@link eZSession::registerFunctions()}
-     *
-     * @static
-     * @access private
-     * @param string $sessionId
-     * @param string $value session data (in php session data format)
-     * @param bool $isCurrentUserSession
+     * @param string $key
      * @return bool
      */
-    static public function internalWrite( $sessionId, $value, $isCurrentUserSession = true )
+    static public function set( $key, $value )
     {
-        if ( isset( $GLOBALS['eZRequestError'] ) && $GLOBALS['eZRequestError'] )
+        if ( self::$hasStarted === false )
         {
-            return false;
+            self::start();
         }
 
-        $db = eZDB::instance();
-        $ini = eZINI::instance();
-        $expirationTime = time() + $ini->variable( 'Session', 'SessionTimeout' );
-
-        if ( $db->bindingType() != eZDBInterface::BINDING_NO )
-        {
-            $value = $db->bindVariable( $value, array( 'name' => 'data' ) );
-        }
-        else
-        {
-            $value = '\'' . $db->escapeString( $value ) . '\'';
-        }
-        $escKey = $db->escapeString( $sessionId );
-        $userID = 0;
-        $userHash = '';
-
-        if ( $isCurrentUserSession )
-        {
-            $userID = $db->escapeString( self::$userID );
-            $userHash = $db->escapeString( self::getUserSessionHash() );
-        }
-
-        // check if session already exists
-        $sessionRes = $isCurrentUserSession && !self::$hasSessionCookie ? false : $db->arrayQuery( "SELECT session_key FROM ezsession WHERE session_key='$escKey'" );
-
-        if ( $sessionRes !== false and count( $sessionRes ) == 1 )
-        {
-            self::triggerCallback( 'update_pre', array( $db, $sessionId, $escKey, $expirationTime, $userID, $value ) );
-
-            if ( $isCurrentUserSession )
-                $ret = $db->query( "UPDATE ezsession SET expiration_time='$expirationTime', data=$value, user_id='$userID', user_hash='$userHash' WHERE session_key='$escKey'" );
-            else
-                $ret = $db->query( "UPDATE ezsession SET expiration_time='$expirationTime', data=$value WHERE session_key='$escKey'" );
-
-            self::triggerCallback( 'update_post', array( $db, $sessionId, $escKey, $expirationTime, $userID, $value ) );
-        }
-        else
-        {
-            self::triggerCallback( 'insert_pre', array( $db, $sessionId, $escKey, $expirationTime, $userID, $value ) );
-
-            $insertQuery = "INSERT INTO ezsession ( session_key, expiration_time, data, user_id, user_hash )
-                        VALUES ( '$escKey', '$expirationTime', $value, '$userID', '$userHash' )";
-            $ret = $db->query( $insertQuery );
-
-            self::triggerCallback( 'insert_post', array( $db, $sessionId, $escKey, $expirationTime, $userID, $value ) );
-        }
+        $_SESSION[ $key ] = $value;
         return true;
     }
 
     /**
-     * Deletes the session data from the database, this function is 
-     * register in {@link eZSession::registerFunctions()}
+     * Isset session value (wrapper)
      *
-     * @static
-     * @param string $sessionId
+     * @param string $key
+     * @param bool $forceStart Force session start if true
+     * @return bool|null Null if $forceStart is false and session has not started.
      */
-    static public function destroy( $sessionId )
+    static public function issetkey( $key, $forceStart = true )
     {
-        $db = eZDB::instance();
-        $escKey = $db->escapeString( $sessionId );
+        if ( self::$hasStarted === false )
+        {
+            if ( !$forceStart )
+                return null;
+            self::start();
+        }
 
-        self::triggerCallback( 'destroy_pre', array( $db, $sessionId, $escKey ) );
-
-        $db->query( "DELETE FROM ezsession WHERE session_key='$escKey'" );
-
-        self::triggerCallback( 'destroy_post', array( $db, $sessionId, $escKey ) );
+        return isset( $_SESSION[ $key ] );
     }
 
     /**
-     * Deletes all expired session data in the database, this function is 
-     * register in {@link eZSession::registerFunctions()}
-     * 
-     * @param int $sessionsPrIteration Will delete only this amount of sessions at a time to avoid timeout, set to 0 to disable
-     *            (keep bellow 1000 to not cause issues on Oracle)
-     * @return bool Return boolean to signal if gc completed or if it stopped to avoid timeout.
+     * unset session value (wrapper)
+     *
+     * @param string $key
+     * @param bool $forceStart Force session start if true
+     * @return bool|null True if value was removed, false if it did not exist
      */
-    static public function garbageCollector( $sessionsPrIteration = 50 )
+    static public function unsetkey( $key, $forceStart = true )
     {
-        $db = eZDB::instance();
-        $gcCompleted = true;
-        $requestTime = $_SERVER['REQUEST_TIME'];
-        self::triggerCallback( 'gc_pre', array( $db, $requestTime ) );
-
-        if ( $sessionsPrIteration )
+        if ( self::$hasStarted === false )
         {
-            $timedOut = false;
-            $maxExecutionTime = ini_get( 'max_execution_time' );
-            if ( !$maxExecutionTime )
-            {
-                if ( PHP_SAPI === 'cli' )
-                    $maxExecutionTime = self::GC_MAX_EXECUTION_TIME_CLI;
-                else
-                    $maxExecutionTime = self::GC_MAX_EXECUTION_TIME;
-            }
-
-            do
-            {
-                $startTime = time();
-                $rows = $db->arrayQuery( 'SELECT session_key FROM ezsession WHERE expiration_time < ' . $requestTime ,  array( 'offset' => 0, 'limit' => $sessionsPrIteration, 'column' => 'session_key' ) );
-                if ( $rows )
-                {
-                    $keyINString = '\'' . implode( '\', \'', $rows ) . '\'';// generateSQLINStatement does not add quotes when casting to string
-                    $db->query( "DELETE FROM ezsession WHERE session_key IN ( $keyINString )" );
-
-                    $stopTime = time();
-                    $remaningTime = $maxExecutionTime - self::GC_TIMEOUT_MARGIN - ( $stopTime - $requestTime );
-                    if ( $remaningTime < ( $stopTime - $startTime ) )
-                    {
-                        $timedOut = true;
-                        break;
-                    }
-                }
-            } while ( $rows );
-            $gcCompleted = !$timedOut || !$rows;
-        }
-        else
-        {
-            $db->query( 'DELETE FROM ezsession WHERE expiration_time < ' . $requestTime );
+            if ( !$forceStart )
+                return null;
+            self::start();
         }
 
-        self::triggerCallback( 'gc_post', array( $db, $requestTime ) );
-        return $gcCompleted;
+        if ( !isset( $_SESSION[ $key ] ) )
+            return false;
+
+        unset( $_SESSION[ $key ] );
+        return true;
+    }
+
+    /**
+     * Deletes all expired session data in the database, this function is
+     *
+     * @return bool
+     */
+    static public function garbageCollector()
+    {
+        return self::getHandlerInstance()->gc( $_SERVER['REQUEST_TIME'] );
     }
 
     /**
      * Truncates all session data in the database.
-     * Named eZSessionEmpty() in eZ Publish 4.0 and earlier!
-     * 
-     * @static
+     *
+     * @return bool
      */
     static public function cleanup()
     {
-        $db = eZDB::instance();
-
-        self::triggerCallback( 'cleanup_pre', array( $db ) );
-
-        $db->query( 'TRUNCATE TABLE ezsession' );
-
-        self::triggerCallback( 'cleanup_post', array( $db ) );
+        return self::getHandlerInstance()->cleanup();
     }
 
     /**
      * Counts the number of active session and returns it.
-     * 
-     * @static
-     * @return string Returns number of sessions.
+     *
+     * @return string Number of sessions.
      */
     static public function countActive()
     {
-        $db = eZDB::instance();
-
-        $rows = $db->arrayQuery( 'SELECT count( * ) AS count FROM ezsession' );
-        return $rows[0]['count'];
+        return self::getHandlerInstance()->countActive();
     }
 
     /**
-     * Register the needed session functions, this is called automatically by 
+     * Register the needed session functions, this is called automatically by
      * {@link eZSession::start()}, so only call this if you don't start the session.
-     * Named eZRegisterSessionFunctions() in eZ Publish 4.0 and earlier!
-     * 
-     * @static
-     * @return bool Returns true|false depending on if eZSession is registrated as session handler.
+     *
+     * @return bool Depending on if eZSession is registrated as session handler.
     */
     static protected function registerFunctions()
     {
-        if ( self::$hasStarted )
+        if ( self::$hasStarted || self::$handlerInstance !== null )
             return false;
-        session_module_name( 'user' );
+
         $ini = eZINI::instance();
-        if ( $ini->variable( 'Session', 'SessionNameHandler' ) == 'custom' )
+        if ( $ini->variable( 'Session', 'SessionNameHandler' ) === 'custom' )
         {
             $sessionName = $ini->variable( 'Session', 'SessionNamePrefix' );
-            if ( $ini->variable( 'Session', 'SessionNamePerSiteAccess' ) == 'enabled' )
+            if ( $ini->variable( 'Session', 'SessionNamePerSiteAccess' ) === 'enabled' )
             {
                 $access = $GLOBALS['eZCurrentAccess'];
-                // use md5 to make sure name is only alphanumeric characters
+                // Use md5 to make sure name is only consistent of alphanumeric characters
                 $sessionName .=  md5( $access['name'] );
             }
             session_name( $sessionName );
@@ -469,30 +262,67 @@ class eZSession
             self::$hasSessionCookie = isset( $_COOKIE[ $sessionName ] );
         }
 
-        session_set_save_handler(
-            array('eZSession', 'open'),
-            array('eZSession', 'close'),
-            array('eZSession', 'internalRead'),
-            array('eZSession', 'internalWrite'),
-            array('eZSession', 'destroy'),
-            array('eZSession', 'garbageCollector')
-            );
-        return true;
+        self::setCookieParams();
+
+        return self::getHandlerInstance()->setSaveHandler();
+    }
+
+    /**
+     * Set default cookie parameters based on site.ini settings (fallback to php.ini settings)
+     * Used by {@link eZSession::registerFunctions()}
+     *
+     * Note: this will only have affect when session is created / re-created
+    */
+    static public function setCookieParams()
+    {
+        $ini      = eZINI::instance();
+        $params   = session_get_cookie_params();
+        $lifetime = $ini->hasVariable('Session', 'CookieLifetime') ? $ini->variable('Session', 'CookieLifetime') : $params['lifetime'];
+        $path     = $ini->hasVariable('Session', 'CookiePath')     ? $ini->variable('Session', 'CookiePath')     : $params['path'];
+        $domain   = $ini->hasVariable('Session', 'CookieDomain')   ? $ini->variable('Session', 'CookieDomain')   : $params['domain'];
+        $secure   = $ini->hasVariable('Session', 'CookieSecure')   ? $ini->variable('Session', 'CookieSecure')   : $params['secure'];
+        if ( isset( $params['httponly'] ) ) // only available on PHP 5.2 and up
+        {
+            $httponly = $ini->hasVariable('Session', 'CookieHttponly') ? $ini->variable('Session', 'CookieHttponly') : $params['httponly'];
+            session_set_cookie_params( $lifetime, $path, $domain, $secure, $httponly );
+        }
+        else
+        {
+            session_set_cookie_params( $lifetime, $path, $domain, $secure );
+        }
     }
 
     /**
      * Starts the session and sets the timeout of the session cookie.
      * Multiple calls will be ignored unless you call {@link eZSession::stop()} first.
-     * 
-     * @static
+     *
      * @param bool|int $cookieTimeout use this to set custom cookie timeout.
-     * @return bool Returns true|false depending on if session was started.
+     * @return bool Depending on if session was started.
      */
     static public function start( $cookieTimeout = false )
     {
+        var_dump( debug_backtrace() );
+        if ( self::lazyStart( false, $cookieTimeout ) === false )
+        {
+             return false;
+        }
+        if ( self::$hasStarted )
+        {
+             return false;
+        }
+        return self::forceStart( $cookieTimeout );
+    }
+
+    /**
+     * Inits eZSession and starts it if user has cookie and $startIfUserHasCookie is true.
+     *
+     * @param bool $startIfUserHasCookie
+     * @return bool|null
+     */
+    static public function lazyStart( $startIfUserHasCookie = true, $cookieTimeout = false )
+    {
         // Check if we are allowed to use sessions
-        if ( isset( $GLOBALS['eZSiteBasics'] ) &&
-             isset( $GLOBALS['eZSiteBasics']['session-required'] ) &&
+        if ( isset( $GLOBALS['eZSiteBasics']['session-required'] ) &&
              !$GLOBALS['eZSiteBasics']['session-required'] )
         {
             return false;
@@ -501,16 +331,22 @@ class eZSession
         {
              return false;
         }
-        $db = eZDB::instance();
-        if ( !$db->isConnected() )
-        {
-            return false;
-        }
         self::registerFunctions();
+        if ( $startIfUserHasCookie && self::$hasSessionCookie )
+        {
+             return self::forceStart( $cookieTimeout );
+        }
+        return null;
+    }
+
+    /**
+     * See {@link eZSession::start()}
+     */
+    static protected function forceStart( $cookieTimeout = false )
+    {
         if ( $cookieTimeout == false )
         {
-            $ini = eZINI::instance();
-            $cookieTimeout = $ini->variable( 'Session', 'CookieTimeout' );
+            $cookieTimeout = eZINI::instance()->variable( 'Session', 'CookieTimeout' );
         }
 
         if ( is_numeric( $cookieTimeout ) )
@@ -524,57 +360,19 @@ class eZSession
     /**
      * Gets/generates the user hash for use in validating the session based on [Session]
      * SessionValidation* site.ini settings. The default hash is result of md5('empty').
-     * 
-     * @static
-     * @return string Returns md5 hash based on parts of the user ip and agent string.
+     *
+     * @deprecated as of 4.4, only returns default md5('empty') hash now for BC.
+     * @return string MD5 hash based on parts of the user ip and agent string.
      */
     static public function getUserSessionHash()
     {
-        if ( self::$userSessionHash === null )
-        {
-            $ini = eZINI::instance();
-            $sessionValidationString = '';
-            $sessionValidationIpParts = (int) $ini->variable( 'Session', 'SessionValidationIpParts' );
-            if ( $sessionValidationIpParts && isset( $_SERVER['REMOTE_ADDR'] ) )
-            {
-                $sessionValidationString .= '-' . self::getIpPart( $_SERVER['REMOTE_ADDR'], $sessionValidationIpParts );
-            }
-            $sessionValidationForwardedIpParts = (int) $ini->variable( 'Session', 'SessionValidationForwardedIpParts' );
-            if ( $sessionValidationForwardedIpParts && isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) )
-            {
-                $sessionValidationString .= '-' . self::getIpPart( $_SERVER['HTTP_X_FORWARDED_FOR'], $sessionValidationForwardedIpParts );
-            }
-            $sessionValidationUAString = $ini->variable( 'Session', 'SessionValidationUseUA' ) === 'enabled';
-            if ( $sessionValidationUAString && isset( $_SERVER['HTTP_USER_AGENT'] ) )
-            {
-                $sessionValidationString .= '-' . $_SERVER['HTTP_USER_AGENT'];
-            }
-            self::$userSessionHash = $sessionValidationString ? md5( $sessionValidationString ) : 'a2e4822a98337283e39f7b60acf85ec9';
-        }
-        return self::$userSessionHash;
-    }
-
-    /**
-     * Gets part of a ipv4/ipv6 address, used internally by {@link eZSession::getUserSessionHash()} 
-     * 
-     * @static
-     * @access protected
-     * @param string $ip IPv4 or IPv6 format
-     * @param int $parts number from 0-4
-     * @return string returns part of a ip imploded with '-' for use as a hash.
-     */
-    static protected function getIpPart( $ip, $parts = 2 )
-    {
-        $parts = $parts > 4 ? 4 : $parts;
-        $ip = strpos( $ip, ':' ) === false ? explode( '.', $ip ) : explode( ':', $ip );
-        return implode('-', array_slice( $ip, 0, $parts ) );
+        return 'a2e4822a98337283e39f7b60acf85ec9';
     }
 
     /**
      * Writes session data and stops the session, if not already stopped.
-     * 
-     * @static
-     * @return bool Returns true|false depending on if session was stopped.
+     *
+     * @return bool Depending on if session was stopped.
      */
     static public function stop()
     {
@@ -582,24 +380,19 @@ class eZSession
         {
              return false;
         }
-        $db = eZDB::instance();
-        if ( !$db->isConnected() )
-        {
-            return false;
-        }
         session_write_close();
         self::$hasStarted = false;
+        self::$handlerInstance = null;
         return true;
     }
 
     /**
      * Will make sure the user gets a new session ID while keepin the session data.
      * This is useful to call on logins, to avoid sessions theft from users.
-     * NOTE: make sure you set new user id first using {@link eZSession::setUserID()} 
-     * 
-     * @static
+     * NOTE: make sure you set new user id first using {@link eZSession::setUserID()}
+     *
      * @param bool $updateUserSession set to false to not update session in db with new session id and user id.
-     * @return bool Returns true|false depending on if session was regenerated.
+     * @return bool Depending on if session was regenerated.
      */
     static public function regenerate( $updateUserDBSession = true )
     {
@@ -614,39 +407,17 @@ class eZSession
         if ( headers_sent() )
         {
             if ( PHP_SAPI !== 'cli' )
-                eZDebug::writeWarning( 'Could not regenerate session id, HTTP headers already sent.', 'eZSession::regenerate' );
+                eZDebug::writeWarning( 'Could not regenerate session id, HTTP headers already sent.', __METHOD__ );
             return false;
         }
 
-        $oldSessionId = session_id();
-        session_regenerate_id();
-
-        // If user has session and $updateUserSession is true, then update user session data
-        if ( $updateUserDBSession && self::$hasSessionCookie )
-        {
-            $db = eZDB::instance();
-            if ( !$db->isConnected() )
-            {
-                return false;
-            }
-            $escOldKey = $db->escapeString( $oldSessionId );
-            $escKey = $db->escapeString( session_id() );
-            $escUserID = $db->escapeString( self::$userID );
-
-            self::triggerCallback( 'regenerate_pre', array( $db, $escKey, $escOldKey, $escUserID ) );
-
-            $db->query( "UPDATE ezsession SET session_key='$escKey', user_id='$escUserID' WHERE session_key='$escOldKey'" );
-
-            self::triggerCallback( 'regenerate_post', array( $db, $escKey, $escOldKey, $escUserID ) );
-        }
-        return true;
+        return self::getHandlerInstance()->regenerate( ($updateUserDBSession && self::$hasSessionCookie) );
     }
 
     /**
      * Removes the current session and resets session variables.
-     * 
-     * @static
-     * @return bool Returns true|false depending on if session was removed.
+     *
+     * @return bool Depending on if session was removed.
      */
     static public function remove()
     {
@@ -654,21 +425,16 @@ class eZSession
         {
              return false;
         }
-        $db = eZDB::instance();
-        if ( !$db->isConnected() )
-        {
-            return false;
-        }
         $_SESSION = array();
         session_destroy();
         self::$hasStarted = false;
+        self::$handlerInstance = null;
         return true;
     }
 
     /**
      * Sets the current userID used by self::write on shutdown.
-     * 
-     * @static
+     *
      * @param int $userID to use in {@link eZSession::write()}
      */
     static public function setUserID( $userID )
@@ -678,9 +444,8 @@ class eZSession
 
     /**
      * Gets the current user id.
-     * 
-     * @static
-     * @return int Returns user id stored by {@link eZSession::setUserID()}
+     *
+     * @return int User id stored by {@link eZSession::setUserID()}
      */
     static public function userID()
     {
@@ -689,9 +454,8 @@ class eZSession
 
     /**
      * Returns if user had session cookie at start of request or not.
-     * 
-     * @static
-     * @return bool|null returns null if session is not started yet.
+     *
+     * @return bool|null Null if session is not started yet.
      */
     static public function userHasSessionCookie()
     {
@@ -701,27 +465,58 @@ class eZSession
     /**
      * Returns if user session validated against stored data in db
      * or if it was invalidated during the current request.
-     * 
-     * @static
-     * @return bool|null returns null if user is not validated yet (for instance a new session).
+     *
+     * @deprecated as of 4.4, only returns true for bc
+     * @return bool|null Null if user is not validated yet (for instance a new session).
      */
     static public function userSessionIsValid()
     {
-        // force a session read if session has started but not yet used
-        if ( self::$userSessionIsValid === null &&
-             self::$hasSessionCookie === true )
+        return true;
+    }
+
+    /**
+     * Return value to indicate if session has started or not
+     *
+     * @return bool
+     */
+    static public function hasStarted()
+    {
+        return self::$hasStarted;
+    }
+
+    /**
+     * Get curren session handler
+     *
+     * @return eZSessionHandler
+     */
+    static public function getHandlerInstance()
+    {
+        if ( self::$handlerInstance === null )
         {
-            $tempSession = $_SESSION;
+            $ini = eZINI::instance();
+            if ( $ini->variable( 'Session', 'Handler' ) !== '' )
+            {
+                $optionArray = array( 'iniFile'       => 'site.ini',
+                                      'iniSection'    => 'Session',
+                                      'iniVariable'   => 'Handler',
+                                      'handlerParams' => array( self::$hasSessionCookie ) );
+
+                $options = new ezpExtensionOptions( $optionArray );
+                self::$handlerInstance = eZExtension::getHandlerClass( $options );
+            }
+            if ( !self::$handlerInstance instanceof eZSessionHandler )
+            {
+                self::$handlerInstance = new eZSessionHandlerPHP( self::$hasSessionCookie );
+            }
         }
-        return self::$userSessionIsValid;
+        return self::$handlerInstance;
     }
 
     /**
      * Adds a callback function, to be triggered by {@link eZSession::triggerCallback()}
      * when a certan session event occurs.
      * Use: eZSession::addCallback('gc_pre', myCustomGarabageFunction );
-     * 
-     * @static
+     *
      * @param string $type cleanup, gc, destroy, insert and update, pre and post types.
      * @param handler $callback a function to call.
      */
@@ -737,8 +532,7 @@ class eZSession
     /**
      * Triggers callback functions by type, registrated by {@link eZSession::addCallback()}
      * Use: eZSession::triggerCallback('gc_pre', array( $db, $time ) );
-     * 
-     * @static
+     *
      * @param string $type cleanup, gc, destroy, insert and update, pre and post types.
      * @param array $params list of parameters to pass to the callback function.
      * @return bool
@@ -755,12 +549,6 @@ class eZSession
         }
         return false;
     }
-}
-
-// DEPRECATED (For BC use only)
-function eZSessionStart()
-{
-    eZSession::start();
 }
 
 ?>

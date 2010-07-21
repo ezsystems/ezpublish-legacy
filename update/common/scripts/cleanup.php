@@ -164,16 +164,30 @@ $db->setIsSQLOutputEnabled( $showSQL );
 
 if ( $clean['session'] )
 {
-    $cli->output( "Removing all sessions" );
-    eZSession::cleanup();
+    if ( !eZSession::getHandlerInstance()->usesDatabaseTable() )
+    {
+        $cli->output( "Could not remove sessions, current session handler does not support session cleanup (not backend based)." );
+    }
+    else
+    {
+        $cli->output( "Removing all sessions" );
+        eZSession::cleanup();
+    }
 }
 
 if ( $clean['expired_session'] )
 {
-    $cli->output( "Removing expired sessions,", false );
-    eZSession::garbageCollector();
-    $activeCount = eZSession::countActive();
-    $cli->output( " " . $cli->stylize( 'emphasize', $activeCount ) . " left" );
+    if ( !eZSession::getHandlerInstance()->usesDatabaseTable() )
+    {
+        $cli->output( "Could not remove expired sessions, current session handler does not support session garbage collection (not backend based)." );
+    }
+    else
+    {
+        $cli->output( "Removing expired sessions,", false );
+        eZSession::garbageCollector();
+        $activeCount = eZSession::countActive();
+        $cli->output( " " . $cli->stylize( 'emphasize', $activeCount ) . " left" );
+    }
 }
 
 if ( $clean['preferences'] )
