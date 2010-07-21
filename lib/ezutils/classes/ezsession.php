@@ -8,55 +8,54 @@
  * @package lib
  */
 
-/*!
-  Session wrapper for session managment, with support for handlers.
-  Handler is defined by site.ini\[Session]\Handler setting.
-
-  The session system has a hook system which allows external code to perform
-  extra tasks before and after a certain action is executed. For instance to
-  cleanup a table when sessions are removed.
-  This can be used by adding a callback with the eZSession::addCallback function,
-  first param is type and second is callback (called with call_user_func_array)
-
-  \code
-  function cleanupStuff( $db, $key, $escKey )
-  {
-      // Do cleanup here
-  }
-
-  eZSession::addCallback( 'destroy_pre', 'cleanupstuff');
-  // Or if it was a class function:
-  // eZSession::addCallback( 'destroy_pre', array('myClass', 'myCleanupStuff') );
-  \endcode
-
-  When a specific session is destroyed in the database it will call the
-  \c destroy_pre and \c destroy_post hooks. The signature of the function is
-  function destroy( $db, $key, $escapedKey )
-
-  When a specific session is regenerated (login/logout) and kept it will call
-  \c regenerate_pre and \c regenerate_post hooks. The signature of the function is
-  function regenerate( $db, $escapedNewKey, $escapedOldKey, $escUserID )
-
-  When multiple sessions are expired (garbage collector) in the database it
-  will call the \c gc_pre and \c gc_post hooks. The signature of the function is
-  function gcollect( $db, $expiredTime )
-
-  When all sessions are removed from the database it will call the
-  \c cleanup_pre and \c cleanup_post hooks. The signature of the function is
-  function cleanup( $db )
-
-  \param $db The database object used by the session manager.
-  \param $key The session key which are being worked on, see also \a $escapedKey
-  \param $escapedKey The same key as \a $key but is escaped correctly for the database.
-                     Use this to save a call to eZDBInterface::escapeString()
-  \param $expirationTime An integer specifying the timestamp of when the session
-                         will expire.
-  \param $expiredTime Similar to \a $expirationTime but is the time used to figure
-                      if a session is expired in the database. ie. all sessions with
-                      lower expiration times will be removed.
-*/
-
-/** eZ Publish Session interface class
+/**
+ * eZ Publish Session interface class
+ *
+ * Session wrapper for session management, with support for handlers.
+ * Handler is defined by site.ini\[Session]\Handler setting.
+ *
+ * The session system has a hook system which allows external code to perform
+ * extra tasks before and after a certain action is executed. For instance to
+ * cleanup a table when sessions are removed.
+ * This can be used by adding a callback with the eZSession::addCallback function,
+ * first param is type and second is callback (called with call_user_func_array)
+ *
+ * \code
+ * function cleanupStuff( $db, $key, $escKey )
+ * {
+ *     // Do cleanup here
+ * }
+ *
+ * eZSession::addCallback( 'destroy_pre', 'cleanupstuff');
+ * // Or if it was a class function:
+ * // eZSession::addCallback( 'destroy_pre', array('myClass', 'myCleanupStuff') );
+ * \endcode
+ *
+ * When a specific session is destroyed in the database it will call the
+ * \c destroy_pre and \c destroy_post hooks. The signature of the function is
+ * function destroy( $db, $key, $escapedKey )
+ *
+ * When a specific session is regenerated (login/logout) and kept it will call
+ * \c regenerate_pre and \c regenerate_post hooks. The signature of the function is
+ * function regenerate( $db, $escapedNewKey, $escapedOldKey, $escUserID )
+ *
+ * When multiple sessions are expired (garbage collector) in the database it
+ * will call the \c gc_pre and \c gc_post hooks. The signature of the function is
+ * function gcollect( $db, $expiredTime )
+ *
+ * When all sessions are removed from the database it will call the
+ * \c cleanup_pre and \c cleanup_post hooks. The signature of the function is
+ * function cleanup( $db )
+ *
+ * \param $db The database object used by the session manager.
+ * \param $key The session key which are being worked on, see also \a $escapedKey
+ * \param $escapedKey The same key as \a $key but is escaped correctly for the database.
+ *                    Use this to save a call to eZDBInterface::escapeString()
+ * \param $expirationTime An integer specifying the timestamp of when the session
+ *                        will expire.
+ * \param $expiredTime Similar to \a $expirationTime but is the time used to figure
+ *                     if a session is expired in the database. ie. all sessions with
+ *                     lower expiration times will be removed.
  *
  * @package lib
  * @subpackage ezsession
@@ -188,7 +187,8 @@ class eZSession
     }
 
     /**
-     * Deletes all expired session data in the database, this function is
+     * Deletes all expired session data in the database, this function is not supported
+     * by session handlers that don't have a session backend on their own.
      *
      * @return bool
      */
@@ -198,7 +198,8 @@ class eZSession
     }
 
     /**
-     * Truncates all session data in the database.
+     * Truncates all session data in the database, this function is not supported
+     * by session handlers that don't have a session backend on their own.
      *
      * @return bool
      */
@@ -208,7 +209,8 @@ class eZSession
     }
 
     /**
-     * Counts the number of active session and returns it.
+     * Counts the number of active session and returns it, this function is not supported
+     * by session handlers that don't have a session backend on their own.
      *
      * @return string Number of sessions.
      */
@@ -514,7 +516,7 @@ class eZSession
 
     /**
      * Adds a callback function, to be triggered by {@link eZSession::triggerCallback()}
-     * when a certan session event occurs.
+     * when a certain session event occurs.
      * Use: eZSession::addCallback('gc_pre', myCustomGarabageFunction );
      *
      * @param string $type cleanup, gc, destroy, insert and update, pre and post types.

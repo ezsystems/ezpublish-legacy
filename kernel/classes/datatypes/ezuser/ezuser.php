@@ -1336,7 +1336,7 @@ WHERE user_id = '" . $userID . "' AND
                                             'email'              => $user->attribute( 'email' ),
                                             'password_hash'      => $user->attribute( 'password_hash' ),
                                             'password_hash_type' => $user->attribute( 'password_hash_type' ) );
-            
+
             // user groups list (prior: eZUserGroupsCache)
             $groups = $user->generateGroupIdList();
             $data['groups'] = $groups;
@@ -2444,9 +2444,6 @@ WHERE user_id = '" . $userID . "' AND
     */
     function groups( $asObject = false )
     {
-        
-        $http = eZHTTPTool::instance();
-
         if ( $asObject == true )
         {
             $this->Groups = array();
@@ -2695,7 +2692,7 @@ WHERE user_id = '" . $userID . "' AND
 
     /**
      * Returns the filename for a cache file with user information
-     * 
+     *
      * @params int $userId
      * @return string|false Filename of the cachefile, or false when the user should not be cached
      */
