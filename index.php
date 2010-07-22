@@ -420,7 +420,10 @@ if ( $dbRequired )
     if ( $sessionRequired and
          $db->isConnected() )
     {
-        eZSession::lazyStart();
+        if ( $ini->variable( 'Session', 'ForceStart' ) === 'enabled' )
+            eZSession::start();
+        else
+            eZSession::lazyStart();
     }
     else if ( !$db->isConnected() )
         $warningList[] = array( 'error' => array( 'type' => 'kernel',

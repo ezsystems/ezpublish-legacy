@@ -22,8 +22,19 @@ Change of behavior
 - LastAccessesURI and LastAccessedModifyingURI will no longer be saved by default
 
   They can be enabled again by setting site.ini/Session.StoreLastAccessedURI to enabled.
-  Note that no session is started unless it is required. Anonymous users won't have a session by default.
-  @todo Document the other setting that forces sessions for anonymous users.
+
+- Session does not start for anonymous users before it is needed
+
+  Meaning if you use fetch function to get number of anonymous users, it will not include anonymous
+  users that have not gotten a session (this happens when she goes to things like user/register or content/edit)
+  will not be included. Set site.ini/Session.ForceStart to enabled to get old behavior.
+  (you also need to use DB session handler to get this to work, see bellow)
+
+- Session handler uses native php handler by default (normally: file, this is defined in php.ini)
+
+  This makes all fetch functions that is related to logged in users to not work, and it's not longer
+  possible nor needed to clear/expire sessions from admin interface or command line interface.
+  To get old behavoir back, enable db handler by setting site.ini/Session.Handler to eZSessionHandlerDB
 
 
 Deprecated functionality

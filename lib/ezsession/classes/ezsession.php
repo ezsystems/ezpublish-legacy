@@ -345,7 +345,6 @@ class eZSession
      */
     static protected function forceStart( $cookieTimeout = false )
     {
-        var_dump( debug_backtrace() );
         if ( $cookieTimeout == false )
         {
             $cookieTimeout = eZINI::instance()->variable( 'Session', 'CookieTimeout' );

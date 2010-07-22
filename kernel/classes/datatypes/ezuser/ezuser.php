@@ -1290,20 +1290,12 @@ WHERE user_id = '" . $userID . "' AND
      */
     static protected function getUserCacheByUserId( $userId )
     {
-        eZExpiryHandler::registerShutdownFunction();
-        $handler = eZExpiryHandler::instance();
-
-        if ( $handler->hasTimestamp( 'user-info-cache' ) )
-            $expiredTimeStamp = $handler->timestamp( 'user-info-cache' );
-        else
-            $expiredTimeStamp = 0;
-
         $cacheFilePath = eZUser::getCacheDir( $userId ). "/user-data-{$userId}.cache.php" ;
         $cacheFile = eZClusterFileHandler::instance( $cacheFilePath );
         return $cacheFile->processCache( array( 'eZUser', 'retrieveUserCacheFromFile' ),
                                          array( 'eZUser', 'generateUserCacheForFile' ),
                                          null,
-                                         $expiredTimeStamp,
+                                         self::userInfoExpiry(),
                                          $userId );
     }
 
@@ -1929,7 +1921,7 @@ WHERE user_id = '" . $userID . "' AND
      \static
      Callback which figures out global expiry and returns it.
      */
-    function userInfoExpiry()
+    static protected function userInfoExpiry()
     {
         /* Figure out when the last update was done */
         eZExpiryHandler::registerShutdownFunction();
@@ -1945,28 +1937,6 @@ WHERE user_id = '" . $userID . "' AND
         }
 
         return $expiredTimestamp;
-    }
-
-    /*!
-     \private
-     \static
-     Callback which fetches access array from local file.
-     */
-    function retrieveAccessArrayFromCache( $filePath, $mtime, $userID )
-    {
-        return include( $filePath );
-    }
-
-    /*!
-     \private
-     Callback which generates the accessarray for the current user.
-     */
-    function generateAccessArrayForCache( $filePath, $userID )
-    {
-        return array( 'content'  => $this->generateAccessArray(),
-                      'scope'    => 'user-info-cache',
-                      'datatype' => 'php',
-                      'store'    => true );
     }
 
     /*
