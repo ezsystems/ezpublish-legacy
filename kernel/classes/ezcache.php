@@ -134,7 +134,7 @@ class eZCache
                                        'id' => 'user_info_cache',
                                        'is-clustered' => true,
                                        'tag' => array( 'user' ),
-                                       'expiry-key' => 'user-access-cache',
+                                       'expiry-key' => 'user-info-cache',
                                        'enabled' => true,
                                        'path' => 'user-info',
                                        'function' => array( 'eZCache', 'clearUserInfoCache' ) ),
@@ -568,13 +568,13 @@ class eZCache
     }
 
     /**
-     * Clears all user-info caches by setting a new expiry value for the key *user-access-cache*.
+     * Clears all user-info caches by setting a new expiry value for the key *user-info-cache*.
      */
     static function clearUserInfoCache( $cacheItem )
     {
         eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
-        $handler->setTimestamp( 'user-access-cache', time() );
+        $handler->setTimestamp( 'user-info-cache', time() );
         $handler->store();
     }
 

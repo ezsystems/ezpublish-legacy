@@ -79,11 +79,17 @@ class eZUserDiscountRule extends eZPersistentObject
 
     function store( $fieldFilters = null )
     {
-        eZExpiryHandler::registerShutdownFunction();
-        $handler = eZExpiryHandler::instance();
-        $handler->setTimestamp( 'user-discountrules-cache', time() );
-        // @todo: If user is anonymus, clear user-info cache for him
-        $handler->store();
+        if ( $this->ContentobjectID == eZUser::anonymousId() )
+        {
+            eZUser::purgeUserCacheByAnonymousId();
+        }
+        else
+        {
+            eZExpiryHandler::registerShutdownFunction();
+            $handler = eZExpiryHandler::instance();
+            $handler->setTimestamp( 'user-discountrules-cache', time() );
+            $handler->store();
+        }
         eZPersistentObject::store( $fieldFilters );
     }
 

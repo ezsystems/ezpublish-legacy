@@ -215,8 +215,6 @@ class eZUser extends eZPersistentObject
         eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'user-info-cache', time() );
-        $handler->setTimestamp( 'user-groups-cache', time() );
-        $handler->setTimestamp( 'user-access-cache', time() );
         $handler->store();
         $userID = $this->attribute( 'contentobject_id' );
         // Clear memory cache
@@ -520,9 +518,12 @@ WHERE user_id = '" . $userID . "' AND
         unset( $GLOBALS['eZUserLoggedInMap'] );
     }
 
-    /*!
-     \static
-     Remove session data for user \a $userID.
+   /**
+    * Remove session data for user \a $userID.
+    * @todo should use eZSession api (needs to be created) so
+    *       callbacks (like preference / basket..) is cleared as well.
+    *
+    * @params int $userID
     */
     static function removeSessionData( $userID )
     {
@@ -979,14 +980,12 @@ WHERE user_id = '" . $userID . "' AND
     */
     static function setCurrentlyLoggedInUser( $user, $userID )
     {
-        $http = eZHTTPTool::instance();
-
         $GLOBALS["eZUserGlobalInstance_$userID"] = $user;
         // Set/overwrite the global user, this will be accessed from
         // instance() when there is no ID passed to the function.
         $GLOBALS["eZUserGlobalInstance_"] = $user;
         eZSession::setUserID( $userID );
-        $http->setSessionVariable( 'eZUserLoggedInID', $userID );
+        eZSession::set( 'eZUserLoggedInID', $userID );
         self::cleanup();
         eZSession::regenerate();
     }
@@ -1007,19 +1006,10 @@ WHERE user_id = '" . $userID . "' AND
     static function cleanup()
     {
         $http = eZHTTPTool::instance();
-        $http->removeSessionVariable( 'eZUserGroupsCache_Timestamp' );
-        $http->removeSessionVariable( 'eZUserGroupsCache' );
 
-        $http->removeSessionVariable( 'eZUserInfoCache' );
-
-        $http->removeSessionVariable( 'eZUserAccessArray' );
         $http->removeSessionVariable( 'CanInstantiateClassesCachedForUser' );
         $http->removeSessionVariable( 'CanInstantiateClassList' );
         $http->removeSessionVariable( 'ClassesCachedForUser' );
-        $http->removeSessionVariable( 'eZRoleIDList' );
-        $http->removeSessionVariable( 'eZRoleIDList_Timestamp' );
-        $http->removeSessionVariable( 'eZRoleLimitationValueList' );
-        $http->removeSessionVariable( 'eZRoleLimitationValueList_Timestamp' );
 
         // Note: This must be done more generic with an internal
         //       callback system.
@@ -1175,8 +1165,6 @@ WHERE user_id = '" . $userID . "' AND
                                             'password_hash_type' => $currentUser->attribute( 'password_hash_type' )
                                             );
                     eZSession::setUserID( $userId );
-                    $http->setSessionVariable( 'eZUserInfoCache', $userInfo );
-                    $http->setSessionVariable( 'eZUserInfoCache_Timestamp', time() );
                     $http->setSessionVariable( 'eZUserLoggedInID', $userId );
 
                     eZUser::updateLastVisit( $userId );
@@ -1236,6 +1224,17 @@ WHERE user_id = '" . $userID . "' AND
     }
 
     /**
+     * Delete User cache from locale var and cache file for current user.
+     *
+     * @since 4.4
+     */
+    public function purgeUserCache()
+    {
+        $this->UserCache = null;
+        self::getUserCacheByUserId( $this->ContentObjectID );
+    }
+
+    /**
      * Set User cache from cache file (usefull for sessionless users).
      * Needs to be in excact same format as {@link eZUser::getUserCache()}!
      *
@@ -1251,7 +1250,7 @@ WHERE user_id = '" . $userID . "' AND
      * Get User cache from cache file for Anonymous user(usefull for sessionless users)
      *
      * @since 4.4
-     * @see eZUser::getUserCache()
+     * @see eZUser::getUserCacheByUserId()
      * @return array
      */
     static public function getUserCacheByAnonymousId()
@@ -1260,10 +1259,31 @@ WHERE user_id = '" . $userID . "' AND
     }
 
     /**
+     * Delete User cache from cache file for Anonymous user(usefull for sessionless users)
+     *
+     * @since 4.4
+     * @see eZUser::purgeUserCacheByUserId()
+     */
+    static public function purgeUserCacheByAnonymousId()
+    {
+        self::purgeUserCacheByUserId( self::anonymousId() );
+    }
+
+    /**
+     * Delete User cache pr user
+     *
+     * @since 4.4
+     * @param int $userId
+     */
+    static protected function purgeUserCacheByUserId( $userId )
+    {
+        $cacheFilePath = eZUser::getCacheDir( $userId ). "/user-data-{$userId}.cache.php" ;
+        eZClusterFileHandler::instance()->fileDelete( $cacheFilePath );
+    }
+    /**
      * Get User cache from cache file (usefull for sessionless users)
      *
      * @since 4.4
-     * @internal
      * @see eZUser::getUserCache()
      * @param int $userId
      * @return array
@@ -1278,7 +1298,7 @@ WHERE user_id = '" . $userID . "' AND
         else
             $expiredTimeStamp = 0;
 
-        $cacheFilePath = eZUser::getCacheDir( $userId ). '/user-data-'. $userId . '.cache.php';
+        $cacheFilePath = eZUser::getCacheDir( $userId ). "/user-data-{$userId}.cache.php" ;
         $cacheFile = eZClusterFileHandler::instance( $cacheFilePath );
         return $cacheFile->processCache( array( 'eZUser', 'retrieveUserCacheFromFile' ),
                                          array( 'eZUser', 'generateUserCacheForFile' ),
@@ -1914,14 +1934,14 @@ WHERE user_id = '" . $userID . "' AND
         /* Figure out when the last update was done */
         eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
-        if ( $handler->hasTimestamp( 'user-access-cache' ) )
+        if ( $handler->hasTimestamp( 'user-info-cache' ) )
         {
-            $expiredTimestamp = $handler->timestamp( 'user-access-cache' );
+            $expiredTimestamp = $handler->timestamp( 'user-info-cache' );
         }
         else
         {
             $expiredTimestamp = time();
-            $handler->setTimestamp( 'user-access-cache', $expiredTimestamp );
+            $handler->setTimestamp( 'user-info-cache', $expiredTimestamp );
         }
 
         return $expiredTimestamp;
@@ -2673,7 +2693,6 @@ WHERE user_id = '" . $userID . "' AND
     {
         eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
-        $handler->setTimestamp( 'user-access-cache', time() );
         $handler->setTimestamp( 'user-info-cache', time() );
         $handler->store();
     }
