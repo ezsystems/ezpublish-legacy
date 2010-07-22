@@ -287,7 +287,6 @@ class eZRole extends eZPersistentObject
         // Expire role cache
         eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
-        $handler->setTimestamp( 'user-access-cache', time() );
         $handler->setTimestamp( 'user-info-cache', time() );
         $handler->setTimestamp( 'user-class-cache', time() );
         $handler->store();
@@ -564,10 +563,10 @@ class eZRole extends eZPersistentObject
         $http->removeSessionVariable( 'CanInstantiateClassList' );
         $http->removeSessionVariable( 'ClassesCachedForUser' );
 
-        // Expire role cache
+        // Expire user (role) cache
         eZExpiryHandler::registerShutdownFunction();
         $handler = eZExpiryHandler::instance();
-        $handler->setTimestamp( 'user-access-cache', time() );
+        $handler->setTimestamp( 'user-info-cache', time() );
         $handler->store();
     }
 

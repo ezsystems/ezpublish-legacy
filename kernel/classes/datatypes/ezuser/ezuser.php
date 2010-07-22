@@ -1112,7 +1112,6 @@ WHERE user_id = '" . $userID . "' AND
         }
 
         $ini = eZINI::instance();
-// @TODO : cleaunp SSO code for session use after GL has merged SSO fix for SSO issue
         // Check if:
         // - the user has not logged out,
         // - the user is not logged in,
@@ -1247,18 +1246,6 @@ WHERE user_id = '" . $userID . "' AND
     }
 
     /**
-     * Get User cache from cache file for Anonymous user(usefull for sessionless users)
-     *
-     * @since 4.4
-     * @see eZUser::getUserCacheByUserId()
-     * @return array
-     */
-    static public function getUserCacheByAnonymousId()
-    {
-        return self::getUserCacheByUserId( self::anonymousId() );
-    }
-
-    /**
      * Delete User cache from cache file for Anonymous user(usefull for sessionless users)
      *
      * @since 4.4
@@ -1275,11 +1262,24 @@ WHERE user_id = '" . $userID . "' AND
      * @since 4.4
      * @param int $userId
      */
-    static protected function purgeUserCacheByUserId( $userId )
+    static public function purgeUserCacheByUserId( $userId )
     {
         $cacheFilePath = eZUser::getCacheDir( $userId ). "/user-data-{$userId}.cache.php" ;
         eZClusterFileHandler::instance()->fileDelete( $cacheFilePath );
     }
+
+    /**
+     * Get User cache from cache file for Anonymous user(usefull for sessionless users)
+     *
+     * @since 4.4
+     * @see eZUser::getUserCacheByUserId()
+     * @return array
+     */
+    static public function getUserCacheByAnonymousId()
+    {
+        return self::getUserCacheByUserId( self::anonymousId() );
+    }
+
     /**
      * Get User cache from cache file (usefull for sessionless users)
      *

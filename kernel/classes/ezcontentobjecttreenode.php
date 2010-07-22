@@ -3812,8 +3812,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $db = eZDB::instance();
         $db->begin();
 
-        $userClassIDArray = eZUser::contentClassIDs();
         $usersWereRemoved = false;
+        $userClassIDArray = eZUser::contentClassIDs();
 
         foreach ( $deleteIDArray as $deleteID )
         {
@@ -3913,6 +3913,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             if ( in_array( $childObject->attribute( 'contentclass_id' ), $userClassIDArray ) )
                             {
                                 eZUser::removeSessionData( $childObject->attribute( 'id' ) );
+                                eZUser::purgeUserCacheByUserId( $object->attribute( 'id' ) );
                                 $usersWereRemoved = true;
                             }
                             eZContentObject::clearCache();
@@ -3924,6 +3925,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     if ( $isUserClass )
                     {
                         eZUser::removeSessionData( $object->attribute( 'id' ) );
+                        eZUser::purgeUserCacheByUserId( $object->attribute( 'id' ) );
                         $usersWereRemoved = true;
                     }
                 }
