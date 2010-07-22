@@ -3961,8 +3961,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         if ( $usersWereRemoved )
         {
+            // @todo Session: remove or re-eanble depending on QA on added purge code above!
             // clean up the user-policy cache
-            eZUser::cleanupCache();
+            //eZUser::cleanupCache();
         }
 
         $db->commit();
