@@ -1,7 +1,20 @@
+{def $section         = fetch( 'section', 'object', hash( 'section_id', $node.object.section_id ) )
+     $visible_columns = ezini('SubItems', 'VisibleColumns', 'admininterface.ini') }
 {literal}
 <script type="text/javascript">
 (function() {
 {/literal}
+
+var vcols = {ldelim}
+
+{foreach $visible_columns as $index => $object}
+    {$index} : '{$object}'.split(';'){delimiter},
+
+{/delimiter}
+{/foreach}
+
+{rdelim};
+
 
 var confObj = {ldelim}
 
@@ -22,7 +35,11 @@ var confObj = {ldelim}
     currentURL: "{$node.url|wash( javascript )}",
     previewURL: {"/content/versionview/%objectID%/%version%"|ezurl},
     editURL: {"/content/edit/%objectID%"|ezurl},
-    hiddenColumns: "{ezpreference( 'admin_hidden_columns' )}".split(',')
+    defaultShownColumns: vcols,
+    navigationPart: "{$section.navigation_part_identifier}",
+    cookieName: "eZSubitemColumns",
+    cookieSecure: false,
+    cookieDomain: "{ezsys(hostname)}"
 {rdelim}
 
 
@@ -132,17 +149,16 @@ var labelsObj = {ldelim}
 {/if}
 
 {literal}
-YUILoader.require(['datatable', 'button', 'container']);
+YUILoader.require(['datatable', 'button', 'container', 'cookie']);
 YUILoader.onSuccess = function() {
-sortableSubitems.init(confObj, labelsObj, createGroups, createOptions);
-//    ss.init(confObj, labelsObj, createGroups, createOptions);
+    sortableSubitems.init(confObj, labelsObj, createGroups, createOptions);
 };
 var options = [];
 YUILoader.insert(options, 'js');
 
 })();
 {/literal}
-
+{undef $sections $visible_columns}
 </script>
 
 <div id="action-controls-container">

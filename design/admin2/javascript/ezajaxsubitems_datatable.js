@@ -6,6 +6,29 @@ var sortableSubitems = function () {
     var createOptions;
     var dataTable;
     var menuItems;
+    var shownColumns;
+
+    //Retrieves multiple values delimited by '|'
+    function getCookieSubMultiValue(subName) {
+        var sub = YAHOO.util.Cookie.getSub(confObj.cookieName, subName);
+        if (sub) { sub = unescape(sub).split('|'); }
+        return sub;
+    }
+
+    // Adds or replaces subcookie with multiple delimited ('|') values
+    // Sets expiry date 10 years from now
+    function setCookieSubMultiValue(subName, values) {
+        var joined = values.join('|');
+        var expiresDate = new Date();
+        expiresDate.setFullYear(expiresDate.getFullYear() + 10);
+
+        YAHOO.util.Cookie.setSub(confObj.cookieName, subName, escape(joined), {
+            path : "/",
+            expires : expiresDate,
+            secure : confObj.cookieSecure,
+            domain : confObj.cookieDomain
+        });
+    }
 
     function initDataTable(){
         var formatName = function(cell, record, column, data) {
@@ -51,13 +74,15 @@ var sortableSubitems = function () {
                 editor: new YAHOO.widget.TextboxCellEditor({asyncSubmitter: updatePriority, disableBtns:true, validator:YAHOO.widget.DataTable.validateNumber}) }
         ];
 
-        // Hide columns
-        var defsLength = columnDefs.length;
-        for (var i = 0, l = defsLength; i < l; i++) {
-            var columnDef = columnDefs[i];
-            
-            if ((jQuery.inArray(columnDef.key, confObj.hiddenColumns) != -1) && columnDef.key != '')
-                columnDef.hidden = true;
+        // Hide columns based on cookie with ini setting as fallback
+        // If neither cookie or ini is set: show all columns
+        if (shownColumns && shownColumns.length != 0) {
+            var defsLength = columnDefs.length;
+            for (var i = 0, l = defsLength; i < l; i++) {
+                var columnDef = columnDefs[i];
+                if ((jQuery.inArray(columnDef.key, shownColumns) == -1) && columnDef.key != '')
+                    columnDef.hidden = true;
+            }
         }
 
         var sectionParser = function(section) {
@@ -152,11 +177,11 @@ var sortableSubitems = function () {
                 this.highlightCell(elCell);
             }
         }
-        
+
         subItemsTable.subscribe("cellMouseoverEvent", highlightEditableCell);
         subItemsTable.subscribe("cellMouseoutEvent", subItemsTable.onEventUnhighlightCell);
         subItemsTable.subscribe("cellClickEvent", subItemsTable.onEventShowCellEditor);
-        
+
         // Update totalRecords on the fly with value from server
         subItemsTable.handleDataReturnPayload = function(oRequest, oResponse, oPayload) {
             oPayload.totalRecords = oResponse.meta.totalRecords;
@@ -205,7 +230,7 @@ var sortableSubitems = function () {
                         continue;
 
                     colOptionsHTML += '<div class="table-options-row"><span class="table-options-key">'+ label + '</span>';
-                    colOptionsHTML += '<span class="table-options-value"><input id="table-option-col-btn-' + i + '" type="checkbox" name="TableOptionColumn" value="' + key + '"' + ( jQuery.inArray( key, confObj.hiddenColumns ) < 0 ? ' checked="checked"' : ''  ) + ' /></span></div>';
+                    colOptionsHTML += '<span class="table-options-value"><input id="table-option-col-btn-' + i + '" type="checkbox" name="TableOptionColumn" value="' + key + '"' + ( jQuery.inArray( key, shownColumns ) != -1 ? ' checked="checked"' : ''  ) + ' /></span></div>';
 
                     YAHOO.util.Event.on("table-option-col-btn-" + i, "click", function(e, a) {
                         if (this.checked) {
@@ -214,13 +239,15 @@ var sortableSubitems = function () {
                         else {
                             subItemsTable.hideColumn(a);
                         }
-                        var hiddenKeys = [];
+                        var shownKeys = [];
                         $('#to-dialog-container input[name=TableOptionColumn]').each(function(i, e) {
-                            if ($(this).attr('checked') == false)
-                                hiddenKeys.push( $(this).attr('value') );
+                            if ($(this).attr('checked') == true)
+                                shownKeys.push( $(this).attr('value') );
                         });
-                       
-                        jQuery.post( jQuery.ez.url.replace( 'ezjscore/', 'user/preferences/set_and_exit/admin_hidden_columns/' ) + hiddenKeys.join(',') );
+
+                        // Update cookie and local variable
+                        setCookieSubMultiValue(confObj.navigationPart, shownKeys);
+                        shownColumns = shownKeys;
                     }, key);
                 }
 
@@ -256,7 +283,7 @@ var sortableSubitems = function () {
         tblOptsDialog.setHeader(labelsObj.TABLE_OPTIONS.header);
         tblOptsDialog.render();
 
-        
+
         // Toolbar buttons: Select, Create new, More actions
 
         var selectItemsBtnAction = function( type, args, item ) {
@@ -343,16 +370,16 @@ var sortableSubitems = function () {
                                                         onclick: { fn: showTblOptsDialog, obj: this, scope: true } });
     
     return subItemsTable;
-    };
+    }
 
 
     // Menu items are taken from the DOM array menuArray used by the ezpopupmenu.js
     function menuContent() {
-        
+
         // Accepted menus from menuArray (note: using keys, since not all menus have headerID)
         var whiteList = ['advanced', 'contextmenu'];
         var items = [];
-        
+
         items.push({ text: labelsObj.CONTEXT_MENU.edit, id: "ezopt-menu-edit", url: confObj.editURL});
         items.push({ text: labelsObj.CONTEXT_MENU.preview, id: "ezopt-menu-preview", url: confObj.previewURL});
 
@@ -372,7 +399,7 @@ var sortableSubitems = function () {
         });
 
         return items;
-    };
+    }
 
 
     // Updates URL-"macros" in menuitems according to the selected node
@@ -386,7 +413,7 @@ var sortableSubitems = function () {
             url = url.replace('%version%', version);
             item.cfg.setProperty('url', url);
         });
-    };
+    }
 
 
     // Action wrapper for context menu
@@ -428,7 +455,7 @@ var sortableSubitems = function () {
 
     // Context menu on right-click
     function initContextMenu() {
-        
+
         var contextMenuItemAction = function(type, args, dt) {
             var task = args[1];
             if (!task)
@@ -449,7 +476,7 @@ var sortableSubitems = function () {
         contextMenu.cfg.setProperty("scrollincrement", 5);
         contextMenu.cfg.setProperty("lazyLoad", true);
         contextMenu.addItems(menuItems);
-        
+
         //contextMenu.subscribe("render", hideFocusAction, contextMenu);
 
         // Render the ContextMenu instance to the parent container of the DataTable
@@ -459,17 +486,17 @@ var sortableSubitems = function () {
         contextMenu.subscribe('beforeShow', contextMenuSelectAction, dataTable);
         contextMenu.subscribe('hide', unselectTableAction, dataTable);
         contextMenu.subscribe('hide', resetMenuItemsAction, contextMenu);
-    };
+    }
 
 
     function initLeftClickMenu() {
-    
+
         var leftClickMenu = new YAHOO.widget.Menu("ezdt-leftclick-menu");
         leftClickMenu.cfg.setProperty("scrollincrement", 5);
         leftClickMenu.cfg.setProperty("lazyLoad", true);
         leftClickMenu.addItems(menuItems);
         leftClickMenu.render(dataTable.configs.element);
-        
+
         // Hide menu when clicking Esc
         dataTable.subscribe("keydown", function(e){
             if (e.keyCode == 27) {
@@ -477,17 +504,17 @@ var sortableSubitems = function () {
                 this.focus();
             }
         });
-        
+
         leftClickMenu.subscribe('hide', unselectTableAction, dataTable);
         leftClickMenu.subscribe('hide', resetMenuItemsAction, leftClickMenu);
-        
+
         // NOTE: Regardless of this attempt, the focus is stuck on the clicked button
         leftClickMenu.subscribe('show', function(args){
             leftClickMenu.focus();
         });
-        
+
         //leftClickMenu.subscribe("render", hideFocusAction, leftClickMenu);
-        
+
         dataTable.subscribe("buttonClickEvent", function(args){
             var trgt = args.target;
             var row = this.getTrEl(trgt);
@@ -495,20 +522,19 @@ var sortableSubitems = function () {
             var nodeId = record.getData('node_id');
             var objectId = record.getData('contentobject_id');
             var version = record.getData('version');
-            
+
             // Mark clicked row as selected
             this.selectRow(row);
-            
+
             // Set alignment of menu
             leftClickMenu.cfg.setProperty("context", [trgt, "tr", "bl"]);
-            
+
             // Update menu items & show
             formatMenuItems(leftClickMenu, nodeId, objectId, version);
             leftClickMenu.show();
         });
         
-    };
-
+    }
 
     return {
         init: function (conf, labels, groups, options) {
@@ -516,6 +542,9 @@ var sortableSubitems = function () {
             labelsObj = labels;
             createGroups = groups;
             createOptions = options;
+
+            shownColumns = getCookieSubMultiValue(confObj.navigationPart);
+            if (shownColumns == null) shownColumns = confObj.defaultShownColumns[confObj.navigationPart];
 
             menuItems = menuContent();      // Parsing DOM object menuArray once
             dataTable = initDataTable();    // dataTable used by menus
