@@ -7,7 +7,7 @@ INI setting changes
 
 
 
-Change of behavior 
+Change of behavior
 -------------------
 
 - Subversion revision number of eZ Publish is not accessible anymore.
@@ -18,6 +18,12 @@ Change of behavior
   Functions eZPublishSDK::revision() and eZSetupFunctionCollection::fetchRevision()
   has been removed as well as constants
   'VERSION_REVISION_STRING' and 'VERSION_REVISION' from class eZPublishSDK.
+
+- LastAccessesURI and LastAccessedModifyingURI will no longer be saved by default
+
+  They can be enabled again by setting site.ini/Session.StoreLastAccessedURI to enabled.
+  Note that no session is started unless it is required. Anonymous users won't have a session by default.
+  @todo Document the other setting that forces sessions for anonymous users.
 
 
 Deprecated functionality
