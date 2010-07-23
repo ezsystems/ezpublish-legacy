@@ -59,8 +59,8 @@ var sortableSubitems = function () {
         }
 
         var columnDefs = [
-            {key:"", label:"", formatter:customCheckbox},
-            {key:"", label:"", sortable:false, formatter:customButton},
+            {key:"check", label:"", formatter:customCheckbox, resizeable:false},
+            {key:"crank", label:"", sortable:false, formatter:customButton, resizeable:false},
             {key:"name", label:labelsObj.DATA_TABLE_COLS.name, sortable:true, resizeable:true, formatter:formatName},
             {key:"hidden_status_string", label: labelsObj.DATA_TABLE_COLS.visibility, sortable:false, resizeable:true},
             {key:"class_name", label:labelsObj.DATA_TABLE_COLS.type, sortable:true, resizeable:true},
@@ -80,7 +80,7 @@ var sortableSubitems = function () {
             var defsLength = columnDefs.length;
             for (var i = 0, l = defsLength; i < l; i++) {
                 var columnDef = columnDefs[i];
-                if ((jQuery.inArray(columnDef.key, shownColumns) == -1) && columnDef.key != '')
+                if ((jQuery.inArray(columnDef.key, shownColumns) == -1) && columnDef.label != '')
                     columnDef.hidden = true;
             }
         }
