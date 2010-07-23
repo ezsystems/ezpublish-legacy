@@ -2,6 +2,7 @@ Changes from 4.4.0alpha5 to 4.4.0alpha6
 
 *Kernel:
 - Implemented enhancement #017012: Add session handler & support for anonymous sessions
+- Implemented enhancement #016147: prevent makestaticcache script adding new session in ezsession table for each node it caches
 
 *Design:
 
