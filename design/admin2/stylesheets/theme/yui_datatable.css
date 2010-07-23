@@ -1,5 +1,13 @@
 /* DATA TABLE */
 
+.yui-dt-col-check {
+    width: 40px;
+}
+
+.yui-dt-col-crank {
+    width: 35px;
+}
+
 .yui-dt-mask {
     position: absolute;
     z-index: 9500;
@@ -72,10 +80,14 @@ th.yui-dt-resizeable .yui-dt-resizerliner {
 }
 
 th.yui-dt-hidden .yui-dt-liner,td.yui-dt-hidden .yui-dt-liner,th.yui-dt-hidden .yui-dt-resizer
-    {
+{
     display: none;
 }
 
+/* http://normankosmal.com/wordpress/?p=45 */
+th.yui-dt-hidden, tr.yui-dt-odd .yui-dt-hidden, tr.yui-dt-even .yui-dt-hidden {
+    display:none;
+}
 .yui-dt-editor {
     position: absolute;
     z-index: 9000;
@@ -124,10 +136,6 @@ th.yui-dt-hidden .yui-dt-liner,td.yui-dt-hidden .yui-dt-liner,th.yui-dt-hidden .
     padding: 0;
     border: none;
     border-left: 1px dotted #CBCBCB;
-}
-
-.yui-dt th:first-child, .yui-dt th:last-child {
-    border-left: none;
 }
 
 .yui-dt tr.yui-dt-first td {
@@ -306,7 +314,7 @@ tr.yui-dt-odd {
     height: 16px;
 }
 
-.yui-dt tbody tr:hover .yui-dt-liner .yui-dt-button{
+.yui-dt tbody tr .yui-dt-liner .yui-dt-button{
     background: url("../../images/2/icon-crank-16x16.png") no-repeat scroll center center transparent;
 }
 
