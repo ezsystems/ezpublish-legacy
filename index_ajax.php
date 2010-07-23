@@ -32,7 +32,6 @@ if ( !ini_get( 'date.timezone' ) )
 }
 
 require 'autoload.php';
-include_once( 'lib/ezutils/classes/ezsession.php' );
 include_once( 'kernel/common/ezincludefunctions.php' );
 
 // Tweaks ini filetime checks if not defined!
@@ -176,9 +175,14 @@ $db = eZDB::instance();
 if ( $db->isConnected() )
 {
     if ( class_exists( 'eZSession' ) )
+    {
         eZSession::start();
+    }
     else
+    {
+        include_once( 'lib/ezutils/classes/ezsession.php' );
         eZSessionStart();
+    }
 }
 else
 {

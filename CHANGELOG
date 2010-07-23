@@ -1,7 +1,9 @@
 
+# v1.2.0alpha6
+- Make index_ajax.php compatible with 4.4 eZSession change
+
 # v1.2.0alpha4
 - Fixed bug #016900: [patch] eZJSCore: clearing Packer cache in DB cluster
-
 
 # v1.2.0alpha3
 - Implemented #16495: Improvements of ezjscPacker::optimizeCSS()
