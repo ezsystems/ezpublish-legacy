@@ -149,7 +149,7 @@ class eZSession
      *
      * @param string $key
      * @param bool $forceStart Force session start if true
-     * @return bool|null Null if $forceStart is false and session has not started.
+     * @return bool|null Null if session has not started and $forceStart is false
      */
     static public function issetkey( $key, $forceStart = true )
     {
@@ -276,8 +276,6 @@ class eZSession
     */
     static protected function setCookieParams( $lifetime = false )
     {
-
-        
         $ini      = eZINI::instance();
         $params   = session_get_cookie_params();
         if ( $lifetime === false )

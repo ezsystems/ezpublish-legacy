@@ -117,10 +117,7 @@ else if ( isset( $_SERVER['HTTP_REFERER'] ) )
 }
 else
 {
-    if ( $http->hasSessionVariable( 'LastAccessesURI' ) )
-        $module->redirectTo( $http->sessionVariable( 'LastAccessesURI' ) );
-    else
-        $module->redirectTo( '/' );
+    $module->redirectTo( $http->postVariable( 'RedirectURI', $http->sessionVariable( 'LastAccessesURI', '/' ) ) );
 }
 
 ?>

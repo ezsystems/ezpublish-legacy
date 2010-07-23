@@ -71,8 +71,7 @@ if ( $Module->isCurrentAction( 'Login' ) and
         $requireUserLogin = ( $ini->variable( "SiteAccessSettings", "RequireUserLogin" ) == "true" );
         if ( !$requireUserLogin )
         {
-            if ( $http->hasSessionVariable( "LastAccessesURI" ) )
-                $userRedirectURI = $http->sessionVariable( "LastAccessesURI" );
+            $userRedirectURI = $http->postVariable( 'RedirectURI', $http->sessionVariable( 'LastAccessesURI', '/' ) );
         }
 
         if ( $http->hasSessionVariable( "RedirectAfterLogin" ) )

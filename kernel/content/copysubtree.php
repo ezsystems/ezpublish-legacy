@@ -845,7 +845,7 @@ function showNotificationAfterCopying( $http, $Module, &$Result, &$Notifications
 {
     $tpl = eZTemplate::factory();
 
-    if ( $http->hasSessionVariable( "LastAccessesURI" ) )
+    if ( $http->hasSessionVariable( "LastAccessesURI", false ) )
     {
         $tpl->setVariable( 'redirect_url', $http->sessionVariable( "LastAccessesURI" ) );
     }

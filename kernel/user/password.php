@@ -39,8 +39,7 @@ $userRedirectURI = '';
 
 $userRedirectURI = $Module->actionParameter( 'UserRedirectURI' );
 
-if ( $http->hasSessionVariable( "LastAccessesURI" ) )
-     $userRedirectURI = $http->sessionVariable( "LastAccessesURI" );
+$userRedirectURI = $http->postVariable( 'RedirectURI', $http->sessionVariable( 'LastAccessesURI', '/' ) );
 
 $redirectionURI = $userRedirectURI;
 if ( $redirectionURI == '' )

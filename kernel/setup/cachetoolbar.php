@@ -26,6 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
+$http = eZHTTPTool::instance();
 $module = $Params['Module'];
 
 $cacheType = $module->actionParameter( 'CacheType' );
@@ -92,7 +93,7 @@ elseif ( $cacheType == 'ContentSubtree' )
     }
 }
 
-$uri = eZSession::get( "LastAccessedModifyingURI", '/' );
+$uri = $http->postVariable( 'RedirectURI', $http->sessionVariable( 'LastAccessedModifyingURI', '/' ) );
 $module->redirectTo( $uri );
 
 ?>

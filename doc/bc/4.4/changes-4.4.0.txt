@@ -19,16 +19,12 @@ Change of behavior
   has been removed as well as constants
   'VERSION_REVISION_STRING' and 'VERSION_REVISION' from class eZPublishSDK.
 
-- LastAccessesURI and LastAccessedModifyingURI will no longer be saved by default
-
-  They can be enabled again by setting site.ini/Session.StoreLastAccessedURI to enabled.
-
 - Session does not start for anonymous users before it is needed
 
-  Meaning if you use fetch function to get number of anonymous users, it will not include anonymous
+  Meaning if you use fetch function to get number of anonymous users it will not include anonymous
   users that have not gotten a session (this happens when she goes to things like user/register or content/edit)
-  will not be included. Set site.ini/Session.ForceStart to enabled to get old behavior.
-  (you also need to use DB session handler to get this to work, see bellow)
+  will not be included. LastAccessesURI / LastAccessedModifyingURI is also not stored before user gets a session.
+  Set site.ini/Session.ForceStart to enabled to get old behavior.
 
 - Session handler uses native php handler by default (normally: file, this is defined in php.ini)
 
@@ -45,15 +41,22 @@ Change of behavior
 Deprecated functionality
 ------------------------
 
-- eZTemplate->setVariableRef() functions have been deprecated
+- eZTemplate->setVariableRef() functions
+
   This function has not set variables by reference since before
   4.0 (in php4 versions), hence it is now deprecated and setVariable()
   should be used instead.
 
 - Third parameter ($attrs) on eZTemplate->hasVariable() and ->variable() functions
-  have been deprecated.
+
   This parameter where not used at all in the kernel and will be removed in a
   future versions.
+
+- LastAccessesURI & LastAccessedModifyingURI session variables
+
+  These variables represent state and should not use sessions*, we will migrate eZ Publish to
+  use post parameters in the future, and we recommend you to do the same for your custom code.
+  * breaks when you have multiple windows open, something power users frequently do.
 
 
 Renamed methods

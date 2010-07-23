@@ -754,22 +754,25 @@ class eZHTTPTool
      * Check if session variable $name exists
      *
      * @param string $name
-     * @return bool
+     * @param bool $forceStart Force session start if true (default)
+     * @return bool|null Null if session has not started and $forceStart is false
      */
-    function hasSessionVariable( $name )
+    function hasSessionVariable( $name, $forceStart = true )
     {
-        return eZSession::issetkey( $name );
+        return eZSession::issetkey( $name, $forceStart );
     }
 
     /**
      * Get session variable $name
      *
      * @param string $name
+     * @param mixed $fallbackValue Return this if session has not started OR name is undefined
+     *              if null(default), then force start session and return null if undefined.
      * @return mixed ByRef
      */
-    function &sessionVariable( $name )
+    function &sessionVariable( $name, $fallbackValue = null )
     {
-        return eZSession::get( $name );
+        return eZSession::get( $name, $fallbackValue );
     }
 
     /**

@@ -41,7 +41,7 @@ $http = eZHTTPTool::instance();
 $nodeID = $Params['ContentNodeID'];
 $user = eZUser::currentUser();
 
-$redirectURI = $http->hasSessionVariable( "LastAccessesURI" ) ? $http->sessionVariable( "LastAccessesURI" ): '';
+$redirectURI = $http->postVariable( 'RedirectURI', $http->sessionVariable( 'LastAccessesURI', '/' ) );
 
 $viewMode = $http->hasPostVariable( 'ViewMode' ) ? $http->postVariable( 'ViewMode' ) : 'full';
 
@@ -70,7 +70,7 @@ if ( !$contentNode->attribute( 'can_read' ) )
 }
 
 $tpl = eZTemplate::factory();
-if ( $http->hasSessionVariable( "LastAccessesURI" ) )
+if ( $http->hasSessionVariable( "LastAccessesURI", false ) )
     $tpl->setVariable( 'redirect_url', $http->sessionVariable( "LastAccessesURI" ) );
 //else
 //    $tpl->setVariable( 'redirect_url', $module->functionURI( 'view' ) . '/full/2' );

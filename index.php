@@ -891,8 +891,7 @@ if ( $module->exitStatus() == eZModule::STATUS_REDIRECT )
 
 // Store the last URI for access history for login redirection
 // Only if database is connected, user has session and only if there was no error or no redirects happen
-if ( $ini->variable( 'Session', 'StoreLastAccessedURI' ) === 'enabled' &&
-    eZSession::hasStarted() &&
+if ( eZSession::hasStarted() &&
     is_object( $db ) && $db->isConnected() &&
     $module->exitStatus() == eZModule::STATUS_OK )
 {

@@ -69,14 +69,14 @@ class eZRedirectManager
 
         if ( $view )
         {
-            if ( $http->hasSessionVariable( "LastAccessesURI" ) )
+            if ( $http->hasSessionVariable( "LastAccessesURI", false ) )
             {
                 $uri = $http->sessionVariable( "LastAccessesURI" );
             }
         }
         else
         {
-            if ( $http->hasSessionVariable( "LastAccessedModifyingURI" ) )
+            if ( $http->hasSessionVariable( "LastAccessedModifyingURI", false ) )
             {
                 $uri = $http->sessionVariable( "LastAccessedModifyingURI" );
             }

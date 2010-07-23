@@ -26,6 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
+$http = eZHTTPTool::instance();
 $module = $Params['Module'];
 
 $allSettingsList = $module->actionParameter( 'AllSettingsList' );
@@ -100,7 +101,7 @@ foreach( $iniFiles as $fileName => $settings )
     }
 }
 
-$uri = eZSession::get( "LastAccessedModifyingURI", '/' );
+$uri = $http->postVariable( 'RedirectURI', $http->sessionVariable( 'LastAccessedModifyingURI', '/' ) );
 $module->redirectTo( $uri );
 
 ?>

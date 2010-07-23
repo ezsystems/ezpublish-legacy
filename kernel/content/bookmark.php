@@ -55,10 +55,9 @@ if ( $Module->isCurrentAction( 'Remove' )  )
                 $bookmark->remove();
         }
     }
-    if ( $http->hasPostVariable( 'NeedRedirectBack' ) and $http->hasSessionVariable( "LastAccessesURI" ) )
+    if ( $http->hasPostVariable( 'NeedRedirectBack' ) )
     {
-        $Module->redirectTo( $http->sessionVariable( "LastAccessesURI" ) );
-        return;
+        return $Module->redirectTo( $http->postVariable( 'RedirectURI', $http->sessionVariable( 'LastAccessesURI', '/' ) ) );
     }
 }
 else if ( $Module->isCurrentAction( 'Add' )  )

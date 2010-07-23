@@ -46,7 +46,7 @@ if ( $http->hasPostVariable( 'BackButton' )  )
         $http->removeSessionVariable( 'LastAccessesVersionURI' );
         return $Module->redirectTo( $redurectURI );
     }
-    if ( $http->hasSessionVariable( "LastAccessesURI" ) )
+    if ( $http->hasSessionVariable( "LastAccessesURI", false ) )
         $userRedirectURI = $http->sessionVariable( "LastAccessesURI" );
     return $Module->redirectTo( $userRedirectURI );
 }
