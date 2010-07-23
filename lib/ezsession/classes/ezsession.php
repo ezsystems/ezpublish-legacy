@@ -264,8 +264,6 @@ class eZSession
             self::$hasSessionCookie = isset( $_COOKIE[ $sessionName ] );
         }
 
-        self::setCookieParams();
-
         return self::getHandlerInstance()->setSaveHandler();
     }
 
@@ -274,12 +272,22 @@ class eZSession
      * Used by {@link eZSession::registerFunctions()}
      *
      * Note: this will only have affect when session is created / re-created
+     * @param int|false $lifetime Cookie timeout of session cookie, will read from ini if not set
     */
-    static public function setCookieParams()
+    static protected function setCookieParams( $lifetime = false )
     {
+
+        
         $ini      = eZINI::instance();
         $params   = session_get_cookie_params();
-        $lifetime = $ini->hasVariable('Session', 'CookieLifetime') ? $ini->variable('Session', 'CookieLifetime') : $params['lifetime'];
+        if ( $lifetime === false )
+        {
+            if ( $ini->hasVariable('Session', 'CookieTimeout')
+              && $ini->variable('Session', 'CookieTimeout') )
+                $lifetime = $ini->variable('Session', 'CookieTimeout');
+            else
+                $lifetime = $params['lifetime'];
+        }
         $path     = $ini->hasVariable('Session', 'CookiePath')     ? $ini->variable('Session', 'CookiePath')     : $params['path'];
         $domain   = $ini->hasVariable('Session', 'CookieDomain')   ? $ini->variable('Session', 'CookieDomain')   : $params['domain'];
         $secure   = $ini->hasVariable('Session', 'CookieSecure')   ? $ini->variable('Session', 'CookieSecure')   : $params['secure'];
@@ -345,15 +353,7 @@ class eZSession
      */
     static protected function forceStart( $cookieTimeout = false )
     {
-        if ( $cookieTimeout == false )
-        {
-            $cookieTimeout = eZINI::instance()->variable( 'Session', 'CookieTimeout' );
-        }
-
-        if ( is_numeric( $cookieTimeout ) )
-        {
-            session_set_cookie_params( (int)$cookieTimeout );
-        }
+        self::setCookieParams( $cookieTimeout );
         session_start();
         return self::$hasStarted = true;
     }
