@@ -35,7 +35,8 @@ class ezpContentLocation extends ezpLocation
         }
         else
         {
-            throw new ezcBaseExtension( "Unable to find node with ID $nodeId" );
+            // @TODO Currently this exception is only in rest package. Needs to be fixed.
+            throw new ezpContentNotFoundException( "Unable to find node with ID $nodeId" );
         }
     }
 
