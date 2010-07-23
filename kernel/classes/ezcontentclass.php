@@ -360,49 +360,11 @@ class eZContentClass extends eZPersistentObject
 
     function canInstantiateClasses()
     {
-        $ini = eZINI::instance();
-        $enableCaching = $ini->variable( 'RoleSettings', 'EnableCaching' );
-
-        if ( $enableCaching == 'true' )
-        {
-            $http = eZHTTPTool::instance();
-
-            eZExpiryHandler::registerShutdownFunction();
-            $handler = eZExpiryHandler::instance();
-            $expiredTimeStamp = 0;
-            if ( $handler->hasTimestamp( 'user-class-cache' ) )
-                $expiredTimeStamp = $handler->timestamp( 'user-class-cache' );
-
-            $classesCachedForUser = $http->sessionVariable( 'CanInstantiateClassesCachedForUser' );
-            $classesCachedTimestamp = $http->sessionVariable( 'ClassesCachedTimestamp' );
-            $user = eZUser::currentUser();
-            $userID = $user->id();
-
-            if ( ( $classesCachedTimestamp >= $expiredTimeStamp ) && $classesCachedForUser == $userID )
-            {
-                if ( $http->hasSessionVariable( 'CanInstantiateClasses' ) )
-                {
-                    return $http->sessionVariable( 'CanInstantiateClasses' );
-                }
-            }
-            else
-            {
-                // store cache
-                $http->setSessionVariable( 'CanInstantiateClassesCachedForUser', $userID );
-            }
-        }
-        $user = eZUser::currentUser();
-        $accessResult = $user->hasAccessTo( 'content' , 'create' );
-        $accessWord = $accessResult['accessWord'];
+        $accessResult = eZUser::currentUser()->hasAccessTo( 'content' , 'create' );
         $canInstantiateClasses = 1;
-        if ( $accessWord == 'no' )
+        if ( $accessResult['accessWord'] == 'no' )
         {
             $canInstantiateClasses = 0;
-        }
-
-        if ( $enableCaching == 'true' )
-        {
-            $http->setSessionVariable( 'CanInstantiateClasses', $canInstantiateClasses );
         }
         return $canInstantiateClasses;
     }
