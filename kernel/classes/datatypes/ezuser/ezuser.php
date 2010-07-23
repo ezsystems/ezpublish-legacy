@@ -1207,7 +1207,7 @@ WHERE user_id = '" . $userID . "' AND
     }
 
     /**
-     * Get User cache from cache file (usefull for sessionless users)
+     * Get User cache from cache file
      *
      * @since 4.4
      * @return array( 'info' => array, 'groups' => array, 'roles' => array, 'role_limitations' => array, 'access_array' => array)
@@ -1229,11 +1229,11 @@ WHERE user_id = '" . $userID . "' AND
     public function purgeUserCache()
     {
         $this->UserCache = null;
-        self::getUserCacheByUserId( $this->ContentObjectID );
+        self::purgeUserCacheByUserId( $this->ContentObjectID );
     }
 
     /**
-     * Set User cache from cache file (usefull for sessionless users).
+     * Set User cache from cache file
      * Needs to be in excact same format as {@link eZUser::getUserCache()}!
      *
      * @since 4.4
