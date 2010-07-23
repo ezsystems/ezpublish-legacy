@@ -10,7 +10,7 @@
 
 /** DB session handler class
  *
- * @since 4.4.0
+ * @since 4.4
  * @package lib
  * @subpackage ezsession
  */
@@ -42,38 +42,6 @@ class eZSessionHandlerDB extends eZSessionHandler
     {
         $db = eZDB::instance();
         return $db->isConnected();
-    }
-
-    /**
-     * Regenerate session id
-     *
-     * @param $updateBackendData bool (true if we want to keep session data with the new session id)
-     * @return bool
-     */
-    public function regenerate( $updateBackendData = true )
-    {
-        $oldSessionId = session_id();
-        session_regenerate_id();
-
-        if ( $updateBackendData )
-        {
-            $db = eZDB::instance();
-            if ( !$db->isConnected() )
-            {
-                return false;
-            }
-
-            $escOldKey = $db->escapeString( $oldSessionId );
-            $escNewKey = $db->escapeString( session_id() );
-            $escUserID = $db->escapeString( eZSession::userID() );
-            eZSession::triggerCallback( 'regenerate_pre', array( $db, $escNewKey, $escOldKey, $escUserID ) );
-
-            $db->query( "UPDATE ezsession SET session_key='$escNewKey', user_id='$escUserID' WHERE session_key='$escOldKey'" );
-            $db->query( "UPDATE ezbasket SET session_id='$escNewKey' WHERE session_id='$escOldKey'" );
-
-            eZSession::triggerCallback( 'regenerate_post', array( $db, $escNewKey, $escOldKey, $escUserID ) );
-        }
-        return true;
     }
 
     /**
@@ -176,6 +144,38 @@ class eZSessionHandlerDB extends eZSessionHandler
         return true;
     }
 
+    /**
+     * Regenerate session id
+     *
+     * @param $updateBackendData bool (true if we want to keep session data with the new session id)
+     * @return bool
+     */
+    public function regenerate( $updateBackendData = true )
+    {
+        $oldSessionId = session_id();
+        session_regenerate_id();
+
+        if ( $updateBackendData )
+        {
+            $db = eZDB::instance();
+            if ( !$db->isConnected() )
+            {
+                return false;
+            }
+
+            $escOldKey = $db->escapeString( $oldSessionId );
+            $escNewKey = $db->escapeString( session_id() );
+            $escUserID = $db->escapeString( eZSession::userID() );
+            eZSession::triggerCallback( 'regenerate_pre', array( $db, $escNewKey, $escOldKey, $escUserID ) );
+
+            $db->query( "UPDATE ezsession SET session_key='$escNewKey', user_id='$escUserID' WHERE session_key='$escOldKey'" );
+            $db->query( "UPDATE ezbasket SET session_id='$escNewKey' WHERE session_id='$escOldKey'" );
+
+            eZSession::triggerCallback( 'regenerate_post', array( $db, $escNewKey, $escOldKey, $escUserID ) );
+        }
+        return true;
+    }
+
    /**
      * Session gc (garbageCollector) handler
      *
@@ -230,7 +230,7 @@ class eZSessionHandlerDB extends eZSessionHandler
     }
 
     /**
-     * Cleaup session data (Truncate table)
+     * Remove all session data (Truncate table)
      *
      * @return bool
      */
@@ -246,11 +246,11 @@ class eZSessionHandlerDB extends eZSessionHandler
     }
 
     /**
-     * Counts the number of active session and returns it.
+     * Counts the number of session and returns it.
      *
      * @return int|null Returns null if handler does not support this.
      */
-    static public function countActive()
+    static public function count()
     {
         $db = eZDB::instance();
         $rows = $db->arrayQuery( 'SELECT count( * ) AS count FROM ezsession' );

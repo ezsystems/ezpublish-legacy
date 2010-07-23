@@ -388,7 +388,7 @@ if ( !$useCronjob )
 
     // Fill in hooks
     eZSession::addCallback( 'destroy_pre', 'eZSessionBasketDestroy');
-    eZSession::addCallback( 'gc_pre', 'eZSessionBasketGarbageCollector');
+    eZSession::addCallback( 'gc_pre',      'eZSessionBasketGarbageCollector');
     eZSession::addCallback( 'cleanup_pre', 'eZSessionBasketCleanup');
 }
 

@@ -35,7 +35,7 @@ $http = eZHTTPTool::instance();
 $module = $Params['Module'];
 
 
-if ( !eZSession::getHandlerInstance()->usesDatabaseTable() )
+if ( !eZSession::getHandlerInstance()->hasBackendAccess() )
 {
     $Result = array();
     $Result['content'] = $tpl->fetch( "design:setup/session_no_db.tpl" );

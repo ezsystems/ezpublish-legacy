@@ -10,10 +10,16 @@
 
 /** Abstract session handler class to extend
  *
+ * CALLBACKS:
+ * destroy, gc, regenerate & cleanup functions MUST implement callbacks.
+ * Definition is documented in functions on this class, examples can be
+ * found in the handlers and examples of use can be sessin in ezsession.php
+ * class doc section.
+ *
+ * @since 4.4
  * @abstract
  * @package lib
  * @subpackage ezsession
- * @since 4.4.0
  */
 abstract class eZSessionHandler
 {
@@ -96,6 +102,18 @@ abstract class eZSessionHandler
     abstract public function write( $sessionId, $sessionData );
 
     /**
+     * Session destroy handler
+     * Callback: "destroy_[pre|post]"
+     *           eZDB $db
+     *           string $sessionId
+     *           string $escKey
+     *
+     * @param string $sessionId
+     * @return bool
+     */
+    abstract public function destroy( $sessionId );
+
+    /**
      * Regenerate session id
      * Callback (when $updateBackendData is true): "regenerate_[pre|post]"
      *           eZDB $db
@@ -107,18 +125,6 @@ abstract class eZSessionHandler
      * @return bool
      */
     abstract public function regenerate( $updateBackendData = true );
-
-    /**
-     * Session destroy handler
-     * Callback: "destroy_[pre|post]"
-     *           eZDB $db
-     *           string $sessionId
-     *           string $escKey
-     *
-     * @param string $sessionId
-     * @return bool
-     */
-    abstract public function destroy( $sessionId );
 
    /**
      * Session gc (garbageCollector) handler
@@ -132,7 +138,7 @@ abstract class eZSessionHandler
     abstract public function gc( $maxLifeTime );
 
     /**
-     * Cleaup session data
+     * Remove all session data
      * Callback: "cleanup_[pre|post]"
      *           eZDB $db
      *
@@ -141,22 +147,22 @@ abstract class eZSessionHandler
     abstract public function cleanup();
 
     /**
-     * Counts the number of active session and returns it.
+     * Counts the number of session and returns it.
      *
-     * @return int|null Returns null if handler does not support this.
+     * @return int Returns -1 if handler does not support this.
      */
-    static public function countActive()
+    static public function count()
     {
-        return null;
+        return -1;
     }
 
     /**
-     * Signals that handler uses ezsession table
-     * If not, then features like gc, cleanup and countActive is unsupported.
+     * Signals that handler has direct access to backend, thus is cable of supporting features
+     * like gc, cleanup & count.
      *
      * @return bool
      */
-    static public function usesDatabaseTable()
+    static public function hasBackendAccess()
     {
         return true;
     }

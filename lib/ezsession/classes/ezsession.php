@@ -216,7 +216,7 @@ class eZSession
      */
     static public function countActive()
     {
-        return self::getHandlerInstance()->countActive();
+        return self::getHandlerInstance()->count();
     }
 
     /**
@@ -390,10 +390,10 @@ class eZSession
      * This is useful to call on logins, to avoid sessions theft from users.
      * NOTE: make sure you set new user id first using {@link eZSession::setUserID()}
      *
-     * @param bool $updateUserSession set to false to not update session in db with new session id and user id.
+     * @param bool $updateBackendData set to false to not update session backend with new session id and user id.
      * @return bool Depending on if session was regenerated.
      */
-    static public function regenerate( $updateUserDBSession = true )
+    static public function regenerate( $updateBackendData = true )
     {
         if ( !self::$hasStarted )
         {
@@ -410,7 +410,7 @@ class eZSession
             return false;
         }
 
-        return self::getHandlerInstance()->regenerate( ($updateUserDBSession && self::$hasSessionCookie) );
+        return self::getHandlerInstance()->regenerate( ($updateBackendData && self::$hasSessionCookie) );
     }
 
     /**

@@ -8,17 +8,12 @@
  * @package lib
  */
 
-/** DB session handler class
- *
- * @since 4.4.0
- * @package lib
- * @subpackage ezsession
- */
-
 /** PHP session handler class
  * Does not register it self as opposed to most other handler, as the point is to let PHP handle most things
  *
- * @since 4.4.0
+ * @since 4.4
+ * @package lib
+ * @subpackage ezsession
  */
 class eZSessionHandlerPHP extends eZSessionHandler
 {
@@ -28,6 +23,33 @@ class eZSessionHandlerPHP extends eZSessionHandler
     public function setSaveHandler()
     {
         return true;
+    }
+
+    /**
+     *  reimp (not used in this handler)
+     */
+    public function read( $sessionId )
+    {
+        return false;
+    }
+
+    /**
+     *  reimp (not used in this handler)
+     */
+    public function write( $sessionId, $sessionData )
+    {
+        return false;
+    }
+
+    /**
+     *  reimp (not used in this handler)
+     *
+     *  So callbacks on this function is not called, this is a known limitation.
+     *  Either make sure your data does not depend on session id, or make sure it is cleanup in session_gc.php (cronjob).
+     */
+    public function destroy( $sessionId )
+    {
+        return false;
     }
 
     /**
@@ -50,35 +72,14 @@ class eZSessionHandlerPHP extends eZSessionHandler
         return true;
     }
 
-    /**
-     *  reimp (not used in this handler)
-     */
-    public function read( $sessionId )
-    {
-        return false;
-    }
-
-    /**
-     *  reimp (not used in this handler)
-     */
-    public function write( $sessionId, $sessionData )
-    {
-        return false;
-    }
-
-    /**
-     *  reimp (not used in this handler)
-     */
-    public function destroy( $sessionId )
-    {
-        return false;
-    }
-
    /**
      * reimp (not used in this handler)
      */
     public function gc( $maxLifeTime )
     {
+        $db = eZDB::instance();
+        eZSession::triggerCallback( 'gc_pre', array( $db, $maxLifeTime ) );
+        eZSession::triggerCallback( 'gc_post', array( $db, $maxLifeTime ) );
         return false;
     }
 
@@ -94,9 +95,9 @@ class eZSessionHandlerPHP extends eZSessionHandler
     }
 
    /**
-     * reimp (this handler does not use tables)
+     * reimp (this handler does not use db)
      */
-    static public function usesDatabaseTable()
+    static public function hasBackendAccess()
     {
         return false;
     }
