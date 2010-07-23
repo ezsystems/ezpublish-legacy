@@ -1,6 +1,7 @@
 Changes from 4.4.0alpha5 to 4.4.0alpha6
 
 *Kernel:
+- Implemented enhancement #017012: Add session handler & support for anonymous sessions
 
 *Design:
 
@@ -15,7 +16,8 @@ Changes from 4.4.0alpha5 to 4.4.0alpha6
 *Translations:
 
 *Bugfixes:
-- Fixed bug #16738: LDAP login with method "GetGroupsTree" fails because of missing permissions of login script
-- Fixed bug #16983: Login on private section with sso extension causes infinite redirection loop
-- Fixed bug #17020: Provide a upgrade script for section identifiers
+
+- Fixed bug #017020: Provide a upgrade script for section identifiers
+- Fixed bug #016983: Login on private section with sso extension causes infinite redirection loop
+- Fixed bug #016738: LDAP login with method "GetGroupsTree" fails because of missing permissions of login script
 

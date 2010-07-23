@@ -36,6 +36,11 @@ Change of behavior
   possible nor needed to clear/expire sessions from admin interface or command line interface.
   To get old behavoir back, enable db handler by setting site.ini/Session.Handler to eZSessionHandlerDB
 
+- Section ID no longer global
+
+  Like other session related topic mentioned above, prevous eZ Publish versions remembered section id state for
+  use as override option on pages that had nothing to do with section (non content related) like user/login.
+  This is no longer supported. 
 
 Deprecated functionality
 ------------------------
