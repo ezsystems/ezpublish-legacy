@@ -43,7 +43,6 @@ if ( isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) )
 }
 
 require 'autoload.php';
-require 'lib/ezutils/classes/ezsession.php';
 require 'kernel/common/ezincludefunctions.php';
 
 // Tweaks ini filetime checks if not defined!
