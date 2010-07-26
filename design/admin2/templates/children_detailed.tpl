@@ -62,7 +62,9 @@ var labelsObj = {ldelim}
                         section: "{'Section'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
                         priority: "{'Priority'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
                         nodeid: "{'Node ID'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
-                        contentid: "{'Object ID'|i18n( 'design/admin/node/view/full' )|wash('javascript')}"
+                        objectid: "{'Object ID'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        noderemoteid: "{'Node remote ID'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        objectremoteid: "{'Object remote ID'|i18n( 'design/admin/node/view/full' )|wash('javascript')}"
                     {rdelim},
 
     TABLE_OPTIONS: {ldelim}
@@ -158,7 +160,7 @@ YUILoader.insert(options, 'js');
 
 })();
 {/literal}
-{undef $sections $visible_columns}
+{undef $section $visible_columns}
 </script>
 
 <div id="action-controls-container">

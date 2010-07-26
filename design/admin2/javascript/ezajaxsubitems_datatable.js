@@ -69,7 +69,9 @@ var sortableSubitems = function () {
             {key:"published_date", label:labelsObj.DATA_TABLE_COLS.published, sortable:true, resizeable:true},
             {key:"section", label:labelsObj.DATA_TABLE_COLS.section, sortable:true, resizeable:true},
             {key:"node_id", label:labelsObj.DATA_TABLE_COLS.nodeid, sortable:true, resizeable:true},
-            {key:"contentobject_id", label:labelsObj.DATA_TABLE_COLS.contentid, sortable:true, resizeable:true},
+            {key:"node_remote_id", label:labelsObj.DATA_TABLE_COLS.noderemoteid, sortable:false, resizeable:true},
+            {key:"contentobject_id", label:labelsObj.DATA_TABLE_COLS.objectid, sortable:true, resizeable:true},
+            {key:"contentobject_remote_id", label:labelsObj.DATA_TABLE_COLS.objectremoteid, sortable:false, resizeable:true},
             {key:"priority", label: labelsObj.DATA_TABLE_COLS.priority, sortable:true, resizeable:true, 
                 editor: new YAHOO.widget.TextboxCellEditor({asyncSubmitter: updatePriority, disableBtns:true, validator:YAHOO.widget.DataTable.validateNumber}) }
         ];
@@ -99,19 +101,21 @@ var sortableSubitems = function () {
             resultsList: "content.list",
             fields: [
                 {key:"name"},
-                {key:"modified_date"},
                 {key:"hidden_status_string"},
                 {key:"class_name"},
                 {key:"creator", parser:creatorParser},
-                {key:"section", parser:sectionParser},
-                {key:"priority"},
-                {key:"url"},
-                {key:"class_icon"},
-                {key:"node_id"},
-                {key:"parent_node_id"},
+                {key:"modified_date"},
                 {key:"published_date"},
+                {key:"section", parser:sectionParser},
+                {key:"version"},
+                {key:"node_id"},
+                {key:"node_remote_id"},
                 {key:"contentobject_id"},
-                {key:"version"}
+                {key:"contentobject_remote_id"},
+                {key:"priority"},
+                {key:"class_icon"},
+                {key:"url"},
+                {key:"parent_node_id"},
             ],
             metaFields: {
                 totalRecords: "content.total_count" // Access to value in the server response
