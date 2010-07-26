@@ -445,10 +445,10 @@ class eZStaticCache
      * Generates a cache directory parts including path, siteaccess name, site URL
      * depending on the match order type.
      *
-     * @param string $cachedSiteAccess
+     * @param string $siteAccess
      * @return array
      */
-    private function buildCacheDirPath( $cachedSiteAccess )
+    private function buildCacheDirPath( $siteAccess )
     {
         $dirParts = array();
 
@@ -465,10 +465,10 @@ class eZStaticCache
                     {
                         $parts = explode( ';', $hostUriMatchMapItem );
 
-                        if ( $parts[2] === $cachedSiteAccess  )
+                        if ( $parts[2] === $siteAccess  )
                         {
-                            $dirParts[] = $this->buildCacheDirPart( ( isset( $parts[0] ) ? '/' . $parts[0] : '' ) .
-                                                                        ( isset( $parts[1] ) ? '/' . $parts[1] : '' ), $cachedSiteAccess );
+                            $dirParts[] = $this->buildCacheDirPart( ( $parts[0] ? '/' . $parts[0] : '' ) .
+                                                                    ( $parts[1] ? '/' . $parts[1] : '' ), $siteAccess );
                         }
                     }
                     break;
@@ -477,14 +477,14 @@ class eZStaticCache
                     {
                         $parts = explode( ';', $hostMatchMapItem );
 
-                        if ( $parts[1] === $cachedSiteAccess  )
+                        if ( $parts[1] === $siteAccess  )
                         {
-                            $dirParts[] = $this->buildCacheDirPart( ( isset( $parts[0] ) ? '/' . $parts[0] : '' ), $cachedSiteAccess );
+                            $dirParts[] = $this->buildCacheDirPart( ( $parts[0] ? '/' . $parts[0] : '' ), $siteAccess );
                         }
                     }
                     break;
                 default:
-                    $dirParts[] = $this->buildCacheDirPart( '/' . $cachedSiteAccess, $cachedSiteAccess );
+                    $dirParts[] = $this->buildCacheDirPart( '/' . $siteAccess, $siteAccess );
                     break;
             }
         }
