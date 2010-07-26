@@ -36,7 +36,7 @@ Change of behavior
 
   Like other session related topic mentioned above, prevous eZ Publish versions remembered section id state for
   use as override option on pages that had nothing to do with section (non content related) like user/login.
-  This is no longer supported. 
+  This is no longer supported.
 
 Deprecated functionality
 ------------------------
