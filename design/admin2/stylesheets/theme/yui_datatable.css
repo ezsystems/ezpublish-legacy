@@ -6,6 +6,7 @@
 
 .yui-dt-col-crank {
     width: 35px;
+    background: url("../../images/2/icon-crank-16x16.png") no-repeat scroll center center transparent;
 }
 
 .yui-dt-mask {
@@ -312,10 +313,6 @@ tr.yui-dt-odd {
     vertical-align:middle;
     width:16px;
     height: 16px;
-}
-
-.yui-dt tbody tr .yui-dt-liner .yui-dt-button{
-    background: url("../../images/2/icon-crank-16x16.png") no-repeat scroll center center transparent;
 }
 
 .yui-dt-list tr.yui-dt-even {

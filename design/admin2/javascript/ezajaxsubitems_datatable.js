@@ -115,7 +115,7 @@ var sortableSubitems = function () {
                 {key:"priority"},
                 {key:"class_icon"},
                 {key:"url"},
-                {key:"parent_node_id"},
+                {key:"parent_node_id"}
             ],
             metaFields: {
                 totalRecords: "content.total_count" // Access to value in the server response
