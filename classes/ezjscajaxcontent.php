@@ -225,19 +225,20 @@ class ezjscAjaxContent
         if (  !isset( $params['imageDataTypes'] ) )
             $params['imageDataTypes'] = $ini->variable( 'ImageDataTypeSettings', 'AvailableImageDataTypes' );
 
-        $ret                     = array();
-        $attrtibuteArray         = array();
-        $ret['name']             = $contentObject->attribute( 'name' );
-        $ret['contentobject_id'] = $ret['id'] = (int) $contentObject->attribute( 'id' );
-        $ret['main_node_id']     = (int)$contentObject->attribute( 'main_node_id' );
-        $ret['version']          = (int)$contentObject->attribute( 'current_version' );
-        $ret['modified']         = $contentObject->attribute( 'modified' );
-        $ret['published']        = $contentObject->attribute( 'published' );
-        $ret['section_id']       = (int) $contentObject->attribute( 'section_id' );
-        $ret['current_language'] = $contentObject->attribute( 'current_language' );
-        $ret['owner_id']         = (int) $contentObject->attribute( 'owner_id' );
-        $ret['class_id']         = (int) $contentObject->attribute( 'contentclass_id' );
-        $ret['class_name']       = $contentObject->attribute( 'class_name' );
+        $ret                            = array();
+        $attrtibuteArray                = array();
+        $ret['name']                    = $contentObject->attribute( 'name' );
+        $ret['contentobject_id']        = $ret['id'] = (int) $contentObject->attribute( 'id' );
+        $ret['contentobject_remote_id'] = $contentObject->attribute( 'remote_id' );
+        $ret['main_node_id']            = (int)$contentObject->attribute( 'main_node_id' );
+        $ret['version']                 = (int)$contentObject->attribute( 'current_version' );
+        $ret['modified']                = $contentObject->attribute( 'modified' );
+        $ret['published']               = $contentObject->attribute( 'published' );
+        $ret['section_id']              = (int) $contentObject->attribute( 'section_id' );
+        $ret['current_language']        = $contentObject->attribute( 'current_language' );
+        $ret['owner_id']                = (int) $contentObject->attribute( 'owner_id' );
+        $ret['class_id']                = (int) $contentObject->attribute( 'contentclass_id' );
+        $ret['class_name']              = $contentObject->attribute( 'class_name' );
 
         if ( isset( $params['formatDate'] ) )
         {
@@ -304,6 +305,7 @@ class ezjscAjaxContent
             
             $ret['node_id']              = (int) $node->attribute( 'node_id' );
             $ret['parent_node_id']       = (int) $node->attribute( 'parent_node_id' );
+            $ret['node_remote_id']       = $node->attribute( 'remote_id' );
             $ret['url_alias']            = $node->attribute( 'url_alias' );
             $ret['url']                  = $node->url();
             // force system url on empty urls (root node)
