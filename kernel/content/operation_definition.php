@@ -45,20 +45,18 @@ $OperationList['read'] = array( 'name' => 'read',
                                                               'default' => '',
                                                               'required' => false ) ),
                                 'keys' => array( 'node_id' ),
-
                                 'body' => array( array( 'type' => 'trigger',
                                                         'name' => 'pre_read',
                                                         'keys' => array( 'node_id',
-                                                                         'user_id'
-                                                                         ) ),
-
-
-
+                                                                         'user_id' ) ),
+                                                 array( 'type' => 'trigger',
+                                                        'name' => 'post_read',
+                                                        'keys' => array( 'node_id',
+                                                                         'user_id' ) ),
                                                  array( 'type' => 'method',
                                                         'name' => 'fetch-object',
                                                         'frequency' => 'once',
-                                                        'method' => 'readObject',
-                                                        ) ) );
+                                                        'method' => 'readObject' ) ) );
 
 $OperationList['publish'] = array( 'name' => 'publish',
                                    'default_call_method' => array( 'include_file' => 'kernel/content/ezcontentoperationcollection.php',
