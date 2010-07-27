@@ -408,7 +408,7 @@ var sortableSubitems = function () {
 
     // Updates URL-"macros" in menuitems according to the selected node
     function formatMenuItems(menu, nodeId, objectId, version){ 
-        
+
         $.each(menu.getItems(), function(index, item) {
             var url = item.cfg.getProperty('url');
             url = url.replace('%nodeID%', nodeId);
@@ -481,8 +481,6 @@ var sortableSubitems = function () {
         contextMenu.cfg.setProperty("lazyLoad", true);
         contextMenu.addItems(menuItems);
 
-        //contextMenu.subscribe("render", hideFocusAction, contextMenu);
-
         // Render the ContextMenu instance to the parent container of the DataTable
         contextMenu.render(dataTable.configs.element);
         contextMenu.clickEvent.subscribe(contextMenuItemAction, dataTable);
@@ -550,10 +548,16 @@ var sortableSubitems = function () {
             shownColumns = getCookieSubMultiValue(confObj.navigationPart);
             if (shownColumns == null) shownColumns = confObj.defaultShownColumns[confObj.navigationPart];
 
-            menuItems = menuContent();      // Parsing DOM object menuArray once
             dataTable = initDataTable();    // dataTable used by menus
-            initContextMenu();              // dataTable's context menu. Available in Opera via ctrl+left-click
-            initLeftClickMenu();            // dataTable's left-click alternative to the context menu
+
+            // Ensures that the complete menuArray is loaded before parsing
+            // Required for Opera to receive the complete menu array
+            $(document).ready(function() {
+                menuItems = menuContent();      // Parsing DOM object menuArray once
+                initContextMenu();              // dataTable's context menu. Available in Opera via ctrl+left-click
+                initLeftClickMenu();            // dataTable's left-click alternative to the context menu
+            });
+
         }
     };
  
