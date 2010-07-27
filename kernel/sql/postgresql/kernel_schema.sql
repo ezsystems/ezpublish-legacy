@@ -3294,6 +3294,30 @@ CREATE INDEX ezinfocollection_attr_co_id ON ezinfocollection_attribute USING btr
 
 
 
+CREATE INDEX ezinfocollection_attr_cca_id ON ezinfocollection_attribute USING btree (contentclass_attribute_id);
+
+
+
+
+
+
+
+CREATE INDEX ezinfocollection_attr_coa_id ON ezinfocollection_attribute USING btree (contentobject_attribute_id);
+
+
+
+
+
+
+
+CREATE INDEX ezinfocollection_attr_ic_id ON ezinfocollection_attribute USING btree (informationcollection_id);
+
+
+
+
+
+
+
 CREATE INDEX ezkeyword_keyword ON ezkeyword USING btree (keyword);
 
 

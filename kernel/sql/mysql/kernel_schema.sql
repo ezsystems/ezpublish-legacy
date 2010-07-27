@@ -707,7 +707,10 @@ CREATE TABLE ezinfocollection_attribute (
   id int(11) NOT NULL auto_increment,
   informationcollection_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id),
-  KEY ezinfocollection_attr_co_id (contentobject_id)
+  KEY ezinfocollection_attr_co_id (contentobject_id),
+  KEY ezinfocollection_attr_cca_id (contentclass_attribute_id),
+  KEY ezinfocollection_attr_coa_id (contentobject_attribute_id),
+  KEY ezinfocollection_attr_ic_id (informationcollection_id)
 ) ENGINE=InnoDB;
 
 
