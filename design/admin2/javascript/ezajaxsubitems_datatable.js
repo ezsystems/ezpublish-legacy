@@ -481,6 +481,8 @@ var sortableSubitems = function () {
         contextMenu.cfg.setProperty("lazyLoad", true);
         contextMenu.addItems(menuItems);
 
+        contextMenu.subscribe("render", hideFocusAction, contextMenu);
+
         // Render the ContextMenu instance to the parent container of the DataTable
         contextMenu.render(dataTable.configs.element);
         contextMenu.clickEvent.subscribe(contextMenuItemAction, dataTable);
@@ -515,7 +517,7 @@ var sortableSubitems = function () {
             leftClickMenu.focus();
         });
 
-        //leftClickMenu.subscribe("render", hideFocusAction, leftClickMenu);
+        leftClickMenu.subscribe("render", hideFocusAction, leftClickMenu);
 
         dataTable.subscribe("buttonClickEvent", function(args){
             var trgt = args.target;
