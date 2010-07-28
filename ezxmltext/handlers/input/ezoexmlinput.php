@@ -185,10 +185,11 @@ class eZOEXMLInput extends eZXMLInputHandler
                     self::$browserType = 'Gecko';
             }
             else if ( strpos( $userAgent, 'WebKit' ) !== false &&
-                      strpos( $userAgent, ' Mobile' ) === false && // Mobile webkit does not have rich text editing support
-                      strpos( $userAgent, ' Android' ) === false &&
-                      strpos( $userAgent, ' iPad' ) === false &&
-                      strpos( $userAgent, ' iPhone' ) === false &&
+                      strpos( $userAgent, 'Mobile' ) === false && // Mobile webkit does not have rich text editing support
+                      strpos( $userAgent, 'Android' ) === false &&
+                      strpos( $userAgent, 'iPad' ) === false &&
+                      strpos( $userAgent, 'iPhone' ) === false &&
+                      strpos( $userAgent, 'iPod' ) === false &&
                       preg_match('/WebKit\/([0-9\.]+)/i', $userAgent, $browserInfo ) )
             {
                 if ( $browserInfo[1] >= 522.0 )
