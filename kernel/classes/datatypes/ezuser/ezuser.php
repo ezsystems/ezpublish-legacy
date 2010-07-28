@@ -2423,7 +2423,6 @@ WHERE user_id = '" . $userID . "' AND
     {
         if ( $asObject == true )
         {
-            $this->Groups = array();
             if ( !isset( $this->GroupsAsObjects ) )
             {
                 $db = eZDB::instance();
