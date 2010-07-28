@@ -56,7 +56,12 @@ if ( $http->hasPostVariable( "ActionAddToBasket" ) )
     else
         $optionList = array();
 
-    $http->setSessionVariable( "FromPage", $_SERVER['HTTP_REFERER'] );
+    $fromPage = '';
+    if ( $http->hasSessionVariable( 'LastAccessesURI' ) )
+    {
+        $fromPage = $http->sessionVariable( 'LastAccessesURI' );
+    }
+    $http->setSessionVariable( "FromPage", $fromPage );
     $http->setSessionVariable( "AddToBasket_OptionList_" . $objectID, $optionList );
 
     $module->redirectTo( "/shop/add/" . $objectID . "/" . $quantity );
