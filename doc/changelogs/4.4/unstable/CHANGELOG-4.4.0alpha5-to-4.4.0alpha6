@@ -25,4 +25,5 @@ Changes from 4.4.0alpha5 to 4.4.0alpha6
 - Fixed bug #016569: After Content Read workflow trigger missing from Operation Defination
 - Fixed bug #017040: Users groups not retrieved correctly
 - Fixed bug #014018: Redirect error on the "ContinueShoppingButton"
+- Fixed bug #017051: correctxmlalign.php does not work due to oracle incompatibility
 
