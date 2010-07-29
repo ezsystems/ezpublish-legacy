@@ -60,6 +60,7 @@ class ezjscServerFunctionsNode extends ezjscServerFunctions
                                                                      'loadImages' => true,
                                                                      'imageDataTypes' => array( 'ezimage' ),
                                                                      'imageSizes' => array( 'small' ),
+                                                                     'imagePreGenerateSizes' => array( 'small' ),
                                                                      'fetchSection' => true,
                                                                      'fetchCreator' => true,
                                                                      'fetchClassIcon' => true ), 'raw' );
