@@ -57,10 +57,7 @@ class ezjscServerFunctionsNode extends ezjscServerFunctions
         if ( $nodeArray )
         {
             $list = ezjscAjaxContent::nodeEncode( $nodeArray, array( 'formatDate' => 'shortdatetime',
-                                                                     'loadImages' => true,
-                                                                     'imageDataTypes' => array( 'ezimage' ),
-                                                                     'imageSizes' => array( 'small' ),
-                                                                     'imagePreGenerateSizes' => array( 'small' ),
+                                                                     'fetchThumbPreview' => true,
                                                                      'fetchSection' => true,
                                                                      'fetchCreator' => true,
                                                                      'fetchClassIcon' => true ), 'raw' );

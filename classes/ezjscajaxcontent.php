@@ -270,6 +270,28 @@ class ezjscAjaxContent
             $ret['class_icon'] = $operatorValue;
         }
 
+        if ( isset( $params['fetchThumbPreview'] ) )
+        {
+            $thumbUrl = null;
+            $thumbDataType = isset( $params['thumbDataType'] ) ? $params['thumbDataType'] : 'ezimage';
+            $thumbImageSize = isset( $params['thumbImageSize'] ) ? $params['thumbImageSize'] : 'small';
+
+            foreach( $contentObject->attribute( 'data_map' ) as $key => $atr )
+            {
+                if ( $atr->attribute( 'data_type_string' ) == $thumbDataType )
+                {
+                    $imageContent = $atr->attribute( 'content' );
+                    $imageAlias = $imageContent->attribute( $thumbImageSize );
+
+                    $thumbUrl = $alias['full_path'];
+                    eZURI::transformURI( $thumbUrl );
+                    break;
+                }
+            }
+
+            $ret['thumbnail_url'] = $thumbUrl;
+        }
+
         if ( $params['fetchSection'] )
         {
             $section = eZSection::fetch( $ret['section_id']  );
