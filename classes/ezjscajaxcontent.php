@@ -272,7 +272,7 @@ class ezjscAjaxContent
 
         if ( isset( $params['fetchThumbPreview'] ) )
         {
-            $thumbUrl = null;
+            $thumbUrl = '';
             $thumbDataType = isset( $params['thumbDataType'] ) ? $params['thumbDataType'] : 'ezimage';
             $thumbImageSize = isset( $params['thumbImageSize'] ) ? $params['thumbImageSize'] : 'small';
 
@@ -288,7 +288,7 @@ class ezjscAjaxContent
                         eZDebug::writeError( "Image alias does not exist: '{$thumbImageSize}', missing from image.ini?",
                             __METHOD__ );
 
-                    $thumbUrl = isset( $imageAlias['full_path'] ) ? $imageAlias['full_path'] : null;
+                    $thumbUrl = isset( $imageAlias['full_path'] ) ? $imageAlias['full_path'] : '';
                     eZURI::transformURI( $thumbUrl, true );
                     break;
                 }
