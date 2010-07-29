@@ -43,6 +43,14 @@ var sortableSubitems = function () {
             cell.innerHTML = '<button class="yui-dt-button" type="button"><div class="hide">Click</div></button>';
         }
         
+        var thumbView = function(cell, record, column, data) {
+            var th = record.getData('thumbnail_url');
+            if (th)
+                cell.innerHTML = '<div class="thumbview"><div id="thumbfield" class="thumbfield"></div><span><img src="' + th + '" /></span></div>';
+            else
+                cell.innerHTML = '';
+        }
+
         var updatePriority = function(callback, v) {
             var record = this.getRecord(), dataTable = this.getDataTable(), sortedBy = dataTable.get('sortedBy'), paginator = dataTable.get('paginator');
             
@@ -59,8 +67,9 @@ var sortableSubitems = function () {
         }
 
         var columnDefs = [
-            {key:"check", label:"", formatter:customCheckbox, resizeable:false},
+            {key:"checkbox", label:"", formatter:customCheckbox, resizeable:false},
             {key:"crank", label:"", sortable:false, formatter:customButton, resizeable:false},
+            {key:"thumbnail", label:labelsObj.DATA_TABLE_COLS.thumbnail, sortable:false, formatter:thumbView, resizeable:false},
             {key:"name", label:labelsObj.DATA_TABLE_COLS.name, sortable:true, resizeable:true, formatter:formatName},
             {key:"hidden_status_string", label: labelsObj.DATA_TABLE_COLS.visibility, sortable:false, resizeable:true},
             {key:"class_name", label:labelsObj.DATA_TABLE_COLS.type, sortable:true, resizeable:true},
@@ -78,6 +87,7 @@ var sortableSubitems = function () {
 
         // Hide columns based on cookie with ini setting as fallback
         // If neither cookie or ini is set: show all columns
+        // Thumbnail column header has label, but is hidden w/CSS
         if (shownColumns && shownColumns.length != 0) {
             var defsLength = columnDefs.length;
             for (var i = 0, l = defsLength; i < l; i++) {
@@ -114,6 +124,7 @@ var sortableSubitems = function () {
                 {key:"contentobject_remote_id"},
                 {key:"priority"},
                 {key:"class_icon"},
+                {key:"thumbnail_url"},
                 {key:"url"},
                 {key:"parent_node_id"}
             ],

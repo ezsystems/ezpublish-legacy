@@ -53,6 +53,7 @@ var labelsObj = {ldelim}
 
     DATA_TABLE_COLS: {ldelim}
 
+                        thumbnail: "{'Thumbnail'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
                         name: "{'Name'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
                         visibility: "{'Visibility'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
                         type: "{'Type'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
