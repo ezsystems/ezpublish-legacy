@@ -216,10 +216,14 @@ while( count( $xmlFieldsArray ) )
             if ( $modificationList )
             {
                 $xmlText = eZXMLTextType::domString( $doc );
-                $xmlText = $db->escapeString( $xmlText );
-                $sql = "UPDATE ezcontentobject_attribute SET data_text='" . $xmlText .
-                   "' WHERE id=" . $xmlField['id'] . " AND version=" . $xmlField['version'];
-                $db->query( $sql );
+                if ( $db->bindingType() !== eZDBInterface::BINDING_NO )
+                    $xmlText = $db->bindVariable( $xmlText, array( 'name' => 'data_text' ) );
+                else
+                    $xmlText = "'" . $db->escapeString( $xmlText ) . "'";
+
+                $db->query(
+                    "UPDATE ezcontentobject_attribute SET data_text=$xmlText " .
+                    "WHERE id=" . $xmlField['id'] . " AND version=" . $xmlField['version'] );
 
                 if ( !$isQuiet )
                 {
