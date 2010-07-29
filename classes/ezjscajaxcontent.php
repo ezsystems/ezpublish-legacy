@@ -281,10 +281,14 @@ class ezjscAjaxContent
                 if ( $atr->attribute( 'data_type_string' ) == $thumbDataType )
                 {
                     $imageContent = $atr->attribute( 'content' );
-                    $imageAlias = $imageContent->attribute( $thumbImageSize );
 
-                    $thumbUrl = $alias['full_path'];
-                    eZURI::transformURI( $thumbUrl );
+                    if ( $imageContent->hasAttribute( $thumbImageSize ) )
+                        $imageAlias = $imageContent->attribute( $thumbImageSize );
+                    else
+                        eZDebug::writeError( "Image alias does not exist: '{$thumbImageSize}', missing from image.ini?",
+                            __METHOD__ );
+
+                    $thumbUrl = isset( $imageAlias['full_path'] ) ? $imageAlias['full_path'] : null;
                     break;
                 }
             }
