@@ -56,7 +56,10 @@ class ezjscServerFunctionsNode extends ezjscServerFunctions
         // generate json response from node list
         if ( $nodeArray )
         {
-            $list = ezjscAjaxContent::nodeEncode( $nodeArray, array( 'formatDate' => 'shortdatetime', 
+            $list = ezjscAjaxContent::nodeEncode( $nodeArray, array( 'formatDate' => 'shortdatetime',
+                                                                     'loadImages' => true,
+                                                                     'imageDataTypes' => array( 'ezimage' ),
+                                                                     'imageSizes' => array( 'small' ),
                                                                      'fetchSection' => true,
                                                                      'fetchCreator' => true,
                                                                      'fetchClassIcon' => true ), 'raw' );
