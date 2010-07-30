@@ -1,5 +1,5 @@
 {def $section         = fetch( 'section', 'object', hash( 'section_id', $node.object.section_id ) )
-     $visible_columns = ezini('SubItems', 'VisibleColumns', 'admininterface.ini') }
+    $visible_columns = ezini('SubItems', 'VisibleColumns', 'admininterface.ini') }
 {literal}
 <script type="text/javascript">
 (function() {
@@ -39,7 +39,9 @@ var confObj = {ldelim}
     navigationPart: "{$section.navigation_part_identifier}",
     cookieName: "eZSubitemColumns",
     cookieSecure: false,
-    cookieDomain: "{ezsys(hostname)}"
+    cookieDomain: "{ezsys(hostname)}",
+    languagesString: "{$node.object.language_js_array}",
+    classesString: "{$node.classes_js_array}"
 {rdelim}
 
 

@@ -6,7 +6,6 @@
 
 .yui-dt-col-crank {
     width: 35px;
-    background: url("../../images/2/icon-crank-16x16.png") no-repeat scroll center center transparent;
 }
 
 .yui-dt-col-thumbnail {
@@ -508,6 +507,12 @@ span.yui-pg-first,span.yui-pg-previous,span.yui-pg-next,span.yui-pg-last
     margin-right: 1em;
 }
 
+.crankfield {
+    height: 16px;
+    width: 16px;
+    background: url("../../images/2/icon-crank-16x16.png") no-repeat scroll center center transparent;
+}
+
 .thumbfield {
     height: 16px;
     width: 16px;
@@ -543,6 +548,6 @@ span.yui-pg-first,span.yui-pg-previous,span.yui-pg-next,span.yui-pg-last
 .thumbview:hover span {
     visibility: visible;
     top: 0;
-    left: 40px;
+    left: 25px;
 }
 

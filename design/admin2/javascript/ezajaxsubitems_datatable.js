@@ -5,7 +5,6 @@ var sortableSubitems = function () {
     var createGroups;
     var createOptions;
     var dataTable;
-    var menuItems;
     var shownColumns;
 
     //Retrieves multiple values delimited by '|'
@@ -39,8 +38,9 @@ var sortableSubitems = function () {
             cell.innerHTML = '<input type="checkbox" name="DeleteIDArray[]" value="' + record.getData('node_id') + '" />';
         }
 
-        var customButton = function(cell, record, column, data) {
-            cell.innerHTML = '<button class="yui-dt-button" type="button"><div class="hide">Click</div></button>';
+        var customMenu = function(cell, rec, column, data) {
+            var createhereMenu = (confObj.classesString != '') ? -1 : "\'child-menu-create-here\'";
+            cell.innerHTML = '<a href="#" onclick="ezpopmenu_showTopLevel(event, \'SubitemsContextMenu\', \{\'%nodeID%\':' + rec.getData('node_id') + ',\'%objectID%\':' + rec.getData('contentobject_id') + ',\'%languages%\':' + confObj.languagesString + ',\'%classList%\':' + confObj.classesString + '\ }, \'' + rec.getData('name') + '\', ' + rec.getData('node_id') + ', ' + createhereMenu + '); return false;"><div class="crankfield"></div></a>';
         }
         
         var thumbView = function(cell, record, column, data) {
@@ -68,7 +68,7 @@ var sortableSubitems = function () {
 
         var columnDefs = [
             {key:"checkbox", label:"", formatter:customCheckbox, resizeable:false},
-            {key:"crank", label:"", sortable:false, formatter:customButton, resizeable:false},
+            {key:"crank", label:"", sortable:false, formatter:customMenu, resizeable:false},
             {key:"thumbnail", label:labelsObj.DATA_TABLE_COLS.thumbnail, sortable:false, formatter:thumbView, resizeable:false},
             {key:"name", label:labelsObj.DATA_TABLE_COLS.name, sortable:true, resizeable:true, formatter:formatName},
             {key:"hidden_status_string", label: labelsObj.DATA_TABLE_COLS.visibility, sortable:false, resizeable:true},
@@ -366,7 +366,7 @@ var sortableSubitems = function () {
                                                    menu: noMoreActBtnActions,
                                                    container:"action-controls" });
 
-        //  enable menuitems when rows are checked
+        //  enable 'more actions' when rows are checked
         moreActBtn.getMenu().subscribe("beforeShow", function () {
             if ($('form[name=children] input[name=DeleteIDArray[]]:checked').length == 0) {
                 this.clearContent();
@@ -387,170 +387,6 @@ var sortableSubitems = function () {
     return subItemsTable;
     }
 
-
-    // Menu items are taken from the DOM array menuArray used by the ezpopupmenu.js
-    function menuContent() {
-
-        // Accepted menus from menuArray (note: using keys, since not all menus have headerID)
-        var whiteList = ['advanced', 'contextmenu'];
-        var items = [];
-
-        items.push({ text: labelsObj.CONTEXT_MENU.edit, id: "ezopt-menu-edit", url: confObj.editURL});
-        items.push({ text: labelsObj.CONTEXT_MENU.preview, id: "ezopt-menu-preview", url: confObj.previewURL});
-
-        $(menuArray).each(function() {                                      // Loop array returned from jquery
-            $.each(this, function(key, value) {                             // Loop menuArray
-                var k = jQuery.trim(key).toLowerCase();
-                if (jQuery.inArray(k, whiteList) != -1) {                   // Validate menu against whiteList
-                    if (this.elements && this.elements.length != 0) {       // check for valid menu items
-                        $.each( this.elements, function(key, value) {       // Loop menu element per group
-                            if ($('#' + key).text() && value.url) {         // Check if element has html-markup'ed text
-                                items.push({ text: $('#' + key).text(), id:"ezopt-" + key, url: value.url });
-                            }
-                        });
-                    }
-                }
-            });
-        });
-
-        return items;
-    }
-
-
-    // Updates URL-"macros" in menuitems according to the selected node
-    function formatMenuItems(menu, nodeId, objectId, version){ 
-
-        $.each(menu.getItems(), function(index, item) {
-            var url = item.cfg.getProperty('url');
-            url = url.replace('%nodeID%', nodeId);
-            url = url.replace('%objectID%', objectId);
-            url = url.replace('%currentURL%', confObj.currentURL);
-            url = url.replace('%version%', version);
-            item.cfg.setProperty('url', url);
-        });
-    }
-
-
-    // Action wrapper for context menu
-    function formatMenuItemsAction(type, args, dt){ 
-        
-        var row = dt.getTrEl(this.contextEventTarget);
-        var record = dt.getRecord(row);
-        var nodeId = record.getData('node_id');
-        var objectId = record.getData('contentobject_id');
-        var version = record.getData('version');
-        
-        formatMenuItems(this, nodeId, objectId, version);
-    }
-
-
-    // Replaces all menu items with the macro URLs parsed from the menuArray
-    var resetMenuItemsAction = function(type, args, menu) {
-        menu.clearContent();
-        menu.addItems(menuItems);
-        menu.render();
-    }
-
-
-    // Unselect all selected rows in datatable
-    var unselectTableAction = function(type, args, dt) {
-        $.each(dt.getSelectedRows(), function(i, e) {
-            dt.unselectRow(e);
-        });
-    }
-
-
-    // Hide the focus outline for MenuItem instances
-    var hideFocusAction = function(type, args, menu) {
-        $.each(menu.getItems(), function(i,e) {
-            e.element.firstChild.hideFocus = true;
-        });
-    }
-
-
-    // Context menu on right-click
-    function initContextMenu() {
-
-        var contextMenuItemAction = function(type, args, dt) {
-            var task = args[1];
-            if (!task)
-                return;
-
-            var row = dt.getTrEl(this.contextEventTarget);
-            if (!row)
-                return;
-        }
-
-        // Selects a table row based on the context event
-        var contextMenuSelectAction = function(type, args, dt) {
-            var row = dt.getTrEl(this.contextEventTarget);
-            dt.selectRow(row);
-        }
-
-        var contextMenu = new YAHOO.widget.ContextMenu("ezdt-context-menu", {trigger:dataTable.getTbodyEl()});
-        contextMenu.cfg.setProperty("scrollincrement", 5);
-        contextMenu.cfg.setProperty("lazyLoad", true);
-        contextMenu.addItems(menuItems);
-
-        contextMenu.subscribe("render", hideFocusAction, contextMenu);
-
-        // Render the ContextMenu instance to the parent container of the DataTable
-        contextMenu.render(dataTable.configs.element);
-        contextMenu.clickEvent.subscribe(contextMenuItemAction, dataTable);
-        contextMenu.subscribe('beforeShow', formatMenuItemsAction, dataTable);
-        contextMenu.subscribe('beforeShow', contextMenuSelectAction, dataTable);
-        contextMenu.subscribe('hide', unselectTableAction, dataTable);
-        contextMenu.subscribe('hide', resetMenuItemsAction, contextMenu);
-    }
-
-
-    function initLeftClickMenu() {
-
-        var leftClickMenu = new YAHOO.widget.Menu("ezdt-leftclick-menu");
-        leftClickMenu.cfg.setProperty("scrollincrement", 5);
-        leftClickMenu.cfg.setProperty("lazyLoad", true);
-        leftClickMenu.addItems(menuItems);
-        leftClickMenu.render(dataTable.configs.element);
-
-        // Hide menu when clicking Esc
-        dataTable.subscribe("keydown", function(e){
-            if (e.keyCode == 27) {
-                leftClickMenu.hide();
-                this.focus();
-            }
-        });
-
-        leftClickMenu.subscribe('hide', unselectTableAction, dataTable);
-        leftClickMenu.subscribe('hide', resetMenuItemsAction, leftClickMenu);
-
-        // NOTE: Regardless of this attempt, the focus is stuck on the clicked button
-        leftClickMenu.subscribe('show', function(args){
-            leftClickMenu.focus();
-        });
-
-        leftClickMenu.subscribe("render", hideFocusAction, leftClickMenu);
-
-        dataTable.subscribe("buttonClickEvent", function(args){
-            var trgt = args.target;
-            var row = this.getTrEl(trgt);
-            var record = this.getRecord(trgt);
-            var nodeId = record.getData('node_id');
-            var objectId = record.getData('contentobject_id');
-            var version = record.getData('version');
-
-            // Mark clicked row as selected
-            this.selectRow(row);
-
-            // Set alignment of menu
-            leftClickMenu.cfg.setProperty("context", [trgt, "tr", "bl"]);
-
-            // Update menu items & show
-            formatMenuItems(leftClickMenu, nodeId, objectId, version);
-            leftClickMenu.show();
-        });
-        
-    }
-
     return {
         init: function (conf, labels, groups, options) {
             confObj = conf
@@ -561,16 +397,7 @@ var sortableSubitems = function () {
             shownColumns = getCookieSubMultiValue(confObj.navigationPart);
             if (shownColumns == null) shownColumns = confObj.defaultShownColumns[confObj.navigationPart];
 
-            dataTable = initDataTable();    // dataTable used by menus
-
-            // Ensures that the complete menuArray is loaded before parsing
-            // Required for Opera to receive the complete menu array
-            $(document).ready(function() {
-                menuItems = menuContent();      // Parsing DOM object menuArray once
-                initContextMenu();              // dataTable's context menu. Available in Opera via ctrl+left-click
-                initLeftClickMenu();            // dataTable's left-click alternative to the context menu
-            });
-
+            dataTable = initDataTable();
         }
     };
  
