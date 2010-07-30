@@ -134,7 +134,7 @@ class eZPreferences
         $value = false;
         // If the user object is not the currently logged in user we cannot use the session values
         $http = eZHTTPTool::instance();
-        $useCache = ( $user->ContentObjectID == $http->sessionVariable( 'eZUserLoggedInID' ) );
+        $useCache = ( $user->ContentObjectID == $http->sessionVariable( 'eZUserLoggedInID', false ) );
         if ( $useCache and eZPreferences::isStoredInSession( $name ) )
             return eZPreferences::storedSessionValue( $name );
 
@@ -176,7 +176,7 @@ class eZPreferences
         {
             // If the user object is not the currently logged in user we cannot use the session values
             $http = eZHTTPTool::instance();
-            $useCache = ( $user->ContentObjectID == $http->sessionVariable( 'eZUserLoggedInID' ) );
+            $useCache = ( $user->ContentObjectID == $http->sessionVariable( 'eZUserLoggedInID', false ) );
 
             $returnArray = array();
             $userID = $user->attribute( 'contentobject_id' );
@@ -231,7 +231,7 @@ class eZPreferences
     static function isStoredInSession( $name )
     {
         $http = eZHTTPTool::instance();
-        if ( !$http->hasSessionVariable( eZPreferences::SESSION_NAME ) )
+        if ( !$http->hasSessionVariable( eZPreferences::SESSION_NAME, false ) )
             return false;
         $preferencesInSession = $http->sessionVariable( eZPreferences::SESSION_NAME );
         return array_key_exists( $name, $preferencesInSession );
