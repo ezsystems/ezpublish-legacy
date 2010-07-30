@@ -289,7 +289,10 @@ class ezjscAjaxContent
                             __METHOD__ );
 
                     $thumbUrl = isset( $imageAlias['full_path'] ) ? $imageAlias['full_path'] : '';
-                    eZURI::transformURI( $thumbUrl, true );
+                    
+                    if ( $thumbUrl !== '' )
+                        eZURI::transformURI( $thumbUrl, true );
+
                     break;
                 }
             }
