@@ -36,6 +36,13 @@ if ( !eZUser::currentUser()->isLoggedIn() )
 
     return $result;
 }
+// logged in, but no access to oauth/authorize
+$access = $currentUser->hasAccessTo( 'oauth', 'authorize' );
+if ( !$access[ 'accessWord' ] == 'yes' )
+{
+    return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
+}
+unset( $access );
 
 $module = $Params['Module'];
 
