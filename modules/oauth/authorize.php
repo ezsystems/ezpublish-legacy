@@ -14,6 +14,29 @@
  * @package oauth
  */
 
+// login is like REALLY required here. But we can't use the standard policy check, as it won't redirect w/ GET parameters
+if ( !eZUser::currentUser()->isLoggedIn() )
+{
+    $sys = eZSys::instance();
+    $redirectUri = str_replace( array( $sys->WWWDir(), $sys->IndexFile ), '', $_SERVER['REQUEST_URI'] );
+
+    $tpl = eZTemplate::factory();
+
+    $tpl->setVariable( 'redirect_uri', $redirectUri, 'User' );
+    $tpl->setVariable( 'site_access', array( 'allowed' => true ) );
+
+    $result = array();
+    $result['content'] = $tpl->fetch( 'design:user/login.tpl' );
+    $result['pagelayout'] = false;
+    $result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/user', 'User' ),
+                                    'url' => false ),
+                             array( 'text' => ezpI18n::tr( 'kernel/user', 'Login' ),
+                                    'url' => false ) );
+    $result['pagelayout'] = 'loginpagelayout.tpl';
+
+    return $result;
+}
+
 $module = $Params['Module'];
 
 // First check for mandatory parameters
