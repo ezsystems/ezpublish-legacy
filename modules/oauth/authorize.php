@@ -23,7 +23,6 @@ $http = eZHTTPTool::instance();
 if ( ( $pRedirectUri = getHTTPVariable( 'redirect_uri' ) ) === false )
 {
     response( '400 Bad Request' );
-    eZExecution::cleanExit();
 }
 
 // Client ID
@@ -182,7 +181,7 @@ function error( $redirectUri, $errorCode, $message = null )
  */
 function response( $httpHeader, $location = null )
 {
-    header( "HTTP 1.1 $httpHeader" );
+    header( "HTTP/1.1 $httpHeader" );
     if ( $location !== null )
         // debug stuff: echo "header( \"Location: $location\" );\n";
         header( "Location: $location" );
