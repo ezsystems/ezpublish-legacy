@@ -49,8 +49,7 @@ class ezpExtension
     }
 
     /**
-     * Returns the loading order informations.
-     * First tries extension.xml, then loading.php for backward compatibility
+     * Returns the loading order informations from extension.xml
      *
      * @return array array( before => array( a, b ), after => array( c, d ) ) or an empty array if not available
      * @note This structure voluntarily matches the one from loading.php for now
@@ -66,7 +65,6 @@ class ezpExtension
             // xml parsing error
             if ( $xml === false )
             {
-                // @todo Add correct error handling
                 eZDebug::writeError( libxml_get_errors(), "ezpExtension( {$this->name} )::getLoadingOrder()" );
                 return null;
             }
@@ -74,8 +72,6 @@ class ezpExtension
             {
                 foreach ( $dependenciesNode as $dependencyType => $dependenciesNode )
                 {
-                    // @todo Use a mapping array instead
-                    // @todo Implement error handling using exceptions
                     switch ( $dependencyType )
                     {
                         case 'requires':
@@ -90,8 +86,6 @@ class ezpExtension
                             $relationship = 'before';
                             break;
                     }
-                    if ( !isset( $return[$relationship] ) )
-                        $return[$relationship] = array();
 
                     foreach ( $dependenciesNode as $dependency )
                     {
@@ -99,11 +93,6 @@ class ezpExtension
                     }
                 }
             }
-        }
-        // Backward compatibility layer with the temporary loading.php
-        elseif ( is_readable( $PHPDependencyFile = eZExtension::baseDirectory() . "/{$this->name}/loading.php" ) )
-        {
-            $return = require $PHPDependencyFile;
         }
 
         return $return;
@@ -128,7 +117,6 @@ class ezpExtension
             // xml parsing error
             if ( $xml === false )
             {
-                // @todo Add correct error handling
                 eZDebug::writeError( libxml_get_errors(), "ezpExtension({$this->name})::getInfo()" );
                 return null;
             }
