@@ -26,6 +26,11 @@ Change of behavior
   will not be included. LastAccessesURI / LastAccessedModifyingURI is also not stored before user gets a session.
   Set site.ini/Session.ForceStart to enabled to get old behavior.
 
+- session_write_close()
+
+  Because of above change in session behaviour, you should not call this function directly but instead
+  use eZSession::stop() that have been available since 4.1.0. Ref http://issues.ez.no/017037
+
 - Session handler uses native php handler by default (normally: file, this is defined in php.ini)
 
   This makes all fetch functions that is related to logged in users to not work, and it's not longer

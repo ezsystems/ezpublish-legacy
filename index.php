@@ -193,7 +193,6 @@ function eZDBCleanup()
         $db = eZDB::instance();
         $db->setIsSQLOutputEnabled( false );
     }
-//     session_write_close();
 }
 
 function eZFatalError()

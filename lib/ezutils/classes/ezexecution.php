@@ -169,8 +169,8 @@ class eZExecution
                 - http://bugs.php.net/bug.php?id=33635
                 - http://bugs.php.net/bug.php?id=33772
             */
-            register_shutdown_function( 'session_write_close' );
-            set_exception_handler( array( 'eZExecution', 'defaultExceptionHandler' ) );
+            register_shutdown_function( array('eZSession', 'stop') );
+            set_exception_handler( array('eZExecution', 'defaultExceptionHandler') );
             self::$shutdownHandle = true;
         }
 

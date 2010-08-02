@@ -18,6 +18,7 @@ Changes from 4.4.0alpha5 to 4.4.0alpha6
 *Translations:
 
 *Bugfixes:
+- Fixed bug #017037: new session handler: php session is created on filesystem for every request by anonymous user
 - Fixed bug #017020: Provide a upgrade script for section identifiers
 - Fixed bug #016983: Login on private section with sso extension causes infinite redirection loop
 - Fixed bug #016738: LDAP login with method "GetGroupsTree" fails because of missing permissions of login script
@@ -27,4 +28,3 @@ Changes from 4.4.0alpha5 to 4.4.0alpha6
 - Fixed bug #014018: Redirect error on the "ContinueShoppingButton"
 - Fixed bug #017051: correctxmlalign.php does not work due to oracle incompatibility
 - Fixed bug #016821: Show meta fields when they are required but not filled in
-
