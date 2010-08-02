@@ -782,7 +782,7 @@ class eZOrder extends eZPersistentObject
     static function discount( $userID, $object )
     {
         $user = eZUser::fetch( $userID );
-        $bestMatch = eZDiscount::discountPersent( $user, array( 'contentclass_id' => $object->attribute( 'contentclass_id'),
+        $bestMatch = eZDiscount::discountPercent( $user, array( 'contentclass_id' => $object->attribute( 'contentclass_id'),
                                                                 'contentobject_id' => $object->attribute( 'id' ),
                                                                 'section_id' => $object->attribute( 'section_id') ) );
         return $bestMatch;
