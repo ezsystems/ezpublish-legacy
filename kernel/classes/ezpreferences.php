@@ -192,11 +192,9 @@ class eZPreferences
         }
         else
         {
-            // For the anonymous user we just return all values
+            // For the anonymous user we just return all values, or empty array if session is un-started / value undefined
             $http = eZHTTPTool::instance();
-            if ( $http->hasSessionVariable( eZPreferences::SESSION_NAME ) )
-                return $http->sessionVariable( eZPreferences::SESSION_NAME );
-            return array();
+            return $http->sessionVariable( eZPreferences::SESSION_NAME, array() );
         }
     }
 
