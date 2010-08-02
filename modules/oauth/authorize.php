@@ -14,8 +14,10 @@
  * @package oauth
  */
 
+$user = eZUser::currentUser();
+
 // login is like REALLY required here. But we can't use the standard policy check, as it won't redirect w/ GET parameters
-if ( !eZUser::currentUser()->isLoggedIn() )
+if ( !$user->isLoggedIn() )
 {
     $sys = eZSys::instance();
     $redirectUri = str_replace( array( $sys->WWWDir(), $sys->IndexFile ), '', $_SERVER['REQUEST_URI'] );
@@ -37,7 +39,7 @@ if ( !eZUser::currentUser()->isLoggedIn() )
     return $result;
 }
 // logged in, but no access to oauth/authorize
-$access = $currentUser->hasAccessTo( 'oauth', 'authorize' );
+$access = $user->hasAccessTo( 'oauth', 'authorize' );
 if ( !$access[ 'accessWord' ] == 'yes' )
 {
     return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
@@ -105,11 +107,11 @@ if ( !$application->isAuthorizedByUser( $pScope, eZUser::currentUser() ) )
 
     elseif ( $http->hasPostVariable( 'AuthorizeButton' ) )
     {
-        // Authorize the application, then process with the token generation + redirect
+        $application->authorizeFor( $user );
     }
 
     // show authorization form
-    else
+    if ( !$application->isAuthorizedByUser( $pScope, eZUser::currentUser() ) )
     {
         $tpl = eZTemplate::factory();
 

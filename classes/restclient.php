@@ -216,7 +216,30 @@ class ezpRestClient
      */
     public function isAuthorizedByUser( $scope, $user = null )
     {
-        return true;
+        if ( $user === null )
+            $user = eZUser::currentUser();
+
+        if ( !$user->isLoggedIn() )
+            throw new Exception( "Anonymous user can not authorize an application" );
+
+        $authorized = ezpRestAuthorizedClient::fetchForClientUser( $this, $user );
+        var_dump( $authorized );
+        return ( $authorized instanceof ezpRestAuthorizedClient );
+    }
+
+    /**
+     * Authorizes this application for a user
+     * @param eZUser $user
+     * @return void
+     */
+    public function authorizeFor( $user = null )
+    {
+        $authorization = new ezpRestAuthorizedClient();
+        $authorization->rest_client_id = $this->id;
+        $authorization->user_id = $user->attribute( 'contentobject_id' );
+
+        $session = ezcPersistentSessionInstance::get();
+        $session->save( $authorization );
     }
 
     /**

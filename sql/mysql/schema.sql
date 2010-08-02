@@ -13,3 +13,12 @@ CREATE TABLE `ezprest_clients` (
   UNIQUE KEY `client_id_UNIQUE` (`client_id`,`version`),
   KEY `client_id` (`client_id`)
 ) ENGINE=InnoDB;
+
+CREATE TABLE `ezprest_authorized_clients` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `rest_client_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `created` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `client_user` (`rest_client_id`,`user_id`)
+) ENGINE=InnoDB;
