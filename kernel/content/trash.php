@@ -83,7 +83,7 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
 else if ( $http->hasPostVariable( 'EmptyButton' )  )
 {
     $access = $user->hasAccessTo( 'content', 'cleantrash' );
-    if ( $access['accessWord'] == 'yes' )
+    if ( $access['accessWord'] == 'yes' || $access['accessWord'] == 'limited' )
     {
         while ( true )
         {

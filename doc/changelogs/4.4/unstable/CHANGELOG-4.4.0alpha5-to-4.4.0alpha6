@@ -29,3 +29,4 @@ Changes from 4.4.0alpha5 to 4.4.0alpha6
 - Fixed bug #017051: correctxmlalign.php does not work due to oracle incompatibility
 - Fixed bug #016821: Show meta fields when they are required but not filled in
 - Fixed bug #015069: typo in ezorder.php
+- Fixed bug #017046: Inconsistent policy checks in content/trash
