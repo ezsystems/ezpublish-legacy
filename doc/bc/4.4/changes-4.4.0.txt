@@ -37,12 +37,6 @@ Change of behavior
   possible nor needed to clear/expire sessions from admin interface or command line interface.
   To get old behavoir back, enable db handler by setting site.ini/Session.Handler to eZSessionHandlerDB
 
-- Section ID no longer global
-
-  Like other session related topic mentioned above, prevous eZ Publish versions remembered section id state for
-  use as override option on pages that had nothing to do with section (non content related) like user/login.
-  This is no longer supported.
-
 Deprecated functionality
 ------------------------
 
@@ -74,6 +68,19 @@ Removed features
   contain keys: 'version', 'version_alias' and 'revision'.
   Those information may still be retrieved using eZPublishSDK's functions,
   except for the 'revision' key.
+
+- Section ID no longer global
+
+  Like other session related topics mentioned above, previous eZ Publish versions remembered section id state for
+  use as override option on pages that had nothing to do with section (non content related) like user/login.
+  This is no longer supported.
+
+- Session Validation
+
+  Session validation as added in 4.1 has been removed, this feature was flawed and caused issues in several cases.
+  Only use case left where intranets, and there exist far better solutions for securing these (VPN / IP filtering).
+  This means the following settings in site.ini\[Session] have been removed:
+  SessionValidationIpParts, SessionValidationForwardedIpParts & SessionValidationUseUA
 
 Removed methods
 ---------------
