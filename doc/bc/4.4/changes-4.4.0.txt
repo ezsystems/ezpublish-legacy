@@ -85,6 +85,10 @@ Removed features
 Removed methods
 ---------------
 
+- eZCharTransform::varExportInternal()
+
+  This private function was removed as it is not needed on php 5 and was not used anywhere.
+
 Removed globals
 ---------------
 
