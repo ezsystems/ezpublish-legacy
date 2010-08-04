@@ -129,12 +129,6 @@ class ezpObject
 			case 'eztime':
 				$attribute->setAttribute('data_int', $value);
 				break;
-						
-			case 'ezkeyword':
-				$keywords = $attribute->attribute("content");
-				$keywords->initializeKeyword($value);
-				$keywords->store($attribute);
-				break;
 
                         case 'ezxmltext':
                             $value = $this->processXmlTextData( $value, $attribute );
