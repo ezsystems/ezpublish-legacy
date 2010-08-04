@@ -35,7 +35,6 @@ foreach( $rootNodeIDList as $nodeID )
     foreach ( $hideAttributeArray as $hideClass => $attributeIdentifier )
     {
         $offset = 0;
-        $counter = 0;
         $countParams = array( 'ClassFilterType' => 'include',
                               'ClassFilterArray' => array( $hideClass ),
                               'Limitation' => array(),
@@ -64,8 +63,6 @@ foreach( $rootNodeIDList as $nodeID )
                         $cli->output( 'Hiding node: "' . $node->attribute( 'name' ) . '" (' . $node->attribute( 'node_id' ) . ')' );
                     }
                 }
-                $counter += $limit;
-
                 // clear memory after every batch
                 eZContentObject::clearCache();
             } while( is_array( $nodeArray ) and count( $nodeArray ) > 0 );
