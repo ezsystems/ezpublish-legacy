@@ -5,6 +5,8 @@ Changes from 4.4.0alpha5 to 4.4.0alpha6
 - Implemented enhancement #017012: Add session handler & support for anonymous sessions
 - Implemented enhancement #016147: prevent makestaticcache script adding new session in ezsession table for each node it caches
 - Implemented enhancement #016704: Cookie Domain should be a configuration option
+- Implemented enhancement #014831: hide cronjob is totally useless for big sites
+  Slightly modified version of Georg Franz's contribution.
 
 *Design:
 
