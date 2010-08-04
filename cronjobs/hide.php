@@ -17,6 +17,8 @@ $currrentDate = time();
 $offset = 0;
 $limit = 50;
 
+eZINI::instance()->setVariable( 'SiteAccessSettings', 'ShowHiddenNodes', 'false' );
+
 $hiddenNodesParams = array(
     'LoadDataMap' => false,
     'Limit' => $limit,
@@ -38,7 +40,6 @@ foreach( $rootNodeIDList as $nodeID )
         $countParams = array( 'ClassFilterType' => 'include',
                               'ClassFilterArray' => array( $hideClass ),
                               'Limitation' => array(),
-                              'IgnoreVisibility' => false,
                               'AttributeFilter' => array( 'and',
                                   array( "{$hideClass}/{$attributeIdentifier}", '<=', $currrentDate ),
                                   array( "{$hideClass}/$attributeIdentifier", '>', 0 ) ) );
@@ -70,6 +71,13 @@ foreach( $rootNodeIDList as $nodeID )
             if ( !$isQuiet )
             {
                 $cli->output();
+            }
+        }
+        else
+        {
+            if ( !$isQuiet )
+            {
+                $cli->output( "Nothing to hide." );
             }
         }
     }
