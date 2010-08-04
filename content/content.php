@@ -92,7 +92,7 @@ class ezpContent
         if ( $node instanceof eZContentObjectTreeNode )
             return self::fromNode( $node );
         else
-            throw new Exception( "Unable to find node with ID $nodeId" );
+            throw new ezpContentNotFoundException( "Unable to find node with ID $nodeId" );
     }
 
     /**
@@ -106,7 +106,7 @@ class ezpContent
         if ( $object instanceof eZContentObject )
             return self::fromObject( $object );
         else
-            throw new Exception( "Unable to find an eZContentObject with ID $objectId" );
+            throw new ezpContentNotFoundException( "Unable to find an eZContentObject with ID $objectId" );
     }
 
     /**
