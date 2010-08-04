@@ -116,25 +116,25 @@ class ezpObject
                     $attribute = $this->dataMap[$name];
                     switch( $attribute->attribute( 'data_type_string' ) )
                     {
-						case 'ezfloat' :
-						case 'ezprice' :
-							$attribute->setAttribute('data_float', $value);
-							break;
+			case 'ezfloat' :
+			case 'ezprice' :
+				$attribute->setAttribute('data_float', $value);
+				break;
 						
-						case 'ezboolean':
-						case 'ezdate':
-						case 'ezdatetime':
-						case 'ezinteger':
-						case 'ezsubtreesubscription':
-						case 'eztime':
-							$attribute->setAttribute('data_int', $value);
-							break;
+			case 'ezboolean':
+			case 'ezdate':
+			case 'ezdatetime':
+			case 'ezinteger':
+			case 'ezsubtreesubscription':
+			case 'eztime':
+				$attribute->setAttribute('data_int', $value);
+				break;
 						
-						case 'ezkeyword':
-							$keywords = $attribute->attribute("content");
-							$keywords->initializeKeyword($value);
-							$keywords->store($attribute);
-							break;
+			case 'ezkeyword':
+				$keywords = $attribute->attribute("content");
+				$keywords->initializeKeyword($value);
+				$keywords->store($attribute);
+				break;
 
                         case 'ezxmltext':
                             $value = $this->processXmlTextData( $value, $attribute );
@@ -148,10 +148,10 @@ class ezpObject
 
                         case 'ezbinaryfile':
                         case 'ezimage':							
-						case 'ezkeyword':
-						case 'ezuser':
+			case 'ezkeyword':
+			case 'ezuser':
                             $attribute->fromString( $value );
-							break;
+			    break;
 
                         // Relation: either an eZContentObject or an object ID
                         case 'ezobjectrelation':
@@ -170,12 +170,12 @@ class ezpObject
                             $attribute->fromString( $value );
                             break; 
 
-						case 'ezemail':
-						case 'ezisbn':
-						case 'ezstring':
-						case 'eztext':
-							$attribute->setAttribute('data_text', $value);
-							break;
+			case 'ezemail':
+			case 'ezisbn':
+			case 'ezstring':
+			case 'eztext':
+				$attribute->setAttribute('data_text', $value);
+				break;
 
                         // default: just assign the value to data_text
                         default:
