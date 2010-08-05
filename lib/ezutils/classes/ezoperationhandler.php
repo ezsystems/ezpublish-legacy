@@ -87,7 +87,7 @@ class eZOperationHandler
      * @param string $name
      * @return boolean true if the operation is available, false otherwise
      */
-    static public function operationIsAvailable()
+    static public function operationIsAvailable( $name )
     {
         $workflowINI = eZINI::instance( 'workflow.ini' );
         $operationList = $workflowINI->variableArray( 'OperationSettings', 'AvailableOperations' );
