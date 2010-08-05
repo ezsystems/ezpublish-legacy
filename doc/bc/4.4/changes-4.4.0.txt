@@ -37,6 +37,10 @@ Change of behavior
   possible nor needed to clear/expire sessions from admin interface or command line interface.
   To get old behavoir back, enable db handler by setting site.ini/Session.Handler to eZSessionHandlerDB
 
+- eZOperationHandler::operationIsAvailable()
+
+  The $name parameter for this method is no longer optional. It did return false anyway if the parameter was omitted.
+
 Deprecated functionality
 ------------------------
 

@@ -46,6 +46,14 @@ class eZOperationHandler
     {
     }
 
+    /**
+     * Factory for modules' moduleOperationInfo objects.
+     *
+     * @param string $moduleName
+     * @param bool $useTriggers*
+     *
+     * @return eZModuleOperationInfo
+     */
     static function moduleOperationInfo( $moduleName, $useTriggers = true )
     {
         if ( !isset( $GLOBALS['eZGlobalModuleOperationList'] ) )
@@ -79,25 +87,13 @@ class eZOperationHandler
      * @param string $name
      * @return boolean true if the operation is available, false otherwise
      */
-    static public function operationIsAvailable( $name = false )
+    static public function operationIsAvailable()
     {
-        if ( $name === false )
-        {
-           return false;
-        }
-
-        // Check if read operations should be used
         $workflowINI = eZINI::instance( 'workflow.ini' );
         $operationList = $workflowINI->variableArray( 'OperationSettings', 'AvailableOperations' );
         $operationList = array_unique( array_merge( $operationList, $workflowINI->variable( 'OperationSettings', 'AvailableOperationList' ) ) );
-        if ( in_array( $name, $operationList ) )
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+
+        return in_array( $name, $operationList ) || in_array( "before_{$name}", $operationList ) || in_array( "after_{$name}", $operationList );
     }
 
 }
