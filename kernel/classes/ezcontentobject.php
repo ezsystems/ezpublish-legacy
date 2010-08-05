@@ -518,24 +518,24 @@ class eZContentObject extends eZPersistentObject
     /**
      * Generates a map with all the content object attributes where the keys are
      * the attribute identifiers grouped by class attribute category.
-     * 
+     *
      * @note Result is not cached, so make sure you don't call this over and over.
-     * 
-     * @return array 
+     *
+     * @return array
      */
     public function groupedDataMap()
     {
         return self::createGroupedDataMap( $this->fetchDataMap() );
     }
-    
+
     /**
      * Generates a map with all the content object attributes where the keys are
      * the attribute identifiers grouped by class attribute category.
-     * 
+     *
      * @note Result is not cached, so make sure you don't call this over and over.
-     * 
+     *
      * @param array $contentObjectAttributes Array of eZContentObjectAttribute objects
-     * @return array 
+     * @return array
      */
     public static function createGroupedDataMap( $contentObjectAttributes )
     {
@@ -555,7 +555,7 @@ class eZContentObject extends eZPersistentObject
                 $groupedDataMap[ $attributeCategory ] = array();
 
             $groupedDataMap[ $attributeCategory ][$attributeIdentifier] = $attribute;
-            
+
         }
         return $groupedDataMap;
     }
@@ -2897,8 +2897,15 @@ class eZContentObject extends eZPersistentObject
         {
             if ( isset( $params['SortBy'] ) )
             {
-                $sortingInfo = eZContentObjectTreeNode::createSortingSQLStrings( $params['SortBy'] );
-                $sortingString = ' ORDER BY ' . $sortingInfo['sortingFields'];
+                if ( !in_array( $params['SortBy'], array( 'class_identifier', 'class_name', 'modified', 'name', 'published', 'section' ) ) )
+                {
+                    eZDebug::writeWarning( "Unsupported sort_by parameter {$params['SortBy']}; check the online documentation for the list of supported sort types", __METHOD__ );
+                }
+                else
+                {
+                    $sortingInfo = eZContentObjectTreeNode::createSortingSQLStrings( $params['SortBy'] );
+                    $sortingString = ' ORDER BY ' . $sortingInfo['sortingFields'];
+                }
             }
             if ( isset( $params['IgnoreVisibility'] ) )
             {
