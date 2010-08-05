@@ -57,6 +57,9 @@ Deprecated functionality
   use post parameters in the future, and we recommend you to do the same for your custom code.
   * breaks when you have multiple windows open, something power users frequently do.
 
+* INI file suffix *.ini.php & *.ini.append
+
+  This ini suffix types have been deprecated, please use *.ini or *.ini.append.php
 
 Renamed methods
 ---------------
