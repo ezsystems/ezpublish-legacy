@@ -849,7 +849,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
             $filter['tables']   = $sqlResult['tables'];
             $filter['joins']    = $sqlResult['joins'];
-            $filter['columns']  = $sqlResult['columns'];
+            $filter['columns']  = isset( $sqlResult['columns'] ) ? $sqlResult['columns'] : '';
 
             if( isset( $sqlResult['group_by'] ) )
                 $filter['group_by'] =  $sqlResult['group_by'];

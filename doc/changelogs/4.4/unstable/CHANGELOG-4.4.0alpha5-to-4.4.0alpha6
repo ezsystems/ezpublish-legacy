@@ -34,3 +34,4 @@ Changes from 4.4.0alpha5 to 4.4.0alpha6
 - Fixed bug #015069: typo in ezorder.php
 - Fixed bug #017046: Inconsistent policy checks in content/trash
 - Fixed bug #016247: Missing variable declaration in eznotificationtransport.php
+- Fixed bug #016473: notice in ezcontentobjecttreenode / Undefined index: columns
