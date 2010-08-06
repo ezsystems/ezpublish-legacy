@@ -15,7 +15,7 @@ $def->class = "ezpRestAuthorizedClient";
 $def->idProperty = new ezcPersistentObjectIdProperty;
 $def->idProperty->columnName = 'id';
 $def->idProperty->propertyName = 'id';
-$def->idProperty->generator = new ezcPersistentGeneratorDefinition( 'ezcPersistentNativeGenerator' );
+$def->idProperty->generator = new ezcPersistentGeneratorDefinition( 'ezcPersistentSequenceGenerator', array( "sequence" => "ezprest_authorized_clients_s" ) );
 
 $def->properties['rest_client_id'] = new ezcPersistentObjectProperty;
 $def->properties['rest_client_id']->columnName = 'rest_client_id';

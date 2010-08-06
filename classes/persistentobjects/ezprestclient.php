@@ -13,7 +13,7 @@ $def->class = "ezpRestClient";
 $def->idProperty = new ezcPersistentObjectIdProperty;
 $def->idProperty->columnName = 'id';
 $def->idProperty->propertyName = 'id';
-$def->idProperty->generator = new ezcPersistentGeneratorDefinition( 'ezcPersistentNativeGenerator' );
+$def->idProperty->generator = new ezcPersistentGeneratorDefinition( 'ezcPersistentSequenceGenerator', array( "sequence" => "ezprest_clients_s" ) );
 
 $def->properties['name'] = new ezcPersistentObjectProperty;
 $def->properties['name']->columnName = 'name';
