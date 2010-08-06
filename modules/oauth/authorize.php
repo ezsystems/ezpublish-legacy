@@ -134,7 +134,16 @@ if ( !$application->isAuthorizedByUser( $pScope, eZUser::currentUser() ) )
 }
 
 // At this point, the we know the user HAS granted access, and can hand over a token
-$rAccessToken = ezpRestTokenManager::generateToken( $pScope );
+$rAccessToken = ezpRestToken::generateToken( $pScope );
+
+$token = new ezpRestToken();
+$token->id = $rAccessToken;
+$token->client_id = $pClientId;
+$token->expirytime = time() + 3600;
+
+$session = ezcPersistentSessionInstance::get();
+$session->save( $token );
+
 
 // The user has a agreed to authorize this app.
 // Redirect to the redirect_uri with these parameters:
@@ -145,7 +154,6 @@ $rAccessToken = ezpRestTokenManager::generateToken( $pScope );
 // - state, not implemented yet (state persistency related)
 $parameters = array();
 
-$rAccessToken = uniqid( 'token' );
 $rExpiresIn = 3600;
 
 $parameters[] = 'access_token=' . urlencode( $rAccessToken );
