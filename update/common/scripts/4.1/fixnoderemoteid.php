@@ -42,7 +42,7 @@ $scriptSettings = array();
 $scriptSettings['description'] = 'Fix non-unique usage of tree node remote ID\'s';
 $scriptSettings['use-session'] = false;
 $scriptSettings['use-modules'] = false;
-$scriptSettings['use-extensions'] = false;
+$scriptSettings['use-extensions'] = true;
 
 $script = eZScript::instance( $scriptSettings );
 $script->startup();
@@ -72,7 +72,14 @@ else
 
 $db = eZDB::instance();
 
-$nonUniqueRemoteIDDataList = $db->arrayQuery( 'SELECT remote_id, COUNT(*) AS cnt FROM ezcontentobject_tree GROUP BY remote_id HAVING COUNT(*) > 1' );
+if(  $db->databaseName() == 'oracle' )
+{
+    $nonUniqueRemoteIDDataList = $db->arrayQuery( 'SELECT remote_id, COUNT(*) AS cnt FROM ezcontentobject_tree WHERE remote_id IS NOT NULL GROUP BY remote_id HAVING COUNT(*) > 1' );
+}
+else
+{
+    $nonUniqueRemoteIDDataList = $db->arrayQuery( "SELECT remote_id, COUNT(*) AS cnt FROM ezcontentobject_tree WHERE remote_id !='' GROUP BY remote_id HAVING COUNT(*) > 1" );
+}
 
 $nonUniqueRemoteIDDataListCount = count( $nonUniqueRemoteIDDataList );
 
@@ -156,7 +163,14 @@ foreach ( $nonUniqueRemoteIDDataList as $nonUniqueRemoteIDData )
  $cli->output( '' );
 }
 
-$nonUniqueRemoteIDDataList = $db->arrayQuery( "SELECT node_id FROM ezcontentobject_tree WHERE remote_id = ''" );
+if(  $db->databaseName() == 'oracle' )
+{
+    $nonUniqueRemoteIDDataList = $db->arrayQuery( "SELECT node_id FROM ezcontentobject_tree WHERE remote_id IS NULL" );
+}
+else
+{
+    $nonUniqueRemoteIDDataList = $db->arrayQuery( "SELECT node_id FROM ezcontentobject_tree WHERE remote_id = ''" );
+}
 
 $nonUniqueRemoteIDDataListCount = count( $nonUniqueRemoteIDDataList );
 
