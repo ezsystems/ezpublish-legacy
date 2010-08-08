@@ -107,8 +107,9 @@ class eZObjectRelationListType extends eZDataType
                 $object = eZContentObject::fetch( $subObjectID );
                 if ( $object )
                 {
-                    $attributes = $object->contentObjectAttributes( true, $subObjectVersion );
-
+                    $attributes = $object->contentObjectAttributes( true,
+                                                                    $subObjectVersion,
+                                                                    $contentObjectAttribute->attribute( 'language_code' ) );
                     $validationResult = $object->validateInput( $attributes, $attributeBase,
                                                                 $inputParameters, $parameters );
                     $inputValidated = $validationResult['input-validated'];
@@ -913,7 +914,17 @@ class eZObjectRelationListType extends eZDataType
                         if ( $object->attribute( 'can_edit' ) )
                         {
                             $content['relation_list'][$key]['is_modified'] = true;
-                            $version = $object->createNewVersion();
+                            $translationSourceBase = $base . '_translation_source_' .
+                            $contentObjectAttribute->attribute( 'id' ) . '_' .
+                            $relationItem['contentobject_id'];
+                            $languageFrom = false;
+                            if( $http->hasPostVariable( $translationSourceBase ) &&
+                                    $http->postVariable( $translationSourceBase ) !== '' )
+                            {
+                                $languageFrom = $http->postVariable( $translationSourceBase );
+                            }
+
+                            $version = $object->createNewVersionIn( $contentObjectAttribute->attribute( 'language_code' ), $languageFrom );
                             $content['relation_list'][$key]['contentobject_version'] = $version->attribute( 'version' );
                         }
                     }

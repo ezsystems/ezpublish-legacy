@@ -216,6 +216,7 @@
             <th>{'Name'|i18n( 'design/standard/content/datatype' )}</th>
             <th>{'Type'|i18n( 'design/standard/content/datatype' )}</th>
             <th>{'Section'|i18n( 'design/standard/content/datatype' )}</th>
+            <th><span title="{'The related objects will be edited in the same language as this object. If such translations do not exist they will be created, based on the source language of your choice.'|i18n( 'design/standard/content/datatype' )}">{'Translation base'|i18n( 'design/standard/content/datatype' )}</span></th>
             <th class="tight">{'Order'|i18n( 'design/standard/content/datatype' )}</th>
         </tr>
         {section name=Relation loop=$attribute.content.relation_list sequence=array( bglight, bgdark )}
@@ -227,7 +228,7 @@
         {* Remove. *}
         <td><input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_remove_{$Relation:index}" class="ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="checkbox" name="{$attribute_base}_selection[{$attribute.id}][]" value="{$:item.contentobject_id}" /></td>
 
-        <td colspan="3">
+        <td colspan="4">
 
         {let object=fetch( content, object, hash( object_id, $:item.contentobject_id, object_version, $:item.contentobject_version ) )
              version=fetch( content, version, hash( object_id, $:item.contentobject_id, version_id, $:item.contentobject_version ) )}
@@ -271,6 +272,24 @@
 
         {* Section *}
         <td>{fetch( section, object, hash( section_id, $Relation:object.section_id ) ).name|wash()}</td>
+
+        {* Translation base *}
+        <td>
+            {if $Relation:object.language_codes|contains( $attribute.language_code )}
+                <span title="{'This object is already translated, the existing translation will be used.'|i18n( 'design/standard/content/datatype' )}">
+                    {$Relation:object.current_language_object.name|wash()}
+                </span>
+            {else}
+                {def $languages=$Relation:object.languages}
+                <select name="{$attribute_base}_translation_source_{$attribute.id}_{$Relation:object.id}" title="{'This object is not translated, please select the language the new translation will be based on.'|i18n( 'design/standard/content/datatype' )}">
+                    {foreach $languages as $language}
+                        <option value="{$language.locale}" {if $language.locale|eq( $Relation:object.initial_language_code )}selected="selected"{/if}>{$language.name}</option>
+                    {/foreach}
+                    <option value="">{'None'|i18n( 'design/standard/content/datatype' )}</option>
+                </select>
+                {undef $languages}
+            {/if}
+       </td>
 
         {* Order. *}
         <td><input size="2" type="text" name="{$attribute_base}_priority[{$attribute.id}][]" value="{$:item.priority}" /></td>
