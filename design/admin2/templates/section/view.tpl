@@ -20,7 +20,7 @@
 
 <div class="block">
 <label>{'Identifier'|i18n( 'design/admin/section/view' )}:</label>
-{$section.section_identifier|wash}
+{$section.identifier|wash}
 </div>
 
 <div class="block">

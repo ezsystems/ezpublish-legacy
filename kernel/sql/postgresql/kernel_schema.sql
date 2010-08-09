@@ -2441,7 +2441,7 @@ CREATE TABLE ezsection (
     locale character varying(255),
     name character varying(255),
     navigation_part_identifier character varying(100) DEFAULT 'ezcontentnavigationpart'::character varying,
-    section_identifier character varying(255)
+    identifier character varying(255)
 );
 
 

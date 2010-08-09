@@ -31,22 +31,22 @@ $offset = 0;
 
 do
 {
-    // Fetch items with empty section_identifier
-    $rows = eZSection::fetchFilteredList( array( 'section_identifier' => '' ), $offset, $limit );
+    // Fetch items with empty identifier
+    $rows = eZSection::fetchFilteredList( array( 'identifier' => '' ), $offset, $limit );
 
     if ( !$rows )
         break;
 
     foreach ( $rows as $row )
     {
-        if ( $row->attribute( 'section_identifier' ) == '' )
+        if ( $row->attribute( 'identifier' ) == '' )
         {
             // Create a new section identifier with NAME_ID pattern
             $name = $row->attribute( 'name' );
             $identifier = $trans->transformByGroup( $name, 'identifier' ) . '_' . $row->attribute( 'id' );
 
             // Set new section identifier and store it
-            $row->setAttribute( 'section_identifier', $identifier );
+            $row->setAttribute( 'identifier', $identifier );
             $row->store();
 
             if ( !$isQuiet )

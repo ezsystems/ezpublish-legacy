@@ -55,7 +55,7 @@
 <tr class="{$Sections.sequence}">
     <td><input type="checkbox" name="SectionIDArray[]" value="{$Sections.item.id}" title="{'Select section for removal.'|i18n( 'design/admin/section/list' )}" /></td>
     <td>{'section'|icon( 'small', 'section'|i18n( 'design/admin/section/list' ) )}&nbsp;<a href={concat( '/section/view/', $Sections.item.id )|ezurl}>{$Sections.item.name|wash}</a></td>
-    <td>{$Sections.item.section_identifier}</td>
+    <td>{$Sections.item.identifier}</td>
     <td class="number" align="right">{$Sections.item.id}</td>
     <td>
     {if or( $allowed_assign_sections|contains( $Sections.item.id ), $allowed_assign_sections|contains( '*' ) )}

@@ -39,7 +39,7 @@ $FunctionList['object'] = array( 'name' => 'object',
                                                                'type' => 'integer',
                                                                'required' => false,
                                                                'default' => false ),
-                                                        array( 'name' => 'section_identifier',
+                                                        array( 'name' => 'identifier',
                                                                'type' => 'string',
                                                                'required' => false,
                                                                'default' => false ) ) );

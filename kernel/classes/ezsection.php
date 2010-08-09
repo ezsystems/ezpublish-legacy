@@ -66,7 +66,7 @@ class eZSection extends eZPersistentObject
                                                             'datatype' => 'string',
                                                             'default' => '',
                                                             'required' => true ),
-                                         "section_identifier" => array( 'name' => "SectionIdentifier",
+                                         "identifier" => array( 'name' => "Identifier",
                                                             'datatype' => 'string',
                                                             'default' => '',
                                                             'required' => true ) ),
@@ -118,7 +118,7 @@ class eZSection extends eZPersistentObject
         {
             $sectionFetched = eZPersistentObject::fetchObject( eZSection::definition(),
                                                        null,
-                                                       array( "section_identifier" => $sectionIdentifier ),
+                                                       array( "identifier" => $sectionIdentifier ),
                                                        $asObject );
             if( $asObject )
             {

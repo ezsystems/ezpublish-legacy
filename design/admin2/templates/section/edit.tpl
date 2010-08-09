@@ -30,7 +30,7 @@
 {* Identifier. *}
 <div class="block">
 <label for="SectionIdentifier">{'Identifier'|i18n( 'design/admin/section/edit' )}:</label>
-<input class="box" id="SectionIdentifier" type="text" name="SectionIdentifier" value="{$section.section_identifier|wash}" />
+<input class="box" id="SectionIdentifier" type="text" name="SectionIdentifier" value="{$section.identifier|wash}" />
 </div>
 
 {* Navigation part. *}

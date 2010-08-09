@@ -87,7 +87,7 @@ class eZNodeviewfunctions
         if ( $section )
         {
             $navigationPartIdentifier = $section->attribute( 'navigation_part_identifier' );
-            $sectionIdentifier = $section->attribute( 'section_identifier' );
+            $sectionIdentifier = $section->attribute( 'identifier' );
         }
         else
         {

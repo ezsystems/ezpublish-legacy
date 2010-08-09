@@ -279,7 +279,7 @@ if ( $searchSectionID != -1 )
     $section = eZSection::fetch( $searchSectionID );
     $res = eZTemplateDesignResource::instance();
     $keyArray = array( array( 'section', $searchSectionID ),
-                       array( 'section_identifier', $section->attribute( 'section_identifier' ) ) );
+                       array( 'section_identifier', $section->attribute( 'identifier' ) ) );
     $res->setKeys( $keyArray );
 }
 

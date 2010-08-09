@@ -351,7 +351,7 @@ $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object I
 $section = eZSection::fetch( $object->attribute( 'section_id' ) );
 if( $section )
 {
-    $res->setKeys( array( array( 'section_identifier', $section->attribute( 'section_identifier' ) ) ) );
+    $res->setKeys( array( array( 'section_identifier', $section->attribute( 'identifier' ) ) ) );
 }
 
 $versionArray =( isset( $versionArray ) and is_array( $versionArray ) ) ? array_unique( $versionArray ) : array();

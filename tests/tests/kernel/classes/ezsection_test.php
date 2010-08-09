@@ -32,7 +32,7 @@ class eZSectionTest extends ezpDatabaseTestCase
 
         $section = new eZSection( array() );
         $section->setAttribute( 'name', 'Test Section' );
-        $section->setAttribute( 'section_identifier', 'test_section' );
+        $section->setAttribute( 'identifier', 'test_section' );
         $section->store();
 
         $sectionID = $section->attribute( 'id' );
@@ -52,7 +52,7 @@ class eZSectionTest extends ezpDatabaseTestCase
         // fetchByID and fetchByIdentifier, assert that the result is the same
         $section3 = new eZSection( array() );
         $section3->setAttribute( 'name', 'Test Section3' );
-        $section3->setAttribute( 'section_identifier', 'test_section3' );
+        $section3->setAttribute( 'identifier', 'test_section3' );
         $section3->store();
         $objectByID = eZSection::fetch( $section3->attribute( 'id' ) );
         $objectByIdentifier = eZSection::fetchByIdentifier( 'test_section3' );

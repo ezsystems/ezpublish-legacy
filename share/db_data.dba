@@ -13159,7 +13159,7 @@ keywords=cms, publish, e-commerce, content management, development framework',
       1 => 'locale',
       2 => 'name',
       3 => 'navigation_part_identifier',
-      4 => 'section_identifier',
+      4 => 'identifier',
     ),
     'rows' => 
     array (

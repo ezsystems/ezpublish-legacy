@@ -42,4 +42,5 @@ Changes from 4.4.0alpha5 to 4.4.0alpha6
 - Fixed bug #017069: fixobjectremoteid.php fixnoderemoteid.php don't work on oracle
 - Fixed bug #015401: Wrong translation used when editing an object in a "Related objects" attribute
 - Fixed bug #017038: Other translations archived when editing related object
+- Fixed bug #017032: section_identifier should be identifier
 

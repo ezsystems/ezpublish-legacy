@@ -22711,7 +22711,7 @@ INSERT INTO ezsection (
   locale,
   name,
   navigation_part_identifier,
-  section_identifier
+  identifier
 ) VALUES (
   1,
   '',
@@ -22724,7 +22724,7 @@ INSERT INTO ezsection (
   locale,
   name,
   navigation_part_identifier,
-  section_identifier
+  identifier
 ) VALUES (
   2,
   '',
@@ -22737,7 +22737,7 @@ INSERT INTO ezsection (
   locale,
   name,
   navigation_part_identifier,
-  section_identifier
+  identifier
 ) VALUES (
   3,
   '',
@@ -22750,7 +22750,7 @@ INSERT INTO ezsection (
   locale,
   name,
   navigation_part_identifier,
-  section_identifier
+  identifier
 ) VALUES (
   4,
   '',
@@ -22763,7 +22763,7 @@ INSERT INTO ezsection (
   locale,
   name,
   navigation_part_identifier,
-  section_identifier
+  identifier
 ) VALUES (
   5,
   '',

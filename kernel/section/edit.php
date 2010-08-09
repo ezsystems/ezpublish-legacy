@@ -68,7 +68,7 @@ if ( $http->hasPostVariable( "StoreButton" ) )
     }
     else
     {
-        $conditions = array( 'section_identifier' => $sectionIdentifier,
+        $conditions = array( 'identifier' => $sectionIdentifier,
                              'id' => array( '!=', $SectionID ) );
         $existingSection = eZSection::fetchFilteredList( $conditions );
         if( count( $existingSection ) > 0 )
@@ -76,7 +76,7 @@ if ( $http->hasPostVariable( "StoreButton" ) )
             $errorMessage = ezi18n( 'design/admin/section/edit', 'The identifier has been used in another section.' );
         }
     }
-    $section->setAttribute( 'section_identifier', $sectionIdentifier );
+    $section->setAttribute( 'identifier', $sectionIdentifier );
     $section->setAttribute( 'navigation_part_identifier', $http->postVariable( 'NavigationPartIdentifier' ) );
     if ( $http->hasPostVariable( 'Locale' ) )
         $section->setAttribute( 'locale', $http->postVariable( 'Locale' ) );
