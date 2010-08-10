@@ -78,7 +78,7 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml">
 <div class="block">
-  <input class="defaultbutton" type="submit" name="StoreButton" value="{'Save changes'|i18n('design/admin/state/edit')|wash}" title="{'Save changes to this states.'|i18n( 'design/admin/state/edit' )|wash}" />
+  <input class="defaultbutton" type="submit" name="StoreButton" value="{'Save changes'|i18n('design/admin/state/edit')|wash}" title="{'Save changes to this state.'|i18n( 'design/admin/state/edit' )|wash}" />
   <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n('design/admin/state/edit')|wash}" title="{'Cancel saving any changes.'|i18n( 'design/admin/state/edit' )|wash}" />
 </div>
 

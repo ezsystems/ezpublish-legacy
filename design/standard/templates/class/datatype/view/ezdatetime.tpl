@@ -42,7 +42,7 @@
         {/if}
 
         {if and( $class_attribute.data_int2|eq(1), $class_attribute.content.second )}
-        {if $class_attribute.content.second|gt(0)}+{/if}{$class_attribute.content.second} {'seconds(s)'|i18n( 'design/standard/class/datatype' )}
+        {if $class_attribute.content.second|gt(0)}+{/if}{$class_attribute.content.second} {'second(s)'|i18n( 'design/standard/class/datatype' )}
         {/if}
     {/case}
 

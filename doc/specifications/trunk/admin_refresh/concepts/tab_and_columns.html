@@ -466,8 +466,8 @@ div.tabbox div.tabcontent
                             Other ideas:
                              <ol>
                                 <li>Add context menu to sub items on far right side when you hover over the line (like dropbox web interface)</li>
-                                <li>The final result will need to be able to work correctly (with page reloads) for tabs, size controll and show/hide controlls if javascript is disabled or not suppoorted.</li>
-                                <li>Always refer to Nodes and Objects as "Pages" and if placment specific: "Placment". And (Content Object) Class should refer to as "Page type" or "Type" for short. This way only deverlopers will need to learn what a Node, Object and Class is!</li>
+                                <li>The final result will need to be able to work correctly (with page reloads) for tabs, size control and show/hide controls if javascript is disabled or not supported.</li>
+                                <li>Always refer to Nodes and Objects as "Pages" and if placement specific: "Placement". And (Content Object) Class should refer to as "Page type" or "Type" for short. This way only developers will need to learn what a Node, Object and Class is!</li>
                             </ol>
                             
                         </div>
@@ -683,7 +683,7 @@ jQuery('form').submit(function()
 {
 	// Use timeout to make sure data is sent
 	var formElement = this;
-	window.setTimeout( function(){ jQuery('input,select', formElement).attr( 'disabled', true ).attr( 'title', 'Form control has been disabled since you are currently submiting this form using "' + formElement.name + '" button!' ) }, 5 )
+	window.setTimeout( function(){ jQuery('input,select', formElement).attr( 'disabled', true ).attr( 'title', 'Form control has been disabled since you are currently submitting this form using "' + formElement.name + '" button!' ) }, 5 )
 	return false;
 });
 
