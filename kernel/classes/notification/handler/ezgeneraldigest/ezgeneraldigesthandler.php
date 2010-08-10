@@ -141,8 +141,13 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
                 $tpl->setVariable( 'address', $address['address'] );
                 $result = $tpl->fetch( 'design:notification/handler/ezgeneraldigest/view/plain.tpl' );
                 $subject = $tpl->variable( 'subject' );
+
+                $parameters = array();
+                if ( $tpl->hasVariable( 'content_type' ) )
+                    $parameters['content_type'] = $tpl->variable( 'content_type' );
+
                 $transport = eZNotificationTransport::instance( 'ezmail' );
-                $transport->send( $address, $subject, $result);
+                $transport->send( $address, $subject, $result, null, $parameters );
                 eZDebugSetting::writeDebug( 'kernel-notification', $result, "digest result" );
             }
 
