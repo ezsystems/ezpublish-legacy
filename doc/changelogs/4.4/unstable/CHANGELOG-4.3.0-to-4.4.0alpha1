@@ -1,10 +1,10 @@
 Changes from 4.3.0 to 4.4.0alpha1
 
 *Kernel:
-- Implemented enhancement #016711: Making extension aware of the order/priority in which they need to be loaded
-- Implemented enhancement #016566: new ezurloperator for cookies
-- Implemented enhancement #016265: Add ability to override classes providing template operators (with patch)
 - Implemented enhancement #016237: eZTemplate cleanup
+- Implemented enhancement #016265: Add ability to override classes providing template operators (with patch)
+- Implemented enhancement #016566: new ezurloperator for cookies
+- Implemented enhancement #016711: Making extension aware of the order/priority in which they need to be loaded
 
 *Design:
 
@@ -19,10 +19,10 @@ Changes from 4.3.0 to 4.4.0alpha1
 *Translations:
 
 *Bugfixes:
-- Fixed bug #016761: Contentstructuretreemenu.ini in ActiveAccessExtension
-- Fixed bug #016747: HTTP status 500 missing when transaction error occurs
-- Fixed bug #016685: Fatal error with imageGD, php 5.3 and border image alias filter
-- Fixed bug #016568: eZSearch::registerSearchObject() inserts duplicates when DelayedIndexing is set to 'classbased'
-- Fixed bug #016550: eZ Publish is using "Etag", w3c says "ETag"
-- Fixed bug #015417: ezpgenerateautoloads.php doesn't work well with config.php autoloading
 - Fixed bug #010651: eZHTTPTool::sendHTTPRequest() doesn't support domain names with dashes
+- Fixed bug #015417: ezpgenerateautoloads.php doesn't work well with config.php autoloading
+- Fixed bug #016550: eZ Publish is using "Etag", w3c says "ETag"
+- Fixed bug #016568: eZSearch::registerSearchObject() inserts duplicates when DelayedIndexing is set to 'classbased'
+- Fixed bug #016685: Fatal error with imageGD, php 5.3 and border image alias filter
+- Fixed bug #016747: HTTP status 500 missing when transaction error occurs
+- Fixed bug #016761: Contentstructuretreemenu.ini in ActiveAccessExtension

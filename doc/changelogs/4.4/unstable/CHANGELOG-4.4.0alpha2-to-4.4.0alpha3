@@ -16,18 +16,18 @@ Changes from 4.4.0alpha2 to 4.4.0alpha3
 *Translations:
 
 *Bugfixes:
-- Fixed bug #016879: Make debug popup XHTML Valid
-- Fixed bug #016872: unclear error message of copy subtree
-- Fixed bug #016865: incorrect operator used for totalPriceIncVat in ezorder.php
-- Fixed bug #016861: content/browse gives a fatal error when user isn't logged in
-- Fixed bug #016848: Unable to make an IsInline[externalimage]=image custom tag inline (fix available)
-- Fixed bug #016838: iPhone and Content-Range support
-- Fixed bug #016830: kernel/setup/systemupgrade.php - typo in php classname
-- Fixed bug #016814: Rendering problems in ezxmltext datatype
-- Fixed bug #016799: CSS class doesn't show when link is image, not text
-- Fixed bug #016737: Oracle requires fields in ORDER BY to also be in the SELECT list or it will return an error
-- Fixed bug #016648: eZOperationMemento::createKey() if one of the process parameters is array, generated key is incorrect
-- Fixed bug #015641: BCC - sending problem with the notification mail (regression in 4.3 and 4.4)
-- Fixed bug #014973: Update basket keys missing in operation_definition
-- Fixed bug #010355: Confusing build and revision number
 - Fixed bug #008518: setup/info reports incorrect svn revision
+- Fixed bug #010355: Confusing build and revision number
+- Fixed bug #014973: Update basket keys missing in operation_definition
+- Fixed bug #015641: BCC - sending problem with the notification mail (regression in 4.3 and 4.4)
+- Fixed bug #016648: eZOperationMemento::createKey() if one of the process parameters is array, generated key is incorrect
+- Fixed bug #016737: Oracle requires fields in ORDER BY to also be in the SELECT list or it will return an error
+- Fixed bug #016799: CSS class doesn't show when link is image, not text
+- Fixed bug #016814: Rendering problems in ezxmltext datatype
+- Fixed bug #016830: kernel/setup/systemupgrade.php - typo in php classname
+- Fixed bug #016838: iPhone and Content-Range support
+- Fixed bug #016848: Unable to make an IsInline[externalimage]=image custom tag inline (fix available)
+- Fixed bug #016861: content/browse gives a fatal error when user isn't logged in
+- Fixed bug #016865: incorrect operator used for totalPriceIncVat in ezorder.php
+- Fixed bug #016872: unclear error message of copy subtree
+- Fixed bug #016879: Make debug popup XHTML Valid
