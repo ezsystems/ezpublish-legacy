@@ -69,14 +69,14 @@ class eZExtensionWithOrderingTest extends ezpTestCase
         foreach ( array( 'ezfind', 'ezflow', 'ezgmaplocation', 'ezjscore', 'ezmultiupload', 'ezoe', 'ezwebin', 'ezwt' ) as $extension )
             $$extension = array_search( $extension, $activeExtensions );
 
-        $this->assertLessThan( $ezwt, $ezmultiupload, 'ezwt should have had lower extension position then ezmultiupload' );
-        $this->assertLessThan( $ezflow, $ezfind, 'ezflow should have had lower extension position then ezfind' );
-        $this->assertLessThan( $ezwebin, $ezfind, 'ezwebin should have had lower extension position then ezfind' );
-        $this->assertLessThan( $ezwebin, $ezflow, 'ezwebin should have had lower extension position then ezflow' );
-        $this->assertLessThan( $ezwebin, $ezjscore, 'ezwebin should have had lower extension position then ezjscore' );
-        $this->assertLessThan( $ezgmaplocation, $ezjscore, 'ezgmaplocation should have had lower extension position then ezjscore' );
-        $this->assertLessThan( $ezoe, $ezjscore, 'ezoe should have had lower extension position then ezjscore' );
-        $this->assertLessThan( $ezfind, $ezjscore, 'ezfind should have had lower extension position then ezjscore' );
+        $this->assertLessThan( $ezwt, $ezmultiupload, 'ezwt should have had lower extension position than ezmultiupload' );
+        $this->assertLessThan( $ezflow, $ezfind, 'ezflow should have had lower extension position than ezfind' );
+        $this->assertLessThan( $ezwebin, $ezfind, 'ezwebin should have had lower extension position than ezfind' );
+        $this->assertLessThan( $ezwebin, $ezflow, 'ezwebin should have had lower extension position than ezflow' );
+        $this->assertLessThan( $ezwebin, $ezjscore, 'ezwebin should have had lower extension position than ezjscore' );
+        $this->assertLessThan( $ezgmaplocation, $ezjscore, 'ezgmaplocation should have had lower extension position than ezjscore' );
+        $this->assertLessThan( $ezoe, $ezjscore, 'ezoe should have had lower extension position than ezjscore' );
+        $this->assertLessThan( $ezfind, $ezjscore, 'ezfind should have had lower extension position than ezjscore' );
     }
 
     public function testCycleInvolvesNoReordering1()
