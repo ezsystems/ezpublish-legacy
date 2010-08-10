@@ -2422,7 +2422,7 @@ class eZPDFTable extends Cezpdf
             }
             $columnText .= $text[$offSet];
         }
-        $this->addDocSpecFunction( 'ezTable', array( $tableData, '', '', array_merge( array( 'cellData' => $cellData,
+        $this->addDocSpecFunction( 'ezTable', array( &$tableData, '', '', array_merge( array( 'cellData' => $cellData,
                                                                                              'showLines' => $showLines ),
                                                                                       $params ) ) );
     }
