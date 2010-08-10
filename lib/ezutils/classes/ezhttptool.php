@@ -251,22 +251,20 @@ class eZHTTPTool
         if ( $postParameters )
         {
             $method = 'POST';
-            $dataCount = 0;
-            foreach( array_keys( $postParameters ) as $paramName )
+            foreach( $postParameters as $paramName => $paramData )
             {
-                if ( $dataCount > 0 )
+                if ( !is_array( $paramData) )
                 {
-                    $data .= '&';
-                }
-                ++$dataCount;
-                if ( !is_array( $postParameters[$paramName] ) )
-                {
-                    $data .= urlencode( $paramName ) . '=' . urlencode( $postParameters[$paramName] );
+                    if ( $data !== '' )
+                        $data .= '&';
+                    $data .= urlencode( $paramName ) . '=' . urlencode( $paramData );
                 }
                 else
                 {
-                    foreach( $postParameters[$paramName] as $value )
+                    foreach( $paramData as $value )
                     {
+                        if ( $data !== '' )
+                            $data .= '&';
                         $data .= urlencode( $paramName ) . '[]=' . urlencode( $value );
                     }
                 }
