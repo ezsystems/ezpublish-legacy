@@ -4,6 +4,7 @@ Changes from 4.4.0alpha5 to 4.4.0alpha6
 - Implemented enhancement #014831: hide cronjob is totally useless for big sites
 - Implemented enhancement #016147: prevent makestaticcache script adding new session in ezsession table for each node it caches
 - Implemented enhancement #016704: Cookie Domain should be a configuration option
+- Implemented enhancement #016782: Allow extensions to provide an md5 list of files to be checked
 - Implemented enhancement #016801: eZINI: Deprecate *.ini.append and *.ini.php file suffix
 - Implemented enhancement #017012: Add session handler & support for anonymous sessions
 - Implemented enhancement #017025: Reduce wildcard queries when deleting files in the DB cluster (optimisation)
@@ -11,6 +12,7 @@ Changes from 4.4.0alpha5 to 4.4.0alpha6
 - Implemented enhancement #017080: Optimize eZINI input file lookup
 - Implemented enhancement #017081: Provide a simple api to load siteaccess globally & on ini instance
 - Implemented enhancement #017082: Clean-up ini loading inconsistency regarding ActiveAccessExtensions SA
+- Implemented enhancement #017087: Mixing of html and text within a single email for a digest mail
 
 *Design:
 
@@ -40,7 +42,9 @@ Changes from 4.4.0alpha5 to 4.4.0alpha6
 - Fixed bug #016534: Subtree notification subscription can't be removed in admin2
 - Fixed bug #016569: After Content Read workflow trigger missing from Operation Defination
 - Fixed bug #016663: ezHTTPTool::sendHTTPRequest() fails on array POST parameters
+- Fixed bug #016699: PDF tables do not render under PHP5.3
 - Fixed bug #016738: LDAP login with method "GetGroupsTree" fails because of missing permissions of login script
+- Fixed bug #016740: 4.3 upgrade sql invalid for postgres
 - Fixed bug #016821: Show meta fields when they are required but not filled in
 - Fixed bug #016983: Login on private section with sso extension causes infinite redirection loop
 - Fixed bug #017020: Provide a upgrade script for section identifiers
@@ -51,3 +55,5 @@ Changes from 4.4.0alpha5 to 4.4.0alpha6
 - Fixed bug #017046: Inconsistent policy checks in content/trash
 - Fixed bug #017051: correctxmlalign.php does not work due to oracle incompatibility
 - Fixed bug #017069: fixobjectremoteid.php fixnoderemoteid.php don't work on oracle
+- Fixed bug #016973: switchlanguage fetch not working as expected
+
