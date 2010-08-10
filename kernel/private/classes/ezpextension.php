@@ -52,7 +52,6 @@ class ezpExtension
      * Returns the loading order informations from extension.xml
      *
      * @return array array( before => array( a, b ), after => array( c, d ) ) or an empty array if not available
-     * @note This structure voluntarily matches the one from loading.php for now
      */
     public function getLoadingOrder()
     {

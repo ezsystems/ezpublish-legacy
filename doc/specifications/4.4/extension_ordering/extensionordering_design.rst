@@ -22,25 +22,28 @@ Metadata
 --------
 
 Metadata about extension ordering are optional. They are placed in a
-*loading.php* file at the root directory of the extension and should be
+*extension.xml* file at the root directory of the extension and should be
 structured the following way:
 
 ::
 
-    extension/example/loading.php
-    <?php
-    return array(
-        'after' => array(
-            'extension1',
-            'extension2',
-        ),
-        'before' => array(
-            'extension3',
-        )
-    );
+    extension/example/extension.xml
+    <?xml version="1.0" encoding="utf-8" ?>
+    <software>
+        <dependencies>
+            <requires>
+                <extension name="extension1" />
+                <extension name="extension2" />
+            </requires>
+            <extends>
+                <extension name="extension3" />
+            </extends>
+        </dependencies>
+    </software>
 
 This will instruct that extension *example* needs to be loaded **after**
-*extension1* and *extension2*, but **before** *extension3*.
+*extension1* and *extension2* because it **requires** them, while *extension3*
+will be loaded **before** because it **extends** it.
 
 Ordering algorithm
 ------------------
