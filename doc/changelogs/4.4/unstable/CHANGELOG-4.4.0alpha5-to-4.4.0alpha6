@@ -35,6 +35,7 @@ Changes from 4.4.0alpha5 to 4.4.0alpha6
 - Fixed bug #016247: Missing variable declaration in eznotificationtransport.php
 - Fixed bug #016299: reverse_related_objects and sort_by priority
 - Fixed bug #016473: notice in ezcontentobjecttreenode / Undefined index: columns
+- Fixed bug #016534: Subtree notification subscription can't be removed in admin2
 - Fixed bug #016569: After Content Read workflow trigger missing from Operation Defination
 - Fixed bug #016738: LDAP login with method "GetGroupsTree" fails because of missing permissions of login script
 - Fixed bug #016821: Show meta fields when they are required but not filled in
