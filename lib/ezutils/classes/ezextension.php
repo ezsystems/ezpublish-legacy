@@ -257,7 +257,7 @@ class eZExtension
      * @param string|false|null See {@link eZExtension::prependSiteAccess()}
      * @param bool $order Prepend extensions in reverse order by setting this to false
      */
-    static function prependExtensionSiteAccesses( $accessName = false, $ini = false, $globalDir = true, $identifier = false, $order = true )
+    static function prependExtensionSiteAccesses( $accessName = false, $ini = false, $globalDir = true, $identifier = null, $order = true )
     {
         $extensionList = eZExtension::activeExtensions( 'default' );
 
