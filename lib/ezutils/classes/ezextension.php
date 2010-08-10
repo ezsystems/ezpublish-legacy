@@ -254,8 +254,7 @@ class eZExtension
      * @param string|false $accessName Optional access name, will use global if false
      * @param eZINI|false|null $ini
      * @param true $globalDir
-     * @param string|false $identifier By setting to string "ext-siteaccess:<siteaccess>" only one location is supported
-     *                                 (identifier makes eZINI overwrite earlier prepends with same key)
+     * @param string|false|null See {@link eZExtension::prependSiteAccess()}
      * @param bool $order Prepend extensions in reverse order by setting this to false
      */
     static function prependExtensionSiteAccesses( $accessName = false, $ini = false, $globalDir = true, $identifier = false, $order = true )
@@ -280,10 +279,11 @@ class eZExtension
      * @param string|false $accessName Optional access name, will use global if false
      * @param eZINI|false|null $ini
      * @param true $globalDir
-     * @param string|false $identifier By setting to string "ext-siteaccess:<siteaccess>" only one location is supported
+     * @param string|false|null $identifier By setting to string "siteaccess" only one location is supported
      *                                 (identifier makes eZINI overwrite earlier prepends with same key)
+     *                                 null(default) means "ext-siteaccess:$extension" is used to only have one pr extension
      */
-    static function prependSiteAccess( $extension, $accessName = false, $ini = false, $globalDir = true, $identifier = false )
+    static function prependSiteAccess( $extension, $accessName = false, $ini = false, $globalDir = true, $identifier = null )
     {
         if ( !$accessName )
         {
@@ -291,6 +291,11 @@ class eZExtension
         }
 
         $extensionSettingsPath = eZExtension::baseDirectory() . '/' . $extension;
+
+        if ( $identifier === null )
+        {
+            $identifier = "ext-siteaccess:$extension";
+        }
 
         if ( !$ini instanceof eZINI )
         {
