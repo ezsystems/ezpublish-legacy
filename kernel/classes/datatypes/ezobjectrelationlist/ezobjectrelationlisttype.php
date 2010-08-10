@@ -107,7 +107,9 @@ class eZObjectRelationListType extends eZDataType
                 $object = eZContentObject::fetch( $subObjectID );
                 if ( $object )
                 {
-                    $attributes = $object->contentObjectAttributes( true, $subObjectVersion );
+                    $attributes = $object->contentObjectAttributes( true,
+                                                                    $subObjectVersion,
+                                                                    $contentObjectAttribute->attribute( 'language_code' ) );
 
                     $validationResult = $object->validateInput( $attributes, $attributeBase,
                                                                 $inputParameters, $parameters );
@@ -456,33 +458,14 @@ class eZObjectRelationListType extends eZDataType
                 $subObjectVersion = $relationItem['contentobject_version'];
                 $object = eZContentObject::fetch( $subObjectID );
 
-                if ( $object )
-                {
-                    $class = $object->contentClass();
-                    $time = time();
+                $time = time();
+                $version = eZContentObjectVersion::fetchVersion( $subObjectVersion, $subObjectID );
+                $version->setAttribute( 'modified', $time );
+                $version->store();
 
-                    // Make the previous version archived
-                    $currentVersion = $object->currentVersion();
-                    $currentVersion->setAttribute( 'status', eZContentObjectVersion::STATUS_ARCHIVED );
-                    $currentVersion->setAttribute( 'modified', $time );
-                    $currentVersion->store();
-
-                    $version = eZContentObjectVersion::fetchVersion( $subObjectVersion, $subObjectID );
-                    $version->setAttribute( 'modified', $time );
-                    $version->setAttribute( 'status', eZContentObjectVersion::STATUS_PUBLISHED );
-                    $version->store();
-                    $object->setAttribute( 'status', eZContentObject::STATUS_PUBLISHED );
-                    if ( !$object->attribute( 'published' ) )
-                        $object->setAttribute( 'published', $time );
-                    $object->setAttribute( 'modified', $time );
-                    $object->setAttribute( 'current_version', $version->attribute( 'version' ) );
-                    $object->setAttribute( 'is_published', true );
-                    $objectName = $class->contentObjectName( $object, $version->attribute( 'version' ) );
-                    $object->setName( $objectName, $version->attribute( 'version' ) );
-                    $object->store();
-                }
                 if ( $relationItem['parent_node_id'] > 0 )
                 {
+                    // action 1: edit a normal object
                     if ( !eZNodeAssignment::fetch( $object->attribute( 'id' ), $object->attribute( 'current_version' ), $relationItem['parent_node_id'], false ) )
                     {
                         $nodeAssignment = eZNodeAssignment::create( array( 'contentobject_id' => $object->attribute( 'id' ),
@@ -494,12 +477,33 @@ class eZObjectRelationListType extends eZDataType
                         $nodeAssignment->store();
                     }
                     $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $object->attribute( 'id' ),
-                                                                                                 'version' => $object->attribute( 'current_version' ) ) );
+                                                                                                 'version' => $subObjectVersion ) );
                     $objectNodeID = $object->attribute( 'main_node_id' );
                     $content['relation_list'][$key]['node_id'] = $objectNodeID;
                 }
                 else
                 {
+                    // action 2: edit a nodeless object (or creating a new node
+                    // Make the previous version archived
+                    $currentVersion = $object->currentVersion();
+                    $currentVersion->setAttribute( 'status', eZContentObjectVersion::STATUS_ARCHIVED );
+                    $currentVersion->setAttribute( 'modified', $time );
+                    $currentVersion->store();
+
+                    $version->setAttribute( 'status', eZContentObjectVersion::STATUS_PUBLISHED );
+                    $version->store();
+
+                    $object->setAttribute( 'status', eZContentObject::STATUS_PUBLISHED );
+                    if ( !$object->attribute( 'published' ) )
+                        $object->setAttribute( 'published', $time );
+                    $object->setAttribute( 'modified', $time );
+                    $object->setAttribute( 'current_version', $subObjectVersion );
+                    $object->setAttribute( 'is_published', true );
+                    $class = $object->contentClass();
+                    $objectName = $class->contentObjectName( $object, $version->attribute( 'version' ) );
+                    $object->setName( $objectName, $version->attribute( 'version' ) );
+                    $object->store();
+
                     if ( !eZNodeAssignment::fetch( $object->attribute( 'id' ), $object->attribute( 'current_version' ), $contentObject->attribute( 'main_node_id' ), false ) )
                     {
                         $nodeAssignment = eZNodeAssignment::create( array( 'contentobject_id' => $object->attribute( 'id' ),
@@ -937,7 +941,18 @@ class eZObjectRelationListType extends eZDataType
                         if ( $object->attribute( 'can_edit' ) )
                         {
                             $content['relation_list'][$key]['is_modified'] = true;
-                            $version = $object->createNewVersion();
+
+                            $translationSourceBase = $base . '_translation_source_' .
+                                                     $contentObjectAttribute->attribute( 'id' ) . '_' .
+                                                     $relationItem['contentobject_id'];
+                            $languageFrom = false;
+                            if( $http->hasPostVariable( $translationSourceBase ) &&
+                                    $http->postVariable( $translationSourceBase ) !== '' )
+                            {
+                                $languageFrom = $http->postVariable( $translationSourceBase );
+                            }
+
+                            $version = $object->createNewVersionIn( $contentObjectAttribute->attribute( 'language_code' ), $languageFrom );
                             $content['relation_list'][$key]['contentobject_version'] = $version->attribute( 'version' );
                         }
                     }
