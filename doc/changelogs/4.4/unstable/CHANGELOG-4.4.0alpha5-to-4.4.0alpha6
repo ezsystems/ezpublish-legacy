@@ -11,6 +11,7 @@ Changes from 4.4.0alpha5 to 4.4.0alpha6
 - Implemented enhancement #017080: Optimize eZINI input file lookup
 - Implemented enhancement #017081: Provide a simple api to load siteaccess globally & on ini instance
 - Implemented enhancement #017082: Clean-up ini loading inconsistency regarding ActiveAccessExtensions SA
+- Implemented enhancement #017087: Mixing of html and text within a single email for a digest mail
 
 *Design:
 
