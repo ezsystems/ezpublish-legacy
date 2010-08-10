@@ -946,12 +946,14 @@ class eZDBFileHandler
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileDelete( '$path' )" );
 
         if ( $fnamePart === false )
+        {
             $this->backend->_delete( $path );
-        if ( $fnamePart !== false )
-            $pattern = $path . '/' . $fnamePart . '%';
+        }
         else
-            $pattern = $path . '/%';
-        $this->backend->_deleteByLike( $pattern );
+        {
+            $pattern = $path . '/' . $fnamePart . '%';
+            $this->backend->_deleteByLike( $pattern );
+        }
     }
 
     /**
@@ -968,7 +970,6 @@ class eZDBFileHandler
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::delete( '$path' )" );
 
         $this->backend->_delete( $path );
-        $this->backend->_deleteByLike( $path . '/%' );
 
         $this->metaData = null;
     }

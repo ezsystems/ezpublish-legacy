@@ -6,6 +6,7 @@ Changes from 4.4.0alpha5 to 4.4.0alpha6
 - Implemented enhancement #016704: Cookie Domain should be a configuration option
 - Implemented enhancement #016801: eZINI: Deprecate *.ini.append and *.ini.php file suffix
 - Implemented enhancement #017012: Add session handler & support for anonymous sessions
+- Implemented enhancement #017025: Reduce wildcard queries when deleting files in the DB cluster (optimisation)
 - Implemented enhancement #017066: Remove private & unused function eZCharTransform::varExportInternal()
 - Implemented enhancement #017080: Optimize eZINI input file lookup
 - Implemented enhancement #017081: Provide a simple api to load siteaccess globally & on ini instance
