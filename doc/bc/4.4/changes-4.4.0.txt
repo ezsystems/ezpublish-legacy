@@ -81,6 +81,10 @@ Deprecated functionality
 
   This ini suffix types have been deprecated, please use *.ini or *.ini.append.php
 
+- eZFile::splitLines( $file )
+
+  Use native "file( $file, FILE_IGNORE_NEW_LINES )" instead.
+
 Renamed methods
 ---------------
 

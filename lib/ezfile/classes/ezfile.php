@@ -39,21 +39,20 @@
 */
 class eZFile
 {
-    /*!
-     \static
-     Reads the whole contents of the file \a $file and
-     splits it into lines which is collected into an array and returned.
-     It will handle Unix (\n), Windows (\r\n) and Mac (\r) style newlines.
-     \note The newline character(s) are not present in the line string.
-    */
+    /**
+     * Reads the whole contents of the file \a $file and
+     * splits it into lines which is collected into an array and returned.
+     * It will handle Unix (\n), Windows (\r\n) and Mac (\r) style newlines.
+     * \note The newline character(s) are not present in the line string.
+     *
+     * @deprecated Since 4.4, use file( $file, FILE_IGNORE_NEW_LINES ) instead.
+     * @return array|false
+     */
     static function splitLines( $file )
     {
-        $fp = @fopen( $file, "rb" );
-        if ( !$fp )
+        $contents = file_get_contents( $file );
+        if ( $contents === false )
             return false;
-        $size = filesize( $file );
-        $contents = fread( $fp, $size );
-        fclose( $fp );
         $lines = preg_split( "#\r\n|\r|\n#", $contents );
         unset( $contents );
         return $lines;

@@ -24,6 +24,7 @@ Changes from 4.4.0alpha5 to 4.4.0alpha6
 *Translations:
 
 *Bugfixes:
+- Fixed bug #011944: eZFile::splitLines() : function gives warning if we pass empty file path
 - Fixed bug #012192: Very bad performance in function eZInformationCollection::informationCollectionAttributes
 - Fixed bug #014018: Redirect error on the "ContinueShoppingButton"
 - Fixed bug #015069: typo in ezorder.php
