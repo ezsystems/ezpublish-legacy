@@ -30,6 +30,7 @@ Changes from 4.4.0alpha5 to 4.4.0alpha6
 - Fixed bug #015401: Wrong translation used when editing an object in a "Related objects" attribute
 - Fixed bug #015883: Enable only before (or after) operation doesn't work
 - Fixed bug #016141: Small typo error in viewcache.ini example + fatal error if it is copied
+- Fixed bug #016209: Some settings file are listed twice at settings/view page
 - Fixed bug #016247: Missing variable declaration in eznotificationtransport.php
 - Fixed bug #016299: reverse_related_objects and sort_by priority
 - Fixed bug #016473: notice in ezcontentobjecttreenode / Undefined index: columns

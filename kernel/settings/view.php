@@ -230,14 +230,18 @@ $iniFiles = eZDir::recursiveFindRelative( $rootDir, '', '.ini' );
 // find all .ini files in active extensions
 foreach ( eZINI::globalOverrideDirs() as $iniDataSet )
 {
-    $iniFiles = array_merge( $iniFiles, eZDir::recursiveFindRelative( $iniDataSet[0], '', '.ini' ) );
+    $iniPath = $iniDataSet[1] ? $iniDataSet[0] : 'settings/' . $iniDataSet[0];
+    $iniFiles = array_merge( $iniFiles, eZDir::recursiveFindRelative( $iniPath, '', '.ini' ) );
+    $iniFiles = array_merge( $iniFiles, eZDir::recursiveFindRelative( $iniPath, '', '.ini.append.php' ) );
 }
 
 // extract all .ini files without path
 $iniFiles = preg_replace('%.*/%', '', $iniFiles );
+// remove *.ini[.append.php] from file name
+$iniFiles = preg_replace('%\.ini.*%', '.ini', $iniFiles );
 sort( $iniFiles );
 
-$tpl->setVariable( 'ini_files', $iniFiles );
+$tpl->setVariable( 'ini_files', array_unique( $iniFiles ) );
 $tpl->setVariable( 'siteaccess_list', $siteAccessList );
 $tpl->setVariable( 'current_siteaccess', $currentSiteAccess );
 
