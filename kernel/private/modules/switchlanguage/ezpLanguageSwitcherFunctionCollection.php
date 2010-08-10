@@ -37,8 +37,12 @@ class ezpLanguageSwitcherFunctionCollection
             return array( 'result' => false );
         }
 
-        $urlAlias = $destinationElement[0]->getPath( $locale );
+        $currentLanguageCodes = eZContentLanguage::prioritizedLanguageCodes();
+        array_unshift( $currentLanguageCodes, $locale );
+        $currentLanguageCodes = array_unique( $currentLanguageCodes );
+        $urlAlias = $destinationElement[0]->getPath( $locale, $currentLanguageCodes );
         return array( 'result' => $urlAlias );
     }
 }
+
 ?>
