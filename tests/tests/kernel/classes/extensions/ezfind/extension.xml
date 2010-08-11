@@ -24,5 +24,9 @@
         <requires>
             <extension name="ezjscore" />
         </requires>
+        <extends>
+            <extension name="ezwebin" />
+            <extension name="ezflow" />
+        </extends>
     </dependencies>
 </software>
