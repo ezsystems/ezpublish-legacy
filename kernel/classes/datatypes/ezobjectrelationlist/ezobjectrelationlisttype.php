@@ -1132,7 +1132,7 @@ class eZObjectRelationListType extends eZDataType
      Removes the relation object \a $deletionItem if the item is owned solely by this
      version and is not published in the content tree.
     */
-    function removeRelationObject( $contentObjectAttribute, $deletionItem )
+    static function removeRelationObject( $contentObjectAttribute, $deletionItem )
     {
         if ( self::isItemPublished( $deletionItem ) )
         {
