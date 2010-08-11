@@ -76,7 +76,7 @@ class eZMySQLiDB extends eZDBInterface
         }
 
         /// Connect to master server
-        if ( !is_object( $this->DBWriteConnection ) )
+        if ( !$this->DBWriteConnection )
         {
             $connection = $this->connect( $this->Server, $this->DB, $this->User, $this->Password, $this->SocketPath, $this->Charset, $this->Port );
             if ( $this->IsConnected )
@@ -86,7 +86,7 @@ class eZMySQLiDB extends eZDBInterface
         }
 
         // Connect to slave
-        if ( !is_object( $this->DBConnection ) )
+        if ( !$this->DBConnection )
         {
             if ( $this->UseSlaveServer === true )
             {
@@ -138,7 +138,7 @@ class eZMySQLiDB extends eZDBInterface
         $maxAttempts = $this->connectRetryCount();
         $waitTime = $this->connectRetryWaitTime();
         $numAttempts = 1;
-        while ( !is_object( $connection ) and $numAttempts <= $maxAttempts )
+        while ( !$connection && $numAttempts <= $maxAttempts )
         {
             sleep( $waitTime );
 
@@ -150,9 +150,9 @@ class eZMySQLiDB extends eZDBInterface
 
         $this->IsConnected = true;
 
-        if ( !is_object( $connection ) )
+        if ( !$connection )
         {
-            eZDebug::writeError( "Connection error: Couldn't connect to database. Please try again later or inform the system administrator.\n$dbErrorText", "eZMySQLiDB" );
+            eZDebug::writeError( "Connection error: Couldn't connect to database. Please try again later or inform the system administrator.\n$dbErrorText", __CLASS__ );
             $this->IsConnected = false;
             throw new eZDBNoConnectionException( $server );
         }
@@ -249,7 +249,7 @@ class eZMySQLiDB extends eZDBInterface
     {
         $query = "SHOW CREATE DATABASE `{$this->DB}`";
         $status = mysqli_query( $this->DBConnection, $query );
-        $this->reportQuery( 'eZMySQLiDB', $query, false, false );
+        $this->reportQuery( __CLASS__, $query, false, false );
         if ( !$status )
         {
             $this->setError();
@@ -428,7 +428,7 @@ class eZMySQLiDB extends eZDBInterface
                     if ( $analysisText !== false )
                         $text = "EXPLAIN\n" . $text . "\n\nANALYSIS:\n" . $analysisText;
 
-                    $this->reportQuery( ( $server == eZDBInterface::SERVER_MASTER ? 'on master : ' : '' ) . 'eZMySQLiDB[' . $connection->host_info . ']', $text, $num_rows, $this->timeTaken() );
+                    $this->reportQuery( __CLASS__ . '[' . $connection->host_info . ( $server == eZDBInterface::SERVER_MASTER ? ', on master' : '' ) . ']', $text, $num_rows, $this->timeTaken() );
                 }
             }
             eZDebug::accumulatorStop( 'mysqli_query' );
@@ -439,7 +439,7 @@ class eZMySQLiDB extends eZDBInterface
             else
             {
                 $errorMessage = 'Query error (' . mysqli_errno( $connection ) . '): ' . mysqli_error( $connection ) . '. Query: ' . $sql;
-                eZDebug::writeError( $errorMessage, "eZMySQLiDB"  );
+                eZDebug::writeError( $errorMessage, __CLASS__  );
                 $oldRecordError = $this->RecordError;
                 // Turn off error handling while we unlock
                 $this->RecordError = false;
@@ -450,14 +450,14 @@ class eZMySQLiDB extends eZDBInterface
 
                 // This is to behave the same way as other RDBMS PHP API as PostgreSQL
                 // functions which throws an error with a failing request.
-                trigger_error( "mysql_query(): $errorMessage", E_USER_ERROR );
+                trigger_error( "mysqli_query(): $errorMessage", E_USER_ERROR );
 
                 return false;
             }
         }
         else
         {
-            eZDebug::writeError( "Trying to do a query without being connected to a database!", "eZMySQLiDB"  );
+            eZDebug::writeError( "Trying to do a query without being connected to a database!", __CLASS__ );
         }
 
 
@@ -496,7 +496,7 @@ class eZMySQLiDB extends eZDBInterface
 
             if ( $result == false )
             {
-                $this->reportQuery( 'eZMySQLiDB', $sql, false, false );
+                $this->reportQuery( __CLASS__, $sql, false, false );
                 return false;
             }
 
@@ -602,13 +602,15 @@ class eZMySQLiDB extends eZDBInterface
     {
         if ( $relationType != eZDBInterface::RELATION_TABLE )
         {
-            eZDebug::writeError( "Unsupported relation type '$relationType'", 'eZMySQLiDB::relationCount' );
+            eZDebug::writeError( "Unsupported relation type '$relationType'", __METHOD__ );
             return false;
         }
         $count = false;
         if ( $this->IsConnected )
         {
-            $result = mysqli_query( $this->DBConnection, 'SHOW TABLES from `' . $this->DB .'`' );
+            $query = 'SHOW TABLES from `' . $this->DB .'`';
+            $result = mysqli_query( $this->DBConnection, $query );
+            $this->reportQuery( __CLASS__, $query, false, false );
             $count = mysqli_num_rows( $result );
             mysqli_free_result( $result );
         }
@@ -619,13 +621,15 @@ class eZMySQLiDB extends eZDBInterface
     {
         if ( $relationType != eZDBInterface::RELATION_TABLE )
         {
-            eZDebug::writeError( "Unsupported relation type '$relationType'", 'eZMySQLiDB::relationList' );
+            eZDebug::writeError( "Unsupported relation type '$relationType'", __METHOD__ );
             return false;
         }
         $tables = array();
         if ( $this->IsConnected )
         {
-            $result = mysqli_query( $this->DBConnection, 'SHOW TABLES from `' . $this->DB .'`' );
+            $query = 'SHOW TABLES from `' . $this->DB .'`';
+            $result = mysqli_query( $this->DBConnection, $query );
+            $this->reportQuery( __CLASS__, $query, false, false );
             while( $row = mysqli_fetch_row( $result ) )
             {
                 $tables[] = $row[0];
@@ -651,7 +655,9 @@ class eZMySQLiDB extends eZDBInterface
                 $db = $this->DB;
             }
 
-            $result = mysqli_query( $connection, 'SHOW TABLES from `' . $db .'`' );
+            $query = 'SHOW TABLES from `' . $db .'`';
+            $result = mysqli_query( $connection, $query );
+            $this->reportQuery( __CLASS__, $query, false, false );
             while( $row = mysqli_fetch_row( $result ) )
             {
                 $tableName = $row[0];
@@ -675,7 +681,7 @@ class eZMySQLiDB extends eZDBInterface
         $relationTypeName = $this->relationName( $relationType );
         if ( !$relationTypeName )
         {
-            eZDebug::writeError( "Unknown relation type '$relationType'", 'eZMySQLiDB::removeRelation' );
+            eZDebug::writeError( "Unknown relation type '$relationType'", __METHOD__ );
             return false;
         }
 
@@ -763,7 +769,7 @@ class eZMySQLiDB extends eZDBInterface
         }
         else
         {
-            eZDebug::writeDebug( 'escapeString called before connection is made', 'eZMySQLiDB::escapeString' );
+            eZDebug::writeDebug( 'escapeString called before connection is made', __METHOD__ );
             return $str;
         }
     }
