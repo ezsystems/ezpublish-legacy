@@ -22,8 +22,8 @@
       offset_text=eq( ezini( 'ControlSettings', 'AllowUserVariables', 'template.ini' ), 'true' )|choose( '/offset/', '/(offset)/' )}
 {* Create view parameter text with the exception of offset *}
 {section loop=$view_parameters}
- {section-exclude match=eq($:key,offset)}
- {section-exclude match=$:item|not}
+ {section-exclude match=$:key|eq('offset')}
+ {section-exclude match=$:item|eq('')}
  {set view_parameter_text=concat($:view_parameter_text,'/(',$:key,')/',$:item)}
 {/section}
 
