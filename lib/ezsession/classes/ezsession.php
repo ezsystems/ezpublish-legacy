@@ -282,7 +282,7 @@ class eZSession
         {
             if ( $ini->hasVariable('Session', 'CookieTimeout')
               && $ini->variable('Session', 'CookieTimeout') )
-                $lifetime = $ini->variable('Session', 'CookieTimeout');
+                $lifetime = (int) $ini->variable('Session', 'CookieTimeout');
             else
                 $lifetime = $params['lifetime'];
         }

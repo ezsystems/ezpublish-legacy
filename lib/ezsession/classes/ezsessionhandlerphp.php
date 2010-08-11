@@ -18,10 +18,16 @@
 class eZSessionHandlerPHP extends eZSessionHandler
 {
     /**
-     *  reimp (Does nothing, lets php handle sessions)
+     * reimp (Does nothing, lets php handle sessions)
+     * Does set gc_maxlifetime to SessionTimeout to make sure timeout works like DB handler
      */
     public function setSaveHandler()
     {
+        $ini = eZINI::instance();
+        if ( $ini->hasVariable('Session', 'SessionTimeout') && $ini->variable('Session', 'SessionTimeout') )
+        {
+            ini_set("session.gc_maxlifetime", $ini->variable('Session', 'SessionTimeout') );
+        }
         return true;
     }
 
