@@ -16,7 +16,7 @@
 
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header">
-<h1 class="context-title" title="{'Class name and number of objects'|i18n( 'design/admin/class/view' )}">{$class.identifier|class_icon( 'normal', $class.nameList[$language_code]|wash )}&nbsp;{$class.nameList[$language_code]|wash} [{$class.object_count}]</h1>
+<h1 class="context-title" title="{'Class name and number of objects'|i18n( 'design/admin/class/view' )}">{$class.identifier|class_icon( 'normal', $class.nameList[$language_code]|wash )}&nbsp;{$class.nameList[$language_code]|wash} [{$class.object_count} objects]</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 

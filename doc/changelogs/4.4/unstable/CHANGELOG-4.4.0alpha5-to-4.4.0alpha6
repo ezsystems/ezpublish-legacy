@@ -3,6 +3,7 @@ Changes from 4.4.0alpha5 to 4.4.0alpha6
 *Kernel:
 - Implemented enhancement #014831: hide cronjob is totally useless for big sites
 - Implemented enhancement #016147: prevent makestaticcache script adding new session in ezsession table for each node it caches
+- Implemented enhancement #016330: translation: class/edit - add more info for number
 - Implemented enhancement #016704: Cookie Domain should be a configuration option
 - Implemented enhancement #016782: Allow extensions to provide an md5 list of files to be checked
 - Implemented enhancement #016801: eZINI: Deprecate *.ini.append and *.ini.php file suffix
