@@ -154,4 +154,49 @@ Telephone #1<br />Telephone #2</p>';
 
         $this->assertEquals( $ezp3Result, $ezp4Result );
     }
+
+    /**
+     * Regression in link rendering
+     *
+     * @link http://issues.ez.no/016541
+     * @note Test depends on template output!!
+     * @todo Waiting for feedback on original ezxmltext source for issue
+     */
+    private function tempTestMissingLink()
+    {
+        $XMLString = '<?xml version="1.0" encoding="utf-8"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/" xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/" xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/"><section><section><section><header anchor_name="nsw">New South Wales</header><paragraph xmlns:tmp="http://ez.no/namespaces/ezpublish3/temporary/"><link object_id="2">My Web Link (MWL)</link></paragraph></section></section></section></section>';
+
+        $outputHandler = new eZXHTMLXMLOutput( $XMLString, false );
+        $result = $outputHandler->outputText();
+var_dump( $result );
+
+// note: this link might be different depending on www / vhost settings, so we need to just
+// check that link is present with strpos, remember that there are other anchor links in test as well for now
+        $expected = '<a name="nsw" /><a name="toc_..." id="toc_..."></a><h3>New South Wales</h3>
+<p><a href="/">My Web Link (MWL)</a></p>';
+
+        //$this->assertEquals( $expected, $result );
+    }
+
+    /**
+     * Bug in link rendering related to GET parameters (& encoded to &amp;amp;)
+     *
+     * @link http://issues.ez.no/016668: links in ezxmltext double escapes.
+     * @note Test depends on template output!!
+     */
+    public function testLinkEscape()
+    {
+        $url = '/index.php?c=6&kat=company';
+        $urlID = eZURL::registerURL( $url );
+        $XMLString = '<?xml version="1.0" encoding="utf-8"?>
+<section xmlns:image="http://ez.no/namespaces/ezpublish3/image/" xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/" xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/"><paragraph xmlns:tmp="http://ez.no/namespaces/ezpublish3/temporary/"><link url_id="' . $urlID . '">My link</link></paragraph></section>';
+
+        $outputHandler = new eZXHTMLXMLOutput( $XMLString, false );
+        $result = $outputHandler->outputText();
+
+        $expected = '<p><a href="/index.php?c=6&kat=company" target="_self">My link</a></p>';
+
+        $this->assertEquals( $expected, $result );
+    }
 }

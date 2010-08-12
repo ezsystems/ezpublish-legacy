@@ -44,6 +44,7 @@ Changes from 4.4.0alpha5 to 4.4.0beta1
 - Fixed bug #016534: Subtree notification subscription can't be removed in admin2
 - Fixed bug #016569: After Content Read workflow trigger missing from Operation Defination
 - Fixed bug #016663: ezHTTPTool::sendHTTPRequest() fails on array POST parameters
+- Fixed bug #016668: links in ezxmltext double escapes
 - Fixed bug #016699: PDF tables do not render under PHP5.3
 - Fixed bug #016738: LDAP login with method "GetGroupsTree" fails because of missing permissions of login script
 - Fixed bug #016740: 4.3 upgrade sql invalid for postgres
