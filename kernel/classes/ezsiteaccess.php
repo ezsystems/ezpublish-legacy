@@ -495,12 +495,6 @@ class eZSiteAccess
         }
         else
         {
-            eZSys::clearAccessPath();
-            if ( isset( $access['uri_part'] ) && $access['uri_part'] !== null )
-                eZSys::setAccessPath( $access['uri_part'], $name );
-            else
-                $access['uri_part'] = array();
-
             $ini = eZINI::instance();
         }
 
@@ -511,8 +505,21 @@ class eZSiteAccess
 
         $ini->loadCache();
 
+        // change some global settings if $siteINI is null
         if ( $siteINI === null )
         {
+            eZSys::clearAccessPath();
+            if ( !isset( $access['uri_part'] ) || $access['uri_part'] === null )
+            {
+                if ( $ini->hasVariable('SiteSettings', 'SiteUriParts') )
+                    $access['uri_part'] = $ini->variable('SiteSettings', 'SiteUriParts');
+                else if ( $access['type'] === eZSiteAccess::TYPE_URI )
+                    $access['uri_part'] = array( $access['name'] );
+                else
+                    $access['uri_part'] = array();
+            }
+            eZSys::setAccessPath( $access['uri_part'], $name );
+
             eZUpdateDebugSettings();
             if ( self::debugEnabled() )
             {
@@ -553,7 +560,7 @@ class eZSiteAccess
         {
             eZINI::resetAllGlobals();
             eZExtension::clearActiveExtensionsMemoryCache();
-            eZTemplateDesignResource::clearInMemoryOverrideArray();
+            eZTemplateDesignResource::clearInMemoryCache();
         }
 
         // Reload extensions, siteaccess and access extensions
@@ -578,7 +585,7 @@ class eZSiteAccess
     /**
      * Loads ini envermont for a specific siteaccess
      *
-     * eg: eZSiteAccess::getIni( 'eng', 'site.ini' )
+     * eg: $ini = eZSiteAccess::getIni( 'eng', 'site.ini' );
      *
      * @since 4.4
      * @param string $siteAccess
@@ -587,9 +594,13 @@ class eZSiteAccess
      */
     static function getIni( $siteAccess, $settingFile = 'site.ini' )
     {
-        // return global if siteaccess is same as requested
-        if ( isset( $GLOBALS['eZCurrentAccess'] )
+        // return global if siteaccess is same as requested or false
+        if ( isset( $GLOBALS['eZCurrentAccess']['name'] )
           && $GLOBALS['eZCurrentAccess']['name'] === $siteAccess )
+        {
+            return eZINI::instance( $settingFile );
+        }
+        else if ( !$siteAccess )
         {
             return eZINI::instance( $settingFile );
         }
@@ -597,15 +608,10 @@ class eZSiteAccess
         // create a site ini instance using $useLocalOverrides = true
         $siteIni = new eZINI( 'site.ini', 'settings', null, null, true );
 
-        // create a access definition reusing current if set but change name
-        $access = isset( $GLOBALS['eZCurrentAccess'] ) ?
-                  $GLOBALS['eZCurrentAccess'] :
-                  array( 'type' => eZSiteAccess::TYPE_STATIC, 'uri_part' => array() );
-        $access['name'] = $siteAccess;
-        if ( $access['type'] === eZSiteAccess::TYPE_URI )
-        {
-            $access['uri_part'] = array( $siteAccess );
-        }
+        // create a dummy access definition (not used as long as $siteIni is sent to self::load() )
+        $access = array( 'name' => $siteAccess,
+                         'type' => eZSiteAccess::TYPE_STATIC,
+                         'uri_part' => array() );
 
         // Load siteaccess but on our locale instance of site.ini only
         $access = self::load( $access, $siteIni );
@@ -618,8 +624,6 @@ class eZSiteAccess
 
         // load settings file with $useLocalOverrides = true
         $ini = new eZINI( $settingFile,'settings', null, null, true );
-
-        // overwrite overrideDirs from siteIni instance
         $ini->setOverrideDirs( $siteIni->overrideDirs( false ) );
         $ini->load();
 

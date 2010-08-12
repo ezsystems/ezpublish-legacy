@@ -199,14 +199,7 @@ function getVariable( $block, $settingName, $iniFile, $path )
     return $result;
 }
 
-$ini = eZINI::instance( $iniFile, 'settings', null, null, false );
-
-if ( isset( $settingPlacement ) and $settingPlacement == 'siteaccess' )
-{
-    $ini->prependOverrideDir( "siteaccess/$siteAccess", false, 'siteaccess' );
-    $ini->loadCache();
-}
-
+$ini = eZSiteAccess::getIni( $siteAccess, $iniFile );
 $value = $settingName != '' ? $ini->variable( $block, $settingName ) : '';
 
 // Do modifications to the value before it's sent to the template

@@ -55,9 +55,7 @@ if ( $http->hasPostVariable( 'RemoveButton' ) )
 {
     if ( isset( $settingFile ) )
     {
-        $ini = eZINI::create( $settingFile, 'settings', null, null, false );
-        $ini->prependOverrideDir( "siteaccess/$currentSiteAccess", false, 'siteaccess' );
-        $ini->loadCache();
+        $ini = eZSiteAccess::getIni( $currentSiteAccess, $settingFile );
     }
 
     $placements = $ini->groupPlacements();
@@ -112,8 +110,6 @@ if ( $http->hasPostVariable( 'ChangeINIFile' ) or
 
         // load settings file with $useLocalOverrides = true & $addArrayDefinition = true
         $ini = new eZINI( $settingFile,'settings', null, false, true, false, true );
-
-        // overwrite overrideDirs from siteIni instance
         $ini->setOverrideDirs( $siteIni->overrideDirs( false ) );
         $ini->load();
     }

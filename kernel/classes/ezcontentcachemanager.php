@@ -788,7 +788,7 @@ class eZContentCacheManager
         {
             $preCacheSiteaccessArray = $ini->variable( 'ContentSettings', 'PreCacheSiteaccessArray' );
 
-            $currentSiteAccess = $GLOBALS['eZCurrentAccess']['name'];
+            $currentSiteAccess = $GLOBALS['eZCurrentAccess'];
 
             // This is the default view parameters for content/view
             $viewParameters = array( 'offset' => 0,
@@ -800,25 +800,16 @@ class eZContentCacheManager
             {
                 foreach ( $preCacheSiteaccessArray as $changeToSiteAccess )
                 {
-                    $GLOBALS['eZCurrentAccess']['name'] = $changeToSiteAccess;
-
-                    if ( $GLOBALS['eZCurrentAccess']['type'] == eZSiteAccess::TYPE_URI )
-                    {
-                        eZSys::setAccessPath( array( $changeToSiteAccess ), $changeToSiteAccess );
-                    }
+                    $newSiteAccess = $currentSiteAccess;
+                    $newSiteAccess['name'] = $changeToSiteAccess;
+                    unset( $newSiteAccess['uri_part'] );//eZSiteAccess::load() will take care of setting correct one
+                    eZSiteAccess::load( $newSiteAccess );
 
                     $tpl = eZTemplate::factory();
-                    $res = eZTemplateDesignResource::instance();
 
                     // Get the sitedesign and cached view preferences for this siteaccess
-                    $siteini = eZINI::instance( 'site.ini', 'settings', null, null, false );
-                    $siteini->prependOverrideDir( "siteaccess/$changeToSiteAccess", false, 'siteaccess' );
-                    $siteini->loadCache();
-                    $designSetting = $siteini->variable( "DesignSettings", "SiteDesign" );
+                    $siteini = eZINI::instance( 'site.ini');
                     $cachedViewPreferences = $siteini->variable( 'ContentSettings', 'CachedViewPreferences' );
-                    $res->setDesignSetting( $designSetting, 'site' );
-
-                    $res->setOverrideAccess( $changeToSiteAccess );
 
                     $language = false; // Needs to be specified if you want to generate the cache for a specific language
                     $viewMode = 'full';
@@ -870,14 +861,8 @@ class eZContentCacheManager
                 // Restore the old user as the current one
                 eZUser::setCurrentlyLoggedInUser( $user, $user->attribute( 'contentobject_id' ) );
 
-                $GLOBALS['eZCurrentAccess']['name'] = $currentSiteAccess;
-                $res->setDesignSetting( $currentSiteAccess, 'site' );
-                $res->setOverrideAccess( false );
-
-                if ( $GLOBALS['eZCurrentAccess']['type'] == eZSiteAccess::TYPE_URI )
-                {
-                    eZSys::setAccessPath( $GLOBALS['eZCurrentAccess']['uri_part'], $currentSiteAccess );
-                }
+                // restore siteaccess
+                eZSiteAccess::load( $currentSiteAccess );
             }
         }
 

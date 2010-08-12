@@ -321,13 +321,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         else
         {
             $template = "/" . $path;
-            // TODO add correct memory cache
-//            $matchFileArray = false;
-            if ( empty( $GLOBALS['eZTemplateOverrideArray_' . $this->OverrideSiteAccess] ) )
-            {
-                $GLOBALS['eZTemplateOverrideArray_' . $this->OverrideSiteAccess] = eZTemplateDesignResource::overrideArray( $this->OverrideSiteAccess );
-            }
-            $matchFileArray = $GLOBALS['eZTemplateOverrideArray_' . $this->OverrideSiteAccess];
+            $matchFileArray = eZTemplateDesignResource::overrideArray( $this->OverrideSiteAccess );
 
             $matchFile = $matchFileArray[$template];
 
@@ -863,7 +857,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         {
             return self::$overrideArrayCache;
         }
-        
+
         $bases = eZTemplateDesignResource::allDesignBases( $siteAccess );
 
         // fetch the override array from a specific siteacces
@@ -965,6 +959,19 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     static public function clearInMemoryOverrideArray( )
     {
         self::$overrideArrayCache = null;
+        unset( $GLOBALS['eZOverrideTemplateCacheMap'] );
+    }
+
+    /**
+     * Clear in memory cache (design settings and override cache)
+     *
+     * @static
+     * @since 4.4
+     */
+    static public function clearInMemoryCache( )
+    {
+        $GLOBALS['eZTemplateDesignSetting'] = array();
+        self::clearInMemoryOverrideArray();
     }
 
     /*!
