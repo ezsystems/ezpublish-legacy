@@ -180,7 +180,7 @@ var_dump( $result );
     }
 
     /**
-     * Bug in link rendering related to GET parameters (& encoded to &amp;amp;)
+     * Bug in link rendering related to GET parameters (& double encoded to &amp;amp;)
      *
      * @link http://issues.ez.no/016668: links in ezxmltext double escapes.
      * @note Test depends on template output!!
@@ -195,7 +195,7 @@ var_dump( $result );
         $outputHandler = new eZXHTMLXMLOutput( $XMLString, false );
         $result = $outputHandler->outputText();
 
-        $expected = '<p><a href="/index.php?c=6&kat=company" target="_self">My link</a></p>';
+        $expected = '<p><a href="/index.php?c=6&amp;kat=company" target="_self">My link</a></p>';
 
         $this->assertEquals( $expected, $result );
     }

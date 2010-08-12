@@ -214,7 +214,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         {
             $linkID = $element->getAttribute( 'url_id' );
             if ( isset( $this->LinkArray[$linkID] ) )
-                $href = str_replace( '&amp;', '&', $this->LinkArray[$linkID] );
+                $href = $this->LinkArray[$linkID];
         }
         elseif ( $element->getAttribute( 'node_id' ) != null )
         {
