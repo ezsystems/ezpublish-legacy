@@ -1,4 +1,4 @@
-Changes from 4.4.0alpha5 to 4.4.0alpha6
+Changes from 4.4.0alpha5 to 4.4.0beta1
 
 *Kernel:
 - Implemented enhancement #014831: hide cronjob is totally useless for big sites
