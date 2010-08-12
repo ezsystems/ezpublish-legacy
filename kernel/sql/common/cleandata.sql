@@ -22708,68 +22708,68 @@ INSERT INTO ezsearch_word (
 
 INSERT INTO ezsection (
   id,
+  identifier,
   locale,
   name,
-  navigation_part_identifier,
-  identifier
+  navigation_part_identifier
 ) VALUES (
   1,
+  'standard',
   '',
   'Standard',
-  'ezcontentnavigationpart',
-  'standard'
+  'ezcontentnavigationpart'
 );
 INSERT INTO ezsection (
   id,
+  identifier,
   locale,
   name,
-  navigation_part_identifier,
-  identifier
+  navigation_part_identifier
 ) VALUES (
   2,
+  'users',
   '',
   'Users',
-  'ezusernavigationpart',
-  'users'
+  'ezusernavigationpart'
 );
 INSERT INTO ezsection (
   id,
+  identifier,
   locale,
   name,
-  navigation_part_identifier,
-  identifier
+  navigation_part_identifier
 ) VALUES (
   3,
+  'media',
   '',
   'Media',
-  'ezmedianavigationpart',
-  'media'
+  'ezmedianavigationpart'
 );
 INSERT INTO ezsection (
   id,
+  identifier,
   locale,
   name,
-  navigation_part_identifier,
-  identifier
+  navigation_part_identifier
 ) VALUES (
   4,
+  'setup',
   '',
   'Setup',
-  'ezsetupnavigationpart',
-  'setup'
+  'ezsetupnavigationpart'
 );
 INSERT INTO ezsection (
   id,
+  identifier,
   locale,
   name,
-  navigation_part_identifier,
-  identifier
+  navigation_part_identifier
 ) VALUES (
   5,
+  'design',
   '',
   'Design',
-  'ezvisualnavigationpart',
-  'design'
+  'ezvisualnavigationpart'
 );
 
 INSERT INTO ezsite_data (
@@ -22784,7 +22784,7 @@ INSERT INTO ezsite_data (
   value
 ) VALUES (
   'ezpublish-version',
-  '4.4.0alpha5'
+  '4.4.0beta1'
 );
 
 INSERT INTO ezurl (
