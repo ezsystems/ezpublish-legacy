@@ -85,7 +85,7 @@ class ezjscServerFunctionsNode extends ezjscServerFunctions
      * @param string $sort
      * @return string
      */
-    public static function sortMap( $sort )
+    protected static function sortMap( $sort )
     {
         switch ( $sort )
         {
