@@ -46,7 +46,7 @@ class eZOeTestSuite extends ezpDatabaseTestSuite
             $ini = eZINI::instance();
             $activeExtensions = $ini->variable( 'ExtensionSettings', 'ActiveExtensions' );
             $ini->setVariable( 'ExtensionSettings', 'ActiveExtensions', array_diff( $activeExtensions, array('ezoe') ) );
-            // @todo: remove ezoe ini override when eZINI has api for that
+            $ini->removeOverrideDir( 'extension:ezoe' );
         }
         parent::tearDown();
     }
