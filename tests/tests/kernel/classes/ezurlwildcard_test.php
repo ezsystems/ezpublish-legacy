@@ -18,8 +18,8 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
     {
         $ini = eZINI::instance( 'site.ini' );
         $this->iniBackup['implementationBackup'] = $ini->variable( 'DatabaseSettings', 'DatabaseImplementation' );
-        $this->iniBackup['serverBackup'] = $ini->variable( 'DatabaseSettings', 'DatabaseImplementation' );
-        $this->iniBackup['databaseBackup'] = $ini->variable( 'DatabaseSettings', 'DatabaseImplementation' );
+        $this->iniBackup['serverBackup'] = $ini->variable( 'DatabaseSettings', 'Server' );
+        $this->iniBackup['databaseBackup'] = $ini->variable( 'DatabaseSettings', 'Database' );
         $this->iniBackup['varDirBackup'] = $ini->variable( 'FileSettings', 'VarDir' );
         $ini->setVariable( 'DatabaseSettings', 'DatabaseImplementation', 'ezmysqli' );
         $ini->setVariable( 'DatabaseSettings', 'Server', 'localhost' );
