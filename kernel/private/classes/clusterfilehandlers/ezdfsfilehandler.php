@@ -816,6 +816,7 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface
         {
             eZDebugSetting::writeDebug( 'kernel-clustering',
                 "Not storing this cache", __METHOD__ );
+            $this->abortCacheGeneration();
             return $result;
         }
 
