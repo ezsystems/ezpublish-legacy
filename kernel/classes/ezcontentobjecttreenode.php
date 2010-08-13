@@ -2772,26 +2772,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                       'Comment' => 'Assigned a section to the current node and all child objects: eZContentObjectTreeNode::assignSectionToSubTree()' ) );
 
         $objectSimpleIDArray = array();
-        $inSQL   = array();
-        $inSQLs  = array();
-        $counter = 0;
         foreach ( $objectIDArray as $objectID )
         {
             $objectSimpleIDArray[] = $objectID['id'];
-            if ( $counter < 99 )
-            {
-                $inSQL[] = $objectID['id'];
-                ++$counter;
-            }
-            else
-            {
-                $inSQL[]  = $objectID['id'];
-                $counter  = 0;
-                $inSQLs[] = $inSQL;
-                $inSQL    = array();
-            }
         }
-        $inSQLs[] = $inSQL;
 
         $filterPart = '';
         if ( $oldSectionID !== false )
@@ -2800,14 +2784,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $filterPart = " section_id = '$oldSectionID' and ";
         }
 
-        $sets = count( $inSQLs );
-
         $db->begin();
-        for ( $i = 0; $i < $sets; ++$i )
+        foreach ( array_chunk( $objectSimpleIDArray, 100 ) as $pagedObjectIDs )
         {
-            $inPart = implode( ',', $inSQLs[$i] );
-            $db->query( "UPDATE ezcontentobject SET section_id='$sectionID' WHERE $filterPart id IN ( $inPart )" );
-            $db->query( "UPDATE ezsearch_object_word_link SET section_id='$sectionID' WHERE $filterPart contentobject_id IN ( $inPart )" );
+            $db->query( "UPDATE ezcontentobject SET section_id='$sectionID' WHERE $filterPart " . $db->generateSQLINStatement( $pagedObjectIDs, 'id', false, true, 'int' ) );
+            $db->query( "UPDATE ezsearch_object_word_link SET section_id='$sectionID' WHERE $filterPart " . $db->generateSQLINStatement( $pagedObjectIDs, 'contentobject_id', false, true, 'int' ) );
         }
         $db->commit();
 
