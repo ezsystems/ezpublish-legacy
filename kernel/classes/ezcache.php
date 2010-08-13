@@ -387,7 +387,7 @@ class eZCache
         $cacheItem['iterationMax']   = $iterationMax;
         $cacheItem['expiry']         = $expiry;
         $functionName = 'function';
-        if ( $purge )
+        if ( $purge && isset( $cacheItem['purge-function'] ) )
             $functionName = 'purge-function';
         if ( isset( $cacheItem[$functionName] ) )
         {
@@ -396,6 +396,12 @@ class eZCache
         }
         else
         {
+            if ( !isset( $cacheItem['path'] ) || strlen( $cacheItem['path'] ) < 1 )
+            {
+                eZDebug::writeError( "No path specified for cache item '$cacheItem[name]', can not clear cache.", __METHOD__ );
+                return;
+            }
+
             $cachePath = eZSys::cacheDirectory() . "/" . $cacheItem['path'];
 
             switch ( $cacheItem['id'] )
