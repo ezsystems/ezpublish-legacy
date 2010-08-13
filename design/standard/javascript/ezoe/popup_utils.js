@@ -286,6 +286,8 @@ var eZOEPopupUtils = {
 
         if ( edCurrentNode.nextSibling )
             edCurrentNode.parentNode.insertBefore( newElement, edCurrentNode.nextSibling );
+        else if ( edCurrentNode.nodeName === 'BODY' )// IE when editor is empty
+            edCurrentNode.appendChild( newElement );
         else
             edCurrentNode.parentNode.appendChild( newElement );
 
@@ -783,6 +785,7 @@ var eZOEPopupUtils = {
             };
         }
         return eZOEPopupUtils.browseCallBack( data, 'search', function( tbody, mode, ed ){
+            // callback for use when result is empty
             var tr = document.createElement("tr"), td = document.createElement("td"), tag = document.createElement("span");
             tr.appendChild( document.createElement("td") );
             tr.className = 'search-result-empty';
