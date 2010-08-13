@@ -697,6 +697,7 @@ class eZDBFileHandler
         // no store advice, we just return the result
         if ( !$storeCache )
         {
+            $this->abortCacheGeneration();
             return $result;
         }
 

@@ -546,6 +546,7 @@ class eZFSFileHandler
         // Check if we are allowed to store the data, if not just return the result
         if ( !$store )
         {
+            $this->abortCacheGeneration();
             return $result;
         }
 
