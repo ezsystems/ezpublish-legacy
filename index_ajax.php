@@ -114,8 +114,10 @@ error_reporting ( E_ALL );
     - http://www.php.net/manual/en/function.session-set-save-handler.php
     - http://bugs.php.net/bug.php?id=33635
     - http://bugs.php.net/bug.php?id=33772
+   Only needed on 4.0, 4.1+ handles this in eZExecution
 */
-register_shutdown_function( 'session_write_close' );
+if ( !class_exists( 'eZSession' ) )
+    register_shutdown_function( 'eZSessionStop' );
 
 // register fatal error & debug handler
 eZExecution::addFatalErrorHandler( 'eZFatalError' );
