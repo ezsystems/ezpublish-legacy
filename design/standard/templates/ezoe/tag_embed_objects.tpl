@@ -67,7 +67,7 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
         && edBody.childNodes.length <= (jQuery.inArray( el, edBody.childNodes ) +1) )
         {
             var p = doc.createElement('p');
-            p.innerHTML = ed.isIE ? '&nbsp;' : '<br />';
+            p.innerHTML = ed.isIE ? '&nbsp;' : '<br \/>';
             edBody.appendChild( p );
         }
     },
@@ -141,7 +141,7 @@ function loadEmbedPreview( )
     var postData = jQuery('#embed_attributes input, #embed_attributes select').serialize();
     eZOEPopupUtils.ajax.load( url, postData, function( r )
     {
-    	jQuery('#embed_preview').html( r.responseText );
+        jQuery('#embed_preview').html( r.responseText );
     });
 }
 
