@@ -1140,10 +1140,12 @@ class eZDBInterface
     /**
      * Casts elements of \a $pieces to type $type and returns them as string
      * separated by $glue.
+     * @note: Use generateSQLINStatement() if you intent to use this for IN statments!
+     *
      * @param string $glue The separator.
      * @param array $pieces The array containing the elements.
      * @param $type The type to cast to.
-     *
+     * @return string
      * @example implodeWithTypeCast( ',', $myArray, 'int' )
      **/
     function implodeWithTypeCast( $glue, &$pieces, $type )
