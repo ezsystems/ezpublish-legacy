@@ -196,7 +196,7 @@ class eZExpiryHandler
      **/
     public static function registerShutdownFunction(){
         if ( !eZExpiryHandler::$isShutdownFunctionRegistered ) {
-            register_shutdown_function( 'eZExpiryHandler::shutdown' );
+            register_shutdown_function( array('eZExpiryHandler', 'shutdown') );
             eZExpiryHandler::$isShutdownFunctionRegistered = true;
         }
     }
