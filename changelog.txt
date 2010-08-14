@@ -2,6 +2,7 @@ eZ Online Editor 5.x extension Changelog
 
 5.2.0beta1
 - Fixed bug #016888: IE only : Custom tag do not save when first thing inserted in OE
+- Fixed bug #016842: in IE 8, have to edit attribute before entering literal tag
 
 5.2.0alpha6
 - Disable editor if user agent is Mobile Webkit (Iphone/Android) as they do not currently have caret support
