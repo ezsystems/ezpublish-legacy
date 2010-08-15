@@ -3654,19 +3654,20 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     /*!
       Removes the current node.
+      Use ->removeNodeFromTree() if you need to handle main node change + remove object if needed
 
       \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function removeThis( )
+    function removeThis()
     {
         $ini = eZINI::instance();
 
+        $object = $this->object();
         if ( eZAudit::isAuditEnabled() )
         {
             // Set audit params.
             $nodeIDAudit = $this->attribute( 'node_id' );
-            $object = $this->object();
             $objectID = $object->attribute( 'id' );
             $objectName = $object->attribute( 'name' );
 
@@ -3712,6 +3713,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         // Clean up content cache
         eZContentCacheManager::clearContentCacheIfNeeded( $this->attribute( 'contentobject_id' ) );
+
+        // clean up user cache
+        if ( in_array( $object->attribute( 'contentclass_id' ), eZUser::contentClassIDs() ) )
+        {
+            eZUser::removeSessionData( $object->attribute( 'id' ) );
+            eZUser::purgeUserCacheByUserId( $object->attribute( 'id' ) );
+        }
 
         $parentNode = $this->attribute( 'parent' );
         if ( is_object( $parentNode ) )
@@ -3795,7 +3803,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $db = eZDB::instance();
         $db->begin();
 
-        $usersWereRemoved = false;
         $userClassIDArray = eZUser::contentClassIDs();
 
         foreach ( $deleteIDArray as $deleteID )
@@ -3913,9 +3920,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     if ( !$moveToTrashAllowed )
                         $moveToTrashTemp = false;
 
-                    eZContentCacheManager::clearContentCacheIfNeeded( $node->attribute( 'contentobject_id' ) );
-
                     // Remove children, fetching them by 100 to avoid memory overflow.
+                    // removeNodeFromTree -> removeThis handles cache clearing
                     while ( 1 )
                     {
                         // We should remove the latest subitems first,
@@ -3930,24 +3936,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         {
                             $childObject = $child->attribute( 'object' );
                             $child->removeNodeFromTree( $moveToTrashTemp );
-                            if ( in_array( $childObject->attribute( 'contentclass_id' ), $userClassIDArray ) )
-                            {
-                                eZUser::removeSessionData( $childObject->attribute( 'id' ) );
-                                eZUser::purgeUserCacheByUserId( $object->attribute( 'id' ) );
-                                $usersWereRemoved = true;
-                            }
                             eZContentObject::clearCache();
                         }
                     }
 
                     $node->removeNodeFromTree( $moveToTrashTemp );
-
-                    if ( $isUserClass )
-                    {
-                        eZUser::removeSessionData( $object->attribute( 'id' ) );
-                        eZUser::purgeUserCacheByUserId( $object->attribute( 'id' ) );
-                        $usersWereRemoved = true;
-                    }
                 }
             }
             if ( !$canRemove )
@@ -3977,13 +3970,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
                            'real_child_count' => $readableChildCount,
                            'new_main_node_id' => $newMainNodeID );
             $deleteResult[] = $item;
-        }
-
-        if ( $usersWereRemoved )
-        {
-            // @todo Session: remove or re-eanble depending on QA on added purge code above!
-            // clean up the user-policy cache
-            //eZUser::cleanupCache();
         }
 
         $db->commit();
@@ -4086,16 +4072,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                            $object->attribute( 'id' ),
                                                            $object->attribute( 'current_version' ),
                                                            $newMainNode->attribute( 'parent_node_id' ) );
-
-                eZContentCacheManager::clearContentCacheIfNeeded( $this->attribute( 'contentobject_id' ) );
                 $this->removeThis();
                 $db->commit();
             }
             else
             {
                 // This is the last assignment so we remove the object too
-                eZContentCacheManager::clearContentCacheIfNeeded( $this->attribute( 'contentobject_id' ) );
-
                 $db = eZDB::instance();
                 $db->begin();
                 $this->removeThis();
@@ -4119,7 +4101,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
         else
         {
-            eZContentCacheManager::clearContentCacheIfNeeded( $this->attribute( 'contentobject_id' ) );
             $this->removeThis();
         }
     }
