@@ -40,7 +40,7 @@
 {/if}
 
 {* Pr uri header cache *}
-{cache-block keys=array( $module_result.uri, $user_hash, $admin_theme ) ignore_content_expiry}
+{cache-block keys=array( $module_result.uri, $user_hash, $admin_theme, $access_type['type'] ) ignore_content_expiry}
 
 {include uri='design:page_head.tpl'}
 
@@ -48,7 +48,7 @@
 {include uri='design:page_head_script.tpl'}
 
 {* Pr tab header cache *}
-{cache-block keys=array( $navigation_part.identifier, $module_result.navigation_part, $ui_context, $ui_component, $user_hash ) ignore_content_expiry}
+{cache-block keys=array( $navigation_part.identifier, $module_result.navigation_part, $ui_context, $ui_component, $user_hash, $access_type['type'] ) ignore_content_expiry}
 
 </head>
 <body>
@@ -80,10 +80,10 @@
     <div id="rightmenu-design"></div>
 {else}
     <a id="rightmenu-showhide" class="show-hide-control" title="{'Hide / Show rightmenu'|i18n( 'design/admin/pagelayout/rightmenu' )}" href={'/user/preferences/set/admin_right_menu_show/0'|ezurl}>&raquo;</a>
-	<div id="rightmenu-design">
-	    {tool_bar name='admin_right' view='full'}
-	    {tool_bar name='admin_developer' view='full'}
-	</div>
+    <div id="rightmenu-design">
+        {tool_bar name='admin_right' view='full'}
+        {tool_bar name='admin_developer' view='full'}
+    </div>
     <!-- script type="text/javascript" src={"javascript/rightmenu_widthcontrol.js"|ezdesign} charset="utf-8"></script -->
     <script type="text/javascript">
         rightMenuWidthControl();
@@ -95,7 +95,7 @@
 <div id="maincolumn">
 
 {* Pr uri Path/Left menu cache (dosn't use ignore_content_expiry because of content structure menu  ) *}
-{cache-block keys=array( $module_result.uri, $user_hash, $left_size_hash )}
+{cache-block keys=array( $module_result.uri, $user_hash, $left_size_hash, $access_type['type'] )}
 
 <div id="path">
 <div id="path-design">
@@ -136,7 +136,7 @@
 <hr class="hide" />
 
 
-{cache-block ignore_content_expiry}
+{cache-block keys=array( $access_type['type'] ) ignore_content_expiry}
 <div id="footer" class="float-break">
 <div id="footer-design">
     {include uri='design:page_copyright.tpl'}
@@ -159,23 +159,22 @@ document.getElementById('header-usermenu-logout').innerHTML += '<span class="hea
 (function( $ )
 {
     var searchtext = document.getElementById('searchtext');
-    if ( searchtext && !searchtext.disabled )
-    {
-    	jQuery( searchtext ).val( searchtext.title
-    	).addClass('passive'
-    	).focus(function(){
-        	if ( this.value === this.title )
-        	{
-        	    jQuery( this ).removeClass('passive').val('');
-        	}
-        }).blur(function(){
-            if ( this.value === '' )
-            {
-                jQuery( this ).addClass('passive').val( this.title );
-            }
-        });
-    	
-    }
+    if ( !searchtext || searchtext.disabled )
+        return;
+
+    jQuery( searchtext ).val( searchtext.title
+    ).addClass('passive'
+    ).focus(function(){
+        if ( this.value === this.title )
+        {
+            jQuery( this ).removeClass('passive').val('');
+        }
+    }).blur(function(){
+        if ( this.value === '' )
+        {
+            jQuery( this ).addClass('passive').val( this.title );
+        }
+    });
 })( jQuery );
 {/literal}
 
