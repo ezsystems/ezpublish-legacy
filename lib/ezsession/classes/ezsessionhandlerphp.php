@@ -100,6 +100,13 @@ class eZSessionHandlerPHP extends eZSessionHandler
         return true;
     }
 
+    /**
+     * reimp (not used in this handler)
+     */
+    public function deleteByUserIDs( array $userIDArray )
+    {
+    }
+
    /**
      * reimp (this handler does not use db)
      */

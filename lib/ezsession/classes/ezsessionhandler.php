@@ -147,6 +147,13 @@ abstract class eZSessionHandler
     abstract public function cleanup();
 
     /**
+     * Remove all session data for a specific user
+     *
+     * @param array(int) $userIDArray
+     */
+    abstract public function deleteByUserIDs( array $userIDArray );
+
+    /**
      * Counts the number of session and returns it.
      *
      * @return int Returns -1 if handler does not support this.
@@ -158,7 +165,7 @@ abstract class eZSessionHandler
 
     /**
      * Signals that handler has direct access to backend, thus is cable of supporting features
-     * like gc, cleanup & count.
+     * like gc, cleanup, delete & count.
      *
      * @return bool
      */

@@ -212,14 +212,11 @@ class eZUser extends eZPersistentObject
     function store( $fieldFilters = null )
     {
         $this->Email = trim( $this->Email );
-        eZExpiryHandler::registerShutdownFunction();
-        $handler = eZExpiryHandler::instance();
-        $handler->setTimestamp( 'user-info-cache', time() );
-        $handler->store();
         $userID = $this->attribute( 'contentobject_id' );
         // Clear memory cache
         unset( $GLOBALS['eZUserObject_' . $userID] );
         $GLOBALS['eZUserObject_' . $userID] = $this;
+        self::purgeUserCacheByUserId( $userID );
         eZPersistentObject::store( $fieldFilters );
     }
 
@@ -528,9 +525,7 @@ WHERE user_id = '" . $userID . "' AND
     static function removeSessionData( $userID )
     {
         eZUser::clearSessionCache();
-        $db = eZDB::instance();
-        $userID = (int)$userID;
-        $db->query( 'DELETE FROM ezsession WHERE user_id = \'' . $userID . '\'' );
+        eZSession::getHandlerInstance()->deleteByUserIDs( array( $userID ) );
     }
 
     /*!

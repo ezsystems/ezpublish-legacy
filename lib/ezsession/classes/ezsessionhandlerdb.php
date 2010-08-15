@@ -246,6 +246,23 @@ class eZSessionHandlerDB extends eZSessionHandler
     }
 
     /**
+     * Remove all session data for a specific user
+     *
+     * @param array(int) $userIDArray
+     */
+    public function deleteByUserIDs( array $userIDArray )
+    {
+        // re use destroy to make sure it works with callbacks
+        $db = eZDB::instance();
+        $userINString = $db->generateSQLINStatement( $userIDArray, 'user_id', false, false, 'int' );
+        $rows = $db->arrayQuery( "SELECT session_key FROM ezsession WHERE $userINString" );
+        foreach ( $rows as $row )
+        {
+            $this->destroy( $row['session_key'] );
+        }
+    }
+
+    /**
      * Counts the number of session and returns it.
      *
      * @return int|null Returns null if handler does not support this.
