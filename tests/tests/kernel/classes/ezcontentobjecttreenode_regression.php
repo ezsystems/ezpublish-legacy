@@ -214,5 +214,40 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
         $result = eZContentObjectTreeNode::subTreeByNodeID( $params, $parentNodeID );
         $this->assertEquals( $folder2->mainNode->node_id, $result[1]->attribute( 'node_id' ) );
     }
+
+    /**
+     * Regesssion test for issue #16949
+     * 1) Test there is no pending object in sub objects
+     * 2) Test there is one pending object in sub objects
+     */
+    public function testIssue16949()
+    {
+        //create object
+        $top = new ezpObject( 'article', 2 );
+        $top->title = 'TOP ARTICLE';
+        $top->publish();
+        $child = new ezpObject( 'article', $top->mainNode->node_id );
+        $child->title = 'THIS IS AN ARTICLE';
+        $child->publish();
+
+        $adminUser = eZUser::fetchByName( 'admin' );
+        $adminUserID = $adminUser->attribute( 'contentobject_id' );
+        $currentUser = eZUser::currentUser();
+        $currentUserID = eZUser::currentUserID();
+        eZUser::setCurrentlyLoggedInUser( $adminUser, $adminUserID );
+
+        $result = eZContentObjectTreeNode::subtreeRemovalInformation( array( $top->mainNode->node_id ) );
+        $this->assertFalse( $result['has_pending_object'] );
+        $workflowArticle = new ezpObject( 'article', $top->mainNode->node_id );
+        $workflowArticle->title = 'THIS IS AN ARTICLE WITH WORKFLOW';
+        $workflowArticle->publish();
+        $version = $workflowArticle->currentVersion();
+        $version->setAttribute( 'status', eZContentObjectVersion::STATUS_PENDING );
+        $version->store();
+        $result = eZContentObjectTreeNode::subtreeRemovalInformation( array( $top->mainNode->node_id ) );
+        $this->assertTrue( $result['has_pending_object'] );
+
+        eZUser::setCurrentlyLoggedInUser( $currentUser, $currentUserID );
+    }
 }
 ?>
