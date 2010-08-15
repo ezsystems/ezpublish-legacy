@@ -2,7 +2,7 @@
 //
 // Definition of eZNodeAssignment class
 //
-// Created on: <02-ïËÔ-2002 15:58:10 sp>
+// Created on: <02-Oct-2002 15:58:10 sp>
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ Publish
@@ -449,6 +449,65 @@ class eZNodeAssignment extends eZPersistentObject
                                                     null, $cond, null, null,
                                                     $asObject );
     }
+
+    /**
+     * Fetch node assignment count by version status, giving parent node id list.
+     *
+     * @param array $parentNodeIDList
+     * @param int $status
+     * @return int
+     */
+    static function fetchChildCountByVersionStatus( $parentNodeIDList, $status = eZContentObjectVersion::STATUS_PENDING )
+    {
+        $db = eZDB::instance();
+        $parentIDStatement = $db->generateSQLINStatement( $parentNodeIDList );
+        $sql = "SELECT COUNT( DISTINCT eznode_assignment.id ) AS cnt
+                    FROM ezcontentobject_version, eznode_assignment
+                    WHERE ezcontentobject_version.contentobject_id = eznode_assignment.contentobject_id
+                    AND ezcontentobject_version.version = eznode_assignment.contentobject_version
+                    AND ezcontentobject_version.status = $status
+                    AND eznode_assignment.parent_node $parentIDStatement ";
+         $countResult = $db->arrayQuery( $sql );
+         return (int)$countResult[0]['cnt'];
+    }
+
+    /**
+     * Fetch node assignment list by version status, giving parent node id list.
+     *
+     * @param array $idList node id array
+     * @param int $status status of the object version
+     * @param boolean $count
+     * @param boolean $asObject valid only when $count is false
+     * @return array|int
+     */
+    static function fetchChildListByVersionStatus( $parentNodeIDList, $status = eZContentObjectVersion::STATUS_PENDING, $asObject = true )
+    {
+        $db = eZDB::instance();
+        $parentIDStatement = $db->generateSQLINStatement( $parentNodeIDList );
+
+        $sql = "SELECT DISTINCT eznode_assignment.*
+                FROM ezcontentobject_version, eznode_assignment
+                WHERE ezcontentobject_version.contentobject_id = eznode_assignment.contentobject_id
+                AND ezcontentobject_version.version = eznode_assignment.contentobject_version
+                AND ezcontentobject_version.status = $status
+                AND eznode_assignment.parent_node $parentIDStatement
+                ORDER BY eznode_assignment.contentobject_id";
+        $nodeAssignmentArray = $db->arrayQuery( $sql );
+        if( $asObject )
+        {
+            $result = array();
+            foreach( $nodeAssignmentArray as $nodeAssignment )
+            {
+                $result[] = new eZNodeAssignment( $nodeAssignment );
+            }
+            return $result;
+        }
+        else
+        {
+            return $nodeAssignmentArray;
+        }
+    }
+
 
     function cloneNodeAssignment( $nextVersionNumber = 1, $contentObjectID = false )
     {

@@ -136,6 +136,7 @@ $info               = eZContentObjectTreeNode::subtreeRemovalInformation( $delet
 $deleteResult       = $info['delete_list'];
 $moveToTrashAllowed = $info['move_to_trash'];
 $totalChildCount    = $info['total_child_count'];
+$hasPendingObject   = $info['has_pending_object'];
 $exceededLimit      = false;
 $deleteNodeIdArray  = array();
 
@@ -227,6 +228,7 @@ $tpl->setVariable( 'remove_info'            , $info );
 $tpl->setVariable( 'exceeded_limit'         , $exceededLimit );
 $tpl->setVariable( 'delete_items_exist'     , $deleteItemsExist );
 $tpl->setVariable( 'move_to_trash'          , $moveToTrash );
+$tpl->setVariable( 'has_pending_object'     , $hasPendingObject );
 
 $Result = array();
 $Result['content'] = $tpl->fetch( "design:node/removeobject.tpl" );
