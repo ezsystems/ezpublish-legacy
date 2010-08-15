@@ -218,7 +218,7 @@ if ( $module->isCurrentAction( 'AddLocation' ) )
     {
         if ( $object->attribute( 'contentclass_id' ) == $userClassID )
         {
-            eZUser::cleanupCache();
+            eZUser::purgeUserCacheByUserId( $object->attribute( 'id' ) );
         }
     }
 

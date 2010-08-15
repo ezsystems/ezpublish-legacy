@@ -199,7 +199,7 @@ class eZContentOperationCollection
         /* Check if current class is the user class, and if so, clean up the user-policy cache */
         if ( in_array( $classID, eZUser::contentClassIDs() ) )
         {
-            eZUser::cleanupCache();
+            eZUser::purgeUserCacheByUserId( $object->attribute( 'id' ) );
         }
     }
 
@@ -802,7 +802,7 @@ class eZContentOperationCollection
             // clear user policy cache if this was a user object
             if ( in_array( $object->attribute( 'contentclass_id' ), $userClassIDArray ) )
             {
-                eZUser::cleanupCache();
+                eZUser::purgeUserCacheByUserId( $object->attribute( 'id' ) );
             }
 
 
@@ -1073,10 +1073,14 @@ class eZContentOperationCollection
         $selectedNode->store();
 
         // clear user policy cache if this was a user object
-        if ( in_array( $object->attribute( 'contentclass_id' ), $userClassIDArray ) or
-             in_array( $selectedObject->attribute( 'contentclass_id' ), $userClassIDArray ) )
+        if ( in_array( $object->attribute( 'contentclass_id' ), $userClassIDArray ) )
         {
-            eZUser::cleanupCache();
+            eZUser::purgeUserCacheByUserId( $object->attribute( 'id' ) );
+        }
+
+        if ( in_array( $selectedObject->attribute( 'contentclass_id' ), $userClassIDArray ) )
+        {
+            eZUser::purgeUserCacheByUserId( $selectedObject->attribute( 'id' ) );
         }
 
         // modify path string

@@ -87,7 +87,7 @@ class eZContentObjectTreeNodeOperations
         // clear user policy cache if this is a user object
         if ( in_array( $object->attribute( 'contentclass_id' ), eZUser::contentClassIDs() ) )
         {
-            eZUser::cleanupCache();
+            eZUser::purgeUserCacheByUserId( $object->attribute( 'id' ) );
         }
 
         // clear cache for old placement.
