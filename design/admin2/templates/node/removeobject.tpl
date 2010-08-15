@@ -4,10 +4,14 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
-{if $remove_info.can_remove_all}
-<h2 class="context-title">{'Confirm location removal'|i18n( 'design/admin/node/removeobject' )}</h2>
+{if $remove_info.has_pending_object}
+    <h2 class="context-title">{'Pending sub-object'|i18n( 'design/admin/node/removeobject' )}</h2>
 {else}
-<h2 class="context-title">{'Insufficient permissions'|i18n( 'design/admin/node/removeobject' )}</h2>
+    {if $remove_info.can_remove_all}
+    <h2 class="context-title">{'Confirm location removal'|i18n( 'design/admin/node/removeobject' )}</h2>
+    {else}
+    <h2 class="context-title">{'Insufficient permissions'|i18n( 'design/admin/node/removeobject' )}</h2>
+    {/if}
 {/if}
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
@@ -16,6 +20,11 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
+{if $remove_info.has_pending_object}
+    <div class="block">
+        <p>{'Removal failed because there is pending sub object under the node. Please finish the relevant process then redo the removal.'|i18n( 'design/admin/node/removeobject' )}</p>
+    </div>
+{else}
 {if $total_child_count|gt( 0 )}
 <div class="block">
     <p>{'Some of the items that are about to be removed contain sub items.'|i18n( 'design/admin/node/removeobject' )}</p>
@@ -51,6 +60,7 @@
         </p>
    </div>
    {/if}
+{/if}
 {/if}
 
 <table class="list" cellspacing="0">
@@ -96,7 +106,7 @@
 </table>
 
 <div class="block">
-{if and( $remove_info.can_remove_all, eq( $delete_items_exist,true() ) )}
+{if and( $remove_info.can_remove_all, eq( $delete_items_exist,true() ), not( $remove_info.has_pending_object ) )}
     {if $move_to_trash_allowed}
     <input type="hidden" name="SupportsMoveToTrash" value="1" />
     <p><input type="checkbox" name="MoveToTrash" value="1" {if $move_to_trash}checked="checked" {/if}title="{'If "Move to trash" is checked, the items will be moved to the trash instead of being permanently deleted.'|i18n( 'design/admin/node/removeobject' )|wash}" />{'Move to trash'|i18n('design/admin/node/removeobject')}</p>
@@ -112,7 +122,7 @@
 
 <div class="block">
 
-    {if and( $remove_info.can_remove_all, eq( $delete_items_exist, true() ) )}
+    {if and( $remove_info.can_remove_all, eq( $delete_items_exist, true() ), not( $remove_info.has_pending_object ) )}
         <input class="button" type="submit" name="ConfirmButton" value="{'OK'|i18n( 'design/admin/node/removeobject' )}" />
     {else}
         <input class="button-disabled" type="submit" name="ConfirmButton" value="{'OK'|i18n( 'design/admin/node/removeobject' )}" title="{'You cannot continue because you do not have permission to remove some of the selected locations.'|i18n( 'design/admin/node/removeobject' )}" disabled="disabled" />

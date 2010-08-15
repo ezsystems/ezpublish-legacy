@@ -500,6 +500,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $rows[0]['count'];
     }
 
+
     /*!
      Fetches a list of nodes and returns it. Offset and limitation can be set if needed.
     */
@@ -2286,6 +2287,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       'group_field' => "( $field / $divisor )" );
     }
 
+
     /*!
      \sa subTreeCount
     */
@@ -3798,6 +3800,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         foreach ( $deleteIDArray as $deleteID )
         {
+            $hasPendingObject = false;
             $node = eZContentObjectTreeNode::fetch( $deleteID );
             if ( $node === null )
                 continue;
@@ -3863,6 +3866,42 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         $removeableChildCount = $node->subTreeCount( array( 'Limitation' => $limitationList ) );
                         $canRemoveSubtree = ( $removeableChildCount == $childCount );
                         $canRemove = $canRemoveSubtree;
+                    }
+                    //check if there is sub object in pending status
+                    $limitCount = 100;
+                    $offset = 0;
+                    while( 1 )
+                    {
+                        $children = $node->subTree( array( 'Limitation' => array(),
+                                                            'SortBy' => array( 'path' , false ),
+                                                            'Offset' => $offset,
+                                                            'Limit' => $limitCount,
+                                                            'AsObject' => false ) );
+                        // fetch pending node assignment(pending object)
+                        $idList = array();
+                        //add node itself into idList
+                        if( $offset === 0 )
+                        {
+                            $idList[] = $nodeID;
+                        }
+                        foreach( $children as $child )
+                        {
+                            $idList[] = $child['node_id'];
+                        }
+
+                        if( count( $idList ) === 0 )
+                        {
+                            break;
+                        }
+                        $childCount = eZNodeAssignment::fetchChildCountByVersionStatus( $idList,
+                                                                                       eZContentObjectVersion::STATUS_PENDING );
+                        if( $childCount !== 0 )
+                        {
+                            // there is pending object
+                            $hasPendingObject = true;
+                            break;
+                        }
+                        $offset += $limitCount;
                     }
                 }
 
@@ -3949,7 +3988,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $db->commit();
 
-
         if ( !$infoOnly )
             return true;
 
@@ -3960,6 +3998,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       'total_child_count' => $totalChildCount,
                       'can_remove_all' => $canRemoveAll,
                       'delete_list' => $deleteResult,
+                      'has_pending_object' => $hasPendingObject,
                       'reverse_related_count' => eZContentObjectTreeNode::reverseRelatedCount( $deleteIDArray ) );
     }
 
