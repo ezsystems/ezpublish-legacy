@@ -403,8 +403,6 @@ eZSession::addCallback( 'regenerate_post', 'eZSessionBasketRegenerate');
 $moduleRepositories = eZModule::activeModuleRepositories();
 eZModule::setGlobalPathList( $moduleRepositories );
 
-$check = eZHandlePreChecks( $siteBasics, $uri );
-
 require_once( 'kernel/common/i18n.php' );
 
 if ( $sessionRequired )
@@ -416,8 +414,7 @@ $db = false;
 if ( $dbRequired )
 {
     $db = eZDB::instance();
-    if ( $sessionRequired and
-         $db->isConnected() )
+    if ( $sessionRequired )
     {
         if ( $ini->variable( 'Session', 'ForceStart' ) === 'enabled' )
             eZSession::start();
@@ -429,6 +426,9 @@ if ( $dbRequired )
                                                   'number' => eZError::KERNEL_NO_DB_CONNECTION ),
                                 'text' => 'No database connection could be made, the system might not behave properly.' );
 }
+
+// precheck, needs to be done after session start
+$check = eZHandlePreChecks( $siteBasics, $uri );
 
 // Initialize with locale settings
 $locale = eZLocale::instance();

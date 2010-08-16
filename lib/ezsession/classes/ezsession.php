@@ -250,13 +250,11 @@ class eZSession
         // See if user has session, used to avoid reading from db if no session.
         // Allow session bye post params for use by flash, but use $_POST directly
         // to avoid session double start issues ( #014686 ) caused by eZHTTPTool
-        if ( isset( $_POST[ $sessionName ] ) && isset( $_POST[ 'UserSessionHash' ] ) )
+        if ( isset( $_POST[ $sessionName ] ) )
         {
-            // First use session id from post params (for use in flash upload)  
+            // First use session id from post params (for use in flash upload)
             session_id( $_POST[ $sessionName ] );
             self::$hasSessionCookie = true;
-            // allow verification of user hash if client is different ua then actual session client
-            self::$userSessionHash = $_POST[ 'UserSessionHash' ];
         }
         else
         {
