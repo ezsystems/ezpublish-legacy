@@ -68,7 +68,7 @@ function ContentStructureMenu( path, persistent )
     this.context = "{$ui_context}";
     this.hideNodes = [{$hide_node_list|implode(',')}];
 
-{cache-block keys=array( $root_node_id|gt( 1 ) ) expiry=0 ignore_content_expiry}
+{cache-block keys=array( $root_node_id|gt( 1 ), $access_type['type'] ) expiry=0 ignore_content_expiry}
     this.languages = {*
         *}{ldelim}{*
             *}{foreach fetch('content','translation_list') as $language}{*
@@ -543,7 +543,7 @@ var treeMenu;
     var persistence  = {if $menu_persistence}true{else}false{/if};
     treeMenu         = new ContentStructureMenu( path, persistence );
 
-{cache-block keys=$root_node_id expiry=0}
+{cache-block keys=array( $root_node_id, $access_type['type'] ) expiry=0}
     {def $root_node_url = $root_node.url}
     {if $root_node_url|eq('')}
         {set $root_node_url = concat( 'content/view/full/', $root_node_id )}
