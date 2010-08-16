@@ -45,6 +45,14 @@ Change of behavior
 
   The $name parameter for this method is no longer optional. It did return false anyway if the parameter was omitted.
 
+- ezHTTPTool::sendHTTPRequest()
+
+  1. $uri parameter can now contain port number, and this is used if $port is set to false(default), port 80 will be used
+     if port is not set in $uri or explicit in $port.
+  2. $uri parameter was earlier documented to support "ssl://example.com/path" uri, this was not the case and this is no
+     longer documented as supported. https:// was and is still supported.
+  3. Additionally a $cookies parameter is added to set http header value for cookies.
+
 Deprecated functionality
 ------------------------
 

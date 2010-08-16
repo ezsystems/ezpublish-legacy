@@ -220,28 +220,33 @@ class eZHTTPTool
         return $GLOBALS["eZHTTPToolInstance"];
     }
 
-    /*!
-     \static
-
-     Sends a http request to the specified host. Using https:// requires PHP 4.3.0, and compiled in OpenSSL support.
-
-     \param uri http/https address, only path to send request to eZ Publish.
-            examples: http://ez.no, https://secure.ez.no, ssl://secure.ez.no, content/view/full/2
-     \param port which port to connect to, default 80
-     \param postParameters post parameters array (optional), if no post parameters are present, a get request will be send.
-     \param userAgent user agent, default will be eZ Publish
-     \param passthrough will send result directly to client, default true
-
-     \return result if http request, or return false if an error occurs.
-             If pipetrough, program will end here.
-
+    /**
+     * Sends a http request to the specified host. Using https:// requires compiled in OpenSSL support.
+     *
+     * @param string $uri http/https address or only path to send request to current eZ Publish instance
+     *        examples: http://ez.no, https://secure.ez.no, content/view/full/2
+     * @param int|false $port Which port to connect to, default 80, uses port in url if present and this is false
+     * @param array|false $postParameters Optional post parameters array, if no post parameters are present, a get request will be sent
+     * @param string $userAgent User agent string, default will be eZ Publish
+     * @param bool $passthrough Will send result directly to client, default true
+     * @param array $cookies Optional hash of cookie name => values to add to http header
+     * @return string|false String if http request, or false if an error occurs.
+     *         If pipetrough, program will end here and send result direclty to client.
     */
-    static function sendHTTPRequest( $uri, $port = 80, $postParameters = false, $userAgent = 'eZ Publish', $passthrough = true )
+    static function sendHTTPRequest( $uri, $port = false, $postParameters = false, $userAgent = 'eZ Publish', $passthrough = true, array $cookies = array() )
     {
-        preg_match( "/^((http[s]?:\/\/)([a-zA-Z0-9_.-]+))?([\/]?[~]?(\.?[^.]+[~]?)*)/i", $uri, $matches );
+        preg_match( "/^((http[s]?:\/\/)([a-zA-Z0-9_.-]+)(\:(d+))?)?([\/]?[~]?(\.?[^.]+[~]?)*)/i", $uri, $matches );
         $protocol = $matches[2];
-        $host = $matches[3];
-        $path = $matches[4];
+        $host     = $matches[3];
+        $uriPort  = $matches[5];
+        $path     = $matches[6];
+
+        // Use port from uri if  set and port parameter evaluates to false
+        if ( $uriPort && !$port )
+            $port = $uriPort;
+        else if ( !$port )
+            $port = 80;
+
         if ( !$path )
         {
             $path = '/';
@@ -288,7 +293,8 @@ class eZHTTPTool
                 $path = $_SERVER['SCRIPT_NAME'] . $path;
             }
         }
-        else{
+        else
+        {
             if ( !$protocol || $protocol == 'https://' )
             {
                 $filename = 'ssl://' . $host;
@@ -303,7 +309,7 @@ class eZHTTPTool
         $parsedUrl = parse_url( $filename );
         $ip = isset( $parsedUrl[ 'host' ] ) ? gethostbyname( $parsedUrl[ 'host' ] ) : '';
         $checkIP = ip2long( $ip );
-        if ( $checkIP == -1 or $checkIP === false )
+        if ( $checkIP == -1 || $checkIP === false )
         {
             return false;
         }
@@ -317,11 +323,22 @@ class eZHTTPTool
             return false;
         }
 
+        $cookieStr = '';
+        foreach ( $cookies as $name => $value )
+        {
+            if ( $cookieStr === '' )
+                $cookieStr = "Cookie: $name=$value";
+            else
+                $cookieStr .= "; $name=$value";
+        }
+
+        $usePort = ( $port != 80 && $protocol === 'http://' ) && ( $port != 443 && $protocol === 'https://' );
         $request = $method . ' ' . $path . ' ' . 'HTTP/1.1' . "\r\n" .
-             "Host: $host\r\n" .
+             "Host: $host" . ( $usePort ? ":$port": '' ) . "\r\n" .
              "Accept: */*\r\n" .
              "Content-type: application/x-www-form-urlencoded\r\n" .
              "Content-length: " . strlen( $data ) . "\r\n" .
+             $cookieStr .
              "User-Agent: $userAgent\r\n" .
              "Pragma: no-cache\r\n" .
              "Connection: close\r\n\r\n";
@@ -365,7 +382,7 @@ class eZHTTPTool
                 header( $buffer );
             }
 
-            header( 'Content-Location: ' . $uri );
+            header( 'Content-Location: ' . $protocol . $host . ( $usePort ? ":$port": '' ) . $path );
 
             fpassthru( $fp );
             eZExecution::cleanExit();

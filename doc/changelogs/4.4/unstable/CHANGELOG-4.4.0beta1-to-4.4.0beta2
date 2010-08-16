@@ -1,0 +1,21 @@
+Changes from 4.4.0alpha5 to 4.4.0beta1
+
+*Kernel:
+- Implemented enhancement #016665: ezHTTPTool::sendHTTPRequest() should support sending cookies
+
+
+*Design:
+
+*eZTemplate:
+
+*eZLocale:
+
+*Package system:
+
+*Scripts:
+
+*Translations:
+
+*Bugfixes:
+- Fixed bug #016664: ezHTTPTool::sendHTTPRequest() fails on port not 80
+            (Add support for setting port in $uri when $port is false)
