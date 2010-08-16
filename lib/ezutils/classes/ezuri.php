@@ -552,7 +552,7 @@ class eZURI
             $href = preg_replace( "#^(//)#", "/", $href );
             $href = preg_replace( "#(^.*)(/+)$#", "\$1", $href );
         }
-        $href = str_replace( '&amp;', '&', htmlspecialchars( $href ) );
+        $href = str_replace( '&amp;amp;', '&amp;', htmlspecialchars( $href ) );
 
         if ( $href == "" )
             $href = "/";
