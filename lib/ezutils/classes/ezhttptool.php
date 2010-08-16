@@ -224,14 +224,14 @@ class eZHTTPTool
      * Sends a http request to the specified host. Using https:// requires compiled in OpenSSL support.
      *
      * @param string $uri http/https address or only path to send request to current eZ Publish instance
-     *        examples: http://ez.no, https://secure.ez.no, content/view/full/2
-     * @param int|false $port Which port to connect to, default 80, uses port in url if present and this is false
-     * @param array|false $postParameters Optional post parameters array, if no post parameters are present, a get request will be sent
-     * @param string $userAgent User agent string, default will be eZ Publish
-     * @param bool $passthrough Will send result directly to client, default true
+     *        examples: http://ez.no, https://secure.ez.no or content/view/full/2
+     * @param int|false $port Which port to connect to, default 80, uses port in $uri if present when $port = false
+     * @param array|false $postParameters Optional post parameters array, if no post parameters are present, a GET request will be sent
+     * @param string $userAgent User agent string, default will be 'eZ Publish'
+     * @param bool $passthrough Will send result directly to client, default: true
      * @param array $cookies Optional hash of cookie name => values to add to http header
      * @return string|false String if http request, or false if an error occurs.
-     *         If pipetrough, program will end here and send result direclty to client.
+     *         If $passthrough = true, program will end here and send result directly to client.
     */
     static function sendHTTPRequest( $uri, $port = false, $postParameters = false, $userAgent = 'eZ Publish', $passthrough = true, array $cookies = array() )
     {
