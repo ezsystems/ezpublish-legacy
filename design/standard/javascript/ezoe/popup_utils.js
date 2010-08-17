@@ -63,10 +63,14 @@ var eZOEPopupUtils = {
         // Title text to set on tilte tag and h2#tag-edit-title tag in tag edit / create dialogs
         tagEditTitleText: ''
     },
-    
+
+    /**
+     * Initialize page with values from current editor element or if not defined; default values and settings
+     *
+     * @param {Object} settings Hash with settings, is saved to eZOEPopupUtils.settings for the rest of the execution.
+     */
     init: function( settings )
     {
-        // Initialize page with default values and settings
         eZOEPopupUtils.settings = jQuery.extend( false, eZOEPopupUtils.settings, settings );
 
         var ed = tinyMCEPopup.editor, el = tinyMCEPopup.getWindowArg('selected_node'), s = eZOEPopupUtils.settings;
@@ -146,9 +150,15 @@ var eZOEPopupUtils = {
             } );
     },
 
+    /**
+     * Save changes from form values to editor element attributes but first:
+     * - validate values according to class names and stop if not valid
+     * - create editor element if it does not exist either using callbacks or defaults
+     * - or call optional edit callback to edit/fixup existing element
+     * - Set attributes from form values using callback if set or default TinyMCE handler
+     */
     save: function()
     {
-        // save changes from form values to element attributes
         var ed = tinyMCEPopup.editor, s = eZOEPopupUtils.settings, n, arr, tmp, f = document.forms[0];
 
         if ( s.tagSelector && s.tagSelector.size() && s.tagSelector[0].value )
@@ -233,7 +243,7 @@ var eZOEPopupUtils = {
             if ( n && n.nodeName )
                 s.editorElement = n;
         }
-    
+
         if ( s.editorElement )
         {
             if ( s.tagAttributeEditor )
@@ -252,12 +262,17 @@ var eZOEPopupUtils = {
         return false;
     },
 
-    /*
+    /**
      * Insert raw html and tries to cleanup any issues that might happen (related to paragraphs and block tags)
+     * makes sure block nodes do not break the html structure they are inserted into
+     *
+     * @param ed TinyMCE editor instance
+     * @param {String} html
+     * @param {String} id
+     * @return HtmlElement
      */
     insertHTMLCleanly: function( ed, html, id )
     {
-        // makes sure block nodes do not break the html structure they are inserted into
         var paragraphCleanup = false, newElement;
         if ( html.indexOf( '<div' ) === 0 || html.indexOf( '<pre' ) === 0 )
         {
@@ -276,8 +291,14 @@ var eZOEPopupUtils = {
         return newElement;
     },
 
-    /*
+    /**
      * Only for use for block tags ( appends or prepends tag relative to current tag )
+     *
+     * @param ed TinyMCE editor instance
+     * @param {String} tag Tag Name
+     * @param {String} content Inner content of tag, can be html, but only tested with plain text
+     * @param {Array} args Optional parameter that is passed as second parameter to ed.dom.setAttribs() if set.
+     * @return HtmlElement
      */
     insertTagCleanly: function( ed, tag, content, args )
     {
@@ -300,11 +321,16 @@ var eZOEPopupUtils = {
 
         return newElement;
     },
-    
+
+    /**
+     * Cleanup broken paragraphs after inserting block tags into paragraphs
+     *
+     * @param ed TinyMCE editor instance
+     * @param {HtmlElement} el
+     */
     paragraphCleanup: function( ed, el )
     {
         var emptyContent = [ '', '<br>', '<BR>', '&nbsp;', ' ', " " ];
-        // cleanup broken paragraphs after inserting block tags into paragraphs
         if ( el.previousSibling
              && el.previousSibling.nodeName.toLowerCase() === 'p'
              && ( !el.previousSibling.hasChildNodes() || jQuery.inArray( el.previousSibling.innerHTML, emptyContent ) !== -1 ))
@@ -319,9 +345,14 @@ var eZOEPopupUtils = {
        }
     },
 
+    /**
+     * Removes some unwanted stuff from attribute values
+     *
+     * @param {String} value
+     * @return {String}
+     */
     safeHtml: function( value )
     {
-        // removes some unwanted stuff from attribute values
         value = value.replace(/&/g, '&amp;');
         value = value.replace(/\"/g, '&quot;');
         value = value.replace(/</g, '&lt;');
@@ -341,9 +372,14 @@ var eZOEPopupUtils = {
         tinyMCEPopup.close();
     },
 
+    /**
+     * Removes all children of a node safly (especially needed to clear select options and table data)
+     * Also disables tag if it was an select
+     *
+     * @param {HtmlElement} node
+     */
     removeChildren: function( node )
     {
-        // removes all children of a node
         if ( !node  ) return;
         while ( node.hasChildNodes() )
         {
@@ -352,12 +388,18 @@ var eZOEPopupUtils = {
         if ( node.nodeName === 'SELECT' ) node.disabled = true;
     },
 
+    /**
+     * Adds options to a selection based on object with name / value pairs or array
+     * and disables select tag if no options where added.
+     *
+     * @param {HtmlElement} node
+     * @param {Object|Array} o
+     */
     addSelectOptions: function( node, o )
     {
-        // ads options to a selection based on object with name / value pairs or array
         if ( !node || node.nodeName !== 'SELECT'  ) return;
         var opt, c = 0, i;
-        if (  o.constructor.toString().indexOf('Array') === -1 )
+        if ( o.constructor.toString().indexOf('Array') === -1 )
         {
             for ( key in o )
             {
@@ -370,7 +412,7 @@ var eZOEPopupUtils = {
         }
         else
         {
-            for ( i = 0, c = o.length; i<c; i++ )
+            for ( i = 0, c = o.length; i < c; i++ )
             {
                 opt = document.createElement("option");
                 opt.value = opt.innerHTML = o[i];
@@ -380,10 +422,14 @@ var eZOEPopupUtils = {
         node.disabled = c === 0;
     },
 
+    /**
+     * Get custom attribute value from form values and map them to style value as well
+     *
+     * @param {HtmlElement} node
+     * @return {Object} Hash of attributes and their values for use on editor elements
+     */
     getCustomAttributeArgs: function( node )
     {
-        // creates custom attribute value from form values
-        // global objects: ez
         var args = {
             'customattributes': '',
             'style': ''
@@ -412,10 +458,15 @@ var eZOEPopupUtils = {
         return args;
     },
 
+    /**
+     * Get general attributes for tag from form values
+     *
+     * @param {HtmlElement} node
+     * @return {Object} Hash of attributes and their values for use on editor elements
+     */
     getGeneralAttributeArgs: function( node )
     {
         var args = {}, handler = eZOEPopupUtils.settings.customAttributeSaveHandler;
-        // set general attributes for tag
         jQuery( '#' + node + ' input,#' + node + ' select' ).each(function( i, el )
         {
             var o = jQuery( el ), name = el.name;
@@ -428,6 +479,16 @@ var eZOEPopupUtils = {
        return args;
     },
 
+    /**
+     * Get parent tag by tag name with optional class name and type check
+     *
+     * @param {HtmlElement} n
+     * @param {String} tag
+     * @param {String} className
+     * @param {String} type
+     * @param {Boolean} checkElement Checks n as well if true
+     * @return {HtmlElement|False}
+     */
     getParentByTag: function( n, tag, className, type, checkElement )
     {
         if ( className ) className = ' ' + className + ' ';
