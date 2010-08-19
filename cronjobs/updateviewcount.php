@@ -128,7 +128,7 @@ if ( is_file( $logFilePath ) )
                     $url = preg_replace( "/\?.*/", "", $url);
                     foreach ( $prefixes as $prefix )
                     {
-                        $urlChanged = preg_replace( '/^\/' . preg_quote( $prefix, '/' ) . '\//', '', $url );
+                        $urlChanged = preg_replace( '/^\/' . preg_quote( $prefix, '/' ) . '\//', '/', $url );
                         if ( $urlChanged != $url )
                         {
                             $url = $urlChanged;
@@ -146,7 +146,7 @@ if ( is_file( $logFilePath ) )
                     else
                     {
                         $urlArray = explode( '/', $url );
-                        $firstElement = $urlArray[0];
+                        $firstElement = $urlArray[1];
                         if ( in_array( $firstElement, $contentArray ) )
                         {
                             $pathArray[] = $url;
