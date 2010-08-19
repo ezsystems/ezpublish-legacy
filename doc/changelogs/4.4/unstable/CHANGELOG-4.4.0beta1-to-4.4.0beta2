@@ -17,6 +17,8 @@ Changes from 4.4.0alpha5 to 4.4.0beta1
 *Translations:
 
 *Bugfixes:
-- Fixed bug #017093: TC-57 - Multiupload is broken in 4.4Alpha5
 - Fixed bug #016664: ezHTTPTool::sendHTTPRequest() fails on port not 80
             (Add support for setting port in $uri when $port is false)
+- Fixed bug #016997: Call of non static methods statically from ezgeneraldigest
+- Fixed bug #017093: TC-57 - Multiupload is broken in 4.4Alpha5
+
