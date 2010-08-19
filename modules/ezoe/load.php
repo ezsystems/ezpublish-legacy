@@ -70,9 +70,10 @@ else if ( isset( $Params['ImagePreGenerateSizes'] )  && $Params['ImagePreGenerat
 $json = ezjscAjaxContent::nodeEncode( $embedObject, $params );
 
 // display debug as a js comment
-echo "/*\r\n";
-eZDebug::printReport( false, false );
-echo "*/\r\n" . $json;
+//echo "/*\r\n";
+//eZDebug::printReport( false, false );
+//echo "*/\r\n";
+echo $json;
 
 eZDB::checkTransactionCounter();
 eZExecution::cleanExit();

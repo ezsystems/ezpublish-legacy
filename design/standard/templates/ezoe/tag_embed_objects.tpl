@@ -46,7 +46,7 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
     tagGenerator: function( tag, customTag )
     {
         if ( contentType === 'images' || compatibilityMode === 'enabled' )
-            return '<img id="__mce_tmp" src="javascript:void(0);" />';
+            return '<img id="__mce_tmp" src="JavaScript:void(0);" />';
         if ( jQuery('#embed_inline_source').attr( 'checked' ) )
            return '<span id="__mce_tmp"></span>';
         return '<div id="__mce_tmp"></div>';
@@ -136,12 +136,11 @@ function setEmbedAlign( e, el )
 function loadEmbedPreview( )
 {
     // Dynamically loads embed preview when attributes change
-    // global objects: ez         
     var url = tinyMCEPopup.editor.settings.ez_extension_url + '/embed_view/' + eZOEPopupUtils.embedObject['contentobject_id'];
     var postData = jQuery('#embed_attributes input, #embed_attributes select').serialize();
-    eZOEPopupUtils.ajax.load( url, postData, function( r )
+    jQuery.post( url, postData, function( data )
     {
-        jQuery('#embed_preview').html( r.responseText );
+        jQuery('#embed_preview').html( data );
     });
 }
 

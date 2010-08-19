@@ -28,8 +28,6 @@
 
 {literal}
 
-eZOEPopupUtils.bookmarksAjax = ez.ajax( { 'charset': 'UTF-8' } );
-
 eZOEPopupUtils.bookmarks = function( offset )
 {
     // browse personal bookmarks by offset

@@ -51,8 +51,8 @@ if ( isset( $Params['EmbedID'] )  && $Params['EmbedID'])
     if ( strcasecmp( $embedType  , 'eznode'  ) === 0 )
     {
         $embedNode   = eZContentObjectTreeNode::fetch( $embedId );
-        $embedObject = $node->object();
-        $tplSuffix   = '_node'; 
+        $embedObject = $embedNode->object();
+        $tplSuffix   = '_node';
         $idString    = 'eZNode_' . $embedId;
     }
     else
@@ -83,7 +83,7 @@ $className = '';
 $size  = 'medium';
 $view  = 'embed';
 $align = 'right';
-$style = '';//'text-align: left;';
+//$style = '';//'text-align: left;';
 
 if ( $http->hasPostVariable('inline') &&
      $http->postVariable('inline') === 'true' )
@@ -114,7 +114,7 @@ if ( $http->hasPostVariable('align') )
 }
 
 //if ( $align === 'left' || $align === 'right' )
-//    $style .= ' float: ' . $align . ';'; 
+//    $style .= ' float: ' . $align . ';';
 
 
 $res = eZTemplateDesignResource::instance();
@@ -134,9 +134,10 @@ if ( isset( $embedNode ) ) $tpl->setVariable( 'node', $embedNode );
 $templateOutput = $tpl->fetch( 'design:content/datatype/view/ezxmltags/' . $tagName . $tplSuffix . '.tpl' );
 //echo '<div id="' . $idString . '" title="' . $objectName . '"' . $style . '>' . $templateOutput . '</div>';
 
-echo "<!--\r\n";
-eZDebug::printReport( false, false );
-echo "-->\r\n" . $templateOutput;
+//echo "<!--\r\n";
+//eZDebug::printReport( false, false );
+//echo "-->\r\n";
+echo $templateOutput;
 
 
 

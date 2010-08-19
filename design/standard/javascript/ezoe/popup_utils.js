@@ -9,8 +9,6 @@
 
 
 var eZOEPopupUtils = {
-    ajax: ez.ajax( { 'charset': 'UTF-8' } ),
-    ajaxLoadResponse: '',
     embedObject: {},
 
     settings: {
