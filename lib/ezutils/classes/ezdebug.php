@@ -368,7 +368,7 @@ class eZDebug
                 $GLOBALS['eZDebugPHPErrorNames'][E_DEPRECATED] = 'E_DEPRECATED';
             if ( defined('E_USER_DEPRECATED') )
                 $GLOBALS['eZDebugPHPErrorNames'][E_USER_DEPRECATED] = 'E_USER_DEPRECATED';
-            
+
         }
         $errname = "Unknown error code ($errno)";
         if ( isset( $GLOBALS['eZDebugPHPErrorNames'][$errno] ) )
@@ -1232,9 +1232,9 @@ class eZDebug
         return null;
     }
 
-    /*!
-      \private
-     Returns the microtime as a float value. $mtime must be in microtime() format.
+    /**
+     * Returns the microtime as a float value. $mtime must be in microtime() format.
+     * @deprecated Since 4.4.0, use microtime( true ) instead
     */
     static function timeToFloat( $mtime )
     {
