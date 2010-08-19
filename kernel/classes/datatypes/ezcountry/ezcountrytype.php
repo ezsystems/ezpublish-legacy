@@ -83,7 +83,7 @@ class eZCountryType extends eZDataType
             if ( $translatedName )
                 $countries[$countryKey]['Name'] = $translatedName;
         }
-        usort( $countries, 'eZCountryType::compareCountryNames' );
+        usort( $countries, array( 'eZCountryType', 'compareCountryNames' ) );
     }
 
     /**
