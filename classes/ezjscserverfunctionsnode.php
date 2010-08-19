@@ -2,7 +2,7 @@
 
 /**
  * ezjscServerFunctionsNode class definition that provide node fetch functions
- * 
+ *
  */
 class ezjscServerFunctionsNode extends ezjscServerFunctions
 {
@@ -11,8 +11,8 @@ class ezjscServerFunctionsNode extends ezjscServerFunctions
      *
      * Following parameters are supported:
      * ezjscnode::subtree::parent_node_id::limit::offset::sort::order
-     * 
-     * @static
+     *
+     * @since 1.2
      * @param mixed $args
      * @return array
      */
@@ -78,10 +78,104 @@ class ezjscServerFunctionsNode extends ezjscServerFunctions
     }
 
     /**
+     * Returns a node data for given object / node id
+     *
+     * Following parameters are supported:
+     * ezjscnode::load::embed_id[::attribute[::load_image_size]]
+     *
+     * eg: ezjscnode::load::ezobject_46::image::large
+     * eg: ezjscnode::load::eznode_44::summary
+      *eg: ezjscnode::load::44::summary (44 is in this case node id)
+     *
+     * @since 1.2
+     * @param mixed $args
+     * @throws InvalidArgumentException
+     * @return array
+     */
+    public static function load( $args )
+    {
+        $embedObject = false;
+        if ( isset( $args[0] ) && $args[0] )
+        {
+            $embedType = 'eznode';
+            if (  is_numeric( $args[0] ) )
+                $embedId = $args[0];
+            else
+                list($embedType, $embedId) = explode('_', $args[0]);
+
+            if ( $embedType === 'eznode' || strcasecmp( $embedType  , 'eznode'  ) === 0 )
+                $embedObject = eZContentObject::fetchByNodeID( $embedId );
+            else
+                $embedObject = eZContentObject::fetch( $embedId );
+        }
+
+        if ( !$embedObject instanceof eZContentObject )
+        {
+           throw new InvalidArgumentException( "Argument 1: '$embedType\_$embedId' does not map to a valid content object" );
+        }
+
+        // Params for node to json encoder
+        $params    = array('loadImages' => true);
+        $params['imagePreGenerateSizes'] = array('small', 'original');
+
+        // look for attribute parameter ( what attribute we should load )
+        if ( isset( $args[1] ) && $args[1] )
+            $params['dataMap'] = array( $args[1] );
+
+        // what image sizes we want returned with full data ( url++ )
+        if ( isset( $args[2] ) && $args[2] )
+            $params['imagePreGenerateSizes'][] = $args[2];
+
+        // Simplify and load data in accordance to $params
+        return ezjscAjaxContent::simplify( $embedObject, $params );
+    }
+
+    /**
+     * Updating priority sorting for given node
+     *
+     * @since 1.2
+     * @param mixed $args
+     * @return array
+     */
+    public static function updatePriority( $args )
+    {
+        $http = eZHTTPTool::instance();
+
+        if ( !$http->hasPostVariable('ContentNodeID')
+                || !$http->hasPostVariable('PriorityID')
+                    || !$http->hasPostVariable('Priority') )
+        {
+            return array();
+        }
+
+        $contentNodeID = $http->postVariable('ContentNodeID');
+        $priorityArray = $http->postVariable('Priority');
+        $priorityIDArray = $http->postVariable('PriorityID');
+
+        if ( eZOperationHandler::operationIsAvailable( 'content_updatepriority' ) )
+        {
+            $operationResult = eZOperationHandler::execute( 'content', 'updatepriority',
+                                                             array( 'node_id' => $contentNodeID,
+                                                                    'priority' => $priorityArray,
+                                                                    'priority_id' => $priorityIDArray ), null, true );
+        }
+        else
+        {
+            eZContentOperationCollection::updatePriority( $contentNodeID, $priorityArray, $priorityIDArray );
+        }
+
+        if ( $http->hasPostVariable( 'ContentObjectID' ) )
+        {
+            $objectID = $http->postVariable( 'ContentObjectID' );
+            eZContentCacheManager::clearContentCache( $objectID );
+        }
+    }
+
+    /**
      * A helper function which maps sort keys from encoded JSON node
      * to supported values
      *
-     * @static
+     * @since 1.2
      * @param string $sort
      * @return string
      */
@@ -100,46 +194,6 @@ class ezjscServerFunctionsNode extends ezjscServerFunctions
         }
 
         return $sortKey;
-    }
-
-    /**
-     * Updating priority sorting for given node
-     * 
-     * @param mixed $args
-     * @return array
-     */
-    public static function updatePriority( $args )
-    {
-        $http = eZHTTPTool::instance();
-
-        if ( !$http->hasPostVariable('ContentNodeID') 
-                || !$http->hasPostVariable('PriorityID')
-                    || !$http->hasPostVariable('Priority') )
-        {
-            return array();
-        }
-
-        $contentNodeID = $http->postVariable('ContentNodeID');
-        $priorityArray = $http->postVariable('Priority');
-        $priorityIDArray = $http->postVariable('PriorityID');
-        
-        if ( eZOperationHandler::operationIsAvailable( 'content_updatepriority' ) )
-        {
-            $operationResult = eZOperationHandler::execute( 'content', 'updatepriority',
-                                                             array( 'node_id' => $contentNodeID,
-                                                                    'priority' => $priorityArray,
-                                                                    'priority_id' => $priorityIDArray ), null, true );
-        }
-        else
-        {
-            eZContentOperationCollection::updatePriority( $contentNodeID, $priorityArray, $priorityIDArray );
-        }
-
-        if ( $http->hasPostVariable( 'ContentObjectID' ) )
-        {
-            $objectID = $http->postVariable( 'ContentObjectID' );
-            eZContentCacheManager::clearContentCache( $objectID );
-        }
     }
 }
 

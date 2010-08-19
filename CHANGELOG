@@ -1,4 +1,8 @@
 
+# v1.2.0beta2
+- Added jQuery.ez() post param string support like jQuery.post()
+- ezjscnode::load added to load json data about object / node
+
 # v1.2.0alpha6
 - Make index_ajax.php compatible with 4.4 eZSession change
 

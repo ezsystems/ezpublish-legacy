@@ -260,8 +260,8 @@ YUI( YUI3_config ).add('io-ez', function( Y )
     // (static) jQuery.ez() uses jQuery.post() (Or jQuery.get() if post paramer is false)
     //
     // @param string callArgs
-    // @param object|array|false|undefined post Uses get request if false or undefined
-    // @param function|undefined callBack
+    // @param object|array|string|false post Optional post values, uses get request if false or undefined
+    // @param function Optional callBack
     function _ez( callArgs, post, callBack )
     {
         callArgs = callArgs.join !== undefined ? callArgs.join( _seperator ) : callArgs;
@@ -271,6 +271,8 @@ YUI( YUI3_config ).add('io-ez', function( Y )
             // support serializeArray() format
             if ( post.join !== undefined )
                 post.push( { 'name': 'ezjscServer_function_arguments', 'value': callArgs } );
+            else if ( typeof(post) === 'string' )
+                post += ( post !== '' ? '&' : '' ) + 'ezjscServer_function_arguments=' + callArgs;
             else
                 post['ezjscServer_function_arguments'] = callArgs;
             return $.post( url, post, callBack, 'json' );
@@ -301,8 +303,8 @@ YUI( YUI3_config ).add('io-ez', function( Y )
     }
 
     /**
-     * Returns search results based on given post params 
-     * 
+     * Returns search results based on given post params
+     *
      * @param mixed $args Only used if post parameter is not set
      *              0 => SearchStr
      *              1 => SearchOffset
@@ -401,7 +403,7 @@ YUI( YUI3_config ).add('io-ez', function( Y )
         {
             $params['facet'] = eZFunctionHandler::execute( 'ezfind', 'getDefaultSearchFacets', array() );
         }
-        
+
         $result = array( 'SearchOffset' => $searchOffset,
                          'SearchLimit' => $searchLimit,
                          'SearchResultCount' => 0,
@@ -429,7 +431,7 @@ YUI( YUI3_config ).add('io-ez', function( Y )
             {
                 if ( isset( $params['SpellCheck'] ) )
                     $result['SearchExtras']['spellcheck'] = $searchList['SearchExtras']->attribute( 'spellcheck' );
-                    
+
 
                 if ( isset( $params['facet'] ) )
                 {
@@ -467,7 +469,7 @@ YUI( YUI3_config ).add('io-ez', function( Y )
     /**
      * Creates an array out of a post parameter, return empty array if post parameter is not set.
      * Splits string on ',' in case of comma seperated values.
-     * 
+     *
      * @param eZHTTPTool $http
      * @param string $key
      * @return array
@@ -489,7 +491,7 @@ YUI( YUI3_config ).add('io-ez', function( Y )
 
     /**
      * Checks if a post variable exitst and has a value
-     * 
+     *
      * @param eZHTTPTool $http
      * @param string $key
      * @return bool
