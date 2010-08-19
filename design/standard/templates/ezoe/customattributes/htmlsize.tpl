@@ -22,7 +22,7 @@
 
 eZOEPopupUtils.settings.customAttributeInitHandler['{$custom_attribute_id}_source'] = {literal} function( el, value )
 {
-    el.value = ez.num( value, 0, 'int' );
+    el.value = eZOEPopupUtils.Int( value );
     document.getElementById( el.id.replace('_source', '_sizetype') ).selectedIndex = (value.indexOf('%') !== -1 ? 1 : 0 );
 };{/literal}
 

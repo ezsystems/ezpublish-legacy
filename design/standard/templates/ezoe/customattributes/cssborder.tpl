@@ -65,7 +65,7 @@ eZOEPopupUtils.settings.customAttributeInitHandler['{$custom_attribute_id}_sourc
 {
     
     var baseid = el.id.replace('_source', '_'), valArr = value.split(' ');
-    el.value = ez.num( valArr[0], 0, 'int' );
+    el.value = eZOEPopupUtils.Int( valArr[0] );
     var size = document.getElementById( baseid + 'sizetype' ), border = document.getElementById( baseid+'bordertype' ), color = document.getElementById( baseid+'color' );
     size.selectedIndex = jQuery.inArray( valArr[0].replace( el.value, '' ), jQuery('#' + size.id + ' option').map(function( i, n )
     {

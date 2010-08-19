@@ -854,5 +854,28 @@ var eZOEPopupUtils = {
             tr.appendChild( td );
             tbody.appendChild( tr );
         } );
-    }
+    },
+
+    // some reusable functions from ezcore
+    ie65: /MSIE [56]/.test( navigator.userAgent ),
+    Int: function(value, fallBack)
+    {
+        // Checks if value is a int, if not fallBack or 0 is returned
+        value = parseInt( value );
+        return isNaN( value ) ? ( fallBack !== undefined ? fallBack : 0 ) : value;
+    },
+    Float: function(value, fallBack)
+    {
+        // Checks if value is float, if not fallBack or 0 is returned
+        value = parseFloat( value );
+        return isNaN( value ) ? ( fallBack !== undefined ? fallBack : 0 ) : value;
+    },
+    min: function()
+    {
+       // Returns the lowest number, or null if none
+       var min = null;
+       for (var i = 0, a = arguments, l = a.length; i < l; i++)
+               if (min === null || min > a[i]) min = a[i];
+       return min;
+    },
 };

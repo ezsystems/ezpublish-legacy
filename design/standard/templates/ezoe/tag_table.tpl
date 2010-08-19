@@ -38,10 +38,10 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
     tagGenerator: function( tag, customTag )
     {
         var html = '<table id="__mce_tmp"><tbody>';
-        for (var y = 0, yl = ez.num(tableSizeGrid['rows'].el.value, 1, 'int'); y < yl; y++)
+        for (var y = 0, yl = eZOEPopupUtils.Int(tableSizeGrid['rows'].el.value, 1); y < yl; y++)
         {
             html += "<tr>";
-            for (var x = 0, xl = ez.num(tableSizeGrid['cols'].el.value, 2, 'int'); x < xl; x++)
+            for (var x = 0, xl = eZOEPopupUtils.Int(tableSizeGrid['cols'].el.value, 2); x < xl; x++)
                 html += '<td><br mce_bogus="1"/></td>';
     
             html += "</tr>";

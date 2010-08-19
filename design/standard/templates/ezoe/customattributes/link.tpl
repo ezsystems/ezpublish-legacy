@@ -68,7 +68,7 @@ eZOEPopupUtils.settings.onInitDoneArray.push( function( editorElement )
 
         if ( this.value.indexOf( '://' ) === -1 ) return true;
 
-        var url = this.value.split('://'), id = ez.num( url[1], 0, 'int' );
+        var url = this.value.split('://'), id = eZOEPopupUtils.Int( url[1] );
 
         if ( id === 0 || ( url[0] !== 'eznode' && url[0] !== 'ezobject' ) ) return true;
 
@@ -78,7 +78,7 @@ eZOEPopupUtils.settings.onInitDoneArray.push( function( editorElement )
 
     if ( inp.val().indexOf( '://' ) !== -1 )
     {
-        var url = inp.val().split('://'), id = ez.num( url[1], 0, 'int' );
+        var url = inp.val().split('://'), id = eZOEPopupUtils.Int( url[1] );
         if ( id !== 0 && ( url[0] === 'eznode' || url[0] === 'ezobject' ) )
             ezoeLinkAttribute.ajaxCheck( url[0] + '_' + id );
     }
