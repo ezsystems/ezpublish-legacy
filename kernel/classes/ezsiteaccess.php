@@ -583,7 +583,7 @@ class eZSiteAccess
     }
 
     /**
-     * Loads ini envermont for a specific siteaccess
+     * Loads ini environment for a specific siteaccess
      *
      * eg: $ini = eZSiteAccess::getIni( 'eng', 'site.ini' );
      *
