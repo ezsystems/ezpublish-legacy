@@ -10,7 +10,7 @@
 class ezpExtensionHelper
 {
     /**
-     * Loads and extension by adding it to ActiveExtensions setting,
+     * Loads an extension by adding it to ActiveExtensions setting,
      * clearing extensions cache and add ini dir (not extension siteaccess)
      *
      * Note: Does not check if extension exist on files system!
@@ -36,7 +36,7 @@ class ezpExtensionHelper
     }
 
     /**
-     * Unloads and extension by removing it from ActiveExtensions setting,
+     * Unloads an extension by removing it from ActiveExtensions setting,
      * clearing extensions cache and remove ini dir (not extension siteaccess)
      *
      * @param string $extension Extension name to unload
