@@ -15,7 +15,7 @@
 {if $notifications.Result|eq( true )}
         <h2>{'Successfully DONE.'|i18n( 'kernel/content/copysubtree' )}</h2>
 {else}
-    <h2>{'Subtree was not copied.'||i18n( 'kernel/content/copysubtree' )}</h2>
+    <h2>{'Subtree was not copied.'|i18n( 'kernel/content/copysubtree' )}</h2>
     {if $notifications.Errors|count|gt( 0 )}
         <h4>Errors:</h4>
         {foreach $notifications.Errors as $item}
