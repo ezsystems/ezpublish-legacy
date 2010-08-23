@@ -117,6 +117,11 @@ Removed features
   This means the following settings in site.ini\[Session] have been removed:
   SessionValidationIpParts, SessionValidationForwardedIpParts & SessionValidationUseUA
 
+- Older versions of ezlupdate
+
+  Versions of ezlupdate source code linking against QT3 and QT4 are no longer
+  bundled with eZ Publish. Only QT version 4.5 is bundled from now on.
+
 Removed methods
 ---------------
 
