@@ -20,11 +20,9 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
         $this->iniBackup['implementationBackup'] = $ini->variable( 'DatabaseSettings', 'DatabaseImplementation' );
         $this->iniBackup['serverBackup'] = $ini->variable( 'DatabaseSettings', 'Server' );
         $this->iniBackup['databaseBackup'] = $ini->variable( 'DatabaseSettings', 'Database' );
-        $this->iniBackup['varDirBackup'] = $ini->variable( 'FileSettings', 'VarDir' );
         $ini->setVariable( 'DatabaseSettings', 'DatabaseImplementation', 'ezmysqli' );
         $ini->setVariable( 'DatabaseSettings', 'Server', 'localhost' );
         $ini->setVariable( 'DatabaseSettings', 'Database', 'testdb' );
-        $ini->setVariable( 'FileSettings', 'VarDir', 'var/test' );
 
         parent::setUp();
     }
@@ -39,7 +37,6 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
         $ini->setVariable( 'DatabaseSettings', 'DatabaseImplementation', $this->iniBackup['implementationBackup'] );
         $ini->setVariable( 'DatabaseSettings', 'Server', $this->iniBackup['serverBackup'] );
         $ini->setVariable( 'DatabaseSettings', 'Database', $this->iniBackup['databaseBackup'] );
-        $ini->setVariable( 'FileSettings', 'VarDir', $this->iniBackup['varDirBackup'] );
 
         parent::tearDown();
     }

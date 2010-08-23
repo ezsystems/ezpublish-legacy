@@ -40,6 +40,12 @@ $script = eZScript::instance( array( 'description' => ( "eZ Publish Test Runner\
                                       'use-modules' => true,
                                       'use-extensions' => true ) );
 
+// Override INI override folder from settings/override to
+// tests/settings to not read local override settings
+$ini = eZINI::instance();
+$ini->setOverrideDirs( array( array( 'tests/settings', true ) ), 'override' );
+$ini->loadCache();
+
 $script->startup();
 // $options = $script->getOptions();
 $script->initialize();
