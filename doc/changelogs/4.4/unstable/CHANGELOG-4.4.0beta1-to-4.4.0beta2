@@ -1,4 +1,4 @@
-Changes from 4.4.0alpha5 to 4.4.0beta1
+Changes from 4.4.0beta1 to 4.4.0beta2
 
 *Kernel:
 - Implemented enhancement #016665: ezHTTPTool::sendHTTPRequest() should support sending cookies
@@ -17,10 +17,12 @@ Changes from 4.4.0alpha5 to 4.4.0beta1
 *Translations:
 
 *Bugfixes:
+- Fixed bug #010489: Content indexing might never happen in limited environment
 - Fixed bug #013516: updateviewcount not getting correct paths
 - Fixed bug #016664: ezHTTPTool::sendHTTPRequest() fails on port not 80
             (Add support for setting port in $uri when $port is false)
 - Fixed bug #016739: Sorting Bug in eZCountryType::fetchTranslatedNames on some systems
+- Fixed bug #016883: WebDAV doesn't support clustering
 - Fixed bug #016997: Call of non static methods statically from ezgeneraldigest
 - Fixed bug #017093: TC-57 - Multiupload is broken in 4.4Alpha5
 - Fixed bug #017099: ezcache.php: Get confirmation when clearing dangerous directories

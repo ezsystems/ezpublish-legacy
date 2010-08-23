@@ -48,26 +48,21 @@ while( true )
 
     if ( is_array( $entries ) && count( $entries ) != 0 )
     {
-        $objectIDList = array();
-        $db->begin();
         foreach ( $entries as $entry )
         {
             $objectID = (int)$entry['param'];
-            $objectIDList[] = "'$objectID'";
 
             $cli->output( "\tIndexing object ID #$objectID" );
+            $db->begin();
             $object = eZContentObject::fetch( $objectID );
             if ( $object )
             {
                 eZSearch::removeObject( $object );
                 eZSearch::addObject( $object );
             }
+            $db->query( "DELETE FROM ezpending_actions WHERE action = 'index_object' AND param = '$objectID'" );
+            $db->commit();
         }
-
-        $paramInSQL = $db->generateSQLINStatement( $objectIDList, 'param' );
-
-        $db->query( "DELETE FROM ezpending_actions WHERE action = 'index_object' AND $paramInSQL" );
-        $db->commit();
     }
     else
     {
