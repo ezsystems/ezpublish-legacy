@@ -1,0 +1,815 @@
+<!DOCTYPE QPH>
+<QPH sourcelanguage="en" language="de_DE">
+<phrase>
+    <source>add</source>
+    <target>hinzufügen</target>
+</phrase>
+<phrase>
+    <source>advanced</source>
+    <target>Fortgeschritten</target>
+</phrase>
+<phrase>
+    <source>bookmark</source>
+    <target>Lesezeichen</target>
+</phrase>
+<phrase>
+    <source>Browse</source>
+    <target>Durchsuchen</target>
+</phrase>
+<phrase>
+    <source>Button</source>
+    <target>Schaltfläche</target>
+</phrase>
+<phrase>
+    <source>Buttons</source>
+    <target>Schaltflächen</target>
+</phrase>
+<phrase>
+    <source>cache</source>
+    <target>Cache</target>
+</phrase>
+<phrase>
+    <source>Checkbox</source>
+    <target>Kontrollkästchen</target>
+    <definition>Übersetzung von Microsoft</definition>
+</phrase>
+<phrase>
+    <source>Checkboxes</source>
+    <target>Kontrollkästchen</target>
+</phrase>
+<phrase>
+    <source>child</source>
+    <target>untergeordnet</target>
+</phrase>
+<phrase>
+    <source>Choose</source>
+    <target>Wählen</target>
+    <definition>Button-Beschriftung</definition>
+</phrase>
+<phrase>
+    <source>class definition</source>
+    <target>Klassendefinition</target>
+</phrase>
+<phrase>
+    <source>class group</source>
+    <target>Klassengruppe</target>
+</phrase>
+<phrase>
+    <source>Class</source>
+    <target>Klasse</target>
+</phrase>
+<phrase>
+    <source>collaboration</source>
+    <target>Zusammenarbeit</target>
+</phrase>
+<phrase>
+    <source>Collapse</source>
+    <target>Zuklappen</target>
+</phrase>
+<phrase>
+    <source>complete</source>
+    <target>komplett</target>
+</phrase>
+<phrase>
+    <source>content object class</source>
+    <target>Content Klasse</target>
+</phrase>
+<phrase>
+    <source>content object</source>
+    <target>Content Objekt</target>
+</phrase>
+<phrase>
+    <source>content</source>
+    <target>Inhalt</target>
+</phrase>
+<phrase>
+    <source>create</source>
+    <target>erstellen</target>
+</phrase>
+<phrase>
+    <source>debug</source>
+    <target>Debug</target>
+</phrase>
+<phrase>
+    <source>delete</source>
+    <target>löschen</target>
+</phrase>
+<phrase>
+    <source>draft</source>
+    <target>Entwurf</target>
+</phrase>
+<phrase>
+    <source>edit</source>
+    <target>bearbeite</target>
+</phrase>
+<phrase>
+    <source>edit</source>
+    <target>bearbeiten</target>
+</phrase>
+<phrase>
+    <source>Expand</source>
+    <target>Aufklappen</target>
+</phrase>
+<phrase>
+    <source>Extension</source>
+    <target>Erweiterung</target>
+</phrase>
+<phrase>
+    <source>File</source>
+    <target>Datei</target>
+</phrase>
+<phrase>
+    <source>identifier</source>
+    <target>Bezeichner</target>
+</phrase>
+<phrase>
+    <source>identifiers</source>
+    <target>Bezeichner</target>
+</phrase>
+<phrase>
+    <source>Image</source>
+    <target>Bild</target>
+</phrase>
+<phrase>
+    <source>item</source>
+    <target>Eintrag</target>
+</phrase>
+<phrase>
+    <source>items</source>
+    <target>Einträge</target>
+</phrase>
+<phrase>
+    <source>limitation</source>
+    <target>Einschränkung</target>
+</phrase>
+<phrase>
+    <source>limitations</source>
+    <target>Einschränkungen</target>
+</phrase>
+<phrase>
+    <source>location</source>
+    <target>Ort</target>
+</phrase>
+<phrase>
+    <source>locations</source>
+    <target>Orte</target>
+</phrase>
+<phrase>
+    <source>log in</source>
+    <target>anmelden</target>
+</phrase>
+<phrase>
+    <source>Media</source>
+    <target>Medien</target>
+</phrase>
+<phrase>
+    <source>modified</source>
+    <target>geändert</target>
+</phrase>
+<phrase>
+    <source>Next</source>
+    <target>nächster</target>
+</phrase>
+<phrase>
+    <source>Node</source>
+    <target>Knoten</target>
+    <definition>Ort, an dem ein Objekt veröffentlicht wird</definition>
+</phrase>
+<phrase>
+    <source>object relation</source>
+    <target>Objekt Verknüpfung</target>
+</phrase>
+<phrase>
+    <source>object</source>
+    <target>Objekt</target>
+</phrase>
+<phrase>
+    <source>Object</source>
+    <target>Objekt</target>
+</phrase>
+<phrase>
+    <source>objects</source>
+    <target>Objekte</target>
+</phrase>
+<phrase>
+    <source>parent</source>
+    <target>übergeordnet</target>
+</phrase>
+<phrase>
+    <source>permission</source>
+    <target>Berechtigung</target>
+</phrase>
+<phrase>
+    <source>permissions</source>
+    <target>Berechtigungen</target>
+</phrase>
+<phrase>
+    <source>policy</source>
+    <target>Richtlinie</target>
+</phrase>
+<phrase>
+    <source>Previous</source>
+    <target>Vorheriger</target>
+</phrase>
+<phrase>
+    <source>product sheet</source>
+    <target>Produktbeschreibung</target>
+</phrase>
+<phrase>
+    <source>product</source>
+    <target>Produkt</target>
+</phrase>
+<phrase>
+    <source>Publish date </source>
+    <target>Veröffentlichungsdatum</target>
+</phrase>
+<phrase>
+    <source>publish</source>
+    <target>veröffentlichen</target>
+</phrase>
+<phrase>
+    <source>radio buttons</source>
+    <target>Auswahl-Knöpfe</target>
+</phrase>
+<phrase>
+    <source>register</source>
+    <target>registrieren</target>
+</phrase>
+<phrase>
+    <source>related</source>
+    <target>verknüpft</target>
+</phrase>
+<phrase>
+    <source>relation</source>
+    <target>Verwandtschaft</target>
+</phrase>
+<phrase>
+    <source>remove</source>
+    <target>entferne</target>
+</phrase>
+<phrase>
+    <source>remove</source>
+    <target>entfernen</target>
+</phrase>
+<phrase>
+    <source>role</source>
+    <target>Rolle</target>
+</phrase>
+<phrase>
+    <source>Section</source>
+    <target>Sektion</target>
+    <definition>Sektionen dienen u.a. zur Vergabe von Zugriffsrechten</definition>
+</phrase>
+<phrase>
+    <source>Selection</source>
+    <target>Auswahl</target>
+</phrase>
+<phrase>
+    <source>select</source>
+    <target>auswählen</target>
+</phrase>
+<phrase>
+    <source>Session</source>
+    <target>Session</target>
+</phrase>
+<phrase>
+    <source>Settings</source>
+    <target>Einstellungen</target>
+</phrase>
+<phrase>
+    <source>site administrator</source>
+    <target>Administrator</target>
+</phrase>
+<phrase>
+    <source>special characters</source>
+    <target>Sonderzeichen</target>
+</phrase>
+<phrase>
+    <source>template</source>
+    <target>Template</target>
+</phrase>
+<phrase>
+    <source>Toolbar</source>
+    <target>Werkzeugleiste</target>
+</phrase>
+<phrase>
+    <source>Tool</source>
+    <target>Werkzeug</target>
+</phrase>
+<phrase>
+    <source>trash</source>
+    <target>Papierkorb</target>
+</phrase>
+<phrase>
+    <source>tree</source>
+    <target>Baum</target>
+    <definition>Im Sinne von &quot;Baumstruktur des Inhalts&quot;</definition>
+</phrase>
+<phrase>
+    <source>unhide</source>
+    <target>aufdecken</target>
+    <definition>(Gegenteil von &quot;hide&quot;)</definition>
+</phrase>
+<phrase>
+    <source>Visibility</source>
+    <target>Sichtbarkeit</target>
+</phrase>
+<phrase>
+    <source>whitespace</source>
+    <target>Leerzeichen</target>
+</phrase>
+<phrase>
+    <source>workflow</source>
+    <target>Workflow</target>
+</phrase>
+<phrase>
+    <source>Edit</source>
+    <target>Bearbeiten</target>
+</phrase>
+<phrase>
+    <source>Invert selection.</source>
+    <target>Auswahl umkehren.</target>
+</phrase>
+<phrase>
+    <source>Name</source>
+    <target>Name</target>
+</phrase>
+<phrase>
+    <source>ID</source>
+    <target>ID</target>
+</phrase>
+<phrase>
+    <source>Modifier</source>
+    <target>Bearbeiter</target>
+</phrase>
+<phrase>
+    <source>Modified</source>
+    <target>Geändert</target>
+</phrase>
+<phrase>
+    <source>Remove selected</source>
+    <target>Ausgewähltes entfernen</target>
+</phrase>
+<phrase>
+    <source>OK</source>
+    <target>OK</target>
+</phrase>
+<phrase>
+    <source>Apply</source>
+    <target>Anwenden</target>
+</phrase>
+<phrase>
+    <source>Cancel</source>
+    <target>Abbrechen</target>
+</phrase>
+<phrase>
+    <source>Descending</source>
+    <target>Absteigend</target>
+</phrase>
+<phrase>
+    <source>Ascending</source>
+    <target>Aufsteigend</target>
+</phrase>
+<phrase>
+    <source>Retry</source>
+    <target>Wiederholen</target>
+</phrase>
+<phrase>
+    <source>Language</source>
+    <target>Sprache</target>
+</phrase>
+<phrase>
+    <source>Object name pattern</source>
+    <target>Objekt Namensschema</target>
+</phrase>
+<phrase>
+    <source>Yes</source>
+    <target>Ja</target>
+</phrase>
+<phrase>
+    <source>No</source>
+    <target>Nein</target>
+</phrase>
+<phrase>
+    <source>Object count</source>
+    <target>Objektanzahl</target>
+</phrase>
+<phrase>
+    <source>Attributes</source>
+    <target>Attribute</target>
+</phrase>
+<phrase>
+    <source>Flags</source>
+    <target>Merkmale</target>
+</phrase>
+<phrase>
+    <source>Is required</source>
+    <target>Ist erforderlich</target>
+</phrase>
+<phrase>
+    <source>Siteaccess</source>
+    <target>Seitenzugang</target>
+</phrase>
+<phrase>
+    <source>URL alias name pattern</source>
+    <target>URL Alias Namensschema</target>
+</phrase>
+<phrase>
+    <source>Type</source>
+    <target>Typ</target>
+</phrase>
+<phrase>
+    <source>Bookmarks</source>
+    <target>Lesezeichen</target>
+</phrase>
+<phrase>
+    <source>Search result</source>
+    <target>Suchergebnis</target>
+</phrase>
+<phrase>
+    <source>Select</source>
+    <target>Auswählen</target>
+</phrase>
+<phrase>
+    <source>radio button</source>
+    <target>Optionsfeld</target>
+    <definition>Übersetzung von Microsoft</definition>
+</phrase>
+<phrase>
+    <source>Attribute</source>
+    <target>Attribut</target>
+</phrase>
+<phrase>
+    <source>Top node</source>
+    <target>Hauptknoten</target>
+</phrase>
+<phrase>
+    <source>States</source>
+    <target>Zustände</target>
+</phrase>
+<phrase>
+    <source>Created</source>
+    <target>Erstellt</target>
+</phrase>
+<phrase>
+    <source>Version</source>
+    <target>Version</target>
+</phrase>
+<phrase>
+    <source>Status</source>
+    <target>Zustand</target>
+</phrase>
+<phrase>
+    <source>Draft</source>
+    <target>Entwurf</target>
+</phrase>
+<phrase>
+    <source>Published</source>
+    <target>Veröffentlicht</target>
+</phrase>
+<phrase>
+    <source>Pending</source>
+    <target>Schwebend</target>
+</phrase>
+<phrase>
+    <source>Archived</source>
+    <target>Archiviert</target>
+</phrase>
+<phrase>
+    <source>Back</source>
+    <target>Zurück</target>
+</phrase>
+<phrase>
+    <source>Translations</source>
+    <target>Übersetzungen</target>
+</phrase>
+<phrase>
+    <source>Restore</source>
+    <target>Wiederherstellen</target>
+</phrase>
+<phrase>
+    <source>root</source>
+    <target>Hauptverzeichnis</target>
+</phrase>
+<phrase>
+    <source>Redirect</source>
+    <target>Weiterleitung</target>
+</phrase>
+<phrase>
+    <source>source</source>
+    <target>Quelle</target>
+</phrase>
+<phrase>
+    <source>Publish</source>
+    <target>Veröffentlichen</target>
+</phrase>
+<phrase>
+    <source>instruction</source>
+    <target></target>
+</phrase>
+<phrase>
+    <source>previous</source>
+    <target>zurück</target>
+</phrase>
+<phrase>
+    <source>Next</source>
+    <target>Weiter</target>
+</phrase>
+<phrase>
+    <source>Move selected</source>
+    <target>Ausgewähltes verschieben</target>
+</phrase>
+<phrase>
+    <source>Object states</source>
+    <target>Objekt Zustände</target>
+</phrase>
+<phrase>
+    <source>object state</source>
+    <target>Objekt Zustand</target>
+</phrase>
+<phrase>
+    <source>Preview</source>
+    <target>Vorschau</target>
+</phrase>
+<phrase>
+    <source>Relations</source>
+    <target>Verknüpfungen</target>
+</phrase>
+<phrase>
+    <source>Policies</source>
+    <target>Richtlinien</target>
+</phrase>
+<phrase>
+    <source>Toggle selection</source>
+    <target>Auswahl umkehren</target>
+</phrase>
+<phrase>
+    <source>Assign</source>
+    <target>Zuweisen</target>
+</phrase>
+<phrase>
+    <source>Skip</source>
+    <target>Überspringen</target>
+</phrase>
+<phrase>
+    <source>Category</source>
+    <target>Kategorie</target>
+</phrase>
+<phrase>
+    <source>optional</source>
+    <target>optional</target>
+</phrase>
+<phrase>
+    <source>Status</source>
+    <target>Status</target>
+</phrase>
+<phrase>
+    <source>VAT</source>
+    <target>USt</target>
+    <definition>MwSt ist der umgangsprachliche Begriff, USt ist der korrekte Begriff</definition>
+</phrase>
+<phrase>
+    <source>Product</source>
+    <target>Produkt</target>
+</phrase>
+<phrase>
+    <source>Shopping basket</source>
+    <target>Warenkorb</target>
+</phrase>
+<phrase>
+    <source>Price (ex. VAT)</source>
+    <target>Preis (exkl. USt)</target>
+</phrase>
+<phrase>
+    <source>Price (inc. VAT)</source>
+    <target>Preis (inkl. USt)</target>
+</phrase>
+<phrase>
+    <source>Total price (ex. VAT)</source>
+    <target>Gesamtsumme (exkl. USt)</target>
+</phrase>
+<phrase>
+    <source>Total price (inc. VAT)</source>
+    <target>Gesamtsumme (inkl. USt)</target>
+</phrase>
+<phrase>
+    <source>Order summary</source>
+    <target>Zusammenfassung der Bestellung</target>
+</phrase>
+<phrase>
+    <source>Order total</source>
+    <target>Gesamtsumme</target>
+</phrase>
+<phrase>
+    <source>Price ex. VAT</source>
+    <target>Preis exkl. USt</target>
+</phrase>
+<phrase>
+    <source>Save changes</source>
+    <target>Änderungen speichern</target>
+</phrase>
+<phrase>
+    <source>Create new</source>
+    <target>Neu erstellen</target>
+</phrase>
+<phrase>
+    <source>Account</source>
+    <target>Konto</target>
+</phrase>
+<phrase>
+    <source>eZ Publish</source>
+    <target>eZ Publish</target>
+    <definition>Wird nicht übersetzt</definition>
+</phrase>
+<phrase>
+    <source>Group</source>
+    <target>Gruppe</target>
+</phrase>
+<phrase>
+    <source>Shipping total inc. VAT</source>
+    <target>Versand inkl. USt</target>
+</phrase>
+<phrase>
+    <source>Shipping total inc. VAT</source>
+    <target>Versandkosten inkl. USt</target>
+</phrase>
+<phrase>
+    <source>no</source>
+    <target>nein</target>
+</phrase>
+<phrase>
+    <source>yes</source>
+    <target>ja</target>
+</phrase>
+<phrase>
+    <source>ez.no</source>
+    <target>ez.no</target>
+</phrase>
+<phrase>
+    <source>Price inc. VAT</source>
+    <target>Preis inkl. USt</target>
+</phrase>
+<phrase>
+    <source>Total price ex. VAT</source>
+    <target>Gesamtsumme exkl. USt</target>
+</phrase>
+<phrase>
+    <source>Total price inc. VAT</source>
+    <target>Gesamtsumme inkl. USt</target>
+</phrase>
+<phrase>
+    <source>Subtotal ex. VAT</source>
+    <target>Zwischensumme exkl. USt</target>
+</phrase>
+<phrase>
+    <source>Selection</source>
+    <target>Auswahlliste</target>
+</phrase>
+<phrase>
+    <source>User account</source>
+    <target>Benutzerkonto</target>
+</phrase>
+<phrase>
+    <source>Input required</source>
+    <target>Eingabe erforderlich</target>
+</phrase>
+<phrase>
+    <source>Input required.</source>
+    <target>Eingabe erforderlich.</target>
+</phrase>
+<phrase>
+    <source>Error</source>
+    <target>Fehler</target>
+</phrase>
+<phrase>
+    <source>child</source>
+    <target>Unterelement</target>
+</phrase>
+<phrase>
+    <source>children</source>
+    <target>Unterelemente</target>
+</phrase>
+<phrase>
+    <source>Advanced options</source>
+    <target>Erweiterte Optionen</target>
+</phrase>
+<phrase>
+    <source>Basket</source>
+    <target>Warenkorb</target>
+</phrase>
+<phrase>
+    <source>Warning</source>
+    <target>Warnung</target>
+</phrase>
+<phrase>
+    <source>Configure</source>
+    <target>Konfigurieren</target>
+</phrase>
+<phrase>
+    <source>Password</source>
+    <target>Passwort</target>
+</phrase>
+<phrase>
+    <source>Done</source>
+    <target>Fertig</target>
+</phrase>
+<phrase>
+    <source>Summary</source>
+    <target>Zusammenfassung</target>
+</phrase>
+<phrase>
+    <source>Default</source>
+    <target>Standard</target>
+</phrase>
+<phrase>
+    <source>Comments</source>
+    <target>Kommentare</target>
+</phrase>
+<phrase>
+    <source>Database</source>
+    <target>Datenbank</target>
+</phrase>
+<phrase>
+    <source>Driver</source>
+    <target>Treiber</target>
+</phrase>
+<phrase>
+    <source>Languages</source>
+    <target>Sprachen</target>
+</phrase>
+<phrase>
+    <source>Continue</source>
+    <target>Fortfahren</target>
+</phrase>
+<phrase>
+    <source>Site access</source>
+    <target>Seitenzugang</target>
+</phrase>
+<phrase>
+    <source>Title</source>
+    <target>Titel</target>
+</phrase>
+<phrase>
+    <source>URL</source>
+    <target>URL</target>
+</phrase>
+<phrase>
+    <source>Toolbar management</source>
+    <target>Werkzeugleisten Verwaltung</target>
+</phrase>
+<phrase>
+    <source>Related objects</source>
+    <target>Verknüpfte Objekte</target>
+</phrase>
+<phrase>
+    <source>Top node</source>
+    <target>Hauptknoten</target>
+</phrase>
+<phrase>
+    <source>colon</source>
+    <target>Doppelpunkt</target>
+</phrase>
+<phrase>
+    <source>semicolon</source>
+    <target>Semikolon</target>
+</phrase>
+<phrase>
+    <source>Email</source>
+    <target>E-Mail</target>
+    <definition>Schreibweise laut Duden</definition>
+</phrase>
+<phrase>
+    <source>email</source>
+    <target>E-Mail</target>
+    <definition>Schreibweise laut Duden</definition>
+</phrase>
+<phrase>
+    <source>Send for publishing</source>
+    <target>Zur Veröffentlichung schicken</target>
+</phrase>
+<phrase>
+    <source>Class attribute</source>
+    <target>Klassen Attribut</target>
+</phrase>
+<phrase>
+    <source>Dashboard</source>
+    <target>Dashboard</target>
+</phrase>
+<phrase>
+    <source>Author</source>
+    <target>Autor</target>
+</phrase>
+<phrase>
+    <source>Instructions</source>
+    <target>Hinweise</target>
+    <definition>eigentlich &quot;Anweisungen&quot;, aber das ist zu forsch</definition>
+</phrase>
+<phrase>
+    <source>Properties</source>
+    <target>Eigenschaften</target>
+</phrase>
+<phrase>
+    <source>Sub items</source>
+    <target>Unterelemente</target>
+</phrase>
+</QPH>
