@@ -94,7 +94,7 @@ class ezjscAjaxContent
     /**
      * Encodes the content based on http accept values, more on
      * this on the getHttpAccept function.
-     * Will simply implode the return value if array and not xml or 
+     * Will simply implode the return value if array and not xml or
      * json is prefered return type.
      *
      * @param mixed $ret
@@ -131,7 +131,7 @@ class ezjscAjaxContent
     /**
      * Function for encoding content object(s) or node(s) to simplified
      * json objects, xml or array hash
-     * 
+     *
      * @param mixed $obj
      * @param array $params
      * @param string $type
@@ -178,14 +178,14 @@ class ezjscAjaxContent
             $node          = $obj->attribute( 'main_node' );
             $contentObject = $obj;
         }
-        else if ( $obj instanceof eZContentObjectTreeNode || $obj instanceof eZFindResultNode ) 
+        else if ( $obj instanceof eZContentObjectTreeNode || $obj instanceof eZFindResultNode )
         {
             $node          = $obj;
             $contentObject = $obj->attribute( 'object' );
         }
         else if( isset( $params['fetchNodeFunction'] ) && method_exists( $obj, $params['fetchNodeFunction'] ) )
         {
-            // You can supply fetchNodeFunction parameter to be able to support other node related classes 
+            // You can supply fetchNodeFunction parameter to be able to support other node related classes
             $node = call_user_func( array( $obj, $params['fetchNodeFunction'] ) );
             if ( !$node instanceof eZContentObjectTreeNode )
             {
@@ -221,7 +221,7 @@ class ezjscAjaxContent
 
         if ( $params['imageSizes'] === null || !isset( $params['imageSizes'][0] ) )
             $params['imageSizes'] = array();
-            
+
         if (  !isset( $params['imageDataTypes'] ) )
             $params['imageDataTypes'] = $ini->variable( 'ImageDataTypeSettings', 'AvailableImageDataTypes' );
 
@@ -289,7 +289,7 @@ class ezjscAjaxContent
                             __METHOD__ );
 
                     $thumbUrl = isset( $imageAlias['full_path'] ) ? $imageAlias['full_path'] : '';
-                    
+
                     if ( $thumbUrl !== '' )
                         eZURI::transformURI( $thumbUrl, true );
 
@@ -332,7 +332,7 @@ class ezjscAjaxContent
                 $ret['class_identifier'] = $class->attribute( 'identifier' );
                 $ret['is_container']     = (int) $class->attribute( 'is_container' );
             }
-            
+
             $ret['node_id']              = (int) $node->attribute( 'node_id' );
             $ret['parent_node_id']       = (int) $node->attribute( 'parent_node_id' );
             $ret['node_remote_id']       = $node->attribute( 'remote_id' );
@@ -389,8 +389,11 @@ class ezjscAjaxContent
                 if ( !in_array( 'all' ,$params['dataMap'], true )
                    && !in_array( $key ,$params['dataMap'], true )
                    && !in_array( $dataTypeString, $params['dataMapType'], true )
-                   && !( $params['loadImages'] && in_array( $dataTypeString, $params['imageDataTypes'], true ) )
-                   ) continue;
+                   && !( $params['loadImages'] && in_array( $dataTypeString, $params['imageDataTypes'], true ) ) )
+                {
+                    continue;
+                }
+
                 $attrtibuteArray[ $key ]['id']         = $atr->attribute( 'id' );
                 $attrtibuteArray[ $key ]['type']       = $dataTypeString;
                 $attrtibuteArray[ $key ]['identifier'] = $key;
@@ -431,7 +434,7 @@ class ezjscAjaxContent
 
     /**
      * Encodes simple multilevel array and hash values to valid xml string
-     * 
+     *
      * @param mixed $hash
      * @param string $childName
      * @return string
@@ -442,17 +445,17 @@ class ezjscAjaxContent
         $xml->openMemory();
         $xml->startDocument('1.0', 'UTF-8');
         $xml->startElement('root');
-        
+
         self::xmlWrite( $xml, $hash, $childName );
-        
+
         $xml->endElement();
         return $xml->outputMemory( true );
-    
+
     }
 
     /**
      * Recursive xmlWriter function called by xmlEncode
-     * 
+     *
      * @param XMLWriter $xml
      * @param mixed $hash
      * @param string $childName
@@ -491,7 +494,7 @@ class ezjscAjaxContent
      * - shortdate
      * - datetime
      * - shortdatetime
-     * 
+     *
      * @param integer $timestamp
      * @param string $type
      * @return string
