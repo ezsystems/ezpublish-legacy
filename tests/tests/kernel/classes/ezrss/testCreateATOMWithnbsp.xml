@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-GB">
+  <id>http://@ezp_server@/rss/feed/</id>
+  <title>ATOM feed</title>
+  <updated>XXX</updated>
+  <author>
+    <name>Administrator User</name>
+    <email>@ezp_admin_email@</email>
+  </author>
+  <link href="http://@ezp_server@/"/>
+  <generator>XXX</generator>
+  <subtitle>This feed is of &lt;b&gt;ATOM&lt;/b&gt; type.</subtitle>
+  <entry>
+    <id>http://@ezp_server@/testCreateATOMWithnbsp/Test-object-0-for-testCreateATOMWithnbsp</id>
+    <title>Test object #0 for testCreateATOMWithnbsp</title>
+    <updated>XXX</updated>
+    <author>
+      <name>Administrator User</name>
+      <email>@ezp_admin_email@</email>
+    </author>
+    <link href="http://@ezp_server@/testCreateATOMWithnbsp/Test-object-0-for-testCreateATOMWithnbsp"/>
+    <summary>&lt;p&gt;Summary for Test object #0 for testCreateATOMWithnbsp &amp; with a nbsp char right here&amp;nbsp;.&lt;/p&gt;</summary>
+    <published>XXX</published>
+  </entry>
+</feed>

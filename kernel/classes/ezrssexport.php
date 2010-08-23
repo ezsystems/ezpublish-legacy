@@ -1000,7 +1000,7 @@ class eZRSSExport extends eZPersistentObject
                     if ( $descContent instanceof eZXMLText )
                     {
                         $outputHandler =  $descContent->attribute( 'output' );
-                        $itemDescriptionText = $outputHandler->attribute( 'output_text' );
+                        $itemDescriptionText = str_replace( '&nbsp;', '&amp;nbsp;', $outputHandler->attribute( 'output_text' ) );
                     }
                     else if ( $descContent instanceof eZImageAliasHandler )
                     {
@@ -1046,7 +1046,7 @@ class eZRSSExport extends eZPersistentObject
                         $cat->term = $itemCategoryText;
                     }
                 }
-                
+
                 // enclosure RSS element with respective class attribute content
                 if ( $enclosure )
                 {

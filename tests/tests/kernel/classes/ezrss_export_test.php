@@ -36,14 +36,17 @@ class eZRSSExportTest extends ezpDatabaseTestCase
         // Call the setUp() in ezpDatabaseTestCase
         parent::setUp();
 
-        // Modify these values for your own
-        $GLOBALS['ezp_username'] = 'admin';
-        $GLOBALS['ezp_password'] = 'publish';
+        // get server url
+        $this->ezp_server = eZINI::instance()->variable( 'SiteSettings', 'SiteURL' );
 
-        $GLOBALS['ezp_server'] = 'localhost:8080/ezpublish/index.php/eng';
-        $GLOBALS['ezp_admin_email'] = 'nospam@ez.no';
+        // login admin
+        $this->currentUser = eZUser::currentUser();
+        $admin = eZUser::fetchByName( 'admin' );
+        eZUser::setCurrentlyLoggedInUser( $admin, $admin->attribute( 'contentobject_id' ) );
+        $this->ezp_admin_id = $admin->attribute('contentobject_id');
+        $this->ezp_admin_email = $admin->attribute('email');
 
-        $GLOBALS['test_data_folder'] = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'ezrss' . DIRECTORY_SEPARATOR;
+        $this->test_data_folder = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'ezrss' . DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -51,6 +54,9 @@ class eZRSSExportTest extends ezpDatabaseTestCase
      */
     public function tearDown()
     {
+        // Log in as whoever was logged in
+        eZUser::setCurrentlyLoggedInUser( $this->currentUser, $this->currentUser->attribute( 'id' ) );
+
         parent::tearDown();
     }
 
@@ -65,7 +71,7 @@ class eZRSSExportTest extends ezpDatabaseTestCase
         $folder = new ezpObject( 'folder', 2 );
         $folder->name = $folderName;
         $folder->publish();
- 
+
         $folderId = (int)$folder->mainNode->node_id;
         return $folderId;
     }
@@ -85,7 +91,7 @@ class eZRSSExportTest extends ezpDatabaseTestCase
         $object->title = $articleTitle;
         $object->intro = $articleIntro;
         $object->publish();
- 
+
         $objectId = (int)$object->attribute( 'id' );
         return $objectId;
     }
@@ -112,10 +118,8 @@ class eZRSSExportTest extends ezpDatabaseTestCase
      */
     public function createEZPRSSExport( $version, $folderId, $title, $description )
     {
-        $userId = $this->loginEZPUser( $GLOBALS['ezp_username'], $GLOBALS['ezp_password'] );
-
         // Create default rssExport object to use
-        $rssExport = eZRSSExport::create( $userId );
+        $rssExport = eZRSSExport::create( $this->ezp_admin_id );
         $rssExport->setAttribute( 'node_id', $folderId );
         $rssExport->setAttribute( 'rss_version', $version );
         $rssExport->setAttribute( 'title', $title );
@@ -124,7 +128,7 @@ class eZRSSExportTest extends ezpDatabaseTestCase
         $rssExportID = $rssExport->attribute( 'id' );
 
         // Create one empty export item
-        $rssExportItem = eZRSSExportItem::create( $userId );
+        $rssExportItem = eZRSSExportItem::create( $this->ezp_admin_id );
         $rssExportItem->setAttribute( 'title', 'title' );
         $rssExportItem->setAttribute( 'class_id', 2 ); // 2 = article
         $rssExportItem->setAttribute( 'rssexport_id', $rssExportID );
@@ -133,29 +137,6 @@ class eZRSSExportTest extends ezpDatabaseTestCase
         $rssExportItem->store();
 
         return $rssExport;
-    }
-
-    /**
-     * Logins with $username and $password and returns the userID.
-     *
-     * @param string $username
-     * @param string $password
-     * @return int
-     */
-    public function loginEZPUser( $username, $password )
-    {
-        $userClass = eZUserLoginHandler::instance( 'standard' );
-        $user = $userClass->loginUser( 'admin', 'publish' );
-
-        if ( !( $user instanceof eZUser ) )
-        {
-            return false;
-        }
-
-        $user = eZUser::currentUser();
-        $userId = $user->attribute( "contentobject_id" );
-
-        return $userId;
     }
 
     /**
@@ -179,8 +160,9 @@ class eZRSSExportTest extends ezpDatabaseTestCase
         $text = preg_replace( '@<lastBuildDate>.*?</lastBuildDate>@', '<lastBuildDate>XXX</lastBuildDate>', $text );
 
         // Machine values cleaning
-        $text = str_replace( '@ezp_server@', $GLOBALS['ezp_server'], $text );
-        $text = str_replace( '@ezp_admin_email@', $GLOBALS['ezp_admin_email'], $text );
+        $text = str_replace( '@ezp_server@', $this->ezp_server, $text );
+        $text = str_replace( '@ezp_admin_email@', $this->ezp_admin_email, $text );
+        $text = preg_replace( '@<name>.*?</name>@', '<name>XXX</name>', $text );
         return $text;
     }
 
@@ -201,7 +183,7 @@ class eZRSSExportTest extends ezpDatabaseTestCase
         $rssExport = $this->createEZPRSSExport( '1.0', $folderId, 'RSS 1.0 feed', 'This feed is of <b>RSS 1.0</b> type.' );
         $rssContent = $this->cleanRSSFeed( $rssExport->attribute( 'rss-xml-content' ) );
 
-        $expected = $this->cleanRSSFeed( file_get_contents( $GLOBALS['test_data_folder'] . __FUNCTION__ . '.xml' ) );
+        $expected = $this->cleanRSSFeed( file_get_contents( $this->test_data_folder . __FUNCTION__ . '.xml' ) );
 
         $this->assertEquals( $expected, $rssContent );
     }
@@ -220,7 +202,7 @@ class eZRSSExportTest extends ezpDatabaseTestCase
         $rssExport = $this->createEZPRSSExport( '2.0', $folderId, 'RSS 2.0 feed', 'This feed is of <b>RSS 2.0</b> type.' );
         $rssContent = $this->cleanRSSFeed( $rssExport->attribute( 'rss-xml-content' ) );
 
-        $expected = $this->cleanRSSFeed( file_get_contents( $GLOBALS['test_data_folder'] . __FUNCTION__ . '.xml' ) );
+        $expected = $this->cleanRSSFeed( file_get_contents( $this->test_data_folder . __FUNCTION__ . '.xml' ) );
 
         $this->assertEquals( $expected, $rssContent );
     }
@@ -239,7 +221,7 @@ class eZRSSExportTest extends ezpDatabaseTestCase
         $rssExport = $this->createEZPRSSExport( 'ATOM', $folderId, 'ATOM feed', 'This feed is of <b>ATOM</b> type.' );
         $rssContent = $this->cleanRSSFeed( $rssExport->attribute( 'rss-xml-content' ) );
 
-        $expected = $this->cleanRSSFeed( file_get_contents( $GLOBALS['test_data_folder'] . __FUNCTION__ . '.xml' ) );
+        $expected = $this->cleanRSSFeed( file_get_contents( $this->test_data_folder . __FUNCTION__ . '.xml' ) );
 
         $this->assertEquals( $expected, $rssContent );
     }
@@ -264,7 +246,7 @@ class eZRSSExportTest extends ezpDatabaseTestCase
         $rssExport = $this->createEZPRSSExport( '1.0', $folderId, 'RSS 1.0 feed', 'This feed is of <b>RSS 1.0</b> type.' );
         $rssContent = $this->cleanRSSFeed( $rssExport->attribute( 'rss-xml-content' ) );
 
-        $expected = $this->cleanRSSFeed( file_get_contents( $GLOBALS['test_data_folder'] . __FUNCTION__ . '.xml' ) );
+        $expected = $this->cleanRSSFeed( file_get_contents( $this->test_data_folder . __FUNCTION__ . '.xml' ) );
 
         $this->assertEquals( $expected, $rssContent );
     }
@@ -289,7 +271,7 @@ class eZRSSExportTest extends ezpDatabaseTestCase
         $rssExport = $this->createEZPRSSExport( '2.0', $folderId, 'RSS 2.0 feed', 'This feed is of <b>RSS 2.0</b> type.' );
         $rssContent = $this->cleanRSSFeed( $rssExport->attribute( 'rss-xml-content' ) );
 
-        $expected = $this->cleanRSSFeed( file_get_contents( $GLOBALS['test_data_folder'] . __FUNCTION__ . '.xml' ) );
+        $expected = $this->cleanRSSFeed( file_get_contents( $this->test_data_folder . __FUNCTION__ . '.xml' ) );
 
         $this->assertEquals( $expected, $rssContent );
     }
@@ -314,7 +296,32 @@ class eZRSSExportTest extends ezpDatabaseTestCase
         $rssExport = $this->createEZPRSSExport( 'ATOM', $folderId, 'ATOM feed', 'This feed is of <b>ATOM</b> type.' );
         $rssContent = $this->cleanRSSFeed( $rssExport->attribute( 'rss-xml-content' ) );
 
-        $expected = $this->cleanRSSFeed( file_get_contents( $GLOBALS['test_data_folder'] . __FUNCTION__ . '.xml' ) );
+        $expected = $this->cleanRSSFeed( file_get_contents( $this->test_data_folder . __FUNCTION__ . '.xml' ) );
+
+        $this->assertEquals( $expected, $rssContent );
+    }
+
+    /**
+     * Test for issue #016953: &nbsp; breaks RSS/ATOM feeds
+     *
+     * @link http://issues.ez.no/016953
+     */
+    public function testCreateATOMWithnbsp()
+    {
+        $folderId = $this->createEZPFolder( __FUNCTION__ );
+
+        $ids = array();
+        for ( $i = 0; $i < 1; $i++ )
+        {
+            $ids[] = $this->createEZPArticle( $folderId,
+                    "Test object #{$i} for " . __FUNCTION__,
+                    "Summary for Test object #{$i} for " . __FUNCTION__ . " & with a nbsp char right here&nbsp;." );
+        }
+
+        $rssExport = $this->createEZPRSSExport( 'ATOM', $folderId, 'ATOM feed', 'This feed is of <b>ATOM</b> type.' );
+        $rssContent = $this->cleanRSSFeed( $rssExport->attribute( 'rss-xml-content' ) );
+
+        $expected = $this->cleanRSSFeed( file_get_contents( $this->test_data_folder . __FUNCTION__ . '.xml' ) );
 
         $this->assertEquals( $expected, $rssContent );
     }
