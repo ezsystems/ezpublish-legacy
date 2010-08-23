@@ -360,7 +360,7 @@
     </message>
     <message>
         <source>Edit &lt;%class_name&gt; (%object_count)</source>
-        <translation type="unfinished">&lt;%class_name&gt;編集(%object_count)</translation>
+        <translation type="obsolete">&lt;%class_name&gt;編集(%object_count)</translation>
     </message>
     <message>
         <source>Description</source>
@@ -393,6 +393,10 @@
     <message>
         <source>Category</source>
         <translation type="unfinished">カテゴリ</translation>
+    </message>
+    <message>
+        <source>Edit &lt;%class_name&gt; (%object_count objects)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1618,6 +1622,26 @@
     <message>
         <source>No media file is available.</source>
         <translation>利用可能なメディアファイルがありません。</translation>
+    </message>
+    <message>
+        <source>Year</source>
+        <translation type="unfinished">年</translation>
+    </message>
+    <message>
+        <source>Month</source>
+        <translation type="unfinished">月</translation>
+    </message>
+    <message>
+        <source>Day</source>
+        <translation type="unfinished">日</translation>
+    </message>
+    <message>
+        <source>Hour</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Minute</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5170,6 +5194,14 @@
         <source>The system will let you restore the object &lt;%name&gt;. Specify where you wish to restore it.</source>
         <translation>&lt;%name&gt;オブジェクトを復元します。復元する配置先を指定してください。</translation>
     </message>
+    <message>
+        <source>Pending sub-object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Removal failed because there is pending sub object under the node. Please finish the relevant process then redo the removal.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view</name>
@@ -5917,7 +5949,7 @@
     </message>
     <message>
         <source>Tab is disabled, enable on dashboard.</source>
-        <translation type="unfinished">タブは無効となっています、ダッシュボードで有効にしてください。</translation>
+        <translation type="obsolete">タブは無効となっています、ダッシュボードで有効にしてください。</translation>
     </message>
     <message>
         <source>Translations (%count)</source>
@@ -5945,15 +5977,15 @@
     </message>
     <message>
         <source>Create</source>
-        <translation type="unfinished">作成</translation>
+        <translation type="obsolete">作成</translation>
     </message>
     <message>
         <source>in</source>
-        <translation type="unfinished">言語</translation>
+        <translation type="obsolete">言語</translation>
     </message>
     <message>
         <source>Here</source>
-        <translation type="unfinished">ここ</translation>
+        <translation type="obsolete">ここ</translation>
     </message>
     <message>
         <source>Published order</source>
@@ -5961,7 +5993,7 @@
     </message>
     <message>
         <source>List of sub items of current node, with controlls to edit, remove and move them directly.</source>
-        <translation type="unfinished">現在のノードのサブアイテムのリストを表示します。直接編集、削除と移動をすることができます。</translation>
+        <translation type="obsolete">現在のノードのサブアイテムのリストを表示します。直接編集、削除と移動をすることができます。</translation>
     </message>
     <message>
         <source>Node and object details like creator, when it was created, section it belongs to, number of versions and translations, Node ID and Object ID.</source>
@@ -6034,6 +6066,90 @@
     <message>
         <source>Language list of translations for current object.</source>
         <translation type="unfinished">現在のオブジェクト翻訳の言語リスト。</translation>
+    </message>
+    <message>
+        <source>Tab is disabled, enable with toggler to the left of these tabs.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show simplified view of content.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ordering</source>
+        <translation type="unfinished">ソート順</translation>
+    </message>
+    <message>
+        <source>Show published ordering overview.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Table options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Number of items per page:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Visible table columns:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select</source>
+        <translation type="unfinished">選択</translation>
+    </message>
+    <message>
+        <source>Select all visible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select none</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create new</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>More actions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use the checkboxes to select one or more items.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>first</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>prev</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>next</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>last</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6823,11 +6939,15 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>User perferences</source>
-        <translation type="unfinished">ユーザ設定</translation>
+        <translation type="obsolete">ユーザ設定</translation>
     </message>
     <message>
         <source>Dashboard</source>
         <translation type="unfinished">ダッシュボード</translation>
+    </message>
+    <message>
+        <source>User preferences</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7022,15 +7142,31 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Preview tab</source>
-        <translation type="unfinished">プレビュー達部</translation>
+        <translation type="obsolete">プレビュー達部</translation>
     </message>
     <message>
         <source>Disable &amp;quot;Preview tab&amp;quot; while browsing content.</source>
-        <translation type="unfinished">コンテントブラウスの際に&amp;quot;プレビュータブ&amp;quot;を無効にします。</translation>
+        <translation type="obsolete">コンテントブラウスの際に&amp;quot;プレビュータブ&amp;quot;を無効にします。</translation>
     </message>
     <message>
         <source>Enable &amp;quot;Preview tab&amp;quot; while browsing content.</source>
-        <translation type="unfinished">コンテントブラウスの際に&amp;quot;プレビュータブ&amp;quot;を有効にします。</translation>
+        <translation type="obsolete">コンテントブラウスの際に&amp;quot;プレビュータブ&amp;quot;を有効にします。</translation>
+    </message>
+    <message>
+        <source>Enable &amp;quot;Tabs&amp;quot; by default  while browsing content.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disable &amp;quot;Tabs&amp;quot; by default  while browsing content.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable &amp;quot;Tabs&amp;quot; by default while browsing content.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disable &amp;quot;Tabs&amp;quot; by default while browsing content.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7590,6 +7726,10 @@ Note: The packages will not be uninstalled.</source>
     <message>
         <source>New translation</source>
         <translation type="unfinished">新規翻訳</translation>
+    </message>
+    <message>
+        <source>Sitemap for subtree</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -8992,6 +9132,26 @@ Note: The packages will not be uninstalled.</source>
         <source>Navigation part</source>
         <translation>ナビゲーションパート</translation>
     </message>
+    <message>
+        <source>Identifier can not be empty</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Identifier should consist of letters, numbers or &apos;_&apos; with letter prefix.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The identifier has been used in another section.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Section edit error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Identifier</source>
+        <translation type="unfinished">識別子</translation>
+    </message>
 </context>
 <context>
     <name>design/admin/section/list</name>
@@ -9062,6 +9222,10 @@ Note: The packages will not be uninstalled.</source>
     <message>
         <source>Assign a subtree to the &lt;%section_name&gt; section.</source>
         <translation type="unfinished">&lt;%section_name&gt;セクションにサブツリーを割り当てます。</translation>
+    </message>
+    <message>
+        <source>Identifier</source>
+        <translation type="unfinished">識別子</translation>
     </message>
 </context>
 <context>
@@ -9145,6 +9309,10 @@ Note: The packages will not be uninstalled.</source>
     <message>
         <source>Assign subtree of objects to this section</source>
         <translation type="unfinished">オブジェクトのサブツリーをこのセクションに割り当てます</translation>
+    </message>
+    <message>
+        <source>Identifier</source>
+        <translation type="unfinished">識別子</translation>
     </message>
 </context>
 <context>
@@ -9807,7 +9975,7 @@ Note: The packages will not be uninstalled.</source>
     <message>
         <source>SVN revision</source>
         <comment>eZ Publish version</comment>
-        <translation>サブバージョン 
+        <translation type="obsolete">サブバージョン 
 リビジョン番号</translation>
     </message>
     <message>
@@ -10206,7 +10374,7 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>The operation were cut short in order to avoid execution timeout.</source>
-        <translation type="unfinished">タイムアウトを起こさない様にオペレーションが中止されました。</translation>
+        <translation type="obsolete">タイムアウトを起こさない様にオペレーションが中止されました。</translation>
     </message>
     <message>
         <source>Your alternatives are to:</source>
@@ -10223,6 +10391,10 @@ Note: The packages will not be uninstalled.</source>
     <message>
         <source>Install the session cleanup cronjob &apos;session_gc.php&apos; and run on nightly intervals (see cronjob.ini or doc for how)</source>
         <translation type="unfinished">&apos;session_gc.php&apos;セッションをクリアするクロンジョブをインストールする（cronjob.iniに説明があります）</translation>
+    </message>
+    <message>
+        <source>The operation was cut short in order to avoid execution timeout.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -12016,7 +12188,7 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Save changes to this states.</source>
-        <translation>このステートへの変更を保存する。</translation>
+        <translation type="obsolete">このステートへの変更を保存する。</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -12041,6 +12213,10 @@ Note: The packages will not be uninstalled.</source>
     <message>
         <source>Description:</source>
         <translation type="unfinished">概要:</translation>
+    </message>
+    <message>
+        <source>Save changes to this state.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -14219,23 +14395,15 @@ your account.</source>
     <name>design/ezwebin/content/datatype</name>
     <message>
         <source>Year</source>
-        <translation type="unfinished">年</translation>
+        <translation type="obsolete">年</translation>
     </message>
     <message>
         <source>Month</source>
-        <translation type="unfinished">月</translation>
+        <translation type="obsolete">月</translation>
     </message>
     <message>
         <source>Day</source>
-        <translation type="unfinished">日</translation>
-    </message>
-    <message>
-        <source>Hour</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Minute</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">日</translation>
     </message>
 </context>
 <context>
@@ -14925,7 +15093,19 @@ your account.</source>
     </message>
     <message>
         <source>seconds(s)</source>
-        <translation>秒</translation>
+        <translation type="obsolete">秒</translation>
+    </message>
+    <message>
+        <source>Html5 Video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Html5 Audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>second(s)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -16400,6 +16580,30 @@ If you want to send comments to the approver or view the status use the URL belo
     <message>
         <source>Find objects</source>
         <translation type="unfinished">オブジェクトを探す</translation>
+    </message>
+    <message>
+        <source>The related objects will be edited in the same language as this object. If such translations do not exist they will be created, based on the source language of your choice.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Translation base</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This object is already translated, the existing translation will be used.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This object is not translated, please select the language the new translation will be based on.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your browser does not support html5 video.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your browser does not support html5 audio.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -20769,7 +20973,7 @@ By using %operatorname you can ...</source>
     <message>
         <source>SVN revision</source>
         <comment>eZ Publish version</comment>
-        <translation>サブバージョン リビジョン番号</translation>
+        <translation type="obsolete">サブバージョン リビジョン番号</translation>
     </message>
     <message>
         <source>Extensions</source>
@@ -22465,7 +22669,7 @@ This functionality is also available at a later time from the Administration Int
     </message>
     <message>
         <source>The operation were cut short in order to avoid execution timeout.</source>
-        <translation type="unfinished">タイムアウトを起こさない様にオペレーションが中止されました。</translation>
+        <translation type="obsolete">タイムアウトを起こさない様にオペレーションが中止されました。</translation>
     </message>
     <message>
         <source>Your alternatives are to:</source>
@@ -22482,6 +22686,14 @@ This functionality is also available at a later time from the Administration Int
     <message>
         <source>Install the session cleanup cronjob &apos;session_gc.php&apos; and run on nightly intervals (see cronjob.ini or doc for how)</source>
         <translation type="unfinished">&apos;session_gc.php&apos;セッションをクリアするクロンジョブをインストールする（cronjob.iniに説明があります）</translation>
+    </message>
+    <message>
+        <source>The operation was cut short in order to avoid execution timeout.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your current session handler does not support session administration.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -25423,6 +25635,14 @@ your account.</source>
         <source>Design base cache</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Active extensions cache</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TS Translation cache</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>kernel/class</name>
@@ -26457,7 +26677,7 @@ your account.</source>
         <translation type="unfinished">ダッシュボード</translation>
     </message>
     <message>
-        <source>You have already sent a tipafriend mail to this reciver regarding &apos;$nodeName&apos; content</source>
+        <source>You have already sent a tipafriend mail to this receiver regarding &apos;$nodeName&apos; content</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -26485,7 +26705,7 @@ your account.</source>
     </message>
     <message>
         <source>Cannot publish object (ID = %1).</source>
-        <translation type="unfinished">オブジェクト (ID = %1)を公開出来ません。</translation>
+        <translation type="obsolete">オブジェクト (ID = %1)を公開出来ません。</translation>
     </message>
     <message>
         <source>Fatal error: cannot get subtree main node (ID = %1).</source>
@@ -26522,6 +26742,10 @@ your account.</source>
     <message>
         <source>You are trying to copy a subtree that contains more than the maximum possible nodes for subtree copying. You can copy this subtree using Subtree Copy script.</source>
         <translation type="unfinished">サブツリーの複製で許容されている最大限のノード数を超えるノードを持つサブツリーを複製しようとしています。このサブツリーは、Subtree Copyスクリプトを利用して複製することが出来ます。</translation>
+    </message>
+    <message>
+        <source>Cannot publish object (Name: %1, ID: %2).</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

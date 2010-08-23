@@ -359,10 +359,6 @@
         <translation>&lt;%datatype_name&gt; datatype nemůže být použit jako sběrač informací.</translation>
     </message>
     <message>
-        <source>Edit &lt;%class_name&gt; (%object_count)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Description</source>
         <translation type="unfinished">Popis</translation>
     </message>
@@ -393,6 +389,10 @@
     <message>
         <source>Category</source>
         <translation type="unfinished">Kategorie</translation>
+    </message>
+    <message>
+        <source>Edit &lt;%class_name&gt; (%object_count objects)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1616,6 +1616,26 @@
     <message>
         <source>No media file is available.</source>
         <translation>Není dostupný žádný mediální soubor.</translation>
+    </message>
+    <message>
+        <source>Year</source>
+        <translation type="unfinished">Rok</translation>
+    </message>
+    <message>
+        <source>Month</source>
+        <translation type="unfinished">Měsíc</translation>
+    </message>
+    <message>
+        <source>Day</source>
+        <translation type="unfinished">Den</translation>
+    </message>
+    <message>
+        <source>Hour</source>
+        <translation type="unfinished">Hodina</translation>
+    </message>
+    <message>
+        <source>Minute</source>
+        <translation type="unfinished">Minuta</translation>
     </message>
 </context>
 <context>
@@ -5164,6 +5184,14 @@ Parametry jsou pojeny počátečními a koncovými tags.</translation>
         <source>The system will let you restore the object &lt;%name&gt;. Specify where you wish to restore it.</source>
         <translation>Systém Vám umožní obnovit objekt &lt;%name&gt;. Upřesněte, kde si jej přejete obnovit.</translation>
     </message>
+    <message>
+        <source>Pending sub-object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Removal failed because there is pending sub object under the node. Please finish the relevant process then redo the removal.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view</name>
@@ -5910,10 +5938,6 @@ Parametry jsou pojeny počátečními a koncovými tags.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Tab is disabled, enable on dashboard.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Translations (%count)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5939,22 +5963,14 @@ Parametry jsou pojeny počátečními a koncovými tags.</translation>
     </message>
     <message>
         <source>Create</source>
-        <translation type="unfinished">Vytvořit</translation>
+        <translation type="obsolete">Vytvořit</translation>
     </message>
     <message>
         <source>in</source>
-        <translation type="unfinished">v</translation>
-    </message>
-    <message>
-        <source>Here</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">v</translation>
     </message>
     <message>
         <source>Published order</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>List of sub items of current node, with controlls to edit, remove and move them directly.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6027,6 +6043,90 @@ Parametry jsou pojeny počátečními a koncovými tags.</translation>
     </message>
     <message>
         <source>Language list of translations for current object.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tab is disabled, enable with toggler to the left of these tabs.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show simplified view of content.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ordering</source>
+        <translation type="unfinished">Třídění</translation>
+    </message>
+    <message>
+        <source>Show published ordering overview.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Table options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Number of items per page:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Visible table columns:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select</source>
+        <translation type="unfinished">Vybrat</translation>
+    </message>
+    <message>
+        <source>Select all visible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select none</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create new</source>
+        <translation type="unfinished">Vytvořit nový</translation>
+    </message>
+    <message>
+        <source>More actions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use the checkboxes to select one or more items.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>first</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>prev</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>next</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>last</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6815,11 +6915,11 @@ Poznámka: Soubory programů nebudou odinstalovány.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>User perferences</source>
+        <source>Dashboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Dashboard</source>
+        <source>User preferences</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7014,15 +7114,19 @@ Poznámka: Soubory programů nebudou odinstalovány.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Preview tab</source>
+        <source>Enable &amp;quot;Tabs&amp;quot; by default  while browsing content.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Disable &amp;quot;Preview tab&amp;quot; while browsing content.</source>
+        <source>Disable &amp;quot;Tabs&amp;quot; by default  while browsing content.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Enable &amp;quot;Preview tab&amp;quot; while browsing content.</source>
+        <source>Enable &amp;quot;Tabs&amp;quot; by default while browsing content.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disable &amp;quot;Tabs&amp;quot; by default while browsing content.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7583,6 +7687,10 @@ Poznámka: Soubory programů nebudou odinstalovány.</translation>
     </message>
     <message>
         <source>New translation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sitemap for subtree</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -8982,6 +9090,26 @@ Poznámka: Soubory programů nebudou odinstalovány.</translation>
         <source>Navigation part</source>
         <translation>Navigační část</translation>
     </message>
+    <message>
+        <source>Identifier can not be empty</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Identifier should consist of letters, numbers or &apos;_&apos; with letter prefix.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The identifier has been used in another section.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Section edit error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Identifier</source>
+        <translation type="unfinished">Identifikátor</translation>
+    </message>
 </context>
 <context>
     <name>design/admin/section/list</name>
@@ -9052,6 +9180,10 @@ Poznámka: Soubory programů nebudou odinstalovány.</translation>
     <message>
         <source>Assign a subtree to the &lt;%section_name&gt; section.</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Identifier</source>
+        <translation type="unfinished">Identifikátor</translation>
     </message>
 </context>
 <context>
@@ -9135,6 +9267,10 @@ Poznámka: Soubory programů nebudou odinstalovány.</translation>
     <message>
         <source>Assign subtree of objects to this section</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Identifier</source>
+        <translation type="unfinished">Identifikátor</translation>
     </message>
 </context>
 <context>
@@ -9811,7 +9947,7 @@ eZ Publish verze</translation>
     <message>
         <source>SVN revision</source>
         <comment>eZ Publish version</comment>
-        <translation>SVN revize
+        <translation type="obsolete">SVN revize
 
 eZ Publish verze</translation>
     </message>
@@ -10223,10 +10359,6 @@ Moduly webového serveru nemohou být detekovány.
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The operation were cut short in order to avoid execution timeout.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Your alternatives are to:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -10240,6 +10372,10 @@ Moduly webového serveru nemohou být detekovány.
     </message>
     <message>
         <source>Install the session cleanup cronjob &apos;session_gc.php&apos; and run on nightly intervals (see cronjob.ini or doc for how)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The operation was cut short in order to avoid execution timeout.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -12049,15 +12185,15 @@ Moduly webového serveru nemohou být detekovány.
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Save changes to this states.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Cancel</source>
         <translation type="unfinished">Zrušit</translation>
     </message>
     <message>
         <source>Cancel saving any changes.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save changes to this state.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -14242,23 +14378,23 @@ Tlačítko registrovat</translation>
     <name>design/ezwebin/content/datatype</name>
     <message>
         <source>Year</source>
-        <translation type="unfinished">Rok</translation>
+        <translation type="obsolete">Rok</translation>
     </message>
     <message>
         <source>Month</source>
-        <translation type="unfinished">Měsíc</translation>
+        <translation type="obsolete">Měsíc</translation>
     </message>
     <message>
         <source>Day</source>
-        <translation type="unfinished">Den</translation>
+        <translation type="obsolete">Den</translation>
     </message>
     <message>
         <source>Hour</source>
-        <translation type="unfinished">Hodina</translation>
+        <translation type="obsolete">Hodina</translation>
     </message>
     <message>
         <source>Minute</source>
-        <translation type="unfinished">Minuta</translation>
+        <translation type="obsolete">Minuta</translation>
     </message>
 </context>
 <context>
@@ -14926,7 +15062,7 @@ Tlačítko registrovat</translation>
     </message>
     <message>
         <source>seconds(s)</source>
-        <translation>sekundy(s)</translation>
+        <translation type="obsolete">sekundy(s)</translation>
     </message>
     <message>
         <source>Drop-down menu / multi select</source>
@@ -14946,6 +15082,18 @@ Tlačítko registrovat</translation>
     </message>
     <message>
         <source>Tag preset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Html5 Video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Html5 Audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>second(s)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -16422,6 +16570,30 @@ If you want to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Find objects</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The related objects will be edited in the same language as this object. If such translations do not exist they will be created, based on the source language of your choice.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Translation base</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This object is already translated, the existing translation will be used.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This object is not translated, please select the language the new translation will be based on.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your browser does not support html5 video.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your browser does not support html5 audio.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -20848,7 +21020,7 @@ eZ Publish verze</translation>
     <message>
         <source>SVN revision</source>
         <comment>eZ Publish version</comment>
-        <translation>SVN revize
+        <translation type="obsolete">SVN revize
 
 eZ Publish verze
 
@@ -22560,10 +22732,6 @@ Tato funkčnost je také dostupná později v administračním rozhraní.</trans
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The operation were cut short in order to avoid execution timeout.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Your alternatives are to:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -22577,6 +22745,14 @@ Tato funkčnost je také dostupná později v administračním rozhraní.</trans
     </message>
     <message>
         <source>Install the session cleanup cronjob &apos;session_gc.php&apos; and run on nightly intervals (see cronjob.ini or doc for how)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The operation was cut short in order to avoid execution timeout.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your current session handler does not support session administration.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -25522,6 +25698,14 @@ Následujte instrukce v tomto e-mailu pro aktivaci Vašeho účtu.</translation>
         <source>Design base cache</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Active extensions cache</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TS Translation cache</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>kernel/class</name>
@@ -26557,7 +26741,7 @@ pokud jste vybrali volbu &quot;%3&quot; od &quot;%4&quot;</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>You have already sent a tipafriend mail to this reciver regarding &apos;$nodeName&apos; content</source>
+        <source>You have already sent a tipafriend mail to this receiver regarding &apos;$nodeName&apos; content</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -26565,7 +26749,7 @@ pokud jste vybrali volbu &quot;%3&quot; od &quot;%4&quot;</translation>
     <name>kernel/content/copysubtree</name>
     <message>
         <source>Cannot publish object (ID = %1).</source>
-        <translation type="unfinished">Nemohu publikovat objekt (ID = %1).</translation>
+        <translation type="obsolete">Nemohu publikovat objekt (ID = %1).</translation>
     </message>
     <message>
         <source>Fatal error: cannot get subtree main node (ID = %1).</source>
@@ -26622,6 +26806,10 @@ pokud jste vybrali volbu &quot;%3&quot; od &quot;%4&quot;</translation>
     <message>
         <source>Successfully DONE.</source>
         <translation type="unfinished">Úspěšně dokončeno.</translation>
+    </message>
+    <message>
+        <source>Cannot publish object (Name: %1, ID: %2).</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

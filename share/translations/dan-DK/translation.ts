@@ -359,10 +359,6 @@
         <translation>Datatypen &lt;%datatype_name&gt; kan ikke benyttes som informationsindsamler.</translation>
     </message>
     <message>
-        <source>Edit &lt;%class_name&gt; (%object_count)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Description</source>
         <translation type="unfinished">Beskrivelse</translation>
     </message>
@@ -393,6 +389,10 @@
     <message>
         <source>Category</source>
         <translation type="unfinished">Kategori</translation>
+    </message>
+    <message>
+        <source>Edit &lt;%class_name&gt; (%object_count objects)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1616,6 +1616,26 @@
     <message>
         <source>No media file is available.</source>
         <translation type="unfinished">Ingen mediefiler er tilgængelige.</translation>
+    </message>
+    <message>
+        <source>Year</source>
+        <translation type="unfinished">År</translation>
+    </message>
+    <message>
+        <source>Month</source>
+        <translation type="unfinished">Måned</translation>
+    </message>
+    <message>
+        <source>Day</source>
+        <translation type="unfinished">Dag</translation>
+    </message>
+    <message>
+        <source>Hour</source>
+        <translation type="unfinished">Time</translation>
+    </message>
+    <message>
+        <source>Minute</source>
+        <translation type="unfinished">Minut</translation>
     </message>
 </context>
 <context>
@@ -5153,6 +5173,14 @@ Database bogstavkodning</translation>
         <source>The system will let you restore the object &lt;%name&gt;. Specify where you wish to restore it.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Pending sub-object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Removal failed because there is pending sub object under the node. Please finish the relevant process then redo the removal.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view</name>
@@ -5899,10 +5927,6 @@ Database bogstavkodning</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Tab is disabled, enable on dashboard.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Translations (%count)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5928,22 +5952,14 @@ Database bogstavkodning</translation>
     </message>
     <message>
         <source>Create</source>
-        <translation type="unfinished">Opret</translation>
+        <translation type="obsolete">Opret</translation>
     </message>
     <message>
         <source>in</source>
-        <translation type="unfinished">i</translation>
-    </message>
-    <message>
-        <source>Here</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">i</translation>
     </message>
     <message>
         <source>Published order</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>List of sub items of current node, with controlls to edit, remove and move them directly.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6016,6 +6032,90 @@ Database bogstavkodning</translation>
     </message>
     <message>
         <source>Language list of translations for current object.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tab is disabled, enable with toggler to the left of these tabs.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View</source>
+        <translation type="unfinished">Vis</translation>
+    </message>
+    <message>
+        <source>Show simplified view of content.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ordering</source>
+        <translation type="unfinished">Bestliling</translation>
+    </message>
+    <message>
+        <source>Show published ordering overview.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Table options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Number of items per page:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Visible table columns:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select</source>
+        <translation type="unfinished">Vælg</translation>
+    </message>
+    <message>
+        <source>Select all visible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select none</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create new</source>
+        <translation type="unfinished">Opret ny</translation>
+    </message>
+    <message>
+        <source>More actions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use the checkboxes to select one or more items.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>first</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>prev</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>next</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>last</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6791,10 +6891,6 @@ Navigeringsdel</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>User perferences</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Manage the main content structure of the site.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6824,6 +6920,10 @@ Navigeringsdel</translation>
     </message>
     <message>
         <source>Manage items and settings that belong to your account.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>User preferences</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7024,15 +7124,19 @@ Navigeringsdel</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Preview tab</source>
+        <source>Enable &amp;quot;Tabs&amp;quot; by default  while browsing content.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Disable &amp;quot;Preview tab&amp;quot; while browsing content.</source>
+        <source>Disable &amp;quot;Tabs&amp;quot; by default  while browsing content.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Enable &amp;quot;Preview tab&amp;quot; while browsing content.</source>
+        <source>Enable &amp;quot;Tabs&amp;quot; by default while browsing content.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disable &amp;quot;Tabs&amp;quot; by default while browsing content.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7595,6 +7699,10 @@ Navigeringsdel</translation>
     </message>
     <message>
         <source>New translation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sitemap for subtree</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -8994,6 +9102,26 @@ Navigeringsdel</translation>
         <source>Navigation part</source>
         <translation type="unfinished">Navigationsdel</translation>
     </message>
+    <message>
+        <source>Identifier can not be empty</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Identifier should consist of letters, numbers or &apos;_&apos; with letter prefix.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The identifier has been used in another section.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Section edit error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Identifier</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/section/list</name>
@@ -9063,6 +9191,10 @@ Navigeringsdel</translation>
     </message>
     <message>
         <source>Assign a subtree to the &lt;%section_name&gt; section.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Identifier</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -9146,6 +9278,10 @@ Navigeringsdel</translation>
     </message>
     <message>
         <source>Assign subtree of objects to this section</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Identifier</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -9820,7 +9956,7 @@ eZ Publish-link</translation>
     <message>
         <source>SVN revision</source>
         <comment>eZ Publish version</comment>
-        <translation type="unfinished">SVN-revision
+        <translation type="obsolete">SVN-revision
 
 eZ Publish-version</translation>
     </message>
@@ -10227,10 +10363,6 @@ Skabelonoperatør</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The operation were cut short in order to avoid execution timeout.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Your alternatives are to:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -10244,6 +10376,10 @@ Skabelonoperatør</translation>
     </message>
     <message>
         <source>Install the session cleanup cronjob &apos;session_gc.php&apos; and run on nightly intervals (see cronjob.ini or doc for how)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The operation was cut short in order to avoid execution timeout.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -12059,15 +12195,15 @@ Datatypenavn</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Save changes to this states.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Cancel</source>
         <translation type="unfinished">Annuller</translation>
     </message>
     <message>
         <source>Cancel saving any changes.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save changes to this state.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -14250,23 +14386,23 @@ Parametrene er link start og slut tags</translation>
     <name>design/ezwebin/content/datatype</name>
     <message>
         <source>Year</source>
-        <translation type="unfinished">År</translation>
+        <translation type="obsolete">År</translation>
     </message>
     <message>
         <source>Month</source>
-        <translation type="unfinished">Måned</translation>
+        <translation type="obsolete">Måned</translation>
     </message>
     <message>
         <source>Day</source>
-        <translation type="unfinished">Dag</translation>
+        <translation type="obsolete">Dag</translation>
     </message>
     <message>
         <source>Hour</source>
-        <translation type="unfinished">Time</translation>
+        <translation type="obsolete">Time</translation>
     </message>
     <message>
         <source>Minute</source>
-        <translation type="unfinished">Minut</translation>
+        <translation type="obsolete">Minut</translation>
     </message>
 </context>
 <context>
@@ -14934,7 +15070,7 @@ Parametrene er link start og slut tags</translation>
     </message>
     <message>
         <source>seconds(s)</source>
-        <translation>sekund(er)</translation>
+        <translation type="obsolete">sekund(er)</translation>
     </message>
     <message>
         <source>Drop-down menu / multi select</source>
@@ -14954,6 +15090,18 @@ Parametrene er link start og slut tags</translation>
     </message>
     <message>
         <source>Tag preset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Html5 Video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Html5 Audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>second(s)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -16428,6 +16576,30 @@ Hvis du ønsker at sende kommentarer til den, der godkender, eller hvis du ønsk
     </message>
     <message>
         <source>Find objects</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The related objects will be edited in the same language as this object. If such translations do not exist they will be created, based on the source language of your choice.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Translation base</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This object is already translated, the existing translation will be used.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This object is not translated, please select the language the new translation will be based on.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your browser does not support html5 video.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your browser does not support html5 audio.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -20930,7 +21102,7 @@ Datatype</translation>
     <message>
         <source>SVN revision</source>
         <comment>eZ Publish version</comment>
-        <translation>SVN-revision
+        <translation type="obsolete">SVN-revision
 
 eZ Publish-version</translation>
     </message>
@@ -22656,10 +22828,6 @@ Denne funktionalitet er også tilgængelig på et senere tidspunkt i Administrat
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The operation were cut short in order to avoid execution timeout.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Your alternatives are to:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -22673,6 +22841,14 @@ Denne funktionalitet er også tilgængelig på et senere tidspunkt i Administrat
     </message>
     <message>
         <source>Install the session cleanup cronjob &apos;session_gc.php&apos; and run on nightly intervals (see cronjob.ini or doc for how)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The operation was cut short in order to avoid execution timeout.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your current session handler does not support session administration.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -25621,6 +25797,14 @@ Log ind-navn</translation>
         <source>Design base cache</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Active extensions cache</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TS Translation cache</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>kernel/class</name>
@@ -26692,7 +26876,7 @@ hvis du valgte mulighed &quot;%3&quot; fra &quot;%4&quot;</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>You have already sent a tipafriend mail to this reciver regarding &apos;$nodeName&apos; content</source>
+        <source>You have already sent a tipafriend mail to this receiver regarding &apos;$nodeName&apos; content</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -26700,7 +26884,7 @@ hvis du valgte mulighed &quot;%3&quot; fra &quot;%4&quot;</translation>
     <name>kernel/content/copysubtree</name>
     <message>
         <source>Cannot publish object (ID = %1).</source>
-        <translation type="unfinished">Kan ikke offentliggøre objekt (ID = %1).</translation>
+        <translation type="obsolete">Kan ikke offentliggøre objekt (ID = %1).</translation>
     </message>
     <message>
         <source>Fatal error: cannot get subtree main node (ID = %1).</source>
@@ -26757,6 +26941,10 @@ hvis du valgte mulighed &quot;%3&quot; fra &quot;%4&quot;</translation>
     <message>
         <source>Successfully DONE.</source>
         <translation type="unfinished">Vellykket gennemførelse.</translation>
+    </message>
+    <message>
+        <source>Cannot publish object (Name: %1, ID: %2).</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

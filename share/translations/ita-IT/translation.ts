@@ -360,7 +360,7 @@
     </message>
     <message>
         <source>Edit &lt;%class_name&gt; (%object_count)</source>
-        <translation>Modifica &lt;%class_name&gt; (%object_count)</translation>
+        <translation type="obsolete">Modifica &lt;%class_name&gt; (%object_count)</translation>
     </message>
     <message>
         <source>Description</source>
@@ -393,6 +393,10 @@
     <message>
         <source>Category</source>
         <translation>Categoria</translation>
+    </message>
+    <message>
+        <source>Edit &lt;%class_name&gt; (%object_count objects)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1616,6 +1620,26 @@
     <message>
         <source>No media file is available.</source>
         <translation>Nessun file multimediale disponibile.</translation>
+    </message>
+    <message>
+        <source>Year</source>
+        <translation type="unfinished">Anno</translation>
+    </message>
+    <message>
+        <source>Month</source>
+        <translation type="unfinished">Mese</translation>
+    </message>
+    <message>
+        <source>Day</source>
+        <translation type="unfinished">Giorno</translation>
+    </message>
+    <message>
+        <source>Hour</source>
+        <translation type="unfinished">Ora</translation>
+    </message>
+    <message>
+        <source>Minute</source>
+        <translation type="unfinished">Minuto</translation>
     </message>
 </context>
 <context>
@@ -5163,6 +5187,14 @@
         <source>The lines marked with red contain more than the maximum possible nodes for subtree removal and will not be deleted. You can remove this subtree using the ezsubtreeremove.php script.</source>
         <translation>Le linee segnate in rosso contengono il numero massimo di nodi possibili per la rimozione di un sotto-albero e non saranno cancellate. Puoi eliminare questo sotto-albero usando lo script ezsubtreeremove.php (eliminazione sotto-albero).</translation>
     </message>
+    <message>
+        <source>Pending sub-object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Removal failed because there is pending sub object under the node. Please finish the relevant process then redo the removal.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view</name>
@@ -5910,7 +5942,7 @@
     </message>
     <message>
         <source>Tab is disabled, enable on dashboard.</source>
-        <translation>La scheda è disabilitata, abilitala dal pannello.</translation>
+        <translation type="obsolete">La scheda è disabilitata, abilitala dal pannello.</translation>
     </message>
     <message>
         <source>Translations (%count)</source>
@@ -5938,15 +5970,15 @@
     </message>
     <message>
         <source>Create</source>
-        <translation>Crea</translation>
+        <translation type="obsolete">Crea</translation>
     </message>
     <message>
         <source>in</source>
-        <translation>in</translation>
+        <translation type="obsolete">in</translation>
     </message>
     <message>
         <source>Here</source>
-        <translation>Qui</translation>
+        <translation type="obsolete">Qui</translation>
     </message>
     <message>
         <source>Published order</source>
@@ -5954,7 +5986,7 @@
     </message>
     <message>
         <source>List of sub items of current node, with controlls to edit, remove and move them directly.</source>
-        <translation>Elenco dei sotto-elementi del nodo attuale, con controlli da modificare, eliminare o spostare direttamente.</translation>
+        <translation type="obsolete">Elenco dei sotto-elementi del nodo attuale, con controlli da modificare, eliminare o spostare direttamente.</translation>
     </message>
     <message>
         <source>Node and object details like creator, when it was created, section it belongs to, number of versions and translations, Node ID and Object ID.</source>
@@ -6027,6 +6059,90 @@
     <message>
         <source>Language list of translations for current object.</source>
         <translation>Elenco delle traduzioni per il nodo attuale.</translation>
+    </message>
+    <message>
+        <source>Tab is disabled, enable with toggler to the left of these tabs.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show simplified view of content.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ordering</source>
+        <translation type="unfinished">Ordinamento</translation>
+    </message>
+    <message>
+        <source>Show published ordering overview.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Table options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Number of items per page:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Visible table columns:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select</source>
+        <translation type="unfinished">Seleziona</translation>
+    </message>
+    <message>
+        <source>Select all visible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select none</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create new</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>More actions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use the checkboxes to select one or more items.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>first</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>prev</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>next</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>last</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6819,11 +6935,15 @@ Nota: I pacchetti non verranno disinstallati.</translation>
     </message>
     <message>
         <source>User perferences</source>
-        <translation>Preferenze dell&apos;utente</translation>
+        <translation type="obsolete">Preferenze dell&apos;utente</translation>
     </message>
     <message>
         <source>Dashboard</source>
         <translation type="unfinished">Pannello strumenti</translation>
+    </message>
+    <message>
+        <source>User preferences</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7018,15 +7138,31 @@ Nota: I pacchetti non verranno disinstallati.</translation>
     </message>
     <message>
         <source>Preview tab</source>
-        <translation>Scheda anteprima</translation>
+        <translation type="obsolete">Scheda anteprima</translation>
     </message>
     <message>
         <source>Disable &amp;quot;Preview tab&amp;quot; while browsing content.</source>
-        <translation>Disabilita &amp;quot;il tasto Anteprima&amp;quot; mentre navighi i contenuti.</translation>
+        <translation type="obsolete">Disabilita &amp;quot;il tasto Anteprima&amp;quot; mentre navighi i contenuti.</translation>
     </message>
     <message>
         <source>Enable &amp;quot;Preview tab&amp;quot; while browsing content.</source>
-        <translation>Abilita &amp;quot;il tasto Anteprima&amp;quot; mentre navighi i contenuti.</translation>
+        <translation type="obsolete">Abilita &amp;quot;il tasto Anteprima&amp;quot; mentre navighi i contenuti.</translation>
+    </message>
+    <message>
+        <source>Enable &amp;quot;Tabs&amp;quot; by default  while browsing content.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disable &amp;quot;Tabs&amp;quot; by default  while browsing content.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable &amp;quot;Tabs&amp;quot; by default while browsing content.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disable &amp;quot;Tabs&amp;quot; by default while browsing content.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7586,6 +7722,10 @@ Nota: I pacchetti non verranno disinstallati.</translation>
     <message>
         <source>New translation</source>
         <translation>Nuova traduzione</translation>
+    </message>
+    <message>
+        <source>Sitemap for subtree</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -8988,6 +9128,26 @@ Nota: I pacchetti non verranno disinstallati.</translation>
         <source>Navigation part</source>
         <translation>Parte navigazione</translation>
     </message>
+    <message>
+        <source>Identifier can not be empty</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Identifier should consist of letters, numbers or &apos;_&apos; with letter prefix.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The identifier has been used in another section.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Section edit error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Identifier</source>
+        <translation type="unfinished">Identificatore</translation>
+    </message>
 </context>
 <context>
     <name>design/admin/section/list</name>
@@ -9058,6 +9218,10 @@ Nota: I pacchetti non verranno disinstallati.</translation>
     <message>
         <source>Assign a subtree to the &lt;%section_name&gt; section.</source>
         <translation>Assegna un sotto-albero alla sezione &lt;%section_name&gt;.</translation>
+    </message>
+    <message>
+        <source>Identifier</source>
+        <translation type="unfinished">Identificatore</translation>
     </message>
 </context>
 <context>
@@ -9141,6 +9305,10 @@ Nota: I pacchetti non verranno disinstallati.</translation>
     <message>
         <source>Assign subtree of objects to this section</source>
         <translation>Assegna il sotto-albero a questa sezione </translation>
+    </message>
+    <message>
+        <source>Identifier</source>
+        <translation type="unfinished">Identificatore</translation>
     </message>
 </context>
 <context>
@@ -9817,7 +9985,7 @@ Nota: I pacchetti non verranno disinstallati.</translation>
         <source>SVN revision</source>
         <comment>eZ Publish version</comment>
         <translatorcomment>Versione eZ Publish</translatorcomment>
-        <translation>Revisione SVN</translation>
+        <translation type="obsolete">Revisione SVN</translation>
     </message>
     <message>
         <source>Extensions</source>
@@ -10222,7 +10390,7 @@ Nota: I pacchetti non verranno disinstallati.</translation>
     </message>
     <message>
         <source>The operation were cut short in order to avoid execution timeout.</source>
-        <translation>L&apos;operazione è stata interrotta per evitare il timeout dell&apos;esecuzione.</translation>
+        <translation type="obsolete">L&apos;operazione è stata interrotta per evitare il timeout dell&apos;esecuzione.</translation>
     </message>
     <message>
         <source>Your alternatives are to:</source>
@@ -10239,6 +10407,10 @@ Nota: I pacchetti non verranno disinstallati.</translation>
     <message>
         <source>Install the session cleanup cronjob &apos;session_gc.php&apos; and run on nightly intervals (see cronjob.ini or doc for how)</source>
         <translation>Installare il cronjob per pulire le sessioni &apos;session_gc.php&apos; e lanciarlo ad intervalli notturni (vedi cronjob.ini o doc per sapere come)</translation>
+    </message>
+    <message>
+        <source>The operation was cut short in order to avoid execution timeout.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -12032,7 +12204,7 @@ Nota: I pacchetti non verranno disinstallati.</translation>
     </message>
     <message>
         <source>Save changes to this states.</source>
-        <translation>Registra le modifiche a questi stati.</translation>
+        <translation type="obsolete">Registra le modifiche a questi stati.</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -12057,6 +12229,10 @@ Nota: I pacchetti non verranno disinstallati.</translation>
     <message>
         <source>Description:</source>
         <translation>Descrizione:</translation>
+    </message>
+    <message>
+        <source>Save changes to this state.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -14234,23 +14410,23 @@ your account.</source>
     <name>design/ezwebin/content/datatype</name>
     <message>
         <source>Year</source>
-        <translation type="unfinished">Anno</translation>
+        <translation type="obsolete">Anno</translation>
     </message>
     <message>
         <source>Month</source>
-        <translation type="unfinished">Mese</translation>
+        <translation type="obsolete">Mese</translation>
     </message>
     <message>
         <source>Day</source>
-        <translation type="unfinished">Giorno</translation>
+        <translation type="obsolete">Giorno</translation>
     </message>
     <message>
         <source>Hour</source>
-        <translation type="unfinished">Ora</translation>
+        <translation type="obsolete">Ora</translation>
     </message>
     <message>
         <source>Minute</source>
-        <translation type="unfinished">Minuto</translation>
+        <translation type="obsolete">Minuto</translation>
     </message>
 </context>
 <context>
@@ -14938,7 +15114,19 @@ your account.</source>
     </message>
     <message>
         <source>seconds(s)</source>
-        <translation>secondo/i</translation>
+        <translation type="obsolete">secondo/i</translation>
+    </message>
+    <message>
+        <source>Html5 Video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Html5 Audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>second(s)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -16411,6 +16599,30 @@ Se vuoi inviare commenti all&apos;approvatore o vederne lo stato usa l&apos;URL 
     <message>
         <source>Find objects</source>
         <translation>Cerca oggetti</translation>
+    </message>
+    <message>
+        <source>The related objects will be edited in the same language as this object. If such translations do not exist they will be created, based on the source language of your choice.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Translation base</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This object is already translated, the existing translation will be used.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This object is not translated, please select the language the new translation will be based on.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your browser does not support html5 video.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your browser does not support html5 audio.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -20795,7 +21007,7 @@ Usando %operatorname potrai ...</translation>
     <message>
         <source>SVN revision</source>
         <comment>eZ Publish version</comment>
-        <translation>Revisione SVN</translation>
+        <translation type="obsolete">Revisione SVN</translation>
     </message>
     <message>
         <source>Extensions</source>
@@ -22505,7 +22717,7 @@ Questa funzionalità la troverai anche sull&apos;Interfaccia di Amministrazione.
     </message>
     <message>
         <source>The operation were cut short in order to avoid execution timeout.</source>
-        <translation>L&apos;operazione è stata interrotta per evitare il timeout dell&apos;esecuzione.</translation>
+        <translation type="obsolete">L&apos;operazione è stata interrotta per evitare il timeout dell&apos;esecuzione.</translation>
     </message>
     <message>
         <source>Your alternatives are to:</source>
@@ -22522,6 +22734,14 @@ Questa funzionalità la troverai anche sull&apos;Interfaccia di Amministrazione.
     <message>
         <source>Install the session cleanup cronjob &apos;session_gc.php&apos; and run on nightly intervals (see cronjob.ini or doc for how)</source>
         <translation>Installare il cronjob per pulire le sessioni &apos;session_gc.php&apos; e lanciarlo ad intervalli notturni (vedi cronjob.ini o doc per sapere come)</translation>
+    </message>
+    <message>
+        <source>The operation was cut short in order to avoid execution timeout.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your current session handler does not support session administration.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -25451,6 +25671,14 @@ per attivare il tuo account.</translation>
         <source>Design base cache</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Active extensions cache</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TS Translation cache</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>kernel/class</name>
@@ -26486,7 +26714,7 @@ per attivare il tuo account.</translation>
         <translation type="unfinished">Pannello strumenti</translation>
     </message>
     <message>
-        <source>You have already sent a tipafriend mail to this reciver regarding &apos;$nodeName&apos; content</source>
+        <source>You have already sent a tipafriend mail to this receiver regarding &apos;$nodeName&apos; content</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -26494,7 +26722,7 @@ per attivare il tuo account.</translation>
     <name>kernel/content/copysubtree</name>
     <message>
         <source>Cannot publish object (ID = %1).</source>
-        <translation type="unfinished">Non si può pubblicare l&apos;oggetto (ID = %1).</translation>
+        <translation type="obsolete">Non si può pubblicare l&apos;oggetto (ID = %1).</translation>
     </message>
     <message>
         <source>Fatal error: cannot get subtree main node (ID = %1).</source>
@@ -26551,6 +26779,10 @@ per attivare il tuo account.</translation>
     <message>
         <source>Successfully DONE.</source>
         <translation type="unfinished">Operazione riuscita.</translation>
+    </message>
+    <message>
+        <source>Cannot publish object (Name: %1, ID: %2).</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
