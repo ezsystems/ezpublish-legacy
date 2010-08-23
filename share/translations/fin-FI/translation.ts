@@ -359,10 +359,6 @@
         <translation>&lt;%datatype_name&gt; tietotyyppiä ei voida käyttää tiedonkeräämiseen.</translation>
     </message>
     <message>
-        <source>Edit &lt;%class_name&gt; (%object_count)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Description</source>
         <translation type="unfinished">Kuvaus</translation>
     </message>
@@ -392,6 +388,10 @@
     </message>
     <message>
         <source>Category</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit &lt;%class_name&gt; (%object_count objects)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1616,6 +1616,26 @@
     <message>
         <source>No media file is available.</source>
         <translation>Mediatiedosto ei ole saatavilla.</translation>
+    </message>
+    <message>
+        <source>Year</source>
+        <translation type="unfinished">Vuosi</translation>
+    </message>
+    <message>
+        <source>Month</source>
+        <translation type="unfinished">Kuukausi</translation>
+    </message>
+    <message>
+        <source>Day</source>
+        <translation type="unfinished">Päivä</translation>
+    </message>
+    <message>
+        <source>Hour</source>
+        <translation type="unfinished">Tunti</translation>
+    </message>
+    <message>
+        <source>Minute</source>
+        <translation type="unfinished">Minuutti</translation>
     </message>
 </context>
 <context>
@@ -5167,6 +5187,14 @@ Näppäin</translation>
         <source>The lines marked with red contain more than the maximum possible nodes for subtree removal and will not be deleted. You can remove this subtree using the ezsubtreeremove.php script.</source>
         <translation>Punaisella merkityt rivit sisältävät enemmän kuin maksimimäärän mahdollisia solmuja alipuun poistoon eikä niitä poisteta. Voit poistaa tämän alipuun käyttäen ezsubtreeremove.php-skriptillä.</translation>
     </message>
+    <message>
+        <source>Pending sub-object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Removal failed because there is pending sub object under the node. Please finish the relevant process then redo the removal.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view</name>
@@ -5913,10 +5941,6 @@ Näppäin</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Tab is disabled, enable on dashboard.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Translations (%count)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5942,22 +5966,14 @@ Näppäin</translation>
     </message>
     <message>
         <source>Create</source>
-        <translation type="unfinished">Luo</translation>
+        <translation type="obsolete">Luo</translation>
     </message>
     <message>
         <source>in</source>
-        <translation type="unfinished">sisään</translation>
-    </message>
-    <message>
-        <source>Here</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">sisään</translation>
     </message>
     <message>
         <source>Published order</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>List of sub items of current node, with controlls to edit, remove and move them directly.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6030,6 +6046,90 @@ Näppäin</translation>
     </message>
     <message>
         <source>Language list of translations for current object.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tab is disabled, enable with toggler to the left of these tabs.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show simplified view of content.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ordering</source>
+        <translation type="unfinished">Tilaaminen</translation>
+    </message>
+    <message>
+        <source>Show published ordering overview.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Table options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Number of items per page:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Visible table columns:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select</source>
+        <translation type="unfinished">Valitse</translation>
+    </message>
+    <message>
+        <source>Select all visible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select none</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create new</source>
+        <translation type="unfinished">Luo uusi</translation>
+    </message>
+    <message>
+        <source>More actions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use the checkboxes to select one or more items.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>first</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>prev</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>next</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>last</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6824,11 +6924,11 @@ Huomio: Pakettien asetuksia ei poisteta.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>User perferences</source>
+        <source>Dashboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Dashboard</source>
+        <source>User preferences</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7023,15 +7123,19 @@ Huomio: Pakettien asetuksia ei poisteta.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Preview tab</source>
+        <source>Enable &amp;quot;Tabs&amp;quot; by default  while browsing content.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Disable &amp;quot;Preview tab&amp;quot; while browsing content.</source>
+        <source>Disable &amp;quot;Tabs&amp;quot; by default  while browsing content.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Enable &amp;quot;Preview tab&amp;quot; while browsing content.</source>
+        <source>Enable &amp;quot;Tabs&amp;quot; by default while browsing content.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disable &amp;quot;Tabs&amp;quot; by default while browsing content.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7595,6 +7699,10 @@ Rapid Application Development (sovelluksen nopea tuottaminen)</translation>
     </message>
     <message>
         <source>New translation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sitemap for subtree</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -8994,6 +9102,26 @@ Rapid Application Development (sovelluksen nopea tuottaminen)</translation>
         <source>Navigation part</source>
         <translation>Navigointiosa</translation>
     </message>
+    <message>
+        <source>Identifier can not be empty</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Identifier should consist of letters, numbers or &apos;_&apos; with letter prefix.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The identifier has been used in another section.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Section edit error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Identifier</source>
+        <translation type="unfinished">Tunniste</translation>
+    </message>
 </context>
 <context>
     <name>design/admin/section/list</name>
@@ -9064,6 +9192,10 @@ Rapid Application Development (sovelluksen nopea tuottaminen)</translation>
     <message>
         <source>Assign a subtree to the &lt;%section_name&gt; section.</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Identifier</source>
+        <translation type="unfinished">Tunniste</translation>
     </message>
 </context>
 <context>
@@ -9147,6 +9279,10 @@ Rapid Application Development (sovelluksen nopea tuottaminen)</translation>
     <message>
         <source>Assign subtree of objects to this section</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Identifier</source>
+        <translation type="unfinished">Tunniste</translation>
     </message>
 </context>
 <context>
@@ -9816,7 +9952,7 @@ Tietokannan uudelleenyrityksien määrä</translation>
     <message>
         <source>SVN revision</source>
         <comment>eZ Publish version</comment>
-        <translation>SVN-tarkistus</translation>
+        <translation type="obsolete">SVN-tarkistus</translation>
     </message>
     <message>
         <source>Extensions</source>
@@ -10213,10 +10349,6 @@ Tietokannan uudelleenyrityksien määrä</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The operation were cut short in order to avoid execution timeout.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Your alternatives are to:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -10230,6 +10362,10 @@ Tietokannan uudelleenyrityksien määrä</translation>
     </message>
     <message>
         <source>Install the session cleanup cronjob &apos;session_gc.php&apos; and run on nightly intervals (see cronjob.ini or doc for how)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The operation was cut short in order to avoid execution timeout.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -12039,15 +12175,15 @@ Tietokannan uudelleenyrityksien määrä</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Save changes to this states.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Cancel</source>
         <translation type="unfinished">Peruuta</translation>
     </message>
     <message>
         <source>Cancel saving any changes.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save changes to this state.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -14228,23 +14364,23 @@ käyttäjätilisi.</translation>
     <name>design/ezwebin/content/datatype</name>
     <message>
         <source>Year</source>
-        <translation type="unfinished">Vuosi</translation>
+        <translation type="obsolete">Vuosi</translation>
     </message>
     <message>
         <source>Month</source>
-        <translation type="unfinished">Kuukausi</translation>
+        <translation type="obsolete">Kuukausi</translation>
     </message>
     <message>
         <source>Day</source>
-        <translation type="unfinished">Päivä</translation>
+        <translation type="obsolete">Päivä</translation>
     </message>
     <message>
         <source>Hour</source>
-        <translation type="unfinished">Tunti</translation>
+        <translation type="obsolete">Tunti</translation>
     </message>
     <message>
         <source>Minute</source>
-        <translation type="unfinished">Minuutti</translation>
+        <translation type="obsolete">Minuutti</translation>
     </message>
 </context>
 <context>
@@ -14928,10 +15064,22 @@ käyttäjätilisi.</translation>
     </message>
     <message>
         <source>seconds(s)</source>
-        <translation>sekunti/sekunnit</translation>
+        <translation type="obsolete">sekunti/sekunnit</translation>
     </message>
     <message>
         <source>Tag preset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Html5 Video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Html5 Audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>second(s)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -16406,6 +16554,30 @@ Jos haluat lähettää kommentteja hyväksyjälle tai tarkistaa statuksen, voit 
     </message>
     <message>
         <source>Find objects</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The related objects will be edited in the same language as this object. If such translations do not exist they will be created, based on the source language of your choice.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Translation base</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This object is already translated, the existing translation will be used.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This object is not translated, please select the language the new translation will be based on.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your browser does not support html5 video.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your browser does not support html5 audio.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -20814,7 +20986,7 @@ Käyttämällä %operatorname voit...</translation>
     <message>
         <source>SVN revision</source>
         <comment>eZ Publish version</comment>
-        <translation>SVN-palautus</translation>
+        <translation type="obsolete">SVN-palautus</translation>
     </message>
     <message>
         <source>Extensions</source>
@@ -22519,10 +22691,6 @@ Tämä toiminto on myös käytettävissä myöhemmin Järjestelmänvalvojan käy
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The operation were cut short in order to avoid execution timeout.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Your alternatives are to:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -22536,6 +22704,14 @@ Tämä toiminto on myös käytettävissä myöhemmin Järjestelmänvalvojan käy
     </message>
     <message>
         <source>Install the session cleanup cronjob &apos;session_gc.php&apos; and run on nightly intervals (see cronjob.ini or doc for how)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The operation was cut short in order to avoid execution timeout.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your current session handler does not support session administration.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -25480,6 +25656,14 @@ tilisi.</translation>
         <source>Design base cache</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Active extensions cache</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TS Translation cache</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>kernel/class</name>
@@ -26515,7 +26699,7 @@ Jos valitsit asetuksen &quot;%3&quot; asetuksesta &quot;%4&quot;</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>You have already sent a tipafriend mail to this reciver regarding &apos;$nodeName&apos; content</source>
+        <source>You have already sent a tipafriend mail to this receiver regarding &apos;$nodeName&apos; content</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -26523,7 +26707,7 @@ Jos valitsit asetuksen &quot;%3&quot; asetuksesta &quot;%4&quot;</translation>
     <name>kernel/content/copysubtree</name>
     <message>
         <source>Cannot publish object (ID = %1).</source>
-        <translation type="unfinished">Ei voi julkaista objektia (ID = %1).</translation>
+        <translation type="obsolete">Ei voi julkaista objektia (ID = %1).</translation>
     </message>
     <message>
         <source>Fatal error: cannot get subtree main node (ID = %1).</source>
@@ -26580,6 +26764,10 @@ Jos valitsit asetuksen &quot;%3&quot; asetuksesta &quot;%4&quot;</translation>
     <message>
         <source>Successfully DONE.</source>
         <translation type="unfinished">Onnistuneesti TEHTY.</translation>
+    </message>
+    <message>
+        <source>Cannot publish object (Name: %1, ID: %2).</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
