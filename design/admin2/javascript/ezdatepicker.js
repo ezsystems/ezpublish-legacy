@@ -11,7 +11,7 @@ function showDatePicker( base, id, datatype )
     calContainer.style.top = ( xy[1] + 30 ) + 'px';
     calContainer.style.display = 'block';
 
-    window['cal'+id] = new YAHOO.widget.Calendar( base + '_' + datatype + '_cal_' + id , calContainerID, { close: true, 
+    window['cal'+id] = new YAHOO.widget.Calendar( base + '_' + datatype + '_calendar_' + id , calContainerID, { close: true, 
                                                                                               mindate: "1/1/1970",
                                                                                               LOCALE_WEEKDAYS: "medium" } );
     window['cal'+id].render();
