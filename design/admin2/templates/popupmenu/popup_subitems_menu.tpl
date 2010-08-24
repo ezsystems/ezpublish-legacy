@@ -4,7 +4,7 @@
 menuArray['SubitemsContextMenu'] = {ldelim} 'depth': 0, 'headerID': 'child-menu-header' {rdelim};
 menuArray['SubitemsContextMenu']['elements'] = {ldelim}{rdelim};
 //menuArray['SubitemsContextMenu']['elements']['child-menu-view'] = {ldelim} 'url': {"/content/view/full/%nodeID%"|ezurl} {rdelim};
-//menuArray['SubitemsContextMenu']['elements']['child-menu-preview'] = {ldelim} 'url': {"/content/versionview/%objectID%/%version%"|ezurl} {rdelim};
+menuArray['SubitemsContextMenu']['elements']['child-menu-preview'] = {ldelim} 'url': {"/content/versionview/%objectID%/%version%"|ezurl} {rdelim};
 menuArray['SubitemsContextMenu']['elements']['child-menu-edit'] = {ldelim} 'url': {"/content/edit/%objectID%"|ezurl} {rdelim};
 menuArray['SubitemsContextMenu']['elements']['child-menu-copy'] = {ldelim} 'url': {"/content/copy/%objectID%"|ezurl} {rdelim};
 menuArray['SubitemsContextMenu']['elements']['child-menu-copy-subtree'] = {ldelim} 'url': {"/content/copysubtree/%nodeID%"|ezurl} {rdelim};
@@ -18,7 +18,7 @@ menuArray['SubitemsContextMenu']['elements']['child-menu-create-here'] = {ldelim
         <div class="break"></div>
     </div>
 {*    <a id="child-menu-view" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )">{"View"|i18n("design/admin/popupmenu")}</a> *}
-{*    <a id="child-menu-preview" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )">{"Preview"|i18n("design/admin/popupmenu")}</a> *}
+    <a id="child-menu-preview" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )">{"Preview"|i18n("design/admin/popupmenu")}</a>
 {if $multilingual_site}
     <a id="child-menu-edit-in" class="more" href="#" onmouseover="ezpopmenu_showSubLevel( event, 'EditSubmenu', 'child-menu-edit-in' ); return false;">{'Edit in'|i18n( 'design/admin/popupmenu' )}</a>
 {else}
