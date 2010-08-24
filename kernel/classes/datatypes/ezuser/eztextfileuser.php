@@ -235,10 +235,14 @@ class eZTextFileUser extends eZUser
             {
                 $line = trim( fgets( $handle, 4096 ) );
 
+                if ( $line === '' )
+                    continue;
+
                 if ( $separator == "tab" )
                     $userArray = explode( "\t", $line );
                 else
                     $userArray = explode( $separator, $line );
+
                 $uid = $userArray[$loginColumnNr-1];
                 $email = $userArray[$emailColumnNr-1];
                 $pass = $userArray[$passwordColumnNr-1];
