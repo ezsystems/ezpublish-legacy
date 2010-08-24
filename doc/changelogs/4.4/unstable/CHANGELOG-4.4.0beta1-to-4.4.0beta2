@@ -18,6 +18,7 @@ Changes from 4.4.0beta1 to 4.4.0beta2
 
 *Bugfixes:
 - Fixed bug #010489: Content indexing might never happen in limited environment
+- Fixed bug #011317: appendDebugNodes breaks IE by triggering Quirks mode
 - Fixed bug #013516: updateviewcount not getting correct paths
 - Fixed bug #016664: ezHTTPTool::sendHTTPRequest() fails on port not 80
             (Add support for setting port in $uri when $port is false)
