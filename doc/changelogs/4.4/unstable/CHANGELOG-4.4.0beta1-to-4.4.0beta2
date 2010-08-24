@@ -2,7 +2,7 @@ Changes from 4.4.0beta1 to 4.4.0beta2
 
 *Kernel:
 - Implemented enhancement #016665: ezHTTPTool::sendHTTPRequest() should support sending cookies
-
+- Implemented enhancement #013440: policy edit dropdown values not retained upon POST actions
 
 *Design:
 

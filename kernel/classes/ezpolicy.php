@@ -69,7 +69,11 @@ class eZPolicy extends eZPersistentObject
                                          'function_name' => array( 'name' => 'FunctionName',
                                                                    'datatype' => 'string',
                                                                    'default' => '',
-                                                                   'required' => true ) ),
+                                                                   'required' => true ),
+                                         'original_id' => array( 'name' => 'OriginalID',
+                                                                 'datatype' => 'integer',
+                                                                 'default' => null,
+                                                                 'required' => false ) ),
                       'keys' => array( 'id' ),
                       'function_attributes' => array( 'limitations' => 'limitationList',
                                                       'role' => 'role',
@@ -210,9 +214,11 @@ class eZPolicy extends eZPersistentObject
         return $limitation;
     }
 
-    /*!
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
+    /**
+     * Copies the policy and its limitations to another role
+     *
+     * @param int $roleID the ID of the role to copy to
+     * @return eZPolicy the created eZPolicy copy
      */
     function copy( $roleID )
     {
@@ -228,6 +234,8 @@ class eZPolicy extends eZPersistentObject
             $limitation->copy( $newPolicy->attribute( 'id' ) );
         }
         $db->commit();
+
+        return $newPolicy;
     }
 
     /*!
@@ -387,10 +395,81 @@ class eZPolicy extends eZPersistentObject
         return false;
     }
 
+    /**
+     * Fetches a policy by ID
+     * @param $policyID Policy ID
+     * @return eZPolicy
+     */
     static function fetch( $policyID )
     {
-        return eZPersistentObject::fetchObject( eZPolicy::definition(),
-                                                null, array('id' => $policyID ), true);
+        return eZPersistentObject::fetchObject( self::definition(),
+            null, array( 'id' => $policyID ), true );
+    }
+
+    /**
+     * Fetches the temporary copy of a policy
+     * @param int $policyID The original policy ID
+     * @return eZPolicy
+     */
+    public static function fetchTemporaryCopy( $policyID )
+    {
+        $policy = eZPersistentObject::fetchObject( self::definition(),
+            null, array( 'original_id' => $policyID ), true );
+
+        if ( $policy instanceof eZPolicy )
+        {
+            return $policy;
+        }
+        // The temporary copy does not exist yet, create it
+        else
+        {
+            $policy = self::fetch( $policyID );
+            if ( $policy === null )
+                return false;
+            else
+            {
+                return $policy->createTemporaryCopy();
+            }
+        }
+    }
+
+    /**
+     * Creates a temporary copy for this policy so that it can be edited. The policies will be linked to the copy
+     * @return eZPolicy the temporary copy
+     * @since 4.4
+     */
+    public function createTemporaryCopy()
+    {
+        if ( $this->attribute( 'original_id' ) === 0 )
+            throw new Exception( 'eZPolicy #' . $this->attribute( 'id' ) . ' is already a temporary item (original: #'. $this->attribute( 'original_id' ) . ')' );
+
+        $policyCopy = self::copy( $this->attribute( 'role_id' ) );
+        $policyCopy->setAttribute( 'original_id', $this->attribute( 'id' ) );
+        $policyCopy->store();
+
+        return $policyCopy;
+    }
+
+    /**
+     * Saves a temporary limitation created with {@link createTemporaryCopy()}
+     *
+     * @throws Exception The policy isn't a temporary one
+     * @return void
+     */
+    public function saveTemporary()
+    {
+        if ( $this->attribute( 'original_id' ) === 0 )
+            throw new Exception( __METHOD__ . ' can only be used on a temporary policy' );
+
+        // 1. Remove the original policy
+        $originalPolicy = eZPolicy::fetch( $this->attribute( 'original_id' ) );
+        $originalPolicy->removeThis();
+
+        // 2. Remove the original ID in the temporary policy (make it final)
+        $this->setAttribute( 'original_id', 0 );
+        $this->store();
+
+        return $this;
     }
 
     // Used for assign based limitations.
