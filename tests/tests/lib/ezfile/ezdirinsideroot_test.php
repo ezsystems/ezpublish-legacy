@@ -9,7 +9,7 @@
 
 class eZDirTestInsideRoot extends ezpTestCase
 {
-    private $rootDir = 'var/tests/';
+    private $rootDir = 'var/tests/eZDirTestInsideRoot/';
 
     public function __construct()
     {
