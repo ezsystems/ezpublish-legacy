@@ -728,7 +728,7 @@ class eZDBFileHandler
 
         // we end the cache generation process, so that the .generating file
         // is renamed to its final name
-        $this->endCacheGeneration( strlen( $binaryData ), $scope, $datatype );
+        $this->endCacheGeneration();
 
         // the generated file is written to disk
         if ( self::LOCAL_CACHE )
