@@ -13,9 +13,7 @@ class eZOeTestSuite extends ezpDatabaseTestSuite
     {
         parent::__construct();
         $this->setName( "eZ Online Editor Test Suite" );
-
         $this->addTestSuite( 'eZOEXMLTextRegression' );
-        $this->ezoeIsLoaded = null;
     }
 
     public static function suite()
@@ -25,18 +23,17 @@ class eZOeTestSuite extends ezpDatabaseTestSuite
 
     public function setUp()
     {
-        // make sure ezoe is enabled and settings are read
-        $this->ezoeWasLoaded = ezpExtensionHelper::load( 'ezoe' );
+        // make sure extension is enabled and settings are read
+        // give a warning if it is already enabled
+        if ( !ezpExtensionHelper::load( 'ezoe' ) )
+            trigger_error( __METHOD__ . ': extension is already loaded, this hints about missing cleanup in other tests that uses it!', E_USER_WARNING );
 
         parent::setUp();
     }
 
     public function tearDown()
     {
-        if ( $this->ezoeWasLoaded )
-        {
-            $this->ezoeWasLoaded = !ezpExtensionHelper::unload( 'ezoe' );
-        }
+        ezpExtensionHelper::unload( 'ezoe' );
         parent::tearDown();
     }
 }
