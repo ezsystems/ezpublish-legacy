@@ -5,8 +5,37 @@
  * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
  * @package tests
+ * @since 4.4
  */
 
+/**
+ * Class provides helper functions for extension loading.
+ *
+ * Useful for extension tests to be able to activate itself and
+ * optionally other extensions.
+ *
+ * Example from extension/ezoe/tests/suite.php:
+ *
+<code>
+     public function setUp()
+    {
+        // make sure extension is enabled and settings are read
+        // give a warning if it is already enabled
+        if ( !ezpExtensionHelper::load( 'ezoe' ) )
+            trigger_error( __METHOD__ . ': extension is already loaded, this hints about missing cleanup in other tests that uses it!', E_USER_WARNING );
+
+        parent::setUp();
+    }
+
+    public function tearDown()
+    {
+        ezpExtensionHelper::unload( 'ezoe' );
+        parent::tearDown();
+    }
+</code>
+ *
+ * @package tests
+ */
 class ezpExtensionHelper
 {
     /**
