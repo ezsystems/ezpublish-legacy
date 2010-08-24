@@ -754,6 +754,12 @@ input.button, input.defaultbutton, input.button-disabled
 }
 
 /* SEARCH */
+
+.searchblock
+{
+    position: relative;
+}
+
 #searchtext
 {
     height: 18px;
@@ -769,8 +775,8 @@ input.button, input.defaultbutton, input.button-disabled
 {
     height: 17px;
     position: absolute;
-    right: 8px;
-    top: 22px;
+    right: 3px;
+    top: 3px;
     width: 17px;
 }
 
