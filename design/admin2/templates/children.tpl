@@ -88,13 +88,6 @@
 {* Load yui code for subitems diplay even if current node has no children (since cache blocks  does not vary by this) *}
 {ezscript_require( array('ezjsc::yui2', 'ezjsc::yui3', 'ezajaxsubitems_datatable.js') )}
 
-
-{* Load drag and drop code if access rights are ok (but not depending on node sort as pagelayout cache-block does not include that in key) *}
-{if $node.can_edit}
-{ezscript_require( array( 'ezjsc::yui3', 'ezjsc::yui3io') )}
-{/if}
-
-
 <!-- Children END -->
 
 {undef $item_type $number_of_items $can_remove $can_move $can_edit $can_create $can_copy $current_path $admin_children_viewmode $children_count $children}

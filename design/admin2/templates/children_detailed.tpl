@@ -32,9 +32,6 @@ var confObj = {ldelim}
     dataSourceURL: "{concat('ezjscore/call/ezjscnode::subtree::', $node.node_id)|ezurl('no')}",
     rowsPrPage: {$number_of_items},
     sortOrder: {$node.sort_order},
-    currentURL: "{$node.url|wash( javascript )}",
-    previewURL: {"/content/versionview/%objectID%/%version%"|ezurl},
-    editURL: {"/content/edit/%objectID%"|ezurl},
     defaultShownColumns: vcols,
     navigationPart: "{$section.navigation_part_identifier}",
     cookieName: "eZSubitemColumns",
@@ -42,6 +39,7 @@ var confObj = {ldelim}
     cookieDomain: "{ezsys(hostname)}",
     languagesString: "{$node.object.language_js_array}",
     classesString: "{$node.classes_js_array}"
+
 {rdelim}
 
 
@@ -92,13 +90,8 @@ var labelsObj = {ldelim}
                         previous_page: "&lsaquo;&nbsp;{'prev'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
                         next_page: "{'next'|i18n( 'design/admin/node/view/full' )|wash('javascript')}&nbsp;&rsaquo;",
                         last_page: "{'last'|i18n( 'design/admin/node/view/full' )|wash('javascript')}&nbsp;&raquo;"
-                    {rdelim},
-
-    CONTEXT_MENU: {ldelim}
-
-                        preview: "{'Preview'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
-                        edit: "{'Edit'|i18n( 'design/admin/node/view/full' )|wash('javascript')}"
                     {rdelim}
+
 
 {rdelim};
 
