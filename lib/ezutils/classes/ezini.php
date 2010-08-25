@@ -472,11 +472,11 @@ class eZINI
                 eZDebug::accumulatorStart( 'ini_check_mtime', 'ini_load', 'Check MTime' );
                 $currentTime = time();
                 $cacheCreatedTime = strtotime( $data['created'] );
-                $iniFile = $data['file'];
+                $iniFile = $data['file'];// used by findInputFiles further down
                 $inputFiles = $data['files'];
                 foreach ( $inputFiles as $inputFile )
                 {
-                    $fileTime = filemtime( $inputFile );
+                    $fileTime = file_exists( $inputFile ) ? filemtime( $inputFile ) : false;
                     if ( $currentTime < $fileTime )
                     {
                         eZDebug::writeError( 'Input file "' . $inputFile . '" has a timestamp higher then current time, ignoring to avoid infinite recursion!', __METHOD__ );
@@ -486,8 +486,9 @@ class eZINI
                               $fileTime > $cacheCreatedTime )
                     {
                         unset( $data );
-                        $this->reset();
+                        unset( $inputFiles );
                         $useCache = false;
+                        $this->reset();
                         break;
                     }
                 }
