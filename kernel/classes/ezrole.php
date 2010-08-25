@@ -634,9 +634,11 @@ class eZRole extends eZPersistentObject
     {
         if ( !isset( $this->Policies ) )
         {
-            $policies = eZPersistentObject::fetchObjectList( eZPolicy::definition(),
-                                                              null, array( 'role_id' => $this->attribute( 'id') ), null, null,
-                                                              true );
+            $policies = eZPersistentObject::fetchObjectList(
+                eZPolicy::definition(),
+                null,
+                array( 'role_id' => $this->attribute( 'id' ), 'original_id' => 0 ),
+                null, null, true );
 
             if ( $this->LimitIdentifier )
             {

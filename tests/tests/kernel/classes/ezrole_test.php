@@ -69,6 +69,26 @@ class eZRoleTest extends ezpDatabaseTestCase
         $this->assertEquals( 1, $roles[0], "The returned role ID should be 1 (anonymous role)" );
     }
 
+    /**
+     * Test for eZRole::policyList()
+     * Checks that policyList doesn't return temporary policies
+     */
+    public function testPolicyList()
+    {
+        $role = array_shift( eZRole::fetchByUser( array( self::$anonymousUserID ), true ) );
+        $policy = array_shift( $role->policyList() );
+
+        // create a temporary copy of one of the role's policies
+        $policy->createTemporaryCopy();
+
+        // check that the role's policies all are final (not temporary)
+        foreach( $role->policyList() as $policy )
+        {
+            $this->assertType( 'eZPolicy', $policy );
+            $this->assertEquals( 0, $policy->attribute( 'original_id' ) );
+        }
+    }
+
     static $anonymousGroupID = 42;
     static $anonymousUserID = 10;
     static $adminUserID = 14;

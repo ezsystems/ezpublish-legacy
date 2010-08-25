@@ -4957,6 +4957,12 @@ $schema = array (
         'type' => 'int',
         'default' => NULL,
       ),
+      'original_id' =>
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'default' => 0,
+      ),
     ),
     'indexes' =>
     array (
@@ -4966,6 +4972,14 @@ $schema = array (
         'fields' =>
         array (
           0 => 'id',
+        ),
+      ),
+      'ezpolicy_original_id' =>
+      array (
+        'type' => 'non-unique',
+        'fields' =>
+        array (
+          0 => 'original_id',
         ),
       ),
     ),

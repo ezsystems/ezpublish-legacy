@@ -1078,7 +1078,9 @@ CREATE TABLE ezpolicy (
   id int(11) NOT NULL auto_increment,
   module_name varchar(255) default NULL,
   role_id int(11) default NULL,
-  PRIMARY KEY  (id)
+  original_id int(11) NOT NULL default 0,
+  PRIMARY KEY  (id),
+  KEY ezpolicy_original_id (original_id)
 ) ENGINE=InnoDB;
 
 

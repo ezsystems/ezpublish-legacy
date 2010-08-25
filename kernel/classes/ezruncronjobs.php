@@ -40,6 +40,7 @@ class eZRunCronjobs
         $scriptMutex = new eZMutex( $scriptFile );
         $lockTS = $scriptMutex->lockTS();
         $runScript = false;
+        $maxTime = self::maxScriptExecutionTime();
         if ( $lockTS === false )
         {
             if ( $scriptMutex->lock() )
@@ -52,14 +53,14 @@ class eZRunCronjobs
                 $cli->error( 'Failed to aquire cronjob part lock: ' . $scriptFile );
             }
         }
-        // If the cronjob part has been blocked for  2 * eZRunCronjobs_MaxScriptExecutionTime,
+        // If the cronjob part has been blocked for  2 * self::maxScriptExecutionTime(),
         // force stealing of the cronjob part
-        else if ( $lockTS < time() - 2 * eZRunCronjobs_MaxScriptExecutionTime )
+        else if ( $lockTS < time() - 2 * $maxTime )
         {
             $cli->output( 'Forcing to steal the mutex lock: ' . $scriptFile );
             $runScript = eZRunCronjobs::stealMutex( $cli, $scriptMutex, true );
         }
-        else if ( $lockTS < time() - eZRunCronjobs_MaxScriptExecutionTime )
+        else if ( $lockTS < time() - $maxTime )
         {
             $cli->output( 'Trying to steal the mutex lock: ' . $scriptFile );
             $runScript = eZRunCronjobs::stealMutex( $cli, $scriptMutex );
@@ -76,6 +77,24 @@ class eZRunCronjobs
             include( $scriptFile );
             $scriptMutex->unlock();
         }
+    }
+
+    /**
+     * \static
+     * Returns the maximum permitted execution time for cronjobs.
+     * This may be different per cronjob part (see cronjob.ini).
+     * @return execution time in seconds
+     */
+    static function maxScriptExecutionTime()
+    {
+        global $cronPart;
+        $cronjobIni = eZINI::instance( 'cronjob.ini' );
+
+        $scriptGroup = "CronjobPart-$cronPart";
+        if ( $cronPart !== false and $cronjobIni->hasVariable( $scriptGroup, 'MaxScriptExecutionTime' ) )
+            return $cronjobIni->variable( $scriptGroup, 'MaxScriptExecutionTime' );
+        else
+            return $cronjobIni->variable( 'CronjobSettings', 'MaxScriptExecutionTime' );
     }
 
     /*!
