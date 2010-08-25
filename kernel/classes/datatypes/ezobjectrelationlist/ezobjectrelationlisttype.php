@@ -1501,6 +1501,7 @@ class eZObjectRelationListType extends eZDataType
     {
         $metaDataArray = $attributes = array();
         $content = $contentObjectAttribute->content();
+        $language = $contentObjectAttribute->attribute( 'language_code' );
         foreach( $content['relation_list'] as $relationItem )
         {
             $subObjectID = $relationItem['contentobject_id'];
@@ -1519,7 +1520,7 @@ class eZObjectRelationListType extends eZDataType
                     {
                         continue;
                     }
-                    $attributes = $object->contentObjectAttributes( true, $subObjectVersion );
+                    $attributes = $object->contentObjectAttributes( true, $subObjectVersion, $language );
                 }
             }
 
