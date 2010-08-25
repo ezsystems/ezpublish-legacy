@@ -291,13 +291,12 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
      */
     protected function getResourceContents( $target )
     {
-        $result = array();
+        $result = array( 'data' => false, 'file' => false );
         $fullPath = $target;
         $target = $this->splitFirstPathElement( $fullPath, $currentSite );
 
         $data = $this->getVirtualFolderData( $result, $currentSite, $target, $fullPath );
-
-        if ( isset( $data['file'] ) )
+        if ( $data['file'] )
         {
             $webdavserver = new eZWebDAVContentServer();
             return $webdavserver->outputSendDataToClient( $data, false );

@@ -545,7 +545,7 @@ class eZWebDAVServer
     /*!
       \protected
       Outputs the data \a $output using print().
-      \param $output Is an array which can contain:
+      \param $output Is an array which can contain (both must be set):
                      - data - String or byte data
                      - file - The path to the file, the contents of the file will be output
       \return The WebDAV status code
@@ -559,12 +559,12 @@ class eZWebDAVServer
         }
 
         // Check if we are dealing with custom data.
-        if ( isset( $output["data"] ) && $output["data"] )
+        if ( $output["data"] )
         {
             $this->appendLogEntry( "outputData: DATA is a string...", 'outputSendDataToClient' );
         }
         // Else: we need to output a file.
-        elseif ( isset( $output["file"] ) && $output["file"] )
+        elseif ( $output["file"] )
         {
             $this->appendLogEntry( "outputData: DATA is a file...", 'outputSendDataToClient' );
             $realPath = $output["file"];
