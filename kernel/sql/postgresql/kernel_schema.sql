@@ -2210,7 +2210,7 @@ CREATE TABLE ezpreferences (
     id integer DEFAULT nextval('ezpreferences_s'::text) NOT NULL,
     name character varying(100),
     user_id integer DEFAULT 0 NOT NULL,
-    value character varying(100)
+    value text
 );
 
 

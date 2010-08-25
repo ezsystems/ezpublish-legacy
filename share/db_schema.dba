@@ -5096,9 +5096,8 @@ $schema = array (
       ),
       'value' =>
       array (
-        'length' => 100,
-        'type' => 'varchar',
-        'default' => NULL,
+        'type' => 'longtext',
+        'default' => false,
       ),
     ),
     'indexes' =>

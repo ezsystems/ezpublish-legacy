@@ -1115,7 +1115,7 @@ CREATE TABLE ezpreferences (
   id int(11) NOT NULL auto_increment,
   name varchar(100) default NULL,
   user_id int(11) NOT NULL default '0',
-  value varchar(100) default NULL,
+  value longtext,
   PRIMARY KEY  (id),
   KEY ezpreferences_name (name),
   KEY ezpreferences_user_id_idx (user_id,name)
