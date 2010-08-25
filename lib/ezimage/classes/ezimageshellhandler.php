@@ -120,8 +120,6 @@ class eZImageShellHandler extends eZImageHandler
             $argumentList[] = $this->PostParameters;
 
         $systemString = implode( ' ', $argumentList );
-        if ( eZSys::osType() == 'win32' )
-            $systemString = "\"$systemString\"";
 
         system( $systemString, $returnCode );
 

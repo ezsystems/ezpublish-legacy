@@ -15,6 +15,7 @@ class eZImageTestSuite extends ezpDatabaseTestSuite
         $this->setName( "eZImage Test Suite" );
 
         $this->addTestSuite( 'eZImageManagerTest' );
+        $this->addTestSuite( 'eZImageShellHandlerTest' );
     }
 
     public static function suite()
