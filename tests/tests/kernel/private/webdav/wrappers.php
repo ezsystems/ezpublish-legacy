@@ -7,7 +7,7 @@
  * @package tests
  */
 
-class ezcWebdavTransportWrapper extends ezcWebdavTransport
+class ezcWebdavTransportWrapper extends ezcWebdavKonquerorCompatibleTransport//ezcWebdavTransport
 {
     protected function retrieveBody()
     {

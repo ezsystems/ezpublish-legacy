@@ -1,6 +1,6 @@
 <?php
 $_SERVER['REQUEST_URI'] = '/plain_site_user/';
-$_SERVER['HTTP_USER_AGENT'] = 'cadaver/0.22.5 neon/0.26.3';
+//$_SERVER['HTTP_USER_AGENT'] = 'cadaver/0.22.5 neon/0.26.3';
 $_SERVER['REQUEST_METHOD'] = 'PROPFIND';
 $_SERVER['HTTP_DEPTH'] = '1';
 $_SERVER['CONTENT_TYPE'] = 'application/xml';

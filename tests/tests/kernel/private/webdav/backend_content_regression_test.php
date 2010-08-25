@@ -78,7 +78,6 @@ class eZWebDAVBackendContentRegressionTest extends ezpTestRegressionTest
         $ini = eZINI::instance();
         $ini->prependOverrideDir( 'siteaccess/' . $siteaccess, false, 'siteaccess', 'siteaccess' );
         $ini->loadCache();
-        echo '-create-';
 
         // load tests
         $this->readDirRecursively( dirname( __FILE__ ) . '/regression', $this->files, 'request' );
@@ -104,7 +103,7 @@ class eZWebDAVBackendContentRegressionTest extends ezpTestRegressionTest
         $GLOBALS['ezc_webdav_url'] = 'http://' . $GLOBALS['ezc_webdav_host'] . '/';
 
         // Set some server variables (not all of them are needed)
-        $_SERVER['HTTP_USER_AGENT'] = 'cadaver/0.22.5 neon/0.26.3';
+        $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (compatible; Konqueror/4.1; OpenBSD) KHTML/4.1.4 (like Gecko)';//'cadaver/0.22.5 neon/0.26.3';
         $_SERVER['SERVER_NAME'] = $GLOBALS['ezc_webdav_host'];
         $_SERVER['SERVER_PORT'] = '80';
 
@@ -303,7 +302,6 @@ class eZWebDAVBackendContentRegressionTest extends ezpTestRegressionTest
         $_SERVER['HTTP_AUTHORIZATION'] = 'Basic ' . base64_encode( "{$username}:{$password}" );
         // var_dump( 'Default REQUEST_URI: ' . $_SERVER['REQUEST_URI'] );
 
-        // var_dump( 'Cleaned REQUEST_URI: ' . $_SERVER['REQUEST_URI'] );
         if ( $system === 'ezc' )
         {
             // Use eZ Components

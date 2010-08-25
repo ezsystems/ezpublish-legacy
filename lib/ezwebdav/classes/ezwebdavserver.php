@@ -559,12 +559,12 @@ class eZWebDAVServer
         }
 
         // Check if we are dealing with custom data.
-        if ( $output["data"] )
+        if ( isset( $output["data"] ) && $output["data"] )
         {
             $this->appendLogEntry( "outputData: DATA is a string...", 'outputSendDataToClient' );
         }
         // Else: we need to output a file.
-        elseif ( $output["file"] )
+        elseif ( isset( $output["file"] ) && $output["file"] )
         {
             $this->appendLogEntry( "outputData: DATA is a file...", 'outputSendDataToClient' );
             $realPath = $output["file"];
