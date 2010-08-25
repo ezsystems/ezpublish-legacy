@@ -28,16 +28,16 @@
 //
 
 
-// No more than one instance of a cronjob script can be run at any given time. If a script uses more
-// time than eZRunCronjobs_MaxScriptExecutionTime, the next instance of it will try to gracefully steal
-// the cronjob script mutex. If the process has been running for more than
-// two times the eZRunCronjobs_MaxScriptExecutionTime, the original process will be killed.
+/* No more than one instance of a cronjob script can be run at any given time.
+   If a script uses more time than the configured MaxScriptExecutionTime (see
+   cronjob.ini), the next instance of it will try to gracefully steal the
+   cronjob script mutex. If the process has been running for more than two
+   times MaxScriptExecutionTime, the original process will be killed.
+*/
 
-// Define maximum script execution time to 12 hours
-define( 'eZRunCronjobs_MaxScriptExecutionTime', 12*3600 );
-
-// Set a default time zone if none is given. The time zone can be overriden
-// in config.php or php.ini.
+/* Set a default time zone if none is given. The time zone can be overridden
+   in config.php or php.ini.
+*/
 if ( !ini_get( "date.timezone" ) )
 {
     date_default_timezone_set( "UTC" );
