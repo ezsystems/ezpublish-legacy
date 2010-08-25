@@ -1432,13 +1432,13 @@ class eZContentOperationCollection
             {
                 $feedObjectAttributeMap = $config->variable( $iniSection, 'FeedObjectAttributeMap' );
                 $subNodesMap = $config->hasVariable( $iniSection, 'Subnodes' ) ? $config->variable( $iniSection, 'Subnodes' ) : array();
-    
+
                 $rssExportItem = eZRSSExportItem::create( $rssExportID );
                 $rssExportItem->setAttribute( 'class_id', eZContentObjectTreeNode::classIDByIdentifier( $classIdentifier ) );
                 $rssExportItem->setAttribute( 'title', $feedObjectAttributeMap['title'] );
                 if ( isset( $feedObjectAttributeMap['description'] ) )
                     $rssExportItem->setAttribute( 'description', $feedObjectAttributeMap['description'] );
-        
+
                 if ( isset( $feedObjectAttributeMap['category'] ) )
                     $rssExportItem->setAttribute( 'category', $feedObjectAttributeMap['category'] );
 
@@ -1457,7 +1457,7 @@ class eZContentOperationCollection
         }
 
         $db->commit();
-        
+
         eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
 
         return array( 'status' => true );

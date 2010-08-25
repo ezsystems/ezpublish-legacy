@@ -638,7 +638,6 @@ class eZDir
 
         /* PHP function is_writable() doesn't work correctly on Windows NT descendants.
          * So we have to use the following hack on those OSes.
-         * FIXME: maybe on Win9x we shouldn't do this?
          */
         $tmpfname = $dirname . eZSys::fileSeparator() . "ezsetup_" . md5( microtime() ) . ".tmp";
 

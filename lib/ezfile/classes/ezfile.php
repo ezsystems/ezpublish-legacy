@@ -163,7 +163,6 @@ class eZFile
 
         /* PHP function is_writable() doesn't work correctly on Windows NT descendants.
          * So we have to use the following hack on those OSes.
-         * FIXME: maybe on win9x we shouldn't do this?
          */
         if ( !( $fd = @fopen( $filename, 'a' ) ) )
             return FALSE;

@@ -131,8 +131,6 @@ class eZModule
      *        The module name (content, user...)
      * @param bool $checkFileExistence
      *        Wether or not $file's existence should be checked
-     * 
-     * @todo Check if it can be marked as private
      * @return void
      */
     function initialize( $path, $file, $moduleName, $checkFileExistence = true )
@@ -456,10 +454,8 @@ class eZModule
                                    'eZModule::handleError' );
             $errorType = 'kernel';
         }
-        // @todo Make this non static
-        $errorModule = eZModule::errorModule();
+        $errorModule = $this->errorModule();
 
-        // @todo Does this need to be static ?
         $module = eZModule::findModule( $errorModule['module'], $this );
 
         if ( $module === null )
