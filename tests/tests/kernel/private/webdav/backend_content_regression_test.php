@@ -39,64 +39,49 @@ class eZWebDAVBackendContentRegressionTest extends ezpTestRegressionTest
     protected $backupGlobals = FALSE;
 
     /**
-     * Fills $this->files with all the .request files found in the regression
-     * directory, recursively.
+     * Setup webdav test siteaccess & fills $this->files with all the
+     * .request files found in the regression directory, recursively.
      */
     public function __construct()
     {
         $siteaccess = strtolower( __CLASS__ );
 
-        if ( ezcBaseFeatures::classExists( 'eZSiteAccessHelper', true ) )
+        // List of values that should be placed in temporary site.ini file for webdav testing
+        $replace = array();
+        $dsn     = ezpTestRunner::dsn();
+        $replace['@ezc_siteaccess@']  = $siteaccess;
+        $replace['@ezc_db_phptype@']  = $dsn->phptype;
+        $replace['@ezc_db_server@']   = $dsn->server;
+        $replace['@ezc_db_port@']     = $dsn->port ? $dsn->port : '';
+        $replace['@ezc_db_user@']     = $dsn->user;
+        $replace['@ezc_db_password@'] = $dsn->password;
+        $replace['@ezc_db_database@'] = $dsn->database;
+        $replace['@ezc_db_socket@']   = $dsn->socket ? 'enabled' : 'disabled';
+
+        // replace $replace values in site.ini.append.php.replace
+        $contents = file_get_contents( dirname( __FILE__ ) . '/siteaccess/site.ini.append.php.replace' );
+        foreach ( $replace as $key => $replacement )
         {
-            require_once( 'siteaccesscreator.php' );
-
-            // - ./siteaccess/site.ini.append.php.replace is copied over site.ini.append.php,
-            //   with certain values replaced dynamically (@ezc_siteaccess@ and
-            //   @ezc_webdav_database@)
-            // - the extension ezsiteaccesshelper is called to create the siteaccess with
-            //   the same name as this class (in lowercase), and it will copy the site.ini.append.php
-            //   file to the ezp/siteaccess/@ezc_siteaccess@ folder
-            // - the extension ezsiteaccesshelper is called to enable the created siteaccess
-            //   in ezp/siteaccess/override/site.ini.append.php
-            $replace = array();
-            $replace['@ezc_siteaccess@'] = $siteaccess;
-            $replace['@ezc_webdav_database@'] = ezpTestRunner::dsn()->database;
-
-            $templateDir = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'siteaccess';
-
-            try
-            {
-                // replace @ezc_siteaccess@ and @ezc_webdav_database@ in site.ini.append.php
-                // with respective values
-                $contents = file_get_contents( $templateDir . DIRECTORY_SEPARATOR . 'site.ini.append.php.replace' );
-                if ( count( $replace ) > 0 )
-                {
-                    foreach ( $replace as $key => $replacement )
-                    {
-                        $contents = str_replace( $key, $replacement, $contents );
-                    }
-                }
-
-                file_put_contents( $templateDir . DIRECTORY_SEPARATOR . 'site.ini.append.php', $contents );
-
-                ezpSiteAccessCreator::$docRoot = eZSys::rootDir() . DIRECTORY_SEPARATOR;
-                ezpSiteAccessCreator::createSiteAccess( $siteaccess, $templateDir );
-            }
-            catch ( Exception $e )
-            {
-                // eZSiteAccessHelper::createSiteAccess throws an exception
-                // if the siteaccess exists already
-                // var_dump( $e->getMessage() );
-            }
-        }
-        else
-        {
-            die ( "The WebDAV test suite requires the extension eZSiteAccessHelper in order to create a siteaccess.\n" );
+            $contents = str_replace( $key, $replacement, $contents );
         }
 
-        $basePath = dirname( __FILE__ ) . '/regression';
+        // create siteaccess folder
+        if ( !file_exists( 'settings/siteaccess/' . $siteaccess ) )
+        {
+            mkdir( 'settings/siteaccess/' . $siteaccess );
+        }
 
-        $this->readDirRecursively( $basePath, $this->files, 'request' );
+        // store site.ini.append.php file
+        file_put_contents( 'settings/siteaccess/' . $siteaccess . '/site.ini.append.php', $contents );
+
+        // setup ini system to read siteaccess
+        $ini = eZINI::instance();
+        $ini->prependOverrideDir( 'siteaccess/' . $siteaccess, false, 'siteaccess', 'siteaccess' );
+        $ini->loadCache();
+        echo '-create-';
+
+        // load tests
+        $this->readDirRecursively( dirname( __FILE__ ) . '/regression', $this->files, 'request' );
 
         parent::__construct();
     }
@@ -120,7 +105,7 @@ class eZWebDAVBackendContentRegressionTest extends ezpTestRegressionTest
 
         // Set some server variables (not all of them are needed)
         $_SERVER['HTTP_USER_AGENT'] = 'cadaver/0.22.5 neon/0.26.3';
-        $_SERVER['SERVER_NAME'] = 'webdav';
+        $_SERVER['SERVER_NAME'] = $GLOBALS['ezc_webdav_host'];
         $_SERVER['SERVER_PORT'] = '80';
 
         // Set to null various variables used in the tests
@@ -135,22 +120,6 @@ class eZWebDAVBackendContentRegressionTest extends ezpTestRegressionTest
         $_SERVER['DOCUMENT_ROOT'] = eZSys::rootDir();
 
         $GLOBALS['ezc_siteaccess'] = strtolower( __CLASS__ );
-
-        // Remove the siteaccess from settings/override/site.ini.append.php
-        // in case it already exists
-        try
-        {
-            ezpSiteAccessCreator::disableSiteAccess( $GLOBALS['ezc_siteaccess'] );
-        }
-        catch ( ezsahINIVariableNotSetException $e )
-        {
-            // eZSiteAccessHelper::disableSiteAccess throws an exception
-            // if the siteaccess does not exist already in
-            // settings/override/site.ini.append.php
-        }
-
-        // Add the siteaccess to settings/override/site.ini.append.php
-        ezpSiteAccessCreator::enableSiteAccess( $GLOBALS['ezc_siteaccess'] );
     }
 
     /**
@@ -158,25 +127,27 @@ class eZWebDAVBackendContentRegressionTest extends ezpTestRegressionTest
      */
     public function tearDown()
     {
-        // Remove the siteaccess from settings/override/site.ini.append.php
-        // in case a test fails
-        try
-        {
-            ezpSiteAccessCreator::disableSiteAccess( $GLOBALS['ezc_siteaccess'] );
-        }
-        catch ( ezsahINIVariableNotSetException $e )
-        {
-            // eZSiteAccessHelper::disableSiteAccess throws an exception
-            // if the siteaccess does not exist already in
-            // settings/override/site.ini.append.php
-        }
-
         // Remove the created folder if it exists
         if ( $GLOBALS['ezc_webdav_testfolderobject'] !== null )
         {
             $GLOBALS['ezc_webdav_testfolderobject']->remove();
             $GLOBALS['ezc_webdav_testfolderobject'] = null;
         }
+
+        /*$siteaccess = strtolower( __CLASS__ );
+
+        //remove siteaccess site.ini file & directory
+        if ( file_exists( 'settings/siteaccess/' . $siteaccess . '/site.ini.append.php' ) )
+            unlink( 'settings/siteaccess/' . $siteaccess . '/site.ini.append.php' );
+
+        if ( file_exists( 'settings/siteaccess/' . $siteaccess ) )
+            rmdir( 'settings/siteaccess/' . $siteaccess );
+
+        // refresh ini instance
+        $ini = eZINI::instance();
+        $ini->removeOverrideDir( 'siteaccess', 'siteaccess' );
+        $ini->loadCache();*/
+
         parent::tearDown();
     }
 
@@ -185,18 +156,12 @@ class eZWebDAVBackendContentRegressionTest extends ezpTestRegressionTest
      */
     public static function suite()
     {
-        // @todo Is this needed?
-        // PHPUnit_Util_Filter::addFileToWhitelist( '/home/as/dev/work/http/ezp/trunk/kernel/private/classes/webdav/ezwebdavcontentbackend.php' );
-
         $ini = eZINI::instance( 'i18n.ini' );
 
         list( $i18nSettings['internal-charset'], $i18nSettings['http-charset'], $i18nSettings['mbstring-extension'] ) =
             $ini->variableMulti( 'CharacterSettings', array( 'Charset', 'HTTPCharset', 'MBStringExtension' ), array( false, false, 'enabled' ) );
 
-        //include_once( 'lib/ezi18n/classes/eztextcodec.php' );
         eZTextCodec::updateSettings( $i18nSettings );
-
-        require_once 'kernel/common/i18n.php';
 
         return new ezpTestRegressionSuite( __CLASS__ );
     }
@@ -214,6 +179,7 @@ class eZWebDAVBackendContentRegressionTest extends ezpTestRegressionTest
     {
         $result = $text;
         $result = preg_replace( array( '/ETag: (\w+)/' ), array( 'ETag: XXX' ), $result );
+        $result = preg_replace( array( '/Server: ([\w\/\.]+)/' ), array( 'Server: XXX' ), $result );
         $result = preg_replace( '@<D:creationdate>.*?</D:creationdate>@', '<D:creationdate>XXX</D:creationdate>', $result );
         $result = preg_replace( '@<D:getlastmodified>.*?</D:getlastmodified>@', '<D:getlastmodified>XXX</D:getlastmodified>', $result );
         $result = preg_replace( '@<D:getetag>.*?</D:getetag>@', '<D:getetag>XXX</D:getetag>', $result );
@@ -316,9 +282,9 @@ class eZWebDAVBackendContentRegressionTest extends ezpTestRegressionTest
 
         // var_dump( $GLOBALS['ezc_webdav_testfolder'] . ' (' . $GLOBALS['ezc_webdav_testfolderid'] . ')' );
 
-        eZExtension::activateExtensions( 'default' );
+        //eZExtension::activateExtensions( 'default' );
 
-        eZModule::setGlobalPathList( array( "kernel" ) );
+        //eZModule::setGlobalPathList( array( "kernel" ) );
 
         eZUser::logoutCurrent();
 

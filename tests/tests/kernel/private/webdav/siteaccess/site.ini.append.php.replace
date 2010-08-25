@@ -1,34 +1,29 @@
 <?php /* #?ini charset="utf-8"?
 
 [DatabaseSettings]
-DatabaseImplementation=ezmysql
-Server=localhost
-Port=
-User=root
-Password=
-Database=@ezc_webdav_database@
-Charset=
-Socket=disabled
-
-[InformationCollectionSettings]
-EmailReceiver=
+DatabaseImplementation=ez@ezc_db_phptype@
+Server=@ezc_db_server@
+Port=@ezc_db_port@
+User=@ezc_db_user@
+Password=@ezc_db_password@
+Database=@ezc_db_database@
+Socket=@ezc_db_socket@
 
 [SiteSettings]
 SiteName=Plain site
 SiteURL=ezp
 LoginPage=embedded
 PathPrefix=@ezc_siteaccess@
+DefaultAccess=@ezc_siteaccess@
+SiteList[]
+SiteList[]=@ezc_siteaccess@
 
-[UserSettings]
-RegistrationEmail=
 
 [SiteAccessSettings]
 RequireUserLogin=false
 ShowHiddenNodes=false
-
-[DesignSettings]
-SiteDesign=plain_site
-AdditionalSiteDesignList[]=base
+AvailableSiteAccessList[]
+AvailableSiteAccessList[]=@ezc_siteaccess@
 
 [RegionalSettings]
 Locale=eng-GB
@@ -36,13 +31,4 @@ ContentObjectLocale=eng-GB
 SiteLanguageList[]=eng-GB
 TextTranslation=disabled
 
-[FileSettings]
-VarDir=var/@ezc_siteaccess@
-
-[ContentSettings]
-TranslationList=
-
-[MailSettings]
-AdminEmail=nospam@ez.no
-EmailSender=
 */ ?>

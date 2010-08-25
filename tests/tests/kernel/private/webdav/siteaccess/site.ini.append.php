@@ -1,5 +1,9 @@
 <?php /* #?ini charset="utf-8"?
 
+# old settings used by as for orig webdav test setup
+# just kept for reference as many test fails currently when enabled.
+
+
 [DatabaseSettings]
 DatabaseImplementation=ezmysql
 Server=localhost

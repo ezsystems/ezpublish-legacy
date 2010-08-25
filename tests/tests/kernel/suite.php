@@ -37,6 +37,7 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
 
         // This test suite is commented out until it will be fixed to work on any machine
         // $this->addTestSuite( 'eZWebDAVBackendContentRegressionTest' );
+
         $this->addTestSuite( 'eZLDAPUserTest' );
         $this->addTestSuite( 'eZTextFileUserTest' );
         $this->addTestSuite( 'eZUserTest' );
@@ -69,7 +70,6 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'eZExtensionWithoutOrderingTest' );
         $this->addTestSuite( 'ezpExtensionTest' );
 
-        // This test suite is commented out until it will be fixed to work on any machine
         $this->addTestSuite( 'eZRSSExportTest' );
 
         $this->addTestSuite( 'eZSiteAccess_Test' );
