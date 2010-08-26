@@ -103,7 +103,7 @@ class eZWebDAVBackendContentRegressionTest extends ezpTestRegressionTest
         $GLOBALS['ezc_webdav_url'] = 'http://' . $GLOBALS['ezc_webdav_host'] . '/';
 
         // Set some server variables (not all of them are needed)
-        $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (compatible; Konqueror/4.1; OpenBSD) KHTML/4.1.4 (like Gecko)';//'cadaver/0.22.5 neon/0.26.3';
+        $_SERVER['HTTP_USER_AGENT'] = 'cadaver/0.22.5 neon/0.26.3';
         $_SERVER['SERVER_NAME'] = $GLOBALS['ezc_webdav_host'];
         $_SERVER['SERVER_PORT'] = '80';
 
