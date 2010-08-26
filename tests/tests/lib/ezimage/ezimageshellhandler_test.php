@@ -6,6 +6,12 @@ class eZImageShellHandlerTest extends ezpTestCase
     {
         parent::setUp();
 
+        exec( eZINI::instance( "image.ini" )->variable( "ImageMagick", "Executable" ) . " -version", $output, $returnValue );
+        if ( $returnValue !== 0 )
+        {
+            $this->markTestSkipped( 'ImageMagick is not installed' );
+        }
+
         $this->imageManager = eZImageManager::instance();
         $this->imageManager->readINISettings();
 
