@@ -93,6 +93,15 @@ Deprecated functionality
 
   Use native "file( $file, FILE_IGNORE_NEW_LINES )" instead.
 
+- design/admin
+
+  Old admin design is deprecated and will be removed in the next version.
+  admin templates in extensions will continue to work thanks to design fallback:
+  [DesignSettings]
+  SiteDesign=<my_admin_design>
+  AdditionalSiteDesignList[]=admin2
+  AdditionalSiteDesignList[]=admin
+
 Renamed methods
 ---------------
 
