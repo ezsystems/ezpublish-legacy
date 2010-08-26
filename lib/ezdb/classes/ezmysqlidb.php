@@ -41,6 +41,9 @@
 
 class eZMySQLiDB extends eZDBInterface
 {
+    const RELATION_FOREIGN_KEY = 5;
+    const RELATION_FOREIGN_KEY_BIT = 32;
+
     /*!
       Create a new eZMySQLiDB object and connects to the database backend.
     */
@@ -582,12 +585,12 @@ class eZMySQLiDB extends eZDBInterface
 
     function supportedRelationTypeMask()
     {
-        return eZDBInterface::RELATION_TABLE_BIT;
+        return eZDBInterface::RELATION_TABLE_BIT | self::RELATION_FOREIGN_KEY_BIT;
     }
 
     function supportedRelationTypes()
     {
-        return array( eZDBInterface::RELATION_TABLE );
+        return array( self::RELATION_FOREIGN_KEY, eZDBInterface::RELATION_TABLE );
     }
 
     function relationCounts( $relationMask )
@@ -608,35 +611,99 @@ class eZMySQLiDB extends eZDBInterface
         $count = false;
         if ( $this->IsConnected )
         {
-            $query = 'SHOW TABLES from `' . $this->DB .'`';
-            $result = mysqli_query( $this->DBConnection, $query );
-            $this->reportQuery( __CLASS__, $query, false, false );
-            $count = mysqli_num_rows( $result );
-            mysqli_free_result( $result );
+            switch ( $relationType )
+            {
+                case eZDBInterface::RELATION_TABLE:
+                {
+                    $query = 'SHOW TABLES from `' . $this->DB .'`';
+                    $result = mysqli_query( $this->DBConnection, $query );
+                    $this->reportQuery( __CLASS__, $query, false, false );
+                    $count = mysqli_num_rows( $result );
+                    mysqli_free_result( $result );
+                } break;
+
+                case self::RELATION_FOREIGN_KEY:
+                {
+                    $count = count( $this->relationList( self::RELATION_FOREIGN_KEY ) );
+                } break;
+            }
+
         }
         return $count;
     }
 
     function relationList( $relationType = eZDBInterface::RELATION_TABLE )
     {
-        if ( $relationType != eZDBInterface::RELATION_TABLE )
+        if ( !in_array( $relationType, $this->supportedRelationTypes() ) )
         {
             eZDebug::writeError( "Unsupported relation type '$relationType'", __METHOD__ );
             return false;
         }
-        $tables = array();
         if ( $this->IsConnected )
         {
-            $query = 'SHOW TABLES from `' . $this->DB .'`';
-            $result = mysqli_query( $this->DBConnection, $query );
-            $this->reportQuery( __CLASS__, $query, false, false );
-            while( $row = mysqli_fetch_row( $result ) )
+            switch ( $relationType )
             {
-                $tables[] = $row[0];
+                case eZDBInterface::RELATION_TABLE:
+                {
+                    $tables = array();
+                    $query = 'SHOW TABLES from `' . $this->DB .'`';
+                    $result = mysqli_query( $this->DBConnection, $query );
+                    $this->reportQuery( __CLASS__, $query, false, false );
+                    while( $row = mysqli_fetch_row( $result ) )
+                    {
+                        $tables[] = $row[0];
+                    }
+                    mysqli_free_result( $result );
+                    return $tables;
+                } break;
+
+                case self::RELATION_FOREIGN_KEY:
+                {
+                    /**
+                     * Ideally, we would have queried information_schema.KEY_COLUMN_USAGE
+                     * However, a known bug causes queries on this table to potentially be VERY slow (http://bugs.mysql.com/bug.php?id=19588)
+                     *
+                     * The query would look like this:
+                     * SELECT table_name AS from_table, column_name AS from_column, referenced_table_name AS to_table,
+                     *        referenced_column_name AS to_column
+                     * FROM information_schema.KEY_COLUMN_USAGE
+                     * WHERE REFERENCED_TABLE_SCHEMA = '{$this->DB}'
+                     *   AND REFERENCED_TABLE_NAME is not null;
+                     *
+                     * Result as of MySQL 5.1.48 / August 2010:
+                     *
+                     * +---------------+-------------+----------+-----------+
+                     * | from_table    | from_column | to_table | to_column |
+                     * +---------------+-------------+----------+-----------+
+                     * | ezdbfile_data | name_hash   | ezdbfile | name_hash |
+                     * +---------------+-------------+----------+-----------+
+                     * 1 row in set (12.56 sec)
+                     *
+                     * The only way out right now is to parse SHOW CREATE TABLE for each table and extract CONSTRAINT lines
+                     */
+
+                    $foreignKeys = array();
+                    foreach( $this->relationList( eZDBInterface::RELATION_TABLE ) as $table )
+                    {
+                        $query = "SHOW CREATE TABLE $table";
+                        $result = mysqli_query( $this->DBConnection, $query );
+                        $this->reportQuery( __CLASS__, $query, false, false );
+                        if ( mysqli_num_rows( $result ) === 1 )
+                        {
+                            $row = mysqli_fetch_row( $result );
+                            if ( strpos( $row[1], "CONSTRAINT" ) !== false )
+                            {
+                                if ( preg_match_all( '#CONSTRAINT `([^`]+)` FOREIGN KEY \(`.*`\) REFERENCES `([^`]+)` \(`.*`\)#', $row[1], $matches, PREG_PATTERN_ORDER ) )
+                                {
+                                    $foreignKeys[] = array( 'table' => $table, 'keys' => $matches[1] );
+                                }
+                            }
+                        }
+                    }
+                    return $foreignKeys;
+                }
             }
-            mysqli_free_result( $result );
         }
-        return $tables;
     }
 
     function eZTableList( $server = eZDBInterface::SERVER_MASTER )
@@ -687,10 +754,40 @@ class eZMySQLiDB extends eZDBInterface
 
         if ( $this->IsConnected )
         {
-            $sql = "DROP $relationTypeName $relationName";
-            return $this->query( $sql );
+            switch ( $relationType )
+            {
+                case self::RELATION_FOREIGN_KEY:
+                {
+                    $table = $relationName['table'];
+                    foreach( $relationName['keys'] as $foreignKey )
+                    {
+                        $sql = "ALTER TABLE {$table} DROP FOREIGN KEY {$foreignKey}";
+                        $this->query( $sql );
+                    }
+                    return true;
+                } break;
+
+                default:
+                {
+                    $sql = "DROP $relationTypeName $relationName";
+                    return $this->query( $sql );
+                }
+            }
         }
         return false;
+    }
+
+    /**
+     * Local eZDBInterface::relationName() override to support the foreign keys type relation
+     * @param $relationType
+     * @return string|false
+     */
+    public function relationName( $relationType )
+    {
+        if ( $relationType == self::RELATION_FOREIGN_KEY )
+            return 'FOREIGN_KEY';
+        else
+            return parent::relationName( $relationType );
     }
 
     function lock( $table )
