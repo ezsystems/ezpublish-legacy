@@ -52,6 +52,19 @@ $Params['TemplateObject'] = $tpl;
 
 // $http->removeSessionVariable( "RegisterUserID" );
 
+if ( $redirectNumber == '3' )
+{
+    $tpl->setVariable( 'content_attributes', false );
+
+    $Result = array();
+    $Result['content'] = $tpl->fetch( 'design:user/register.tpl' );
+    $Result['path'] = array( array( 'url' => false,
+                            'text' => ezpI18n::tr( 'kernel/user', 'User' ) ),
+                        array( 'url' => false,
+                            'text' => ezpI18n::tr( 'kernel/user', 'Register' ) ) );
+    return $Result;
+}
+
 $db = eZDB::instance();
 $db->begin();
 
@@ -197,6 +210,14 @@ if ( !function_exists( 'checkContentActions' ) )
             $user = eZUser::currentUser();
             $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $object->attribute( 'id' ),
                                                                                          'version' => $version->attribute( 'version') ) );
+
+            // Break here if the publishing failed
+            if ( $operationResult['status'] !== eZModuleOperationInfo::STATUS_CONTINUE )
+            {
+                eZDebug::writeError( 'User object(' . $object->attribute( 'id' ) . ') could not be published.', 'user/register' );
+                $module->redirectTo( '/user/register/3' );
+                return;
+            }
 
             $object = eZContentObject::fetch( $object->attribute( 'id' ) );
 
