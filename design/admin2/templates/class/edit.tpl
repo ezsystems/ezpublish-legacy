@@ -26,7 +26,7 @@
 {section-else}
 {* no attribute validation errors *}
 <div class="message-feedback">
-    <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The class definition was successfully stored.'|i18n( 'design/admin/class/edit' )}</h2>
+    <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The draft of the class definition was successfully stored.'|i18n( 'design/admin/class/edit' )}</h2>
 </div>
 {/section}
 
