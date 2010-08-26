@@ -180,6 +180,24 @@ class eZApproveType extends eZWorkflowEventType
             return eZWorkflowType::STATUS_WORKFLOW_CANCELLED;
         }
 
+        // only check this in cronjob
+        if( $process->attribute( 'status' ) == eZWorkflow::STATUS_DEFERRED_TO_CRON )
+        {
+            $nodeAssignmentList = $version->attribute( 'node_assignments' );
+            if( !empty( $nodeAssignmentList ) )
+            {
+                foreach ( $nodeAssignmentList as $nodeAssignment )
+                {
+                    $parentNode = $nodeAssignment->getParentNode();
+                    if( $parentNode === null )
+                    {
+                        eZDebugSetting::writeError( 'kernel-workflow-approve', "No parent node for object with ID $objectID version $versionID", 'eZApproveType::execute' );
+                        return eZWorkflowType::STATUS_WORKFLOW_CANCELLED;
+                    }
+                }
+            }
+        }
+
         // version option checking
         $version_option = $event->attribute( 'version_option' );
         if ( ( $version_option == eZApproveType::VERSION_OPTION_FIRST_ONLY and $parameters['version'] > 1 ) or
