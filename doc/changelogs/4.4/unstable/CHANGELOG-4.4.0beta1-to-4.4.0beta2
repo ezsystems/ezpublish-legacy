@@ -28,7 +28,7 @@ Changes from 4.4.0beta1 to 4.4.0beta2
 - Fixed bug #016512: Activation email is sent even if user registration fails
 - Fixed bug #016524: [Tip a Friend] Translation mistake in kernel/content/tipafriend.php
 - Fixed bug #016664: ezHTTPTool::sendHTTPRequest() fails on port not 80
-            (Add support for setting port in $uri when $port is false)
+  (Add support for setting port in $uri when $port is false)
 - Fixed bug #016739: Sorting Bug in eZCountryType::fetchTranslatedNames on some systems
 - Fixed bug #016883: WebDAV doesn't support clustering
 - Fixed bug #016953: &nbsp; breaks RSS/ATOM feeds
