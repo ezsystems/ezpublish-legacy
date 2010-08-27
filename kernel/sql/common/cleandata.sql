@@ -963,7 +963,7 @@ INSERT INTO ezcontentclass_attribute (
   serialized_name_list,
   version
 ) VALUES (
-  1,
+  0,
   '',
   4,
   0,

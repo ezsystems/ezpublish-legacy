@@ -425,7 +425,7 @@ if ( $contentClassHasInput )
 
         if ( $http->hasPostVariable( 'ContentAttribute_priority' ) )
             $placementArray = $http->postVariable( 'ContentAttribute_priority' );
-            
+
         if ( $http->hasPostVariable( 'ContentAttribute_category_select' ) )
             $categoryArray = $http->postVariable( 'ContentAttribute_category_select' );
 
@@ -436,7 +436,7 @@ if ( $contentClassHasInput )
             $attribute->setAttribute( 'is_searchable', in_array( $attributeID, $searchableCheckedArray ) );
             $attribute->setAttribute( 'is_information_collector', in_array( $attributeID, $informationCollectorCheckedArray ) );
             // Set can_translate to 0 if user has clicked Disable translation in GUI
-            $attribute->setAttribute( 'can_translate', !in_array( $attributeID, $canTranslateCheckedArray ) );
+            $attribute->setAttribute( 'can_translate', !in_array( $attributeID, $canTranslateCheckedArray ) && $attribute->dataType()->isTranslatable() );
             // check if the category is set for this attribute key, may not be the case when using old admin and new attributes
             // if this is not set at all, it gets a default value from the DB
             // if it is set, we want to leave it like that of course
