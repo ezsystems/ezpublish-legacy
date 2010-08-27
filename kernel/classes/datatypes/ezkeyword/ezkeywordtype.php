@@ -179,14 +179,6 @@ class eZKeywordType extends eZDataType
     }
 
     /*!
-     \return the collect information action if enabled
-    */
-    function contentActionList( $classAttribute )
-    {
-        return array();
-    }
-
-    /*!
      Delete stored object attribute
     */
     function deleteStoredObjectAttribute( $contentObjectAttribute, $version = null )

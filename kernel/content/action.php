@@ -1169,7 +1169,6 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
             $module->setExitStatus( $shopModule->exitStatus() );
             $module->setRedirectURI( $shopModule->redirectURI() );
         }
-
     }
     else if ( $http->hasPostVariable( "ActionAddToWishList" ) )
     {
@@ -1304,6 +1303,41 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
     }
     else
     {
+        // Check if there are any custom actions to handle
+        $customActions = eZINI::instance( 'datatype.ini' )->variable( 'ViewSettings', 'CustomActionMap' );
+        foreach( $customActions as $customActionName => $customActionUrl )
+        {
+            if ( $http->hasPostVariable( $customActionName ) )
+            {
+                if ( strpos( $customActionUrl, '/' ) !== false )
+                {
+                    list( $customActionModuleName, $customActionViewName ) = explode( '/', $customActionUrl );
+                    $customActionModule = eZModule::exists( $customActionModuleName );
+                    if ( !$customActionModule instanceof eZModule )
+                    {
+                        eZDebug::writeError( "Could not load custom action module for: $customActionUrl", "kernel/content/action.php" );
+                    }
+
+                    $result = $customActionModule->run( $customActionViewName, array() );
+                    if ( isset( $result['content'] ) && $result['content'] )
+                    {
+                        return $result;
+                    }
+                    else
+                    {
+                        $module->setExitStatus( $customActionModule->exitStatus() );
+                        $module->setRedirectURI( $customActionModule->redirectURI() );
+                        return $result;
+                    }
+                }
+                else
+                {
+                    return $module->run( $customActionUrl );
+                }
+            }
+        }
+
+        // look for custom content action handlers
         $baseDirectory = eZExtension::baseDirectory();
         $contentINI = eZINI::instance( 'content.ini' );
         $extensionDirectories = $contentINI->variable( 'ActionSettings', 'ExtensionDirectories' );
@@ -1525,7 +1559,6 @@ else if ( !isset( $result ) )
 {
     return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 }
-
 
 // return module contents
 $Result = array();

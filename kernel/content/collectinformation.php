@@ -195,6 +195,14 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
                                                       'name' => $validationName,
                                                       'description' => $description );
                 }
+                else
+                {
+                    $validationName = $contentClassAttribute->attribute( 'name' );
+                    $unvalidatedAttributes[] = array( 'id' => $contentObjectAttribute->attribute( 'id' ),
+                                                      'identifier' => $contentClassAttribute->attribute( 'identifier' ),
+                                                      'name' => $validationName,
+                                                      'description' => 'Attribute did not validate as it seems to missing in form.' );
+                }
             }
             else if ( $status == eZInputValidator::STATE_ACCEPTED )
             {

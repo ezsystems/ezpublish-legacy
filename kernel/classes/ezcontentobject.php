@@ -4775,23 +4775,16 @@ class eZContentObject extends eZPersistentObject
         // Fetch content actions if not already fetched
         if ( $this->ContentActionList === false )
         {
-
-            $contentActionList = array();
             foreach ( $attributeList as $attribute )
             {
-                $contentActions = $attribute->contentActionList();
-                if ( count( $contentActions ) > 0 )
+                $contentActionList = $attribute->contentActionList();
+                if ( is_array( $contentActionList ) && !empty( $contentActionList ) )
                 {
-                    $contentActionList = $attribute->contentActionList();
-
-                    if ( is_array( $contentActionList ) )
+                    foreach ( $contentActionList as $action )
                     {
-                        foreach ( $contentActionList as $action )
+                        if ( !$this->hasContentAction( $action['action'] ) )
                         {
-                            if ( !$this->hasContentAction( $action['action'] ) )
-                            {
-                                $this->ContentActionList[] = $action;
-                            }
+                            $this->ContentActionList[] = $action;
                         }
                     }
                 }

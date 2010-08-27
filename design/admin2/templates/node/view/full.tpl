@@ -114,15 +114,6 @@
     </p>
 </div>
 
-<div class="button-right">
-<div class="block">
-    {* Custom content action buttons. *}
-    {section var=ContentActions loop=$node.object.content_action_list}
-        <input class="button" type="submit" name="{$ContentActions.item.action}" value="{$ContentActions.item.name}" />
-    {/section}
-</div>
-</div>
-
 <div class="float-break"></div>
 </form>
 {* DESIGN: Control bar END *}
