@@ -36,9 +36,8 @@ class eZTextFileUserTest extends ezpDatabaseTestCase
 
     public function tearDown()
     {
-        parent::tearDown();
-
         ezpINIHelper::restoreINISettings();
+        parent::tearDown();
     }
 
     /**
