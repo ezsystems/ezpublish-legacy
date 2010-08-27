@@ -308,11 +308,7 @@ class eZUser extends eZPersistentObject
     static function fetchLoggedInList( $asObject = false, $offset = false, $limit = false, $sortBy = false )
     {
         $db = eZDB::instance();
-        $time = time();
-        $ini = eZINI::instance();
-        $activityTimeout = $ini->variable( 'Session', 'ActivityTimeout' );
-        $sessionTimeout = $ini->variable( 'Session', 'SessionTimeout' );
-        $time = $time + $sessionTimeout - $activityTimeout;
+        $time = time() - eZINI::instance()->variable( 'Session', 'ActivityTimeout' );
 
         $parameters = array();
         if ( $offset )
@@ -357,7 +353,7 @@ class eZUser extends eZPersistentObject
 
                     case 'activity':
                     {
-                        $selectArray[] = "( ezsession.expiration_time -  " . ( $sessionTimeout - $activityTimeout ) . " ) AS activity";
+                        $selectArray[] = "ezuservisit.current_visit_timestamp AS activity";
                         $sortColumn = "activity $orderText";
                     } break;
 
@@ -382,10 +378,10 @@ class eZUser extends eZPersistentObject
         {
             $selectText = implode( ', ',  $selectArray );
             $sql = "SELECT $selectText
-FROM ezsession, ezuser
-WHERE ezsession.user_id != '" . self::anonymousId() . "' AND
-      ezsession.expiration_time > '$time' AND
-      ezuser.contentobject_id = ezsession.user_id
+FROM ezuservisit, ezuser
+WHERE ezuservisit.user_id != '" . self::anonymousId() . "' AND
+      ezuservisit.expiration_time > '$time' AND
+      ezuser.contentobject_id = ezuservisit.user_id
 $sortText";
             $rows = $db->arrayQuery( $sql, $parameters );
             $list = array();
@@ -398,10 +394,10 @@ $sortText";
         {
             $selectText = implode( ', ',  $selectArray );
             $sql = "SELECT $selectText
-FROM ezsession, ezuser, ezcontentobject
-WHERE ezsession.user_id != '" . self::anonymousId() . "' AND
-      ezsession.expiration_time > '$time' AND
-      ezuser.contentobject_id = ezsession.user_id AND
+FROM ezuservisit, ezuser, ezcontentobject
+WHERE ezuservisit.user_id != '" . self::anonymousId() . "' AND
+      ezuservisit.expiration_time > '$time' AND
+      ezuser.contentobject_id = ezuservisit.user_id AND
       ezcontentobject.id = ezuser.contentobject_id
 $sortText";
             $rows = $db->arrayQuery( $sql, $parameters );
@@ -426,27 +422,24 @@ $sortText";
              isset( $GLOBALS['eZUserLoggedInCount'] ) )
             return $GLOBALS['eZUserLoggedInCount'];
         $db = eZDB::instance();
-        $time = time();
-        $ini = eZINI::instance();
-        $activityTimeout = $ini->variable( 'Session', 'ActivityTimeout' );
-        $sessionTimeout = $ini->variable( 'Session', 'SessionTimeout' );
-        $time = $time + $sessionTimeout - $activityTimeout;
+        $time = time() - eZINI::instance()->variable( 'Session', 'ActivityTimeout' );
 
         $sql = "SELECT count( DISTINCT user_id ) as count
-FROM ezsession
+FROM ezuservisit
 WHERE user_id != '" . self::anonymousId() . "' AND
       user_id > 0 AND
-      expiration_time > '$time'";
+      current_visit_timestamp > '$time'";
         $rows = $db->arrayQuery( $sql );
         $count = isset( $rows[0] ) ? $rows[0]['count'] : 0;
         $GLOBALS['eZUserLoggedInCount'] = $count;
         return $count;
     }
 
-    /*!
-     \static
-     \return the number of anonymous users in the system.
-     \sa fetchLoggedInCount
+    /**
+     * Return the number of anonymous users in the system.
+     *
+     * @deprecated As of 4.4 since default session handler does not support this.
+     * @return int
     */
     static function fetchAnonymousCount()
     {
@@ -485,16 +478,12 @@ WHERE user_id = '" . self::anonymousId() . "' AND
              isset( $GLOBALS['eZUserLoggedInMap'][$userID] ) )
             return $GLOBALS['eZUserLoggedInMap'][$userID];
         $db = eZDB::instance();
-        $time = time();
-        $ini = eZINI::instance();
-        $activityTimeout = $ini->variable( 'Session', 'ActivityTimeout' );
-        $sessionTimeout = $ini->variable( 'Session', 'SessionTimeout' );
-        $time = $time + $sessionTimeout - $activityTimeout;
+        $time = time() - eZINI::instance()->variable( 'Session', 'ActivityTimeout' );
 
         $sql = "SELECT DISTINCT user_id
-FROM ezsession
+FROM ezuservisit
 WHERE user_id = '" . $userID . "' AND
-      expiration_time > '$time'";
+      current_visit_timestamp > '$time'";
         $rows = $db->arrayQuery( $sql, array( 'limit' => 2 ) );
         $isLoggedIn = isset( $rows[0] );
         $GLOBALS['eZUserLoggedInMap'][$userID] = $isLoggedIn;
