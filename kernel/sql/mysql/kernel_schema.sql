@@ -710,8 +710,8 @@ CREATE TABLE ezinfocollection_attribute (
   id int(11) NOT NULL auto_increment,
   informationcollection_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id),
-  KEY ezinfocollection_attr_co_id (contentobject_id),
   KEY ezinfocollection_attr_cca_id (contentclass_attribute_id),
+  KEY ezinfocollection_attr_co_id (contentobject_id),
   KEY ezinfocollection_attr_coa_id (contentobject_attribute_id),
   KEY ezinfocollection_attr_ic_id (informationcollection_id)
 ) ENGINE=InnoDB;
@@ -1077,8 +1077,8 @@ CREATE TABLE ezpolicy (
   function_name varchar(255) default NULL,
   id int(11) NOT NULL auto_increment,
   module_name varchar(255) default NULL,
+  original_id int(11) NOT NULL default '0',
   role_id int(11) default NULL,
-  original_id int(11) NOT NULL default 0,
   PRIMARY KEY  (id),
   KEY ezpolicy_original_id (original_id)
 ) ENGINE=InnoDB;
@@ -1346,10 +1346,10 @@ CREATE TABLE ezsearch_word (
 
 CREATE TABLE ezsection (
   id int(11) NOT NULL auto_increment,
+  identifier varchar(255) default NULL,
   locale varchar(255) default NULL,
   name varchar(255) default NULL,
   navigation_part_identifier varchar(100) default 'ezcontentnavigationpart',
-  identifier varchar(255) default NULL,
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB;
 
