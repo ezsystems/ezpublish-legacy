@@ -29,14 +29,12 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'eZMultiPriceTypeRegression' );
         $this->addTestSuite( 'eZContentObjectStateTest' );
         $this->addTestSuite( 'eZContentObjectStateGroupTest' );
-        $this->addTestSuite( 'eZDFSFileHandlerTest' );
-        $this->addTestSuite( 'eZDFSFileHandlerDFSBackendTest' );
         $this->addTestSuite( 'eZWorkflowEventRegression' );
         $this->addTestSuite( 'eZURLWildcardTest' );
         $this->addTestSuite( 'eZUserAuthenticationTest' );
 
         // This test suite is commented out until it will be fixed to work on any machine
-        // $this->addTestSuite( 'eZWebDAVBackendContentRegressionTest' );
+        $this->addTestSuite( 'eZWebDAVBackendContentRegressionTest' );
 
         $this->addTestSuite( 'eZLDAPUserTest' );
         $this->addTestSuite( 'eZTextFileUserTest' );
@@ -78,6 +76,8 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'eZPendingActionsTest' );
         $this->addTestSuite( 'eZSectionTest' );
         $this->addTestSuite( 'eZNodeAssignmentTest' );
+
+        $this->addTestSuite( 'eZClusterTestSuite' );
     }
 
     public static function suite()
