@@ -26775,7 +26775,7 @@ si has triat l&apos;opció &quot;%3&quot; des de &quot;%4&quot; </translation>
         <translation type="unfinished">La petició enviada al servidor era massa gran per ser acceptada. Això vol dir que has carregar un fitxer massa gran. La grandària màxima permès és %max_size_string.</translation>
     </message>
     <message>
-        <source>You have already sent a tipafriend mail to this reciver regarding &apos;$nodeName&apos; content</source>
+        <source>You have already sent a tipafriend mail to this receiver regarding &apos;$nodeName&apos; content</source>
         <translation type="obsolete">Ja havies enviat un e-mail a aquest destinatari fent referencia a &apos;$nodeName&apos;</translation>
     </message>
     <message>

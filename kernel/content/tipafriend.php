@@ -120,7 +120,7 @@ if ( $http->hasPostVariable( 'SendButton' ) )
     if ( $http->hasSessionVariable('ezpContentTipafriendList') )
     {
         if ( strpos( $http->sessionVariable('ezpContentTipafriendList'), $NodeID . '|' . $receiversEmail ) !== false )
-            $error_strings[] = ezpI18n::tr( 'kernel/content', "You have already sent a tipafriend mail to this receiver regarding '$nodeName' content" );
+            $error_strings[] = ezpI18n::tr( 'kernel/content', "You have already sent a tipafriend mail to this receiver regarding '%1' content", null, array( $nodeName ) );
     }
 
     if ( !isset( $error_strings[0] ) && !eZTipafriendRequest::checkReceiver( $receiversEmail ) )

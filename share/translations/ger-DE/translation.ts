@@ -32535,7 +32535,7 @@ wenn Sie die Option &quot;%3&quot; von &quot;%4&quot; ausgewählt haben </transl
         <translation type="unfinished">Die Daten, die zum Server gesendet wurden, waren zu groß und konnten nicht akzeptiert werden. Das heißt wahrscheinlich, dass Sie eine Datei hochladen wollten, die zu groß ist. Die maximal erlaubte Größe ist %max_size_string.</translation>
     </message>
     <message>
-        <source>You have already sent a tipafriend mail to this reciver regarding &apos;$nodeName&apos; content</source>
+        <source>You have already sent a tipafriend mail to this receiver regarding &apos;$nodeName&apos; content</source>
         <translation type="obsolete">Sie haben bereits eine Empfehlungsmail von &apos;$nodeName&apos; an diesen Empfänger gesendet</translation>
     </message>
     <message>

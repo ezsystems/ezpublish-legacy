@@ -26600,7 +26600,7 @@ Følg veiledningen i den e-posten for å aktivere kontoen din.</translation>
         <translation>Du har sendt en forspørsel som er for stor til at serveren kan akseptere den. Dette betyr vanligvis at du har forsøkt å laste opp en fil som er for stor. Forespørsler kan ikke være større enn %max_size_string.</translation>
     </message>
     <message>
-        <source>You have already sent a tipafriend mail to this reciver regarding &apos;$nodeName&apos; content</source>
+        <source>You have already sent a tipafriend mail to this receiver regarding &apos;$nodeName&apos; content</source>
         <translation type="obsolete">Du har allerede sendt en &quot;Tips en venn&quot;-e-post om &apos;$nodeName&apos; til denne mottakeren</translation>
     </message>
     <message>

@@ -26269,7 +26269,7 @@ your account.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>You have already sent a tipafriend mail to this reciver regarding &apos;$nodeName&apos; content</source>
+        <source>You have already sent a tipafriend mail to this receiver regarding &apos;$nodeName&apos; content</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

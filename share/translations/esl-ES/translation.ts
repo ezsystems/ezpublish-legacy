@@ -26779,7 +26779,7 @@ si has elegido la opción &quot;%3&quot; desde &quot;%4&quot; </translation>
         <translation type="unfinished">La petición al servidor es demasiado grande para ser aceptada. Esto quiere decir que el archivo que has intentado subir era demasiado grande. El tamaño máximo permitido es %max_size_string.</translation>
     </message>
     <message>
-        <source>You have already sent a tipafriend mail to this reciver regarding &apos;$nodeName&apos; content</source>
+        <source>You have already sent a tipafriend mail to this receiver regarding &apos;$nodeName&apos; content</source>
         <translation type="obsolete">Ya habías enviado un correo a este destinatario en referencia a &apos;$nodeName&apos;</translation>
     </message>
     <message>
