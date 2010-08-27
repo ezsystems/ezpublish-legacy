@@ -222,6 +222,16 @@ class eZDataType
         return $this->Attributes["information"]["string"];
     }
 
+    /**
+     * Indicates if datatype supports being translated
+     *
+     * @return bool
+     */
+    function isTranslatable()
+    {
+        return $this->Attributes['properties']['translation_allowed'];
+    }
+
     /*!
      \return the attributes for this datatype.
     */
