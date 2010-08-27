@@ -53,6 +53,7 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'eZContentLanguageRegression' );
         $this->addTestSuite( 'eZContentOperationCollectionRegression' );
         $this->addTestSuite( 'eZContentClassTest' );
+        $this->addTestSuite( 'eZContentClassAttributeTest' );
         $this->addTestSuite( 'eZPackageRegression' );
         $this->addTestSuite( 'eZContentFunctionsTest' );
         $this->addTestSuite( 'eZBinaryFileTypeRegression' );
