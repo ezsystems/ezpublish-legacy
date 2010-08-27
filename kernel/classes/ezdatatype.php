@@ -942,14 +942,18 @@ class eZDataType
     {
     }
 
-    /*!
-     \return the content action(s) which can be performed on object containing
-     the current datatype.
+    /**
+     * Return content action(s) which can be performed on object containing
+     * the current datatype. Return format is array of arrays with key 'name'
+     * and 'action'. 'action' can be mapped to url in datatype.ini
+     *
+     * @param eZContentClassAttribute $classAttribute
+     * @return array
     */
     function contentActionList( $classAttribute )
     {
         $actionList = array();
-        if ( is_object( $classAttribute ) )
+        if ( $classAttribute instanceof eZContentClassAttribute )
         {
             if ( $classAttribute->attribute( 'is_information_collector' ) == true )
             {

@@ -197,14 +197,24 @@ class eZPriceType extends eZDataType
         return $price;
     }
 
+    /**
+     * Return content action(s) which can be performed on object containing
+     * the current datatype. Return format is array of arrays with key 'name'
+     * and 'action'. 'action' can be mapped to url in datatype.ini
+     *
+     * @param eZContentClassAttribute $classAttribute
+     * @return array
+    */
     function contentActionList( $classAttribute )
     {
-        return array( array( 'name' => ezpI18n::tr( 'kernel/classes/datatypes', 'Add to basket' ),
-                             'action' => 'ActionAddToBasket'
-                             ),
-                      array( 'name' => ezpI18n::tr( 'kernel/classes/datatypes', 'Add to wish list' ),
-                             'action' => 'ActionAddToWishList'
-                             ) );
+        $actionList = parent::contentActionList( $classAttribute );
+        $actionList[] = array( 'name' => ezpI18n::tr( 'kernel/classes/datatypes', 'Add to basket' ),
+                               'action' => 'ActionAddToBasket'
+        );
+        $actionList[] = array( 'name' => ezpI18n::tr( 'kernel/classes/datatypes', 'Add to wish list' ),
+                               'action' => 'ActionAddToWishList'
+        );
+        return $actionList;
     }
 
     function title( $contentObjectAttribute, $name = null )
