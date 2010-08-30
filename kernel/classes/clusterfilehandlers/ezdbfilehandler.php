@@ -52,7 +52,7 @@ class eZDBFileHandler
      *
      * $filePath File path. If specified, file metadata is fetched in the constructor.
      */
-    function eZDBFileHandler( $filePath = false )
+    function __construct( $filePath = false )
     {
         $filePath = eZDBFileHandler::cleanPath( $filePath );
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::ctor( '$filePath' )" );
@@ -82,12 +82,10 @@ class eZDBFileHandler
         $this->nonExistantStaleCacheHandling = $GLOBALS['eZDBFileHandler_Settings']['NonExistantStaleCacheHandling'];
     }
 
-    /*!
-     \public
-     Load file meta information.
-
-     \param $force File stats will be refreshed if true
-    */
+    /**
+     * Load file meta information from the database
+     * @param bool $force File stats will be refreshed if true
+     */
     function loadMetaData( $force = false )
     {
         // Fetch metadata.
@@ -96,7 +94,7 @@ class eZDBFileHandler
 
         // we don't fetch metaData if self::metaData === false, since this means
         // we already tried and got no results, unless $force == true
-        if ( ( $this->metaData === false ) && ( $force !== true ) )
+        if ( ( $this->_metaData === false ) && ( $force !== true ) )
             return;
 
         if ( $force && isset( $GLOBALS['eZClusterInfo'][$this->filePath] ) )
@@ -108,15 +106,15 @@ class eZDBFileHandler
         if ( isset( $GLOBALS['eZClusterInfo'][$this->filePath] ) )
         {
             $GLOBALS['eZClusterInfo'][$this->filePath]['cnt'] += 1;
-            $this->metaData = $GLOBALS['eZClusterInfo'][$this->filePath]['data'];
+            $this->_metaData = $GLOBALS['eZClusterInfo'][$this->filePath]['data'];
             return;
         }
 
         $metaData = $this->backend->_fetchMetadata( $this->filePath );
         if ( $metaData )
-            $this->metaData = $metaData;
+            $this->_metaData = $metaData;
         else
-            $this->metaData = false;
+            $this->_metaData = false;
 
         // Clean up old entries if the maximum count is reached
         if ( isset( $GLOBALS['eZClusterInfo'] ) &&
@@ -132,11 +130,14 @@ class eZDBFileHandler
     }
 
     /**
-     * \public
-     * \static
-     * \param $filePath Path to the file being stored.
-     * \param $scope    Means something like "file category". May be used to clean caches of a certain type.
-     * \param $delete   true if the file should be deleted after storing.
+     * Stores a local file to the cluster
+     *
+     * @param string $filePath Path to the file being stored.
+     * @param string $scope    File scope. Used to group similar files together. Examples: image, template-block...
+     * @param string $delete   true if the file should be deleted after storing.
+     * @param string $datatype File mime type
+     *
+     * @return void
      */
     function fileStore( $filePath, $scope = false, $delete = false, $datatype = false )
     {
@@ -1298,6 +1299,15 @@ class eZDBFileHandler
                     $cacheType = $this->_cacheType();
                 return $cacheType;
             } break;
+
+            case 'metaData':
+            {
+                if ( $this->_metaData === null )
+                {
+                    $this->loadMetaData();
+                }
+                return $this->_metaData;
+            }
         }
     }
 
@@ -1375,7 +1385,7 @@ class eZDBFileHandler
     *   - then we add a reinitMetaData() method that resets the property to null
     *     by erasing the cache
     **/
-    public $metaData = null;
+    public $_metaData = null;
 
     /**
      * Indicates that the current cache item is being generated and an old version
