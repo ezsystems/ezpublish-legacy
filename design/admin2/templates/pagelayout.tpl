@@ -39,7 +39,7 @@
 {/if}
 
 {* Pr uri header cache *}
-{cache-block keys=array( $module_result.uri, $user_hash, $admin_theme ) ignore_content_expiry}
+{cache-block keys=array( $module_result.uri, $user_hash, $admin_theme, $module_result.navigation_part ) ignore_content_expiry}
 
 {include uri='design:page_head.tpl'}
 
@@ -94,7 +94,7 @@
 <div id="maincolumn">
 
 {* Pr uri Path/Left menu cache (dosn't use ignore_content_expiry because of content structure menu  ) *}
-{cache-block keys=array( $module_result.uri, $user_hash, $left_size_hash )}
+{cache-block keys=array( $module_result.uri, $user_hash, $left_size_hash, $module_result.navigation_part )}
 
 <div id="path">
 <div id="path-design">
