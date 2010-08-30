@@ -946,9 +946,18 @@ class eZContentFunctionCollection
                 {
                     $sortingString = '';
                     if ( $sortBy[0] == 'name' )
+                    {
                         $sortingString = 'ezcontentobject.name';
+                        $sortingInfo['attributeTargetSQL'] = ', ' . $sortingString;
+                    }
                     elseif ( $sortBy[0] == 'keyword' )
-                        $sortingString = 'ezkeyword.keyword';
+                    {
+                        if ( $includeDuplicates )
+                            $sortingString = 'ezkeyword.keyword';
+                        else
+                            $sortingString = 'keyword';
+                        $sortingInfo['attributeTargetSQL'] = '';
+                    }
 
                     $sortOrder = true; // true is ascending
                     if ( isset( $sortBy[1] ) )
@@ -972,6 +981,8 @@ class eZContentFunctionCollection
 
                 } break;
             }
+
+            $sqlTarget .= $sortingInfo['attributeTargetSQL'];
         }
         else
         {

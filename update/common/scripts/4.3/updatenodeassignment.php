@@ -138,7 +138,7 @@ $script = eZScript::instance( array( 'description' => "eZ Publish node assignmen
                                            "node assignment is not removed when removing node from child list",
                                     'use-session' => false,
                                     'use-modules' => false,
-                                    'use-extension' => false ) );
+                                    'use-extensions' => false ) );
 $script->startup();
 $options = $script->getOptions( "", "", array( "-q" => "Quiet mode" ) );
 $script->initialize();

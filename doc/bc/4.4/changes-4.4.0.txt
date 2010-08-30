@@ -53,6 +53,10 @@ Change of behavior
      longer documented as supported. https:// was and is still supported.
   3. Additionally a $cookies parameter is added to set http header value for cookies.
 
+- ezmodule() template operator
+
+  This operator now also considers ModuleList setting before it checks SiteAccessRules to look for deny rules.
+
 Deprecated functionality
 ------------------------
 
