@@ -1068,8 +1068,7 @@ class eZDBFileHandler
     /**
      * Outputs file contents prepending them with appropriate HTTP headers.
      *
-     * \public
-     * \deprecated This function should not be used since it cannot handle reading errors.
+     * @deprecated This function should not be used since it cannot handle reading errors.
      *             For the PHP 5 port this should be removed.
      */
     function passthrough()
@@ -1212,6 +1211,7 @@ class eZDBFileHandler
         // generation granted
         if ( $ret['result'] == 'ok' )
         {
+            eZClusterFileHandler::addGeneratingFile( $this );
             $this->realFilePath = $this->filePath;
             $this->filePath = $generatingFilePath;
             $this->generationStartTimestamp = $ret['mtime'];
@@ -1239,6 +1239,7 @@ class eZDBFileHandler
         {
             $this->filePath = $this->realFilePath;
             $this->realFilePath = null;
+            eZClusterFileHandler::removeGeneratingFile( $this );
             return true;
         }
         else
@@ -1258,6 +1259,7 @@ class eZDBFileHandler
         $this->backend->_abortCacheGeneration( $this->filePath );
         $this->filePath = $this->realFilePath;
         $this->realFilePath = null;
+        eZClusterFileHandler::removeGeneratingFile( $this );
     }
 
     /**
@@ -1404,5 +1406,6 @@ class eZDBFileHandler
  * @var int
  **/
     private $generationStartTimestamp = false;
+
 }
 ?>

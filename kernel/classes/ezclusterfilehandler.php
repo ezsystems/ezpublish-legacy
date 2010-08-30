@@ -1,36 +1,12 @@
 <?php
-//
-// Definition of eZClusterFileHandler class
-//
-// Created on: <07-Mar-2006 16:14:02 vs>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2010 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
-
-/*! \file
-*/
-
+/**
+ * File containing the eZClusterFileHandler class.
+ *
+ * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
+ * @license http://ez.no/licenses/gnu_gpl GNU GPL v2
+ * @version //autogentag//
+ * @package kernel
+ */
 class eZClusterFileHandler
 {
     /**
@@ -44,6 +20,12 @@ class eZClusterFileHandler
      */
     static function instance( $filename = false )
     {
+        if ( self::$isShutdownFunctionRegistered !== true )
+        {
+            eZExecution::addCleanupHandler( array( __CLASS__, 'cleanupGeneratingFiles' ) );
+            self::$isShutdownFunctionRegistered = true;
+        }
+
         if( $filename !== false )
         {
             $optionArray = array( 'iniFile'      => 'file.ini',
@@ -107,6 +89,71 @@ class eZClusterFileHandler
 
         return $GLOBALS['eZClusterFileHandler_search_path_array'];
     }
+
+    /**
+     * Cluster shutdown handler. Terminates generation for unterminated files.
+     * This situation doesn't happen by default, but may with custom code that doesn't follow recommendations.
+     */
+    static function cleanupGeneratingFiles()
+    {
+        if ( count( self::$generatingFiles ) === 0 )
+        {
+            return false;
+        }
+        else
+        {
+            eZDebug::writeWarning( "Execution was stopped while one or more files were generating. This should not happen.", __METHOD__ );
+            foreach( self::$generatingFiles as $generatingFile )
+            {
+                $generatingFile->abortCacheGeneration();
+                self::removeGeneratingFile( $generatingFile );
+            }
+        }
+
+    }
+
+    /**
+     * Adds a file to the generating list
+     *
+     * @param eZDFSFileHandler|eZDFSFileHandler $file
+     *        Cluster file handler instance
+     *        Note that this method expect a version of the handler where the filePath is the REAL one, not the .generating
+     */
+    public static function addGeneratingFile( $file )
+    {
+        if ( !( $file instanceof eZDBFileHandler ) && !( $file instanceof eZDFSFileHandler ) )
+            return false; // @todo Exception
+
+        self::$generatingFiles[$file->filePath] = $file;
+    }
+
+    /**
+    * Removes a file from the generating list
+    * @param eZDBFileHandler|eZDFSFileHandler $file
+    *        Cluster file handler instance
+    *        Note that this method expect a version of the handler where the filePath is the REAL one, not the .generating
+
+    * @todo Clustering: apply the eZClusterFileHandlerInterface to all cluster handlers
+    */
+    public static function removeGeneratingFile( $file )
+    {
+        if ( !( $file instanceof eZDBFileHandler ) && !( $file instanceof eZDFSFileHandler ) )
+            return false; // @todo Exception
+
+        if ( isset( self::$generatingFiles[$file->filePath] ) )
+            unset( self::$generatingFiles[$file->filePath] );
+    }
+    /**
+     * Global list of currently generating files. Used by handlers that support stalecache.
+     * @var array(filename => eZClusterFileHandlerInterface)
+     */
+    private static $generatingFiles = array();
+
+    /**
+     * Shutdown registration check variable
+     * @var bool
+     */
+    private static $isShutdownFunctionRegistered = false;
 }
 
 ?>
