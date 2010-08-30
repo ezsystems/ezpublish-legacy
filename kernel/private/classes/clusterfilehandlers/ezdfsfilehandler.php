@@ -93,12 +93,13 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface
         {
             $filePath = eZDBFileHandler::cleanPath( $filePath );
             eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::ctor( '$filePath' )" );
-            $this->filePath = $filePath;
         }
         else
         {
             eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::ctor()" );
         }
+
+        $this->filePath = $filePath;
     }
 
     /**

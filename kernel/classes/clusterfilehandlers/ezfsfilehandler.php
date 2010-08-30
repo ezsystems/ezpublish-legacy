@@ -153,13 +153,11 @@ class eZFSFileHandler
      * Fetches file from db and saves it in FS under the same name.
      *
      * In case of fetching from filesystem does nothing.
-     *
-     * \public
-     * \static
      */
     function fileFetch( $filePath )
     {
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileFetch( '$filePath' )", __METHOD__ );
+        return ( file_exists( $filePath ) ? $filePath : false );
     }
 
     /**
@@ -1057,7 +1055,7 @@ class eZFSFileHandler
     /**
      * eZFS does not require binary purge.
      * Files are stored on plain FS and removed using FS functions
-     * 
+     *
      * @since 4.3
      */
     public function requiresBinaryPurge()

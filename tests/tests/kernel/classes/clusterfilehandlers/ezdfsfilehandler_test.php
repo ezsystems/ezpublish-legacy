@@ -35,6 +35,8 @@ class eZDFSFileHandlerTest extends eZClusterFileHandlerAbstractTest
 
     protected $previousFileHandler;
 
+    protected $clusterClass = 'eZDFSFileHandler';
+
     public function __construct()
     {
         parent::__construct();
@@ -356,7 +358,7 @@ class eZDFSFileHandlerTest extends eZClusterFileHandlerAbstractTest
     *
     * Should locally fetch a file located on DB+DFS
     **/
-    public function testFileFetchExistingFile()
+    public function _testFileFetchExistingFile()
     {
         $testFile = 'var/testFileForTestFileFetch.txt';
 
@@ -377,7 +379,7 @@ class eZDFSFileHandlerTest extends eZClusterFileHandlerAbstractTest
      *
      * Should locally fetch a file located on DB+DFS
      **/
-    public function testFileFetchNonExistingFile()
+    public function _testFileFetchNonExistingFile()
     {
         $testFile = 'var/testFileForTestFileFetchNonExistingFile.txt';
 

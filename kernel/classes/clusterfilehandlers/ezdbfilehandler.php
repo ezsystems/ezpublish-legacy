@@ -869,7 +869,7 @@ class eZDBFileHandler
 
         if ( $this->metaData === null )
             $this->loadMetaData();
-        return isset( $this->metaData['mtime'] ) ? $this->metaData['mtime'] : null;
+        return isset( $this->metaData['mtime'] ) ? (int)$this->metaData['mtime'] : null;
     }
 
     /**

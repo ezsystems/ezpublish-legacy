@@ -19,7 +19,7 @@ class eZDBFileHandlerTest extends eZClusterFileHandlerAbstractTest
      **/
     protected $db;
 
-    protected $backupGlobals = true;
+    protected $backupGlobals = false;
 
     /**
      * @var array
@@ -27,6 +27,8 @@ class eZDBFileHandlerTest extends eZClusterFileHandlerAbstractTest
     protected $sqlFiles = array( 'kernel/sql/mysql/cluster_schema.sql' );
 
     protected $previousFileHandler;
+
+    protected $clusterClass = 'eZDBFileHandler';
 
     public function __construct()
     {

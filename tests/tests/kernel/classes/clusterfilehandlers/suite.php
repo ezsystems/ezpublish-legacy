@@ -14,6 +14,7 @@ class eZClusterTestSuite extends ezpDatabaseTestSuite
         parent::__construct();
         $this->setName( "eZ Publish Cluster Test Suite" );
 
+        $this->addTestSuite( 'eZFSFileHandlerTest' );
         $this->addTestSuite( 'eZDFSFileHandlerTest' );
         $this->addTestSuite( 'eZDBFileHandlerTest' );
         $this->addTestSuite( 'eZDFSFileHandlerDFSBackendTest' );
