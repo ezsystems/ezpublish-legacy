@@ -889,7 +889,7 @@ class eZContentOperationCollection
         // clear user policy cache if this was a user object
         if ( in_array( $object->attribute( 'contentclass_id' ), $userClassIDArray ) )
         {
-            eZUser::cleanupCache();
+            eZUser::purgeUserCacheByUserId( $object->attribute( 'id' ) );
         }
 
         // we don't clear template block cache here since it's cleared in eZContentObjectTreeNode::removeNode()
@@ -968,7 +968,7 @@ class eZContentOperationCollection
             // clear user policy cache if this was a user object
             if ( in_array( $object->attribute( 'contentclass_id' ), $userClassIdList ) )
             {
-                eZUser::cleanupCache();
+                eZUser::purgeUserCacheByUserId( $object->attribute( 'id' ) );
             }
         }
 

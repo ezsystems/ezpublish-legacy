@@ -23,6 +23,7 @@ Changes from 4.4.0beta1 to 4.4.0beta2
 - Fixed bug #006380: Workflow cron - Fatal error: Call to a member function on a non-object
 - Fixed bug #010489: Content indexing might never happen in limited environment
 - Fixed bug #011317: appendDebugNodes breaks IE by triggering Quirks mode
+- Fixed bug #013065: Do not expire access cache of each user when a location is added to one user
 - Fixed bug #013516: updateviewcount not getting correct paths
 - Fixed bug #013867: small non-compliances of the mysql db driver with the other drivers
 - Fixed bug #015406: eZ cannot convert images with ImageMagick on PHP 5.3
