@@ -64,7 +64,20 @@ class eZDBFileHandlerTest extends eZClusterFileHandlerAbstractTest
         $fileINI->setVariable( 'ClusteringSettings', 'FileHandler', 'eZDBFileHandler' );
 
         $dsn = ezpTestRunner::dsn()->parts;
-        $fileINI->setVariable( 'ClusteringSettings', 'DBBackend',  'eZDBFileHandlerMysqlBackend' );
+        switch ( $dsn['phptype'] )
+        {
+            case 'mysql':
+                $backend = 'eZDBFileHandlerMysqlBackend';
+                break;
+
+            case 'mysqli':
+                $backend = 'eZDBFileHandlerMysqliBackend';
+                break;
+
+            default:
+                $this->markTestSkipped( "Unsupported database type '{$dsn['phptype']}'" );
+        }
+        $fileINI->setVariable( 'ClusteringSettings', 'DBBackend',  $backend );
         $fileINI->setVariable( 'ClusteringSettings', 'DBHost',     $dsn['host'] );
         $fileINI->setVariable( 'ClusteringSettings', 'DBPort',     $dsn['port'] );
         $fileINI->setVariable( 'ClusteringSettings', 'DBSocket',   $dsn['socket'] );
