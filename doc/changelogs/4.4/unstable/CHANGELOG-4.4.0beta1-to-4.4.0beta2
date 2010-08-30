@@ -28,6 +28,7 @@ Changes from 4.4.0beta1 to 4.4.0beta2
 - Fixed bug #016503: TC-80: Sending information collection form is broken in admin2
 - Fixed bug #016512: Activation email is sent even if user registration fails
 - Fixed bug #016524: [Tip a Friend] Translation mistake in kernel/content/tipafriend.php
+- Fixed bug #016587: Small typo mistake in updatenodeassignment.php
 - Fixed bug #016664: ezHTTPTool::sendHTTPRequest() fails on port not 80
   (Add support for setting port in $uri when $port is false)
 - Fixed bug #016739: Sorting Bug in eZCountryType::fetchTranslatedNames on some systems
