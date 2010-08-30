@@ -24,6 +24,7 @@ Changes from 4.4.0beta1 to 4.4.0beta2
 - Fixed bug #010489: Content indexing might never happen in limited environment
 - Fixed bug #011317: appendDebugNodes breaks IE by triggering Quirks mode
 - Fixed bug #013516: updateviewcount not getting correct paths
+- Fixed bug #013867: small non-compliances of the mysql db driver with the other drivers
 - Fixed bug #015406: eZ cannot convert images with ImageMagick on PHP 5.3
 - Fixed bug #015898: Cannot translate a user content object
 - Fixed bug #016503: TC-80: Sending information collection form is broken in admin2
