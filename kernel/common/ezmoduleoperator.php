@@ -68,8 +68,11 @@ class eZModuleOperator
     function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
         $uri = new eZURI( $namedParameters[ 'uri' ] );
-        $check = eZModule::accessAllowed( $uri );
-        $operatorValue = $check['result'];
+        $moduleName = $uri->element( 0 );
+        $moduleList = eZINI::instance( 'module.ini' )->variable( 'ModuleSettings', 'ModuleList' );
+        if ( in_array( $moduleName, $moduleList, true ) )
+            $check = eZModule::accessAllowed( $uri );
+        $operatorValue = isset( $check['result'] ) ? $check['result'] : false;
     }
 
     /// \privatesection
