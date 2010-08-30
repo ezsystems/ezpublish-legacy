@@ -35,6 +35,7 @@ Changes from 4.4.0beta1 to 4.4.0beta2
   (Add support for setting port in $uri when $port is false)
 - Fixed bug #016688: Content keyword fetch function is not Oracle compatible
 - Fixed bug #016739: Sorting Bug in eZCountryType::fetchTranslatedNames on some systems
+- Fixed bug #016808: Context not refreshed between two successive browsing with admin2
 - Fixed bug #016883: WebDAV doesn't support clustering
 - Fixed bug #016953: &nbsp; breaks RSS/ATOM feeds
 - Fixed bug #016997: Call of non static methods statically from ezgeneraldigest
