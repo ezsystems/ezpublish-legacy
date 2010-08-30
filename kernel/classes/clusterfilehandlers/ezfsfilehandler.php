@@ -191,15 +191,12 @@ class eZFSFileHandler
      *
      * In case of storing to filesystem does nothing.
      *
-     * \public
-     * \static
-     * \param $filePath Path to the file being stored.
-     * \param $scope    Means something like "file category". May be used to clean caches of a certain type.
-     * \param $delete   true if the file should be deleted after storing.
+     * @param string $filePath Path to the file being stored.
+     * @param string $scope    Means something like "file category". May be used to clean caches of a certain type.
+     * @param string $delete   true if the file should be deleted after storing.
      */
     function fileStore( $filePath, $scope = false, $delete = false, $datatype = false )
     {
-        $delete = (int) $delete;
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileStore( '$filePath' )", __METHOD__ );
     }
 
