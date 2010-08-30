@@ -146,8 +146,77 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
      */
     public function testFileFetchNonExistingFile()
     {
+        $path = 'var/tests/' . __FUNCTION__ . '/nofile.txt';
         $ch = eZClusterFileHandler::instance();
-        $this->assertFalse( $ch->fileFetch( 'var/tests/' . __FUNCTION__ . '/nofile.txt' ) );
+        $this->assertFalse( $ch->fileFetch( $path ) );
+        $this->assertFileNotExists( $path );
+    }
+
+    /**
+     * Test for the fileStore() method with the delete option
+     */
+    public function testFileStoreWithDelete()
+    {
+        // create local file on disk
+        $directory = 'var/tests/' . __FUNCTION__;
+        $localFile = $directory . '/file.txt';
+        eZFile::create( 'file.txt', $directory, md5( time() ) );
+
+        // 1. First store to cluster, with delete option
+        $ch = eZClusterFileHandler::instance();
+        $ch->fileStore( $localFile, 'test', true, 'text/plain' );
+
+        // 2. Check that the created file exists
+        $ch2 = eZClusterFileHandler::instance( $localFile );
+        self::assertTrue( $ch2->exists() );
+        if ( !$this instanceof eZFSFileHandlerTest )
+        {
+            self::assertEquals( 'text/plain', $ch2->metaData['datatype'] );
+            self::assertEquals( 'test', $ch2->metaData['scope'] );
+        }
+
+        // The eZFS file handler doesn't remove local files
+        if ( !$this instanceof eZFSFileHandlerTest )
+            self::assertFileNotExists( $localFile );
+    }
+
+    /**
+     * Test for the fileStore() method with the delete option
+     */
+    public function testFileStoreWithoutDelete()
+    {
+        // create local file on disk
+        $directory = 'var/tests/' . __FUNCTION__;
+        $localFile = $directory . '/file.txt';
+        eZFile::create( 'file.txt', $directory, md5( time() ) );
+
+        // 1. First store to cluster, with delete option
+        $ch = eZClusterFileHandler::instance();
+        $ch->fileStore( $localFile, 'test', false, 'text/plain' );
+
+        // 2. Check that the created file exists
+        $ch2 = eZClusterFileHandler::instance( $localFile );
+        self::assertTrue( $ch2->exists() );
+        if ( !$this instanceof eZFSFileHandlerTest )
+        {
+            self::assertEquals( 'text/plain', $ch2->metaData['datatype'] );
+            self::assertEquals( 'test', $ch2->metaData['scope'] );
+        }
+
+        // The eZFS file handler doesn't remove local files
+        if ( !$this instanceof eZFSFileHandlerTest )
+            self::assertFileExists( $localFile );
+
+        if ( file_exists( $localFile ) )
+            unlink( $localFile );
+    }
+
+    /**
+     * Test for the store() method
+     */
+    public function testStore()
+    {
+
     }
 
     /**
