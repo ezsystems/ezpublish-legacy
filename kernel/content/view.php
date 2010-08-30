@@ -127,7 +127,7 @@ if ( eZOperationHandler::operationIsAvailable( 'content_read' ) )
                                                                               'language_code' => $LanguageCode ), null, true );
 }
 
-if ( ( array_key_exists(  'status', $operationResult ) && $operationResult['status'] != eZModuleOperationInfo::STATUS_CONTINUE ) )
+if ( ( isset( $operationResult['status'] ) && $operationResult['status'] != eZModuleOperationInfo::STATUS_CONTINUE ) )
 {
     switch( $operationResult['status'] )
     {

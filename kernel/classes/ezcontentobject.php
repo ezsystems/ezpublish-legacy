@@ -1143,8 +1143,7 @@ class eZContentObject extends eZPersistentObject
             if ( !isset( $eZContentObjectVersionCache ) ) // prevent PHP warning below
                 $eZContentObjectVersionCache = array();
 
-            if ( array_key_exists( $this->ID, $eZContentObjectVersionCache ) &&
-                 array_key_exists( $version, $eZContentObjectVersionCache[$this->ID] ) )
+            if ( isset( $eZContentObjectVersionCache[$this->ID][$version] ) )
             {
                 return $eZContentObjectVersionCache[$this->ID][$version];
             }
