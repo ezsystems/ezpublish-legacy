@@ -211,12 +211,42 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
             unlink( $localFile );
     }
 
+
+    public function testFileStoreContents()
+    {
+
+    }
+
     /**
-     * Test for the store() method
+     * Test for the storeContents() method
      */
     public function testStore()
     {
+        $file = 'var/tests/' . __FUNCTION__ . 'file.txt';
+        $contents = md5( time() );
 
+        // 1. Store the file to cluster
+        $ch = eZClusterFileHandler::instance( $file );
+        $ch->storeContents( $contents, 'test', 'plain/text', false );
+        $ch->loadMetaData( true );
+        self::assertTrue( $ch->exists() );
+    }
+
+    /**
+     * Test for the storeContents() method with a local copy
+     */
+    public function testStoreWithLocalCopy()
+    {
+        $file = 'var/tests/' . __FUNCTION__ . 'file.txt';
+        $contents = md5( time() );
+
+        // 1. Store the file to cluster
+        $ch = eZClusterFileHandler::instance( $file );
+        $ch->storeContents( $contents, 'test', 'plain/text', true );
+        $ch->loadMetaData( true );
+        self::assertTrue( $ch->exists() );
+        if ( !$this instanceof eZFSFileHandlerTest )
+            self::assertFileExists( $file );
     }
 
     /**
