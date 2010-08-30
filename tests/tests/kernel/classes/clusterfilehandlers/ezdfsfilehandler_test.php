@@ -74,12 +74,10 @@ class eZDFSFileHandlerTest extends eZClusterFileHandlerAbstractTest
         switch ( $dsn['phptype'] )
         {
             case 'mysql':
-                echo "eZDFS: Using MySQL\n";
                 $backend = 'eZDFSFileHandlerMySQLBackend';
                 break;
 
             case 'mysqli':
-                echo "eZDFS: Using MySQLi\n";
                 $backend = 'eZDFSFileHandlerMySQLiBackend';
                 break;
 
