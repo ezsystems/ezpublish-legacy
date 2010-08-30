@@ -298,8 +298,9 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
         $data = $this->getVirtualFolderData( $result, $currentSite, $target, $fullPath );
         if ( $data['file'] )
         {
-            $webdavserver = new eZWebDAVContentServer();
-            return $webdavserver->outputSendDataToClient( $data, false );
+            $file = eZClusterFileHandler::instance( $data['file'] );
+            //$this->cachedProperties[ $data['file'] ]['size'] = $file->size();
+            return $file->fetchContents();
         }
 
         return false;
