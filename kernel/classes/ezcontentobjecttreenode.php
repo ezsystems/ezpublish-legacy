@@ -3664,14 +3664,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $ini = eZINI::instance();
 
         $object = $this->object();
+        $nodeID = $this->attribute( 'node_id' );
         if ( eZAudit::isAuditEnabled() )
         {
             // Set audit params.
-            $nodeIDAudit = $this->attribute( 'node_id' );
             $objectID = $object->attribute( 'id' );
             $objectName = $object->attribute( 'name' );
 
-            eZAudit::writeAudit( 'content-delete', array( 'Node ID' => $nodeIDAudit, 'Object ID' => $objectID, 'Content Name' => $objectName,
+            eZAudit::writeAudit( 'content-delete', array( 'Node ID' => $nodeID, 'Object ID' => $objectID, 'Content Name' => $objectName,
                                                           'Comment' => 'Removed the current node: eZContentObjectTreeNode::removeNode()' ) );
         }
 
@@ -3709,7 +3709,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
 
         // Clean up URL alias entries
-        eZURLAliasML::removeByAction( 'eznode', $this->attribute( 'node_id' ) );
+        eZURLAliasML::removeByAction( 'eznode', $nodeID );
 
         // Clean up content cache
         eZContentCacheManager::clearContentCacheIfNeeded( $this->attribute( 'contentobject_id' ) );
@@ -3732,7 +3732,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         eZRole::cleanupByNode( $this );
 
         // Clean up recent items
-        $nodeID = $this->attribute( 'node_id' );
         eZContentBrowseRecent::removeRecentByNodeID( $nodeID );
 
         // Clean up bookmarks
