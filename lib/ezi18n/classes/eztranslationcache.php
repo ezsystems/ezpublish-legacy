@@ -186,7 +186,7 @@ class eZTranslationCache
         $variables = $php->restore( array( 'info' => 'TranslationInfo',
                                            'root' => 'TranslationRoot',
                                            'cache-date' => 'eZTranslationCacheCodeDate' ) );
-        if ( isset( $variables['cache-date'] ) and $variables['cache-date'] != self::CODE_DATE )
+        if ( !isset( ( $variables['cache-date'] ) or ( isset( $variables['cache-date'] ) and $variables['cache-date'] != self::CODE_DATE ) )
             return false;
         eZTranslationCache::setContextCache( $key, $variables['root'] );
         return true;
