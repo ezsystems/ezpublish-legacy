@@ -39,4 +39,5 @@ Changes from 4.4.0beta1 to 4.4.0beta2
 - Fixed bug #017093: TC-57 - Multiupload is broken in 4.4Alpha5
 - Fixed bug #017099: ezcache.php: Get confirmation when clearing dangerous directories
 - Fixed bug #017133: TC-21 - "Online Users" block is not working when Sessions Handler<>eZSessionHandlerDB
+- Fixed bug #017166: [objectrelationlist]Wrong language version created when editing object in a different main language
 
