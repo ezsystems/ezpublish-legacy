@@ -22,11 +22,25 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
     }
 
     /**
+     * Helper function that creates a cluster file
+     */
+    protected function createFile( $path, $contents, $params = array() )
+    {
+        $ch = eZClusterFileHandler::instance( $path );
+        $ch->storeContents( $contents );
+    }
+
+    /**
      * Tests the cluster shutdown handler.
      * Handlers that support stalecache should cleanup their generating files if any
      */
     public function testShutdownHandler()
     {
+        if ( $this instanceof eZFSFileHandlerTest )
+        {
+            self::markTestSkipped( "eZFSFileHandler doesn't use the shutdown handler" );
+        }
+
         // start generation of a couple files
         $file1 = eZClusterFileHandler::instance( 'var/tests/cache/uncleanfile1.txt' );
         $file1->startCacheGeneration();
@@ -55,15 +69,6 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
         $this->assertStringEndsNotWith( '.generating', $file1->filePath, '$file1 is still generating' );
         $this->assertStringEndsNotWith( '.generating', $file2->filePath, '$file2 is still generating' );
         $this->assertStringEndsNotWith( '.generating', $file3->filePath, '$file3 is still generating' );
-    }
-
-    /**
-     * Helper function that creates a cluster file
-     */
-    protected function createFile( $path, $contents, $params = array() )
-    {
-        $ch = eZClusterFileHandler::instance( $path );
-        $ch->storeContents( $contents );
     }
 
     /**
@@ -107,6 +112,8 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
         self::assertEquals( $path, $ch->filePath, "Path to non-existing file should have been the path itself" );
         self::assertFalse( $ch->exists(), "File should not exist" );
         unset( $ch );
+        if ( file_exists( $path ) )
+            unlink( $path );
 
         // existing file
         $path = 'var/tests/' . __FUNCTION__ . '/file1.txt';
@@ -114,6 +121,8 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
         $ch = eZClusterFileHandler::instance( $path );
         self::assertEquals( $path, $ch->filePath, "Path to existing file should have been the path itself" );
         self::assertTrue( $ch->exists(), "File should exist" );
+        if ( file_exists( $path ) )
+            unlink( $path );
     }
 
     /**
@@ -212,15 +221,18 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
     }
 
 
+    /**
+     * Test for the fileStoreContents() method
+     */
     public function testFileStoreContents()
     {
-
+        $this->markTestIncomplete( 'Write me' );
     }
 
     /**
      * Test for the storeContents() method
      */
-    public function testStore()
+    public function testStoreContents()
     {
         $file = 'var/tests/' . __FUNCTION__ . 'file.txt';
         $contents = md5( time() );
@@ -235,7 +247,7 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
     /**
      * Test for the storeContents() method with a local copy
      */
-    public function testStoreWithLocalCopy()
+    public function testStoreContentsWithLocalCopy()
     {
         $file = 'var/tests/' . __FUNCTION__ . 'file.txt';
         $contents = md5( time() );

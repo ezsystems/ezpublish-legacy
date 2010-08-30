@@ -907,15 +907,15 @@ class eZDBFileHandlerMysqliBackend
         return $text;
     }
 
-    /*!
-     Common select method for doing a SELECT query which is passed in $query and
-     fetching one row from the result.
-     If there are more than one row it will fail and exit, if 0 it returns false.
-     The returned row is a numerical array.
-
-     \param $fname The function name that started the query, should contain relevant arguments in the text.
-     \param $error Sent to _error() in case of errors
-     \param $debug If true it will display the fetched row in addition to the SQL.
+    /**
+     * Common select method for doing a SELECT query which is passed in $query and fetching one row from the result.
+     * If there are more than one row it will fail and exit, if 0 it returns false.
+     *
+     * @param string $fname The function name that started the query, should contain relevant arguments in the text.
+     * @param mixed  $error Sent to _error() in case of errors
+     * @param bool   $debug If true it will display the fetched row in addition to the SQL.
+     *
+     * @return array|false A numerical array, or false if 0 or more than 1 rows
      */
     function _selectOneRow( $query, $fname, $error = false, $debug = false )
     {
@@ -937,15 +937,14 @@ class eZDBFileHandlerMysqliBackend
         return $this->_selectOne( $query, $fname, $error, $debug, "mysqli_fetch_assoc" );
     }
 
-    /*!
-     Common select method for doing a SELECT query which is passed in $query and
-     fetching one row from the result.
-     If there are more than one row it will fail and exit, if 0 it returns false.
-
-     \param $fname The function name that started the query, should contain relevant arguments in the text.
-     \param $error Sent to _error() in case of errors
-     \param $debug If true it will display the fetched row in addition to the SQL.
-     \param $fetchCall The callback to fetch the row.
+    /**
+     * Common select method for doing a SELECT query which is passed in $query and fetching one row from the result.
+     * If there are more than one row it will fail and exit, if 0 it returns false.
+     *
+     * @param string $fname The function name that started the query, should contain relevant arguments in the text.
+     * @param mixed  $error Sent to _error() in case of errors
+     * @param bool   $debug If true it will display the fetched row in addition to the SQL.
+     * @param string $fetchCall The callback to fetch the row.
      */
     function _selectOne( $query, $fname, $error = false, $debug = false, $fetchCall )
     {
@@ -960,12 +959,21 @@ class eZDBFileHandlerMysqliBackend
             return false;
         }
 
+        $this->_report( $query, $fname, microtime( true ) - $time );
+
         $nRows = mysqli_num_rows( $res );
         if ( $nRows > 1 )
         {
             eZDebug::writeError( 'Duplicate entries found', $fname );
             eZDebug::accumulatorStop( 'mysql_cluster_query' );
-            // For PHP 5 throw an exception.
+            // @todo Throw an exception
+            return false;
+        }
+        // required here unlike in the MySQL handler, since mysqli_fetch_rows returns null when there are no more rows and not false
+        elseif ( $nRows === 0 )
+        {
+            eZDebug::accumulatorStop( 'mysql_cluster_query' );
+            return false;
         }
 
         $row = $fetchCall( $res );
@@ -973,10 +981,8 @@ class eZDBFileHandlerMysqliBackend
         if ( $debug )
             $query = "SQL for _selectOneAssoc:\n" . $query . "\n\nRESULT:\n" . var_export( $row, true );
 
-        $time = microtime( true ) - $time;
         eZDebug::accumulatorStop( 'mysql_cluster_query' );
 
-        $this->_report( $query, $fname, $time );
         return $row;
     }
 
