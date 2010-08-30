@@ -1648,7 +1648,7 @@ class eZDFSFileHandlerMySQLBackend
 
     /**
      * Returns the list of expired files
-     * 
+     *
      * @param array $scopes Array of scopes to consider. At least one.
      * @param int $limit Max number of items. Set to false for unlimited.
      *

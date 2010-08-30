@@ -7,7 +7,7 @@
  * @package tests
  */
 
-class eZDBFileHandlerTest extends ezpDatabaseTestCase
+class eZDBFileHandlerTest extends eZClusterFileHandlerAbstractTest
 {
     /**
      * @var eZINI
@@ -19,7 +19,7 @@ class eZDBFileHandlerTest extends ezpDatabaseTestCase
      **/
     protected $db;
 
-    protected $backupGlobals = false;
+    protected $backupGlobals = true;
 
     /**
      * @var array

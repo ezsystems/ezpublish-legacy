@@ -7,7 +7,7 @@
  * @package tests
  */
 
-class eZDFSFileHandlerTest extends ezpDatabaseTestCase
+class eZDFSFileHandlerTest extends eZClusterFileHandlerAbstractTest
 {
     /**
      * @var eZINI
@@ -49,12 +49,12 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
      **/
     public function setUp()
     {
-        if ( !( $this->sharedFixture instanceof eZMySQLDB ) )
+        parent::setUp();
+
+        if ( !( $this->sharedFixture instanceof eZMySQLDB ) and !( $this->sharedFixture instanceof eZMySQLiDB ) )
         {
             self::markTestSkipped( "Not using mysql interface, skipping" );
         }
-
-        parent::setUp();
 
         // We need to clear the existing handler if it was loaded before the INI
         // settings changes
@@ -82,8 +82,6 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
             eZDir::doMkdir( $this->DFSPath, 0755 );
             $this->haveToRemoveDFSPath = true;
         }
-
-        ezpTestDatabaseHelper::insertSqlData( $this->sharedFixture, $this->sqlFiles );
 
         $this->db = $this->sharedFixture;
     }

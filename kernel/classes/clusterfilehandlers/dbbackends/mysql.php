@@ -1392,7 +1392,6 @@ class eZDBFileHandlerMysqlBackend
                              'expired' => 0 );
         $query = 'INSERT INTO ' . TABLE_METADATA . ' ( '. implode(', ', array_keys( $insertData ) ) . ' ) ' .
                  "VALUES(" . implode( ', ', $insertData ) . ")";
-
         if ( !$this->_query( $query, "_startCacheGeneration( $filePath )", false ) )
         {
             $errno = mysql_errno();
@@ -1486,14 +1485,14 @@ class eZDBFileHandlerMysqlBackend
                 return false;
             }
             $generatingMetaData = mysql_fetch_assoc( $res );
-
             $res = $this->_query( "SELECT * FROM " . TABLE_METADATA . " WHERE name_hash=MD5('$filePath') FOR UPDATE", $fname, false );
             // the original file does not exist: we move the generating file
             if ( mysql_num_rows( $res ) == 0 )
             {
-                $metaData = $generatingMetaData;
+                $metaData = array();
                 $metaData['name'] = $filePath;
                 $metaData['name_hash'] = md5( $filePath );
+                $metaData['scope'] = '';
                 $metaData['name_trunk'] = $this->nameTrunk( $filePath, $metaData['scope'] );
                 $insertSQL = "INSERT INTO " . TABLE_METADATA . " ( " . implode( ', ', array_keys( $metaData ) ) . " ) " .
                              "VALUES( " . $this->_sqlList( $metaData ) . ")";
