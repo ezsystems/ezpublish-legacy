@@ -12,18 +12,18 @@
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
@@ -74,7 +74,7 @@ class eZOEXMLInput extends eZXMLInputHandler
             $this->allowNumericEntities = $allowNumericEntities === 'true' ? true : false;
         }
     }
-    
+
      /**
      * $nativeCustomTags
      * List of custom tags that have a native xhtml counterpart.
@@ -95,7 +95,7 @@ class eZOEXMLInput extends eZXMLInputHandler
      */
     function attributes()
     {
-        return array_merge( array( 
+        return array_merge( array(
                       'is_editor_enabled',
                       'can_disable',
                       'editor_layout_settings',
@@ -254,7 +254,7 @@ class eZOEXMLInput extends eZXMLInputHandler
             eZDebug::writeNotice('Current user does not have access to ezoe, falling back to normal xml editor!', __METHOD__ );
             return false;
         }
-        
+
         if ( !self::browserSupportsDHTMLType() )
         {
             if ( $this->currentUserHasAccess( 'disable_editor' ) )
@@ -407,7 +407,7 @@ class eZOEXMLInput extends eZXMLInputHandler
      * @return array hash with global layout settings for the editor
      */
     public static function getEditorGlobalLayoutSettings()
-    {    
+    {
         if ( self::$editorGlobalLayoutSettings === null )
         {
             $oeini = eZINI::instance( 'ezoe.ini' );
@@ -428,7 +428,7 @@ class eZOEXMLInput extends eZXMLInputHandler
      * @return array hash with layout settings for the editor
      */
     function getEditorLayoutSettings()
-    {    
+    {
         if ( $this->editorLayoutSettings === null )
         {
             $oeini = eZINI::instance( 'ezoe.ini' );
@@ -496,7 +496,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 $hideButtons[] = 'justifyright';
                 $hideButtons[] = 'justifyfull';
             }
-             
+
             foreach( $editorLayoutSettings['buttons'] as $buttonString )
             {
                 if ( strpos( $buttonString, ',' ) !== false )
@@ -1080,7 +1080,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                     $tagContent = preg_replace( "/ {2,}/", ' ', $tagContent );
                 }
 
-                if ( $tagContent[0] === ' ' )
+                if ( $tagContent[0] === ' ' && !$tag->previousSibling )//- Fixed "first space in paragraph" issue (ezdhtml rev.12246)
                 {
                     $tagContent[0] = ';';
                     $tagContent = '&nbsp' . $tagContent;
@@ -1118,7 +1118,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                     $view = $tagName;
                 }
 
-                $objectAttr = '';                
+                $objectAttr = '';
                 $objectAttr .= ' alt="' . $size . '"';
                 $objectAttr .= ' view="' . $view . '"';
 
@@ -1130,7 +1130,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 {
                     $objectAttr .= ' show_path="true"';
                 }
-                
+
                 if ( $tagName === 'embed-inline' )
                     $objectAttr .= ' inline="true"';
                 else
@@ -1267,10 +1267,10 @@ class eZOEXMLInput extends eZXMLInputHandler
                         $htmlTagName = 'span';
                     else
                         $htmlTagName = 'div';
-                    
+
                     $objectParam = array( 'size' => $size, 'align' => $alignment, 'show_path' => $showPath );
                     if ( $htmlID ) $objectParam['id'] = $htmlID;
-                    
+
                     $res = eZTemplateDesignResource::instance();
                     $res->setKeys( array( array('classification', $className) ) );
 
@@ -1409,9 +1409,9 @@ class eZOEXMLInput extends eZXMLInputHandler
                                                                     $tdSectionLevel );
                         }
                     }
-                    
+
                     $LIclassName = $listItemNode->getAttribute( 'class' );
-                    
+
                     if ( $LIclassName )
                         $LIcustomAttributePart .= ' class="' . $LIclassName . '"';
 
@@ -1688,7 +1688,7 @@ class eZOEXMLInput extends eZXMLInputHandler
     {
         $customAttributePart = '';
         $styleString         = '';
-        
+
         if ( self::$customAttributeStyleMap === null )
         {
             // Filtered styles because the browser (ie,ff&opera) convert span tag to
@@ -1779,14 +1779,14 @@ class eZOEXMLInput extends eZXMLInputHandler
             {
                 $domain = eZSys::hostname();
                 $protocol = 'http';
-                
+
                 // Default to https if SSL is enabled
                 // Check if SSL port is defined in site.ini
                 $sslPort = 443;
                 $ini = eZINI::instance();
                 if ( $ini->hasVariable( 'SiteSettings', 'SSLPort' ) )
                     $sslPort = $ini->variable( 'SiteSettings', 'SSLPort' );
-                
+
                 if ( eZSys::serverPort() == $sslPort )
                     $protocol = 'https';
 
@@ -1818,7 +1818,7 @@ class eZOEXMLInput extends eZXMLInputHandler
 
     /**
      * Figgure out if a custom tag is inline or not based on content.ini settings
-     * 
+     *
      * @param string $name Tag name
      * @return bool|string Return 'image' if tag is inline image, otherwise true/false.
      */
@@ -1859,7 +1859,7 @@ class eZOEXMLInput extends eZXMLInputHandler
         $nodeID    = $node->getAttribute( 'node_id' );
         $object    = false;
         $classIdentifier = false;
-        
+
         if ( is_numeric( $objectID ) )
         {
             $object = eZContentObject::fetch( $objectID );
@@ -1869,7 +1869,7 @@ class eZOEXMLInput extends eZXMLInputHandler
             $node      = eZContentObjectTreeNode::fetch( $nodeID );
             $object    = $node->object();
         }
-        
+
         if ( $object instanceof eZContentObject )
         {
             $classIdentifier = $object->attribute( 'class_identifier' );
@@ -1883,7 +1883,7 @@ class eZOEXMLInput extends eZXMLInputHandler
      */
     public static function embedTagContentType( $classIdentifier  )
     {
-        $contentIni = eZINI::instance('content.ini');         
+        $contentIni = eZINI::instance('content.ini');
 
         foreach ( $contentIni->variable( 'RelationGroupSettings', 'Groups' ) as $group )
         {
@@ -1915,7 +1915,7 @@ class eZOEXMLInput extends eZXMLInputHandler
     }
 
     /* Count child elements, ignoring whitespace and text
-     * 
+     *
      * @param DOMElement $parent
      * @return int
      */
@@ -1931,7 +1931,7 @@ class eZOEXMLInput extends eZXMLInputHandler
 
     /* Execute template cleanly, make sure we don't override parameters
      * and back them up for setting them back when done.
-     * 
+     *
      * @param string $template
      * @param array $parameters Hash with name and value
      * @return string
@@ -1971,7 +1971,7 @@ class eZOEXMLInput extends eZXMLInputHandler
     protected static $customAttributeStyleMap = null;
     protected static $embedIsCompatibilityMode = null;
     protected static $xmlTagAliasList = null;
-    
+
     protected $editorLayoutSettings = null;
     protected static $editorGlobalLayoutSettings = null;
 
