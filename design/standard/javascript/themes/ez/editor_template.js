@@ -475,11 +475,11 @@
                 samp : 'advanced.samp'*/
             }, t = this;
 
-			c = t.editor.controlManager.createListBox('formatselect', {title : 'advanced.block', cmd : 'FormatBlock'});
-			if (c) {
-				each(t.editor.getParam('theme_advanced_blockformats', t.settings.theme_advanced_blockformats, 'hash'), function(v, k) {
-					c.add(t.editor.translate(k != v ? k : fmts[v]), v, {'class' : 'mce_formatPreview mce_' + v});
-				});
+            c = t.editor.controlManager.createListBox('formatselect', {title : 'advanced.block', cmd : 'FormatBlock'});
+            if (c) {
+                each(t.editor.getParam('theme_advanced_blockformats', t.settings.theme_advanced_blockformats, 'hash'), function(v, k) {
+                    c.add(t.editor.translate(k != v ? k : fmts[v]), v, {'class' : 'mce_formatPreview mce_' + v});
+                });
             }
 
             return c;
@@ -1015,20 +1015,16 @@
                 if ( ( p && (p.nodeName === 'DIV' || p.nodeName === 'SPAN') && p.className.indexOf('ezoeItemNonEditable') !== -1 ) )
                 {
                     ezoeItemNonEditable = true;
-                    //console.log( 'ezoeItemNonEditable 1' );
                 }
                 else if ( (p = t.__getParentByTag( n, 'div,span', 'ezoeItemNonEditable') ) )
                 {
-                	ezoeItemNonEditable = true;
-                	//console.log( 'ezoeItemNonEditable 2' );
+                    ezoeItemNonEditable = true;
                 }
-                //else
-                	//console.log( 'ezoeItemNonEditable 3' );
 
                 if ( ezoeItemNonEditable )
                 {
-                	ed.selection.select( p );
-                	div = p.nodeName === 'DIV';
+                    ed.selection.select( p );
+                    div = p.nodeName === 'DIV';
                     n = p;
                     type = p.className.indexOf('ezoeItemContentTypeFiles') !== -1 ? 'files' : 'objects';
 
@@ -1640,7 +1636,6 @@
                 return true;
 
             //console.log( 'ezoeItemNonEditable __block()' );
-            
             e = e || window.event;            
             var k = e.which || e.keyCode;
 
@@ -1648,11 +1643,10 @@
             if ((k > 32 && k < 41) || (k > 111 && k < 124))
                 return true;
 
-            // Remove embed tag if user clicks del or backspace
-            if ( k === 8 || k === 46 )
+            if ( k === 8 || k === 46 )// Remove embed tag if user clicks del or backspace
             {
                 var n = this.__getParentByTag( ed.selection.getNode(), 'DIV,SPAN', 'ezoeItemNonEditable', '', true );
-                if ( n !== undefined && n.parentNode && n.parentNode.removeNode !== undefined )
+                if ( n !== undefined && n.parentNode&& n.parentNode.removeChild !== undefined )
                 {
                     // Avoid that several embed tags are removed at once if they are placed side by side
                     if ( !this.__recursion )
@@ -1660,9 +1654,36 @@
                         this.__recursion = true;
                         n.parentNode.removeChild( n );
                         setTimeout(BIND( function(){ this.__recursion = false; }, this ), 50);
+                        ed.nodeChanged();
                     }
                 }
                 else return true;
+            }
+            else if ( k === 13 )// user clicks enter, create paragraph after embed block
+            {
+                var n = this.__getParentByTag( ed.selection.getNode(), 'DIV', 'ezoeItemNonEditable', '', true );
+                if ( n !== undefined && n.parentNode && !this.__recursion )
+                {
+                    this.__recursion = true;
+                    var newNode = ed.dom.create('p', false, tinymce.isIE ? '&nbsp;' : '<br />' );
+                    ed.dom.insertAfter( newNode, n );
+                    ed.selection.select( newNode, true );
+                    setTimeout(BIND( function(){ this.__recursion = false; }, this ), 150);
+                    ed.nodeChanged();
+                }
+            }
+            else if ( k === 32 )// user clicks space, create space after embed inline
+            {
+                var n = this.__getParentByTag( ed.selection.getNode(), 'SPAN', 'ezoeItemNonEditable', '', true );
+                if ( n !== undefined && n.parentNode && !this.__recursion )
+                {
+                    this.__recursion = true;
+                    var newNode = ed.dom.doc.createTextNode(" ");
+                    ed.dom.insertAfter( newNode, n );
+                    ed.selection.select( newNode, true );
+                    setTimeout(BIND( function(){ this.__recursion = false; }, this ), 150);
+                    ed.nodeChanged();
+                }
             }
             return Event.cancel(e);
         },
@@ -1843,5 +1864,5 @@
         }
     });
 
-	tinymce.ThemeManager.add('ez', tinymce.themes.eZTheme);
+    tinymce.ThemeManager.add('ez', tinymce.themes.eZTheme);
 }(tinymce));
