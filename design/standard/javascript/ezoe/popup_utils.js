@@ -251,7 +251,8 @@ var eZOEPopupUtils = {
 
             if ( args['id'] === undefined )
                 ed.dom.setAttrib( s.editorElement, 'id', '' );
-            //ed.selection.select( s.editorElement );
+            ed.selection.select( s.editorElement, true );
+            ed.nodeChanged();
         }
         ed.execCommand('mceEndUndoLevel');
     
