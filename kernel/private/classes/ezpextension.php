@@ -130,6 +130,9 @@ class ezpExtension
             }
 
             // 3rd party software
+            if ( !$metadataNode->software->uses )
+                return $return;
+
             $index = 1;
             foreach ( $metadataNode->software->uses as $software )
             {
