@@ -12,11 +12,27 @@
  */
 abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
 {
+    /**
+     * Tested cluster class
+     * Must be overriden by any implementation
+     * @var string eZFSFileHandler, eZDBFileHandler...
+     */
+    protected $clusterClass = false;
+
+    protected $backupGlobals = false;
+
+    protected $previousFileHandler;
+
+    /**
+     * @var eZINI
+     **/
+    protected $fileINI;
+
     public function setUp()
     {
         // Verify that the clusterClass for each implementation is properly defined
         if ( $this->clusterClass === false )
-            $this->markTestSkipped( "Test class " . get_class( $this ) . " does not indicate the clusterClass property" );
+            $this->markTestSkipped( "Test class " . get_class( $this ) . " does not provide the clusterClass property" );
 
         return parent::setup();
     }
@@ -264,7 +280,43 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
      */
     public function testProcessCache()
     {
-        self::markTestIncomplete();
+        $path = 'var/tests/'  . __FUNCTION__ . '/cache.txt';
+        $extradata = array( 'content' => array( __METHOD__, 2, 3, 4 ) );
+
+        $ch = eZClusterFileHandler::instance( $path );
+        $result = $ch->processCache(
+            array( $this, 'processCacheRetrieveCallback' ),
+            array( $this, 'processCacheGenerateCallback' ),
+            null, null, $extradata );
+        $ch->loadMetaData( true );
+        self::assertEquals( $extradata['content'], $result );
+        self::assertTrue( $ch->exists(), "Cache file '$path' doesn't exist" );
+
+        self::deleteLocalFiles( $path );
+    }
+
+    /**
+     * Generate callback used by {@link testProcessCache()}
+     *
+     * Will store the 'content' key from $extraData as the cached content
+     */
+    public function processCacheGenerateCallback( $path, $extraData )
+    {
+        /** Add random content ?
+        * Idea: use extra data to carry options around from {@link testProcessCache}
+        */
+        return array( 'content' => $extraData['content'], 'scope' => 'test', 'datatype' => 'text/plain' );
+    }
+
+    /**
+     * Retrieve callback used by {@link testProcessCache()}
+     */
+    public function processCacheRetrieveCallback( $path, $mtime, $extraData )
+    {
+        // Return the file's content ? A way to really manage expiry MUST be used
+        // See examples in nodeViewFunctions
+        // Must return what was cached by the generate callback
+        return include( $path );
     }
 
     /**
@@ -388,26 +440,6 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
     public function testProcessFile()
     {
         self::markTestIncomplete();
-    }
-
-    /**
-     * Test for the isFileExpired() method
-     */
-    public function testFetchUnique()
-    {
-        $testFile = 'var/tests/' . __FUNCTION__ . '/file.txt';
-        $this->createFile( $testFile, "contents" );
-
-        $clusterHandler = eZClusterFileHandler::instance( $testFile );
-        $fetchedFile = $clusterHandler->fetchUnique();
-
-        self::assertNotSame( $testFile, $fetchedFile, "A unique name should have been returned" );
-        self::assertTrue( file_exists( $fetchedFile ), "The locally fetched unique file doesn't exist" );
-
-        if ( file_exists( $testFile ) )
-            unlink( $testFile );
-        if ( file_exists( $fetchedFile ) )
-            unlink( $fetchedFile );
     }
 
     /**
@@ -685,12 +717,5 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
 
         self::deleteLocalFiles( $sourcePath, $destinationPath );
     }
-
-    /**
-     * Tested cluster class
-     * Must be overriden by any implementation
-     * @var string eZFSFileHandler, eZDBFileHandler...
-     */
-    protected $clusterClass = false;
 }
 ?>

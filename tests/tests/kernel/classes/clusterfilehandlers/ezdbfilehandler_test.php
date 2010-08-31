@@ -10,23 +10,9 @@
 class eZDBFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
 {
     /**
-     * @var eZINI
-     **/
-    protected $fileINI;
-
-    /**
-     * @var eZMySQLDB
-     **/
-    protected $db;
-
-    protected $backupGlobals = false;
-
-    /**
      * @var array
      **/
     protected $sqlFiles = array( 'kernel/sql/mysql/cluster_schema.sql' );
-
-    protected $previousFileHandler;
 
     protected $clusterClass = 'eZDBFileHandler';
 
@@ -57,6 +43,8 @@ class eZDBFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
         if ( isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) and
             !$GLOBALS['eZClusterFileHandler_chosen_handler'] instanceof eZDBFileHandler )
             unset( $GLOBALS['eZClusterFileHandler_chosen_handler'] );
+
+        unset( $GLOBALS['eZClusterInfo'] );
 
         // Load database parameters for cluster
         // The same DSN than the relational database is used

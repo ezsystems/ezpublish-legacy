@@ -218,50 +218,55 @@ class eZDBFileHandler
         return $this->backend->_fetch( $filePath );
     }
 
-    /*!
-     Creates a single transaction out of the typical file operations for accessing caches.
-     Caches are normally ready from the database or local file, if the entry does not exist
-     or is expired then it generates the new cache data and stores it.
-     This method takes care of these operations and handles the custom code by performing
-     callbacks when needed.
-
-     The $retrieveCallback is used when the file contents can be used (ie. not re-generation) and
-     is called when the file is ready locally.
-     The function will be called with the file path as the first parameter, the mtime as the second
-     and optionally $extraData as the third.
-     The function must return the file contents or an instance of eZClusterFileFailure which can
-     be used to tell the system that the retrieve data cannot be used after all.
-     $retrieveCallback can be set to null which makes the system go directly to the generation.
-
-     The $generateCallback is used when the file content is expired or does not exist, in this
-     case the content must be re-generated and stored.
-     The function will be called with the file path as the first parameter and optionally $extraData
-     as the second.
-     The function must return an array with information on the contents, the array consists of:
-     - scope    - The current scope of the file, is optional.
-     - datatype - The current datatype of the file, is optional.
-     - content  - The file content, this can be any type except null.
-     - binarydata - The binary data which is written to the file.
-     - store      - Whether *content* or *binarydata* should be stored to the file, if false it will simply return the data. Optional, by default it is true.
-     Note: Set $generateCallback to false to disable generation callback.
-     Note: Set $generateCallback to null to tell the function to perform a write lock but not do any generation, the generation must done be done by the caller by calling storeCache().
-
-     Either *content* or *binarydata* must be supplied, if not an error is issued and it returns null.
-     If *content* is set it will be used as the return value of this function, if not it will return the binary data.
-     If *binarydata* is set it will be used as the binary data for the file, if not it will perform a var_export on *content* and use that as the binary data.
-
-     For convenience the $generateCallback function can return a string which will be considered as the
-     binary data for the file and returned as the content.
-
-     For controlling how long a cache entry can be used the parameters $expiry and $ttl is used.
-     $expiry can be set to a timestamp which controls the absolute max time for the cache, after this
-     time/date the cache will never be used. If the value is set to a negative value or null there the
-     expiration check is disabled.
-
-     $ttl (time to live) tells how many seconds the cache can live from the time it was stored. If the
-     value is set to negative or null there is no limit for the lifetime of the cache. A value of 0 means
-     that the cache will always expire and practically disables caching.
-     For the cache to be used both the $expiry and $ttl check must hold.
+    /**
+     * Creates a single transaction out of the typical file operations for accessing caches.
+     * Caches are normally ready from the database or local file, if the entry does not exist
+     * or is expired then it generates the new cache data and stores it.
+     * This method takes care of these operations and handles the custom code by performing
+     * callbacks when needed.
+     *
+     * Either *content* or *binarydata* must be supplied, if not an error is issued and it returns null.
+     * If *content* is set it will be used as the return value of this function, if not it will return the binary data.
+     * If *binarydata* is set it will be used as the binary data for the file, if not it will perform a var_export on
+     * *content* and use that as the binary data.
+     *
+     * For controlling how long a cache entry can be used the parameters $expiry and $ttl is used.
+     *
+     * @param mixed $retrieveCallback
+     *        The $retrieveCallback is used when the file contents can be used (ie. not re-generation) and
+     *        is called when the file is ready locally.
+     *        The function will be called with the file path as the first parameter, the mtime as the second
+     *        and optionally $extraData as the third.
+     *        The function must return the file contents or an instance of eZClusterFileFailure which can
+     *        be used to tell the system that the retrieve data cannot be used after all.
+     *        $retrieveCallback can be set to null which makes the system go directly to the generation.
+     *        Set to null to tell the function to perform a write lock but not do any generation, the generation must
+     *        done be done by the caller by calling storeCache().
+     * @param mixed $generateCallback
+     *        used when the file content is expired or does not exist, in this case the content must be re-generated and
+     *        stored. The function will be called with the file path as the first parameter and optionally $extraData
+     *        as the second.
+     *        Set to false to disable generation callback.
+     *        For convenience the $generateCallback function can return a string which will be considered as the
+     *        binary data for the file and returned as the content.
+     * @param mixed $ttl
+     *        (time to live) tells how many seconds the cache can live from the time it was stored. If the
+     *        value is set to negative or null there is no limit for the lifetime of the cache. A value of 0 means
+     *        that the cache will always expire and practically disables caching.
+     *        For the cache to be used both the $expiry and $ttl check must hold.
+     * @param mixed $expiry
+     *        $expiry can be set to a timestamp which controls the absolute max time for the cache, after this
+     *        time/date the cache will never be used. If the value is set to a negative value or null there the
+     *        expiration check is disabled.
+     * @param mixed $extraData Extra parameters to be sent to {@link $generateCallback} and {@link $retrieveCallback}
+     *
+     * @return array an array with information on the contents, the array consists of:
+     *         - scope:      The current scope of the file, is optional.
+     *         - datatype:   The current datatype of the file, is optional.
+     *         - content:    The file content, this can be any type except null.
+     *         - binarydata: The binary data which is written to the file.
+     *         - store:      Whether *content* or *binarydata* should be stored to the file, if false it will simply
+     *                       return the data. Optional, by default it is true.
      */
     function processCache( $retrieveCallback, $generateCallback = null, $ttl = null, $expiry = null, $extraData = null )
     {
@@ -640,13 +645,14 @@ class eZDBFileHandler
         return self::isFileExpired( $this->filePath, $mtime, $expiry, $curtime, $ttl );
     }
 
-    /*!
-     \private
-     Stores the data in $fileData to the remote and local file and commits the transaction.
-
-     The parameter $fileData must contain the same as information as the $generateCallback returns as explained in processCache().
-
-     \note This method is just a continuation of the code in processCache() and is not meant to be called alone since it relies on specific state in the database.
+    /**
+     * Stores the data in $fileData to the remote and local file and commits the transaction.
+     *
+     * This method is just a continuation of the code in processCache() and is not meant to be called alone since it
+     * relies on specific state in the database.
+     *
+     * The parameter $fileData must contain the same as information as the $generateCallback returns as explained
+     * in processCache().
      */
     function storeCache( $fileData )
     {

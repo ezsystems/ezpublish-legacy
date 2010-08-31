@@ -1021,7 +1021,7 @@ class eZFSFileHandler
      **/
     public function abortCacheGeneration()
     {
-        return;
+        return true;
     }
 
     /**

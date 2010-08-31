@@ -20,12 +20,6 @@ class eZFSFileHandlerTest extends eZClusterFileHandlerAbstractTest
 
     protected $clusterClass = 'eZFSFileHandler';
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setName( "eZFSFileHandler Unit Tests" );
-    }
-
     /**
      * Test setup
      *
@@ -61,6 +55,45 @@ class eZFSFileHandlerTest extends eZClusterFileHandlerAbstractTest
         }
 
         parent::tearDown();
+    }
+
+
+    /**
+     * Test for the fetchUnique() method
+     *
+     * Doesn't do much with eZFS. Nothing, actually.
+     */
+    public function testFetchUnique()
+    {
+        $testFile = 'var/tests/' . __FUNCTION__ . '/file.txt';
+        $this->createFile( $testFile, "contents" );
+
+        $clusterHandler = eZClusterFileHandler::instance( $testFile );
+        $fetchedFile = $clusterHandler->fetchUnique();
+
+        self::assertSame( $testFile, $fetchedFile, "A unique name should have been returned" );
+
+        self::deleteLocalFiles( $testFile, $fetchedFile );
+    }
+
+    public function testStartCacheGeneration()
+    {
+        self::assertTrue( eZClusterFileHandler::instance()->startCacheGeneration() );
+    }
+
+    public function testEndCacheGeneration()
+    {
+        self::assertTrue( eZClusterFileHandler::instance()->endCacheGeneration() );
+    }
+
+    public function testAbortCacheGeneration()
+    {
+        self::assertTrue( eZClusterFileHandler::instance()->abortCacheGeneration() );
+    }
+
+    public function testCheckCacheGenerationTimeout()
+    {
+        self::assertTrue( eZClusterFileHandler::instance()->abortCacheGeneration() );
     }
 }
 ?>
