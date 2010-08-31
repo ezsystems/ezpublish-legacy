@@ -277,7 +277,7 @@
         <td>
             {if $Relation:object.language_codes|contains( $attribute.language_code )}
                 <span title="{'This object is already translated, the existing translation will be used.'|i18n( 'design/standard/content/datatype' )}">
-                    {$Relation:object.current_language_object.name|wash()}
+                    {$attribute.object.current_language_object.name|wash()}
                 </span>
             {else}
                 {def $languages=$Relation:object.languages}
