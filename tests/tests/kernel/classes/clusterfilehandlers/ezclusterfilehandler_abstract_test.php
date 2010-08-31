@@ -278,7 +278,7 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
     /**
      * Test for the processCache() method
      */
-    public function testProcessCache()
+    public function testProcessCacheOne()
     {
         $path = 'var/tests/'  . __FUNCTION__ . '/cache.txt';
         $extradata = array( 'content' => array( __METHOD__, 2, 3, 4 ) );
@@ -291,6 +291,27 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
         $ch->loadMetaData( true );
         self::assertEquals( $extradata['content'], $result );
         self::assertTrue( $ch->exists(), "Cache file '$path' doesn't exist" );
+
+        self::deleteLocalFiles( $path );
+    }
+
+    /**
+     * Test for the processCache() method
+     */
+    public function testProcessCacheTwo()
+    {
+        $path = 'var/tests/'  . __FUNCTION__ . '/cache.txt';
+
+        $expected = new eZClusterFileFailure( 2, "Manual generation of file data is required, calling storeCache is required" );
+
+        $ch = eZClusterFileHandler::instance( $path );
+        $result = $ch->processCache(
+            array( $this, 'processCacheRetrieveCallback' ),
+            null,
+            null, null, array() );
+        $ch->loadMetaData( true );
+        self::assertEquals( $expected, $result );
+        // self::assertTrue( $ch->exists(), "Cache file '$path' doesn't exist" );
 
         self::deleteLocalFiles( $path );
     }
