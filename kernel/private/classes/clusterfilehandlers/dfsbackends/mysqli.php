@@ -6,7 +6,7 @@
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.2.x
+// SOFTWARE RELEASE: 4.4.0
 // COPYRIGHT NOTICE: Copyright (C) 1999-2010 eZ Systems AS
 // SOFTWARE LICENSE: GNU General Public License v2.0
 // NOTICE: >
@@ -51,7 +51,7 @@ CREATE TABLE ezdfsfile (
 ) ENGINE=InnoDB;
  */
 
-class eZDFSFileHandlerMySQLBackend
+class eZDFSFileHandlerMySQLiBackend
 {
     /**
      * Connects to the database.
@@ -97,15 +97,16 @@ class eZDFSFileHandlerMySQLBackend
         $tries = 0;
         while ( $tries < $maxTries )
         {
-            if ( $this->db = mysql_connect( $serverString, self::$dbparams['user'], self::$dbparams['pass'] ) )
+            /// @todo what if port is null, '' ??? to be tested
+            if ( $this->db = mysqli_connect( self::$dbparams['host'], self::$dbparams['user'], self::$dbparams['pass'], self::$dbparams['dbname'], self::$dbparams['port'] ) )
                 break;
             ++$tries;
         }
         if ( !$this->db )
             throw new eZClusterHandlerDBNoConnectionException( $serverString, self::$dbparams['user'], self::$dbparams['pass'] );
 
-        if ( !mysql_select_db( self::$dbparams['dbname'], $this->db ) )
-            throw new eZClusterHandlerDBNoDatabaseException( self::$dbparams['dbname'] );
+        /*if ( !mysql_select_db( self::$dbparams['dbname'], $this->db ) )
+            throw new eZClusterHandlerDBNoDatabaseException( self::$dbparams['dbname'] );*/
 
         // DFS setup
         if ( $this->dfsbackend === null )
@@ -220,7 +221,7 @@ class eZDFSFileHandlerMySQLBackend
         {
             return $this->_fail( "Purging file metadata for $filePath failed" );
         }
-        if ( mysql_affected_rows() == 1 )
+        if ( mysqli_affected_rows( $this->db ) == 1 )
         {
             $this->dfsbackend->delete( $filePath );
         }
@@ -275,7 +276,7 @@ class eZDFSFileHandlerMySQLBackend
             $this->_rollback( $fname );
             return $this->_fail( "Selecting file metadata by like statement $like failed" );
         }
-        $resultCount = mysql_num_rows( $res );
+        $resultCount = mysqli_num_rows( $res );
 
         // if there are no results, we can just return 0 and stop right here
         if ( $resultCount == 0 )
@@ -288,7 +289,7 @@ class eZDFSFileHandlerMySQLBackend
         {
             for ( $i = 0; $i < $resultCount; $i++ )
             {
-                $row = mysql_fetch_assoc( $res );
+                $row = mysqli_fetch_assoc( $res );
                 $files[] = $row['name'];
             }
         }
@@ -300,7 +301,7 @@ class eZDFSFileHandlerMySQLBackend
             $this->_rollback( $fname );
             return $this->_fail( "Purging file metadata by like statement $like failed" );
         }
-        $deletedDBFiles = mysql_affected_rows( $this->db );
+        $deletedDBFiles = mysqli_affected_rows( $this->db );
         $this->dfsbackend->delete( $files );
 
         $this->_commit( $fname );
@@ -467,7 +468,7 @@ class eZDFSFileHandlerMySQLBackend
     protected function _deleteByWildcardInner( $wildcard, $fname )
     {
         // Convert wildcard to regexp.
-        $regex = '^' . mysql_real_escape_string( $wildcard ) . '$';
+        $regex = '^' . mysqli_real_escape_string( $this->db, $wildcard ) . '$';
 
         $regex = str_replace( array( '.'  ),
                               array( '\.' ),
@@ -716,9 +717,9 @@ class eZDFSFileHandlerMySQLBackend
 
         $this->_begin( __METHOD__ );
 
-        $srcFilePathStr  = mysql_real_escape_string( $srcFilePath );
-        $dstFilePathStr  = mysql_real_escape_string( $dstFilePath );
-        $dstNameTrunkStr = mysql_real_escape_string( self::nameTrunk( $dstFilePath, $metaData['scope'] ) );
+        $srcFilePathStr  = mysqli_real_escape_string( $this->db, $srcFilePath );
+        $dstFilePathStr  = mysqli_real_escape_string( $this->db, $dstFilePath );
+        $dstNameTrunkStr = mysqli_real_escape_string( $this->db, self::nameTrunk( $dstFilePath, $metaData['scope'] ) );
 
         // Mark entry for update to lock it
         $sql = "SELECT * FROM " . self::TABLE_METADATA . " WHERE name_hash=MD5('$srcFilePathStr') FOR UPDATE";
@@ -909,9 +910,10 @@ class eZDFSFileHandlerMySQLBackend
         }
 
         $filePathList = array();
-        while ( $row = mysql_fetch_row( $rslt ) )
+        while ( $row = mysqli_fetch_row( $rslt ) )
             $filePathList[] = $row[0];
 
+        mysqli_free_result( $rslt );
         return $filePathList;
     }
 
@@ -926,11 +928,12 @@ class eZDFSFileHandlerMySQLBackend
     {
         if ( $this->db )
         {
-            eZDebug::writeError( $sql, "$msg" . mysql_error( $this->db ) );
+            eZDebug::writeError( $sql, "$msg" . mysqli_error( $this->db ) );
         }
         else
         {
-            eZDebug::writeError( $sql, "$msg: " . mysql_error() );
+            /// @todo to be fixed: will this generate a warning?
+            eZDebug::writeError( $sql, "$msg: " . mysqli_error() );
         }
     }
 
@@ -952,7 +955,7 @@ class eZDFSFileHandlerMySQLBackend
             // @todo Throw an exception
             return false;
         }
-        return mysql_insert_id( $this->db );
+        return mysqli_insert_id( $this->db );
     }
 
     /**
@@ -979,7 +982,7 @@ class eZDFSFileHandlerMySQLBackend
             // @todo Throw an exception
             return false;
         }
-        return mysql_insert_id( $this->db );
+        return mysqli_insert_id( $this->db );
     }
 
     /**
@@ -1017,7 +1020,7 @@ class eZDFSFileHandlerMySQLBackend
     **/
     protected function _selectOneRow( $query, $fname, $error = false, $debug = false )
     {
-        return $this->_selectOne( $query, $fname, $error, $debug, "mysql_fetch_row" );
+        return $this->_selectOne( $query, $fname, $error, $debug, "mysqli_fetch_row" );
     }
 
     /**
@@ -1036,7 +1039,7 @@ class eZDFSFileHandlerMySQLBackend
      **/
     protected function _selectOneAssoc( $query, $fname, $error = false, $debug = false )
     {
-        return $this->_selectOne( $query, $fname, $error, $debug, "mysql_fetch_assoc" );
+        return $this->_selectOne( $query, $fname, $error, $debug, "mysqli_fetch_assoc" );
     }
 
     /**
@@ -1055,13 +1058,13 @@ class eZDFSFileHandlerMySQLBackend
         eZDebug::accumulatorStart( 'mysql_cluster_query', 'MySQL Cluster', 'DB queries' );
         $time = microtime( true );
 
-        $res = mysql_query( $query, $this->db );
+        $res = mysqli_query( $this->db, $query );
         if ( !$res )
         {
-            if ( mysql_errno( $this->db ) == 1146 )
+            if ( mysqli_errno( $this->db ) == 1146 )
             {
                 throw new eZDFSFileHandlerTableNotFoundException(
-                    $query, mysql_error( $this->db ) );
+                    $query, mysqli_error( $this->db ) );
             }
             else
             {
@@ -1072,7 +1075,7 @@ class eZDFSFileHandlerMySQLBackend
             }
         }
 
-        $nRows = mysql_num_rows( $res );
+        $nRows = mysqli_num_rows( $res );
         if ( $nRows > 1 )
         {
             eZDebug::writeError( 'Duplicate entries found', $fname );
@@ -1081,7 +1084,7 @@ class eZDFSFileHandlerMySQLBackend
         }
 
         $row = $fetchCall( $res );
-        mysql_free_result( $res );
+        mysqli_free_result( $res );
         if ( $debug )
             $query = "SQL for _selectOneAssoc:\n" . $query . "\n\nRESULT:\n" . var_export( $row, true );
 
@@ -1164,7 +1167,7 @@ class eZDFSFileHandlerMySQLBackend
 
             $result = call_user_func_array( $callback, $args );
 
-            $errno = mysql_errno( $this->db );
+            $errno = mysqli_errno( $this->db );
             if ( $errno == 1205 || // Error: 1205 SQLSTATE: HY000 (ER_LOCK_WAIT_TIMEOUT)
                  $errno == 1213 )  // Error: 1213 SQLSTATE: 40001 (ER_LOCK_DEADLOCK)
             {
@@ -1228,7 +1231,7 @@ class eZDFSFileHandlerMySQLBackend
     **/
     protected function _fail( $value, $text = false )
     {
-        $value .= "\n" . mysql_errno( $this->db ) . ": " . mysql_error( $this->db );
+        $value .= "\n" . mysqli_errno( $this->db ) . ": " . mysqli_error( $this->db );
         return new eZMySQLBackendError( $value, $text );
     }
 
@@ -1244,13 +1247,13 @@ class eZDFSFileHandlerMySQLBackend
         eZDebug::accumulatorStart( 'mysql_cluster_query', 'MySQL Cluster', 'DB queries' );
         $time = microtime( true );
 
-        $res = mysql_query( $query, $this->db );
+        $res = mysqli_query( $this->db, $query );
         if ( !$res && $reportError )
         {
             $this->_error( $query, $fname );
         }
 
-        $numRows = mysql_affected_rows( $this->db );
+        $numRows = mysqli_affected_rows( $this->db );
 
         $time = microtime( true ) - $time;
         eZDebug::accumulatorStop( 'mysql_cluster_query' );
@@ -1273,7 +1276,7 @@ class eZDFSFileHandlerMySQLBackend
         elseif ( is_integer( $value ) )
             return (string)$value;
         else
-            return "'" . mysql_real_escape_string( $value ) . "'";
+            return "'" . mysqli_real_escape_string( $this->db, $value ) . "'";
     }
 
     /**
@@ -1282,7 +1285,7 @@ class eZDFSFileHandlerMySQLBackend
     **/
     protected function _md5( $value )
     {
-        return "MD5('" . mysql_real_escape_string( $value ) . "')";
+        return "MD5('" . mysqli_real_escape_string( $this->db, $value ) . "')";
     }
 
     /**
@@ -1308,7 +1311,7 @@ class eZDFSFileHandlerMySQLBackend
             $error = $error[0];
         }
 
-        eZDebug::writeError( "$error\n" . mysql_errno( $this->db ) . ': ' . mysql_error( $this->db ), $fname );
+        eZDebug::writeError( "$error\n" . mysqli_errno( $this->db ) . ': ' . mysqli_error( $this->db ), $fname );
     }
 
     /**
@@ -1353,8 +1356,8 @@ class eZDFSFileHandlerMySQLBackend
         $nameHash = $this->_md5( $generatingFilePath );
         $mtime = time();
 
-        $insertData = array( 'name' => "'" . mysql_real_escape_string( $generatingFilePath ) . "'",
-                             'name_trunk' => "'" . mysql_real_escape_string( $generatingFilePath ) . "'",
+        $insertData = array( 'name' => "'" . mysqli_real_escape_string( $this->db, $generatingFilePath ) . "'",
+                             'name_trunk' => "'" . mysqli_real_escape_string( $this->db, $generatingFilePath ) . "'",
                              'name_hash' => $nameHash,
                              'scope' => "''",
                              'datatype' => "''",
@@ -1365,10 +1368,10 @@ class eZDFSFileHandlerMySQLBackend
 
         if ( !$this->_query( $query, "_startCacheGeneration( $filePath )", false ) )
         {
-            $errno = mysql_errno();
+            $errno = mysqli_errno( $this->db );
             if ( $errno != 1062 )
             {
-                eZDebug::writeError( "Unexpected error #$errno when trying to start cache generation on $filePath (".mysql_error().")", __METHOD__ );
+                eZDebug::writeError( "Unexpected error #$errno when trying to start cache generation on $filePath (".mysqli_error( $this->db ).")", __METHOD__ );
                 eZDebug::writeDebug( $query, '$query' );
 
                 // @todo Make this an actual error, maybe an exception
@@ -1395,15 +1398,15 @@ class eZDFSFileHandlerMySQLBackend
 
                     // we run the query manually since the default _query won't
                     // report affected rows
-                    $res = mysql_query( $updateQuery, $this->db );
-                    if ( ( $res !== false ) and mysql_affected_rows( $this->db ) == 1 )
+                    $res = mysqli_query( $this->db, $updateQuery );
+                    if ( ( $res !== false ) and mysqli_affected_rows( $this->db ) == 1 )
                     {
                         return array( 'result' => 'ok', 'mtime' => $mtime );
                     }
                     else
                     {
                         // @todo This would require an actual error handling
-                        eZDebug::writeError( "An error occured taking over timedout generating cache file $generatingFilePath (".mysql_error().")", __METHOD__ );
+                        eZDebug::writeError( "An error occured taking over timedout generating cache file $generatingFilePath (".mysqli_error( $this->db ).")", __METHOD__ );
                         return array( 'result' => 'error' );
                     }
                 }
@@ -1449,11 +1452,11 @@ class eZDFSFileHandlerMySQLBackend
                 // @todo Throw an exception
                 return false;
             }
-            $generatingMetaData = mysql_fetch_assoc( $res );
+            $generatingMetaData = mysqli_fetch_assoc( $res );
 
             // the original file does not exist: we move the generating file
             $res = $this->_query( "SELECT * FROM " . self::TABLE_METADATA . " WHERE name_hash=MD5('$filePath') FOR UPDATE", $fname, false );
-            if ( mysql_num_rows( $res ) == 0 )
+            if ( mysqli_num_rows( $res ) == 0 )
             {
                 $metaData = $generatingMetaData;
                 $metaData['name'] = $filePath;
@@ -1530,14 +1533,14 @@ class eZDFSFileHandlerMySQLBackend
 
         // The update query will only succeed if the mtime wasn't changed in between
         $query = "UPDATE " . self::TABLE_METADATA . " SET mtime = $newMtime WHERE name_hash = {$nameHash} AND mtime = $generatingFileMtime";
-        $res = mysql_query( $query, $this->db );
+        $res = mysqli_query( $this->db, $query );
         if ( !$res )
         {
             // @todo Throw an exception
             $this->_error( $query, $fname );
             return false;
         }
-        $numRows = mysql_affected_rows( $this->db );
+        $numRows = mysqli_affected_rows( $this->db );
 
         // reporting. Manual here since we don't use _query
         $time = microtime( true ) - $time;
@@ -1545,13 +1548,13 @@ class eZDFSFileHandlerMySQLBackend
 
         // no rows affected or row updated with the same value
         // f.e a cache-block which takes less than 1 sec to get generated
-        // if a line has been updated by the same  values, mysql_affected_rows
+        // if a line has been updated by the same  values, mysqli_affected_rows
         // returns 0, and updates nothing, we need to extra check this,
         if( $numRows == 0 )
         {
             $query = "SELECT mtime FROM " . self::TABLE_METADATA . " WHERE name_hash = {$nameHash}";
-            $res = mysql_query( $query, $this->db );
-            mysql_fetch_row( $res );
+            $res = mysqli_query( $this->db, $query );
+            mysqli_fetch_row( $res );
             if ( $res and isset( $row[0] ) and $row[0] == $generatingFileMtime );
             {
                 return true;
@@ -1669,8 +1672,9 @@ class eZDFSFileHandlerMySQLBackend
         }
         $res = $this->_query( $query, __METHOD__ );
         $filePathList = array();
-        while ( $row = mysql_fetch_row( $res ) )
+        while ( $row = mysqli_fetch_row( $res ) )
             $filePathList[] = $row[0];
+        mysqli_free_result( $res );
 
         return $filePathList;
     }

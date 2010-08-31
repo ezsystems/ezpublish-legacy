@@ -7,18 +7,8 @@
  * @package tests
  */
 
-class eZDFSFileHandlerTest extends ezpDatabaseTestCase
+class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
 {
-    /**
-     * @var eZINI
-     **/
-    protected $fileINI;
-
-    /**
-     * @var eZMySQLDB
-     **/
-    protected $db;
-
     /**
      * @var string
      **/
@@ -35,11 +25,14 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
 
     protected $previousFileHandler;
 
+    protected $clusterClass = 'eZDFSFileHandler';
+
+    /* // Commented since __construct breaks data providers
     public function __construct()
     {
         parent::__construct();
         $this->setName( "eZDFSClusterFileHandler Unit Tests" );
-    }
+    }*/
 
     /**
      * Test setup
@@ -49,18 +42,20 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
      **/
     public function setUp()
     {
-        if ( !( $this->sharedFixture instanceof eZMySQLDB ) )
+        parent::setUp();
+
+        if ( !( $this->sharedFixture instanceof eZMySQLDB ) and !( $this->sharedFixture instanceof eZMySQLiDB ) )
         {
             self::markTestSkipped( "Not using mysql interface, skipping" );
         }
-
-        parent::setUp();
 
         // We need to clear the existing handler if it was loaded before the INI
         // settings changes
         if ( isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) and
             !$GLOBALS['eZClusterFileHandler_chosen_handler'] instanceof eZDFSFileHandler )
             unset( $GLOBALS['eZClusterFileHandler_chosen_handler'] );
+
+        unset( $GLOBALS['eZClusterInfo'] );
 
         // Load database parameters for cluster
         // The same DSN than the relational database is used
@@ -69,6 +64,19 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
         $fileINI->setVariable( 'ClusteringSettings', 'FileHandler', 'eZDFSFileHandler' );
 
         $dsn = ezpTestRunner::dsn()->parts;
+        switch ( $dsn['phptype'] )
+        {
+            case 'mysql':
+                $backend = 'eZDFSFileHandlerMySQLBackend';
+                break;
+
+            case 'mysqli':
+                $backend = 'eZDFSFileHandlerMySQLiBackend';
+                break;
+
+            default:
+                $this->markTestSkipped( "Unsupported database type '{$dsn['phptype']}'" );
+        }
         $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBHost',    $dsn['host'] );
         $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBPort',    $dsn['port'] );
         $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBSocket',  $dsn['socket'] );
@@ -82,8 +90,6 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
             eZDir::doMkdir( $this->DFSPath, 0755 );
             $this->haveToRemoveDFSPath = true;
         }
-
-        ezpTestDatabaseHelper::insertSqlData( $this->sharedFixture, $this->sqlFiles );
 
         $this->db = $this->sharedFixture;
     }
@@ -358,7 +364,7 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
     *
     * Should locally fetch a file located on DB+DFS
     **/
-    public function testFileFetchExistingFile()
+    public function _testFileFetchExistingFile()
     {
         $testFile = 'var/testFileForTestFileFetch.txt';
 
@@ -378,8 +384,10 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
      * Tests the fileFetch method on a non existing file
      *
      * Should locally fetch a file located on DB+DFS
+     *
+     * @deprecated See {@link eZCluserFileHandlerAbstractTest}
      **/
-    public function testFileFetchNonExistingFile()
+    public function _testFileFetchNonExistingFile()
     {
         $testFile = 'var/testFileForTestFileFetchNonExistingFile.txt';
 
@@ -395,8 +403,9 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
 
     /**
      * Tests eZDFSFileHandler->fetch() on an existing file
+     * @deprecated See {@link eZCluserFileHandlerAbstractTest}
      **/
-    public function testFetchExistingFile()
+    public function _testFetchExistingFile()
     {
         $testFile = 'var/testFileForTestFetchExistingFile.txt';
         $this->createFile( $testFile, 'This is the content' );
@@ -411,8 +420,9 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
 
     /**
      * Tests eZDFSFileHandler->fetch() on a non-existing file
+     * @deprecated See {@link eZCluserFileHandlerAbstractTest}
      **/
-    public function testFetchNonExistingFile()
+    public function _testFetchNonExistingFile()
     {
         $testFile = 'var/testFileForTestFetchExistingFile.txt';
         $this->removeFile( $testFile );
@@ -568,106 +578,6 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
         $this->removeFile( $testFile );
     }
 
-    public function testIsFileExpired()
-    {
-        $fname = __METHOD__;
-
-        // Negative mtime: expired
-        $mtime = -1;
-        $expiry = -1;
-        $curtime = time();
-        $ttl = null;
-        $result = eZDFSFileHandler::isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
-        $this->assertTrue( $result, "negative mtime: expired expected" );
-
-        // FALSE mtime: expired
-        $mtime = false;
-        $expiry = -1;
-        $curtime = time();
-        $ttl = null;
-        $result = eZDFSFileHandler::isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
-        $this->assertTrue( $result, "false mtime: expired expected" );
-
-        // NULL TTL + mtime < expiry: expired
-        $mtime = time() - 3600; // mtime < expiry
-        $expiry = time();
-        $curtime = time();
-        $ttl = null;
-        $result = eZDFSFileHandler::isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
-        $this->assertTrue( $result,
-            "no TTL + mtime < expiry: expired expected" );
-
-        // NULL TTL + mtime > expiry: not expired
-        $mtime = time();
-        $expiry = time() - 3600; // expires in the future
-        $curtime = time();
-        $ttl = null;
-        $result = eZDFSFileHandler::isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
-        $this->assertFalse( $result,
-            "no TTL + mtime > expiry: not expired expected" );
-
-        // TTL != null, mtime < curtime - ttl: expired
-        $mtime = time();
-        $expiry = -1; // disable expiry check
-        $curtime = time();
-        $ttl = 60; // 60 seconds TTL
-        $result = eZDFSFileHandler::isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
-        $this->assertFalse( $result,
-            "TTL + ( mtime < ( curtime - ttl ) ): !expired expected" );
-
-        // TTL != null, mtime > curtime - ttl: not expired
-        $mtime = time() - 90; // old file
-        $expiry = -1; // disable expiry check
-        $curtime = time();
-        $ttl = 60; // 60 seconds TTL
-        $result = eZDFSFileHandler::isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
-        $this->assertTrue( $result,
-            "TTL + ( mtime > ( curtime - ttl ) ): expired expected" );
-
-        // TTL != null, mtime < expiry: expired
-        $mtime = time() - 90; // old file
-        $expiry = time(); // file is expired
-        $curtime = time();
-        $ttl = 60; // 60 seconds TTL
-        $result = eZDFSFileHandler::isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
-        $this->assertTrue( $result,
-            "TTL + ( mtime < expiry ): expired expected" );
-
-        // TTL != null, mtime > expiry: not expired
-        $mtime = time();
-        $expiry = time() - 90;
-        $curtime = time();
-        $ttl = 60;
-        $result = eZDFSFileHandler::isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
-        $this->assertFalse( $result,
-            "TTL + ( mtime > expiry ): !expired expected" );
-    }
-
-    public function testIsExpired()
-    {
-        // file will be created with current time as mtime()
-        $testFile = 'var/testFileForTestIsExpired.txt';
-        $this->createFile( $testFile );
-
-        $clusterHandler = eZClusterFileHandler::instance( $testFile );
-
-        // expiry date < mtime / no TTL: !expired
-        $this->assertFalse( $clusterHandler->isExpired( $expiry = time() - 3600, time(), null ),
-            "expiry date < mtime, no TTL, !expired expected" );
-
-        // expiry date > mtime / no TTL: !expired
-        $this->assertTrue( $clusterHandler->isExpired( $expiry = time() + 3600, time(), null ),
-            "expiry date > mtime, no TTL, expired expected" );
-
-        // mtime < curtime - ttl: !expired
-        $this->assertFalse( $clusterHandler->isExpired( $expiry = -1, time(), 60 ),
-            "mtime < curtime - ttl: !expired expected" );
-
-        // mtime > curtime - ttl: expired
-        $this->assertTrue( $clusterHandler->isExpired( $expiry = -1, time(), -60 ),
-            "mtime > curtime - ttl: expired expected" );
-    }
-
     public function testIsExpiredNegativeMtime()
     {
         // negative mtime: expired
@@ -804,7 +714,7 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
         $this->removeFile( $testFile );
     }
 
-    public function testFileDelete()
+    public function _testFileDelete()
     {
         $testFile = 'var/testFileDelete.txt';
 
@@ -826,7 +736,7 @@ class eZDFSFileHandlerTest extends ezpDatabaseTestCase
         $this->assertFalse( $this->DBFileExistsAndIsValid( $testFile ), "File is still valid in DB" );
     }
 
-    public function testDelete()
+    public function _testDelete()
     {
         $testFile = 'var/testDelete.txt';
 

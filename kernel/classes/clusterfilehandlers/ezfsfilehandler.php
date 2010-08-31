@@ -153,21 +153,17 @@ class eZFSFileHandler
      * Fetches file from db and saves it in FS under the same name.
      *
      * In case of fetching from filesystem does nothing.
-     *
-     * \public
-     * \static
      */
     function fileFetch( $filePath )
     {
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileFetch( '$filePath' )", __METHOD__ );
+        return ( file_exists( $filePath ) ? $filePath : false );
     }
 
     /**
      * Fetches file from db and saves it in FS under the same name.
      *
      * In case of fetching from filesystem does nothing.
-     *
-     * \public
      */
     function fetch( $noLocalCache = false )
     {
@@ -193,15 +189,12 @@ class eZFSFileHandler
      *
      * In case of storing to filesystem does nothing.
      *
-     * \public
-     * \static
-     * \param $filePath Path to the file being stored.
-     * \param $scope    Means something like "file category". May be used to clean caches of a certain type.
-     * \param $delete   true if the file should be deleted after storing.
+     * @param string $filePath Path to the file being stored.
+     * @param string $scope    Means something like "file category". May be used to clean caches of a certain type.
+     * @param string $delete   true if the file should be deleted after storing.
      */
     function fileStore( $filePath, $scope = false, $delete = false, $datatype = false )
     {
-        $delete = (int) $delete;
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileStore( '$filePath' )", __METHOD__ );
     }
 
@@ -244,7 +237,6 @@ class eZFSFileHandler
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
 
         eZFile::create( basename( $filePath ), dirname( $filePath ), $contents, true );
-
         $perm = eZINI::instance()->variable( 'FileSettings', 'StorageFilePermissions' );
         chmod( $filePath, octdec( $perm ) );
 
@@ -254,16 +246,14 @@ class eZFSFileHandler
     /**
      * Returns file contents.
      *
-     * \public
-     * \static
-     * \return contents string, or false in case of an error.
+     * @return string|false contents string, or false in case of an error.
      */
     function fileFetchContents( $filePath )
     {
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileFetchContents( '$filePath' )", __METHOD__ );
 
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
-        $rslt = file_get_contents( $filePath );
+        $rslt = is_readable( $filePath ) ? file_get_contents( $filePath ) : false;
         eZDebug::accumulatorStop( 'dbfile' );
 
         return $rslt;
@@ -281,7 +271,7 @@ class eZFSFileHandler
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fetchContents( '$filePath' )", __METHOD__ );
 
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
-        $rslt = file_get_contents( $filePath );
+        $rslt = is_readable( $filePath ) ? file_get_contents( $filePath ) : false;
         eZDebug::accumulatorStop( 'dbfile' );
 
         return $rslt;
@@ -793,6 +783,7 @@ class eZFSFileHandler
         {
             eZDir::recursiveDelete( $path );
         }
+        $this->loadMetaData( true );
 
         eZDebug::accumulatorStop( 'dbfile' );
     }
@@ -906,7 +897,6 @@ class eZFSFileHandler
         $path = $this->filePath;
         $rc = isset( $this->metaData['mtime'] );
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::exists( '$path' ): " . ( $rc ? 'true' :'false' ), __METHOD__ );
-
         return $rc;
     }
 
@@ -1031,7 +1021,7 @@ class eZFSFileHandler
      **/
     public function abortCacheGeneration()
     {
-        return;
+        return true;
     }
 
     /**
@@ -1057,7 +1047,7 @@ class eZFSFileHandler
     /**
      * eZFS does not require binary purge.
      * Files are stored on plain FS and removed using FS functions
-     * 
+     *
      * @since 4.3
      */
     public function requiresBinaryPurge()

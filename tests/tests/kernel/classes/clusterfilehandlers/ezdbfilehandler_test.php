@@ -7,32 +7,21 @@
  * @package tests
  */
 
-class eZDBFileHandlerTest extends ezpDatabaseTestCase
+class eZDBFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
 {
-    /**
-     * @var eZINI
-     **/
-    protected $fileINI;
-
-    /**
-     * @var eZMySQLDB
-     **/
-    protected $db;
-
-    protected $backupGlobals = false;
-
     /**
      * @var array
      **/
     protected $sqlFiles = array( 'kernel/sql/mysql/cluster_schema.sql' );
 
-    protected $previousFileHandler;
+    protected $clusterClass = 'eZDBFileHandler';
 
+    /* // Commented since __construct breaks data providers
     public function __construct()
     {
         parent::__construct();
         $this->setName( "eZDBFileHandler Unit Tests" );
-    }
+    }*/
 
     /**
      * Test setup
@@ -55,6 +44,8 @@ class eZDBFileHandlerTest extends ezpDatabaseTestCase
             !$GLOBALS['eZClusterFileHandler_chosen_handler'] instanceof eZDBFileHandler )
             unset( $GLOBALS['eZClusterFileHandler_chosen_handler'] );
 
+        unset( $GLOBALS['eZClusterInfo'] );
+
         // Load database parameters for cluster
         // The same DSN than the relational database is used
         $fileINI = eZINI::instance( 'file.ini' );
@@ -62,7 +53,20 @@ class eZDBFileHandlerTest extends ezpDatabaseTestCase
         $fileINI->setVariable( 'ClusteringSettings', 'FileHandler', 'eZDBFileHandler' );
 
         $dsn = ezpTestRunner::dsn()->parts;
-        $fileINI->setVariable( 'ClusteringSettings', 'DBBackend',  'eZDBFileHandlerMysqlBackend' );
+        switch ( $dsn['phptype'] )
+        {
+            case 'mysql':
+                $backend = 'eZDBFileHandlerMysqlBackend';
+                break;
+
+            case 'mysqli':
+                $backend = 'eZDBFileHandlerMysqliBackend';
+                break;
+
+            default:
+                $this->markTestSkipped( "Unsupported database type '{$dsn['phptype']}'" );
+        }
+        $fileINI->setVariable( 'ClusteringSettings', 'DBBackend',  $backend );
         $fileINI->setVariable( 'ClusteringSettings', 'DBHost',     $dsn['host'] );
         $fileINI->setVariable( 'ClusteringSettings', 'DBPort',     $dsn['port'] );
         $fileINI->setVariable( 'ClusteringSettings', 'DBSocket',   $dsn['socket'] );
