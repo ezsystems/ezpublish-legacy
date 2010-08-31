@@ -435,12 +435,15 @@ var eZOEPopupUtils = {
         var customArr = [];
         jQuery( '#' + node + ' input,#' + node + ' select' ).each(function( i, el )
         {
-            var o = jQuery( el ), name = el.name, value = o[0].value, style;
+            var o = jQuery( el ), name = o.attr("name"), value, style;
             if ( o.hasClass('mceItemSkip') || !name ) return;
+            if ( o.attr("type") === 'checkbox' && !o.attr("checked") ) return;
 
             // see if there is a save hander that needs to do some work on the value
             if ( handler[el.id] !== undefined && handler[el.id].call !== undefined )
-                value = handler[el.id].call( o, el, value );
+                value = handler[el.id].call( o, el, o.val() );
+            else
+                value = o.val()
 
             // add to styles if custom attibute is defined in customAttributeStyleMap
             if ( value !== '' && s.customAttributeStyleMap && s.customAttributeStyleMap[name] !== undefined  )
@@ -467,12 +470,14 @@ var eZOEPopupUtils = {
         var args = {}, handler = eZOEPopupUtils.settings.customAttributeSaveHandler;
         jQuery( '#' + node + ' input,#' + node + ' select' ).each(function( i, el )
         {
-            var o = jQuery( el ), name = el.name;
+            var o = jQuery( el ), name = o.attr("name");
             if ( o.hasClass('mceItemSkip') || !name ) return;
-            args[name] = el.value;
+            if ( o.attr("type") === 'checkbox' && !o.attr("checked") ) return;
             // see if there is a save hander that needs to do some work on the value
             if ( handler[el.id] !== undefined && handler[el.id].call !== undefined )
-                args[name] = handler[el.id].call( o, el, args[name] );
+                args[name] = handler[el.id].call( o, el, o.val() );
+            else
+                args[name] = o.val()
        });
        return args;
     },
