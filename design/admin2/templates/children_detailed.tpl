@@ -1,9 +1,21 @@
 {def $section         = fetch( 'section', 'object', hash( 'section_id', $node.object.section_id ) )
-    $visible_columns = ezini('SubItems', 'VisibleColumns', 'admininterface.ini') }
+    $visible_columns  = ezini('SubItems', 'VisibleColumns', 'admininterface.ini')
+    $locales          = fetch( 'content', 'translation_list' ) }
+
 {literal}
 <script type="text/javascript">
 (function() {
 {/literal}
+
+var icons = {ldelim}
+
+{foreach $locales as $locale}
+    '{$locale.locale_code}': '{$locale.locale_code|flag_icon()}'{delimiter},
+
+{/delimiter}
+{/foreach}
+
+{rdelim};
 
 var vcols = {ldelim}
 
@@ -38,7 +50,8 @@ var confObj = {ldelim}
     cookieSecure: false,
     cookieDomain: "{ezsys(hostname)}",
     languagesString: "{$node.object.language_js_array}",
-    classesString: "{$node.classes_js_array}"
+    classesString: "{$node.classes_js_array}",
+    flagIcons: icons
 
 {rdelim}
 
@@ -61,6 +74,7 @@ var labelsObj = {ldelim}
                         modified: "{'Modified'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
                         published: "{'Published'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
                         section: "{'Section'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
+                        translations: "{'Translations'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
                         priority: "{'Priority'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
                         nodeid: "{'Node ID'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
                         objectid: "{'Object ID'|i18n( 'design/admin/node/view/full' )|wash('javascript')}",
@@ -156,7 +170,7 @@ YUILoader.insert(options, 'js');
 
 })();
 {/literal}
-{undef $section $visible_columns}
+{undef $section $visible_columns $locales}
 </script>
 
 <div id="action-controls-container">

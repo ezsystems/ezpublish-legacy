@@ -50,6 +50,14 @@ var sortableSubitems = function () {
             else
                 cell.innerHTML = '';
         }
+        
+        var translationView = function(cell, record, column, data) {
+            var html = '';
+            jQuery(data).each(function(i, e) {
+                html += '<img src="' + confObj.flagIcons[e] + '" style="margin-right: 4px;" alt="' + e + '" title="' + e + '"/>';
+            });
+            cell.innerHTML = html;
+        }
 
         var updatePriority = function(callback, v) {
             var record = this.getRecord(), dataTable = this.getDataTable(), sortedBy = dataTable.get('sortedBy'), paginator = dataTable.get('paginator');
@@ -76,6 +84,7 @@ var sortableSubitems = function () {
             {key:"creator", label:labelsObj.DATA_TABLE_COLS.modifier, sortable:false, resizeable:true},
             {key:"modified_date", label:labelsObj.DATA_TABLE_COLS.modified, sortable:true, resizeable:true},
             {key:"published_date", label:labelsObj.DATA_TABLE_COLS.published, sortable:true, resizeable:true},
+            {key:"translations", label:labelsObj.DATA_TABLE_COLS.translations, sortable:false, resizeable:true, formatter:translationView},
             {key:"section", label:labelsObj.DATA_TABLE_COLS.section, sortable:true, resizeable:true},
             {key:"node_id", label:labelsObj.DATA_TABLE_COLS.nodeid, sortable:true, resizeable:true},
             {key:"node_remote_id", label:labelsObj.DATA_TABLE_COLS.noderemoteid, sortable:false, resizeable:true},
@@ -100,6 +109,10 @@ var sortableSubitems = function () {
         var sectionParser = function(section) {
             return section.name;
         }
+        
+        var translationsParser = function(translations) {
+            return translations.language_list;
+        }
 
         var creatorParser = function(creator) {
             return creator.name;
@@ -117,6 +130,7 @@ var sortableSubitems = function () {
                 {key:"modified_date"},
                 {key:"published_date"},
                 {key:"section", parser:sectionParser},
+                {key:"translations", parser:translationsParser},
                 {key:"version"},
                 {key:"node_id"},
                 {key:"node_remote_id"},
