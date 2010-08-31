@@ -28,47 +28,18 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
     {
         $ch = eZClusterFileHandler::instance( $path );
         $ch->storeContents( $contents );
+        $ch->loadMetaData( true );
     }
 
     /**
-     * Tests the cluster shutdown handler.
-     * Handlers that support stalecache should cleanup their generating files if any
+     * Deletes one or more local files
+     * @param mixed $path Path to the local file. Give as many as you like (variable params)
      */
-    public function testShutdownHandler()
+    protected static function deleteLocalFiles( $path )
     {
-        if ( $this instanceof eZFSFileHandlerTest )
-        {
-            self::markTestSkipped( "eZFSFileHandler doesn't use the shutdown handler" );
-        }
-
-        // start generation of a couple files
-        $file1 = eZClusterFileHandler::instance( 'var/tests/cache/uncleanfile1.txt' );
-        $file1->startCacheGeneration();
-        $file1->storeContents( __METHOD__ );
-
-        $file2 = eZClusterFileHandler::instance( 'var/tests/cache/uncleanfile2.txt' );
-        $file2->startCacheGeneration();
-        $file2->storeContents( __METHOD__ );
-
-        $file3 = eZClusterFileHandler::instance( 'var/tests/cache/uncleanfile3.txt' );
-        $file3->startCacheGeneration();
-        $file3->storeContents( __METHOD__ );
-
-        // terminate one of them
-        $file2->endCacheGeneration();
-
-        // check that the generating status is as expected
-        $this->assertStringEndsWith(    '.generating', $file1->filePath, '$file1 is not generating' );
-        $this->assertStringEndsNotWith( '.generating', $file2->filePath, '$file2 is generating' );
-        $this->assertStringEndsWith(    '.generating', $file3->filePath, '$file3 is not generating' );
-
-        // Call the cleanup handler called by eZExecution::cleanExit()
-        eZClusterFileHandler::cleanupGeneratingFiles();
-
-        // Check that all files are no longer marked as generating
-        $this->assertStringEndsNotWith( '.generating', $file1->filePath, '$file1 is still generating' );
-        $this->assertStringEndsNotWith( '.generating', $file2->filePath, '$file2 is still generating' );
-        $this->assertStringEndsNotWith( '.generating', $file3->filePath, '$file3 is still generating' );
+        foreach( func_get_args() as $path )
+            if ( file_exists( $path ) )
+                unlink( $path );
     }
 
     /**
@@ -162,6 +133,35 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
     }
 
     /**
+     * Test for the fetch() method with an existing file
+     */
+    public function testFetchExistingFile()
+    {
+        $path = 'var/tests/' . __FUNCTION__ . '/file.txt';
+
+        // create the file
+        $this->createFile( $path, md5( time() ) );
+
+        // Fetch the file, and test for existence
+        $ch = eZClusterFileHandler::instance( $path );
+        $ch->fetch();
+        self::assertFileExists( $path );
+    }
+
+    /**
+     * Test for the fetch() method with a non existing file
+     */
+    public function testFetchNonExistingFile()
+    {
+        $path = 'var/tests/' . __FUNCTION__ . '/nofile.txt';
+
+        // Fetch the file, and test for existence
+        $ch = eZClusterFileHandler::instance( $path );
+        $ch->fetch();
+        self::assertFileNotExists( $path );
+    }
+
+    /**
      * Test for the fileStore() method with the delete option
      */
     public function testFileStoreWithDelete()
@@ -182,11 +182,8 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
         {
             self::assertEquals( 'text/plain', $ch2->metaData['datatype'] );
             self::assertEquals( 'test', $ch2->metaData['scope'] );
-        }
-
-        // The eZFS file handler doesn't remove local files
-        if ( !$this instanceof eZFSFileHandlerTest )
             self::assertFileNotExists( $localFile );
+        }
     }
 
     /**
@@ -210,14 +207,10 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
         {
             self::assertEquals( 'text/plain', $ch2->metaData['datatype'] );
             self::assertEquals( 'test', $ch2->metaData['scope'] );
+            self::assertFileExists( $localFile );
         }
 
-        // The eZFS file handler doesn't remove local files
-        if ( !$this instanceof eZFSFileHandlerTest )
-            self::assertFileExists( $localFile );
-
-        if ( file_exists( $localFile ) )
-            unlink( $localFile );
+        self::deleteLocalFiles( $localFile );
     }
 
 
@@ -226,7 +219,12 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
      */
     public function testFileStoreContents()
     {
-        $this->markTestIncomplete( 'Write me' );
+        $path = 'var/tests/' . __FUNCTION__ . '/file.txt';
+
+        $ch = eZClusterFileHandler::instance();
+        $ch->fileStoreContents( $path, md5( time() ), 'test', 'text/plain' );
+
+        self::assertTrue( $ch->fileExists( $path ) );
     }
 
     /**
@@ -234,7 +232,7 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
      */
     public function testStoreContents()
     {
-        $file = 'var/tests/' . __FUNCTION__ . 'file.txt';
+        $file = 'var/tests/' . __FUNCTION__ . '/file.txt';
         $contents = md5( time() );
 
         // 1. Store the file to cluster
@@ -249,7 +247,7 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
      */
     public function testStoreContentsWithLocalCopy()
     {
-        $file = 'var/tests/' . __FUNCTION__ . 'file.txt';
+        $file = 'var/tests/' . __FUNCTION__ . '/file.txt';
         $contents = md5( time() );
 
         // 1. Store the file to cluster
@@ -259,6 +257,433 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
         self::assertTrue( $ch->exists() );
         if ( !$this instanceof eZFSFileHandlerTest )
             self::assertFileExists( $file );
+    }
+
+    /**
+     * Test for the processCache() method
+     */
+    public function testProcessCache()
+    {
+        self::markTestIncomplete();
+    }
+
+    /**
+     * Test for the isFileExpired() method
+     */
+    public function testIsFileExpired()
+    {
+        $fname = 'var/tests/' . __FUNCTION__ . '/file.txt';
+        $ch = eZClusterFileHandler::instance();
+
+        // Negative mtime: expired
+        $mtime = -1;
+        $expiry = -1;
+        $curtime = time();
+        $ttl = null;
+        $result = $ch->isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
+        self::assertTrue( $result, "negative mtime: expired expected" );
+
+        // FALSE mtime: expired
+        $mtime = false;
+        $expiry = -1;
+        $curtime = time();
+        $ttl = null;
+        $result = $ch->isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
+        self::assertTrue( $result, "false mtime: expired expected" );
+
+        // NULL TTL + mtime < expiry: expired
+        $mtime = time() - 3600; // mtime < expiry
+        $expiry = time();
+        $curtime = time();
+        $ttl = null;
+        $result = $ch->isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
+        self::assertTrue( $result,
+            "no TTL + mtime < expiry: expired expected" );
+
+        // NULL TTL + mtime > expiry: not expired
+        $mtime = time();
+        $expiry = time() - 3600; // expires in the future
+        $curtime = time();
+        $ttl = null;
+        $result = $ch->isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
+        self::assertFalse( $result,
+            "no TTL + mtime > expiry: not expired expected" );
+
+        // TTL != null, mtime < curtime - ttl: expired
+        $mtime = time();
+        $expiry = -1; // disable expiry check
+        $curtime = time();
+        $ttl = 60; // 60 seconds TTL
+        $result = $ch->isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
+        self::assertFalse( $result,
+            "TTL + ( mtime < ( curtime - ttl ) ): !expired expected" );
+
+        // TTL != null, mtime > curtime - ttl: not expired
+        $mtime = time() - 90; // old file
+        $expiry = -1; // disable expiry check
+        $curtime = time();
+        $ttl = 60; // 60 seconds TTL
+        $result = $ch->isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
+        self::assertTrue( $result,
+            "TTL + ( mtime > ( curtime - ttl ) ): expired expected" );
+
+        // TTL != null, mtime < expiry: expired
+        $mtime = time() - 90; // old file
+        $expiry = time(); // file is expired
+        $curtime = time();
+        $ttl = 60; // 60 seconds TTL
+        $result = $ch->isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
+        self::assertTrue( $result,
+            "TTL + ( mtime < expiry ): expired expected" );
+
+        // TTL != null, mtime > expiry: not expired
+        $mtime = time();
+        $expiry = time() - 90;
+        $curtime = time();
+        $ttl = 60;
+        $result = $ch->isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
+        self::assertFalse( $result,
+            "TTL + ( mtime > expiry ): !expired expected" );
+    }
+
+    /**
+     * Test for the isExpired() method
+     */
+    public function testIsExpired()
+    {
+        // file will be created with current time as mtime()
+        $path = 'var/tests/' . __FUNCTION__. '/file.txt';
+        $this->createFile( $path, md5( time() ) );
+
+        $clusterHandler = eZClusterFileHandler::instance( $path );
+
+        // expiry date < mtime / no TTL: !expired
+        self::assertFalse( $clusterHandler->isExpired( $expiry = time() - 3600, time(), null ),
+            "expiry date < mtime, no TTL, !expired expected" );
+
+        // expiry date > mtime / no TTL: !expired
+        self::assertTrue( $clusterHandler->isExpired( $expiry = time() + 3600, time(), null ),
+            "expiry date > mtime, no TTL, expired expected" );
+
+        // mtime < curtime - ttl: !expired
+        self::assertFalse( $clusterHandler->isExpired( $expiry = -1, time(), 60 ),
+            "mtime < curtime - ttl: !expired expected" );
+
+        // mtime > curtime - ttl: expired
+        self::assertTrue( $clusterHandler->isExpired( $expiry = -1, time(), -60 ),
+            "mtime > curtime - ttl: expired expected" );
+    }
+
+    /**
+     * Test for the storeCache() method
+     */
+    public function testStoreCache()
+    {
+        self::markTestIncomplete();
+    }
+
+    /**
+     * Test for the processFile() method
+     */
+    public function testProcessFile()
+    {
+        self::markTestIncomplete();
+    }
+
+    /**
+     * Test for the isFileExpired() method
+     */
+    public function testFetchUnique()
+    {
+        $testFile = 'var/tests/' . __FUNCTION__ . '/file.txt';
+        $this->createFile( $testFile, "contents" );
+
+        $clusterHandler = eZClusterFileHandler::instance( $testFile );
+        $fetchedFile = $clusterHandler->fetchUnique();
+
+        self::assertNotSame( $testFile, $fetchedFile, "A unique name should have been returned" );
+        self::assertTrue( file_exists( $fetchedFile ), "The locally fetched unique file doesn't exist" );
+
+        if ( file_exists( $testFile ) )
+            unlink( $testFile );
+        if ( file_exists( $fetchedFile ) )
+            unlink( $fetchedFile );
+    }
+
+    /**
+     * Test for the fileFetchContents() method
+     */
+    public function testFileFetchContents()
+    {
+        // Create a file
+        $path = 'var/tests/' . __FUNCTION__ . '/file.txt';
+        $contents = __METHOD__;
+        $this->createFile( $path, $contents );
+
+        $ch = eZClusterFileHandler::instance();
+        self::assertEquals( $contents, $ch->fileFetchContents( $path ) );
+    }
+
+    /**
+     * Test for the fileFetchContents() method on a non-existing file
+     */
+    public function testFileFetchContentsNonExistingFile()
+    {
+        $path = 'var/tests/' . __FUNCTION__ . '/file.txt';
+
+        $ch = eZClusterFileHandler::instance();
+        self::assertFalse( $ch->fileFetchContents( $path ) );
+    }
+
+    /**
+     * Test for the fetchContents() method
+     */
+    public function testFetchContents()
+    {
+        // Create a file
+        $path = 'var/tests/' . __FUNCTION__ . '/file.txt';
+        $contents = __METHOD__;
+        $this->createFile( $path, $contents );
+
+        $ch = eZClusterFileHandler::instance( $path );
+        self::assertEquals( $contents, $ch->fetchContents() );
+    }
+
+    /**
+     * Test for the fetchContents() method with a non-existing file
+     */
+    public function testFetchContentsNonExistingFile()
+    {
+        $path = 'var/tests/' . __FUNCTION__ . '/file.txt';
+
+        $ch = eZClusterFileHandler::instance( $path );
+        self::assertFalse( $ch->fetchContents() );
+    }
+
+    /**
+     * Test for the stat() method
+     */
+    public function testStat()
+    {
+        self::markTestIncomplete();
+    }
+
+    /**
+     * Test for the size() method
+     */
+    public function testSize()
+    {
+        self::markTestIncomplete();
+    }
+
+    /**
+     * Test for the mtime() method
+     */
+    public function testMtime()
+    {
+        self::markTestIncomplete();
+    }
+
+    /**
+     * Test for the name() method
+     */
+    public function testName()
+    {
+        self::markTestIncomplete();
+    }
+
+    /**
+     * Test for the fileDeleteByDirList() method
+     */
+    public function testFileDeleteByDirList()
+    {
+        self::markTestIncomplete();
+    }
+
+    /**
+     * Test for the fileDelete() method
+     */
+    public function testFileDelete()
+    {
+        // Create a file
+        $path = 'var/tests/' . __FUNCTION__ . '/file.txt';
+        $this->createFile( $path, md5( time() ) );
+
+        $ch = eZClusterFileHandler::instance();
+
+        // Check if it exists
+        self::assertTrue( $ch->fileExists( $path ) );
+
+        // Delete the file
+        $ch->fileDelete( $path );
+
+        // Re-check the file
+        self::assertFalse( $ch->fileExists( $path ) );
+    }
+
+
+    /**
+     * Test for the delete() method
+     */
+    public function testDelete()
+    {
+        // Create a file
+        $path = 'var/tests/' . __FUNCTION__ . '/file.txt';
+        $this->createFile( $path, md5( time() ) );
+
+        $ch = eZClusterFileHandler::instance( $path );
+
+        // Check if it exists
+        self::assertTrue( $ch->exists(), "File doesn't exist after creation"  );
+
+        // Delete the file
+        $ch->delete();
+
+        // Re-check the file
+        self::assertFalse( $ch->exists(), "File still exists after deletion" );
+    }
+
+
+    /**
+     * Test for the purge() method
+     */
+    public function testPurge()
+    {
+        self::markTestIncomplete();
+    }
+
+    /**
+     * Test for the exists() method
+     */
+    public function testExists()
+    {
+        $path = 'var/tests/' . __FUNCTION__ . '/file.txt';
+
+        $ch = eZClusterFileHandler::instance( $path );
+
+        // file hasn't been created yet
+        self::assertFalse( $ch->exists(), "The file hasn't been created, exists() should have returned false" );
+
+        $this->createFile( $path, md5( time() ) );
+        $ch->loadMetaData( true );
+
+        self::assertTrue( $ch->exists(), "The  file been created, exists() should have returned true" );
+    }
+
+    /**
+     * Test for the fileExists() method
+     */
+    public function testFileExists()
+    {
+        $path = 'var/tests/' . __FUNCTION__ . '/file.txt';
+
+        $ch = eZClusterFileHandler::instance();
+
+        // file hasn't been created yet
+        self::assertFalse( $ch->fileExists( $path ), "The file hasn't been created, exists() should have returned false" );
+
+        $this->createFile( $path, md5( time() ) );
+        $ch->loadMetaData( true );
+
+        self::assertTrue( $ch->fileExists( $path ), "The  file been created, exists() should have returned true" );
+    }
+
+    /**
+     * Test for the stat() method
+     */
+    public function testPassthrough()
+    {
+        self::markTestIncomplete( "Deprecated" );
+    }
+
+    /**
+     * Test for the fileCopy() method
+     */
+    public function testFileCopy()
+    {
+        // Create a file
+        $sourcePath = 'var/tests/' . __FUNCTION__ . '/file-source.txt';
+        $destinationPath = 'var/tests/' . __FUNCTION__ . '/file-target.txt';
+
+        $this->createFile( $sourcePath, 'contents' );
+
+        $ch = eZClusterFileHandler::instance();
+
+        // check existence on both
+        self::assertTrue( $ch->fileExists( $sourcePath ), "Source file doesn't exist" );
+        self::assertFalse( $ch->fileExists( $destinationPath ), "Destination file already exists" );
+
+        // copy the file
+        $ch->fileCopy( $sourcePath, $destinationPath );
+
+        // check existence on both
+        self::assertTrue( $ch->fileExists( $sourcePath ), "Source file no longer exists" );
+        self::assertTrue( $ch->fileExists( $destinationPath ), "Destination file doesn't exist" );
+
+        self::deleteLocalFiles( $sourcePath, $destinationPath );
+    }
+
+
+    /**
+     * Test for the fileLinkCopy() method
+     */
+    public function testFileLinkCopy()
+    {
+        self::markTestIncomplete();
+    }
+
+    /**
+     * Test for the fileMove() method
+     */
+    public function testFileMove()
+    {
+        // Create a file
+        $sourcePath = 'var/tests/' . __FUNCTION__ . '/file-source.txt';
+        $destinationPath = 'var/tests/' . __FUNCTION__ . '/file-target.txt';
+
+        $this->createFile( $sourcePath, 'contents' );
+
+        $ch = eZClusterFileHandler::instance();
+
+        // check existence on both
+        self::assertTrue( $ch->fileExists( $sourcePath ), "Source file doesn't exist" );
+        self::assertFalse( $ch->fileExists( $destinationPath ), "Destination file already exists" );
+
+        // copy the file
+        $ch->fileMove( $sourcePath, $destinationPath );
+
+        // check existence on both
+        self::assertFalse( $ch->fileExists( $sourcePath ), "Source file still longer exists" );
+        self::assertTrue( $ch->fileExists( $destinationPath ), "Destination file doesn't exist" );
+
+        self::deleteLocalFiles( $sourcePath, $destinationPath );
+    }
+
+    /**
+     * Test for the move() method
+     */
+    public function testMove()
+    {
+        // Create a file
+        $sourcePath = 'var/tests/' . __FUNCTION__ . '/file-source.txt';
+        $destinationPath = 'var/tests/' . __FUNCTION__ . '/file-target.txt';
+
+        $this->createFile( $sourcePath, 'contents' );
+
+        $ch = eZClusterFileHandler::instance( $sourcePath );
+
+        // check existence on both
+        self::assertTrue( $ch->fileExists( $sourcePath ), "Source file doesn't exist" );
+        self::assertFalse( $ch->fileExists( $destinationPath ), "Destination file already exists" );
+
+        // copy the file
+        $ch->move( $destinationPath );
+
+        // check existence on both
+        self::assertFalse( $ch->fileExists( $sourcePath ), "Source file still longer exists" );
+        self::assertTrue( $ch->fileExists( $destinationPath ), "Destination file doesn't exist" );
+
+        self::deleteLocalFiles( $sourcePath, $destinationPath );
     }
 
     /**

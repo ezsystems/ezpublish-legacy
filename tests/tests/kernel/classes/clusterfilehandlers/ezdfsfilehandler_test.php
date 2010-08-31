@@ -7,7 +7,7 @@
  * @package tests
  */
 
-class eZDFSFileHandlerTest extends eZClusterFileHandlerAbstractTest
+class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
 {
     /**
      * @var eZINI
@@ -37,11 +37,12 @@ class eZDFSFileHandlerTest extends eZClusterFileHandlerAbstractTest
 
     protected $clusterClass = 'eZDFSFileHandler';
 
+    /* // Commented since __construct breaks data providers
     public function __construct()
     {
         parent::__construct();
         $this->setName( "eZDFSClusterFileHandler Unit Tests" );
-    }
+    }*/
 
     /**
      * Test setup
@@ -391,6 +392,8 @@ class eZDFSFileHandlerTest extends eZClusterFileHandlerAbstractTest
      * Tests the fileFetch method on a non existing file
      *
      * Should locally fetch a file located on DB+DFS
+     *
+     * @deprecated See {@link eZCluserFileHandlerAbstractTest}
      **/
     public function _testFileFetchNonExistingFile()
     {
@@ -408,8 +411,9 @@ class eZDFSFileHandlerTest extends eZClusterFileHandlerAbstractTest
 
     /**
      * Tests eZDFSFileHandler->fetch() on an existing file
+     * @deprecated See {@link eZCluserFileHandlerAbstractTest}
      **/
-    public function testFetchExistingFile()
+    public function _testFetchExistingFile()
     {
         $testFile = 'var/testFileForTestFetchExistingFile.txt';
         $this->createFile( $testFile, 'This is the content' );
@@ -424,8 +428,9 @@ class eZDFSFileHandlerTest extends eZClusterFileHandlerAbstractTest
 
     /**
      * Tests eZDFSFileHandler->fetch() on a non-existing file
+     * @deprecated See {@link eZCluserFileHandlerAbstractTest}
      **/
-    public function testFetchNonExistingFile()
+    public function _testFetchNonExistingFile()
     {
         $testFile = 'var/testFileForTestFetchExistingFile.txt';
         $this->removeFile( $testFile );
@@ -581,106 +586,6 @@ class eZDFSFileHandlerTest extends eZClusterFileHandlerAbstractTest
         $this->removeFile( $testFile );
     }
 
-    public function testIsFileExpired()
-    {
-        $fname = __METHOD__;
-
-        // Negative mtime: expired
-        $mtime = -1;
-        $expiry = -1;
-        $curtime = time();
-        $ttl = null;
-        $result = eZDFSFileHandler::isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
-        $this->assertTrue( $result, "negative mtime: expired expected" );
-
-        // FALSE mtime: expired
-        $mtime = false;
-        $expiry = -1;
-        $curtime = time();
-        $ttl = null;
-        $result = eZDFSFileHandler::isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
-        $this->assertTrue( $result, "false mtime: expired expected" );
-
-        // NULL TTL + mtime < expiry: expired
-        $mtime = time() - 3600; // mtime < expiry
-        $expiry = time();
-        $curtime = time();
-        $ttl = null;
-        $result = eZDFSFileHandler::isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
-        $this->assertTrue( $result,
-            "no TTL + mtime < expiry: expired expected" );
-
-        // NULL TTL + mtime > expiry: not expired
-        $mtime = time();
-        $expiry = time() - 3600; // expires in the future
-        $curtime = time();
-        $ttl = null;
-        $result = eZDFSFileHandler::isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
-        $this->assertFalse( $result,
-            "no TTL + mtime > expiry: not expired expected" );
-
-        // TTL != null, mtime < curtime - ttl: expired
-        $mtime = time();
-        $expiry = -1; // disable expiry check
-        $curtime = time();
-        $ttl = 60; // 60 seconds TTL
-        $result = eZDFSFileHandler::isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
-        $this->assertFalse( $result,
-            "TTL + ( mtime < ( curtime - ttl ) ): !expired expected" );
-
-        // TTL != null, mtime > curtime - ttl: not expired
-        $mtime = time() - 90; // old file
-        $expiry = -1; // disable expiry check
-        $curtime = time();
-        $ttl = 60; // 60 seconds TTL
-        $result = eZDFSFileHandler::isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
-        $this->assertTrue( $result,
-            "TTL + ( mtime > ( curtime - ttl ) ): expired expected" );
-
-        // TTL != null, mtime < expiry: expired
-        $mtime = time() - 90; // old file
-        $expiry = time(); // file is expired
-        $curtime = time();
-        $ttl = 60; // 60 seconds TTL
-        $result = eZDFSFileHandler::isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
-        $this->assertTrue( $result,
-            "TTL + ( mtime < expiry ): expired expected" );
-
-        // TTL != null, mtime > expiry: not expired
-        $mtime = time();
-        $expiry = time() - 90;
-        $curtime = time();
-        $ttl = 60;
-        $result = eZDFSFileHandler::isFileExpired( $fname, $mtime, $expiry, $curtime, $ttl);
-        $this->assertFalse( $result,
-            "TTL + ( mtime > expiry ): !expired expected" );
-    }
-
-    public function testIsExpired()
-    {
-        // file will be created with current time as mtime()
-        $testFile = 'var/testFileForTestIsExpired.txt';
-        $this->createFile( $testFile );
-
-        $clusterHandler = eZClusterFileHandler::instance( $testFile );
-
-        // expiry date < mtime / no TTL: !expired
-        $this->assertFalse( $clusterHandler->isExpired( $expiry = time() - 3600, time(), null ),
-            "expiry date < mtime, no TTL, !expired expected" );
-
-        // expiry date > mtime / no TTL: !expired
-        $this->assertTrue( $clusterHandler->isExpired( $expiry = time() + 3600, time(), null ),
-            "expiry date > mtime, no TTL, expired expected" );
-
-        // mtime < curtime - ttl: !expired
-        $this->assertFalse( $clusterHandler->isExpired( $expiry = -1, time(), 60 ),
-            "mtime < curtime - ttl: !expired expected" );
-
-        // mtime > curtime - ttl: expired
-        $this->assertTrue( $clusterHandler->isExpired( $expiry = -1, time(), -60 ),
-            "mtime > curtime - ttl: expired expected" );
-    }
-
     public function testIsExpiredNegativeMtime()
     {
         // negative mtime: expired
@@ -817,7 +722,7 @@ class eZDFSFileHandlerTest extends eZClusterFileHandlerAbstractTest
         $this->removeFile( $testFile );
     }
 
-    public function testFileDelete()
+    public function _testFileDelete()
     {
         $testFile = 'var/testFileDelete.txt';
 
@@ -839,7 +744,7 @@ class eZDFSFileHandlerTest extends eZClusterFileHandlerAbstractTest
         $this->assertFalse( $this->DBFileExistsAndIsValid( $testFile ), "File is still valid in DB" );
     }
 
-    public function testDelete()
+    public function _testDelete()
     {
         $testFile = 'var/testDelete.txt';
 

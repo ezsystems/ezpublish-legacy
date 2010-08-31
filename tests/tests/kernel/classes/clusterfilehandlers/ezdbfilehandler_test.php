@@ -7,7 +7,7 @@
  * @package tests
  */
 
-class eZDBFileHandlerTest extends eZClusterFileHandlerAbstractTest
+class eZDBFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
 {
     /**
      * @var eZINI
@@ -30,11 +30,12 @@ class eZDBFileHandlerTest extends eZClusterFileHandlerAbstractTest
 
     protected $clusterClass = 'eZDBFileHandler';
 
+    /* // Commented since __construct breaks data providers
     public function __construct()
     {
         parent::__construct();
         $this->setName( "eZDBFileHandler Unit Tests" );
-    }
+    }*/
 
     /**
      * Test setup

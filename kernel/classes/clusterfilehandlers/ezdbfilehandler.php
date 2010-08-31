@@ -159,8 +159,12 @@ class eZDBFileHandler
     /**
      * Store file contents.
      *
-     * \public
-     * \static
+     * @param string $filePath
+     * @param mixed $contents
+     * @param string $scope
+     * @param string $datatype
+     *
+     * @return void
      */
     function fileStoreContents( $filePath, $contents, $scope = false, $datatype = false )
     {
@@ -1172,18 +1176,17 @@ class eZDBFileHandler
         return $this->backend->_getFileList( $scopes, $excludeScopes );
     }
 
-    /*!
-     \static
-     Returns a clean version of input $path.
-
-     - Backslashes are turned into slashes.
-     - Multiple consecutive slashes are turned into one slash.
-     - Ending slashes are removed.
-
-     Examples:
-     - my\windows\path => my/windows/path
-     - extra//slashes/\are/fixed => extra/slashes/are/fixed
-     - ending/slashes/ => ending/slashes
+    /**
+     * Returns a clean version of input $path.
+     *
+     * - Backslashes are turned into slashes.
+     * - Multiple consecutive slashes are turned into one slash.
+     * - Ending slashes are removed.
+     *
+     * Examples:
+     * - my\windows\path => my/windows/path
+     * - extra//slashes/\are/fixed => extra/slashes/are/fixed
+     * - ending/slashes/ => ending/slashes
      */
     static function cleanPath( $path )
     {
