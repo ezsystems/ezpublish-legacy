@@ -5,6 +5,7 @@ eZ Online Editor 5.x extension Changelog
 - Fixed bug #016842: in IE 8, have to edit attribute before entering literal tag
 - Fixed bug #016595: Issues with page break and embed objects
 - Fixed bug #015513: Custom attributes: checkbox problems
+- Fixed bug #017182: Underline is stripped away when saving after changing it with dialogs
 
 5.2.0alpha6
 - Disable editor if user agent is Mobile Webkit (Iphone/Android) as they do not currently have caret support
