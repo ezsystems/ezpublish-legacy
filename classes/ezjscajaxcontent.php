@@ -239,6 +239,7 @@ class ezjscAjaxContent
         $ret['owner_id']                = (int) $contentObject->attribute( 'owner_id' );
         $ret['class_id']                = (int) $contentObject->attribute( 'contentclass_id' );
         $ret['class_name']              = $contentObject->attribute( 'class_name' );
+        $ret['translations']            = eZContentLanguage::decodeLanguageMask($contentObject->attribute( 'language_mask' ), true);
 
         if ( isset( $params['formatDate'] ) )
         {
