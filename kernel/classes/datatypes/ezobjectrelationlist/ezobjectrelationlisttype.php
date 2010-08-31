@@ -1199,7 +1199,7 @@ class eZObjectRelationListType extends eZDataType
     {
         $currentObject = $contentObjectAttribute->attribute( 'object' );
         $sectionID = $currentObject->attribute( 'section_id' );
-        $object = $class->instantiate( false, $sectionID );
+        $object = $class->instantiate( false, $sectionID, false, $contentObjectAttribute->attribute( 'language_code' ) );
         if ( !is_numeric( $nodePlacement ) or $nodePlacement <= 0 )
             $nodePlacement = false;
         $object->sync();
