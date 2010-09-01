@@ -331,14 +331,14 @@ var eZOEPopupUtils = {
     {
         var emptyContent = [ '', '<br>', '<BR>', '&nbsp;', ' ', " " ];
         if ( el.previousSibling
-             && el.previousSibling.nodeName.toLowerCase() === 'p'
-             && ( !el.previousSibling.hasChildNodes() || jQuery.inArray( el.previousSibling.innerHTML, emptyContent ) !== -1 ))
+          && el.previousSibling.nodeName.toLowerCase() === 'p'
+          && ( !el.previousSibling.hasChildNodes() || jQuery.inArray( el.previousSibling.innerHTML, emptyContent ) !== -1 ))
         {
             el.parentNode.removeChild( el.previousSibling );
         }
         if ( el.nextSibling
-                && el.nextSibling.nodeName.toLowerCase() === 'p'
-                && ( !el.nextSibling.hasChildNodes() || jQuery.inArray( el.nextSibling.innerHTML, emptyContent ) !== -1 ))
+          && el.nextSibling.nodeName.toLowerCase() === 'p'
+          && ( !el.nextSibling.hasChildNodes() || jQuery.inArray( el.nextSibling.innerHTML, emptyContent ) !== -1 ))
        {
             el.parentNode.removeChild( el.nextSibling );
        }
