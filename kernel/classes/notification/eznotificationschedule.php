@@ -46,7 +46,7 @@ class eZNotificationSchedule
     {
     }
 
-    function setDateForItem( $item, $settings )
+    static function setDateForItem( $item, $settings )
     {
         if ( !is_array( $settings ) )
             return false;
