@@ -183,7 +183,7 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
 
     }
 
-    function fetchHandlersForUser( $time, $address )
+    static function fetchHandlersForUser( $time, $address )
     {
         $db = eZDB::instance();
 
@@ -207,7 +207,7 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
         return $handlers;
     }
 
-    function fetchItemsForUser( $time, $address, $handler )
+    static function fetchItemsForUser( $time, $address, $handler )
     {
         $db = eZDB::instance();
 
