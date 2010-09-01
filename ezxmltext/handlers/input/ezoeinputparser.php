@@ -12,18 +12,18 @@
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
@@ -44,11 +44,11 @@ class eZOEInputParser extends eZXMLInputParser
 {
     /**
      * Used to strip out ezoe, tinymce & browser specific classes
-     */    
+     */
      const HTML_CLASS_REGEX = "/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|ezoeItem\w+|mceVisualAid)/i";
 
     /**
-     * Maps input tags (html) to a output tag or a hander to 
+     * Maps input tags (html) to a output tag or a hander to
      * decide what kind of ezxml tag to use.
      *
      * @var array $InputTags
@@ -93,9 +93,9 @@ class eZOEInputParser extends eZXMLInputParser
     );
 
     /**
-     * Maps output tags (ezxml) to varius handlers at different stages 
+     * Maps output tags (ezxml) to varius handlers at different stages
      * decide what kind of ezxml tag to use.
-     * 
+     *
      * @var array $OutputTags
      */
     public $OutputTags = array(
@@ -480,7 +480,7 @@ class eZOEInputParser extends eZXMLInputParser
             $parent = $element->parentNode;
             $parent->removeChild( $element );
         }
-        
+
         return true;
     }
 
@@ -938,7 +938,7 @@ class eZOEInputParser extends eZXMLInputParser
                     $current->appendChild( $elementToMove );
                     $elementToMove = $next;
 
-                    if ( !$elementToMove || 
+                    if ( !$elementToMove ||
                          ( $elementToMove->nodeName === 'header' &&
                          $elementToMove->getAttribute( 'level' ) <= $level ) )
                         break;
@@ -1117,7 +1117,7 @@ class eZOEInputParser extends eZXMLInputParser
              * rfc2396: ^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?
              * ezdhtml: "@^eznode://([^/#]+)/?(#[^/]*)?/?@i"
              */
-            elseif ( strpos( $href, 'eznode' ) === 0 
+            elseif ( strpos( $href, 'eznode' ) === 0
                   && preg_match( "@^eznode://([^#]+)(#.+)?@i", $href, $matches ) )
             {
                 $nodePath = trim( $matches[1], '/' );
@@ -1396,7 +1396,7 @@ class eZOEInputParser extends eZXMLInputParser
     protected $deletedEmbeddedNodeIDArray = array();
     protected $deletedEmbeddedObjectIDArray = array();
     protected $thrashedEmbeddedObjectIDArray = array();
-    
+
 
     protected $anchorAsAttribute = false;
 
