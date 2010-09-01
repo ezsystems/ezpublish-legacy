@@ -26,6 +26,7 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {ldel
     {
         el.innerHTML = '';
         ed.dom.setAttribs( el, args );
+        return el;
     }
 {/literal}
 {rdelim} ) );

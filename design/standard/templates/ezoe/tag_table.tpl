@@ -52,6 +52,7 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
     {
         args['class'] = jQuery.trim( args['class'] + ( args['border'] == 0 ? ' mceItemTable' : ''))
         ed.dom.setAttribs( el, args );
+        return el;
     }
 }));
 

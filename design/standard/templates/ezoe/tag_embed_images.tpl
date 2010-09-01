@@ -64,6 +64,7 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
            args['height'] = imageSizeObj['height'];
         }
         ed.dom.setAttribs( el, args );
+        return el;
     }
 }));
 

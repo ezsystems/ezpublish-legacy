@@ -30,28 +30,28 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
         else if ( mode === 'column' )
         {
             // Figgure out what column we are in adjusted by cell with colspan
-	        var colspans = 1, rowIndex = el.parentNode.rowIndex, skipRows = 0, rowSpanArray = [];
-	        for (var i = 0, c = el.parentNode.childNodes, l = c.length; i < l; i++ ) 
-	        {
-	            if ( c[i] === el ) x = i + colspans;
-	            else if ( c[i].colSpan > 1 ) colspans += c[i].colSpan -1;
-	        };
+            var colspans = 1, rowIndex = el.parentNode.rowIndex, skipRows = 0, rowSpanArray = [];
+            for (var i = 0, c = el.parentNode.childNodes, l = c.length; i < l; i++ ) 
+            {
+                if ( c[i] === el ) x = i + colspans;
+                else if ( c[i].colSpan > 1 ) colspans += c[i].colSpan -1;
+            };
 
-	        // Addjust the column index if any prevous cells in table uses rowspan that might affect it
-	        if ( rowIndex > 0 )
-	        {
+            // Addjust the column index if any prevous cells in table uses rowspan that might affect it
+            if ( rowIndex > 0 )
+            {
                 var row = el.parentNode, rowSpanOffset = 1;
-		        while ( row = row.previousSibling )
-		        {
-		        	jQuery('> *[rowspan]', row ).each(function( i, cell ){
+                while ( row = row.previousSibling )
+                {
+                    jQuery('> *[rowspan]', row ).each(function( i, cell ){
                         if ( cell.rowSpan >  rowSpanOffset )
                         {
                             x++;
                         }
-			        });
-		        	rowSpanOffset++;
-			    }
-		    }
+                    });
+                    rowSpanOffset++;
+                }
+            }
 
             // Get nodes (cells) in this column
             jQuery('tr', el.parentNode.parentNode ).each( function( trIndex, tr )
@@ -59,36 +59,36 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
                 // count down rowSpan values and remove the ones that has reached 0
                 for( var i = 0, l = rowSpanArray.length; i < l; i++ )
                 {
-                	rowSpanArray[i]--;
-                	if ( rowSpanArray[i] < 1 ) rowSpanArray.splice( i, 1 );
+                    rowSpanArray[i]--;
+                    if ( rowSpanArray[i] < 1 ) rowSpanArray.splice( i, 1 );
                 }
                 if ( skipRows === 0 )
                 {
-	                var colIndex = x - rowSpanArray.length;
-	                jQuery('> *', tr ).each( function( i, cell )
-	                {
-	                    if ( colIndex === ( i + 1 ) )
-	                    {
+                    var colIndex = x - rowSpanArray.length;
+                    jQuery('> *', tr ).each( function( i, cell )
+                    {
+                        if ( colIndex === ( i + 1 ) )
+                        {
                              // add current cell to selected nodes array
                              if ( nodes === false ) nodes = jQuery( cell );
                              else nodes.push( cell );
 
                              // If this cell has rowspan, make sure we skip the next rows
-	                         if ( cell.rowSpan > 1 ) skipRows = cell.rowSpan - 1;
-	                    }
-	                    else if ( colIndex > ( i + 1 ) )
-	                    {
+                             if ( cell.rowSpan > 1 ) skipRows = cell.rowSpan - 1;
+                        }
+                        else if ( colIndex > ( i + 1 ) )
+                        {
                             // correct col index when some cells use colSpan
-	                        if ( cell.colSpan >  1 ) colIndex -= cell.colSpan - 1;
-	                        // store rowspans that will effect column index in the next rows
-	                        if ( cell.rowSpan > 1 ) rowSpanArray.push( cell.rowSpan);
-	                        
-	                    }
-	                });
+                            if ( cell.colSpan >  1 ) colIndex -= cell.colSpan - 1;
+                            // store rowspans that will effect column index in the next rows
+                            if ( cell.rowSpan > 1 ) rowSpanArray.push( cell.rowSpan);
+                            
+                        }
+                    });
                 }
                 else
                 {
-                	skipRows--;
+                    skipRows--;
                 }
             });
         }
@@ -99,11 +99,15 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
             el = eZOEPopupUtils.switchTagTypeIfNeeded( el, target );
             ed.dom.setAttribs( el, args );
         }
-        else nodes.each( function( i, el )
+        else nodes.each( function( i, cell )
         {
-            el = eZOEPopupUtils.switchTagTypeIfNeeded( el, target );
-            ed.dom.setAttribs( el, args );
+            if ( el === cell )
+                cell = el = eZOEPopupUtils.switchTagTypeIfNeeded( cell, target );
+            else
+                cell = eZOEPopupUtils.switchTagTypeIfNeeded( cell, target );
+            ed.dom.setAttribs( cell, args );
         });
+        return el;
     },
     tagSelector: ezTagName + '_tag_source',
     tagSelectorCallBack: function( e )

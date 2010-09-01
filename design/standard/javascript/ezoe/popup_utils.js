@@ -245,12 +245,13 @@ var eZOEPopupUtils = {
         if ( s.editorElement )
         {
             if ( s.tagAttributeEditor )
-                s.tagAttributeEditor.call( eZOEPopupUtils, ed, s.editorElement, args );
+                s.editorElement = s.tagAttributeEditor.call( eZOEPopupUtils, ed, s.editorElement, args );
             else
                 ed.dom.setAttribs( s.editorElement, args );
 
             if ( args['id'] === undefined )
                 ed.dom.setAttrib( s.editorElement, 'id', '' );
+            
             ed.selection.select( s.editorElement, true );
             ed.nodeChanged();
         }
