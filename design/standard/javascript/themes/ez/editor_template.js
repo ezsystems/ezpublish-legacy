@@ -224,6 +224,8 @@
                     {
                         if ( node && node.className.indexOf('ezoeItemNonEditable') !== -1 )
                             node.innerHTML = '';
+                        else if ( node && node.className.indexOf('ezoeItemTempSpan') !== -1 && node.innerHTML.indexOf('&nbsp;') === 0 )
+                            node.firstChild.replaceData( 0, 1, ' ' );
                     });
 
                     // @todo: Might not be needed anymore now that we don't use save handler and overwrite html
@@ -1021,7 +1023,7 @@
                     ezoeItemNonEditable = true;
                 }
 
-                if ( ezoeItemNonEditable )
+                if ( ezoeItemNonEditable  )
                 {
                     ed.selection.select( p );
                     div = p.nodeName === 'DIV';
@@ -1659,10 +1661,10 @@
                 }
                 else return true;
             }
-            else if ( k === 13 )// user clicks enter, create paragraph after embed block
+            else if ( k === 13 && !this.__recursion )// user clicks enter, create paragraph after embed block
             {
                 var n = this.__getParentByTag( ed.selection.getNode(), 'DIV', 'ezoeItemNonEditable', '', true );
-                if ( n !== undefined && n.parentNode && !this.__recursion )
+                if ( n !== undefined && n.parentNode )
                 {
                     this.__recursion = true;
                     var newNode = ed.dom.create('p', false, tinymce.isIE ? '&nbsp;' : '<br />' );
@@ -1672,15 +1674,20 @@
                     ed.nodeChanged();
                 }
             }
-            else if ( k === 32 )// user clicks space, create space after embed inline
+            else if ( k === 32 && !this.__recursion )// user clicks space, create space after embed inline
             {
                 var n = this.__getParentByTag( ed.selection.getNode(), 'SPAN', 'ezoeItemNonEditable', '', true );
-                if ( n !== undefined && n.parentNode && !this.__recursion )
+                if ( n !== undefined && n.parentNode )
                 {
                     this.__recursion = true;
-                    var newNode = ed.dom.doc.createTextNode(" ");
+                    /* This gets tricky, basically it doesn't work to select a text node, carret will end up being inside
+                     * relation span. So we create a span that will not show up in path and will be stripped by parser.
+                     * Furthermore we cleanup the &nbsp; during save steps and change it to whitespace.
+                     */
+                    var newNode = ed.dom.create('span', {'class': 'mceItemHidden ezoeItemTempSpan'}, '&nbsp;' );
                     ed.dom.insertAfter( newNode, n );
-                    ed.selection.select( newNode, true );
+                    ed.selection.select( newNode );
+                    ed.selection.collapse( false );
                     setTimeout(BIND( function(){ this.__recursion = false; }, this ), 150);
                     ed.nodeChanged();
                 }
