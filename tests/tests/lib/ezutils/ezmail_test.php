@@ -17,11 +17,11 @@ class eZMailTest extends ezpTestCase
         ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'TransportPort', 25 );
         ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'TransportUser', '' );
         ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'TransportPassword', '' );
-        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'AdminEmail', 'ezp-unittests-01@ez.no' );
-        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'EmailSender', 'ezp-unittests-01@ez.no' );
-        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'EmailReplyTo', 'ezp-unittests-01@ez.no' );
+        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'AdminEmail', 'ezp-unittests-01@mail.ez.no' );
+        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'EmailSender', 'ezp-unittests-01@mail.ez.no' );
+        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'EmailReplyTo', 'ezp-unittests-01@mail.ez.no' );
         ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'DebugSending', 'disabled' );
-        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'DebugReceiverEmail', 'ezp-unittests-01@ez.no' );
+        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'DebugReceiverEmail', 'ezp-unittests-01@mail.ez.no' );
     }
 
     public function tearDown()
@@ -420,27 +420,27 @@ class eZMailTest extends ezpTestCase
     {
         return array(
             '01' => array( 'name' => 'Unit Tester One',
-                           'email' => 'ezp-unittests-01@ez.no',
+                           'email' => 'ezp-unittests-01@mail.ez.no',
                            'username' => 'ezp-unittests-01@mail.ez.no',
                            'password' => 'unittest01'
             ),
             '02' => array( 'name' => 'Unit Tester Two',
-                           'email' => 'ezp-unittests-02@ez.no',
+                           'email' => 'ezp-unittests-02@mail.ez.no',
                            'username' => 'ezp-unittests-02@mail.ez.no',
                            'password' => 'unittest02'
             ),
             '03' => array( 'name' => 'Unit Tester Three',
-                           'email' => 'ezp-unittests-03@ez.no',
+                           'email' => 'ezp-unittests-03@mail.ez.no',
                            'username' => 'ezp-unittests-03@mail.ez.no',
                            'password' => 'unittest03'
             ),
             '04' => array( 'name' => 'Unit Tester Four',
-                           'email' => 'ezp-unittests-04@ez.no',
+                           'email' => 'ezp-unittests-04@mail.ez.no',
                            'username' => 'ezp-unittests-04@mail.ez.no',
                            'password' => 'unittest04'
             ),
             '05' => array( 'name' => 'Unit Tester Five',
-                           'email' => 'ezp-unittests-05@ez.no',
+                           'email' => 'ezp-unittests-05@mail.ez.no',
                            'username' => 'ezp-unittests-05@mail.ez.no',
                            'password' => 'unittest05'
             )
@@ -719,7 +719,7 @@ class eZMailTest extends ezpTestCase
         foreach ( $recipients as $recipient )
         {
             // Accept only testing accounts as recipients
-            if ( preg_match( '/^ezp-unittests-\d\d\@ez\.no$/', $recipient['email'] ) != 1 )
+            if ( preg_match( '/^ezp-unittests-\d\d\@mail\.ez\.no$/', $recipient['email'] ) != 1 )
             {
                 $this->markTestSkipped( 'Refusing to use other than testing accounts' );
                 return;
@@ -850,6 +850,7 @@ class eZMailTest extends ezpTestCase
      */
     public function testExcludeHaders()
     {
+        self::markTestSkipped( "Tests needs to use other email addresses" );
         ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'Transport', 'SMTP' );
         ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'ExcludeHeaders', array( 'bcc' ) );
 
