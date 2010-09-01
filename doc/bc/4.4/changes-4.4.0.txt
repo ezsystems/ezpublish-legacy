@@ -57,6 +57,11 @@ Change of behavior
 
   This operator now also considers ModuleList setting before it checks SiteAccessRules to look for deny rules.
 
+- $object.main_node.name in template
+
+  main_node.name returns the node name in current node language, not in the initial language as before. Ref:http://issues.ez.no/16395.
+
+
 Deprecated functionality
 ------------------------
 

@@ -2904,27 +2904,17 @@ class eZContentObjectTreeNode extends eZPersistentObject
     static function findMainNode( $objectID, $asObject = false )
     {
         $objectID = (int)$objectID;
-        $query="SELECT ezcontentobject.*,
-                           ezcontentobject_tree.*,
-                           ezcontentclass.serialized_name_list as class_serialized_name_list,
-                           ezcontentclass.identifier as class_identifier,
-                           ezcontentclass.is_container as is_container
-                    FROM ezcontentobject_tree,
-                         ezcontentobject,
-                         ezcontentclass
-                    WHERE ezcontentobject_tree.contentobject_id=$objectID AND
-                          ezcontentobject_tree.main_node_id = ezcontentobject_tree.node_id AND
-                          ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
-                          ezcontentclass.version=0  AND
-                          ezcontentclass.id = ezcontentobject.contentclass_id";
+        $query = "SELECT node_id
+                  FROM ezcontentobject_tree
+                  WHERE contentobject_id=$objectID AND
+                  main_node_id = node_id";
         $db = eZDB::instance();
         $nodeListArray = $db->arrayQuery( $query );
         if ( count( $nodeListArray ) == 1 )
         {
             if ( $asObject )
             {
-                $retNodeArray = eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
-                return $retNodeArray[0];
+                 return eZContentObjectTreeNode::fetch( $nodeListArray[0]['node_id'] );
             }
             else
             {

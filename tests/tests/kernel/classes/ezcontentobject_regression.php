@@ -70,6 +70,48 @@ class eZContentObjectRegression extends ezpDatabaseTestCase
         self::assertTrue( empty( $res ), "The copied object does contain fresh content object attributes" );
     }
 
+     /**
+     * Test mainNode()
+     *
+     * create object like this structure:
+     *
+     * rootnode(folder) - objectNode1(folder) - obj(article, language: default and nor-NO)
+     *                  \ objectNode2(folder) /
+     */
+    public function testIssue016395()
+    {
+        //create two nodes with one object
+        $parentNode = new ezpObject( 'folder', 2 );
+        $parentNode->publish();
+
+        $objectNode1 = new ezpObject( 'folder', $parentNode->mainNode->node_id );
+        $objectNode1->publish();
+        $objectNode2 = new ezpObject( 'folder', $parentNode->mainNode->node_id );
+        $objectNode2->publish();
+
+        $obj = new ezpObject( 'article', $objectNode1->mainNode->node_id );
+        $obj->title = 'English article';
+        $obj->body = 'This an English article';
+        $obj->publish();
+
+        $obj->addNode( $objectNode2->mainNode->node_id );
+        //create a translation
+        $languageData = array();
+        $languageData['title'] = 'Norsk artikkel';
+        $languageData['body'] = 'Dette er en norsk artikkel.';
+        $obj->addTranslation( 'nor-NO', $languageData );
+
+        //assert the main language and translation language
+        $objectMainNode = $obj->object->mainNode();
+        $this->assertEquals( 'English article', $objectMainNode ->getName() );
+        $this->assertEquals( 'Norsk artikkel', $objectMainNode->getName( 'nor-NO' ) );
+        $tempLanguage = $objectMainNode->currentLanguage();
+        $objectMainNode->setCurrentLanguage( 'nor-NO' );
+        $this->assertEquals( 'Norsk artikkel', $objectMainNode->attribute( 'name' ) );
+        $objectMainNode->setCurrentLanguage( $tempLanguage );
+    }
+
+
     /**
      * Create a copy of an object.
      *
