@@ -398,6 +398,10 @@
         <source>Edit &lt;%class_name&gt; (%object_count objects)</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>The draft of the class definition was successfully stored.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/class/edit_denied</name>
@@ -7731,6 +7735,10 @@ Note: The packages will not be uninstalled.</source>
         <source>Sitemap for subtree</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Preview</source>
+        <translation type="unfinished">プレビュー</translation>
+    </message>
 </context>
 <context>
     <name>design/admin/preview/article</name>
@@ -7783,6 +7791,10 @@ Note: The packages will not be uninstalled.</source>
     <message>
         <source>Your email address</source>
         <translation>e-mail</translation>
+    </message>
+    <message>
+        <source>Your name</source>
+        <translation type="unfinished">お名前</translation>
     </message>
 </context>
 <context>
@@ -9791,7 +9803,15 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Activate</source>
-        <translation type="unfinished">有効にする</translation>
+        <translation type="obsolete">有効にする</translation>
+    </message>
+    <message>
+        <source>Activate or deactivate extension. Use the &quot;Update&quot; button to apply the changes.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation type="unfinished">更新</translation>
     </message>
 </context>
 <context>
@@ -26677,7 +26697,7 @@ your account.</source>
         <translation type="unfinished">ダッシュボード</translation>
     </message>
     <message>
-        <source>You have already sent a tipafriend mail to this receiver regarding &apos;$nodeName&apos; content</source>
+        <source>You have already sent a tipafriend mail to this receiver regarding &apos;%1&apos; content</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

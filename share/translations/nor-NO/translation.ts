@@ -398,6 +398,10 @@
         <source>Edit &lt;%class_name&gt; (%object_count objects)</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>The draft of the class definition was successfully stored.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/class/edit_denied</name>
@@ -7712,6 +7716,10 @@ Note: The packages will not be uninstalled.</source>
         <source>Sitemap for subtree</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Preview</source>
+        <translation type="unfinished">Forhåndsvis</translation>
+    </message>
 </context>
 <context>
     <name>design/admin/preview/article</name>
@@ -7764,6 +7772,10 @@ Note: The packages will not be uninstalled.</source>
     <message>
         <source>Your email address</source>
         <translation>Din e-postadresse</translation>
+    </message>
+    <message>
+        <source>Your name</source>
+        <translation type="unfinished">Ditt navn</translation>
     </message>
 </context>
 <context>
@@ -9768,7 +9780,15 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Activate</source>
-        <translation>Aktiver</translation>
+        <translation type="obsolete">Aktiver</translation>
+    </message>
+    <message>
+        <source>Activate or deactivate extension. Use the &quot;Update&quot; button to apply the changes.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation type="unfinished">Oppdater</translation>
     </message>
 </context>
 <context>
@@ -26608,7 +26628,7 @@ Følg veiledningen i den e-posten for å aktivere kontoen din.</translation>
         <translation>Oversikt</translation>
     </message>
     <message>
-        <source>You have already sent a tipafriend mail to this receiver regarding &apos;$nodeName&apos; content</source>
+        <source>You have already sent a tipafriend mail to this receiver regarding &apos;%1&apos; content</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
