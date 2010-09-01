@@ -3,6 +3,7 @@
 - Added jQuery.ez() post param string support like jQuery.post()
 - ezjscnode::load added to load json data about object / node
 - Update YUI to 3.1.2
+- Fix #017079: ezoe: IE8 Insert MEDIA/IMAGE browse: Tree Nodes not shown
 
 # v1.2.0alpha6
 - Make index_ajax.php compatible with 4.4 eZSession change
