@@ -22,26 +22,27 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
     onInit: function( el, tag )
     {
         if ( el ) return;
-        var td = ez.$$('#table_cell_size_grid td div'), table = ez.$('table_cell_size_grid');
-        td.forEach(function(o, i){
-            o.addEvent('mouseover', eZOEPopupUtils.BIND( tableSizeGridMouse, this, o, i, false ) );
-            o.addEvent('click', eZOEPopupUtils.BIND( tableSizeGridMouse, this, o, i, true ) );
-        }, td);
-        table.addEvent('mouseout', eZOEPopupUtils.BIND( tableSizeGridMouse, td, 0, -1, false ));
+        var td = jQuery('#table_cell_size_grid td div'), table = jQuery('#table_cell_size_grid');
+        td.each( function(i, el){
+            var o = jQuery( el );
+            o.mouseover( eZOEPopupUtils.BIND( tableSizeGridMouse, td, o, i, false ) );
+            o.click( eZOEPopupUtils.BIND( tableSizeGridMouse, td, o, i, true ) );
+        });
+        table.mouseout( eZOEPopupUtils.BIND( tableSizeGridMouse, td, 0, -1, false ) );
         jQuery('#table_cell_size').show();
-        tableSizeGrid['cols'] = ez.$('table_cell_size_grid_cols');
-        tableSizeGrid['rows'] = ez.$('table_cell_size_grid_rows');
-        tableSizeGrid['cols'].addEvent('keyup', eZOEPopupUtils.BIND( tableSizeGridInput, td, true ));
-        tableSizeGrid['rows'].addEvent('keyup', eZOEPopupUtils.BIND( tableSizeGridInput, td, true ));
+        tableSizeGrid['cols'] = jQuery('#table_cell_size_grid_cols');
+        tableSizeGrid['rows'] = jQuery('#table_cell_size_grid_rows');
+        tableSizeGrid['cols'].keyup( eZOEPopupUtils.BIND( tableSizeGridInput, td, true ) );
+        tableSizeGrid['rows'].keyup( eZOEPopupUtils.BIND( tableSizeGridInput, td, true ) );
         tableSizeGridInput.call( td, true );
     },
     tagGenerator: function( tag, customTag )
     {
         var html = '<table id="__mce_tmp"><tbody>';
-        for (var y = 0, yl = eZOEPopupUtils.Int(tableSizeGrid['rows'].el.value, 1); y < yl; y++)
+        for (var y = 0, yl = eZOEPopupUtils.Int(tableSizeGrid['rows'].val(), 1); y < yl; y++)
         {
             html += "<tr>";
-            for (var x = 0, xl = eZOEPopupUtils.Int(tableSizeGrid['cols'].el.value, 2); x < xl; x++)
+            for (var x = 0, xl = eZOEPopupUtils.Int(tableSizeGrid['cols'].val(), 2); x < xl; x++)
                 html += '<td><br mce_bogus="1"/></td>';
     
             html += "</tr>";
@@ -65,34 +66,34 @@ function tableSizeGridMouse( o, i, save )
 
     if ( save )
     {
-        tableSizeGrid['rows'].el.value = rows;
-        tableSizeGrid['cols'].el.value = cols;
+        tableSizeGrid['rows'].val( rows );
+        tableSizeGrid['cols'].val( cols );
     }
 }
 
 function tableSizeGridInput( save )
 {
-    tableSizeGridShowChange.call( this, tableSizeGrid['rows'].el.value, tableSizeGrid['cols'].el.value, save );
+    tableSizeGridShowChange.call( this, tableSizeGrid['rows'].val(), tableSizeGrid['cols'].val(), save );
 }
 
 
 function tableSizeGridShowChange( rows, cols, save )
 {
-    this.forEach(function(o2, i2){
-        var cell2 = i2 +1, rows2 = Math.floor( i2 / 6) +1, cols2 = cell2 - (rows2 -1) * 6;
+    this.each( function( i, el ){
+        var cell2 = i +1, rows2 = Math.floor( i / 6) +1, cols2 = cell2 - (rows2 -1) * 6;
         if ( rows2 <= rows && cols2 <= cols )
         {
             if ( save )
-                o2.el.style.backgroundColor = '#cccccc';
+                el.style.backgroundColor = '#cccccc';
             else
-                o2.el.style.borderColor = '#aaa';
+                el.style.borderColor = '#aaa';
         }
         else
         {
             if ( save )
-                o2.el.style.backgroundColor = '#fff';
+                el.style.backgroundColor = '#fff';
             else
-                o2.el.style.borderColor = '#fff';
+                el.style.borderColor = '#fff';
         }
     });
 }

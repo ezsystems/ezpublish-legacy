@@ -94,7 +94,7 @@ eZOEPopupUtils.settings.customAttributeInitHandler['{$custom_attribute_id}_sourc
 {
     if ( jQuery.trim( value ) === '' ) return;
     var valArr = (value +'').split(/\s/g), base_id = el.id.replace('_source', ''), inp, sel, tid, size;
-    for(var i = 0, l = ez.min( valArr.length, 4 ); i < l; i++)
+    for(var i = 0, l = eZOEPopupUtils.min( valArr.length, 4 ); i < l; i++)
     {
         tid = (i === 0 ? '' : '_' + i);
         inp = document.getElementById( base_id + '_source' + tid );

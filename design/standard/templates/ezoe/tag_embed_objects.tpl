@@ -31,7 +31,7 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
         var align = el ? el.getAttribute('align') || '' : def['align']  || '';
         if ( align === 'center' ) align = 'middle';
 
-        ez.$('embed_preview').addClass('object_preview float-break').setStyles( eZOEPopupUtils.ie56 ? {'margin': '0 5px 5px 5px'} : {});
+        jQuery('#embed_preview').addClass('object_preview float-break').css( eZOEPopupUtils.ie56 ? {'margin': '0 5px 5px 5px'} : {});
         selectors[1].el.value = align;
         selectors.callEach('addEvent', 'change', loadEmbedPreview );
 
