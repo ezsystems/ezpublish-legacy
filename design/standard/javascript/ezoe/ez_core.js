@@ -844,7 +844,7 @@ if ( window.detachEvent && !window.opera && /MSIE [56]/.test( navigator.userAgen
 // XMLHttpRequest wrapper for IE 5 / 6
 if (!window.XMLHttpRequest && window.ActiveXObject) var XMLHttpRequest = function(){
     // XMLHttpRequest wrapper for ie browsers that do not support XMLHttpRequest natively
-    return ez.activeX(['MSXML2.XMLHTTP.6.0', 'MSXML2.XMLHTTP.3.0', 'MSXML2.XMLHTTP']);
+    return ez.activeX(['MSXML2.XMLHTTP.6.0', 'MSXML2.XMLHTTP.3.0', 'MSXML2.XMLHTTP', 'Microsoft.XMLHTTP']);
 };
 
 }//if ( window.ez === undefined )
