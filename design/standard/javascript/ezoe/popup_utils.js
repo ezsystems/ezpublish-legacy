@@ -889,5 +889,5 @@ var eZOEPopupUtils = {
        for (var i = 0, a = arguments, l = a.length; i < l; i++)
                if (min === null || min > a[i]) min = a[i];
        return min;
-    },
+    }
 };
