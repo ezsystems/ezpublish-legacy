@@ -1491,10 +1491,10 @@ class eZDBFileHandlerMysqlBackend
             // the original file does not exist: we move the generating file
             if ( mysql_num_rows( $res ) == 0 )
             {
-                $metaData = array();
+                $metaData = $generatingMetaData;
                 $metaData['name'] = $filePath;
                 $metaData['name_hash'] = md5( $filePath );
-                $metaData['scope'] = '';
+                // $metaData['scope'] = '';
                 $metaData['name_trunk'] = $this->nameTrunk( $filePath, $metaData['scope'] );
                 $insertSQL = "INSERT INTO " . TABLE_METADATA . " ( " . implode( ', ', array_keys( $metaData ) ) . " ) " .
                              "VALUES( " . $this->_sqlList( $metaData ) . ")";
