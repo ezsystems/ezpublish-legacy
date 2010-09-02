@@ -34,7 +34,7 @@
 if ( !defined( 'TABLE_METADATA' ) )
     define( 'TABLE_METADATA', 'ezdbfile' );
 if ( !defined( 'TABLE_DATA' ) )
-    define( 'TABLE_METADATA', 'ezdbfile_data' );
+    define( 'TABLE_DATA', 'ezdbfile_data' );
 
 /*
 CREATE TABLE ezdbfile (
