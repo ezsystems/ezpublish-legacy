@@ -31,8 +31,11 @@
 /*! \file
 */
 
-define( 'TABLE_METADATA',     'ezdbfile' );
-define( 'TABLE_DATA',         'ezdbfile_data' );
+if ( !defined( 'TABLE_METADATA' ) )
+    define( 'TABLE_METADATA', 'ezdbfile' );
+
+if ( !defined( 'TABLE_DATA' ) )
+    define( 'TABLE_DATA', 'ezdbfile_data' );
 
 /*
 CREATE TABLE ezdbfile (
