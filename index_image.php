@@ -15,6 +15,14 @@ define( 'STORAGE_PASS',        'secret'          );
 define( 'STORAGE_DB',          'cluster'         );
 define( 'STORAGE_CHUNK_SIZE',  65535             );
 
+// If you use the DFS cluster, you also need to set the path for the shared directory:
+define( 'MOUNT_POINT_PATH',    'var/nfsmount'    );
+
+// If you use Oracle you need to set these (see README.cluster in the ezoracle extension):
+define( 'USE_ETAG', true );
+define( 'EXPIRY_TIMEOUT', 60 * 60 * 24 * 30 );
+define ( 'STORAGE_PERSISTENT_CONNECTION', true );
+
 //include_once( 'index_image.php' );
 ?>
 -------------------------------------------
