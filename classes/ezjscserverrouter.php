@@ -29,7 +29,7 @@
 //
 
 /*
-  Perfoms calls to custom functions or templates depending on arguments and ini settings 
+  Perfoms calls to custom functions or templates depending on arguments and ini settings
 */
 
 
@@ -73,7 +73,7 @@ class ezjscServerRouter
 
         if ( $ezjscoreIni->hasGroup( 'ezjscServer_' . $callClassName ) )
         {
-           // load file if defined, else use autoload 
+           // load file if defined, else use autoload
            if ( $ezjscoreIni->hasVariable( 'ezjscServer_' . $callClassName, 'File' ) )
                 include_once( $ezjscoreIni->variable( 'ezjscServer_' . $callClassName, 'File' ) );
 
@@ -171,7 +171,7 @@ class ezjscServerRouter
             }
             $limitationList[] = $permissionName;
         }
-        return ezjscAccessTemplateFunctions::hasAccessToLimitation( 'ezjscore', 'call', array( 'FunctionList', $limitationList ) );
+        return ezjscAccessTemplateFunctions::hasAccessToLimitation( 'ezjscore', 'call', array( 'FunctionList' => $limitationList ) );
     }
 
     /**
@@ -193,7 +193,7 @@ class ezjscServerRouter
     {
         if ( $isTemplateFunction )
         {
-            return true;//todo: find a way to look for templates
+            return true;//@todo: find a way to look for templates
         }
         else
         {
@@ -222,7 +222,7 @@ class ezjscServerRouter
             return call_user_func_array( array( $this->className, $this->functionName ), array( $this->functionArguments, &$environmentArguments, $isPackeStage ) );
         }
     }
-    
+
 }
 
 ?>
