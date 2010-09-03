@@ -8124,66 +8124,78 @@ INSERT INTO ezpolicy (
   function_name,
   id,
   module_name,
+  original_id,
   role_id
 ) VALUES (
   '*',
   308,
   '*',
+  0,
   2
 );
 INSERT INTO ezpolicy (
   function_name,
   id,
   module_name,
+  original_id,
   role_id
 ) VALUES (
   '*',
   317,
   'content',
+  0,
   3
 );
 INSERT INTO ezpolicy (
   function_name,
   id,
   module_name,
+  original_id,
   role_id
 ) VALUES (
   'login',
   319,
   'user',
+  0,
   3
 );
 INSERT INTO ezpolicy (
   function_name,
   id,
   module_name,
+  original_id,
   role_id
 ) VALUES (
   'login',
   327,
   'user',
+  0,
   1
 );
 INSERT INTO ezpolicy (
   function_name,
   id,
   module_name,
+  original_id,
   role_id
 ) VALUES (
   'read',
   328,
   'content',
+  0,
   1
 );
 INSERT INTO ezpolicy (
   function_name,
   id,
   module_name,
+  original_id,
   role_id
 ) VALUES (
   'pdf',
   329,
   'content',
+  0,
   1
 );
 
@@ -22784,7 +22796,7 @@ INSERT INTO ezsite_data (
   value
 ) VALUES (
   'ezpublish-version',
-  '4.4.0beta2'
+  '4.4.0rc1'
 );
 
 INSERT INTO ezurl (

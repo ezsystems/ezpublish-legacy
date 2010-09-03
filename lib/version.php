@@ -35,9 +35,9 @@ class eZPublishSDK
     const VERSION_MAJOR = 4;
     const VERSION_MINOR = 4;
     const VERSION_RELEASE = 0;
-    const VERSION_STATE = 'beta2';
+    const VERSION_STATE = 'rc1';
     const VERSION_DEVELOPMENT = true;
-    const VERSION_ALIAS = '4.3';
+    const VERSION_ALIAS = '4.4';
 
     /*!
       \return the SDK version as a string
