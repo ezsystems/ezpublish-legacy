@@ -62,6 +62,8 @@ if ( $tries > $maxTries )
 if ( !$db )
     _die( "Unable to connect to storage server" );
 
+if ( !mysqli_set_charset( $db, defined( 'STORAGE_CHARSET' ) ? STORAGE_CHARSET : 'utf8' ) )
+    _die( "Failed to set character set.\n" );
 
 $filename = ltrim( $_SERVER['SCRIPT_NAME'], "/" ); // Issue #015459
 

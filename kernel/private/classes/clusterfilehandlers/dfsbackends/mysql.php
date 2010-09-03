@@ -62,13 +62,13 @@ class eZDFSFileHandlerMySQLBackend
      **/
     public function _connect()
     {
+        $siteINI = eZINI::instance( 'site.ini' );
         // DB Connection setup
         // This part is not actually required since _connect will only be called
         // once, but it is useful to run the unit tests. So be it.
         // @todo refactor this using eZINI::setVariable in unit tests
         if ( self::$dbparams === null )
         {
-            $siteINI = eZINI::instance( 'site.ini' );
             $fileINI = eZINI::instance( 'file.ini' );
 
             self::$dbparams = array();
@@ -111,6 +111,20 @@ class eZDFSFileHandlerMySQLBackend
         if ( $this->dfsbackend === null )
         {
             $this->dfsbackend = new eZDFSFileHandlerDFSBackend();
+        }
+
+        $charset = trim( $siteINI->variable( 'DatabaseSettings', 'Charset' ) );
+        if ( $charset === '' )
+        {
+            $charset = eZTextCodec::internalCharset();
+        }
+
+        if ( $charset )
+        {
+            if ( !mysql_query( "SET NAMES '" . eZMySQLCharset::mapTo( $charset ) . "'", $this->db ) )
+            {
+                $this->_fail( "Failed to set Database charset to $charset." );
+            }
         }
     }
 

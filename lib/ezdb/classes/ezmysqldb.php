@@ -47,20 +47,6 @@ class eZMySQLDB extends eZDBInterface
     {
         $this->eZDBInterface( $parameters );
 
-        $this->CharsetMapping = array( 'iso-8859-1' => 'latin1',
-                                       'iso-8859-2' => 'latin2',
-                                       'iso-8859-8' => 'hebrew',
-                                       'iso-8859-7' => 'greek',
-                                       'iso-8859-9' => 'latin5',
-                                       'iso-8859-13' => 'latin7',
-                                       'windows-1250' => 'cp1250',
-                                       'windows-1251' => 'cp1251',
-                                       'windows-1256' => 'cp1256',
-                                       'windows-1257' => 'cp1257',
-                                       'utf-8' => 'utf8',
-                                       'koi8-r' => 'koi8r',
-                                       'koi8-u' => 'koi8u' );
-
         if ( !extension_loaded( 'mysql' ) )
         {
             if ( function_exists( 'eZAppendWarningItem' ) )
@@ -178,28 +164,17 @@ class eZMySQLDB extends eZDBInterface
         if ( $charset !== null )
         {
             $charset = eZCharsetInfo::realCharsetCode( $charset );
-            // Convert charset names into something MySQL will understand
-            if ( isset( $this->CharsetMapping[ $charset ] ) )
-                $charset = $this->CharsetMapping[ $charset ];
         }
 
         if ( $this->IsConnected and $charset !== null and $this->isCharsetSupported( $charset ) )
         {
-            $versionInfo = $this->databaseServerVersion();
-
-            // We require MySQL 4.1.1 to use the new character set functionality,
-            // MySQL 4.1.0 does not have a full implementation of this, see:
-            // http://dev.mysql.com/doc/mysql/en/Charset.html
-            if ( version_compare( $versionInfo['string'], '4.1.1' ) >= 0 )
+            $query = "SET NAMES '" . eZMySQLCharset::mapTo( $charset ) . "'";
+            $status = mysql_query( $query, $connection );
+            $this->reportQuery( 'eZMySQLDB', $query, false, false, true );
+            if ( !$status )
             {
-                $query = "SET NAMES '" . $charset . "'";
-                $status = mysql_query( $query, $connection );
-                $this->reportQuery( 'eZMySQLDB', $query, false, false, true );
-                if ( !$status )
-                {
-                    $this->setError();
-                    eZDebug::writeWarning( "Connection warning: " . mysql_errno( $connection ) . ": " . mysql_error( $connection ), "eZMySQLDB" );
-                }
+                $this->setError();
+                eZDebug::writeWarning( "Connection warning: " . mysql_errno( $connection ) . ": " . mysql_error( $connection ), "eZMySQLDB" );
             }
         }
 
@@ -236,15 +211,6 @@ class eZMySQLDB extends eZDBInterface
     {
         // If we don't have a database yet we shouldn't check it
         if ( !$this->DB )
-            return true;
-
-        $versionInfo = $this->databaseServerVersion();
-
-        // We require MySQL 4.1.1 to use the new character set functionality,
-        // MySQL 4.1.0 does not have a full implementation of this, see:
-        // http://dev.mysql.com/doc/mysql/en/Charset.html
-        // Older version should not check character sets
-        if ( version_compare( $versionInfo['string'], '4.1.1' ) < 0 )
             return true;
 
         if ( is_array( $charset ) )
@@ -288,9 +254,7 @@ class eZMySQLDB extends eZDBInterface
                     $currentCharset = $matches[1];
                     $currentCharset = eZCharsetInfo::realCharsetCode( $currentCharset );
                     // Convert charset names into something MySQL will understand
-
-                    $key = array_search( $currentCharset, $this->CharsetMapping );
-                    $unmappedCurrentCharset = ( $key === false ) ? $currentCharset : $key;
+                    $unmappedCurrentCharset = eZMySQLCharset::mapFrom( $currentCharset );
 
                     if ( is_array( $charset ) )
                     {
@@ -893,19 +857,7 @@ class eZMySQLDB extends eZDBInterface
 
     function isCharsetSupported( $charset )
     {
-        if ( $charset == 'utf-8' )
-        {
-            $versionInfo = $this->databaseServerVersion();
-
-            // We require MySQL 4.1.1 to use the new character set functionality,
-            // MySQL 4.1.0 does not have a full implementation of this, see:
-            // http://dev.mysql.com/doc/mysql/en/Charset.html
-            return ( version_compare( $versionInfo['string'], '4.1.1' ) >= 0 );
-        }
-        else
-        {
-            return true;
-        }
+        return true;
     }
 
     function supportsDefaultValuesInsertion()
@@ -919,7 +871,6 @@ class eZMySQLDB extends eZDBInterface
         parent::dropTempTable( $dropTableQuery, $server );
     }
 
-    public $CharsetMapping;
     public $TempTableList;
 
     /// \privatesection

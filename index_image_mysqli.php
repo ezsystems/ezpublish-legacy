@@ -30,6 +30,9 @@ if ( !$db )
 if ( !mysqli_select_db( $db, STORAGE_DB ) )
     _die( "Unable to select database " . STORAGE_DB . ".\n" );
 
+if ( !mysqli_set_charset( $db, defined( 'STORAGE_CHARSET' ) ? STORAGE_CHARSET : 'utf8' ) )
+    _die( "Failed to set character set.\n" );
+
 $filename = ltrim( $_SERVER['SCRIPT_NAME'], "/"); // Issue #015459
 
 // Fetch file metadata.

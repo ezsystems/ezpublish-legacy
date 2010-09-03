@@ -69,9 +69,9 @@ class eZDBFileHandlerMysqliBackend
     /// @todo check when parent does use $newLink param
     function _connect( /*$newLink = false*/ )
     {
+        $siteINI = eZINI::instance( 'site.ini' );
         if ( !isset( $GLOBALS['eZDBFileHandlerMysqlBackend_dbparams'] ) )
         {
-            $siteINI = eZINI::instance( 'site.ini' );
             $fileINI = eZINI::instance( 'file.ini' );
 
             $params['host']       = $fileINI->variable( 'ClusteringSettings', 'DBHost' );
@@ -107,8 +107,19 @@ class eZDBFileHandlerMysqliBackend
         if ( !$this->db )
             return $this->_die( "Unable to connect to storage server" );
 
-        /*if ( !mysql_select_db( $params['dbname'], $this->db ) )
-            return $this->_die( "Unable to select database {$params['dbname']}" );*/
+        $charset = trim( $siteINI->variable( 'DatabaseSettings', 'Charset' ) );
+        if ( $charset === '' )
+        {
+            $charset = eZTextCodec::internalCharset();
+        }
+
+        if ( $charset )
+        {
+            if ( !mysqli_set_charset( $this->db, eZMySQLCharset::mapTo( $charset ) ) )
+            {
+                return $this->_die( "Failed to set Database charset to $charset." );
+            }
+        }
     }
 
     function _copy( $srcFilePath, $dstFilePath, $fname = false )
