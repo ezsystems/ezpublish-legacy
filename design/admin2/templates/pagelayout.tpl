@@ -49,7 +49,7 @@
 {include uri='design:page_head_script.tpl'}
 
 {* Pr tab header cache *}
-{cache-block keys=array( first_set( $module_result.navigation_part, $navigation_part.identifier ), $ui_context, $ui_component, $user_hash, $access_type ) ignore_content_expiry}
+{cache-block keys=array( $ui_context, $ui_component, $user_hash, $access_type, first_set( $module_result.navigation_part, $navigation_part.identifier ) ) ignore_content_expiry}
 
 </head>
 <body>
