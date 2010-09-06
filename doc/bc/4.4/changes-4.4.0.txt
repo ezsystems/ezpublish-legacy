@@ -39,7 +39,7 @@ Change of behavior
 
 - eZExtension::activateExtensions()
 
-  Default value of of first parameter has been changed from false to 'default', see deprecation note bellow.
+  Default value of of first parameter has been changed from false to 'default', see deprecation note bellow on this function.
 
 - eZOperationHandler::operationIsAvailable()
 
@@ -85,7 +85,7 @@ Deprecated functionality
 - eZExtension::activateExtensions( false )
 
   Strict error will be thrown if first parameter is false as of this version.
-  Reason is that changes in ini system requires clearer seperation between access and default
+  Reason is that changes in ini system requires clearer separation between access and default
   extensions. Thus extension loading should be done in at least two phases, normally with siteaccess
   loading in between like index.php does and always have done it.
 
