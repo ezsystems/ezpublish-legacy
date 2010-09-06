@@ -521,17 +521,17 @@ class eZDir
         {
             while ( ( $element = readdir( $handle ) ) !== false )
             {
-                if ( $element == '.' or $element == '..' )
+                if ( $element === '.' || $element === '..' )
                     continue;
-                if ( !$includeHidden and $element[0] == "." )
+                if ( !$includeHidden && $element[0] === '.' )
                     continue;
-                if ( $excludeItems and preg_match( $excludeItems, $element ) )
+                if ( $excludeItems && preg_match( $excludeItems, $element ) )
                     continue;
-                if ( @is_dir( $dir . '/' . $element ) and strpos( $types, 'd' ) === false )
+                if ( strpos( $types, 'd' ) === false && is_dir( $dir . '/' . $element ) )
                     continue;
-                if ( @is_link( $dir . '/' . $element ) and strpos( $types, 'l' ) === false )
+                if ( strpos( $types, 'l' ) === false && is_link( $dir . '/' . $element ) )
                     continue;
-                if ( @is_file( $dir . '/' . $element ) and strpos( $types, 'f' ) === false )
+                if ( strpos( $types, 'f' ) === false && is_file( $dir . '/' . $element ))
                     continue;
                 if ( $fullPath )
                 {

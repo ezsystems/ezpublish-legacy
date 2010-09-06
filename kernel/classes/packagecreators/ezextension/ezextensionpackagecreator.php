@@ -107,9 +107,7 @@ class eZExtensionPackageCreator extends eZPackageCreationHandler
 
     function loadExtensionName( $package, $http, $step, &$persistentData, $tpl )
     {
-        $siteINI = eZINI::instance();
-        $extensionDir = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' );
-        $extensionList = eZDir::findSubItems( $extensionDir );
+        $extensionList = eZDir::findSubItems( eZExtension::baseDirectory(), 'dl' );
         $tpl->setVariable( 'extension_list', $extensionList );
     }
 

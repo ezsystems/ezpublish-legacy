@@ -261,9 +261,7 @@ class eZExtensionPackageHandler extends eZPackageHandler
         $arguments = array_unique( $arguments );
         $extensionsToAdd = array();
 
-        $siteINI = eZINI::instance();
-        $extensionDir = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' );
-        $extensionList = eZDir::findSubItems( $extensionDir );
+        $extensionList = eZDir::findSubItems( eZExtension::baseDirectory(), 'dl' );
 
         foreach ( $arguments as $argument )
         {
