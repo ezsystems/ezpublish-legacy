@@ -302,20 +302,17 @@ class eZSession
      * Starts the session and sets the timeout of the session cookie.
      * Multiple calls will be ignored unless you call {@link eZSession::stop()} first.
      *
-     * @param bool|int $cookieTimeout use this to set custom cookie timeout.
+     * @param int|false $cookieTimeout Use this to set custom cookie timeout.
      * @return bool Depending on if session was started.
      */
     static public function start( $cookieTimeout = false )
     {
-        if ( self::lazyStart( false, $cookieTimeout ) === false )
+        if ( self::lazyStart( false ) === false )
         {
              return false;
         }
-        if ( self::$hasStarted )
-        {
-             return false;
-        }
-        return self::forceStart( $cookieTimeout );
+        self::setCookieParams( $cookieTimeout );
+        return self::forceStart();
     }
 
     /**
@@ -324,22 +321,19 @@ class eZSession
      * @param bool $startIfUserHasCookie
      * @return bool|null
      */
-    static public function lazyStart( $startIfUserHasCookie = true, $cookieTimeout = false )
+    static public function lazyStart( $startIfUserHasCookie = true )
     {
-        // Check if we are allowed to use sessions
-        if ( isset( $GLOBALS['eZSiteBasics']['session-required'] ) &&
-             !$GLOBALS['eZSiteBasics']['session-required'] )
+        if ( self::$hasStarted ||
+           ( isset( $GLOBALS['eZSiteBasics']['session-required'] ) &&
+             !$GLOBALS['eZSiteBasics']['session-required'] ) )
         {
             return false;
-        }
-        if ( self::$hasStarted )
-        {
-             return false;
         }
         self::registerFunctions();
         if ( $startIfUserHasCookie && self::$hasSessionCookie )
         {
-             return self::forceStart( $cookieTimeout );
+            self::setCookieParams();
+            return self::forceStart();
         }
         return null;
     }
@@ -347,9 +341,8 @@ class eZSession
     /**
      * See {@link eZSession::start()}
      */
-    static protected function forceStart( $cookieTimeout = false )
+    static protected function forceStart()
     {
-        self::setCookieParams( $cookieTimeout );
         session_start();
         return self::$hasStarted = true;
     }
@@ -413,6 +406,7 @@ class eZSession
 
     /**
      * Removes the current session and resets session variables.
+     * Note: implicit stops session as well!
      *
      * @return bool Depending on if session was removed.
      */
@@ -430,9 +424,9 @@ class eZSession
     }
 
     /**
-     * Sets the current userID used by self::write on shutdown.
+     * Sets the current userID used by eZSessionHandlerDB::write() on shutdown.
      *
-     * @param int $userID to use in {@link eZSession::write()}
+     * @param int $userID to use in {@link eZSessionHandlerDB::write()}
      */
     static public function setUserID( $userID )
     {
