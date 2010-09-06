@@ -383,6 +383,16 @@ function processDropdownLimitations( &$policy, $currentModule, $currentFunction,
     $hasLimitation = false;
 
     $http = eZHTTPTool::instance();
+
+    $db = eZDB::instance();
+    $db->begin();
+
+    // Remove every limitation on the policy draft to avoid duplicates
+    foreach( $policy->limitationList() as $limitation )
+    {
+        $limitation->removeThis();
+    }
+
     foreach ( $currentFunctionLimitations as $functionLimitation )
     {
         if ( $http->hasPostVariable( $functionLimitation['name'] ) and
@@ -405,6 +415,9 @@ function processDropdownLimitations( &$policy, $currentModule, $currentFunction,
             }
         }
     }
+
+    $db->commit();
+
     return $hasLimitation;
 }
 ?>
