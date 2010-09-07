@@ -53,6 +53,7 @@ class eZSMTPTransport extends eZMailTransport
         $parameters['host'] = $ini->variable( 'MailSettings', 'TransportServer' );
         $parameters['helo'] = $ini->variable( 'MailSettings', 'SenderHost' );
         $parameters['port'] = $ini->variable( 'MailSettings', 'TransportPort' );
+        $parameters['connectionType'] = $ini->variable( 'MailSettings', 'TransportConnectionType' );
         $user = $ini->variable( 'MailSettings', 'TransportUser' );
         $password = $ini->variable( 'MailSettings', 'TransportPassword' );
         if ( $user and
@@ -85,8 +86,13 @@ class eZSMTPTransport extends eZMailTransport
         if ( count( $excludeHeaders ) > 0 )
             $mail->Mail->appendExcludeHeaders( $excludeHeaders );
 
+        $options = new ezcMailSmtpTransportOptions();
+        if( $parameters['connectionType'] )
+        {
+            $options->connectionType = $parameters['connectionType'];
+        }
         $smtp = new ezcMailSmtpTransport( $parameters['host'], $user, $password, 
-        $parameters['port'] );
+        $parameters['port'], $options );
 
         // If in debug mode, send to debug email address and nothing else
         if ( $ini->variable( 'MailSettings', 'DebugSending' ) == 'enabled' )
@@ -104,6 +110,7 @@ class eZSMTPTransport extends eZMailTransport
         }
         catch ( ezcMailException $e )
         {
+            eZDebug::writeError( $e->getMessage(), 'eZSMTPTransport::sendMail' );
             return false;
         }
 
