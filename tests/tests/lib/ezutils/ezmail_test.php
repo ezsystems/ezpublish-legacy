@@ -876,6 +876,11 @@ class eZMailTest extends ezpTestCase
         // test SSL
         $ini = eZINI::instance( 'test_ezmail_ssl.ini' );
         $mailSetting = $ini->group( 'MailSettings' );
+        //if SSL information is not set, skip this test
+        if( !$mailSetting['TransportServer'] )
+        {
+            return;
+        }
         $siteINI = eZINI::instance();
         $backupSetting = $siteINI->group( 'MailSettings' );
         $siteINI->setVariables( array( 'MailSettings' => $mailSetting ) );
