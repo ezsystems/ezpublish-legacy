@@ -20,3 +20,4 @@ Changes from 4.4.0beta2 to 4.4.0rc1
 - Fixed bug #017188: admin2 line view context menu contains action where user has no rights to access
 - Fixed bug #017202: MOUNT_POINT_PATH missing from index_cluster.php example in index_image.php
 - Fixed bug #017228: DB exception thrown when trying to access Setup wizard
+- Fixed bug #017232: Incomplete change to the metadata property in eZDBFileHandler
