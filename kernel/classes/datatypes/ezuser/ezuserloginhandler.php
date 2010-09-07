@@ -153,6 +153,37 @@ class eZUserLoginHandler
         return $impl;
     }
 
+    /**
+     * Check if user login is required. If so, use login handler to redirect user.
+     *
+     * @since 4.4
+     * @param array $siteBasics
+     * @param eZURI $uri
+     * @return array|true|false|null An associative array on redirect with 'module' and 'function' keys, true on successful
+     *                               and false/null on #fail.
+     */
+    public static function preCheck( array &$siteBasics, eZURI $uri )
+    {
+        if ( !$siteBasics['user-object-required'] )
+        {
+            return null;
+        }
+
+        $ini = eZINI::instance();
+        $requireUserLogin = ( $ini->variable( 'SiteAccessSettings', 'RequireUserLogin' ) == 'true' );
+        $forceLogin = false;
+        if ( eZSession::hasStarted() )
+        {
+            $http = eZHTTPTool::instance();
+            $forceLogin = $http->hasSessionVariable( self::FORCE_LOGIN );
+        }
+        if ( !$requireUserLogin && !$forceLogin )
+        {
+            return null;
+        }
+        return self::checkUser( $siteBasics, $uri );
+    }
+
     /*!
      \static
      Check user redirection for current loginhandler.

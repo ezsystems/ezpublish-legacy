@@ -12,6 +12,7 @@
  * Checks if the installation is valid and returns a module redirect if required.
  * If CheckValidity in SiteAccessSettings is false then no check is done.
  *
+ * @deprecated As of 4.4, moved to index.php for now
  * @param array $siteBasics
  * @param eZURI $uri
  */
@@ -47,6 +48,9 @@ function eZCheckValidity( array &$siteBasics, eZURI $uri )
 /**
  * List of functions that should be checked by key identifier
  *
+ * @deprecated As of 4.4, since SitePrecheckRules setting is not used or documented anywhere
+ *             (documentation above was added when it was deprecated)
+ *             Also validity checks needs to be done before session init and user check after..
  * @return array An associative array with items to run a check on, each items
  * is an associative array. The item must contain: function -> name of the function
  */
@@ -61,10 +65,11 @@ function eZCheckList()
 /**
  * Check if user login is required. If so, use login handler to redirect user.
  *
+ * @deprecated As of 4.4, moved to {@link eZUserLoginHandler::preCheck()}
  * @param array $siteBasics
  * @param eZURI $uri
  * @return array|true|false|null An associative array on redirect with 'module' and 'function' keys, true on successful
- *                               and false/null on #fail.  
+ *                               and false/null on #fail.
  */
 function eZCheckUser( array &$siteBasics, eZURI $uri )
 {
@@ -92,6 +97,9 @@ function eZCheckUser( array &$siteBasics, eZURI $uri )
 /**
  * Return the order that prechecks should be checked
  *
+ * @deprecated As of 4.4, since SitePrecheckRules setting is not used or documented anywhere
+ *             (documentation above was added when it was deprecated)
+ *             Also validity checks needs to be done before session init and user check after..
  * @return array
  */
 function eZCheckOrder()
@@ -102,6 +110,9 @@ function eZCheckOrder()
 /**
  * Executes pre checks
  *
+ * @deprecated As of 4.4, since SitePrecheckRules setting is not used or documented anywhere
+ *             (documentation above was added when it was deprecated)
+ *             Also validity checks needs to be done before session init and user check after..
  * @param array $siteBasics
  * @param eZURI $uri
  * @return array|null A structure with redirection information or null if nothing should be done.

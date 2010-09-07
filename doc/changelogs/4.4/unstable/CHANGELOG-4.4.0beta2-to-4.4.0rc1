@@ -16,3 +16,4 @@ Changes from 4.4.0beta2 to 4.4.0rc1
 
 *Bugfixes:
 - Fixed bug #017202: MOUNT_POINT_PATH missing from index_cluster.php example in index_image.php
+- Fixed bug #017228: DB exception thrown when trying to access Setup wizard
