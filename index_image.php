@@ -23,9 +23,10 @@ define( 'MOUNT_POINT_PATH',    'var/nfsmount'    );
 //define( 'EXPIRY_TIMEOUT', 60 * 60 * 24 * 30 );
 //define ( 'STORAGE_PERSISTENT_CONNECTION', true );
 
-// You may define the character set according to your setup:
+// If you're not using UTF-8 (which we STRONGLY recommend),
+// you MUST define the character set according to your setup:
 // site.ini/[DatabaseSettings]/Charset
-// Not doing so will use a default UTF-8 connection (strongly recommended!)
+// Not doing so will use a default UTF-8 connection
 // NOTE: Use here a character set as understood by the server!
 // MySQL uses for instance 'utf8', 'latin1', 'cp1250',... rather than
 // 'utf-8', 'iso-8859-1', 'windows-1250',...
