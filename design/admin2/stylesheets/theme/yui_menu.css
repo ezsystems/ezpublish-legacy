@@ -400,6 +400,12 @@ a.yuimenuitemlabel-disabled{
     padding-left: 2em;
 }
 
+.yui-button-disabled #ezbtn-new-button {
+    background: url(../../images/2/icon-add-disabled-16x16.png) no-repeat scroll 5% 50% transparent;
+    padding-left: 2em;
+    color: #888
+}
+
 #ezbtn-options-button {
     background: url(../../images/2/icon-options-16x16.png) no-repeat scroll 5% 50% transparent;
     padding-left: 2em;
