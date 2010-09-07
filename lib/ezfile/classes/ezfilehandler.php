@@ -843,7 +843,7 @@ class eZFileHandler
     */
     static function doIsDirectory( $filename )
     {
-        return @is_dir( $filename );
+        return is_dir( $filename );
     }
 
     /*!
@@ -853,7 +853,7 @@ class eZFileHandler
     */
     static function doIsExecutable( $filename )
     {
-        return @is_executable( $filename );
+        return is_executable( $filename );
     }
 
     /*!
@@ -863,7 +863,7 @@ class eZFileHandler
     */
     static function doIsFile( $filename )
     {
-        return @is_file( $filename );
+        return is_file( $filename );
     }
 
     /*!
@@ -873,7 +873,7 @@ class eZFileHandler
     */
     static function doIsLink( $filename )
     {
-        return @is_link( $filename );
+        return is_link( $filename );
     }
 
     /*!
@@ -883,7 +883,7 @@ class eZFileHandler
     */
     static function doIsReadable( $filename )
     {
-        return @is_readable( $filename );
+        return is_readable( $filename );
     }
 
     /*!
@@ -893,7 +893,7 @@ class eZFileHandler
     */
     static function doIsWriteable( $filename )
     {
-        return @is_writable( $filename );
+        return is_writable( $filename );
     }
 
     /*!
