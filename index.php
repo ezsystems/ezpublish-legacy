@@ -414,8 +414,8 @@ if ( $ini->variable( 'SiteAccessSettings', 'CheckValidity' ) === 'true' )
     $siteBasics['policy-check-omit-list'][] = 'setup';
     $siteBasics['show-page-layout'] = $ini->variable( 'SetupSettings', 'PageLayout' );
     $siteBasics['validity-check-required'] = true;
-    $siteBasics['session-required'] = $siteBasics['db-required'] = false;
-    $siteBasics['user-object-required'] = $siteBasics['no-cache-adviced'] = $siteBasics['url-translator-allowed']= false;
+    $siteBasics['session-required'] = $siteBasics['user-object-required'] = false;
+    $siteBasics['db-required'] = $siteBasics['no-cache-adviced'] = $siteBasics['url-translator-allowed'] = false;
     $siteBasics['site-design-override'] = $ini->variable( 'SetupSettings', 'OverrideSiteDesign' );
     $access = array( 'name' => 'setup',
                      'type' => eZSiteAccess::TYPE_URI );
