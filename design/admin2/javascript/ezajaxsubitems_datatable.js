@@ -39,10 +39,14 @@ var sortableSubitems = function () {
         }
 
         var customMenu = function(cell, rec, column, data) {
-            var createhereMenu = (confObj.classesString != '') ? -1 : "\'child-menu-create-here\'";
-            cell.innerHTML = '<a href="#" onclick="ezpopmenu_showTopLevel(event, \'SubitemsContextMenu\', \{\'%nodeID%\':' + rec.getData('node_id') + ',\'%objectID%\':' + rec.getData('contentobject_id') + ',\'%version%\':' + rec.getData('version') + ',\'%languages%\':' + confObj.languagesString + ',\'%classList%\':' + confObj.classesString + '\ }, \'' + rec.getData('name') + '\', ' + rec.getData('node_id') + ', ' + createhereMenu + '); return false;"><div class="crankfield"></div></a>';
+            if (rec.getData('can_edit') === false) {
+                cell.innerHTML = '<div class="crankfield-disabled"></div>';
+            } else {
+                var createhereMenu = (confObj.classesString != '') ? -1 : "\'child-menu-create-here\'";
+                cell.innerHTML = '<a href="#" onclick="ezpopmenu_showTopLevel(event, \'SubitemsContextMenu\', \{\'%nodeID%\':' + rec.getData('node_id') + ',\'%objectID%\':' + rec.getData('contentobject_id') + ',\'%version%\':' + rec.getData('version') + ',\'%languages%\':' + confObj.languagesString + ',\'%classList%\':' + confObj.classesString + '\ }, \'' + rec.getData('name') + '\', ' + rec.getData('node_id') + ', ' + createhereMenu + '); return false;"><div class="crankfield"></div></a>';
+            }
         }
-        
+
         var thumbView = function(cell, record, column, data) {
             var th = record.getData('thumbnail_url');
             if (th)
@@ -50,7 +54,7 @@ var sortableSubitems = function () {
             else
                 cell.innerHTML = '';
         }
-        
+
         var translationView = function(cell, record, column, data) {
             var html = '';
             jQuery(data).each(function(i, e) {
@@ -140,7 +144,8 @@ var sortableSubitems = function () {
                 {key:"class_icon"},
                 {key:"thumbnail_url"},
                 {key:"url"},
-                {key:"parent_node_id"}
+                {key:"parent_node_id"},
+                {key:"can_edit"}
             ],
             metaFields: {
                 totalRecords: "content.total_count" // Access to value in the server response
@@ -199,17 +204,14 @@ var sortableSubitems = function () {
                                                         dataSource,
                                                         tableConfig );
 
-        // Cell editing
-        var highlightEditableCell = function(oArgs) {
-            var elCell = oArgs.target;
-            if (YAHOO.util.Dom.hasClass(elCell, "yui-dt-editable")) {
-                this.highlightCell(elCell);
+        // Enables the cell editing when row has can_edit=true
+        subItemsTable.subscribe("cellClickEvent", function (oArgs) {
+            var target = oArgs.target,
+            record = this.getRecord(target);
+            if (record.getData('can_edit') === true) {
+                this.showCellEditor(target);
             }
-        }
-
-        subItemsTable.subscribe("cellMouseoverEvent", highlightEditableCell);
-        subItemsTable.subscribe("cellMouseoutEvent", subItemsTable.onEventUnhighlightCell);
-        subItemsTable.subscribe("cellClickEvent", subItemsTable.onEventShowCellEditor);
+        });
 
         // Update totalRecords on the fly with value from server
         subItemsTable.handleDataReturnPayload = function(oRequest, oResponse, oPayload) {
@@ -342,6 +344,9 @@ var sortableSubitems = function () {
                                                      name: "create-new-button",
                                                      menu: createOptions,
                                                      container:"action-controls" });
+
+        // Disable button if user has no available content classes to create objects of
+        if (createGroups.length === 0) createNewBtn.set('disabled',true);
 
         var createNewBtnMenu  = createNewBtn.getMenu();
         createNewBtnMenu.cfg.setProperty("scrollincrement", 5);

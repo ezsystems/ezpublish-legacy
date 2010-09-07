@@ -47,5 +47,6 @@ Changes from 4.4.0beta1 to 4.4.0beta2
 - Fixed bug #017101: Contentclass description and contentclass attribute description/category metadata & serialized data not supported in ezpackage
 - Fixed bug #017133: TC-21 - "Online Users" block is not working when Sessions Handler<>eZSessionHandlerDB
 - Fixed bug #017155: eZContentObject->version() becomes slow when importing huge amount of content
+- Fixed bug #017165: DB connection charset is not set everywhere connections are created
 - Fixed bug #017166: [objectrelationlist]Wrong language version created when editing object in a different main language
 

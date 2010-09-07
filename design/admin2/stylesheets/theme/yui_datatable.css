@@ -507,10 +507,19 @@ span.yui-pg-first,span.yui-pg-previous,span.yui-pg-next,span.yui-pg-last
     margin-right: 1em;
 }
 
-.crankfield {
+/* Column icons */
+
+.crankfield, .crankfield-disabled {
     height: 16px;
     width: 16px;
+}
+
+.crankfield {
     background: url("../../images/2/icon-crank-16x16.png") no-repeat scroll center center transparent;
+}
+
+.crankfield-disabled {
+    background: url("../../images/2/icon-crank-disabled-16x16.png") no-repeat scroll center center transparent;
 }
 
 .thumbfield {

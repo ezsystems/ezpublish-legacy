@@ -870,6 +870,46 @@ class eZMailTest extends ezpTestCase
         // BCC should not be set anymore at this point, because of ExcludeHeaders
         $this->assertFalse( strpos( $mail->Mail->generateHeaders(), 'Bcc: Jim Doe <jimdoe@example.com>' ) > 0 );
     }
+
+    public function testSSLSending()
+    {
+        // test SSL
+        $ini = eZINI::instance( 'test_ezmail_ssl.ini' );
+        $mailSetting = $ini->group( 'MailSettings' );
+        //if SSL information is not set, skip this test
+        if( !$mailSetting['TransportServer'] )
+        {
+            return;
+        }
+        $siteINI = eZINI::instance();
+        $backupSetting = $siteINI->group( 'MailSettings' );
+        $siteINI->setVariables( array( 'MailSettings' => $mailSetting ) );
+
+        $mail = new eZMail();
+
+        $mail->setReceiver( $mailSetting['TransportUser'], 'TEST RECEIVER' );
+        $mail->setSender( $mailSetting['TransportUser'], 'TEST SENDER' );
+        $mail->setSubject( 'SSL EMAIL TESTING' );
+        $mail->setBody( 'This is a mail testing. TEST SSL in ' . __METHOD__ );
+        $result = eZMailTransport::send( $mail );
+        $this->assertTrue( $result );
+
+        // test 25 port
+        $siteINI->setVariable( 'MailSettings', 'TransportPort', '25' );
+        $result = eZMailTransport::send( $mail );
+        $this->assertFalse( $result );
+
+        // test plain
+        $ini = eZINI::instance( 'test_ezmail_plain.ini' );
+        $mailSetting = $ini->group( 'MailSettings' );
+        $siteINI->setVariables( array( 'MailSettings' => $mailSetting ) );
+        $mail->setSubject( 'EMAIL PLAIN TESTING' );
+        $this->assertTrue( $result );
+
+        $siteINI->setVariables( array( 'MailSettings' => $backupSetting ) );
+
+        //todo: delete the received mails in teardown.
+    }
 }
 
 ?>

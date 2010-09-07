@@ -333,7 +333,6 @@ eZDebug::addTimingPoint( "Script start" );
 
 $uri = eZURI::instance( eZSys::requestURI() );
 $GLOBALS['eZRequestedURI'] = $uri;
-require_once "pre_check.php";
 
 // Check for extension
 require_once( 'kernel/common/ezincludefunctions.php' );
@@ -405,6 +404,26 @@ eZModule::setGlobalPathList( $moduleRepositories );
 
 require_once( 'kernel/common/i18n.php' );
 
+// start: eZCheckValidity
+// pre check, setup wizard related so needs to be before session/db init
+if ( $ini->variable( 'SiteAccessSettings', 'CheckValidity' ) === 'true' )
+{
+    $check = array( 'module' => 'setup',
+                    'function' => 'init' );
+    // Turn off some features that won't bee needed yet
+    $siteBasics['policy-check-omit-list'][] = 'setup';
+    $siteBasics['show-page-layout'] = $ini->variable( 'SetupSettings', 'PageLayout' );
+    $siteBasics['validity-check-required'] = true;
+    $siteBasics['session-required'] = $siteBasics['user-object-required'] = false;
+    $siteBasics['db-required'] = $siteBasics['no-cache-adviced'] = $siteBasics['url-translator-allowed'] = false;
+    $siteBasics['site-design-override'] = $ini->variable( 'SetupSettings', 'OverrideSiteDesign' );
+    $access = array( 'name' => 'setup',
+                     'type' => eZSiteAccess::TYPE_URI );
+    $access = eZSiteAccess::change( $access );
+    eZTranslatorManager::enableDynamicTranslations();
+}
+// stop: eZCheckValidity
+
 if ( $sessionRequired )
 {
     $dbRequired = true;
@@ -427,8 +446,9 @@ if ( $dbRequired )
                                 'text' => 'No database connection could be made, the system might not behave properly.' );
 }
 
-// precheck, needs to be done after session start
-$check = eZHandlePreChecks( $siteBasics, $uri );
+// pre check, RequireUserLogin & FORCE_LOGIN related so needs to be after session init
+if ( !isset( $check ) )
+    $check = eZUserLoginHandler::preCheck( $siteBasics, $uri );
 
 // Initialize with locale settings
 $locale = eZLocale::instance();

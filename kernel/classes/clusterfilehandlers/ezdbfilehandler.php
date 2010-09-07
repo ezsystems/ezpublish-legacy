@@ -97,7 +97,7 @@ class eZDBFileHandler
         if ( ( $this->_metaData === false ) && ( $force !== true ) )
             return;
 
-        if ( $force && isset( $GLOBALS['eZClusterInfo'][$this->filePath] ) )
+        if ( ( $force === true ) && isset( $GLOBALS['eZClusterInfo'][$this->filePath] ) )
             unset( $GLOBALS['eZClusterInfo'][$this->filePath] );
 
         // Checks for metadata stored in memory, useful for repeated access
@@ -120,11 +120,13 @@ class eZDBFileHandler
         if ( isset( $GLOBALS['eZClusterInfo'] ) &&
              count( $GLOBALS['eZClusterInfo'] ) >= self::INFOCACHE_MAX )
         {
-            usort( $GLOBALS['eZClusterInfo'],
+            uasort( $GLOBALS['eZClusterInfo'],
                    create_function( '$a, $b',
                                     '$a=$a["cnt"]; $b=$b["cnt"]; if ( $a > $b ) return -1; else if ( $a == $b ) return 0; else return 1;' ) );
             array_pop( $GLOBALS['eZClusterInfo'] );
         }
+        if ( !isset( $GLOBALS['eZClusterInfo'] ) )
+            $GLOBALS['eZClusterInfo'] = array();
         $GLOBALS['eZClusterInfo'][$this->filePath] = array( 'cnt' => 1,
                                                             'data' => $metaData );
     }
@@ -300,6 +302,7 @@ class eZDBFileHandler
                 {
                     if ( $this->isLocalFileExpired( $expiry, $curtime, $ttl ) )
                     {
+
                         // if we are in stale cache mode, we only forceDB if the
                         // file does not exist at all
                         if ( $this->useStaleCache )
@@ -983,7 +986,7 @@ class eZDBFileHandler
 
         $this->backend->_delete( $path );
 
-        $this->metaData = null;
+        $this->_metaData = null;
     }
 
     /**
@@ -1145,7 +1148,7 @@ class eZDBFileHandler
 
         $this->backend->_rename( $srcPath, $dstPath );
 
-        $this->metaData = null;
+        $this->_metaData = null;
     }
 
     /**
@@ -1162,7 +1165,7 @@ class eZDBFileHandler
 
         $this->backend->_rename( $srcPath, $dstPath );
 
-        $this->metaData = null;
+        $this->_metaData = null;
     }
 
     /**

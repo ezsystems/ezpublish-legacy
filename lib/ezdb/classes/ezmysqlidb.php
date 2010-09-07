@@ -51,20 +51,6 @@ class eZMySQLiDB extends eZDBInterface
     {
         $this->eZDBInterface( $parameters );
 
-        $this->CharsetMapping = array( 'iso-8859-1' => 'latin1',
-                                       'iso-8859-2' => 'latin2',
-                                       'iso-8859-8' => 'hebrew',
-                                       'iso-8859-7' => 'greek',
-                                       'iso-8859-9' => 'latin5',
-                                       'iso-8859-13' => 'latin7',
-                                       'windows-1250' => 'cp1250',
-                                       'windows-1251' => 'cp1251',
-                                       'windows-1256' => 'cp1256',
-                                       'windows-1257' => 'cp1257',
-                                       'utf-8' => 'utf8',
-                                       'koi8-r' => 'koi8r',
-                                       'koi8-u' => 'koi8u' );
-
         if ( !extension_loaded( 'mysqli' ) )
         {
             if ( function_exists( 'eZAppendWarningItem' ) )
@@ -175,14 +161,11 @@ class eZMySQLiDB extends eZDBInterface
         {
             $originalCharset = $charset;
             $charset = eZCharsetInfo::realCharsetCode( $charset );
-            // Convert charset names into something MySQL will understand
-            if ( isset( $this->CharsetMapping[ $charset ] ) )
-                $charset = $this->CharsetMapping[ $charset ];
         }
 
-        if ( $this->IsConnected and $charset !== null and $this->isCharsetSupported( $charset ) )
+        if ( $this->IsConnected and $charset !== null )
         {
-            $status = mysqli_set_charset( $connection, $charset );
+            $status = mysqli_set_charset( $connection, eZMySQLCharset::mapTo( $charset ) );
             if ( !$status )
             {
                 $this->setError();
@@ -215,9 +198,6 @@ class eZMySQLiDB extends eZDBInterface
       \param[out] $currentCharset The charset that the database uses.
                                   will only be set if the match fails.
                                   Note: This will be specific to the database.
-
-      \note There will be no check for databases using MySQL 4.1.0 or lower since
-            they do not have proper character set handling.
     */
     function checkCharset( $charset, &$currentCharset )
     {
@@ -226,13 +206,6 @@ class eZMySQLiDB extends eZDBInterface
             return true;
 
         $versionInfo = $this->databaseServerVersion();
-
-        // We require MySQL 4.1.1 to use the new character set functionality,
-        // MySQL 4.1.0 does not have a full implementation of this, see:
-        // http://dev.mysql.com/doc/mysql/en/Charset.html
-        // Older version should not check character sets
-        if ( version_compare( $versionInfo['string'], '4.1.1' ) < 0 )
-            return true;
 
         if ( is_array( $charset ) )
         {
@@ -275,9 +248,7 @@ class eZMySQLiDB extends eZDBInterface
                     $currentCharset = $matches[1];
                     $currentCharset = eZCharsetInfo::realCharsetCode( $currentCharset );
                     // Convert charset names into something MySQL will understand
-
-                    $key = array_search( $currentCharset, $this->CharsetMapping );
-                    $unmappedCurrentCharset = ( $key === false ) ? $currentCharset : $key;
+                    $unmappedCurrentCharset = eZMySQLCharset::mapFrom( $currentCharset );
 
                     if ( is_array( $charset ) )
                     {
@@ -603,7 +574,7 @@ class eZMySQLiDB extends eZDBInterface
 
     function relationCount( $relationType = eZDBInterface::RELATION_TABLE )
     {
-        if ( $relationType != eZDBInterface::RELATION_TABLE )
+        if ( !in_array( $relationType, $this->supportedRelationTypes() ) )
         {
             eZDebug::writeError( "Unsupported relation type '$relationType'", __METHOD__ );
             return false;
@@ -627,7 +598,6 @@ class eZMySQLiDB extends eZDBInterface
                     $count = count( $this->relationList( self::RELATION_FOREIGN_KEY ) );
                 } break;
             }
-
         }
         return $count;
     }
@@ -693,9 +663,13 @@ class eZMySQLiDB extends eZDBInterface
                             $row = mysqli_fetch_row( $result );
                             if ( strpos( $row[1], "CONSTRAINT" ) !== false )
                             {
-                                if ( preg_match_all( '#CONSTRAINT `([^`]+)` FOREIGN KEY \(`.*`\) REFERENCES `([^`]+)` \(`.*`\)#', $row[1], $matches, PREG_PATTERN_ORDER ) )
+                                if ( preg_match_all( '#CONSTRAINT [`"]([^`"]+)[`"] FOREIGN KEY \([`"].*[`"]\) REFERENCES [`"]([^`"]+)[`"] \([`"].*[`"]\)#', $row[1], $matches, PREG_PATTERN_ORDER ) )
                                 {
-                                    $foreignKeys[] = array( 'table' => $table, 'keys' => $matches[1] );
+                                    // $foreignKeys[] = array( 'table' => $table, 'keys' => $matches[1] );
+                                    foreach( $matches[1] as $fkMatch )
+                                    {
+                                        $foreignKeys[] = array( 'table' => $table, 'fk' => $fkMatch );
+                                    }
                                 }
                             }
                         }
@@ -758,12 +732,8 @@ class eZMySQLiDB extends eZDBInterface
             {
                 case self::RELATION_FOREIGN_KEY:
                 {
-                    $table = $relationName['table'];
-                    foreach( $relationName['keys'] as $foreignKey )
-                    {
-                        $sql = "ALTER TABLE {$table} DROP FOREIGN KEY {$foreignKey}";
-                        $this->query( $sql );
-                    }
+                    $sql = "ALTER TABLE {$relationName['table']} DROP FOREIGN KEY {$relationName['fk']}";
+                    $this->query( $sql );
                     return true;
                 } break;
 
@@ -983,7 +953,6 @@ class eZMySQLiDB extends eZDBInterface
         parent::dropTempTable( $dropTableQuery, $server );
     }
 
-    public $CharsetMapping;
     protected $TempTableList;
 
     /// \privatesection

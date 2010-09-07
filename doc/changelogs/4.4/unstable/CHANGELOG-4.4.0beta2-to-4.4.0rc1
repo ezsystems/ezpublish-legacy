@@ -15,4 +15,10 @@ Changes from 4.4.0beta2 to 4.4.0rc1
 *Translations:
 
 *Bugfixes:
+- Fixed bug #017186: admin2 user can set priortiy id - but has no rights for it
+- Fixed bug #017187: admin2 create new button is still shown even the user can not create objects
+- Fixed bug #017188: admin2 line view context menu contains action where user has no rights to access
 - Fixed bug #017202: MOUNT_POINT_PATH missing from index_cluster.php example in index_image.php
+- Fixed bug #017207: eZMail doesn't support SSL in SMTP
+- Fixed bug #017228: DB exception thrown when trying to access Setup wizard
+- Fixed bug #017232: Incomplete change to the metadata property in eZDBFileHandler

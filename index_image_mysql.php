@@ -30,6 +30,9 @@ if ( !$db )
 if ( !mysql_select_db( STORAGE_DB, $db ) )
     _die( "Unable to select database " . STORAGE_DB . ".\n" );
 
+if ( !$res = mysql_query( "SET NAMES '" . ( defined( 'STORAGE_CHARSET' ) ? STORAGE_CHARSET : 'utf8' ) . "'", $db ) )
+    _die( "Failed to set character set.\n" );
+
 $filename = ltrim( $_SERVER['SCRIPT_NAME'], "/"); // Issue #015459
 
 // Fetch file metadata.

@@ -40,26 +40,15 @@
 */
 class eZMySQLDB extends eZDBInterface
 {
+    const RELATION_FOREIGN_KEY = 5;
+    const RELATION_FOREIGN_KEY_BIT = 32;
+
     /*!
       Create a new eZMySQLDB object and connects to the database backend.
     */
     function eZMySQLDB( $parameters )
     {
         $this->eZDBInterface( $parameters );
-
-        $this->CharsetMapping = array( 'iso-8859-1' => 'latin1',
-                                       'iso-8859-2' => 'latin2',
-                                       'iso-8859-8' => 'hebrew',
-                                       'iso-8859-7' => 'greek',
-                                       'iso-8859-9' => 'latin5',
-                                       'iso-8859-13' => 'latin7',
-                                       'windows-1250' => 'cp1250',
-                                       'windows-1251' => 'cp1251',
-                                       'windows-1256' => 'cp1256',
-                                       'windows-1257' => 'cp1257',
-                                       'utf-8' => 'utf8',
-                                       'koi8-r' => 'koi8r',
-                                       'koi8-u' => 'koi8u' );
 
         if ( !extension_loaded( 'mysql' ) )
         {
@@ -178,28 +167,17 @@ class eZMySQLDB extends eZDBInterface
         if ( $charset !== null )
         {
             $charset = eZCharsetInfo::realCharsetCode( $charset );
-            // Convert charset names into something MySQL will understand
-            if ( isset( $this->CharsetMapping[ $charset ] ) )
-                $charset = $this->CharsetMapping[ $charset ];
         }
 
         if ( $this->IsConnected and $charset !== null and $this->isCharsetSupported( $charset ) )
         {
-            $versionInfo = $this->databaseServerVersion();
-
-            // We require MySQL 4.1.1 to use the new character set functionality,
-            // MySQL 4.1.0 does not have a full implementation of this, see:
-            // http://dev.mysql.com/doc/mysql/en/Charset.html
-            if ( version_compare( $versionInfo['string'], '4.1.1' ) >= 0 )
+            $query = "SET NAMES '" . eZMySQLCharset::mapTo( $charset ) . "'";
+            $status = mysql_query( $query, $connection );
+            $this->reportQuery( 'eZMySQLDB', $query, false, false, true );
+            if ( !$status )
             {
-                $query = "SET NAMES '" . $charset . "'";
-                $status = mysql_query( $query, $connection );
-                $this->reportQuery( 'eZMySQLDB', $query, false, false, true );
-                if ( !$status )
-                {
-                    $this->setError();
-                    eZDebug::writeWarning( "Connection warning: " . mysql_errno( $connection ) . ": " . mysql_error( $connection ), "eZMySQLDB" );
-                }
+                $this->setError();
+                eZDebug::writeWarning( "Connection warning: " . mysql_errno( $connection ) . ": " . mysql_error( $connection ), "eZMySQLDB" );
             }
         }
 
@@ -236,15 +214,6 @@ class eZMySQLDB extends eZDBInterface
     {
         // If we don't have a database yet we shouldn't check it
         if ( !$this->DB )
-            return true;
-
-        $versionInfo = $this->databaseServerVersion();
-
-        // We require MySQL 4.1.1 to use the new character set functionality,
-        // MySQL 4.1.0 does not have a full implementation of this, see:
-        // http://dev.mysql.com/doc/mysql/en/Charset.html
-        // Older version should not check character sets
-        if ( version_compare( $versionInfo['string'], '4.1.1' ) < 0 )
             return true;
 
         if ( is_array( $charset ) )
@@ -288,9 +257,7 @@ class eZMySQLDB extends eZDBInterface
                     $currentCharset = $matches[1];
                     $currentCharset = eZCharsetInfo::realCharsetCode( $currentCharset );
                     // Convert charset names into something MySQL will understand
-
-                    $key = array_search( $currentCharset, $this->CharsetMapping );
-                    $unmappedCurrentCharset = ( $key === false ) ? $currentCharset : $key;
+                    $unmappedCurrentCharset = eZMySQLCharset::mapFrom( $currentCharset );
 
                     if ( is_array( $charset ) )
                     {
@@ -597,12 +564,12 @@ class eZMySQLDB extends eZDBInterface
 
     function supportedRelationTypeMask()
     {
-        return eZDBInterface::RELATION_TABLE_BIT;
+        return eZDBInterface::RELATION_TABLE_BIT | self::RELATION_FOREIGN_KEY_BIT;
     }
 
     function supportedRelationTypes()
     {
-        return array( eZDBInterface::RELATION_TABLE );
+        return array( self::RELATION_FOREIGN_KEY, eZDBInterface::RELATION_TABLE );
     }
 
     function relationCounts( $relationMask )
@@ -615,7 +582,7 @@ class eZMySQLDB extends eZDBInterface
 
     function relationCount( $relationType = eZDBInterface::RELATION_TABLE )
     {
-        if ( $relationType != eZDBInterface::RELATION_TABLE )
+        if ( !in_array( $relationType, $this->supportedRelationTypes() ) )
         {
             eZDebug::writeError( "Unsupported relation type '$relationType'", __METHOD__ );
             return false;
@@ -623,18 +590,29 @@ class eZMySQLDB extends eZDBInterface
         $count = false;
         if ( $this->IsConnected )
         {
-            $query = "SHOW TABLES FROM `" . $this->DB . "`";
-            $result = @mysql_query( $query, $this->DBConnection );
-            $this->reportQuery( __CLASS__, $query, false, false );
-            $count = mysql_num_rows( $result );
-            mysql_free_result( $result );
+            switch ( $relationType )
+            {
+                case eZDBInterface::RELATION_TABLE:
+                {
+                    $query = "SHOW TABLES FROM `" . $this->DB . "`";
+                    $result = @mysql_query( $query, $this->DBConnection );
+                    $this->reportQuery( __CLASS__, $query, false, false );
+                    $count = mysql_num_rows( $result );
+                    mysql_free_result( $result );
+                } break;
+
+                case self::RELATION_FOREIGN_KEY:
+                {
+                    $count = count( $this->relationList( self::RELATION_FOREIGN_KEY ) );
+                } break;
+            }
         }
         return $count;
     }
 
     function relationList( $relationType = eZDBInterface::RELATION_TABLE )
     {
-        if ( $relationType != eZDBInterface::RELATION_TABLE )
+        if ( !in_array( $relationType, $this->supportedRelationTypes() ) )
         {
             eZDebug::writeError( "Unsupported relation type '$relationType'", __METHOD__ );
             return false;
@@ -642,18 +620,75 @@ class eZMySQLDB extends eZDBInterface
         $tables = array();
         if ( $this->IsConnected )
         {
-            $query = "SHOW TABLES FROM `" . $this->DB . "`";
-            $result = @mysql_query( $query, $this->DBConnection );
-            $this->reportQuery( __CLASS__, $query, false, false );
-            $count = mysql_num_rows( $result );
-            for ( $i = 0; $i < $count; ++ $i )
+            switch ( $relationType )
             {
-                $table = mysql_fetch_array( $result );
-                $tables[] = $table[0];
+                case eZDBInterface::RELATION_TABLE:
+                {
+                    $query = "SHOW TABLES FROM `" . $this->DB . "`";
+                    $result = @mysql_query( $query, $this->DBConnection );
+                    $this->reportQuery( __CLASS__, $query, false, false );
+                    $count = mysql_num_rows( $result );
+                    for ( $i = 0; $i < $count; ++ $i )
+                    {
+                        $table = mysql_fetch_array( $result );
+                        $tables[] = $table[0];
+                    }
+                    mysql_free_result( $result );
+                    return $tables;
+                } break;
+
+                case self::RELATION_FOREIGN_KEY:
+                {
+                    /**
+                     * Ideally, we would have queried information_schema.KEY_COLUMN_USAGE
+                     * However, a known bug causes queries on this table to potentially be VERY slow (http://bugs.mysql.com/bug.php?id=19588)
+                     *
+                     * The query would look like this:
+                     * SELECT table_name AS from_table, column_name AS from_column, referenced_table_name AS to_table,
+                     *        referenced_column_name AS to_column
+                     * FROM information_schema.KEY_COLUMN_USAGE
+                     * WHERE REFERENCED_TABLE_SCHEMA = '{$this->DB}'
+                     *   AND REFERENCED_TABLE_NAME is not null;
+                     *
+                     * Result as of MySQL 5.1.48 / August 2010:
+                     *
+                     * +---------------+-------------+----------+-----------+
+                     * | from_table    | from_column | to_table | to_column |
+                     * +---------------+-------------+----------+-----------+
+                     * | ezdbfile_data | name_hash   | ezdbfile | name_hash |
+                     * +---------------+-------------+----------+-----------+
+                     * 1 row in set (12.56 sec)
+                     *
+                     * The only way out right now is to parse SHOW CREATE TABLE for each table and extract CONSTRAINT lines
+                     */
+
+                    $foreignKeys = array();
+                    foreach( $this->relationList( eZDBInterface::RELATION_TABLE ) as $table )
+                    {
+                        $query = "SHOW CREATE TABLE $table";
+                        $result = mysql_query( $query, $this->DBConnection );
+                        $this->reportQuery( __CLASS__, $query, false, false );
+                        if ( mysql_num_rows( $result ) === 1 )
+                        {
+                            $row = mysql_fetch_row( $result );
+                            if ( strpos( $row[1], "CONSTRAINT" ) !== false )
+                            {
+                                if ( preg_match_all( '#CONSTRAINT [`"]([^`"]+)[`"] FOREIGN KEY \([`"].*[`"]\) REFERENCES [`"]([^`"]+)[`"] \([`"].*[`"]\)#',
+                                    $row[1], $matches, PREG_PATTERN_ORDER ) )
+                                {
+                                    // $foreignKeys[] = array( 'table' => $table, 'keys' => $matches[1] );
+                                    foreach( $matches[1] as $fkMatch )
+                                    {
+                                        $foreignKeys[] = array( 'table' => $table, 'fk' => $fkMatch );
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    return $foreignKeys;
+                }
             }
-            mysql_free_result( $result );
         }
-        return $tables;
     }
 
     function eZTableList( $server = eZDBInterface::SERVER_MASTER )
@@ -706,11 +741,38 @@ class eZMySQLDB extends eZDBInterface
 
         if ( $this->IsConnected )
         {
-            $sql = "DROP $relationTypeName $relationName";
-            return $this->query( $sql );
+            switch ( $relationType )
+            {
+                case self::RELATION_FOREIGN_KEY:
+                {
+                    $sql = "ALTER TABLE {$relationName['table']} DROP FOREIGN KEY {$relationName['fk']}";
+                    $this->query( $sql );
+                    return true;
+                } break;
+
+                default:
+                {
+                    $sql = "DROP $relationTypeName $relationName";
+                    return $this->query( $sql );
+                }
+            }
         }
         return false;
     }
+
+    /**
+     * Local eZDBInterface::relationName() override to support the foreign keys type relation
+     * @param $relationType
+     * @return string|false
+     */
+    public function relationName( $relationType )
+    {
+        if ( $relationType == self::RELATION_FOREIGN_KEY )
+            return 'FOREIGN_KEY';
+        else
+            return parent::relationName( $relationType );
+    }
+
 
     function lock( $table )
     {
@@ -893,19 +955,7 @@ class eZMySQLDB extends eZDBInterface
 
     function isCharsetSupported( $charset )
     {
-        if ( $charset == 'utf-8' )
-        {
-            $versionInfo = $this->databaseServerVersion();
-
-            // We require MySQL 4.1.1 to use the new character set functionality,
-            // MySQL 4.1.0 does not have a full implementation of this, see:
-            // http://dev.mysql.com/doc/mysql/en/Charset.html
-            return ( version_compare( $versionInfo['string'], '4.1.1' ) >= 0 );
-        }
-        else
-        {
-            return true;
-        }
+        return true;
     }
 
     function supportsDefaultValuesInsertion()
@@ -919,7 +969,6 @@ class eZMySQLDB extends eZDBInterface
         parent::dropTempTable( $dropTableQuery, $server );
     }
 
-    public $CharsetMapping;
     public $TempTableList;
 
     /// \privatesection
