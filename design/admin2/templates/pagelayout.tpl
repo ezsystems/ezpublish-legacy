@@ -41,7 +41,7 @@
 
 {* Pr uri header cache
  Need navigation part for cases like content/browse where node id is taken from caller params *}
-{cache-block keys=array( $module_result.uri, $user_hash, $admin_theme, $access_type, $module_result.navigation_part ) ignore_content_expiry}
+{cache-block keys=array( $module_result.uri, $user_hash, $admin_theme, $access_type, first_set( $module_result.navigation_part, $navigation_part.identifier ) ) ignore_content_expiry}
 
 {include uri='design:page_head.tpl'}
 
@@ -49,7 +49,7 @@
 {include uri='design:page_head_script.tpl'}
 
 {* Pr tab header cache *}
-{cache-block keys=array( $navigation_part.identifier, $module_result.navigation_part, $ui_context, $ui_component, $user_hash, $access_type ) ignore_content_expiry}
+{cache-block keys=array( $ui_context, $ui_component, $user_hash, $access_type, first_set( $module_result.navigation_part, $navigation_part.identifier ) ) ignore_content_expiry}
 
 </head>
 <body>
@@ -96,7 +96,7 @@
 <div id="maincolumn">
 
 {* Pr uri Path/Left menu cache (dosn't use ignore_content_expiry because of content structure menu  ) *}
-{cache-block keys=array( $module_result.uri, $user_hash, $left_size_hash, $access_type, $module_result.navigation_part )}
+{cache-block keys=array( $module_result.uri, $user_hash, $left_size_hash, $access_type, first_set( $module_result.navigation_part, $navigation_part.identifier ) )}
 
 <div id="path">
 <div id="path-design">
