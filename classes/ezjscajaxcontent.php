@@ -240,6 +240,7 @@ class ezjscAjaxContent
         $ret['class_id']                = (int) $contentObject->attribute( 'contentclass_id' );
         $ret['class_name']              = $contentObject->attribute( 'class_name' );
         $ret['translations']            = eZContentLanguage::decodeLanguageMask($contentObject->attribute( 'language_mask' ), true);
+        $ret['can_edit']                = $contentObject->attribute( 'can_edit' );
 
         if ( isset( $params['formatDate'] ) )
         {
