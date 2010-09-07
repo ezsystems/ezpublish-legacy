@@ -410,7 +410,13 @@ class eZNodeviewfunctions
                 {
                     foreach ( $Result['template_list'] as $templateFile )
                     {
-                        if ( filemtime( $templateFile ) > $mtime )
+                        if ( !file_exists( $templateFile ) )
+                        {
+                            $cacheExpired = true;
+                            $expiryReason = "Content cache is expired by template file '" . $templateFile . "', it does not exist anymore";
+                            break;
+                        }
+                        else if ( filemtime( $templateFile ) > $mtime )
                         {
                             $cacheExpired = true;
                             $expiryReason = "Content cache is expired by template file '" . $templateFile . "'";
