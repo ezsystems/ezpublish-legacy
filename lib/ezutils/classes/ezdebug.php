@@ -368,7 +368,7 @@ class eZDebug
                 $GLOBALS['eZDebugPHPErrorNames'][E_DEPRECATED] = 'E_DEPRECATED';
             if ( defined('E_USER_DEPRECATED') )
                 $GLOBALS['eZDebugPHPErrorNames'][E_USER_DEPRECATED] = 'E_USER_DEPRECATED';
-            
+
         }
         $errname = "Unknown error code ($errno)";
         if ( isset( $GLOBALS['eZDebugPHPErrorNames'][$errno] ) )
@@ -848,7 +848,7 @@ class eZDebug
         for ( $i = $maxLogrotateFiles; $i > 0; --$i )
         {
             $logRotateName = $fileName . '.' . $i;
-            if ( @file_exists( $logRotateName ) )
+            if ( file_exists( $logRotateName ) )
             {
                 if ( $i == $maxLogrotateFiles )
                 {
@@ -863,7 +863,7 @@ class eZDebug
                 }
             }
         }
-        if ( @file_exists( $fileName ) )
+        if ( file_exists( $fileName ) )
         {
             $newLogRotateName = $fileName . '.' . 1;
             eZFile::rename( $fileName, $newLogRotateName );
@@ -893,7 +893,7 @@ class eZDebug
             eZDir::mkdir( $logDir, false, true );
         }
         $oldumask = @umask( 0 );
-        $fileExisted = @file_exists( $fileName );
+        $fileExisted = file_exists( $fileName );
         if ( $fileExisted and
              filesize( $fileName ) > eZDebug::maxLogSize() )
         {

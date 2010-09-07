@@ -2415,7 +2415,7 @@ $rbracket
                             $modificationCheckText = "file_exists( $phpScriptText )";
                             if  ( eZTemplateCompiler::isDevelopmentModeEnabled() )
                             {
-                                $modificationCheckText = "@filemtime( $phpScriptText ) > filemtime( $uriText )";
+                                $modificationCheckText = "filemtime( $phpScriptText ) > filemtime( $uriText )";
                             }
                             $php->addCodePiece( "\$resourceFound = false;\nif " . ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/" ) : "" ) . "( $phpScriptText !== false and $modificationCheckText )\n{\n", array( 'spacing' => $spacing ) );
                         }
@@ -2431,7 +2431,7 @@ $rbracket
                             $modificationCheckText = "file_exists( $phpScriptText )";
                             if  ( eZTemplateCompiler::isDevelopmentModeEnabled() )
                             {
-                                $modificationCheckText = "@filemtime( $phpScriptText ) > filemtime( $uriText )";
+                                $modificationCheckText = "filemtime( $phpScriptText ) > filemtime( $uriText )";
                             }
                             $php->addCodePiece( "if " . ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/" ) : "" ) . "( $modificationCheckText )\n{\n", array( 'spacing' => $spacing ) );
 

@@ -58,7 +58,7 @@ class eZLog
         $fileName = $dir . '/' . $logName;
         $oldumask = @umask( 0 );
 
-        $fileExisted = @file_exists( $fileName );
+        $fileExisted = file_exists( $fileName );
         if ( $fileExisted and
              filesize( $fileName ) > eZLog::maxLogSize() )
         {
@@ -104,7 +104,7 @@ class eZLog
         $fileName = $varDir . '/' . $logDir . '/' . $logName;
         $oldumask = @umask( 0 );
 
-        $fileExisted = @file_exists( $fileName );
+        $fileExisted = file_exists( $fileName );
         if ( $fileExisted and
              filesize( $fileName ) > eZLog::maxLogSize() )
         {
@@ -192,7 +192,7 @@ class eZLog
         for ( $i = $maxLogrotateFiles; $i > 0; --$i )
         {
             $logRotateName = $fileName . '.' . $i;
-            if ( @file_exists( $logRotateName ) )
+            if ( file_exists( $logRotateName ) )
             {
                 if ( $i == $maxLogrotateFiles )
                 {
@@ -205,7 +205,7 @@ class eZLog
                 }
             }
         }
-        if ( @file_exists( $fileName ) )
+        if ( file_exists( $fileName ) )
         {
             $newLogRotateName = $fileName . '.' . 1;
             eZFile::rename( $fileName, $newLogRotateName );

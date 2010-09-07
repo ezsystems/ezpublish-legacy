@@ -410,7 +410,7 @@ class eZNodeviewfunctions
                 {
                     foreach ( $Result['template_list'] as $templateFile )
                     {
-                        if ( @filemtime( $templateFile ) > $mtime )
+                        if ( filemtime( $templateFile ) > $mtime )
                         {
                             $cacheExpired = true;
                             $expiryReason = "Content cache is expired by template file '" . $templateFile . "'";
@@ -472,7 +472,7 @@ class eZNodeviewfunctions
             {
                 return  array( 'content' => $Module->handleError( eZError::KERNEL_NO_DB_CONNECTION, 'kernel' ),
                                'store'   => false );
-     
+
             }
             else
             {
