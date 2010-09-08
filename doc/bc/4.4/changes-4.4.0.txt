@@ -19,6 +19,7 @@ Change of behavior
   has been removed as well as constants
   'VERSION_REVISION_STRING' and 'VERSION_REVISION' from class eZPublishSDK.
 
+
 - Session does not start for anonymous users before it is needed
 
   Meaning if you use fetch function to get number of anonymous users it will not include anonymous
@@ -26,10 +27,12 @@ Change of behavior
   will not be included. LastAccessesURI / LastAccessedModifyingURI is also not stored before user gets a session.
   Set site.ini/Session.ForceStart to enabled to get old behavior.
 
+
 - session_write_close()
 
   Because of above change in session behaviour, you should not call this function directly but instead
   use eZSession::stop() that have been available since 4.1.0. Ref http://issues.ez.no/017037
+
 
 - Session handler uses native php handler by default (normally: file, this is defined in php.ini)
 
@@ -37,13 +40,16 @@ Change of behavior
   possible nor needed to clear/expire sessions from admin interface or command line interface.
   To get old behavoir back, enable db handler by setting site.ini/Session.Handler to eZSessionHandlerDB
 
+
 - eZExtension::activateExtensions()
 
   Default value of of first parameter has been changed from false to 'default', see deprecation note bellow on this function.
 
+
 - eZOperationHandler::operationIsAvailable()
 
   The $name parameter for this method is no longer optional. It did return false anyway if the parameter was omitted.
+
 
 - ezHTTPTool::sendHTTPRequest()
 
@@ -53,13 +59,24 @@ Change of behavior
      longer documented as supported. https:// was and is still supported.
   3. Additionally a $cookies parameter is added to set http header value for cookies.
 
+
 - ezmodule() template operator
 
   This operator now also considers ModuleList setting before it checks SiteAccessRules to look for deny rules.
 
+
 - $object.main_node.name in template
 
   main_node.name returns the node name in current node language, not in the initial language as before. Ref:http://issues.ez.no/16395.
+
+
+- SiteURL setting
+
+  The site.ini\[SiteSettings]\SiteURL setting is now increasingly being used throughout the kernel for reverse lookups of siteaccess urls.
+  As an effect documentation on it has been expanded in site.ini to reflect that it can not start with protocol ('http://') and that it
+  can not end with a slash. For 4.4, static cache and language switcher will use SiteURL in most cases.
+  There is also a new setting called SiteUriParts, this is used in cases where siteaccess is changed during execution unless code that
+  does the change specify uri_part in code. Aka you should specify this setting pr siteaccess if you use host_uri or URI map matching.
 
 
 Deprecated functionality
