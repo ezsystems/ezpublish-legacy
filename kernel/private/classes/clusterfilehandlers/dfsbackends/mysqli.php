@@ -1096,6 +1096,12 @@ class eZDFSFileHandlerMySQLiBackend
             eZDebug::accumulatorStop( 'mysql_cluster_query' );
             // @todo throw an exception instead. Should NOT happen.
         }
+        // required here unlike in the MySQL handler, since mysqli_fetch_rows returns null when there are no more rows and not false
+        elseif ( $nRows === 0 )
+        {
+            eZDebug::accumulatorStop( 'mysql_cluster_query' );
+            return false;
+        }
 
         $row = $fetchCall( $res );
         mysqli_free_result( $res );
