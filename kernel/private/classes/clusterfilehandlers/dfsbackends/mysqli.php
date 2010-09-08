@@ -1089,6 +1089,8 @@ class eZDFSFileHandlerMySQLiBackend
             }
         }
 
+        // we test the return value of mysqli_num_rows and not mysql_fetch, unlike in the mysql handler,
+        // since fetch will return null and not false if there are no results
         $nRows = mysqli_num_rows( $res );
         if ( $nRows > 1 )
         {
@@ -1096,7 +1098,6 @@ class eZDFSFileHandlerMySQLiBackend
             eZDebug::accumulatorStop( 'mysql_cluster_query' );
             // @todo throw an exception instead. Should NOT happen.
         }
-        // required here unlike in the MySQL handler, since mysqli_fetch_rows returns null when there are no more rows and not false
         elseif ( $nRows === 0 )
         {
             eZDebug::accumulatorStop( 'mysql_cluster_query' );

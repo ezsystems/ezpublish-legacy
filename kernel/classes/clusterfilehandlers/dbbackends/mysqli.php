@@ -975,6 +975,8 @@ class eZDBFileHandlerMysqliBackend
 
         $this->_report( $query, $fname, microtime( true ) - $time );
 
+        // we test the return value of mysqli_num_rows and not mysql_fetch, unlike in the mysql handler,
+        // since fetch will return null and not false if there are no results
         $nRows = mysqli_num_rows( $res );
         if ( $nRows > 1 )
         {
@@ -983,7 +985,6 @@ class eZDBFileHandlerMysqliBackend
             // @todo Throw an exception
             return false;
         }
-        // required here unlike in the MySQL handler, since mysqli_fetch_rows returns null when there are no more rows and not false
         elseif ( $nRows === 0 )
         {
             eZDebug::accumulatorStop( 'mysql_cluster_query' );
