@@ -22,5 +22,3 @@ Changes from 4.4.0beta2 to 4.4.0rc1
 - Fixed bug #017207: eZMail doesn't support SSL in SMTP
 - Fixed bug #017228: DB exception thrown when trying to access Setup wizard
 - Fixed bug #017232: Incomplete change to the metadata property in eZDBFileHandler
-- Fixed bug #017235: Incorrect string in /design/standard/content/datatype
-
