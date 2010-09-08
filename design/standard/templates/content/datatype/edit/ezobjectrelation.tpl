@@ -48,7 +48,7 @@
 </table>
 
 {if $attribute.content|not}
-    <p class="ezobject-relation-no-relation">{'There are no related object.'|i18n( 'design/standard/content/datatype' )}</p>
+    <p class="ezobject-relation-no-relation">{'There is no related object.'|i18n( 'design/standard/content/datatype' )}</p>
 {/if}
 
 <div class="block inline-block ezobject-relation-browse">
