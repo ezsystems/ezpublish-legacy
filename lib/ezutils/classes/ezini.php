@@ -350,7 +350,7 @@ class eZINI
         {
             if ( file_exists ( $iniFile . '.append' ) )
             {
-                eZDebug::writeStrict( "INI files with *.ini.append suffix is DEPRECATED, use *.ini or *.ini.append.php instead: $iniFile.append", __METHOD__ );
+                // eZDebug::writeStrict( "INI files with *.ini.append suffix is DEPRECATED, use *.ini or *.ini.append.php instead: $iniFile.append", __METHOD__ );
                 $inputFiles[] = $iniFile . '.append';
             }
 
@@ -373,7 +373,7 @@ class eZINI
 
                 if ( file_exists( $overrideFile . '.php' ) )
                 {
-                    eZDebug::writeStrict( "INI files with *.ini.php suffix is DEPRECATED, use *.ini or *.ini.append.php instead: $overrideFile.php", __METHOD__ );
+                    // eZDebug::writeStrict( "INI files with *.ini.php suffix is DEPRECATED, use *.ini or *.ini.append.php instead: $overrideFile.php", __METHOD__ );
                     $inputFiles[] = $overrideFile . '.php';
                 }
 
@@ -389,7 +389,7 @@ class eZINI
 
                 if ( file_exists( $overrideFile . '.append' ) )
                 {
-                    eZDebug::writeStrict( "INI files with *.ini.append suffix is DEPRECATED, use *.ini or *.ini.append.php instead: $overrideFile.append", __METHOD__ );
+                    // eZDebug::writeStrict( "INI files with *.ini.append suffix is DEPRECATED, use *.ini or *.ini.append.php instead: $overrideFile.append", __METHOD__ );
                     $inputFiles[] = $overrideFile . '.append';
                 }
             }
