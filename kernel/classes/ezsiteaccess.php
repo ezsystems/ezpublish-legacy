@@ -513,7 +513,7 @@ class eZSiteAccess
             {
                 if ( $ini->hasVariable('SiteSettings', 'SiteUriParts') )
                     $access['uri_part'] = $ini->variable('SiteSettings', 'SiteUriParts');
-                else if ( $access['type'] === eZSiteAccess::TYPE_URI )
+                else if ( isset( $access['type'] ) && $access['type'] === eZSiteAccess::TYPE_URI )
                     $access['uri_part'] = array( $access['name'] );
                 else
                     $access['uri_part'] = array();
