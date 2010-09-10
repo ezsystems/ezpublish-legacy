@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the eZXMLTextRegression class
+ * File containing the eZCountryTypeTest class
  *
  * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
@@ -26,10 +26,8 @@ class eZCountryTypeTest extends ezpDatabaseTestCase
             'DE' => 'Allemagne',
             'NO' => 'Norvège' );
 
-        ezpINIHelper::setINISetting(
-            array( 'fre-FR.ini', 'share/locale' ), 'CountryNames', 'Countries', $translatedCountriesList );
-        ezpINIHelper::setINISetting(
-            'site.ini', 'RegionalSettings', 'Locale', 'fre-FR' );
+        ezpINIHelper::setINISetting( array( 'fre-FR.ini', 'share/locale' ), 'CountryNames', 'Countries', $translatedCountriesList );
+        ezpINIHelper::setINISetting( 'site.ini', 'RegionalSettings', 'Locale', 'fre-FR' );
 
         $countries = eZCountryType::fetchCountryList();
         $this->assertType( 'array', $countries, "eZCountryType::fetchCountryList() didn't return an array" );
@@ -50,6 +48,7 @@ class eZCountryTypeTest extends ezpDatabaseTestCase
             }
         }
 
+        ezpINIHelper::restoreINISettings();
         $this->assertTrue( $countryListIsSorted, "Country list isn't sorted" );
     }
 }
