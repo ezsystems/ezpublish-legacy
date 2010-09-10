@@ -1,4 +1,3 @@
-<script language="JavaScript" type="text/javascript" src={"javascript/lib/ezjslibie50support.js"|ezdesign}></script>
 <script language="JavaScript" type="text/javascript" src={"javascript/lib/ezjslibcookiesupport.js"|ezdesign}></script>
 <script language="JavaScript" type="text/javascript" src={"javascript/lib/ezjslibdomsupport.js"|ezdesign}></script>
 <script language="JavaScript" type="text/javascript" src={"javascript/lib/ezjslibimagepreloader.js"|ezdesign}></script>

@@ -237,7 +237,7 @@ div.tabs-content.disabled div.tab-content
     margin-top: 5px;
 }
 
-div#columns.hide-rightmenu div#rightmenu    { display: none; }
+div#columns.hide-rightmenu div#rightmenu  { display: none; }
 div#columns.hide-rightmenu div#maincolumn { margin-right: 0; }
 
 
