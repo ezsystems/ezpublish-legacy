@@ -620,7 +620,7 @@ class eZMailTest extends ezpTestCase
                     )
                 )
             ),
-            array( // Testing DebugSending = enabled with SMTP (cc headers are kept, bcc headers may be kept)
+            array( // Testing DebugSending = enabled with SMTP (cc is empty in debug mode)
                 array( 'to' => array( $users['02'], $users['03'] ),
                        'replyTo' => null,
                        'sender' => $users['01'],
@@ -634,14 +634,11 @@ class eZMailTest extends ezpTestCase
                 array(
                     $users['01']['email'] => array(
                         'messageCount' => 1,
-                        'headers' => array( 'to' => array( array( 'email' => $users['02']['email'] ),
-                                                           array( 'email' => $users['03']['email'] ) ),
+                        'headers' => array( 'to' => array( array( 'email' => $users['01']['email'] ) ),
                                             'replyTo' => array( array( 'email' => $users['01']['email'],
                                                                        'name' => $users['01']['name'] ) ),
                                             'from' => array( array( 'email' => $users['01']['email'],
                                                                     'name' => $users['01']['name'] ) ),
-                                            'cc' => array( array( 'email' => $users['04']['email'],
-                                                                  'name' => $users['04']['name'] ) ),
                                             'subject' => 'That ancient religion'
                         ),
                         'body' => 'I find your lack of faith disturbing.' . $endl
@@ -658,6 +655,76 @@ class eZMailTest extends ezpTestCase
                     $users['05']['email'] => array(
                         'messageCount' => 0
                     )
+                )
+            ),
+            array( // Testing DebugSending = disabled with SMTP (cc headers are kept, bcc headers may be kept)
+                array( 'to' => array( $users['02'], $users['03'] ),
+                       'replyTo' => null,
+                       'sender' => $users['01'],
+                       'cc' => array( $users['04'] ),
+                       'bcc' => array( $users['05'] ),
+                       'subject' => 'That ancient religion',
+                       'body' => 'I find your lack of faith disturbing.',
+                       'DebugSending' => false,
+                       'Transport' => 'SMTP'
+                ),
+                array(
+                    $users['02']['email'] => array(
+                        'messageCount' => 1,
+                        'headers' => array( 'to' => array( array( 'email' => $users['02']['email'] ),
+                                                           array( 'email' => $users['03']['email'] ) ),
+                                            'replyTo' => array( array( 'email' => $users['01']['email'],
+                                                                       'name' => $users['01']['name'] ) ),
+                                            'from' => array( array( 'email' => $users['01']['email'],
+                                                                    'name' => $users['01']['name'] ) ),
+                                            'cc' => array( array( 'email' => $users['04']['email'],
+                                                                  'name' => $users['04']['name'] ) ),
+                                            'subject' => 'That ancient religion'
+                        ),
+                        'body' => 'I find your lack of faith disturbing.' . $endl
+                    ),
+                    $users['03']['email'] => array(
+                        'messageCount' => 1,
+                        'headers' => array( 'to' => array( array( 'email' => $users['02']['email'] ),
+                                                           array( 'email' => $users['03']['email'] ) ),
+                                            'replyTo' => array( array( 'email' => $users['01']['email'],
+                                                                       'name' => $users['01']['name'] ) ),
+                                            'from' => array( array( 'email' => $users['01']['email'],
+                                                                    'name' => $users['01']['name'] ) ),
+                                            'cc' => array( array( 'email' => $users['04']['email'],
+                                                                  'name' => $users['04']['name'] ) ),
+                                            'subject' => 'That ancient religion'
+                        ),
+                        'body' => 'I find your lack of faith disturbing.' . $endl
+                    ),
+                    $users['04']['email'] => array(
+                        'messageCount' => 1,
+                        'headers' => array( 'to' => array( array( 'email' => $users['02']['email'] ),
+                                                           array( 'email' => $users['03']['email'] ) ),
+                                            'replyTo' => array( array( 'email' => $users['01']['email'],
+                                                                       'name' => $users['01']['name'] ) ),
+                                            'from' => array( array( 'email' => $users['01']['email'],
+                                                                    'name' => $users['01']['name'] ) ),
+                                            'cc' => array( array( 'email' => $users['04']['email'],
+                                                                  'name' => $users['04']['name'] ) ),
+                                            'subject' => 'That ancient religion'
+                        ),
+                        'body' => 'I find your lack of faith disturbing.' . $endl
+                    ),
+                    $users['05']['email'] => array(
+                        'messageCount' => 1,
+                        'headers' => array( 'to' => array( array( 'email' => $users['02']['email'] ),
+                                                           array( 'email' => $users['03']['email'] ) ),
+                                            'replyTo' => array( array( 'email' => $users['01']['email'],
+                                                                       'name' => $users['01']['name'] ) ),
+                                            'from' => array( array( 'email' => $users['01']['email'],
+                                                                    'name' => $users['01']['name'] ) ),
+                                            'cc' => array( array( 'email' => $users['04']['email'],
+                                                                  'name' => $users['04']['name'] ) ),
+                                            'subject' => 'That ancient religion'
+                        ),
+                        'body' => 'I find your lack of faith disturbing.' . $endl
+                    ),
                 )
             )
         );
@@ -705,6 +772,13 @@ class eZMailTest extends ezpTestCase
         if ( isset( $sendData['Transport'] ) and $sendData['Transport'] == 'SMTP' )
         {
             ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'Transport', 'SMTP' );
+            $mailINI = eZINI::instance( 'test_ezmail_plain.ini' );
+            $mailSetting = $mailINI->group( 'MailSettings' );
+            ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'TransportServer', $mailSetting['TransportServer'] );
+            ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'TransportPort', $mailSetting['TransportPort'] );
+            ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'TransportUser', $mailSetting['TransportUser'] );
+            ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'TransportPassword', $mailSetting['TransportPassword'] );
+
         }
 
         if ( isset( $sendData['DebugSending'] ) and $sendData['DebugSending'] == true )
