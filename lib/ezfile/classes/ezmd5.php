@@ -38,29 +38,29 @@
 
 class eZMD5
 {
-    /*!
-     \static
+    const CHECK_SUM_LIST_FILE = 'share/filelist.md5';
 
-     Check MD5 sum file to check if files have changed. Return array of changed files.
-
-     \param file name of md5 check sums
-
-     \return array of missmatching files.
+    /**
+     * Check MD5 sum file to check if files have changed. Return array of changed files.
+     *
+     * @param string $file File name of md5 check sums file
+     * @param string $subDirStr Sub dir where files in md5 check sum file resides
+     *        e.g. '' (default) if root and 'extension/ezoe/' for ezoe extension.
+     * @return array List of miss-matching files.
     */
-    static function checkMD5Sums( $file )
+    static function checkMD5Sums( $file, $subDirStr = '' )
     {
-        $lines = eZFile::splitLines( $file );
         $result = array();
+        $lines  = file( $file, FILE_IGNORE_NEW_LINES );
 
-        if ( is_array( $lines ) )
+        if ( $lines !== false && isset( $lines[0] ) )
         {
-            foreach ( array_keys( $lines ) as $key )
+            foreach ( $lines as $key => $line )
             {
-                $line =& $lines[$key];
-                if ( strlen( $line ) > 34 )
+                if ( isset( $line[34] ) )
                 {
                     $md5Key = substr( $line, 0, 32 );
-                    $filename = substr( $line, 34 );
+                    $filename = $subDirStr . substr( $line, 34 );
                     if ( !file_exists( $filename ) || $md5Key != md5_file( $filename ) )
                     {
                         $result[] = $filename;

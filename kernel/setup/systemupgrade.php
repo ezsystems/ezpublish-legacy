@@ -29,8 +29,6 @@
 $Module = $Params['Module'];
 
 
-define( 'MD5_SUM_LIST_FILE', 'share/filelist.md5' );
-
 $tpl = eZTemplate::factory();
 
 $tpl->setVariable( 'md5_result', false );
@@ -38,24 +36,25 @@ $tpl->setVariable( 'upgrade_sql', false );
 
 if ( $Module->isCurrentAction( 'MD5Check' ) )
 {
-    if ( !file_exists( MD5_SUM_LIST_FILE ) )
+    if ( !file_exists( eZMD5::CHECK_SUM_LIST_FILE ) )
     {
         $tpl->setVariable( 'md5_result', 'failed' );
         $tpl->setVariable( 'failure_reason',
                            ezpI18n::tr( 'kernel/setup', 'File %1 does not exist. '.
                                     'You should copy it from the recent eZ Publish distribution.',
-                                    null, array( MD5_SUM_LIST_FILE ) ) );
+                                    null, array( eZMD5::CHECK_SUM_LIST_FILE ) ) );
     }
     else
     {
-        $checkResult = eZMD5::checkMD5Sums( 'share/filelist.md5' );
+        $checkResult = eZMD5::checkMD5Sums( eZMD5::CHECK_SUM_LIST_FILE );
 
         $extensionsDir = eZExtension::baseDirectory();
         foreach( eZextension::activeExtensions() as $activeExtension )
         {
-            if ( file_exists( $extensionsDir . '/' . $activeExtension . '/share/filelist.md5' ) )
+            $extensionPath = "$extensionsDir/$activeExtension/";
+            if ( file_exists( $extensionPath . eZMD5::CHECK_SUM_LIST_FILE ) )
             {
-                $checkResult = array_merge( $checkResult, eZMD5::checkMD5Sums( $extensionsDir . '/' . $activeExtension . '/share/filelist.md5' ) );
+                $checkResult = array_merge( $checkResult, eZMD5::checkMD5Sums( $extensionPath . eZMD5::CHECK_SUM_LIST_FILE, $extensionPath ) );
             }
         }
 
