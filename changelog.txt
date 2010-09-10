@@ -1,5 +1,8 @@
 eZ Online Editor 5.x extension Changelog
 
+5.2.0beta3
+- Updated TinyMCE to 3.3.9
+
 5.2.0beta1
 - Fixed bug #016888: IE only : Custom tag do not save when first thing inserted in OE
 - Fixed bug #016842: in IE 8, have to edit attribute before entering literal tag

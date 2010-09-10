@@ -28,14 +28,12 @@ class ezoeInfo
 {
     static function info()
     {
-        $eZCopyrightString = 'Copyright (C) 1999-2010 eZ Systems AS';
-
         return array( 'Name'      => '<a href="http://projects.ez.no/ezoe">eZ Online Editor</a> extension',
-                      'Version'   => '5.2.0alpha6',
-                      'Copyright' => $eZCopyrightString,
+                      'Version'   => '5.2.0beta3',
+                      'Copyright' => 'Copyright (C) 1999-2010 eZ Systems AS',
                       'License'   => 'GNU General Public License v2.0',
                       'Includes the following third-party software' => array( 'Name' => 'TinyMce Javascript HTML WYSIWYG editor',
-                                                                              'Version' => '3.3.8',
+                                                                              'Version' => '3.3.9',
                                                                               'Copyright' => 'Copyright (C) 2004-2010, Moxiecode Systems AB, All rights reserved.',
                                                                               'License' => 'GNU Lesser General Public License v2.1',),
                       'Includes the following third-party icons'    => array( 'Name' => 'Tango Icon theme',

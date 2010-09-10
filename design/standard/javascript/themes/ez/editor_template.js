@@ -151,7 +151,7 @@
                        ed.dom.loadCSS( css_arr[ind] );
                 }
                 else if (ed.settings.content_css !== false)
-                    ed.dom.loadCSS(ed.baseURI.toAbsolute("themes/ez/skins/" + ed.settings.skin + "/content.css"));
+                    ed.dom.loadCSS(ed.baseURI.toAbsolute(url + "/skins/" + ed.settings.skin + "/content.css"));
 
                 // Add support for align attribute (until parser and theme supports style based alignment)
                 // taken from legacyoutput plugin
@@ -1327,7 +1327,7 @@
             var ed = this.editor;
 
             ed.windowManager.open({
-                url : tinymce.baseURL + '/themes/ez/charmap.htm',
+                url : this.url + '/charmap.htm',
                 width : 550,
                 height : 250,
                 inline : true
@@ -1346,7 +1346,7 @@
             v = v || {};
 
             ed.windowManager.open({
-                url : tinymce.baseURL + '/themes/ez/color_picker.htm',
+                url : this.url + '/color_picker.htm',
                 width : 375 + parseInt(ed.getLang('ez.colorpicker_delta_width', 0)),
                 height : 250 + parseInt(ed.getLang('ez.colorpicker_delta_height', 0)),
                 close_previous : false,
@@ -1362,7 +1362,7 @@
             var ed = this.editor;
 
             ed.windowManager.open({
-                url : tinymce.baseURL + '/themes/ez/source_editor.htm',
+                url : this.url + '/source_editor.htm',
                 width : parseInt(ed.getParam("theme_advanced_source_editor_width", 720)),
                 height : parseInt(ed.getParam("theme_advanced_source_editor_height", 580)),
                 inline : true,
