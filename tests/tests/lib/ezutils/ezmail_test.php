@@ -17,11 +17,13 @@ class eZMailTest extends ezpTestCase
         ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'TransportPort', 25 );
         ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'TransportUser', '' );
         ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'TransportPassword', '' );
-        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'AdminEmail', 'ezp-unittests-01@mail.ez.no' );
-        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'EmailSender', 'ezp-unittests-01@mail.ez.no' );
-        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'EmailReplyTo', 'ezp-unittests-01@mail.ez.no' );
+        $ini = eZINI::instance( 'test_ezmail_plain.ini' );
+        $adminEmail = $ini->variable( 'TestAccounts', 'AdminEmail' );
+        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'AdminEmail', $adminEmail );
+        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'EmailSender', $adminEmail );
+        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'EmailReplyTo', $adminEmail );
         ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'DebugSending', 'disabled' );
-        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'DebugReceiverEmail', 'ezp-unittests-01@mail.ez.no' );
+        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'DebugReceiverEmail', $adminEmail );
     }
 
     public function tearDown()
@@ -418,33 +420,15 @@ class eZMailTest extends ezpTestCase
 
     public static function getTestAccounts()
     {
-        return array(
-            '01' => array( 'name' => 'Unit Tester One',
-                           'email' => 'ezp-unittests-01@mail.ez.no',
-                           'username' => 'ezp-unittests-01@mail.ez.no',
-                           'password' => 'unittest01'
-            ),
-            '02' => array( 'name' => 'Unit Tester Two',
-                           'email' => 'ezp-unittests-02@mail.ez.no',
-                           'username' => 'ezp-unittests-02@mail.ez.no',
-                           'password' => 'unittest02'
-            ),
-            '03' => array( 'name' => 'Unit Tester Three',
-                           'email' => 'ezp-unittests-03@mail.ez.no',
-                           'username' => 'ezp-unittests-03@mail.ez.no',
-                           'password' => 'unittest03'
-            ),
-            '04' => array( 'name' => 'Unit Tester Four',
-                           'email' => 'ezp-unittests-04@mail.ez.no',
-                           'username' => 'ezp-unittests-04@mail.ez.no',
-                           'password' => 'unittest04'
-            ),
-            '05' => array( 'name' => 'Unit Tester Five',
-                           'email' => 'ezp-unittests-05@mail.ez.no',
-                           'username' => 'ezp-unittests-05@mail.ez.no',
-                           'password' => 'unittest05'
-            )
-        );
+        $ini = eZINI::instance( 'test_ezmail_plain.ini' );
+        $testAccounts = $ini->variable( 'TestAccounts', 'Account' );
+        $accountResult = array();
+        foreach( $testAccounts as $account )
+        {
+            $user = $ini->variable( 'TestAccounts', $account );
+            $accountResult[ $user['index'] ] = $user;
+        }
+        return $accountResult;
     }
 
     public static function providerTestSendEmail()
@@ -766,7 +750,8 @@ class eZMailTest extends ezpTestCase
             return;
         }
 
-        $mboxString = '{mta1.ez.no:143/imap/notls}INBOX';
+        $emailINI = eZINI::instance( 'test_ezmail_plain.ini' );
+        $mboxString = $emailINI->variable( 'TestAccounts', 'MBoxString' );
         $recipients = array_merge( (array)$sendData['to'], (array)$sendData['cc'], (array)$sendData['bcc'] );
 
         if ( isset( $sendData['Transport'] ) and $sendData['Transport'] == 'SMTP' )
