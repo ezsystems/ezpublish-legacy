@@ -137,7 +137,7 @@ class eZSysTest extends ezpTestCase
 
         // TEST TEAR DOWN ----------------------------------------------------
         $ini->setVariable( 'SiteAccessSettings', 'RemoveSiteAccessIfDefaultAccess', $orgRemoveSiteaccess );
-        eZSys::clearAccessPath();
+        eZSys::clearAccessPath( false );
         // -------------------------------------------------------------------
     }
 
@@ -171,7 +171,7 @@ class eZSysTest extends ezpTestCase
 
         // TEST TEAR DOWN ----------------------------------------------------
         $ini->setVariable( 'SiteAccessSettings', 'RemoveSiteAccessIfDefaultAccess', $orgRemoveSiteaccess );
-        eZSys::clearAccessPath();
+        eZSys::clearAccessPath( false );
         // -------------------------------------------------------------------
     }
 
