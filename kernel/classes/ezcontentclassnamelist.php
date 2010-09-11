@@ -67,6 +67,11 @@ class eZContentClassNameList extends eZSerializedObjectNameList
             {
                 foreach ( $languages as $languageLocale => $language )
                 {
+                    if ( !$language instanceof eZContentLanguage )
+                    {
+                        eZDebug::writeError( $languageLocale . ' is not a instance of eZContentLanguage', __METHOD__ );
+                        continue;
+                    }
                     $languageID = $language->attribute( 'id' );
                     if ( $initialLanguageID == $languageID )
                         $languageID = $initialLanguageID | 1;
