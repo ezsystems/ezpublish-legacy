@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="1.1" language="it_IT">
+<!DOCTYPE TS>
+<TS version="2.0" language="it_IT">
 <context>
     <name>design/standard/content/datatype</name>
     <message>
@@ -820,7 +821,7 @@ Vuoi maggiori informazioni sull&apos;argomento?</translation>
     </message>
     <message>
         <source>The title on the (x)html tag, used by screen readers, and to give better explanation like this one.</source>
-        <translation>Il titolo sulla stringa (x)html, usata dai lettori dello schermo, and to give better explanation like this one.</translation>
+        <translation>Il titolo sulla stringa (x)html, è usato dai lettori di schermo, e per dare una migliore spiegazione come in questo caso.</translation>
     </message>
     <message>
         <source>To set the width of the tag, either as percentage by appending % or as pixel size by just using a number.</source>
@@ -866,7 +867,7 @@ Vuoi maggiori informazioni sull&apos;argomento?</translation>
     </message>
     <message>
         <source>Make the selected text &lt;u&gt;underline&lt;/u&gt;. This button is only enabled if you have a custom tag named underline, template code to handle underline custom tags is not included in Online Editor.</source>
-        <translation>ende il testo selezionato &lt;u&gt;sottolineato&lt;/u&gt;. Questo pulsante è attivo solo se hai una stringa personale chiamata sottolineato, il codice di template per gestire le stringhe personali per la sottolineatura non è incluso nell&apos;Online Editor.</translation>
+        <translation>rende il testo selezionato &lt;u&gt;sottolineato&lt;/u&gt;. Questo pulsante è attivo solo se hai una stringa personale chiamata sottolineato, il codice di template per gestire le stringhe personali per la sottolineatura non è incluso nell&apos;Online Editor.</translation>
     </message>
     <message>
         <source>Create a bullet list. To create a new list item, press &quot;Enter&quot;. To end a list, press &quot;Enter&quot; key on an empty list item. If you click this button when the cursor is on a list item, the formatting will be removed.</source>
@@ -886,11 +887,11 @@ Vuoi maggiori informazioni sull&apos;argomento?</translation>
     </message>
     <message>
         <source>Undo the last operation in the editor. To undo more than one operation, keep clicking the button.</source>
-        <translation>Annulla l&apos;ultima operazione nell&apos;editor. Per annullare più di una operazione, continuate a premere il pulsante.</translation>
+        <translation>Annulla l&apos;ultima operazione nell&apos;editor. Per annullare più di un&apos;operazione, continuate a premere il pulsante.</translation>
     </message>
     <message>
         <source>Reverse the &quot;Undo&quot; command.</source>
-        <translation>Riporta indietro il comando &quot;Annulla&quot;.</translation>
+        <translation>Inverti il comando &quot;Annulla&quot;.</translation>
     </message>
     <message>
         <source>Create a hyperlink. You can select text first and then click this button to make the text a link. If the checkbox &quot;Open in new window&quot; is checked, the link will be displayed in a new browser window.</source>
@@ -902,7 +903,7 @@ Vuoi maggiori informazioni sull&apos;argomento?</translation>
     </message>
     <message>
         <source>Create a named anchor. An anchor-like icon will appear in the editor.</source>
-        <translation>Crea un&apos;ancora con nome. L&apos;icona di un ancora apparirà nell&apos;editor.</translation>
+        <translation>Crea un&apos;ancora con nome. L&apos;icona di un&apos;ancora apparirà nell&apos;editor.</translation>
     </message>
     <message>
         <source>Insert an image from the related images list, upload a new image, search for an existing images or browse for it. To upload a local image choose the local file, specify the name of the new object, choose placement from list, optionally write some caption text (You can use simple html formating here) and then click &quot;Upload&quot; button.</source>
@@ -926,7 +927,7 @@ Vuoi maggiori informazioni sull&apos;argomento?</translation>
     </message>
     <message>
         <source>Insert a pagebreak. This button is only enabled if you have a custom tag named pagebreak, template code to handle pagebreaks is not included in Online Editor.</source>
-        <translation>Inserisce un intervallo di pagina.  Questo pulsante è attivo solo se hai una stringa personale chiamata intervallo di pagina, il codice di template per gestire gli intervalli di pagina non è incluso nell&apos;Online Editor.</translation>
+        <translation>Inserisce un intervallo di pagina. Questo pulsante è attivo solo se hai una stringa personale chiamata intervallo di pagina, il codice di template per gestire gli intervalli di pagina non è incluso nell&apos;Online Editor.</translation>
     </message>
     <message>
         <source>Insert a table at the selected position. Tables with their border set to 0 are displayed with a grey border color in the editor.</source>
