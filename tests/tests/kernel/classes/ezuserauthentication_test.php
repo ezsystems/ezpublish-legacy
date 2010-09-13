@@ -54,8 +54,8 @@ class eZUserAuthenticationTest extends ezpTestCase
             array( 'AVeryLongUsername', 'wîŧħAQuiteßécurePasswörð', 'ez.no', eZUser::PASSWORD_HASH_PLAINTEXT, false, 'wîŧħAQuiteßécurePasswörð' ),
             array( 'admin', 'password', 'ez.no', eZUser::PASSWORD_HASH_CRYPT, 'eZ', 'eZs4mEFLzDmhM' ),
             array( 'AVeryLongUsername', 'wîŧħAQuiteßécurePasswörð', 'ez.no', eZUser::PASSWORD_HASH_CRYPT, 'eZ', 'eZy.kI4RYkraM' ),
-            array( 'admin', 'password', 'ez.no', eZUser::PASSWORD_HASH_CRYPT, '_J9..eZSy', '_JL7mbBlf6rYs' ),
-            array( 'AVeryLongUsername', 'wîŧħAQuiteßécurePasswörð', 'ez.no', eZUser::PASSWORD_HASH_CRYPT, '_J9..eZSy', '_JW.wOSTIP/Ow' ),
+            array( 'admin', 'password', 'ez.no', eZUser::PASSWORD_HASH_CRYPT, '_J9..eZSy', '_J9..eZSycJPQweA2TGI' ),
+            array( 'AVeryLongUsername', 'wîŧħAQuiteßécurePasswörð', 'ez.no', eZUser::PASSWORD_HASH_CRYPT, '_J9..eZSy', '_J9..eZSy87emjM/dexI' ),
         );
     }
 
