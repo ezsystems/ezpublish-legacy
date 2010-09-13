@@ -958,13 +958,6 @@ class eZMailTest extends ezpTestCase
         $result = eZMailTransport::send( $mail );
         $this->assertFalse( $result );
 
-        // test plain
-        $ini = eZINI::instance( 'test_ezmail_plain.ini' );
-        $mailSetting = $ini->group( 'MailSettings' );
-        $siteINI->setVariables( array( 'MailSettings' => $mailSetting ) );
-        $mail->setSubject( 'EMAIL PLAIN TESTING' );
-        $this->assertTrue( $result );
-
         $siteINI->setVariables( array( 'MailSettings' => $backupSetting ) );
 
         //todo: delete the received mails in teardown.
