@@ -11,7 +11,14 @@ class eZDebugRegression extends ezpTestCase
 {
     protected function setUp()
     {
+        parent::setUp();
         $GLOBALS['eZDebugEnabled'] = true;
+    }
+
+    protected function tearDown()
+    {
+        $GLOBALS['eZDebugEnabled'] = false;
+        parent::tearDown();
     }
 
     /**
