@@ -81,9 +81,6 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
         $mainGroupObjId = $this->mainGroup->publish();
         $this->mainGroupNodeId = $this->mainGroup->mainNode->node_id;
 
-        echo "MainGroup\n";
-        print_r( $this->mainGroup );
-
         $starWarsGroup = new ezpObject( 'user_group', (int)($this->mainGroupNodeId) );
         $starWarsGroup->name = 'StarWars';
         $starWarsGroup->publish();
