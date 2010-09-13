@@ -1693,7 +1693,12 @@ class eZINI
         unset( $GLOBALS["eZINIGlobalInstance-$rootDir-$fileName-$useLocalOverrides"] );
     }
 
-    static function resetAllGlobals()
+    /**
+     * Reset all eZINI instances as well override dirs ( optional )
+     *
+     * @param bool $resetOverrideDirs Specify if you don't want to clear override dirs
+     */
+    static function resetAllGlobals( $resetGlobalOverrideDirs = true )
     {
         foreach ( array_keys( $GLOBALS ) as $key )
         {
@@ -1702,7 +1707,9 @@ class eZINI
                 unset( $GLOBALS[$key] );
             }
         }
-        self::resetGlobalOverrideDirs();
+
+        if ( $resetGlobalOverrideDirs )
+            self::resetGlobalOverrideDirs();
     }
 
     /// \privatesection
