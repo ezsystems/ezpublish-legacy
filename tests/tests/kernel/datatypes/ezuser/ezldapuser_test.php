@@ -53,7 +53,7 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
 
     public static function ldapIsEnabled()
     {
-        return function_exists( 'ldap_search' );
+        return extension_loaded( 'ldap' ) && ( gethostbyname( 'phpuc.ez.no' ) !== 'phpuc.ez.no' );
     }
 
     public function setUp()
@@ -80,6 +80,9 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
         $this->mainGroup->name = 'LDAP users';
         $mainGroupObjId = $this->mainGroup->publish();
         $this->mainGroupNodeId = $this->mainGroup->mainNode->node_id;
+
+        echo "MainGroup\n";
+        print_r( $this->mainGroup );
 
         $starWarsGroup = new ezpObject( 'user_group', (int)($this->mainGroupNodeId) );
         $starWarsGroup->name = 'StarWars';
