@@ -1032,9 +1032,6 @@ Vols rebre més informació al respecte?</translation>
     </message>
 </context>
 <context>
-    <name>design/standard/ezoe/contenttype</name>
-</context>
-<context>
     <name>design/standard/ezoe/handler</name>
     <message>
         <source>Object %1 does not exist.</source>

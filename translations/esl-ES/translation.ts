@@ -1032,9 +1032,6 @@ Do you want more information about this issue?</source>
     </message>
 </context>
 <context>
-    <name>design/standard/ezoe/contenttype</name>
-</context>
-<context>
     <name>design/standard/ezoe/handler</name>
     <message>
         <source>Some objects used in embed(-inline) tags have been deleted and are no longer available.</source>
