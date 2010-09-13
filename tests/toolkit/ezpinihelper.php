@@ -42,20 +42,22 @@ class ezpINIHelper
 
     /**
      * Restores all the INI settings previously modified using setINISetting
+     * and clear list of modifed ini settings
      *
      * @return void
      */
     public static function restoreINISettings()
     {
-        // restore each changed value
-        foreach ( self::$modifiedINISettings as $key => $values )
+        // restore each changed value in reverse order to be sure history is correct
+        foreach ( array_reverse( self::$modifiedINISettings ) as $key => $values )
         {
             list( $file, $block, $variable, $value ) = $values;
             $ini = eZINI::instance( $file );
             $ini->setVariable( $block, $variable, $value );
         }
+        self::$modifiedINISettings = array();
     }
-    
+
     /**
      * Changes multiple INI settings values using setINISetting
      * @param array $settings set of INI settings, as an array of 4 values

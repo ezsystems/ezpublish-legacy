@@ -245,13 +245,8 @@ class eZURLAliasMlRegression extends ezpDatabaseTestCase
         $nonAsciiNameURL = "Noñ-äcsíí-©ha®ß-ïn-ñámé-ウ…-" . $randomNumber;
 
         // Before we start set the correct URL transformation settings.
-        $ini = eZINI::instance();
-
-        $orginialWordSeparator = $ini->variable( 'URLTranslator', 'WordSeparator' );
-        $ini->setVariable( 'URLTranslator', 'WordSeparator', 'dash' );
-
-        $orginialTransformationGroup = $ini->variable( 'URLTranslator', 'TransformationGroup' );
-        $ini->setVariable( 'URLTranslator', 'TransformationGroup', 'urlalias_iri' );
+        ezpINIHelper::setINISetting( 'site.ini', 'URLTranslator', 'WordSeparator', 'dash' );
+        ezpINIHelper::setINISetting( 'site.ini', 'URLTranslator', 'TransformationGroup', 'urlalias_iri' );
 
         // STEP 1: Create test folder
         $folder = new ezpObject( "folder", 2 );
@@ -271,8 +266,7 @@ class eZURLAliasMlRegression extends ezpDatabaseTestCase
 
 
         // Restore ini settings to their original values
-        $ini->setVariable( 'URLTranslator', 'WordSeparator', $orginialWordSeparator );
-        $ini->setVariable( 'URLTranslator', 'TransformationGroup', $orginialTransformationGroup );
+        ezpINIHelper::restoreINISettings();
     }
 
     /**
@@ -911,9 +905,9 @@ class eZURLAliasMlRegression extends ezpDatabaseTestCase
      * 7. Rename "Root folder"
      *
      * @result: Fatal error: A database transaction in eZ Publish failed.
-     *          Query error: Duplicate entry '38-ec7cb3d81cfaafb249b33071c6c9e2be' 
+     *          Query error: Duplicate entry '38-ec7cb3d81cfaafb249b33071c6c9e2be'
      *          for key 1. Query: UPDATE ezurlalias_ml SET parent = 38 WHERE parent = 39
-     * @expected: No fatal error 
+     * @expected: No fatal error
      * @link http://issues.ez.no/12720
      */
     public function testTransactionErrorWhenEditingNode()
@@ -968,7 +962,7 @@ class eZURLAliasMlRegression extends ezpDatabaseTestCase
      * across multiple IDs, and children with various language masks did not
      * receive the correct parent id. Such a case with a split parent id, made
      * it impossible to handle this situation correctly.
-     * 
+     *
      * The fix constitutes of always creating the current entries for an action
      * in the same id.
      *
@@ -1069,12 +1063,12 @@ class eZURLAliasMlRegression extends ezpDatabaseTestCase
 
     /**
      * Helper method to validate the parent structure of url entries.
-     * 
+     *
      * This method will look at the parent references and validate this to the
      * actual id values of the parent entries.
-     * 
-     * @param array $nameTable 
-     * @param array $urlEntryData 
+     *
+     * @param array $nameTable
+     * @param array $urlEntryData
      */
     public static function verifyUrlEntryParentStructure( $nameTable, $urlEntryData )
     {
@@ -1140,8 +1134,8 @@ class eZURLAliasMlRegression extends ezpDatabaseTestCase
     /**
      * Helper method to fetch an url entry for a given text from a db result set.
      *
-     * @param string $name 
-     * @param array $urlEntryData 
+     * @param string $name
+     * @param array $urlEntryData
      */
     public static function urlEntryForName( $name, $urlEntryData )
     {
@@ -1173,7 +1167,7 @@ class eZURLAliasMlRegression extends ezpDatabaseTestCase
      *             language mask)
      * 6. VERIFY: That lang_mask has been downgraded for the orignal
      *            entry, and that a new entry for the new translation has been made.
-     * 
+     *
      * @link http://issues.ez.no/14787
      */
     function testURLAliasCombinedTranslationEntry()
@@ -1247,27 +1241,27 @@ class eZURLAliasMlRegression extends ezpDatabaseTestCase
         $child->name = "Child";
         $child->publish();
 
-        // Sub-sub children disabled for now, might be used in future, for 
+        // Sub-sub children disabled for now, might be used in future, for
         // further assertions.
         // // STEP 2a: Add a sub-sub child
         // $subChild1 = new ezpObject( 'article', $child->mainNode->node_id );
         // $subChild1->title = "SubChild";
         // $subChild1->publish();
-        // 
+        //
         // // STEP 2b: Add a sub-sub child
         // $subChild2 = new ezpObject( 'article', $child->mainNode->node_id );
         // $subChild2->title = "SubChildOther";
         // $subChild2->publish();
-        // 
+        //
         // // STEP 2ba: Adding sub-sub child translation
         // $norSubChild2Trans = array( "title" => "SubChildOtherNor" );
         // $subChild2->addTranslation( "nor-NO", $norSubChild2Trans );
-        // 
+        //
         // // STEP 2c: Add a sub-sub child
         // $subChild3 = new ezpObject( 'article', $child->mainNode->node_id );
         // $subChild3->title = "SubChildThird";
         // $subChild3->publish();
-        // 
+        //
         // // STEP 2ca: Addubg sub-sub child translation
         // $norSubChild3Trans = array( "title" => "SubChildThird" );
         // $subChild3->addTranslation( "nor-NO", $norSubChild3Trans );
@@ -1284,12 +1278,12 @@ class eZURLAliasMlRegression extends ezpDatabaseTestCase
         $norDataMap['name']->store();
         ezpObject::publishContentObject( $child->object, $newVersion );
 
-        // STEP 5: 
+        // STEP 5:
         $child->refresh();
         $child->name = "Renamed child";
         $child->publish();
 
-        // STEP 6: 
+        // STEP 6:
         $child->refresh();
         $child->name = "Child changed";
         $child->publish();
