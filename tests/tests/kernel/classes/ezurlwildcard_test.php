@@ -16,6 +16,7 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
      */
     public function setUp()
     {
+        parent::setUp();
         $ini = eZINI::instance( 'site.ini' );
         $this->iniBackup['implementationBackup'] = $ini->variable( 'DatabaseSettings', 'DatabaseImplementation' );
         $this->iniBackup['serverBackup'] = $ini->variable( 'DatabaseSettings', 'Server' );
@@ -23,8 +24,6 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
         $ini->setVariable( 'DatabaseSettings', 'DatabaseImplementation', 'ezmysqli' );
         $ini->setVariable( 'DatabaseSettings', 'Server', 'localhost' );
         $ini->setVariable( 'DatabaseSettings', 'Database', 'testdb' );
-
-        parent::setUp();
     }
 
     /**
@@ -96,30 +95,6 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
     }
 
     /**
-     * Tests the cleanup method
-     *
-     * Outline:
-     * 1. Create several wildcards, with various destination_url prefixes
-     * 2. Call cleanup with a prefix that matches most of the previously created wildcards
-     * 3. Check that the matching wildcards were removed and the non matching ones weren't
-     *
-     * @depends testFetch
-     **/
-    public function testCleanup()
-    {
-        // 1. Create a matching and non-matching wildcard entries
-        $matchingWildcard    = self::createWildcard( "testCleanup/*", '/', eZURLWildcard::TYPE_DIRECT );
-        $nonMatchingWildcard = self::createWildcard( "keepTestCleanup/*", '/', eZURLWildcard::TYPE_DIRECT );
-
-        // 2. Remove the wildcard prefixed with 'testCleanup'
-        eZURLWildcard::cleanup( 'testCleanup' );
-
-        // 3. Test if matching wildcards were removed, and non-matching ones were kept
-        $this->assertNull( eZURLWildcard::fetch( $matchingWildcard->attribute( 'id' ) ), "Matching wildcard still exists" );
-        $this->assertTrue( is_object( eZURLWildcard::fetch( $nonMatchingWildcard->attribute( 'id' ) ) ), "Non matching wildcard was removed" );
-    }
-
-    /**
      * Tests the fetchList method
      *
      * Outline:
@@ -169,6 +144,59 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
     }
 
     /**
+    * Test for the fetch method
+    *
+    * Outline:
+    * 1. Create a wildcard object
+    * 2. Fetch this object
+    * 3. Compare the values from the fetched object with the creation data
+    **/
+    public function testFetch()
+    {
+        // 1. Create a wildcard object
+        $wildcard = self::createWildcard(
+           $sourceURL = 'testFetch/*',
+           $destinationURL = '/',
+           $type = eZURLWildcard::TYPE_DIRECT );
+        $id = $wildcard->attribute( 'id' );
+        unset( $wildcard );
+
+        // 2. Fetch the created object by its ID
+        $fetchedWildcard = eZURLWildcard::fetch( $id );
+
+        // 3. Test the data
+        $this->assertTrue( is_object( $fetchedWildcard ), "Failed fetching the wildcard object by ID" );
+        $this->assertEquals( $sourceURL, $fetchedWildcard->attribute( 'source_url' ) );
+        $this->assertEquals( $destinationURL, $fetchedWildcard->attribute( 'destination_url' ) );
+        $this->assertEquals( $type, $fetchedWildcard->attribute( 'type' ) );
+        $this->assertEquals( $id, $fetchedWildcard->attribute( 'id' ) );
+    }
+
+    /**
+     * Tests the cleanup method
+     *
+     * Outline:
+     * 1. Create several wildcards, with various destination_url prefixes
+     * 2. Call cleanup with a prefix that matches most of the previously created wildcards
+     * 3. Check that the matching wildcards were removed and the non matching ones weren't
+     *
+     * @depends testFetch
+     **/
+    public function testCleanup()
+    {
+        // 1. Create a matching and non-matching wildcard entries
+        $matchingWildcard    = self::createWildcard( "testCleanup/*", '/', eZURLWildcard::TYPE_DIRECT );
+        $nonMatchingWildcard = self::createWildcard( "keepTestCleanup/*", '/', eZURLWildcard::TYPE_DIRECT );
+
+        // 2. Remove the wildcard prefixed with 'testCleanup'
+        eZURLWildcard::cleanup( 'testCleanup' );
+
+        // 3. Test if matching wildcards were removed, and non-matching ones were kept
+        $this->assertNull( eZURLWildcard::fetch( $matchingWildcard->attribute( 'id' ) ), "Matching wildcard still exists" );
+        $this->assertTrue( is_object( eZURLWildcard::fetch( $nonMatchingWildcard->attribute( 'id' ) ) ), "Non matching wildcard was removed" );
+    }
+
+    /**
     * Tests the removeByIDs method
     *
     * Outline:
@@ -203,34 +231,6 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
             $this->assertTrue( is_object( eZURLWildcard::fetch( $wildcardID ) ), "A kept wildcard entry no longer exists" );
     }
 
-    /**
-    * Test for the fetch method
-    *
-    * Outline:
-    * 1. Create a wildcard object
-    * 2. Fetch this object
-    * 3. Compare the values from the fetched object with the creation data
-    **/
-    public function testFetch()
-    {
-        // 1. Create a wildcard object
-        $wildcard = self::createWildcard(
-           $sourceURL = 'testFetch/*',
-           $destinationURL = '/',
-           $type = eZURLWildcard::TYPE_DIRECT );
-        $id = $wildcard->attribute( 'id' );
-        unset( $wildcard );
-
-        // 2. Fetch the created object by its ID
-        $fetchedWildcard = eZURLWildcard::fetch( $id );
-
-        // 3. Test the data
-        $this->assertTrue( is_object( $fetchedWildcard ), "Failed fetching the wildcard object by ID" );
-        $this->assertEquals( $sourceURL, $fetchedWildcard->attribute( 'source_url' ) );
-        $this->assertEquals( $destinationURL, $fetchedWildcard->attribute( 'destination_url' ) );
-        $this->assertEquals( $type, $fetchedWildcard->attribute( 'type' ) );
-        $this->assertEquals( $id, $fetchedWildcard->attribute( 'id' ) );
-    }
 
     /**
     * Test for the fetchBySourceURL method
@@ -328,8 +328,6 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
     * 2. Check that it is not expired
     * 3. Call expireCache
     * 4. Check that the cache is expired
-    *
-    * @depends testExpireCache
     **/
     public function testExpireCache()
     {
