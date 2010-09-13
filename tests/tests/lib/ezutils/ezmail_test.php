@@ -421,7 +421,7 @@ class eZMailTest extends ezpTestCase
     public static function getTestAccounts()
     {
         $ini = eZINI::instance( 'test_ezmail_plain.ini' );
-        $testAccounts = $ini->variable( 'TestAccounts', 'Account' );
+        $testAccounts = $ini->hasVariable( 'TestAccounts', 'Account' ) ? $ini->variable( 'TestAccounts', 'Account' ) : array();
         $accountResult = array();
         foreach( $testAccounts as $account )
         {
@@ -435,6 +435,9 @@ class eZMailTest extends ezpTestCase
     {
         $users = self::getTestAccounts();
         $endl = "\r\n";
+
+        if ( empty( $users ) )
+            return array( array() );
 
         /*
             Each entry in this array is an array consisting of two arrays.
