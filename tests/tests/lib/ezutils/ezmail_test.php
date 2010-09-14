@@ -437,7 +437,7 @@ class eZMailTest extends ezpTestCase
         $endl = "\r\n";
 
         if ( empty( $users ) )
-            return array( array() );
+            return array( array( '', '' ) );
 
         /*
             Each entry in this array is an array consisting of two arrays.
@@ -747,6 +747,10 @@ class eZMailTest extends ezpTestCase
      */
     public function testSendEmail( $sendData, $expectedResult )
     {
+        if( empty( $sendData ) )
+        {
+            $this->markTestSkipped( 'No $sendData from data provider.' );
+        }
         if ( !self::imapIsEnabled() )
         {
             $this->markTestSkipped( 'IMAP is not loaded' );
