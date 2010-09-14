@@ -58,19 +58,19 @@
 {* Old password. *}
 <div class="block">
 <label>{'Old password'|i18n( 'design/admin/user/password' )}:</label>
-<input class="halfbox" id="pass" type="password" name="oldPassword" value="{$oldPassword}" />
+<input class="halfbox" id="pass" type="password" name="oldPassword" value="{$oldPassword|wash}" />
 </div>
 
 {* New password. *}
 <div class="block">
 <label>{'New password'|i18n( 'design/admin/user/password' )}:</label>
-<input class="halfbox" type="password" name="newPassword" value="{$newPassword}" />
+<input class="halfbox" type="password" name="newPassword" value="{$newPassword|wash}" />
 </div>
 
 {* Confirm new password. *}
 <div class="block">
 <label>{'Confirm new password'|i18n( 'design/admin/user/password' )}:</label>
-<input class="halfbox" type="password" name="confirmPassword" value="{$confirmPassword}" />
+<input class="halfbox" type="password" name="confirmPassword" value="{$confirmPassword|wash}" />
 </div>
 
 </div>
