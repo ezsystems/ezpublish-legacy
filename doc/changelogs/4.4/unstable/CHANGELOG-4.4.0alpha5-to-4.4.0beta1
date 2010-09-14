@@ -14,7 +14,7 @@ Changes from 4.4.0alpha5 to 4.4.0beta1
 - Implemented enhancement #017081: Provide a simple api to load siteaccess globally & on ini instance
 - Implemented enhancement #017082: Clean-up ini loading inconsistency regarding ActiveAccessExtensions SA
 - Implemented enhancement #017087: Mixing of html and text within a single email for a digest mail
-- Implemented enhancement #017092: Use SessionTimeout in eZSessionHandlerPHP to avoid 24 min by default
+- Implemented enhancement #017092: Use SessionTimeout in ezpSessionHandlerPHP to avoid 24 min by default
 
 *Design:
 

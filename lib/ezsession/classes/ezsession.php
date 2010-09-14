@@ -93,7 +93,7 @@ class eZSession
     /**
      * Current session handler or false, see {@link eZSession::getHandlerInstance()}.
      *
-     * @var eZSessionHandler|null
+     * @var ezpSessionHandler|null
      */
     static protected $handlerInstance = null;
 
@@ -107,7 +107,7 @@ class eZSession
     /**
      * Get session value (wrapper)
      *
-     * @param string|null $key Return the whole session array if null
+     * @param string|null $key Return the whole session array if null otherwise the value of $key
      * @param null|mixed $defaultValue Return this if not null and session has not started
      * @return mixed|null $defaultValue if key does not exist, otherwise session value depending on $key
      */
@@ -168,7 +168,8 @@ class eZSession
      *
      * @param string $key
      * @param bool $forceStart Force session start if true
-     * @return bool|null True if value was removed, false if it did not exist
+     * @return bool|null True if value was removed, false if it did not exist and
+     *                   null if session is not started and $forceStart is false
      */
     static public function unsetkey( $key, $forceStart = true )
     {
@@ -424,9 +425,9 @@ class eZSession
     }
 
     /**
-     * Sets the current userID used by eZSessionHandlerDB::write() on shutdown.
+     * Sets the current userID used by ezpSessionHandlerDB::write() on shutdown.
      *
-     * @param int $userID to use in {@link eZSessionHandlerDB::write()}
+     * @param int $userID to use in {@link ezpSessionHandlerDB::write()}
      */
     static public function setUserID( $userID )
     {
@@ -478,7 +479,7 @@ class eZSession
     /**
      * Get curren session handler
      *
-     * @return eZSessionHandler
+     * @return ezpSessionHandler
      */
     static public function getHandlerInstance()
     {
@@ -495,9 +496,9 @@ class eZSession
                 $options = new ezpExtensionOptions( $optionArray );
                 self::$handlerInstance = eZExtension::getHandlerClass( $options );
             }
-            if ( !self::$handlerInstance instanceof eZSessionHandler )
+            if ( !self::$handlerInstance instanceof ezpSessionHandler )
             {
-                self::$handlerInstance = new eZSessionHandlerPHP( self::$hasSessionCookie );
+                self::$handlerInstance = new ezpSessionHandlerPHP( self::$hasSessionCookie );
             }
         }
         return self::$handlerInstance;

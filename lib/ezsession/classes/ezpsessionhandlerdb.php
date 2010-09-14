@@ -14,7 +14,7 @@
  * @package lib
  * @subpackage ezsession
  */
-class eZSessionHandlerDB extends eZSessionHandler
+class ezpSessionHandlerDB extends ezpSessionHandler
 {
     // Seconds before timeout occurs that gc function stops to make sure request completes
     const GC_TIMEOUT_MARGIN = 5;

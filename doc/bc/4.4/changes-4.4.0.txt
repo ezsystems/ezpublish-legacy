@@ -38,7 +38,7 @@ Change of behavior
 
   This makes all fetch functions that is related to logged in users to not work, and it's not longer
   possible nor needed to clear/expire sessions from admin interface or command line interface.
-  To get old behavoir back, enable db handler by setting site.ini/Session.Handler to eZSessionHandlerDB
+  To get old behavoir back, enable db handler by setting site.ini/Session.Handler to ezpSessionHandlerDB
 
 
 - eZExtension::activateExtensions()

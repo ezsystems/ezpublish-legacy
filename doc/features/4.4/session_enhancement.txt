@@ -1,0 +1,109 @@
+eZSession enhancements in eZ Publish 4.4
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+=====
+Intro
+=====
+
+eZSession has gotten a few changes in this version to:
+
+ 1. Support session handlers
+ 2. Changed to use PHP native session handler by default for performance
+ 3. Support session less anonymous users using session lazy starting
+
+This has caused several changes in the kernel, things to look out for:
+
+ - Cluster: You need to setup sessions to be shared across application servers,
+   easiest way is to use provided DB handler: ezpSessionHandlerDB
+
+ - Debian based Linux distros(incl Ubuntu): These Linux distributions tend to use
+   their own session gc approach with a cronjob. maxliftime (/usr/lib/php5/maxlifetime)
+   only reads session.gc_maxlifetime using /etc/php5/*/php.ini. Meaning you'll need to place
+   this setting in for instance /etc/php5/apache2/php.ini or /etc/php5/conf.d/php.ini to 
+   something way higher then the default 1440 (24 minutes). For instance 259200 (72 hours)
+   which is the default value of site.ini\[Session]\SessionTimeout as used by DB session handler.
+
+ - Directly usage of $_SESSION: This has always been un-recommended but possible, now it is not.
+   Any direct calls to this variable will cause errors if session has not started yet, and hence
+   you should either use api that always been there (eZHTTPTool), or the new one provided by
+   eZSession (see "Anonymous Sessions" for examples).
+
+ - Additional bc related breaks are listed in doc/bc/4.4/
+
+
+================
+Session handlers
+================
+
+Session handlers are classes that extends ezpSessionHandler (lib/ezsession/classes/ezpsessionhandler.php).
+If you intend to create your own session handler, make sure you look at that and also take a look at how
+this is implemented in practice in php and db handler in the same folder.
+
+For changing session handler, remember that all users will loose their session and will have to log in again.
+The setting involved is site.ini\[Session]\Handler, it uses the autoload system so make sure the class you specify
+is correct and you have regenerated autoloads if you have added your own session handler.
+
+============================
+Native (PHP) Session handler
+============================
+
+This is the handler now used by default, it lets php handle the session, thus lets you freely use any PHP session
+handlers (session.save_handler) available. The default is 'files', meaning sessions are stored in files.
+There is also Memcached based session handlers in the Memcache & Memcached php extensions. You are free to try them
+out, but we have not been able to test these yet so make sure you set it up with redundancy in mind so sessions aren't
+cleared when memecache runs out of memory. And if possible when its updated or restarted.
+
+
+==================
+Anonymous Sessions
+==================
+
+Anonymous sessions are implemented as backwards compatible as possible using lazy loading of session.
+Meaning if current user does not have a session cookie, or session data in post variables (as used by
+ezmultiupload to workaround flash cookie issues) session will no start UNLESS some code tries to access
+session variables.
+
+For extension / kernel developers:
+This means that to take advantage of this and not cause sessions to start by your own code, you'll need to
+do some changes. There are two alternatives:
+
+ - Using eZSession::hasStarted() and support older versions of eZ Publish 4:
+
+       if ( !class_exists('eZSession',false) || !method_exists('eZSession','hasStarted') || eZSession::hasStarted() )
+       {
+           // use session as normal using eZHTTPTool
+       }
+       else
+       {
+           // optionally get default values for anonymous users
+       }
+
+ - Using eZSession api directly on 4.4+ (from the inline phpdoc):
+
+        /**
+         * Get session value (wrapper)
+         *
+         * @param string|null $key Return the whole session array if null otherwise the value of $key
+         * @param null|mixed $defaultValue Return this if not null and session has not started
+         * @return mixed|null $defaultValue if key does not exist, otherwise session value depending on $key
+         */
+        static public function &get( $key = null, $defaultValue = null )
+
+        /**
+         * Isset session value (wrapper)
+         *
+         * @param string $key
+         * @param bool $forceStart Force session start if true
+         * @return bool|null Null if session has not started and $forceStart is false
+         */
+        static public function issetkey( $key, $forceStart = true )
+
+        /**
+         * unset session value (wrapper)
+         *
+         * @param string $key
+         * @param bool $forceStart Force session start if true
+         * @return bool|null True if value was removed, false if it did not exist and
+         *                   null if session is not started and $forceStart is false
+         */
+        static public function unsetkey( $key, $forceStart = true )
