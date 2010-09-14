@@ -29,6 +29,9 @@ function init() {
 		if (!p.getInfo)
 			return;
 
+        if ( !p.getInfo() )
+			return;
+
 		html += '<tr>';
 
 		info = p.getInfo();
