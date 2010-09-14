@@ -15,4 +15,5 @@ Changes from 4.4.0beta3 to 4.4.0rc1
 *Translations:
 
 *Bugfixes:
+- Fixed bug #017211: Fix html stripping in password field
 
