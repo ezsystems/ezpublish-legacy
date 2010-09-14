@@ -88,7 +88,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                   'sub' => 'sub'
                   );
 
-     /**
+    /**
      * List of template callable attributes
      *
      * @return array
@@ -108,7 +108,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                       parent::attributes() );
     }
 
-     /**
+    /**
      * Function used by template system to call ezoe functions
      *
      * @param string $name
