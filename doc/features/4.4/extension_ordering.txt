@@ -4,14 +4,14 @@ Extension ordering
 Intro
 -----
 
-In eZ Publish 4.4, there is a mechanism that enables extensions to define
+In eZ Publish 4.4, a mechanism has been added that enables extensions to define
 in which order they should be loaded in regards to other, related, extensions.
 
 Requirements
 ------------
 
 For this mechanism to be active, extensions should be recent enough to contain
-the needed metadata which are stored into a *loading.php* file contained at
+the needed metadata which are stored into a *extension.xml* file contained at
 the root directory of the extension.
 
 Configuration
@@ -39,3 +39,20 @@ This cache can be cleared in multiple ways:
 - By clearing this specific cache from the command line using ``bin/php/ezcache.php --clear-id=active_extensions``
 
 This will be done automatically when enabling the extension from the ``setup/extensions`` GUI.
+
+extension.xml syntax
+--------------------
+This file contains three types of ordering informations, semantically formatted as dependency informations instead.
+This is on purpose, as this wider syntax will let us implement extension inter-dependancies without requiring any
+change to this file's syntax.
+
+Load ordering nodes are to be
+
+* *dependsOn*: indicates that this extension depends on the documented extension to run. Strong dependency.
+  Interpreted as 'after' in the loading.php implementation
+* *uses*: indicates that this extension uses features from the documented extension to run. Weak dependency.
+  Interpreted as 'after' as well in the loading.php implementation
+* *extends*: indicates that this extension overrides some features (usually design, also settings) from the documented
+  one. Interpreted as 'before' in the loading.php implementation.
+
+See doc/features/4.4/extension_xml.txt for a complete example.
