@@ -39,12 +39,8 @@ var sortableSubitems = function () {
         }
 
         var customMenu = function(cell, rec, column, data) {
-            if (rec.getData('can_edit') === false) {
-                cell.innerHTML = '<div class="crankfield-disabled"></div>';
-            } else {
-                var createhereMenu = (confObj.classesString != '') ? -1 : "\'child-menu-create-here\'";
-                cell.innerHTML = '<a href="#" onclick="ezpopmenu_showTopLevel(event, \'SubitemsContextMenu\', \{\'%nodeID%\':' + rec.getData('node_id') + ',\'%objectID%\':' + rec.getData('contentobject_id') + ',\'%version%\':' + rec.getData('version') + ',\'%languages%\':' + confObj.languagesString + ',\'%classList%\':' + confObj.classesString + '\ }, \'' + rec.getData('name') + '\', ' + rec.getData('node_id') + ', ' + createhereMenu + '); return false;"><div class="crankfield"></div></a>';
-            }
+            var createhereMenu = (confObj.classesString != '') ? -1 : "\'child-menu-create-here\'";
+            cell.innerHTML = '<a href="#" onclick="ezpopmenu_showTopLevel(event, \'SubitemsContextMenu\', \{\'%nodeID%\':' + rec.getData('node_id') + ',\'%objectID%\':' + rec.getData('contentobject_id') + ',\'%version%\':' + rec.getData('version') + ',\'%languages%\':' + confObj.languagesString + ',\'%classList%\':' + confObj.classesString + '\ }, \'' + rec.getData('name') + '\', ' + rec.getData('node_id') + ', ' + createhereMenu + '); return false;"><div class="crankfield"></div></a>';
         }
 
         var thumbView = function(cell, record, column, data) {
