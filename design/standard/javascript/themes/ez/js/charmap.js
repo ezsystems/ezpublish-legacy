@@ -8,7 +8,7 @@
  * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
-tinyMCEPopup.requireLangPack();
+//tinyMCEPopup.requireLangPack();
 
 var charmap = [
 	['&nbsp;',    '&#160;',  true, 'no-break space'],

@@ -1,4 +1,4 @@
-tinyMCEPopup.requireLangPack();
+//tinyMCEPopup.requireLangPack();
 tinyMCEPopup.onInit.add(onLoadInit);
 
 function saveContent() {

@@ -1,4 +1,4 @@
-tinyMCEPopup.requireLangPack();
+//tinyMCEPopup.requireLangPack();
 
 var detail = 50, strhex = "0123456789abcdef", i, isMouseDown = false, isMouseOver = false;
 
