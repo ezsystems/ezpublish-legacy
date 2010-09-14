@@ -245,7 +245,11 @@ var eZOEPopupUtils = {
         if ( s.editorElement )
         {
             if ( s.tagAttributeEditor )
-                s.editorElement = s.tagAttributeEditor.call( eZOEPopupUtils, ed, s.editorElement, args );
+            {
+                n = s.tagAttributeEditor.call( eZOEPopupUtils, ed, s.editorElement, args );
+                if ( n && n.nodeName )
+                    s.editorElement = n;
+            }
             else
                 ed.dom.setAttribs( s.editorElement, args );
 
