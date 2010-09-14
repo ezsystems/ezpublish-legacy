@@ -18,7 +18,7 @@ MINOR=4
 RELEASE=0
 # Starts at 1 for the first release in a branch and increases with one
 REAL_RELEASE=1
-STATE="rc1"
+STATE=""
 VERSION=$MAJOR"."$MINOR"."$RELEASE""$STATE
 VERSION_ONLY=$MAJOR"."$MINOR
 BRANCH_VERSION=$MAJOR"."$MINOR
@@ -31,7 +31,7 @@ DEVELOPMENT="true"
 DEVELOPMENT_PREVIOUS="true"
 # Is only true when the release is a final release (ie. the first of the stable ones)
 # Will be automatically set to true when $RELEASE is 0 and $DEVELOPMENT is false
-FINAL="false"
+FINAL="true"
 # If non-empty the script will check for changelog and db update from $LAST_STABLE
 # NOTE: Don't use this anymore
 FIRST_STABLE=""
