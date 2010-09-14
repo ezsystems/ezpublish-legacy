@@ -1,0 +1,74 @@
+Host URI siteacces matching in eZ Publish 4.4
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+=====
+Intro
+=====
+
+Host uri gives you access to match on both host and uri
+in the same expression. Meaning you can do multisite setups like this:
+
+example.com    -> go to example_eng
+example.com/en -> go to example_eng
+example.com/no -> go to example_nor
+
+page2.com    -> go to page2_nor
+page2.com/no -> go to page2_nor
+page2.com/en -> go to page2_eng
+
+Note: For cache efficiency (eZ Publish & reverse proxy) it is recommended to use Apache/httpd server
+rewrite rules / redirects to redirect e.g. example.com to example.com/en if you really
+want both to use the same siteaccess, and thus also avoid having matching rules for both.
+
+There where some refactoring done to siteaccess code while implementing this feature.
+For deprecated / changed functionality, see doc/bc/4.4.
+For new api to load siteaccess settings from other siteaccesses see ini_enhancments.txt
+
+
+============
+Settings doc
+============
+
+All settings related to this feature are in site.ini\[SiteAccessSettings]
+
+ - MatchOrder
+
+   This setting is extended to allow host_uri as matching type.
+   host_uri can be chained like any other matching type like:
+   MatchOrder=servervar;host_uri;port
+
+ - HostUriMatchMapItems[]=hostname;urlmatch;accessname[;start|end|part|strict]
+
+   This is a new setting that consist of the matching rules for host_uri.
+   urlmatch is optional, thus you can do host matching with this feature as well.
+   Last part defines how host matching should be performed, default is strict and
+   means that it equals. For more info on the others see
+   site.ini\[SiteAccessSettings]\HostUriMatchMapItems
+
+ - HostUriMatchMethodDefault=strict
+
+   Defines the default host matching for host_uri. Like above, look in
+   site.ini\[SiteAccessSettings]\HostUriMatchMethodDefault for info.
+
+
+=============
+Example setup
+=============
+
+The settings needed to set up example in intro above, would be:
+
+[SiteAccessSettings]
+
+MatchOrder=host_uri
+
+HostUriMatchMapItems[]=example.com;en;examle_eng
+HostUriMatchMapItems[]=example.com;no;examle_nor
+HostUriMatchMapItems[]=example.com;;examle_eng
+HostUriMatchMapItems[]=page2.com;no;page2_nor
+HostUriMatchMapItems[]=page2.com;en;page2_eng
+HostUriMatchMapItems[]=page2.com;;page2_nor
+
+
+In the above example we take advantage of having empty url to match just host name.
+This needs to be after the matches with host and uri, so that they are considered as well
+
