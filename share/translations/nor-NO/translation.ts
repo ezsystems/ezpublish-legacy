@@ -396,11 +396,11 @@
     </message>
     <message>
         <source>Edit &lt;%class_name&gt; (%object_count objects)</source>
-        <translation>Rediger &lt;%class_name&gt; (%object_count objects)</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The draft of the class definition was successfully stored.</source>
-        <translation>Utkastet til klassedefinisjonen ble lagret.</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1627,23 +1627,23 @@
     </message>
     <message>
         <source>Year</source>
-        <translation>År</translation>
+        <translation type="unfinished">År</translation>
     </message>
     <message>
         <source>Month</source>
-        <translation>Måned</translation>
+        <translation type="unfinished">Måned</translation>
     </message>
     <message>
         <source>Day</source>
-        <translation>Dag</translation>
+        <translation type="unfinished">Dag</translation>
     </message>
     <message>
         <source>Hour</source>
-        <translation>Time</translation>
+        <translation type="unfinished">Time</translation>
     </message>
     <message>
         <source>Minute</source>
-        <translation>Minutt</translation>
+        <translation type="unfinished">Minutt</translation>
     </message>
 </context>
 <context>
@@ -5182,11 +5182,11 @@
     </message>
     <message>
         <source>Pending sub-object</source>
-        <translation>Venter på underobjekt</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Removal failed because there is pending sub object under the node. Please finish the relevant process then redo the removal.</source>
-        <translation>Objektet kan ikke fjernes fordi det er satt status &quot;Venter på underobjekt&quot; på noden. Fullfør den ventende prosessen og forsøk å fjerne på nytt.</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6055,87 +6055,87 @@
     </message>
     <message>
         <source>Tab is disabled, enable with toggler to the left of these tabs.</source>
-        <translation>Tab er slått av. Aktiver med bryter til venstre for aktuelle tabs.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Vis</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Show simplified view of content.</source>
-        <translation>Forenklet innholdsvisning.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Ordering</source>
-        <translation>Rekkefølge</translation>
+        <translation type="unfinished">Rekkefølge</translation>
     </message>
     <message>
         <source>Show published ordering overview.</source>
-        <translation>Vis publisert rekkefølge.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Loading ...</source>
-        <translation>Laster...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Node remote ID</source>
-        <translation>Node remote ID</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Object remote ID</source>
-        <translation>Objekt remote ID</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Table options</source>
-        <translation>Valg for tabell</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Number of items per page:</source>
-        <translation>Antall elementer pr side:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Visible table columns:</source>
-        <translation>Synlige tabellkolonner:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Select</source>
-        <translation>Velg</translation>
+        <translation type="unfinished">Velg</translation>
     </message>
     <message>
         <source>Select all visible</source>
-        <translation>Velg alle synlige</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Select none</source>
-        <translation>Velg ingen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Create new</source>
-        <translation>Lag ny</translation>
+        <translation type="unfinished">Lag ny</translation>
     </message>
     <message>
         <source>More actions</source>
-        <translation>Flere valg</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Use the checkboxes to select one or more items.</source>
-        <translation>Kryss av i boksene for å velge en eller flere elementer.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>first</source>
-        <translation>første</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>prev</source>
-        <translation>forrige</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>next</source>
-        <translation>neste</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>last</source>
-        <translation>siste</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6932,7 +6932,7 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>User preferences</source>
-        <translation>Brukerinnstillinger</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7139,19 +7139,19 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Enable &amp;quot;Tabs&amp;quot; by default  while browsing content.</source>
-        <translation>Aktiver &amp;quot;Tabs&amp;quot; (som standard) når man blar igjennom innhold.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Disable &amp;quot;Tabs&amp;quot; by default  while browsing content.</source>
-        <translation>Deaktiver &amp;quot;Tabs&amp;quot; (som standard) når man blar igjennom innhold.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Enable &amp;quot;Tabs&amp;quot; by default while browsing content.</source>
-        <translation>Aktiver &amp;quot;Tab&amp;quot; (som standard) når man blar igjennom innhold.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Disable &amp;quot;Tabs&amp;quot; by default while browsing content.</source>
-        <translation>Deaktiver &amp;quot;Tabs&amp;quot; (som standard) når man blar igjennom innhold.</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7714,11 +7714,7 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Sitemap for subtree</source>
-        <translation>Nettstedskart for undertre</translation>
-    </message>
-    <message>
-        <source>Preview</source>
-        <translation>Forhåndsvis</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7772,10 +7768,6 @@ Note: The packages will not be uninstalled.</source>
     <message>
         <source>Your email address</source>
         <translation>Din e-postadresse</translation>
-    </message>
-    <message>
-        <source>Your name</source>
-        <translation>Ditt navn</translation>
     </message>
 </context>
 <context>
@@ -9123,23 +9115,23 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Identifier can not be empty</source>
-        <translation>Identifikator kan ikke være tom</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Identifier should consist of letters, numbers or &apos;_&apos; with letter prefix.</source>
-        <translation>Identifikator kan bestå av bokstaver, tall eller &apos;_&apos; med bokstav prefix.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The identifier has been used in another section.</source>
-        <translation>Identifikatoren har blitt brukt i en annen seksjon.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Section edit error</source>
-        <translation>Feil ved redigering av seksjon</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Identifier</source>
-        <translation>Identifikator</translation>
+        <translation type="unfinished">Identifikator</translation>
     </message>
 </context>
 <context>
@@ -9214,7 +9206,7 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Identifier</source>
-        <translation>Identifikator</translation>
+        <translation type="unfinished">Identifikator</translation>
     </message>
 </context>
 <context>
@@ -9301,7 +9293,7 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Identifier</source>
-        <translation>Identifikator</translation>
+        <translation type="unfinished">Identifikator</translation>
     </message>
 </context>
 <context>
@@ -9784,11 +9776,11 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Activate or deactivate extension. Use the &quot;Update&quot; button to apply the changes.</source>
-        <translation>Aktiver eller deaktiver utvidelsen. Bruk &quot;Aktiver endringer&quot; knappen for å aktivere endringene.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Update</source>
-        <translation>Oppdater</translation>
+        <translation type="unfinished">Oppdater</translation>
     </message>
 </context>
 <context>
@@ -10389,7 +10381,7 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>The operation was cut short in order to avoid execution timeout.</source>
-        <translation>Operasjonen ble avsluttet før tiden for å unngå tidsavbrudd.</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -12211,7 +12203,7 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Save changes to this state.</source>
-        <translation>Lagre endringer av denne tilstanden.</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -15097,16 +15089,15 @@ your account.</source>
     </message>
     <message>
         <source>Html5 Video</source>
-        <translatorcomment>Html5 Audio</translatorcomment>
-        <translation>Html5 Video</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Html5 Audio</source>
-        <translation>Html5 Audio</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>second(s)</source>
-        <translation>sekund(er)</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -16582,27 +16573,27 @@ Hvis du vil sende en kommentar til den som skal godkjenne, eller se på status, 
     </message>
     <message>
         <source>The related objects will be edited in the same language as this object. If such translations do not exist they will be created, based on the source language of your choice.</source>
-        <translation>Relaterte objekter vil bli redigert på samme språk som dette objektet. Dersom oversettelsene ikke finnes vil de bli opprettet, basert på ditt valgte kildespråk.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Translation base</source>
-        <translation>Basis for oversettelse</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>This object is already translated, the existing translation will be used.</source>
-        <translation>Dette objektet er allerede oversatt, eksisterende oversettelse vil benyttes.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>This object is not translated, please select the language the new translation will be based on.</source>
-        <translation>Dette objektet er ikke oversatt, vennligst velg hvilket språk den nye oversettelsen vil baseres på.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Your browser does not support html5 video.</source>
-        <translation>Din nettleser støtter ikke html5 video.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Your browser does not support html5 audio.</source>
-        <translation>Din nettleser støtter ikke html5 audio.</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -21024,15 +21015,15 @@ Standardkoden ble laget på grunnlag av parameterne du valgte.</translation>
     <name>design/standard/setup/db</name>
     <message>
         <source>If you are having problems connecting to your database you should take a look at</source>
-        <translation type="unfinished">Hvos du har problemer med tilkoblingen til din database burde du se på</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>at</source>
-        <translation type="unfinished">på</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>MySQL</source>
-        <translation type="unfinished">MySQL</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Introduction</source>
@@ -21040,15 +21031,15 @@ Standardkoden ble laget på grunnlag av parameterne du valgte.</translation>
     </message>
     <message>
         <source>MySQL is a database management system created by MySQL AB.</source>
-        <translation type="unfinished">MySQL er et databasesystem utviklet av MySQL AB.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>MySQL is the world&apos;s most popular Open Source Database, designed for speed, power and precision in mission critical, heavy load use.</source>
-        <translation type="unfinished">MySQL er verdens mest populære database basert på åpen kildekode, designet for hastighet, kraft og presisjon i forretningskritiske og krevende bruksområder.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>More information can be found on</source>
-        <translation type="unfinished">Mer informasjon finnes på</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Details</source>
@@ -21056,11 +21047,11 @@ Standardkoden ble laget på grunnlag av parameterne du valgte.</translation>
     </message>
     <message>
         <source>Installation</source>
-        <translation type="unfinished">Installasjon</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>By using the</source>
-        <translation type="unfinished">Ved å bruke</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>configuration option you enable PHP to access MySQL databases. If you use this option without specifying the path to MySQL, PHP will use the built-in MySQL client libraries.</source>
@@ -22659,11 +22650,11 @@ This functionality is also available at a later time from the Administration Int
     </message>
     <message>
         <source>The operation was cut short in order to avoid execution timeout.</source>
-        <translation>Operasjonen ble avsluttet før tiden for å unngå tidsavbrudd.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Your current session handler does not support session administration.</source>
-        <translation>Din nåværende sesjonshåndterer støtter ikke sesjonsadministrasjon.</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -25585,11 +25576,11 @@ Følg veiledningen i den e-posten for å aktivere kontoen din.</translation>
     </message>
     <message>
         <source>Active extensions cache</source>
-        <translation>Aktiv cache for utvidelser</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>TS Translation cache</source>
-        <translation>TS oversettelsescache</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -26610,7 +26601,7 @@ Følg veiledningen i den e-posten for å aktivere kontoen din.</translation>
     </message>
     <message>
         <source>The receiver has already received the maximum number of tipafriend mails the last hours</source>
-        <translation>Mottakeren har allerede mottatt maksimalt tillatt antall &quot;Tips en venn&quot;-e-poster de siste timene</translation>
+        <translation>Mottakeren har allerede mottatt maksimalt tillatt antall &quot;Tips en venn&quot;-mailer de siste timene</translation>
     </message>
     <message>
         <source>Error</source>
@@ -26630,7 +26621,7 @@ Følg veiledningen i den e-posten for å aktivere kontoen din.</translation>
     </message>
     <message>
         <source>You have already sent a tipafriend mail to this receiver regarding &apos;%1&apos; content</source>
-        <translation>Du har allerede sendt en &quot;Tips en venn&quot;-e-post til denne mottakeren angående innholdet &apos;%1&apos;</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -26697,7 +26688,7 @@ Følg veiledningen i den e-posten for å aktivere kontoen din.</translation>
     </message>
     <message>
         <source>Cannot publish object (Name: %1, ID: %2).</source>
-        <translation>Kan ikke publisere objekt (Navn: %1, ID: %2).</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
