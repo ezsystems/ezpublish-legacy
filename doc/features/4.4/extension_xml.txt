@@ -1,0 +1,85 @@
+=============
+extension.xml
+=============
+
+Introduction
+============
+
+Introduced in eZ Publish Fuji (4.4), this file replaces the previous ezinfo.php file that contained extension metadata.
+This XML file contains the same information, plus dependency / ordering ones.
+
+Structure
+=========
+This file can be placed at the root of any extension, and will be parsed by the system. Metadata are among others used
+in ezinfo/about, and ordering informations will be used to make sure extensions are loaded in the correct order.
+
+Example
+=======
+This is the file `http://svn.projects.ez.no/ezoe/trunk/ezoe/extension.xml`::
+
+    <?xml version="1.0" encoding="utf-8" ?>
+    <software>
+        <metadata>
+            <name>eZ Online Editor</name>
+            <version>5.2.0beta3</version>
+            <copyright>Copyright (C) 1999-2010 eZ Systems AS</copyright>
+            <license>GNU General Public License v2.0</license>
+            <info_url>http://projects.ez.no/ezoe</info_url>
+
+            <software>
+                <uses>
+                    <name>TinyMce Javascript HTML WYSIWYG editor</name>
+                    <license>GNU Lesser General Public License v2.1</license>
+                    <copyright>Copyright (C) 2004-2010, Moxiecode Systems AB, All rights reserved.</copyright>
+                    <info_url>http://tinymce.moxiecode.com/</info_url>
+                    <version>3.3.9</version>
+                </uses>
+                <uses>
+                    <name>Tango Icon theme</name>
+                    <license>Creative Commons Attribution-ShareAlike 2.5</license>
+                    <copyright>Copyright (C) 1999-2010 Tango_Icon_Library</copyright>
+                    <info_url>http://tango.freedesktop.org/</info_url>
+                    <version>0.8.90</version>
+                </uses>
+            </software>
+
+        </metadata>
+
+        <dependencies>
+            <requires>
+                <extension name="ezjscore" />
+            </requires>
+            <extends>
+                <extension name="ezwebin" />
+            </extends>
+        </dependencies>
+
+    </software>
+
+Software metadata
+-----------------
+
+The ``software/metadata`` node replaces what ``ezinfo.php`` used to contain. Due to the *flexibility* of ezinfo.php,
+this file doesn't have a strong validation. However, it will expect the following nodes:
+- ``name`` The extension's human readable name (*eZ Online Editor*)
+- ``version`` The extension's version, outside of any eZ Publish version (*5.2.0beta3*)
+- ``copyright`` The extension owner copyright string
+- ``license`` What license the extension uses
+- ``info_url`` The project's URL
+
+3rd party dependency information
+--------------------------------
+
+The ``software/metadata/software`` node can be used to document which 3rd party libraries / apps the extension uses.
+The fields are the same than for the ``software/metadata`` one. You can use as many uses nodes as you want.
+
+Dependency informations
+-----------------------
+
+Note: you can find more documentation on dependencies in the ``extension_ordering.txt`` file.
+
+``dependencies`` will contain one node for each dependency / ordering entry this extension requires/uses/extends. In the
+example above, we can see that we have a requirement for ezjscore, and that the extension extends ezwebin.
+
+Only dependencies/(requires|extends|uses)/extension is supported now, but further dependency informations will be
+implemented later (PHP version, eZ Publish version...).
