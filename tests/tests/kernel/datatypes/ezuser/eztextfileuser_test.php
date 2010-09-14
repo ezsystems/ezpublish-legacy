@@ -2,6 +2,8 @@
 
 class eZTextFileUserTest extends ezpDatabaseTestCase
 {
+    protected $backupGlobals = false;
+
     public $username = 'foobar';
     public $password = 'foobar';
     public $firstname = 'Foo';
