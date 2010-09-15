@@ -600,7 +600,7 @@ var eZOEPopupUtils = {
                     el.checked = v == el.value;
                 else if ( el.type === 'select-one' )
                 {
-                    // Make sure selecion has value before we set it (#014986)
+                    // Make sure selection has value before we set it (#014986)
                     for( var i = 0, l = el.options.length; i < l; i++ )
                     {
                         if ( el.options[i].value == v ) el.value = v;
