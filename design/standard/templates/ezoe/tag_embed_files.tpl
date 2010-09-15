@@ -31,7 +31,7 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
         var align = el ? el.getAttribute('align') || '' : def['align']  || '';
         if ( align === 'center' ) align = 'middle';
 
-        ez.$('embed_preview').addClass('object_preview float-break').setStyles( eZOEPopupUtils.ie56 ? {'margin': '0 5px 5px 5px'} : {});
+        jQuery('#embed_preview').addClass('object_preview float-break').css( eZOEPopupUtils.ie56 ? {'margin': '0 5px 5px 5px'} : {});
         selectors[1].el.value = align;
         selectors.callEach('addEvent', 'change', loadEmbedPreview );
 
@@ -67,7 +67,7 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
         && edBody.childNodes.length <= (jQuery.inArray( el, edBody.childNodes ) +1) )
         {
             var p = doc.createElement('p');
-            p.innerHTML = ed.isIE ? '&nbsp;' : '<br />';
+            p.innerHTML = ed.isIE ? '&nbsp;' : '<br \/>';
             edBody.appendChild( p );
         }
     },
@@ -141,7 +141,7 @@ function loadEmbedPreview( )
     var postData = jQuery('#embed_attributes input, #embed_attributes select').serialize();
     jQuery.post( url, postData, function( data )
     {
-        jQuery('#embed_preview').html( data.content );
+        jQuery('#embed_preview').html( data );
     });
 }
 

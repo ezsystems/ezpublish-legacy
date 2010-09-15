@@ -21,7 +21,6 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
     tagName: 'embed',
     form: 'EditForm',
     cancelButton: 'CancelButton',
-    cssClass: '',
     onInitDone: function( el, tag, ed )
     {        
         var selectors = ez.$('embed_size_source', 'embed_align_source', 'embed_class_source', 'embed_view_source', 'embed_inline_source');
