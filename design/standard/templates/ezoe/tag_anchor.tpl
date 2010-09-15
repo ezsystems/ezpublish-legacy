@@ -14,7 +14,7 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {ldel
     form: 'EditForm',
     cancelButton: 'CancelButton',
     customAttributeStyleMap: {$custom_attribute_style_map},
-    cssClass: 'mceItemAnchor',
+    cssClass: 'mceItemAnchor',// this is the internal anchor class used by tinymce, we reuse it
     tagEditTitleText: "{'Edit %tag_name tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', concat('&lt;', $tag_name_alias, '&gt;') ))|wash('javascript')}",
 {literal}
     onInit: function( el, tag, ed )
