@@ -29,7 +29,7 @@ class ezoeInfo
     static function info()
     {
         return array( 'Name'      => '<a href="http://projects.ez.no/ezoe">eZ Online Editor</a> extension',
-                      'Version'   => '5.2.0beta3',
+                      'Version'   => '5.2.0',
                       'Copyright' => 'Copyright (C) 1999-2010 eZ Systems AS',
                       'License'   => 'GNU General Public License v2.0',
                       'Includes the following third-party software' => array( 'Name' => 'TinyMce Javascript HTML WYSIWYG editor',
