@@ -92,7 +92,7 @@
         // cleanup : false,
         // cleanup_serializer : 'xml',    
         // entity_encoding : 'raw',
-        entities : '160,nbsp', // We need to transform nonbreaking white space to encoded form, all other charthers as stored in raw unicode form.
+        entities : ' ', // needs to be non empty to avoid TinyMCE setting entity_encoding to raw
         // remove_linebreaks : false,
         // apply_source_formatting : false,
         fix_list_elements : true,

@@ -1,5 +1,8 @@
 eZ Online Editor 5.x extension Changelog
 
+5.2.0
+- Fix #016841: online editor converts spaces to nbsp's, inside a literal tag
+
 5.2.0beta3
 - Updated TinyMCE to 3.3.9
 
