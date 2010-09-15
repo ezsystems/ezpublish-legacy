@@ -1189,7 +1189,7 @@
 
             if (s.theme_advanced_path && s.theme_advanced_statusbar_location) {
                 p = DOM.get(ed.id + '_path') || DOM.add(ed.id + '_path_row', 'span', {id : ed.id + '_path'});
-                DOM.setHTML(p, '');
+                DOM.setHTML(p, '&nbsp;');
 
                 getParent(function(n) {
                     var na = n.nodeName.toLowerCase(), u, pi, ti = '', className = false;
@@ -1301,10 +1301,12 @@
                         pi = DOM.create('a', {'href' : "javascript:;", onmousedown : "return false;", title : ti, 'class' : 'mcePath_' + (de++)}, na);
                     }
 
-                    if (p.hasChildNodes()) {
+                    if (p.getElementsByTagName('a').length) {
                         p.insertBefore(DOM.doc.createTextNode(' \u00bb '), p.firstChild);
                         p.insertBefore(pi, p.firstChild);
-                    } else
+                    } else if ( p.firstChild ) // &nbsp;
+                        p.insertBefore(pi, p.firstChild);
+                    else
                         p.appendChild(pi);
                 }, ed.getBody());
             }
