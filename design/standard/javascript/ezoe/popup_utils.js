@@ -583,13 +583,21 @@ var eZOEPopupUtils = {
     initGeneralmAttributes: function( node, editorElement )
     {
         // init general attributes form values from tinymce element values
-        var handler = eZOEPopupUtils.settings.customAttributeInitHandler;
+        var handler = eZOEPopupUtils.settings.customAttributeInitHandler, cssReplace = function( s ){
+            s = s.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|ezoeItem\w+|mceVisualAid)/g, '');
+            if ( !eZOEPopupUtils.settings.cssClass )
+                return s;
+            jQuery.each(eZOEPopupUtils.settings.cssClass.split(' '), function(index, value){
+                s = s.replace( value, '' );
+            });
+            return s;
+        };
         jQuery( '#' + node + ' input,#' + node + ' select' ).each(function( i, el )
         {
             var o = jQuery( el ), name = el.name;
             if ( o.hasClass('mceItemSkip') ) return;
             if ( name === 'class' )
-                var v = jQuery.trim( editorElement.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|ezoeItem\w+|mceVisualAid)/g, '').replace( /eZOEPopupUtils.settings.cssClass.replace(' ', '|')/, '' ) );
+                var v = jQuery.trim( cssReplace( editorElement.className ) );
             else 
                 var v = tinyMCEPopup.editor.dom.getAttrib( editorElement, name );//editorElement.getAttribute( name );
             if ( v !== false && v !== null && v !== undefined )
