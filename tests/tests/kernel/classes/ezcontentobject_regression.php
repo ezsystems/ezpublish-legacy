@@ -18,7 +18,7 @@ class eZContentObjectRegression extends ezpDatabaseTestCase
     }
 
     /**
-     * Test regression for #13815: eZContentObject->fetchAttributesByIdentifier 
+     * Test regression for #13815: eZContentObject->fetchAttributesByIdentifier
      * fails if $languageArray contains non string values
      *
      * This tests verifies that eZContentObject->fetchAttributesByIdentifier
@@ -176,6 +176,78 @@ class eZContentObjectRegression extends ezpDatabaseTestCase
             $attrIdMap[$attr->contentClassAttributeIdentifier()] = $attr->attribute( 'id' );
         }
         return $attrIdMap;
+    }
+
+    /**
+     * Regression test for issue #16299, where a fatal error would occur if an unknown sort_order parameter is given
+     * @see http://issues.ez.no/16299
+     */
+    public function testIssue16299()
+    {
+        // Create a folder object that will be used as a target for relations
+        $folder = new ezpObject( "folder", 2 );
+        $folder->name = __FUNCTION__;
+        $folder->short_description = __METHOD__;
+        $folder->publish();
+
+        // Create two links & two articles that will be related to the folder created above
+        foreach( array( 1, 2 ) as $index )
+        {
+            $varName = "link{$index}";
+            $$varName = new ezpObject( "link", 2 );
+            $$varName->name = "Link " . __FUNCTION__ . " #{$index}";
+            $$varName->location = 'http://ez.no/';
+            $$varName->addContentObjectRelation( $folder->id );
+            $$varName->publish();
+        }
+        foreach( array( 1, 2 ) as $index )
+        {
+            $varName = "article{$index}";
+            $$varName = new ezpObject( "article", 2 );
+            $$varName->title = "Article " .__FUNCTION__ . " #{$index}";
+            $$varName->intro = __METHOD__;
+            $$varName->addContentObjectRelation( $folder->id );
+            $$varName->publish();
+        }
+
+        // Call the fetch reverse_related_objects fetch function
+        // The array( 'foo', false ) sort_by item should be ignored
+        $result = eZFunctionHandler::execute(
+            'content', 'reverse_related_objects',
+            array(
+                'object_id' => $folder->id,
+                'sort_by' => array( array( 'name', true ), array( 'foo', false ) ) ) );
+
+        self::assertType( 'array', $result );
+        self::assertEquals( 4, count( $result ), "Expecting 4 objects fetched" );
+
+        // Sort by name:
+        self::assertEquals( $article1->id, $result[0]->attribute( 'id' ) );
+        self::assertEquals( $article2->id, $result[1]->attribute( 'id' ) );
+        self::assertEquals( $link1->id,    $result[2]->attribute( 'id' ) );
+        self::assertEquals( $link2->id,    $result[3]->attribute( 'id' ) );
+
+        // Call the fetch reverse_related_objects fetch function
+        // The array( 'foo', false ) sort_by item should be ignored, and random sorting should occur
+        // This validates the behaviour with only one parameter, as the code's different
+        $result = eZFunctionHandler::execute(
+            'content', 'reverse_related_objects',
+            array(
+                'object_id' => $folder->id,
+                'sort_by' => array( 'foo', false ) ) );
+        self::assertType( 'array', $result );
+        self::assertEquals( 4, count( $result ), "Expecting 4 objects fetched" );
+
+        // Call the fetch reverse_related_objects fetch function
+        // The array( 'foo', false ) sort_by item should be ignored, and random sorting should occur
+        // This validates the behaviour with only one (correct) parameter
+        $result = eZFunctionHandler::execute(
+        'content', 'reverse_related_objects',
+        array(
+            'object_id' => $folder->id,
+            'sort_by' => array( 'class_identifier', true ) ) );
+        self::assertType( 'array', $result );
+        self::assertEquals( 4, count( $result ), "Expecting 4 objects fetched" );
     }
 }
 
