@@ -107,6 +107,7 @@ class eZSession
     /**
      * Get session value (wrapper)
      *
+     * @since 4.4
      * @param string|null $key Return the whole session array if null otherwise the value of $key
      * @param null|mixed $defaultValue Return this if not null and session has not started
      * @return mixed|null $defaultValue if key does not exist, otherwise session value depending on $key
@@ -130,6 +131,7 @@ class eZSession
     /**
      * Set session value (wrapper)
      *
+     * @since 4.4
      * @param string $key
      * @return bool
      */
@@ -147,6 +149,7 @@ class eZSession
     /**
      * Isset session value (wrapper)
      *
+     * @since 4.4
      * @param string $key
      * @param bool $forceStart Force session start if true
      * @return bool|null Null if session has not started and $forceStart is false
@@ -166,6 +169,7 @@ class eZSession
     /**
      * unset session value (wrapper)
      *
+     * @since 4.4
      * @param string $key
      * @param bool $forceStart Force session start if true
      * @return bool|null True if value was removed, false if it did not exist and
@@ -191,6 +195,7 @@ class eZSession
      * Deletes all expired session data in the database, this function is not supported
      * by session handlers that don't have a session backend on their own.
      *
+     * @since 4.1
      * @return bool
      */
     static public function garbageCollector()
@@ -202,6 +207,7 @@ class eZSession
      * Truncates all session data in the database, this function is not supported
      * by session handlers that don't have a session backend on their own.
      *
+     * @since 4.1
      * @return bool
      */
     static public function cleanup()
@@ -213,6 +219,7 @@ class eZSession
      * Counts the number of active session and returns it, this function is not supported
      * by session handlers that don't have a session backend on their own.
      *
+     * @since 4.1
      * @return string Number of sessions.
      */
     static public function countActive()
@@ -224,6 +231,7 @@ class eZSession
      * Register the needed session functions, this is called automatically by
      * {@link eZSession::start()}, so only call this if you don't start the session.
      *
+     * @since 4.1
      * @return bool Depending on if eZSession is registrated as session handler.
     */
     static protected function registerFunctions()
@@ -269,8 +277,9 @@ class eZSession
     /**
      * Set default cookie parameters based on site.ini settings (fallback to php.ini settings)
      * Used by {@link eZSession::registerFunctions()}
-     *
      * Note: this will only have affect when session is created / re-created
+     *
+     * @since 4.4
      * @param int|false $lifetime Cookie timeout of session cookie, will read from ini if not set
     */
     static protected function setCookieParams( $lifetime = false )
@@ -303,6 +312,7 @@ class eZSession
      * Starts the session and sets the timeout of the session cookie.
      * Multiple calls will be ignored unless you call {@link eZSession::stop()} first.
      *
+     * @since 4.1
      * @param int|false $cookieTimeout Use this to set custom cookie timeout.
      * @return bool Depending on if session was started.
      */
@@ -319,6 +329,7 @@ class eZSession
     /**
      * Inits eZSession and starts it if user has cookie and $startIfUserHasCookie is true.
      *
+     * @since 4.4
      * @param bool $startIfUserHasCookie
      * @return bool|null
      */
@@ -341,6 +352,9 @@ class eZSession
 
     /**
      * See {@link eZSession::start()}
+     *
+     * @since 4.4
+     * @return true
      */
     static protected function forceStart()
     {
@@ -352,6 +366,7 @@ class eZSession
      * Gets/generates the user hash for use in validating the session based on [Session]
      * SessionValidation* site.ini settings. The default hash is result of md5('empty').
      *
+     * @since 4.1
      * @deprecated as of 4.4, only returns default md5('empty') hash now for BC.
      * @return string MD5 hash based on parts of the user ip and agent string.
      */
@@ -363,6 +378,7 @@ class eZSession
     /**
      * Writes session data and stops the session, if not already stopped.
      *
+     * @since 4.1
      * @return bool Depending on if session was stopped.
      */
     static public function stop()
@@ -382,6 +398,7 @@ class eZSession
      * This is useful to call on logins, to avoid sessions theft from users.
      * NOTE: make sure you set new user id first using {@link eZSession::setUserID()}
      *
+     * @since 4.1
      * @param bool $updateBackendData set to false to not update session backend with new session id and user id.
      * @return bool Depending on if session was regenerated.
      */
@@ -409,6 +426,7 @@ class eZSession
      * Removes the current session and resets session variables.
      * Note: implicit stops session as well!
      *
+     * @since 4.1
      * @return bool Depending on if session was removed.
      */
     static public function remove()
@@ -427,6 +445,7 @@ class eZSession
     /**
      * Sets the current userID used by ezpSessionHandlerDB::write() on shutdown.
      *
+     * @since 4.1
      * @param int $userID to use in {@link ezpSessionHandlerDB::write()}
      */
     static public function setUserID( $userID )
@@ -437,6 +456,7 @@ class eZSession
     /**
      * Gets the current user id.
      *
+     * @since 4.1
      * @return int User id stored by {@link eZSession::setUserID()}
      */
     static public function userID()
@@ -447,6 +467,7 @@ class eZSession
     /**
      * Returns if user had session cookie at start of request or not.
      *
+     * @since 4.1
      * @return bool|null Null if session is not started yet.
      */
     static public function userHasSessionCookie()
@@ -458,6 +479,7 @@ class eZSession
      * Returns if user session validated against stored data in db
      * or if it was invalidated during the current request.
      *
+     * @since 4.1
      * @deprecated as of 4.4, only returns true for bc
      * @return bool|null Null if user is not validated yet (for instance a new session).
      */
@@ -469,6 +491,7 @@ class eZSession
     /**
      * Return value to indicate if session has started or not
      *
+     * @since 4.4
      * @return bool
      */
     static public function hasStarted()
@@ -479,6 +502,7 @@ class eZSession
     /**
      * Get curren session handler
      *
+     * @since 4.4
      * @return ezpSessionHandler
      */
     static public function getHandlerInstance()
@@ -509,6 +533,7 @@ class eZSession
      * when a certain session event occurs.
      * Use: eZSession::addCallback('gc_pre', myCustomGarabageFunction );
      *
+     * @since 4.1
      * @param string $type cleanup, gc, destroy, insert and update, pre and post types.
      * @param handler $callback a function to call.
      */
@@ -525,6 +550,7 @@ class eZSession
      * Triggers callback functions by type, registrated by {@link eZSession::addCallback()}
      * Use: eZSession::triggerCallback('gc_pre', array( $db, $time ) );
      *
+     * @since 4.1
      * @param string $type cleanup, gc, destroy, insert and update, pre and post types.
      * @param array $params list of parameters to pass to the callback function.
      * @return bool

@@ -10,6 +10,7 @@ eZSession has gotten a few changes in this version to:
  1. Support session handlers
  2. Changed to use PHP native session handler by default for performance
  3. Support session less anonymous users using session lazy starting
+   3.1. This affects session variables like LastAccessesURI
 
 This has caused several changes in the kernel, things to look out for:
 
@@ -31,9 +32,9 @@ This has caused several changes in the kernel, things to look out for:
  - Additional bc related breaks are listed in doc/bc/4.4/
 
 
-================
-Session handlers
-================
+===================
+1. Session handlers
+===================
 
 Session handlers are classes that extends ezpSessionHandler (lib/ezsession/classes/ezpsessionhandler.php).
 If you intend to create your own session handler, make sure you look at that and also take a look at how
@@ -43,9 +44,9 @@ For changing session handler, remember that all users will loose their session a
 The setting involved is site.ini\[Session]\Handler, it uses the autoload system so make sure the class you specify
 is correct and you have regenerated autoloads if you have added your own session handler.
 
-============================
-Native (PHP) Session handler
-============================
+===============================
+2. Native (PHP) Session handler
+===============================
 
 This is the handler now used by default, it lets php handle the session, thus lets you freely use any PHP session
 handlers (session.save_handler) available. The default is 'files', meaning sessions are stored in files.
@@ -54,9 +55,9 @@ out, but we have not been able to test these yet so make sure you set it up with
 cleared when memecache runs out of memory. And if possible when its updated or restarted.
 
 
-==================
-Anonymous Sessions
-==================
+=====================
+3. Anonymous Sessions
+=====================
 
 Anonymous sessions are implemented as backwards compatible as possible using lazy loading of session.
 Meaning if current user does not have a session cookie, or session data in post variables (as used by
@@ -65,11 +66,29 @@ session variables.
 
 For extension / kernel developers:
 This means that to take advantage of this and not cause sessions to start by your own code, you'll need to
-do some changes. There are two alternatives:
+do some changes. There are three alternatives:
 
  - Using eZSession::hasStarted() and support older versions of eZ Publish 4:
 
        if ( !class_exists('eZSession',false) || !method_exists('eZSession','hasStarted') || eZSession::hasStarted() )
+       {
+           // use session as normal using eZHTTPTool
+       }
+       else
+       {
+           // optionally get default values for anonymous users
+       }
+
+ - Using eZSession::userHasSessionCookie() on eZ Publish 4.1 and up
+
+       Note: this function does not reflect if session was started by other calls to sessions, but it will give
+       give you indication that user did not have a session (cookie or post) when request started and thus the session
+       value that is only specific for your code is not there yet.
+
+       Note2: This is especially useful to validate if client accepts cookies as used by user/register to be able
+       to ignore search crawlers and scripted requests like the once coming from the static cache feature.
+
+       if ( eZSession::userHasSessionCookie() )
        {
            // use session as normal using eZHTTPTool
        }
@@ -107,3 +126,32 @@ do some changes. There are two alternatives:
          *                   null if session is not started and $forceStart is false
          */
         static public function unsetkey( $key, $forceStart = true )
+
+
+3.1 LastAccessesURI
+-------------------
+
+LastAccessesURI is not set anymore for session less users, so to be able to handle that you should change your
+code to to check if user has a session cookie and provide a default redirect if it does not. The session value
+is only useful if it was set by previous page anyway.
+There are two approaches to fix this, the proper way and the easy way.
+
+ - The proper approach would be to always provide a post variable in your forms that initiates an action, redirecting to a
+   edit view or some other kind of action using post forms. The post variable should be named 'RedirectURI', at least that
+   is what the rest of the kernel uses now.
+
+ - The simple way is to just provide a default fallback url in case there is nothing in (post from proper way or) session.
+   In 4.4 and up you can do it like this using fallbacks:
+
+       $redirectURI = $http->sessionVariable( 'LastAccessesURI', '/' );
+
+   or even better preparing your code to be able to accept uri by Post variable as well taking advantage of fallbacks twice:
+
+       $redirectURI = $http->postVariable( 'RedirectURI', $http->sessionVariable( 'LastAccessesURI', '/' ) );
+
+   So what is going on here? basically it will look for post variable 'RedirectURI', if that does not exist it will use LastAccessesURI
+   and if session has not started it will use '/', aka frontpage.
+
+   Unfortunately fallbacks was added in 4.4 as well, so for 4.1+ you'll have to do it like this
+
+       $redirectURI = eZSession::userHasSessionCookie() ? $http->sessionVariable( 'LastAccessesURI' ) : '/';
