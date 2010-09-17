@@ -143,15 +143,33 @@ There are two approaches to fix this, the proper way and the easy way.
  - The simple way is to just provide a default fallback url in case there is nothing in (post from proper way or) session.
    In 4.4 and up you can do it like this using fallbacks:
 
-       $redirectURI = $http->sessionVariable( 'LastAccessesURI', '/' );
+       $redirectURI = $http->sessionVariable('LastAccessesURI', '/');
 
    or even better preparing your code to be able to accept uri by Post variable as well taking advantage of fallbacks twice:
 
-       $redirectURI = $http->postVariable( 'RedirectURI', $http->sessionVariable( 'LastAccessesURI', '/' ) );
+       $redirectURI = $http->postVariable('RedirectURI', $http->sessionVariable('LastAccessesURI', '/'));
 
    So what is going on here? basically it will look for post variable 'RedirectURI', if that does not exist it will use LastAccessesURI
    and if session has not started it will use '/', aka frontpage.
 
-   Unfortunately fallbacks was added in 4.4 as well, so for 4.1+ you'll have to do it like this
+   Unfortunately fallbacks was added in 4.4 as well, so for 4.1+ you'll have to do it like this:
+   (the hasSessionVariable() is not needed but makes the code future proof in case we decide to remove it)
 
-       $redirectURI = eZSession::userHasSessionCookie() ? $http->sessionVariable( 'LastAccessesURI' ) : '/';
+       $redirectURI = eZSession::userHasSessionCookie() && $http->hasSessionVariable('LastAccessesURI') ?
+                      $http->sessionVariable('LastAccessesURI') :
+                      '/';
+
+   Or preferably if you want to add support for post params as well like this:
+
+       if ( $http->hasPostVariable('RedirectURI') )
+       {
+           $redirectURI = $http->postVariable('RedirectURI');
+       }
+       else if ( eZSession::userHasSessionCookie() && $http->hasSessionVariable('LastAccessesURI') )
+       {
+           $redirectURI = $http->sessionVariable('LastAccessesURI');
+       }
+       else
+       {
+           $redirectURI = '/';
+       }
