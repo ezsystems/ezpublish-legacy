@@ -5,11 +5,11 @@ eZSession enhancements in eZ Publish 4.4
 Intro
 =====
 
-eZSession has gotten a few changes in this version to:
+eZSession has gotten a few changes in this version:
 
  1. Support session handlers
  2. Changed to use PHP native session handler by default for performance
- 3. Support session less anonymous users using session lazy starting
+ 3. Support session less anonymous users using lazy session starting
    3.1. This affects session variables like LastAccessesURI
 
 This has caused several changes in the kernel, things to look out for:
@@ -29,6 +29,9 @@ This has caused several changes in the kernel, things to look out for:
    you should either use api that always been there (eZHTTPTool), or the new one provided by
    eZSession (see "Anonymous Sessions" for examples).
 
+ - If you want to avoid losing sessions when you upgrade you should setup DB handler in site.ini\[Session]\
+   Handler=ezpSessionHandlerDB in advance.
+
  - Additional bc related breaks are listed in doc/bc/4.4/
 
 
@@ -40,7 +43,9 @@ Session handlers are classes that extends ezpSessionHandler (lib/ezsession/class
 If you intend to create your own session handler, make sure you look at that and also take a look at how
 this is implemented in practice in php and db handler in the same folder.
 
-For changing session handler, remember that all users will loose their session and will have to log in again.
+For changing session handler, remember that all users will loose their session and will have to log in again unless
+you implement fallback to old sessions in a custom session handler you create. Example would be to create a memcache
+eZ Publish session handler that fallbacks to same db backend as ezpSessionHandlerDB does for persistence storage.
 The setting involved is site.ini\[Session]\Handler, it uses the autoload system so make sure the class you specify
 is correct and you have regenerated autoloads if you have added your own session handler.
 
@@ -61,7 +66,7 @@ cleared when memecache runs out of memory. And if possible when its updated or r
 
 Anonymous sessions are implemented as backwards compatible as possible using lazy loading of session.
 Meaning if current user does not have a session cookie, or session data in post variables (as used by
-ezmultiupload to workaround flash cookie issues) session will no start UNLESS some code tries to access
+ezmultiupload to workaround flash cookie issues) session will not start UNLESS some code tries to access
 session variables.
 
 For extension / kernel developers:
@@ -82,7 +87,7 @@ do some changes. There are three alternatives:
  - Using eZSession::userHasSessionCookie() on eZ Publish 4.1 and up
 
        Note: this function does not reflect if session was started by other calls to sessions, but it will give
-       give you indication that user did not have a session (cookie or post) when request started and thus the session
+       you indication that user did not have a session (cookie or post) when request started and thus the session
        value that is only specific for your code is not there yet.
 
        Note2: This is especially useful to validate if client accepts cookies as used by user/register to be able
