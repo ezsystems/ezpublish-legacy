@@ -52,10 +52,6 @@ class eZUserAuthenticationTest extends ezpTestCase
             array( 'AVeryLongUsername', 'wîŧħAQuiteßécurePasswörð', 'ez.no', eZUser::PASSWORD_HASH_MD5_SITE, false, 'a76f77e805be362fc90765451d630d77' ),
             array( 'admin', 'password', 'ez.no', eZUser::PASSWORD_HASH_PLAINTEXT, false, 'password' ),
             array( 'AVeryLongUsername', 'wîŧħAQuiteßécurePasswörð', 'ez.no', eZUser::PASSWORD_HASH_PLAINTEXT, false, 'wîŧħAQuiteßécurePasswörð' ),
-            array( 'admin', 'password', 'ez.no', eZUser::PASSWORD_HASH_CRYPT, 'eZ', 'eZs4mEFLzDmhM' ),
-            array( 'AVeryLongUsername', 'wîŧħAQuiteßécurePasswörð', 'ez.no', eZUser::PASSWORD_HASH_CRYPT, 'eZ', 'eZy.kI4RYkraM' ),
-            array( 'admin', 'password', 'ez.no', eZUser::PASSWORD_HASH_CRYPT, '_J9..eZSy', '_JL7mbBlf6rYs' ),
-            array( 'AVeryLongUsername', 'wîŧħAQuiteßécurePasswörð', 'ez.no', eZUser::PASSWORD_HASH_CRYPT, '_J9..eZSy', '_JW.wOSTIP/Ow' ),
         );
     }
 
@@ -75,10 +71,6 @@ class eZUserAuthenticationTest extends ezpTestCase
             array( 'AVeryLongUsername', 'wîŧħAQuiteßécurePasswörð', 'ezpublish.no', eZUser::PASSWORD_HASH_MD5_SITE, false, 'a76f77e805be362fc90765451d630d77' ),
             array( 'admin', 'password', 'ez.no', eZUser::PASSWORD_HASH_PLAINTEXT, false, 'passwordx' ),
             array( 'AVeryLongUsername', 'wîŧħAQuiteßécurePasswörð', 'ez.no', eZUser::PASSWORD_HASH_PLAINTEXT, false, 'wîŧħAQuiteßécurePasswörðx' ),
-            array( 'admin', 'password', 'ez.no', eZUser::PASSWORD_HASH_CRYPT, 'eZ', 'eZs4mEFLzDmhMx' ),
-            array( 'AVeryLongUsername', 'wîŧħAQuiteßécurePasswörð', 'ez.no', eZUser::PASSWORD_HASH_CRYPT, 'eZ', 'eZy.kI4RYkraMx' ),
-            array( 'admin', 'password', 'ez.no', eZUser::PASSWORD_HASH_CRYPT, '_J9..eZSy', '_JL7mbBlf6rYsx' ),
-            array( 'AVeryLongUsername', 'wîŧħAQuiteßécurePasswörð', 'ez.no', eZUser::PASSWORD_HASH_CRYPT, '_J9..eZSy', '_JW.wOSTIP/Owx' ),
 
             // Wrong type used
             array( true, 'password', 'ez.no', eZUser::PASSWORD_HASH_MD5_USER, false, '51f9ee797053cbfa8c77e8fa273f5518' ),

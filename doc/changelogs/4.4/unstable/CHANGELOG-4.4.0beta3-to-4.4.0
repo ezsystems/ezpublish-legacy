@@ -1,0 +1,19 @@
+Changes from 4.4.0beta3 to 4.4.0
+
+*Kernel:
+
+*Design:
+
+*eZTemplate:
+
+*eZLocale:
+
+*Package system:
+
+*Scripts:
+
+*Translations:
+
+*Bugfixes:
+- Fixed bug #017211: Fix html stripping in password field
+- Fixed bug #017287: Warning: eZContentObject::relatedObjects

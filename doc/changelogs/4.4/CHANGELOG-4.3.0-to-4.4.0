@@ -1,0 +1,184 @@
+Changes from 4.3.0 to 4.4.0
+
+*Kernel:
+- Implemented enhancement #012708: Master/slave server info in sql debug on mysqli
+- Implemented enhancement #013440: policy edit dropdown values not retained upon POST actions
+- Implemented enhancement #014266: Add CURL option CURLOPT_CONNECTTIMEOUT to eZHTTPTool::getDataByURL()
+- Implemented enhancement #014267: Generating static cache on publish can completely block redirection after content publication
+- Implemented enhancement #014781: translation cache isn't deleted at "Clear all caches"
+- Implemented enhancement #014831: hide cronjob is totally useless for big sites
+- Implemented enhancement #015359: access.php - new MatchOrder=host_uri
+- Implemented enhancement #015629: Make 'value' of 'ezpreferences' table a text
+- Implemented enhancement #016147: prevent makestaticcache script adding new session in ezsession table for each node it caches
+- Implemented enhancement #016237: eZTemplate cleanup
+- Implemented enhancement #016265: Add ability to override classes providing template operators (with patch)
+- Implemented enhancement #016330: translation: class/edit - add more info for number
+- Implemented enhancement #016566: new ezurloperator for cookies
+- Implemented enhancement #016665: ezHTTPTool::sendHTTPRequest() should support sending cookies
+- Implemented enhancement #016704: Cookie Domain should be a configuration option
+- Implemented enhancement #016711: Making extension aware of the order/priority in which they need to be loaded
+- Implemented enhancement #016711: order/priority is handled through an XML file that also handles ezinfo.
+- Implemented enhancement #016722: eZOE/eZ Publish should support several &nbsp; characters and not just one
+- Implemented enhancement #016723: Make cronjob MaxScriptExecutionTime configurable
+- Implemented enhancement #016765: Add eZPersistentObject implementation to ezsite_data table
+- Implemented enhancement #016782: Allow extensions to provide an md5 list of files to be checked
+- Implemented enhancement #016789: admin2 node/view/full.tpl - add div ids for ajax
+- Implemented enhancement #016791: admin2 content/edit_attribute.tpl - attribute-groups (fieldsets) has no unique css class
+- Implemented enhancement #016801: eZINI: Deprecate *.ini.append and *.ini.php file suffix
+- Implemented enhancement #016851: Only execute code for kernel-datatype-ezxmltext debug when enabled
+- Implemented enhancement #016903: 'is_published' field of ezcontentobject table is not used and should be dropped
+- Implemented enhancement #016940: Add eZPersistentObject implementation to ezpending_actions table
+- Implemented enhancement #016963: Global setting to control default value of ezini[_has_variable] 'dynamic'
+- Implemented enhancement #016964: Default value for multioption should be none
+- Implemented enhancement #016968: Be able to specify translation cache directory to share across siteaccesse
+- Implemented enhancement #016993: transactions in content/trash must be reduced
+- Implemented enhancement #017012: Add session handler & support for anonymous sessions
+- Implemented enhancement #017024: make ezmodule template operator also consider ModuleList for enabled modules
+- Implemented enhancement #017025: Reduce wildcard queries when deleting files in the DB cluster (optimisation)
+- Implemented enhancement #017066: Remove private & unused function eZCharTransform::varExportInternal()
+- Implemented enhancement #017080: Optimize eZINI input file lookup
+- Implemented enhancement #017081: Provide a simple api to load siteaccess globally & on ini instance
+- Implemented enhancement #017082: Clean-up ini loading inconsistency regarding ActiveAccessExtensions SA
+- Implemented enhancement #017087: Mixing of html and text within a single email for a digest mail
+- Implemented enhancement #017092: Use SessionTimeout in ezpSessionHandlerPHP to avoid 24 min by default
+- Implemented enhancement #017148: Template cache not generated can lead to database overload with ezdb cluster file handler
+- Implemented enhancement #17004: Allow static cache to work with host, host_uri access matching types
+
+*Design:
+- Fixed bug #007629: Display problem on the left column with IE7 in admin
+
+*eZTemplate:
+- Implemented enhancement #002314: urldecode should be added by default in template.ini
+- Implemented enhancement #016901: Allow PHPOperatorList functions to work with parameter in template compile mode
+
+*eZLocale:
+
+*Package system:
+
+*Scripts:
+
+*Translations:
+
+*Bugfixes:
+- Fixed bug #006380: Workflow cron - Fatal error: Call to a member function on a non-object
+- Fixed bug #008518: setup/info reports incorrect svn revision
+- Fixed bug #010355: Confusing build and revision number
+- Fixed bug #010489: Content indexing might never happen in limited environment
+- Fixed bug #010651: eZHTTPTool::sendHTTPRequest() doesn't support domain names with dashes
+- Fixed bug #011317: appendDebugNodes breaks IE by triggering Quirks mode
+- Fixed bug #011887: List of countries needs to be updated
+- Fixed bug #011944: eZFile::splitLines() : function gives warning if we pass empty file path
+- Fixed bug #012192: Very bad performance in function eZInformationCollection::informationCollectionAttributes
+- Fixed bug #012601: Undefined variable: _SESSION in ezhttptool.php under cli
+- Fixed bug #013065: Do not expire access cache of each user when a location is added to one user
+- Fixed bug #013516: updateviewcount not getting correct paths
+- Fixed bug #013867: small non-compliances of the mysql db driver with the other drivers
+- Fixed bug #014018: Redirect error on the "ContinueShoppingButton"
+- Fixed bug #014366: Duplicate remote_id in ezcontentobject_tree - for LDAP users
+- Fixed bug #014480: 4.0.0 (and ? uppers) : Hidden nodes are displayed in RSS exports
+- Fixed bug #014973: Update basket keys missing in operation_definition
+- Fixed bug #015069: typo in ezorder.php
+- Fixed bug #015401: Wrong translation used when editing an object in a "Related objects" attribute
+- Fixed bug #015406: eZ cannot convert images with ImageMagick on PHP 5.3
+- Fixed bug #015417: ezpgenerateautoloads.php doesn't work well with config.php autoloading
+- Fixed bug #015459: Cluster : Script for delivering images should not take into account query string
+- Fixed bug #015641: BCC - sending problem with the notification mail (regression in 4.3 and 4.4)
+- Fixed bug #015718: WordToImage : IMG tag generated by operator wordtoimage lacks alt attribute
+- Fixed bug #015769: Little mistake in eZUserType->validateObjectAttributeHTTPInput()
+- Fixed bug #015883: Enable only before (or after) operation doesn't work
+- Fixed bug #015898: Cannot translate a user content object
+- Fixed bug #016003: forgotpasswordmail.tpl contains uneeded $site_url in a link
+- Fixed bug #016064: bug in edit/ezoption.tpl template, please wash poll name
+- Fixed bug #016141: Small typo error in viewcache.ini example + fatal error if it is copied
+- Fixed bug #016209: Some settings file are listed twice at settings/view page
+- Fixed bug #016230: Notice "undefined variable" when saving a draft with an objectrelationlist attribute
+- Fixed bug #016247: Missing variable declaration in eznotificationtransport.php
+- Fixed bug #016299: reverse_related_objects and sort_by priority
+- Fixed bug #016307: Minor typo bugs in 4.3.0 beta
+- Fixed bug #016395: $contentobject.main_node.name is not translated
+- Fixed bug #016473: notice in ezcontentobjecttreenode / Undefined index: columns
+- Fixed bug #016503: TC-80: Sending information collection form is broken in admin2
+- Fixed bug #016512: Activation email is sent even if user registration fails
+- Fixed bug #016524: [Tip a Friend] Translation mistake in kernel/content/tipafriend.php
+- Fixed bug #016527: warnings when using a login handler
+- Fixed bug #016534: Subtree notification subscription can't be removed in admin2
+- Fixed bug #016542: System upgrade > check db consistency fails at comparing CHARACTER VARYING NULL fields
+- Fixed bug #016550: eZ Publish is using "Etag", w3c says "ETag"
+- Fixed bug #016568: eZSearch::registerSearchObject() inserts duplicates when DelayedIndexing is set to 'classbased'
+- Fixed bug #016569: After Content Read workflow trigger missing from Operation Defination
+- Fixed bug #016587: Small typo mistake in updatenodeassignment.php
+- Fixed bug #016611: staticcache_cleanup.php cronjob can fatal error
+- Fixed bug #016637: eZContentObjectTreeNode::assignSectionToSubTree creates empty "WHERE IN" query
+- Fixed bug #016648: eZOperationMemento::createKey() if one of the process parameters is array, generated key is incorrect
+- Fixed bug #016663: ezHTTPTool::sendHTTPRequest() fails on array POST parameters
+- Fixed bug #016664: ezHTTPTool::sendHTTPRequest() fails on port not 80 (Add support for setting port in $uri when $port is false)
+- Fixed bug #016668: links in ezxmltext double escapes
+- Fixed bug #016685: Fatal error with imageGD, php 5.3 and border image alias filter
+- Fixed bug #016688: Content keyword fetch function is not Oracle compatible
+- Fixed bug #016699: PDF tables do not render under PHP5.3
+- Fixed bug #016713: eZImageType doesn't use real main node for image path
+- Fixed bug #016737: Oracle requires fields in ORDER BY to also be in the SELECT list or it will return an error
+- Fixed bug #016738: LDAP login with method "GetGroupsTree" fails because of missing permissions of login script
+- Fixed bug #016739: Sorting Bug in eZCountryType::fetchTranslatedNames on some systems
+- Fixed bug #016740: 4.3 upgrade sql invalid for postgres
+- Fixed bug #016747: HTTP status 500 missing when transaction error occurs
+- Fixed bug #016761: Contentstructuretreemenu.ini in ActiveAccessExtension
+- Fixed bug #016763: Notification cronjob eats all memory and crashes
+- Fixed bug #016766: Class Group override condition isn't implemented for content/edit.tpl
+- Fixed bug #016776: PHP errors and warnings prevents HTTP status 500 to be used by index_cluster.php
+- Fixed bug #016797: eZSimplifiedXMLEditOutput does not unescape &nbsp; like output handler does
+- Fixed bug #016799: CSS class doesn't show when link is image, not text
+- Fixed bug #016808: Context not refreshed between two successive browsing with admin2
+- Fixed bug #016811: admin2: role/edit - can not add policy with all function for a module
+- Fixed bug #016814: Rendering problems in ezxmltext datatype
+- Fixed bug #016821: Show meta fields when they are required but not filled in
+- Fixed bug #016824: Filenames with international characters are garbled in IE
+- Fixed bug #016828: content/view/full => if node_id is no numeric or < 2 ez should return an error_code
+- Fixed bug #016829: Bug in user/preferences
+- Fixed bug #016830: kernel/setup/systemupgrade.php - typo in php classname
+- Fixed bug #016836: Cache for user policies is generated incorrectly when using ActiveAccessExtensions
+- Fixed bug #016838: iPhone and Content-Range support
+- Fixed bug #016848: Unable to make an IsInline[externalimage]=image custom tag inline (fix available)
+- Fixed bug #016861: content/browse gives a fatal error when user isn't logged in
+- Fixed bug #016865: incorrect operator used for totalPriceIncVat in ezorder.php
+- Fixed bug #016872: unclear error message of copy subtree
+- Fixed bug #016879: Make debug popup XHTML Valid
+- Fixed bug #016883: WebDAV doesn't support clustering
+- Fixed bug #016893: Wrong charset encoding in notification email
+- Fixed bug #016949: Workflow: Content objects in illegal state if the parent node is removed before publishing the C.O.
+- Fixed bug #016953: &nbsp; breaks RSS/ATOM feeds
+- Fixed bug #016966: Bug in kernel/classes/datatypes/ezobjectrelationlist/ezobjectrelationlisttype.php
+- Fixed bug #016973: switchlanguage fetch not working as expected
+- Fixed bug #016983: Login on private section with sso extension causes infinite redirection loop
+- Fixed bug #016992: Sort order bug in admin2/templates/navigator/google.tpl
+- Fixed bug #016997: Call of non static methods statically from ezgeneraldigest
+- Fixed bug #017020: Provide a upgrade script for section identifiers
+- Fixed bug #017032: section_identifier should be identifier
+- Fixed bug #017037: new session handler: php session is created on filesystem for every request by anonymous user
+- Fixed bug #017038: Other translations archived when editing related object
+- Fixed bug #017040: Users groups not retrieved correctly
+- Fixed bug #017046: Inconsistent policy checks in content/trash
+- Fixed bug #017051: correctxmlalign.php does not work due to oracle incompatibility
+- Fixed bug #017069: fixobjectremoteid.php fixnoderemoteid.php don't work on oracle
+- Fixed bug #017093: TC-57 - Multiupload is broken in 4.4Alpha5
+- Fixed bug #017096: Incomplete cache file generation on cluster handlers
+- Fixed bug #017097: ezcache.php: Some cache items can cause a complete cache purge
+- Fixed bug #017099: ezcache.php: Get confirmation when clearing dangerous directories
+- Fixed bug #017101: Contentclass description and contentclass attribute description/category metadata & serialized data not supported in ezpackage
+- Fixed bug #017133: TC-21 - "Online Users" block is not working when Sessions Handler<>ezpSessionHandlerDB
+- Fixed bug #017155: eZContentObject->version() becomes slow when importing huge amount of content
+- Fixed bug #017165: DB connection charset is not set everywhere connections are created
+- Fixed bug #017166: [objectrelationlist]Wrong language version created when editing object in a different main language
+- Fixed bug #017186: admin2 user can set priortiy id - but has no rights for it
+- Fixed bug #017187: admin2 create new button is still shown even the user can not create objects
+- Fixed bug #017188: admin2 line view context menu contains action where user has no rights to access
+- Fixed bug #017202: MOUNT_POINT_PATH missing from index_cluster.php example in index_image.php
+- Fixed bug #017207: eZMail doesn't support SSL in SMTP
+- Fixed bug #017211: Fix html stripping in password field
+- Fixed bug #017228: DB exception thrown when trying to access Setup wizard
+- Fixed bug #017230: Fatal error on first pageview after clusterize
+- Fixed bug #017232: Incomplete change to the metadata property in eZDBFileHandler
+- Fixed bug #017244: MySQLi DB cluster file handler can return null from _selectOne
+- Fixed wrong --iteration-limit parameter parsing for clusterbinarypurge.php, ref. issue #15793: eZDFS: Image files and aliases are not removed when a objectversion is deleted
+- Fixed wrong variable name in clusterbinarypurge.php, ref. issue #15793: eZDFS: Image files and aliases are not removed when a objectversion is deleted
+- Fixed bug #017287: Warning: eZContentObject::relatedObjects

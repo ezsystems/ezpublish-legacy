@@ -53,7 +53,7 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
 
     public static function ldapIsEnabled()
     {
-        return function_exists( 'ldap_search' );
+        return extension_loaded( 'ldap' ) && ( gethostbyname( 'phpuc.ez.no' ) !== 'phpuc.ez.no' );
     }
 
     public function setUp()

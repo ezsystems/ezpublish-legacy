@@ -345,14 +345,15 @@ function resetOptions( se )
     }
 }
 
-Array.prototype.inArray = function (value)
+if ( !Array.inArray ) Array.prototype.inArray = function (value)
 // Returns true if the passed value is found in the
 // array.  Returns false if it is not.
 {
-    var i;
-    for (i=0; i < this.length; i++) {
+    for (var i = 0, l = this.length; i < l; i++)
+    {
         // Matches identical (===), not just similar (==).
-        if (this[i] === value) {
+        if (this[i] === value)
+        {
             return true;
         }
     }

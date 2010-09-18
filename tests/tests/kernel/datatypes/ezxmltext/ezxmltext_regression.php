@@ -21,6 +21,17 @@ class eZXMLTextRegression extends ezpDatabaseTestCase
         $this->language = eZContentLanguage::addLanguage( "nor-NO", "Norsk" );
     }
 
+    public function tearDown()
+    {
+        if ( $this->language instanceof eZContentLanguage )
+        {
+            if ( !$this->language->removeThis() )
+                ;//trigger_error( 'Could not remove language nor-NO, probably still existing content / class in this language!' );
+        }
+
+        parent::tearDown();
+    }
+
     /**
      * Test scenario for issue #13492: Links are lost after removing version
      *
@@ -36,6 +47,7 @@ class eZXMLTextRegression extends ezpDatabaseTestCase
      */
     public function testLinksAcrossTranslations()
     {
+        ezpINIHelper::setINISetting( 'site.ini', 'RegionalSettings', 'ContentObjectLocale', 'eng-GB' );
         $xmlDataEng = '<link href="/some-where-random">a link</link>';
         $xmlDataNor = '<link href="/et-tilfeldig-sted">en link</link>';
 
@@ -48,10 +60,9 @@ class eZXMLTextRegression extends ezpDatabaseTestCase
         $version1Xml = $folder->short_description->attribute('output')->attribute( 'output_text' );
 
         // Step 2: Translate folder
-        $languageCode = "nor-NO";
         $trData = array( "name" => "Folder Nor",
                          "short_description" => $xmlDataNor );
-        $folder->addTranslation( $languageCode, $trData ); // addTranslation() publishes too.
+        $folder->addTranslation( "nor-NO", $trData ); // addTranslation() publishes too.
 
         // Step 3: Remove version 1
         $version1 = eZContentObjectVersion::fetchVersion( 1, $folder->id );
@@ -61,12 +72,15 @@ class eZXMLTextRegression extends ezpDatabaseTestCase
         $folder->refresh();
         $version2Xml = $folder->short_description->attribute('output')->attribute( 'output_text' );
 
+        $folder->removeThis();
+
+        ezpINIHelper::restoreINISettings();
         self::assertEquals( $version1Xml, $version2Xml );
     }
 
     /**
      * Test for issue #15089: eZ Simplified XML input does not handle whitespace in XML attribute definitions
-     * 
+     *
      * @link http://issues.ez.no/15089
      */
     public function testWhiteSpaceInAttributes()
@@ -92,11 +106,12 @@ END;
             // This can only used as an indication for now.
             self::fail( "XML parser does not handle spaces in attributes" );
         }
+        $folder->removeThis();
     }
 
     /**
      * Test for issue #14370: Inserting non break space doesn't work
-     * 
+     *
      * @note Test depends on template output!!
      * @link http://issues.ez.no/14370
      */
@@ -111,6 +126,8 @@ END;
         $folder->publish();
 
         $xhtml = $folder->short_description->attribute('output')->attribute( 'output_text' );
+
+        $folder->removeThis();
 
         self::assertEquals( '<p>esp&nbsp;ace</p>', $xhtml );
     }

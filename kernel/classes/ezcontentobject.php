@@ -2896,13 +2896,38 @@ class eZContentObject extends eZPersistentObject
         {
             if ( isset( $params['SortBy'] ) )
             {
-                if ( !in_array( $params['SortBy'], array( 'class_identifier', 'class_name', 'modified', 'name', 'published', 'section' ) ) )
+                $validSortBy = array( 'class_identifier', 'class_name', 'modified', 'name', 'published', 'section' );
+                $sortByParam = array();
+                if ( is_array( $params['SortBy'] ) )
                 {
-                    eZDebug::writeWarning( "Unsupported sort_by parameter {$params['SortBy']}; check the online documentation for the list of supported sort types", __METHOD__ );
+                    // only one SortBy, as a simple array
+                    if ( !is_array( $params['SortBy'][0] ) )
+                    {
+                        if ( !in_array( $params['SortBy'][0], $validSortBy ) )
+                            eZDebug::writeWarning( "Unsupported sort_by parameter {$params['SortBy'][0]}; check the online documentation for the list of supported sort types", __METHOD__ );
+                        else
+                            $sortByParam[] = $params['SortBy'];
+                    }
+                    // multiple SortBy, check each of them one by one, and keep valid ones
+                    else
+                    {
+                        $invalidSortBy = array();
+                        foreach( $params['SortBy'] as $sortByTuple )
+                        {
+                            if ( !in_array( $sortByTuple[0], $validSortBy ) )
+                                $invalidSortBy[] = $sortByTuple[0];
+                            else
+                                $sortByParam[] = $sortByTuple;
+                        }
+                        if ( count( $invalidSortBy ) > 0 )
+                        {
+                            eZDebug::writeWarning( "Unsupported sort_by parameter(s) " . implode( ', ', $invalidSortBy ) . "; check the online documentation for the list of supported sort types", __METHOD__ );
+                        }
+                    }
                 }
-                else
+                if ( count( $sortByParam ) > 0 )
                 {
-                    $sortingInfo = eZContentObjectTreeNode::createSortingSQLStrings( $params['SortBy'] );
+                    $sortingInfo = eZContentObjectTreeNode::createSortingSQLStrings( $sortByParam );
                     $sortingString = ' ORDER BY ' . $sortingInfo['sortingFields'];
                 }
             }

@@ -13,8 +13,6 @@ class eZURLAliasMlTest extends ezpDatabaseTestCase
     {
         parent::__construct();
         $this->setName( "URL Alias ML Unit Tests" );
-
-        $this->siteIni = eZINI::instance();
     }
 
     public function setUp()
@@ -189,15 +187,8 @@ class eZURLAliasMlTest extends ezpDatabaseTestCase
     //
     public function testChoosePrioritizedRow()
     {
-        // TEST SETUP --------------------------------------------------------
-        $ini = eZINI::instance();
-
-        // Make sure to preserve ini settings in case other tests depend on them
-        $orgShowUntranslatedObjects = $ini->variable( 'RegionalSettings', 'ShowUntranslatedObjects' );
-        $orgSiteLanguageList = $ini->variable( 'RegionalSettings', 'SiteLanguageList' );
-
         // Make sure we can see all languages
-        $ini->setVariable( 'RegionalSettings', 'ShowUntranslatedObjects', 'enabled' );
+        ezpINIHelper::setINISetting( 'site.ini', 'RegionalSettings', 'ShowUntranslatedObjects', 'enabled' );
 
         $action = "eznode:" . mt_rand();
         $name = __FUNCTION__ . mt_rand();
@@ -221,7 +212,7 @@ class eZURLAliasMlTest extends ezpDatabaseTestCase
         // The order of the language array also determines the prioritization.
         // In this case 'eng-GB' should be prioritized before 'nor-NO'.
         $languageList = array( "eng-GB", "nor-NO" );
-        $ini->setVariable( 'RegionalSettings', 'SiteLanguageList', $languageList );
+        ezpINIHelper::setINISetting( 'site.ini', 'RegionalSettings', 'SiteLanguageList', $languageList );
 
         eZContentLanguage::clearPrioritizedLanguages();
         $row = eZURLAliasML::choosePrioritizedRow( $rows );
@@ -235,7 +226,7 @@ class eZURLAliasMlTest extends ezpDatabaseTestCase
         // Reverse the order of the specified languages, this will also
         // reverse the priority.
         $languageList = array_reverse( $languageList );
-        $ini->setVariable( 'RegionalSettings', 'SiteLanguageList', $languageList );
+        ezpINIHelper::setINISetting( 'site.ini', 'RegionalSettings', 'SiteLanguageList', $languageList );
 
         eZContentLanguage::clearPrioritizedLanguages();
         $row = eZURLAliasML::choosePrioritizedRow( $rows );
@@ -246,8 +237,7 @@ class eZURLAliasMlTest extends ezpDatabaseTestCase
 
 
         // TEST TEAR DOWN ----------------------------------------------------
-        $ini->setVariable( 'RegionalSettings', 'ShowUntranslatedObjects', $orgShowUntranslatedObjects );
-        $ini->setVariable( 'RegionalSettings', 'SiteLanguageList', $orgSiteLanguageList );
+        ezpINIHelper::restoreINISettings();
         // -------------------------------------------------------------------
     }
 
@@ -329,13 +319,10 @@ class eZURLAliasMlTest extends ezpDatabaseTestCase
 
     public function testConvertToAlias_Unicode()
     {
-        $this->saveOriginalURLTranslationSettings();
-
         // We set the below ini settings to make sure they are not accidentally
         // overriden in somewhere in the test installation.
-        // $ini = eZINI::instance();
-        $this->siteIni->setVariable( 'URLTranslator', 'WordSeparator', 'dash' );
-        $this->siteIni->setVariable( 'URLTranslator', 'TransformationGroup', 'urlalias_iri' );
+        ezpINIHelper::setINISetting( 'site.ini', 'URLTranslator', 'WordSeparator', 'dash' );
+        ezpINIHelper::setINISetting( 'site.ini', 'URLTranslator', 'TransformationGroup', 'urlalias_iri' );
 
         // ---------------------------------------------------------------- //
         // Not safe characters, all of these should be removed.
@@ -362,17 +349,15 @@ class eZURLAliasMlTest extends ezpDatabaseTestCase
         // ---------------------------------------------------------------- //
 
         // Restore ini settings to their original values
-        $this->loadOriginalURLTranslationSettings();
+        ezpINIHelper::restoreINISettings();
     }
 
     public function testConvertToAlias_NonUnicode()
     {
-        $this->saveOriginalURLTranslationSettings();
-
         // We set the below ini settings to make sure they are not accidentally
         // overriden in somewhere in the test installation.
-        $this->siteIni->setVariable( 'URLTranslator', 'WordSeparator', 'dash' );
-        $this->siteIni->setVariable( 'URLTranslator', 'TransformationGroup', 'urlalias' );
+        ezpINIHelper::setINISetting( 'site.ini', 'URLTranslator', 'WordSeparator', 'dash' );
+        ezpINIHelper::setINISetting( 'site.ini', 'URLTranslator', 'TransformationGroup', 'urlalias' );
 
         // ---------------------------------------------------------------- //
         // Not safe characters, all of these should be removed.
@@ -399,18 +384,15 @@ class eZURLAliasMlTest extends ezpDatabaseTestCase
         self::assertEquals( $e4Result, eZURLAliasML::convertToAlias( $e4 ) );
         // ---------------------------------------------------------------- //
 
-        $this->loadOriginalURLTranslationSettings();
+        ezpINIHelper::restoreINISettings();
     }
 
     public function testConvertToAlias_Compat()
     {
-        $this->saveOriginalURLTranslationSettings();
-
         // We set the below ini settings to make sure they are not accidentally
         // overriden in somewhere in the test installation.
-        $this->siteIni->setVariable( 'URLTranslator', 'WordSeparator', 'underscore' );
-        $this->siteIni->setVariable( 'URLTranslator', 'TransformationGroup', 'urlalias_compat' );
-
+        ezpINIHelper::setINISetting( 'site.ini', 'URLTranslator', 'WordSeparator', 'underscore' );
+        ezpINIHelper::setINISetting( 'site.ini', 'URLTranslator', 'TransformationGroup', 'urlalias_compat' );
 
         // ---------------------------------------------------------------- //
         // Not safe characters, all of these should be removed.
@@ -441,8 +423,7 @@ class eZURLAliasMlTest extends ezpDatabaseTestCase
         self::assertEquals( $e5Result, eZURLAliasML::convertToAlias( $e5 ) );
         // ---------------------------------------------------------------- //
 
-
-        $this->loadOriginalURLTranslationSettings();
+        ezpINIHelper::restoreINISettings();
     }
 
     public function testNodeIDFromAction()
@@ -459,42 +440,6 @@ class eZURLAliasMlTest extends ezpDatabaseTestCase
         self::assertEquals( false, eZURLAliasML::nodeIDFromAction( $action4 ) );
         self::assertEquals( (int) 2, eZURLAliasML::nodeIDFromAction( $action5 ) );
     }
-
-    /* -----------------------------------------------------------------------
-     * HELPER FUNCTIONS
-     * -----------------------------------------------------------------------
-     */
-
-     /**
-      * Saves the values of WordSeparator and TransformationGroup in site.ini
-      *
-      * The value of these two settings are saved as member variables of this
-      * class. This method together with loadOriginalURLTranslationSettings()
-      * can save/restore  these two ini settings.
-      */
-     private function saveOriginalURLTranslationSettings()
-     {
-         $ini = eZINI::instance();
-         $this->siteIni = $ini;
-
-         $this->orginialWordSeparator = $ini->variable( 'URLTranslator', 'WordSeparator' );
-         $this->orginialTransformationGroup = $ini->variable( 'URLTranslator', 'TransformationGroup' );
-     }
-
-     /**
-      * Restores the values of previously saved WordSeparator and TransformationGroup.
-      *
-      * You have to call saveOriginalURLTranslationSettings() before using these method
-      * or you will mess up both ini settings.
-      */
-     private function loadOriginalURLTranslationSettings()
-     {
-         $ini = eZINI::instance();
-         $this->siteIni = $ini;
-
-         $ini->setVariable( 'URLTranslator', 'WordSeparator', $this->orginialWordSeparator );
-         $ini->setVariable( 'URLTranslator', 'TransformationGroup', $this->orginialTransformationGroup );
-     }
 }
 
 ?>

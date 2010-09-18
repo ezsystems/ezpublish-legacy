@@ -350,7 +350,7 @@ class eZINI
         {
             if ( file_exists ( $iniFile . '.append' ) )
             {
-                eZDebug::writeStrict( "INI files with *.ini.append suffix is DEPRECATED, use *.ini or *.ini.append.php instead: $iniFile.append", __METHOD__ );
+                // recursion eZDebug::writeStrict( "INI files with *.ini.append suffix is DEPRECATED, use *.ini or *.ini.append.php instead: $iniFile.append", __METHOD__ );
                 $inputFiles[] = $iniFile . '.append';
             }
 
@@ -373,7 +373,7 @@ class eZINI
 
                 if ( file_exists( $overrideFile . '.php' ) )
                 {
-                    eZDebug::writeStrict( "INI files with *.ini.php suffix is DEPRECATED, use *.ini or *.ini.append.php instead: $overrideFile.php", __METHOD__ );
+                    // recursion eZDebug::writeStrict( "INI files with *.ini.php suffix is DEPRECATED, use *.ini or *.ini.append.php instead: $overrideFile.php", __METHOD__ );
                     $inputFiles[] = $overrideFile . '.php';
                 }
 
@@ -389,7 +389,7 @@ class eZINI
 
                 if ( file_exists( $overrideFile . '.append' ) )
                 {
-                    eZDebug::writeStrict( "INI files with *.ini.append suffix is DEPRECATED, use *.ini or *.ini.append.php instead: $overrideFile.append", __METHOD__ );
+                    // recursion eZDebug::writeStrict( "INI files with *.ini.append suffix is DEPRECATED, use *.ini or *.ini.append.php instead: $overrideFile.append", __METHOD__ );
                     $inputFiles[] = $overrideFile . '.append';
                 }
             }
@@ -431,7 +431,6 @@ class eZINI
         if ( $reset )
             $this->reset();
         $cachedDir = self::CONFIG_CACHE_DIR;
-        $inputFileTime = 0;
 
         $fileName = $this->cacheFileName( $placement );
         $cachedFile = $cachedDir . $fileName;
@@ -444,28 +443,20 @@ class eZINI
             $this->CacheFile = $cachedFile;
         }
 
-        $loadCache = false;
+        $data = false;// this will contain cache data if cache data is valid
         if ( file_exists( $cachedFile ) )
         {
-            $loadCache = true;
-        }
-
-        $useCache = false;
-        if ( $loadCache )
-        {
-            $useCache = true;
             if ( eZINI::isDebugEnabled() )
                 eZDebug::writeNotice( "Loading cache '$cachedFile' for file '" . $this->FileName . "'", __METHOD__ );
+
             include( $cachedFile );
-            if ( !isset( $data ) ||
-                 !isset( $data['rev'] ) ||
-                 $data['rev'] != eZINI::CONFIG_CACHE_REV )
+
+            if ( !isset( $data['rev'] ) || $data['rev'] != eZINI::CONFIG_CACHE_REV )
             {
                 if ( eZINI::isDebugEnabled() )
                     eZDebug::writeNotice( "Old structure in cache file used, recreating '$cachedFile' to new structure", __METHOD__ );
-                unset( $data );
+                $data = false;
                 $this->reset();
-                $useCache = false;
             }
             else if ( self::$checkFileMtime === true || self::$checkFileMtime === $this->FileName )
             {
@@ -477,17 +468,20 @@ class eZINI
                 foreach ( $inputFiles as $inputFile )
                 {
                     $fileTime = file_exists( $inputFile ) ? filemtime( $inputFile ) : false;
-                    if ( $currentTime < $fileTime )
+                    if ( $fileTime === false )// Refresh cache & input files if file is gone
+                    {
+                        unset( $inputFiles );
+                        $data = false;
+                        $this->reset();
+                        break;
+                    }
+                    else if ( $fileTime > $currentTime )
                     {
                         eZDebug::writeError( 'Input file "' . $inputFile . '" has a timestamp higher then current time, ignoring to avoid infinite recursion!', __METHOD__ );
                     }
-                    // Refresh cache if file does not exist anymore or it has been changed
-                    else if ( $fileTime === false ||
-                              $fileTime > $cacheCreatedTime )
+                    else if ( $fileTime > $cacheCreatedTime )// Refresh cache if file has been changed
                     {
-                        unset( $data );
-                        unset( $inputFiles );
-                        $useCache = false;
+                        $data = false;
                         $this->reset();
                         break;
                     }
@@ -495,7 +489,8 @@ class eZINI
                 eZDebug::accumulatorStop( 'ini_check_mtime' );
             }
         }
-        if ( $useCache && isset( $data ) )
+
+        if ( $data )// if we have cache data on this point, use it
         {
             $this->Charset = $data['charset'];
             $this->ModifiedBlockValues = array();
@@ -507,7 +502,7 @@ class eZINI
         }
         else
         {
-            if ( !isset( $inputFiles ) )
+            if ( !isset( $inputFiles ) )// use $inputFiles from cache if defined
             {
                 eZDebug::accumulatorStart( 'ini_find_files', 'ini_load', 'Find INI Files' );
                 $this->findInputFiles( $inputFiles, $iniFile );
@@ -602,11 +597,16 @@ class eZINI
      */
     function parse( $inputFiles = false, $iniFile = false, $reset = true, $placement = false )
     {
-        if ( $reset )
-            $this->reset();
         if ( $inputFiles === false or
              $iniFile === false )
+        {
+            eZDebug::accumulatorStart( 'ini_parse_find_files', 'ini_load', 'Find INI Files2' );
             $this->findInputFiles( $inputFiles, $iniFile );
+            eZDebug::accumulatorStop( 'ini_parse_find_files' );
+        }
+
+        if ( $reset )
+            $this->reset();
 
         foreach ( $inputFiles as $inputFile )
         {
@@ -1625,7 +1625,7 @@ class eZINI
      */
     static function instance( $fileName = 'site.ini', $rootDir = 'settings', $useTextCodec = null, $useCache = null, $useLocalOverrides = null, $directAccess = false, $addArrayDefinition = false )
     {
-        $globalsKey = "eZINIGlobalInstance-$rootDir-$fileName-$useLocalOverrides";
+        $globalsKey = "eZINIGlobalInstance-$rootDir-$fileName-$useLocalOverrides-$addArrayDefinition";
 
         if ( !isset( $GLOBALS[$globalsKey] ) ||
              !( $GLOBALS[$globalsKey] instanceof eZINI ) )
@@ -1693,7 +1693,12 @@ class eZINI
         unset( $GLOBALS["eZINIGlobalInstance-$rootDir-$fileName-$useLocalOverrides"] );
     }
 
-    static function resetAllGlobals()
+    /**
+     * Reset all eZINI instances as well override dirs ( optional )
+     *
+     * @param bool $resetOverrideDirs Specify if you don't want to clear override dirs
+     */
+    static function resetAllGlobals( $resetGlobalOverrideDirs = true )
     {
         foreach ( array_keys( $GLOBALS ) as $key )
         {
@@ -1702,7 +1707,9 @@ class eZINI
                 unset( $GLOBALS[$key] );
             }
         }
-        self::resetGlobalOverrideDirs();
+
+        if ( $resetGlobalOverrideDirs )
+            self::resetGlobalOverrideDirs();
     }
 
     /// \privatesection

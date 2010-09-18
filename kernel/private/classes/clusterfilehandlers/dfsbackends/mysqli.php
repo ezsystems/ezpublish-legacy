@@ -1089,12 +1089,19 @@ class eZDFSFileHandlerMySQLiBackend
             }
         }
 
+        // we test the return value of mysqli_num_rows and not mysql_fetch, unlike in the mysql handler,
+        // since fetch will return null and not false if there are no results
         $nRows = mysqli_num_rows( $res );
         if ( $nRows > 1 )
         {
             eZDebug::writeError( 'Duplicate entries found', $fname );
             eZDebug::accumulatorStop( 'mysql_cluster_query' );
             // @todo throw an exception instead. Should NOT happen.
+        }
+        elseif ( $nRows === 0 )
+        {
+            eZDebug::accumulatorStop( 'mysql_cluster_query' );
+            return false;
         }
 
         $row = $fetchCall( $res );

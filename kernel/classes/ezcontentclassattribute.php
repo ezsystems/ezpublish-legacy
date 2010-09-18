@@ -64,9 +64,18 @@ class eZContentClassAttribute extends eZPersistentObject
             $this->DataTextI18nList->initDefault();
 
         // Make sure datatype gets final say if attribute should be translatable
-        if ( $this->attribute('can_translate') && !$this->dataType()->isTranslatable() )
+        if ( isset( $row['can_translate'] ) && $row['can_translate'] )
         {
-            $this->setAttribute('can_translate', 0);
+            $datatype = $this->dataType();
+            if ( $datatype instanceof eZDataType )
+            {
+                if ( !$datatype->isTranslatable() )
+                    $this->setAttribute('can_translate', 0);
+            }
+            else
+            {
+                eZDebug::writeError( 'Could not get instance of datatype: ' . $row['data_type_string'], __METHOD__ );
+            }
         }
     }
 

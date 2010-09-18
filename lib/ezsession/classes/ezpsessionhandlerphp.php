@@ -15,7 +15,7 @@
  * @package lib
  * @subpackage ezsession
  */
-class eZSessionHandlerPHP extends eZSessionHandler
+class ezpSessionHandlerPHP extends ezpSessionHandler
 {
     /**
      * reimp (Does nothing, lets php handle sessions)

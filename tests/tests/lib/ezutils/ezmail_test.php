@@ -17,11 +17,13 @@ class eZMailTest extends ezpTestCase
         ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'TransportPort', 25 );
         ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'TransportUser', '' );
         ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'TransportPassword', '' );
-        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'AdminEmail', 'ezp-unittests-01@mail.ez.no' );
-        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'EmailSender', 'ezp-unittests-01@mail.ez.no' );
-        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'EmailReplyTo', 'ezp-unittests-01@mail.ez.no' );
+        $ini = eZINI::instance( 'test_ezmail_plain.ini' );
+        $adminEmail = $ini->variable( 'TestAccounts', 'AdminEmail' );
+        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'AdminEmail', $adminEmail );
+        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'EmailSender', $adminEmail );
+        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'EmailReplyTo', $adminEmail );
         ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'DebugSending', 'disabled' );
-        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'DebugReceiverEmail', 'ezp-unittests-01@mail.ez.no' );
+        ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'DebugReceiverEmail', $adminEmail );
     }
 
     public function tearDown()
@@ -418,39 +420,24 @@ class eZMailTest extends ezpTestCase
 
     public static function getTestAccounts()
     {
-        return array(
-            '01' => array( 'name' => 'Unit Tester One',
-                           'email' => 'ezp-unittests-01@mail.ez.no',
-                           'username' => 'ezp-unittests-01@mail.ez.no',
-                           'password' => 'unittest01'
-            ),
-            '02' => array( 'name' => 'Unit Tester Two',
-                           'email' => 'ezp-unittests-02@mail.ez.no',
-                           'username' => 'ezp-unittests-02@mail.ez.no',
-                           'password' => 'unittest02'
-            ),
-            '03' => array( 'name' => 'Unit Tester Three',
-                           'email' => 'ezp-unittests-03@mail.ez.no',
-                           'username' => 'ezp-unittests-03@mail.ez.no',
-                           'password' => 'unittest03'
-            ),
-            '04' => array( 'name' => 'Unit Tester Four',
-                           'email' => 'ezp-unittests-04@mail.ez.no',
-                           'username' => 'ezp-unittests-04@mail.ez.no',
-                           'password' => 'unittest04'
-            ),
-            '05' => array( 'name' => 'Unit Tester Five',
-                           'email' => 'ezp-unittests-05@mail.ez.no',
-                           'username' => 'ezp-unittests-05@mail.ez.no',
-                           'password' => 'unittest05'
-            )
-        );
+        $ini = eZINI::instance( 'test_ezmail_plain.ini' );
+        $testAccounts = $ini->hasVariable( 'TestAccounts', 'Account' ) ? $ini->variable( 'TestAccounts', 'Account' ) : array();
+        $accountResult = array();
+        foreach( $testAccounts as $account )
+        {
+            $user = $ini->variable( 'TestAccounts', $account );
+            $accountResult[ $user['index'] ] = $user;
+        }
+        return $accountResult;
     }
 
     public static function providerTestSendEmail()
     {
         $users = self::getTestAccounts();
         $endl = "\r\n";
+
+        if ( empty( $users ) )
+            return array( array( '', '' ) );
 
         /*
             Each entry in this array is an array consisting of two arrays.
@@ -620,7 +607,7 @@ class eZMailTest extends ezpTestCase
                     )
                 )
             ),
-            array( // Testing DebugSending = enabled with SMTP (cc headers are kept, bcc headers may be kept)
+            array( // Testing DebugSending = enabled with SMTP (cc is empty in debug mode)
                 array( 'to' => array( $users['02'], $users['03'] ),
                        'replyTo' => null,
                        'sender' => $users['01'],
@@ -634,14 +621,11 @@ class eZMailTest extends ezpTestCase
                 array(
                     $users['01']['email'] => array(
                         'messageCount' => 1,
-                        'headers' => array( 'to' => array( array( 'email' => $users['02']['email'] ),
-                                                           array( 'email' => $users['03']['email'] ) ),
+                        'headers' => array( 'to' => array( array( 'email' => $users['01']['email'] ) ),
                                             'replyTo' => array( array( 'email' => $users['01']['email'],
                                                                        'name' => $users['01']['name'] ) ),
                                             'from' => array( array( 'email' => $users['01']['email'],
                                                                     'name' => $users['01']['name'] ) ),
-                                            'cc' => array( array( 'email' => $users['04']['email'],
-                                                                  'name' => $users['04']['name'] ) ),
                                             'subject' => 'That ancient religion'
                         ),
                         'body' => 'I find your lack of faith disturbing.' . $endl
@@ -658,6 +642,76 @@ class eZMailTest extends ezpTestCase
                     $users['05']['email'] => array(
                         'messageCount' => 0
                     )
+                )
+            ),
+            array( // Testing DebugSending = disabled with SMTP (cc headers are kept, bcc headers may be kept)
+                array( 'to' => array( $users['02'], $users['03'] ),
+                       'replyTo' => null,
+                       'sender' => $users['01'],
+                       'cc' => array( $users['04'] ),
+                       'bcc' => array( $users['05'] ),
+                       'subject' => 'That ancient religion',
+                       'body' => 'I find your lack of faith disturbing.',
+                       'DebugSending' => false,
+                       'Transport' => 'SMTP'
+                ),
+                array(
+                    $users['02']['email'] => array(
+                        'messageCount' => 1,
+                        'headers' => array( 'to' => array( array( 'email' => $users['02']['email'] ),
+                                                           array( 'email' => $users['03']['email'] ) ),
+                                            'replyTo' => array( array( 'email' => $users['01']['email'],
+                                                                       'name' => $users['01']['name'] ) ),
+                                            'from' => array( array( 'email' => $users['01']['email'],
+                                                                    'name' => $users['01']['name'] ) ),
+                                            'cc' => array( array( 'email' => $users['04']['email'],
+                                                                  'name' => $users['04']['name'] ) ),
+                                            'subject' => 'That ancient religion'
+                        ),
+                        'body' => 'I find your lack of faith disturbing.' . $endl
+                    ),
+                    $users['03']['email'] => array(
+                        'messageCount' => 1,
+                        'headers' => array( 'to' => array( array( 'email' => $users['02']['email'] ),
+                                                           array( 'email' => $users['03']['email'] ) ),
+                                            'replyTo' => array( array( 'email' => $users['01']['email'],
+                                                                       'name' => $users['01']['name'] ) ),
+                                            'from' => array( array( 'email' => $users['01']['email'],
+                                                                    'name' => $users['01']['name'] ) ),
+                                            'cc' => array( array( 'email' => $users['04']['email'],
+                                                                  'name' => $users['04']['name'] ) ),
+                                            'subject' => 'That ancient religion'
+                        ),
+                        'body' => 'I find your lack of faith disturbing.' . $endl
+                    ),
+                    $users['04']['email'] => array(
+                        'messageCount' => 1,
+                        'headers' => array( 'to' => array( array( 'email' => $users['02']['email'] ),
+                                                           array( 'email' => $users['03']['email'] ) ),
+                                            'replyTo' => array( array( 'email' => $users['01']['email'],
+                                                                       'name' => $users['01']['name'] ) ),
+                                            'from' => array( array( 'email' => $users['01']['email'],
+                                                                    'name' => $users['01']['name'] ) ),
+                                            'cc' => array( array( 'email' => $users['04']['email'],
+                                                                  'name' => $users['04']['name'] ) ),
+                                            'subject' => 'That ancient religion'
+                        ),
+                        'body' => 'I find your lack of faith disturbing.' . $endl
+                    ),
+                    $users['05']['email'] => array(
+                        'messageCount' => 1,
+                        'headers' => array( 'to' => array( array( 'email' => $users['02']['email'] ),
+                                                           array( 'email' => $users['03']['email'] ) ),
+                                            'replyTo' => array( array( 'email' => $users['01']['email'],
+                                                                       'name' => $users['01']['name'] ) ),
+                                            'from' => array( array( 'email' => $users['01']['email'],
+                                                                    'name' => $users['01']['name'] ) ),
+                                            'cc' => array( array( 'email' => $users['04']['email'],
+                                                                  'name' => $users['04']['name'] ) ),
+                                            'subject' => 'That ancient religion'
+                        ),
+                        'body' => 'I find your lack of faith disturbing.' . $endl
+                    ),
                 )
             )
         );
@@ -693,18 +747,30 @@ class eZMailTest extends ezpTestCase
      */
     public function testSendEmail( $sendData, $expectedResult )
     {
+        if( empty( $sendData ) )
+        {
+            $this->markTestSkipped( 'No $sendData from data provider.' );
+        }
         if ( !self::imapIsEnabled() )
         {
             $this->markTestSkipped( 'IMAP is not loaded' );
             return;
         }
 
-        $mboxString = '{mta1.ez.no:143/imap/notls}INBOX';
+        $emailINI = eZINI::instance( 'test_ezmail_plain.ini' );
+        $mboxString = $emailINI->variable( 'TestAccounts', 'MBoxString' );
         $recipients = array_merge( (array)$sendData['to'], (array)$sendData['cc'], (array)$sendData['bcc'] );
 
         if ( isset( $sendData['Transport'] ) and $sendData['Transport'] == 'SMTP' )
         {
             ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'Transport', 'SMTP' );
+            $mailINI = eZINI::instance( 'test_ezmail_plain.ini' );
+            $mailSetting = $mailINI->group( 'MailSettings' );
+            ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'TransportServer', $mailSetting['TransportServer'] );
+            ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'TransportPort', $mailSetting['TransportPort'] );
+            ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'TransportUser', $mailSetting['TransportUser'] );
+            ezpINIHelper::setINISetting( 'site.ini', 'MailSettings', 'TransportPassword', $mailSetting['TransportPassword'] );
+
         }
 
         if ( isset( $sendData['DebugSending'] ) and $sendData['DebugSending'] == true )
@@ -898,13 +964,6 @@ class eZMailTest extends ezpTestCase
         $siteINI->setVariable( 'MailSettings', 'TransportPort', '25' );
         $result = eZMailTransport::send( $mail );
         $this->assertFalse( $result );
-
-        // test plain
-        $ini = eZINI::instance( 'test_ezmail_plain.ini' );
-        $mailSetting = $ini->group( 'MailSettings' );
-        $siteINI->setVariables( array( 'MailSettings' => $mailSetting ) );
-        $mail->setSubject( 'EMAIL PLAIN TESTING' );
-        $this->assertTrue( $result );
 
         $siteINI->setVariables( array( 'MailSettings' => $backupSetting ) );
 

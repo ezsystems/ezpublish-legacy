@@ -1232,9 +1232,9 @@ class eZDebug
         return null;
     }
 
-    /*!
-      \private
-     Returns the microtime as a float value. $mtime must be in microtime() format.
+    /**
+     * Returns the microtime as a float value. $mtime must be in microtime() format.
+     * @deprecated Since 4.4.0, use microtime( true ) instead
     */
     static function timeToFloat( $mtime )
     {

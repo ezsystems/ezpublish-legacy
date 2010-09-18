@@ -1,4 +1,4 @@
-Changes from 4.4.0beta2 to 4.4.0rc1
+Changes from 4.4.0beta2 to 4.4.0beta3
 
 *Kernel:
 
@@ -21,4 +21,6 @@ Changes from 4.4.0beta2 to 4.4.0rc1
 - Fixed bug #017202: MOUNT_POINT_PATH missing from index_cluster.php example in index_image.php
 - Fixed bug #017207: eZMail doesn't support SSL in SMTP
 - Fixed bug #017228: DB exception thrown when trying to access Setup wizard
+- Fixed bug #017230: Fatal error on first pageview after clusterize
 - Fixed bug #017232: Incomplete change to the metadata property in eZDBFileHandler
+- Fixed bug #017244: MySQLi DB cluster file handler can return null from _selectOne

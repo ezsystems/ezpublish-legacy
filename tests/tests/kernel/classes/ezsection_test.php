@@ -15,7 +15,7 @@ class eZSectionTest extends ezpDatabaseTestCase
     public function __construct()
     {
         parent::__construct();
-        $this->setName( "eZSession Tests" );
+        $this->setName( "eZSection Tests" );
     }
 
     public function setUp()

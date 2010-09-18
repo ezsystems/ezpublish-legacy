@@ -21,7 +21,7 @@
  * @package lib
  * @subpackage ezsession
  */
-abstract class eZSessionHandler
+abstract class ezpSessionHandler
 {
     /**
      * __construct

@@ -1,0 +1,23 @@
+Email SMTP SSL support
+==========================
+
+Intro
+---------
+In eZ Publish 4.4, it's possible to send email with SSL connection in SMTP.
+
+
+Requirements
+------------
+Open SSL library installed.
+
+
+Configuration
+-----------------------
+In site.ini, change setting like this:
+[MailSettings]
+Transport=SMTP
+TransportServer=<SMTP SERVER>
+TransportConnectionType=ssl
+TransportPort=465|<OTHER SSL PORT>
+TransportUser=<username>
+TransportPassword=<password>
