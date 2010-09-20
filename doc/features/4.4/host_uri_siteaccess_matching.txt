@@ -61,9 +61,9 @@ The settings needed to set up example in intro above, would be:
 
 MatchOrder=host_uri
 
-HostUriMatchMapItems[]=example.com;en;examle_eng
-HostUriMatchMapItems[]=example.com;no;examle_nor
-HostUriMatchMapItems[]=example.com;;examle_eng
+HostUriMatchMapItems[]=example.com;en;example_eng
+HostUriMatchMapItems[]=example.com;no;example_nor
+HostUriMatchMapItems[]=example.com;;example_eng
 HostUriMatchMapItems[]=page2.com;no;page2_nor
 HostUriMatchMapItems[]=page2.com;en;page2_eng
 HostUriMatchMapItems[]=page2.com;;page2_nor
