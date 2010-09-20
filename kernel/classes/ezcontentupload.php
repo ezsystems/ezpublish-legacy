@@ -808,17 +808,31 @@ class eZContentUpload
         return false;
     }
 
-    /*!
-     \private
-     Fetches the HTTP-File into \a $file and fills in MIME-Type information into \a $mimeData.
-     \return \c false if something went wrong.
-    */
+    /**
+     * Fetches the HTTP-File into $file and fills in MIME-Type information into $mimeData.
+     *
+     * @return bool false if something went wrong.
+     */
     function fetchHTTPFile( $httpFileIdentifier, &$errors, &$file, &$mimeData )
     {
-        if ( !eZHTTPFile::canFetch( $httpFileIdentifier ) )
+        $returnCode = eZHTTPFile::canFetch( $httpFileIdentifier, 0 );
+        if ( $returnCode !== eZHTTPFile::UPLOADEDFILE_OK && $returnCode !== true )
         {
-            $errors[] = array( 'description' => ezpI18n::tr( 'kernel/content/upload',
-                                                        'A file is required for upload, no file were found.' ) );
+            switch ( $returnCode )
+            {
+                case eZHTTPFile::UPLOADEDFILE_DOES_NOT_EXIST:
+                    $errors[] = array( 'description' => ezpI18n::tr( 'kernel/content/upload', 'A file is required for upload, no file were found.' ) );
+                    break;
+                case eZHTTPFile::UPLOADEDFILE_EXCEEDS_PHP_LIMIT:
+                case eZHTTPFile::UPLOADEDFILE_EXCEEDS_MAX_SIZE:
+                    $errors[] = array( 'description' => ezpI18n::tr( 'kernel/content/upload', 'The uploaded file size is above the maximum limit.' ) );
+                    break;
+                case eZHTTPFile::UPLOADEDFILE_MISSING_TMP_DIR:
+                case eZHTTPFile::UPLOADEDFILE_CANT_WRITE:
+                case eZHTTPFile::UPLOADEDFILE_UNKNOWN_ERROR:
+                    $errors[] = array( 'description' => ezpI18n::tr( 'kernel/content/upload', 'A system error occured while writing the uploaded file.' ) );
+                    break;
+            }
             return false;
         }
 
@@ -832,7 +846,7 @@ class eZContentUpload
 
         $mimeData = eZMimeType::findByFileContents( $file->attribute( "original_filename" ) );
 
-        return false;
+        return true;
     }
 
     /*!
