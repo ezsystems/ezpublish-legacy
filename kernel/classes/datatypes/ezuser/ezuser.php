@@ -1286,8 +1286,8 @@ WHERE user_id = '" . $userID . "' AND
      * Callback which fetches user cache from local file.
      *
      * @internal
-     * @see eZUser::getUserCacheByUserId()
      * @since 4.4
+     * @see eZUser::getUserCacheByUserId()
      */
     static function retrieveUserCacheFromFile( $filePath, $mtime, $userId )
     {
@@ -1298,8 +1298,8 @@ WHERE user_id = '" . $userID . "' AND
      * Callback which generates user cache for user
      *
      * @internal
-     * @see eZUser::getUserCacheByUserId()
      * @since 4.4
+     * @see eZUser::getUserCacheByUserId()
      */
     static function generateUserCacheForFile( $filePath, $userId )
     {
@@ -1757,29 +1757,28 @@ WHERE user_id = '" . $userID . "' AND
         return array( 'accessWord' => 'limited', 'policies' => $functionArray );
     }
 
-    /*
-     \private
-     Returns either cached or newly generated accessArray for the user.
+    /**
+     * Returns either cached or newly generated accessArray for the user depending on
+     * site.ini\[RoleSettings]\EnableCaching setting
+     *
+     * @access private
+     * @return array
     */
     function accessArray()
     {
         if ( !isset( $this->AccessArray ) )
         {
             $ini = eZINI::instance();
-            $isRoleCachingEnabled = ( $ini->variable( 'RoleSettings', 'EnableCaching' ) == 'true' );
-
-            if ( $isRoleCachingEnabled )
+            if ( $ini->variable( 'RoleSettings', 'EnableCaching' ) === 'true' )
             {
                 $userCache = $this->getUserCache();
-                return $userCache['access_array'];
+                $this->AccessArray = $userCache['access_array'];
             }
             else
             {
                 // if role caching is disabled then generate access array on-the-fly.
-                $accessArray = $this->generateAccessArray();
+                $this->AccessArray = $this->generateAccessArray();
             }
-
-            $this->AccessArray = $accessArray;
         }
         return $this->AccessArray;
     }
@@ -2552,6 +2551,7 @@ WHERE user_id = '" . $userID . "' AND
     /**
      * Returns the filename for a cache file with user information
      *
+     * @deprecated In 4.4.0
      * @params int $userId
      * @return string|false Filename of the cachefile, or false when the user should not be cached
      */

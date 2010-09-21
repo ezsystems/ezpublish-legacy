@@ -135,6 +135,10 @@ Deprecated functionality
   platform to platform, and between PHP versions 5.2.x and 5.3.x. Support for
   this type is planned removed in Matterhorn.
 
+- site.ini\[RoleSettings]\UserPolicyCache
+
+  Not used anymore in the kernel, site.ini\[RoleSettings]\EnableCaching still persists.
+
 Renamed methods
 ---------------
 
