@@ -7761,6 +7761,10 @@ Uwaga: Pakiety nie będą mogły być odinstalowane.
         <source>Your email address</source>
         <translation type="unfinished">Twój adres e-mail</translation>
     </message>
+    <message>
+        <source>Your name</source>
+        <translation type="unfinished">Twoje imię i nazwisko</translation>
+    </message>
 </context>
 <context>
     <name>design/admin/preview/folder</name>

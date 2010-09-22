@@ -22734,7 +22734,7 @@ This functionality is also available at a later time from the Administration Int
     </message>
     <message>
         <source>Installation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Installasjon</translation>
     </message>
     <message>
         <source>ImageMagick may be downloaded from</source>

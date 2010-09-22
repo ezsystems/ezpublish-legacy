@@ -1,4 +1,6 @@
-<!DOCTYPE TS><TS>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.0">
 <context>
     <name>contentstructuremenu/show_content_structure</name>
     <message>
@@ -7743,6 +7745,10 @@ Nota: los paquetes no serán desinstalados.</translation>
         <source>Sitemap for subtree</source>
         <translation>Mapa de contenido del subárbol</translation>
     </message>
+    <message>
+        <source>Preview</source>
+        <translation type="unfinished">Vista previa</translation>
+    </message>
 </context>
 <context>
     <name>design/admin/preview/article</name>
@@ -7795,6 +7801,10 @@ Nota: los paquetes no serán desinstalados.</translation>
     <message>
         <source>Your email address</source>
         <translation>Tu dirección de e-mail</translation>
+    </message>
+    <message>
+        <source>Your name</source>
+        <translation type="unfinished">Tu nombre</translation>
     </message>
 </context>
 <context>

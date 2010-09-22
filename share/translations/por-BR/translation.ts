@@ -123,7 +123,7 @@
     </message>
     <message>
         <source>List of classes inside %group_name class group [%class_count]</source>
-        <translation>Lista de tipos de conteúdo dentro do grupo %group_name [%class_count]</translation>
+        <translation type="obsolete">Lista de tipos de conteúdo dentro do grupo %group_name [%class_count]</translation>
     </message>
     <message>
         <source>Classes inside &lt;%group_name&gt; (%class_count)</source>
@@ -132,6 +132,10 @@
     <message>
         <source>List of classes inside %group_name class group (%class_count)</source>
         <translation>Lista de tipos de conteúdo dentro do grupo %group_name (%class_count)</translation>
+    </message>
+    <message>
+        <source>Use this menu to select the language you to want use then click the &quot;New class&quot; button. The item will be created within the current location.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -412,7 +416,7 @@
     </message>
     <message>
         <source>Edit &lt;%class_name&gt; [%object_count]</source>
-        <translation>Editar &lt;%class_name&gt; [%object_count]</translation>
+        <translation type="obsolete">Editar &lt;%class_name&gt; [%object_count]</translation>
     </message>
     <message>
         <source>Description</source>
@@ -448,11 +452,15 @@
     </message>
     <message>
         <source>Edit &lt;%class_name&gt; (%object_count)</source>
-        <translation>Editar &lt;%class_name&gt; (%object_count)</translation>
+        <translation type="obsolete">Editar &lt;%class_name&gt; (%object_count)</translation>
     </message>
     <message>
         <source>The draft of the class definition was successfully stored.</source>
         <translation type="unfinished">O rascunho da definição da classe foi armazenado com sucesso.</translation>
+    </message>
+    <message>
+        <source>Edit &lt;%class_name&gt; (%object_count objects)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -625,10 +633,6 @@
     <message>
         <source>Objects</source>
         <translation>Objetos</translation>
-    </message>
-    <message>
-        <source>Class groups (%group_count)</source>
-        <translation>Grupos de tipos de conteúdo (%group_count)</translation>
     </message>
 </context>
 <context>
@@ -1103,14 +1107,6 @@
     <message>
         <source>Translations (%translations)</source>
         <translation>Traduções (%translations)</translation>
-    </message>
-    <message>
-        <source>Description</source>
-        <translation type="unfinished">Descrição</translation>
-    </message>
-    <message>
-        <source>Category</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2503,10 +2499,6 @@
     <message>
         <source>Locations (%locations)</source>
         <translation>Locais (%locations)</translation>
-    </message>
-    <message>
-        <source>Preview</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Existing translations</source>
@@ -5116,10 +5108,6 @@ Apelidos de URL definidos globalmente [%alias_count]</translation>
         <source>Currently you do not have any drafts available.</source>
         <translation>Atualmente você não tem nenhum rascunho disponível.</translation>
     </message>
-    <message>
-        <source>My drafts</source>
-        <translation>Meus rascunhos</translation>
-    </message>
 </context>
 <context>
     <name>design/admin/dashboard/latest_content</name>
@@ -5155,20 +5143,16 @@ Apelidos de URL definidos globalmente [%alias_count]</translation>
         <source>Your latest content list is empty.</source>
         <translation>A lista com seus últimos conteúdos está vazia</translation>
     </message>
-    <message>
-        <source>My latest content</source>
-        <translation>Meus últimos conteúdos</translation>
-    </message>
 </context>
 <context>
     <name>design/admin/dashboard/maintenance</name>
     <message>
         <source>Maintenance</source>
-        <translation>Manutenção</translation>
+        <translation type="obsolete">Manutenção</translation>
     </message>
     <message>
         <source>Currently you are using eZ Publish version: %1</source>
-        <translation>Atualmente você está usando o eZ Publish: %1</translation>
+        <translation type="obsolete">Atualmente você está usando o eZ Publish: %1</translation>
     </message>
     <message>
         <source>Software update and Maintenance</source>
@@ -5205,10 +5189,6 @@ Apelidos de URL definidos globalmente [%alias_count]</translation>
     <message>
         <source>Currently you do not have any pending items available.</source>
         <translation>Atualmente você não tem nenhum item pendente.</translation>
-    </message>
-    <message>
-        <source>My pending items</source>
-        <translation>Meus itens pendentes</translation>
     </message>
 </context>
 <context>
@@ -6531,7 +6511,7 @@ Tem certeza de que deseja remover a informação coletada?</translation>
     </message>
     <message>
         <source>Tab is disabled, enable on dashboard.</source>
-        <translation>A aba está desabilitada, habilite ela no painel.</translation>
+        <translation type="obsolete">A aba está desabilitada, habilite ela no painel.</translation>
     </message>
     <message>
         <source>Translations (%count)</source>
@@ -6555,19 +6535,19 @@ Tem certeza de que deseja remover a informação coletada?</translation>
     </message>
     <message>
         <source>Create</source>
-        <translation>Criar</translation>
+        <translation type="obsolete">Criar</translation>
     </message>
     <message>
         <source>in</source>
-        <translation>em</translation>
+        <translation type="obsolete">em</translation>
     </message>
     <message>
         <source>Here</source>
-        <translation>Aqui</translation>
+        <translation type="obsolete">Aqui</translation>
     </message>
     <message>
         <source>List of sub items of current node, with controlls to edit, remove and move them directly.</source>
-        <translation>Lista de subitens do nó atual com controles para editar, remover e movê-los diretamente.</translation>
+        <translation type="obsolete">Lista de subitens do nó atual com controles para editar, remover e movê-los diretamente.</translation>
     </message>
     <message>
         <source>Node and object details like creator, when it was created, section it belongs to, number of versions and translations, Node ID and Object ID.</source>
@@ -6634,10 +6614,6 @@ Tem certeza de que deseja remover a informação coletada?</translation>
         <translation>Ordem de publicação</translation>
     </message>
     <message>
-        <source>New translation</source>
-        <translation>Nova tradução</translation>
-    </message>
-    <message>
         <source>Related objects (%related_objects_count)</source>
         <translation>Objetos relacionados (%related_objects_count)</translation>
     </message>
@@ -6652,6 +6628,90 @@ Tem certeza de que deseja remover a informação coletada?</translation>
     <message>
         <source>Existing translations</source>
         <translation>Traduções existentes</translation>
+    </message>
+    <message>
+        <source>Tab is disabled, enable with toggler to the left of these tabs.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show simplified view of content.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ordering</source>
+        <translation type="unfinished">Ordenação</translation>
+    </message>
+    <message>
+        <source>Show published ordering overview.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object remote ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Table options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Number of items per page:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Visible table columns:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select</source>
+        <translation type="unfinished">Selecionar</translation>
+    </message>
+    <message>
+        <source>Select all visible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select none</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create new</source>
+        <translation type="unfinished">Criar novo</translation>
+    </message>
+    <message>
+        <source>More actions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use the checkboxes to select one or more items.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>first</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>prev</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>next</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>last</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7295,7 +7355,7 @@ Nota: Os pacotes não serão desinstalados.</translation>
     </message>
     <message>
         <source>My account</source>
-        <translation>Minha conta</translation>
+        <translation type="obsolete">Minha conta</translation>
     </message>
     <message>
         <source>Current user</source>
@@ -7447,7 +7507,11 @@ Nota: Os pacotes não serão desinstalados.</translation>
     </message>
     <message>
         <source>User perferences</source>
-        <translation>Preferências do usuário</translation>
+        <translation type="obsolete">Preferências do usuário</translation>
+    </message>
+    <message>
+        <source>User preferences</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7650,7 +7714,15 @@ Nota: Os pacotes não serão desinstalados.</translation>
     </message>
     <message>
         <source>Enable &amp;quot;Preview tab&amp;quot; while browsing content.</source>
-        <translation>Habilita a aba &amp;quot;Pré-visualizar&amp;quot; ao navegar pelo conteúdo.</translation>
+        <translation type="obsolete">Habilita a aba &amp;quot;Pré-visualizar&amp;quot; ao navegar pelo conteúdo.</translation>
+    </message>
+    <message>
+        <source>Enable &amp;quot;Tabs&amp;quot; by default while browsing content.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disable &amp;quot;Tabs&amp;quot; by default while browsing content.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7841,7 +7913,7 @@ Nota: Os pacotes não serão desinstalados.</translation>
     </message>
     <message>
         <source>Manage permission settings.</source>
-        <translation>Gerenciar as configurações de permissão.</translation>
+        <translation type="obsolete">Gerenciar as configurações de permissão.</translation>
     </message>
     <message>
         <source>Roles and policies</source>
@@ -8271,6 +8343,10 @@ Nota: Os pacotes não serão desinstalados.</translation>
     <message>
         <source>Your email address</source>
         <translation>Seu endereço de e-mail</translation>
+    </message>
+    <message>
+        <source>Your name</source>
+        <translation type="unfinished">Seu nome</translation>
     </message>
 </context>
 <context>
@@ -9365,7 +9441,7 @@ Clique em um dos botões &quot;Conceder..&quot; (explicado abaixo), para prosseg
     </message>
     <message>
         <source>Enclosure (media)</source>
-        <translation>Anexo (midia)</translation>
+        <translation type="obsolete">Anexo (midia)</translation>
     </message>
 </context>
 <context>
@@ -9638,6 +9714,10 @@ Clique em um dos botões &quot;Conceder..&quot; (explicado abaixo), para prosseg
         <source>Section edit error</source>
         <translation type="unfinished">Erro de ediçao da seçao</translation>
     </message>
+    <message>
+        <source>Identifier</source>
+        <translation type="unfinished">Identificador</translation>
+    </message>
 </context>
 <context>
     <name>design/admin/section/list</name>
@@ -9709,6 +9789,10 @@ Clique em um dos botões &quot;Conceder..&quot; (explicado abaixo), para prosseg
     <message>
         <source>Assign a subtree to the &lt;%section_name&gt; section.</source>
         <translation>Atribuir a sub-árvore à seção &lt;%section_name&gt;.</translation>
+    </message>
+    <message>
+        <source>Identifier</source>
+        <translation type="unfinished">Identificador</translation>
     </message>
 </context>
 <context>
@@ -9792,6 +9876,10 @@ Clique em um dos botões &quot;Conceder..&quot; (explicado abaixo), para prosseg
     <message>
         <source>Assign subtree of objects to this section</source>
         <translation>Atribuir sub-árvore de objetos a esta seção</translation>
+    </message>
+    <message>
+        <source>Identifier</source>
+        <translation type="unfinished">Identificador</translation>
     </message>
 </context>
 <context>
@@ -10206,6 +10294,10 @@ Clique em um dos botões &quot;Conceder..&quot; (explicado abaixo), para prosseg
         <source>Categories</source>
         <translation>Categorias</translation>
     </message>
+    <message>
+        <source></source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/admin/setup/datatypecode</name>
@@ -10266,7 +10358,15 @@ Clique em um dos botões &quot;Conceder..&quot; (explicado abaixo), para prosseg
     </message>
     <message>
         <source>Activate</source>
-        <translation>Ativar</translation>
+        <translation type="obsolete">Ativar</translation>
+    </message>
+    <message>
+        <source>Activate or deactivate extension. Use the &quot;Update&quot; button to apply the changes.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation type="unfinished">Atualizar</translation>
     </message>
 </context>
 <context>
@@ -10449,7 +10549,7 @@ Clique em um dos botões &quot;Conceder..&quot; (explicado abaixo), para prosseg
     <message>
         <source>SVN revision</source>
         <comment>eZ Publish version</comment>
-        <translation>Revisão SVN</translation>
+        <translation type="obsolete">Revisão SVN</translation>
     </message>
     <message>
         <source>Extensions</source>
@@ -10847,7 +10947,7 @@ Clique em um dos botões &quot;Conceder..&quot; (explicado abaixo), para prosseg
     </message>
     <message>
         <source>The operation were cut short in order to avoid execution timeout.</source>
-        <translation>A operação foi interrompida para evitar exceder o tempo limite de execução.</translation>
+        <translation type="obsolete">A operação foi interrompida para evitar exceder o tempo limite de execução.</translation>
     </message>
     <message>
         <source>Your alternatives are to:</source>
@@ -10864,6 +10964,10 @@ Clique em um dos botões &quot;Conceder..&quot; (explicado abaixo), para prosseg
     <message>
         <source>Install the session cleanup cronjob &apos;session_gc.php&apos; and run on nightly intervals (see cronjob.ini or doc for how)</source>
         <translation>Instalar a limpeza de sessão via cronjob &apos;session_gc.php&apos; para ser executada no período noturno (ver cronjob.ini ou o doc de como fazer)</translation>
+    </message>
+    <message>
+        <source>The operation was cut short in order to avoid execution timeout.</source>
+        <translation type="unfinished">A operaçao foi interrompida para evitar timeout de execuçao.</translation>
     </message>
 </context>
 <context>
@@ -12657,7 +12761,7 @@ Clique em um dos botões &quot;Conceder..&quot; (explicado abaixo), para prosseg
     </message>
     <message>
         <source>Save changes to this states.</source>
-        <translation type="unfinished">Salvar modificações para estes estados.</translation>
+        <translation type="obsolete">Salvar modificações para estes estados.</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -12744,7 +12848,7 @@ Clique em um dos botões &quot;Conceder..&quot; (explicado abaixo), para prosseg
     </message>
     <message>
         <source>The content object state was successfully created.</source>
-        <translation>O estado de conteúdo foi criado com sucesso.</translation>
+        <translation type="obsolete">O estado de conteúdo foi criado com sucesso.</translation>
     </message>
     <message>
         <source>Description</source>
@@ -15556,7 +15660,11 @@ your account.</source>
     </message>
     <message>
         <source>seconds(s)</source>
-        <translation>segundo(s)</translation>
+        <translation type="obsolete">segundo(s)</translation>
+    </message>
+    <message>
+        <source>second(s)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -17051,6 +17159,10 @@ Se quiser enviar comentários ao aprovador ou ver o status do processo, use a UR
     <message>
         <source>Your browser does not support html5 audio.</source>
         <translation>Seu navegador não suporta áudio html5.</translation>
+    </message>
+    <message>
+        <source>Find objects</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -18891,11 +19003,11 @@ Escolha o local inicial padrão para a seleção de objetos relacionados.
     <name>design/standard/form</name>
     <message>
         <source>Thank you for your feedback</source>
-        <translation>Obrigado pela sua contribuição</translation>
+        <translation type="obsolete">Obrigado pela sua contribuição</translation>
     </message>
     <message>
         <source>Your information was successfully received.</source>
-        <translation>A sua informação foi recebida com sucesso.</translation>
+        <translation type="obsolete">A sua informação foi recebida com sucesso.</translation>
     </message>
 </context>
 <context>
@@ -19250,7 +19362,7 @@ Se você removê-los, todas as crianças serão removidas também.
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation type="obsolete">Cancelar</translation>
     </message>
     <message>
         <source>Receive all messages combined in one digest</source>
@@ -21471,7 +21583,7 @@ Usando o %operatorname você pode ...</translation>
     <message>
         <source>SVN revision</source>
         <comment>eZ Publish version</comment>
-        <translation>Revisão SVN</translation>
+        <translation type="obsolete">Revisão SVN</translation>
     </message>
     <message>
         <source>Extensions</source>
@@ -23177,7 +23289,7 @@ Esta funcionalidade também está disponível após a configuração inicial na 
     </message>
     <message>
         <source>The operation were cut short in order to avoid execution timeout.</source>
-        <translation>A operação foi interrompida para evitar exceder o tempo limite de execução.</translation>
+        <translation type="obsolete">A operação foi interrompida para evitar exceder o tempo limite de execução.</translation>
     </message>
     <message>
         <source>Your alternatives are to:</source>
@@ -23542,7 +23654,7 @@ Este é um problema de segurança e deve ser mudado para um outro diretório pro
     </message>
     <message>
         <source>, but the latest released PHP 4.4.x version is highly recommended.</source>
-        <translation>, mas a versão de PHP 4.4.x lançada mais recentemente é altamente recomendada.</translation>
+        <translation type="obsolete">, mas a versão de PHP 4.4.x lançada mais recentemente é altamente recomendada.</translation>
     </message>
     <message>
         <source>Missed some directories</source>
@@ -23782,7 +23894,7 @@ Para fazer isso, você pode usar o comando %chown embaixo dos comandos do shell 
     </message>
     <message>
         <source>To fix this, edit your php.ini configuration and add E to the variables_order setting.</source>
-        <translation>Para corrigir isso, edite seu arquivo de configuração php.ini e adicione E na configuração variables_order.</translation>
+        <translation type="obsolete">Para corrigir isso, edite seu arquivo de configuração php.ini e adicione E na configuração variables_order.</translation>
     </message>
     <message>
         <source>Missing cURL extension</source>
@@ -25260,7 +25372,7 @@ especificado. Siga as instruções do e-mail para ativar a sua conta.</translati
     <name>design/standard/user/</name>
     <message>
         <source>The new password must be at least %1 characters long. Please retype your new password.</source>
-        <translation>A nova senha deve ter pelo menos %1 caracteres. Por favor, redigite sua nova senha.</translation>
+        <translation type="obsolete">A nova senha deve ter pelo menos %1 caracteres. Por favor, redigite sua nova senha.</translation>
     </message>
 </context>
 <context>
@@ -26156,6 +26268,10 @@ especificado. Siga as instruções do e-mail para ativar a sua conta.</translati
         <source>TS Translation cache</source>
         <translation type="unfinished">Cache de Tradução TS</translation>
     </message>
+    <message>
+        <source>Design base cache</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>kernel/class</name>
@@ -26173,11 +26289,11 @@ especificado. Siga as instruções do e-mail para ativar a sua conta.</translati
     </message>
     <message>
         <source>Class edit</source>
-        <translation>Editar tipo de conteúdo</translation>
+        <translation type="obsolete">Editar tipo de conteúdo</translation>
     </message>
     <message>
         <source>Classes</source>
-        <translation>Tipos de conteúdo</translation>
+        <translation type="obsolete">Tipos de conteúdo</translation>
     </message>
     <message>
         <source>Class list</source>
@@ -27192,14 +27308,18 @@ se você selecionou a opção &quot;%3&quot; de &quot;%4&quot;  </translation>
     </message>
     <message>
         <source>You have already sent a tipafriend mail to this reciver regarding &apos;$nodeName&apos; content</source>
-        <translation>Você já enviou um email a este amigo sobre o conteúdo &apos;$nodeName&apos;</translation>
+        <translation type="obsolete">Você já enviou um email a este amigo sobre o conteúdo &apos;$nodeName&apos;</translation>
+    </message>
+    <message>
+        <source>You have already sent a tipafriend mail to this receiver regarding &apos;%1&apos; content</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>kernel/content/copysubtree</name>
     <message>
         <source>Cannot publish object (ID = %1).</source>
-        <translation>Não é possível publicar objeto (ID =%1).</translation>
+        <translation type="obsolete">Não é possível publicar objeto (ID =%1).</translation>
     </message>
     <message>
         <source>Fatal error: cannot get subtree main node (ID = %1).</source>
@@ -27360,10 +27480,6 @@ se você selecionou a opção &quot;%3&quot; de &quot;%4&quot;  </translation>
         <source>The size of the uploaded file exceeds the limit set for this site: %1 bytes.</source>
         <translation>O tamanho do arquivo carregado excede o limite para este site: %1 bytes.</translation>
     </message>
-    <message>
-        <source>Permission denied</source>
-        <translation type="unfinished">Permissão negada</translation>
-    </message>
 </context>
 <context>
     <name>kernel/content/urlalias_global</name>
@@ -27444,7 +27560,7 @@ se você selecionou a opção &quot;%3&quot; de &quot;%4&quot;  </translation>
     <name>kernel/form</name>
     <message>
         <source>Form processing</source>
-        <translation>Processamento de formulários</translation>
+        <translation type="obsolete">Processamento de formulários</translation>
     </message>
 </context>
 <context>
@@ -27954,7 +28070,7 @@ se você selecionou a opção &quot;%3&quot; de &quot;%4&quot;  </translation>
     <name>kernel/section</name>
     <message>
         <source>Edit Section</source>
-        <translation>Editar a seção</translation>
+        <translation type="obsolete">Editar a seção</translation>
     </message>
     <message>
         <source>Sections</source>
@@ -27962,7 +28078,7 @@ se você selecionou a opção &quot;%3&quot; de &quot;%4&quot;  </translation>
     </message>
     <message>
         <source>View section</source>
-        <translation>Visualizar Seção</translation>
+        <translation type="obsolete">Visualizar Seção</translation>
     </message>
     <message>
         <source>New section</source>

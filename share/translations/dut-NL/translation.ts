@@ -5994,7 +5994,7 @@
     </message>
     <message>
         <source>New translation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nieuwe vertaling</translation>
     </message>
     <message>
         <source>Policy list and the Role that are assignet to current node.</source>
@@ -6034,7 +6034,7 @@
     </message>
     <message>
         <source>Existing translations</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bestaande vertalingen</translation>
     </message>
     <message>
         <source>Language list of translations for current object.</source>
@@ -7680,7 +7680,7 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     </message>
     <message>
         <source>New translation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nieuwe vertaling</translation>
     </message>
     <message>
         <source>Sitemap for subtree</source>
