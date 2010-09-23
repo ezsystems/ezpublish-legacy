@@ -4,6 +4,9 @@ Changes to BC and behavior  in version 4.3.0
 INI setting changes
 -------------------
 
+- AvailableSiteAccessList[]=admin
+
+  admin siteaccess is no longer enabled by default in default settings.
 
 
 
@@ -138,6 +141,11 @@ Deprecated functionality
 - site.ini\[RoleSettings]\UserPolicyCache
 
   Not used anymore in the kernel, site.ini\[RoleSettings]\EnableCaching still persists.
+
+- AvailableSiteAccessList[]=admin
+
+  Admin siteaccess has been deprecated as it is not used by any of current installers since many
+  of the settings needed for a admin siteaccess needs to be written by the installer dynamically.
 
 Renamed methods
 ---------------
