@@ -2528,7 +2528,7 @@ WHERE user_id = '" . $userID . "' AND
      */
     static function getCacheDir( $userId = 0 )
     {
-        $dir = eZSys::cacheDirectory() . '/user-info' . eZDir::createMultilevelPath( $userId, 2 );
+        $dir = eZSys::cacheDirectory() . '/user-info' . eZDir::createMultilevelPath( $userId, 5 );
 
         if ( !is_dir( $dir ) )
         {
