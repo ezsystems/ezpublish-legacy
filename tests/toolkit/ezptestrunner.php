@@ -309,7 +309,7 @@ class ezpTestRunner extends PHPUnit_TextUI_TestRunner
         $suite = new eZTestSuite;
 
         // Add suites from extensions.
-        $extensions = eZDir::findSubitems( eZExtension::baseDirectory(), 'd', true );
+        $extensions = eZDir::findSubitems( eZExtension::baseDirectory(), 'dl', true );
 
         foreach( $extensions as $extension )
         {
