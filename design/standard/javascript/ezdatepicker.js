@@ -25,6 +25,17 @@ function showDatePicker( base, id, datatype )
         var txtDay = document.getElementsByName( base + '_' + datatype + '_day_' + id );
         txtDay[0].value = day;
 
+        /* Set time to 12:00, if no time is set */
+        var txtHour = document.getElementsByName( base + '_' + datatype + '_hour_' + id );
+        if( txtHour && txtHour[0].value.length == '' ) {
+            txtHour[0].value = '12';
+        }
+
+        var txtMinute = document.getElementsByName( base + '_' + datatype + '_minute_' + id );
+        if( txtMinute && txtMinute[0].value == '' ) {
+            txtMinute[0].value = '00';
+        }
+
         this.hide();
     }, window['cal'+id], true );
 }
