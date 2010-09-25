@@ -1,4 +1,5 @@
-#?ini charset="utf-8"?
+<?php /* #?ini charset="utf-8"?
+# eZ publish configuration file for images
 
 
 ## Example for making image size name more human readable in OE gui
@@ -14,3 +15,5 @@
 #Reference=
 #Filters[]
 #Filters[]=geometry/scaledownonly=360;440
+
+*/ ?>
