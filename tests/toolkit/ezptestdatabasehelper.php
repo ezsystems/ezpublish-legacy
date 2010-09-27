@@ -52,10 +52,10 @@ class ezpTestDatabaseHelper
     /**
      * Removes everything inside a database
      *
-     * @param eZDB $db
+     * @param eZDBInterface $db
      * @return void
      */
-    public static function clean( eZDB $db )
+    public static function clean( eZDBInterface $db )
     {
         $supportedRelationTypes = $db->supportedRelationTypes();
         foreach( $supportedRelationTypes as $type )
@@ -71,10 +71,10 @@ class ezpTestDatabaseHelper
     /**
      * Checks if a database exists or not
      *
-     * @param eZDB $db
+     * @param eZDBInterface $db
      * @param string $database
      */
-    public static function exists( eZDB $db, $database )
+    public static function exists( eZDBInterface $db, $database )
     {
         $databases = $db->availableDatabases();
         return ( is_array( $databases ) and in_array( $database, $databases ) );
@@ -83,11 +83,11 @@ class ezpTestDatabaseHelper
     /**
      * Inserts one or more sql files into the test database
      *
-     * @param eZDB $db
+     * @param eZDBInterface $db
      * @param array $sqlFiles array( array( string => string ) )
      * @return bool
      */
-    public static function insertSqlData( eZDB $db, $sqlFiles )
+    public static function insertSqlData( eZDBInterface $db, $sqlFiles )
     {
         if ( !is_array( $sqlFiles ) or count( $sqlFiles ) <= 0 )
             return false;
@@ -115,10 +115,10 @@ class ezpTestDatabaseHelper
     /**
      * Inserts the default eZ Publish schema and clean data
      *
-     * @param eZDB $db
+     * @param eZDBInterface $db
      * @return bool
      */
-    public static function insertDefaultData( eZDB $db )
+    public static function insertDefaultData( eZDBInterface $db )
     {
         return self::insertData( $db, self::$schemaFile, self::$dataFile );
     }
@@ -126,12 +126,12 @@ class ezpTestDatabaseHelper
     /**
      * Inserts the eZ Publish schema and optional clean data
      *
-     * @param eZDB $db
+     * @param eZDBInterface $db
      * @param string $schemaFile Path to schema file (share/db_schema.dba)
      * @param string|null $dataFile Optional path to data file (share/db_data.dba)
      * @return bool
      */
-    public static function insertData( eZDB $db, $schemaFile, $dataFile = null )
+    public static function insertData( eZDBInterface $db, $schemaFile, $dataFile = null )
     {
         $schemaArray = eZDbSchema::read( $schemaFile, true );
         $dataArray = $dataFile !== null ? eZDbSchema::read( $dataFile, true ) : array();
