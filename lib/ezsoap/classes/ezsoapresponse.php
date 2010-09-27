@@ -59,10 +59,10 @@ class eZSOAPResponse extends eZSOAPEnvelope
     {
         $dom = new DOMDocument( "1.0" );
 
-        $dom->loadXML( $this->stripHTTPHeader( $stream ) );
+        $success = $dom->loadXML( $this->stripHTTPHeader( $stream ) );
         $this->DOMDocument = $dom;
 
-        if ( !empty( $dom ) )
+        if ( $success && !empty( $dom ) )
         {
             // check for fault
             $response = $dom->getElementsByTagNameNS( eZSOAPEnvelope::ENV, 'Fault' );
@@ -307,7 +307,7 @@ TODO: add encoding checks with schema validation.
     {
         $missingxml = false;
         $start = strpos( $data, "<?xml" );
-        if ( $start == 0 )
+        if ( $start === false )
         {
             eZDebug::writeWarning( "missing <?xml ...> in HTTP response, attempting workaround",
                                    "eZSoapResponse::stripHTTPHeader" );
