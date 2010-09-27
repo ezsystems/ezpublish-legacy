@@ -1477,9 +1477,17 @@ class eZINI
         return $this->BlockValuesPlacement;
     }
 
-    function &findSettingPlacement( $path )
+    /**
+     * Gives you the location of a ini file based on it's path, format is same as used internally
+     * for $identifer for override dirs-
+     * Eg: default / ext-siteaccess:<ext> / siteaccess / extension:<ext> / override
+     *
+     * @param string $path
+     * @return string
+     */
+    function findSettingPlacement( $path )
     {
-        if ( is_array( $path ) && count( $path ) )
+        if ( is_array( $path ) && isset( $path[0] ) )
             $path = $path[0];
         $exploded = explode( '/', $path );
         $directoryCount = count( $exploded );
@@ -1501,7 +1509,7 @@ class eZINI
             break;
             case 6:
             {
-                $placement = 'ext-siteaccess:' . $exploded[4];
+                $placement = 'ext-siteaccess:' . $exploded[1];
             }
             break;
             default:
