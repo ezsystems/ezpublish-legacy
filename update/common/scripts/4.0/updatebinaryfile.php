@@ -37,7 +37,7 @@ $script = eZScript::instance( array( 'description' => ( "\nAdds the file extensi
                                                         "where it is currently missing.\n" ),
                                      'use-session' => false,
                                      'use-modules' => false,
-                                     'use-extensions' => false ) );
+                                     'use-extensions' => true ) );
 
 $script->startup();
 

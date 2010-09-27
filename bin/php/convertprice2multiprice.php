@@ -52,7 +52,7 @@ $script = eZScript::instance( array( 'description' => ( "\n" .
                                                          "the objects with 'multiprice' datatype.\n" ),
                                       'use-session' => false,
                                       'use-modules' => true,
-                                      'use-extensions' => false,
+                                      'use-extensions' => true,
                                       'user' => true ) );
 $script->startup();
 

@@ -52,7 +52,7 @@ $script = eZScript::instance( array( 'description' => ( "\n" .
                                                         "Install eZWebin package\n" ),
                                      'use-session' => false,
                                      'use-modules' => true,
-                                     'use-extensions' => false,
+                                     'use-extensions' => true,
                                      'user' => true ) );
 $script->startup();
 
