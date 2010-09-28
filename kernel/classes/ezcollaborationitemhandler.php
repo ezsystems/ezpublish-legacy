@@ -159,7 +159,7 @@ class eZCollaborationItemHandler
         {
             $db = eZDB::instance();
             $userIDListText = $db->generateSQLINStatement( $userIDList, 'contentobject_id', false, false, 'int' );
-            $userList = $db->arrayQuery( "SELECT contentobject_id, email FROM ezuser WHERE contentobject_id IN ( $userIDListText )" );
+            $userList = $db->arrayQuery( "SELECT contentobject_id, email FROM ezuser WHERE $userIDListText" );
         }
         else
             return eZNotificationEventHandler::EVENT_SKIPPED;
