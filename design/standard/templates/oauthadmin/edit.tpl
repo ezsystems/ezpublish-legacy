@@ -16,8 +16,8 @@
 <div class="box-content">
 
 <div class="context-information">
-{if $application.modified|ne(0)}
-    {def $modified=$application.modified}
+{if $application.updated|ne(0)}
+    {def $modified=$application.updated}
 {else}
     {def $modified=$application.created}
 {/if}

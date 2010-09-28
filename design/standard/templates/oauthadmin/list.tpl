@@ -34,8 +34,8 @@
     <td>{$application.owner.contentobject.name|wash}</a></td>
 
     {* Modified. *}
-    {if $application.modified|ne(0)}
-        {def $modified=$application.modified}
+    {if $application.updated|ne(0)}
+        {def $modified=$application.updated}
     {else}
         {def $modified=$application.created}
     {/if}
