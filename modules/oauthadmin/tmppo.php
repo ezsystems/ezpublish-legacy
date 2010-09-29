@@ -32,6 +32,9 @@ $dsn = "{$dbType}://{$dbUser}:{$dbPass}@{$dsnHost}/{$dbName}";
 $ezcDb = ezcDbFactory::create( $dsn );
 $session = new ezcPersistentSession(
     $ezcDb,
-    new ezcPersistentCacheManager( new ezcPersistentMultiManager( array( new ezcPersistentCodeManager( "extension/oauth/classes/persistentobjects/" ), new ezcPersistentCodeManager( 'rest/rest/classes/po_maps' ) ) ) ) );
+    new ezcPersistentCacheManager( new ezcPersistentMultiManager( array(
+        new ezcPersistentCodeManager( 'extension/oauth/classes/persistentobjects/' ),
+        new ezcPersistentCodeManager( 'extension/rest/classes/po_maps' )
+    ) ) ) );
     ezcPersistentSessionInstance::set( $session ); // set default session// end ezcDb init
 ?>

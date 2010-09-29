@@ -13,7 +13,6 @@
  * @version //autogentag//
  * @package oauth
  */
-
 $module = $Params['Module'];
 
 // First check for mandatory parameters

@@ -223,7 +223,6 @@ class ezpRestClient
             throw new Exception( "Anonymous user can not authorize an application" );
 
         $authorized = ezpRestAuthorizedClient::fetchForClientUser( $this, $user );
-        var_dump( $authorized );
         return ( $authorized instanceof ezpRestAuthorizedClient );
     }
 
