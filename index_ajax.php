@@ -32,7 +32,6 @@ if ( !ini_get( 'date.timezone' ) )
 }
 
 require 'autoload.php';
-include_once( 'kernel/common/ezincludefunctions.php' );
 
 // Tweaks ini filetime checks if not defined!
 // This makes ini system not check modified time so
@@ -55,7 +54,6 @@ function eZFatalError()
 function exitWithInternalError( $errorText )
 {
     header( $_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error' );
-    include_once( 'extension/ezjscore/classes/ezjscajaxcontent.php' );
     $contentType = ezjscAjaxContent::getHttpAccept();
 
     // set headers
@@ -109,16 +107,6 @@ ob_start();
 error_reporting ( E_ALL );
 
 
-/*
-    see:
-    - http://www.php.net/manual/en/function.session-set-save-handler.php
-    - http://bugs.php.net/bug.php?id=33635
-    - http://bugs.php.net/bug.php?id=33772
-   Only needed on 4.0, 4.1+ handles this in eZExecution
-*/
-if ( !class_exists( 'eZSession' ) )
-    register_shutdown_function( 'eZSessionStop' );
-
 // register fatal error & debug handler
 eZExecution::addFatalErrorHandler( 'eZFatalError' );
 eZDebug::setHandleType( eZDebug::HANDLE_FROM_PHP );
@@ -143,18 +131,15 @@ eZSys::init( 'index.php', $ini->variable( 'SiteAccessSettings', 'ForceVirtualHos
 $uri = eZURI::instance( eZSys::requestURI() );
 $GLOBALS['eZRequestedURI'] = $uri;
 
-require 'pre_check.php';
-
 // Check for extension
 eZExtension::activateExtensions( 'default' );
 
 // load siteaccess
-require 'access.php';
-$access = accessType( $uri,
+$access = eZSiteAccess::match( $uri,
                       eZSys::hostname(),
                       eZSys::serverPort(),
                       eZSys::indexFile() );
-$access = changeAccess( $access );
+$access = eZSiteAccess::change( $access );
 
 // Check for new extension loaded by siteaccess
 eZExtension::activateExtensions( 'access' );
@@ -176,15 +161,10 @@ if ( $moduleName === '' )
 $db = eZDB::instance();
 if ( $db->isConnected() )
 {
-    if ( class_exists( 'eZSession' ) )
-    {
-        eZSession::start();
-    }
+    if ( method_exists('eZSession','lazyStart') )
+        eZSession::lazyStart();
     else
-    {
-        include_once( 'lib/ezutils/classes/ezsession.php' );
-        eZSessionStart();
-    }
+        eZSession::start();
 }
 else
 {
@@ -277,16 +257,13 @@ if ( !hasAccessToBySetting( $moduleName, $viewName, $ini->variable( 'RoleSetting
     {
         exitWithInternalError( 'User does not have access to the current siteaccess.' );
     }
-    
+
     // check access to view
     if ( !$currentUser->hasAccessToView( $module, $viewName, $params ) )
     {
         exitWithInternalError( "User does not have access to the $moduleName/$viewName policy." );
     }
 }
-
-// load i18n functions for use in views
-require_once( 'kernel/common/i18n.php' );
 
 // run module
 $uri->increase();
