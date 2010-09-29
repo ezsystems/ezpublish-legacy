@@ -335,11 +335,8 @@ $uri = eZURI::instance( eZSys::requestURI() );
 $GLOBALS['eZRequestedURI'] = $uri;
 
 // Check for extension
-require_once( 'kernel/common/ezincludefunctions.php' );
 eZExtension::activateExtensions( 'default' );
 // Extension check end
-
-include_once( 'access.php' );
 
 $access = eZSiteAccess::match( $uri,
                       eZSys::hostname(),
