@@ -1,5 +1,9 @@
 eZ Online Editor 5.x extension Changelog
 
+5.3.0alpha1
+- Updated TinyMCE to 3.3.9.2
+
+
 5.2.0beta3
 - Updated TinyMCE to 3.3.9
 
@@ -29,7 +33,6 @@ eZ Online Editor 5.x extension Changelog
 5.2.0alpha3
 - Updated TinyMCE to 3.3.6
 
-
 5.2.0alpha2
 - Added extension.xml that replaces ezinfo.php and loading.php starting from eZ Publish 4.4
 - Updated TinyMCE to 3.3.4
@@ -44,13 +47,13 @@ eZ Online Editor 5.x extension Changelog
 - Implemented enhancement #16827: Better RTL support for the eZOE editor
 - Disable editor if user agent is Iz as they do not currently have caret support
 
-
 5.2.0alpha1
 - Implemented enhancement #016711: Making extension aware of the order/priority in which they need to be loaded
 - Fixed bug #16554: Applying table cell settings to row or column does not affect table headings
 - Fixed bug #16605: Online Editor adds a lot of Non Breaking spaces (nbsp)
 - Fixed bug #16271: Links containing special characters are not stored correctly
 - Upgraded TinyMCE to 3.3.2
+
 
 5.1.0
 * Fixed bug #16469: embedding objects in another language causes serious problems in following not-translateable attributes
