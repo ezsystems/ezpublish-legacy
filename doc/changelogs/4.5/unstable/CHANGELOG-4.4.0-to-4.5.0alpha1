@@ -15,4 +15,5 @@ Changes from 4.4.0 to 4.5.0alpha1
 *Translations:
 
 *Bugfixes:
+- Fixed bug #015376: ezmultiupload doesn't handle upload_max_filesize and post_max_size limitations
 
