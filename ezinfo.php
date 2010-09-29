@@ -35,7 +35,7 @@ class ezjscoreInfo
                       'Copyright' => $eZCopyrightString,
                       'License'   => 'GNU General Public License v2.0',
                       'Includes the following third-party software' => array( 'Name' => 'YUI',
-                                                                              'Version' => "3.1.2 and 2.8.1",
+                                                                              'Version' => "3.2.0 and 2.8.1",
                                                                               'Copyright' => 'Copyright (c) 2010, Yahoo! Inc. All rights reserved.',
                                                                               'License' => 'Licensed under the BSD License',),
                       'Includes the following third-party software (2)' => array( 'Name' => 'jQuery',
