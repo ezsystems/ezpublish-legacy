@@ -1,1 +1,45 @@
-README for REST extension.
+===========================================
+eZ Publish REST interface technical preview
+===========================================
+
+About the eZ Publish REST interface technical preview
+=====================================================
+This release is a sneak peak of what the REST interface will look like.
+
+The goal is to provide access to all the relevant eZ Publish features over a simple HTTP interface, based on open and
+well known syntaxes like JSON or XML.
+
+Based on MvcTools, the eZ Components MVC library, it introduces the new front controller that will ultimately be the
+only entry point to the CMS features.
+
+Requirements
+============
+eZ Publish 4.4 or higher
+eZ Components 2009.2.1
+
+Installation
+============
+See the doc/INSTALL file.
+
+Usage introduction
+==================
+As of the Fuji (4.4) release, content can only be read, not yet written. Content requiring authentication can be
+accessed once authenticated with oAuth2.
+
+Authentication
+--------------
+An oAuth2 interface has been implemented in order to provide authentication on the target eZ Publish with as much
+security as possible. It makes authentication using a mobile application very easy.
+
+More details can be found in the extension/oauth/README file.
+
+Fetching content
+----------------
+All content requests are made using the content resource, using HTTP GET requests. Examples::
+  /api/content/object/12
+  /api/content/node/128/field/name
+  /api/content/node/128/fields
+
+Such requests will return JSON content by default.
+
+More documentation will be added soon, but these basics should get you started.
