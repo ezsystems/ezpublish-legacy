@@ -3,13 +3,8 @@ function showDatePicker( base, id, datatype )
 {
     var calIconID = base + '_' + datatype + '_cal_' + id;
     var calContainerID = base + '_' + datatype + '_cal_container_' + id;
-    var calContainer = document.getElementById( calContainerID );
 
-    var xy = YAHOO.util.Dom.getXY( calIconID );
-
-    calContainer.style.left = ( xy[0] + 26 ) + 'px';
-    calContainer.style.top = ( xy[1] + 30 ) + 'px';
-    calContainer.style.display = 'block';
+    YAHOO.util.Dom.setStyle( calContainerID, 'display', 'block' );
 
     window['cal'+id] = new YAHOO.widget.Calendar( base + '_' + datatype + '_calendar_' + id , calContainerID, { close: true, 
                                                                                               mindate: "1/1/1970",
@@ -29,6 +24,17 @@ function showDatePicker( base, id, datatype )
 
         var txtDay = document.getElementsByName( base + '_' + datatype + '_day_' + id );
         txtDay[0].value = day;
+
+        /* Set time to 12:00, if no time is set */
+        var txtHour = document.getElementsByName( base + '_' + datatype + '_hour_' + id );
+        if( txtHour && txtHour[0].value.length == '' ) {
+            txtHour[0].value = '12';
+        }
+
+        var txtMinute = document.getElementsByName( base + '_' + datatype + '_minute_' + id );
+        if( txtMinute && txtMinute[0].value == '' ) {
+            txtMinute[0].value = '00';
+        }
 
         this.hide();
     }, window['cal'+id], true );

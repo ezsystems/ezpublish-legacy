@@ -33,7 +33,7 @@ $scriptSettings = array();
 $scriptSettings['description'] = 'Update all attributes with datatype ezimage to use the new image system introduced in eZ Publish 3.3';
 $scriptSettings['use-session'] = true;
 $scriptSettings['use-modules'] = false;
-$scriptSettings['use-extensions'] = false;
+$scriptSettings['use-extensions'] = true;
 
 $script = eZScript::instance( $scriptSettings );
 $script->startup();

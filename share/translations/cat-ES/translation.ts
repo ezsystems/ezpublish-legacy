@@ -1,4 +1,6 @@
-<!DOCTYPE TS><TS>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.0">
 <context>
     <name>contentstructuremenu/show_content_structure</name>
     <message>
@@ -6953,16 +6955,24 @@ Nota: Els paquets no seran desinstal·lats.</translation>
         <source>User perferences</source>
         <translation type="obsolete">Preferències d&apos;usuari</translation>
     </message>
+    <message>
+        <source>Dashboard</source>
+        <translation type="unfinished">Escriptori</translation>
+    </message>
+    <message>
+        <source>User preferences</source>
+        <translation type="unfinished">Preferències d&apos;usuari</translation>
+    </message>
 </context>
 <context>
     <name>design/admin/pagelayout/path</name>
     <message>
         <source>Dashboard</source>
-        <translation>Escriptori</translation>
+        <translation type="obsolete">Escriptori</translation>
     </message>
     <message>
         <source>User preferences</source>
-        <translation>Preferències d&apos;usuari</translation>
+        <translation type="obsolete">Preferències d&apos;usuari</translation>
     </message>
     <message>
         <source>You are here:</source>
@@ -7171,6 +7181,14 @@ Nota: Els paquets no seran desinstal·lats.</translation>
     <message>
         <source>Disable &amp;quot;Tabs&amp;quot; by default while browsing content.</source>
         <translation>Deshabilita les &amp;quot;Pestanyes&amp;quot; per defecte mentre que navegues pel contingut.</translation>
+    </message>
+    <message>
+        <source>Enable &amp;quot;Tabs&amp;quot; by default  while browsing content.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disable &amp;quot;Tabs&amp;quot; by default  while browsing content.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

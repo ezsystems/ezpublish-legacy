@@ -12,9 +12,7 @@ o  Apache version:
 
 o  PHP version:
 
-   The latest version of the 5.2 branch is strongly recommended
-   (and some extensions require it), however, PHP5.1 should work too
-   for a basic installation.
+   The latest version of the 5.2 branch is strongly recommended.
 
    Note that you will have to increase the default "memory_limit" setting
    which is located in the "php.ini" configuration file to 64 MB or larger. (Don't
@@ -29,10 +27,15 @@ o  Database server:
 
    MySQL 4.1 or later (UTF-8 is required)
    or
-   PostgreSQL 8.0 or later
+   PostgreSQL 8.x
+   or
+   Oracle 11g
 
 o  eZ Components:
-   The latest stable release of eZ Components is required.
+   Enterprise edition includes a version of eZ Components that is tested and certified
+   with this version of eZ Publish-
+
+   The community edition requires the latest stable release of eZ Components.
    To install this, you also need PEAR
    See http://ez.no/ezcomponents for more information
 

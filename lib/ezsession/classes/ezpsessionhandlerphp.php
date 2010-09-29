@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing DB session handler
+ * File containing PHP session handler
  *
  * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/gnu_gpl GNU GPL v2

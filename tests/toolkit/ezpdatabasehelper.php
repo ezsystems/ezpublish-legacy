@@ -34,7 +34,7 @@ class ezpDatabaseHelper
      *
      * @param ezpDatabaseHelper $instance
      */
-    static function setInstance( $instance )
+    static function setInstance( ezpDatabaseHelper $instance )
     {
         $GLOBALS['ezpDatabaseHelper'] = $instance;
     }

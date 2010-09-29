@@ -42,8 +42,8 @@ This will be done automatically when enabling the extension from the ``setup/ext
 
 extension.xml syntax
 --------------------
-This file contains three types of ordering informations, semantically formatted as dependency informations instead.
-This is on purpose, as this wider syntax will let us implement extension inter-dependancies without requiring any
+This file contains three types of ordering information, semantically formatted as dependency information instead.
+This is on purpose, as this wider syntax will let us implement extension inter-dependencies without requiring any
 change to this file's syntax.
 
 Load ordering nodes are to be

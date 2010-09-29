@@ -24,15 +24,15 @@ This has caused several changes in the kernel, things to look out for:
    something way higher then the default 1440 (24 minutes). For instance 259200 (72 hours)
    which is the default value of site.ini\[Session]\SessionTimeout as used by DB session handler.
 
- - Directly usage of $_SESSION: This has always been un-recommended but possible, now it is not.
+ - Directly usage of $_SESSION: This has never been recommended, yet possible. As of now, it is not longer possible.
    Any direct calls to this variable will cause errors if session has not started yet, and hence
-   you should either use api that always been there (eZHTTPTool), or the new one provided by
+   you should either use API that always been there (eZHTTPTool), or the new one provided by
    eZSession (see "Anonymous Sessions" for examples).
 
  - If you want to avoid losing sessions when you upgrade you should setup DB handler in site.ini\[Session]\
    Handler=ezpSessionHandlerDB in advance.
 
- - Additional bc related breaks are listed in doc/bc/4.4/
+ - Additional BC-related breaks are listed in doc/bc/4.4/
 
 
 ===================
@@ -41,30 +41,30 @@ This has caused several changes in the kernel, things to look out for:
 
 Session handlers are classes that extends ezpSessionHandler (lib/ezsession/classes/ezpsessionhandler.php).
 If you intend to create your own session handler, make sure you look at that and also take a look at how
-this is implemented in practice in php and db handler in the same folder.
+this is implemented in practice in ezpSessionHandlerPHP and ezpSessionHandlerDB handler in the same folder.
 
-For changing session handler, remember that all users will loose their session and will have to log in again unless
-you implement fallback to old sessions in a custom session handler you create. Example would be to create a memcache
-eZ Publish session handler that fallbacks to same db backend as ezpSessionHandlerDB does for persistence storage.
-The setting involved is site.ini\[Session]\Handler, it uses the autoload system so make sure the class you specify
-is correct and you have regenerated autoloads if you have added your own session handler.
+When changing session handler, remember that all users will loose their session and will have to log in again unless
+you implement a fallback to old sessions, in a custom session handler. An example would be to create a memcache
+eZ Publish session handler that falls back to the same db backend as ezpSessionHandlerDB does for persistence storage.
+The setting involved is site.ini\[Session]\Handler, it uses the autoload system, so make sure the class you specify
+is correct and that you have regenerated the autoload data, if you have added your own session handler.
 
 ===============================
 2. Native (PHP) Session handler
 ===============================
 
-This is the handler now used by default, it lets php handle the session, thus lets you freely use any PHP session
+This is the handler now used by default, it lets PHP handle the sessions, thus you are free to use any PHP session
 handlers (session.save_handler) available. The default is 'files', meaning sessions are stored in files.
 There is also Memcached based session handlers in the Memcache & Memcached php extensions. You are free to try them
-out, but we have not been able to test these yet so make sure you set it up with redundancy in mind so sessions aren't
-cleared when memecache runs out of memory. And if possible when its updated or restarted.
+out, but we have not been able to test these yet, so make sure you set it up with redundancy in mind so sessions aren't
+cleared when memecache runs out of memory. And if possible when it's updated or restarted.
 
 
 =====================
 3. Anonymous Sessions
 =====================
 
-Anonymous sessions are implemented as backwards compatible as possible using lazy loading of session.
+Anonymous sessions are implemented to be, as backwards-compatible as possible, using lazy loading of sessions.
 Meaning if current user does not have a session cookie, or session data in post variables (as used by
 ezmultiupload to workaround flash cookie issues) session will not start UNLESS some code tries to access
 session variables.
@@ -90,7 +90,7 @@ do some changes. There are three alternatives:
        you indication that user did not have a session (cookie or post) when request started and thus the session
        value that is only specific for your code is not there yet.
 
-       Note2: This is especially useful to validate if client accepts cookies as used by user/register to be able
+       Note 2: This is especially useful to validate if client accepts cookies as used by user/register to be able
        to ignore search crawlers and scripted requests like the once coming from the static cache feature.
 
        if ( eZSession::userHasSessionCookie() )
@@ -102,7 +102,7 @@ do some changes. There are three alternatives:
            // optionally get default values for anonymous users
        }
 
- - Using eZSession api directly on 4.4+ (from the inline phpdoc):
+ - Using eZSession API directly on 4.4+ (from the inline phpdoc):
 
         /**
          * Get session value (wrapper)
@@ -136,7 +136,7 @@ do some changes. There are three alternatives:
 3.1 LastAccessesURI
 -------------------
 
-LastAccessesURI is not set anymore for session less users, so to be able to handle that you should change your
+LastAccessesURI is not set anymore for session-less users, so to be able to handle that you should change your
 code to to check if user has a session cookie and provide a default redirect if it does not. The session value
 is only useful if it was set by previous page anyway.
 There are two approaches to fix this, the proper way and the easy way.

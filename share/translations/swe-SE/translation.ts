@@ -7690,6 +7690,10 @@ Obs: Paketen avinstalleras inte.</translation>
         <source>Sitemap for subtree</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Preview</source>
+        <translation type="unfinished">Förhandsgranska</translation>
+    </message>
 </context>
 <context>
     <name>design/admin/preview/article</name>
@@ -7742,6 +7746,10 @@ Obs: Paketen avinstalleras inte.</translation>
     <message>
         <source>Your email address</source>
         <translation type="unfinished">Din emailadress</translation>
+    </message>
+    <message>
+        <source>Your name</source>
+        <translation type="unfinished">Ditt namn</translation>
     </message>
 </context>
 <context>
@@ -15243,7 +15251,7 @@ ditt konto.</translation>
     </message>
     <message>
         <source>Use this field to set the informal description of the class. The description field can contain whitespaces and special characters.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Använd detta fält för att ge klassen ett informellt namn. Fältet kan innehålla mellanslag och specialtecken.</translation>
     </message>
 </context>
 <context>

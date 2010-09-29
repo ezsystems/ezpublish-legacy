@@ -11,7 +11,7 @@ This XML file contains the same information, plus dependency / ordering ones.
 Structure
 =========
 This file can be placed at the root of any extension, and will be parsed by the system. Metadata are among others used
-in ezinfo/about, and ordering informations will be used to make sure extensions are loaded in the correct order.
+in ezinfo/about, and ordering information will be used to make sure extensions are loaded in the correct order.
 
 Example
 =======
@@ -73,13 +73,13 @@ this file doesn't have a strong validation. However, it will expect the followin
 The ``software/metadata/software`` node can be used to document which 3rd party libraries / apps the extension uses.
 The fields are the same than for the ``software/metadata`` one. You can use as many uses nodes as you want.
 
-Dependency informations
------------------------
+Dependency information
+----------------------
 
 Note: you can find more documentation on dependencies in the ``extension_ordering.txt`` file.
 
 ``dependencies`` will contain one node for each dependency / ordering entry this extension requires/uses/extends. In the
 example above, we can see that we have a requirement for ezjscore, and that the extension extends ezwebin.
 
-Only dependencies/(requires|extends|uses)/extension is supported now, but further dependency informations will be
+Only dependencies/(requires|extends|uses)/extension is supported now, but further dependency information will be
 implemented later (PHP version, eZ Publish version...).

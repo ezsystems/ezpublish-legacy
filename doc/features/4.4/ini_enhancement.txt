@@ -1,5 +1,5 @@
 eZIINI enhancements in eZ Publish 4.4
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 =====
 Intro
@@ -9,11 +9,11 @@ eZINI has gotten a few changes in this version:
 
  1. Ini order is now scoped to make it more consistent and less error prone
  2. Improve performance by caching ini locations
- 3. Related extension and siteaccess code have been improved to create an api
+ 3. Related extension and siteaccess code have been improved to create an API
     to be able to correctly load settings from other siteaccesses and change siteaccess
     during execution.
 
-This has caused it to use a new cache format, get several api additions and
+This has caused it to use a new cache format, get several API additions and
 some features have been deprecated(see doc/bc/4.4/).
 
 
@@ -30,7 +30,8 @@ ActiveAccessExtensions did not work as one would imagine, and ActiveAccessExtens
 correctly loaded many places.
 
 So to improve the situation and hopefully avoid it in the future, scopes define the overall loading order
-of ini settings. It is:
+of ini settings. It is::
+
     override
     extension (ActiveExtensions)
     siteaccess
@@ -41,12 +42,15 @@ Bellow sa-extension you'll find the settings folder, but that is not currently d
 In each scope is a list of ini locations in the order they are loaded, for extensions this means the order as defined by
 extension ordering (see separate feature doc). For siteaccess, first the one in settings/siteaccess/* then locations in 
 ActiveExtensions as defined by extension ordering, and last locations in ActiveAccessExtensions.
-You might have noticed lack of "location in <something> IF it exists", see "INI Performance" bellow for why.
+
+We have removed the condition on ``file_exists`` when processing the multiple locations possible for extensions. This
+means that all locations are tried initially, and the valid ones will be stored in the ini cache, subsequent runs, will
+directly get list of locations from the cache, with no ``file_exists`` calls needed. See also `Improved performance`_ below.
 
 An additional value of scopes is that it makes it a lot easier to change the loading order in the future as discussed
 several places before.
 
-In the mean time you now have a reliable way to create extensions that contain settings shared by several siteaccesses
+In the meantime you now have a reliable way of creating extensions that contain settings shared by several siteaccesses
 and at the same time have the ability to override those settings from within the siteaccess settings.
 (ActiveAccessExtensions)
 
@@ -69,15 +73,15 @@ So you'll need to clear ini cache in these cases.
 
 
 ==================
-New Siteaccess api
+New Siteaccess API
 ==================
 
-The api provided by eZINI to read siteaccess settings has always been flawed / miss used, it only loaded settings 
-the siteaccess settings, either in settings/siteaccess/* or if it did not exist used the first one it would find
-in extensions. No extension or sa-extension settings where loaded.
+The API provided by eZINI to read siteaccess settings was flawed / misused, it only loaded siteaccess
+settings from one location, either in settings/siteaccess/* or if it did not exist used the first one it would find
+in extensions, and no extension or sa-extension settings were loaded, or considered in this return.
 
-The new api ( eZSiteAccess::getIni() ) fixes all this, and uses normal ini loading so no disk iteration is needed
-to load the settings. This is now used trough out the kernel and hence fixes bulks of issues related to extension
+The new API ( eZSiteAccess::getIni() ) fixes all of this, and uses normal ini loading so no disk iteration is needed
+to load the settings. This is now used throughout the kernel and hence fixes several issues related to extension
 and specifically siteaccess extension settings not being read.
 
 To use it (where 'admin' is siteaccess name, and 'site.ini' is optional as it is also the default value):
@@ -94,7 +98,7 @@ or if you just want one setting variable:
 If you want to change siteaccess during execution you can do that like this:
 
     eZSiteAccess::load( array( 'name' => 'admin'[, 'type' => eZSiteAccess::<TYPE-CONSTANT>[, 'uri_part' => array(...) ] ] ) );
-    // But if you use any kind or uri mapping (inkl host_uri) where the uri part is not the same as
+    // But if you use any kind or uri mapping (incl. host_uri) where the uri part is not the same as
     // the name of the siteaccess, links might not work on the generated page if uri_part is wrong/undefined.
 
     // In that case make sure you have specified site.ini\[SiteSettings]\SiteUriParts[]
@@ -102,5 +106,5 @@ If you want to change siteaccess during execution you can do that like this:
     // However, this won't cover you if you use host_uri matching and siteaccess uses different host. 
 
 So we recommend using the approach above with 'SiteURL' instead and redirect the user if possible,
-a lot more straight forward and only requires a correct SiteURL setting.
+a lot more straightforward and only requires a correct SiteURL setting.
 

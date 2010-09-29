@@ -18,6 +18,7 @@ class eZHTTPToolRegression extends ezpTestCase
      */
     public function testSendRequestContainingDashes()
     {
+        self::markTestSkipped( "Test disabled pending update." );
         $url = 'http://php-og.mgdm.net/';
 
         $this->assertType(

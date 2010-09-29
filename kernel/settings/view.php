@@ -53,14 +53,15 @@ unset( $ini );
 
 if ( $http->hasPostVariable( 'RemoveButton' ) )
 {
-    if ( isset( $settingFile ) )
-    {
-        $ini = eZSiteAccess::getIni( $currentSiteAccess, $settingFile );
-    }
-
-    $placements = $ini->groupPlacements();
     if ( $http->hasPostVariable( 'RemoveSettingsArray' ) )
     {
+        if ( isset( $settingFile ) )
+        {
+            $ini = eZSiteAccess::getIni( $currentSiteAccess, $settingFile );
+        }
+
+        $placements = $ini->groupPlacements();
+
         $deletedSettingArray = $http->postVariable( 'RemoveSettingsArray' );
         foreach ( $deletedSettingArray as $deletedSetting )
         {
@@ -68,7 +69,7 @@ if ( $http->hasPostVariable( 'RemoveButton' ) )
 
             if ( is_array( $placements[$block][$setting] ) )
             {
-                foreach ( $placements[$block][$setting] as $settingElementKey=>$key )
+                foreach ( $placements[$block][$setting] as $settingElementKey => $key )
                 {
                     $placement = $ini->findSettingPlacement( $placements[$block][$setting][$settingElementKey] );
                     break;
@@ -78,17 +79,20 @@ if ( $http->hasPostVariable( 'RemoveButton' ) )
             {
                 $placement = $ini->findSettingPlacement( $placements[$block][$setting] );
             }
+
             // Get extension name if exists, $placement might be "extension:ezdhtml"
             $exploded = explode( ':', $placement );
-            $extension = $exploded[0] == 'extension'
+            $extension = ( $exploded[0] === 'extension' || $exploded[0] === 'ext-siteaccess' )
                         ? $exploded[1]
                         : false;
 
             $path = 'settings/override';
-            if ( $placement == 'siteaccess' )
+            if ( $placement === 'siteaccess' )
                 $path = "settings/siteaccess/$currentSiteAccess";
-            elseif ( $placement != 'override' and $extension !== false )
+            elseif ( $exploded[0] === 'extension' && $extension !== false )
                 $path = "extension/$extension/settings";
+            elseif ( $exploded[0] === 'ext-siteaccess' && $extension !== false )
+                $path = "extension/$extension/settings/siteaccess/$currentSiteAccess";
 
             // We should use "reference" if multiply removing of ini setting.
             // if eZINI::instance() is called twice instance will be fetched from GLOBAL variable.

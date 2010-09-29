@@ -39,7 +39,7 @@ $script = eZScript::instance( array( 'description' => ( "eZ Publish Session Garb
                                                         "./bin/php/ezsessiongc.php" ),
                                      'use-session' => false,
                                      'use-modules' => false,
-                                     'use-extensions' => false ) );
+                                     'use-extensions' => true ) );
 
 $script->startup();
 

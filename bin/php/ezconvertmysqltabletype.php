@@ -35,7 +35,7 @@ $script = eZScript::instance( array( 'description' => ( "eZ Publish Database Con
                                                         "ezconvertmysqltabletype.php [--host=VALUE --user=VALUE --database=VALUE [--password=VALUE]] [--list] [--newtype=TYPE] [--usecopy]" ),
                                      'use-session' => false,
                                      'use-modules' => false,
-                                     'use-extensions' => false ) );
+                                     'use-extensions' => true ) );
 
 $script->startup();
 

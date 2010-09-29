@@ -423,3 +423,8 @@ table.list th, table.special th
     border-color: #CCCCC3;
 }
 
+#page .datepicker-icon
+{
+    margin-bottom: -2px;
+    padding-top: 9px;
+}

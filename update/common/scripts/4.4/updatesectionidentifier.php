@@ -15,7 +15,7 @@ $script = eZScript::instance( array( 'description' => 'eZ Publish section identi
                                                       'This script will update existing sections with missing identifiers.',
                                      'use-session' => false,
                                      'use-modules' => false,
-                                     'use-extension' => false ) );
+                                     'use-extensions' => false ) );
 $script->startup();
 $options = $script->getOptions( '', '', array( '-q' => 'Quiet mode' ) );
 
