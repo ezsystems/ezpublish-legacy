@@ -18,6 +18,8 @@ class ezpMvcConfiguration implements ezcMvcDispatcherConfiguration
     public function createRequestParser()
     {
         $parser = new ezcMvcHttpRequestParser();
+        if ( strpos( $_SERVER['SCRIPT_NAME'], 'index_rest.php' ) !== false )
+            $parser->prefix = $_SERVER['SCRIPT_NAME'];
         return $parser;
     }
 
