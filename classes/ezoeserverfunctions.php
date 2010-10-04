@@ -39,7 +39,7 @@ class ezoeServerFunctions extends ezjscServerFunctions
     /**
      * i18n
      * Provides all i18n strings for use by TinyMCE and other javascript dialogs.
-     * 
+     *
      * @param array $args
      * @param string $fileExtension
      * @return string returns json string with translation data
@@ -397,14 +397,14 @@ class ezoeServerFunctions extends ezjscServerFunctions
 
     /**
      * Gets current users bookmarks by offset and limit
-     * 
+     *
      * @param array $args  0 => offset:0, 1 => limit:10
      * @return hash
     */
     public static function bookmarks( $args )
     {
-        $offset = (int) isset( $args[0] ) ? $args[0] : 0;
-        $limit  = (int) isset( $args[1] ) ? $args[1] : 10;
+        $offset = isset( $args[0] ) ? (int) $args[0] : 0;
+        $limit  = isset( $args[1] ) ? (int) $args[1] : 10;
         $http   = eZHTTPTool::instance();
         $user   = eZUser::currentUser();
         $sort   = 'desc';
@@ -457,15 +457,15 @@ class ezoeServerFunctions extends ezjscServerFunctions
 
     /**
      * Gets current users bookmarks by offset and limit
-     * 
+     *
      * @param array $args  0 => node id:1, 1 => offset:0, 2 => limit:10
      * @return hash
     */
     public static function browse( $args )
     {
-        $nodeID = (int) isset( $args[0] ) ? $args[0] : 1;
-        $offset = (int) isset( $args[1] ) ? $args[1] : 0;
-        $limit  = (int) isset( $args[2] ) ? $args[2] : 10;
+        $nodeID = isset( $args[0] ) ? (int) $args[0] : 1;
+        $offset = isset( $args[1] ) ? (int) $args[1] : 0;
+        $limit  = isset( $args[2] ) ? (int) $args[2] : 10;
         $http   = eZHTTPTool::instance();
 
         if ( !$nodeID )
@@ -533,8 +533,8 @@ class ezoeServerFunctions extends ezjscServerFunctions
     /**
      * getCacheTime
      * Expiry time for code generators registirated on this class.
-     * Needs to be increased to current time when changes are done to returned translations.  
-     * 
+     * Needs to be increased to current time when changes are done to returned translations.
+     *
      * @static
      * @param string $functionName
     */
