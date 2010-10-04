@@ -51,8 +51,8 @@ class eZINITest extends ezpTestCase
         $ini->resetOverrideDirs();
 
         $ini->prependOverrideDir( "siteaccess/eng", false, 'siteaccess' );
-        $ini->prependOverrideDir( "extension/ext1/siteaccess/eng", true );
-        $ini->appendOverrideDir( "extension/ext3/siteaccess/eng", true );
+        $ini->prependOverrideDir( "extension/ext1/settings/siteaccess/eng", true );
+        $ini->appendOverrideDir( "extension/ext3/settings/siteaccess/eng", true );
         $ini->prependOverrideDir( "siteaccess/nor", false, 'siteaccess' );// will override first dir
 
         $overrideDirs = $ini->overrideDirs( false );
@@ -63,7 +63,7 @@ class eZINITest extends ezpTestCase
 
         self::assertEquals( "siteaccess/nor", $overrideDirs['siteaccess']['siteaccess'][0], "Siteaccess should have been overridden by identifier" );
 
-        self::assertEquals( "extension/ext3/siteaccess/eng", $overrideDirs['siteaccess'][1][0] );
+        self::assertEquals( "extension/ext3/settings/siteaccess/eng", $overrideDirs['siteaccess'][1][0] );
     }
 
     /**
@@ -85,7 +85,7 @@ class eZINITest extends ezpTestCase
         $overrideDirs = $ini->overrideDirs( false );
         self::assertEquals( 4, count( $ini->overrideDirs() ), 'There should have been four override dirs in total in this ini instance.' );
         self::assertEquals( 3, count( $overrideDirs['extension'] ), 'There should have been three override dirs in extension scope.' );
-        self::assertEquals( 1, count( $overrideDirs['sa-extension'] ), 'There should have been three override dirs in sa-extension scope.' );
+        self::assertEquals( 1, count( $overrideDirs['sa-extension'] ), 'There should have been one override dir in sa-extension scope.' );
     }
 
     /**
