@@ -210,16 +210,17 @@ function eZFetchActiveSessions( $params = array() )
 
     $userID = $params['user_id'];
     $countField = '';
-    $countGroup = 'GROUP BY ezsession.user_id';
     if ( $userID )
     {
         $filterSQL = 'AND ezsession.user_id = ' .  (int)$userID;
         $expirationSQL = 'ezsession.expiration_time';
+        $countGroup = 'GROUP BY ezsession.session_key';
     }
     else
     {
         $countField = ', count( ezsession.user_id ) AS count';
         $expirationSQL = 'max( ezsession.expiration_time ) as expiration_time';
+        $countGroup = 'GROUP BY ezsession.user_id';
     }
 
     $db = eZDB::instance();
