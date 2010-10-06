@@ -2213,13 +2213,13 @@ class eZTemplate
         $pathList = $this->autoloadPathList();
         foreach ( $pathList as $path )
         {
-            $autoloadFile = $path . '/eztemplateautoload.php';
+            $autoloadFile = $path . 'eztemplateautoload.php';
             if ( file_exists( $autoloadFile ) )
             {
                 unset( $eZTemplateOperatorArray );
                 unset( $eZTemplateFunctionArray );
                 include( $autoloadFile );
-                if ( isset( $eZTemplateOperatorArray ) and
+                if ( isset( $eZTemplateOperatorArray ) &&
                      is_array( $eZTemplateOperatorArray ) )
                 {
                     foreach ( $eZTemplateOperatorArray as $operatorDefinition )
@@ -2227,7 +2227,7 @@ class eZTemplate
                         $this->registerAutoloadOperators( $operatorDefinition );
                     }
                 }
-                if ( isset( $eZTemplateFunctionArray ) and
+                if ( isset( $eZTemplateFunctionArray ) &&
                      is_array( $eZTemplateFunctionArray ) )
                 {
                     foreach ( $eZTemplateFunctionArray as $functionDefinition )
@@ -2379,7 +2379,7 @@ class eZTemplate
             $autoLoadPathList   = $ini->variable( 'TemplateSettings', 'AutoloadPathList' );
 
             $extensionAutoloadPath = $ini->variable( 'TemplateSettings', 'ExtensionAutoloadPath' );
-            $extensionPathList     = eZExtension::expandedPathList( $extensionAutoloadPath, 'autoloads' );
+            $extensionPathList     = eZExtension::expandedPathList( $extensionAutoloadPath, 'autoloads/' );
 
             $autoLoadPathList = array_unique( array_merge( $compatAutoLoadPath, $autoLoadPathList, $extensionPathList ) );
 
