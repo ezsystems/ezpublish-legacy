@@ -99,7 +99,7 @@ else if ( $module->isCurrentAction( 'RemoveSelectedSessions' ) )
             $sessionKeyArray = $http->postVariable( 'SessionKeyArray' );
             foreach ( $sessionKeyArray as $sessionKeyItem )
             {
-                eZSession::destroy( $sessionKeyItem );
+                eZSession::getHandlerInstance()->destroy( $sessionKeyItem );
             }
         }
     }
