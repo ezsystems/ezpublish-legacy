@@ -357,7 +357,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                       'tpl_vars' => array( 'object' => $object,
                                            'link_parameters' => $linkParameters,
                                            'object_parameters' => $objectParameters ),
-                      'design_keys' => array( 'class_identifier', $object->attribute( 'class_identifier' ) ) );
+                      'design_keys' => array( 'class_identifier' => $object->attribute( 'class_identifier' ) ) );
 
         if ( $tplSuffix == '_node')
             $ret['tpl_vars']['node'] = $node;
@@ -403,6 +403,12 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
         $ret = array( 'tpl_vars' => array( 'row_count' => $parentParams['table_row_count'],
                                            'col_count' => $colCount ) );
+
+        // Allow overrides based on table class
+        $parent = $element->parentNode;
+        if ( $parent instanceof DOMElement && $parent->hasAttribute('class') )
+            $ret['design_keys'] = array( 'table_classification' => $parent->getAttribute('class') );
+
         return $ret;
     }
 
@@ -415,6 +421,12 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
         $ret = array( 'tpl_vars' => array( 'col_count' => &$siblingParams['table_col_count'],
                                            'row_count' => &$parentParams['table_row_count'] ) );
+
+        // Allow overrides based on table class
+        $parent = $element->parentNode->parentNode;
+        if ( $parent instanceof DOMElement && $parent->hasAttribute('class') )
+            $ret['design_keys'] = array( 'table_classification' => $parent->getAttribute('class') );
+
         return $ret;
     }
 
