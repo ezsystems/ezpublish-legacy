@@ -2236,6 +2236,12 @@ class eZTemplate
                     }
                 }
             }
+            else
+            {
+                eZDebug::writeWarning( "Path '$path' does not have the file 'eztemplateautoload.php' allthough it reported it had one.\n" .
+                                       "Looked for file '" . $autoloadFile . "'\n" .
+                                       "Check the setting [TemplateSettings]/ExtensionAutoloadPath or AutoloadPathList in your site.ini settings." );
+            }
         }
     }
 
