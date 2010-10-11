@@ -251,8 +251,16 @@ class ezjscAjaxContent
         if ( isset( $params['fetchCreator'] ) )
         {
             $creator = $contentObject->attribute( 'current' )->attribute('creator');
-            $ret['creator'] = array( 'id' => $creator->attribute( 'id' ),
-                                     'name' => $creator->attribute('name') );
+            if ( $creator instanceof eZContentObject )
+            {
+                $ret['creator'] = array( 'id'   => $creator->attribute( 'id' ),
+                                         'name' => $creator->attribute('name') );
+            }
+            else
+            {
+                $ret['creator'] = array( 'id'   => $contentObject->attribute( 'creator_id' ),
+                                         'name' => null );// user has been deleted
+            }
         }
 
         if ( isset( $params['fetchClassIcon'] ) )
