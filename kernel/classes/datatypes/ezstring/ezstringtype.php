@@ -111,7 +111,7 @@ class eZStringType extends eZDataType
 
         if ( $http->hasPostVariable( $base . '_ezstring_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
-            $data = $http->postVariable( $base . '_ezstring_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
+            $data = trim( $http->postVariable( $base . '_ezstring_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) );
 
             if ( $data == "" )
             {
