@@ -107,7 +107,9 @@ var sortableSubitems = function () {
         }
 
         var sectionParser = function(section) {
-            return section.name;
+            if ( section )
+                return section.name;
+            return '?';
         }
         
         var translationsParser = function(translations) {
@@ -115,7 +117,9 @@ var sortableSubitems = function () {
         }
 
         var creatorParser = function(creator) {
-            return creator.name;
+            if ( creator )
+                return creator.name;
+            return '?';
         }
 
         var dataSource = new YAHOO.util.DataSource(confObj.dataSourceURL);
