@@ -107,7 +107,7 @@ var sortableSubitems = function () {
         }
 
         var sectionParser = function(section) {
-            if ( section )
+            if ( section && section.name )
                 return section.name;
             return '?';
         }
@@ -117,7 +117,7 @@ var sortableSubitems = function () {
         }
 
         var creatorParser = function(creator) {
-            if ( creator )
+            if ( creator && creator.name )
                 return creator.name;
             return '?';
         }
