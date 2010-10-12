@@ -7,15 +7,19 @@
 (function() {
 {/literal}
 
-var icons = {ldelim}
+var availableLanguages = {ldelim}{*
+    *}{foreach $locales as $language}{*
+        *}'{$language.locale_code|wash(javascript)}': '{$language.intl_language_name|wash(javascript)}'{*
+        *}{delimiter},{/delimiter}{*
+    *}{/foreach}{*
+*}{rdelim};
 
-{foreach $locales as $locale}
-    '{$locale.locale_code}': '{$locale.locale_code|flag_icon()}'{delimiter},
-
-{/delimiter}
-{/foreach}
-
-{rdelim};
+var icons = {ldelim}{*
+    *}{foreach $locales as $locale}{*
+        *}'{$locale.locale_code}': '{$locale.locale_code|flag_icon()}'{*
+        *}{delimiter},{/delimiter}{*
+    *}{/foreach}{*
+*}{rdelim};
 
 var vcols = {ldelim}
 
@@ -26,7 +30,6 @@ var vcols = {ldelim}
 {/foreach}
 
 {rdelim};
-
 
 var confObj = {ldelim}
 
@@ -49,7 +52,7 @@ var confObj = {ldelim}
     cookieName: "eZSubitemColumns",
     cookieSecure: false,
     cookieDomain: "{ezsys(hostname)}",
-    languagesString: "{$node.object.language_js_array}",
+    languages: availableLanguages,
     classesString: "{$node.classes_js_array}",
     flagIcons: icons
 
