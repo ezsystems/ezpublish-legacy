@@ -46,7 +46,8 @@ var sortableSubitems = function () {
                 translationArray.push("{locale:'" + e + "',name:'" + confObj.languages[e] + "'}");
             });
             languagesString = '[' + translationArray.join(',') + ']';
-            cell.innerHTML = '<a href="#" onclick="ezpopmenu_showTopLevel(event, \'SubitemsContextMenu\', \{\'%nodeID%\':' + rec.getData('node_id') + ',\'%objectID%\':' + rec.getData('contentobject_id') + ',\'%version%\':' + rec.getData('version') + ',\'%languages%\':' + languagesString + ',\'%classList%\':' + confObj.classesString + '\ }, \'' + rec.getData('name') + '\', ' + rec.getData('node_id') + ', ' + createhereMenu + '); return false;"><div class="crankfield"></div></a>';
+            var itemName = String(rec.getData('name')).replace(/'/g,"\\'").replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+            cell.innerHTML = '<a href="#" onclick="ezpopmenu_showTopLevel(event, \'SubitemsContextMenu\', \{\'%nodeID%\':' + rec.getData('node_id') + ',\'%objectID%\':' + rec.getData('contentobject_id') + ',\'%version%\':' + rec.getData('version') + ',\'%languages%\':' + languagesString + ',\'%classList%\':' + confObj.classesString + '\ }, \'' + itemName + '\', ' + rec.getData('node_id') + ', ' + createhereMenu + '); return false;"><div class="crankfield"></div></a>';
         }
 
         var thumbView = function(cell, record, column, data) {
