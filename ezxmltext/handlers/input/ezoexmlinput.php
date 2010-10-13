@@ -36,9 +36,6 @@
   \brief The class eZOEXMLInput does
 
 */
-include_once( 'kernel/common/template.php' );
-require_once( 'kernel/common/i18n.php' );
-
 class eZOEXMLInput extends eZXMLInputHandler
 {
      /**
@@ -602,7 +599,7 @@ class eZOEXMLInput extends eZXMLInputHandler
               && $parser->getDeletedEmbedIDArray( $oeini->variable('EditorSettings', 'ValidateEmbedObjects' ) === 'enabled' ) )
             {
                 self::$showEmbedValidationErrors = true;
-                $contentObjectAttribute->setValidationError( ezi18n( 'design/standard/ezoe/handler',
+                $contentObjectAttribute->setValidationError( ezpI18n::tr( 'design/standard/ezoe/handler',
                                          'Some objects used in embed(-inline) tags have been deleted and are no longer available.' ) );
                 return eZInputValidator::STATE_INVALID;
             }
@@ -612,7 +609,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 $root = $document->documentElement;
                 if ( $root->childNodes->length == 0 )
                 {
-                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                    $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                          'Content required' ) );
                     return eZInputValidator::STATE_INVALID;
                 }
@@ -1938,7 +1935,7 @@ class eZOEXMLInput extends eZXMLInputHandler
      */
     protected static function fetchTemplate( $template, $parameters = array() )
     {
-        $tpl = templateInit();
+        $tpl = eZTemplate::factory();
         $existingPramas = array();
 
         foreach( $parameters as $name => $value )

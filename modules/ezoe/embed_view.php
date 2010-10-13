@@ -31,8 +31,6 @@
  * TODO: support for custom attributes
  */
 
-include_once( 'kernel/common/template.php' );
-
 $embedId         = 0;
 $http            = eZHTTPTool::instance();
 $tplSuffix       = '';
@@ -120,7 +118,7 @@ if ( $http->hasPostVariable('align') )
 $res = eZTemplateDesignResource::instance();
 $res->setKeys( array( array('classification', $className) ) );
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 $tpl->setVariable( 'view', $view );
 $tpl->setVariable( 'object', $embedObject );
 $tpl->setVariable( 'link_parameters', array() );

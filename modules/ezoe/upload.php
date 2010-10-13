@@ -26,8 +26,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'kernel/common/template.php' );
-
 $objectID        = isset( $Params['ObjectID'] ) ? (int) $Params['ObjectID'] : 0;
 $objectVersion   = isset( $Params['ObjectVersion'] ) ? (int) $Params['ObjectVersion'] : 0;
 $forcedUpload    = isset( $Params['ForcedUpload'] ) ? (int) $Params['ForcedUpload'] : 0;
@@ -44,7 +42,7 @@ if ( isset( $Params['ContentType'] ) && $Params['ContentType'] !== '' )
 
 if ( $objectID === 0  || $objectVersion === 0 )
 {
-   echo ezi18n( 'design/standard/ezoe', 'Invalid or missing parameter: %parameter', null, array( '%parameter' => 'ObjectID/ObjectVersion' ) );
+   echo ezpI18n::tr( 'design/standard/ezoe', 'Invalid or missing parameter: %parameter', null, array( '%parameter' => 'ObjectID/ObjectVersion' ) );
    eZExecution::cleanExit();
 }
 
@@ -61,7 +59,7 @@ else
 
 if ( $result['accessWord'] === 'no' )
 {
-   echo ezi18n( 'design/standard/error/kernel', 'Your current user does not have the proper privileges to access this page.' );
+   echo ezpI18n::tr( 'design/standard/error/kernel', 'Your current user does not have the proper privileges to access this page.' );
    eZExecution::cleanExit();
 }
 
@@ -75,7 +73,7 @@ $params    = array('dataMap' => array('image'));
 
 if ( !$object )
 {
-   echo ezi18n( 'design/standard/ezoe', 'Invalid parameter: %parameter = %value', null, array( '%parameter' => 'ObjectId', '%value' => $objectID ) );
+   echo ezpI18n::tr( 'design/standard/ezoe', 'Invalid parameter: %parameter = %value', null, array( '%parameter' => 'ObjectId', '%value' => $objectID ) );
    eZExecution::cleanExit();
 }
 
@@ -158,8 +156,8 @@ if ( $http->hasPostVariable( 'uploadButton' ) || $forcedUpload )
                         break;
                 }
             }
-        }        
-        
+        }
+
         $object->addContentObjectRelation( $newObjectID, $objectVersion, 0, eZContentObject::RELATION_EMBED );
         echo '<html><head><title>HiddenUploadFrame</title><script type="text/javascript">';
         echo 'window.parent.eZOEPopupUtils.selectByEmbedId( ' . $newObjectID . ', ' . $newObjectNodeID . ', "' . $newObjectName . '" );';
@@ -214,9 +212,9 @@ foreach ( $relatedObjects as $relatedObjectKey => $relatedObject )
     $relID            = $relatedObject->attribute( 'id' );
     $classIdentifier  = $relatedObject->attribute( 'class_identifier' );
     $groupName        = isset( $classGroupMap[$classIdentifier] ) ? $classGroupMap[$classIdentifier] : $defaultGroup;
-    
+
     // if ( $hasContentTypeGroup === true && $contentTypeGroupName !== $groupName ) continue;
-    
+
     if ( $groupName === 'images' )
     {
         $objectAttributes = $relatedObject->contentObjectAttributes();
@@ -252,7 +250,7 @@ foreach ( $relatedObjects as $relatedObjectKey => $relatedObject )
     $groupedRelatedObjects[$groupName][] = $item;
 }
 
-$tpl = templateInit();
+$tpl = eZTemplate::factory();
 $tpl->setVariable( 'object', $object );
 $tpl->setVariable( 'object_id', $objectID );
 $tpl->setVariable( 'object_version', $objectVersion );

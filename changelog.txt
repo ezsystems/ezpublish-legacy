@@ -3,6 +3,7 @@ eZ Online Editor 5.x extension Changelog
 5.3.0alpha1
 - Updated TinyMCE to 3.3.9.2
 - Fix #017402: ezoe offset passed to ezoe browse as string not integer
+- Change use of old templateInit()/ezi18n() api and use class based api's introduced in 4.3 instead
 
 
 5.2.0beta3
