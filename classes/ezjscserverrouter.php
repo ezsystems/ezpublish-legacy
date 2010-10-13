@@ -211,8 +211,7 @@ class ezjscServerRouter
     {
         if ( $this->isTemplateFunction )
         {
-            include_once( 'kernel/common/template.php' );
-            $tpl = templateInit();
+            $tpl = eZTemplate::factory();
             $tpl->setVariable( 'arguments', $this->functionArguments );
             $tpl->setVariable( 'environment', $environmentArguments );
             return $tpl->fetch( 'design:' . $this->className . '/' . $this->functionName . '.tpl' );
