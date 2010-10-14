@@ -4,6 +4,6 @@
 
 [ezjscServer_ezoe]
 Class=ezoeServerFunctions
-File=extension/ezoe/classes/ezoeserverfunctions.php
+#File=extension/ezoe/classes/ezoeserverfunctions.php
 
 */ ?>
