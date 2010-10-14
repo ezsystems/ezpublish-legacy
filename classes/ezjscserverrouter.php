@@ -40,7 +40,7 @@ class ezjscServerRouter
     protected $functionArguments = array();
     protected $isTemplateFunction = false;
 
-    protected function ezjscServerRouter( $className, $functionName = 'call', $functionArguments = array(), $isTemplateFunction = false )
+    protected function ezjscServerRouter( $className, $functionName = 'call', array $functionArguments = array(), $isTemplateFunction = false )
     {
         $this->className = $className;
         $this->functionName = $functionName;
