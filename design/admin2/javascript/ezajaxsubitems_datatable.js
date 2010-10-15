@@ -131,7 +131,7 @@ var sortableSubitems = function () {
 
         var dataSource = new YAHOO.util.DataSource(confObj.dataSourceURL);
         dataSource.responseType = YAHOO.util.DataSource.TYPE_JSON;
-        dataSource.maxCacheEntries = 20;    // Caches between paginations
+        // dataSource.maxCacheEntries = 20;    // Caches between paginations. Requires a refresh after async updates to priorities
         dataSource.responseSchema = {
             resultsList: "content.list",
             fields: [
