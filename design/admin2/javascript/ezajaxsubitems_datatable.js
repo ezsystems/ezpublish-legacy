@@ -330,9 +330,15 @@ var sortableSubitems = function () {
             $('#content-sub-items-list').find(':checkbox').attr('checked', item.value);
         }
 
+        var selectItemsBtnInvert = function( type, args, item ) {
+            var checks = $('#content-sub-items-list').find(':checkbox');
+            checks.each(function(){this.checked = !this.checked;});
+        }
+
         var selectItemsBtnActions = [
             { text: labelsObj.ACTION_BUTTONS.select_sav, id: "ezopt-menu-check", value: 1, onclick: { fn: selectItemsBtnAction } },
-            { text: labelsObj.ACTION_BUTTONS.select_sn, id: "ezopt-menu-uncheck", value: 0, onclick: { fn: selectItemsBtnAction } }
+            { text: labelsObj.ACTION_BUTTONS.select_sn, id: "ezopt-menu-uncheck", value: 0, onclick: { fn: selectItemsBtnAction } },
+            { text: labelsObj.ACTION_BUTTONS.select_inv, id: "ezopt-menu-toggle", onclick: { fn: selectItemsBtnInvert } }
         ];
 
         var selectItemsBtn = new YAHOO.widget.Button({ type: "menu",

@@ -391,7 +391,7 @@ a.yuimenuitemlabel-disabled{
 }
 
 #ezbtn-items-button { 
-    background: url(../../images/2/icon-check-16x16.png) no-repeat scroll 5% 50% transparent; 
+    background: url(../../images/2/icon-check-16x16.png) no-repeat scroll 6% 50% transparent; 
     padding-left: 2em;
 }
 
@@ -434,6 +434,10 @@ a.yuimenuitemlabel-disabled{
     background-image: url('../../images/2/icon-unchecked-16x16.png');
 }
 
+#ezopt-menu-toggle {
+    background-image: url('../../images/2/toggle-button-16x16.png');
+}
+
 #ezopt-menu-view {
     background-image: url('../../images/2/icon-open-16x16.png');
 }
@@ -456,6 +460,7 @@ a.yuimenuitemlabel-disabled{
 #ezopt-menu-preview, 
 #ezopt-menu-check, 
 #ezopt-menu-uncheck,
+#ezopt-menu-toggle,
 #ezopt-menu-view,
 #ezopt-menu-copy,
 #ezopt-menu-copy-subtree,
@@ -463,5 +468,11 @@ a.yuimenuitemlabel-disabled{
 #ezopt-menu-list {
     background-repeat: no-repeat;
     background-position: 5% 50%;
+    padding-left: 1em;
+}
+
+#ezopt-menu-uncheck {
+    background-repeat: no-repeat;
+    background-position: 3% 50%;
     padding-left: 1em;
 }
