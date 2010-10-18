@@ -14,11 +14,11 @@ allow from all
 
 # If you see "Forbidden" when trying to access root page of your site
 # without 'index.php' appended, uncomment the following "Files" section.
-# NOTE: replace "ezpublish-4.1.0" with base name of the directory
+# NOTE: replace "ezpublish-4.4.0" with base name of the directory
 # where your eZ Publish intallation resides.
-# e.g. base name of "/sites/ezpublish/ezpublish-4.1.0" is "ezpublish-4.1.0".
+# e.g. base name of "/sites/ezpublish/ezpublish-4.4.0" is "ezpublish-4.4.0".
 
-#<Files "ezpublish-4.1.0">
+#<Files "ezpublish-4.4.0">
 #   order allow,deny
 #   allow from all
 #</Files>
