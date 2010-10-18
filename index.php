@@ -27,10 +27,10 @@
 /**
  * PHP 5.1 is our hard requirement, but PHP 5.2 or higher is highly recommended
  */
-if ( version_compare( PHP_VERSION, '5.1' ) < 0 )
+if ( version_compare( PHP_VERSION, '5.2' ) < 0 )
 {
     print( "<h1>Unsupported PHP version " . PHP_VERSION . "</h1>" );
-    print( "<p>eZ Publish 4.x does not run with PHP version lower than 5.1.</p>".
+    print( "<p>eZ Publish 4.x does not run with PHP version lower than 5.2.</p>".
            "<p>For more information about supported software please visit ".
            "<a href=\"http://ez.no/download/ez_publish\" >eZ Publish download page</a></p>" );
     exit;
