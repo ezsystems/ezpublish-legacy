@@ -70,6 +70,7 @@ var sortableSubitems = function () {
             var record = this.getRecord(), dataTable = this.getDataTable(), sortedBy = dataTable.get('sortedBy'), paginator = dataTable.get('paginator');
             
             var onSuccess = function(data) {
+                dataTable.getDataSource().flushCache();
                 if (sortedBy.key == 'priority') {
                     dataTable.onPaginatorChangeRequest(paginator.getState({'page':paginator.getCurrentPage()}));
                 }
@@ -131,7 +132,7 @@ var sortableSubitems = function () {
 
         var dataSource = new YAHOO.util.DataSource(confObj.dataSourceURL);
         dataSource.responseType = YAHOO.util.DataSource.TYPE_JSON;
-        // dataSource.maxCacheEntries = 20;    // Caches between paginations. Requires a refresh after async updates to priorities
+        dataSource.maxCacheEntries = 20;    // Caches between paginations. Requires a refresh after async updates to priorities
         dataSource.responseSchema = {
             resultsList: "content.list",
             fields: [
