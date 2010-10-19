@@ -357,49 +357,9 @@ eZExtension::activateExtensions( 'access' );
 $tplINI = eZINI::instance( 'template.ini' );
 $tplINI->loadCache();
 
-// Check if this should be run in a cronjob
-// Need to be run before eZHTTPTool::instance() because of eZSessionStart() which
-// is called from eZHandlePreChecks() below.
-$useCronjob = $ini->variable( 'Session', 'BasketCleanup' ) == 'cronjob';
-if ( !$useCronjob )
-{
-    // Functions for session to make sure baskets are cleaned up
-    function eZSessionBasketDestroy( $db, $key, $escapedKey )
-    {
-        $basket = eZBasket::fetch( $key );
-        if ( is_object( $basket ) )
-            $basket->remove();
-    }
-
-    function eZSessionBasketGarbageCollector( $db, $time )
-    {
-        eZBasket::cleanupExpired( $time );
-    }
-
-    function eZSessionBasketEmpty( $db )
-    {
-        eZBasket::cleanup();
-    }
-
-    // Fill in hooks
-    eZSession::addCallback( 'destroy_pre', 'eZSessionBasketDestroy');
-    eZSession::addCallback( 'gc_pre',      'eZSessionBasketGarbageCollector');
-    eZSession::addCallback( 'cleanup_pre', 'eZSessionBasketCleanup');
-}
-
-// addCallBack to update session id for shop basket on session regenerate
-function eZSessionBasketRegenerate( $db, $escNewKey, $escOldKey, $escUserID  )
-{
-    $db->query( "UPDATE ezbasket SET session_id='$escNewKey' WHERE session_id='$escOldKey'" );
-}
-
-eZSession::addCallback( 'regenerate_post', 'eZSessionBasketRegenerate');
-
 // Initialize module loading
 $moduleRepositories = eZModule::activeModuleRepositories();
 eZModule::setGlobalPathList( $moduleRepositories );
-
-require_once( 'kernel/common/i18n.php' );
 
 // start: eZCheckValidity
 // pre check, setup wizard related so needs to be before session/db init
@@ -424,6 +384,41 @@ if ( $ini->variable( 'SiteAccessSettings', 'CheckValidity' ) === 'true' )
 if ( $sessionRequired )
 {
     $dbRequired = true;
+
+    // Check if this should be run in a cronjob
+    if ( $ini->variable( 'Session', 'BasketCleanup' ) !== 'cronjob' )
+    {
+        // Functions for session to make sure baskets are cleaned up
+        function eZSessionBasketDestroy( $db, $key, $escapedKey )
+        {
+            $basket = eZBasket::fetch( $key );
+            if ( is_object( $basket ) )
+                $basket->remove();
+        }
+
+        function eZSessionBasketGarbageCollector( $db, $time )
+        {
+            eZBasket::cleanupExpired( $time );
+        }
+
+        function eZSessionBasketEmpty( $db )
+        {
+            eZBasket::cleanup();
+        }
+
+        // Fill in hooks
+        eZSession::addCallback( 'destroy_pre', 'eZSessionBasketDestroy');
+        eZSession::addCallback( 'gc_pre',      'eZSessionBasketGarbageCollector');
+        eZSession::addCallback( 'cleanup_pre', 'eZSessionBasketCleanup');
+    }
+
+    // addCallBack to update session id for shop basket on session regenerate
+    function eZSessionBasketRegenerate( $db, $escNewKey, $escOldKey, $escUserID  )
+    {
+        $db->query( "UPDATE ezbasket SET session_id='$escNewKey' WHERE session_id='$escOldKey'" );
+    }
+
+    eZSession::addCallback( 'regenerate_post', 'eZSessionBasketRegenerate');
 }
 
 $db = false;
@@ -443,7 +438,7 @@ if ( $dbRequired )
                                 'text' => 'No database connection could be made, the system might not behave properly.' );
 }
 
-// pre check, RequireUserLogin & FORCE_LOGIN related so needs to be after session init
+// eZCheckUser: pre check, RequireUserLogin & FORCE_LOGIN related so needs to be after session init
 if ( !isset( $check ) )
     $check = eZUserLoginHandler::preCheck( $siteBasics, $uri );
 

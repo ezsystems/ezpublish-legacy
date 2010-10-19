@@ -68,10 +68,6 @@ $script->shutdown(); // Finish execution
 \endcode
 
 */
-
-require_once( 'access.php' );
-require_once( 'kernel/common/i18n.php' );
-
 class eZScript
 {
     /*!

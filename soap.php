@@ -73,7 +73,6 @@ eZExtension::activateExtensions( 'default' );
 // Extension check end
 
 // Activate correct siteaccess
-include_once( 'access.php' );
 $soapINI = eZINI::instance( 'soap.ini' );
 if ( $soapINI->variable( 'GeneralSettings', 'UseDefaultAccess' ) === 'enabled' )
 {

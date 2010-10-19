@@ -43,7 +43,6 @@ if ( isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) )
 }
 
 require 'autoload.php';
-require 'kernel/common/ezincludefunctions.php';
 
 // Tweaks ini filetime checks if not defined!
 // This makes ini system not check modified time so
@@ -95,13 +94,10 @@ $uri = eZURI::instance( eZSys::requestURI() );
 
 $GLOBALS['eZRequestedURI'] = $uri;
 
-require 'pre_check.php';
-
 // Check for extension
 eZExtension::activateExtensions( 'default' );
 
 // load siteaccess
-include_once( 'access.php' );
 $access = eZSiteAccess::match( $uri,
                       eZSys::hostname(),
                       eZSys::serverPort(),
