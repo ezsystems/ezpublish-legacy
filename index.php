@@ -25,7 +25,7 @@
 //
 
 /**
- * PHP 5.1 is our hard requirement, but PHP 5.2 or higher is highly recommended
+ * PHP 5.2 is our hard requirement
  */
 if ( version_compare( PHP_VERSION, '5.2' ) < 0 )
 {
