@@ -214,10 +214,10 @@ eZModule::setGlobalPathList( $globalModuleRepositories );
 $siteBasics = array();
 $userObjectRequired = false;
 $siteBasics['user-object-required'] =& $userObjectRequired;
-$check = eZCheckUser( $siteBasics, $uri );
+$check = eZUserLoginHandler::preCheck( $siteBasics, $uri );
 if ( $check !== null )
 {
-    exitWithInternalError( "'eZCheckUser' returned something else then null: " . var_export( $check, true ) );
+    exitWithInternalError( "'eZUserLoginHandler::preCheck' returned something else then null: " . var_export( $check, true ) );
 }
 
 // find module
