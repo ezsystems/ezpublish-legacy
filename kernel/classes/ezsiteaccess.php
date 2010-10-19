@@ -108,6 +108,10 @@ class eZSiteAccess
      */
     public static function match( eZURI $uri, $host, $port = 80, $file = '/index.php' )
     {
+        eZDebugSetting::writeDebug( 'kernel-siteaccess', array( 'uri' => $uri,
+                                                                'host' => $host,
+                                                                'port' => $port,
+                                                                'file' => $file ), __METHOD__ );
         $ini = eZINI::instance();
         if ( $ini->hasVariable( 'SiteAccessSettings', 'StaticMatch' ) )
         {
@@ -521,10 +525,7 @@ class eZSiteAccess
             eZSys::setAccessPath( $access['uri_part'], $name );
 
             eZUpdateDebugSettings();
-            if ( self::debugEnabled() )
-            {
-                eZDebug::writeDebug( "Updated settings to use siteaccess '$name'", __METHOD__ );
-            }
+            eZDebugSetting::writeDebug( 'kernel-siteaccess', "Updated settings to use siteaccess '$name'", __METHOD__ );
         }
 
         return $access;
@@ -647,6 +648,7 @@ class eZSiteAccess
      * Checks if site access debug is enabled
      *
      * @since 4.4
+     * @deprecated Should use debug.ini conditions instead of extra settings
      * @return bool
      */
     static function debugEnabled()
@@ -659,6 +661,7 @@ class eZSiteAccess
      * Checks if extra site access debug is enabled
      *
      * @since 4.4
+     * @deprecated Should use debug.ini conditions instead of extra settings
      * @return bool
      */
     static function extraDebugEnabled()
