@@ -198,9 +198,6 @@ foreach( $headerList as $key => $value )
     header( $key . ': ' . $value );
 }
 
-// set default section id
-eZSection::initGlobalID();
-
 // Get and set module repositories
 $moduleINI = eZINI::instance( 'module.ini' );
 $globalModuleRepositories = $moduleINI->variable( 'ModuleSettings', 'ModuleRepositories' );
@@ -235,7 +232,7 @@ if ( !$viewName )
 }
 
 // Check if module / view is disabled
-$moduleCheck = accessAllowed( $uri );
+$moduleCheck = eZModule::accessAllowed( $uri );
 if ( !$moduleCheck['result'] )
 {
     exitWithInternalError( '$moduleName/$viewName is disabled.' );
