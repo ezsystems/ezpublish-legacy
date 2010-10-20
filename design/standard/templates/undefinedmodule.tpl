@@ -23,8 +23,6 @@
 
 {/section}
 
-<meta name="MSSmartTagsPreventParsing" content="TRUE">
-
 <meta name="generator" content="eZ Publish" />
 
 </head>
