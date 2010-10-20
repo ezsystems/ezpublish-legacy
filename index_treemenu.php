@@ -32,6 +32,7 @@ if ( !ini_get( 'date.timezone' ) )
 }
 
 define( 'MAX_AGE', 86400 );
+header( 'X-Powered-By: eZ Publish (index_treemenu)' );
 
 if ( isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) )
 {
@@ -39,6 +40,7 @@ if ( isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) )
     header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', time() + MAX_AGE ) . ' GMT' );
     header( 'Cache-Control: max-age=' . MAX_AGE );
     header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s', strtotime( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) ) . ' GMT' );
+    header( 'Pragma: ' );
     exit();
 }
 

@@ -83,7 +83,6 @@ while ( @ob_end_clean() );
 if ( isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) )
 {
     header( $_SERVER['SERVER_PROTOCOL'] . ' 304 Not Modified' );
-
     header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', time() + MAX_AGE ) . ' GMT' );
     header( 'Cache-Control: max-age=' . MAX_AGE );
     header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s', strtotime( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) ) . ' GMT' );
