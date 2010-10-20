@@ -14,6 +14,7 @@
  * Integer constants that identify the siteaccess matching used
  *
  * @see eZSiteAccess class constants
+ * @deprecated Since 4.4
  */
 define( 'EZ_ACCESS_TYPE_DEFAULT', 1 );
 define( 'EZ_ACCESS_TYPE_URI', 2 );
@@ -35,6 +36,7 @@ define( 'EZ_ACCESS_SUBTYPE_POST', 2 );
  *  uri_part => array(string) List of path elements that was used in start of url for the match
  *
  * @see eZSiteAccess::match()
+ * @deprecated Since 4.4
  * @param eZURI $uri
  * @param string $host
  * @param string(numeric) $port
@@ -51,6 +53,7 @@ function accessType( eZURI $uri, $host, $port, $file )
  * access path in eZSys and prepend an override dir to eZINI
  *
  * @see eZSiteAccess::change()
+ * @deprecated Since 4.4
  * @param array $access An associative array with 'name' (string), 'type' (int) and 'uri_part' (array).
  * @return array The $access parameter
  */
@@ -63,6 +66,7 @@ function changeAccess( array $access )
  * Match a regex expression
  *
  * @see eZSiteAccess::matchRegexp()
+ * @deprecated Since 4.4
  * @param string $text
  * @param string $reg
  * @param int $num
@@ -77,6 +81,7 @@ function accessMatchRegexp( &$text, $reg, $num )
  * Match a text string with pre or/or post text strings
  *
  * @see eZSiteAccess::matchText()
+ * @deprecated Since 4.4
  * @param string $text
  * @param string $match_pre
  * @param string $match_post
@@ -91,6 +96,7 @@ function accessMatchText( &$text, $match_pre, $match_post )
  * Checks if site access debug is enabled
  *
  * @see eZSiteAccess::debugEnabled()
+ * @deprecated Since 4.4
  * @return bool
  */
 function accessDebugEnabled()
@@ -102,6 +108,7 @@ function accessDebugEnabled()
  * Checks if extra site access debug is enabled
  *
  * @see eZSiteAccess::extraDebugEnabled()
+ * @deprecated Since 4.4
  * @return bool
  */
 function accessExtraDebugEnabled()
@@ -113,6 +120,7 @@ function accessExtraDebugEnabled()
  * Checks if access is allowed to a module/view based on site.ini[SiteAccessRules]Rules settings
  *
  * @see eZModule::accessAllowed()
+ * @deprecated Since 4.4
  * @param eZURI $uri
  * @return array An associative array with:
  *   'result'       => bool   Indicates if access is allowed
