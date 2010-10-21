@@ -6082,7 +6082,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( $classes === false )
         {
             // If $node is object we should fetch available classes from node, from ezcontentclass otherwise
-            $classes = ( is_object( $node ) and strtolower( get_class( $node ) ) == 'ezcontentobjecttreenode' )
+            $classes = ( $node instanceOf eZContentObjectTreeNode )
                         ? $node->canCreateClassList( false, $includeFilter, $groupList, $fetchID )
                         : eZContentClass::canInstantiateClassList( false, $includeFilter, $groupList, $fetchID );
         }
