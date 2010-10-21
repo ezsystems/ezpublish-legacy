@@ -6090,11 +6090,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
             return $falseValue;
 
         // Create javascript array
-        $jsArray = array();
-        $db = eZDB::instance();
+        $classList = array();
         foreach ( $classes as $class )
         {
-            if ( is_object( $class ) )
+            if ( $class instanceOf eZContentClass )
             {
                 $classID = $class->attribute( 'id' );
                 $className = $class->attribute( 'name' );
@@ -6104,12 +6103,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 $classID = $class['id'];
                 $className = $class['name'];
             }
-            $jsArray[] = "{ classID: '" . $db->escapeString( $classID ) .
-                          "', name: '" . $db->escapeString( $className ) . "' }";
+            $classList[] = array( 'classID' => $classID,
+                                  'name'    => $className );
         }
 
-        if ( $jsArray )
-            return '[ '.implode( ', ', $jsArray ).' ]';
+        if ( $classList )
+            return json_encode( $classList );
 
         return $falseValue;
     }
