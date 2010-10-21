@@ -53,7 +53,7 @@ var confObj = {ldelim}
     cookieSecure: false,
     cookieDomain: "{ezsys(hostname)}",
     languages: availableLanguages,
-    classesString: {$node.classes_js_array},
+    classesString: "{$node.classes_js_array}",
     flagIcons: icons
 
 {rdelim}
@@ -131,18 +131,18 @@ var labelsObj = {ldelim}
                                                                                      'group_by_class_group', true() ) )}
 
     var createGroups = [
-
+    
     {foreach $can_create_classes as $group}
         "{$group.group_name}"
         {delimiter}
         ,
         {/delimiter}
     {/foreach}
-
+    
     ];
-
+    
     var createOptions = [
-
+    
     {foreach $can_create_classes as $group}
         [
         {foreach $group.items as $can_create_class}
@@ -158,7 +158,7 @@ var labelsObj = {ldelim}
         {/delimiter}
     {/foreach}
     ];
-
+    
 {else}
     var createGroups = [];
     var createOptions = [];
