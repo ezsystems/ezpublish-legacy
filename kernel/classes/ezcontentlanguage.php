@@ -898,17 +898,17 @@ class eZContentLanguage extends eZPersistentObject
      */
     static function jsArrayByMask( $mask )
     {
-        $jsArray = array();
+        $localList = array();
         $languages = eZContentLanguage::prioritizedLanguagesByMask( $mask );
         foreach ( $languages as $key => $language )
         {
-            $jsArray[] = "{ locale: '".$language->attribute( 'locale' ).
-                "', name: '".$language->attribute( 'name' )."' }";
+            $localList[] = array( 'locale' => $language->attribute( 'locale' ),
+                                  'name'   => $language->attribute( 'name' ) );
         }
 
-        if ( $jsArray )
+        if ( $localList )
         {
-            return '[ '.implode( ', ', $jsArray ).' ]';
+            return json_encode( $localList );
         }
         else
         {
