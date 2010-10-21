@@ -2400,7 +2400,7 @@ class eZTemplate
 
     /**
      * Reset shared instance of the eZTemplate class and factory flag
-     * as used by {@see eZTemplate::instance()} and {@see eZTemplate::factory()}
+     * as used by {@link eZTemplate::instance()} and {@link eZTemplate::factory()}
      *
      * @since 4.3
      */
@@ -2690,16 +2690,16 @@ class eZTemplate
     public $TestCompile;
 
     /**
-     * Singelton instance of eZTemplate used by {@see eZTemplate::instance()}
-     * Reset with {@see eZTemplate::resetInstance()}
+     * Singelton instance of eZTemplate used by {@link eZTemplate::instance()}
+     * Reset with {@link eZTemplate::resetInstance()}
      *
      * @var null|eZTemplate
      */
     protected static $instance;
 
     /**
-     * Factory flag as used by {@see eZTemplate::factory()}
-     * Reset with {@see eZTemplate::resetInstance()}
+     * Factory flag as used by {@link eZTemplate::factory()}
+     * Reset with {@link eZTemplate::resetInstance()}
      *
      * @var bool
      */

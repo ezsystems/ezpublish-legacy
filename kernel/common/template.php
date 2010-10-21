@@ -29,7 +29,8 @@
 /**
  * Function to get template instance, load autoloads (operators) and set default settings.
  *
- * @deprecated Deprecated as of 4.3, use {@see eZTemplate::factory()} instead
+ * @deprecated Since 4.3, superseded by {@link eZTemplate::factory()}
+ *             Will be kept for compatability in 4.x.
  * @param string $name (Not supported as it was prevoisly set on same instance anyway)
  * @return eZTemplate
  */

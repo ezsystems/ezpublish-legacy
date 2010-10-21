@@ -1360,7 +1360,7 @@ class eZImageManager
 
     /**
      * Returns a shared instance of the eZImageManager class.
-     * Note: In most cases you'd want to use {@see self:factory()} instead.
+     * Note: In most cases you'd want to use {@link self:factory()} instead.
      *
      * @return eZImageManager
      */
@@ -1372,10 +1372,10 @@ class eZImageManager
         }
         return self::$instance;
     }
-    
+
     /**
      * Returns a shared instance of the eZImageManager class and makes it ready for use.
-     * As in calls {@see self::readINISettings()} and {@see eZImageAnalyzer::readAnalyzerSettingsFromINI()}
+     * As in calls {@link self::readINISettings()} and {@link eZImageAnalyzer::readAnalyzerSettingsFromINI()}
      *
      * @since 4.3
      * @return eZImageManager
@@ -1393,7 +1393,7 @@ class eZImageManager
 
     /**
      * Reset a shared instance of the eZImageManager class and factory variable.
-     * As used by {@see eZImageManager::instance()} and {@see eZImageManager::factory()}
+     * As used by {@link eZImageManager::instance()} and {@link eZImageManager::factory()}
      *
      * @since 4.3
      */
@@ -1401,7 +1401,7 @@ class eZImageManager
     {
         self::$instance = null;
         self::$factory = false;
-        
+
     }
 
     /// \privatesection
@@ -1415,17 +1415,17 @@ class eZImageManager
     public $Types = array();
 
     /**
-     * Singleton instance of eZImageManager used by {@see eZImageManager::instance()}
-     * Reset with {@see eZImageManager::resetInstance()} 
-     * 
+     * Singleton instance of eZImageManager used by {@link eZImageManager::instance()}
+     * Reset with {@link eZImageManager::resetInstance()}
+     *
      * @var null|eZImageManager
      */
     protected static $instance;
 
     /**
-     * Factory flag as used by {@see eZImageManager::factory()}
-     * Reset with {@see eZImageManager::resetInstance()} 
-     * 
+     * Factory flag as used by {@link eZImageManager::factory()}
+     * Reset with {@link eZImageManager::resetInstance()}
+     *
      * @var bool
      */
     protected static $factory = false;

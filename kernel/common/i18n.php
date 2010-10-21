@@ -28,7 +28,8 @@
 
 
 /**
- * @deprecated Temporary compatibility layer for extensions
+ * @deprecated Since 4.3, superseded by {@link ezpI18n::tr()}
+ *             Will be kept for compatability in 4.x.
  */
 function ezi18n( $context, $source, $comment = null, $arguments = null )
 {
@@ -36,7 +37,8 @@ function ezi18n( $context, $source, $comment = null, $arguments = null )
 }
 
 /**
- * @deprecated Temporary compatibility layer for extensions
+ * @deprecated Since 4.3, superseded by {@link ezpI18n::tr()} instead
+ *             Will be kept for compatability in 4.x.
  */
 function ezx18n( $extension, $context, $source, $comment = null, $arguments = null )
 {

@@ -103,9 +103,10 @@ function extension_path( $extension, $withWWWDir = false, $withHost = false, $wi
 /**
  * eZExtension::nameFromPath( __FILE__ ) executed in any file of an extension
  * can help you to find the path to additional resources
+ *
  * @param $path Path to check.
  * @return Name of the extension a path belongs to.
- * @deprecated Since 4.3
+ * @deprecated Since 4.3, use {@link eZExtension::nameFromPath()} instead
  */
 function nameFromPath( $path )
 {
@@ -123,7 +124,7 @@ function nameFromPath( $path )
  * @param string $path Path to check.
  * @return bool True if this path is related to some extension.
  * \note The root of an extension is considered to be in this path too.
- * @deprecated Since 4.3
+ * @deprecated Since 4.3, use {@link eZExtension::isExtension()} instead
  */
 function isExtension( $path )
 {
