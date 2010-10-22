@@ -147,7 +147,7 @@
         <option value="0"{if eq($class.sort_order, 0)} selected="selected"{/if}>{'Descending'|i18n( 'design/admin/class/edit' )}</option>
         <option value="1"{if eq($class.sort_order, 1)} selected="selected"{/if}>{'Ascending'|i18n( 'design/admin/class/edit' )}</option>
     </select>
-    {undef}
+    {undef $sort_fields $title}
     </div>
 
     {* Object availablility. *}
