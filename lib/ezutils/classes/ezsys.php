@@ -52,27 +52,45 @@ print( eZSys::wwwDir() );
 
 class eZSys
 {
-    /*!
-     Initializes the object with settings taken from the current script run.
-    */
-    function eZSys()
+    /**
+     * Initializes the object with settings taken from the current script run.
+     *
+     * @param array|null $serverParams For unit testing use, see first few lines for content
+     */
+    function __construct( array $serverParams = null )
     {
+        if ( $serverParams === null )
+        {
+            $serverParams = array(
+                'PHP_VERSION' => PHP_VERSION,
+                'PHP_OS' => PHP_OS,
+                'PHP_SAPI' => PHP_SAPI,
+                'php_uname' => php_uname(),// @todo: use PHP_OS instead and more strict matching
+                'DIRECTORY_SEPARATOR' => DIRECTORY_SEPARATOR,
+                'PATH_SEPARATOR' => PATH_SEPARATOR,
+                'include_path' => ini_get( 'include_path' ),
+                'PHP_EOL' => PHP_EOL,
+                'getcwd' => getcwd(),
+                '_SERVER' => $_SERVER,
+            );
+        }
+
+        $this->Params = $serverParams;
         $this->Attributes = array( "magickQuotes" => true,
-                                   "hostname" => true );
+                                   "hostname"     => true );
         // Determine OS specific settings
-        $uname = php_uname();
-        if ( substr( $uname, 0, 7 ) == "Windows" )
+        if ( substr( $this->Params['php_uname'], 0, 7 ) == "Windows" )
         {
             $this->OSType = "win32";
             $this->OS = "windows";
             $this->FileSystemType = "win32";
-            $this->FileSeparator = "\\";
-            $this->LineSeparator= "\r\n";
-            $this->EnvSeparator = ";";
+            $this->FileSeparator = "\\"; // @todo: look into using use DIRECTORY_SEPARATOR
+            $this->LineSeparator= "\r\n"; // @todo: look into using use PHP_EOL
+            $this->EnvSeparator = ";"; // @todo: look into using use PATH_SEPARATOR
             $this->ShellEscapeCharacter = '"';
             $this->BackupFilename = '.bak';
         }
-        else if ( substr( $uname, 0, 3 ) == "Mac" )
+        else if ( substr( $this->Params['php_uname'], 0, 3 ) == "Mac" )
         {
             $this->OSType = "mac";
             $this->OS = "mac";
@@ -85,12 +103,12 @@ class eZSys
         }
         else
         {
-            $this->OSType = "unix";
-            if ( strtolower( substr( $uname, 0, 5 ) ) == 'linux' )
+            $this->OSType = 'unix';
+            if ( strtolower( substr( $this->Params['php_uname'], 0, 5 ) ) == 'linux' )
             {
                 $this->OS = 'linux';
             }
-            else if ( strtolower( substr( $uname, 0, 0 ) ) == 'freebsd' )
+            else if ( strtolower( substr( $this->Params['php_uname'], 0, 0 ) ) == 'freebsd' )
             {
                 $this->OS = 'freebsd';
             }
@@ -106,18 +124,21 @@ class eZSys
             $this->BackupFilename = '~';
         }
 
-        $magicQuote = get_magic_quotes_gpc();
-
-        if ( $magicQuote == 1 )
+        if ( get_magic_quotes_gpc() == 1 )
         {
-            eZSys::removeMagicQuotes();
+            self::removeMagicQuotes();
         }
 
         $this->AccessPath = array( 'siteaccess' => array( 'name' => '', 'url' => array() ),
                                    'path'       => array( 'name' => '', 'url' => array() ) );
     }
 
-    function removeMagicQuotes()
+    /**
+     * Removes magic quotes
+     *
+     * @deprecated Since 4.5, magic quotes setting has been deprecated in PHP 5.3
+     */
+    static function removeMagicQuotes()
     {
         $globalVariables = array( '_SERVER', '_ENV' );
         foreach ( $globalVariables as $globalVariable )
@@ -138,7 +159,7 @@ class eZSys
     */
     static function osType()
     {
-        return eZSys::instance()->OSType;
+        return self::instance()->OSType;
     }
 
     /*!
@@ -152,7 +173,7 @@ class eZSys
     */
     static function osName()
     {
-        return eZSys::instance()->OS;
+        return self::instance()->OS;
     }
 
     /*!
@@ -161,7 +182,7 @@ class eZSys
     */
     static function filesystemType()
     {
-        return eZSys::instance()->FileSystemType;
+        return self::instance()->FileSystemType;
     }
 
     /*!
@@ -170,7 +191,7 @@ class eZSys
     */
     static function fileSeparator()
     {
-        return eZSys::instance()->FileSeparator;
+        return self::instance()->FileSeparator;
     }
 
     /**
@@ -192,7 +213,7 @@ class eZSys
      */
     static function phpVersion()
     {
-        $text = eZSys::phpVersionText();
+        $text = self::phpVersionText();
         $elements = explode( '.', $text );
         return $elements;
     }
@@ -211,7 +232,7 @@ class eZSys
     {
         if ( !is_array( $requiredVersion ) )
             return false;
-        $phpVersion = eZSys::phpVersion();
+        $phpVersion = self::phpVersion();
         $len = min( count( $phpVersion ), count( $requiredVersion ) );
          for ( $i = 0; $i < $len; ++$i )
         {
@@ -238,7 +259,7 @@ class eZSys
         // Currently it looks like the HTTP_HOST variable is the most reasonable to check.
         if ( substr( $sapiType, 0, 3 ) == 'cgi' )
         {
-            if ( !eZSys::serverVariable( 'HTTP_HOST', true ) )
+            if ( !self::serverVariable( 'HTTP_HOST', true ) )
                 return true;
             else
                 return false;
@@ -252,7 +273,7 @@ class eZSys
     */
     static function escapeShellArgument( $argument )
     {
-        $escapeChar = eZSys::instance()->ShellEscapeCharacter;
+        $escapeChar = self::instance()->ShellEscapeCharacter;
         $argument = str_replace( "\\", "\\\\", $argument );
         if ( $escapeChar == "'" )
         {
@@ -274,7 +295,7 @@ class eZSys
     */
     static function createShellArgument( $argumentText, $replaceList )
     {
-        $instance = eZSys::instance();
+        $instance = self::instance();
         $elements = $instance->splitArgumentIntoElements( $argumentText );
         $replacedElements = array();
         foreach ( $elements as $element )
@@ -386,7 +407,7 @@ class eZSys
     */
     static function mergeArgumentElements( $argumentElements )
     {
-        $instance = eZSys::instance();
+        $instance = self::instance();
         $argumentText = '';
         foreach ( $argumentElements as $element )
         {
@@ -408,7 +429,7 @@ class eZSys
     */
     static function backupFilename()
     {
-        return eZSys::instance()->BackupFilename;
+        return self::instance()->BackupFilename;
     }
 
     /*!
@@ -417,7 +438,7 @@ class eZSys
     */
     static function lineSeparator()
     {
-        return eZSys::instance()->LineSeparator;
+        return self::instance()->LineSeparator;
     }
 
     /*!
@@ -426,7 +447,7 @@ class eZSys
     */
     static function envSeparator()
     {
-        return eZSys::instance()->EnvSeparator;
+        return self::instance()->EnvSeparator;
     }
 
     /*!
@@ -447,7 +468,7 @@ class eZSys
     static function storageDirectory()
     {
         $ini = eZINI::instance();
-        $varDir = eZSys::varDirectory();
+        $varDir = self::varDirectory();
         $storageDir = $ini->variable( 'FileSettings', 'StorageDir' );
         return eZDir::path( array( $varDir, $storageDir ) );
     }
@@ -468,7 +489,7 @@ class eZSys
         }
         else
         {
-            return eZDir::path( array( eZSys::varDirectory(), $cacheDir ) );
+            return eZDir::path( array( self::varDirectory(), $cacheDir ) );
         }
     }
 
@@ -478,7 +499,7 @@ class eZSys
     */
     static function rootDir()
     {
-        $instance = eZSys::instance();
+        $instance = self::instance();
         if ( !$instance->RootDir )
         {
             $cwd  = getcwd();
@@ -502,7 +523,7 @@ class eZSys
     */
     static function siteDir()
     {
-        return eZSys::instance()->SiteDir;
+        return self::instance()->SiteDir;
     }
 
     /*!
@@ -511,7 +532,7 @@ class eZSys
     */
     static function wwwDir()
     {
-        return eZSys::instance()->WWWDir;
+        return self::instance()->WWWDir;
     }
 
     /*!
@@ -520,7 +541,7 @@ class eZSys
     */
     static function indexDir( $withAccessList = true )
     {
-        $instance = eZSys::instance();
+        $instance = self::instance();
         return $instance->wwwDir() . $instance->indexFile( $withAccessList );
     }
 
@@ -531,7 +552,7 @@ class eZSys
     */
     static function indexFile( $withAccessPath = true )
     {
-        $sys  = eZSys::instance();
+        $sys  = self::instance();
         $text = $sys->IndexFile;
 
         if ( $withAccessPath && ( isset( $sys->AccessPath['siteaccess']['url'][0] ) || isset( $sys->AccessPath['path']['url'][0] ) ) )
@@ -575,7 +596,7 @@ class eZSys
     */
     static function indexFileName()
     {
-        return eZSys::instance()->IndexFile;
+        return self::instance()->IndexFile;
     }
 
     /*!
@@ -584,14 +605,14 @@ class eZSys
     */
     static function hostname()
     {
-        $forwardedHostsString = eZSys::serverVariable( 'HTTP_X_FORWARDED_HOST', true );
+        $forwardedHostsString = self::serverVariable( 'HTTP_X_FORWARDED_HOST', true );
         if ( $forwardedHostsString !== null )
         {
             $forwardedHosts = explode( ',', $forwardedHostsString );
             return $forwardedHosts[0];
         }
 
-        return eZSys::serverVariable( 'HTTP_HOST' );
+        return self::serverVariable( 'HTTP_HOST' );
     }
 
     /*!
@@ -606,7 +627,7 @@ class eZSys
         if ( !$sslPort )
             $sslPort = eZSSLZone::DEFAULT_SSL_PORT;
         // $nowSSl is true if current access mode is HTTPS.
-        $nowSSL = ( eZSys::serverPort() == $sslPort );
+        $nowSSL = ( self::serverPort() == $sslPort );
 
         //Check if this request might be driven through a ssl proxy
         if ( isset ( $_SERVER['HTTP_X_FORWARDED_SERVER'] ) and !$nowSSL )
@@ -622,7 +643,7 @@ class eZSys
     */
     static function serverProtocol()
     {
-        if ( eZSys::isSSLNow() )
+        if ( self::isSSLNow() )
             return 'https';
         else
             return 'http';
@@ -634,11 +655,11 @@ class eZSys
     */
     static function serverURL()
     {
-        $host = eZSys::hostname();
+        $host = self::hostname();
         $url = '';
         if ( $host )
         {
-            if ( eZSys::isSSLNow() )
+            if ( self::isSSLNow() )
             {
                 // https case
                 $host = preg_replace( '/:\d+$/', '', $host );
@@ -664,14 +685,14 @@ class eZSys
     {
         if ( empty( $GLOBALS['eZSysServerPort'] ) )
         {
-            $hostname = eZSys::hostname();
+            $hostname = self::hostname();
             if ( preg_match( "/.*:([0-9]+)/", $hostname, $regs ) )
             {
                 $port = $regs[1];
             }
             else
             {
-                $port = eZSys::serverVariable( 'SERVER_PORT' );
+                $port = self::serverVariable( 'SERVER_PORT' );
             }
             $GLOBALS['eZSysServerPort'] = $port;
         }
@@ -720,11 +741,11 @@ class eZSys
     */
     static function path( $quiet = false )
     {
-        return eZSys::serverVariable( 'PATH', $quiet );
+        return self::serverVariable( 'PATH', $quiet );
     }
 
-    /*!
-     \return the variable named \a $variableName in the global \c ENV variable.
+    /**
+     * Return the variable named \a $variableName in the global \c ENV variable.
              If the variable is not present an error is shown and \c null is returned.
     */
     static function environmentVariable( $variableName, $quiet = false )
@@ -819,7 +840,7 @@ class eZSys
      */
     static function addAccessPath( $path, $name = 'undefined', $siteaccess = true )
     {
-        $instance = eZSys::instance();
+        $instance = self::instance();
         if ( !is_array( $path ) )
             $path = array( $path );
 
@@ -852,9 +873,9 @@ class eZSys
     static function setAccessPath( array $path = array(), $name = 'undefined', $siteaccess = true  )
     {
         if ( $siteaccess )
-            eZSys::instance()->AccessPath['siteaccess'] = array( 'name' => $name, 'url' => $path );
+            self::instance()->AccessPath['siteaccess'] = array( 'name' => $name, 'url' => $path );
         else
-            eZSys::instance()->AccessPath['path'] = array( 'name' => $name, 'url' => $path );
+            self::instance()->AccessPath['path'] = array( 'name' => $name, 'url' => $path );
     }
 
     /**
@@ -863,9 +884,9 @@ class eZSys
     static function clearAccessPath( $siteaccess = true )
     {
         if ( $siteaccess )
-            eZSys::instance()->AccessPath['siteaccess'] = array( 'name' => '', 'url' => array() );
+            self::instance()->AccessPath['siteaccess'] = array( 'name' => '', 'url' => array() );
         else
-            eZSys::instance()->AccessPath['path'] = array( 'name' => '', 'url' => array() );
+            self::instance()->AccessPath['path'] = array( 'name' => '', 'url' => array() );
     }
 
     /**
@@ -925,35 +946,36 @@ class eZSys
     */
     static function init( $index = "index.php", $force_VirtualHost = false )
     {
-        $isCGI = ( substr( php_sapi_name(), 0, 3 ) == 'cgi' );
-
-        $instance = eZSys::instance();
-        $phpSelf = eZSys::serverVariable( 'PHP_SELF' );
+        $instance = self::instance();
+        $phpSelf        = $instance->Params['_SERVER']['PHP_SELF'];
+        $scriptFileName = $instance->Params['_SERVER']['SCRIPT_FILENAME'];
+        $documentRoot   =  $instance->Params['_SERVER']['DOCUMENT_ROOT'];
+        $isCGI = ( substr( $instance->Params['PHP_SAPI'], 0, 3 ) == 'cgi' );
 
         // Find out, where our files are.
-        if ( preg_match( "!(.*/)$index$!", eZSys::serverVariable( 'SCRIPT_FILENAME' ), $regs ) )
+        if ( preg_match( "!(.*/)$index$!", $scriptFileName, $regs ) )
         {
             $siteDir = $regs[1];
-            $index = "/$index";
+            $index   = "/$index";
         }
         elseif ( preg_match( "!(.*/)$index/?!", $phpSelf, $regs ) )
         {
             // Some people using CGI have their $_SERVER['SCRIPT_FILENAME'] not right... so we are trying this.
-            $siteDir = eZSys::serverVariable( 'DOCUMENT_ROOT' ) . $regs[1];
-            $index = "/$index";
+            $siteDir = $documentRoot . $regs[1];
+            $index   = "/$index";
         }
         else
         {
             // Fallback... doesn't work with virtual-hosts, but better than nothing
             $siteDir = "./";
-            $index = "/$index";
+            $index   = "/$index";
         }
         if ( $isCGI and !$force_VirtualHost )
         {
             $index .= '?';
         }
 
-        // Setting the right include_path
+        // Setting the right include_path, @todo: Remove?
         $includePath = ini_get( "include_path" );
         if ( trim( $includePath ) != "" )
         {
@@ -965,7 +987,7 @@ class eZSys
         }
         ini_set( "include_path", $includePath );
 
-        $scriptName = eZSys::serverVariable( 'SCRIPT_NAME' );
+        $scriptName = $instance->Params['_SERVER']['SCRIPT_NAME'];
         // Get the webdir.
 
         $wwwDir = "";
@@ -984,11 +1006,11 @@ class eZSys
 
         if ( ! $isCGI || $force_VirtualHost )
         {
-            $requestURI = eZSys::serverVariable( 'REQUEST_URI' );
+            $requestURI = $instance->Params['_SERVER']['REQUEST_URI'];
         }
         else
         {
-            $requestURI = eZSys::serverVariable( 'QUERY_STRING' );
+            $requestURI = $instance->Params['_SERVER']['QUERY_STRING'];
 
             /* take out PHPSESSID, if url-encoded */
             if ( preg_match( "/(.*)&PHPSESSID=[^&]+(.*)/", $requestURI, $matches ) )
@@ -1019,7 +1041,7 @@ class eZSys
                         if ( $phpSelf != "$wwwDir$index" and preg_match( "!^$wwwDir(.*)!", $requestURI, $req ) )
                         {
                             $requestURI = $req[1];
-                            $index = '';
+                            $index      = '';
                         }
                         elseif ( $phpSelf == "$wwwDir$index" and
                                ( preg_match( "!^$wwwDir$index(.*)!", $requestURI, $req ) or preg_match( "!^$wwwDir(.*)!", $requestURI, $req ) ) )
@@ -1058,24 +1080,24 @@ class eZSys
 
         if ( !$isCGI )
         {
-            $currentPath = substr( eZSys::serverVariable( 'SCRIPT_FILENAME' ), 0, -strlen( 'index.php' ) );
-            if ( strpos( $currentPath, eZSys::serverVariable( 'DOCUMENT_ROOT' )  ) === 0 )
+            $currentPath = substr( $scriptFileName, 0, -strlen( 'index.php' ) );
+            if ( strpos( $currentPath, $documentRoot  ) === 0 )
             {
-                $prependRequest = substr( $currentPath, strlen( eZSys::serverVariable( 'DOCUMENT_ROOT' ) ) );
+                $prependRequest = substr( $currentPath, strlen( $documentRoot ) );
 
                 if ( strpos( $requestURI, $prependRequest ) === 0 )
                 {
                     $requestURI = substr( $requestURI, strlen( $prependRequest ) - 1 );
-                    $wwwDir = substr( $prependRequest, 0, -1 );
+                    $wwwDir     = substr( $prependRequest, 0, -1 );
                 }
             }
         }
 
         $instance->AccessPath = array( 'siteaccess' => array( 'name' => '', 'url' => array() ),
                                        'path'       => array( 'name' => '', 'url' => array() ) );
-        $instance->SiteDir = $siteDir;
-        $instance->WWWDir = $wwwDir;
-        $instance->IndexFile = $index;
+        $instance->SiteDir    = $siteDir;
+        $instance->WWWDir     = $wwwDir;
+        $instance->IndexFile  = $index;
         $instance->RequestURI = $requestURI;
     }
 
@@ -1084,7 +1106,7 @@ class eZSys
     */
     static function requestURI()
     {
-        return eZSys::instance()->RequestURI;
+        return self::instance()->RequestURI;
     }
 
     /**
@@ -1133,7 +1155,7 @@ class eZSys
     static function protocolSchema()
     {
         $schema = '';
-        if( preg_match( "#^([a-zA-Z]+)/.*$#", eZSys::serverVariable( 'SERVER_PROTOCOL' ), $schemaMatches ) )
+        if( preg_match( "#^([a-zA-Z]+)/.*$#", self::serverVariable( 'SERVER_PROTOCOL' ), $schemaMatches ) )
         {
             $schema = strtolower( $schemaMatches[1] ) . '://';
         }
@@ -1290,6 +1312,12 @@ class eZSys
      * @var string
      */
     public $OSType;
+
+    /**
+     * Holds server variables as read automatically or provided by unit tests
+     * @var array
+     */
+    protected $Params = null;
 
     /**
      * Holds eZSys instance
