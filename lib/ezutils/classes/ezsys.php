@@ -1120,11 +1120,21 @@ class eZSys
      */
     static function instance()
     {
-        if ( empty( $GLOBALS['eZSysInstance'] ) )
+        if ( !self::$instance instanceof eZSys )
         {
-            $GLOBALS['eZSysInstance'] = new eZSys();
+            self::$instance = new eZSys();
         }
-        return $GLOBALS['eZSysInstance'];
+        return self::$instance;
+    }
+
+    /**
+     * Sets eZSys instance or clears it if left undefined.
+     *
+     * @param eZSys $instance
+     */
+    static function setInstance( eZSys $instance = null )
+    {
+        self::$instance = $instance;
     }
 
     /*!
@@ -1306,6 +1316,12 @@ class eZSys
      * @var string
      */
     public $OSType;
+
+    /**
+     * Holds eZSys instance
+     * @var null|eZSys
+     */
+    protected static $instance = null;
 }
 
 ?>
