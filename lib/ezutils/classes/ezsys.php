@@ -175,20 +175,23 @@ class eZSys
         return eZSys::instance()->FileSeparator;
     }
 
-    /*!
-     \static
-     \return the PHP version as text.
-     \note Calls phpversion().
+    /**
+     * The PHP version as text.
+     *
+     * @deprecated Since 4.5, use PHP_VERSION
+     * @return string
     */
     static function phpVersionText()
     {
         return phpversion();
     }
 
-    /*!
-     \static
-     \return the PHP version as an array with the version elements.
-    */
+    /**
+     * Return the PHP version as an array with the version elements.
+     *
+     * @deprecated Since 4.5
+     * @return array
+     */
     static function phpVersion()
     {
         $text = eZSys::phpVersionText();
@@ -196,13 +199,15 @@ class eZSys
         return $elements;
     }
 
-    /*!
-     \return \c true if the PHP version is equal or higher than \a $requiredVersion.
-     \param $requiredVersion must be an array with version number.
-
-     \code
-     eZSys::isPHPVersionSufficient( array( 4, 1, 0 ) );
-     \endcode
+    /**
+     * Return \c true if the PHP version is equal or higher than \a $requiredVersion.
+     *
+     * Use:
+     * eZSys::isPHPVersionSufficient( array( 4, 1, 0 ) );
+     *
+     * @deprecated Since 4.5
+     * @param $requiredVersion must be an array with version number.
+     * @return bool
     */
     static function isPHPVersionSufficient( $requiredVersion )
     {
