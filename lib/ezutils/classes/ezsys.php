@@ -52,8 +52,6 @@ print( eZSys::wwwDir() );
 
 class eZSys
 {
-    const DEBUG_INTERNALS = false;
-
     /*!
      Initializes the object with settings taken from the current script run.
     */
@@ -897,26 +895,26 @@ class eZSys
         return $propertyName === 'AccessPath';
     }
 
-    /*!
-     \static
-     \return true if debugging of internals is enabled, this will display
-     which server variables are read.
-      Set the option with setIsDebugEnabled().
-    */
+    /**
+     * Return true if debugging of internals is enabled, this will display
+     * which server variables are read.
+     * Set the option with setIsDebugEnabled().
+     *
+     * @deprecated Since 4.5, not used
+     * @return bool
+     */
     static function isDebugEnabled()
     {
-        if ( !isset( $GLOBALS['eZSysDebugInternalsEnabled'] ) )
-             $GLOBALS['eZSysDebugInternalsEnabled'] = eZSys::DEBUG_INTERNALS;
-        return $GLOBALS['eZSysDebugInternalsEnabled'];
     }
 
-    /*!
-     \static
-     Sets whether internal debugging is enabled or not.
-    */
+    /**
+     * Sets whether internal debugging is enabled or not.
+     *
+     * @deprecated Since 4.5, has not effect anymore
+     * @param bool $debug
+     */
     static function setIsDebugEnabled( $debug )
     {
-        $GLOBALS['eZSysDebugInternalsEnabled'] = $debug;
     }
 
     /*!
@@ -930,17 +928,6 @@ class eZSys
         $isCGI = ( substr( php_sapi_name(), 0, 3 ) == 'cgi' );
 
         $instance = eZSys::instance();
-
-        if ( eZSys::isDebugEnabled() )
-        {
-            eZDebug::writeNotice( eZSys::serverVariable( 'PHP_SELF' ), 'PHP_SELF' );
-            eZDebug::writeNotice( eZSys::serverVariable( 'SCRIPT_FILENAME' ), 'SCRIPT_FILENAME' );
-            eZDebug::writeNotice( eZSys::serverVariable( 'DOCUMENT_ROOT' ), 'DOCUMENT_ROOT' );
-            eZDebug::writeNotice( eZSys::serverVariable( 'REQUEST_URI' ), 'REQUEST_URI' );
-            eZDebug::writeNotice( eZSys::serverVariable( 'QUERY_STRING' ), 'QUERY_STRING' );
-            eZDebug::writeNotice( ini_get( 'include_path' ), 'include_path' );
-        }
-
         $phpSelf = eZSys::serverVariable( 'PHP_SELF' );
 
         // Find out, where our files are.
@@ -1024,10 +1011,6 @@ class eZSys
             }
             else
             {
-                if ( eZSys::isDebugEnabled() )
-                {
-                    eZDebug::writeNotice( "$wwwDir$index", '$wwwDir$index' );
-                }
                 // Get the right $_SERVER['REQUEST_URI'], when using nVH setup.
                 if ( preg_match( "!^$wwwDir$index(.*)!", $phpSelf, $req ) )
                 {
@@ -1094,15 +1077,6 @@ class eZSys
         $instance->WWWDir = $wwwDir;
         $instance->IndexFile = $index;
         $instance->RequestURI = $requestURI;
-
-        if ( eZSys::isDebugEnabled() )
-        {
-            eZDebug::writeNotice( $instance->SiteDir, 'SiteDir' );
-            eZDebug::writeNotice( $instance->WWWDir, 'WWWDir' );
-            eZDebug::writeNotice( $instance->IndexFile, 'IndexFile' );
-            eZDebug::writeNotice( eZSys::requestURI(), 'eZSys::requestURI()' );
-        }
-
     }
 
     /*!
@@ -1118,7 +1092,7 @@ class eZSys
      *
      * @return eZSys
      */
-    static function instance()
+    public static function instance()
     {
         if ( !self::$instance instanceof eZSys )
         {
