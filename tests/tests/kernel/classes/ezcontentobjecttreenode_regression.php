@@ -17,16 +17,6 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
         $this->setName( "eZContentObjectTreeNode Regression Tests" );
     }
 
-    public function setUp()
-    {
-        parent::setUp();
-    }
-
-    public function tearDown()
-    {
-        parent::tearDown();
-    }
-
     /**
     * Test for regression #13497:
     * attribute operator throws a PHP fatal error on a node without parent in a displayable language
@@ -135,9 +125,9 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
             $this->assertTrue( strlen( $alias ) <= 30 , "Identifier {$alias} exceeds the 30 characters limit" );
         }
     }
-    
+
     /**
-     * Regression test for issue #15561: 
+     * Regression test for issue #15561:
      * eZContentObjectTreeNode::fetch() SQL error when conditions argument is given
      */
     public function testIssue15561()
@@ -147,10 +137,10 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
         $object->title = __FUNCTION__;
         $object->publish();
         $nodeID = $object->attribute( 'main_node_id' );
-        
+
         $node = eZContentObjectTreeNode::fetch( $nodeID, false, true,
             array( 'contentobject_version' => 1 ) );
-        
+
         $this->assertType( 'eZContentObjectTreeNode', $node);
     }
 

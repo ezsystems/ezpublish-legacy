@@ -17,16 +17,6 @@ class eZContentOperationCollectionRegression extends ezpDatabaseTestCase
         $this->setName( "eZContentOperationCollection Regression Tests" );
     }
 
-    public function setup()
-    {
-        parent::setup();
-    }
-
-    public function teardown()
-    {
-        parent::teardown();
-    }
-
     /**
      * Test to verify that eznode_assignment entres get removed.
      *
@@ -90,7 +80,7 @@ class eZContentOperationCollectionRegression extends ezpDatabaseTestCase
 
     /**
      * Helper method to aid the development and test and verification of results.
-     * 
+     *
      * The method will output information about the inputted objects and nodes
      *
      * @param mixed $testObjects (array=>ezpObject)

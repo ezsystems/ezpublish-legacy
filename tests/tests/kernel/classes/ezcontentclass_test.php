@@ -17,16 +17,6 @@ class eZContentClassTest extends ezpDatabaseTestCase
         $this->setName( "eZContentClass Unit Tests" );
     }*/
 
-    public function setUp()
-    {
-        parent::setUp();
-    }
-
-    public function tearDown()
-    {
-        parent::tearDown();
-    }
-
     /**
      * Unit test for eZContentClass::classIDByIdentifier()
      * @dataProvider providerForTestClassIDByIdentifier
@@ -108,7 +98,7 @@ class eZContentClassTest extends ezpDatabaseTestCase
 
     /**
      * Unit test for eZContentClass::versionHistoryLimit() with object parameters
-     * 
+     *
      * Replica of testVersionHistoryLimit() but you cannot make calls
      * to the eZ API which relies on a database, as this is not present
      * in the provider methods.

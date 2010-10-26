@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezpTestRegressionTest class.
+ * File containing the ezpDatabaseRegressionTest class.
  *
  * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
@@ -14,7 +14,7 @@
  * Same code as ezcTestRegressionTest which is in UnitTest from eZ
  * Components trunk.
  */
-class ezpTestRegressionTest extends ezpDatabaseTestCase
+class ezpDatabaseRegressionTest extends ezpDatabaseTestCase
 {
     /**
      * How to sort the test files: 'mtime' sorts by modification time, any other
@@ -27,6 +27,7 @@ class ezpTestRegressionTest extends ezpDatabaseTestCase
 
     public function __construct()
     {
+        parent::__construct();
         if ( self::SORT_MODE === 'mtime' )
         {
             // Sort by modification time to get updated tests first
@@ -39,7 +40,6 @@ class ezpTestRegressionTest extends ezpDatabaseTestCase
             usort( $this->files,
                    array( $this, 'sortTestsByName' ) );
         }
-        parent::__construct();
     }
 
     public function getName( $withDataSet = TRUE )

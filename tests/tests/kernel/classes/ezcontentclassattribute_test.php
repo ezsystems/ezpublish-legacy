@@ -15,16 +15,6 @@ class eZContentClassAttributeTest extends ezpDatabaseTestCase
         $this->setName( "eZContentClass Unit Tests" );
     }*/
 
-    public function setUp()
-    {
-        parent::setUp();
-    }
-
-    public function tearDown()
-    {
-        parent::tearDown();
-    }
-
     /**
      * #15898: Cannot translate a user content object
      * Make sure datatype translation flag is honored.

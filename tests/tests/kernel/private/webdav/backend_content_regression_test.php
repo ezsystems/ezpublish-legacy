@@ -29,7 +29,7 @@ require_once( 'wrappers.php' );
  * - the extension ezsiteaccesshelper is called to enable the created siteaccess
  *   in ezp/siteaccess/override/site.ini.append.php
  */
-class eZWebDAVBackendContentRegressionTest extends ezpTestRegressionTest
+class eZWebDAVBackendContentRegressionTest extends ezpDatabaseRegressionTest
 {
     /**
      * Setting needed to keep the global variables working between the tests.

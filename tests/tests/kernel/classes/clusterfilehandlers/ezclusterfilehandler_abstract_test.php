@@ -34,7 +34,7 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
         if ( $this->clusterClass === false )
             $this->markTestSkipped( "Test class " . get_class( $this ) . " does not provide the clusterClass property" );
 
-        return parent::setup();
+        return parent::setUp();
     }
 
     /**

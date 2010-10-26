@@ -17,18 +17,18 @@ class eZContentLanguageRegression extends ezpDatabaseTestCase
         $this->setName( "eZContentLanguage Regression Tests" );
     }
 
-    public function setup()
+    public function setUp()
     {
-        parent::setup();
+        parent::setUp();
         eZContentLanguage::addLanguage( 'nno-NO', 'Nynorsk' );
     }
 
-    public function teardown()
+    public function tearDown()
     {
         eZContentLanguage::removeLanguage( 'nno-NO' );
         eZContentLanguage::removeLanguage( 'dan-DK' );
 
-        parent::teardown();
+        parent::tearDown();
     }
 
     /**

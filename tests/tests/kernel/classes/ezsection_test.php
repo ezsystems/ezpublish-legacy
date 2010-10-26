@@ -18,11 +18,6 @@ class eZSectionTest extends ezpDatabaseTestCase
         $this->setName( "eZSection Tests" );
     }
 
-    public function setUp()
-    {
-        parent::setUp();
-    }
-
     /**
      * test fetchByIdentifier function
      */

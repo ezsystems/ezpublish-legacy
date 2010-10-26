@@ -19,12 +19,11 @@
 <code>
      public function setUp()
     {
+        parent::setUp();
         // make sure extension is enabled and settings are read
         // give a warning if it is already enabled
         if ( !ezpExtensionHelper::load( 'ezoe' ) )
             trigger_error( __METHOD__ . ': extension is already loaded, this hints about missing cleanup in other tests that uses it!', E_USER_WARNING );
-
-        parent::setUp();
     }
 
     public function tearDown()

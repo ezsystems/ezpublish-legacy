@@ -17,15 +17,6 @@ class eZPackageRegression extends ezpDatabaseTestCase
         $this->setName( "eZPackage Regression Tests" );
     }
 
-    public function setUp()
-    {
-        parent::setUp();
-    }
-
-    public function tearDown()
-    {
-        parent::tearDown();
-    }
 
     /**
     * Regression test for issue #15263

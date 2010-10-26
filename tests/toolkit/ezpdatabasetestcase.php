@@ -33,6 +33,7 @@ class ezpDatabaseTestCase extends ezpTestCase
      */
     protected function setUp()
     {
+        parent::setUp();
         if ( ezpTestRunner::dbPerTest() )
         {
             $dsn = ezpTestRunner::dsn();
@@ -46,15 +47,15 @@ class ezpDatabaseTestCase extends ezpTestCase
         }
         eZDB::setInstance( $this->sharedFixture );
     }
-    
+
     protected function tearDown()
     {
-        parent::tearDown();
         if ( ezpTestRunner::dbPerTest() )
         {
             $db = eZDB::instance();
             $db->close();
         }
+        parent::tearDown();
     }
 }
 

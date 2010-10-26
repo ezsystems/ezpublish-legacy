@@ -15,19 +15,19 @@ class eZContentClassRegression extends ezpDatabaseTestCase
         $this->setName( "eZContentClass Regression Tests" );
     }
 
-    public function setup()
+    public function setUp()
     {
-        parent::setup();
+        parent::setUp();
 
         $this->class = new ezpClass( 'eZContentClassRegression', 'eZContentClassRegression', '<name>' );
         $this->class->add( 'Name', 'name' );
         $this->class->store();
     }
 
-    public function teardown()
+    public function tearDown()
     {
         eZContentClassOperations::remove( $this->class->id );
-        parent::teardown();
+        parent::tearDown();
     }
 
     /**

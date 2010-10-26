@@ -13,25 +13,32 @@ class eZSiteInstallerTest extends ezpDatabaseTestCase
     /**
      * Test case setup
      * Prepare $_SERVER variable
-     * 
+     *
      */
-    public function setup()
+    public function setUp()
     {
-    	parent::setup();
+        parent::setUp();
+        $this->httpHost =  eZSys::serverVariable( 'HTTP_HOST' );
         eZSys::setServerVariable( 'HTTP_HOST', 'localhost' );
+    }
+
+    public function tearDown()
+    {
+        eZSys::setServerVariable( 'HTTP_HOST', $this->httpHost );
+        parent::tearDown();
     }
 
     /**
      * Test created siteaccess URLs for given conditions
-     * 
+     *
      */
     public function testCreateSiteaccessUrls()
     {
         $installer = new eZSiteInstaller();
-        
+
         /*
          * Access type: URL
-         * 
+         *
          */
         $params = array( 'siteaccess_list' => array( 'ezwebin_site' ),
                          'access_type' => 'url',
@@ -40,12 +47,12 @@ class eZSiteInstallerTest extends ezpDatabaseTestCase
                          'host' => '',
                          'host_prepend_siteaccess' => false );
         $siteaccessURLs = $installer->createSiteaccessUrls( $params );
-        
+
         $this->assertEquals( $siteaccessURLs, array( 'ezwebin_site' => array( 'url' => 'localhost/ezwebin_site' ) ) );
 
         /*
          * Access type: HOST
-         * 
+         *
          */
         $params = array( 'siteaccess_list' => array( 'ezwebin_site' ),
                          'access_type' => 'host',
@@ -54,13 +61,13 @@ class eZSiteInstallerTest extends ezpDatabaseTestCase
                          'host' => '',
                          'host_prepend_siteaccess' => false );
         $siteaccessURLs = $installer->createSiteaccessUrls( $params );
-        
+
         $this->assertEquals( $siteaccessURLs, array( 'ezwebin_site' => array( 'url' => 'ezwebin.site.host',
                                                                               'host' => 'ezwebin.site.host' ) ) );
 
         /*
          * Access type: PORT
-         * 
+         *
          */
         $params = array( 'siteaccess_list' => array( 'ezwebin_site' ),
                          'access_type' => 'port',
@@ -69,7 +76,7 @@ class eZSiteInstallerTest extends ezpDatabaseTestCase
                          'host' => '',
                          'host_prepend_siteaccess' => false );
         $siteaccessURLs = $installer->createSiteaccessUrls( $params );
-        
+
         $this->assertEquals( $siteaccessURLs, array( 'ezwebin_site' => array( 'url' => 'localhost:81',
                                                                               'port' => '81' ) ) );
 
@@ -77,7 +84,7 @@ class eZSiteInstallerTest extends ezpDatabaseTestCase
          * Access type: HOST
          * Language siteaccess
          * Host with prepended siteaccess name
-         * 
+         *
          */
         $params = array( 'siteaccess_list' => array( 'eng' ),
                          'access_type' => 'host',
@@ -86,7 +93,7 @@ class eZSiteInstallerTest extends ezpDatabaseTestCase
                          'host' => '',
                          'host_prepend_siteaccess' => true );
         $siteaccessURLs = $installer->createSiteaccessUrls( $params );
-        
+
         $this->assertEquals( $siteaccessURLs, array( 'eng' => array( 'url' => 'eng.ezwebin.site.host',
                                                                      'host' => 'eng.ezwebin.site.host' ) ) );
 
@@ -101,7 +108,7 @@ class eZSiteInstallerTest extends ezpDatabaseTestCase
                          'host' => '',
                          'host_prepend_siteaccess' => false );
         $siteaccessURLs = $installer->createSiteaccessUrls( $params );
-        
+
         $this->assertEquals( $siteaccessURLs, array( 'ezwebin_site' => array( 'url' => 'localhost:82',
                                                                               'port' => '82' ) ) );
     }
