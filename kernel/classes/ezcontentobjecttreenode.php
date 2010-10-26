@@ -1982,16 +1982,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $server = count( $sqlPermissionChecking['temp_tables'] ) > 0 ? eZDBInterface::SERVER_SLAVE : false;
 
-        if ( !$offset && !$limit )
-        {
-            $nodeListArray = $db->arrayQuery( $query, array(), $server );
-        }
-        else
-        {
-            $nodeListArray = $db->arrayQuery( $query, array( 'offset' => $offset,
-                                                             'limit'  => $limit ),
-                                                      $server );
-        }
+        $nodeListArray = $db->arrayQuery( $query, array( 'offset' => $offset,
+                                                         'limit'  => $limit ),
+                                                  $server );
 
         if ( $asObject )
         {
