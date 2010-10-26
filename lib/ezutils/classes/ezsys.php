@@ -950,7 +950,6 @@ class eZSys
         $phpSelf        = $instance->Params['_SERVER']['PHP_SELF'];
         $scriptFileName = $instance->Params['_SERVER']['SCRIPT_FILENAME'];
         $documentRoot   =  $instance->Params['_SERVER']['DOCUMENT_ROOT'];
-        $isCGI = ( substr( $instance->Params['PHP_SAPI'], 0, 3 ) == 'cgi' );
 
         // Find out, where our files are.
         if ( preg_match( "!(.*/)$index$!", $scriptFileName, $regs ) )
@@ -969,10 +968,6 @@ class eZSys
             // Fallback... doesn't work with virtual-hosts, but better than nothing
             $siteDir = "./";
             $index   = "/$index";
-        }
-        if ( $isCGI and !$force_VirtualHost )
-        {
-            $index .= '?';
         }
 
         // Setting the right include_path, @todo: Remove?
@@ -1004,97 +999,72 @@ class eZSys
                 $wwwDir = $regs[1];
         }
 
-        if ( ! $isCGI || $force_VirtualHost )
-        {
-            $requestURI = $instance->Params['_SERVER']['REQUEST_URI'];
-        }
-        else
-        {
-            $requestURI = $instance->Params['_SERVER']['QUERY_STRING'];
-
-            /* take out PHPSESSID, if url-encoded */
-            if ( preg_match( "/(.*)&PHPSESSID=[^&]+(.*)/", $requestURI, $matches ) )
-            {
-                $requestURI = $matches[1].$matches[2];
-            }
-        }
+        $requestURI = $instance->Params['_SERVER']['REQUEST_URI'];
 
         // Fallback... Finding the paths above failed, so $_SERVER['PHP_SELF'] is not set right.
         if ( $siteDir == "./" )
             $phpSelf = $requestURI;
 
-        if ( ! $isCGI )
+        $index_reg = str_replace( ".", "\\.", $index );
+        // Trick: Rewrite setup doesn't have index.php in $_SERVER['PHP_SELF'], so we don't want an $index
+        if ( !preg_match( "!.*$index_reg.*!", $phpSelf ) || $force_VirtualHost )
         {
-            $index_reg = str_replace( ".", "\\.", $index );
-            // Trick: Rewrite setup doesn't have index.php in $_SERVER['PHP_SELF'], so we don't want an $index
-            if ( !preg_match( "!.*$index_reg.*!", $phpSelf ) || $force_VirtualHost )
+            $index = "";
+        }
+        else
+        {
+            // Get the right $_SERVER['REQUEST_URI'], when using nVH setup.
+            if ( preg_match( "!^$wwwDir$index(.*)!", $phpSelf, $req ) )
             {
-                $index = "";
-            }
-            else
-            {
-                // Get the right $_SERVER['REQUEST_URI'], when using nVH setup.
-                if ( preg_match( "!^$wwwDir$index(.*)!", $phpSelf, $req ) )
+                if ( !$req[1] )
                 {
-                    if ( !$req[1] )
+                    if ( $phpSelf != "$wwwDir$index" and preg_match( "!^$wwwDir(.*)!", $requestURI, $req ) )
                     {
-                        if ( $phpSelf != "$wwwDir$index" and preg_match( "!^$wwwDir(.*)!", $requestURI, $req ) )
-                        {
-                            $requestURI = $req[1];
-                            $index      = '';
-                        }
-                        elseif ( $phpSelf == "$wwwDir$index" and
-                               ( preg_match( "!^$wwwDir$index(.*)!", $requestURI, $req ) or preg_match( "!^$wwwDir(.*)!", $requestURI, $req ) ) )
-                        {
-                            $requestURI = $req[1];
-                        }
+                        $requestURI = $req[1];
+                        $index      = '';
                     }
-                    else
+                    elseif ( $phpSelf == "$wwwDir$index" and
+                           ( preg_match( "!^$wwwDir$index(.*)!", $requestURI, $req ) or preg_match( "!^$wwwDir(.*)!", $requestURI, $req ) ) )
                     {
                         $requestURI = $req[1];
                     }
                 }
+                else
+                {
+                    $requestURI = $req[1];
+                }
             }
         }
-        if ( $isCGI and $force_VirtualHost )
-            $index = '';
+
         // Remove url parameters
-        if ( $isCGI and !$force_VirtualHost )
+        if ( strpos( $requestURI, '?' ) !== false )
         {
-            $pattern = "!(\/[^&]+)!";
-        }
-        else
-        {
-            $pattern = "!([^?]+)!";
-        }
-        if ( preg_match( $pattern, $requestURI, $regs ) )
-        {
-            $requestURI = $regs[1];
+            $requestURI = explode('?', $requestURI );
+            $requestURI = $requestURI[0];
         }
 
         // Remove internal links
-        if ( preg_match( "!([^#]+)!", $requestURI, $regs ) )
+        if ( strpos( $requestURI, '#' ) !== false )
         {
-            $requestURI = $regs[1];
+            $requestURI = explode('#', $requestURI );
+            $requestURI = $requestURI[0];
         }
 
-        if ( !$isCGI )
+        $currentPath = substr( $scriptFileName, 0, -strlen( 'index.php' ) );
+        if ( strpos( $currentPath, $documentRoot  ) === 0 )
         {
-            $currentPath = substr( $scriptFileName, 0, -strlen( 'index.php' ) );
-            if ( strpos( $currentPath, $documentRoot  ) === 0 )
-            {
-                $prependRequest = substr( $currentPath, strlen( $documentRoot ) );
+            $prependRequest = substr( $currentPath, strlen( $documentRoot ) );
 
-                if ( strpos( $requestURI, $prependRequest ) === 0 )
-                {
-                    $requestURI = substr( $requestURI, strlen( $prependRequest ) - 1 );
-                    $wwwDir     = substr( $prependRequest, 0, -1 );
-                }
+            if ( strpos( $requestURI, $prependRequest ) === 0 )
+            {
+                $requestURI = substr( $requestURI, strlen( $prependRequest ) - 1 );
+                $wwwDir     = substr( $prependRequest, 0, -1 );
             }
         }
 
         $instance->AccessPath = array( 'siteaccess' => array( 'name' => '', 'url' => array() ),
                                        'path'       => array( 'name' => '', 'url' => array() ) );
+
         $instance->SiteDir    = $siteDir;
         $instance->WWWDir     = $wwwDir;
         $instance->IndexFile  = $index;
