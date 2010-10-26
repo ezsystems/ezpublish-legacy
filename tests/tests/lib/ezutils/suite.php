@@ -15,6 +15,7 @@ class eZUtilsTestSuite extends ezpDatabaseTestSuite
         $this->setName( "eZUtils Test Suite" );
 
         $this->addTestSuite( 'eZSysTest' );
+        $this->addTestSuite( 'eZSysRegressionTest' );
         $this->addTestSuite( 'eZURITest' );
         $this->addTestSuite( 'eZINITest' );
         $this->addTestSuite( 'eZURIRegression' );
