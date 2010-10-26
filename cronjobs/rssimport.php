@@ -209,13 +209,14 @@ function importRSSItem( $item, $rssImport, $cli, $channel )
     // Test for link or guid as unique identifier
     $link = $item->getElementsByTagName( 'link' )->item( 0 );
     $guid = $item->getElementsByTagName( 'guid' )->item( 0 );
+    $rssId = '';
     if ( $link->textContent )
     {
-        $md5Sum = md5( $link->textContent );
+        $rssId = $link->textContent;
     }
     elseif ( $guid->textContent )
     {
-        $md5Sum = md5( $guid->textContent );
+        $rssId = $guid->textContent;
     }
     else
     {
@@ -225,6 +226,7 @@ function importRSSItem( $item, $rssImport, $cli, $channel )
         }
         return 0;
     }
+    $md5Sum = md5( $rssId );
 
     // Try to fetch RSSImport object with md5 sum matching link.
     $existingObject = eZPersistentObject::fetchObject( eZContentObject::definition(), null,
@@ -235,7 +237,7 @@ function importRSSItem( $item, $rssImport, $cli, $channel )
     {
         if ( !$isQuiet )
         {
-            $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Object ( ' . $existingObject->attribute( 'id' ) . ' ) with URL: '.$linkURL.' already exists' );
+            $cli->output( 'RSSImport ' . $rssImport->attribute( 'name' ) . ': Object ( ' . $existingObject->attribute( 'id' ) . ' ) with ID: "' . $rssId . '" already exists' );
         }
         unset( $existingObject ); // delete object to preserve memory
         return 0;
