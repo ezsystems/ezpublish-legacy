@@ -144,16 +144,27 @@ class eZSysRegressionTest extends ezpRegressionTest
             $this->assertEquals( '~',    $instance->BackupFilename, "Did not get correct $os 'BackupFilename' value" );
         }
 
-        // Uri test
-        // vh / nvh part
+        // Uri test: vh / nvh part
         if ( strpos( $file, 'server/nvh/' ) )
             $expected = '/index.php';
         else
             $expected = '';
+        $this->assertEquals( $expected, $instance->IndexFile, "The IndexFile was not expected value" );
 
-        $this->assertEquals( $expected, $instance->indexFileName(), "The expected indexFileName response '" . $expected . "' is not the same as the response got from request: " . $instance->indexFileName()  );
+        // Uri test: sub path part
+        if ( strpos( $testData['_SERVER']['SCRIPT_NAME'], 'index.php' ) !== false )// .htaccess or nvh
+        {
+            $subPath = explode( 'index.php', $testData['_SERVER']['SCRIPT_NAME'] );
+            $subPath = rtrim( $subPath[0], '\/' );
+        }
+        else
+        {
+            $subPath = '';
+        }
+        $this->assertEquals( $subPath, $instance->WWWDir, "The WWWDir was not expected value" );
+        $this->assertEquals( rtrim( str_replace( 'index.php', '', $testData['_SERVER']['SCRIPT_FILENAME'] ), '\/' ) . '/', $instance->SiteDir, "The SiteDir was not expected value" );
 
-        // uri part
+        // Uri test: uri part
         if ( strpos( $file, 'vh/utf8' ) )
             $expected = '/News/Blåbær-Øl-med-d\'or-新闻军事社会体育中超';
         elseif ( strpos( $file, 'vh/view' ) )
@@ -162,8 +173,7 @@ class eZSysRegressionTest extends ezpRegressionTest
             $expected = '/';
         else
             $expected = '';// index url produces empty request uri, maybe root should have done that as well / or opposite..
-
-        $this->assertEquals( $expected, $instance->requestURI(), "The expected requestURI response '" . $expected . "' is not the same as the response got from request: " . $instance->requestURI()  );
+        $this->assertEquals( $expected, $instance->RequestURI, "The RequestURI was not expected value" );
     }
 }
 ?>
