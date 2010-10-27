@@ -27,7 +27,7 @@ return array (
     'HTTP_ACCEPT_CHARSET' => 'ISO-8859-1,utf-8;q=0.7,*;q=0.7',
     'HTTP_KEEP_ALIVE' => '115',
     'HTTP_CONNECTION' => 'keep-alive',
-    'HTTP_COOKIE' => 'contentStructureMenu=2/61/74/43/51/53/122; adminNavigationTab=details; eZSESSID74e6a8b111ea7da1a7d0a596f4c35208=24qlfn8sris94a926a7s10het0',
+    'HTTP_COOKIE' => '',
     'PATH' => 'C:\\Program Files\\PC Connectivity Solution\\;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;D:\\UnxUtils\\usr\\local\\wbin;D:\\Perl\\site\\bin;D:\\Perl\\bin;C:\\Program Files\\MySQL\\MySQL Server 5.1\\bin;D:\\oracle\\product\\11.2.0\\db_1\\bin;D:\\oracle\\product\\10.2.0\\db_1\\bin;c:\\Program Files\\Microsoft SQL Server\\100\\Tools\\Binn\\;c:\\Program Files\\Microsoft SQL Server\\100\\DTS\\Binn\\;C:\\Program Files\\ImageMagick-6.6.4-Q16;D:\\usr\\bin;c:\\Program Files\\OpenOffice.org 3\\program\\;C:\\Program Files\\TortoiseSVN\\bin;C:\\Program Files\\TortoiseGit\\bin;C:\\Program Files\\CollabNet Subversion Client;C:\\Program Files\\CVSNT\\;C:\\Program Files\\QuickTime\\QTSystem\\;C:\\Program Files\\doxygen\\bin',
     'SystemRoot' => 'C:\\Windows',
     'COMSPEC' => 'C:\\Windows\\system32\\cmd.exe',
