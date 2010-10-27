@@ -15,12 +15,19 @@ define( 'STORAGE_PASS',        'secret'          );
 define( 'STORAGE_DB',          'cluster'         );
 define( 'STORAGE_CHUNK_SIZE',  65535             );
 
+// define the Expires HTTP header timeout in seconds.
+// It's set to 6000 seconds (100 minutes) if EXPIRY_TIMEOUT is not defined.
+// to work around an IE bug, it's recommended to not set it to a value lower
+// than 600 seconds (10 minutes).
+// Image urls contain the version number, it can be set to a very far future
+// without any risk (one year below)
+define( 'EXPIRY_TIMEOUT', 60 * 60 * 24 * 365 );
+
 // If you use the DFS cluster, you also need to set the path for the shared directory:
 define( 'MOUNT_POINT_PATH',    'var/nfsmount'    );
 
 // If you use Oracle you might want to set these (see README.cluster in the ezoracle extension):
 //define( 'USE_ETAG', true );
-//define( 'EXPIRY_TIMEOUT', 60 * 60 * 24 * 30 );
 //define ( 'STORAGE_PERSISTENT_CONNECTION', true );
 
 // If you're not using UTF-8 (which we STRONGLY recommend),
