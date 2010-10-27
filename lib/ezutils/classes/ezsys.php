@@ -78,26 +78,26 @@ class eZSys
         $this->Params = $serverParams;
         $this->Attributes = array( "magickQuotes" => true,
                                    "hostname"     => true );
+        $this->FileSeparator = $this->Params['DIRECTORY_SEPARATOR'];
+        $this->EnvSeparator = $this->Params['PATH_SEPARATOR'];
+
         // Determine OS specific settings
         if ( substr( $this->Params['php_uname'], 0, 7 ) == "Windows" )
         {
             $this->OSType = "win32";
             $this->OS = "windows";
             $this->FileSystemType = "win32";
-            $this->FileSeparator = "\\"; // @todo: look into using use DIRECTORY_SEPARATOR
-            $this->LineSeparator= "\r\n"; // @todo: look into using use PHP_EOL
-            $this->EnvSeparator = ";"; // @todo: look into using use PATH_SEPARATOR
+            $this->LineSeparator = "\r\n";
             $this->ShellEscapeCharacter = '"';
             $this->BackupFilename = '.bak';
         }
         else if ( substr( $this->Params['php_uname'], 0, 3 ) == "Mac" )
         {
+            // Note: OS X identifies itself as Darwin, so is threated correctly as unix
             $this->OSType = "mac";
             $this->OS = "mac";
             $this->FileSystemType = "unix";
-            $this->FileSeparator = "/";
             $this->LineSeparator= "\r";
-            $this->EnvSeparator = ":";
             $this->ShellEscapeCharacter = "'";
             $this->BackupFilename = '~';
         }
@@ -108,7 +108,7 @@ class eZSys
             {
                 $this->OS = 'linux';
             }
-            else if ( strtolower( substr( $this->Params['php_uname'], 0, 0 ) ) == 'freebsd' )
+            else if ( strtolower( substr( $this->Params['php_uname'], 0, 7 ) ) == 'freebsd' )
             {
                 $this->OS = 'freebsd';
             }
@@ -117,9 +117,7 @@ class eZSys
                 $this->OS = false;
             }
             $this->FileSystemType = "unix";
-            $this->FileSeparator = "/";
-            $this->LineSeparator= "\n";
-            $this->EnvSeparator = ":";
+            $this->LineSeparator = "\n";
             $this->ShellEscapeCharacter = "'";
             $this->BackupFilename = '~';
         }
