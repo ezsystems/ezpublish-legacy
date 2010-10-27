@@ -63,16 +63,16 @@ Structure
 Dataset has the following folder structure:
 
 server::
-  |-nvh
-  | |-index
-  | |-root
-  | |-utf8
-  | |-view
-  |
-  |-vh
-    |-root
-    |-utf8
-    |-view
+>  |-nvh
+>  | |-index
+>  | |-root
+>  | |-utf8
+>  | |-view
+>  |
+>  |-vh
+>    |-root
+>    |-utf8
+>    |-view
 
 vh: Virtual host mode (aka no 'index.php' as normally accomplished with rewrite rules)
 nvh: Non virtual host mode (aka has index.php in url)
