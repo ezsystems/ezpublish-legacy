@@ -169,10 +169,8 @@ class eZSysRegressionTest extends ezpRegressionTest
             $expected = '/News/Blåbær-Øl-med-d\'or-新闻军事社会体育中超';
         elseif ( strpos( $file, 'vh/view' ) )
             $expected = '/content/view/full/44';
-        elseif ( strpos( $file, 'vh/root' ) )
-            $expected = '/';
         else
-            $expected = '';// index url produces empty request uri, maybe root should have done that as well / or opposite..
+            $expected = '';
         $this->assertEquals( $expected, $instance->RequestURI, "The RequestURI was not expected value" );
     }
 }

@@ -929,135 +929,72 @@ class eZSys
     {
     }
 
-    /*!
-     Initializes some variables according to some global PHP values.
-     This function should be called once in the index file with the parameters
-     stated in the parameter list.
-     \static
-    */
-    static function init( $index = "index.php", $force_VirtualHost = false )
+    /**
+     * Initializes some variables according to some global PHP values.
+     * This function should be called once in the index file with the parameters
+     * stated in the parameter list.
+     *
+     * @param string $index The current index file, needed for virtual host mode detection.
+     * @param bool $forceVirtualHost {@deprecated as of 4.5}
+     */
+    public static function init( $index = 'index.php', $forceVirtualHost = null )
     {
         $instance = self::instance();
         $phpSelf        = $instance->Params['_SERVER']['PHP_SELF'];
-        $scriptFileName = $instance->Params['_SERVER']['SCRIPT_FILENAME'];
-        $documentRoot   =  $instance->Params['_SERVER']['DOCUMENT_ROOT'];
+        $requestUri     = $instance->Params['_SERVER']['REQUEST_URI'];
 
-        // Find out, where our files are.
-        if ( preg_match( "!(.*/)$index$!", $scriptFileName, $regs ) )
+        // detect IIS vh mode
+        if ( isset( $instance->Params['_SERVER']['IIS_WasUrlRewritten'] ) && $instance->Params['_SERVER']['IIS_WasUrlRewritten'] )
         {
-            $siteDir = $regs[1];
-            $index   = "/$index";
+            $wwwDir = '/';
+            $IndexFile = '';
+            $siteDir = '';
         }
-        elseif ( preg_match( "!(.*/)$index/?!", $phpSelf, $regs ) )
+        // use PHP_SELF to detect non virtual host mode
+        elseif ( isset( $phpSelf[1] ) && strpos( $phpSelf, $index ) !== false )
         {
-            // Some people using CGI have their $_SERVER['SCRIPT_FILENAME'] not right... so we are trying this.
-            $siteDir = $documentRoot . $regs[1];
-            $index   = "/$index";
-        }
-        else
-        {
-            // Fallback... doesn't work with virtual-hosts, but better than nothing
-            $siteDir = "./";
-            $index   = "/$index";
-        }
+            $wwwDir    = explode( $index, ltrim( $phpSelf, '/ ' ) );
+            $wwwDir    = '/'. $wwwDir[0];
+            $siteDir   = $wwwDir . $index;
+            $IndexFile = '/' . $index;
 
-        // Setting the right include_path, @todo: Remove?
-        $includePath = ini_get( "include_path" );
-        if ( trim( $includePath ) != "" )
-        {
-            $includePath = $includePath . $instance->envSeparator() . $siteDir;
+            // remove sub path from requestUri
+            if ( strpos( $requestUri, $index ) !== false )
+                $requestUri = str_replace( $siteDir, '', $requestUri );
+            else
+                $requestUri = str_replace( $wwwDir, '', $requestUri );
         }
         else
         {
-            $includePath = $siteDir;
-        }
-        ini_set( "include_path", $includePath );
-
-        $scriptName = $instance->Params['_SERVER']['SCRIPT_NAME'];
-        // Get the webdir.
-
-        $wwwDir = "";
-
-        if ( $force_VirtualHost )
-        {
-            $wwwDir = "";
-        }
-        else
-        {
-            if ( preg_match( "!(.*)$index$!", $scriptName, $regs ) )
-            {
-                $wwwDir = $regs[1];
-            }
-            if ( preg_match( "!(.*)$index$!", $phpSelf, $regs ) )
-            {
-                $wwwDir = $regs[1];
-            }
+            $wwwDir = '/';
+            $IndexFile = '';
+            $siteDir = '';
         }
 
-        $requestURI = $instance->Params['_SERVER']['REQUEST_URI'];
-
-        // Remove url parameters
-        if ( strpos( $requestURI, '?' ) !== false )
+        // remove url and hash parameters
+        if ( isset( $requestUri[1] ) && $requestUri !== '/'  )
         {
-            $requestURI = explode('?', $requestURI );
-            $requestURI = $requestURI[0];
+            $uriGetPos = strpos( $requestUri, '?' );
+            if ( $uriGetPos === 0 )
+                $requestUri = '';
+            elseif ( $uriGetPos !== false )
+                $requestUri = substr( $requestUri, 0, $uriGetPos );
+
+            $uriHashPos = strpos( $requestUri, '#' );
+            if ( $uriHashPos === 0 )
+                $requestUri = '';
+            elseif ( $uriHashPos !== false )
+                $requestUri = substr( $requestUri, 0, $uriHashPos );
         }
 
-        // Remove internal links
-        if ( strpos( $requestURI, '#' ) !== false )
+        // normalize slash use and url decode url if needed
+        if ( $requestUri === '/' || $requestUri === '' )
         {
-            $requestURI = explode('#', $requestURI );
-            $requestURI = $requestURI[0];
-        }
-
-        // Fallback... Finding the paths above failed, so $_SERVER['PHP_SELF'] is not set right.
-        if ( $siteDir == "./" )
-        {
-            $phpSelf = $requestURI;
-        }
-
-
-        $index_reg = str_replace( ".", "\\.", $index );
-        // Trick: Rewrite setup doesn't have index.php in $_SERVER['PHP_SELF'], so we don't want an $index
-        if ( !preg_match( "!.*$index_reg.*!", $phpSelf ) || $force_VirtualHost )
-        {
-            $index = "";
+            $requestUri = '';
         }
         else
         {
-            // Get the right $_SERVER['REQUEST_URI'], when using nVH setup.
-            if ( preg_match( "!^$wwwDir$index(.*)!", $phpSelf, $req ) )
-            {
-                if ( !$req[1] )
-                {
-                    if ( $phpSelf != "$wwwDir$index" && preg_match( "!^$wwwDir(.*)!", $requestURI, $req ) )
-                    {
-                        $requestURI = $req[1];
-                        $index      = '';
-                    }
-                    elseif ( $phpSelf == "$wwwDir$index" &&
-                           ( preg_match( "!^$wwwDir$index(.*)!", $requestURI, $req ) || preg_match( "!^$wwwDir(.*)!", $requestURI, $req ) ) )
-                    {
-                        $requestURI = $req[1];
-                    }
-                }
-                else
-                {
-                    $requestURI = $req[1];
-                }
-            }
-        }
-
-        $currentPath = substr( $scriptFileName, 0, -strlen( 'index.php' ) );
-        if ( strpos( $currentPath, $documentRoot  ) === 0 )
-        {
-            $prependRequest = substr( $currentPath, strlen( $documentRoot ) );
-
-            if ( strpos( $requestURI, $prependRequest ) === 0 )
-            {
-                $requestURI = substr( $requestURI, strlen( $prependRequest ) - 1 );
-                $wwwDir     = substr( $prependRequest, 0, -1 );
-            }
+            $requestUri = '/' . urldecode( trim( $requestUri, '/ ' ) );
         }
 
         $instance->AccessPath = array( 'siteaccess' => array( 'name' => '', 'url' => array() ),
@@ -1065,8 +1002,8 @@ class eZSys
 
         $instance->SiteDir    = $siteDir;
         $instance->WWWDir     = $wwwDir;
-        $instance->IndexFile  = $index;
-        $instance->RequestURI = $requestURI;
+        $instance->IndexFile  = $IndexFile;
+        $instance->RequestURI = $requestUri;
     }
 
     /*!
