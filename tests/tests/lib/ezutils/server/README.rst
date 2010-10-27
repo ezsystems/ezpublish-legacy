@@ -32,54 +32,55 @@ Variables
 ---------
 Variables available is the result of the following php code:
 (should work on all PHP 5.x versions, but have only been tested on 5.2+)
-
-if ( isset( $_GET['get'] ) && $_GET['get'] === 'value' )
-{
-    header( 'Content-Type: text/php; charset=utf-8' );
-    echo "<?php\n\nreturn " . var_export( array(
-        'PHP_VERSION' => PHP_VERSION,
-        'PHP_OS' => PHP_OS,
-        'PHP_SAPI' => PHP_SAPI,
-        'php_uname' => php_uname(),
-        'DIRECTORY_SEPARATOR' => DIRECTORY_SEPARATOR,
-        'PHP_SHLIB_SUFFIX' => PHP_SHLIB_SUFFIX,
-        'PATH_SEPARATOR' => PATH_SEPARATOR,
-        'DEFAULT_INCLUDE_PATH' => DEFAULT_INCLUDE_PATH,
-        'include_path' => ini_get( 'include_path' ),
-        'PHP_MAXPATHLEN' => defined('PHP_MAXPATHLEN') ? PHP_MAXPATHLEN : null,
-        'PHP_EOL' => PHP_EOL,
-        'PHP_INT_MAX' => PHP_INT_MAX,
-        'PHP_INT_SIZE' => PHP_INT_SIZE,
-        'getcwd' => getcwd(),
-        '_SERVER' => $_SERVER,
-        '_ENV' => isset( $_ENV ) ? $_ENV : null,
-    ), true ) . ";\n";
-    exit;
-}
+::
+ if ( isset( $_GET['get'] ) && $_GET['get'] === 'value' )
+ {
+     header( 'Content-Type: text/php; charset=utf-8' );
+     echo "<?php\n\nreturn " . var_export( array(
+         'PHP_VERSION' => PHP_VERSION,
+         'PHP_OS' => PHP_OS,
+         'PHP_SAPI' => PHP_SAPI,
+         'php_uname' => php_uname(),
+         'DIRECTORY_SEPARATOR' => DIRECTORY_SEPARATOR,
+         'PHP_SHLIB_SUFFIX' => PHP_SHLIB_SUFFIX,
+         'PATH_SEPARATOR' => PATH_SEPARATOR,
+         'DEFAULT_INCLUDE_PATH' => DEFAULT_INCLUDE_PATH,
+         'include_path' => ini_get( 'include_path' ),
+         'PHP_MAXPATHLEN' => defined('PHP_MAXPATHLEN') ? PHP_MAXPATHLEN : null,
+         'PHP_EOL' => PHP_EOL,
+         'PHP_INT_MAX' => PHP_INT_MAX,
+         'PHP_INT_SIZE' => PHP_INT_SIZE,
+         'getcwd' => getcwd(),
+         '_SERVER' => $_SERVER,
+         '_ENV' => isset( $_ENV ) ? $_ENV : null,
+     ), true ) . ";\n";
+     exit;
+ }
 
 
 Structure
 ---------
 Dataset has the following folder structure:
 
-server
-|-vh
-| |-root
-| |-utf8
-| |-view
-|
-|-nvh
-  |-root
-  |-utf8
-  |-view
+server::
+  |-nvh
+  | |-index
+  | |-root
+  | |-utf8
+  | |-view
+  |
+  |-vh
+    |-root
+    |-utf8
+    |-view
 
 vh: Virtual host mode (aka no 'index.php' as normally accomplished with rewrite rules)
 nvh: Non virtual host mode (aka has index.php in url)
 
-root: "/" without index.php in url on both vh and nvh test
-utf8: "/News/Blåbær-Øl-med-d'or-新闻军事社会体育中超" in vh mode and
-         "/index.php/News/Blåbær-Øl-med-d'or-新闻军事社会体育中超" in nvh mode
-view: Same as utf8, but with a simpler url ("/content/view/full/44")
+index: "/index.php" specific to nvh mode, 
+root:  "/" without index.php in url on both vh and nvh test
+utf8:  "[/index.php]/News/Blåbær-Øl-med-d'or-新闻军事社会体育中超" where [/index.php] is only added in nvh mode
+view:  "[/index.php]/content/view/full/44" Same as utf8, but with a simpler url
 
 
 Contribute
@@ -92,21 +93,21 @@ The most important types of tests are root and utf8 and they are generated with 
 following paths:
 
 mode: vh
-http://<domain>/?get=value  (type:root)
-http://<domain>/News/Blåbær-Øl-med-d'or-新闻军事社会体育中超?get=value  (type:utf8)
+  http://<domain>/?get=value  (type:root)
+  http://<domain>/News/Blåbær-Øl-med-d'or-新闻军事社会体育中超?get=value  (type:utf8)
 
 mode: nvh
-http://localhost/<path>/?get=value  (type:root)
-http://localhost/<path>/index.php/News/Blåbær-Øl-med-d'or-新闻军事社会体育中超?get=value  (type:utf8)
+  http://localhost[/path]/?get=value  (type:root)
+  http://localhost[/path]/index.php/News/Blåbær-Øl-med-d'or-新闻军事社会体育中超?get=value  (type:utf8)
 
 path: This is optional, some parts of the dataset contains sub paths, but not all!
 
 File name and path to store them in is:
-server/<mode>/<type>/<os>_<httpd><httpd_version>_<php_mode>_php<php_version>.php
+  server/<mode>/<type>/<os>_<httpd><httpd_version>_<php_mode>_php<php_version>.php
 
 Eg:
-server/nvh/utf8/win7_iis75_fastcgi_php533.php
-server/vh/root/linux_nginx0852_fpm_php533.php
+  server/nvh/utf8/win7_iis75_fastcgi_php533.php
+  server/vh/root/linux_nginx0852_fpm_php533.php
 
 php_mode: The mode php is running in, either 'mod' (mod_php), 'fpm' or 'fastcgi'.
 
