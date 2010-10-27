@@ -154,14 +154,14 @@ class eZSysRegressionTest extends ezpRegressionTest
         // Uri test: sub path part
         if ( strpos( $testData['_SERVER']['SCRIPT_NAME'], 'index.php' ) !== false )// .htaccess or nvh
         {
-            $subPath = explode( 'index.php', $testData['_SERVER']['SCRIPT_NAME'] );
-            $subPath = rtrim( $subPath[0], '\/' );
+            $wwwDir = explode( 'index.php', $testData['_SERVER']['SCRIPT_NAME'] );
+            $wwwDir = rtrim( $wwwDir[0], '\/' );
         }
         else
         {
-            $subPath = '';
+            $wwwDir = '';
         }
-        $this->assertEquals( $subPath, $instance->WWWDir, "The WWWDir was not expected value" );
+        $this->assertEquals( $wwwDir, $instance->WWWDir, "The WWWDir was not expected value" );
         $this->assertEquals( rtrim( str_replace( 'index.php', '', $testData['_SERVER']['SCRIPT_FILENAME'] ), '\/' ) . '/', $instance->SiteDir, "The SiteDir was not expected value" );
 
         // Uri test: uri part

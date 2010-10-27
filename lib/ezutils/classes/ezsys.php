@@ -939,36 +939,58 @@ class eZSys
      */
     public static function init( $index = 'index.php', $forceVirtualHost = null )
     {
-        $instance = self::instance();
-        $phpSelf        = $instance->Params['_SERVER']['PHP_SELF'];
-        $requestUri     = $instance->Params['_SERVER']['REQUEST_URI'];
+        $instance   = self::instance();
+        $phpSelf    = $instance->Params['_SERVER']['PHP_SELF'];
+        $requestUri = $instance->Params['_SERVER']['REQUEST_URI'];
+        $siteDir    = rtrim( str_replace( $index, '', $instance->Params['_SERVER']['SCRIPT_FILENAME'] ), '\/' ) . '/';
+        $wwwDir     = '';
+        $IndexFile  = '';
 
-        // detect IIS vh mode
-        if ( isset( $instance->Params['_SERVER']['IIS_WasUrlRewritten'] ) && $instance->Params['_SERVER']['IIS_WasUrlRewritten'] )
+        // detect IIS vh mode & Apache .htaccess mode
+        if ( isset( $instance->Params['_SERVER']['IIS_WasUrlRewritten'] ) || isset( $instance->Params['_SERVER']['REDIRECT_URL'] ) )
         {
-            $wwwDir = '/';
-            $IndexFile = '';
-            $siteDir = '';
+            $wwwDir    = explode( $index, ltrim( $phpSelf, '/ ' ) );
+            $wwwDir    = trim( $wwwDir[0], '/' );
+            if ( $wwwDir )
+            {
+                $wwwDir = '/' . $wwwDir;
+                $wwwDirPos = strpos( $requestUri, $wwwDir );
+                if ( $wwwDirPos !== false )
+                {
+                    $requestUri = substr( $requestUri, $wwwDirPos + strlen($wwwDir) );
+                }
+            }
         }
         // use PHP_SELF to detect non virtual host mode
         elseif ( isset( $phpSelf[1] ) && strpos( $phpSelf, $index ) !== false )
         {
             $wwwDir    = explode( $index, ltrim( $phpSelf, '/ ' ) );
-            $wwwDir    = '/'. $wwwDir[0];
-            $siteDir   = $wwwDir . $index;
+            $wwwDir    = trim( $wwwDir[0], '/' );
+            if ( $wwwDir )
+            {
+                $wwwDir  = '/' . $wwwDir;
+                $indexDir = $wwwDir . '/' . $index;
+            }
+            else
+            {
+                $indexDir = $index;
+            }
             $IndexFile = '/' . $index;
 
             // remove sub path from requestUri
-            if ( strpos( $requestUri, $index ) !== false )
-                $requestUri = str_replace( $siteDir, '', $requestUri );
-            else
-                $requestUri = str_replace( $wwwDir, '', $requestUri );
-        }
-        else
-        {
-            $wwwDir = '/';
-            $IndexFile = '';
-            $siteDir = '';
+            $indexDirPos = strpos( $requestUri, $indexDir );
+            if ( $indexDirPos !== false )
+            {
+                $requestUri = substr( $requestUri, $indexDirPos + strlen($indexDir) );
+            }
+            elseif ( $wwwDir )
+            {
+                $wwwDirPos = strpos( $requestUri, $wwwDir );
+                if ( $wwwDirPos !== false )
+                {
+                    $requestUri = substr( $requestUri, $wwwDirPos + strlen($wwwDir) );
+                }
+            }
         }
 
         // remove url and hash parameters
