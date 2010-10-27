@@ -994,16 +994,37 @@ class eZSys
         else
         {
             if ( preg_match( "!(.*)$index$!", $scriptName, $regs ) )
+            {
                 $wwwDir = $regs[1];
+            }
             if ( preg_match( "!(.*)$index$!", $phpSelf, $regs ) )
+            {
                 $wwwDir = $regs[1];
+            }
         }
 
         $requestURI = $instance->Params['_SERVER']['REQUEST_URI'];
 
+        // Remove url parameters
+        if ( strpos( $requestURI, '?' ) !== false )
+        {
+            $requestURI = explode('?', $requestURI );
+            $requestURI = $requestURI[0];
+        }
+
+        // Remove internal links
+        if ( strpos( $requestURI, '#' ) !== false )
+        {
+            $requestURI = explode('#', $requestURI );
+            $requestURI = $requestURI[0];
+        }
+
         // Fallback... Finding the paths above failed, so $_SERVER['PHP_SELF'] is not set right.
         if ( $siteDir == "./" )
+        {
             $phpSelf = $requestURI;
+        }
+
 
         $index_reg = str_replace( ".", "\\.", $index );
         // Trick: Rewrite setup doesn't have index.php in $_SERVER['PHP_SELF'], so we don't want an $index
@@ -1018,13 +1039,13 @@ class eZSys
             {
                 if ( !$req[1] )
                 {
-                    if ( $phpSelf != "$wwwDir$index" and preg_match( "!^$wwwDir(.*)!", $requestURI, $req ) )
+                    if ( $phpSelf != "$wwwDir$index" && preg_match( "!^$wwwDir(.*)!", $requestURI, $req ) )
                     {
                         $requestURI = $req[1];
                         $index      = '';
                     }
-                    elseif ( $phpSelf == "$wwwDir$index" and
-                           ( preg_match( "!^$wwwDir$index(.*)!", $requestURI, $req ) or preg_match( "!^$wwwDir(.*)!", $requestURI, $req ) ) )
+                    elseif ( $phpSelf == "$wwwDir$index" &&
+                           ( preg_match( "!^$wwwDir$index(.*)!", $requestURI, $req ) || preg_match( "!^$wwwDir(.*)!", $requestURI, $req ) ) )
                     {
                         $requestURI = $req[1];
                     }
@@ -1034,20 +1055,6 @@ class eZSys
                     $requestURI = $req[1];
                 }
             }
-        }
-
-        // Remove url parameters
-        if ( strpos( $requestURI, '?' ) !== false )
-        {
-            $requestURI = explode('?', $requestURI );
-            $requestURI = $requestURI[0];
-        }
-
-        // Remove internal links
-        if ( strpos( $requestURI, '#' ) !== false )
-        {
-            $requestURI = explode('#', $requestURI );
-            $requestURI = $requestURI[0];
         }
 
         $currentPath = substr( $scriptFileName, 0, -strlen( 'index.php' ) );
