@@ -65,7 +65,6 @@ class eZSys
                 'PHP_VERSION' => PHP_VERSION,
                 'PHP_OS' => PHP_OS,
                 'PHP_SAPI' => PHP_SAPI,
-                'php_uname' => php_uname(),// @todo: use PHP_OS instead and more strict matching
                 'DIRECTORY_SEPARATOR' => DIRECTORY_SEPARATOR,
                 'PATH_SEPARATOR' => PATH_SEPARATOR,
                 'include_path' => ini_get( 'include_path' ),
