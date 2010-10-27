@@ -4,7 +4,7 @@
   and take advantage of session lazy loading on 4.4
 - Change use of old templateInit() api and use class based api introduced in 4.3 instead
 - Updated jQuery to 1.4.3
-
+- Fixed bug #017355: admin2: js error prevents context menu in children items table to pop up
 
 # v1.2.0rc1
 - Fixed bug #017223: Make LoadFromCDN disabled by default
