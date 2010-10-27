@@ -40,14 +40,24 @@ var sortableSubitems = function () {
 
         var customMenu = function(cell, rec, column, data) {
             var createhereMenu = (confObj.classesString != '') ? -1 : "\'child-menu-create-here\'";
-            var languagesString = '';
             var translationArray = [];
             jQuery(rec.getData('translations')).each(function(i, e) {
-                translationArray.push("{locale:'" + e + "',name:'" + confObj.languages[e] + "'}");
+                translationArray.push( { 'locale': e,
+                                         'name': confObj.languages[e] } );
             });
-            languagesString = '[' + translationArray.join(',') + ']';
-            var itemName = String(rec.getData('name')).replace(/'/g,"\\'").replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-            cell.innerHTML = '<a href="#" onclick="ezpopmenu_showTopLevel(event, \'SubitemsContextMenu\', \{\'%nodeID%\':' + rec.getData('node_id') + ',\'%objectID%\':' + rec.getData('contentobject_id') + ',\'%version%\':' + rec.getData('version') + ',\'%languages%\':' + languagesString + ',\'%classList%\':' + confObj.classesString + '\ }, \'' + itemName + '\', ' + rec.getData('node_id') + ', ' + createhereMenu + '); return false;"><div class="crankfield"></div></a>';
+            var a = new YAHOO.util.Element(document.createElement('a'));
+            a.on('click', function(e) {
+                ezpopmenu_showTopLevel(e, 'SubitemsContextMenu', { '%nodeID%': rec.getData('node_id'),
+                                                                   '%objectID%': rec.getData('contentobject_id'),
+                                                                   '%version%': rec.getData('version'),
+                                                                   '%languages%': translationArray,
+                                                                   '%classList%': confObj.classesString }, rec.getData('name'), rec.getData('node_id'), createhereMenu );
+            });
+            var div = new YAHOO.util.Element(document.createElement('div'));
+            div.addClass('crankfield');
+            div.appendTo(a);
+
+            a.appendTo(cell);
         }
 
         var thumbView = function(cell, record, column, data) {
