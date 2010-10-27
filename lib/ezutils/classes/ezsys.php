@@ -82,7 +82,7 @@ class eZSys
         $this->EnvSeparator = $this->Params['PATH_SEPARATOR'];
 
         // Determine OS specific settings
-        if ( substr( $this->Params['php_uname'], 0, 7 ) == "Windows" )
+        if ( $this->Params['PHP_OS'] === 'WINNT' )
         {
             $this->OSType = "win32";
             $this->OS = "windows";
@@ -91,26 +91,20 @@ class eZSys
             $this->ShellEscapeCharacter = '"';
             $this->BackupFilename = '.bak';
         }
-        else if ( substr( $this->Params['php_uname'], 0, 3 ) == "Mac" )
-        {
-            // Note: OS X identifies itself as Darwin, so is threated correctly as unix
-            $this->OSType = "mac";
-            $this->OS = "mac";
-            $this->FileSystemType = "unix";
-            $this->LineSeparator= "\r";
-            $this->ShellEscapeCharacter = "'";
-            $this->BackupFilename = '~';
-        }
         else
         {
             $this->OSType = 'unix';
-            if ( strtolower( substr( $this->Params['php_uname'], 0, 5 ) ) == 'linux' )
+            if ( $this->Params['PHP_OS'] === 'Linux' )
             {
                 $this->OS = 'linux';
             }
-            else if ( strtolower( substr( $this->Params['php_uname'], 0, 7 ) ) == 'freebsd' )
+            else if ( $this->Params['PHP_OS'] === 'FreeBSD' )
             {
                 $this->OS = 'freebsd';
+            }
+            else if ( $this->Params['PHP_OS'] === 'Darwin' )
+            {
+                $this->OS = 'darwin';
             }
             else
             {

@@ -146,6 +146,10 @@ class eZSysRegressionTest extends ezpRegressionTest
             {
                 $this->assertEquals( "freebsd", $instance->OS, "Did not get correct $os 'OS' value"  );
             }
+            else if (  $testData['PHP_OS'] === 'Darwin' )
+            {
+                $this->assertEquals( "darwin", $instance->OS, "Did not get correct $os 'OS' value"  );
+            }
             else
             {
                 $this->assertEquals( false, $instance->OS, "Did not get correct $os 'OS' value"  );
