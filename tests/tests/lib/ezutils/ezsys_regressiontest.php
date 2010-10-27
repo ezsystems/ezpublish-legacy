@@ -113,53 +113,35 @@ class eZSysRegressionTest extends ezpRegressionTest
         if ( $testData['PHP_OS'] === 'WINNT' )
         {
             $os = 'Windows';
-            $this->assertEquals( "win32", $instance->OSType, "Did not get correct $os 'OSType' value"  );
-            $this->assertEquals( "windows", $instance->OS, "Did not get correct $os 'OS' value"  );
-            $this->assertEquals( "win32", $instance->FileSystemType, "Did not get correct $os 'FileSystemType' value"  );
-            $this->assertEquals( "\\", $instance->FileSeparator, "Did not get correct $os 'FileSeparator' value"  );
-            $this->assertEquals( "\r\n", $instance->LineSeparator, "Did not get correct $os 'LineSeparator' value"  );
-            $this->assertEquals( ";", $instance->EnvSeparator, "Did not get correct $os 'EnvSeparator' value"  );
-            $this->assertEquals( '"', $instance->ShellEscapeCharacter, "Did not get correct $os 'ShellEscapeCharacter' value"  );
-            $this->assertEquals( '.bak', $instance->BackupFilename, "Did not get correct $os 'BackupFilename' value"  );
-        }
-        elseif ( $testData['PHP_OS'] === 'Mac' )
-        {
-            $os = 'Mac';
-            $this->assertEquals( "mac",  $instance->OSType, "Did not get correct $os 'OSType' value"  );
-            $this->assertEquals( "mac",  $instance->OS, "Did not get correct $os 'OS' value"  );
-            $this->assertEquals( "unix", $instance->FileSystemType, "Did not get correct $os 'FileSystemType' value"  );
-            $this->assertEquals( "/",    $instance->FileSeparator, "Did not get correct $os 'FileSeparator' value"  );
-            $this->assertEquals( "\r",   $instance->LineSeparator, "Did not get correct $os 'LineSeparator' value"  );
-            $this->assertEquals( ":",    $instance->EnvSeparator, "Did not get correct $os 'EnvSeparator' value"  );
-            $this->assertEquals( "'",    $instance->ShellEscapeCharacter, "Did not get correct $os 'ShellEscapeCharacter' value"  );
-            $this->assertEquals( '~',    $instance->BackupFilename, "Did not get correct $os 'BackupFilename' value"  );
+            $this->assertEquals( "win32", $instance->OSType, "Did not get correct $os 'OSType' value" );
+            $this->assertEquals( "windows", $instance->OS, "Did not get correct $os 'OS' value" );
+            $this->assertEquals( "win32", $instance->FileSystemType, "Did not get correct $os 'FileSystemType' value" );
+            $this->assertEquals( "\\", $instance->FileSeparator, "Did not get correct $os 'FileSeparator' value" );
+            $this->assertEquals( "\r\n", $instance->LineSeparator, "Did not get correct $os 'LineSeparator' value" );
+            $this->assertEquals( ";", $instance->EnvSeparator, "Did not get correct $os 'EnvSeparator' value" );
+            $this->assertEquals( '"', $instance->ShellEscapeCharacter, "Did not get correct $os 'ShellEscapeCharacter' value" );
+            $this->assertEquals( '.bak', $instance->BackupFilename, "Did not get correct $os 'BackupFilename' value" );
         }
         else // unix (incl Darwin)
         {
             $os = 'Unix';
-            $this->assertEquals( "unix", $instance->OSType, "Did not get correct $os 'OSType' value"  );
+            $this->assertEquals( "unix", $instance->OSType, "Did not get correct $os 'OSType' value" );
+
             if ( $testData['PHP_OS'] === 'Linux' )
-            {
-                $this->assertEquals( "linux", $instance->OS, "Did not get correct $os 'OS' value"  );
-            }
+                $this->assertEquals( "linux", $instance->OS, "Did not get correct $os 'OS' value" );
             else if (  $testData['PHP_OS'] === 'FreeBSD' )
-            {
-                $this->assertEquals( "freebsd", $instance->OS, "Did not get correct $os 'OS' value"  );
-            }
+                $this->assertEquals( "freebsd", $instance->OS, "Did not get correct $os 'OS' value" );
             else if (  $testData['PHP_OS'] === 'Darwin' )
-            {
-                $this->assertEquals( "darwin", $instance->OS, "Did not get correct $os 'OS' value"  );
-            }
+                $this->assertEquals( "darwin", $instance->OS, "Did not get correct $os 'OS' value" );
             else
-            {
-                $this->assertEquals( false, $instance->OS, "Did not get correct $os 'OS' value"  );
-            }
-            $this->assertEquals( "unix", $instance->FileSystemType, "Did not get correct $os 'FileSystemType' value"  );
-            $this->assertEquals( "/",    $instance->FileSeparator, "Did not get correct $os 'FileSeparator' value"  );
-            $this->assertEquals( "\n",   $instance->LineSeparator, "Did not get correct $os 'LineSeparator' value"  );
-            $this->assertEquals( ":",    $instance->EnvSeparator, "Did not get correct $os 'EnvSeparator' value"  );
-            $this->assertEquals( "'",    $instance->ShellEscapeCharacter, "Did not get correct $os 'ShellEscapeCharacter' value"  );
-            $this->assertEquals( '~',    $instance->BackupFilename, "Did not get correct $os 'BackupFilename' value"  );
+                $this->assertEquals( false, $instance->OS, "Did not get correct $os 'OS' value" );
+
+            $this->assertEquals( "unix", $instance->FileSystemType, "Did not get correct $os 'FileSystemType' value" );
+            $this->assertEquals( "/",    $instance->FileSeparator, "Did not get correct $os 'FileSeparator' value" );
+            $this->assertEquals( "\n",   $instance->LineSeparator, "Did not get correct $os 'LineSeparator' value" );
+            $this->assertEquals( ":",    $instance->EnvSeparator, "Did not get correct $os 'EnvSeparator' value" );
+            $this->assertEquals( "'",    $instance->ShellEscapeCharacter, "Did not get correct $os 'ShellEscapeCharacter' value" );
+            $this->assertEquals( '~',    $instance->BackupFilename, "Did not get correct $os 'BackupFilename' value" );
         }
 
         // Uri test
