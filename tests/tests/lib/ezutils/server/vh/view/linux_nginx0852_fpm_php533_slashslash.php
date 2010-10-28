@@ -1,5 +1,23 @@
 <?php
+/**
+ * General test data for httpd server unit testing
+ *
+ * Provides data for testing routing, encoding, virtual host mode detection & more
+ * on most httpd servers with different configurations.
+ *
+ * More info available on:
+ * http://github.com/ezsystems/ezpublish/tree/master/tests/tests/lib/ezutils/server
+ *
+ * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
+ * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
+ * @package tests
+ * @subpackage lib
+ *
+ */
 
+/**
+ * This specifc test, tests ending slash handling to make sure it's trimmed away by the code
+ */
 return array (
   'PHP_VERSION' => '5.3.3-1ubuntu9.1',
   'PHP_OS' => 'Linux',

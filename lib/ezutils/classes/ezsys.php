@@ -1242,6 +1242,8 @@ class eZSys
 
     /**
      * Holds server variables as read automatically or provided by unit tests
+     * Only used by init functionality as other calls will need to use live data direclty from globals.
+     *
      * @var array
      */
     protected $Params = null;
