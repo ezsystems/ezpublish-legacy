@@ -1002,92 +1002,89 @@ if ( $show_page_layout )
         }
     }
 
-    if ( $show_page_layout )
+    if ( $ini->variable( 'DebugSettings', 'DisplayDebugWarnings' ) == 'enabled' )
     {
-        if ( $ini->variable( 'DebugSettings', 'DisplayDebugWarnings' ) == 'enabled' )
+        // Make sure any errors or warnings are reported
+        if ( isset( $GLOBALS['eZDebugError'] ) and
+             $GLOBALS['eZDebugError'] )
         {
-            // Make sure any errors or warnings are reported
-            if ( isset( $GLOBALS['eZDebugError'] ) and
-                 $GLOBALS['eZDebugError'] )
-            {
-                eZAppendWarningItem( array( 'error' => array( 'type' => 'error',
-                                                              'number' => 1 ,
-                                                              'count' => $GLOBALS['eZDebugErrorCount'] ),
-                                            'identifier' => 'ezdebug-first-error',
-                                            'text' => ezpI18n::tr( 'index.php', 'Some errors occurred, see debug for more information.' ) ) );
-            }
-
-            if ( isset( $GLOBALS['eZDebugWarning'] ) and
-                 $GLOBALS['eZDebugWarning'] )
-            {
-                eZAppendWarningItem( array( 'error' => array( 'type' => 'warning',
-                                                              'number' => 1,
-                                                              'count' => $GLOBALS['eZDebugWarningCount'] ),
-                                            'identifier' => 'ezdebug-first-warning',
-                                            'text' => ezpI18n::tr( 'index.php', 'Some general warnings occured, see debug for more information.' ) ) );
-            }
+            eZAppendWarningItem( array( 'error' => array( 'type' => 'error',
+                                                          'number' => 1 ,
+                                                          'count' => $GLOBALS['eZDebugErrorCount'] ),
+                                        'identifier' => 'ezdebug-first-error',
+                                        'text' => ezpI18n::tr( 'index.php', 'Some errors occurred, see debug for more information.' ) ) );
         }
 
-        if ( $userObjectRequired )
+        if ( isset( $GLOBALS['eZDebugWarning'] ) and
+             $GLOBALS['eZDebugWarning'] )
         {
-            $currentUser = eZUser::currentUser();
-
-            $tpl->setVariable( "current_user", $currentUser );
-            $tpl->setVariable( "anonymous_user_id", $ini->variable( 'UserSettings', 'AnonymousUserID' ) );
+            eZAppendWarningItem( array( 'error' => array( 'type' => 'warning',
+                                                          'number' => 1,
+                                                          'count' => $GLOBALS['eZDebugWarningCount'] ),
+                                        'identifier' => 'ezdebug-first-warning',
+                                        'text' => ezpI18n::tr( 'index.php', 'Some general warnings occured, see debug for more information.' ) ) );
         }
-        else
-        {
-            $tpl->setVariable( "current_user", false );
-            $tpl->setVariable( "anonymous_user_id", false );
-        }
-
-        $tpl->setVariable( "access_type", $access );
-
-        if ( count( $warningList ) == 0 )
-            $warningList = false;
-        $tpl->setVariable( 'warning_list', $warningList );
-
-        $resource = "design:";
-        if ( is_string( $show_page_layout ) )
-        {
-            if ( strpos( $show_page_layout, ":" ) !== false )
-            {
-                $resource = "";
-            }
-        }
-        else
-        {
-            $show_page_layout = "pagelayout.tpl";
-        }
-
-        // Set the navigation part
-        // Check for navigation part settings
-        $navigationPartString = 'ezcontentnavigationpart';
-        if ( isset( $moduleResult['navigation_part'] ) )
-        {
-            $navigationPartString = $moduleResult['navigation_part'];
-
-            // Fetch the navigation part
-        }
-        $navigationPart = eZNavigationPart::fetchPartByIdentifier( $navigationPartString );
-
-        $tpl->setVariable( 'navigation_part', $navigationPart );
-        $tpl->setVariable( 'uri_string', $uri->uriString() );
-        if ( isset( $moduleResult['requested_uri_string'] ) )
-        {
-            $tpl->setVariable( 'requested_uri_string', $moduleResult['requested_uri_string'] );
-        }
-        else
-        {
-            $tpl->setVariable( 'requested_uri_string', $actualRequestedURI );
-        }
-
-        // Set UI context and component
-        $tpl->setVariable( 'ui_context', $moduleResult['ui_context'] );
-        $tpl->setVariable( 'ui_component', $moduleResult['ui_component'] );
-
-        $templateResult = $tpl->fetch( $resource . $show_page_layout );
     }
+
+    if ( $userObjectRequired )
+    {
+        $currentUser = eZUser::currentUser();
+
+        $tpl->setVariable( "current_user", $currentUser );
+        $tpl->setVariable( "anonymous_user_id", $ini->variable( 'UserSettings', 'AnonymousUserID' ) );
+    }
+    else
+    {
+        $tpl->setVariable( "current_user", false );
+        $tpl->setVariable( "anonymous_user_id", false );
+    }
+
+    $tpl->setVariable( "access_type", $access );
+
+    if ( count( $warningList ) == 0 )
+        $warningList = false;
+    $tpl->setVariable( 'warning_list', $warningList );
+
+    $resource = "design:";
+    if ( is_string( $show_page_layout ) )
+    {
+        if ( strpos( $show_page_layout, ":" ) !== false )
+        {
+            $resource = "";
+        }
+    }
+    else
+    {
+        $show_page_layout = "pagelayout.tpl";
+    }
+
+    // Set the navigation part
+    // Check for navigation part settings
+    $navigationPartString = 'ezcontentnavigationpart';
+    if ( isset( $moduleResult['navigation_part'] ) )
+    {
+        $navigationPartString = $moduleResult['navigation_part'];
+
+        // Fetch the navigation part
+    }
+    $navigationPart = eZNavigationPart::fetchPartByIdentifier( $navigationPartString );
+
+    $tpl->setVariable( 'navigation_part', $navigationPart );
+    $tpl->setVariable( 'uri_string', $uri->uriString() );
+    if ( isset( $moduleResult['requested_uri_string'] ) )
+    {
+        $tpl->setVariable( 'requested_uri_string', $moduleResult['requested_uri_string'] );
+    }
+    else
+    {
+        $tpl->setVariable( 'requested_uri_string', $actualRequestedURI );
+    }
+
+    // Set UI context and component
+    $tpl->setVariable( 'ui_context', $moduleResult['ui_context'] );
+    $tpl->setVariable( 'ui_component', $moduleResult['ui_component'] );
+
+    $templateResult = $tpl->fetch( $resource . $show_page_layout );
 }
 else
 {
