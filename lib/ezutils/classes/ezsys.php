@@ -44,7 +44,7 @@
   Example:
 \code
 // Run the init in the index file
-eZSys::init( eZINI::instance() );
+eZSys::init( 'index.php', $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost' ) === 'true' );
 print( eZSys::indexFile() );
 print( eZSys::wwwDir() );
 \endcode

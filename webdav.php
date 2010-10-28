@@ -133,7 +133,7 @@ if ( $enable === 'true' )
     eZWebDAVContentBackend::appendLogEntry( "Requested URI is: " . $_SERVER['REQUEST_URI'], 'webdav.php' );
 
     // Initialize/set the index file.
-    eZSys::init( 'webdav.php' );
+    eZSys::init( 'webdav.php', $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost' ) === 'true' );
 
     // @as 2009-03-04 - added cleaning up of the REQUEST_URI and HTTP_DESTINATION
     $_SERVER['REQUEST_URI'] = urldecode( $_SERVER['REQUEST_URI'] );

@@ -63,7 +63,7 @@ function eZUpdateDebugSettings()
 $ini = eZINI::instance();
 
 // Initialize/set the index file.
-eZSys::init( 'soap.php', $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost' ) == 'true' );
+eZSys::init( 'soap.php', $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost' ) === 'true' );
 $uri = eZURI::instance( eZSys::requestURI() );
 $GLOBALS['eZRequestedURI'] = $uri;
 
@@ -124,8 +124,6 @@ $enableSOAP = $soapINI->variable( 'GeneralSettings', 'EnableSOAP' );
 
 if ( $enableSOAP == 'true' )
 {
-    eZSys::init( 'soap.php' );
-
     // Login if we have username and password.
     if ( eZHTTPTool::username() and eZHTTPTool::password() )
         eZUser::loginUser( eZHTTPTool::username(), eZHTTPTool::password() );
