@@ -1,10 +1,25 @@
 <?php
+/**
+ * General test data for httpd server unit testing
+ *
+ * Provides data for testing routing, encoding, virtual host mode detection & more
+ * on most httpd servers with different configurations.
+ *
+ * More info available on:
+ * http://github.com/ezsystems/ezpublish/tree/master/tests/tests/lib/ezutils/server
+ *
+ * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
+ * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
+ * @package tests
+ * @subpackage lib
+ *
+ */
 
 return array (
   'PHP_VERSION' => '5.3.3',
   'PHP_OS' => 'WINNT',
   'PHP_SAPI' => 'apache2handler',
-  'php_uname' => 'Windows NT GG-LAPTOP-3 6.0 build 6002 (Windows Vista Home Premium Edition Service Pack 2) i586',
+  'php_uname' => 'Windows NT LAPTOP-2 6.0 build 6002 (Windows Vista Home Premium Edition Service Pack 2) i586',
   'DIRECTORY_SEPARATOR' => '\\',
   'PHP_SHLIB_SUFFIX' => 'dll',
   'PATH_SEPARATOR' => ';',
@@ -40,7 +55,7 @@ return array (
     'SERVER_PORT' => '80',
     'REMOTE_ADDR' => '127.0.0.1',
     'DOCUMENT_ROOT' => 'D:/htdocs',
-    'SERVER_ADMIN' => 'gg@ez.no',
+    'SERVER_ADMIN' => 'madeup@ez.no',
     'SCRIPT_FILENAME' => 'D:/htdocs/ezp/installs/ezpublish-4.3.0/index.php',
     'REMOTE_PORT' => '1833',
     'REDIRECT_QUERY_STRING' => 'get=value',
@@ -62,7 +77,7 @@ return array (
     'CLASSPATH' => '.;C:\\Program Files\\Java\\jre6\\lib\\ext\\QTJava.zip',
     'commonfiles' => 'C:\\Program Files\\Common Files',
     'CommonProgramFiles' => 'C:\\Program Files\\Common Files',
-    'COMPUTERNAME' => 'GG-LAPTOP-3',
+    'COMPUTERNAME' => 'LAPTOP-2',
     'ComSpec' => 'C:\\Windows\\system32\\cmd.exe',
     'configsetroot' => 'C:\\Windows\\ConfigSetRoot',
     'DFSTRACINGON' => 'FALSE',
@@ -95,7 +110,7 @@ return array (
     'TMP' => 'C:\\Windows\\TEMP',
     'TRACE_FORMAT_SEARCH_PATH' => '\\\\NTREL202.ntdev.corp.microsoft.com\\4F18C3A5-CA09-4DBD-B6FC-219FDD4C6BE0\\TraceFormat',
     'USERDOMAIN' => 'WORKGROUP',
-    'USERNAME' => 'GG-LAPTOP-3$',
+    'USERNAME' => 'LAPTOP-2$',
     'USERPROFILE' => 'C:\\Windows\\system32\\config\\systemprofile',
     'VS90COMNTOOLS' => 'C:\\Program Files\\Microsoft Visual Studio 9.0\\Common7\\Tools\\',
     'windir' => 'C:\\Windows',

@@ -31,7 +31,7 @@ return array (
   'PHP_INT_MAX' => 9223372036854775807,
   'PHP_INT_SIZE' => 8,
   'getcwd' => '/Users/oms/Sites/ezp44ee_final',
-  '_SERVER' => 
+  '_SERVER' =>
   array (
     'HTTP_USER_AGENT' => 'curl/7.21.1 (x86_64-apple-darwin10.4.0) libcurl/7.21.1 OpenSSL/1.0.0a zlib/1.2.5 libidn/1.19',
     'HTTP_HOST' => 'localhost:8080',
@@ -47,19 +47,17 @@ return array (
     'DOCUMENT_ROOT' => '/opt/local/apache2/htdocs',
     'SERVER_ADMIN' => 'madeup@ez.no',
     'SCRIPT_FILENAME' => '/Users/oms/Sites/ezp44ee_final/index.php',
-    'REMOTE_PORT' => '49331',
+    'REMOTE_PORT' => '59861',
     'GATEWAY_INTERFACE' => 'CGI/1.1',
     'SERVER_PROTOCOL' => 'HTTP/1.1',
     'REQUEST_METHOD' => 'GET',
     'QUERY_STRING' => 'get=value',
-    'REQUEST_URI' => '/~oms/ezp44ee_final/index.php/News/Blåbær-Øl-med-d\'or-新闻军事社会体育中超?get=value',
+    'REQUEST_URI' => '/~oms/ezp44ee_final/index.php?get=value',
     'SCRIPT_NAME' => '/~oms/ezp44ee_final/index.php',
-    'PATH_INFO' => '/News/Blåbær-Øl-med-d\'or-新闻军事社会体育中超',
-    'PATH_TRANSLATED' => '/opt/local/apache2/htdocs/News/Blåbær-Øl-med-d\'or-新闻军事社会体育中超',
-    'PHP_SELF' => '/~oms/ezp44ee_final/index.php/News/Blåbær-Øl-med-d\'or-新闻军事社会体育中超',
-    'REQUEST_TIME' => 1288102532,
+    'PHP_SELF' => '/~oms/ezp44ee_final/index.php',
+    'REQUEST_TIME' => 1288255333,
   ),
-  '_ENV' => 
+  '_ENV' =>
   array (
   ),
 );

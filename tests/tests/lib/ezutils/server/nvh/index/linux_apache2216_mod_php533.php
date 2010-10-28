@@ -1,10 +1,25 @@
 <?php
+/**
+ * General test data for httpd server unit testing
+ *
+ * Provides data for testing routing, encoding, virtual host mode detection & more
+ * on most httpd servers with different configurations.
+ *
+ * More info available on:
+ * http://github.com/ezsystems/ezpublish/tree/master/tests/tests/lib/ezutils/server
+ *
+ * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
+ * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
+ * @package tests
+ * @subpackage lib
+ *
+ */
 
 return array (
   'PHP_VERSION' => '5.3.3-1ubuntu9.1',
   'PHP_OS' => 'Linux',
   'PHP_SAPI' => 'apache2handler',
-  'php_uname' => 'Linux andre-laptop 2.6.35-22-generic #35-Ubuntu SMP Sat Oct 16 20:45:36 UTC 2010 x86_64',
+  'php_uname' => 'Linux something-laptop 2.6.35-22-generic #35-Ubuntu SMP Sat Oct 16 20:45:36 UTC 2010 x86_64',
   'DIRECTORY_SEPARATOR' => '/',
   'PHP_SHLIB_SUFFIX' => 'so',
   'PATH_SEPARATOR' => ':',
@@ -15,7 +30,7 @@ return array (
 ',
   'PHP_INT_MAX' => 9223372036854775807,
   'PHP_INT_SIZE' => 8,
-  'getcwd' => '/home/andre/workspace/ezpublish',
+  'getcwd' => '/home/something/workspace/ezpublish',
   '_SERVER' => 
   array (
     'HTTP_HOST' => 'ws',
@@ -34,9 +49,9 @@ return array (
     'SERVER_ADDR' => '127.0.0.1',
     'SERVER_PORT' => '80',
     'REMOTE_ADDR' => '127.0.0.1',
-    'DOCUMENT_ROOT' => '/home/andre/workspace/',
+    'DOCUMENT_ROOT' => '/home/something/workspace/',
     'SERVER_ADMIN' => 'webmaster@ws',
-    'SCRIPT_FILENAME' => '/home/andre/workspace/ezpublish/index.php',
+    'SCRIPT_FILENAME' => '/home/something/workspace/ezpublish/index.php',
     'REMOTE_PORT' => '42549',
     'GATEWAY_INTERFACE' => 'CGI/1.1',
     'SERVER_PROTOCOL' => 'HTTP/1.1',

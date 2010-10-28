@@ -19,7 +19,7 @@ return array (
   'PHP_VERSION' => '5.3.3',
   'PHP_OS' => 'Darwin',
   'PHP_SAPI' => 'apache2handler',
-  'php_uname' => 'Darwin gromklumpen.local 10.4.0 Darwin Kernel Version 10.4.0: Fri Apr 23 18:28:53 PDT 2010; root:xnu-1504.7.4~1/RELEASE_I386 i386',
+  'php_uname' => 'Darwin somemac.local 10.4.0 Darwin Kernel Version 10.4.0: Fri Apr 23 18:28:53 PDT 2010; root:xnu-1504.7.4~1/RELEASE_I386 i386',
   'DIRECTORY_SEPARATOR' => '/',
   'PHP_SHLIB_SUFFIX' => 'so',
   'PATH_SEPARATOR' => ':',
@@ -31,10 +31,10 @@ return array (
   'PHP_INT_MAX' => 9223372036854775807,
   'PHP_INT_SIZE' => 8,
   'getcwd' => '/Users/oms/dev/ez/ezp/bugfix/trunk',
-  '_SERVER' => 
+  '_SERVER' =>
   array (
-    'SCRIPT_URL' => '/Blåbær-Øl-med-d\'or-新闻军事社会体育中超',
-    'SCRIPT_URI' => 'http://trunk/Blåbær-Øl-med-d\'or-新闻军事社会体育中超',
+    'SCRIPT_URL' => '/News/Blåbær-Øl-med-d\'or-新闻军事社会体育中超',
+    'SCRIPT_URI' => 'http://trunk/News/Blåbær-Øl-med-d\'or-新闻军事社会体育中超',
     'HTTP_USER_AGENT' => 'curl/7.21.1 (x86_64-apple-darwin10.4.0) libcurl/7.21.1 OpenSSL/1.0.0a zlib/1.2.5 libidn/1.19',
     'HTTP_HOST' => 'trunk',
     'HTTP_ACCEPT' => '*/*',
@@ -47,19 +47,19 @@ return array (
     'SERVER_PORT' => '80',
     'REMOTE_ADDR' => '127.0.0.1',
     'DOCUMENT_ROOT' => '/Users/oms/dev/ez/ezp/bugfix/trunk',
-    'SERVER_ADMIN' => 'oms@localhost',
+    'SERVER_ADMIN' => 'something@localhost',
     'SCRIPT_FILENAME' => '/Users/oms/dev/ez/ezp/bugfix/trunk/index.php',
-    'REMOTE_PORT' => '49209',
+    'REMOTE_PORT' => '59807',
     'GATEWAY_INTERFACE' => 'CGI/1.1',
     'SERVER_PROTOCOL' => 'HTTP/1.1',
     'REQUEST_METHOD' => 'GET',
     'QUERY_STRING' => 'get=value',
-    'REQUEST_URI' => '/Blåbær-Øl-med-d\'or-新闻军事社会体育中超?get=value',
-    'SCRIPT_NAME' => '/Blåbær-Øl-med-d\'or-新闻军事社会体育中超',
-    'PHP_SELF' => '/Blåbær-Øl-med-d\'or-新闻军事社会体育中超',
-    'REQUEST_TIME' => 1288102274,
+    'REQUEST_URI' => '/News/Blåbær-Øl-med-d\'or-新闻军事社会体育中超?get=value',
+    'SCRIPT_NAME' => '/News/Blåbær-Øl-med-d\'or-新闻军事社会体育中超',
+    'PHP_SELF' => '/News/Blåbær-Øl-med-d\'or-新闻军事社会体育中超',
+    'REQUEST_TIME' => 1288255178,
   ),
-  '_ENV' => 
+  '_ENV' =>
   array (
   ),
 );

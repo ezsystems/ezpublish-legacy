@@ -1,4 +1,19 @@
 <?php
+/**
+ * General test data for httpd server unit testing
+ *
+ * Provides data for testing routing, encoding, virtual host mode detection & more
+ * on most httpd servers with different configurations.
+ *
+ * More info available on:
+ * http://github.com/ezsystems/ezpublish/tree/master/tests/tests/lib/ezutils/server
+ *
+ * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
+ * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
+ * @package tests
+ * @subpackage lib
+ *
+ */
 
 return array (
   'PHP_VERSION' => '5.3.2-1ubuntu4.5',
@@ -27,9 +42,9 @@ return array (
     'SERVER_NAME' => 'fortress',
     'GATEWAY_INTERFACE' => 'CGI/1.1',
     'SERVER_PORT' => '80',
-    'SERVER_ADDR' => '192.168.1.211',
+    'SERVER_ADDR' => '127.0.0.1',
     'REMOTE_PORT' => '60959',
-    'REMOTE_ADDR' => '192.168.1.50',
+    'REMOTE_ADDR' => '127.0.0.1',
     'SCRIPT_NAME' => '/index.php',
     'PATH_INFO' => '',
     'SCRIPT_FILENAME' => '/var/www/index.php',
