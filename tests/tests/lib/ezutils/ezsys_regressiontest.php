@@ -62,7 +62,7 @@ class eZSysRegressionTest extends ezpRegressionTest
         // Uncomment the tests that you want to skip,  name = > pattern
         $skipTests = array(
                 // 'rootUri' => 'vh/root/',
-                'utf8Uri' => 'vh/utf8/',
+                // 'utf8Uri' => 'vh/utf8/',
                 // 'viewUri' => 'vh/view/',
                 // 'Linux' => '/linux',
                 // 'Windows' => '/win',
