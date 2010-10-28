@@ -62,23 +62,18 @@ class eZSys
         if ( $serverParams === null )
         {
             $serverParams = array(
-                'PHP_VERSION' => PHP_VERSION,
                 'PHP_OS' => PHP_OS,
-                'PHP_SAPI' => PHP_SAPI,
                 'DIRECTORY_SEPARATOR' => DIRECTORY_SEPARATOR,
                 'PATH_SEPARATOR' => PATH_SEPARATOR,
-                'include_path' => ini_get( 'include_path' ),
-                'PHP_EOL' => PHP_EOL,
-                'getcwd' => getcwd(),
                 '_SERVER' => $_SERVER,
             );
         }
 
         $this->Params = $serverParams;
-        $this->Attributes = array( "magickQuotes" => true,
-                                   "hostname"     => true );
+        $this->Attributes = array( 'magickQuotes' => true,
+                                   'hostname'     => true );
         $this->FileSeparator = $this->Params['DIRECTORY_SEPARATOR'];
-        $this->EnvSeparator = $this->Params['PATH_SEPARATOR'];
+        $this->EnvSeparator  = $this->Params['PATH_SEPARATOR'];
 
         // Determine OS specific settings
         if ( $this->Params['PHP_OS'] === 'WINNT' )
@@ -935,60 +930,66 @@ class eZSys
      * stated in the parameter list.
      *
      * @param string $index The current index file, needed for virtual host mode detection.
-     * @param bool $forceVirtualHost {@deprecated as of 4.5}
+     * @param bool $forceVirtualHost Virtual host mode is normally autodetected, but if not this can be forced
+     *                               by setting this to true.
      */
     public static function init( $index = 'index.php', $forceVirtualHost = null )
     {
         $instance   = self::instance();
-        $phpSelf    = $instance->Params['_SERVER']['PHP_SELF'];
-        $requestUri = $instance->Params['_SERVER']['REQUEST_URI'];
-        $siteDir    = rtrim( str_replace( $index, '', $instance->Params['_SERVER']['SCRIPT_FILENAME'] ), '\/' ) . '/';
+        $server     = $instance->Params['_SERVER'];
+        $phpSelf    = $server['PHP_SELF'];
+        $requestUri = $server['REQUEST_URI'];
+        $siteDir    = rtrim( str_replace( $index, '', $server['SCRIPT_FILENAME'] ), '\/' ) . '/';
         $wwwDir     = '';
         $IndexFile  = '';
 
-        // detect IIS vh mode & Apache .htaccess mode
-        if ( isset( $instance->Params['_SERVER']['IIS_WasUrlRewritten'] ) || isset( $instance->Params['_SERVER']['REDIRECT_URL'] ) )
+        if ( isset( $phpSelf[1] ) && strpos( $phpSelf, $index ) !== false )
         {
-            $wwwDir    = explode( $index, ltrim( $phpSelf, '/ ' ) );
-            $wwwDir    = trim( $wwwDir[0], '/' );
-            if ( $wwwDir )
+            // Force virual host or Auto detect IIS vh mode & Apache .htaccess mode
+            if ( $forceVirtualHost
+              || ( isset( $server['IIS_WasUrlRewritten'] ) && $server['IIS_WasUrlRewritten'] )
+              || ( isset( $server['REDIRECT_URL'] ) && isset( $server['REDIRECT_STATUS'] ) && $server['REDIRECT_STATUS'] == '200' ) )
             {
-                $wwwDir = '/' . $wwwDir;
-                $wwwDirPos = strpos( $requestUri, $wwwDir );
-                if ( $wwwDirPos !== false )
+                $wwwDir    = explode( $index, ltrim( $phpSelf, '/ ' ) );
+                $wwwDir    = trim( $wwwDir[0], '/' );
+                if ( $wwwDir )
                 {
-                    $requestUri = substr( $requestUri, $wwwDirPos + strlen($wwwDir) );
+                    $wwwDir = '/' . $wwwDir;
+                    $wwwDirPos = strpos( $requestUri, $wwwDir );
+                    if ( $wwwDirPos !== false )
+                    {
+                        $requestUri = substr( $requestUri, $wwwDirPos + strlen($wwwDir) );
+                    }
                 }
             }
-        }
-        // use PHP_SELF to detect non virtual host mode
-        elseif ( isset( $phpSelf[1] ) && strpos( $phpSelf, $index ) !== false )
-        {
-            $wwwDir    = explode( $index, ltrim( $phpSelf, '/ ' ) );
-            $wwwDir    = trim( $wwwDir[0], '/' );
-            if ( $wwwDir )
+            else // Non virtual host mode, use phpself to figgure out paths
             {
-                $wwwDir  = '/' . $wwwDir;
-                $indexDir = $wwwDir . '/' . $index;
-            }
-            else
-            {
-                $indexDir = $index;
-            }
-            $IndexFile = '/' . $index;
-
-            // remove sub path from requestUri
-            $indexDirPos = strpos( $requestUri, $indexDir );
-            if ( $indexDirPos !== false )
-            {
-                $requestUri = substr( $requestUri, $indexDirPos + strlen($indexDir) );
-            }
-            elseif ( $wwwDir )
-            {
-                $wwwDirPos = strpos( $requestUri, $wwwDir );
-                if ( $wwwDirPos !== false )
+                $wwwDir    = explode( $index, ltrim( $phpSelf, '/ ' ) );
+                $wwwDir    = trim( $wwwDir[0], '/' );
+                if ( $wwwDir )
                 {
-                    $requestUri = substr( $requestUri, $wwwDirPos + strlen($wwwDir) );
+                    $wwwDir  = '/' . $wwwDir;
+                    $indexDir = $wwwDir . '/' . $index;
+                }
+                else
+                {
+                    $indexDir = $index;
+                }
+                $IndexFile = '/' . $index;
+
+                // remove sub path from requestUri
+                $indexDirPos = strpos( $requestUri, $indexDir );
+                if ( $indexDirPos !== false )
+                {
+                    $requestUri = substr( $requestUri, $indexDirPos + strlen($indexDir) );
+                }
+                elseif ( $wwwDir )
+                {
+                    $wwwDirPos = strpos( $requestUri, $wwwDir );
+                    if ( $wwwDirPos !== false )
+                    {
+                        $requestUri = substr( $requestUri, $wwwDirPos + strlen($wwwDir) );
+                    }
                 }
             }
         }

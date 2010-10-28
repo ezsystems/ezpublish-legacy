@@ -107,7 +107,7 @@ class eZSysRegressionTest extends ezpRegressionTest
         $testData = include $file;
         $instance = new eZSys( $testData );
         eZSys::setInstance( $instance );
-        eZSys::init( 'index.php', strpos( $file, 'server/vh/' ) !== false );
+        eZSys::init();// 'index.php', strpos( $file, 'server/vh/' ) !== false );
 
         // OS tests
         if ( $testData['PHP_OS'] === 'WINNT' )
