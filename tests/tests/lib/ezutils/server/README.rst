@@ -93,13 +93,15 @@ Using code from 'Variables' in your index.php file, should allow you to generate
 The most important types of tests are root and utf8 and they are generated with the
 following paths:
 
-mode: vh
-  http://<domain>/?get=value  (type:root)
-  http://<domain>/News/Blåbær-Øl-med-d'or-新闻军事社会体育中超?get=value  (type:utf8)
+mode/type: vh/root
+  http://<domain>/?get=value
+mode/type: vh/utf8
+  http://<domain>/News/Blåbær-Øl-med-d'or-新闻军事社会体育中超?get=value
 
-mode: nvh
-  http://localhost[/path]/?get=value  (type:root)
-  http://localhost[/path]/index.php/News/Blåbær-Øl-med-d'or-新闻军事社会体育中超?get=value  (type:utf8)
+mode/type: nvh/root
+  http://localhost[/path]/?get=value
+mode/type: nvh/utf8
+  http://localhost[/path]/index.php/News/Blåbær-Øl-med-d'or-新闻军事社会体育中超?get=value
 
 path: This is optional, some parts of the dataset contains sub paths, but not all!
 
