@@ -62,25 +62,29 @@ Structure
 ---------
 Dataset has the following folder structure:
 
-server
 ::
-  \|-nvh
-  \| \|-index
-  \| \|-root
-  \| \|-utf8
-  \| \|-view
-  \|
-  \|-vh
-    \|-root
-    \|-utf8
-    \|-view
+  nvh
+  \|-index
+  \|-root
+  \|-utf8
+  \|-view
+  
+  vh
+  \|-root
+  \|-utf8
+  \|-view
 
 vh: Virtual host mode (aka no 'index.php' as normally accomplished with rewrite rules)
+
 nvh: Non virtual host mode (aka has index.php in url)
 
-index: "/index.php" specific to nvh mode, 
+
+index: "/index.php" specific to nvh mode.
+
 root:  "/" without index.php in url on both vh and nvh test
+
 utf8:  "[/index.php]/News/Blåbær-Øl-med-d'or-新闻军事社会体育中超" where [/index.php] is only added in nvh mode
+
 view:  "[/index.php]/content/view/full/44" Same as utf8, but with a simpler url
 
 
@@ -89,7 +93,7 @@ Contribute
 Contributions is done with Githubs fork -> change -> pull request workflow.
 More on that can be found on: <TODO: add ezp + git contribution link when live>
 
-Using code from 'Variables' in your index.php file, should allow you to generate data.
+Using code from 'Variables' in your index.php file (or if on a running eZ Publish install you can place it temporary in your config.php file), should allow you to generate data.
 The most important types of tests are root and utf8 and they are generated with the
 following paths:
 
@@ -105,13 +109,16 @@ mode/type: nvh/utf8
 
 path: This is optional, some parts of the dataset contains sub paths, but not all!
 
+
 File name and path to store them in is:
   server/<mode>/<type>/<os>_<httpd><httpd_version>_<php_mode>_php<php_version>.php
 
+php_mode: The mode php is running in, either 'mod' (mod_php), 'fpm' or 'fastcgi'.
+
 Eg:
   server/nvh/utf8/win7_iis75_fastcgi_php533.php
+
   server/vh/root/linux_nginx0852_fpm_php533.php
 
-php_mode: The mode php is running in, either 'mod' (mod_php), 'fpm' or 'fastcgi'.
 
  
