@@ -34,7 +34,7 @@
 {/if}
 {* Defined in design.ini BackendJavaScriptList[]
  if ezini('TreeMenu','PreloadClassIcons','contentstructuremenu.ini')|eq('enabled')}
-    <script language="JavaScript" type="text/javascript" src={"javascript/lib/ezjslibimagepreloader.js"|ezdesign}></script>
+    <script type="text/javascript" src={"javascript/lib/ezjslibimagepreloader.js"|ezdesign}></script>
 {/if *}
 
 {def $click_action = ezini('TreeMenu','ItemClickAction','contentstructuremenu.ini')}

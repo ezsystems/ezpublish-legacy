@@ -77,7 +77,7 @@
 </form>
 
 {literal}
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 <!--
 jQuery(function( $ )//called on document.ready
 {
