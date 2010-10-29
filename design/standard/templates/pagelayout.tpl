@@ -6,10 +6,10 @@
 
 <head>
 {section name=JavaScript loop=ezini( 'JavaScriptSettings', 'JavaScriptList', 'design.ini' ) }
-<script language="JavaScript" type="text/javascript" src={concat( 'javascript/',$:item )|ezdesign}></script>
+<script type="text/javascript" src={concat( 'javascript/',$:item )|ezdesign}></script>
 {/section}
 {section name=JavaScript loop=ezini( 'JavaScriptSettings', 'FrontendJavaScriptList', 'design.ini' ) }
-<script language="JavaScript" type="text/javascript" src={concat( 'javascript/',$:item )|ezdesign}></script>
+<script type="text/javascript" src={concat( 'javascript/',$:item )|ezdesign}></script>
 {/section}
 
     <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />

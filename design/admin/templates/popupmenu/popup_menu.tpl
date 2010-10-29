@@ -130,9 +130,9 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
 
 // -->
 </script>
-<script language="JavaScript" type="text/javascript" src={'javascript/lib/ezjslibdomsupport.js'|ezdesign}></script>
-<script language="JavaScript" type="text/javascript" src={'javascript/lib/ezjslibmousetracker.js'|ezdesign}></script>
-<script language="JavaScript" type="text/javascript" src={'javascript/popupmenu/ezpopupmenu.js'|ezdesign}></script>
+<script type="text/javascript" src={'javascript/lib/ezjslibdomsupport.js'|ezdesign}></script>
+<script type="text/javascript" src={'javascript/lib/ezjslibmousetracker.js'|ezdesign}></script>
+<script type="text/javascript" src={'javascript/popupmenu/ezpopupmenu.js'|ezdesign}></script>
 
 <!-- Treemenu icon click popup menu -->
 <div class="popupmenu" id="ContextMenu">
