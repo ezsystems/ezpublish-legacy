@@ -1,54 +1,36 @@
 # Copy this file to a new file called .htaccess in your eZ Publish root
-# to make the site more secure in non-virtualhost mode (index.php used in urls).
-#
-
-<FilesMatch ".">
-order allow,deny
-deny from all
-</FilesMatch>
-
-<FilesMatch "(^index\.php|favicon\.ico|index_treemenu\.php|\.(gif|jpe?g?|png|css|js|swf|html?)|var(.+)storage.pdf(.+)\.pdf)$">
-order allow,deny
-allow from all
-</FilesMatch>
-
-# If you see "Forbidden" when trying to access root page of your site
-# without 'index.php' appended, uncomment the following "Files" section.
-# NOTE: replace "ezpublish-4.4.0" with base name of the directory
-# where your eZ Publish intallation resides.
-# e.g. base name of "/sites/ezpublish/ezpublish-4.4.0" is "ezpublish-4.4.0".
-
-#<Files "ezpublish-4.4.0">
-#   order allow,deny
-#   allow from all
-#</Files>
-
-RewriteEngine On
-
-# Allow access to the index_treemenu.php file for a faster admin interface
-RewriteRule content/treemenu/? index_treemenu.php
-RewriteRule ^index_treemenu\.php - [L]
-
-#  Uncomment the line below if you placed your favicon at the root of your 
-#  eZ Publish instance. It will then be served directly.
-#RewriteRule ^favicon\.ico - [L]
-#  Uncomment the line below if you want you favicon be served from the standard design. 
-#  You can customize the path to favicon.ico by replacing design/standard/images/favicon.ico 
-#  by the adequate path.
-#RewriteRule ^favicon.ico design/standard/images/favicon.ico [L]
-RewriteRule ^design/standard/images/favicon\.ico - [L]
-
-#  Uncomment the line below once you set up the right robots.txt file
-#  In that case remember to also modify the FilesMatch rule abov
-#  More info here http://en.wikipedia.org/wiki/Robots.txt
-#RewriteRule ^robots\.txt - [L]
-
-#   Uncomment the line below in case you are using
-#   Platform for Privacy Preferences Project ( P3P ) related files.
-#   In that case remember to also modify the FilesMatch rule above
-#   More info here : http://en.wikipedia.org/wiki/P3p
-#RewriteRule ^p3p/(.+)\.xml - [L]
-
-RewriteRule !(\.(gif|jpe?g?|png|css|js|swf|html?)|var(.+)storage.pdf(.+)\.pdf)$ index.php
+# to secure your installation by turning on .htaccess based virtual host mode.
 
 DirectoryIndex index.php
+
+RewriteEngine On
+RewriteRule ^([^/]+/)?content/treemenu.* index_treemenu\.php [L]
+RewriteRule ^var/([^/]+/)?storage/images(-versioned)?/.* - [L]
+RewriteRule ^var/([^/]+/)?cache/(texttoimage|public)/.* - [L]
+RewriteRule ^design/[^/]+/(stylesheets|images|javascript)/.* - [L]
+RewriteRule ^share/icons/.* - [L]
+RewriteRule ^extension/[^/]+/design/[^/]+/(stylesheets|flash|images|lib|javascripts?)/.* - [L]
+RewriteRule ^packages/styles/.+/(stylesheets|images|javascript)/[^/]+/.* - [L]
+RewriteRule ^packages/styles/.+/thumbnail/.* - [L]
+
+#  Makes it possible to placed your favicon at the root of your
+#  eZ Publish instance. It will then be served directly.
+RewriteRule ^favicon\.ico - [L]
+#  Uncomment the line below if you want you favicon be served from the standard design.
+#  You can customize the path to favicon.ico by replacing design/standard/images/favicon.ico
+#  by the adequate path.
+#RewriteRule ^favicon\.ico /design/standard/images/favicon\.ico [L]
+RewriteRule ^design/standard/images/favicon\.ico - [L]
+
+# Give direct access to robots.txt for use by crawlers (Google, Bing, Spammers..)
+RewriteRule ^robots\.txt - [L]
+
+# Uncomment the following lines when using popup style debug.
+# RewriteRule ^var/cache/debug\.html.* - [L]
+# RewriteRule ^var/[^/]+/cache/debug\.html.* - [L]
+
+# Platform for Privacy Preferences Project ( P3P ) related files for Internet Explorer
+# More info here : http://en.wikipedia.org/wiki/P3p
+RewriteRule ^w3c/p3p\.xml - [L]
+
+RewriteRule .* index\.php
