@@ -307,6 +307,7 @@ class eZOEInputParser extends eZXMLInputParser
         if ( $name === '' && isset( $attributes['type'] ) && $attributes['type'] === 'custom' )
         {
             $name = 'custom';
+            unset( $attributes['type'] );// unset internal stuff to make sure custom attr with same name works
             if ( $tagName === 'div' )
                 $attributes['children_required'] = 'true';
             $attributes['name'] = self::tagClassNamesCleanup( $attributes['class'] );
