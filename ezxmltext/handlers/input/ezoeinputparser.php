@@ -227,13 +227,20 @@ class eZOEInputParser extends eZXMLInputParser
         if ( $name === '' && isset( $attributes['style'] ) )
         {
             if ( strpos( $attributes['style'], 'font-weight: bold' ) !== false )
+            {
                 $name = 'strong';
+                unset( $attributes['style'] );
+            }
             elseif ( strpos( $attributes['style'], 'font-style: italic' ) !== false )
+            {
                 $name = 'emphasize';
+                unset( $attributes['style'] );
+            }
             elseif ( strpos( $attributes['style'], 'text-decoration: underline' ) !== false
                   && self::customTagIsEnabled('underline') )
             {
                 $name = 'custom';
+                unset( $attributes['style'] );
                 $attributes['name'] = 'underline';
                 $attributes['children_required'] = 'true';
             }
@@ -256,8 +263,8 @@ class eZOEInputParser extends eZXMLInputParser
     }
 
      /**
-     * tagNameHeader (tag mapping handler)
-     * Handles H[1-6] tags and maps them to header tag
+     * tagNameTable (tag mapping handler)
+     * Handles table tag and cleanups some attributes for it
      *
      * @param string $tagName name of input (xhtml) tag
      * @param array $attributes byref value of tag attributes
@@ -297,6 +304,8 @@ class eZOEInputParser extends eZXMLInputParser
                 else
                     $name = 'embed';
 
+                unset( $attributes['inline'] );// unset internal stuff to make sure custom attr with same name works
+
                 if ( isset( $attributes['class'] ) )
                 {
                     $attributes['class'] = self::tagClassNamesCleanup( $attributes['class'] );
@@ -311,6 +320,7 @@ class eZOEInputParser extends eZXMLInputParser
             if ( $tagName === 'div' )
                 $attributes['children_required'] = 'true';
             $attributes['name'] = self::tagClassNamesCleanup( $attributes['class'] );
+            unset( $attributes['class'] );// unset internal stuff to make sure custom attr with same name works
         }
 
         return $name;
@@ -346,6 +356,7 @@ class eZOEInputParser extends eZXMLInputParser
             if ( isset( $attributes['name'] ) && !isset( $attributes['anchor_name'] ) )
             {
                 $attributes['anchor_name'] = $attributes['name'];
+                unset( $attributes['name'] );// unset internal stuff to make sure custom attr with same name works
             }
         }
         else if ( isset( $attributes['name'] ) )
@@ -359,6 +370,7 @@ class eZOEInputParser extends eZXMLInputParser
             $name = 'anchor';
             // ie bug with name attribute, workaround using id instead
             if ( isset( $attributes['id'] ) ) $attributes['name'] = $attributes['id'];
+            unset( $attributes['class'] );// unset internal stuff to make sure custom attr with same name works
         }
 
         return $name;
