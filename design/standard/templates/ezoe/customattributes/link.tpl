@@ -38,7 +38,7 @@ eZOEPopupUtils.settings.onInitDoneArray.push( function( editorElement )
     // init source type selection
     inp.each(function( i ){
         var self = jQuery(this);
-        // set cirrect selection in type drop down
+        // set correct selection in type drop down
         ezoeLinkAttribute.typeSet( self, jQuery(drop.get( i )) );
         // lookup node / object data if relation link
         if ( self.val().indexOf( '://' ) !== -1 )
