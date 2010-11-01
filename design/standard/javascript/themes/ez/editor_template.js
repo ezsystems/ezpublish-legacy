@@ -1818,7 +1818,7 @@
             {
                 case 'IMG':
                     if ( DOM.getAttrib(n, 'type') === 'custom' )
-                        return {'cmd':'mceCustom', 'val': n.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|ezoeItem\w+|mceVisualAid)/g, '') };
+                        return {'cmd':'mceCustom', 'val': n.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|ezoeItem\w+|mceVisualAid)/g, '').replace(/^\s+|\s+$/g,'') };
                     else
                         return {'cmd':'mceImage', 'val': ''};
                 case 'PRE':
@@ -1838,7 +1838,7 @@
                         return {'cmd':'mceObject', 'val': ''};
                     }
                     else if ( DOM.getAttrib(n, 'type') === 'custom' )
-                        return {'cmd':'mceCustom', 'val': n.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|ezoeItem\w+|mceVisualAid)/g, '') };
+                        return {'cmd':'mceCustom', 'val': n.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|ezoeItem\w+|mceVisualAid)/g, '').replace(/^\s+|\s+$/g,'') };
                     else if ( n.style.textDecoration === 'underline' )
                         return {'cmd':'mceCustom', 'val': 'underline' };
                     break;

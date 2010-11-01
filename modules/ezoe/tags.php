@@ -30,9 +30,9 @@
 $objectID      = isset( $Params['ObjectID'] ) ? (int) $Params['ObjectID'] : 0;
 $objectVersion = isset( $Params['ObjectVersion'] ) ? (int) $Params['ObjectVersion'] : 0;
 $tagName       = isset( $Params['TagName'] ) ? strtolower( trim( $Params['TagName'] )) : '';
-$customTagName = isset( $Params['CustomTagName'] ) ? strtolower( trim( $Params['CustomTagName'] )) : '';
+$customTagName = isset( $Params['CustomTagName'] ) ? trim( $Params['CustomTagName'] ) : '';
 
-if ( $customTagName === 'undefined' ) $customTagName = ''; 
+if ( $customTagName === 'undefined' ) $customTagName = '';
 
 if ( $objectID === 0  || $objectVersion === 0 )
 {
@@ -110,7 +110,7 @@ if ( $tagName === 'custom' )
         $customTagDescription = $contentIni->variable( 'CustomTagSettings', 'CustomTagsDescription' );
     else
         $customTagDescription = array();
-        
+
     if ( $contentIni->hasVariable( 'CustomTagSettings', 'IsInline' ) )
         $customInlineList = $contentIni->variable( 'CustomTagSettings', 'IsInline' );
 
@@ -178,7 +178,7 @@ if ( $tagName === 'td' || $tagName === 'th' )
 
     if ( $contentIni->hasVariable( $tagName2, 'ClassDescription' ) )
         $classListDescription = $contentIni->variable( $tagName2, 'ClassDescription' );
-    else 
+    else
         $classListDescription = array();
 
     if ( $contentIni->hasVariable( $tagName2, 'AvailableClasses' ) )
