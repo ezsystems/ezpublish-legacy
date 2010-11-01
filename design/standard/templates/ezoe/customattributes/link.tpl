@@ -1,4 +1,4 @@
-<select id="{$custom_attribute_id}_source_types" class="mceItemSkip" title="{"List of possible link types. Link types that use the '://' format are technically called protocols."|i18n('design/standard/ezoe')}">
+<select id="{$custom_attribute_id}_source_types" class="mceItemSkip atr_link_source_types" title="{"List of possible link types. Link types that use the '://' format are technically called protocols."|i18n('design/standard/ezoe')}">
 {if ezini_hasvariable( $custom_attribute_settings, 'LinkType', 'ezoe_attributes.ini' )}
 {foreach ezini( $custom_attribute_settings, 'LinkType', 'ezoe_attributes.ini' ) as $custom_value => $custom_name}
     <option value="{if $custom_value|ne('-0-')}{$custom_value|wash}{/if}"{if $custom_attribute_default|contains( $custom_value )} selected="selected"{/if}>{$custom_name|wash}</option>
@@ -15,16 +15,16 @@
     <option value="">{'Other'|i18n('design/standard/ezoe')}</option>
 {/if}
 </select>
-<a id="{$custom_attribute_id}_search_link" href="JavaScript:void(0);" title="{'Search'|i18n('design/admin/content/search')}"><img width="16" height="16" border="0" alt="{'Search'|i18n('design/admin/content/search')}" src={"tango/system-search.png"|ezimage} /></a>
-<a id="{$custom_attribute_id}_browse_link" href="JavaScript:void(0);" title="{'Browse'|i18n('design/standard/ezoe')}"><img width="16" height="16" border="0" alt="{'Browse'|i18n('design/standard/ezoe')}" src={"tango/folder.png"|ezimage} /></a>
-<a id="{$custom_attribute_id}_bookmarks_link" href="JavaScript:void(0);" title="{'Bookmarks'|i18n( 'design/admin/content/browse' )}"><img width="16" height="16" border="0" alt="{'Bookmarks'|i18n( 'design/admin/content/browse' )}" src={"tango/bookmark-new.png"|ezimage} /></a>
-<span id="{$custom_attribute_id}_source_info"></span>
+<a id="{$custom_attribute_id}_search_link" class="atr_link_search_link" href="JavaScript:void(0);" title="{'Search'|i18n('design/admin/content/search')}"><img width="16" height="16" border="0" alt="{'Search'|i18n('design/admin/content/search')}" src={"tango/system-search.png"|ezimage} /></a>
+<a id="{$custom_attribute_id}_browse_link" class=" atr_link_browse_link" href="JavaScript:void(0);" title="{'Browse'|i18n('design/standard/ezoe')}"><img width="16" height="16" border="0" alt="{'Browse'|i18n('design/standard/ezoe')}" src={"tango/folder.png"|ezimage} /></a>
+<a id="{$custom_attribute_id}_bookmark_link" class="atr_link_bookmark_link" href="JavaScript:void(0);" title="{'Bookmarks'|i18n( 'design/admin/content/browse' )}"><img width="16" height="16" border="0" alt="{'Bookmarks'|i18n( 'design/admin/content/browse' )}" src={"tango/bookmark-new.png"|ezimage} /></a>
+<span id="{$custom_attribute_id}_source_info" class="atr_link_source_info"></span>
 <br />
 
 {set $custom_attribute_classes = $custom_attribute_classes|append( 'link_href_input' )}
 <input type="text" name="{$custom_attribute}" id="{$custom_attribute_id}_source" value="{$custom_attribute_default|wash}"{if $custom_attribute_disabled} disabled="disabled"{/if} class="{$custom_attribute_classes|implode(' ')}" title="{$custom_attribute_title|wash}" />
 
-
+{run-once}
 <script type="text/javascript">
 <!--
 
@@ -33,24 +33,40 @@
 // register function to be called on end of init
 eZOEPopupUtils.settings.onInitDoneArray.push( function( editorElement )
 {
-    var lid = ezoeLinkAttribute.id, drop = jQuery( '#'+lid+'_source_types'), inp = jQuery( '#'+lid+'_source' );
+    var drop = jQuery( 'select.atr_link_source_types'), inp = jQuery( 'input.link_href_input' );
+
+    // init source type selection
+    inp.each(function( i ){
+        var self = jQuery(this);
+        // set cirrect selection in type drop down
+        ezoeLinkAttribute.typeSet( self, jQuery(drop.get( i )) );
+        // lookup node / object data if relation link
+        if ( self.val().indexOf( '://' ) !== -1 )
+        {
+            var url = self.val().split('://'), id = eZOEPopupUtils.Int( url[1] );
+            if ( id !== 0 && ( url[0] === 'eznode' || url[0] === 'ezobject' ) )
+                ezoeLinkAttribute.ajaxCheck.call( this, url[0] + '_' + id );
+        }
+    });
+
+    // add event to lookup changes to source type
     drop.change(function( e )
     {
-        var lid = ezoeLinkAttribute.id, input = document.getElementById( lid+'_source' );
+        var lid = ezoeLinkAttribute.lid( this.id ), input = document.getElementById( lid+'_source' );
         if ( this.value === 'ezobject://' )
         {
         	input.value = this.value + ezoeLinkAttribute.node['contentobject_id'];
-            ezoeLinkAttribute.namePreview( ezoeLinkAttribute.node['name'] );
+            ezoeLinkAttribute.namePreview( ezoeLinkAttribute.node['name'], lid );
         }
         else if ( this.value === 'eznode://' )
         {
         	input.value = this.value + ezoeLinkAttribute.node['node_id'];
-            ezoeLinkAttribute.namePreview( ezoeLinkAttribute.node['name'] );
+            ezoeLinkAttribute.namePreview( ezoeLinkAttribute.node['name'], lid );
         }
         else
         {
         	input.value = this.value;
-            ezoeLinkAttribute.namePreview( undefined );
+            ezoeLinkAttribute.namePreview( undefined, lid );
         }
     });
 
@@ -58,7 +74,7 @@ eZOEPopupUtils.settings.onInitDoneArray.push( function( editorElement )
     inp.keyup( function( e )
     {
         e = e || window.event;
-        var c = e.keyCode || e.which, lid = ezoeLinkAttribute.id, dropdown = jQuery( '#'+lid + '_source_types' );
+        var c = e.keyCode || e.which, lid = ezoeLinkAttribute.lid( this.id ), dropdown = jQuery( '#'+lid + '_source_types' );
         clearTimeout( ezoeLinkAttribute.timeOut );
 
         // break if user is pressing arrow keys
@@ -76,20 +92,15 @@ eZOEPopupUtils.settings.onInitDoneArray.push( function( editorElement )
         return true;
     });
 
-    if ( inp.val().indexOf( '://' ) !== -1 )
-    {
-        var url = inp.val().split('://'), id = eZOEPopupUtils.Int( url[1] );
-        if ( id !== 0 && ( url[0] === 'eznode' || url[0] === 'ezobject' ) )
-            ezoeLinkAttribute.ajaxCheck( url[0] + '_' + id );
-    }
-
-    ezoeLinkAttribute.slides = ez.$$('div.panel');//ezoeLinkAttribute.slides is global object used by custom selectByEmbedId function
-    var navigation = ez.$('embed_search_go_back_link', lid+'_search_link', lid+'_browse_link', lid+'_bookmarks_link', 'embed_browse_go_back_link', 'embed_bookmarks_go_back_link' );
-    ezoeLinkAttribute.slides.accordion( navigation, {duration: 100, transition: ez.fx.sinoidal, accordionAutoFocusTag: 'input[type=text]'}, {opacity: 0, display: 'none'} );
-    navigation[4].addEvent('click', eZOEPopupUtils.BIND( ezoeLinkAttribute.slides.accordionGoto, ezoeLinkAttribute.slides, 0 ) ).addClass('accordion_navigation');
-    navigation[5].addEvent('click', eZOEPopupUtils.BIND( ezoeLinkAttribute.slides.accordionGoto, ezoeLinkAttribute.slides, 0 ) ).addClass('accordion_navigation');
-
-    ezoeLinkAttribute.typeSet( inp, drop );
+    // setup navigation on bookmark / browse / search links to their 'boxes' (panels)
+    jQuery( 'a.atr_link_search_link, a.atr_link_browse_link, a.atr_link_bookmark_link' ).click( function(){
+        ezoeLinkAttribute.id = ezoeLinkAttribute.lid( this.id );
+        jQuery('div.panel').hide();
+        jQuery('#' + ezoeLinkAttribute.box( this.id ) ).show();
+        jQuery('#' + ezoeLinkAttribute.box( this.id ) + ' input[type=text]:first').focus();
+    });
+    jQuery( '#embed_search_go_back_link, #embed_browse_go_back_link, #embed_bookmarks_go_back_link' ).click( ezoeLinkAttribute.toggleBack );
+    jQuery('div.panel:first').show();
 });
 
 
@@ -119,38 +130,35 @@ eZOEPopupUtils.selectByEmbedId = function( object_id, node_id, name )
     else
     	inp.val( 'eznode://' + node_id );
     ezoeLinkAttribute.typeSet( inp, drop );
-    ezoeLinkAttribute.namePreview( name, info );
-    ezoeLinkAttribute.slides.accordionGoto.call( ezoeLinkAttribute.slides, 0 );
+    ezoeLinkAttribute.namePreview( name, lid );
+    ezoeLinkAttribute.toggleBack();
     ezoeLinkAttribute.node = {'contentobject_id': object_id, 'node_id': node_id, 'name': name }
 };
 
 // misc link related variables and functions
 var ezoeLinkAttribute = {
-    id : {/literal}'{$custom_attribute_id}'{literal},
     timeOut : null,
     slides : 0,
-    ajax : ez.ajax( { 'charset': 'UTF-8' } ),
-    ajaxResponse : '',
+    id : null,
     node : {'contentobject_id': '', 'node_id': '', 'name': '' },
-    ajaxCheck : function( url )
+    ajaxCheck : function( url, lid )
     {
-        var url = tinyMCEPopup.editor.settings.ez_extension_url + '/load/' + url;
-        ezoeLinkAttribute.ajax.load( url, '', ezoeLinkAttribute.postBack );
+        var url = tinyMCEPopup.editor.settings.ez_extension_url + '/load/' + url, lid = lid ? lid : ezoeLinkAttribute.lid(this.id);
+        jQuery.get( url, {}, function(r){ ezoeLinkAttribute.postBack(r, lid )}, 'json'  );
     },
-    postBack : function( r )
+    postBack : function( r, lid )
     {
-        ez.script( 'ezoeLinkAttribute.ajaxResponse=' + r.responseText );
-        if ( ezoeLinkAttribute.ajaxResponse )
+        if ( r )
         {
-            ezoeLinkAttribute.namePreview( ezoeLinkAttribute.ajaxResponse.name );
-            ezoeLinkAttribute.node = ezoeLinkAttribute.ajaxResponse;
+            ezoeLinkAttribute.namePreview( r.name, lid );
+            ezoeLinkAttribute.node = r;
         }
         else
-            ezoeLinkAttribute.namePreview( false );
+            ezoeLinkAttribute.namePreview( false, lid );
     },
-    namePreview : function( name )
+    namePreview : function( name, lid )
     {
-        var el = document.getElementById( ezoeLinkAttribute.id+'_source_info' );
+        var el = document.getElementById( lid + '_source_info' );
 {/literal}
         el.innerHTML = name === undefined ? '' : (name ? name : "{'Id not valid!'|i18n('design/standard/ezoe')}" );
 {literal}
@@ -167,13 +175,32 @@ var ezoeLinkAttribute = {
             }
         });
         types.val( selectedValue );
+    },
+    // get link attributre id from element id
+    lid : function( id )
+    {
+        var arr = id.split('_');
+        return arr[0] + '_' + arr[1];
+    },
+    // get box id by link id
+    box : function( id )
+    {
+        var arr = id.split('_');
+        return arr[2] + '_box';
+    },
+    // Toggle panel back to initial panel
+    toggleBack : function()
+    {
+        ezoeLinkAttribute.id = null;
+        jQuery('div.panel').hide();
+        jQuery('div.panel:first').show();
+        jQuery('div.panel:first input[type=text]:first').focus();
     }
 };
 
 {/literal}
 //-->
 </script>
-
 
 {append-block scope=global variable=$attribute_panel_output}
 
@@ -184,3 +211,5 @@ var ezoeLinkAttribute = {
 {include uri="design:ezoe/box_bookmarks.tpl"}
 
 {/append-block}
+
+{/run-once}
