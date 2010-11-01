@@ -12,8 +12,7 @@
 var ezTagName = '{$tag_name|wash}', customTagName = '{$custom_tag_name}', imageIcon = {"tango/image-x-generic22.png"|ezimage};
 eZOEPopupUtils.settings.customAttributeStyleMap = {$custom_attribute_style_map};
 eZOEPopupUtils.settings.tagEditTitleText = "{'Edit %tag_name tag'|i18n('design/standard/ezoe', '', hash( '%tag_name', concat('&lt;', $tag_name_alias, '.', $custom_tag_name, '&gt;') ))|wash('javascript')}";
-{literal} 
-
+{literal}
 
 tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
     tagName: ezTagName,
@@ -177,11 +176,11 @@ function filterOutCustomBlockTags( n )
         {include uri="design:ezoe/customattributes.tpl" tag_name=$custom_tag hide=$custom_tag_name|ne( $custom_tag ) extra_attribute=array('inline', $tag_is_inline, array('image', 'true')|contains( $tag_is_inline ))}
 {/foreach}
 
-        <div class="block"> 
+        <div class="block">
             <div class="left">
                 <input id="SaveButton" name="SaveButton" type="submit" value="{'OK'|i18n('design/standard/ezoe')}" />
                 <input id="CancelButton" name="CancelButton" type="reset" value="{'Cancel'|i18n('design/standard/ezoe')}" />
-            </div> 
+            </div>
         </div>
 
     </div>
