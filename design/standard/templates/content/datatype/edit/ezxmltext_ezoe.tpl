@@ -51,7 +51,7 @@
     {if $skin_variant}
         {set $editor_css_list = $editor_css_list|append( concat('skins/', $skin, '/ui_', $skin_variant, '.css') )}
     {/if}
-    
+
     {foreach $content_css_list_temp as $css}
         {set $content_css_list = $content_css_list|append( $css|explode( '<skin>' )|implode( $skin ) )}
     {/foreach}
@@ -90,7 +90,7 @@
         valid_elements : "-strong/-b/-bold[class|customattributes],-em/-i/-emphasize[class|customattributes],span[id|type|class|title|customattributes|align|style|view|inline|alt],sub[class|type|customattributes|align],sup[class|type|customattributes|align],u[class|type|customattributes|align],pre[class|title|customattributes],ol[class|customattributes],ul[class|customattributes],li[class|customattributes],a[href|name|target|view|title|class|id|customattributes],p[class|customattributes|align|style],img[src|class|alt|align|inline|id|customattributes|style|type],table[class|border|width|id|title|customattributes|ezborder|bordercolor|align|style],tr,th[class|width|rowspan|colspan|customattributes|align|style],td[class|width|rowspan|colspan|customattributes|align|style],div[id|type|class|title|customattributes|align|style|view|inline|alt],h1[class|customattributes|align|style],h2[class|customattributes|align|style],h3[class|customattributes|align|style],h4[class|customattributes|align|style],h5[class|customattributes|align|style],h6[class|customattributes|align|style],br",
         valid_child_elements : "a[%itrans_na],table[tr],tr[td|th],ol/ul[li],h1/h2/h3/h4/h5/h6/pre/strong/b/p/em/i/u/span/sub/sup/li[%itrans|#text]div/pre/td/th[%btrans|%itrans|#text]",
         // cleanup : false,
-        // cleanup_serializer : 'xml',    
+        // cleanup_serializer : 'xml',
         // entity_encoding : 'raw',
         entities : '160,nbsp', // We need to transform nonbreaking white space to encoded form, all other charthers as stored in raw unicode form.
         // remove_linebreaks : false,
@@ -107,6 +107,7 @@
         popup_css : {concat("stylesheets/skins/", $skin, "/dialog.css")|ezdesign},
         //popup_css_add : {"stylesheets/core.css"|ezdesign},
         gecko_spellcheck : true,
+        object_resizing : false,//disable firefox inline image/table resizing
         table_inline_editing : true, // table edit controlls in gecko
         save_enablewhendirty : true,
         ez_root_url : {'/'|ezroot},
@@ -164,20 +165,20 @@
     //-->
     </script>
     {/run-once}
-    
-    
-    
+
+
+
     <div class="oe-window">
         <textarea class="box" id="{$attribute_base}_data_text_{$attribute.id}" name="{$attribute_base}_data_text_{$attribute.id}" cols="88" rows="{$editorRow}">{$input_handler.input_xml}</textarea>
     </div>
-    
+
     <div class="block">
         {if $input_handler.can_disable}
             <input class="button{if $layout_settings['buttons']|contains('disable')} hide{/if}" type="submit" name="CustomActionButton[{$attribute.id}_disable_editor]" value="{'Disable editor'|i18n('design/standard/content/datatype')}" />
         {/if}
         <script type="text/javascript">
         <!--
-        
+
         eZOeAttributeSettings = eZOeGlobalSettings;
         eZOeAttributeSettings['ez_attribute_id'] = {$attribute.id};
         eZOeAttributeSettings['theme_advanced_buttons1'] = "{$layout_settings['buttons']|implode(',')}";
