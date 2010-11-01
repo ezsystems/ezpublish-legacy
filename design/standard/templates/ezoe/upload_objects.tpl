@@ -12,7 +12,7 @@ var contentType = '{$content_type}', classFilter = [];
 {foreach $class_filter_array as $class_filter}
     classFilter.push('{$class_filter}');
 {/foreach}
-    
+
 {literal}
 
 tinyMCEPopup.onInit.add( function(){
@@ -54,90 +54,24 @@ tinyMCEPopup.onInit.add( function(){
 <div class="panel_wrapper" style="min-height: 360px;">
         <div class="panel">
             <table class="properties">
-                <tr> 
-                    <td class="column1"><label id="titlelabel" for="objectName">{'Name'|i18n('design/standard/ezoe')}</label></td> 
-                    <td colspan="2"><input id="objectName" name="objectName" size="40" type="text" value="" title="{'Name for the uploaded object, filename is used if none is specified.'|i18n('design/standard/ezoe/wai')}" /></td> 
-                </tr>
-                <tr>
-                    <td class="column1"><label id="srclabel" for="fileName">{'File'|i18n('design/standard/ezoe')}</label></td>
-                    <td colspan="2"><input name="fileName" type="file" id="fileName" size="40" value="" title="{'Choose file to upload from your local machine.'|i18n('design/standard/ezoe/wai')}" /></td>
-                </tr>
-                <tr id="embedlistsrcrow">
-                    <td class="column1"><label for="location">{'Location'|i18n('design/standard/ezoe')}</label></td>
-                    <td colspan="2" id="embedlistsrccontainer">
-                      <select name="location" id="location" title="{'Lets you specify where in eZ Publish to store the uploaded object.'|i18n('design/standard/ezoe/wai')}">
-                        <option value="auto">{'Automatic'|i18n('design/standard/ezoe')}</option>
 
-                        {if $object.published}
-                            <option value="{$object.main_node_id}">{$object.name|shorten( 35 )} ({'this'|i18n('design/standard/ezoe')})</option>
-                        {/if}
+                {include uri="design:ezoe/upload/common_attributes.tpl"}
 
-                        {def $root_node_value = ezini( 'LocationSettings', 'RootNode', 'upload.ini' )
-                             $root_node = cond( $root_node_value|is_numeric, fetch( 'content', 'node', hash( 'node_id', $root_node_value ) ),
-                                             fetch( 'content', 'node', hash( 'node_path', $root_node_value ) ) )
-                             $selection_list = fetch( 'content', 'list',
-                                                     hash( 'parent_node_id', $root_node.node_id,
-                                                           'class_filter_type', include,
-                                                           'class_filter_array', ezini( 'LocationSettings', 'ClassList', 'upload.ini' ),
-                                                           'load_data_map', false(),
-                                                           'sort_by', $root_node.sort_array|append( array('name', true() ) ),
-                                                           'limit', ezini( 'LocationSettings', 'MaxItems', 'upload.ini' ) ) )
-                             $selection_list_2 = 0
-                             $selection_list_3 = 0
-                             $selection_depth = ezini( 'LocationSettings', 'MaxDepth', 'upload.ini' )}
-                        {foreach $selection_list as $item}
-                            {if $item.can_create}
-                                <option value="{$item.node_id}">{$item.name|wash|shorten( 35 )}</option>
-                            {/if}
-                            {if and( $selection_depth|ge( 2 ), first_set( $item.is_container, $item.object.content_class.is_container, false() ) )}
-                                {set $selection_list_2 = fetch( 'content', 'list',
-                                                         hash( 'parent_node_id', $item.node_id,
-                                                               'class_filter_type', include,
-                                                               'class_filter_array', ezini( 'LocationSettings', 'ClassList', 'upload.ini' ),
-                                                               'load_data_map', false(),
-                                                               'sort_by', $item.sort_array|append( array('name', true() ) ),
-                                                               'limit', ezini( 'LocationSettings', 'MaxItems', 'upload.ini' ) ) )}
-                                {foreach $selection_list_2 as $item_2}
-                                    {if $item_2.can_create}
-                                        <option value="{$item_2.node_id}">&nbsp;{$item_2.name|wash|shorten( 35 )}</option>
-                                    {/if}
-                                    {if and( $selection_depth|ge( 3 ), first_set( $item_2.is_container, $item_2.object.content_class.is_container, false() ) )}
-                                        {set $selection_list_3 = fetch( 'content', 'list',
-                                                                 hash( 'parent_node_id', $item_2.node_id,
-                                                                       'class_filter_type', include,
-                                                                       'class_filter_array', ezini( 'LocationSettings', 'ClassList', 'upload.ini' ),
-                                                                       'load_data_map', false(),
-                                                                       'sort_by', $item_2.sort_array|append( array('name', true() ) ),
-                                                                       'limit', ezini( 'LocationSettings', 'MaxItems', 'upload.ini' ) ) )}
-                                        {foreach $selection_list_3 as $item_3}
-                                            {if $item_3.can_create}
-                                                <option value="{$item_3.node_id}">&nbsp;&nbsp;{$item_3.name|wash|shorten( 35 )}</option>
-                                            {/if}
-                                        {/foreach}
-                                    {/if}
-                                {/foreach}
-        
-                            {/if}
-                        {/foreach}
-
-                      </select>
-                    </td>
-                </tr>
                 <!-- Next attribute is file / media specific  -->
                 <tr>
-                    <td class="column1"><label id="descriptionlabel" for="objectDescription">{'Description'|i18n('design/standard/ezoe')}</label></td> 
-                    <td colspan="2"><input id="objectDescription" name="ContentObjectAttribute_description" size="53" type="text" value="" title="{'Description to the file your uploading, so internet clients can read more about it before they decide to download it.'|i18n('design/standard/ezoe/wai')}" /></td> 
+                    <td class="column1"><label id="descriptionlabel" for="objectDescription">{'Description'|i18n('design/standard/ezoe')}</label></td>
+                    <td colspan="2"><input id="objectDescription" name="ContentObjectAttribute_description" size="53" type="text" value="" title="{'Description to the file your uploading, so internet clients can read more about it before they decide to download it.'|i18n('design/standard/ezoe/wai')}" /></td>
                 </tr>
-                <tr> 
+                <tr>
                     <td colspan="3">
                     <input id="uploadButton" name="uploadButton" type="submit" value="{'Upload local file'|i18n('design/standard/ezoe')}" />
                     <span id="upload_in_progress" style="display: none; color: #666; background: #fff url({"stylesheets/skins/default/img/progress.gif"|ezdesign('single')}) no-repeat top left scroll; padding-left: 32px;">{'Upload is in progress, it may take a few seconds...'|i18n('design/standard/ezoe')}</span>
-                    </td> 
+                    </td>
                 </tr>
             </table>
 
             <iframe id="embed_upload" name="embed_upload" frameborder="0" scrolling="no" style="border: 0; width: 99%; height: 30px; margin: 0; overflow: auto; overflow-x: hidden;"></iframe>
-          
+
             {* Related objects *}
             {if and( $related_contentobjects|count|gt( 0 ), $grouped_related_contentobjects.objects|count|gt( 0 ) )}
             <div class="block contenttype_object">
