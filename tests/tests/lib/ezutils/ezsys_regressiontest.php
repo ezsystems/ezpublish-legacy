@@ -149,28 +149,32 @@ class eZSysRegressionTest extends ezpRegressionTest
             $expected = '/index.php';
         else
             $expected = '';
+
         $this->assertEquals( $expected, $instance->IndexFile, "The IndexFile was not expected value" );
 
+
         // Uri test: sub path part
-        if ( strpos( $testData['_SERVER']['SCRIPT_NAME'], 'index.php' ) !== false )// .htaccess or nvh
-        {
-            $wwwDir = explode( 'index.php', $testData['_SERVER']['SCRIPT_NAME'] );
-            $wwwDir = rtrim( $wwwDir[0], '\/' );
-        }
+        if ( isset( $testData['__out']['WWWDir'] ) )
+            $wwwDir = $testData['__out']['WWWDir'];
+        elseif ( strpos( $testData['_SERVER']['SCRIPT_NAME'], 'index.php' ) !== false )// .htaccess or nvh
+            $wwwDir = rtrim( str_replace( 'index.php', '', $testData['_SERVER']['SCRIPT_NAME'] ), '\/' );
         else
-        {
             $wwwDir = '';
-        }
+
         $this->assertEquals( $wwwDir, $instance->WWWDir, "The WWWDir was not expected value" );
         $this->assertEquals( rtrim( str_replace( 'index.php', '', $testData['_SERVER']['SCRIPT_FILENAME'] ), '\/' ) . '/', $instance->SiteDir, "The SiteDir was not expected value" );
 
+
         // Uri test: uri part
-        if ( strpos( $file, 'vh/utf8' ) )
+        if ( isset( $testData['__out']['RequestURI'] ) )
+            $expected = $testData['__out']['RequestURI'];
+        else if ( strpos( $file, 'vh/utf8' ) )
             $expected = '/News/Blåbær-Øl-med-d\'or-新闻军事社会体育中超';
         elseif ( strpos( $file, 'vh/view' ) )
             $expected = '/content/view/full/44';
         else
             $expected = '';
+
         $this->assertEquals( $expected, $instance->RequestURI, "The RequestURI was not expected value" );
     }
 }

@@ -1,5 +1,26 @@
 <?php
+/**
+ * General test data for httpd server unit testing
+ *
+ * Provides data for testing routing, encoding, virtual host mode detection & more
+ * on most httpd servers with different configurations.
+ *
+ * More info available on:
+ * http://github.com/ezsystems/ezpublish/tree/master/tests/tests/lib/ezutils/server
+ *
+ * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
+ * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
+ * @package tests
+ * @subpackage lib
+ *
+ */
 
+/**
+ * This specifc test, testing invalid $index.php and path in url
+ * making sure code does not use it as basis for determin www dir and resulting RequestURI
+ *
+ * To accomplish that, this test case specifes what expected values should be in the end
+ */
 return array (
   'PHP_VERSION' => '5.3.3-1ubuntu9.1',
   'PHP_OS' => 'Linux',
@@ -16,7 +37,7 @@ return array (
   'PHP_INT_MAX' => 9223372036854775807,
   'PHP_INT_SIZE' => 8,
   'getcwd' => '/home/andre/workspace/ezpublish',
-  '_SERVER' => 
+  '_SERVER' =>
   array (
     'SCRIPT_URL' => '/SOMETHING/index.php',
     'SCRIPT_URI' => 'http://ezpublish/SOMETHING/index.php',
@@ -49,7 +70,7 @@ return array (
     'PHP_SELF' => '/SOMETHING/index.php',
     'REQUEST_TIME' => 1288391507,
   ),
-  '_ENV' => 
+  '_ENV' =>
   array (
     'APACHE_RUN_DIR' => '/var/run/apache2',
     'APACHE_PID_FILE' => '/var/run/apache2.pid',
@@ -60,5 +81,11 @@ return array (
     'APACHE_RUN_USER' => 'www-data',
     'APACHE_LOG_DIR' => '/var/log/apache2',
     'PWD' => '/',
+  ),
+  // vaiables needed for specific edge cases where we want code to ignore invalid data like in this one
+  '__out' =>
+  array (
+    'WWWDir' => '',
+    'RequestURI' => '/SOMETHING/index.php',
   ),
 );

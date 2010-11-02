@@ -935,26 +935,27 @@ class eZSys
      */
     public static function init( $index = 'index.php', $forceVirtualHost = null )
     {
-        $instance   = self::instance();
-        $server     = $instance->Params['_SERVER'];
-        $phpSelf    = $server['PHP_SELF'];
-        $requestUri = $server['REQUEST_URI'];
-        $siteDir    = rtrim( str_replace( $index, '', $server['SCRIPT_FILENAME'] ), '\/' ) . '/';
-        $wwwDir     = '';
-        $IndexFile  = '';
+        $instance       = self::instance();
+        $server         = $instance->Params['_SERVER'];
+        $phpSelf        = $server['PHP_SELF'];
+        $requestUri     = $server['REQUEST_URI'];
+        $scriptFileName = $server['SCRIPT_FILENAME'];
+        $siteDir        = rtrim( str_replace( $index, '', $scriptFileName ), '\/' ) . '/';
+        $wwwDir         = '';
+        $IndexFile      = '';
 
-        if ( isset( $phpSelf[1] ) && strpos( $phpSelf, $index ) !== false )
+        // see if we can use phpSelf to determin wwwdir
+        $tempwwwDir = self::getValidwwwDir( $phpSelf, $scriptFileName, $index );
+        if ( $tempwwwDir !== null && $tempwwwDir !== false )
         {
             // Force virual host or Auto detect IIS vh mode & Apache .htaccess mode
             if ( $forceVirtualHost
               || ( isset( $server['IIS_WasUrlRewritten'] ) && $server['IIS_WasUrlRewritten'] )
               || ( isset( $server['REDIRECT_URL'] ) && isset( $server['REDIRECT_STATUS'] ) && $server['REDIRECT_STATUS'] == '200' ) )
             {
-                $wwwDir    = explode( $index, ltrim( $phpSelf, '/ ' ) );
-                $wwwDir    = trim( $wwwDir[0], '/' );
-                if ( $wwwDir )
+                if ( $tempwwwDir )
                 {
-                    $wwwDir = '/' . $wwwDir;
+                    $wwwDir = '/' . $tempwwwDir;
                     $wwwDirPos = strpos( $requestUri, $wwwDir );
                     if ( $wwwDirPos !== false )
                     {
@@ -962,18 +963,13 @@ class eZSys
                     }
                 }
             }
-            else // Non virtual host mode, use phpself to figgure out paths
+            else // Non virtual host mode, use $tempwwwDir to figgure out paths
             {
-                $wwwDir    = explode( $index, ltrim( $phpSelf, '/ ' ) );
-                $wwwDir    = trim( $wwwDir[0], '/' );
-                if ( $wwwDir )
+                $indexDir = $index;
+                if ( $tempwwwDir )
                 {
-                    $wwwDir  = '/' . $wwwDir;
-                    $indexDir = $wwwDir . '/' . $index;
-                }
-                else
-                {
-                    $indexDir = $index;
+                    $wwwDir  = '/' . $tempwwwDir;
+                    $indexDir = $wwwDir . '/' . $indexDir;
                 }
                 $IndexFile = '/' . $index;
 
@@ -1027,6 +1023,50 @@ class eZSys
         $instance->WWWDir     = $wwwDir;
         $instance->IndexFile  = $IndexFile;
         $instance->RequestURI = $requestUri;
+    }
+
+    /**
+     * Generate wwwdir from phpSelf if valid accoring to scriptFileName
+     * and return null if invalid and false if there is no index in phpSelf
+     *
+     * @param string $phpSelf
+     * @param string $scriptFileName
+     * @param string $index
+     * @return string|null|false String in form 'path/path2' if valid, null if not
+     *                           and false if $index is not  part of phpself
+     */
+    protected static function getValidwwwDir( $phpSelf, $scriptFileName, $index )
+    {
+        if ( !isset( $phpSelf[1] ) || strpos( $phpSelf, $index ) === false )
+            return false;
+
+        // validate $index straight away
+        if ( strpos( $scriptFileName, $index ) === false )
+            return null;
+
+        // optimize '/index.php' pattern
+        if ( $phpSelf === "/{$index}" )
+            return '';
+
+        $phpSelfParts = explode( $index, $phpSelf );
+        $validateDir = $phpSelfParts[0];
+        // remove first path if home dir
+        if ( $phpSelf[1] === '~' )
+        {
+            $uri = explode( '/', ltrim( $validateDir, '/' ) );
+            array_shift( $uri );
+            $validateDir = '/' . implode( '/', $uri );
+        }
+
+        // validate direclty with phpself part
+        if ( strpos( $scriptFileName, $validateDir ) !== false )
+            return trim( $phpSelfParts[0], '/' );
+
+        // validate with windows path
+        if ( strpos( $scriptFileName, str_replace( '/', '\\', $validateDir ) ) !== false )
+            return trim( $phpSelfParts[0], '/' );
+
+        return null;
     }
 
     /*!
