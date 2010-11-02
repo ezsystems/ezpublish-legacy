@@ -227,7 +227,7 @@ class ezjscAjaxContent
 
         $ret                            = array();
         $attrtibuteArray                = array();
-        $ret['name']                    = htmlentities( $contentObject->attribute( 'name' ), ENT_QUOTES );
+        $ret['name']                    = htmlentities( $contentObject->attribute( 'name' ), ENT_QUOTES, "UTF-8" );
         $ret['contentobject_id']        = $ret['id'] = (int) $contentObject->attribute( 'id' );
         $ret['contentobject_remote_id'] = $contentObject->attribute( 'remote_id' );
         $ret['main_node_id']            = (int)$contentObject->attribute( 'main_node_id' );
