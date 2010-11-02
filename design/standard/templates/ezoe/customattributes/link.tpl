@@ -99,7 +99,7 @@ eZOEPopupUtils.settings.onInitDoneArray.push( function( editorElement )
         jQuery('#' + ezoeLinkAttribute.box( this.id ) ).show();
         jQuery('#' + ezoeLinkAttribute.box( this.id ) + ' input[type=text]:first').focus();
     });
-    jQuery( '#embed_search_go_back_link, #embed_browse_go_back_link, #embed_bookmarks_go_back_link' ).click( ezoeLinkAttribute.toggleBack );
+    jQuery( '#embed_search_go_back_link, #embed_browse_go_back_link, #embed_bookmark_go_back_link' ).click( ezoeLinkAttribute.toggleBack );
     jQuery('div.panel:first').show();
 });
 
