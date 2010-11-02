@@ -65,9 +65,12 @@ class eZDefaultConfirmOrderHandler
 
             $tpl = eZTemplate::factory();
             $tpl->setVariable( 'order', $order );
+            $orderemail = ezpGlobals::instance()->orderemail;
+            $orderemail->reset();
             $templateResult = $tpl->fetch( 'design:shop/orderemail.tpl' );
+            $orderemail->fromTemplate( $tpl );
 
-            $subject = $tpl->variable( 'subject' );
+            $subject = $orderemail->subject;
 
             $mail = new eZMail();
 

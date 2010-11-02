@@ -52,7 +52,7 @@
   </td>
 {if ne($regional_info.language_type,1)}
   <td align="right" class="normal">
-    <input type="checkbox" name="eZSetupLanguages[]" value="{$:item.locale_full_code}" {switch match=$:item.locale_full_code}{case in=$regional_info.languages}checked="checked"{/case}{case/}{/switch} />
+    <input type="checkbox" name="eZSetupLanguages[]" value="{$:item.locale_full_code}" {if $regional_info.languages|contains($:item.locale_full_code)}checked="checked"{/if} />
   </td>
 {/if}
 </tr>

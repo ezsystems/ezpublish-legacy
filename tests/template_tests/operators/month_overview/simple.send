@@ -1,0 +1,45 @@
+<?php
+
+class MonthOverviewData
+{
+    private $timestamp;
+
+    public function __construct($timestamp)
+    {
+        $this->timestamp = $timestamp;
+    }
+
+    public function hasAttribute($name)
+    {
+        return $name == "timestamp";
+    }
+
+    public function attribute($name)
+    {
+        if( $this->hasAttribute($name) )
+        {
+            return $this->timestamp;
+        }
+        return null;
+    }
+}
+
+// Create some input data.
+$m = array(
+    new MonthOverviewData(1194446624),
+    new MonthOverviewData(1194346624),
+    new MonthOverviewData(1194246624),
+    new MonthOverviewData(1194146624),
+    new MonthOverviewData(1194046624),
+    new MonthOverviewData(1193946624),
+    new MonthOverviewData(1193846624),
+    new MonthOverviewData(1193746624),
+    new MonthOverviewData(1193646624),
+    new MonthOverviewData(1193546624),
+    new MonthOverviewData(1193446624),
+    new MonthOverviewData(1193346624),
+);
+
+
+return array("month_overview_data" => $m);
+?>

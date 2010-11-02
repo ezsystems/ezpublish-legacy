@@ -1,5 +1,5 @@
 {* Window controls. *}
-<div class="menu-block{if fetch( content, translation_list )|count|eq( 1 )} notranslations{/if}">
+<div class="menu-block{if fetch( content, translation_list )|count|eq( 1 )}{" notranslations"}{/if}">
 
 {def $translations_count=count($node.object.available_languages)
     $li_width="" }

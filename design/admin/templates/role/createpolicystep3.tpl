@@ -74,8 +74,11 @@
 <option value="-1" {switch match=$current_limitation_list[$Limitations:item.name]}
 {case match=-1} selected="selected"{/case}{case}{/case}{/switch}>{'Any'|i18n( 'design/admin/role/createpolicystep3' )}</option>
 {section name=LimitationValues loop=$Limitations:item.values}
-<option value="{$Limitations:LimitationValues:item.value}" {switch match=$Limitations:LimitationValues:item.value}
-{case in=$current_limitation_list[$Limitations:item.name]}selected="selected"{/case}{case}{/case}{/switch}>{$Limitations:LimitationValues:item.Name}</option>
+<option value="{$Limitations:LimitationValues:item.value}" 
+{if $current_limitation_list[$Limitations:item.name]|contains($Limitations:LimitationValues:item.value)}
+selected="selected" 
+{/if}
+>{$Limitations:LimitationValues:item.Name}</option>
 {/section}
 </select>
 {if $function_limitations|count|gt(1)}

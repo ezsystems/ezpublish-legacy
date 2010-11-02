@@ -151,18 +151,15 @@
 
     {* Move. *}
     <td>
-    {switch match=$Node:item.parent_node}
-    {case in=$Node:existingParentNodes}
+    {if $Node:existingParentNodes|contains($Node:item.parent_node)}
     <input {if $location_ui_enabled|not}disabled="disabled" {/if}type="image" name="{concat( 'MoveNodeID_', $Node:item.parent_node )}" src={'move.gif'|ezimage} value="{$Node:item.parent_node}" title="{'Move to another location.'|i18n( 'design/admin/content/edit' )}" />
-    {/case}
-    {case}
+    {else}
     {if $Node:item.from_node_id|gt( 0 )}
     <input {if $location_ui_enabled|not}disabled="disabled" {/if}type="image" name="{concat( 'MoveNodeID_', $Node:item.parent_node )}" src={'move.gif'|ezimage} value="{$Node:item.parent_node}" title="{'Move to another location.'|i18n( 'design/admin/content/edit' )}" />
     {else}
     &nbsp;
     {/if}
-    {/case}
-    {/switch}
+    {/if}
     </td>
 
     {/if}

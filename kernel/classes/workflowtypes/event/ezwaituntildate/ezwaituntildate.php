@@ -53,12 +53,12 @@ class eZWaitUntilDate
                       'classattribute_id_list' );
     }
 
-    function hasAttribute( $attr )
+    public function __isset( $attr )
     {
         return in_array( $attr, $this->attributes() );
     }
 
-    function attribute( $attr )
+    public function __get( $attr )
     {
         switch ( $attr )
         {
@@ -80,11 +80,27 @@ class eZWaitUntilDate
             }
             default :
             {
-                eZDebug::writeError( "Attribute '$attr' does not exist", 'eZWaitUntilDate::attribute' );
-                return null;
+                throw new ezcBasePropertyNotFoundException($attr);
             }break;
         }
     }
+
+    public function __set($name, $value)
+    {
+        throw new ezcBasePropertyPermissionException($name, ezcBasePropertyPermissionException::READ );
+    }
+
+    public function hasAttribute( $attr )
+    {
+        return $this->__isset($attr);
+    }
+
+    public function attribute( $attr )
+    {
+        return $this->__get( $attr );
+    }
+
+
     static function removeWaitUntilDateEntries( $workflowEventID, $workflowEventVersion )
     {
          eZWaitUntilDateValue::removeAllElements( $workflowEventID, $workflowEventVersion );

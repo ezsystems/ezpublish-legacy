@@ -59,77 +59,77 @@ class eZURLAliasQuery
      Array of action values to include, set to null to fetch all kinds.
      e.g. eznode:60
      */
-    public $actions;
+    private $actions;
     /*!
      Array of action types to include, set to null to fetch all kinds.
      e.g. eznode
      */
-    public $actionTypes;
+    private $actionTypes;
     /*!
      Array of action types to exclude, set to null to disable.
      e.g. eznode
      */
-    public $actionTypesEx;
+    private $actionTypesEx;
     /*!
      If non-null it forces only elements with this parent to be considered.
      */
-    public $paren;
+    private $paren;
     /*!
      If non-null it forces only elements with this text to be considered.
      */
-    public $text;
+    private $text;
     /*!
      Type of elements to count, use 'name' for only real names for actions, 'alias' for only aliases to the actions or 'all' for real and aliases.
      */
-    public $type      = 'alias';
+    private $type      = 'alias';
     /*!
      If true languages are filtered, otherwise all languages are fetched.
      */
-    public $languages = true;
+    private $languages = true;
     /*!
      The offset to start the fetch.
      \note It only applies to fetchAll()
      */
-    public $offset    = 0;
+    private $offset    = 0;
     /*!
      The max limit of the fetch.
      \note It only applies to fetchAll()
      */
-    public $limit     = 15;
+    private $limit     = 15;
     /*!
      The order in which elements are fetched, refers the the DB column of the table.
      \note It only applies to fetchAll()
      */
-    public $order     = 'text';
+    private $order     = 'text';
 
     /*!
      \private
      Cached value of partial query, used for both count() and fetchAll().
      */
-    public $query;
+    private $query;
     /*!
      \private
      Cached value of the total count.
      */
-    public $count;
+    private $count;
     /*!
      \private
      Cached value of the fetch items.
      */
-    public $items;
+    private $items;
 
     function eZURLAliasQuery()
     {
     }
 
-    function hasAttribute( $name )
+    function __isset( $name )
     {
         return in_array( $name,
                          array_diff( get_object_vars( $this ),
                                      array( 'query' ) ) );
     }
 
-    function attribute( $name )
+    function __get( $name )
     {
         switch ( $name )
         {
@@ -148,13 +148,29 @@ class eZURLAliasQuery
         }
     }
 
-    function setAttribute( $name, $value )
+    public function __set( $name, $value )
     {
         $this->$name = $value;
         $this->query = null;
         $this->count = null;
         $this->items = null;
     }
+
+    public function hasAttribute( $attr )
+    {
+        return $this->__isset($attr);
+    }
+
+    public function attribute( $attr )
+    {
+        return $this->__get( $attr );
+    }
+
+    public function setAttribute( $attr, $value )
+    {
+        return $this->__set( $attr, $value );
+    }
+
 
     /*!
      Resets all internally cached values. This must be called

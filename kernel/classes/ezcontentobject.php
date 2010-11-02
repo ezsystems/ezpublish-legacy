@@ -2488,7 +2488,7 @@ class eZContentObject extends eZPersistentObject
             }
         }
         $db->commit();
-        unset( $this->ContentObjectAttributes );
+        $this->ContentObjectAttributes = array();
     }
 
     /*!
@@ -3613,7 +3613,7 @@ class eZContentObject extends eZPersistentObject
     */
     function setPermissions( $permissionArray )
     {
-        $this->Permissions =& $permissionArray;
+        $this->Permissions = $permissionArray;
     }
 
     /*!
@@ -4791,7 +4791,7 @@ class eZContentObject extends eZPersistentObject
         if ( !isset( $this->ContentObjectAttributeArray[$version][$language] ) )
         {
             $attributeList = $this->contentObjectAttributes();
-            $this->ContentObjectAttributeArray[$version][$language] =& $attributeList;
+            $this->ContentObjectAttributeArray[$version][$language] = $attributeList;
         }
         else
             $attributeList = $this->ContentObjectAttributeArray[$version][$language];
@@ -6187,6 +6187,10 @@ class eZContentObject extends eZPersistentObject
      * @see eZContentObject::stateIDArray()
      */
     private $StateIDArray = false;
+
+    public $ContentObjectAttributeArray = array();
+
+    public $Permissions = array();
 }
 
 ?>

@@ -117,15 +117,18 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
                               ) );
 
         $Result = array();
+        $collectinfo = ezpGlobals::instance()->collect;
+        $collectinfo->reset();
         $Result['content'] = $tpl->fetch( 'design:content/collectedinfo/' . $informationCollectionTemplate . '.tpl' );
+        $collectinfo->fromTemplate( $tpl );
         $Result['section_id'] = $object->attribute( 'section_id' );
         $Result['node_id'] = $node->attribute( 'node_id' );
         $Result['view_parameters'] = $userParameters;
         $Result['navigation_part'] = $navigationPartIdentifier;
 
         $title = $object->attribute( 'name' );
-        if ( $tpl->hasVariable( 'title' ) )
-            $title = $tpl->variable( 'title' );
+        if ( $collectinfo->title !== null )
+            $title = $collectinfo->title;
 
         // create path
         $parents = $node->attribute( 'path' );
@@ -289,15 +292,18 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
 
             $tpl->setVariable( 'collection', $collection );
             $tpl->setVariable( 'object', $object );
+            $collectemail = ezpGlobals::instance()->collectemail;
+            $collectemail->reset();
             $templateResult = $tpl->fetch( 'design:content/collectedinfomail/' . $informationCollectionTemplate . '.tpl' );
+            $collectinfo->fromTemplate( $tpl );
 
-            $subject = $tpl->variable( 'subject' );
-            $receiver = $tpl->variable( 'email_receiver' );
-            $ccReceivers = $tpl->variable( 'email_cc_receivers' );
-            $bccReceivers = $tpl->variable( 'email_bcc_receivers' );
-            $sender = $tpl->variable( 'email_sender' );
-            $replyTo = $tpl->variable( 'email_reply_to' );
-            $redirectToNodeID = $tpl->variable( 'redirect_to_node_id' );
+            $subject = $collectemail->subject;
+            $receiver = $collectemail->email_receiver;
+            $ccReceivers = $collectemail->email_cc_receivers;
+            $bccReceivers = $collectemail->email_bcc_receivers;
+            $sender = $collectemail->email_sender;
+            $replyTo = $collectemail->email_reply_to;
+            $redirectToNodeID = $collectemail->redirect_to_node_id;
 
             $ini = eZINI::instance();
             $mail = new eZMail();

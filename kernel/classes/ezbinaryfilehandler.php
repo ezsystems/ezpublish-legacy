@@ -65,21 +65,36 @@ class eZBinaryFileHandler
         return array_keys( $this->Info );
     }
 
-    function hasAttribute( $attribute )
+    public function __isset( $attribute )
     {
         return isset( $this->Info[$attribute] );
     }
 
-    function attribute( $attribute )
+    public function __get( $attribute )
     {
         if ( isset( $this->Info[$attribute] ) )
         {
             return $this->Info[$attribute];
         }
 
-        eZDebug::writeError( "Attribute '$attribute' does not exist", 'eZBinaryFileHandler::attribute' );
-        return null;
+        throw new ezcBasePropertyNotFoundException($attribute);
     }
+
+    public function __set($name, $value)
+    {
+        throw new ezcBasePropertyPermissionException($name, ezcBasePropertyPermissionException::READ );
+    }
+
+    public function hasAttribute( $attr )
+    {
+        return $this->__isset($attr);
+    }
+
+    public function attribute( $attr )
+    {
+        return $this->__get( $attr );
+    }
+
 
     /*!
      \return the suffix for the template name which will be used for attribute viewing.

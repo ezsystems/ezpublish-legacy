@@ -77,8 +77,8 @@
             {/if}
         {/if}
     {/if}
-    <label{if $disabled} class="disabled"{/if}><input type="radio" name="SubTreeArray" value="1" checked="checked"{if $disabled} disabled="disabled"{else} title="{'Search all content.'|i18n( 'design/admin/pagelayout' )}"{/if} />{'All content'|i18n( 'design/admin/pagelayout' )}</label>
-    <label{if $disabled} class="disabled"{/if}><input type="radio" name="SubTreeArray" value="{$nd}"{if $disabled} disabled="disabled"{else} title="{'Search only from the current location.'|i18n( 'design/admin/pagelayout' )}"{/if} />{if $current_loc}{'Current location'|i18n( 'design/admin/pagelayout' )}{else}{'The same location'|i18n( 'design/admin/pagelayout' )}{/if}</label>
+    <label{if $disabled}{' '}class="disabled"{/if}><input type="radio" name="SubTreeArray" value="1" checked="checked"{if $disabled}{' '}disabled="disabled"{else}{' '}title="{'Search all content.'|i18n( 'design/admin/pagelayout' )}"{/if} />{'All content'|i18n( 'design/admin/pagelayout' )}</label>
+    <label{if $disabled}{' '}class="disabled"{/if}><input type="radio" name="SubTreeArray" value="{$nd}"{if $disabled}{' '}disabled="disabled"{else}{' '}title="{'Search only from the current location.'|i18n( 'design/admin/pagelayout' )}"{/if} />{if $current_loc}{'Current location'|i18n( 'design/admin/pagelayout' )}{else}{'The same location'|i18n( 'design/admin/pagelayout' )}{/if}</label>
     {/let}
     </p>
     <p class="advanced">

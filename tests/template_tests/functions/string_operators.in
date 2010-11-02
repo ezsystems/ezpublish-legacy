@@ -1,0 +1,33 @@
+{shorten('Led Zeppelin rocks!', 15 )}
+
+{raw str_break("hello\nworld")}
+
+{upword("this is the title")}
+
+X{indent("hello", 4)}X
+X{indent("hello", 2, 'tab')}X
+
+{if tc_starts_with("abcd1", "hello world", "hello")}YES{else}NO{/if}
+
+{if tc_starts_with("abcd2", "hello world", "hlo")}NO{else}YES{/if}
+
+{if tc_starts_with("abcd3", array("a", "b", "c", "d"), array("a", "b"))}YES{else}NO{/if}
+
+{if tc_starts_with("abcd4", array("a", "b", "c", "d"), array("a", "c"))}NO{else}YES{/if}
+
+================
+
+{if tc_ends_with("abcd5", "hello world", "world")}YES{else}NO{/if}
+
+{if tc_ends_with("abcd6", "hello world", "wrd")}NO{else}YES{/if}
+
+{if tc_ends_with("abcd7", array("a", "b", "c", "d"), array("c", "d"))}YES{else}NO{/if}
+
+{if tc_ends_with("abcd8", array("a", "b", "c", "d"), array("a", "d"))}NO{else}YES{/if}
+
+
+================
+
+{var $q1 = tc_explode("q1", "hello world", " ")}{$q1[0]} -- {$q1[1]}
+
+{var $q2 = tc_explode("q2", array("a", "b", "c", "d"), 2)}{$q2[0][0]} -- {$q2[1][0]}

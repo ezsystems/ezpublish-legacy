@@ -1,0 +1,35 @@
+
+<div class="toolbar-item first">
+    <div class="toolbox">
+        <div class="toolbox-design">
+                    <h2>Not logged in</h2>
+        
+        <div class="toolbox-content">
+                <form method="post" action="/user/login">
+        <div class="info-text">
+            <label for="id1">Username</label>
+            <input class="textinput" type="text" size="10" name="Login" id="id1" value="" />
+        </div>
+
+        <div class="info-text">
+            <label for="id2">Password</label>
+            <input class="textinput" type="password" size="10" name="Password" id="id2" value="" />
+        </div>
+
+        <input type="image" class="searchimage" src="/design/standard/images/1x1.gif" />
+        <div class="content-link">
+            <p>
+                <a href="/user/register">Not registered?</a>
+            </p>
+        </div>
+        <div class="content-link">
+            <p>
+            <a href="/user/forgotpassword">Forgot your password?</a>
+            </p>
+        </div>
+        </form>
+                </div>
+
+        </div>
+    </div>
+</div>

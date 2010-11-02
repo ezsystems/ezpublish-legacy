@@ -1,0 +1,4 @@
+#!/bin/bash
+
+rm -f var/compiled_templates/compiled_templates/xhtml-updqr0/*
+

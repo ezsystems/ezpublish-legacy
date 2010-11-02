@@ -6125,6 +6125,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
     public $ClassIdentifier = null;
     public $ClassName = null;
     protected $ClassIsContainer = null;
+
+    public $Permissions;
 }
 
 ?>

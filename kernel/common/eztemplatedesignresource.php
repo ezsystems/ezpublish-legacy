@@ -393,7 +393,9 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         }
         eZDebug::accumulatorStop( 'override_cache' );
         if ( !isset( $match ) or $match === null )
+        {
             return false;
+        }
 
         $file = $match["file"];
 
@@ -1053,6 +1055,20 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             $GLOBALS['eZTemplateDesignResourceInstance'] = new eZTemplateDesignResource();
         }
         return $GLOBALS['eZTemplateDesignResourceInstance'];
+    }
+
+    /*!
+     @TODO: I LIVE AGAIN....
+            This code was totally messed (removed) up by SVN commit 20881 (HG rev.   9687f5cafe3b)
+     \return the unique instance of the standard resource.
+    */
+    static function standardInstance()
+    {
+        if ( !isset( $GLOBALS['eZTemplateStandardResourceInstance'] ) )
+        {
+            $GLOBALS['eZTemplateStandardResourceInstance'] = new eZTemplateDesignResource( 'standard', true );
+        }
+        return $GLOBALS['eZTemplateStandardResourceInstance'];
     }
 
     /*!

@@ -58,12 +58,12 @@ class eZXMLText
                       'is_empty' );
     }
 
-    function hasAttribute( $name )
+    public function __isset( $name )
     {
         return in_array( $name, $this->attributes() );
     }
 
-    function attribute( $name )
+    public function __get( $name )
     {
         switch ( $name )
         {
@@ -122,12 +122,27 @@ class eZXMLText
 
             default:
             {
-                eZDebug::writeError( "Attribute '$name' does not exist", 'eZXMLText::attribute' );
-                $retValue = null;
-                return $retValue;
+                throw new ezcBasePropertyNotFoundException($name);
             }break;
         }
     }
+
+    public function __set($name, $value)
+    {
+        throw new ezcBasePropertyPermissionException($name, ezcBasePropertyPermissionException::READ );
+    }
+
+    public function hasAttribute( $attr )
+    {
+        return $this->__isset($attr);
+    }
+
+    public function attribute( $attr )
+    {
+        return $this->__get( $attr );
+    }
+
+
 
     /// \static
     static function inputHandler( &$xmlData, $type = false, $useAlias = true, $contentObjectAttribute = false )

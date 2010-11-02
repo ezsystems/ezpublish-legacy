@@ -430,7 +430,7 @@ class eZCodePage
         while ( ( $key = key( $this->UTF8Map ) ) !== null )
         {
             $item = $this->UTF8Map[$key];
-            if ( $item == 0 )
+            if ( $item === "\0" )
             {
                 $php->addCodePiece( "\$utf8map[0] = chr(0);\n" );
             }
@@ -456,7 +456,7 @@ class eZCodePage
         while ( ( $key = key( $this->UTF8CodeMap ) ) !== null )
         {
             $item = $this->UTF8CodeMap[$key];
-            if ( $item == 0 )
+            if ( $key === "\0" )
             {
                 $php->addVariable( "utf8cmap[chr(0)]", 0 );
             }

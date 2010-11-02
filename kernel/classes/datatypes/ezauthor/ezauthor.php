@@ -120,12 +120,12 @@ class eZAuthor
         return $def;
     }
 
-    function hasAttribute( $name )
+    public function __isset( $name )
     {
         return in_array( $name, $this->attributes() );
     }
 
-    function attribute( $name )
+    public function __get( $name )
     {
         switch ( $name )
         {
@@ -141,14 +141,26 @@ class eZAuthor
             {
                 return $this->Authors;
             }break;
-            default:
-            {
-                eZDebug::writeError( "Attribute '$name' does not exist", 'eZAuthor::attribute' );
-                return null;
-            }
-            break;
         }
+
+        throw new ezcBasePropertyNotFoundException($name);
     }
+
+    public function __set($name, $value)
+    {
+        throw new ezcBasePropertyPermissionException($name, ezcBasePropertyPermissionException::READ );
+    }
+
+    public function hasAttribute( $attr )
+    {
+        return $this->__isset($attr);
+    }
+
+    public function attribute( $attr )
+    {
+        return $this->__get( $attr );
+    }
+
 
     /*!
      \return a string which contains all the interesting meta data.

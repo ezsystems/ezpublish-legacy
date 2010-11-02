@@ -285,6 +285,8 @@ if ( $searchSectionID != -1 )
 
 $Result = array();
 
+$searchinfo = ezpGlobals::instance()->search;
+$searchinfo->reset();
 if ( trim( $ViewMode ) != '' )
 {
     // Fetch override template for viewmode if wanted
@@ -294,6 +296,7 @@ else
 {
     $Result['content'] = $tpl->fetch( 'design:content/advancedsearch.tpl' );
 }
+$searchinfo->fromTemplate( $tpl );
 $Result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/content', 'Search' ),
                                 'url' => false ),
                          array( 'text' => ezpI18n::tr( 'kernel/content', 'Advanced' ),
@@ -302,9 +305,9 @@ $Result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/content', 'Search
 $searchData = false;
 if ( !$useSearchCode )
 {
-    if ( $tpl->hasVariable( "search_data" ) )
+    if ( $searchinfo->search_data !== null )
     {
-        $searchData = $tpl->variable( "search_data" );
+        $searchData = $searchinfo->search_data;
     }
 }
 else

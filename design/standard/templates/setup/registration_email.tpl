@@ -82,3 +82,4 @@ Other tests:
 {$:item[1]} - {if eq($:item[0],1)}Success{else}Failure{/if}
 
 {/section}
+{**ADD**{return $subject}**/ADD**}

@@ -314,6 +314,10 @@ if ( $http->hasPostVariable( "CheckoutButton" ) or ( $doCheckout === true ) )
 $basket = eZBasket::currentBasket();
 
 $tpl = eZTemplate::factory();
+
+$tpl->setVariable( 'error', false );
+$tpl->setVariable( 'error_data', array() );
+
 if ( isset( $Params['Error'] ) )
 {
     $tpl->setVariable( 'error', $Params['Error'] );
@@ -348,6 +352,11 @@ if ( $shippingInfo !== null )
     $tpl->setVariable( 'shipping_info', $shippingInfo );
     $tpl->setVariable( 'total_inc_shipping_ex_vat', $totalIncShippingExVat );
     $tpl->setVariable( 'total_inc_shipping_inc_vat', $totalIncShippingIncVat );
+}
+else
+{
+    $tpl->setVariable( 'total_inc_shipping_ex_vat', false);
+    $tpl->setVariable( 'total_inc_shipping_inc_vat', false);
 }
 
 $Result = array();

@@ -1,3 +1,8 @@
+{def $templatename = ""}
+{if is_set($template_settings.template)}
+    {set templatename = $template_settings.template} 
+{/if}
+
 {section show=or( $not_removed, $ini_not_saved )}
 <div class="message-error">
 <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The overrides could not be removed.'|i18n( 'design/admin/visual/templateview' )}</h2>
@@ -20,14 +25,13 @@
 </div>
 {/section}
 
-
-<form method="post" name="templateview" action={concat( '/visual/templateview', $template_settings.template )|ezurl}>
+<form method="post" name="templateview" action={concat( '/visual/templateview', $templatename )|ezurl}>
 
 <div class="context-block">
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{'Overrides for <%template_name> template in <%current_siteaccess> siteaccess [%override_count]'|i18n( 'design/admin/visual/templateview',, hash( '%template_name', $template_settings.template, '%current_siteaccess', $current_siteaccess, '%override_count', $template_settings.custom_match|count ) )|wash}</h1>
+<h1 class="context-title">{'Overrides for <%template_name> template in <%current_siteaccess> siteaccess [%override_count]'|i18n( 'design/admin/visual/templateview',, hash( '%template_name', $templatename, '%current_siteaccess', $current_siteaccess, '%override_count', $template_settings.custom_match|count ) )|wash}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -39,7 +43,9 @@
 
 <div class="block">
 <label>{'Default template resource'|i18n( 'design/admin/visual/templateview' )}:</label>
+{if is_set($template_settings.base_dir)}
 {$template_settings.base_dir}
+{/if}
 </div>
 
 
@@ -105,7 +111,7 @@
 
 {section-else}
 <div class="block">
-<p>{'There are no overrides for the <%template_name> template.'|i18n( 'design/admin/visual/templateview',, hash( '%template_name', $template_settings.template ) )|wash}</p>
+<p>{'There are no overrides for the <%template_name> template.'|i18n( 'design/admin/visual/templateview',, hash( '%template_name', $templatename ) )|wash}</p>
 </div>
 {/section}
 

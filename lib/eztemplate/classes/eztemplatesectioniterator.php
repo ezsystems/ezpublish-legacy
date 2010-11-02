@@ -97,7 +97,7 @@ class eZTemplateSectionIterator
      \return \c true if the attribute \a $name exists either in
              the internal attributes or in the item value.
     */
-    function hasAttribute( $name )
+    public function __isset( $name )
     {
         if ( in_array( $name, $this->InternalAttributeNames ) )
             return true;
@@ -118,7 +118,7 @@ class eZTemplateSectionIterator
      \return the attribute value of either the internal attributes or
              from the item value if the attribute exists for it.
     */
-    function attribute( $name )
+    public function __get( $name )
     {
         if ( in_array( $name, $this->InternalAttributeNames ) )
         {
@@ -134,9 +134,24 @@ class eZTemplateSectionIterator
         {
             return $item->attribute( $name );
         }
-        eZDebug::writeError( "Attribute '$name' does not exist", 'eZTemplateSectionIterator::attribute' );
-        return null;
+        throw new ezcBasePropertyNotFoundException($name);
     }
+
+    public function __set($name, $value)
+    {
+        throw new ezcBasePropertyPermissionException($name, ezcBasePropertyPermissionException::READ );
+    }
+
+    public function hasAttribute( $attr )
+    {
+        return $this->__isset($attr);
+    }
+
+    public function attribute( $attr )
+    {
+        return $this->__get( $attr );
+    }
+
 
     /*!
      Updates the iterator with the current iteration values.
@@ -158,6 +173,9 @@ class eZTemplateSectionIterator
     {
         $this->InternalAttributes['sequence'] = $sequence;
     }
+
+    public $InternalAttributes;
+    public $InternalAttributeNames;
 }
 
 ?>

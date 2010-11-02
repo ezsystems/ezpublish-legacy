@@ -82,7 +82,7 @@ class eZContentBrowse
     /*!
      \return true if the attribute name \a $attributeName is among the browse parameters.
     */
-    function hasAttribute( $attributeName )
+    public function __isset( $attributeName )
     {
         return isset( $this->Parameters[$attributeName] );
     }
@@ -90,16 +90,31 @@ class eZContentBrowse
     /*!
      \return the attribute value of the attribute named \a $attributeName or \c null if no such attribute.
     */
-    function attribute( $attributeName )
+    public function __get( $attributeName )
     {
         if ( isset( $this->Parameters[$attributeName] ) )
         {
             return $this->Parameters[$attributeName];
         }
 
-        eZDebug::writeError( "Attribute '$attributeName' does not exist", 'eZContentBrowse::attribute' );
-        return null;
+        throw new ezcBasePropertyNotFoundException($attributeName);
     }
+
+    public function __set($name, $value)
+    {
+        throw new ezcBasePropertyPermissionException($name, ezcBasePropertyPermissionException::READ );
+    }
+
+    public function hasAttribute( $attr )
+    {
+        return $this->__isset($attr);
+    }
+
+    public function attribute( $attr )
+    {
+        return $this->__get( $attr );
+    }
+
 
     /*!
      \static

@@ -170,14 +170,18 @@ while( !$done && $step != null )
         $script = eZSys::indexFile() . "/setup/$partName";
     $tpl->setVariable( 'script', $script );
 
-    $tpl->setVariable( "version", array( "text" => eZPublishSDK::version(),
+    $version = array( "version", array( "text" => eZPublishSDK::version(),
                                          "major" => eZPublishSDK::majorVersion(),
                                          "minor" => eZPublishSDK::minorVersion(),
                                          "release" => eZPublishSDK::release(),
                                          "alias" => eZPublishSDK::alias() ) );
+    $setupinfo = ezpGlobals::instance()->setup;
+    $setupinfo->version = $version;
+    $tpl->setVariable( "version", $version );
 
     if ( $persistenceList === null )
         $persistenceList = eZSetupFetchPersistenceList();
+    $setupinfo->persistence_list = $persistenceList;
     $tpl->setVariable( 'persistence_list', $persistenceList );
 
     // Try to include the relevant file

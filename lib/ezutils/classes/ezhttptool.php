@@ -181,15 +181,15 @@ class eZHTTPTool
     /*!
      \return true if the attribute $attr exist.
     */
-    function hasAttribute( $attr )
+    public function __isset( $attr )
     {
         return in_array( $attr, $this->attributes() );
     }
 
     /*!
-     \return the value for the attribute $attr or null if the attribute does not exist.
+     \return the value for the attribute $attr.
     */
-    function attribute( $attr )
+    public function __get( $attr )
     {
         if ( $attr == "post" )
             return $_POST;
@@ -199,8 +199,23 @@ class eZHTTPTool
         {
             return eZSession::get();
         }
-        $retValue = null;
-        return $retValue;
+
+        throw new ezcBasePropertyNotFoundException( $attr );
+    }
+
+    public function __set( $name, $value )
+    {
+        throw new ezcBasePropertyPermissionException( $name, ezcBasePropertyPermissionException::READ );
+    }
+
+    public function hasAttribute( $attr )
+    {
+        return $this->__isset( $attr );
+    }
+
+    public function attribute( $attr )
+    {
+        return $this->__get( $attr );
     }
 
     /**
@@ -909,6 +924,8 @@ class eZHTTPTool
         fclose( $fid );
         return $data;
     }
+
+    public $UseFullUrl;
 }
 
 ?>

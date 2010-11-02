@@ -29,14 +29,14 @@
     {else}
         {'Price'|i18n( 'design/standard/content/datatype' )}: <br />
         {def $price_value = ''}
-        {foreach $price_list as $price}
-            {set currency = $currency_list[$price.currency_code]}
-            {if gt($price.value, 0)}
-                {set price_value = $price.value|l10n( 'currency', $currency.locale, $currency.symbol )}
+        {foreach $price_list as $price_item}
+            {set currency = $currency_list[$price_item.currency_code]}
+            {if gt($price_item.value, 0)}
+                {set price_value = $price_item.value|l10n( 'currency', $currency.locale, $currency.symbol )}
             {else}
                 {set price_value = 'N/A'|i18n( 'design/standard/content/datatype' )}
             {/if}
-            {if eq( $price.type, 2 )}
+            {if eq( $price_item.type, 2 )}
                 {* Auto price *}
                 <p><i>{$price_value}</i></p>
             {else}

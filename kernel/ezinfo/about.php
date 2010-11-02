@@ -165,16 +165,16 @@ list( $whatIsEzPublish,
                                                 'eZ publish' => '<a href="http://ez.no/ezpublish">eZ Publish</a>' ),
                                          array( $whatIsEzPublish, $license, $contributors, $thirdPartySoftware, $extensions ) );
 
-$tpl = eZTemplate::factory();
-$tpl->setVariable( 'ezinfo', $ezinfo );
-$tpl->setVariable( 'what_is_ez_publish', $whatIsEzPublish );
-$tpl->setVariable( 'license', $license );
-$tpl->setVariable( 'contributors', $contributors );
-$tpl->setVariable( 'third_party_software', $thirdPartySoftware );
-$tpl->setVariable( 'extensions', $extensions );
+$template = new ezcTemplate();
+$template->send->ezinfo = $ezinfo;
+$template->send->what_is_ez_publish = $whatIsEzPublish;
+$template->send->license =  $license;
+$template->send->contributors = $contributors;
+$template->send->third_party_software = $thirdPartySoftware;
+$template->send->extensions = $extensions;
 
 $Result = array();
-$Result['content'] = $tpl->fetch( "design:ezinfo/about.tpl" );
+$Result['content'] = $template->process("ezinfo/about.tpl"); #$tpl->fetch( "design:ezinfo/about.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezpI18n::tr( 'kernel/ezinfo', 'Info' ) ),
                          array( 'url' => false,

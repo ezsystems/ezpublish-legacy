@@ -67,7 +67,7 @@ class eZXMLInputHandler
     /*!
      \return true if the attribute \a $name exists.
     */
-    function hasAttribute( $name )
+    public function __isset( $name )
     {
         return in_array( $name, $this->attributes() );
     }
@@ -75,7 +75,7 @@ class eZXMLInputHandler
     /*!
      \return the value of the attribute \a $name if it exists, if not returns \c null.
     */
-    function attribute( $name )
+    public function __get( $name )
     {
         switch ( $name )
         {
@@ -109,11 +109,26 @@ class eZXMLInputHandler
             }break;
             default:
             {
-                eZDebug::writeError( "Attribute '$name' does not exist", 'eZXMLInputHandler::attribute' );
-                return null;
+                throw new ezcBasePropertyNotFoundException($name);
             }break;
         }
     }
+
+    public function __set($name, $value)
+    {
+        throw new ezcBasePropertyPermissionException($name, ezcBasePropertyPermissionException::READ );
+    }
+
+    public function hasAttribute( $attr )
+    {
+        return $this->__isset($attr);
+    }
+
+    public function attribute( $attr )
+    {
+        return $this->__get( $attr );
+    }
+
 
     /*!
      \return the template name for this input handler, includes the edit suffix if any.

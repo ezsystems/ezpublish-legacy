@@ -74,14 +74,14 @@ function ContentStructureMenu()
     this.languages = {*
         *}{ldelim}{*
             *}{foreach fetch('content','translation_list') as $language}{*
-                *}"{$language.locale_code|wash(javascript)}":"{$language.intl_language_name|wash(javascript)}"{*
+                *}"{**REMOVE**}{$language.locale_code|wash(javascript)}{**/REMOVE**}{**ADD**{escape_javascript $language->locale_code}**/ADD**}":"{**REMOVE**}{$language.intl_language_name|wash(javascript)}{**/REMOVE**}{**ADD**{escape_javascript $language->intl_language_name}**/ADD**}"{*
                 *}{delimiter},{/delimiter}{*
             *}{/foreach}{*
         *}{rdelim};
     this.classes = {*
         *}{ldelim}{*
             *}{foreach fetch('class','list_by_groups',hash('group_filter',$filter_groups,'group_filter_type',$filter_type)) as $class}{*
-                *}"{$class.id}":{ldelim}name:"{$class.name|wash(javascript)}",identifier:"{$class.identifier|wash(javascript)}"{rdelim}{*
+                *}"{$class.id}":{ldelim}name:"{**REMOVE**}{$class.name|wash(javascript)}{**/REMOVE**}{**ADD**{escape_javascript $class->name}**/ADD**}",identifier:"{**REMOVE**}{$class.identifier|wash(javascript)}{**/REMOVE**}{**ADD**{escape_javascript $class->identifier}**/ADD**}"{rdelim}{*
                 *}{delimiter},{/delimiter}{*
             *}{/foreach}{*
         *}{rdelim};
@@ -518,7 +518,7 @@ function ContentStructureMenu()
 
 <script type="text/javascript">
 <!--
-    var path = [{foreach $module_result.path as $element}{$element.node_id}{delimiter}, {/delimiter}{/foreach}];
+    var path = [{if is_set($module_result.path[0].node_id)}{foreach $module_result.path as $element}{$element.node_id}{delimiter}, {/delimiter}{/foreach}{/if}];
     var autoOpenPath = path;
 
     var treeMenu = new ContentStructureMenu();
@@ -530,7 +530,7 @@ function ContentStructureMenu()
         *}"object_id":{$root_node.object.id},{*
         *}"class_id":{$root_node.object.contentclass_id},{*
         *}"has_children":{if $root_node.children_count}true{else}false{/if},{*
-        *}"name":"{$root_node.name|wash(javascript)}",{*
+        *}"name":"{**REMOVE**}{$root_node.name|wash(javascript)}{**/REMOVE**}{**ADD**{escape_javascript $root_node->name}**/ADD**}",{*
         *}"url":{$root_node.url|ezurl},{*
         *}"modified_subnode":{$root_node.modified_subnode},{*
         *}"languages":["{$root_node.object.language_codes|implode('", "')}"],{*

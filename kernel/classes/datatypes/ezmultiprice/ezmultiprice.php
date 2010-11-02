@@ -71,7 +71,7 @@ class eZMultiPrice extends eZSimplePrice
         $this->setVatIncluded( $isVatIncluded );
         $this->setVatType( $VATID );
 
-        $this->IsDataDirty = false;
+        $this->HasDataDirty = false;
         $this->ContentObjectAttribute = $contentObjectAttribute;
     }
 
@@ -95,12 +95,12 @@ class eZMultiPrice extends eZSimplePrice
     /*!
      \return \c true if the attribute named \a $attr exists.
     */
-    function hasAttribute( $attr )
+    public function __isset( $attr )
     {
         $hasAttribute = in_array( $attr, $this->attributes() );
         if ( !$hasAttribute )
         {
-            $hasAttribute = eZSimplePrice::attributes( $attr );
+            $hasAttribute = eZSimplePrice::__isset($attr);
         }
 
         return $hasAttribute;
@@ -109,7 +109,7 @@ class eZMultiPrice extends eZSimplePrice
     /*!
       Sets the attribute named \a $attr to value \a $value.
     */
-    function setAttribute( $attr, $value )
+    public function __set( $attr, $value )
     {
         switch ( $attr )
         {
@@ -135,7 +135,7 @@ class eZMultiPrice extends eZSimplePrice
 
             default:
             {
-                eZSimplePrice::setAttribute( $attr, $value );
+                eZSimplePrice::__set( $attr, $value );
             } break;
         }
     }
@@ -143,7 +143,7 @@ class eZMultiPrice extends eZSimplePrice
     /*!
      \return The value of the attribute named \a $attr or \c null if it doesn't exist.
     */
-    function attribute( $attr )
+    public function __get( $attr )
     {
         switch ( $attr )
         {
@@ -194,9 +194,24 @@ class eZMultiPrice extends eZSimplePrice
 
             default :
             {
-                return eZSimplePrice::attribute( $attr );
+                return  eZSimplePrice::__get($attr);
             } break;
         }
+    }
+
+    public function hasAttribute( $attr )
+    {
+        return $this->__isset($attr);
+    }
+
+    public function attribute( $attr )
+    {
+        return $this->__get( $attr );
+    }
+
+    public function setAttribute( $attr, $val )
+    {
+        return $this->__set($attr, $val);
     }
 
     /*!

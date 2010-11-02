@@ -69,7 +69,10 @@
 {if is_set( $currency_names )|not}
     {def $currency_names = hash()}
 {/if}
-{include uri='design:shop/currencynames.tpl'}
+
+{**REMOVE**}{include uri='design:shop/currencynames.tpl'}{**/REMOVE**}
+{**ADD**{include 'design:shop/currencynames.tpl' send $currency_names receive $currency_names}**/ADD**}
+
 
 {def $auto_rate_value = ''}
 {foreach $currency_list as $currency sequence array( bglight, bgdark ) as $bg_class_style}

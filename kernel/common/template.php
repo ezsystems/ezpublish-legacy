@@ -38,5 +38,57 @@ function templateInit( $name = false )
     return eZTemplate::factory();
 }
 
+class Locator implements ezcTemplateLocator
+{
+    public function translatePath($path)
+    {
+        include_once( 'lib/eztemplate/classes/eztemplate.php' );
+        include_once( 'kernel/common/eztemplatedesignresource.php' );
+        include_once( 'lib/ezutils/classes/ezextension.php' );
+
+        $ezt = eZTemplate::instance();
+        //print "FOUND PATH: $path";
+        $returnIt = false;
+        $resourceData = $ezt->oldTpl->loadURIRoot( $path, true, $returnIt);
+        $templateFile = $resourceData["template-filename"];
+
+
+ 
+        #$resourceData = $ezt->oldTpl->fetch($path, false, true);
+        #$templateFile = $resourceData["template-filename"];
+        //print "TRANSLATED: " . $templateFile;
+
+        return $templateFile;
+    }
+}
+
+
+
+function neoTemplateInit( $runtimeFile = "var/runtime.txt" )
+{
+    $tc = ezcTemplateConfiguration::getInstance();
+    $tc->compilePath = "var/compiled_templates";
+    $tc->templatePath = "new_templates";
+    $tc->addExtension("TemporaryFunctions");
+    $tc->addExtension("TemplateConversionFunctions");
+    $tc->addExtension("TemplateConversionBlocks");
+    $tc->addExtension("TemplateEscapeBlock");
+    $tc->addExtension("ezpTemplateGlobalFunctions");
+    $tc->addExtension("ezpTemplateDeprecatedFunctions");
+    $tc->addExtension("ezpTemplateArrayFunctions");
+    $tc->addExtension("ezpTemplateCalendarFunctions");
+    $tc->addExtension("ezpTemplateUrlFunctions");
+    $tc->addExtension("ezpTemplateStringFunctions");
+    $tc->addExtension("ezpTemplateIconFunctions");
+    $tc->addExtension("ezpTemplateDateFunctions");
+    $tc->addExtension("ezpTemplateSystemFunctions");
+    $tc->addExtension("ezpTemplateImageFunctions");
+    $tc->addExtension("ezpTemplateHtmlFunctions");
+    $tc->addExtension("ezpTemplateMiscFunctions");
+    $tc->addExtension("ezpTemplateLogicFunctions");
+    TemplateConversionFunctions::$runtime = new Runtime($runtimeFile);
+
+    $tc->locator = new Locator();
+}
 
 ?>

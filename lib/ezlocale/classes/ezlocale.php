@@ -539,6 +539,16 @@ class eZLocale
         setlocale( LC_ALL, $charset );
     }
 
+    function __get($name)
+    {
+        return $this->attribute($name);
+    }
+
+    function __isset($name)
+    {
+        return $this->hasAttribute($name);
+    }
+
     function attributes()
     {
         return array_keys( eZLocale::attributeFunctionMap() );

@@ -232,6 +232,16 @@ class eZDataType
         return $this->Attributes['properties']['translation_allowed'];
     }
 
+    function __isset($name)
+    {
+        return $this->hasAttribute($name);
+    }
+
+    function __get($name)
+    {
+        return $this->attribute($name);
+    }
+
     /*!
      \return the attributes for this datatype.
     */

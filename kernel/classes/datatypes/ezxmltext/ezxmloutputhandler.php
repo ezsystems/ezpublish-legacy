@@ -83,7 +83,7 @@ class eZXMLOutputHandler
     /*!
      \return true if the attribute \a $name exists.
     */
-    function hasAttribute( $name )
+    public function __isset( $name )
     {
         return in_array( $name, $this->attributes() );
     }
@@ -91,7 +91,7 @@ class eZXMLOutputHandler
     /*!
      \return the value of the attribute \a $name if it exists, if not returns \c null.
     */
-    function attribute( $name )
+    public function __get( $name )
     {
         switch ( $name )
         {
@@ -120,10 +120,24 @@ class eZXMLOutputHandler
             } break;
             default:
             {
-                eZDebug::writeError( "Attribute '$name' does not exist", 'eZXMLOutputHandler::attribute' );
-                return null;
+                throw new ezcBasePropertyNotFoundException($name);
             } break;
         }
+    }
+
+    public function __set($name, $value)
+    {
+        throw new ezcBasePropertyPermissionException($name, ezcBasePropertyPermissionException::READ );
+    }
+
+    public function hasAttribute( $attr )
+    {
+        return $this->__isset($attr);
+    }
+
+    public function attribute( $attr )
+    {
+        return $this->__get( $attr );
     }
 
     /*!
@@ -215,7 +229,8 @@ class eZXMLOutputHandler
         $output = $this->outputTag( $this->Document->documentElement, $params );
         $this->Output = $output[1];
 
-        unset( $this->Document );
+        $this->Document = null;
+        $this->XMLData  = null;
 
         $this->Res->removeKey( 'attribute_identifier' );
         return $this->Output;
@@ -687,6 +702,8 @@ class eZXMLOutputHandler
     public $NodeArray = array();
 
     public $NestingLevel = 0;
+
+    protected $TemplateUri;
 }
 
 ?>

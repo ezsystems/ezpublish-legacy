@@ -220,7 +220,7 @@ class eZPackage
     /*!
      Sets the attribute named \a $attributeName to have the value \a $attributeValue.
     */
-    function setAttribute( $attributeName, $attributeValue )
+    public function __set( $attributeName, $attributeValue )
     {
         if ( !in_array( $attributeName,
                         array( 'development',
@@ -229,20 +229,23 @@ class eZPackage
                                'install_type',
                                'extension', 'source',
                                'licence', 'state' ) ) )
-            return false;
+        {
+            throw new ezcBasePropertyPermissionException($attributeName, ezcBasePropertyPermissionException::READ );
+        }
+
         if ( array_key_exists( $attributeName, $this->Parameters ) and
              !is_array( $this->Parameters[$attributeName] ))
         {
-            $this->Parameters[$attributeName] = $attributeValue;
-            return true;
+            return $this->Parameters[$attributeName] = $attributeValue;
         }
-        return false;
+
+        throw new ezcBasePropertyPermissionException($attributeName, ezcBasePropertyPermissionException::READ );
     }
 
     /*!
      \return \c true if the attribute named \a $attributeName exists.
     */
-    function hasAttribute( $attributeName /*, $attributeList = false*/ )
+    public function __isset( $attributeName /*, $attributeList = false*/ )
     {
         return in_array( $attributeName, $this->attributes() );
     }
@@ -250,7 +253,7 @@ class eZPackage
     /*!
      \return the value of the attribute named \a $attributeName.
     */
-    function attribute( $attributeName /*, $attributeList = false*/ )
+    public function __get( $attributeName /*, $attributeList = false*/ )
     {
         if ( in_array( $attributeName,
                        array( 'development',
@@ -307,9 +310,24 @@ class eZPackage
             return ( $repositoryInformation['type'] == 'local' );
         }
 
-        eZDebug::writeError( "No such attribute: $attributeName for eZPackage", 'eZPackage::attribute' );
-        return null;
+        throw new ezcBasePropertyNotFoundException($attributeName);
     }
+
+    public function hasAttribute( $attr )
+    {
+        return $this->__isset($attr);
+    }
+
+    public function attribute( $attr )
+    {
+        return $this->__get( $attr );
+    }
+
+    public function setAttribute( $attr, $val )
+    {
+        return $this->__set( $attr, $val );
+    }
+
 
     static function canUsePolicyFunction( $functionName )
     {

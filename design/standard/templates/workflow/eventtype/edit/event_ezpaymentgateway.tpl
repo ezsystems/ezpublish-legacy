@@ -6,24 +6,16 @@
     <label>{"Type"|i18n("design/standard/workflow/eventtype/edit")}</label><div class="labelbreak"></div>
     <select name="WorkflowEvent_event_ezpaymentgateway_gateways_{$event.id}[]" size="5"  multiple>
         <option value="-1"
-            {switch match=-1}
-                {case in=$selectedGatewaysTypes}
+            {if $selectedGatewaysTypes|contains(-1)}
                       selected="selected"
-                {/case}
-                {case}
-                {/case}
-            {/switch}
+            {/if}
         >{"Any"|i18n("design/standard/workflow/eventtype/edit")}
         </option>
         {section name=Gateways loop=$event.workflow_type.available_gateways}
             <option value="{$Gateways:item.value}"
-                {switch match=$Gateways:item.value}
-                    {case in=$selectedGatewaysTypes}
+                {if $selectedGatewaysTypes|contains($Gateways:item.value)}
                           selected="selected"
-                    {/case}
-                    {case}
-                    {/case}
-                {/switch}
+                {/if}
             >{$Gateways:item.Name|wash}
             </option>
         {/section}

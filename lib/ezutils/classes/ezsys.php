@@ -755,6 +755,18 @@ class eZSys
         putenv( "$variableName=$variableValue" );
     }
 
+    function __isset( $name )
+    {
+        return $this->hasAttribute( $name );
+    }
+
+    function __get( $name )
+    {
+        if ( !$this->hasAttribute( $name ) )
+            throw new ezcBasePropertyNotFoundException( $name );
+        return $this->attribute( $name );
+    }
+
     function attributes()
     {
         return array_merge( array( 'wwwdir',

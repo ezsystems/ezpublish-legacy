@@ -107,12 +107,12 @@ class eZDate
                       'day' );
     }
 
-    function hasAttribute( $name )
+    public function __isset( $name )
     {
         return in_array( $name, $this->attributes() );
     }
 
-    function attribute( $name )
+    public function __get( $name )
     {
         if ( $name == 'timestamp'  )
             return $this->timeStamp();
@@ -125,8 +125,23 @@ class eZDate
         else if ( $name == 'month'  )
             return $this->month();
 
-        eZDebug::writeError( "Attribute '$name' does not exist", 'eZDate::attribute' );
-        return false;
+        throw new ezcBasePropertyNotFoundException($name);
+    }
+
+    public function __set($name, $value)
+    {
+        throw new ezcBasePropertyPermissionException($name, ezcBasePropertyPermissionException::READ );
+    }
+
+
+    public function hasAttribute( $attr )
+    {
+        return $this->__isset($attr);
+    }
+
+    public function attribute( $attr )
+    {
+        return $this->__get( $attr );
     }
 
     /*!

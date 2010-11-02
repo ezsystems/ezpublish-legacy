@@ -1189,6 +1189,28 @@ static function definition()
         return $has_attr;
     }
 
+    function __get($name)
+    {
+        return $this->attribute($name);
+    }
+
+    
+    
+   /* function __set($name, $value)
+    {
+        print("FOUND SET: $name");
+    }
+    */
+     
+
+
+    function __isset($name)
+    {
+        return $this->hasAttribute($name);
+    }
+
+
+
     /*!
      \return the attribute data for \a $attr, this is either returned from the member variables
              or a member function depending on whether the definition field or function attributes matched.

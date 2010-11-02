@@ -10,16 +10,13 @@
                                                               limit, 5 ) )}
         {/case}
         {case match=folder}
-            {switch match=$module_result.path[1].node_id}
-            {case match=$product_parent_node}
+            {if eq($module_result.path[1].node_id, $product_parent_node)}
                 {set bestseller_list=fetch( shop, best_sell_list, hash( top_parent_node_id, $DesignKeys:used.node,
                                                                   limit, 5 ) )}
-            {/case}
-            {case}
+            {else}
                 {set bestseller_list=fetch( shop, best_sell_list, hash( top_parent_node_id, $product_parent_node,
                                                                   limit, 5 ) )}
-            {/case}
-            {/switch}
+            {/if}
         {/case}
         {case}
             {set bestseller_list=fetch( shop, best_sell_list, hash( top_parent_node_id, $product_parent_node,

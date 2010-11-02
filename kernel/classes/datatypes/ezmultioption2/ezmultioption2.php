@@ -538,7 +538,7 @@ class eZMultiOption2
       The valid attributes are \c name and \c multioption_list.
       \param $name contains the name of attribute
     */
-    function hasAttribute( $name )
+    public function __isset( $name )
     {
         return in_array( $name, $this->attributes() );
     }
@@ -548,7 +548,7 @@ class eZMultiOption2
     \a name contains the name of multioption
     \a multioption_list contains the list of all multioptions.
     */
-    function attribute( $name )
+    public function __get( $name )
     {
         switch ( $name )
         {
@@ -578,12 +578,26 @@ class eZMultiOption2
             } break;
             default:
             {
-                eZDebug::writeError( "Attribute '$name' does not exist", 'eZMultiOption::attribute' );
-                $retValue = null;
-                return $retValue;
+                throw new ezcBasePropertyNotFoundException($name);
             }break;
         }
     }
+
+    public function __set($name, $value)
+    {
+        throw new ezcBasePropertyPermissionException($name, ezcBasePropertyPermissionException::READ );
+    }
+
+    public function hasAttribute( $attr )
+    {
+        return $this->__isset($attr);
+    }
+
+    public function attribute( $attr )
+    {
+        return $this->__get( $attr );
+    }
+
 
     function initCountersRecursive()
     {
@@ -888,5 +902,9 @@ class eZMultiOption2
     public $ChildGroupList;
     public $MultioptionIDList = array();
     public $OptionIDList = array();
+
+    protected $ID;
+    public $Rules;
+    protected $MultiOptionCount;
 }
 ?>

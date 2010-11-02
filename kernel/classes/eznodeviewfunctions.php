@@ -142,6 +142,8 @@ class eZNodeviewfunctions
             $node->setCurrentLanguage( $languageCode );
         }
 
+        ezpGlobals::instance()->collect->collection_attributes = $collectionAttributes;
+
         $tpl->setVariable( 'node', $node );
         $tpl->setVariable( 'viewmode', $viewMode );
         $tpl->setVariable( 'language_code', $languageCode );
@@ -174,8 +176,12 @@ class eZNodeviewfunctions
 
         $tpl->setVariable( 'node_path', $path );
 
+        $nodeinfo = ezpGlobals::instance()->node;
+        $nodeinfo->reset();
+
         $Result = array();
         $Result['content'] = $tpl->fetch( 'design:node/view/' . $viewMode . '.tpl' );
+        $nodeinfo->fromTemplate( $tpl );
         $Result['view_parameters'] = $viewParameters;
         $Result['path'] = $path;
         $Result['title_path'] = $titlePath;
@@ -197,9 +203,9 @@ class eZNodeviewfunctions
         $contentInfoArray['node_depth'] = $node->attribute( 'depth' );
         $contentInfoArray['url_alias'] = $node->attribute( 'url_alias' );
         $contentInfoArray['persistent_variable'] = false;
-        if ( $tpl->variable( 'persistent_variable' ) !== false )
+        if ( $nodeinfo->persistent_variable !== null )
         {
-            $contentInfoArray['persistent_variable'] = $tpl->variable( 'persistent_variable' );
+            $contentInfoArray['persistent_variable'] = $nodeinfo->persistent_variable;
             $keyArray[] = array( 'persistent_variable', $contentInfoArray['persistent_variable'] );
             $res->setKeys( $keyArray );
         }
@@ -215,9 +221,9 @@ class eZNodeviewfunctions
         $Result['template_list'] = $tpl->templateFetchList();
 
         // Check if time to live is set in template
-        if ( $tpl->hasVariable( 'cache_ttl' ) )
+        if ( $nodeinfo->cache_ttl !== null )
         {
-            $cacheTTL = $tpl->variable( 'cache_ttl' );
+            $cacheTTL = $nodeinfo->cache_ttl;
         }
 
         if ( !isset( $cacheTTL ) )

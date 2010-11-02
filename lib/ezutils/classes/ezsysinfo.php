@@ -81,7 +81,7 @@ class eZSysInfo
      \return \c true if the attribute named \a $name exists.
      See attributes() for a list of available attributes.
     */
-    function hasAttribute( $name )
+    public function __isset( $name )
     {
         return in_array( $name, $this->attributes() );
     }
@@ -90,7 +90,7 @@ class eZSysInfo
      \return The value of the attribute named \a $name, or \c null if it does not exist.
      See attributes() for a list of available attributes.
     */
-    function attribute( $name )
+    public function __get( $name )
     {
         if ( $name == 'is_valid' )
             return $this->IsValid;
@@ -104,10 +104,26 @@ class eZSysInfo
             return $this->MemorySize;
         else
         {
-            eZDebug::writeError( "Attribute '$name' does not exist", 'eZSysInfo::attribute' );
-            return null;
+            throw new ezcBasePropertyNotFoundException($name);
         }
     }
+
+    public function __set($name, $value)
+    {
+        throw new ezcBasePropertyPermissionException($name, ezcBasePropertyPermissionException::READ );
+    }
+
+    public function hasAttribute( $attr )
+    {
+        return $this->__isset($attr);
+    }
+
+    public function attribute( $attr )
+    {
+        return $this->__get( $attr );
+    }
+
+
 
     /*!
      \return \c true if the system has been scanned correctly.

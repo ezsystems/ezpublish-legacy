@@ -293,7 +293,10 @@ if ( !function_exists( 'checkContentActions' ) )
             // send verification mail to user if email type or custum verify user type returned true
             if ( $sendUserMail )
             {
+                $useremail = ezpGlobals::instance()->useremail;
+                $useremail->reset();
                 $templateResult = $tpl->fetch( 'design:user/registrationinfo.tpl' );
+                $useremail->fromTemplate( $tpl );
                 if ( $tpl->hasVariable( 'content_type' ) )
                     $mail->setContentType( $tpl->variable( 'content_type' ) );
 
@@ -303,8 +306,8 @@ if ( !function_exists( 'checkContentActions' ) )
                 else if ( !$emailSender )
                     $emailSender = $ini->variable( 'MailSettings', 'AdminEmail' );
 
-                if ( $tpl->hasVariable( 'subject' ) )
-                    $subject = $tpl->variable( 'subject' );
+                if ( $useremail->subject !== null )
+                    $subject = $useremail->subject;
                 else
                     $subject = ezpI18n::tr( 'kernel/user/register', 'Registration info' );
 
@@ -328,7 +331,10 @@ if ( !function_exists( 'checkContentActions' ) )
                         $tpl->setVariable( 'user', $user );
                         $tpl->setVariable( 'object', $object );
                         $tpl->setVariable( 'hostname', $hostname );
+                        $useremail = ezpGlobals::instance()->useremail;
+                        $useremail->reset();
                         $templateResult = $tpl->fetch( 'design:user/registrationfeedback.tpl' );
+                        $useremail->fromTemplate( $tpl );
 
                         if ( $tpl->hasVariable( 'content_type' ) )
                             $mail->setContentType( $tpl->variable( 'content_type' ) );
@@ -340,13 +346,13 @@ if ( !function_exists( 'checkContentActions' ) )
                             $emailSender = $ini->variable( 'MailSettings', 'AdminEmail' );
 
                         $feedbackReceiver = $ini->variable( 'UserSettings', 'RegistrationEmail' );
-                        if ( $tpl->hasVariable( 'email_receiver' ) )
-                            $feedbackReceiver = $tpl->variable( 'email_receiver' );
+                        if ( $useremail->email_receiver !== null )
+                            $feedbackReceiver = $useremail->email_receiver;
                         else if ( !$feedbackReceiver )
                             $feedbackReceiver = $ini->variable( 'MailSettings', 'AdminEmail' );
 
-                        if ( $tpl->hasVariable( 'subject' ) )
-                            $subject = $tpl->variable( 'subject' );
+                        if ( $useremail->subject !== null )
+                            $subject = $useremail->subject;
                         else
                             $subject = ezpI18n::tr( 'kernel/user/register', 'New user registered' );
 

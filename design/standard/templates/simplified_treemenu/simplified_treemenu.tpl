@@ -24,7 +24,7 @@
         {set unfoldNodeID=$module_result.node_id}
         {set rootNodeID=$module_result.node_id}
     {section-else}
-        {section var=path_node loop=$node.path reverse=true()}
+        {section var=path_node loop=$node.path|reverse}
             {if $rootNodeID|not()}
                 {if $chapterClasses|contains($path_node.object.class_identifier) }
                     {set rootNodeID=$path_node.node_id}

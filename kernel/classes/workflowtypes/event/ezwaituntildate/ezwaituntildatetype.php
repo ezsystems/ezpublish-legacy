@@ -114,12 +114,12 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
                             eZWorkflowEventType::attributes() );
     }
 
-    function hasAttribute( $attr )
+    public function __isset( $attr )
     {
         return in_array( $attr, $this->attributes() );
     }
 
-    function attribute( $attr )
+    public function __get( $attr )
     {
         switch( $attr )
         {
@@ -159,6 +159,22 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
                 return eZWorkflowEventType::attribute( $attr );
         }
     }
+
+    public function __set($name, $value)
+    {
+        throw new ezcBasePropertyPermissionException($name, ezcBasePropertyPermissionException::READ );
+    }
+
+    public function hasAttribute( $attr )
+    {
+        return $this->__isset($attr);
+    }
+
+    public function attribute( $attr )
+    {
+        return $this->__get( $attr );
+    }
+
 
     function customWorkflowEventHTTPAction( $http, $action, $workflowEvent )
     {

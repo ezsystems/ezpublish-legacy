@@ -37,10 +37,8 @@
                                {case/}
                                {/switch}>{"Any"|i18n("design/standard/role")}</option>
             {section name=LimitationValues loop=$Limitations:item.values}
-                <option value="{$Limitations:LimitationValues:item.value}" {switch match=$Limitations:LimitationValues:item.value}
-                                                                           {case in=$current_limitation_list[$Limitations:item.name]}selected="selected"{/case}
-                                                                           {case/}
-                                                                           {/switch}>
+                <option value="{$Limitations:LimitationValues:item.value}" 
+                {if $current_limitation_list[$Limitations:item.name]|contains($Limitations:LimitationValues:item.value)} selected="selected" {/if}>
                 {$Limitations:LimitationValues:item.Name}</option>
             {/section}   
         </select>

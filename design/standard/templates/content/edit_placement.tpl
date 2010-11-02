@@ -98,17 +98,14 @@
 
         {if $:has_top_levels|not}
         <td class="{$Node:sequence}" align="right">
-            {switch match=$Node:item.parent_node}
-            {case in=$Node:existingParentNodes}
+            {if $Node:existingParentNodes|contains($Node:item.parent_node)}
              <input type="image" name="{concat('MoveNodeID_',$Node:item.parent_node)}" src={"move.gif"|ezimage} value="{$Node:item.parent_node}"  />
-            {/case}
-            {case}
+            {else}
               {if $Node:item.from_node_id|gt(0)}
                 <input type="image" name="{concat('MoveNodeID_',$Node:item.parent_node)}" src={"move.gif"|ezimage} value="{$Node:item.parent_node}"  />
               {else}
               {/if}
-             {/case}
-            {/switch}
+            {/if}
         </td>
         <td class="{$Node:sequence}" align="right">
 {*     {if eq($Node:item.parent_node,$main_node_id)|not}*}

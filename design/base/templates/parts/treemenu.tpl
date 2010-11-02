@@ -4,13 +4,13 @@
                     depth=1}
 
         <ul>
-        {section var=menu loop=$:docs last-value}
-            {if and($menu.last.level|gt($menu.level),$menu.number|gt(1))}
+        {section var=menu loop=$:docs}
+            {if and($last.level|gt($menu.level),$menu.number|gt(1))}
            </ul>
            </li>
            {/if}
             <li>
-            {if and($menu.last.level|lt($menu.level),$menu.number|gt(1))}
+            {if and($last.level|lt($menu.level),$menu.number|gt(1))}
             <ul>
                <li>
             {/if}
@@ -22,6 +22,7 @@
             </div>
 
            </li>
+           {set last=$menu}
         {/section}
         </ul>
 

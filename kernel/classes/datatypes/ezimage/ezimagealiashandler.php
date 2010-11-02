@@ -88,6 +88,17 @@ class eZImageAliasHandler
                             array_keys( $aliasList ) );
     }
 
+    function __isset($name)
+    {
+        return $this->hasAttribute($name);
+    }
+
+    function __get($name)
+    {
+        return $this->attribute($name);
+    }
+
+
     /*!
      \return true if the attribute named \a $attributeName exists.
      See eZImageAliasHandler::attributes() for which attributes are available.

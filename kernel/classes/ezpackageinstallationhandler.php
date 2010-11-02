@@ -118,20 +118,34 @@ class eZPackageInstallationHandler
         return array_keys( $this->Attributes );
     }
 
-    function hasAttribute( $name )
+    public function __isset( $name )
     {
         return array_key_exists( $name, $this->Attributes );
     }
 
-    function attribute( $name )
+    public function __get( $name )
     {
         if ( array_key_exists( $name, $this->Attributes ) )
         {
             return $this->Attributes[$name];
         }
 
-        eZDebug::writeError( "Attribute '$name' does not exist", 'eZPackageInstallationHandler::attribute' );
-        return null;
+        throw new ezcBasePropertyNotFoundException($name);
+    }
+
+    public function __set($name, $value)
+    {
+        throw new ezcBasePropertyPermissionException($name, ezcBasePropertyPermissionException::READ );
+    }
+
+    public function hasAttribute( $attr )
+    {
+        return $this->__isset($attr);
+    }
+
+    public function attribute( $attr )
+    {
+        return $this->__get( $attr );
     }
 
     function initializeStepMethodMap()

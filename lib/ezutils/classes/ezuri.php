@@ -446,6 +446,18 @@ class eZURI
         return true;
     }
 
+    public function __get($name)
+    {
+        return $this->attribute($name);
+    }
+
+    public function __isset($name)
+    {
+        return $this->hasAttribute($name);
+    }
+
+
+
     /*!
      \return the attributes for this object.
     */

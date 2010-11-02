@@ -865,6 +865,11 @@ class eZModule
         return in_array( $attr, $this->attributes() );
     }
 
+    public function __isset( $name )
+    {
+        return $this->hasAttribute( $name );
+    }
+
     /**
      * Returns the value of an attribute
      * 
@@ -900,6 +905,11 @@ class eZModule
             }
             break;
         }
+    }
+
+    public function __get( $name )
+    {
+        return $this->attribute($name ); 
     }
 
     /**
@@ -2054,6 +2064,9 @@ class eZModule
      * @private
      */
     public $UserParameters;
+    public $FunctionList;
+    public $NavigationParts;
+    public $ViewActionParameters;
 
     /**
      * The current UI context

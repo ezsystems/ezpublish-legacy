@@ -63,12 +63,12 @@ class eZCollaborationEventType extends eZNotificationEventType
                             eZNotificationEventType::attributes() );
     }
 
-    function hasAttribute( $attributeName )
+    public function __isset( $attributeName )
     {
         return in_array( $attributeName, $this->attributes() );
     }
 
-    function attribute( $attributeName )
+    public function __get( $attributeName )
     {
         if ( $attributeName == 'collaboration_identifier' )
         {
@@ -81,6 +81,23 @@ class eZCollaborationEventType extends eZNotificationEventType
 
         return eZNotificationEventType::attribute( $attributeName );
     }
+
+    public function __set($name, $value)
+    {
+        throw new ezcBasePropertyPermissionException($name, ezcBasePropertyPermissionException::READ );
+    }
+
+
+    public function hasAttribute( $attr )
+    {
+        return $this->__isset($attr);
+    }
+
+    public function attribute( $attr )
+    {
+        return $this->__get( $attr );
+    }
+
 
     function eventContent( $event )
     {

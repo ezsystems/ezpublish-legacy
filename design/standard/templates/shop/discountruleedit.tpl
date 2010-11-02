@@ -31,7 +31,7 @@
              <select name="Contentclasses[]" size="5" multiple="multiple" >
                  <option value="-1" {if $class_any_selected}selected="selected"{/if} >{"Any"|i18n("design/standard/shop")}</option>
                  {section name=Classes loop=$product_class_list}
-                     <option value="{$Classes:item.id}" {switch match=$Classes:item.id}{case in=$class_limitation_list} selected="selected"{/case}{case/}{/switch}>
+                     <option value="{$Classes:item.id}" {if $class_limitation_list|contains($Classes:item.id)} selected="selected"{/if}>
                          {$Classes:item.name|wash}
                      </option>
                  {/section}
@@ -43,7 +43,7 @@
             <select name="Sections[]" size="5" multiple="multiple" >
                  <option value="-1" {if $section_any_selected}selected="selected"{/if}>{"Any"|i18n("design/standard/shop")}</option>
                  {section name=Sections loop=$section_list}
-                     <option value="{$Sections:item.id}" {switch match=$Sections:item.id}{case in=$section_limitation_list} selected="selected"{/case}{case/}{/switch}>
+                     <option value="{$Sections:item.id}" {if $section_limitation_list|contains($Sections:item.id)} selected="selected"{/if}>
                         {$Sections:item.name|wash}
                     </option>
                  {/section}

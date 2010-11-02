@@ -35,3 +35,4 @@
                             'UAH',  'Ukrainian hryvnia'|i18n( 'design/standard/shop/currencynames' ),
                             'USD',  'U.S.dollar'|i18n( 'design/standard/shop/currencynames' ) ) }
 
+{**ADD**{return $currency_names}**/ADD**}

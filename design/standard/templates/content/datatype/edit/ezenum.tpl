@@ -11,12 +11,9 @@
     <p><label>
      <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_{$EnumList:index}" class="ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="checkbox" name="{$attribute_base}_select_data_enumelement_{$attribute.id}[]" value="{$EnumList:item.enumelement|wash}"
       {section name=EnumObjectList loop=$attribute.content.enumobject_list}
-          {switch match=$EnumList:item.enumelement}
-            {case match=$EnumList:EnumObjectList:item.enumelement}
+        {if $EnumList:item.enumelement|eq($EnumList:EnumObjectList:item.enumelement)}
            checked="checked"
-            {/case}
-        {case}{/case}
-      {/switch}
+        {/if}
       {/section}
         />&nbsp;{$EnumList:item.enumelement|wash}</label></p>
       {/section}
@@ -50,12 +47,9 @@
         <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_{$EnumList:index}" class="ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="radio" name="{$attribute_base}_select_data_enumelement_{$attribute.id}[]" value="{$EnumList:item.enumelement|wash}"
           {section name=EnumObjectList loop=$attribute.content.enumobject_list}
 
-          {switch match=$EnumList:item.enumelement}
-            {case match=$EnumList:EnumObjectList:item.enumelement}
+            {if $EnumList:item.enumelement|eq($EnumList:EnumObjectList:item.enumelement)}
            checked="checked"
-            {/case}
-        {case}{/case}
-          {/switch}
+            {/if}
 
           {/section}
             />&nbsp;{$EnumList:item.enumelement}</label></p>

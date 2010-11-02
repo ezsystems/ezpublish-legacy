@@ -913,30 +913,30 @@ CODEPIECE;
     /*!
 
     */
-    static function eZDesign( $tpl, $operatorValue, $operatorName )
+    static function eZResource( $tpl, $operatorValue, $operatorName, $subdir = false, $skipSlash = false )
     {
-        $sys = eZSys::instance();
-
-        $bases = eZTemplateDesignResource::allDesignBases();
-        $triedFiles = array();
-        $fileInfo = eZTemplateDesignResource::fileMatch( $bases, false, $operatorValue, $triedFiles);
-
-        if ( !$fileInfo )
+        try
+        {
+            $operatorValue = ezpResource::find( $operatorValue, $subdir, $skipSlash );
+            return htmlspecialchars( $operatorValue );
+        }
+        catch ( ezpResourceError $e )
         {
             $tpl->warning( $operatorName, "Design element $operatorValue does not exist in any design" );
-            $tpl->warning( $operatorName, "Tried files: " . implode( ', ', $triedFiles ) );
+            $tpl->warning( $operatorName, "Tried files: " . implode( ', ', $e->triedFiles ) );
             $siteDesign = eZTemplateDesignResource::designSetting( 'site' );
-            $filePath = "design/$siteDesign/$operatorValue";
+            if ( $subdir )
+                $subdir .= "/";
+            return "design/$siteDesign/$subdir$operatorValue";
         }
-        else
-        {
-            $filePath = $fileInfo['path'];
-        }
+    }
 
-        $operatorValue = $sys->wwwDir() . '/' . $filePath;
-        $operatorValue = htmlspecialchars( $operatorValue );
+    /*!
 
-        return $operatorValue;
+    */
+    static function eZDesign( $tpl, $operatorValue, $operatorName )
+    {
+        return self::eZResource( $tpl, $operatorValue, $operatorName );
     }
 
     /*!
@@ -944,32 +944,7 @@ CODEPIECE;
     */
     static function eZImage( $tpl, $operatorValue, $operatorName, $skipSlash = false )
     {
-        $sys = eZSys::instance();
-        if ( $skipSlash && strlen( $sys->wwwDir() ) != 0 )
-        {
-            $skipSlash = false;
-        }
-
-        $bases = eZTemplateDesignResource::allDesignBases();
-        $triedFiles = array();
-        $fileInfo = eZTemplateDesignResource::fileMatch( $bases, 'images', $operatorValue, $triedFiles );
-
-        if ( !$fileInfo )
-        {
-            $tpl->warning( $operatorName, "Image '$operatorValue' does not exist in any design" );
-            $tpl->warning( $operatorName, "Tried files: " . implode( ', ', $triedFiles ) );
-            $siteDesign = eZTemplateDesignResource::designSetting( 'site' );
-            $imgPath = "design/$siteDesign/images/$operatorValue";
-        }
-        else
-        {
-            $imgPath = $fileInfo['path'];
-        }
-
-        $operatorValue = $skipSlash ? $imgPath : $sys->wwwDir() . '/' . $imgPath;
-        $operatorValue = htmlspecialchars( $operatorValue );
-
-        return $operatorValue;
+        return self::eZResource( $tpl, $operatorValue, $operatorName, 'images', $skipSlash );
     }
 
     public $Operators;

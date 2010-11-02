@@ -45,17 +45,13 @@
 
 <h3>{"Workflow event list"|i18n("design/standard/workflow")}</h3>
 {section name=Workflow loop=$current_workflow.ordered_event_list}
-  {switch name=EventNumber match=$Workflow:number}
-    {case match=$process.event_position}
+  {if eq($Workflow:number, $process.event_position)}
       <b>{$Workflow:number}: {$Workflow:item.workflow_type.name} - {$Workflow:item.description}</b><br/>
-    {/case}
-    {case match=$process.last_event_position}
+  {elseif eq($Workflow:number, $process.last_event_position)}
       <i>{$Workflow:number}: {$Workflow:item.workflow_type.name} - {$Workflow:item.description}</i><br/>
-    {/case}
-    {case}
+  {else}
       {$Workflow:number}: {$Workflow:item.workflow_type.name} - {$Workflow:item.description}<br/>
-    {/case}
-  {/switch}
+  {/if}
 {/section}
 
 <br/>

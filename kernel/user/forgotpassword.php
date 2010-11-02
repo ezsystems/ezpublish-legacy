@@ -83,15 +83,18 @@ if ( strlen( $hashKey ) == 32 )
         $tpl->setVariable( 'object', $userToSendEmail->attribute( 'contentobject' ) );
         $tpl->setVariable( 'password', $newPassword );
 
+        $useremail = ezpGlobals::instance()->useremail;
+        $useremail->reset();
         $templateResult = $tpl->fetch( 'design:user/forgotpasswordmail.tpl' );
+        $useremail->fromTemplate( $tpl );
         $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
         if ( !$emailSender )
             $emailSender = $ini->variable( 'MailSettings', 'AdminEmail' );
         $mail->setSender( $emailSender );
         $mail->setReceiver( $receiver );
         $subject = ezpI18n::tr( 'kernel/user/register', 'Registration info' );
-        if ( $tpl->hasVariable( 'subject' ) )
-            $subject = $tpl->variable( 'subject' );
+        if ( $useremail->subject !== null )
+            $subject = $useremail->subject;
         if ( $tpl->hasVariable( 'content_type' ) )
             $mail->setContentType( $tpl->variable( 'content_type' ) );
         $mail->setSubject( $subject );
@@ -167,7 +170,10 @@ if ( $module->isCurrentAction( "Generate" ) )
             $tpl->setVariable( 'password', $password );
             $tpl->setVariable( 'link', true );
             $tpl->setVariable( 'hash_key', $hashKey );
+            $useremail = ezpGlobals::instance()->useremail;
+            $useremail->reset();
             $templateResult = $tpl->fetch( 'design:user/forgotpasswordmail.tpl' );
+            $useremail->fromTemplate( $tpl );
             if ( $tpl->hasVariable( 'content_type' ) )
                 $mail->setContentType( $tpl->variable( 'content_type' ) );
             $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
@@ -176,8 +182,8 @@ if ( $module->isCurrentAction( "Generate" ) )
             $mail->setSender( $emailSender );
             $mail->setReceiver( $receiver );
             $subject = ezpI18n::tr( 'kernel/user/register', 'Registration info' );
-            if ( $tpl->hasVariable( 'subject' ) )
-                $subject = $tpl->variable( 'subject' );
+            if ( $useremail->subject !==  null )
+                $subject = $useremail->subject;
             $mail->setSubject( $subject );
             $mail->setBody( $templateResult );
             $mailResult = eZMailTransport::send( $mail );

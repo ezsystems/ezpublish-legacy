@@ -27,6 +27,7 @@
 //
 
 
+
 $http = eZHTTPTool::instance();
 $module = $Params['Module'];
 $parameters = $Params["Parameters"];
@@ -89,6 +90,9 @@ if ( $isExistingTemplate == false )
     $tpl->setVariable( 'template_exists', false );
     $tpl->setVariable( 'original_template', false );
     $tpl->setVariable( 'site_access', $siteAccess );
+    $tpl->setVariable( 'is_readable', false );
+    $tpl->setVariable( 'is_writable', false );
+
 
     $Result['content'] = $tpl->fetch( "design:visual/templateedit_error.tpl" );
     return;
@@ -193,6 +197,9 @@ if ( $module->isCurrentAction( 'Discard' ) )
 // get the content of the template
 $fileName = $template;
 
+$tpl->setVariable( 'is_readable', true );
+$tpl->setVariable( 'is_writable', true );
+
 if ( !is_readable( $fileName ) )
 {
     $tpl->setVariable( 'template', $template );
@@ -216,16 +223,11 @@ if ( !is_writable( $fileName ) )
         $tpl->setVariable( 'template', $template );
         $tpl->setVariable( 'template_exists', true );
         $tpl->setVariable( 'original_template', $originalTemplate );
-        $tpl->setVariable( 'is_readable', true );
         $tpl->setVariable( 'site_access', $siteAccess );
 
         $Result['content'] = $tpl->fetch( "design:visual/templateedit_error.tpl" );
         return;
     }
-}
-else
-{
-    $tpl->setVariable( 'is_writable', true );
 }
 
 $templateContent = file_get_contents( $fileName );

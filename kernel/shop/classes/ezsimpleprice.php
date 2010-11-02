@@ -103,12 +103,12 @@ class eZSimplePrice
     /*!
      \return \c true if the attribute named \a $attr exists.
     */
-    function hasAttribute( $attr )
+    public function __isset( $attr )
     {
         return in_array( $attr, $this->attributes() );
     }
 
-    function setAttribute( $attr, $value )
+    public function __set( $attr, $value )
     {
         switch ( $attr )
         {
@@ -124,12 +124,12 @@ class eZSimplePrice
 
             default:
             {
-                eZDebug::writeError( "Unspecified attribute: " . $attr, 'eZSimplePrice::setAttribute' );
+                throw new ezcBasePropertyPermissionException($attr, ezcBasePropertyPermissionException::READ );
             } break;
         }
     }
 
-    function attribute( $attr )
+    public function __get( $attr )
     {
         switch ( $attr )
         {
@@ -200,11 +200,26 @@ class eZSimplePrice
 
             default :
             {
-                eZDebug::writeError( "Attribute '$attr' does not exist", 'eZSimplePrice::attribute' );
-                return null;
+                throw new ezcBasePropertyNotFoundException($attr);
             } break;
         }
     }
+
+    public function hasAttribute( $attr )
+    {
+        return $this->__isset($attr);
+    }
+
+    public function attribute( $attr )
+    {
+        return $this->__get( $attr );
+    }
+
+    public function setAttribute( $attr, $value )
+    {
+        return $this->__set( $attr, $value );
+    }
+
 
     function VATType()
     {

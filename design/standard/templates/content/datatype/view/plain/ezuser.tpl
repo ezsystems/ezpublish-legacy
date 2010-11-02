@@ -5,4 +5,4 @@
 {$attribute.content.contentobject_id}
 
 {"Username"|i18n("design/standard/content/datatype")} {$attribute.content.login|wash(xhtml)}
-{"Email"|i18n("design/standard/content/datatype")} {$attribute.content.email|wash(email)}
+{"Email"|i18n("design/standard/content/datatype")} {**REMOVE**}{$attribute.content.email|wash(email)}{**/REMOVE**}{**ADD**{raw escape_email(tc_access('design/standard/templates/content/datatype/view/plain/ezuser.tpl:manual0', $attribute, 'content', 'email'))}**/ADD**}

@@ -77,7 +77,7 @@ class eZCollaborationItemHandler
     /*!
      \return true if the attribute \a $attribute exists.
     */
-    function hasAttribute( $attr )
+    public function __isset( $attr )
     {
         return in_array( $attr, $this->attributes() );
     }
@@ -85,7 +85,7 @@ class eZCollaborationItemHandler
     /*!
      \return the attribute \a $attribute if it exists or \c null.
     */
-    function attribute( $attribute )
+    public function __get( $attribute )
     {
         if ( $attribute == 'info' )
         {
@@ -96,9 +96,24 @@ class eZCollaborationItemHandler
             return $this->notificationTypes();
         }
 
-        eZDebug::writeError( "Attribute '$attribute' does not exist", 'eZCollaborationItemHandler::attribute' );
-        return null;
+        throw new ezcBasePropertyNotFoundException($attribute);
     }
+
+    public function __set($name, $value)
+    {
+        throw new ezcBasePropertyPermissionException($name, ezcBasePropertyPermissionException::READ );
+    }
+
+    public function hasAttribute( $attr )
+    {
+        return $this->__isset($attr);
+    }
+
+    public function attribute( $attr )
+    {
+        return $this->__get( $attr );
+    }
+
 
     /*!
       \return what kind of notification types this handler supports. Can either return an array or a boolean.
@@ -174,18 +189,22 @@ class eZCollaborationItemHandler
             $tpl = eZTemplate::factory();
             $tpl->resetVariables();
             $tpl->setVariable( 'collaboration_item', $item );
+            $notificationinfo = ezpGlobals::instance()->notification;
+            $notificationinfo->reset();
             $result = $tpl->fetch( 'design:notification/handler/ezcollaboration/view/plain.tpl' );
-            $subject = $tpl->variable( 'subject' );
-            if ( $tpl->hasVariable( 'message_id' ) )
-                $parameters['message_id'] = $tpl->variable( 'message_id' );
-            if ( $tpl->hasVariable( 'references' ) )
-                $parameters['references'] = $tpl->variable( 'references' );
-            if ( $tpl->hasVariable( 'reply_to' ) )
-                $parameters['reply_to'] = $tpl->variable( 'reply_to' );
-            if ( $tpl->hasVariable( 'from' ) )
-                $parameters['from'] = $tpl->variable( 'from' );
-            if ( $tpl->hasVariable( 'content_type' ) )
-                $parameters['content_type'] = $tpl->variable( 'content_type' );
+            $notificationinfo->fromTemplate( $tpl );
+
+            $subject = $notificationinfo->subject;
+            if (  $notificationinfo->message_id !== null )
+                $parameters['message_id'] = $notificationinfo->message_id;
+            if ( $notificationinfo->references !== null )
+                $parameters['references'] = $notificationinfo->references;
+            if ( $notificationinfo->reply_to !== null )
+                $parameters['reply_to'] = $notificationinfo->reply_to;
+            if ( $notificationinfo->from !== null )
+                $parameters['from'] = $notificationinfo->from;
+            if ( $notificationinfo->content_type !== null )
+                $parameters['content_type'] = $notificationinfo->content_type;
 
             $collection = eZNotificationCollection::create( $event->attribute( 'id' ),
                                                             eZCollaborationNotificationHandler::NOTIFICATION_HANDLER_ID,
@@ -227,18 +246,22 @@ class eZCollaborationItemHandler
                 $typeIdentifier = $itemInfo['type-identifier'];
                 $tpl->setVariable( 'collaboration_item', $item );
                 $tpl->setVariable( 'collaboration_participant_role', $participantRole );
+                $notificationinfo = ezpGlobals::instance()->notification;
+                $notificationinfo->reset();
                 $result = $tpl->fetch( 'design:notification/handler/ezcollaboration/view/' . $typeIdentifier . '/' . $templateName );
-                $subject = $tpl->variable( 'subject' );
-                if ( $tpl->hasVariable( 'message_id' ) )
-                    $parameters['message_id'] = $tpl->variable( 'message_id' );
-                if ( $tpl->hasVariable( 'references' ) )
-                    $parameters['references'] = $tpl->variable( 'references' );
-                if ( $tpl->hasVariable( 'reply_to' ) )
-                    $parameters['reply_to'] = $tpl->variable( 'reply_to' );
-                if ( $tpl->hasVariable( 'from' ) )
-                    $parameters['from'] = $tpl->variable( 'from' );
-                if ( $tpl->hasVariable( 'content_type' ) )
-                    $parameters['content_type'] = $tpl->variable( 'content_type' );
+                $notificationinfo->fromTemplate( $tpl );
+
+                $subject = $notificationinfo->subject;
+                if (  $notificationinfo->message_id !== null )
+                    $parameters['message_id'] = $notificationinfo->message_id;
+                if ( $notificationinfo->references !== null )
+                    $parameters['references'] = $notificationinfo->references;
+                if ( $notificationinfo->reply_to !== null )
+                    $parameters['reply_to'] = $notificationinfo->reply_to;
+                if ( $notificationinfo->from !== null )
+                    $parameters['from'] = $notificationinfo->from;
+                if ( $notificationinfo->content_type !== null )
+                    $parameters['content_type'] = $notificationinfo->content_type;
 
                 $collection = eZNotificationCollection::create( $event->attribute( 'id' ),
                                                                 eZCollaborationNotificationHandler::NOTIFICATION_HANDLER_ID,

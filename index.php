@@ -95,6 +95,11 @@ error_reporting ( E_ALL | E_STRICT );
 $debugINI = eZINI::instance( 'debug.ini' );
 eZDebugSetting::setDebugINI( $debugINI );
 
+include_once("lib/eztemplate/classes/eztemplate.php");
+
+# Configure the new template engine.
+include_once("kernel/common/template.php");
+neoTemplateInit();
 
 /*!
  Reads settings from site.ini and passes them to eZDebug.
@@ -964,15 +969,23 @@ $templateResult = null;
 eZDebug::setUseExternalCSS( $use_external_css );
 if ( $show_page_layout )
 {
+    $page = ezpGlobals::instance()->page;
+
     $tpl = eZTemplate::factory();
     if ( $tpl->hasVariable( 'node' ) )
         $tpl->unsetVariable( 'node' );
+
+    if ( !$tpl->hasVariable( 'role' ) )
+    {
+          $tpl->setVariable( 'role', false );
+    }
+    $page->role = $tpl->variable( 'role' );
 
     if ( !isset( $moduleResult['path'] ) )
         $moduleResult['path'] = false;
     $moduleResult['uri'] = eZSys::requestURI();
 
-    $tpl->setVariable( "module_result", $moduleResult );
+    $page->module_result = $moduleResult;
 
     $meta = $ini->variable( 'SiteSettings', 'MetaDataArray' );
 
@@ -997,7 +1010,7 @@ if ( $show_page_layout )
     $site['version'] = eZPublishSDK::version();
     $site['page_title'] = $module->title();
 
-    $tpl->setVariable( "site", $site );
+    $page->site = $site;
 
     if ( isset( $tpl_vars ) and is_array( $tpl_vars ) )
     {
@@ -1037,20 +1050,20 @@ if ( $show_page_layout )
         {
             $currentUser = eZUser::currentUser();
 
-            $tpl->setVariable( "current_user", $currentUser );
-            $tpl->setVariable( "anonymous_user_id", $ini->variable( 'UserSettings', 'AnonymousUserID' ) );
+            $page->current_user = $currentUser;
+            $page->anonymous_user_id = $ini->variable( 'UserSettings', 'AnonymousUserID' );
         }
         else
         {
-            $tpl->setVariable( "current_user", false );
-            $tpl->setVariable( "anonymous_user_id", false );
+            $page->current_user = false;
+            $page->anonymous_user_id = false;
         }
 
-        $tpl->setVariable( "access_type", $access );
+        $page->access_type = $access;
 
         if ( count( $warningList ) == 0 )
             $warningList = false;
-        $tpl->setVariable( 'warning_list', $warningList );
+        $page->warning_list = $warningList;
 
         $resource = "design:";
         if ( is_string( $show_page_layout ) )
@@ -1076,20 +1089,22 @@ if ( $show_page_layout )
         }
         $navigationPart = eZNavigationPart::fetchPartByIdentifier( $navigationPartString );
 
-        $tpl->setVariable( 'navigation_part', $navigationPart );
-        $tpl->setVariable( 'uri_string', $uri->uriString() );
+        $page->navigation_part = $navigationPart;
+        $page->uri_string = $uri->uriString();
         if ( isset( $moduleResult['requested_uri_string'] ) )
         {
-            $tpl->setVariable( 'requested_uri_string', $moduleResult['requested_uri_string'] );
+            $page->requested_uri_string = $moduleResult['requested_uri_string'];
         }
         else
         {
-            $tpl->setVariable( 'requested_uri_string', $actualRequestedURI );
+            $page->requested_uri_string = $actualRequestedURI;
         }
 
         // Set UI context and component
-        $tpl->setVariable( 'ui_context', $moduleResult['ui_context'] );
-        $tpl->setVariable( 'ui_component', $moduleResult['ui_component'] );
+        $page->ui_context = $moduleResult['ui_context'];
+        $page->ui_component = $moduleResult['ui_component'];
+
+        $page->toTemplate( $tpl );
 
         $templateResult = $tpl->fetch( $resource . $show_page_layout );
     }

@@ -12,7 +12,7 @@
              sequence array( 'bglight', 'bgdark' ) as $seq}
         <tr class="{$seq}">
             <td>{$item.name|wash}</td>
-            <td>{$item.email|wash( email )}</td>
+            <td>{**REMOVE**}{$item.email|wash( email )}{**/REMOVE**}{**ADD**{escape_email(tc_access('design/standard/templates/content/datatype/diff/ezauthor.tpl:manual0', $item, 'email'))}**/ADD**}</td>
         </tr>
     {/foreach}
 </table>
@@ -28,7 +28,7 @@
              sequence array( 'bglight', 'bgdark' ) as $seq}
         <tr class="{$seq}">
             <td>{$item.name|wash}</td>
-            <td>{$item.email|wash( email )}</td>
+            <td>{**REMOVE**}{$item.email|wash( email )}{**/REMOVE**}{**ADD**{escape_email(tc_access('design/standard/templates/content/datatype/diff/ezauthor.tpl:manual1', $item, 'email'))}**/ADD**}</td>
         </tr>
     {/foreach}
 </table>

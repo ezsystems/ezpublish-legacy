@@ -1,0 +1,6 @@
+{var $a = 0}
+{var $z = 5}
+
+{foreach $a..$z as $i}
+{$i}
+{/foreach}

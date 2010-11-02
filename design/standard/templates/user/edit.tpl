@@ -12,7 +12,7 @@
 
 <div class="block">
   <label>{"Email"|i18n("design/standard/user")}</label><div class="labelbreak"></div>
-  <p class="box">{$userAccount.email|wash(email)}</p>
+  <p class="box">{**REMOVE**}{$userAccount.email|wash(email)}{**/REMOVE**}{**ADD**{raw escape_email(tc_access('design/standard/templates/user/edit.tpl:manual0', $userAccount, 'email'))}**/ADD**}</p>
 </div>
 
 <div class="block">

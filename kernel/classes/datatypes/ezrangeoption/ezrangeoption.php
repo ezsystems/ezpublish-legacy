@@ -78,12 +78,12 @@ class eZRangeOption
                       'option_list' );
     }
 
-    function hasAttribute( $name )
+    public function __isset( $name )
     {
         return in_array( $name, $this->attributes() );
     }
 
-    function attribute( $name )
+    public function __get( $name )
     {
         switch ( $name )
         {
@@ -109,11 +109,28 @@ class eZRangeOption
             }break;
             default:
             {
-                eZDebug::writeError( "Attribute '$name' does not exist", 'eZRangeOption::attribute' );
-                return null;
+                throw new ezcBasePropertyNotFoundException($name);
             }break;
         }
     }
+
+    public function __set($name, $value)
+    {
+        throw new ezcBasePropertyPermissionException($name, ezcBasePropertyPermissionException::READ );
+    }
+
+
+    public function hasAttribute( $attr )
+    {
+        return $this->__isset($attr);
+    }
+
+    public function attribute( $attr )
+    {
+        return $this->__get( $attr );
+    }
+
+
 
     function addOption( $valueArray )
     {

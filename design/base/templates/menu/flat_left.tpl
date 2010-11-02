@@ -11,8 +11,12 @@
                     last_level=0}
         {if $docs|count|gt(0)}
         <ul>
-        {section var=menu loop=$:docs last-value}
-            {set last_level=$menu.last|is_array|choose( $menu.level, $menu.last.level )}
+        {section var=menu loop=$:docs}
+            {if $last|is_array}
+                {set last_level=$last.level}
+            {else}
+                {set last_level=$menu.level}
+            {/if}
             {if and( $last_level|eq( $menu.level ), $menu.number|gt( 1 ) )}
                 </li>
             {else}
@@ -34,6 +38,7 @@
             <a {$menu.is_selected|choose( '', 'class="selected"' )} href={$menu.url_alias|ezurl}>{$menu.text|shorten( 25 )}</a>
 
             {set depth=$menu.level}
+            {set last=$menu}
         {/section}
            </li>
 

@@ -1,0 +1,11 @@
+design/base/override/templates/pdf/*
+design/standard/templates/pdf/*
+design/standard/templates/content/pdf/*
+design/standard/templates/content/datatype/pdf/*
+design/admin/templates/pdf/*
+design/standard/templates/node/view/pdf.tpl
+design/standard/templates/node/view/execute_pdf.tpl
+
+extension/ezwebin/design/ezwebin/override/templates/galleryline/image.tpl
+extension/ezwebin/design/ezwebin/templates/user/edit.tpl
+extension/ezwebin/design/ezwebin/override/templates/embed/poll.tpl

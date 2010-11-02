@@ -3,25 +3,18 @@
 {let selectedSections=$event.selected_sections}
 <label>{"Sections"|i18n("design/standard/workflow/eventtype/edit")}</label><div class="labelbreak"></div>
 <select name="WorkflowEvent_event_ezmultiplexer_section_ids_{$event.id}[]" size="5" multiple >
-<option value="-1" 
-{switch match=-1}
-{case in=$selectedSections}
+<option value="-1"
+{if $selectedSections|contains(-1)}
   selected="selected"
-{/case}
-{case}
-{/case} 
-{/switch}
+{/if}
+
  >{"Any"|i18n("design/standard/workflow/eventtype/edit")}</option>
 {section name=Sections loop=$event.workflow_type.sections}
 
   <option value="{$Sections:item.value}"  
-  {switch match=$Sections:item.value}
-  {case in=$selectedSections}
+  {if $selectedSections|contains($Sections:item.value)}
     selected="selected"
-  {/case}
-  {case}
-  {/case} 
-  {/switch}
+  {/if}
 
   >{$Sections:item.value}-{$Sections:item.Name}</option>
 {/section}  
@@ -45,23 +38,15 @@
 <label>{"Classes to run workflow"|i18n("design/standard/workflow/eventtype/edit")}</label><div class="labelbreak"></div>
 <select name="WorkflowEvent_event_ezmultiplexer_class_ids_{$event.id}[]" size="5" multiple >
 <option value="-1" 
-{switch match=-1}
-{case in=$selectedClasses}
+{if $selectedClasses|contains(-1)}
   selected="selected"
-{/case}
-{case}
-{/case} 
-{/switch}
+{/if}
 >{"Any"|i18n("design/standard/workflow/eventtype/edit")}</option>
 {section name=Classes loop=$event.workflow_type.contentclass_list}
   <option value="{$Classes:item.value}"
-  {switch match=$Classes:item.value}
-  {case in=$selectedClasses}
+  {if $selectedClasses|contains($Classes:item.value)}
     selected="selected"
-  {/case}
-  {case}
-  {/case} 
-  {/switch}
+  {/if}
 
   >{$Classes:item.value}-{$Classes:item.Name}</option>
 {/section}   
@@ -75,13 +60,9 @@
 <select name="WorkflowEvent_event_ezmultiplexer_not_run_ids_{$event.id}[]" size="5" multiple >
 {section name=Groups loop=$event.workflow_type.usergroups}
   <option value="{$Groups:item.value}"
-  {switch match=$Groups:item.value}
-  {case in=$selectedGroups}
+  {if $selectedGroups|contains($Groups:item.value)}
     selected="selected"
-  {/case}
-  {case}
-  {/case} 
-  {/switch}
+  {/if}
 
   >{$Groups:item.value}-{$Groups:item.Name}</option>
 {/section}   

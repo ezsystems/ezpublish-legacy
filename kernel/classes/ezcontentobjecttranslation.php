@@ -57,12 +57,12 @@ class eZContentObjectTranslation
                       'locale' );
     }
 
-    function hasAttribute( $attribute )
+    public function __isset( $attribute )
     {
         return in_array( $attribute, $this->attributes() );
     }
 
-    function attribute( $attribute )
+    public function __get( $attribute )
     {
         if ( $attribute == 'contentobject_id' )
             return $this->ContentObjectID;
@@ -74,10 +74,25 @@ class eZContentObjectTranslation
             return $this->locale();
         else
         {
-            eZDebug::writeError( "Attribute '$attribute' does not exist", 'eZContentObjectTranslation::attribute' );
-            return null;
+            throw new ezcBasePropertyNotFoundException($attribute);
         }
     }
+
+    public function __set($name, $value)
+    {
+        throw new ezcBasePropertyPermissionException($name, ezcBasePropertyPermissionException::READ );
+    }
+
+    public function hasAttribute( $attr )
+    {
+        return $this->__isset($attr);
+    }
+
+    public function attribute( $attr )
+    {
+        return $this->__get( $attr );
+    }
+
 
     function locale()
     {
@@ -102,5 +117,8 @@ class eZContentObjectTranslation
 
     /// Contains the language code for the current translation
     public $LanguageCode;
+
+    protected $Locale;
+
 }
 ?>

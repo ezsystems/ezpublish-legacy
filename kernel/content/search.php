@@ -204,16 +204,19 @@ else
 // --- Compatibility code end ---
 
 $Result = array();
+$searchinfo = ezpGlobals::instance()->search;
+$searchinfo->reset();
 $Result['content'] = $tpl->fetch( "design:content/search.tpl" );
+$searchinfo->fromTemplate( $tpl );
 $Result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/content', 'Search' ),
                                 'url' => false ) );
 
 $searchData = false;
 if ( !$useSearchCode )
 {
-    if ( $tpl->hasVariable( "search_data" ) )
+    if ( $searchinfo->search_data !== null )
     {
-        $searchData = $tpl->variable( "search_data" );
+        $searchData = $searchinfo->search_data;
     }
 }
 else

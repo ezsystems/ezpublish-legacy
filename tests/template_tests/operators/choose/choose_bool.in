@@ -1,0 +1,4 @@
+{choose(true, "Zero", "One")}
+{choose(true, "Zero", "One", "Two")}
+{choose(false, "Zero", "One")}
+{choose(false, "Zero", "One", "Two")}

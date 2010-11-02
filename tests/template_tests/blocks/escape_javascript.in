@@ -1,0 +1,2 @@
+{var $expr = "hello {} \\ \" < > "}
+{escape_javascript $expr} 

@@ -1,0 +1,12 @@
+{use $month_overview_data}
+{var $month = month_overview($month_overview_data, 'published', 1193446660)}
+{raw tc_access('simple.tpl:0',  $month, 'year')}
+{foreach tc_make_array('simple.tpl:2', tc_access('simple.tpl:1',  $month, 'weekdays')) as $weekday} 
+{tc_access('simple.tpl:3',  $weekday, 'day')}
+{/foreach}
+<br/>
+{raw tc_access('simple.tpl:4',  $month, 'month')}
+
+
+
+

@@ -64,6 +64,7 @@ class eZDBInterface
     const SERVER_MASTER = 1;
     const SERVER_SLAVE = 2;
 
+
     /*!
       Create a new eZDBInterface object and connects to the database backend.
     */
@@ -127,8 +128,8 @@ class eZDBInterface
         {
             $tmpOutputTextCodec = eZTextCodec::instance( $charset, false, false );
             $tmpInputTextCodec = eZTextCodec::instance( false, $charset, false );
-            unset( $this->OutputTextCodec );
-            unset( $this->InputTextCodec );
+            $this->OutputTextCodec = null;
+            $this->InputTextCodec = null;
             $this->OutputTextCodec = null;
             $this->InputTextCodec = null;
 
@@ -199,7 +200,7 @@ class eZDBInterface
     /*!
      \return \c true if the attribute \a $name exists for this database handler.
     */
-    function hasAttribute( $name )
+    public function __isset( $name )
     {
         if ( isset( $this->AttributeVariableMap[$name] ) )
         {
@@ -211,7 +212,7 @@ class eZDBInterface
     /*!
      \return the value of the attribute \a $name if it exists, otherwise \c null.
     */
-    function attribute( $name )
+    public function __get( $name )
     {
         if ( isset( $this->AttributeVariableMap[$name] ) )
         {
@@ -220,10 +221,25 @@ class eZDBInterface
         }
         else
         {
-            eZDebug::writeError( "Attribute '$name' does not exist", 'eZDBInterface::attribute' );
-            return null;
+            throw new ezcBasePropertyNotFoundException($name);
         }
     }
+
+    public function __set($name, $value)
+    {
+        throw new ezcBasePropertyPermissionException($name, ezcBasePropertyPermissionException::READ );
+    }
+
+    public function hasAttribute( $attr )
+    {
+        return $this->__isset($attr);
+    }
+
+    public function attribute( $attr )
+    {
+        return $this->__get( $attr );
+    }
+
 
     /*!
       Checks if the requested character set matches the one used in the database.
@@ -1410,7 +1426,7 @@ class eZDBInterface
     /// If true then the database connection should be persistent
     public $UsePersistentConnection = false;
     /// Contains true if slave servers are enabled
-    public $UserSlaveServer;
+    public $UseSlaveServer;
     /// The slave database name
     public $SlaveDB;
     /// The slave server name
@@ -1426,6 +1442,13 @@ class eZDBInterface
     /// Flag which tells if a transaction is considered valid or not
     /// A transaction will be made invalid if SQL errors occur
     public $TransactionIsValid;
+
+
+    protected $IsInternalCharset;
+    protected $TransactionStackTree;
+    protected $SlowSQLTimeout;
+    protected $QueryAnalysisOutput;
+    protected $AttributeVariableMap;
 }
 
 ?>

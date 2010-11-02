@@ -100,15 +100,18 @@ $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ),
                       ) );
 
 $Result = array();
+$collectedinfo = ezpGlobals::instance()->collect;
+$collectedinfo->reset();
 $Result['content'] = $tpl->fetch( 'design:content/collectedinfo/' . $informationCollectionTemplate . '.tpl' );
+$collectedinfo->fromTemplate( $tpl );
 $Result['section_id'] = $object->attribute( 'section_id' );
 $Result['node_id'] = $node->attribute( 'node_id' );
 $Result['view_parameters'] = $userParameters;
 $Result['navigation_part'] = $navigationPartIdentifier;
 
 $title = $object->attribute( 'name' );
-if ( $tpl->hasVariable( 'title' ) )
-    $title = $tpl->variable( 'title' );
+if ( $collectedinfo->title !== null )
+    $title = $collectedinfo->title;
 
 // create path
 $parents = $node->attribute( 'path' );

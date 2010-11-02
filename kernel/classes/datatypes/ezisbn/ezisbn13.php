@@ -84,7 +84,7 @@ class eZISBN13
      \param $value is the name of the attribute that should be fetched.
      \return the result of the attribute.
     */
-    function attribute( $value )
+    public function __get( $value )
     {
         switch ( $value )
         {
@@ -110,12 +110,23 @@ class eZISBN13
         return null;
     }
 
+    public function hasAttribute( $attr )
+    {
+        return $this->__isset($attr);
+    }
+
+    public function attribute( $attr )
+    {
+        return $this->__get( $attr );
+    }
+
+
     /*!
      Check if the attribute set in the string $value exists.
      \param $value is the attribute you want to see if exist.
      \return true if the attribute is found.
     */
-    function hasAttribute( $value )
+    function __isset( $value )
     {
         return in_array( $value, eZISBN13::attributes() );
     }

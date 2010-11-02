@@ -141,12 +141,22 @@ if ( isset( $nodeList ) )
     $tpl->setVariable( 'node_list_count', $nodeListCount );
     $tpl->setVariable( 'requested_uri', $requestedURI );
     $tpl->setVariable( 'requested_uri_suffix', $requestedURISuffix );
+
+    $tpl->setVariable( 'main_node', false); 
+    $tpl->setVariable( 'node_id', false); 
+    $tpl->setVariable( 'parents', false); 
+
 }
 else
 {
     $tpl->setVariable( 'main_node', $node );
     $tpl->setVariable( 'node_id', $NodeID );
     $tpl->setVariable( 'parents', $parents );
+
+    // node_list should not be set.
+    $tpl->setVariable( 'node_list_count', false);
+    $tpl->setVariable( 'requested_uri', false); 
+    $tpl->setVariable( 'requested_uri_suffix', false); 
 }
 
 if ( isset( $Params['UserParameters'] ) )
@@ -207,14 +217,17 @@ $res->setKeys( array( array( 'view_offset', $Offset ),
                       ) );
 
 //$Result['path'] = $path;
+$browseinfo = ezpGlobals::instance()->browse;
+$browseinfo->reset();
 $Result['content'] = $tpl->fetch( 'design:content/browse.tpl' );
+$browseinfo->fromTemplate( $tpl );
 
 if (isset( $globalSectionID ))
 {
     $GLOBALS['eZDesignKeys']['section'] = $globalSectionID;
 }
 
-$templatePath = $tpl->variable( 'path' );
+$templatePath = $browseinfo->path;
 if ( $templatePath )
 {
     $Result['path'] = $templatePath;

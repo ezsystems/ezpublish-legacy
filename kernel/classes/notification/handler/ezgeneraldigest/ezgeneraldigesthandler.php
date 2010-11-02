@@ -58,12 +58,12 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
                             eZNotificationEventHandler::attributes() );
     }
 
-    function hasAttribute( $attr )
+    public function __isset( $attr )
     {
         return in_array( $attr, $this->attributes() );
     }
 
-    function attribute( $attr )
+    public function __get( $attr )
     {
         if ( $attr == 'settings' )
         {
@@ -107,6 +107,22 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
         return eZNotificationEventHandler::attribute( $attr );
     }
 
+    public function __set($name, $value)
+    {
+        throw new ezcBasePropertyPermissionException($name, ezcBasePropertyPermissionException::READ );
+    }
+
+    public function hasAttribute( $attr )
+    {
+        return $this->__isset($attr);
+    }
+
+    public function attribute( $attr )
+    {
+        return $this->__get( $attr );
+    }
+
+
     function settings( $user = false )
     {
         if ( $user === false )
@@ -135,12 +151,15 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
 
             $tpl = eZTemplate::factory();
 
+            $notificationinfo = ezpGlobals::instance()->notification;
             foreach ( $addressArray as $address )
             {
                 $tpl->setVariable( 'date', $date );
                 $tpl->setVariable( 'address', $address['address'] );
+                $notificationinfo->reset();
                 $result = $tpl->fetch( 'design:notification/handler/ezgeneraldigest/view/plain.tpl' );
-                $subject = $tpl->variable( 'subject' );
+                $notificationinfo->fromTemplate( $tpl );
+                $subject = $notificationinfo->subject;
 
                 $parameters = array();
                 if ( $tpl->hasVariable( 'content_type' ) )
@@ -151,7 +170,7 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
                 eZDebugSetting::writeDebug( 'kernel-notification', $result, "digest result" );
             }
 
-            $collectionItemIDList = $tpl->variable( 'collection_item_id_list' );
+            $collectionItemIDList = $notificationinfo->collection_item_id_list;
             eZDebugSetting::writeDebug( 'kernel-notification', $collectionItemIDList, "handled items" );
 
             if ( is_array( $collectionItemIDList ) && count( $collectionItemIDList ) > 0 )

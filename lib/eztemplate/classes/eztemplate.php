@@ -219,105 +219,13 @@ Denne koster {1.4|l10n(currency)}<br>
 \endcode
 */
 
-class eZTemplate
+class OldeZTemplate
 {
-    const RESOURCE_FETCH = 1;
-    const RESOURCE_QUERY = 2;
-
-    const ELEMENT_TEXT = 1;
-    const ELEMENT_SINGLE_TAG = 2;
-    const ELEMENT_NORMAL_TAG = 3;
-    const ELEMENT_END_TAG = 4;
-    const ELEMENT_VARIABLE = 5;
-    const ELEMENT_COMMENT = 6;
-
-    const NODE_ROOT = 1;
-    const NODE_TEXT = 2;
-    const NODE_VARIABLE = 3;
-    const NODE_FUNCTION = 4;
-    const NODE_OPERATOR = 5;
-
-
-    const NODE_INTERNAL = 100;
-    const NODE_INTERNAL_CODE_PIECE = 101;
-
-    const NODE_INTERNAL_VARIABLE_SET = 105;
-    const NODE_INTERNAL_VARIABLE_UNSET = 102;
-
-    const NODE_INTERNAL_NAMESPACE_CHANGE = 103;
-    const NODE_INTERNAL_NAMESPACE_RESTORE = 104;
-
-    const NODE_INTERNAL_WARNING = 120;
-    const NODE_INTERNAL_ERROR = 121;
-
-    const NODE_INTERNAL_RESOURCE_ACQUISITION = 140;
-    const NODE_OPTIMIZED_RESOURCE_ACQUISITION = 141;
-
-    const NODE_INTERNAL_OUTPUT_ASSIGN = 150;
-    const NODE_INTERNAL_OUTPUT_READ = 151;
-    const NODE_INTERNAL_OUTPUT_INCREASE = 152;
-    const NODE_INTERNAL_OUTPUT_DECREASE = 153;
-
-    const NODE_INTERNAL_OUTPUT_SPACING_INCREASE = 160;
-    const NODE_INTERNAL_SPACING_DECREASE = 161;
-
-    const NODE_OPTIMIZED_INIT = 201;
-
-
-    const NODE_USER_CUSTOM = 1000;
-
-
-    const TYPE_VOID = 0;
-    const TYPE_STRING = 1;
-    const TYPE_NUMERIC = 2;
-    const TYPE_IDENTIFIER = 3;
-    const TYPE_VARIABLE = 4;
-    const TYPE_ATTRIBUTE = 5;
-    const TYPE_OPERATOR = 6;
-    const TYPE_BOOLEAN = 7;
-    const TYPE_ARRAY = 8;
-    const TYPE_DYNAMIC_ARRAY = 9;
-
-    const TYPE_INTERNAL = 100;
-    const TYPE_INTERNAL_CODE_PIECE = 101;
-    const TYPE_PHP_VARIABLE = 102;
-
-    const TYPE_OPTIMIZED_NODE = 201;
-    const TYPE_OPTIMIZED_ARRAY_LOOKUP = 202;
-    const TYPE_OPTIMIZED_CONTENT_CALL = 203;
-    const TYPE_OPTIMIZED_ATTRIBUTE_LOOKUP = 204;
-
-    const TYPE_INTERNAL_STOP = 999;
-
-
-    const TYPE_STRING_BIT = 1;
-    const TYPE_NUMERIC_BIT = 2;
-    const TYPE_IDENTIFIER_BIT = 4;
-    const TYPE_VARIABLE_BIT = 8;
-    const TYPE_ATTRIBUTE_BIT = 16;
-    const TYPE_OPERATOR_BIT = 32;
-
-    const TYPE_NONE = 0;
-
-    const TYPE_ALL = 63;
-
-    const TYPE_BASIC = 47;
-
-    const TYPE_MODIFIER_MASK = 48;
-
-    const NAMESPACE_SCOPE_GLOBAL = 1;
-    const NAMESPACE_SCOPE_LOCAL = 2;
-    const NAMESPACE_SCOPE_RELATIVE = 3;
-
-    const DEBUG_INTERNALS = false;
-
-    const FILE_ERRORS = 1;
-
     /*!
      Intializes the template with left and right delimiters being { and },
      and a file resource. The literal tag "literal" is also registered.
     */
-    function eZTemplate()
+    function OldeZTemplate()
     {
         $this->Tree = array( eZTemplate::NODE_ROOT, false );
         $this->LDelim = "{";
@@ -558,13 +466,13 @@ class eZTemplate
             }
             if ( !$templateCompilationUsed )
             {
-                if ( eZTemplate::isDebugEnabled() )
+                if ( OldeZTemplate::isDebugEnabled() )
                 {
                     $fname = $resourceData['template-filename'];
                     eZDebug::writeDebug( "FETCH START URI: $template, $fname" );
                 }
                 $this->process( $root, $text, "", "" );
-                if ( eZTemplate::isDebugEnabled() )
+                if ( OldeZTemplate::isDebugEnabled() )
                     eZDebug::writeDebug( "FETCH END URI: $template, $fname" );
             }
 
@@ -668,10 +576,12 @@ class eZTemplate
         if ( isset( $func ) and
              is_object( $func ) )
         {
-            if ( eZTemplate::isMethodDebugEnabled() )
+
+            if ( OldeZTemplate::isMethodDebugEnabled() )
                 eZDebug::writeDebug( "START FUNCTION: $functionName" );
+
             $value = $func->process( $this, $textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace );
-            if ( eZTemplate::isMethodDebugEnabled() )
+            if ( OldeZTemplate::isMethodDebugEnabled() )
                 eZDebug::writeDebug( "END FUNCTION: $functionName" );
             return $value;
         }
@@ -727,7 +637,7 @@ class eZTemplate
         $resourceData['key-data'] = null;
         $resourceData['locales'] = null;
 
-        if ( !$resourceObject->handleResource( $this, $resourceData, eZTemplate::RESOURCE_FETCH, $extraParameters ) )
+        if ( !$resourceObject->handleResource( eZTemplate::instance(), $resourceData, eZTemplate::RESOURCE_FETCH, $extraParameters ) )
         {
             $resourceData = null;
             if ( $displayErrors )
@@ -787,7 +697,7 @@ class eZTemplate
         if ( $resourceData )
         {
             $root = null;
-            eZTemplate::appendTemplateToStatisticsIfNeeded( $resourceData['template-name'], $resourceData['template-filename'] );
+            OldeZTemplate::appendTemplateToStatisticsIfNeeded( $resourceData['template-name'], $resourceData['template-filename'] );
             $this->appendTemplateFetch( $resourceData['template-filename'] );
 
             if ( !$resourceData['compiled-template'] and
@@ -800,7 +710,7 @@ class eZTemplate
                 $rootNamespace = '';
                 $this->parse( $templateText, $resourceData['root-node'], $rootNamespace, $resourceData );
 
-                if ( eZTemplate::isDebugEnabled() )
+                if ( OldeZTemplate::isDebugEnabled() )
                 {
                     $this->appendDebugNodes( $resourceData['root-node'], $resourceData );
                 }
@@ -857,13 +767,13 @@ class eZTemplate
         if ( !$templateCompilationUsed )
         {
             $text = null;
-            if ( eZTemplate::isDebugEnabled() )
+            if ( OldeZTemplate::isDebugEnabled() )
             {
                 $fname = $resourceData['template-filename'];
                 eZDebug::writeDebug( "START URI: $uri, $fname" );
             }
             $this->process( $resourceData['root-node'], $text, $rootNamespace, $currentNamespace );
-            if ( eZTemplate::isDebugEnabled() )
+            if ( OldeZTemplate::isDebugEnabled() )
                 eZDebug::writeDebug( "END URI: $uri, $fname" );
             $this->setIncludeOutput( $uri, $text );
             $textElements[] = $text;
@@ -920,7 +830,7 @@ class eZTemplate
         $templateText = $resourceData["text"];
         $rootNamespace = '';
         $this->parse( $templateText, $root, $rootNamespace, $resourceData );
-        if ( eZTemplate::isDebugEnabled() )
+        if ( OldeZTemplate::isDebugEnabled() )
         {
             $this->appendDebugNodes( $root, $resourceData );
         }
@@ -965,7 +875,7 @@ class eZTemplate
             $templateText = $resourceData["text"];
             $rootNamespace = '';
             $this->parse( $templateText, $root, $rootNamespace, $resourceData );
-            if ( eZTemplate::isDebugEnabled() )
+            if ( OldeZTemplate::isDebugEnabled() )
             {
                 $this->appendDebugNodes( $root, $resourceData );
             }
@@ -1030,7 +940,7 @@ class eZTemplate
         }
         else
             $template = $uri;
-        if ( eZTemplate::isDebugEnabled() )
+        if ( OldeZTemplate::isDebugEnabled() )
         {
             eZDebug::writeNotice( "eZTemplate: Loading template \"$template\" with resource \"$res\"" );
         }
@@ -1367,11 +1277,11 @@ class eZTemplate
             if ( is_object( $op ) and method_exists( $op, 'modify' ) )
             {
                 $value = $valueData['value'];
-                if ( eZTemplate::isMethodDebugEnabled() )
+                if ( OldeZTemplate::isMethodDebugEnabled() )
                     eZDebug::writeDebug( "START OPERATOR: $operatorName" );
                 $op->modify( $this, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, $value, $namedParameters,
                              $placement );
-                if ( eZTemplate::isMethodDebugEnabled() )
+                if ( OldeZTemplate::isMethodDebugEnabled() )
                     eZDebug::writeDebug( "END OPERATOR: $operatorName" );
                 $valueData['value'] = $value;
             }
@@ -1749,7 +1659,7 @@ class eZTemplate
             return;
         $uri = $resourceData['uri'];
         $preText = "\n<!-- START: including template: $path ($uri) -->\n";
-        if ( eZTemplate::isXHTMLCodeIncluded() )
+        if ( OldeZTemplate::isXHTMLCodeIncluded() )
             $preText .= "<p class=\"small\">$path</p><br/>\n";
         $postText = "\n<!-- STOP: including template: $path ($uri) -->\n";
         $root[1] = array_merge( array( eZTemplateNodeTool::createTextNode( $preText ) ), $root[1] );
@@ -2145,9 +2055,9 @@ class eZTemplate
         else
             $placementText = $placement;
         if ( $name != "" )
-            $nameText = "eZTemplate:$name";
+            $nameText = "OldeZTemplate:$name";
         else
-            $nameText = "eZTemplate";
+            $nameText = "OldeZTemplate";
         eZDebug::writeError( $txt, $nameText . $placementText );
         $hasAppendWarning =& $GLOBALS['eZTemplateHasAppendWarning'];
         $ini = $this->ini();
@@ -2356,7 +2266,7 @@ class eZTemplate
     {
         if ( self::$instance === null )
         {
-            self::$instance = new eZTemplate();
+            self::$instance = new OldeZTemplate();
         }
         return self::$instance;
     }
@@ -2529,8 +2439,8 @@ class eZTemplate
     */
     function appendTemplateToStatisticsIfNeeded( &$templateName, &$templateFileName )
     {
-        if ( eZTemplate::isTemplatesUsageStatisticsEnabled() )
-            eZTemplate::appendTemplateToStatistics( $templateName, $templateFileName );
+        if ( OldeZTemplate::isTemplatesUsageStatisticsEnabled() )
+            OldeZTemplate::appendTemplateToStatistics( $templateName, $templateFileName );
     }
 
     /*!
@@ -2542,7 +2452,7 @@ class eZTemplate
         $actualTemplateName = preg_replace( "#^[\w/]+templates/#", '', $templateFileName );
         $requestedTemplateName = preg_replace( "#^[\w/]+templates/#", '', $templateName );
 
-        $tpl = eZTemplate::instance();
+        $tpl = OldeZTemplate::instance();
         $needToAppend = true;
 
         // don't add template info if it is a duplicate of previous.
@@ -2592,7 +2502,7 @@ class eZTemplate
     */
     static function templatesUsageStatistics()
     {
-        $tpl = eZTemplate::instance();
+        $tpl = OldeZTemplate::instance();
         return $tpl->TemplatesUsageStatistics;
     }
 

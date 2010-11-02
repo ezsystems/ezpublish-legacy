@@ -229,12 +229,12 @@ class eZWorkflowType
                             array_keys( $this->Attributes ) );
     }
 
-    function hasAttribute( $attr )
+    public function __isset( $attr )
     {
         return in_array( $attr, $this->attributes() );
     }
 
-    function attribute( $attr )
+    public function __get( $attr )
     {
         switch( $attr )
         {
@@ -255,15 +255,30 @@ class eZWorkflowType
             } break;
         }
 
-        eZDebug::writeError( "Attribute '$attr' does not exist", 'eZWorkflowType::attribute' );
-        return null;
+        throw new ezcBasePropertyNotFoundException($attr);
     }
 
-    function setAttribute( $attr, $value )
+    public function __set( $attr, $value )
     {
         if ( array_key_exists( $attr, $this->Attributes ) )
             $this->Attributes[$attr] = $value;
     }
+
+    public function hasAttribute( $attr )
+    {
+        return $this->__isset($attr);
+    }
+
+    public function attribute( $attr )
+    {
+        return $this->__get( $attr );
+    }
+
+    public function setAttribute( $attr, $value )
+    {
+        return $this->__set( $attr, $value );
+    }
+
 
     /*!
      Set trigger types.
@@ -408,6 +423,7 @@ class eZWorkflowType
     public $ActivationDate;
     public $Information;
     public $TriggerTypes = array( '*' => true );
+    protected $Attributes;
 }
 
 ?>

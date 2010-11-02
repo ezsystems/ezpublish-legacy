@@ -102,7 +102,7 @@ class eZImageInterface
     /*!
      \return true if the attribute \a $name exists.
     */
-    function hasAttribute( $name )
+    public function __isset( $name )
     {
         $attributeMemberMap = eZImageInterface::attributeMemberMap();
         if ( isset( $attributeMemberMap[$name] ) )
@@ -116,7 +116,7 @@ class eZImageInterface
     /*!
      \return the attribute with name \a $name or \c null if the attribute does not exist.
     */
-    function attribute( $name )
+    public function __get( $name )
     {
         $attributeMemberMap = eZImageInterface::attributeMemberMap();
         if ( isset( $attributeMemberMap[$name] ) )
@@ -136,9 +136,24 @@ class eZImageInterface
             eZDebug::writeWarning( 'The member function $function was not found for attribute $name', 'eZImageInterface::attribute' );
             return null;
         }
-        eZDebug::writeError( "Attribute '$name' does not exist", 'eZImageInterface::attribute' );
-        return null;
+        throw new ezcBasePropertyNotFoundException($name);
     }
+
+    public function __set($name, $value)
+    {
+        throw new ezcBasePropertyPermissionException($name, ezcBasePropertyPermissionException::READ );
+    }
+
+    public function hasAttribute( $attr )
+    {
+        return $this->__isset($attr);
+    }
+
+    public function attribute( $attr )
+    {
+        return $this->__get( $attr );
+    }
+
 
     /*!
      \return true if the image object has been processed, this means that

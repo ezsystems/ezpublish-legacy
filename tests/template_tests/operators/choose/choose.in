@@ -1,0 +1,5 @@
+{choose(0, "Zero", "One")}
+{choose(1, "Zero", "One", "Two")}
+{choose(2, "Zero", "One", "Two")}
+{choose(1, "Zero", "One", "Two")}
+{choose(0, "Zero", "One", "Two")}

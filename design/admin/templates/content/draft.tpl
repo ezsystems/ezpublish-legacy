@@ -93,7 +93,7 @@
 <div class="block">
 {if $list_count}
     <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/draft')}" title="{'Remove selected drafts.'|i18n( 'design/admin/content/draft' )}" />
-    <input class="button" type="submit" name="EmptyButton"  value="{'Remove all'|i18n( 'design/admin/content/draft')}" onclick="return confirmDiscard( '{'Are you sure you want to remove all drafts?'|i18n( 'design/admin/content/draft' )|wash(javascript)}' );" title="{'Remove all drafts that belong to you.'|i18n( 'design/admin/content/draft' )}" />
+    <input class="button" type="submit" name="EmptyButton"  value="{'Remove all'|i18n( 'design/admin/content/draft')}" onclick="return confirmDiscard( '{**REMOVE**}{'Are you sure you want to remove all drafts?'|i18n( 'design/admin/content/draft' )|wash(javascript)}{**/REMOVE**}{**ADD**{escape_javascript(i18n('Are you sure you want to remove all drafts?', 'design/admin/content/draft' ))}**/ADD**}' );" title="{'Remove all drafts that belong to you.'|i18n( 'design/admin/content/draft' )}" />
 {else}
     <input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/draft')}" disabled="disabled" />
     <input class="button-disabled" type="submit" name="EmptyButton"  value="{'Remove all'|i18n( 'design/admin/content/draft')}" disabled="disabled" />

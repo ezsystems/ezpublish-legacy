@@ -80,7 +80,7 @@
     {/if}
 </div>
 
-{*** Class Default Sorting ***}
+{* Class Default Sorting *}
 <div class="block">
 <label>{'Default sorting of children'|i18n( 'design/admin/class/view' )}:</label>
 {def $sort_fields=fetch( content, available_sort_fields )}

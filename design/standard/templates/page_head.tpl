@@ -20,11 +20,14 @@
 
     <title>{$site_title}</title>
 
+{* Note: The following code has been disabled since the extra_data variable is never set in any template *}
+{*
     {section show=and(is_set($#Header:extra_data),is_array($#Header:extra_data))}
       {section name=ExtraData loop=$#Header:extra_data}
       {$:item}
       {/section}
     {/section}
+*}
 
     {* check if we need a http-equiv refresh *}
     {if $site.redirect}

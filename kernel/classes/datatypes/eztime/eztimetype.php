@@ -209,12 +209,7 @@ class eZTimeType extends eZDataType
 
         }
         else
-            $time = array( 'timestamp' => '',
-                           'time_of_day' => '',
-                           'hour' => '',
-                           'minute' => '',
-                           'second' => '',
-                           'is_valid' => false );
+            $time = new ezpInvalidTime();
         return $time;
     }
 

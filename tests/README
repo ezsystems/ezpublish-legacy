@@ -1,0 +1,12 @@
+template_tests
+--------------
+
+The template_tests compare the results from the templates run with the new template 
+engine with an expected output. In the directory template_tests and subdirectories are 
+the test-files located with the following extensions:
+
+:*.in:   The input template file written in the ezcTemplate syntax. 
+:*.send: A PHP file that returns a hash (array) with mapped variable names and values. 
+:*.out:  The expected output when the *.in (and *.send) are run.
+:*.tpl:  The old template language. When the *.out file is not present, it will run the old 
+         template engine, together with the *.send file. 

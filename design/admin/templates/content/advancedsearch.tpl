@@ -55,13 +55,8 @@
 <select name="SearchContentClassID">
 <option value="-1">{'Any class'|i18n( 'design/admin/content/search' )}</option>
 {section name=ContentClass loop=$content_class_array }
-<option {switch name=sw match=$search_contentclass_id}
-{case match=$ContentClass:item.id}
-selected="selected"
-{/case}
-{case}
-{/case}
-{/switch} value="{$ContentClass:item.id}">{$ContentClass:item.name|wash}</option>
+<option {if $search_contentclass_id|eq($ContentClass:item.id)}selected="selected" {/if}
+value="{$ContentClass:item.id}">{$ContentClass:item.name|wash}</option>
 {/section}
 </select>
 </div>
@@ -96,13 +91,8 @@ selected="selected"
 <select name="SearchSectionID">
 <option value="-1">{'Any section'|i18n( 'design/admin/content/search' )}</option>
 {section name=Section loop=$section_array }
-<option {switch name=sw match=$search_section_id}
-     {case match=$Section:item.id}
-selected="selected"
-{/case}
-{case}
-{/case}
-{/switch} value="{$Section:item.id}">{$Section:item.name|wash}</option>
+<option {if $search_section_id|eq($Section:item.id)}selected="selected" {/if} 
+value="{$Section:item.id}">{$Section:item.name|wash}</option>
 {/section}
 </select>
 

@@ -57,12 +57,12 @@ class eZSubTreeHandler extends eZNotificationEventHandler
                             eZNotificationEventHandler::attributes() );
     }
 
-    function hasAttribute( $attr )
+    public function __isset( $attr )
     {
         return in_array( $attr, $this->attributes() );
     }
 
-    function attribute( $attr )
+    public function __get( $attr )
     {
         if ( $attr == 'subscribed_nodes' )
         {
@@ -76,6 +76,22 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         }
         return eZNotificationEventHandler::attribute( $attr );
     }
+    public function __set($name, $value)
+    {
+        throw new ezcBasePropertyPermissionException($name, ezcBasePropertyPermissionException::READ );
+    }
+
+    public function hasAttribute( $attr )
+    {
+        return $this->__isset($attr);
+    }
+
+    public function attribute( $attr )
+    {
+        return $this->__get( $attr );
+    }
+
+
 
     function handle( $event )
     {
@@ -162,18 +178,22 @@ class eZSubTreeHandler extends eZNotificationEventHandler
             $emailSender = $ini->variable( "MailSettings", "AdminEmail" );
         $tpl->setVariable( 'sender', $emailSender );
 
+        $notificationinfo = ezpGlobals::instance()->notification;
+        $notificationinfo->reset();
         $result = $tpl->fetch( 'design:notification/handler/ezsubtree/view/plain.tpl' );
-        $subject = $tpl->variable( 'subject' );
-        if ( $tpl->hasVariable( 'message_id' ) )
-            $parameters['message_id'] = $tpl->variable( 'message_id' );
-        if ( $tpl->hasVariable( 'references' ) )
-            $parameters['references'] = $tpl->variable( 'references' );
-        if ( $tpl->hasVariable( 'reply_to' ) )
-            $parameters['reply_to'] = $tpl->variable( 'reply_to' );
-        if ( $tpl->hasVariable( 'from' ) )
-            $parameters['from'] = $tpl->variable( 'from' );
-        if ( $tpl->hasVariable( 'content_type' ) )
-            $parameters['content_type'] = $tpl->variable( 'content_type' );
+        $notificationinfo->fromTemplate( $tpl );
+
+        $subject = $notificationinfo->subject;
+        if ( $notificationinfo->message_id !== null )
+            $parameters['message_id'] = $notificationinfo->message_id;
+        if ( $notificationinfo->references !== null )
+            $parameters['references'] = $notificationinfo->references;
+        if ( $notificationinfo->reply_to !== null )
+            $parameters['reply_to'] = $notificationinfo->reply_to;
+        if ( $notificationinfo->from !== null )
+            $parameters['from'] = $notificationinfo->from;
+        if ( $notificationinfo->content_type !== null )
+            $parameters['content_type'] = $notificationinfo->content_type;
 
         $collection = eZNotificationCollection::create( $event->attribute( 'id' ),
                                                         self::NOTIFICATION_HANDLER_ID,

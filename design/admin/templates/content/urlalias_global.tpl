@@ -80,7 +80,7 @@
 
 {def $aliasList=$filter.items}
 
-<form name="aliasform" method="post" action={"content/urltranslator/"|ezurl}>
+<form name="aliasform" method="post" action={'content/urltranslator/'|ezurl}>
 
 <div class="context-block">
 
