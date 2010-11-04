@@ -6122,7 +6122,7 @@ $schema = array (
       array (
         'length' => 255,
         'type' => 'varchar',
-        'default' => NULL,
+        'default' => '',
       ),
       'locale' => 
       array (
