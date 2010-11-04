@@ -4,7 +4,7 @@ UPDATE ezsite_data SET value='1' WHERE name='ezpublish-release';
 
 ALTER TABLE ezcontentobject DROP COLUMN is_published;
 
-ALTER TABLE ezsection ADD identifier VARCHAR(255);
+ALTER TABLE ezsection ADD identifier VARCHAR(255) DEFAULT '';
 
 ALTER TABLE ezinfocollection_attribute ADD INDEX ezinfocollection_attr_cca_id ( contentclass_attribute_id );
 ALTER TABLE ezinfocollection_attribute ADD INDEX ezinfocollection_attr_coa_id ( contentobject_attribute_id );
