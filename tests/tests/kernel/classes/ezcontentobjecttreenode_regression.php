@@ -240,5 +240,44 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
 
         eZUser::setCurrentlyLoggedInUser( $currentUser, $currentUserID );
     }
+
+    /**
+     * Regression test for issue {@see #17632 http://issues.ez.no/17632}
+     *
+     * In a multi language environment, a node fetched with a language other than the prioritized one(s) will return the
+     * URL alias in the prioritized language
+     */
+    public function testIssue17632()
+    {
+        $strNameEngGB = __FUNCTION__ . " eng-GB";
+        $strNameFreFR = __FUNCTION__ . " fre-FR";
+
+        // add a secondary language
+        $locale = eZLocale::instance( 'fre-FR' );
+        $translation = eZContentLanguage::addLanguage( $locale->localeCode(), $locale->internationalLanguageName() );
+
+        // set the prioritize language list to contain english
+        ezpINIHelper::setINISetting( 'site.ini', 'RegionalSettings', 'SiteLanguageList', array( 'fre-FR' ) );
+
+        // Create an object with data in fre-FR and eng-GB
+        $folder = new ezpObject( 'folder', 2, 14, 1, 'eng-GB' );
+        $folder->publish();
+
+        // Workaround as setting folder->name directly doesn't produce the expected result
+        $folder->addTranslation( 'eng-GB', array( 'name' => $strNameEngGB ) );
+        $folder->addTranslation( 'fre-FR', array( 'name' => $strNameFreFR ) );
+
+        $nodeId = $folder->main_node_id;
+
+        // fetch the node with no default parameters. Should return the french URL Alias
+        $node = eZContentObjectTreeNode::fetch( $nodeId );
+        self::assertEquals( 'testIssue17632-fre-FR' , $node->attribute( 'url_alias' ) );
+
+        // fetch the node in english. Should return the english URL Alias
+        $node = eZContentObjectTreeNode::fetch( $nodeId, 'eng-GB' );
+        self::assertEquals( 'testIssue17632-eng-GB' , $node->attribute( 'url_alias' ) );
+
+        ezpINIHelper::restoreINISettings();
+    }
 }
 ?>
