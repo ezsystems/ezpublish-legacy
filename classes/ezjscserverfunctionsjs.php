@@ -340,7 +340,7 @@ if ( window.XMLHttpRequest && window.ActiveXObject )
 
         // Do not allow to search for more then x items at a time
         $ini = eZINI::instance();
-        $maximumSearchLimit = $ini->variable( 'SearchSettings', 'MaximumSearchLimit' );
+        $maximumSearchLimit = (int) $ini->variable( 'SearchSettings', 'MaximumSearchLimit' );
         if ( $searchLimit > $maximumSearchLimit )
             $searchLimit = $maximumSearchLimit;
 
