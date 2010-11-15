@@ -2981,9 +2981,15 @@ class eZContentObjectTreeNode extends eZPersistentObject
     }
 
 
-    /*!
-     \static
-     Fetch node by $nodeID. If $nodeID is an array of ids then list of nodes will be returned.
+    /**
+     * Fetches a node by ID
+     *
+     * @param int|array $nodeID Either a node ID or array of node IDs
+     * @param string $lang language code to fetch the node in. If not provided, the prioritized language list is used
+     * @param bool $asObject True to fetch the node as an eZContentObjectTreeNode, false to fetch its attributes as an array
+     * @param array $conditions An associative array (field => value) of fetch conditions. Will be applied as is to the SQL query
+     *
+     * @return eZContentObjectTreeNode
     */
     static function fetch( $nodeID = false, $lang = false, $asObject = true, $conditions = false )
     {
@@ -3361,7 +3367,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
             else
             {
-                $path = eZURLAliasML::fetchPathByActionList( "eznode", $pathArray );
+                $path = eZURLAliasML::fetchPathByActionList( "eznode", $pathArray, $this->CurrentLanguage );
             }
 
             // Fallback in case fetchPathByActionList() fails,
