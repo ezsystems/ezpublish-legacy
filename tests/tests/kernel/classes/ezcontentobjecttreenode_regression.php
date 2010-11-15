@@ -32,9 +32,16 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
     *    kernel/classes/ezcontentobjecttreenode.php on line 4225
     *
     * Explanation: the error actually comes from the can_remove_location attribute
-    **/
+     **/    /**
+      * Regression test for issue {@see #17632 http://issues.ez.no/17632}
+      *
+      * In a multi language environment, a node fetched with a language other than the prioritized one(s) will return the
+      * URL alias in the prioritized language
+      */
     public function testIssue13497()
     {
+        $bkpLanguages = eZContentLanguage::prioritizedLanguageCodes();
+
         // Create a folder in english only
         $folder = new ezpObject( "folder", 2, 14, 1, 'eng-GB' );
         $folder->setAlwaysAvailableLanguageID( false );
@@ -54,7 +61,8 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
 
         // INi changes: set language to french only, untranslatedobjects disabled
         ezpINIHelper::setINISetting( 'site.ini', 'RegionalSettings', 'ContentObjectLocale', 'fre-FR' );
-        ezpINIHelper::setINISetting( 'site.ini', 'RegionalSettings', 'SiteLanguageList', array( 'fre-FR' ) );
+        // ezpINIHelper::setINISetting( 'site.ini', 'RegionalSettings', 'SiteLanguageList', array( 'fre-FR' ) );
+        eZContentLanguage::setPrioritizedLanguages( array( 'fre-FR' ) );
         ezpINIHelper::setINISetting( 'site.ini', 'RegionalSettings', 'ShowUntranslatedObjects', 'disabled' );
         eZContentLanguage::expireCache();
 
@@ -64,7 +72,10 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
         ezpINIHelper::restoreINISettings();
 
         // re-expire cache for further tests
+        eZContentLanguage::setPrioritizedLanguages( $bkpLanguages );
         eZContentLanguage::expireCache();
+
+        ezpINIHelper::restoreINISettings();
     }
 
     /**
@@ -249,6 +260,8 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
      */
     public function testIssue17632()
     {
+        $bkpLanguages = eZContentLanguage::prioritizedLanguageCodes();
+
         $strNameEngGB = __FUNCTION__ . " eng-GB";
         $strNameFreFR = __FUNCTION__ . " fre-FR";
 
@@ -257,7 +270,8 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
         $translation = eZContentLanguage::addLanguage( $locale->localeCode(), $locale->internationalLanguageName() );
 
         // set the prioritize language list to contain english
-        ezpINIHelper::setINISetting( 'site.ini', 'RegionalSettings', 'SiteLanguageList', array( 'fre-FR' ) );
+        // ezpINIHelper::setINISetting( 'site.ini', 'RegionalSettings', 'SiteLanguageList', array( 'fre-FR' ) );
+        eZContentLanguage::setPrioritizedLanguages( array( 'fre-FR' ) );
 
         // Create an object with data in fre-FR and eng-GB
         $folder = new ezpObject( 'folder', 2, 14, 1, 'eng-GB' );
@@ -278,6 +292,7 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
         self::assertEquals( 'testIssue17632-eng-GB' , $node->attribute( 'url_alias' ) );
 
         ezpINIHelper::restoreINISettings();
+        eZContentLanguage::setPrioritizedLanguages( $bkpLanguages );
     }
 }
 ?>
