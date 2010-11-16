@@ -60,7 +60,7 @@ class ezpOauthUtility
         }
 
         // 2
-        $token = self::getTokenFromQueryComponent();
+        $token = self::getTokenFromQueryComponent( $request );
         if ( $token !== null )
             return $token;
 
