@@ -107,9 +107,20 @@ class ezpOauthUtility
         return $m['token'];
     }
 
-    protected function getTokenFromQueryComponent()
+     /**
+     * todo: add document
+     * @throws ezpOauthInvalidRequestException
+     * @param ezcMvcRequest $request
+     * @return
+     */
+    protected function getTokenFromQueryComponent( ezcMvcRequest $request )
     {
-
+        $urlString = $request->raw['REQUEST_URI'];
+        $url = new ezcUrl( $urlString );
+        $query = $url->getQuery();
+        if( !array_key_exists( 'oauth_token', $query ) )
+            throw new ezpOauthInvalidRequestException( "Token not found in Query component" );
+        return $query['oauth_token'];
     }
 
     protected function getTokenFromHttpBody()
