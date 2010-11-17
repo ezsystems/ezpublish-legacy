@@ -788,12 +788,18 @@ class eZOrder extends eZPersistentObject
         return $bestMatch;
     }
 
-    function productItems( $asObject=true )
+    /**
+     * Fetch product items that bellongs ot the order
+     *
+     * @param bool $asObject
+     * @param array|null $sorts Array with sort data sent directly to {@link eZPersistentObject::fetchObjectList()}
+     */
+    function productItems( $asObject = true, array $sorts = null )
     {
         $productItems = eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
-                                                       null, array( "productcollection_id" => $this->ProductCollectionID
-                                                                    ),
                                                        null,
+                                                       array( 'productcollection_id' => $this->ProductCollectionID ),
+                                                       $sorts,
                                                        null,
                                                        $asObject );
 

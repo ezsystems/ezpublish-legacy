@@ -93,7 +93,7 @@ class eZBasket extends eZPersistentObject
      * Fetch basket items (ordered by object id by default)
      *
      * @param bool $asObject
-     * @param array|null $sorts Array with sort data to be sent direclty to {@link eZPersistentObject::fetchObjectList()}
+     * @param array|null $sorts Array with sort data sent directly to {@link eZPersistentObject::fetchObjectList()}
      */
     function items( $asObject = true, $sorts = array( 'contentobject_id' => 'desc' ) )
     {
