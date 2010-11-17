@@ -142,6 +142,9 @@ class ezpContent
             case 'classIdentifier':
                 return $this->object->attribute( 'class_identifier' );
                 break;
+            case 'owner':
+                return $this->object->attribute( 'owner' );
+                break;
             case 'name':
                 if ( $this->activeLanguage !== null )
                     return $this->object->name( false, $this->activeLanguage );
