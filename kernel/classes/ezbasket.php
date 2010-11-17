@@ -76,6 +76,7 @@ class eZBasket extends eZPersistentObject
                                                               'foreign_attribute' => 'id',
                                                               'multiplicity' => '1..*') ),
                       'function_attributes' => array( 'items' => 'items',
+                                                      'items_ordered' => 'itemsOrdered',
                                                       'total_ex_vat' => 'totalExVAT',
                                                       'total_inc_vat' => 'totalIncVAT',
                                                       'is_empty' => 'isEmpty',
@@ -88,12 +89,18 @@ class eZBasket extends eZPersistentObject
         return $definition;
     }
 
-    function items( $asObject = true )
+    /**
+     * Fetch basket items (ordered by object id by default)
+     *
+     * @param bool $asObject
+     * @param array|null $sorts Array with sort data to be sent direclty to {@link eZPersistentObject::fetchObjectList()}
+     */
+    function items( $asObject = true, $sorts = array( 'contentobject_id' => 'desc' ) )
     {
         $productItems = eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
                                                              null,
                                                              array( 'productcollection_id' => $this->ProductCollectionID ),
-                                                             array( 'contentobject_id' => 'desc' ),
+                                                             $sorts,
                                                              null,
                                                              $asObject );
         $addedProducts = array();
@@ -152,6 +159,18 @@ class eZBasket extends eZPersistentObject
         }
         return $addedProducts;
     }
+
+    /**
+     * Fetch basket items ordered by id ( the order they are added to basket )
+     *
+     * @param bool $asObject
+     * @param bool $order True (default) for ascending[0->9] and false for decending[9->0]
+     */
+    function itemsOrdered( $asObject = true, $order = true )
+    {
+        return $this->items( $asObject, array( 'id' => ( $order ? 'asc' : 'desc' )) );
+    }
+
     /*!
      Fetching calculated information about the product items.
     */
