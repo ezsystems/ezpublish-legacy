@@ -1,7 +1,7 @@
-<script language="JavaScript" type="text/javascript" src={"javascript/lib/ezjslibcookiesupport.js"|ezdesign}></script>
-<script language="JavaScript" type="text/javascript" src={"javascript/lib/ezjslibdomsupport.js"|ezdesign}></script>
-<script language="JavaScript" type="text/javascript" src={"javascript/lib/ezjslibimagepreloader.js"|ezdesign}></script>
-<script language="JavaScript" type="text/javascript" src={"javascript/contentstructuremenu/contentstructuremenu.js"|ezdesign}></script>
+<script type="text/javascript" src={"javascript/lib/ezjslibcookiesupport.js"|ezdesign}></script>
+<script type="text/javascript" src={"javascript/lib/ezjslibdomsupport.js"|ezdesign}></script>
+<script type="text/javascript" src={"javascript/lib/ezjslibimagepreloader.js"|ezdesign}></script>
+<script type="text/javascript" src={"javascript/contentstructuremenu/contentstructuremenu.js"|ezdesign}></script>
 
 
 {let rootNodeID             = ezini( 'TreeMenu', 'RootNodeID'       , 'contentstructuremenu.ini' )
@@ -32,7 +32,7 @@
              defaultIcon        = $:iconInfo.default
              iconSizePath       = $:iconInfo.size_path_list[$:classIconsSize] }
 
-            <script language="JavaScript" type="text/javascript"><!--
+            <script type="text/javascript"><!--
 
                 var iconsList       = new Array();
                 var wwwDirPrefix    = "{ezsys('wwwdir')}";
@@ -92,7 +92,7 @@
     {/default}
 
     {* initialize menu *}
-    <script language="JavaScript" type="text/javascript"><!--
+    <script type="text/javascript"><!--
 
         {* get path to current node which consists of nodes ids *}
         var nodesList = new Array();
