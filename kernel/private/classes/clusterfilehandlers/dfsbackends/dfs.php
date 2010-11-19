@@ -239,7 +239,7 @@ class eZDFSFileHandlerDFSBackend
         $oldPath = $this->makeDFSPath( $oldPath );
         $newPath = $this->makeDFSPath( $newPath );
 
-        $ret = rename( $oldPath, $newPath );
+        $ret = eZFile::rename( $oldPath, $newPath, true );
 
         $this->accumulatorStop();
 

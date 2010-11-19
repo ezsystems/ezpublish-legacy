@@ -180,15 +180,23 @@ class eZFile
 
     \param $srcFile from filename
     \param $destFile to filename
+    \param $mkdir make directory for dest file if needed
 
     \return rename status. ( true if successful, false if not )
     */
-    static function rename( $srcFile, $destFile )
+    static function rename( $srcFile, $destFile, $mkdir = false )
     {
         /* On windows we need to unlink the destination file first */
         if ( strtolower( substr( PHP_OS, 0, 3 ) ) == 'win' )
         {
             @unlink( $destFile );
+        }
+        if( $mkdir )
+        {
+            if( !is_dir( dirname( $destFile ) ) )
+            {
+                eZDir::mkdir( dirname( $destFile ), false, true );
+            }
         }
         return rename( $srcFile, $destFile );
     }
