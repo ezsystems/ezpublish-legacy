@@ -1667,6 +1667,17 @@ class eZPackage
     }
 
     /*!
+     \static
+     \return information on the eZ system repository or \c false if does not exist.
+    */
+    static function systemRepositoryInformation()
+    {
+        $ini = eZINI::instance( 'package.ini' );
+        $vendor = $ini->variable( 'RepositorySettings', 'Vendor' );
+        return eZPackage::repositoryInformation( $vendor );
+    }
+
+    /*!
      Sets the current repository information for the package.
      \sa currentRepositoryInformation, packageRepositories
     */
