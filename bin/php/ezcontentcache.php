@@ -139,9 +139,9 @@ else if ( $options['clear-subtree'] )
         while ( $offset < $subtreeCount )
         {
             $params['Offset'] = $offset;
-            $params['Limit'] = $limit;
-            $subtree =& $node->subTree( $params );
-            $offset += count( $subtree );
+            $params['Limit']  = $limit;
+            $subtree          = $node->subTree( $params );
+            $offset          += count( $subtree );
             if ( count( $subtree ) == 0 )
             {
                 break;
@@ -160,6 +160,7 @@ else if ( $options['clear-subtree'] )
                 $status = eZContentCacheManager::clearContentCache( $objectID );
                 $script->iterate( $cli, $status, "Cleared view cache for object $objectID" );
             }
+            eZContentObject::clearCache();// Clear all object memory cache to free memory
         }
     }
     $script->shutdown( 0 );
