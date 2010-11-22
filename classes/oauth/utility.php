@@ -109,6 +109,7 @@ class ezpOauthUtility
 
      /**
      * todo: add document
+     * @TODO Should use data available over the request object here.
      * @throws ezpOauthInvalidRequestException
      * @param ezcMvcRequest $request
      * @return
