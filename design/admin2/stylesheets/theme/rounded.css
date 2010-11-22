@@ -282,8 +282,7 @@ input.button, input.defaultbutton, input.button-disabled
 {
     color: #fff;
     background: #D1DFE9 url(../../images/2/gradient-btn-blue.png) repeat-x center bottom scroll;
-    border: 1px solid #dedede;
-    border-color: #aaa #ccc #ccc #aaa;
+    border: 1px solid #aaa;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;

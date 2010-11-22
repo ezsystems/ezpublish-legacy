@@ -138,6 +138,11 @@ class eZAutoloadGenerator
      */
     const OUTPUT_PROGRESS_PHASE2 = 2;
 
+    /**
+     * The name of the file which contains default exclude directories for the
+     * autoload generator.
+     */
+    const DEFAULT_EXCLUDE_FILE = '.autoloadignore';
 
     /**
      * Constructs class to generate autoload arrays.
@@ -262,6 +267,27 @@ class eZAutoloadGenerator
     }
 
     /**
+     * Adds exclude directories specified in the default excludes files, to the exclude array.
+     *
+     * If the default exclude file '.autoloadignore' does not exist, the
+     * function will just return the user specified exclude directories. This function relies on the options
+     * object being available in the instance.
+     *
+     * @return array The exclude directories
+     */
+    protected function handleDefaultExcludeFile()
+    {
+        $defaultExcludeFile = $this->options->basePath . DIRECTORY_SEPARATOR . self::DEFAULT_EXCLUDE_FILE;
+        if ( !file_exists( $defaultExcludeFile ) )
+        {
+            return $this->options->excludeDirs;
+        }
+
+        $defaultExcludeArray = explode( "\n", trim( file_get_contents( $defaultExcludeFile ) ) );
+        return array_merge( $defaultExcludeArray, $this->options->excludeDirs );
+    }
+
+    /**
      * Returns an array indexed by location for classes and their filenames.
      *
      * @param string $path The base path to start the search from.
@@ -271,7 +297,7 @@ class eZAutoloadGenerator
     protected function fetchFiles()
     {
         $path = $this->options->basePath;
-        $excludeDirs = $this->options->excludeDirs;
+        $excludeDirs = $this->handleDefaultExcludeFile();
 
         // make sure ezcBaseFile::findRecursive and the exclusion filters we pass to it
         // work correctly on systems with another file seperator than the forward slash
