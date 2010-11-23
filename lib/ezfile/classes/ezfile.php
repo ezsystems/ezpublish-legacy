@@ -193,10 +193,7 @@ class eZFile
         }
         if( $mkdir )
         {
-            if( !is_dir( dirname( $destFile ) ) )
-            {
-                eZDir::mkdir( dirname( $destFile ), false, true );
-            }
+            eZDir::mkdir( dirname( $destFile ), false, true );
         }
         return rename( $srcFile, $destFile );
     }
