@@ -30,7 +30,7 @@
 
 /**
  * Custom has access to call that also lets you check that user has access to provided limitation(s)
- * 
+ *
  * has_access_to_limitation( string $module, string $function, hash $limitations ):
  * Currently only returns true/false, but will in the future also return array of limitations that
  * did not match (as in limitations you did not ask to check by your provided parameters)
@@ -67,7 +67,7 @@ class ezjscAccessTemplateFunctions
                                                 'required' => false,
                                                 'default' => false )),
         );
-                                              
+
     }
 
     function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
@@ -83,12 +83,12 @@ class ezjscAccessTemplateFunctions
 
     /**
      * Check access to a specific module/function with limitation values.
-     * See eZ Publish documentation on more info on module, function and 
+     * See eZ Publish documentation on more info on module, function and
      * limitation values. Example: a user can have content/read permissions
      * but it can be limited to a specific limitation like a section, a node
      * or node tree. Limitation: returns false if one of provided values
      * don't match but ignores limitations not specified in $limitations.
-     * 
+     *
      * @param string $module
      * @param string $function
      * @param array|null $limitations A hash of limitation keys and values
@@ -102,9 +102,9 @@ class ezjscAccessTemplateFunctions
         if ( $user instanceof eZUser )
         {
             $result = $user->hasAccessTo( $module, $function );
-            
+
             if ( $result['accessWord'] !== 'limited')
-            { 
+            {
                 return $result['accessWord'] === 'yes';
             }
             else
@@ -133,7 +133,7 @@ class ezjscAccessTemplateFunctions
                 // User has access unless provided limitations don't match
                 foreach ( $mergedLimitations as $userLimitationKey => $userLimitationValues  )
                 {
-                    // Handle subtree matching specifically as we need to match path string 
+                    // Handle subtree matching specifically as we need to match path string
                     if ( $userLimitationKey === 'User_Subtree' || $userLimitationKey === 'Subtree' )
                     {
                         $pathMatch = false;
