@@ -380,7 +380,7 @@ class eZUser extends eZPersistentObject
             $sql = "SELECT $selectText
 FROM ezuservisit, ezuser
 WHERE ezuservisit.user_id != '" . self::anonymousId() . "' AND
-      ezuservisit.expiration_time > '$time' AND
+      ezuservisit.current_visit_timestamp > '$time' AND
       ezuser.contentobject_id = ezuservisit.user_id
 $sortText";
             $rows = $db->arrayQuery( $sql, $parameters );
@@ -396,7 +396,7 @@ $sortText";
             $sql = "SELECT $selectText
 FROM ezuservisit, ezuser, ezcontentobject
 WHERE ezuservisit.user_id != '" . self::anonymousId() . "' AND
-      ezuservisit.expiration_time > '$time' AND
+      ezuservisit.current_visit_timestamp > '$time' AND
       ezuser.contentobject_id = ezuservisit.user_id AND
       ezcontentobject.id = ezuser.contentobject_id
 $sortText";
