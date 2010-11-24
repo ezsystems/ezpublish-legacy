@@ -35,7 +35,14 @@ class ezpMvcConfiguration implements ezcMvcDispatcherConfiguration
 
     public function createView( ezcMvcRoutingInformation $routeInfo, ezcMvcRequest $request, ezcMvcResult $result )
     {
-        $view = new ezpRestDemoView( $request, $result );
+        if ( $routeInfo->controllerClass === 'ezpRestAtomController' )
+        {
+            $view = new ezpRestAtomView( $request, $result );
+        }
+        else
+        {
+            $view = new ezpRestDemoView( $request, $result );
+        }
         return $view;
     }
 
@@ -63,9 +70,12 @@ class ezpMvcConfiguration implements ezcMvcDispatcherConfiguration
 
     public function runResponseFilters( ezcMvcRoutingInformation $routeInfo, ezcMvcRequest $request, ezcMvcResult $result, ezcMvcResponse $response )
     {
-        $response->content = new ezcMvcResultContent();
-        $response->content->type = "application/json";
-        $response->content->charset = "UTF-8";
+        if ( $response->content === null )
+        {
+            $response->content = new ezcMvcResultContent();
+            $response->content->type = "application/json";
+            $response->content->charset = "UTF-8";
+        }
         $response->generator = "eZ Publish";
     }
 
