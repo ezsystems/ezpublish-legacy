@@ -77,6 +77,7 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
             default:
                 $this->markTestSkipped( "Unsupported database type '{$dsn['phptype']}'" );
         }
+        $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBBackend', $backend );
         $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBHost',    $dsn['host'] );
         $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBPort',    $dsn['port'] );
         $fileINI->setVariable( 'eZDFSClusteringSettings', 'DBSocket',  $dsn['socket'] );
@@ -168,7 +169,12 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
     protected function DFSFileExists( $filePath )
     {
         clearstatcache();
-        return file_exists( $this->makeDFSPath( $filePath ) );
+        $path = $this->makeDFSPath( $filePath );
+
+        if ( is_dir( $path ) )
+            return true;
+        else
+            return file_exists( $path );
     }
 
     /**
@@ -892,6 +898,8 @@ class eZDFSFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
             $this->assertFalse( $this->DFSFileExists( $file ), "DFS file $file still exists" );
             $this->assertFalse( $this->localFileExists( $file ), "local file $file still exists" );
         }
+        $this->assertFalse( $this->DFSFileExists( "var/testPurge/" ) );
+        $this->assertFalse( $this->localFileExists( "var/testPurge/" ) );
 
         // and if files not supposed to be deleted weren't
         foreach( $otherFiles as $file )
