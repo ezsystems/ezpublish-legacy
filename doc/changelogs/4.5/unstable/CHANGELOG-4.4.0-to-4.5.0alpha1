@@ -21,3 +21,4 @@ Changes from 4.4.0 to 4.5.0alpha1
 - Fixed bug #017164: ezstring datatype pass validation if space is entered
 - Fixed bug #017355: admin2: js error prevents context menu in children items table to pop up
 - Fixed bug #017632: Wrong language used for URL alias with a non-default language node
+- Fixed bug #017684: eZDFSFileHandler::purge with a directory doesn't purge local files

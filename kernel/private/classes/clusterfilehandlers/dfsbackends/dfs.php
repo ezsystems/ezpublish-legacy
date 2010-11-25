@@ -141,8 +141,8 @@ class eZDFSFileHandlerDFSBackend
             $ret = true;
             foreach( $filePath as $file )
             {
-                $dfsPath = $this->makeDFSPath( $filePath );
-                $locRet = @unlink(  $dfsPath );
+                $dfsPath = $this->makeDFSPath( $file );
+                $locRet = @unlink( $dfsPath );
                 $ret = $ret and $locRet;
 
                 if ( $locRet )
