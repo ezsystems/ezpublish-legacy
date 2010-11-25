@@ -990,6 +990,8 @@ class eZDBFileHandler
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileDeleteLocal( '$path' )" );
 
         @unlink( $path );
+
+        eZClusterFileHandler::cleanupEmptyDirectories( $path );
     }
 
     /**
@@ -1002,6 +1004,8 @@ class eZDBFileHandler
         $path = $this->filePath;
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::deleteLocal( '$path' )" );
         @unlink( $path );
+
+        eZClusterFileHandler::cleanupEmptyDirectories( $path );
     }
 
     /*!
@@ -1032,6 +1036,8 @@ class eZDBFileHandler
         {
             eZDir::recursiveDelete( $file );
         }
+
+        eZClusterFileHandler::cleanupEmptyDirectories( $file );
     }
 
     /**

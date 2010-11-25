@@ -92,6 +92,25 @@ class eZClusterFileHandler
     }
 
     /**
+     * Goes trough the directory path and removes empty directories, starting at
+     * the leaf and deleting down until a non empty directory is reached.
+     * If the path is not a directory, nothing will happen.
+     *
+     * @param string $path
+     */
+    public static function cleanupEmptyDirectories( $path )
+    {
+        $dirpath = eZDir::dirpath( $path );
+
+        eZDebugSetting::writeDebug( 'kernel-clustering', "eZClusterFileHandler::cleanupEmptyDirectories( '{$dirpath}' )" );
+
+        if ( is_dir( $dirpath ) )
+        {
+            eZDir::cleanupEmptyDirectories( $dirpath );
+        }
+    }
+
+    /**
      * Cluster shutdown handler. Terminates generation for unterminated files.
      * This situation doesn't happen by default, but may with custom code that doesn't follow recommendations.
      */
