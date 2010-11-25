@@ -648,6 +648,8 @@ class eZFS2FileHandler extends eZFSFileHandler
     {
         $path = $this->filePath;
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::deleteLocal( '$path' )", __METHOD__ );
+
+        eZClusterFileHandler::cleanupEmptyDirectories( $path );
     }
 
     /**
@@ -676,7 +678,11 @@ class eZFS2FileHandler extends eZFSFileHandler
                 $mtime = @filemtime( $file );
                 if ( $expiry === false ||
                     $mtime < $expiry ) // remove it if it is too old
+                {
                     @unlink( $file );
+
+                    eZClusterFileHandler::cleanupEmptyDirectories( $file );
+                }
                 ++$count;
             }
             else if ( is_dir( $file ) )

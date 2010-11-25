@@ -788,6 +788,9 @@ class eZFSFileHandler
         {
             eZDir::recursiveDelete( $path );
         }
+
+        eZClusterFileHandler::cleanupEmptyDirectories( $path );
+
         $this->loadMetaData( true );
 
         eZDebug::accumulatorStop( 'dbfile' );
@@ -854,7 +857,11 @@ class eZFSFileHandler
                 $mtime = @filemtime( $file );
                 if ( $expiry === false ||
                      $mtime < $expiry ) // remove it if it is too old
+                {
                     @unlink( $file );
+
+                    eZClusterFileHandler::cleanupEmptyDirectories( $file );
+                }
                 ++$count;
             }
             else if ( is_dir( $file ) )

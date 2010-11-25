@@ -220,7 +220,7 @@ class eZDFSFileHandlerMySQLBackend
         {
             return $this->_fail( "Purging file metadata for $filePath failed" );
         }
-        if ( mysql_affected_rows() == 1 )
+        if ( mysql_affected_rows( $this->db ) == 1 )
         {
             $this->dfsbackend->delete( $filePath );
         }
