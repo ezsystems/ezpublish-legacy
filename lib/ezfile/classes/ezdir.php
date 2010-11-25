@@ -117,14 +117,14 @@ class eZDir
     */
     static function cleanupEmptyDirectories( $dir )
     {
-        $dir = eZDir::cleanPath( $dir, self::SEPARATOR_UNIX );
+        $dir = self::cleanPath( $dir, self::SEPARATOR_UNIX );
         $dirElements = explode( '/', $dir );
         if ( count( $dirElements ) == 0 )
             return true;
         $currentDir = $dirElements[0];
         $result = true;
         if ( !file_exists( $currentDir ) and $currentDir != "" )
-            $result = eZDir::doMkdir( $currentDir, $perm );
+            $result = self::doMkdir( $currentDir, self::directoryPermission() );
         if ( !$result )
             return false;
 

@@ -1041,6 +1041,8 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface
     {
         eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::fileDeleteLocal( '$path' )" );
         @unlink( eZDBFileHandler::cleanPath( $path ) );
+
+        eZClusterFileHandler::cleanupEmptyDirectories( $path );
     }
 
     /**
@@ -1051,6 +1053,8 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface
         $path = $this->filePath;
         eZDebugSetting::writeDebug( 'kernel-clustering', "dfs::deleteLocal( '$path' )" );
         @unlink( $path );
+
+        eZClusterFileHandler::cleanupEmptyDirectories( $path );
     }
 
     /**
@@ -1120,6 +1124,8 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface
         {
             eZDir::recursiveDelete( $file );
         }
+
+        eZClusterFileHandler::cleanupEmptyDirectories( $file );
     }
 
     /**

@@ -113,6 +113,25 @@ class eZClusterFileHandler
     }
 
     /**
+     * Goes trough the directory path and removes empty directories, starting at
+     * the leaf and deleting down until a non empty directory is reached.
+     * If the path is not a directory, nothing will happen.
+     *
+     * @param string $path
+     */
+    public static function cleanupEmptyDirectories( $path )
+    {
+        $dirpath = eZDir::dirpath( $path );
+
+        eZDebugSetting::writeDebug( 'kernel-clustering', "eZClusterFileHandler::cleanupEmptyDirectories( '{$dirpath}' )" );
+
+        if ( is_dir( $dirpath ) )
+        {
+            eZDir::cleanupEmptyDirectories( $dirpath );
+        }
+    }
+
+    /**
      * Adds a file to the generating list
      *
      * @param eZDFSFileHandler|eZDFSFileHandler $file
@@ -132,7 +151,7 @@ class eZClusterFileHandler
     * @param eZDBFileHandler|eZDFSFileHandler $file
     *        Cluster file handler instance
     *        Note that this method expect a version of the handler where the filePath is the REAL one, not the .generating
-
+    *
     * @todo Clustering: apply the eZClusterFileHandlerInterface to all cluster handlers
     */
     public static function removeGeneratingFile( $file )
