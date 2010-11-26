@@ -61,24 +61,18 @@
 
 {* DESIGN: Content END *}</div>
 
-<div class="block">
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc">
-
-<div class="block">
-    <form action={concat( $module.functions.edit.uri, '/', $application.id )|ezurl} method="post">
-        <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'extension/oauthadmin' )}" title="{'Edit this application.'|i18n( 'extension/oauthadmin' )}" />
+    <form style="display: inline;" action={concat( $module.functions.edit.uri, '/', $application.id )|ezurl} method="post">
+        <input class="defaultbutton" type="submit" name="EditButton" value="{'Edit'|i18n( 'extension/oauthadmin' )}" title="{'Edit this application.'|i18n( 'extension/oauthadmin' )}" />
     </form>
-    <form action={$module.functions.action.uri|ezurl} method="post">
-        <input type="hidden" name="ApplicationID" value="{$application.id}" />
-        <input class="button" type="submit" name="DeleteApplicationButton" value="{'Delete'|i18n( 'extension/oauthadmin' )}" title="{'Delete this application.'|i18n( 'extension/oauthadmin' )}" />
+    <form style="display: inline;" action={$module.functions.action.uri|ezurl} method="post">
+        <input type="hidden" name="DeleteIDArray[]" value="{$application.id}" />
+        <input class="button" type="submit" name="DeleteApplicationListButton" value="{'Delete'|i18n( 'extension/oauthadmin' )}" title="{'Delete this application.'|i18n( 'extension/oauthadmin' )}" />
     </form>
-</div>
 
 {* DESIGN: Control bar END *}</div>
 </div>
-</div>
 
 </div>
 
-</form>

@@ -14,7 +14,7 @@
 
 <table class="list" cellspacing="0" summary="{'List of applications'|i18n( 'extension/oauthadmin' )}">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'extension/oauthadmin' )}" title="{'Invert selection.'|i18n( 'extension/oauthadmin' )}" onclick="ezjs_toggleCheckboxes( document.GroupList, 'DeleteIDArray[]' ); return false;"/></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'extension/oauthadmin' )}" title="{'Invert selection.'|i18n( 'extension/oauthadmin' )}" onclick="ezjs_toggleCheckboxes( document.ApplicationList, 'DeleteIDArray[]' ); return false;"/></th>
     <th>{'Name'|i18n( 'extension/oauthadmin' )}</th>
     <th>{'Modifier'|i18n( 'extension/oauthadmin' )}</th>
     <th>{'Modified'|i18n( 'extension/oauthadmin' )}</th>
@@ -43,7 +43,7 @@
     {undef $modified}
 
     {* Edit. *}
-    <td><a href={concat( $module.functions.edit.uri, '/', $application.id )|ezurl}><img class="button" src={'edit.gif'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/class/grouplist' )}" title="{'Edit the <%application_name> application.'|i18n( 'extension/oauthadmin',, hash( '%application_name', $application.name ) )|wash}" /></a></td>
+    <td><a href={concat( $module.functions.edit.uri, '/', $application.id )|ezurl}><img class="button" src={'edit.gif'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'extension/oauthadmin' )}" title="{'Edit the <%application_name> application.'|i18n( 'extension/oauthadmin',, hash( '%application_name', $application.name ) )|wash}" /></a></td>
 
 </tr>
 {/foreach}
@@ -54,7 +54,7 @@
 {* DESIGN: Control bar START *}<div class="block"><div class="controlbar">
 
 <div class="block">
-    <input class="button-disabled" type="submit" name="DeleteApplicationListButton" value="{'Remove selected'|i18n( 'extension/oauthadmin' )}" title="{'Remove the selected applications.'|i18n( 'extension/oauthadmin' )}" />
+    <input class="button" type="submit" name="DeleteApplicationListButton" value="{'Remove selected'|i18n( 'extension/oauthadmin' )}" title="{'Remove the selected applications.'|i18n( 'extension/oauthadmin' )}" />
     <input class="button" type="submit" name="NewApplicationButton" value="{'New application'|i18n( 'extension/oauthadmin' )}" title="{'Create a new application.'|i18n( 'extension/oauthadmin' )}" />
 </div>
 

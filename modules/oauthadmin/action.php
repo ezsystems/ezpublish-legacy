@@ -30,22 +30,32 @@ if ( $module->isCurrentAction( 'NewApplication' ) )
     return $module->redirectToView( 'edit', array( $application->id ) );
 }
 
-// delete one application (dedicated button from full view)
-if ( $module->isCurrentAction( 'DeleteApplication' ) )
+// delete several applications
+// Used from full view and checkboxes in view list
+if ( $module->isCurrentAction( 'DeleteApplicationList' ) )
 {
-    $applicationId = $module->actionParameter( 'ApplicationID' );
-    $application = $session->load( 'ezpRestClient', $applicationId );
-    if ( $module->hasActionParameter( 'ConfirmDelete' ) )
+    $applicationList = array();
+    $applicationIdList = $module->actionParameter( 'ApplicationIDList' );
+    foreach ( $applicationIdList as $applicationId )
     {
-        $session->delete( $application );
+        $applicationList[] = $session->load( 'ezpRestClient', $applicationId );
+    }
+
+    if ( $module->hasActionParameter( 'ConfirmDelete') )
+    {
+        // confirmed, remove the applications
+        foreach ($applicationList as $application)
+        {
+            $session->delete( $application );
+        }
         return $module->redirectToView( 'list' );
     }
-    // display confirmation request
     else
     {
+        // display confirmation request
         $tpl = eZTemplate::factory();
         $tpl->setVariable( 'module', $module );
-        $tpl->setVariable( 'application', $application );
+        $tpl->setVariable( 'applications', $applicationList );
         $Result['path'] = array( array( 'url' => false,
                                         'text' => ezpI18n::tr( 'extension/oauthadmin', 'oAuthAdmin' ) ),
                                  array( 'url' => false,
@@ -54,20 +64,6 @@ if ( $module->isCurrentAction( 'DeleteApplication' ) )
 
         $Result['content'] = $tpl->fetch( 'design:oauthadmin/delete_confirmation.tpl' );
         return $Result;
-    }
-}
-
-// delete several applications (checkboxes on list view)
-// not implemented yet. @todo: implement it !
-if ( $module->isCurrentAction( 'DeleteApplicationList' ) )
-{
-    if ( $module->hasActionParameter['ConfirmDelete'] )
-    {
-        // confirmed, remove the application
-    }
-    else
-    {
-        // display confirmation request
     }
 }
 

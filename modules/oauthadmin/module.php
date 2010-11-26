@@ -32,11 +32,8 @@ $ViewList['edit'] = array(
 $ViewList['action'] = array(
     'script' => 'action.php',
     'single_post_actions' => array( 'NewApplicationButton' => 'NewApplication',
-                                    'DeleteApplicationButton' => 'DeleteApplication',
                                     'DeleteApplicationListButton' => 'DeleteApplicationList' ),
-    'post_action_parameters' => array( 'DeleteApplication' => array( 'ApplicationID' => 'ApplicationID',
-                                                                     'ConfirmDelete' => 'ConfirmDelete' ),
-                                       'DeleteApplicationList' => array( 'ApplicationIDList' => 'ApplicationIDList',
+    'post_action_parameters' => array( 'DeleteApplicationList' => array( 'ApplicationIDList' => 'DeleteIDArray',
                                                                          'ConfirmDelete' => 'ConfirmDelete' ) ),
     'default_navigation_part' => 'ezsetupnavigationpart',
 );
