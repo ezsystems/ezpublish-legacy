@@ -1,3 +1,7 @@
+<div class="border-box">
+<div class="border-tl"><div class="border-tr"><div class="border-tc"></div></div></div>
+<div class="border-ml"><div class="border-mr"><div class="border-mc float-break">
+
 <h1>{"Application authorization request"|i18n( 'extension/oauth' )}</h1>
 
 <p>{"The application %application_name% has requested access to this website on your behalf."|i18n(
@@ -17,3 +21,7 @@
         <input type="submit" id="DenyButton" name="DenyButton" value="{"Deny"|i18n( 'extension/oauth/authorize' )}" />
     </div>
 </form>
+
+</div></div></div>
+<div class="border-bl"><div class="border-br"><div class="border-bc"></div></div></div>
+</div>
