@@ -440,12 +440,12 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
     function renderParagraph( $element, $childrenOutput, $vars )
     {
-        // don't render if inside 'li' or inside 'td' (by option)
+        // don't render if inside 'li' or inside 'td'/'th' (by option)
         $parent = $element->parentNode;
 
 
         if ( ( $parent->nodeName == 'li' && self::childTagCount( $parent ) == 1 ) ||
-             ( $parent->nodeName == 'td' && !$this->RenderParagraphInTableCells && self::childTagCount( $parent ) == 1 ) )
+             ( in_array( $parent->nodeName, array( 'td', 'th' ) ) && !$this->RenderParagraphInTableCells && self::childTagCount( $parent ) == 1 ) )
 
         {
             return $childrenOutput;
