@@ -125,8 +125,11 @@ if ( !$application->isAuthorizedByUser( $pScope, eZUser::currentUser() ) )
 
         $result = array();
         $result['content'] = $tpl->fetch( 'design:oauth/authorize.tpl' );
-        $result['pagelayout'] = false;
-        $result['title'] = array( array( 'url' => false, 'title' => 'oAuth authorization request' ) );
+        $result['pagelayout'] = 'loginpagelayout.tpl';
+        $result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/user', 'oAuth' ),
+                                        'url' => false ),
+                                 array( 'text' => ezpI18n::tr( 'kernel/user', 'authorization' ),
+                                        'url' => false ) );
 
         return $result;
     }
