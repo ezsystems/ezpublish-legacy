@@ -1675,18 +1675,23 @@ class eZDFSFileHandlerMySQLiBackend
      *
      * @param array $scopes Array of scopes to consider. At least one.
      * @param int $limit Max number of items. Set to false for unlimited.
+     * @param int $expiry Number of seconds, only items older than this will be returned.
      *
      * @return array(filepath)
      *
      * @since 4.3
      */
-    public function expiredFilesList( $scopes, $limit = array( 0, 100 ) )
+    public function expiredFilesList( $scopes, $limit = array( 0, 100 ), $expiry = false )
     {
         if ( count( $scopes ) == 0 )
             throw new ezcBaseValueException( 'scopes', $scopes, "array of scopes", "parameter" );
 
         $scopeString = $this->_sqlList( $scopes );
         $query = "SELECT name FROM " . self::TABLE_METADATA . " WHERE expired = 1 AND scope IN( $scopeString )";
+        if ( $expiry !== false )
+        {
+            $query .= ' AND mtime < ' . (time() - $expiry);
+        }
         if ( $limit !== false )
         {
             $query .= " LIMIT {$limit[0]}, {$limit[1]}";

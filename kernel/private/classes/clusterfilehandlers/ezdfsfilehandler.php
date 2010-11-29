@@ -1415,8 +1415,23 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface
      * in real time
      *
      * @since 4.3
+     * @deprecated Deprecated as of 4.5, use {@link eZDFSFileHandler::requiresPurge()} instead.
+     * @return bool
      */
     public function requiresBinaryPurge()
+    {
+        return true;
+    }
+
+    /**
+     * eZDFS does require binary purge.
+     * It does store files in DB + on NFS, and therefore doesn't remove files
+     * in real time
+     *
+     * @since 4.5.0
+     * @return bool
+     **/
+    public function requiresPurge()
     {
         return true;
     }
@@ -1428,10 +1443,26 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface
      *
      * @return array(filepath)
      * @since 4.3.0
+     * @deprecated Deprecated as of 4.5, use {@link eZDFSFileHandler::fetchExpiredItems()} instead.
      */
     public function fetchExpiredBinaryItems( $limit = array( 0 , 100 ) )
     {
-        return self::$dbbackend->expiredFilesList( array( 'image', 'binaryfile' ), $limit );
+        return self::$dbbackend->fetchExpiredItems( array( 'image', 'binaryfile' ), $limit );
+    }
+
+    /**
+     * Fetches the first $limit expired files from the DB
+     *
+     * @param array $scopes Array of scopes to fetch from
+     * @param array $limit A 2 items array( offset, limit )
+     * @param int $expiry Number of seconds, only items older than this will be returned
+     *
+     * @return array(filepath)
+     * @since 4.5.0
+     */
+    public function fetchExpiredItems( $scopes, $limit = array( 0 , 100 ), $expiry = false )
+    {
+        return self::$dbbackend->expiredFilesList( $scopes, $limit, $expiry );
     }
 
     /**
