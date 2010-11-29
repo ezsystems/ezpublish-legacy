@@ -783,8 +783,22 @@ class eZFS2FileHandler extends eZFSFileHandler
      * (FS based)
      *
      * @since 4.3
+     * @deprecated Deprecated as of 4.5, use {@link eZFS2FileHandler::requiresPurge()} instead.
+     * @return bool
      */
     public function requiresBinaryPurge()
+    {
+        return false;
+    }
+
+    /**
+     * eZFS2 doesn't require purge as it already purges files in realtime
+     * (FS based)
+     *
+     * @since 4.5.0
+     * @return bool
+     **/
+    public function requiresPurge()
     {
         return false;
     }
