@@ -70,6 +70,9 @@
         <input type="hidden" name="DeleteIDArray[]" value="{$application.id}" />
         <input class="button" type="submit" name="DeleteApplicationListButton" value="{'Delete'|i18n( 'extension/oauthadmin' )}" title="{'Delete this application.'|i18n( 'extension/oauthadmin' )}" />
     </form>
+    <form style="display: inline;" action={concat( $module.functions.list.uri )|ezurl} method="get">
+        <input class="button" type="submit" name="Cancel" value="{'Back'|i18n( 'extension/oauthadmin' )}" title="{'Edit this application.'|i18n( 'extension/oauthadmin' )}" />
+    </form>
 
 {* DESIGN: Control bar END *}</div>
 </div>
