@@ -936,6 +936,14 @@ class eZContentOperationCollection
             if ( !isset( $objectIdList[$objectId] ) )
                 $objectIdList[$objectId] = eZContentObject::fetch( $objectId );
         }
+        
+        foreach ( array_keys( $mainNodeChanged ) as $objectId )
+        {
+            $allNodes = $objectIdList[$objectId]->assignedNodes();
+            // Registering node that will be promoted as 'main'
+            $mainNodeChanged[$objectId] = $allNodes[0];
+            eZContentObjectTreeNode::updateMainNodeID( $allNodes[0]->attribute( 'node_id' ), $objectId, false, $allNodes[0]->attribute( 'parent_node_id' ) );
+        }
 
         // Give other search engines that the default one a chance to reindex
         // when removing locations.
@@ -945,15 +953,7 @@ class eZContentOperationCollection
                 eZContentOperationCollection::registerSearchObject( $objectId, $object->attribute( 'current_version' ) );
         }
 
-        eZNodeAssignment::purgeByID( array_keys( $nodeAssignmentIdList ) );
-
-        foreach ( array_keys( $mainNodeChanged ) as $objectId )
-        {
-            $allNodes = $objectIdList[$objectId]->assignedNodes();
-            // Registering node that will be promoted as 'main'
-            $mainNodeChanged[$objectId] = $allNodes[0];
-            eZContentObjectTreeNode::updateMainNodeID( $allNodes[0]->attribute( 'node_id' ), $objectId, false, $allNodes[0]->attribute( 'parent_node_id' ) );
-        }
+        eZNodeAssignment::purgeByID( array_keys( $nodeAssignmentIdList ) );        
 
         $db->commit();
 
