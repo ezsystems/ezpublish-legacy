@@ -36,6 +36,12 @@ if ( $module->isCurrentAction( 'DeleteApplicationList' ) )
 {
     $applicationList = array();
     $applicationIdList = $module->actionParameter( 'ApplicationIDList' );
+
+    if ( $applicationIdList == null )
+    {
+        return $module->redirectToView( 'list' );
+    }
+
     foreach ( $applicationIdList as $applicationId )
     {
         $applicationList[] = $session->load( 'ezpRestClient', $applicationId );
