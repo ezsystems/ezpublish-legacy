@@ -57,7 +57,7 @@ if ( $module->isCurrentAction( 'DeleteApplicationList' ) )
         $tpl->setVariable( 'module', $module );
         $tpl->setVariable( 'applications', $applicationList );
         $Result['path'] = array( array( 'url' => false,
-                                        'text' => ezpI18n::tr( 'extension/oauthadmin', 'oAuthAdmin' ) ),
+                                        'text' => ezpI18n::tr( 'extension/oauthadmin', 'oAuth admin' ) ),
                                  array( 'url' => false,
                                         'text' => ezpI18n::tr( 'extension/oauthadmin', 'Confirm removal' ) )
         );

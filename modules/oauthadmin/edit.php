@@ -51,7 +51,7 @@ $tpl = eZTemplate::factory();
 $tpl->setVariable( 'module', $module );
 $tpl->setVariable( 'application', $application );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezpI18n::tr( 'extension/oauthadmin', 'oAuthAdmin' ) ),
+                                'text' => ezpI18n::tr( 'extension/oauthadmin', 'oAuth admin' ) ),
                          array( 'url' => false,
                                 'text' => ezpI18n::tr( 'extension/oauthadmin', 'Edit REST application' ) )
 );
