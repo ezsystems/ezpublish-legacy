@@ -398,7 +398,7 @@ interface eZClusterFileHandlerInterface
      * to be purged in order to be physically deleted
      * 
      * @since 4.3
-     * @deprecated Deprecated as of 4.5, use {@link eZClusterFileHandlerInterface::requiresPurge()} instead.
+     * @deprecated Deprecated as of 4.3.1, use {@link eZClusterFileHandlerInterface::requiresPurge()} instead.
      * @return bool
      */
     public function requiresBinaryPurge();
@@ -407,7 +407,7 @@ interface eZClusterFileHandlerInterface
      * This method indicates if the cluster file handler requires binary files
      * to be purged in order to be physically deleted
      *
-     * @since 4.5
+     * @since 4.3.1
      * @return bool
      */
     public function requiresPurge();

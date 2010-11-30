@@ -1061,7 +1061,7 @@ class eZFSFileHandler
      * Files are stored on plain FS and removed using FS functions
      * 
      * @since 4.3
-     * @deprecated Deprecated as of 4.5, use {@link eZFSFileHandler::requiresPurge()} instead.
+     * @deprecated Deprecated as of 4.3.1, use {@link eZFSFileHandler::requiresPurge()} instead.
      * @return bool
      */
     public function requiresBinaryPurge()
@@ -1073,7 +1073,7 @@ class eZFSFileHandler
      * eZFS does not require binary purge.
      * Files are stored on plain FS and removed using FS functions
      *
-     * @since 4.5.0
+     * @since 4.3.1
      * @return bool
      **/
     public function requiresPurge()

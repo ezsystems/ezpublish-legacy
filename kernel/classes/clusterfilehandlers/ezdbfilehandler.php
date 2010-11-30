@@ -1323,7 +1323,7 @@ class eZDBFileHandler
      * It does store files in DB and therefore doesn't remove files in real time
      *
      * @since 4.3.0
-     * @deprecated Deprecated as of 4.5, use {@link eZDBFileHandler::requiresPurge()} instead.
+     * @deprecated Deprecated as of 4.3.1, use {@link eZDBFileHandler::requiresPurge()} instead.
      * @return bool
      */
     public function requiresBinaryPurge()
@@ -1335,7 +1335,7 @@ class eZDBFileHandler
      * eZDB does require binary purge.
      * It does store files in DB and therefore doesn't remove files in real time
      *
-     * @since 4.5.0
+     * @since 4.3.1
      * @return bool
      **/
     public function requiresPurge()
@@ -1350,7 +1350,7 @@ class eZDBFileHandler
      *
      * @return array(eZClusterFileHandlerInterace)
      * @since 4.3.0
-     * @deprecated Deprecated as of 4.5, use {@link eZDBFileHandler::fetchExpiredItems()} instead.
+     * @deprecated Deprecated as of 4.3.1, use {@link eZDBFileHandler::fetchExpiredItems()} instead.
      *
      * @todo handle output using $cli or something
      */
@@ -1367,7 +1367,7 @@ class eZDBFileHandler
      * @param int $expiry Number of seconds, only items older than this will be returned
      *
      * @return array(filepath)
-     * @since 4.5.0
+     * @since 4.3.1
      */
     public function fetchExpiredItems( $scopes, $limit = array( 0 , 100 ), $expiry = false )
     {
