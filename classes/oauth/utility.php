@@ -107,9 +107,10 @@ class ezpOauthUtility
         return $m['token'];
     }
 
-     /**
+    /**
      * Extracts OAuth token query component aka GET parameter.
      *
+     * For more information See section 5.1.2 of  oauth2.0 v10
      *
      * @throws ezpOauthInvalidRequestException
      * @param ezcMvcRequest $request
@@ -124,9 +125,20 @@ class ezpOauthUtility
         return $request->get['oauth_token'];
     }
 
-    protected function getTokenFromHttpBody()
+    /**
+     * Extracts OAuth token fro HTTP Post body.
+     *
+     * For more information see section 5.1.3 oauth2.0 v10
+     * @param ezpRestRequest $request
+     * @return string The access token string
+     */
+    protected function getTokenFromHttpBody( ezpRestRequest $request )
     {
-
+        if ( !isset( $request->post['oauth_token'] ) )
+        {
+            throw new ezpOauthInvalidRequestException( "OAuth token not found in HTTP body." );
+        }
+        return $request->post['oauth_token'];
     }
 }
 ?>
