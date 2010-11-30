@@ -76,17 +76,17 @@ class ezpOauthUtility
     /**
      * Extracts the OAuth token from the HTTP header, Authorization.
      * 
-     * The token is transmitted via the OAuth Autentication scheme ref.
+     * The token is transmitted via the OAuth Authentication scheme ref.
      * Section 5.1.1.
      * 
-     * PHP does not expose the Authorization header unelss it uses the 'Basic'
+     * PHP does not expose the Authorization header unless it uses the 'Basic'
      * or 'Digest' schemes, and it is therefore extracted from the raw Apache
      * headers.
      * 
      * On systems running CGI or Fast-CGI PHP makes this header available via
      * the <var>HTTP_AUTHORIZATION</var> header.
      * @link http://php.net/manual/en/features.http-auth.php
-     *
+     * @throws ezpOauthInvalidRequestException
      * @return string The access token string.
      */
     protected static function getTokenFromAuthorizationHeader()
@@ -108,20 +108,20 @@ class ezpOauthUtility
     }
 
      /**
-     * todo: add document
-     * @TODO Should use data available over the request object here.
+     * Extracts OAuth token query component aka GET parameter.
+     *
+     *
      * @throws ezpOauthInvalidRequestException
      * @param ezcMvcRequest $request
-     * @return
+     * @return string The access token string
      */
-    protected function getTokenFromQueryComponent( ezcMvcRequest $request )
+    protected function getTokenFromQueryComponent( ezpRestRequest $request )
     {
-        $urlString = $request->raw['REQUEST_URI'];
-        $url = new ezcUrl( $urlString );
-        $query = $url->getQuery();
-        if( !array_key_exists( 'oauth_token', $query ) )
-            throw new ezpOauthInvalidRequestException( "Token not found in Query component" );
-        return $query['oauth_token'];
+        if( !isset($request->get['oauth_token']) )
+        {
+            throw new ezpOauthInvalidRequestException( "OAuth token not found in query component." );
+        }
+        return $request->get['oauth_token'];
     }
 
     protected function getTokenFromHttpBody()
