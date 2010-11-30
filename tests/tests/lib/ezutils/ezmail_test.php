@@ -960,11 +960,6 @@ class eZMailTest extends ezpTestCase
         $result = eZMailTransport::send( $mail );
         $this->assertTrue( $result );
 
-        // test 25 port
-        $siteINI->setVariable( 'MailSettings', 'TransportPort', '25' );
-        $result = eZMailTransport::send( $mail );
-        $this->assertFalse( $result );
-
         $siteINI->setVariables( array( 'MailSettings' => $backupSetting ) );
 
         //todo: delete the received mails in teardown.
