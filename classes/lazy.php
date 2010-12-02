@@ -67,7 +67,12 @@ class ezpRestPoConfig implements ezcBaseConfigurationInitializer
 {
     public static function configureObject( $instance )
     {
-        return new ezcPersistentSession( ezcDbInstance::get(), new ezcPersistentCodeManager( 'extension/rest/classes/po_maps' ) );
+        return new ezcPersistentSession( ezcDbInstance::get(),
+            new ezcPersistentMultiManager( array(
+                new ezcPersistentCodeManager( 'extension/rest/classes/po_maps' ),
+                new ezcPersistentCodeManager( 'extension/oauth/classes/persistentobjects/' )
+            ))
+        );
     }
 }
 ezcBaseInit::setCallback( 'ezcInitPersistentSessionInstance', 'ezpRestPoConfig' );
