@@ -13,7 +13,7 @@ class ezpRestNotFound implements ezcMvcResultStatusObject
     // e.g. For instance constructor can accept code as param.
 
     // Messages should also in some cases be added to the HTTP body, with
-    // info from app, extending the normal short http default boiler palte message.
+    // info from app, extending the normal short http default boiler plate message.
 
     public function process( ezcMvcResponseWriter $writer )
     {
