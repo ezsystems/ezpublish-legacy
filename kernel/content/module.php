@@ -353,34 +353,12 @@ $ViewList['collectinformation'] = array(
                                                                       'ViewMode' => 'ViewMode' ) ),
     'params' => array(  ) );
 
-$ViewList['versions'] = array(
-    'functions' => array( 'read', 'edit' ),
-    'default_navigation_part' => 'ezcontentnavigationpart',
-    'ui_context' => 'edit',
-    'script' => 'versions.php',
-    'single_post_actions' => array( 'CopyVersionButton' => 'CopyVersion',
-                                    'EditButton' => 'Edit' ),
-    'post_action_parameters' => array( 'CopyVersion' => array( 'VersionID' => 'RevertToVersionID',
-                                                               'VersionKeyArray' => 'CopyVersionButton',
-                                                               'LanguageArray' => 'CopyVersionLanguage' ),
-                                       'Edit' => array( 'VersionID' => 'RevertToVersionID',
-                                                        'VersionKeyArray' => 'EditButton' ) ),
-    'params' => array( 'ObjectID' ,'EditVersion' ),
-    'unordered_params' => array( 'offset' => 'Offset' ) );
-
 $ViewList['draft'] = array(
     'functions' => array( 'edit' ),
     'script' => 'draft.php',
     'default_navigation_part' => 'ezmynavigationpart',
     'params' => array( ),
     'unordered_params' => array( 'offset' => 'Offset' ) );
-
-$ViewList['diff'] = array(
-    'functions' => array( 'diff' ),
-    'script' => 'diff.php',
-    'default_navigation_part' => 'ezcontentnavigationpart',
-    'params' => array( 'ObjectID' ),
-    'unordered_params' => array( 'offset' => 'Offset'  ) );
 
 $ViewList['history'] = array(
     'functions' => array( 'read', 'edit' ),

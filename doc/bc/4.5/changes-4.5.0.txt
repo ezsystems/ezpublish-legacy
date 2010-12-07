@@ -1,0 +1,10 @@
+Changes to BC and behavior in version 4.5.0
+===========================================
+
+Removed features
+----------------
+
+- Content views "diff" and "versions" have been removed.
+
+  They have been deprecated in 3.9 in favor of the combined view "history".
+
