@@ -9739,10 +9739,6 @@ Note: The packages will not be uninstalled.</source>
         <source>Categories</source>
         <translation>カテゴリ</translation>
     </message>
-    <message>
-        <source></source>
-        <translation></translation>
-    </message>
 </context>
 <context>
     <name>design/admin/setup/datatypecode</name>
