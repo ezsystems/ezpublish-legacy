@@ -503,6 +503,13 @@ class eZSearch
      *
      */
 
+    /**
+     * Notifies search engine about section changes
+     *
+     * @param int $nodeID
+     * @param int $sectionID
+     * @return false|mixed False in case method is undefined, otherwise return the result of the search engine call
+     */
     public static function updateNodeSection( $nodeID, $sectionID )
     {
         $searchEngine = eZSearch::getEngine();
@@ -515,6 +522,13 @@ class eZSearch
         return false;
     }
 
+    /**
+     * Notifies search engine about node visibility changes
+     *
+     * @param int $nodeID
+     * @param string $action "hide" or "show"
+     * @return false|mixed False in case method is undefined, otherwise return the result of the search engine call
+     */
     public static function updateNodeVisibility( $nodeID, $action )
     {
         $searchEngine = eZSearch::getEngine();
@@ -527,6 +541,14 @@ class eZSearch
         return false;
     }
 
+    /**
+     * Notifies search engine about new node assignments added
+     *
+     * @param int $mainNodeID
+     * @param int $objectID
+     * @param array $nodeAssignmentIDList
+     * @return false|mixed False in case method is undefined, otherwise return the result of the search engine call
+     */
     public static function addNodeAssignment( $mainNodeID, $objectID, $nodeAssignmentIDList )
     {
         $searchEngine = eZSearch::getEngine();
@@ -539,6 +561,15 @@ class eZSearch
         return false;
     }
 
+    /**
+     * Notifies search engine about removed node assignments and what the new main node is (same if not changed)
+     *
+     * @param int $mainNodeID
+     * @param int $newMainNodeID
+     * @param int $objectID
+     * @param array $nodeAssigmentIDList
+     * @return false|mixed False in case method is undefined, otherwise return the result of the search engine call
+     */
     public static function removeNodeAssignment( $mainNodeID, $newMainNodeID, $objectID, $nodeAssigmentIDList )
     {
         $searchEngine = eZSearch::getEngine();
@@ -552,11 +583,10 @@ class eZSearch
     }
 
     /**
-     * Removes nodes from the search engine.
+     * Notifies search engine about nodes being removed
      *
      * @param array $nodeIdList Array of node ID to remove.
-     *
-     * @return false in case of error, otherwise return the result of the search engine call
+     * @return false|mixed False in case method is undefined, otherwise return the result of the search engine call
      */
     public static function removeNodes( array $nodeIdList )
     {
@@ -570,6 +600,13 @@ class eZSearch
         return false;
     }
 
+    /**
+     * Notifies search engine about updates to object states
+     *
+     * @param int $objectID
+     * @param array $objectStateList
+     * @return false|mixed False in case method is undefined, otherwise return the result of the search engine call
+     */
     public static function updateObjectState( $objectID, $objectStateList )
     {
         $searchEngine = eZSearch::getEngine();
@@ -581,7 +618,15 @@ class eZSearch
 
         return false;
     }
-    
+
+    /**
+     * Notifies search engine about an swap node operation
+     *
+     * @param int $nodeID
+     * @param int $selectedNodeID
+     * @param array $nodeIdList
+     * @return false|mixed False in case method is undefined, otherwise return the result of the search engine call
+     */
     public static function swapNode( $nodeID, $selectedNodeID, $nodeIdList = array() )
     {
         $searchEngine = eZSearch::getEngine();
@@ -593,8 +638,6 @@ class eZSearch
 
         return false;
     }
-
-    
 }
 
 ?>
