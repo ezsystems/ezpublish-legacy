@@ -199,4 +199,33 @@ var_dump( $result );
 
         $this->assertEquals( $expected, $result );
     }
+
+    /**
+     * Bug in headings rendering when inside tables. Initial level is not respected.
+     *
+     * @link http://issues.ez.no/11536
+     * @note XML is created by hand for the unit test
+     */
+    public function testHeadingsInsideTables()
+    {
+        $XMLString = '<?xml version="1.0" encoding="utf-8"?><section xmlns:image="http://ez.no/namespaces/ezpublish3/image/" xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/" xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/"><section><header>Heading 1</header><section><section><header>Heading 3</header></section></section><section><header>Heading 2</header><paragraph xmlns:tmp="http://ez.no/namespaces/ezpublish3/temporary/"><table width="100%" border="1"><tr><td><section><header>Heading 1</header><section><header>Heading 2</header></section></section></td></tr></table></paragraph></section></section><section><header>Heading 1</header><section><section><header>Heading 3</header></section></section><section><header>Heading 2</header><paragraph xmlns:tmp="http://ez.no/namespaces/ezpublish3/temporary/"><table width="100%" border="1"><tr><td><section><section><section><section><section><header>Heading 5</header></section></section></section></section></section><section><section><section><section><header>Heading 4</header></section></section></section></section></td></tr></table></paragraph><section><header>Heading 3</header></section></section><section><header>Heading 2</header></section></section></section>';
+
+        $outputHandler = new eZXHTMLXMLOutput( $XMLString, false );
+
+        $this->assertEquals( '<a name="eztoc1" id="eztoc1"></a><h2>Heading 1</h2><a name="eztoc1_0_1" id="eztoc1_0_1"></a><h4>Heading 3</h4><a name="eztoc1_1" id="eztoc1_1"></a><h3>Heading 2</h3><table class="renderedtable" border="1" cellpadding="2" cellspacing="0" width="100%">
+<tr>
+<td valign="top">  <a name="eztoc2" id="eztoc2"></a><h2>Heading 1</h2><a name="eztoc2_2" id="eztoc2_2"></a><h3>Heading 2</h3>
+  </td>
+</tr>
+
+</table>
+<a name="eztoc3" id="eztoc3"></a><h2>Heading 1</h2><a name="eztoc3_2_2" id="eztoc3_2_2"></a><h4>Heading 3</h4><a name="eztoc3_3" id="eztoc3_3"></a><h3>Heading 2</h3><table class="renderedtable" border="1" cellpadding="2" cellspacing="0" width="100%">
+<tr>
+<td valign="top">  <a name="eztoc3_3_2_0_1" id="eztoc3_3_2_0_1"></a><h6>Heading 5</h6><a name="eztoc3_3_2_1" id="eztoc3_3_2_1"></a><h5>Heading 4</h5>
+  </td>
+</tr>
+
+</table>
+<a name="eztoc3_3_3" id="eztoc3_3_3"></a><h4>Heading 3</h4><a name="eztoc3_4" id="eztoc3_4"></a><h3>Heading 2</h3>', $outputHandler->outputText() );
+    }
 }
