@@ -57,6 +57,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                              'attrDesignKeys' => array( 'class' => 'classification' ) ),
 
     'table'        => array( 'initHandler' => 'initHandlerTable',
+                             'leavingHandler' => 'leavingHandlerTable',
                              'renderHandler' => 'renderAll',
                              'contentVarName' => 'rows',
                              'attrNamesTemplate' => array( 'class' => 'classification',
@@ -367,6 +368,11 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
     function initHandlerTable( $element, &$attributes, &$siblingParams, &$parentParams )
     {
+        // Backing up the section_level, headings' level should be restarted inside tables.
+        // @see http://issues.ez.no/11536
+        $this->SectionLevelStack[] = $parentParams['section_level'];
+        $parentParams['section_level'] = 0;
+
         // Numbers of rows and cols are lower by 1 for back-compatibility.
         $rowCount = self::childTagCount( $element ) -1;
         $lastRow = $element->lastChild;
@@ -384,6 +390,13 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         $ret = array( 'tpl_vars' => array( 'col_count' => $colCount,
                                            'row_count' => $rowCount ) );
         return $ret;
+    }
+
+    function leavingHandlerTable( $element, &$attributes, &$siblingParams, &$parentParams )
+    {
+        // Restoring the section_level as it was before entering the table.
+        // @see http://issues.ez.no/11536
+        $parentParams['section_level'] = array_pop($this->SectionLevelStack);
     }
 
     function initHandlerTr( $element, &$attributes, &$siblingParams, &$parentParams )
@@ -631,6 +644,12 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
     public $LinkParameters = array();
 
     public $HeaderCount = array();
+
+    /**
+     * Stack of section levels saved when entering tables.
+     * @var array
+     */
+    protected $SectionLevelStack = array();
 
     public $RenderParagraphInTableCells = true;
 }

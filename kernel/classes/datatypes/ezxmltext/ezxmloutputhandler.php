@@ -549,6 +549,8 @@ class eZXMLOutputHandler
             }
         }
 
+        $this->callTagInitHandler( 'leavingHandler', $element, $attributes, $siblingParams, $parentParams );
+
         return $output;
     }
 
