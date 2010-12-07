@@ -44,10 +44,6 @@ class ezpRestAtomController extends ezcMvcController
             $retData[] = $childEntry;
         }
 
-        $result->content = new ezcMvcResultContent();
-        $result->content->type = "application/atom+xml";
-        $result->content->charset = "UTF-8";
-
         $result->variables['collection'] = $retData;
         return $result;
     }

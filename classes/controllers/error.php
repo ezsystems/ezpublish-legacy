@@ -22,7 +22,7 @@ class ezpRestErrorController extends ezcMvcController
         {
             // we want to return a 404 to the user
             $result = new ezcMvcResult;
-            $result->status = new ezpRestNotFound;
+            $result->status = new ezpRestHttpResponse( ezpHttpResponseCodes::NOT_FOUND, "Not Found" );
             return $result;
         }
 

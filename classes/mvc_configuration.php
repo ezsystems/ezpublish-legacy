@@ -41,7 +41,7 @@ class ezpMvcConfiguration implements ezcMvcDispatcherConfiguration
         }
         else
         {
-            $view = new ezpRestDemoView( $request, $result );
+            $view = new ezpRestJsonView( $request, $result );
         }
         return $view;
     }
@@ -70,12 +70,6 @@ class ezpMvcConfiguration implements ezcMvcDispatcherConfiguration
 
     public function runResponseFilters( ezcMvcRoutingInformation $routeInfo, ezcMvcRequest $request, ezcMvcResult $result, ezcMvcResponse $response )
     {
-        if ( $response->content === null )
-        {
-            $response->content = new ezcMvcResultContent();
-            $response->content->type = "application/json";
-            $response->content->charset = "UTF-8";
-        }
         $response->generator = "eZ Publish";
     }
 
