@@ -58,7 +58,7 @@ class eZEnumValue extends eZPersistentObject
                                                                                'datatype' => 'integer',
                                                                                'default' => 0,
                                                                                'required' => true,
-                                                                               'foreign_class' => 'eZContentObjectAttribute',
+                                                                               'foreign_class' => 'eZContentClassAttribute',
                                                                                'foreign_attribute' => 'id',
                                                                                'multiplicity' => '1..*' ),
                                          "contentclass_attribute_version" => array( 'name' => "ContentClassAttributeVersion",
