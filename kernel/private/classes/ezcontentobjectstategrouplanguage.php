@@ -27,8 +27,11 @@ class eZContentObjectStateGroupLanguage extends eZPersistentObject
     static function definition()
     {
         static $definition = array( "fields" => array( "contentobject_state_group_id" => array( "name" => "ContentObjectStateGroupID",
-                                                                                  "datatype" => "integer",
-                                                                                  "required" => false ),
+                                                                                                "datatype" => "integer",
+                                                                                                "required" => false,
+                                                                                                "foreign_class" => "eZContentObjectStateGroup",
+                                                                                                "foreign_attribute" => "id",
+                                                                                                "multiplicity" => "1..*" ),
                                          "name" => array( "name" => "Name",
                                                           "datatype" => "string",
                                                           "required" => false ),

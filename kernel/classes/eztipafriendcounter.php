@@ -45,7 +45,10 @@ class eZTipafriendCounter extends eZPersistentObject
         return array( 'fields' => array( 'node_id' => array( 'name' => 'NodeID',
                                                              'datatype' => 'integer',
                                                              'default' => 0,
-                                                             'required' => true ),
+                                                             'required' => true,
+                                                             'foreign_class' => 'eZContentObjectTreeNode',
+                                                             'foreign_attribute' => 'node_id',
+                                                             'multiplicity' => '1..*' ),
                                          'count' => array( 'name' => 'Count', // deprecated column, must not be used
                                                            'datatype' => 'integer',
                                                            'default' => 0,

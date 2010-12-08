@@ -27,8 +27,11 @@ class eZContentObjectStateLanguage extends eZPersistentObject
     static function definition()
     {
         static $definition = array( "fields" => array( "contentobject_state_id" => array( "name" => "ContentObjectStateID",
-                                                                            "datatype" => "integer",
-                                                                            "required" => true ),
+                                                                                          "datatype" => "integer",
+                                                                                          "required" => true,
+                                                                                          "foreign_class" => "eZContentObjectState",
+                                                                                          "foreign_attribute" => "id",
+                                                                                          "multiplicity" => "1..*" ),
                                          "language_id" => array( "name" => "LanguageID",
                                                                  "datatype" => "integer",
                                                                  "required" => true ),

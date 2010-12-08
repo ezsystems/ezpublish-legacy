@@ -51,7 +51,13 @@ class eZUserAccountKey extends eZPersistentObject
     static function definition()
     {
         return array( "fields" => array( "id" => "ID",
-                                         "user_id" => "UserID",
+                                         'user_id' => array( 'name' => 'UserID',
+                                                             'datatype' => 'integer',
+                                                             'default' => 0,
+                                                             'required' => true,
+                                                             'foreign_class' => 'eZUser',
+                                                             'foreign_attribute' => 'contentobject_id',
+                                                             'multiplicity' => '0..1' ),
                                          "hash_key" => "HashKey",
                                          "time" => "Time"
                                          ),
