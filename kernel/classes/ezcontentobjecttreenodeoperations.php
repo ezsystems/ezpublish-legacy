@@ -142,7 +142,6 @@ class eZContentObjectTreeNodeOperations
 
         $db->commit();
 
-
         // clear cache for new placement.
         eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
 
