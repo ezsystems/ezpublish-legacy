@@ -555,6 +555,7 @@ return array(
       'ezpAutoloadGeneratorOptions'                        => 'kernel/private/options/ezpautoloadgeneratoroptions.php',
       'ezpAutoloadOutput'                                  => 'kernel/private/interfaces/ezpautoloadoutput.php',
       'ezpAutoloader'                                      => 'autoload.php',
+      'ezpContentPublishingQueue'                          => 'kernel/classes/contentpublishingqueue.php',
       'ezpExtension'                                       => 'kernel/private/classes/ezpextension.php',
       'ezpExtensionOptions'                                => 'kernel/private/options/ezpextensionoptions.php',
       'ezpI18n'                                            => 'kernel/common/ezpi18n.php',

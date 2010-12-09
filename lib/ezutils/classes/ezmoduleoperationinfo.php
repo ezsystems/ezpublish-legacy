@@ -48,6 +48,7 @@ class eZModuleOperationInfo
     const STATUS_CANCELLED = 2;
     const STATUS_HALTED = 3;
     const STATUS_REPEAT = 4;
+    const STATUS_QUEUED = 5;
 
     /**
      * Constructor

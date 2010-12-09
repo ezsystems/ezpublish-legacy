@@ -1497,5 +1497,34 @@ class eZContentOperationCollection
 
         return array( 'status' => true );
     }
+
+    /**
+     * Sends the published object/version for publishing to the queue
+     * Used by the content/publish operation
+     * @param int $objectId
+     * @param int $version
+     *
+     * @return array( status => int )
+     * @since 4.5
+     */
+    public static function sendToPublishingQueue( $objectId, $version )
+    {
+        try {
+            ezpContentPublishingQueue::add( $objectId, $version );
+        } catch( Exception $e ) {
+            eZDebug::writeError( $e->getMessage() );
+            return array( 'status' => eZModuleOperationInfo::STATUS_CANCELLED );
+        }
+
+        $tpl = eZTemplate::factory();
+        $return = array();
+        $return['status'] = eZModuleOperationInfo::STATUS_HALTED;
+        $return['result'] = array(
+            'content' => $tpl->fetch( 'design:content/edit_queued.tpl' ),
+            'path' => false
+        );
+
+        return $return;
+    }
 }
 ?>

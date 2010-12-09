@@ -32,10 +32,13 @@ Components
 
 Publishing operation queuer
 ---------------------------
-A replacement for the publishing operation that adds the publish data to the Publishing queue.
+
+A new entry in the content/publish operation that sends the content to the publishing queue.
+This is performed after the set-status-pending action.
 
 Publishing queue
 ----------------
+
 This is the structure that stores queued operations. It is DB based, in a simple table that will let the Publishing
 queue processor know what operations are to be performed.
 

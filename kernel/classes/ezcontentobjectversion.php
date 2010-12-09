@@ -45,6 +45,7 @@ class eZContentObjectVersion extends eZPersistentObject
     const STATUS_INTERNAL_DRAFT = 5;
     // used when a workflow event returns FETCH_TEMPLATE_REPEAT to allow editing again
     const STATUS_REPEAT = 6;
+    const STATUS_QUEUED = 7;
 
     function eZContentObjectVersion( $row=array() )
     {

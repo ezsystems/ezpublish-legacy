@@ -694,6 +694,7 @@ if ( !function_exists( 'checkContentActions' ) )
 
             if ( ( array_key_exists( 'status', $operationResult ) && $operationResult['status'] != eZModuleOperationInfo::STATUS_CONTINUE ) )
             {
+                eZDebug::writeDebug( $operationResult, __FILE__ );
                 switch( $operationResult['status'] )
                 {
                     case eZModuleOperationInfo::STATUS_REPEAT:
