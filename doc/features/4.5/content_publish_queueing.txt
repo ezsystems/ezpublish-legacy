@@ -1,0 +1,84 @@
+=============================
+Publishing operation queueing
+=============================
+
+Synopsis
+========
+The currently reported `Database LOCK issues <http://wiki.ez.no/index.php?title=Database_LOCK_issues>`_ strongly limit
+the amount of content the kernel can publish concurrently.
+
+While the process itself must, and will be improved over time, there is an immediate need for an improvement in order
+to satisfy our current customers.
+
+Since the root of this issue is the lack of control over how many contents can be sent for publishing simultaneously,
+the best long term solution is to make these operations controllable by a centralized process. This is what publishing
+pooling aims for.
+
+Components
+==========
+
+Publishing operation queuer
+---------------------------
+A replacement for the publishing operation that adds the publish data to the Publishing queue.
+
+Publishing queue
+----------------
+This is the structure that stores queued operations. It is DB based, in a simple table that will let the Publishing
+queue processor know what operations are to be performed.
+
+Publishing queue processor
+--------------------------
+A set of background (CLI) processes that reads the publishing queue, and processes the operations.
+
+The processor uses multiple publishing queue processes, up to a configurable maximum concurrency level.
+
+API Changes
+===========
+
+Publishing operation
+--------------------
+
+Add a new method to the publishing operation that returns a specific status and therefore sends the operation to the
+Publishing queue. This method should be the first (second ? after set-status-pending ?) entry in the operation.
+
+This status will also instruct the interface to set the user on hold while his content is being generated.
+
+Potential problems
+==================
+
+Interactive workflows
+---------------------
+P: Interactive workflows would be affected. Since the operation would be executed asynchronously by another process, and
+   user interaction wouldn't be possible.
+
+S: The publishing queue could, using AJAX, send feedback that allows the process to be resumed (back to
+   content/edit). This will be detected by the daemon based on the operation's return value.
+
+Editor leaving page
+-------------------
+P: If the editor leaves the page, what happens ?
+
+S: Most simple scenario: as the operation has been queued, it will be processed by the publishing queue processor
+   independantly of the user waiting or not. While this might be confusing for the user, it will keep the behaviour
+   consistent.
+
+Scripted publishing
+-------------------
+P: What happens if the publishing operation is used outside the content/edit context ? This is quite common, and we do
+   recommend it. While the publishing operation can still be sent to the pooling processor, how would the interactivity
+   be implemented ?
+
+S: Publishing strategy concept ?
+
+Zombie processes
+----------------
+P: By experience, we know that background processes aren't 100% reliable. Zombie processes might limit the concurrency
+   as dead publishing queue processes might be inactive and preventing new ones from executing.
+
+Alternative ideas
+=================
+
+Use the queue system to control publishing operations: the editor is held waiting until the queue decides publishing can
+be resumed. The problem here is that this would be completely GUI dependant, and that the user must NOT quit the page.
+While it has more consequences, the AJAX based wait system is more user + server friendly, and opens up the gates for
+nice additions to the GUI.
