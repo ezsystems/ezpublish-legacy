@@ -14,6 +14,19 @@ Since the root of this issue is the lack of control over how many contents can b
 the best long term solution is to make these operations controllable by a centralized process. This is what publishing
 pooling aims for.
 
+How publishing works
+====================
+
+This call is the unique way to trigger publishing of a content + draft version::
+
+    eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $objectId, 'version' => $version ) );
+
+Before this is called, the draft has been built with available data (usually submitted, sometimes scripted). When
+publishing from content/edit, in a normal eZ Publish admin, attributes are injected their content from
+kernel/content/edit.php, and the operation is triggered once everything is ready.
+
+This means that the data required to publish content always exist *before* starting the operation.
+
 Components
 ==========
 
