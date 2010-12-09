@@ -126,6 +126,11 @@ class eZContentObjectTreeNodeOperations
                 $nodeAssignment->setAttribute( 'parent_node', $newParentNodeID );
                 $nodeAssignment->setAttribute( 'op_code', eZNodeAssignment::OP_CODE_MOVE );
                 $nodeAssignment->store();
+
+                // update search index
+                $nodeIDList = array( $nodeID );
+                eZSearch::removeNodeAssignment( $node->attribute( 'main_node_id' ), $newNode->attribute( 'main_node_id' ), $object->attribute( 'id' ), $nodeIDList );
+                eZSearch::addNodeAssignment( $newNode->attribute( 'main_node_id' ), $object->attribute( 'id' ), $nodeIDList );
             }
 
             $result = true;
