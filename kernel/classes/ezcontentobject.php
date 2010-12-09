@@ -6087,15 +6087,11 @@ class eZContentObject extends eZPersistentObject
         $stateID = $state->attribute( 'id' );
         $contentObjectID = $this->ID;
 
-        $db = eZDB::instance();
-        $db->begin();
-
         $currentStateIDArray = $this->stateIDArray( true );
         $currentStateID = $currentStateIDArray[$groupID];
 
         if ( $currentStateID == $stateID )
         {
-            $db->rollback();
             return false;
         }
 
@@ -6103,9 +6099,7 @@ class eZContentObject extends eZPersistentObject
                 SET contentobject_state_id=$stateID
                 WHERE contentobject_state_id=$currentStateID AND
                       contentobject_id=$contentObjectID";
-        $db->query( $sql );
-
-        $db->commit();
+        eZDB::instance()->query( $sql );
 
         $this->StateIDArray[$groupID] = $stateID;
 
