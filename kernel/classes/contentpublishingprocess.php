@@ -42,17 +42,31 @@ class ezpContentPublishingProcess extends eZPersistentObject
                                                    'datatype' => 'integer',
                                                    'default' => 0,
                                                    'required' => true ),
-                                'start' => array( 'name' => 'Started',
+                                'started' => array( 'name' => 'Started',
                                                   'datatype' => 'integer',
                                                   'default' => 0,
                                                   'required' => true ) ),
                       'keys' => array( 'ezcontentobject_version_id' ),
                       'function_attributes' => array(),
-                      'class_name' => "ezpPublishingQueueProcessor",
+                      'class_name' => "ezpContentPublishingProcess",
                       "increment_key" => null,
-                      'sort' => array( 'start' => 'asc' ),
+                      'sort' => array( 'started' => 'asc' ),
                       'name' => 'ezpublishingqueueprocesses' );
         return $definition;
+    }
+
+    /**
+     * Fetches a process by its content object version
+     * @param int $contentObjectVersionId
+     * @return ezpContentPublishingProcess
+     */
+    public static function fetchByContentVersionId( $contentObjectVersionId )
+    {
+        return parent::fetchObject(
+            self::definition(),
+            false,
+            array( 'ezcontentobject_version_id' => $contentObjectVersionId )
+        );
     }
 
     /**
@@ -65,31 +79,80 @@ class ezpContentPublishingProcess extends eZPersistentObject
     }
 
     /**
+     * Checks if an object is already being processed
+     * @param eZContentObjectVersion $versionObject
+     * @return bool
+     */
+    public static function isProcessing( eZContentObjectVersion $versionObject )
+    {
+        $count = parent::count(
+            self::definition(),
+            array(
+                'ezcontentobject_version_id' => $versionObject->attribute( 'id' ),
+                // 'status' => self::STATUS_WORKING // not used yet
+            )
+        );
+        return ( $count != 0 );
+    }
+
+    /**
      * Starts the publishing process for a content object version
      * @param eZContentObjectVersion $version
      * @return bool
      */
     public static function publish( eZContentObjectVersion $version )
     {
-        $row = array( 'ezcontentobject_version_id' => $version->attribute( 'id' ),
-                      'status' => self::STATUS_WORKING,
-                      'start'  => time() );
-        $process = new self( $row );
-
         $contentObjectId = $version->attribute( 'contentobject_id' );
         $contentObjectVersion = $version->attribute( 'version' );
 
-        // set the version as pending so that no other publishing process catches it
-        $version->setAttribute( 'status', eZContentObjectVersion::STATUS_PENDING );
-        $version->store();
-
         // launch the process
         // @todo Will only work on linux, but it'll do for now
-        $phpExec = $_SERVER['_'];
+        // $phpExec = $_SERVER['_'];
         $op = null;
-        echo "Publishing {$contentObjectId}/{$contentObjectVersion}\n";
-        exec( "$phpExec bin/php/publish_content.php $contentObjectId $contentObjectVersion > /dev/null 2>&1 & echo $!", $op );
-        $pid = $op[0];
+
+        $pid = pcntl_fork();
+        $db = eZDB::instance();
+        $db->IsConnected = false;
+        $db = null;
+        eZDB::setInstance( $db );
+        eZDB::setInstance( eZDB::instance( false, false, true ) );
+        if ( $pid == -1 )
+        {
+            return false;
+        }
+        else if ( $pid )
+        {
+            // set the version as pending so that no other publishing process catches it
+            $version->setAttribute( 'status', eZContentObjectVersion::STATUS_PENDING );
+            $version->store();
+
+            // create the process object
+            $processObjectRow = array(
+                'ezcontentobject_version_id' => $version->attribute( 'id' ),
+                'pid' => $pid,
+                'status' => self::STATUS_WORKING,
+                'started' => time(),
+            );
+            $processObject = new self( $processObjectRow );
+            $processObject->store();
+
+            return $pid;
+        }
+        else
+        {
+            // child process: spawn
+            $myPid = getmypid();
+
+            exec( "/usr/bin/php ./bin/php/publish_content.php $contentObjectId $contentObjectVersion", $op );
+
+            // mark the process as completed
+            $processObject = self::fetchByContentVersionId( $version->attribute( 'id' ) );
+            $processObject->setAttribute( 'status', self::STATUS_FINISHED );
+            $processObject->store();
+
+            eZScript::instance()->shutdown();
+            exit;
+        }
 
         return true;
     }

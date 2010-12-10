@@ -24,6 +24,7 @@ class ezpContentPublishingQueueProcessor
 
     /**
      * Singleton class loader
+     * @return ezpContentPublishingQueueProcessor
      */
     public static function instance()
     {
@@ -52,20 +53,29 @@ class ezpContentPublishingQueueProcessor
     {
         $launched = 0;
 
-        if ( !$this->isSlotAvailable() )
-            return $launched;
-
-        while ( $this->isSlotAvailable() )
+        while ( 1 )
         {
             $publishingItem = ezpContentPublishingQueue::next();
-            if ( $publishingItem === false )
-                break;
-
-            ezpContentPublishingProcess::publish( $publishingItem );
-            $launched++;
+            if ( $publishingItem !== false )
+            {
+                if ( !$this->isSlotAvailable() )
+                {
+                    echo "No slot is available\n";
+                    sleep ( 1 );
+                    continue;
+                }
+                else
+                {
+                    echo "Processing item #" . $publishingItem->attribute( 'id' ) . "\n";
+                    ezpContentPublishingProcess::publish( $publishingItem );
+                }
+            }
+            else
+            {
+                echo "Nothing to do, sleeping\n";
+                sleep( 1 );
+            }
         }
-
-        return $launched;
     }
 
     /**

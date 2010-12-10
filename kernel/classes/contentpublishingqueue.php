@@ -37,13 +37,18 @@ class ezpContentPublishingQueue
         $objectVersionArray = eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
             null,
             array( 'status' => eZContentObjectVersion::STATUS_QUEUED ),
-            array( 'modified' => 'desc' ),
-            array( 'offset' => 0, 'length' => 1 ) );
+            array( 'modified' => 'desc' )
+        );
 
         if ( $objectVersionArray === null || count( $objectVersionArray ) == 0 )
             return false;
 
-        return $objectVersionArray[0];
+        foreach( $objectVersionArray as $objectVersion )
+        {
+            if ( !ezpContentPublishingProcess::isProcessing( $objectVersion ) )
+                return $objectVersion;
+        }
+        return false;
     }
 }
 ?>

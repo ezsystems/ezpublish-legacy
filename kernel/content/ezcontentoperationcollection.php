@@ -1509,11 +1509,14 @@ class eZContentOperationCollection
      */
     public static function sendToPublishingQueue( $objectId, $version )
     {
-        $version = eZContentObjectVersion::fetchVersion( $version, $objectId );
+        $objectVersion = eZContentObjectVersion::fetchVersion( $version, $objectId );
 
-        // object is already queued, continue
-        if ( $version->attribute( 'status' ) == eZContentObjectVersion::STATUS_QUEUED )
+        // object is already queued, continue with background publishing
+        if ( $objectVersion->attribute( 'status' ) == eZContentObjectVersion::STATUS_QUEUED ||
+             $objectVersion->attribute( 'status' ) == eZContentObjectVersion::STATUS_PENDING )
+        {
             return array( 'status' => eZModuleOperationInfo::STATUS_CONTINUE );
+        }
 
         try {
             ezpContentPublishingQueue::add( $objectId, $version );

@@ -1465,7 +1465,7 @@ class eZContentObject extends eZPersistentObject
             "main_node_id" => 0,
             "owner_id" => $userID,
             "section_id" => $sectionID,
-            'remote_id' => md5( (string)mt_rand() . (string)time() ) );
+            'remote_id' => md5( uniqid( '', true ) ) );
 
         return new eZContentObject( $row );
     }

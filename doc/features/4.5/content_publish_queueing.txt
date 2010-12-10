@@ -44,9 +44,15 @@ queue processor know what operations are to be performed.
 
 Publishing queue processor
 --------------------------
-A set of background (CLI) processes that reads the publishing queue, and processes the operations.
+A set of background (CLI) processes that read the publishing queue, and processes the operations.
 
-The processor uses multiple publishing queue processes, up to a configurable maximum concurrency level.
+The processor uses multiple publishing queue processes, up to a configurable maximum concurrency level, configured in
+content.ini::
+
+    [PublishingSettings]
+    # how many parallel publishing operations should be allowed
+    # default: 10
+    PublishingProcessSlots=10
 
 Implementation
 ==============
@@ -63,6 +69,18 @@ Publishing queue
 ----------------
 As of today's features, there is no need to add dedicated storage for this queue. The current plan is to use a new
 content object version, "queued", that makes the version part of the publishing queue.
+
+Publishing interface
+--------------------
+Since the user won't be left with a loading page after clicking on "Send for publishing", some kind of "wait interface"
+is required to maintain a good user experience.
+
+While the content is being published, a wait animation (image) will be displayed, and regular AJAX queries will be sent
+to the backoffice using ezjscore, requesting the publish operation's status. Once the operation is terminated, new
+UI items will be proposed:
+
+* view the published object
+* go back to the container
 
 Potential problems
 ==================
@@ -95,6 +113,12 @@ Zombie processes
 ----------------
 P: By experience, we know that background processes aren't 100% reliable. Zombie processes might limit the concurrency
    as dead publishing queue processes might be inactive and preventing new ones from executing.
+
+Embedded publishing
+-------------------
+P: Other interfaces let the users publish content, for instance the embed elements one from ezoe.
+
+S: See how this can be worked around, with a wait animation as proposed for the standard publishing operation.
 
 Alternative ideas
 =================
