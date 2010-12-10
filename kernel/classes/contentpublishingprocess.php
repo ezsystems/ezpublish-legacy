@@ -70,6 +70,26 @@ class ezpContentPublishingProcess extends eZPersistentObject
     }
 
     /**
+     * Fetches a process by its content object ID + version
+     * @param int $contentObjectId
+     * @param int $version
+     * @return ezpContentPublishingProcess
+     */
+    public static function fetchByContentObjectVersion( $contentObjectId, $version )
+    {
+        $contentObjectVersion = eZContentObjectVersion::fetchVersion( $version, $contentObjectId );
+        if ( $contentObjectVersion instanceof eZContentObjectVersion )
+        {
+            $return = self::fetchByContentVersionId( $contentObjectVersion->attribute( 'id' ) );
+            return $return;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
      * Returns the number of currently working publishing processes
      * @return int
      */
@@ -143,6 +163,7 @@ class ezpContentPublishingProcess extends eZPersistentObject
             // child process: spawn
             $myPid = getmypid();
 
+            // @todo Make the executable configurable
             exec( "/usr/bin/php ./bin/php/publish_content.php $contentObjectId $contentObjectVersion", $op );
 
             // mark the process as completed
@@ -150,6 +171,7 @@ class ezpContentPublishingProcess extends eZPersistentObject
             $processObject->setAttribute( 'status', self::STATUS_FINISHED );
             $processObject->store();
 
+            // Make sure this is correct
             eZScript::instance()->shutdown();
             exit;
         }

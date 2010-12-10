@@ -502,6 +502,13 @@ $ViewList['dashboard'] = array(
     'params' => array( ),
     'unordered_params' => array( ) );
 
+$ViewList['queued'] = array(
+    'functions' => array( 'edit' ),
+    'default_navigation_part' => 'ezcontentnavigationpart',
+    'script' => 'queued.php',
+    'ui_context' => 'edit',
+    'params' => array( 'ContentObjectID', 'version' ) );
+
 $ClassID = array(
     'name'=> 'Class',
     'values'=> array(),

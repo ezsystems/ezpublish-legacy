@@ -1525,13 +1525,8 @@ class eZContentOperationCollection
             return array( 'status' => eZModuleOperationInfo::STATUS_CANCELLED );
         }
 
-        $tpl = eZTemplate::factory();
-        $return = array();
         $return['status'] = eZModuleOperationInfo::STATUS_HALTED;
-        $return['result'] = array(
-            'content' => $tpl->fetch( 'design:content/edit_queued.tpl' ),
-            'path' => false
-        );
+        $return['redirect_url'] = "content/queued/{$objectId}/{$version}";
 
         return $return;
     }

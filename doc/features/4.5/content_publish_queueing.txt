@@ -107,7 +107,10 @@ P: What happens if the publishing operation is used outside the content/edit con
    recommend it. While the publishing operation can still be sent to the pooling processor, how would the interactivity
    be implemented ?
 
-S: Publishing strategy concept ?
+S: Publishing strategy concept ? Ideally, in order to maintain full backwards compatibility, it should be easy to get
+   maintained on hold while content is being published. This would maintain the same experience as today, and would
+   ensure that the publishing sequence is valid (container before sub-content, etc). This requires the publishing
+   strategy concept to be implemented.
 
 Zombie processes
 ----------------
@@ -120,6 +123,12 @@ P: Other interfaces let the users publish content, for instance the embed elemen
 
 S: See how this can be worked around, with a wait animation as proposed for the standard publishing operation.
 
+RedirectURIAfterPublish
+-----------------------
+P: This POST variable can be added to the content/edit form, and it will be used to redirect the user after publishing.
+
+S: This variable must be taken into consideration, and offered as the default behaviour once publishing is done.
+
 Alternative ideas
 =================
 
@@ -127,3 +136,6 @@ Use the queue system to control publishing operations: the editor is held waitin
 be resumed. The problem here is that this would be completely GUI dependant, and that the user must NOT quit the page.
 While it has more consequences, the AJAX based wait system is more user + server friendly, and opens up the gates for
 nice additions to the GUI.
+
+TODO List
+=========
