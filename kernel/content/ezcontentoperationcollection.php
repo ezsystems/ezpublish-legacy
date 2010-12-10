@@ -1509,6 +1509,12 @@ class eZContentOperationCollection
      */
     public static function sendToPublishingQueue( $objectId, $version )
     {
+        $version = eZContentObjectVersion::fetchVersion( $version, $objectId );
+
+        // object is already queued, continue
+        if ( $version->attribute( 'status' ) == eZContentObjectVersion::STATUS_QUEUED )
+            return array( 'status' => eZModuleOperationInfo::STATUS_CONTINUE );
+
         try {
             ezpContentPublishingQueue::add( $objectId, $version );
         } catch( Exception $e ) {

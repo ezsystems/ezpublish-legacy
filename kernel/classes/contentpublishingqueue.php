@@ -9,8 +9,9 @@
  */
 
 /**
- * This class manages the content publishing queue. It accepts new items for input, and decides what item should be
- * processed next
+ * This class manages the content publishing queue. It accepts new items for input, and provides information about the
+ * current queue
+ *
  * @package kernel
  * @since 4.5
  */
@@ -25,6 +26,24 @@ class ezpContentPublishingQueue
     public static function add( $objectId, $version )
     {
         eZContentOperationCollection::setVersionStatus( $objectId, $version, eZContentObjectVersion::STATUS_QUEUED );
+    }
+
+    /**
+     * Returns the next processable item
+     * @return eZContentObjectVersion The next object to process, or false if none is available
+     */
+    public static function next()
+    {
+        $objectVersionArray = eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
+            null,
+            array( 'status' => eZContentObjectVersion::STATUS_QUEUED ),
+            array( 'modified' => 'desc' ),
+            array( 'offset' => 0, 'length' => 1 ) );
+
+        if ( $objectVersionArray === null || count( $objectVersionArray ) == 0 )
+            return false;
+
+        return $objectVersionArray[0];
     }
 }
 ?>

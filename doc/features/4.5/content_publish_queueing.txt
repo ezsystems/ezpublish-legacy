@@ -48,16 +48,21 @@ A set of background (CLI) processes that reads the publishing queue, and process
 
 The processor uses multiple publishing queue processes, up to a configurable maximum concurrency level.
 
-API Changes
-===========
+Implementation
+==============
 
 Publishing operation
 --------------------
 
 Add a new method to the publishing operation that returns a specific status and therefore sends the operation to the
-Publishing queue. This method should be the first (second ? after set-status-pending ?) entry in the operation.
+Publishing queue. This method should be the second item, after set-status-pending.
 
-This status will also instruct the interface to set the user on hold while his content is being generated.
+This method will send ezpContentPublishingQueue a request to add the publishing operation to the queue.
+
+Publishing queue
+----------------
+As of today's features, there is no need to add dedicated storage for this queue. The current plan is to use a new
+content object version, "queued", that makes the version part of the publishing queue.
 
 Potential problems
 ==================

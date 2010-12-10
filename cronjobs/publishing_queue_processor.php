@@ -13,6 +13,6 @@
  * @package kernel
  */
 
-$ini = eZINI::instance( 'content.ini' );
-
+$processor = ezpContentPublishingQueueProcessor::instance();
+$processor->run();
 ?>
