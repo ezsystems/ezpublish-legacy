@@ -10,19 +10,20 @@ class ezpRestRouter extends ezcMvcRouter
 {
     public function createRoutes()
     {
-        return array(
-            new ezcMvcRailsRoute( '/api/content/node/:nodeId/listAtom', 'ezpRestAtomController', 'collection' ),
-            new ezcMvcRailsRoute( '/api/content/node/:nodeId/list', 'ezpRestContentController', 'list' ),
-            new ezcMvcRailsRoute( '/api/content/node/:nodeId', 'ezpRestContentController', 'viewContent' ),
-            new ezcMvcRailsRoute( '/api/content/node/:nodeId/fields', 'ezpRestContentController', 'viewFields' ),
-            new ezcMvcRailsRoute( '/api/content/node/:nodeId/field/:fieldIdentifier', 'ezpRestContentController', 'viewField' ),
-            new ezcMvcRailsRoute( '/api/content/object/:objectId', 'ezpRestContentController', 'viewContent' ),
-            new ezcMvcRailsRoute( '/api/content/object/:objectId/fields', 'ezpRestContentController', 'viewFields' ),
-            new ezcMvcRailsRoute( '/api/content/object/:objectId/field/:fieldIdentifier', 'ezpRestContentController', 'viewField' ),
-            new ezcMvcRailsRoute( '/api/fatal', 'ezpRestErrorController', 'show' ),
+        $routes = array(
+            new ezcMvcRailsRoute( '/content/node/:nodeId/listAtom', 'ezpRestAtomController', 'collection' ),
+            new ezcMvcRailsRoute( '/content/node/:nodeId/list', 'ezpRestContentController', 'list' ),
+            new ezcMvcRailsRoute( '/content/node/:nodeId', 'ezpRestContentController', 'viewContent' ),
+            new ezcMvcRailsRoute( '/content/node/:nodeId/fields', 'ezpRestContentController', 'viewFields' ),
+            new ezcMvcRailsRoute( '/content/node/:nodeId/field/:fieldIdentifier', 'ezpRestContentController', 'viewField' ),
+            new ezcMvcRailsRoute( '/content/object/:objectId', 'ezpRestContentController', 'viewContent' ),
+            new ezcMvcRailsRoute( '/content/object/:objectId/fields', 'ezpRestContentController', 'viewFields' ),
+            new ezcMvcRailsRoute( '/content/object/:objectId/field/:fieldIdentifier', 'ezpRestContentController', 'viewField' ),
+            new ezcMvcRailsRoute( '/fatal', 'ezpRestErrorController', 'show' ),
             new ezcMvcRailsRoute( '/http-basic-auth', 'ezpRestAuthController', 'basicAuth' ),
             new ezcMvcRailsRoute( '/login/oauth', 'ezpRestAuthController', 'oauthRequired' )
         );
+        return ezcMvcRouter::prefix( '/api', $routes );
     }
 }
 ?>
