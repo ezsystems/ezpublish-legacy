@@ -57,8 +57,8 @@ class ezpMvcConfiguration implements ezcMvcDispatcherConfiguration
         // is not caught by MvcTools, so the error controller will not pick them up.
         try
         {
-            $authConfig = new ezpRestAuthConfiguration( $routeInfo, $request );
-            return $authConfig->filter();
+            // $authConfig = new ezpRestAuthConfiguration( $routeInfo, $request );
+            // return $authConfig->filter();
         }
         catch ( Exception $e )
         {
