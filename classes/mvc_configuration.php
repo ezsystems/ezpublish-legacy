@@ -7,6 +7,16 @@
  */
 class ezpMvcConfiguration implements ezcMvcDispatcherConfiguration
 {
+    /**
+     * @var string The path prefix for signifying HTTP calls to the REST interface. Can be empty in case of an api host.
+     */
+    public $apiPrefix;
+
+    public function __construct()
+    {
+        $this->apiPrefix = eZINI::instance( 'rest.ini' )->variable( 'System', 'ApiPrefix' );
+    }
+
     public function createFatalRedirectRequest( ezcMvcRequest $request, ezcMvcResult $result, Exception $e )
     {
         $req = clone $request;
@@ -48,7 +58,17 @@ class ezpMvcConfiguration implements ezcMvcDispatcherConfiguration
 
     public function runPreRoutingFilters( ezcMvcRequest $request )
     {
+        $versionTokenOptions = new ezpExtensionOptions();
+        $versionTokenOptions->iniFile = 'rest.ini';
+        $versionTokenOptions->iniSection = 'System';
+        $versionTokenOptions->iniVariable = 'VersionTokenClass';
+        $versionTokenOptions->handlerParams = array( $request, $this->apiPrefix );
 
+        $versionInfo = eZExtension::getHandlerClass( $versionTokenOptions );
+        $versionInfo->filter();
+        // We call this method here, so that implementors won't have to remember
+        // adding this call to their own filter() implementation.
+        $versionInfo->filterRequestUri();
     }
 
     public function runRequestFilters( ezcMvcRoutingInformation $routeInfo, ezcMvcRequest $request )
