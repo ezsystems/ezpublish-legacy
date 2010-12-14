@@ -35,7 +35,7 @@ $module = $Params['Module'];
 $object = eZContentObject::fetch( $objectID );
 if ( !is_object( $object ) )
 {
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 if ( $object->attribute( 'status' ) != eZContentObject::STATUS_ARCHIVED )
 {
