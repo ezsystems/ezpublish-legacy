@@ -41,7 +41,7 @@ $orderID = $http->sessionVariable( 'MyTemporaryOrderID' );
 
 $order = eZOrder::fetch( $orderID );
 if ( !is_object( $order ) )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
 //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
 
