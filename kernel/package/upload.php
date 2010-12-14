@@ -30,7 +30,7 @@
 $module = $Params['Module'];
 
 if ( !eZPackage::canUsePolicyFunction( 'import' ) )
-    return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 
 $package = false;
 $installElements = false;
