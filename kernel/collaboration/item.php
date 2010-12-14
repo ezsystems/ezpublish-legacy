@@ -39,7 +39,7 @@ if ( !is_numeric( $Offset ) )
 
 $collabItem = eZCollaborationItem::fetch( $ItemID );
 if ( $collabItem === null )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 
 $collabHandler = $collabItem->handler();
 $collabItem->handleView( $ViewMode );
