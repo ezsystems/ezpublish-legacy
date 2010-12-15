@@ -1509,26 +1509,18 @@ class eZContentOperationCollection
      */
     public static function sendToPublishingQueue( $objectId, $version )
     {
-        $objectVersion = eZContentObjectVersion::fetchVersion( $version, $objectId );
-
-        // object is already queued, continue with background publishing
-        if ( $objectVersion->attribute( 'status' ) == eZContentObjectVersion::STATUS_QUEUED ||
-             $objectVersion->attribute( 'status' ) == eZContentObjectVersion::STATUS_PENDING )
+        // if the object is already in the process queue, we move ahead
+        if ( ezpContentPublishingQueue::isQueued( $objectId, $version) )
         {
             return array( 'status' => eZModuleOperationInfo::STATUS_CONTINUE );
         }
-
-        try {
+        // the object isn't in the process queue, this means this is the first time we execute this method
+        // the object must be queued
+        else
+        {
             ezpContentPublishingQueue::add( $objectId, $version );
-        } catch( Exception $e ) {
-            eZDebug::writeError( $e->getMessage() );
-            return array( 'status' => eZModuleOperationInfo::STATUS_CANCELLED );
+            return array( 'status' => eZModuleOperationInfo::STATUS_HALTED, 'redirect_url' => "content/queued/{$objectId}/{$version}" );
         }
-
-        $return['status'] = eZModuleOperationInfo::STATUS_HALTED;
-        $return['redirect_url'] = "content/queued/{$objectId}/{$version}";
-
-        return $return;
     }
 }
 ?>

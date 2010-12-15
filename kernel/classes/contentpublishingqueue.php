@@ -25,7 +25,19 @@ class ezpContentPublishingQueue
      */
     public static function add( $objectId, $version )
     {
-        eZContentOperationCollection::setVersionStatus( $objectId, $version, eZContentObjectVersion::STATUS_QUEUED );
+        return ezpContentPublishingProcess::queue( eZContentObjectVersion::fetchVersion( $version, $objectId ) );
+    }
+
+    /**
+     * Checks if an object exists in the queue, whatever the status is
+     * @param int $objectId
+     * @param int $version
+     * @return bool
+     */
+    public static function isQueued( $objectId, $version )
+    {
+        $process = ezpContentPublishingProcess::fetchByContentObjectVersion( $objectId, $version );
+        return ( $process instanceof ezpContentPublishingProcess );
     }
 
     /**
@@ -34,21 +46,17 @@ class ezpContentPublishingQueue
      */
     public static function next()
     {
-        $objectVersionArray = eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
+        $queuedProcess = eZPersistentObject::fetchObjectList( ezpContentPublishingProcess::definition(),
             null,
-            array( 'status' => eZContentObjectVersion::STATUS_QUEUED ),
-            array( 'modified' => 'desc' )
+            array( 'status' => ezpContentPublishingProcess::STATUS_PENDING ),
+            array( 'created' => 'desc' ),
+            array( 'offset' => 0, 'length' => 1 )
         );
 
-        if ( $objectVersionArray === null || count( $objectVersionArray ) == 0 )
+        if ( count( $queuedProcess ) == 0 )
             return false;
-
-        foreach( $objectVersionArray as $objectVersion )
-        {
-            if ( !ezpContentPublishingProcess::isProcessing( $objectVersion ) )
-                return $objectVersion;
-        }
-        return false;
+        else
+            return $queuedProcess[0];
     }
 }
 ?>

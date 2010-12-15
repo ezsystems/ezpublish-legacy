@@ -32,7 +32,13 @@ YUI( YUI3_config ).use('node', 'io-ez', function( Y )
                         Y.get( '#publish-queue-status-placeholder' ).setContent( status );
 
                         if ( ( status == 'finished' ) && ( publishQueueUpdater != null ) )
+                        {
+                            node_uri = r.responseJSON.content.node_uri;
                             publishQueueUpdater.cancel();
+                            Y.get( '#publish-queue-status-placeholder' ).setContent(
+                                '<a href="' + node_uri + '">Completed. View published node</a>'
+                            );
+                        }
                     }
                 }
             }

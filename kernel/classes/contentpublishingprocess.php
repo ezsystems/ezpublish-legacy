@@ -18,6 +18,7 @@ class ezpContentPublishingProcess extends eZPersistentObject
 {
     const STATUS_WORKING = 1;
     const STATUS_FINISHED = 2;
+    const STATUS_PENDING = 3;
 
 
     /**
@@ -43,16 +44,36 @@ class ezpContentPublishingProcess extends eZPersistentObject
                                                    'default' => 0,
                                                    'required' => true ),
                                 'started' => array( 'name' => 'Started',
-                                                  'datatype' => 'integer',
-                                                  'default' => 0,
-                                                  'required' => true ) ),
+                                                    'datatype' => 'integer',
+                                                    'default' => 0,
+                                                    'required' => true ),
+                                'created' => array( 'name' => 'Created',
+                                                    'datatype' => 'integer',
+                                                    'default' => 0,
+                                                    'required' => true ),
+                                'finished' => array( 'name' => 'Finished',
+                                                     'datatype' => 'integer',
+                                                     'default' => 0,
+                                                     'required' => true ) ),
                       'keys' => array( 'ezcontentobject_version_id' ),
-                      'function_attributes' => array(),
-                      'class_name' => "ezpContentPublishingProcess",
-                      "increment_key" => null,
-                      'sort' => array( 'started' => 'asc' ),
+                      'function_attributes' => array( 'version' => 'version' ),
+                      'class_name' => 'ezpContentPublishingProcess',
+                      'increment_key' => null,
+                      'sort' => array( 'created' => 'asc' ),
                       'name' => 'ezpublishingqueueprocesses' );
         return $definition;
+    }
+
+    /**
+     * Returns the version object the process is linked to
+     * @return eZContentObjectVersion
+     */
+    public function version()
+    {
+        if ( $this->versionObject === null )
+            $this->versionObject = eZContentObjectVersion::fetch( $this->attribute( 'ezcontentobject_version_id' ) );
+
+        return $this->versionObject;
     }
 
     /**
@@ -116,48 +137,38 @@ class ezpContentPublishingProcess extends eZPersistentObject
     }
 
     /**
-     * Starts the publishing process for a content object version
+     * Starts the publishing process for the linked version
      * @param eZContentObjectVersion $version
      * @return bool
      */
-    public static function publish( eZContentObjectVersion $version )
+    public function publish()
     {
-        $contentObjectId = $version->attribute( 'contentobject_id' );
-        $contentObjectVersion = $version->attribute( 'version' );
+        $contentObjectId = $this->versionObject()->attribute( 'contentobject_id' );
+        $contentObjectVersion = $this->versionObject()->attribute( 'version' );
 
-        // launch the process
-        // @todo Will only work on linux, but it'll do for now
-        // $phpExec = $_SERVER['_'];
-        $op = null;
+        $processObject = ezpContentPublishingProcess::fetchByContentObjectVersion( $contentObjectId, $contentObjectVersion );
+        $processObject->setAttribute( 'status', self::STATUS_WORKING );
+        $processObject->store();
 
         $pid = pcntl_fork();
+
         $db = eZDB::instance();
         $db->IsConnected = false;
         $db = null;
         eZDB::setInstance( $db );
-        eZDB::setInstance( eZDB::instance( false, false, true ) );
+
+        // error, cancel
         if ( $pid == -1 )
         {
+            $processObject->setAttribute( 'status', self::STATUS_PENDING );
+            $processObject->store();
             return false;
         }
         else if ( $pid )
         {
-            // set the version as pending so that no other publishing process catches it
-            $version->setAttribute( 'status', eZContentObjectVersion::STATUS_PENDING );
-            $version->store();
-
-            // create the process object
-            $processObjectRow = array(
-                'ezcontentobject_version_id' => $version->attribute( 'id' ),
-                'pid' => $pid,
-                'status' => self::STATUS_WORKING,
-                'started' => time(),
-            );
-            $processObject = new self( $processObjectRow );
-            $processObject->store();
-
             return $pid;
         }
+        // child process
         else
         {
             // child process: spawn
@@ -167,7 +178,7 @@ class ezpContentPublishingProcess extends eZPersistentObject
             exec( "/usr/bin/php ./bin/php/publish_content.php $contentObjectId $contentObjectVersion", $op );
 
             // mark the process as completed
-            $processObject = self::fetchByContentVersionId( $version->attribute( 'id' ) );
+            $processObject = self::fetchByContentVersionId( $this->versionObject()->attribute( 'id' ) );
             $processObject->setAttribute( 'status', self::STATUS_FINISHED );
             $processObject->store();
 
@@ -178,5 +189,25 @@ class ezpContentPublishingProcess extends eZPersistentObject
 
         return true;
     }
+
+    /**
+     * Adds a version to the publishing queue
+     * @param eZContentObjectVersion $version
+     * @return ezpContentPublishingProcess
+     */
+    public static function queue( eZContentObjectVersion $version )
+    {
+        $row = array(
+            'ezcontentobject_version_id' => $version->attribute( 'id' ),
+            'created' => time(),
+            'status' => self::STATUS_PENDING,
+         );
+        $processObject = new self( $row );
+        $processObject->store();
+
+        return $processObject;
+    }
+
+    private $versionObject = null;
 }
 ?>

@@ -66,8 +66,8 @@ class ezpContentPublishingQueueProcessor
                 }
                 else
                 {
-                    echo "Processing item #" . $publishingItem->attribute( 'id' ) . "\n";
-                    ezpContentPublishingProcess::publish( $publishingItem );
+                    echo "Processing item #" . $publishingItem->attribute( 'ezcontentobject_version_id' ) . "\n";
+                    $publishingItem->publish();
                 }
             }
             else
