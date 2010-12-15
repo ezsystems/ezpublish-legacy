@@ -45,15 +45,7 @@ class ezpMvcConfiguration implements ezcMvcDispatcherConfiguration
 
     public function createView( ezcMvcRoutingInformation $routeInfo, ezcMvcRequest $request, ezcMvcResult $result )
     {
-        if ( $routeInfo->controllerClass === 'ezpRestAtomController' )
-        {
-            $view = new ezpRestAtomView( $request, $result );
-        }
-        else
-        {
-            $view = new ezpRestJsonView( $request, $result );
-        }
-        return $view;
+        return ezpRestViewFactory::create( $routeInfo, $request, $result );
     }
 
     public function runPreRoutingFilters( ezcMvcRequest $request )
