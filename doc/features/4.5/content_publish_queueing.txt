@@ -82,6 +82,19 @@ UI items will be proposed:
 * view the published object
 * go back to the container
 
+Making the feature optional
+---------------------------
+In order to ensure BC, it must be possible to disable the feature.
+
+This is made possible through an INI setting in content.ini::
+
+    [PublishingSettings]
+    # Enable/Disable the asynchronous publishing feature
+    AsynchronousPublishing=disabled
+
+If disabled, the operation won't be deferred to the daemon at all, and will happen in real time. This also allows
+siteaccess based enabling/disabling of the feature.
+
 Potential problems
 ==================
 
@@ -129,6 +142,12 @@ P: This POST variable can be added to the content/edit form, and it will be used
 
 S: This variable must be taken into consideration, and offered as the default behaviour once publishing is done.
 
+Webdav
+------
+P: How can we handle this with webdav ?
+
+S: No "wait" interface. PublishingStrategy => realtime.
+
 Alternative ideas
 =================
 
@@ -141,3 +160,5 @@ TODO List
 =========
 - handle RedirectURIAfterPublish (automatic redirection ?)
 - add permission check (can read ? edit ?) to the ezpublishingqueue/status call
+  edit sounds right, as the user has to be able to edit his content in any case.
+  need extra check for language ?

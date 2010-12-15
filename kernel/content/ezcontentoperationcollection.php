@@ -1509,17 +1509,26 @@ class eZContentOperationCollection
      */
     public static function sendToPublishingQueue( $objectId, $version )
     {
-        // if the object is already in the process queue, we move ahead
-        if ( ezpContentPublishingQueue::isQueued( $objectId, $version) )
+        $asyncEnabled = ( eZINI::instance( 'content.ini' )->variable( 'PublishingSettings', 'AsynchronousPublishing' ) == 'enabled' );
+
+        if ( $asyncEnabled === true )
         {
-            return array( 'status' => eZModuleOperationInfo::STATUS_CONTINUE );
+            // if the object is already in the process queue, we move ahead
+            if ( ezpContentPublishingQueue::isQueued( $objectId, $version) )
+            {
+                return array( 'status' => eZModuleOperationInfo::STATUS_CONTINUE );
+            }
+            // the object isn't in the process queue, this means this is the first time we execute this method
+            // the object must be queued
+            else
+            {
+                ezpContentPublishingQueue::add( $objectId, $version );
+                return array( 'status' => eZModuleOperationInfo::STATUS_HALTED, 'redirect_url' => "content/queued/{$objectId}/{$version}" );
+            }
         }
-        // the object isn't in the process queue, this means this is the first time we execute this method
-        // the object must be queued
         else
         {
-            ezpContentPublishingQueue::add( $objectId, $version );
-            return array( 'status' => eZModuleOperationInfo::STATUS_HALTED, 'redirect_url' => "content/queued/{$objectId}/{$version}" );
+            return array( 'status' => eZModuleOperationInfo::STATUS_CONTINUE );
         }
     }
 }
