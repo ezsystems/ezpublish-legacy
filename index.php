@@ -201,15 +201,14 @@ function eZFatalError()
     print( "<b>Fatal error</b>: eZ Publish did not finish its request<br/>" );
     if ( ini_get('display_errors') == 1 )
     {
-        $ini = eZINI::instance();
-        if ( $ini->variable( 'DebugSettings', 'DebugOutput' ) === 'enabled' )
+        if ( eZDebug::isDebugEnabled() )
             print( "<p>The execution of eZ Publish was abruptly ended, the debug output is present below.</p>" );
         else
-            print( "<p>The execution of eZ Publish was abruptly ended, debug information can be found in the log files normally placed in var/log/*</p>" );
+            print( "<p>The execution of eZ Publish was abruptly ended, debug information can be found in the log files normally placed in var/log/* or by enabling 'DebugOutput'</p>" );
     }
     else
     {
-        print( "<p>The execution of eZ Publish was abruptly ended. Contact website owner with current url and what you did, and owner will be able to debug the issue further.</p>" );
+        print( "<p>The execution of eZ Publish was abruptly ended. Contact website owner with current url and what you did, and owner will be able to debug the issue further(by enabling 'display_errors' and optionally 'DebugOutput').</p>" );
     }
     $templateResult = null;
     eZDisplayResult( $templateResult );
