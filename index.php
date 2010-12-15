@@ -345,9 +345,6 @@ $access = eZSiteAccess::match( $uri,
 $access = eZSiteAccess::change( $access );
 eZDebugSetting::writeDebug( 'kernel-siteaccess', $access, 'current siteaccess' );
 
-// Check for activating Debug by user ID (Final checking. The first was in eZDebug::updateSettings())
-eZDebug::checkDebugByUser();
-
 // Check for siteaccess extension
 eZExtension::activateExtensions( 'access' );
 // Siteaccess extension check end
@@ -441,6 +438,12 @@ if ( $dbRequired )
 // eZCheckUser: pre check, RequireUserLogin & FORCE_LOGIN related so needs to be after session init
 if ( !isset( $check ) )
     $check = eZUserLoginHandler::preCheck( $siteBasics, $uri );
+
+/**
+ * Check for activating Debug by user ID (Final checking. The first was in eZDebug::updateSettings())
+ * @uses eZUser::instance() So needs to be executed after eZSession::start()|lazyStart()
+ */
+eZDebug::checkDebugByUser();
 
 // Initialize with locale settings
 $locale = eZLocale::instance();
