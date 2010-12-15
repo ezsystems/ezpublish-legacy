@@ -139,3 +139,5 @@ nice additions to the GUI.
 
 TODO List
 =========
+- handle RedirectURIAfterPublish (automatic redirection ?)
+- add permission check (can read ? edit ?) to the ezpublishingqueue/status call

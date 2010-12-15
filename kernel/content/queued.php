@@ -10,14 +10,17 @@
  */
 
 $tpl = eZTemplate::factory();
-
 $module = $Params['Module'];
+$http = eZHTTPTool::instance();
 
 $pContentObjectId = $Params['ContentObjectID'];
 $pVersion = $Params['version'];
 
 $tpl->setVariable( 'contentObjectId', $pContentObjectId );
 $tpl->setVariable( 'version', $pVersion );
+
+if ( $http->hasSessionVariable( 'RedirectURIAfterPublish' ) )
+    $tpl->setVariable( 'redirect_uri', $http->sessionVariable( 'RedirectURIAfterPublish' ) );
 
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezpI18n::tr( 'kernel/content', 'Content queued for publishing' ) ) );

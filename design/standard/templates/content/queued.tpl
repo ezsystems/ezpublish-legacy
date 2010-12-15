@@ -8,6 +8,8 @@ var contentObjectId = {$contentObjectId};
 var version = {$version};
 var ajaxUri = 'ezpublishingqueue::status::' + contentObjectId + '::' + version;
 var publishQueueUpdater = false;
+{* redirect uri posted in the content/edit form *}
+var redirectUri={if is_set( $redirect_uri )}{$redirect_uri}{else}false{/if}
 
 {literal}
 YUI( YUI3_config ).use('node', 'io-ez', function( Y )
@@ -33,11 +35,18 @@ YUI( YUI3_config ).use('node', 'io-ez', function( Y )
 
                         if ( ( status == 'finished' ) && ( publishQueueUpdater != null ) )
                         {
-                            node_uri = r.responseJSON.content.node_uri;
                             publishQueueUpdater.cancel();
-                            Y.get( '#publish-queue-status-placeholder' ).setContent(
-                                '<a href="' + node_uri + '">Completed. View published node</a>'
-                            );
+                            if ( redirectUri != false )
+                            {
+                                window.location = redirect_uri;
+                            }
+                            else
+                            {
+                                node_uri = r.responseJSON.content.node_uri;
+                                Y.get( '#publish-queue-status-placeholder' ).setContent(
+                                    '<a href="' + node_uri + '">Completed. View published node</a>'
+                                );
+                            }
                         }
                     }
                 }
