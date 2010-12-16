@@ -10,12 +10,12 @@
 interface ezpRestProviderInterface
 {
     /**
-     * Returns registered versioned routs for provider
+     * Returns registered versioned routes for provider
      *
      * @abstract
      * @return array
      */
-    public function getRouts();
+    public function getRoutes();
 
     /**
      * Returns associated with provider view controller

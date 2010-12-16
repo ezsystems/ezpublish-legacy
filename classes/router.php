@@ -10,7 +10,7 @@ class ezpRestRouter extends ezcMvcRouter
 {
     public function createRoutes()
     {
-        $providerRoutes = ezpRestProvider::getProvider( ezpRestPrefixFilterInterface::getApiProviderName() )->getRouts();
+        $providerRoutes = ezpRestProvider::getProvider( ezpRestPrefixFilterInterface::getApiProviderName() )->getRoutes();
 
         $routes = array(
             new ezcMvcRailsRoute( '/fatal', 'ezpRestErrorController', 'show' ),
