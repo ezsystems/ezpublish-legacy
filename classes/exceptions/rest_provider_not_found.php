@@ -7,7 +7,7 @@
  *
  */
 
-class ezpRestProviderNotfoundException extends ezpRestException
+class ezpRestProviderNotFoundException extends ezpRestException
 {
     public function __construct( $providerName )
     {
