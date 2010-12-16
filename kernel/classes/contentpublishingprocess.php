@@ -145,22 +145,23 @@ class ezpContentPublishingProcess extends eZPersistentObject
         $contentObjectId = $this->version()->attribute( 'contentobject_id' );
         $contentObjectVersion = $this->version()->attribute( 'version' );
 
-        $processObject = ezpContentPublishingProcess::fetchByContentObjectVersion( $contentObjectId, $contentObjectVersion );
-        $processObject->setAttribute( 'status', self::STATUS_WORKING );
-        $processObject->store();
+        // $processObject = ezpContentPublishingProcess::fetchByContentObjectVersion( $contentObjectId, $contentObjectVersion );
+        $this->setAttribute( 'status', self::STATUS_WORKING );
+        $this->store( array( 'status' ) );
 
         $pid = pcntl_fork();
 
+        // force the DB connection closed
         $db = eZDB::instance();
         $db->IsConnected = false;
         $db = null;
-        eZDB::setInstance( $db );
+        eZDB::setInstance( null );
 
         // error, cancel
         if ( $pid == -1 )
         {
-            $processObject->setAttribute( 'status', self::STATUS_PENDING );
-            $processObject->store();
+            $this->setAttribute( 'status', self::STATUS_PENDING );
+            $this->store( array( 'status' ) );
             return false;
         }
         else if ( $pid )
@@ -170,16 +171,19 @@ class ezpContentPublishingProcess extends eZPersistentObject
         // child process
         else
         {
-            // child process: spawn
             $myPid = getmypid();
+            pcntl_signal(SIGCHLD, SIG_IGN);
 
-            // @todo Make the executable configurable
-            exec( "/usr/bin/php ./bin/php/publish_content.php $contentObjectId $contentObjectVersion", $op );
+            fclose( STDERR );
+
+            $this->setAttribute( 'pid', $myPid );
+            $this->store( array( 'pid' ) );
+
+            eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectId, 'version' => $contentObjectVersion  ) );
 
             // mark the process as completed
-            $processObject = self::fetchByContentVersionId( $this->version()->attribute( 'id' ) );
-            $processObject->setAttribute( 'status', self::STATUS_FINISHED );
-            $processObject->store();
+            $this->setAttribute( 'status', self::STATUS_FINISHED );
+            $this->store( array( 'status' ) );
 
             // Make sure this is correct
             eZScript::instance()->shutdown();
@@ -205,6 +209,52 @@ class ezpContentPublishingProcess extends eZPersistentObject
         $processObject->store();
 
         return $processObject;
+    }
+
+    /**
+     * Fetches processes, filtered by status
+     * @param int $status One of ezpContentPublishingProcess::STATUS_*
+     * @return array( ezpContentPublishingProcess )
+     */
+    public static function fetchProcesses( $status )
+    {
+        if ( !in_array( $status, array( self::STATUS_FINISHED, self::STATUS_PENDING, self::STATUS_WORKING ) ) )
+            throw new ezcBaseValueException( '$status', $status, array( self::STATUS_FINISHED, self::STATUS_PENDING, self::STATUS_WORKING ), 'parameter' );
+
+        return parent::fetchObjectList( self::definition(), false,
+            array( 'status' => $status ),
+            array( 'created' => 'asc' ) );
+    }
+
+    /**
+     * Checks if the system process is running
+     *
+     * @return bool
+     * @throws Exception if the process isn't in WORKING status
+     */
+    public function isAlive()
+    {
+        if ( $this->attribute( 'status' ) != self::STATUS_WORKING )
+            throw new Exception( 'The process\'s status isn\'t \'working\'' );
+
+        // sending 0 only checks if the process is alive (and if the current process is allowed to send signals to it)
+        $return = ( posix_kill( $this->attribute( 'pid' ), 0 ) === true );
+        return $return;
+    }
+
+    /**
+     * Resets the current process to the PENDING state
+     *
+     * @todo Monitor the reset operation, using some kind of counter. The process must NOT get high priority, as it
+     *       might block a slot if it fails constantly
+     *       Maybe use a STATUS_RESET status, that gives lower priority to the item
+     */
+    public function reset()
+    {
+        echo "* reset: ContentObjectVersionID #" . $this->attribute( 'ezcontentobject_version_id' ) . "\n";
+        $this->setAttribute( 'status', self::STATUS_PENDING );
+        $this->setAttribute( 'pid', 0 );
+        $this->store( array( 'status', 'pid' ) );
     }
 
     private $versionObject = null;

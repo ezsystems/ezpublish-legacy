@@ -388,7 +388,8 @@ class eZContentOperationCollection
 
     static public function updateSectionID( $objectID, $versionNum )
     {
-        $object = eZContentObject::fetch( $objectID );
+        // $object = eZContentObject::fetch( $objectID );
+        $object = eZContentObject::fetch( $objectI );
 
         $version = $object->version( $versionNum );
 
