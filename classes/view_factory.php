@@ -21,17 +21,10 @@ class ezpRestViewFactory
      */
     static public function create( ezcMvcRoutingInformation $routeInfo, ezcMvcRequest $request, ezcMvcResult $result )
     {
-        $view = null;
-
-        $controller = new $routeInfo->controllerClass( $routeInfo->action, $request );
-        if ( $controller instanceof ezcMvcController )
-        {
-            if ( method_exists( $controller, 'loadView' ) )
-                $view = $controller->loadView( $result );
-        }
+        $viewController = ezpRestProvider::getProvider( ezpRestPrefixFilterInterface::getApiProviderName() )->getViewController();
+        $view = $viewController->loadView( $routeInfo, $request, $result );
 
         return $view;
-
     }
 }
  

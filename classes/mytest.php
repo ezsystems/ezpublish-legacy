@@ -7,13 +7,8 @@
  * To change this template use File | Settings | File Templates.
  */
  
-class myController extends ezcMvcController implements ezpRestControllerInterface
+class myController extends ezcMvcController
 {
-    public function loadView( ezcMvcResult $result )
-    {
-        return new ezpRestJsonView( $this->request, $result );
-    }
-
     public function doMyActionOne()
     {
         $res = new ezcMvcResult();

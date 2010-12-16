@@ -15,19 +15,8 @@
  * of new content based on updates since last-modified-date and/or feed entry
  * IDs.
  **/
-class ezpRestAtomController extends ezcMvcController implements ezpRestControllerInterface
+class ezpRestAtomController extends ezcMvcController
 {
-    /**
-     * Creates a view object associated with controller
-     *
-     * @param ezcMvcResult $result
-     * @return ezcMvcView
-     */
-    public function loadView( ezcMvcResult $result )
-    {
-        return new ezpRestAtomView( $this->request, $result );
-    }
-
     public function doCollection()
     {
         // Document need to contain the minimum require data for each collection

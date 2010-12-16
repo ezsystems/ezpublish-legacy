@@ -9,19 +9,8 @@
 /**
  * This controller is used for serving content
  */
-class ezpRestContentController extends ezcMvcController implements ezpRestControllerInterface
+class ezpRestContentController extends ezcMvcController
 {
-    /**
-     * Creates a view object associated with controller
-     *
-     * @param ezcMvcResult $result
-     * @return ezcMvcView
-     */
-    public function loadView( ezcMvcResult $result )
-    {
-        return new ezpRestJsonView( $this->request, $result );
-    }
-
     /**
      * Handles content requests per node or object ID
      *
