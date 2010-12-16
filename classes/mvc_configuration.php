@@ -45,7 +45,10 @@ class ezpMvcConfiguration implements ezcMvcDispatcherConfiguration
 
     public function createView( ezcMvcRoutingInformation $routeInfo, ezcMvcRequest $request, ezcMvcResult $result )
     {
-        return ezpRestViewFactory::create( $routeInfo, $request, $result );
+        $viewController = ezpRestProvider::getProvider( ezpRestPrefixFilterInterface::getApiProviderName() )->getViewController();
+        $view = $viewController->loadView( $routeInfo, $request, $result );
+
+        return $view;
     }
 
     public function runPreRoutingFilters( ezcMvcRequest $request )
