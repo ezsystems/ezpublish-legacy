@@ -17,9 +17,19 @@ abstract class ezpRestPrefixFilterInterface
     protected $versionToken;
 
     /**
+     * @var string Extracted api provider token.
+     */
+    protected $apiProviderToken;
+
+    /**
      * @var int The numerical version number
      */
     protected static $version = null;
+
+    /**
+     * @var string Container for extracted API provider name.
+     */
+    protected static $apiProvider = null;
 
     /**
      * Creates a new VersionToken object which describes the version token in
@@ -32,14 +42,6 @@ abstract class ezpRestPrefixFilterInterface
     abstract public function __construct( ezcMvcRequest $request, $apiPrefix );
 
     /**
-     * Returns the PCRE pattern for version tokens.
-     *
-     * @abstract
-     * @return string
-     */
-    abstract protected function getVersionTokenPattern();
-
-    /**
      * Returns the numerical version of the version token.
      *
      * @abstract
@@ -48,7 +50,10 @@ abstract class ezpRestPrefixFilterInterface
     abstract protected function parseVersionValue();
 
     /**
-     * Filters the request object for version token.
+     * Filters the request object for API provider and version token.
+     *
+     * The API provider is by default assumed to be the first URI element. Other
+     * custom implementations of this interface are free to choose otherwise.
      *
      * If version token exists, gets the numerical value of this token, and
      * filters the URI in the request object, removing said token.
@@ -87,9 +92,28 @@ abstract class ezpRestPrefixFilterInterface
      */
     public function filterRequestUri()
     {
-        if ( $this->versionToken !== null )
+        if ( !empty( $this->versionToken ) )
         {
-            $this->request->uri = str_replace( $this->versionToken, '', $this->request->uri );
+            $this->request->uri = str_replace( '/' . $this->versionToken, '', $this->request->uri );
         }
+        if ( !empty( $this->apiProviderToken ) )
+        {
+            $this->request->uri = str_replace( '/' . $this->apiProviderToken, '', $this->request->uri );
+        }
+    }
+
+    /**
+     * Returns the name of the referenced API provider for the current query.
+     *
+     * @static
+     * @return false|string The identifier of the API provider used in this query.
+     */
+    public static function getApiProviderName()
+    {
+        if ( self::$apiProvider === null )
+        {
+            return false;
+        }
+        return self::$apiProvider;
     }
 }
