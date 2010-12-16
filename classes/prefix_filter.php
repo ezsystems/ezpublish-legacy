@@ -1,13 +1,13 @@
 <?php
 /**
- * File containing the ezpRestVersionTokenInterface interface
+ * File containing the ezpRestPrefixFilterInterface interface
  *
  * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
  *
  */
 
-abstract class ezpRestVersionTokenInterface
+abstract class ezpRestPrefixFilterInterface
 {
     protected $request;
     protected $apiPrefix;
