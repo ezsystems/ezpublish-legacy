@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ezpRestDefaultPrefixFilter class
+ * File containing the ezpRestDefaultRegexpPrefixFilter class
  *
  * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
@@ -10,8 +10,14 @@
 /**
  * Default implementation of prefix filter interface.
  */
-class ezpRestDefaultPrefixFilter extends ezpRestPrefixFilterInterface
+class ezpRestDefaultRegexpPrefixFilter extends ezpRestPrefixFilterInterface
 {
+    /**
+     * Quoted version of the API prefix.
+     * @var string
+     */
+    protected $apiPart;
+
     /**
      * Creates a new VersionToken object which describes the version token in API strings.
      *
@@ -22,12 +28,12 @@ class ezpRestDefaultPrefixFilter extends ezpRestPrefixFilterInterface
     {
         $this->request = $request;
         $this->apiPrefix = $apiPrefix;
+        $this->apiPart = preg_quote( $this->apiPrefix, '@' );
     }
 
-    protected function getVersionTokenPattern( )
+    protected function getPrefixPattern()
     {
-        $apiPart = preg_quote( $this->apiPrefix, '@' );
-        return "@^{$apiPart}(/v\d+)@";
+        return "@^{$this->apiPart}/(?:(?P<provider>[^/]+)/)?(?P<version>v\d+)@";
     }
 
     /**
@@ -37,11 +43,13 @@ class ezpRestDefaultPrefixFilter extends ezpRestPrefixFilterInterface
      */
     protected function parseVersionValue( )
     {
-        return (int)str_replace( '/v', '', $this->versionToken );
+        return (int)str_replace( 'v', '', $this->versionToken );
     }
 
     /**
-     * Filters the request object for version token.
+     * Filters the request object for API provider name and version token.
+     *
+     * API provider name is assumed to be the first URI element.
      *
      * If version token exists, gets the numerical value of this token, and
      * filters the URI in the request object, removing said token.
@@ -54,10 +62,13 @@ class ezpRestDefaultPrefixFilter extends ezpRestPrefixFilterInterface
      */
     public function filter( )
     {
-        if ( preg_match( $this->getVersionTokenPattern(), $this->request->uri, $tokenMatches ) )
+        if ( preg_match( $this->getPrefixPattern(), $this->request->uri, $tokenMatches ) )
         {
-            $this->versionToken = $tokenMatches[1];
+            $this->versionToken = $tokenMatches['version'];
+            $this->apiProviderToken = $tokenMatches['provider'];
+
             self::$version = $this->parseVersionValue();
+            self::$apiProvider = $tokenMatches['provider'];
         }
     }
 
