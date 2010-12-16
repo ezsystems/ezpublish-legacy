@@ -8,9 +8,9 @@
  */
 
 /**
- * Default implementation of version token interface.
+ * Default implementation of prefix filter interface.
  */
-class ezpRestDefaultPrefixFilter extends ezpRestVersionTokenInterface
+class ezpRestDefaultPrefixFilter extends ezpRestPrefixFilterInterface
 {
     /**
      * Creates a new VersionToken object which describes the version token in API strings.
