@@ -1,7 +1,7 @@
 <?php /*
 
 [System]
-VersionTokenClass=ezpRestDefaultPrefixFilter
+VersionTokenClass=ezpRestDefaultRegexpPrefixFilter
 ApiPrefix=/api
 
 */ ?>

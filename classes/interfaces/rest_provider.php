@@ -7,4 +7,21 @@
  *
  */
 
-interface ezpRestProviderInterface {}
+interface ezpRestProviderInterface
+{
+    /**
+     * Returns registered versioned routs for provider
+     *
+     * @abstract
+     * @return array
+     */
+    public function getRouts();
+
+    /**
+     * Returns associated with provider view controller
+     *
+     * @abstract
+     * @return ezpRestViewController
+     */
+    public function getViewController();
+}

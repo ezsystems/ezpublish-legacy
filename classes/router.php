@@ -10,15 +10,9 @@ class ezpRestRouter extends ezcMvcRouter
 {
     public function createRoutes()
     {
+        $providerRoutes = ezpRestProvider::getProvider( ezpRestPrefixFilterInterface::getApiProviderName() )->getRouts();
+
         $routes = array(
-            new ezpRestVersionedRoute( new ezcMvcRailsRoute( '/content/node/:nodeId/listAtom', 'ezpRestAtomController', 'collection' ), 1 ),
-            new ezpRestVersionedRoute( new ezcMvcRailsRoute( '/content/node/:nodeId/list', 'ezpRestContentController', 'list' ), 1 ),
-            new ezpRestVersionedRoute( new ezcMvcRailsRoute( '/content/node/:nodeId', 'ezpRestContentController', 'viewContent' ), 1 ),
-            new ezpRestVersionedRoute( new ezcMvcRailsRoute( '/content/node/:nodeId/fields', 'ezpRestContentController', 'viewFields' ), 1 ),
-            new ezpRestVersionedRoute( new ezcMvcRailsRoute( '/content/node/:nodeId/field/:fieldIdentifier', 'ezpRestContentController', 'viewField' ), 1 ),
-            new ezpRestVersionedRoute( new ezcMvcRailsRoute( '/content/object/:objectId', 'ezpRestContentController', 'viewContent' ), 1 ),
-            new ezpRestVersionedRoute( new ezcMvcRailsRoute( '/content/object/:objectId/fields', 'ezpRestContentController', 'viewFields' ), 1 ),
-            new ezpRestVersionedRoute( new ezcMvcRailsRoute( '/content/object/:objectId/field/:fieldIdentifier', 'ezpRestContentController', 'viewField' ), 1 ),
             new ezcMvcRailsRoute( '/fatal', 'ezpRestErrorController', 'show' ),
             new ezcMvcRailsRoute( '/http-basic-auth', 'ezpRestAuthController', 'basicAuth' ),
             new ezcMvcRailsRoute( '/login/oauth', 'ezpRestAuthController', 'oauthRequired' ),
@@ -29,7 +23,8 @@ class ezpRestRouter extends ezcMvcRouter
             new ezpRestVersionedRoute( new ezcMvcRailsRoute( '/foo', 'myController', 'myActionOneBetter' ), 2 ),
 
         );
-        return ezcMvcRouter::prefix( '/api', $routes );
+
+        return ezcMvcRouter::prefix( '/api', array_merge( $routes, $providerRoutes ) );
     }
 }
 ?>
