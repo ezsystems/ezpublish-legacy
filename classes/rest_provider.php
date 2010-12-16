@@ -38,8 +38,15 @@ class ezpRestProvider
      * @static
      * @return bool|ezpRestProviderInterface
      */
-    public static function getProvider( $provider = 'ezp' )
+    public static function getProvider( $provider )
     {
+        // If no provider has been given, we fall back to built-in 'ezp' provider.
+        // Note: empty string is not a valid input.
+        if ( empty( $provider ) )
+        {
+            $provider = 'ezp';
+        }
+
         if ( !( self::$provider instanceof ezpRestProviderInterface ) )
         {
             self::$provider = self::createProvider( $provider );

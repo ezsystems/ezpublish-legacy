@@ -33,7 +33,7 @@ class ezpRestDefaultRegexpPrefixFilter extends ezpRestPrefixFilterInterface
 
     protected function getPrefixPattern()
     {
-        return "@^{$this->apiPart}/(?:(?P<provider>[^/]+)/)?(?P<version>v\d+)@";
+        return "@^{$this->apiPart}/(?:(?P<provider>[^(v\d+|/)]+)/)?(?:(?P<version>v\d+))?@";
     }
 
     /**
@@ -43,6 +43,10 @@ class ezpRestDefaultRegexpPrefixFilter extends ezpRestPrefixFilterInterface
      */
     protected function parseVersionValue( )
     {
+        if ( empty ( $this->versionToken ) )
+        {
+            return null;
+        }
         return (int)str_replace( 'v', '', $this->versionToken );
     }
 
@@ -64,11 +68,11 @@ class ezpRestDefaultRegexpPrefixFilter extends ezpRestPrefixFilterInterface
     {
         if ( preg_match( $this->getPrefixPattern(), $this->request->uri, $tokenMatches ) )
         {
-            $this->versionToken = $tokenMatches['version'];
-            $this->apiProviderToken = $tokenMatches['provider'];
+            $this->versionToken = isset( $tokenMatches['version'] ) ? $tokenMatches['version'] : '';
+            $this->apiProviderToken = isset( $tokenMatches['provider'] ) ? $tokenMatches['provider'] : '';
 
             self::$version = $this->parseVersionValue();
-            self::$apiProvider = $tokenMatches['provider'];
+            self::$apiProvider = empty( $this->apiProviderToken ) ? null : $this->apiProviderToken;
         }
     }
 
