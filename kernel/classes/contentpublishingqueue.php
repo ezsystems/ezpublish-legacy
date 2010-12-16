@@ -42,7 +42,7 @@ class ezpContentPublishingQueue
 
     /**
      * Returns the next processable item
-     * @return eZContentObjectVersion The next object to process, or false if none is available
+     * @return ezpContentPublishingProcess The next object to process, or false if none is available
      */
     public static function next()
     {

@@ -138,13 +138,12 @@ class ezpContentPublishingProcess extends eZPersistentObject
 
     /**
      * Starts the publishing process for the linked version
-     * @param eZContentObjectVersion $version
      * @return bool
      */
     public function publish()
     {
-        $contentObjectId = $this->versionObject()->attribute( 'contentobject_id' );
-        $contentObjectVersion = $this->versionObject()->attribute( 'version' );
+        $contentObjectId = $this->version()->attribute( 'contentobject_id' );
+        $contentObjectVersion = $this->version()->attribute( 'version' );
 
         $processObject = ezpContentPublishingProcess::fetchByContentObjectVersion( $contentObjectId, $contentObjectVersion );
         $processObject->setAttribute( 'status', self::STATUS_WORKING );
@@ -178,7 +177,7 @@ class ezpContentPublishingProcess extends eZPersistentObject
             exec( "/usr/bin/php ./bin/php/publish_content.php $contentObjectId $contentObjectVersion", $op );
 
             // mark the process as completed
-            $processObject = self::fetchByContentVersionId( $this->versionObject()->attribute( 'id' ) );
+            $processObject = self::fetchByContentVersionId( $this->version()->attribute( 'id' ) );
             $processObject->setAttribute( 'status', self::STATUS_FINISHED );
             $processObject->store();
 

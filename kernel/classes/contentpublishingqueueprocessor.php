@@ -46,8 +46,10 @@ class ezpContentPublishingQueueProcessor
     }
 
     /**
-     * Main method: will execute as many publishing processes as allowed
-     * @return int How many processes were actually launched
+     * Main method: infinite method that monitors queued objects, and starts
+     * the publishinbg processes if allowed
+     *
+     * @return void
      */
     public function run()
     {

@@ -136,6 +136,8 @@ P: Other interfaces let the users publish content, for instance the embed elemen
 
 S: See how this can be worked around, with a wait animation as proposed for the standard publishing operation.
 
+
+
 RedirectURIAfterPublish
 -----------------------
 P: This POST variable can be added to the content/edit form, and it will be used to redirect the user after publishing.
