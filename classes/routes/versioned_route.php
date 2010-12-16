@@ -41,7 +41,7 @@ class ezpRestVersionedRoute implements ezcMvcRoute, ezcMvcReversibleRoute
         // /api/v1/foo -> ezPrestVersionedRailsRoute /api/v1/foo -> /foo
 
         // matches() ==> is this version string registered? if so call it, if not call the default, as if no version info is provided or fail?
-        switch ( ezpRestVersionTokenInterface::getApiVersion() )
+        switch ( ezpRestPrefixFilterInterface::getApiVersion() )
         {
             case $this->version:
                 return $this->route->matches( $request );
