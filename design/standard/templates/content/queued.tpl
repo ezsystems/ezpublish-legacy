@@ -29,13 +29,16 @@ YUI( YUI3_config ).use('node', 'io-ez', function( Y )
                         Y.get( '#publish-queue-status-placeholder' ).setContent( r.responseJSON.error_text );
                     else
                     {
+                        // publishing finished
                         status = r.responseJSON.content.status;
 
                         Y.get( '#publish-queue-status-placeholder' ).setContent( status );
 
-                        if ( ( status == 'finished' ) && ( publishQueueUpdater != null ) )
+                        if ( ( status == 'finished' ) )
                         {
-                            publishQueueUpdater.cancel();
+                            if ( publishQueueUpdater != null )
+                                publishQueueUpdater.cancel();
+
                             if ( redirectUri != false )
                             {
                                 window.location = redirect_uri;
@@ -48,10 +51,24 @@ YUI( YUI3_config ).use('node', 'io-ez', function( Y )
                                 );
                             }
                         }
+                        // deferred to crontab
+                        else if ( status == 'deferred' )
+                        {
+                            if ( publishQueueUpdater != null )
+                                publishQueueUpdater.cancel();
+
+                            console.log( r.responseJSON.content );
+                            Y.get( '#publish-queue-status-placeholder' ).setContent
+                            (
+                                'Publishing has been deferred to crontab. It will be published when the operation resumes.<br />' +
+                                '<a href="' + r.responseJSON.content.versionview_uri + '">View the pending item</a><br />' +
+                                'The object will also be listed in your dashboard in the pending items block.<br />
+                            );
+                        }
                     }
                 }
             }
-        });
+        , method: 'GET'});
     }
 });
 {/literal}
@@ -60,5 +77,5 @@ YUI( YUI3_config ).use('node', 'io-ez', function( Y )
 <h1>Your content is being published</h1>
 
 <div id="publish-queue-wait-text">Please wait while your content is being published</div>
-
-<div id="publish-queue-status">Status: <div id="publish-queue-status-placeholder" style="display: inline"></div></div>
+<p />
+<div id="publish-queue-status"><div id="publish-queue-status-placeholder" style="display: inline"></div></div>

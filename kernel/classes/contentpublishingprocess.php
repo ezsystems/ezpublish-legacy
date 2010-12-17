@@ -20,6 +20,15 @@ class ezpContentPublishingProcess extends eZPersistentObject
     const STATUS_FINISHED = 2;
     const STATUS_PENDING = 3;
 
+    /**
+     * Set when an operation is deferred to crontab
+     */
+    const STATUS_DEFERRED = 4;
+
+    /**
+     * Joker status, used for non handling operation results
+     */
+    const STATUS_UNKNOWN = 5;
 
     /**
      * eZPersistentObject definition
@@ -172,7 +181,7 @@ class ezpContentPublishingProcess extends eZPersistentObject
         else
         {
             $myPid = getmypid();
-            pcntl_signal(SIGCHLD, SIG_IGN);
+            pcntl_signal( SIGCHLD, SIG_IGN );
 
             fclose( STDERR );
 
@@ -180,12 +189,33 @@ class ezpContentPublishingProcess extends eZPersistentObject
             $this->setAttribute( 'started', time() );
             $this->store( array( 'pid', 'started' ) );
 
-            eZOperationHandler::execute( 'content', 'publish',
+            $operationResult = eZOperationHandler::execute( 'content', 'publish',
                 array( 'object_id' => $contentObjectId, 'version' => $contentObjectVersion  ) );
 
+            // Statuses other than CONTINUE require special handling
+            if ( $operationResult['status'] != eZModuleOperationInfo::STATUS_CONTINUE )
+            {
+                if ( $operationResult['status'] == eZModuleOperationInfo::STATUS_HALTED )
+                {
+                    // deferred to crontab
+                    if ( strpos( $operationResult['result']['content'], 'Deffered to cron' ) !== false )
+                        $processStatus = self::STATUS_DEFERRED;
+                    else
+                        $processStatus = self::STATUS_UNKNOWN;
+                }
+                else
+                {
+                    $processStatus = self::STATUS_UNKNOWN;
+                }
+            }
+            else
+            {
+                $processStatus = self::STATUS_FINISHED;
+            }
+
             // mark the process as completed
-            $this->setAttribute( 'status', self::STATUS_FINISHED );
             $this->setAttribute( 'pid', 0 );
+            $this->setAttribute( 'status', $processStatus );
             $this->setAttribute( 'finished', time() );
             $this->store( array( 'status', 'finished', 'pid' ) );
 

@@ -9,12 +9,14 @@
  * @subpackage content
  */
 
+// required for proper signal handling
+declare( ticks=1 );
+
 /**
  * This class manages the publishing queue through ezpContentPublishingProcess persistent objects
  * @package kernel
  * @subpackage content
  */
-declare( ticks=1 );
 class ezpContentPublishingQueueProcessor
 {
     public function __construct()
@@ -132,8 +134,6 @@ class ezpContentPublishingQueueProcessor
                 $exitCode = pcntl_wexitstatus( $status );
                 if ( $exitCode != 0 )
                 {
-                    // echo "$pid (".$this->currentJobs[$pid]->attribute('ezcontentobject_version_id').") exited with status {$exitCode}\n";
-
                     // this is required as the MySQL connection might be closed anytime by a fork
                     // this method is asynchronous, and might be triggered by any signal
                     // the only way is to use a dedicated DB connection, and close it afterwards
@@ -146,11 +146,11 @@ class ezpContentPublishingQueueProcessor
                 }
                 unset( $this->currentJobs[$pid] );
             }
+            // A job has finished before the parent process could even note that it had been launched
+            // Let's make note of it and handle it when the parent process is ready for it
+            // echo "..... Adding $pid to the signal queue ..... \n";
             elseif( $pid )
             {
-                // A job has finished before the parent process could even note that it had been launched
-                // Let's make note of it and handle it when the parent process is ready for it
-                // echo "..... Adding $pid to the signal queue ..... \n";
                 $this->signalQueue[$pid] = $status;
             }
             $pid = pcntl_waitpid( -1, $status, WNOHANG );

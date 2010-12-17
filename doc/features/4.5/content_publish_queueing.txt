@@ -136,8 +136,6 @@ P: Other interfaces let the users publish content, for instance the embed elemen
 
 S: See how this can be worked around, with a wait animation as proposed for the standard publishing operation.
 
-
-
 RedirectURIAfterPublish
 -----------------------
 P: This POST variable can be added to the content/edit form, and it will be used to redirect the user after publishing.
@@ -150,6 +148,13 @@ P: How can we handle this with webdav ?
 
 S: No "wait" interface. PublishingStrategy => realtime.
 
+Deferred to cron operations
+---------------------------
+P: Are these supported ?
+
+S: Yes. The queue will move the operation forward until it gets deferred, and publishing will be resumed by the crontab.
+   All that remains is handling this status upon return. A process status must be added.
+
 Alternative ideas
 =================
 
@@ -160,7 +165,14 @@ nice additions to the GUI.
 
 TODO List
 =========
-- handle RedirectURIAfterPublish (automatic redirection ?)
+- handle RedirectURIAfterPublish (automatic redirection ?) - DONE
 - add permission check (can read ? edit ?) to the ezpublishingqueue/status call
   edit sounds right, as the user has to be able to edit his content in any case.
   need extra check for language ?
+- handle dead database
+  The DB handler should return a manageable error when the database connection is dead (exception) so that relevant
+  action can be taken
+- handle interactive workflows. Somehow.
+- handle deferred to cron publishing
+  a specific status should be returned. DONE
+- handle queue table cleanup (archiving)
