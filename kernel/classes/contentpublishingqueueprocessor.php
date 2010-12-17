@@ -66,9 +66,6 @@ class ezpContentPublishingQueueProcessor
             {
                 if ( !$this->isSlotAvailable() )
                 {
-                    // cleanup dead processes
-                    // $this->cleanupDeadProcesses();
-
                     echo "No slot is available\n";
                     sleep ( 1 );
                     continue;

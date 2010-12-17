@@ -177,13 +177,17 @@ class ezpContentPublishingProcess extends eZPersistentObject
             fclose( STDERR );
 
             $this->setAttribute( 'pid', $myPid );
-            $this->store( array( 'pid' ) );
+            $this->setAttribute( 'started', time() );
+            $this->store( array( 'pid', 'started' ) );
 
-            eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectId, 'version' => $contentObjectVersion  ) );
+            eZOperationHandler::execute( 'content', 'publish',
+                array( 'object_id' => $contentObjectId, 'version' => $contentObjectVersion  ) );
 
             // mark the process as completed
             $this->setAttribute( 'status', self::STATUS_FINISHED );
-            $this->store( array( 'status' ) );
+            $this->setAttribute( 'pid', 0 );
+            $this->setAttribute( 'finished', time() );
+            $this->store( array( 'status', 'finished', 'pid' ) );
 
             // Make sure this is correct
             eZScript::instance()->shutdown();
