@@ -176,3 +176,8 @@ TODO List
 - handle deferred to cron publishing
   a specific status should be returned. DONE
 - handle queue table cleanup (archiving)
+- add interrupt (SIG 3) handling: stop processing the queue, let current jobs terminate, and cleanup
+- implement daemon flag + mode
+  * add some output handling, either to CLI or using logs, in order to work in daemon mode
+    Output is now logged to var/log/async.log
+  Daemon mode implemented, use the -d flag

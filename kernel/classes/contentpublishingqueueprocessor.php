@@ -68,13 +68,13 @@ class ezpContentPublishingQueueProcessor
             {
                 if ( !$this->isSlotAvailable() )
                 {
-                    echo "No slot is available\n";
+                    eZLog::write( "No slot is available", 'async.log' );
                     sleep ( 1 );
                     continue;
                 }
                 else
                 {
-                    echo "Processing item #" . $publishingItem->attribute( 'ezcontentobject_version_id' ) . "\n";
+                    eZLog::write( "Processing item #" . $publishingItem->attribute( 'ezcontentobject_version_id' ), 'async.log' );
                     $pid = $publishingItem->publish();
                     $this->currentJobs[$pid] = $publishingItem;
 
@@ -83,7 +83,7 @@ class ezpContentPublishingQueueProcessor
                     // Process it now as if we'd just received the signal
                     if( isset( $this->signalQueue[$pid] ) )
                     {
-                        echo "found $pid in the signal queue, processing it now \n";
+                        eZLog::write( "found $pid in the signal queue, processing it now", 'async.log' );
                         $this->childSignalHandler( SIGCHLD, $pid, $this->signalQueue[$pid] );
                         unset( $this->signalQueue[$pid] );
                     }
@@ -91,7 +91,7 @@ class ezpContentPublishingQueueProcessor
             }
             else
             {
-                echo "Nothing to do, sleeping\n";
+                eZLog::write( "Nothing to do, sleeping\n", 'async.log' );
                 sleep( 1 );
             }
         }

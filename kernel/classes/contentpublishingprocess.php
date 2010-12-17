@@ -285,7 +285,6 @@ class ezpContentPublishingProcess extends eZPersistentObject
      */
     public function reset()
     {
-        echo "* reset: ContentObjectVersionID #" . $this->attribute( 'ezcontentobject_version_id' ) . "\n";
         $this->setAttribute( 'status', self::STATUS_PENDING );
         $this->setAttribute( 'pid', 0 );
         $this->store( array( 'status', 'pid' ) );
