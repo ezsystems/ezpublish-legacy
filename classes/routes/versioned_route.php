@@ -67,9 +67,10 @@ class ezpRestVersionedRoute implements ezcMvcRoute, ezcMvcReversibleRoute
      */
     public function generateUrl( array $arguments = null )
     {
-        // TODO: Implement generateUrl() method.
-        // ezpRestVersionTokenInterFace::getScheme() ==> '/v'
-        return '/v' . $this->version . '/' . $this->route->generateUrl( $arguments );
-    }
+        // ezpRestPrefixFilterInterface::getScheme() ==> '/v'
+        $apiPrefix = ezpRestPrefixFilterInterface::getApiPrefix() . '/';
+        $apiProviderName = ezpRestPrefixFilterInterface::getApiProviderName();
 
+        return $apiPrefix . ( !$apiProviderName ? ''  : $apiProviderName . '/' ) . 'v' . $this->version . '/' . str_replace( $apiPrefix, '', $this->route->generateUrl( $arguments ) );
+    }
 }

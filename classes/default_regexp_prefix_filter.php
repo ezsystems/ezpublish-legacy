@@ -27,8 +27,8 @@ class ezpRestDefaultRegexpPrefixFilter extends ezpRestPrefixFilterInterface
     public function __construct( ezcMvcRequest $request, $apiPrefix )
     {
         $this->request = $request;
-        $this->apiPrefix = $apiPrefix;
-        $this->apiPart = preg_quote( $this->apiPrefix, '@' );
+        self::$apiPrefix = $apiPrefix;
+        $this->apiPart = preg_quote( self::$apiPrefix, '@' );
     }
 
     protected function getPrefixPattern()

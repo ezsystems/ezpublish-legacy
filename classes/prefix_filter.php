@@ -10,7 +10,6 @@
 abstract class ezpRestPrefixFilterInterface
 {
     protected $request;
-    protected $apiPrefix;
     /**
      * @var string Extracted version token.
      */
@@ -30,6 +29,11 @@ abstract class ezpRestPrefixFilterInterface
      * @var string Container for extracted API provider name.
      */
     protected static $apiProvider = null;
+
+    /**
+     * @var string Container for a global API prefix e.g /api
+     */
+    protected static $apiPrefix = null;
 
     /**
      * Creates a new VersionToken object which describes the version token in
@@ -84,6 +88,36 @@ abstract class ezpRestPrefixFilterInterface
     }
 
     /**
+     * Returns the name of the referenced API provider for the current query.
+     *
+     * @static
+     * @return false|string The identifier of the API provider used in this query.
+     */
+    public static function getApiProviderName()
+    {
+        if ( self::$apiProvider === null )
+        {
+            return false;
+        }
+        return self::$apiProvider;
+    }
+
+    /**
+     * Returns a global API prefix
+     *
+     * @static
+     * @return false|string
+     */
+    public static function getApiPrefix()
+    {
+        if ( self::$apiPrefix === null )
+        {
+            return false;
+        }
+        return self::$apiPrefix;
+    }
+
+    /**
      * Filters the URI property of the given ezcMvcRequest object, removing
      * any version token from it.
      *
@@ -100,20 +134,5 @@ abstract class ezpRestPrefixFilterInterface
         {
             $this->request->uri = str_replace( '/' . $this->apiProviderToken, '', $this->request->uri );
         }
-    }
-
-    /**
-     * Returns the name of the referenced API provider for the current query.
-     *
-     * @static
-     * @return false|string The identifier of the API provider used in this query.
-     */
-    public static function getApiProviderName()
-    {
-        if ( self::$apiProvider === null )
-        {
-            return false;
-        }
-        return self::$apiProvider;
     }
 }
