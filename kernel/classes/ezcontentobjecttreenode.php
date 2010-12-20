@@ -3798,6 +3798,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $totalChildCount = 0;
         $totalLoneNodeCount = 0;
         $canRemoveAll = true;
+        $hasPendingObject = false;
 
         $db = eZDB::instance();
         $db->begin();
@@ -3807,7 +3808,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         foreach ( $deleteIDArray as $deleteID )
         {
-            $hasPendingObject = false;
             $node = eZContentObjectTreeNode::fetch( $deleteID );
             if ( $node === null )
                 continue;
@@ -3870,7 +3870,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     if ( $accessResult['accessWord'] == 'limited' )
                     {
                         $limitationList = $accessResult['policies'];
-                        $removeableChildCount = $node->subTreeCount( array( 'Limitation' => $limitationList ) );
+                        $removeableChildCount = $node->subTreeCount( array( 'Limitation' => $limitationList, 'IgnoreVisibility' => true ) );
                         $canRemoveSubtree = ( $removeableChildCount == $childCount );
                         $canRemove = $canRemoveSubtree;
                     }
