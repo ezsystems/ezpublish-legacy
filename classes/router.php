@@ -24,7 +24,7 @@ class ezpRestRouter extends ezcMvcRouter
 
         );
 
-        return ezcMvcRouter::prefix( '/api', array_merge( $routes, $providerRoutes ) );
+        return ezcMvcRouter::prefix( '/api', array_merge( $providerRoutes, $routes ) );
     }
 }
 ?>
