@@ -174,6 +174,7 @@ elseif ( $pResponseType ==  'code')
     $code = new ezpRestAuthcode();
     $code->id = $rCode;
     $code->client_id = $pClientId;
+    $code->user_id = $user->attribute( 'contentobject_id' );
     $code->expirytime = time() + 3600;
 
     $session = ezcPersistentSessionInstance::get();
