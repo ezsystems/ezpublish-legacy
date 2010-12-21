@@ -1,0 +1,53 @@
+<?php
+$server =
+array (
+  'SCRIPT_URL' => '/apitest/content/node/2',
+  'SCRIPT_URI' => 'http://trunk/apitest/content/node/2',
+  'HTTP_USER_AGENT' => 'curl/7.21.2 (x86_64-apple-darwin10.4.0) libcurl/7.21.2 OpenSSL/1.0.0a zlib/1.2.5 libidn/1.19',
+  'HTTP_HOST' => 'trunk',
+  'HTTP_ACCEPT' => '*/*',
+  'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin',
+  'SERVER_SIGNATURE' => '<address>Apache/2.2.16 (Unix) DAV/2 PHP/5.3.3 Server at trunk Port 80</address>
+',
+  'SERVER_SOFTWARE' => 'Apache/2.2.16 (Unix) DAV/2 PHP/5.3.3',
+  'SERVER_NAME' => 'trunk',
+  'SERVER_ADDR' => '127.0.0.1',
+  'SERVER_PORT' => '80',
+  'REMOTE_ADDR' => '127.0.0.1',
+  'DOCUMENT_ROOT' => '/Users/oms/dev/ez/ezp/bugfix/trunk',
+  'SERVER_ADMIN' => 'oms@localhost',
+  'SCRIPT_FILENAME' => '/Users/oms/dev/ez/ezp/bugfix/trunk/index_rest_test.php',
+  'REMOTE_PORT' => '52528',
+  'GATEWAY_INTERFACE' => 'CGI/1.1',
+  'SERVER_PROTOCOL' => 'HTTP/1.1',
+  'REQUEST_METHOD' => 'GET',
+  'QUERY_STRING' => 'version=2',
+  'REQUEST_URI' => '/apitest/content/node/2?version=2',
+  'SCRIPT_NAME' => '/apitest/content/node/2',
+  'PHP_SELF' => '/apitest/content/node/2',
+  'REQUEST_TIME' => 1291090524,
+);
+
+$get =
+array (
+  'version' => '2',
+);
+
+$post =
+array (
+);
+
+$files =
+array (
+);
+
+$request =
+array (
+  'version' => '2',
+);
+
+$cookies =
+array (
+);
+
+?>

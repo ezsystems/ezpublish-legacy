@@ -11,7 +11,7 @@
  * Data class ezprest_tokens.
  * Class to be used with eZ Components PersistentObject.
  */
-class ezpRestToken implements ezcPersistentObject
+class ezpRestAuthcode implements ezcPersistentObject
 {
     /**
      * id
@@ -19,12 +19,6 @@ class ezpRestToken implements ezcPersistentObject
      * @var string
      */
     public $id;
-    /**
-     * refresh_token
-     *
-     * @var string
-     */
-    public $refresh_token;
     /**
      * expirytime
      *
@@ -73,31 +67,11 @@ class ezpRestToken implements ezcPersistentObject
      {
          return array(
              'id' => $this->id,
-             'refresh_token' => $this->refresh_token,
              'expirytime' => $this->expirytime,
              'client_id' => $this->client_id,
              'user_id' => $this->user_id,
              'scope' => $this->scope,
          );
      }
-
-     /**
-      * Generates a random token.
-      *
-      * Code is adopted from MvcAuthenticationTiein
-      *
-      * @return string The token.
-      */
-     public static function generateToken( $vary )
-     {
-         mt_srand( base_convert( substr( md5( $vary ), 0, 6 ), 36, 10 ) * microtime( true ) );
-         $a = base_convert( mt_rand(), 10, 36 );
-         $b = base_convert( mt_rand(), 10, 36 );
-         $token = substr( $b . $a, 1, 8 );
-         $tokenHash = sha1( $token );
-
-         return $tokenHash;
-     }
-
 }
 ?>

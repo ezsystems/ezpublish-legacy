@@ -63,7 +63,7 @@ class ezpRestAuthConfiguration
             case '/http-basic-auth':
             case '/login/oauth':
             case '/login/oauth/authorize':
-            case '/login/oauth/token':
+            case '/api/oauth/token':
             case '/api/fatal':
                 return false;
                 break;
