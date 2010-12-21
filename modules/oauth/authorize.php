@@ -135,34 +135,72 @@ if ( !$application->isAuthorizedByUser( $pScope, eZUser::currentUser() ) )
     }
 }
 
-// At this point, the we know the user HAS granted access, and can hand over a token
-$rAccessToken = ezpRestToken::generateToken( $pScope );
+if ( $pResponseType == 'token')
+{
+    // At this point, the we know the user HAS granted access, and can hand over a token
+    $rAccessToken = ezpRestToken::generateToken( $pScope );
+    $rRefreshToken = ezpRestToken::generateToken( $pScope );
 
-$token = new ezpRestToken();
-$token->id = $rAccessToken;
-$token->client_id = $pClientId;
-$token->expirytime = time() + 3600;
+    $token = new ezpRestToken();
+    $token->id = $rAccessToken;
+    $token->refresh_token = $rRefreshToken;
+    $token->client_id = $pClientId;
+    $token->user_id = $user->attribute( 'contentobject_id' );
+    $token->expirytime = time() + 3600;
 
-$session = ezcPersistentSessionInstance::get();
-$session->save( $token );
+    $session = ezcPersistentSessionInstance::get();
+    $session->save( $token );
 
 
-// The user has a agreed to authorize this app.
-// Redirect to the redirect_uri with these parameters:
-// - code, only if request_type == code OR code_and_token @todo Implement
-// - access_token, only if request_type == token OR code_and_token
-// - expires_in, the token lifetime in seconds @todo Implement
-// - scope, the permission scope the provided code / token grants, if different from the requested one (not implemented yet)
-// - state, not implemented yet (state persistency related)
-$parameters = array();
+    // The user has a agreed to authorize this app.
+    // Redirect to the redirect_uri with these parameters:
+    // - code, only if request_type == code OR code_and_token @todo Implement
+    // - access_token, only if request_type == token OR code_and_token
+    // - expires_in, the token lifetime in seconds @todo Implement
+    // - scope, the permission scope the provided code / token grants, if different from the requested one (not implemented yet)
+    // - state, not implemented yet (state persistency related)
+    $parameters = array();
 
-$rExpiresIn = 3600;
+    $rExpiresIn = 3600;
 
-$parameters[] = 'access_token=' . urlencode( $rAccessToken );
-$parameters[] = "expires_in=$rExpiresIn";
-$location = "{$pRedirectUri}?" . implode( $parameters, '&' );
+    $parameters[] = 'access_token=' . urlencode( $rAccessToken );
+    $parameters[] = "expires_in=$rExpiresIn";
+    $location = "{$pRedirectUri}?" . implode( $parameters, '&' );
 
-response( '302 Found', $location );
+    response( '302 Found', $location );
+}
+elseif ( $pResponseType ==  'code')
+{
+    // At this point, the we know the user HAS granted access, and can hand over a token
+    $rCode = ezpRestToken::generateToken( $pScope );
+
+    $code = new ezpRestAuthcode();
+    $code->id = $rCode;
+    $code->client_id = $pClientId;
+    $code->user_id = $user->attribute( 'contentobject_id' );
+    $code->expirytime = time() + 3600;
+
+    $session = ezcPersistentSessionInstance::get();
+    $session->save( $code );
+
+
+    // The user has a agreed to authorize this app.
+    // Redirect to the redirect_uri with these parameters:
+    // - code, only if request_type == code OR code_and_token @todo Implement
+    // - access_token, only if request_type == token OR code_and_token
+    // - expires_in, the token lifetime in seconds @todo Implement
+    // - scope, the permission scope the provided code / token grants, if different from the requested one (not implemented yet)
+    // - state, not implemented yet (state persistency related)
+    $parameters = array();
+
+    $rExpiresIn = 3600;
+
+    $parameters[] = 'code=' . urlencode( $rCode );
+    $parameters[] = "expires_in=$rExpiresIn";
+    $location = "{$pRedirectUri}?" . implode( $parameters, '&' );
+
+    response( '302 Found', $location );
+}
 
 /**
  * oAuth error handler function. Terminates execution after redirecting.

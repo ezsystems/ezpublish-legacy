@@ -205,6 +205,17 @@ class ezpRestClient
     }
 
     /**
+     * Convenience method to validate a client secret.
+     *
+     * @param  $secret
+     * @return bool
+     */
+    public function validateSecret( $secret )
+    {
+        return $secret === $this->client_secret;
+    }
+
+    /**
      * Checks if this application has been authorized by the current user
      *
      * @param mixed $scope The requested security scope
