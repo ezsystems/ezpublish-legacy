@@ -31,7 +31,7 @@ var sortableSubitems = function () {
 
     function initDataTable(){
         var formatName = function(cell, record, column, data) {
-            cell.innerHTML =  record.getData('class_icon') + '&nbsp' + '<a href="' + record.getData('url') + '" title="' + data + '">' + data + '</a>';
+            cell.innerHTML =  '<a href="' + record.getData('url') + '" title="' + data + '">' + record.getData('class_icon') + '</a>' + '&nbsp' + '<a href="' + record.getData('url') + '" title="' + data + '">' + data + '</a>';
         }
 
         var customCheckbox = function(cell, record, column, data) {
