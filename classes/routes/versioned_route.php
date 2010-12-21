@@ -41,7 +41,7 @@ class ezpRestVersionedRoute implements ezcMvcRoute, ezcMvcReversibleRoute
         // /api/v1/foo -> ezPrestVersionedRailsRoute /api/v1/foo -> /foo
 
         // matches() ==> is this version string registered? if so call it, if not call the default, as if no version info is provided or fail?
-        switch ( ezpRestVersionTokenInterface::getApiVersion() )
+        switch ( ezpRestPrefixFilterInterface::getApiVersion() )
         {
             case $this->version:
                 return $this->route->matches( $request );
@@ -67,9 +67,10 @@ class ezpRestVersionedRoute implements ezcMvcRoute, ezcMvcReversibleRoute
      */
     public function generateUrl( array $arguments = null )
     {
-        // TODO: Implement generateUrl() method.
-        // ezpRestVersionTokenInterFace::getScheme() ==> '/v'
-        return '/v' . $this->version . '/' . $this->route->generateUrl( $arguments );
-    }
+        // ezpRestPrefixFilterInterface::getScheme() ==> '/v'
+        $apiPrefix = ezpRestPrefixFilterInterface::getApiPrefix() . '/';
+        $apiProviderName = ezpRestPrefixFilterInterface::getApiProviderName();
 
+        return $apiPrefix . ( !$apiProviderName ? ''  : $apiProviderName . '/' ) . 'v' . $this->version . '/' . str_replace( $apiPrefix, '', $this->route->generateUrl( $arguments ) );
+    }
 }

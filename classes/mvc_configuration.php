@@ -45,30 +45,25 @@ class ezpMvcConfiguration implements ezcMvcDispatcherConfiguration
 
     public function createView( ezcMvcRoutingInformation $routeInfo, ezcMvcRequest $request, ezcMvcResult $result )
     {
-        if ( $routeInfo->controllerClass === 'ezpRestAtomController' )
-        {
-            $view = new ezpRestAtomView( $request, $result );
-        }
-        else
-        {
-            $view = new ezpRestJsonView( $request, $result );
-        }
+        $viewController = ezpRestProvider::getProvider( ezpRestPrefixFilterInterface::getApiProviderName() )->getViewController();
+        $view = $viewController->loadView( $routeInfo, $request, $result );
+
         return $view;
     }
 
     public function runPreRoutingFilters( ezcMvcRequest $request )
     {
-        $versionTokenOptions = new ezpExtensionOptions();
-        $versionTokenOptions->iniFile = 'rest.ini';
-        $versionTokenOptions->iniSection = 'System';
-        $versionTokenOptions->iniVariable = 'VersionTokenClass';
-        $versionTokenOptions->handlerParams = array( $request, $this->apiPrefix );
+        $prefixFilterOptions = new ezpExtensionOptions();
+        $prefixFilterOptions->iniFile = 'rest.ini';
+        $prefixFilterOptions->iniSection = 'System';
+        $prefixFilterOptions->iniVariable = 'PrefixFilterClass';
+        $prefixFilterOptions->handlerParams = array( $request, $this->apiPrefix );
 
-        $versionInfo = eZExtension::getHandlerClass( $versionTokenOptions );
-        $versionInfo->filter();
+        $prefixFilter = eZExtension::getHandlerClass( $prefixFilterOptions );
+        $prefixFilter->filter();
         // We call this method here, so that implementors won't have to remember
         // adding this call to their own filter() implementation.
-        $versionInfo->filterRequestUri();
+        $prefixFilter->filterRequestUri();
     }
 
     public function runRequestFilters( ezcMvcRoutingInformation $routeInfo, ezcMvcRequest $request )

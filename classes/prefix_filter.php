@@ -1,25 +1,39 @@
 <?php
 /**
- * File containing the ezpRestVersionTokenInterface interface
+ * File containing the ezpRestPrefixFilterInterface interface
  *
  * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
  *
  */
 
-abstract class ezpRestVersionTokenInterface
+abstract class ezpRestPrefixFilterInterface
 {
     protected $request;
-    protected $apiPrefix;
     /**
      * @var string Extracted version token.
      */
     protected $versionToken;
 
     /**
+     * @var string Extracted api provider token.
+     */
+    protected $apiProviderToken;
+
+    /**
      * @var int The numerical version number
      */
     protected static $version = null;
+
+    /**
+     * @var string Container for extracted API provider name.
+     */
+    protected static $apiProvider = null;
+
+    /**
+     * @var string Container for a global API prefix e.g /api
+     */
+    protected static $apiPrefix = null;
 
     /**
      * Creates a new VersionToken object which describes the version token in
@@ -32,14 +46,6 @@ abstract class ezpRestVersionTokenInterface
     abstract public function __construct( ezcMvcRequest $request, $apiPrefix );
 
     /**
-     * Returns the PCRE pattern for version tokens.
-     *
-     * @abstract
-     * @return string
-     */
-    abstract protected function getVersionTokenPattern();
-
-    /**
      * Returns the numerical version of the version token.
      *
      * @abstract
@@ -48,7 +54,10 @@ abstract class ezpRestVersionTokenInterface
     abstract protected function parseVersionValue();
 
     /**
-     * Filters the request object for version token.
+     * Filters the request object for API provider and version token.
+     *
+     * The API provider is by default assumed to be the first URI element. Other
+     * custom implementations of this interface are free to choose otherwise.
      *
      * If version token exists, gets the numerical value of this token, and
      * filters the URI in the request object, removing said token.
@@ -79,6 +88,36 @@ abstract class ezpRestVersionTokenInterface
     }
 
     /**
+     * Returns the name of the referenced API provider for the current query.
+     *
+     * @static
+     * @return false|string The identifier of the API provider used in this query.
+     */
+    public static function getApiProviderName()
+    {
+        if ( self::$apiProvider === null )
+        {
+            return false;
+        }
+        return self::$apiProvider;
+    }
+
+    /**
+     * Returns a global API prefix
+     *
+     * @static
+     * @return false|string
+     */
+    public static function getApiPrefix()
+    {
+        if ( self::$apiPrefix === null )
+        {
+            return false;
+        }
+        return self::$apiPrefix;
+    }
+
+    /**
      * Filters the URI property of the given ezcMvcRequest object, removing
      * any version token from it.
      *
@@ -87,9 +126,13 @@ abstract class ezpRestVersionTokenInterface
      */
     public function filterRequestUri()
     {
-        if ( $this->versionToken !== null )
+        if ( !empty( $this->versionToken ) )
         {
-            $this->request->uri = str_replace( $this->versionToken, '', $this->request->uri );
+            $this->request->uri = str_replace( '/' . $this->versionToken, '', $this->request->uri );
+        }
+        if ( !empty( $this->apiProviderToken ) )
+        {
+            $this->request->uri = str_replace( '/' . $this->apiProviderToken, '', $this->request->uri );
         }
     }
 }

@@ -11,7 +11,6 @@
  */
 class ezpRestContentController extends ezcMvcController
 {
-
     /**
      * Handles content requests per node or object ID
      *
