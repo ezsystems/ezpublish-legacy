@@ -136,10 +136,13 @@ if ( $pResponseType == 'token')
 {
     // At this point, the we know the user HAS granted access, and can hand over a token
     $rAccessToken = ezpRestToken::generateToken( $pScope );
+    $rRefreshToken = ezpRestToken::generateToken( $pScope );
 
     $token = new ezpRestToken();
     $token->id = $rAccessToken;
+    $token->refresh_token = $rRefreshToken;
     $token->client_id = $pClientId;
+    $token->user_id = $user->attribute( 'contentobject_id' );
     $token->expirytime = time() + 3600;
 
     $session = ezcPersistentSessionInstance::get();
