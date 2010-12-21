@@ -16,6 +16,7 @@ YUI( YUI3_config ).use('node', 'io-ez', function( Y )
 {
     Y.on( "contentready", function( e )
     {
+        console.log("setup");
         publishingQueueUpdateStatus();
         publishQueueUpdater = Y.later( 1000, null, publishingQueueUpdateStatus, null, true );
     }, '#publish-queue-status' );
@@ -62,7 +63,7 @@ YUI( YUI3_config ).use('node', 'io-ez', function( Y )
                             (
                                 'Publishing has been deferred to crontab. It will be published when the operation resumes.<br />' +
                                 '<a href="' + r.responseJSON.content.versionview_uri + '">View the pending item</a><br />' +
-                                'The object will also be listed in your dashboard in the pending items block.<br />
+                                'The object will also be listed in your dashboard in the pending items block.<br />'
                             );
                         }
                     }
