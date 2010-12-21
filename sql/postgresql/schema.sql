@@ -1,8 +1,10 @@
 CREATE TABLE ezprest_token (
     -- with sha1 40 would presumably be enough
     id character varying(200) NOT NULL,
+    refresh_token character varying(200) NOT NULL,
     expirytime integer DEFAULT 0 NOT NULL,
     client_id character varying(200) NOT NULL,
+    user_id integer,
     -- datatype?
     scope character varying(200) DEFAULT NULL
 );

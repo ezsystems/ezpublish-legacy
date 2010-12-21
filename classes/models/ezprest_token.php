@@ -20,6 +20,12 @@ class ezpRestToken implements ezcPersistentObject
      */
     public $id;
     /**
+     * refresh_token
+     *
+     * @var string
+     */
+    public $refresh_token;
+    /**
      * expirytime
      *
      * @var int
@@ -31,6 +37,12 @@ class ezpRestToken implements ezcPersistentObject
      * @var string
      */
     public $client_id;
+    /**
+     * user_id
+     *
+     * @var int
+     */
+    public $user_id;
     /**
      * scope
      *
@@ -61,8 +73,10 @@ class ezpRestToken implements ezcPersistentObject
      {
          return array(
              'id' => $this->id,
+             'refresh_token' => $this->refresh_token,
              'expirytime' => $this->expirytime,
              'client_id' => $this->client_id,
+             'user_id' = > $this->user_id,
              'scope' => $this->scope,
          );
      }

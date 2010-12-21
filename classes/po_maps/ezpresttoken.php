@@ -19,6 +19,10 @@ $def->idProperty->propertyName = 'id';
 $def->idProperty->generator    = new ezcPersistentGeneratorDefinition( 'ezcPersistentManualGenerator' );
 $def->idProperty->propertyType = ezcPersistentObjectProperty::PHP_TYPE_STRING;
 
+$def->properties['refresh_token']               = new ezcPersistentObjectProperty();
+$def->properties['refresh_token']->columnName   = 'refresh_token';
+$def->properties['refresh_token']->propertyName = 'refresh_token';
+$def->properties['refresh_token']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_STRING;
 
 $def->properties['expirytime']               = new ezcPersistentObjectProperty();
 $def->properties['expirytime']->columnName   = 'expirytime';
@@ -30,6 +34,11 @@ $def->properties['client_id']               = new ezcPersistentObjectProperty();
 $def->properties['client_id']->columnName   = 'client_id';
 $def->properties['client_id']->propertyName = 'client_id';
 $def->properties['client_id']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_STRING;
+
+$def->properties['user_id']               = new ezcPersistentObjectProperty();
+$def->properties['user_id']->columnName   = 'user_id';
+$def->properties['user_id']->propertyName = 'user_id';
+$def->properties['user_id']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
 
 
 $def->properties['scope']               = new ezcPersistentObjectProperty();
