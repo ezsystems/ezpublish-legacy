@@ -53,6 +53,7 @@ function stateEditActionCheck( $module, $class, $object, $version, $contentObjec
             {
                 eZContentOperationCollection::updateObjectState( $objectID, $selectedStateIDList );
             }
+            $module->redirectToView( 'edit', array( $object->attribute( 'id' ), $editVersion, $editLanguage, $fromLanguage ) );
         }
     }
 }
