@@ -76,7 +76,7 @@ class ezpRestToken implements ezcPersistentObject
              'refresh_token' => $this->refresh_token,
              'expirytime' => $this->expirytime,
              'client_id' => $this->client_id,
-             'user_id' = > $this->user_id,
+             'user_id' => $this->user_id,
              'scope' => $this->scope,
          );
      }
