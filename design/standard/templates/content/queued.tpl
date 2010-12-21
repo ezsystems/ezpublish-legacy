@@ -9,14 +9,13 @@ var version = {$version};
 var ajaxUri = 'ezpublishingqueue::status::' + contentObjectId + '::' + version;
 var publishQueueUpdater = false;
 {* redirect uri posted in the content/edit form *}
-var redirectUri={if is_set( $redirect_uri )}{$redirect_uri}{else}false{/if}
+var redirectUri={if is_set( $redirect_uri )}'{$redirect_uri}'{else}false{/if}
 
 {literal}
 YUI( YUI3_config ).use('node', 'io-ez', function( Y )
 {
     Y.on( "contentready", function( e )
     {
-        console.log("setup");
         publishingQueueUpdateStatus();
         publishQueueUpdater = Y.later( 1000, null, publishingQueueUpdateStatus, null, true );
     }, '#publish-queue-status' );
@@ -42,7 +41,7 @@ YUI( YUI3_config ).use('node', 'io-ez', function( Y )
 
                             if ( redirectUri != false )
                             {
-                                window.location = redirect_uri;
+                                window.location = redirectUri;
                             }
                             else
                             {
