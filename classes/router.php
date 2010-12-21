@@ -23,7 +23,8 @@ class ezpRestRouter extends ezcMvcRouter
             new ezcMvcRailsRoute( '/http-basic-auth', 'ezpRestAuthController', 'basicAuth' ),
             new ezcMvcRailsRoute( '/login/oauth', 'ezpRestAuthController', 'oauthRequired' ),
             new ezcMvcRailsRoute( '/api/dummy', 'ezpRestDummyController', 'foo' ),
-        );
+            new ezcMvcRailsRoute( '/api/oauth/token', 'ezpRestOauthTokenController', 'handleRequest'),
+            );
     }
 }
 ?>
