@@ -809,11 +809,12 @@ var eZOEPopupUtils = {
                    tr.appendChild( td );
                    
                    td = document.createElement("td");
-                   if ( n.image_attributes && n.data_map[ n.image_attributes[0] ] && n.data_map[ n.image_attributes[0] ].content['small'] )
+                   var imageIndex = eZOEPopupUtils.indexOfImage( n, 'small' );
+                   if ( imageIndex !== -1 )
                    {
                        tag = document.createElement("span");
                        tag.className = 'image_preview';
-                       tag.innerHTML += ' <a href="#">' + ed.getLang('preview.preview_desc')  + '<img src="' + ed.settings.ez_root_url + n.data_map[ n.image_attributes[0] ].content['small'].url + '" /></a>';
+                       tag.innerHTML += ' <a href="#">' + ed.getLang('preview.preview_desc')  + '<img src="' + ed.settings.ez_root_url + n.data_map[ n.image_attributes[imageIndex] ].content['small'].url + '" /></a>';
                        td.appendChild( tag );
                        hasImage = true;
                    }
@@ -878,6 +879,18 @@ var eZOEPopupUtils = {
             tr.appendChild( td );
             tbody.appendChild( tr );
         } );
+    },
+
+    indexOfImage: function( jsonNode, alias )
+    {
+        if ( !alias ) alias = 'small';
+        var index = -1;
+        jQuery.each( jsonNode.image_attributes, function( i, attr )
+        {
+            if ( index === -1 && n.data_map[ attr ] && n.data_map[ attr ].content[ alias ] )
+                index = i;
+        });
+        return index;
     },
 
     // some reusable functions from ezcore
