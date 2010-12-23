@@ -65,7 +65,9 @@ if ( !$db )
 if ( !mysqli_set_charset( $db, defined( 'STORAGE_CHARSET' ) ? STORAGE_CHARSET : 'utf8' ) )
     _die( "Failed to set character set.\n" );
 
-$filename = ltrim( $_SERVER['SCRIPT_NAME'], "/" ); // Issue #015459
+$filename = ltrim( $_SERVER['REQUEST_URI'], '/');
+if ( ( $queryPos = strpos( $filename, '?' ) ) !== false )
+    $filename = substr( $filename, 0, $queryPos );
 
 // Fetch file metadata.
 $filePathHash = md5( $filename );
