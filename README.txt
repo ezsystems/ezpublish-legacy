@@ -74,4 +74,4 @@ http://ez.no/products/ez_publish/demo
 QA TESTING
 ----------
 
-Testing github funcionality's
+Testing github funcionality's v2
