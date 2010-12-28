@@ -70,3 +70,8 @@ eZ Publish forums: http://ez.no/developer/forum
 Live demo of eZ Publish
 -------------------------
 http://ez.no/products/ez_publish/demo
+
+QA TESTING
+----------
+
+Testing github funcionality's
