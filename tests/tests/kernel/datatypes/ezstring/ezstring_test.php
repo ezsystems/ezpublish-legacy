@@ -15,9 +15,7 @@ class eZStringDatatypeTest extends eZDatatypeAbstractTest
     public function __construct( $name = null, array $data = array(), $dataName = '' )
     {
         $this->setDatatype( 'ezstring' );
-
         $this->setDataSet( 'default', $this->defaultDataSet() );
-        $this->setDataSet( 'foo', $this->defaultDataSet() );
 
         parent::__construct( $name, $data, $dataName );
         $this->setName( "eZString Datatype Tests" );

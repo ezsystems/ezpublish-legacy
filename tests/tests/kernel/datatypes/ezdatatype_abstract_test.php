@@ -137,7 +137,6 @@ abstract class eZDatatypeAbstractTest extends ezpDatabaseTestCase
         $this->datatype = $datatype;
     }
 
-
     /**
      * Returns a dataset
      *
