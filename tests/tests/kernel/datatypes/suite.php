@@ -14,8 +14,23 @@ class eZDatatypeTestSuite extends ezpDatabaseTestSuite
         parent::__construct();
         $this->setName( "eZ Publish Datatypes Test Suite" );
 
-        $this->addTestSuite( 'eZMatrixDatatypeTest' );
-        $this->addTestSuite( 'eZStringDatatypeTest' );
+        $this->addTestSuite( 'eZMatrixTypeTest' );
+        $this->addTestSuite( 'eZStringTypeTest' );
+        $this->addTestSuite( 'eZCountryTypeTest' );
+        $this->addTestSuite( 'eZUserTest' );
+        $this->addTestSuite( 'eZLDAPUserTest' );
+        $this->addTestSuite( 'eZTextFileUserTest' );
+
+        $this->addTestSuite( 'eZBinaryFileTypeRegression' );
+        $this->addTestSuite( 'eZImageTypeRegression' );
+        $this->addTestSuite( 'eZImageAliasHandlerRegression' );
+        $this->addTestSuite( 'eZImageFileRegression' );
+        $this->addTestSuite( 'eZMediaTypeRegression' );
+        $this->addTestSuite( 'eZMultiPriceTypeRegression' );
+        $this->addTestSuite( 'eZXMLTextRegression' );
+        $this->addTestSuite( 'eZURLTypeRegression' );
+        $this->addTestSuite( 'eZUserTypeRegression' );
+        $this->addTestSuite( 'eZXHTMLXMLOutputRegression' );
     }
 
     public static function suite()

@@ -10,7 +10,7 @@
 /**
 * Base class for all datatype implementations
 */
-class eZStringDatatypeTest extends eZDatatypeAbstractTest
+class eZStringTypeTest extends eZDatatypeAbstractTest
 {
     public function __construct( $name = null, array $data = array(), $dataName = '' )
     {

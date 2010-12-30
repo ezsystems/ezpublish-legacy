@@ -1,16 +1,16 @@
 <?php
 /**
-* File containing the eZDatatypeTest class
-*
-* @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
-* @license http://ez.no/licenses/gnu_gpl GNU GPLv2
-* @package tests
-*/
+ * File containing the eZDatatypeTest class
+ *
+ * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
+ * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
+ * @package tests
+ */
 
 /**
-* Base class for all datatype implementations
-*/
-class eZMatrixDatatypeTest extends eZDatatypeAbstractTest
+ * Base class for all datatype implementations
+ */
+class eZMatrixTypeTest extends eZDatatypeAbstractTest
 {
     public function __construct( $name = null, array $data = array(), $dataName = '' )
     {

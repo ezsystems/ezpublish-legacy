@@ -81,6 +81,7 @@ abstract class eZDatatypeAbstractTest extends ezpDatabaseTestCase
         {
             print_r ($e);
         }
+        parent::setUp();
     }
 
     public function tearDown()
