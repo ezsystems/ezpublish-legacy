@@ -1,14 +1,10 @@
 <?php
 /**
-* File containing the eZDatatypeTest class
+* File containing the eZStringTypeTest class
 *
 * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
 * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
 * @package tests
-*/
-
-/**
-* Base class for all datatype implementations
 */
 class eZStringTypeTest extends eZDatatypeAbstractTest
 {
@@ -30,5 +26,4 @@ class eZStringTypeTest extends eZDatatypeAbstractTest
         return $dataSet;
     }
 }
-
 ?>

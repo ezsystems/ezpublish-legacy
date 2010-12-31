@@ -1,20 +1,16 @@
 <?php
 /**
-* File containing the eZDatatypeTest class
+* File containing the eZEmailTypeTest class
 *
 * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
 * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
 * @package tests
 */
-
-/**
-* Base class for all datatype implementations
-*/
 class eZEmailTypeTest extends eZDatatypeAbstractTest
 {
     public function __construct( $name = null, array $data = array(), $dataName = '' )
     {
-        $this->setDatatype( 'ezstring' );
+        $this->setDatatype( 'ezemail' );
         $this->setDataSet( 'default', $this->defaultDataSet() );
 
         parent::__construct( $name, $data, $dataName );
@@ -30,5 +26,4 @@ class eZEmailTypeTest extends eZDatatypeAbstractTest
         return $dataSet;
     }
 }
-
 ?>

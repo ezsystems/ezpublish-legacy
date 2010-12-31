@@ -444,8 +444,8 @@ class eZMatrixType extends eZDataType
                 $cells = array_merge( $cells, $newCells );
 
                 $newRow['columns'] = $newCells;
-                $newRow['identifier'] =  'row_' . ( $numRows + 1 );
-                $newRow['name'] = 'Row_' . ( $numRows + 1 );
+                $newRow['identifier'] =  'row_' . ( $matrix->NumRows + 1 );
+                $newRow['name'] = 'Row_' . ( $matrix->NumRows + 1 );
                 $matrix->NumRows++;
 
 
