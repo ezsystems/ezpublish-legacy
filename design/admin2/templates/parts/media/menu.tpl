@@ -8,11 +8,7 @@
 
 {* Treemenu. *}
 <div id="contentstructure">
-{if ezini('TreeMenu','Dynamic','contentstructuremenu.ini')|eq('enabled')}
     {include uri='design:contentstructuremenu/content_structure_menu_dynamic.tpl' custom_root_node_id=ezini( 'NodeSettings', 'MediaRootNode', 'content.ini')}
-{else}
-    {include uri='design:contentstructuremenu/content_structure_menu.tpl' custom_root_node_id=ezini( 'NodeSettings', 'MediaRootNode', 'content.ini')}
-{/if}
 </div>
 
 {* Trashcan. *}

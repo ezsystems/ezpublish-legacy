@@ -475,6 +475,33 @@ div#contentstructure ul#content_tree_menu div.loaded
     display: block;
 }
 
+div#contentstructure ul#content_tree_menu div.error
+{
+    white-space: normal;
+    color: grey;
+    margin: 10px 0;
+    padding: 4px;
+    border: 1px solid #ddd;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+div#contentstructure ul#content_tree_menu div.error > span
+{
+    display: inline-block;
+    height: 9px;
+    width: 9px;
+    -moz-border-radius: 9px;
+    -webkit-border-radius: 9px;
+    border-radius: 9px;
+    margin-right: 6px;
+    background: Red;
+    background: -webkit-gradient(linear, left top, left bottom, from(#FF9999), to(Red));
+    background: -moz-linear-gradient(top,  OrangeRed,  Red);
+    background: linear-gradient(top, OrangeRed, Red);
+}
+
 div#contentstructure ul#content_tree_menu div.hidden
 {
     display: none;

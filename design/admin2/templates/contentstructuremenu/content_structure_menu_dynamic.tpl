@@ -108,7 +108,7 @@ function ContentStructureMenu( path, persistent )
     this.updateCookie = function()
     {
         if ( !this.useCookie )
-            return; 
+            return;
         this.cookie = this.open.join('/');
         expireDate  = new Date();
         expireDate.setTime( expireDate.getTime() + this.cookieValidity * 86400000 );
@@ -388,7 +388,7 @@ function ContentStructureMenu( path, persistent )
             'url': url,
             'dataType': 'json',
             'success': function( data, textStatus )
-            {             
+            {
                 var html = '<ul>', items = [];
                 // Filter out nodes to hide
                 for ( var i = 0, l = data.children_count; i < l; i++ )
@@ -419,38 +419,34 @@ function ContentStructureMenu( path, persistent )
             },
             'error': function( xhr, textStatus, errorThrown )
             {
-                if ( aElement )
+                divElement.className = 'error';
+                if (aElement) aElement.className = 'openclose-error';
+
+                function setErrorText( txt )
                 {
-                    aElement.className = 'openclose-error';
+                    if (aElement) aElement.title = txt;
+                    else divElement.innerHTML = '<span></span>' + txt;
+                }
 
-                    switch( xhr.status )
+                switch( xhr.status )
+                {
+                    case 403:
                     {
-                        case 403:
-                        {
-{/literal}
-                            aElement.title = '{"Dynamic tree not allowed for this siteaccess"|i18n('design/admin/contentstructuremenu')|wash(javascript)}';
-{literal}
-                        } break;
-
-                        case 404:
-                        {
-{/literal}
-                            aElement.title = '{"Node does not exist"|i18n('design/admin/contentstructuremenu')|wash(javascript)}';
-{literal}
-                        } break;
-
-                        case 500:
-                        {
-{/literal}
-                            aElement.title = '{"Internal error"|i18n('design/admin/contentstructuremenu')|wash(javascript)}';
-{literal}
-                        } break;
-                    }
-                    aElement.onclick = function()
+{/literal}              setErrorText( '{"Dynamic tree menu is disabled for this siteaccess!"|i18n("design/admin/contentstructuremenu")|wash("javascript")}' );{literal}
+                    } break;
+                    case 404:
                     {
-                        return false;
+{/literal}              setErrorText( '{"Node does not exist"|i18n("design/admin/contentstructuremenu")|wash("javascript")}' );{literal}
+                    } break;
+                    default:
+                    {
+{/literal}              setErrorText( '{"Internal error"|i18n("design/admin/contentstructuremenu")|wash("javascript")}' );{literal}
                     }
                 }
+                if (aElement) aElement.onclick = function()
+                {
+                    return false;
+                };
             }
         });
 
