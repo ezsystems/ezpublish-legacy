@@ -25,11 +25,7 @@
 
 {* Treemenu. *}
 <div id="contentstructure">
-{if ezini('TreeMenu','Dynamic','contentstructuremenu.ini')|eq('enabled')}
     {include uri='design:contentstructuremenu/content_structure_menu_dynamic.tpl' custom_root_node=$custom_root_node menu_persistence=false() hide_node_list=array(ezini( 'NodeSettings', 'DesignRootNode', 'content.ini'), ezini( 'NodeSettings', 'SetupRootNode', 'content.ini'))}
-{else}
-    {include uri='design:contentstructuremenu/content_structure_menu.tpl' custom_root_node_id=1}
-{/if}
 </div>
 
 {* DESIGN: Content END *}</div></div></div>
