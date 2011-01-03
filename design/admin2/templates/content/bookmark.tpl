@@ -15,7 +15,7 @@
 {if $bookmark_list}
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/content/bookmark' )}" onclick="ezjs_toggleCheckboxes( document.bookmarkaction, 'DeleteIDArray[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/content/bookmark' )}" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/content/bookmark' )}" onclick="ezjs_toggleCheckboxes( document.bookmarkaction, 'DeleteIDArray[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/content/bookmark' )}" /></th>
     <th>{'Name'|i18n( 'design/admin/content/bookmark' )}</th>
     <th>{'Type'|i18n( 'design/admin/content/bookmark' )}</th>
     <th>{'Section'|i18n( 'design/admin/content/bookmark' )}</th>
@@ -31,7 +31,7 @@
     <td>{let section_object=fetch( section, object, hash( section_id, $bookmark_node.object.section_id ) )}{section show=$section_object}{$section_object.name|wash}{section-else}<i>{'Unknown'|i18n( 'design/admin/content/bookmark' )}</i>{/section}{/let}</td>
     <td>
     {if $bookmark_node.object.can_edit}
-        <a href={concat( 'content/edit/', $bookmark_node.contentobject_id )|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/content/bookmark' )}" title="{'Edit <%bookmark_name>.'|i18n( 'design/admin/content/bookmark',, hash( '%bookmark_name', $bookmark_node.name ) )|wash}" /></a>
+        <a href={concat( 'content/edit/', $bookmark_node.contentobject_id )|ezurl}><img src={'edit.gif'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/content/bookmark' )}" title="{'Edit <%bookmark_name>.'|i18n( 'design/admin/content/bookmark',, hash( '%bookmark_name', $bookmark_node.name ) )|wash}" /></a>
     {else}
         <img src={'edit-disabled.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/content/bookmark' )}" title="{'You do not have permission to edit the contents of <%bookmark_name>.'|i18n( 'design/admin/content/bookmark',, hash( '%bookmark_name', $bookmark_node.name ) )|wash}" />
     {/if}

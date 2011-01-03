@@ -86,7 +86,7 @@
 
 {foreach $group.languages as $language sequence array( 'bglight', 'bgdark' ) as $sequence}
 <tr class="{$sequence}">
-    <td><img src="{$language.locale|flag_icon}" alt="{$language.locale}" />&nbsp;<a href={concat( '/state/group/', $group.identifier , '/', $language.locale )|ezurl} title="{'View translation.'|i18n( 'design/admin/node/view/full' )}">{$language.name|wash}</td>
+    <td><img src="{$language.locale|flag_icon}" width="18" height="12" alt="{$language.locale}" />&nbsp;<a href={concat( '/state/group/', $group.identifier , '/', $language.locale )|ezurl} title="{'View translation.'|i18n( 'design/admin/node/view/full' )}">{$language.name|wash}</td>
     <td>{$language.locale}</td>
     <td>{if $language.id|eq($group.default_language_id)}Yes{/if}</td>
 </tr>
@@ -115,7 +115,7 @@
 
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/state/group' )}" title="{'Invert selection.'|i18n( 'design/admin/state/group' )|wash}" onclick="ezjs_toggleCheckboxes( document.getElementById('stateList'), 'DeleteIDArray[]' ); return false;"/></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/state/group' )}" title="{'Invert selection.'|i18n( 'design/admin/state/group' )|wash}" onclick="ezjs_toggleCheckboxes( document.getElementById('stateList'), 'DeleteIDArray[]' ); return false;"/></th>
     <th class="tight">{'ID'|i18n('design/admin/state/group')|wash}</th>
     <th>{'Identifier'|i18n('design/admin/state/group')|wash}</th>
     <th>{'Name'|i18n('design/admin/state/group')|wash}</th>
@@ -135,7 +135,7 @@
     </td>
     <td>
     {if $group.is_internal|not}
-    <a href={concat("state/edit/",$group.identifier,"/",$state.identifier)|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/node/view/full' )|wash}" /></a></td>
+    <a href={concat("state/edit/",$group.identifier,"/",$state.identifier)|ezurl}><img src={'edit.gif'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/node/view/full' )|wash}" /></a></td>
     {else}
     <img src={'edit-disabled.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/node/view/full' )|wash}" />
     {/if}

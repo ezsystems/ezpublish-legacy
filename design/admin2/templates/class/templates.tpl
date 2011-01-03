@@ -26,7 +26,7 @@
     <td>{$Overrides.item.block}</td>
     <td><a href={concat( '/visual/templateview', $Overrides.item.source )|ezurl} title="{'View template overrides for the <%source_template_name> template.'|i18n( 'design/admin/class/view',, hash( '%source_template_name', $Overrides.item.source ) )|wash}">{$Overrides.item.source}</a></td>
     <td>{$Overrides.item.target}</td>
-    <td><a href={concat( '/visual/templateedit/', $Overrides.item.target)|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/class/view' )}" title="{'Edit the override template for the <%override_name> override.'|i18n( 'design/admin/class/view',, hash( '%override_name', $Overrides.item.block ) )|wash}" /></a></td>
+    <td><a href={concat( '/visual/templateedit/', $Overrides.item.target)|ezurl}><img src={'edit.gif'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/class/view' )}" title="{'Edit the override template for the <%override_name> override.'|i18n( 'design/admin/class/view',, hash( '%override_name', $Overrides.item.block ) )|wash}" /></a></td>
 </tr>
 {/section}
 </table>

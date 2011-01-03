@@ -15,7 +15,7 @@
     <label>{'Selected nodes'|i18n('design/admin/package')}</label>
     <table class="list" width="100%" cellpadding="0" cellspacing="0" border="0">
     <tr>
-        <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Invert selection." onclick="ezjs_toggleCheckboxes( document.objectlist, 'DeleteIDArray[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/package' )}" /></th>        <th>{"Node"|i18n("design/admin/package")}</th>
+        <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="Invert selection." onclick="ezjs_toggleCheckboxes( document.objectlist, 'DeleteIDArray[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/package' )}" /></th>        <th>{"Node"|i18n("design/admin/package")}</th>
         <th>{"Export type"|i18n("design/admin/package")}</th>
     </tr>
         {section var=node loop=$node_list sequence=array(bglight,bgdark)}

@@ -12,7 +12,7 @@
 
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/content/translations' )}" title="{'Invert selection.'|i18n( 'design/admin/content/translations' )}" onclick="ezjs_toggleCheckboxes( document.languageform, 'DeleteIDArray[]' ); return false;"/></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/content/translations' )}" title="{'Invert selection.'|i18n( 'design/admin/content/translations' )}" onclick="ezjs_toggleCheckboxes( document.languageform, 'DeleteIDArray[]' ); return false;"/></th>
     <th>{'Language'|i18n( 'design/admin/content/translations' )}</th>
     <th>{'Country/region'|i18n( 'design/admin/content/translations' )}</th>
     <th>{'Locale'|i18n( 'design/admin/content/translations' )}</th>
@@ -35,7 +35,7 @@
 
     {* Language. *}
     <td>
-    <img src="{$Translations.item.translation.locale_object.locale_code|flag_icon}" alt="{$Translations.item.translation.locale_object.intl_language_name}" />
+    <img src="{$Translations.item.translation.locale_object.locale_code|flag_icon}" width="18" height="12" alt="{$Translations.item.translation.locale_object.intl_language_name}" />
     <a href={concat( '/content/translations/', $Translations.item.translation.id )|ezurl}>
     {if $Translations.item.translation.name|wash}
         {$Translations.item.translation.name|wash}

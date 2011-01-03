@@ -60,7 +60,7 @@
     {if $useFieldsets}
     <div class="block">
     <fieldset>
-    <legend><img src="{$translation.language.locale|flag_icon}" /> {$translation.language.locale_object.intl_language_name|wash}</legend>
+    <legend><img src="{$translation.language.locale|flag_icon}" width="18" height="12" /> {$translation.language.locale_object.intl_language_name|wash}</legend>
     {/if}
     <label>{"Name:"|i18n('design/admin/state/edit')}</label>
     <input type="text" size="80" maxlength="45" name="ContentObjectState_name[]" value="{$translation.name|wash}" />

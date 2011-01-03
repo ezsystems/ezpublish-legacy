@@ -69,7 +69,7 @@
 {else}
 <table class="list" cellspacing="0" >
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/content/urlalias' )}" title="{'Invert selection.'|i18n( 'design/admin/content/urlalias' )}" onclick="ezjs_toggleCheckboxes( document.aliasform, 'ElementList[]' ); return false;"/></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/content/urlalias' )}" title="{'Invert selection.'|i18n( 'design/admin/content/urlalias' )}" onclick="ezjs_toggleCheckboxes( document.aliasform, 'ElementList[]' ); return false;"/></th>
     <th>{'URL alias'|i18n( 'design/admin/content/urlalias' )}</th>
     <th>{'Language'|i18n( 'design/admin/content/urlalias' )}</th>
     <th>{'Type'|i18n( 'design/admin/content/urlalias' )}</th>
@@ -98,7 +98,7 @@
         </td>
 
         <td>
-            <img src="{$element.language_object.locale|flag_icon}" alt="{$element.language_object.locale|wash}" />
+            <img src="{$element.language_object.locale|flag_icon}" width="18" height="12" alt="{$element.language_object.locale|wash}" />
             &nbsp;
             {$element.language_object.name|wash}
         </td>
@@ -197,7 +197,7 @@
 
         {* Language. *}
         <td>
-        <img src="{$element.language_object.locale|flag_icon}" alt="{$element.language_object.locale|wash}" />
+        <img src="{$element.language_object.locale|flag_icon}" width="18" height="12" alt="{$element.language_object.locale|wash}" />
         &nbsp;
         {$element.language_object.name|wash}
         </td>
@@ -206,7 +206,7 @@
         <td>
             {set $img_title='Edit the contents for language %language.'|i18n( 'design/admin/content/urlalias',, hash( '%language', $language_obj.name ) )}
             {if fetch( content, access, hash( access, 'edit', contentobject, $node, language, $locale ) )}
-                <a href={concat('/content/edit/', $node.contentobject_id, '/f/', $locale)|ezurl}><img src={'edit.gif'|ezimage} alt="{$img_title}" title="{$img_title}" /></a>
+                <a href={concat('/content/edit/', $node.contentobject_id, '/f/', $locale)|ezurl}><img src={'edit.gif'|ezimage} width="16" height="16" alt="{$img_title}" title="{$img_title}" /></a>
             {else}
                 <img src={'edit-disabled.gif'|ezimage} title="{'You cannot edit the contents for language %language because you do not have permission to edit the object.'|i18n( 'design/admin/content/urlalias',, hash( '%language', $language_obj.name ) )}" />
             {/if}

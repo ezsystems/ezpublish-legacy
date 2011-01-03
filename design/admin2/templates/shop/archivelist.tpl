@@ -47,7 +47,7 @@
 
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/shop/archivelist' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/archivelist' )}" onclick="ezjs_toggleCheckboxes( document.archivelist, 'OrderIDArray[]' ); return false;" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/shop/archivelist' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/archivelist' )}" onclick="ezjs_toggleCheckboxes( document.archivelist, 'OrderIDArray[]' ); return false;" /></th>
     <th class="tight">{'ID'|i18n( 'design/admin/shop/archivelist' )}</th>
     <th class="wide">{'Customer'|i18n( 'design/admin/shop/archivelist' )}</th>
     <th class="tight">{'Total (ex. VAT)'|i18n( 'design/admin/shop/archivelist' )}</th>

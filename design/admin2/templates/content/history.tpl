@@ -59,7 +59,7 @@
 {if $list_count}
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Toggle selection" onclick="ezjs_toggleCheckboxes( document.versionsform, 'DeleteIDArray[]' ); return false;" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="Toggle selection" onclick="ezjs_toggleCheckboxes( document.versionsform, 'DeleteIDArray[]' ); return false;" /></th>
     <th>{'Version'|i18n( 'design/admin/content/history' )}</th>
     <th>{'Status'|i18n( 'design/admin/content/history' )}</th>
     <th>{'Modified translation'|i18n( 'design/admin/content/history' )}</th>
@@ -94,7 +94,7 @@
 
     {* Modified translation. *}
     <td>
-        <img src="{$initial_language.locale|flag_icon}" alt="{$initial_language.locale}" />&nbsp;<a href={concat('/content/versionview/', $object.id, '/', $version.version, '/', $initial_language.locale, '/' )|ezurl} title="{'View the contents of version #%version_number. Translation: %translation.'|i18n( 'design/admin/content/history',, hash( '%translation', $initial_language.name, '%version_number', $version.version ) )}" >{$initial_language.name|wash}</a>
+        <img src="{$initial_language.locale|flag_icon}" width="18" height="12" alt="{$initial_language.locale}" />&nbsp;<a href={concat('/content/versionview/', $object.id, '/', $version.version, '/', $initial_language.locale, '/' )|ezurl} title="{'View the contents of version #%version_number. Translation: %translation.'|i18n( 'design/admin/content/history',, hash( '%translation', $initial_language.name, '%version_number', $version.version ) )}" >{$initial_language.name|wash}</a>
     </td>
 
     {* Creator. *}
@@ -249,7 +249,7 @@
     <td>
         {foreach $published_item.language_list as $lang}
             {delimiter}<br />{/delimiter}
-            <img src="{$lang.language_code|flag_icon}" alt="{$lang.language_code|wash}" />&nbsp;
+            <img src="{$lang.language_code|flag_icon}" width="18" height="12" alt="{$lang.language_code|wash}" />&nbsp;
             <a href={concat("/content/versionview/",$object.id,"/",$published_item.version,"/",$lang.language_code,"/")|ezurl}>{$lang.locale.intl_language_name|wash}</a>
         {/foreach}
     </td>
@@ -328,7 +328,7 @@
 
     {* Modified translation. *}
     <td>
-        <img src="{$initial_language.locale|flag_icon}" alt="{$initial_language.locale}" />&nbsp;<a href={concat('/content/versionview/', $object.id, '/', $draft_version.version, '/', $initial_language.locale, '/' )|ezurl} title="{'View the contents of version #%version_number. Translation: %translation.'|i18n( 'design/admin/content/history',, hash( '%translation', $initial_language.name, '%version_number', $draft_version.version ) )}" >{$initial_language.name|wash}</a>
+        <img src="{$initial_language.locale|flag_icon}" width="18" height="12" alt="{$initial_language.locale}" />&nbsp;<a href={concat('/content/versionview/', $object.id, '/', $draft_version.version, '/', $initial_language.locale, '/' )|ezurl} title="{'View the contents of version #%version_number. Translation: %translation.'|i18n( 'design/admin/content/history',, hash( '%translation', $initial_language.name, '%version_number', $draft_version.version ) )}" >{$initial_language.name|wash}</a>
     </td>
 
     {* Creator. *}

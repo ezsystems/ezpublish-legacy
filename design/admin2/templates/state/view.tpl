@@ -86,7 +86,7 @@
 
 {foreach $state.languages as $language sequence array( 'bglight', 'bgdark' ) as $sequence}
 <tr class="{$sequence}">
-    <td><img src="{$language.locale|flag_icon}" alt="{$language.locale}" />&nbsp;<a href={concat( '/state/view/', $group.identifier,'/',$state.identifier , '/', $language.locale )|ezurl} title="{'View translation.'|i18n( 'design/admin/node/view/full' )}">{$language.name|wash}</td>
+    <td><img src="{$language.locale|flag_icon}" width="18" height="12" alt="{$language.locale}" />&nbsp;<a href={concat( '/state/view/', $group.identifier,'/',$state.identifier , '/', $language.locale )|ezurl} title="{'View translation.'|i18n( 'design/admin/node/view/full' )}">{$language.name|wash}</td>
     <td>{$language.locale}</td>
     <td>{if $language.id|eq($state.default_language_id)}Yes{/if}</td>
 </tr>

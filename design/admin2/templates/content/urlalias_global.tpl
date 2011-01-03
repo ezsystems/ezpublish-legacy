@@ -115,7 +115,7 @@
 {else}
 <table class="list" cellspacing="0" >
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/content/urlalias_global' )}" title="{'Invert selection.'|i18n( 'design/admin/content/urlalias_global' )}" onclick="ezjs_toggleCheckboxes( document.aliasform, 'ElementList[]' ); return false;"/></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/content/urlalias_global' )}" title="{'Invert selection.'|i18n( 'design/admin/content/urlalias_global' )}" onclick="ezjs_toggleCheckboxes( document.aliasform, 'ElementList[]' ); return false;"/></th>
     <th>{'URL alias'|i18n( 'design/admin/content/urlalias_global' )}</th>
     <th>{'Destination'|i18n( 'design/admin/content/urlalias_global' )}</th>
     <th>{'Language'|i18n( 'design/admin/content/urlalias_global' )}</th>
@@ -150,7 +150,7 @@
         </td>
 
         <td>
-            <img src="{$element.language_object.locale|flag_icon}" alt="{$element.language_object.locale|wash}" />
+            <img src="{$element.language_object.locale|flag_icon}" width="18" height="12" alt="{$element.language_object.locale|wash}" />
             &nbsp;
             {$element.language_object.name|wash}
         </td>

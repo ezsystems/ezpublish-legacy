@@ -43,7 +43,7 @@
 
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/state/groups' )}" title="{'Invert selection.'|i18n( 'design/admin/state/groups' )|wash}" onclick="ezjs_toggleCheckboxes( document.getElementById('stateGroupList'), 'DeleteIDArray[]' ); return false;"/></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/state/groups' )}" title="{'Invert selection.'|i18n( 'design/admin/state/groups' )|wash}" onclick="ezjs_toggleCheckboxes( document.getElementById('stateGroupList'), 'DeleteIDArray[]' ); return false;"/></th>
     <th class="tight">{'ID'|i18n('design/admin/state/groups')|wash}</th>
     <th>{'Identifier'|i18n('design/admin/state/groups')|wash}</th>
     <th>{'Name'|i18n('design/admin/state/groups')|wash}</th>
@@ -56,7 +56,7 @@
     <td><a href={concat("/state/group/",$group.identifier)|ezurl}>{$group.identifier|wash}</a></td>
     <td>{$group.current_translation.name|wash}</td>
     <td>{if $group.is_internal|not}
-        <a href={concat( 'state/group_edit/', $group.identifier )|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/node/view/full' )|wash}" /></a>
+        <a href={concat( 'state/group_edit/', $group.identifier )|ezurl}><img src={'edit.gif'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/node/view/full' )|wash}" /></a>
         {else}
         <img src={'edit-disabled.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/node/view/full' )|wash}" />
         {/if}

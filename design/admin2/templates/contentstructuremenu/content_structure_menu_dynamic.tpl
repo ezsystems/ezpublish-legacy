@@ -270,7 +270,7 @@ function ContentStructureMenu( path, persistent )
                 + '" alt="" title="['
                 + this.classes[item.class_id].name.replace(/>/g,'&gt;').replace(/"/g, '&quot;')
 {/literal}
-                + '] {"Click on the icon to display a context-sensitive menu."|i18n('design/admin/contentstructuremenu')|wash(xhtml)|wash(javascript)}" /><\/a>';
+                + '] {"Click on the icon to display a context-sensitive menu."|i18n('design/admin/contentstructuremenu')|wash(xhtml)|wash(javascript)}" width="16" height="16" /><\/a>';
 {literal}
         }
         else

@@ -23,7 +23,7 @@
 
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/class/view' )}" title="{'Invert selection.'|i18n( 'design/admin/class/view' )}" onclick="ezjs_toggleCheckboxes( document.translationsform, 'LanguageID[]' ); return false;"/></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/class/view' )}" title="{'Invert selection.'|i18n( 'design/admin/class/view' )}" onclick="ezjs_toggleCheckboxes( document.translationsform, 'LanguageID[]' ); return false;"/></th>
     <th>{'Language'|i18n( 'design/admin/class/view' )}</th>
     <th>{'Locale'|i18n( 'design/admin/class/view' )}</th>
     <th class="tight">{'Main'|i18n( 'design/admin/class/view' )}</th>
@@ -41,7 +41,7 @@
 
 {* Language name. *}
 <td>
-<img src="{$Translations.item.locale|flag_icon}" alt="{$Translations.item.locale}" />
+<img src="{$Translations.item.locale|flag_icon}" width="18" height="12" alt="{$Translations.item.locale}" />
 &nbsp;
 {if eq( $Translations.item.locale, $language_code )}
 <b><a href={concat( 'class/view/', $class.id, '/(language)/', $Translations.item.locale )|ezurl} title="{'View translation.'|i18n( 'design/admin/class/view' )}">{$Translations.item.name}</a></b>
@@ -63,7 +63,7 @@
 {* Edit. *}
 <td>
 
-<a href={concat( 'class/edit/', $class.id, '/(language)/', $Translations.item.locale )|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit in <%language_name>.'|i18n( 'design/admin/class/view',, hash( '%language_name', $Translations.item.locale_object.intl_language_name ) )|wash}" title="{'Edit in <%language_name>.'|i18n( 'design/admin/class/view',, hash( '%language_name', $Translations.item.locale_object.intl_language_name ) )|wash}" /></a>
+<a href={concat( 'class/edit/', $class.id, '/(language)/', $Translations.item.locale )|ezurl}><img src={'edit.gif'|ezimage} width="16" height="16" alt="{'Edit in <%language_name>.'|i18n( 'design/admin/class/view',, hash( '%language_name', $Translations.item.locale_object.intl_language_name ) )|wash}" title="{'Edit in <%language_name>.'|i18n( 'design/admin/class/view',, hash( '%language_name', $Translations.item.locale_object.intl_language_name ) )|wash}" /></a>
 
 </td>
 

@@ -22,7 +22,7 @@
 {section show=$orderstatus_array}
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/shop/status' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/status' )}" onclick="ezjs_toggleCheckboxes( document.OrderStatus, 'orderStatusIDList[]' ); return false;" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/shop/status' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/status' )}" onclick="ezjs_toggleCheckboxes( document.OrderStatus, 'orderStatusIDList[]' ); return false;" /></th>
     <th class="tight">{'Status ID'|i18n( 'design/admin/shop/status' )}</th>
     <th>{'Name'|i18n( 'design/admin/shop/status' )}</th>
     <th class="tight">{'Active'|i18n( 'design/admin/shop/status' )}</th>

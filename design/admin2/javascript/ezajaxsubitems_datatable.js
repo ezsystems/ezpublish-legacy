@@ -71,7 +71,7 @@ var sortableSubitems = function () {
         var translationView = function(cell, record, column, data) {
             var html = '';
             jQuery(data).each(function(i, e) {
-                html += '<img src="' + confObj.flagIcons[e] + '" style="margin-right: 4px;" alt="' + e + '" title="' + e + '"/>';
+                html += '<img src="' + confObj.flagIcons[e] + '" width="18" height="12" style="margin-right: 4px;" alt="' + e + '" title="' + e + '"/>';
             });
             cell.innerHTML = html;
         }

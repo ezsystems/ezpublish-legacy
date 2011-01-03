@@ -48,7 +48,7 @@
 
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/content/draft' )}" onclick="ezjs_toggleCheckboxes( document.draftaction, 'DeleteIDArray[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/content/draft' )}" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/content/draft' )}" onclick="ezjs_toggleCheckboxes( document.draftaction, 'DeleteIDArray[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/content/draft' )}" /></th>
     <th>{'Name'|i18n( 'design/admin/content/draft' )}</th>
     <th>{'Type'|i18n( 'design/admin/content/draft' )}</th>
     <th>{'Section'|i18n( 'design/admin/content/draft' )}</th>
@@ -63,7 +63,7 @@
     <td>{$Drafts.item.contentobject.content_class.identifier|class_icon( small, $Drafts.item.contentobject.content_class.name|wash )}&nbsp;<a href={concat( '/content/versionview/', $Drafts.item.contentobject.id, '/', $Drafts.item.version, '/', $Drafts.item.initial_language.locale, '/' )|ezurl}>{$Drafts.item.version_name|wash}</a></td>
     <td>{$Drafts.item.contentobject.content_class.name|wash}</td>
     <td>{let section_object=fetch( section, object, hash( section_id, $Drafts.item.contentobject.section_id ) )}{section show=$section_object}{$section_object.name|wash}{section-else}<i>{'Unknown'|i18n( 'design/admin/content/draft' )}</i>{/section}{/let}</td>
-    <td><img src="{$Drafts.item.initial_language.locale|flag_icon}" alt="{$Drafts.item.initial_language.locale|wash}" style="vertical-align: middle;" />&nbsp;{$Drafts.item.initial_language.name|wash}</td>
+    <td><img src="{$Drafts.item.initial_language.locale|flag_icon}" width="18" height="12" alt="{$Drafts.item.initial_language.locale|wash}" style="vertical-align: middle;" />&nbsp;{$Drafts.item.initial_language.name|wash}</td>
     <td>{$Drafts.item.modified|l10n( shortdatetime )}</td>
     <td><a href={concat( '/content/edit/', $Drafts.item.contentobject.id, '/', $Drafts.item.version, '/' )|ezurl} title="{'Edit <%draft_name>.'|i18n( 'design/admin/content/draft',, hash( '%draft_name', $Drafts.item.name ) )|wash}" ><img src={'edit.gif'|ezimage} border="0" alt="{'Edit'|i18n( 'design/admin/content/draft' )}" /></a></td>
 </tr>
