@@ -41,7 +41,7 @@ class eZTSTranslator extends eZTranslatorHandler
         $this->RootCache = false;
 
         if ( self::$expiryTimestamp === false )
-            self::$expiryTimestamp = eZExpiryHandler::instance()->getTimestamp( self::EXPIRY_KEY );
+            self::$expiryTimestamp = eZExpiryHandler::getTimestamp( self::EXPIRY_KEY, false, $locale );
     }
 
     /**
@@ -364,7 +364,7 @@ class eZTSTranslator extends eZTranslatorHandler
             $this->BuildCache = false;
             eZDebug::accumulatorStop( 'tstranslator_store_cache' );
 
-            self::expireCache( $time );
+            self::expireCache( $time, $locale );
         }
 
         return $status;
@@ -737,10 +737,11 @@ class eZTSTranslator extends eZTranslatorHandler
      * Expires the translation cache
      *
      * @param int $timestamp An optional timestamp cache should be exired from. Current timestamp used by default
+     * @param string $locale Optional translation's locale to expire. Expires them all by default.
      *
      * @return void
      */
-    public static function expireCache( $timestamp = false )
+    public static function expireCache( $timestamp = false, $locale = null )
     {
         eZExpiryHandler::registerShutdownFunction();
 
@@ -748,7 +749,7 @@ class eZTSTranslator extends eZTranslatorHandler
             $timestamp = time();
 
         $handler = eZExpiryHandler::instance();
-        $handler->setTimestamp( self::EXPIRY_KEY, $timestamp );
+        $handler->setTimestamp( self::EXPIRY_KEY, $timestamp, $locale );
         $handler->store();
 
         self::$expiryTimestamp = $timestamp;

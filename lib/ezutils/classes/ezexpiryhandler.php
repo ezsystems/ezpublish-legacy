@@ -76,20 +76,7 @@ class eZExpiryHandler
     {
         if ( $this->IsModified )
         {
-            $cacheDirectory = eZSys::cacheDirectory();
-
-            $storeString = "<?php\n\$Timestamps = array( ";
-            $i = 0;
-            foreach ( $this->Timestamps as $key => $value )
-            {
-                if ( $i > 0 )
-                    $storeString .= ",\n" . str_repeat( ' ', 21 );
-                $storeString .= "'$key' => $value";
-                ++$i;
-            }
-            $storeString .= " );\n?>";
-
-            $this->CacheFile->storeContents( $storeString, 'expirycache', false, true );
+            $this->CacheFile->storeContents( "<?php\n\$Timestamps = " . var_export( $this->Timestamps, true ) . ";\n?>", 'expirycache', false, true );
             $this->IsModified = false;
         }
     }
@@ -99,10 +86,27 @@ class eZExpiryHandler
      *
      * @param string $name Expiry key
      * @param int    $value Expiry timestamp value
+     * @param string $arrayKey Sub array key used to store indexed values
      **/
-    function setTimestamp( $name, $value )
+    function setTimestamp( $name, $value, $arrayKey = null )
     {
-        $this->Timestamps[$name] = $value;
+        if ( $arrayKey === null )
+        {
+            // An expiry array being set without an $arrayKey should
+            // replace all its sub elements with the new value.
+            if ( isset( $this->Timestamps[$name] ) && is_array( $this->Timestamps[$name] ) )
+            {
+                $this->Timestamps[$name] = array_fill_keys( array_keys( $this->Timestamps[$name] ), $value );
+            }
+            else
+            {
+                $this->Timestamps[$name] = $value;
+            }
+        }
+        else
+        {
+            $this->Timestamps[$name][$arrayKey] = $value;
+        }
         $this->IsModified = true;
     }
 
@@ -122,17 +126,30 @@ class eZExpiryHandler
      * Returns the expiry timestamp for a key
      *
      * @param string $name Expiry key
+     * @param string $arrayKey Sub array key in which the value is stored
      *
      * @return int|false The timestamp if it exists, false otherwise
      **/
-    function timestamp( $name )
+    function timestamp( $name, $arrayKey = null )
     {
         if ( !isset( $this->Timestamps[$name] ) )
         {
             eZDebug::writeError( "Unknown expiry timestamp called '$name'", 'eZExpiryHandler::timestamp' );
             return false;
         }
-        return $this->Timestamps[$name];
+
+        if ( $arrayKey === null )
+        {
+            return $this->Timestamps[$name];
+        }
+
+        if ( !isset( $this->Timestamps[$name][$arrayKey] ) )
+        {
+            eZDebug::writeError( "Unknown expiry timestamp called '$name[$arrayKey]'", 'eZExpiryHandler::timestamp' );
+            return false;
+        }
+
+        return $this->Timestamps[$name][$arrayKey];
     }
 
     /**
@@ -140,17 +157,29 @@ class eZExpiryHandler
      *
      * @param string $name Expiry key name
      * @param int $default Default value that will be returned if the key isn't set
+     * @param string $arrayKey Sub array key in which the value is stored
      *
      * @return mixed The expiry timestamp, or $default
      **/
-    static function getTimestamp( $name, $default = false )
+    static function getTimestamp( $name, $default = false, $arrayKey = null )
     {
         $handler = eZExpiryHandler::instance();
         if ( !isset( $handler->Timestamps[$name] ) )
         {
             return $default;
         }
-        return $handler->Timestamps[$name];
+
+        if ( $arrayKey === null )
+        {
+            return $handler->Timestamps[$name];
+        }
+
+        if ( !isset( $handler->Timestamps[$name][$arrayKey] ) )
+        {
+            return $default;
+        }
+
+        return $handler->Timestamps[$name][$arrayKey];
     }
 
     /**
