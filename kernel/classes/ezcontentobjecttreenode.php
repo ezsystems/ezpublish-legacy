@@ -230,7 +230,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       'sort_field' => $sortField,
                       'sort_order' => $sortOrder,
                       'modified_subnode' => 0,
-                      'remote_id' => md5( (string)mt_rand() . (string)time() ),
+                      'remote_id' => eZRemoteIdUtility::generate( 'node' ),
                       'priority' => 0 );
         $node = new eZContentObjectTreeNode( $row );
         return $node;
@@ -255,7 +255,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $remoteID = eZPersistentObject::attribute( 'remote_id', true );
         if ( !$remoteID )
         {
-            $this->setAttribute( 'remote_id', md5( (string)mt_rand() . (string)time() ) );
+            $this->setAttribute( 'remote_id', eZRemoteIdUtility::generate( 'node' ) );
             $this->sync( array( 'remote_id' ) );
             $remoteID = eZPersistentObject::attribute( 'remote_id', true );
         }
@@ -5383,7 +5383,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 // In case user have choosen "Keep existing object and create new"
                 case eZContentObject::PACKAGE_NEW:
                 {
-                    $newRemoteID = md5( (string)mt_rand() . (string)time() );
+                    $newRemoteID = eZRemoteIdUtility::generate( 'node' );
                     $node->setAttribute( 'remote_id', $newRemoteID );
                     $node->store();
                     $nodeInfo = array( 'contentobject_id' =>  $node->attribute( 'contentobject_id' ),

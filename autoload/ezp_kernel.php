@@ -343,6 +343,7 @@ return array(
       'eZRedirectGateway'                                  => 'kernel/shop/classes/ezredirectgateway.php',
       'eZRedirectManager'                                  => 'kernel/classes/ezredirectmanager.php',
       'eZRegExpValidator'                                  => 'lib/ezutils/classes/ezregexpvalidator.php',
+      'eZRemoteIdUtility'                                  => 'lib/ezutils/classes/ezremoteidutility.php',
       'eZRole'                                             => 'kernel/classes/ezrole.php',
       'eZRoleFunctionCollection'                           => 'kernel/role/ezrolefunctioncollection.php',
       'eZRunCronjobs'                                      => 'kernel/classes/ezruncronjobs.php',

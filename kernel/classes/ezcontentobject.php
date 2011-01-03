@@ -783,7 +783,7 @@ class eZContentObject extends eZPersistentObject
 
         if ( !$remoteID )
         {
-            $this->setAttribute( 'remote_id', md5( (string)mt_rand() . (string)time() ) );
+            $this->setAttribute( 'remote_id', eZRemoteIdUtility::generate( 'object' ) );
             if ( $this->attribute( 'id' ) !== null )
                 $this->sync( array( 'remote_id' ) );
             $remoteID = eZPersistentObject::attribute( 'remote_id', true );
@@ -1465,7 +1465,7 @@ class eZContentObject extends eZPersistentObject
             "main_node_id" => 0,
             "owner_id" => $userID,
             "section_id" => $sectionID,
-            'remote_id' => md5( uniqid( '', true ) ) );
+            'remote_id' => eZRemoteIdUtility::generate( 'object' ) );
 
         return new eZContentObject( $row );
     }
@@ -1493,9 +1493,7 @@ class eZContentObject extends eZPersistentObject
         $contentObject->setAttribute( 'current_version', 1 );
         $contentObject->setAttribute( 'owner_id', $userID );
 
-        // Set new unique remote_id
-        $newRemoteID = md5( (string)mt_rand() . (string)time() );
-        $contentObject->setAttribute( 'remote_id', $newRemoteID );
+        $contentObject->setAttribute( 'remote_id', eZRemoteIdUtility::generate( 'object' ) );
 
         $db = eZDB::instance();
         $db->begin();
@@ -5132,7 +5130,7 @@ class eZContentObject extends eZPersistentObject
 
                 case self::PACKAGE_NEW:
                 {
-                    $contentObject->setAttribute( 'remote_id', md5( (string)mt_rand() . (string)time() ) );
+                    $contentObject->setAttribute( 'remote_id', eZRemoteIdUtility::generate( 'object' ) );
                     $contentObject->store();
                     unset( $contentObject );
                     $contentObject = $contentClass->instantiate( $ownerID, $sectionID );
@@ -5359,7 +5357,7 @@ class eZContentObject extends eZPersistentObject
         $objectNode->setAttributeNS( 'http://ez.no/ezobject', 'ezremote:modified', eZDateUtils::rfc1123Date( $this->attribute( 'modified' ) ) );
         if ( !$this->attribute( 'remote_id' ) )
         {
-            $this->setAttribute( 'remote_id', md5( (string)mt_rand() ) . (string)time() );
+            $this->setAttribute( 'remote_id', eZRemoteIdUtility::generate( 'object' ) );
             $this->store();
         }
         $objectNode->setAttribute( 'remote_id', $this->attribute( 'remote_id' ) );

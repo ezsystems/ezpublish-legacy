@@ -176,8 +176,7 @@ foreach ( $nonUniqueRemoteIDDataList as $nonUniqueRemoteIDData )
             continue;
         }
 
-        $newRemoteID = md5( (string)mt_rand() . (string)time() );
-        $contentObject->setAttribute( 'remote_id', $newRemoteID );
+        $contentObject->setAttribute( 'remote_id', eZRemoteIdUtility::generate( 'object' ) );
         $contentObject->store();
     }
 
@@ -215,11 +214,10 @@ if ( $nonUniqueRemoteIDDataListCount )
                                                                array( 'status' => 'desc', 'published' => 'asc' ) );
         foreach ( $contentObjects as $i => $contentObject )
         {
-            $newRemoteID = md5( (string)mt_rand() . (string)time() );
-            $contentObject->setAttribute( 'remote_id', $newRemoteID );
+            $contentObject->setAttribute( 'remote_id', eZRemoteIdUtility::generate( 'object' ) );
             $contentObject->store();
         }
-    
+
         ++$totalCount;
         $cli->output( '.', false );
     }

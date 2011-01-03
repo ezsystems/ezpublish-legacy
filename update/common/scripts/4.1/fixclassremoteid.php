@@ -147,8 +147,7 @@ foreach ( $nonUniqueRemoteIDDataList as $nonUniqueRemoteIDData )
             continue;
         }
 
-        $newRemoteID = md5( (string)mt_rand() . (string)time() );
-        $escapedNewRemoteID = $db->escapeString( $newRemoteID );
+        $escapedNewRemoteID = $db->escapeString( eZRemoteIdUtility::generate( 'class' ) );
         $db->query( "UPDATE ezcontentclass SET remote_id='$escapedNewRemoteID' WHERE id=$row[id]" );
     }
 

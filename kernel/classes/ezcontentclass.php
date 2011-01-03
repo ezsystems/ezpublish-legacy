@@ -191,7 +191,7 @@ class eZContentClass extends eZPersistentObject
         unset( $this->CanInstantiateLanguages );
         unset( $this->VersionCount );
         $this->ID = null;
-        $this->RemoteID = md5( (string)mt_rand() . (string)time() );
+        $this->RemoteID = eZRemoteIdUtility::generate( 'class' );
     }
 
     /*!
@@ -229,7 +229,7 @@ class eZContentClass extends eZPersistentObject
             $nameList->initFromString( $optionalValues['name'], $languageLocale );
         else
             $nameList->initFromString( '', $languageLocale );
-            
+
         $descriptionList = new eZSerializedObjectNameList();
         if ( isset( $optionalValues['serialized_description_list'] ) )
             $descriptionList->initFromSerializedList( $optionalValues['serialized_description_list'] );
@@ -252,7 +252,7 @@ class eZContentClass extends eZPersistentObject
             "creator_id" => $userID,
             "modifier_id" => $userID,
             "created" => $dateTime,
-            'remote_id' => md5( (string)mt_rand() . (string)time() ),
+            'remote_id' => eZRemoteIdUtility::generate( 'class' ),
             "modified" => $dateTime,
             "is_container" => $contentClassDefinition[ 'fields' ][ 'is_container' ][ 'default' ],
             "always_available" => $contentClassDefinition[ 'fields' ][ 'always_available' ][ 'default' ],
@@ -752,7 +752,7 @@ class eZContentClass extends eZPersistentObject
         if ( !$remoteID &&
              $this->Version == eZContentClass::VERSION_STATUS_DEFINED )
         {
-            $this->setAttribute( 'remote_id', md5( (string)mt_rand() . (string)time() ) );
+            $this->setAttribute( 'remote_id', eZRemoteIdUtility::generate( 'class' ) );
             $this->sync( array( 'remote_id' ) );
             $remoteID = eZPersistentObject::attribute( 'remote_id', true );
         }
@@ -990,7 +990,7 @@ You will need to change the class of the node by using the swap functionality.' 
      * attribute and recreates the class group entries.
      *
      * @note It will remove classes in the previous and specified version before storing.
-     * 
+     *
      * @param array $attributes array of attributes
      * @param int $version version status
      * @since Version 4.3
@@ -1022,7 +1022,7 @@ You will need to change the class of the node by using the swap functionality.' 
 
         // Recreate class member entries
         eZContentClassClassGroup::removeClassMembers( $this->ID, $version );
-        
+
         foreach( eZContentClassClassGroup::fetchGroupList( $this->ID, $previousVersion ) as $classgroup )
         {
             $classgroup->setAttribute( 'contentclass_version', $version );
@@ -1869,7 +1869,7 @@ You will need to change the class of the node by using the swap functionality.' 
 
     /**
      * Expires in-memory cache for eZContentClass.
-     * 
+     *
      * Clears cache for fetched eZContentClass objects,
      * class identifiers and class attributes.
      *

@@ -248,7 +248,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
                 return true;
 
             case self::ACTION_NEW:
-                $class->setAttribute( 'remote_id', md5( (string)mt_rand() . (string)time() ) );
+                $class->setAttribute( 'remote_id', eZRemoteIdUtility::generate( 'class' ) );
                 $class->store();
                 $classNameList->appendGroupName( " (imported)" );
                 break;

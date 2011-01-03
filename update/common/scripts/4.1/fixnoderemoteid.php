@@ -91,76 +91,75 @@ $totalCount = 0;
 
 foreach ( $nonUniqueRemoteIDDataList as $nonUniqueRemoteIDData )
 {
- if ( $mode )
- {
- $cli->output( "Remote ID '$nonUniqueRemoteIDData[remote_id]' is used for $nonUniqueRemoteIDData[cnt] different tree nodes." );
- $action = $mode;
- }
- else
- {
- $action = readline( "Remote ID '$nonUniqueRemoteIDData[remote_id]' is used for $nonUniqueRemoteIDData[cnt] different tree nodes. Do you want to see the details (d) or do you want this inconsistency to be fixed automatically (a) ?" );
+    if ( $mode )
+    {
+        $cli->output( "Remote ID '$nonUniqueRemoteIDData[remote_id]' is used for $nonUniqueRemoteIDData[cnt] different tree nodes." );
+        $action = $mode;
+    }
+    else
+    {
+        $action = readline( "Remote ID '$nonUniqueRemoteIDData[remote_id]' is used for $nonUniqueRemoteIDData[cnt] different tree nodes. Do you want to see the details (d) or do you want this inconsistency to be fixed automatically (a) ?" );
 
- while ( !in_array( $action, array( 'a', 'd' ) ) )
- {
- $action = readline( 'Invalid option. Type either d for details or a to fix automatically.' );
- }
- }
+        while ( !in_array( $action, array( 'a', 'd' ) ) )
+        {
+            $action = readline( 'Invalid option. Type either d for details or a to fix automatically.' );
+        }
+    }
 
- $treeNodes = eZPersistentObject::fetchObjectList( eZContentObjectTreeNode::definition(),
- null,
- array( 'remote_id' => $nonUniqueRemoteIDData['remote_id'] ),
- array( 'modified_subnode' => 'asc' ) );
+    $treeNodes = eZPersistentObject::fetchObjectList( eZContentObjectTreeNode::definition(),
+        null,
+        array( 'remote_id' => $nonUniqueRemoteIDData['remote_id'] ),
+        array( 'modified_subnode' => 'asc' ) );
 
- switch ( $action )
- {
- case 'd':
- {
- $cli->output( '' );
- $cli->output( 'Select the number of the tree node that you want to keep the current remote ID. The other listed tree nodes will get a new one.' );
- $cli->output( '' );
+    switch ( $action )
+    {
+        case 'd':
+        {
+            $cli->output( '' );
+            $cli->output( 'Select the number of the tree node that you want to keep the current remote ID. The other listed tree nodes will get a new one.' );
+            $cli->output( '' );
 
- foreach ( $treeNodes as $i => $treeNode )
- {
- $nodeID = $treeNode->attribute( 'node_id' );
+            foreach ( $treeNodes as $i => $treeNode )
+            {
+                $nodeID = $treeNode->attribute( 'node_id' );
 
- $dateTime = new eZDateTime( $treeNode->attribute( 'modified_subnode' ) );
- $formattedDateTime = $dateTime->toString( true );
- $pathIdentificationString = $treeNode->attribute( 'path_identification_string' );
+                $dateTime = new eZDateTime( $treeNode->attribute( 'modified_subnode' ) );
+                $formattedDateTime = $dateTime->toString( true );
+                $pathIdentificationString = $treeNode->attribute( 'path_identification_string' );
 
- $cli->output( "$i) $pathIdentificationString (Node ID: $nodeID, modified_subnode: $formattedDateTime )" );
- $cli->output( '' );
- }
+                $cli->output( "$i) $pathIdentificationString (Node ID: $nodeID, modified_subnode: $formattedDateTime )" );
+                $cli->output( '' );
+            }
 
- do {
- $skip = readline( 'Number of nodes that should keep the current remote ID: ' );
- } while ( !array_key_exists( $skip, $treeNodes ) );
- } break;
+            do {
+                $skip = readline( 'Number of nodes that should keep the current remote ID: ' );
+            } while ( !array_key_exists( $skip, $treeNodes ) );
+        } break;
 
- case 'a':
- default:
- {
- $skip = 0;
- }
- }
+        case 'a':
+        default:
+        {
+            $skip = 0;
+        }
+    }
 
- $cli->output( 'Fixing...' );
+    $cli->output( 'Fixing...' );
 
- foreach ( $treeNodes as $i => $treeNode )
- {
- if ( $i == $skip )
- {
- continue;
- }
+    foreach ( $treeNodes as $i => $treeNode )
+    {
+        if ( $i == $skip )
+        {
+            continue;
+        }
 
- $newRemoteID = md5( (string)mt_rand() . (string)time() );
- $treeNode->setAttribute( 'remote_id', $newRemoteID );
- $treeNode->store();
- }
+        $treeNode->setAttribute( 'remote_id', eZRemoteIdUtility::generate( 'node' ) );
+        $treeNode->store();
+    }
 
- $totalCount += $nonUniqueRemoteIDData['cnt'] - 1;
+    $totalCount += $nonUniqueRemoteIDData['cnt'] - 1;
 
- $cli->output( '' );
- $cli->output( '' );
+    $cli->output( '' );
+    $cli->output( '' );
 }
 
 if(  $db->databaseName() == 'oracle' )
@@ -191,8 +190,7 @@ if ( $nonUniqueRemoteIDDataListCount )
                                                         array( 'modified_subnode' => 'asc' ) );
         foreach ( $treeNodes as $i => $treeNode )
         {
-            $newRemoteID = md5( (string)mt_rand() . (string)time() );
-            $treeNode->setAttribute( 'remote_id', $newRemoteID );
+            $treeNode->setAttribute( 'remote_id', eZRemoteIdUtility::generate( 'node' ) );
             $treeNode->store();
         }
 
