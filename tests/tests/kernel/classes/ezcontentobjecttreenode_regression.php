@@ -164,6 +164,8 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
      */
     public function testIssue16737()
     {
+
+
         //test generated result of createSortingSQLStrings
         $sortList = array( array( 'class_name', true ) );
         $result = eZContentObjectTreeNode::createSortingSQLStrings( $sortList );
