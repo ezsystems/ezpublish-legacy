@@ -28,7 +28,7 @@
             </td>
             <td>
                 <a href="{concat( '/content/edit/', $draft.contentobject.id, '/', $draft.version )|ezurl('no')}" title="{'Edit <%draft_name>.'|i18n( 'design/admin/dashboard/drafts',, hash( '%draft_name', $draft.name ) )|wash()}">
-                    <img src={'edit.gif'|ezimage} border="0" alt="{'Edit'|i18n( 'design/admin/dashboard/drafts' )}" />
+                    <img src={'edit.gif'|ezimage} width="16" height="16" border="0" alt="{'Edit'|i18n( 'design/admin/dashboard/drafts' )}" />
                 </a>
             </td>
         </tr>

@@ -277,7 +277,7 @@ function ContentStructureMenu( path, persistent )
         {
             html += '<img src="'
                 + icon
-                + '" alt="" />';
+                + '" alt="" width="16" height="16" />';
         }
         html += '&nbsp;<a class="image-text" href="'
             + ( ( this.action )? this.action + '/' + item.node_id:

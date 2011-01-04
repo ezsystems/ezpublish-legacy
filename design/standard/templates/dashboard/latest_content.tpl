@@ -31,7 +31,7 @@
             <td>
             {if $latest_node.can_edit}
                 <a href="{concat( 'content/edit/', $latest_node.contentobject_id )|ezurl('no')}">
-                    <img src={'edit.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/dashboard/latest_content' )}" title="{'Edit <%child_name>.'|i18n( 'design/admin/dashboard/latest_content',, hash( '%child_name', $latest_node.name) )|wash}" />
+                    <img src={'edit.gif'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/dashboard/latest_content' )}" title="{'Edit <%child_name>.'|i18n( 'design/admin/dashboard/latest_content',, hash( '%child_name', $latest_node.name) )|wash}" />
                 </a>
             {else}
                 <img src="{'edit-disabled.gif'|ezimage('no')}" alt="{'Edit'|i18n( 'design/admin/dashboard/latest_content' )}" title="{'You do not have permission to edit <%child_name>.'|i18n( 'design/admin/dashboard/latest_content',, hash( '%child_name', $child_name ) )|wash}" />
