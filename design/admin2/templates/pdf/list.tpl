@@ -13,7 +13,7 @@
 {section show=$pdfexport_list}
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/pdf/list' )}" onclick="ezjs_toggleCheckboxes( document.pdfexportlist, 'DeleteIDArray[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/pdf/list' )}" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/pdf/list' )}" onclick="ezjs_toggleCheckboxes( document.pdfexportlist, 'DeleteIDArray[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/pdf/list' )}" /></th>
     <th>{'Name'|i18n( 'design/admin/pdf/list' )}</th>
     <th>{'Modifier'|i18n( 'design/admin/pdf/list' )}</th>
     <th>{'Modified'|i18n( 'design/admin/pdf/list' )}</th>

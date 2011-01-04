@@ -63,7 +63,7 @@
 
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/visual/templateview' )}" title="{'Invert selection.'|i18n( 'design/admin/visual/templateview' )}" onclick="ezjs_toggleCheckboxes( document.templateview, 'RemoveOverrideArray[]' ); return false;" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/visual/templateview' )}" title="{'Invert selection.'|i18n( 'design/admin/visual/templateview' )}" onclick="ezjs_toggleCheckboxes( document.templateview, 'RemoveOverrideArray[]' ); return false;" /></th>
     <th>{'Name'|i18n( 'design/admin/visual/templateview' )}</th>
     <th>{'File'|i18n( 'design/admin/visual/templateview' )}</th>
     <th>{'Match conditions'|i18n( 'design/admin/visual/templateview' )}</th>
@@ -94,7 +94,7 @@
     <td><input type="text" name="PriorityArray[{$CustomMatch.item.override_name}]" size="2" value="{$CustomMatch.number}" /></td>
 
     {if $CustomMatch.item.match_file}
-    <td><a href={concat( '/visual/templateedit/', $CustomMatch.item.match_file)|ezurl} title="{'Edit override template.'|i18n( 'design/admin/visual/templateview' )}"><img src={'edit.gif'|ezimage} alt="Edit" /></a></td>
+    <td><a href={concat( '/visual/templateedit/', $CustomMatch.item.match_file)|ezurl} title="{'Edit override template.'|i18n( 'design/admin/visual/templateview' )}"><img src={'edit.gif'|ezimage} width="16" height="16" alt="Edit" /></a></td>
     {else}
     <td><img src={'edit-disabled.gif'|ezimage} alt="" /></td>
     {/if}

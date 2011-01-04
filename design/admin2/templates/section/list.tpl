@@ -44,7 +44,7 @@
 {* Section table. *}
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/section/list' )}" title="{'Invert selection.'|i18n( 'design/admin/section/list' )}" onclick="ezjs_toggleCheckboxes( document.sections, 'SectionIDArray[]' ); return false;" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/section/list' )}" title="{'Invert selection.'|i18n( 'design/admin/section/list' )}" onclick="ezjs_toggleCheckboxes( document.sections, 'SectionIDArray[]' ); return false;" /></th>
     <th>{'Name'|i18n('design/admin/section/list')}</th>
     <th>{'Identifier'|i18n('design/admin/section/list')}</th>
     <th class="tight">{'ID'|i18n('design/admin/section/list')}</th>
@@ -64,7 +64,7 @@
         <img src={'assign-disabled.gif'|ezimage} alt="{'Assign'|i18n( 'design/admin/section/list' )}" title="{'You are not allowed to assign the <%section_name> section.'|i18n( 'design/admin/section/list',, hash( '%section_name', $Sections.item.name ) )|wash}" />
     {/if}
     </td>
-    <td><a href={concat( '/section/edit/',   $Sections.item.id, '/')|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/section/list' )}" title="{'Edit the <%section_name> section.'|i18n( 'design/admin/section/list',, hash( '%section_name', $Sections.item.name ) )|wash}" /></a></td>
+    <td><a href={concat( '/section/edit/',   $Sections.item.id, '/')|ezurl}><img src={'edit.gif'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/section/list' )}" title="{'Edit the <%section_name> section.'|i18n( 'design/admin/section/list',, hash( '%section_name', $Sections.item.name ) )|wash}" /></a></td>
 </tr>
 {/section}
 </table>

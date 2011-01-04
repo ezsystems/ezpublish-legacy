@@ -12,7 +12,7 @@
 
 <table id="tab-translations-list" class="list" cellspacing="0" summary="{'Language list of translations for current object.'|i18n( 'design/admin/node/view/full' )}">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" title="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" onclick="ezjs_toggleCheckboxes( document.translationsform, 'LanguageID[]' ); return false;"/></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" title="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" onclick="ezjs_toggleCheckboxes( document.translationsform, 'LanguageID[]' ); return false;"/></th>
     <th>{'Language'|i18n( 'design/admin/node/view/full' )}</th>
     <th>{'Locale'|i18n( 'design/admin/node/view/full' )}</th>
     <th class="tight">{'Main'|i18n( 'design/admin/node/view/full' )}</th>
@@ -33,7 +33,7 @@
 
 {* Language name. *}
 <td>
-<img src="{$Translations.item.locale|flag_icon}" alt="{$Translations.item.locale}" />
+<img src="{$Translations.item.locale|flag_icon}" width="18" height="12" alt="{$Translations.item.locale}" />
 &nbsp;
 {if eq( $Translations.item.locale, $node.object.current_language )}
 <b><a href={concat( $node.url, '/(language)/', $Translations.item.locale )|ezurl} title="{'View translation.'|i18n( 'design/admin/node/view/full' )}">{$Translations.item.name}</a></b>
@@ -61,7 +61,7 @@
 
 {if $can_edit}
 
-<a href={concat( 'content/edit/', $node.object.id, '/f/', $Translations.item.locale )|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit in <%language_name>.'|i18n( 'design/admin/node/view/full',, hash( '%language_name', $Translations.item.locale_object.intl_language_name ) )|wash}" title="{'Edit in <%language_name>.'|i18n( 'design/admin/node/view/full',, hash( '%language_name', $Translations.item.locale_object.intl_language_name ) )|wash}" /></a>
+<a href={concat( 'content/edit/', $node.object.id, '/f/', $Translations.item.locale )|ezurl}><img src={'edit.gif'|ezimage} width="16" height="16" alt="{'Edit in <%language_name>.'|i18n( 'design/admin/node/view/full',, hash( '%language_name', $Translations.item.locale_object.intl_language_name ) )|wash}" title="{'Edit in <%language_name>.'|i18n( 'design/admin/node/view/full',, hash( '%language_name', $Translations.item.locale_object.intl_language_name ) )|wash}" /></a>
 
 {/if}
 

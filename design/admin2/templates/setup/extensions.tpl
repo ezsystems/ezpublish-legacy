@@ -26,7 +26,7 @@
 {section show=$available_extension_array}
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/setup/extensions' )}" title="{'Toggle all.'|i18n( 'design/admin/content/translations' )}" onclick="ezjs_toggleCheckboxes( document.extensionform, 'ActiveExtensionList[]' ); return false;"/></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/setup/extensions' )}" title="{'Toggle all.'|i18n( 'design/admin/content/translations' )}" onclick="ezjs_toggleCheckboxes( document.extensionform, 'ActiveExtensionList[]' ); return false;"/></th>
     <th>{'Name'|i18n( 'design/admin/setup/extensions' )}</th>
 </tr>
 {section var=Extensions loop=$available_extension_array sequence=array( bglight, bgdark )}

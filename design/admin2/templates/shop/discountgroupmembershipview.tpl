@@ -54,7 +54,7 @@
 {section show=$rule_list}
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" onclick="ezjs_toggleCheckboxes( document.DiscountGroupView, 'removeRuleList[]' ); return false;" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" onclick="ezjs_toggleCheckboxes( document.DiscountGroupView, 'removeRuleList[]' ); return false;" /></th>
     <th>{'Name'|i18n( 'design/admin/shop/discountgroupmembershipview' )}</th>
     <th>{'Percent'|i18n( 'design/admin/shop/discountgroupmembershipview' )}</th>
     <th>{'Apply to'|i18n( 'design/admin/shop/discountgroupmembershipview' )}</th>
@@ -112,7 +112,7 @@
 {section show=$customers}
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" onclick="ezjs_toggleCheckboxes( document.DiscountGroupView, 'CustomerIDArray[]' ); return false;" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/discountgroupmembershipview' )}" onclick="ezjs_toggleCheckboxes( document.DiscountGroupView, 'CustomerIDArray[]' ); return false;" /></th>
     <th>{'Name'|i18n( 'design/admin/shop/discountgroupmembershipview' )}</th>
     <th>{'Type'|i18n( 'design/admin/shop/discountgroupmembershipview' )}</th>
 </tr>

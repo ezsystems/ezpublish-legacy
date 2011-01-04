@@ -27,7 +27,7 @@
 {if $rules}
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/shop/vatrules' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/vatrules' )}" onclick="ezjs_toggleCheckboxes( document.VatRules, 'RuleIDList[]' ); return false;" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/shop/vatrules' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/vatrules' )}" onclick="ezjs_toggleCheckboxes( document.VatRules, 'RuleIDList[]' ); return false;" /></th>
     <th class="tight">{'Country/region'|i18n( 'design/admin/shop/vatrules' )}</th>
     <th class="wide">{'Product categories'|i18n( 'design/admin/shop/vatrules' )}</th>
     <th>{'VAT type'|i18n( 'design/admin/shop/vatrules' )}</th>
@@ -40,7 +40,7 @@
     <td>{if $rule.country|wash|eq('*')}{'Any'|i18n( 'design/admin/shop/vatrules' )}{else}{include uri='design:shop/country/view.tpl' current_val=$rule.country}{/if}</td>
     <td>{$rule.product_categories_string|wash}</td>
     <td>{$rule.vat_type_name|wash} ({$rule.vat_type_object.percentage}%)</td>
-    <td><a href={concat( 'shop/editvatrule/', $rule.id)|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/shop/vatrules' )}" title="{"Edit rule."|i18n( 'design/admin/shop/vatrules')|wash}" /></a>
+    <td><a href={concat( 'shop/editvatrule/', $rule.id)|ezurl}><img src={'edit.gif'|ezimage} width="16" height="16" alt="{'Edit'|i18n( 'design/admin/shop/vatrules' )}" title="{"Edit rule."|i18n( 'design/admin/shop/vatrules')|wash}" /></a>
 </tr>
 {/foreach}
 </table>

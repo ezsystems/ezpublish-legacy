@@ -107,7 +107,7 @@
 {section show=$user_array}
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Toggle selection'|i18n( 'design/admin/role/view' )}" onclick="ezjs_toggleCheckboxes( document.role, 'IDArray[]' ); return false;"/></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Toggle selection'|i18n( 'design/admin/role/view' )}" onclick="ezjs_toggleCheckboxes( document.role, 'IDArray[]' ); return false;"/></th>
     <th>{'User/group'|i18n( 'design/admin/role/view' )}</th>
     <th>{'Limitation'|i18n( 'design/admin/role/view' )}</th>
 </tr>

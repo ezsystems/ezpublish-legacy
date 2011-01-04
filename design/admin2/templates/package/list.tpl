@@ -90,7 +90,7 @@ Note: The packages will not be uninstalled.'|i18n('design/admin/package/list')|b
 {section show=$package_list}
 <table class="list" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Invert selection." onclick="ezjs_toggleCheckboxes( document.packagelist, 'PackageSelection[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/package/list' )}" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="Invert selection." onclick="ezjs_toggleCheckboxes( document.packagelist, 'PackageSelection[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/package/list' )}" /></th>
     <th>{'Name'|i18n('design/admin/package/list')}</th>
     <th>{'Version'|i18n('design/admin/package/list')}</th>
     <th>{'Summary'|i18n('design/admin/package/list')}</th>

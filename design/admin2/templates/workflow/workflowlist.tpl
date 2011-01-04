@@ -47,7 +47,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-ml">
 
-<h2 class="context-title"><a href={'/workflow/grouplist'|ezurl}><img src={'up-16x16-grey.png'|ezimage} alt="{'Back to workflow groups.'|i18n( 'design/admin/workflow/workflowlist' )}" title="{'Back to workflow groups.'|i18n( 'design/admin/workflow/workflowlist' )}" /></a>&nbsp;{'Workflows (%workflow_count)'|i18n( 'design/admin/workflow/workflowlist',, hash( '%workflow_count', $workflow_list|count ) )}</h2>
+<h2 class="context-title"><a href={'/workflow/grouplist'|ezurl}><img src={'up-16x16-grey.png'|ezimage} width="16" height="16" alt="{'Back to workflow groups.'|i18n( 'design/admin/workflow/workflowlist' )}" title="{'Back to workflow groups.'|i18n( 'design/admin/workflow/workflowlist' )}" /></a>&nbsp;{'Workflows (%workflow_count)'|i18n( 'design/admin/workflow/workflowlist',, hash( '%workflow_count', $workflow_list|count ) )}</h2>
 
 
 
@@ -58,7 +58,7 @@
 {section show=$workflow_list}
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/workflow/workflowlist' )}" onclick="ezjs_toggleCheckboxes( document.workflowlistform, 'Workflow_id_checked[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/workflow/workflowlist' )}" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/workflow/workflowlist' )}" onclick="ezjs_toggleCheckboxes( document.workflowlistform, 'Workflow_id_checked[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/workflow/workflowlist' )}" /></th>
     <th>{'Name'|i18n( 'design/admin/workflow/workflowlist' )}</th>
     <th class="tight">{'ID'|i18n( 'design/admin/workflow/workflowlist' )}</th>
     <th>{'Modifier'|i18n( 'design/admin/workflow/workflowlist' )}</th>

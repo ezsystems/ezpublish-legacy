@@ -107,7 +107,7 @@
 
 {section show=$sessions_list}
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr><th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection'|i18n( 'design/admin/setup/session' )}" onclick="ezjs_toggleCheckboxes( document.trashaction,
+<tr><th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection'|i18n( 'design/admin/setup/session' )}" onclick="ezjs_toggleCheckboxes( document.trashaction,
 {if $user_id}'SessionKeyArray[]'{else}'UserIDArray[]'{/if}
 ); return false;" title="{'Invert selection.'|i18n( 'design/admin/setup/session' )}" /></th>
 
