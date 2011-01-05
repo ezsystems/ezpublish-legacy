@@ -18,6 +18,8 @@
 */
 
 
+declare( ticks=1 );
+
 require 'autoload.php';
 
 $cli = eZCLI::instance();
@@ -30,16 +32,15 @@ $script->startup();
 
 $options = $script->getOptions(
     // options definition
-    "[n|daemon]",
+    "[n|daemon][p|pid-file]",
     // arguments definition
     "",
     // options documentation
-    array( 'daemon' => 'Run in the background' ) );
+    array( 'daemon' => 'Run in the background',
+           'pid-file' => 'PID file' ) );
 $sys = eZSys::instance();
 
 $script->initialize();
-
-declare( ticks=1 );
 
 if ( $options['daemon'] )
 {
@@ -57,9 +58,10 @@ if ( $options['daemon'] )
     /* If we got a good PID, then we can exit the parent process. */
     if ( $pid > 0 )
     {
+        echo "Spawned PID: $pid\n";
         // Wait for confirmation from the child via SIGTERM or SIGCHLD, or
         // for two seconds to elapse (SIGALRM).  pause() should not return. */
-        pcntl_alarm( 2 );
+        pcntl_alarm( 5 );
 
         $script->shutdown( 1, "Failed spawning the daemon process" );
     }
@@ -82,7 +84,11 @@ if ( $options['daemon'] )
         $script->shutdown( 1, 'unable to create a new session' );
     }
 
-    $cli->output( "Publishing daemon started. Process ID: " . getmypid() );
+    $fp = fopen( 'var/run/asynchronous-publishing.pid', 'w' );
+    $pid = getmypid();
+    $cli->output( "Publishing daemon started. Process ID: $pid" );
+    fputs( $fp, $pid );
+    fclose( $fp );
 
     // stop output completely
     fclose( STDIN );
