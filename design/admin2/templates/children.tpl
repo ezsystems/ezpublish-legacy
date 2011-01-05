@@ -14,7 +14,7 @@
                                                          'objectname_filter', $view_parameters.namefilter ) )
      $children    = array()
      $priority    = and( eq( $node.sort_array[0][0], 'priority' ), $node.can_edit, $children_count ) }
-     
+
 
 <!-- Children START -->
 
@@ -78,8 +78,8 @@
 
 </div>
 
-{* Load yui code for subitems diplay even if current node has no children (since cache blocks  does not vary by this) *}
-{ezscript_require( array('ezjsc::yui2', 'ezjsc::yui3', 'ezajaxsubitems_datatable.js') )}
+{* Load yui code for subitems display even if current node has no children (since cache blocks does not vary by this) *}
+{ezscript_require( array('ezjsc::yui2', 'ezajaxsubitems_datatable.js') )}
 
 <!-- Children END -->
 
