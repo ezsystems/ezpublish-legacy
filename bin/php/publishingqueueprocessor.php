@@ -55,13 +55,12 @@ if ( $options['daemon'] )
         error_log( "unable to fork daemon" );
         $script->shutdown( 1, "unable to fork daemon" );
     }
-    /* If we got a good PID, then we can exit the parent process. */
+    // If we got a good PID, then we can wait until the daemon tells us to terminate
     if ( $pid > 0 )
     {
-        echo "Spawned PID: $pid\n";
         // Wait for confirmation from the child via SIGTERM or SIGCHLD, or
         // for two seconds to elapse (SIGALRM).  pause() should not return. */
-        pcntl_alarm( 5 );
+        sleep( 10 );
 
         $script->shutdown( 1, "Failed spawning the daemon process" );
     }
@@ -75,7 +74,8 @@ if ( $options['daemon'] )
     pcntl_signal( SIGTTOU, SIG_IGN );
     pcntl_signal( SIGTTIN, SIG_IGN );
     pcntl_signal( SIGHUP,  SIG_IGN ); // Ignore hangup signal
-    pcntl_signal( SIGTERM, SIG_DFL ); // Die on SIGTERM
+
+    pcntl_signal( SIGTERM, 'daemonSignalHandler' );
 
     $sid = posix_setsid();
     if ( $sid < 0 )
@@ -95,11 +95,12 @@ if ( $options['daemon'] )
     fclose( STDOUT );
     fclose( STDERR );
 
-    // kill the parent !
+    // terminate the parent
     posix_kill( $parentProcessID, SIGUSR1 );
 }
 else
 {
+    pcntl_signal( SIGTERM, 'daemonSignalHandler' );
     $cli->output( "Running in interactive mode. Hit ctrl-c to interrupt." );
 }
 
@@ -121,6 +122,21 @@ function childHandler( $signo )
         case SIGALRM: eZScript::instance()->shutdown( 1 ); break;
         case SIGUSR1: eZScript::instance()->shutdown( 0 ); break;
         case SIGCHLD: eZScript::instance()->shutdown( 1 ); break;
+    }
+}
+
+/**
+ * Signal handler for the daemon process
+ * @param int $signo Signal number
+ */
+function daemonSignalHandler( $signo )
+{
+    switch( $signo )
+    {
+        case SIGTERM:
+            ezpContentPublishingQueueProcessor::terminate();
+            eZScript::instance()->shutdown( 0 );
+            break;
     }
 }
 ?>

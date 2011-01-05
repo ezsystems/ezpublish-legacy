@@ -61,7 +61,7 @@ class ezpContentPublishingQueueProcessor
         $launched = 0;
         $this->cleanupDeadProcesses();
 
-        while ( 1 )
+        while ( $this->canProcess )
         {
             $publishingItem = ezpContentPublishingQueue::next();
             if ( $publishingItem !== false )
@@ -167,10 +167,31 @@ class ezpContentPublishingQueueProcessor
     }
 
     /**
-     * @var eZDBInterface
+     * Stops processing the queue, and cleanup what's currently running
      */
-    // private $dbInstance;
+    public static function terminate()
+    {
+        self::instance()->_terminate();
+    }
 
+    private function _terminate()
+    {
+
+        $this->canProcess = false;
+
+        if ( empty( $this->currentJobs ) )
+        {
+            eZLog::write( 'No waiting children, bye', 'async.log' );
+            echo "No waiting children, bye\n";
+        }
+
+        while( !empty( $this->currentJobs ) )
+        {
+            eZLog::write( count( $this->currentJobs ) . ' jobs remaining', 'async.log' );
+            echo count( $this->currentJobs ) . " jobs remaining\n";
+            sleep( 1 );
+        }
+    }
 
     /**
      * @var eZINI
@@ -188,5 +209,13 @@ class ezpContentPublishingQueueProcessor
      * @var ezpContentPublishingQueueProcessor
      */
     private static $instance = null;
+
+    private $canProcess = true;
+
+    /**
+     * Currently running jobs
+     * @var array
+     */
+    private $currentJobs = array();
 }
 ?>
