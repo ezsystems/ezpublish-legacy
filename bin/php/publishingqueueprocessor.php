@@ -32,7 +32,7 @@ $script->startup();
 
 $options = $script->getOptions(
     // options definition
-    "[n|daemon][p|pid-file]",
+    "[n|daemon][p:|pid-file:]",
     // arguments definition
     "",
     // options documentation
@@ -42,12 +42,42 @@ $sys = eZSys::instance();
 
 $script->initialize();
 
+$pidFile = ( isset( $options['pid-file'] ) ? $options['pid-file'] : 'var/run/asynchronous-publishing.pid' );
+
+// try opening the PID file. Exclusive mode will prevent the file from being opened if it exists
+$pidFp = @fopen( $pidFile, 'x' );
+if ( $pidFp === false )
+{
+    // failed on exclusive creation, see if the file is locked
+    $pidFp = fopen( $pidFile, 'r' );
+
+    // lock obtained: the owner process has died without removing the file
+    if ( flock( $pidFp, LOCK_EX | LOCK_NB ) === false )
+    {
+        fclose( $pidFp );
+        $script->shutdown( 2, "Another instance of the daemon is already running with the same pid file" );
+    }
+    else
+    {
+        $cli->output( "Unclean shutdown has occured, taking ownership of the PID file" );
+    }
+}
+else
+{
+    flock( $pidFp, LOCK_EX | LOCK_NB );
+}
+
+// PID file IS locked after that point
+
 if ( $options['daemon'] )
 {
     // Trap signals that we expect to recieve
     pcntl_signal( SIGCHLD, 'childHandler' );
     pcntl_signal( SIGUSR1, 'childHandler' );
     pcntl_signal( SIGALRM, 'childHandler' );
+
+    // close the PID file, and reopen it after forking
+    fclose( $pidFp );
 
     $pid = pcntl_fork();
     if ( $pid < 0 )
@@ -64,6 +94,9 @@ if ( $options['daemon'] )
 
         $script->shutdown( 1, "Failed spawning the daemon process" );
     }
+
+    $pidFp = fopen( $pidFile, 'w' );
+    flock( $pidFp, LOCK_EX | LOCK_NB );
 
     // At this point we are executing as the child process
     $parentProcessID = posix_getppid();
@@ -84,11 +117,9 @@ if ( $options['daemon'] )
 
     pcntl_signal( SIGTERM, 'daemonSignalHandler' );
 
-    $fp = fopen( 'var/run/asynchronous-publishing.pid', 'w' );
     $pid = getmypid();
     $cli->output( "Publishing daemon started. Process ID: $pid" );
-    fputs( $fp, $pid );
-    fclose( $fp );
+    fputs( $pidFp, $pid );
 
     // stop output completely
     fclose( STDIN );
@@ -133,8 +164,11 @@ function daemonSignalHandler( $signo )
     switch( $signo )
     {
         case SIGTERM:
+            flock( $GLOBALS['pidFp'], LOCK_UN );
+            fclose( $GLOBALS['pidFp'] );
+
             ezpContentPublishingQueueProcessor::terminate();
-            @unlink( 'var/run/asynchronous-publishing.pid' );
+            @unlink( $GLOBALS['pidFile'] );
             eZScript::instance()->shutdown( 0 );
             break;
     }

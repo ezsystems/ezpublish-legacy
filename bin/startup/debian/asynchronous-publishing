@@ -25,12 +25,19 @@ APP_PATH=${STARTUP_SCRIPT_PATH%/bin/startup/*}
 DAEMON=$APP_PATH/bin/php/publishingqueueprocessor.php
 NAME=`basename $0`
 DESC="eZ Publish asynchronous publishing daemon"
-PID_FILE=$APP_PATH/var/run/asynchronous-publishing.pid
+PID_FOLDER="/var/run/ezpublish"
+PID_FILE=/var/run/ezpublish/${NAME}.pid
+DAEMON_OPTS="${DAEMON_OPTS} --pid-file=${PID_FILE}"
 
 . /lib/lsb/init-functions
 
 # Test existence and executable status of executable
 test -x $DAEMON || exit 0
+
+if [ ! -d "${PID_FOLDER}" ]; then
+    mkdir "${PID_FOLDER}"
+    chown $RUN_AS "${PID_FOLDER}"
+fi
 
 UGID=$(getent passwd $RUN_AS | cut -f 3,4 -d:) || true
 
@@ -41,7 +48,11 @@ d_start() {
                 log_failure_msg "user \"$RUN_AS\" does not exist" "$NAME"
                 return 1
         fi
-        start-stop-daemon -d $APP_PATH -c $RUN_AS --start --background --pidfile $PID_FILE --exec $DAEMON -- $DAEMON_OPTS
+        start-stop-daemon -d $APP_PATH \
+            --chuid $RUN_AS \
+            --start \
+            --pidfile $PID_FILE \
+            --exec "${DAEMON}" -- $DAEMON_OPTS
         return $?
 }
 
