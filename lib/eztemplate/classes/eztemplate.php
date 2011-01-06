@@ -786,7 +786,6 @@ class eZTemplate
 
         if ( $resourceData )
         {
-            $root = null;
             eZTemplate::appendTemplateToStatisticsIfNeeded( $resourceData['template-name'], $resourceData['template-filename'] );
             $this->appendTemplateFetch( $resourceData['template-filename'] );
 
@@ -902,7 +901,6 @@ class eZTemplate
             return false;
         $resourceData = $this->resourceData( $resourceHandler, $file, $resourceName, $templateName );
         $resourceData['key-data'] = "file:" . $file;
-        $key = md5( $resourceData['key-data'] );
         $extraParameters = array();
 
         // Disable caching/compiling while fetchin the resource
