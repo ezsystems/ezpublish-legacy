@@ -10,54 +10,64 @@
 # Description:       starts instance of eZ Publish asynchronous publishing daemon using start-stop-daemon
 ### END INIT INFO
 
-############### EDIT ME ##################
-# path to workingenv install if any
-PYTHONPATH=
+### Configuration
 
-# path to app
-APP_PATH=/var/www/engineering/ezpublish
-
-# path to paster bin
-DAEMON=/var/www/engineering/ezpublish/bin/php/publishingqueueprocessor.php
+# user to run as. Your webserver user, usually
+RUN_AS=www-data
 
 # startup args
 DAEMON_OPTS=" -n"
 
-# script name
-NAME="publishingqueueprocessor.php"
+### End configuration
 
-# app name
+STARTUP_SCRIPT_PATH=`dirname $(readlink -f $0)`
+APP_PATH=${STARTUP_SCRIPT_PATH%/bin/startup/*}
+DAEMON=$APP_PATH/bin/php/publishingqueueprocessor.php
+NAME=`basename $0`
 DESC="eZ Publish asynchronous publishing daemon"
+PID_FILE=$APP_PATH/var/run/asynchronous-publishing.pid
 
-# pylons user
-RUN_AS=www-data
+. /lib/lsb/init-functions
 
-PID_FILE=/var/www/engineering/ezpublish/var/run/asynchronous-publishing.pid
-
-############### END EDIT ME ##################
-
+# Test existence and executable status of executable
 test -x $DAEMON || exit 0
+
+UGID=$(getent passwd $RUN_AS | cut -f 3,4 -d:) || true
 
 set -e
 
+d_start() {
+        if [ -z "$UGID" ]; then
+                log_failure_msg "user \"$RUN_AS\" does not exist" "$NAME"
+                return 1
+        fi
+        start-stop-daemon --chdir $APP_PATH -d $APP_PATH -c $RUN_AS --start --background --pidfile $PID_FILE --exec $DAEMON -- $DAEMON_OPTS
+        return $?
+}
+
+d_stop() {
+        start-stop-daemon --stop --pidfile $PID_FILE
+        return $?
+}
+
 case "$1" in
   start)
-        echo -n "Starting $DESC: "
-        start-stop-daemon -d $APP_PATH -c $RUN_AS --start --background --pidfile $PID_FILE --exec $DAEMON -- $DAEMON_OPTS
-        echo "$NAME."
+        log_daemon_msg "Starting $DESC" "$NAME"
+        d_start
+        log_end_msg $?
         ;;
   stop)
-        echo -n "Stopping $DESC: "
-        start-stop-daemon --stop --pidfile $PID_FILE
-        echo "$NAME."
+        log_daemon_msg "Stopping $DESC" "$NAME"
+        d_stop
+        log_end_msg $?
         ;;
 
   restart|force-reload)
-        echo -n "Restarting $DESC: "
-        start-stop-daemon --stop --pidfile $PID_FILE
+        log_daemon_msg "Restarting $DESC" "$NAME"
+        d_stop
         sleep 1
-        start-stop-daemon -d $APP_PATH -c $RUN_AS --start --background --pidfile $PID_FILE --exec $DAEMON -- $DAEMON_OPTS
-        echo "$NAME."
+        d_start
+        log_end_msg $?
         ;;
   *)
         N=/etc/init.d/$NAME
