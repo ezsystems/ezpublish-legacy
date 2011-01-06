@@ -135,7 +135,9 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
 
             require_once( 'kernel/common/template.php' );
             $tpl = templateInit();
+            $prevTplUsageStats = $tpl->setIsTemplatesUsageStatisticsEnabled( false );
 
+            $transport = eZNotificationTransport::instance( 'ezmail' );
             foreach ( $addressArray as $address )
             {
                 $tpl->setVariable( 'date', $date );
@@ -147,13 +149,14 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
                 if ( $tpl->hasVariable( 'content_type' ) )
                     $parameters['content_type'] = $tpl->variable( 'content_type' );
 
-                $transport = eZNotificationTransport::instance( 'ezmail' );
                 $transport->send( $address, $subject, $result, null, $parameters );
                 eZDebugSetting::writeDebug( 'kernel-notification', $result, "digest result" );
             }
 
             $collectionItemIDList = $tpl->variable( 'collection_item_id_list' );
             eZDebugSetting::writeDebug( 'kernel-notification', $collectionItemIDList, "handled items" );
+
+            $tpl->setIsTemplatesUsageStatisticsEnabled( $prevTplUsageStats );
 
             if ( is_array( $collectionItemIDList ) && count( $collectionItemIDList ) > 0 )
             {
