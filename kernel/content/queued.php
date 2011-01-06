@@ -19,8 +19,27 @@ $pVersion = $Params['version'];
 $tpl->setVariable( 'contentObjectId', $pContentObjectId );
 $tpl->setVariable( 'version', $pVersion );
 
+$virtualNodeID = 0;
+$contentObject = eZContentObject::fetch( $pContentObjectId );
+$contentObjectVersion = $contentObject->version( $pVersion );
+$nodeAssignments = $contentObjectVersion->attribute( 'node_assignments' );
+$contentClass = eZContentClass::fetch( $contentObject->attribute( 'contentclass_id' ) );
+
+$res = eZTemplateDesignResource::instance();
+$designKeys = array( array( 'object', $contentObject->attribute( 'id' ) ), // Object ID
+                     array( 'node', $virtualNodeID ), // Node id
+                     array( 'remote_id', $contentObject->attribute( 'remote_id' ) ),
+                     array( 'class', $contentClass->attribute( 'id' ) ), // Class ID
+                     array( 'class_identifier', $contentClass->attribute( 'identifier' ) ) // Class identifier
+              );
+$res->setKeys( $designKeys );
+
 if ( $http->hasSessionVariable( 'RedirectURIAfterPublish' ) )
     $tpl->setVariable( 'redirect_uri', $http->sessionVariable( 'RedirectURIAfterPublish' ) );
+
+$tpl->setVariable( 'content_object', $contentObject );
+$tpl->setVariable( 'content_object_version', $contentObjectVersion );
+$tpl->setVariable( 'content_class', $contentClass );
 
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezpI18n::tr( 'kernel/content', 'Content queued for publishing' ) ) );
