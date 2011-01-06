@@ -1,0 +1,118 @@
+#!/bin/sh
+#
+# ezpqp        eZ Publish asychronous publishing init script for RHEL and SLES
+#
+# chkconfig:   2345 86 14
+# description: eZ Publish asychronous publishing init script for RHEL and SLES
+#
+
+### BEGIN INIT INFO
+# Provides: ezpqp
+# Required-Start: $local_fs $network 
+# Required-Stop: $local_fs $network 
+# Default-Start: 3 4 5
+# Default-Stop: 0 1 2 6
+# Short-Description: start and stop ezpqp
+# Description: eZ Publish asychronous publishing init script for RHEL and SLES
+### END INIT INFO
+
+ez_home="/var/www/html/ezpublish"
+
+exec="$ez_home/bin/php/publishingqueueprocessor.php"
+prog="ezpqp"
+pidfile="/var/run/$prog.pid"
+lockfile="/var/lock/subsys/$prog"
+user="apache"
+options="-n -p $pidfile"
+
+# Source function library.
+if [ -f /etc/init.d/functions ]; then
+# Red Hat
+  . /etc/init.d/functions
+elif [ -f /lib/lsb/init-functions ]; then
+# LSB, SLES, ..
+  . /lib/lsb/init-functions
+  alias daemon=start_daemon
+  alias status=MyStatus
+else
+  echo "Error: your platform is not supported by $0" > /dev/stderr
+  exit 1
+fi
+
+
+start() {
+    [ -x $exec ] || exit 5
+    echo -n $"Starting $prog: "
+    curr_dir=`pwd`
+    cd $ez_home
+    daemon --user $user --check $prog --pidfile $pidfile $exec $options
+    retval=$?
+    echo
+    cd $curr_dir
+    [ $retval -eq 0 ] && touch $lockfile
+    return $retval
+}
+
+stop() {
+    echo -n $"Stopping $prog: "
+    killproc -p $pidfile $prog
+    retval=$?
+    echo
+    [ $retval -eq 0 ] && rm -f $lockfile
+    return $retval
+}
+
+restart() {
+    stop
+    start
+}
+
+reload() {
+    restart
+}
+
+force_reload() {
+    restart
+}
+
+d_status() {
+    status $prog
+}
+
+d_status_q() {
+    d_status >/dev/null 2>&1
+}
+
+
+case "$1" in
+    start)
+        d_status_q && exit 0
+        $1
+        ;;
+    stop)
+        d_status_q || exit 0
+        $1
+        ;;
+    restart)
+        $1
+        ;;
+    reload)
+        d_status_q || exit 7
+        $1
+        ;;
+    force-reload)
+        force_reload
+        ;;
+    status)
+        d_status
+        ;;
+    condrestart|try-restart)
+        d_status_q || exit 0
+        restart
+        ;;
+    *)
+        echo $"Usage: $0 {start|stop|status|restart|condrestart|try-restart|reload|force-reload}"
+        exit 2
+esac
+exit $?
+
