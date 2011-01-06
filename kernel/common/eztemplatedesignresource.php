@@ -392,25 +392,28 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             }
         }
         eZDebug::accumulatorStop( 'override_cache' );
-        if ( !isset( $match ) or $match === null )
-            return false;
-
-        $file = $match["file"];
-
-        $matchedKeys = array();
-        $usedKeys = array();
-        foreach ( $matchKeys as $matchKeyName => $matchKeyValue )
+        if ( isset( $match ) )
         {
-            $usedKeys[$matchKeyName] = $matchKeyValue;
+            $file = $match["file"];
+
+            $matchedKeys = array();
+            $usedKeys = array();
+            foreach ( $matchKeys as $matchKeyName => $matchKeyValue )
+            {
+                $usedKeys[$matchKeyName] = $matchKeyValue;
+            }
+            $extraParameters['ezdesign:used_keys'] = $usedKeys;
+            $extraParameters['ezdesign:matched_keys'] = $matchedKeys;
+            $tpl->setVariable( 'used', $usedKeys, 'DesignKeys' );
+            $tpl->setVariable( 'matched', $matchedKeys, 'DesignKeys' );
+            $resourceData['template-filename'] = $file;
+            $result = eZTemplateFileResource::handleResourceData( $tpl, $this, $resourceData, $method, $extraParameters );
         }
-        $extraParameters['ezdesign:used_keys'] = $usedKeys;
-        $extraParameters['ezdesign:matched_keys'] = $matchedKeys;
-        $tpl->setVariable( 'used', $usedKeys, 'DesignKeys' );
-        $tpl->setVariable( 'matched', $matchedKeys, 'DesignKeys' );
-        $resourceData['template-filename'] = $file;
-        $result = eZTemplateFileResource::handleResourceData( $tpl, $this, $resourceData, $method, $extraParameters );
-        $oldKeys = array_pop( $this->KeyStack );
-        $this->Keys = $oldKeys;
+        else
+        {
+            $result = false;
+        }
+        $this->Keys = array_pop( $this->KeyStack );
         return $result;
     }
 
