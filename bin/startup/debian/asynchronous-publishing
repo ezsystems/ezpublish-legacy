@@ -41,12 +41,14 @@ d_start() {
                 log_failure_msg "user \"$RUN_AS\" does not exist" "$NAME"
                 return 1
         fi
-        start-stop-daemon --chdir $APP_PATH -d $APP_PATH -c $RUN_AS --start --background --pidfile $PID_FILE --exec $DAEMON -- $DAEMON_OPTS
+        start-stop-daemon -d $APP_PATH -c $RUN_AS --start --background --pidfile $PID_FILE --exec $DAEMON -- $DAEMON_OPTS
         return $?
 }
 
 d_stop() {
         start-stop-daemon --stop --pidfile $PID_FILE
+
+        if [ -f $PID_FILE ]; then rm -f $PID_FILE; fi
         return $?
 }
 

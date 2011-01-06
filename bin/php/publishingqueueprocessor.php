@@ -75,14 +75,14 @@ if ( $options['daemon'] )
     pcntl_signal( SIGTTIN, SIG_IGN );
     pcntl_signal( SIGHUP,  SIG_IGN ); // Ignore hangup signal
 
-    pcntl_signal( SIGTERM, 'daemonSignalHandler' );
-
     $sid = posix_setsid();
     if ( $sid < 0 )
     {
         error_log( "unable to create a new session" );
         $script->shutdown( 1, 'unable to create a new session' );
     }
+
+    pcntl_signal( SIGTERM, 'daemonSignalHandler' );
 
     $fp = fopen( 'var/run/asynchronous-publishing.pid', 'w' );
     $pid = getmypid();
@@ -100,7 +100,6 @@ if ( $options['daemon'] )
 }
 else
 {
-    pcntl_signal( SIGTERM, 'daemonSignalHandler' );
     $cli->output( "Running in interactive mode. Hit ctrl-c to interrupt." );
 }
 
@@ -135,6 +134,7 @@ function daemonSignalHandler( $signo )
     {
         case SIGTERM:
             ezpContentPublishingQueueProcessor::terminate();
+            @unlink( 'var/run/asynchronous-publishing.pid' );
             eZScript::instance()->shutdown( 0 );
             break;
     }
