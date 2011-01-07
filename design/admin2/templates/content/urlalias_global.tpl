@@ -278,7 +278,6 @@
 
 {literal}
 <script type="text/javascript">
-<!--
 jQuery(function( $ )//called on document.ready
 {
     with( document.aliasform )
@@ -294,6 +293,5 @@ jQuery(function( $ )//called on document.ready
         }
     }
 });
--->
 </script>
 {/literal}

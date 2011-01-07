@@ -7,7 +7,7 @@
 </div>
 
 <div id="header-search">
-    {include uri='design:page_search.tpl'}
+{include uri='design:page_search.tpl'}
 </div>
 
 <div id="header-usermenu">

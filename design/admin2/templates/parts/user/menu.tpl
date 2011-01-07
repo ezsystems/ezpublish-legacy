@@ -91,6 +91,4 @@
 <div class="widthcontrol-grippy"></div>
 </div>
 
-<!-- script type="text/javascript" src={"javascript/leftmenu_widthcontrol.js"|ezdesign} charset="utf-8"></script -->
-
 {/if}

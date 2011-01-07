@@ -1,7 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{$site.http_equiv.Content-language|wash}" lang="{$site.http_equiv.Content-language|wash}">
 <head>
-
 {* Do some uncacheable left + right menu stuff before cache-block's *}
 {def $ui_context_edit      = eq( $ui_context, 'edit' )
      $content_edit         = and( $ui_context_edit, eq( $ui_component, 'content' ) )
@@ -13,9 +12,8 @@
      $left_size_hash       = 0
      $user_hash = concat( $current_user.role_id_list|implode( ',' ), ',', $current_user.limited_assignment_value_list|implode( ',' ) )
 }
-
 {if $hide_right_menu}
-    {set $collapse_right_menu = false()}
+{set $collapse_right_menu = false()}
 {/if}
 
 {if and( $ui_context_edit|not, or( $collapse_right_menu, $admin_left_size ))}
@@ -59,11 +57,11 @@
 <div id="header">
 <div id="header-design" class="float-break">
 
-    {* HEADER ( SEARCH, LOGO AND USERMENU ) *}
-    {include uri='design:page_header.tpl'}
+{* HEADER ( SEARCH, LOGO AND USERMENU ) *}
+{include uri='design:page_header.tpl'}
 
-    {* TOP MENU / TABS *}
-    {include uri='design:page_topmenu.tpl'}
+{* TOP MENU / TABS *}
+{include uri='design:page_topmenu.tpl'}
 
 </div>
 </div>
@@ -85,7 +83,6 @@
         {tool_bar name='admin_right' view='full'}
         {tool_bar name='admin_developer' view='full'}
     </div>
-    <!-- script type="text/javascript" src={"javascript/rightmenu_widthcontrol.js"|ezdesign} charset="utf-8"></script -->
     <script type="text/javascript">
         rightMenuWidthControl();
     </script>
@@ -152,7 +149,6 @@
 {/cache-block}
 
 <script type="text/javascript">
-<!--
 
 document.getElementById('header-usermenu-logout').innerHTML += '<span class="header-usermenu-name">{$current_user.login|wash}<\/span>';
 
@@ -179,7 +175,6 @@ document.getElementById('header-usermenu-logout').innerHTML += '<span class="hea
 })( jQuery );
 {/literal}
 
-// -->
 </script>
 
 {* This comment will be replaced with actual debug report (if debug is on). *}

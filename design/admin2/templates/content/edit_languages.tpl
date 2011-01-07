@@ -162,8 +162,6 @@
 
 
 <script type="text/javascript">
-<!--
-
 {literal}
 (function( $ )
 {
@@ -187,8 +185,6 @@
     }
 })( jQuery );
 {/literal}
-
-// -->
 </script>
 
 <!-- Maincontent END -->

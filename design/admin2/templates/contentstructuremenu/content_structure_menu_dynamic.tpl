@@ -43,7 +43,6 @@
 {/if}
 
 <script type="text/javascript">
-<!--
 var treeMenu;
 (function(){ldelim}
 
@@ -136,6 +135,4 @@ var treeMenu;
     treeMenu.load( false, rootNode.node_id, rootNode.modified_subnode );
 {rdelim})();
 
-
-// -->
 </script>

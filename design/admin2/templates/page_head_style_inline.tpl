@@ -2,9 +2,10 @@
 {literal}
 <!--[if lt IE 8]>
 <style>
-.float-break /* Terminate floating elements flow in IE < 8 */
+/* Terminate floating elements flow in IE < 8 */
+.float-break
 {
-    height: 1%;
+  height: 1%;
 }
 </style>
 <![endif]-->

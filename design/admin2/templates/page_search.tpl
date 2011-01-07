@@ -27,20 +27,15 @@
 </div>
 
 <script type="text/javascript">
-<!--
 {literal}
-(function($) {
-	if ( document.getElementById('searchbuttonfield') ) {
+(function($){
+  if ( !document.getElementById('searchbuttonfield') )return;
 
-		jQuery('#searchbuttonfield').click(function() {
-            if ( jQuery('#searchtext').val() === jQuery('#searchtext').attr('title') ) 
-                return;
-            
-        	jQuery('#searchbutton').click();
-        });
-    }
+  $('#searchbuttonfield').click(function(){
+    if ( $('#searchtext').val() === $('#searchtext').attr('title') )return;
+      $('#searchbutton').click();
+  });
 })( jQuery );
 {/literal}
-// -->
 </script>
 {undef $search_node_id}
