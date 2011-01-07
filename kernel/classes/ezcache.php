@@ -451,10 +451,12 @@ class eZCache
         $cacheItem['iterationSleep'] = $iterationSleep;
         $cacheItem['iterationMax']   = $iterationMax;
         $cacheItem['expiry']         = $expiry;
-        $functionName = 'function';
+        $functionName = false;
         if ( $purge && isset( $cacheItem['purge-function'] ) )
             $functionName = 'purge-function';
-        if ( isset( $cacheItem[$functionName] ) )
+        else if ( !$purge && isset( $cacheItem['function'] ) )
+            $functionName = 'function';
+        if ( $functionName )
         {
             $function = $cacheItem[$functionName];
             if ( is_callable( $function ) )
