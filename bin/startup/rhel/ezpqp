@@ -4,7 +4,6 @@
 #
 # chkconfig:   2345 86 14
 # description: eZ Publish asychronous publishing init script for RHEL and SLES
-#
 
 ### BEGIN INIT INFO
 # Provides: ezpqp
@@ -16,13 +15,21 @@
 # Description: eZ Publish asychronous publishing init script for RHEL and SLES
 ### END INIT INFO
 
-ez_home="/var/www/html/ezpublish"
+### Configuration
 
-exec="$ez_home/bin/php/publishingqueueprocessor.php"
-prog="ezpqp"
-pidfile="/var/run/$prog.pid"
-lockfile="/var/lock/subsys/$prog"
+# eZ Publish install directory
+ezhome="/var/www/html/ezpublish"
+
+# User to run as. Your webserver user, usually
 user="apache"
+
+### End configuration
+
+exec="bin/php/publishingqueueprocessor.php"
+prog=`basename $0`
+pidfolder="/var/run/ezpublish"
+pidfile="$pidfolder/$prog.pid"
+lockfile="/var/lock/subsys/$prog"
 options="-n -p $pidfile"
 
 # Source function library.
@@ -35,16 +42,20 @@ elif [ -f /lib/lsb/init-functions ]; then
   alias daemon=start_daemon
   alias status=MyStatus
 else
-  echo "Error: your platform is not supported by $0" > /dev/stderr
+  echo "Error: your platform is not supported by $prog" > /dev/stderr
   exit 1
 fi
 
+if [ ! -d "${pidfolder}" ]; then
+    mkdir "${pidfolder}"
+    chown $user "${pidfolder}"
+fi
 
 start() {
-    [ -x $exec ] || exit 5
+    [ -x $ezhome/$exec ] || exit 5
     echo -n $"Starting $prog: "
     curr_dir=`pwd`
-    cd $ez_home
+    cd $ezhome
     daemon --user $user --check $prog --pidfile $pidfile $exec $options
     retval=$?
     echo
@@ -76,7 +87,7 @@ force_reload() {
 }
 
 d_status() {
-    status $prog
+    status -p $pidfile $prog
 }
 
 d_status_q() {
