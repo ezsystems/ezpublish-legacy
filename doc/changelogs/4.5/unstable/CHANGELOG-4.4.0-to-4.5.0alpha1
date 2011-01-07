@@ -26,3 +26,4 @@ Changes from 4.4.0 to 4.5.0alpha1
 - Fixed bug #017684: eZDFSFileHandler::purge with a directory doesn't purge local files
 - Fixed bug #017686: ezdatetime "use seconds" is not supported in admin2 templates
 - Fixed bug #017822: A useless update query is executed on ezcontentobject_tree during publishing
+- Fixed bug #017761: ezcache.php --purge does not purge template-blocks
