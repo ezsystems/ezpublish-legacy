@@ -351,7 +351,10 @@ a.yuimenuitemlabel-disabled{
 
 /* TOP TOOLBAR STYLE */
 .yui-button {
-    background: url("../../images/2/gradient-to-darker.png") repeat-x scroll center bottom #F5F5F5;
+    background-color: #f0f0f0;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fdfdfd), to(#e4e3e4));
+    background-image: -moz-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: -ms-linear-gradient(top,  #fdfdfd,  #e4e3e4);
     border-color: #CCCCCC;
     border: 1px solid #CCCCCC;
     text-decoration: none;
@@ -373,7 +376,10 @@ a.yuimenuitemlabel-disabled{
 }
 
 .yui-button button {
-    background: url("../../images/2/gradient-to-darker.png") repeat-x scroll center bottom #F5F5F5;
+    background-color: #f0f0f0;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fdfdfd), to(#e4e3e4));
+    background-image: -moz-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: -ms-linear-gradient(top,  #fdfdfd,  #e4e3e4);
     color: #0B4E7A;
     cursor: pointer;
     display: block;
