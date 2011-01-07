@@ -5533,7 +5533,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     function updateAndStoreModified()
     {
-        $pathArray = explode( '/', trim( $this->attribute( 'path_string' ), '/' ) );
+        $pathString = trim( $this->attribute( 'path_string' ), '/' );
+
+        // during publishing, a temporary path is generated. The update query shouldn't be executed as it doesn't affect anything
+        if ( $pathString == 'TEMPPATH' )
+            return;
+        $pathArray = explode( '/', $pathString );
 
         if ( count( $pathArray ) > 0 )
         {
