@@ -392,28 +392,28 @@ a.yuimenuitemlabel-disabled{
 }
 
 #ezbtn-more button {
-    background: url("../../images/2/icon-arrow-down.png") no-repeat scroll 98% 50% transparent;
+    background: transparent url(../../images/icons-sprite.png) no-repeat 98% -126px;
     padding-right: 1.7em;
 }
 
 #ezbtn-items-button { 
-    background: url(../../images/2/icon-check-16x16.png) no-repeat scroll 6% 50% transparent; 
+    background: transparent url(../../images/icons-sprite.png) no-repeat 5% 2px;
     padding-left: 2em;
 }
 
 #ezbtn-new-button {
-    background: url(../../images/2/icon-add-16x16.png) no-repeat scroll 5% 50% transparent;
+    background: transparent url(../../images/icons-sprite.png) no-repeat 5% -94px;
     padding-left: 2em;
 }
 
 .yui-button-disabled #ezbtn-new-button {
-    background: url(../../images/2/icon-add-disabled-16x16.png) no-repeat scroll 5% 50% transparent;
+    background: transparent url(../../images/icons-sprite.png) no-repeat 5% -294px;
     padding-left: 2em;
     color: #888
 }
 
 #ezbtn-options-button {
-    background: url(../../images/2/icon-options-16x16.png) no-repeat scroll 5% 50% transparent;
+    background: transparent url(../../images/icons-sprite.png) no-repeat 5% -326px;
     padding-left: 2em;
 }
 
@@ -422,7 +422,7 @@ a.yuimenuitemlabel-disabled{
 }
 
 #ezopt-menu-move {
-    background-image: url('../../images/2/icon-move-16x16.png');
+    background: transparent url(../../images/icons-sprite.png) no-repeat 5% -157px;
 }
 
 #ezopt-menu-edit {
@@ -434,10 +434,10 @@ a.yuimenuitemlabel-disabled{
 }
 
 #ezopt-menu-check {
-    background-image: url('../../images/2/icon-checked-16x16.png');
+    background: transparent url(../../images/icons-sprite.png) no-repeat 5% -61px;
 }
 #ezopt-menu-uncheck {
-    background-image: url('../../images/2/icon-unchecked-16x16.png');
+    background: transparent url(../../images/icons-sprite.png) no-repeat 5% -29px;
 }
 
 #ezopt-menu-toggle {

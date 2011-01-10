@@ -339,7 +339,7 @@ input.button-disabled
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;
-    background: #fff url('../../images/2/btn-search.png') no-repeat right center scroll;
+    background: #fff url(../../images/icons-sprite.png) no-repeat right -365px;
     line-height: 18px !important;
 }
 
