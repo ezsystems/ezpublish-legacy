@@ -11,6 +11,7 @@ var/test*
 var/somesubfolder/
 *.DS_Store
 .project
+.idea/
 bin/linux/ezlupdate
 bin/win32
 support/ezlupdate-qt4.5/ezlupdate/Makefile
