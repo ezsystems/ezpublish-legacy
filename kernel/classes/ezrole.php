@@ -634,11 +634,12 @@ class eZRole extends eZPersistentObject
     {
         if ( !isset( $this->Policies ) )
         {
+            $sorting = array( 'module_name' => 'asc', 'function_name' => 'asc' );
             $policies = eZPersistentObject::fetchObjectList(
                 eZPolicy::definition(),
                 null,
                 array( 'role_id' => $this->attribute( 'id' ), 'original_id' => 0 ),
-                null, null, true );
+                $sorting, null, true );
 
             if ( $this->LimitIdentifier )
             {
