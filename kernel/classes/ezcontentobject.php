@@ -2010,11 +2010,9 @@ class eZContentObject extends eZPersistentObject
 
         if ( $contentObjectAttributeID !== false )
             $contentObjectAttributeID =(int) $contentObjectAttributeID;
-//         print( "Attributes fetch $this->ID, $version" );
 
         if ( !$language || !isset( $this->ContentObjectAttributes[$version][$language] ) )
         {
-//             print( "uncached<br>" );
             $versionText = "AND                    ezcontentobject_attribute.version = '$version'";
             if ( $language )
             {
@@ -2066,7 +2064,6 @@ class eZContentObject extends eZPersistentObject
         }
         else
         {
-//             print( "Cached<br>" );
             $returnAttributeArray = $this->ContentObjectAttributes[$version][$language];
         }
 
