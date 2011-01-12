@@ -13,22 +13,6 @@ pre.debugtransaction
 	background-color : #f8f6d8;
 }
 
-td.timingpoint1
-{
-	background-color : #ffffff;
-	border-top : 1px solid #444488;
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 0.9em;
-}
-
-td.timingpoint2
-{
-	background-color : #eeeeee;
-	border-top : 1px solid #444488;
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 0.9em;
-}
-
 p.comment /* Class to be used during development for quick comments that someone should notice easily */
 {
     background-color: #ffff00;
@@ -73,8 +57,6 @@ td.ezsetup_req
 	border-bottom : 1px solid #444488;
 	font-size : 120%;
 	font-family: Arial, Helvetica, sans-serif;
-
-	/*color: #E8E800;*/
 	color: #E2A31D;
 }
 
@@ -85,7 +67,6 @@ td.ezsetup_req
 	border-bottom : 1px solid #444488;
 	font-size : 120%;
 	font-family: Arial, Helvetica, sans-serif;
-
 	color: #00B500;
 }
 
@@ -95,26 +76,47 @@ div.debug-toolbar label
 }
 
 /* used templates statistics */
-td.used_templates_stats1
-{
-	background-color : #ffffff;
-	border-top : 1px solid #444488;
-	font-family: Arial, Helvetica, sans-serif;
-}
-
-td.used_templates_stats2
-{
-	background-color : #eeeeee;
-	border-top : 1px solid #444488;
-	font-family: Arial, Helvetica, sans-serif;
-}
-
-div#debug
+#debug
 {
     text-align: left;
+    border-top: 1px dashed black;
+    padding: 0.3em;
 }
 
-div#debug table + h2, table + h3
+#debug table
+{
+    border-collapse: collapse;
+}
+
+#timingpoints, #timeaccumulators, #templateusage
+{
+    border: 1px dashed black;
+}
+
+#debug table tr.group td
+{
+    padding-top: 0.7em;
+    font-size: 0.95em;
+}
+
+#debug table tr.group td:first-child
+{
+    padding-left: 0.2em;
+    font-size: 1em;
+}
+
+#debug table tr.data td
+{
+    background-color: #ffffff;
+    border-top: 1px solid #444488;
+    border-bottom: 1px solid #444488;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.95em;
+}
+
+#debug table tr.data:nth-child(odd) td {  background-color: #eeeeee; }
+
+#debug table + h2, #debug table + h3
 {
     margin-top: 1em;
 }
@@ -124,7 +126,16 @@ table#templateusage th + th, table#templateusage td + td, table#timeaccumulators
 	padding: 0.25em 0.5em 0.25em 0.5em;
 }
 
-div#debug th
+#debug th
 {
     text-align: left;
 }
+
+#templateusage tr.data td:first-child, #templateusage tr.data td:nth-child(n+5) { text-align: center; }
+
+#debug tr.notice  td.debugheader span { color: green; }
+#debug tr.warning td.debugheader span { color: orange; }
+#debug tr.error   td.debugheader span { color: red; }
+#debug tr.debug   td.debugheader span { color: brown; }
+#debug tr.timing  td.debugheader span { color: blue; }
+#debug tr.strict  td.debugheader span { color: purple; }

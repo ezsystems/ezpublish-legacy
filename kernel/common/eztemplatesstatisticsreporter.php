@@ -52,9 +52,9 @@ class eZTemplatesStatisticsReporter
 
         if ( $as_html )
         {
-            $stats .= "<h2>Templates used to render the page:</h2>";
-            $stats .= ( "<table id='templateusage' summary='List of used templates' style='border: 1px dashed black;' cellspacing='0'>" .
-                   "<tr><th>Usage count</th>" .
+            $stats .= "<h3>Templates used to render the page:</h3>";
+            $stats .= ( "<table id='templateusage' title='List of used templates'>" .
+                   "<tr><th title='Usage count of this particular template'>Usage</th>" .
                    "<th>Requested template</th>" .
                    "<th>Template</th>" .
                    "<th>Template loaded</th>" .
@@ -122,23 +122,21 @@ class eZTemplatesStatisticsReporter
                 $alreadyListedTemplate[] = $actualTemplateName;
                 if ( $as_html )
                 {
-                    $tdClass = ( $j % 2 == 0 ) ? 'used_templates_stats1' : 'used_templates_stats2';
-
                     $requestedTemplateViewURI = $templateViewFunction . '/' . $requestedTemplateName;
                     $actualTemplateViewURI = $templateViewFunction . '/' . $actualTemplateName;
 
                     $templateEditURI = $templateEditFunction . '/' . $templateFileName;
                     $templateOverrideURI = $templateOverrideFunction . '/' . $actualTemplateName;
 
-                    $actualTemplateNameOutput = ( $actualTemplateName == $requestedTemplateName ) ? "<span style=\"font-style: italic;\">&lt;No override&gt;</span>" : $actualTemplateName;
+                    $actualTemplateNameOutput = ( $actualTemplateName == $requestedTemplateName ) ? "<em>&lt;No override&gt;</em>" : $actualTemplateName;
 
                     $stats .= (
-                           "<tr><td class=\"$tdClass\" style=\"text-align: center;\">$templateCounts[$actualTemplateName]</td>" .
-                           "<td class=\"$tdClass\"><a href=\"$requestedTemplateViewURI\">$requestedTemplateName</a></td>" .
-                           "<td class=\"$tdClass\">$actualTemplateNameOutput</td>" .
-                           "<td class=\"$tdClass\">$templateFileName</td>" .
-                           "<td class=\"$tdClass\" align=\"center\"><a href=\"$templateEditURI/(siteAccess)/$currentSiteAccess\"><img src=\"$editIconFile\" width=\"$iconSizeX\" height=\"$iconSizeY\" alt=\"Edit template\" title=\"Edit template\" /></a></td>".
-                           "<td class=\"$tdClass\" align=\"center\"><a href=\"$templateOverrideURI/(siteAccess)/$currentSiteAccess\"><img src=\"$overrideIconFile\" width=\"$iconSizeX\" height=\"$iconSizeY\" alt=\"Override template\" title=\"Override template\" /></a></td></tr>" );
+                           "<tr class='data'><td>$templateCounts[$actualTemplateName]</td>" .
+                           "<td><a href=\"$requestedTemplateViewURI\">$requestedTemplateName</a></td>" .
+                           "<td>$actualTemplateNameOutput</td>" .
+                           "<td>$templateFileName</td>" .
+                           "<td><a href=\"$templateEditURI/(siteAccess)/$currentSiteAccess\"><img src=\"$editIconFile\" width=\"$iconSizeX\" height=\"$iconSizeY\" alt=\"Edit template\" title=\"Edit template\" /></a></td>".
+                           "<td><a href=\"$templateOverrideURI/(siteAccess)/$currentSiteAccess\"><img src=\"$overrideIconFile\" width=\"$iconSizeX\" height=\"$iconSizeY\" alt=\"Override template\" title=\"Override template\" /></a></td></tr>" );
 
                     $j++;
                 }
@@ -156,14 +154,8 @@ class eZTemplatesStatisticsReporter
 
         if ( $as_html )
         {
-            $stats .= ( "<tr><td class=\"$tdClass\">&nbsp;</td>" .
-                   "<td class=\"$tdClass\">&nbsp;</td>" .
-                   "<td class=\"$tdClass\">&nbsp;</td>" .
-                   "<td class=\"$tdClass\">&nbsp;</td>".
-                   "<td class=\"$tdClass\">&nbsp;</td>".
-                   "<td class=\"$tdClass\">&nbsp;</td></tr>" );
-            $stats .= "<tr><td colspan=\"2\" style=\"text-align: left;\"><b>&nbsp;Number of times templates used: $totalTemplatesCount<br />&nbsp;Number of unique templates used: $totalUniqueTemplatesCopunt</b></td></tr>";
-            $stats .= "<tr><td colspan=\"2\" style=\"text-align: left;\"><b>&nbsp;Time used to render template usage: $timeUsage secs</b></td></tr>";
+            $stats .= "<tr><td colspan=\"6\"><b>&nbsp;Number of times templates used: $totalTemplatesCount<br />&nbsp;Number of unique templates used: $totalUniqueTemplatesCopunt</b></td></tr>";
+            $stats .= "<tr><td colspan=\"6\"><b>&nbsp;Time used to render template usage: $timeUsage secs</b></td></tr>";
             $stats .= "</table>";
         }
         else
