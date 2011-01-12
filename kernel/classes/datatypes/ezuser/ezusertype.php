@@ -171,7 +171,7 @@ class eZUserType extends eZDataType
                 }
                 
                 // validate confirm email
-                if ( $ini->variable( 'UserSettings', 'RequireConfirmEmail' ) == 'enabled' )
+                if ( $ini->variable( 'UserSettings', 'RequireConfirmEmail' ) == 'true' )
                 {
                     $emailConfirm = $http->postVariable( $base . "_data_user_email_confirm_" . $contentObjectAttribute->attribute( "id" ) );
                     if ( $email != $emailConfirm )
