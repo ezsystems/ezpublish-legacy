@@ -29,3 +29,4 @@ Changes from 4.4.0 to 4.5.0alpha1
 - Fixed bug #017822: A useless update query is executed on ezcontentobject_tree during publishing
 - Fixed bug #017761: ezcache.php --purge does not purge template-blocks
 - Fixed bug #017703: Fatal error when deleting main node having ezfind enabled
+- Fixed bug #017836: eZUserDataType->fromString should check RequireUniqueMail setting
