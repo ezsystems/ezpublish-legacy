@@ -983,7 +983,15 @@ class eZRSSExport extends eZPersistentObject
                 $link = $item->add( 'link' );
                 $link->href = $nodeURL;
 
-                $item->id = $nodeURL;
+                switch ( $type )
+                {
+                    case 'rss2':
+                        $item->id = $object->attribute( 'remote_id' );
+                        $item->id->isPermaLink = false;
+                        break;
+                    default:
+                        $item->id = $nodeURL;
+                }
 
                 $itemCreatorObject = $node->attribute('creator');
                 if ( $itemCreatorObject instanceof eZContentObject )
