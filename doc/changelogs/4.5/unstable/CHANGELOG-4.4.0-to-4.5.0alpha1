@@ -24,6 +24,8 @@ Changes from 4.4.0 to 4.5.0alpha1
 - Fixed bug #017632: Wrong language used for URL alias with a non-default language node
 - Fixed bug #017616: security policy node/subtree limitation bug
 - Fixed bug #017684: eZDFSFileHandler::purge with a directory doesn't purge local files
+- Fixed bug #017685: RSS GUID is not persistent
 - Fixed bug #017686: ezdatetime "use seconds" is not supported in admin2 templates
 - Fixed bug #017822: A useless update query is executed on ezcontentobject_tree during publishing
 - Fixed bug #017761: ezcache.php --purge does not purge template-blocks
+- Fixed bug #017703: Fatal error when deleting main node having ezfind enabled

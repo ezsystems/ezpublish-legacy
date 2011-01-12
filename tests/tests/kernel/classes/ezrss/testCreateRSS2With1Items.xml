@@ -16,7 +16,7 @@
       <link>http://@ezp_server@/testCreateRSS2With1Items/Test-object-0-for-testCreateRSS2With1Items</link>
       <description>&lt;p&gt;Summary for Test object #0 for testCreateRSS2With1Items&lt;/p&gt;</description>
       <author>@ezp_admin_email@ (Administrator User)</author>
-      <guid>http://@ezp_server@/testCreateRSS2With1Items/Test-object-0-for-testCreateRSS2With1Items</guid>
+      <guid isPermaLink="false">894c0959925a6ac47c915b7c8fb6376c</guid>
       <pubDate>XXX</pubDate>
     </item>
   </channel>

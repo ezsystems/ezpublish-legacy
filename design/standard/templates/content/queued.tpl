@@ -12,12 +12,17 @@
 
 <script type="text/javascript">
 <!--
+var finishedMessage = "{'Item is published.'|i18n( 'design/standard/location' )}";
+var deferredMessage = "{'Publishing has been deferred to crontab and will be published when the operation resumes. The object is also listed in your dashboard under pending items.'|i18n( 'design/standard/location' )}";
+var linkMessage = "{'View item'|i18n( 'design/standard/location' )}";
+var statusMessage = "{'Current status'|i18n( 'design/standard/location' )}: ";
+
 var contentObjectId = {$contentObjectId};
 var version = {$version};
 var ajaxUri = 'ezpublishingqueue::status::' + contentObjectId + '::' + version;
 var publishQueueUpdater = false;
 {* redirect uri posted in the content/edit form *}
-var redirectUri={if is_set( $redirect_uri )}'{$redirect_uri}'{else}false{/if}
+var redirectUri = {if is_set( $redirect_uri )}'{$redirect_uri}'{else}false{/if};
 
 {literal}
 YUI( YUI3_config ).use('node', 'io-ez', function( Y )
@@ -37,11 +42,11 @@ YUI( YUI3_config ).use('node', 'io-ez', function( Y )
                         Y.get( '#publish-queue-status-placeholder' ).setContent( r.responseJSON.error_text );
                     else
                     {
-                        // publishing finished
                         status = r.responseJSON.content.status;
+                        message = statusMessage + r.responseJSON.content.status;
+                        Y.get( '#publish-queue-status-placeholder' ).setContent( message );
 
-                        Y.get( '#publish-queue-status-placeholder' ).setContent( status );
-
+                        // publishing finished
                         if ( ( status == 'finished' ) )
                         {
                             if ( publishQueueUpdater != null )
@@ -55,7 +60,7 @@ YUI( YUI3_config ).use('node', 'io-ez', function( Y )
                             {
                                 node_uri = r.responseJSON.content.node_uri;
                                 Y.get( '#publish-queue-status-placeholder' ).setContent(
-                                    '<a href="' + node_uri + '">Completed. View published node</a>'
+                                    finishedMessage + ' <a href="' + node_uri + '">' + linkMessage + '</a>'
                                 );
                             }
                         }
@@ -68,9 +73,7 @@ YUI( YUI3_config ).use('node', 'io-ez', function( Y )
                             console.log( r.responseJSON.content );
                             Y.get( '#publish-queue-status-placeholder' ).setContent
                             (
-                                'Publishing has been deferred to crontab. It will be published when the operation resumes.<br />' +
-                                '<a href="' + r.responseJSON.content.versionview_uri + '">View the pending item</a><br />' +
-                                'The object will also be listed in your dashboard in the pending items block.<br />'
+                                deferredMessage + ' <a href="' + r.responseJSON.content.versionview_uri + '">' + linkMessage + '</a><br />'
                             );
                         }
                     }
@@ -82,8 +85,5 @@ YUI( YUI3_config ).use('node', 'io-ez', function( Y )
 {/literal}
 // -->
 </script>
-<h1>Your content is being published</h1>
-
-<div id="publish-queue-wait-text">Please wait while your content is being published</div>
-<p />
+<h1>{'Your content is being published'|i18n( 'design/standard/content' )}</h1>
 <div id="publish-queue-status"><div id="publish-queue-status-placeholder" style="display: inline"></div></div>

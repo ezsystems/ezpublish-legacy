@@ -1,0 +1,59 @@
+=======================
+Asynchronous publishing
+=======================
+
+Synopsis
+========
+
+This feature enables content publishing to be made through a queue that gives complete control over the amount of
+concurrent publishing operations. The goal is to make the database load manageable and avoid timeouts.
+
+Setting it up
+=============
+
+eZ Publish settings
+-------------------
+The feature is disabled by default. To enable it, content.ini must be overriden, and the following block must be added
+to the override file::
+
+    [PublishingSettings]
+    AsynchronousPublishing=enabled
+
+By default, up to 10 concurrent publishing operations will be allowed. If you want to change this, another INI setting
+must be added to the override::
+
+    [PublishingSettings]
+    AsynchronousPublishing=disabled
+    PublishingProcessSlots=20
+
+System configuration
+--------------------
+Publishing operations are handled by a system daemon. This daemon must be running, or content just won't be published.
+
+Manual execution
+''''''''''''''''
+The daemon can be started manually by running the following, as your webserver user::
+
+    ezroot$ php bin/php/publishingqueueprocessor.php
+
+The script will run interactively. To start it in daemon mode (so that it actually detaches from the current session and
+will keep running even if you log out), the -n flag can be added::
+
+    ezroot$ php bin/php/publishingqueueprocessor.php -n
+
+init scripts
+''''''''''''
+This is the method that we recommend on production. Standard init.d scripts for debian and redhat are provided, and can
+be used to have the daemon started on boot.
+
+First, the startup script for your system must be linked to your init.d folder. This is an example for debian::
+
+    cd /etc/init.d
+    ln -s /path/to/ezpublish/bin/startup/debian/asynchronous-publishing ./asynchronous-publishing
+    chmod +x ./asynchronous-publishing
+
+The daemon can therefore be started using::
+
+    /etc/init.d/asynchronous-publishing start
+
+It can also be stopped or restarted using the same script, by replacing start with stop or restart.

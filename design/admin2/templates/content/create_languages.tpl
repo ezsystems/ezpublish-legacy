@@ -121,7 +121,7 @@
 
 <div class="block">
     {if $can_create}
-        <input class="button" type="submit" name="NewButton" value="{'OK'|i18n('design/admin/content/create_languages')}" />
+        <input class="defaultbutton" type="submit" name="NewButton" value="{'OK'|i18n('design/admin/content/create_languages')}" />
         <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n('design/admin/content/create_languages')}" />
     {else}
         <input class="button" type="submit" name="CancelButton" value="{'OK'|i18n('design/admin/content/create_languages')}" />
