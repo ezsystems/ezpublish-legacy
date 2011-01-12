@@ -1,18 +1,18 @@
-=============================
-Publishing operation queueing
-=============================
+=======================
+Asynchronous publishing
+=======================
 
 Synopsis
 ========
-The currently reported `Database LOCK issues <http://wiki.ez.no/index.php?title=Database_LOCK_issues>`_ strongly limit
-the amount of content the kernel can publish concurrently.
+The currently reported MySQL LOCK WAIT timeout issues strongly limit the amount of content the kernel can publish
+concurrently.
 
 While the process itself must, and will be improved over time, there is an immediate need for an improvement in order
-to satisfy our current customers.
+to satisfy our audience.
 
 Since the root of this issue is the lack of control over how many contents can be sent for publishing simultaneously,
-the best long term solution is to make these operations controllable by a centralized process. This is what publishing
-pooling aims for.
+the best long term solution is to make these operations controllable by a centralized process. This is what asynchronous
+publishing aims for.
 
 How publishing works
 ====================
@@ -34,7 +34,7 @@ Publishing operation queuer
 ---------------------------
 
 A new entry in the content/publish operation that sends the content to the publishing queue.
-This is performed after the set-status-pending action.
+This is performed after the set-status-pending action, so that the object awaiting publishingg is in PENDING status.
 
 Publishing queue
 ----------------
@@ -65,11 +65,6 @@ Publishing queue. This method should be the second item, after set-status-pendin
 
 This method will send ezpContentPublishingQueue a request to add the publishing operation to the queue.
 
-Publishing queue
-----------------
-As of today's features, there is no need to add dedicated storage for this queue. The current plan is to use a new
-content object version, "queued", that makes the version part of the publishing queue.
-
 Publishing interface
 --------------------
 Since the user won't be left with a loading page after clicking on "Send for publishing", some kind of "wait interface"
@@ -80,7 +75,7 @@ to the backoffice using ezjscore, requesting the publish operation's status. Onc
 UI items will be proposed:
 
 * view the published object
-* go back to the container
+* go back to the container - not implemented yet
 
 Making the feature optional
 ---------------------------
@@ -155,14 +150,6 @@ P: Are these supported ?
 S: Yes. The queue will move the operation forward until it gets deferred, and publishing will be resumed by the crontab.
    All that remains is handling this status upon return. A process status must be added.
 
-Alternative ideas
-=================
-
-Use the queue system to control publishing operations: the editor is held waiting until the queue decides publishing can
-be resumed. The problem here is that this would be completely GUI dependant, and that the user must NOT quit the page.
-While it has more consequences, the AJAX based wait system is more user + server friendly, and opens up the gates for
-nice additions to the GUI.
-
 TODO List
 =========
 - handle RedirectURIAfterPublish (automatic redirection ?) - DONE
@@ -180,4 +167,7 @@ TODO List
 - implement daemon flag + mode
   * add some output handling, either to CLI or using logs, in order to work in daemon mode
     Output is now logged to var/log/async.log
-  Daemon mode implemented, use the -d flag
+  Daemon mode implemented, use the -n flag
+
+Setting it up
+=============
