@@ -544,7 +544,11 @@ class eZRSSExport extends eZPersistentObject
                 $item->appendChild( $itemLink );
 
                 $itemGuid = $doc->createElement( 'guid' );
-                $itemGuid->appendChild( $doc->createTextNode( $nodeURL ) );
+                $itemGuid->appendChild( $doc->createTextNode( $object->attribute( 'remote_id' ) ) );
+                $isPermaLink = $doc->createAttribute( 'isPermaLink' );
+                $isPermaLink->appendChild( $doc->createTextNode( 'false' ) );
+
+                $itemGuid->appendChild( $isPermaLink );
                 $item->appendChild( $itemGuid );
 
                 // description RSS element with respective class attribute content
