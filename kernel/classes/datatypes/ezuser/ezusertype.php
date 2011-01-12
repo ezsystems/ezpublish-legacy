@@ -464,7 +464,7 @@ class eZUserType extends eZDataType
         $login = $userData[0];
         $email = $userData[1];
 
-        if ( eZUser::fetchByName( $login ) || eZUser::fetchByEmail( $email ) )
+        if ( eZUser::fetchByName( $login ) || ( eZUser::requireUniqueEmail() && eZUser::fetchByEmail( $email ) ) )
             return false;
 
         $user = eZUser::create( $contentObjectAttribute->attribute( 'contentobject_id' ) );
