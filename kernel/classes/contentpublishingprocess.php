@@ -162,7 +162,7 @@ class ezpContentPublishingProcess extends eZPersistentObject
 
         // force the DB connection closed
         $db = eZDB::instance();
-        $db->IsConnected = false;
+        $db->close();
         $db = null;
         eZDB::setInstance( null );
 
