@@ -168,6 +168,3 @@ TODO List
   * add some output handling, either to CLI or using logs, in order to work in daemon mode
     Output is now logged to var/log/async.log
   Daemon mode implemented, use the -n flag
-
-Setting it up
-=============

@@ -57,3 +57,9 @@ The daemon can therefore be started using::
     /etc/init.d/asynchronous-publishing start
 
 It can also be stopped or restarted using the same script, by replacing start with stop or restart.
+
+Multiple instances
+------------------
+If you need to run multiple publishing daemons, you just need to create one symlink per daemon instance. The init.d
+script name will be used as the PID file's name, and both will be independant. Note that multiple daemons on one instance
+with multiple DBs aren't yet supported.
