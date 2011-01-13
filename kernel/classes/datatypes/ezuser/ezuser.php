@@ -2684,7 +2684,7 @@ WHERE user_id = '" . $userID . "' AND
     static function validatePassword( $password )
     {
         $ini = eZINI::instance();
-        $minPasswordLength = $ini->hasVariable( 'UserSettings', 'MinPasswordLength' ) ? $ini->variable( 'UserSettings', 'MinPasswordLength' ) : 3;
+        $minPasswordLength = $ini->variable( 'UserSettings', 'MinPasswordLength' );
         if ( $password !== false and
              $password !== null and
              strlen( $password ) >= (int) $minPasswordLength )
