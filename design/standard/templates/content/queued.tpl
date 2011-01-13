@@ -10,23 +10,23 @@
 
 {ezscript_require( array( 'ezjsc::yui3', 'ezjsc::yui3io' ) )}
 
+{literal}
 <script type="text/javascript">
 <!--
-var finishedMessage = "{'Item is published.'|i18n( 'design/standard/location' )}";
-var deferredMessage = "{'Publishing has been deferred to crontab and will be published when the operation resumes. The object is also listed in your dashboard under pending items.'|i18n( 'design/standard/location' )}";
-var linkMessage = "{'View item'|i18n( 'design/standard/location' )}";
-var statusMessage = "{'Current status'|i18n( 'design/standard/location' )}: ";
-
-var contentObjectId = {$contentObjectId};
-var version = {$version};
-var ajaxUri = 'ezpublishingqueue::status::' + contentObjectId + '::' + version;
-var publishQueueUpdater = false;
-{* redirect uri posted in the content/edit form *}
-var redirectUri = {if is_set( $redirect_uri )}'{$redirect_uri}'{else}false{/if};
-
-{literal}
 YUI( YUI3_config ).use('node', 'io-ez', function( Y )
 {
+{/literal}
+    var finishedMessage = "{'Item is published.'|i18n( 'design/standard/location' )}";
+    var deferredMessage = "{'Publishing has been deferred to crontab and will be published when the operation resumes. The object is also listed in your dashboard under pending items.'|i18n( 'design/standard/location' )}";
+    var linkMessage = "{'View item'|i18n( 'design/standard/location' )}";
+    var statusMessage = "{'Current status'|i18n( 'design/standard/location' )}: ";
+    var contentObjectId = {$contentObjectId};
+    var version = {$version};
+    var ajaxUri = 'ezpublishingqueue::status::' + contentObjectId + '::' + version;
+    var publishQueueUpdater = false;
+    {* redirect uri posted in the content/edit form *}
+    var redirectUri = {if is_set( $redirect_uri )}'{$redirect_uri}'{else}false{/if};
+{literal}
     Y.on( "contentready", function( e )
     {
         publishingQueueUpdateStatus();
@@ -42,8 +42,8 @@ YUI( YUI3_config ).use('node', 'io-ez', function( Y )
                         Y.get( '#publish-queue-status-placeholder' ).setContent( r.responseJSON.error_text );
                     else
                     {
-                        status = r.responseJSON.content.status;
-                        message = statusMessage + r.responseJSON.content.status;
+                        var status = r.responseJSON.content.status;
+                        var message = statusMessage + r.responseJSON.content.status;
                         Y.get( '#publish-queue-status-placeholder' ).setContent( message );
 
                         // publishing finished
@@ -58,7 +58,7 @@ YUI( YUI3_config ).use('node', 'io-ez', function( Y )
                             }
                             else
                             {
-                                node_uri = r.responseJSON.content.node_uri;
+                                var node_uri = r.responseJSON.content.node_uri;
                                 Y.get( '#publish-queue-status-placeholder' ).setContent(
                                     finishedMessage + ' <a href="' + node_uri + '">' + linkMessage + '</a>'
                                 );
