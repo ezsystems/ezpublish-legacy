@@ -23,6 +23,7 @@ class ezpContentPublishingQueueProcessor
     {
         $this->contentINI = eZINI::instance( 'content.ini' );
         $this->allowedPublishingSlots = $this->contentINI->variable( 'PublishingSettings', 'PublishingProcessSlots' );
+        $this->sleepInterval = $this->contentINI->variable( 'PublishingSettings', 'AsynchronousPollingInterval' );
     }
 
     /**
@@ -58,7 +59,6 @@ class ezpContentPublishingQueueProcessor
      */
     public function run()
     {
-        $launched = 0;
         $this->cleanupDeadProcesses();
 
         while ( $this->canProcess )
@@ -91,8 +91,8 @@ class ezpContentPublishingQueueProcessor
             }
             else
             {
-                eZLog::write( "Nothing to do, sleeping\n", 'async.log' );
-                sleep( 1 );
+                //eZLog::write( "Nothing to do, sleeping\n", 'async.log' );
+                sleep( $this->sleepInterval );
             }
         }
     }
