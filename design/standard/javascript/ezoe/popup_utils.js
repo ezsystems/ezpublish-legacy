@@ -887,7 +887,7 @@ var eZOEPopupUtils = {
         var index = -1;
         jQuery.each( jsonNode.image_attributes, function( i, attr )
         {
-            if ( index === -1 && n.data_map[ attr ] && n.data_map[ attr ].content[ alias ] )
+            if ( index === -1 && jsonNode.data_map[ attr ] && jsonNode.data_map[ attr ].content[ alias ] )
                 index = i;
         });
         return index;
