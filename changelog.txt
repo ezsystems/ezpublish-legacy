@@ -4,7 +4,7 @@ eZ Online Editor 5.x extension Changelog
 - Updated TinyMCE to 3.3.9.2
 - Fix #017402: ezoe offset passed to ezoe browse as string not integer
 - Change use of old templateInit()/ezi18n() api and use class based api's introduced in 4.3 instead
-
+- Fixed bug #017621: Popup browse mode navigator fails due to numbers typed as strings (patch)
 
 5.2.0beta3
 - Updated TinyMCE to 3.3.9

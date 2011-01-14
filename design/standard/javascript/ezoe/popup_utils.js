@@ -826,22 +826,25 @@ var eZOEPopupUtils = {
                 } );
             }
 
+            // Make sure int params that needs to be subtracted/added are native int's
+            var offset = eZOEPopupUtils.Int( data.content['offset'] ), limit = eZOEPopupUtils.Int( data.content['limit'] );
+
             tr = document.createElement("tr"), td = document.createElement("td");
             tr.appendChild( document.createElement("td") );
-            if ( data.content['offset'] > 0 )
+            if ( offset > 0 )
             {
                 tag = document.createElement("a");
-                tag.setAttribute('href', 'JavaScript:eZOEPopupUtils.' + fn + (data.content['offset'] - data.content['limit']) + ');');
+                tag.setAttribute('href', 'JavaScript:eZOEPopupUtils.' + fn + (offset - limit) + ');');
                 tag.innerHTML = '&lt;&lt; ' + ed.getLang('advanced.previous');
                 td.appendChild( tag );
             }
             tr.appendChild( td );
             td = document.createElement("td");
             td.setAttribute('colspan', '2');
-            if ( (data.content['offset'] + data.content['limit']) < data.content['total_count'] )
+            if ( (offset + limit) < data.content['total_count'] )
             {
                 tag = document.createElement("a");
-                tag.setAttribute('href', 'JavaScript:eZOEPopupUtils.' + fn + (data.content['offset'] + data.content['limit']) + ');');
+                tag.setAttribute('href', 'JavaScript:eZOEPopupUtils.' + fn + (offset + limit) + ');');
                 tag.innerHTML = ed.getLang('advanced.next') + ' &gt;&gt;';
                 td.appendChild( tag );
             }
