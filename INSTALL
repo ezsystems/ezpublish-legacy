@@ -44,7 +44,7 @@ o  Web Browser:
          
    Note 2: Only stable browser versions are supported.
 
-   Note 3: IE 6.0 is only supported functionally wise, issues that only cause
+   Note 3: IE 6.0 & 7.0 is only supported functionally wise, issues that only cause
            visual artifacts will not be prioritized unless its easy to fix and does
            not limit the capabilities of modern browsers.
 
@@ -197,7 +197,7 @@ Installing eZ Online Editor 5.x extension
    in the right hand side. Simply select 'All caches' from the drop-down list
    and click the 'Clear' button.
 
-   Alternativly if you have PHP CLI installed, you can also do the following:
+   Alternatively if you have PHP CLI installed, you can also do the following:
 
    $ ./bin/php/ezcache.php --clear-all
 
@@ -228,8 +228,8 @@ Troubleshooting
    -------
 
    If you have find any problems not handled by this document, FAQ and online
-   documentation you can contact eZ system trough the support system if you an
-   Enterprise subscription or want one:
+   documentation you can contact eZ system trough the support system if you
+   have an Enterprise subscription or want one:
    http://ez.no/eZPublish/eZ-Publish-Enterprise-Subscription
 
    Alternatively you'll find a community forum available on:
