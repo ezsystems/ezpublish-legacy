@@ -41,7 +41,7 @@ PID_FILE=/var/run/ezpublish/${NAME}.pid
 DAEMON_OPTS="${DAEMON_OPTS} --pid-file=${PID_FILE}"
 
 # prepend PHP's path if customized
-if [ ${PHP_EXECUTABLE}  ]]; then
+if [ ${PHP_EXECUTABLE}  ]; then
     DAEMON_EXEC="${PHP_EXECUTABLE} ${DAEMON}"
 else
     DAEMON_EXEC=${DAEMON}
