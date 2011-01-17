@@ -81,6 +81,7 @@ div.debug-toolbar label
     text-align: left;
     border-top: 1px dashed black;
     padding: 0.3em;
+    background-color: #fff;
 }
 
 #debug table
