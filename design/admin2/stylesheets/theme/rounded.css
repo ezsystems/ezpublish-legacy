@@ -309,10 +309,9 @@ input.button, input.defaultbutton, input.button-disabled
     border-radius: 3px;
 }
 
-input.defaultbutton, input.button-disabled
+input.defaultbutton, input.button-disabled, input.button[disabled="disabled"]
 {
     background-color: #f5f5f5;
-    background-position: center top;
 }
 
 input.defaultbutton
@@ -323,7 +322,7 @@ input.defaultbutton
     background-image: -ms-linear-gradient(top,  #e99a21,  #c97d10);
 }
 
-input.button-disabled
+input.button-disabled, input.button[disabled="disabled"]
 {
     color: #888;
     background: #f3f3f3;

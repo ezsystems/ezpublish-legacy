@@ -309,7 +309,7 @@ input.defaultbutton
 	color: #094564;
 }
 
-input.button-disabled
+input.button-disabled, input.button[disabled="disabled"]
 {
     cursor: default;
     color: #888;
