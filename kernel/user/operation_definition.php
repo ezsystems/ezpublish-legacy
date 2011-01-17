@@ -99,6 +99,40 @@ $OperationList['activation'] = array( 'name' => 'activation',
                                                                                  ) ) )
                                         );
 
+$OperationList['register'] = array( 'name' => 'register',
+                                        'default_call_method' => array( 'include_file' => 'kernel/user/ezuseroperationcollection.php',
+                                                                        'class' => 'eZUserOperationCollection' ),
+                                        'parameter_type' => 'standard',
+                                        'parameters' => array( array( 'name' => 'user_id',
+                                                                      'type' => 'integer',
+                                                                      'required' => true ) ),
+                                        'keys' => array( 'user_id' ),
+                                        'body' => array( array( 'type' => 'trigger',
+                                                                'name' => 'pre_register',
+                                                                'keys' => array( 'user_id' )
+                                                                ),
+                                                         array( 'type' => 'method',
+                                                                'name' => 'send-activation-email',
+                                                                'frequency' => 'once',
+                                                                'method' => 'sendActivationEmail' ),
+                                                         array( 'type' => 'method',
+                                                                'name' => 'check-activation',
+                                                                'frequency' => 'once',
+                                                                'method' => 'checkActivation' ),
+                                                         array( 'type' => 'method',
+                                                                'name' => 'publish-user-content-object',
+                                                                'frequency' => 'once',
+                                                                'method' => 'publishUserContentObject' ),
+                                                         array( 'type' => 'method',
+                                                                'name' => 'send-user-notification',
+                                                                'frequency' => 'once',
+                                                                'method' => 'sendUserNotification' ),
+                                                         array( 'type' => 'trigger',
+                                                                'name' => 'post_register',
+                                                                'keys' => array( 'user_id'
+                                                                                 ) ) )
+                                        );
+
 $OperationList['password'] = array( 'name' => 'password',
                                         'default_call_method' => array( 'include_file' => 'kernel/user/ezuseroperationcollection.php',
                                                                         'class' => 'eZUserOperationCollection' ),

@@ -198,202 +198,40 @@ if ( !function_exists( 'checkContentActions' ) )
 
         if ( $module->isCurrentAction( 'Publish' ) )
         {
+            $operationResult = eZOperationHandler::execute( 'user', 'register', array( 'user_id' => $object->attribute( 'id' ) ) );
+
             $http = eZHTTPTool::instance();
-
-            $user = eZUser::currentUser();
-            $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $object->attribute( 'id' ),
-                                                                                         'version' => $version->attribute( 'version') ) );
-
-            // Break here if the publishing failed
-            if ( $operationResult['status'] !== eZModuleOperationInfo::STATUS_CONTINUE )
-            {
-                eZDebug::writeError( 'User object(' . $object->attribute( 'id' ) . ') could not be published.', 'user/register' );
-                $module->redirectTo( '/user/register/3' );
-                return;
-            }
-
-            $object = eZContentObject::fetch( $object->attribute( 'id' ) );
-
-            // Check if user should be enabled and logged in
-            unset($user);
-            $user = eZUser::fetch( $object->attribute( 'id' ) );
-            $user->loginCurrent();
-
-            $receiver = $user->attribute( 'email' );
-            $mail = new eZMail();
-            if ( !$mail->validate( $receiver ) )
-            {
-            }
-
-            $ini = eZINI::instance();
-            $tpl = eZTemplate::factory();
-            $tpl->setVariable( 'user', $user );
-            $tpl->setVariable( 'object', $object );
-            $hostname = eZSys::hostname();
-            $tpl->setVariable( 'hostname', $hostname );
-            $password = $http->sessionVariable( "GeneratedPassword" );
-
-            $tpl->setVariable( 'password', $password );
-
-            // Check whether account activation is required.
-            $verifyUserType = $ini->variable( 'UserSettings', 'VerifyUserType' );
-            $sendUserMail = !!$verifyUserType;
-            // For compatibility with old setting
-            if ( $verifyUserType === 'email'
-              && $ini->hasVariable( 'UserSettings', 'VerifyUserEmail' )
-              && $ini->variable( 'UserSettings', 'VerifyUserEmail' ) !== 'enabled' )
-            {
-                $verifyUserType = false;
-            }
-
-            if ( $verifyUserType === 'email' ) // and if it is email type
-            {
-                // Disable user account and send verification mail to the user
-                $userID = $object->attribute( 'id' );
-
-                // Create enable account hash and send it to the newly registered user
-                $hash = md5( mt_rand() . time() . $userID );
-
-                if ( eZOperationHandler::operationIsAvailable( 'user_activation' ) )
-                {
-                    $operationResult = eZOperationHandler::execute( 'user',
-                                                                    'activation', array( 'user_id'    => $userID,
-                                                                                         'user_hash'  => $hash,
-                                                                                         'is_enabled' => false ) );
-                }
-                else
-                {
-                    eZUserOperationCollection::activation( $userID, $hash, false );
-                }
-
-                // Log out current user
-                eZUser::logoutCurrent();
-
-                $tpl->setVariable( 'hash', $hash );
-
-                $sendUserMail = true;
-            }
-            else if ( $verifyUserType )// custom account activation
-            {
-                $verifyUserTypeClass = false;
-                // load custom verify user settings
-                if ( $ini->hasGroup( 'VerifyUserType_' . $verifyUserType ) )
-                {
-                    if ( $ini->hasVariable( 'VerifyUserType_' . $verifyUserType, 'File' ) )
-                        include_once( $ini->variable( 'VerifyUserType_' . $verifyUserType, 'File' ) );
-                    $verifyUserTypeClass = $ini->variable( 'VerifyUserType_' . $verifyUserType, 'Class' );
-                }
-                // try to call the verify user class with function verifyUser
-                if ( $verifyUserTypeClass && method_exists( $verifyUserTypeClass, 'verifyUser' ) )
-                    $sendUserMail  = call_user_func( array( $verifyUserTypeClass, 'verifyUser' ), $user, $tpl );
-                else
-                    eZDebug::writeWarning( "Unknown VerifyUserType '$verifyUserType'", 'user/register' );
-            }
-
-            // send verification mail to user if email type or custum verify user type returned true
-            if ( $sendUserMail )
-            {
-                $templateResult = $tpl->fetch( 'design:user/registrationinfo.tpl' );
-                if ( $tpl->hasVariable( 'content_type' ) )
-                    $mail->setContentType( $tpl->variable( 'content_type' ) );
-
-                $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
-                if ( $tpl->hasVariable( 'email_sender' ) )
-                    $emailSender = $tpl->variable( 'email_sender' );
-                else if ( !$emailSender )
-                    $emailSender = $ini->variable( 'MailSettings', 'AdminEmail' );
-
-                if ( $tpl->hasVariable( 'subject' ) )
-                    $subject = $tpl->variable( 'subject' );
-                else
-                    $subject = ezpI18n::tr( 'kernel/user/register', 'Registration info' );
-
-                $mail->setSender( $emailSender );
-                $mail->setReceiver( $receiver );
-                $mail->setSubject( $subject );
-                $mail->setBody( $templateResult );
-                $mailResult = eZMailTransport::send( $mail );
-            }
-
-            $feedbackTypes = $ini->variableArray( 'UserSettings', 'RegistrationFeedback' );
-            foreach ( $feedbackTypes as $feedbackType )
-            {
-                switch ( $feedbackType )
-                {
-                    case 'email':
-                    {
-                        // send feedback with the default email type
-                        $mail = new eZMail();
-                        $tpl->resetVariables();
-                        $tpl->setVariable( 'user', $user );
-                        $tpl->setVariable( 'object', $object );
-                        $tpl->setVariable( 'hostname', $hostname );
-                        $templateResult = $tpl->fetch( 'design:user/registrationfeedback.tpl' );
-
-                        if ( $tpl->hasVariable( 'content_type' ) )
-                            $mail->setContentType( $tpl->variable( 'content_type' ) );
-
-                        $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
-                        if ( $tpl->hasVariable( 'email_sender' ) )
-                            $emailSender = $tpl->variable( 'email_sender' );
-                        else if ( !$emailSender )
-                            $emailSender = $ini->variable( 'MailSettings', 'AdminEmail' );
-
-                        $feedbackReceiver = $ini->variable( 'UserSettings', 'RegistrationEmail' );
-                        if ( $tpl->hasVariable( 'email_receiver' ) )
-                            $feedbackReceiver = $tpl->variable( 'email_receiver' );
-                        else if ( !$feedbackReceiver )
-                            $feedbackReceiver = $ini->variable( 'MailSettings', 'AdminEmail' );
-
-                        if ( $tpl->hasVariable( 'subject' ) )
-                            $subject = $tpl->variable( 'subject' );
-                        else
-                            $subject = ezpI18n::tr( 'kernel/user/register', 'New user registered' );
-
-                        $mail->setSender( $emailSender );
-                        $mail->setReceiver( $feedbackReceiver );
-                        $mail->setSubject( $subject );
-                        $mail->setBody( $templateResult );
-                        $mailResult = eZMailTransport::send( $mail );
-                    } break;
-                    default:
-                    {
-                        $registrationFeedbackClass = false;
-                        // load custom registration feedback settings
-                        if ( $ini->hasGroup( 'RegistrationFeedback_' . $feedbackType ) )
-                        {
-                            if ( $ini->hasVariable( 'RegistrationFeedback_' . $feedbackType, 'File' ) )
-                                include_once( $ini->variable( 'RegistrationFeedback_' . $feedbackType, 'File' ) );
-                            $registrationFeedbackClass = $ini->variable( 'RegistrationFeedback_' . $feedbackType, 'Class' );
-                        }
-                        // try to call the registration feedback class with function registrationFeedback
-                        if ( $registrationFeedbackClass && method_exists( $registrationFeedbackClass, 'registrationFeedback' ) )
-                            call_user_func( array( $registrationFeedbackClass, 'registrationFeedback' ), $user, $tpl, $object, $hostname );
-                        else
-                            eZDebug::writeWarning( "Unknown feedback type '$feedbackType'", 'user/register' );
-                    }
-                }
-            }
-
-
-
             $http->removeSessionVariable( "GeneratedPassword" );
             $http->removeSessionVariable( "RegisterUserID" );
             $http->removeSessionVariable( 'StartedRegistration' );
-
             // check for redirectionvariable
-            if ( $http->hasSessionVariable( 'RedirectAfterUserRegister' ) )
+            if( $operationResult['status'] === eZModuleOperationInfo::STATUS_HALTED )
             {
-                $module->redirectTo( $http->sessionVariable( 'RedirectAfterUserRegister' ) );
-                $http->removeSessionVariable( 'RedirectAfterUserRegister' );
+                 // redirect to halting result page
+                 // @todo: finish the code
+                 $module->redirectTo( '/user/register/4' );
             }
-            else if ( $http->hasPostVariable( 'RedirectAfterUserRegister' ) )
+            else if( $operationResult['status'] === eZModuleOperationInfo::STATUS_CONTINUE )
             {
-                $module->redirectTo( $http->postVariable( 'RedirectAfterUserRegister' ) );
+                if ( $http->hasSessionVariable( 'RedirectAfterUserRegister' ) )
+                {
+                    $module->redirectTo( $http->sessionVariable( 'RedirectAfterUserRegister' ) );
+                    $http->removeSessionVariable( 'RedirectAfterUserRegister' );
+                }
+                else if ( $http->hasPostVariable( 'RedirectAfterUserRegister' ) )
+                {
+                    $module->redirectTo( $http->postVariable( 'RedirectAfterUserRegister' ) );
+                }
+                else
+                {
+                    $module->redirectTo( '/user/success/' );
+                }
             }
             else
             {
-                $module->redirectTo( '/user/success/' );
+                eZDebug::writeError( 'Unexpected operation status: ' . $operationResult['status'], 'user/register' );
+                // @todo: finish the failure code
+                $module->redirectTo( '/user/register/5' );
             }
         }
     }

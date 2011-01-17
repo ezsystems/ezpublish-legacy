@@ -9,7 +9,11 @@
 {elseif $already_active}
 {'Your account is already active.'|i18n('design/standard/user')}
 {else}
+{if $is_pending}
+{'Your account has been sent for approval.'|i18n('design/standard/user')}
+{else}
 {'Sorry, the key submitted was not a valid key. Account was not activated.'|i18n('design/standard/user')}
+{/if}
 {/if}
 </p>
 
