@@ -19,7 +19,7 @@ NAME=`basename $0`
 
 # Read configuration files
 DEFAULT_CONF="${STARTUP_SCRIPT}.defaults"
-GLOBAL_CONF="/etc/ezasynchronouspublisher.conf"
+GLOBAL_CONF="/etc/default/ezasynchronouspublisher.conf"
 
 # Default configuration
 if [ -e "${DEFAULT_CONF}" ]; then

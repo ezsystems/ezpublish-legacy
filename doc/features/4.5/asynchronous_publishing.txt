@@ -64,11 +64,15 @@ The init scripts come with default settings that should match most platforms. If
 isn't the platform's default and/or if your PHP CLI executable isn't part of your webserver user's PATH, you can
 customize these.
 
-First, copy the default configuration file for your platform to /etc/ezasynchronouspublisher.conf::
+First, copy the default configuration file for your platform to the correct directory for your OS:
+- RHEL: /etc/sysconfig/ezasynchronouspublisher.conf
+- Debian: /etc/default/ezasynchronouspublisher.conf
 
-    $ cp bin/startup/<platform>/asynchronous-publisher.defaults /etc/ezasynchronouspublisher.conf
+Example for Debian/Ubuntu::
+    $ cp bin/startup/<platform>/asynchronous-publisher.defaults /etc/default/ezasynchronouspublisher.conf
 
-Then edit this file, uncommenting and setting the required variables to the required values.
+Then edit this file, uncommenting and set the required variables to the required values as according to the comments
+in the settings file.
 
 Multiple instances
 ------------------
