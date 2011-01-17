@@ -31,6 +31,7 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'eZContentObjectStateGroupTest' );
         $this->addTestSuite( 'eZWorkflowEventRegression' );
         $this->addTestSuite( 'eZURLWildcardTest' );
+        $this->addTestSuite( 'eZURLWildcardRegression' );
         $this->addTestSuite( 'eZUserAuthenticationTest' );
 
         // This test suite is commented out until it will be fixed to work on any machine

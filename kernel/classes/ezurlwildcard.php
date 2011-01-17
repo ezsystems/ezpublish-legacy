@@ -567,9 +567,7 @@ class eZURLWildcard extends eZPersistentObject
         }
         $matchRegexp = implode( '(.*)', $regexpList );
 
-        $phpCode = "#^$matchRegexp#";
-
-        return $phpCode;
+        return "#^$matchRegexp#i";
     }
 
     /**
