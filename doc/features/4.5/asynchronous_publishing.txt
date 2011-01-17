@@ -46,7 +46,7 @@ init scripts
 This is the method that we recommend on production. Standard init.d scripts for debian and redhat are provided, and can
 be used to have the daemon started on boot.
 
-First, the startup script for your system must be linked to your init.d folder. This is an example for debian::
+First, the startup script for your system must be *linked* to your init.d folder. This is an example for debian::
 
     cd /etc/init.d
     ln -s /path/to/ezpublish/bin/startup/debian/asynchronous-publishing ./asynchronous-publishing
@@ -57,6 +57,18 @@ The daemon can therefore be started using::
     /etc/init.d/asynchronous-publishing start
 
 It can also be stopped or restarted using the same script, by replacing start with stop or restart.
+
+Settings
+''''''''
+The init scripts come with default settings that should match most platforms. If for some reason, your webserver user
+isn't the platform's default and/or if your PHP CLI executable isn't part of your webserver user's PATH, you can
+customize these.
+
+First, copy the default configuration file for your platform to /etc/ezasynchronouspublisher.conf::
+
+    $ cp bin/startup/<platform>/asynchronous-publisher.defaults /etc/ezasynchronouspublisher.conf
+
+Then edit this file, uncommenting and setting the required variables to the required values.
 
 Multiple instances
 ------------------
