@@ -135,7 +135,11 @@ Note: The packages will not be uninstalled.'|i18n('design/admin/package/list')|b
      can_import=fetch( package, can_import )}
 
 <div class="block">
+{if $package_list}
     <input class="button" type="submit" name="RemovePackageButton" value="{'Remove selected'|i18n('design/admin/package/list')}" {if and( $package_list|gt( 0 ), $can_remove )|not}disabled="disabled"{/if} />
+{else}
+    <input class="button-disabled" type="submit" name="RemovePackageButton" value="{'Remove selected'|i18n('design/admin/package/list')}" disabled="disabled" />
+{/if}
     <input class="button" type="submit" name="InstallPackageButton" value="{'Import new package'|i18n('design/admin/package/list')}" {if $can_import|not}disabled="disabled"{/if}/>
     <input class="button" type="submit" name="CreatePackageButton" value="{'Create new package'|i18n('design/admin/package/list')}" {if $can_create|not}disabled="disabled"{/if} />
 </div>
