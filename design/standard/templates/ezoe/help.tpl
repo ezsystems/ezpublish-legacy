@@ -8,8 +8,8 @@
                                            )}
 <script type="text/javascript">
 <!--
-    
-{literal} 
+
+{literal}
 
 tinyMCEPopup.onInit.add( function(){
     var slides = ez.$$('div.panel'), navigation = ez.$$('#tabs li.tab');
@@ -35,7 +35,7 @@ tinyMCEPopup.onInit.add( function(){
             <div id="help_panel" class="panel" style="overflow: auto">
                 <div id="iframecontainer">
                     <h3>{'Using the toolbar'|i18n("design/standard/ezoe/help")}</h3>
-                    <dl>                        
+                    <dl>
                         <dt class="o2k7Skin defaultSkin"><span class="mceIcon mce_bold"></span></dt>
                         <dd>{'Make the selected text <b>bold</b>. If the selected text is <b>bold</b> already, this button will remove the formating.'|i18n("design/standard/ezoe/help")} <small>[CTRL+B]</small></dd>
 
@@ -171,7 +171,7 @@ tinyMCEPopup.onInit.add( function(){
                         <dt class="o2k7Skin defaultSkin"><span class="mceIcon mce_discard"></span></dt>
                         <dd>{'Discard'|i18n("design/standard/content/edit")}</dd>
                     </dl>
-                    
+
                     <h3>{'Icons in dialog windows'|i18n("design/standard/ezoe/help")}</h3>
                     <dl>
                         <dt><img width="16" height="16" border="0" src={"tango/folder.png"|ezimage} /></dt>
@@ -183,7 +183,7 @@ tinyMCEPopup.onInit.add( function(){
                         <dt><img width="16" height="16" border="0" src={"tango/bookmark-new.png"|ezimage} /></dt>
                         <dd>{'Browse for a node / object in your bookmarks.'|i18n("design/standard/ezoe/help")}</dd>
                     </dl>
-                    
+
                     <h3>{'Tips &amp; Tricks'|i18n("design/standard/ezoe/help")}</h3>
                     <ul>
                         <li>{'You can adjust the height of the editor by draging the bottom right corner of the editor.'|i18n("design/standard/ezoe/help")}</li>
@@ -193,7 +193,7 @@ tinyMCEPopup.onInit.add( function(){
                         <li>{'You can make an image-link by selecting the image first and clicking the link button in the toolbar.'|i18n("design/standard/ezoe/help")}</li>
                         <li>{'You can edit wordmatch.ini to make text copied from MS Word directly assigned to a desired class.'|i18n("design/standard/ezoe/help")}</li>
                         <li>{'You can switch text style from paragraph to header using keybord shortcut CTRL+1 to 6, and back to paragraph using CTRL+7'|i18n("design/standard/ezoe/help")}</li>
-                        <li>{'You can find more documentation in the doc folder of this extension and online on %link.'|i18n("design/standard/ezoe/help", '', hash( '%link', '<a href="http://ez.no/doc/extensions/online_editor/5_x" target="_blank">ez.no/doc</a>' ))}</li>
+                        <li>{'You can find more documentation in the doc folder of this extension and online on %link.'|i18n("design/standard/ezoe/help", '', hash( '%link', '<a href="http://doc.ez.no/Extensions/Online-Editor/5.x" target="_blank">ez.no/doc</a>' ))}</li>
                     </ul>
                 </div>
             </div>
