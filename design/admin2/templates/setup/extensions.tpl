@@ -53,7 +53,7 @@
 {if $available_extension_array}
     <input class="button" type="submit" name="ActivateExtensionsButton" value="{'Update'|i18n( 'design/admin/setup/extensions' )}" title="{'Click this button to store changes if you have modified the status of the checkboxes above.'|i18n( 'design/admin/setup/extensions' )}" />
 {else}
-    <input class="button-disabled" type="submit" name="ActivateExtensionsButton" value="{'Apply changes'|i18n( 'design/admin/setup/extensions' )}" disabled="disabled" />
+    <input class="button-disabled" type="submit" name="ActivateExtensionsButton" value="{'Update'|i18n( 'design/admin/setup/extensions' )}" disabled="disabled" />
 {/if}
     <input class="button" type="submit" name="GenerateAutoloadArraysButton" value="{'Regenerate autoload arrays for extensions'|i18n( 'design/admin/setup/extensions' )}" title="{'Click this button to regenerate the autoload arrays used by the system for extensions.'|i18n( 'design/admin/setup/extensions' )}" />
 </div>
