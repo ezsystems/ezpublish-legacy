@@ -87,6 +87,7 @@
 {/section}
 
 {* Policy manipulation buttons. *}
+<div class="block">
 {if $policies}
 <input class="button" type="submit" name="RemovePolicies" value="{'Remove selected'|i18n( 'design/admin/role/edit' )}" title="{'Remove selected policies.'|i18n( 'design/admin/role/edit' )}" />
 {else}
@@ -94,6 +95,7 @@
 {/if}
 
 <input class="button" type="submit" name="CreatePolicy" value="{'New policy'|i18n( 'design/admin/role/edit' )}" title="{'Create a new policy.'|i18n( 'design/admin/role/edit' )}" />
+</div>
 </fieldset>
 </div>
 
