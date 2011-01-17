@@ -1,0 +1,9 @@
+# Override these settings by copying this file to /etc/ezasynchronouspublisher.conf
+# Editing this file directly will work, but it will be overrwritten when upgrading
+
+# User to run the service as, usually your webserver's user
+RUN_AS_USER=apache
+
+# Full path to your PHP executable
+# This is only required if your executable isn't in  your www user's PATH
+#PHP_EXECUTABLE=/usr/bin/php
