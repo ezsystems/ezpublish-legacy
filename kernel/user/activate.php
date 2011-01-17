@@ -48,6 +48,7 @@ $accountKey = $hash ? eZUserAccountKey::fetchByKey( $hash ) : false;
 
 if ( $accountKey )
 {
+    $accountActivated = true;
     $userID = $accountKey->attribute( 'user_id' );
     
     $userContentObject = eZContentObject::fetch( $userID );
@@ -82,7 +83,6 @@ if ( $accountKey )
     }
     else
     {
-        $accountActivated = true;
         // Log in user
         $user = eZUser::fetch( $userID );
 
