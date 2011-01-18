@@ -205,13 +205,8 @@ if ( !function_exists( 'checkContentActions' ) )
             $http->removeSessionVariable( "RegisterUserID" );
             $http->removeSessionVariable( 'StartedRegistration' );
             // check for redirectionvariable
-            if( $operationResult['status'] === eZModuleOperationInfo::STATUS_HALTED )
-            {
-                 // redirect to halting result page
-                 // @todo: finish the code
-                 $module->redirectTo( '/user/register/4' );
-            }
-            else if( $operationResult['status'] === eZModuleOperationInfo::STATUS_CONTINUE )
+            if( $operationResult['status'] === eZModuleOperationInfo::STATUS_CONTINUE ||
+                    $operationResult['status'] === eZModuleOperationInfo::STATUS_HALTED )
             {
                 if ( $http->hasSessionVariable( 'RedirectAfterUserRegister' ) )
                 {

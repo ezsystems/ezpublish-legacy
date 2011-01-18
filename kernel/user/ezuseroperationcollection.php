@@ -221,9 +221,13 @@ class eZUserOperationCollection
             eZDebugSetting::writeNotice( 'kernel-user', 'User object publish is published.', 'user register' );
             return array( 'status' => eZModuleOperationInfo::STATUS_CONTINUE );
         }
-        eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $userID, 'version' => 1 ) );
-        eZDebugSetting::writeNotice( 'kernel-user', 'User object publish is in pending.', 'user register' );
-        return array( 'status' => eZModuleOperationInfo::STATUS_HALTED );
+        $result = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $userID, 'version' => 1 ) );
+        if( $result['status'] === eZModuleOperationInfo::STATUS_HALTED )
+        {
+            eZDebugSetting::writeNotice( 'kernel-user', 'User object publish is in pending.', 'user register' );
+            return array( 'status' => eZModuleOperationInfo::STATUS_CONTINUE );
+        }
+        return $result;
     }
 
     /**
