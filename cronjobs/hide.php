@@ -14,19 +14,14 @@ $hideAttributeArray = $ini->variable( 'HideSettings', 'HideDateAttributeList' );
 
 $currrentDate = time();
 
-$offset = 0;
-$limit = 50;
-
 eZINI::instance()->setVariable( 'SiteAccessSettings', 'ShowHiddenNodes', 'false' );
 
 $hiddenNodesParams = array(
     'LoadDataMap' => false,
-    'Limit' => $limit,
-    'Offset' => $offset,
+    'Limit' => 50,
     'SortBy' => array( array( 'published', true ) ) );
 
-$newMemoryUsage = $oldMemoryUsage = 0;
-foreach( $rootNodeIDList as $nodeID )
+foreach ( $rootNodeIDList as $nodeID )
 {
     $rootNode = eZContentObjectTreeNode::fetch( $nodeID );
     if ( !$isQuiet )
@@ -36,7 +31,6 @@ foreach( $rootNodeIDList as $nodeID )
     }
     foreach ( $hideAttributeArray as $hideClass => $attributeIdentifier )
     {
-        $offset = 0;
         $countParams = array( 'ClassFilterType' => 'include',
                               'ClassFilterArray' => array( $hideClass ),
                               'Limitation' => array(),
@@ -54,19 +48,19 @@ foreach( $rootNodeIDList as $nodeID )
 
             do
             {
-                $nodeArray = $rootNode->subTree( $hiddenNodesParams );
+                $nodeArray = $rootNode->subTree( $hiddenNodesParams + $countParams );
 
                 foreach ( $nodeArray as $node )
                 {
-                    eZContentObjectTreeNode::hideSubTree( $node );
                     if ( !$isQuiet )
                     {
                         $cli->output( 'Hiding node: "' . $node->attribute( 'name' ) . '" (' . $node->attribute( 'node_id' ) . ')' );
                     }
+                    eZContentObjectTreeNode::hideSubTree( $node );
                 }
                 // clear memory after every batch
                 eZContentObject::clearCache();
-            } while( is_array( $nodeArray ) and count( $nodeArray ) > 0 );
+            } while ( is_array( $nodeArray ) && !empty( $nodeArray ) );
 
             if ( !$isQuiet )
             {
