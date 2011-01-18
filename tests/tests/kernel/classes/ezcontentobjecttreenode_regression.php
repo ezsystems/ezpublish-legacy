@@ -157,7 +157,7 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
 
 
     /**
-     * Regesssion test for issue #16737
+     * Regression test for issue #16737
      * 1) Test executing the sql and verify that it doesn't have database error.
      * 2) Test the sorting in class_name, class_name with contentobject_id
      * The test should pass in mysql, postgresql and oracle
@@ -220,7 +220,7 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
     }
 
     /**
-     * Regesssion test for issue #16949
+     * Regression test for issue #16949
      * 1) Test there is no pending object in sub objects
      * 2) Test there is one pending object in sub objects
      */

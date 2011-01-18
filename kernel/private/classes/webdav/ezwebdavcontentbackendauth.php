@@ -231,7 +231,7 @@ class eZWebDAVContentBackendAuth implements ezcWebdavAnonymousAuthenticator, ezc
     }
     
     /**
-     * Removes the assignement of $lockToken from $user.
+     * Removes the assignment of $lockToken from $user.
      *
      * After a $lockToken has been released from the $user, the {@link
      * ownsLock()} method must return false for the given combination. It might

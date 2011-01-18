@@ -4975,7 +4975,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
         else if ( $accessWord == 'no' )
         {
-            // Cannnot create any objects, return empty list.
+            // Cannot create any objects, return empty list.
             return $classList;
         }
         else

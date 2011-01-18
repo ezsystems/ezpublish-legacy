@@ -1225,7 +1225,7 @@ class eZContentOperationCollection
     }
 
     /**
-     * Update a node's main assignement
+     * Update a node's main assignment
      *
      * @param int $mainAssignmentID
      * @param int $objectID

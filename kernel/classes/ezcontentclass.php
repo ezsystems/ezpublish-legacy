@@ -463,7 +463,7 @@ class eZContentClass extends eZPersistentObject
         }
         else if ( $accessWord == 'no' )
         {
-            // Cannnot create any objects, return empty list.
+            // Cannot create any objects, return empty list.
             return $classList;
         }
         else
@@ -839,7 +839,7 @@ You will need to change the class of the node by using the swap functionality.' 
     /*!
      \note Removes class attributes
 
-     \param removeAtttributes Array of attributes to remove
+     \param removeAttributes Array of attributes to remove
      \param version Version to remove( optional )
     */
     function removeAttributes( $removeAttributes = false, $version = false )

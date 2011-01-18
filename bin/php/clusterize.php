@@ -32,7 +32,7 @@
 NOTE:
 
  Please read doc/features/3.8/clustering.txt and set up clustering
- before runnning this script.
+ before running this script.
 
 */
 

@@ -41,7 +41,7 @@ class updateNodeAssignment
         //1. delete the assignments from eznode_assignment table
 
         // delete the assignments which don't have relevant entry in ezconentobject_tree
-        // select the data that doesn't exist in either eznode_assignement or ezcotentobject_tree
+        // select the data that doesn't exist in either eznode_assignment or ezcontentobject_tree
         $deletedAssignmentList = $db->arrayQuery( "SELECT * FROM eznode_assignment WHERE id NOT IN " .
                                                  "(SELECT assign.id FROM eznode_assignment assign, ezcontentobject_tree tree WHERE " .
                                                 "assign.contentobject_id = tree.contentobject_id AND assign.parent_node = tree.parent_node_id)" );

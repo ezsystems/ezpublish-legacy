@@ -722,7 +722,7 @@ if ( $dbUser !== false or $dbHost !== false or $dbSocket !== false or
 
     if ( !$db->isConnected() )
     {
-        $str = "Failed to connnect to database: $dbType://$dbUser@$dbHost";
+        $str = "Failed to connect to database: $dbType://$dbUser@$dbHost";
         $cli->error( $str );
         $script->shutdown( 1 );
     }

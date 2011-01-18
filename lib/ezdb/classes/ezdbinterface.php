@@ -1397,7 +1397,7 @@ class eZDBInterface
     public $NumQueries = 0;
     /// The start time of the timer
     public $StartTime;
-    /// The end time of the tiemr
+    /// The end time of the timer
     public $EndTime;
     /// The total number of milliseconds the timer took
     public $TimeTaken;

@@ -653,7 +653,7 @@ class eZInformationCollection extends eZPersistentObject
     */
     function dataMap()
     {
-        // Retreive the indexed information collection attributes
+        // Retrieve the indexed information collection attributes
         $informationCollectionAttributes = $this->informationCollectionAttributes();
 
         $retArray = array();

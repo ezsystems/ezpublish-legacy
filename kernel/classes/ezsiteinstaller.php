@@ -434,7 +434,7 @@ class eZSiteInstaller
             }
             else
             {
-                $this->reportError( "neighter 'id' nor 'identifier' is set for content class" ,
+                $this->reportError( "neither 'id' nor 'identifier' is set for content class" ,
                                     'eZSiteInstaller::addClassAttribute' );
             }
         }

@@ -27,7 +27,7 @@
  *
  * Tokens are looked up from left to right. If a match is found for the
  * leftmost token, the 2nd token will not be used. Tokens are representations
- * of atttributes. So a match means that that the current attribute has data.
+ * of attributes. So a match means that that the current attribute has data.
  *
  * tokens are the class attribute identifiers which are used in the class
  * edit-interface.

@@ -636,7 +636,7 @@ function checkNodeActions( $module, $class, $object, $version, $contentObjectAtt
                 $ignoreNodesClickArray  = array();
                 foreach( $objectAssignedNodes as $curAN )
                 {
-                    // current node should be neihter selectable, nor clickable
+                    // current node should be neither selectable, nor clickable
                     $ignoreNodesClickArray[]  = $curAN->NodeID;
                     $ignoreNodesSelectArray[] = $curAN->NodeID;
 
