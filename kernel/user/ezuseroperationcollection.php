@@ -225,7 +225,7 @@ class eZUserOperationCollection
         if( $result['status'] === eZModuleOperationInfo::STATUS_HALTED )
         {
             eZDebugSetting::writeNotice( 'kernel-user', 'User object publish is in pending.', 'user register' );
-            return array( 'status' => eZModuleOperationInfo::STATUS_CONTINUE );
+            return array( 'status' => eZModuleOperationInfo::STATUS_HALTED );
         }
         return $result;
     }
