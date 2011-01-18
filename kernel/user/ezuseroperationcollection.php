@@ -236,6 +236,7 @@ class eZUserOperationCollection
         $ini = eZINI::instance();
         // Send mail
         $tpl = eZTemplate::factory();
+        $tpl->setVariable( 'user',  $user );
         $templateResult = $tpl->fetch( 'design:user/registrationapproved.tpl' );
 
         $mail = new eZMail();
