@@ -13,6 +13,8 @@ class ezpRestProvider
      * @var ezpRestProviderInterface The REST provider object container
      */
     protected static $provider = null;
+    
+    const DEFAULT_PROVIDER = 'ezp';
 
     /**
      * @param string $provider
@@ -44,7 +46,7 @@ class ezpRestProvider
         // Note: empty string is not a valid input.
         if ( empty( $provider ) )
         {
-            $provider = 'ezp';
+            $provider = self::DEFAULT_PROVIDER;
         }
 
         if ( !( self::$provider instanceof ezpRestProviderInterface ) )
