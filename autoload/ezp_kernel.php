@@ -553,6 +553,7 @@ return array(
       'ezpAutoloadGeneratorOptions'                        => 'kernel/private/options/ezpautoloadgeneratoroptions.php',
       'ezpAutoloadOutput'                                  => 'kernel/private/interfaces/ezpautoloadoutput.php',
       'ezpAutoloader'                                      => 'autoload.php',
+      'ezpContentPublishingBehaviour'                      => 'kernel/content/ezcontentpublishingbehaviour.php',
       'ezpContentPublishingProcess'                        => 'kernel/classes/contentpublishingprocess.php',
       'ezpContentPublishingQueue'                          => 'kernel/classes/contentpublishingqueue.php',
       'ezpContentPublishingQueueProcessor'                 => 'kernel/classes/contentpublishingqueueprocessor.php',

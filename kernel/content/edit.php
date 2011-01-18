@@ -688,6 +688,12 @@ if ( !function_exists( 'checkContentActions' ) )
 
             eZDebug::accumulatorStart( 'publish', '', 'publish' );
             $oldObjectName = $object->name();
+
+            $behaviour = new ezpContentPublishingBehaviour();
+            $behaviour->isTemporary = true;
+            $behaviour->disableAsynchronousPublishing = false;
+            ezpContentPublishingBehaviour::setBehaviour( $behaviour );
+
             $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $object->attribute( 'id' ),
                                                                                          'version' => $version->attribute( 'version' ) ) );
             eZDebug::accumulatorStop( 'publish' );

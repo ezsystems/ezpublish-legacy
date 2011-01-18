@@ -858,7 +858,7 @@ class eZContentOperationCollection
 
             $nodeIDList[] = $node->attribute( 'node_id' );
         }
-        
+
         eZNodeAssignment::purgeByID( array_unique( $nodeAssignmentIDList ) );
 
         if ( $mainNodeChanged )
@@ -1507,7 +1507,11 @@ class eZContentOperationCollection
      */
     public static function sendToPublishingQueue( $objectId, $version )
     {
-        $asyncEnabled = ( eZINI::instance( 'content.ini' )->variable( 'PublishingSettings', 'AsynchronousPublishing' ) == 'enabled' );
+        $behaviour = ezpContentPublishingBehaviour::getBehaviour();
+        if ( $behaviour->disableAsynchronousPublishing )
+            $asyncEnabled = false;
+        else
+            $asyncEnabled = ( eZINI::instance( 'content.ini' )->variable( 'PublishingSettings', 'AsynchronousPublishing' ) == 'enabled' );
 
         if ( $asyncEnabled === true )
         {

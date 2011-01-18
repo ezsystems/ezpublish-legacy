@@ -15,6 +15,7 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
         $this->setName( "eZ Publish Kernel Test Suite" );
 
         $this->addTestSuite( 'eZDatatypeTestSuite' );
+        $this->addTestSuite( 'eZKernelContentTestSuite' );
 
         $this->addTestSuite( 'eZContentObjectRegression' );
         $this->addTestSuite( 'eZContentObjectTest' );
