@@ -95,7 +95,15 @@ class eZUserOperationCollection
     {
         eZDebugSetting::writeNotice( 'kernel-user',  'Sending activation email.', 'user register' );
         $ini = eZINI::instance();
+
         $tpl = eZTemplate::factory();
+        $user = eZUser::fetch( $userID );
+        $tpl->setVariable( 'user', $user );
+        $object= eZContentObject::fetch( $userID );
+        $tpl->setVariable( 'object', $object );
+        $hostname = eZSys::hostname();
+        $tpl->setVariable( 'hostname', $hostname );
+
         // Check whether account activation is required.
         $verifyUserType = $ini->variable( 'UserSettings', 'VerifyUserType' );
         $sendUserMail = !!$verifyUserType;
@@ -208,17 +216,14 @@ class eZUserOperationCollection
         }
         eZDebugSetting::writeNotice( 'kernel-user' , 'publishing user object', 'user register' );
         // if the object is already published, continue the operation
-        if( $object->attribute( 'published' ) )
+        if( $object->attribute( 'status' ) )
         {
-            eZDebugSetting::writeNotice( 'kernel-user', 'User object publish is in pending.', 'user register' );
+            eZDebugSetting::writeNotice( 'kernel-user', 'User object publish is published.', 'user register' );
             return array( 'status' => eZModuleOperationInfo::STATUS_CONTINUE );
         }
-        $result = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $userID, 'version' => 1 ) );
-        if( $result['status'] === eZModuleOperationInfo::STATUS_HALTED )
-        {
-            eZDebugSetting::writeNotice( 'kernel-user', 'User object publish is in pending.', 'user register' );
-        }
-        return $result;
+        eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $userID, 'version' => 1 ) );
+        eZDebugSetting::writeNotice( 'kernel-user', 'User object publish is in pending.', 'user register' );
+        return array( 'status' => eZModuleOperationInfo::STATUS_HALTED );
     }
 
     /**
@@ -226,6 +231,7 @@ class eZUserOperationCollection
      */
     static public function sendUserNotification( $userID )
     {
+        eZDebugSetting::writeNotice( 'Sending approval notification to the user.' , 'kernel-user', 'user register' );
         $user = eZUser::fetch( $userID );
         $ini = eZINI::instance();
         // Send mail
