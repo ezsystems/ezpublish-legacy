@@ -41,7 +41,7 @@ $unpublishClasses = $ini->variable( 'UnpublishSettings','ClassList' );
 
 $rootNodeIDList = $ini->variable( 'UnpublishSettings','RootNodeList' );
 
-$currrentDate = time();
+$currentDate = time();
 
 foreach( $rootNodeIDList as $nodeID )
 {
@@ -62,7 +62,7 @@ foreach( $rootNodeIDList as $nodeID )
 
         $date = $dateAttribute->content();
         $articleRetractDate = $date->attribute( 'timestamp' );
-        if ( $articleRetractDate > 0 && $articleRetractDate < $currrentDate )
+        if ( $articleRetractDate > 0 && $articleRetractDate < $currentDate )
         {
             // Clean up content cache
             eZContentCacheManager::clearContentCacheIfNeeded( $article->attribute( 'id' ) );

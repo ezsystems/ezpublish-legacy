@@ -12,7 +12,7 @@ $ini = eZINI::instance( 'content.ini' );
 $rootNodeIDList = $ini->variable( 'HideSettings','RootNodeList' );
 $hideAttributeArray = $ini->variable( 'HideSettings', 'HideDateAttributeList' );
 
-$currrentDate = time();
+$currentDate = time();
 
 $offset = 0;
 $limit = 50;
@@ -41,7 +41,7 @@ foreach( $rootNodeIDList as $nodeID )
                               'ClassFilterArray' => array( $hideClass ),
                               'Limitation' => array(),
                               'AttributeFilter' => array( 'and',
-                                  array( "{$hideClass}/{$attributeIdentifier}", '<=', $currrentDate ),
+                                  array( "{$hideClass}/{$attributeIdentifier}", '<=', $currentDate ),
                                   array( "{$hideClass}/$attributeIdentifier", '>', 0 ) ) );
 
         $nodeArrayCount = $rootNode->subTreeCount( $countParams );
