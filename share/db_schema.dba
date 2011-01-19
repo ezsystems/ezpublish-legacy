@@ -5355,6 +5355,61 @@ $schema = array (
       ),
     ),
   ),
+  'ezpublishingqueueprocesses' => 
+  array (
+    'name' => 'ezpublishingqueueprocesses',
+    'fields' => 
+    array (
+      'created' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'default' => NULL,
+      ),
+      'ezcontentobject_version_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'finished' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'default' => NULL,
+      ),
+      'pid' => 
+      array (
+        'length' => 8,
+        'type' => 'int',
+        'default' => NULL,
+      ),
+      'started' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'default' => NULL,
+      ),
+      'status' => 
+      array (
+        'length' => 2,
+        'type' => 'int',
+        'default' => NULL,
+      ),
+    ),
+    'indexes' => 
+    array (
+      'PRIMARY' => 
+      array (
+        'type' => 'primary',
+        'fields' => 
+        array (
+          0 => 'ezcontentobject_version_id',
+        ),
+      ),
+    ),
+  ),
   'ezrole' => 
   array (
     'name' => 'ezrole',

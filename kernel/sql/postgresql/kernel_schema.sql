@@ -2277,6 +2277,21 @@ CREATE TABLE ezproductcollection_item_opt (
 
 
 
+CREATE TABLE ezpublishingqueueprocesses (
+    created integer,
+    ezcontentobject_version_id integer DEFAULT 0 NOT NULL,
+    finished integer,
+    pid integer,
+    started integer,
+    status integer
+);
+
+
+
+
+
+
+
 CREATE TABLE ezrole (
     id integer DEFAULT nextval('ezrole_s'::text) NOT NULL,
     is_new integer DEFAULT 0 NOT NULL,
@@ -4643,6 +4658,15 @@ ALTER TABLE ONLY ezproductcollection_item
 
 ALTER TABLE ONLY ezproductcollection_item_opt
     ADD CONSTRAINT ezproductcollection_item_opt_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezpublishingqueueprocesses
+    ADD CONSTRAINT ezpublishingqueueprocesses_pkey PRIMARY KEY (ezcontentobject_version_id);
 
 
 
