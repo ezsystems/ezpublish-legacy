@@ -76,7 +76,8 @@ class ezpRestContentController extends ezcMvcController
      */
     public function doViewFields()
     {
-        try {
+        try
+        {
             if ( isset( $this->nodeId ) )
             {
                 $content = ezpContent::fromNodeId( $this->nodeId );
@@ -85,7 +86,9 @@ class ezpRestContentController extends ezcMvcController
             {
                 $content = ezpContent::fromObjectId( $this->objectId );
             }
-        } catch( Exception $e ) {
+        }
+        catch( Exception $e )
+        {
             // @todo handle error
             die( $e->getMessage() );
         }
@@ -103,6 +106,8 @@ class ezpRestContentController extends ezcMvcController
             $returnFields[$name] = $this->attributeOutputData( $field );
         }
         $result->variables['fields'] = $returnFields;
+        
+        // @TODO : handle object/node metadata
         return $result;
     }
 
@@ -180,13 +185,13 @@ class ezpRestContentController extends ezcMvcController
 
         // $sXml = simplexml_import_dom( $attribute->serializedXML );
         // var_dump( $sXml->asXML() );
-        // 
+        //
         // $attributeType = (string)$sXml['type'];
-        // 
+        //
         // // get ezremote NS elements in order to get the attribute identifier
         // $ezremoteAttributes = $sXml->attributes( 'http://ez.no/ezobject' );
         // $attributeIdentifier = (string)$ezremoteAttributes['identifier'];
-        // 
+        //
         // // attribute value
         // $children = $sXml->children();
         // $attributeValue = array();
@@ -242,9 +247,11 @@ class ezpRestContentController extends ezcMvcController
         }
 
         return array(
-            'type'       => $attribute->data_type_string,
-            'identifier' => $attribute->contentclass_attribute_identifier,
-            'value'      => $attributeValue,
+            'type'                  => $attribute->data_type_string,
+            'identifier'            => $attribute->contentclass_attribute_identifier,
+            'value'                 => $attributeValue,
+            'id'                    => $attribute->id,
+            'classattribute_id'     => $attribute->contentclassattribute_id
         );
     }
 
