@@ -49,6 +49,8 @@ fi
 
 . /lib/lsb/init-functions
 
+UGID=$(getent passwd $RUN_AS_USER | cut -f 3,4 -d:) || true
+
 # Test existence and executable status of executable
 test -x $DAEMON || exit 0
 
@@ -56,8 +58,6 @@ if [ ! -d "${PID_FOLDER}" ]; then
     mkdir "${PID_FOLDER}"
     chown ${RUN_AS_USER} "${PID_FOLDER}"
 fi
-
-UGID=$(getent passwd $RUN_AS_USER | cut -f 3,4 -d:) || true
 
 set -e
 
