@@ -270,6 +270,13 @@ if ( !function_exists( 'checkContentActions' ) )
             $http->removeSessionVariable( "GeneratedPassword" );
             $http->removeSessionVariable( "RegisterUserID" );
             $http->removeSessionVariable( 'StartedRegistration' );
+
+            // if everything is passed, login the user
+            if( $operationResult['status'] === eZModuleOperationInfo::STATUS_CONTINUE )
+            {
+                $user->loginCurrent();
+            }
+
             // check for redirectionvariable
             if( $operationResult['status'] === eZModuleOperationInfo::STATUS_CONTINUE ||
                     $operationResult['status'] === eZModuleOperationInfo::STATUS_HALTED )
