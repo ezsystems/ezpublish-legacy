@@ -70,7 +70,7 @@ d_start() {
             --chuid ${RUN_AS_USER} \
             --start \
             --pidfile ${PID_FILE} \
-            --exec "${DAEMON_EXEC}" -- $DAEMON_OPTS
+            --exec ${DAEMON_EXEC} -- $DAEMON_OPTS
         return $?
 }
 
