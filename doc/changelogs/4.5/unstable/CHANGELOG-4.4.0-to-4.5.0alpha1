@@ -31,3 +31,4 @@ Changes from 4.4.0 to 4.5.0alpha1
 - Fixed bug #017761: ezcache.php --purge does not purge template-blocks
 - Fixed bug #017703: Fatal error when deleting main node having ezfind enabled
 - Fixed bug #017820: Change priorities don't clear the cache (patch by Damien Pobel)
+- Fixed bug #017840: Interrupted operations won't restart where they stopped
