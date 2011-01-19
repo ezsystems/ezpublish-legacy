@@ -198,7 +198,73 @@ if ( !function_exists( 'checkContentActions' ) )
 
         if ( $module->isCurrentAction( 'Publish' ) )
         {
-            $operationResult = eZOperationHandler::execute( 'user', 'register', array( 'user_id' => $object->attribute( 'id' ) ) );
+            $userID = $object->attribute( 'id' );
+            $operationResult = eZOperationHandler::execute( 'user', 'register', array( 'user_id' => $userID ) );
+
+            // send feedback
+            $ini = eZINI::instance();
+            $tpl = eZTemplate::factory();
+            $hostname = eZSys::hostname();
+            $user = eZUser::fetch( $userID );
+            $feedbackTypes = $ini->variableArray( 'UserSettings', 'RegistrationFeedback' );
+            foreach ( $feedbackTypes as $feedbackType )
+            {
+                switch ( $feedbackType )
+                {
+                    case 'email':
+                    {
+                        // send feedback with the default email type
+                        $mail = new eZMail();
+                        $tpl->resetVariables();
+                        $tpl->setVariable( 'user', $user );
+                        $tpl->setVariable( 'object', $object );
+                        $tpl->setVariable( 'hostname', $hostname );
+                        $templateResult = $tpl->fetch( 'design:user/registrationfeedback.tpl' );
+
+                        if ( $tpl->hasVariable( 'content_type' ) )
+                            $mail->setContentType( $tpl->variable( 'content_type' ) );
+
+                        $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
+                        if ( $tpl->hasVariable( 'email_sender' ) )
+                            $emailSender = $tpl->variable( 'email_sender' );
+                        else if ( !$emailSender )
+                            $emailSender = $ini->variable( 'MailSettings', 'AdminEmail' );
+
+                        $feedbackReceiver = $ini->variable( 'UserSettings', 'RegistrationEmail' );
+                        if ( $tpl->hasVariable( 'email_receiver' ) )
+                            $feedbackReceiver = $tpl->variable( 'email_receiver' );
+                        else if ( !$feedbackReceiver )
+                            $feedbackReceiver = $ini->variable( 'MailSettings', 'AdminEmail' );
+
+                        if ( $tpl->hasVariable( 'subject' ) )
+                            $subject = $tpl->variable( 'subject' );
+                        else
+                            $subject = ezpI18n::tr( 'kernel/user/register', 'New user registered' );
+
+                        $mail->setSender( $emailSender );
+                        $mail->setReceiver( $feedbackReceiver );
+                        $mail->setSubject( $subject );
+                        $mail->setBody( $templateResult );
+                        $mailResult = eZMailTransport::send( $mail );
+                    } break;
+                    default:
+                    {
+                        $registrationFeedbackClass = false;
+                        // load custom registration feedback settings
+                        if ( $ini->hasGroup( 'RegistrationFeedback_' . $feedbackType ) )
+                        {
+                            if ( $ini->hasVariable( 'RegistrationFeedback_' . $feedbackType, 'File' ) )
+                                include_once( $ini->variable( 'RegistrationFeedback_' . $feedbackType, 'File' ) );
+                            $registrationFeedbackClass = $ini->variable( 'RegistrationFeedback_' . $feedbackType, 'Class' );
+                        }
+                        // try to call the registration feedback class with function registrationFeedback
+                        if ( $registrationFeedbackClass && method_exists( $registrationFeedbackClass, 'registrationFeedback' ) )
+                            call_user_func( array( $registrationFeedbackClass, 'registrationFeedback' ), $user, $tpl, $object, $hostname );
+                        else
+                            eZDebug::writeWarning( "Unknown feedback type '$feedbackType'", 'user/register' );
+                    }
+                }
+            }
 
             $http = eZHTTPTool::instance();
             $http->removeSessionVariable( "GeneratedPassword" );
