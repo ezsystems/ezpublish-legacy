@@ -208,8 +208,6 @@ class eZModuleOperationInfo
                     if ( isset( $mementoOperationData['loop_run'] ) )
                         $bodyCallCount['loop_run'] = $mementoOperationData['loop_run'];
                 }
-//                 else
-//                     eZDebug::writeWarning( 'Missing main operation memento for key: ' . $this->Memento->attribute( 'memento_key' ), 'eZModuleOperationInfo::execute' );
 
                 $mementoList = null;
                 if ( $this->UseTriggers )
@@ -246,8 +244,6 @@ class eZModuleOperationInfo
                 $resultArray = $this->executeBody( $callMethod['include_file'], $callMethod['class'], $operationDefinition['body'],
                                                     $operationKeys, $operationParameterDefinitions, $operationParameters,
                                                     $mementoData, $bodyCallCount, $operationDefinition['name'] );
-
-//                 eZDebug::writeDebug( $resultArray, 'ezmodule operation result array' );
             }
 
             if ( is_array( $resultArray ) and
