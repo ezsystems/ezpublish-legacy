@@ -36,7 +36,7 @@
 
   Helps simplify installation process by providing a set of steps
   which will be executed sequentially. This class contains a common functions
-  which can be reused in particular installtions.
+  which can be reused in particular installations.
 
 */
 

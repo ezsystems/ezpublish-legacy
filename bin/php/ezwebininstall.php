@@ -379,7 +379,7 @@ if( downloadPackages( $packageList, $packageURL, $packageDir, $packageRepository
     }
     else
     {
-        showWarning( "Unable to find installtion script dir." );
+        showWarning( "Unable to find installation script dir." );
     }
 }
 
