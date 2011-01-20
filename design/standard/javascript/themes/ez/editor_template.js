@@ -13,16 +13,19 @@
 */
 
 (function(tinymce) {
-    var DOM = tinymce.DOM, Event = tinymce.dom.Event, extend = tinymce.extend, each = tinymce.each, Cookie = tinymce.util.Cookie, lastExtID, explode = tinymce.explode, BIND = function()
-    {
-        // Binds arguments to a function, so when you call the returned wrapper function,
-        // arguments are intact and arguments passed to the wrapper function is appended.
-        // first argument is function, second is 'this' and the rest is arguments
-        var __args = Array.prototype.slice.call( arguments ), __fn = __args.shift(), __obj = __args.shift();
-        return function(){return __fn.apply( __obj, __args.concat( Array.prototype.slice.call( arguments ) ) )};
-    };
+	var DOM = tinymce.DOM, Event = tinymce.dom.Event, extend = tinymce.extend, each = tinymce.each, Cookie = tinymce.util.Cookie, lastExtID, explode = tinymce.explode, BIND = function()
+	{
+	    // eZ: Binds arguments to a function, so when you call the returned wrapper function,
+	    // arguments are intact and arguments passed to the wrapper function is appended.
+	    // first argument is function, second is 'this' and the rest is arguments
+	    var __args = Array.prototype.slice.call( arguments ), __fn = __args.shift(), __obj = __args.shift();
+	    return function(){return __fn.apply( __obj, __args.concat( Array.prototype.slice.call( arguments ) ) )};
+	};
 
-    tinymce.create('tinymce.themes.eZTheme', {
+	// eZ: Not needed, as we handle language in design/standard/templates/content/datatype/edit/ezxmltext_ezoe.tp
+	//tinymce.ThemeManager.requireLangPack('advanced');
+
+	tinymce.create('tinymce.themes.eZTheme', {
         sizes : [8, 10, 12, 14, 18, 24, 36],
 
         // Control name lookup, format: title, command
@@ -47,6 +50,7 @@
             link : ['link_desc', 'mceLink'],
             unlink : ['unlink_desc', 'unlink'],
             image : ['image_desc', 'mceImage'],
+            // START eZ: Additional buttons for ezoe handled by theme
             object : ['object_desc', 'mceObject'],
             file : ['file_desc', 'mceFile'],
             custom : ['custom_desc', 'mceCustom'],
@@ -56,6 +60,7 @@
             store : ['store_desc', 'mceStoreDraft'],
             publish : ['publish_desc', 'mcePublishDraft'],
             discard : ['discard_desc', 'mceDiscard'],
+            // END eZ: Additional buttons for ezoe handled by theme
             cleanup : ['cleanup_desc', 'mceCleanup'],
             help : ['help_desc', 'mceHelp'],
             code : ['code_desc', 'mceCodeEditor'],
@@ -90,7 +95,7 @@
                 theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect",
                 theme_advanced_buttons2 : "bullist,numlist,|,outdent,indent,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code",
                 theme_advanced_buttons3 : "hr,removeformat,visualaid,|,sub,sup,|,charmap",
-                theme_advanced_blockformats : "p,pre,h1,h2,h3,h4,h5,h6",
+				theme_advanced_blockformats : "p,address,pre,h1,h2,h3,h4,h5,h6",
                 theme_advanced_toolbar_align : "center",
                 theme_advanced_fonts : "Andale Mono=andale mono,times;Arial=arial,helvetica,sans-serif;Arial Black=arial black,avant garde;Book Antiqua=book antiqua,palatino;Comic Sans MS=comic sans ms,sans-serif;Courier New=courier new,courier;Georgia=georgia,palatino;Helvetica=helvetica;Impact=impact,chicago;Symbol=symbol;Tahoma=tahoma,arial,helvetica,sans-serif;Terminal=terminal,monaco;Times New Roman=times new roman,times;Trebuchet MS=trebuchet ms,geneva;Verdana=verdana,geneva;Webdings=webdings;Wingdings=wingdings,zapf dingbats",
                 theme_advanced_more_colors : 1,
@@ -98,6 +103,8 @@
                 theme_advanced_resize_horizontal : 1,
                 theme_advanced_resizing_use_cookie : 1,
                 theme_advanced_font_sizes : "1,2,3,4,5,6,7",
+                theme_advanced_font_selector : "span",
+                theme_advanced_show_current_color: 0,
                 readonly : ed.settings.readonly
             }, ed.settings);
 
@@ -138,12 +145,20 @@
 
             // Init editor
             ed.onInit.add(function() {
-                if (!ed.settings.readonly)
+                if (!ed.settings.readonly) {
                     ed.onNodeChange.add(t._nodeChanged, t);
+                    ed.onKeyUp.add(t._updateUndoStatus, t);
+                    ed.onMouseUp.add(t._updateUndoStatus, t);
+                    ed.dom.bind(ed.dom.getRoot(), 'dragend', function() {
+                        t._updateUndoStatus(ed);
+                    });
+                }
 
+                // eZ: Override ctrl+8 & 9 and make them create pre tag
                 ed.addShortcut('ctrl+8', '', ['FormatBlock', false, '<pre>']);
                 ed.addShortcut('ctrl+9', '', ['FormatBlock', false, '<pre>']);
 
+                // eZ: Support several theme css files using custom ez setting
                 if ( s.theme_ez_content_css )
                 {
                     var css_arr = s.theme_ez_content_css.split(',');
@@ -153,8 +168,8 @@
                 else if (ed.settings.content_css !== false)
                     ed.dom.loadCSS(ed.baseURI.toAbsolute(url + "/skins/" + ed.settings.skin + "/content.css"));
 
-                // Add support for align attribute (until parser and theme supports style based alignment)
-                // taken from legacyoutput plugin
+                // START eZ: alignment customizations
+                // Add support for align attribute (taken from legacyoutput plugin)
                 var alignElements = 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', serializer = ed.serializer;
 
                 // Override some internal formats to produce legacy elements and attributes
@@ -185,6 +200,7 @@
                             rule.attribs.push({name : 'align'});
                     }
                 });
+                // End eZ: alignment customizations
             });
 
             ed.onSetProgressState.add(function(ed, b, ti) {
@@ -206,6 +222,7 @@
                 }
             });
 
+            // eZ: Setup custom cleanup code to performe when html is saved from TinyMCE to textarea
             ed.onBeforeGetContent.add(function(ed, o)
             {
                 if ( o.save === true && o.format === 'html' )
@@ -239,6 +256,7 @@
                 }
             });
 
+            // eZ: Support several editor content css files using custom ez setting
             if ( s.theme_ez_editor_css )
             {
                 var ui_css_arr = s.theme_ez_editor_css.split(',');
@@ -253,6 +271,7 @@
                     DOM.loadCSS(url + "/skins/" + ed.settings.skin + "/ui_" + s.skin_variant + ".css");
             }
 
+            // eZ: Setup ctrl+s to execute a stroe draft action (the whole content object)
             ed.addShortcut('ctrl+s', ed.getLang('save.save_desc'), 'mceStoreDraft');
         },
 
@@ -403,6 +422,13 @@
             c = ed.controlManager.createListBox('fontselect', {
                 title : 'advanced.fontdefault',
                 onselect : function(v) {
+                    var cur = c.items[c.selectedIndex];
+
+                    if (!v && cur) {
+                        ed.execCommand('FontName', false, cur.value);
+	                    return;
+	                }
+
                     ed.execCommand('FontName', false, v);
 
                     // Fake selection, execCommand will fire a nodeChange and update the selection
@@ -427,6 +453,22 @@
             var t = this, ed = t.editor, c, i = 0, cl = [];
 
             c = ed.controlManager.createListBox('fontsizeselect', {title : 'advanced.font_size', onselect : function(v) {
+                var cur = c.items[c.selectedIndex];
+
+                if (!v && cur) {
+                    cur = cur.value;
+
+                    if (cur['class']) {
+                        ed.formatter.toggle('fontsize_class', {value : cur['class']});
+	                    ed.undoManager.add();
+	                    ed.nodeChanged();
+	                } else {
+	                    ed.execCommand('FontSize', false, cur.fontSize);
+	                }
+
+                    return;
+                }
+
                 if (v['class']) {
                     ed.focus();
                     ed.undoManager.add();
@@ -459,6 +501,7 @@
         },
 
         _createBlockFormats : function() {
+            // eZ: Comment out formats not supported by parser
             var c, fmts = {
                 p : 'advanced.paragraph',
                 //address : 'advanced.address',
@@ -868,6 +911,7 @@
                 t._addControls(v, tb);
 
                 //n.appendChild(n = tb.render());
+                // eZ: Custom floating toobar style for ez theme
                 if ( s.theme_advanced_toolbar_floating )
                     h.push( t._toolbarRenderFlowHTML.call( tb ) );
                 else
@@ -880,7 +924,8 @@
             DOM.setHTML(n, h.join(''));
         },
         
-        // Custom toolbar renderer for ez theme
+        // eZ: Custom floating toolbar renderer for ez theme
+        // allows all buttons to be on one line and wrap to next line if there is not enough space
         _toolbarRenderFlowHTML : function()
         {
             var t = this, h = '<div class="mceToolbarGroupingElement">', c = 'mceToolbarElement mceToolbarEnd', co, s = t.settings, c2 = 'mceToolbar mceToolBarFlow';
@@ -990,8 +1035,14 @@
             n = tb = null;
         },
 
+        _updateUndoStatus : function(ed) {
+            var cm = ed.controlManager;
+            cm.setDisabled('undo', !ed.undoManager.hasUndo() && !ed.typing);
+            cm.setDisabled('redo', !ed.undoManager.hasRedo());
+        },
+
         _nodeChanged : function(ed, cm, n, co, ob) {
-            var t = this, p, de = 0, v, c, c2, s = t.settings, cl, fz, fn, formatNames, matches, ezoeItemNonEditable = false, div = false, header, type = '', jn;
+            var t = this, p, de = 0, v, c, c2, s = t.settings, cl, fz, fn, fc, bc, formatNames, matches, ezoeItemNonEditable = false, div = false, header, type = '', jn;
 
             tinymce.each(t.stateControls, function(c) {
                 cm.setActive(c, ed.queryCommandState(t.controls[c][1]));
@@ -1001,6 +1052,7 @@
                 var i, parents = ob.parents, func = name;
 
                 if (typeof(name) == 'string') {
+                    // eZ: Support list of tag names seperated by ,
                     if ( name.indexOf(',') === -1 ) {
                         func = function(node) {
                             return node.nodeName == name;
@@ -1020,6 +1072,7 @@
                 }
             };
 
+            // START eZ: Handle embed tags (not editable..)
             header = getParent('H1,H2,H3,H4,H5,H6');
             p = getParent('DIV,SPAN');
             c = cm.get('object');
@@ -1065,9 +1118,10 @@
             }
 
             t.__setDisabled( ezoeItemNonEditable );
+            // END eZ: Handle embed tags
 
-            cm.setDisabled('undo', !ed.undoManager.hasUndo() && !ed.typing);
-            cm.setDisabled('redo', !ed.undoManager.hasRedo());
+            cm.setActive('visualaid', ed.hasVisual);
+			t._updateUndoStatus(ed);
 
             // ordered / unordered list button code
             if (header && (c = cm.get('bullist')))
@@ -1094,7 +1148,7 @@
                 c.setDisabled( !p || count < 2 );
             }
 
-            // table button code
+            // eZ: table button code
             p = getParent('TD,TH,CAPTION');
             if (p && p.nodeName === 'CAPTION') p = null;
             cm.setDisabled('table', header );
@@ -1113,7 +1167,7 @@
             cm.setDisabled('merge_cells', !p);
 
 
-            // Get status on alignment buttons, check parent tag if current tag is not supported
+            // eZ: Get status on alignment buttons, check parent tag if current tag is not supported
             p = this.__mceJustifyTags.test( n.nodeName );
             if ( p )
                 jn = n;
@@ -1147,7 +1201,7 @@
                 c.setActive( p && jn.align === 'justify' );
             }
 
-            // link and anchor(inside next block) code
+            // eZ: link and anchor(inside next block) code
             p = getParent('A');
             if ( c = cm.get('link') )
             {
@@ -1163,7 +1217,7 @@
                 c.setActive(!!p && DOM.getAttrib(p, 'href') );
             }
 
-            // buttons that are disabled when embed object tag is selectd
+            // eZ: buttons that are disabled when embed object tag is selectd
             if ( ezoeItemNonEditable === false )
             {
                 if ( c = cm.get('anchor') )
@@ -1213,19 +1267,19 @@
                     if ( n.nodeType != 1 || n.nodeName === 'BR' || (DOM.hasClass(n, 'mceItemHidden') || DOM.hasClass(n, 'mceItemRemoved')) )
                         return;
 
-                   // seems like hasClass has some issues in ie..
+                   // eZ: seems like hasClass has some issues in ie..
                    if ( DOM.getAttrib( n, 'class').indexOf('mceItemHidden') !== -1 )
                        return;
 
-                   // Ignore hidden spellcheker nodes (both spellcheck and AtD plugin)
+                   // eZ: Ignore hidden spellcheker nodes (both spellcheck and AtD plugin)
                    if ( DOM.hasClass(n, 'mceItemHiddenSpellWord') || DOM.hasClass(n, 'hiddenGrammarError') || DOM.hasClass(n, 'hiddenSpellError') || DOM.hasClass(n, 'hiddenSuggestion') )
                        return;
 
-                    // node name to ez xml tag translation
+                    // eZ: node name to ez xml tag translation
                     if ( v = t.__tagsToXml( n ) )
                         na = v;
 
-                    // ez xml tag name alias (frindly names)
+                    // eZ: xml tag name alias (frindly names)
                     var naa = na;
                     if ( s.theme_ez_xml_alias_list && s.theme_ez_xml_alias_list[na] !== undefined )
                         naa = s.theme_ez_xml_alias_list[na];
@@ -1243,6 +1297,7 @@
 
                     // Handle node name
                     switch (na) {
+                        // eZ: Ignore table section tags (not supported)
                         case 'tbody':
                         case 'thead':
                         case 'tfoot':
@@ -1282,6 +1337,7 @@
                     if (v = DOM.getAttrib(n, 'id'))
                         ti += 'id: ' + v + ' ';
 
+                    // eZ: Support custom className var and remove internal ezoeItem prefix
                     if (v = className ?  className : n.className)
                     {
                         v = v.replace(/\b\s*(webkit|mce|Apple-|ezoeItem)\w+\s*\b/g, '')
@@ -1324,7 +1380,8 @@
             }
         },
 
-        // These commands gets called by execCommand
+        // Commands gets called by execCommand
+        // eZ: Use custom dialog function to load eZ specific dialogs
 
         _sel : function(v) {
             this.editor.execCommand('mceSelectNodeDepth', false, v);
@@ -1342,8 +1399,8 @@
 
             ed.windowManager.open({
                 url : this.url + '/charmap.htm',
-                width : 550,
-                height : 250,
+                width : 550 + parseInt(ed.getLang('advanced.charmap_delta_width', 0)),
+                height : 250 + parseInt(ed.getLang('advanced.charmap_delta_height', 0)),
                 inline : true
             }, {
                 theme_url : this.url
@@ -1354,15 +1411,15 @@
             this._generalXmlTagPopup( '/dialog/', 'help', 480, 380 );
         },
 
-        _mceColorPicker : function(ui, v) {
+        _mceColorPicker : function(u, v) {
             var ed = this.editor;
 
             v = v || {};
 
             ed.windowManager.open({
                 url : this.url + '/color_picker.htm',
-                width : 375 + parseInt(ed.getLang('ez.colorpicker_delta_width', 0)),
-                height : 250 + parseInt(ed.getLang('ez.colorpicker_delta_height', 0)),
+                width : 375 + parseInt(ed.getLang('advanced.colorpicker_delta_width', 0)),
+                height : 250 + parseInt(ed.getLang('advanced.colorpicker_delta_height', 0)),
                 close_previous : false,
                 inline : true
             }, {
@@ -1515,7 +1572,7 @@
         _mceNewDocument : function() {
             var ed = this.editor;
 
-            ed.windowManager.confirm('ez.newdocument', function(s) {
+            ed.windowManager.confirm('advanced.newdocument', function(s) {
                 if (s)
                     ed.execCommand('mceSetContent', false, '');
             });
@@ -1546,7 +1603,7 @@
         },
 
         /**
-         * Custom TinyMCE OE command for disabling editor
+         * eZ: Custom TinyMCE OE command for disabling editor
          */
         _mceDisableEditor : function()
         {
@@ -1557,7 +1614,7 @@
         },
 
         /**
-         * Custom TinyMCE OE command for discarding draft
+         * eZ: Custom TinyMCE OE command for discarding draft
          */
         _mceDiscard : function()
         {
@@ -1565,7 +1622,7 @@
         },
 
         /**
-         * Custom TinyMCE OE command for storing draft
+         * eZ: Custom TinyMCE OE command for storing draft
          */
         _mceStoreDraft : function()
         {
@@ -1576,7 +1633,7 @@
         },
 
         /**
-         * Custom TinyMCE OE command for publishing draft
+         * eZ: Custom TinyMCE OE command for publishing draft
          */
         _mcePublishDraft : function()
         {
@@ -1613,7 +1670,7 @@
         },
         
         /**
-         * Custom function for getting parent element that matches parameters
+         * eZ: Custom function for getting parent element that matches parameters
          * 
          * @param node n
          * @param string tag
@@ -1640,7 +1697,7 @@
         },
 
         /**
-         * Blocks most events when ezoeItemNonEditable element is selected
+         * eZ: Blocks most events when ezoeItemNonEditable element is selected
          * activated by {@link this.__setDisabled()}
          * 
          * @param object ed Editor object
@@ -1710,7 +1767,7 @@
         },
 
         /**
-         * Disables/enables all buttons based on s parameter, where s is true if
+         * eZ: Disables/enables all buttons based on s parameter, where s is true if
          * ezoeItemNonEditable element (embed objects) is selected. 
          * 
          * @param bool s
@@ -1742,7 +1799,7 @@
         },
 
         /**
-         * Hash for simple tag name to ezxml name mappings
+         * eZ: Hash for simple tag name to ezxml name mappings
          */
         __simpleTagsToXmlHash:
         {
@@ -1771,7 +1828,7 @@
         },
 
         /**
-         * Maps tag name to ezxmltext tag name, uses simple mapping hash if tag name exists there.
+         * eZ: Maps tag name to ezxmltext tag name, uses simple mapping hash if tag name exists there.
          * 
          * @param node n
          */
@@ -1808,7 +1865,7 @@
         },
 
         /**
-         * Get related TinyMCE (OE custom) command based on node
+         * eZ: Get related TinyMCE (OE custom) command based on node
          * 
          * @param node n
          */
@@ -1859,7 +1916,7 @@
         },
 
         /**
-         * General popup function for tag dialogs
+         * eZ: General popup function for tag dialogs
          */
         _generalXmlTagPopup : function( view, eurl, width, height, node )
         {

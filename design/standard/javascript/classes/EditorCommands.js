@@ -186,6 +186,7 @@
 				});
 
 				toggleFormat('align' + align);
+				execCommand('mceRepaint');
 			},
 
 			// Override list commands to fix WebKit bug
@@ -339,7 +340,24 @@
 			},
 
 			InsertHorizontalRule : function() {
-				selection.setContent('<hr />');
+				var hrElm, hrParent, rng;
+				selection.setContent('<hr id="_mce_inserted_hr" />');
+				
+				hrElm = dom.get('_mce_inserted_hr');
+				hrParent = hrElm.parentNode;
+				// If HR is within a text block then split that block
+				if (/^(H[1-6]|P|ADDRESS|PRE)$/.test(hrParent.nodeName)) {
+					dom.split(hrParent, hrElm);
+				}
+				dom.removeAllAttribs(hrElm);
+				if (hrElm.nextSibling) {
+					rng = dom.createRng();
+					rng.setStart(hrElm.nextSibling, 0);
+					rng.setEnd(hrElm.nextSibling, 0);
+					selection.setRng(rng);
+				} else {
+					selection.moveAfterNode(hrElm);
+				}
 			},
 
 			mceToggleVisualAid : function() {
@@ -356,6 +374,9 @@
 
 				if (tinymce.is(value, 'string'))
 					value = {href : value};
+
+				// Spaces are never valid in URLs and it's a very common mistake for people to make so we fix it here.
+				value.href = value.href.replace(' ', '%20');
 
 				if (!link) {
 					execNativeCommand('CreateLink', FALSE, 'javascript:mctmp(0);');

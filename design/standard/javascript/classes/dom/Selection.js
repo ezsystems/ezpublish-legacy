@@ -154,6 +154,7 @@
 
 				// Move to caret marker
 				c = t.dom.get('__caret');
+
 				// Make sure we wrap it compleatly, Opera fails with a simple select call
 				r = d.createRange();
 				r.setStartBefore(c);
@@ -162,6 +163,7 @@
 
 				// Remove the caret position
 				t.dom.remove('__caret');
+				t.setRng(r);
 			} else {
 				if (r.item) {
 					// Delete content and get caret text selection
@@ -205,10 +207,6 @@
 						break;
 					}
 				}
-
-				// If start element is body element try to move to the first child if it exists
-				if (startElement && startElement.nodeName == 'BODY')
-					return startElement.firstChild || startElement;
 
 				return startElement;
 			} else {
@@ -512,6 +510,20 @@
 					t.setRng(bookmark.rng);
 			}
 		},
+		
+		/**
+		 * Moves the selection to be collapsed immediately after the node.
+		 * 
+		 * @method moveAfterNode
+		 * @param {Element} node HTML DOM element to position caret after.
+		 * @return {Element} the same element as the one that got passed in. 
+		 */
+		moveAfterNode: function(node) {
+			var rng = this.dom.createRng();
+			rng.setStartAfter(node);
+			rng.setEndAfter(node);
+			this.setRng(rng);
+		},
 
 		/**
 		 * Selects the specified element. This will place the start and end of the selection range around the element.
@@ -719,7 +731,7 @@
 		 * @return {Element} Currently selected element or common ancestor element.
 		 */
 		getNode : function() {
-			var t = this, rng = t.getRng(), sel = t.getSel(), elm;
+			var t = this, rng = t.getRng(), sel = t.getSel(), elm, start = rng.startContainer, end = rng.endContainer;
 
 			if (rng.setStart) {
 				// Range maybe lost after the editor is made visible again
@@ -740,6 +752,31 @@
 					// If the anchor node is a element instead of a text node then return this element
 					if (tinymce.isWebKit && sel.anchorNode && sel.anchorNode.nodeType == 1) 
 						return sel.anchorNode.childNodes[sel.anchorOffset]; 
+
+					// Handle cases where the selection is immediately wrapped around a node and return that node instead of it's parent.
+					// This happens when you double click an underlined word in FireFox.
+					if (start.nodeType === 3 && end.nodeType === 3) {
+						function skipEmptyTextNodes(n, forwards) {
+							var orig = n;
+							while (n && n.nodeType === 3 && n.length === 0) {
+								n = forwards ? n.nextSibling : n.previousSibling;
+							}
+							return n || orig;
+						}
+						if (start.length === rng.startOffset) {
+							start = skipEmptyTextNodes(start.nextSibling, true);
+						} else {
+							start = start.parentNode;
+						}
+						if (rng.endOffset === 0) {
+							end = skipEmptyTextNodes(end.previousSibling, false);
+						} else {
+							end = end.parentNode;
+						}
+
+						if (start && start === end)
+							return start;
+					}
 				}
 
 				if (elm && elm.nodeType == 3)

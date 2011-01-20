@@ -576,6 +576,20 @@
 		},
 
 		/**
+		 * Removes all attributes from an element or elements.
+		 * 
+		 * @param {Element/String/Array} e DOM element, element id string or array of elements/ids to remove attributes from.
+		 */
+		removeAllAttribs: function(e) {
+			return this.run(e, function(e) {
+				var attrs = e.attributes;
+				for (var i = attrs.length - 1; i >= 0; i--) {
+					e.removeAttributeNode(attrs.item(i));
+				}
+			});
+		},
+
+		/**
 		 * Sets the specified attributes value of a element or elements.
 		 *
 		 * @method setAttrib
@@ -878,19 +892,30 @@
 				delete o[p + '-left' + s];
 			};
 
+			function canCompress(key) {
+				var split, value = o[key];
+				if (!value || value.indexOf(' ') < 0) {
+					return;
+				}
+				split = value.split(' ');
+				if (each(split, function(v) { return v === split[0]; })) {
+					o[key] = split[0];
+					return true;
+				} else {
+					return false;
+				}
+			}
+
 			function compress2(ta, a, b, c) {
 				var t;
-
-				t = o[a];
-				if (!t)
+				
+				if (!canCompress(a))
 					return;
 
-				t = o[b];
-				if (!t)
+				if (!canCompress(b))
 					return;
 
-				t = o[c];
-				if (!t)
+				if (!canCompress(c))
 					return;
 
 				// Compress

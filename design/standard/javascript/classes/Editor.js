@@ -918,8 +918,8 @@
 					{inline : 'u'}
 				],
 
-				forecolor : {inline : 'span', styles : {color : '%value'}},
-				hilitecolor : {inline : 'span', styles : {backgroundColor : '%value'}},
+				forecolor : {inline : 'span', styles : {color : '%value'}, wrap_links : false},
+				hilitecolor : {inline : 'span', styles : {backgroundColor : '%value'}, wrap_links : false},
 				fontname : {inline : 'span', styles : {fontFamily : '%value'}},
 				fontsize : {inline : 'span', styles : {fontSize : '%value'}},
 				fontsize_class : {inline : 'span', attributes : {'class' : '%value'}},
@@ -2549,6 +2549,10 @@
 					if (!t.removed && t.undoManager.typing)
 						addUndo();
 				});
+				
+				t.dom.bind(t.dom.getRoot(), 'dragend', function(e) {
+					addUndo();
+				});
 
 				t.onKeyUp.add(function(ed, e) {
 					if ((e.keyCode >= 33 && e.keyCode <= 36) || (e.keyCode >= 37 && e.keyCode <= 40) || e.keyCode == 13 || e.keyCode == 45 || e.ctrlKey)
@@ -2566,6 +2570,7 @@
 						rng = t.selection.getRng();
 
 						if (rng.parentElement) {
+							addUndo();
 							parent = rng.parentElement();
 
 							// Select next word when ctrl key is used in combo with delete
@@ -2592,14 +2597,22 @@
 								t.selection.moveToBookmark(bookmark);
 							}
 
+							addUndo();
+
 							// Block the default delete behavior since it might be broken
 							e.preventDefault();
 							return;
 						}
 					}
 
+					// Special handling for enter to ensure typing is still set to true
+					if (e.keyCode == 13 && t.undoManager.typing) {
+						addUndo();
+						t.undoManager.typing = 1;
+					}
+					
 					// Is caracter positon keys
-					if ((e.keyCode >= 33 && e.keyCode <= 36) || (e.keyCode >= 37 && e.keyCode <= 40) || e.keyCode == 13 || e.keyCode == 45) {
+					if ((e.keyCode >= 33 && e.keyCode <= 36) || (e.keyCode >= 37 && e.keyCode <= 40) || e.keyCode == 45) {
 						if (t.undoManager.typing)
 							addUndo();
 
@@ -2615,6 +2628,50 @@
 				t.onMouseDown.add(function() {
 					if (t.undoManager.typing)
 						addUndo();
+				});
+			}
+			
+			// Bug fix for FireFox keeping styles from end of selection instead of start.
+			if (tinymce.isGecko) {
+				function getAttributeApplyFunction() {
+					t.undoManager.typing = 0;
+					t.undoManager.add();
+					var template = t.dom.getAttribs(t.selection.getStart().cloneNode(false));
+					return function() {
+						var target = t.selection.getStart();
+						t.dom.removeAllAttribs(target);
+						each(template, function(attr) {
+							target.setAttributeNode(attr.cloneNode(true));
+						});
+						//t.dom.setAttribs(target, template);
+						t.undoManager.typing = 0;
+						t.undoManager.add();
+					};
+				}
+				
+				function isSelectionAcrossElements() {
+					var s = t.selection;
+					return !s.isCollapsed() && s.getStart() != s.getEnd();
+				}
+				
+				t.onKeyPress.add(function(ed, e) {
+					if ((e.keyCode == 8 || e.keyCode == 46) && isSelectionAcrossElements()) {
+						var applyAttributes = getAttributeApplyFunction();
+						t.getDoc().execCommand('delete', false, null);
+						applyAttributes();
+						return Event.cancel(e);
+					}
+				});
+				
+				t.dom.bind(t.getDoc(), 'cut', function(e) {
+					if (isSelectionAcrossElements()) {
+						var applyAttributes = getAttributeApplyFunction();
+						t.onKeyUp.addToTop(Event.cancel, Event);
+						setTimeout(function() {
+							applyAttributes();
+							t.onKeyUp.remove(Event.cancel, Event);
+						}, 0);
+					}
 				});
 			}
 		},

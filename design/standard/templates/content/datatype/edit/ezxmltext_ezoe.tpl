@@ -79,7 +79,7 @@
         directionality : '{$directionality}',
         theme_advanced_buttons2 : "",
         theme_advanced_buttons3 : "",
-        theme_advanced_blockformats : "p,pre,h1,h2,h3,h4,h5,h6",
+        theme_advanced_blockformats : "p,pre,h1,h2,h3,h4,h5,h6",// removes address tag, not suppored by ezxml
         theme_advanced_path_location : false,// ignore, use theme_advanced_statusbar_location
         theme_advanced_statusbar_location : "bottom",// correct value set by layout code bellow pr attribute
         theme_advanced_toolbar_location : "top",// correct value set by layout code bellow pr attribute
