@@ -663,7 +663,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
     /*!
      \static
-     \return Gives all knows bases for avialable sitedesign folders.
+     \return Gives all knows bases for available sitedesign folders.
     */
     static function allDesignBases( $siteAccess = false )
     {

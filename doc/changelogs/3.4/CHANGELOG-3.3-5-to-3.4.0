@@ -73,7 +73,7 @@ Changes from 3.3-5 to 3.4.0
   the new url parameter system.
 - Fixed treemenu operator to fetch sort_array from the current node
   instead of always using priority sorting.
-- Fixed ezimage operator to check also avialable extensions.
+- Fixed ezimage operator to check also available extensions.
   Added eZTemplateDesignResource::allDesignBases().
 - Added the possibility to fetch a node by it's url alias (path), this is also
   possible in the fetch operator content/node.

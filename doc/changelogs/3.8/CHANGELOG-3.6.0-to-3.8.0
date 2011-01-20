@@ -368,7 +368,7 @@ eZExtension:
   (Merged from stable/3.5 (3.5.5) rev. 12790)
 - Fixed bug: Payment gateway event always executes cleanup function.
   (Merged from stable/3.5 (3.5.5) rev. 12794)
-- Fixed bug: Changes to order in order workflow not avialable for template.
+- Fixed bug: Changes to order in order workflow not available for template.
   (Merged from stable/3.5 (3.5.5) rev. 12795)
 - Fixed bug #6804: Role limitation assignment is not part of viewcache hash key
   (Merged from stable/3.5 (3.5.5) rev. 12807, also in stable/3.6 (3.6.2)

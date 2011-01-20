@@ -8,8 +8,8 @@ It might be needed to cirucumvent the need of having ane extra translation file,
 *Documentation:
 
 A siteaccess configured with ger-CH locale can make use of the ger-DE translation file.
-FallbackLanguages defines the avialable translation fallbacks of the QT ( .ts )
-translation files. If the this no translation avialable for e.g. ger-CH
+FallbackLanguages defines the available translation fallbacks of the QT ( .ts )
+translation files. If the this no translation available for e.g. ger-CH
 the ger-DE translation file will be requested for the translation.
 
 *Configuration:
