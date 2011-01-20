@@ -1411,36 +1411,9 @@ class eZDebug
             {
                 echo "<style type='text/css'>
                 <!--
-td.debugheader
-{
-    background-color : #eeeeee;
-    border-top : 1px solid #444488;
-    border-bottom : 1px solid #444488;
-    font-size : 65%;
-    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-}
-
-pre.debugtransaction
-{
-    background-color : #f8f6d8;
-}
-
-td.timingpoint1
-{
-    background-color : #ffffff;
-    border-top : 1px solid #444488;
-    font-size : 65%;
-    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-}
-
-td.timingpoint2
-{
-    background-color : #eeeeee;
-    border-top : 1px solid #444488;
-    font-size : 65%;
-    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-}
-
+                ";
+                readfile( 'design/standard/stylesheets/debug.css' );
+                echo "
 -->
 </style>";
             }
