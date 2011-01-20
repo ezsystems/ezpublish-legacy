@@ -110,8 +110,6 @@ class eZFS2FileHandler extends eZFSFileHandler
     **/
     public function processCache( $retrieveCallback, $generateCallback = null, $ttl = null, $expiry = null, $extraData = null )
     {
-        $forceDB   = false;
-        $timestamp = null;
         $curtime   = time();
         $tries     = 0;
         $noCache   = false;
@@ -259,7 +257,6 @@ class eZFS2FileHandler extends eZFSFileHandler
                         eZDebugSetting::writeDebug( 'kernel-clustering', "{$this->filePath} is being generated, switching to staleCache mode", __METHOD__ );
                         $this->useStaleCache = true;
                         $this->remainingCacheGenerationTime = $res;
-                        $forceDB = false;
                         continue;
                     }
                 }

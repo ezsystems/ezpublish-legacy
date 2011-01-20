@@ -324,12 +324,10 @@ class eZFSFileHandler
      */
     function processCache( $retrieveCallback, $generateCallback = null, $ttl = null, $expiry = null, $extraData = null )
     {
-        $forceDB = false;
         $fname = $this->filePath;
         $args = array( $fname );
         if ( $extraData !== null )
             $args[] = $extraData;
-        $timestamp = null;
         $curtime   = time();
         $tries     = 0;
         $noCache   = false;
