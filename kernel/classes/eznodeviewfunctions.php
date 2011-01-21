@@ -79,8 +79,22 @@ class eZNodeviewfunctions
         return $retval;
     }
 
-    static function generateNodeViewData( $tpl, $node, $object, $languageCode, $viewMode, $offset,
-                                          $viewParameters = array( 'offset' => 0, 'year' => false, 'month' => false, 'day' => false ),
+    /**
+     * Generate result data for a node view
+     *
+     * @param eZTemplate $tpl
+     * @param eZContentObjectTreeNode $node
+     * @param eZContentObject $object
+     * @param false|string $languageCode
+     * @param string $viewMode
+     * @param int $offset
+     * @param array $viewParameters
+     * @param false|array $collectionAttributes
+     * @param bool $validation
+     * @return array Result array for view
+     */
+    static function generateNodeViewData( eZTemplate $tpl, eZContentObjectTreeNode $node, eZContentObject $object, $languageCode, $viewMode, $offset,
+                                          array $viewParameters = array( 'offset' => 0, 'year' => false, 'month' => false, 'day' => false ),
                                           $collectionAttributes = false, $validation = false )
     {
         $section = eZSection::fetch( $object->attribute( 'section_id' ) );
@@ -175,27 +189,37 @@ class eZNodeviewfunctions
         $tpl->setVariable( 'node_path', $path );
 
         $Result = array();
-        $Result['content'] = $tpl->fetch( 'design:node/view/' . $viewMode . '.tpl' );
+        $Result['content']         = $tpl->fetch( 'design:node/view/' . $viewMode . '.tpl' );
         $Result['view_parameters'] = $viewParameters;
-        $Result['path'] = $path;
-        $Result['title_path'] = $titlePath;
-        $Result['section_id'] = $object->attribute( 'section_id' );
-        $Result['node_id'] = $node->attribute( 'node_id' );
+        $Result['path']            = $path;
+        $Result['title_path']      = $titlePath;
+        $Result['section_id']      = $object->attribute( 'section_id' );
+        $Result['node_id']         = $node->attribute( 'node_id' );
         $Result['navigation_part'] = $navigationPartIdentifier;
 
         $contentInfoArray = array();
-        $contentInfoArray['object_id'] = $object->attribute( 'id' );
-        $contentInfoArray['node_id'] = $node->attribute( 'node_id' );
-        $contentInfoArray['parent_node_id'] =  $node->attribute( 'parent_node_id' );
-        $contentInfoArray['class_id'] = $object->attribute( 'contentclass_id' );
+        $contentInfoArray['object_id']        = $object->attribute( 'id' );
+        $contentInfoArray['node_id']          = $node->attribute( 'node_id' );
+        $contentInfoArray['parent_node_id']   = $node->attribute( 'parent_node_id' );
+        $contentInfoArray['class_id']         = $object->attribute( 'contentclass_id' );
         $contentInfoArray['class_identifier'] = $node->attribute( 'class_identifier' );
-        $contentInfoArray['remote_id'] = $object->attribute( 'remote_id' );
-        $contentInfoArray['node_remote_id'] = $node->attribute( 'remote_id' );
-        $contentInfoArray['offset'] = $offset;
-        $contentInfoArray['viewmode'] = $viewMode;
+        $contentInfoArray['remote_id']        = $object->attribute( 'remote_id' );
+        $contentInfoArray['node_remote_id']   = $node->attribute( 'remote_id' );
+        $contentInfoArray['offset']           = $offset;
+        $contentInfoArray['viewmode']         = $viewMode;
         $contentInfoArray['navigation_part_identifier'] = $navigationPartIdentifier;
-        $contentInfoArray['node_depth'] = $node->attribute( 'depth' );
-        $contentInfoArray['url_alias'] = $node->attribute( 'url_alias' );
+        $contentInfoArray['node_depth']       = $node->attribute( 'depth' );
+        $contentInfoArray['url_alias']        = $node->attribute( 'url_alias' );
+        $contentInfoArray['current_language'] = $object->attribute( 'current_language' );
+        $contentInfoArray['language_mask']    = $object->attribute( 'language_mask' );
+
+        $contentInfoArray['main_node_id']   = $node->attribute( 'main_node_id' );
+        $contentInfoArray['main_node_url_alias'] = false;
+        if ( !$node->isMain() )
+        {
+            $contentInfoArray['main_node_url_alias'] = $object->mainNode()->attribute( 'url_alias' );
+        }
+
         $contentInfoArray['persistent_variable'] = false;
         if ( $tpl->variable( 'persistent_variable' ) !== false )
         {
@@ -203,10 +227,10 @@ class eZNodeviewfunctions
             $keyArray[] = array( 'persistent_variable', $contentInfoArray['persistent_variable'] );
             $res->setKeys( $keyArray );
         }
-        $contentInfoArray['class_group'] = $object->attribute( 'match_ingroup_id_list' );
-        $contentInfoArray['state'] = $object->attribute( 'state_id_array' );
-        $contentInfoArray['state_identifier'] = $object->attribute( 'state_identifier_array' );
-        $contentInfoArray['parent_class_id'] = $parentClassID;
+        $contentInfoArray['class_group']             = $object->attribute( 'match_ingroup_id_list' );
+        $contentInfoArray['state']                   = $object->attribute( 'state_id_array' );
+        $contentInfoArray['state_identifier']        = $object->attribute( 'state_identifier_array' );
+        $contentInfoArray['parent_class_id']         = $parentClassID;
         $contentInfoArray['parent_class_identifier'] = $parentClassIdentifier;
 
         $Result['content_info'] = $contentInfoArray;
