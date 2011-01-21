@@ -92,10 +92,6 @@ $GLOBALS['eZRedirection'] = false;
 
 error_reporting ( E_ALL | E_STRICT );
 
-$debugINI = eZINI::instance( 'debug.ini' );
-eZDebugSetting::setDebugINI( $debugINI );
-
-
 /*!
  Reads settings from site.ini and passes them to eZDebug.
 */
