@@ -765,6 +765,12 @@ while ( $moduleRunRequired )
     }
 }
 
+
+/**
+ * Ouput an is_logged_in cookie when users are logged in for use by http cache soulutions.
+ *
+ * @deprecated As of 4.5, since 4.4 added lazy session support (init on use)
+ */
 if ( $ini->variable( "SiteAccessSettings", "CheckValidity" ) !== 'true' )
 {
     $currentUser = eZUser::currentUser();
