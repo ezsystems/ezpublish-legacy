@@ -28,9 +28,75 @@ class ezpRestHttpRequestParser extends ezcMvcHttpRequestParser
 
     protected function processVariables()
     {
-        $this->request->variables = array();
+        $this->request->variables = $this->fillVariables();
+        $this->request->contentVariables = $this->fillContentVariables();
         $this->request->get = $_GET;
         $this->request->post = $_POST;
     }
 
+    /**
+     * Extract variables to be used internally from GET
+     * @return array
+     */
+    protected function fillVariables()
+    {
+        $variables = array();
+        $internalVariables = array( 'ResponseGroups' ); // Expected variables
+        
+        foreach( $internalVariables as $internalVariable )
+        {
+            if( isset( $_GET[$internalVariable] ) )
+            {
+                // Extract and organize variables as expected
+                switch( $internalVariable )
+                {
+                    case 'ResponseGroups':
+                        $variables[$internalVariable] = explode( ',', $_GET[$internalVariable] );
+                        break;
+                        
+                    default:
+                        $variables[$internalVariable] = $_GET[$internalVariable];
+                }
+
+                unset( $_GET[$internalVariable] );
+            }
+            else
+            {
+                $variables[$internalVariable] = null;
+            }
+        }
+        
+        return $variables;
+    }
+    
+    /**
+     * Extract variables related to content from GET
+     * @return array
+     */
+    protected function fillContentVariables()
+    {
+        $contentVariables = array();
+        $expectedVariables = array( 'translation' );
+        
+        foreach( $expectedVariables as $variable )
+        {
+            if( isset( $_GET[$variable] ) )
+            {
+                // Extract and organize variables as expected
+                switch( $variable )
+                {
+                    default:
+                        $contentVariables[$variable] = $_GET[$variable];
+                }
+
+                unset( $_GET[$variable] );
+            }
+            else
+            {
+                $contentVariables[$variable] = null;
+            }
+        }
+        
+        return $contentVariables;
+    }
 }
