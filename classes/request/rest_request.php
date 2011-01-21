@@ -31,6 +31,13 @@ class ezpRestRequest extends ezcMvcRequest
      * @var array
      */
     public $post;
+    
+    /**
+     * Variables related to content, extracted from GET
+     *
+     * @var array
+     */
+    public $contentVariables;
 
     /**
      * Constructs a new ezpRestRequest.
