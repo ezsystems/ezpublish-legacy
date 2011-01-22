@@ -12,13 +12,13 @@ set_time_limit( 0 );
 
 require_once 'autoload.php';
 
-require_once 'PHPUnit/Framework.php';
+require_once 'PHPUnit/Autoload.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
 
 require_once 'tests/toolkit/ezptestrunner.php';
 
 // Exclude the test system from code coverage reports
-PHPUnit_Util_Filter::addDirectoryToFilter( getcwd() . '/tests' );
+PHP_CodeCoverage_Filter::getInstance()->addDirectoryToBlacklist( getcwd() . '/tests' );
 
 // Whitelist all eZ Publish kernel files
 $baseDir = getcwd();
@@ -28,7 +28,7 @@ foreach ( $autoloadArray as $class => $file )
     // Exclude files from the tests directory
     if ( strpos( $file, 'tests' ) !== 0 )
     {
-        PHPUnit_Util_Filter::addFileToWhitelist( "{$baseDir}/{$file}" );
+        PHP_CodeCoverage_Filter::getInstance()->addFileToBlacklist( "{$baseDir}/{$file}" );
     }
 }
 

@@ -10,7 +10,7 @@
 require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
 
-PHPUnit_Util_Filter::addFileToFilter( __FILE__ );
+PHP_CodeCoverage_Filter::getInstance()->addFileToBlacklist( __FILE__ );
 
 class ezpTestRunner extends PHPUnit_TextUI_TestRunner
 {
