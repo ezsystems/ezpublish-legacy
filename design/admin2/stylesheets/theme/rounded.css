@@ -86,10 +86,9 @@
     background-image: -ms-linear-gradient(top,  #fdfdfd,  #e4e3e4);
     -moz-border-radius-topleft: 3px;
     -moz-border-radius-topright: 3px;
-    -webkit-border-top-left-radius: 3px;
-    -webkit-border-top-right-radius: 3px;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
+    background-clip: padding-box;
 }
 
 ul.tabs li a, ul.tabs li span.disabled
@@ -101,6 +100,7 @@ ul.tabs li a, ul.tabs li span.disabled
 {
     border-bottom: 1px solid #fff;
     background: #fff none;
+    background-clip: padding-box;
 }
 
 .tab-content
@@ -139,10 +139,9 @@ a.show-hide-control
     margin-left: 0;
     -moz-border-radius-bottomright: 3px;
     -moz-border-radius-topright: 3px;
-    -webkit-border-bottom-right-radius: 3px;
-    -webkit-border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
     border-top-right-radius: 3px;
+    background-clip: padding-box;
 }
 
 a.show-hide-control:hover
@@ -154,7 +153,6 @@ a.show-hide-tabs
 {
     padding: 0 5px;
     -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
     border-radius: 3px;
     background-color: #f0f0f0;
     background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fdfdfd), to(#e4e3e4));
@@ -169,6 +167,7 @@ a.show-hide-tabs
     text-decoration: none;
     vertical-align: text-bottom;
     width: auto;
+    background-clip: padding-box;
 }
 
 a.show-hide-tabs:hover
@@ -189,8 +188,8 @@ a.show-hide-tabs:hover
     background-image: -moz-linear-gradient(top,  #f5f5f5,  #fff);
     background-image: -ms-linear-gradient(top,  #f5f5f5,  #fff);
     -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
     border-radius: 3px;
+    background-clip: padding-box;
 }
 
 .box-bc .box-ml, .box-header .box-ml
@@ -215,10 +214,9 @@ a.show-hide-tabs:hover
     border: 1px solid #ccc;
     -moz-border-radius-bottomleft: 3px;
     -moz-border-radius-bottomright: 3px;
-    -webkit-border-bottom-left-radius: 3px;
-    -webkit-border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
+    background-clip: padding-box;
 }
 
 .context-information
@@ -243,8 +241,8 @@ a.show-hide-tabs:hover
 .menu-block li a
 {
     -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
     border-radius: 3px;
+    background-clip: padding-box;
 }
 
 /* BUTTONS */
@@ -252,8 +250,6 @@ p.versions
 {
     -moz-border-radius-bottomleft: 3px;
     -moz-border-radius-bottomright: 3px;
-    -webkit-border-bottom-left-radius: 3px;
-    -webkit-border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
     border: 1px solid #CCCCCC;
@@ -262,6 +258,7 @@ p.versions
     background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fdfdfd), to(#e4e3e4));
     background-image: -moz-linear-gradient(top,  #fdfdfd,  #e4e3e4);
     background-image: -ms-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-clip: padding-box;
 }
 p.versions a
 {
@@ -272,8 +269,6 @@ p.table-preferences
 {
     -moz-border-radius-bottomleft: 3px;
     -moz-border-radius-bottomright: 3px;
-    -webkit-border-bottom-left-radius: 3px;
-    -webkit-border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
     border: 1px solid #CCCCCC;
@@ -282,6 +277,7 @@ p.table-preferences
     background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fdfdfd), to(#e4e3e4));
     background-image: -moz-linear-gradient(top,  #fdfdfd,  #e4e3e4);
     background-image: -ms-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-clip: padding-box;
 }
 
 p.table-preferences > a, p.table-preferences > span
@@ -305,8 +301,8 @@ input.button, input.defaultbutton, input.button-disabled
     background-image: -ms-linear-gradient(top,  #5d7db1,  #445c89);
     border: 1px solid #aaa;
     -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
     border-radius: 3px;
+    background-clip: padding-box;
 }
 
 input.defaultbutton, input.button-disabled, input.button[disabled="disabled"]
@@ -336,9 +332,9 @@ input.button-disabled, input.button[disabled="disabled"]
 {
     border: 1px solid #666;
     -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
     border-radius: 3px;
     background: #fff url(../../images/icons-sprite.png) no-repeat right -365px;
+    background-clip: padding-box;
     line-height: 18px !important;
 }
 
