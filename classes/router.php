@@ -13,15 +13,15 @@ class ezpRestRouter extends ezcMvcRouter
         $providerRoutes = ezpRestProvider::getProvider( ezpRestPrefixFilterInterface::getApiProviderName() )->getRoutes();
 
         $routes = array(
-            new ezcMvcRailsRoute( '/fatal', 'ezpRestErrorController', 'show' ),
-            new ezcMvcRailsRoute( '/http-basic-auth', 'ezpRestAuthController', 'basicAuth' ),
-            new ezcMvcRailsRoute( '/login/oauth', 'ezpRestAuthController', 'oauthRequired' ),
-            new ezcMvcRailsRoute( '/oauth/token', 'ezpRestOauthTokenController', 'handleRequest'),
+            new ezpMvcRailsRoute( '/fatal', 'ezpRestErrorController', 'show' ),
+            new ezpMvcRailsRoute( '/http-basic-auth', 'ezpRestAuthController', 'basicAuth' ),
+            new ezpMvcRailsRoute( '/login/oauth', 'ezpRestAuthController', 'oauthRequired' ),
+            new ezpMvcRailsRoute( '/oauth/token', 'ezpRestOauthTokenController', 'handleRequest'),
 
             // ezpRestVersionedRoute( $route, $version )
             // $version == 1 should be the same as if the only the $route had been present
-            new ezpRestVersionedRoute( new ezcMvcRailsRoute( '/foo', 'myController', 'myActionOne' ), 1 ),
-            new ezpRestVersionedRoute( new ezcMvcRailsRoute( '/foo', 'myController', 'myActionOneBetter' ), 2 ),
+            new ezpRestVersionedRoute( new ezpMvcRailsRoute( '/foo', 'myController', 'myActionOne' ), 1 ),
+            new ezpRestVersionedRoute( new ezpMvcRailsRoute( '/foo', 'myController', 'myActionOneBetter' ), 2 ),
 
         );
 
