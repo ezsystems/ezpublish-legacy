@@ -66,6 +66,6 @@ class ezpContentLocation extends ezpLocation
 
     protected $node;
 
-    protected static $validNodeAttributes = array( 'node_id', 'path_string', 'name' );
+    protected static $validNodeAttributes = array( 'node_id', 'path_string', 'name', 'url_alias', 'is_main', 'remote_id' );
 }
 ?>

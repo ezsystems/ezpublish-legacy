@@ -158,7 +158,10 @@ class ezpContent
                 return $this->object->attribute( 'modified' );
                 break;
             default:
-                throw new ezcBasePropertyNotFoundException( $property );
+                if( $this->object->hasAttribute( $property ) )
+                    return $this->object->attribute( $property );
+                else
+                    throw new ezcBasePropertyNotFoundException( $property );
         }
     }
 
