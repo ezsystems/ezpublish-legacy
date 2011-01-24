@@ -18,6 +18,9 @@ class ezpRestContentController extends ezpRestMvcController
     const VIEWCONTENT_RESPONSEGROUP_METADATA = 'Metadata',
           VIEWCONTENT_RESPONSEGROUP_LOCATIONS = 'Locations',
           VIEWCONTENT_RESPONSEGROUP_FIELDS = 'Fields';
+          
+    const VIEWFIELDS_RESPONSEGROUP_FIELDVALUES = 'FieldValues',
+          VIEWFIELDS_RESPONSEGORUP_METADATA = 'Metadata';
     
     /**
      * Handles content requests per node or object ID
@@ -29,7 +32,7 @@ class ezpRestContentController extends ezpRestMvcController
      * Optional HTTP parameters:
      * - translation=xxx-XX: an optionally forced locale to return
      *
-     * @return ezcMvcResult
+     * @return ezpRestMvcResult
      */
     public function doViewContent()
     {
@@ -47,7 +50,6 @@ class ezpRestContentController extends ezpRestMvcController
         }
 
         $result = new ezpRestMvcResult();
-        $hasTranslation = $this->hasContentVariable( 'Translation' );
         
         // translation parameter
         if ( $this->hasContentVariable( 'Translation' ) )
@@ -84,65 +86,51 @@ class ezpRestContentController extends ezpRestMvcController
     }
 
     /**
-     * Generates links to fields request URIs
-     * @param ezpContent $content
-     * @return array
-     */
-    public function fieldsLinks( ezpContent $content )
-    {
-         $links = array();
-         $baseUri = "{$this->request->protocol}://{$this->request->host}{$this->request->uri}";
-         foreach( $content->fields as $fieldName => $fieldValue )
-         {
-             // @todo Handle translation GET parameter
-             $links[$fieldName] = "$baseUri/field/$fieldName";
-         }
-         $links['*'] = "$baseUri/fields";
-
-         return $links;
-    }
-
-    /**
      * Handles a content request with fields per object or node id
      * Request: GET /api/content/object/XXX/fields
      * Request: GET /api/content/node/XXX/fields
      *
-     * @return ezcMvcResult
+     * @return ezpRestMvcResult
      */
     public function doViewFields()
     {
-        try
+        $this->setDefaultResponseGroups( array( self::VIEWFIELDS_RESPONSEGROUP_FIELDVALUES ) );
+        
+        $isNodeRequested = false;
+        if ( isset( $this->nodeId ) )
         {
-            if ( isset( $this->nodeId ) )
-            {
-                $content = ezpContent::fromNodeId( $this->nodeId );
-            }
-            elseif ( isset( $this->objectId ) )
-            {
-                $content = ezpContent::fromObjectId( $this->objectId );
-            }
+            $content = ezpContent::fromNodeId( $this->nodeId );
+            $isNodeRequested = true;
         }
-        catch( Exception $e )
+        elseif ( isset( $this->objectId ) )
         {
-            // @todo handle error
-            die( $e->getMessage() );
+            $content = ezpContent::fromObjectId( $this->objectId );
         }
 
-        $result = new ezcMvcResult;
+        $result = new ezpRestMvcResult();
 
         // translation parameter
-        if ( isset( $this->request->variables['translation'] ) )
-            $content->setActiveLanguage( $this->request->variables['translation'] );
+        if ( $this->hasContentVariable( 'Translation' ) )
+            $content->setActiveLanguage( $this->getContentVariable( 'Translation' ) );
 
-        // iterate over each field and extract its exposed properties
-        $returnFields = array();
-        foreach( $content->fields as $name => $field )
+        // Handle field values
+        if( $this->hasResponseGroup( self::VIEWFIELDS_RESPONSEGROUP_FIELDVALUES ) )
         {
-            $returnFields[$name] = $this->attributeOutputData( $field );
+            $result->variables['fields'] = ezpRestContentModel::getFieldsByContent( $content );
         }
-        $result->variables['fields'] = $returnFields;
         
-        // @TODO : handle object/node metadata
+        // Handle object/node metadata
+        if( $this->hasResponseGroup( self::VIEWFIELDS_RESPONSEGORUP_METADATA ) )
+        {
+            $result->variables['metadata'] = ezpRestContentModel::getMetadataByContent( $content );
+            if( $isNodeRequested )
+            {
+                $location = ezpContentLocation::fetchByNodeId( $this->nodeId );
+                $result->variables['metadata']['nodeId'] = $location->node_id;
+                $result->variables['metadata']['nodeRemoteId'] = $location->remote_id;
+            }
+        }
+        
         return $result;
     }
 
