@@ -106,5 +106,41 @@ class ezpRestRequest extends ezcMvcRequest
             $array['agent'], $array['authentication'], $array['raw'],
             $array['cookies'], $array['isFatal'] );
     }
+    
+    /**
+     * Returns base URI with protocol and host (e.g. http://myhost.com/foo/bar)
+     * @return string
+     */
+    public function getBaseURI()
+    {
+        $protIndex = strpos( $this->protocol, '-' );
+        $protocol = substr( $this->protocol, 0, $protIndex );
+        $baseUri = $protocol.'://'.$this->host.$this->uri;
+        
+        return $baseUri;
+    }
+    
+    /**
+     * Returns current content variables as a regular query string (e.g. "foo=bar&this=that")
+     * @param bool $withQuestionMark If true, the question mark ("?") will be added
+     * @return string
+     */
+    public function getContentQueryString( $withQuestionMark = false )
+    {
+        $queryString = '';
+        $aParams = array();
+        foreach( $this->contentVariables as $name => $value )
+        {
+            if( $value !== null )
+                $aParams[] = $name.'='.$value;
+        }
+        
+        if( !empty( $aParams ) )
+        {
+            $queryString  = $withQuestionMark ? '?' : '';
+            $queryString .= implode( '&', $aParams );
+        }
+        return $queryString;
+    }
 }
 ?>

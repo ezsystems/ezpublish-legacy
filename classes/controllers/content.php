@@ -9,8 +9,16 @@
 /**
  * This controller is used for serving content
  */
-class ezpRestContentController extends ezcMvcController
+class ezpRestContentController extends ezpRestMvcController
 {
+    /**
+     * Expected Response groups for content viewing
+     * @var string
+     */
+    const VIEWCONTENT_RESPONSEGROUP_METADATA = 'Metadata',
+          VIEWCONTENT_RESPONSEGROUP_LOCATIONS = 'Locations',
+          VIEWCONTENT_RESPONSEGROUP_FIELDS = 'Fields';
+    
     /**
      * Handles content requests per node or object ID
      *
@@ -25,25 +33,52 @@ class ezpRestContentController extends ezcMvcController
      */
     public function doViewContent()
     {
-        // try {
-            if ( isset( $this->nodeId ) )
-                $content = ezpContent::fromNodeId( $this->nodeId );
-            elseif ( isset( $this->objectId ) )
-                $content = ezpContent::fromObjectId( $this->objectId );
-        // } catch( Exception $e ) {
-            // @todo handle error
-            // die( $e->getMessage() );
-        // }
+        $this->setDefaultResponseGroups( array( self::VIEWCONTENT_RESPONSEGROUP_METADATA ) );
+        
+        $isNodeRequested = false;
+        if ( isset( $this->nodeId ) )
+        {
+            $content = ezpContent::fromNodeId( $this->nodeId );
+            $isNodeRequested = true;
+        }
+        elseif ( isset( $this->objectId ) )
+        {
+            $content = ezpContent::fromObjectId( $this->objectId );
+        }
 
+        $result = new ezpRestMvcResult();
+        $hasTranslation = $this->hasContentVariable( 'Translation' );
+        
         // translation parameter
-        if ( isset( $this->request->variables['translation'] ) )
-            $content->setActiveLanguage( $this->request->variables['translation'] );
+        if ( $this->hasContentVariable( 'Translation' ) )
+            $content->setActiveLanguage( $this->getContentVariable( 'Translation' ) );
 
-        // object data
-        $result = $this->viewContent( $content );
-
+        // Handle metadata
+        if( $this->hasResponseGroup( self::VIEWCONTENT_RESPONSEGROUP_METADATA ) )
+        {
+            $result->variables['metadata'] = ezpRestContentModel::getMetadataByContent( $content, $isNodeRequested );
+            if( $isNodeRequested )
+            {
+                $location = ezpContentLocation::fetchByNodeId( $this->nodeId );
+                $result->variables['metadata']['nodeId'] = $location->node_id;
+                $result->variables['metadata']['nodeRemoteId'] = $location->remote_id;
+            }
+        }
+        
+        // Handle locations if requested
+        if( $this->hasResponseGroup( self::VIEWCONTENT_RESPONSEGROUP_LOCATIONS ) )
+        {
+            $result->variables['locations'] = ezpRestContentModel::getLocationsByContent( $content );
+        }
+        
+        // Handle fields content if requested
+        if( $this->hasResponseGroup( self::VIEWCONTENT_RESPONSEGROUP_FIELDS ) )
+        {
+            $result->variables['fields'] = ezpRestContentModel::getFieldsByContent( $content );
+        }
+        
         // Add links to fields resources
-        $result->variables['links'] = $this->fieldsLinks( $content );
+        $result->variables['links'] = ezpRestContentModel::getFieldsLinksByContent( $content, $this->request );
 
         return $result;
     }
@@ -122,12 +157,14 @@ class ezpRestContentController extends ezcMvcController
      */
     public function doViewField()
     {
-        try {
+        try
+        {
             if ( isset( $this->nodeId ) )
                 $content = ezpContent::fromNodeId( $this->nodeId );
             elseif ( isset( $this->objectId ) )
                 $content = ezpContent::fromObjectId( $this->objectId );
-        } catch( Exception $e ) {
+        }
+        catch( Exception $e ) {
             // @todo handle error
             die( $e->getMessage() );
         }
@@ -167,6 +204,8 @@ class ezpRestContentController extends ezcMvcController
         $result->variables['objectName'] = $content->name;
         $result->variables['datePublished'] = $content->datePublished;
         $result->variables['dateModified'] = $content->dateModified;
+        $result->variables['objectRemoteId'] = $content->remote_id;
+        $result->variables['objectId'] = $content->id;
 
         // links to further resources about the object
         $resourceLinks = array();
