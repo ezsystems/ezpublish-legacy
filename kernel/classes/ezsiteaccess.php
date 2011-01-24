@@ -645,6 +645,40 @@ class eZSiteAccess
     }
 
     /**
+     * Gets siteaccess name by language based on site.ini\[RegionalSettings]\LanguageSA[]
+     * if defined otherwise by convention ( eng-GB -> eng ), in both cases sa needs to
+     * be in site.ini\[SiteAccessSettings]\RelatedSiteAccessList[] as well to be valid.
+     *
+     * @since 4.5
+     * @param string $language eg: eng-GB
+     * @return string|null
+     */
+    public static function saNameByLanguage( $language )
+    {
+        $ini = eZINI::instance();
+        if ( $ini->hasVariable( 'RegionalSettings', 'LanguageSA' ) )
+        {
+            $langMap = $ini->variable( 'RegionalSettings', 'LanguageSA' );
+            if ( !isset( $langMap[$language] ) )
+            {
+                return null;
+            }
+            $sa = $langMap[$language];
+        }
+        else
+        {
+            $sa = explode( '-', $language );
+            $sa = $sa[0];
+        }
+
+        if ( in_array( $sa, $ini->variable( 'SiteAccessSettings', 'RelatedSiteAccessList' ) ) )
+        {
+            return $sa;
+        }
+        return null;
+    }
+
+    /**
      * Checks if site access debug is enabled
      *
      * @since 4.4
