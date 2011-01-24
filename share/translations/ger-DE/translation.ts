@@ -22880,7 +22880,7 @@ The item can viewed by using the URL below.</source>
     </message>
     <message>
         <source>Monthly, day of month</source>
-        <translation>Wöchentlich an einem bestimmten Tag</translation>
+        <translation>Monatlich an einem bestimmten Tag</translation>
     </message>
     <message>
         <source>This digest e-mail is to inform you on new items at %sitename.</source>
