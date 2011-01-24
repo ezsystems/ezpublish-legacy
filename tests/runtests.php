@@ -28,7 +28,7 @@ foreach ( $autoloadArray as $class => $file )
     // Exclude files from the tests directory
     if ( strpos( $file, 'tests' ) !== 0 )
     {
-        PHP_CodeCoverage_Filter::getInstance()->addFileToBlacklist( "{$baseDir}/{$file}" );
+        PHP_CodeCoverage_Filter::getInstance()->addFileToWhitelist( "{$baseDir}/{$file}" );
     }
 }
 
