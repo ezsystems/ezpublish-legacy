@@ -34,7 +34,7 @@ fi
 DAEMON_OPTS=" -n"
 STARTUP_SCRIPT_PATH=`dirname "${STARTUP_SCRIPT}"`
 APP_PATH=${STARTUP_SCRIPT_PATH%/bin/startup/*}
-DAEMON="${APP_PATH}/bin/php/publishingqueueprocessor.php"
+DAEMON="${APP_PATH}/bin/php/ezasynchronouspublisher.php"
 DESC="eZ Publish asynchronous publishing daemon"
 PID_FOLDER="/var/run/ezpublish"
 PID_FILE=/var/run/ezpublish/${NAME}.pid

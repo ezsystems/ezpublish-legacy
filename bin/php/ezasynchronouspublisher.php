@@ -33,7 +33,7 @@ $sys = eZSys::instance();
 
 $script->initialize();
 
-$pidFile = ( isset( $options['pid-file'] ) ? $options['pid-file'] : 'var/run/asynchronous-publishing.pid' );
+$pidFile = ( isset( $options['pid-file'] ) ? $options['pid-file'] : 'var/run/ezasynchronouspublisher.pid' );
 
 // try opening the PID file. Exclusive mode will prevent the file from being opened if it exists
 $pidFp = @fopen( $pidFile, 'x' );

@@ -34,12 +34,12 @@ Manual execution
 ''''''''''''''''
 The daemon can be started manually by running the following, as your webserver user::
 
-    ezroot$ php bin/php/publishingqueueprocessor.php
+    ezroot$ php bin/php/ezasynchronouspublisher.php
 
 The script will run interactively. To start it in daemon mode (so that it actually detaches from the current session and
 will keep running even if you log out), the -n flag can be added::
 
-    ezroot$ php bin/php/publishingqueueprocessor.php -n
+    ezroot$ php bin/php/ezasynchronouspublisher.php -n
 
 init scripts
 ''''''''''''
@@ -49,12 +49,12 @@ be used to have the daemon started on boot.
 First, the startup script for your system must be *linked* to your init.d folder. This is an example for debian::
 
     cd /etc/init.d
-    ln -s /path/to/ezpublish/bin/startup/debian/asynchronous-publishing ./asynchronous-publishing
-    chmod +x ./asynchronous-publishing
+    ln -s /path/to/ezpublish/bin/startup/debian/ezasynchronouspublisher ./ezasynchronouspublisher
+    chmod +x ./ezasynchronouspublisher
 
 The daemon can therefore be started using::
 
-    /etc/init.d/asynchronous-publishing start
+    /etc/init.d/ezasynchronouspublisher start
 
 It can also be stopped or restarted using the same script, by replacing start with stop or restart.
 
@@ -65,11 +65,11 @@ isn't the platform's default and/or if your PHP CLI executable isn't part of you
 customize these.
 
 First, copy the default configuration file for your platform to the correct directory for your OS:
-- RHEL: /etc/sysconfig/ezasynchronouspublisher.conf
+- RHEL: /etc/ezasynchronouspublisher.conf
 - Debian: /etc/default/ezasynchronouspublisher.conf
 
 Example for Debian/Ubuntu::
-    $ cp bin/startup/<platform>/asynchronous-publisher.defaults /etc/default/ezasynchronouspublisher.conf
+    $ cp bin/startup/debian/ezasynchronouspublisher.defaults /etc/default/ezasynchronouspublisher.conf
 
 Then edit this file, uncommenting and set the required variables to the required values as according to the comments
 in the settings file.
