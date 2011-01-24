@@ -12,14 +12,26 @@
 abstract class ezpRestMvcController extends ezcMvcController
 {
     /**
-     * Checks if a response group has been provided in the reuqested REST URI
+     * Default response groups returned by the controller
+     * @var array
+     */
+    private $defaultResponsegroups = array();
+    
+    /**
+     * Checks if a response group has been provided in the requested REST URI
      * @param string $name Response group name
      * @return bool
      */
     protected function hasResponseGroup( $name )
     {
         $hasResponseGroup = false;
-        if( isset( $this->request->variables['ResponseGroups'] ) )
+        
+        // First check in default response groups
+        if( in_array( $name, $this->defaultResponsegroups ) )
+        {
+            $hasResponseGroup = true;
+        }
+        else if( isset( $this->request->variables['ResponseGroups'] ) )
         {
             $hasResponseGroup = in_array( $name, $this->request->variables['ResponseGroups'] );
         }
@@ -34,12 +46,69 @@ abstract class ezpRestMvcController extends ezcMvcController
     protected function getResponseGroups()
     {
         $resGroups = $this->request->variables['ResponseGroups'];
+        for ($i = 0, $iMax = count( $this->defaultResponsegroups ); $i < $iMax; ++$i)
+        {
+            if( !in_array( $this->defaultResponsegroups[$i], $resGroups ) )
+                $resGroups[] = $this->defaultResponsegroups[$i];
+        }
+        
         return $resGroups;
     }
     
     /**
+     * Sets default response groups
+     * @param array $defaultResponseGroups
+     * @return void
+     */
+    protected function setDefaultResponseGroups( array $defaultResponseGroups )
+    {
+        $this->defaultResponsegroups = $defaultResponseGroups;
+    }
+    
+    /**
+     * Checks if a content variable has been provided in requested REST URI
+     * @param string $name Content variable name
+     * @return bool
+     */
+    protected function hasContentVariable( $name )
+    {
+        $hasContentVariable = false;
+        if( isset( $this->request->contentVariables[$name] ) )
+        {
+            $hasContentVariable = true;
+        }
+        
+        return $hasContentVariable;
+    }
+    
+    /**
+     * Returns requested content variable, is it set
+     * @param string $name Content variable name
+     * @return string|null
+     */
+    protected function getContentVariable( $name )
+    {
+        $contentVariable = null;
+        if( isset( $this->request->contentVariables[$name] ) )
+        {
+            $contentVariable = $this->request->contentVariables[$name];
+        }
+        
+        return $contentVariable;
+    }
+    
+    /**
+     * Returns all provided content variables in requested REST URI
+     * @return array
+     */
+    protected function getAllContentVariables()
+    {
+        return $this->request->contentVariables;
+    }
+    
+    /**
      * Override to add the "requestedResponseGroups" variable for every REST requests
-     * @see ezc/MvcTools/src/interfaces/ezcMvcController::createResult()
+     * @see lib/ezc/MvcTools/src/interfaces/ezcMvcController::createResult()
      */
     public function createResult()
     {
