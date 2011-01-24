@@ -215,9 +215,14 @@ class eZNodeviewfunctions
 
         $contentInfoArray['main_node_id']   = $node->attribute( 'main_node_id' );
         $contentInfoArray['main_node_url_alias'] = false;
+        // Add url alias for main node if it is not current node and user has access to it
         if ( !$node->isMain() )
         {
-            $contentInfoArray['main_node_url_alias'] = $object->mainNode()->attribute( 'url_alias' );
+            $mainNode = $object->mainNode();
+            if ( $mainNode->canRead() )
+            {
+                $contentInfoArray['main_node_url_alias'] = $mainNode->attribute( 'url_alias' );
+            }
         }
 
         $contentInfoArray['persistent_variable'] = false;
