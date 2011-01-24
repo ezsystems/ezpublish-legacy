@@ -59,7 +59,6 @@ class ezpRestContentModel extends ezpRestModel
     /**
      * Returns all fields for provided content
      * @param ezpContent $content
-     * @param string $translation Valid locale xxx-XX (e.g. eng-GB)
      * @return array Associative array with following keys :
      *                  - type => Field type (datatype string)
      *                  - identifier => Attribute identifier
@@ -67,11 +66,8 @@ class ezpRestContentModel extends ezpRestModel
      *                  - id => Attribute numerical ID
      *                  - classattribute_id => Numerical class attribute ID
      */
-    public static function getFieldsByContent( ezpContent $content, $translation = null )
+    public static function getFieldsByContent( ezpContent $content )
     {
-        if( $translation )
-            $content->setActiveLanguage( $translation );
-            
         $aReturnFields = array();
         foreach( $content->fields as $name => $field )
         {
@@ -84,8 +80,15 @@ class ezpRestContentModel extends ezpRestModel
     /**
      * Transforms an ezpContentField in an array representation
      * @todo Refactor, this doesn't really belong here. Either in ezpContentField, or in an extend class
+     * @param ezpContentField $field
+     * @return array Associative array with following keys :
+     *                  - type => Field type (datatype string)
+     *                  - identifier => Attribute identifier
+     *                  - value => String representation of field content
+     *                  - id => Attribute numerical ID
+     *                  - classattribute_id => Numerical class attribute ID
      */
-    protected static function attributeOutputData( ezpContentField $field )
+    public static function attributeOutputData( ezpContentField $field )
     {
         // @TODO move to datatype representation layer
         switch( $field->data_type_string )

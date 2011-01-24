@@ -19,6 +19,10 @@ class ezpRestContentController extends ezpRestMvcController
           VIEWCONTENT_RESPONSEGROUP_LOCATIONS = 'Locations',
           VIEWCONTENT_RESPONSEGROUP_FIELDS = 'Fields';
           
+    /**
+     * Expected Response groups for field viewing
+     * @var string
+     */
     const VIEWFIELDS_RESPONSEGROUP_FIELDVALUES = 'FieldValues',
           VIEWFIELDS_RESPONSEGORUP_METADATA = 'Metadata';
     
@@ -141,145 +145,53 @@ class ezpRestContentController extends ezpRestMvcController
      * - GET /api/content/node/:nodeId/field/:fieldIdentifier
      * - GET /api/content/object/:objectId/field/:fieldIdentifier
      *
-     * @return ezcMvcResult
+     * @return ezpRestMvcResult
      */
     public function doViewField()
     {
-        try
+        $this->setDefaultResponseGroups( array( self::VIEWFIELDS_RESPONSEGROUP_FIELDVALUES ) );
+        
+        $isNodeRequested = false;
+        if ( isset( $this->nodeId ) )
         {
-            if ( isset( $this->nodeId ) )
-                $content = ezpContent::fromNodeId( $this->nodeId );
-            elseif ( isset( $this->objectId ) )
-                $content = ezpContent::fromObjectId( $this->objectId );
+            $isNodeRequested = true;
+            $content = ezpContent::fromNodeId( $this->nodeId );
         }
-        catch( Exception $e ) {
-            // @todo handle error
-            die( $e->getMessage() );
+        elseif ( isset( $this->objectId ) )
+        {
+            $content = ezpContent::fromObjectId( $this->objectId );
         }
 
         if ( !isset( $content->fields->{$this->fieldIdentifier} ) )
         {
-            // @todo Handle error
-            return false;
+            throw new ezpContentFieldNotFoundException( "'$this->fieldIdentifier' field is not available for this content." );
         }
 
-        // translation parameter
-        if ( isset( $this->request->variables['translation'] ) )
-            $content->setActiveLanguage( $this->request->variables['translation'] );
+        // Translation parameter
+        if ( $this->hasContentVariable( 'Translation' ) )
+            $content->setActiveLanguage( $this->getContentVariable( 'Translation' ) );
 
-        // object metadata
-        $result = self::viewContent( $content );
-
-        // fieldd data
-        $result->variables['fields'][$this->fieldIdentifier] = $this->attributeOutputData( $content->fields->{$this->fieldIdentifier} );
-
-        return $result;
-    }
-
-    /**
-     * Returns an ezcMvcResult that represents a piece of content
-     * @param ezpContent $content
-     * @param ezcMvcResult $result A result the variables will be added to. If not given, a fresh one is used.
-     * @return ezcMvcResult
-     */
-    protected function viewContent( ezpContent $content, ezcMvcResult $result = null )
-    {
-        if ( $result === null )
-            $result = new ezcMvcResult;
-
-        // metadata
-        $result->variables['classIdentifier'] = $content->classIdentifier;
-        $result->variables['objectName'] = $content->name;
-        $result->variables['datePublished'] = $content->datePublished;
-        $result->variables['dateModified'] = $content->dateModified;
-        $result->variables['objectRemoteId'] = $content->remote_id;
-        $result->variables['objectId'] = $content->id;
-
-        // links to further resources about the object
-        $resourceLinks = array();
-        $result->variables['links'] = $resourceLinks;
-
-        return $result;
-    }
-
-    /**
-     * Transforms an ezpContentField in an array representation
-     * @todo Refactor, this doesn't really belong here. Either in ezpContentField, or in an extend class
-     */
-    protected function attributeOutputData( ezpContentField $attribute )
-    {
-        // The following seems like an odd strategy.
-
-        // $sXml = simplexml_import_dom( $attribute->serializedXML );
-        // var_dump( $sXml->asXML() );
-        //
-        // $attributeType = (string)$sXml['type'];
-        //
-        // // get ezremote NS elements in order to get the attribute identifier
-        // $ezremoteAttributes = $sXml->attributes( 'http://ez.no/ezobject' );
-        // $attributeIdentifier = (string)$ezremoteAttributes['identifier'];
-        //
-        // // attribute value
-        // $children = $sXml->children();
-        // $attributeValue = array();
-        // foreach( $children as $child )
-        // {
-        //     // simple value
-        //     if ( count( $child->children() ) == 0 )
-        //     {
-        //         // complex value, probably a native eZ Publish XML
-        //         $attributeValue[$child->getName()] = (string)$child;
-        //     }
-        //     else
-        //     {
-        //         if ( $attributeType == 'ezxmltext' )
-        //         {
-        //             $html = $attribute->content->attribute( 'output' )->attribute( 'output_text' );
-        //             $attributeValue = array( strip_tags( $html ) );
-        //         }
-        //     }
-        // }
+        $result = new ezpRestMvcResult();
+            
+        // Field data
+        if( $this->hasResponseGroup( self::VIEWFIELDS_RESPONSEGROUP_FIELDVALUES ) )
+        {
+            $result->variables['fields'][$this->fieldIdentifier] = ezpRestContentModel::attributeOutputData( $content->fields->{$this->fieldIdentifier} );
+        }
         
-        // @TODO move to datatype representation layer
-        switch( $attribute->data_type_string )
+        // Handle object/node metadata
+        if( $this->hasResponseGroup( self::VIEWFIELDS_RESPONSEGORUP_METADATA ) )
         {
-            case 'ezxmltext':
-                $html = $attribute->content->attribute( 'output' )->attribute( 'output_text' );
-                $attributeValue = array( strip_tags( $html ) );
-                break;
-            case 'ezimage':
-                $strRepImage = $attribute->tostring();
-                $delimPos = strpos( $strRepImage, '|' );
-                if ( $delimPos !== false )
-                {
-                    $strRepImage = substr( $strRepImage, 0, $delimPos );
-                }
-                $attributeValue = array( $strRepImage );
-                break;
-            default:
-                $attributeValue = array( $attribute->tostring() );
-                break;
+            $result->variables['metadata'] = ezpRestContentModel::getMetadataByContent( $content );
+            if( $isNodeRequested )
+            {
+                $location = ezpContentLocation::fetchByNodeId( $this->nodeId );
+                $result->variables['metadata']['nodeId'] = $location->node_id;
+                $result->variables['metadata']['nodeRemoteId'] = $location->remote_id;
+            }
         }
 
-        // cleanup values so that the result is consistent:
-        // - no array if one item
-        // - false if no values
-        if ( count( $attributeValue ) == 0 )
-        {
-            $attributeValue = false;
-        }
-        elseif ( count( $attributeValue ) == 1 )
-        {
-            $attributeValue = current( $attributeValue );
-        }
-
-        return array(
-            'type'                  => $attribute->data_type_string,
-            'identifier'            => $attribute->contentclass_attribute_identifier,
-            'value'                 => $attributeValue,
-            'id'                    => $attribute->id,
-            'classattribute_id'     => $attribute->contentclassattribute_id
-        );
+        return $result;
     }
 
     public function doList()
