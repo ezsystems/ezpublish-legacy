@@ -25,6 +25,13 @@ class ezpRestContentController extends ezpRestMvcController
      */
     const VIEWFIELDS_RESPONSEGROUP_FIELDVALUES = 'FieldValues',
           VIEWFIELDS_RESPONSEGORUP_METADATA = 'Metadata';
+          
+    /**
+     * Expected Response groups for content children listing
+     * @var string
+     */
+    const VIEWLIST_RESPONSEGROUP_METADATA = 'Metadata',
+          VIEWLIST_RESPONSEGROUP_FIELDS = 'Fields';
     
     /**
      * Handles content requests per node or object ID
@@ -194,32 +201,86 @@ class ezpRestContentController extends ezpRestMvcController
         return $result;
     }
 
+    /**
+     * Handles a content request to view a node children list
+     * Requests :
+     *   - GET /api/v1/content/node/<nodeId>/list(/offset/<offset>/limit/<limit>/sort/<sortKey>/<sortType>)
+     *   - Every parameters in parenthesis are optional. However, to have offset/limit and sort, the order is mandatory
+     *     (you can't provide sorting params before limit params). This is due to a limitation in the regexp route.
+     *   - Following requests are valid :
+     *     - /api/ezp/content/node/2/list/sort/name => will display 10 (default limit) children of node 2, sorted by ascending name
+     *     - /api/ezp/content/node/2/list/limit/50/sort/published/desc => will display 50 children of node 2, sorted by descending publishing date
+     *     - /api/ezp/content/node/2/list/offset/100/limit/50/sort/published/desc => will display 50 children of node 2 starting from offset 100, sorted by descending publishing date
+     *
+     * Default values :
+     *   - offset : 0
+     *   - limit : 10
+     *   - sortType : asc
+     */
     public function doList()
     {
+        $this->setDefaultResponseGroups( array( self::VIEWLIST_RESPONSEGROUP_METADATA ) );
+        $result = new ezpRestMvcResult();
         $crit = new ezpContentCriteria();
 
+        // Location criteria
         // Hmm, the following sequence is too long...
         $crit->accept[] = ezpContentCriteria::location()->subtree( ezpContentLocation::fetchByNodeId( $this->nodeId ) );
-
-        $childNodes = ezpContentRepository::query( $crit );
-
-        // Need paging here
-
-        $result = new ezcMvcResult();
-
-        $retData = array();
-        // To be moved to URI convenience methods
-        $protIndex = strpos( $this->request->protocol, '-' );
-        $baseUri = substr( $this->request->protocol, 0, $protIndex ) . "://{$this->request->host}";
-        foreach( $childNodes as $node )
+        $crit->accept[] = ezpContentCriteria::depth( 1 ); // Fetch children only
+        
+        // Limit criteria
+        $offset = isset( $this->offset ) ? $this->offset : 0;
+        $limit = isset( $this->limit ) ? $this->limit : 10;
+        $crit->accept[] = ezpContentCriteria::limit()->offset( $offset )->limit( $limit );
+        
+        // Sort criteria
+        if( isset( $this->sortKey ) )
         {
-            $childEntry = array(
-                            'objectName' => $node->name,
-                            'classIdentifier' => $node->classIdentifier,
-                            'nodeUrl' => $baseUri . $this->getRouter()->generateUrl( 1, array( 'nodeId' => $node->locations->node_id ) ) );
-            $retData[] = $childEntry;
+            $sortOrder = isset( $this->sortType ) ? $this->sortType : 'asc';
+            $crit->accept[] = ezpContentCriteria::sorting( $this->sortKey, $sortOrder );
         }
-        $result->variables['childNodes'] = $retData;
+
+        $result->variables['childrenNodes'] = ezpRestContentModel::getChildrenList( $crit, $this->request, $this->getResponseGroups() );
+        // REST links to children nodes
+        // Little dirty since this should belong to the model layer, but I don't want to pass the router nor the full controller to the model
+        $contentQueryString = $this->request->getContentQueryString( true );
+        for( $i = 0, $iMax = count( $result->variables['childrenNodes'] ); $i < $iMax; ++$i )
+        {
+            $linkURI = $this->getRouter()->generateUrl( 'ezpNode', array( 'nodeId' => $result->variables['childrenNodes'][$i]['nodeId'] ) );
+            $result->variables['childrenNodes'][$i]['link'] = $this->request->getHostURI().$linkURI.$contentQueryString;
+        }
+        
+        // Handle Metadata
+        if( $this->hasResponseGroup( self::VIEWLIST_RESPONSEGROUP_METADATA ) )
+        {
+            $childrenCount = ezpRestContentModel::getChildrenCount( $crit );
+            $result->variables['metadata'] = array(
+                'childrenCount' => $childrenCount,
+                'parentNodeId'  => $this->nodeId
+            );
+            
+        }
+        
+        return $result;
+    }
+    
+    public function doCountChildren()
+    {
+        $this->setDefaultResponseGroups( array( self::VIEWLIST_RESPONSEGROUP_METADATA ) );
+        $result = new ezpRestMvcResult();
+        
+        if( $this->hasResponseGroup( self::VIEWLIST_RESPONSEGROUP_METADATA ) )
+        {
+            $crit = new ezpContentCriteria();
+            $crit->accept[] = ezpContentCriteria::location()->subtree( ezpContentLocation::fetchByNodeId( $this->nodeId ) );
+            $crit->accept[] = ezpContentCriteria::depth( 1 ); // Fetch children only
+            $childrenCount = ezpRestContentModel::getChildrenCount( $crit );
+            $result->variables['metadata'] = array(
+                'childrenCount' => $childrenCount,
+                'parentNodeId'  => $this->nodeId
+            );
+        }
+        
         return $result;
     }
 }

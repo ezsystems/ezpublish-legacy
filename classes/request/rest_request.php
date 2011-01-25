@@ -113,11 +113,23 @@ class ezpRestRequest extends ezcMvcRequest
      */
     public function getBaseURI()
     {
-        $protIndex = strpos( $this->protocol, '-' );
-        $protocol = substr( $this->protocol, 0, $protIndex );
-        $baseUri = $protocol.'://'.$this->host.$this->uri;
+        $hostUri = $this->getHostURI();
+        $baseUri = $hostUri.$this->uri;
         
         return $baseUri;
+    }
+    
+    /**
+     * Returns the host with the protocol
+     * @return string
+     */
+    public function getHostURI()
+    {
+        $protIndex = strpos( $this->protocol, '-' );
+        $protocol = substr( $this->protocol, 0, $protIndex );
+        $hostUri = $protocol.'://'.$this->host;
+        
+        return $hostUri;
     }
     
     /**

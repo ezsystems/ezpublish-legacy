@@ -14,8 +14,8 @@ class ezpRestContentModel extends ezpRestModel
     public static function getMetadataByContent( ezpContent $content )
     {
         $aMetadata = array(
-            'classIdentifier'       => $content->classIdentifier,
             'objectName'            => $content->name,
+            'classIdentifier'       => $content->classIdentifier,
             'datePublished'         => $content->datePublished,
             'dateModified'          => $content->dateModified,
             'objectRemoteId'        => $content->remote_id,
@@ -153,6 +153,54 @@ class ezpRestContentModel extends ezpRestModel
          $links['*'] = $baseUri.'/fields'.$contentQueryString;
 
          return $links;
+    }
+    
+    /**
+     * Returns all children node data, based on the provided criteria object
+     * @param ezpContentCriteria $c
+     * @param ezpRestRequest $currentRequest
+     * @param array $responseGroups Requested ResponseGroups
+     * @return array
+     */
+    public static function getChildrenList( ezpContentCriteria $c, ezpRestRequest $currentRequest, array $responseGroups = array() )
+    {
+        $aRetData = array();
+        $aChildren = ezpContentRepository::query( $c );
+
+        foreach( $aChildren as $childNode )
+        {
+            $childEntry = self::getMetadataByContent( $childNode );
+            $childEntry['nodeId'] = $childNode->locations->node_id;
+            $childEntry['remoteId'] = $childNode->locations->remote_id;
+            $url = $childNode->locations->url_alias;
+            eZURI::transformURI( $url, false, 'full' ); // $url is passed as a reference
+            $childEntry['fullUrl'] = $url;
+            
+            // Add fields with their values if requested
+            if( in_array( ezpRestContentController::VIEWLIST_RESPONSEGROUP_FIELDS, $responseGroups ) )
+            {
+                $childEntry['fields'] = array();
+                foreach( $childNode->fields as $fieldName => $field )
+                {
+                    $childEntry['fields'][$fieldName] = self::attributeOutputData( $field );
+                }
+            }
+            
+            $aRetData[] = $childEntry;
+        }
+        
+        return $aRetData;
+    }
+    
+    /**
+     * Returns the children count, based on the provided criteria object
+     * @param ezpContentCriteria $c
+     * @return int
+     */
+    public static function getChildrenCount( ezpContentCriteria $c )
+    {
+        $count = ezpContentRepository::queryCount( $c );
+        return $count;
     }
 }
 
