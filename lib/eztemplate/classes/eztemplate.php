@@ -1743,7 +1743,7 @@ class eZTemplate
         $path = $resourceData['template-filename'];
         // Do not ouput debug on pagelayout templates to avoid trigering
         // browser quirks mode
-        if ( isset( $root[1][0][2] ) && strpos( $root[1][0][2], '<!DOCTYPE' ) === 0 )
+        if ( isset( $root[1][0][2] ) && is_string( $root[1][0][2] ) && strpos( $root[1][0][2], '<!DOCTYPE' ) === 0 )
             return;
         $uri = $resourceData['uri'];
         $preText = "\n<!-- START: including template: $path ($uri) -->\n";
