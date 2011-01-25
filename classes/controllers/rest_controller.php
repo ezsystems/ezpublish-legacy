@@ -121,6 +121,12 @@ abstract class ezpRestMvcController extends ezcMvcController
             $res->responseGroups = $resGroups;
         }
         
+        // Add debug infos to output if debug is enabled
+        if( ezpRestDebugHandler::instance()->isDebugEnabled() )
+        {
+            $res->variables['debug'] = null;
+        }
+        
         return $res;
     }
 }

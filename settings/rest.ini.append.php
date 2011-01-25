@@ -4,4 +4,7 @@
 PrefixFilterClass=ezpRestDefaultRegexpPrefixFilter
 ApiPrefix=/api
 
+[DebugSettings]
+Debug=enabled
+
 */ ?>
