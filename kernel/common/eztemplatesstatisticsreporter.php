@@ -53,7 +53,7 @@ class eZTemplatesStatisticsReporter
         if ( $as_html )
         {
             $stats .= "<h3>Templates used to render the page:</h3>";
-            $stats .= ( "<table id='templateusage' title='List of used templates'>" .
+            $stats .= ( "<table id='templateusage' class='debug_resource_usage' title='List of used templates'>" .
                    "<tr><th title='Usage count of this particular template'>Usage</th>" .
                    "<th>Requested template</th>" .
                    "<th>Template</th>" .

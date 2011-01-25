@@ -1728,7 +1728,7 @@ class eZDebug
             echo "</table>";
         }
 
-        $this->printBottomReportsList();
+        $this->printBottomReportsList( $as_html );
 
         if ( $as_html )
         {
@@ -1778,16 +1778,26 @@ class eZDebug
         $debug->bottomReportsList[$reportName] = $reportContent;
     }
 
-    /*!
-     Prints all 'bottom' reports
+   /**
+    * Loop over all bottom reports and if callable call them with $as_html parameter,
+    * if not output as is (string).
+    *
+    * @param bool $as_html
     */
-    static function printBottomReportsList()
+    static function printBottomReportsList( $as_html = true )
     {
         $debug = eZDebug::instance();
         $reportNames = array_keys( $debug->bottomReportsList );
         foreach ( $reportNames as $reportName )
         {
-            echo $debug->bottomReportsList[$reportName];
+            if ( is_callable( $debug->bottomReportsList[$reportName] ) )
+            {
+                echo call_user_func_array( $debug->bottomReportsList[$reportName], array( $as_html ) );
+            }
+            else
+            {
+                echo $debug->bottomReportsList[$reportName];
+            }
         }
     }
 
