@@ -25,13 +25,11 @@ var eZAsynchronousPublishingApp = function() {
                     if ( r.responseJSON.error_text )
                     {
                         toggle( '#ezap-error' );
-                        Y.get( '#ezap-error' ).setContent( r.responseJSON.error_text );
+                        Y.one( '#ezap-error' ).setContent( r.responseJSON.error_text );
                     }
                     else
                     {
                         var status = r.responseJSON.content.status;
-                        // var message = statusMessage + r.responseJSON.content.status;
-                        // Y.get( '#publish-queue-status-placeholder' ).setContent( message );
 
                         // publishing finished
                         if ( status == 'finished' )
@@ -46,9 +44,7 @@ var eZAsynchronousPublishingApp = function() {
                             else
                             {
                                 toggle( '#ezap-message-finished' );
-                                // Y.get( '.ezap-placeholder' ).setStyle( 'display', 'none' );
-                                // Y.get( '#ezap-message-finished' ).setStyle( 'display', 'block' );
-                                Y.get( '#ezap-message-finished #ezap-contentview-uri' )
+                                Y.one( '#ezap-message-finished #ezap-contentview-uri' )
                                     .set( 'href', r.responseJSON.content.node_uri );
                             }
                         }
@@ -59,7 +55,7 @@ var eZAsynchronousPublishingApp = function() {
                                 publishQueueUpdater.cancel();
 
                             toggle( '#ezap-message-deferred' );
-                            Y.get( '#ezap-message-finished #ezap-contentview-uri' )
+                            Y.one( '#ezap-message-finished #ezap-contentview-uri' )
                                 .set( 'href', r.responseJSON.content.versionview_uri );
                         }
                     }
@@ -69,8 +65,8 @@ var eZAsynchronousPublishingApp = function() {
     };
 
     toggle = function( id ) {
-        Y.get( '.ezap-placeholder' ).setStyle( 'display', 'none' );
-        Y.get( id ).setStyle( 'display', 'block' );
+        Y.one( '.ezap-placeholder' ).setStyle( 'display', 'none' );
+        Y.one( id ).setStyle( 'display', 'block' );
     }
 
     ret.cfg = {}
