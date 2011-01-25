@@ -264,6 +264,11 @@ class ezpRestContentController extends ezpRestMvcController
         return $result;
     }
     
+    /**
+     * Counts children of a given node
+     * Request :
+     *   - GET /api/ezp/content/node/childrenCount
+     */
     public function doCountChildren()
     {
         $this->setDefaultResponseGroups( array( self::VIEWLIST_RESPONSEGROUP_METADATA ) );
