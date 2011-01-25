@@ -33,7 +33,7 @@ class ezpContentCriteria
     }
 
     /**
-     * Create a location criteria
+     * Creates a location criteria
      * @return ezpContentLocationCriteria
      */
     public static function location()
@@ -42,10 +42,8 @@ class ezpContentCriteria
     }
 
     /**
-     * Create a field criteria
-     *
+     * Creates a field criteria
      * @param mixed $fieldIdentifier
-     *
      * @return ezpContentFieldCriteria
      */
     public static function field( $fieldIdentifier )
@@ -53,9 +51,41 @@ class ezpContentCriteria
         return new ezpContentFieldCriteria( $fieldIdentifier );
     }
 
+    /**
+     * Creates a content class criteria
+     * @return ezpContentClassCriteria
+     */
     public static function contentClass()
     {
         return new ezpContentClassCriteria();
+    }
+    
+    /**
+     * Creates a limit criteria
+     * @return ezpContentLimitCriteria
+     */
+    public static function limit()
+    {
+        return new ezpContentLimitCriteria();
+    }
+    
+    /**
+     * Creates a sorting criteria
+     * @param string $sortKey The sort key. Only non-attribute keys are supported (see {@link http://goo.gl/xvJMM})
+     * @return ezpContentSortingCriteria
+     */
+    public static function sorting( $sortKey, $sortOrder )
+    {
+        return new ezpContentSortingCriteria( $sortKey, $sortOrder );
+    }
+    
+    /**
+     * Creates a depth criteria
+     * @param int $depth The maximum level of depth that should be explored (1 by default)
+     */
+    public static function depth( $depth = 1 )
+    {
+        return new ezpContentDepthCriteria( $depth );
     }
 
     /**

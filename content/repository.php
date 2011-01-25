@@ -22,17 +22,47 @@ class ezpContentRepository
      */
     public static function query( ezpContentCriteria $criteria )
     {
-        $rootNodeId = array();
-
-        /**
-         * We have a set of content criteria in $criteria
-         * These criteria provide us with:
-         * - location conditions (part of subtree X, not part of subtree Y, etc)
-         * - content based conditions (content class, attribute value, etc)
-         *
-         * Based on this, we need to end up calling eZContentObjectTreeNode and return the resulting objects
-         * as an ezpContentList, a countable iterator that iterates over ezpContent objects
-         */
+        $fetchParams = self::translateFetchParams( $criteria );
+        $nodes = eZContentObjectTreeNode::subTreeByNodeID( $fetchParams->params, $fetchParams->rootNodeId );
+        $return = array();
+        foreach( $nodes as $node )
+        {
+            $return[] = ezpContent::fromNode( $node );
+        }
+        return $return;
+    }
+    
+    /**
+     * Returns node count using a given set of criteria
+     * @param ezpContentCriteria $criteria
+     * @return int
+     */
+    public static function queryCount( ezpContentCriteria $criteria )
+    {
+        $fetchParams = self::translateFetchParams( $criteria );
+        $count = eZContentObjectTreeNode::subTreeCountByNodeID( $fetchParams->params, $fetchParams->rootNodeId );
+        return $count;
+    }
+    
+    /**
+     * We have a set of content criteria in $criteria
+     * These criteria provide us with:
+     * - location conditions (part of subtree X, not part of subtree Y, etc)
+     * - content based conditions (content class, attribute value, etc)
+     *
+     * Based on this, we need to end up calling eZContentObjectTreeNode and return the resulting objects
+     * as an ezpContentList, a countable iterator that iterates over ezpContent objects
+     *
+     * This method will make the translation between ezpContentCriteria and acceptable fetch params
+     * @return stdClass Object with 2 properties :
+     *                      - rootNodeId => array of parent node Ids
+     *                      - params => array of translated fetch params
+     */
+    protected static function translateFetchParams( ezpContentCriteria $criteria )
+    {
+        $ret = new stdClass();
+        $ret->rootNodeId = array();
+        $ret->params = array();
 
         /**
          * eZContentObjectTreeNode requires one or more root node IDs to perform a content request.
@@ -45,32 +75,26 @@ class ezpContentRepository
         foreach( $criteria->accept as $acceptCriteria )
         {
             $translatedCriteria = $acceptCriteria->translate();
-            $params = array();
 
             switch( $translatedCriteria['type'] )
             {
                 case 'location':
-                    $rootNodeId[] = $translatedCriteria['value'];
+                    $ret->rootNodeId[] = $translatedCriteria['value'];
                     break;
 
                 case 'param':
+                    // This implementation is really ugly... Need to change it
                     foreach( $translatedCriteria['name'] as $idx => $criteriaName )
                     {
-                        $params[$criteriaName] = $translatedCriteria['value'][$idx];
+                        $ret->params[$criteriaName] = $translatedCriteria['value'][$idx];
                     }
                     break;
             }
         }
 
+        // @TODO : Handle deny criterias
         // foreach( $criteria->deny as $denyCriteria ) {}
-
-        $nodes = eZContentObjectTreeNode::subTreeByNodeID( $params, $rootNodeId );
-        $return = array();
-        foreach( $nodes as $node )
-        {
-            $return[] = ezpContent::fromNode( $node );
-        }
-        return $return;
+        return $ret;
     }
 
     /**
