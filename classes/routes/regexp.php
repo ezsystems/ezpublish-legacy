@@ -13,7 +13,7 @@
 class ezpMvcRegexpRoute extends ezcMvcRegexpRoute
 {
     /**
-     * (non-PHPdoc)
+     * Little fix to allow mixed regexp and rails routes in the router
      * @see lib/ezc/MvcTools/src/routes/ezcMvcRegexpRoute::prefix()
      */
     public function prefix( $prefix )
