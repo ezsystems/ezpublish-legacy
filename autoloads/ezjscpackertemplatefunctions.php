@@ -167,7 +167,18 @@ class ezjscPackerTemplateFunctions
         return $def;
     }
 
-    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
+    /**
+     * Template operator function for all functions defined on this class
+     *
+     * @param eZTemplate $tpl
+     * @param string $operatorName
+     * @param array $operatorParameters
+     * @param string $rootNamespace
+     * @param string $currentNamespace
+     * @param null|mixed $operatorValue
+     * @param array $namedParameters
+     */
+    function modify( eZTemplate $tpl, $operatorName, array $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, array $namedParameters )
     {
         $ret = '';
         switch ( $operatorName )
@@ -283,14 +294,14 @@ class ezjscPackerTemplateFunctions
      * @internal
      * @param string $key Key to store values on
      * @param string|array $value Value(s) to store
-     * @param object $tpl Template object to get values from
+     * @param eZTemplate $tpl Template object to get values from
      * @param bool $append Append or prepend value?
      * @param bool $arrayUnique Make sure array is unique to remove duplicates
      * @param bool $returnArrayDiff Return diff against existing values instead of resulting array
      * @param bool $override Override/Wipe out values or merge?
      * @return array
      */
-    static public function setPersistentArray( $key, $value, $tpl, $append = true, $arrayUnique = false, $returnArrayDiff = false, $override = false )
+    static public function setPersistentArray( $key, $value, eZTemplate $tpl, $append = true, $arrayUnique = false, $returnArrayDiff = false, $override = false )
     {
         $isPageLayout = false;
         $persistentVariable = array();
