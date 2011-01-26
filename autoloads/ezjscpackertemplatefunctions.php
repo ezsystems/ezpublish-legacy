@@ -304,7 +304,7 @@ class ezjscPackerTemplateFunctions
         {
             $persistentVariable = $moduleResult['content_info']['persistent_variable'];
         }
-        else if ( $tpl->hasVariable('persistent_variable') )
+        else if ( !$isPageLayout && $tpl->hasVariable('persistent_variable') )
         {
            $persistentVariable = $tpl->variable('persistent_variable');
         }
