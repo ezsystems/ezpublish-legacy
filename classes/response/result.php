@@ -9,7 +9,7 @@
 /**
  * This struct contains the result data to be returned by eZP REST controllers
  */
-class ezpRestMvcResult extends ezcMvcResult
+class ezpRestMvcResult extends ezcMvcResult implements ezcBaseExportable
 {
     public $responseGroups;
     
