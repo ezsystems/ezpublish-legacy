@@ -75,6 +75,9 @@ class ezpRestContentController extends ezpRestMvcController
                 $location = ezpContentLocation::fetchByNodeId( $this->nodeId );
                 $result->variables['metadata']['nodeId'] = $location->node_id;
                 $result->variables['metadata']['nodeRemoteId'] = $location->remote_id;
+                $url = $location->url_alias;
+                eZURI::transformURI( $url, false, 'full' ); // $url is passed as a reference
+                $result->variables['metadata']['fullUrl'] = $url;
             }
         }
         
