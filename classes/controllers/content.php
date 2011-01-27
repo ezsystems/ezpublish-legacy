@@ -69,16 +69,12 @@ class ezpRestContentController extends ezpRestMvcController
         // Handle metadata
         if( $this->hasResponseGroup( self::VIEWCONTENT_RESPONSEGROUP_METADATA ) )
         {
-            $result->variables['metadata'] = ezpRestContentModel::getMetadataByContent( $content, $isNodeRequested );
+            $objectMetadata = ezpRestContentModel::getMetadataByContent( $content, $isNodeRequested );
             if( $isNodeRequested )
             {
-                $location = ezpContentLocation::fetchByNodeId( $this->nodeId );
-                $result->variables['metadata']['nodeId'] = $location->node_id;
-                $result->variables['metadata']['nodeRemoteId'] = $location->remote_id;
-                $url = $location->url_alias;
-                eZURI::transformURI( $url, false, 'full' ); // $url is passed as a reference
-                $result->variables['metadata']['fullUrl'] = $url;
+                $nodeMetadata = ezpRestContentModel::getMetadataByLocation( ezpContentLocation::fetchByNodeId( $this->nodeId ) );
             }
+            $result->variables['metadata'] = array_merge( $objectMetadata, $nodeMetadata );
         }
         
         // Handle locations if requested
@@ -136,13 +132,12 @@ class ezpRestContentController extends ezpRestMvcController
         // Handle object/node metadata
         if( $this->hasResponseGroup( self::VIEWFIELDS_RESPONSEGORUP_METADATA ) )
         {
-            $result->variables['metadata'] = ezpRestContentModel::getMetadataByContent( $content );
+            $objectMetadata = ezpRestContentModel::getMetadataByContent( $content, $isNodeRequested );
             if( $isNodeRequested )
             {
-                $location = ezpContentLocation::fetchByNodeId( $this->nodeId );
-                $result->variables['metadata']['nodeId'] = $location->node_id;
-                $result->variables['metadata']['nodeRemoteId'] = $location->remote_id;
+                $nodeMetadata = ezpRestContentModel::getMetadataByLocation( ezpContentLocation::fetchByNodeId( $this->nodeId ) );
             }
+            $result->variables['metadata'] = array_merge( $objectMetadata, $nodeMetadata );
         }
         
         return $result;
@@ -192,13 +187,12 @@ class ezpRestContentController extends ezpRestMvcController
         // Handle object/node metadata
         if( $this->hasResponseGroup( self::VIEWFIELDS_RESPONSEGORUP_METADATA ) )
         {
-            $result->variables['metadata'] = ezpRestContentModel::getMetadataByContent( $content );
+            $objectMetadata = ezpRestContentModel::getMetadataByContent( $content, $isNodeRequested );
             if( $isNodeRequested )
             {
-                $location = ezpContentLocation::fetchByNodeId( $this->nodeId );
-                $result->variables['metadata']['nodeId'] = $location->node_id;
-                $result->variables['metadata']['nodeRemoteId'] = $location->remote_id;
+                $nodeMetadata = ezpRestContentModel::getMetadataByLocation( ezpContentLocation::fetchByNodeId( $this->nodeId ) );
             }
+            $result->variables['metadata'] = array_merge( $objectMetadata, $nodeMetadata );
         }
 
         return $result;

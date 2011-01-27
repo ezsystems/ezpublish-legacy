@@ -31,6 +31,25 @@ class ezpRestContentModel extends ezpRestModel
     }
     
     /**
+     * Returns metadata for given content location as array
+     * @param ezpContentLocation $location
+     * @return array
+     */
+    public static function getMetadataByLocation( ezpContentLocation $location )
+    {
+        $url = $location->url_alias;
+        eZURI::transformURI( $url, false, 'full' ); // $url is passed as a reference
+        
+        $aMetadata = array(
+            'nodeId'        => $location->node_id,
+            'nodeRemoteId'  => $location->remote_id,
+            'fullUrl'       => $url
+        );
+        
+        return $aMetadata;
+    }
+    
+    /**
      * Returns all locations for provided content as array.
      * @param ezpContent $content
      * @return array Associative array with following keys :
@@ -46,15 +65,8 @@ class ezpRestContentModel extends ezpRestModel
         foreach( $assignedNodes as $node )
         {
             $location = ezpContentLocation::fromNode( $node );
-            $url = $location->url_alias;
-            eZURI::transformURI( $url, false, 'full' ); // $url is passed as a reference
-            
-            $locationData = array(
-                'fullUrl'       => $url,
-                'nodeId'        => $location->node_id,
-                'remoteId'      => $location->remote_id,
-                'isMain'        => $location->is_main
-            );
+            $locationData = self::getMetadataByLocation( $location );
+            $locationData['isMain'] = $location->is_main;
             $aReturnLocations[] = $locationData;
         }
         
@@ -175,11 +187,7 @@ class ezpRestContentModel extends ezpRestModel
         foreach( $aChildren as $childNode )
         {
             $childEntry = self::getMetadataByContent( $childNode );
-            $childEntry['nodeId'] = $childNode->locations->node_id;
-            $childEntry['remoteId'] = $childNode->locations->remote_id;
-            $url = $childNode->locations->url_alias;
-            eZURI::transformURI( $url, false, 'full' ); // $url is passed as a reference
-            $childEntry['fullUrl'] = $url;
+            $childEntry = array_merge( $childEntry, self::getMetadataByLocation( $childNode->locations ) );
             
             // Add fields with their values if requested
             if( in_array( ezpRestContentController::VIEWLIST_RESPONSEGROUP_FIELDS, $responseGroups ) )
