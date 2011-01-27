@@ -11,6 +11,11 @@
  */
 class ezpRestContentModel extends ezpRestModel
 {
+    /**
+     * Returns metadata for given content as array
+     * @param ezpContent $content
+     * @return array
+     */
     public static function getMetadataByContent( ezpContent $content )
     {
         $aMetadata = array(
