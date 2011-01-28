@@ -154,16 +154,18 @@ abstract class ezpRestCacheStorageCluster extends ezpRestCacheStorageFile implem
      * @param bool $search                      Whether to search for items
      *                                          if not found directly. Default is
      *                                          false.
-     *
-     * @throws ezcBaseFilePermissionException
-     *         If an already existsing cache file could not be unlinked.
-     *         This exception means most likely that your cache directory
-     *         has been corrupted by external influences (file permission
-     *         change).
      */
     public function delete( $id = null, $attributes = array(), $search = false )
     {
+        $fileName = $this->properties['location']
+                  . $this->generateIdentifier( $id, $attributes );
+                  
+        if( !isset( $this->clusterCacheFile ) )
+            $this->clusterCacheFile = eZClusterFileHandler::instance( $fileName );
+            
+        $this->clusterCacheFile->purge();
         
+        return $id;
     }
     
     /**
@@ -177,7 +179,19 @@ abstract class ezpRestCacheStorageCluster extends ezpRestCacheStorageFile implem
      */
     public function countDataItems( $id = null, $attributes = array() )
     {
+        $fileName = $this->properties['location']
+                  . $this->generateIdentifier( $id, $attributes );
+                  
+        if( !isset( $this->clusterCacheFile ) )
+            $this->clusterCacheFile = eZClusterFileHandler::instance( $fileName );
+            
+        $count = 0;
+        if( $this->clusterCacheFile->exists() )
+        {
+            $count = 1;
+        }
         
+        return $count;
     }
     
     /**
@@ -192,15 +206,34 @@ abstract class ezpRestCacheStorageCluster extends ezpRestCacheStorageFile implem
      */
     public function getRemainingLifetime( $id, $attributes = array() )
     {
+        $fileName = $this->properties['location']
+                  . $this->generateIdentifier( $id, $attributes );
+                  
+        if( !isset( $this->clusterCacheFile ) )
+            $this->clusterCacheFile = eZClusterFileHandler::instance( $fileName );
+            
+        $ttl = $this->options->ttl;
+        $remaining = 0;
+        $curTime = time();
+        if( $this->clusterCacheFile->exists() && !$this->clusterCacheFile->isExpired( -1, $curTime, $ttl) )
+        {
+            if( $ttl !== false )
+            {
+                $lifetime = $curTime - $this->clusterCacheFile->mtime();
+                if( $lifetime < $ttl )
+                    $remaining = $ttl - $lifetime;
+            }
+        }
         
+        return $remaining;
     }
     
     /**
      * Checks if the location property is valid.
      */
-    protected function validateLocation()
-    {
-        
-    }
+//    protected function validateLocation()
+//    {
+//
+//    }
 }
 ?>

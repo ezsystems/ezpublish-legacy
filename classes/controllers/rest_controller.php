@@ -168,7 +168,7 @@ abstract class ezpRestMvcController extends ezcMvcController
         {
             $res->variables['debug'] = ezpRestDebugHandler::getInstance()->getReport();
         }
-        
+
         return $res;
     }
     
