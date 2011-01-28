@@ -7,7 +7,19 @@
  */
 abstract class ezpRestCacheStorageCluster extends ezpRestCacheStorageFile implements ezcCacheStackableStorage, ezcCacheStackMetaDataStorage
 {
+    /**
+     * Flag indicating if cache is enabled or not.
+     * This flag should be set by the cache caller.
+     * Default is true
+     * @var bool
+     */
     public $isCacheEnabled = true;
+    
+    /**
+     * Cluster file handler instance for cache file
+     * @var eZClusterFileHandlerInterface
+     */
+    protected $clusterCacheFile;
     
     /**
      * Creates a new cache storage for a given location through eZ Publish cluster mechanism
@@ -46,13 +58,15 @@ abstract class ezpRestCacheStorageCluster extends ezpRestCacheStorageFile implem
         $fileName = $this->properties['location']
                   . $this->generateIdentifier( $id, $attributes );
                   
-        $cacheFile = eZClusterFileHandler::instance( $fileName );
+        if( !isset( $this->clusterCacheFile ) )
+            $this->clusterCacheFile = eZClusterFileHandler::instance( $fileName );
+        
         $dataStr = $this->prepareData( $data );
         $aFileData = array(
             'scope'        => 'rest-cluster-cache',
             'binarydata'   => $dataStr
         );
-        $cacheFile->storeCache( $aFileData );
+        $this->clusterCacheFile->storeCache( $aFileData );
         
         return $id;
     }
@@ -93,8 +107,8 @@ abstract class ezpRestCacheStorageCluster extends ezpRestCacheStorageFile implem
         $fileName = $this->properties['location']
                   . $this->generateIdentifier( $id, $attributes );
                   
-        $cacheFile = eZClusterFileHandler::instance( $fileName );
-        $result = $cacheFile->processCache(
+        $this->clusterCacheFile = eZClusterFileHandler::instance( $fileName );
+        $result = $this->clusterCacheFile->processCache(
             array( $this, 'clusterRetrieve' ),
             null, // We won't call any generate callback as we're using ezcCache mechanism, so it's up to the cache caller to generate
             $this->properties['options']['ttl'],
