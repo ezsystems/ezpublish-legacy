@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing ezpCacheClusterObject class
+ * File containing ezpRestCacheStorageClusterObject class
  *
  * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
@@ -10,7 +10,7 @@
  * Cache storage implementation for compatible objects (implementing ezcBaseExportable interface).
  * Will also work with arrays and scalar values (int, float, string, bool)
  */
-class ezpCacheClusterObject extends ezpCacheStorageCluster
+class ezpRestCacheStorageClusterObject extends ezpRestCacheStorageCluster
 {
     /**
      * Fetch data from the cache.

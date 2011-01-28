@@ -31,7 +31,7 @@ class ezpCacheStorageClusterOptions extends ezcBaseOptions
      */
     public function __construct( $options = array() )
     {
-        // @TODO : Define new options if necessry
+        // @TODO : Define new options if necessary
         $this->storageOptions = new ezcCacheStorageOptions();
         parent::__construct( $options );
     }

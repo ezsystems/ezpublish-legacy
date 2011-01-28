@@ -1,12 +1,14 @@
 <?php
 /**
- * File containing ezpCacheStorageCluster class
+ * File containing ezpRestCacheStorageCluster class
  *
  * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
  */
-abstract class ezpCacheStorageCluster extends ezpCacheStorage implements ezcCacheStackableStorage, ezcCacheStackMetaDataStorage
+abstract class ezpRestCacheStorageCluster extends ezpRestCacheStorageFile implements ezcCacheStackableStorage, ezcCacheStackMetaDataStorage
 {
+    public $isCacheEnabled = true;
+    
     /**
      * Creates a new cache storage for a given location through eZ Publish cluster mechanism
      * Options can contain the 'ttl' ( Time-To-Life ). This is per default set
@@ -16,10 +18,12 @@ abstract class ezpCacheStorageCluster extends ezpCacheStorage implements ezcCach
      */
     public function __construct( $location, $options = array() )
     {
-        $cacheDir = eZSys::cacheDirectory().'/'.$location;
-        if( !file_exists( $cacheDir ) )
+        $apiName = ezpRestPrefixFilterInterface::getApiProviderName();
+        $apiVersion = ezpRestPrefixFilterInterface::getApiVersion();
+        $location = eZSys::cacheDirectory().'/rest/'.$location;
+        if( !file_exists( $location ) )
         {
-            if( !eZDir::mkdir( $cacheDir, false, true ) )
+            if( !eZDir::mkdir( $location, false, true ) )
             {
                 throw new ezcBaseFilePermissionException(
                     $location,
@@ -29,81 +33,28 @@ abstract class ezpCacheStorageCluster extends ezpCacheStorage implements ezcCach
             }
         }
         
-        parent::__construct( $cacheDir );
+        parent::__construct( $location );
         $this->properties['options'] = new ezpCacheStorageClusterOptions( $options );
     }
     
     /**
-     * Fetch data from the cache.
-     * This method does the fetching of the data itself. In this case, the
-     * method simply includes the file from cluster and returns the value returned by the
-     * include ( or false on failure ).
-     *
-     * @param string $filename The file to fetch data from.
-     * @return mixed The fetched data or false on failure.
-     */
-    abstract protected function fetchData( $filename );
-
-    /**
-     * Serialize the data for storing.
-     * Serializes a PHP variable ( except type resource and object ) to a
-     * executable PHP code representation string.
-     *
-     * @param mixed $data Simple type or array
-     * @return string The serialized data
-     *
-     * @throws ezcCacheInvalidDataException
-     *         If the data submitted can not be handled by the implementation
-     *         of {@link ezpCacheStorageCluster}
-     */
-    abstract protected function prepareData( $data );
-    
-    /**
-     * Store data to the cache storage.
-     * This method stores the given cache data into the cache, assigning the
-     * ID given to it.
-     *
-     * The type of cache data which is expected by a ezcCacheStorage depends on
-     * its implementation. In most cases strings and arrays will be accepted,
-     * in some rare cases only strings might be accepted.
-     *
-     * Using attributes you can describe your cache data further. This allows
-     * you to deal with multiple cache data at once later. Some ezcCacheStorage
-     * implementations also use the attributes for storage purposes. Attributes
-     * form some kind of "extended ID".
-     *
-     * @param string $id                        The item ID.
-     * @param mixed $data                       The data to store.
-     * @param array(string=>string) $attributes Attributes that describe the
-     *                                          cached data.
-     *
-     * @return string           The ID of the newly cached data.
-     *
-     * @throws ezcBaseFilePermissionException
-     *         If an already existsing cache file could not be unlinked to
-     *         store the new data (may occur, when a cache item's TTL
-     *         has expired and the file should be stored with more actual
-     *         data). This exception means most likely that your cache directory
-     *         has been corrupted by external influences (file permission
-     *         change).
-     * @throws ezcBaseFilePermissionException
-     *         If the directory to store the cache file could not be created.
-     *         This exception means most likely that your cache directory
-     *         has been corrupted by external influences (file permission
-     *         change).
-     * @throws ezcBaseFileIoException
-     *         If an error occured while writing the data to the cache. If this
-     *         exception occurs, a serious error occured and your storage might
-     *         be corruped (e.g. broken network connection, file system broken,
-     *         ...).
-     * @throws ezcCacheInvalidDataException
-     *         If the data submitted can not be handled by the implementation
-     *         of {@link ezcCacheStorage}. Most implementations can not
-     *         handle objects and resources.
+     * (non-PHPdoc)
+     * @see lib/ezc/Cache/src/storage/ezcCacheStorageFile::store()
      */
     public function store( $id, $data, $attributes = array() )
     {
+        $fileName = $this->properties['location']
+                  . $this->generateIdentifier( $id, $attributes );
+                  
+        $cacheFile = eZClusterFileHandler::instance( $fileName );
+        $dataStr = $this->prepareData( $data );
+        $aFileData = array(
+            'scope'        => 'rest-cluster-cache',
+            'binarydata'   => $dataStr
+        );
+        $cacheFile->storeCache( $aFileData );
         
+        return $id;
     }
     
     /**
@@ -130,16 +81,45 @@ abstract class ezpCacheStorageCluster extends ezpCacheStorage implements ezcCach
      *                                          false.
      *
      * @return mixed The cached data on success, otherwise false.
-     *
-     * @throws ezcBaseFilePermissionException
-     *         If an already existsing cache file could not be unlinked.
-     *         This exception means most likely that your cache directory
-     *         has been corrupted by external influences (file permission
-     *         change).
      */
     public function restore( $id, $attributes = array(), $search = false )
     {
+        // If cache is explicitely disabled, we don't try to process it
+        if( $this->isCacheEnabled === false )
+        {
+            return false;
+        }
+            
+        $fileName = $this->properties['location']
+                  . $this->generateIdentifier( $id, $attributes );
+                  
+        $cacheFile = eZClusterFileHandler::instance( $fileName );
+        $result = $cacheFile->processCache(
+            array( $this, 'clusterRetrieve' ),
+            null, // We won't call any generate callback as we're using ezcCache mechanism, so it's up to the cache caller to generate
+            $this->properties['options']['ttl'],
+            null,
+            compact( 'id', 'attributes', 'fileName' )
+        );
         
+        if ( !$result instanceof eZClusterFileFailure )
+        {
+            return $result;
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Retrieve callback for cluster processCache() method
+     * @param string $file Filepath
+     * @param int $mtime File modification time
+     * @param array $args Extra args passed to the cluster processCache() method
+     * @return string
+     */
+    public function clusterRetrieve( $file, $mtime, $args )
+    {
+        return $this->fetchData( $file );
     }
     
     /**

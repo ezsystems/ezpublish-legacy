@@ -12,10 +12,32 @@
 abstract class ezpRestMvcController extends ezcMvcController
 {
     /**
+     * Cache ID for ezcCache
+     * @var string
+     */
+    const CACHE_ID = 'ezpRestMvcController';
+    
+    /**
      * Default response groups returned by the controller
      * @var array
      */
     private $defaultResponsegroups = array();
+    
+    /**
+     * @var eZINI
+     */
+    protected $restINI;
+    
+    /**
+     * Constructor
+     * @param string $action
+     * @param ezcMvcRequest $request
+     */
+    public function __construct( $action, ezcMvcRequest $request )
+    {
+        $this->restINI = eZINI::instance( 'rest.ini' );
+        parent::__construct( $action, $request );
+    }
     
     /**
      * Checks if a response group has been provided in the requested REST URI
@@ -112,13 +134,33 @@ abstract class ezpRestMvcController extends ezcMvcController
      */
     public function createResult()
     {
-        $res = parent::createResult();
-        $resGroups = $this->getResponseGroups();
-        $res->variables['requestedResponseGroups'] = $resGroups;
+        $apiName = ezpRestPrefixFilterInterface::getApiProviderName();
+        $apiVersion = ezpRestPrefixFilterInterface::getApiVersion();
+        $routingInfos = $this->getRouter()->getRoutingInformation();
         
-        if ( $res instanceof ezpRestMvcResult )
+        $cacheOptions = array( 'ttl' => $this->getActionTTL() );
+        ezcCacheManager::createCache( self::CACHE_ID, $this->getCacheLocation(), 'ezpRestCacheStorageClusterObject', $cacheOptions );
+        
+        $cache = ezcCacheManager::getCache( self::CACHE_ID );
+        $controllerCacheId = $this->generateCacheId();
+        $isCacheEnabled = $this->isCacheEnabled();
+        
+        // Try to restore application cache.
+        // If expired or not yet available, generate it and store it
+        $cache->isCacheEnabled = $isCacheEnabled;
+        if( ( $res = $cache->restore( $controllerCacheId, $cacheAttributes ) ) === false )
         {
-            $res->responseGroups = $resGroups;
+            $res = parent::createResult();
+            $resGroups = $this->getResponseGroups();
+            $res->variables['requestedResponseGroups'] = $resGroups;
+            
+            if ( $res instanceof ezpRestMvcResult )
+            {
+                $res->responseGroups = $resGroups;
+            }
+            
+            if( $isCacheEnabled )
+                $cache->store( $controllerCacheId, $res );
         }
         
         // Add debug infos to output if debug is enabled
@@ -128,6 +170,105 @@ abstract class ezpRestMvcController extends ezcMvcController
         }
         
         return $res;
+    }
+    
+    /**
+     * Returns cache location for current API/version/controller/action
+     * @return string Path in the cluster
+     */
+    public function getCacheLocation()
+    {
+        $apiName = ezpRestPrefixFilterInterface::getApiProviderName();
+        $apiVersion = ezpRestPrefixFilterInterface::getApiVersion();
+        $routingInfos = $this->getRouter()->getRoutingInformation();
+        $cacheLocation = $apiName.'/v'.$apiVersion.'/'.$routingInfos->controllerClass.'/'.$routingInfos->action;
+        
+        return $cacheLocation;
+    }
+    
+    /**
+     * Returns cache TTL value for current action as set in rest.ini
+     * Default value will be [CacheSettings].DefaultCacheTTL.
+     * This can be refined by setting a [<controllerClass>_<action>_CacheSettings] section (see comments in rest.ini).
+     * @return int TTL in seconds
+     */
+    private function getActionTTL()
+    {
+        $ttl = $this->restINI->variable( 'CacheSettings', 'DefaultCacheTTL' );
+        $routingInfos = $this->getRouter()->getRoutingInformation();
+        
+        // Check if we have TTL settings for this controller/action
+        $actionSectionName = $routingInfos->controllerClass.'_'.$routingInfos->action.'_CacheSettings';
+        $controllerSectionName = $routingInfos->controllerClass.'_CacheSettings';
+        if( $this->restINI->hasVariable( $actionSectionName, 'CacheTTL' ) )
+        {
+            $ttl = $this->restINI->variable( $actionSectionName, 'CacheTTL' );
+        }
+        else if( $this->restINI->hasVariable( $controllerSectionName, 'CacheTTL' ) ) // Nothing at controller/action level, check at controller level
+        {
+            $ttl = $this->restINI->variable( $controllerSectionName, 'CacheTTL' );
+        }
+        
+        return (int)$ttl;
+    }
+    
+    /**
+     * Generates unique cache ID for current request.
+     * The cache ID is a MD5 hash and takes into account :
+     *  - API Name
+     *  - API Version
+     *  - Controller class
+     *  - Action
+     *  - Internal variables (passed parameters, ResponseGroups...)
+     *  - Content variables (Translation...)
+     * @return string
+     */
+    private function generateCacheId()
+    {
+        $apiName = ezpRestPrefixFilterInterface::getApiProviderName();
+        $apiVersion = ezpRestPrefixFilterInterface::getApiVersion();
+        $routingInfos = $this->getRouter()->getRoutingInformation();
+        
+        $aCacheId = array( $apiName, $apiVersion, $routingInfos->controllerClass, $routingInfos->action );
+        // Add internal variables, caught in the URL. See ezpRestHttpRequestParser::fillVariables()
+        // Also add content variables
+        $allInternalVariables = array_merge( $this->request->variables, $this->getAllContentVariables() );
+        foreach( $allInternalVariables as $name => $val )
+        {
+            if( is_array( $val ) )
+                $aCacheId[] = $name.'='.implode( ',', $val );
+            else
+                $aCacheId[] = $name.'='.$val;
+        }
+        
+        $cacheId = implode( '-', $aCacheId );
+        return md5( $cacheId );
+    }
+    
+    /**
+     * Checks if application cache is enabled for this controller/action, as set in rest.ini
+     * Default value will be [CacheSettings].ApplicationCache
+     * This can be refined by setting a [<controllerClass>_<action>_CacheSettings] section (see comments in rest.ini).
+     * @return bool
+     */
+    private function isCacheEnabled()
+    {
+        $isCacheActivated = $this->restINI->variable( 'CacheSettings', 'ApplicationCache' ) === 'enabled';
+        $routingInfos = $this->getRouter()->getRoutingInformation();
+        
+        // Check if we have a specific setting for this controller/action
+        $actionSectionName = $routingInfos->controllerClass.'_'.$routingInfos->action.'_CacheSettings';
+        $controllerSectionName = $routingInfos->controllerClass.'_CacheSettings';
+        if( $this->restINI->hasVariable( $actionSectionName, 'ApplicationCache' ) )
+        {
+            $isCacheActivated = $this->restINI->variable( $actionSectionName, 'ApplicationCache' ) === 'enabled';
+        }
+        else if ( $this->restINI->hasVariable( $controllerSectionName, 'ApplicationCache' ) ) // Nothing at controller/action level, check at controller level
+        {
+            $isCacheActivated = $this->restINI->variable( $controllerSectionName, 'ApplicationCache' ) === 'enabled';
+        }
+        
+        return $isCacheActivated;
     }
 }
 ?>
