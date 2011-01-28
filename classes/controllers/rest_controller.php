@@ -164,9 +164,9 @@ abstract class ezpRestMvcController extends ezcMvcController
         }
         
         // Add debug infos to output if debug is enabled
-        if( ezpRestDebugHandler::instance()->isDebugEnabled() )
+        if( ezpRestDebugHandler::isDebugEnabled() )
         {
-            $res->variables['debug'] = null;
+            $res->variables['debug'] = ezpRestDebugHandler::getInstance()->getReport();
         }
         
         return $res;

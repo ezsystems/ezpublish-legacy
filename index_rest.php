@@ -38,6 +38,12 @@ $access = eZSiteAccess::match( $uri,
                       eZSys::indexFile() );
 $access = eZSiteAccess::change( $access );
 
+if( ezpRestDebugHandler::isDebugEnabled() )
+{
+    $debug = ezpRestDebugHandler::getInstance();
+    $debug->updateDebugSettings();
+}
+
 // Adding the compat layer for i18n methods, as this is used in some of the
 // datatypes in extensions
 require_once 'kernel/common/i18n.php';
