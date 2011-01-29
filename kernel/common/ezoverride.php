@@ -28,15 +28,10 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file
-*/
-
-/*!
-  \class eZOverride ezoverride.php
-  \brief The class eZOverride does
-
-*/
-
+/**
+ * Not currently used for anything
+ * @deprecated 4.5
+ */
 class eZOverride
 {
     static function selectFile( $matches, $matchKeys, &$matchedKeys, $regexpMatch )
