@@ -1127,5 +1127,52 @@ END;
     {
         $this->output = $outputObject;
     }
+
+    /**
+     * Create phpunit configuration file adding whitelist from kernel autoload file
+     *
+     * It writes file phpunit.xml in ./tests directory
+     *
+     * @return DOMDocument;
+     */
+    public function buildPHPUnitConfigurationFile()
+    {
+        
+          if ( $this->mask == self::MODE_KERNEL )
+          {
+              $this->log('Creating phpunit configuration file.');
+
+              $autoloadArray = @include 'autoload/ezp_kernel.php';
+
+              $baseDir = getcwd();
+              
+              $dom = new DOMDocument( '1.0', 'utf-8' );
+              $dom->formatOutput = true;
+
+              $root = $dom->createElement( 'phpunit' );
+              $filter = $dom->createElement( 'filter' );
+              $blacklist = $dom->createElement( 'blacklist' );
+              $whitelist = $dom->createElement( 'whitelist' );
+              $directory = $dom->createElement('directory', $baseDir . DIRECTORY_SEPARATOR . 'tests');
+
+              foreach ( $autoloadArray as $class => $filename )
+              {
+                  $file = $dom->createElement( 'file', $baseDir . DIRECTORY_SEPARATOR . $filename );
+                  $whitelist->appendChild($file);
+              }
+
+              $blacklist->appendChild($directory);
+              $filter->appendChild($blacklist);
+              $filter->appendChild($whitelist);
+              $root->appendChild($filter);
+              $dom->appendChild($root);
+
+              file_put_contents($baseDir . DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR . 'phpunit.xml', $dom->saveXML());
+
+              return $dom;
+          }
+
+     }
+      
 }
 ?>
