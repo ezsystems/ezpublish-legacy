@@ -35,5 +35,7 @@ DefaultCacheTTL=600
 #ApplicationCache=enabled
 #CacheTTL=1200
 
+# Switch to enable/disable Routes cache with APC
+RouteApcCache=enabled
 
 */ ?>
