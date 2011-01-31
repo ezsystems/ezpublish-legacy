@@ -134,6 +134,9 @@ abstract class ezpRestMvcController extends ezcMvcController
      */
     public function createResult()
     {
+        $debug = ezpRestDebug::getInstance();
+        $debug->startTimer( 'GeneratingRestResult', 'RestController' );
+        
         $apiName = ezpRestPrefixFilterInterface::getApiProviderName();
         $apiVersion = ezpRestPrefixFilterInterface::getApiVersion();
         $routingInfos = $this->getRouter()->getRoutingInformation();
@@ -150,6 +153,9 @@ abstract class ezpRestMvcController extends ezcMvcController
         $cache->isCacheEnabled = $isCacheEnabled;
         if( ( $res = $cache->restore( $controllerCacheId, $cacheAttributes ) ) === false )
         {
+            $debug->log( 'Generating cache', ezcLog::DEBUG );
+            $debug->switchTimer( 'GeneratingCache', 'GeneratingRestResult' );
+            
             $res = parent::createResult();
             $resGroups = $this->getResponseGroups();
             $res->variables['requestedResponseGroups'] = $resGroups;
@@ -161,12 +167,15 @@ abstract class ezpRestMvcController extends ezcMvcController
             
             if( $isCacheEnabled )
                 $cache->store( $controllerCacheId, $res );
+                
+            $debug->stopTimer( 'GeneratingCache' );
         }
         
         // Add debug infos to output if debug is enabled
-        if( ezpRestDebugHandler::isDebugEnabled() )
+        $debug->stopTimer( 'GeneratingRestResult' );
+        if( ezpRestDebug::isDebugEnabled() )
         {
-            $res->variables['debug'] = ezpRestDebugHandler::getInstance()->getReport();
+            $res->variables['debug'] = $debug->getReport();
         }
 
         return $res;

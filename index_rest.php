@@ -38,9 +38,9 @@ $access = eZSiteAccess::match( $uri,
                       eZSys::indexFile() );
 $access = eZSiteAccess::change( $access );
 
-if( ezpRestDebugHandler::isDebugEnabled() )
+if( ezpRestDebug::isDebugEnabled() )
 {
-    $debug = ezpRestDebugHandler::getInstance();
+    $debug = ezpRestDebug::getInstance();
     $debug->updateDebugSettings();
 }
 

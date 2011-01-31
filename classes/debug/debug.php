@@ -1,11 +1,11 @@
 <?php
 /**
- * File containing ezpRestDebugHandler class
+ * File containing ezpRestDebug class
  *
  * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
  */
-final class ezpRestDebugHandler
+final class ezpRestDebug
 {
     private static $instance;
     
@@ -26,6 +26,11 @@ final class ezpRestDebugHandler
     private $debug;
     
     /**
+     * @var bool
+     */
+    private static $isDebugEnabled;
+    
+    /**
      * Private constructor
      */
     private function __construct()
@@ -33,6 +38,7 @@ final class ezpRestDebugHandler
         $this->restINI = eZINI::instance( 'rest.ini' );
         $this->eZDebug = eZDebug::instance();
         $this->debug = ezcDebug::getInstance();
+        $this->debug->setOutputFormatter( new ezpRestDebugPHPFormatter() );
     }
     
     /**
@@ -54,14 +60,18 @@ final class ezpRestDebugHandler
      */
     public static function isDebugEnabled()
     {
-        $isEnabled = false;
-        $globalDebugEnabled = eZINI::instance()->variable( 'DebugSettings', 'DebugOutput' ) === 'enabled';
-        $localDebugEnabled = eZINI::instance( 'rest.ini' )->variable( 'DebugSettings', 'Debug' ) === 'enabled';
-        
-        if( $globalDebugEnabled && $localDebugEnabled )
-            $isEnabled = true;
+        if( self::$isDebugEnabled === null )
+        {
+            $isEnabled = false;
+            $globalDebugEnabled = eZINI::instance()->variable( 'DebugSettings', 'DebugOutput' ) === 'enabled';
+            $localDebugEnabled = eZINI::instance( 'rest.ini' )->variable( 'DebugSettings', 'Debug' ) === 'enabled';
             
-        return $isEnabled;
+            if( $globalDebugEnabled && $localDebugEnabled )
+                $isEnabled = true;
+                
+            self::$isDebugEnabled = $isEnabled;
+        }
+        return self::$isDebugEnabled;
     }
     
     /**
@@ -71,10 +81,11 @@ final class ezpRestDebugHandler
     {
         $report = array();
         
+        $report['restDebug'] = $this->debug->generateOutput();
+        
         $reportEZDebug = $this->eZDebug->printReportInternal( false );
         $report['eZDebug'] = explode( "\n", $reportEZDebug );
         
-        $report['restDebug'] = null;
         
         return $report;
     }
@@ -103,6 +114,22 @@ final class ezpRestDebugHandler
             $debugSettings['always-log'][$level] = in_array( $name, $logList );
         }
         eZDebug::updateSettings( $debugSettings );
+    }
+    
+    /**
+     * Generic safe way to access ezcDebug public methods
+     * @param $method
+     * @param $arguments
+     */
+    public function __call( $method, $arguments )
+    {
+        if( self::isDebugEnabled() )
+        {
+            if ( method_exists( $this->debug, $method ) )
+                return call_user_func_array( array( $this->debug, $method ), $arguments );
+            else
+                throw new ezcBasePropertyNotFoundException( 'ezcDebug::'.$method.'()' );
+        }
     }
 }
 ?>
