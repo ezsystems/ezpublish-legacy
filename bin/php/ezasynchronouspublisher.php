@@ -125,10 +125,19 @@ else
     $cli->output( "Running in interactive mode. Hit ctrl-c to interrupt." );
 }
 
+if ( $options['daemon'] )
+{
+    $output = new ezpAsynchronousPublisherLogOutput();
+}
+else
+{
+    $output = new ezpAsynchronousPublisherCliOutput();
+}
+
 // actual daemon code
 $processor = ezpContentPublishingQueueProcessor::instance();
+$processor->setOutput( $output );
 $processor->run();
-
 
 eZScript::instance()->shutdown( 0 );
 

@@ -24,6 +24,9 @@ class ezpContentPublishingQueueProcessor
         $this->contentINI = eZINI::instance( 'content.ini' );
         $this->allowedPublishingSlots = $this->contentINI->variable( 'PublishingSettings', 'PublishingProcessSlots' );
         $this->sleepInterval = $this->contentINI->variable( 'PublishingSettings', 'AsynchronousPollingInterval' );
+
+        // output to log by default
+        $this->setOutput( new ezpAsynchronousPublisherLogOutput );
     }
 
     /**
@@ -68,13 +71,13 @@ class ezpContentPublishingQueueProcessor
             {
                 if ( !$this->isSlotAvailable() )
                 {
-                    eZLog::write( "No slot is available", 'async.log' );
+                    $this->out->write( "No slot is available", 'async.log' );
                     sleep ( 1 );
                     continue;
                 }
                 else
                 {
-                    eZLog::write( "Processing item #" . $publishingItem->attribute( 'ezcontentobject_version_id' ), 'async.log' );
+                    $this->out->write( "Processing item #" . $publishingItem->attribute( 'ezcontentobject_version_id' ), 'async.log' );
                     $pid = $publishingItem->publish();
                     $this->currentJobs[$pid] = $publishingItem;
 
@@ -83,7 +86,7 @@ class ezpContentPublishingQueueProcessor
                     // Process it now as if we'd just received the signal
                     if( isset( $this->signalQueue[$pid] ) )
                     {
-                        eZLog::write( "found $pid in the signal queue, processing it now", 'async.log' );
+                        $this->out->write( "found $pid in the signal queue, processing it now" );
                         $this->childSignalHandler( SIGCHLD, $pid, $this->signalQueue[$pid] );
                         unset( $this->signalQueue[$pid] );
                     }
@@ -91,7 +94,6 @@ class ezpContentPublishingQueueProcessor
             }
             else
             {
-                //eZLog::write( "Nothing to do, sleeping\n", 'async.log' );
                 sleep( $this->sleepInterval );
             }
         }
@@ -181,16 +183,27 @@ class ezpContentPublishingQueueProcessor
 
         if ( empty( $this->currentJobs ) )
         {
-            eZLog::write( 'No waiting children, bye', 'async.log' );
-            echo "No waiting children, bye\n";
+            $this->out->write( 'No waiting children, bye' );
         }
 
         while( !empty( $this->currentJobs ) )
         {
-            eZLog::write( count( $this->currentJobs ) . ' jobs remaining', 'async.log' );
-            echo count( $this->currentJobs ) . " jobs remaining\n";
+            $this->out->write( count( $this->currentJobs ) . ' jobs remaining' );
             sleep( 1 );
         }
+    }
+
+    /**
+     * Sets the used output class
+     *
+     * @param ezpAsynchronousPublisherOutput $output
+     * @return void
+     */
+    public function setOutput( ezpAsynchronousPublisherOutput $output )
+    {
+        if ( !$output instanceof ezpAsynchronousPublisherOutput )
+            throw new Exception( "Invalid output handler" );
+        $this->out = $output;
     }
 
     /**
@@ -217,5 +230,11 @@ class ezpContentPublishingQueueProcessor
      * @var array
      */
     private $currentJobs = array();
+
+    /**
+     * Output manager
+     * @var ezpAsynchronousPublisherOutput
+     */
+    private $out;
 }
 ?>
