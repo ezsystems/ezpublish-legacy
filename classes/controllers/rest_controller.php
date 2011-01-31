@@ -262,19 +262,27 @@ abstract class ezpRestMvcController extends ezcMvcController
      */
     private function isCacheEnabled()
     {
-        $isCacheActivated = $this->restINI->variable( 'CacheSettings', 'ApplicationCache' ) === 'enabled';
-        $routingInfos = $this->getRouter()->getRoutingInformation();
+        $isCacheActivated = $this->restINI->variable( 'CacheSettings', 'ApplicationCache' ) === 'enabled'; // Global switch
         
-        // Check if we have a specific setting for this controller/action
-        $actionSectionName = $routingInfos->controllerClass.'_'.$routingInfos->action.'_CacheSettings';
-        $controllerSectionName = $routingInfos->controllerClass.'_CacheSettings';
-        if( $this->restINI->hasVariable( $actionSectionName, 'ApplicationCache' ) )
+        if( $isCacheActivated )
         {
-            $isCacheActivated = $this->restINI->variable( $actionSectionName, 'ApplicationCache' ) === 'enabled';
-        }
-        else if ( $this->restINI->hasVariable( $controllerSectionName, 'ApplicationCache' ) ) // Nothing at controller/action level, check at controller level
-        {
-            $isCacheActivated = $this->restINI->variable( $controllerSectionName, 'ApplicationCache' ) === 'enabled';
+            $routingInfos = $this->getRouter()->getRoutingInformation();
+            
+            // Check if we have a specific setting for this controller/action
+            $actionSectionName = $routingInfos->controllerClass.'_'.$routingInfos->action.'_CacheSettings';
+            $controllerSectionName = $routingInfos->controllerClass.'_CacheSettings';
+            if( $this->restINI->hasVariable( $actionSectionName, 'ApplicationCache' ) )
+            {
+                $isCacheActivated = $this->restINI->variable( $actionSectionName, 'ApplicationCache' ) === 'enabled';
+            }
+            else if ( $this->restINI->hasVariable( $controllerSectionName, 'ApplicationCache' ) ) // Nothing at controller/action level, check at controller level
+            {
+                $isCacheActivated = $this->restINI->variable( $controllerSectionName, 'ApplicationCache' ) === 'enabled';
+            }
+            else // Nothing at controller level, take the default value
+            {
+                $isCacheActivated = $this->restINI->variable( 'CacheSettings', 'ApplicationCacheDefault' ) === 'enabled';
+            }
         }
         
         return $isCacheActivated;
