@@ -151,7 +151,7 @@ abstract class ezpRestMvcController extends ezcMvcController
         // Try to restore application cache.
         // If expired or not yet available, generate it and store it
         $cache->isCacheEnabled = $isCacheEnabled;
-        if( ( $res = $cache->restore( $controllerCacheId, $cacheAttributes ) ) === false )
+        if( ( $res = $cache->restore( $controllerCacheId ) ) === false )
         {
             $debug->log( 'Generating cache', ezcLog::DEBUG );
             $debug->switchTimer( 'GeneratingCache', 'GeneratingRestResult' );

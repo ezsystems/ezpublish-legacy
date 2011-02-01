@@ -76,6 +76,7 @@ class ezpRestDebugPHPFormatter implements ezcDebugOutputFormatter
                     $elapsedTime = sprintf( '%.5f', $element->elapsedTime );
                     $percent = sprintf( '%.2f', (100 * ($element->elapsedTime / $group->elapsedTime ) ) );
                     $average = sprintf( '%.5f', ( $element->elapsedTime / $element->count ) );
+                    $groupInfos = new stdClass();
                     $groupInfos->name = $name;
                     $groupInfos->elapsed = $elapsedTime;
                     $groupInfos->percent = $percent.' %';
