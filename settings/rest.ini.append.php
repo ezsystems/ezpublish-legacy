@@ -37,5 +37,7 @@ DefaultCacheTTL=600
 
 # Switch to enable/disable Routes cache with APC
 RouteApcCache=enabled
+# TTL for Route APC cache, in seconds
+RouteApcCacheTTL=3600
 
 */ ?>

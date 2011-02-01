@@ -70,9 +70,12 @@ class ezpRestRouter extends ezcMvcRouter
      */
     protected function getCachedRoutes()
     {
+        $ttl = (int)eZINI::instance( 'rest.ini' )->variable( 'CacheSettings', 'RouteApcCacheTTL' );
+        
         if( self::$isRouteCacheCreated === false )
         {
-            ezcCacheManager::createCache( self::ROUTE_CACHE_ID, self::ROUTE_CACHE_PATH, 'ezcCacheStorageApcPlain' );
+            $options = array( 'ttl' => $ttl );
+            ezcCacheManager::createCache( self::ROUTE_CACHE_ID, self::ROUTE_CACHE_PATH, 'ezpRestCacheStorageApcCluster', $options );
             self::$isRouteCacheCreated = true;
         }
         
