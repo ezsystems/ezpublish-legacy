@@ -62,7 +62,15 @@ class ezpRestHttpRequestParser extends ezcMvcHttpRequestParser
             }
             else
             {
-                $variables[$internalVariable] = null;
+                switch( $internalVariable )
+                {
+                    case 'ResponseGroups':
+                        $variables[$internalVariable] = array();
+                        break;
+                    
+                    default:
+                        $variables[$internalVariable] = null;
+                }
             }
         }
         
