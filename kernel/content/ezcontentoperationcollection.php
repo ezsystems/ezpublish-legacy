@@ -1515,8 +1515,49 @@ class eZContentOperationCollection
 
         if ( $asyncEnabled === true )
         {
+            // Filter handlers
+            $ini = eZINI::instance( 'content.ini' );
+            $filterHandlerClasses = $ini->variable( 'PublishingSettings', 'AsynchronousPublishingFilters' );
+
+            eZDebug::writeDebug( $filterHandlerClasses, "Asynchronous publishing filter classes" );
+
+            if ( count( $filterHandlerClasses ) )
+            {
+                $versionObject = eZContentObjectVersion::fetchVersion( $version, $objectId );
+                $accepted = true;
+                foreach( $filterHandlerClasses as $filterHandlerClass )
+                {
+                    eZDebug::writeDebug( $filterHandlerClass, "Running async filter" );
+                    if ( !class_exists( $filterHandlerClass ) )
+                    {
+                        eZDebug::writeError( "Unknown asynchronous publishing filter handler class '$filterHandlerClass'", __METHOD__  );
+                        continue;
+                    }
+
+                    $handler = new $filterHandlerClass( $versionObject );
+                    if ( !( $handler instanceof eZAsynchronousPublishingFilterInterface ) )
+                    {
+                        eZDebug::writeError( "Asynchronous publishing filter handler class '$filterHandlerClass' does not implement eZAsynchronousPublishingFilterInterface", __METHOD__  );
+                        continue;
+                    }
+
+                    $accepted = $handler->accept();
+
+                    if ( !$accepted )
+                    {
+                        eZDebugSetting::writeDebug( "Object #{$objectId}/{$version} was excluded from asynchronous publishing by $filterHandlerClass", __METHOD__ );
+                        break;
+                    }
+                }
+            }
+            unset( $filterHandlerClasses, $handler );
+        }
+
+        if ( $asyncEnabled && $accepted )
+        {
             // if the object is already in the process queue, we move ahead
-            if ( ezpContentPublishingQueue::isQueued( $objectId, $version) )
+            // this test should NOT be necessary since http://issues.ez.no/17840 was fixed
+            if ( ezpContentPublishingQueue::isQueued( $objectId, $version ) )
             {
                 return array( 'status' => eZModuleOperationInfo::STATUS_CONTINUE );
             }

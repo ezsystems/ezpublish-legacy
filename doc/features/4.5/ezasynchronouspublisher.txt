@@ -79,3 +79,60 @@ Multiple instances
 If you need to run multiple publishing daemons, you just need to create one symlink per daemon instance. The init.d
 script name will be used as the PID file's name, and both will be independant. Note that multiple daemons on one instance
 with multiple DBs aren't yet supported.
+
+Customization
+=============
+
+Filtering hooks
+---------------
+
+The asynchronous publishing system comes with filtering hooks that can easily be implemented in order to prevent items
+from being published asynchronously.
+
+You can configure as many filters as you want, as PHP classes. Each filter will be called sequentially, and will either
+accept the object for asynchronous publishing, or reject it. If a filter rejects an object, filters processing will be
+stopped, and the object will be published synchronously.
+
+Implementation: extend eZAsynchronousPublishingFilter
+'''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+In order to implement a filter, you must create a class that extends the ``eZAsynchronousPublishingFilter`` abstract class.
+This class implements the ``eZAsynchronousPublishingFilterInterface`` interface, and enforces the definition of the ``accept()``
+method. The ``accept()`` method must return a boolean. True means the object can be published asynchronously, while false
+instructs the system to skip the asynchronous publishing feature, and publish the content directly.
+
+The abstract class provides you with the ``eZContentObjectVersion`` being published, as the ``$version`` class property. From
+this property, you can easily test the content object's property (publishing time, author, content class, section), read
+attributes, and so on.
+
+Example::
+
+    <?php
+    /**
+     * Exclude from asynchronous publishing any object that isn't an article
+     * @return bool
+     */
+    class eZAsynchronousPublishingClassFilter extends eZAsynchronousPublishingFilter
+    {
+        public function accept()
+        {
+            $contentObject = $this->version->contentObject();
+            return in_array( $contentObject->attribute( 'class_identifier' ), $this->validClasses );
+        }
+
+        private $validClasses = array( 'article' );
+    }
+    ?>
+
+The class above will only publish asynchronously objects of class article.
+
+Settings
+''''''''
+
+Each filter must be registered using INI settings from content.ini. Below is an example for the class filtering class
+above::
+
+    [PublishingSettings]
+    AsynchronousPublishingFilters[]=eZAsynchronousPublishingClassFilter
+
+One line similar to the one above must be added for each filter.
