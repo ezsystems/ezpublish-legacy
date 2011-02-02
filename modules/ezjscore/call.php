@@ -56,9 +56,14 @@ else
 
 // Allow get parameter to be set to test in browser
 if ( isset( $_GET['ContentType'] ) )
+{
     $contentType = $_GET['ContentType'];
+}
 else
+{
     $contentType = ezjscAjaxContent::getHttpAccept();
+    header('Vary: Accept');
+}
 
 // set http headers
 if ( $contentType === 'xml' )
