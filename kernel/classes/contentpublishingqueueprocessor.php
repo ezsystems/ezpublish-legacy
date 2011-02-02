@@ -62,39 +62,56 @@ class ezpContentPublishingQueueProcessor
      */
     public function run()
     {
+        // use DB exceptions so that errors can be fully handled
+        eZDB::setErrorHandling( eZDB::ERROR_HANDLING_EXCEPTIONS );
+
         $this->cleanupDeadProcesses();
 
         while ( $this->canProcess )
         {
-            $publishingItem = ezpContentPublishingQueue::next();
-            if ( $publishingItem !== false )
-            {
-                if ( !$this->isSlotAvailable() )
+            try {
+                $publishingItem = ezpContentPublishingQueue::next();
+                if ( $publishingItem !== false )
                 {
-                    $this->out->write( "No slot is available", 'async.log' );
-                    sleep ( 1 );
-                    continue;
+                    if ( !$this->isSlotAvailable() )
+                    {
+                        $this->out->write( "No slot is available", 'async.log' );
+                        sleep ( 1 );
+                        continue;
+                    }
+                    else
+                    {
+                        $this->out->write( "Processing item #" . $publishingItem->attribute( 'ezcontentobject_version_id' ), 'async.log' );
+                        $pid = $publishingItem->publish();
+                        $this->currentJobs[$pid] = $publishingItem;
+
+                        // In the event that a signal for this pid was caught before we get here, it will be in our
+                        // signalQueue array
+                        // Process it now as if we'd just received the signal
+                        if( isset( $this->signalQueue[$pid] ) )
+                        {
+                            $this->out->write( "found $pid in the signal queue, processing it now" );
+                            $this->childSignalHandler( SIGCHLD, $pid, $this->signalQueue[$pid] );
+                            unset( $this->signalQueue[$pid] );
+                        }
+                    }
                 }
                 else
                 {
-                    $this->out->write( "Processing item #" . $publishingItem->attribute( 'ezcontentobject_version_id' ), 'async.log' );
-                    $pid = $publishingItem->publish();
-                    $this->currentJobs[$pid] = $publishingItem;
-
-                    // In the event that a signal for this pid was caught before we get here, it will be in our
-                    // signalQueue array
-                    // Process it now as if we'd just received the signal
-                    if( isset( $this->signalQueue[$pid] ) )
-                    {
-                        $this->out->write( "found $pid in the signal queue, processing it now" );
-                        $this->childSignalHandler( SIGCHLD, $pid, $this->signalQueue[$pid] );
-                        unset( $this->signalQueue[$pid] );
-                    }
+                    sleep( $this->sleepInterval );
                 }
-            }
-            else
-            {
-                sleep( $this->sleepInterval );
+            } catch ( eZDBException $e ) {
+                $this->out->write( "Database error #" . $e->getCode() . ": " . $e->getMessage() );
+                // force the DB connection closed so that it is recreated
+                try {
+                    $db = eZDB::instance();
+                    $db->close();
+                    $db = null;
+                    eZDB::setInstance( null );
+                } catch( eZDBException $e ) {
+                    // Do nothing, this will be retried until the DB is back up
+                }
+                sleep( 1 );
             }
         }
     }

@@ -202,7 +202,23 @@ class eZPostgreSQLDB extends eZDBInterface
                 $this->startTimer();
 
             }
-            $result = pg_query( $this->DBConnection, $sql );
+            // postgres will by default cast an error if a query fails
+            // exception handling mode needs to catch this exception and set the $result variable to false
+            if ( $this->errorHandling == eZDB::ERROR_HANDLING_EXCEPTIONS )
+            {
+                $oldHandling = eZDebug::setHandleType( eZDebug::HANDLE_EXCEPTION );
+                try {
+                    $result = pg_query( $this->DBConnection, $sql );
+                } catch( ErrorException $e ) {
+                    $result = false;
+                }
+                eZDebug::setHandleType( $oldHandling );
+            }
+            else
+            {
+                $result = pg_query( $this->DBConnection, $sql );
+            }
+
             if ( $this->OutputSQL )
             {
                 $this->endTimer();
@@ -216,9 +232,12 @@ class eZPostgreSQLDB extends eZDBInterface
 
             if ( !$result )
             {
-                eZDebug::writeError( "Error: error executing query: $sql " . pg_last_error( $this->DBConnection ), "eZPostgreSQLDB" );
                 $this->setError();
-
+                eZDebug::writeError( "Error: error executing query: $sql: {$this->ErrorMessage}", "eZPostgreSQLDB" );
+                if ( $this->errorHandling == eZDB::ERROR_HANDLING_EXCEPTIONS )
+                {
+                    throw new eZDBException( $this->ErrorMessage, $this->ErrorNumber );
+                }
                 $this->reportError();
             }
         }
