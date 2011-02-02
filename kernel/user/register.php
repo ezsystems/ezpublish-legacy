@@ -59,9 +59,9 @@ if ( $redirectNumber == '3' )
     $Result = array();
     $Result['content'] = $tpl->fetch( 'design:user/register.tpl' );
     $Result['path'] = array( array( 'url' => false,
-                            'text' => ezpI18n::tr( 'kernel/user', 'User' ) ),
+                            'text' => ezi18n( 'kernel/user', 'User' ) ),
                         array( 'url' => false,
-                            'text' => ezpI18n::tr( 'kernel/user', 'Register' ) ) );
+                            'text' => ezi18n( 'kernel/user', 'Register' ) ) );
     return $Result;
 }
 
