@@ -69,7 +69,7 @@ class ezpRestContentController extends ezpRestMvcController
         // Handle metadata
         if( $this->hasResponseGroup( self::VIEWCONTENT_RESPONSEGROUP_METADATA ) )
         {
-            $objectMetadata = ezpRestContentModel::getMetadataByContent( $content, $isNodeRequested );
+            $objectMetadata = ezpRestContentModel::getMetadataByContent( $content );
             if( $isNodeRequested )
             {
                 $nodeMetadata = ezpRestContentModel::getMetadataByLocation( ezpContentLocation::fetchByNodeId( $this->nodeId ) );
@@ -133,7 +133,7 @@ class ezpRestContentController extends ezpRestMvcController
         // Handle object/node metadata
         if( $this->hasResponseGroup( self::VIEWFIELDS_RESPONSEGORUP_METADATA ) )
         {
-            $objectMetadata = ezpRestContentModel::getMetadataByContent( $content, $isNodeRequested );
+            $objectMetadata = ezpRestContentModel::getMetadataByContent( $content );
             if( $isNodeRequested )
             {
                 $nodeMetadata = ezpRestContentModel::getMetadataByLocation( ezpContentLocation::fetchByNodeId( $this->nodeId ) );
