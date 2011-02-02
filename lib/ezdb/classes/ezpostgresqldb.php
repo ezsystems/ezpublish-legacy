@@ -86,38 +86,68 @@ class eZPostgreSQLDB extends eZDBInterface
         if ( $ini->variable( "DatabaseSettings", "UsePersistentConnection" ) == "enabled" &&  function_exists( "pg_pconnect" ))
         {
             eZDebugSetting::writeDebug( 'kernel-db-postgresql', $ini->variable( "DatabaseSettings", "UsePersistentConnection" ), "using persistent connection" );
-            $this->DBConnection = pg_pconnect( $connectString );
+
+            // avoid automatic SQL errors
+            $oldHandling = eZDebug::setHandleType( eZDebug::HANDLE_EXCEPTION );
+            try {
+                $this->DBConnection = pg_pconnect( $connectString );
+            } catch( ErrorException $e ) {}
+            eZDebug::setHandleType( $oldHandling );
+
             $maxAttempts = $this->connectRetryCount();
             $waitTime = $this->connectRetryWaitTime();
             $numAttempts = 1;
             while ( $this->DBConnection == false and $numAttempts <= $maxAttempts )
             {
                 sleep( $waitTime );
-                $this->DBConnection = pg_pconnect( $connectString );
+                $oldHandling = eZDebug::setHandleType( eZDebug::HANDLE_EXCEPTION );
+                try {
+                    $this->DBConnection = pg_pconnect( $connectString );
+                } catch( ErrorException $e ) {}
+                eZDebug::setHandleType( $oldHandling );
                 $numAttempts++;
             }
             if ( $this->DBConnection )
+            {
                 $this->IsConnected = true;
-            // add error checking
-//          eZDebug::writeError( "Error: could not connect to database." . pg_last_error( $this->DBConnection ), "eZPostgreSQLDB" );
+            }
+            else
+            {
+                throw new eZDBNoConnectionException( $server, $this->ErrorMessage, $this->ErrorNumber );
+            }
         }
         else if ( function_exists( "pg_connect" ) )
         {
             eZDebugSetting::writeDebug( 'kernel-db-postgresql', "using real connection",  "using real connection" );
-            $this->DBConnection = pg_connect( $connectString );
+
+            $oldHandling = eZDebug::setHandleType( eZDebug::HANDLE_EXCEPTION );
+            try {
+                $this->DBConnection = pg_connect( $connectString );
+            } catch( ErrorException $e ) {}
+            eZDebug::setHandleType( $oldHandling );
+
             $maxAttempts = $this->connectRetryCount();
             $waitTime = $this->connectRetryWaitTime();
             $numAttempts = 1;
             while ( $this->DBConnection == false and $numAttempts <= $maxAttempts )
             {
                 sleep( $waitTime );
-                $this->DBConnection = pg_connect( $connectString );
+                $oldHandling = eZDebug::setHandleType( eZDebug::HANDLE_EXCEPTION );
+                try {
+                    $this->DBConnection = pg_connect( $connectString );
+                } catch( ErrorException $e ) {}
+                eZDebug::setHandleType( $oldHandling );
                 $numAttempts++;
             }
             if ( $this->DBConnection )
+            {
                 $this->IsConnected = true;
+            }
             else
-                throw new eZDBNoConnectionException( $server );
+            {
+                $this->setError();
+                throw new eZDBNoConnectionException( $server, $this->ErrorMessage, $this->ErrorNumber );
+            }
         }
         else
         {

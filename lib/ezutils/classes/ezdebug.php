@@ -93,6 +93,7 @@ class eZDebug
     const HANDLE_NONE = 0;
     const HANDLE_FROM_PHP = 1;
     const HANDLE_TO_PHP = 2;
+    const HANDLE_EXCEPTION = 3;
 
     const OUTPUT_MESSAGE_SCREEN = 1;
     const OUTPUT_MESSAGE_STORE = 2;
@@ -267,7 +268,8 @@ class eZDebug
         $instance = eZDebug::instance();
 
         if ( $type != self::HANDLE_TO_PHP and
-             $type != self::HANDLE_FROM_PHP )
+             $type != self::HANDLE_FROM_PHP and
+             $type != self::HANDLE_EXCEPTION )
             $type = self::HANDLE_NONE;
         if ( extension_loaded( 'xdebug' ) and
              $type == self::HANDLE_FROM_PHP )
@@ -275,7 +277,7 @@ class eZDebug
         if ( $type == $instance->HandleType )
             return $instance->HandleType;
 
-        if ( $instance->HandleType == self::HANDLE_FROM_PHP )
+        if ( $instance->HandleType == self::HANDLE_FROM_PHP or $instance->HandleType == self::HANDLE_EXCEPTION )
             restore_error_handler();
         switch ( $type )
         {
@@ -287,6 +289,11 @@ class eZDebug
             case self::HANDLE_TO_PHP:
             {
                 restore_error_handler();
+            } break;
+
+            case self::HANDLE_EXCEPTION:
+            {
+                set_error_handler( array( $instance, 'exceptionErrorHandler' ) );
             } break;
 
             case self::HANDLE_NONE:
@@ -1844,6 +1851,16 @@ class eZDebug
         {
             return eZSys::isShellExecution() && in_array( 'commandline', $allowedIpList );
         }
+    }
+
+    /**
+     * Exception based error handler, very basic
+     * @since 4.5
+     * @throws ErrorException
+     */
+    public static function exceptionErrorHandler( $errno, $errstr, $errfile, $errline )
+    {
+        throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
     }
 
     /// \privatesection

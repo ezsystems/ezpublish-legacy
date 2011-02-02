@@ -121,9 +121,12 @@ class eZMySQLiDB extends eZDBInterface
                 eZDebug::writeWarning( 'mysqli only supports persistent connections when using php 5.3 and higher', 'eZMySQLiDB::connect' );
         }
 
-        $connection = mysqli_connect( $server, $user, $password, null, (int)$port, $socketPath );
+        $oldHandling = eZDebug::setHandleType( eZDebug::HANDLE_EXCEPTION );
+        try {
+            $connection = mysqli_connect( $server, $user, $password, null, (int)$port, $socketPath );
+        } catch( ErrorException $e ) {}
+        eZDebug::setHandleType( $oldHandling );
 
-        $dbErrorText = mysqli_connect_error();
         $maxAttempts = $this->connectRetryCount();
         $waitTime = $this->connectRetryWaitTime();
         $numAttempts = 1;
@@ -131,7 +134,11 @@ class eZMySQLiDB extends eZDBInterface
         {
             sleep( $waitTime );
 
-            $connection = mysqli_connect( $this->Server, $this->User, $this->Password, null, (int)$this->Port, $this->SocketPath );
+            $oldHandling = eZDebug::setHandleType( eZDebug::HANDLE_EXCEPTION );
+            try {
+                $connection = mysqli_connect( $this->Server, $this->User, $this->Password, null, (int)$this->Port, $this->SocketPath );
+            } catch( ErrorException $e ) {}
+            eZDebug::setHandleType( $oldHandling );
 
             $numAttempts++;
         }
@@ -141,9 +148,9 @@ class eZMySQLiDB extends eZDBInterface
 
         if ( !$connection )
         {
-            eZDebug::writeError( "Connection error: Couldn't connect to database. Please try again later or inform the system administrator.\n$dbErrorText", __CLASS__ );
+            eZDebug::writeError( "Connection error: Couldn't connect to database server. Please try again later or inform the system administrator.\n{$this->ErrorMessage}", __CLASS__ );
             $this->IsConnected = false;
-            throw new eZDBNoConnectionException( $server );
+            throw new eZDBNoConnectionException( $server, $this->ErrorMessage, $this->ErrorNumber );
         }
 
         if ( $this->IsConnected && $db != null )
@@ -151,9 +158,10 @@ class eZMySQLiDB extends eZDBInterface
             $ret = mysqli_select_db( $connection, $db );
             if ( !$ret )
             {
-                //$this->setError();
-                eZDebug::writeError( "Connection error: " . mysqli_errno( $connection ) . ": " . mysqli_error( $connection ), "eZMySQLiDB" );
+                $this->setError( $connection );
+                eZDebug::writeError( "Connection error: Couldn't select the database. Please try again later or inform the system administrator.\n{$this->ErrorMessage}", __CLASS__ );
                 $this->IsConnected = false;
+                throw new eZDBNoConnectionException( $server, $this->ErrorMessage, $this->ErrorNumber );
             }
         }
 
@@ -869,12 +877,18 @@ class eZMySQLiDB extends eZDBInterface
         }
     }
 
-    function setError()
+    /**
+     * Sets the internal error messages & number
+     * @param int $connection database connection handle, overrides the current one if given
+     */
+    function setError( $connection = false )
     {
         if ( $this->IsConnected )
         {
-            $this->ErrorMessage = mysqli_error( $this->DBConnection );
-            $this->ErrorNumber = mysqli_errno( $this->DBConnection );
+            if ( $connection === false )
+                $connection = $this->DBConnection;
+            $this->ErrorMessage = mysqli_error( $connection );
+            $this->ErrorNumber = mysqli_errno( $connection );
         }
         else
         {
