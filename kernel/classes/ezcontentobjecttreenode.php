@@ -1643,25 +1643,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             {
                                 $stateIdentifier = substr( $ident, 11 );
                                 $sqlPartPartSuffix='';
-                                if ( !isset( $createdStateAliases[$stateIdentifier] ) )
-                                {
-                                    $stateIndex = count( $createdStateAliases );
-                                }
-                                else
-                                {
-                                    $stateIndex = $createdStateAliases[$stateIdentifier];
-                                }
-                                $stateTable = "ezcobj_state_{$stateIndex}_perm";
+                                $stateLimit=true;
 
-                                if ( !isset( $createdStateAliases[$stateIdentifier] ) )
-                                {
-                                    $stateLimit=true;
-                                    $createdStateAliases[$stateIdentifier] = $stateIndex;
-
-                                    $sqlPartPartSuffix = "AND ezcobj_state.id = ezcobj_state_link.contentobject_state_id " .
-                                                                   "AND ezcobj_state.group_id = ezcobj_state_group.id " .
-                                                                   "AND ezcobj_state_group.identifier='" . $db->escapeString( $stateIdentifier ) . "' ";
-                                }
+                                $sqlPartPartSuffix = "AND ezcobj_state.id = ezcobj_state_link.contentobject_state_id " .
+                                                               "AND ezcobj_state.group_id = ezcobj_state_group.id " .
+                                                               "AND ezcobj_state_group.identifier='" . $db->escapeString( $stateIdentifier ) . "' ";
 
                                 if ( count( $limitationArray[$ident] ) > 1 )
                                 {
