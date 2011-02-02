@@ -8,6 +8,7 @@ class ezpRestTestSuite extends ezpTestSuite
         $this->setName( "eZ Publish REST test suite" );
         $this->addTestSuite( 'ezpRestHttpRequestParserRegression' );
         $this->addTestSuite( 'ezpRestVersionRouteTest' );
+        $this->addTestSuite( 'ezpRestControllerTest' );
     }
 
     public static function suite()
