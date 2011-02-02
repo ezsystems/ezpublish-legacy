@@ -619,7 +619,7 @@ class ezjscPacker
             if ( $as_html )
             {
                 $sourceFilesStats = self::printDebugReportFiles( $data, $as_html );
-                $cache = $data['cache_path'] === '' ? "<span class='debuginfo' title='Source files served directly'>None</span>"
+                $cache = $data['cache_path'] === '' ? ''
                                                     : "<span class='debuginfo' title='Full path: {$data['cache_path']}'>{$data['cache_hash']}</span>";
                 $stats .= "<tr class='data'><td>{$cache}</td><td>{$extension}</td><td>{$data['pack_level']}</td><td>{$sourceFilesStats}</td></tr>";
             }
@@ -638,19 +638,6 @@ class ezjscPacker
     }
 
     /**
-            'http'           => array(),
-            'www'            => array(),
-            'locale'         => array(),
-            'cache_name'     => '',
-            'cache_path'     => '',
-            'last_modified'  => 0,
-            'file_extension' => $fileExtension,
-            'pack_level'     => $packLevel,
-            'sub_path'       => $subPath,
-            'cache_dir'      => self::getCacheDir(),
-            'www_dir'        => self::getWwwDir(),
-            'index_dir'      => self::getIndexDir(),
-            'custom_host'    => ( isset( $customHosts[$fileExtension] ) ? $customHosts[$fileExtension] : '' ),
      * Return data for array of files
      *
      * @param array ['locale']
