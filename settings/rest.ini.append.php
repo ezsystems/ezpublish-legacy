@@ -5,7 +5,10 @@ PrefixFilterClass=ezpRestDefaultRegexpPrefixFilter
 ApiPrefix=/api
 
 [DebugSettings]
-Debug=enabled
+Debug=disabled
+
+[OutputSettings]
+RendererClass[xhtml]=ezpContentXHTMLRenderer
 
 [CacheSettings]
 # Global switch to enable/disable REST application cache

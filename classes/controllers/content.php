@@ -48,7 +48,6 @@ class ezpRestContentController extends ezpRestMvcController
     public function doViewContent()
     {
         $this->setDefaultResponseGroups( array( self::VIEWCONTENT_RESPONSEGROUP_METADATA ) );
-        
         $isNodeRequested = false;
         if ( isset( $this->nodeId ) )
         {
@@ -61,7 +60,7 @@ class ezpRestContentController extends ezpRestMvcController
         }
 
         $result = new ezpRestMvcResult();
-        
+
         // translation parameter
         if ( $this->hasContentVariable( 'Translation' ) )
             $content->setActiveLanguage( $this->getContentVariable( 'Translation' ) );
@@ -92,6 +91,12 @@ class ezpRestContentController extends ezpRestMvcController
         
         // Add links to fields resources
         $result->variables['links'] = ezpRestContentModel::getFieldsLinksByContent( $content, $this->request );
+
+        if ( isset($this->request->get['OutputFormat']) )
+        {
+            $renderer = ezpRestContentRenderer::getRendererForContent( $this->request->get['OutputFormat'], $content );
+            $result->variables['renderedOutput'] = $renderer->render();
+        }
 
         return $result;
     }
