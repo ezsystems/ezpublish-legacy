@@ -422,11 +422,11 @@ class ezpRestApplicationCacheTest extends ezpRestTestCase
         $cacheContent = $cache->restore( $cacheKey ); // Should be false as we didn't write anything yet
         self::assertFalse( $cacheContent, 'Cache should be empty before generation' );
         
-        if( $cacheContent === false )
-        {
-            // Store the cache
-            $cache->store( $cacheID, $data );
-        }
+        // Remaining lifetime should be 0 as cache does not exist yet
+        self::assertSame( 0, $cache->getRemainingLifetime( $cacheKey ) );
+        
+        // Store the cache
+        $cache->store( $cacheID, $data );
         
         $cacheContent = $cache->restore( $cacheKey );
         self::assertSame( $data, $cacheContent, 'Invalid cache retrieval !' );
