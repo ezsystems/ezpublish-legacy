@@ -20,13 +20,17 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {ldel
     onInit: function( el, tag, ed )
     {
         if ( el === false && this.settings.editorSelectedText !== false )
-            document.getElementById('anchor_id_source').value = this.settings.editorSelectedText;
+            document.getElementById('anchor_name_source').value = this.settings.editorSelectedText;
     },
     tagAttributeEditor: function( ed, el, args )
     {
         el.innerHTML = '';
         ed.dom.setAttribs( el, args );
         return el;
+    },
+    tagCreator: function( ed, tag, customTag, selectedHtml )
+    {
+        return eZOEPopupUtils.insertHTMLCleanly( ed, '<a id="__mce_tmp" class="mceItemAnchor"><\/a>', '__mce_tmp' );
     }
 {/literal}
 {rdelim} ) );
@@ -54,8 +58,7 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {ldel
         {* Anchor attribute name is mapped to id internally to workaround a ie issue.. *}
         {include uri="design:ezoe/generalattributes.tpl"
                  tag_name=$tag_name
-                 attributes=hash('id', '' )
-                 attribute_mapping=hash('id', 'name')
+                 attributes=hash('name', '' )
                  attribute_defaults=hash('name', 'Anchor')}
 
         {include uri="design:ezoe/customattributes.tpl" tag_name=$tag_name}

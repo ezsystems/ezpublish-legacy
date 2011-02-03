@@ -1577,7 +1577,7 @@ class eZOEXMLInput extends eZXMLInputHandler
 
                 $customAttributePart = self::getCustomAttrPart( $tag, $styleString );
 
-                $output .= '<a id="' . $name . '" class="mceItemAnchor"' . $customAttributePart .
+                $output .= '<a name="' . $name . '" class="mceItemAnchor"' . $customAttributePart .
                            $styleString . '></a>';
             }break;
 

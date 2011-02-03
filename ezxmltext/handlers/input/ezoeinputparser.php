@@ -366,11 +366,12 @@ class eZOEInputParser extends eZXMLInputParser
         }
         else if ( isset( $attributes['class'] ) && $attributes['class'] === 'mceItemAnchor' )
         {
-            // anchor in TinyMCE / ezoe sense (since links and anchors share the a tag)
+            // anchor in TinyMCE sense (was valid up until TinyMCE 3.2)
             $name = 'anchor';
             // ie bug with name attribute, workaround using id instead
             if ( isset( $attributes['id'] ) ) $attributes['name'] = $attributes['id'];
             unset( $attributes['class'] );// unset internal stuff to make sure custom attr with same name works
+            unset( $attributes['id'] );
         }
 
         return $name;
