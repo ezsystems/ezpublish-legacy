@@ -399,5 +399,48 @@ class ezpRestApplicationCacheTest extends ezpRestTestCase
         
         $this->restINI->load();
     }
+    
+    /**
+     * @group restApplicationCache
+     * @group restClusterCache
+     * @group restCache
+     */
+    public function testManageCache()
+    {
+        $cacheOptions = array( 'ttl' => 2 );
+        $cacheID = 'test_id';
+        $cacheKey = 'myUniqueCacheKey';
+        $cacheLocation = 'myLocation';
+        $data = array(
+            'foo'       => 'bar',
+            'baz'       => 123,
+            'boolean'   => true
+        );
+        
+        ezcCacheManager::createCache( $cacheID, $cacheLocation, 'ezpRestCacheStorageClusterObject', $cacheOptions );
+        $cache = ezcCacheManager::getCache( $cacheID );
+        $cacheContent = $cache->restore( $cacheKey ); // Should be false as we didn't write anything yet
+        self::assertFalse( $cacheContent, 'Cache should be empty before generation' );
+        
+        if( $cacheContent === false )
+        {
+            // Store the cache
+            $cache->store( $cacheID, $data );
+        }
+        
+        $cacheContent = $cache->restore( $cacheKey );
+        self::assertSame( $data, $cacheContent, 'Invalid cache retrieval !' );
+        
+        // Now check if it is present in the cluster
+        $cacheFullLocation = eZSys::cacheDirectory().'/rest/'.$cacheLocation;
+        $cacheFile = $cacheKey.'-.cache';
+        self::assertTrue( eZClusterFileHandler::instance()->fileExists( $cacheFullLocation.'/'.$cacheFile ), 'REST cache file has not been written in the cluster' );
+        
+        self::assertSame( 1, $cache->countDataItems( $cacheKey ) );
+        self::assertGreaterThan( 0, $cache->getRemainingLifetime( $cacheKey ), 'Invalid remaining lifetime for REST cache' );
+        
+        $cache->delete( $cacheKey ); // Test file deletion
+        self::assertFalse( eZClusterFileHandler::instance()->fileExists( $cacheFullLocation.'/'.$cacheFile ), 'REST cache file has not been deleted from the cluster' );
+    }
 }
 ?>
