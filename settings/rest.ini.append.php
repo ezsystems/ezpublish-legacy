@@ -4,6 +4,9 @@
 PrefixFilterClass=ezpRestDefaultRegexpPrefixFilter
 ApiPrefix=/api
 
+[ApiProvider]
+ProviderClass[]
+
 [DebugSettings]
 Debug=disabled
 
