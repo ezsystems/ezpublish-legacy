@@ -59,7 +59,8 @@ class ezpRestRouter extends ezcMvcRouter
 
         );
         
-        $prefixedRoutes = ezcMvcRouter::prefix( '/api', array_merge( $providerRoutes, $routes ) );
+        $prefix = eZINI::instance( 'rest.ini' )->variable( 'System', 'ApiPrefix' );
+        $prefixedRoutes = ezcMvcRouter::prefix( $prefix, array_merge( $providerRoutes, $routes ) );
         return $prefixedRoutes;
     }
     
