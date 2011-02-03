@@ -1,5 +1,14 @@
 <?php
+/**
+ * File containing ezpRestTestSuite class
+ *
+ * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
+ * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
+ */
 
+/**
+ * Main test suite for REST
+ */
 class ezpRestTestSuite extends ezpTestSuite
 {
     public function __construct()
@@ -9,6 +18,7 @@ class ezpRestTestSuite extends ezpTestSuite
         $this->addTestSuite( 'ezpRestHttpRequestParserRegression' );
         $this->addTestSuite( 'ezpRestVersionRouteTest' );
         $this->addTestSuite( 'ezpRestControllerTest' );
+        $this->addTestSuite( 'ezpRestApplicationCacheTest' );
     }
 
     public static function suite()
@@ -21,9 +31,7 @@ class ezpRestTestSuite extends ezpTestSuite
         parent::setUp();
 
         // make sure extension is enabled and settings are read
-        // give a warning if it is already enabled
-        if ( !ezpExtensionHelper::load( 'rest' ) )
-            trigger_error( __METHOD__ . ': extension is already loaded, this hints about missing cleanup in other tests that uses it!', E_USER_WARNING );
+        ezpExtensionHelper::load( 'rest' );
     }
 
     public function tearDown()

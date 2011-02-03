@@ -10,8 +10,8 @@ class ezpRestTestApiProvider implements ezpRestProviderInterface
     public function getRoutes()
     {
         $routes = array(
-            'ezpRestTest'       => new ezpRestVersionedRoute( new ezpMvcRailsRoute( '/rest/foo', 'ezpRestTestController', 'doTest' ), 1 ),
-            'ezpRestTestVar'    => new ezpRestVersionedRoute( new ezpMvcRailsRoute( '/rest/foo/:dummyVar', 'ezpRestTestController', 'doTest' ), 1 )
+            'ezpRestTest'       => new ezpRestVersionedRoute( new ezpMvcRailsRoute( '/rest/foo', 'ezpRestTestController', 'test' ), 1 ),
+            'ezpRestTestVar'    => new ezpRestVersionedRoute( new ezpMvcRailsRoute( '/rest/foo/:dummyVar', 'ezpRestTestController', 'test' ), 1 )
         );
         
         return $routes;
