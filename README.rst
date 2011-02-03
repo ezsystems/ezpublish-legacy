@@ -4,21 +4,21 @@ eZ Online Editor 5.x extension README
 What is eZ Online Editor 5.x?
 ============================
 
- eZ Online Editor 5.x (ezoe) is a eZ Publish extension that customizes
- eZ XML datatype (the "Rich text" datatype) with a wysiwyg editor (TinyMCE based).
+eZ Online Editor 5.x (ezoe) is a eZ Publish extension that customizes
+eZ XML datatype (the "Rich text" datatype) with a wysiwyg editor (TinyMCE based).
 
- ezoe provides a user friendly interface for editing eZ XML, it does not change the
- fact that eZ XML is a xml format (XHTML 2.0 inspired) that by default enforces*
- strict separation between content and design. Thus all features of TinyMCE not supported
- by eZ XML is disabled and not supported (supported plugins/buttons are listed in ezoe.ini).
+ezoe provides a user friendly interface for editing eZ XML, it does not change the
+fact that eZ XML is a xml format (XHTML 2.0 inspired) that by default enforces*
+strict separation between content and design. Thus all features of TinyMCE not supported
+by eZ XML is disabled and not supported (supported plugins/buttons are listed in ezoe.ini).
 
- * This enables enterprise features like pr tag template view, multi channel publishing, clean content export and places design control in the hands of designers and not editors.
+\* This enables enterprise features like pr tag template view, multi channel publishing, clean content export and places design control in the hands of designers and not editors.
 
 
 Install
 =======
 
-   See: ./INSTALL  (the file named INSTALL in the same directory you found this file)
+See: ./INSTALL  (the file named INSTALL in the same directory you found this file)
 
 
 Debug
