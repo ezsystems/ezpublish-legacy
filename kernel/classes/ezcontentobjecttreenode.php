@@ -1557,11 +1557,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $sqlPermissionTempTables = array();
         $groupPermTempTable = false;
         $createdStateAliases = array();
+        $stateLimit=false;
 
         if ( is_array( $limitationList ) && count( $limitationList ) > 0 )
         {
             $sqlParts = array();
-            $stateLimit=false;
             foreach( $limitationList as $limitationArray )
             {
                 $sqlPartPart = array();
