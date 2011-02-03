@@ -4,16 +4,15 @@ eZ Online Editor 5.x extension README
 What is eZ Online Editor 5.x?
 ============================
 
-   eZ Online Editor 5.x (ezoe) is a eZ Publish extension that customizes
-   eZ XML datatype (the "Rich text" datatype) with a wysiwyg editor (TinyMCE based).
+ eZ Online Editor 5.x (ezoe) is a eZ Publish extension that customizes
+ eZ XML datatype (the "Rich text" datatype) with a wysiwyg editor (TinyMCE based).
 
-   ezoe provides a user friendly interface for editing eZ XML, it does not change the
-   fact that eZ XML is a xml format (XHTML 2.0 inspired) that by default enforces*
-   strict separation between content and design. Thus all features of TinyMCE not supported
-   by eZ XML is disabled and not supported (supported plugins/buttons are listed in ezoe.ini).
+ ezoe provides a user friendly interface for editing eZ XML, it does not change the
+ fact that eZ XML is a xml format (XHTML 2.0 inspired) that by default enforces*
+ strict separation between content and design. Thus all features of TinyMCE not supported
+ by eZ XML is disabled and not supported (supported plugins/buttons are listed in ezoe.ini).
 
-   * This enables enterprise features like pr tag template view, multi channel publishing,
-     clean content export and places design control in the hands of designers and not editors.
+ * This enables enterprise features like pr tag template view, multi channel publishing, clean content export and places design control in the hands of designers and not editors.
 
 
 Install
@@ -51,8 +50,7 @@ Input is handled by eZOEInputParser and output to TinyMCE is handled directly on
 Example of debugging ezoe #1
 ----------------------------
 Example issue: #017838: Anchors disappears after publishing
-( example shows how issue was identified, checkout ezoe before fix in
-  f06d39f600800d2d0ebf9f7d331cd865bd4dabf9 if you want to try it yourself)
+( example shows how issue was identified, checkout ezoe before fix in f06d39f600800d2d0ebf9f7d331cd865bd4dabf9 if you want to try it yourself)
 In this case there are four possible places to look: parser, TinyMCE ez theme,
 ezoe settings for TinyMCE and TinyMCE itself, run-down:
 
