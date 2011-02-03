@@ -55,7 +55,7 @@ abstract class ezpRestTestCase extends ezpTestCase
     {
         $r = new ezpRestRequest();
         $r->uri = $uri;
-        $r->variables = array();
+        $r->variables = array( 'ResponseGroups' => array() );
         $r->contentVariables = array();
         return $this->getTestControllerFromRequest( $r );
     }

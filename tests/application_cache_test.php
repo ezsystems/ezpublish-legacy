@@ -343,8 +343,61 @@ class ezpRestApplicationCacheTest extends ezpRestTestCase
         
         // Compare currently generated hash with the previous one. Must be different
         static $previousHash;
-        self::assertTrue( $hashedCacheId != $previousHash, 'Cache IDs must be unique !' );
+        self::assertNotEquals( $hashedCacheId, $previousHash, 'Cache IDs must be unique !' );
         $previousHash = $hashedCacheId;
+    }
+    
+    /**
+     * @group restApplicationCache
+     * @group restClusterCache
+     * @group restCache
+     */
+    public function testClusterCache()
+    {
+        $uri = $this->restINI->variable( 'System', 'ApiPrefix' ).'/test/rest/foo';
+        $request = new ezpRestRequest();
+        $request->uri = $uri;
+        $request->variables = array( 'ResponseGroups' => array() );
+        $request->contentVariables = array();
+        $controller = $this->getTestControllerFromRequest( $request );
+        
+        // Be sure the cache has been activated
+        $ttl = 1; // TTL will be 1 second
+        $iniVariables = array(
+            'CacheSettings'     => array(
+                'ApplicationCache'              => 'enabled',
+                'ApplicationCacheDefault'       => 'enabled',
+            ),
+            'ezpRestTestController_test_CacheSettings'   => array(
+                'ApplicationCache'              => 'enabled',
+                'CacheTTL'                      => (string)$ttl,
+            )
+        );
+        $this->restINI->setVariables( $iniVariables );
+        $controller->setRestINI( $this->restINI );
+        
+        $res = $controller->createResult(); // Should generate some cache in the cluster
+        self::assertType( 'ezpRestMvcResult' , $res, 'REST action must return ezpRestMvcResult object' );
+        $cacheLocation = eZSys::cacheDirectory().'/rest/'.$controller->cacheLocation;
+        $cacheFile = $controller->cacheId.'-.cache'; // FIXME, as file name generation depends on ezcCacheStorageFile class
+        $clusterFile = eZClusterFileHandler::instance( $cacheLocation.'/'.$cacheFile );
+        self::assertTrue( $clusterFile->exists(), 'REST Application cache file is not available in the cluster' );
+        
+        // Generate the result a second time, to be sure that object coming from cache is the same
+        $res2 = $controller->createResult();
+        self::assertType( 'ezpRestMvcResult', $res2, 'Result extracted from REST application cache must be the same type as the one generated without cache' );
+        self::assertEquals( $res, $res2, 'Result extracted from REST application cache must be the same than the one generated without cache' );
+        
+        // Now test expiry
+        // Sleep for a while. Add 1 second to the $ttl value to be sure to force cache generation
+        $mtime = $clusterFile->mtime();
+        sleep( $ttl + 1 );
+        $res3 = $controller->createResult();
+        $clusterFile->loadMetadata( true );
+        $newMtime = $clusterFile->mtime();
+        self::assertGreaterThan( $mtime, $newMtime );
+        
+        $this->restINI->load();
     }
 }
 ?>

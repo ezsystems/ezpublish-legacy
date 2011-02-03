@@ -1,4 +1,9 @@
 <?php
+/**
+ * @property-read cacheLocation
+ * @property-read cacheId
+ * @property-read cacheTTL
+ */
 class ezpRestTestController extends ezpRestMvcController
 {
     public function doTest()
@@ -27,7 +32,10 @@ class ezpRestTestController extends ezpRestMvcController
             break;
             
             case 'cacheId':
-                $ret = $this->generateCacheId();
+                $refObj = new ReflectionObject( $this );
+                $refMethod = $refObj->getMethod( 'generateCacheId' );
+                $refMethod->setAccessible( true );
+                $ret = $refMethod->invoke( $this );
             break;
             
             case 'cacheTTL':
