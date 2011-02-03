@@ -94,7 +94,7 @@ class ezpRestContentController extends ezpRestMvcController
 
         if ( isset($this->request->get['OutputFormat']) )
         {
-            $renderer = ezpRestContentRenderer::getRendererForContent( $this->request->get['OutputFormat'], $content );
+            $renderer = ezpRestContentRenderer::getRenderer( $this->request->get['OutputFormat'], $content, $this );
             $result->variables['renderedOutput'] = $renderer->render();
         }
 

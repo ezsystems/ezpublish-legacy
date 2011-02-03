@@ -23,14 +23,14 @@ class ezpRestContentRenderer
      * @param ezpContent $content
      * @return ezpRestContentProviderInterface
      */
-    protected static function createRenderer( $renderer, ezpContent $content )
+    protected static function createRenderer( $renderer, ezpContent $content, ezpRestMvcController $controller )
     {
         $rendererOptions = new ezpExtensionOptions();
         $rendererOptions->iniFile = 'rest.ini';
         $rendererOptions->iniSection = 'OutputSettings';
         $rendererOptions->iniVariable = 'RendererClass';
         $rendererOptions->handlerIndex = $renderer;
-        $rendererOptions->handlerParams = array( $content );
+        $rendererOptions->handlerParams = array( $content, $controller );
 
         $rendererInstance = eZExtension::getHandlerClass( $rendererOptions );
 
@@ -48,7 +48,7 @@ class ezpRestContentRenderer
      * @param ezpContent $content
      * @return bool|ezpRestContentProviderInterface
      */
-    public static function getRendererForContent( $renderer, ezpContent $content )
+    public static function getRenderer( $renderer, ezpContent $content, ezpRestMvcController $controller )
     {
         // If no content renderer has been given, we fall back to built-in 'xhtml' renderer.
         // Note: empty string is not a valid input.
@@ -59,7 +59,7 @@ class ezpRestContentRenderer
 
         if ( !( self::$renderer instanceof ezpRestContentProviderInterface ) )
         {
-            self::$renderer = self::createRenderer( $renderer, $content );
+            self::$renderer = self::createRenderer( $renderer, $content, $controller );
         }
 
         return self::$renderer;

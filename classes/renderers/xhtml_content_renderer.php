@@ -10,13 +10,14 @@
 class ezpContentXHTMLRenderer extends ezpRestContentRendererInterface
 {
     /**
-     * Construct
+     * Creates an instance of a ezpContentXHTMLRenderer for given content
      *
      * @param ezpContent $content
      */
-    public function __construct( ezpContent $content )
+    public function __construct( ezpContent $content, ezpRestMvcController $controller )
     {
         $this->content = $content;
+        $this->controller = $controller;
     }
 
     /**
@@ -26,6 +27,16 @@ class ezpContentXHTMLRenderer extends ezpRestContentRendererInterface
      */
     public function render()
     {
-        return eZNodeviewfunctions::generateNodeViewData( eZTemplate::factory(), $this->content->main_node, $this->content->main_node->attribute( 'object' ), 'eng-GB', 'full', 0 );
+        $tpl = eZTemplate::factory();
+        $ini = eZINI::instance( 'rest.ini' );
+
+        $nodeViewData = eZNodeviewfunctions::generateNodeViewData( $tpl, $this->content->main_node, $this->content->main_node->attribute( 'object' ), $this->content->activeLanguage, 'rest', 0 );
+
+        $tpl->setVariable( 'module_result', $nodeViewData );
+
+        $routingInfos = $this->controller->getRouter()->getRoutingInformation();
+        $templateName = $ini->variable( $routingInfos->controllerClass . '_'. $routingInfos->action . '_OutputSettings', 'Template' );
+
+        return $tpl->fetch( 'design:' . $templateName );
     }
 }
