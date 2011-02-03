@@ -1002,6 +1002,43 @@ class eZContentClassAttribute extends eZPersistentObject
                      language_code";
 
             $db->query( $sql );
+            // update ids to keep them same with one attribute for different versions
+            if( $db->databaseName() == 'mysql' )
+            {
+                $updateSql = "UPDATE ezcontentobject_attribute,
+                                 ( SELECT contentobject_id, language_code, version, contentclassattribute_id, MIN( id ) AS minid
+                                 FROM ezcontentobject_attribute WHERE contentclassattribute_id = $classAttributeID
+                              GROUP BY contentobject_id, language_code, version, contentclassattribute_id ) t
+                              SET ezcontentobject_attribute.id = t.minid
+                              WHERE ezcontentobject_attribute.contentobject_id = t.contentobject_id
+                              AND ezcontentobject_attribute.language_code = t.language_code
+                              AND ezcontentobject_attribute.contentclassattribute_id = $classAttributeID";
+            }
+            else if( $db->databaseName() == 'postgresql' )
+            {
+                $updateSql = "UPDATE ezcontentobject_attribute
+                              SET id=t.minid FROM
+                                ( SELECT contentobject_id, language_code, version, contentclassattribute_id, MIN( id ) AS minid
+                                 FROM ezcontentobject_attribute WHERE contentclassattribute_id = $classAttributeID
+                                 GROUP BY contentobject_id, language_code, version, contentclassattribute_id ) t
+                              WHERE ezcontentobject_attribute.contentobject_id = t.contentobject_id
+                              AND ezcontentobject_attribute.language_code = t.language_code
+                              AND ezcontentobject_attribute.contentclassattribute_id = $classAttributeID";
+            }
+            else if( $db->databaseName() == 'oracle' )
+            {
+                $updateSql = "UPDATE ezcontentobject_attribute a SET a.id = (
+                                 SELECT MIN( id ) FROM ezcontentobject_attribute b
+                                 WHERE b.contentclassattribute_id = $classAttributeID
+                                       AND b.contentobject_id = a.contentobject_id
+                                       AND b.language_code = a.language_code )
+                                WHERE a.contentclassattribute_id = $classAttributeID";
+            }
+            else
+            {
+                $updateSql = "";
+            }
+            $db->query( $updateSql );
         }
         else
         {
@@ -1014,6 +1051,8 @@ class eZContentClassAttribute extends eZPersistentObject
             {
                 $contentobjectID = $object->attribute( 'id' );
                 $objectVersions = $object->versions();
+                // the start version ID, to make sure one attribute in different version has same id.
+                $startAttributeID = array();
                 foreach ( $objectVersions as $objectVersion )
                 {
                     $translations = $objectVersion->translations( false );
@@ -1021,9 +1060,17 @@ class eZContentClassAttribute extends eZPersistentObject
                     foreach ( $translations as $translation )
                     {
                         $objectAttribute = eZContentObjectAttribute::create( $classAttributeID, $contentobjectID, $version, $translation );
+                        if( array_key_exists( $translation, $startAttributeID ) )
+                        {
+                            $objectAttribute->setAttribute( 'id', $startAttributeID[$translation] );
+                        }
                         $objectAttribute->setAttribute( 'language_code', $translation );
                         $objectAttribute->initialize();
                         $objectAttribute->store();
+                        if( !array_key_exists( $translation, $startAttributeID ) )
+                        {
+                            $startAttributeID[$translation] = $objectAttribute->attribute( 'id' );
+                        }
                         $objectAttribute->postInitialize();
                     }
                 }
