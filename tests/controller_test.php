@@ -9,17 +9,10 @@
 /**
  * Unit test for REST controller
  */
-class ezpRestControllerTest extends ezpTestCase
+class ezpRestControllerTest extends ezpRestTestCase
 {
-    /**
-     * @var ezpMvcConfiguration
-     */
-    private $mvcConfig;
-    
     public function __construct($name = NULL, array $data = array(), $dataName = '')
     {
-        $this->mvcConfig = new ezpMvcConfiguration();
-        
         parent::__construct( $name, $data, $dataName );
     }
     
@@ -143,5 +136,6 @@ class ezpRestControllerTest extends ezpTestCase
         $refMethod->setAccessible( true );
         self::assertSame( $providedContentVariables, $refMethod->invoke( $controller ) );
     }
+    
 }
 ?>
