@@ -49,7 +49,7 @@ Input is handled by eZOEInputParser and output to TinyMCE is handled directly on
 
 
 Example of debugging ezoe #1
----------------------------
+----------------------------
 Example issue: #017838: Anchors disappears after publishing
 ( example shows how issue was identified, checkout ezoe before fix in
   f06d39f600800d2d0ebf9f7d331cd865bd4dabf9 if you want to try it yourself)
