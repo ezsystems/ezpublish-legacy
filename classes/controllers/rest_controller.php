@@ -29,6 +29,12 @@ abstract class ezpRestMvcController extends ezcMvcController
     protected $restINI;
     
     /**
+     * Flag to indicate wether application cache has been created by ezcCacheManager or not
+     * @var bool
+     */
+    public static $isCacheCreated = false;
+    
+    /**
      * Constructor
      * @param string $action
      * @param ezcMvcRequest $request
@@ -142,7 +148,11 @@ abstract class ezpRestMvcController extends ezcMvcController
         $routingInfos = $this->getRouter()->getRoutingInformation();
         
         $cacheOptions = array( 'ttl' => $this->getActionTTL() );
-        ezcCacheManager::createCache( self::CACHE_ID, $this->getCacheLocation(), 'ezpRestCacheStorageClusterObject', $cacheOptions );
+        if( !self::$isCacheCreated )
+        {
+            ezcCacheManager::createCache( self::CACHE_ID, $this->getCacheLocation(), 'ezpRestCacheStorageClusterObject', $cacheOptions );
+            self::$isCacheCreated = true;
+        }
         
         $cache = ezcCacheManager::getCache( self::CACHE_ID );
         $controllerCacheId = $this->generateCacheId();
