@@ -1557,7 +1557,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $sqlPermissionTempTables = array();
         $groupPermTempTable = false;
         $createdStateAliases = array();
-        $stateLimit=false;
+        $stateLimit = false;
 
         if ( is_array( $limitationList ) && count( $limitationList ) > 0 )
         {
@@ -1642,8 +1642,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             if ( strncmp( $ident, 'StateGroup_', 11 ) === 0 )
                             {
                                 $stateIdentifier = substr( $ident, 11 );
-                                $sqlPartPartSuffix='';
-                                $stateLimit=true;
+                                $sqlPartPartSuffix = '';
+                                $stateLimit = true;
 
                                 $sqlPartPartSuffix = "AND ezcobj_state.id = ezcobj_state_link.contentobject_state_id " .
                                                                "AND ezcobj_state.group_id = ezcobj_state_group.id " .
@@ -1651,11 +1651,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                                 if ( count( $limitationArray[$ident] ) > 1 )
                                 {
-                                    $sqlPartPart[] = $db->generateSQLINStatement( $limitationArray[$ident], "ezcobj_state.id" ).' '.$sqlPartPartSuffix;
+                                    $sqlPartPart[] = $db->generateSQLINStatement( $limitationArray[$ident], "ezcobj_state.id" ) . ' ' . $sqlPartPartSuffix;
                                 }
                                 else
                                 {
-                                    $sqlPartPart[] = "ezcobj_state.id = " . $limitationArray[$ident][0].' '.$sqlPartPartSuffix;
+                                    $sqlPartPart[] = "ezcobj_state.id = " . $limitationArray[$ident][0] . ' ' . $sqlPartPartSuffix;
                                 }
                             }
                         }
@@ -1673,7 +1673,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
             $sqlPermissionCheckingWhere .= ' AND ((' . implode( ") OR (", $sqlParts ) . ')) ';
         }
-        if ($stateLimit)
+        if ( $stateLimit )
         {
             $sqlPermissionCheckingWhere .= "AND ezcobj_state_link.contentobject_id = ezcontentobject.id".$sqlPermissionCheckingWhere; 
             $sqlPermissionCheckingFrom .= ", ezcobj_state_link ";
