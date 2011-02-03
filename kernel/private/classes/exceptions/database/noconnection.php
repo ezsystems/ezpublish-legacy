@@ -23,9 +23,9 @@ class eZDBNoConnectionException extends eZDBException
      * @param string $host The hostname
      * @return void
      */
-    function __construct( $host )
+    function __construct( $host, $errorMessage, $errorNumber )
     {
-        parent::__construct( "Unable to connect to the database server '{$host}'" );
+        parent::__construct( "Unable to connect to the database server '{$host}'\nError #{$errorNumber}: {$errorMessage}" );
     }
 }
 ?>

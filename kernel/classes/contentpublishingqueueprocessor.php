@@ -24,6 +24,9 @@ class ezpContentPublishingQueueProcessor
         $this->contentINI = eZINI::instance( 'content.ini' );
         $this->allowedPublishingSlots = $this->contentINI->variable( 'PublishingSettings', 'PublishingProcessSlots' );
         $this->sleepInterval = $this->contentINI->variable( 'PublishingSettings', 'AsynchronousPollingInterval' );
+
+        // output to log by default
+        $this->setOutput( new ezpAsynchronousPublisherLogOutput );
     }
 
     /**
@@ -59,40 +62,56 @@ class ezpContentPublishingQueueProcessor
      */
     public function run()
     {
+        // use DB exceptions so that errors can be fully handled
+        eZDB::setErrorHandling( eZDB::ERROR_HANDLING_EXCEPTIONS );
+
         $this->cleanupDeadProcesses();
 
         while ( $this->canProcess )
         {
-            $publishingItem = ezpContentPublishingQueue::next();
-            if ( $publishingItem !== false )
-            {
-                if ( !$this->isSlotAvailable() )
+            try {
+                $publishingItem = ezpContentPublishingQueue::next();
+                if ( $publishingItem !== false )
                 {
-                    eZLog::write( "No slot is available", 'async.log' );
-                    sleep ( 1 );
-                    continue;
+                    if ( !$this->isSlotAvailable() )
+                    {
+                        $this->out->write( "No slot is available", 'async.log' );
+                        sleep ( 1 );
+                        continue;
+                    }
+                    else
+                    {
+                        $this->out->write( "Processing item #" . $publishingItem->attribute( 'ezcontentobject_version_id' ), 'async.log' );
+                        $pid = $publishingItem->publish();
+                        $this->currentJobs[$pid] = $publishingItem;
+
+                        // In the event that a signal for this pid was caught before we get here, it will be in our
+                        // signalQueue array
+                        // Process it now as if we'd just received the signal
+                        if( isset( $this->signalQueue[$pid] ) )
+                        {
+                            $this->out->write( "found $pid in the signal queue, processing it now" );
+                            $this->childSignalHandler( SIGCHLD, $pid, $this->signalQueue[$pid] );
+                            unset( $this->signalQueue[$pid] );
+                        }
+                    }
                 }
                 else
                 {
-                    eZLog::write( "Processing item #" . $publishingItem->attribute( 'ezcontentobject_version_id' ), 'async.log' );
-                    $pid = $publishingItem->publish();
-                    $this->currentJobs[$pid] = $publishingItem;
-
-                    // In the event that a signal for this pid was caught before we get here, it will be in our
-                    // signalQueue array
-                    // Process it now as if we'd just received the signal
-                    if( isset( $this->signalQueue[$pid] ) )
-                    {
-                        eZLog::write( "found $pid in the signal queue, processing it now", 'async.log' );
-                        $this->childSignalHandler( SIGCHLD, $pid, $this->signalQueue[$pid] );
-                        unset( $this->signalQueue[$pid] );
-                    }
+                    sleep( $this->sleepInterval );
                 }
-            }
-            else
-            {
-                //eZLog::write( "Nothing to do, sleeping\n", 'async.log' );
-                sleep( $this->sleepInterval );
+            } catch ( eZDBException $e ) {
+                $this->out->write( "Database error #" . $e->getCode() . ": " . $e->getMessage() );
+                // force the DB connection closed so that it is recreated
+                try {
+                    $db = eZDB::instance();
+                    $db->close();
+                    $db = null;
+                    eZDB::setInstance( null );
+                } catch( eZDBException $e ) {
+                    // Do nothing, this will be retried until the DB is back up
+                }
+                sleep( 1 );
             }
         }
     }
@@ -181,16 +200,27 @@ class ezpContentPublishingQueueProcessor
 
         if ( empty( $this->currentJobs ) )
         {
-            eZLog::write( 'No waiting children, bye', 'async.log' );
-            echo "No waiting children, bye\n";
+            $this->out->write( 'No waiting children, bye' );
         }
 
         while( !empty( $this->currentJobs ) )
         {
-            eZLog::write( count( $this->currentJobs ) . ' jobs remaining', 'async.log' );
-            echo count( $this->currentJobs ) . " jobs remaining\n";
+            $this->out->write( count( $this->currentJobs ) . ' jobs remaining' );
             sleep( 1 );
         }
+    }
+
+    /**
+     * Sets the used output class
+     *
+     * @param ezpAsynchronousPublisherOutput $output
+     * @return void
+     */
+    public function setOutput( ezpAsynchronousPublisherOutput $output )
+    {
+        if ( !$output instanceof ezpAsynchronousPublisherOutput )
+            throw new Exception( "Invalid output handler" );
+        $this->out = $output;
     }
 
     /**
@@ -217,5 +247,11 @@ class ezpContentPublishingQueueProcessor
      * @var array
      */
     private $currentJobs = array();
+
+    /**
+     * Output manager
+     * @var ezpAsynchronousPublisherOutput
+     */
+    private $out;
 }
 ?>

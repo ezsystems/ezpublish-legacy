@@ -1,0 +1,29 @@
+====================
+Exception aware eZDB
+====================
+
+Synopsis
+========
+
+eZDB can now be made exception aware by setting an error handling variable:
+
+Usage
+=====
+
+This syntax will globally instruct each eZDBInterface instance to use exception based error handling::
+
+    eZDB::setErrorHandling( eZDB::ERROR_HANDLING_EXCEPTIONS );
+
+A similar syntax can be used at instance level to set this behaviour only for a specific eZDBinterface instance:
+
+    eZDB::instance()->setErrorHandling( eZDB::ERROR_HANDLING_EXCEPTIONS );
+
+Another constant represents the backward compatible, default handling mode: eZDB::ERROR_HANDLING_STANDARD.
+
+Effect
+======
+With exception based handling, any error occuring while executing a query will throw an eZDBException instead of either
+returning false (standard behaviour) or exiting with the red squared "A database transaction has failed".
+
+In the later case (inside a transaction), the query is still automatically rollbacked, but exception based handling
+will prevent eZ Publish from exiting directly and will either let you resume work or exit properly.

@@ -306,6 +306,7 @@ class eZDB
                 }
             }
 
+            $impl->setErrorHandling( self::$errorHandling );
         }
         return $impl;
     }
@@ -357,6 +358,37 @@ class eZDB
         return $result;
     }
 
+    /**
+     * Sets the default eZDB error handling mode.
+     * Use eZDB::instance()->setErrorHandling() with the same parameters to set error handling for one instance only
+     *
+     * @param int $errorHandling
+     *        Possible values are:pm
+     *        - eZDB::ERROR_HANDLING_STANDARD: backward compatible error handling, using reportError
+     *        - eZDB::ERROR_HANDLING_EXCEPTION: using exceptions
+     * @throw RuntimeException thrown when an invalid error handling is given
+     * @access private
+     * @since 4.5
+     */
+    static function setErrorHandling( $errorHandling )
+    {
+        if ( $errorHandling != self::ERROR_HANDLING_EXCEPTIONS && $errorHandling != self::ERROR_HANDLING_STANDARD )
+            throw new RuntimeException( "Unknown eZDB error handling mode '$errorHandling'" );
+        self::$errorHandling = $errorHandling;
+
+        if ( self::hasInstance() )
+        {
+            self::instance()->setErrorHandling( $errorHandling );
+        }
+    }
+
+    /**
+    * Error handling mode
+    */
+    const ERROR_HANDLING_STANDARD = 1;
+    const ERROR_HANDLING_EXCEPTIONS = 2;
+
+    protected static $errorHandling = self::ERROR_HANDLING_STANDARD;
 }
 
 ?>
