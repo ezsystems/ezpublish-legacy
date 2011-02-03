@@ -685,10 +685,11 @@ class eZSys
         return $GLOBALS['eZSysServerPort'];
     }
 
-    /*!
-     Returns true if magick quotes is enabled.
-     \static
-    */
+    /**
+     * Returns true if magick quotes is enabled,
+     * but does nothing.
+     * @deprecated 4.5
+     */
     static function magickQuotes()
     {
         return null;
