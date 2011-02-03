@@ -13,6 +13,9 @@ Debug=disabled
 [OutputSettings]
 RendererClass[xhtml]=ezpContentXHTMLRenderer
 
+[ezpRestContentController_viewContent_OutputSettings]
+Template=rest_pagelayout.tpl
+
 [CacheSettings]
 # Global switch to enable/disable REST application cache
 ApplicationCache=enabled
