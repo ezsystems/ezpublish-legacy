@@ -56,21 +56,10 @@ class ezpRestAuthConfiguration
 
     public function shallAuthenticate()
     {
-        // @TODO route filter should be extensible.
-        // @TODO the route list should be configurable via settings
-        switch ( $this->info->matchedRoute )
-        {
-            case '/http-basic-auth':
-            case '/login/oauth':
-            case '/login/oauth/authorize':
-            case '/api/oauth/token':
-            case '/api/fatal':
-                return false;
-                break;
-            default:
-                return true;
-                break;
-        }
+        // @TODO Add defaults here, such as fatal controller then merge with settings
+        $routeFilter = ezpRestRouteSecurityInterface::getRouteSecurityFilter();
+        $omitAuthForRoutes = $routeFilter->getOpenRoutes();
+        return ! in_array( $this->info->matchedRoute, $omitAuthForRoutes );
     }
 }
 

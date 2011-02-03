@@ -49,4 +49,19 @@ RouteApcCache=enabled
 # TTL for Route APC cache, in seconds
 RouteApcCacheTTL=3600
 
+[RouteSecurity]
+RouteSecurityImpl=ezpRestIniRouteSecurity
+OpenRoutes[]
+OpenRoutes[]=/http-basic-auth
+OpenRoutes[]=/login/oauth
+OpenRoutes[]=/login/oauth/authorize
+OpenRoutes[]=/oauth/token
+OpenRoutes[]=/api/fatal
+OpenRoutes[]=/api/content/node/:nodeId
+
+# By default all routes are secured, only the ones listed in OpenRoutes will
+# omit authentication check.
+# This setting might be dropped.
+SecuredRoutes[]
+
 */ ?>
