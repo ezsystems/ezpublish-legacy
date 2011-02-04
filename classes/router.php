@@ -24,18 +24,21 @@ class ezpRestRouter extends ezcMvcRouter
      */
     public function createRoutes()
     {
-        // Check if route caching is enabled and if APC is available
-        $isRouteCacheEnabled = eZINI::instance( 'rest.ini' )->variable( 'CacheSettings', 'RouteApcCache' ) === 'enabled';
-        if( $isRouteCacheEnabled && ezcBaseFeatures::hasExtensionSupport( 'apc' ) )
+        if( empty( $this->routes ) )
         {
-            $prefixedRoutes = $this->getCachedRoutes();
-        }
-        else
-        {
-            $prefixedRoutes = $this->doCreateRoutes();
+            // Check if route caching is enabled and if APC is available
+            $isRouteCacheEnabled = eZINI::instance( 'rest.ini' )->variable( 'CacheSettings', 'RouteApcCache' ) === 'enabled';
+            if( $isRouteCacheEnabled && ezcBaseFeatures::hasExtensionSupport( 'apc' ) )
+            {
+                $this->routes = $this->getCachedRoutes();
+            }
+            else
+            {
+                $this->routes = $this->doCreateRoutes();
+            }
         }
         
-        return $prefixedRoutes;
+        return $this->routes;
     }
     
     /**
@@ -61,6 +64,7 @@ class ezpRestRouter extends ezcMvcRouter
         
         $prefix = eZINI::instance( 'rest.ini' )->variable( 'System', 'ApiPrefix' );
         $prefixedRoutes = ezcMvcRouter::prefix( $prefix, array_merge( $providerRoutes, $routes ) );
+        
         return $prefixedRoutes;
     }
     
