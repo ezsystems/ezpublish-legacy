@@ -54,7 +54,7 @@ RequireAuthentication=enabled
 AuthenticationStyle=ezpRestOauthAuthenticationStyle
 
 [RouteSettings]
-RouteSettingImpl=ezpRestIniRouteSecurity
+RouteSettingImpl=ezpRestIniRouteFilter
 # Pattern for the skip filter
 # SkipFilter[]=controller_action;version
 # If the version component is not listed version "1" is assumed.

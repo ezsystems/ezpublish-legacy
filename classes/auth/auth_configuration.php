@@ -66,7 +66,7 @@ class ezpRestAuthConfiguration
 
     public function shallAuthenticate()
     {
-        $routeFilter = ezpRestRouteSecurityInterface::getRouteSecurityFilter();
+        $routeFilter = ezpRestRouteFilterInterface::getRouteFilter();
         return $routeFilter->shallDoActionWithRoute( $this->info );
     }
 }

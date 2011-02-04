@@ -6,7 +6,7 @@
  * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
  *
  */
-abstract class ezpRestRouteSecurityInterface
+abstract class ezpRestRouteFilterInterface
 {
     /**
      * Returns the routes for which do not require authentication.
@@ -21,9 +21,9 @@ abstract class ezpRestRouteSecurityInterface
      *
      * @static
      * @throws ezpRestRouteSecurityFilterNotFoundException
-     * @return ezpRestRouteSecurityInterface
+     * @return ezpRestRouteFilterInterface
      */
-    public static function getRouteSecurityFilter()
+    public static function getRouteFilter()
     {
         $opt = new ezpExtensionOptions();
         $opt->iniFile = 'rest.ini';
