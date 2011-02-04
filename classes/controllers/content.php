@@ -92,9 +92,9 @@ class ezpRestContentController extends ezpRestMvcController
         // Add links to fields resources
         $result->variables['links'] = ezpRestContentModel::getFieldsLinksByContent( $content, $this->request );
 
-        if ( isset($this->request->get['OutputFormat']) )
+        if ( $outputFormat = $this->getContentVariable( 'OutputFormat' ) )
         {
-            $renderer = ezpRestContentRenderer::getRenderer( $this->request->get['OutputFormat'], $content, $this );
+            $renderer = ezpRestContentRenderer::getRenderer( $outputFormat, $content, $this );
             $result->variables['renderedOutput'] = $renderer->render();
         }
 

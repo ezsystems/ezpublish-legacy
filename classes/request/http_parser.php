@@ -84,7 +84,7 @@ class ezpRestHttpRequestParser extends ezcMvcHttpRequestParser
     protected function fillContentVariables()
     {
         $contentVariables = array();
-        $expectedVariables = array( 'Translation' );
+        $expectedVariables = array( 'Translation', 'OutputFormat' );
         
         foreach( $expectedVariables as $variable )
         {
