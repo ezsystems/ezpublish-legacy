@@ -49,6 +49,10 @@ RouteApcCache=enabled
 # TTL for Route APC cache, in seconds
 RouteApcCacheTTL=3600
 
+[Authentication]
+RequireAuthentication=enabled
+AuthenticationStyle=ezpRestOauthAuthenticationStyle
+
 [RouteSettings]
 RouteSettingImpl=ezpRestIniRouteSecurity
 # Pattern for the skip filter

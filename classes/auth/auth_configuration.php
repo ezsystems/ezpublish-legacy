@@ -34,22 +34,32 @@ class ezpRestAuthConfiguration
 
     public function filter()
     {
+        if ( eZINI::instance( 'rest.ini' )->variable( 'Authentication', 'RequireAuthentication' ) !== 'enabled' )
+            return;
+
         // 0. Check if the given route needs authentication.
         if ( !$this->shallAuthenticate() )
             return;
 
         if ( $this->filter === null )
         {
-            // By standard we setup the oauth filter
-            // @TODO Make the default a choice by configuration
-            $this->filter = new ezpRestOauthAuthenticationStyle();
+            $opt = new ezpExtensionOptions();
+            $opt->iniFile = 'rest.ini';
+            $opt->iniSection = 'Authentication';
+            $opt->iniVariable = 'AuthenticationStyle';
+            $authFilter = eZExtension::getHandlerClass( $opt );
+            if ( !$authFilter instanceof ezpRestAuthenticationStyle )
+            {
+                throw new ezpRestAuthStyleNotFoundException();
+            }
+
+            $this->filter = $authFilter;
         }
 
         // 1. Initialize the context needed for authenticating the user.
         $auth = $this->filter->setup( $this->req );
 
-        // 2.Perform the authentication check this will redirect properly if
-        // unsuccessful
+        // 2.Perform the authentication
         return $this->filter->authenticate( $auth, $this->req );
 
     }
