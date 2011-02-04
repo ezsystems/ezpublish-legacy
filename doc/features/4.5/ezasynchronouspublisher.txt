@@ -76,9 +76,32 @@ in the settings file.
 
 Multiple instances
 ------------------
+
+One database per instance
+'''''''''''''''''''''''''
 If you need to run multiple publishing daemons, you just need to create one symlink per daemon instance. The init.d
 script name will be used as the PID file's name, and both will be independant. Note that multiple daemons on one instance
 with multiple DBs aren't yet supported.
+
+One instance with multiple databases
+''''''''''''''''''''''''''''''''''''
+As for multiple instances with one database each, you must in any case create one startup script per database.
+
+One extra step is then required to configure each init.d script. By default, the daemon will use the default siteaccess
+settings. Since this situation involves multiple databases, an explicit siteaccess name must be used. To configure the
+siteaccess each daemon should use, an extra file must be created.
+
+Each daemon can be assigned a siteaccess by creating a configuration file named::
+
+    /etc/default/ezasynchronouspublisher/<init.d name>.conf
+
+Example for an init.d script named ``/etc/init.d/myezdaemon`` ::
+
+    /etc/default/ezasynchronouspublisher/myezdaemon.conf
+
+This file currently supports one setting named siteaccess::
+
+    SITEACCESS=plain_site_admin
 
 Customization
 =============

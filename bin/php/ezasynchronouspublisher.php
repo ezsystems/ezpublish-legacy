@@ -44,6 +44,16 @@ else
     $pidFile = "$varDir/run/ezasynchronouspublisher.pid";
 }
 
+// check if run folder exists
+$pidFileDirectory = dirname( $pidFile );
+if ( !file_exists( $pidFileDirectory ) )
+{
+    if ( !mkdir( $pidFileDirectory ) )
+    {
+        $script->shutdown( 3, "Error creating PID file directory '$pidFileDirectory'" );
+    }
+}
+
 // try opening the PID file. Exclusive mode will prevent the file from being opened if it exists
 $pidFp = @fopen( $pidFile, 'x' );
 if ( $pidFp === false )

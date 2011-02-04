@@ -17,9 +17,13 @@
 STARTUP_SCRIPT=$(readlink -f $0)
 NAME=`basename $0`
 
+# TODO: Handle this
+SITEACCESS=""
+
 # Read configuration files
 DEFAULT_CONF="${STARTUP_SCRIPT}.defaults"
 GLOBAL_CONF="/etc/default/ezasynchronouspublisher.conf"
+LOCAL_CONF="/etc/default/ezasynchronouspublisher/${NAME}.conf"
 
 # Default configuration
 if [ -e "${DEFAULT_CONF}" ]; then
@@ -31,6 +35,11 @@ if [ -e "${GLOBAL_CONF}" ]; then
     . "${GLOBAL_CONF}"
 fi
 
+# Loca configuration
+if [ -e "${LOCAL_CONF}" ]; then
+    . "${LOCAL_CONF}"
+fi
+
 DAEMON_OPTS=" -n"
 STARTUP_SCRIPT_PATH=`dirname "${STARTUP_SCRIPT}"`
 APP_PATH=${STARTUP_SCRIPT_PATH%/bin/startup/*}
@@ -39,6 +48,10 @@ DESC="eZ Publish asynchronous publishing daemon"
 PID_FOLDER="/var/run/ezpublish"
 PID_FILE=/var/run/ezpublish/${NAME}.pid
 DAEMON_OPTS="${DAEMON_OPTS} --pid-file=${PID_FILE}"
+
+if [ ${SITEACCESS} ]; then
+    DAEMON_OPTS="${DAEMON_OPTS} -s ${SITEACCESS}"
+fi
 
 # prepend PHP's path if customized
 if [ ${PHP_EXECUTABLE}  ]; then

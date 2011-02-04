@@ -1513,21 +1513,19 @@ class eZContentOperationCollection
         else
             $asyncEnabled = ( eZINI::instance( 'content.ini' )->variable( 'PublishingSettings', 'AsynchronousPublishing' ) == 'enabled' );
 
+        $accepted = true;
+
         if ( $asyncEnabled === true )
         {
             // Filter handlers
             $ini = eZINI::instance( 'content.ini' );
             $filterHandlerClasses = $ini->variable( 'PublishingSettings', 'AsynchronousPublishingFilters' );
 
-            eZDebug::writeDebug( $filterHandlerClasses, "Asynchronous publishing filter classes" );
-
             if ( count( $filterHandlerClasses ) )
             {
                 $versionObject = eZContentObjectVersion::fetchVersion( $version, $objectId );
-                $accepted = true;
                 foreach( $filterHandlerClasses as $filterHandlerClass )
                 {
-                    eZDebug::writeDebug( $filterHandlerClass, "Running async filter" );
                     if ( !class_exists( $filterHandlerClass ) )
                     {
                         eZDebug::writeError( "Unknown asynchronous publishing filter handler class '$filterHandlerClass'", __METHOD__  );
