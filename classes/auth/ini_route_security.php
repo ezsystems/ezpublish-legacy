@@ -30,25 +30,26 @@ class ezpRestIniRouteSecurity extends ezpRestRouteSecurityInterface
 
     public function shallDoActionWithRoute( ezcMvcRoutingInformation $routeInfo )
     {
-        $selectedRoute = $routeInfo->controllerClass . '_' . $routeInfo->action;
-        return $this->checkRoute( $selectedRoute );
+        return $this->checkRoute( $routeInfo->controllerClass, $routeInfo->action);
     }
 
-    protected function checkRoute( $route )
+    protected function checkRoute( $selectedController, $selectedAction )
     {
         if (self::$parsedSkipRoutes === null )
         {
             self::$parsedSkipRoutes = array();
             foreach ( self::$skipRoutes as $routeRule )
             {
-                $route = $routeRule[0];
+                list( $routeController, $routeAction ) = explode( '_', $routeRule[0] );
                 $routeVersion = isset( $routeRule[1] ) ? (int)$routeRule[1] : 1;
-                self::$parsedSkipRoutes[$route] = $routeVersion;
+                self::$parsedSkipRoutes[$routeController] = array( 'action'  => $routeAction,
+                                                                   'version' => $routeVersion);
             }
         }
 
-        return !( isset( self::$parsedSkipRoutes[$route] ) &&
-                 self::$parsedSkipRoutes[$route] === ezpRestPrefixFilterInterface::getApiVersion() );
+        return !( isset( self::$parsedSkipRoutes[$selectedController] ) &&
+                  ( self::$parsedSkipRoutes[$selectedController]['action'] === $selectedAction || self::$parsedSkipRoutes[$selectedController]['action'] === '*' ) &&
+                  self::$parsedSkipRoutes[$selectedController]['version'] === ezpRestPrefixFilterInterface::getApiVersion() );
     }
 
 
