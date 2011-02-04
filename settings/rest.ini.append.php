@@ -1,4 +1,4 @@
-<?php /*
+<?php /* #?ini charset="utf-8"?
 
 [System]
 PrefixFilterClass=ezpRestDefaultRegexpPrefixFilter
