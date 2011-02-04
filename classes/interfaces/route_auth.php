@@ -13,21 +13,22 @@ abstract class ezpRestRouteSecurityInterface
      * @abstract
      * @return array
      */
-    abstract public function getOpenRoutes();
+
+    abstract public function shallDoActionWithRoute( ezcMvcRoutingInformation $routeInfo );
 
     /**
      * Returns the currently configured class for handling Route security.
      *
      * @static
      * @throws ezpRestRouteSecurityFilterNotFoundException
-     * @return object
+     * @return ezpRestRouteSecurityInterface
      */
     public static function getRouteSecurityFilter()
     {
         $opt = new ezpExtensionOptions();
         $opt->iniFile = 'rest.ini';
-        $opt->iniSection = 'RouteSecurity';
-        $opt->iniVariable = 'RouteSecurityImpl';
+        $opt->iniSection = 'RouteSettings';
+        $opt->iniVariable = 'RouteSettingImpl';
 
         $routeSecurityFilterInstance = eZExtension::getHandlerClass( $opt );
 

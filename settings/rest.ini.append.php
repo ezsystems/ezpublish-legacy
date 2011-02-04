@@ -49,19 +49,20 @@ RouteApcCache=enabled
 # TTL for Route APC cache, in seconds
 RouteApcCacheTTL=3600
 
-[RouteSecurity]
-RouteSecurityImpl=ezpRestIniRouteSecurity
-OpenRoutes[]
-OpenRoutes[]=/http-basic-auth
-OpenRoutes[]=/login/oauth
-OpenRoutes[]=/login/oauth/authorize
-OpenRoutes[]=/oauth/token
-OpenRoutes[]=/api/fatal
-OpenRoutes[]=/api/content/node/:nodeId
+[RouteSettings]
+RouteSettingImpl=ezpRestIniRouteSecurity
+# Pattern for the skip filter
+# SkipFilter[]=controller_action;version
+# If the version component is not listed version "1" is assumed.
+SkipFilter[]
+SkipFilter[]=ezpRestErrorController_show
+SkipFilter[]=ezpRestAuthController_basicAuth
+SkipFilter[]=ezpRestAuthController_oauthRequired
+SkipFilter[]=ezpRestOauthTokenController_handleRequest
+# Skip (auth) filter for every action in 'myController' which is of API version 2
+SkipFilter[]=myController_*;2
 
-# By default all routes are secured, only the ones listed in OpenRoutes will
-# omit authentication check.
-# This setting might be dropped.
-SecuredRoutes[]
+# For future use
+# RunFilter[]
 
 */ ?>

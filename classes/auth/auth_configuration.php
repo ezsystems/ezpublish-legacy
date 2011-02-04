@@ -56,10 +56,8 @@ class ezpRestAuthConfiguration
 
     public function shallAuthenticate()
     {
-        // @TODO Add defaults here, such as fatal controller then merge with settings
         $routeFilter = ezpRestRouteSecurityInterface::getRouteSecurityFilter();
-        $omitAuthForRoutes = $routeFilter->getOpenRoutes();
-        return ! in_array( $this->info->matchedRoute, $omitAuthForRoutes );
+        return $routeFilter->shallDoActionWithRoute( $this->info );
     }
 }
 
