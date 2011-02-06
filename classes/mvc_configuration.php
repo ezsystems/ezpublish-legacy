@@ -35,7 +35,7 @@ class ezpMvcConfiguration implements ezcMvcDispatcherConfiguration
 
     public function createResponseWriter( ezcMvcRoutingInformation $routeInfo, ezcMvcRequest $request, ezcMvcResult $result, ezcMvcResponse $response )
     {
-        return new ezcMvcHttpResponseWriter( $response );
+        return new ezpRestHttpResponseWriter( $response );
     }
 
     public function createRouter( ezcMvcRequest $request )
