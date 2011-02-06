@@ -17,12 +17,6 @@ class ezpRestOauthAuthenticationStyle implements ezpRestAuthenticationStyle
         // Fail if too many components are required (according to spec, later)
         // Validate components
 
-        $logger = ezcLog::getInstance();
-        $logger->source = __FUNCTION__;
-        $logger->category = "oauth";
-
-        $logger->log( "Begin oauth verification", ezcLog::DEBUG );
-
         $token = ezpOauthUtility::getToken( $request );
         $cred = new ezcAuthenticationIdCredentials( $token );
         $oauthFilter = new ezpOauthFilter();

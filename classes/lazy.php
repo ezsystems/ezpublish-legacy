@@ -7,17 +7,6 @@
  *
  */
 
-class ezpRestLogConfig implements ezcBaseConfigurationInitializer
-{
-        public static function configureObject( $log )
-        {
-            // Disable log rotation
-            $writeAll = new ezcLogUnixFileWriter( "var/log/", "rest.log", false );
-            $log->getMapper()->appendRule( new ezcLogFilterRule( new ezcLogFilter, $writeAll, true ) );
-        }
-}
-ezcBaseInit::setCallback( 'ezcInitLog', 'ezpRestLogConfig' );
-
 class ezpRestDbConfig implements ezcBaseConfigurationInitializer
 {
     public static function configureObject( $instance )

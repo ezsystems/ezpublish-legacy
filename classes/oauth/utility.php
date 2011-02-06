@@ -14,8 +14,6 @@
  */
 class ezpOauthUtility
 {
-    protected $logger = null;
-
     const AUTH_HEADER_NAME     = 'Authorization';
     const AUTH_CGI_HEADER_NAME = 'HTTP_AUTHORIZATION';
 
@@ -37,10 +35,6 @@ class ezpOauthUtility
      */
     public static function getToken( ezcMvcRequest $request )
     {
-        $logger = ezcLog::getInstance();
-        $logger->source = __CLASS__;
-        $logger->category = "oauth";
-
         // 1. Should first extract required token from the request object
         //    as we know that the request parser does not support this at the
         //    moment we, will skip to the fallback right away. That is to say,
@@ -49,13 +43,9 @@ class ezpOauthUtility
 
         $token = null;
 
-        $logger->log( "Trying to get access token from http headers", ezcLog::DEBUG );
-
-
         $token = self::getTokenFromAuthorizationHeader();
         if ( $token !== null )
         {
-            $logger->log( "Found token from header", ezcLog::DEBUG, array( "token" => $token ) );
             return $token;
         }
 
