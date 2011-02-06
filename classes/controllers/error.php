@@ -43,6 +43,7 @@ class ezpRestErrorController extends ezcMvcController
 
         $result = new ezcMvcResult;
         $result->variables['message'] = $this->exception->getMessage();
+        $result->status = new ezpRestHttpResponse( ezpHttpResponseCodes::SERVER_ERROR, $this->exception->getMessage() );
         return $result;
     }
 }

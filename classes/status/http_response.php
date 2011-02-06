@@ -24,6 +24,11 @@ class ezpRestHttpResponse implements ezcMvcResultStatusObject
         {
             $writer->headers["HTTP/1.1 " . $this->code] = $this->message;
         }
+
+        if ( $this->message !== null )
+        {
+            $writer->response->body = $this->message;
+        }
     }
 }
 ?>
