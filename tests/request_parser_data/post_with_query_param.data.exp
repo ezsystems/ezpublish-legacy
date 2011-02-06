@@ -12,6 +12,7 @@ ezpRestRequest::__set_state(array(
     'Translation' => NULL,
     'OutputFormat' => NULL,
   ),
+   'isEncrypted' => false,
    'date' => 
   DateTime::__set_state(array(
      'date' => '2010-11-30 04:16:32',
