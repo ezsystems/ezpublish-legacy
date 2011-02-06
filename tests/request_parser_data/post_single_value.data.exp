@@ -6,6 +6,11 @@ ezpRestRequest::__set_state(array(
   array (
     'foo' => 'bar',
   ),
+   'contentVariables' => 
+  array (
+    'Translation' => NULL,
+    'OutputFormat' => NULL,
+  ),
    'date' => 
   DateTime::__set_state(array(
      'date' => '2010-11-30 04:13:59',
@@ -19,6 +24,9 @@ ezpRestRequest::__set_state(array(
    'referrer' => NULL,
    'variables' => 
   array (
+    'ResponseGroups' => 
+    array (
+    ),
   ),
    'body' => '',
    'files' => NULL,
