@@ -1,0 +1,137 @@
+ezpRestRequest::__set_state(array(
+   'get' => 
+  array (
+  ),
+   'post' => 
+  array (
+  ),
+   'contentVariables' => 
+  array (
+    'Translation' => NULL,
+    'OutputFormat' => NULL,
+  ),
+   'isEncrypted' => true,
+   'date' => 
+  DateTime::__set_state(array(
+     'date' => '2011-02-06 18:13:40',
+     'timezone_type' => 1,
+     'timezone' => '+00:00',
+  )),
+   'protocol' => 'http-get',
+   'host' => 'trunk',
+   'uri' => '/apitest/',
+   'requestId' => 'trunk/apitest/',
+   'referrer' => NULL,
+   'variables' => 
+  array (
+    'ResponseGroups' => 
+    array (
+    ),
+  ),
+   'body' => '',
+   'files' => NULL,
+   'accept' => 
+  ezcMvcRequestAccept::__set_state(array(
+     'types' => 
+    array (
+      0 => 'text/html',
+      1 => 'application/xhtml+xml',
+      2 => 'application/xml',
+      3 => '*/*',
+    ),
+     'charsets' => 
+    array (
+      0 => 'UTF-8',
+      1 => '*',
+    ),
+     'languages' => 
+    array (
+      0 => 'en-gb',
+      1 => 'en',
+      2 => 'en-us',
+    ),
+     'encodings' => 
+    array (
+      0 => 'gzip',
+      1 => ' deflate',
+    ),
+  )),
+   'agent' => 
+  ezcMvcRequestUserAgent::__set_state(array(
+     'agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:2.0b10) Gecko/20100101 Firefox/4.0b10',
+  )),
+   'authentication' => NULL,
+   'raw' => 
+  array (
+    'SCRIPT_URL' => '/apitest/',
+    'SCRIPT_URI' => 'https://trunk/apitest/',
+    'HTTPS' => 'on',
+    'SSL_TLS_SNI' => 'trunk',
+    'SSL_SERVER_S_DN_C' => 'NO',
+    'SSL_SERVER_S_DN_ST' => 'Oslo',
+    'SSL_SERVER_S_DN_L' => 'Oslo',
+    'SSL_SERVER_S_DN_O' => 'eZ',
+    'SSL_SERVER_S_DN_OU' => 'Engineering',
+    'SSL_SERVER_S_DN_CN' => '*.trunk',
+    'SSL_SERVER_S_DN_Email' => 'oms@localhost',
+    'SSL_SERVER_I_DN_C' => 'NO',
+    'SSL_SERVER_I_DN_ST' => 'Oslo',
+    'SSL_SERVER_I_DN_L' => 'Oslo',
+    'SSL_SERVER_I_DN_O' => 'eZ',
+    'SSL_SERVER_I_DN_OU' => 'Engineering',
+    'SSL_SERVER_I_DN_CN' => '*.trunk',
+    'SSL_SERVER_I_DN_Email' => 'oms@localhost',
+    'SSL_VERSION_INTERFACE' => 'mod_ssl/2.2.16',
+    'SSL_VERSION_LIBRARY' => 'OpenSSL/1.0.0a',
+    'SSL_PROTOCOL' => 'TLSv1',
+    'SSL_SECURE_RENEG' => 'true',
+    'SSL_COMPRESS_METHOD' => 'NULL',
+    'SSL_CIPHER' => 'DHE-RSA-CAMELLIA256-SHA',
+    'SSL_CIPHER_EXPORT' => 'false',
+    'SSL_CIPHER_USEKEYSIZE' => '256',
+    'SSL_CIPHER_ALGKEYSIZE' => '256',
+    'SSL_CLIENT_VERIFY' => 'NONE',
+    'SSL_SERVER_M_VERSION' => '1',
+    'SSL_SERVER_M_SERIAL' => 'EB2B70CB6CF33FCD',
+    'SSL_SERVER_V_START' => 'Feb  6 17:26:19 2011 GMT',
+    'SSL_SERVER_V_END' => 'Feb  3 17:26:19 2021 GMT',
+    'SSL_SERVER_S_DN' => '/C=NO/ST=Oslo/L=Oslo/O=eZ/OU=Engineering/CN=*.trunk/emailAddress=oms@localhost',
+    'SSL_SERVER_I_DN' => '/C=NO/ST=Oslo/L=Oslo/O=eZ/OU=Engineering/CN=*.trunk/emailAddress=oms@localhost',
+    'SSL_SERVER_A_KEY' => 'rsaEncryption',
+    'SSL_SERVER_A_SIG' => 'sha1WithRSAEncryption',
+    'SSL_SESSION_ID' => 'D4FF3DC2CF3388CDC7A88A72C2E5FE00E4813C7B19080A8701B0DFFCC849EA07',
+    'HTTP_HOST' => 'trunk',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:2.0b10) Gecko/20100101 Firefox/4.0b10',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'HTTP_ACCEPT_LANGUAGE' => 'en-gb,en;q=0.7,en-us;q=0.3',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate',
+    'HTTP_ACCEPT_CHARSET' => 'UTF-8,*',
+    'HTTP_KEEP_ALIVE' => '115',
+    'HTTP_CONNECTION' => 'keep-alive',
+    'HTTP_CACHE_CONTROL' => 'max-age=0',
+    'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin',
+    'SERVER_SIGNATURE' => '<address>Apache/2.2.16 (Unix) mod_ssl/2.2.16 OpenSSL/1.0.0a DAV/2 PHP/5.3.3 Server at trunk Port 443</address>
+',
+    'SERVER_SOFTWARE' => 'Apache/2.2.16 (Unix) mod_ssl/2.2.16 OpenSSL/1.0.0a DAV/2 PHP/5.3.3',
+    'SERVER_NAME' => 'trunk',
+    'SERVER_ADDR' => '127.0.0.1',
+    'SERVER_PORT' => '443',
+    'REMOTE_ADDR' => '127.0.0.1',
+    'DOCUMENT_ROOT' => '/Users/oms/dev/ez/ezp/bugfix/trunk',
+    'SERVER_ADMIN' => 'oms@localhost',
+    'SCRIPT_FILENAME' => '/Users/oms/dev/ez/ezp/bugfix/trunk/index_rest_test.php',
+    'REMOTE_PORT' => '57466',
+    'GATEWAY_INTERFACE' => 'CGI/1.1',
+    'SERVER_PROTOCOL' => 'HTTP/1.1',
+    'REQUEST_METHOD' => 'GET',
+    'QUERY_STRING' => '',
+    'REQUEST_URI' => '/apitest/',
+    'SCRIPT_NAME' => '/apitest/',
+    'PHP_SELF' => '/apitest/',
+    'REQUEST_TIME' => 1297016020,
+  ),
+   'cookies' => 
+  array (
+  ),
+   'isFatal' => NULL,
+))

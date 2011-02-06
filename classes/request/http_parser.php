@@ -34,6 +34,23 @@ class ezpRestHttpRequestParser extends ezcMvcHttpRequestParser
         $this->request->post = $_POST;
     }
 
+    protected function processStandardHeaders()
+    {
+        $this->processEncryption();
+        parent::processStandardHeaders( );
+    }
+
+    /**
+     * Sets the isEncrypted flag if HTTPS is on.
+     * 
+     * @return void
+     */
+    protected function processEncryption()
+    {
+        if ( !empty( $_SERVER['HTTPS'] ) )
+            $this->request->isEncrypted = true;
+    }
+
     /**
      * Extract variables to be used internally from GET
      * @return array
