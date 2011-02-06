@@ -52,6 +52,7 @@ RouteApcCacheTTL=3600
 [Authentication]
 RequireAuthentication=enabled
 AuthenticationStyle=ezpRestOauthAuthenticationStyle
+RequireHTTPS=disabled
 
 [RouteSettings]
 RouteSettingImpl=ezpRestIniRouteFilter

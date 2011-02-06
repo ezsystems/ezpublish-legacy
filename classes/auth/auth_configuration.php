@@ -21,7 +21,7 @@ class ezpRestAuthConfiguration
 
     protected $filter = null;
 
-    public function __construct( ezcMvcRoutingInformation $info, ezcMvcRequest $req )
+    public function __construct( ezcMvcRoutingInformation $info, ezpRestRequest $req )
     {
         $this->info = $info;
         $this->req = $req;
@@ -36,6 +36,16 @@ class ezpRestAuthConfiguration
     {
         if ( eZINI::instance( 'rest.ini' )->variable( 'Authentication', 'RequireAuthentication' ) !== 'enabled' )
             return;
+
+        if ( eZINI::instance( 'rest.ini' )->variable( 'Authentication', 'RequireHTTPS') === 'enabled' &&
+             $this->req->isEncrypted === false )
+        {
+            // When an unencrypted connection is identified, we have to alter the
+            // flag to avoid infinite loop, when the request is rerouted to the error controller.
+            // This should be improved in the future.
+            $this->req->isEncrypted = true;
+            throw new ezpRestHTTPSRequiredException();
+        }
 
         // 0. Check if the given route needs authentication.
         if ( !$this->shallAuthenticate() )
