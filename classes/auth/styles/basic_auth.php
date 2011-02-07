@@ -9,11 +9,17 @@
 
 class ezpRestBasicAuthStyle implements ezpRestAuthenticationStyle
 {
+    protected $prefix;
+
+    public function __construct()
+    {
+        $this->prefix = eZINI::instance( 'rest.ini' )->variable( 'System', 'ApiPrefix' );
+    }
     public function setup( ezcMvcRequest $request )
     {
         if ( $request->authentication === null )
         {
-            $request->uri = '/http-basic-auth';
+            $request->uri = "{$this->prefix}/http-basic-auth";
             return new ezcMvcInternalRedirect( $request );
         }
 
@@ -30,8 +36,7 @@ class ezpRestBasicAuthStyle implements ezpRestAuthenticationStyle
     {
         if ( !$auth->run() )
         {
-            // @TODO: Proper error messages required of course.
-            $request->uri = '/http-basic-auth';
+            $request->uri = "{$this->prefix}/http-basic-auth";
             return new ezcMvcInternalRedirect( $request );
         }
         else
