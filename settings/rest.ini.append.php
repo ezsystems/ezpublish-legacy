@@ -71,4 +71,17 @@ SkipFilter[]=myController_*;2
 # For future use
 # RunFilter[]
 
+[PreRoutingFilters]
+Filters[]
+
+[RequestFilters]
+Filters[]
+
+[ResultFilters]
+Filters[]
+
+[ResponseFilters]
+Filters[]
+
+
 */ ?>
