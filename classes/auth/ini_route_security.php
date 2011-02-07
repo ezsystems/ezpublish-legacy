@@ -42,14 +42,22 @@ class ezpRestIniRouteFilter extends ezpRestRouteFilterInterface
             {
                 list( $routeController, $routeAction ) = explode( '_', $routeRule[0] );
                 $routeVersion = isset( $routeRule[1] ) ? (int)$routeRule[1] : 1;
-                self::$parsedSkipRoutes[$routeController] = array( 'action'  => $routeAction,
-                                                                   'version' => $routeVersion);
+                self::$parsedSkipRoutes[$routeController][$routeAction] = $routeVersion;
             }
         }
-
-        return !( isset( self::$parsedSkipRoutes[$selectedController] ) &&
-                  ( self::$parsedSkipRoutes[$selectedController]['action'] === $selectedAction || self::$parsedSkipRoutes[$selectedController]['action'] === '*' ) &&
-                  self::$parsedSkipRoutes[$selectedController]['version'] === ezpRestPrefixFilterInterface::getApiVersion() );
+        $retVal = false;
+        if ( isset( self::$parsedSkipRoutes[$selectedController] ) )
+        {
+            if ( isset( self::$parsedSkipRoutes[$selectedController][$selectedAction] ) )
+            {
+                $retVal = self::$parsedSkipRoutes[$selectedController][$selectedAction] === ezpRestPrefixFilterInterface::getApiVersion();
+            }
+            else if ( isset( self::$parsedSkipRoutes[$selectedController]['*'] ) )
+            {
+                $retVal = self::$parsedSkipRoutes[$selectedController]['*'] === ezpRestPrefixFilterInterface::getApiVersion();
+            }
+        }
+        return !$retVal;
     }
 
 
