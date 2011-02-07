@@ -139,10 +139,60 @@ class ezpRestOauthTokenController extends ezcMvcController
                 $this->checkParams( $refreshRequiredParams );
 
                 $refreshToken = $this->request->post['refresh_token'];
+
+                $client = ezpRestClient::fetchByClientId( $client_id );
+
+                if (! ( $client instanceof ezpRestClient ) )
+                    throw new ezpOauthInvalidRequestException( ezpOauthTokenEndpointErrorType::INVALID_CLIENT );
+
+                if ( !$client->validateSecret( $client_secret ) )
+                    throw new ezpOauthInvalidRequestException( ezpOauthTokenEndpointErrorType::INVALID_CLIENT );
+
+                $session = ezcPersistentSessionInstance::get();
+
+                $q = $session->createFindQuery( 'ezpRestToken' );
+                $q->where( $q->expr->eq( 'refresh_token', $q->bindValue( $refreshToken ) ) );
+                $refreshInfo = $session->find( $q, 'ezpRestToken' );
+
+                if ( empty( $refreshInfo) )
+                {
+                    throw new ezpOauthInvalidRequestException( "Specified refresh-token does not exist." );
+                }
+
+                $refreshInfo = array_shift( $refreshInfo );
+
+                // Validate client is still authorized, then validate code is not expired
+                $authorized = ezpRestAuthorizedClient::fetchForClientUser( $client, eZUser::fetch( $refreshInfo->user_id ) );
+
+                if ( !($authorized instanceof ezpRestAuthorizedClient ) )
+                {
+                    throw new ezpOauthInvalidRequestException( ezpOauthTokenEndpointErrorType::INVALID_CLIENT );
+                }
+
+
+                // Ideally there should be a separate expiry for refresh tokens here, for now allow.
+                $newToken = new ezpRestToken();
+                $newToken->id = ezpRestToken::generateToken( '' );
+                $newToken->refresh_token = ezpRestToken::generateToken( '' );
+                $newToken->client_id = $client_id;
+                $newToken->user_id = $refreshInfo->user_id;
+                $newToken->expirytime = time() + 3600;
+
+                $session->save( $newToken );
+                $session->delete( $refreshInfo );
+
+                $result = new ezcMvcResult();
+                $result->status = new ezcMvcExternalRedirect( $client->endpoint_uri . '?access_token=' . $newToken->id . '&refresh_token=' . $newToken->refresh_token );
+                return $result;
                 break;
         }
 
 
+
+    }
+
+    protected function validateClient( $client_id, $client_secret )
+    {
 
     }
 
@@ -172,7 +222,7 @@ class ezpRestOauthTokenController extends ezcMvcController
     protected function validateGrantType( $grant )
     {
         $allowedGrantTypes = array( 'authorization_code',
-                                    //'refresh_token',
+                                    'refresh_token',
                                   );
 
 
