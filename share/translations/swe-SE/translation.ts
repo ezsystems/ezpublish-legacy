@@ -1978,7 +1978,7 @@
         <translation>Visning</translation>
     </message>
     <message>
-        <source>View the draft that is being edited.</source>
+        <source>Preview the draft that is being edited.</source>
         <translation>Se utkastet som håller på att ändras.</translation>
     </message>
     <message>

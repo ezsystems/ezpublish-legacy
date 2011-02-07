@@ -1978,7 +1978,7 @@
         <translation>Pohled</translation>
     </message>
     <message>
-        <source>View the draft that is being edited.</source>
+        <source>Preview the draft that is being edited.</source>
         <translation>Pohlížet na koncept, který je editován.</translation>
     </message>
     <message>

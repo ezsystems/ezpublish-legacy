@@ -1978,7 +1978,7 @@
         <translation type="unfinished">Vis</translation>
     </message>
     <message>
-        <source>View the draft that is being edited.</source>
+        <source>Preview the draft that is being edited.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

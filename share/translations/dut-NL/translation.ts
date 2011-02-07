@@ -2042,7 +2042,7 @@
         <translation>Bekijk</translation>
     </message>
     <message>
-        <source>View the draft that is being edited.</source>
+        <source>Preview the draft that is being edited.</source>
         <translation>Bekijk het concept wat bewerkt wordt.</translation>
     </message>
     <message>

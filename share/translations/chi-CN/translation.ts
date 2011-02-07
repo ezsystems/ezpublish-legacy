@@ -2102,7 +2102,7 @@
         <translation>查看</translation>
     </message>
     <message>
-        <source>View the draft that is being edited.</source>
+        <source>Preview the draft that is being edited.</source>
         <translation>查看正被编辑的草稿。</translation>
     </message>
     <message>

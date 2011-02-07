@@ -1984,7 +1984,7 @@
         <translation>Widok</translation>
     </message>
     <message>
-        <source>View the draft that is being edited.</source>
+        <source>Preview the draft that is being edited.</source>
         <translation>Zobacz aktualnie edytowany szkic.</translation>
     </message>
     <message>

@@ -1978,7 +1978,7 @@
         <translation>Prikaz</translation>
     </message>
     <message>
-        <source>View the draft that is being edited.</source>
+        <source>Preview the draft that is being edited.</source>
         <translation>Prikaži skicu koju uređujem.</translation>
     </message>
     <message>

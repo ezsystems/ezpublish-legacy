@@ -1979,7 +1979,7 @@
         <translation>Просмотр</translation>
     </message>
     <message>
-        <source>View the draft that is being edited.</source>
+        <source>Preview the draft that is being edited.</source>
         <translation>Просмотр редактируемого сейчас черновика.</translation>
     </message>
     <message>

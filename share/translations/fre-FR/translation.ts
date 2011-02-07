@@ -1982,7 +1982,7 @@
         <translation>Vue</translation>
     </message>
     <message>
-        <source>View the draft that is being edited.</source>
+        <source>Preview the draft that is being edited.</source>
         <translation>Afficher le brouillon qui est modifié.</translation>
     </message>
     <message>

@@ -2213,7 +2213,7 @@
         <translation>檢視</translation>
     </message>
     <message>
-        <source>View the draft that is being edited.</source>
+        <source>Preview the draft that is being edited.</source>
         <translation>檢視被編輯的草稿。</translation>
     </message>
     <message>

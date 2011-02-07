@@ -1982,7 +1982,7 @@
         <translation>Vis</translation>
     </message>
     <message>
-        <source>View the draft that is being edited.</source>
+        <source>Preview the draft that is being edited.</source>
         <translation>Vis utkastet som du redigerer.</translation>
     </message>
     <message>

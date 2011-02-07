@@ -1982,8 +1982,8 @@
         <translation>View</translation>
     </message>
     <message>
-        <source>View the draft that is being edited.</source>
-        <translation>View the draft that is being edited.</translation>
+        <source>Preview the draft that is being edited.</source>
+        <translation>Preview the draft that is being edited.</translation>
     </message>
     <message>
         <source>Store and exit</source>

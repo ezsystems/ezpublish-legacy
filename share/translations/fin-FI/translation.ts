@@ -1978,7 +1978,7 @@
         <translation>Näytä</translation>
     </message>
     <message>
-        <source>View the draft that is being edited.</source>
+        <source>Preview the draft that is being edited.</source>
         <translation>Näytä muokattava luonnos.</translation>
     </message>
     <message>

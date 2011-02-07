@@ -32,7 +32,7 @@
 </p>
 
 <div class="block">
-<input class="button" type="submit" name="PreviewButton" value="{'Preview'|i18n( 'design/admin/content/edit' )}" title="{'View the draft that is being edited.'|i18n( 'design/admin/content/edit' )}" />
+<input class="button" type="submit" name="PreviewButton" value="{'Preview'|i18n( 'design/admin/content/edit' )}" title="{'Preview the draft that is being edited.'|i18n( 'design/admin/content/edit' )}" />
 </div>
 
 {* DESIGN: Content END *}</div>

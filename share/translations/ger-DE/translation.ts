@@ -2356,7 +2356,7 @@
         <translation>Ansehen</translation>
     </message>
     <message>
-        <source>View the draft that is being edited.</source>
+        <source>Preview the draft that is being edited.</source>
         <translation>Den derzeitigen Entwurf ansehen.</translation>
     </message>
     <message>

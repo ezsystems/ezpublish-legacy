@@ -1982,7 +1982,7 @@
         <translation>Visualizza</translation>
     </message>
     <message>
-        <source>View the draft that is being edited.</source>
+        <source>Preview the draft that is being edited.</source>
         <translation>Visualizza la bozza in fase di modifica.</translation>
     </message>
     <message>

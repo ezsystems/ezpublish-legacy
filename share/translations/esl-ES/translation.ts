@@ -1990,7 +1990,7 @@
         <translation>Vista</translation>
     </message>
     <message>
-        <source>View the draft that is being edited.</source>
+        <source>Preview the draft that is being edited.</source>
         <translation>Ver el borrador que estás editando.</translation>
     </message>
     <message>

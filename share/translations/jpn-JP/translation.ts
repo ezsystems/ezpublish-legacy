@@ -1984,7 +1984,7 @@
         <translation>プレビュー</translation>
     </message>
     <message>
-        <source>View the draft that is being edited.</source>
+        <source>Preview the draft that is being edited.</source>
         <translation>編集中の下書きのプレビューを見る</translation>
     </message>
     <message>
