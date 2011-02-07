@@ -213,8 +213,7 @@ class ezpRestOauthTokenController extends ezcMvcController
         {
             $error = array_pop( $missingParams );
 
-            // @TODO need a more sophisticated error type detection here.
-            throw new ezpOauthInvalidRequestException( ezpOauthTokenEndpointErrorType::INVALID_REQUEST );
+            throw new ezpOauthInvalidRequestException( "Missing {$error} parameter." );
         }
 
     }
