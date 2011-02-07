@@ -19,6 +19,7 @@ name=REST Routes memory cache
 id=rest-routes
 tags[]=rest
 class=ezpRestRoutesCacheClear
+purgeClass=ezpRestRoutesCacheClear
 
 
 

@@ -24,4 +24,9 @@ class ezpRestRoutesCacheClear
             $expiryHandler->store();
         }
     }
+    
+    public static function purgeCache()
+    {
+        self::clearCache();
+    }
 }
