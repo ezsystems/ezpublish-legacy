@@ -68,6 +68,8 @@ class ezpRestAuthConfiguration
 
         // 1. Initialize the context needed for authenticating the user.
         $auth = $this->filter->setup( $this->req );
+        if ( $auth instanceof ezcMvcInternalRedirect )
+            return $auth;
 
         // 2.Perform the authentication
         return $this->filter->authenticate( $auth, $this->req );
