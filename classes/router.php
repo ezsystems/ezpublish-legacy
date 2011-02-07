@@ -52,7 +52,7 @@ class ezpRestRouter extends ezcMvcRouter
         $routes = array(
             new ezpMvcRailsRoute( '/fatal', 'ezpRestErrorController', 'show' ),
             new ezpMvcRailsRoute( '/http-basic-auth', 'ezpRestAuthController', 'basicAuth' ),
-            new ezpMvcRailsRoute( '/login/oauth', 'ezpRestAuthController', 'oauthRequired' ),
+            new ezpMvcRailsRoute( '/oauth/login', 'ezpRestAuthController', 'oauthRequired' ),
             new ezpMvcRailsRoute( '/oauth/token', 'ezpRestOauthTokenController', 'handleRequest'),
 
             // ezpRestVersionedRoute( $route, $version )
