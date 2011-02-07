@@ -12,11 +12,11 @@
     {/foreach}
 
     <div>
-        <label for="AuthorizeButton">{"Click on \"Authorize\" to grant the requested access"}</label>
-        <input type="submit" id="AuthorizeButton" class="defaultbutton" name="AuthorizeButton" value="{"Authorize"|i18n( 'extension/oauth/authorize' )}" />
+        <p>{"Click on \"Authorize\" to grant the requested access"}</p>
+        <p>{"Click on \"Deny\" to refuse the requested access"}</p>
     </div>
-    <div>
-        <label for="DenyButton">{"Click on \"Deny\" to refuse the requested access"}</label>
+    <div class="buttonblock">
+        <input type="submit" id="AuthorizeButton" class="defaultbutton authorizebutton" name="AuthorizeButton" value="{"Authorize"|i18n( 'extension/oauth/authorize' )}" />
         <input type="submit" id="DenyButton" class="button" name="DenyButton" value="{"Deny"|i18n( 'extension/oauth/authorize' )}" />
     </div>
 </form>

@@ -100,6 +100,12 @@ div.user-login div.block label
     cursor: pointer;
 }
 
+.authorizebutton
+{
+    width: 98px;
+    background-image: url(../images/authorize-button-bg.png);
+}
+
 .halfbox
 {
     border: none;
