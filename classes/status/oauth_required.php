@@ -53,6 +53,11 @@ class ezpOauthRequired implements ezcMvcResultStatusObject
             $writer->headers['HTTP/1.1 ' . ezpOauthErrorType::httpCodeforError( $this->errorType)] = "";
             $writer->headers['WWW-Authenticate'] = "OAuth realm=\"{$this->realm}\"{$this->createErrorString()}";
         }
+
+        if ( $this->errorMessage !== null )
+        {
+            $writer->response->body = $this->errorMessage;
+        }
     }
 
     /**

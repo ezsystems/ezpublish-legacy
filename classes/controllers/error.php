@@ -29,7 +29,7 @@ class ezpRestErrorController extends ezcMvcController
         else if ( $this->exception instanceof ezpOauthBadRequestException )
         {
             $result = new ezcMvcResult;
-            $result->status = new ezpRestOauthErrorStatus( $this->exception->errorType );
+            $result->status = new ezpRestOauthErrorStatus( $this->exception->errorType, $this->exception->getMessage() );
             $result->variables['message'] = $this->exception->getMessage();
             return $result;
         }
