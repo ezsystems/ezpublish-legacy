@@ -35,7 +35,7 @@ if [ -e "${GLOBAL_CONF}" ]; then
     . "${GLOBAL_CONF}"
 fi
 
-# Loca configuration
+# Local configuration
 if [ -e "${LOCAL_CONF}" ]; then
     . "${LOCAL_CONF}"
 fi
@@ -46,7 +46,7 @@ APP_PATH=${STARTUP_SCRIPT_PATH%/bin/startup/*}
 DAEMON="${APP_PATH}/bin/php/ezasynchronouspublisher.php"
 DESC="eZ Publish asynchronous publishing daemon"
 PID_FOLDER="/var/run/ezpublish"
-PID_FILE=/var/run/ezpublish/${NAME}.pid
+PID_FILE="$PID_FOLDER/${NAME}.pid"
 DAEMON_OPTS="${DAEMON_OPTS} --pid-file=${PID_FILE}"
 
 if [ ${SITEACCESS} ]; then

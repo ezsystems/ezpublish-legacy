@@ -1,17 +1,17 @@
 #!/bin/sh
 #
-# ezpqp        eZ Publish asychronous publishing init script for RHEL and SLES
+# ezasynchronouspublisher       eZ Publish asychronous publishing init script for RHEL and SLES
 #
-# chkconfig:   2345 86 14
-# description: eZ Publish asychronous publishing init script for RHEL and SLES
+# chkconfig:                    2345 86 37
+# description:                  eZ Publish asychronous publishing init script for RHEL and SLES
 
 ### BEGIN INIT INFO
-# Provides: ezpqp
-# Required-Start: $local_fs $network 
-# Required-Stop: $local_fs $network 
-# Default-Start: 3 4 5
-# Default-Stop: 0 1 2 6
-# Short-Description: start and stop ezpqp
+# Provides: eZ Publish asynchronous publishing daemon
+# Required-Start: $local_fs $remote_fs
+# Required-Stop: $local_fs $remote_fs
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: starts instance of eZ Publish asynchronous publishing daemon
 # Description: eZ Publish asychronous publishing init script for RHEL and SLES
 ### END INIT INFO
 
@@ -25,6 +25,7 @@ NAME=`basename $0`
 # Read configuration files
 DEFAULT_CONF="${STARTUP_SCRIPT}.defaults"
 GLOBAL_CONF="/etc/ezasynchronouspublisher.conf"
+LOCAL_CONF="/etc/ezasynchronouspublisher/${NAME}.conf"
 
 # Default configuration
 if [ -e "${DEFAULT_CONF}" ]; then
@@ -36,13 +37,22 @@ if [ -e "${GLOBAL_CONF}" ]; then
     . "${GLOBAL_CONF}"
 fi
 
+# Local configuration
+if [ -e "${LOCAL_CONF}" ]; then
+    . "${LOCAL_CONF}"
+fi
+
+DAEMON_OPTS=" -n"
 STARTUP_SCRIPT_PATH=`dirname "${STARTUP_SCRIPT}"`
 APP_PATH=${STARTUP_SCRIPT_PATH%/bin/startup/*}
 DAEMON="${APP_PATH}/bin/php/ezasynchronouspublisher.php"
 PID_FOLDER="/var/run/ezpublish"
 PID_FILE="$PID_FOLDER/${NAME}.pid"
-LOCK_FILE="/var/lock/subsys/${NAME}"
-DAEMON_OPTS="-n -p $PID_FILE"
+DAEMON_OPTS="${DAEMON_OPTS} --pid-file=${PID_FILE}"
+
+if [ ${SITEACCESS} ]; then
+    DAEMON_OPTS="${DAEMON_OPTS} -s ${SITEACCESS}"
+fi
 
 # prepend PHP's path if customized
 if [ ${PHP_EXECUTABLE}  ]; then
