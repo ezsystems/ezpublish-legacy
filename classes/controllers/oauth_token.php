@@ -126,7 +126,8 @@ class ezpRestOauthTokenController extends ezcMvcController
                 $session = ezcPersistentSessionInstance::get();
                 $session->save( $token );
 
-                //@TODO for later, check for transmission over https
+                // After an auth code is used, we'll remove it so it is not abused
+                $session->delete( $codeInfo );
 
                 $r = new ezcMvcResult;
                 $r->status = new ezcMvcExternalRedirect( $redirect_uri . '?access_token=' . $token->id );
