@@ -75,7 +75,9 @@ class ezpMvcConfiguration implements ezcMvcDispatcherConfiguration
             $this->runCustomFilters( self::FILTER_TYPE_PREROUTING, array( 'request' => $request ) );
         } catch ( Exception $e )
         {
-            $this->handleFilterException( $request, $e );
+            $request->variables['exception'] = $e;
+            $request->uri = '/api/fatal';
+            return new ezcMvcInternalRedirect( $request );
         }
     }
 
@@ -92,7 +94,9 @@ class ezpMvcConfiguration implements ezcMvcDispatcherConfiguration
         }
         catch ( Exception $e )
         {
-            $this->handleFilterException( $request, $e );
+            $request->variables['exception'] = $e;
+            $request->uri = '/api/fatal';
+            return new ezcMvcInternalRedirect( $request );
         }
     }
 
@@ -106,7 +110,9 @@ class ezpMvcConfiguration implements ezcMvcDispatcherConfiguration
             $this->runCustomFilters( self::FILTER_TYPE_RESPONSE, $params );
         } catch ( Exception $e )
         {
-            $this->handleFilterException( $request, $e );
+            $request->variables['exception'] = $e;
+            $request->uri = '/api/fatal';
+            return new ezcMvcInternalRedirect( $request );
         }
     }
 
@@ -119,7 +125,9 @@ class ezpMvcConfiguration implements ezcMvcDispatcherConfiguration
             $this->runCustomFilters( self::FILTER_TYPE_RESULT, $params );
         } catch ( Exception $e )
         {
-            $this->handleFilterException( $request, $e );
+            $request->variables['exception'] = $e;
+            $request->uri = '/api/fatal';
+            return new ezcMvcInternalRedirect( $request );
         }
     }
 
