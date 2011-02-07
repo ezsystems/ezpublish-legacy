@@ -21,10 +21,10 @@ class ezpRestContentModel extends ezpRestModel
         $aMetadata = array(
             'objectName'            => $content->name,
             'classIdentifier'       => $content->classIdentifier,
-            'datePublished'         => $content->datePublished,
-            'dateModified'          => $content->dateModified,
+            'datePublished'         => (int)$content->datePublished,
+            'dateModified'          => (int)$content->dateModified,
             'objectRemoteId'        => $content->remote_id,
-            'objectId'              => $content->id
+            'objectId'              => (int)$content->id
         );
         
         return $aMetadata;
@@ -41,7 +41,7 @@ class ezpRestContentModel extends ezpRestModel
         eZURI::transformURI( $url, false, 'full' ); // $url is passed as a reference
         
         $aMetadata = array(
-            'nodeId'        => $location->node_id,
+            'nodeId'        => (int)$location->node_id,
             'nodeRemoteId'  => $location->remote_id,
             'fullUrl'       => $url
         );
@@ -144,8 +144,8 @@ class ezpRestContentModel extends ezpRestModel
             'type'                  => $field->data_type_string,
             'identifier'            => $field->contentclass_attribute_identifier,
             'value'                 => $attributeValue,
-            'id'                    => $field->id,
-            'classattribute_id'     => $field->contentclassattribute_id
+            'id'                    => (int)$field->id,
+            'classattribute_id'     => (int)$field->contentclassattribute_id
         );
     }
     
