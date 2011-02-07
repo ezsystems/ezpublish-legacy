@@ -130,6 +130,7 @@ class ezpRestOauthTokenController extends ezcMvcController
                 $session->delete( $codeInfo );
 
                 $r = new ezcMvcResult;
+                //Spec not clear whether to return json response or redirect_uri, for client device workflow
                 $r->status = new ezcMvcExternalRedirect( $redirect_uri . '?access_token=' . $token->id );
                 return $r;
                 break;
