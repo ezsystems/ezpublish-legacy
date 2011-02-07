@@ -127,7 +127,10 @@ class ezpRestRequest extends ezcMvcRequest
     public function getBaseURI()
     {
         $hostUri = $this->getHostURI();
-        $baseUri = $hostUri.$this->uri;
+        $apiName = ezpRestPrefixFilterInterface::getApiProviderName();
+        $apiPrefix = eZINI::instance( 'rest.ini' )->variable( 'System', 'ApiPrefix');
+        $uri = str_replace( $apiPrefix, $apiPrefix.'/'.$apiName, $this->uri );
+        $baseUri = $hostUri.$uri;
         
         return $baseUri;
     }
