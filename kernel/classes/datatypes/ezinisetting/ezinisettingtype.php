@@ -302,7 +302,7 @@ class eZIniSettingType extends eZDataType
             else
                 $path = 'settings/siteaccess/' . $siteAccessArray[$iniInstance];
 
-            $config = eZINI::instance( $filename . '.append', $path, null, false, null, true, true );
+            $config = new eZINI( $filename . '.append', $path, null, false, null, true, true );
 
             if ( $config == null )
             {

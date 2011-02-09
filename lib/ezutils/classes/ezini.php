@@ -1644,14 +1644,19 @@ class eZINI
      * @param null|bool $useTextCodec Default system setting if null
      * @param null|bool $useCache Default system setting if null
      * @param null|bool $useLocalOverrides Default system setting if null
-     * @param bool $directAccess
-     * @param bool $addArrayDefinition
+     * @param bool $directAccess @deprecated since version 4.5, use new eZINI().
+     * @param bool $addArrayDefinition @deprecated since version 4.5, use new eZINI().
      * @return eZINI
      */
     static function instance( $fileName = 'site.ini', $rootDir = 'settings', $useTextCodec = null, $useCache = null, $useLocalOverrides = null, $directAccess = false, $addArrayDefinition = false )
     {
-        $globalsKey = "eZINIGlobalInstance-$rootDir-$fileName-$useLocalOverrides-$addArrayDefinition";
+        if ( $addArrayDefinition !== false  || $directAccess !== false )
+        {
+            // Could have trown strict error here but will cause issues if ini system has not been setup yet..
+            return new eZINI( $fileName, $rootDir, $useTextCodec, $useCache, $useLocalOverrides, $directAccess, $addArrayDefinition );
+        }
 
+        $globalsKey = "eZINIGlobalInstance-$rootDir-$fileName-$useLocalOverrides";
         if ( !isset( $GLOBALS[$globalsKey] ) ||
              !( $GLOBALS[$globalsKey] instanceof eZINI ) )
         {

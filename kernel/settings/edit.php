@@ -86,7 +86,7 @@ if ( $http->hasPostVariable( 'WriteSetting' ) )
     elseif ( $settingPlacement != 'override' )
         $path = "extension/$settingPlacement/settings";
 
-    $ini = eZINI::instance( $iniFile . '.append', $path, null, null, null, true, true );
+    $ini = new eZINI( $iniFile . '.append', $path, null, null, null, true, true );
 
     $hasValidationError = false;
     require 'kernel/settings/validation.php';
@@ -193,7 +193,7 @@ function parseArrayToStr( $value, $separator )
 
 function getVariable( $block, $settingName, $iniFile, $path )
 {
-    $ini = eZINI::instance( $iniFile, $path, null, null, null, true, true );
+    $ini = new eZINI( $iniFile, $path, null, null, null, true, true );
     $result = $ini->hasVariable( $block, $settingName ) ? $ini->variable( $block, $settingName ) : false;
     $result = parseArrayToStr( $result, '<br>' );
     return $result;

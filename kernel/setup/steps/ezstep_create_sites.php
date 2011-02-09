@@ -1404,7 +1404,7 @@ language_locale='eng-GB'";
         // Adding override for 'tiny_image' view for 'multi-option2' datatype
         foreach ( $relatedSiteAccessList as $siteAccess )
         {
-            $tmpOverrideINI = eZINI::instance( 'override.ini' . '.append.php', "settings/siteaccess/$siteAccess", null, null, null, true, true );
+            $tmpOverrideINI = new eZINI( 'override.ini' . '.append.php', "settings/siteaccess/$siteAccess", null, null, null, true, true );
 
             $tmpOverrideINI->setVariable( 'tiny_image', 'Source'    , 'content/view/tiny.tpl' );
             $tmpOverrideINI->setVariable( 'tiny_image', 'MatchFile' , 'tiny_image.tpl' );
