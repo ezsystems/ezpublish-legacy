@@ -1560,7 +1560,7 @@ class eZLocale
      * Use this instead of newing eZLocale to benefit from speed and unified access.
      * note: Use create() if you need to get a new unique copy you can alter.
      *
-     * @param $localeString string|false
+     * @param string|false $localeString
      * @return eZLocale
      */
     static function instance( $localeString = false )

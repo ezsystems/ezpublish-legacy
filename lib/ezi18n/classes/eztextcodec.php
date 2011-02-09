@@ -445,9 +445,9 @@ class eZTextCodec
      * Returns a shared instance of the eZTextCodec pr the
      * $inputCharsetCode and $outputCharsetCode params.
      *
-     * @param $inputCharsetCode string|false uses {@link eZTextCodec::internalCharset()} if false
-     * @param $outputCharsetCode string|false uses {@link eZTextCodec::internalCharset()} if false
-     * @param $alwaysReturn bool
+     * @param string|false $inputCharsetCode Uses {@link eZTextCodec::internalCharset()} if false
+     * @param string|false $outputCharsetCode Uses {@link eZTextCodec::internalCharset()} if false
+     * @param bool $alwaysReturn
      * @return eZTextCodec|null Returns null if $alwaysReturn is false and text codec is not needed for
      *         current $inputCharsetCode and $outputCharsetCode.
      */

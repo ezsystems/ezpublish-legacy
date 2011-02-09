@@ -258,7 +258,7 @@ class eZBinaryFileHandler
      * Returns a shared instance of the eZBinaryFileHandler class
      * pr $handlerName as defined in file.ini[BinaryFileSettings]Handler
      *
-     * @param $identifier string|false Uses file.ini[BinaryFileSettings]Handler if false
+     * @param string|false $identifier Uses file.ini[BinaryFileSettings]Handler if false
      * @return eZBinaryFileHandler
      */
     static function instance( $identifier = false )

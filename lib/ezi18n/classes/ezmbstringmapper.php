@@ -189,8 +189,8 @@ class eZMBStringMapper
      * Returns a shared instance of the eZMBStringMapper pr the $input_charset_code
      * and $output_charset_code params.
      *
-     * @param $input_charset_code string
-     * @param $output_charset_code string
+     * @param string $input_charset_code
+     * @param string $output_charset_code
      * @return eZMBStringMapper
      */
     static function instance( $input_charset_code, $output_charset_code )

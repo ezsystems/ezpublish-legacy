@@ -49,8 +49,8 @@ class eZNotificationTransport
      * Returns a shared instance of the eZNotificationTransport class.
      *
      *
-     * @param $transport string|false Uses notification.ini[TransportSettings]DefaultTransport if false
-     * @param $forceNewInstance bool
+     * @param string|false $transport Uses notification.ini[TransportSettings]DefaultTransport if false
+     * @param bool $forceNewInstance
      * @return eZNotificationTransport
      */
     static function instance( $transport = false, $forceNewInstance = false )
