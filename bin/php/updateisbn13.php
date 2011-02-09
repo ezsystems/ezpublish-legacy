@@ -1,43 +1,24 @@
-#!/usr/bin/env php
 <?php
-//
-// Created on: <17-Apr-2007 15:47:58 bjorn>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2010 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
+/**
+ * File containing the updateisbn13.php bin script
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://ez.no/licenses/gnu_gpl GNU GPL v2
+ * @version //autogentag//
+ */
 
 
-/*! \file
-  \brief Updates the different ranges used by the ISBN standard to
-         calculate the length of Registration group, Registrant and Publication element.
+/**
+ * This script updates the different ranges used by the ISBN standard to 
+ * calculate the length of Registration group, Registrant and Publication element
+ * 
+ * It gets the values from xml file normally provided by International ISBN Agency 
+ * http://www.isbn-international.org/agency?rmxml=1 
  */
 
 require 'autoload.php';
 
-
-$fileAdded = false;
-$file = ''; // url to get file "http://www.isbn-international.org/converter/ranges.js";
+$url = ''; // http://www.isbn-international.org/agency?rmxml=1 url with the xml.
 
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => "eZ Publish ISBN-13 update\n\n" .
@@ -48,28 +29,26 @@ $script = eZScript::instance( array( 'description' => "eZ Publish ISBN-13 update
 
 $script->startup();
 
-
-
-$options = $script->getOptions( "[file:][db-host:][db-user:][db-password:][db-database:][db-driver:]",
+$options = $script->getOptions( "[url:][db-host:][db-user:][db-password:][db-database:][db-driver:]",
                                 "",
-                                array( 'file' => "Path to the file which contains a JavaScript file for the different ranges",
+                                array( 'url' => "URL containing the xml file for the different ranges",
                                        'db-host' => "Database host.",
                                        'db-user' => "Database user.",
                                        'db-password' => "Database password.",
                                        'db-database' => "Database name.",
                                        'db-driver' => "Database driver." ) );
 
-if ( isset( $options['file'] ) )
+$script->initialize();
+
+if ( isset( $options['url'] ) )
 {
-    $file = $options['file'];
+    $url = $options['url'];
 }
 else
 {
-    $cli->error( 'Error: you need to specify a Javascript file for the script with --file=ranges.js' );
+    $cli->error( 'Error: you need to specify a url to the xml file containing the ranges' );
     $script->shutdown( 1 );
 }
-
-$script->initialize();
 
 $db = eZDB::instance();
 if( !$db->IsConnected )
@@ -116,79 +95,12 @@ if( !$db->IsConnected )
 
 $cli->output( "Using database '" . $cli->terminalStyle( 'red' ) . $db->DB . $cli->terminalStyle( 'normal' ) . "'" );
 
-$content = '';
-$dataPage = '';
-$isbnArray = array();
+$xml = simplexml_load_file( $url );
 
-$fp = fopen( $file, "r"  );
-if ( !$fp )
+if ( $xml === false )
 {
-    $cli->error( "Error: file '$file' with update data not found" );
-    $cli->error( '       use --help for more info' );
+    $cli->error( "Error retrieving '$url'" );
     $script->shutdown( 1 );
-}
-
-while ( !feof( $fp ) )
-{
-    $content .= fread( $fp, 4096 );
-}
-fclose( $fp );
-
-// Parse the JavaScript file and add the different ranges into an array.
-$contentArray = preg_split( "/\n+|\r\n+/", $content );
-foreach ( $contentArray as $contentItem )
-{
-    if ( preg_match( "/^\s*gi\.area(\d+)\.text\s*=\s*\"?([^\"]*)\"?\;?\s*$/i", $contentItem, $matchArray ) )
-    {
-        $regGroupElement = (string)$matchArray[1];
-        $regGroupElementText = (string)$matchArray[2];
-        $isbnArray[$regGroupElement]['text'] = trim( $regGroupElementText );
-    }
-    else if ( preg_match( "/^\s*gi\.area(\d+)\.pubrange\s*=\s*\"?([^\"]*?)\"?\;*\s*$/i", $contentItem, $matchArray ) )
-    {
-        $regGroupElement = (string)$matchArray[1];
-        $regGroupElementRange = (string)$matchArray[2];
-        if ( trim( $regGroupElementRange ) != "" )
-        {
-            $pubRangeArray = preg_split( "/;/", $regGroupElementRange );
-            foreach ( $pubRangeArray as $pubRangeItem )
-            {
-                $pubRangeItemArray = preg_split( "/\-+/", $pubRangeItem );
-
-                // The ranges need to be stored as a string, since the can start
-                // with 0. The value from the javaScript may also only contain the
-                // start value.
-                if ( count( $pubRangeItemArray ) == 2 )
-                {
-                    $pubRangeFrom = (string)$pubRangeItemArray[0];
-                    $pubRangeTo = (string)$pubRangeItemArray[1];
-                }
-                else if ( count( $pubRangeItemArray ) == 1 )
-                {
-                    $pubRangeFrom = (string)$pubRangeItemArray[0];
-                    $pubRangeTo = (string)$pubRangeItemArray[0];
-                }
-                else
-                {
-                    $cli->output( "Should not happend (Data: $pubRangeItem)" );
-                    continue;
-                }
-
-                $length = strlen( $pubRangeFrom );
-                $pubLength = 10 - strlen( trim( $regGroupElement ) ) - $length;
-                $isbnArray[$regGroupElement]['pubrange'][] = array( 'from' => $pubRangeFrom,
-                                                                    'group_from' => $pubRangeFrom,
-                                                                    'to' => $pubRangeTo,
-                                                                    'group_to' => $pubRangeTo,
-                                                                    'length' => $length,
-                                                                    'pub_length' => $pubLength );
-            }
-        }
-        else
-        {
-            $isbnArray[$regGroupElement]['pubrange'] = array();
-        }
-    }
 }
 
 // Clean up all tables to add everything from the start.
@@ -196,105 +108,68 @@ eZISBNGroup::cleanAll();
 eZISBNGroupRange::cleanAll();
 eZISBNRegistrantRange::cleanAll();
 
-$registrationGroupArray = array();
-foreach ( $isbnArray as $isbnRegGroupElement => $isbnItem )
+// Get registration groups.
+$registrationGroups = $xml->xpath( 'RegistrationGroups/Group' );
+foreach ( $registrationGroups as $group )
 {
-    // Calculate the range for the registration group by adding it to an array and
-    // extend the range by checking the existing array.
-    $length = strlen( $isbnRegGroupElement );
-    $isbnRegGroupElementFrom = (int)str_pad( $isbnRegGroupElement, 5, 0, STR_PAD_RIGHT );
-    $isbnRegGroupElementTo = (int)str_pad( $isbnRegGroupElement, 5, 9, STR_PAD_RIGHT );
-    if ( isset( $registrationGroupArray[$length] ) )
-    {
-        $registrationGroupArrayCount = count( $registrationGroupArray[$length] );
-        $added = false;
-
-        // Extend the length of the range, if it exists allready from one number in front.
-        for ( $i = 0; $i < $registrationGroupArrayCount; $i++ )
-        {
-            $fromTestValue = (int)$registrationGroupArray[$length][$i]['from'];
-            $toTestValue = (int)$registrationGroupArray[$length][$i]['to'];
-            if (  ( $isbnRegGroupElementFrom - 1 ) == $toTestValue )
-            {
-                $registrationGroupArray[$length][$i]['to'] = $isbnRegGroupElementTo;
-                $added = true;
-            }
-
-            if ( ( $isbnRegGroupElementTo + 1 ) == $fromTestValue )
-            {
-                $registrationGroupArray[$length][$i]['from'] = $isbnRegGroupElementFrom;
-                $added = true;
-            }
-        }
-
-        // Since the range is not found as a continued range from the other ranges, so
-        // create a new one.
-        if ( $added == false )
-        {
-            $registrationGroupArray[$length][] = array( 'from' => $isbnRegGroupElementFrom,
-                                                        'to' => $isbnRegGroupElementTo );
-        }
-    }
-    else // Range for this length does not exist, create a new one.
-    {
-        $registrationGroupArray[$length][] = array( 'from' => $isbnRegGroupElementFrom,
-                                                    'to' => $isbnRegGroupElementTo );
-    }
-
-    $isbnGroup = eZISBNGroup::create( $isbnRegGroupElement, $isbnItem['text'] );
+    // Prefix is always 978 or 979 followed by an hyphen (-) and up to 5 digits
+    // Explode it in order to get the group number
+    $prefixArray = explode( '-', $group->Prefix );
+    $groupNumber = $prefixArray[1];
+    $description = $group->Agency; // name
+    $isbnGroup = eZISBNGroup::create( $groupNumber, $description );
     $isbnGroup->store();
     $isbnGroupID = $isbnGroup->attribute( 'id' );
-    $pubRangeArray = $isbnItem['pubrange'];
-    if ( is_array( $pubRangeArray ) )
+    
+    // look for the rules
+    $rules = $group->Rules[0]->Rule;
+    foreach ( $rules as $rule )
     {
-        foreach ( $pubRangeArray as $isbnRegistrantRange )
+        $length = (int)$rule->Length;
+        
+        // if length is 0 there is no need to add to the database
+        if( $length > 0 )
         {
-            // The test number should have a base with 5 digits where from should be padded with 0 and
-            // to should be padded with 9.
-            $fromValue = (int)substr( str_pad( $isbnRegistrantRange['from'], 5, 0, STR_PAD_RIGHT ), 0, 5 );
-            $toValue = (int)substr( str_pad( $isbnRegistrantRange['to'], 5, 9, STR_PAD_RIGHT ), 0, 5 );
-            $length = $isbnRegistrantRange['length'];
-
+            $rangeArray = explode( '-', $rule->Range );
+            $fromValue = substr( $rangeArray[0], 0, 5 );
+            $toValue = substr( $rangeArray[1], 0, 5 );
+            $registrantFrom = substr( $rangeArray[0], 0, $length );
+            $registrantTo = substr( $rangeArray[1], 0, $length );
             $registrationGroup = eZISBNRegistrantRange::create( $isbnGroupID,
                                                                 $fromValue,
                                                                 $toValue,
-                                                                $isbnRegistrantRange['from'],
-                                                                $isbnRegistrantRange['to'],
+                                                                $registrantFrom,
+                                                                $registrantTo,
                                                                 $length );
             $registrationGroup->store();
         }
     }
 }
 
-
-// Add the registration group ranges to the database.
-if ( count( $registrationGroupArray ) > 0 )
+// get group ranges
+$groupRanges = $xml->xpath( '///EAN.UCC/Rules/Rule' );
+foreach( $groupRanges as $groupRange )
 {
-    foreach ( $registrationGroupArray as $registrationGroupItemLength => $registrationGroupItemArray )
+    $registrationGroupItemLength = (int)$groupRange->Length;
+
+    // if length is 0 there is no need to add to the database
+    if( $registrationGroupItemLength > 0 )
     {
-        foreach ( $registrationGroupItemArray as $registrationGroupItemRange )
-        {
-            // Will cut the last part of the numbers, since it's up to each registrant to use the other
-            // numbers.
-            $fromValue = $registrationGroupItemRange['from'];
-            $toValue = $registrationGroupItemRange['to'];
-
-            // Create the group: from and to string with the correct length.
-            $groupFrom = str_pad( substr( $fromValue, 0, $registrationGroupItemLength ), 0, $registrationGroupItemLength );
-            $groupTo = str_pad( substr( $toValue, 0, $registrationGroupItemLength ), 0, $registrationGroupItemLength );
-
-            $registrationGroupRange = eZISBNGroupRange::create( $fromValue,
-                                                                $toValue,
-                                                                $groupFrom,
-                                                                $groupTo,
-                                                                $registrationGroupItemLength );
-            $registrationGroupRange->store();
-        }
+        $rangeArray = explode( '-', $groupRange->Range );
+        $fromValue = substr( $rangeArray[0], 0, 5 );
+        $toValue = substr( $rangeArray[1], 0, 5 );
+        $groupFrom = substr( $rangeArray[0], 0, $registrationGroupItemLength );
+        $groupTo = substr( $rangeArray[1], 0, $registrationGroupItemLength );
+        $registrationGroupRange = eZISBNGroupRange::create( $fromValue,
+                                                            $toValue,
+                                                            $groupFrom,
+                                                            $groupTo,
+                                                            $registrationGroupItemLength );
+        $registrationGroupRange->store();
     }
 }
 
 $cli->output( 'Complete' );
 
 $script->shutdown();
-
 ?>
