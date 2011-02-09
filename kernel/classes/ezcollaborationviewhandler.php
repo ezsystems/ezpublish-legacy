@@ -128,8 +128,8 @@ class eZCollaborationViewHandler
      * pr the two input params.
      *
      *
-     * @param $viewMode string
-     * @param $type int Is self::TYPE_STANDARD by default
+     * @param string $viewMode
+     * @param int $type Is self::TYPE_STANDARD by default
      * @return eZCollaborationViewHandler
      */
     static function instance( $viewMode, $type = self::TYPE_STANDARD )

@@ -102,7 +102,7 @@ class eZUserLoginHandler
     /**
      * Returns a new instance of the eZUser class pr $protocol.
      *
-     * @param $protocol string If not set to 'standard' (default), then the code will look
+     * @param string $protocol If not set to 'standard' (default), then the code will look
      *        for handler first in kernel/classes/datatypes/ezuser/, then according to
      *        site.ini[UserSettings]ExtensionDirectory settings
      * @return eZUser

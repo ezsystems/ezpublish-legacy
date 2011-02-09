@@ -397,7 +397,7 @@ class eZPolicy extends eZPersistentObject
 
     /**
      * Fetches a policy by ID
-     * @param $policyID Policy ID
+     * @param int $policyID Policy ID
      * @return eZPolicy
      */
     static function fetch( $policyID )

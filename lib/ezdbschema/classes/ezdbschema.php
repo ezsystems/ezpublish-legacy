@@ -38,7 +38,7 @@ class eZDbSchema
     /**
      * Returns a shared instance of the eZDBSchemaInterface class.
      *
-     * @param $params array|eZDBInterface|false if array, following key is needed:
+     * @param array|eZDBInterface|false $params If array, following key is needed:
      *        - instance: the eZDB instance (optional), if none provided, eZDB::instance() will be used.
      * @return eZDBSchemaInterface|false
      */

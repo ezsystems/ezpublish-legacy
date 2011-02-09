@@ -47,7 +47,7 @@ class ezpSessionHandlerDB extends ezpSessionHandler
     /**
      * Session read handler
      *
-     * @param $sessionId string
+     * @param string $sessionId
      * @return string|false Binary session data
      */
     public function read( $sessionId )
@@ -84,8 +84,8 @@ class ezpSessionHandlerDB extends ezpSessionHandler
     /**
      * Session write handler
      *
-     * @param $sessionId string
-     * @param $sessionData string Binary session data
+     * @param string $sessionId
+     * @param string $sessionData Binary session data
      * @return bool
      */
     public function write( $sessionId, $sessionData )
@@ -129,7 +129,7 @@ class ezpSessionHandlerDB extends ezpSessionHandler
     /**
      * Session destroy handler
      *
-     * @param $sessionId string
+     * @param string $sessionId
      * @return bool
      */
     public function destroy( $sessionId )
@@ -147,7 +147,7 @@ class ezpSessionHandlerDB extends ezpSessionHandler
     /**
      * Regenerate session id
      *
-     * @param $updateBackendData bool (true if we want to keep session data with the new session id)
+     * @param bool $updateBackendData (true if we want to keep session data with the new session id)
      * @return bool
      */
     public function regenerate( $updateBackendData = true )
@@ -179,7 +179,7 @@ class ezpSessionHandlerDB extends ezpSessionHandler
    /**
      * Session gc (garbageCollector) handler
      *
-     * @param $maxLifeTime int
+     * @param int $maxLifeTime
      * @return bool
      */
     public function gc( $maxLifeTime )

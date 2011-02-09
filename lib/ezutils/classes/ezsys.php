@@ -211,7 +211,7 @@ class eZSys
      * eZSys::isPHPVersionSufficient( array( 4, 1, 0 ) );
      *
      * @deprecated Since 4.5
-     * @param $requiredVersion must be an array with version number.
+     * @param array $requiredVersion Must be an array with version number
      * @return bool
     */
     static function isPHPVersionSufficient( $requiredVersion )

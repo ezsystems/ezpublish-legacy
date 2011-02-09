@@ -1622,13 +1622,13 @@ class eZINI
      * Direct access is for accessing the filename directly in the specified path. .append and .append.php is automaticly added to filename
      * note: Use create() if you need to get a unique copy which you can alter.
      *
-     * @param $fileName string
-     * @param $rootDir string
-     * @param $useTextCodec null|bool default system setting if null
-     * @param $useCache null|bool default system setting if null
-     * @param $useLocalOverrides null|bool default system setting if null
-     * @param $directAccess bool
-     * @param $addArrayDefinition bool
+     * @param string $fileName
+     * @param string $rootDir
+     * @param null|bool $useTextCodec Default system setting if null
+     * @param null|bool $useCache Default system setting if null
+     * @param null|bool $useLocalOverrides Default system setting if null
+     * @param bool $directAccess
+     * @param bool $addArrayDefinition
      * @return eZINI
      */
     static function instance( $fileName = 'site.ini', $rootDir = 'settings', $useTextCodec = null, $useCache = null, $useLocalOverrides = null, $directAccess = false, $addArrayDefinition = false )

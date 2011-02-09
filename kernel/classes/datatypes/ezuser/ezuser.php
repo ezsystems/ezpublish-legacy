@@ -1045,7 +1045,7 @@ WHERE user_id = '" . $userID . "' AND
      * a warning trown, if anonymous user can not be fetched, then NoUser
      * is returned and another warning is thrown.
      *
-     * @param $id int|false On false: Gets current user id from session
+     * @param int|false $id On false: Gets current user id from session
      *        or from {@link eZUser::anonymousId()} if not set.
      * @return eZUser
      */

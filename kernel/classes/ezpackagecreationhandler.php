@@ -353,7 +353,7 @@ class eZPackageCreationHandler
      * Returns a shared instance of the eZPackageCreationHandler class
      * pr $handlerName as defined in package.ini[CreationSettings]HandlerAlias
      *
-     * @param $handlerName string
+     * @param string $handlerName
      * @return eZPackageCreationHandler
      */
     static function instance( $handlerName )

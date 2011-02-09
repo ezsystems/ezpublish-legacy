@@ -137,9 +137,9 @@ class eZDB
      * Returns a shared instance of the eZDBInterface class aka database object.
      * If you want to change the current database values you should use $forceNewInstance.
      *
-     * @param $databaseImplementation string|false
-     * @param $databaseParameters array|false if array, then key 'use_defaults' (bool) is used.
-     * @param $forceNewInstance bool
+     * @param string|false $databaseImplementation
+     * @param array|false $databaseParameters If array, then key 'use_defaults' (bool) is used.
+     * @param bool $forceNewInstance
      * @return eZDBInterface
      */
     static function instance( $databaseImplementation = false, $databaseParameters = false, $forceNewInstance = false )

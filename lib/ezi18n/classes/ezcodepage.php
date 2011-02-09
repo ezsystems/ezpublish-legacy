@@ -720,8 +720,8 @@ class eZCodePage
      * Returns a shared instance of the eZCodePage pr the
      * $charset_code param.
      *
-     * @param $charset_code string
-     * @param $use_cache bool
+     * @param string $charset_code
+     * @param bool $use_cache
      * @return eZCodePage
      */
     static function instance( $charset_code, $use_cache = true )
