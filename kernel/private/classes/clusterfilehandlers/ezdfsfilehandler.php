@@ -1483,20 +1483,20 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface
     * file, in which case $filePath holds the generating cache file name,
     * and $realFilePath holds the real name
     **/
-    private $realFilePath = null;
+    protected $realFilePath = null;
 
     /**
      * Indicates that the current cache item is being generated and an old version
      * should be used
      * @var bool
      **/
-    private $useStaleCache = false;
+    protected $useStaleCache = false;
 
     /**
      * Remaining time before cache generation times out
      * @var int
      **/
-    public $remainingCacheGenerationTime = false;
+    protected $remainingCacheGenerationTime = false;
 
     /**
      * Cache generation start timestamp

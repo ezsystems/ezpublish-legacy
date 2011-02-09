@@ -1293,7 +1293,7 @@ class eZDBFileHandler
      * Determines the cache type based on the path
      * @return string viewcache, cacheblock or misc
      **/
-    private function _cacheType()
+    protected function _cacheType()
     {
         if ( strstr( $this->filePath, 'cache/content' ) !== false )
             return 'viewcache';
@@ -1440,20 +1440,20 @@ class eZDBFileHandler
      * should be used
      * @var bool
      **/
-    private $useStaleCache = false;
+    protected $useStaleCache = false;
 
     /**
  * Holds the preferences used when stale cache is activated and no expired
  * file is available.
  * This is loaded from file.ini, ClusteringSettings.NonExistantStaleCacheHandling
  **/
-    private $nonExistantStaleCacheHandling;
+    protected $nonExistantStaleCacheHandling;
 
     /**
  * Holds the number of seconds remaining before the generating cache times out
  * @var int
  **/
-    private $remainingCacheGenerationTime = false;
+    protected $remainingCacheGenerationTime = false;
 
     /**
  * When the instance generates the cached version for a file, this property
@@ -1461,7 +1461,7 @@ class eZDBFileHandler
  * a possible generation timeout
  * @var int
  **/
-    private $generationStartTimestamp = false;
+    protected $generationStartTimestamp = false;
 
 }
 ?>

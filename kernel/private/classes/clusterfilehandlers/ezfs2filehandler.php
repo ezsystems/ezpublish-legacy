@@ -812,27 +812,27 @@ class eZFS2FileHandler extends eZFSFileHandler
     * should be used
     * @var bool
     **/
-    private $useStaleCache = false;
+    protected $useStaleCache = false;
 
     /**
     * Generation timeout, in seconds. If a generating file exists for more than
     * $generationTimeout seconds, it is taken over
     * @var int
     **/
-    private $generationTimeout;
+    protected $generationTimeout;
 
     /**
     * Holds the preferences used when stale cache is activated and no expired
     * file is available.
     * This is loaded from file.ini, ClusteringSettings.NonExistantStaleCacheHandling
     **/
-    private $nonExistantStaleCacheHandling;
+    protected $nonExistantStaleCacheHandling;
 
     /**
     * Holds the number of seconds remaining before the generating cache times out
     * @var int
     **/
-    private $remainingCacheGenerationTime = false;
+    protected $remainingCacheGenerationTime = false;
 
     /**
     * When the instance generates the cached version for a file, this property
@@ -840,13 +840,13 @@ class eZFS2FileHandler extends eZFSFileHandler
     * a possible generation timeout
     * @var int
     **/
-    private $generationStartTimestamp = false;
+    protected $generationStartTimestamp = false;
 
     /**
     * Cached value of cache type
     *
     * @var string|null
     **/
-    private $cacheType = null;
+    protected $cacheType = null;
 }
 ?>
