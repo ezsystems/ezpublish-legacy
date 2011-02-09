@@ -31,14 +31,14 @@ class eZPendingActions extends eZPersistentObject
                                                                                'default'  => null,
                                                                                'required' => false )
                                             ),
-                                            
+
                       'keys'                 => array( 'action', 'created' ),
                       'class_name'           => 'eZPendingActions',
                       'name'                 => 'ezpending_actions',
                       'function_attributes'  => array()
         );
     }
-    
+
     /**
      * Fetches a pending actions list by action name
      * @param string $action
@@ -50,7 +50,7 @@ class eZPendingActions extends eZPersistentObject
     public static function fetchByAction( $action, array $aCreationDateFilter = array() )
     {
         $filterConds = array( 'action' => $action );
-        
+
         // Handle creation date filter
         if( !empty( $aCreationDateFilter ) )
         {
@@ -59,7 +59,7 @@ class eZPendingActions extends eZPersistentObject
                 eZDebug::writeError( __CLASS__.'::'.__METHOD__.' : Wrong number of entries for Creation date filter array' );
                 return null;
             }
-            
+
             list( $filterToken, $filterValue ) = $aCreationDateFilter;
             $aAuthorizedFilterTokens = array( '=', '<', '>', '<=', '>=' );
             if( !is_string( $filterToken ) || !in_array( $filterToken, $aAuthorizedFilterTokens ) )
@@ -67,12 +67,12 @@ class eZPendingActions extends eZPersistentObject
                 eZDebug::writeError( __CLASS__.'::'.__METHOD__.' : Wrong filter type for creation date filter' );
                 return null;
             }
-            
+
             $filterConds['created'] = array( $filterToken, $filterValue );
         }
-        
+
         $result = parent::fetchObjectList( self::definition(), null, $filterConds );
-        
+
         return $result;
     }
 
