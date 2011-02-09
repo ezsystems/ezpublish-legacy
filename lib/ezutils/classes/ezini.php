@@ -88,19 +88,36 @@ class eZINI
      */
     const CONFIG_CACHE_REV = 2;
 
-    // set EZP_INI_FILEMTIME_CHECK constant to false to improve performance by
-    // not checking modified time on ini files. You can also set it to a string, the name
-    // of a ini file you still want to check modified time on, best example would be to
-    // set it to 'site.ini' to make the system still check that but not the rest.
+    /**
+     * Set EZP_INI_FILEMTIME_CHECK constant to false to improve performance by
+     * not checking modified time on ini files. You can also set it to a string, the name
+     * of a ini file you still want to check modified time on, best example would be to
+     * set it to 'site.ini' to make the system still check that but not the rest.
+     *
+     * @var null|bool
+     */
     static protected $checkFileMtime = null;
 
-    // set EZP_INI_FILE_PERMISSION constant to the permissions you want saved
-    // ini and cache files to have.
+    /**
+     * set EZP_INI_FILE_PERMISSION constant to the permissions you want saved
+     * ini and cache files to have.
+     *
+     * @var null|int
+     */
     static protected $filePermission = null;
 
-    /*!
-      Initialization of object;
-    */
+    /**
+     * Initialization of eZINI object
+     *
+     * Enter description here ...
+     * @param string $fileName
+     * @param string $rootDir
+     * @param null|bool $useTextCodec
+     * @param null|bool $useCache
+     * @param null|bool $useLocalOverrides
+     * @param bool $directAccess
+     * @param bool $addArrayDefinition
+     */
     function eZINI( $fileName = 'site.ini', $rootDir = '', $useTextCodec = null, $useCache = null, $useLocalOverrides = null, $directAccess = false, $addArrayDefinition = false )
     {
         $this->Charset = 'utf8';
