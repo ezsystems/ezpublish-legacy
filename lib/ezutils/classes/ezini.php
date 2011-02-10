@@ -107,6 +107,13 @@ class eZINI
     static protected $filePermission = null;
 
     /**
+     * Array of eZINI instances
+     *
+     * @var array(eZINI)
+     */
+    static protected $instance = array();
+
+    /**
      * Initialization of eZINI object
      *
      * Enter description here ...
@@ -1626,9 +1633,7 @@ class eZINI
     */
     static function isLoaded( $fileName = 'site.ini', $rootDir = 'settings', $useLocalOverrides = null )
     {
-        if ( isset( $GLOBALS["eZINIGlobalInstance-$rootDir-$fileName-$useLocalOverrides"] ) )
-            return true;
-        return false;
+        return isset( self::$instance["eZINIGlobalInstance-$rootDir-$fileName-$useLocalOverrides"] );
     }
 
     /**
@@ -1657,12 +1662,11 @@ class eZINI
         }
 
         $globalsKey = "eZINIGlobalInstance-$rootDir-$fileName-$useLocalOverrides";
-        if ( !isset( $GLOBALS[$globalsKey] ) ||
-             !( $GLOBALS[$globalsKey] instanceof eZINI ) )
+        if ( !isset( self::$instance[$globalsKey] ) )
         {
-            $GLOBALS[$globalsKey] = new eZINI( $fileName, $rootDir, $useTextCodec, $useCache, $useLocalOverrides, $directAccess, $addArrayDefinition );
+            self::$instance[$globalsKey] = new eZINI( $fileName, $rootDir, $useTextCodec, $useCache, $useLocalOverrides, $directAccess, $addArrayDefinition );
         }
-        return $GLOBALS[$globalsKey];
+        return self::$instance[$globalsKey];
     }
 
     /*!
@@ -1720,7 +1724,7 @@ class eZINI
     */
     static function resetGlobals(  $fileName = 'site.ini', $rootDir = 'settings', $useLocalOverrides = null )
     {
-        unset( $GLOBALS["eZINIGlobalInstance-$rootDir-$fileName-$useLocalOverrides"] );
+        unset( self::$instance["eZINIGlobalInstance-$rootDir-$fileName-$useLocalOverrides"] );
     }
 
     /**
@@ -1730,13 +1734,7 @@ class eZINI
      */
     static function resetAllGlobals( $resetGlobalOverrideDirs = true )
     {
-        foreach ( array_keys( $GLOBALS ) as $key )
-        {
-            if ( $key && strpos( $key, 'eZINIGlobalInstance-' ) === 0 )
-            {
-                unset( $GLOBALS[$key] );
-            }
-        }
+        self::$instance = array();
 
         if ( $resetGlobalOverrideDirs )
             self::resetGlobalOverrideDirs();
