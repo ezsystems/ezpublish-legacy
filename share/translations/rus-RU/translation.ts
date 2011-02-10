@@ -7155,7 +7155,7 @@ Note: The packages will not be uninstalled.</source>
         <translation>Информация о системе</translation>
     </message>
     <message>
-        <source>URL management</source>
+        <source>Link management</source>
         <translation>Управление URL</translation>
     </message>
     <message>
@@ -12475,15 +12475,15 @@ Note: The packages will not be uninstalled.</source>
         <translation>Адрес URL</translation>
     </message>
     <message>
-        <source>Valid URLs [%url_list_count]</source>
+        <source>Valid links [%url_list_count]</source>
         <translation>Работающие адреса [%url_list_count]</translation>
     </message>
     <message>
-        <source>Invalid URLs [%url_list_count]</source>
+        <source>Invalid links [%url_list_count]</source>
         <translation>Не работающие адреса [%url_list_count]</translation>
     </message>
     <message>
-        <source>All URLs [%url_list_count]</source>
+        <source>All links [%url_list_count]</source>
         <translation>Все адреса [%url_list_count]</translation>
     </message>
     <message>
@@ -12559,15 +12559,15 @@ Note: The packages will not be uninstalled.</source>
         <translation>Запрошенный список не содержит адресов.</translation>
     </message>
     <message>
-        <source>Valid URLs (%url_list_count)</source>
+        <source>Valid links (%url_list_count)</source>
         <translation>Работающие адреса (%url_list_count)</translation>
     </message>
     <message>
-        <source>Invalid URLs (%url_list_count)</source>
+        <source>Invalid links (%url_list_count)</source>
         <translation>Не работающие адреса (%url_list_count)</translation>
     </message>
     <message>
-        <source>All URLs (%url_list_count)</source>
+        <source>All links (%url_list_count)</source>
         <translation>Все адреса (%url_list_count)</translation>
     </message>
 </context>
@@ -24513,15 +24513,15 @@ To do this you need to change the %chown commands under Alternative shell comman
         <translation>Неизвестный</translation>
     </message>
     <message>
-        <source>All URLs</source>
+        <source>All links</source>
         <translation>Все адреса</translation>
     </message>
     <message>
-        <source>Invalid URLs</source>
+        <source>Invalid links</source>
         <translation>Неправильный адрес</translation>
     </message>
     <message>
-        <source>Valid URLs</source>
+        <source>Valid links</source>
         <translation>Правильные адреса</translation>
     </message>
     <message>

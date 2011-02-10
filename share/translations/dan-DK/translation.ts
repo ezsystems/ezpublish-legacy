@@ -7159,7 +7159,7 @@ Navigeringsdel</translation>
         <translation type="unfinished">Systeminformation</translation>
     </message>
     <message>
-        <source>URL management</source>
+        <source>Link management</source>
         <translation type="unfinished">URL styring</translation>
     </message>
     <message>
@@ -12503,15 +12503,15 @@ Datatypenavn</translation>
         <translation type="unfinished">URL</translation>
     </message>
     <message>
-        <source>Valid URLs [%url_list_count]</source>
+        <source>Valid links [%url_list_count]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Invalid URLs [%url_list_count]</source>
+        <source>Invalid links [%url_list_count]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>All URLs [%url_list_count]</source>
+        <source>All links [%url_list_count]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -12587,15 +12587,15 @@ Datatypenavn</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Valid URLs (%url_list_count)</source>
+        <source>Valid links (%url_list_count)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Invalid URLs (%url_list_count)</source>
+        <source>Invalid links (%url_list_count)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>All URLs (%url_list_count)</source>
+        <source>All links (%url_list_count)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -24656,15 +24656,15 @@ For at gøre det skal du ændre %chown kommandoer under Alternative skal-kommand
         <translation>Ukendt</translation>
     </message>
     <message>
-        <source>All URLs</source>
+        <source>All links</source>
         <translation>Alle URL&apos;er</translation>
     </message>
     <message>
-        <source>Invalid URLs</source>
+        <source>Invalid links</source>
         <translation>Ugyldige URL&apos;er</translation>
     </message>
     <message>
-        <source>Valid URLs</source>
+        <source>Valid links</source>
         <translation>Gyldige URL&apos;er</translation>
     </message>
     <message>

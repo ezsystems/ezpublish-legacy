@@ -5632,7 +5632,7 @@
         <translation type="obsolete">URL 翻译</translation>
     </message>
     <message>
-        <source>URL management</source>
+        <source>Link management</source>
         <translation type="obsolete">URL 管理</translation>
     </message>
     <message>
@@ -7927,7 +7927,7 @@ Note: The packages will not be uninstalled.</source>
         <translation>系统信息</translation>
     </message>
     <message>
-        <source>URL management</source>
+        <source>Link management</source>
         <translation>URL 管理</translation>
     </message>
     <message>
@@ -13431,15 +13431,15 @@ Note: The packages will not be uninstalled.</source>
         <translation>URL</translation>
     </message>
     <message>
-        <source>Valid URLs [%url_list_count]</source>
+        <source>Valid links [%url_list_count]</source>
         <translation>有效URL［%url_list_count］</translation>
     </message>
     <message>
-        <source>Invalid URLs [%url_list_count]</source>
+        <source>Invalid links [%url_list_count]</source>
         <translation>无效URL［%url_list_count］</translation>
     </message>
     <message>
-        <source>All URLs [%url_list_count]</source>
+        <source>All links [%url_list_count]</source>
         <translation>所有URL［%url_list_count］</translation>
     </message>
     <message>
@@ -13515,15 +13515,15 @@ Note: The packages will not be uninstalled.</source>
         <translation>请求列表为空。</translation>
     </message>
     <message>
-        <source>Valid URLs (%url_list_count)</source>
+        <source>Valid links (%url_list_count)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Invalid URLs (%url_list_count)</source>
+        <source>Invalid links (%url_list_count)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>All URLs (%url_list_count)</source>
+        <source>All links (%url_list_count)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -27873,15 +27873,15 @@ To do this you need to change the %chown commands under Alternative shell comman
         <translation>未知</translation>
     </message>
     <message>
-        <source>All URLs</source>
+        <source>All links</source>
         <translation>全部的URL</translation>
     </message>
     <message>
-        <source>Invalid URLs</source>
+        <source>Invalid links</source>
         <translation>无效的URL</translation>
     </message>
     <message>
-        <source>Valid URLs</source>
+        <source>Valid links</source>
         <translation>有效的URL</translation>
     </message>
     <message>

@@ -7256,7 +7256,7 @@ Nota: Els paquets no seran desinstal·lats.</translation>
         <translation>Detonants</translation>
     </message>
     <message>
-        <source>URL management</source>
+        <source>Link management</source>
         <translation>Gestió d&apos;URL</translation>
     </message>
     <message>
@@ -12536,15 +12536,15 @@ Nota: Els paquets no seran desinstal·lats.</translation>
 <context>
     <name>design/admin/url/list</name>
     <message>
-        <source>Valid URLs [%url_list_count]</source>
+        <source>Valid links [%url_list_count]</source>
         <translation>URL vàlides [%url_list_count]</translation>
     </message>
     <message>
-        <source>Invalid URLs [%url_list_count]</source>
+        <source>Invalid links [%url_list_count]</source>
         <translation>URL no vàlides [%url_list_count]</translation>
     </message>
     <message>
-        <source>All URLs [%url_list_count]</source>
+        <source>All links [%url_list_count]</source>
         <translation>Totes les URL [%url_list_count]</translation>
     </message>
     <message>
@@ -12624,15 +12624,15 @@ Nota: Els paquets no seran desinstal·lats.</translation>
         <translation>La llista sol.licitada és buida.</translation>
     </message>
     <message>
-        <source>Valid URLs (%url_list_count)</source>
+        <source>Valid links (%url_list_count)</source>
         <translation>URL vàlides (%url_list_count)</translation>
     </message>
     <message>
-        <source>Invalid URLs (%url_list_count)</source>
+        <source>Invalid links (%url_list_count)</source>
         <translation>URL no vàlides (%url_list_count)</translation>
     </message>
     <message>
-        <source>All URLs (%url_list_count)</source>
+        <source>All links (%url_list_count)</source>
         <translation>Totes les URL (%url_list_count)</translation>
     </message>
 </context>
@@ -24608,15 +24608,15 @@ Fes clic en els noms d&apos;objecte per canviar la llista de navegació.</transl
         <translation>Desconegut</translation>
     </message>
     <message>
-        <source>All URLs</source>
+        <source>All links</source>
         <translation>Totes les URL</translation>
     </message>
     <message>
-        <source>Invalid URLs</source>
+        <source>Invalid links</source>
         <translation>URL invàlida</translation>
     </message>
     <message>
-        <source>Valid URLs</source>
+        <source>Valid links</source>
         <translation>URL vàlida</translation>
     </message>
     <message>

@@ -7157,7 +7157,7 @@ Uwaga: Pakiety nie będą mogły być odinstalowane.
         <translation>Informacje systemowe</translation>
     </message>
     <message>
-        <source>URL management</source>
+        <source>Link management</source>
         <translation>Zarządzanie URL</translation>
     </message>
     <message>
@@ -12471,15 +12471,15 @@ Uwaga: Pakiety nie będą mogły być odinstalowane.
         <translation>URL</translation>
     </message>
     <message>
-        <source>Valid URLs [%url_list_count]</source>
+        <source>Valid links [%url_list_count]</source>
         <translation>Prawidłowe adresy URL [%url_list_count]</translation>
     </message>
     <message>
-        <source>Invalid URLs [%url_list_count]</source>
+        <source>Invalid links [%url_list_count]</source>
         <translation>Nieprawidłowe adresy URL [%url_list_count]</translation>
     </message>
     <message>
-        <source>All URLs [%url_list_count]</source>
+        <source>All links [%url_list_count]</source>
         <translation>Wszystkie adresy URL [%url_list_count]</translation>
     </message>
     <message>
@@ -12555,15 +12555,15 @@ Uwaga: Pakiety nie będą mogły być odinstalowane.
         <translation>Lista jest pusta.</translation>
     </message>
     <message>
-        <source>Valid URLs (%url_list_count)</source>
+        <source>Valid links (%url_list_count)</source>
         <translation>Prawidłowe adresy URL (%url_list_count)</translation>
     </message>
     <message>
-        <source>Invalid URLs (%url_list_count)</source>
+        <source>Invalid links (%url_list_count)</source>
         <translation>Nieprawidłowe adresy URL (%url_list_count)</translation>
     </message>
     <message>
-        <source>All URLs (%url_list_count)</source>
+        <source>All links (%url_list_count)</source>
         <translation>Wszystkie adresy URL (%url_list_count)</translation>
     </message>
 </context>
@@ -24428,15 +24428,15 @@ To do this you need to change the %chown commands under Alternative shell comman
         <translation>Nieznany</translation>
     </message>
     <message>
-        <source>All URLs</source>
+        <source>All links</source>
         <translation>Wszystkie adresy URL</translation>
     </message>
     <message>
-        <source>Invalid URLs</source>
+        <source>Invalid links</source>
         <translation>Niepoprawny URL</translation>
     </message>
     <message>
-        <source>Valid URLs</source>
+        <source>Valid links</source>
         <translation>Prawidłowy adres</translation>
     </message>
     <message>

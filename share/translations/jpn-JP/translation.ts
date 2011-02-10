@@ -7188,7 +7188,7 @@ Note: The packages will not be uninstalled.</source>
         <translation>システム情報</translation>
     </message>
     <message>
-        <source>URL management</source>
+        <source>Link management</source>
         <translation>URL管理</translation>
     </message>
     <message>
@@ -12511,15 +12511,15 @@ Note: The packages will not be uninstalled.</source>
         <translation>URL</translation>
     </message>
     <message>
-        <source>Valid URLs [%url_list_count]</source>
+        <source>Valid links [%url_list_count]</source>
         <translation>有効な URL [%url_list_count]</translation>
     </message>
     <message>
-        <source>Invalid URLs [%url_list_count]</source>
+        <source>Invalid links [%url_list_count]</source>
         <translation>無効な URL [%url_list_count]</translation>
     </message>
     <message>
-        <source>All URLs [%url_list_count]</source>
+        <source>All links [%url_list_count]</source>
         <translation>すべての URL [%url_list_count]</translation>
     </message>
     <message>
@@ -12595,15 +12595,15 @@ Note: The packages will not be uninstalled.</source>
         <translation>該当する URL はありません</translation>
     </message>
     <message>
-        <source>Valid URLs (%url_list_count)</source>
+        <source>Valid links (%url_list_count)</source>
         <translation>有効な URL (%url_list_count)</translation>
     </message>
     <message>
-        <source>Invalid URLs (%url_list_count)</source>
+        <source>Invalid links (%url_list_count)</source>
         <translation>無効な URL (%url_list_count)</translation>
     </message>
     <message>
-        <source>All URLs (%url_list_count)</source>
+        <source>All links (%url_list_count)</source>
         <translation>すべての URL (%url_list_count)</translation>
     </message>
 </context>
@@ -24491,15 +24491,15 @@ Webサーバのユーザとグループを知っている場合は、ファイ�
         <translation>不明</translation>
     </message>
     <message>
-        <source>All URLs</source>
+        <source>All links</source>
         <translation>すべてのリンク</translation>
     </message>
     <message>
-        <source>Invalid URLs</source>
+        <source>Invalid links</source>
         <translation>無効なリンク</translation>
     </message>
     <message>
-        <source>Valid URLs</source>
+        <source>Valid links</source>
         <translation>有効なリンク</translation>
     </message>
     <message>

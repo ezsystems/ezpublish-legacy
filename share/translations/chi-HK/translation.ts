@@ -8044,7 +8044,7 @@ Note: The packages will not be uninstalled.</source>
         <translation>系統資訊</translation>
     </message>
     <message>
-        <source>URL management</source>
+        <source>Link management</source>
         <translation>URL 管理</translation>
     </message>
     <message>
@@ -13741,15 +13741,15 @@ Note: The packages will not be uninstalled.</source>
         <translation>URL</translation>
     </message>
     <message>
-        <source>Valid URLs [%url_list_count]</source>
+        <source>Valid links [%url_list_count]</source>
         <translation>有效網址 [%url_list_count]</translation>
     </message>
     <message>
-        <source>Invalid URLs [%url_list_count]</source>
+        <source>Invalid links [%url_list_count]</source>
         <translation>無效網址 [%url_list_count]</translation>
     </message>
     <message>
-        <source>All URLs [%url_list_count]</source>
+        <source>All links [%url_list_count]</source>
         <translation>所有網址 [%url_list_count]</translation>
     </message>
     <message>
@@ -13825,15 +13825,15 @@ Note: The packages will not be uninstalled.</source>
         <translation>要求的清單是空的。</translation>
     </message>
     <message>
-        <source>Valid URLs (%url_list_count)</source>
+        <source>Valid links (%url_list_count)</source>
         <translation>有效網址 (%url_list_count)</translation>
     </message>
     <message>
-        <source>Invalid URLs (%url_list_count)</source>
+        <source>Invalid links (%url_list_count)</source>
         <translation>無效網址 (%url_list_count)</translation>
     </message>
     <message>
-        <source>All URLs (%url_list_count)</source>
+        <source>All links (%url_list_count)</source>
         <translation>所有網址 (%url_list_count)</translation>
     </message>
 </context>
@@ -27204,15 +27204,15 @@ To do this you need to change the %chown commands under Alternative shell comman
         <translation>不明</translation>
     </message>
     <message>
-        <source>All URLs</source>
+        <source>All links</source>
         <translation>全部的 URL</translation>
     </message>
     <message>
-        <source>Invalid URLs</source>
+        <source>Invalid links</source>
         <translation>無效的 URL</translation>
     </message>
     <message>
-        <source>Valid URLs</source>
+        <source>Valid links</source>
         <translation>有效的 URL</translation>
     </message>
     <message>

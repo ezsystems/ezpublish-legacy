@@ -7149,7 +7149,7 @@ Poznámka: Soubory programů nebudou odinstalovány.</translation>
         <translation>Informace o systému</translation>
     </message>
     <message>
-        <source>URL management</source>
+        <source>Link management</source>
         <translation>Správa URL</translation>
     </message>
     <message>
@@ -12493,15 +12493,15 @@ Moduly webového serveru nemohou být detekovány.
         <translation>URL</translation>
     </message>
     <message>
-        <source>Valid URLs [%url_list_count]</source>
+        <source>Valid links [%url_list_count]</source>
         <translation>Platné URLs [%url_list_count]</translation>
     </message>
     <message>
-        <source>Invalid URLs [%url_list_count]</source>
+        <source>Invalid links [%url_list_count]</source>
         <translation>Neplatné URLs [%url_list_count]</translation>
     </message>
     <message>
-        <source>All URLs [%url_list_count]</source>
+        <source>All links [%url_list_count]</source>
         <translation>Všechny URLs [%url_list_count]</translation>
     </message>
     <message>
@@ -12578,15 +12578,15 @@ Moduly webového serveru nemohou být detekovány.
         <translation>Požadovaný seznam je prázdný.</translation>
     </message>
     <message>
-        <source>Valid URLs (%url_list_count)</source>
+        <source>Valid links (%url_list_count)</source>
         <translation>Platné URLs (%url_list_count)</translation>
     </message>
     <message>
-        <source>Invalid URLs (%url_list_count)</source>
+        <source>Invalid links (%url_list_count)</source>
         <translation>Neplatné URLs (%url_list_count)</translation>
     </message>
     <message>
-        <source>All URLs (%url_list_count)</source>
+        <source>All links (%url_list_count)</source>
         <translation>Všechny URLs (%url_list_count)</translation>
     </message>
 </context>
@@ -24562,15 +24562,15 @@ Klikněte na ména objektů pro změnu procházení.</translation>
         <translation>Neznámý</translation>
     </message>
     <message>
-        <source>All URLs</source>
+        <source>All links</source>
         <translation>Všechna URL</translation>
     </message>
     <message>
-        <source>Invalid URLs</source>
+        <source>Invalid links</source>
         <translation>Neplatné URL</translation>
     </message>
     <message>
-        <source>Valid URLs</source>
+        <source>Valid links</source>
         <translation>Platné URL</translation>
     </message>
     <message>

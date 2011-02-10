@@ -7132,7 +7132,7 @@ Note: The packages will not be uninstalled.</source>
         <translation>Podaci o sistemu</translation>
     </message>
     <message>
-        <source>URL management</source>
+        <source>Link management</source>
         <translation>URL upravljanje</translation>
     </message>
     <message>
@@ -12441,15 +12441,15 @@ Note: The packages will not be uninstalled.</source>
         <translation>URL</translation>
     </message>
     <message>
-        <source>Valid URLs [%url_list_count]</source>
+        <source>Valid links [%url_list_count]</source>
         <translation>Važeći URLovi [%url_list_count]</translation>
     </message>
     <message>
-        <source>Invalid URLs [%url_list_count]</source>
+        <source>Invalid links [%url_list_count]</source>
         <translation>Nevažeći URLovi [%url_list_count]</translation>
     </message>
     <message>
-        <source>All URLs [%url_list_count]</source>
+        <source>All links [%url_list_count]</source>
         <translation>Svi URLovi [%url_list_count]</translation>
     </message>
     <message>
@@ -12525,15 +12525,15 @@ Note: The packages will not be uninstalled.</source>
         <translation>Zatražena lista je prazna.</translation>
     </message>
     <message>
-        <source>Valid URLs (%url_list_count)</source>
+        <source>Valid links (%url_list_count)</source>
         <translation>Važeći URLovi (%url_list_count)</translation>
     </message>
     <message>
-        <source>Invalid URLs (%url_list_count)</source>
+        <source>Invalid links (%url_list_count)</source>
         <translation>Nevažeći URLovi (%url_list_count)</translation>
     </message>
     <message>
-        <source>All URLs (%url_list_count)</source>
+        <source>All links (%url_list_count)</source>
         <translation>Svi URLovi (%url_list_count)</translation>
     </message>
 </context>
@@ -24368,15 +24368,15 @@ To do this you need to change the %chown commands under Alternative shell comman
         <translation>Nepoznat</translation>
     </message>
     <message>
-        <source>All URLs</source>
+        <source>All links</source>
         <translation>Svi URL-ovi</translation>
     </message>
     <message>
-        <source>Invalid URLs</source>
+        <source>Invalid links</source>
         <translation>Nevažeći URL-ovi</translation>
     </message>
     <message>
-        <source>Valid URLs</source>
+        <source>Valid links</source>
         <translation>Važeći URL-ovi</translation>
     </message>
     <message>

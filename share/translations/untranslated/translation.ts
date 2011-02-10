@@ -7120,7 +7120,7 @@ Note: The packages will not be uninstalled.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>URL management</source>
+        <source>Link management</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -12420,15 +12420,15 @@ Note: The packages will not be uninstalled.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Valid URLs [%url_list_count]</source>
+        <source>Valid links [%url_list_count]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Invalid URLs [%url_list_count]</source>
+        <source>Invalid links [%url_list_count]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>All URLs [%url_list_count]</source>
+        <source>All links [%url_list_count]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -12504,15 +12504,15 @@ Note: The packages will not be uninstalled.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Valid URLs (%url_list_count)</source>
+        <source>Valid links (%url_list_count)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Invalid URLs (%url_list_count)</source>
+        <source>Invalid links (%url_list_count)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>All URLs (%url_list_count)</source>
+        <source>All links (%url_list_count)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -24282,15 +24282,15 @@ To do this you need to change the %chown commands under Alternative shell comman
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>All URLs</source>
+        <source>All links</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Invalid URLs</source>
+        <source>Invalid links</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Valid URLs</source>
+        <source>Valid links</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

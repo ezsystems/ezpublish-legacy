@@ -7740,7 +7740,7 @@ Nota: Os pacotes não serão desinstalados.</translation>
         <translation>Informações do sistema</translation>
     </message>
     <message>
-        <source>URL management</source>
+        <source>Link management</source>
         <translation>URLs externas</translation>
     </message>
     <message>
@@ -13072,15 +13072,15 @@ Clique em um dos botões &quot;Conceder..&quot; (explicado abaixo), para prosseg
         <translation>URL</translation>
     </message>
     <message>
-        <source>Valid URLs [%url_list_count]</source>
+        <source>Valid links [%url_list_count]</source>
         <translation>URLs válidas [%url_list_count]</translation>
     </message>
     <message>
-        <source>Invalid URLs [%url_list_count]</source>
+        <source>Invalid links [%url_list_count]</source>
         <translation>URLs inválidas [%url_list_count]</translation>
     </message>
     <message>
-        <source>All URLs [%url_list_count]</source>
+        <source>All links [%url_list_count]</source>
         <translation>Todas as URLs [%url_list_count]</translation>
     </message>
     <message>
@@ -13156,15 +13156,15 @@ Clique em um dos botões &quot;Conceder..&quot; (explicado abaixo), para prosseg
         <translation>A lista requisitada está vazia.</translation>
     </message>
     <message>
-        <source>Valid URLs (%url_list_count)</source>
+        <source>Valid links (%url_list_count)</source>
         <translation>URLs válidas (%url_list_count)</translation>
     </message>
     <message>
-        <source>Invalid URLs (%url_list_count)</source>
+        <source>Invalid links (%url_list_count)</source>
         <translation>URLs inválidas (%url_list_count)</translation>
     </message>
     <message>
-        <source>All URLs (%url_list_count)</source>
+        <source>All links (%url_list_count)</source>
         <translation>Todas as URLs (%url_list_count)</translation>
     </message>
 </context>
@@ -25108,15 +25108,15 @@ Para fazer isso, você pode usar o comando %chown embaixo dos comandos do shell 
         <translation>Desconhecido</translation>
     </message>
     <message>
-        <source>All URLs</source>
+        <source>All links</source>
         <translation>Todas as URLs</translation>
     </message>
     <message>
-        <source>Invalid URLs</source>
+        <source>Invalid links</source>
         <translation>URLs inválidos</translation>
     </message>
     <message>
-        <source>Valid URLs</source>
+        <source>Valid links</source>
         <translation>URLs válidos</translation>
     </message>
     <message>

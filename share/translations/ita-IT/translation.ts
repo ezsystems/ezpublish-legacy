@@ -7184,7 +7184,7 @@ Nota: I pacchetti non verranno disinstallati.</translation>
         <translation>Informazioni sul sistema</translation>
     </message>
     <message>
-        <source>URL management</source>
+        <source>Link management</source>
         <translation>Gestione URL</translation>
     </message>
     <message>
@@ -12531,15 +12531,15 @@ Nota: I pacchetti non verranno disinstallati.</translation>
         <translation>URL</translation>
     </message>
     <message>
-        <source>Valid URLs [%url_list_count]</source>
+        <source>Valid links [%url_list_count]</source>
         <translation>URL (valide) [%url_list_count]</translation>
     </message>
     <message>
-        <source>Invalid URLs [%url_list_count]</source>
+        <source>Invalid links [%url_list_count]</source>
         <translation>URL (non valide) [%url_list_count]</translation>
     </message>
     <message>
-        <source>All URLs [%url_list_count]</source>
+        <source>All links [%url_list_count]</source>
         <translation>URL (tutte) [%url_list_count]</translation>
     </message>
     <message>
@@ -12615,15 +12615,15 @@ Nota: I pacchetti non verranno disinstallati.</translation>
         <translation>La lista richiesta è vuota.</translation>
     </message>
     <message>
-        <source>Valid URLs (%url_list_count)</source>
+        <source>Valid links (%url_list_count)</source>
         <translation>URL (valide) (%url_list_count)</translation>
     </message>
     <message>
-        <source>Invalid URLs (%url_list_count)</source>
+        <source>Invalid links (%url_list_count)</source>
         <translation>URL (non valide) (%url_list_count)</translation>
     </message>
     <message>
-        <source>All URLs (%url_list_count)</source>
+        <source>All links (%url_list_count)</source>
         <translation>URL (tutte) (%url_list_count)</translation>
     </message>
 </context>
@@ -24534,15 +24534,15 @@ To do this you need to change the %chown commands under Alternative shell comman
         <translation>Sconosciuto</translation>
     </message>
     <message>
-        <source>All URLs</source>
+        <source>All links</source>
         <translation>Tutte le URL</translation>
     </message>
     <message>
-        <source>Invalid URLs</source>
+        <source>Invalid links</source>
         <translation>URL non valide</translation>
     </message>
     <message>
-        <source>Valid URLs</source>
+        <source>Valid links</source>
         <translation>URL valide</translation>
     </message>
     <message>

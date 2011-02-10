@@ -7170,8 +7170,8 @@ Note: The packages will not be uninstalled.</translation>
         <translation>System information</translation>
     </message>
     <message>
-        <source>URL management</source>
-        <translation>URL management</translation>
+        <source>Link management</source>
+        <translation>Link management</translation>
     </message>
     <message>
         <source>URL translator</source>
@@ -12491,16 +12491,16 @@ Note: The packages will not be uninstalled.</translation>
         <translation>URL</translation>
     </message>
     <message>
-        <source>Valid URLs [%url_list_count]</source>
-        <translation>Valid URLs [%url_list_count]</translation>
+        <source>Valid links [%url_list_count]</source>
+        <translation>Valid links [%url_list_count]</translation>
     </message>
     <message>
-        <source>Invalid URLs [%url_list_count]</source>
-        <translation>Invalid URLs [%url_list_count]</translation>
+        <source>Invalid links [%url_list_count]</source>
+        <translation>Invalid links [%url_list_count]</translation>
     </message>
     <message>
-        <source>All URLs [%url_list_count]</source>
-        <translation>All URLs [%url_list_count]</translation>
+        <source>All links [%url_list_count]</source>
+        <translation>All links [%url_list_count]</translation>
     </message>
     <message>
         <source>All</source>
@@ -12575,16 +12575,16 @@ Note: The packages will not be uninstalled.</translation>
         <translation>The requested list is empty.</translation>
     </message>
     <message>
-        <source>Valid URLs (%url_list_count)</source>
-        <translation>Valid URLs (%url_list_count)</translation>
+        <source>Valid links (%url_list_count)</source>
+        <translation>Valid links (%url_list_count)</translation>
     </message>
     <message>
-        <source>Invalid URLs (%url_list_count)</source>
-        <translation>Invalid URLs (%url_list_count)</translation>
+        <source>Invalid links (%url_list_count)</source>
+        <translation>Invalid links (%url_list_count)</translation>
     </message>
     <message>
-        <source>All URLs (%url_list_count)</source>
-        <translation>All URLs (%url_list_count)</translation>
+        <source>All links (%url_list_count)</source>
+        <translation>All links (%url_list_count)</translation>
     </message>
 </context>
 <context>
@@ -24527,16 +24527,16 @@ To do this you need to change the %chown commands under Alternative shell comman
         <translation>Unknown</translation>
     </message>
     <message>
-        <source>All URLs</source>
-        <translation>All URLs</translation>
+        <source>All links</source>
+        <translation>All links</translation>
     </message>
     <message>
-        <source>Invalid URLs</source>
-        <translation>Invalid URLs</translation>
+        <source>Invalid links</source>
+        <translation>Invalid links</translation>
     </message>
     <message>
-        <source>Valid URLs</source>
-        <translation>Valid URLs</translation>
+        <source>Valid links</source>
+        <translation>Valid links</translation>
     </message>
     <message>
         <source>Information on URL</source>
