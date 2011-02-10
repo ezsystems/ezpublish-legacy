@@ -245,7 +245,7 @@ class eZExtension
             $hasExtensions = true;
         }
         if ( $hasExtensions )
-            $siteINI->loadCache();
+            $siteINI->load();
     }
 
     /**
