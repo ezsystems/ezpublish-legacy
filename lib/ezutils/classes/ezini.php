@@ -451,7 +451,7 @@ class eZINI
      * if not it will parse the original file and create the cache file.
      *
      * @access protected
-     * @internal Please use {@link eZINI::load()}
+     * @internal Please use {@link eZINI::load()} or {@link eZINI::loadPlacement()}
      * @param bool $reset Reset ini values on instance
      * @param bool $placement Load cache for placment info, not the ini values themself.
      */
