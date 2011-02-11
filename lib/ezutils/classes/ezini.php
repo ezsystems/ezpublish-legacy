@@ -111,7 +111,7 @@ class eZINI
      *
      * @var array(eZINI)
      */
-    static protected $instance = array();
+    static protected $instances = array();
 
     /**
      * Initialization of eZINI object
@@ -1642,7 +1642,7 @@ class eZINI
     */
     static function isLoaded( $fileName = 'site.ini', $rootDir = 'settings', $useLocalOverrides = null )
     {
-        return isset( self::$instance["eZINIGlobalInstance-$rootDir-$fileName-$useLocalOverrides"] );
+        return isset( self::$instances["$rootDir-$fileName-$useLocalOverrides"] );
     }
 
     /**
@@ -1670,12 +1670,12 @@ class eZINI
             return new eZINI( $fileName, $rootDir, $useTextCodec, $useCache, $useLocalOverrides, $directAccess, $addArrayDefinition );
         }
 
-        $globalsKey = "eZINIGlobalInstance-$rootDir-$fileName-$useLocalOverrides";
-        if ( !isset( self::$instance[$globalsKey] ) )
+        $key = "$rootDir-$fileName-$useLocalOverrides";
+        if ( !isset( self::$instances[$key] ) )
         {
-            self::$instance[$globalsKey] = new eZINI( $fileName, $rootDir, $useTextCodec, $useCache, $useLocalOverrides, $directAccess, $addArrayDefinition );
+            self::$instances[$key] = new eZINI( $fileName, $rootDir, $useTextCodec, $useCache, $useLocalOverrides, $directAccess, $addArrayDefinition );
         }
-        return self::$instance[$globalsKey];
+        return self::$instances[$key];
     }
 
     /*!
@@ -1733,7 +1733,7 @@ class eZINI
     */
     static function resetGlobals(  $fileName = 'site.ini', $rootDir = 'settings', $useLocalOverrides = null )
     {
-        unset( self::$instance["eZINIGlobalInstance-$rootDir-$fileName-$useLocalOverrides"] );
+        unset( self::$instances["$rootDir-$fileName-$useLocalOverrides"] );
     }
 
     /**
@@ -1743,7 +1743,7 @@ class eZINI
      */
     static function resetAllGlobals( $resetGlobalOverrideDirs = true )
     {
-        self::$instance = array();
+        self::$instances = array();
 
         if ( $resetGlobalOverrideDirs )
             self::resetGlobalOverrideDirs();
