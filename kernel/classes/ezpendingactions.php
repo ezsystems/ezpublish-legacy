@@ -42,7 +42,7 @@ class eZPendingActions extends eZPersistentObject
     /**
      * Fetches a pending actions list by action name
      * @param string $action
-     * @param array $aCreationDateFilter Created date filter array (default is empty array). Must be a 2 entries array. 
+     * @param array $aCreationDateFilter Created date filter array (default is empty array). Must be a 2 entries array.
      *                                   First entry is the filter token (can be '=', '<', '<=', '>', '>=')
      *                                   Second entry is the filter value (timestamp)
      * @return array|null Array of eZPendingActions or null if no entry has been found
@@ -79,11 +79,12 @@ class eZPendingActions extends eZPersistentObject
     /**
      * Remove entries by action
      * @param string $action
+     * @param array $filterConds Additional filter conditions, as supported by {@link eZPersistentObject::fetchObjectList()} ($conds param).
+     *                           For consistency sake, if an 'action' key is set here, it won't be taken into account
      */
-    public static function removeByAction( $action )
+    public static function removeByAction( $action, array $filterConds = array() )
     {
-        $filterConds = array( 'action' => $action );
-        parent::removeObject(self::definition(), $filterConds);
+        parent::removeObject( self::definition(), array( 'action' => $action ) + $filterConds );
     }
 }
 
