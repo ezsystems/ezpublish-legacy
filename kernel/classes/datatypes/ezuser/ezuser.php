@@ -1768,8 +1768,7 @@ WHERE user_id = '" . $userID . "' AND
     {
         if ( !isset( $this->AccessArray ) )
         {
-            $ini = eZINI::instance();
-            if ( $ini->variable( 'RoleSettings', 'EnableCaching' ) === 'true' )
+            if ( eZINI::instance()->variable( 'RoleSettings', 'EnableCaching' ) === 'true' )
             {
                 $userCache = $this->getUserCache();
                 $this->AccessArray = $userCache['access_array'];
@@ -2248,10 +2247,7 @@ WHERE user_id = '" . $userID . "' AND
     */
     function roleIDList()
     {
-        // If the user object is not the currently logged in user we cannot use the session cache
-        $useCache = ( $this->ContentObjectID == eZSession::get( 'eZUserLoggedInID', self::anonymousId() ) );
-
-        if ( $useCache )
+        if ( eZINI::instance()->variable( 'RoleSettings', 'EnableCaching' ) === 'true' )
         {
             $userCache = $this->getUserCache();
             return $userCache['roles'];
@@ -2288,10 +2284,7 @@ WHERE user_id = '" . $userID . "' AND
     */
     function limitValueList()
     {
-        // If the user object is not the currently logged in user we cannot use the session cache
-        $useCache = ( $this->ContentObjectID == eZSession::get( 'eZUserLoggedInID', self::anonymousId() ) );
-
-        if ( $useCache )
+        if ( eZINI::instance()->variable( 'RoleSettings', 'EnableCaching' ) === 'true' )
         {
             $userCache = $this->getUserCache();
             return $userCache['role_limitations'];
@@ -2387,9 +2380,7 @@ WHERE user_id = '" . $userID . "' AND
         {
             if ( !isset( $this->Groups ) )
             {
-                // If the user object is not the currently logged in user we cannot use the session cache
-                $useCache = ( $this->ContentObjectID == eZSession::get( 'eZUserLoggedInID', self::anonymousId() ) );
-                if ( $useCache )
+                if ( eZINI::instance()->variable( 'RoleSettings', 'EnableCaching' ) === 'true' )
                 {
                     $userCache = $this->getUserCache();
                     $this->Groups = $userCache['groups'];
