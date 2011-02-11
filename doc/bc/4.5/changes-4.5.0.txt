@@ -8,3 +8,11 @@ Removed features
 
   They have been deprecated in 3.9 in favor of the combined view "history".
 
+
+Removed globals
+---------------
+
+- eZINIGlobalInstance-*
+
+  eZINI now uses a protected static variable to keep track of eZINI instances.
+  Use eZINI::resetAllGlobals( false ); to clear them if needed.
