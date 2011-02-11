@@ -5,11 +5,15 @@
 
 <p>
 {if $account_activated}
-{'Your account is now activated.'|i18n('design/standard/user')}
+    {if $is_pending}
+        {'Your email address has been confirmed. An administrator needs to approve your sign up request, before your login becomes valid.'|i18n('design/standard/user')}
+    {else}
+        {'Your account is now activated.'|i18n('design/standard/user')}
+    {/if}
 {elseif $already_active}
-{'Your account is already active.'|i18n('design/standard/user')}
+    {'Your account is already active.'|i18n('design/standard/user')}
 {else}
-{'Sorry, the key submitted was not a valid key. Account was not activated.'|i18n('design/standard/user')}
+    {'Sorry, the key submitted was not a valid key. Account was not activated.'|i18n('design/standard/user')}
 {/if}
 </p>
 
