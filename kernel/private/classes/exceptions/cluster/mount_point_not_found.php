@@ -27,7 +27,7 @@ class eZDFSFileHandlerNFSMountPointNotFoundException extends ezcBaseException
      */
     function __construct( $path )
     {
-    	parent::__construct( "Local DFS mount point '{$path}' does not exist" );
+        parent::__construct( "Local DFS mount point '{$path}' does not exist" );
     }
 }
 ?>

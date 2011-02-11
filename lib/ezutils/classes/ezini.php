@@ -172,10 +172,10 @@ class eZINI
 
         if ( self::$filePermission === null )
         {
-	        if ( defined( 'EZP_INI_FILE_PERMISSION' ) )
-	            self::$filePermission = EZP_INI_FILE_PERMISSION;
-	        else
-	            self::$filePermission = 0666;
+            if ( defined( 'EZP_INI_FILE_PERMISSION' ) )
+                self::$filePermission = EZP_INI_FILE_PERMISSION;
+            else
+                self::$filePermission = 0666;
         }
 
         if ( $load )

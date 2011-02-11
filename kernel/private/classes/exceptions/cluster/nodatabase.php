@@ -25,7 +25,7 @@ class eZClusterHandlerDBNoDatabaseException extends eZDBException
      */
     function __construct( $dbname )
     {
-	parent::__construct( "Unable to select the cluster database {$dbname}" );
+        parent::__construct( "Unable to select the cluster database {$dbname}" );
     }
 }
 ?>

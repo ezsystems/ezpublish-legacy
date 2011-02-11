@@ -45,7 +45,7 @@ class eZWebDAVContentBackendAuth implements ezcWebdavAnonymousAuthenticator, ezc
     {
         // added by @ds to fix problems with IE6 SP2
         $path = ezcWebdavServer::getInstance()->pathFactory->parseUriToPath( $_SERVER['REQUEST_URI'] );
-    	return ( $path === '/' );
+        return ( $path === '/' );
     }
 
     /**

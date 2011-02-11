@@ -337,13 +337,13 @@ class eZObjectRelationType extends eZDataType
                     }
                 }
 
-	            $nodePlacementName = $parameters['base_name'] . '_browse_for_object_start_node';
-	            if ( $http->hasPostVariable( $nodePlacementName ) )
-	            {
-	                $nodePlacement = $http->postVariable( $nodePlacementName );
-	                if ( isset( $nodePlacement[$contentObjectAttribute->attribute( 'id' )] ) )
-	                    $browseParameters['start_node'] = eZContentBrowse::nodeAliasID( $nodePlacement[$contentObjectAttribute->attribute( 'id' )] );
-	            }
+                $nodePlacementName = $parameters['base_name'] . '_browse_for_object_start_node';
+                if ( $http->hasPostVariable( $nodePlacementName ) )
+                {
+                    $nodePlacement = $http->postVariable( $nodePlacementName );
+                    if ( isset( $nodePlacement[$contentObjectAttribute->attribute( 'id' )] ) )
+                        $browseParameters['start_node'] = eZContentBrowse::nodeAliasID( $nodePlacement[$contentObjectAttribute->attribute( 'id' )] );
+                }
                 eZContentBrowse::browse( $browseParameters,
                                          $module );
             } break;

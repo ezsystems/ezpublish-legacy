@@ -1320,7 +1320,7 @@ class eZDBFileHandlerMysqlBackend
     {
         if ( $value === null )
             return 'NULL';
-    	elseif ( is_integer( $value ) )
+        elseif ( is_integer( $value ) )
             return (string)$value;
         else
             return "'" . mysql_real_escape_string( $value ) . "'";

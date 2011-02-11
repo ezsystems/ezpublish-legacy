@@ -25,7 +25,7 @@ class eZDFSFileHandlerNFSMountPointNotWriteableException extends ezcBaseExceptio
      */
     function __construct( $path )
     {
-    	parent::__construct( "Local DFS mount point '{$path}' is not writeable" );
+        parent::__construct( "Local DFS mount point '{$path}' is not writeable" );
     }
 }
 ?>

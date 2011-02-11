@@ -36,7 +36,7 @@ $script->startup();
 
 $options = $script->getOptions( "[n]",
                                 "",
-								array( 'n' => 'Do not wait the 10 safety seconds before starting' ) );
+                                array( 'n' => 'Do not wait the 10 safety seconds before starting' ) );
 $script->initialize();
 
 $output = new ezcConsoleOutput();
@@ -52,60 +52,60 @@ if ( !isset( $options['n'] ) )
 
 try
 {
-	$output->outputLine( 'Looking for obsolete image files...' );
+    $output->outputLine( 'Looking for obsolete image files...' );
 
-	// Fetch all image files in ezimagefile table
-	$aImageFiles = eZPersistentObject::fetchObjectList( eZImageFile::definition() );
-	$nbImageFiles = count( $aImageFiles );
+    // Fetch all image files in ezimagefile table
+    $aImageFiles = eZPersistentObject::fetchObjectList( eZImageFile::definition() );
+    $nbImageFiles = count( $aImageFiles );
 
-	if( $nbImageFiles > 0 )
-	{
-		// Progress bar initialization
-		$progressBarOptions = array(
-			'emptyChar'		=> ' ',
-			'barChar'		=> '='
-		);
-		$progressBar = new ezcConsoleProgressbar( $output, $nbImageFiles, $progressBarOptions );
+    if( $nbImageFiles > 0 )
+    {
+        // Progress bar initialization
+        $progressBarOptions = array(
+            'emptyChar'     => ' ',
+            'barChar'       => '='
+        );
+        $progressBar = new ezcConsoleProgressbar( $output, $nbImageFiles, $progressBarOptions );
 
-		// Loop the image files and check if it is still used by a content object attribute. If not, delete it.
-		foreach( $aImageFiles as $image )
-		{
-			$filePath = $image->attribute( 'filepath' );
-			$dirpath = dirname( $filePath );
-			$contentObjectAttributeID = $image->attribute( 'contentobject_attribute_id' );
-			$dbResult = eZImageFile::fetchImageAttributesByFilepath( $filePath, $contentObjectAttributeID );
-			if( count( $dbResult ) == 0 )
-			{
-				$file = eZClusterFileHandler::instance( $filePath );
-				if ( $file->exists() ) // Delete the file physically
-				{
-					$file->delete();
-					eZImageFile::removeFilepath( $contentObjectAttributeID, $filePath );
-					eZDir::cleanupEmptyDirectories( $dirpath );
-				}
+        // Loop the image files and check if it is still used by a content object attribute. If not, delete it.
+        foreach( $aImageFiles as $image )
+        {
+            $filePath = $image->attribute( 'filepath' );
+            $dirpath = dirname( $filePath );
+            $contentObjectAttributeID = $image->attribute( 'contentobject_attribute_id' );
+            $dbResult = eZImageFile::fetchImageAttributesByFilepath( $filePath, $contentObjectAttributeID );
+            if( count( $dbResult ) == 0 )
+            {
+                $file = eZClusterFileHandler::instance( $filePath );
+                if ( $file->exists() ) // Delete the file physically
+                {
+                    $file->delete();
+                    eZImageFile::removeFilepath( $contentObjectAttributeID, $filePath );
+                    eZDir::cleanupEmptyDirectories( $dirpath );
+                }
 
-				// Delete the obsolete reference in the database
-				$image->remove();
-			}
+                // Delete the obsolete reference in the database
+                $image->remove();
+            }
 
-			$progressBar->advance();
-		}
+            $progressBar->advance();
+        }
 
-		$progressBar->finish();
-		$output->outputLine();
-	}
-	else
-	{
-		$output->outputText( 'No image file found !' );
-		$output->outputLine();
-	}
+        $progressBar->finish();
+        $output->outputLine();
+    }
+    else
+    {
+        $output->outputText( 'No image file found !' );
+        $output->outputLine();
+    }
 
-	$script->shutdown();
+    $script->shutdown();
 }
 catch(Exception $e)
 {
-	$output->outputText( $e->getMessage(), 'error' );
-	$output->outputLine();
-	$script->shutdown( $e->getCode() );
+    $output->outputText( $e->getMessage(), 'error' );
+    $output->outputLine();
+    $script->shutdown( $e->getCode() );
 }
 ?>

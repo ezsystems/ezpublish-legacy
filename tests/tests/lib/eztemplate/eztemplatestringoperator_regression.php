@@ -38,69 +38,69 @@
 
  class eZTemplateStringOperatorRegression extends ezpTestCase
  {
- 	/**
- 	 * templateStringOperation object
- 	 * @var unknown_type
- 	 */
- 	private $templateStringOperator;
- 	
- 	/**
- 	 * test the modify method, which invokes the operation in template parsing mode
- 	 * By default, the operator "simplify()" will only replace the two more consecutive space into one
- 	 * @see tests/tests/lib/eztemplate/ezpTestCase#testModifySimplify()
- 	 */
- 	public function testModifySimplify()
- 	{
- 		$testString="for Germany           on the whole, resultin
+    /**
+     * templateStringOperation object
+     * @var unknown_type
+     */
+    private $templateStringOperator;
+
+    /**
+     * test the modify method, which invokes the operation in template parsing mode
+     * By default, the operator "simplify()" will only replace the two more consecutive space into one
+     * @see tests/tests/lib/eztemplate/ezpTestCase#testModifySimplify()
+     */
+    public function testModifySimplify()
+    {
+        $testString="for Germany           on the whole, resultin
 
 
 Kohl and Fra  nçois
 Mitterrand we   re the jo";
- 		$expectedString="for Germany on the whole, resultin
+        $expectedString="for Germany on the whole, resultin
 
 
 Kohl and Fra nçois
 Mitterrand we re the jo";
- 		$namedParameters=array("char"=>false);
- 		$this->templateStringOperator->modify(null,"simplify",
- 			null,null,null,$testString,$namedParameters,null);
- 		$this->assertEquals($testString,$expectedString);
- 	}
- 	
- 	/**
- 	 * test the modify method, which invokes the operation in template parsing mode
- 	 * The operator "simplify("\n")" will replace the two more consecutive "\n" into one
- 	 * @see tests/tests/lib/eztemplate/ezpTestCase#testModifySimplify()
- 	 */
- 	public function testModifySimplifyWithParam()
- 	{
- 		$testString="for Germany           on the whole, resultin
+        $namedParameters=array("char"=>false);
+        $this->templateStringOperator->modify(null,"simplify",
+         null,null,null,$testString,$namedParameters,null);
+        $this->assertEquals($testString,$expectedString);
+    }
+
+    /**
+     * test the modify method, which invokes the operation in template parsing mode
+     * The operator "simplify("\n")" will replace the two more consecutive "\n" into one
+     * @see tests/tests/lib/eztemplate/ezpTestCase#testModifySimplify()
+     */
+    public function testModifySimplifyWithParam()
+    {
+        $testString="for Germany           on the whole, resultin
 
 
 
 Kohl and Fra  nçois
 Mitterrand we   re the jo";
- 		$expectedString="for Germany           on the whole, resultin
+        $expectedString="for Germany           on the whole, resultin
 Kohl and Fra  nçois
 Mitterrand we   re the jo";
- 		$namedParameters=array("char"=>"\n");
- 		$this->templateStringOperator->modify(null,"simplify",null,null,null,$testString,$namedParameters,null);
- 		$this->assertEquals($testString,$expectedString);
- 	} 	
- 	
- 	
- 	/**
- 	 * initialize the context
- 	 * @see tests/tests/lib/eztemplate/ezpTestCase#setUp()
- 	 */
- 	public function setUp()
- 	{
- 		parent::setUp();
- 		$this->templateStringOperator=new eZTemplateStringOperator();
- 	}
- 	
+        $namedParameters=array("char"=>"\n");
+        $this->templateStringOperator->modify(null,"simplify",null,null,null,$testString,$namedParameters,null);
+        $this->assertEquals($testString,$expectedString);
+    }
+
+
+    /**
+     * initialize the context
+     * @see tests/tests/lib/eztemplate/ezpTestCase#setUp()
+     */
+    public function setUp()
+    {
+        parent::setUp();
+        $this->templateStringOperator=new eZTemplateStringOperator();
+    }
+
   protected $backupGlobals = false;
- 	
+
  }
 
 ?>
