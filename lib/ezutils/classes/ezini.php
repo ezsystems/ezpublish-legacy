@@ -306,12 +306,13 @@ class eZINI
         return false;
     }
 
-    /*!
-     Tries to load the ini file specified in the constructor or instance() function.
-     If cache files should be used and a cache file is found it loads that instead.
-     Set \a $reset to false if you don't want to reset internal data.
-    */
-    function load( $reset = true )
+    /**
+     * Tries to load the ini file specified in the constructor or instance() function.
+     * If cache files should be used and a cache file is found it loads that instead.
+     *
+     * @param bool $reset Reset ini values on instance
+     */
+    public function load( $reset = true )
     {
         if ( $this->UseCache )
         {
@@ -323,12 +324,13 @@ class eZINI
         }
     }
 
-    /*!
-     Tries to load the ini file placement specified in the constructor or instance() function.
-     If cache files should be used and a cache file is found it loads that instead.
-     Set \a $reset to false if you don't want to reset internal data.
-    */
-    function loadPlacement( $reset = true )
+    /**
+     * Tries to load the ini file placement specified in the constructor or instance() function.
+     * If cache files should be used and a cache file is found it loads that instead.
+     *
+     * @param bool $reset Reset ini values on instance
+     */
+    public function loadPlacement( $reset = true )
     {
         if ( $this->UseCache )
         {
@@ -444,11 +446,15 @@ class eZINI
         return $filePreFix[0] . '-' . md5( $cacheFileName ) . '.php';
     }
 
-    /*!
-      \private
-      Will load a cached version of the ini file if it exists,
-      if not it will parse the original file and create the cache file.
-    */
+    /**
+     * Will load a cached version of the ini file if it exists,
+     * if not it will parse the original file and create the cache file.
+     *
+     * @access protected
+     * @internal Please use {@link eZINI::load()}
+     * @param bool $reset Reset ini values on instance
+     * @param bool $placement Load cache for placment info, not the ini values themself.
+     */
     function loadCache( $reset = true, $placement = false )
     {
         eZDebug::accumulatorStart( 'ini', 'ini_load', 'Load cache' );
@@ -1646,16 +1652,16 @@ class eZINI
      *
      * @param string $fileName
      * @param string $rootDir
-     * @param null|bool $useTextCodec Default system setting if null
-     * @param null|bool $useCache Default system setting if null
+     * @param null|bool $useTextCodec Default system setting if null (instance not used if not null!)
+     * @param null|bool $useCache Default system setting if null (instance not used if not null!)
      * @param null|bool $useLocalOverrides Default system setting if null
-     * @param bool $directAccess @deprecated since version 4.5, use new eZINI().
-     * @param bool $addArrayDefinition @deprecated since version 4.5, use new eZINI().
+     * @param bool $directAccess Direct access to specific file instead of values from several (instance not used if true!)
+     * @param bool $addArrayDefinition @deprecated since version 4.5, use "new eZINI()" (instance not used if true!)
      * @return eZINI
      */
     static function instance( $fileName = 'site.ini', $rootDir = 'settings', $useTextCodec = null, $useCache = null, $useLocalOverrides = null, $directAccess = false, $addArrayDefinition = false )
     {
-        if ( $addArrayDefinition !== false  || $directAccess !== false )
+        if ( $addArrayDefinition !== false  || $directAccess !== false || $useTextCodec !== null || $useCache !== null )
         {
             // Could have trown strict error here but will cause issues if ini system has not been setup yet..
             return new eZINI( $fileName, $rootDir, $useTextCodec, $useCache, $useLocalOverrides, $directAccess, $addArrayDefinition );
