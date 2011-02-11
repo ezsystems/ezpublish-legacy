@@ -283,7 +283,7 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
         {
             if ( empty( $GLOBALS['eZCollaborationParticipantRoleNameMap'] ) )
             {
-                
+
                 $GLOBALS['eZCollaborationParticipantRoleNameMap'] =
                     array( self::ROLE_STANDARD => ezpI18n::tr( 'kernel/classes', 'Standard' ),
                            self::ROLE_OBSERVER => ezpI18n::tr( 'kernel/classes', 'Observer' ),

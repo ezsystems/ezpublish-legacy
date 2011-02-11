@@ -253,7 +253,7 @@ if ( !$isQuiet )
 {
     if ( $totalAttrCount )
         $cli->notice( "\nTotal: " . $totalAttrCount . " attribute(s) have been converted." );
-    
+
     else
         $cli->notice( "\nXML text blocks: OK" );
 

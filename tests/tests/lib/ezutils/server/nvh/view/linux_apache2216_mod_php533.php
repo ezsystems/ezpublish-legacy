@@ -31,7 +31,7 @@ return array (
   'PHP_INT_MAX' => 9223372036854775807,
   'PHP_INT_SIZE' => 8,
   'getcwd' => '/home/something/workspace/ezpublish',
-  '_SERVER' => 
+  '_SERVER' =>
   array (
     'HTTP_HOST' => 'ws',
     'HTTP_CONNECTION' => 'keep-alive',
@@ -64,7 +64,7 @@ return array (
     'PHP_SELF' => '/ezpublish/index.php/content/view/full/44',
     'REQUEST_TIME' => 1287690516,
   ),
-  '_ENV' => 
+  '_ENV' =>
   array (
     'APACHE_RUN_DIR' => '/var/run/apache2',
     'APACHE_PID_FILE' => '/var/run/apache2.pid',

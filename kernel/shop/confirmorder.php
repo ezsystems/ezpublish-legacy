@@ -86,7 +86,7 @@ switch( $operationResult['status'] )
                                             'text' => ezpI18n::tr( 'kernel/shop', 'Confirm order' ) ) );
         }
     }break;
-    
+
     case eZModuleOperationInfo::STATUS_HALTED:
     case eZModuleOperationInfo::STATUS_REPEAT:
     {

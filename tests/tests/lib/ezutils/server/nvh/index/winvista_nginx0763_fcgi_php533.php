@@ -31,7 +31,7 @@ return array (
   'PHP_INT_MAX' => 2147483647,
   'PHP_INT_SIZE' => 4,
   'getcwd' => 'D:\\htdocs\\ezvarlogger',
-  '_SERVER' => 
+  '_SERVER' =>
   array (
     'ALLUSERSPROFILE' => 'C:\\ProgramData',
     'APPDATA' => 'C:\\Users\\gg\\AppData\\Roaming',
@@ -111,7 +111,7 @@ return array (
     'PHP_SELF' => '/ezvarlogger/index.php',
     'REQUEST_TIME' => 1287785813,
   ),
-  '_ENV' => 
+  '_ENV' =>
   array (
     'ALLUSERSPROFILE' => 'C:\\ProgramData',
     'APPDATA' => 'C:\\Users\\gg\\AppData\\Roaming',

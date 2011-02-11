@@ -175,7 +175,7 @@ class eZOperationMemento extends eZPersistentObject
         $string = '';
         foreach ( $parameters as $key => $value )
         {
-            if ( is_array( $value ) ) 
+            if ( is_array( $value ) )
                 $string .= $key . serialize( $value );
             else
                 $string .= $key . $value;

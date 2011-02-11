@@ -1351,7 +1351,7 @@ class eZSiteInstaller
     */
     function setRSSExport( $params )
     {
-        
+
 
         // Create default rssExport object to use
         $rssExport = eZRSSExport::create( $params['creator'] );
@@ -1440,7 +1440,7 @@ class eZSiteInstaller
          $languageName = substr( $locale , 0, $pos );
          return $languageName;
     }
-    
+
     /*!
      Helper function used for extracting hostname from the given \param $uri
     */
@@ -1449,7 +1449,7 @@ class eZSiteInstaller
         $hostname = false;
 
         $parts = parse_url( $uri );
-        
+
         if ( isset( $parts['host'] ) )
             $hostname = $parts['host'];
 
@@ -1491,7 +1491,7 @@ class eZSiteInstaller
             case 'port':
                 {
                     $port = $accessTypeValue;
-                    
+
                     // build urls
                     foreach( $siteaccessList as $siteaccess )
                     {

@@ -190,7 +190,7 @@ class eZObjectRelationListType extends eZDataType
         $classContent = $contentClassAttribute->content();
 
         $selectedObjectIDArray = $http->hasPostVariable( $postVariableName ) ? $http->postVariable( $postVariableName ) : false;
-        
+
         // If we got an empty object id list
         if ( ( $selectedObjectIDArray === false && $classContent['selection_type'] != 0 ) || ( isset( $selectedObjectIDArray[0] ) && $selectedObjectIDArray[0] === 'no_relation' ) )
         {
@@ -200,7 +200,7 @@ class eZObjectRelationListType extends eZDataType
             return true;
         }
 
-        // Check if selection type is not browse 
+        // Check if selection type is not browse
         if ( $classContent['selection_type'] != 0 )
         {
             $priority = 0;

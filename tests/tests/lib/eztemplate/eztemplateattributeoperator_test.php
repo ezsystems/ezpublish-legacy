@@ -30,7 +30,7 @@ class eZTemplateAttributeOperatorTest extends ezpDatabaseTestCase
 
     /**
      * Tests that the output process works with objects.
-     * 
+     *
      * There should be no crash from casting errors.
      *
      */

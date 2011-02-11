@@ -110,7 +110,7 @@ class eZUserType extends eZDataType
                                                                          'The email address is not valid.' ) );
                     return eZInputValidator::STATE_INVALID;
                 }
-                
+
                 $authenticationMatch = eZUser::authenticationMatch();
                 if ( $authenticationMatch & eZUser::AUTHENTICATE_EMAIL )
                 {
@@ -169,7 +169,7 @@ class eZUserType extends eZDataType
                         return eZInputValidator::STATE_INVALID;
                     }
                 }
-                
+
                 // validate confirm email
                 if ( $ini->variable( 'UserSettings', 'RequireConfirmEmail' ) == 'true' )
                 {

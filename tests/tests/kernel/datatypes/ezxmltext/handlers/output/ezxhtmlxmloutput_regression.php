@@ -36,7 +36,7 @@ class eZXHTMLXMLOutputRegression extends ezpDatabaseTestCase
         $outputHandler = new eZXHTMLXMLOutput( $XMLString, false );
         $result = $outputHandler->outputText();
 
-        $expectedResult = ' 
+        $expectedResult = '
 <ul>
 
 <li> <a href="/" target="_blank">Accéder à la plate-forme boursière</a> </li>
@@ -88,7 +88,7 @@ class eZXHTMLXMLOutputRegression extends ezpDatabaseTestCase
         $XMLString = '<?xml version="1.0" encoding="utf-8"?>
 <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/" xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/" xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
   <paragraph>
-    <line>Haustsemesteret, 
+    <line>Haustsemesteret,
       <strong>7,5 studiepoeng</strong>
     </line>
     <line><strong>FP 336 620 Naturfag, del 1</strong>: Individuell, skriftleg mappe (HSF Oppdrag/betalingsemne)</line>
@@ -105,7 +105,7 @@ class eZXHTMLXMLOutputRegression extends ezpDatabaseTestCase
         $html = ' <p>
 Haustsemesteret, <b>7,5 studiepoeng</b> <br /><b>FP 336 620 Naturfag, del 1</b>: Individuell, skriftleg mappe (HSF Oppdrag/betalingsemne) </p> <p>
 <b>FP334 620 Naturfag, del 2</b> : Individuell, skriftleg eksamen.<br />Tid: 4 timar  </p>';
-        
+
         $this->assertEquals( $html, $result );
     }
 
@@ -136,7 +136,7 @@ Telephone #1<br />Telephone #2</p>';
 
     /**
      * Tests that eZXML from ezp3 and ezp4 produces the same result
-     * 
+     *
      * @link http://issues.ez.no/16184
      * @note XML is from actual customer xml
      */

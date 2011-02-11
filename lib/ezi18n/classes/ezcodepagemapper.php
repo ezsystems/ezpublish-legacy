@@ -234,7 +234,7 @@ class eZCodePageMapper
     }
 
     /**
-     * Returns a shared instance of the eZCodePageMapper pr the 
+     * Returns a shared instance of the eZCodePageMapper pr the
      * $input_charset_code and $output_charset_code params.
      *
      * @param string $input_charset_code

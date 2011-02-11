@@ -73,7 +73,7 @@ class eZAuthor
 
     /**
      * Add an author
-     * 
+     *
      * @param int $id
      * @param string $name
      * @param string $email
@@ -93,7 +93,7 @@ class eZAuthor
 
     /**
      * Remove authors
-     * 
+     *
      * @param array $removeList List of id's of authors to remove
      */
     function removeAuthors( $removeList )

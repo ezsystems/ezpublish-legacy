@@ -849,13 +849,13 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     /**
      * Get an array of all the current templates and overrides for them.
      * The current siteaccess is used if none is specified.
-     * 
+     *
      * @static
      * @return array
      */
     static function overrideArray( $siteAccess = false )
     {
-        
+
         if ( $siteAccess === false and self::$overrideArrayCache !== null )
         {
             return self::$overrideArrayCache;
@@ -955,7 +955,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
     /**
      * Clear in memory override array cache
-     * 
+     *
      * @static
      * @since 4.2
      */

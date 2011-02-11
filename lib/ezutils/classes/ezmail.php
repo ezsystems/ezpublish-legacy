@@ -43,24 +43,24 @@
  \note It's important to note that most methods that return values do an automatic conversion if not specified.
 
   This class will be deprecated in the next eZ Publish release, and replaced with ezcMail from eZ Components.
- 
+
   The eZMail class was used like this (with old smtp class which will be removed):
     $mail = new eZMail();
     $mail->setSender( $fromEmail, $yourName );
     $mail->setReceiver( $receiversEmail, $receiversName );
     $mail->setSubject( $subject );
- 
+
     $smtp = new smtp( $parameters );
     $smtpConnected = $smtp->connect();
     if ( $smtpConnected )
     {
         $result = $smtp->send( $sendData );
     }
-    
+
   Since the smtp class will be removed, ezcMailSmtpTransport from eZ
   Components can be used temporarily instead (the class eZSMTPTransport
   is using ezcMailSmtpTransport instead of smtp as well):
-  
+
     $smtp = new ezcMailSmtpTransport( $host, $username, $password, $port );
     $smtp->send( $mail->Mail );
 
@@ -71,7 +71,7 @@
     $mail->from = new ezcMailAddress( $fromEmail, $yourName );
     $mail->addTo( new ezcMailAddress( $receiversEmail, $receiversName ) );
     $mail->subject = $subject;
-    
+
     $smtp = new ezcMailSmtpTransport( $host, $username, $password, $port );
     $smtp->send( $mail );
 */
@@ -655,7 +655,7 @@ class eZMail
       \deprecated
     */
     function setMessageID( $newMessageID )
-    {      
+    {
         $this->Mail->messageId = $newMessageID;
         $this->MessageID = $newMessageID;
     }
@@ -1190,7 +1190,7 @@ class eZMail
 
     /*!
       Returns the line ending.
-      
+
       \deprecated
     */
     static function lineSeparator()
@@ -1237,7 +1237,7 @@ class eZMail
     public $TextCodec;
     public $MessageID;
     public $MIMEVersion;
-    
+
     /**
      * Contains an object of type ezcMail, which is used to store the
      * mail elements like subject, to, from, body etc, instead of using

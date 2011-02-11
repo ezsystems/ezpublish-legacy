@@ -91,7 +91,7 @@ class eZSMTPTransport extends eZMailTransport
         {
             $options->connectionType = $parameters['connectionType'];
         }
-        $smtp = new ezcMailSmtpTransport( $parameters['host'], $user, $password, 
+        $smtp = new ezcMailSmtpTransport( $parameters['host'], $user, $password,
         $parameters['port'], $options );
 
         // If in debug mode, send to debug email address and nothing else

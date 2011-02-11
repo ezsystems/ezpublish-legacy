@@ -128,7 +128,7 @@ class eZImageType extends eZDataType
      * @param $base:
      * @param $contentObjectAttribute: content object attribute being validated
      * @return validation result- eZInputValidator::STATE_INVALID or eZInputValidator::STATE_ACCEPTED
-     * 
+     *
      * @see kernel/classes/eZDataType#validateObjectAttributeHTTPInput($http, $base, $objectAttribute)
      */
     function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
@@ -206,7 +206,7 @@ class eZImageType extends eZDataType
      * Fetch object attribute http input, override the ezDataType method
      * This method is triggered when submiting a http form which includes Image class
      * Image is stored into file system every time there is a file input and validation result is valid.
-     * @param $http http object 
+     * @param $http http object
      * @param $base
      * @param $contentObjectAttribute : the content object attribute being handled
      * @return true if content object is not null, false if content object is null
@@ -224,7 +224,7 @@ class eZImageType extends eZDataType
 
         $content = $contentObjectAttribute->attribute( 'content' );
         $httpFileName = $base . "_data_imagename_" . $contentObjectAttribute->attribute( "id" );
-        
+
         if ( eZHTTPFile::canFetch( $httpFileName ) )
         {
             $httpFile = eZHTTPFile::fetch( $httpFileName );
@@ -236,7 +236,7 @@ class eZImageType extends eZDataType
                     $result = true;
                 }
             }
-        
+
         }
 
         if ( $content )
@@ -245,7 +245,7 @@ class eZImageType extends eZDataType
                 $content->setAttribute( 'alternative_text', $imageAltText );
             $result = true;
         }
-        
+
         return $result;
     }
 

@@ -81,7 +81,7 @@ if ( !$userAccount )
 {
     return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );
 }
-    
+
 $userObject = $userAccount->attribute( 'contentobject' );
 if ( !$userObject instanceof eZContentObject  )
 {

@@ -32,7 +32,7 @@ class eZRSSFunctionCollection
 {
     /**
      * Checks if there is a valid RSS/ATOM Feed export for a node or not.
-     * 
+     *
      * @param int $nodeID
      * @return bool Return value is inside a array with return value on result, as this is used as template fetch function.
      */
@@ -50,7 +50,7 @@ class eZRSSFunctionCollection
 
     /**
      * Return valid eZRSSExport object for a specific node if it exists.
-     * 
+     *
      * @param int $nodeID
      * @return eZRSSExport|false Return value is inside a array with return value on result, as this is used as template fetch function.
      */

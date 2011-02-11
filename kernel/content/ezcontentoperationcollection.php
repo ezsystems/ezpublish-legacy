@@ -870,11 +870,11 @@ class eZContentOperationCollection
         }
 
         // Give other search engines that the default one a chance to reindex
-        // when removing locations.        
+        // when removing locations.
         if ( !eZSearch::getEngine() instanceof eZSearchEngine )
-        {            
+        {
             eZContentOperationCollection::registerSearchObject( $objectID, $object->attribute( 'current_version' ) );
-        }        
+        }
 
         $db->commit();
 
@@ -951,7 +951,7 @@ class eZContentOperationCollection
         {
             foreach ( $objectIdList as $objectId => $object )
                 eZContentOperationCollection::registerSearchObject( $objectId, $object->attribute( 'current_version' ) );
-        }        
+        }
 
         $db->commit();
 

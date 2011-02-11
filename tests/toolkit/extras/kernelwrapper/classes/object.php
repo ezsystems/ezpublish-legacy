@@ -160,7 +160,7 @@ class ezpObject
                             if ( is_array( $value ) )
                                 $value = implode( '-', $value );
                             $attribute->fromString( $value );
-                            break; 
+                            break;
 
                         case 'ezemail':
                         case 'ezisbn':

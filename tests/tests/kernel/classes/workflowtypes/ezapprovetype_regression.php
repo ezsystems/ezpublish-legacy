@@ -56,12 +56,12 @@ class eZApproveTypeRegression extends ezpDatabaseTestCase
      * 4. Approve child
      * 5. Create a new version and re-publish the child
      * 6. Move child to root
-     * 7. Approve child 
+     * 7. Approve child
      * 8. Run approval cronjob
      *
-     * @result: Fatal error: Call to a member function attribute() on a non-object in 
+     * @result: Fatal error: Call to a member function attribute() on a non-object in
      *          /www/trunk/kernel/content/ezcontentoperationcollection.php on line 313
-     * @expected: No fatal error 
+     * @expected: No fatal error
      * @link http://issues.ez.no/13952
      */
     public function testApprovalFatalErrorWhenMoving()

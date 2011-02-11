@@ -383,7 +383,7 @@ function checkDBDriver()
 function checkDBCharset( $iconvCharacterSet )
 {
     $db = eZDB::instance();
-    
+
     if ( $iconvCharacterSet !== false )
     {
         $dbCharset = $iconvCharacterSet;
@@ -1030,7 +1030,7 @@ function convertXMLData( $tableInfo, $xmlDataSelectSQLFunction, $xmlDataUpdateSQ
                 // Encoding for xml was not found. Let's now check if it is in utf8
                 // We do this by converting the document from utf8 to utf8
                 // If the size is *not* the same, then it is not in utf8
-                
+
                 $xmlStringTest = removeIllegalUTF8Characters( $xmlStringTest );
                 $encodedXMLTest = iconv( 'utf8', 'utf8', $xmlStringTest );
                 if ( strlen( $encodedXMLTest ) <> strlen( $xmlStringTest ) )

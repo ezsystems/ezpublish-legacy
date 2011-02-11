@@ -9,7 +9,7 @@
 
 /**
 * Utility class for transforming URLs between siteaccesses.
-* 
+*
 * This class will generate URLs for various siteaccess, and translate
 * URL-aliases into other languages as necessary.
 */
@@ -65,7 +65,7 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
      * We use this method to check whether we should pass on the original URL
      * to the destination translation siteaccess.
      *
-     * @param string $url 
+     * @param string $url
      * @return bool
      */
     protected function isUrlPointingToModule( $url )
@@ -104,8 +104,8 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
     /**
      * Returns URL alias for the specified <var>$locale</var>
      *
-     * @param string $url 
-     * @param string $locale 
+     * @param string $url
+     * @param string $locale
      * @return void
      */
     public function destinationUrl()
@@ -123,7 +123,7 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
             // of different things:
             // Either we are looking at a module, and we should pass the
             // original URL on
-            // 
+            //
             // Or we are looking at URL which does not exist in the
             // destination siteaccess, for instance an untranslated object. In
             // which case we will point to the root of the site, unless it is
@@ -169,7 +169,7 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
     /**
      * Sets the siteaccess name, $saName, we want to redirect to.
      *
-     * @param string $saName 
+     * @param string $saName
      * @return void
      */
     public function setDestinationSiteAccess( $saName )
@@ -213,10 +213,10 @@ class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
      * This mapping is set up in site.ini.[RegionalSettings].TranslationSA.
      * The purpose of this method is to assist creation of language switcher
      * links into the available translation siteaccesses on the system.
-     * 
+     *
      * This is used by the language_switcher template operator.
      *
-     * @param string $url 
+     * @param string $url
      * @return void
      */
     public static function setupTranslationSAList( $url = null )

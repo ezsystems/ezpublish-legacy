@@ -146,7 +146,7 @@ class eZUserFunctionCollection
                                     {
                                         $policyID = substr( $policyID, 0, $userRoleIdSeperator );
                                     }
-                                    
+
                                     $limitationValue = eZPolicyLimitation::fetchByPolicyID( $policyID );
                                     $resultArray[] = array( 'moduleName' => $moduleName, 'functionName' => $functionName, 'limitation' =>  $limitationValue );
                                 }

@@ -31,7 +31,7 @@ return array (
   'PHP_INT_MAX' => 2147483647,
   'PHP_INT_SIZE' => 4,
   'getcwd' => 'C:\\www\\qa.ms.ez.no',
-  '_SERVER' => 
+  '_SERVER' =>
   array (
     'PHP_FCGI_MAX_REQUESTS' => '0',
     'PHP_FCGI_CHILDREN' => '0',
@@ -116,13 +116,13 @@ return array (
     'ORIG_PATH_INFO' => '/index.php/content/view/full/44',
     'PHP_SELF' => '/index.php/content/view/full/44',
     'REQUEST_TIME' => 1287751617,
-    'argv' => 
+    'argv' =>
     array (
       0 => 'get=value',
     ),
     'argc' => 1,
   ),
-  '_ENV' => 
+  '_ENV' =>
   array (
     'PHP_FCGI_MAX_REQUESTS' => '0',
     'PHP_FCGI_CHILDREN' => '0',
@@ -207,7 +207,7 @@ return array (
     'ORIG_PATH_INFO' => '/index.php/content/view/full/44',
     'PHP_SELF' => '/index.php/content/view/full/44',
     'REQUEST_TIME' => 1287751617,
-    'argv' => 
+    'argv' =>
     array (
       0 => 'get=value',
     ),

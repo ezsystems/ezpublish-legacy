@@ -287,15 +287,15 @@ function updateINI_1_4_0()
         $ini->setReadOnlySettingsCheck( false );
         $ini->setVariables( $settings );
         $ini->save( false, '.append.php', false, false, 'settings/siteaccess/' . $siteaccess, false );
-        
+
         /* Get site.ini for ContentObjectLocale code */
         $ini = eZINI::instance( 'site.ini', 'settings/siteaccess/' . $siteaccess, null, null, false, true );
         $contentObjectLocale = explode( '-', $ini->variable( 'RegionalSettings', 'ContentObjectLocale' ) );
-        
+
         $translationSA[$siteaccess] = ucfirst( $contentObjectLocale[0] );
     }
-    
-    $settings = array( array( 'name' => 'site.ini', 
+
+    $settings = array( array( 'name' => 'site.ini',
                               'settings' => array( 'RegionalSettings' => array( 'TranslationSA' => $translationSA ) ) ),
                        array( 'name' => 'content.ini',
                               'settings' => array( 'table' => array( 'CustomAttributes' => array( '0' => 'summary',
@@ -339,7 +339,7 @@ function updateINI_1_4_0()
         if ( file_exists( 'settings/override/' . $iniName . '.append' ) ||
              file_exists( 'settings/override/' . $iniName . '.append.php' ) )
         {
-        
+
             $ini = eZINI::instance( $iniName, 'settings/override', null, null, false, true );
         }
         else

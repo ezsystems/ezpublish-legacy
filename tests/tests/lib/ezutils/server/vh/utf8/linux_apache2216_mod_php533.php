@@ -31,7 +31,7 @@ return array (
   'PHP_INT_MAX' => 9223372036854775807,
   'PHP_INT_SIZE' => 8,
   'getcwd' => '/home/something/workspace/ezpublish',
-  '_SERVER' => 
+  '_SERVER' =>
   array (
     'SCRIPT_URL' => '/News/Blåbær-Øl-med-d\'or-新闻军事社会体育中超',
     'SCRIPT_URI' => 'http://ezpublish/News/Blåbær-Øl-med-d\'or-新闻军事社会体育中超',
@@ -64,7 +64,7 @@ return array (
     'PHP_SELF' => '/News/Blåbær-Øl-med-d\'or-新闻军事社会体育中超',
     'REQUEST_TIME' => 1287755315,
   ),
-  '_ENV' => 
+  '_ENV' =>
   array (
     'APACHE_RUN_DIR' => '/var/run/apache2',
     'APACHE_PID_FILE' => '/var/run/apache2.pid',

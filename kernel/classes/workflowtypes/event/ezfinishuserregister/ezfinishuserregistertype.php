@@ -3,7 +3,7 @@
   \class eZFinishUserRegisterType ezfinishuserregistertype.php
   \brief Event type for finishing register type
 */
- 
+
 class eZFinishUserRegisterType extends eZWorkflowEventType {
 
     const WORKFLOW_TYPE_STRING = "ezfinishuserregister";
@@ -40,7 +40,7 @@ class eZFinishUserRegisterType extends eZWorkflowEventType {
 
     function attributeDecoder( $event, $attr )
     {
-        
+
     }
 
     function attributes()

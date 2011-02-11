@@ -559,7 +559,7 @@ class eZPostgreSQLDB extends eZDBInterface
 
     /**
      * Returns the last serial ID generated with an auto increment field.
-     * 
+     *
      * In this case that means the current value of the sequence assigned
      * <var>$table</var>
      *

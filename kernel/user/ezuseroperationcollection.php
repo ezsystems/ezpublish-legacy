@@ -286,7 +286,7 @@ class eZUserOperationCollection
         if ( $user && $userSetting )
         {
             $userChange = $userSetting->attribute( 'is_enabled' ) != $enableUser;
-            
+
             if ( $enableUser )
             {
                 $userSetting->setAttribute( 'is_enabled', 1 );

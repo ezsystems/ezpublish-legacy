@@ -42,7 +42,7 @@ class eZi18nOperator
         $this->Name = $name;
         $this->ExtensionName = $extensionName;
         // d18n is a i18n alias for use with dynamic variables as input
-        // where you don't want ezlupdate to pick up the string 
+        // where you don't want ezlupdate to pick up the string
         $this->DynamicName = $dynamicName;
     }
 
