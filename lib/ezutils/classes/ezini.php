@@ -1636,11 +1636,17 @@ class eZINI
         return $this->BlockValues;
     }
 
-    /*!
-     \static
-     \return true if the ini file \a $fileName has been loaded yet.
-    */
-    static function isLoaded( $fileName = 'site.ini', $rootDir = 'settings', $useLocalOverrides = null )
+    /**
+     * Returns whether the mentioned ini file has been loaded.
+     *
+     * @param string $fileName
+     * @param string $rootDir
+     * @param null|bool $useLocalOverrides default system setting if null
+     * @param bool $addArrayDefinition
+     *
+     * @return bool
+     */
+    static function isLoaded( $fileName = 'site.ini', $rootDir = 'settings', $useLocalOverrides = null, $addArrayDefinition = false )
     {
         return isset( self::$instances["$rootDir-$fileName-$useLocalOverrides"] );
     }
@@ -1728,10 +1734,17 @@ class eZINI
         return $this->ReadOnlySettingsCheck;
     }
 
-    /*!
-     \static
-    */
-    static function resetGlobals(  $fileName = 'site.ini', $rootDir = 'settings', $useLocalOverrides = null )
+    /**
+     * Resets a specific instance of eZINI.
+     *
+     * @param string $fileName
+     * @param string $rootDir
+     * @param null|bool $useLocalOverrides default system setting if null
+     * @param bool $addArrayDefinition
+     *
+     * @return bool
+     */
+    static function resetGlobals( $fileName = 'site.ini', $rootDir = 'settings', $useLocalOverrides = null, $addArrayDefinition = false )
     {
         unset( self::$instances["$rootDir-$fileName-$useLocalOverrides"] );
     }
