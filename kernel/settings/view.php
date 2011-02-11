@@ -113,7 +113,14 @@ if ( $http->hasPostVariable( 'ChangeINIFile' ) or
         $siteIni = eZSiteAccess::getIni( $currentSiteAccess, 'site.ini' );
 
         // load settings file with $useLocalOverrides = true & $addArrayDefinition = true
-        $ini = new eZINI( $settingFile,'settings', null, false, true, false, true );
+        $ini = new eZINI( /*$fileName =*/ $settingFile,
+                          /*$rootDir =*/ 'settings',
+                          /*$useTextCodec =*/ null,
+                          /*$useCache =*/ false,
+                          /*$useLocalOverrides =*/ true,
+                          /*$directAccess =*/ false,
+                          /*$addArrayDefinition =*/ true,
+                          /*$load =*/ false );
         $ini->setOverrideDirs( $siteIni->overrideDirs( false ) );
         $ini->load();
     }
