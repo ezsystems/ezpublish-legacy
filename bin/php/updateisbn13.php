@@ -9,11 +9,11 @@
 
 
 /**
- * This script updates the different ranges used by the ISBN standard to 
+ * This script updates the different ranges used by the ISBN standard to
  * calculate the length of Registration group, Registrant and Publication element
- * 
- * It gets the values from xml file normally provided by International ISBN Agency 
- * http://www.isbn-international.org/agency?rmxml=1 
+ *
+ * It gets the values from xml file normally provided by International ISBN Agency
+ * http://www.isbn-international.org/agency?rmxml=1
  */
 
 require 'autoload.php';
@@ -120,13 +120,13 @@ foreach ( $registrationGroups as $group )
     $isbnGroup = eZISBNGroup::create( $groupNumber, $description );
     $isbnGroup->store();
     $isbnGroupID = $isbnGroup->attribute( 'id' );
-    
+
     // look for the rules
     $rules = $group->Rules[0]->Rule;
     foreach ( $rules as $rule )
     {
         $length = (int)$rule->Length;
-        
+
         // if length is 0 there is no need to add to the database
         if( $length > 0 )
         {

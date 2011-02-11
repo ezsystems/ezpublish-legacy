@@ -43,6 +43,7 @@ else if ( $http->hasPostVariable( 'HashSaltAppend' ) )
 // Check if key exists
 $accountActivated = false;
 $alreadyActive = false;
+$isPending = false;
 $accountKey = $hash ? eZUserAccountKey::fetchByKey( $hash ) : false;
 
 if ( $accountKey )
@@ -74,13 +75,22 @@ if ( $accountKey )
         eZUserOperationCollection::activation( $userID, $hash, true );
     }
 
-    // Log in user
-    $user = eZUser::fetch( $userID );
+    // execute operation to publish the user object
+    $publishResult = eZOperationHandler::execute( 'user' , 'register', array( 'user_id'=> $userID ) );
+    if( $publishResult['status'] === eZModuleOperationInfo::STATUS_HALTED )
+    {
+        $isPending = true;
+    }
+    else
+    {
+        // Log in user
+        $user = eZUser::fetch( $userID );
 
-    if ( $user === null )
-        return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
+        if ( $user === null )
+            return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 
-    $user->loginCurrent();
+        $user->loginCurrent();
+    }
 }
 elseif( $mainNodeID )
 {
@@ -103,6 +113,7 @@ $tpl = eZTemplate::factory();
 $tpl->setVariable( 'module', $Module );
 $tpl->setVariable( 'account_activated', $accountActivated );
 $tpl->setVariable( 'already_active', $alreadyActive );
+$tpl->setVariable( 'is_pending' , $isPending );
 
 // This line is deprecated, the correct name of the variable should
 // be 'account_activated' as shown above.

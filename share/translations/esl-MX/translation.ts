@@ -8247,7 +8247,7 @@ Nota: los paquetes no se desinstalarán.</translation>
         <translation>Disparadores</translation>
     </message>
     <message>
-        <source>URL management</source>
+        <source>Link management</source>
         <translation>Administración de URL</translation>
     </message>
     <message>
@@ -13955,15 +13955,15 @@ Nota: los paquetes no se desinstalarán.</translation>
 <context>
     <name>design/admin/url/list</name>
     <message>
-        <source>Valid URLs [%url_list_count]</source>
+        <source>Valid links [%url_list_count]</source>
         <translation>URLs válidos [%url_list_count]</translation>
     </message>
     <message>
-        <source>Invalid URLs [%url_list_count]</source>
+        <source>Invalid links [%url_list_count]</source>
         <translation>URLs inválidos [%url_list_count]</translation>
     </message>
     <message>
-        <source>All URLs [%url_list_count]</source>
+        <source>All links [%url_list_count]</source>
         <translation>Todos los URLs [%url_list_count]</translation>
     </message>
     <message>
@@ -14043,15 +14043,15 @@ Nota: los paquetes no se desinstalarán.</translation>
         <translation>La lista solicitada está vacía.</translation>
     </message>
     <message>
-        <source>Valid URLs (%url_list_count)</source>
+        <source>Valid links (%url_list_count)</source>
         <translation>URLs válidos (%url_list_count)</translation>
     </message>
     <message>
-        <source>Invalid URLs (%url_list_count)</source>
+        <source>Invalid links (%url_list_count)</source>
         <translation>URLs inválidos (%url_list_count)</translation>
     </message>
     <message>
-        <source>All URLs (%url_list_count)</source>
+        <source>All links (%url_list_count)</source>
         <translation>Todos los URLs (%url_list_count)</translation>
     </message>
 </context>
@@ -27583,15 +27583,15 @@ Clica en nombres de producto para cambiar la lista de navegación.</translation>
         <translation>Desconocido</translation>
     </message>
     <message>
-        <source>All URLs</source>
+        <source>All links</source>
         <translation>Todos los URL</translation>
     </message>
     <message>
-        <source>Invalid URLs</source>
+        <source>Invalid links</source>
         <translation>URL inválidas</translation>
     </message>
     <message>
-        <source>Valid URLs</source>
+        <source>Valid links</source>
         <translation>URL válidas</translation>
     </message>
     <message>

@@ -7158,7 +7158,7 @@ Huomio: Pakettien asetuksia ei poisteta.</translation>
         <translation>Järjestelmätiedot</translation>
     </message>
     <message>
-        <source>URL management</source>
+        <source>Link management</source>
         <translation>URL-hallinta</translation>
     </message>
     <message>
@@ -12483,15 +12483,15 @@ Tietokannan uudelleenyrityksien määrä</translation>
         <translation>URL</translation>
     </message>
     <message>
-        <source>Valid URLs [%url_list_count]</source>
+        <source>Valid links [%url_list_count]</source>
         <translation>Kelvolliset URL-osoitteet [%url_list_count]</translation>
     </message>
     <message>
-        <source>Invalid URLs [%url_list_count]</source>
+        <source>Invalid links [%url_list_count]</source>
         <translation>Epäkelvolliset URL-osoitteet [%url_list_count]</translation>
     </message>
     <message>
-        <source>All URLs [%url_list_count]</source>
+        <source>All links [%url_list_count]</source>
         <translation>Kaikki URL-osoitteet [%url_list_count]</translation>
     </message>
     <message>
@@ -12567,15 +12567,15 @@ Tietokannan uudelleenyrityksien määrä</translation>
         <translation>Pyydetty lista on tyhjä.</translation>
     </message>
     <message>
-        <source>Valid URLs (%url_list_count)</source>
+        <source>Valid links (%url_list_count)</source>
         <translation>Kelvolliset URL-osoitteet (%url_list_count)</translation>
     </message>
     <message>
-        <source>Invalid URLs (%url_list_count)</source>
+        <source>Invalid links (%url_list_count)</source>
         <translation>Epäkelvolliset URL-osoitteet (%url_list_count)</translation>
     </message>
     <message>
-        <source>All URLs (%url_list_count)</source>
+        <source>All links (%url_list_count)</source>
         <translation>Kaikki URL-osoitteet (%url_list_count)</translation>
     </message>
 </context>
@@ -24519,15 +24519,15 @@ Tehdäksesi tämän, tulee sinun vaihtaa %chown -komennot Alternative shell -kom
         <translation>Tuntematon</translation>
     </message>
     <message>
-        <source>All URLs</source>
+        <source>All links</source>
         <translation>Kaikki URL:it</translation>
     </message>
     <message>
-        <source>Invalid URLs</source>
+        <source>Invalid links</source>
         <translation>Epäkelvot URL:it</translation>
     </message>
     <message>
-        <source>Valid URLs</source>
+        <source>Valid links</source>
         <translation>Kelvolliset URL:it</translation>
     </message>
     <message>

@@ -7167,7 +7167,7 @@ Note : les paquetages ne seront pas désinstallés.</translation>
         <translation>Informations système</translation>
     </message>
     <message>
-        <source>URL management</source>
+        <source>Link management</source>
         <translation>Gestion d&apos;URL</translation>
     </message>
     <message>
@@ -12489,15 +12489,15 @@ Note : les paquetages ne seront pas désinstallés.</translation>
         <translation>URL</translation>
     </message>
     <message>
-        <source>Valid URLs [%url_list_count]</source>
+        <source>Valid links [%url_list_count]</source>
         <translation>[%url_list_count] URLs valides</translation>
     </message>
     <message>
-        <source>Invalid URLs [%url_list_count]</source>
+        <source>Invalid links [%url_list_count]</source>
         <translation>[%url_list_count] URLs invalides</translation>
     </message>
     <message>
-        <source>All URLs [%url_list_count]</source>
+        <source>All links [%url_list_count]</source>
         <translation>Toutes les URLs [%url_list_count]</translation>
     </message>
     <message>
@@ -12573,15 +12573,15 @@ Note : les paquetages ne seront pas désinstallés.</translation>
         <translation>Voir les contenus de la version #%version_number.</translation>
     </message>
     <message>
-        <source>Valid URLs (%url_list_count)</source>
+        <source>Valid links (%url_list_count)</source>
         <translation>(%url_list_count) URLs valides</translation>
     </message>
     <message>
-        <source>Invalid URLs (%url_list_count)</source>
+        <source>Invalid links (%url_list_count)</source>
         <translation>(%url_list_count) URLs invalides</translation>
     </message>
     <message>
-        <source>All URLs (%url_list_count)</source>
+        <source>All links (%url_list_count)</source>
         <translation>Toutes les URLs (%url_list_count)</translation>
     </message>
 </context>
@@ -24432,15 +24432,15 @@ To do this you need to change the %chown commands under Alternative shell comman
         <translation>Inconnu</translation>
     </message>
     <message>
-        <source>All URLs</source>
+        <source>All links</source>
         <translation>Toutes les URLs</translation>
     </message>
     <message>
-        <source>Invalid URLs</source>
+        <source>Invalid links</source>
         <translation>URLs invalides</translation>
     </message>
     <message>
-        <source>Valid URLs</source>
+        <source>Valid links</source>
         <translation>URLs valides</translation>
     </message>
     <message>

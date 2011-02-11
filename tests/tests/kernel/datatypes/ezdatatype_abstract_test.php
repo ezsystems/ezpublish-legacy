@@ -68,20 +68,15 @@ abstract class eZDatatypeAbstractTest extends ezpDatabaseTestCase
     {
         // create a content class with this datatype
         // @todo Add naming pattern handling
-        try {
-            $contentClassName = "Datatype {$this->datatype} test";
-            $contentClassIdentifier = "datatype_{$this->datatype}_test";
-            $this->attributeIdentifier = "{$this->datatype}_test";
-            $this->class = new ezpClass( $contentClassName, $contentClassIdentifier, '<name>' );
-            $this->class->add( 'Title', 'title', 'ezstring' );
-            $this->class->add( "Test {$this->datatype}", $this->attributeIdentifier, $this->datatype );
-            $this->class->store();
-        }
-        catch( Exception $e )
-        {
-            print_r ($e);
-        }
         parent::setUp();
+
+        $contentClassName = "Datatype {$this->datatype} test";
+        $contentClassIdentifier = "datatype_{$this->datatype}_test";
+        $this->attributeIdentifier = "{$this->datatype}_test";
+        $this->class = new ezpClass( $contentClassName, $contentClassIdentifier, '<name>' );
+        $this->class->add( 'Title', 'title', 'ezstring' );
+        $this->class->add( "Test {$this->datatype}", $this->attributeIdentifier, $this->datatype );
+        $this->class->store();
     }
 
     public function tearDown()

@@ -28,7 +28,7 @@
     'system_information', 'System information'|i18n( 'design/admin/parts/setup/menu' ),
     'upgrade_check',      'Upgrade check'|i18n( 'design/admin/parts/setup/menu' ),
     'triggers',           'Triggers'|i18n( 'design/admin/parts/setup/menu' ),
-    'url_management',     'URL management'|i18n( 'design/admin/parts/setup/menu' ),
+    'url_management',     'Link management'|i18n( 'design/admin/parts/setup/menu' ),
     'url_translator',     'URL translator'|i18n( 'design/admin/parts/setup/menu' ),
     'url_wildcards',      'URL wildcards'|i18n( 'design/admin/parts/setup/menu' ),
     'workflows',          'Workflows'|i18n( 'design/admin/parts/setup/menu' ),

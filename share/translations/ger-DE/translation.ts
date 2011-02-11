@@ -6296,7 +6296,7 @@
         <translation>Formulardaten löschen.</translation>
     </message>
     <message>
-        <source>URL management</source>
+        <source>Link management</source>
         <translation type="obsolete">URL Management</translation>
     </message>
     <message>
@@ -8887,7 +8887,7 @@ Hinweis: Die Pakete werden nicht deinstalliert.</translation>
         <translation>Systeminformationen</translation>
     </message>
     <message>
-        <source>URL management</source>
+        <source>Link management</source>
         <translation>URL-Verwaltung</translation>
     </message>
     <message>
@@ -14811,15 +14811,15 @@ Hinweis: Die Pakete werden nicht deinstalliert.</translation>
         <translation>URL</translation>
     </message>
     <message>
-        <source>Valid URLs [%url_list_count]</source>
+        <source>Valid links [%url_list_count]</source>
         <translation>Gültige URLs [%url_list_count]</translation>
     </message>
     <message>
-        <source>Invalid URLs [%url_list_count]</source>
+        <source>Invalid links [%url_list_count]</source>
         <translation>Ungültige URLs [%url_list_count]</translation>
     </message>
     <message>
-        <source>All URLs [%url_list_count]</source>
+        <source>All links [%url_list_count]</source>
         <translation>Alle URLs [%url_list_count]</translation>
     </message>
     <message>
@@ -14895,15 +14895,15 @@ Hinweis: Die Pakete werden nicht deinstalliert.</translation>
         <translation>Die Anfrageliste ist leer.</translation>
     </message>
     <message>
-        <source>Valid URLs (%url_list_count)</source>
+        <source>Valid links (%url_list_count)</source>
         <translation>Gültige URLs (%url_list_count)</translation>
     </message>
     <message>
-        <source>Invalid URLs (%url_list_count)</source>
+        <source>Invalid links (%url_list_count)</source>
         <translation>Ungültige URLs (%url_list_count)</translation>
     </message>
     <message>
-        <source>All URLs (%url_list_count)</source>
+        <source>All links (%url_list_count)</source>
         <translation>Alle URLs (%url_list_count)</translation>
     </message>
 </context>
@@ -29870,15 +29870,15 @@ Wählen Sie Ihre Kunden und klicken Sie die Schaltfläche %buttonname.
         <translation>Unbekannt</translation>
     </message>
     <message>
-        <source>All URLs</source>
+        <source>All links</source>
         <translation>Alle URLs</translation>
     </message>
     <message>
-        <source>Invalid URLs</source>
+        <source>Invalid links</source>
         <translation>Ungültige URLs</translation>
     </message>
     <message>
-        <source>Valid URLs</source>
+        <source>Valid links</source>
         <translation>Gültige URLs</translation>
     </message>
     <message>

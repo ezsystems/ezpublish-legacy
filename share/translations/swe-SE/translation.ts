@@ -7142,7 +7142,7 @@ Obs: Paketen avinstalleras inte.</translation>
         <translation>Systeminformation</translation>
     </message>
     <message>
-        <source>URL management</source>
+        <source>Link management</source>
         <translation>URL-hantering</translation>
     </message>
     <message>
@@ -12456,15 +12456,15 @@ Obs: Paketen avinstalleras inte.</translation>
         <translation>URL</translation>
     </message>
     <message>
-        <source>Valid URLs [%url_list_count]</source>
+        <source>Valid links [%url_list_count]</source>
         <translation>Fungerande URLer [%url_list_count]</translation>
     </message>
     <message>
-        <source>Invalid URLs [%url_list_count]</source>
+        <source>Invalid links [%url_list_count]</source>
         <translation>Ej fungerande URLer [%url_list_count]</translation>
     </message>
     <message>
-        <source>All URLs [%url_list_count]</source>
+        <source>All links [%url_list_count]</source>
         <translation>Alla URLer [%url_list_count]</translation>
     </message>
     <message>
@@ -12540,15 +12540,15 @@ Obs: Paketen avinstalleras inte.</translation>
         <translation>Den förfrågade listan är tom.</translation>
     </message>
     <message>
-        <source>Valid URLs (%url_list_count)</source>
+        <source>Valid links (%url_list_count)</source>
         <translation>Fungerande URLer (%url_list_count)</translation>
     </message>
     <message>
-        <source>Invalid URLs (%url_list_count)</source>
+        <source>Invalid links (%url_list_count)</source>
         <translation>Ej fungerande URLer (%url_list_count)</translation>
     </message>
     <message>
-        <source>All URLs (%url_list_count)</source>
+        <source>All links (%url_list_count)</source>
         <translation>Alla URLer (%url_list_count)</translation>
     </message>
 </context>
@@ -24488,15 +24488,15 @@ För att göra detta måste du ändra %chown kommandona under Alternativa shell-
         <translation>Okänd</translation>
     </message>
     <message>
-        <source>All URLs</source>
+        <source>All links</source>
         <translation>Alla adresser</translation>
     </message>
     <message>
-        <source>Invalid URLs</source>
+        <source>Invalid links</source>
         <translation>Ogiltiga adresser</translation>
     </message>
     <message>
-        <source>Valid URLs</source>
+        <source>Valid links</source>
         <translation>Giltiga adresser</translation>
     </message>
     <message>

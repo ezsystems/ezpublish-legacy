@@ -7143,7 +7143,7 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
         <translation>Systeeminformatie</translation>
     </message>
     <message>
-        <source>URL management</source>
+        <source>Link management</source>
         <translation>URL beheer</translation>
     </message>
     <message>
@@ -12456,15 +12456,15 @@ Gegevenstype</translation>
         <translation>URL</translation>
     </message>
     <message>
-        <source>Valid URLs [%url_list_count]</source>
+        <source>Valid links [%url_list_count]</source>
         <translation>Geldige URLs [%url_list_count]</translation>
     </message>
     <message>
-        <source>Invalid URLs [%url_list_count]</source>
+        <source>Invalid links [%url_list_count]</source>
         <translation>Ongeldige URLs [%url_list_count]</translation>
     </message>
     <message>
-        <source>All URLs [%url_list_count]</source>
+        <source>All links [%url_list_count]</source>
         <translation>Alle URLs [%url_list_count]</translation>
     </message>
     <message>
@@ -12540,15 +12540,15 @@ Gegevenstype</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Valid URLs (%url_list_count)</source>
+        <source>Valid links (%url_list_count)</source>
         <translation>Geldige URLs (%url_list_count)</translation>
     </message>
     <message>
-        <source>Invalid URLs (%url_list_count)</source>
+        <source>Invalid links (%url_list_count)</source>
         <translation>Ongeldige URLs (%url_list_count)</translation>
     </message>
     <message>
-        <source>All URLs (%url_list_count)</source>
+        <source>All links (%url_list_count)</source>
         <translation>Alle URLs (%url_list_count)</translation>
     </message>
 </context>
@@ -24514,15 +24514,15 @@ Om dit te doen, moet u de %chown commando&apos;s bij de alternatieve shellcomman
         <translation>Onbekend</translation>
     </message>
     <message>
-        <source>All URLs</source>
+        <source>All links</source>
         <translation>Alle URL&apos;s</translation>
     </message>
     <message>
-        <source>Invalid URLs</source>
+        <source>Invalid links</source>
         <translation>Ongeldige URLs</translation>
     </message>
     <message>
-        <source>Valid URLs</source>
+        <source>Valid links</source>
         <translation>Geldige URLs</translation>
     </message>
     <message>

@@ -7169,7 +7169,7 @@ Note: The packages will not be uninstalled.</source>
         <translation>Systeminformasjon</translation>
     </message>
     <message>
-        <source>URL management</source>
+        <source>Link management</source>
         <translation>URL-håndtering</translation>
     </message>
     <message>
@@ -12490,15 +12490,15 @@ Note: The packages will not be uninstalled.</source>
         <translation>URL</translation>
     </message>
     <message>
-        <source>Valid URLs [%url_list_count]</source>
+        <source>Valid links [%url_list_count]</source>
         <translation>Gyldige URLer [%url_list_count]</translation>
     </message>
     <message>
-        <source>Invalid URLs [%url_list_count]</source>
+        <source>Invalid links [%url_list_count]</source>
         <translation>Ugyldige URLer [%url_list_count]</translation>
     </message>
     <message>
-        <source>All URLs [%url_list_count]</source>
+        <source>All links [%url_list_count]</source>
         <translation>Alle URLer [%url_list_count]</translation>
     </message>
     <message>
@@ -12574,15 +12574,15 @@ Note: The packages will not be uninstalled.</source>
         <translation>Den ønskede listen er tom.</translation>
     </message>
     <message>
-        <source>Valid URLs (%url_list_count)</source>
+        <source>Valid links (%url_list_count)</source>
         <translation>Gyldige URLer (%url_list_count)</translation>
     </message>
     <message>
-        <source>Invalid URLs (%url_list_count)</source>
+        <source>Invalid links (%url_list_count)</source>
         <translation>Ugyldige URLer (%url_list_count)</translation>
     </message>
     <message>
-        <source>All URLs (%url_list_count)</source>
+        <source>All links (%url_list_count)</source>
         <translation>Alle URLer (%url_list_count)</translation>
     </message>
 </context>
@@ -24427,15 +24427,15 @@ To do this you need to change the %chown commands under Alternative shell comman
         <translation>Ukjent</translation>
     </message>
     <message>
-        <source>All URLs</source>
+        <source>All links</source>
         <translation>Alle URL&apos;er</translation>
     </message>
     <message>
-        <source>Invalid URLs</source>
+        <source>Invalid links</source>
         <translation>Ugyldige URL&apos;er</translation>
     </message>
     <message>
-        <source>Valid URLs</source>
+        <source>Valid links</source>
         <translation>Gyldige URL&apos;er</translation>
     </message>
     <message>
