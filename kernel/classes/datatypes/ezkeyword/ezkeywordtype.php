@@ -255,10 +255,13 @@ class eZKeywordType extends eZDataType
         return true;
     }
 
-    /*!
-     \return string representation of an contentobjectattribute data for simplified export
-
-    */
+    /**
+     * 
+     * Returns string representation of an contentobjectattribute data for simplified export
+     * 
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @return string
+     */
     function toString( $contentObjectAttribute )
     {
         $keyword = new eZKeyword();
@@ -268,12 +271,9 @@ class eZKeywordType extends eZDataType
 
     function fromString( $contentObjectAttribute, $string )
     {
-        if ( $string != '' )
-        {
-            $keyword = new eZKeyword();
-            $keyword->initializeKeyword( $string );
-            $contentObjectAttribute ->setContent( $keyword );
-        }
+        $keyword = new eZKeyword();
+        $keyword->initializeKeyword( $string );
+        $contentObjectAttribute->setContent( $keyword );
         return true;
     }
 
