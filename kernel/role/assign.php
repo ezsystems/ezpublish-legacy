@@ -65,26 +65,15 @@ else if ( $http->hasPostVariable( 'BrowseActionName' ) and
 else if ( $http->hasPostVariable( 'BrowseActionName' ) and
           $http->postVariable( 'BrowseActionName' ) == 'AssignRole' )
 {
-    $selectedObjectIDArray = $http->postVariable( 'SelectedObjectIDArray' );
-    $role = eZRole::fetch( $roleID );
-
-    $db = eZDB::instance();
-    $db->begin();
-    foreach ( $selectedObjectIDArray as $objectID )
-    {
-        $role->assignToUser( $objectID, $limitIdent, $limitValue );
-    }
-    // Clear role caches.
-    eZRole::expireCache();
-
-    $db->commit();
-    if ( count( $selectedObjectIDArray ) > 0 )
-    {
-        eZContentCacheManager::clearAllContentCache();
+    if (eZOperationHandler::operationIsAvailable( 'role_assign' )) {
+        eZOperationHandler::execute( 'role', 'assign', array( 'roleID'    => $userLogin,
+                                                               'objectID' => $userPassword,
+                                                               'limitIdent' => $limitIdent,
+                                                               'limitValue' => $limitValue ) );
+    } else {
+       eZRoleOperationCollection::assignRole($roleID, $limitIdent, $limitValue);
     }
 
-    /* Clean up policy cache */
-    eZUser::cleanupCache();
 
     $Module->redirectTo( '/role/view/' . $roleID );
 }
