@@ -51,7 +51,6 @@ class eZRoleOperationCollection {
      * Assign role to object
      *
      * @param int $roleID
-     * @param int $objectID
      * @param string $limitIdent
      * @param string $limitValue
      *
