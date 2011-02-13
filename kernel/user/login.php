@@ -116,7 +116,15 @@ if ( $Module->isCurrentAction( 'Login' ) and
             {
                 continue;
             }
-            $user = $userClass->loginUser( $userLogin, $userPassword );
+            
+            if (eZOperationHandler::operationIsAvailable( 'user_login' )) {
+                $user = eZOperationHandler::execute( 'user', 'login', array( 'login'    => $userLogin,
+                                                                             'password' => $userPassword,
+                                                                             'protocol' => $loginHandlers[$key]  ) );
+            } else {
+                $user = $userClass->loginUser( $userLogin, $userPassword );
+            }
+            
             if ( $user instanceof eZUser )
             {
                 $hasAccessToSite = $user->canLoginToSiteAccess( $GLOBALS['eZCurrentAccess'] );
