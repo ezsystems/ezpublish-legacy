@@ -399,5 +399,27 @@ class eZUserOperationCollection
         eZUser::instance()->logoutCurrent();
         
     }
+    
+    /**
+     * Login current user
+     * 
+     * @param string $login
+     * @param string $password
+     * @param string $protocol
+     *
+     * @return object An eZUser object
+     */
+    static public function loginUser( $login, $password, $protocol = "standard" )
+    {
+        $userClass = eZUserLoginHandler::instance( $protocol );
+        if ( !is_object( $userClass ) )
+        {
+            return null;
+        }
+        
+        return $userClass->loginUser( $login, $password );
+        
+    }
+    
 }
 ?>
