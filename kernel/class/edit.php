@@ -757,9 +757,19 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
     }
 }
 
+
+
+
 // Store changes
-if ( $canStore )
-    $class->store( $attributes );
+if ( $canStore ){
+    
+    if (eZOperationHandler::operationIsAvailable( 'class_store' )) {
+        eZOperationHandler::execute( 'class', 'store', array( 'class' => $class,
+                                                               'attributes' => $attributes ) );
+    } else {
+       $class->store( $attributes );
+    }    
+}
 
 if ( $http->hasPostVariable( 'NewButton' ) )
 {
