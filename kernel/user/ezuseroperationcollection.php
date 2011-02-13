@@ -389,5 +389,16 @@ class eZUserOperationCollection
         eZPreferences::setValue( $key, $value );
         return array( 'status' => true );
     }
+    
+    /**
+     * Logout current user
+     * 
+     */
+    static public function logoutUser()
+    {
+        eZUser::instance()->logoutCurrent();
+        
+    }
+    
 }
 ?>
