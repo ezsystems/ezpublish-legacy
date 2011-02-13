@@ -234,7 +234,7 @@ $OperationList['logout'] = array( 'name' => 'logout',
 
                                         'body' => array( array( 'type' => 'trigger',
                                                                 'name' => 'pre_logout',
-                                                                'keys' => array()
+                                                                'keys' => array( )
                                                                 ),
                                                          array( 'type' => 'method',
                                                                 'name' => 'logout',
