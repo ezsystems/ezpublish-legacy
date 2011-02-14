@@ -114,6 +114,13 @@ class eZINI
     static protected $instances = array();
 
     /**
+     * Contains whether INI cache is globally enabled.
+     *
+     * @var bool
+     */
+    static protected $cacheEnabled = true;
+
+    /**
      * Initialization of eZINI object
      *
      * Enter description here ...
@@ -135,7 +142,7 @@ class eZINI
         if ( $rootDir !== false && $rootDir == '' )
             $rootDir = 'settings';
         if ( $useCache === null )
-            $useCache = eZINI::isCacheEnabled();
+            $useCache = self::isCacheEnabled();
         if ( eZINI::isNoCacheAdviced() )
         {
             $useCache = false;
@@ -190,16 +197,16 @@ class eZINI
         return $this->FileName;
     }
 
-    /*!
-     \static
-     \return true if INI cache is enabled globally, the default value is true.
-     Change this setting with setIsCacheEnabled.
-    */
+    /**
+     * Returns whether INI cache is enabled globally, by default it is true.
+     *
+     * @see setIsCacheEnabled().
+     *
+     * @return bool
+     */
     static function isCacheEnabled()
     {
-        if ( !isset( $GLOBALS['eZINICacheEnabled'] ) )
-             $GLOBALS['eZINICacheEnabled'] = true;
-         return $GLOBALS['eZINICacheEnabled'];
+         return self::$cacheEnabled;
     }
 
     /*!
@@ -216,14 +223,17 @@ class eZINI
         return $siteBasics['no-cache-adviced'];
     }
 
-    /*!
-     \static
-     Sets whether caching is enabled for INI files or not. This setting is global
-     and can be overriden in the instance() function.
-    */
-    static function setIsCacheEnabled( $cache )
+    /**
+     * Sets whether caching is enabled for INI files or not. This setting is global
+     * and can be overriden in the instance() function.
+     *
+     * @see isCacheEnabled().
+     *
+     * @param bool $enabled
+     */
+    static function setIsCacheEnabled( $enabled )
     {
-        $GLOBALS['eZINICacheEnabled'] = $cache;
+        self::$cacheEnabled = (bool)$enabled;
     }
 
     /*!
