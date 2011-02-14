@@ -25,7 +25,7 @@ class ezpMvcConfiguration implements ezcMvcDispatcherConfiguration
     public function createFatalRedirectRequest( ezcMvcRequest $request, ezcMvcResult $result, Exception $e )
     {
         $req = clone $request;
-        $req->uri = '/api/fatal';
+        $req->uri = $this->apiPrefix . '/fatal';
         $req->variables['exception'] = $e;
         return $req;
     }
@@ -76,7 +76,7 @@ class ezpMvcConfiguration implements ezcMvcDispatcherConfiguration
         } catch ( Exception $e )
         {
             $request->variables['exception'] = $e;
-            $request->uri = '/api/fatal';
+            $request->uri = $this->apiPrefix . '/fatal';
             return new ezcMvcInternalRedirect( $request );
         }
     }
@@ -95,7 +95,7 @@ class ezpMvcConfiguration implements ezcMvcDispatcherConfiguration
         catch ( Exception $e )
         {
             $request->variables['exception'] = $e;
-            $request->uri = '/api/fatal';
+            $request->uri = $this->apiPrefix . '/fatal';
             return new ezcMvcInternalRedirect( $request );
         }
     }
@@ -111,7 +111,7 @@ class ezpMvcConfiguration implements ezcMvcDispatcherConfiguration
         } catch ( Exception $e )
         {
             $request->variables['exception'] = $e;
-            $request->uri = '/api/fatal';
+            $request->uri = $this->apiPrefix . '/fatal';
             return new ezcMvcInternalRedirect( $request );
         }
     }
@@ -126,7 +126,7 @@ class ezpMvcConfiguration implements ezcMvcDispatcherConfiguration
         } catch ( Exception $e )
         {
             $request->variables['exception'] = $e;
-            $request->uri = '/api/fatal';
+            $request->uri = $this->apiPrefix . '/fatal';
             return new ezcMvcInternalRedirect( $request );
         }
     }
@@ -171,7 +171,7 @@ class ezpMvcConfiguration implements ezcMvcDispatcherConfiguration
     protected function handleFilterException( $request, Exception $e )
     {
         $request->variables['exception'] = $e;
-        $request->uri = '/api/fatal';
+        $request->uri = $this->apiPrefix . '/fatal';
         return new ezcMvcInternalRedirect( $request );
     }
 }
