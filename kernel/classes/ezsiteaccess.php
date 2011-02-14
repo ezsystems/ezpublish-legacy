@@ -559,7 +559,7 @@ class eZSiteAccess
         }
         else
         {
-            eZINI::resetAllGlobals();
+            eZINI::resetAllInstances();
             eZExtension::clearActiveExtensionsMemoryCache();
             eZTemplateDesignResource::clearInMemoryCache();
         }

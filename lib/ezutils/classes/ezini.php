@@ -1737,14 +1737,31 @@ class eZINI
     /**
      * Resets a specific instance of eZINI.
      *
+     * @deprecated since 4.5, use resetInstance() instead
+     *
      * @param string $fileName
      * @param string $rootDir
      * @param null|bool $useLocalOverrides default system setting if null
      * @param bool $addArrayDefinition
      *
-     * @return bool
+     * @see resetInstance()
      */
     static function resetGlobals( $fileName = 'site.ini', $rootDir = 'settings', $useLocalOverrides = null, $addArrayDefinition = false )
+    {
+        self::resetInstance( $fileName, $rootDir, $useLocalOverrides, $addArrayDefinition );
+    }
+
+    /**
+     * Resets a specific instance of eZINI.
+     *
+     * @since 4.5
+     *
+     * @param string $fileName
+     * @param string $rootDir
+     * @param null|bool $useLocalOverrides default system setting if null
+     * @param bool $addArrayDefinition
+     */
+    static function resetInstance( $fileName = 'site.ini', $rootDir = 'settings', $useLocalOverrides = null, $addArrayDefinition = false )
     {
         unset( self::$instances["$rootDir-$fileName-$useLocalOverrides"] );
     }
@@ -1752,9 +1769,25 @@ class eZINI
     /**
      * Reset all eZINI instances as well override dirs ( optional )
      *
+     * @deprecated since 4.5, use resetAllInstances() instead
+     *
      * @param bool $resetOverrideDirs Specify if you don't want to clear override dirs
+     *
+     * @see resetAllInstances()
      */
     static function resetAllGlobals( $resetGlobalOverrideDirs = true )
+    {
+        self::resetAllInstances( $resetGlobalOverrideDirs );
+    }
+
+    /**
+     * Reset all eZINI instances as well override dirs ( optional )
+     *
+     * @since 4.5
+     *
+     * @param bool $resetOverrideDirs Specify if you don't want to clear override dirs
+     */
+    static function resetAllInstances( $resetGlobalOverrideDirs = true )
     {
         self::$instances = array();
 

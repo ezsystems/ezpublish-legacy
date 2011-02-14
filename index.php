@@ -346,7 +346,7 @@ eZExtension::activateExtensions( 'access' );
 
 // Now that all extensions are activated and siteaccess has been changed, reset
 // all eZINI instances as they may not take into account siteaccess specific settings.
-eZINI::resetAllGlobals( false );
+eZINI::resetAllInstances( false );
 
 // Initialize module loading
 $moduleRepositories = eZModule::activeModuleRepositories();
