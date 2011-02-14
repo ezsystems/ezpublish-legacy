@@ -8,6 +8,14 @@ Removed features
 
   They have been deprecated in 3.9 in favor of the combined view "history".
 
+Removed constants
+-----------------
+
+- eZINI::DEBUG_INTERNALS
+
+  This constant, previously set to false, was for internal use only and
+  represented the initial and default value of eZINI::setIsDebugEnabled()
+  and eZINI::isDebugEnabled() methods.
 
 Removed globals
 ---------------

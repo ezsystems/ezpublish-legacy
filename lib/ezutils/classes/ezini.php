@@ -68,13 +68,6 @@
 class eZINI
 {
     /**
-     * Constant to signal ini debug mode for ini development
-     *
-     * @var bool
-     */
-    const DEBUG_INTERNALS = false;
-
-    /**
      * Constant path to directory for configuration cache
      *
      * @var string
