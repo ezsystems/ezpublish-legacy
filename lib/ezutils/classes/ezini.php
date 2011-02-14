@@ -121,6 +121,13 @@ class eZINI
     static protected $debugEnabled = false;
 
     /**
+     * Contains whether textcodec conversion  is enabled.
+     *
+     * @var bool
+     */
+    static protected $textCodecEnabled = true;
+
+    /**
      * Initialization of eZINI object
      *
      * Enter description here ...
@@ -148,7 +155,7 @@ class eZINI
             $useCache = false;
         }
         if ( $useTextCodec === null )
-            $useTextCodec = eZINI::isTextCodecEnabled();
+            $useTextCodec = self::isTextCodecEnabled();
 
         $this->UseTextCodec = $useTextCodec;
         $this->Codec = null;
@@ -263,26 +270,29 @@ class eZINI
         self::$debugEnabled = (bool)$enabled;
     }
 
-    /*!
-     \static
-     \return true if textcodecs is to be used, this will use the eZTextCodec class
-             in the eZI18N library for text conversion.
-      Set the option with setIsTextCodecEnabled().
-    */
+    /**
+     * Returns whether textcodecs is to be used, this will use the eZTextCodec
+     * class in the eZI18N library for text conversion.
+     *
+     * @see setIsTextCodecEnabled()
+     *
+     * @return bool
+     */
     static function isTextCodecEnabled()
     {
-        if ( !isset( $GLOBALS['eZINITextCodecEnabled'] ) )
-             $GLOBALS['eZINITextCodecEnabled'] = true;
-        return $GLOBALS['eZINITextCodecEnabled'];
+        return self::$textCodecEnabled;
     }
 
-    /*!
-     \static
-     Sets whether textcodec conversion is enabled or not.
-    */
-    static function setIsTextCodecEnabled( $codec )
+    /**
+     * Sets whether textcodec conversion is enabled or not.
+     *
+     * @see isTextCodecEnabled().
+     *
+     * @param bool $enabled
+     */
+    static function setIsTextCodecEnabled( $enabled )
     {
-        $GLOBALS['eZINITextCodecEnabled'] = $codec;
+        self::$textCodecEnabled = (bool)$enabled;
     }
 
     /**
