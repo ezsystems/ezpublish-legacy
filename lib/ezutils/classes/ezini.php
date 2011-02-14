@@ -121,6 +121,13 @@ class eZINI
     static protected $cacheEnabled = true;
 
     /**
+     * Contains whether internals debugging is enabled.
+     *
+     * @var bool
+     */
+    static protected $debugEnabled = false;
+
+    /**
      * Initialization of eZINI object
      *
      * Enter description here ...
@@ -236,26 +243,31 @@ class eZINI
         self::$cacheEnabled = (bool)$enabled;
     }
 
-    /*!
-     \static
-     \return true if debugging of internals is enabled, this will display
-     which files are loaded and when cache files are created.
-      Set the option with setIsDebugEnabled().
-    */
+    /**
+     * Returns whether debugging of internals is enabled.
+     *
+     * This will display which files are loaded an when cache files are created.
+     *
+     * @see setIsDebugEnabled()
+     *
+     * @return bool
+     */
     static function isDebugEnabled()
     {
-        if ( !isset( $GLOBALS['eZINIDebugInternalsEnabled'] ) )
-             $GLOBALS['eZINIDebugInternalsEnabled'] = eZINI::DEBUG_INTERNALS;
-        return $GLOBALS['eZINIDebugInternalsEnabled'];
+        return self::$debugEnabled;
     }
 
-    /*!
-     \static
-     Sets whether internal debugging is enabled or not.
-    */
-    static function setIsDebugEnabled( $debug )
+    /**
+     * Sets whether internal debugging is enabled or not. This setting is global
+     * and can be overriden in the instance() function.
+     *
+     * @see isDebugEnabled().
+     *
+     * @param bool $enabled
+     */
+    static function setIsDebugEnabled( $enabled )
     {
-        $GLOBALS['eZINIDebugInternalsEnabled'] = $debug;
+        self::$debugEnabled = (bool)$enabled;
     }
 
     /*!
@@ -489,14 +501,14 @@ class eZINI
         $data = false;// this will contain cache data if cache data is valid
         if ( file_exists( $cachedFile ) )
         {
-            if ( eZINI::isDebugEnabled() )
+            if ( self::isDebugEnabled() )
                 eZDebug::writeNotice( "Loading cache '$cachedFile' for file '" . $this->FileName . "'", __METHOD__ );
 
             include( $cachedFile );
 
             if ( !isset( $data['rev'] ) || $data['rev'] != eZINI::CONFIG_CACHE_REV )
             {
-                if ( eZINI::isDebugEnabled() )
+                if ( self::isDebugEnabled() )
                     eZDebug::writeNotice( "Old structure in cache file used, recreating '$cachedFile' to new structure", __METHOD__ );
                 $data = false;
                 $this->reset();
@@ -627,7 +639,7 @@ class eZINI
         eZFile::rename( $tmpCacheFile, $cachedFile );
         chmod( $cachedFile, self::$filePermission );
 
-        if ( eZINI::isDebugEnabled() )
+        if ( self::isDebugEnabled() )
             eZDebug::writeNotice( "Wrote cache file '$cachedFile'", __METHOD__ );
 
         return true;
@@ -666,7 +678,7 @@ class eZINI
      */
     function parseFile( $file, $placement = false )
     {
-        if ( eZINI::isDebugEnabled() )
+        if ( self::isDebugEnabled() )
             eZDebug::writeNotice( "Parsing file '$file'", __METHOD__ );
 
         $contents = file_get_contents( $file );
@@ -1212,7 +1224,7 @@ class eZINI
      */
     function prependOverrideDir( $dir, $globalDir = false, $identifier = false, $scope = null )
     {
-        if ( eZINI::isDebugEnabled() )
+        if ( self::isDebugEnabled() )
             eZDebug::writeNotice( "Prepending override dir '$dir'", "eZINI" );
 
         if ( $this->UseLocalOverrides == true )
@@ -1254,7 +1266,7 @@ class eZINI
      */
     function appendOverrideDir( $dir, $globalDir = false, $identifier = false, $scope = null )
     {
-        if ( eZINI::isDebugEnabled() )
+        if ( self::isDebugEnabled() )
             eZDebug::writeNotice( "Appending override dir '$dir'", __METHOD__ );
 
         if ( $this->UseLocalOverrides == true )

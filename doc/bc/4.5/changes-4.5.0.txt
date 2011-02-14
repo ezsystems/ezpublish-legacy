@@ -17,7 +17,7 @@ Removed globals
   eZINI now uses a protected static variable to keep track of eZINI instances.
   Use eZINI::resetAllGlobals( false ); to clear them if needed.
 
-- eZINICacheEnabled
+- eZINICacheEnabled and eZINIDebugInternalsEnabled
 
-  eZINI now uses a protected static variable to keep track of global INI
-  caching status.
+  eZINI now uses a protected static variable to keep track of those global
+  status.
