@@ -144,8 +144,17 @@
 <tr class="{$Events.sequence}">
     <td>{$Events.item.placement}</td>
     <td>{$Events.item.description}</td>
-    <td>{$Events.item.workflow_type.group_name|wash}/{$Events.item.workflow_type.name|wash}</td>
-    <td>{event_view_gui event=$Events.item}</td>
+    <td>{if $Events.item.workflow_type|is_null|not}{$Events.item.workflow_type.group_name|wash}/{$Events.item.workflow_type.name|wash}{/if}</td>
+    <td>
+    {if $Events.item.workflow_type|is_null}
+        <span class="error"><em>
+        {'Error : Could not load workflow event "%eventtype" (event type not available)'|i18n( 'design/admin/workflow/edit',, hash( '%eventtype', $Events.item.workflow_type_string ) )}<br />
+        {'Hint : This can happen when a workflow extension has been disabled'|i18n( 'design/admin/workflow/edit' )}
+        </em></span>
+    {else}
+        {event_view_gui event=$Events.item}
+    {/if}
+    </td>
 </tr>
 {/section}
 </table>
