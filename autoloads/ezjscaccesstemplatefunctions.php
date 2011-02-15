@@ -98,89 +98,86 @@ class ezjscAccessTemplateFunctions
     {
         // Like fetch(user,has_access_to), but with support for limitations
         $user = eZUser::currentUser();
-
-        if ( $user instanceof eZUser )
+        if ( !$user instanceof eZUser )
         {
-            $result = $user->hasAccessTo( $module, $function );
+            eZDebug::writeDebug( 'No user instance', __METHOD__ );
+            return false;
+        }
 
-            if ( $result['accessWord'] !== 'limited')
+        $result = $user->hasAccessTo( $module, $function );
+        if ( $result['accessWord'] !== 'limited')
+        {
+            return $result['accessWord'] === 'yes';
+        }
+
+        // Merge limitations before we check access
+        $mergedLimitations = array();
+        $missingLimitations = array();
+        foreach ( $result['policies'] as $userLimitationArray  )
+        {
+            foreach ( $userLimitationArray as $userLimitationKey => $userLimitationValues  )
             {
-                return $result['accessWord'] === 'yes';
+                if ( isset( $limitations[$userLimitationKey] ) )
+                {
+                    if ( isset( $mergedLimitations[$userLimitationKey] ) )
+                        $mergedLimitations[$userLimitationKey] = array_merge( $mergedLimitations[$userLimitationKey], $userLimitationValues );
+                    else
+                        $mergedLimitations[$userLimitationKey] = $userLimitationValues;
+                }
+                else
+                {
+                    $missingLimitations[] = $userLimitationKey;
+                }
+            }
+        }
+
+        // User has access unless provided limitations don't match
+        foreach ( $mergedLimitations as $userLimitationKey => $userLimitationValues  )
+        {
+            // Handle subtree matching specifically as we need to match path string
+            if ( $userLimitationKey === 'User_Subtree' || $userLimitationKey === 'Subtree' )
+            {
+                $pathMatch = false;
+                foreach ( $userLimitationValues as $subtreeString )
+                {
+                    if ( strstr( $limitations[$userLimitationKey], $subtreeString ) )
+                    {
+                        $pathMatch = true;
+                        break;
+                    }
+                }
+                if ( !$pathMatch )
+                {
+                    if ( $debug ) eZDebug::writeDebug( "Unmatched[$module/$function]: " . $userLimitationKey . ' '. $limitations[$userLimitationKey] . ' != ' . $subtreeString, __METHOD__ );
+                    return false;
+                }
             }
             else
             {
-                // Merge limitations before we check access
-                $mergedLimitations = array();
-                $missingLimitations = array();
-                foreach ( $result['policies'] as $userLimitationArray  )
+                if ( is_array( $limitations[$userLimitationKey] ) )
                 {
-                    foreach ( $userLimitationArray as $userLimitationKey => $userLimitationValues  )
+                    // All provided limitations must exist in $userLimitationValues
+                    foreach( $limitations[$userLimitationKey] as $limitationValue )
                     {
-                        if ( isset( $limitations[$userLimitationKey] ) )
+                        if ( !in_array( $limitationValue, $userLimitationValues ) )
                         {
-                            if ( isset( $mergedLimitations[$userLimitationKey] ) )
-                                $mergedLimitations[$userLimitationKey] = array_merge( $mergedLimitations[$userLimitationKey], $userLimitationValues );
-                            else
-                                $mergedLimitations[$userLimitationKey] = $userLimitationValues;
-                        }
-                        else
-                        {
-                            $missingLimitations[] = $userLimitationKey;
-                        }
-                    }
-                }
-
-                // User has access unless provided limitations don't match
-                foreach ( $mergedLimitations as $userLimitationKey => $userLimitationValues  )
-                {
-                    // Handle subtree matching specifically as we need to match path string
-                    if ( $userLimitationKey === 'User_Subtree' || $userLimitationKey === 'Subtree' )
-                    {
-                        $pathMatch = false;
-                        foreach ( $userLimitationValues as $subtreeString )
-                        {
-                            if ( strstr( $limitations[$userLimitationKey], $subtreeString ) )
-                            {
-                                $pathMatch = true;
-                                break;
-                            }
-                        }
-                        if ( !$pathMatch )
-                        {
-                            if ( $debug ) eZDebug::writeDebug( "Unmatched[$module/$function]: " . $userLimitationKey . ' '. $limitations[$userLimitationKey] . ' != ' . $subtreeString, __METHOD__ );
-                            return false;
-                        }
-                    }
-                    else
-                    {
-                        if ( is_array( $limitations[$userLimitationKey] ) )
-                        {
-                            // All provided limitations must exist in $userLimitationValues
-                            foreach( $limitations[$userLimitationKey] as $limitationValue )
-                            {
-                                if ( !in_array( $limitationValue, $userLimitationValues ) )
-                                {
-                                    if ( $debug ) eZDebug::writeDebug( "Unmatched[$module/$function]: " . $userLimitationKey . ' ' . $limitationValue . ' != [' . implode( ', ', $userLimitationValues ) . ']', __METHOD__ );
-                                    return false;
-                                }
-                            }
-                        }
-                        else if ( !in_array( $limitations[$userLimitationKey], $userLimitationValues ) )
-                        {
-                            if ( $debug ) eZDebug::writeDebug( "Unmatched[$module/$function]: " . $userLimitationKey . ' ' . $limitations[$userLimitationKey] . ' != [' . implode( ', ', $userLimitationValues ) . ']', __METHOD__ );
+                            if ( $debug ) eZDebug::writeDebug( "Unmatched[$module/$function]: " . $userLimitationKey . ' ' . $limitationValue . ' != [' . implode( ', ', $userLimitationValues ) . ']', __METHOD__ );
                             return false;
                         }
                     }
                 }
-                if ( isset( $missingLimitations[0] ) && $debug )
+                else if ( !in_array( $limitations[$userLimitationKey], $userLimitationValues ) )
                 {
-                    eZDebug::writeNotice( "Matched, but missing limitations[$module/$function]: " . implode( ', ', $missingLimitations ), __METHOD__ );
+                    if ( $debug ) eZDebug::writeDebug( "Unmatched[$module/$function]: " . $userLimitationKey . ' ' . $limitations[$userLimitationKey] . ' != [' . implode( ', ', $userLimitationValues ) . ']', __METHOD__ );
+                    return false;
                 }
-                return true;
             }
         }
-        eZDebug::writeDebug( 'No user instance', __METHOD__ );
-        return false;
+        if ( isset( $missingLimitations[0] ) && $debug )
+        {
+            eZDebug::writeNotice( "Matched, but missing limitations[$module/$function]: " . implode( ', ', $missingLimitations ), __METHOD__ );
+        }
+        return true;
     }
 }
 
