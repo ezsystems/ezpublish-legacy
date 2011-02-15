@@ -1,6 +1,17 @@
 Changes to BC and behavior in version 4.5.0
 ===========================================
 
+Change of behavior
+-----------------
+
+- User object is not created until the user activates the account if activation is enabled.
+
+  To support approval workflow for user/register, the object is not sent to publish until the user has clicked the activation.
+  After a user clicks register, a user object draft will be created, then if the user clicks the activation, the object will be sent to publishing.
+  Consequently, it's not possible view non-activated user from object view but possible from version view.
+  This change might have affect on activation email template override.
+
+
 Removed features
 ----------------
 
