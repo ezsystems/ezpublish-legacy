@@ -617,7 +617,7 @@ class eZOEXMLInput extends eZXMLInputHandler
 
             // Update URL-object links
             $urlIDArray = $parser->getUrlIDArray();
-            if ( count( $urlIDArray ) > 0 )
+            if ( !empty( $urlIDArray ) )
             {
                 self::updateUrlObjectLinks( $contentObjectAttribute, $urlIDArray );
             }
@@ -1656,7 +1656,7 @@ class eZOEXMLInput extends eZXMLInputHandler
                 }
 
                 $attributeText = '';
-                if ( count( $attributes ) > 0 )
+                if ( !empty( $attributes ) )
                 {
                     $attributeText = ' ' .implode( ' ', $attributes );
                 }
