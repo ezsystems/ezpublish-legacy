@@ -7,6 +7,7 @@
 - Fixed bug #017355: admin2: js error prevents context menu in children items table to pop up
 - Fixed bug #017573: (tc-458) utf8 names are no rendered properly in admin2 interface
 - Added a new server call for the content publishing queue
+- Fixed bug #017970: (tc-150)(teamroom) "Error loading box" in teamroom home page
 
 # v1.2.0rc1
 - Fixed bug #017223: Make LoadFromCDN disabled by default
