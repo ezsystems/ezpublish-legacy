@@ -96,7 +96,7 @@ if ( !isset( $moduleViews[ $viewName ] ) )
 }
 
 // Check if module / view is disabled
-$moduleCheck = accessAllowed( $uri );
+$moduleCheck = eZModule::accessAllowed( $uri );
 if ( !$moduleCheck['result'] )
 {
     exitWithInternalError( '$moduleName/$viewName is disabled.' );
