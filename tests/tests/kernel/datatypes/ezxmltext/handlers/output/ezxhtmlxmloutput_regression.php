@@ -25,10 +25,9 @@ class eZXHTMLXMLOutputRegression extends ezpDatabaseTestCase
      */
     public function testRenderParagraph()
     {
-        $XMLString = '<?xml version="1.0" encoding="utf-8"?> <section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
+        $XMLString = '<?xml version="1.0" encoding="utf-8"?><section xmlns:image="http://ez.no/namespaces/ezpublish3/image/"
                     xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"
-                    xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/">
-                    <paragraph><ul><li>
+                    xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/"><paragraph><ul><li>
                     <paragraph><link target="_blank" url_id="296">Accéder à la plate-forme boursière</link></paragraph>
                     </li></ul></paragraph>
                     </section>';
