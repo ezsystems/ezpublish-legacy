@@ -12,3 +12,6 @@ CREATE TABLE ezpublishingqueueprocesses (
 
 ALTER TABLE ONLY ezpublishingqueueprocesses
     ADD CONSTRAINT ezpublishingqueueprocesses_pkey PRIMARY KEY (ezcontentobject_version_id);
+
+ALTER TABLE ezsection ALTER COLUMN identifier SET DEFAULT '';
+UPDATE ezsection SET identifier='' WHERE identifier IS NULL;

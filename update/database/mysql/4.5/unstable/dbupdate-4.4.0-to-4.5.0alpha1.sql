@@ -11,3 +11,6 @@ CREATE TABLE ezpublishingqueueprocesses (
   status int(2) default NULL,
   PRIMARY KEY  (ezcontentobject_version_id)
 ) ENGINE=InnoDB;
+
+ALTER TABLE ezsection MODIFY COLUMN identifier VARCHAR(255) DEFAULT '';
+UPDATE ezsection SET identifier='' WHERE identifier IS NULL;
