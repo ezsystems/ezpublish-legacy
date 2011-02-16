@@ -931,14 +931,20 @@ class eZContentObject extends eZPersistentObject
         return " AND ( SELECT MIN( ezct.is_invisible ) FROM ezcontentobject_tree ezct WHERE ezct.contentobject_id = $ezcontentobjectTable.id ) = 0 ";
     }
 
-    /*!
-     Fetches the contentobject which has a node with the ID \a $nodeID
-     \param $asObject If \c true return the as a PHP object, if \c false return the raw database data.
-    */
+    /**
+     * Fetches the contentobject which has a node with ID $nodeID
+     * $nodeID can also be an array of NodeIDs. In this case, an array of content objects will be returned
+     * @param int|array $nodeID Single nodeID or array of NodeIDs
+     * @param bool $asObject If results have to be returned as eZContentObject instances or not
+     * @return mixed Content object or array of content objects.
+     *               Content objects can be eZContentObject instances or array result sets
+     */
     static function fetchByNodeID( $nodeID, $asObject = true )
     {
         global $eZContentObjectContentObjectCache;
-        $nodeID = (int)$nodeID;
+        $resultAsArray = is_array( $nodeID );
+        $nodeID = (array)$nodeID;
+        $nodeIDStatement = eZDB::instance()->generateSQLINStatement( $nodeID, 'ezcontentobject_tree.node_id', false, true, 'int' );
 
         $useVersionName = true;
         if ( $useVersionName )
@@ -959,7 +965,7 @@ class eZContentObject extends eZPersistentObject
                          ezcontentobject_tree
                          $versionNameTables
                       WHERE
-                         ezcontentobject_tree.node_id=$nodeID AND
+                         $nodeIDStatement AND
                          ezcontentobject.id=ezcontentobject_tree.contentobject_id AND
                          ezcontentobject.current_version=ezcontentobject_tree.contentobject_version
                          $versionNameJoins";
@@ -967,28 +973,33 @@ class eZContentObject extends eZPersistentObject
         $resArray = $db->arrayQuery( $query );
 
         $objectArray = array();
-        if ( count( $resArray ) == 1 && $resArray !== false )
+        if ( count( $resArray ) > 0 && $resArray !== false )
         {
-            $objectArray = $resArray[0];
+            if( $asObject )
+            {
+                foreach ( $resArray as $res )
+                {
+                    $obj = new self( $res );
+                    $objectArray[] = $obj;
+                    $eZContentObjectContentObjectCache[$res['id']] = $obj;
+                }
+            }
+            else
+            {
+                $objectArray = $resArray;
+            }
         }
         else
         {
-            eZDebug::writeError( 'Object not found with node id ' . $nodeID, 'eZContentObject::fetchByNodeID()' );
+            eZDebug::writeError( 'A problem occured while fetching objects with following NodeIDs : ' . implode( ', ', $nodeID ), 'eZContentObject::fetchByNodeID()' );
             $retValue = null;
             return $retValue;
         }
 
-        if ( $asObject )
-        {
-            $obj = new eZContentObject( $objectArray );
-            $eZContentObjectContentObjectCache[$objectArray['id']] = $obj;
-        }
-        else
-        {
-            return $objectArray;
-        }
+        if ( $resultAsArray === false )
+            return $objectArray[0];
 
-        return $obj;
+        return $objectArray;
     }
 
     /**
