@@ -1125,6 +1125,68 @@ CREATE TABLE ezpreferences (
 
 
 
+CREATE TABLE ezprest_authcode (
+  client_id varchar(200) NOT NULL default '',
+  expirytime bigint(20) NOT NULL default '0',
+  id varchar(200) NOT NULL default '',
+  scope varchar(200) default NULL,
+  user_id varchar(200) NOT NULL default '',
+  PRIMARY KEY  (id),
+  KEY authcode_client_id (client_id)
+) ENGINE=InnoDB;
+
+
+
+
+
+CREATE TABLE ezprest_authorized_clients (
+  created int(11) default NULL,
+  id int(11) NOT NULL auto_increment,
+  rest_client_id int(11) default NULL,
+  user_id int(11) default NULL,
+  PRIMARY KEY  (id),
+  KEY client_user (rest_client_id,user_id)
+) ENGINE=InnoDB;
+
+
+
+
+
+CREATE TABLE ezprest_clients (
+  client_id varchar(200) default NULL,
+  client_secret varchar(200) default NULL,
+  created int(11) NOT NULL default '0',
+  description text,
+  endpoint_uri varchar(200) default NULL,
+  id int(11) NOT NULL auto_increment,
+  name varchar(100) default NULL,
+  owner_id int(11) NOT NULL default '0',
+  updated int(11) NOT NULL default '0',
+  version int(1) NOT NULL default '0',
+  PRIMARY KEY  (id),
+  KEY client_id (client_id),
+  UNIQUE KEY client_id_UNIQUE (client_id,version)
+) ENGINE=InnoDB;
+
+
+
+
+
+CREATE TABLE ezprest_token (
+  client_id varchar(200) NOT NULL default '',
+  expirytime bigint(20) NOT NULL default '0',
+  id varchar(200) NOT NULL default '',
+  refresh_token varchar(200) NOT NULL default '',
+  scope varchar(200) default NULL,
+  user_id varchar(200) NOT NULL default '',
+  PRIMARY KEY  (id),
+  KEY token_client_id (client_id)
+) ENGINE=InnoDB;
+
+
+
+
+
 CREATE TABLE ezproductcategory (
   id int(11) NOT NULL auto_increment,
   name varchar(255) NOT NULL default '',
