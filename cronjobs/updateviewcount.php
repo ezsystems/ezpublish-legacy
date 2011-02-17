@@ -61,6 +61,7 @@ $fileName = $logFileIni->variable( 'AccessLogFileSettings', 'LogFileName' );
 
 $prefixes = $logFileIni->variable( 'AccessLogFileSettings', 'SitePrefix' );
 $pathPrefixes = $logFileIni->variable( 'AccessLogFileSettings', 'PathPrefix' );
+$pathPrefixesCount = count( $pathPrefixes );
 
 $ini = eZINI::instance();
 $logDir = $ini->variable( 'FileSettings', 'LogDir' );
@@ -128,7 +129,7 @@ if ( is_file( $logFilePath ) )
                     $url = preg_replace( "/\?.*/", "", $url);
                     foreach ( $prefixes as $prefix )
                     {
-                        $urlChanged = preg_replace( '/^\/' . preg_quote( $prefix, '/' ) . '\//', '/', $url );
+                        $urlChanged = preg_replace( '/^\/' . preg_quote( $prefix, '/' ) . '(\/|$)/', '/', $url );
                         if ( $urlChanged != $url )
                         {
                             $url = $urlChanged;
@@ -157,7 +158,7 @@ if ( is_file( $logFilePath ) )
                         }
                         else
                         {
-                            if ( $firstElement != "" )
+                            if ( $firstElement != "" || $url === '/' )
                             {
                                 $pathIdentificationString = $db->escapeString( $firstElement );
 
@@ -168,7 +169,7 @@ if ( is_file( $logFilePath ) )
                                 $pathPrefixIndex = 0;
                                 while ( !$result )
                                 {
-                                    if ( $pathPrefixIndex < count( $pathPrefixes ) )
+                                    if ( $pathPrefixIndex < $pathPrefixesCount )
                                     {
                                         // Try prepending each of the existing pathPrefixes, to see if one of them matches an existing node
                                         $pathIdentificationString = $db->escapeString( $pathPrefixes[$pathPrefixIndex] . '/' . $firstElement );
@@ -226,6 +227,13 @@ foreach ( $nodeIDArray as $nodeID )
 foreach ( $pathArray as $path )
 {
     $nodeID = eZURLAliasML::fetchNodeIDByPath( $path );
+
+    // Support for PathPrefix
+    for ( $pathPrefixIndex = 0; !$nodeID && $pathPrefixIndex < $pathPrefixesCount; ++$pathPrefixIndex )
+    {
+        // Try prepending each of the existing pathPrefixes, to see if one of them matches an existing node
+        $nodeID = eZURLAliasML::fetchNodeIDByPath( $db->escapeString( $pathPrefixes[$pathPrefixIndex] . $path ) );
+    }
 
     if ( $nodeID )
     {
