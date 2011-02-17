@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+ <table>
+  <name>ezprest_token</name>
+  <declaration>
+   <field>
+    <name>id</name>
+    <type>text</type>
+    <length>200</length>
+    <notnull>true</notnull>
+   </field>
+   <field>
+    <name>expirytime</name>
+    <type>integer</type>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+   <field>
+    <name>client_id</name>
+    <type>text</type>
+    <length>200</length>
+    <notnull>true</notnull>
+   </field>
+   <field>
+    <name>scope</name>
+    <type>text</type>
+    <length>200</length>
+    <default>NULL::character varying</default>
+   </field>
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <unique>true</unique>
+    <field>
+     <name>id</name>
+    </field>
+   </index>
+   <index>
+    <name>token_client_id</name>
+    <field>
+     <name>client_id</name>
+    </field>
+   </index>
+  </declaration>
+ </table>
+</database>
