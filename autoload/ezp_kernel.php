@@ -562,6 +562,7 @@ return array(
       'ezpContentPublishingProcess'                        => 'kernel/classes/contentpublishingprocess.php',
       'ezpContentPublishingQueue'                          => 'kernel/classes/contentpublishingqueue.php',
       'ezpContentPublishingQueueProcessor'                 => 'kernel/classes/contentpublishingqueueprocessor.php',
+      'ezpContentPublishingQueueReaderInterface'           => 'kernel/private/interfaces/ezpcontentpublishingqueuereader.php',
       'ezpExtension'                                       => 'kernel/private/classes/ezpextension.php',
       'ezpExtensionOptions'                                => 'kernel/private/options/ezpextensionoptions.php',
       'ezpI18n'                                            => 'kernel/common/ezpi18n.php',

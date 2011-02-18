@@ -159,3 +159,98 @@ above::
     AsynchronousPublishingFilters[]=eZAsynchronousPublishingClassFilter
 
 One line similar to the one above must be added for each filter.
+
+Priority handling
+-----------------
+
+By default, Asynchronous Publishing will handle publishing operations in a very simple FIFO fashion. First item in,
+first item out. While this system is a no brainer and will work well in common situations, there are a few easy to think
+of cases where you don't want this. For instance, if you have regular imports of a massive amount of content, you
+clearly don't want to publishing queue to be blocked for X minutes by the import, leaving your editors in despair while
+they wait forever for their content to be published.
+
+It wasn't possible for us to provide a fully flexible system that would never break, but it was also unacceptable not to
+provide any clean mean to cover this up. We chose to open that up by  providing a hook + handler system that will let
+anyone customize queue handling for their needs.
+
+The hook system uses the SignalSlot eZComponent. By reading the documentation for it, you will notice that you can
+attach multiple calls to any hook by simply calling several times the connect method. Hooks will be called in the order
+they were registered.
+
+preQueue hook
+''''''''''''''
+
+These hooks are called right before an object is sent to the publishing queue.
+Using these, you can freely read & write data based on the operation: content type, author, publishing time, you choose.
+The system doesn't provide any mean to store extra data, and that means you must design your own system for that, but on
+the other hand, this gives full flexibility over your mechanisms.
+
+Add MyPriorityHandler::queue() before the item is queued::
+
+    ezpContentPublishingQueue::signals()->connect( 'preQueue', 'MyPriorityHandler::queue' );
+
+Hooks can also be attached using INI settings if you want the call to be made every time::
+
+    [PublishingSettings]
+    AsynchronousPublishingQueueHooks[]=MyPriorityHandler::queue
+
+These hooks are given two parameters:
+* the content object id (integer)
+* the content object version (integer)
+
+They're not supposed to return any value.
+
+postHandling hook
+'''''''''''''''''
+
+These hooks are called right after an item has been processed by the publishing queue.
+
+They can for instance be used to delete / update data created in a preQueue hook.
+
+Add MyPriorityHandler::cleanup() after the item has been handled::
+
+    ezpContentPublishingQueue::signals()->connect( 'postHandling', 'MyPriorityHandler::cleanup' );
+
+Hooks can also be attached using INI settings if you want the call to be made every time::
+
+    [PublishingSettings]
+    AsynchronousPublishingPostHandlingHooks[]=MyPriorityHandler::cleanup
+
+These hooks are given three parameters:
+* the content object id (integer)
+* the content object version (integer)
+* the publishing proccess status (as one of the ezpContentPublishingProcess::STATUS_* constants)
+
+They're not supposed to return any value.
+
+queueReader handler
+'''''''''''''''''''
+
+This handler is the one in charge of reading from the queue and deciding what content is given to the queue handler.
+
+A default queueReader handler is providing with your default eZ Publish distribution. It simply reads the oldest inactive
+item from the processes queue, and returns it.
+
+It can be changed to a new one by implementing the ``ezpContentPublishingQueueReaderInterface`` and configuring the new
+class in ``content.ini``.
+
+Here is a possible class definition::
+
+    <?php
+    class myPublishingQueue implements ezpContentPublishingQueueReaderInterface
+    {
+        public static function next()
+        {
+            // do your deeds...
+            if ( $process )
+                return $process;
+            else
+                return false;
+        }
+    }
+    ?>
+
+And the matching INI (content.ini) configuration::
+
+    [PublishingSettings]
+    AsynchronousPublishingQueueReader=myContentPublishingQueue

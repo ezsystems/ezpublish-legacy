@@ -27,6 +27,12 @@ class ezpContentPublishingQueueProcessor
 
         // output to log by default
         $this->setOutput( new ezpAsynchronousPublisherLogOutput );
+
+        // Queue reader handler
+        $this->queueReader = $this->contentINI->variable( 'PublishingSettings', 'AsynchronousPublishingQueueReader' );
+        $reflection = new ReflectionClass( $this->queueReader );
+        if ( !$reflection->implementsInterface( 'ezpContentPublishingQueueReaderInterface' ) )
+            throw new Exception( "Configured asynchronous publishing queue reader doesn't implement ezpContentPublishingQueueReaderInterface", __CLASS__ );
     }
 
     /**
@@ -70,7 +76,10 @@ class ezpContentPublishingQueueProcessor
         while ( $this->canProcess )
         {
             try {
-                $publishingItem = ezpContentPublishingQueue::next();
+                /**
+                 * @var ezpContentPublishingProcess
+                 */
+                $publishingItem = call_user_func( array( $this->queueReader, 'next' ) );
                 if ( $publishingItem !== false )
                 {
                     if ( !$this->isSlotAvailable() )

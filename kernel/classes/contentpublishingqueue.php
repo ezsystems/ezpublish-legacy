@@ -15,17 +15,70 @@
  * @package kernel
  * @since 4.5
  */
-class ezpContentPublishingQueue
+class ezpContentPublishingQueue implements ezpContentPublishingQueueReaderInterface
 {
+    /**
+     * Returns the class signals handler
+     *
+     * @return ezcSignalCollection
+     */
+    public static function signals()
+    {
+        if ( self::$signals == null )
+        {
+            self::$signals = new ezcSignalCollection();
+            self::initHooks();
+        }
+        return self::$signals;
+    }
+
+    /**
+     * Initializes queue hooks from INI settings
+     */
+    protected final static function initHooks()
+    {
+        static $init = true;
+
+        if ( isset( $init ) )
+            return;
+
+        $ini = eZINI::instance( 'content.ini' );
+
+        self::attachHooks( 'preQueue', $ini->variable( 'PublishingSettings', 'AsynchronousPublishingPreQueueHooks' ) );
+        self::attachHooks( 'postHandling', $ini->variable( 'PublishingSettings', 'AsynchronousPublishingPostHandlingHooks' ) );
+    }
+
+    /**
+     * Attaches hooks to a signal slot
+     * @param string $connector slot name (preQueue/postQueue)
+     * @param array $hooks list of hooks (callbacks) to attach
+     */
+
+    protected final static function attachHooks( $connector, $hooksList )
+    {
+        if ( is_array( $hooksList ) && count( $hooksList ) )
+        {
+            foreach( $hooksList as $hook )
+            {
+                self::signals()->connect( $connector, $hook );
+            }
+        }
+    }
+
     /**
      * Adds a draft to the publishing queue
      *
      * @param int $objectId
      * @param int $version
+     *
+     * @return ezpContentPublishingProcess
      */
     public static function add( $objectId, $version )
     {
-        return ezpContentPublishingProcess::queue( eZContentObjectVersion::fetchVersion( $version, $objectId ) );
+        self::signals()->emit( 'preQueue', $version, $objectId );
+        $processObject = ezpContentPublishingProcess::queue( eZContentObjectVersion::fetchVersion( $version, $objectId ) );
+
+        return $processObject;
     }
 
     /**
@@ -58,5 +111,11 @@ class ezpContentPublishingQueue
         else
             return $queuedProcess[0];
     }
+
+    /**
+     * Class signals collection
+     * @var ezcSignalCollection
+     */
+    protected static $signals = null;
 }
 ?>
