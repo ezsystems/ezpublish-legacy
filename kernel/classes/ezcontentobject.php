@@ -1018,33 +1018,22 @@ class eZContentObject extends eZPersistentObject
     {
         global $eZContentObjectContentObjectCache;
 
-        $uniqueIDArray = array_unique( $idArray );
-
-        $useVersionName = true;
-        if ( $useVersionName )
-        {
-            $versionNameTables = ', ezcontentobject_name ';
-            $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
-
-            $versionNameJoins = " and  ezcontentobject.id = ezcontentobject_name.contentobject_id and
-                                  ezcontentobject.current_version = ezcontentobject_name.content_version and ".
-                                  eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' );
-        }
-
         $db = eZDB::instance();
-        // All elements from $uniqueIDArray should be casted to (int)
-        $objectWhereINSQL = $db->generateSQLINStatement( $uniqueIDArray, 'ezcontentobject.id', false, false, 'int' );
-        $query = "SELECT ezcontentclass.serialized_name_list as class_serialized_name_list, ezcontentobject.* $versionNameTargets
-                      FROM
-                         ezcontentclass,
-                         ezcontentobject
-                         $versionNameTables
-                      WHERE
-                         ezcontentclass.id=ezcontentobject.contentclass_id AND
-                         $objectWhereINSQL
-                         $versionNameJoins";
 
-        $resRowArray = $db->arrayQuery( $query );
+        $resRowArray = $db->arrayQuery(
+            "SELECT ezcontentclass.serialized_name_list as class_serialized_name_list, ezcontentobject.*, ezcontentobject_name.name as name,  ezcontentobject_name.real_translation
+             FROM
+                ezcontentclass,
+                ezcontentobject,
+                ezcontentobject_name
+             WHERE
+                ezcontentclass.id=ezcontentobject.contentclass_id AND " .
+                // All elements from $idArray should be casted to (int)
+                $db->generateSQLINStatement( $idArray, 'ezcontentobject.id', false, true, 'int' ) . " AND
+                ezcontentobject.id = ezcontentobject_name.contentobject_id AND
+                ezcontentobject.current_version = ezcontentobject_name.content_version AND " .
+                eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' )
+        );
 
         $objectRetArray = array();
         foreach ( $resRowArray as $resRow )
