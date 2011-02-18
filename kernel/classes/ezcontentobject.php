@@ -944,60 +944,43 @@ class eZContentObject extends eZPersistentObject
         global $eZContentObjectContentObjectCache;
         $resultAsArray = is_array( $nodeID );
         $nodeID = (array)$nodeID;
-        $nodeIDStatement = eZDB::instance()->generateSQLINStatement( $nodeID, 'ezcontentobject_tree.node_id', false, true, 'int' );
-
-        $useVersionName = true;
-        if ( $useVersionName )
-        {
-            $versionNameTables = ', ezcontentobject_name ';
-            $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
-
-            $versionNameJoins = " and  ezcontentobject.id = ezcontentobject_name.contentobject_id and
-                                  ezcontentobject.current_version = ezcontentobject_name.content_version and ".
-                                  eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' );
-        }
 
         $db = eZDB::instance();
 
-        $query = "SELECT ezcontentobject.* $versionNameTargets
-                      FROM
-                         ezcontentobject,
-                         ezcontentobject_tree
-                         $versionNameTables
-                      WHERE
-                         $nodeIDStatement AND
-                         ezcontentobject.id=ezcontentobject_tree.contentobject_id AND
-                         ezcontentobject.current_version=ezcontentobject_tree.contentobject_version
-                         $versionNameJoins";
+        $resArray = $db->arrayQuery(
+            "SELECT co.*, con.name as name, con.real_translation, cot.node_id
+             FROM ezcontentobject AS co
+             JOIN ezcontentobject_tree AS cot ON co.id = cot.contentobject_id AND co.current_version = cot.contentobject_version
+             JOIN ezcontentobject_name AS con ON co.id = con.contentobject_id AND co.current_version = con.content_version
+             WHERE " .
+                $db->generateSQLINStatement( $nodeID, 'cot.node_id', false, true, 'int' ) . " AND " .
+                eZContentLanguage::sqlFilter( 'con', 'co' )
+        );
 
-        $resArray = $db->arrayQuery( $query );
+        if ( $resArray === false || empty( $resArray ) )
+        {
+            eZDebug::writeError( 'A problem occured while fetching objects with following NodeIDs : ' . implode( ', ', $nodeID ), __METHOD__ );
+            return $resultAsArray ? array() : null;
+        }
 
         $objectArray = array();
-        if ( count( $resArray ) > 0 && $resArray !== false )
+        if ( $asObject )
         {
-            if( $asObject )
+            foreach ( $resArray as $res )
             {
-                foreach ( $resArray as $res )
-                {
-                    $obj = new self( $res );
-                    $objectArray[] = $obj;
-                    $eZContentObjectContentObjectCache[$res['id']] = $obj;
-                }
-            }
-            else
-            {
-                $objectArray = $resArray;
+                $objectArray[$res['node_id']] = $eZContentObjectContentObjectCache[$res['id']] = new self( $res );
             }
         }
         else
         {
-            eZDebug::writeError( 'A problem occured while fetching objects with following NodeIDs : ' . implode( ', ', $nodeID ), 'eZContentObject::fetchByNodeID()' );
-            $retValue = null;
-            return $retValue;
+            foreach ( $resArray as $res )
+            {
+                $objectArray[$res['node_id']] = $res;
+            }
         }
 
-        if ( $resultAsArray === false )
-            return $objectArray[0];
+        if ( !$resultAsArray )
+            return $objectArray[$res['node_id']];
 
         return $objectArray;
     }
