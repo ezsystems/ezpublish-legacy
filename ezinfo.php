@@ -31,9 +31,9 @@ class ezjscoreInfo
         $eZCopyrightString = 'Copyright (C) 1999-2010 eZ Systems AS';
 
         return array( 'Name'      => '<a href="http://projects.ez.no/ezjscore">eZ JSCore</a> extension',
-                      'Version'   => '1.2.0',
+                      'Version'   => '//autogentag//',
                       'Copyright' => $eZCopyrightString,
-                      'License'   => 'GNU General Public License v2.0',
+                      'License'   => '//EZP_LICENSE//',
                       'Includes the following third-party software' => array( 'Name' => 'YUI',
                                                                               'Version' => "3.3.0 and 2.8.1",
                                                                               'Copyright' => 'Copyright (c) 2010, Yahoo! Inc. All rights reserved.',
