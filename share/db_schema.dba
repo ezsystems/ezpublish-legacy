@@ -5130,6 +5130,280 @@ $schema = array (
       ),
     ),
   ),
+  'ezprest_authcode' => 
+  array (
+    'name' => 'ezprest_authcode',
+    'fields' => 
+    array (
+      'client_id' => 
+      array (
+        'length' => 200,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+      'expirytime' => 
+      array (
+        'length' => 20,
+        'type' => 'bigint',
+        'not_null' => '1',
+        'default' => '0',
+      ),
+      'id' => 
+      array (
+        'length' => 200,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+      'scope' => 
+      array (
+        'length' => 200,
+        'type' => 'varchar',
+        'default' => NULL,
+      ),
+      'user_id' => 
+      array (
+        'length' => 200,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+    ),
+    'indexes' => 
+    array (
+      'PRIMARY' => 
+      array (
+        'type' => 'primary',
+        'fields' => 
+        array (
+          0 => 'id',
+        ),
+      ),
+      'authcode_client_id' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'client_id',
+        ),
+      ),
+    ),
+  ),
+  'ezprest_authorized_clients' => 
+  array (
+    'name' => 'ezprest_authorized_clients',
+    'fields' => 
+    array (
+      'created' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'default' => NULL,
+      ),
+      'id' => 
+      array (
+        'type' => 'auto_increment',
+        'default' => false,
+      ),
+      'rest_client_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'default' => NULL,
+      ),
+      'user_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'default' => NULL,
+      ),
+    ),
+    'indexes' => 
+    array (
+      'PRIMARY' => 
+      array (
+        'type' => 'primary',
+        'fields' => 
+        array (
+          0 => 'id',
+        ),
+      ),
+      'client_user' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'rest_client_id',
+          1 => 'user_id',
+        ),
+      ),
+    ),
+  ),
+  'ezprest_clients' => 
+  array (
+    'name' => 'ezprest_clients',
+    'fields' => 
+    array (
+      'client_id' => 
+      array (
+        'length' => 200,
+        'type' => 'varchar',
+        'default' => NULL,
+      ),
+      'client_secret' => 
+      array (
+        'length' => 200,
+        'type' => 'varchar',
+        'default' => NULL,
+      ),
+      'created' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'description' => 
+      array (
+        'type' => 'text',
+        'default' => false,
+      ),
+      'endpoint_uri' => 
+      array (
+        'length' => 200,
+        'type' => 'varchar',
+        'default' => NULL,
+      ),
+      'id' => 
+      array (
+        'type' => 'auto_increment',
+        'default' => false,
+      ),
+      'name' => 
+      array (
+        'length' => 100,
+        'type' => 'varchar',
+        'default' => NULL,
+      ),
+      'owner_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'updated' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'version' => 
+      array (
+        'length' => 1,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+    ),
+    'indexes' => 
+    array (
+      'PRIMARY' => 
+      array (
+        'type' => 'primary',
+        'fields' => 
+        array (
+          0 => 'id',
+        ),
+      ),
+      'client_id' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'client_id',
+        ),
+      ),
+      'client_id_UNIQUE' => 
+      array (
+        'type' => 'unique',
+        'fields' => 
+        array (
+          0 => 'client_id',
+          1 => 'version',
+        ),
+      ),
+    ),
+  ),
+  'ezprest_token' => 
+  array (
+    'name' => 'ezprest_token',
+    'fields' => 
+    array (
+      'client_id' => 
+      array (
+        'length' => 200,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+      'expirytime' => 
+      array (
+        'length' => 20,
+        'type' => 'bigint',
+        'not_null' => '1',
+        'default' => '0',
+      ),
+      'id' => 
+      array (
+        'length' => 200,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+      'refresh_token' => 
+      array (
+        'length' => 200,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+      'scope' => 
+      array (
+        'length' => 200,
+        'type' => 'varchar',
+        'default' => NULL,
+      ),
+      'user_id' => 
+      array (
+        'length' => 200,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+    ),
+    'indexes' => 
+    array (
+      'PRIMARY' => 
+      array (
+        'type' => 'primary',
+        'fields' => 
+        array (
+          0 => 'id',
+        ),
+      ),
+      'token_client_id' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'client_id',
+        ),
+      ),
+    ),
+  ),
   'ezproductcategory' => 
   array (
     'name' => 'ezproductcategory',

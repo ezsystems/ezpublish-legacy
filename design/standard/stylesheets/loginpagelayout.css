@@ -1,0 +1,123 @@
+html, body 
+{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+body
+{
+    text-align: center;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+div#floater
+{
+    position: relative;
+    float: left;
+    height: 50%;
+    margin-bottom:-150px;
+    width:1px;
+}
+
+div#page
+{
+    background-image: url(../images/login-form-bg.png);
+    height: 265px;
+    width: 405px;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 35px;
+    margin: 0 auto;
+    text-align: left;
+    position: relative;
+    clear: left;
+}
+
+div#footer
+{
+    font-size: 77%;
+    padding-top: 1.5em;
+    width: 405px;
+    margin: 0 auto;
+}
+
+div#footer a 
+{
+    color: #990000;
+}
+
+h1 
+{
+    margin-top: 0;
+    background-image: url(../images/header-line.png);
+    background-position: left bottom;
+    background-repeat: no-repeat;
+    font-weight: normal;
+    font-size: 146.5%;
+    padding-bottom: 8px;
+}
+
+div.attribute-header 
+{
+    padding-top: 10px;
+    background-image: url(../images/ez-logo.png);
+    background-position: top right;
+    background-repeat: no-repeat;
+}
+
+div.user-login div.block label
+{
+    display: block;
+    font-size: 85%;
+    color: #333;
+    margin-bottom: 3px;
+}
+
+.defaultbutton
+{
+    width: 84px;
+    height: 38px;
+    background-image: url(../images/default-button-bg.png);
+    background-repeat: no-repeat;
+    border: none;
+    background-color: transparent;
+    color: #FFF;
+    font-size: 93%;
+    cursor: pointer;
+}
+
+.button
+{
+    width: 84px;
+    height: 38px;
+    background-image: url(../images/button-bg.png);
+    background-repeat: no-repeat;
+    border: none;
+    background-color: transparent;
+    color: #FFF;
+    font-size: 93%;
+    cursor: pointer;
+}
+
+.authorizebutton
+{
+    width: 98px;
+    background-image: url(../images/authorize-button-bg.png);
+}
+
+.halfbox
+{
+    border: none;
+    background-color: transparent;
+    background-image: url(../images/input-wrapper-bg.png);
+    background-repeat: no-repeat;
+    width: 252px;
+    height: 30px;
+    margin-bottom: 4px;
+}
+
+div.buttonblock
+{
+    text-align: right;
+}
