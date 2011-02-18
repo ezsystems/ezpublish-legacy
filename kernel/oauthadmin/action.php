@@ -8,7 +8,7 @@
  * @package kernel
  */
 
-include 'extension/oauth/modules/oauthadmin/tmppo.php';
+$session = ezcPersistentSessionInstance::get();
 
 $module = $Params['Module'];
 

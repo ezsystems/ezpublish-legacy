@@ -8,6 +8,8 @@
  * @package kernel
  */
 
+include_once 'kernel/private/rest/classes/lazy.php';
+
 $Module = array( 'name' => 'Rest client admin',
                  'variable_params' => true );
 

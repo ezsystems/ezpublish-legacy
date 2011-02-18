@@ -8,7 +8,7 @@
  * @package kernel
  */
 
-include 'extension/oauth/modules/oauthadmin/tmppo.php';
+$session = ezcPersistentSessionInstance::get();
 
 $module = $Params['Module'];
 
@@ -20,9 +20,9 @@ $tpl = eZTemplate::factory();
 $tpl->setVariable( 'module', $module );
 $tpl->setVariable( 'application', $application );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezpI18n::tr( 'extension/oauthadmin', 'oAuth admin' ) ),
+                                'text' => ezpI18n::tr( 'kernel/oauthadmin', 'oAuth admin' ) ),
                          array( 'url' => false,
-                                'text' => ezpI18n::tr( 'extension/oauthadmin', 'REST application: %application_name%', null,
+                                'text' => ezpI18n::tr( 'kernel/oauthadmin', 'REST application: %application_name%', null,
                                     array( '%application_name%' => $application->name ) ) ),
 );
 

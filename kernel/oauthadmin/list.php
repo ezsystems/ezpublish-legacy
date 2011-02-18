@@ -11,7 +11,7 @@
 $tpl = eZTemplate::factory();
 $module = $Params['Module'];
 
-include 'extension/oauth/modules/oauthadmin/tmppo.php';
+$session = ezcPersistentSessionInstance::get();
 
 $q = $session->createFindQuery( 'ezpRestClient' );
 $q->where( $q->expr->eq( 'version', ezpRestClient::STATUS_PUBLISHED ) )
@@ -21,9 +21,9 @@ $tpl->setVariable( 'applications', $session->find( $q, 'ezpRestClient' ) );
 $tpl->setVariable( 'module', $module );
 
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezpI18n::tr( 'i18n/context', 'oAuth admin' ) ),
+                                'text' => ezpI18n::tr( 'kernel/oauthadmin', 'oAuth admin' ) ),
                          array( 'url' => false,
-                                'text' => ezpI18n::tr( 'i18n/context', 'Registered REST applications' ) ) );
+                                'text' => ezpI18n::tr( 'kernel/oauthadmin', 'Registered REST applications' ) ) );
 
 $Result['content'] = $tpl->fetch( 'design:oauthadmin/list.tpl' );
 
