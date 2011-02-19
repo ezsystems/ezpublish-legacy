@@ -16,28 +16,25 @@ abstract class ezpRestTestCase extends ezpTestCase
      * @var eZINI
      */
     protected $restINI;
-    
+
     /**
      * @var ezpMvcConfiguration
      */
     protected $mvcConfig;
-    
+
     public function __construct( $name = NULL, array $data = array(), $dataName = '' )
     {
-        ezpExtensionHelper::load( 'rest' );
-        ezpExtensionHelper::load( 'oauth' );
-        
         $this->mvcConfig = new ezpMvcConfiguration();
-        
+
         // Load rest.ini and forces it to load its data
         $this->restINI = eZINI::instance( 'rest.ini' );
         $this->restINI->load( true );
-        
+
         $this->loadDummySettings();
-        
+
         parent::__construct( $name, $data, $dataName );
     }
-    
+
     /**
      * Method to initialize dummy settings, mostly in rest.ini
      */
@@ -45,7 +42,7 @@ abstract class ezpRestTestCase extends ezpTestCase
     {
         $this->restINI->setVariable( 'ApiProvider', 'ProviderClass', array( 'test' => 'ezpRestTestApiProvider' ));
     }
-    
+
     /**
      * Returns a valid test controller from URI
      * @param $uri
@@ -59,7 +56,7 @@ abstract class ezpRestTestCase extends ezpTestCase
         $r->contentVariables = array();
         return $this->getTestControllerFromRequest( $r );
     }
-    
+
     /**
      * Returns a valid test controller from a request object
      * @param ezpRestRequest $r
@@ -73,7 +70,7 @@ abstract class ezpRestTestCase extends ezpTestCase
         $controllerClass = $routingInfos->controllerClass;
         $controller = new $controllerClass( $routingInfos->action, $r );
         $controller->setRouter( $router );
-        
+
         return $controller;
     }
 }

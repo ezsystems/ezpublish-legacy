@@ -29,14 +29,10 @@ class ezpRestTestSuite extends ezpTestSuite
     public function setUp()
     {
         parent::setUp();
-
-        // make sure extension is enabled and settings are read
-        ezpExtensionHelper::load( 'rest' );
     }
 
     public function tearDown()
     {
-        ezpExtensionHelper::unload( 'rest' );
         parent::tearDown();
     }
 }
