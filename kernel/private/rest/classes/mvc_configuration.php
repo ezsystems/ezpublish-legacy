@@ -133,7 +133,7 @@ class ezpMvcConfiguration implements ezcMvcDispatcherConfiguration
 
     protected function runCustomFilters( $type, array $filterParams )
     {
-        $filterName = $type . 'Filter';
+        $filterName = $type . 'Filters';
         $interfaceName = 'ezpRest' . $filterName . 'FilterInterface';
         $definedCustomFilters = eZINI::instance( 'rest.ini' )->variable( $filterName , 'Filters' );
 
