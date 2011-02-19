@@ -29,9 +29,9 @@ class ezoeInfo
     static function info()
     {
         return array( 'Name'      => '<a href="http://projects.ez.no/ezoe">eZ Online Editor</a> extension',
-                      'Version'   => '5.3.0Alpha',
+                      'Version'   => '//autogentag//',
                       'Copyright' => 'Copyright (C) 1999-2010 eZ Systems AS',
-                      'License'   => 'GNU General Public License v2.0',
+                      'License'   => '//EZP_LICENSE//',
                       'Includes the following third-party software' => array( 'Name' => 'Ephox Enterprise TinyMCE Javascript HTML WYSIWYG editor',
                                                                               'Version' => '3.3.9.3-328',
                                                                               'Copyright' => 'Copyright (C) 2010, Ephox Corporation, All rights reserved.',
