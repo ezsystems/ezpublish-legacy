@@ -1039,7 +1039,7 @@ language_locale='eng-GB'";
         $extensionsToEnable = array();
         // Included in "fat" install, needs to override $extraCommonSettings extensions
         $extensionsPrepended = array( /*@EZP_BUILD_EXTENSION_ACTIVATE@*/ 'ezjscore' );
-        foreach ( array( 'ezie', 'ezoe', 'ezodf' ) as $extension )
+        foreach ( array( 'ezie', 'ezoe', 'ezodf', 'ezprestapiprovider' ) as $extension )
         {
             if ( file_exists( "extension/$extension" ) )
             {
