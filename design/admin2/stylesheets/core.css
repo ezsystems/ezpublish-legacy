@@ -315,6 +315,12 @@ input.button-disabled, input.button[disabled="disabled"]
     color: #888;
 }
 
+input.disabled[type="image"]
+{
+	opacity: 0.7;
+	cursor: default;
+}
+
 input.box, textarea.box
 {
     width: 100%;
