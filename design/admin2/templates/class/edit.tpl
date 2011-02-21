@@ -352,22 +352,24 @@ jQuery(function( $ )//called on document.ready
     var moveButtons = $('#ezcca-edit-list div.listbutton input[name^=Move]');
     moveButtons.click(function( e )
     {
-    	e.preventDefault();
+        // Prevent form from being sent and make sure user is not able to duble click on button and causing issues
+        e.preventDefault();
+        $('#ezcca-edit-list div.listbutton input[name^=Move]').attr( "disabled", "disabled" ).addClass('disabled');
     	var tr = $(this).closest('tr.ezcca-edit-list-item'), param = this.name.split('_'), up = param[0] === 'MoveUp';
 
-    	// swap items in dom
+        // swap items in dom, or skip if number is to high / low
     	if ( up )
     	{
             var swap = tr.prev();
         	if ( !swap.size() )
-                return false;
+                return onDone();
         	swap.before( tr );
         }
     	else
     	{
             var swap = tr.next();
         	if ( !swap.size() )
-                return false;
+                return onDone();
         	swap.after( tr );
         }
 
@@ -379,9 +381,16 @@ jQuery(function( $ )//called on document.ready
         // store with ajax request
         var postVar = { 'ContentClassHasInput': 0 };
         postVar[ param[0] ] = param[1];
-        $.post( $('#ClassEdit').attr('action'), postVar );
+        $.post( $('#ClassEdit').attr('action'), postVar, onDone );
         return false;
     });
+
+    function onDone()
+    {
+        // Re-enable buttons now that ajax request has returned or it was skipped
+        $('#ezcca-edit-list div.listbutton input[name^=Move]').attr( "disabled", false ).removeClass('disabled');
+        return false;
+    }
 
     // Disable bottom datatype dropp down when using new button in top
     jQuery('#NewButtonTop').click(function()
