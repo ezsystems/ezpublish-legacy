@@ -1657,79 +1657,79 @@
     <name>design/admin/content/diff</name>
     <message>
         <source>Versions for &lt;%object_name&gt; [%version_count]</source>
-        <translation type="obsolete">Versies voor &lt;%object_name&gt; [%version_count]</translation>
+        <translation>Versies voor &lt;%object_name&gt; [%version_count]</translation>
     </message>
     <message>
         <source>Show differences</source>
-        <translation type="obsolete">Toon verschillen</translation>
+        <translation>Toon verschillen</translation>
     </message>
     <message>
         <source>Differences between versions %oldVersion and %newVersion</source>
-        <translation type="obsolete">Verschillen tussen versies %oldVersion en %newVersion</translation>
+        <translation>Verschillen tussen versies %oldVersion en %newVersion</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="obsolete">Versie</translation>
+        <translation>Versie</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation type="obsolete">Status</translation>
+        <translation>Status</translation>
     </message>
     <message>
         <source>Translations</source>
-        <translation type="obsolete">Vertalingen</translation>
+        <translation>Vertalingen</translation>
     </message>
     <message>
         <source>Creator</source>
-        <translation type="obsolete">Auteur</translation>
+        <translation>Auteur</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation type="obsolete">Aangepast</translation>
+        <translation>Aangepast</translation>
     </message>
     <message>
         <source>Draft</source>
-        <translation type="obsolete">Voorlopige versie</translation>
+        <translation>Voorlopige versie</translation>
     </message>
     <message>
         <source>Published</source>
-        <translation type="obsolete">Gepubliceerd</translation>
+        <translation>Gepubliceerd</translation>
     </message>
     <message>
         <source>Pending</source>
-        <translation type="obsolete">In wachtrij</translation>
+        <translation>In wachtrij</translation>
     </message>
     <message>
         <source>Archived</source>
-        <translation type="obsolete">Gearchiveerd</translation>
+        <translation>Gearchiveerd</translation>
     </message>
     <message>
         <source>Rejected</source>
-        <translation type="obsolete">Verworpen</translation>
+        <translation>Verworpen</translation>
     </message>
     <message>
         <source>Untouched draft</source>
-        <translation type="obsolete">Onaangeroerd concept</translation>
+        <translation>Onaangeroerd concept</translation>
     </message>
     <message>
         <source>Inline changes</source>
-        <translation type="obsolete">Inline wijzigingen</translation>
+        <translation>Inline wijzigingen</translation>
     </message>
     <message>
         <source>Block changes</source>
-        <translation type="obsolete">Wijzigingen blokkeren</translation>
+        <translation>Wijzigingen blokkeren</translation>
     </message>
     <message>
         <source>Old version</source>
-        <translation type="obsolete">Oude versie</translation>
+        <translation>Oude versie</translation>
     </message>
     <message>
         <source>New version</source>
-        <translation type="obsolete">Nieuwe versie</translation>
+        <translation>Nieuwe versie</translation>
     </message>
     <message>
         <source>Versions for &lt;%object_name&gt; (%version_count)</source>
-        <translation type="obsolete">Versies voor &lt;%object_name&gt; (%version_count)</translation>
+        <translation>Versies voor &lt;%object_name&gt; (%version_count)</translation>
     </message>
 </context>
 <context>
@@ -2244,10 +2244,6 @@
     <message>
         <source>Related content (%related_objects)</source>
         <translation>Gerelateerde content (%related_objects)</translation>
-    </message>
-    <message>
-        <source>View the draft that is being edited.</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4123,35 +4119,35 @@
     <name>design/admin/content/versions</name>
     <message>
         <source>Unable to create new version</source>
-        <translation type="obsolete">Het is onmogelijk om een nieuwe versie aan te maken</translation>
+        <translation>Het is onmogelijk om een nieuwe versie aan te maken</translation>
     </message>
     <message>
         <source>Version history limit has been exceeded and no archived version can be removed by the system.</source>
-        <translation type="obsolete">De limiet van het aantal opeenvolgende versies in de geschiedenis is overschreden. Het systeem kan geen gearchiveerde versie verwijderen.  </translation>
+        <translation>De limiet van het aantal opeenvolgende versies in de geschiedenis is overschreden. Het systeem kan geen gearchiveerde versie verwijderen.  </translation>
     </message>
     <message>
         <source>You can change your version history settings in content.ini, remove draft versions or edit existing drafts.</source>
-        <translation type="obsolete">U kunt de instellingen voor het bijhouden van opeenvolgende versies veranderen in het content.ini bestand, voorlopige versies verwijderen of deze wijzigen.</translation>
+        <translation>U kunt de instellingen voor het bijhouden van opeenvolgende versies veranderen in het content.ini bestand, voorlopige versies verwijderen of deze wijzigen.</translation>
     </message>
     <message>
         <source>Versions for &lt;%object_name&gt; [%version_count]</source>
-        <translation type="obsolete">Versies voor &lt;%object_name&gt; [%version_count]</translation>
+        <translation>Versies voor &lt;%object_name&gt; [%version_count]</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="obsolete">Versie</translation>
+        <translation>Versie</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation type="obsolete">Status</translation>
+        <translation>Status</translation>
     </message>
     <message>
         <source>Creator</source>
-        <translation type="obsolete">Auteur</translation>
+        <translation>Auteur</translation>
     </message>
     <message>
         <source>Created</source>
-        <translation type="obsolete">Aangemaakt</translation>
+        <translation>Aangemaakt</translation>
     </message>
     <message>
         <source>Draft</source>
@@ -4171,63 +4167,63 @@
     </message>
     <message>
         <source>Rejected</source>
-        <translation type="obsolete">Verworpen</translation>
+        <translation>Verworpen</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="obsolete">Bewerken</translation>
+        <translation>Bewerken</translation>
     </message>
     <message>
         <source>Remove selected</source>
-        <translation type="obsolete">Verwijder selectie</translation>
+        <translation>Verwijder selectie</translation>
     </message>
     <message>
         <source>Object information</source>
-        <translation type="obsolete">Object informatie</translation>
+        <translation>Object informatie</translation>
     </message>
     <message>
         <source>ID</source>
-        <translation type="obsolete">ID</translation>
+        <translation>ID</translation>
     </message>
     <message>
         <source>Not yet published</source>
-        <translation type="obsolete">Nog te publiceren</translation>
+        <translation>Nog te publiceren</translation>
     </message>
     <message>
         <source>Published version</source>
-        <translation type="obsolete">Gepubliceerde versie</translation>
+        <translation>Gepubliceerde versie</translation>
     </message>
     <message>
         <source>This object does not have any versions.</source>
-        <translation type="obsolete">Dit object heeft nog geen enkele versie.</translation>
+        <translation>Dit object heeft nog geen enkele versie.</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation type="obsolete">Aangepast</translation>
+        <translation>Aangepast</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="obsolete">Kopiëren </translation>
+        <translation>Kopiëren </translation>
     </message>
     <message>
         <source>Create a copy of version #%version_number.</source>
-        <translation type="obsolete">Maak een kopie van versie nr. %version_number.</translation>
+        <translation>Maak een kopie van versie nr. %version_number.</translation>
     </message>
     <message>
         <source>Edit the contents of version #%version_number.</source>
-        <translation type="obsolete">Bewerk versie nr. %version_number.</translation>
+        <translation>Bewerk versie nr. %version_number.</translation>
     </message>
     <message>
         <source>Remove the selected versions from the object.</source>
-        <translation type="obsolete">Verwijder de geselecteerde versies van het object.</translation>
+        <translation type="unfinished">Verwijder de geselecteerde versies van het object.</translation>
     </message>
     <message>
         <source>Select version #%version_number for removal.</source>
-        <translation type="obsolete">Selecteer te verwijderen versienr. %versie_number.</translation>
+        <translation type="unfinished">Selecteer te verwijderen versienr. %versie_number.</translation>
     </message>
     <message>
         <source>View the contents of version #%version_number. Translation: %translation.</source>
-        <translation type="obsolete">Bekijk de inhoud van versienr. %version_number. Vertaling: %translation.</translation>
+        <translation type="unfinished">Bekijk de inhoud van versienr. %version_number. Vertaling: %translation.</translation>
     </message>
     <message>
         <source>Untouched draft</source>
@@ -4235,47 +4231,51 @@
     </message>
     <message>
         <source>Back</source>
-        <translation type="obsolete">Terug</translation>
+        <translation type="unfinished">Terug</translation>
     </message>
     <message>
         <source>Version is not a draft</source>
-        <translation type="obsolete">De versie is geen concept</translation>
+        <translation type="unfinished">De versie is geen concept</translation>
     </message>
     <message>
         <source>Version %1 is not available for editing anymore. Only drafts can be edited.</source>
-        <translation type="obsolete">De versie %1 kan niet meer bewerkt worden. Enkel concepten kunnen bewerkt worden.</translation>
+        <translation type="unfinished">De versie %1 kan niet meer bewerkt worden. Enkel concepten kunnen bewerkt worden.</translation>
     </message>
     <message>
         <source>To edit this version, first create a copy of it.</source>
-        <translation type="obsolete">Om deze versie te bewerken, maak eerst een kopie ervan aan.</translation>
+        <translation type="unfinished">Om deze versie te bewerken, maak eerst een kopie ervan aan.</translation>
     </message>
     <message>
         <source>Version is not yours</source>
-        <translation type="obsolete">De versie is niet van u</translation>
+        <translation type="unfinished">De versie is niet van u</translation>
     </message>
     <message>
         <source>Version %1 was not created by you. You can only edit your own drafts.</source>
-        <translation type="obsolete">De versie %1 werd niet door u aangemaakt. U kunt enkel uw eigen concepten bewerken.</translation>
+        <translation type="unfinished">De versie %1 werd niet door u aangemaakt. U kunt enkel uw eigen concepten bewerken.</translation>
     </message>
     <message>
         <source>Modified translation</source>
-        <translation type="obsolete">Gewijzigde vertaling</translation>
+        <translation type="unfinished">Gewijzigde vertaling</translation>
     </message>
     <message>
         <source>Version #%version_number cannot be removed because it is either the published version of the object or because you do not have permission to remove it.</source>
-        <translation type="obsolete">Versienr. %version_number kan niet verwijderd worden omdat het ofwel de gepubliceerde versie van het object is of omdat u geen toestemming heeft om het te verwijderen.</translation>
+        <translation type="unfinished">Versienr. %version_number kan niet verwijderd worden omdat het ofwel de gepubliceerde versie van het object is of omdat u geen toestemming heeft om het te verwijderen.</translation>
+    </message>
+    <message>
+        <source>There is no need to make copies of untouched drafts.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>You cannot make copies of versions because you do not have permission to edit the object.</source>
-        <translation type="obsolete">U kunt geen kopies van de versies maken omdat u geen toestemming heeft om het object te bewerken.</translation>
+        <translation type="unfinished">U kunt geen kopies van de versies maken omdat u geen toestemming heeft om het object te bewerken.</translation>
     </message>
     <message>
         <source>You cannot edit the contents of version #%version_number either because it is not a draft or because you do not have permission to edit the object.</source>
-        <translation type="obsolete">U kunt de inhoud van versienr. %version_number niet bewerken ofwel omdat het geen concept is of omdat u geen toestemming heeft om het object te bewerken.</translation>
+        <translation type="unfinished">U kunt de inhoud van versienr. %version_number niet bewerken ofwel omdat het geen concept is of omdat u geen toestemming heeft om het object te bewerken.</translation>
     </message>
     <message>
         <source>Versions for &lt;%object_name&gt; (%version_count)</source>
-        <translation type="obsolete">Versies voor &lt;%object_name&gt; (%version_count)</translation>
+        <translation>Versies voor &lt;%object_name&gt; (%version_count)</translation>
     </message>
 </context>
 <context>
@@ -4466,14 +4466,6 @@
     <message>
         <source>Object ID</source>
         <translation type="unfinished">Object ID</translation>
-    </message>
-    <message>
-        <source>Dynamic tree menu is disabled for this siteaccess!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Internal errorD</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6132,10 +6124,6 @@
         <source>last</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Invert selection</source>
-        <translation type="unfinished">Selectie omkeren</translation>
-    </message>
 </context>
 <context>
     <name>design/admin/node/view/line</name>
@@ -7246,10 +7234,6 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     </message>
     <message>
         <source>States</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>URL management</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -12473,15 +12457,15 @@ Gegevenstype</translation>
     </message>
     <message>
         <source>Valid links [%url_list_count]</source>
-        <translation type="obsolete">Geldige URLs [%url_list_count]</translation>
+        <translation>Geldige URLs [%url_list_count]</translation>
     </message>
     <message>
         <source>Invalid links [%url_list_count]</source>
-        <translation type="obsolete">Ongeldige URLs [%url_list_count]</translation>
+        <translation>Ongeldige URLs [%url_list_count]</translation>
     </message>
     <message>
         <source>All links [%url_list_count]</source>
-        <translation type="obsolete">Alle URLs [%url_list_count]</translation>
+        <translation>Alle URLs [%url_list_count]</translation>
     </message>
     <message>
         <source>All</source>
@@ -12566,18 +12550,6 @@ Gegevenstype</translation>
     <message>
         <source>All links (%url_list_count)</source>
         <translation>Alle URLs (%url_list_count)</translation>
-    </message>
-    <message>
-        <source>Valid URLs [%url_list_count]</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Invalid URLs [%url_list_count]</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>All URLs [%url_list_count]</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -13379,14 +13351,6 @@ uw account te activeren.</translation>
     <message>
         <source>The following information is either missing or invalid</source>
         <translation type="unfinished">De volgende informatie is onvolledig of mist</translation>
-    </message>
-    <message>
-        <source>Error : Could not load workflow event &quot;%eventtype&quot; (event type not available)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Hint : This can happen when a workflow extension has been disabled</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -14412,13 +14376,6 @@ uw account te activeren.</translation>
     <message>
         <source>Minute</source>
         <translation type="obsolete">Minuut</translation>
-    </message>
-</context>
-<context>
-    <name>design/ezwebin/node/removeobject</name>
-    <message>
-        <source>The items contain more than the maximum possible nodes for subtree removal and will not be deleted. You can remove this subtree using the ezsubtreeremove.php script.</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -15769,18 +15726,6 @@ Indien u commentaren naar de fiatteur wenst te sturen of de status wenst te zien
         <source>Country/region</source>
         <translation>Land/regio</translation>
     </message>
-    <message>
-        <source>Your content is being published</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Publishing finished</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Your content is pending an external action</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>design/standard/content/browse</name>
@@ -16630,84 +16575,80 @@ Indien u commentaren naar de fiatteur wenst te sturen of de status wenst te zien
         <source>Your browser does not support html5 audio.</source>
         <translation>Uw broswer ondersteund geen HTML5 audio.</translation>
     </message>
-    <message>
-        <source>Confirm email</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>design/standard/content/diff</name>
     <message>
         <source>Version</source>
-        <translation type="obsolete">Versie</translation>
+        <translation>Versie</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation type="obsolete">Status</translation>
+        <translation>Status</translation>
     </message>
     <message>
         <source>Translations</source>
-        <translation type="obsolete">Vertalingen</translation>
+        <translation>Vertalingen</translation>
     </message>
     <message>
         <source>Creator</source>
-        <translation type="obsolete">Auteur</translation>
+        <translation>Auteur</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation type="obsolete">Aangepast </translation>
+        <translation>Aangepast </translation>
     </message>
     <message>
         <source>Versions for &lt;%object_name&gt; [%version_count]</source>
-        <translation type="obsolete">Versies voor &lt;%object_name&gt; [%version_count]</translation>
+        <translation>Versies voor &lt;%object_name&gt; [%version_count]</translation>
     </message>
     <message>
         <source>Draft</source>
-        <translation type="obsolete">Voorlopige versie</translation>
+        <translation>Voorlopige versie</translation>
     </message>
     <message>
         <source>Published</source>
-        <translation type="obsolete">Gepubliceerd</translation>
+        <translation>Gepubliceerd</translation>
     </message>
     <message>
         <source>Pending</source>
-        <translation type="obsolete">In wachtrij</translation>
+        <translation>In wachtrij</translation>
     </message>
     <message>
         <source>Archived</source>
-        <translation type="obsolete">Gearchiveerd</translation>
+        <translation>Gearchiveerd</translation>
     </message>
     <message>
         <source>Rejected</source>
-        <translation type="obsolete">Verworpen</translation>
+        <translation>Verworpen</translation>
     </message>
     <message>
         <source>Untouched draft</source>
-        <translation type="obsolete">Onaangeroerd concept</translation>
+        <translation>Onaangeroerd concept</translation>
     </message>
     <message>
         <source>Show differences</source>
-        <translation type="obsolete">Verschillen tonen</translation>
+        <translation>Verschillen tonen</translation>
     </message>
     <message>
         <source>Differences between versions %oldVersion and %newVersion</source>
-        <translation type="obsolete">Verschillen tussen versies %oldVersion en %newVersion</translation>
+        <translation>Verschillen tussen versies %oldVersion en %newVersion</translation>
     </message>
     <message>
         <source>Inline changes</source>
-        <translation type="obsolete">Inline wijzigingen</translation>
+        <translation>Inline wijzigingen</translation>
     </message>
     <message>
         <source>Block changes</source>
-        <translation type="obsolete">Wijzigingen blokkeren</translation>
+        <translation>Wijzigingen blokkeren</translation>
     </message>
     <message>
         <source>Old version</source>
-        <translation type="obsolete">Oude versie</translation>
+        <translation>Oude versie</translation>
     </message>
     <message>
         <source>New version</source>
-        <translation type="obsolete">Nieuwe versie</translation>
+        <translation>Nieuwe versie</translation>
     </message>
 </context>
 <context>
@@ -17609,74 +17550,74 @@ Neem contact op met deze persoon over de voorlopige versie of maak een nieuwe vo
     <name>design/standard/content/version</name>
     <message>
         <source>Versions for: %1</source>
-        <translation type="obsolete">Versies voor: %1</translation>
+        <translation>Versies voor: %1</translation>
     </message>
     <message>
         <source>Unable to create new version</source>
-        <translation type="obsolete">Het is onmogelijk om een nieuwe versie aan te maken</translation>
+        <translation>Het is onmogelijk om een nieuwe versie aan te maken</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="obsolete">Bewerken</translation>
+        <translation>Bewerken</translation>
     </message>
     <message>
         <source>Copy and edit</source>
-        <translation type="obsolete">Kopiëren en bewerken</translation>
+        <translation>Kopiëren en bewerken</translation>
     </message>
     <message>
         <source>Version history limit has been exceeded and no archived version can be removed by the system.</source>
-        <translation type="obsolete">De limiet van het aantal opeenvolgende versies die kunnen worden gemonitord is overschreden. Het systeem kan geen gearchiveerde versie verwijderen.  </translation>
+        <translation>De limiet van het aantal opeenvolgende versies die kunnen worden gemonitord is overschreden. Het systeem kan geen gearchiveerde versie verwijderen.  </translation>
     </message>
     <message>
         <source>You can change your version history settings in content.ini, remove draft versions or edit existing drafts.</source>
-        <translation type="obsolete">U kunt de instellingen voor het bijhouden van opeenvolgende versies veranderen in het content.ini bestand, voorlopige versies verwijderen of deze wijzigen.</translation>
+        <translation>U kunt de instellingen voor het bijhouden van opeenvolgende versies veranderen in het content.ini bestand, voorlopige versies verwijderen of deze wijzigen.</translation>
     </message>
     <message>
         <source>Version %1 is not available for editing any more, only drafts can be edited.</source>
-        <translation type="obsolete">De versie %1 kan niet meer bewerkt worden. Enkel concepten kunnen bewerkt worden.</translation>
+        <translation>De versie %1 kan niet meer bewerkt worden. Enkel concepten kunnen bewerkt worden.</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="obsolete">Versie</translation>
+        <translation>Versie</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation type="obsolete">Status</translation>
+        <translation>Status</translation>
     </message>
     <message>
         <source>Translations</source>
-        <translation type="obsolete">Vertalingen</translation>
+        <translation>Vertalingen</translation>
     </message>
     <message>
         <source>Creator</source>
-        <translation type="obsolete">Auteur</translation>
+        <translation>Auteur</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation type="obsolete">Aangepast</translation>
+        <translation>Aangepast</translation>
     </message>
     <message>
         <source>Version is not a draft</source>
-        <translation type="obsolete">De versie is geen concept</translation>
+        <translation>De versie is geen concept</translation>
     </message>
     <message>
         <source>To edit this version, first create a copy of it.</source>
-        <translation type="obsolete">Om deze versie te bewerken, maak eerst een kopie ervan aan.</translation>
+        <translation>Om deze versie te bewerken, maak eerst een kopie ervan aan.</translation>
     </message>
     <message>
         <source>Version is not yours</source>
-        <translation type="obsolete">De versie is niet van u</translation>
+        <translation>De versie is niet van u</translation>
     </message>
     <message>
         <source>Version %1 was not created by you. You can only edit your own drafts.</source>
-        <translation type="obsolete">De versie %1 werd niet door u aangemaakt. U kunt enkel uw eigen concepten bewerken.</translation>
+        <translation>De versie %1 werd niet door u aangemaakt. U kunt enkel uw eigen concepten bewerken.</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/versions</name>
     <message>
         <source>This object does not have any versions.</source>
-        <translation type="obsolete">Dit object heeft nog geen enkele versie.</translation>
+        <translation>Dit object heeft nog geen enkele versie.</translation>
     </message>
 </context>
 <context>
@@ -18590,26 +18531,6 @@ Als u dit wilt worden ook alle kinderen verwijderd.</translation>
         <source>Cancel removal</source>
         <translation>Verwijdering annuleren</translation>
     </message>
-    <message>
-        <source>Please wait while your content is being published</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Your content has been published successfully</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>View the published item</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Publishing has been deferred to crontab and will be published when the operation resumes. The object is also listed in your dashboard under pending items.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>View your pending content</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>design/standard/menuconfig</name>
@@ -18689,7 +18610,7 @@ Als u dit wilt worden ook alle kinderen verwijderd.</translation>
     </message>
     <message>
         <source>Are you sure you want to remove these items?</source>
-        <translation type="obsolete">Weet u zeker dat u deze elementen wil verwijderen?</translation>
+        <translation>Weet u zeker dat u deze elementen wil verwijderen?</translation>
     </message>
     <message>
         <source>%nodename and its %childcount children. %additionalwarning</source>
@@ -24594,15 +24515,15 @@ Om dit te doen, moet u de %chown commando&apos;s bij de alternatieve shellcomman
     </message>
     <message>
         <source>All links</source>
-        <translation type="obsolete">Alle URL&apos;s</translation>
+        <translation>Alle URL&apos;s</translation>
     </message>
     <message>
         <source>Invalid links</source>
-        <translation type="obsolete">Ongeldige URLs</translation>
+        <translation>Ongeldige URLs</translation>
     </message>
     <message>
         <source>Valid links</source>
-        <translation type="obsolete">Geldige URLs</translation>
+        <translation>Geldige URLs</translation>
     </message>
     <message>
         <source>Information on URL</source>
@@ -24627,18 +24548,6 @@ Om dit te doen, moet u de %chown commando&apos;s bij de alternatieve shellcomman
     <message>
         <source>This means that the URL is no longer available or has been moved.</source>
         <translation>Dit betekent dat de URL niet langer beschikbaar is of verplaatst werd.</translation>
-    </message>
-    <message>
-        <source>All URLs</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Invalid URLs</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Valid URLs</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -24865,10 +24774,6 @@ uw account te activeren.</translation>
         <source>The new password must be at least %1 characters long. Please retype your new password.</source>
         <translation type="unfinished">Het nieuw wachtwoord moet tenminste %1 tekens lang zijn. Gelieve uw nieuw wachtwoord opnieuw in te geven.</translation>
     </message>
-    <message>
-        <source>Your email address has been confirmed. An administrator needs to approve your sign up request, before your login becomes valid.</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>design/standard/user/</name>
@@ -24978,14 +24883,6 @@ uw account te activeren.</translation>
         <source>Username</source>
         <comment>Login name</comment>
         <translation>Gebruikersnaam</translation>
-    </message>
-    <message>
-        <source>Your registration has been approved. You can login with your account %username.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Click the following URL to login:</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -25698,13 +25595,6 @@ uw account te activeren.</translation>
     <message>
         <source>Language</source>
         <translation>Taal</translation>
-    </message>
-</context>
-<context>
-    <name>design/starndard/node</name>
-    <message>
-        <source>Are you sure you want to remove these items?</source>
-        <translation type="unfinished">Weet u zeker dat u deze elementen wil verwijderen?</translation>
     </message>
 </context>
 <context>
@@ -26551,11 +26441,6 @@ indien u optie &quot;%3&quot; tot &quot;%4&quot; koos</translation>
         <comment>eZUserType</comment>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>The emails do not match.</source>
-        <comment>eZUserType</comment>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>kernel/classes/datatypes/ezbinaryfile</name>
@@ -26704,7 +26589,7 @@ indien u optie &quot;%3&quot; tot &quot;%4&quot; koos</translation>
     </message>
     <message>
         <source>Versions</source>
-        <translation type="obsolete">Versies</translation>
+        <translation type="unfinished">Versies</translation>
     </message>
     <message>
         <source>My bookmarks</source>
@@ -26776,7 +26661,7 @@ indien u optie &quot;%3&quot; tot &quot;%4&quot; koos</translation>
     </message>
     <message>
         <source>Differences</source>
-        <translation type="obsolete">Verschillen</translation>
+        <translation type="unfinished">Verschillen</translation>
     </message>
     <message>
         <source>Edit</source>
@@ -26860,10 +26745,6 @@ indien u optie &quot;%3&quot; tot &quot;%4&quot; koos</translation>
     </message>
     <message>
         <source>You have already sent a tipafriend mail to this receiver regarding &apos;%1&apos; content</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Publishing queue</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -27031,14 +26912,6 @@ indien u optie &quot;%3&quot; tot &quot;%4&quot; koos</translation>
     <message>
         <source>The size of the uploaded file exceeds the limit set for this site: %1 bytes.</source>
         <translation type="unfinished">De grootte van het te uploaden bestand overschrijdt de ingestelde limiet voor deze site: %1 bytes.</translation>
-    </message>
-    <message>
-        <source>The uploaded file size is above the maximum limit.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>A system error occured while writing the uploaded file.</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -28137,10 +28010,6 @@ indien u optie &quot;%3&quot; tot &quot;%4&quot; koos</translation>
         <source>New user registered</source>
         <translation type="unfinished">Nieuwe gebruiker geregistreerd</translation>
     </message>
-    <message>
-        <source>User registration approved</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>kernel/workflow</name>
@@ -28230,10 +28099,6 @@ indien u optie &quot;%3&quot; tot &quot;%4&quot; koos</translation>
     <message>
         <source>Payment Gateway</source>
         <translation type="unfinished">Betaal gateway</translation>
-    </message>
-    <message>
-        <source>Finish User Registration</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
