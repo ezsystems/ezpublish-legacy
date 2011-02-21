@@ -128,7 +128,7 @@ class ezjscPacker
             }
             else
             {
-                $ret .= $packedFile ? "<style rel=\"$rel\" type=\"$type\"$media>\r\n$packedFile\r\n</style>\r\n" : '';
+                $ret .= $packedFile ? "<style type=\"$type\"$media>\r\n$packedFile\r\n</style>\r\n" : '';
             }
         }
         return $ret;
