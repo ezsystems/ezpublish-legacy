@@ -8,12 +8,6 @@
  * @package kernel
  */
 
-//!! eZKernel
-//! The class eZViewCounter
-/*!
-
-*/
-
 class eZViewCounter extends eZPersistentObject
 {
     function eZViewCounter( $row )
@@ -73,16 +67,22 @@ class eZViewCounter extends eZPersistentObject
         }
     }
 
-    /*!
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
+    /**
+     * Increase the counter.
+     *
+     * @param int $count Number of times to increase the counter, by default: 1.
      */
-    function increase()
+    public function increase( $count = 1 )
     {
-        $currentCount = $this->attribute( 'count' );
-        $newCount = $currentCount + 1;
-        $this->setAttribute( 'count', $newCount );
-        $this->store();
+        // The attribute is naively incremented, despite possible updates in the DB.
+        $this->setAttribute( 'count', $this->attribute( 'count' ) + $count );
+        // However, we are not using ->store() here so that we atomatically update
+        // the value of the counter in case it has been updated in parallel.
+        eZDB::instance()->query(
+            "UPDATE ezview_counter " .
+            "SET count = count + " . (int)$count . " " .
+            "WHERE node_id=" . $this->attribute( "node_id" )
+        );
     }
 
     static function fetch( $node_id, $asObject = true )
