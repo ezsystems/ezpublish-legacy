@@ -104,7 +104,14 @@ class eZSendmailTransport extends eZMailTransport
             }
             $extraHeaders = $mail->headerText( array( 'exclude-headers' => $excludeHeaders ) );
 
-            return mail( $receiverEmailText, $mail->subject(), $message, $extraHeaders, $sendmailOptions );
+            $returnedValue = mail( $receiverEmailText, $mail->subject(), $message, $extraHeaders, $sendmailOptions );
+            if ( $returnedValue === false )
+            {
+                eZDebug::writeError( 'An error occurred with sending e-mail. Check the Sendmail error message for further information (usually in /var/log/messages)',
+                                     __METHOD__ );
+            }
+
+            return $returnedValue;
         }
         else
         {

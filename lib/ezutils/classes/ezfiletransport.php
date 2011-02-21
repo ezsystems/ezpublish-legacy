@@ -74,7 +74,13 @@ class eZFileTransport extends eZMailTransport
         $filename = time() . '-' . rand() . '.mail';
 
         $data = preg_replace('/(\r\n|\r|\n)/', "\r\n", $mail->headerText() . "\n" . $mail->body() );
-        return eZFile::create( $filename, 'var/log/mail', $data );
+        $returnedValue = eZFile::create( $filename, 'var/log/mail', $data );
+        if ( $returnedValue === false )
+        {
+            eZDebug::writeError( 'An error occurred writing the e-mail file in var/log/mail', __METHOD__ );
+        }
+
+        return $returnedValue;
     }
 }
 
