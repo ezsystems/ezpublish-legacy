@@ -107,7 +107,7 @@ class eZSendmailTransport extends eZMailTransport
             $returnedValue = mail( $receiverEmailText, $mail->subject(), $message, $extraHeaders, $sendmailOptions );
             if ( $returnedValue === false )
             {
-                eZDebug::writeError( 'An error occurred with sending e-mail. Check the Sendmail error message for further information (usually in /var/log/messages)',
+                eZDebug::writeError( 'An error occurred while sending e-mail. Check the Sendmail error message for further information (usually in /var/log/messages)',
                                      __METHOD__ );
             }
 
