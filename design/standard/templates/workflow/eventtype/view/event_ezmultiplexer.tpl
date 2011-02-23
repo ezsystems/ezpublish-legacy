@@ -71,7 +71,7 @@
 {"Workflow to run"|i18n("design/standard/workflow/eventtype/view")}:
 
 {section var=workflow loop=$event.workflow_type.workflow_list}
-{if $selectedWorkflow|contains($workflow.value)}
+{if $selectedWorkflow|eq($workflow.value)}
 {$workflow.Name|wash}
 {/if}
 {/section}
