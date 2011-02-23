@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0">
+<TS version="2.0" language="es_MX">
 <context>
     <name>contentstructuremenu/show_content_structure</name>
     <message>
@@ -12,15 +12,15 @@
     <name>design</name>
     <message>
         <source>%group_name [Content object state group]</source>
-        <translation type="unfinished"></translation>
+        <translation>%group_name [Grupo del estado del objeto de contenido]</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Editar</translation>
     </message>
     <message>
         <source>%state_name [Content object state]</source>
-        <translation type="unfinished"></translation>
+        <translation>%state_name [Estado de objeto de contenido]</translation>
     </message>
 </context>
 <context>
@@ -135,7 +135,7 @@
     </message>
     <message>
         <source>List of classes inside %group_name class group (%class_count)</source>
-        <translation type="unfinished"></translation>
+        <translation>Lista de clases dentro del grupo de clases %group_name (%class_count)</translation>
     </message>
 </context>
 <context>
@@ -421,19 +421,19 @@
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Descripción</translation>
+        <translation>Descripción</translation>
     </message>
     <message>
         <source>Use this field to set the informal description of the class. The description field can contain whitespaces and special characters.</source>
-        <translation type="unfinished"></translation>
+        <translation>Use este campo para ingresar la descripción informal de la clase. El campo descripción puede contener espacios en blanco y caracteres especiales.</translation>
     </message>
     <message>
         <source>List of class attributes</source>
-        <translation type="unfinished"></translation>
+        <translation>Lista de atributos de la clase</translation>
     </message>
     <message>
         <source>Class attribute item</source>
-        <translation type="unfinished"></translation>
+        <translation>Atributo de la clase</translation>
     </message>
     <message>
         <source>Use this field to set the informal description of the attribute. This field can contain whitespaces and special characters.</source>
@@ -445,7 +445,7 @@
     </message>
     <message>
         <source>Default</source>
-        <translation type="unfinished">Predeterminado</translation>
+        <translation>Predeterminado</translation>
     </message>
     <message>
         <source>Category</source>
@@ -629,7 +629,7 @@
     </message>
     <message>
         <source>Objects</source>
-        <translation type="unfinished">Objetos</translation>
+        <translation>Objetos</translation>
     </message>
 </context>
 <context>
@@ -1837,7 +1837,7 @@
     <name>design/admin/content/dashboard</name>
     <message>
         <source>Dashboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Tablero</translation>
     </message>
 </context>
 <context>
@@ -1848,23 +1848,23 @@
     </message>
     <message>
         <source>Year</source>
-        <translation type="unfinished">Año</translation>
+        <translation>Año</translation>
     </message>
     <message>
         <source>Month</source>
-        <translation type="unfinished">Mes</translation>
+        <translation>Mes</translation>
     </message>
     <message>
         <source>Day</source>
-        <translation type="unfinished">Día</translation>
+        <translation>Día</translation>
     </message>
     <message>
         <source>Hour</source>
-        <translation type="unfinished">Hora</translation>
+        <translation>Hora</translation>
     </message>
     <message>
         <source>Minute</source>
-        <translation type="unfinished">Minuto</translation>
+        <translation>Minuto</translation>
     </message>
 </context>
 <context>
@@ -2500,7 +2500,7 @@
     </message>
     <message>
         <source>None</source>
-        <translation type="unfinished">Ninguno</translation>
+        <translation>Ninguno</translation>
     </message>
     <message>
         <source>Related objects (%related_objects)</source>
@@ -4199,15 +4199,15 @@
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished">Tipo</translation>
+        <translation>Tipo</translation>
     </message>
     <message>
         <source>Redirect</source>
-        <translation type="unfinished">Redireccionar</translation>
+        <translation>Redireccionar</translation>
     </message>
     <message>
         <source>Direct</source>
-        <translation type="unfinished">Directo</translation>
+        <translation>Directo</translation>
     </message>
     <message>
         <source>URL alias name:</source>
@@ -4474,15 +4474,15 @@
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished">Tipo</translation>
+        <translation>Tipo</translation>
     </message>
     <message>
         <source>Redirect</source>
-        <translation type="unfinished">Redireccionar</translation>
+        <translation>Redireccionar</translation>
     </message>
     <message>
         <source>Direct</source>
-        <translation type="unfinished">Directo</translation>
+        <translation>Directo</translation>
     </message>
     <message>
         <source>Destination (path to existing functionality or resource)</source>
@@ -5134,11 +5134,11 @@
     </message>
     <message>
         <source>Back to edit</source>
-        <translation type="unfinished">Regresar a la edición</translation>
+        <translation>Regresar a la edición</translation>
     </message>
     <message>
         <source>Back</source>
-        <translation type="unfinished">Atrás</translation>
+        <translation>Atrás</translation>
     </message>
 </context>
 <context>
@@ -5216,19 +5216,19 @@
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Nombre</translation>
+        <translation>Nombre</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished">Tipo</translation>
+        <translation>Tipo</translation>
     </message>
     <message>
         <source>Published</source>
-        <translation type="unfinished">Publicado</translation>
+        <translation>Publicado</translation>
     </message>
     <message>
         <source>Author</source>
-        <translation type="unfinished">Autor</translation>
+        <translation>Autor</translation>
     </message>
     <message>
         <source>Edit</source>
@@ -5236,11 +5236,11 @@
     </message>
     <message>
         <source>Edit &lt;%child_name&gt;.</source>
-        <translation type="unfinished">Editar &lt;%child_name&gt;.</translation>
+        <translation>Editar &lt;%child_name&gt;.</translation>
     </message>
     <message>
         <source>You do not have permission to edit &lt;%child_name&gt;.</source>
-        <translation type="unfinished">No se cuenta con permiso para editar &lt;%child_name&gt;.</translation>
+        <translation>No se cuenta con permiso para editar &lt;%child_name&gt;.</translation>
     </message>
     <message>
         <source>Latest content list is empty.</source>
@@ -5251,19 +5251,19 @@
     <name>design/admin/dashboard/drafts</name>
     <message>
         <source>My drafts</source>
-        <translation type="unfinished">Mis borradores</translation>
+        <translation>Mis borradores</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Nombre</translation>
+        <translation>Nombre</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished">Tipo</translation>
+        <translation>Tipo</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished">Versión</translation>
+        <translation>Versión</translation>
     </message>
     <message>
         <source>Modified</source>
@@ -5271,7 +5271,7 @@
     </message>
     <message>
         <source>Edit &lt;%draft_name&gt;.</source>
-        <translation type="unfinished">Editar &lt;%draft_name&gt;.</translation>
+        <translation>Editar &lt;%draft_name&gt;.</translation>
     </message>
     <message>
         <source>Edit</source>
@@ -5290,11 +5290,11 @@
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Nombre</translation>
+        <translation>Nombre</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished">Tipo</translation>
+        <translation>Tipo</translation>
     </message>
     <message>
         <source>Modified</source>
@@ -5306,11 +5306,11 @@
     </message>
     <message>
         <source>Edit &lt;%child_name&gt;.</source>
-        <translation type="unfinished">Editar &lt;%child_name&gt;.</translation>
+        <translation>Editar &lt;%child_name&gt;.</translation>
     </message>
     <message>
         <source>You do not have permission to edit &lt;%child_name&gt;.</source>
-        <translation type="unfinished">No se cuenta con permiso para editar &lt;%child_name&gt;.</translation>
+        <translation>No se cuenta con permiso para editar &lt;%child_name&gt;.</translation>
     </message>
     <message>
         <source>Your latest content list is empty.</source>
@@ -5336,15 +5336,15 @@
     <name>design/admin/dashboard/pending_list</name>
     <message>
         <source>My pending items</source>
-        <translation type="unfinished">Mis elementos pendientes</translation>
+        <translation>Mis elementos pendientes</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Nombre</translation>
+        <translation>Nombre</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished">Tipo</translation>
+        <translation>Tipo</translation>
     </message>
     <message>
         <source>Modified</source>
@@ -5359,15 +5359,15 @@
     <name>design/admin/dashboard/wishlist</name>
     <message>
         <source>Wish list</source>
-        <translation type="unfinished">Lista de deseos</translation>
+        <translation>Lista de deseos</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Nombre</translation>
+        <translation>Nombre</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished">Tipo</translation>
+        <translation>Tipo</translation>
     </message>
     <message>
         <source>Currently you do not have any products on your wish list.</source>
@@ -7769,58 +7769,58 @@ Nota: los paquetes no se desinstalarán.</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">Eliminar</translation>
+        <translation>Eliminar</translation>
     </message>
 </context>
 <context>
     <name>design/admin/pagelayout</name>
     <message>
         <source>Content structure</source>
-        <translation type="unfinished">Estructura actual</translation>
+        <translation>Estructura actual</translation>
     </message>
     <message>
         <source>Manage the main content structure of the site.</source>
-        <translation type="unfinished">Administrar la estructura de contenido principal del sitio.</translation>
+        <translation>Administrar la estructura de contenido principal del sitio.</translation>
     </message>
     <message>
         <source>Media library</source>
-        <translation type="unfinished">Multimedia</translation>
+        <translation>Multimedia</translation>
     </message>
     <message>
         <source>Manage images, files, documents, etc.</source>
-        <translation type="unfinished">Administrar imágenes, archivos, documentos, etc.</translation>
+        <translation>Administrar imágenes, archivos, documentos, etc.</translation>
     </message>
     <message>
         <source>User accounts</source>
-        <translation type="unfinished">Usuarios</translation>
+        <translation>Cuentas de Usuario</translation>
     </message>
     <message>
         <source>Manage users, user groups and permission settings.</source>
-        <translation type="unfinished">Administrar usuarios, grupos de usuarios y configuraciones de permisos.</translation>
+        <translation>Administrar usuarios, grupos de usuarios y configuraciones de permisos.</translation>
     </message>
     <message>
         <source>Webshop</source>
-        <translation type="unfinished">Tienda en línea</translation>
+        <translation>Tienda en línea</translation>
     </message>
     <message>
         <source>Manage customers, orders, discounts and VAT types; view sales statistics.</source>
-        <translation type="unfinished">Administrar clientes, pedidos, descuentos tipos de IVA; ver estadísticas de ventas.</translation>
+        <translation>Administrar clientes, pedidos, descuentos tipos de IVA; ver estadísticas de ventas.</translation>
     </message>
     <message>
         <source>Design</source>
-        <translation type="unfinished">Diseño</translation>
+        <translation>Diseño</translation>
     </message>
     <message>
         <source>Manage templates, menus, toolbars and other things related to appearence.</source>
-        <translation type="unfinished">Administrar plantillas, menús, barras de herramientas y otras cosas relacionadas con la apariencia.</translation>
+        <translation>Administrar plantillas, menús, barras de herramientas y otras cosas relacionadas con la apariencia.</translation>
     </message>
     <message>
         <source>Setup</source>
-        <translation type="unfinished">Configuración</translation>
+        <translation>Configuración</translation>
     </message>
     <message>
         <source>Configure settings and manage advanced functionality.</source>
-        <translation type="unfinished">Configurar preferencias y administrar funciones avanzadas.</translation>
+        <translation>Configurar preferencias y administrar funciones avanzadas.</translation>
     </message>
     <message>
         <source>My account</source>
@@ -7828,7 +7828,7 @@ Nota: los paquetes no se desinstalarán.</translation>
     </message>
     <message>
         <source>Manage items and settings that belong to your account.</source>
-        <translation type="unfinished">Administrar elementos y preferencias de tu cuenta.</translation>
+        <translation>Administrar elementos y preferencias de tu cuenta.</translation>
     </message>
     <message>
         <source>Search</source>
@@ -7983,18 +7983,18 @@ Nota: los paquetes no se desinstalarán.</translation>
     <name>design/admin/pagelayout/path</name>
     <message>
         <source>You are here:</source>
-        <translation type="unfinished"></translation>
+        <translation>Estas aquí:</translation>
     </message>
 </context>
 <context>
     <name>design/admin/pagelayout/rightmenu</name>
     <message>
         <source>Show / Hide rightmenu</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar/Ocultar menú derecho</translation>
     </message>
     <message>
         <source>Hide / Show rightmenu</source>
-        <translation type="unfinished"></translation>
+        <translation>Ocultar/Mostrar menú derecho</translation>
     </message>
 </context>
 <context>
@@ -8045,7 +8045,7 @@ Nota: los paquetes no se desinstalarán.</translation>
     </message>
     <message>
         <source>Site structure</source>
-        <translation type="unfinished"></translation>
+        <translation>Estructura del sitio</translation>
     </message>
 </context>
 <context>
@@ -8171,7 +8171,7 @@ Nota: los paquetes no se desinstalarán.</translation>
     </message>
     <message>
         <source>Edit profile</source>
-        <translation type="unfinished">Editar perfil</translation>
+        <translation>Editar perfil</translation>
     </message>
     <message>
         <source>Dashboard</source>
@@ -8778,7 +8778,7 @@ Nota: los paquetes no se desinstalarán.</translation>
     </message>
     <message>
         <source>Preview</source>
-        <translation type="unfinished">Vista previa</translation>
+        <translation>Vista previa</translation>
     </message>
 </context>
 <context>
@@ -9294,7 +9294,7 @@ Nota: los paquetes no se desinstalarán.</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished">Guardar</translation>
+        <translation>Guardar</translation>
     </message>
     <message>
         <source>Save policy changes to this role</source>
@@ -9914,7 +9914,7 @@ Nota: los paquetes no se desinstalarán.</translation>
     </message>
     <message>
         <source>Skip</source>
-        <translation type="unfinished">Saltar</translation>
+        <translation>Saltar</translation>
     </message>
     <message>
         <source>Enclosure (media)</source>
@@ -10379,7 +10379,7 @@ Nota: los paquetes no se desinstalarán.</translation>
     </message>
     <message>
         <source>Identifier</source>
-        <translation type="unfinished">Identificador</translation>
+        <translation>Identificador</translation>
     </message>
 </context>
 <context>
@@ -11410,7 +11410,8 @@ Nota: los paquetes no se desinstalarán.</translation>
     <message>
         <source>Details</source>
         <comment>Detailed PHP information</comment>
-        <translation type="unfinished">Detalles</translation>
+        <translatorcomment>Informacion PHP detallada</translatorcomment>
+        <translation>Detalles</translation>
     </message>
     <message>
         <source>PHP autoload functions</source>
@@ -12593,7 +12594,7 @@ Nota: los paquetes no se desinstalarán.</translation>
     <name>design/admin/shop/discountruleedit</name>
     <message>
         <source>New discount rule</source>
-        <translation type="unfinished">Nueva regla de descuento</translation>
+        <translation>Nueva regla de descuento</translation>
     </message>
     <message>
         <source>Edit &lt;%rule_name&gt; [Discount rule]</source>
@@ -13684,7 +13685,7 @@ Nota: los paquetes no se desinstalarán.</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Cancelar</translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <source>Cancel saving any changes.</source>
@@ -13723,23 +13724,23 @@ Nota: los paquetes no se desinstalarán.</translation>
     </message>
     <message>
         <source>ID</source>
-        <translation type="unfinished">ID</translation>
+        <translation>ID</translation>
     </message>
     <message>
         <source>Identifier</source>
-        <translation type="unfinished">Identificador</translation>
+        <translation>Identificador</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Nombre</translation>
+        <translation>Nombre</translation>
     </message>
     <message>
         <source>Object count</source>
-        <translation type="unfinished">Número de objetos</translation>
+        <translation>Número de objetos</translation>
     </message>
     <message>
         <source>Order</source>
-        <translation type="unfinished">Pedido</translation>
+        <translation>Pedido</translation>
     </message>
     <message>
         <source>Select content object state group for removal.</source>
