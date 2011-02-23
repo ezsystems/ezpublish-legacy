@@ -334,9 +334,12 @@ class eZContentFunctionCollection
         return $result;
     }
 
+    /**
+     * @uses eZContentObjectTreeNode::subTreeByNodeID()
+     */
     static public function fetchObjectTree( $parentNodeID, $sortBy, $onlyTranslated, $language, $offset, $limit, $depth, $depthOperator,
                               $classID, $attribute_filter, $extended_attribute_filter, $class_filter_type, $class_filter_array,
-                              $groupBy, $mainNodeOnly, $ignoreVisibility, $limitation, $asObject, $objectNameFilter, $loadDataMap = null )
+                              $groupBy, $mainNodeOnly, $ignoreVisibility, $limitation, $asObject, $objectNameFilter, $loadDataMap = null, $columnName = null )
     {
         $treeParameters = array( 'Offset' => $offset,
                                  'OnlyTranslated' => $onlyTranslated,
@@ -351,7 +354,8 @@ class eZContentFunctionCollection
                                  'ClassFilterArray' => $class_filter_array,
                                  'IgnoreVisibility' => $ignoreVisibility,
                                  'ObjectNameFilter' => $objectNameFilter,
-                                 'MainNodeOnly' => $mainNodeOnly );
+                                 'MainNodeOnly' => $mainNodeOnly,
+                                 'ColumnName' => $columnName );
         if ( is_array( $groupBy ) )
         {
             $groupByHash = array( 'field' => $groupBy[0],

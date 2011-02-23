@@ -1854,6 +1854,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $mainNodeOnly     = ( isset( $params['MainNodeOnly']      ) )                         ? $params['MainNodeOnly']       : false;
         $ignoreVisibility = ( isset( $params['IgnoreVisibility']  ) )                         ? $params['IgnoreVisibility']   : false;
         $objectNameFilter = ( isset( $params['ObjectNameFilter']  ) )                         ? $params['ObjectNameFilter']   : false;
+        $columnName       = ( isset( $params['ColumnName']  ) )                               ? $params['ColumnName']         : false;
 
         if ( $offset < 0 )
         {
@@ -1939,14 +1940,28 @@ class eZContentObjectTreeNode extends eZPersistentObject
         // Determine whether we should show invisible nodes.
         $showInvisibleNodesCond = eZContentObjectTreeNode::createShowInvisibleSQLString( !$ignoreVisibility );
 
-        $query = "SELECT DISTINCT
-                       ezcontentobject.*,
+        if ( $columnName )
+        {
+            $def = self::definition();
+            if ( !isset( $def['fields'][$columnName] ) )
+            {
+                eZDebug::writeError( "'$columnName' is not a valid ezcontentobject_tree column", __METHOD__ );
+                return null;
+            }
+            $selectColumns = 'ezcontentobject_tree.' . $columnName . ' ' . $groupBySelectText;
+        }
+        else
+        {
+            $selectColumns = "ezcontentobject.*,
                        ezcontentobject_tree.*,
                        ezcontentclass.serialized_name_list as class_serialized_name_list,
                        ezcontentclass.identifier as class_identifier,
                        ezcontentclass.is_container as is_container
                        $groupBySelectText
-                       $versionNameTargets
+                       $versionNameTargets";
+        }
+        $query = "SELECT DISTINCT
+                       $selectColumns
                        $sortingInfo[attributeTargetSQL]
                        $extendedAttributeFilter[columns]
                    FROM
@@ -1978,15 +1993,18 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( $sortingInfo['sortingFields'] )
             $query .= " ORDER BY $sortingInfo[sortingFields]";
 
-        $db = eZDB::instance();
-
         $server = count( $sqlPermissionChecking['temp_tables'] ) > 0 ? eZDBInterface::SERVER_SLAVE : false;
 
+        $db = eZDB::instance();
         $nodeListArray = $db->arrayQuery( $query, array( 'offset' => $offset,
                                                          'limit'  => $limit ),
                                                   $server );
 
-        if ( $asObject )
+        if ( $columnName )
+        {
+            $retNodeList = $nodeListArray;
+        }
+        elseif ( $asObject )
         {
             $retNodeList = eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
             if ( $loadDataMap === true )
