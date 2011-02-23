@@ -42,7 +42,7 @@ class ezpRestHttpRequestParser extends ezcMvcHttpRequestParser
 
     /**
      * Sets the isEncrypted flag if HTTPS is on.
-     * 
+     *
      * @return void
      */
     protected function processEncryption()
@@ -59,7 +59,7 @@ class ezpRestHttpRequestParser extends ezcMvcHttpRequestParser
     {
         $variables = array();
         $internalVariables = array( 'ResponseGroups' ); // Expected variables
-        
+
         foreach( $internalVariables as $internalVariable )
         {
             if( isset( $_GET[$internalVariable] ) )
@@ -70,7 +70,7 @@ class ezpRestHttpRequestParser extends ezcMvcHttpRequestParser
                     case 'ResponseGroups':
                         $variables[$internalVariable] = explode( ',', $_GET[$internalVariable] );
                         break;
-                        
+
                     default:
                         $variables[$internalVariable] = $_GET[$internalVariable];
                 }
@@ -84,16 +84,16 @@ class ezpRestHttpRequestParser extends ezcMvcHttpRequestParser
                     case 'ResponseGroups':
                         $variables[$internalVariable] = array();
                         break;
-                    
+
                     default:
                         $variables[$internalVariable] = null;
                 }
             }
         }
-        
+
         return $variables;
     }
-    
+
     /**
      * Extract variables related to content from GET
      * @return array
@@ -102,7 +102,7 @@ class ezpRestHttpRequestParser extends ezcMvcHttpRequestParser
     {
         $contentVariables = array();
         $expectedVariables = array( 'Translation', 'OutputFormat' );
-        
+
         foreach( $expectedVariables as $variable )
         {
             if( isset( $_GET[$variable] ) )
@@ -122,7 +122,7 @@ class ezpRestHttpRequestParser extends ezcMvcHttpRequestParser
                 $contentVariables[$variable] = null;
             }
         }
-        
+
         return $contentVariables;
     }
 }
