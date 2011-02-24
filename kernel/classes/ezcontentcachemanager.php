@@ -700,7 +700,10 @@ class eZContentCacheManager
         if ( eZContentCache::inCleanupThresholdRange( $cleanupValue ) )
             eZContentCache::cleanup( $nodeList );
         else
+        {
+            eZDebug::writeDebug( "Expiring all view cache since list of nodes list({$cleanupValue}) exeeds site.ini\[ContentSettings]\CacheThreshold", __METHOD__ );
             eZContentObject::expireAllViewCache();
+        }
 
         eZDebug::accumulatorStop( 'node_cleanup' );
         return true;
