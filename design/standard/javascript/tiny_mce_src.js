@@ -11475,7 +11475,7 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 
 				if (!link) {
 					execNativeCommand('CreateLink', FALSE, 'javascript:mctmp(0);');
-					each(dom.select('a[href=javascript:mctmp(0);]'), function(link) {
+					each(dom.select("a[href='javascript:mctmp(0);']"), function(link) {
 						dom.setAttribs(link, value);
 					});
 				} else {
