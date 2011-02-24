@@ -949,9 +949,9 @@ class eZContentObject extends eZPersistentObject
 
         $resArray = $db->arrayQuery(
             "SELECT co.*, con.name as name, con.real_translation, cot.node_id
-             FROM ezcontentobject AS co
-             JOIN ezcontentobject_tree AS cot ON co.id = cot.contentobject_id AND co.current_version = cot.contentobject_version
-             JOIN ezcontentobject_name AS con ON co.id = con.contentobject_id AND co.current_version = con.content_version
+             FROM ezcontentobject co
+             JOIN ezcontentobject_tree cot ON co.id = cot.contentobject_id AND co.current_version = cot.contentobject_version
+             JOIN ezcontentobject_name con ON co.id = con.contentobject_id AND co.current_version = con.content_version
              WHERE " .
                 $db->generateSQLINStatement( $nodeID, 'cot.node_id', false, true, 'int' ) . " AND " .
                 eZContentLanguage::sqlFilter( 'con', 'co' )
