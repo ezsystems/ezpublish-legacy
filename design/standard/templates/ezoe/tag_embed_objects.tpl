@@ -19,6 +19,7 @@ var viewListData = {$view_list}, classListData = {$class_list}, attributeDefault
 
 tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
     tagName: 'embed',
+    selectedTag: {/literal}'{$tag_name}'{literal},
     form: 'EditForm',
     cancelButton: 'CancelButton',
     cssClass: compatibilityMode !== 'enabled' ? 'ezoeItemNonEditable ezoeItemContentTypeObjects' : '',

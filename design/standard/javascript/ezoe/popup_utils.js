@@ -537,10 +537,15 @@ var eZOEPopupUtils = {
         });
     },
 
+    /**
+     * Sets deafult values for based on custom attribute value
+     * global objects: ez
+     *
+     * @param string node Element id of parent node for custom attribute form
+     * @param string valueString The raw customattributes string from attribute
+     */
     initCustomAttributeValue: function( node, valueString )
     {
-        // sets deafult values for based on custom attribute value
-        // global objects: ez     
         if ( valueString === null || !document.getElementById( node ) )
             return;
         var arr = valueString.split('attribute_separation'), values = {}, t, handler = eZOEPopupUtils.settings.customAttributeInitHandler;
