@@ -1850,10 +1850,10 @@ class eZOEXMLInput extends eZXMLInputHandler
     /*
      * Find out if embed object is image type or not.
      */
-    public static function embedTagIsImageByNode( $node )
+    public static function embedTagIsImageByNode( $xmlNode )
     {
-        $objectID  = $node->getAttribute( 'object_id' );
-        $nodeID    = $node->getAttribute( 'node_id' );
+        $objectID  = $xmlNode->getAttribute( 'object_id' );
+        $nodeID    = $xmlNode->getAttribute( 'node_id' );
         $object    = false;
         $classIdentifier = false;
 
@@ -1863,8 +1863,9 @@ class eZOEXMLInput extends eZXMLInputHandler
         }
         elseif ( is_numeric( $nodeID ) )
         {
-            $node      = eZContentObjectTreeNode::fetch( $nodeID );
-            $object    = $node->object();
+            $node = eZContentObjectTreeNode::fetch( $nodeID );
+            if ( $node instanceof eZContentObjectTreeNode )
+                $object = $node->object();
         }
 
         if ( $object instanceof eZContentObject )
