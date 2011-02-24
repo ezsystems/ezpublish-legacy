@@ -11,6 +11,11 @@ Change of behavior
   Consequently, it's not possible view non-activated user from object view but possible from version view.
   This change might have affect on activation email template override.
 
+- viewcache.ini\[<class_identifier>]\ClearCacheMethod[]=all
+
+  This setting now includes the new ClearCacheMethod[]=children
+  'all' will always include all, so to avoid this: be specific
+
 
 Removed features
 ----------------

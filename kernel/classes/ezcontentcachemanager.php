@@ -53,7 +53,8 @@ class eZContentCacheManager
     const CLEAR_RELATING_CACHE = 4;
     const CLEAR_KEYWORD_CACHE  = 8;
     const CLEAR_SIBLINGS_CACHE = 16;
-    const CLEAR_ALL_CACHE      = 31;
+    const CLEAR_CHILDREN_CACHE = 32;
+    const CLEAR_ALL_CACHE      = 63;
     const CLEAR_DEFAULT        = 15; // CLEAR_NODE_CACHE and CLEAR_PARENT_CACHE and CLEAR_RELATING_CACHE and CLEAR_KEYWORD_CACHE
 
     /*!
@@ -277,6 +278,30 @@ class eZContentCacheManager
         }
     }
 
+    /**
+     * For each node in $nodeList finds its children nodes and adds its ids to
+     * the $nodeIDList.
+     *
+     * @param array(eZContentObjectTreeNode) $nodeList
+     * @param array(int) $nodeIDList
+     */
+    public static function appendChildrenNodeIDs( &$nodeList, &$nodeIDList )
+    {
+        $params = array( 'Depth' => 1,
+                         'AsObject' => false );
+        foreach ( $nodeList as $node )
+        {
+            $childNodeList = eZContentObjectTreeNode::subTreeByNodeID( $params, $node->attribute( 'node_id' ) );
+            if ( !empty( $childNodeList ) )
+            {
+                foreach ( $childNodeList as $childNode )
+                {
+                    $nodeIDList[] = $childNode['node_id'];
+                }
+            }
+        }
+    }
+
     /*
      \static
      Reads 'viewcache.ini' file and determines relation between
@@ -343,6 +368,9 @@ class eZContentCacheManager
 
                             if ( in_array( 'siblings', $type ) )
                                 $info['clear_cache_type'] |= self::CLEAR_SIBLINGS_CACHE;
+
+                            if ( in_array( 'children', $type ) )
+                                $info['clear_cache_type'] |= self::CLEAR_CHILDREN_CACHE;
                         }
                     }
                     else
@@ -522,6 +550,23 @@ class eZContentCacheManager
             // drop 'siblings' bit and process parent nodes.
             // since 'sibling' mode is affected to the current object
             $dependentClassInfo['clear_cache_type'] &= ~self::CLEAR_SIBLINGS_CACHE;
+        }
+
+        if ( $clearCacheType & self::CLEAR_CHILDREN_CACHE )
+        {
+            eZContentCacheManager::appendChildrenNodeIDs( $assignedNodes, $nodeList );
+        }
+
+        if ( $dependentClassInfo['clear_cache_type'] & self::CLEAR_CHILDREN_CACHE )
+        {
+            if ( !( $clearCacheType & self::CLEAR_CHILDREN_CACHE ) )
+            {
+                eZContentCacheManager::appendChildrenNodeIDs( $assignedNodes, $nodeList );
+                $handledObjectList[$contentObjectID] |= self::CLEAR_CHILDREN_CACHE;
+            }
+            // drop 'children' bit and process parent nodes.
+            // since 'children' mode is affected to the current object
+            $dependentClassInfo['clear_cache_type'] &= ~self::CLEAR_CHILDREN_CACHE;
         }
 
         if ( isset( $dependentClassInfo['additional_objects'] ) )
