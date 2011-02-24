@@ -177,7 +177,8 @@ class eZCache
                                        'enabled' => true,
                                        'expiry-key' => 'ts-translation-cache',
                                        'path' => 'translation',
-                                       'function' => array( 'eZCache', 'clearTSTranslationCache' )
+                                       'function' => array( 'eZCache', 'clearTSTranslationCache' ),
+                                       'purge-function' => array( 'eZCache', 'clearTSTranslationCache' )
                                 ),
             );
 
