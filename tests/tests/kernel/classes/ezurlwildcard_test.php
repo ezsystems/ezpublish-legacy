@@ -407,7 +407,7 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
         $this->assertFalse( eZURLWildcard::isCacheExpired( $time ),
             "Cache should not be expired" );
 
-        eZURLWIldcard::expireCache();
+        eZURLWildcard::expireCache();
         sleep( 1 );
         $this->assertTrue( eZURLWildcard::isCacheExpired( $time + 1 ),
             "Cache should be expired" );
