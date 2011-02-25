@@ -6110,11 +6110,11 @@
     </message>
     <message>
         <source>Number of items per page:</source>
-        <translation>Nombre d'éléments par page :</translation>
+        <translation>Nombre d'éléments par page&#160;:</translation>
     </message>
     <message>
         <source>Visible table columns:</source>
-        <translation>Colonnes visibles :</translation>
+        <translation>Colonnes visibles&#160;:</translation>
     </message>
     <message>
         <source>Select</source>
@@ -13421,11 +13421,11 @@ your account.</source>
     </message>
     <message>
         <source>Error : Could not load workflow event "%eventtype" (event type not available)</source>
-        <translation>Erreur : impossible de trouver l'évènement de workflow "%eventtype" (le type d'évènement est indisponible)</translation>
+        <translation>Erreur&#160;: impossible de trouver l'évènement de workflow "%eventtype" (le type d'évènement est indisponible)</translation>
     </message>
     <message>
         <source>Hint : This can happen when a workflow extension has been disabled</source>
-        <translation>Note : cela peut se produire en cas de désactivation de l'extension fournissant le workflow</translation>
+        <translation>Note&#160;: cela peut se produire en cas de désactivation de l'extension fournissant le workflow</translation>
     </message>
 </context>
 <context>
@@ -22427,7 +22427,7 @@ Il est possible de changer ces paramètres plus tard.</translation>
     </message>
     <message>
         <source>The eZ Publish system uses email to send out important notices such as user registration and content approval. On Linux/UNIX: try to use sendmail. On Windows: use an SMTP server.</source>
-        <translation>eZ Publish utilise les emails pour envoyer des informations importantes telle que l'inscription d'un utilisateur et les contenus a approuver. Sous Linux/UNIX: essayé d'utiliser sendmail. Sous Windows: utilisé un serveur SMTP.</translation>
+        <translation>eZ Publish utilise les emails pour envoyer des informations importantes telle que l'inscription d'un utilisateur et les contenus a approuver. Sous Linux/UNIX&#160;: essayez d'utiliser sendmail. Sous Windows&#160;: utilisez un serveur SMTP.</translation>
     </message>
     <message>
         <source>&lt;b&gt;SMTP&lt;/b&gt;: If you are unsure what to enter, refer to the settings in your email application.</source>
@@ -22443,7 +22443,7 @@ Il est possible de changer ces paramètres plus tard.</translation>
     </message>
     <message>
         <source>Tip: Store this page as an html file by clicking Save-As in your web browser menu, alternatively you may write down the URLs for your sites.</source>
-        <translation>Astuce: Enregistrer cette page en HTML en cliquant sur Enregistrer-sous dans votre navigateur web, autrement, vous pouvez écrire les URLs de vos sites.</translation>
+        <translation>Astuce&#160;: Enregistrer cette page en HTML en cliquant sur Enregistrer-sous dans votre navigateur web, autrement, vous pouvez écrire les URLs de vos sites.</translation>
     </message>
     <message>
         <source>eZ Publish</source>
@@ -22472,7 +22472,7 @@ Il est possible de changer ces paramètres plus tard.</translation>
     </message>
     <message>
         <source>Choose only languages that use similar characters, for instance: English and Norwegian will work together while English and Russian will not work.</source>
-        <translation>Choisissez uniquement les langues qui utilisent des caractères similaires, par exemple: anglais et norvégien vont fonctionner ensemble tandis qu'anglais et russe ne fonctionneront pas.</translation>
+        <translation>Choisissez uniquement les langues qui utilisent des caractères similaires, par exemple&#160;: anglais et norvégien vont fonctionner ensemble tandis qu'anglais et russe ne fonctionneront pas.</translation>
     </message>
     <message>
         <source>eZ Publish supports multiple languages.</source>
@@ -22484,7 +22484,7 @@ Il est possible de changer ces paramètres plus tard.</translation>
     </message>
     <message>
         <source>The languages you have chose for site do not match languages in chosen packages. To resolve conflict please select language mapping:</source>
-        <translation>Les langues que vous avez choisies pour le site ne correspondent pas à des langues dans les paquets choisis. Pour résoudre les conflits merci de choisir la langue de correspondance :</translation>
+        <translation>Les langues que vous avez choisies pour le site ne correspondent pas à des langues dans les paquets choisis. Pour résoudre les conflits merci de choisir la langue de correspondance&#160;:</translation>
     </message>
     <message>
         <source>Language</source>
@@ -23153,11 +23153,11 @@ Ceci représente un problème de sécurité et devrait être changé en un autre
     </message>
     <message>
         <source>The nonexistent directories are: %dir_list</source>
-        <translation>Les répertoires inexistants sont : %dir_list</translation>
+        <translation>Les répertoires inexistants sont&#160;: %dir_list</translation>
     </message>
     <message>
         <source>You can try the following shell commands to create necessary directories:</source>
-        <translation>Vous pouvez essayer les lignes de commandes suivantes pour créer les répertoires nécessaires:</translation>
+        <translation>Vous pouvez essayer les lignes de commandes suivantes pour créer les répertoires nécessaires&#160;:</translation>
     </message>
     <message>
         <source>Files instead necessary directories</source>
@@ -23165,7 +23165,7 @@ Ceci représente un problème de sécurité et devrait être changé en un autre
     </message>
     <message>
         <source>The affected directories (files) are: %dir_list</source>
-        <translation>Les répertoires concernés (fichiers) sont: %dir_list</translation>
+        <translation>Les répertoires concernés (fichiers) sont&#160;: %dir_list</translation>
     </message>
     <message>
         <source>If you're running apache 1.3, eZ Publish will not run in CGI mode.</source>
@@ -24430,7 +24430,7 @@ Pour faire cela, vous avez besoin de changer les commandes %chown sous une autre
     <message>
         <source>Online: %logged_in_count:%anonymous_count</source>
         <comment>Short user information</comment>
-        <translation>En ligne : %logged_in_count:%anonymous_count</translation>
+        <translation>En ligne&#160;: %logged_in_count:%anonymous_count</translation>
     </message>
     <message>
         <source>Username</source>
@@ -24976,7 +24976,7 @@ your account.</source>
     </message>
     <message>
         <source>Click the following URL to login:</source>
-        <translation>Cliquez sur le lien suivant pour vous identifier :</translation>
+        <translation>Cliquez sur le lien suivant pour vous identifier&#160;:</translation>
     </message>
 </context>
 <context>
@@ -27038,11 +27038,11 @@ your account.</source>
     </message>
     <message>
         <source>Object (ID = %1) was not copied: you do not have permission to read the object.</source>
-        <translation>L'objet (ID = %1) n'a pas été copié : vous n'avez pas la permission de lire cet objet.</translation>
+        <translation>L'objet (ID = %1) n'a pas été copié&#160;: vous n'avez pas la permission de lire cet objet.</translation>
     </message>
     <message>
         <source>Node (ID = %1) was not copied: you do not have permission to read object (ID = %2).</source>
-        <translation>Le nœud (ID = %1) n'a pas été copié : vous n'avez pas la permission de lire l'objet (ID = %2).</translation>
+        <translation>Le nœud (ID = %1) n'a pas été copié&#160;: vous n'avez pas la permission de lire l'objet (ID = %2).</translation>
     </message>
     <message>
         <source>Node (ID = %1) was not copied: parent node (ID = %2) was not copied.</source>
@@ -27321,7 +27321,7 @@ your account.</source>
     </message>
     <message>
         <source>REST application: %application_name%</source>
-        <translation>Application REST : %application_name</translation>
+        <translation>Application REST&#160;: %application_name</translation>
     </message>
 </context>
 <context>
@@ -27636,7 +27636,7 @@ your account.</source>
     </message>
     <message>
         <source>Package contains an invalid extension name: %extensionname</source>
-        <translation>Le paquet contient un nom d'extension invalide: %extensionname</translation>
+        <translation>Le paquet contient un nom d'extension invalide&#160;: %extensionname</translation>
     </message>
     <message>
         <source>Advanced options</source>
@@ -27963,7 +27963,7 @@ your account.</source>
     </message>
     <message>
         <source>Unable to send http request: %1:%2/%3</source>
-        <translation>Impossible d'envoyer une requête http : %1:%2/%3</translation>
+        <translation>Impossible d'envoyer une requête http&#160;: %1:%2/%3</translation>
     </message>
     <message>
         <source>eZExchangeRatesUpdateHandler: you should reimplement 'requestRates' method</source>
