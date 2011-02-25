@@ -7581,7 +7581,7 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     </message>
     <message>
         <source>Remove selected PDF exports.</source>
-        <translation>Supprimer les exportations PDF sélectionnées.</translation>
+        <translation>Supprimer les exports PDF sélectionnés.</translation>
     </message>
     <message>
         <source>New PDF export</source>
@@ -8523,7 +8523,7 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     <name>design/admin/rss/browse_image</name>
     <message>
         <source>Choose image for RSS export</source>
-        <translation>Choisissez l'image pour l'exportation RSS</translation>
+        <translation>Choisissez l'image pour l'export RSS</translation>
     </message>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
@@ -8538,7 +8538,7 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     <name>design/admin/rss/browse_source</name>
     <message>
         <source>Choose source for RSS export</source>
-        <translation>Choisissez la source pour l'exportation RSS</translation>
+        <translation>Choisissez la source pour l'export RSS</translation>
     </message>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
@@ -8648,7 +8648,7 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     </message>
     <message>
         <source>Use this field to set the URL where the RSS export should be available. Note that "rss/feed/" will be appended to the real URL. </source>
-        <translation>Utilisez ce champ pour assigner l'URL à laquelle l'exportation RSS doit être disponible. Notez que "rss/feed/" sera ajouté à l'URL utilisée.</translation>
+        <translation>Utilisez ce champ pour assigner l'URL à laquelle l'export RSS doit être disponible. Notez que "rss/feed/" sera ajouté à l'URL utilisée.</translation>
     </message>
     <message>
         <source>Source</source>
@@ -8994,7 +8994,7 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     </message>
     <message>
         <source>Create a new RSS import.</source>
-        <translation>Créer une nouvelle importation RSS.</translation>
+        <translation>Créer un nouvel import RSS.</translation>
     </message>
     <message>
         <source>RSS exports (%exports_count)</source>
@@ -19463,7 +19463,7 @@ You can also remove the package without uninstalling it from the package list.</
     </message>
     <message>
         <source>Choose node for export</source>
-        <translation>Choisir un nœud pour exportation</translation>
+        <translation>Choisir un nœud pour l'export</translation>
     </message>
     <message>
         <source>Choose subtree for export</source>
@@ -19919,7 +19919,7 @@ menu on the top.</source>
     <name>design/standard/rss</name>
     <message>
         <source>Choose export node</source>
-        <translation>Choisir un nœud pour exportation</translation>
+        <translation>Choisir un nœud pour l'export</translation>
     </message>
     <message>
         <source>Select</source>
