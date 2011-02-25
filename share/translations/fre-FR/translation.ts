@@ -2063,7 +2063,7 @@
     </message>
     <message>
         <source>The draft could not be stored.</source>
-        <translation>Le brouillon n'a pas pu être sauvé.</translation>
+        <translation>Le brouillon n'a pas pu être enregistré.</translation>
     </message>
     <message>
         <source>Required data is either missing or is invalid</source>
@@ -2075,11 +2075,11 @@
     </message>
     <message>
         <source>The draft was only partially stored.</source>
-        <translation>Le brouillon n'a été que partiellement sauvé.</translation>
+        <translation>Le brouillon n'a été que partiellement enregistré.</translation>
     </message>
     <message>
         <source>The draft was successfully stored.</source>
-        <translation>Le brouillon a été sauvé avec succès.</translation>
+        <translation>Le brouillon a été enregistré avec succès.</translation>
     </message>
     <message>
         <source>Are you sure you want to discard the draft?</source>
@@ -2571,7 +2571,7 @@
     </message>
     <message>
         <source>Versions for &lt;%object_name&gt; [%version_count]</source>
-        <translation>Versions pour &lt;%object_name&gt; [%version_count]</translation>
+        <translation>Versions de &lt;%object_name&gt; [%version_count]</translation>
     </message>
     <message>
         <source>Version</source>
@@ -5570,7 +5570,7 @@
     </message>
     <message>
         <source>Use these controls to set the sorting method for the sub items of the current location.</source>
-        <translation>Utilisez ces contrôles pour assigner la méthode de tri des sous-éléments de l'emplacement actuel.</translation>
+        <translation>Utilisez ces contrôles pour modifier la méthode de tri des sous-éléments de l'emplacement actuel.</translation>
     </message>
     <message>
         <source>Descending</source>
@@ -5686,7 +5686,7 @@
     </message>
     <message>
         <source>Show object relation overview.</source>
-        <translation>Afficher la présentation des relations d'objet.</translation>
+        <translation>Afficher les relations d'objet.</translation>
     </message>
     <message>
         <source>Unknown</source>
@@ -5766,7 +5766,7 @@
     </message>
     <message>
         <source>Update</source>
-        <translation>Mise à jour</translation>
+        <translation>Mettre à jour</translation>
     </message>
     <message>
         <source>Use this button to store the value of the checkbox above.</source>
@@ -6078,11 +6078,11 @@
     </message>
     <message>
         <source>View</source>
-        <translation>Voir</translation>
+        <translation>Aperçu</translation>
     </message>
     <message>
         <source>Show simplified view of content.</source>
-        <translation>Montrer une vue simplifiée du contenu.</translation>
+        <translation>Afficher une vue simplifiée du contenu.</translation>
     </message>
     <message>
         <source>Ordering</source>
@@ -6090,7 +6090,7 @@
     </message>
     <message>
         <source>Show published ordering overview.</source>
-        <translation>Montrer comment sont ordonnées les sous-éléments.</translation>
+        <translation>Afficher le tri utilisé pour les sous-éléments.</translation>
     </message>
     <message>
         <source>Loading ...</source>
@@ -6806,11 +6806,11 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     </message>
     <message>
         <source>Change information</source>
-        <translation>Modifier les informations</translation>
+        <translation>Modifier mon profil</translation>
     </message>
     <message>
         <source>Change password</source>
-        <translation>Modifier le mot de passe</translation>
+        <translation>Modifier mon mot de passe</translation>
     </message>
     <message>
         <source>Logout</source>
@@ -7081,7 +7081,7 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     </message>
     <message>
         <source>Change password</source>
-        <translation>Modifier le mot de passe</translation>
+        <translation>Modifier mon mot de passe</translation>
     </message>
     <message>
         <source>My account</source>
@@ -9925,7 +9925,7 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     <message>
         <source>Socket path</source>
         <comment>Database socket path</comment>
-        <translation>Chemin du socket</translation>
+        <translation>Chemin de la socket</translation>
     </message>
     <message>
         <source>Not in use.</source>
@@ -12554,7 +12554,7 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     </message>
     <message>
         <source>open</source>
-        <translation>Ouvert</translation>
+        <translation>ouvrir</translation>
     </message>
     <message>
         <source>Never</source>
@@ -12773,7 +12773,7 @@ your account.</source>
     </message>
     <message>
         <source>Please try again or contact the site administrator.</source>
-        <translation>Merci de réessayer ou de contacter l'administrateur du site.</translation>
+        <translation>Veuillez réessayer ou de contacter l'administrateur du site.</translation>
     </message>
     <message>
         <source>Access denied!</source>
@@ -12913,7 +12913,7 @@ your account.</source>
     <name>design/admin/user/register</name>
     <message>
         <source>The information could not be stored...</source>
-        <translation>L'information n'a pu être sauvée...</translation>
+        <translation>L'information n'a pu être enregistrée...</translation>
     </message>
     <message>
         <source>The following information is either incorrect or missing</source>
@@ -13413,7 +13413,7 @@ your account.</source>
     </message>
     <message>
         <source>The workflow could not be stored.</source>
-        <translation>Le workflow n'a pas pu être sauvé.</translation>
+        <translation>Le workflow n'a pas pu être enregistré.</translation>
     </message>
     <message>
         <source>The following information is either missing or invalid</source>
@@ -17881,7 +17881,7 @@ Si vous voulez laisser un commentaire au responsable de l'approbation ou en voir
     Select the placement then click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation>Merci de choisir l'emplacement de sélection par défaut pour cette relation d'objet.
+        <translation>Veuillez choisir l'emplacement de sélection par défaut pour cette relation d'objet.
         
     Sélectionner l'emplacement et cliquer sur le bouton %buttonname.
     Utiliser les éléments récents et les signets pour un déplacement dans l'arborescence plus rapide est également possible.
@@ -17893,7 +17893,7 @@ Si vous voulez laisser un commentaire au responsable de l'approbation ou en voir
     Select the placement then click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation>Merci de choisir l'emplacement pour la nouvelle classe %classname.
+        <translation>Veuillez choisir l'emplacement pour la nouvelle classe %classname.
 	
 	Sélectionner l'emplacement et cliquer sur le bouton %buttonname.
     Utiliser les éléments récents et les signets pour un déplacement dans l'arborescence plus rapide est également possible.
@@ -17913,7 +17913,7 @@ Si vous voulez laisser un commentaire au responsable de l'approbation ou en voir
     Select your items then click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on item names to change the browse listing.</source>
-        <translation>Merci de choisir les éléments que vous voulez ajouter à votre liste de signets.
+        <translation>Veuillez choisir les éléments que vous voulez ajouter à votre liste de signets.
         
     Sélectionner les éléments et cliquer sur le bouton %buttonname.
     Utiliser les éléments récents et les signets pour un déplacement dans l'arborescence plus rapide est également possible.
@@ -17925,7 +17925,7 @@ Si vous voulez laisser un commentaire au responsable de l'approbation ou en voir
     Select the new location then click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation>Merci de choisir l'emplacement où vous souhaitez copier l'objet %objectname.
+        <translation>Veuillez choisir l'emplacement où vous souhaitez copier l'objet %objectname.
         
     Sélectionner l'emplacement de destination et cliquer sur le bouton %buttonname.
     Utiliser les éléments récents et les signets pour un déplacement dans l'arborescence plus rapide est également possible.
@@ -17937,7 +17937,7 @@ Si vous voulez laisser un commentaire au responsable de l'approbation ou en voir
     Select the new location then click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation>Merci de choisir l'emplacement où vous souhaitez copier la sous-arborescence du nœud %node_name.
+        <translation>Veuillez choisir l'emplacement où vous souhaitez copier la sous-arborescence du nœud %node_name.
         
     Sélectionner l'emplacement de destination et cliquer sur le bouton %buttonname.
     Utiliser les éléments récents et les signets pour un déplacement dans l'arborescence plus rapide est également possible.
@@ -17949,7 +17949,7 @@ Si vous voulez laisser un commentaire au responsable de l'approbation ou en voir
     Select the new location then click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation>Merci de choisir où placer l'objet %objectname.
+        <translation>Veuillez choisir où placer l'objet %objectname.
         
     Sélectionner l'emplacement de destination et cliquer sur le bouton %buttonname.
     Utiliser les éléments récents et les signets pour un déplacement dans l'arborescence plus rapide est également possible.
@@ -17962,7 +17962,7 @@ Si vous voulez laisser un commentaire au responsable de l'approbation ou en voir
       Select the placement then click the %buttonname button.
       Using the recent and bookmark items for quick placement is also possible.
       Click on placement names to change the browse listing.</source>
-        <translation>Merci de choisir le nouvel emplacement de  %name.
+        <translation>Veuillez choisir le nouvel emplacement de  %name.
       L'ancien emplacement était dans %placementname.
         
     Sélectionner l'emplacement et cliquer sur le bouton %buttonname.
@@ -17975,7 +17975,7 @@ Si vous voulez laisser un commentaire au responsable de l'approbation ou en voir
     Select your placements then click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation>Merci de choisir où placer l'objet %name.
+        <translation>Veuillez choisir où placer l'objet %name.
         
     Sélectionner vos emplacements et cliquer sur le bouton %buttonname.
     Utiliser les éléments récents et les signets pour un déplacement dans l'arborescence plus rapide est également possible.
@@ -17987,7 +17987,7 @@ Si vous voulez laisser un commentaire au responsable de l'approbation ou en voir
     Select your objects then click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on object names to change the browse listing.</source>
-        <translation>Merci de choisir les objets que vous souhaitez mettre en relation avec %name. 
+        <translation>Veuillez choisir les objets que vous souhaitez mettre en relation avec %name. 
         
     Sélectionner vos objets et cliquer sur le bouton %buttonname.
     Utiliser les éléments récents et les signets pour un déplacement dans l'arborescence plus rapide est également possible.
@@ -18003,7 +18003,7 @@ Si vous voulez laisser un commentaire au responsable de l'approbation ou en voir
     Select the node then click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation>Merci de choisir avec quel nœud échanger %objectname.
+        <translation>Veuillez choisir avec quel nœud échanger %objectname.
      
     Sélectionner le nœud et cliquer sur le bouton %buttonname.
     Utiliser les éléments récents et les signets pour un déplacement dans l'arborescence plus rapide est également possible.
@@ -18419,7 +18419,7 @@ Si vous voulez laisser un commentaire au responsable de l'approbation ou en voir
     </message>
     <message>
         <source>You do not have permission to access this area.</source>
-        <translation>Vous n'avez pas le droit d'accéder à cet zone.</translation>
+        <translation>Vous n'avez pas le droit d'accéder à cette zone.</translation>
     </message>
     <message>
         <source>This site uses siteaccess matching in the URL and you did not supply one, try inserting a siteaccess name before the module in the URL .</source>
@@ -19987,7 +19987,7 @@ menu on the top.</source>
     Select your placements then click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation>Merci de choisir où enregistrer les élémentes importés.
+        <translation>Veuillez choisir où enregistrer les élémentes importés.
     Sélectionner les emplacements puis cliquez sur le bouton %buttonname.
     L'utilisation des éléments récemment utilisés ou de signets pour un accès plus rapide est possible.
     Cliquez sur les noms des emplacements pour changer le mode de parcours.</translation>
@@ -19998,7 +19998,7 @@ menu on the top.</source>
     Select your placements then click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation>Merci de choisir l'image a utilisé dans l'export RSS.
+        <translation>Veuillez choisir l'image a utilisé dans l'export RSS.
 
     Sélectionner les emplacements puis cliquez sur le bouton %buttonname.
     L'utilisation des éléments récemment utilisés ou de signets pour un accès plus rapide est possible.
@@ -20010,7 +20010,7 @@ menu on the top.</source>
     Select the user then click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation>Merci de choisir le propriétaire des objets a importer.
+        <translation>Veuillez choisir le propriétaire des objets a importer.
         
     Sélectionner les emplacements puis cliquez sur le bouton %buttonname.
     L'utilisation des éléments récemment utilisés ou de signets pour un accès plus rapide est possible.
@@ -20342,7 +20342,7 @@ menu on the top.</source>
     Select the placements then click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation>Merci de choisir l'emplacement de départ pour assigner la section %sectionname.
+        <translation>Veuillez choisir l'emplacement de départ pour assigner la section %sectionname.
         
     Sélectionner les emplacements puis cliquez sur le bouton %buttonname.
     L'utilisation des éléments récemment utilisés ou de signets pour un accès plus rapide est possible.
@@ -22407,7 +22407,7 @@ Il est possible de changer ces paramètres plus tard.</translation>
     </message>
     <message>
         <source>If you don't have access to a database, you should obtain access now. eZ Publish is capable of running multiple sites, each site needs its own database. This means that you need to create several databases if you plan to run multiple sites. Please refer to the database system user manual if you're unsure about how to create a database.</source>
-        <translation>Si vous n'avez pas les accès à la base de données, vous devez les obtenir maintenant. eZ Publish est capable de faire fonctionner plusieurs sites, chaque site peut avoir besoin de sa propre base de données. Cela signifie que vous avez besoin de créer plusieurs base de données si vous prévoyer de faire tourner plusieurs sites sur cette instance. Merci de vous référer au manuel de l'utilisateur système base de données if vous n'êts pas sur de comment créer une base de données.</translation>
+        <translation>Si vous n'avez pas les accès à la base de données, vous devez les obtenir maintenant. eZ Publish est capable de faire fonctionner plusieurs sites, chaque site peut avoir besoin de sa propre base de données. Cela signifie que vous avez besoin de créer plusieurs base de données si vous prévoyer de faire tourner plusieurs sites sur cette instance. Veuillez vous référer au manuel de l'utilisateur système base de données if vous n'êts pas sur de comment créer une base de données.</translation>
     </message>
     <message>
         <source>Re-run System Check</source>
@@ -22556,7 +22556,7 @@ Il est possible de changer ces paramètres plus tard.</translation>
     </message>
     <message>
         <source>Please choose the access method you want to use for your site. The access method determines how the site will be accessed from within a web browser. If unsure: choose URL.</source>
-        <translation>Merci de choisir la méthode d'accès que vous souhaitez utiliser pour votre site. La méthode d'accès détermine comment le site sera accessible depuis un navigateur web. En cas de doute, choisissez URL.</translation>
+        <translation>Veuillez choisir la méthode d'accès que vous souhaitez utiliser pour votre site. La méthode d'accès détermine comment le site sera accessible depuis un navigateur web. En cas de doute, choisissez URL.</translation>
     </message>
     <message>
         <source>For more detailed information on site access, refer to the %1</source>
@@ -22582,7 +22582,7 @@ Ces fonctionnalités sont également disponible plus tard via l'interface d'admi
     </message>
     <message>
         <source>Please choose one or more of the demo sites you would like to test or base your sites on. Use Plain if you want to start from scratch.</source>
-        <translation>Merci de choisir un ou plusieurs des sites de démonstration que vous souhaitez tester ou à la base de vos sites. Utilisez Plain si vous voulez recommencer à zéro.</translation>
+        <translation>Veuillez choisir un ou plusieurs des sites de démonstration que vous souhaitez tester ou à la base de vos sites. Utilisez Plain si vous voulez recommencer à zéro.</translation>
     </message>
     <message>
         <source>These issues have to be resolved/fixed, or else, eZ Publish will not function properly.</source>
@@ -22602,7 +22602,7 @@ Ces fonctionnalités sont également disponible plus tard via l'interface d'admi
     </message>
     <message>
         <source>Welcome to the eZ Publish content management system and development framework. This wizard will help you set up eZ Publish.&lt;br&gt;Your system is not optimal, if you wish you can click the &lt;i&gt;Finetune&lt;/i&gt; button. This will present hints on how to fix these issues.&lt;br/&gt; Click &lt;i&gt;Next&lt;/i&gt; to continue without finetuning.</source>
-        <translation>Bienvenue dans le système de gestion de contenu et le framework de développement eZ Publish. Cet assistant vous aidera à configurer eZ Publish.&lt;br&gt;Votre système n'est pas optimal, si vous le désirez vous pouvez cliquer sur le bouton &lt;i&gt;Optimisations&lt;/i&gt;. Ce la vous présentera comment faire les optimisations.&lt;br/&gt; Cliquez sur &lt;i&gt;Suivant&lt;/i&gt; pour continuer sans faire les optimisations.</translation>
+        <translation>Bienvenue dans le système de gestion de contenu et le framework de développement eZ Publish. Cet assistant vous aidera à configurer eZ Publish.&lt;br&gt;Votre système n'est pas optimal, si vous le désirez vous pouvez cliquer sur le bouton &lt;i&gt;Optimisations&lt;/i&gt;. Cela vous présentera comment faire les optimisations.&lt;br/&gt; Cliquez sur &lt;i&gt;Suivant&lt;/i&gt; pour continuer sans faire les optimisations.</translation>
     </message>
     <message>
         <source>Welcome to the eZ Publish content management system and development framework. This wizard will help you set up eZ Publish.&lt;br&gt;Click &lt;i&gt;Next&lt;/i&gt; to continue.</source>
@@ -22614,11 +22614,11 @@ Ces fonctionnalités sont également disponible plus tard via l'interface d'admi
     </message>
     <message>
         <source>MySQL support was detected on your system. Please choose the database driver you would like to use.</source>
-        <translation>Le support de MySQL a été détecté sur votre système. Merci de choisir le pilote de base de données que vous souhaitez utiliser.</translation>
+        <translation>Le support de MySQL a été détecté sur votre système. Veuillez choisir le pilote de base de données que vous souhaitez utiliser.</translation>
     </message>
     <message>
         <source>PostgreSQL support was detected on your system. Please choose the database driver you would like to use.</source>
-        <translation>Le support de PostgreSQL a été détecté sur votre système. Merci de choisir le pilote de base de données que vous souhaitez utiliser.</translation>
+        <translation>Le support de PostgreSQL a été détecté sur votre système. Veuillez choisir le pilote de base de données que vous souhaitez utiliser.</translation>
     </message>
     <message>
         <source>The selected user has not got access to any databases. Change user or create a database for the user.</source>
@@ -24258,7 +24258,7 @@ Pour faire cela, vous avez besoin de changer les commandes %chown sous une autre
     Select your customers then click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on object names to change the browse listing.</source>
-        <translation>Merci de choisir les clients que vous souhaitez ajouter au groupe discount %groupname.
+        <translation>Veuillez choisir les clients que vous souhaitez ajouter au groupe discount %groupname.
 
     Sélectionnez vos clients, puis cliquez sur le bouton %buttonname.
     Utiliser les éléments récents et les signets pour une sélection rapide est également possible.
@@ -24270,7 +24270,7 @@ Pour faire cela, vous avez besoin de changer les commandes %chown sous une autre
     Select your products then click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on product names to change the browse listing.</source>
-        <translation>Merci de choisir les produits que vous souhaitez ajouter à la règle %discountname dans le groupe discount %groupname.
+        <translation>Veuillez choisir les produits que vous souhaitez ajouter à la règle %discountname dans le groupe discount %groupname.
         
          Sélectionnez vos produits, puis cliquez sur le bouton %buttonname.
     Utiliser les éléments récents et les signets pour une sélection rapide est également possible.
@@ -24951,7 +24951,7 @@ your account.</source>
     </message>
     <message>
         <source>Thank you for registering at %siteurl.</source>
-        <translation>Merci de vous inscrire à %siteurl.</translation>
+        <translation>Merci de vous êtes inscrit à %siteurl.</translation>
     </message>
     <message>
         <source>Your account information</source>
@@ -25728,7 +25728,7 @@ your account.</source>
     </message>
     <message>
         <source>oAuth admin</source>
-        <translation>Adminisation oAuth</translation>
+        <translation>Administration de l'autentification oAuth</translation>
     </message>
     <message>
         <source>Confirm removal</source>
@@ -26038,7 +26038,7 @@ your account.</source>
     </message>
     <message>
         <source>Please contact your eZ Publish administrator to solve this problem.</source>
-        <translation>Merci de contacter votre administrateur eZ Publish pour résoudre ce problème.</translation>
+        <translation>Veuillez contacter votre administrateur eZ Publish pour résoudre ce problème.</translation>
     </message>
     <message>
         <source>Remove classes</source>
@@ -27309,7 +27309,7 @@ your account.</source>
     <name>kernel/oauthadmin</name>
     <message>
         <source>oAuth admin</source>
-        <translation>Administration oAuth</translation>
+        <translation>Administration de l'autentification oAuth</translation>
     </message>
     <message>
         <source>Edit REST application</source>
