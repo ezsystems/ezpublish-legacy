@@ -5082,7 +5082,7 @@
     </message>
     <message>
         <source>Removing node assignment of %1</source>
-        <translation>Supprimer l'assignement du nœud de %1</translation>
+        <translation>Supprimer l'emplacement du nœud de %1</translation>
     </message>
     <message>
         <source>OK</source>
@@ -5354,7 +5354,7 @@
     </message>
     <message>
         <source>Set</source>
-        <translation>Assigner</translation>
+        <translation>Affecter</translation>
     </message>
     <message>
         <source>Invert selection.</source>
@@ -8279,11 +8279,11 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     </message>
     <message>
         <source>Assign</source>
-        <translation>Assigner</translation>
+        <translation>Affecter</translation>
     </message>
     <message>
         <source>Assign the &lt;%role_name&gt; role to a user or a user group.</source>
-        <translation>Assigner le rôle &lt;%role_name&gt;à un utilisateur ou un groupe d'utilisateurs.</translation>
+        <translation>Affecter le rôle &lt;%role_name&gt;à un utilisateur ou un groupe d'utilisateurs.</translation>
     </message>
     <message>
         <source>Edit the &lt;%role_name&gt; role.</source>
@@ -8433,7 +8433,7 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     </message>
     <message>
         <source>Assign</source>
-        <translation>Assigner</translation>
+        <translation>Affecter</translation>
     </message>
     <message>
         <source>Subtree</source>
@@ -8473,7 +8473,7 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     </message>
     <message>
         <source>Assign the &lt;%role_name&gt; role to a user or a user group.</source>
-        <translation>Assigner le rôle &lt;%role_name&gt; à un utilisateur ou un groupe d'utilisateurs.</translation>
+        <translation>Affecter le rôle &lt;%role_name&gt; à un utilisateur ou un groupe d'utilisateurs.</translation>
     </message>
     <message>
         <source>Select limitation.</source>
@@ -8481,11 +8481,11 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     </message>
     <message>
         <source>Assign with limitation</source>
-        <translation>Assigner avec limitation</translation>
+        <translation>Affecter avec limitation</translation>
     </message>
     <message>
         <source>Assign the &lt;%role_name&gt; role with limitation (specified to the left) to a user or a user group.</source>
-        <translation>Assigner le rôle &lt;%role_name&gt; avec limitation (spécifiée à gauche) à un utilisateur ou un groupe d'utilisateurs.</translation>
+        <translation>Affecter le rôle &lt;%role_name&gt; avec limitation (spécifiée à gauche) à un utilisateur ou un groupe d'utilisateurs.</translation>
     </message>
     <message>
         <source>Name</source>
@@ -8608,7 +8608,7 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     </message>
     <message>
         <source>Set</source>
-        <translation>Assigner</translation>
+        <translation>Affecter</translation>
     </message>
     <message>
         <source>Title</source>
@@ -8732,7 +8732,7 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     </message>
     <message>
         <source>Use this drop-down to select the type of object that triggers the export. Click the "Set" button to load the correct attribute types for the remaining fields.</source>
-        <translation>Utilisez la liste déroulante pour sélectionner le type d'objet qui déclencheront l'export. Cliquez sur le bouton 'Assigner' pour remplir les listes des attributs suivantes.</translation>
+        <translation>Utilisez la liste déroulante pour sélectionner le type d'objet qui déclencheront l'export. Cliquez sur le bouton 'Affecter' pour remplir les listes des attributs suivantes.</translation>
     </message>
     <message>
         <source>Click this button to load the correct values into the drop-down fields below. Use the drop-down menu on the left to select the class.</source>
@@ -8807,7 +8807,7 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     </message>
     <message>
         <source>Set</source>
-        <translation>Assigner</translation>
+        <translation>Affecter</translation>
     </message>
     <message>
         <source>Ignore</source>
@@ -8879,7 +8879,7 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     </message>
     <message>
         <source>Use this drop-down to select the type of object the import should create. Click the "Set" button to load the attribute types for the remaining fields.</source>
-        <translation>Utilisez cette liste déroulante pour sélectionner le type des objets qui vont être créés. Cliquez sur le bouton 'Assigner' pour charger les types d'attribut pour les champs restants.</translation>
+        <translation>Utilisez cette liste déroulante pour sélectionner le type des objets qui vont être créés. Cliquez sur le bouton 'Affecter' pour charger les types d'attribut pour les champs restants.</translation>
     </message>
     <message>
         <source>Click this button to load the correct values into the drop-down fields below. Use the drop-down menu on the left to select the class.</source>
@@ -9204,11 +9204,11 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     </message>
     <message>
         <source>Assign</source>
-        <translation>Assigner</translation>
+        <translation>Affecter</translation>
     </message>
     <message>
         <source>Assign the &lt;%section_name&gt; section to a subtree.</source>
-        <translation>Assigner la section &lt;%section_name&gt; à une sous-arborescence.</translation>
+        <translation>Affecter la section &lt;%section_name&gt; à une sous-arborescence.</translation>
     </message>
     <message>
         <source>Edit</source>
@@ -9236,7 +9236,7 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     </message>
     <message>
         <source>Assign a subtree to the &lt;%section_name&gt; section.</source>
-        <translation>Assigner la section &lt;%section_name&gt; à la sous-arborescence</translation>
+        <translation>Affecter la section &lt;%section_name&gt; à la sous-arborescence</translation>
     </message>
     <message>
         <source>Identifier</source>
@@ -9319,11 +9319,11 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     </message>
     <message>
         <source>Assign subtree</source>
-        <translation>Assigner une sous-arborescence</translation>
+        <translation>Affecter une sous-arborescence</translation>
     </message>
     <message>
         <source>Assign subtree of objects to this section</source>
-        <translation>Assigner une section à une sous-arborescence d'objets</translation>
+        <translation>Affecter une section à une sous-arborescence d'objets</translation>
     </message>
     <message>
         <source>Identifier</source>
@@ -12999,7 +12999,7 @@ your account.</source>
     </message>
     <message>
         <source>Set</source>
-        <translation>Assigner</translation>
+        <translation>Affecter</translation>
     </message>
     <message>
         <source>Menu positioning</source>
@@ -13207,7 +13207,7 @@ your account.</source>
     </message>
     <message>
         <source>Set</source>
-        <translation>Assigner</translation>
+        <translation>Affecter</translation>
     </message>
     <message>
         <source>Invert selection.</source>
@@ -18165,7 +18165,7 @@ Si vous voulez laisser un commentaire au responsable de l'approbation ou en voir
     </message>
     <message>
         <source>Set</source>
-        <translation>Assigner</translation>
+        <translation>Affecter</translation>
     </message>
     <message>
         <source>Name</source>
@@ -18260,7 +18260,7 @@ Si vous voulez laisser un commentaire au responsable de l'approbation ou en voir
     </message>
     <message>
         <source>Set</source>
-        <translation>Assigner</translation>
+        <translation>Affecter</translation>
     </message>
     <message>
         <source>Available toolbars</source>
@@ -18658,7 +18658,7 @@ Les enfants seront également supprimés.</translation>
     </message>
     <message>
         <source>Set</source>
-        <translation>Assigner</translation>
+        <translation>Affecter</translation>
     </message>
     <message>
         <source>Menu positioning</source>
@@ -18712,7 +18712,7 @@ Les enfants seront également supprimés.</translation>
     </message>
     <message>
         <source>Removing node assignment of %1</source>
-        <translation>Supprimer l'assignement du nœud de %1</translation>
+        <translation>Supprimer l'emplacement du nœud de %1</translation>
     </message>
     <message>
         <source>Move to trash</source>
@@ -19808,7 +19808,7 @@ menu on the top.</source>
     </message>
     <message>
         <source>Assign</source>
-        <translation>Assigner</translation>
+        <translation>Affecter</translation>
     </message>
     <message>
         <source>Edit policy</source>
@@ -19872,7 +19872,7 @@ menu on the top.</source>
     </message>
     <message>
         <source>Assign role to user or group</source>
-        <translation>Assigner le rôle à un utilisateur ou un groupe</translation>
+        <translation>Affecter le rôle à un utilisateur ou un groupe</translation>
     </message>
     <message>
         <source>Remove selected roles</source>
@@ -19884,7 +19884,7 @@ menu on the top.</source>
     </message>
     <message>
         <source>Remove selected assignments</source>
-        <translation>Supprimer les assignements sélectionnés</translation>
+        <translation>Supprimer les affectations sélectionnées</translation>
     </message>
     <message>
         <source>Specify limitations for function %functionname in module %modulename. 'Any' means no limitation by this parameter</source>
@@ -19892,11 +19892,11 @@ menu on the top.</source>
     </message>
     <message>
         <source>Assign role to user or group to subtree</source>
-        <translation>Assigner un rôle à un utilisateur ou un groupe à une sous-arborescence</translation>
+        <translation>Affecter un rôle à un utilisateur ou un groupe à une sous-arborescence</translation>
     </message>
     <message>
         <source>Assign limited</source>
-        <translation>Assigner avec limitation</translation>
+        <translation>Affecter avec limitation</translation>
     </message>
     <message>
         <source>Section</source>
@@ -20274,7 +20274,7 @@ menu on the top.</source>
     <name>design/standard/section</name>
     <message>
         <source>Assign section to node</source>
-        <translation>Assigner une section au nœud</translation>
+        <translation>Affecter une section au nœud</translation>
     </message>
     <message>
         <source>Are you sure you want to remove these sections?</source>
@@ -20314,7 +20314,7 @@ menu on the top.</source>
     </message>
     <message>
         <source>Assign</source>
-        <translation>Assigner</translation>
+        <translation>Affecter</translation>
     </message>
     <message>
         <source>Remove</source>
@@ -24987,7 +24987,7 @@ your account.</source>
     </message>
     <message>
         <source>Set</source>
-        <translation>Assigner</translation>
+        <translation>Affecter</translation>
     </message>
     <message>
         <source>Menu positioning</source>
@@ -25207,7 +25207,7 @@ your account.</source>
     </message>
     <message>
         <source>Set</source>
-        <translation>Assigner</translation>
+        <translation>Affecter</translation>
     </message>
     <message>
         <source>Invert selection.</source>
@@ -25334,7 +25334,7 @@ your account.</source>
     </message>
     <message>
         <source>Set</source>
-        <translation>Assigner</translation>
+        <translation>Affecter</translation>
     </message>
     <message>
         <source>Available toolbars for the &lt;%siteaccess&gt; siteaccess</source>
@@ -28144,7 +28144,7 @@ your account.</source>
     </message>
     <message>
         <source>Assign</source>
-        <translation>Assigner</translation>
+        <translation>Affecter</translation>
     </message>
     <message>
         <source>New</source>
