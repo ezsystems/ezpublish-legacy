@@ -173,5 +173,15 @@ abstract class ezpSessionHandler
     {
         return true;
     }
+
+    /**
+     * Signals that handler requires db instance
+     *
+     * @return bool
+     */
+    static public function dbRequired()
+    {
+        return true;
+    }
 }
 ?>

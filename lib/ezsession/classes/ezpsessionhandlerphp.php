@@ -115,5 +115,12 @@ class ezpSessionHandlerPHP extends ezpSessionHandler
         return false;
     }
 
+   /**
+     * reimp (this handler does not use db)
+     */
+    static public function dbRequired()
+    {
+        return false;
+    }
 }
 ?>

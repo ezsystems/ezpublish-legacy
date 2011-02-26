@@ -675,6 +675,7 @@ class eZSiteAccess
         {
             return $sa;
         }
+        eZDebug::writeWarning("Tried to find siteaccess based on '$language' but '$sa' is not a valid RelatedSiteAccessList[]", __METHOD__ );
         return null;
     }
 

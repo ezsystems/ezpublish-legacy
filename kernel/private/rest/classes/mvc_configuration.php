@@ -12,6 +12,8 @@ class ezpMvcConfiguration implements ezcMvcDispatcherConfiguration
     const FILTER_TYPE_RESULT = 'Result';
     const FILTER_TYPE_RESPONSE = 'Response';
 
+    const INDEX_FILE = 'index_rest.php';
+
     /**
      * @var string The path prefix for signifying HTTP calls to the REST interface. Can be empty in case of an api host.
      */
@@ -33,8 +35,17 @@ class ezpMvcConfiguration implements ezcMvcDispatcherConfiguration
     public function createRequestParser()
     {
         $parser = new ezpRestHttpRequestParser();
-        if ( strpos( $_SERVER['SCRIPT_NAME'], 'index_rest.php' ) !== false )
+        if ( strpos( $_SERVER['SCRIPT_NAME'], self::INDEX_FILE ) !== false ) // Non-vhost mode
+        {
+            // In non-vhost mode we need to build the prefix to be removed from URI
+            // This prefix is contained in SCRIPT_NAME server variable
             $parser->prefix = $_SERVER['SCRIPT_NAME'];
+            if ( strpos( $_SERVER['REQUEST_URI'], self::INDEX_FILE ) === false ) // Index file doesn't appear in requested URI, remove it from the prefix
+            {
+                $parser->prefix = str_replace( '/'.self::INDEX_FILE, '', $parser->prefix );
+            }
+        }
+
         return $parser;
     }
 
@@ -73,7 +84,8 @@ class ezpMvcConfiguration implements ezcMvcDispatcherConfiguration
         try
         {
             $this->runCustomFilters( self::FILTER_TYPE_PREROUTING, array( 'request' => $request ) );
-        } catch ( Exception $e )
+        }
+        catch ( Exception $e )
         {
             $request->variables['exception'] = $e;
             $request->uri = $this->apiPrefix . '/fatal';
