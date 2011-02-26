@@ -24840,7 +24840,7 @@ Para hacer esto necesitas cambiar los comandos %chown en comandos de consola alt
     </message>
     <message>
         <source>User profile</source>
-        <translation>Usar perfil</translation>
+        <translation>Perfil de usuario</translation>
     </message>
     <message>
         <source>Name</source>
