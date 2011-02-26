@@ -986,7 +986,7 @@
     </message>
     <message>
         <source>Use this menu to select the language you want to use for editing then click the "Edit" button.</source>
-        <translation>Utilisez ce menu pour sélectionner la langue à utiliser lors de la modification puis cliquez sur le bouton "Edit"</translation>
+        <translation>Utilisez ce menu pour sélectionner la langue à utiliser lors de la modification puis cliquez sur le bouton "Modifier"</translation>
     </message>
     <message>
         <source>Class storing deferred</source>
@@ -1344,7 +1344,7 @@
     </message>
     <message>
         <source>To select objects, choose the appropriate radio button or checkbox(es), then click the "Select" button.</source>
-        <translation>Pour sélectionner des objets, choisissez le bouton radio ou les cases à cocher appropriés, puis cliquez sur le bouton "Select"</translation>
+        <translation>Pour sélectionner des objets, choisissez le bouton radio ou les cases à cocher appropriés, puis cliquez sur le bouton "Selectionner"</translation>
     </message>
     <message>
         <source>To select an object that is a child of one of the displayed objects, click the object name for a list of the children of the object.</source>
@@ -1363,7 +1363,7 @@
     </message>
     <message>
         <source>Select the items that you want to bookmark using the checkboxes then click "Select".</source>
-        <translation>Sélectionnez les éléments que vous voulez ajouter dans vos signets en utilisant les cases à cocher puis cliquez sur "Select".</translation>
+        <translation>Sélectionnez les éléments que vous voulez ajouter dans vos signets en utilisant les cases à cocher puis cliquez sur "Selectionner".</translation>
     </message>
 </context>
 <context>
@@ -1382,11 +1382,11 @@
     </message>
     <message>
         <source>Choose a new location for the copy of &lt;%object_name&gt; using the radio buttons then click "Select".</source>
-        <translation>Choisissez un nouvel emplacement pour la copie de &lt;%object_name&gt; en utilisant les boutons radio puis cliquez sur "Select".</translation>
+        <translation>Choisissez un nouvel emplacement pour la copie de &lt;%object_name&gt; en utilisant les boutons radio puis cliquez sur "Selectionner".</translation>
     </message>
     <message>
         <source>Choose a new location for the copy of subtree of node &lt;%node_name&gt; using the radio buttons then click "Select".</source>
-        <translation>Choisissez un nouvel emplacement pour la copie de la sous-arborescence du nœud  &lt;%node_name&gt; en utilisant les boutons radio puis cliquez sur "Select".</translation>
+        <translation>Choisissez un nouvel emplacement pour la copie de la sous-arborescence du nœud  &lt;%node_name&gt; en utilisant les boutons radio puis cliquez sur "Selectionner".</translation>
     </message>
 </context>
 <context>
@@ -1401,7 +1401,7 @@
     </message>
     <message>
         <source>Select the item that you want to export using the checkboxes then click "Select".</source>
-        <translation>Sélectionnez l'élément que vous voulez exporter en utilisant les cases à cocher puis cliquez sur "Select".</translation>
+        <translation>Sélectionnez l'élément que vous voulez exporter en utilisant les cases à cocher puis cliquez sur "Selectionner".</translation>
     </message>
 </context>
 <context>
@@ -1416,7 +1416,7 @@
     </message>
     <message>
         <source>Choose a location for the new &lt;%classname&gt; using the radio buttons then click "Select".</source>
-        <translation>Choisissez un emplacement pour le nouvel objet &lt;%classname&gt; en utilisant les boutons radio puis cliquez sur "Select".</translation>
+        <translation>Choisissez un emplacement pour le nouvel objet &lt;%classname&gt; en utilisant les boutons radio puis cliquez sur "Selectionner".</translation>
     </message>
 </context>
 <context>
@@ -1431,7 +1431,7 @@
     </message>
     <message>
         <source>Choose a new location for &lt;%object_name&gt; using the radio buttons then click "Select".</source>
-        <translation>Choisissez un nouvel emplacement pour &lt;%object_name&gt; en utilisant les boutons radio puis cliquez sur "Select".</translation>
+        <translation>Choisissez un nouvel emplacement pour &lt;%object_name&gt; en utilisant les boutons radio puis cliquez sur "Selectionner".</translation>
     </message>
 </context>
 <context>
@@ -1450,7 +1450,7 @@
     </message>
     <message>
         <source>Choose a new location for &lt;%version_name&gt; using the radio buttons then click "Select".</source>
-        <translation>Choisissez un nouvel emplacement pour &lt;%version_name&gt; en utilisant les boutons radio puis cliquez sur "Select".</translation>
+        <translation>Choisissez un nouvel emplacement pour &lt;%version_name&gt; en utilisant les boutons radio puis cliquez sur "Selectionner".</translation>
     </message>
 </context>
 <context>
@@ -1465,7 +1465,7 @@
     </message>
     <message>
         <source>Choose locations for &lt;%version_name&gt; using the checkboxes then click "Select".</source>
-        <translation>Choisissez les emplacements pour &lt;%version_name&gt; en utilisant les cases à cocher puis cliquez sur "Select".</translation>
+        <translation>Choisissez les emplacements pour &lt;%version_name&gt; en utilisant les cases à cocher puis cliquez sur "Selectionner".</translation>
     </message>
 </context>
 <context>
