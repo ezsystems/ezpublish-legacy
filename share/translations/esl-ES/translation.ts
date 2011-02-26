@@ -328,7 +328,7 @@
     </message>
     <message>
         <source>Use this checkbox to allow instances of the class to have sub items. If checked, it will be possible to create new sub items. If not checked, the sub items will not be displayed.</source>
-        <translation>Usar esta opción para permitir que las instancias de la clase tengan sub-elementos. Si está selecionado, será posible crear nuevos sub-elementos. Sinó, los sub-elementos no se mostrarán.</translation>
+        <translation>Usar esta opción para permitir que las instancias de la clase tengan sub-elementos. Si está seleccionado, será posible crear nuevos sub-elementos. Sinó, los sub-elementos no se mostrarán.</translation>
     </message>
     <message>
         <source>Use this checkbox to set the default availability for the objects of this class. The availability controls whether an object should be shown even if it does not exist in one of the languages specified by the &quot;SiteLanguageList&quot; setting. If this is the case, the system will use the main language of the object.</source>
@@ -6451,7 +6451,7 @@
     </message>
     <message>
         <source>Keep all in selected nodes</source>
-        <translation>Guardar todo en los nudos selecionados</translation>
+        <translation>Guardar todo en los nudos seleccionados</translation>
     </message>
     <message>
         <source>Main only</source>
@@ -6467,7 +6467,7 @@
     </message>
     <message>
         <source>Selected nodes</source>
-        <translation>Nudos selecionados</translation>
+        <translation>Nudos seleccionados</translation>
     </message>
     <message>
         <source>Invert selection.</source>
@@ -9755,7 +9755,7 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>The &lt;%cache_name&gt; is disabled and thus it cannot be marked for clearing.</source>
-        <translation>El &lt;%cache_name&gt; esta deshabilitado y por eso no puede estar selecionado para limpiar.</translation>
+        <translation>El &lt;%cache_name&gt; esta deshabilitado y por eso no puede estar seleccionado para limpiar.</translation>
     </message>
     <message>
         <source>This operation will regenerate all the static content caches that are configured. This action can take  some time depending on the specifications of the server and the number of locations that are configured to be statically cached. If you encounter time-out problems, use the &amp;quot;bin/php/makestaticcache.php&amp;quot; shell script.</source>
@@ -19287,7 +19287,7 @@ Puedes ver el elemento usando la URL de abajo.</translation>
     </message>
     <message>
         <source>Selected nodes</source>
-        <translation>Nudos selecionados</translation>
+        <translation>Nudos seleccionados</translation>
     </message>
     <message>
         <source>Please select the site CSS file to be included in the package.</source>
@@ -27381,7 +27381,7 @@ si has elegido la opción &quot;%3&quot; desde &quot;%4&quot; </translation>
     </message>
     <message>
         <source>Selected nodes</source>
-        <translation>Nudos selecionados</translation>
+        <translation>Nudos seleccionados</translation>
     </message>
     <message>
         <source>You must select one or more node(s)/subtree(s) for export.</source>
