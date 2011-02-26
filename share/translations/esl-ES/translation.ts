@@ -119,7 +119,7 @@
     </message>
     <message>
         <source>Use this menu to select the language you to want use then click the &quot;New class&quot; button. The item will be created within the current location.</source>
-        <translation>Usar este menú para seleccionar el idioma que deseas usar y pulsa el botón &quot;Nueva clase&quot;. El elemento se creará en la ubicación actual.</translation>
+        <translation>Usa este menú para seleccionar el idioma que deseas usar y pulsa el botón &quot;Nueva clase&quot;. El elemento se creará en la ubicación actual.</translation>
     </message>
     <message>
         <source>Classes inside &lt;%group_name&gt; (%class_count)</source>
@@ -188,7 +188,7 @@
     </message>
     <message>
         <source>Use this field to set the informal name of the class. The name field can contain whitespaces and special characters.</source>
-        <translation>Usar este campo para poner el nombre informal de la clase. El nombre del campo puede contener espacios y caracteres especiales.</translation>
+        <translation>Usa este campo para poner el nombre informal de la clase. El nombre del campo puede contener espacios y caracteres especiales.</translation>
     </message>
     <message>
         <source>Identifier</source>
@@ -216,7 +216,7 @@
     </message>
     <message>
         <source>Use this field to set the informal name of the attribute. This field can contain whitespaces and special characters.</source>
-        <translation>Usar este campo para el nombre informal del atributo. Este campo puede contener espacios y caracteres especiales.</translation>
+        <translation>Usa este campo para el nombre informal del atributo. Este campo puede contener espacios y caracteres especiales.</translation>
     </message>
     <message>
         <source>Required</source>
@@ -236,7 +236,7 @@
     </message>
     <message>
         <source>Use this checkbox for attributes that contain non-translatable content.</source>
-        <translation>Usar esta opción para los atributos que tienen un contenido que no se puede traducir.</translation>
+        <translation>Usa esta opción para los atributos que tienen un contenido que no se puede traducir.</translation>
     </message>
     <message>
         <source>Disable translation</source>
@@ -260,7 +260,7 @@
     </message>
     <message>
         <source>Add a new attribute to the class. Use the menu on the left to select the attribute type.</source>
-        <translation>Añadir un nuevo atributo a la clase. Usar el menú en la parte izquierda para elegir el tipo de atributo.</translation>
+        <translation>Añadir un nuevo atributo a la clase. Usa el menú en la parte izquierda para elegir el tipo de atributo.</translation>
     </message>
     <message>
         <source>OK</source>
@@ -296,7 +296,7 @@
     </message>
     <message>
         <source>Use these controls to set the default sorting method for the sub items of instances of the content class.</source>
-        <translation>Usar estos controles para fijar el método predeterminado para ordenar los subelementos de las instancias de las clases de contenido.</translation>
+        <translation>Usa estos controles para fijar el método predeterminado para ordenar los subelementos de las instancias de las clases de contenido.</translation>
     </message>
     <message>
         <source>Descending</source>
@@ -316,23 +316,23 @@
     </message>
     <message>
         <source>Use this field to configure how the url alias of the objects are generated (applies to nice URLs). Type in the identifiers of the attributes that should be used. The identifiers must be enclosed in angle brackets. Text outside angle brackets will be included as is.</source>
-        <translation>Usar este campo para configurar cómo se generarán los alias de la url de los objetos (se aplica a las URLs bonitas). Escribir los identificadores de los atributos que se deben usar. Los identificadores deben estar englobados con paréntesis angulares &quot;&lt;&gt;&quot;. El texto que esté fuera de los paréntesis angulares será incluido tal cual.</translation>
+        <translation>Usa este campo para configurar cómo se generarán los alias de la url de los objetos (se aplica a las URLs bonitas). Escribir los identificadores de los atributos que se deben usar. Los identificadores deben estar englobados con paréntesis angulares &quot;&lt;&gt;&quot;. El texto que esté fuera de los paréntesis angulares será incluido tal cual.</translation>
     </message>
     <message>
         <source>Use this field to set the internal name of the class. The identifier will be used in templates and in PHP code. Allowed characters are letters, numbers and underscores.</source>
-        <translation>Usar este campo para fijar el nombre interno de la clase. El identificador será usado en las plantillas y en el código PHP. Los caracteres permitidos son letras, números y subrayado.</translation>
+        <translation>Usa este campo para fijar el nombre interno de la clase. El identificador será usado en las plantillas y en el código PHP. Los caracteres permitidos son letras, números y subrayado.</translation>
     </message>
     <message>
         <source>Use this field to configure how the name of the objects are generated. Type in the identifiers of the attributes that should be used. The identifiers must be enclosed in angle brackets. Text outside angle brackets will be included as it is shown here.</source>
-        <translation>Usar este campo para configurar como se generarán los nombres de los objetos. Poner los identificadores de los atributos que deben ser usados. Los identificadores tienen que estar entre paréntesis angulares (&quot;&lt;&gt;&quot;). El texto fuera de los paréntesis angulares será incluido de forma literal.</translation>
+        <translation>Usa este campo para configurar como se generarán los nombres de los objetos. Poner los identificadores de los atributos que deben ser usados. Los identificadores tienen que estar entre paréntesis angulares (&quot;&lt;&gt;&quot;). El texto fuera de los paréntesis angulares será incluido de forma literal.</translation>
     </message>
     <message>
         <source>Use this checkbox to allow instances of the class to have sub items. If checked, it will be possible to create new sub items. If not checked, the sub items will not be displayed.</source>
-        <translation>Usar esta opción para permitir que las instancias de la clase tengan sub-elementos. Si está seleccionado, será posible crear nuevos sub-elementos. Sinó, los sub-elementos no se mostrarán.</translation>
+        <translation>Usa esta opción para permitir que las instancias de la clase tengan sub-elementos. Si está seleccionado, será posible crear nuevos sub-elementos. Sinó, los sub-elementos no se mostrarán.</translation>
     </message>
     <message>
         <source>Use this checkbox to set the default availability for the objects of this class. The availability controls whether an object should be shown even if it does not exist in one of the languages specified by the &quot;SiteLanguageList&quot; setting. If this is the case, the system will use the main language of the object.</source>
-        <translation>Usar esta opción para fijar la disponibilidad predeterminada de los objetos de esta clase. La disponibilidad controla si un objeto debe ser mostrado aunque no exista en los idiomas especificados en la configuración &quot;SiteLanguageList&quot;. En este caso, el sistema usará el idioma principal para el objeto.</translation>
+        <translation>Usa esta opción para fijar la disponibilidad predeterminada de los objetos de esta clase. La disponibilidad controla si un objeto debe ser mostrado aunque no exista en los idiomas especificados en la configuración &quot;SiteLanguageList&quot;. En este caso, el sistema usará el idioma principal para el objeto.</translation>
     </message>
     <message>
         <source>Select attribute for removal. Click the &quot;Remove selected attributes&quot; button to remove the selected attributes.</source>
@@ -340,19 +340,19 @@
     </message>
     <message>
         <source>Use this field to set the internal name of the attribute. The identifier will be used in templates and in PHP code. Allowed characters are letters, numbers and underscores.</source>
-        <translation>Usar este campo para fijar el nombre interno del atributo. El identificador será usado en las plantillas y en el código PHP. Los caracteres permitidos son letras, números y subrayado.</translation>
+        <translation>Usa este campo para fijar el nombre interno del atributo. El identificador será usado en las plantillas y en el código PHP. Los caracteres permitidos son letras, números y subrayado.</translation>
     </message>
     <message>
         <source>Use this checkbox to specify whether the user should be forced to enter information into the attribute.</source>
-        <translation>Usar este campo para especificar si se ha de forzar al usuario a introducir información en el atributo.</translation>
+        <translation>Usa este campo para especificar si se ha de forzar al usuario a introducir información en el atributo.</translation>
     </message>
     <message>
         <source>Use this checkbox to specify whether the contents of the attribute should be indexed by the search engine.</source>
-        <translation>Usar este campo para especificar si el motor de búsqueda debe indexar los contenidos del atributo.</translation>
+        <translation>Usa este campo para especificar si el motor de búsqueda debe indexar los contenidos del atributo.</translation>
     </message>
     <message>
         <source>Use this checkbox to specify whether the attribute should collect input from users.</source>
-        <translation>Usar este campo para especificar si el atributo recoge información de los usuarios.</translation>
+        <translation>Usa este campo para especificar si el atributo recoge información de los usuarios.</translation>
     </message>
     <message>
         <source>The &lt;%datatype_name&gt; datatype cannot be used as an information collector.</source>
@@ -368,7 +368,7 @@
     </message>
     <message>
         <source>Use this field to set the informal description of the class. The description field can contain whitespaces and special characters.</source>
-        <translation>Usar este campo para indicar la descripción informal de la clase. El campo descripción puede contener espacios y caracteres especiales.</translation>
+        <translation>Usa este campo para indicar la descripción informal de la clase. El campo descripción puede contener espacios y caracteres especiales.</translation>
     </message>
     <message>
         <source>List of class attributes</source>
@@ -380,11 +380,11 @@
     </message>
     <message>
         <source>Use this field to set the informal description of the attribute. This field can contain whitespaces and special characters.</source>
-        <translation>Usar este campo para indicar la descripción informal del atributo. Este campo puede contener espacios y caracteres especiales.</translation>
+        <translation>Usa este campo para indicar la descripción informal del atributo. Este campo puede contener espacios y caracteres especiales.</translation>
     </message>
     <message>
         <source>Use this category to group attributes together in edit interface, some categories might also be hidden in full view if they are for instance only meta attributes.</source>
-        <translation>Usar esta categoría para agrupar atributos en la interfaz de edición, algunas categorías se pueden fijar como ocultas en la vista completa si son, por ejemplo, meta atributos.</translation>
+        <translation>Usa esta categoría para agrupar atributos en la interfaz de edición, algunas categorías se pueden fijar como ocultas en la vista completa si son, por ejemplo, meta atributos.</translation>
     </message>
     <message>
         <source>Default</source>
@@ -902,7 +902,7 @@
     </message>
     <message>
         <source>Use these radio buttons to select the desired main language.</source>
-        <translation>Usar los botones radio para seleccionar el idioma principal deseado.</translation>
+        <translation>Usa los botones radio para seleccionar el idioma principal deseado.</translation>
     </message>
     <message>
         <source>Edit in &lt;%language_name&gt;.</source>
@@ -1472,7 +1472,7 @@
     </message>
     <message>
         <source>Use the checkboxes to choose the objects that you want to relate to &lt;%version_name&gt;.</source>
-        <translation>Usar las casillas para elegir los objetos que quieres relacionar con &lt;%version_name&gt;.</translation>
+        <translation>Usa las casillas para elegir los objetos que quieres relacionar con &lt;%version_name&gt;.</translation>
     </message>
 </context>
 <context>
@@ -1927,7 +1927,7 @@
     </message>
     <message>
         <source>Use these radio buttons to specify the main location (main node) for the object being edited.</source>
-        <translation>Usar los botones radio para especificar la ubicación principal (nudo principal) del objeto que estás editando.</translation>
+        <translation>Usa los botones radio para especificar la ubicación principal (nudo principal) del objeto que estás editando.</translation>
     </message>
     <message>
         <source>Move to another location.</source>
@@ -2167,11 +2167,11 @@
     </message>
     <message>
         <source>Use this menu to set the sorting method for the sub items in this location.</source>
-        <translation>Usar este menú para indicar el método de ordenación de los sub elementos en esta ubicación.</translation>
+        <translation>Usa este menú para indicar el método de ordenación de los sub elementos en esta ubicación.</translation>
     </message>
     <message>
         <source>Use this menu to set the sorting direction for the sub items in this location.</source>
-        <translation>Usar este menú para indicar la dirección de ordenación de los sub elementos en esta ubicación.</translation>
+        <translation>Usa este menú para indicar la dirección de ordenación de los sub elementos en esta ubicación.</translation>
     </message>
     <message>
         <source>You cannot add or remove locations because the object being edited belongs to a top node.</source>
@@ -3473,7 +3473,7 @@
     </message>
     <message>
         <source>Use these checkboxes to mark items for removal. Click the &quot;Remove selected&quot; button to remove the selected items.</source>
-        <translation>Usar las casillas de verificación para marcar los elementos a eliminar. Pulsa el botón &quot;Eliminar seleccionados&quot; para eliminar los elementos seleccionados.</translation>
+        <translation>Usa las casillas de verificación para marcar los elementos a eliminar. Pulsa el botón &quot;Eliminar seleccionados&quot; para eliminar los elementos seleccionados.</translation>
     </message>
     <message>
         <source>Trash (%list_count)</source>
@@ -3690,7 +3690,7 @@
     </message>
     <message>
         <source>Enter the URL for the new alias. Use forward slashes (/) to create subentries.</source>
-        <translation>Escribir la URL para el nuevo alias. Usar barras (/) para crear subentradas.</translation>
+        <translation>Escribir la URL para el nuevo alias. Usa barras (/) para crear subentradas.</translation>
     </message>
     <message>
         <source>Relative to parent</source>
@@ -3917,11 +3917,11 @@
     </message>
     <message>
         <source>Enter the URL for the new alias. Use forward slashes (/) to create subentries.</source>
-        <translation>Escribir la URL para el nuevo alias. Usar barras (/) para crear subentradas.</translation>
+        <translation>Escribir la URL para el nuevo alias. Usa barras (/) para crear subentradas.</translation>
     </message>
     <message>
         <source>Enter the destination URL for the new alias. Use forward slashes (/) to create subentries.</source>
-        <translation>Escribir la URL de destino para el nuevo alias. Usar barras (/) para crear subentradas.</translation>
+        <translation>Escribir la URL de destino para el nuevo alias. Usa barras (/) para crear subentradas.</translation>
     </message>
     <message>
         <source>Choose the language for the new URL alias.</source>
@@ -5442,7 +5442,7 @@
     </message>
     <message>
         <source>Use these controls to set the sorting method for the sub items of the current location.</source>
-        <translation>Usar estos controles para fijar el método de ordenación de los elementos de la ubicación actual.</translation>
+        <translation>Usa estos controles para fijar el método de ordenación de los elementos de la ubicación actual.</translation>
     </message>
     <message>
         <source>Descending</source>
@@ -5586,7 +5586,7 @@
     </message>
     <message>
         <source>Use these radio buttons to select the desired main location.</source>
-        <translation>Usar los botones radio para elegir la ubicación principal.</translation>
+        <translation>Usa los botones radio para elegir la ubicación principal.</translation>
     </message>
     <message>
         <source>Remove selected locations from the list above.</source>
@@ -5758,7 +5758,7 @@
     </message>
     <message>
         <source>Use these radio buttons to select the desired main language.</source>
-        <translation>Usar los botones radio para seleccionar el idioma principal deseado.</translation>
+        <translation>Usa los botones radio para seleccionar el idioma principal deseado.</translation>
     </message>
     <message>
         <source>Edit in &lt;%language_name&gt;.</source>
@@ -5774,7 +5774,7 @@
     </message>
     <message>
         <source>Use the main language if there is no prioritized translation.</source>
-        <translation>Usar el idioma principal si no hay ninguna traducción prioritaria.</translation>
+        <translation>Usa el idioma principal si no hay ninguna traducción prioritaria.</translation>
     </message>
     <message>
         <source>Update</source>
@@ -5806,7 +5806,7 @@
     </message>
     <message>
         <source>Use this menu to select the type of item you want to create then click the &quot;Create here&quot; button. The item will be created in the current location.</source>
-        <translation>Usar este menú para seleccionar el tipo de elemento que deseas crear y pulsa el botón &quot;Crear aquí&quot;. El elemento se creará en la ubicación actual.</translation>
+        <translation>Usa este menú para seleccionar el tipo de elemento que deseas crear y pulsa el botón &quot;Crear aquí&quot;. El elemento se creará en la ubicación actual.</translation>
     </message>
     <message>
         <source>You do not have permission to create new items in the current location.</source>
@@ -5906,11 +5906,11 @@
     </message>
     <message>
         <source>Use this menu to select the language you want to use for the creation then click the &quot;Create here&quot; button. The item will be created in the current location.</source>
-        <translation>Usar este menú para seleccionar el idioma a usar para la creación y pulsa el botón &quot;Crear aquí&quot;. El elemento será creado en la localización actual.</translation>
+        <translation>Usa este menú para seleccionar el idioma a usar para la creación y pulsa el botón &quot;Crear aquí&quot;. El elemento será creado en la localización actual.</translation>
     </message>
     <message>
         <source>Create a new item in the current location. Use the menu on the left to select the type of  item.</source>
-        <translation>Crear un nuevo elemento en la ubicación actual. Usar el menú de la izquierda para seleccionar el tipo de  elemento.</translation>
+        <translation>Crear un nuevo elemento en la ubicación actual. Usa el menú de la izquierda para seleccionar el tipo de  elemento.</translation>
     </message>
     <message>
         <source>Select the desired main language using the radio buttons above then click this button to store the setting.</source>
@@ -7950,7 +7950,7 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>Use the drop-down menu to select the module that you want to grant access to.</source>
-        <translation>Usar el menú desplegable para elegir el módulo al que quieres dar acceso.</translation>
+        <translation>Usa el menú desplegable para elegir el módulo al que quieres dar acceso.</translation>
     </message>
     <message>
         <source>Every function</source>
@@ -8029,7 +8029,7 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>Use the drop-down menu to select the function that you want to grant access to.</source>
-        <translation>Usar el menú desplegable para elegir la función a la que quieras dar acceso.</translation>
+        <translation>Usa el menú desplegable para elegir la función a la que quieras dar acceso.</translation>
     </message>
     <message>
         <source>The &quot;Grant full access&quot; button will create a policy that grants unlimited access to the selected function within the module that was specified in step one. If you want to limit the access method, click the &quot;Grant limited access&quot; button. Function limitation is only supported by some functions. If unsupported, eZ Publish will set up a policy with unlimited access to the selected function.</source>
@@ -8539,7 +8539,7 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>Use the radio buttons to choose a destination location for RSS import then click &quot;OK&quot;.</source>
-        <translation>Usar los botones radio para elegir un destino para importar RSS y entonces pulsa &quot;OK&quot;.</translation>
+        <translation>Usa los botones radio para elegir un destino para importar RSS y entonces pulsa &quot;OK&quot;.</translation>
     </message>
 </context>
 <context>
@@ -8554,7 +8554,7 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>Use the radio buttons to choose an image to use in the RSS export then click &quot;OK&quot;.</source>
-        <translation>Usar los botones radio para elegir una imagen para exportar RSS y entonces pulsa &quot;OK&quot;.</translation>
+        <translation>Usa los botones radio para elegir una imagen para exportar RSS y entonces pulsa &quot;OK&quot;.</translation>
     </message>
 </context>
 <context>
@@ -8569,7 +8569,7 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>Use the radio buttons to choose the item that you want to export using RSS then click &quot;OK&quot;.</source>
-        <translation>Usar los botones radio para elegir el elemento que quieras exportar usando RSS y entonces pulsa &quot;OK&quot;.</translation>
+        <translation>Usa los botones radio para elegir el elemento que quieras exportar usando RSS y entonces pulsa &quot;OK&quot;.</translation>
     </message>
 </context>
 <context>
@@ -8584,7 +8584,7 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>Use the radio buttons to choose a user then click &quot;OK&quot;. The user will become the owner of the objects that were imported using RSS.</source>
-        <translation>Usar los botones radio para elegir el usuario y entonces pulsa &quot;OK&quot;. El usuario será el propietario de los objetos exportados usando RSS.</translation>
+        <translation>Usa los botones radio para elegir el usuario y entonces pulsa &quot;OK&quot;. El usuario será el propietario de los objetos exportados usando RSS.</translation>
     </message>
 </context>
 <context>
@@ -8607,7 +8607,7 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>Use the description field to write a text explaining what users can expect from the RSS export.</source>
-        <translation>Usar el campo descripción para escribir un texto que explique lo que el usuario puede esperar de la exportación RSS.</translation>
+        <translation>Usa el campo descripción para escribir un texto que explique lo que el usuario puede esperar de la exportación RSS.</translation>
     </message>
     <message>
         <source>Site URL</source>
@@ -8743,7 +8743,7 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>Use this field to enter the base URL of your site. It is used to produce the URLs in the export, composed by the Site URL (e.g. &quot;http://www.example.com/index.php&quot;) and the path to the object (e.g. &quot;/articles/my_article&quot;). The Site URL depends on your web server and eZ Publish configuration.</source>
-        <translation>Usar este campo para indicar la URL base de tu sitio. Se usa para producir las URLs en la exportación, compuestas por la URL del sitio (ej. &quot;http://www.example.com/index.php&quot;) y la ruta al objeto (ej. &quot;/articles/my_article&quot;). La URL del sitio depende de tu servidor web y de la configuración del eZ Publish.</translation>
+        <translation>Usa este campo para indicar la URL base de tu sitio. Se usa para producir las URLs en la exportación, compuestas por la URL del sitio (ej. &quot;http://www.example.com/index.php&quot;) y la ruta al objeto (ej. &quot;/articles/my_article&quot;). La URL del sitio depende de tu servidor web y de la configuración del eZ Publish.</translation>
     </message>
     <message>
         <source>Click this button to select the source node for the RSS export source. Objects of the type selected in the drop-down below published as sub items of the selected node will be included in the RSS export.</source>
@@ -8795,7 +8795,7 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>Use this drop-down to select the attribute that should be exported as the enclosure of the RSS export entry, enclosures are direct link to a media file, so use a media/image/file datatype .</source>
-        <translation>Usar este menú desplegable para elegir el atributo que se debe exportar como adjunto de la exportación RSS, los adjuntos son enlaces directos a un archivo multimedia, por lo tanto usa multimedia/imagen/archivo como tipo de datos .</translation>
+        <translation>Usa este menú desplegable para elegir el atributo que se debe exportar como adjunto de la exportación RSS, los adjuntos son enlaces directos a un archivo multimedia, por lo tanto usa multimedia/imagen/archivo como tipo de datos .</translation>
     </message>
     <message>
         <source>Field data</source>
@@ -8818,7 +8818,7 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>Use this field to enter the source URL of the RSS feed to import.</source>
-        <translation>Usar este campo para escribir la URL de origen del RSS a importar.</translation>
+        <translation>Usa este campo para escribir la URL de origen del RSS a importar.</translation>
     </message>
     <message>
         <source>Destination path</source>
@@ -8862,7 +8862,7 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>Use this checkbox to control if the RSS feed is active or not. An inactive feed will not be automatically updated.</source>
-        <translation>Usar esta opción para controlar si el flujo RSS está activa o no. Un flujo inactivo no se actualizará automáticamente.</translation>
+        <translation>Usa esta opción para controlar si el flujo RSS está activa o no. Un flujo inactivo no se actualizará automáticamente.</translation>
     </message>
     <message>
         <source>OK</source>
@@ -8914,11 +8914,11 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>Use this drop-down to select the type of object the import should create. Click the &quot;Set&quot; button to load the attribute types for the remaining fields.</source>
-        <translation>Usar el menú desplegable para elegir el tipo de objeto que creará la importación. Pulsar el botón &quot;Fijar&quot; para cargar los tipos de atributo en los campos restantes.</translation>
+        <translation>Usa el menú desplegable para elegir el tipo de objeto que creará la importación. Pulsar el botón &quot;Fijar&quot; para cargar los tipos de atributo en los campos restantes.</translation>
     </message>
     <message>
         <source>Click this button to load the correct values into the drop-down fields below. Use the drop-down menu on the left to select the class.</source>
-        <translation>Pulsar este botón para cargar los valores correctos en el menú desplegable de abajo. Usar el menú desplegable de la izquierda para elegir la clase.</translation>
+        <translation>Pulsar este botón para cargar los valores correctos en el menú desplegable de abajo. Usa el menú desplegable de la izquierda para elegir la clase.</translation>
     </message>
 </context>
 <context>
@@ -9094,7 +9094,7 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>Use the radio buttons to select an item that should have the &lt;%section_name&gt; section assigned.</source>
-        <translation>Usar los botones radio para elegir un elemento que debe tener asignado la sección &lt;%section_name&gt;.</translation>
+        <translation>Usa los botones radio para elegir un elemento que debe tener asignado la sección &lt;%section_name&gt;.</translation>
     </message>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
@@ -9743,11 +9743,11 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>This operation will clear all caches that are related to either template views or cache blocks inside the pagelayout template. Use it if you have modified templates or if you have made changes inside a cache block.</source>
-        <translation>Esta operación va a limpiar todas las cachés que estan relacionadas o bien con las plantillas de vista o con los bloques de caché dentro de la plantilla &quot;pagelayout&quot;. Usarla si se ha modificado una plantilla o si has modificado algo dentro un bloque de caché.</translation>
+        <translation>Esta operación va a limpiar todas las cachés que estan relacionadas o bien con las plantillas de vista o con los bloques de caché dentro de la plantilla &quot;pagelayout&quot;. Úsala si se ha modificado una plantilla o si has modificado algo dentro un bloque de caché.</translation>
     </message>
     <message>
         <source>This operation will clear all the configuration caches. Use it to force the system to re-read the configuration files if you have changed settings.</source>
-        <translation>Esta operación va a limpiar todas las cachés de configuración. Usarla para forzar el sistema a volver a leer los archivos de configuración si se ha modificado configuraciones.</translation>
+        <translation>Esta operación va a limpiar todas las cachés de configuración. Úsala para forzar el sistema a volver a leer los archivos de configuración si se ha modificado configuraciones.</translation>
     </message>
     <message>
         <source>This operation will clear all the caches and may lead to slow site response times until the caches are recreated.</source>
@@ -9797,7 +9797,7 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>Activate or deactivate extension. Use the &quot;Apply changes&quot; button to apply the changes.</source>
-        <translation>Activar o desactivar extensión. Usar el botón &quot;Aplicar cambios&quot; para aplicar los cambios.</translation>
+        <translation>Activar o desactivar extensión. Usa el botón &quot;Aplicar cambios&quot; para aplicar los cambios.</translation>
     </message>
     <message>
         <source>There are no available extensions.</source>
@@ -10725,7 +10725,7 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>Use the checkboxes to select products to be included in the discount group.</source>
-        <translation>Usar las casillas de verificación para elegir los productos que se incluirán en el grupo de descuento.</translation>
+        <translation>Usa las casillas de verificación para elegir los productos que se incluirán en el grupo de descuento.</translation>
     </message>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
@@ -13004,7 +13004,7 @@ tu cuenta.</translation>
     </message>
     <message>
         <source>Use this checkbox to enable or disable the user account.</source>
-        <translation>Usar esta casilla de verificación para activar o desactivar la cuenta de usuario.</translation>
+        <translation>Usa esta casilla de verificación para activar o desactivar la cuenta de usuario.</translation>
     </message>
     <message>
         <source>OK</source>
@@ -15377,7 +15377,7 @@ tu cuenta.</translation>
     </message>
     <message>
         <source>Use this field to set the informal description of the class. The description field can contain whitespaces and special characters.</source>
-        <translation>Usar este campo para indicar la descripción informal de la clase. El campo descripción puede contener espacios y caracteres especiales.</translation>
+        <translation>Usa este campo para indicar la descripción informal de la clase. El campo descripción puede contener espacios y caracteres especiales.</translation>
     </message>
 </context>
 <context>
@@ -16353,7 +16353,7 @@ Si quieres enviar comentarios al encargado de aprobar el contenido o ver el esta
     </message>
     <message>
         <source>Use the radio buttons to set the default option.</source>
-        <translation>Usar los botones radio para fijar la opción por defecto.</translation>
+        <translation>Usa los botones radio para fijar la opción por defecto.</translation>
     </message>
     <message>
         <source>Remove selected options.</source>
@@ -20227,7 +20227,7 @@ el menú superior.</translation>
     </message>
     <message>
         <source>Use this field to enter the base URL of your site. It is used to produce the URLs in the export, composed by the Site URL (e.g. &quot;http://www.example.com/index.php&quot;) and the path to the object (e.g. &quot;/articles/my_article&quot;). The Site URL depends on your Web server and eZ Publish configuration.</source>
-        <translation>Usar este campo para indicar la URL base de tu sitio. Se usa para producir las URLs en la exportación, compuestas por la URL del sitio (ej. &quot;http://www.example.com/index.php&quot;) y la ruta al objeto (ej. &quot;/articles/my_article&quot;). La URL del sitio depende de tu servidor Web y de la configuración del eZ Publish.</translation>
+        <translation>Usa este campo para indicar la URL base de tu sitio. Se usa para producir las URLs en la exportación, compuestas por la URL del sitio (ej. &quot;http://www.example.com/index.php&quot;) y la ruta al objeto (ej. &quot;/articles/my_article&quot;). La URL del sitio depende de tu servidor Web y de la configuración del eZ Publish.</translation>
     </message>
     <message>
         <source>Category</source>
