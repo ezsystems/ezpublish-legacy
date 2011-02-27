@@ -5,7 +5,7 @@
     <name>design/admin/content/browse</name>
     <message>
         <source>Bookmarks</source>
-        <translation type="unfinished"></translation>
+        <translation>Signets</translation>
     </message>
 </context>
 <context>
@@ -78,7 +78,7 @@
     <name>design/standard/content/view</name>
     <message>
         <source>You have no bookmarks</source>
-        <translation type="unfinished"></translation>
+        <translation>Vous n'avez aucun signet</translation>
     </message>
 </context>
 <context>
@@ -422,7 +422,7 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Bold (Ctrl+B)</source>
-        <translation>Gras (Ctrl+G)</translation>
+        <translation>Gras (Ctrl+B)</translation>
     </message>
     <message>
         <source>Italic (Ctrl+I)</source>
@@ -682,7 +682,7 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Visualiser</translation>
+        <translation>Vue</translation>
     </message>
     <message>
         <source>Inline</source>
@@ -834,35 +834,35 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Run spell checking</source>
-        <translation type="unfinished"></translation>
+        <translation>Lancer le correcteur orthographique</translation>
     </message>
     <message>
         <source>ieSpell not detected. Do you want to install it now?</source>
-        <translation type="unfinished"></translation>
+        <translation>ieSpell est introuvable. Voulez vous l'installer maintenant ?</translation>
     </message>
     <message>
         <source>Horizontale rule</source>
-        <translation type="unfinished"></translation>
+        <translation>Règle horizontale</translation>
     </message>
     <message>
         <source>Emotions</source>
-        <translation type="unfinished"></translation>
+        <translation>Smileys</translation>
     </message>
     <message>
         <source>Insert emotion</source>
-        <translation type="unfinished"></translation>
+        <translation>Insérer un smiley</translation>
     </message>
     <message>
         <source>Cool</source>
-        <translation type="unfinished"></translation>
+        <translation>Cool</translation>
     </message>
     <message>
         <source>Cry</source>
-        <translation type="unfinished"></translation>
+        <translation>Pleur</translation>
     </message>
     <message>
         <source>Embarassed</source>
-        <translation type="unfinished"></translation>
+        <translation>Embarassé</translation>
     </message>
     <message>
         <source>Foot in mouth</source>
@@ -874,11 +874,11 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Innocent</source>
-        <translation type="unfinished"></translation>
+        <translation>Innocent</translation>
     </message>
     <message>
         <source>Kiss</source>
-        <translation type="unfinished"></translation>
+        <translation>Bise</translation>
     </message>
     <message>
         <source>Laughing</source>
@@ -990,83 +990,83 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>eznode</source>
-        <translation type="unfinished"></translation>
+        <translation>eznode</translation>
     </message>
     <message>
         <source>ezobject</source>
-        <translation type="unfinished"></translation>
+        <translation>ezobject</translation>
     </message>
     <message>
         <source>Ftp</source>
-        <translation type="unfinished"></translation>
+        <translation>ftp</translation>
     </message>
     <message>
         <source>Http</source>
-        <translation type="unfinished"></translation>
+        <translation>http</translation>
     </message>
     <message>
         <source>Https</source>
-        <translation type="unfinished"></translation>
+        <translation>https</translation>
     </message>
     <message>
         <source>Mail</source>
-        <translation type="unfinished"></translation>
+        <translation>Courriel</translation>
     </message>
     <message>
         <source>Anchor</source>
-        <translation type="unfinished"></translation>
+        <translation>Ancre</translation>
     </message>
     <message>
         <source>Other</source>
-        <translation type="unfinished"></translation>
+        <translation>Autre</translation>
     </message>
     <message>
         <source>Id not valid!</source>
-        <translation type="unfinished"></translation>
+        <translation>L'id n'est pas valide !</translation>
     </message>
     <message>
         <source>The url the link points to, starts with link type (like http://).</source>
-        <translation type="unfinished"></translation>
+        <translation>L'URL vers laquelle le lien doit pointer; elle démarre par le type de lien (par exemple http://)</translation>
     </message>
     <message>
         <source>Class are often used to give different design or appearance, either by using a different template, style or both.</source>
-        <translation type="unfinished"></translation>
+        <translation>Les classes sont souvent utilisées pour donner une apparence différente en utilisant soit un template différent, soit un style, soit les deux.</translation>
     </message>
     <message>
         <source>Lets you specify the target window for the link, if any.</source>
-        <translation type="unfinished"></translation>
+        <translation>Donne la possibilité de définir la fenêtre cible du lien si nécessaire.</translation>
     </message>
     <message>
         <source>The title on the (x)html tag, used by screen readers, and to give better explanation like this one.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le titre de la balise (x)html utilisé par les lecteurs d'écran pour donner de plus amples explications comme ce texte.</translation>
     </message>
     <message>
         <source>To set the width of the tag, either as percentage by appending % or as pixel size by just using a number.</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisé pour définir la largeur de cet élément, soit en pourcentage en ajoutant % soit en pixel en entrant uniquement un nombre.</translation>
     </message>
     <message>
         <source>The unique identifier used for the element in the (x)html output, used by style sheets and/or anchors.</source>
-        <translation type="unfinished"></translation>
+        <translation>L'identifiant unique de cet élément dans la sortie (x)html utilisé par les feuilles de style et/ou comme anchre.</translation>
     </message>
     <message>
         <source>New %tag_name tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouvel élément %tag_name</translation>
     </message>
     <message>
         <source>Edit %tag_name tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifier l'élément %tag_name</translation>
     </message>
     <message>
         <source>Object</source>
-        <translation type="unfinished"></translation>
+        <translation>Objet</translation>
     </message>
     <message>
         <source>Node</source>
-        <translation type="unfinished"></translation>
+        <translation>Nœud</translation>
     </message>
     <message>
         <source>Relation</source>
-        <translation type="unfinished"></translation>
+        <translation>Relation</translation>
     </message>
     <message>
         <source>Switch embed file</source>
@@ -1074,78 +1074,78 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Edit file</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifier le fichier</translation>
     </message>
     <message>
         <source>Edit image</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifier l'image</translation>
     </message>
     <message>
         <source>Edit object</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifier l'objet</translation>
     </message>
     <message>
         <source>[default]</source>
-        <translation type="unfinished"></translation>
+        <translation>[par défaut]</translation>
     </message>
     <message>
         <source>New window (_blank)</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouvelle fenêtre (_blank)</translation>
     </message>
     <message>
         <source>Table cell</source>
-        <translation type="unfinished"></translation>
+        <translation>Cellule de tableau</translation>
     </message>
     <message>
         <source>Table header</source>
-        <translation type="unfinished"></translation>
+        <translation>Entête de tableau</translation>
     </message>
     <message>
         <source>Upload new File</source>
-        <translation type="unfinished"></translation>
+        <translation>Envoyé un nouveau fichier</translation>
     </message>
     <message>
         <source>There are no related files.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il n'y a aucun fichier lié.</translation>
     </message>
     <message>
         <source>Upload new Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Envoyer une nouvelle image</translation>
     </message>
     <message>
         <source>Alternative text</source>
-        <translation type="unfinished"></translation>
+        <translation>Texte alternatif</translation>
     </message>
     <message>
         <source>Tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Mots clés</translation>
     </message>
     <message>
         <source>There are no related images.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il n'y a aucune image liée.</translation>
     </message>
     <message>
         <source>Upload new Object</source>
-        <translation type="unfinished"></translation>
+        <translation>Envoyer un nouvel objet</translation>
     </message>
 </context>
 <context>
     <name>design/standard/ezoe/handler</name>
     <message>
         <source>Object %1 does not exist.</source>
-        <translation type="unfinished"></translation>
+        <translation>L'objet %1 n'existe pas.</translation>
     </message>
     <message>
         <source>Node %1 does not exist.</source>
-        <translation type="unfinished">Le nœud %1 n&apos;existe pas.</translation>
+        <translation>Le nœud %1 n&apos;existe pas.</translation>
     </message>
     <message>
         <source>Node &amp;apos;%1&amp;apos; does not exist.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le nœud '%1' n'existe pas.</translation>
     </message>
     <message>
         <source>Some objects used in embed(-inline) tags have been deleted and are no longer available.</source>
-        <translation type="unfinished"></translation>
+        <translation>Des objets inclus ont été supprimés.</translation>
     </message>
 </context>
 <context>
@@ -1316,31 +1316,31 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Toggle &lt;u&gt;underline&lt;/u&gt; style on the selected text. This button is only enabled if you have a custom tag named underline.</source>
-        <translation type="unfinished"></translation>
+        <translation>(Dés)active le style &lt;u&gt;souligné&lt;/u&gt; sur le texte sélectionné. Ce bouton est activé seulement si une balise personnalisée appelée underline existe.</translation>
     </message>
     <message>
         <source>Toggle &lt;sub&gt;subscript&lt;/sub&gt; style on the selected text. This button is only enabled if you have a custom tag named subscript, template code to handle subscript custom tags is not included in Online Editor.</source>
-        <translation type="unfinished"></translation>
+        <translation>(Dés)active le style &lt;u&gt;indice&lt;/u&gt; sur le texte sélectionné. Ce bouton est activé seulement si une balise personnalisée appelée subscript existe.</translation>
     </message>
     <message>
         <source>Toggle &lt;sup&gt;superscript&lt;/sup&gt; style on the selected text. This button is only enabled if you have a custom tag named superscript, template code to handle superscript custom tags is not included in Online Editor.</source>
-        <translation type="unfinished"></translation>
+        <translation>(Dés)active le style &lt;u&gt;exposant&lt;/u&gt; sur le texte sélectionné. Ce bouton est activé seulement si une balise personnalisée appelée superscript existe.</translation>
     </message>
     <message>
         <source>Toggle left align text, or float block content to the left.</source>
-        <translation type="unfinished"></translation>
+        <translation>(Dés)active l'alignement ou le style flottant du bloc à gauche.</translation>
     </message>
     <message>
         <source>Toggle center align text, or float block content to the center (Same as not aligned by default).</source>
-        <translation type="unfinished"></translation>
+        <translation>(Dés)active le centrage du texte ou du bloc (Sans alignement comme par le style par défaut).</translation>
     </message>
     <message>
         <source>Toggle right align text, or float block content to the right.</source>
-        <translation type="unfinished"></translation>
+        <translation>(Dés)active l'alignement ou le style flottant du bloc à droite.</translation>
     </message>
     <message>
         <source>Toggle justify text, stretches the lines so that each line has equal width.</source>
-        <translation type="unfinished"></translation>
+        <translation>(Dés)active la justification du texte.</translation>
     </message>
     <message>
         <source>Insert an file from the related file list, upload a new file, search for an existing file or browse for it. To upload a local file, click &quot;Upload new&quot; button choose the local file, specify the name of the new file, choose placement from list and then click &quot;Upload&quot; button. This button is not enabled by default.</source>
@@ -1375,59 +1375,59 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     <name>design/standard/ezoe/searchreplace</name>
     <message>
         <source>Find again</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechercher à nouveau</translation>
     </message>
     <message>
         <source>The search has been completed. The search string could not be found.</source>
-        <translation type="unfinished"></translation>
+        <translation>La recherche est terminée. La chaîne recherchée n'a pas été trouvée.</translation>
     </message>
     <message>
         <source>Find</source>
-        <translation type="unfinished">Rechercher</translation>
+        <translation>Rechercher</translation>
     </message>
     <message>
         <source>Find/Replace</source>
-        <translation type="unfinished">Rechercher/Remplacer</translation>
+        <translation>Rechercher/Remplacer</translation>
     </message>
     <message>
         <source>All occurrences of the search string were replaced.</source>
-        <translation type="unfinished"></translation>
+        <translation>Toutes les occurences de la chaîne recherchée ont été remplacées.</translation>
     </message>
     <message>
         <source>Find what</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechercher</translation>
     </message>
     <message>
         <source>Replace with</source>
-        <translation type="unfinished"></translation>
+        <translation>Remplacer par</translation>
     </message>
     <message>
         <source>Direction</source>
-        <translation type="unfinished"></translation>
+        <translation>Sens</translation>
     </message>
     <message>
         <source>Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Vers le haut</translation>
     </message>
     <message>
         <source>Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Vers le bas</translation>
     </message>
     <message>
         <source>Match case</source>
-        <translation type="unfinished"></translation>
+        <translation>Sensible à la casse</translation>
     </message>
     <message>
         <source>Find next</source>
-        <translation type="unfinished"></translation>
+        <translation>Chercher le suivant</translation>
     </message>
     <message>
         <source>Replace</source>
-        <translation type="unfinished"></translation>
+        <translation>Remplacer</translation>
     </message>
     <message>
         <source>Replace all</source>
-        <translation type="unfinished"></translation>
+        <translation>Tout remplacer</translation>
     </message>
 </context>
 <context>
@@ -1557,7 +1557,7 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     <name>kernel/classes/datatypes/ezxmltext</name>
     <message>
         <source>Invalid e-mail address: &apos;%1&apos;</source>
-        <translation type="unfinished">Adresse email invalide : &apos;%1&apos;</translation>
+        <translation>Adresse email invalide : &apos;%1&apos;</translation>
     </message>
 </context>
 <context>
