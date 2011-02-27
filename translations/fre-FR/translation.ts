@@ -127,7 +127,7 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Error: Invalid values entered, these are marked in red.</source>
-        <translation>Erreur : valeurs saisies invalides, signalées en rouge.</translation>
+        <translation>Erreur&#160;: valeurs saisies invalides, signalées en rouge.</translation>
     </message>
     <message>
         <source>More colors</source>
@@ -155,7 +155,7 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>%Y-%m-%d</source>
-        <translation>%Y-%m-%d</translation>
+        <translation>%d/%m/%Y</translation>
     </message>
     <message>
         <source>%H:%M:%S</source>
@@ -315,7 +315,7 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>The changes you made will be lost if you navigate away from this page.</source>
-        <translation>Si vous quittez cette page, vos modification seront perdues.</translation>
+        <translation>Si vous quittez cette page, vos modifications seront perdues.</translation>
     </message>
     <message>
         <source>Toggle fullscreen mode</source>
@@ -339,7 +339,7 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Visual control characters on/off.</source>
-        <translation>Caractères du contrôle visuel on/off.</translation>
+        <translation>Caractères du contrôle visuels on/off.</translation>
     </message>
     <message>
         <source>Insert page break.</source>
@@ -399,7 +399,7 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Definition term </source>
-        <translation>Terme de la définition</translation>
+        <translation>Terme de la définition </translation>
     </message>
     <message>
         <source>Definition description</source>
@@ -447,11 +447,11 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Outdent</source>
-        <translation>Alinéa</translation>
+        <translation>Supprimer un niveau d'indentation</translation>
     </message>
     <message>
         <source>Indent</source>
-        <translation>Indentation</translation>
+        <translation>Ajouter un niveau d'indentation</translation>
     </message>
     <message>
         <source>Undo (Ctrl+Z)</source>
@@ -463,7 +463,7 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Insert/edit link</source>
-        <translation>Insérer/modifier un lien</translation>
+        <translation>Insérer/modifier le lien</translation>
     </message>
     <message>
         <source>Unlink</source>
@@ -559,7 +559,7 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Jump to tool buttons - Alt+Q, Jump to editor - Alt-Z, Jump to element path - Alt-X</source>
-        <translation>Raccourci vers les boutons outils - Alt+Q, Raccourci vers l&apos;éditeur - Alt-Z, Raccourci vers le chemin élément - Alt-X</translation>
+        <translation>Raccourci vers les outils - Alt+Q, Raccourci vers l&apos;éditeur - Alt-Z, Raccourci vers le chemin élément - Alt-X</translation>
     </message>
     <message>
         <source>Next</source>
@@ -607,7 +607,7 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>HTML Source Editor</source>
-        <translation>Editeur de source HTML</translation>
+        <translation>Éditeur de source HTML</translation>
     </message>
     <message>
         <source>Word wrap</source>
@@ -631,7 +631,7 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Palette colors</source>
-        <translation>Couleurs de la palette</translation>
+        <translation>Palette de couleurs</translation>
     </message>
     <message>
         <source>Named</source>
@@ -707,7 +707,7 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Tag</source>
-        <translation>Balise</translation>
+        <translation>Mots clés</translation>
     </message>
     <message>
         <source>OK</source>
@@ -723,8 +723,7 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Custom tag properties</source>
-        <translation>Propriétés de la balise personnalisée
-</translation>
+        <translation>Propriétés de la balise personnalisée</translation>
     </message>
     <message>
         <source>Related content</source>
@@ -760,7 +759,7 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Cell Properties</source>
-        <translation>Propriétés des cellules</translation>
+        <translation>Propriétés de la cellule</translation>
     </message>
     <message>
         <source>Apply to</source>
@@ -796,7 +795,7 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Upload is in progress, it may take a few seconds...</source>
-        <translation>Téléchargement en cours, patientez quelques secondes...</translation>
+        <translation>Téléchargement en cours, cette opération peut prendre quelques secondes...</translation>
     </message>
     <message>
         <source>Related images</source>
@@ -808,7 +807,7 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>There are no related objects.</source>
-        <translation>Il n&apos;y a pas d&apos;objets associés.</translation>
+        <translation>Il n&apos;y a pas d&apos;objet associé.</translation>
     </message>
     <message>
         <source>Invalid or missing parameter: %parameter</source>
@@ -827,19 +826,19 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Make the selected text &lt;b&gt;bold&lt;/b&gt;. If the selected text is &lt;b&gt;bold&lt;/b&gt; already, this button will remove the formating.</source>
-        <translation>Créer en &lt;b&gt;gras&lt;/b&gt; le texte sélectionné. Si le texte sélectionné est déjà en &lt;b&gt;gras&lt;/b&gt;, ce bouton va supprimer ce format.</translation>
+        <translation>Met en &lt;b&gt;gras&lt;/b&gt; le texte sélectionné. Si le texte sélectionné est déjà en &lt;b&gt;gras&lt;/b&gt;, ce bouton supprime la mise en gras.</translation>
     </message>
     <message>
         <source>Make the selected text &lt;i&gt;italic&lt;/i&gt;. If the selected text is &lt;i&gt;italic&lt;/i&gt; already, this button will remove the formating.</source>
-        <translation>Créer en &lt;i&gt;italique&lt;/i&gt; le texte sélectionné. Si le texte sélectionné est déjà en &lt;i&gt;italique&lt;/i&gt;, ce bouton va supprimer ce format.</translation>
+        <translation>Met en &lt;i&gt;italique&lt;/i&gt; le texte sélectionné. Si le texte sélectionné est déjà en &lt;i&gt;italique&lt;/i&gt;, ce bouton supprime la mise en italique..</translation>
     </message>
     <message>
         <source>Make the selected text &lt;u&gt;underline&lt;/u&gt;. This button is only enabled if you have a custom tag named underline, template code to handle underline custom tags is not included in Online Editor.</source>
-        <translation>Créer en &lt;u&gt;souligné&lt;u&gt; le texte sélectionné. Ce bouton est activé uniquement si  vous possédez une balise personnalisée nommée underline. Le template de code pour gérer les balises personnalisées underline n&apos;est pas compris dans l&apos;Editeur en ligne. </translation>
+        <translation>&lt;u&gt;Souligne&lt;u&gt; le texte sélectionné. Ce bouton est activé uniquement si une balise personnalisée nommée underline existe. Le template pour gérer la balise personnalisée underline n&apos;est pas inclus dans l&apos;extension Online Editor.</translation>
     </message>
     <message>
         <source>Create a bullet list. To create a new list item, press &quot;Enter&quot;. To end a list, press &quot;Enter&quot; key on an empty list item. If you click this button when the cursor is on a list item, the formatting will be removed.</source>
-        <translation>Créer une liste à puces. Pour créer un élément dans la liste, pressez &quot;Entrée&quot;. Pour finir une liste, pressez le bouton &quot;Entrée&quot; sur un élément vide de la liste. Si vous cliquez sur ce bouton lorsque le curseur est sur un élément de la liste, la mise en forme sera supprimée.</translation>
+        <translation>Créer une liste à puce. Pour créer un élément dans la liste, pressez &quot;Entrée&quot;. Pour finir une liste, pressez le bouton &quot;Entrée&quot; sur un élément vide de la liste. Si vous cliquez sur ce bouton lorsque le curseur est sur un élément de la liste, la mise en forme sera supprimée.</translation>
     </message>
     <message>
         <source>Create a numbered list. To create a new list item, press &quot;Enter&quot;. To end a list, press &quot;Enter&quot; key on an empty list item. If you click this button when the cursor is on a list item, the formatting will be removed.</source>
@@ -847,7 +846,7 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Increase list indent. Use this button to change the level of a list item in a nested list.</source>
-        <translation>Accroître l&apos;indentation d&apos;une liste. Utiliser ce bouton pour changer le niveau d&apos;un élément d&apos;une liste.</translation>
+        <translation>Accroître l&apos;indentation d&apos;une liste. Utiliser ce bouton pour changer le niveau d&apos;un élément d&apos;une liste.</translation>@
     </message>
     <message>
         <source>Decrease list indent. Use this button to change the level of a list item in a nested list.</source>
@@ -947,11 +946,11 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Browse for a node / object.</source>
-        <translation>Rechercher un noeud/un objet.</translation>
+        <translation>Rechercher un nœud/un objet.</translation>
     </message>
     <message>
         <source>Search for a node / object.</source>
-        <translation>Rechercher un noeud/un objet.</translation>
+        <translation>Rechercher un nœud/un objet.</translation>
     </message>
     <message>
         <source>Tips &amp;amp; Tricks</source>
@@ -979,7 +978,7 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>You can edit wordmatch.ini to make text copied from MS Word directly assigned to a desired class.</source>
-        <translation>Vous pouvez modifier wordmatch.ini afin d&apos;assigner directement le texte copié à partir de Word dans une classe souhaitée.</translation>
+        <translation>Vous pouvez modifier wordmatch.ini afin d&apos;affecter une classe à partir du texte copié de Word.</translation>
     </message>
     <message>
         <source>You can find more documentation in the doc folder of this extension and online on %link.</source>
@@ -997,11 +996,11 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     <name>handlers/input</name>
     <message>
         <source>Node %1 does not exist.</source>
-        <translation>Le noeud %1 n&apos;existe pas.</translation>
+        <translation>Le nœud %1 n&apos;existe pas.</translation>
     </message>
     <message>
         <source>Node &apos;%1&apos; does not exist.</source>
-        <translation>Le noeud &apos;%1&apos; n&apos;existe pas.</translation>
+        <translation>Le nœud &apos;%1&apos; n&apos;existe pas.</translation>
     </message>
 </context>
 <context>
@@ -1012,14 +1011,14 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Invalid e-mail address: &apos;%1&apos;</source>
-        <translation>Adresse email invalide : &apos;%1&apos;</translation>
+        <translation>Adresse email invalide&#160;: &apos;%1&apos;</translation>
     </message>
 </context>
 <context>
     <name>kernel/content</name>
     <message>
         <source>Top Level Nodes</source>
-        <translation>Noeuds supérieurs</translation>
+        <translation>Nœuds supérieurs</translation>
     </message>
 </context>
 </TS>
