@@ -138,7 +138,7 @@
     </message>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
-        <translation>Navega usando las pestañas disponibles (arriba), el menu (izquierda) y la lista de contenido (centro).</translation>
+        <translation>Navega usando las pestañas disponibles (arriba), el el menú (izquierda) y la lista de contenido (centro).</translation>
     </message>
     <message>
         <source>Select the item that you want to be the default selection then click &quot;OK&quot;.</source>
@@ -153,7 +153,7 @@
     </message>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
-        <translation>Navega usando las pestañas disponibles (arriba), el menu (izquierda) y la lista de contenido (centro).</translation>
+        <translation>Navega usando las pestañas disponibles (arriba), el menú (izquierda) y la lista de contenido (centro).</translation>
     </message>
     <message>
         <source>Select the location that should be the default location then click &quot;OK&quot;.</source>
@@ -188,7 +188,7 @@
     </message>
     <message>
         <source>Use this field to set the informal name of the class. The name field can contain whitespaces and special characters.</source>
-        <translation>Usar este campo para poner el nombre informal de la clase. El nombre del campo puede contener espacios y caracteres especiales.</translation>
+        <translation>Usar este campo para poner el nombre informal de la clase. El nombre de la clase puede contener espacios y caracteres especiales.</translation>
     </message>
     <message>
         <source>Identifier</source>
@@ -260,7 +260,7 @@
     </message>
     <message>
         <source>Add a new attribute to the class. Use the menu on the left to select the attribute type.</source>
-        <translation>Añadir un nuevo atributo a la clase. Usar el menu en la parte izquierda para elegir el tipo de atributo.</translation>
+        <translation>Añadir un nuevo atributo a la clase. Usar el menú en la parte izquierda para elegir el tipo de atributo.</translation>
     </message>
     <message>
         <source>OK</source>
@@ -328,7 +328,7 @@
     </message>
     <message>
         <source>Use this checkbox to allow instances of the class to have sub items. If checked, it will be possible to create new sub items. If not checked, the sub items will not be displayed.</source>
-        <translation>Usar esta opción para permitir que las instancias de la clase tengan sub-elementos. Si está selecionado, será posible crear nuevos sub-elementos. Sinó, los sub-elementos no se mostrarán.</translation>
+        <translation>Usar esta opción para permitir que las instancias de la clase tengan sub-elementos. Si está seleccionado, será posible crear nuevos sub-elementos. Sinó, los sub-elementos no se mostrarán.</translation>
     </message>
     <message>
         <source>Use this checkbox to set the default availability for the objects of this class. The availability controls whether an object should be shown even if it does not exist in one of the languages specified by the &quot;SiteLanguageList&quot; setting. If this is the case, the system will use the main language of the object.</source>
@@ -1024,6 +1024,14 @@
         <source>Category</source>
         <translation>Categoría</translation>
     </message>
+    <message>
+        <source>Application name</source>
+        <translation>Nombre de la aplicación</translation>
+    </message>
+    <message>
+        <source>Confirm removal</source>
+        <translation>Confirmar la eliminación</translation>
+    </message>
 </context>
 <context>
     <name>design/admin/collaboration</name>
@@ -1351,7 +1359,7 @@
     </message>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
-        <translation>Navega usando las pestañas disponibles (arriba), el menu (izquierda) y la lista de contenido (centro).</translation>
+        <translation>Navega usando las pestañas disponibles (arriba), el menú (izquierda) y la lista de contenido (centro).</translation>
     </message>
     <message>
         <source>Select the items that you want to bookmark using the checkboxes then click &quot;Select&quot;.</source>
@@ -1362,7 +1370,7 @@
     <name>design/admin/content/browse_copy_node</name>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
-        <translation>Navega usando las pestañas disponibles (arriba), el menu (izquierda) y la lista de contenido (centro).</translation>
+        <translation>Navega usando las pestañas disponibles (arriba), el menú (izquierda) y la lista de contenido (centro).</translation>
     </message>
     <message>
         <source>Choose location for the copy of &lt;%object_name&gt;</source>
@@ -1389,7 +1397,7 @@
     </message>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
-        <translation>Navega usando las pestañas disponibles (arriba), el menu (izquierda) y la lista de contenido (centro).</translation>
+        <translation>Navega usando las pestañas disponibles (arriba), el menú (izquierda) y la lista de contenido (centro).</translation>
     </message>
     <message>
         <source>Select the item that you want to export using the checkboxes then click &quot;Select&quot;.</source>
@@ -1404,7 +1412,7 @@
     </message>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
-        <translation>Navega usando las pestañas disponibles (arriba), el menu (izquierda) y la lista de contenido (centro).</translation>
+        <translation>Navega usando las pestañas disponibles (arriba), el menú (izquierda) y la lista de contenido (centro).</translation>
     </message>
     <message>
         <source>Choose a location for the new &lt;%classname&gt; using the radio buttons then click &quot;Select&quot;.</source>
@@ -1415,7 +1423,7 @@
     <name>design/admin/content/browse_move_node</name>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
-        <translation>Navega usando las pestañas disponibles (arriba), el menu (izquierda) y la lista de contenido (centro).</translation>
+        <translation>Navega usando las pestañas disponibles (arriba), el menú (izquierda) y la lista de contenido (centro).</translation>
     </message>
     <message>
         <source>Choose a new location for &lt;%object_name&gt;</source>
@@ -1438,7 +1446,7 @@
     </message>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
-        <translation>Navega usando las pestañas disponibles (arriba), el menu (izquierda) y la lista de contenido (centro).</translation>
+        <translation>Navega usando las pestañas disponibles (arriba), el menú (izquierda) y la lista de contenido (centro).</translation>
     </message>
     <message>
         <source>Choose a new location for &lt;%version_name&gt; using the radio buttons then click &quot;Select&quot;.</source>
@@ -1453,7 +1461,7 @@
     </message>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
-        <translation>Navega usando las pestañas disponibles (arriba), el menu (izquierda) y la lista de contenido (centro).</translation>
+        <translation>Navega usando las pestañas disponibles (arriba), el menú (izquierda) y la lista de contenido (centro).</translation>
     </message>
     <message>
         <source>Choose locations for &lt;%version_name&gt; using the checkboxes then click &quot;Select&quot;.</source>
@@ -1464,7 +1472,7 @@
     <name>design/admin/content/browse_related</name>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
-        <translation>Navega usando las pestañas disponibles (arriba), el menu (izquierda) y la lista de contenido (centro).</translation>
+        <translation>Navega usando las pestañas disponibles (arriba), el menú (izquierda) y la lista de contenido (centro).</translation>
     </message>
     <message>
         <source>Choose objects that you want to relate to &lt;%version_name&gt;</source>
@@ -2247,7 +2255,7 @@
     </message>
     <message>
         <source>View the draft that is being edited.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ver el borrador que está siendo editado.</translation>
     </message>
 </context>
 <context>
@@ -4501,11 +4509,11 @@
     </message>
     <message>
         <source>Dynamic tree menu is disabled for this siteaccess!</source>
-        <translation type="unfinished"></translation>
+        <translation>¡El árbol de contenido dinámico está deshabilitado para este siteaccess!</translation>
     </message>
     <message>
         <source>Internal errorD</source>
-        <translation type="unfinished"></translation>
+        <translation>Error interno</translation>
     </message>
 </context>
 <context>
@@ -6178,7 +6186,7 @@
     </message>
     <message>
         <source>Invert selection</source>
-        <translation type="unfinished">Invertir la selección</translation>
+        <translation>Invertir la selección</translation>
     </message>
 </context>
 <context>
@@ -6451,7 +6459,7 @@
     </message>
     <message>
         <source>Keep all in selected nodes</source>
-        <translation>Guardar todo en los nudos selecionados</translation>
+        <translation>Guardar todo en los nudos seleccionados</translation>
     </message>
     <message>
         <source>Main only</source>
@@ -6467,7 +6475,7 @@
     </message>
     <message>
         <source>Selected nodes</source>
-        <translation>Nudos selecionados</translation>
+        <translation>Nudos seleccionados</translation>
     </message>
     <message>
         <source>Invert selection.</source>
@@ -7309,7 +7317,7 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>URL management</source>
-        <translation type="unfinished"></translation>
+        <translation>Gestión de URLs</translation>
     </message>
 </context>
 <context>
@@ -7767,7 +7775,7 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>Preview</source>
-        <translation type="unfinished">Vista previa</translation>
+        <translation>Vista previa</translation>
     </message>
 </context>
 <context>
@@ -7824,7 +7832,7 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>Your name</source>
-        <translation type="unfinished">Tu nombre</translation>
+        <translation>Tu nombre</translation>
     </message>
 </context>
 <context>
@@ -8535,7 +8543,7 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
-        <translation>Navega usando las pestañas disponibles (arriba), el menu (izquierda) y la lista de contenido (centro).</translation>
+        <translation>Navega usando las pestañas disponibles (arriba), el menú (izquierda) y la lista de contenido (centro).</translation>
     </message>
     <message>
         <source>Use the radio buttons to choose a destination location for RSS import then click &quot;OK&quot;.</source>
@@ -8550,7 +8558,7 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
-        <translation>Navega usando las pestañas disponibles (arriba), el menu (izquierda) y la lista de contenido (centro).</translation>
+        <translation>Navega usando las pestañas disponibles (arriba), el menú (izquierda) y la lista de contenido (centro).</translation>
     </message>
     <message>
         <source>Use the radio buttons to choose an image to use in the RSS export then click &quot;OK&quot;.</source>
@@ -8565,7 +8573,7 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
-        <translation>Navega usando las pestañas disponibles (arriba), el menu (izquierda) y la lista de contenido (centro).</translation>
+        <translation>Navega usando las pestañas disponibles (arriba), el menú (izquierda) y la lista de contenido (centro).</translation>
     </message>
     <message>
         <source>Use the radio buttons to choose the item that you want to export using RSS then click &quot;OK&quot;.</source>
@@ -8580,7 +8588,7 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
-        <translation>Navega usando las pestañas disponibles (arriba), el menu (izquierda) y la lista de contenido (centro).</translation>
+        <translation>Navega usando las pestañas disponibles (arriba), el menú (izquierda) y la lista de contenido (centro).</translation>
     </message>
     <message>
         <source>Use the radio buttons to choose a user then click &quot;OK&quot;. The user will become the owner of the objects that were imported using RSS.</source>
@@ -9098,7 +9106,7 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
-        <translation>Navega usando las pestañas disponibles (arriba), el menu (izquierda) y la lista de contenido (centro).</translation>
+        <translation>Navega usando las pestañas disponibles (arriba), el menú (izquierda) y la lista de contenido (centro).</translation>
     </message>
     <message>
         <source>Note that the section assignment of the sub items will also be changed.</source>
@@ -9755,7 +9763,7 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>The &lt;%cache_name&gt; is disabled and thus it cannot be marked for clearing.</source>
-        <translation>El &lt;%cache_name&gt; esta deshabilitado y por eso no puede estar selecionado para limpiar.</translation>
+        <translation>El &lt;%cache_name&gt; esta deshabilitado y por eso no puede estar seleccionado para limpiar.</translation>
     </message>
     <message>
         <source>This operation will regenerate all the static content caches that are configured. This action can take  some time depending on the specifications of the server and the number of locations that are configured to be statically cached. If you encounter time-out problems, use the &amp;quot;bin/php/makestaticcache.php&amp;quot; shell script.</source>
@@ -10714,7 +10722,7 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
-        <translation>Navega usando las pestañas disponibles (arriba), el menu (izquierda) y la lista de contenido (centro).</translation>
+        <translation>Navega usando las pestañas disponibles (arriba), el menú (izquierda) y la lista de contenido (centro).</translation>
     </message>
 </context>
 <context>
@@ -10729,7 +10737,7 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
-        <translation>Navega usando las pestañas disponibles (arriba), el menu (izquierda) y la lista de contenido (centro).</translation>
+        <translation>Navega usando las pestañas disponibles (arriba), el menú (izquierda) y la lista de contenido (centro).</translation>
     </message>
 </context>
 <context>
@@ -12648,15 +12656,15 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>Valid URLs [%url_list_count]</source>
-        <translation type="unfinished"></translation>
+        <translation>URLs válidas [%url_list_count]</translation>
     </message>
     <message>
         <source>Invalid URLs [%url_list_count]</source>
-        <translation type="unfinished"></translation>
+        <translation>URLs no válidas [%url_list_count]</translation>
     </message>
     <message>
         <source>All URLs [%url_list_count]</source>
-        <translation type="unfinished"></translation>
+        <translation>Todas las urls [%url_list_count]</translation>
     </message>
 </context>
 <context>
@@ -13465,11 +13473,11 @@ tu cuenta.</translation>
     </message>
     <message>
         <source>Error : Could not load workflow event &quot;%eventtype&quot; (event type not available)</source>
-        <translation type="unfinished"></translation>
+        <translation>Error : No se puede cargar el evento &quot;%eventtype&quot; (evento no disponible)</translation>
     </message>
     <message>
         <source>Hint : This can happen when a workflow extension has been disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Pista : Esto puede ocurrir si ha deshabilitado alguna extensión que tiene alguna definición de workflow</translation>
     </message>
 </context>
 <context>
@@ -14499,7 +14507,7 @@ tu cuenta.</translation>
     <name>design/ezwebin/node/removeobject</name>
     <message>
         <source>The items contain more than the maximum possible nodes for subtree removal and will not be deleted. You can remove this subtree using the ezsubtreeremove.php script.</source>
-        <translation type="unfinished"></translation>
+        <translation>Este elemento contiene más hijos que el máximo permitido para poder ser borrado y por tanto no se borrará. Puede borrar este subarbol usando el script ezsubtreeremove.php</translation>
     </message>
 </context>
 <context>
@@ -15852,15 +15860,15 @@ Si quieres enviar comentarios al encargado de aprobar el contenido o ver el esta
     </message>
     <message>
         <source>Your content is being published</source>
-        <translation type="unfinished"></translation>
+        <translation>Su contenido está siendo publicado</translation>
     </message>
     <message>
         <source>Publishing finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Publicación terminada</translation>
     </message>
     <message>
         <source>Your content is pending an external action</source>
-        <translation type="unfinished"></translation>
+        <translation>Su contenido está pendiente de una acción externa</translation>
     </message>
 </context>
 <context>
@@ -16713,7 +16721,7 @@ Si quieres enviar comentarios al encargado de aprobar el contenido o ver el esta
     </message>
     <message>
         <source>Confirm email</source>
-        <translation type="unfinished"></translation>
+        <translation>Confirmar email</translation>
     </message>
 </context>
 <context>
@@ -18671,23 +18679,23 @@ Si lo haces todos los hijos se eliminarán.</translation>
     </message>
     <message>
         <source>Please wait while your content is being published</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor, espere mientras su contenido se publica</translation>
     </message>
     <message>
         <source>Your content has been published successfully</source>
-        <translation type="unfinished"></translation>
+        <translation>Su contenido ha sido publicado correctamente</translation>
     </message>
     <message>
         <source>View the published item</source>
-        <translation type="unfinished"></translation>
+        <translation>Ver el elemento publicado</translation>
     </message>
     <message>
         <source>Publishing has been deferred to crontab and will be published when the operation resumes. The object is also listed in your dashboard under pending items.</source>
-        <translation type="unfinished"></translation>
+        <translation>La publicación ha sido enviada al crontab y terminará cuando la operación se reeinicie. El objeto aparecerá también en tu escritorio, en la sección Elementos Pendients.</translation>
     </message>
     <message>
         <source>View your pending content</source>
-        <translation type="unfinished"></translation>
+        <translation>Ver su contenido pendiente de publicación</translation>
     </message>
 </context>
 <context>
@@ -19287,7 +19295,7 @@ Puedes ver el elemento usando la URL de abajo.</translation>
     </message>
     <message>
         <source>Selected nodes</source>
-        <translation>Nudos selecionados</translation>
+        <translation>Nudos seleccionados</translation>
     </message>
     <message>
         <source>Please select the site CSS file to be included in the package.</source>
@@ -19306,8 +19314,8 @@ Puedes ver el elemento usando la URL de abajo.</translation>
 The chosen siteaccess determines where design files and settings are written to.
 If unsure choose the siteaccess which reflects the user part of your site, i.e. not admin.</source>
         <translation>Ahora tiene que elegir en cual acceso de sitio (siteaccess) hay que instalar el contenido del paquete.
-El acceso de sitio eligido determina donde los archivos de diseño y de configuración estan gravados.
-Si no estas seguro, elige el acceso de sitio que representa la parte pública de su sitio, es decir no la de administración.</translation>
+El acceso de sitio eligido determina donde los archivos de diseño y de configuración están grabados.
+Si no estás seguro, elige el acceso de sitio que representa la parte pública de su sitio, es decir no la de administración.</translation>
     </message>
     <message>
         <source>Select siteaccess</source>
@@ -24722,15 +24730,15 @@ Para hacer esto necesitas cambiar los comandos %chown en comandos de consola alt
     </message>
     <message>
         <source>All URLs</source>
-        <translation type="unfinished"></translation>
+        <translation>Todas las URLs</translation>
     </message>
     <message>
         <source>Invalid URLs</source>
-        <translation type="unfinished"></translation>
+        <translation>URLs no válidas</translation>
     </message>
     <message>
         <source>Valid URLs</source>
-        <translation type="unfinished"></translation>
+        <translation>URLs válidas</translation>
     </message>
 </context>
 <context>
@@ -24840,7 +24848,7 @@ Para hacer esto necesitas cambiar los comandos %chown en comandos de consola alt
     </message>
     <message>
         <source>User profile</source>
-        <translation>Usar perfil</translation>
+        <translation>Perfil de usuario</translation>
     </message>
     <message>
         <source>Name</source>
@@ -24960,7 +24968,7 @@ tu cuenta.</translation>
     </message>
     <message>
         <source>Your email address has been confirmed. An administrator needs to approve your sign up request, before your login becomes valid.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tu email ha sido confirmado. Un administrado debe aprobar tu solicitud de registro antes de que puedas usar tu login.</translation>
     </message>
 </context>
 <context>
@@ -25074,11 +25082,11 @@ tu cuenta.</translation>
     </message>
     <message>
         <source>Your registration has been approved. You can login with your account %username.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tu registro ha sido aprobado. Puedes hacer login usando tu cuenta %username.</translation>
     </message>
     <message>
         <source>Click the following URL to login:</source>
-        <translation type="unfinished"></translation>
+        <translation>Haz click en la siguiente URL para entrar en el sistema.</translation>
     </message>
 </context>
 <context>
@@ -25797,7 +25805,176 @@ tu cuenta.</translation>
     <name>design/starndard/node</name>
     <message>
         <source>Are you sure you want to remove these items?</source>
-        <translation type="unfinished">¿Estás seguro de que quieres eliminar estos ítems?</translation>
+        <translation>¿Estás seguro de que quieres eliminar estos ítems?</translation>
+    </message>
+</context>
+<context>
+    <name>extension/oauth</name>
+    <message>
+        <source>Application authorization</source>
+        <translation>Autorización de la aplicación</translation>
+    </message>
+    <message>
+        <source>The application %application_name% has requested access to this website on your behalf.</source>
+        <translation>La aplicación %application_name% ha solicitado acceso a esta web en tu nombre.</translation>
+    </message>
+</context>
+<context>
+    <name>extension/oauth/authorize</name>
+    <message>
+        <source>Authorize</source>
+        <translation>Autorizar</translation>
+    </message>
+    <message>
+        <source>Deny</source>
+        <translation>Denegar</translation>
+    </message>
+</context>
+<context>
+    <name>extension/oauthadmin</name>
+    <message>
+        <source>New REST application</source>
+        <translation>Nueva aplicación REST</translation>
+    </message>
+    <message>
+        <source>oAuth admin</source>
+        <translation>Administración oAuth</translation>
+    </message>
+    <message>
+        <source>Confirm removal</source>
+        <translation>Confirma la eliminación</translation>
+    </message>
+    <message>
+        <source>Application &lt;%application_name&gt;</source>
+        <translation>Aplicación &lt;%application_name&gt;</translation>
+    </message>
+    <message>
+        <source>Last modified</source>
+        <translation>Última modificación</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Nombre</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation>Descripción</translation>
+    </message>
+    <message>
+        <source>Client identifier</source>
+        <translation>Identificador del cliente</translation>
+    </message>
+    <message>
+        <source>Client secret</source>
+        <translation>Clave del cliente</translation>
+    </message>
+    <message>
+        <source>Endpoint URI</source>
+        <translation>Endpoint URI</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>Editar</translation>
+    </message>
+    <message>
+        <source>Edit this application.</source>
+        <translation>Editar esta aplicación.</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Borrar</translation>
+    </message>
+    <message>
+        <source>Delete this application.</source>
+        <translation>Borrar esta aplicación.</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove this application?</source>
+        <translatio>¿Está seguro de querer borrar esta aplicación?</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove these applications?</source>
+        <translation>¿Está seguro de querer borrar estas aplicaciones?</translation>
+    </message>
+    <message>
+        <source>Confirm</source>
+        <translation>Confirmar</translation>
+    </message>
+    <message>
+        <source>Confirm removal of these applications.</source>
+        <translation>Confirmar la eliminación de estas aplicaciones.</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Cancelar</translation>
+    </message>
+    <message>
+        <source>Edit application &lt;%application_name&gt;</source>
+        <translation>Editar aplicación  &lt;%application_name&gt;</translation>
+    </message>
+    <message>
+        <source>Use this field to set the application name.</source>
+        <translation>Use este campo para definir el nombre de la aplicación.</translation>
+    </message>
+    <message>
+        <source>Use this field to set the informal application description.</source>
+        <translation>Use este campo para definir la descripción adicional de la aplicación.</translation>
+    </message>
+    <message>
+        <source>Use this field to set the application endpoint URI.</source>
+        <translation>Usar este campo para definir el endpoint URI de la aplicación.</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>REST applications (%applications_count)</source>
+        <translation>Aplicaciones REST (%applications_count)</translation>
+    </message>
+    <message>
+        <source>List of applications</source>
+        <translation>Lista de aplicaciones</translation>
+    </message>
+    <message>
+        <source>Invert selection.</source>
+        <translation>Invertir la selección.</translation>
+    </message>
+    <message>
+        <source>Modifier</source>
+        <translation>Modificador</translation>
+    </message>
+    <message>
+        <source>Modified</source>
+        <translation>Modificado</translation>
+    </message>
+    <message>
+        <source>Select application for removal.</source>
+        <translation>Seleccionar aplicación para borrar.</translation>
+    </message>
+    <message>
+        <source>Edit the &lt;%application_name&gt; application.</source>
+        <translation>Editar la aplicación &lt;%application_name&gt;</translation>
+    </message>
+    <message>
+        <source>Remove selected</source>
+        <translation>Eliminar la selección</translation>
+    </message>
+    <message>
+        <source>Remove the selected applications.</source>
+        <translation>Eliminar las aplicaciones seleccionadas.</translation>
+    </message>
+    <message>
+        <source>New application</source>
+        <translation>Nuevas aplicaciones</translation>
+    </message>
+    <message>
+        <source>Create a new application.</source>
+        <translation>Crear una aplicación nueva.</translation>
+    </message>
+    <message>
+        <source>Back</source>
+        <translation>Atrás</translation>
     </message>
 </context>
 <context>
@@ -26617,7 +26794,7 @@ si has elegido la opción &quot;%3&quot; desde &quot;%4&quot; </translation>
     <message>
         <source>The emails do not match.</source>
         <comment>eZUserType</comment>
-        <translation type="unfinished"></translation>
+        <translation>Los emails no coinciden.</translation>
     </message>
 </context>
 <context>
@@ -26931,7 +27108,7 @@ si has elegido la opción &quot;%3&quot; desde &quot;%4&quot; </translation>
     </message>
     <message>
         <source>Publishing queue</source>
-        <translation type="unfinished"></translation>
+        <translation>Cola de publicación</translation>
     </message>
 </context>
 <context>
@@ -27101,11 +27278,11 @@ si has elegido la opción &quot;%3&quot; desde &quot;%4&quot; </translation>
     </message>
     <message>
         <source>The uploaded file size is above the maximum limit.</source>
-        <translation type="unfinished"></translation>
+        <translation>El tamaño del archivo subido supera el límite permitido.</translation>
     </message>
     <message>
         <source>A system error occured while writing the uploaded file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ha ocurrido un error en el sistema mientras se trataba de salvar el archivo subido.</translation>
     </message>
 </context>
 <context>
@@ -27242,6 +27419,25 @@ si has elegido la opción &quot;%3&quot; desde &quot;%4&quot; </translation>
     </message>
 </context>
 <context>
+    <name>kernel/oauthadmin</name>
+    <message>
+        <source>oAuth admin</source>
+        <translation>Administración oAuth</translation>
+    </message>
+    <message>
+        <source>Edit REST application</source>
+        <translation>Editar aplicación REST</translation>
+    </message>
+    <message>
+        <source>Registered REST applications</source>
+        <translation>Aplicaciones REST registradas</translation>
+    </message>
+    <message>
+        <source>REST application: %application_name%</source>
+        <translation>Aplicación REST: %application_name%</translation>
+    </message>
+</context>
+<context>
     <name>kernel/package</name>
     <message>
         <source>Packages</source>
@@ -27373,7 +27569,7 @@ si has elegido la opción &quot;%3&quot; desde &quot;%4&quot; </translation>
     </message>
     <message>
         <source>Content object limits</source>
-        <translation>Limites de objeto de contenido</translation>
+        <translation>Límites de objeto de contenido</translation>
     </message>
     <message>
         <source>Content object export</source>
@@ -27381,7 +27577,7 @@ si has elegido la opción &quot;%3&quot; desde &quot;%4&quot; </translation>
     </message>
     <message>
         <source>Selected nodes</source>
-        <translation>Nudos selecionados</translation>
+        <translation>Nudos seleccionados</translation>
     </message>
     <message>
         <source>You must select one or more node(s)/subtree(s) for export.</source>
@@ -28205,6 +28401,14 @@ si has elegido la opción &quot;%3&quot; desde &quot;%4&quot; </translation>
         <source>Success</source>
         <translation>Éxito</translation>
     </message>
+    <message>
+        <source>oAuth</source>
+        <translation>oAuth</translation>
+    </message>
+    <message>
+        <source>authorization</source>
+        <translation>autorización</translation>
+    </message>
 </context>
 <context>
     <name>kernel/user/register</name>
@@ -28218,7 +28422,7 @@ si has elegido la opción &quot;%3&quot; desde &quot;%4&quot; </translation>
     </message>
     <message>
         <source>User registration approved</source>
-        <translation type="unfinished"></translation>
+        <translation>Registro de usuario aprobado</translation>
     </message>
 </context>
 <context>
@@ -28311,7 +28515,7 @@ si has elegido la opción &quot;%3&quot; desde &quot;%4&quot; </translation>
     </message>
     <message>
         <source>Finish User Registration</source>
-        <translation type="unfinished"></translation>
+        <translation>Finalizar registro de usuario</translation>
     </message>
 </context>
 <context>
