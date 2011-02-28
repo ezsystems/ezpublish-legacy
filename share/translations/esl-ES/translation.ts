@@ -188,7 +188,7 @@
     </message>
     <message>
         <source>Use this field to set the informal name of the class. The name field can contain whitespaces and special characters.</source>
-        <translation>Usar este campo para poner el nombre informal de la clase. El nombre del campo puede contener espacios y caracteres especiales.</translation>
+        <translation>Usar este campo para poner el nombre informal de la clase. El nombre de la clase puede contener espacios y caracteres especiales.</translation>
     </message>
     <message>
         <source>Identifier</source>
