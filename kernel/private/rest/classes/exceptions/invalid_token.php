@@ -9,7 +9,7 @@
 
 /**
  * This exception is thrown when a token is invalid.
- * 
+ *
  * Also this exception can be used when a token is expired but can be refreshed.
  *
  * @package oauth

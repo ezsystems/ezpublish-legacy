@@ -7,6 +7,6 @@
  */
 abstract class ezpRestCacheStorageFile extends ezcCacheStorageFile
 {
-    
+
 }
 ?>

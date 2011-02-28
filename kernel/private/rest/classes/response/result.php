@@ -12,7 +12,7 @@
 class ezpRestMvcResult extends ezcMvcResult implements ezcBaseExportable
 {
     public $responseGroups;
-    
+
     /**
      * Returns a new instance of this class with the data specified by $array.
      *
@@ -31,7 +31,7 @@ class ezpRestMvcResult extends ezcMvcResult implements ezcBaseExportable
         $obj = new self( $array['status'], $array['date'],
                          $array['generator'], $array['cache'], $array['cookies'],
                          $array['content'], $array['variables'] );
-        
+
         $obj->responseGroups = $array['responseGroups'];
         return $obj;
     }

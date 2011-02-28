@@ -18,19 +18,19 @@ class ezpContentSortingCriteria implements ezpContentCriteriaInterface
      * @var string
      */
     private $sortKey;
-    
+
     /**
      * Sort order
      * @var bool true means ASC, false means DESC, just like in the fetch content/list function
      */
     private $sortOrder;
-    
+
     public function __construct( $sortKey, $sortOrder )
     {
         $this->sortKey = $sortKey;
         $this->sortOrder = ( $sortOrder == 'asc' ) ? true : false;
     }
-    
+
     public function translate()
     {
         return array(
@@ -39,7 +39,7 @@ class ezpContentSortingCriteria implements ezpContentCriteriaInterface
             'value'     => array( array( $this->sortKey, $this->sortOrder ) )
         );
     }
-    
+
     public function __toString()
     {
         $sortOrderString = $this->sortOrder ? 'asc' : 'desc';

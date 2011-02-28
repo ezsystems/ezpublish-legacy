@@ -11,7 +11,7 @@
  * Controller for OAuth token endpoint.
  *
  * @throws ezpOauthExpiredTokenException|ezpOauthInvalidRequestException|ezpOauthInvalidTokenException
- * 
+ *
  */
 class ezpRestOauthTokenController extends ezcMvcController
 {

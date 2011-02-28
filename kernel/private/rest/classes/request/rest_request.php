@@ -31,7 +31,7 @@ class ezpRestRequest extends ezcMvcRequest
      * @var array
      */
     public $post;
-    
+
     /**
      * Variables related to content, extracted from GET
      *
@@ -119,7 +119,7 @@ class ezpRestRequest extends ezcMvcRequest
             $array['authentication'], $array['raw'], $array['cookies'],
             $array['isFatal'] );
     }
-    
+
     /**
      * Returns base URI with protocol and host (e.g. http://myhost.com/foo/bar)
      * @return string
@@ -131,10 +131,10 @@ class ezpRestRequest extends ezcMvcRequest
         $apiPrefix = eZINI::instance( 'rest.ini' )->variable( 'System', 'ApiPrefix');
         $uri = str_replace( $apiPrefix, $apiPrefix.'/'.$apiName, $this->uri );
         $baseUri = $hostUri.$uri;
-        
+
         return $baseUri;
     }
-    
+
     /**
      * Returns the host with the protocol
      * @return string
@@ -144,10 +144,10 @@ class ezpRestRequest extends ezcMvcRequest
         $protIndex = strpos( $this->protocol, '-' );
         $protocol = substr( $this->protocol, 0, $protIndex );
         $hostUri = $protocol.'://'.$this->host;
-        
+
         return $hostUri;
     }
-    
+
     /**
      * Returns current content variables as a regular query string (e.g. "foo=bar&this=that")
      * @param bool $withQuestionMark If true, the question mark ("?") will be added
@@ -162,7 +162,7 @@ class ezpRestRequest extends ezcMvcRequest
             if( $value !== null )
                 $aParams[] = $name.'='.$value;
         }
-        
+
         if( !empty( $aParams ) )
         {
             $queryString  = $withQuestionMark ? '?' : '';

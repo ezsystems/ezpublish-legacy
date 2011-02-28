@@ -11,6 +11,6 @@
  */
 abstract class ezpRestModel
 {
-    
+
 }
 ?>

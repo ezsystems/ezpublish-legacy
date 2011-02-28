@@ -10,6 +10,6 @@
  * Generic exception class for ezpCacheCluster
  */
 {
-    
+
 }
 ?>

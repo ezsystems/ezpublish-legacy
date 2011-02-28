@@ -92,10 +92,10 @@ class ezpRestDebugPHPFormatter implements ezcDebugOutputFormatter
                         $switchInfos->name = $switch->name;
                         $switchInfos->elapsed = $elapsedTime;
                         $switchInfos->percent = $percent.' %';
-                         
+
                         $groupInfos->switches[] = $switchInfos;
                     }
-                     
+
                     $groupStats->elements[] = $groupInfos;
                 }
 

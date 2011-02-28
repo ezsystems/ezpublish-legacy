@@ -59,7 +59,7 @@ class ezpContentCriteria
     {
         return new ezpContentClassCriteria();
     }
-    
+
     /**
      * Creates a limit criteria
      * @return ezpContentLimitCriteria
@@ -68,7 +68,7 @@ class ezpContentCriteria
     {
         return new ezpContentLimitCriteria();
     }
-    
+
     /**
      * Creates a sorting criteria
      * @param string $sortKey The sort key. Only non-attribute keys are supported (see {@link http://goo.gl/xvJMM})
@@ -78,7 +78,7 @@ class ezpContentCriteria
     {
         return new ezpContentSortingCriteria( $sortKey, $sortOrder );
     }
-    
+
     /**
      * Creates a depth criteria
      * @param int $depth The maximum level of depth that should be explored (1 by default)

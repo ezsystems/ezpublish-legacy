@@ -13,7 +13,7 @@ class ezpRestProvider
      * @var ezpRestProviderInterface The REST provider object container
      */
     protected static $provider = null;
-    
+
     const DEFAULT_PROVIDER = 'ezp';
 
     /**

@@ -20,7 +20,7 @@ class ezpMvcRegexpRoute extends ezcMvcRegexpRoute
     {
         // Detect the Regexp delimiter
         $patternDelim = $this->pattern[0];
-        
+
         // Add the Regexp delimiter to the prefix
         $prefix = $patternDelim . $prefix . $patternDelim;
         parent::prefix( $prefix );

@@ -6,7 +6,7 @@
  * Time: 12.17
  * To change this template use File | Settings | File Templates.
  */
- 
+
 class ezpOauthTokenEndpointErrorType
 {
     const INVALID_REQUEST = "invalid_request";

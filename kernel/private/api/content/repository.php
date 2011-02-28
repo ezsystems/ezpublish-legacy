@@ -31,7 +31,7 @@ class ezpContentRepository
         }
         return $return;
     }
-    
+
     /**
      * Returns node count using a given set of criteria
      * @param ezpContentCriteria $criteria
@@ -43,7 +43,7 @@ class ezpContentRepository
         $count = eZContentObjectTreeNode::subTreeCountByNodeID( $fetchParams->params, $fetchParams->rootNodeId );
         return $count;
     }
-    
+
     /**
      * We have a set of content criteria in $criteria
      * These criteria provide us with:

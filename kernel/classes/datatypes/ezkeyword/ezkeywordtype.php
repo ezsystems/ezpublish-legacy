@@ -256,9 +256,9 @@ class eZKeywordType extends eZDataType
     }
 
     /**
-     * 
+     *
      * Returns string representation of an contentobjectattribute data for simplified export
-     * 
+     *
      * @param eZContentObjectAttribute $contentObjectAttribute
      * @return string
      */

@@ -7,6 +7,6 @@
  */
 class ezpMvcRailsRoute extends ezcMvcRailsRoute
 {
-    
+
 }
 ?>

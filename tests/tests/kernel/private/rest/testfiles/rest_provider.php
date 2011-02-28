@@ -13,10 +13,10 @@ class ezpRestTestApiProvider implements ezpRestProviderInterface
             'ezpRestTest'       => new ezpRestVersionedRoute( new ezpMvcRailsRoute( '/rest/foo', 'ezpRestTestController', 'test' ), 1 ),
             'ezpRestTestVar'    => new ezpRestVersionedRoute( new ezpMvcRailsRoute( '/rest/foo/:dummyVar', 'ezpRestTestController', 'test' ), 1 )
         );
-        
+
         return $routes;
     }
-    
+
     /**
      * Returns associated with provider view controller
      *

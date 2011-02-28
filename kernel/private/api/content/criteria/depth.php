@@ -17,12 +17,12 @@ class ezpContentDepthCriteria implements ezpContentCriteriaInterface
      * @var int
      */
     private $depth;
-    
+
     public function __construct( $depth )
     {
         $this->depth = (int)$depth;
     }
-    
+
     public function translate()
     {
         return array(
@@ -31,7 +31,7 @@ class ezpContentDepthCriteria implements ezpContentCriteriaInterface
             'value'     => array( $this->depth )
         );
     }
-    
+
     public function __toString()
     {
         return 'With depth '.$this->depth;

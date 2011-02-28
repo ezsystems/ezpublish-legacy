@@ -13,7 +13,7 @@ class ezpRestContentRenderer
      * @var ezpRestContentRendererInterface The content renderer provider object container
      */
     protected static $renderer = null;
-    
+
     const DEFAULT_RENDERER = 'xhtml';
 
     /**

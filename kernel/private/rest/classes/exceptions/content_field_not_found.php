@@ -7,6 +7,6 @@
  */
 class ezpContentFieldNotFoundException extends ezcBaseException
 {
-    
+
 }
 ?>

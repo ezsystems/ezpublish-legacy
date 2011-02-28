@@ -57,7 +57,7 @@ class ezpContentField
         switch( $property )
         {
             // returns the serialized version of the attribute through the eZPackage mechanism
-            
+
             // Using package here is very problematic. Some serializations put
             // content into the package, which is after this point, dangling.
             case 'serializedXML':

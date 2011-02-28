@@ -65,14 +65,14 @@ class ezpOauthUtility
 
     /**
      * Extracts the OAuth token from the HTTP header, Authorization.
-     * 
+     *
      * The token is transmitted via the OAuth Authentication scheme ref.
      * Section 5.1.1.
-     * 
+     *
      * PHP does not expose the Authorization header unless it uses the 'Basic'
      * or 'Digest' schemes, and it is therefore extracted from the raw Apache
      * headers.
-     * 
+     *
      * On systems running CGI or Fast-CGI PHP makes this header available via
      * the <var>HTTP_AUTHORIZATION</var> header.
      * @link http://php.net/manual/en/features.http-auth.php

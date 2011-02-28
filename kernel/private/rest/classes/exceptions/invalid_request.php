@@ -9,7 +9,7 @@
 
 /**
  * This exception is thrown when a request is invalid.
- * 
+ *
  * An invalid request is the case when a required parameter is missing, when
  * multiple methods of transferring the token is used, or when parameters are
  * repeated.
