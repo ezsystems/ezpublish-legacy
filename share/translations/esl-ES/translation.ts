@@ -27381,7 +27381,7 @@ si has elegido la opción &quot;%3&quot; desde &quot;%4&quot; </translation>
     </message>
     <message>
         <source>Selected nodes</source>
-        <translation>Nudos selecionados</translation>
+        <translation>Nudos seleccionados</translation>
     </message>
     <message>
         <source>You must select one or more node(s)/subtree(s) for export.</source>
