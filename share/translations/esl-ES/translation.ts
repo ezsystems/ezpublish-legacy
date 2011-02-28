@@ -138,7 +138,7 @@
     </message>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
-        <translation>Navega usando las pestañas disponibles (arriba), el menu (izquierda) y la lista de contenido (centro).</translation>
+        <translation>Navega usando las pestañas disponibles (arriba), el el menú (izquierda) y la lista de contenido (centro).</translation>
     </message>
     <message>
         <source>Select the item that you want to be the default selection then click &quot;OK&quot;.</source>
@@ -153,7 +153,7 @@
     </message>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
-        <translation>Navega usando las pestañas disponibles (arriba), el menu (izquierda) y la lista de contenido (centro).</translation>
+        <translation>Navega usando las pestañas disponibles (arriba), el menú (izquierda) y la lista de contenido (centro).</translation>
     </message>
     <message>
         <source>Select the location that should be the default location then click &quot;OK&quot;.</source>
@@ -260,7 +260,7 @@
     </message>
     <message>
         <source>Add a new attribute to the class. Use the menu on the left to select the attribute type.</source>
-        <translation>Añadir un nuevo atributo a la clase. Usar el menu en la parte izquierda para elegir el tipo de atributo.</translation>
+        <translation>Añadir un nuevo atributo a la clase. Usar el menú en la parte izquierda para elegir el tipo de atributo.</translation>
     </message>
     <message>
         <source>OK</source>
@@ -1351,7 +1351,7 @@
     </message>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
-        <translation>Navega usando las pestañas disponibles (arriba), el menu (izquierda) y la lista de contenido (centro).</translation>
+        <translation>Navega usando las pestañas disponibles (arriba), el menú (izquierda) y la lista de contenido (centro).</translation>
     </message>
     <message>
         <source>Select the items that you want to bookmark using the checkboxes then click &quot;Select&quot;.</source>
@@ -1362,7 +1362,7 @@
     <name>design/admin/content/browse_copy_node</name>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
-        <translation>Navega usando las pestañas disponibles (arriba), el menu (izquierda) y la lista de contenido (centro).</translation>
+        <translation>Navega usando las pestañas disponibles (arriba), el menú (izquierda) y la lista de contenido (centro).</translation>
     </message>
     <message>
         <source>Choose location for the copy of &lt;%object_name&gt;</source>
@@ -1389,7 +1389,7 @@
     </message>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
-        <translation>Navega usando las pestañas disponibles (arriba), el menu (izquierda) y la lista de contenido (centro).</translation>
+        <translation>Navega usando las pestañas disponibles (arriba), el menú (izquierda) y la lista de contenido (centro).</translation>
     </message>
     <message>
         <source>Select the item that you want to export using the checkboxes then click &quot;Select&quot;.</source>
@@ -1404,7 +1404,7 @@
     </message>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
-        <translation>Navega usando las pestañas disponibles (arriba), el menu (izquierda) y la lista de contenido (centro).</translation>
+        <translation>Navega usando las pestañas disponibles (arriba), el menú (izquierda) y la lista de contenido (centro).</translation>
     </message>
     <message>
         <source>Choose a location for the new &lt;%classname&gt; using the radio buttons then click &quot;Select&quot;.</source>
@@ -1415,7 +1415,7 @@
     <name>design/admin/content/browse_move_node</name>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
-        <translation>Navega usando las pestañas disponibles (arriba), el menu (izquierda) y la lista de contenido (centro).</translation>
+        <translation>Navega usando las pestañas disponibles (arriba), el menú (izquierda) y la lista de contenido (centro).</translation>
     </message>
     <message>
         <source>Choose a new location for &lt;%object_name&gt;</source>
@@ -1438,7 +1438,7 @@
     </message>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
-        <translation>Navega usando las pestañas disponibles (arriba), el menu (izquierda) y la lista de contenido (centro).</translation>
+        <translation>Navega usando las pestañas disponibles (arriba), el menú (izquierda) y la lista de contenido (centro).</translation>
     </message>
     <message>
         <source>Choose a new location for &lt;%version_name&gt; using the radio buttons then click &quot;Select&quot;.</source>
@@ -1453,7 +1453,7 @@
     </message>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
-        <translation>Navega usando las pestañas disponibles (arriba), el menu (izquierda) y la lista de contenido (centro).</translation>
+        <translation>Navega usando las pestañas disponibles (arriba), el menú (izquierda) y la lista de contenido (centro).</translation>
     </message>
     <message>
         <source>Choose locations for &lt;%version_name&gt; using the checkboxes then click &quot;Select&quot;.</source>
@@ -1464,7 +1464,7 @@
     <name>design/admin/content/browse_related</name>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
-        <translation>Navega usando las pestañas disponibles (arriba), el menu (izquierda) y la lista de contenido (centro).</translation>
+        <translation>Navega usando las pestañas disponibles (arriba), el menú (izquierda) y la lista de contenido (centro).</translation>
     </message>
     <message>
         <source>Choose objects that you want to relate to &lt;%version_name&gt;</source>
@@ -8535,7 +8535,7 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
-        <translation>Navega usando las pestañas disponibles (arriba), el menu (izquierda) y la lista de contenido (centro).</translation>
+        <translation>Navega usando las pestañas disponibles (arriba), el menú (izquierda) y la lista de contenido (centro).</translation>
     </message>
     <message>
         <source>Use the radio buttons to choose a destination location for RSS import then click &quot;OK&quot;.</source>
@@ -8550,7 +8550,7 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
-        <translation>Navega usando las pestañas disponibles (arriba), el menu (izquierda) y la lista de contenido (centro).</translation>
+        <translation>Navega usando las pestañas disponibles (arriba), el menú (izquierda) y la lista de contenido (centro).</translation>
     </message>
     <message>
         <source>Use the radio buttons to choose an image to use in the RSS export then click &quot;OK&quot;.</source>
@@ -8565,7 +8565,7 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
-        <translation>Navega usando las pestañas disponibles (arriba), el menu (izquierda) y la lista de contenido (centro).</translation>
+        <translation>Navega usando las pestañas disponibles (arriba), el menú (izquierda) y la lista de contenido (centro).</translation>
     </message>
     <message>
         <source>Use the radio buttons to choose the item that you want to export using RSS then click &quot;OK&quot;.</source>
@@ -8580,7 +8580,7 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
-        <translation>Navega usando las pestañas disponibles (arriba), el menu (izquierda) y la lista de contenido (centro).</translation>
+        <translation>Navega usando las pestañas disponibles (arriba), el menú (izquierda) y la lista de contenido (centro).</translation>
     </message>
     <message>
         <source>Use the radio buttons to choose a user then click &quot;OK&quot;. The user will become the owner of the objects that were imported using RSS.</source>
@@ -9098,7 +9098,7 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
-        <translation>Navega usando las pestañas disponibles (arriba), el menu (izquierda) y la lista de contenido (centro).</translation>
+        <translation>Navega usando las pestañas disponibles (arriba), el menú (izquierda) y la lista de contenido (centro).</translation>
     </message>
     <message>
         <source>Note that the section assignment of the sub items will also be changed.</source>
@@ -10714,7 +10714,7 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
-        <translation>Navega usando las pestañas disponibles (arriba), el menu (izquierda) y la lista de contenido (centro).</translation>
+        <translation>Navega usando las pestañas disponibles (arriba), el menú (izquierda) y la lista de contenido (centro).</translation>
     </message>
 </context>
 <context>
@@ -10729,7 +10729,7 @@ Nota: los paquetes no serán desinstalados.</translation>
     </message>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
-        <translation>Navega usando las pestañas disponibles (arriba), el menu (izquierda) y la lista de contenido (centro).</translation>
+        <translation>Navega usando las pestañas disponibles (arriba), el menú (izquierda) y la lista de contenido (centro).</translation>
     </message>
 </context>
 <context>
