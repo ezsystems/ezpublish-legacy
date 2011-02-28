@@ -181,7 +181,7 @@ class eZUserDiscountRule extends eZPersistentObject
      * @param array(eZUserID) $idArray Array of user ID
      *
      * @return array(eZDiscountRule)
-     **/
+     */
     static function &fetchByUserIDArray( $idArray )
     {
         $db = eZDB::instance();

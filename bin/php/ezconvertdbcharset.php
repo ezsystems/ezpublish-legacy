@@ -72,7 +72,7 @@ define( 'EZ_DROP_CONTENTCLASS_ATTRIBUTE_TMP_TABLE_SQL',
 
 /**
  * Class used to store some of the command line arguments
- **/
+ */
 class CommandLineArguments
 {
     protected static $iconvCharacterSet = false;
@@ -985,7 +985,7 @@ function convertXMLCustomDataProgress( $row )
  * For some reason, some utf8 encoded text stored in the db might contain
  * illegal utf8 characters.
  * This function will strip/replace such known characters
- **/
+ */
 function removeIllegalUTF8Characters( $text )
 {
     // 0xE2 0x80 0x3F seems to be some kind of quote, replacing it with '

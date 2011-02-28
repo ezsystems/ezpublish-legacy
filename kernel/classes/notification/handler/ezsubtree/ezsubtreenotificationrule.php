@@ -140,7 +140,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
      * @param eZContentObject content object to add
      *
      * @return array matching subtree notification rule data
-     **/
+     */
     static function fetchUserList( $nodeIDList, $contentObject )
     {
         if ( count( $nodeIDList ) == 0 )

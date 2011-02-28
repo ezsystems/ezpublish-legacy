@@ -60,10 +60,10 @@ abstract class eZDatatypeAbstractTest extends ezpDatabaseTestCase
     }
 
     /**
-    * Setup:
-    * - creates a new content class with the tested datatype
-    * - instanciates a content object of that class with the default dataset
-    */
+     * Setup:
+     * - creates a new content class with the tested datatype
+     * - instanciates a content object of that class with the default dataset
+     */
     public function setUp()
     {
         // create a content class with this datatype

@@ -160,9 +160,9 @@ class eZDbSchema
     }
 
     /**
-    * Merges 2 db schemas, basically appending 2nd on top of 1st
-    * @return array the merged schema
-    */
+     * Merges 2 db schemas, basically appending 2nd on top of 1st
+     * @return array the merged schema
+     */
     static function merge( $schema1, $schema2 )
     {
         $merged = $schema1;

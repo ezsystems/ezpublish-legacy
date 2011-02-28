@@ -51,7 +51,7 @@ class eZScriptClusterPurge
      * Executes the purge operation
      *
      * @todo Endless loop on fetch list. The expired items are returned over and over again
-     **/
+     */
     public function run()
     {
         $cli = eZCLI::instance();

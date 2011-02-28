@@ -18,15 +18,15 @@ class eZProductCollectionItemTest extends ezpDatabaseTestCase
     }
 
     /**
-    * Unit test for eZProductCollectionItem::cleanupList()
-    *
-    * Outline:
-    * 1) Create 40 eZProductCollectionItem objects with a product_collection_id
-    *    from 1 to 4
-    * 2) Call cleanupList with (1, 2) as a parameter
-    * 4) Check that the 20 matching items have been removed
-    * 5) Check that the 20 other, non-matching items haven't been removed
-    **/
+     * Unit test for eZProductCollectionItem::cleanupList()
+     *
+     * Outline:
+     * 1) Create 40 eZProductCollectionItem objects with a product_collection_id
+     *    from 1 to 4
+     * 2) Call cleanupList with (1, 2) as a parameter
+     * 4) Check that the 20 matching items have been removed
+     * 5) Check that the 20 other, non-matching items haven't been removed
+     */
     public function testCleanupList()
     {
         // Create a few collections

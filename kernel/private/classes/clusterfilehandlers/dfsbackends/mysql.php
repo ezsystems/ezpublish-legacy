@@ -59,7 +59,7 @@ class eZDFSFileHandlerMySQLBackend
      * @return void
      * @throw eZClusterHandlerDBNoConnectionException
      * @throw eZClusterHandlerDBNoDatabaseException
-     **/
+     */
     public function _connect()
     {
         $siteINI = eZINI::instance( 'site.ini' );
@@ -136,7 +136,7 @@ class eZDFSFileHandlerMySQLBackend
      * @return bool
      *
      * @see _copyInner
-     **/
+     */
     public function _copy( $srcFilePath, $dstFilePath, $fname = false )
     {
         if ( $fname )
@@ -214,7 +214,7 @@ class eZDFSFileHandlerMySQLBackend
      * @param bool $fname
      *
      * @see _purgeByLike
-     **/
+     */
     public function _purge( $filePath, $onlyExpired = false, $expiry = false, $fname = false )
     {
         if ( $fname )
@@ -367,7 +367,7 @@ class eZDFSFileHandlerMySQLBackend
      * @param string $filePath Path of the file to delete
      * @param string $fname Optional caller name for debugging
      * @return bool
-     **/
+     */
     protected function _deleteInner( $filePath, $fname )
     {
         if ( !$this->_query( "UPDATE " . self::TABLE_METADATA . " SET mtime=-ABS(mtime), expired=1 WHERE name_hash=" . $this->_md5( $filePath ), $fname ) )
@@ -580,14 +580,14 @@ class eZDFSFileHandlerMySQLBackend
     }
 
     /**
-    * Fetches the file $filePath from the database to its own name
-    *
-    * Saving $filePath locally with its original name, or $uniqueName if given
-    *
-    * @param string $filePath
-    * @param string $uniqueName Alternative name to save the file to
-    * @return string|bool the file physical path, or false if fetch failed
-    **/
+     * Fetches the file $filePath from the database to its own name
+     *
+     * Saving $filePath locally with its original name, or $uniqueName if given
+     *
+     * @param string $filePath
+     * @param string $uniqueName Alternative name to save the file to
+     * @return string|bool the file physical path, or false if fetch failed
+     */
     public function _fetch( $filePath, $uniqueName = false )
     {
         $metaData = $this->_fetchMetadata( $filePath );
@@ -661,9 +661,9 @@ class eZDFSFileHandlerMySQLBackend
     }
 
     /**
-    * Fetches and returns metadata for $filePath
-    * @return array|false file metadata, or false if the file does not exist in
-    *                     database.
+     * Fetches and returns metadata for $filePath
+     * @return array|false file metadata, or false if the file does not exist in
+     *                     database.
      */
     function _fetchMetadata( $filePath, $fname = false )
     {
@@ -687,10 +687,10 @@ class eZDFSFileHandlerMySQLBackend
     }
 
     /**
-    * Passes $filePath content through
-    * @param string $filePath
-    * @deprecated should not be used since it cannot handle reading errors
-    **/
+     * Passes $filePath content through
+     * @param string $filePath
+     * @deprecated should not be used since it cannot handle reading errors
+     */
     public function _passThrough( $filePath, $fname = false )
     {
         if ( $fname )
@@ -814,7 +814,7 @@ class eZDFSFileHandlerMySQLBackend
      * @param string $fname
      * @see eZDFSFileHandlerMySQLBackend::_store()
      * @return bool
-     **/
+     */
     function _storeInner( $filePath, $datatype, $scope, $fname )
     {
         // Insert file metadata.
@@ -930,12 +930,12 @@ class eZDFSFileHandlerMySQLBackend
     }
 
     /**
-    * Handles a DB error, displaying it as an eZDebug error
-    * @see eZDebug::writeError
-    * @param string $msg Message to display
-    * @param string $sql SQL query to display error for
-    * @return void
-    **/
+     * Handles a DB error, displaying it as an eZDebug error
+     * @see eZDebug::writeError
+     * @param string $msg Message to display
+     * @param string $sql SQL query to display error for
+     * @return void
+     */
     protected function _die( $msg, $sql = null )
     {
         if ( $this->db )
@@ -949,13 +949,13 @@ class eZDFSFileHandlerMySQLBackend
     }
 
     /**
-    * Performs an insert of the given items in $array.
-    * @param string $table Name of table to execute insert on.
-    * @param array $array Associative array with data to insert, the keys are
-    *                     the field names and the values will be quoted
-    *                     according to type.
-    * @param string $fname Name of caller function (for logging purpuse)
-    **/
+     * Performs an insert of the given items in $array.
+     * @param string $table Name of table to execute insert on.
+     * @param array $array Associative array with data to insert, the keys are
+     *                     the field names and the values will be quoted
+     *                     according to type.
+     * @param string $fname Name of caller function (for logging purpuse)
+     */
     function _insert( $table, $array, $fname )
     {
         $keys = array_keys( $array );
@@ -970,19 +970,19 @@ class eZDFSFileHandlerMySQLBackend
     }
 
     /**
-    * Performs an insert of the given items in $array.
-    *
-    * If entry specified already exists the $update SQL is executed to update
-    * the entry instead.
-    *
-    * @param string $table Name of table to execute insert on.
-    * @param array  array $array Associative array with data to insert, the keys
-    *                     are the field names and the values will be quoted
-    *                     according to type.
-    * @param string $update Partial update SQL which is executed when entry
-    *                       exists.
-    * @param string $fname Name of caller function (for logging purpuse)
-    **/
+     * Performs an insert of the given items in $array.
+     *
+     * If entry specified already exists the $update SQL is executed to update
+     * the entry instead.
+     *
+     * @param string $table Name of table to execute insert on.
+     * @param array  array $array Associative array with data to insert, the keys
+     *                     are the field names and the values will be quoted
+     *                     according to type.
+     * @param string $update Partial update SQL which is executed when entry
+     *                       exists.
+     * @param string $fname Name of caller function (for logging purpuse)
+     */
     protected function _insertUpdate( $table, $array, $update, $fname, $reportError = true )
     {
         $keys = array_keys( $array );
@@ -997,12 +997,12 @@ class eZDFSFileHandlerMySQLBackend
     }
 
     /**
-    * Formats a list of entries as an SQL list which is separated by commas.
-    * Each entry in the list is quoted using _quote().
-    *
-    * @param array $array
-    * @return array
-    **/
+     * Formats a list of entries as an SQL list which is separated by commas.
+     * Each entry in the list is quoted using _quote().
+     *
+     * @param array $array
+     * @return array
+     */
     protected function _sqlList( $array )
     {
         $text = "";
@@ -1017,18 +1017,18 @@ class eZDFSFileHandlerMySQLBackend
     }
 
     /**
-    * Runs a select query and returns one numeric indexed row from the result
-    * If there are more than one row it will fail and exit, if 0 it returns
-    * false.
-    *
-    * @param string $query
-    * @param string $fname The function name that started the query, should
-    *                      contain relevant arguments in the text.
-    * @param string $error Sent to _error() in case of errors
-    * @param bool   $debug If true it will display the fetched row in addition
-    *                      to the SQL.
-    * @return array|false
-    **/
+     * Runs a select query and returns one numeric indexed row from the result
+     * If there are more than one row it will fail and exit, if 0 it returns
+     * false.
+     *
+     * @param string $query
+     * @param string $fname The function name that started the query, should
+     *                      contain relevant arguments in the text.
+     * @param string $error Sent to _error() in case of errors
+     * @param bool   $debug If true it will display the fetched row in addition
+     *                      to the SQL.
+     * @return array|false
+     */
     protected function _selectOneRow( $query, $fname, $error = false, $debug = false )
     {
         return $this->_selectOne( $query, $fname, $error, $debug, "mysql_fetch_row" );
@@ -1047,23 +1047,23 @@ class eZDFSFileHandlerMySQLBackend
      * @param bool   $debug If true it will display the fetched row in addition
      *                      to the SQL.
      * @return array|false
-     **/
+     */
     protected function _selectOneAssoc( $query, $fname, $error = false, $debug = false )
     {
         return $this->_selectOne( $query, $fname, $error, $debug, "mysql_fetch_assoc" );
     }
 
     /**
-    * Runs a select query, applying the $fetchCall callback to one result
-    * If there are more than one row it will fail and exit, if 0 it returns false.
-    *
-    * @param string $fname The function name that started the query, should
-    *                      contain relevant arguments in the text.
-    * @param string $error Sent to _error() in case of errors
-    * @param bool $debug If true it will display the fetched row in addition to the SQL.
-    * @param callback $fetchCall The callback to fetch the row.
-    * @return mixed
-    **/
+     * Runs a select query, applying the $fetchCall callback to one result
+     * If there are more than one row it will fail and exit, if 0 it returns false.
+     *
+     * @param string $fname The function name that started the query, should
+     *                      contain relevant arguments in the text.
+     * @param string $error Sent to _error() in case of errors
+     * @param bool $debug If true it will display the fetched row in addition to the SQL.
+     * @param callback $fetchCall The callback to fetch the row.
+     * @return mixed
+     */
     protected function _selectOne( $query, $fname, $error = false, $debug = false, $fetchCall )
     {
         eZDebug::accumulatorStart( 'mysql_cluster_query', 'MySQL Cluster', 'DB queries' );
@@ -1107,9 +1107,9 @@ class eZDFSFileHandlerMySQLBackend
     }
 
     /**
-    * Starts a new transaction by executing a BEGIN call.
-    * If a transaction is already started nothing is executed.
-    **/
+     * Starts a new transaction by executing a BEGIN call.
+     * If a transaction is already started nothing is executed.
+     */
     protected function _begin( $fname = false )
     {
         if ( $fname )
@@ -1122,9 +1122,9 @@ class eZDFSFileHandlerMySQLBackend
     }
 
     /**
-    * Stops a current transaction and commits the changes by executing a COMMIT call.
-    * If the current transaction is a sub-transaction nothing is executed.
-    **/
+     * Stops a current transaction and commits the changes by executing a COMMIT call.
+     * If the current transaction is a sub-transaction nothing is executed.
+     */
     protected function _commit( $fname = false )
     {
         if ( $fname )
@@ -1137,10 +1137,10 @@ class eZDFSFileHandlerMySQLBackend
     }
 
     /**
-    * Stops a current transaction and discards all changes by executing a
-    * ROLLBACK call.
-    * If the current transaction is a sub-transaction nothing is executed.
-    **/
+     * Stops a current transaction and discards all changes by executing a
+     * ROLLBACK call.
+     * If the current transaction is a sub-transaction nothing is executed.
+     */
     protected function _rollback( $fname = false )
     {
         if ( $fname )
@@ -1153,17 +1153,17 @@ class eZDFSFileHandlerMySQLBackend
     }
 
     /**
-    * Protects a custom function with SQL queries in a database transaction.
-    * If the function reports an error the transaction is ROLLBACKed.
-    *
-    * The first argument to the _protect() is the callback and the second is the
-    * name of the function (for query reporting). The remainder of arguments are
-    * sent to the callback.
-    *
-    * A return value of false from the callback is considered a failure, any
-    * other value is returned from _protect(). For extended error handling call
-    * _fail() and return the value.
-    **/
+     * Protects a custom function with SQL queries in a database transaction.
+     * If the function reports an error the transaction is ROLLBACKed.
+     *
+     * The first argument to the _protect() is the callback and the second is the
+     * name of the function (for query reporting). The remainder of arguments are
+     * sent to the callback.
+     *
+     * A return value of false from the callback is considered a failure, any
+     * other value is returned from _protect(). For extended error handling call
+     * _fail() and return the value.
+     */
     protected function _protect()
     {
         $args = func_get_args();
@@ -1220,12 +1220,12 @@ class eZDFSFileHandlerMySQLBackend
     }
 
     /**
-    * Checks if $result is a failure type and returns true if so, false
-    * otherwise.
-    *
-    * A failure is either the value false or an error object of type
-    * eZMySQLBackendError.
-    **/
+     * Checks if $result is a failure type and returns true if so, false
+     * otherwise.
+     *
+     * A failure is either the value false or an error object of type
+     * eZMySQLBackendError.
+     */
     protected function _isFailure( $result )
     {
         if ( $result === false || ($result instanceof eZMySQLBackendError ) )
@@ -1236,10 +1236,10 @@ class eZDFSFileHandlerMySQLBackend
     }
 
     /**
-    * Creates an error object which can be read by some backend functions.
-    * @param mixed $value The value which is sent to the debug system.
-    * @param string $text The text/header for the value.
-    **/
+     * Creates an error object which can be read by some backend functions.
+     * @param mixed $value The value which is sent to the debug system.
+     * @param string $text The text/header for the value.
+     */
     protected function _fail( $value, $text = false )
     {
         $value .= "\n" . mysql_errno( $this->db ) . ": " . mysql_error( $this->db );
@@ -1247,12 +1247,12 @@ class eZDFSFileHandlerMySQLBackend
     }
 
     /**
-    * Performs mysql query and returns mysql result.
-    * Times the sql execution, adds accumulator timings and reports SQL to
-    * debug.
-    * @param string $fname The function name that started the query, should
-    *                      contain relevant arguments in the text.
-    **/
+     * Performs mysql query and returns mysql result.
+     * Times the sql execution, adds accumulator timings and reports SQL to
+     * debug.
+     * @param string $fname The function name that started the query, should
+     *                      contain relevant arguments in the text.
+     */
     protected function _query( $query, $fname = false, $reportError = true )
     {
         eZDebug::accumulatorStart( 'mysql_cluster_query', 'MySQL Cluster', 'DB queries' );
@@ -1274,12 +1274,12 @@ class eZDFSFileHandlerMySQLBackend
     }
 
     /**
-    * Make sure that $value is escaped and qouted according to type and returned
-    * as a string.
-    *
-    * @param string $value a SQL parameter to escape
-    * @return string a string that can safely be used in SQL queries
-    **/
+     * Make sure that $value is escaped and qouted according to type and returned
+     * as a string.
+     *
+     * @param string $value a SQL parameter to escape
+     * @return string a string that can safely be used in SQL queries
+     */
     protected function _quote( $value )
     {
         if ( $value === null )
@@ -1291,24 +1291,24 @@ class eZDFSFileHandlerMySQLBackend
     }
 
     /**
-    * Provides the SQL calls to convert $value to MD5
-    * The returned value can directly be put into SQLs.
-    **/
+     * Provides the SQL calls to convert $value to MD5
+     * The returned value can directly be put into SQLs.
+     */
     protected function _md5( $value )
     {
         return "MD5('" . mysql_real_escape_string( $value ) . "')";
     }
 
     /**
-    * Prints error message $error to debug system.
-    * @param string $query The query that was attempted, will be printed if
-    *                      $error is \c false
-    * @param string $fname The function name that started the query, should
-    *                      contain relevant arguments in the text.
-    * @param string $error The error message, if this is an array the first
-    *                      element is the value to dump and the second the error
-    *                      header (for eZDebug::writeNotice). If this is \c
-    *                      false a generic message is shown.
+     * Prints error message $error to debug system.
+     * @param string $query The query that was attempted, will be printed if
+     *                      $error is \c false
+     * @param string $fname The function name that started the query, should
+     *                      contain relevant arguments in the text.
+     * @param string $error The error message, if this is an array the first
+     *                      element is the value to dump and the second the error
+     *                      header (for eZDebug::writeNotice). If this is \c
+     *                      false a generic message is shown.
      */
     protected function _error( $query, $fname, $error = "Failed to execute SQL for function:" )
     {
@@ -1326,12 +1326,12 @@ class eZDFSFileHandlerMySQLBackend
     }
 
     /**
-    * Report SQL $query to debug system.
-    *
-    * @param string $fname The function name that started the query, should contain relevant arguments in the text.
-    * @param int    $timeTaken Number of seconds the query + related operations took (as float).
-    * @param int $numRows Number of affected rows.
-    **/
+     * Report SQL $query to debug system.
+     *
+     * @param string $fname The function name that started the query, should contain relevant arguments in the text.
+     * @param int    $timeTaken Number of seconds the query + related operations took (as float).
+     * @param int $numRows Number of affected rows.
+     */
     function _report( $query, $fname, $timeTaken, $numRows = false )
     {
         if ( !self::$dbparams['sql_output'] )
@@ -1348,18 +1348,18 @@ class eZDFSFileHandlerMySQLBackend
     }
 
     /**
-    * Attempts to begin cache generation by creating a new file named as the
-    * given filepath, suffixed with .generating. If the file already exists,
-    * insertion is not performed and false is returned (means that the file
-    * is already being generated)
-    * @param string $filePath
-    * @return array array with 2 indexes: 'result', containing either ok or ko,
-    *         and another index that depends on the result:
-    *         - if result == 'ok', the 'mtime' index contains the generating
-    *           file's mtime
-    *         - if result == 'ko', the 'remaining' index contains the remaining
-    *           generation time (time until timeout) in seconds
-    **/
+     * Attempts to begin cache generation by creating a new file named as the
+     * given filepath, suffixed with .generating. If the file already exists,
+     * insertion is not performed and false is returned (means that the file
+     * is already being generated)
+     * @param string $filePath
+     * @return array array with 2 indexes: 'result', containing either ok or ko,
+     *         and another index that depends on the result:
+     *         - if result == 'ok', the 'mtime' index contains the generating
+     *           file's mtime
+     *         - if result == 'ko', the 'remaining' index contains the remaining
+     *           generation time (time until timeout) in seconds
+     */
     public function _startCacheGeneration( $filePath, $generatingFilePath )
     {
         $fname = "_startCacheGeneration( {$filePath} )";
@@ -1434,11 +1434,11 @@ class eZDFSFileHandlerMySQLBackend
     }
 
     /**
-    * Ends the cache generation for the current file: moves the (meta)data for
-    * the .generating file to the actual file, and removed the .generating
-    * @param string $filePath
-    * @return bool
-    **/
+     * Ends the cache generation for the current file: moves the (meta)data for
+     * the .generating file to the actual file, and removed the .generating
+     * @param string $filePath
+     * @return bool
+     */
     public function _endCacheGeneration( $filePath, $generatingFilePath, $rename )
     {
         $fname = "_endCacheGeneration( $filePath )";
@@ -1523,14 +1523,14 @@ class eZDFSFileHandlerMySQLBackend
     }
 
     /**
-    * Checks if generation has timed out by looking for the .generating file
-    * and comparing its timestamp to the one assigned when the file was created
-    *
-    * @param string $generatingFilePath
-    * @param int    $generatingFileMtime
-    *
-    * @return bool true if the file didn't timeout, false otherwise
-    **/
+     * Checks if generation has timed out by looking for the .generating file
+     * and comparing its timestamp to the one assigned when the file was created
+     *
+     * @param string $generatingFilePath
+     * @param int    $generatingFileMtime
+     *
+     * @return bool true if the file didn't timeout, false otherwise
+     */
     public function _checkCacheGenerationTimeout( $generatingFilePath, $generatingFileMtime )
     {
         $fname = "_checkCacheGenerationTimeout( $generatingFilePath, $generatingFileMtime )";
@@ -1587,11 +1587,11 @@ class eZDFSFileHandlerMySQLBackend
     }
 
     /**
-    * Aborts the cache generation process by removing the .generating file
-    * @param string $filePath Real cache file path
-    * @param string $generatingFilePath .generating cache file path
-    * @return void
-    **/
+     * Aborts the cache generation process by removing the .generating file
+     * @param string $filePath Real cache file path
+     * @param string $generatingFilePath .generating cache file path
+     * @return void
+     */
     public function _abortCacheGeneration( $generatingFilePath )
     {
         $fname = "_abortCacheGeneration( $generatingFilePath )";
@@ -1606,11 +1606,11 @@ class eZDFSFileHandlerMySQLBackend
     }
 
     /**
-    * Returns the name_trunk for a file path
-    * @param string $filePath
-    * @param string $scope
-    * @return string
-    **/
+     * Returns the name_trunk for a file path
+     * @param string $filePath
+     * @param string $scope
+     * @return string
+     */
     static protected function nameTrunk( $filePath, $scope )
     {
         switch ( $scope )
@@ -1645,13 +1645,13 @@ class eZDFSFileHandlerMySQLBackend
     }
 
     /**
-    * Returns the remaining time, in seconds, before the generating file times
-    * out
-    *
-    * @param resource $fileRow
-    *
-    * @return int Remaining generation seconds. A negative value indicates a timeout.
-    **/
+     * Returns the remaining time, in seconds, before the generating file times
+     * out
+     *
+     * @param resource $fileRow
+     *
+     * @return int Remaining generation seconds. A negative value indicates a timeout.
+     */
     protected function remainingCacheGenerationTime( $row )
     {
         if( !isset( $row[0] ) )
@@ -1697,19 +1697,19 @@ class eZDFSFileHandlerMySQLBackend
     /**
      * DB connexion handle
      * @var handle
-     **/
+     */
     public $db = null;
 
     /**
      * DB connexion parameters
      * @var array
-     **/
+     */
     protected static $dbparams = null;
 
     /**
      * Amount of executed queries, for debugging purpose
      * @var int
-     **/
+     */
     protected $numQueries = 0;
 
     /**
@@ -1717,19 +1717,19 @@ class eZDFSFileHandlerMySQLBackend
      * Will be used to decide wether we can BEGIN (if it's the first BEGIN call)
      * or COMMIT (if we're commiting the last running transaction
      * @var int
-     **/
+     */
     protected $transactionCount = 0;
 
     /**
      * DB file table name
      * @var string
-     **/
+     */
     const TABLE_METADATA = 'ezdfsfile';
 
     /**
      * Distributed filesystem backend
      * @var eZDFSFileHandlerDFSBackend
-     **/
+     */
     protected $dfsbackend = null;
 }
 

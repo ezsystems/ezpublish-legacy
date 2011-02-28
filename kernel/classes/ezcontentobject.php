@@ -820,7 +820,7 @@ class eZContentObject extends eZPersistentObject
      *        Return the result as an object (true) or an assoc. array (false)
      *
      * @return eZContentObject
-     **/
+     */
     static function fetch( $id, $asObject = true )
     {
         global $eZContentObjectContentObjectCache;
@@ -996,7 +996,7 @@ class eZContentObject extends eZPersistentObject
      * @return array(contentObjectID => eZContentObject|array)
      *         array of eZContentObject (if $asObject = true) or array of
      *         associative arrays (if $asObject = false)
-     **/
+     */
     static function fetchIDArray( $idArray, $asObject = true )
     {
         global $eZContentObjectContentObjectCache;
@@ -3245,7 +3245,7 @@ class eZContentObject extends eZPersistentObject
      *          If true, 'hidden' status will be ignored
      *
      * @return int The number of (reverse) related objects for the object
-     **/
+     */
     function relatedObjectCount( $version = false, $attributeID = 0, $reverseRelatedObjects = false, $params = false )
     {
         $objectID = $this->ID;

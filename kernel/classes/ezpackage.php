@@ -65,7 +65,7 @@ class eZPackage
 
     /**
      * Removes the package directory and all it's subfiles/directories.
-    **/
+     */
     function remove()
     {
         $path = $this->path();
@@ -1125,7 +1125,7 @@ class eZPackage
      *
      * @return eZPackage The eZPackage object if successfull, or one of the
      *         STATUS_* class constants if an error occurs
-     **/
+     */
     static function import( $archiveName, &$packageName, $dbAvailable = true, $repositoryID = false )
     {
         if ( is_dir( $archiveName ) )
@@ -1880,7 +1880,7 @@ class eZPackage
      * @param array $installParameters
      *
      * @return bool true if all items installed correctly, false otherwise
-     **/
+     */
     function install( &$installParameters )
     {
         if ( $this->Parameters['install_type'] != 'install' )
@@ -2902,7 +2902,7 @@ class eZPackage
      *
      * \static
      * \return Package version (string).
-    */
+     */
     function getVersion()
     {
         return $this->Parameters['version-number'] . '-' . $this->Parameters['release-number'];

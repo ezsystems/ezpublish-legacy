@@ -11,7 +11,7 @@ class eZDBFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
 {
     /**
      * @var array
-     **/
+     */
     protected $sqlFiles = array( 'kernel/sql/mysql/cluster_schema.sql' );
 
     protected $clusterClass = 'eZDBFileHandler';
@@ -28,7 +28,7 @@ class eZDBFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
      *
      * Load an instance of file.ini
      * Assigns DB parameters for cluster
-     **/
+     */
     public function setUp()
     {
         parent::setUp();

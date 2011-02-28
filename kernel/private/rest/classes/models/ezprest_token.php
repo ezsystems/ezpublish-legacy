@@ -81,13 +81,13 @@ class ezpRestToken implements ezcPersistentObject
          );
      }
 
-     /**
-      * Generates a random token.
-      *
-      * Code is adopted from MvcAuthenticationTiein
-      *
-      * @return string The token.
-      */
+    /**
+     * Generates a random token.
+     *
+     * Code is adopted from MvcAuthenticationTiein
+     *
+     * @return string The token.
+     */
      public static function generateToken( $vary )
      {
          mt_srand( base_convert( substr( md5( $vary ), 0, 6 ), 36, 10 ) * microtime( true ) );

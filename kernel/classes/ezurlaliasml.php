@@ -1884,7 +1884,7 @@ class eZURLAliasML extends eZPersistentObject
      * Chooses the most prioritized row (based on language) of $rows and returns it.
      * @param array $rows
      * @return array|false The most prioritized row, or false if no match was found
-     **/
+     */
     static public function choosePrioritizedRow( $rows )
     {
         $result = false;

@@ -2899,7 +2899,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      * @param array(int) $nodeList
      *
      * @return array Associative array
-     **/
+     */
     static function fetchAliasesFromNodeList( $nodeList )
     {
         if ( !is_array( $nodeList ) || count( $nodeList ) < 1 )
@@ -2948,7 +2948,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      *        Wether to return the result as an array of eZContentObjectTreeNode
      *        (true) or as an array of associative arrays (false)
      * @return array(array|eZContentObjectTreeNode)
-     **/
+     */
     static function findMainNodeArray( $objectIDArray, $asObject = true )
     {
         if ( count( $objectIDArray ) )

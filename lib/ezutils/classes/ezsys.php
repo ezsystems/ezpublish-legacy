@@ -733,8 +733,8 @@ class eZSys
 
     /**
      * Return the variable named \a $variableName in the global \c ENV variable.
-             If the variable is not present an error is shown and \c null is returned.
-    */
+     * If the variable is not present an error is shown and \c null is returned.
+     */
     static function environmentVariable( $variableName, $quiet = false )
     {
         if ( getenv($variableName) === false )
@@ -1210,10 +1210,10 @@ class eZSys
      */
     public $LineSeparator;
 
-   /**
-    * The directory separator used for files, '/' or '\'
-    * @var string
-    */
+    /**
+     * The directory separator used for files, '/' or '\'
+     * @var string
+     */
     public $FileSeparator;
 
     /**

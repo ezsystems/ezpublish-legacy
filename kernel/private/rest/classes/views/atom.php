@@ -8,8 +8,8 @@
  */
 
 /**
-* View providing atomfeed of the output
-*/
+ * View providing atomfeed of the output
+ */
 class ezpRestAtomView extends ezcMvcView
 {
     public function __construct( ezcMvcRequest $request, ezcMvcResult $result )

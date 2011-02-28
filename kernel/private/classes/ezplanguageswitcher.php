@@ -8,11 +8,11 @@
  */
 
 /**
-* Utility class for transforming URLs between siteaccesses.
-*
-* This class will generate URLs for various siteaccess, and translate
-* URL-aliases into other languages as necessary.
-*/
+ * Utility class for transforming URLs between siteaccesses.
+ *
+ * This class will generate URLs for various siteaccess, and translate
+ * URL-aliases into other languages as necessary.
+ */
 class ezpLanguageSwitcher implements ezpLanguageSwitcherCapable
 {
     protected $origUrl;

@@ -440,7 +440,7 @@ WHERE user_id != '" . self::anonymousId() . "' AND
      *
      * @deprecated As of 4.4 since default session handler does not support this.
      * @return int
-    */
+     */
     static function fetchAnonymousCount()
     {
         if ( isset( $GLOBALS['eZSiteBasics']['no-cache-adviced'] ) and
@@ -504,13 +504,13 @@ WHERE user_id = '" . $userID . "' AND
         unset( $GLOBALS['eZUserLoggedInMap'] );
     }
 
-   /**
-    * Remove session data for user \a $userID.
-    * @todo should use eZSession api (needs to be created) so
-    *       callbacks (like preference / basket..) is cleared as well.
-    *
-    * @params int $userID
-    */
+    /**
+     * Remove session data for user \a $userID.
+     * @todo should use eZSession api (needs to be created) so
+     *       callbacks (like preference / basket..) is cleared as well.
+     *
+     * @params int $userID
+     */
     static function removeSessionData( $userID )
     {
         eZUser::clearSessionCache();
@@ -1763,7 +1763,7 @@ WHERE user_id = '" . $userID . "' AND
      *
      * @access private
      * @return array
-    */
+     */
     function accessArray()
     {
         if ( !isset( $this->AccessArray ) )
@@ -1782,13 +1782,13 @@ WHERE user_id = '" . $userID . "' AND
         return $this->AccessArray;
     }
 
-   /**
-    * Generates the accessArray for the user (for $this).
-    * This function is uncached, and used as basis for user cache callback.
-    *
-    * @internal
-    * @return array
-    */
+    /**
+     * Generates the accessArray for the user (for $this).
+     * This function is uncached, and used as basis for user cache callback.
+     *
+     * @internal
+     * @return array
+     */
     function generateAccessArray()
     {
         $idList = $this->generateGroupIdList();
@@ -2804,11 +2804,11 @@ WHERE user_id = '" . $userID . "' AND
     protected $UserCache = null;
 
     /**
-    * Used to keep track that a logout was performed, and therefore prevent
-    * auto-login from happening if an SSO is used
-    * @var bool
-    * @since 4.3
-    **/
+     * Used to keep track that a logout was performed, and therefore prevent
+     * auto-login from happening if an SSO is used
+     * @var bool
+     * @since 4.3
+     */
     protected static $userHasLoggedOut = false;
 }
 

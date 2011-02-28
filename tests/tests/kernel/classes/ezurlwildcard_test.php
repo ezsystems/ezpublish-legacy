@@ -27,9 +27,9 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
     }
 
     /**
-    * Test case teardown
-    * Restores the INI settings changed in setUp
-    **/
+     * Test case teardown
+     * Restores the INI settings changed in setUp
+     */
     public function tearDown()
     {
         $ini = eZINI::instance( 'site.ini' );
@@ -41,9 +41,9 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
     }
 
     /**
-    * Tests eZURLWildcard constructor:
-    * Checks that instanciated values are consistently read from the object
-    **/
+     * Tests eZURLWildcard constructor:
+     * Checks that instanciated values are consistently read from the object
+     */
     public function testConstructor()
     {
         $row = array( 'source_url' => $sourceURL = 'test/*',
@@ -57,10 +57,10 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
     }
 
     /**
-    * Tests the storage operation of a new wildcard
-    * Checks that submitted data and stored data are identical, and that a
-    * numerical ID has been assigned
-    **/
+     * Tests the storage operation of a new wildcard
+     * Checks that submitted data and stored data are identical, and that a
+     * numerical ID has been assigned
+     */
     public function testStore()
     {
         $row = array( 'source_url' => $sourceURL = 'testStore/*',
@@ -144,13 +144,13 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
     }
 
     /**
-    * Test for the fetch method
-    *
-    * Outline:
-    * 1. Create a wildcard object
-    * 2. Fetch this object
-    * 3. Compare the values from the fetched object with the creation data
-    **/
+     * Test for the fetch method
+     *
+     * Outline:
+     * 1. Create a wildcard object
+     * 2. Fetch this object
+     * 3. Compare the values from the fetched object with the creation data
+     */
     public function testFetch()
     {
         // 1. Create a wildcard object
@@ -181,7 +181,7 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
      * 3. Check that the matching wildcards were removed and the non matching ones weren't
      *
      * @depends testFetch
-     **/
+     */
     public function testCleanup()
     {
         // 1. Create a matching and non-matching wildcard entries
@@ -197,16 +197,16 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
     }
 
     /**
-    * Tests the removeByIDs method
-    *
-    * Outline:
-    * 1. Create a set of wildcards
-    * 2. Call removeByIDs with a part of this list
-    * 3. Check each item of the list, and check if the removed ones were removed
-    *
-    * @depends testStore
-    * @depends testFetch
-    **/
+     * Tests the removeByIDs method
+     *
+     * Outline:
+     * 1. Create a set of wildcards
+     * 2. Call removeByIDs with a part of this list
+     * 3. Check each item of the list, and check if the removed ones were removed
+     *
+     * @depends testStore
+     * @depends testFetch
+     */
     public function testRemoveByIDs()
     {
         self::removeAllWildcards();
@@ -233,15 +233,15 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
 
 
     /**
-    * Test for the fetchBySourceURL method
-    *
-    * Outline:
-    * 1. Create a wildcard
-    * 2. Call the method with this wildcard's source url
-    * 3. Check if the objects have identical contents
-    * 4. Call the method again with asObject = false
-    * 5. Check if the returned array has the same contents
-    **/
+     * Test for the fetchBySourceURL method
+     *
+     * Outline:
+     * 1. Create a wildcard
+     * 2. Call the method with this wildcard's source url
+     * 3. Check if the objects have identical contents
+     * 4. Call the method again with asObject = false
+     * 5. Check if the returned array has the same contents
+     */
     public function testFetchBySourceURL()
     {
         // 1. Create a wildcard entry
@@ -270,13 +270,13 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
     }
 
     /**
-    * Tests the fetchListCount method
-    *
-    * Outline:
-    * 1. Remove all existing wildcards
-    * 2. Create a known number of wildcards
-    * 3. Check if fetchListCount matches the number of created wildcards
-    **/
+     * Tests the fetchListCount method
+     *
+     * Outline:
+     * 1. Remove all existing wildcards
+     * 2. Create a known number of wildcards
+     * 3. Check if fetchListCount matches the number of created wildcards
+     */
     public function testFetchListCount()
     {
         // 1. Remove all existing wildcards
@@ -294,16 +294,16 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
     }
 
     /**
-    * Tests the removeAll method
-    *
-    * Outline:
-    * 1. Create a set of wildcards
-    * 2. Call removeall
-    * 3. Check if all these wildcards were removed
-    *
-    * @depends testStore
-    * @depends testFetchList
-    **/
+     * Tests the removeAll method
+     *
+     * Outline:
+     * 1. Create a set of wildcards
+     * 2. Call removeall
+     * 3. Check if all these wildcards were removed
+     *
+     * @depends testStore
+     * @depends testFetchList
+     */
     public function testRemoveAll()
     {
         // 1. Create a set of wildcards
@@ -321,14 +321,14 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
     }
 
     /**
-    * Test for expireCache
-    *
-    * Outline:
-    * 1. Manually set the cache expiry timestamp to a date in the past
-    * 2. Check that it is not expired
-    * 3. Call expireCache
-    * 4. Check that the cache is expired
-    **/
+     * Test for expireCache
+     *
+     * Outline:
+     * 1. Manually set the cache expiry timestamp to a date in the past
+     * 2. Check that it is not expired
+     * 3. Call expireCache
+     * 4. Check that the cache is expired
+     */
     public function testExpireCache()
     {
         $this->markTestSkipped( "Needs to be rewritten due to the refactoring" );
@@ -351,8 +351,8 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
     }
 
     /**
-    * Test for the translate method
-    **/
+     * Test for the translate method
+     */
     public function testTranslate()
     {
         // Cleanup cache & existing wildcards
@@ -393,7 +393,7 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
 
     /**
      * Unit test for eZURLWildcard::isCacheExpired()
-     **/
+     */
     public function testIsCacheExpired()
     {
         $time = time();
@@ -414,18 +414,18 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
     }
 
     /**
-    * Tests an identified error until eZ Publish 4.2:
-    * a cascaded translation (uri => translation1 => translation2) will fail
-    * with a fatal error if the two matching wildcards are located in different
-    * cache files
-    *
-    * Test outline:
-    * 1. Create a wildcard of DIRECT type that translates A to B
-    * 2. Create more than 100 dummy wildcards
-    * 3. Create a wildcard of DIRECT type that translates B to C
-    *
-    * Expected: the test fails at #3 with a fatal error "Cannot redeclare ezurlwilcardcachedtranslate"
-    **/
+     * Tests an identified error until eZ Publish 4.2:
+     * a cascaded translation (uri => translation1 => translation2) will fail
+     * with a fatal error if the two matching wildcards are located in different
+     * cache files
+     *
+     * Test outline:
+     * 1. Create a wildcard of DIRECT type that translates A to B
+     * 2. Create more than 100 dummy wildcards
+     * 3. Create a wildcard of DIRECT type that translates B to C
+     *
+     * Expected: the test fails at #3 with a fatal error "Cannot redeclare ezurlwilcardcachedtranslate"
+     */
     public function testDoubleTranslation()
     {
         // 1. Remove all existing wildcards
@@ -465,8 +465,8 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
     }
 
     /**
-    * Helper function that removes all the wildcards from the database
-    **/
+     * Helper function that removes all the wildcards from the database
+     */
     static public function removeAllWildcards()
     {
         eZDB::instance()->query( 'DELETE FROM ezurlwildcard' );
@@ -477,7 +477,7 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
 
     /** Holds locally changed INI values for further restoration
      * @var array
-     **/
+     */
     var $iniBackup = array();
 }
 ?>

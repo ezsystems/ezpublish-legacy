@@ -54,7 +54,7 @@ class eZModuleOperationInfo
      * Constructor
      * @param string $moduleName
      * @param bool $useTriggers
-    **/
+     */
     function eZModuleOperationInfo( $moduleName, $useTriggers = true )
     {
         $this->ModuleName = $moduleName;
@@ -75,9 +75,9 @@ class eZModuleOperationInfo
     }
 
     /**
-    * Loads the operations definition for the current module
-    * @return bool true if the operations were loaded, false if an error occured
-    **/
+     * Loads the operations definition for the current module
+     * @return bool true if the operations were loaded, false if an error occured
+     */
     function loadDefinition()
     {
         $pathList = eZModule::globalPathList();
@@ -853,7 +853,7 @@ class eZModuleOperationInfo
      * @return $className
      * @private
      * @todo Use a static variable instead of globals
-     **/
+     */
     function objectForClass( $className )
     {
         if ( !isset( $GLOBALS['eZModuleOperationClassObjectList'] ) )
@@ -870,7 +870,7 @@ class eZModuleOperationInfo
 
     /**
      * @deprecated use call_user_func_array() instead
-    **/
+     */
     function callClassMethod( $methodName, $classObject, $parameterArray )
     {
         return call_user_func_array( array( $classObject, $methodName ), $parameterArray );

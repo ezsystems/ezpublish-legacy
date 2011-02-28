@@ -316,9 +316,9 @@ class eZVatRule extends eZPersistentObject
         return eZVatType::fetch( $this->attribute( 'vat_type' ) );
     }
 
-    /*
-    * Returns country name
-    */
+    /**
+     * Returns country name
+     */
     function country()
     {
         if ( $this->attribute( 'country_code' ) != '*' )

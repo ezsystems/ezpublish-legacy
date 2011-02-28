@@ -45,7 +45,7 @@ class ezpExtensionHelper
      *
      * @param string $extension Extension name to load
      * @return bool True on success, false if already loaded
-     **/
+     */
     public static function load( $extension )
     {
         $ini = eZINI::instance();
@@ -69,7 +69,7 @@ class ezpExtensionHelper
      *
      * @param string $extension Extension name to unload
      * @return bool True on success, false if not loaded
-     **/
+     */
     public static function unload( $extension )
     {
         $ini = eZINI::instance();

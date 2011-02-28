@@ -8,8 +8,8 @@
  */
 
 /**
-* Handles authentication with the REST interface.
-*/
+ * Handles authentication with the REST interface.
+ */
 class ezpRestAuthController extends ezcMvcController
 {
     public function doBasicAuth()

@@ -21,7 +21,7 @@ class eZImageTypeRegression extends ezpDatabaseTestCase
      * Regression test for issue #14983
      *
      * @link http://issues.ez.no/14983
-     **/
+     */
     public function testIssue14983()
     {
         $className = 'eZImageType test class';

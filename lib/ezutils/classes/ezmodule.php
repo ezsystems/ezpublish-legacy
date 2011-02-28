@@ -289,7 +289,7 @@ class eZModule
      * @return void
      *
      * @see currentView()
-    */
+     */
     function setCurrentView( $name )
     {
         $GLOBALS['eZModuleCurrentView'] = $name;
@@ -710,7 +710,7 @@ class eZModule
      *
      * @return array The parameters definition
      * @see unorderedParameters(), viewData(), currentView(), currentModule()
-    */
+     */
     function parameters( $viewName = '' )
     {
         if ( $viewName == '' )
@@ -804,7 +804,7 @@ class eZModule
      * @param string $uri The redirection URI
      *
      * @return void
-     **/
+     */
     function setRedirectURI( $uri )
     {
         $this->RedirectURI = $uri;
@@ -859,7 +859,7 @@ class eZModule
      * @param string $attr Attribute name
      *
      * @return bool True if the attribute exists, false otherwise
-    */
+     */
     function hasAttribute( $attr )
     {
         return in_array( $attr, $this->attributes() );
@@ -912,7 +912,7 @@ class eZModule
      * @return void
      *
      * @see currentAction(), isCurrentAction()
-    */
+     */
     function setCurrentAction( $actionName, $view = '' )
     {
         if ( $view == '' )
@@ -1143,7 +1143,7 @@ class eZModule
      * @return bool
      *
      * @see currentAction(), setCurrentAction()
-    */
+     */
     function isCurrentAction( $actionName, $view = '' )
     {
         if ( $view == '' )
@@ -1621,7 +1621,7 @@ class eZModule
      * @note This is a system-wide value
      *
      * @see currentModule(), setCurrentView()
-    */
+     */
     function currentView()
     {
         $currentView = $GLOBALS['eZModuleCurrentView'];
@@ -1636,7 +1636,7 @@ class eZModule
      * @return string the current module name, or false if not set
      *
      * @note This is a system-wide value
-    */
+     */
     function currentModule()
     {
         $currentView = $GLOBALS['eZModuleCurrentView'];
@@ -1651,7 +1651,7 @@ class eZModule
      * @return array
      *
      * @see setGlobalPathList(), addGlobalPathList()
-    */
+     */
     static function globalPathList()
     {
         if ( !isset( $GLOBALS['eZModuleGlobalPathList'] ) )
@@ -2072,11 +2072,11 @@ class eZModule
     public $UIComponent;
 
     /**
-    * Controls at which level UI component matching is done:
-    * either 'module' which uses module name or 'view' which uses view name
-    * @var string
-    * @private
-    */
+     * Controls at which level UI component matching is done:
+     * either 'module' which uses module name or 'view' which uses view name
+     * @var string
+     * @private
+     */
     public $UIComponentMatch;
 }
 

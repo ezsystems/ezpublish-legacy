@@ -19,7 +19,7 @@ class eZUserDiscountRuleTest extends ezpDatabaseTestCase
 
     /**
      * Unit test for eZDiscountRule::fetchByUserIDArray()
-     **/
+     */
     public function testFetchByUserIDArray()
     {
         // Create 5 few discount rules

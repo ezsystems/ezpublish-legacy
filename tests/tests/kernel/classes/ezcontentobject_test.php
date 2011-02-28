@@ -34,7 +34,7 @@ class eZContentObjectTest extends ezpDatabaseTestCase
      * 1) Create more than 1000 objects
      * 2) Call fetchIDArray() on these object's ids
      * 3) Check that they were all returned
-     **/
+     */
     public function testFetchIDArray()
     {
         $contentObjectIDArray = array();
@@ -79,7 +79,7 @@ class eZContentObjectTest extends ezpDatabaseTestCase
      * 2) Create objects and relate them to each of these attributes and to the
      *    object itself (common)
      * 3) Check that attribute count is correct on each attribute and globally
-     **/
+     */
     public function testRelatedObjectCount()
     {
         // Create a test content class

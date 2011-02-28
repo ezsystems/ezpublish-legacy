@@ -8,8 +8,8 @@
  */
 
 /**
-* This controller deals with error situations arising in the REST layer.
-*/
+ * This controller deals with error situations arising in the REST layer.
+ */
 class ezpRestErrorController extends ezcMvcController
 {
     /**

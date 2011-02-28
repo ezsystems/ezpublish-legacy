@@ -11,7 +11,7 @@ class eZFSFileHandlerTest extends eZClusterFileHandlerAbstractTest
 {
     /**
      * @var eZINI
-     **/
+     */
     protected $fileINI;
 
     protected $backupGlobals = false;
@@ -24,7 +24,7 @@ class eZFSFileHandlerTest extends eZClusterFileHandlerAbstractTest
      * Test setup
      *
      * Load an instance of file.ini
-     **/
+     */
     public function setUp()
     {
         parent::setUp();

@@ -16,14 +16,14 @@
 class ezpRestTokenManager
 {
     /**
-    * Generates a token
-    *
-    * @todo See if this should maybe return a token object with token + expiry
-    *
-    * @param string $scope
-    *
-    * @return string $token
-    */
+     * Generates a token
+     *
+     * @todo See if this should maybe return a token object with token + expiry
+     *
+     * @param string $scope
+     *
+     * @return string $token
+     */
     public static function generateToken( $scope )
     {
         return md5( 'uniqid' );

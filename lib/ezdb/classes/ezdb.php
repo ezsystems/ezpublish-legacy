@@ -383,8 +383,8 @@ class eZDB
     }
 
     /**
-    * Error handling mode
-    */
+     * Error handling mode
+     */
     const ERROR_HANDLING_STANDARD = 1;
     const ERROR_HANDLING_EXCEPTIONS = 2;
 

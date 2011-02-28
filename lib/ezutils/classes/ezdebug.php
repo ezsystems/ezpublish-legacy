@@ -1242,7 +1242,7 @@ class eZDebug
     /**
      * Returns the microtime as a float value. $mtime must be in microtime() format.
      * @deprecated Since 4.4.0, use microtime( true ) instead
-    */
+     */
     static function timeToFloat( $mtime )
     {
         $tTime = explode( " ", $mtime );
@@ -1785,12 +1785,12 @@ class eZDebug
         $debug->bottomReportsList[$reportName] = $reportContent;
     }
 
-   /**
-    * Loop over all bottom reports and if callable call them with $as_html parameter,
-    * if not output as is (string).
-    *
-    * @param bool $as_html
-    */
+    /**
+     * Loop over all bottom reports and if callable call them with $as_html parameter,
+     * if not output as is (string).
+     *
+     * @param bool $as_html
+     */
     static function printBottomReportsList( $as_html = true )
     {
         $debug = eZDebug::instance();

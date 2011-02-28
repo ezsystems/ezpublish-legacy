@@ -1420,26 +1420,26 @@ class eZContentOperationCollection
     }
 
     /**
-    * Executes the pre-publish trigger for this object, and handles
-    * specific return statuses from the workflow
-    *
-    * @param int $objectID Object ID
-    * @param int $version Version number
-    *
-    * @since 4.2
-    **/
+     * Executes the pre-publish trigger for this object, and handles
+     * specific return statuses from the workflow
+     *
+     * @param int $objectID Object ID
+     * @param int $version Version number
+     *
+     * @since 4.2
+     */
     static public function executePrePublishTrigger( $objectID, $version )
     {
 
     }
 
     /**
-    * Creates a RSS/ATOM Feed export for a node
-    *
-    * @param int $nodeID Node ID
-    *
-    * @since 4.3
-    **/
+     * Creates a RSS/ATOM Feed export for a node
+     *
+     * @param int $nodeID Node ID
+     *
+     * @since 4.3
+     */
     static public function createFeedForNode( $nodeID )
     {
         $hasExport = eZRSSFunctionCollection::hasExportByNode( $nodeID );
@@ -1520,12 +1520,12 @@ class eZContentOperationCollection
     }
 
     /**
-    * Removes a RSS/ATOM Feed export for a node
-    *
-    * @param int $nodeID Node ID
-    *
-    * @since 4.3
-    **/
+     * Removes a RSS/ATOM Feed export for a node
+     *
+     * @param int $nodeID Node ID
+     *
+     * @since 4.3
+     */
     static public function removeFeedForNode( $nodeID )
     {
         $rssExport = eZPersistentObject::fetchObject( eZRSSExport::definition(),

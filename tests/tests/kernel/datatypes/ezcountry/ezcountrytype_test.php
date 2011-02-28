@@ -16,8 +16,8 @@ class eZCountryTypeTest extends ezpDatabaseTestCase
     }
 
     /**
-    * Test for the sort feature of country list
-    **/
+     * Test for the sort feature of country list
+     */
     public function testFetchTranslatedNamesSort()
     {
         $translatedCountriesList = array(

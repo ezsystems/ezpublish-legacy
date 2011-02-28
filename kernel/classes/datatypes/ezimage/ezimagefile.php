@@ -104,7 +104,7 @@ class eZImageFile extends eZPersistentObject
      *               image files where the url is referenced
      *
      * @todo Rewrite ! A where data_text LIKE '%xxx%' is a resource hog !
-     **/
+     */
     static function fetchImageAttributesByFilepath( $filepath, $contentObjectAttributeID )
     {
         $db = eZDB::instance();

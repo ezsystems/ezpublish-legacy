@@ -14,11 +14,11 @@
  * </code>
  */
 
- /**
-  * TODO: add possibility for translating content class
-  * TODO: replace ezpClass params with struct
-  * TODO: add check for type string (only registered datatypes should be allowed) in ezpClass::add()
-  */
+/**
+ * TODO: add possibility for translating content class
+ * TODO: replace ezpClass params with struct
+ * TODO: add check for type string (only registered datatypes should be allowed) in ezpClass::add()
+ */
 class ezpClass
 {
     /**

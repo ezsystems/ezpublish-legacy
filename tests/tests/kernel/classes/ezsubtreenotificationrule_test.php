@@ -19,7 +19,7 @@ class eZSubtreeNotificationRuleTest extends ezpDatabaseTestCase
 
     /**
      * Unit test for eZSubtreeNotificationRule::fetchUserList()
-     **/
+     */
     public function testFetchUserList()
     {
         // Add a notification rule for admin on root

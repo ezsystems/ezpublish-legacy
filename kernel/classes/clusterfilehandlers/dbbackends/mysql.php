@@ -438,13 +438,13 @@ class eZDBFileHandlerMysqlBackend
     }
 
     /**
-    * Fetches the file $filePath from the database, saving it locally with its
-    * original name, or $uniqueName if given
-    *
-    * @param string $filePath
-    * @param string $uniqueName
-    * @return the file physical path, or false if fetch failed
-    **/
+     * Fetches the file $filePath from the database, saving it locally with its
+     * original name, or $uniqueName if given
+     *
+     * @param string $filePath
+     * @param string $uniqueName
+     * @return the file physical path, or false if fetch failed
+     */
     function _fetch( $filePath, $uniqueName = false )
     {
         $metaData = $this->_fetchMetadata( $filePath );
@@ -1116,15 +1116,15 @@ class eZDBFileHandlerMysqlBackend
     }
 
     /**
-    * Uses a secondary database connection to check outside the transaction scope
-    * if a file has been generated during the current process execution
-    * @param string $filePath
-    * @param int $expiry
-    * @param int $curtime
-    * @param int $ttl
-    * @param string $fname
-    * @return bool false if the file exists and is not expired, true otherwise
-    **/
+     * Uses a secondary database connection to check outside the transaction scope
+     * if a file has been generated during the current process execution
+     * @param string $filePath
+     * @param int $expiry
+     * @param int $curtime
+     * @param int $ttl
+     * @param string $fname
+     * @return bool false if the file exists and is not expired, true otherwise
+     */
     function _verifyExclusiveLock( $filePath, $expiry, $curtime, $ttl, $fname = false )
     {
         // we need to create a new backend connection in order to be outside the
@@ -1358,12 +1358,12 @@ class eZDBFileHandlerMysqlBackend
     }
 
     /**
-    * Report SQL $query to debug system.
-    *
-    * @param string $fname The function name that started the query, should contain relevant arguments in the text.
-    * @param int    $timeTaken Number of seconds the query + related operations took (as float).
-    * @param int $numRows Number of affected rows.
-    **/
+     * Report SQL $query to debug system.
+     *
+     * @param string $fname The function name that started the query, should contain relevant arguments in the text.
+     * @param int    $timeTaken Number of seconds the query + related operations took (as float).
+     * @param int $numRows Number of affected rows.
+     */
     function _report( $query, $fname, $timeTaken, $numRows = false )
     {
         if ( !$this->dbparams['sql_output'] )
@@ -1380,18 +1380,18 @@ class eZDBFileHandlerMysqlBackend
     }
 
     /**
-    * Attempts to begin cache generation by creating a new file named as the
-    * given filepath, suffixed with .generating. If the file already exists,
-    * insertion is not performed and false is returned (means that the file
-    * is already being generated)
-    * @param string $filePath
-    * @return array array with 2 indexes: 'result', containing either ok or ko,
-    *         and another index that depends on the result:
-    *         - if result == 'ok', the 'mtime' index contains the generating
-    *           file's mtime
-    *         - if result == 'ko', the 'remaining' index contains the remaining
-    *           generation time (time until timeout) in seconds
-    **/
+     * Attempts to begin cache generation by creating a new file named as the
+     * given filepath, suffixed with .generating. If the file already exists,
+     * insertion is not performed and false is returned (means that the file
+     * is already being generated)
+     * @param string $filePath
+     * @return array array with 2 indexes: 'result', containing either ok or ko,
+     *         and another index that depends on the result:
+     *         - if result == 'ok', the 'mtime' index contains the generating
+     *           file's mtime
+     *         - if result == 'ko', the 'remaining' index contains the remaining
+     *           generation time (time until timeout) in seconds
+     */
     function _startCacheGeneration( $filePath, $generatingFilePath )
     {
         $fname = "_startCacheGeneration( {$filePath} )";
@@ -1466,11 +1466,11 @@ class eZDBFileHandlerMysqlBackend
     }
 
     /**
-    * Ends the cache generation for the current file: moves the (meta)data for
-    * the .generating file to the actual file, and removed the .generating
-    * @param string $filePath
-    * @return bool
-    **/
+     * Ends the cache generation for the current file: moves the (meta)data for
+     * the .generating file to the actual file, and removed the .generating
+     * @param string $filePath
+     * @return bool
+     */
     function _endCacheGeneration( $filePath, $generatingFilePath, $rename )
     {
         $fname = "_endCacheGeneration( $filePath )";
@@ -1552,14 +1552,14 @@ class eZDBFileHandlerMysqlBackend
     }
 
     /**
-    * Checks if generation has timed out by looking for the .generating file
-    * and comparing its timestamp to the one assigned when the file was created
-    *
-    * @param string $generatingFilePath
-    * @param int    $generatingFileMtime
-    *
-    * @return bool true if the file didn't timeout, false otherwise
-    **/
+     * Checks if generation has timed out by looking for the .generating file
+     * and comparing its timestamp to the one assigned when the file was created
+     *
+     * @param string $generatingFilePath
+     * @param int    $generatingFileMtime
+     *
+     * @return bool true if the file didn't timeout, false otherwise
+     */
     function _checkCacheGenerationTimeout( $generatingFilePath, $generatingFileMtime )
     {
         $fname = "_checkCacheGenerationTimeout( $generatingFilePath, $generatingFileMtime )";
@@ -1613,11 +1613,11 @@ class eZDBFileHandlerMysqlBackend
     }
 
     /**
-    * Aborts the cache generation process by removing the .generating file
-    * @param string $filePath Real cache file path
-    * @param string $generatingFilePath .generating cache file path
-    * @return void
-    **/
+     * Aborts the cache generation process by removing the .generating file
+     * @param string $filePath Real cache file path
+     * @param string $generatingFilePath .generating cache file path
+     * @return void
+     */
     function _abortCacheGeneration( $generatingFilePath )
     {
         $sql = "DELETE FROM " . TABLE_METADATA . " WHERE name_hash = " . $this->_md5( $generatingFilePath );
@@ -1625,11 +1625,11 @@ class eZDBFileHandlerMysqlBackend
     }
 
     /**
-    * Returns the name_trunk for a file path
-    * @param string $filePath
-    * @param string $scope
-    * @return string
-    **/
+     * Returns the name_trunk for a file path
+     * @param string $filePath
+     * @param string $scope
+     * @return string
+     */
     static function nameTrunk( $filePath, $scope )
     {
         switch ( $scope )
@@ -1664,13 +1664,13 @@ class eZDBFileHandlerMysqlBackend
     }
 
     /**
-    * Returns the remaining time, in seconds, before the generating file times
-    * out
-    *
-    * @param resource $fileRow
-    *
-    * @return int Remaining generation seconds. A negative value indicates a timeout.
-    **/
+     * Returns the remaining time, in seconds, before the generating file times
+     * out
+     *
+     * @param resource $fileRow
+     *
+     * @return int Remaining generation seconds. A negative value indicates a timeout.
+     */
     private function remainingCacheGenerationTime( $row )
     {
         if( !isset( $row[0] ) )

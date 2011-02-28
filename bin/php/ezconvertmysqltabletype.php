@@ -78,7 +78,7 @@ else
 
 /**
  *  Check whether the parameters are correctly set.
-**/
+ */
 function checkParameters( $cli, $script, $options, $host, $user, $password, $database, $listMode, $newType )
 {
     // Extra parameters are not tolerated.
@@ -137,7 +137,7 @@ function eZTriedDatabaseString( $database, $host, $user, $password )
 
 /**
  * Connect to the database
-**/
+ */
 function connectToDatabase( $cli, $script, $host, $user, $password, $database )
 {
     if ( $user )

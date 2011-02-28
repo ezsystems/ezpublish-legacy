@@ -1154,7 +1154,7 @@ class eZDBInterface
      * @param $type The type to cast to.
      * @return string
      * @example implodeWithTypeCast( ',', $myArray, 'int' )
-     **/
+     */
     function implodeWithTypeCast( $glue, &$pieces, $type )
     {
         $str = '';
@@ -1343,7 +1343,7 @@ class eZDBInterface
      *
      * @return string A string with the correct IN statement like for example
      *         "columnName IN ( element1, element2 )"
-     **/
+     */
     function generateSQLINStatement( $elements, $columnName = '', $not = false, $unique = true, $type = false )
     {
         $result    = '';

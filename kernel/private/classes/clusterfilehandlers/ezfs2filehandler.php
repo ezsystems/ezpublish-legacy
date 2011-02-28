@@ -29,15 +29,15 @@
 //
 
 /**
-* This class implements the new version of the FS file handler.
-* It provides support for stalecache, but can not be used on every platform:
-* support for unlink(), widely used, is not available on windows platforms
-* before PHP 5.3. If you use windows, you can not use this handler unless you
-* use this PHP version (beta at this time).
-* It is perfectly safe to use it on linux / unix
-*
-* @property-read cacheType
-**/
+ * This class implements the new version of the FS file handler.
+ * It provides support for stalecache, but can not be used on every platform:
+ * support for unlink(), widely used, is not available on windows platforms
+ * before PHP 5.3. If you use windows, you can not use this handler unless you
+ * use this PHP version (beta at this time).
+ * It is perfectly safe to use it on linux / unix
+ *
+ * @property-read cacheType
+ */
 class eZFS2FileHandler extends eZFSFileHandler
 {
     function __construct(  $filePath = false  )
@@ -58,56 +58,56 @@ class eZFS2FileHandler extends eZFSFileHandler
     }
 
     /**
-    * Creates a single transaction out of the typical file operations for accessing caches.
-    * Caches are normally ready from the database or local file, if the entry does not exist
-    * or is expired then it generates the new cache data and stores it.
-    * This method takes care of these operations and handles the custom code by performing
-    * callbacks when needed.
-    *
-    * The $retrieveCallback is used when the file contents can be used (ie. not re-generation) and
-    * is called when the file is ready locally.
-    * The function will be called with the file path as the first parameter, the mtime as the second
-    * and optionally $extraData as the third.
-    * The function must return the file contents or an instance of eZClusterFileFailure which can
-    * be used to tell the system that the retrieve data cannot be used after all.
-    * $retrieveCallback can be set to null which makes the system go directly to the generation.
-    *
-    * The $generateCallback is used when the file content is expired or does not exist, in this
-    * case the content must be re-generated and stored.
-    * The function will be called with the file path as the first parameter and optionally $extraData
-    * as the second.
-    * The function must return an array with information on the contents, the array consists of:
-    *   - scope    - The current scope of the file, is optional.
-    *   - datatype - The current datatype of the file, is optional.
-    *   - content  - The file content, this can be any type except null.
-    *   - binarydata - The binary data which is written to the file.
-    *   - store      - Whether *content* or *binarydata* should be stored to the file, if false it will simply return the data. Optional, by default it is true.
-    * Note: Set $generateCallback to false to disable generation callback.
-    * Note: Set $generateCallback to null to tell the function to perform a write lock but not do any generation, the generation must done be done by the caller by calling storeCache().
-    *
-    * Either *content* or *binarydata* must be supplied, if not an error is issued and it returns null.
-    * If *content* is set it will be used as the return value of this function, if not it will return the binary data.
-    * If *binarydata* is set it will be used as the binary data for the file, if not it will perform a var_export on *content* and use that as the binary data.
-    *
-    * For convenience the $generateCallback function can return a string which will be considered as the
-    * binary data for the file and returned as the content.
-    *
-    * For controlling how long a cache entry can be used the parameters $expiry and $ttl is used.
-    * $expiry can be set to a timestamp which controls the absolute max time for the cache, after this
-    * time/date the cache will never be used. If the value is set to a negative value or null there the
-    * expiration check is disabled.
-    *
-    * $ttl (time to live) tells how many seconds the cache can live from the time it was stored. If the
-    * value is set to negative or null there is no limit for the lifetime of the cache. A value of 0 means
-    * that the cache will always expire and practically disables caching.
-    * For the cache to be used both the $expiry and $ttl check must hold.
-    *
-    * @param mixed $retrieveCallback
-    * @param mixed $generateCallback
-    * @param int   $ttl
-    * @param int   $expiry
-    * @param array $extraData
-    **/
+     * Creates a single transaction out of the typical file operations for accessing caches.
+     * Caches are normally ready from the database or local file, if the entry does not exist
+     * or is expired then it generates the new cache data and stores it.
+     * This method takes care of these operations and handles the custom code by performing
+     * callbacks when needed.
+     *
+     * The $retrieveCallback is used when the file contents can be used (ie. not re-generation) and
+     * is called when the file is ready locally.
+     * The function will be called with the file path as the first parameter, the mtime as the second
+     * and optionally $extraData as the third.
+     * The function must return the file contents or an instance of eZClusterFileFailure which can
+     * be used to tell the system that the retrieve data cannot be used after all.
+     * $retrieveCallback can be set to null which makes the system go directly to the generation.
+     *
+     * The $generateCallback is used when the file content is expired or does not exist, in this
+     * case the content must be re-generated and stored.
+     * The function will be called with the file path as the first parameter and optionally $extraData
+     * as the second.
+     * The function must return an array with information on the contents, the array consists of:
+     *   - scope    - The current scope of the file, is optional.
+     *   - datatype - The current datatype of the file, is optional.
+     *   - content  - The file content, this can be any type except null.
+     *   - binarydata - The binary data which is written to the file.
+     *   - store      - Whether *content* or *binarydata* should be stored to the file, if false it will simply return the data. Optional, by default it is true.
+     * Note: Set $generateCallback to false to disable generation callback.
+     * Note: Set $generateCallback to null to tell the function to perform a write lock but not do any generation, the generation must done be done by the caller by calling storeCache().
+     *
+     * Either *content* or *binarydata* must be supplied, if not an error is issued and it returns null.
+     * If *content* is set it will be used as the return value of this function, if not it will return the binary data.
+     * If *binarydata* is set it will be used as the binary data for the file, if not it will perform a var_export on *content* and use that as the binary data.
+     *
+     * For convenience the $generateCallback function can return a string which will be considered as the
+     * binary data for the file and returned as the content.
+     *
+     * For controlling how long a cache entry can be used the parameters $expiry and $ttl is used.
+     * $expiry can be set to a timestamp which controls the absolute max time for the cache, after this
+     * time/date the cache will never be used. If the value is set to a negative value or null there the
+     * expiration check is disabled.
+     *
+     * $ttl (time to live) tells how many seconds the cache can live from the time it was stored. If the
+     * value is set to negative or null there is no limit for the lifetime of the cache. A value of 0 means
+     * that the cache will always expire and practically disables caching.
+     * For the cache to be used both the $expiry and $ttl check must hold.
+     *
+     * @param mixed $retrieveCallback
+     * @param mixed $generateCallback
+     * @param int   $ttl
+     * @param int   $expiry
+     * @param array $extraData
+     */
     public function processCache( $retrieveCallback, $generateCallback = null, $ttl = null, $expiry = null, $extraData = null )
     {
         $curtime   = time();
@@ -287,14 +287,14 @@ class eZFS2FileHandler extends eZFSFileHandler
     }
 
     /**
-    * Stores the data in $fileData to the remote and local file and commits the
-    * transaction.
-    * The parameter $fileData must contain the same as information as the
-    * $generateCallback returns as explained in processCache().
-    * @note This method is just a continuation of the code in processCache() and
-    *       is not meant to be called alone since it relies on specific state in
-    *       the database.
-    */
+     * Stores the data in $fileData to the remote and local file and commits the
+     * transaction.
+     * The parameter $fileData must contain the same as information as the
+     * $generateCallback returns as explained in processCache().
+     * @note This method is just a continuation of the code in processCache() and
+     *       is not meant to be called alone since it relies on specific state in
+     *       the database.
+     */
     function storeCache( $fileData, $storeCache = true )
     {
         $scope       = false;
@@ -373,7 +373,7 @@ class eZFS2FileHandler extends eZFSFileHandler
      *
      * @return mixed true if generation lock was granted, an integer matching the
      *               time before the current generation times out
-     **/
+     */
     public function startCacheGeneration()
     {
         eZDebugSetting::writeDebug( "kernel-clustering", $this->filePath, __METHOD__ );
@@ -460,7 +460,7 @@ class eZFS2FileHandler extends eZFSFileHandler
      * @param bool $rename Rename (true) or delete (false) the generating file
      *
      * @return bool
-     **/
+     */
     public function endCacheGeneration( $rename = true)
     {
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
@@ -500,7 +500,7 @@ class eZFS2FileHandler extends eZFSFileHandler
      *
      * Does so by rolling back the current transaction, which should be the
      * .generating file lock
-     **/
+     */
     public function abortCacheGeneration()
     {
         eZDebugSetting::writeDebug( 'kernel-clustering', $this->realFilePath, __METHOD__ );
@@ -511,10 +511,10 @@ class eZFS2FileHandler extends eZFSFileHandler
     }
 
     /**
-    * Checks if the .generating file was changed, which would mean that generation
-    * timed out. If not timed out, refreshes the timestamp so that storage won't
-    * be stolen
-    **/
+     * Checks if the .generating file was changed, which would mean that generation
+     * timed out. If not timed out, refreshes the timestamp so that storage won't
+     * be stolen
+     */
     public function checkCacheGenerationTimeout()
     {
         clearstatcache();
@@ -535,13 +535,13 @@ class eZFS2FileHandler extends eZFSFileHandler
     }
 
     /**
-    * Returns the remaining time, in seconds, before the generating file times
-    * out
-    *
-    * @param string $filePath
-    *
-    * @return int Remaining generation seconds. A negative value indicates a timeout.
-    **/
+     * Returns the remaining time, in seconds, before the generating file times
+     * out
+     *
+     * @param string $filePath
+     *
+     * @return int Remaining generation seconds. A negative value indicates a timeout.
+     */
     private function remainingCacheGenerationTime( $filePath )
     {
         clearstatcache();
@@ -575,7 +575,7 @@ class eZFS2FileHandler extends eZFSFileHandler
      * Deletes the file(s) or directory matching $path and $fnamePart if given
      * @param $path path of the file to delete
      * @param $fnamePart path of the file to delete
-     **/
+     */
     function fileDelete( $path, $fnamePart = false )
     {
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileDelete( '$path' )", __METHOD__ );
@@ -650,8 +650,8 @@ class eZFS2FileHandler extends eZFSFileHandler
     }
 
     /**
-    * Purge local and remote file data for current file.
-    **/
+     * Purge local and remote file data for current file.
+     */
     function purge( $printCallback = false, $microsleep = false, $max = false, $expiry = false )
     {
         $file = $this->filePath;
@@ -694,10 +694,10 @@ class eZFS2FileHandler extends eZFSFileHandler
     }
 
     /**
-    * Expire the given file
-    * @param string $path Path of the file to expire
-    * @return bool
-    **/
+     * Expire the given file
+     * @param string $path Path of the file to expire
+     * @return bool
+     */
     private static function _expire( $path )
     {
         eZDebugSetting::writeDebug( 'kernel-clustering', $path, __METHOD__ );
@@ -707,10 +707,10 @@ class eZFS2FileHandler extends eZFSFileHandler
     }
 
     /**
-    * Expires all files in a directory
-    * @param string $directory
-    * @return void
-    **/
+     * Expires all files in a directory
+     * @param string $directory
+     * @return void
+     */
     private static function _recursiveExpire( $directory )
     {
         eZDebugSetting::writeDebug( 'kernel-clustering', $directory, __METHOD__ );
@@ -737,9 +737,9 @@ class eZFS2FileHandler extends eZFSFileHandler
     }
 
     /**
-    * Determines the cache type based on the path
-    * @return string viewcache, cacheblock or misc
-    **/
+     * Determines the cache type based on the path
+     * @return string viewcache, cacheblock or misc
+     */
     private function _cacheType()
     {
         if ( strstr( $this->filePath, 'cache/content' ) !== false )
@@ -751,8 +751,8 @@ class eZFS2FileHandler extends eZFSFileHandler
     }
 
     /**
-    * Magic getter
-    **/
+     * Magic getter
+     */
     function __get( $propertyName )
     {
         switch ( $propertyName )
@@ -769,7 +769,7 @@ class eZFS2FileHandler extends eZFSFileHandler
     /**
      * eZFS2 doesn't require clusterizing, as it only uses the filesystem
      * @return bool
-     **/
+     */
     public function requiresClusterizing()
     {
         return false;
@@ -794,7 +794,7 @@ class eZFS2FileHandler extends eZFSFileHandler
      *
      * @since 4.5.0
      * @return bool
-     **/
+     */
     public function requiresPurge()
     {
         return false;
@@ -804,49 +804,49 @@ class eZFS2FileHandler extends eZFSFileHandler
      * holds the real file path. This is only used when we are generating a cache
      * file, in which case $filePath holds the generating cache file name,
      * and $realFilePath holds the real name
-     **/
+     */
     public $realFilePath = null;
 
     /**
-    * Indicates that the current cache item is being generated and an old version
-    * should be used
-    * @var bool
-    **/
+     * Indicates that the current cache item is being generated and an old version
+     * should be used
+     * @var bool
+     */
     protected $useStaleCache = false;
 
     /**
-    * Generation timeout, in seconds. If a generating file exists for more than
-    * $generationTimeout seconds, it is taken over
-    * @var int
-    **/
+     * Generation timeout, in seconds. If a generating file exists for more than
+     * $generationTimeout seconds, it is taken over
+     * @var int
+     */
     protected $generationTimeout;
 
     /**
-    * Holds the preferences used when stale cache is activated and no expired
-    * file is available.
-    * This is loaded from file.ini, ClusteringSettings.NonExistantStaleCacheHandling
-    **/
+     * Holds the preferences used when stale cache is activated and no expired
+     * file is available.
+     * This is loaded from file.ini, ClusteringSettings.NonExistantStaleCacheHandling
+     */
     protected $nonExistantStaleCacheHandling;
 
     /**
-    * Holds the number of seconds remaining before the generating cache times out
-    * @var int
-    **/
+     * Holds the number of seconds remaining before the generating cache times out
+     * @var int
+     */
     protected $remainingCacheGenerationTime = false;
 
     /**
-    * When the instance generates the cached version for a file, this property
-    * holds the timestamp at which generation was started. This is used to control
-    * a possible generation timeout
-    * @var int
-    **/
+     * When the instance generates the cached version for a file, this property
+     * holds the timestamp at which generation was started. This is used to control
+     * a possible generation timeout
+     * @var int
+     */
     protected $generationStartTimestamp = false;
 
     /**
-    * Cached value of cache type
-    *
-    * @var string|null
-    **/
+     * Cached value of cache type
+     *
+     * @var string|null
+     */
     protected $cacheType = null;
 }
 ?>

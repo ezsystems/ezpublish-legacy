@@ -34,9 +34,9 @@
 class eZFSFileHandler
 {
     /**
-    * This should be defined in eZFS2FileHandler, but due to static members
-    * limitations in PHP < 5.3, it is declared here
-    **/
+     * This should be defined in eZFS2FileHandler, but due to static members
+     * limitations in PHP < 5.3, it is declared here
+     */
     const EXPIRY_TIMESTAMP = 233366400;
 
     /**
@@ -475,7 +475,7 @@ class eZFSFileHandler
      * @param int    $curtime The current time to check against.
      * @param int    $ttl Number of seconds the data can live, set to null to disable TTL.
      * @return bool
-     **/
+     */
     public function isExpired( $expiry, $curtime, $ttl )
     {
         return self::isFileExpired( $this->filePath, @filemtime( $this->filePath ), $expiry, $curtime, $ttl );
@@ -796,7 +796,7 @@ class eZFSFileHandler
      * @see fetchUnique
      *
      * In case of fetching from filesystem does nothing.
-     **/
+     */
     function fileDeleteLocal( $path )
     {
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileDeleteLocal( '$path' )", __METHOD__ );
@@ -1004,7 +1004,7 @@ class eZFSFileHandler
      *
      * @return mixed true if generation lock was granted, an integer matching the
      *               time before the current generation times out
-     **/
+     */
     public function startCacheGeneration()
     {
         return true;
@@ -1012,7 +1012,7 @@ class eZFSFileHandler
 
     /**
      * Ends the cache generation started by startCacheGeneration().
-     **/
+     */
     public function endCacheGeneration()
     {
         return true;
@@ -1023,7 +1023,7 @@ class eZFSFileHandler
      *
      * Does so by rolling back the current transaction, which should be the
      * .generating file lock
-     **/
+     */
     public function abortCacheGeneration()
     {
         return true;
@@ -1033,7 +1033,7 @@ class eZFSFileHandler
      * Checks if the .generating file was changed, which would mean that generation
      * timed out. If not timed out, refreshes the timestamp so that storage won't
      * be stolen
-     **/
+     */
     public function checkCacheGenerationTimeout()
     {
         return true;
@@ -1043,7 +1043,7 @@ class eZFSFileHandler
      * eZFS only stores data to FS and doesn't require/support clusterizing
      *
      * @return bool false
-     **/
+     */
     public function requiresClusterizing()
     {
         return false;
@@ -1068,7 +1068,7 @@ class eZFSFileHandler
      *
      * @since 4.5.0
      * @return bool
-     **/
+     */
     public function requiresPurge()
     {
         return false;

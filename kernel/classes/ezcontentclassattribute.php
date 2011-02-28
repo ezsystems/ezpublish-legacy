@@ -1086,7 +1086,7 @@ class eZContentClassAttribute extends eZPersistentObject
      *
      * @return void
      * @since 4.2
-     **/
+     */
     public static function expireCache( $contentClassAttributeID = false, $contentClassID = false)
     {
         unset( $GLOBALS['eZContentClassAttributeCacheListFull'] );
@@ -1148,7 +1148,7 @@ class eZContentClassAttribute extends eZPersistentObject
 
     /**
      * In-memory cache for class attributes identifiers / id matching
-     **/
+     */
     private static $identifierHash = null;
 }
 

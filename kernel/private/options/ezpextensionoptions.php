@@ -41,7 +41,7 @@
  * @property string $aliasVariable
  *      Default : null
  *
-  * @property string $aliasOptionalIndex
+ * @property string $aliasOptionalIndex
  *      Default : null
  *
  * @throws ezcBasePropertyNotFoundException

@@ -129,7 +129,7 @@ class eZWorkflowEvent extends eZPersistentObject
      * @param string $typeString
      *
      * @return eZWorkflowEvent
-     **/
+     */
     static function create( $workflowID, $typeString )
     {
         $row = array(

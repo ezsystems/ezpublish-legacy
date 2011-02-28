@@ -13,42 +13,42 @@ class eZLDAPUserTest extends ezpDatabaseTestCase
 
     /**
      * @var eZINI
-     **/
+     */
     protected $ldapINI;
 
     /**
      * @var ezpObject
-     **/
+     */
     protected $mainGroup;
 
     /**
      * @var integer
-     **/
+     */
     protected $mainGroupNodeId;
 
     /**
      * @var integer
-     **/
+     */
     protected $starWarsGroupNodeId;
 
     /**
      * @var integer
-     **/
+     */
     protected $rebelGroupNodeId;
 
     /**
      * @var integer
-     **/
+     */
     protected $rogueGroupNodeId;
 
     /**
      * @var integer
-     **/
+     */
     protected $empireGroupNodeId;
 
     /**
      * @var integer
-     **/
+     */
     protected $sithGroupNodeId;
 
     public static function ldapIsEnabled()
