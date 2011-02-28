@@ -27373,7 +27373,7 @@ si has elegido la opción &quot;%3&quot; desde &quot;%4&quot; </translation>
     </message>
     <message>
         <source>Content object limits</source>
-        <translation>Limites de objeto de contenido</translation>
+        <translation>Límites de objeto de contenido</translation>
     </message>
     <message>
         <source>Content object export</source>
