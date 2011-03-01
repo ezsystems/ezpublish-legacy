@@ -258,7 +258,7 @@ function eZDisplayResult( $templateResult )
 {
     if ( $templateResult !== null )
     {
-        $classname = eZINI::instance()->variable( "OutputSettings", "OutputFilterName" );
+        $classname = eZINI::instance()->variable( "OutputSettings", "OutputFilterName" );//deprecated
         if( !empty( $classname ) && class_exists( $classname ) )
         {
             $templateResult = call_user_func( array ( $classname, 'filter' ), $templateResult );
