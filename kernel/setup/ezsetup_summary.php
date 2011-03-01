@@ -30,7 +30,6 @@
 
 /*! \file
 */
-// include_once( "kernel/setup/ezsetuptests.php" );
 
 /*!
   \class eZSetupSummary ezsetup_summary.php

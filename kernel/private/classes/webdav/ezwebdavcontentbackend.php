@@ -2879,7 +2879,6 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
         }
         else
         {
-            //include_once( 'kernel/classes/ezcontentobjecttreenodeoperations.php' );
             if( !eZContentObjectTreeNodeOperations::move( $sourceNode->attribute( 'node_id' ), $destinationNode->attribute( 'node_id' ) ) )
             {
                 $this->appendLogEntry( "Unable to move the node '$sourceSite':'$nodePath' to '$destinationSite':'$destinationNodePath'", 'CS:moveContent' );
@@ -2895,7 +2894,6 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
                     $contentObjectAttributes[0]->setAttribute( 'data_text', basename( $destination ) );
                     $contentObjectAttributes[0]->store();
 
-                    //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
                     $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID, 'version' => 1 ) );
                     $object->store();
         */

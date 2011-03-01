@@ -56,7 +56,6 @@
   For running the marks you must pass the case to an eZBenchmarkRunner instance.
 
   \code
-//include_once( 'benchmarks/classes/ezbenchmarkcase.php' );
 class MyTest extends eZBenchmarkCase
 {
     function MyTest()
@@ -85,7 +84,6 @@ $runner->run( $case );
 */
 
 require_once( 'lib/ezutils/classes/ezdebug.php' );
-//include_once( 'benchmarks/classes/ezbenchmarkunit.php' );
 
 class eZBenchmarkCase extends eZBenchmarkUnit
 {

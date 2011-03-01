@@ -350,8 +350,7 @@ class eZTemplateSectionFunction
             $variableValuePopText = '';
             if ( $varName )
             {
-                $code .= ( "//include_once( 'lib/eztemplate/classes/eztemplatesectioniterator.php' );\n" .
-                           "\$variableValue = new eZTemplateSectionIterator();\n" .
+                $code .= ( "\$variableValue = new eZTemplateSectionIterator();\n" .
                            "\$lastVariableValue = false;\n" );
                 $variableValuePushText = "&\$variableValue, ";
                 $variableValuePopText = "\$variableValue, ";

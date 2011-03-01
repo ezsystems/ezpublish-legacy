@@ -56,8 +56,6 @@
 
 Example:
 \code
-//include_once( 'lib/ezlocale/classes/ezlocale.php' );
-//include_once( 'lib/ezlocale/classes/ezdate.php' );
 
 $us_locale = eZLocale::instance( 'us' );
 

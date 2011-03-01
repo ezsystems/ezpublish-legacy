@@ -46,7 +46,6 @@
   Example:
 
 \code
-//include_once( 'lib/ezlocale/classes/ezlocale.php' );
 
 // Fetch the default values supplied by site.ini
 $locale = eZLocale::instance();

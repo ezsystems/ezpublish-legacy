@@ -37,8 +37,6 @@
 
   The most common way of using it is.
   \code
-  // include the file
-  //include_once( "classes/ezinifile.php" );
 
   $ini = eZINI::instance( "site.ini" );
 

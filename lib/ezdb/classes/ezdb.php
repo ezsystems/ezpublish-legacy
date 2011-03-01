@@ -63,8 +63,6 @@
   Especially when returning the data as an associative array.
 
   \code
-  // include the library
-  //include_once( 'lib/ezdb/classes/ezdb.php' );
 
   // Get the current database instance
   // will create a new database object and connect to the database backend

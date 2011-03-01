@@ -290,7 +290,6 @@ CODEPIECE;
 
                     $code = <<<CODEPIECE
 
-//include_once( 'lib/ezutils/classes/ezuri.php' );
 eZURI::transformURI( %1%, false, %2% );
 
 CODEPIECE;
@@ -335,8 +334,7 @@ CODEPIECE;
                              '  %tmp1%[0] != \'/\' )' . "\n" .
                              '%tmp1% = \'/\' . %tmp1%;' . "\n";
 
-                    $code .= '//include_once( \'lib/ezutils/classes/ezuri.php\' );' . "\n" .
-                             'eZURI::transformURI( %tmp1%, true, %2% );' . "\n";
+                    $code .= 'eZURI::transformURI( %tmp1%, true, %2% );' . "\n";
 
                     $useTmp = true;
                     ++$tmpCount;
@@ -352,8 +350,7 @@ CODEPIECE;
                             'else if ( strlen( %1% ) > 0 and' . "\n" .
                             '  %1%[0] != \'/\' )' . "\n" .
                             '%1% = \'/\' . %1%;' . "\n";
-                    $code .= '//include_once( \'lib/ezutils/classes/ezuri.php\' );' . "\n" .
-                             'eZURI::transformURI( %1%, true, %2% );' . "\n";
+                    $code .= 'eZURI::transformURI( %1%, true, %2% );' . "\n";
 
                 }
 
@@ -459,8 +456,7 @@ CODEPIECE;
 
                     $values[] = array( eZTemplateNodeTool::createStringElement( $origUrl ) );
 
-                    $code .= '//include_once( \'kernel/classes/datatypes/ezurl/ezurl.php\' );' . "\n" .
-                         '%tmp1% = %1%; ' . "\n" .
+                    $code .= '%tmp1% = %1%; ' . "\n" .
                          '%tmp2% = eZURL::urlByMD5( md5( %tmp1% ) );' . "\n" .
                          'if ( %tmp2% == false )' . "\n" .
                          '  eZURL::registerURL( %tmp1% );' . "\n" .
@@ -474,8 +470,7 @@ CODEPIECE;
                 {
                     $values[] = $parameters[0];
 
-                    $code .= '//include_once( \'kernel/classes/datatypes/ezurl/ezurl.php\' );' . "\n" .
-                         '%tmp1% = eZURL::urlByMD5( md5( %1% ) );' . "\n" .
+                    $code .= '%tmp1% = eZURL::urlByMD5( md5( %1% ) );' . "\n" .
                          'if ( %tmp1% == false )' . "\n" .
                          '  eZURL::registerURL( %1% );' . "\n" .
                          'else' . "\n" .
@@ -493,8 +488,7 @@ CODEPIECE;
         if ( isset( $http->UseFullUrl ) and $http->UseFullUrl )
         {
             ++$tmpCount;
-            $code .= '//include_once( \'lib/ezutils/classes/ezhttptool.php\' );' . "\n" .
-                 '%tmp' . $tmpCount . '% = eZHTTPTool::instance();' . "\n" .
+            $code .= '%tmp' . $tmpCount . '% = eZHTTPTool::instance();' . "\n" .
                  'if ( isset( %tmp' . $tmpCount . '%->UseFullUrl ) and %tmp' . $tmpCount . '%->UseFullUrl ' . "\n" .
                  '                                                 and strncasecmp( %1%, \'/\' , 1 ) === 0 ) // do not prepend the site path if it\'s not a http url%'. "\n" .
                  '{' . "\n" .

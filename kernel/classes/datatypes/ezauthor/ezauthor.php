@@ -35,8 +35,6 @@
 
   \code
 
-  //include_once( "kernel/classes/datatypes/ezauthor/ezauthor.php" );
-
   $author = new eZAuthor( "Colour" );
   $author->addValue( "Red" );
   $author->addValue( "Green" );

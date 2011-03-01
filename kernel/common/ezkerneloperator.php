@@ -99,8 +99,7 @@ class eZKernelOperator
             $nameText = '%1%';
             $values[] = $parameters[0];
         }
-        return array( eZTemplateNodeTool::createCodePieceElement( "//include_once( 'kernel/classes/ezpreferences.php' );\n" .
-                                                                  "%output% = eZPreferences::value( $nameText );\n",
+        return array( eZTemplateNodeTool::createCodePieceElement( "%output% = eZPreferences::value( $nameText );\n",
                                                                   $values ) );
     }
 

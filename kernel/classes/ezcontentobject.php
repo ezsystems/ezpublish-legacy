@@ -1939,7 +1939,6 @@ class eZContentObject extends eZPersistentObject
             $userID = eZUser::currentUserID();
         }
         // Remove all internal drafts
-        // include_once( 'kernel/classes/ezcontentobjectversion.php' );
         $untouchedDrafts = eZContentObjectVersion::fetchForUser( $userID, eZContentObjectVersion::STATUS_INTERNAL_DRAFT );
 
         $expiryTime = time() - $timeDuration; // only remove drafts older than time duration (default is 1 day)
@@ -5083,7 +5082,6 @@ class eZContentObject extends eZPersistentObject
             $firstVersion = false;
             $description = "Object '$name' already exists.";
 
-            // include_once( 'kernel/classes/ezpackagehandler.php' );
             $choosenAction = eZPackageHandler::errorChoosenAction( self::PACKAGE_ERROR_EXISTS,
                                                                    $options, $description, $handlerType, false );
 

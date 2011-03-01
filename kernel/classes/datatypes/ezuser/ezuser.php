@@ -2034,7 +2034,6 @@ WHERE user_id = '" . $userID . "' AND
                 // Now we are trying to fetch classes by collected ids list to return
                 // class list consisting of existing classes's identifiers only.
                 $allowedClassList = array_unique( $allowedClassList );
-                // include_once( 'kernel/classes/ezcontentclass.php' );
                 $classList = eZContentClass::fetchList( eZContentClass::VERSION_STATUS_DEFINED, false, false, null, null, $allowedClassList );
                 if ( is_array( $classList ) && !empty( $classList ) )
                 {

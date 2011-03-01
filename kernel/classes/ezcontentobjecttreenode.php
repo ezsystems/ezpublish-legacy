@@ -5392,7 +5392,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             $description = "Node with remote ID $remoteID already exists.";
 
-            // include_once( 'kernel/classes/ezpackagehandler.php' );
             $choosenAction = eZPackageHandler::errorChoosenAction( eZContentObject::PACKAGE_ERROR_EXISTS,
                                                                    $options, $description, $handlerType, false );
 

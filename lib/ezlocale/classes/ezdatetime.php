@@ -60,8 +60,6 @@
 
 Example:
 \code
-//include_once( 'lib/ezlocale/classes/ezlocale.php' );
-//include_once( 'lib/ezlocale/classes/ezdatetime.php' );
 
 $us_locale = eZLocale::instance( 'us' );
 
