@@ -44,3 +44,5 @@ session/destroy     ( string $sessionId )
 session/regenerate  ( string $oldSessionId, string $sessionId )
 session/gc          ( int $maxLifeTime )
 
+content/cache       ( array &$nodeList )
+
