@@ -168,7 +168,10 @@ abstract class ezpRestMvcController extends ezcMvcController
 
             $res = parent::createResult();
             $resGroups = $this->getResponseGroups();
-            $res->variables['requestedResponseGroups'] = $resGroups;
+            if ( !empty( $resGroups ) )
+            {
+                $res->variables['requestedResponseGroups'] = $resGroups;
+            }
 
             if ( $res instanceof ezpRestMvcResult )
             {
