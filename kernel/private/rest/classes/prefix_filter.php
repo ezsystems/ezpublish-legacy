@@ -121,18 +121,29 @@ abstract class ezpRestPrefixFilterInterface
      * Filters the URI property of the given ezcMvcRequest object, removing
      * any version token from it.
      *
-     * @abstract
      * @return void
      */
     public function filterRequestUri()
     {
         if ( !empty( $this->versionToken ) )
         {
-            $this->request->uri = str_replace( '/' . $this->versionToken, '', $this->request->uri );
+            // Remove the first occurrence of version token
+            $versionSearch = '/' . $this->versionToken;
+            $versionPos = strpos( $this->request->uri, $versionSearch );
+            if ( $versionPos !== false )
+            {
+                $this->request->uri = substr_replace( $this->request->uri, '', $versionPos, strlen( $versionSearch ) );
+            }
         }
         if ( !empty( $this->apiProviderToken ) )
         {
-            $this->request->uri = str_replace( '/' . $this->apiProviderToken, '', $this->request->uri );
+            // Remove the first occurrence of API provider token
+            $providerSearch = '/' . $this->apiProviderToken;
+            $providerPos = strpos( $this->request->uri, $providerSearch );
+            if ( $providerPos !== false )
+            {
+                $this->request->uri = substr_replace( $this->request->uri, '', $providerPos, strlen( $providerSearch ) );
+            }
         }
     }
 }
