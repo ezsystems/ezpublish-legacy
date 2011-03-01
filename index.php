@@ -263,6 +263,7 @@ function eZDisplayResult( $templateResult )
         {
             $templateResult = call_user_func( array ( $classname, 'filter' ), $templateResult );
         }
+        ezpEvent::trigger('response/output', array( &$templateResult ) );
         $debugMarker = '<!--DEBUG_REPORT-->';
         $pos = strpos( $templateResult, $debugMarker );
         if ( $pos !== false )
@@ -440,6 +441,9 @@ if ( !isset( $check ) )
  * @uses eZUser::instance() So needs to be executed after eZSession::start()|lazyStart()
  */
 eZDebug::checkDebugByUser();
+
+ezpEvent::subscribeList( $ini->variableArray('Event', 'CallbackList') );
+ezpEvent::trigger( 'request/input', array( $uri ) );
 
 // Initialize with locale settings
 $locale = eZLocale::instance();

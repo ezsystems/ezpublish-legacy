@@ -587,6 +587,7 @@ return array(
       'ezpContentRepository'                               => 'kernel/private/api/content/repository.php',
       'ezpContentSortingCriteria'                          => 'kernel/private/api/content/criteria/sorting.php',
       'ezpContentXHTMLRenderer'                            => 'kernel/private/rest/classes/renderers/xhtml_content_renderer.php',
+      'ezpEvent'                                           => 'kernel/private/classes/ezpevent.php',
       'ezpExtension'                                       => 'kernel/private/classes/ezpextension.php',
       'ezpExtensionOptions'                                => 'kernel/private/options/ezpextensionoptions.php',
       'ezpHttpResponseCodes'                               => 'kernel/private/rest/classes/http_response_codes.php',
