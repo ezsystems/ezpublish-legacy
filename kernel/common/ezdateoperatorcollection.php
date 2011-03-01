@@ -111,7 +111,7 @@ class eZDateOperatorCollection
                 {
                     $value = null;
                     if ( is_object( $item ) and
-                         method_exists( $item, 'hasattribute' ) and
+                         method_exists( $item, 'hasAttribute' ) and
                          method_exists( $item, 'attribute' ) )
                     {
                         if ( $item->hasAttribute( $field ) )

@@ -1971,7 +1971,7 @@ $lbracket
         if ( is_object( \$value ) )
         $lbracket
             if ( method_exists( \$value, \"attribute\" ) and
-                 method_exists( \$value, \"hasattribute\" ) )
+                 method_exists( \$value, \"hasAttribute\" ) )
             $lbracket
                 if ( \$value->hasAttribute( \$attributeValue ) )
                 $lbracket

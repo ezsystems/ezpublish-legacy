@@ -1201,7 +1201,7 @@ class eZTemplate
                         else if ( is_object( $value ) )
                         {
                             if ( method_exists( $value, "attribute" ) and
-                                 method_exists( $value, "hasattribute" ) )
+                                 method_exists( $value, "hasAttribute" ) )
                             {
                                 if ( $value->hasAttribute( $attributeValue ) )
                                 {
@@ -1441,10 +1441,10 @@ class eZTemplate
 
         $op = $this->Operators[$name];
         if ( isset( $op ) and
-             method_exists( $op, "namedparameterlist" ) )
+             method_exists( $op, "namedParameterList" ) )
         {
             $param_list = $op->namedParameterList();
-            if ( method_exists( $op, "namedparameterperoperator" ) and
+            if ( method_exists( $op, "namedParameterPerOperator" ) and
                  $op->namedParameterPerOperator() )
             {
                 if ( !isset( $param_list[$name] ) )

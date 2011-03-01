@@ -536,7 +536,7 @@ $php->addInclude( 'lib/ezutils/classes/ezphpcreator.php' );
             else
             {
                 $text = '';
-                if ( method_exists( $value, 'serializedata' ) )
+                if ( method_exists( $value, 'serializeData' ) )
                 {
                     $serializeData = $value->serializeData();
                     $className = $serializeData['class_name'];
@@ -658,7 +658,7 @@ $php->addInclude( 'lib/ezutils/classes/ezphpcreator.php' );
         else if ( is_object( $value ) )
         {
             $text = '';
-            if ( method_exists( $value, 'serializedata' ) )
+            if ( method_exists( $value, 'serializeData' ) )
             {
                 $serializeData = $value->serializeData();
                 $className = $serializeData['class_name'];
