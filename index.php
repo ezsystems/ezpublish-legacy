@@ -352,6 +352,9 @@ eZINI::resetAllInstances( false );
 $moduleRepositories = eZModule::activeModuleRepositories();
 eZModule::setGlobalPathList( $moduleRepositories );
 
+// make sure we get a new $ini instance now that it has been reset
+$ini = eZINI::instance();
+
 // start: eZCheckValidity
 // pre check, setup wizard related so needs to be before session/db init
 if ( $ini->variable( 'SiteAccessSettings', 'CheckValidity' ) === 'true' )
