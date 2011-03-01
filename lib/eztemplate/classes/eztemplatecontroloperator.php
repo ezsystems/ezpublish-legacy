@@ -266,6 +266,6 @@ class eZTemplateControlOperator
 
     /// The array of operators
     public $Operators;
-};
+}
 
 ?>

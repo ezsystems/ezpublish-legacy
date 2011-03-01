@@ -267,7 +267,7 @@ class eZStepSiteDetails extends eZStepInstaller
                         $siteType['admin_access_type_value'] = $siteType['identifier'] . '_admin';
                 }
                 break;
-            };
+            }
 
             $siteType['database'] = $data['Database'];
             $action = eZStepInstaller::DB_DATA_APPEND;

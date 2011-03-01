@@ -116,7 +116,7 @@ class eZRedirectGateway extends eZPaymentGateway
                     return eZWorkflowType::STATUS_REJECTED;
                 }
             }break;
-        };
+        }
 
         //__DEBUG__
         $this->logger->writeTimedString("return eZWorkflowType::STATUS_REDIRECT_REPEAT");

@@ -302,6 +302,6 @@ class eZDateOperatorCollection
 
     /// \privatesection
     public $Operators;
-};
+}
 
 ?>

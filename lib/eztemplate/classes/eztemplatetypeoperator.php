@@ -429,6 +429,6 @@ class eZTemplateTypeOperator
     public $Operators;
     /// The "less than" name
     public $IsArrayName;
-};
+}
 
 ?>

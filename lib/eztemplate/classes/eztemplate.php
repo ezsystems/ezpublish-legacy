@@ -154,7 +154,7 @@ class mytest
         }
     }
 
-};
+}
 
 $tpl->setVariable( "multidim_obj", array( new mytest( "jan", 200 ),
                                           new mytest( "feb", 200 ),

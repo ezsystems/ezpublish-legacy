@@ -719,7 +719,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                 eZDebug::writeWarning( 'Unknown sort field: ' . $sortField, 'eZContentObjectTreeNode::createSortingSQLStrings' );
                                 continue;
                             }
-                        };
+                        }
                     }
                     $sortOrder = true; // true is ascending
                     if ( isset( $sortBy[1] ) )

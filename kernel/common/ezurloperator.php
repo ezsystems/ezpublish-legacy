@@ -969,6 +969,6 @@ CODEPIECE;
     public $Operators;
     public $URLName, $URLRootName, $DesignName, $ImageName;
     public $Sys;
-};
+}
 
 ?>

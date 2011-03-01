@@ -220,6 +220,6 @@ class eZSimpleTagsOperator
 
     /// \privatesection
     public $Operators;
-};
+}
 
 ?>

@@ -137,6 +137,6 @@ class eZAlphabetOperator
     /// \privatesection
     public $Operators;
     public $Alphabet;
-};
+}
 
 ?>

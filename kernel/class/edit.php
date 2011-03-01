@@ -48,7 +48,7 @@ switch ( $Params['FunctionName'] )
         eZDebug::writeError( 'Undefined function: ' . $params['Function'] );
         $Module->setExitStatus( eZModule::STATUS_FAILED );
         return;
-    };
+    }
 }
 
 $http = eZHTTPTool::instance();

@@ -911,6 +911,6 @@ class eZTemplateLogicOperator
     public $FalseName;
     /// The "choose" name
     public $ChooseName;
-};
+}
 
 ?>

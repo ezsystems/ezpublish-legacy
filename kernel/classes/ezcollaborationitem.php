@@ -421,7 +421,7 @@ class eZCollaborationItem extends eZPersistentObject
                             {
                                 eZDebug::writeWarning( 'Unknown sort field: ' . $sortField, 'eZCollaborationItem::fetchList' );
                                 continue;
-                            };
+                            }
                         }
                         $sortOrder = true; // true is ascending
                         if ( isset( $sortBy[1] ) )

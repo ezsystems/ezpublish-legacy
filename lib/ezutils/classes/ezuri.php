@@ -568,6 +568,6 @@ class eZURI
     public $Index;
     /// User defined template variables
     public $UserArray;
-};
+}
 
 ?>

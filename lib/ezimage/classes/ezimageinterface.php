@@ -323,7 +323,7 @@ class eZImageInterface
                 else if ( @$this->loadGIF( $this->StoredPath, $this->StoredFile ) )
                     return true;
                 eZDebug::writeError( 'Image format not supported: ' . $this->StoredType, 'eZImageInterface::load' );
-            };
+            }
         }
         return false;
     }
@@ -465,7 +465,7 @@ class eZImageInterface
             default:
             {
                 eZDebug::writeError( 'Image format not supported: ' . $type, 'eZImageInterface::store' );
-            };
+            }
         }
         return false;
     }

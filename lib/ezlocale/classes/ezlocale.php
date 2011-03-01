@@ -1719,6 +1719,6 @@ class eZLocale
     public $IntlLanguageName;
     public $CountryNames;
     //@}
-};
+}
 
 ?>

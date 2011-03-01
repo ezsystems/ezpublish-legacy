@@ -159,6 +159,6 @@ class eZPackageOperator
     }
     /// \privatesection
     public $Operators;
-};
+}
 
 ?>

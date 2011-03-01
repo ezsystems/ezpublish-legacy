@@ -97,6 +97,6 @@ class eZAutoLinkOperator
 
     /// \privatesection
     public $Operators;
-};
+}
 
 ?>

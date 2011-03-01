@@ -199,7 +199,7 @@ class eZHTTPFile
                 eZDebug::writeError( "Attribute '$attr' does not exist", 'eZHTTPFile::attribute' );
                 return null;
             } break;
-        };
+        }
     }
 
     /**
