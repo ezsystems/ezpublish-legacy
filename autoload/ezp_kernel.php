@@ -502,6 +502,7 @@ return array(
       'eZURLFunctionCollection'                            => 'kernel/url/ezurlfunctioncollection.php',
       'eZURLObjectLink'                                    => 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php',
       'eZURLOperator'                                      => 'kernel/common/ezurloperator.php',
+      'eZURLOperatorFullPath'                              => 'kernel/common/ezurloperatorfullpath.php',
       'eZURLType'                                          => 'kernel/classes/datatypes/ezurl/ezurltype.php',
       'eZURLWildcard'                                      => 'kernel/classes/ezurlwildcard.php',
       'eZUTF8Codec'                                        => 'lib/ezi18n/classes/ezutf8codec.php',
