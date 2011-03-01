@@ -113,3 +113,13 @@ Deprecated
 - eZOverride
 
   Not used anywhere.
+
+- eZSession::addCallback() & eZSession::triggerCallback()
+
+  These callbacks have been deprecated in favour of new ezpEvent system.
+  New improved events for session has been added, see features/4.5/event.txt
+
+- site.ini\[OutputSettings]\OutputFilterName
+
+  This feature has been deprecated in favour of new ezpEvent system.
+  see features/4.5/event.txt
