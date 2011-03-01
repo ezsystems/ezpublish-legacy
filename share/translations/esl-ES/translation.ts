@@ -19314,7 +19314,7 @@ Puedes ver el elemento usando la URL de abajo.</translation>
 The chosen siteaccess determines where design files and settings are written to.
 If unsure choose the siteaccess which reflects the user part of your site, i.e. not admin.</source>
         <translation>Ahora tiene que elegir en cual acceso de sitio (siteaccess) hay que instalar el contenido del paquete.
-El acceso de sitio eligido determina donde los archivos de diseño y de configuración estan gravados.
+El acceso de sitio eligido determina donde los archivos de diseño y de configuración están grabados.
 Si no estas seguro, elige el acceso de sitio que representa la parte pública de su sitio, es decir no la de administración.</translation>
     </message>
     <message>
