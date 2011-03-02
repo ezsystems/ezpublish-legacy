@@ -108,6 +108,7 @@ class eZTSTranslator extends eZTranslatorHandler
      *
      * Also checks for translation files expiry based on mtime if RegionalSettings.TranslationCheckMTime is enabled
      *
+     * @access private
      * @param string $locale
      * @param string $filename
      * @param string $requestedContext
@@ -523,7 +524,7 @@ class eZTSTranslator extends eZTranslatorHandler
         }
         if ( $source === null )
         {
-            eZDebug::writeError( "No source name found, skipping message",
+            eZDebug::writeError( "No source name found, skipping message in context '{$contextName}'",
                                  __METHOD__ );
             return false;
         }
