@@ -1028,11 +1028,11 @@
     </message>
     <message>
         <source>Application name</source>
-        <translation type="unfinished"></translation>
+        <translation>アプリケーション名</translation>
     </message>
     <message>
         <source>Confirm removal</source>
-        <translation type="unfinished">削除の確認</translation>
+        <translation>削除の確認</translation>
     </message>
 </context>
 <context>
@@ -1478,7 +1478,7 @@
     </message>
     <message>
         <source>Choose objects that you want to relate to &lt;%version_name&gt;</source>
-        <translation type="unfinished">&lt;%version_name&gt;と関連づけたいオブジェクトを選択して下さい</translation>
+        <translation>&lt;%version_name&gt;と関連づけたいオブジェクトを選択して下さい</translation>
     </message>
     <message>
         <source>Use the checkboxes to choose the objects that you want to relate to &lt;%version_name&gt;.</source>
@@ -1493,7 +1493,7 @@
     </message>
     <message>
         <source>Choose the node to exchange for &lt;%object_name&gt;</source>
-        <translation type="unfinished">&lt;%object_name&gt;と入れ替えるノードを選択して下さい</translation>
+        <translation>&lt;%object_name&gt;と入れ替えるノードを選択して下さい</translation>
     </message>
     <message>
         <source>Use the radio buttons to choose the node that you want to swap with &lt;%object_name&gt;.</source>
@@ -2257,7 +2257,7 @@
     </message>
     <message>
         <source>View the draft that is being edited.</source>
-        <translation type="unfinished"></translation>
+        <translation>編集されているドラフトを確認する。</translation>
     </message>
 </context>
 <context>
@@ -4500,11 +4500,11 @@
     </message>
     <message>
         <source>Dynamic tree menu is disabled for this siteaccess!</source>
-        <translation type="unfinished"></translation>
+        <translation>このサイトアクセスではダイナミックツリーを利用出来ません!</translation>
     </message>
     <message>
         <source>Internal errorD</source>
-        <translation type="unfinished"></translation>
+        <translation>内部エラー</translation>
     </message>
 </context>
 <context>
@@ -7307,7 +7307,7 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>URL management</source>
-        <translation type="unfinished"></translation>
+        <translation>URL管理</translation>
     </message>
 </context>
 <context>
@@ -12640,15 +12640,15 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Valid URLs [%url_list_count]</source>
-        <translation type="unfinished"></translation>
+        <translation>有効URL [%url_list_count]</translation>
     </message>
     <message>
         <source>Invalid URLs [%url_list_count]</source>
-        <translation type="unfinished"></translation>
+        <translation>無効URL [%url_list_count]</translation>
     </message>
     <message>
         <source>All URLs [%url_list_count]</source>
-        <translation type="unfinished"></translation>
+        <translation>すべてのURL [%url_list_count]</translation>
     </message>
 </context>
 <context>
@@ -13452,11 +13452,11 @@ your account.</source>
     </message>
     <message>
         <source>Error : Could not load workflow event &quot;%eventtype&quot; (event type not available)</source>
-        <translation type="unfinished"></translation>
+        <translation>エラー: &quot;%eventtype&quot;ワークフローイベントを読み込むことができません</translation>
     </message>
     <message>
         <source>Hint : This can happen when a workflow extension has been disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>ヒント: ワークフローエクステンションが無効にされた時に発生する可能性があります</translation>
     </message>
 </context>
 <context>
@@ -14478,7 +14478,7 @@ your account.</source>
     <name>design/ezwebin/node/removeobject</name>
     <message>
         <source>The items contain more than the maximum possible nodes for subtree removal and will not be deleted. You can remove this subtree using the ezsubtreeremove.php script.</source>
-        <translation type="unfinished"></translation>
+        <translation>アイテムはサブツリー削除する様に最大ノード数を越えているため、削除されません。ezsubtreeremove.phpスクリプトを使うことで、削除できます。</translation>
     </message>
 </context>
 <context>
@@ -15832,15 +15832,15 @@ If you want to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Your content is being published</source>
-        <translation type="unfinished"></translation>
+        <translation>コンテントは公開される途中</translation>
     </message>
     <message>
         <source>Publishing finished</source>
-        <translation type="unfinished"></translation>
+        <translation>公開完了</translation>
     </message>
     <message>
         <source>Your content is pending an external action</source>
-        <translation type="unfinished"></translation>
+        <translation>コンテンツは外部アクションで保留になっています</translation>
     </message>
 </context>
 <context>
@@ -16694,7 +16694,7 @@ If you want to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Confirm email</source>
-        <translation type="unfinished"></translation>
+        <translation>メールの確認</translation>
     </message>
 </context>
 <context>
@@ -18623,23 +18623,23 @@ If you do all the children will be removed as well.</source>
     </message>
     <message>
         <source>Please wait while your content is being published</source>
-        <translation type="unfinished"></translation>
+        <translation>コンテントが公開されるまでにお待ちください</translation>
     </message>
     <message>
         <source>Your content has been published successfully</source>
-        <translation type="unfinished"></translation>
+        <translation>コンテントは公開されました</translation>
     </message>
     <message>
         <source>View the published item</source>
-        <translation type="unfinished"></translation>
+        <translation>公開されたアイテムをの確認</translation>
     </message>
     <message>
         <source>Publishing has been deferred to crontab and will be published when the operation resumes. The object is also listed in your dashboard under pending items.</source>
-        <translation type="unfinished"></translation>
+        <translation>公開はクロンタブに繰延され、操作が再開されましたら公開されます。ダッシュボードのペンデイングアイテムにオブジェクトがリストアップされています。</translation>
     </message>
     <message>
         <source>View your pending content</source>
-        <translation type="unfinished"></translation>
+        <translation>ペンディングコンテンツの確認</translation>
     </message>
 </context>
 <context>
@@ -24623,15 +24623,15 @@ Webサーバのユーザとグループを知っている場合は、ファイ�
     </message>
     <message>
         <source>All URLs</source>
-        <translation type="unfinished"></translation>
+        <translation>すべてのURL</translation>
     </message>
     <message>
         <source>Invalid URLs</source>
-        <translation type="unfinished"></translation>
+        <translation>無効URL</translation>
     </message>
     <message>
         <source>Valid URLs</source>
-        <translation type="unfinished"></translation>
+        <translation>有効URL</translation>
     </message>
 </context>
 <context>
@@ -24859,7 +24859,7 @@ your account.</source>
     </message>
     <message>
         <source>Your email address has been confirmed. An administrator needs to approve your sign up request, before your login becomes valid.</source>
-        <translation type="unfinished"></translation>
+        <translation>メールアドレスは確認されました。ログインが有効になるために管理者の承認が必要となります。</translation>
     </message>
 </context>
 <context>
@@ -24974,11 +24974,11 @@ your account.</source>
     </message>
     <message>
         <source>Your registration has been approved. You can login with your account %username.</source>
-        <translation type="unfinished"></translation>
+        <translation>登録は承認されました。%usernameアカウントを使って、ログインできます。</translation>
     </message>
     <message>
         <source>Click the following URL to login:</source>
-        <translation type="unfinished"></translation>
+        <translation>ログインする様に下記のリンクを使ってください:</translation>
     </message>
 </context>
 <context>
@@ -25700,176 +25700,176 @@ your account.</source>
     <name>design/starndard/node</name>
     <message>
         <source>Are you sure you want to remove these items?</source>
-        <translation type="unfinished">これらのアイテムを削除してもよろしいですか?</translation>
+        <translation>これらのアイテムを削除してもよろしいですか?</translation>
     </message>
 </context>
 <context>
     <name>extension/oauth</name>
     <message>
         <source>Application authorization</source>
-        <translation type="unfinished"></translation>
+        <translation>アプリケーションの承認</translation>
     </message>
     <message>
         <source>The application %application_name% has requested access to this website on your behalf.</source>
-        <translation type="unfinished"></translation>
+        <translation>%application_name%アプリケーションはあなたに代わって、このウェブサイトにアクセスする様にリクエストしました。</translation>
     </message>
 </context>
 <context>
     <name>extension/oauth/authorize</name>
     <message>
         <source>Authorize</source>
-        <translation type="unfinished"></translation>
+        <translation>許可</translation>
     </message>
     <message>
         <source>Deny</source>
-        <translation type="unfinished"></translation>
+        <translation>拒否</translation>
     </message>
 </context>
 <context>
     <name>extension/oauthadmin</name>
     <message>
         <source>New REST application</source>
-        <translation type="unfinished"></translation>
+        <translation>新規RESTアプロケーション</translation>
     </message>
     <message>
         <source>oAuth admin</source>
-        <translation type="unfinished"></translation>
+        <translation>oAuth管理</translation>
     </message>
     <message>
         <source>Confirm removal</source>
-        <translation type="unfinished">削除の確認</translation>
+        <translation>削除の確認</translation>
     </message>
     <message>
         <source>Application &lt;%application_name&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>アプリケーション&lt;%application_name&gt;</translation>
     </message>
     <message>
         <source>Last modified</source>
-        <translation type="unfinished"></translation>
+        <translation>最終更新日時</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>名前</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished"></translation>
+        <translation>概要</translation>
     </message>
     <message>
         <source>Client identifier</source>
-        <translation type="unfinished"></translation>
+        <translation>クライアント識別子</translation>
     </message>
     <message>
         <source>Client secret</source>
-        <translation type="unfinished"></translation>
+        <translation>クライアント秘密</translation>
     </message>
     <message>
         <source>Endpoint URI</source>
-        <translation type="unfinished"></translation>
+        <translation>エンドポイントURI</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>編集</translation>
     </message>
     <message>
         <source>Edit this application.</source>
-        <translation type="unfinished"></translation>
+        <translation>このアプリケーションを編集。</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">削除</translation>
+        <translation>削除</translation>
     </message>
     <message>
         <source>Delete this application.</source>
-        <translation type="unfinished"></translation>
+        <translation>このアプリケーションを削除する。</translation>
     </message>
     <message>
         <source>Are you sure you want to remove this application?</source>
-        <translation type="unfinished"></translation>
+        <translation>下記のアプリケーションを削除してもよろしいですか？</translation>
     </message>
     <message>
         <source>Are you sure you want to remove these applications?</source>
-        <translation type="unfinished"></translation>
+        <translation>下記のアプリケーションを削除してもよろしいですか？</translation>
     </message>
     <message>
         <source>Confirm</source>
-        <translation type="unfinished">確認</translation>
+        <translation>確認</translation>
     </message>
     <message>
         <source>Confirm removal of these applications.</source>
-        <translation type="unfinished"></translation>
+        <translation>下記のアプリケーションの削除を確認してください。</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">キャンセル</translation>
+        <translation>キャンセル</translation>
     </message>
     <message>
         <source>Edit application &lt;%application_name&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;%application_name&gt;アプリケーションを編集する</translation>
     </message>
     <message>
         <source>Use this field to set the application name.</source>
-        <translation type="unfinished"></translation>
+        <translation>このフィールドでアプリケーション名を設定してください。</translation>
     </message>
     <message>
         <source>Use this field to set the informal application description.</source>
-        <translation type="unfinished"></translation>
+        <translation>このフィールドでアプリケーション概要を設定してください。</translation>
     </message>
     <message>
         <source>Use this field to set the application endpoint URI.</source>
-        <translation type="unfinished"></translation>
+        <translation>このフィールドでアプリケーションのエンドポイントURIを設定してください。</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>REST applications (%applications_count)</source>
-        <translation type="unfinished"></translation>
+        <translation>RESTアプリケーション(%applications_count)</translation>
     </message>
     <message>
         <source>List of applications</source>
-        <translation type="unfinished"></translation>
+        <translation>アプリケーション一覧</translation>
     </message>
     <message>
         <source>Invert selection.</source>
-        <translation type="unfinished"></translation>
+        <translation>選択の反転。</translation>
     </message>
     <message>
         <source>Modifier</source>
-        <translation type="unfinished">修正者</translation>
+        <translation>修正者</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation type="unfinished"></translation>
+        <translation>修正日時</translation>
     </message>
     <message>
         <source>Select application for removal.</source>
-        <translation type="unfinished"></translation>
+        <translation>削除するアプリケーションを選択してください。</translation>
     </message>
     <message>
         <source>Edit the &lt;%application_name&gt; application.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;%application_name&gt;アプロケーションの編集。</translation>
     </message>
     <message>
         <source>Remove selected</source>
-        <translation type="unfinished">選択した項目の削除</translation>
+        <translation>選択した項目の削除</translation>
     </message>
     <message>
         <source>Remove the selected applications.</source>
-        <translation type="unfinished"></translation>
+        <translation>選択したアプリケーションを削除する。</translation>
     </message>
     <message>
         <source>New application</source>
-        <translation type="unfinished"></translation>
+        <translation>新規アプリケーション</translation>
     </message>
     <message>
         <source>Create a new application.</source>
-        <translation type="unfinished"></translation>
+        <translation>新規アプリケーションの作成。</translation>
     </message>
     <message>
         <source>Back</source>
-        <translation type="unfinished">戻る</translation>
+        <translation>戻る</translation>
     </message>
 </context>
 <context>
@@ -26389,7 +26389,7 @@ your account.</source>
     </message>
     <message>
         <source>The size of the uploaded file exceeds the limit set for this site: %1 bytes.</source>
-        <translation type="unfinished">アップロードしたファイルはこのサイトの制限である %1 バイトを超えています。</translation>
+        <translation>アップロードしたファイルはこのサイトの制限である %1 バイトを超えています。</translation>
     </message>
     <message>
         <source>Could not locate the ini file.</source>
@@ -26421,7 +26421,7 @@ your account.</source>
     </message>
     <message>
         <source>The size of the uploaded file exceeds the limit set by upload_max_filesize directive in php.ini. Please contact the site administrator.</source>
-        <translation type="unfinished">アップロードした画像のサイズは、php.ini の upload_max_filesize ディレクティブで設定された制限を超えています。サイト管理者に連絡してください。</translation>
+        <translation>アップロードした画像のサイズは、php.ini の upload_max_filesize ディレクティブで設定された制限を超えています。サイト管理者に連絡してください。</translation>
     </message>
     <message>
         <source>The size of the uploaded file exceeds site maximum: %1 bytes.</source>
@@ -26688,7 +26688,7 @@ your account.</source>
     <message>
         <source>The emails do not match.</source>
         <comment>eZUserType</comment>
-        <translation type="unfinished"></translation>
+        <translation>メールは一致しません。</translation>
     </message>
 </context>
 <context>
@@ -26998,7 +26998,7 @@ your account.</source>
     </message>
     <message>
         <source>Publishing queue</source>
-        <translation type="unfinished"></translation>
+        <translation>公開キュー</translation>
     </message>
 </context>
 <context>
@@ -27168,11 +27168,11 @@ your account.</source>
     </message>
     <message>
         <source>The uploaded file size is above the maximum limit.</source>
-        <translation type="unfinished"></translation>
+        <translation>アップロードされたファイルのサイズは最大限を越えています。</translation>
     </message>
     <message>
         <source>A system error occured while writing the uploaded file.</source>
-        <translation type="unfinished"></translation>
+        <translation>アップロードファイル書き込みの際にシステムエラーが発生しました。</translation>
     </message>
 </context>
 <context>
@@ -27312,19 +27312,19 @@ your account.</source>
     <name>kernel/oauthadmin</name>
     <message>
         <source>oAuth admin</source>
-        <translation type="unfinished"></translation>
+        <translation>oAuth管理</translation>
     </message>
     <message>
         <source>Edit REST application</source>
-        <translation type="unfinished"></translation>
+        <translation>RESTアプリケーションの編集</translation>
     </message>
     <message>
         <source>Registered REST applications</source>
-        <translation type="unfinished"></translation>
+        <translation>登録されたRESTアプリケーション</translation>
     </message>
     <message>
         <source>REST application: %application_name%</source>
-        <translation type="unfinished"></translation>
+        <translation>RESTアプリケーション: %application_name%</translation>
     </message>
 </context>
 <context>
@@ -27821,11 +27821,11 @@ your account.</source>
     <name>kernel/shop</name>
     <message>
         <source>Order status</source>
-        <translation type="unfinished">注文ステータス</translation>
+        <translation>注文ステータス</translation>
     </message>
     <message>
         <source>Undefined</source>
-        <translation type="unfinished">未定義</translation>
+        <translation>未定義</translation>
     </message>
     <message>
         <source>Any</source>
@@ -28274,11 +28274,11 @@ your account.</source>
     </message>
     <message>
         <source>oAuth</source>
-        <translation type="unfinished"></translation>
+        <translation>oAuth</translation>
     </message>
     <message>
         <source>authorization</source>
-        <translation type="unfinished"></translation>
+        <translation>認可</translation>
     </message>
 </context>
 <context>
@@ -28293,7 +28293,7 @@ your account.</source>
     </message>
     <message>
         <source>User registration approved</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザの登録は承認されました</translation>
     </message>
 </context>
 <context>
@@ -28386,7 +28386,7 @@ your account.</source>
     </message>
     <message>
         <source>Finish User Registration</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザ登録の完了</translation>
     </message>
 </context>
 <context>
