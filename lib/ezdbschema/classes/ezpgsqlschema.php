@@ -344,6 +344,7 @@ class eZPgsqlSchema extends eZDBSchemaInterface
             case 'integer':
             case 'double precision':
             case 'real':
+            case 'bigint':
             {
                 return false;
             } break;
@@ -369,6 +370,10 @@ class eZPgsqlSchema extends eZDBSchemaInterface
             case 'int':
             {
                 return 'integer';
+            } break;
+            case 'bigint':
+            {
+                return 'bigint';
             } break;
             case 'varchar':
             {
@@ -419,7 +424,8 @@ class eZPgsqlSchema extends eZDBSchemaInterface
         {
             case 'bigint':
             {
-                return 'int';
+                $length = 20;
+                return 'bigint';
             } break;
             case 'integer':
             {
