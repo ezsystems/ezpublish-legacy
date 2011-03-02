@@ -9736,10 +9736,6 @@ Note: The packages will not be uninstalled.</source>
         <source>Categories</source>
         <translation>Kategorier</translation>
     </message>
-    <message>
-        <source></source>
-        <translation></translation>
-    </message>
 </context>
 <context>
     <name>design/admin/setup/datatypecode</name>
