@@ -5,7 +5,7 @@
     <name>contentstructuremenu/show_content_structure</name>
     <message>
         <source>Node ID: %node_id Visibility: %visibility</source>
-        <translation>ID du Nœud : %node_id  Visibilité : %visibility</translation>
+        <translation>ID du Nœud : %node_id Visibilité : %visibility</translation>
     </message>
 </context>
 <context>
@@ -87,7 +87,7 @@
     </message>
     <message>
         <source>Edit this class group.</source>
-        <translation>Modifier ce groupe de  classes.</translation>
+        <translation>Modifier ce groupe de classes.</translation>
     </message>
     <message>
         <source>Remove this class group.</source>
@@ -1344,7 +1344,7 @@
     </message>
     <message>
         <source>To select objects, choose the appropriate radio button or checkbox(es), then click the "Select" button.</source>
-        <translation>Pour sélectionner des objets, choisissez le bouton radio ou les cases à cocher appropriés, puis cliquez sur le bouton "Selectionner"</translation>
+        <translation>Pour sélectionner des objets, choisissez le bouton radio ou les cases à cocher appropriés, puis cliquez sur le bouton "Sélectionner"</translation>
     </message>
     <message>
         <source>To select an object that is a child of one of the displayed objects, click the object name for a list of the children of the object.</source>
@@ -1363,7 +1363,7 @@
     </message>
     <message>
         <source>Select the items that you want to bookmark using the checkboxes then click "Select".</source>
-        <translation>Sélectionnez les éléments que vous voulez ajouter dans vos signets en utilisant les cases à cocher puis cliquez sur "Selectionner".</translation>
+        <translation>Sélectionnez les éléments que vous voulez ajouter dans vos signets en utilisant les cases à cocher puis cliquez sur "Sélectionner".</translation>
     </message>
 </context>
 <context>
@@ -1382,11 +1382,11 @@
     </message>
     <message>
         <source>Choose a new location for the copy of &lt;%object_name&gt; using the radio buttons then click "Select".</source>
-        <translation>Choisissez un nouvel emplacement pour la copie de &lt;%object_name&gt; en utilisant les boutons radio puis cliquez sur "Selectionner".</translation>
+        <translation>Choisissez un nouvel emplacement pour la copie de &lt;%object_name&gt; en utilisant les boutons radio puis cliquez sur "Sélectionner".</translation>
     </message>
     <message>
         <source>Choose a new location for the copy of subtree of node &lt;%node_name&gt; using the radio buttons then click "Select".</source>
-        <translation>Choisissez un nouvel emplacement pour la copie de la sous-arborescence du nœud  &lt;%node_name&gt; en utilisant les boutons radio puis cliquez sur "Selectionner".</translation>
+        <translation>Choisissez un nouvel emplacement pour la copie de la sous-arborescence du nœud &lt;%node_name&gt; en utilisant les boutons radio puis cliquez sur "Sélectionner".</translation>
     </message>
 </context>
 <context>
@@ -1401,7 +1401,7 @@
     </message>
     <message>
         <source>Select the item that you want to export using the checkboxes then click "Select".</source>
-        <translation>Sélectionnez l'élément que vous voulez exporter en utilisant les cases à cocher puis cliquez sur "Selectionner".</translation>
+        <translation>Sélectionnez l'élément que vous voulez exporter en utilisant les cases à cocher puis cliquez sur "Sélectionner".</translation>
     </message>
 </context>
 <context>
@@ -1416,7 +1416,7 @@
     </message>
     <message>
         <source>Choose a location for the new &lt;%classname&gt; using the radio buttons then click "Select".</source>
-        <translation>Choisissez un emplacement pour le nouvel objet &lt;%classname&gt; en utilisant les boutons radio puis cliquez sur "Selectionner".</translation>
+        <translation>Choisissez un emplacement pour le nouvel objet &lt;%classname&gt; en utilisant les boutons radio puis cliquez sur "Sélectionner".</translation>
     </message>
 </context>
 <context>
@@ -1431,7 +1431,7 @@
     </message>
     <message>
         <source>Choose a new location for &lt;%object_name&gt; using the radio buttons then click "Select".</source>
-        <translation>Choisissez un nouvel emplacement pour &lt;%object_name&gt; en utilisant les boutons radio puis cliquez sur "Selectionner".</translation>
+        <translation>Choisissez un nouvel emplacement pour &lt;%object_name&gt; en utilisant les boutons radio puis cliquez sur "Sélectionner".</translation>
     </message>
 </context>
 <context>
@@ -1450,7 +1450,7 @@
     </message>
     <message>
         <source>Choose a new location for &lt;%version_name&gt; using the radio buttons then click "Select".</source>
-        <translation>Choisissez un nouvel emplacement pour &lt;%version_name&gt; en utilisant les boutons radio puis cliquez sur "Selectionner".</translation>
+        <translation>Choisissez un nouvel emplacement pour &lt;%version_name&gt; en utilisant les boutons radio puis cliquez sur "Sélectionner".</translation>
     </message>
 </context>
 <context>
@@ -1465,7 +1465,7 @@
     </message>
     <message>
         <source>Choose locations for &lt;%version_name&gt; using the checkboxes then click "Select".</source>
-        <translation>Choisissez les emplacements pour &lt;%version_name&gt; en utilisant les cases à cocher puis cliquez sur "Selectionner".</translation>
+        <translation>Choisissez les emplacements pour &lt;%version_name&gt; en utilisant les cases à cocher puis cliquez sur "Sélectionner".</translation>
     </message>
 </context>
 <context>
@@ -3638,7 +3638,7 @@
     </message>
     <message>
         <source>The URL alias was successfully created, but was modified by the system to &lt;%new_alias&gt;</source>
-        <translation>L'alias d'URL a bien été créé, mais a été modifié en &lt;%new_alias&gt;  par le système </translation>
+        <translation>L'alias d'URL a bien été créé, mais a été modifié en &lt;%new_alias&gt; par le système </translation>
     </message>
     <message>
         <source>Invalid characters will be removed or transformed to valid characters.</source>
@@ -4012,7 +4012,7 @@
     </message>
     <message>
         <source>Enter text in the input box to create a new alias.</source>
-        <translation>Saisissez le texte dans le champ pour créer un nouveal alias.</translation>
+        <translation>Saisissez le texte dans le champ pour créer un nouvel alias.</translation>
     </message>
     <message>
         <source>Text is missing for the URL alias destination</source>
@@ -4322,7 +4322,7 @@
     </message>
     <message>
         <source>View and manage (copy, delete, etc.) the versions of this object.</source>
-        <translation>Afficher et gérer (copier, supprimer, etc) les versions de cet objet.</translation>
+        <translation>Afficher et gérer (copier, supprimer, etc.) les versions de cet objet.</translation>
     </message>
     <message>
         <source>Version information</source>
@@ -4739,7 +4739,7 @@
     </message>
     <message>
         <source>The requested view &lt;%view&gt; could not be found in the &lt;%module&gt; module.</source>
-        <translation>La vue &lt;%view&gt; demandée  n'a pu être trouvée dans le module &lt;%module&gt;.</translation>
+        <translation>La vue &lt;%view&gt; demandée n'a pu être trouvée dans le module &lt;%module&gt;.</translation>
     </message>
     <message>
         <source>The name of the view was misspelled. Try changing the URL.</source>
@@ -6165,7 +6165,7 @@
     <name>design/admin/node/view/line</name>
     <message>
         <source>Node ID: %node_id Visibility: %node_visibility</source>
-        <translation>ID du Nœud : %node_id  Visibilité : %node_visibility</translation>
+        <translation>ID du Nœud : %node_id Visibilité : %node_visibility</translation>
     </message>
     <message>
         <source>Click on the icon to display a context-sensitive menu.</source>
@@ -8720,7 +8720,7 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     </message>
     <message>
         <source>Use this drop-down to select the maximum number of objects included in the RSS feed.</source>
-        <translation>Utilisez cette liste déroulante pour sélectionner le nombre maximale d'objets à inclure dans le flux RSS.</translation>
+        <translation>Utilisez cette liste déroulante pour sélectionner le nombre maximal d'objets à inclure dans le flux RSS.</translation>
     </message>
     <message>
         <source>Click this button to select the source node for the RSS export source. Objects of the type selected in the drop-down below published as sub items of the selected node will be included in the RSS export.</source>
@@ -8728,7 +8728,7 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     </message>
     <message>
         <source>Activate this checkbox if objects from the subnodes of the source should also be fed.</source>
-        <translation>Cochez cet case si les sous-éléments du nœud source doivent aussi être inclus.</translation>
+        <translation>Cochez cette case si les sous-éléments du nœud source doivent aussi être inclus.</translation>
     </message>
     <message>
         <source>Use this drop-down to select the type of object that triggers the export. Click the "Set" button to load the correct attribute types for the remaining fields.</source>
@@ -9048,7 +9048,7 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     </message>
     <message>
         <source>There are no objects in the system that you could assign the section &lt; %1 &gt; to.</source>
-        <translation>Vous ne pouvez assigner aucun objet à la section &lt;  %1 &gt;</translation>
+        <translation>Vous ne pouvez assigner aucun objet à la section &lt; %1 &gt;</translation>
     </message>
     <message>
         <source>You do not have permission to assign the section &lt; %1 &gt; to any object.</source>
@@ -9716,7 +9716,7 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     </message>
     <message>
         <source>This operation will clear all caches that are related to either template views or cache blocks inside the pagelayout template. Use it if you have modified templates or if you have made changes inside a cache block.</source>
-        <translation>Cette opération videra les caches relatifs aux template de vue et aux cache blocks dans le pagelayout. Utilisez cette option si vous avez modifié des templates ou si vous avez fait des changements dans un cache-block</translation>
+        <translation>Cette opération videra les caches relatifs aux templates de vue et aux cache blocks dans le pagelayout. Utilisez cette option si vous avez modifié des templates ou si vous avez fait des changements dans un cache-block</translation>
     </message>
     <message>
         <source>Clear Ini caches</source>
@@ -10411,7 +10411,7 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     </message>
     <message>
         <source>The operation was cut short in order to avoid execution timeout.</source>
-        <translation>L'opération a été écourtée pour éviter le dépassement du temps maximal d'éxécution.</translation>
+        <translation>L'opération a été écourtée pour éviter le dépassement du temps maximal d'exécution.</translation>
     </message>
 </context>
 <context>
@@ -12744,7 +12744,7 @@ Note : les paquetages ne seront pas désinstallés.</translation>
     </message>
     <message>
         <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
-        <translation>Désolé, la clé transmise est invalide.  Le compte n'a pas été activé.</translation>
+        <translation>Désolé, la clé transmise est invalide. Le compte n'a pas été activé.</translation>
     </message>
     <message>
         <source>Your account was successfully created.</source>
@@ -12758,7 +12758,7 @@ Note : les paquetages ne seront pas désinstallés.</translation>
         <source>Your account was successfully created. An email will be sent to the specified
 email address. Follow the instructions in that mail to activate
 your account.</source>
-        <translation>Votre compte a bien été créé. Un courriel sera envoyé à l'adresse courriel indiquée. Suivez les instructions indiquées dans cet couriel pour activer votre compte.</translation>
+        <translation>Votre compte a bien été créé. Un courriel sera envoyé à l'adresse courriel indiquée. Suivez les instructions indiquées dans ce courriel pour activer votre compte.</translation>
     </message>
 </context>
 <context>
@@ -12968,7 +12968,7 @@ your account.</source>
     </message>
     <message>
         <source>This functionality is not currently not available. [Use this field to specify the maximum allowed number of concurrent logins.]</source>
-        <translation>Cette fonctionnalité n'est actuellement pas disponible. [utilisez ce champ pour spécifier le nombre maximum d'identifications concurrentes autorisées]</translation>
+        <translation>Cette fonctionnalité n'est actuellement pas disponible. [Utilisez ce champ pour spécifier le nombre maximum d'identifications concurrentes autorisées]</translation>
     </message>
     <message>
         <source>User settings for &lt;%user_name&gt;</source>
@@ -13251,7 +13251,7 @@ your account.</source>
     </message>
     <message>
         <source>Update priorities</source>
-        <translation>Mettre  jour les priorités</translation>
+        <translation>Mettre à jour les priorités</translation>
     </message>
     <message>
         <source>The overrides could not be removed.</source>
@@ -13389,7 +13389,7 @@ your account.</source>
     </message>
     <message>
         <source>Description / comments</source>
-        <translation>Description  / commentaires</translation>
+        <translation>Description / commentaires</translation>
     </message>
     <message>
         <source>There are no events within this workflow.</source>
@@ -15671,7 +15671,7 @@ your account.</source>
 The publishing process has been halted and it is up to you to decide if it should continue or stop.
 The approval can be viewed by using the URL below.</source>
         <translation>Ce message vous est envoyé afin de vous informer que "%objectname" attend votre approbation sur %sitename avant sa publication.
-Le processus de publicationa a été interrompu et vous pouvez décider de le relancer ou non.
+Le processus de publication a été interrompu et vous pouvez décider de le relancer ou non.
 La page d'approbation peut être vue à l'adresse URL suivante.</translation>
     </message>
     <message>
@@ -17434,7 +17434,7 @@ Si vous voulez laisser un commentaire au responsable de l'approbation ou en voir
     </message>
     <message>
         <source>10 items</source>
-        <translation>10 items</translation>
+        <translation>10 éléments</translation>
     </message>
     <message>
         <source>20 items</source>
@@ -17442,11 +17442,11 @@ Si vous voulez laisser un commentaire au responsable de l'approbation ou en voir
     </message>
     <message>
         <source>30 items</source>
-        <translation>30 items</translation>
+        <translation>30 éléments</translation>
     </message>
     <message>
         <source>50 items</source>
-        <translation>50 items</translation>
+        <translation>50 éléments</translation>
     </message>
     <message>
         <source>Search tips</source>
@@ -17904,7 +17904,7 @@ Si vous voulez laisser un commentaire au responsable de l'approbation ou en voir
       If you want to add more objects to this list click the %emphasize_startAdd bookmarks%emphasize_stop button.
 
       Removing objects will only remove them from this list.</source>
-        <translation>Voici les objets que vous avez ajouté en signets. Cliquer sur l'object pour le voir ou si vous avez les droits, vous pouvez directement le modifier en cliquant sur le bouton d'édition.
+        <translation>Voici les objets que vous avez ajouté en signets. Cliquer sur l'objet pour le voir ou si vous avez les droits, vous pouvez directement le modifier en cliquant sur le bouton de modification.
       Si vous voulez ajouter plus d'objet à cette liste, alors cliquer sur le bouton %emphasize_startAjouter un signet%emphasize_stop.</translation>
     </message>
     <message>
@@ -18374,7 +18374,7 @@ Si vous voulez laisser un commentaire au responsable de l'approbation ou en voir
     </message>
     <message>
         <source>The object is no longer available at this URL.</source>
-        <translation>L'objet n'est plus disponible par cet URL.</translation>
+        <translation>L'objet n'est plus disponible par cette URL.</translation>
     </message>
     <message>
         <source>You should automatically be redirected to the new location. If not click %url.</source>
@@ -18886,7 +18886,7 @@ Les enfants seront également supprimés.</translation>
     </message>
     <message>
         <source>Time event was spawned</source>
-        <translation>Événements temporels lancés</translation>
+        <translation>Évènements temporels lancés</translation>
     </message>
     <message>
         <source>Run notification filter</source>
@@ -18898,7 +18898,7 @@ Les enfants seront également supprimés.</translation>
     </message>
     <message>
         <source>Spawn time event</source>
-        <translation>Lancer les événements temporels</translation>
+        <translation>Lancer les évènements temporels</translation>
     </message>
     <message>
         <source>Spawn</source>
@@ -19671,13 +19671,13 @@ You can also remove the package without uninstalling it from the package list.</
     </message>
     <message>
         <source>All reference documentation has been made with %doxygenurl</source>
-        <translation>Toute la documentation de référence a été créée avec %dixygenurl</translation>
+        <translation>Toute la documentation de référence a été créée avec %doxygenurl</translation>
     </message>
     <message>
         <source>The Reference Documentation for eZ Publish consists of multiple sections which
 each have a different view on the documentation. The sections can be accessed at
 menu on the top.</source>
-        <translation>La documentation de référence d'eZ Publish est consitué de différentes sections avec chacune d'entre elles vous aurez une vue différente de la documentation.</translation>
+        <translation>La documentation de référence d'eZ Publish est constitué de différentes sections avec chacune d'entre elles vous aurez une vue différente de la documentation.</translation>
     </message>
     <message>
         <source>The documentation will give an overview of the API of eZ Publish.</source>
@@ -19987,7 +19987,7 @@ menu on the top.</source>
     Select your placements then click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation>Veuillez choisir où enregistrer les élémentes importés.
+        <translation>Veuillez choisir où enregistrer les éléments importés.
     Sélectionner les emplacements puis cliquez sur le bouton %buttonname.
     L'utilisation des éléments récemment utilisés ou de signets pour un accès plus rapide est possible.
     Cliquez sur les noms des emplacements pour changer le mode de parcours.</translation>
@@ -20161,11 +20161,11 @@ menu on the top.</source>
     </message>
     <message>
         <source>Use this drop-down to select the maximum number of objects included in the RSS feed.</source>
-        <translation>Use this drop-down to select the maximum number of objects included in the RSS feed.</translation>
+        <translation>Utilisez cette liste déroulante pour sélectionner le nombre maximal d'objets à inclure dans le flux RSS.</translation>
     </message>
     <message>
         <source>Activate this checkbox if objects from the subnodes of the source should also be fed.</source>
-        <translation>Cochez cet case si les sous-éléments du nœud source doivent aussi être inclus.</translation>
+        <translation>Cochez cette case si les sous-éléments du nœud source doivent aussi être inclus.</translation>
     </message>
     <message>
         <source>Category</source>
@@ -21806,7 +21806,7 @@ Pour résoudre ce problème, vous devez choisir l'une des options suivantes:</tr
     </message>
     <message>
         <source>* Requires web server setup.</source>
-        <translation>* Nécessite  configuration au serveur web.</translation>
+        <translation>* Nécessite configuration au serveur web.</translation>
     </message>
     <message>
         <source>Hostname*</source>
@@ -21822,7 +21822,7 @@ Pour résoudre ce problème, vous devez choisir l'une des options suivantes:</tr
     </message>
     <message>
         <source>You have chosen the same database for two or more site templates. Please change where indicated by *</source>
-        <translation>Vous avez choisi la même base de données pour deux modèles de site ou plus.  S.V.P. modifiez lorsqu'indiqué par *</translation>
+        <translation>Vous avez choisi la même base de données pour deux modèles de site ou plus. S.V.P. modifiez lorsqu'indiqué par *</translation>
     </message>
     <message>
         <source>Site url</source>
@@ -21874,7 +21874,7 @@ Pour résoudre ce problème, vous devez choisir l'une des options suivantes:</tr
     </message>
     <message>
         <source>There are some important issues that have to be resolved. A list of issues / problems is presented below. Each section contains a description and a suggested / recommended solution.</source>
-        <translation>Il y a quelques problématiques importantes qui doivent être résolues.  Une liste de problématiques est présentée ci-dessous. Chaque section contient une description et une suggestion / recommandation de solution.</translation>
+        <translation>Il y a quelques problématiques importantes qui doivent être résolues. Une liste de problématiques est présentée ci-dessous. Chaque section contient une description et une suggestion / recommandation de solution.</translation>
     </message>
     <message>
         <source>Once the problems / issues are fixed, you may click the &lt;i&gt;Next&lt;/i&gt; button to continue. The system check will be run again. If everything is okay, the setup will go to the next stage. If there are problems, the system check page will reappear.</source>
@@ -21972,7 +21972,7 @@ Pour résoudre ce problème, vous devez choisir l'une des options suivantes:</tr
     </message>
     <message>
         <source>System details (OS type, etc)</source>
-        <translation>Détails système (OS, etc)</translation>
+        <translation>Détails système (OS, etc.)</translation>
     </message>
     <message>
         <source>The test results</source>
@@ -22117,8 +22117,8 @@ Pour résoudre ce problème, vous devez choisir l'une des options suivantes:</tr
     <message>
         <source>The login name is fixed and cannot be changed.
 After the setup is done you can login with %admin_login and your password.</source>
-        <translation>Le login est fixé et ne peut pas être changé.
-Après la configuration vous pourrez vous connecter avec le login  %admin_login et votre password.</translation>
+        <translation>L'identifiant est fixé et ne peut pas être changé.
+Après la configuration vous pourrez vous connecter avec l'identifiant %admin_login et votre mot de passe.</translation>
     </message>
     <message>
         <source>Your database already contain data.
@@ -22150,7 +22150,7 @@ Il est possible de changer ces paramètres plus tard.</translation>
     </message>
     <message>
         <source>First time users are advised to install the demo data.</source>
-        <translation>Il est conseillé aux utilisateurs novices d'installer des données demo.</translation>
+        <translation>Il est conseillé aux utilisateurs novices d'installer des données de démo.</translation>
     </message>
     <message>
         <source>Note</source>
@@ -22174,7 +22174,7 @@ Il est possible de changer ces paramètres plus tard.</translation>
     </message>
     <message>
         <source>Failed to send the registration email using</source>
-        <translation>Échec de l'envoi  du courriel d'enregistrement en utilisant</translation>
+        <translation>Échec de l'envoi du courriel d'enregistrement en utilisant</translation>
     </message>
     <message>
         <source>If you ever want to restart this setup, edit the file %filename and look for a line that says</source>
@@ -22223,7 +22223,7 @@ Il est possible de changer ces paramètres plus tard.</translation>
     </message>
     <message>
         <source>The database [%database_name] cannot be used, the setup wizard wants to create the site in [%req_charset] but the database has been created using character set [%charset]. You will have to choose a database having support for [%req_charset] or modify [%database_name] .</source>
-        <translation>La base de données  [%database_name] ne peut être utilisée, l'assistant de configuration souhaite créer le site en [%req_charset] mais la base de données a été créée en utilisant le jeu de caractères [%charset]. Vous allez devoir choisir une base de données supportant [%req_charset] ou modifier [%database_name].</translation>
+        <translation>La base de données [%database_name] ne peut être utilisée, l'assistant de configuration souhaite créer le site en [%req_charset] mais la base de données a été créée en utilisant le jeu de caractères [%charset]. Vous allez devoir choisir une base de données supportant [%req_charset] ou modifier [%database_name].</translation>
     </message>
     <message>
         <source>Cannot write to file</source>
@@ -22403,11 +22403,11 @@ Il est possible de changer ces paramètres plus tard.</translation>
     </message>
     <message>
         <source>The database was successfully initialized. You are now ready for some post configuration of the site.</source>
-        <translation>La base de données s'est correctement initialisée. Maintenant, il reste les paramètrages et la configuration du site.</translation>
+        <translation>La base de données s'est correctement initialisée. Maintenant, il reste les paramétrages et la configuration du site.</translation>
     </message>
     <message>
         <source>If you don't have access to a database, you should obtain access now. eZ Publish is capable of running multiple sites, each site needs its own database. This means that you need to create several databases if you plan to run multiple sites. Please refer to the database system user manual if you're unsure about how to create a database.</source>
-        <translation>Si vous n'avez pas les accès à la base de données, vous devez les obtenir maintenant. eZ Publish est capable de faire fonctionner plusieurs sites, chaque site peut avoir besoin de sa propre base de données. Cela signifie que vous avez besoin de créer plusieurs base de données si vous prévoyer de faire tourner plusieurs sites sur cette instance. Veuillez vous référer au manuel de l'utilisateur système base de données if vous n'êts pas sur de comment créer une base de données.</translation>
+        <translation>Si vous n'avez pas les accès à la base de données, vous devez les obtenir maintenant. eZ Publish est capable de faire fonctionner plusieurs sites, chaque site peut avoir besoin de sa propre base de données. Cela signifie que vous avez besoin de créer plusieurs base de données si vous prévoyez de faire tourner plusieurs sites sur cette instance. Veuillez vous référer au manuel de l'utilisateur du système de base de données si vous n'êtes pas sûr de savoir comment créer une base de données.</translation>
     </message>
     <message>
         <source>Re-run System Check</source>
@@ -22423,15 +22423,15 @@ Il est possible de changer ces paramètres plus tard.</translation>
     </message>
     <message>
         <source>This section is used to configure how eZ Publish delivers its outgoing Email.</source>
-        <translation>Cette secion est utilisée pour configurer comment eZ Publish peut délivrer les emails sortant.</translation>
+        <translation>Cette secion est utilisée pour configurer comment eZ Publish peut délivrer les courriels sortant.</translation>
     </message>
     <message>
         <source>The eZ Publish system uses email to send out important notices such as user registration and content approval. On Linux/UNIX: try to use sendmail. On Windows: use an SMTP server.</source>
-        <translation>eZ Publish utilise les emails pour envoyer des informations importantes telle que l'inscription d'un utilisateur et les contenus a approuver. Sous Linux/UNIX&#160;: essayez d'utiliser sendmail. Sous Windows&#160;: utilisez un serveur SMTP.</translation>
+        <translation>eZ Publish utilise les courriels pour envoyer des informations importantes telle que l'inscription d'un utilisateur et les contenus a approuver. Sous Linux/UNIX&#160;: essayez d'utiliser sendmail. Sous Windows&#160;: utilisez un serveur SMTP.</translation>
     </message>
     <message>
         <source>&lt;b&gt;SMTP&lt;/b&gt;: If you are unsure what to enter, refer to the settings in your email application.</source>
-        <translation>&lt;b&gt;SMTP&lt;/b&gt;: Si vous n'êtes pas sur de savoir quoi écrire, référez-vous aux configurations de vos applications de gestions des emails.</translation>
+        <translation>&lt;b&gt;SMTP&lt;/b&gt;: Si vous n'êtes pas sur de savoir quoi écrire, référez-vous aux configurations de vos applications de gestions des courriels.</translation>
     </message>
     <message>
         <source>eZ Publish has been installed with your select site setup. You will find the username mentioned in the details below.</source>
@@ -22439,7 +22439,7 @@ Il est possible de changer ces paramètres plus tard.</translation>
     </message>
     <message>
         <source>The first time the user or admin site is accessed it will take some time (30 to 60 seconds). This is because eZ Publish prepares the site for your machine.</source>
-        <translation>Le premier lancement de l'interface d'admininistration ou du site peut prendre du temps (30 à 60 secondes). eZ Publish prépare le site pour votre machine.</translation>
+        <translation>Le premier lancement de l'interface d'administration ou du site peut prendre du temps (30 à 60 secondes). eZ Publish prépare le site pour votre machine.</translation>
     </message>
     <message>
         <source>Tip: Store this page as an html file by clicking Save-As in your web browser menu, alternatively you may write down the URLs for your sites.</source>
@@ -22536,7 +22536,7 @@ Il est possible de changer ces paramètres plus tard.</translation>
     </message>
     <message>
         <source>If you want, you can also add some comments, which will be included in the registration email.</source>
-        <translation>Si vous le souhaitez, vous pouvez également ajouter des commentaires, qui seront inclus dans le mail d'inscription.</translation>
+        <translation>Si vous le souhaitez, vous pouvez également ajouter des commentaires, qui seront inclus dans le courriel d'inscription.</translation>
     </message>
     <message>
         <source>By sending registration the following data will be sent to eZ Systems</source>
@@ -22590,7 +22590,7 @@ Ces fonctionnalités sont également disponible plus tard via l'interface d'admi
     </message>
     <message>
         <source>The problems are usually file-system related and can be easily fixed by copy / paste / running the suggested commands in a system shell.</source>
-        <translation>Les problèmes sont généralement liés au système de fichiers et peuvent être facilement corrigés en copiant/collant puis en éxécutant les commandes suggérées dans une ligne de commande.</translation>
+        <translation>Les problèmes sont généralement liés au système de fichiers et peuvent être facilement corrigés en copiant/collant puis en exécutant les commandes suggérées dans une ligne de commande.</translation>
     </message>
     <message>
         <source>These issues do not need to be resolved/fixed. eZ Publish will function properly without them.</source>
@@ -23129,7 +23129,7 @@ Ceci représente un problème de sécurité et devrait être changé en un autre
     </message>
     <message>
         <source>You need to enable AcceptPathInfo in your Apache config file, if you're using apache 2.x.</source>
-        <translation>Vous devez activer l'option AcceptPathInfo  dans votre fichier de configuration Apache, si vous utilisez apache 2.x.</translation>
+        <translation>Vous devez activer l'option AcceptPathInfo dans votre fichier de configuration Apache, si vous utilisez apache 2.x.</translation>
     </message>
     <message>
         <source>allow_url_fopen ini setting is disabled</source>
@@ -23243,7 +23243,7 @@ Without this the setup cannot finish and parts of eZ Publish will fail.</source>
     </message>
     <message>
         <source>eZ Publish will not work correctly with a execution time limit of %1.</source>
-        <translation>eZ Publish ne fonctionnera pas correctement avec une limiete de temps d'éxécution de %1.</translation>
+        <translation>eZ Publish ne fonctionnera pas correctement avec une limite de temps d'exécution de %1.</translation>
     </message>
     <message>
         <source>If you are running eZ Publish in a shared host environment, contant your ISP to perform the changes</source>
@@ -23299,7 +23299,7 @@ Pour faire cela, vous avez besoin de changer les commandes %chown sous une autre
     </message>
     <message>
         <source>Do not enable mbstring function overloading, eZ Publish will only use the extension whenever it's needed.</source>
-        <translation>N'activer pas la surcharge de la function mbstring, eZ Publish utilisera l'extension seulement lorsque nécessaire.</translation>
+        <translation>N'activer pas la surcharge de la fonction mbstring, eZ Publish utilisera l'extension seulement lorsque nécessaire.</translation>
     </message>
     <message>
         <source>Insufficient memory allocated to install eZ Publish</source>
@@ -23363,7 +23363,7 @@ Pour faire cela, vous avez besoin de changer les commandes %chown sous une autre
     </message>
     <message>
         <source>Missing eZ Components dependancy</source>
-        <translation>Il manque la bibliothéque eZ Components</translation>
+        <translation>Il manque la bibliothèque eZ Components</translation>
     </message>
     <message>
         <source>The minimum required eZ Components version is</source>
@@ -23395,7 +23395,7 @@ Pour faire cela, vous avez besoin de changer les commandes %chown sous une autre
     </message>
     <message>
         <source>Time zone configuration</source>
-        <translation>Configuration de la TimeZone</translation>
+        <translation>Configuration du fuseau horaire</translation>
     </message>
     <message>
         <source>You are using the default time zone, UTC. It is important that you set your time zone to make sure date and time is handled correctly. To do this, set the &lt;strong&gt;date.timezone&lt;/strong&gt; setting in &lt;strong&gt;php.ini&lt;/strong&gt;.</source>
@@ -23423,7 +23423,7 @@ Pour faire cela, vous avez besoin de changer les commandes %chown sous une autre
     </message>
     <message>
         <source>PHP does not register environment variables</source>
-        <translation>PHP n'enregistre pas de variable d'environement.</translation>
+        <translation>PHP n'enregistre pas de variable d'environnement.</translation>
     </message>
     <message>
         <source>PHP is currently not configured to register enviroment variables in the global variable $_ENV.</source>
@@ -24093,7 +24093,7 @@ Pour faire cela, vous avez besoin de changer les commandes %chown sous une autre
     </message>
     <message>
         <source>Lithuanian litas</source>
-        <translation>Livre lithuanienne</translation>
+        <translation>Livre lituanienne</translation>
     </message>
     <message>
         <source>Latvian lats</source>
@@ -24101,7 +24101,7 @@ Pour faire cela, vous avez besoin de changer les commandes %chown sous une autre
     </message>
     <message>
         <source>Maltese lira</source>
-        <translation>Livre maltese</translation>
+        <translation>Livre maltaise</translation>
     </message>
     <message>
         <source>Mexican peso</source>
@@ -24349,7 +24349,7 @@ Pour faire cela, vous avez besoin de changer les commandes %chown sous une autre
     </message>
     <message>
         <source>There are %logged_in_count registered and %anonymous_count anonymous users online.</source>
-        <translation>Il y a %logged_in_count utilisateurs enregistrés  et %anonymous_count utilisateurs anonymes en ligne.</translation>
+        <translation>Il y a %logged_in_count utilisateurs enregistrés et %anonymous_count utilisateurs anonymes en ligne.</translation>
     </message>
     <message>
         <source>Shopping basket</source>
@@ -24704,7 +24704,7 @@ Pour faire cela, vous avez besoin de changer les commandes %chown sous une autre
     </message>
     <message>
         <source>Please retype your old password.</source>
-        <translation>SVP, entrez à nouveau votre ancien mot de passe.</translation>
+        <translation>S.V.P., entrez à nouveau votre ancien mot de passe.</translation>
     </message>
     <message>
         <source>Password successfully updated.</source>
@@ -24806,7 +24806,7 @@ Pour faire cela, vous avez besoin de changer les commandes %chown sous une autre
     </message>
     <message>
         <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
-        <translation>Désolé, la clé transmise est invalide.  Le compte n'a pas été activé.</translation>
+        <translation>Désolé, la clé transmise est invalide. Le compte n'a pas été activé.</translation>
     </message>
     <message>
         <source>Username</source>
@@ -24845,7 +24845,7 @@ Pour faire cela, vous avez besoin de changer les commandes %chown sous une autre
         <source>Your account was successfully created. An email will be sent to the specified
 email address. Follow the instructions in that mail to activate
 your account.</source>
-        <translation>Votre compte a bien été créé. Un courriel sera envoyé à l'adresse courriel indiquée. Suivez les instructions indiquées dans ce couriel pour activer votre compte.</translation>
+        <translation>Votre compte a bien été créé. Un courriel sera envoyé à l'adresse courriel indiquée. Suivez les instructions indiquées dans ce courriel pour activer votre compte.</translation>
     </message>
     <message>
         <source>Please note that your browser must use and support cookies to register a new user.</source>
@@ -24853,7 +24853,7 @@ your account.</source>
     </message>
     <message>
         <source>Your browser does not seem to support cookies, to register a new user, cookies need to be supported and enabled!</source>
-        <translation>Le support des cookies dans votre navigateur semble désactivé. Pour créer votre compte cet fonctionnalité doit être activée.</translation>
+        <translation>Le support des cookies dans votre navigateur semble désactivé. Pour créer votre compte cette fonctionnalité doit être activée.</translation>
     </message>
     <message>
         <source>Try again</source>
@@ -25385,7 +25385,7 @@ your account.</source>
     </message>
     <message>
         <source>Events</source>
-        <translation>Événements</translation>
+        <translation>Évènements</translation>
     </message>
     <message>
         <source>Pos</source>
@@ -25473,31 +25473,31 @@ your account.</source>
     </message>
     <message>
         <source>Workflow event</source>
-        <translation>Événement dans le processus de workflow</translation>
+        <translation>Évènement dans le processus de workflow</translation>
     </message>
     <message>
         <source>Workflow has not started yet, number of main events in workflow is</source>
-        <translation>Le processus de workflow n'est pas commencé, le nombre d'événements principaux dans le volume de travail est</translation>
+        <translation>Le processus de workflow n'est pas commencé, le nombre d'évènements principaux dans le volume de travail est</translation>
     </message>
     <message>
         <source>Current event position is</source>
-        <translation>La position de l'événement courant est</translation>
+        <translation>La position de l'évènement courant est</translation>
     </message>
     <message>
         <source>Event to be run is</source>
-        <translation>L'événement à exécuté est</translation>
+        <translation>L'évènement à exécuté est</translation>
     </message>
     <message>
         <source>event</source>
-        <translation>événement</translation>
+        <translation>évènement</translation>
     </message>
     <message>
         <source>Last event returned status</source>
-        <translation>Le dernier événement a renvoyé le statut</translation>
+        <translation>Le dernier évènement a renvoyé le statut</translation>
     </message>
     <message>
         <source>Workflow event list</source>
-        <translation>Liste d'événements dans le processus de workflow</translation>
+        <translation>Liste d'évènements dans le processus de workflow</translation>
     </message>
     <message>
         <source>Reset</source>
@@ -25509,7 +25509,7 @@ your account.</source>
     </message>
     <message>
         <source>Workflow event log</source>
-        <translation>Journal des événements dans le processus de workflow</translation>
+        <translation>Journal des évènements dans le processus de workflow</translation>
     </message>
     <message>
         <source>Status</source>
@@ -25728,7 +25728,7 @@ your account.</source>
     </message>
     <message>
         <source>oAuth admin</source>
-        <translation>Administration de l'autentification oAuth</translation>
+        <translation>Administration de l'authentification oAuth</translation>
     </message>
     <message>
         <source>Confirm removal</source>
@@ -26107,11 +26107,11 @@ your account.</source>
     </message>
     <message>
         <source>Workflow failed an event</source>
-        <translation>Le processus de workflow a échoué sur un événement</translation>
+        <translation>Le processus de workflow a échoué sur un évènement</translation>
     </message>
     <message>
         <source>Workflow event deferred to cron job</source>
-        <translation>L'événement de processus de workflow est reporté à l'exécution de la commande cron</translation>
+        <translation>L'évènement de processus de workflow est reporté à l'exécution de la commande cron</translation>
     </message>
     <message>
         <source>Workflow was reset for reuse</source>
@@ -26119,23 +26119,23 @@ your account.</source>
     </message>
     <message>
         <source>Accepted event</source>
-        <translation>Événement accepté</translation>
+        <translation>Évènement accepté</translation>
     </message>
     <message>
         <source>Rejected event</source>
-        <translation>Événement refusé</translation>
+        <translation>Évènement refusé</translation>
     </message>
     <message>
         <source>Event deferred to cron job</source>
-        <translation>L'événement est reporté à l'exécution de la commande cron</translation>
+        <translation>L'évènement est reporté à l'exécution de la commande cron</translation>
     </message>
     <message>
         <source>Event deferred to cron job, event will be rerun</source>
-        <translation>L'événement est reporté à l'exécution de la commande cron, l'événement sera réactivé</translation>
+        <translation>L'évènement est reporté à l'exécution de la commande cron, l'évènement sera réactivé</translation>
     </message>
     <message>
         <source>Event runs a sub event</source>
-        <translation>L'événement a lancé l'exécution d'un sous-événement</translation>
+        <translation>L'évènement a lancé l'exécution d'un sous-évènement</translation>
     </message>
     <message>
         <source>Workflow fetches template</source>
@@ -26652,7 +26652,7 @@ your account.</source>
     </message>
     <message>
         <source>You cannot choose option value "%1" from "%2" because it is unselectable </source>
-        <translation>Vous ne pouvez pas choisir l'option "%1" de "%2" parce ce qu'elle n'est pas selectionnable </translation>
+        <translation>Vous ne pouvez pas choisir l'option "%1" de "%2" parce ce qu'elle n'est pas sélectionnable </translation>
     </message>
     <message>
         <source>You cannot choose option value "%1" from "%2"  
@@ -26798,7 +26798,7 @@ your account.</source>
     </message>
     <message>
         <source>No main node selected, please select one.</source>
-        <translation>Aucun nœud pricipal sélectionné, veuillez en sélectionnez un.</translation>
+        <translation>Aucun nœud principal sélectionné, veuillez en sélectionnez un.</translation>
     </message>
     <message>
         <source>Content</source>
@@ -26942,7 +26942,7 @@ your account.</source>
     </message>
     <message>
         <source>Path String</source>
-        <translation>Fil d'ariane (chemin)</translation>
+        <translation>Fil d'Ariane (chemin)</translation>
     </message>
     <message>
         <source>Priority</source>
@@ -27309,7 +27309,7 @@ your account.</source>
     <name>kernel/oauthadmin</name>
     <message>
         <source>oAuth admin</source>
-        <translation>Administration de l'autentification oAuth</translation>
+        <translation>Administration de l'authentification oAuth</translation>
     </message>
     <message>
         <source>Edit REST application</source>
@@ -27436,7 +27436,7 @@ your account.</source>
     </message>
     <message>
         <source>Uninstall</source>
-        <translation>Desinstaller</translation>
+        <translation>Désinstaller</translation>
     </message>
     <message>
         <source>Package %packagename already exists, cannot import the package</source>
@@ -27476,7 +27476,7 @@ your account.</source>
     </message>
     <message>
         <source>You must choose one or more site access.</source>
-        <translation>Vous devez chosir un ou plusieurs accès au site.</translation>
+        <translation>Vous devez choisir un ou plusieurs accès au site.</translation>
     </message>
     <message>
         <source>CSS files</source>
@@ -27951,7 +27951,7 @@ your account.</source>
     </message>
     <message>
         <source>'Autorates' were retrieved successfully</source>
-        <translation>Les 'Autorates' ont été recupérés avec succès</translation>
+        <translation>Les 'Autorates' ont été récupérés avec succès</translation>
     </message>
     <message>
         <source>Unknown body format in HTTP response. Expected 'text/xml'</source>
@@ -28175,7 +28175,7 @@ your account.</source>
     </message>
     <message>
         <source>Identifier: invalid, it can only consist of characters in the range a-z, 0-9 and underscore.</source>
-        <translation>L'identifiant est incorrecte, il ne peut contenir que des caractères parmis les ensembles a-z, 0-9 ou le caractère underscore.</translation>
+        <translation>L'identifiant est incorrecte, il ne peut contenir que des caractères parmi les ensembles a-z, 0-9 ou le caractère underscore.</translation>
     </message>
     <message>
         <source>Identifier: invalid, maximum %max characters allowed.</source>
@@ -28372,7 +28372,7 @@ your account.</source>
     <name>kernel/workflow/event</name>
     <message>
         <source>Event</source>
-        <translation>Événement</translation>
+        <translation>Évènement</translation>
     </message>
     <message>
         <source>Approve</source>
@@ -28480,7 +28480,7 @@ your account.</source>
     <name>simplified_treemenu/show_simplified_menu</name>
     <message>
         <source>Node ID: %node_id Visibility: %visibility</source>
-        <translation>ID du Nœud : %node_id  Visibilité : %visibility</translation>
+        <translation>ID du Nœud : %node_id Visibilité : %visibility</translation>
     </message>
 </context>
 </TS>
