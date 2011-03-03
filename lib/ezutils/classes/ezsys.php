@@ -688,7 +688,7 @@ class eZSys
     /**
      * Returns true if magick quotes is enabled,
      * but does nothing.
-     * @deprecated 4.5
+     * @deprecated since 4.5
      */
     static function magickQuotes()
     {

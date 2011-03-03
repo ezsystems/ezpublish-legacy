@@ -817,7 +817,7 @@ class eZContentOperationCollection
     /**
      * Removes a nodeAssignment or a list of nodeAssigments
      *
-     * @deprecated
+     * @deprecated since 4.3
      *
      * @param int $nodeID
      * @param int $objectID

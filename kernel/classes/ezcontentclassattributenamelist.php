@@ -28,7 +28,7 @@
 
 
 /**
- * @deprecated Use eZSerializedObjectNameList directly instead!
+ * @deprecated since 4.3, use eZSerializedObjectNameList directly instead!
  */
 
 class eZContentClassAttributeNameList extends eZSerializedObjectNameList
