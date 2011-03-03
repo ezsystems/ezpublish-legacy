@@ -32,7 +32,7 @@ $offset = 0;
 do
 {
     // Fetch items with empty identifier
-    $rows = eZSection::fetchFilteredList( array( 'identifier' => '' ), $offset, $limit );
+    $rows = eZSection::fetchFilteredList( null, $offset, $limit );
 
     if ( !$rows )
         break;
@@ -53,6 +53,7 @@ do
                 $cli->output( "Setting identifier '{$identifier}' for section '{$name}'" );
         }
     }
+    $offset += $limit;
 
 } while ( true );
 
