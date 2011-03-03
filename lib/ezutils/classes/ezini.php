@@ -1667,11 +1667,10 @@ class eZINI
      * @param string $fileName
      * @param string $rootDir
      * @param null|bool $useLocalOverrides default system setting if null
-     * @param bool $addArrayDefinition
      *
      * @return bool
      */
-    static function isLoaded( $fileName = 'site.ini', $rootDir = 'settings', $useLocalOverrides = null, $addArrayDefinition = false )
+    static function isLoaded( $fileName = 'site.ini', $rootDir = 'settings', $useLocalOverrides = null )
     {
         return isset( self::$instances["$rootDir-$fileName-$useLocalOverrides"] );
     }
@@ -1767,13 +1766,12 @@ class eZINI
      * @param string $fileName
      * @param string $rootDir
      * @param null|bool $useLocalOverrides default system setting if null
-     * @param bool $addArrayDefinition
      *
      * @see resetInstance()
      */
-    static function resetGlobals( $fileName = 'site.ini', $rootDir = 'settings', $useLocalOverrides = null, $addArrayDefinition = false )
+    static function resetGlobals( $fileName = 'site.ini', $rootDir = 'settings', $useLocalOverrides = null )
     {
-        self::resetInstance( $fileName, $rootDir, $useLocalOverrides, $addArrayDefinition );
+        self::resetInstance( $fileName, $rootDir, $useLocalOverrides );
     }
 
     /**
@@ -1784,9 +1782,8 @@ class eZINI
      * @param string $fileName
      * @param string $rootDir
      * @param null|bool $useLocalOverrides default system setting if null
-     * @param bool $addArrayDefinition
      */
-    static function resetInstance( $fileName = 'site.ini', $rootDir = 'settings', $useLocalOverrides = null, $addArrayDefinition = false )
+    static function resetInstance( $fileName = 'site.ini', $rootDir = 'settings', $useLocalOverrides = null )
     {
         unset( self::$instances["$rootDir-$fileName-$useLocalOverrides"] );
     }
