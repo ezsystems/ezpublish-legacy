@@ -5326,7 +5326,7 @@ $schema = array (
           0 => 'client_id',
         ),
       ),
-      'client_id_UNIQUE' => 
+      'client_id_unique' => 
       array (
         'type' => 'unique',
         'fields' => 
