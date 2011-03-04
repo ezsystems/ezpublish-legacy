@@ -5266,7 +5266,7 @@ $schema = array (
       ),
       'description' => 
       array (
-        'type' => 'text',
+        'type' => 'longtext',
         'default' => false,
       ),
       'endpoint_uri' => 
