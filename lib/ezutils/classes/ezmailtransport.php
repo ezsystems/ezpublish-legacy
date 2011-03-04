@@ -74,7 +74,7 @@ class eZMailTransport
 
         if ( !is_object( $transportClass ) )
         {
-            eZDebug::writeError( "No class available for mail transport type '$transportType', cannot send mail", 'eZMailTransport::send' );
+            eZDebug::writeError( "No class available for mail transport type '$transportType', cannot send mail", __METHOD__ );
         }
         return $transportClass->sendMail( $mail );
     }

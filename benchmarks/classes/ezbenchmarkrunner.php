@@ -76,8 +76,7 @@ class eZBenchmarkrunner
         }
         else
         {
-            eZDebug::writeWarning( "Tried to run test on an object which is not subclassed from eZBenchmarkCase",
-                                   'eZBenchmarkRunner::run' );
+            eZDebug::writeWarning( "Tried to run test on an object which is not subclassed from eZBenchmarkCase", __METHOD__ );
         }
     }
 

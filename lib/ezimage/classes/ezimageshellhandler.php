@@ -135,7 +135,7 @@ class eZImageShellHandler extends eZImageHandler
         }
         else
         {
-            eZDebug::writeWarning( "Failed executing: $systemString, Error code: $returnCode", 'eZImageShellHandler::convert' );
+            eZDebug::writeWarning( "Failed executing: $systemString, Error code: $returnCode", __METHOD__ );
             return false;
         }
 
@@ -155,8 +155,7 @@ class eZImageShellHandler extends eZImageHandler
         $ini = eZINI::instance( $iniFilename );
         if ( !$ini )
         {
-            eZDebug::writeError( "Failed loading ini file $iniFilename",
-                                 'eZImageShellHandler::createFromINI' );
+            eZDebug::writeError( "Failed loading ini file $iniFilename", __METHOD__ );
             return $handler;
         }
 
@@ -216,8 +215,7 @@ class eZImageShellHandler extends eZImageHandler
                 $path = $ini->variable( $iniGroup, 'ExecutablePath' );
             if ( !$ini->hasVariable( $iniGroup, 'Executable' ) )
             {
-                eZDebug::writeError( "No Executable setting for group $iniGroup in ini file $iniFilename",
-                                     'eZImageShellHandler::createFromINI' );
+                eZDebug::writeError( "No Executable setting for group $iniGroup in ini file $iniFilename", __METHOD__ );
                 return $handler;
             }
             $executable = $ini->variable( $iniGroup, 'Executable' );

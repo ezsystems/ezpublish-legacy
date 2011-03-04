@@ -143,7 +143,7 @@ class eZTime
         else if ( $name == 'is_valid'  )
             return $this->isValid();
 
-        eZDebug::writeError( "Attribute '$name' does not exist", 'eZTime::attribute' );
+        eZDebug::writeError( "Attribute '$name' does not exist", __METHOD__ );
         return false;
     }
 

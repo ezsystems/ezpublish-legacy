@@ -716,7 +716,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             }
                             else
                             {
-                                eZDebug::writeWarning( 'Unknown sort field: ' . $sortField, 'eZContentObjectTreeNode::createSortingSQLStrings' );
+                                eZDebug::writeWarning( 'Unknown sort field: ' . $sortField, __METHOD__ );
                                 continue;
                             }
                         }
@@ -1018,7 +1018,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                 default :
                                 {
                                     $hasFilterOperator = false;
-                                    eZDebug::writeError( "Unknown attribute filter type for state: $filterType", "eZContentObjectTreeNode::subTree()" );
+                                    eZDebug::writeError( "Unknown attribute filter type for state: $filterType", __METHOD__ );
                                 } break;
                             }
 
@@ -1245,7 +1245,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             default :
                             {
                                 $hasFilterOperator = false;
-                                eZDebug::writeError( "Unknown attribute filter type: $filterType", "eZContentObjectTreeNode::subTree()" );
+                                eZDebug::writeError( "Unknown attribute filter type: $filterType", __METHOD__ );
                             }break;
 
                         }
@@ -2286,8 +2286,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             } break;
             default:
             {
-                eZDebug::writeError( "Unknown field type $type",
-                                     'eZContentObjectTreeNode::subTreeGroupByDateField' );
+                eZDebug::writeError( "Unknown field type $type", __METHOD__ );
             }
         }
         if ( $divisor > 0 )
@@ -2853,7 +2852,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     function fetchByCRC( $pathStr )
     {
-        eZDebug::writeWarning( "Obsolete: use eZURLAlias instead", 'eZContentObjectTreeNode::fetchByCRC' );
+        eZDebug::writeWarning( "Obsolete: use eZURLAlias instead", __METHOD__ );
         return null;
     }
 
@@ -2886,7 +2885,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     {
         if ( $pathString == "" )
         {
-            eZDebug::writeWarning( 'Can not fetch, given URLPath is empty', 'eZContentObjectTreeNode::fetchByURLPath' );
+            eZDebug::writeWarning( 'Can not fetch, given URLPath is empty', __METHOD__ );
             return null;
         }
 
@@ -3060,7 +3059,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
             if ( $sqlCondition == '' )
             {
-                eZDebug::writeWarning( 'Cannot fetch node, emtpy ID or no conditions given', 'eZContentObjectTreeNode::fetch' );
+                eZDebug::writeWarning( 'Cannot fetch node, emtpy ID or no conditions given', __METHOD__ );
                 return $returnValue;
             }
 
@@ -5462,8 +5461,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
             else
             {
-                eZDebug::writeError( 'New parent node not set ' . $contentNodeDOMNode->getAttribute( 'name' ),
-                                     'eZContentObjectTreeNode::unserialize()' );
+                eZDebug::writeError( 'New parent node not set ' . $contentNodeDOMNode->getAttribute( 'name' ), __METHOD__ );
             }
         }
 

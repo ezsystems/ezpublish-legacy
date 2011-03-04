@@ -110,7 +110,7 @@ class eZSMTPTransport extends eZMailTransport
         }
         catch ( ezcMailException $e )
         {
-            eZDebug::writeError( $e->getMessage(), 'eZSMTPTransport::sendMail' );
+            eZDebug::writeError( $e->getMessage(), __METHOD__ );
             return false;
         }
 

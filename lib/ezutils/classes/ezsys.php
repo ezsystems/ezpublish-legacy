@@ -705,7 +705,7 @@ class eZSys
         {
             if ( !$quiet )
             {
-                eZDebug::writeError( "Server variable '$variableName' does not exist", 'eZSys::serverVariable' );
+                eZDebug::writeError( "Server variable '$variableName' does not exist", __METHOD__ );
             }
             $retVal = null;
             return $retVal;
@@ -741,7 +741,7 @@ class eZSys
         {
             if ( !$quiet )
             {
-                eZDebug::writeError( "Environment variable '$variableName' does not exist", 'eZSys::environmentVariable' );
+                eZDebug::writeError( "Environment variable '$variableName' does not exist", __METHOD__ );
             }
             return null;
         }
@@ -811,7 +811,7 @@ class eZSys
             return $this->indexDir();
         }
 
-        eZDebug::writeError( "Attribute '$attr' does not exist", 'eZSys::attribute' );
+        eZDebug::writeError( "Attribute '$attr' does not exist", __METHOD__ );
         return null;
     }
 

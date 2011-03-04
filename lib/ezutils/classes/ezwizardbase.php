@@ -138,7 +138,7 @@ class eZWizardBase
 
             default:
             {
-                eZDebug::writeError( "Attribute '$attr' does not exist", 'eZWizardBase::attribute' );
+                eZDebug::writeError( "Attribute '$attr' does not exist", __METHOD__ );
                 return null;
             }
             break;
@@ -251,8 +251,7 @@ class eZWizardBase
     function setMetaData( $key, $value )
     {
         $this->MetaData[$key] = $value;
-        eZDebug::writeNotice( 'Set MetaData : [' . $key . '] = ' . $value,
-                              'eZWizardBase::setMetaData()' );
+        eZDebug::writeNotice( 'Set MetaData : [' . $key . '] = ' . $value, __METHOD__ );
         $this->savePersistentData();
     }
 

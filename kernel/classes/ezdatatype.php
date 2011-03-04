@@ -258,7 +258,7 @@ class eZDataType
             return $this->Attributes[$attr];
         }
 
-        eZDebug::writeError( "Attribute '$attr' does not exist", 'eZDataType::attribute' );
+        eZDebug::writeError( "Attribute '$attr' does not exist", __METHOD__ );
         $attributeData = null;
         return $attributeData;
     }
@@ -318,8 +318,7 @@ class eZDataType
                              $objectAttribute, $httpFile, $mimeData,
                              &$result )
     {
-        eZDebug::writeWarning( "The datatype " . get_class( $this ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support insertion of HTTP files",
-                               'eZDataType::insertHTTPFile' );
+        eZDebug::writeWarning( "The datatype " . get_class( $this ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support insertion of HTTP files", __METHOD__ );
         return null;
     }
 
@@ -346,8 +345,7 @@ class eZDataType
                                 $objectAttribute, $filePath,
                                 &$result )
     {
-        eZDebug::writeWarning( "The datatype " . get_class( $this ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support insertion of regular files",
-                               'eZDataType::insertRegularFile' );
+        eZDebug::writeWarning( "The datatype " . get_class( $this ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support insertion of regular files", __METHOD__ );
         return null;
     }
 
@@ -374,8 +372,7 @@ class eZDataType
                                  $objectAttribute, $string,
                                  &$result )
     {
-        eZDebug::writeWarning( "The datatype " . get_class( $this ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support insertion of simple strings",
-                               'eZDataType::insertSimplestring' );
+        eZDebug::writeWarning( "The datatype " . get_class( $this ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support insertion of simple strings", __METHOD__ );
         return null;
     }
 
@@ -460,8 +457,7 @@ class eZDataType
     */
     function productOptionInformation( $objectAttribute, $optionID, $productItem )
     {
-        eZDebug::writeWarning( "The datatype " . get_class( $this ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support product options",
-                               'eZDataType::productOptionInformation' );
+        eZDebug::writeWarning( "The datatype " . get_class( $this ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support product options", __METHOD__ );
         return null;
     }
 
@@ -973,7 +969,7 @@ class eZDataType
         }
         else
         {
-            eZDebug::writeError( '$classAttribute isn\'t an object.', 'eZDataType::contentActionList' );
+            eZDebug::writeError( '$classAttribute isn\'t an object.', __METHOD__ );
         }
         return $actionList;
     }
@@ -1181,8 +1177,7 @@ class eZDataType
                 }
                 else
                 {
-                    eZDebug::writeError( "The attribute '$attributeName' does not exist for contentobject attribute " . $objectAttribute->attribute( 'id' ),
-                                         'eZDataType::serializeContentObjectAttribute' );
+                    eZDebug::writeError( "The attribute '$attributeName' does not exist for contentobject attribute " . $objectAttribute->attribute( 'id' ), __METHOD__ );
                 }
             }
         }
@@ -1225,14 +1220,12 @@ class eZDataType
                     }
                     else
                     {
-                        eZDebug::writeError( "The xml element '$xmlName' does not exist for contentobject attribute " . $objectAttribute->attribute( 'id' ),
-                                             'eZDataType::unserializeContentObjectAttribute' );
+                        eZDebug::writeError( "The xml element '$xmlName' does not exist for contentobject attribute " . $objectAttribute->attribute( 'id' ), __METHOD__ );
                     }
                 }
                 else
                 {
-                    eZDebug::writeError( "The attribute '$attributeName' does not exist for contentobject attribute " . $objectAttribute->attribute( 'id' ),
-                                         'eZDataType::unserializeContentObjectAttribute' );
+                    eZDebug::writeError( "The attribute '$attributeName' does not exist for contentobject attribute " . $objectAttribute->attribute( 'id' ), __METHOD__ );
                 }
             }
         }
@@ -1318,7 +1311,7 @@ class eZDataType
         }
         if ( !$foundEventType )
         {
-            eZDebug::writeError( "Datatype not found: '$type', searched in these directories: " . implode( ', ', $triedDirectories ), "eZDataType::loadAndRegisterType" );
+            eZDebug::writeError( "Datatype not found: '$type', searched in these directories: " . implode( ', ', $triedDirectories ), __METHOD__ );
             return false;
         }
         include_once( $includeFile );

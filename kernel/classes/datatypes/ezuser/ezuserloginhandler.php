@@ -148,7 +148,7 @@ class eZUserLoginHandler
             }
         }
         // if no one appropriate instance was found
-        eZDebug::writeWarning( "Unable to find user login handler '$protocol', searched for these files: " . implode( ', ', $triedFiles ), 'eZUserLoginHandler::instance()' );
+        eZDebug::writeWarning( "Unable to find user login handler '$protocol', searched for these files: " . implode( ', ', $triedFiles ), __METHOD__ );
         $impl = null;
         return $impl;
     }

@@ -400,8 +400,7 @@ class eZTSTranslator extends eZTranslatorHandler
         }
         if ( !$contextName )
         {
-            eZDebug::writeError( "No context name found, skipping context",
-                                 __METHOD__ );
+            eZDebug::writeError( "No context name found, skipping context", __METHOD__ );
             return false;
         }
         foreach( $context_children as $context_child )
@@ -419,15 +418,13 @@ class eZTSTranslator extends eZTranslatorHandler
                 }
                 else
                 {
-                    eZDebug::writeError( "Unknown element name: $childName",
-                                         __METHOD__ );
+                    eZDebug::writeError( "Unknown element name: $childName", __METHOD__ );
                 }
             }
         }
         if ( $contextName === null )
         {
-            eZDebug::writeError( "No context name found, skipping context",
-                                 __METHOD__ );
+            eZDebug::writeError( "No context name found, skipping context", __METHOD__ );
             return false;
         }
         if ( !isset( $this->CachedMessages[$contextName] ) )
@@ -503,19 +500,17 @@ class eZTSTranslator extends eZTranslatorHandler
                     //Handle location element. No functionality yet.
                 }
                 else
-                    eZDebug::writeError( "Unknown element name: " . $childName,
-                                         __METHOD__ );
+                    eZDebug::writeError( "Unknown element name: " . $childName, __METHOD__ );
             }
         }
         if ( $source === null )
         {
-            eZDebug::writeError( "No source name found, skipping message in context '{$contextName}'",
-                                 __METHOD__ );
+            eZDebug::writeError( "No source name found, skipping message in context '{$contextName}'", __METHOD__ );
             return false;
         }
         if ( $translation === null )
         {
-//             eZDebug::writeError( "No translation, skipping message", "eZTSTranslator::messageNode" );
+//             eZDebug::writeError( "No translation, skipping message", __METHOD__ );
             return false;
         }
         /* we need to convert ourselves if we're using libxml stuff here */

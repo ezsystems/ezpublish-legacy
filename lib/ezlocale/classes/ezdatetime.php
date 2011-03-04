@@ -163,7 +163,7 @@ class eZDateTime
         }
         else
         {
-            eZDebug::writeError( "Attribute '$name' does not exist", 'eZDateTime::attribute' );
+            eZDebug::writeError( "Attribute '$name' does not exist", __METHOD__ );
             return false;
         }
     }

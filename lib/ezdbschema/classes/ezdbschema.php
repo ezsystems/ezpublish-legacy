@@ -73,7 +73,7 @@ class eZDbSchema
         /* Check if we have a handler */
         if ( !isset( $schemaPaths[$dbname] ) or !isset( $schemaHandlerClasses[$dbname] ) )
         {
-            eZDebug::writeError( "No schema handler for database type: $dbname", 'eZDbSchema::instance()' );
+            eZDebug::writeError( "No schema handler for database type: $dbname", __METHOD__ );
             return false;
         }
 

@@ -1489,7 +1489,7 @@ class eZObjectRelationListType extends eZDataType
             } break;
             default:
             {
-                eZDebug::writeError( "Unknown objectrelationlist action '$action'", 'eZContentObjectRelationListType::customClassAttributeHTTPAction' );
+                eZDebug::writeError( "Unknown objectrelationlist action '$action'", __METHOD__ );
             } break;
         }
     }

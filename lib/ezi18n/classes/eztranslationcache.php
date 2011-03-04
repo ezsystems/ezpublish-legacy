@@ -85,8 +85,7 @@ class eZTranslationCache
         }
         if ( isset( $GLOBALS['eZTranslationCacheTable'][$contextName] ) )
         {
-            eZDebug::writeWarning( "Translation cache for context '$contextName' already exists",
-                                   'eZTranslationCache::setContextCache' );
+            eZDebug::writeWarning( "Translation cache for context '$contextName' already exists", __METHOD__ );
         }
         else
         {
@@ -174,7 +173,7 @@ class eZTranslationCache
         $translationCache = eZTranslationCache::cacheTable();
         if ( isset( $translationCache[$key] ) )
         {
-            eZDebug::writeWarning( "Translation cache for key '$key' already exist, cannot restore cache", 'eZTranslationCache::restoreCache' );
+            eZDebug::writeWarning( "Translation cache for key '$key' already exist, cannot restore cache", __METHOD__ );
             return false;
         }
 //         $internalCharset = eZTextCodec::internalCharset();
@@ -202,7 +201,7 @@ class eZTranslationCache
         $translationCache = eZTranslationCache::cacheTable();
         if ( !isset( $translationCache[$key] ) )
         {
-            eZDebug::writeWarning( "Translation cache for key '$key' does not exist, cannot store cache", 'eZTranslationCache::storeCache' );
+            eZDebug::writeWarning( "Translation cache for key '$key' does not exist, cannot store cache", __METHOD__ );
             return;
         }
         $internalCharset = eZTextCodec::internalCharset();

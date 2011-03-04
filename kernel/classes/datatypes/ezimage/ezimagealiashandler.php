@@ -68,7 +68,7 @@ class eZImageAliasHandler
         }
         else
         {
-            eZDebug::writeWarning( 'Invalid eZContentObjectAttribute', 'eZImageAliasHandler::eZImageAliasHandler' );
+            eZDebug::writeWarning( 'Invalid eZContentObjectAttribute', __METHOD__ );
         }
     }
 
@@ -773,8 +773,7 @@ class eZImageAliasHandler
                     }
                     else
                     {
-                        eZDebug::writeError( "Image file $filepath for alias $aliasName does not exist, could not remove from disk",
-                                             'eZImageAliasHandler::removeAliases' );
+                        eZDebug::writeError( "Image file $filepath for alias $aliasName does not exist, could not remove from disk", __METHOD__ );
                     }
                 }
             }
@@ -1471,7 +1470,7 @@ class eZImageAliasHandler
             {
                 eZDebug::writeError( "Invalid objectAttribute: id = " . $this->ContentObjectAttributeData['id'] .
                                     " version = " . $this->ContentObjectAttributeData['version'] ,
-                                    "eZImageAliasHandler::storeDOMTree" );
+                                    __METHOD__ );
             }
         }
 

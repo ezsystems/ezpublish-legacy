@@ -326,8 +326,7 @@ class eZImageManager
                 $this->appendImageAlias( $alias );
             }
             else
-                eZDebug::writeWarning( "Failed reading Image Alias $aliasName from $iniFile",
-                                       'eZImageManager::readImageAliasFromINI' );
+                eZDebug::writeWarning( "Failed reading Image Alias $aliasName from $iniFile", __METHOD__ );
         }
         $aliasName = 'original';
         if ( !in_array( $aliasName, $aliasNames ) )
@@ -343,8 +342,7 @@ class eZImageManager
                 }
                 else
                 {
-                    eZDebug::writeWarning( "Failed reading Image Alias $aliasName from $iniFile",
-                                           'eZImageManager::readImageAliasFromINI' );
+                    eZDebug::writeWarning( "Failed reading Image Alias $aliasName from $iniFile", __METHOD__ );
                 }
             }
         }
@@ -765,8 +763,7 @@ class eZImageManager
         $ini = eZINI::instance( 'image.ini' );
         if ( !$ini->hasGroup( $iniGroup ) )
         {
-            eZDebug::writeError( "No such group $iniGroup in ini file image.ini",
-                                 'eZImageManager::createAliasFromINI' );
+            eZDebug::writeError( "No such group $iniGroup in ini file image.ini", __METHOD__ );
             return false;
         }
         $alias = array( 'name' => $iniGroup,
@@ -823,7 +820,7 @@ class eZImageManager
         {
             eZDebug::writeError( "The referenced alias '$referenceAlias' for image alias '$aliasName' does not exist, cannot use it for reference.\n" .
                                  "Will use 'original' alias instead.",
-                                 'eZImageManager::createImageAlias' );
+                                 __METHOD__ );
             $referenceAlias = false;
         }
         if ( !$referenceAlias )
@@ -840,8 +837,7 @@ class eZImageManager
             }
             else
             {
-                eZDebug::writeError( "The reference alias $referenceAlias file {$existingAliasList[$referenceAlias]['url']} does not exist",
-                                     'eZImageManager::createImageAlias' );
+                eZDebug::writeError( "The reference alias $referenceAlias file {$existingAliasList[$referenceAlias]['url']} does not exist", __METHOD__ );
             }
         }
         if ( !$hasReference )
@@ -853,8 +849,7 @@ class eZImageManager
             }
             if ( !$this->createImageAlias( $referenceAlias, $existingAliasList, $parameters ) )
             {
-                eZDebug::writeError( "Failed creating the referenced alias $referenceAlias, cannot create alias $aliasName",
-                                     'eZImageManager::createImageAlias' );
+                eZDebug::writeError( "Failed creating the referenced alias $referenceAlias, cannot create alias $aliasName", __METHOD__ );
                 return false;
             }
         }
@@ -945,19 +940,18 @@ class eZImageManager
                             }
                             else
                             {
-                                eZDebug::writeError("The size of the generated image {$destinationMimeData['url']} could not be read by getimagesize()", 'eZImageManager::createImageAlias' );
+                                eZDebug::writeError("The size of the generated image {$destinationMimeData['url']} could not be read by getimagesize()", __METHOD__ );
                             }
                             $fileHandler->fileDeleteLocal( $tempPath );
                         }
                         else
                         {
-                            eZDebug::writeError( "The destination image {$destinationMimeData['url']} does not exist, cannot figure out image size",
-                                'eZImageManager::createImageAlias' );
+                            eZDebug::writeError( "The destination image {$destinationMimeData['url']} does not exist, cannot figure out image size", __METHOD__ );
                         }
                     }
                     else
                     {
-                        eZDebug::writeError( "Unknown function 'getimagesize', cannot get image size", 'eZImageManager::createImageAlias' );
+                        eZDebug::writeError( "Unknown function 'getimagesize', cannot get image size", __METHOD__ );
                     }
                     $existingAliasList[$aliasName] = $currentAliasData;
 
@@ -970,8 +964,7 @@ class eZImageManager
                 {
                     $sourceFile = $sourceMimeData['url'];
                     $destinationDir = $destinationMimeData['dirpath'];
-                    eZDebug::writeError( "Failed converting $sourceFile to alias '$aliasName' in directory '$destinationDir'",
-                                         'eZImageManager::createImageAlias' );
+                    eZDebug::writeError( "Failed converting $sourceFile to alias '$aliasName' in directory '$destinationDir'", __METHOD__ );
                     $convertHandler->abortCacheGeneration();
                     return false;
                 }
@@ -1103,8 +1096,7 @@ class eZImageManager
             $wantedFilter = $wantedFilters[$wantedFilterKey];
             if ( !$this->isFilterSupported( $wantedFilter['name'] ) )
             {
-                eZDebug::writeWarning( "The filter '" . $wantedFilter['name'] . "' is not supported by any of the image handlers, will ignore this filter",
-                                       'eZImageManager::convert' );
+                eZDebug::writeWarning( "The filter '" . $wantedFilter['name'] . "' is not supported by any of the image handlers, will ignore this filter", __METHOD__ );
                 continue;
             }
             $filters[] = $wantedFilter;
@@ -1204,8 +1196,7 @@ class eZImageManager
                 }
                 if ( !$nextMimeData )
                 {
-                    eZDebug::writeError( "None of the handlers can convert MIME-Type " . $currentMimeData['name'],
-                                         'eZImageManager::convert' );
+                    eZDebug::writeError( "None of the handlers can convert MIME-Type " . $currentMimeData['name'], __METHOD__ );
                     if ( isset( $sourceFile ) )
                         $sourceFile->deleteLocal();
                     return false;
@@ -1291,8 +1282,7 @@ class eZImageManager
         {
             if ( !@unlink( $tempFile ) )
             {
-                eZDebug::writeError( "Failed to unlink temporary image file $tempFile",
-                                     'eZImageManager::convert' );
+                eZDebug::writeError( "Failed to unlink temporary image file $tempFile", __METHOD__ );
             }
         }
         $destinationMimeData = $currentMimeData;
@@ -1345,7 +1335,7 @@ class eZImageManager
             $mimeData['filename'] = $mimeData['basename'] . '_' . $aliasName . '.' . $mimeData['suffix'];
             $mimeData['url'] = $mimeData['dirpath'] . '/' . $mimeData['filename'];
         }
-        // eZDebug::writeDebug( $mimeData, 'return from eZImageManager::imageAliasInfo' );
+        // eZDebug::writeDebug( $mimeData, __METHOD__ );
         return $mimeData;
     }
 

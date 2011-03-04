@@ -120,7 +120,7 @@ class eZSendmailTransport extends eZMailTransport
         }
         else
         {
-            eZDebug::writeWarning( "Unable to send mail: 'mail' function is not compiled into PHP.", 'eZSendmailTransport::sendMail' );
+            eZDebug::writeWarning( "Unable to send mail: 'mail' function is not compiled into PHP.", __METHOD__ );
         }
 
         return false;

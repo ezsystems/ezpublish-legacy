@@ -196,7 +196,7 @@ class eZHTTPFile
                 return $this->IsTemporary;
             default:
             {
-                eZDebug::writeError( "Attribute '$attr' does not exist", 'eZHTTPFile::attribute' );
+                eZDebug::writeError( "Attribute '$attr' does not exist", __METHOD__ );
                 return null;
             } break;
         }

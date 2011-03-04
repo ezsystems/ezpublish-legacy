@@ -134,7 +134,7 @@ class eZExpiryHandler
     {
         if ( !isset( $this->Timestamps[$name] ) )
         {
-            eZDebug::writeError( "Unknown expiry timestamp called '$name'", 'eZExpiryHandler::timestamp' );
+            eZDebug::writeError( "Unknown expiry timestamp called '$name'", __METHOD__ );
             return false;
         }
 
@@ -145,7 +145,7 @@ class eZExpiryHandler
 
         if ( !isset( $this->Timestamps[$name][$arrayKey] ) )
         {
-            eZDebug::writeError( "Unknown expiry timestamp called '$name[$arrayKey]'", 'eZExpiryHandler::timestamp' );
+            eZDebug::writeError( "Unknown expiry timestamp called '$name[$arrayKey]'", __METHOD__ );
             return false;
         }
 

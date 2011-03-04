@@ -104,7 +104,7 @@ class eZSysInfo
             return $this->MemorySize;
         else
         {
-            eZDebug::writeError( "Attribute '$name' does not exist", 'eZSysInfo::attribute' );
+            eZDebug::writeError( "Attribute '$name' does not exist", __METHOD__ );
             return null;
         }
     }

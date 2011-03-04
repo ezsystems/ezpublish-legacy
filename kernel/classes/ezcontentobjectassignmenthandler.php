@@ -94,7 +94,7 @@ class eZContentObjectAssignmentHandler
             }
             default:
             {
-                eZDebug::writeError( "Unknown node type '$name'", 'eZContentObjectAssignmentHandler::nodeID' );
+                eZDebug::writeError( "Unknown node type '$name'", __METHOD__ );
             } break;
         }
         return false;

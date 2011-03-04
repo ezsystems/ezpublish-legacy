@@ -1351,7 +1351,7 @@ class eZDebug
         $key = $key === false ? 'Default Debug-Accumulator' : $key;
         if ( ! array_key_exists( $key, $debug->TimeAccumulatorList ) )
         {
-            eZDebug::writeWarning( "Accumulator '$key' does not exist, run eZDebug::accumulatorStart first", 'eZDebug::accumulatorStop' );
+            eZDebug::writeWarning( "Accumulator '$key' does not exist, run eZDebug::accumulatorStart first", __METHOD__ );
             return;
         }
         $accumulator = $debug->TimeAccumulatorList[$key];

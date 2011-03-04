@@ -129,7 +129,7 @@ class eZFile
             $fp = fopen( $filename, 'r' );
             if ( !$fp )
             {
-                eZDebug::writeError( 'Could not read contents of ' . $filename, 'eZFile::getContents()' );
+                eZDebug::writeError( 'Could not read contents of ' . $filename, __METHOD__ );
                 return false;
             }
 

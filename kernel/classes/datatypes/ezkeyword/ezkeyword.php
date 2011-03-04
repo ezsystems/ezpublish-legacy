@@ -78,7 +78,7 @@ class eZKeyword
             }break;
             default:
             {
-                eZDebug::writeError( "Attribute '$name' does not exist", 'eZKeyword::attribute' );
+                eZDebug::writeError( "Attribute '$name' does not exist", __METHOD__ );
                 return null;
             }break;
         }

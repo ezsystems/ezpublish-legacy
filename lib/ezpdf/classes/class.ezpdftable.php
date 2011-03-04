@@ -1309,7 +1309,7 @@ class eZPDFTable extends Cezpdf
 
             default:
             {
-                eZDebug::writeError( 'Unsupported image file type, '. $mimetype['name'], 'eZPDFTable::callImage' );
+                eZDebug::writeError( 'Unsupported image file type, '. $mimetype['name'], __METHOD__ );
                 $this->transaction( 'abort' );
                 return;
             } break;

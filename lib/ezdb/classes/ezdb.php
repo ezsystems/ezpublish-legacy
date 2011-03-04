@@ -110,7 +110,7 @@ class eZDB
     */
     private function __construct()
     {
-        eZDebug::writeError( 'This class should not be instantiated', 'eZDB::eZDB' );
+        eZDebug::writeError( 'This class should not be instantiated', __METHOD__ );
     }
 
     /*!
@@ -300,7 +300,7 @@ class eZDB
                 $impl->ErrorNumber = -1;
                 if ( $databaseParameters['show_errors'] )
                 {
-                    eZDebug::writeError( 'Database implementation not supported: ' . $databaseImplementation, 'eZDB::instance' );
+                    eZDebug::writeError( 'Database implementation not supported: ' . $databaseImplementation, __METHOD__ );
                 }
             }
 

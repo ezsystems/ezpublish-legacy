@@ -382,7 +382,7 @@ class eZMultiPrice extends eZSimplePrice
         if ( !$this->updatePrice( $currencyCode, $value, $type ) &&
              !$this->addPrice( $currencyCode, $value, $type ) )
         {
-            eZDebug::writeWarning( "Unable to set price in '$currencyCode'", 'eZMultiPrice::setPrice' );
+            eZDebug::writeWarning( "Unable to set price in '$currencyCode'", __METHOD__ );
             return false;
         }
 

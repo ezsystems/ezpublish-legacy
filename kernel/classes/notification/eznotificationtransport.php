@@ -92,7 +92,7 @@ class eZNotificationTransport
         if ( !isset( $impl ) )
         {
             $impl = new eZNotificationTransport();
-            eZDebug::writeError( 'Transport implementation not supported: ' . $transport, 'eZNotificationTransport::instance' );
+            eZDebug::writeError( 'Transport implementation not supported: ' . $transport, __METHOD__ );
         }
         return $impl;
     }

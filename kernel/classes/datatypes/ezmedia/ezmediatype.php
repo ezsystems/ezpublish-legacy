@@ -788,8 +788,7 @@ class eZMediaType extends eZDataType
         }
 
         eZFileHandler::copy( $sourcePath, $destinationPath . $basename );
-        eZDebug::writeNotice( 'Copied: ' . $sourcePath . ' to: ' . $destinationPath . $basename,
-                              'eZMediaType::unserializeContentObjectAttribute()' );
+        eZDebug::writeNotice( 'Copied: ' . $sourcePath . ' to: ' . $destinationPath . $basename, __METHOD__ );
 
         $mediaFile->setAttribute( 'contentobject_attribute_id', $objectAttribute->attribute( 'id' ) );
         $mediaFile->setAttribute( 'filename', $basename );

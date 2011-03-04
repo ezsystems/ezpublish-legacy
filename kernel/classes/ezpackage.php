@@ -307,7 +307,7 @@ class eZPackage
             return ( $repositoryInformation['type'] == 'local' );
         }
 
-        eZDebug::writeError( "No such attribute: $attributeName for eZPackage", 'eZPackage::attribute' );
+        eZDebug::writeError( "No such attribute: $attributeName for eZPackage", __METHOD__ );
         return null;
     }
 
@@ -1275,7 +1275,7 @@ class eZPackage
         }
         else
         {
-            eZDebug::writeError( "Saving DOM tree to $filename failed", 'eZPackage::storeDOM' );
+            eZDebug::writeError( "Saving DOM tree to $filename failed", __METHOD__ );
         }
 
         return false;
@@ -1859,7 +1859,7 @@ class eZPackage
                     }
                     else
                     {
-                        eZDebug::writeError( "Failed fetching dom from file $filepath", 'eZPackage::installItem' );
+                        eZDebug::writeError( "Failed fetching dom from file $filepath", __METHOD__ );
                     }
                 }
             }
@@ -1934,7 +1934,7 @@ class eZPackage
                     }
                     else
                     {
-                        eZDebug::writeError( "Failed fetching dom from file $filepath", 'eZPackage::uninstallItem' );
+                        eZDebug::writeError( "Failed fetching dom from file $filepath", __METHOD__ );
                     }
                 }
             }
@@ -2998,7 +2998,7 @@ class eZPackage
             }
             else
             {
-                eZDebug::writeWarning( "Unable to fetch package '$packageName'", 'eZPackage::languageInfoFromPackageList' );
+                eZDebug::writeWarning( "Unable to fetch package '$packageName'", __METHOD__ );
             }
         }
 

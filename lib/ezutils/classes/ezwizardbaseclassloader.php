@@ -65,46 +65,40 @@ class eZWizardBaseClassLoader
              $metaData['current_step'] < 0 )
         {
             $metaData['current_step'] = 0;
-            eZDebug::writeNotice( 'Setting wizard step to : ' . $metaData['current_step'],
-                                  'eZWizardBaseClassLoader::createClass()' );
+            eZDebug::writeNotice( 'Setting wizard step to : ' . $metaData['current_step'], __METHOD__ );
         }
         $currentStep = $metaData['current_step'];
 
         if ( count( $stepArray ) <= $currentStep )
         {
-            eZDebug::writeError( 'Invalid wizard step count: ' . $currentStep,
-                                 'eZWizardBaseClassLoader::createClass()'  );
+            eZDebug::writeError( 'Invalid wizard step count: ' . $currentStep, __METHOD__ );
             return false;
         }
 
         $filePath = $basePath . $stepArray[$currentStep]['file'];
         if ( !file_exists( $filePath ) )
         {
-            eZDebug::writeError( 'Wizard file not found : ' . $filePath,
-                                 'eZWizardBaseClassLoader::createClass()'  );
+            eZDebug::writeError( 'Wizard file not found : ' . $filePath, __METHOD__ );
             return false;
         }
 
         include_once( $filePath );
 
         $className = $stepArray[$currentStep]['class'];
-        eZDebug::writeNotice( 'Creating class : ' . $className,
-                              'eZWizardBaseClassLoader::createClass()' );
+        eZDebug::writeNotice( 'Creating class : ' . $className, __METHOD__ );
         $returnClass =  new $className( $tpl, $module, $storageName );
 
         if ( isset( $stepArray[$currentStep]['operation'] ) )
         {
             $operation = $stepArray[$currentStep]['operation'];
             return $returnClass->$operation();
-            eZDebug::writeNotice( 'Running : "' . $className . '->' . $operation . '()". Specified in StepArray',
-                                  'eZWizardBaseClassLoader::createClass()' );
+            eZDebug::writeNotice( 'Running : "' . $className . '->' . $operation . '()". Specified in StepArray', __METHOD__ );
         }
 
         if ( isset( $metaData['current_stage'] ) )
         {
             $returnClass->setMetaData( 'current_stage', $metaData['current_stage'] );
-            eZDebug::writeNotice( 'Setting wizard stage to : ' . $metaData['current_stage'],
-                                  'eZWizardBaseClassLoader::createClass()' );
+            eZDebug::writeNotice( 'Setting wizard stage to : ' . $metaData['current_stage'], __METHOD__ );
         }
 
         return $returnClass;

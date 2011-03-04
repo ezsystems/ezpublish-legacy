@@ -74,7 +74,7 @@ class eZContentObjectTranslation
             return $this->locale();
         else
         {
-            eZDebug::writeError( "Attribute '$attribute' does not exist", 'eZContentObjectTranslation::attribute' );
+            eZDebug::writeError( "Attribute '$attribute' does not exist", __METHOD__ );
             return null;
         }
     }

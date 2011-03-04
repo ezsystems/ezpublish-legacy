@@ -421,7 +421,7 @@ class eZPostgreSQLDB extends eZDBInterface
         $relationKind = $this->relationKind( $relationType );
         if ( !$relationKind )
         {
-            eZDebug::writeError( "Unsupported relation type '$relationType'", 'eZPostgreSQLDB::relationCount' );
+            eZDebug::writeError( "Unsupported relation type '$relationType'", __METHOD__ );
             return false;
         }
 
@@ -445,7 +445,7 @@ class eZPostgreSQLDB extends eZDBInterface
         $relationKind = $this->relationKind( $relationType );
         if ( !$relationKind )
         {
-            eZDebug::writeError( "Unsupported relation type '$relationType'", 'eZPostgreSQLDB::relationList' );
+            eZDebug::writeError( "Unsupported relation type '$relationType'", __METHOD__ );
             return false;
         }
 
@@ -490,7 +490,7 @@ class eZPostgreSQLDB extends eZDBInterface
         $relationTypeName = $this->relationName( $relationType );
         if ( !$relationTypeName )
         {
-            eZDebug::writeError( "Unsupported relation type '$relationType'", 'eZPostgreSQLDB::removeRelation' );
+            eZDebug::writeError( "Unsupported relation type '$relationType'", __METHOD__ );
             return false;
         }
 

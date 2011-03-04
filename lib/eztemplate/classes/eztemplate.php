@@ -616,8 +616,7 @@ class eZTemplate
                 {
                     $this->processNode( $child, $textElements, $rootNamespace, $currentNamespace );
                     if ( !is_array( $textElements ) )
-                        eZDebug::writeError( "Textelements is no longer array: '$textElements'",
-                                             'eztemplate::processNode::root' );
+                        eZDebug::writeError( "Textelements is no longer array: '$textElements'", __METHOD__ . '::root' );
                 }
             }
         }
@@ -631,8 +630,7 @@ class eZTemplate
             $variablePlacement = $node[3];
             $rslt = $this->processVariable( $textElements, $variableData, $variablePlacement, $rootNamespace, $currentNamespace );
             if ( !is_array( $textElements ) )
-                eZDebug::writeError( "Textelements is no longer array: '$textElements'",
-                                     'eztemplate::processNode::variable' );
+                eZDebug::writeError( "Textelements is no longer array: '$textElements'", __METHOD__ . '::variable' );
         }
         else if ( $nodeType == eZTemplate::NODE_FUNCTION )
         {
@@ -642,8 +640,7 @@ class eZTemplate
             $functionPlacement = $node[4];
             $rslt = $this->processFunction( $functionName, $textElements, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace );
             if ( !is_array( $textElements ) )
-                eZDebug::writeError( "Textelements is no longer array: '$textElements'",
-                                     "eztemplate::processNode::function( '$functionName' )" );
+                eZDebug::writeError( "Textelements is no longer array: '$textElements'", __METHOD__ . "::function( '$functionName' )" );
         }
 
         return $rslt;
@@ -826,7 +823,7 @@ class eZTemplate
         $this->Level++;
         if ( $this->Level > $this->MaxLevel )
         {
-            eZDebug::writeError( $this->MaxLevelWarning,  "eZTemplate:processURI Level: $this->Level @ $uri" );
+            eZDebug::writeError( $this->MaxLevelWarning, __METHOD__ . " Level: $this->Level @ $uri" );
             $textElements[] = $this->MaxLevelWarning;
             $this->Level--;
             return;

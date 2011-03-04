@@ -60,8 +60,7 @@ class eZClassTemplate
     {
         if ( !file_exists( $filePath ) )
         {
-            eZDebug::writeError( "File $filePath does not exists",
-                                 'eZClassTemplate::apply' );
+            eZDebug::writeError( "File $filePath does not exists", __METHOD__ );
             return false;
         }
 
@@ -70,8 +69,7 @@ class eZClassTemplate
         $fd = fopen( $tempFile, 'wb' );
         if ( !$fd )
         {
-            eZDebug::writeError( "Failed to open temporary file $tempFile",
-                                 'eZClassTemplate::apply' );
+            eZDebug::writeError( "Failed to open temporary file $tempFile", __METHOD__ );
             return false;
         }
 
@@ -120,8 +118,7 @@ class eZClassTemplate
                 $elements = explode( ',', $createText );
                 if ( count( $elements ) < 1 )
                 {
-                    eZDebug::writeError( "No template name found in file $filePath at offset $offset",
-                                         'eZClassTemplate::apply' );
+                    eZDebug::writeError( "No template name found in file $filePath at offset $offset", __METHOD__ );
                     $offset = $end;
                     $error = true;
                     continue;
@@ -132,8 +129,7 @@ class eZClassTemplate
                 $templateFile = $this->templateFile( $templateName );
                 if ( $templateFile === false )
                 {
-                    eZDebug::writeError( "No template file for template $templateName used in file $filePath at offset $offset",
-                                         'eZClassTemplate::apply' );
+                    eZDebug::writeError( "No template file for template $templateName used in file $filePath at offset $offset", __METHOD__ );
                     $offset = $end;
                     $error = true;
                     continue;
@@ -141,8 +137,7 @@ class eZClassTemplate
 
                 if ( !file_exists( $templateFile ) )
                 {
-                    eZDebug::writeError( "Template file $templateFile for template $templateName does not exist",
-                                         'eZClassTemplate::apply' );
+                    eZDebug::writeError( "Template file $templateFile for template $templateName does not exist", __METHOD__ );
                     $offset = $end;
                     $error = true;
                     continue;
@@ -177,8 +172,7 @@ class eZClassTemplate
                             $currentTag = $matches[2];
                             if ( $matches[1] == 'END' )
                             {
-                                eZDebug::writeError( "Tag $currentTag was finished before it was started, skipping it",
-                                                     'eZClassTemplate::apply' );
+                                eZDebug::writeError( "Tag $currentTag was finished before it was started, skipping it", __METHOD__ );
                                 $currentTag = false;
                                 $error = true;
                             }
@@ -205,15 +199,13 @@ class eZClassTemplate
                                 }
                                 else
                                 {
-                                    eZDebug::writeError( "End tag $tag does not match start tag $currentTag, skipping it",
-                                                         'eZClassTemplate::apply' );
+                                    eZDebug::writeError( "End tag $tag does not match start tag $currentTag, skipping it", __METHOD__ );
                                     $error = true;
                                 }
                             }
                             else
                             {
-                                eZDebug::writeError( "Start tag $tag found while $currentTag is active, skipping it",
-                                                     'eZClassTemplate::apply' );
+                                eZDebug::writeError( "Start tag $tag found while $currentTag is active, skipping it", __METHOD__ );
                                 $error = true;
                             }
                         }

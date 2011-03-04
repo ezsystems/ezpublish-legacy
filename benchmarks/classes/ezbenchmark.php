@@ -62,8 +62,7 @@ class eZBenchmark extends eZBenchmarkUnit
         }
         else
         {
-            eZDebug::writeWarning( "Tried to add mark unit for an object which is not subclassed from eZBenchmarkUnit",
-                                   'eZBenchmark::addMark' );
+            eZDebug::writeWarning( "Tried to add mark unit for an object which is not subclassed from eZBenchmarkUnit", __METHOD__ );
         }
     }
 }

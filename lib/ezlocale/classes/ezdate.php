@@ -123,7 +123,7 @@ class eZDate
         else if ( $name == 'month'  )
             return $this->month();
 
-        eZDebug::writeError( "Attribute '$name' does not exist", 'eZDate::attribute' );
+        eZDebug::writeError( "Attribute '$name' does not exist", __METHOD__ );
         return false;
     }
 

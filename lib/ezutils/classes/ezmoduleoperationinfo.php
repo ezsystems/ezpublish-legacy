@@ -90,16 +90,14 @@ class eZModuleOperationInfo
         }
         if ( $definitionFile === null )
         {
-            eZDebug::writeError( 'Missing operation definition file for module: ' . $this->ModuleName,
-                                 'eZModuleOperationInfo::loadDefinition' );
+            eZDebug::writeError( 'Missing operation definition file for module: ' . $this->ModuleName, __METHOD__ );
             return false;
         }
         unset( $OperationList );
         include( $definitionFile );
         if ( !isset( $OperationList ) )
         {
-            eZDebug::writeError( 'Missing operation definition list for module: ' . $this->ModuleName,
-                                 'eZModuleOperationInfo::loadDefinition' );
+            eZDebug::writeError( 'Missing operation definition list for module: ' . $this->ModuleName, __METHOD__ );
             return false;
         }
         $this->OperationList = $OperationList;
@@ -151,27 +149,23 @@ class eZModuleOperationInfo
         $moduleName = $this->ModuleName;
         if ( !isset( $this->OperationList[$operationName] ) )
         {
-            eZDebug::writeError( "No such operation '$operationName' in module '$moduleName'",
-                                 'eZModuleOperationInfo::execute' );
+            eZDebug::writeError( "No such operation '$operationName' in module '$moduleName'", __METHOD__ );
             return null;
         }
         $operationDefinition = $this->OperationList[$operationName];
         if ( !isset( $operationName['default_call_method'] ) )
         {
-            eZDebug::writeError( "No call method defined for operation '$operationName' in module '$moduleName'",
-                                 'eZModuleOperationInfo::execute' );
+            eZDebug::writeError( "No call method defined for operation '$operationName' in module '$moduleName'", __METHOD__ );
             return null;
         }
         if ( !isset( $operationName['body'] ) )
         {
-            eZDebug::writeError( "No body for operation '$operationName' in module '$moduleName'",
-                                 'eZModuleOperationInfo::execute' );
+            eZDebug::writeError( "No body for operation '$operationName' in module '$moduleName'", __METHOD__ );
             return null;
         }
         if ( !isset( $operationName['parameters'] ) )
         {
-            eZDebug::writeError( "No parameters defined for operation '$operationName' in module '$moduleName'",
-                                 'eZModuleOperationInfo::execute' );
+            eZDebug::writeError( "No parameters defined for operation '$operationName' in module '$moduleName'", __METHOD__ );
             return null;
         }
         $callMethod = $operationDefinition['default_call_method'];
@@ -290,14 +284,12 @@ class eZModuleOperationInfo
         }
         else
         {
-            eZDebug::writeError( "No valid call methods found for operation '$operationName' in module '$moduleName'",
-                                 'eZModuleOperationInfo::execute' );
+            eZDebug::writeError( "No valid call methods found for operation '$operationName' in module '$moduleName'", __METHOD__ );
             return null;
         }
         if ( !is_array( $resultArray ) )
         {
-            eZDebug::writeError( "Operation '$operationName' in module '$moduleName' did not return a result array",
-                                 'eZOperationHandler::execute' );
+            eZDebug::writeError( "Operation '$operationName' in module '$moduleName' did not return a result array", __METHOD__ );
             return null;
         }
         if ( isset( $resultArray['internal_error'] ) )
@@ -307,37 +299,32 @@ class eZModuleOperationInfo
                 case eZModuleOperationInfo::ERROR_NO_CLASS:
                 {
                     $className = $resultArray['internal_error_class_name'];
-                    eZDebug::writeError( "No class '$className' available for operation '$operationName' in module '$moduleName'",
-                                         'eZModuleOperationInfo::execute' );
+                    eZDebug::writeError( "No class '$className' available for operation '$operationName' in module '$moduleName'", __METHOD__ );
                     return null;
                 } break;
                 case eZModuleOperationInfo::ERROR_NO_CLASS_METHOD:
                 {
                     $className = $resultArray['internal_error_class_name'];
                     $classMethodName = $resultArray['internal_error_class_method_name'];
-                    eZDebug::writeError( "No method '$classMethodName' in class '$className' available for operation '$operationName' in module '$moduleName'",
-                                         'eZModuleOperationInfo::execute' );
+                    eZDebug::writeError( "No method '$classMethodName' in class '$className' available for operation '$operationName' in module '$moduleName'", __METHOD__ );
                     return null;
                 } break;
                 case eZModuleOperationInfo::ERROR_CLASS_INSTANTIATE_FAILED:
                 {
                     $className = $resultArray['internal_error_class_name'];
-                    eZDebug::writeError( "Failed instantiating class '$className' which is needed for operation '$operationName' in module '$moduleName'",
-                                         'eZModuleOperationInfo::execute' );
+                    eZDebug::writeError( "Failed instantiating class '$className' which is needed for operation '$operationName' in module '$moduleName'", __METHOD__ );
                     return null;
                 } break;
                 case eZModuleOperationInfo::ERROR_MISSING_PARAMETER:
                 {
                     $parameterName = $resultArray['internal_error_parameter_name'];
-                    eZDebug::writeError( "Missing parameter '$parameterName' for operation '$operationName' in module '$moduleName'",
-                                         'eZModuleOperationInfo::execute' );
+                    eZDebug::writeError( "Missing parameter '$parameterName' for operation '$operationName' in module '$moduleName'", __METHOD__ );
                     return null;
                 } break;
                 default:
                 {
                     $internalError = $resultArray['internal_error'];
-                    eZDebug::writeError( "Unknown internal error '$internalError' for operation '$operationName' in module '$moduleName'",
-                                         'eZModuleOperationInfo::execute' );
+                    eZDebug::writeError( "Unknown internal error '$internalError' for operation '$operationName' in module '$moduleName'", __METHOD__ );
                     return null;
                 } break;
             }
@@ -352,8 +339,7 @@ class eZModuleOperationInfo
         }
         else
         {
-            eZDebug::writeError( "Operation '$operationName' in module '$moduleName' did not return a result value",
-                                 'eZOperationHandler::execute' );
+            eZDebug::writeError( "Operation '$operationName' in module '$moduleName' did not return a result value", __METHOD__ );
         }
         return null;
     }
@@ -382,12 +368,12 @@ class eZModuleOperationInfo
         {
             if ( !isset( $body['type'] ) )
             {
-                eZDebug::writeError( 'No type for body element, skipping', 'eZModuleOperationInfo::executeBody' );
+                eZDebug::writeError( 'No type for body element, skipping', __METHOD__ );
                 continue;
             }
             if ( !isset( $body['name'] ) )
             {
-                eZDebug::writeError( 'No name for body element, skipping', 'eZModuleOperationInfo::executeBody' );
+                eZDebug::writeError( 'No name for body element, skipping', __METHOD__ );
                 continue;
             }
             $bodyName = $body['name'];
@@ -592,7 +578,7 @@ class eZModuleOperationInfo
                 } break;
                 default:
                 {
-                    eZDebug::writeError( "Unknown operation type $type", 'eZModuleOperationInfo::executeBody' );
+                    eZDebug::writeError( "Unknown operation type $type", __METHOD__ );
                 }
             }
         }

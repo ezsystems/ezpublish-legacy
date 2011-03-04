@@ -220,7 +220,7 @@ class eZDBInterface
         }
         else
         {
-            eZDebug::writeError( "Attribute '$name' does not exist", 'eZDBInterface::attribute' );
+            eZDebug::writeError( "Attribute '$name' does not exist", __METHOD__ );
             return null;
         }
     }
@@ -730,7 +730,7 @@ class eZDBInterface
         {
             if ( $this->TransactionCounter <= 0 )
             {
-                eZDebug::writeError( 'No transaction in progress, cannot commit', 'eZDBInterface::commit' );
+                eZDebug::writeError( 'No transaction in progress, cannot commit', __METHOD__ );
                 return false;
             }
 
@@ -810,7 +810,7 @@ class eZDBInterface
         {
             if ( $this->TransactionCounter <= 0 )
             {
-                eZDebug::writeError( 'No transaction in progress, cannot rollback', 'eZDBInterface::rollback' );
+                eZDebug::writeError( 'No transaction in progress, cannot rollback', __METHOD__ );
                 return false;
             }
             // Reset the transaction counter

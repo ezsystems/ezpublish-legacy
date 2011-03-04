@@ -91,7 +91,7 @@ class eZCodeMapper
         }
         else
         {
-            eZDebug::writeError( $str, 'eZCodeMapper::error' );
+            eZDebug::writeError( $str, __METHOD__ );
         }
     }
 
@@ -115,7 +115,7 @@ class eZCodeMapper
         }
         else
         {
-            eZDebug::writeWarning( $str, 'eZCodeMapper::warning' );
+            eZDebug::writeWarning( $str, __METHOD__ );
         }
     }
 
@@ -1529,8 +1529,7 @@ class eZCodeMapper
                 {
                     break;
                 }
-                eZDebug::writeError( "Unknown command '$name'",
-                                     'eZCharTransform::decodeCommand' );
+                eZDebug::writeError( "Unknown command '$name'", __METHOD__ );
             } break;
         }
         return $rules;

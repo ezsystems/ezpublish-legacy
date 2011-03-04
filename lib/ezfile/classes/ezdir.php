@@ -566,14 +566,12 @@ class eZDir
     {
         if ( !is_dir( $sourceDirectory ) )
         {
-            eZDebug::writeError( "Source $sourceDirectory is not a directory, cannot copy from it",
-                                 'eZDir::copy' );
+            eZDebug::writeError( "Source $sourceDirectory is not a directory, cannot copy from it", __METHOD__ );
             return false;
         }
         if ( !is_dir( $destinationDirectory ) )
         {
-            eZDebug::writeError( "Destination $destinationDirectory is not a directory, cannot copy to it",
-                                 'eZDir::copy' );
+            eZDebug::writeError( "Destination $destinationDirectory is not a directory, cannot copy to it", __METHOD__ );
             return false;
         }
         if ( $asChild )

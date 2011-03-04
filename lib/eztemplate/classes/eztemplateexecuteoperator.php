@@ -102,8 +102,7 @@ class eZTemplateExecuteOperator
             $moduleFunctionInfo = eZFunctionHandler::moduleFunctionInfo( $moduleName );
             if ( !$moduleFunctionInfo->isValid() )
             {
-                eZDebug::writeError( "Cannot execute  module '$moduleName', no module found",
-                                     'eZFunctionHandler::execute' );
+                eZDebug::writeError( "Cannot execute  module '$moduleName', no module found", __METHOD__ );
                 return array();
             }
             $fetchParameters = array();
@@ -125,8 +124,7 @@ class eZTemplateExecuteOperator
                 $moduleFunctionInfo = eZFunctionHandler::moduleFunctionInfo( $aliasSettings->variable( $aliasFunctionName, 'Module' ) );
                 if ( !$moduleFunctionInfo->isValid() )
                 {
-                    eZDebug::writeError( "Cannot execute function '$aliasFunctionName' in module '$moduleName', no valid data",
-                                         'eZFunctionHandler::executeAlias' );
+                    eZDebug::writeError( "Cannot execute function '$aliasFunctionName' in module '$moduleName', no valid data", __METHOD__ );
                     return array();
                 }
 

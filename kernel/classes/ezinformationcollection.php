@@ -488,7 +488,7 @@ class eZInformationCollection extends eZPersistentObject
             return $sorts;
         }
 
-        eZDebug::writeWarning( 'Unknown sort field: ' . $sortField, 'eZInformationCollection ::fetchCollectionsList::getSortArrayFromParam' );
+        eZDebug::writeWarning( 'Unknown sort field: ' . $sortField, __METHOD__ );
         return null;
     }
 
@@ -547,7 +547,7 @@ class eZInformationCollection extends eZPersistentObject
             }
             else
             {
-                eZDebug::writeWarning( 'Too few parameters for setting sorting in fetch, ignoring', 'eZInformationCollection ::fetchCollectionsList' );
+                eZDebug::writeWarning( 'Too few parameters for setting sorting in fetch, ignoring', __METHOD__ );
             }
         }
 

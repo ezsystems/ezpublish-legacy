@@ -446,7 +446,7 @@ class eZContentCacheManager
             $msg .= "\r\n";
         }
 
-        eZDebug::writeDebug( $msg, 'eZContentCacheManager::writeDebugBits()' );
+        eZDebug::writeDebug( $msg, __METHOD__ );
     }
 
     /*!
@@ -685,7 +685,7 @@ class eZContentCacheManager
     */
     static function clearViewCache( $objectID, $versionNum = true , $additionalNodeList = false )
     {
-        eZDebug::writeWarning( "'clearViewCache' function was depreciated. Use 'clearObjectViewCache' instead", 'eZContentCacheManager::clearViewCache' );
+        eZDebug::writeWarning( "'clearViewCache' function was depreciated. Use 'clearObjectViewCache' instead", __METHOD__ );
         eZContentCacheManager::clearObjectViewCache( $objectID, $versionNum, $additionalNodeList );
     }
 

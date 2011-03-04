@@ -945,8 +945,7 @@ print( $values['MyValue'] );
             }
             else if ( $variableRequired )
             {
-                eZDebug::writeError( "Variable '$variableName' is not present in cache '$path'",
-                                     'eZPHPCreator::restore' );
+                eZDebug::writeError( "Variable '$variableName' is not present in cache '$path'", __METHOD__ );
             }
             else
             {
@@ -985,8 +984,7 @@ print( $values['MyValue'] );
         }
         else
         {
-            eZDebug::writeError( "Failed to open file '" . $this->PHPDir . '/' . $this->PHPFile . "'",
-                                 'eZPHPCreator::store' );
+            eZDebug::writeError( "Failed to open file '" . $this->PHPDir . '/' . $this->PHPFile . "'", __METHOD__ );
             return false;
         }
     }

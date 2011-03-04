@@ -97,7 +97,7 @@ class eZContentBrowse
             return $this->Parameters[$attributeName];
         }
 
-        eZDebug::writeError( "Attribute '$attributeName' does not exist", 'eZContentBrowse::attribute' );
+        eZDebug::writeError( "Attribute '$attributeName' does not exist", __METHOD__ );
         return null;
     }
 

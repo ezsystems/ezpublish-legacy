@@ -364,7 +364,7 @@ class eZUser extends eZPersistentObject
 
                     default:
                     {
-                        eZDebug::writeError( "Unkown sort column '$sortColumn'", 'eZUser::fetchLoggedInList' );
+                        eZDebug::writeError( "Unkown sort column '$sortColumn'", __METHOD__ );
                         $sortColumn = false;
                     } break;
                 }
@@ -526,7 +526,7 @@ WHERE user_id = '" . $userID . "' AND
         $user = eZUser::fetch( $userID );
         if ( !$user )
         {
-            eZDebug::writeError( "unable to find user with ID $userID", 'eZUser::removeUser()' );
+            eZDebug::writeError( "unable to find user with ID $userID", __METHOD__ );
             return false;
         }
 

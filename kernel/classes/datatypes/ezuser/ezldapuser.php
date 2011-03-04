@@ -234,7 +234,7 @@ class eZLDAPUser extends eZUser
                 // Set debug trace mode for ldap connections
                 if ( function_exists( 'ldap_set_option' ) )
                     ldap_set_option(NULL, LDAP_OPT_DEBUG_LEVEL, 7);
-                eZDebug::writeNotice( var_export( $debugArray, true ), 'eZLDAPUser::loginUser' );
+                eZDebug::writeNotice( var_export( $debugArray, true ), __METHOD__ );
             }
 
             if ( function_exists( 'ldap_connect' ) )
@@ -257,7 +257,7 @@ class eZLDAPUser extends eZUser
                 if ( !$r )
                 {
                     // Increase number of failed login attempts.
-                    eZDebug::writeError( 'Cannot bind to LDAP server, might be something wronge with connetion or bind user!', 'eZLDAPUser::loginUser()' );
+                    eZDebug::writeError( 'Cannot bind to LDAP server, might be something wronge with connetion or bind user!', __METHOD__ );
                     if ( isset( $userID ) )
                         eZUser::setFailedLoginAttempts( $userID );
 
@@ -286,7 +286,7 @@ class eZLDAPUser extends eZUser
                                          'LDAPSearchScope' => $LDAPSearchScope,
                                          'LDAPBaseDN' => $LDAPBaseDN
                     );
-                    eZDebug::writeNotice( var_export( $debugArray, true ), 'eZLDAPUser::loginUser' );
+                    eZDebug::writeNotice( var_export( $debugArray, true ), __METHOD__ );
                 }
 
                 if ( $LDAPSearchScope == "one" )
@@ -300,7 +300,7 @@ class eZLDAPUser extends eZUser
                 if ( $info['count'] > 1 )
                 {
                     // More than one user with same uid, not allow login.
-                    eZDebug::writeWarning( 'More then one user with same uid, not allowed to login!', 'eZLDAPUser::loginUser()' );
+                    eZDebug::writeWarning( 'More then one user with same uid, not allowed to login!', __METHOD__ );
                     $user = false;
                     return $user;
                 }
@@ -311,7 +311,7 @@ class eZLDAPUser extends eZUser
                         eZUser::setFailedLoginAttempts( $userID );
 
                     // user DN was not found
-                    eZDebug::writeWarning( 'User DN was not found!', 'eZLDAPUser::loginUser()' );
+                    eZDebug::writeWarning( 'User DN was not found!', __METHOD__ );
                     $user = false;
                     return $user;
                 }
@@ -320,7 +320,7 @@ class eZLDAPUser extends eZUser
                     $debugArray = array( 'stage' => '3/5: real authentication of user',
                                          'info' => $info
                     );
-                    eZDebug::writeNotice( var_export( $debugArray, true ), 'eZLDAPUser::loginUser' );
+                    eZDebug::writeNotice( var_export( $debugArray, true ), __METHOD__ );
                 }
 
                 if( !$password )
@@ -335,7 +335,7 @@ class eZLDAPUser extends eZUser
                     if ( isset( $userID ) )
                         eZUser::setFailedLoginAttempts( $userID );
 
-                    eZDebug::writeWarning( "User $userID failed to login!", 'eZLDAPUser::loginUser()' );
+                    eZDebug::writeWarning( "User $userID failed to login!", __METHOD__ );
                     $user = false;
                     return $user;
                 }
@@ -458,7 +458,7 @@ class eZLDAPUser extends eZUser
                                          'defaultUserPlacement' => $defaultUserPlacement,
                                          'extraNodeAssignments' => $extraNodeAssignments
                     );
-                    eZDebug::writeNotice( var_export( $debugArray, true ), 'eZLDAPUser::loginUser' );
+                    eZDebug::writeNotice( var_export( $debugArray, true ), __METHOD__ );
                 }
 
                 if ( $LDAPGroupMappingType == $ByMemberAttribute or
@@ -613,8 +613,7 @@ class eZLDAPUser extends eZUser
                         }
                         else
                         {
-                            eZDebug::writeError( "Bad LDAPUserGroupAttributeType '$LDAPUserGroupAttributeType'. It must be either 'name', 'id' or 'dn'.",
-                                                 __METHOD__ );
+                            eZDebug::writeError( "Bad LDAPUserGroupAttributeType '$LDAPUserGroupAttributeType'. It must be either 'name', 'id' or 'dn'.", __METHOD__ );
                             $user = false;
                             return $user;
                         }
@@ -648,7 +647,7 @@ class eZLDAPUser extends eZUser
                                          'defaultUserPlacement' => $defaultUserPlacement,
                                          'extraNodeAssignments' => $extraNodeAssignments
                     );
-                    eZDebug::writeNotice( var_export( $debugArray, true ), 'eZLDAPUser::loginUser' );
+                    eZDebug::writeNotice( var_export( $debugArray, true ), __METHOD__ );
                 }
 
                 $oldUser = clone eZUser::currentUser();
@@ -668,7 +667,7 @@ class eZLDAPUser extends eZUser
             }
             else
             {
-                eZDebug::writeError( 'Cannot initialize connection for LDAP server', 'eZLDAPUser::loginUser()' );
+                eZDebug::writeError( 'Cannot initialize connection for LDAP server', __METHOD__ );
                 $user = false;
                 return $user;
             }
@@ -679,7 +678,7 @@ class eZLDAPUser extends eZUser
             if ( isset( $userID ) )
                 eZUser::setFailedLoginAttempts( $userID );
 
-            eZDebug::writeWarning( 'User does not exist or LDAP is not enabled in php', 'eZLDAPUser::loginUser()' );
+            eZDebug::writeWarning( 'User does not exist or LDAP is not enabled in php', __METHOD__ );
             $user = false;
             return $user;
         }
@@ -691,13 +690,10 @@ class eZLDAPUser extends eZUser
     */
     static function publishUpdateUser( $parentNodeIDs, $defaultUserPlacement, $userAttributes, $isUtf8Encoding = false )
     {
-        $thisFunctionErrorLabel = 'eZLDAPUser.php, function publishUpdateUser()';
-
         if ( !is_array( $userAttributes ) or
              !isset( $userAttributes[ 'login' ] ) or empty( $userAttributes[ 'login' ] ) )
         {
-            eZDebug::writeWarning( 'Empty user login passed.',
-                                   $thisFunctionErrorLabel );
+            eZDebug::writeWarning( 'Empty user login passed.', __METHOD__ );
             return false;
         }
 
@@ -706,7 +702,7 @@ class eZLDAPUser extends eZUser
         {
             eZDebug::writeWarning( 'No one parent node IDs was passed for publishing new user (login = "' .
                                    $userAttributes[ 'login' ] . '")',
-                                   $thisFunctionErrorLabel );
+                                   __METHOD__ );
             return false;
         }
         $parentNodeIDs[] = $defaultUserPlacement;
@@ -733,8 +729,7 @@ class eZLDAPUser extends eZUser
                  !isset( $last_name ) or empty( $last_name ) or
                  !isset( $email ) or empty( $email ) )
             {
-                eZDebug::writeWarning( 'Cannot create user with empty first name (last name or email).',
-                                       $thisFunctionErrorLabel );
+                eZDebug::writeWarning( 'Cannot create user with empty first name (last name or email).', __METHOD__ );
                 return false;
             }
 
@@ -987,22 +982,20 @@ class eZLDAPUser extends eZUser
     */
     static function publishNewUserGroup( $parentNodeIDs, $newGroupAttributes, $isUtf8Encoding = false )
     {
-        $thisFunctionErrorLabel = 'eZLDAPUser.php, function publishNewUserGroup()';
         $newNodeIDs = array();
 
         if ( !is_array( $newGroupAttributes ) or
              !isset( $newGroupAttributes[ 'name' ] ) or
              empty( $newGroupAttributes[ 'name' ] ) )
         {
-            eZDebug::writeWarning( 'Cannot create user group with empty name.',
-                                   $thisFunctionErrorLabel );
+            eZDebug::writeWarning( 'Cannot create user group with empty name.', __METHOD__ );
             return $newNodeIDs;
         }
         if ( !is_array( $parentNodeIDs ) or count( $parentNodeIDs ) < 1 )
         {
             eZDebug::writeWarning( 'No one parent node IDs was passed for publishing new group (group name = "' .
                                    $newGroupAttributes[ 'name' ] . '")',
-                                   $thisFunctionErrorLabel );
+                                   __METHOD__ );
             return $newNodeIDs;
         }
 
@@ -1100,11 +1093,9 @@ class eZLDAPUser extends eZUser
                                  $depth,
                                  $isUser = false )
     {
-        $thisFunctionErrorLabel = 'eZLDAPUser.php, function goAndPublishGroups()';
         if ( !isset( $groupsTree[ $curDN ] ) )
         {
-            eZDebug::writeError( 'Passed $curDN is not in result tree array.',
-                                 $thisFunctionErrorLabel );
+            eZDebug::writeError( 'Passed $curDN is not in result tree array.', __METHOD__ );
             return false;
         }
 
@@ -1129,8 +1120,7 @@ class eZLDAPUser extends eZUser
 
         if ( empty( $currentName ) )
         {
-            eZDebug::writeWarning( "Cannot create/use group with empty name (dn = $curDN)",
-                                   $thisFunctionErrorLabel );
+            eZDebug::writeWarning( "Cannot create/use group with empty name (dn = $curDN)", __METHOD__ );
             return false;
         }
 
@@ -1144,8 +1134,7 @@ class eZLDAPUser extends eZUser
                 if ( in_array( $parent['data']['dn'], $stack ) )
                 {
                     $groupsTree[ '_recursion_detected_' ] = true;
-                    eZDebug::writeError( 'Recursion is detected in the user-groups tree while getting parent groups for ' . $curDN,
-                                         $thisFunctionErrorLabel );
+                    eZDebug::writeError( 'Recursion is detected in the user-groups tree while getting parent groups for ' . $curDN, __METHOD__ );
                     return false;
                 }
                 if ( isset( $parent[ 'nodes' ] ) and count( $parent[ 'nodes' ] ) > 0 )
@@ -1214,8 +1203,7 @@ class eZLDAPUser extends eZUser
                     }
                     else
                     {
-                        eZDebug::writeError( 'Cannot fetch parent node for creating new user group ' . $parentNodeID,
-                                             $thisFunctionErrorLabel );
+                        eZDebug::writeError( 'Cannot fetch parent node for creating new user group ' . $parentNodeID, __METHOD__ );
                     }
                 }
             }
@@ -1223,7 +1211,7 @@ class eZLDAPUser extends eZUser
             {
                 eZDebug::writeError( "Cannot get any published parent group for group/user with name = '$currentName'" .
                                      " (dn = '" . $current[ 'data' ]['dn'] . "')",
-                                     $thisFunctionErrorLabel );
+                                     __METHOD__ );
             }
         }
 
@@ -1261,7 +1249,6 @@ class eZLDAPUser extends eZUser
         {
             return false;
         }
-        $thisFunctionErrorLabel = 'eZLDAPUser.php, function getUserGroupsTree()';
 
         if ( !isset( $requiredParams[ 'LDAPGroupBaseDN' ] ) or empty( $requiredParams[ 'LDAPGroupBaseDN' ] ) or
              !isset( $requiredParams[ 'LDAPGroupClass' ] ) or empty( $requiredParams[ 'LDAPGroupClass' ] ) or
@@ -1269,14 +1256,12 @@ class eZLDAPUser extends eZUser
              !isset( $requiredParams[ 'LDAPGroupMemberAttribute' ] ) or empty( $requiredParams[ 'LDAPGroupMemberAttribute' ] ) or
              !isset( $requiredParams[ 'ds' ] ) or !$requiredParams[ 'ds' ] )
         {
-            eZDebug::writeError( 'Missing one of required parameters.',
-                                 $thisFunctionErrorLabel );
+            eZDebug::writeError( 'Missing one of required parameters.', __METHOD__ );
             return false;
         }
         if ( !isset( $groupsTree[ $curDN ] ) )
         {
-            eZDebug::writeError( 'Passed $curDN is not in result tree array. Algorithm\'s usage error.',
-                                 $thisFunctionErrorLabel );
+            eZDebug::writeError( 'Passed $curDN is not in result tree array. Algorithm\'s usage error.', __METHOD__ );
             return false;
         }
         array_push( $stack, $curDN );
@@ -1311,8 +1296,7 @@ class eZLDAPUser extends eZUser
                 {
                     $requiredParams[ 'LDAPGroupNameAttribute' ];
 
-                    eZDebug::writeError( 'Recursion is detected in the user-groups tree while getting parent groups for ' . $curDN,
-                                         $thisFunctionErrorLabel );
+                    eZDebug::writeError( 'Recursion is detected in the user-groups tree while getting parent groups for ' . $curDN, __METHOD__ );
                     $groupsTree[ '_recursion_detected_' ] = true;
                     return false;
                 }

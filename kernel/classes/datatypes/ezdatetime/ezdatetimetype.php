@@ -521,8 +521,7 @@ class eZDateTimeType extends eZDataType
             } break;
             default:
             {
-                eZDebug::writeError( 'Unknown type of DateTime default value. Empty type used instead.',
-                                    'eZDateTimeType::serializeContentClassAttribute()' );
+                eZDebug::writeError( 'Unknown type of DateTime default value. Empty type used instead.', __METHOD__ );
                 $defaultValueNode->setAttribute( 'type', 'empty' );
             } break;
         }
@@ -569,8 +568,7 @@ class eZDateTimeType extends eZDataType
             } break;
             default:
             {
-                eZDebug::writeError( 'Type of DateTime default value is not set. Empty type used as default.',
-                                    'eZDateTimeType::unserializeContentClassAttribute()' );
+                eZDebug::writeError( 'Type of DateTime default value is not set. Empty type used as default.', __METHOD__ );
                 $classAttribute->setAttribute( self::DEFAULT_FIELD, self::DEFAULT_EMTPY );
             } break;
         }

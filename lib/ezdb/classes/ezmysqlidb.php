@@ -118,7 +118,7 @@ class eZMySQLiDB extends eZDBInterface
             if ( version_compare( PHP_VERSION, '5.3' ) > 0 )
                 $this->Server = 'p:' . $this->Server;
             else
-                eZDebug::writeWarning( 'mysqli only supports persistent connections when using php 5.3 and higher', 'eZMySQLiDB::connect' );
+                eZDebug::writeWarning( 'mysqli only supports persistent connections when using php 5.3 and higher', __METHOD__ );
         }
 
         $oldHandling = eZDebug::setHandleType( eZDebug::HANDLE_EXCEPTION );

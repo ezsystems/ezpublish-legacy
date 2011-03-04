@@ -74,8 +74,7 @@ class eZOperationHandler
         $moduleOperationInfo = eZOperationHandler::moduleOperationInfo( $moduleName, $useTriggers );
         if ( !$moduleOperationInfo->isValid() )
         {
-            eZDebug::writeError( "Cannot execute operation '$operationName' in module '$moduleName', no valid data",
-                                  'eZOperationHandler::execute' );
+            eZDebug::writeError( "Cannot execute operation '$operationName' in module '$moduleName', no valid data", __METHOD__ );
             return null;
         }
         return $moduleOperationInfo->execute( $operationName, $operationParameters, $lastTriggerName, $useTriggers );

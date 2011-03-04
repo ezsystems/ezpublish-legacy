@@ -361,8 +361,7 @@ class eZContentObject extends eZPersistentObject
         $name = false;
         if ( !$version > 0 )
         {
-            eZDebug::writeNotice( "There is no object name for version($version) of the content object ($contentObjectID) in language($lang)",
-                                  'eZContentObject::versionLanguageName' );
+            eZDebug::writeNotice( "There is no object name for version($version) of the content object ($contentObjectID) in language($lang)", __METHOD__ );
             return $name;
         }
         $db = eZDb::instance();
@@ -405,8 +404,7 @@ class eZContentObject extends eZPersistentObject
         $resCount = count( $result );
         if( $resCount < 1 )
         {
-            eZDebug::writeNotice( "There is no object name for version($version) of the content object ($contentObjectID) in language($lang)",
-                                  'eZContentObject::versionLanguageName' );
+            eZDebug::writeNotice( "There is no object name for version($version) of the content object ($contentObjectID) in language($lang)", __METHOD__ );
         }
         else if( $resCount > 1 )
         {
@@ -840,7 +838,7 @@ class eZContentObject extends eZPersistentObject
             }
             else
             {
-                eZDebug::writeError( "Object not found ($id)", 'eZContentObject::fetch()' );
+                eZDebug::writeError( "Object not found ($id)", __METHOD__ );
                 $retValue = null;
                 return $retValue;
             }
@@ -1894,8 +1892,7 @@ class eZContentObject extends eZPersistentObject
         if ( !is_numeric( $timeDuration ) ||
              $timeDuration < 0 )
         {
-            eZDebug::writeError( "The time duration must be a positive numeric value (timeDuration = $timeDuration)",
-                                 'eZContentObject::cleanupInternalDrafts()' );
+            eZDebug::writeError( "The time duration must be a positive numeric value (timeDuration = $timeDuration)", __METHOD__ );
             return;
         }
 
@@ -1928,8 +1925,7 @@ class eZContentObject extends eZPersistentObject
         if ( !is_numeric( $timeDuration ) ||
              $timeDuration < 0 )
         {
-            eZDebug::writeError( "The time duration must be a positive numeric value (timeDuration = $timeDuration)",
-                                 'eZContentObject::cleanupAllInternalDrafts()' );
+            eZDebug::writeError( "The time duration must be a positive numeric value (timeDuration = $timeDuration)", __METHOD__ );
             return;
         }
 
@@ -2596,7 +2592,7 @@ class eZContentObject extends eZPersistentObject
         if ( ( $relationType & eZContentObject::RELATION_ATTRIBUTE ) != 0 &&
              $relationType != eZContentObject::RELATION_ATTRIBUTE )
         {
-            eZDebug::writeWarning( "Object relation type conflict", "eZContentObject::addContentObjectRelation");
+            eZDebug::writeWarning( "Object relation type conflict", __METHOD__ );
         }
 
         $db = eZDB::instance();

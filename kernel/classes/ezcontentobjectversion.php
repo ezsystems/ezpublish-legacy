@@ -977,13 +977,13 @@ class eZContentObjectVersion extends eZPersistentObject
         $checkIntersect = array_intersect( $versionStatus, $statuses );
         if ( count( $checkIntersect ) != count( $versionStatus ) )
         {
-            eZDebug::writeError( 'Invalid version status was passed in.', 'eZContentObjectVersion::removeVersions()' );
+            eZDebug::writeError( 'Invalid version status was passed in.', __METHOD__ );
             return false;
         }
 
         if ( $limit !== false and ( !is_numeric( $limit ) or $limit < 0 ) )
         {
-            eZDebug::writeError( '$limit must be either false or positive numeric value.', 'eZContentObjectVersion::removeVersions()' );
+            eZDebug::writeError( '$limit must be either false or positive numeric value.', __METHOD__ );
             return false;
         }
 

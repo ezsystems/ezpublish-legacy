@@ -564,12 +564,12 @@ class eZLocale
             }
             else
             {
-                eZDebug::writeError( "Unknown method '$method' specified for attribute '$attribute'", 'eZLocale::attribute' );
+                eZDebug::writeError( "Unknown method '$method' specified for attribute '$attribute'", __METHOD__ );
                 return null;
             }
         }
 
-        eZDebug::writeError( "Attribute '$attribute' does not exist", 'eZLocale::attribute' );
+        eZDebug::writeError( "Attribute '$attribute' does not exist", __METHOD__ );
         return null;
     }
 
@@ -1489,7 +1489,7 @@ class eZLocale
             $localeFile = $locale . '.ini';
             if ( eZLocale::isDebugEnabled() )
             {
-                eZDebug::writeNotice( "Requesting $localeFile", 'eZLocale::localeFile' );
+                eZDebug::writeNotice( "Requesting $localeFile", __METHOD__ );
             }
             if ( eZINI::exists( $localeFile, 'share/locale' ) )
                 $this->LocaleINI[$type] = eZINI::instance( $localeFile, 'share/locale' );
@@ -1517,7 +1517,7 @@ class eZLocale
             $countryFile = 'country/' . $locale . '.ini';
             if ( eZLocale::isDebugEnabled() )
             {
-                eZDebug::writeNotice( "Requesting $countryFile", 'eZLocale::countryFile' );
+                eZDebug::writeNotice( "Requesting $countryFile", __METHOD__ );
             }
             if ( eZINI::exists( $countryFile, 'share/locale' ) )
                 $this->CountryINI[$type] = eZINI::instance( $countryFile, 'share/locale' );
@@ -1545,7 +1545,7 @@ class eZLocale
             $languageFile = 'language/' . $locale . '.ini';
             if ( eZLocale::isDebugEnabled() )
             {
-                eZDebug::writeNotice( "Requesting $languageFile", 'eZLocale::languageFile' );
+                eZDebug::writeNotice( "Requesting $languageFile", __METHOD__ );
             }
             if ( eZINI::exists( $languageFile, 'share/locale' ) )
                 $this->LanguageINI[$type] = eZINI::instance( $languageFile, 'share/locale' );

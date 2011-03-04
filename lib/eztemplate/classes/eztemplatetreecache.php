@@ -102,7 +102,7 @@ class eZTemplateTreeCache
         $key = eZTemplateTreeCache::internalKey( $originalKey );
         if ( isset( $templateCache[$key] ) )
         {
-            eZDebug::writeDebug( "Template cache for key '$key', created from uri '$uri', already exists", 'eZTemplateTreeCache::setCachedTree' );
+            eZDebug::writeDebug( "Template cache for key '$key', created from uri '$uri', already exists", __METHOD__ );
         }
         else
         {
@@ -210,7 +210,7 @@ class eZTemplateTreeCache
         $key = eZTemplateTreeCache::internalKey( $key );
         if ( isset( $templateCache[$key] ) )
         {
-            eZDebug::writeDebug( "Template cache for key '$key' already exist, cannot restore cache", 'eZTemplateTreeCache::restoreCache' );
+            eZDebug::writeDebug( "Template cache for key '$key' already exist, cannot restore cache", __METHOD__ );
             return false;
         }
         $cacheFileName = eZTemplateTreeCache::treeCacheFilename( $key, $templateFilepath );
@@ -240,7 +240,7 @@ class eZTemplateTreeCache
         $key = eZTemplateTreeCache::internalKey( $key );
         if ( !isset( $templateCache[$key] ) )
         {
-            eZDebug::writeDebug( "Template cache for key '$key' does not exist, cannot store cache", 'eZTemplateTreeCache::storeCache' );
+            eZDebug::writeDebug( "Template cache for key '$key' does not exist, cannot store cache", __METHOD__ );
             return;
         }
         $cacheFileName = eZTemplateTreeCache::treeCacheFilename( $key, $templateFilepath );

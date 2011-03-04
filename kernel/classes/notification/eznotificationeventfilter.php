@@ -66,7 +66,7 @@ class eZNotificationEventFilter
                 {
                     if ( $handler === false )
                     {
-                        eZDebug::writeError( "Notification handler does not exist: $handlerKey", 'eZNotificationEventFilter::process()' );
+                        eZDebug::writeError( "Notification handler does not exist: $handlerKey", __METHOD__ );
                     }
                     else
                     {
@@ -143,7 +143,7 @@ class eZNotificationEventFilter
         }
         if ( !$foundHandler  )
         {
-            eZDebug::writeError( "Notification handler does not exist: $handlerString", 'eZNotificationEventFilter::loadHandler()' );
+            eZDebug::writeError( "Notification handler does not exist: $handlerString", __METHOD__ );
             return false;
         }
         include_once( $includeFile );

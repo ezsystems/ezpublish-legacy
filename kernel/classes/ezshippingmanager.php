@@ -181,8 +181,7 @@ class eZShippingManager
         $className = $handlerName . 'ShippingHandler';
         if ( !class_exists ( $className ) )
         {
-            eZDebug::writeError( "Cannot instantiate non-existent class: '$className'",
-                                 'eZShippingManager::loadShippingHandler' );
+            eZDebug::writeError( "Cannot instantiate non-existent class: '$className'", __METHOD__ );
             return null;
         }
 
@@ -242,8 +241,7 @@ class eZShippingManager
         $className = $handlerName . 'BasketInfoHandler';
         if ( !class_exists ( $className ) )
         {
-            eZDebug::writeError( "Cannot instantiate non-existent class: '$className'",
-                                 'eZShippingManager::loadBasketInfoHandler' );
+            eZDebug::writeError( "Cannot instantiate non-existent class: '$className'", __METHOD__ );
             return null;
         }
 

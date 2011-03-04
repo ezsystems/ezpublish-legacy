@@ -105,7 +105,7 @@ class ezpRestClient
         elseif ( $this->__isset( $attributeName ) )
             return $this->__get( $attributeName );
         else
-            eZDebug::writeError( "Attribute '$attributeName' does not exist", __CLASS__ . '::attribute' );
+            eZDebug::writeError( "Attribute '$attributeName' does not exist", __METHOD__ );
     }
 
     /**

@@ -191,9 +191,7 @@ class eZIniSettingType extends eZDataType
                 else
                 {
                     $objectAttribute->setAttribute( 'data_text', $configValue );
-                    eZDebug::writeNotice( 'Loaded following values from ' . $path . '/' . $filename . ":\n" .
-                                          '    ' . $configValue,
-                                          'eZIniSettingType::initializeObjectAttribute');
+                    eZDebug::writeNotice( "Loaded following values from $path/$filename:\n    $configValue", __METHOD__ );
                 }
             }
 
@@ -328,7 +326,7 @@ class eZIniSettingType extends eZDataType
                 eZDebug::writeNotice( 'Saved ini settings to file: ' . $path . '/' . $filename . "\n" .
                                       '                            ['. $section . ']' . "\n" .
                                       '                            ' . $parameter . '=' . $contentObjectAttribute->attribute( 'data_text' ),
-                                      'eZIniSettingType::onPublish' );
+                                      __METHOD__ );
             }
             $config->save();
         }

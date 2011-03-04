@@ -130,7 +130,7 @@ class eZPackageInstallationHandler
             return $this->Attributes[$name];
         }
 
-        eZDebug::writeError( "Attribute '$name' does not exist", 'eZPackageInstallationHandler::attribute' );
+        eZDebug::writeError( "Attribute '$name' does not exist", __METHOD__ );
         return null;
     }
 
@@ -365,8 +365,7 @@ class eZPackageInstallationHandler
             }
             else
             {
-                eZDebug::writeError( 'Failed fetching dom from file ' . $filepath,
-                                     'eZPackageInstallationHandler::rootDOMNode()' );
+                eZDebug::writeError( 'Failed fetching dom from file ' . $filepath, __METHOD__ );
                 exit(0);
             }
         }

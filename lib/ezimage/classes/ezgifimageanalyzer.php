@@ -277,8 +277,7 @@ class eZGIFImageAnalyzer
             {
                 if ( $printInfo )
                     print( "Not GIF\n" );
-                eZDebug::writeError( "The image file $filename is not a GIF file, cannot analyze it",
-                                     'eZGIFImageAnalyzer::process' );
+                eZDebug::writeError( "The image file $filename is not a GIF file, cannot analyze it", __METHOD__ );
             }
             fclose( $fd );
             $info['is_animated'] = $info['frame_count'] > 1;

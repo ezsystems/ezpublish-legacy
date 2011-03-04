@@ -480,8 +480,7 @@ class eZCLI
                 $end = strpos( $configString, ']', $i + 1 );
                 if ( $end === false )
                 {
-                    eZDebug::writeError( "Missing end marker ] in option string at position $i",
-                                         'eZCLI::parseOptionString' );
+                    eZDebug::writeError( "Missing end marker ] in option string at position $i", __METHOD__ );
                     return $optionConfig;
                 }
                 $optionList = substr( $configString, $i + 1, $end - $i - 1 );

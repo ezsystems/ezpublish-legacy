@@ -494,7 +494,7 @@ class eZURI
                 break;
             default:
             {
-                eZDebug::writeError( "Attribute '$attr' does not exist", 'eZURI::attribute' );
+                eZDebug::writeError( "Attribute '$attr' does not exist", __METHOD__ );
                 return null;
             } break;
         }

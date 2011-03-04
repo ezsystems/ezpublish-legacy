@@ -738,13 +738,13 @@ class eZURLAliasML extends eZPersistentObject
                 if ( count( $rows ) == 0 )
                 {
                     if ( $reportErrors )
-                        eZDebug::writeError( "The link ID $linkID does not exist, cannot create the link", 'eZURLAliasML::storePath' );
+                        eZDebug::writeError( "The link ID $linkID does not exist, cannot create the link", __METHOD__ );
                     return array( 'status' => eZURLAliasML::LINK_ID_NOT_FOUND );
                 }
                 if ( $rows[0]['action'] != $action )
                 {
                     if ( $reportErrors )
-                        eZDebug::writeError( "The link ID $linkID uses a different action ({$rows[0]['action']}) than the requested action ({$action}) for the link, cannot create the link", 'eZURLAliasML::storePath' );
+                        eZDebug::writeError( "The link ID $linkID uses a different action ({$rows[0]['action']}) than the requested action ({$action}) for the link, cannot create the link", __METHOD__ );
                     return array( 'status' => eZURLAliasML::LINK_ID_WRONG_ACTION );
                 }
                 // If the element which is pointed to is a link, then grab the link id from that instead

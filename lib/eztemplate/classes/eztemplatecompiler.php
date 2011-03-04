@@ -419,10 +419,10 @@ class eZTemplateCompiler
                 return true;
             }
             else
-                eZDebug::writeError( "Failed executing compiled template '$phpScript'", 'eZTemplateCompiler::executeCompilation' );
+                eZDebug::writeError( "Failed executing compiled template '$phpScript'", __METHOD__ );
         }
         else
-            eZDebug::writeError( "Unknown compiled template '$phpScript'", 'eZTemplateCompiler::executeCompilation' );
+            eZDebug::writeError( "Unknown compiled template '$phpScript'", __METHOD__ );
         return false;
     }
 
