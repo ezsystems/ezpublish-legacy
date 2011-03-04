@@ -133,15 +133,14 @@ class eZTemplateCacheFunction
             $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $keysData, false, array(), 'cacheKeys' );
             $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $subtreeExpiryData, false, array(), 'subtreeExpiry' );
 
-            $code = ( "//include_once( 'lib/eztemplate/classes/eztemplatecacheblock.php' );\n" .
-                      "\$cacheKeys = array( \$cacheKeys, $placementKeyStringText, $accessNameText );\n" );
+            $code = "\$cacheKeys = array( \$cacheKeys, $placementKeyStringText, $accessNameText );\n";
             $cachePathText = "\$cachePath";
         }
         else
         {
             $nodeID = $subtreeValue ? eZTemplateCacheBlock::decodeNodeID( $subtreeValue ) : false;
             $cachePath = eZTemplateCacheBlock::cachePath( eZTemplateCacheBlock::keyString( array( $placementKeyString, $accessName ) ), $nodeID );
-            $code = ( "//include_once( 'lib/eztemplate/classes/eztemplatecacheblock.php' );\n" );
+            $code = "";
             $cachePathText = eZPHPCreator::variableText( $cachePath, 0, 0, false );
         }
 

@@ -364,7 +364,7 @@ class eZUser extends eZPersistentObject
 
                     default:
                     {
-                        eZDebug::writeError( "Unkown sort column '$sortColumn'", 'eZUser::fetchLoggedInList' );
+                        eZDebug::writeError( "Unkown sort column '$sortColumn'", __METHOD__ );
                         $sortColumn = false;
                     } break;
                 }
@@ -440,7 +440,7 @@ WHERE user_id != '" . self::anonymousId() . "' AND
      *
      * @deprecated As of 4.4 since default session handler does not support this.
      * @return int
-    */
+     */
     static function fetchAnonymousCount()
     {
         if ( isset( $GLOBALS['eZSiteBasics']['no-cache-adviced'] ) and
@@ -504,13 +504,13 @@ WHERE user_id = '" . $userID . "' AND
         unset( $GLOBALS['eZUserLoggedInMap'] );
     }
 
-   /**
-    * Remove session data for user \a $userID.
-    * @todo should use eZSession api (needs to be created) so
-    *       callbacks (like preference / basket..) is cleared as well.
-    *
-    * @params int $userID
-    */
+    /**
+     * Remove session data for user \a $userID.
+     * @todo should use eZSession api (needs to be created) so
+     *       callbacks (like preference / basket..) is cleared as well.
+     *
+     * @params int $userID
+     */
     static function removeSessionData( $userID )
     {
         eZUser::clearSessionCache();
@@ -526,7 +526,7 @@ WHERE user_id = '" . $userID . "' AND
         $user = eZUser::fetch( $userID );
         if ( !$user )
         {
-            eZDebug::writeError( "unable to find user with ID $userID", 'eZUser::removeUser()' );
+            eZDebug::writeError( "unable to find user with ID $userID", __METHOD__ );
             return false;
         }
 
@@ -1763,13 +1763,12 @@ WHERE user_id = '" . $userID . "' AND
      *
      * @access private
      * @return array
-    */
+     */
     function accessArray()
     {
         if ( !isset( $this->AccessArray ) )
         {
-            $ini = eZINI::instance();
-            if ( $ini->variable( 'RoleSettings', 'EnableCaching' ) === 'true' )
+            if ( eZINI::instance()->variable( 'RoleSettings', 'EnableCaching' ) === 'true' )
             {
                 $userCache = $this->getUserCache();
                 $this->AccessArray = $userCache['access_array'];
@@ -1783,13 +1782,13 @@ WHERE user_id = '" . $userID . "' AND
         return $this->AccessArray;
     }
 
-   /**
-    * Generates the accessArray for the user (for $this).
-    * This function is uncached, and used as basis for user cache callback.
-    *
-    * @internal
-    * @return array
-    */
+    /**
+     * Generates the accessArray for the user (for $this).
+     * This function is uncached, and used as basis for user cache callback.
+     *
+     * @internal
+     * @return array
+     */
     function generateAccessArray()
     {
         $idList = $this->generateGroupIdList();
@@ -2035,7 +2034,6 @@ WHERE user_id = '" . $userID . "' AND
                 // Now we are trying to fetch classes by collected ids list to return
                 // class list consisting of existing classes's identifiers only.
                 $allowedClassList = array_unique( $allowedClassList );
-                // include_once( 'kernel/classes/ezcontentclass.php' );
                 $classList = eZContentClass::fetchList( eZContentClass::VERSION_STATUS_DEFINED, false, false, null, null, $allowedClassList );
                 if ( is_array( $classList ) && !empty( $classList ) )
                 {
@@ -2248,10 +2246,7 @@ WHERE user_id = '" . $userID . "' AND
     */
     function roleIDList()
     {
-        // If the user object is not the currently logged in user we cannot use the session cache
-        $useCache = ( $this->ContentObjectID == eZSession::get( 'eZUserLoggedInID', self::anonymousId() ) );
-
-        if ( $useCache )
+        if ( eZINI::instance()->variable( 'RoleSettings', 'EnableCaching' ) === 'true' )
         {
             $userCache = $this->getUserCache();
             return $userCache['roles'];
@@ -2288,10 +2283,7 @@ WHERE user_id = '" . $userID . "' AND
     */
     function limitValueList()
     {
-        // If the user object is not the currently logged in user we cannot use the session cache
-        $useCache = ( $this->ContentObjectID == eZSession::get( 'eZUserLoggedInID', self::anonymousId() ) );
-
-        if ( $useCache )
+        if ( eZINI::instance()->variable( 'RoleSettings', 'EnableCaching' ) === 'true' )
         {
             $userCache = $this->getUserCache();
             return $userCache['role_limitations'];
@@ -2387,9 +2379,7 @@ WHERE user_id = '" . $userID . "' AND
         {
             if ( !isset( $this->Groups ) )
             {
-                // If the user object is not the currently logged in user we cannot use the session cache
-                $useCache = ( $this->ContentObjectID == eZSession::get( 'eZUserLoggedInID', self::anonymousId() ) );
-                if ( $useCache )
+                if ( eZINI::instance()->variable( 'RoleSettings', 'EnableCaching' ) === 'true' )
                 {
                     $userCache = $this->getUserCache();
                     $this->Groups = $userCache['groups'];
@@ -2813,11 +2803,11 @@ WHERE user_id = '" . $userID . "' AND
     protected $UserCache = null;
 
     /**
-    * Used to keep track that a logout was performed, and therefore prevent
-    * auto-login from happening if an SSO is used
-    * @var bool
-    * @since 4.3
-    **/
+     * Used to keep track that a logout was performed, and therefore prevent
+     * auto-login from happening if an SSO is used
+     * @var bool
+     * @since 4.3
+     */
     protected static $userHasLoggedOut = false;
 }
 

@@ -477,18 +477,18 @@ class eZSiteAccess
         }
     }
 
-   /**
-    * Changes the site access to what's defined in $access. It will change the
-    * access path in eZSys and prepend an override dir to eZINI
-    * Note: does not load extensions, use {@link eZSiteAccess::load()} if you want that
-    *
-    * @since 4.4
-    * @param array $access An associative array with 'name' (string), 'type' (int) and 'uri_part' (array).
-    *                      See {@link eZSiteAccess::match()} for array structure definition
-    * @param eZINI|null $siteINI Optional parameter to be able to only do change on specific instance of site.ini
-    *                   hence skip changing eZSys access paths (but not siteaccess, see {@link eZSiteAccess::load()})
-    * @return array The $access parameter
-    */
+    /**
+     * Changes the site access to what's defined in $access. It will change the
+     * access path in eZSys and prepend an override dir to eZINI
+     * Note: does not load extensions, use {@link eZSiteAccess::load()} if you want that
+     *
+     * @since 4.4
+     * @param array $access An associative array with 'name' (string), 'type' (int) and 'uri_part' (array).
+     *                      See {@link eZSiteAccess::match()} for array structure definition
+     * @param eZINI|null $siteINI Optional parameter to be able to only do change on specific instance of site.ini
+     *                   hence skip changing eZSys access paths (but not siteaccess, see {@link eZSiteAccess::load()})
+     * @return array The $access parameter
+     */
     static function change( array $access, eZINI $siteINI = null )
     {
         $name = $access['name'];
@@ -531,22 +531,22 @@ class eZSiteAccess
         return $access;
     }
 
-   /**
-    * Reloads extensions and changes siteaccess globally
-    * If you only want changes on a instance of ini, use {@link eZSiteAccess::getIni()}
-    *
-    * - clears all in-memory caches used by the INI system
-    * - re-builds the list of paths where INI files are searched for
-    * - runs {@link eZSiteAccess::change()}
-    * - re-searches module paths {@link eZModule::setGlobalPathList()}
-    *
-    * @since 4.4
-    * @param array $access An associative array with 'name' (string), 'type' (int) and 'uri_part' (array).
-    *                      See {@link eZSiteAccess::match()} for array structure definition
-    * @param eZINI|null $siteINI Optional parameter to be able to only do change on specific instance of site.ini
-    *                            If set, then global siteacceess will not be changed as well.
-    * @return array The $access parameter
-    */
+    /**
+     * Reloads extensions and changes siteaccess globally
+     * If you only want changes on a instance of ini, use {@link eZSiteAccess::getIni()}
+     *
+     * - clears all in-memory caches used by the INI system
+     * - re-builds the list of paths where INI files are searched for
+     * - runs {@link eZSiteAccess::change()}
+     * - re-searches module paths {@link eZModule::setGlobalPathList()}
+     *
+     * @since 4.4
+     * @param array $access An associative array with 'name' (string), 'type' (int) and 'uri_part' (array).
+     *                      See {@link eZSiteAccess::match()} for array structure definition
+     * @param eZINI|null $siteINI Optional parameter to be able to only do change on specific instance of site.ini
+     *                            If set, then global siteacceess will not be changed as well.
+     * @return array The $access parameter
+     */
     static function load( array $access, eZINI $siteINI = null )
     {
         $currentSiteAccess = $GLOBALS['eZCurrentAccess'];
@@ -559,7 +559,7 @@ class eZSiteAccess
         }
         else
         {
-            eZINI::resetAllGlobals();
+            eZINI::resetAllInstances();
             eZExtension::clearActiveExtensionsMemoryCache();
             eZTemplateDesignResource::clearInMemoryCache();
         }
@@ -675,6 +675,7 @@ class eZSiteAccess
         {
             return $sa;
         }
+        eZDebug::writeWarning("Tried to find siteaccess based on '$language' but '$sa' is not a valid RelatedSiteAccessList[]", __METHOD__ );
         return null;
     }
 

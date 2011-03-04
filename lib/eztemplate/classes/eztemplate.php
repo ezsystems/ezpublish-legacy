@@ -154,7 +154,7 @@ class mytest
         }
     }
 
-};
+}
 
 $tpl->setVariable( "multidim_obj", array( new mytest( "jan", 200 ),
                                           new mytest( "feb", 200 ),
@@ -616,8 +616,7 @@ class eZTemplate
                 {
                     $this->processNode( $child, $textElements, $rootNamespace, $currentNamespace );
                     if ( !is_array( $textElements ) )
-                        eZDebug::writeError( "Textelements is no longer array: '$textElements'",
-                                             'eztemplate::processNode::root' );
+                        eZDebug::writeError( "Textelements is no longer array: '$textElements'", __METHOD__ . '::root' );
                 }
             }
         }
@@ -631,8 +630,7 @@ class eZTemplate
             $variablePlacement = $node[3];
             $rslt = $this->processVariable( $textElements, $variableData, $variablePlacement, $rootNamespace, $currentNamespace );
             if ( !is_array( $textElements ) )
-                eZDebug::writeError( "Textelements is no longer array: '$textElements'",
-                                     'eztemplate::processNode::variable' );
+                eZDebug::writeError( "Textelements is no longer array: '$textElements'", __METHOD__ . '::variable' );
         }
         else if ( $nodeType == eZTemplate::NODE_FUNCTION )
         {
@@ -642,8 +640,7 @@ class eZTemplate
             $functionPlacement = $node[4];
             $rslt = $this->processFunction( $functionName, $textElements, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace );
             if ( !is_array( $textElements ) )
-                eZDebug::writeError( "Textelements is no longer array: '$textElements'",
-                                     "eztemplate::processNode::function( '$functionName' )" );
+                eZDebug::writeError( "Textelements is no longer array: '$textElements'", __METHOD__ . "::function( '$functionName' )" );
         }
 
         return $rslt;
@@ -826,7 +823,7 @@ class eZTemplate
         $this->Level++;
         if ( $this->Level > $this->MaxLevel )
         {
-            eZDebug::writeError( $this->MaxLevelWarning,  "eZTemplate:processURI Level: $this->Level @ $uri" );
+            eZDebug::writeError( $this->MaxLevelWarning, __METHOD__ . " Level: $this->Level @ $uri" );
             $textElements[] = $this->MaxLevelWarning;
             $this->Level--;
             return;
@@ -1201,7 +1198,7 @@ class eZTemplate
                         else if ( is_object( $value ) )
                         {
                             if ( method_exists( $value, "attribute" ) and
-                                 method_exists( $value, "hasattribute" ) )
+                                 method_exists( $value, "hasAttribute" ) )
                             {
                                 if ( $value->hasAttribute( $attributeValue ) )
                                 {
@@ -1441,10 +1438,10 @@ class eZTemplate
 
         $op = $this->Operators[$name];
         if ( isset( $op ) and
-             method_exists( $op, "namedparameterlist" ) )
+             method_exists( $op, "namedParameterList" ) )
         {
             $param_list = $op->namedParameterList();
-            if ( method_exists( $op, "namedparameterperoperator" ) and
+            if ( method_exists( $op, "namedParameterPerOperator" ) and
                  $op->namedParameterPerOperator() )
             {
                 if ( !isset( $param_list[$name] ) )

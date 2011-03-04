@@ -31,7 +31,7 @@ return array (
   'PHP_INT_MAX' => 2147483647,
   'PHP_INT_SIZE' => 4,
   'getcwd' => '/usr/local/www/something.something.net/data',
-  '_SERVER' => 
+  '_SERVER' =>
   array (
     'PHP_FCGI_MAX_REQUESTS' => '1000',
     'PHP_FCGI_CHILDREN' => '5',
@@ -65,7 +65,7 @@ return array (
     'PHP_SELF' => '/index.php',
     'REQUEST_TIME' => 1288107924,
   ),
-  '_ENV' => 
+  '_ENV' =>
   array (
   ),
 );

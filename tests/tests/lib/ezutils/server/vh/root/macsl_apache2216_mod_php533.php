@@ -31,7 +31,7 @@ return array (
   'PHP_INT_MAX' => 9223372036854775807,
   'PHP_INT_SIZE' => 8,
   'getcwd' => '/Users/oms/dev/ez/ezp/bugfix/trunk',
-  '_SERVER' => 
+  '_SERVER' =>
   array (
     'SCRIPT_URL' => '/',
     'SCRIPT_URI' => 'http://trunk/',
@@ -59,7 +59,7 @@ return array (
     'PHP_SELF' => '/',
     'REQUEST_TIME' => 1288100278,
   ),
-  '_ENV' => 
+  '_ENV' =>
   array (
   ),
 );

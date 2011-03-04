@@ -31,7 +31,7 @@ return array (
   'PHP_INT_MAX' => 9223372036854775807,
   'PHP_INT_SIZE' => 8,
   'getcwd' => '/home/something/workspace/ezpublish',
-  '_SERVER' => 
+  '_SERVER' =>
   array (
     'USER' => 'www-data',
     'HOME' => '/var/www',
@@ -70,7 +70,7 @@ return array (
     'PHP_SELF' => '/ezpublish/index.php/News/Blåbær-Øl-med-d\'or-新闻军事社会体育中超',
     'REQUEST_TIME' => 1287920841,
   ),
-  '_ENV' => 
+  '_ENV' =>
   array (
     'USER' => 'www-data',
     'HOME' => '/var/www',

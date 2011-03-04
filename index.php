@@ -344,10 +344,9 @@ eZDebugSetting::writeDebug( 'kernel-siteaccess', $access, 'current siteaccess' )
 eZExtension::activateExtensions( 'access' );
 // Siteaccess extension check end
 
-// Make sure template.ini reloads its cache incase
-// siteaccess or extensions override it
-$tplINI = eZINI::instance( 'template.ini' );
-$tplINI->loadCache();
+// Now that all extensions are activated and siteaccess has been changed, reset
+// all eZINI instances as they may not take into account siteaccess specific settings.
+eZINI::resetAllInstances( false );
 
 // Initialize module loading
 $moduleRepositories = eZModule::activeModuleRepositories();
@@ -375,8 +374,6 @@ if ( $ini->variable( 'SiteAccessSettings', 'CheckValidity' ) === 'true' )
 
 if ( $sessionRequired )
 {
-    $dbRequired = true;
-
     // Check if this should be run in a cronjob
     if ( $ini->variable( 'Session', 'BasketCleanup' ) !== 'cronjob' )
     {
@@ -411,28 +408,29 @@ if ( $sessionRequired )
     }
 
     eZSession::addCallback( 'regenerate_post', 'eZSessionBasketRegenerate');
+
+    if ( $ini->variable( 'Session', 'ForceStart' ) === 'enabled' )
+        eZSession::start();
+    else
+        eZSession::lazyStart();
+
+    // let session specify if db is required
+    $dbRequired = eZSession::getHandlerInstance()->dbRequired();
 }
 
-$db = false;
-if ( $dbRequired )
+// if $dbRequired, open a db connection and check that db is connected
+if ( $dbRequired && !eZDB::instance()->isConnected() )
 {
-    $db = eZDB::instance();
-    if ( $sessionRequired )
-    {
-        if ( $ini->variable( 'Session', 'ForceStart' ) === 'enabled' )
-            eZSession::start();
-        else
-            eZSession::lazyStart();
-    }
-    else if ( !$db->isConnected() )
-        $warningList[] = array( 'error' => array( 'type' => 'kernel',
-                                                  'number' => eZError::KERNEL_NO_DB_CONNECTION ),
-                                'text' => 'No database connection could be made, the system might not behave properly.' );
+    $warningList[] = array( 'error' => array( 'type' => 'kernel',
+                                              'number' => eZError::KERNEL_NO_DB_CONNECTION ),
+                            'text' => 'No database connection could be made, the system might not behave properly.' );
 }
 
 // eZCheckUser: pre check, RequireUserLogin & FORCE_LOGIN related so needs to be after session init
 if ( !isset( $check ) )
+{
     $check = eZUserLoginHandler::preCheck( $siteBasics, $uri );
+}
 
 /**
  * Check for activating Debug by user ID (Final checking. The first was in eZDebug::updateSettings())
@@ -889,8 +887,9 @@ if ( $module->exitStatus() == eZModule::STATUS_REDIRECT )
         }
 
         $tpl = eZTemplate::factory();
-        if ( count( $warningList ) == 0 )
+        if ( empty( $warningList ) )
             $warningList = false;
+
         $tpl->setVariable( 'site', $site );
         $tpl->setVariable( 'warning_list', $warningList );
         $tpl->setVariable( 'redirect_uri', eZURI::encodeURL( $redirectURI ) );
@@ -905,9 +904,8 @@ if ( $module->exitStatus() == eZModule::STATUS_REDIRECT )
 }
 
 // Store the last URI for access history for login redirection
-// Only if database is connected, user has session and only if there was no error or no redirects happen
+// Only if user has session and only if there was no error or no redirects happen
 if ( eZSession::hasStarted() &&
-    is_object( $db ) && $db->isConnected() &&
     $module->exitStatus() == eZModule::STATUS_OK )
 {
     $currentURI = $completeRequestedURI;
@@ -1045,8 +1043,9 @@ if ( $show_page_layout )
 
     $tpl->setVariable( "access_type", $access );
 
-    if ( count( $warningList ) == 0 )
+    if ( empty( $warningList ) )
         $warningList = false;
+
     $tpl->setVariable( 'warning_list', $warningList );
 
     $resource = "design:";

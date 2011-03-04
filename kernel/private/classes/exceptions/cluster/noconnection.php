@@ -28,7 +28,7 @@ class eZClusterHandlerDBNoConnectionException extends eZDBException
     function __construct( $host, $user, $password )
     {
         $password = str_repeat( "*", strlen( $password ) );
-	parent::__construct( "Unable to connect to the database server '{$host}' using username '{$user}' and password '{$password}'" );
+        parent::__construct( "Unable to connect to the database server '{$host}' using username '{$user}' and password '{$password}'" );
     }
 }
 ?>

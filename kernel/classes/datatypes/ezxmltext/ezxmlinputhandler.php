@@ -109,7 +109,7 @@ class eZXMLInputHandler
             }break;
             default:
             {
-                eZDebug::writeError( "Attribute '$name' does not exist", 'eZXMLInputHandler::attribute' );
+                eZDebug::writeError( "Attribute '$name' does not exist", __METHOD__ );
                 return null;
             }break;
         }

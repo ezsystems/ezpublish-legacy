@@ -486,7 +486,7 @@ class eZRole extends eZPersistentObject
      *        If true, roles will be looked up for all nodes of the id's and it's parents
      *
      * @return array(eZRole)
-     **/
+     */
     static function fetchByUser( $idArray, $recursive = false )
     {
         if ( count( $idArray ) < 1 )
@@ -663,7 +663,7 @@ class eZRole extends eZPersistentObject
      * @param array(eZContentObjectID) $idArray
      *
      * @return array(eZRoleID)
-     **/
+     */
     static function fetchIDListByUser( $idArray )
     {
         $db = eZDB::instance();

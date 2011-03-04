@@ -147,13 +147,13 @@ class eZClusterFileHandler
     }
 
     /**
-    * Removes a file from the generating list
-    * @param eZDBFileHandler|eZDFSFileHandler $file
-    *        Cluster file handler instance
-    *        Note that this method expect a version of the handler where the filePath is the REAL one, not the .generating
-    *
-    * @todo Clustering: apply the eZClusterFileHandlerInterface to all cluster handlers
-    */
+     * Removes a file from the generating list
+     * @param eZDBFileHandler|eZDFSFileHandler $file
+     *        Cluster file handler instance
+     *        Note that this method expect a version of the handler where the filePath is the REAL one, not the .generating
+     *
+     * @todo Clustering: apply the eZClusterFileHandlerInterface to all cluster handlers
+     */
     public static function removeGeneratingFile( $file )
     {
         if ( !( $file instanceof eZDBFileHandler ) && !( $file instanceof eZDFSFileHandler ) )

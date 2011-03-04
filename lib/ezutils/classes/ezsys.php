@@ -688,7 +688,7 @@ class eZSys
     /**
      * Returns true if magick quotes is enabled,
      * but does nothing.
-     * @deprecated 4.5
+     * @deprecated since 4.5
      */
     static function magickQuotes()
     {
@@ -705,7 +705,7 @@ class eZSys
         {
             if ( !$quiet )
             {
-                eZDebug::writeError( "Server variable '$variableName' does not exist", 'eZSys::serverVariable' );
+                eZDebug::writeError( "Server variable '$variableName' does not exist", __METHOD__ );
             }
             $retVal = null;
             return $retVal;
@@ -733,15 +733,15 @@ class eZSys
 
     /**
      * Return the variable named \a $variableName in the global \c ENV variable.
-             If the variable is not present an error is shown and \c null is returned.
-    */
+     * If the variable is not present an error is shown and \c null is returned.
+     */
     static function environmentVariable( $variableName, $quiet = false )
     {
         if ( getenv($variableName) === false )
         {
             if ( !$quiet )
             {
-                eZDebug::writeError( "Environment variable '$variableName' does not exist", 'eZSys::environmentVariable' );
+                eZDebug::writeError( "Environment variable '$variableName' does not exist", __METHOD__ );
             }
             return null;
         }
@@ -811,7 +811,7 @@ class eZSys
             return $this->indexDir();
         }
 
-        eZDebug::writeError( "Attribute '$attr' does not exist", 'eZSys::attribute' );
+        eZDebug::writeError( "Attribute '$attr' does not exist", __METHOD__ );
         return null;
     }
 
@@ -1210,10 +1210,10 @@ class eZSys
      */
     public $LineSeparator;
 
-   /**
-    * The directory separator used for files, '/' or '\'
-    * @var string
-    */
+    /**
+     * The directory separator used for files, '/' or '\'
+     * @var string
+     */
     public $FileSeparator;
 
     /**

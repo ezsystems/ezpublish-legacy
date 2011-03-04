@@ -124,7 +124,7 @@ class eZImageInterface
             $member = $attributeMemberMap[$name];
             if ( isset( $this->$member ) )
                 return $this->$member;
-            eZDebug::writeWarning( 'The member variable $member was not found for attribute $name', 'eZImageInterface::attribute' );
+            eZDebug::writeWarning( 'The member variable $member was not found for attribute $name', __METHOD__ );
             return null;
         }
         $attributeFunctionMap = eZImageInterface::attributeFunctionMap();
@@ -133,10 +133,10 @@ class eZImageInterface
             $function = $attributeFunctionMap[$name];
             if ( method_exists( $this, $function ) )
                 return $this->$function();
-            eZDebug::writeWarning( 'The member function $function was not found for attribute $name', 'eZImageInterface::attribute' );
+            eZDebug::writeWarning( 'The member function $function was not found for attribute $name', __METHOD__ );
             return null;
         }
-        eZDebug::writeError( "Attribute '$name' does not exist", 'eZImageInterface::attribute' );
+        eZDebug::writeError( "Attribute '$name' does not exist", __METHOD__ );
         return null;
     }
 
@@ -322,8 +322,8 @@ class eZImageInterface
                     return true;
                 else if ( @$this->loadGIF( $this->StoredPath, $this->StoredFile ) )
                     return true;
-                eZDebug::writeError( 'Image format not supported: ' . $this->StoredType, 'eZImageInterface::load' );
-            };
+                eZDebug::writeError( 'Image format not supported: ' . $this->StoredType, __METHOD__ );
+            }
         }
         return false;
     }
@@ -416,10 +416,10 @@ class eZImageInterface
                 return true;
             }
             else
-                eZDebug::writeWarning( "Image failed to load '$filePath'", 'eZImageInterface::imageObject' );
+                eZDebug::writeWarning( "Image failed to load '$filePath'", __METHOD__ );
         }
         else
-            eZDebug::writeWarning( "No image info could be extracted from '$filePath'", 'eZImageInterface::imageObject' );
+            eZDebug::writeWarning( "No image info could be extracted from '$filePath'", __METHOD__ );
         return false;
     }
 
@@ -464,8 +464,8 @@ class eZImageInterface
 
             default:
             {
-                eZDebug::writeError( 'Image format not supported: ' . $type, 'eZImageInterface::store' );
-            };
+                eZDebug::writeError( 'Image format not supported: ' . $type, __METHOD__ );
+            }
         }
         return false;
     }
@@ -505,8 +505,7 @@ class eZImageInterface
         if ( $useTruecolor and
              !function_exists( 'ImageCreateTrueColor' ) )
         {
-            eZDebug::writeWarning( 'Function ImageCreateTrueColor does not exist, cannot create true color images',
-                                   'eZImageInterface::createImage' );
+            eZDebug::writeWarning( 'Function ImageCreateTrueColor does not exist, cannot create true color images', __METHOD__ );
             $useTruecolor = false;
         }
         if ( $useTruecolor )
@@ -710,7 +709,7 @@ class eZImageInterface
     {
         if ( isset( $this->Palette[$name] ) )
         {
-            eZDebug::writeError( 'Color already defined: ' . $name, 'eZImageInterface::allocateColor' );
+            eZDebug::writeError( 'Color already defined: ' . $name, __METHOD__ );
             return null;
         }
         $red = max( 0, min( 255, $red ) );
@@ -729,7 +728,7 @@ class eZImageInterface
     {
         if ( !isset( $this->Palette[$name] ) )
         {
-            eZDebug::writeError( 'Color not defined: ' . $name, 'eZImageInterface::color' );
+            eZDebug::writeError( 'Color not defined: ' . $name, __METHOD__ );
             return null;
         }
         return $this->Palette[$name];
@@ -762,22 +761,19 @@ class eZImageInterface
     {
         if ( !$font )
         {
-            eZDebug::writeWarning( 'Cannot render text, no font is set',
-                                   'eZImageInterface::drawText' );
+            eZDebug::writeWarning( 'Cannot render text, no font is set', __METHOD__ );
             return false;
         }
         if ( !$textColor )
         {
-            eZDebug::writeWarning( 'Cannot render text, no text color is set',
-                                   'eZImageInterface::drawText' );
+            eZDebug::writeWarning( 'Cannot render text, no text color is set', __METHOD__ );
             return false;
         }
         if ( is_string( $textColor ) )
             $textColor = $this->color( $textColor );
         if ( $textColor === null )
         {
-            eZDebug::writeWarning( 'Cannot render text, invalid text color',
-                                   'eZImageInterface::drawText' );
+            eZDebug::writeWarning( 'Cannot render text, invalid text color', __METHOD__ );
             return false;
         }
 

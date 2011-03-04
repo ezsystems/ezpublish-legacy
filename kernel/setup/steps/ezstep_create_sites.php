@@ -1039,7 +1039,7 @@ language_locale='eng-GB'";
         $extensionsToEnable = array();
         // Included in "fat" install, needs to override $extraCommonSettings extensions
         $extensionsPrepended = array( /*@EZP_BUILD_EXTENSION_ACTIVATE@*/ 'ezjscore' );
-        foreach ( array( 'ezie', 'ezoe', 'ezodf' ) as $extension )
+        foreach ( array( 'ezie', 'ezoe', 'ezodf', 'ezprestapiprovider' ) as $extension )
         {
             if ( file_exists( "extension/$extension" ) )
             {
@@ -1404,7 +1404,7 @@ language_locale='eng-GB'";
         // Adding override for 'tiny_image' view for 'multi-option2' datatype
         foreach ( $relatedSiteAccessList as $siteAccess )
         {
-            $tmpOverrideINI = eZINI::instance( 'override.ini' . '.append.php', "settings/siteaccess/$siteAccess", null, null, null, true, true );
+            $tmpOverrideINI = new eZINI( 'override.ini' . '.append.php', "settings/siteaccess/$siteAccess", null, null, null, true, true );
 
             $tmpOverrideINI->setVariable( 'tiny_image', 'Source'    , 'content/view/tiny.tpl' );
             $tmpOverrideINI->setVariable( 'tiny_image', 'MatchFile' , 'tiny_image.tpl' );

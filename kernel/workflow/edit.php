@@ -203,6 +203,13 @@ $requireFixup = false;
 foreach( $event_list as $event )
 {
     $eventType = $event->eventType();
+    if ( !$eventType instanceof eZWorkflowEventType )
+    {
+        // Can't find eventype. Most likely deactivated while workflow has not been cleant up
+        eZDebug::writeError( "Couldn't load eventype '{$event->attribute( 'workflow_type_string' )}' for workflow. Is it activated ?", 'eZWorkflow edit' );
+        continue;
+    }
+
     $status = $eventType->validateHTTPInput( $http, "WorkflowEvent", $event, $validation );
 
     if ( $status == eZInputValidator::STATE_INTERMEDIATE )
@@ -217,6 +224,12 @@ if ( $requireFixup )
     foreach( $event_list as $event )
     {
         $eventType = $event->eventType();
+        if ( !$eventType instanceof eZWorkflowEventType )
+        {
+            eZDebug::writeError( "Couldn't load eventype '{$event->attribute( 'workflow_type_string' )}' for workflow. Is it activated ?" );
+            continue;
+        }
+
         $status = $eventType->fixupHTTPInput( $http, "WorkflowEvent", $event );
     }
 }
@@ -261,6 +274,12 @@ if ( $http->hasPostVariable( "CustomActionButton" ) )
 foreach( $event_list as $event )
 {
     $eventType = $event->eventType();
+    if ( !$eventType instanceof eZWorkflowEventType )
+    {
+        eZDebug::writeError( "Couldn't load eventype '{$event->attribute( 'workflow_type_string' )}' for workflow. Is it activated ?" );
+        continue;
+    }
+
     $eventType->fetchHTTPInput( $http, "WorkflowEvent", $event );
     if ( $customActionAttributeID == $event->attribute( "id" ) )
     {

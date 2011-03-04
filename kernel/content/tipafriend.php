@@ -116,7 +116,7 @@ if ( $http->hasPostVariable( 'SendButton' ) )
     }
     if ( $fromEmail == null )
         $fromEmail = $yourEmail;
-        
+
     if ( $http->hasSessionVariable('ezpContentTipafriendList') )
     {
         if ( strpos( $http->sessionVariable('ezpContentTipafriendList'), $NodeID . '|' . $receiversEmail ) !== false )

@@ -281,7 +281,7 @@ class eZLintSchema extends eZDBSchemaInterface
                         $schema[$existingTableName]['fields'][$existingFieldName]['comments'] = $comments;
                         foreach ( $comments as $comment )
                         {
-                            eZDebug::writeWarning( $comment, 'eZLintSchema::fieldComment' );
+                            eZDebug::writeWarning( $comment, __METHOD__ );
                         }
                     }
                 }
@@ -382,7 +382,7 @@ class eZLintSchema extends eZDBSchemaInterface
                         $schema[$existingTableName]['indexes'][$existingIndexName]['comments'] = $comments;
                         foreach ( $comments as $comment )
                         {
-                            eZDebug::writeWarning( $comment, 'eZLintSchema::indexComment' );
+                            eZDebug::writeWarning( $comment, __METHOD__ );
                         }
                     }
                 }
@@ -399,7 +399,7 @@ class eZLintSchema extends eZDBSchemaInterface
                 $schema[$existingTableName]['comments'] = $tableComments;
                 foreach ( $tableComments as $comment )
                 {
-                    eZDebug::writeWarning( $comment, 'eZLintSchema::tableComment' );
+                    eZDebug::writeWarning( $comment, __METHOD__ );
                 }
             }
         }

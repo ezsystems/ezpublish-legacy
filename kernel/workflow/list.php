@@ -29,7 +29,6 @@
 
 $Module = $Params['Module'];
 
-// //include_once( 'lib/ezutils/classes/ezexecutionstack.php' );
 // $execStack = eZExecutionStack::instance();
 // $execStack->clear();
 // $execStack->addEntry( $Module->functionURI( 'list' ),

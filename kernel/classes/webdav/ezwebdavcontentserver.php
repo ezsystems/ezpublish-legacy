@@ -810,7 +810,6 @@ class eZWebDAVContentServer extends eZWebDAVServer
                     $contentObjectAttributes[0]->setAttribute( 'data_text', basename( $destination ) );
                     $contentObjectAttributes[0]->store();
 
-                    //include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
                     $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID, 'version' => 1 ) );
                     $object->store();
         */

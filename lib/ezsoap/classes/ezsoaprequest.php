@@ -133,7 +133,7 @@ class eZSOAPRequest extends eZSOAPEnvelope
 
             if ( $param == false )
             {
-                eZDebug::writeError( "Error encoding data for payload: " . $parameter->name(), "eZSOAPRequest::payload()" );
+                eZDebug::writeError( "Error encoding data for payload: " . $parameter->name(), __METHOD__ );
                 continue;
             }
             $request->appendChild( $param );

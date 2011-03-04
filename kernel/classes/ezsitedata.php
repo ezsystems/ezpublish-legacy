@@ -25,16 +25,16 @@ class eZSiteData extends eZPersistentObject
                                                                              'datatype' => 'string',
                                                                              'default'  => null,
                                                                              'required' => true ),
-        
+
                                             ),
-                                            
+
                       'keys'                 => array( 'name' ),
                       'class_name'           => 'eZSiteData',
                       'name'                 => 'ezsite_data',
                       'function_attributes'  => array()
         );
     }
-    
+
     /**
      * Fetches a site data by name
      * @param string $name
@@ -44,7 +44,7 @@ class eZSiteData extends eZPersistentObject
         $result = parent::fetchObject( self::definition(), null, array( 'name' => $name ) );
         return $result;
     }
-    
+
 }
 
 ?>

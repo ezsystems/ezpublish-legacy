@@ -18,26 +18,21 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
     }
 
     /**
-    * Test for regression #13497:
-    * attribute operator throws a PHP fatal error on a node without parent in a displayable language
-    *
-    * Situation:
-    *  - siteaccess with one language (fre-FR) and ShowUntranslatedObjects disabled
-    *  - parent content node in another language (eng-GB) with always available disabled
-    *  - content node in the siteaccess' language (fre-FR)
-    *  - fetch this fre-FR node from anywhere, and call attribute() on it
-    *
-    * Result:
-    *  - Fatal error: Call to a member function attribute() on a non-object in
-    *    kernel/classes/ezcontentobjecttreenode.php on line 4225
-    *
-    * Explanation: the error actually comes from the can_remove_location attribute
-     **/    /**
-      * Regression test for issue {@see #17632 http://issues.ez.no/17632}
-      *
-      * In a multi language environment, a node fetched with a language other than the prioritized one(s) will return the
-      * URL alias in the prioritized language
-      */
+     * Test for regression #13497:
+     * attribute operator throws a PHP fatal error on a node without parent in a displayable language
+     *
+     * Situation:
+     *  - siteaccess with one language (fre-FR) and ShowUntranslatedObjects disabled
+     *  - parent content node in another language (eng-GB) with always available disabled
+     *  - content node in the siteaccess' language (fre-FR)
+     *  - fetch this fre-FR node from anywhere, and call attribute() on it
+     *
+     * Result:
+     *  - Fatal error: Call to a member function attribute() on a non-object in
+     *    kernel/classes/ezcontentobjecttreenode.php on line 4225
+     *
+     * Explanation: the error actually comes from the can_remove_location attribute
+     */
     public function testIssue13497()
     {
         $bkpLanguages = eZContentLanguage::prioritizedLanguageCodes();
@@ -79,17 +74,17 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
     }
 
     /**
-    * Test for regression #15211
-    *
-    * The issue was reported as happening when a fetch_alias was called without
-    * a second parameter. It turns out that this was just wrong, but led to the
-    * following: if eZContentObjectTreeNode::createAttributeFilterSQLStrings
-    * is called with the first parameter ($attributeFilter) is a string, a fatal
-    * error "Cannot unset string offsets" is thrown.
-    *
-    * Test: Call this function with a string as the first parameter. Without the
-    * fix, a fatal error occurs, while an empty filter is returned once fixed.
-    **/
+     * Test for regression #15211
+     *
+     * The issue was reported as happening when a fetch_alias was called without
+     * a second parameter. It turns out that this was just wrong, but led to the
+     * following: if eZContentObjectTreeNode::createAttributeFilterSQLStrings
+     * is called with the first parameter ($attributeFilter) is a string, a fatal
+     * error "Cannot unset string offsets" is thrown.
+     *
+     * Test: Call this function with a string as the first parameter. Without the
+     * fix, a fatal error occurs, while an empty filter is returned once fixed.
+     */
     public function testIssue15211()
     {
         $attributeFilter = "somestring";
@@ -104,10 +99,10 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
     }
 
     /**
-    * Test for issue #15062:
-    * StateGroup Policy limitation SQL can break the 30 characters oracle
-    * limitation for identifiers
-    **/
+     * Test for issue #15062:
+     * StateGroup Policy limitation SQL can break the 30 characters oracle
+     * limitation for identifiers
+     */
     public function testIssue15062()
     {
         $policyLimitationArray = array(

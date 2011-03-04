@@ -93,6 +93,6 @@ class eZContentClassNameList extends eZSerializedObjectNameList
     {
         eZContentClassName::removeClassName( $contentClass->attribute( 'id' ), $contentClass->attribute( 'version' ) );
     }
-};
+}
 
 ?>

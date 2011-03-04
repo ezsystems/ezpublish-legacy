@@ -33,7 +33,7 @@
  * (the expiry time is calculated when session is created / updated)
  * These are normally automatically removed by the session gc in php, but on some linux distroes
  * based on debian this does not work because the custom way session gc is handled.
- * 
+ *
  * Also make sure you run basket_cleanup if you use the shop!
  *
  * @package eZCronjob

@@ -19,27 +19,27 @@ class ezpObject
     /**
      * Contains the result of the last publish operation
      * @var mixed
-     **/
+     */
     public $operationResult;
 
     /**
      * @var eZContentObject
-     **/
+     */
     public $object;
 
     /**
      * @var eZContentClass
-     **/
+     */
     public $class;
 
     /**
      * @var ezpNode
-     **/
+     */
     public $mainNode;
 
     /**
      * @var array(eZContentObjectTreeNode)
-     **/
+     */
     public $nodes;
 
     public function __construct( $classIdentifier, $parentNodeID = false, $creatorID = 14, $section = 1, $languageCode = false )
@@ -160,7 +160,7 @@ class ezpObject
                             if ( is_array( $value ) )
                                 $value = implode( '-', $value );
                             $attribute->fromString( $value );
-                            break; 
+                            break;
 
                         case 'ezemail':
                         case 'ezisbn':

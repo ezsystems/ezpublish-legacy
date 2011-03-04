@@ -89,7 +89,7 @@ class eZMailEzcTest extends ezpTestCase
 
         $ezpResult = $mail->ccElements();
         $ezcResult = $mail->Mail->cc;
-        $ezpExpected = 
+        $ezpExpected =
         array( array( 'email' => $this->adminEmail, 'name' => $this->adminName ) );
         $ezcExpected = array( new ezcMailAddress( $this->adminEmail, $this->adminName ) );
 
@@ -115,7 +115,7 @@ class eZMailEzcTest extends ezpTestCase
 
         $ezpResult = $mail->bccElements();
         $ezcResult = $mail->Mail->bcc;
-        $ezpExpected = 
+        $ezpExpected =
         array( array( 'email' => $this->adminEmail, 'name' => $this->adminName ) );
         $ezcExpected = array( new ezcMailAddress( $this->adminEmail, $this->adminName ) );
 

@@ -19,7 +19,7 @@ class eZRoleTest extends ezpDatabaseTestCase
 
     /**
      * Unit test for eZRole::fetchByUser
-     **/
+     */
     public function testFetchByUser()
     {
         // test with an empty array
@@ -59,7 +59,7 @@ class eZRoleTest extends ezpDatabaseTestCase
 
     /**
      * Unit test for eZRole::fetchIDListByUser()
-     **/
+     */
     public function testFetchIDListByUser()
     {
         // fetch roles ID for anonymous group

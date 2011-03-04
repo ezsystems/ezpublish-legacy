@@ -30,7 +30,7 @@
 
 /**
  * The eZModule class is used to instanciate and use modules & views.
- * 
+ *
  * Loading the "content" module, and running the "history" view
  * <code>
  * <?php
@@ -38,7 +38,7 @@
  * $result = $contentModule->run( 'history', array( 1 ) );
  * ?>
  * </code>
- * 
+ *
  * Running the CopyVersion action of the content/history view:
  * <code>
  * <?php
@@ -104,7 +104,7 @@ class eZModule
 
     /**
      * Constructor. Initializes the module.
-     * 
+     *
      * @param string $path
      *        Relative path to the module, without the module name
      * @param string $file
@@ -121,7 +121,7 @@ class eZModule
 
     /**
      * Initializes the module object.
-     * 
+     *
      * @param string $path
      *        Directory where the module is declared, without the modulename
      *        component
@@ -206,7 +206,7 @@ class eZModule
     /**
      * Returns the module's URI (/content, /user...)
      * @return string The module's URI
-     * 
+     *
      * @see functionURI()
      */
     function uri()
@@ -216,14 +216,14 @@ class eZModule
 
     /**
      * Returns the URI to a module's function
-     * 
+     *
      * @param string $function The function to return the URI for
      * @return string|null
      *         - the function's URI (content/edit, user/login, etc)
      *         - if $function is empty or the module is a singleView one,
      *           the module's uri (content/, user/...)
      *         - null if the function's not found
-     * 
+     *
      * @see uri()
      */
     function functionURI( $function )
@@ -240,9 +240,9 @@ class eZModule
     /**
      * Returns the title of the last ran view. Normally set by the view itself,
      * and displayed as the page's title
-     * 
+     *
      * @return string
-     * 
+     *
      * @see setTitle()
      */
     function title()
@@ -252,9 +252,9 @@ class eZModule
 
     /**
      * Sets the current view for the module to \a $title.
-     * 
+     *
      * @param string $title The title to be set
-     * 
+     *
      * @see title()
      */
     function setTitle( $title )
@@ -265,11 +265,11 @@ class eZModule
     /**
      * Sets the name of the currently running module. The URIs will be updated
      * accordingly
-     * 
+     *
      * @param string $name The name to be set
-     * 
+     *
      * @return void
-     * 
+     *
      * @see uri(), functionURI()
      */
     function setCurrentName( $name )
@@ -283,13 +283,13 @@ class eZModule
 
     /**
      * Sets the currently executed view
-     * 
+     *
      * @param string $name The view name
-     * 
+     *
      * @return void
-     * 
+     *
      * @see currentView()
-    */
+     */
     function setCurrentView( $name )
     {
         $GLOBALS['eZModuleCurrentView'] = $name;
@@ -307,7 +307,7 @@ class eZModule
     /**
      * Returns the UI context
      * @return string The current UI context. Default: 'navigation'
-     * 
+     *
      * @see setUIContextName()
      */
     function uiContextName()
@@ -317,9 +317,9 @@ class eZModule
 
     /**
      * Returns the UI component, by default the module name
-     * 
+     *
      * @return string The current UI component
-     * 
+     *
      * @see setUIComponentName()
      */
     function uiComponentName()
@@ -329,11 +329,11 @@ class eZModule
 
     /**
      * Sets the current context
-     * 
+     *
      * @param string $context The new context string
-     * 
+     *
      * @see uiContextName()
-     * 
+     *
      * @return void
      */
     function setUIContextName( $context )
@@ -343,11 +343,11 @@ class eZModule
 
     /**
      * Sets the current component name
-     * 
+     *
      * @param string $component The new component name
-     * 
+     *
      * @see uiComponentName()
-     * 
+     *
      * @return void
      */
     function setUIComponentName( $component )
@@ -357,9 +357,9 @@ class eZModule
 
     /**
      * Returns the last exit status after a view has been executed
-     * 
+     *
      * @return int one of STATUS_* constants
-     * 
+     *
      * @see setExitStatus()
      */
     function exitStatus()
@@ -370,9 +370,9 @@ class eZModule
     /**
      * Sets the exit status. This status will be used to inform the user,
      * perform a redirection...
-     * 
+     *
      * @param int $stat One of the eZModule::STATUS_* constants
-     * 
+     *
      * @see exitStatus()
      * @return void
      */
@@ -384,9 +384,9 @@ class eZModule
     /**
      * Returns the last error code. An error should only be returned if the
      * module's status is eZModule::STATUS_FAILED
-     * 
+     *
      * @return int The error code, or 0 if no error occured
-     * 
+     *
      * @see setErrorCode(), exitStatus(), setExitStatus()
      */
     function errorCode()
@@ -408,9 +408,9 @@ class eZModule
 
     /**
      * Returns the error module which will be ran if an error occurs
-     * 
+     *
      * @return array the error module name (keys: module, view)
-     * 
+     *
      * @see handleError()
      */
     function errorModule()
@@ -423,10 +423,10 @@ class eZModule
 
     /**
      * Sets the module to be used to handle errors
-     * 
+     *
      * @param string $moduleName
      * @param string $viewName
-     * 
+     *
      * @see handleError(), errorModule()
      */
     function setErrorModule( $moduleName, $viewName )
@@ -438,20 +438,19 @@ class eZModule
     /**
      * Runs the defined error module
      * Sets the state of the module object to \c failed and sets the error code.
-     * 
+     *
      * @param mixed $errorCode
      * @param mixed $errorType
      * @param array $parameters
      * @param mixed $userParameters
-     * 
+     *
      * @see setErrorModule(), errorModule()
      */
     function handleError( $errorCode, $errorType = false, $parameters = array(), $userParameters = false )
     {
         if ( !$errorType )
         {
-            eZDebug::writeWarning( "No error type specified for error code $errorCode, assuming kernel.\nA specific error type should be supplied, please check your code.",
-                                   'eZModule::handleError' );
+            eZDebug::writeWarning( "No error type specified for error code $errorCode, assuming kernel.\nA specific error type should be supplied, please check your code.", __METHOD__ );
             $errorType = 'kernel';
         }
         $errorModule = $this->errorModule();
@@ -476,19 +475,19 @@ class eZModule
 
     /**
      * Redirects to another module / view
-     * 
+     *
      * @note Use redirectModule() If the target module object is already available
      * @note Use redirectToView() if you want to redirect to another view in the same module
-     * 
+     *
      * @see redirectionURI(), redirectModule(), redirectToView()
-     * 
+     *
      * @param string $moduleName Target module name
      * @param string $viewName Target view name
      * @param array $parameters View parameters array
      * @param array $unorderedParameters Unordered parameters array
      * @param array $userParameters User parameters array
      * @param string $anchor Anchor to use in the redirection (prepended to the URL)
-     * 
+     *
      * @return bool true if the redirection was performed, false if the module wasn't found
      */
     function redirect( $moduleName, $viewName, $parameters = array(),
@@ -503,22 +502,22 @@ class eZModule
         }
         else
         {
-            eZDebug::writeError( 'Undefined module: ' . $moduleName, 'eZModule::redirect' );
+            eZDebug::writeError( 'Undefined module: ' . $moduleName, __METHOD__ );
         }
         return false;
     }
 
     /**
      * Redirects to another view in the current module
-     * 
+     *
      * @see redirectionURI(), redirectModule(), redirect()
-     * 
+     *
      * @param string $viewName Target view name
      * @param array $parameters View parameters
      * @param array $unorderedParameters Unordered view parameters
      * @param array $userParameters User parameters
      * @param string $anchor Redirection URI anchor
-     * 
+     *
      * @return boolean true if successful, false if the view isn't found
      */
     function redirectToView( $viewName = '', $parameters = array(),
@@ -531,19 +530,19 @@ class eZModule
 
     /**
      * Redirects to another module / view.
-     * 
+     *
      * The difference with redirect is that the $module parameter is an object
      * instead of a string
-     * 
+     *
      * @param eZModule $moduleName Target module name
      * @param string $viewName Target view name
      * @param array $parameters View parameters array
      * @param array $unorderedParameters Unordered parameters array
      * @param array $userParameters User parameters array
      * @param string $anchor Redirection URI anchor
-     * 
+     *
      * @return boolean true. Just true.
-     * 
+     *
      * @todo Deprecate; have redirect() check if $module is an eZModule or a string
      */
     function redirectModule( $module, $viewName, $parameters = array(),
@@ -559,16 +558,16 @@ class eZModule
     /**
      * Creates the redirection URI for a given module, view & parameters.
      * Unlike redirectionURIForModule(), the $module parameter is the module name
-     * 
+     *
      * @param string $moduleName Redirection module name
      * @param string $viewName Redirection view name
      * @param array $parameters View parameters
      * @param array $unorderedParameters Unordered parameters
      * @param array $userParameters User parameters
      * @param string $anchor Redirection URI anchor
-     * 
+     *
      * @return string|boolean The redirection URI, or false if the module isn't found
-     * 
+     *
      * @see redirect(), redirectionURIForModule(), redirectToView(), redirectModule()
      */
     function redirectionURI( $moduleName, $viewName, $parameters = array(),
@@ -582,15 +581,15 @@ class eZModule
                                                    $unorderedParameters, $userParameters, $anchor );
         }
         else
-            eZDebug::writeError( 'Undefined module: ' . $moduleName, 'eZModule::redirectionURI' );
+            eZDebug::writeError( 'Undefined module: ' . $moduleName, __METHOD__ );
         return false;
     }
 
     /**
      * Creates the redirection URI for the current module, view & parameters
-     * 
+     *
      * @return string The redirection URI
-     * 
+     *
      * @see redirectionURIForModule()
      */
     function currentRedirectionURI()
@@ -607,13 +606,13 @@ class eZModule
     /**
      * Redirects to the current module and view, it will use currentRedirectionURI() to
      * figure out the URL.
-     * 
+     *
      * @note By changing using setCurrentName() and setCurrentView() first it is
      *       possible to redirect to another module or view with the same
      *       parameters.
-     * 
+     *
      * @see currentRedirectionURI(), redirectTo()
-     * 
+     *
      * @return void
      */
     function redirectCurrent()
@@ -624,7 +623,7 @@ class eZModule
     /**
      * Creates the redirection URI for a given module, view & parameters.
      * Unlike redirectionURI(), the $module parameter is a module object
-     * 
+     *
      * @param string $moduleName Redirection module name
      * @param string $viewName
      *        Redirection view name. If empty, the current view will be used
@@ -632,9 +631,9 @@ class eZModule
      * @param array $unorderedParameters Unordered parameters
      * @param array $userParameters User parameters
      * @param string $anchor Redirection URI anchor
-     * 
+     *
      * @return string|boolean The redirection URI, or false if the module isn't found
-     * 
+     *
      * @see redirect(), redirectionURIForModule(), redirectToView(), redirectModule()
      */
     function redirectionURIForModule( $module, $viewName, $parameters = array(),
@@ -703,14 +702,14 @@ class eZModule
 
     /**
      * Returns the defined parameter for a view.
-     * 
+     *
      * @param string $viewName
      *        The view to get parameters for. If not specified, the current view
      *        is used
      *
      * @return array The parameters definition
      * @see unorderedParameters(), viewData(), currentView(), currentModule()
-    */
+     */
     function parameters( $viewName = '' )
     {
         if ( $viewName == '' )
@@ -725,13 +724,13 @@ class eZModule
 
     /**
      * Returns the unordered parameters definition.
-     * 
+     *
      * @param string $viewName
      *        The view to return parameters for. If npt specified, the current
      *        view is used
-     * 
+     *
      * @return the unordered parameter definition for the requested view
-     * 
+     *
      * @see parameters(), viewData(), currentView(), currentModule()
      */
     function unorderedParameters( $viewName = '' )
@@ -748,11 +747,11 @@ class eZModule
 
     /**
      * Returns data for a view
-     * 
+     *
      * @param string $viewName
      *        The view to return data for. If omited, the current view is used
      * @see parameters(), unorderedParameters(), currentView(), currentModule()
-     * 
+     *
      * @return array
      */
     function viewData( $viewName = '' )
@@ -768,11 +767,11 @@ class eZModule
 
     /**
      * Sets the module to redirect at the end of the execution
-     * 
+     *
      * @param string $uri the URI to redirect to
-     * 
+     *
      * @see setRedirectURI(), setExitStatus()
-     * 
+     *
      * @return void
      */
     function redirectTo( $uri )
@@ -788,9 +787,9 @@ class eZModule
 
     /**
      * Returns the current redirection URI
-     * 
+     *
      * @return string
-     * 
+     *
      * @see setRedirectURI()
      */
     function redirectURI()
@@ -800,11 +799,11 @@ class eZModule
 
     /**
      * Sets the URI which will be redirected to when the function exits
-     * 
+     *
      * @param string $uri The redirection URI
-     * 
+     *
      * @return void
-     **/
+     */
     function setRedirectURI( $uri )
     {
         $this->RedirectURI = $uri;
@@ -812,9 +811,9 @@ class eZModule
 
     /**
      * Returns the redirection HTTP status (!)
-     * 
+     *
      * @return something (probably)
-     * 
+     *
      * @deprecated 4.3 Not used ANYWHERE in the kernel
      */
     function redirectStatus()
@@ -824,11 +823,11 @@ class eZModule
 
     /**
      * Sets the HTTP status which will be set when redirecting
-     * 
+     *
      * @param string $status HTTP status
-     * 
+     *
      * @note The status must be a valid HTTP status with number and text.
-     * 
+     *
      * @deprecated 4.3 not used anywyere
      */
     function setRedirectStatus( $status )
@@ -838,7 +837,7 @@ class eZModule
 
     /**
      * Returns the defined object attributes (as in persistent objects)
-     * 
+     *
      * @return array the persistent object attributes
      */
     function attributes()
@@ -855,11 +854,11 @@ class eZModule
 
     /**
      * Checks if an attribute exists
-     * 
+     *
      * @param string $attr Attribute name
-     * 
+     *
      * @return bool True if the attribute exists, false otherwise
-    */
+     */
     function hasAttribute( $attr )
     {
         return in_array( $attr, $this->attributes() );
@@ -867,10 +866,10 @@ class eZModule
 
     /**
      * Returns the value of an attribute
-     * 
+     *
      * @param string $attr Attribute name
-     * 
-     * @return mixed The attribute value. If the attribute doesn't exist, a 
+     *
+     * @return mixed The attribute value. If the attribute doesn't exist, a
      *               warning is thrown, and false is returned
      */
     function attribute( $attr )
@@ -895,7 +894,7 @@ class eZModule
                 return $this->FunctionList;
             default:
             {
-                eZDebug::writeError( "Attribute '$attr' does not exist", 'eZModule::attribute' );
+                eZDebug::writeError( "Attribute '$attr' does not exist", __METHOD__ );
                 return null;
             }
             break;
@@ -904,15 +903,15 @@ class eZModule
 
     /**
      * Sets the current action for a view
-     * 
+     *
      * @param string $actionName The action to make current
      * @param string $view
      *        The view to set the action for. If omited, the current view is used
-     * 
+     *
      * @return void
-     * 
+     *
      * @see currentAction(), isCurrentAction()
-    */
+     */
     function setCurrentAction( $actionName, $view = '' )
     {
         if ( $view == '' )
@@ -924,7 +923,7 @@ class eZModule
 
     /**
      * Returns the current action name.
-     * 
+     *
      * If the current action is not yet determined it will use the definitions in
      * module.php in order to find out the current action. It first looks trough
      * the \c single_post_actions array in the selected view mode, the key to
@@ -943,7 +942,7 @@ class eZModule
      * \endcode
      *
      * @return string The current action, or false if not set nor found
-     * 
+     *
      * @see setCurrentAction(), isCurrentAction()
      */
     function currentAction( $view = '' )
@@ -982,7 +981,7 @@ class eZModule
                 }
                 else
                 {
-                    eZDebug::writeWarning( 'Unknown default action type: ' . $type, 'eZModule::currentAction' );
+                    eZDebug::writeWarning( 'Unknown default action type: ' . $type, __METHOD__ );
                 }
             }
         }
@@ -1017,7 +1016,7 @@ class eZModule
 
     /**
      * Sets an action parameter value
-     * 
+     *
      * @param string $parameterName
      * @param mixed $parameterValue
      * @param string $view
@@ -1035,11 +1034,11 @@ class eZModule
 
     /**
      * Returns an action parameter value
-     * 
+     *
      * @param string $parameterName
      * @param string $view
      *        The view to return the parameter for. If omited, uses the current view
-     * 
+     *
      * @return mixed The parameter value, or null + error if not found
      * @see setActionParameter(), hasActionParameter()
      */
@@ -1059,7 +1058,7 @@ class eZModule
             {
                 return $http->postVariable( $postParameters[$parameterName] );
             }
-            eZDebug::writeError( "No such action parameter: $parameterName", 'eZModule::actionParameter' );
+            eZDebug::writeError( "No such action parameter: $parameterName", __METHOD__ );
         }
         if ( isset( $this->Functions[$view]['post_value_action_parameters'][$currentAction] ) )
         {
@@ -1078,7 +1077,7 @@ class eZModule
                         return $parameterValue;
                     }
                 }
-                eZDebug::writeError( "No such action parameter: $parameterName", 'eZModule::actionParameter' );
+                eZDebug::writeError( "No such action parameter: $parameterName", __METHOD__ );
             }
         }
         return null;
@@ -1086,13 +1085,13 @@ class eZModule
 
     /**
      * Checks if an action parameter is defined for a view
-     * 
+     *
      * @param string $parameterName
      * @param string $view
      *        The view to check the parameter for. If omited, uses the current view
-     * 
+     *
      * @return bool
-     * 
+     *
      * @see setActionParameter(), actionParameter()
      */
     function hasActionParameter( $parameterName, $view = '' )
@@ -1136,14 +1135,14 @@ class eZModule
 
     /**
      * Checks if the current action is the given one
-     * 
+     *
      * @param string $actionName The action to check
      * @param string $view The view to check the action for. Current view if omited.
-     * 
+     *
      * @return bool
-     * 
+     *
      * @see currentAction(), setCurrentAction()
-    */
+     */
     function isCurrentAction( $actionName, $view = '' )
     {
         if ( $view == '' )
@@ -1173,7 +1172,7 @@ class eZModule
      * @param boolean $append
      *        If set to false (default), the hook will be added at the top of
      *        the hooks list. If set to true, it will be added at the end
-     * 
+     *
      * @return void
      */
     function addHook( $hookName, $function, $priority = 1, $expandParameters = true, $append = false )
@@ -1202,18 +1201,18 @@ class eZModule
 
     /**
      * Runs all hooks found in the hook list named $hookName.
-     * 
+     *
      * @param string $hookName
      * @param array $parameters
      *        Parameters to provide each function with
-     * 
+     *
      * @return integer The hook execution status, as one of the eZModule::HOOK_STATUS_*
      *         constants:
      *         - HOOK_STATUS_OK: means that every hook was executed correctly.
      *         - HOOK_STATUS_CANCEL_RUN: execution was cancelled by one hook
      *         - HOOK_STATUS_FAILED: only returned if the last hook failed. In
      *           any case, a warning is thrown.
-     *        
+     *
      */
     function runHooks( $hookName, $parameters = null )
     {
@@ -1248,7 +1247,7 @@ class eZModule
                     }
                     else
                     {
-                        eZDebug::writeError( "Unknown hook function '$functionName' in hook: $hookName", 'eZModule::runHooks' );
+                        eZDebug::writeError( "Unknown hook function '$functionName' in hook: $hookName", __METHOD__ );
                     }
                 }
                 else if ( is_array( $function ) )
@@ -1275,17 +1274,17 @@ class eZModule
                         }
                         else
                         {
-                            eZDebug::writeError( "Unknown hook method '$functionName' in class '" . strtolower( get_class( $object ) ) . "' in hook: $hookName", 'eZModule::runHooks' );
+                            eZDebug::writeError( "Unknown hook method '$functionName' in class '" . strtolower( get_class( $object ) ) . "' in hook: $hookName", __METHOD__ );
                         }
                     }
                     else
                     {
-                        eZDebug::writeError( "Missing data for method handling in hook: $hookName", 'eZModule::runHooks' );
+                        eZDebug::writeError( "Missing data for method handling in hook: $hookName", __METHOD__ );
                     }
                 }
                 else
                 {
-                    eZDebug::writeError( 'Unknown entry type ' . gettype( $function ) . 'in hook: ' . $hookName, 'eZModule::runHooks' );
+                    eZDebug::writeError( 'Unknown entry type ' . gettype( $function ) . 'in hook: ' . $hookName, __METHOD__ );
                 }
 
                 switch( $retVal )
@@ -1296,7 +1295,7 @@ class eZModule
 
                     case eZModule::HOOK_STATUS_FAILED:
                     {
-                        eZDebug::writeWarning( 'Hook execution failed in hook: ' . $hookName, 'eZModule::runHooks' );
+                        eZDebug::writeWarning( 'Hook execution failed in hook: ' . $hookName, __METHOD__ );
                     } break;
 
                     case eZModule::HOOK_STATUS_CANCEL_RUN:
@@ -1311,11 +1310,11 @@ class eZModule
 
     /**
      * Sets the view result
-     * 
+     *
      * @param string $result The (usually HTML) view result
      * @param string $view
      *        The view to set the result for. If omited, the current view is used
-     * 
+     *
      * @return void
      * @see hasViewResult(), viewResult()
      */
@@ -1328,7 +1327,7 @@ class eZModule
 
     /**
      * Checks if a view has a result set
-     * 
+     *
      * @param string $view The view to test for. If omited, uses the current view
      * @return bool
      */
@@ -1341,10 +1340,10 @@ class eZModule
 
     /**
      * Returns the view result
-     * 
+     *
      * @param string $view
      *        The view to return the result for, or the current one if omited
-     * 
+     *
      * @return string|null The view result, or null if not set
      */
     function viewResult( $view = '' )
@@ -1361,7 +1360,7 @@ class eZModule
     /**
      * Forwards the current execution to another module/view with the existing
      * parameters.
-     * 
+     *
      * @param eZModule $module The eZModule object the request will be forwarded to
      * @param string $functionName The function to run in that module
      * @param array $parameters
@@ -1409,7 +1408,7 @@ class eZModule
 
     /**
      * Runs a function in the current module
-     * 
+     *
      * @param string $functionName The function to run
      * @param array $parameters
      *         An indexed list of parameters, these will be mapped onto real
@@ -1420,7 +1419,7 @@ class eZModule
      *        An asociative array of parameters that will ultimately override
      *        what's in $parameters
      * @param array $userParameters User (custom view) parameters
-     *        
+     *
      * @return array The run result
      */
     function run( $functionName, $parameters = array(), $overrideParameters = false, $userParameters = false )
@@ -1615,13 +1614,13 @@ class eZModule
 
     /**
      * Returns the current view name
-     * 
+     *
      * @return string The current view name, or false if not defined
-     * 
+     *
      * @note This is a system-wide value
-     * 
+     *
      * @see currentModule(), setCurrentView()
-    */
+     */
     function currentView()
     {
         $currentView = $GLOBALS['eZModuleCurrentView'];
@@ -1632,11 +1631,11 @@ class eZModule
 
     /**
      * Returns the current module name
-     * 
+     *
      * @return string the current module name, or false if not set
-     * 
+     *
      * @note This is a system-wide value
-    */
+     */
     function currentModule()
     {
         $currentView = $GLOBALS['eZModuleCurrentView'];
@@ -1647,11 +1646,11 @@ class eZModule
 
     /**
      * Returns the search path list for modules
-     * 
+     *
      * @return array
-     * 
+     *
      * @see setGlobalPathList(), addGlobalPathList()
-    */
+     */
     static function globalPathList()
     {
         if ( !isset( $GLOBALS['eZModuleGlobalPathList'] ) )
@@ -1661,11 +1660,11 @@ class eZModule
 
     /**
      * Returns the list of active module repositories, as defined in module.ini
-     * 
+     *
      * @param boolean $useExtensions
      *        If true, module.ini files in extensions will be scanned as well.
      *        If false, only the module.ini overrides in settings will be.
-     * 
+     *
      * @return array a path list of currently active modules
      */
     static function activeModuleRepositories( $useExtensions = true )
@@ -2072,11 +2071,11 @@ class eZModule
     public $UIComponent;
 
     /**
-    * Controls at which level UI component matching is done:
-    * either 'module' which uses module name or 'view' which uses view name
-    * @var string
-    * @private
-    */
+     * Controls at which level UI component matching is done:
+     * either 'module' which uses module name or 'view' which uses view name
+     * @var string
+     * @private
+     */
     public $UIComponentMatch;
 }
 

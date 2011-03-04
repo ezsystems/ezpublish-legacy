@@ -382,7 +382,7 @@ class eZWorkflowProcess extends eZPersistentObject
                         } break;
                         case eZWorkflowType::STATUS_RUN_SUB_EVENT:
                         {
-                            eZDebug::writeWarning( "Run sub event not supported yet", "eZWorkflowProcess::run" );
+                            eZDebug::writeWarning( "Run sub event not supported yet", __METHOD__ );
                         } break;
                         case eZWorkflowType::STATUS_WORKFLOW_CANCELLED:
                         {
@@ -398,11 +398,11 @@ class eZWorkflowProcess extends eZPersistentObject
                         } break;
                         case eZWorkflowType::STATUS_NONE:
                         {
-                            eZDebug::writeWarning( "Workflow executing status is eZWorkflowType::STATUS_NONE", "eZWorkflowProcess::run" );
+                            eZDebug::writeWarning( "Workflow executing status is eZWorkflowType::STATUS_NONE", __METHOD__ );
                         } break;
                         default:
                         {
-                            eZDebug::writeWarning( "Unknown status '$currentEventStatus'", "eZWorkflowProcess::run" );
+                            eZDebug::writeWarning( "Unknown status '$currentEventStatus'", __METHOD__ );
                         } break;
                     }
                     $eventLog[] = array( "status" => $currentEventStatus,
@@ -414,7 +414,7 @@ class eZWorkflowProcess extends eZPersistentObject
                 }
                 else
                 {
-                    eZDebug::writeError( "Expected an eZWorkFlowType object", "eZWorkflowProcess::run" );
+                    eZDebug::writeError( "Expected an eZWorkFlowType object", __METHOD__ );
                 }
             }
             else

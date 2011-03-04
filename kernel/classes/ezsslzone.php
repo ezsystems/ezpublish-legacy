@@ -133,20 +133,20 @@ class eZSSLZone
                     $elements = eZURLAliasML::fetchByPath( $uri );
                     if ( count( $elements ) == 0 )
                     {
-                        eZDebug::writeError( "Cannot fetch URI '$uri'", 'eZSSLZone::getSSLZones' );
+                        eZDebug::writeError( "Cannot fetch URI '$uri'", __METHOD__ );
                         continue;
                     }
                     $action = $elements[0]->attribute( 'action' );
                     if ( !preg_match( "#^eznode:(.+)#", $action, $matches ) )
                     {
-                        eZDebug::writeError( "Cannot decode action '$action' for URI '$uri'", 'eZSSLZone::getSSLZones' );
+                        eZDebug::writeError( "Cannot decode action '$action' for URI '$uri'", __METHOD__ );
                         continue;
                     }
                     $nodeID = (int)$matches[1];
                     $node = eZContentObjectTreeNode::fetch( $nodeID );
                     if ( !$node instanceof eZContentObjectTreeNode )
                     {
-                        eZDebug::writeError( "cannot fetch node by URI '$uri'", 'eZSSLZone::getSSLZones' );
+                        eZDebug::writeError( "cannot fetch node by URI '$uri'", __METHOD__ );
                         continue;
                     }
                     $pathStringsArray[$uri] = $node->attribute( 'path_string' );
@@ -311,7 +311,7 @@ class eZSSLZone
 
         if ( !$pathStrings )
         {
-            eZDebug::writeError( "Node #$nodeID not found", "eZSSLZone::checkNodeID" );
+            eZDebug::writeError( "Node #$nodeID not found", __METHOD__ );
             return;
         }
 

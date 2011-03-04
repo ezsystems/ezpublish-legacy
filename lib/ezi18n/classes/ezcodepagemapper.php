@@ -184,7 +184,7 @@ class eZCodePageMapper
                 unset( $eZCodePageMapperCacheCodeDate );
                 $in_out_map =& $this->InputOutputMap;
                 $out_in_map =& $this->OutputInputMap;
-                eZDebug::writeDebug( 'loading cache from: ' . $cache, 'eZCodePageMapper::load' );
+                eZDebug::writeDebug( 'loading cache from: ' . $cache, __METHOD__ );
                 include( $cache );
                 if ( isset( $eZCodePageMapperCacheCodeDate ) or
                      $eZCodePageMapperCacheCodeDate == self::CACHE_CODE_DATE )
@@ -234,7 +234,7 @@ class eZCodePageMapper
     }
 
     /**
-     * Returns a shared instance of the eZCodePageMapper pr the 
+     * Returns a shared instance of the eZCodePageMapper pr the
      * $input_charset_code and $output_charset_code params.
      *
      * @param string $input_charset_code

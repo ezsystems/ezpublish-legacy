@@ -31,7 +31,7 @@ return array (
   'PHP_INT_MAX' => 2147483647,
   'PHP_INT_SIZE' => 4,
   'getcwd' => 'D:\\htdocs\\ezvarlogger',
-  '_SERVER' => 
+  '_SERVER' =>
   array (
     'SCRIPT_URL' => '/',
     'SCRIPT_URI' => 'http://johnny.local/',
@@ -68,7 +68,7 @@ return array (
     'PHP_SELF' => '/',
     'REQUEST_TIME' => 1287784940,
   ),
-  '_ENV' => 
+  '_ENV' =>
   array (
     'ALLUSERSPROFILE' => 'C:\\ProgramData',
     'APPDATA' => 'C:\\Users\\gg\\AppData\\Roaming',

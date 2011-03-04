@@ -51,7 +51,7 @@ class eZDFSFileHandlerDFSBackend
      *
      * @param string $srcFilePath Local source file path
      * @param string $dstFilePath Local destination file path
-     **/
+     */
     public function copyFromDFSToDFS( $srcFilePath, $dstFilePath )
     {
         $this->accumulatorStart();
@@ -79,7 +79,7 @@ class eZDFSFileHandlerDFSBackend
      *        Destination file path (on FS). If not specified, $srcFilePath is
      *        used
      * @return bool
-     **/
+     */
     public function copyFromDFS( $srcFilePath, $dstFilePath = false )
     {
         $this->accumulatorStart();
@@ -107,7 +107,7 @@ class eZDFSFileHandlerDFSBackend
      * @param string $srcFilePath Local file path to copy from
      * @param string $dstFilePath
      *        Optional path to copy to. If not specified, $srcFilePath is used
-     **/
+     */
     public function copyToDFS( $srcFilePath, $dstFilePath = false )
     {
         $this->accumulatorStart();
@@ -220,7 +220,7 @@ class eZDFSFileHandlerDFSBackend
      * @param binary $contents
      *
      * @return bool
-     **/
+     */
     public function createFileOnDFS( $filePath, $contents )
     {
         $this->accumulatorStart();
@@ -261,7 +261,7 @@ class eZDFSFileHandlerDFSBackend
      * Computes the DFS file path based on a relative file path
      * @param string $filePath
      * @return string the absolute DFS file path
-     **/
+     */
     protected function makeDFSPath( $filePath )
     {
         return $this->mountPointPath . $filePath;
@@ -280,7 +280,7 @@ class eZDFSFileHandlerDFSBackend
     /**
      * Path to the local distributed filesystem mount point
      * @var string
-     **/
+     */
     protected $mountPointPath;
 }
 ?>

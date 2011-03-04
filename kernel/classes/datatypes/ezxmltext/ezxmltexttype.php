@@ -697,7 +697,7 @@ class eZXMLTextType extends eZDataType
                 $objectArray = eZContentObject::fetchByRemoteID( $objectRemoteID, false );
                 if ( !is_array( $objectArray ) )
                 {
-                    eZDebug::writeWarning( "Can't fetch object with remoteID = $objectRemoteID", 'eZXMLTextType::unserialize' );
+                    eZDebug::writeWarning( "Can't fetch object with remoteID = $objectRemoteID", __METHOD__ );
                     continue;
                 }
 
@@ -721,7 +721,7 @@ class eZXMLTextType extends eZDataType
                 $nodeArray = eZContentObjectTreeNode::fetchByRemoteID( $nodeRemoteID, false );
                 if ( !is_array( $nodeArray ) )
                 {
-                    eZDebug::writeWarning( "Can't fetch node with remoteID = $nodeRemoteID", 'eZXMLTextType::unserialize' );
+                    eZDebug::writeWarning( "Can't fetch node with remoteID = $nodeRemoteID", __METHOD__ );
                     continue;
                 }
 

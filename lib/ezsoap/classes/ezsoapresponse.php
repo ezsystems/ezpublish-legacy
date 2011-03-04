@@ -309,8 +309,7 @@ TODO: add encoding checks with schema validation.
         $start = strpos( $data, "<?xml" );
         if ( $start === false )
         {
-            eZDebug::writeWarning( "missing <?xml ...> in HTTP response, attempting workaround",
-                                   "eZSoapResponse::stripHTTPHeader" );
+            eZDebug::writeWarning( "missing <?xml ...> in HTTP response, attempting workaround", __METHOD__ );
             $start = strpos( $data, "<E:Envelope" );
             $missingxml = true;
         }

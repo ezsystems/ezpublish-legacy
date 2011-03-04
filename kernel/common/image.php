@@ -31,7 +31,7 @@
 
 /**
  * Image manager instance
- * 
+ *
  * @package kernel
  * @deprecated Deprecated as of 4.3, use {@link eZImageManager::factory()} instead.
  */

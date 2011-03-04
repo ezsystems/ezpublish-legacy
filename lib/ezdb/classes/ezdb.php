@@ -63,8 +63,6 @@
   Especially when returning the data as an associative array.
 
   \code
-  // include the library
-  //include_once( 'lib/ezdb/classes/ezdb.php' );
 
   // Get the current database instance
   // will create a new database object and connect to the database backend
@@ -112,7 +110,7 @@ class eZDB
     */
     private function __construct()
     {
-        eZDebug::writeError( 'This class should not be instantiated', 'eZDB::eZDB' );
+        eZDebug::writeError( 'This class should not be instantiated', __METHOD__ );
     }
 
     /*!
@@ -302,7 +300,7 @@ class eZDB
                 $impl->ErrorNumber = -1;
                 if ( $databaseParameters['show_errors'] )
                 {
-                    eZDebug::writeError( 'Database implementation not supported: ' . $databaseImplementation, 'eZDB::instance' );
+                    eZDebug::writeError( 'Database implementation not supported: ' . $databaseImplementation, __METHOD__ );
                 }
             }
 
@@ -383,8 +381,8 @@ class eZDB
     }
 
     /**
-    * Error handling mode
-    */
+     * Error handling mode
+     */
     const ERROR_HANDLING_STANDARD = 1;
     const ERROR_HANDLING_EXCEPTIONS = 2;
 

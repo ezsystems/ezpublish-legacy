@@ -13,8 +13,8 @@ class eZDFSFileHandlerDFSBackendTest extends ezpTestCase
     }
 
     /**
-    * Tests if $path exists and that its contents matches $content
-    **/
+     * Tests if $path exists and that its contents matches $content
+     */
     protected function localFileIsValid( $path, $content = 'testcontent' )
     {
         return ( file_exists( $path ) && ( file_get_contents( $path ) == $content ) );
@@ -23,7 +23,7 @@ class eZDFSFileHandlerDFSBackendTest extends ezpTestCase
     /**
      * Tests if local file $path exists on DFS and that its contents matches
      * $content
-     **/
+     */
     protected function DFSFileIsValid( $path, $content = 'testcontent' )
     {
         $path = $this->makeDFSPath( $path );
@@ -193,7 +193,7 @@ class eZDFSFileHandlerDFSBackendTest extends ezpTestCase
     /**
      * DFSBackend instance
      * @var eZDFSFileHandlerDFSBackend
-     **/
+     */
     protected $dfsbackend;
 
     protected $path = 'var/testdfsmount/';

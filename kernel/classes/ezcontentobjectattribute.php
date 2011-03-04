@@ -880,7 +880,7 @@ class eZContentObjectAttribute extends eZPersistentObject
      *        Optional eZContentObjectAttribute the content will be initialized
      *        from
      * @return void
-     **/
+     */
     function initialize( $currentVersion = null, $originalContentObjectAttribute = null )
     {
         if ( $originalContentObjectAttribute === null )
@@ -941,7 +941,7 @@ class eZContentObjectAttribute extends eZPersistentObject
      * @return eZContentObjectAttribute The cloned attribute
      *
      * @todo Deprecate this in favor of a real __clone
-     **/
+     */
     function cloneContentObjectAttribute( $newVersionNumber, $currentVersionNumber, $contentObjectID = false, $newLanguageCode = false )
     {
         $tmp = clone $this;

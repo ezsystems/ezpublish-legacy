@@ -624,7 +624,7 @@ class eZPersistentObject
                                   } break;
                               default:
                                   {
-                                      eZDebug::writeError( "Conditional operator '$cond[0]' is not supported.",'eZPersistentObject::conditionTextByRow()' );
+                                      eZDebug::writeError( "Conditional operator '$cond[0]' is not supported.", __METHOD__ );
                                   } break;
                           }
 
@@ -1209,8 +1209,7 @@ static function definition()
             }
             else
             {
-                eZDebug::writeError( 'Could not find function : "' . get_class( $this ) . '::' . $functionName . '()".',
-                                     'eZPersistentObject::attribute()' );
+                eZDebug::writeError( 'Could not find function : "' . get_class( $this ) . '::' . $functionName . '()".', __METHOD__ );
             }
             return $retVal;
         }

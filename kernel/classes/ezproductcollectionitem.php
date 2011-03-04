@@ -298,7 +298,7 @@ class eZProductCollectionItem extends eZPersistentObject
      * @param array $productCollectionIDList array of eZProductCollection IDs
      *
      * @return void
-     **/
+     */
     static function cleanupList( $productCollectionIDList )
     {
         $db = eZDB::instance();

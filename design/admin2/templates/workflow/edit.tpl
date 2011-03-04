@@ -77,25 +77,34 @@
 <th>
 <input type="checkbox" name="WorkflowEvent_id_checked[]" value="{$Events.item.id}" />
 &nbsp;
-{$Events.number}({$Events.item.placement})&nbsp;{$Events.item.workflow_type.group_name}&nbsp;/&nbsp;{$Events.item.workflow_type.name|wash}
-<div class="button-right">
-<a href={concat( $module.functions.down.uri, '/', $workflow.id, '/', $Events.item.id )|ezurl}><img src={'button-move_down.gif'|ezimage} height="16" width="16" alt="{'Move down'|i18n( 'design/admin/workflow/edit' )}" title="{'Move down'|i18n( 'design/admin/workflow/edit' )}" /></a>
-&nbsp;
-<a href={concat( $module.functions.up.uri, '/', $workflow.id, '/', $Events.item.id )|ezurl}><img src={'button-move_up.gif'|ezimage} height="16" width="16" alt="{'Move up'|i18n( 'design/admin/workflow/edit' )}" title="{'Move up'|i18n( 'design/admin/workflow/edit' )}" /></a>
-</div>
+{if $Events.item.workflow_type|is_null}
+    <span class="error">{$Events.number}({$Events.item.placement})&nbsp;{'Error : Could not load workflow event "%eventtype" (event type not available)'|i18n( 'design/admin/workflow/edit',, hash( '%eventtype', $Events.item.workflow_type_string ) )}</span>
 </th>
 </tr>
+<tr>
+    <td><em>{'Hint : This can happen when a workflow extension has been disabled'|i18n( 'design/admin/workflow/edit' )}</em></td>
+</tr>
+{else}
+	{$Events.number}({$Events.item.placement})&nbsp;{$Events.item.workflow_type.group_name}&nbsp;/&nbsp;{$Events.item.workflow_type.name|wash}
+	<div class="button-right">
+	<a href={concat( $module.functions.down.uri, '/', $workflow.id, '/', $Events.item.id )|ezurl}><img src={'button-move_down.gif'|ezimage} height="16" width="16" alt="{'Move down'|i18n( 'design/admin/workflow/edit' )}" title="{'Move down'|i18n( 'design/admin/workflow/edit' )}" /></a>
+	&nbsp;
+	<a href={concat( $module.functions.up.uri, '/', $workflow.id, '/', $Events.item.id )|ezurl}><img src={'button-move_up.gif'|ezimage} height="16" width="16" alt="{'Move up'|i18n( 'design/admin/workflow/edit' )}" title="{'Move up'|i18n( 'design/admin/workflow/edit' )}" /></a>
+	</div>
+	</th>
+	</tr>
 
-<tr><td>
-<div class="block">
-<label>{'Description / comments'|i18n( 'design/admin/workflow/edit' )}:</label>
-<input class="halfbox" type="text" name="WorkflowEvent_description[]" value="{$Events.item.description}" />
-</div>
+	<tr><td>
+	<div class="block">
+	<label>{'Description / comments'|i18n( 'design/admin/workflow/edit' )}:</label>
+	<input class="halfbox" type="text" name="WorkflowEvent_description[]" value="{$Events.item.description}" />
+	</div>
 
-{if and( is_set( $selectedClass ), $selectedClass )}
+	{if and( is_set( $selectedClass ), $selectedClass )}
         {event_edit_gui event=$Events.item selectedClass=$selectedClass}
-{else}    
+    {else}
         {event_edit_gui event=$Events.item}
+    {/if}
 {/if}
 
 <input type="hidden" name="WorkflowEvent_id[]" value="{$Events.item.id}" />

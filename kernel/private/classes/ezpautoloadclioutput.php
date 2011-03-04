@@ -9,7 +9,7 @@
 
 /**
  * Utility class for providing CLI output and incremental progress information.
- * 
+ *
  * @package kernel
  */
 class ezpAutoloadCliOutput implements ezpAutoloadOutput
@@ -55,8 +55,8 @@ class ezpAutoloadCliOutput implements ezpAutoloadOutput
      * Outputs a <var>$message</var> on the CLI, and formats it according to type.
      * Currently <var>$type</var> of "normal" and "warning" is supported.
      *
-     * @param string $message 
-     * @param string $type 
+     * @param string $message
+     * @param string $type
      * @return void
      */
     public function outputCli( $message, $type )
@@ -109,10 +109,10 @@ class ezpAutoloadCliOutput implements ezpAutoloadOutput
 
     /**
      * Sets up the class for displaying progress information for class search phase.
-     * 
+     *
      * This method expects the total file count to be present in the internal
      * $data array.
-     * 
+     *
      * Example:
      * <code>
      *     $statArray = array( 'nFiles' => count( $fileList ),
@@ -120,9 +120,9 @@ class ezpAutoloadCliOutput implements ezpAutoloadOutput
      *                         'classAdded' => 0,
      *                       );
      * </code>
-     * 
+     *
      * This array can set via the updateData() function.
-     * 
+     *
      * @see function updateData
      * @return void
      */
@@ -146,7 +146,7 @@ class ezpAutoloadCliOutput implements ezpAutoloadOutput
 
     /**
      * Finishes progress output for class search phase.
-     * 
+     *
      * Also inserts some extra newlines to make the output clearer.
      *
      * @return void
@@ -183,8 +183,8 @@ class ezpAutoloadCliOutput implements ezpAutoloadOutput
     /**
      * Updates the internal data array for each <var>$phase</var>
      *
-     * @param int $phase 
-     * @param array $data 
+     * @param int $phase
+     * @param array $data
      * @return void
      */
     public function updateData( $phase, $data )
@@ -196,7 +196,7 @@ class ezpAutoloadCliOutput implements ezpAutoloadOutput
     /**
      * Calls the correct phase progress update method depending on <var>$phase</var>
      *
-     * @param int $phase 
+     * @param int $phase
      * @return void
      */
     public function updateProgress( $phase )

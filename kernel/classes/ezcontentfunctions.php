@@ -183,12 +183,12 @@ class eZContentFunctions
             }
             else
             {
-                eZDebug::writeError( "Content class with identifier '$classIdentifier' doesn't exist.", 'eZContentFunctions::createAndPublishObject' );
+                eZDebug::writeError( "Content class with identifier '$classIdentifier' doesn't exist.", __METHOD__ );
             }
         }
         else
         {
-            eZDebug::writeError( "Node with id '$parentNodeID' doesn't exist.", 'eZContentFunctions::createAndPublishObject' );
+            eZDebug::writeError( "Node with id '$parentNodeID' doesn't exist.", __METHOD__ );
         }
 
         return $contentObject;
@@ -249,8 +249,7 @@ class eZContentFunctions
     {
         if ( !array_key_exists( 'attributes', $params ) and !is_array( $params['attributes'] ) and count( $params['attributes'] ) > 0 )
         {
-            eZDebug::writeError( 'No attributes specified for object' . $object->attribute( 'id' ),
-                                 'eZContentFunctions::updateAndPublishObject' );
+            eZDebug::writeError( 'No attributes specified for object' . $object->attribute( 'id' ), __METHOD__ );
             return false;
         }
 
@@ -294,8 +293,7 @@ class eZContentFunctions
 
         if ( !$newVersion instanceof eZContentObjectVersion )
         {
-            eZDebug::writeError( 'Unable to create a new version for object ' . $object->attribute( 'id' ),
-                                 'eZContentFunctions::updateAndPublishObject' );
+            eZDebug::writeError( 'Unable to create a new version for object ' . $object->attribute( 'id' ), __METHOD__ );
 
             $db->rollback();
 

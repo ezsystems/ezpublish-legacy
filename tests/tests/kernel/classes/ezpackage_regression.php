@@ -19,18 +19,18 @@ class eZPackageRegression extends ezpDatabaseTestCase
 
 
     /**
-    * Regression test for issue #15263
-    * Content object name/url of imported content classes aren't generated correctly
-    *
-    * @url http://issues.ez.no/15263
-    *
-    * @outline
-    * 1) Expire and force generation of class attribute cache
-    * 2) Load a test package
-    * 3) Install the package
-    * 4) Publish an object of the imported class
-    * 5) The object name / url alias shouldn't be the expected one
-    **/
+     * Regression test for issue #15263
+     * Content object name/url of imported content classes aren't generated correctly
+     *
+     * @url http://issues.ez.no/15263
+     *
+     * @outline
+     * 1) Expire and force generation of class attribute cache
+     * 2) Load a test package
+     * 3) Install the package
+     * 4) Publish an object of the imported class
+     * 5) The object name / url alias shouldn't be the expected one
+     */
     public function testIssue15263()
     {
         $adminUser = eZUser::fetchByName( 'admin' );

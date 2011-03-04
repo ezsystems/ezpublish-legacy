@@ -421,7 +421,7 @@ class eZPostgreSQLDB extends eZDBInterface
         $relationKind = $this->relationKind( $relationType );
         if ( !$relationKind )
         {
-            eZDebug::writeError( "Unsupported relation type '$relationType'", 'eZPostgreSQLDB::relationCount' );
+            eZDebug::writeError( "Unsupported relation type '$relationType'", __METHOD__ );
             return false;
         }
 
@@ -445,7 +445,7 @@ class eZPostgreSQLDB extends eZDBInterface
         $relationKind = $this->relationKind( $relationType );
         if ( !$relationKind )
         {
-            eZDebug::writeError( "Unsupported relation type '$relationType'", 'eZPostgreSQLDB::relationList' );
+            eZDebug::writeError( "Unsupported relation type '$relationType'", __METHOD__ );
             return false;
         }
 
@@ -490,7 +490,7 @@ class eZPostgreSQLDB extends eZDBInterface
         $relationTypeName = $this->relationName( $relationType );
         if ( !$relationTypeName )
         {
-            eZDebug::writeError( "Unsupported relation type '$relationType'", 'eZPostgreSQLDB::removeRelation' );
+            eZDebug::writeError( "Unsupported relation type '$relationType'", __METHOD__ );
             return false;
         }
 
@@ -559,7 +559,7 @@ class eZPostgreSQLDB extends eZDBInterface
 
     /**
      * Returns the last serial ID generated with an auto increment field.
-     * 
+     *
      * In this case that means the current value of the sequence assigned
      * <var>$table</var>
      *

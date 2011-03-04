@@ -75,16 +75,14 @@ class eZModuleFunctionInfo
         }
         if ( $definitionFile === null )
         {
-            eZDebug::writeError( 'Missing function definition file for module: ' . $this->ModuleName,
-                                 'eZModuleFunctionInfo::loadDefinition' );
+            eZDebug::writeError( 'Missing function definition file for module: ' . $this->ModuleName, __METHOD__ );
             return false;
         }
         unset( $FunctionList );
         include( $definitionFile );
         if ( !isset( $FunctionList ) )
         {
-            eZDebug::writeError( 'Missing function definition list for module: ' . $this->ModuleName,
-                                 'eZModuleFunctionInfo::loadDefinition' );
+            eZDebug::writeError( 'Missing function definition list for module: ' . $this->ModuleName, __METHOD__ );
             return false;
         }
         $this->FunctionList = $FunctionList;
@@ -133,21 +131,18 @@ class eZModuleFunctionInfo
         $moduleName = $this->ModuleName;
         if ( !isset( $this->FunctionList[$functionName] ) )
         {
-            eZDebug::writeError( "No such function '$functionName' in module '$moduleName'",
-                                 'eZModuleFunctionInfo::execute' );
+            eZDebug::writeError( "No such function '$functionName' in module '$moduleName'", __METHOD__ );
             return false;
         }
         $functionDefinition = $this->FunctionList[$functionName];
         if ( !isset( $functionName['call_method'] ) )
         {
-            eZDebug::writeError( "No call method defined for function '$functionName' in module '$moduleName'",
-                                 'eZModuleFunctionInfo::execute' );
+            eZDebug::writeError( "No call method defined for function '$functionName' in module '$moduleName'", __METHOD__ );
             return false;
         }
         if ( !isset( $functionName['parameters'] ) )
         {
-            eZDebug::writeError( "No parameters defined for function '$functionName' in module '$moduleName'",
-                                 'eZModuleFunctionInfo::execute' );
+            eZDebug::writeError( "No parameters defined for function '$functionName' in module '$moduleName'", __METHOD__ );
             return false;
         }
         $callMethod = $functionDefinition['call_method'];
@@ -178,21 +173,18 @@ class eZModuleFunctionInfo
         $moduleName = $this->ModuleName;
         if ( !isset( $this->FunctionList[$functionName] ) )
         {
-            eZDebug::writeError( "No such function '$functionName' in module '$moduleName'",
-                                 'eZModuleFunctionInfo::execute' );
+            eZDebug::writeError( "No such function '$functionName' in module '$moduleName'", __METHOD__ );
             return null;
         }
         $functionDefinition = $this->FunctionList[$functionName];
         if ( !isset( $functionName['call_method'] ) )
         {
-            eZDebug::writeError( "No call method defined for function '$functionName' in module '$moduleName'",
-                                 'eZModuleFunctionInfo::execute' );
+            eZDebug::writeError( "No call method defined for function '$functionName' in module '$moduleName'", __METHOD__ );
             return null;
         }
         if ( !isset( $functionName['parameters'] ) )
         {
-            eZDebug::writeError( "No parameters defined for function '$functionName' in module '$moduleName'",
-                                 'eZModuleFunctionInfo::execute' );
+            eZDebug::writeError( "No parameters defined for function '$functionName' in module '$moduleName'", __METHOD__ );
             return null;
         }
         $callMethod = $functionDefinition['call_method'];
@@ -204,14 +196,12 @@ class eZModuleFunctionInfo
         }
         else
         {
-            eZDebug::writeError( "No valid call methods found for function '$functionName' in module '$moduleName'",
-                                 'eZModuleFunctionInfo::execute' );
+            eZDebug::writeError( "No valid call methods found for function '$functionName' in module '$moduleName'", __METHOD__ );
             return null;
         }
         if ( !is_array( $resultArray ) )
         {
-            eZDebug::writeError( "Function '$functionName' in module '$moduleName' did not return a result array",
-                                 'eZFunctionHandler::execute' );
+            eZDebug::writeError( "Function '$functionName' in module '$moduleName' did not return a result array", __METHOD__ );
             return null;
         }
         if ( isset( $resultArray['internal_error'] ) )
@@ -221,37 +211,33 @@ class eZModuleFunctionInfo
                 case eZModuleFunctionInfo::ERROR_NO_CLASS:
                 {
                     $className = $resultArray['internal_error_class_name'];
-                    eZDebug::writeError( "No class '$className' available for function '$functionName' in module '$moduleName'",
-                                         'eZModuleFunctionInfo::execute' );
+                    eZDebug::writeError( "No class '$className' available for function '$functionName' in module '$moduleName'", __METHOD__ );
                     return null;
                 } break;
                 case eZModuleFunctionInfo::ERROR_NO_CLASS_METHOD:
                 {
                     $className = $resultArray['internal_error_class_name'];
                     $classMethodName = $resultArray['internal_error_class_method_name'];
-                    eZDebug::writeError( "No method '$classMethodName' in class '$className' available for function '$functionName' in module '$moduleName'",
-                                         'eZModuleFunctionInfo::execute' );
+                    eZDebug::writeError( "No method '$classMethodName' in class '$className' available for function '$functionName' in module '$moduleName'", __METHOD__ );
                     return null;
                 } break;
                 case eZModuleFunctionInfo::ERROR_CLASS_INSTANTIATE_FAILED:
                 {
                     $className = $resultArray['internal_error_class_name'];
-                    eZDebug::writeError( "Failed instantiating class '$className' which is needed for function '$functionName' in module '$moduleName'",
-                                         'eZModuleFunctionInfo::execute' );
+                    eZDebug::writeError( "Failed instantiating class '$className' which is needed for function '$functionName' in module '$moduleName'", __METHOD__ );
                     return null;
                 } break;
                 case eZModuleFunctionInfo::ERROR_MISSING_PARAMETER:
                 {
                     $parameterName = $resultArray['internal_error_parameter_name'];
                     eZDebug::writeError( "Missing parameter '$parameterName' for function '$functionName' in module '$moduleName'",
-                                         "eZModuleFunctionInfo::execute $moduleName::$functionName" );
+                                         __METHOD__ . " $moduleName::$functionName" );
                     return null;
                 } break;
                 default:
                 {
                     $internalError = $resultArray['internal_error'];
-                    eZDebug::writeError( "Unknown internal error '$internalError' for function '$functionName' in module '$moduleName'",
-                                         'eZModuleFunctionInfo::execute' );
+                    eZDebug::writeError( "Unknown internal error '$internalError' for function '$functionName' in module '$moduleName'", __METHOD__ );
                     return null;
                 } break;
             }
@@ -266,8 +252,7 @@ class eZModuleFunctionInfo
         }
         else
         {
-            eZDebug::writeError( "Function '$functionName' in module '$moduleName' did not return a result value",
-                                 'eZFunctionHandler::execute' );
+            eZDebug::writeError( "Function '$functionName' in module '$moduleName' did not return a result value", __METHOD__ );
         }
         return null;
     }

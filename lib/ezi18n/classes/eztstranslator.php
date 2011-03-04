@@ -39,9 +39,6 @@ class eZTSTranslator extends eZTranslatorHandler
         $this->CachedMessages = array();
         $this->HasRestoredCache = false;
         $this->RootCache = false;
-
-        if ( self::$expiryTimestamp === false )
-            self::$expiryTimestamp = eZExpiryHandler::getTimestamp( self::EXPIRY_KEY, false, $locale );
     }
 
     /**
@@ -108,6 +105,7 @@ class eZTSTranslator extends eZTranslatorHandler
      *
      * Also checks for translation files expiry based on mtime if RegionalSettings.TranslationCheckMTime is enabled
      *
+     * @access private
      * @param string $locale
      * @param string $filename
      * @param string $requestedContext
@@ -148,45 +146,38 @@ class eZTSTranslator extends eZTranslatorHandler
         // Load cached translations if possible
         if ( $this->UseCache == true )
         {
-            if ( !$tsTimeStamp && $checkMTime )
+            if ( !$tsTimeStamp )
             {
-                // iterate over each known TS file, and get the highest timestamp
-                // this value will be used to check for cache validity
-                foreach ( $roots as $root )
+                $tsTimeStamp = eZExpiryHandler::instance()->getTimestamp( self::EXPIRY_KEY );
+                if ( $checkMTime && $tsTimeStamp < time() )// no need if ts == time()
                 {
-                    $path = eZDir::path( array( $root, $locale, $charset, $filename ) );
-                    if ( file_exists( $path ) )
+                    // iterate over each known TS file, and get the highest timestamp
+                    // this value will be used to check for cache validity
+                    foreach ( $roots as $root )
                     {
-                        $timestamp = filemtime( $path );
-                        if ( $timestamp > $tsTimeStamp )
-                            $tsTimeStamp = $timestamp;
-                    }
-                    else
-                    {
-                        $path = eZDir::path( array( $root, $locale, $filename ) );
+                        $path = eZDir::path( array( $root, $locale, $charset, $filename ) );
                         if ( file_exists( $path ) )
                         {
                             $timestamp = filemtime( $path );
                             if ( $timestamp > $tsTimeStamp )
                                 $tsTimeStamp = $timestamp;
                         }
+                        else
+                        {
+                            $path = eZDir::path( array( $root, $locale, $filename ) );
+                            if ( file_exists( $path ) )
+                            {
+                                $timestamp = filemtime( $path );
+                                if ( $timestamp > $tsTimeStamp )
+                                    $tsTimeStamp = $timestamp;
+                            }
+                        }
                     }
                 }
                 $this->RootCache['timestamp'] = $tsTimeStamp;
             }
 
-            // the global ts-translation expiry timestamp can override the files' one
-            if ( self::$expiryTimestamp > $tsTimeStamp )
-            {
-                $tsTimeStamp = self::$expiryTimestamp;
-
-                // this duplicates the line above, but on purpose
-                $this->RootCache['timestamp'] = $tsTimeStamp;
-            }
-
-
             $key = 'cachecontexts';
-
             if ( $this->HasRestoredCache or
                  eZTranslationCache::canRestoreCache( $key, $tsTimeStamp ) )
             {
@@ -341,9 +332,6 @@ class eZTSTranslator extends eZTranslatorHandler
         // Save translation cache
         if ( $this->UseCache == true && $this->BuildCache == true )
         {
-            // we store the current time as a reference for later calls
-            $time = time();
-
             eZDebug::accumulatorStart( 'tstranslator_store_cache', 'tstranslator', 'TS store cache' );
             if ( eZTranslationCache::contextCache( 'cachecontexts' ) == null )
             {
@@ -363,8 +351,6 @@ class eZTSTranslator extends eZTranslatorHandler
 
             $this->BuildCache = false;
             eZDebug::accumulatorStop( 'tstranslator_store_cache' );
-
-            self::expireCache( $time, $locale );
         }
 
         return $status;
@@ -414,8 +400,7 @@ class eZTSTranslator extends eZTranslatorHandler
         }
         if ( !$contextName )
         {
-            eZDebug::writeError( "No context name found, skipping context",
-                                 __METHOD__ );
+            eZDebug::writeError( "No context name found, skipping context", __METHOD__ );
             return false;
         }
         foreach( $context_children as $context_child )
@@ -433,15 +418,13 @@ class eZTSTranslator extends eZTranslatorHandler
                 }
                 else
                 {
-                    eZDebug::writeError( "Unknown element name: $childName",
-                                         __METHOD__ );
+                    eZDebug::writeError( "Unknown element name: $childName", __METHOD__ );
                 }
             }
         }
         if ( $contextName === null )
         {
-            eZDebug::writeError( "No context name found, skipping context",
-                                 __METHOD__ );
+            eZDebug::writeError( "No context name found, skipping context", __METHOD__ );
             return false;
         }
         if ( !isset( $this->CachedMessages[$contextName] ) )
@@ -517,19 +500,17 @@ class eZTSTranslator extends eZTranslatorHandler
                     //Handle location element. No functionality yet.
                 }
                 else
-                    eZDebug::writeError( "Unknown element name: " . $childName,
-                                         __METHOD__ );
+                    eZDebug::writeError( "Unknown element name: " . $childName, __METHOD__ );
             }
         }
         if ( $source === null )
         {
-            eZDebug::writeError( "No source name found, skipping message",
-                                 __METHOD__ );
+            eZDebug::writeError( "No source name found, skipping message in context '{$contextName}'", __METHOD__ );
             return false;
         }
         if ( $translation === null )
         {
-//             eZDebug::writeError( "No translation, skipping message", "eZTSTranslator::messageNode" );
+//             eZDebug::writeError( "No translation, skipping message", __METHOD__ );
             return false;
         }
         /* we need to convert ourselves if we're using libxml stuff here */
@@ -730,7 +711,8 @@ class eZTSTranslator extends eZTranslatorHandler
      */
     static function resetGlobals()
     {
-        unset( $GLOBALS["eZTSTranslationTables"] );
+        unset( $GLOBALS['eZTSTranslationTables'] );
+        unset( $GLOBALS['eZTranslationCacheTable'] );
     }
 
     /**
@@ -751,8 +733,7 @@ class eZTSTranslator extends eZTranslatorHandler
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( self::EXPIRY_KEY, $timestamp, $locale );
         $handler->store();
-
-        self::$expiryTimestamp = $timestamp;
+        self::resetGlobals();
     }
 
     /**
@@ -769,12 +750,6 @@ class eZTSTranslator extends eZTranslatorHandler
      * Translation expiry key used by eZExpiryHandler to manage translation caches
      */
     const EXPIRY_KEY = 'ts-translation-cache';
-
-    /**
-     * Current value of the translation expiry timestamp, used when regenerating caches
-     * @var int
-     */
-    private static $expiryTimestamp = false;
 }
 
 ?>

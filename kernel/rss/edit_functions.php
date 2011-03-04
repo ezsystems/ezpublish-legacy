@@ -187,7 +187,7 @@ class eZRSSEditFunction
 
     /**
      * Set RSSExportItem defaults based on site.ini [RSSSettings] settings
-     * 
+     *
      * @param eZRSSExportItem $rssExportItem
      * @return bool True if changes where made
      */

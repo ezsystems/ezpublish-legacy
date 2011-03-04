@@ -56,8 +56,6 @@
 
 Example:
 \code
-//include_once( 'lib/ezlocale/classes/ezlocale.php' );
-//include_once( 'lib/ezlocale/classes/ezdate.php' );
 
 $us_locale = eZLocale::instance( 'us' );
 
@@ -125,7 +123,7 @@ class eZDate
         else if ( $name == 'month'  )
             return $this->month();
 
-        eZDebug::writeError( "Attribute '$name' does not exist", 'eZDate::attribute' );
+        eZDebug::writeError( "Attribute '$name' does not exist", __METHOD__ );
         return false;
     }
 

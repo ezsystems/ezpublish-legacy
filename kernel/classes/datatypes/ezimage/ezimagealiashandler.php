@@ -68,7 +68,7 @@ class eZImageAliasHandler
         }
         else
         {
-            eZDebug::writeWarning( 'Invalid eZContentObjectAttribute', 'eZImageAliasHandler::eZImageAliasHandler' );
+            eZDebug::writeWarning( 'Invalid eZContentObjectAttribute', __METHOD__ );
         }
     }
 
@@ -658,12 +658,12 @@ class eZImageAliasHandler
         return $aliasList;
     }
 
-   /**
-    * Removes all image alias files which the attribute refers to.
-    *
-    * @param eZContentObjectAttribute
-    * @note If you want to remove the alias information use removeAliases().
-    **/
+    /**
+     * Removes all image alias files which the attribute refers to.
+     *
+     * @param eZContentObjectAttribute
+     * @note If you want to remove the alias information use removeAliases().
+     */
     static function removeAllAliases( $contentObjectAttribute )
     {
         $handler = $contentObjectAttribute->attribute( 'content' );
@@ -705,7 +705,7 @@ class eZImageAliasHandler
      *        Content object attribute to remove aliases for
      *
      * @return void
-     **/
+     */
     function removeAliases( $contentObjectAttribute )
     {
         $aliasList = $this->aliasList();
@@ -773,8 +773,7 @@ class eZImageAliasHandler
                     }
                     else
                     {
-                        eZDebug::writeError( "Image file $filepath for alias $aliasName does not exist, could not remove from disk",
-                                             'eZImageAliasHandler::removeAliases' );
+                        eZDebug::writeError( "Image file $filepath for alias $aliasName does not exist, could not remove from disk", __METHOD__ );
                     }
                 }
             }
@@ -1055,7 +1054,7 @@ class eZImageAliasHandler
      * @param mixed $httpFile
      *
      * @see httpFile
-    */
+     */
     function setHTTPFile( $httpFile )
     {
         $this->ContentObjectAttributeData['DataTypeCustom']['http_file'] = $httpFile;
@@ -1067,7 +1066,7 @@ class eZImageAliasHandler
      * @param bool $release Erase the content of the stored HTTP file
      *
      * @see setHTTPFile
-    */
+     */
     function httpFile( $release = false )
     {
         if ( isset( $this->ContentObjectAttributeData['DataTypeCustom']['http_file'] ) )
@@ -1090,7 +1089,7 @@ class eZImageAliasHandler
      * @param string $imageAltText Optional image ALT text
      *
      * @return TODO: FIXME
-     **/
+     */
     function initializeFromHTTPFile( $httpFile, $imageAltText = false )
     {
         $this->increaseImageSerialNumber();
@@ -1471,7 +1470,7 @@ class eZImageAliasHandler
             {
                 eZDebug::writeError( "Invalid objectAttribute: id = " . $this->ContentObjectAttributeData['id'] .
                                     " version = " . $this->ContentObjectAttributeData['version'] ,
-                                    "eZImageAliasHandler::storeDOMTree" );
+                                    __METHOD__ );
             }
         }
 

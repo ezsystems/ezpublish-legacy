@@ -73,7 +73,7 @@ class eZDbSchema
         /* Check if we have a handler */
         if ( !isset( $schemaPaths[$dbname] ) or !isset( $schemaHandlerClasses[$dbname] ) )
         {
-            eZDebug::writeError( "No schema handler for database type: $dbname", 'eZDbSchema::instance()' );
+            eZDebug::writeError( "No schema handler for database type: $dbname", __METHOD__ );
             return false;
         }
 
@@ -160,9 +160,9 @@ class eZDbSchema
     }
 
     /**
-    * Merges 2 db schemas, basically appending 2nd on top of 1st
-    * @return array the merged schema
-    */
+     * Merges 2 db schemas, basically appending 2nd on top of 1st
+     * @return array the merged schema
+     */
     static function merge( $schema1, $schema2 )
     {
         $merged = $schema1;

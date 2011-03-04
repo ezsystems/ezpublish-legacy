@@ -19,7 +19,7 @@ class eZPolicyTest extends ezpDatabaseTestCase
 
     /**
      * Unit test for eZPolicy::fetchTemporaryCopy
-     **/
+     */
     public function testFetchTemporaryCopy()
     {
         // Get the first policy from the anonymous role

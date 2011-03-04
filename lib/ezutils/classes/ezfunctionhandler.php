@@ -67,8 +67,7 @@ class eZFunctionHandler
             $moduleFunctionInfo = eZFunctionHandler::moduleFunctionInfo( $aliasSettings->variable( $aliasFunctionName, 'Module' ) );
             if ( !$moduleFunctionInfo->isValid() )
             {
-                eZDebug::writeError( "Cannot execute function '$aliasFunctionName' in module '$moduleName', no valid data",
-                                     'eZFunctionHandler::executeAlias' );
+                eZDebug::writeError( "Cannot execute function '$aliasFunctionName' in module '$moduleName', no valid data", __METHOD__ );
                 return null;
             }
 
@@ -155,8 +154,7 @@ class eZFunctionHandler
             }
             return $moduleFunctionInfo->execute( $functionName, $functionArray );
         }
-        eZDebug::writeWarning( 'Could not execute. Function ' . $aliasFunctionName. ' not found.' ,
-                               'eZFunctionHandler::executeAlias' );
+        eZDebug::writeWarning( 'Could not execute. Function ' . $aliasFunctionName. ' not found.' , __METHOD__ );
     }
 
     static function execute( $moduleName, $functionName, $functionParameters )
@@ -164,8 +162,7 @@ class eZFunctionHandler
         $moduleFunctionInfo = eZFunctionHandler::moduleFunctionInfo( $moduleName );
         if ( !$moduleFunctionInfo->isValid() )
         {
-            eZDebug::writeError( "Cannot execute function '$functionName' in module '$moduleName', no valid data",
-                                  'eZFunctionHandler::execute' );
+            eZDebug::writeError( "Cannot execute function '$functionName' in module '$moduleName', no valid data", __METHOD__ );
             return null;
         }
 

@@ -50,7 +50,7 @@ if ( $accountKey )
 {
     $accountActivated = true;
     $userID = $accountKey->attribute( 'user_id' );
-    
+
     $userContentObject = eZContentObject::fetch( $userID );
     if ( !$userContentObject instanceof eZContentObject )
     {
@@ -98,7 +98,7 @@ elseif( $mainNodeID )
     if ( $userContentObject instanceof eZContentObject )
     {
         $userSetting = eZUserSetting::fetch( $userContentObject->attribute( 'id' ) );
-    
+
         if ( $userSetting !== null && $userSetting->attribute( 'is_enabled' ) )
         {
             $alreadyActive = true;

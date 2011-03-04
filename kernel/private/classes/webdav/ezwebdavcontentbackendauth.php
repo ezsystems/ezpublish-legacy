@@ -45,7 +45,7 @@ class eZWebDAVContentBackendAuth implements ezcWebdavAnonymousAuthenticator, ezc
     {
         // added by @ds to fix problems with IE6 SP2
         $path = ezcWebdavServer::getInstance()->pathFactory->parseUriToPath( $_SERVER['REQUEST_URI'] );
-    	return ( $path === '/' );
+        return ( $path === '/' );
     }
 
     /**
@@ -56,7 +56,7 @@ class eZWebDAVContentBackendAuth implements ezcWebdavAnonymousAuthenticator, ezc
      * password is valid for him, false otherwise. In case no username and/or
      * password was provided in the request, empty strings are provided as the
      * parameters of this method.
-     * 
+     *
      * @param ezcWebdavBasicAuth $data
      * @return bool
      */
@@ -112,10 +112,10 @@ class eZWebDAVContentBackendAuth implements ezcWebdavAnonymousAuthenticator, ezc
      * var_dump( $auth->authorize( 'johndoe', '/c/connect/some/deeper/path' ) ); // false
      * ?>
      * </code>
-     * 
-     * @param string $user 
-     * @param string $path 
-     * @param int $access 
+     *
+     * @param string $user
+     * @param string $path
+     * @param int $access
      * @return bool
      */
     public function authorize( $user, $path, $access = self::ACCESS_READ )
@@ -206,9 +206,9 @@ class eZWebDAVContentBackendAuth implements ezcWebdavAnonymousAuthenticator, ezc
      *  <li>numbers</li>
      *  <li>dashes (-)</li>
      * </ul>
-     * 
-     * @param string $user 
-     * @param string $lockToken 
+     *
+     * @param string $user
+     * @param string $lockToken
      * @return void
      */
     public function assignLock( $user, $lockToken )
@@ -220,16 +220,16 @@ class eZWebDAVContentBackendAuth implements ezcWebdavAnonymousAuthenticator, ezc
      * Returns if the given $lockToken is owned by the given $user.
      *
      * Returns true, if the $lockToken is owned by $user, false otherwise.
-     * 
-     * @param string $user 
-     * @param string $lockToken 
+     *
+     * @param string $user
+     * @param string $lockToken
      * @return bool
      */
     public function ownsLock( $user, $lockToken )
     {
         // @as @todo implement
     }
-    
+
     /**
      * Removes the assignment of $lockToken from $user.
      *
@@ -237,9 +237,9 @@ class eZWebDAVContentBackendAuth implements ezcWebdavAnonymousAuthenticator, ezc
      * ownsLock()} method must return false for the given combination. It might
      * happen, that a lock is to be released, which already has been removed.
      * This case must be ignored by the method.
-     * 
-     * @param string $user 
-     * @param string $lockToken 
+     *
+     * @param string $user
+     * @param string $lockToken
      */
     public function releaseLock( $user, $lockToken )
     {

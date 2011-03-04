@@ -1026,6 +1026,14 @@
         <source>Category</source>
         <translation>カテゴリ</translation>
     </message>
+    <message>
+        <source>Application name</source>
+        <translation>アプリケーション名</translation>
+    </message>
+    <message>
+        <source>Confirm removal</source>
+        <translation>削除の確認</translation>
+    </message>
 </context>
 <context>
     <name>design/admin/collaboration</name>
@@ -1470,7 +1478,7 @@
     </message>
     <message>
         <source>Choose objects that you want to relate to &lt;%version_name&gt;</source>
-        <translation type="unfinished">&lt;%version_name&gt;と関連づけたいオブジェクトを選択して下さい</translation>
+        <translation>&lt;%version_name&gt;と関連づけたいオブジェクトを選択して下さい</translation>
     </message>
     <message>
         <source>Use the checkboxes to choose the objects that you want to relate to &lt;%version_name&gt;.</source>
@@ -1485,7 +1493,7 @@
     </message>
     <message>
         <source>Choose the node to exchange for &lt;%object_name&gt;</source>
-        <translation type="unfinished">&lt;%object_name&gt;と入れ替えるノードを選択して下さい</translation>
+        <translation>&lt;%object_name&gt;と入れ替えるノードを選択して下さい</translation>
     </message>
     <message>
         <source>Use the radio buttons to choose the node that you want to swap with &lt;%object_name&gt;.</source>
@@ -1659,79 +1667,79 @@
     <name>design/admin/content/diff</name>
     <message>
         <source>Versions for &lt;%object_name&gt; [%version_count]</source>
-        <translation>&lt;%object_name&gt; [%version_count] のバージョン</translation>
+        <translation type="obsolete">&lt;%object_name&gt; [%version_count] のバージョン</translation>
     </message>
     <message>
         <source>Show differences</source>
-        <translation>違いを表示</translation>
+        <translation type="obsolete">違いを表示</translation>
     </message>
     <message>
         <source>Differences between versions %oldVersion and %newVersion</source>
-        <translation>バージョン %oldVersion と %newVersion の違い</translation>
+        <translation type="obsolete">バージョン %oldVersion と %newVersion の違い</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation>バージョン</translation>
+        <translation type="obsolete">バージョン</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation>ステータス</translation>
+        <translation type="obsolete">ステータス</translation>
     </message>
     <message>
         <source>Translations</source>
-        <translation>翻訳</translation>
+        <translation type="obsolete">翻訳</translation>
     </message>
     <message>
         <source>Creator</source>
-        <translation>作成者</translation>
+        <translation type="obsolete">作成者</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation>修正日時</translation>
+        <translation type="obsolete">修正日時</translation>
     </message>
     <message>
         <source>Draft</source>
-        <translation>下書き</translation>
+        <translation type="obsolete">下書き</translation>
     </message>
     <message>
         <source>Published</source>
-        <translation>公開中</translation>
+        <translation type="obsolete">公開中</translation>
     </message>
     <message>
         <source>Pending</source>
-        <translation>保留中</translation>
+        <translation type="obsolete">保留中</translation>
     </message>
     <message>
         <source>Archived</source>
-        <translation>保管</translation>
+        <translation type="obsolete">保管</translation>
     </message>
     <message>
         <source>Rejected</source>
-        <translation>非承認</translation>
+        <translation type="obsolete">非承認</translation>
     </message>
     <message>
         <source>Untouched draft</source>
-        <translation>未変更の下書き</translation>
+        <translation type="obsolete">未変更の下書き</translation>
     </message>
     <message>
         <source>Inline changes</source>
-        <translation>インライン変更</translation>
+        <translation type="obsolete">インライン変更</translation>
     </message>
     <message>
         <source>Block changes</source>
-        <translation>ブロック変更</translation>
+        <translation type="obsolete">ブロック変更</translation>
     </message>
     <message>
         <source>Old version</source>
-        <translation>旧バージョン</translation>
+        <translation type="obsolete">旧バージョン</translation>
     </message>
     <message>
         <source>New version</source>
-        <translation>新バージョン</translation>
+        <translation type="obsolete">新バージョン</translation>
     </message>
     <message>
         <source>Versions for &lt;%object_name&gt; (%version_count)</source>
-        <translation>&lt;%object_name&gt; (%version_count) のバージョン</translation>
+        <translation type="obsolete">&lt;%object_name&gt; (%version_count) のバージョン</translation>
     </message>
 </context>
 <context>
@@ -2246,6 +2254,10 @@
     <message>
         <source>Related content (%related_objects)</source>
         <translation>関連付けしたコンテンツ (%related_objects)</translation>
+    </message>
+    <message>
+        <source>View the draft that is being edited.</source>
+        <translation>編集されているドラフトを確認する。</translation>
     </message>
 </context>
 <context>
@@ -4138,35 +4150,35 @@
     <name>design/admin/content/versions</name>
     <message>
         <source>Unable to create new version</source>
-        <translation>新しいバージョンを作成できません</translation>
+        <translation type="obsolete">新しいバージョンを作成できません</translation>
     </message>
     <message>
         <source>Version history limit has been exceeded and no archived version can be removed by the system.</source>
-        <translation>バージョンの履歴制限を超えました。未保管のバージョンはシステムにより削除されます。</translation>
+        <translation type="obsolete">バージョンの履歴制限を超えました。未保管のバージョンはシステムにより削除されます。</translation>
     </message>
     <message>
         <source>You can change your version history settings in content.ini, remove draft versions or edit existing drafts.</source>
-        <translation>バージョン履歴設定はcontent.ini設定により変更可能です。下書きバージョンを削除するか編集してください。</translation>
+        <translation type="obsolete">バージョン履歴設定はcontent.ini設定により変更可能です。下書きバージョンを削除するか編集してください。</translation>
     </message>
     <message>
         <source>Versions for &lt;%object_name&gt; [%version_count]</source>
-        <translation>&lt;%object_name&gt; のバージョン [%version_count]</translation>
+        <translation type="obsolete">&lt;%object_name&gt; のバージョン [%version_count]</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation>バージョン</translation>
+        <translation type="obsolete">バージョン</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation>ステータス</translation>
+        <translation type="obsolete">ステータス</translation>
     </message>
     <message>
         <source>Creator</source>
-        <translation>作成者</translation>
+        <translation type="obsolete">作成者</translation>
     </message>
     <message>
         <source>Created</source>
-        <translation>作成日時</translation>
+        <translation type="obsolete">作成日時</translation>
     </message>
     <message>
         <source>Draft</source>
@@ -4186,63 +4198,63 @@
     </message>
     <message>
         <source>Rejected</source>
-        <translation>非承認</translation>
+        <translation type="obsolete">非承認</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation>編集</translation>
+        <translation type="obsolete">編集</translation>
     </message>
     <message>
         <source>Remove selected</source>
-        <translation>選択した項目の削除</translation>
+        <translation type="obsolete">選択した項目の削除</translation>
     </message>
     <message>
         <source>Object information</source>
-        <translation>オブジェクトプロパティ</translation>
+        <translation type="obsolete">オブジェクトプロパティ</translation>
     </message>
     <message>
         <source>ID</source>
-        <translation>ID</translation>
+        <translation type="obsolete">ID</translation>
     </message>
     <message>
         <source>Not yet published</source>
-        <translation>未公開</translation>
+        <translation type="obsolete">未公開</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation>修正日時</translation>
+        <translation type="obsolete">修正日時</translation>
     </message>
     <message>
         <source>Published version</source>
-        <translation>公開バージョン</translation>
+        <translation type="obsolete">公開バージョン</translation>
     </message>
     <message>
         <source>Select version #%version_number for removal.</source>
-        <translation>削除するバージョン #%version_number を選択</translation>
+        <translation type="obsolete">削除するバージョン #%version_number を選択</translation>
     </message>
     <message>
         <source>View the contents of version #%version_number. Translation: %translation.</source>
-        <translation>バージョン #%version_number を表示。 翻訳: %translation</translation>
+        <translation type="obsolete">バージョン #%version_number を表示。 翻訳: %translation</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>複製</translation>
+        <translation type="obsolete">複製</translation>
     </message>
     <message>
         <source>Create a copy of version #%version_number.</source>
-        <translation>バージョン #%version_number の複製を作成</translation>
+        <translation type="obsolete">バージョン #%version_number の複製を作成</translation>
     </message>
     <message>
         <source>Edit the contents of version #%version_number.</source>
-        <translation>コンテンツバージョン #%version_number を編集</translation>
+        <translation type="obsolete">コンテンツバージョン #%version_number を編集</translation>
     </message>
     <message>
         <source>This object does not have any versions.</source>
-        <translation>このオブジェクトにバージョンはありません。</translation>
+        <translation type="obsolete">このオブジェクトにバージョンはありません。</translation>
     </message>
     <message>
         <source>Remove the selected versions from the object.</source>
-        <translation>選択したバージョンを削除</translation>
+        <translation type="obsolete">選択したバージョンを削除</translation>
     </message>
     <message>
         <source>Untouched draft</source>
@@ -4250,51 +4262,51 @@
     </message>
     <message>
         <source>Back</source>
-        <translation>戻る</translation>
+        <translation type="obsolete">戻る</translation>
     </message>
     <message>
         <source>Version is not a draft</source>
-        <translation>バージョンは下書きではありません</translation>
+        <translation type="obsolete">バージョンは下書きではありません</translation>
     </message>
     <message>
         <source>Version %1 is not available for editing anymore. Only drafts can be edited.</source>
-        <translation>バージョン%1は編集することができません。下書きのみ編集できます。</translation>
+        <translation type="obsolete">バージョン%1は編集することができません。下書きのみ編集できます。</translation>
     </message>
     <message>
         <source>To edit this version, first create a copy of it.</source>
-        <translation>このバージョンを編集するには、先に複製を作成して下さい。</translation>
+        <translation type="obsolete">このバージョンを編集するには、先に複製を作成して下さい。</translation>
     </message>
     <message>
         <source>Version is not yours</source>
-        <translation>バージョンの所有者ではありません</translation>
+        <translation type="obsolete">バージョンの所有者ではありません</translation>
     </message>
     <message>
         <source>Version %1 was not created by you. You can only edit your own drafts.</source>
-        <translation>バージョン%1の作成者ではありません。自分が作成した下書きしか編集できません。</translation>
+        <translation type="obsolete">バージョン%1の作成者ではありません。自分が作成した下書きしか編集できません。</translation>
     </message>
     <message>
         <source>Modified translation</source>
-        <translation>変更された翻訳</translation>
+        <translation type="obsolete">変更された翻訳</translation>
     </message>
     <message>
         <source>Version #%version_number cannot be removed because it is either the published version of the object or because you do not have permission to remove it.</source>
-        <translation>公開されているバージョンか、削除する権限を持っていないため、バージョン#%version_numberを削除することはできません。</translation>
+        <translation type="obsolete">公開されているバージョンか、削除する権限を持っていないため、バージョン#%version_numberを削除することはできません。</translation>
     </message>
     <message>
         <source>There is no need to make copies of untouched drafts.</source>
-        <translation>変更されていない下書きを複製することはできません。</translation>
+        <translation type="obsolete">変更されていない下書きを複製することはできません。</translation>
     </message>
     <message>
         <source>You cannot make copies of versions because you do not have permission to edit the object.</source>
-        <translation>オブジェクトの編集権限がないため、バージョンの複製を作成することはできません。</translation>
+        <translation type="obsolete">オブジェクトの編集権限がないため、バージョンの複製を作成することはできません。</translation>
     </message>
     <message>
         <source>You cannot edit the contents of version #%version_number either because it is not a draft or because you do not have permission to edit the object.</source>
-        <translation>下書きではないか、編集権限がないため、バージョン#%version_numberの編集はできません。</translation>
+        <translation type="obsolete">下書きではないか、編集権限がないため、バージョン#%version_numberの編集はできません。</translation>
     </message>
     <message>
         <source>Versions for &lt;%object_name&gt; (%version_count)</source>
-        <translation>&lt;%object_name&gt; のバージョン (%version_count)</translation>
+        <translation type="obsolete">&lt;%object_name&gt; のバージョン (%version_count)</translation>
     </message>
 </context>
 <context>
@@ -4485,6 +4497,14 @@
     <message>
         <source>Object ID</source>
         <translation>オブジェクトID</translation>
+    </message>
+    <message>
+        <source>Dynamic tree menu is disabled for this siteaccess!</source>
+        <translation>このサイトアクセスではダイナミックツリーを利用出来ません!</translation>
+    </message>
+    <message>
+        <source>Internal errorD</source>
+        <translation>内部エラー</translation>
     </message>
 </context>
 <context>
@@ -6155,6 +6175,10 @@
         <source>last</source>
         <translation>最後</translation>
     </message>
+    <message>
+        <source>Invert selection</source>
+        <translation type="unfinished">選択の反転</translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view/line</name>
@@ -7280,6 +7304,10 @@ Note: The packages will not be uninstalled.</source>
     <message>
         <source>States</source>
         <translation>ステート</translation>
+    </message>
+    <message>
+        <source>URL management</source>
+        <translation>URL管理</translation>
     </message>
 </context>
 <context>
@@ -9738,6 +9766,10 @@ Note: The packages will not be uninstalled.</source>
     <message>
         <source>Categories</source>
         <translation>カテゴリ</translation>
+    </message>
+    <message>
+        <source></source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -12512,15 +12544,15 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Valid links [%url_list_count]</source>
-        <translation>有効な URL [%url_list_count]</translation>
+        <translation type="obsolete">有効な URL [%url_list_count]</translation>
     </message>
     <message>
         <source>Invalid links [%url_list_count]</source>
-        <translation>無効な URL [%url_list_count]</translation>
+        <translation type="obsolete">無効な URL [%url_list_count]</translation>
     </message>
     <message>
         <source>All links [%url_list_count]</source>
-        <translation>すべての URL [%url_list_count]</translation>
+        <translation type="obsolete">すべての URL [%url_list_count]</translation>
     </message>
     <message>
         <source>All</source>
@@ -12605,6 +12637,18 @@ Note: The packages will not be uninstalled.</source>
     <message>
         <source>All links (%url_list_count)</source>
         <translation>すべての URL (%url_list_count)</translation>
+    </message>
+    <message>
+        <source>Valid URLs [%url_list_count]</source>
+        <translation>有効URL [%url_list_count]</translation>
+    </message>
+    <message>
+        <source>Invalid URLs [%url_list_count]</source>
+        <translation>無効URL [%url_list_count]</translation>
+    </message>
+    <message>
+        <source>All URLs [%url_list_count]</source>
+        <translation>すべてのURL [%url_list_count]</translation>
     </message>
 </context>
 <context>
@@ -13405,6 +13449,14 @@ your account.</source>
     <message>
         <source>The following information is either missing or invalid</source>
         <translation>以下の情報が正しくないか不足しています。</translation>
+    </message>
+    <message>
+        <source>Error : Could not load workflow event &quot;%eventtype&quot; (event type not available)</source>
+        <translation>エラー: &quot;%eventtype&quot;ワークフローイベントを読み込むことができません</translation>
+    </message>
+    <message>
+        <source>Hint : This can happen when a workflow extension has been disabled</source>
+        <translation>ヒント: ワークフローエクステンションが無効にされた時に発生する可能性があります</translation>
     </message>
 </context>
 <context>
@@ -14420,6 +14472,13 @@ your account.</source>
     <message>
         <source>Day</source>
         <translation type="obsolete">日</translation>
+    </message>
+</context>
+<context>
+    <name>design/ezwebin/node/removeobject</name>
+    <message>
+        <source>The items contain more than the maximum possible nodes for subtree removal and will not be deleted. You can remove this subtree using the ezsubtreeremove.php script.</source>
+        <translation>アイテムはサブツリー削除する様に最大ノード数を越えているため、削除されません。ezsubtreeremove.phpスクリプトを使うことで、削除できます。</translation>
     </message>
 </context>
 <context>
@@ -15771,6 +15830,18 @@ If you want to send comments to the approver or view the status use the URL belo
         <source>Country/region</source>
         <translation>国/県</translation>
     </message>
+    <message>
+        <source>Your content is being published</source>
+        <translation>コンテントは公開される途中</translation>
+    </message>
+    <message>
+        <source>Publishing finished</source>
+        <translation>公開完了</translation>
+    </message>
+    <message>
+        <source>Your content is pending an external action</source>
+        <translation>コンテンツは外部アクションで保留になっています</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/browse</name>
@@ -16621,80 +16692,84 @@ If you want to send comments to the approver or view the status use the URL belo
         <source>Your browser does not support html5 audio.</source>
         <translation>ブラウザはHTML5オーディオを対応しません。</translation>
     </message>
+    <message>
+        <source>Confirm email</source>
+        <translation>メールの確認</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/diff</name>
     <message>
         <source>Version</source>
-        <translation>バージョン</translation>
+        <translation type="obsolete">バージョン</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation>ステータス</translation>
+        <translation type="obsolete">ステータス</translation>
     </message>
     <message>
         <source>Translations</source>
-        <translation>翻訳</translation>
+        <translation type="obsolete">翻訳</translation>
     </message>
     <message>
         <source>Creator</source>
-        <translation>作成者</translation>
+        <translation type="obsolete">作成者</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation>修正日時</translation>
+        <translation type="obsolete">修正日時</translation>
     </message>
     <message>
         <source>Versions for &lt;%object_name&gt; [%version_count]</source>
-        <translation>&lt;%object_name&gt; [%version_count] のバージョン</translation>
+        <translation type="obsolete">&lt;%object_name&gt; [%version_count] のバージョン</translation>
     </message>
     <message>
         <source>Draft</source>
-        <translation>下書き</translation>
+        <translation type="obsolete">下書き</translation>
     </message>
     <message>
         <source>Published</source>
-        <translation>公開済み</translation>
+        <translation type="obsolete">公開済み</translation>
     </message>
     <message>
         <source>Pending</source>
-        <translation>保留中</translation>
+        <translation type="obsolete">保留中</translation>
     </message>
     <message>
         <source>Archived</source>
-        <translation>保管</translation>
+        <translation type="obsolete">保管</translation>
     </message>
     <message>
         <source>Rejected</source>
-        <translation>非承認</translation>
+        <translation type="obsolete">非承認</translation>
     </message>
     <message>
         <source>Untouched draft</source>
-        <translation>未変更の下書き</translation>
+        <translation type="obsolete">未変更の下書き</translation>
     </message>
     <message>
         <source>Show differences</source>
-        <translation>違いの表示</translation>
+        <translation type="obsolete">違いの表示</translation>
     </message>
     <message>
         <source>Differences between versions %oldVersion and %newVersion</source>
-        <translation>バージョン %oldVersion と %newVersion の違い</translation>
+        <translation type="obsolete">バージョン %oldVersion と %newVersion の違い</translation>
     </message>
     <message>
         <source>Inline changes</source>
-        <translation>インライン変更</translation>
+        <translation type="obsolete">インライン変更</translation>
     </message>
     <message>
         <source>Block changes</source>
-        <translation>ブロックの変更</translation>
+        <translation type="obsolete">ブロックの変更</translation>
     </message>
     <message>
         <source>Old version</source>
-        <translation>旧バージョン</translation>
+        <translation type="obsolete">旧バージョン</translation>
     </message>
     <message>
         <source>New version</source>
-        <translation>新バージョン</translation>
+        <translation type="obsolete">新バージョン</translation>
     </message>
 </context>
 <context>
@@ -17592,74 +17667,74 @@ If you want to send comments to the approver or view the status use the URL belo
     <name>design/standard/content/version</name>
     <message>
         <source>Version</source>
-        <translation>バージョン</translation>
+        <translation type="obsolete">バージョン</translation>
     </message>
     <message>
         <source>Versions for: %1</source>
-        <translation>%1 のバージョン</translation>
+        <translation type="obsolete">%1 のバージョン</translation>
     </message>
     <message>
         <source>Unable to create new version</source>
-        <translation>新しいバージョンを作成できません</translation>
+        <translation type="obsolete">新しいバージョンを作成できません</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation>編集</translation>
+        <translation type="obsolete">編集</translation>
     </message>
     <message>
         <source>Copy and edit</source>
-        <translation>複製／編集</translation>
+        <translation type="obsolete">複製／編集</translation>
     </message>
     <message>
         <source>Version history limit has been exceeded and no archived version can be removed by the system.</source>
-        <translation>バージョンの履歴制限を超えました。未保管のバージョンはシステムにより削除されます。</translation>
+        <translation type="obsolete">バージョンの履歴制限を超えました。未保管のバージョンはシステムにより削除されます。</translation>
     </message>
     <message>
         <source>You can change your version history settings in content.ini, remove draft versions or edit existing drafts.</source>
-        <translation>バージョン履歴設定はcontent.ini設定により変更可能です。下書きバージョンを削除するか編集してください。</translation>
+        <translation type="obsolete">バージョン履歴設定はcontent.ini設定により変更可能です。下書きバージョンを削除するか編集してください。</translation>
     </message>
     <message>
         <source>Version %1 is not available for editing any more, only drafts can be edited.</source>
-        <translation>バージョン%1は編集することができません。下書きのみ編集できます。</translation>
+        <translation type="obsolete">バージョン%1は編集することができません。下書きのみ編集できます。</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation>ステータス</translation>
+        <translation type="obsolete">ステータス</translation>
     </message>
     <message>
         <source>Translations</source>
-        <translation>翻訳</translation>
+        <translation type="obsolete">翻訳</translation>
     </message>
     <message>
         <source>Creator</source>
-        <translation>作成者</translation>
+        <translation type="obsolete">作成者</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation>修正日時</translation>
+        <translation type="obsolete">修正日時</translation>
     </message>
     <message>
         <source>Version is not a draft</source>
-        <translation>バージョンは下書きではありません</translation>
+        <translation type="obsolete">バージョンは下書きではありません</translation>
     </message>
     <message>
         <source>To edit this version, first create a copy of it.</source>
-        <translation>このバージョンを編集するには、先に複製を作成して下さい。</translation>
+        <translation type="obsolete">このバージョンを編集するには、先に複製を作成して下さい。</translation>
     </message>
     <message>
         <source>Version is not yours</source>
-        <translation>バージョンの所有者ではありません</translation>
+        <translation type="obsolete">バージョンの所有者ではありません</translation>
     </message>
     <message>
         <source>Version %1 was not created by you. You can only edit your own drafts.</source>
-        <translation>バージョン%1の作成者ではありません。自分が作成した下書き以外は編集できません。</translation>
+        <translation type="obsolete">バージョン%1の作成者ではありません。自分が作成した下書き以外は編集できません。</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/versions</name>
     <message>
         <source>This object does not have any versions.</source>
-        <translation>このオブジェクトにバージョンはありません。</translation>
+        <translation type="obsolete">このオブジェクトにバージョンはありません。</translation>
     </message>
 </context>
 <context>
@@ -18546,6 +18621,26 @@ If you do all the children will be removed as well.</source>
         <source>Cancel removal</source>
         <translation>削除のキャンセル</translation>
     </message>
+    <message>
+        <source>Please wait while your content is being published</source>
+        <translation>コンテントが公開されるまでにお待ちください</translation>
+    </message>
+    <message>
+        <source>Your content has been published successfully</source>
+        <translation>コンテントは公開されました</translation>
+    </message>
+    <message>
+        <source>View the published item</source>
+        <translation>公開されたアイテムをの確認</translation>
+    </message>
+    <message>
+        <source>Publishing has been deferred to crontab and will be published when the operation resumes. The object is also listed in your dashboard under pending items.</source>
+        <translation>公開はクロンタブに繰延され、操作が再開されましたら公開されます。ダッシュボードのペンデイングアイテムにオブジェクトがリストアップされています。</translation>
+    </message>
+    <message>
+        <source>View your pending content</source>
+        <translation>ペンディングコンテンツの確認</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/menuconfig</name>
@@ -18625,7 +18720,7 @@ If you do all the children will be removed as well.</source>
     </message>
     <message>
         <source>Are you sure you want to remove these items?</source>
-        <translation>これらのアイテムを削除してもよろしいですか?</translation>
+        <translation type="obsolete">これらのアイテムを削除してもよろしいですか?</translation>
     </message>
     <message>
         <source>%nodename and its %childcount children. %additionalwarning</source>
@@ -24492,15 +24587,15 @@ Webサーバのユーザとグループを知っている場合は、ファイ�
     </message>
     <message>
         <source>All links</source>
-        <translation>すべてのリンク</translation>
+        <translation type="obsolete">すべてのリンク</translation>
     </message>
     <message>
         <source>Invalid links</source>
-        <translation>無効なリンク</translation>
+        <translation type="obsolete">無効なリンク</translation>
     </message>
     <message>
         <source>Valid links</source>
-        <translation>有効なリンク</translation>
+        <translation type="obsolete">有効なリンク</translation>
     </message>
     <message>
         <source>Information on URL</source>
@@ -24525,6 +24620,18 @@ Webサーバのユーザとグループを知っている場合は、ファイ�
     <message>
         <source>This means that the URL is no longer available or has been moved.</source>
         <translation>リンクは利用できないか移動しています。</translation>
+    </message>
+    <message>
+        <source>All URLs</source>
+        <translation>すべてのURL</translation>
+    </message>
+    <message>
+        <source>Invalid URLs</source>
+        <translation>無効URL</translation>
+    </message>
+    <message>
+        <source>Valid URLs</source>
+        <translation>有効URL</translation>
     </message>
 </context>
 <context>
@@ -24750,6 +24857,10 @@ your account.</source>
         <source>The new password must be at least %1 characters long. Please retype your new password.</source>
         <translation>新しいパスワードは%1文字以上にしてください。パスワードを再度入力してください。</translation>
     </message>
+    <message>
+        <source>Your email address has been confirmed. An administrator needs to approve your sign up request, before your login becomes valid.</source>
+        <translation>メールアドレスは確認されました。ログインが有効になるために管理者の承認が必要となります。</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/user/</name>
@@ -24860,6 +24971,14 @@ your account.</source>
         <source>Username</source>
         <comment>Login name</comment>
         <translation>ユーザ名</translation>
+    </message>
+    <message>
+        <source>Your registration has been approved. You can login with your account %username.</source>
+        <translation>登録は承認されました。%usernameアカウントを使って、ログインできます。</translation>
+    </message>
+    <message>
+        <source>Click the following URL to login:</source>
+        <translation>ログインする様に下記のリンクを使ってください:</translation>
     </message>
 </context>
 <context>
@@ -25578,6 +25697,182 @@ your account.</source>
     </message>
 </context>
 <context>
+    <name>design/starndard/node</name>
+    <message>
+        <source>Are you sure you want to remove these items?</source>
+        <translation>これらのアイテムを削除してもよろしいですか?</translation>
+    </message>
+</context>
+<context>
+    <name>extension/oauth</name>
+    <message>
+        <source>Application authorization</source>
+        <translation>アプリケーションの承認</translation>
+    </message>
+    <message>
+        <source>The application %application_name% has requested access to this website on your behalf.</source>
+        <translation>%application_name%アプリケーションはあなたに代わって、このウェブサイトにアクセスする様にリクエストしました。</translation>
+    </message>
+</context>
+<context>
+    <name>extension/oauth/authorize</name>
+    <message>
+        <source>Authorize</source>
+        <translation>許可</translation>
+    </message>
+    <message>
+        <source>Deny</source>
+        <translation>拒否</translation>
+    </message>
+</context>
+<context>
+    <name>extension/oauthadmin</name>
+    <message>
+        <source>New REST application</source>
+        <translation>新規RESTアプロケーション</translation>
+    </message>
+    <message>
+        <source>oAuth admin</source>
+        <translation>oAuth管理</translation>
+    </message>
+    <message>
+        <source>Confirm removal</source>
+        <translation>削除の確認</translation>
+    </message>
+    <message>
+        <source>Application &lt;%application_name&gt;</source>
+        <translation>アプリケーション&lt;%application_name&gt;</translation>
+    </message>
+    <message>
+        <source>Last modified</source>
+        <translation>最終更新日時</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>名前</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation>概要</translation>
+    </message>
+    <message>
+        <source>Client identifier</source>
+        <translation>クライアント識別子</translation>
+    </message>
+    <message>
+        <source>Client secret</source>
+        <translation>クライアント秘密</translation>
+    </message>
+    <message>
+        <source>Endpoint URI</source>
+        <translation>エンドポイントURI</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>編集</translation>
+    </message>
+    <message>
+        <source>Edit this application.</source>
+        <translation>このアプリケーションを編集。</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>削除</translation>
+    </message>
+    <message>
+        <source>Delete this application.</source>
+        <translation>このアプリケーションを削除する。</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove this application?</source>
+        <translation>下記のアプリケーションを削除してもよろしいですか？</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove these applications?</source>
+        <translation>下記のアプリケーションを削除してもよろしいですか？</translation>
+    </message>
+    <message>
+        <source>Confirm</source>
+        <translation>確認</translation>
+    </message>
+    <message>
+        <source>Confirm removal of these applications.</source>
+        <translation>下記のアプリケーションの削除を確認してください。</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>キャンセル</translation>
+    </message>
+    <message>
+        <source>Edit application &lt;%application_name&gt;</source>
+        <translation>&lt;%application_name&gt;アプリケーションを編集する</translation>
+    </message>
+    <message>
+        <source>Use this field to set the application name.</source>
+        <translation>このフィールドでアプリケーション名を設定してください。</translation>
+    </message>
+    <message>
+        <source>Use this field to set the informal application description.</source>
+        <translation>このフィールドでアプリケーション概要を設定してください。</translation>
+    </message>
+    <message>
+        <source>Use this field to set the application endpoint URI.</source>
+        <translation>このフィールドでアプリケーションのエンドポイントURIを設定してください。</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>REST applications (%applications_count)</source>
+        <translation>RESTアプリケーション(%applications_count)</translation>
+    </message>
+    <message>
+        <source>List of applications</source>
+        <translation>アプリケーション一覧</translation>
+    </message>
+    <message>
+        <source>Invert selection.</source>
+        <translation>選択の反転。</translation>
+    </message>
+    <message>
+        <source>Modifier</source>
+        <translation>修正者</translation>
+    </message>
+    <message>
+        <source>Modified</source>
+        <translation>修正日時</translation>
+    </message>
+    <message>
+        <source>Select application for removal.</source>
+        <translation>削除するアプリケーションを選択してください。</translation>
+    </message>
+    <message>
+        <source>Edit the &lt;%application_name&gt; application.</source>
+        <translation>&lt;%application_name&gt;アプロケーションの編集。</translation>
+    </message>
+    <message>
+        <source>Remove selected</source>
+        <translation>選択した項目の削除</translation>
+    </message>
+    <message>
+        <source>Remove the selected applications.</source>
+        <translation>選択したアプリケーションを削除する。</translation>
+    </message>
+    <message>
+        <source>New application</source>
+        <translation>新規アプリケーション</translation>
+    </message>
+    <message>
+        <source>Create a new application.</source>
+        <translation>新規アプリケーションの作成。</translation>
+    </message>
+    <message>
+        <source>Back</source>
+        <translation>戻る</translation>
+    </message>
+</context>
+<context>
     <name>kernel/cache</name>
     <message>
         <source>Content view cache</source>
@@ -26094,7 +26389,7 @@ your account.</source>
     </message>
     <message>
         <source>The size of the uploaded file exceeds the limit set for this site: %1 bytes.</source>
-        <translation type="unfinished">アップロードしたファイルはこのサイトの制限である %1 バイトを超えています。</translation>
+        <translation>アップロードしたファイルはこのサイトの制限である %1 バイトを超えています。</translation>
     </message>
     <message>
         <source>Could not locate the ini file.</source>
@@ -26126,7 +26421,7 @@ your account.</source>
     </message>
     <message>
         <source>The size of the uploaded file exceeds the limit set by upload_max_filesize directive in php.ini. Please contact the site administrator.</source>
-        <translation type="unfinished">アップロードした画像のサイズは、php.ini の upload_max_filesize ディレクティブで設定された制限を超えています。サイト管理者に連絡してください。</translation>
+        <translation>アップロードした画像のサイズは、php.ini の upload_max_filesize ディレクティブで設定された制限を超えています。サイト管理者に連絡してください。</translation>
     </message>
     <message>
         <source>The size of the uploaded file exceeds site maximum: %1 bytes.</source>
@@ -26390,6 +26685,11 @@ your account.</source>
         <comment>eZUserType</comment>
         <translation>パスワードは空にすることができません。</translation>
     </message>
+    <message>
+        <source>The emails do not match.</source>
+        <comment>eZUserType</comment>
+        <translation>メールは一致しません。</translation>
+    </message>
 </context>
 <context>
     <name>kernel/classes/datatypes/ezbinaryfile</name>
@@ -26542,7 +26842,7 @@ your account.</source>
     </message>
     <message>
         <source>Versions</source>
-        <translation>バージョン一覧</translation>
+        <translation type="obsolete">バージョン一覧</translation>
     </message>
     <message>
         <source>My bookmarks</source>
@@ -26602,7 +26902,7 @@ your account.</source>
     </message>
     <message>
         <source>Differences</source>
-        <translation>違い</translation>
+        <translation type="obsolete">違い</translation>
     </message>
     <message>
         <source>Class identifier</source>
@@ -26695,6 +26995,10 @@ your account.</source>
     <message>
         <source>You have already sent a tipafriend mail to this receiver regarding &apos;%1&apos; content</source>
         <translation>&apos;%1&apos;コンテントに対しての「友達に教える」メールをすでこの宛先に送りました</translation>
+    </message>
+    <message>
+        <source>Publishing queue</source>
+        <translation>公開キュー</translation>
     </message>
 </context>
 <context>
@@ -26862,6 +27166,14 @@ your account.</source>
         <source>Could not find content upload handler &apos;%handler_name&apos;</source>
         <translation>コンテンツアップロードハンドラ &apos;%handler_name&apos; が見つかりません</translation>
     </message>
+    <message>
+        <source>The uploaded file size is above the maximum limit.</source>
+        <translation>アップロードされたファイルのサイズは最大限を越えています。</translation>
+    </message>
+    <message>
+        <source>A system error occured while writing the uploaded file.</source>
+        <translation>アップロードファイル書き込みの際にシステムエラーが発生しました。</translation>
+    </message>
 </context>
 <context>
     <name>kernel/content/urlalias_global</name>
@@ -26994,6 +27306,25 @@ your account.</source>
     <message>
         <source>Notification settings</source>
         <translation>通知設定</translation>
+    </message>
+</context>
+<context>
+    <name>kernel/oauthadmin</name>
+    <message>
+        <source>oAuth admin</source>
+        <translation>oAuth管理</translation>
+    </message>
+    <message>
+        <source>Edit REST application</source>
+        <translation>RESTアプリケーションの編集</translation>
+    </message>
+    <message>
+        <source>Registered REST applications</source>
+        <translation>登録されたRESTアプリケーション</translation>
+    </message>
+    <message>
+        <source>REST application: %application_name%</source>
+        <translation>RESTアプリケーション: %application_name%</translation>
     </message>
 </context>
 <context>
@@ -27490,11 +27821,11 @@ your account.</source>
     <name>kernel/shop</name>
     <message>
         <source>Order status</source>
-        <translation type="unfinished">注文ステータス</translation>
+        <translation>注文ステータス</translation>
     </message>
     <message>
         <source>Undefined</source>
-        <translation type="unfinished">未定義</translation>
+        <translation>未定義</translation>
     </message>
     <message>
         <source>Any</source>
@@ -27941,6 +28272,14 @@ your account.</source>
         <source>Success</source>
         <translation>成功</translation>
     </message>
+    <message>
+        <source>oAuth</source>
+        <translation>oAuth</translation>
+    </message>
+    <message>
+        <source>authorization</source>
+        <translation>認可</translation>
+    </message>
 </context>
 <context>
     <name>kernel/user/register</name>
@@ -27951,6 +28290,10 @@ your account.</source>
     <message>
         <source>New user registered</source>
         <translation>新規に登録されたユーザ</translation>
+    </message>
+    <message>
+        <source>User registration approved</source>
+        <translation>ユーザの登録は承認されました</translation>
     </message>
 </context>
 <context>
@@ -28040,6 +28383,10 @@ your account.</source>
     <message>
         <source>Wait until date</source>
         <translation>指定期日まで待機</translation>
+    </message>
+    <message>
+        <source>Finish User Registration</source>
+        <translation>ユーザ登録の完了</translation>
     </message>
 </context>
 <context>

@@ -64,7 +64,7 @@ class eZExecution
             if ( is_callable( $handler ) )
                 call_user_func( $handler );
             else
-                eZDebug::writeError('Could not call cleanup handler, is it a static public function?', 'eZExecution::cleanup');
+                eZDebug::writeError('Could not call cleanup handler, is it a static public function?', __METHOD__ );
         }
     }
 
@@ -151,7 +151,7 @@ class eZExecution
                 call_user_func( $handler );
             else
 
-                eZDebug::writeError('Could not call fatal error handler, is it a static public function?', 'eZExecution::uncleanShutdownHandler');
+                eZDebug::writeError('Could not call fatal error handler, is it a static public function?', __METHOD__ );
         }
     }
 

@@ -26,9 +26,9 @@ class eZDFSFileHandlerTableNotFoundException extends ezcBaseException
      */
     function __construct( $sql, $error )
     {
-    	$message = "Table not found when executing SQL '$sql' ".
-    	           "(error message: $error).\n" .
-    	           "Please review the cluster tables installation or configuration";
+        $message = "Table not found when executing SQL '$sql' ".
+                   "(error message: $error).\n" .
+                   "Please review the cluster tables installation or configuration";
         parent::__construct( $message );
     }
 }

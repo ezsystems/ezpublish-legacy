@@ -21,7 +21,7 @@ class eZFileTestSuite extends ezpTestSuite
     {
         return new self();
     }
-    
+
 }
 
 ?>

@@ -151,7 +151,6 @@ class eZTemplateLocaleOperator
         $newElements = array();
 
         $newElements[] = eZTemplateNodeTool::createCodePieceElement( '// l10nTransformation begin' . "\n" );
-        $newElements[] = eZTemplateNodeTool::createCodePieceElement( '//include_once("lib/ezlocale/classes/ezlocale.php");' . "\n" );
         $values[] = $parameters[0];
 
         if ( count( $parameters ) > 2 )
@@ -259,7 +258,6 @@ class eZTemplateLocaleOperator
             return false;
         }
 
-        $newElements[] = eZTemplateNodeTool::createCodePieceElement( '//include_once("lib/ezlocale/classes/ezlocale.php");' . "\n" );
         $newElements[] = eZTemplateNodeTool::createCodePieceElement( '$locale = eZLocale::instance();' . "\n" );
 
         if ( $class == 'custom' )

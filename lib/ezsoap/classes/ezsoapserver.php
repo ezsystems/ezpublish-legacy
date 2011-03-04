@@ -35,7 +35,6 @@
 
   Sample code for a SOAP server with one function, addNumbers.
   \code
-//include_once( "lib/ezsoap/classes/ezsoapserver.php" );
 
 $server = new eZSOAPServer( );
 $server->registerFunction( "addNumbers", array( "valueA" => "integer", "valueB" => "integer" ) );

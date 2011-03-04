@@ -10,8 +10,8 @@
 class eZHTTPToolRegression extends ezpTestCase
 {
     /**
-     * If you send an HTTP request using eZHTTPTool::sendHTTPRequest( ) to an 
-     * URL with a domain name containing a dash ( -), it's misunderpreted and 
+     * If you send an HTTP request using eZHTTPTool::sendHTTPRequest( ) to an
+     * URL with a domain name containing a dash ( -), it's misunderpreted and
      * doesn't get executed.
      *
      * @link http://issues.ez.no/10651

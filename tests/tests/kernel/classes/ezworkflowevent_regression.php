@@ -32,7 +32,7 @@ class eZWorkflowEventRegression extends ezpDatabaseTestCase
      * @result: Redirection to content/history
      * @expected: The object gets published without being redirected
      * @link http://issues.ez.no/14371
-     **/
+     */
     public function testEditAfterFetchTemplateRepeatModule()
     {
         // first, we need to create an appropriate test workflow
@@ -101,7 +101,7 @@ class eZWorkflowEventRegression extends ezpDatabaseTestCase
      * @result: Redirection to content/history
      * @expected: The object gets published without being redirected
      * @link http://issues.ez.no/14371
-     **/
+     */
     public function testEditAfterFetchTemplateRepeatOperation()
     {
         // first, we need to create an appropriate test workflow
@@ -149,12 +149,12 @@ class eZWorkflowEventRegression extends ezpDatabaseTestCase
     }
 
     /**
-    * Creates the test workflow.
-    * @todo Currently only handles the fetchtemplaterepeat event. Will have to be
-    *       refactored to handle more events when necessary
-    *
-    * @return eZWorkflow
-    **/
+     * Creates the test workflow.
+     * @todo Currently only handles the fetchtemplaterepeat event. Will have to be
+     *       refactored to handle more events when necessary
+     *
+     * @return eZWorkflow
+     */
     function createWorkFlow( $adminUserID )
     {
         $registerResult = $this->registerCustomWorkflowEvent(
@@ -210,11 +210,11 @@ class eZWorkflowEventRegression extends ezpDatabaseTestCase
     }
 
     /**
-    * Connects a workflow to a trigger
-    * @param int $workflowID
-    * @todo Currently registers a content/publish/before event. Refactor when required
-    * @return void
-    **/
+     * Connects a workflow to a trigger
+     * @param int $workflowID
+     * @todo Currently registers a content/publish/before event. Refactor when required
+     * @return void
+     */
     protected function createTrigger( $workflowID )
     {
         // @todo Also test with before publish
@@ -265,7 +265,7 @@ class eZWorkflowEventRegression extends ezpDatabaseTestCase
      *
      * @param eZWorkflow $workflow
      * @return void
-     **/
+     */
     protected function removeWorkflow( eZWorkflow $workflow )
     {
         // Remove trigger
@@ -278,18 +278,18 @@ class eZWorkflowEventRegression extends ezpDatabaseTestCase
     }
     /**
      * @var eZWorkflow
-     **/
+     */
     protected $workflow;
 
     /**
      * @var eZTrigger
-     **/
+     */
     protected $trigger;
 
     /**
-    * Currently logged in user backup
-    * @var eZUser
-    **/
+     * Currently logged in user backup
+     * @var eZUser
+     */
     private $currentUser;
 }
 

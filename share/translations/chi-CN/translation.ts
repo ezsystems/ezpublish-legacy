@@ -1769,79 +1769,75 @@
     <name>design/admin/content/diff</name>
     <message>
         <source>Versions for &lt;%object_name&gt; [%version_count]</source>
-        <translation>&lt;%object_name&gt;的版本［%version_count］</translation>
+        <translation type="obsolete">&lt;%object_name&gt;的版本［%version_count］</translation>
     </message>
     <message>
         <source>Show differences</source>
-        <translation>显示差异</translation>
+        <translation type="obsolete">显示差异</translation>
     </message>
     <message>
         <source>Differences between versions %oldVersion and %newVersion</source>
-        <translation>版本%oldVersion与%newVersion的差异</translation>
+        <translation type="obsolete">版本%oldVersion与%newVersion的差异</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation>版本</translation>
+        <translation type="obsolete">版本</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation>状态</translation>
+        <translation type="obsolete">状态</translation>
     </message>
     <message>
         <source>Translations</source>
-        <translation>翻译</translation>
+        <translation type="obsolete">翻译</translation>
     </message>
     <message>
         <source>Creator</source>
-        <translation>创建者</translation>
+        <translation type="obsolete">创建者</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation>修改于</translation>
+        <translation type="obsolete">修改于</translation>
     </message>
     <message>
         <source>Draft</source>
-        <translation>草稿</translation>
+        <translation type="obsolete">草稿</translation>
     </message>
     <message>
         <source>Published</source>
-        <translation>发布于</translation>
+        <translation type="obsolete">发布于</translation>
     </message>
     <message>
         <source>Pending</source>
-        <translation>待处理</translation>
+        <translation type="obsolete">待处理</translation>
     </message>
     <message>
         <source>Archived</source>
-        <translation>已存档</translation>
+        <translation type="obsolete">已存档</translation>
     </message>
     <message>
         <source>Rejected</source>
-        <translation>已否决</translation>
+        <translation type="obsolete">已否决</translation>
     </message>
     <message>
         <source>Untouched draft</source>
-        <translation>未处理的草稿</translation>
+        <translation type="obsolete">未处理的草稿</translation>
     </message>
     <message>
         <source>Inline changes</source>
-        <translation>行修改</translation>
+        <translation type="obsolete">行修改</translation>
     </message>
     <message>
         <source>Block changes</source>
-        <translation>块修改</translation>
+        <translation type="obsolete">块修改</translation>
     </message>
     <message>
         <source>Old version</source>
-        <translation>旧版本</translation>
+        <translation type="obsolete">旧版本</translation>
     </message>
     <message>
         <source>New version</source>
-        <translation>新版本</translation>
-    </message>
-    <message>
-        <source>Versions for &lt;%object_name&gt; (%version_count)</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">新版本</translation>
     </message>
 </context>
 <context>
@@ -2404,6 +2400,10 @@
     <message>
         <source>Related content (%related_objects)</source>
         <translation>关联的内容 (%related_objects)</translation>
+    </message>
+    <message>
+        <source>View the draft that is being edited.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4517,27 +4517,27 @@
     </message>
     <message>
         <source>Unable to create new version</source>
-        <translation>不能创建新版本</translation>
+        <translation type="obsolete">不能创建新版本</translation>
     </message>
     <message>
         <source>Version history limit has been exceeded and no archived version can be removed by the system.</source>
-        <translation>版本历史记录数已超过上限，且系统中也找不到可删除的存档版本。最多可创建的版本数已超过， 系统也找不到可删除的存档版本。</translation>
+        <translation type="obsolete">版本历史记录数已超过上限，且系统中也找不到可删除的存档版本。最多可创建的版本数已超过， 系统也找不到可删除的存档版本。</translation>
     </message>
     <message>
         <source>You can change your version history settings in content.ini, remove draft versions or edit existing drafts.</source>
-        <translation>您可以在文件content.ini中修改版本的历史记录设置，删除草稿版本或编辑现有草稿。</translation>
+        <translation type="obsolete">您可以在文件content.ini中修改版本的历史记录设置，删除草稿版本或编辑现有草稿。</translation>
     </message>
     <message>
         <source>Versions for &lt;%object_name&gt; [%version_count]</source>
-        <translation>&lt;%object_name&gt;的版本［%version_count］</translation>
+        <translation type="obsolete">&lt;%object_name&gt;的版本［%version_count］</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation>版本</translation>
+        <translation type="obsolete">版本</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation>状态</translation>
+        <translation type="obsolete">状态</translation>
     </message>
     <message>
         <source>Translations</source>
@@ -4545,11 +4545,11 @@
     </message>
     <message>
         <source>Creator</source>
-        <translation>创建者</translation>
+        <translation type="obsolete">创建者</translation>
     </message>
     <message>
         <source>Created</source>
-        <translation>创建于</translation>
+        <translation type="obsolete">创建于</translation>
     </message>
     <message>
         <source>Draft</source>
@@ -4569,7 +4569,7 @@
     </message>
     <message>
         <source>Rejected</source>
-        <translation>已否决</translation>
+        <translation type="obsolete">已否决</translation>
     </message>
     <message>
         <source>Copy and edit</source>
@@ -4577,60 +4577,60 @@
     </message>
     <message>
         <source>Edit</source>
-        <translation>编辑</translation>
+        <translation type="obsolete">编辑</translation>
     </message>
     <message>
         <source>Remove selected</source>
-        <translation>删除选中的项目</translation>
+        <translation type="obsolete">删除选中的项目</translation>
     </message>
     <message>
         <source>Object information</source>
-        <translation>对象信息</translation>
+        <translation type="obsolete">对象信息</translation>
     </message>
     <message>
         <source>ID</source>
-        <translation>ID</translation>
+        <translation type="obsolete">ID</translation>
     </message>
     <message>
         <source>Not yet published</source>
-        <translation>尚未发布</translation>
+        <translation type="obsolete">尚未发布</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation>修改于</translation>
+        <translation type="obsolete">修改于</translation>
     </message>
     <message>
         <source>Published version</source>
-        <translation>已发布的版本</translation>
+        <translation type="obsolete">已发布的版本</translation>
     </message>
     <message>
         <source>Select version #%version_number for removal.</source>
-        <translation>选择要删除的版本#%version_number。
+        <translation type="obsolete">选择要删除的版本#%version_number。
 </translation>
     </message>
     <message>
         <source>View the contents of version #%version_number. Translation: %translation.</source>
-        <translation>查看版本#%version_number的内容。翻译：%translation。</translation>
+        <translation type="obsolete">查看版本#%version_number的内容。翻译：%translation。</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>复制</translation>
+        <translation type="obsolete">复制</translation>
     </message>
     <message>
         <source>Create a copy of version #%version_number.</source>
-        <translation>创建版本#%version_number的一个副本。</translation>
+        <translation type="obsolete">创建版本#%version_number的一个副本。</translation>
     </message>
     <message>
         <source>Edit the contents of version #%version_number.</source>
-        <translation>编辑版本#%version_number的内容。</translation>
+        <translation type="obsolete">编辑版本#%version_number的内容。</translation>
     </message>
     <message>
         <source>This object does not have any versions.</source>
-        <translation>该对象没有任何版本。</translation>
+        <translation type="obsolete">该对象没有任何版本。</translation>
     </message>
     <message>
         <source>Remove the selected versions from the object.</source>
-        <translation>从对象中删除选中的版本。</translation>
+        <translation type="obsolete">从对象中删除选中的版本。</translation>
     </message>
     <message>
         <source>Untouched draft</source>
@@ -4638,51 +4638,47 @@
     </message>
     <message>
         <source>Back</source>
-        <translation>返回</translation>
+        <translation type="obsolete">返回</translation>
     </message>
     <message>
         <source>Modified translation</source>
-        <translation>已修改的翻译</translation>
+        <translation type="obsolete">已修改的翻译</translation>
     </message>
     <message>
         <source>Version is not a draft</source>
-        <translation>该版本不是草稿</translation>
+        <translation type="obsolete">该版本不是草稿</translation>
     </message>
     <message>
         <source>Version %1 is not available for editing anymore. Only drafts can be edited.</source>
-        <translation>版本%1不能被编辑，只能编辑草稿。</translation>
+        <translation type="obsolete">版本%1不能被编辑，只能编辑草稿。</translation>
     </message>
     <message>
         <source>To edit this version, first create a copy of it.</source>
-        <translation>要编辑这个版本，先要创建该版本的一个副本。</translation>
+        <translation type="obsolete">要编辑这个版本，先要创建该版本的一个副本。</translation>
     </message>
     <message>
         <source>Version is not yours</source>
-        <translation>版本不属于您</translation>
+        <translation type="obsolete">版本不属于您</translation>
     </message>
     <message>
         <source>Version %1 was not created by you. You can only edit your own drafts.</source>
-        <translation>版本%1不是您创建的，您只能编辑自己的草稿。</translation>
+        <translation type="obsolete">版本%1不是您创建的，您只能编辑自己的草稿。</translation>
     </message>
     <message>
         <source>Version #%version_number cannot be removed because it is either the published version of the object or because you do not have permission to remove it.</source>
-        <translation>不能删除版本#%version_number，因为它是对象已发布的版本，或您没有权限删除。</translation>
+        <translation type="obsolete">不能删除版本#%version_number，因为它是对象已发布的版本，或您没有权限删除。</translation>
     </message>
     <message>
         <source>There is no need to make copies of untouched drafts.</source>
-        <translation>不需要创建未处理的草稿的副本。</translation>
+        <translation type="obsolete">不需要创建未处理的草稿的副本。</translation>
     </message>
     <message>
         <source>You cannot make copies of versions because you do not have permission to edit the object.</source>
-        <translation>您不能创建版本的副本，因为您没有权限编辑这个对象。</translation>
+        <translation type="obsolete">您不能创建版本的副本，因为您没有权限编辑这个对象。</translation>
     </message>
     <message>
         <source>You cannot edit the contents of version #%version_number either because it is not a draft or because you do not have permission to edit the object.</source>
-        <translation>您不能编辑版本#%version_number的内容，因为它不是一个草稿，或您没有足够的权限编辑这个对象。</translation>
-    </message>
-    <message>
-        <source>Versions for &lt;%object_name&gt; (%version_count)</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">您不能编辑版本#%version_number的内容，因为它不是一个草稿，或您没有足够的权限编辑这个对象。</translation>
     </message>
 </context>
 <context>
@@ -4873,6 +4869,14 @@
     <message>
         <source>Object ID</source>
         <translation type="unfinished"> 对象 ID</translation>
+    </message>
+    <message>
+        <source>Dynamic tree menu is disabled for this siteaccess!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Internal errorD</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6863,6 +6867,10 @@
         <source>last</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Invert selection</source>
+        <translation type="unfinished">反选</translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view/full </name>
@@ -8026,6 +8034,10 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>States</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>URL management</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -13432,15 +13444,15 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>Valid links [%url_list_count]</source>
-        <translation>有效URL［%url_list_count］</translation>
+        <translation type="obsolete">有效URL［%url_list_count］</translation>
     </message>
     <message>
         <source>Invalid links [%url_list_count]</source>
-        <translation>无效URL［%url_list_count］</translation>
+        <translation type="obsolete">无效URL［%url_list_count］</translation>
     </message>
     <message>
         <source>All links [%url_list_count]</source>
-        <translation>所有URL［%url_list_count］</translation>
+        <translation type="obsolete">所有URL［%url_list_count］</translation>
     </message>
     <message>
         <source>All</source>
@@ -13524,6 +13536,18 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source>All links (%url_list_count)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Valid URLs [%url_list_count]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invalid URLs [%url_list_count]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All URLs [%url_list_count]</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -14373,6 +14397,14 @@ your account.</source>
     <message>
         <source>The following information is either missing or invalid</source>
         <translation>以下信息丢失或无效</translation>
+    </message>
+    <message>
+        <source>Error : Could not load workflow event &quot;%eventtype&quot; (event type not available)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hint : This can happen when a workflow extension has been disabled</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -15429,6 +15461,13 @@ your account.</source>
     <message>
         <source>Minute</source>
         <translation type="obsolete">分</translation>
+    </message>
+</context>
+<context>
+    <name>design/ezwebin/node/removeobject</name>
+    <message>
+        <source>The items contain more than the maximum possible nodes for subtree removal and will not be deleted. You can remove this subtree using the ezsubtreeremove.php script.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -17149,6 +17188,18 @@ If you want to send comments to the approver or view the status use the URL belo
         <source>Below you will find a list of active translations that content objects may be translated into.</source>
         <translation type="unfinished">以下是激活的翻译列表，可能翻译自内容对象。</translation>
     </message>
+    <message>
+        <source>Your content is being published</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Publishing finished</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your content is pending an external action</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/browse</name>
@@ -18115,6 +18166,10 @@ If you want to send comments to the approver or view the status use the URL belo
         <source>Your browser does not support html5 audio.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Confirm email</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/datatype </name>
@@ -18127,75 +18182,75 @@ If you want to send comments to the approver or view the status use the URL belo
     <name>design/standard/content/diff</name>
     <message>
         <source>Version</source>
-        <translation>版本</translation>
+        <translation type="obsolete">版本</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation>状态</translation>
+        <translation type="obsolete">状态</translation>
     </message>
     <message>
         <source>Translations</source>
-        <translation>翻译</translation>
+        <translation type="obsolete">翻译</translation>
     </message>
     <message>
         <source>Creator</source>
-        <translation>创建者</translation>
+        <translation type="obsolete">创建者</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation>修改于</translation>
+        <translation type="obsolete">修改于</translation>
     </message>
     <message>
         <source>Versions for &lt;%object_name&gt; [%version_count]</source>
-        <translation>&lt;%object_name&gt;的版本［%version_count］</translation>
+        <translation type="obsolete">&lt;%object_name&gt;的版本［%version_count］</translation>
     </message>
     <message>
         <source>Draft</source>
-        <translation>草稿</translation>
+        <translation type="obsolete">草稿</translation>
     </message>
     <message>
         <source>Published</source>
-        <translation>已发布</translation>
+        <translation type="obsolete">已发布</translation>
     </message>
     <message>
         <source>Pending</source>
-        <translation>待处理</translation>
+        <translation type="obsolete">待处理</translation>
     </message>
     <message>
         <source>Archived</source>
-        <translation>已存档</translation>
+        <translation type="obsolete">已存档</translation>
     </message>
     <message>
         <source>Rejected</source>
-        <translation>已否决</translation>
+        <translation type="obsolete">已否决</translation>
     </message>
     <message>
         <source>Untouched draft</source>
-        <translation>未处理的草稿</translation>
+        <translation type="obsolete">未处理的草稿</translation>
     </message>
     <message>
         <source>Show differences</source>
-        <translation>显示差异</translation>
+        <translation type="obsolete">显示差异</translation>
     </message>
     <message>
         <source>Differences between versions %oldVersion and %newVersion</source>
-        <translation>版本%oldVersion与%newVersion的差异</translation>
+        <translation type="obsolete">版本%oldVersion与%newVersion的差异</translation>
     </message>
     <message>
         <source>Inline changes</source>
-        <translation>行修改</translation>
+        <translation type="obsolete">行修改</translation>
     </message>
     <message>
         <source>Block changes</source>
-        <translation>块修改</translation>
+        <translation type="obsolete">块修改</translation>
     </message>
     <message>
         <source>Old version</source>
-        <translation>旧版本</translation>
+        <translation type="obsolete">旧版本</translation>
     </message>
     <message>
         <source>New version</source>
-        <translation>新版本</translation>
+        <translation type="obsolete">新版本</translation>
     </message>
 </context>
 <context>
@@ -19263,7 +19318,7 @@ If you want to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Version</source>
-        <translation>版本</translation>
+        <translation type="obsolete">版本</translation>
     </message>
     <message>
         <source>is not available for editing anymore, only drafts can be edited.</source>
@@ -19303,15 +19358,15 @@ If you want to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Edit</source>
-        <translation>编辑</translation>
+        <translation type="obsolete">编辑</translation>
     </message>
     <message>
         <source>Copy and edit</source>
-        <translation>复制和编辑</translation>
+        <translation type="obsolete">复制和编辑</translation>
     </message>
     <message>
         <source>Versions for: %1</source>
-        <translation>%1 的版本</translation>
+        <translation type="obsolete">%1 的版本</translation>
     </message>
     <message>
         <source>Version %1 is not available for editing anymore, only drafts can be edited.</source>
@@ -19323,58 +19378,58 @@ If you want to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Unable to create new version</source>
-        <translation>不能创建新版本</translation>
+        <translation type="obsolete">不能创建新版本</translation>
     </message>
     <message>
         <source>Version history limit has been exceeded and no archived version can be removed by the system.</source>
-        <translation>版本历史记录数已超过上限，且系统中也找不到可删除的存档版本。</translation>
+        <translation type="obsolete">版本历史记录数已超过上限，且系统中也找不到可删除的存档版本。</translation>
     </message>
     <message>
         <source>You can change your version history settings in content.ini, remove draft versions or edit existing drafts.</source>
-        <translation>您可以在文件content.ini中修改版本的历史记录设置，删除草稿版本或编辑现有草稿。</translation>
+        <translation type="obsolete">您可以在文件content.ini中修改版本的历史记录设置，删除草稿版本或编辑现有草稿。</translation>
     </message>
     <message>
         <source>Version %1 is not available for editing any more, only drafts can be edited.</source>
-        <translation>版本%1不能被编辑，只能编辑草稿。</translation>
+        <translation type="obsolete">版本%1不能被编辑，只能编辑草稿。</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation>状态</translation>
+        <translation type="obsolete">状态</translation>
     </message>
     <message>
         <source>Translations</source>
-        <translation>翻译</translation>
+        <translation type="obsolete">翻译</translation>
     </message>
     <message>
         <source>Creator</source>
-        <translation>创建者</translation>
+        <translation type="obsolete">创建者</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation>修改于</translation>
+        <translation type="obsolete">修改于</translation>
     </message>
     <message>
         <source>Version is not a draft</source>
-        <translation>该版本不是草稿</translation>
+        <translation type="obsolete">该版本不是草稿</translation>
     </message>
     <message>
         <source>To edit this version, first create a copy of it.</source>
-        <translation>要编辑这个版本，先要创建该版本的一个副本。</translation>
+        <translation type="obsolete">要编辑这个版本，先要创建该版本的一个副本。</translation>
     </message>
     <message>
         <source>Version is not yours</source>
-        <translation>版本不属于您</translation>
+        <translation type="obsolete">版本不属于您</translation>
     </message>
     <message>
         <source>Version %1 was not created by you. You can only edit your own drafts.</source>
-        <translation>版本%1不是您创建的，您只能编辑自己的草稿。</translation>
+        <translation type="obsolete">版本%1不是您创建的，您只能编辑自己的草稿。</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/versions</name>
     <message>
         <source>This object does not have any versions.</source>
-        <translation>该对象没有任何版本。</translation>
+        <translation type="obsolete">该对象没有任何版本。</translation>
     </message>
 </context>
 <context>
@@ -20498,6 +20553,26 @@ If you do all the children will be removed as well.</source>
         <source>Cancel removal</source>
         <translation>取消删除</translation>
     </message>
+    <message>
+        <source>Please wait while your content is being published</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your content has been published successfully</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View the published item</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Publishing has been deferred to crontab and will be published when the operation resumes. The object is also listed in your dashboard under pending items.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View your pending content</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/menuconfig</name>
@@ -20605,7 +20680,7 @@ If you do all the children will be removed as well.</source>
     </message>
     <message>
         <source>Are you sure you want to remove these items?</source>
-        <translation>您确定要删除这些项目吗?</translation>
+        <translation type="obsolete">您确定要删除这些项目吗?</translation>
     </message>
     <message>
         <source>%nodename and its %childcount children. %additionalwarning</source>
@@ -27874,15 +27949,15 @@ To do this you need to change the %chown commands under Alternative shell comman
     </message>
     <message>
         <source>All links</source>
-        <translation>全部的URL</translation>
+        <translation type="obsolete">全部的URL</translation>
     </message>
     <message>
         <source>Invalid links</source>
-        <translation>无效的URL</translation>
+        <translation type="obsolete">无效的URL</translation>
     </message>
     <message>
         <source>Valid links</source>
-        <translation>有效的URL</translation>
+        <translation type="obsolete">有效的URL</translation>
     </message>
     <message>
         <source>Information on URL</source>
@@ -27907,6 +27982,18 @@ To do this you need to change the %chown commands under Alternative shell comman
     <message>
         <source>This means that the URL is no longer available or has been moved.</source>
         <translation>这就意味着URL已不可用或已被移动。</translation>
+    </message>
+    <message>
+        <source>All URLs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invalid URLs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Valid URLs</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -28189,6 +28276,10 @@ your account.</source>
         <source>The new password must be at least %1 characters long. Please retype your new password.</source>
         <translation type="unfinished">新密码至少要包含 %1个字符。请重新输入您的新密码。</translation>
     </message>
+    <message>
+        <source>Your email address has been confirmed. An administrator needs to approve your sign up request, before your login becomes valid.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/user/</name>
@@ -28372,6 +28463,14 @@ your account.</source>
         <source>Username</source>
         <comment>Login name</comment>
         <translation>用户名</translation>
+    </message>
+    <message>
+        <source>Your registration has been approved. You can login with your account %username.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click the following URL to login:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -29206,6 +29305,13 @@ your account.</source>
     <message>
         <source>Language</source>
         <translation>语言</translation>
+    </message>
+</context>
+<context>
+    <name>design/starndard/node</name>
+    <message>
+        <source>Are you sure you want to remove these items?</source>
+        <translation type="unfinished">您确定要删除这些项目吗?</translation>
     </message>
 </context>
 <context>
@@ -30365,6 +30471,11 @@ your account.</source>
         <comment>eZUserType</comment>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>The emails do not match.</source>
+        <comment>eZUserType</comment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>kernel/classes/datatypes/ezbinaryfile</name>
@@ -30521,7 +30632,7 @@ your account.</source>
     </message>
     <message>
         <source>Versions</source>
-        <translation type="unfinished">版本</translation>
+        <translation type="obsolete">版本</translation>
     </message>
     <message>
         <source>No main node selected, please select one.</source>
@@ -30601,7 +30712,7 @@ your account.</source>
     </message>
     <message>
         <source>Differences</source>
-        <translation type="unfinished">差异</translation>
+        <translation type="obsolete">差异</translation>
     </message>
     <message>
         <source>Remove translation</source>
@@ -30681,6 +30792,10 @@ your account.</source>
     </message>
     <message>
         <source>You have already sent a tipafriend mail to this receiver regarding &apos;%1&apos; content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Publishing queue</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -30865,6 +30980,14 @@ your account.</source>
     <message>
         <source>The size of the uploaded file exceeds the limit set for this site: %1 bytes.</source>
         <translation type="unfinished">上传的文件大小超出该站点的限制：%1字节。</translation>
+    </message>
+    <message>
+        <source>The uploaded file size is above the maximum limit.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A system error occured while writing the uploaded file.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -32011,6 +32134,10 @@ your account.</source>
         <source>New user registered</source>
         <translation type="unfinished">新用户已注册</translation>
     </message>
+    <message>
+        <source>User registration approved</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>kernel/workflow</name>
@@ -32127,6 +32254,10 @@ your account.</source>
     <message>
         <source>Payment Gateway</source>
         <translation type="unfinished">支付网关</translation>
+    </message>
+    <message>
+        <source>Finish User Registration</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

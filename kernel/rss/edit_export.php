@@ -192,7 +192,7 @@ if ( is_numeric( $RSSExportID ) )
             {
                 $rssExportItem = eZRSSExportItem::fetch( $Params['RSSExportItemID'], true, eZRSSExport::STATUS_DRAFT );
                 $rssExportItem->setAttribute( 'source_node_id', $nodeIDArray[0] );
-                
+
                 if ( $rssExportItem->attribute('title') == '' && $rssExportItem->attribute('description') == '' )
                 {
                     eZRSSEditFunction::setItemDefaults( $rssExportItem );

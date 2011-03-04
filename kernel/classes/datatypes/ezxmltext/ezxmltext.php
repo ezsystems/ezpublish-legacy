@@ -122,7 +122,7 @@ class eZXMLText
 
             default:
             {
-                eZDebug::writeError( "Attribute '$name' does not exist", 'eZXMLText::attribute' );
+                eZDebug::writeError( "Attribute '$name' does not exist", __METHOD__ );
                 $retValue = null;
                 return $retValue;
             }break;

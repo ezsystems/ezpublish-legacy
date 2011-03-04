@@ -25,7 +25,7 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
 
     /**
      * @var eZINI
-     **/
+     */
     protected $fileINI;
 
     public function setUp()
@@ -324,8 +324,8 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
     public function processCacheGenerateCallback( $path, $extraData )
     {
         /** Add random content ?
-        * Idea: use extra data to carry options around from {@link testProcessCache}
-        */
+         * Idea: use extra data to carry options around from {@link testProcessCache}
+         */
         return array( 'content' => $extraData['content'], 'scope' => 'test', 'datatype' => 'text/plain' );
     }
 

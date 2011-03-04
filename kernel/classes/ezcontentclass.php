@@ -1986,7 +1986,7 @@ You will need to change the class of the node by using the swap functionality.' 
 
     /**
      * In-memory cache for class identifiers / id matching
-     **/
+     */
     private static $identifierHash = null;
 }
 

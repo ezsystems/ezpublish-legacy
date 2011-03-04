@@ -35,8 +35,6 @@
 
   \code
 
-  //include_once( "kernel/classes/datatypes/ezauthor/ezauthor.php" );
-
   $author = new eZAuthor( "Colour" );
   $author->addValue( "Red" );
   $author->addValue( "Green" );
@@ -73,7 +71,7 @@ class eZAuthor
 
     /**
      * Add an author
-     * 
+     *
      * @param int $id
      * @param string $name
      * @param string $email
@@ -93,7 +91,7 @@ class eZAuthor
 
     /**
      * Remove authors
-     * 
+     *
      * @param array $removeList List of id's of authors to remove
      */
     function removeAuthors( $removeList )
@@ -143,7 +141,7 @@ class eZAuthor
             }break;
             default:
             {
-                eZDebug::writeError( "Attribute '$name' does not exist", 'eZAuthor::attribute' );
+                eZDebug::writeError( "Attribute '$name' does not exist", __METHOD__ );
                 return null;
             }
             break;

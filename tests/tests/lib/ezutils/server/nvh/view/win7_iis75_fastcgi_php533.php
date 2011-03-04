@@ -31,7 +31,7 @@ return array (
   'PHP_INT_MAX' => 2147483647,
   'PHP_INT_SIZE' => 4,
   'getcwd' => 'C:\\inetpub\\ezp',
-  '_SERVER' => 
+  '_SERVER' =>
   array (
     'PROCESSOR_ARCHITEW6432' => 'AMD64',
     '_FCGI_X_PIPE_' => '\\\\.\\pipe\\IISFCGI-280a3647-9c1b-4a96-ae2a-369cb478c60d',
@@ -126,7 +126,7 @@ return array (
     'PHP_SELF' => '/index.php/content/view/full/44',
     'REQUEST_TIME' => 1287751298,
   ),
-  '_ENV' => 
+  '_ENV' =>
   array (
   ),
 );

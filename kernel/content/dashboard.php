@@ -1,4 +1,4 @@
-<?php 
+<?php
 //
 // Created on: <15-Jan-2010 13:06:01 ls>
 //
@@ -85,10 +85,10 @@ foreach( $dashboardBlocks as $blockIdentifier )
     $template = null;
     if ( $ini->hasVariable( $blockGroupName, 'Template' ) )
         $template = $ini->variable( $blockGroupName, 'Template' );
-    
+
     while( isset( $orderedBlocks[$priority]  ) )
         $priority++;
-        
+
     $orderedBlocks[$priority] = array( 'identifier' => $blockIdentifier,
                                        'template' => $template,
                                        'number_of_items' => $numberOfItems );

@@ -60,8 +60,6 @@
 
 Example:
 \code
-//include_once( 'lib/ezlocale/classes/ezlocale.php' );
-//include_once( 'lib/ezlocale/classes/ezdatetime.php' );
 
 $us_locale = eZLocale::instance( 'us' );
 
@@ -165,7 +163,7 @@ class eZDateTime
         }
         else
         {
-            eZDebug::writeError( "Attribute '$name' does not exist", 'eZDateTime::attribute' );
+            eZDebug::writeError( "Attribute '$name' does not exist", __METHOD__ );
             return false;
         }
     }

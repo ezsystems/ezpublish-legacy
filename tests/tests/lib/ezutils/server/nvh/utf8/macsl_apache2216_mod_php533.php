@@ -31,7 +31,7 @@ return array (
   'PHP_INT_MAX' => 9223372036854775807,
   'PHP_INT_SIZE' => 8,
   'getcwd' => '/Users/oms/Sites/ezp44ee_final',
-  '_SERVER' => 
+  '_SERVER' =>
   array (
     'HTTP_USER_AGENT' => 'curl/7.21.1 (x86_64-apple-darwin10.4.0) libcurl/7.21.1 OpenSSL/1.0.0a zlib/1.2.5 libidn/1.19',
     'HTTP_HOST' => 'localhost:8080',
@@ -59,7 +59,7 @@ return array (
     'PHP_SELF' => '/~oms/ezp44ee_final/index.php/News/Blåbær-Øl-med-d\'or-新闻军事社会体育中超',
     'REQUEST_TIME' => 1288102532,
   ),
-  '_ENV' => 
+  '_ENV' =>
   array (
   ),
 );

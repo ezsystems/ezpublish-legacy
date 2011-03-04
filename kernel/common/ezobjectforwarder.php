@@ -835,6 +835,6 @@ class eZObjectForwarder
     }
 
     public $Rules;
-};
+}
 
 ?>

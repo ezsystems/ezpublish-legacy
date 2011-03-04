@@ -46,7 +46,6 @@ if ( $process === null )
 
 $http = eZHTTPTool::instance();
 
-// //include_once( "lib/ezutils/classes/ezexecutionstack.php" );
 // $execStack = eZExecutionStack::instance();
 // $execStack->addEntry( $Module->functionURI( "run" ) . "/" . $WorkflowProcessID,
 //                       $Module->attribute( "name" ), "run" );

@@ -252,7 +252,7 @@ class eZTranslatorManager
         if ( $permanently )
         {
             $siteINI->save( 'site.ini.append', '.php', false, false );
-            eZINI::resetGlobals( "site.ini" );
+            eZINI::resetInstance( "site.ini" );
         }
 
         eZTranslatorManager::resetTranslations();

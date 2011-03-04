@@ -121,8 +121,7 @@ class eZGZIPZLIBCompressionHandler extends eZCompressionHandler
         }
         else if ( $whence == SEEK_END )
         {
-            eZDebug::writeError( "Seeking from end is not supported for gzipped files",
-                                 'eZGZIPZLIBCompressionHandler::doSeek' );
+            eZDebug::writeError( "Seeking from end is not supported for gzipped files", __METHOD__ );
             return false;
         }
         return @gzseek( $this->File, $offset );

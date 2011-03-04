@@ -35,8 +35,6 @@
 
   \code
 
-  //include_once( "kernel/classes/datatypes/ezoption/ezoption.php" );
-
   $option = new eZOption( "Colour" );
   $option->addValue( "Red" );
   $option->addValue( "Green" );
@@ -133,7 +131,7 @@ class eZOption
             }break;
             default:
             {
-                eZDebug::writeError( "Attribute '$name' does not exist", 'eZOption::attribute' );
+                eZDebug::writeError( "Attribute '$name' does not exist", __METHOD__ );
                 return null;
             }break;
         }

@@ -109,11 +109,18 @@ class eZSendmailTransport extends eZMailTransport
 
             $extraHeaders = $mail->headerText( array( 'exclude-headers' => $excludeHeaders ) );
 
-            return mail( $receiverEmailText, $mail->subject(), $message, $extraHeaders, $sendmailOptions );
+            $returnedValue = mail( $receiverEmailText, $mail->subject(), $message, $extraHeaders, $sendmailOptions );
+            if ( $returnedValue === false )
+            {
+                eZDebug::writeError( 'An error occurred while sending e-mail. Check the Sendmail error message for further information (usually in /var/log/messages)',
+                                     __METHOD__ );
+            }
+
+            return $returnedValue;
         }
         else
         {
-            eZDebug::writeWarning( "Unable to send mail: 'mail' function is not compiled into PHP.", 'eZSendmailTransport::sendMail' );
+            eZDebug::writeWarning( "Unable to send mail: 'mail' function is not compiled into PHP.", __METHOD__ );
         }
 
         return false;

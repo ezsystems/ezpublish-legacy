@@ -15,6 +15,7 @@ class eZKernelContentTestSuite extends ezpDatabaseTestSuite
         $this->setName( "eZ Publish Kernel Content Module Test Suite" );
 
         $this->addTestSuite( 'ezpContentPublishingBehaviourTest' );
+        $this->addTestSuite( 'eZContentOperationDeleteObjectRegression' );
     }
 
     public static function suite()

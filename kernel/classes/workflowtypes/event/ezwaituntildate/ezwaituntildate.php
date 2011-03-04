@@ -80,7 +80,7 @@ class eZWaitUntilDate
             }
             default :
             {
-                eZDebug::writeError( "Attribute '$attr' does not exist", 'eZWaitUntilDate::attribute' );
+                eZDebug::writeError( "Attribute '$attr' does not exist", __METHOD__ );
                 return null;
             }break;
         }

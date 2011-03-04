@@ -365,7 +365,6 @@ class eZWebDAVServerWrapper extends eZWebDAVServer
                 $fileName = $varDir . '/' . $logDir . '/' . $logName;
                 if ( !file_exists( $varDir . '/' . $logDir ) )
                 {
-                    //include_once( 'lib/ezfile/classes/ezdir.php' );
                     eZDir::mkdir( $varDir . '/' . $logDir, 0775, true );
                 }
 

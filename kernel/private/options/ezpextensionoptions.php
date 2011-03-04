@@ -34,14 +34,14 @@
  * @property array $handlerParams
  *      The list of parameters to pass to the handler
  *      Default : null
- * 
+ *
  * @property string $aliasSection
  *      Default : null
  *
  * @property string $aliasVariable
  *      Default : null
- *      
-  * @property string $aliasOptionalIndex
+ *
+ * @property string $aliasOptionalIndex
  *      Default : null
  *
  * @throws ezcBasePropertyNotFoundException

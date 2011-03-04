@@ -21,7 +21,7 @@ class eZImageAliasHandlerRegression extends ezpDatabaseTestCase
      * Regression test for issue #15155
      *
      * @link http://issues.ez.no/15155
-     **/
+     */
     public function testIssue15155()
     {
         // figure out the max versions for images

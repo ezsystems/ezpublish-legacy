@@ -130,7 +130,6 @@ class eZTemplateDigestOperator
         {
             case 'crc32':
                 {
-                    $code = "//include_once( 'lib/ezutils/classes/ezsys.php' );\n";
                     $function = "eZSys::ezcrc32";
                 } break;
 

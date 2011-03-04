@@ -315,7 +315,7 @@ class eZRSSExport extends eZPersistentObject
     /**
      * Generates an RSS feed document based on the rss_version attribute.
      *
-     * @deprecated
+     * @deprecated since 4.2
      * @return DomDocument XML document
      */
     function rssXml()
@@ -348,6 +348,7 @@ class eZRSSExport extends eZPersistentObject
      *
      * Supported types: 'rss1', 'rss2', 'atom'.
      *
+     * @since 4.2
      * @return string XML document as a string
      */
     function rssXmlContent()
@@ -433,7 +434,7 @@ class eZRSSExport extends eZPersistentObject
     /**
      * Get a RSS xml document based on the RSS 2.0 standard based on the RSS Export settings defined by this object
      *
-     * @deprecated
+     * @deprecated since 4.2
      * @return string RSS 2.0 XML document
      */
     function fetchRSS2_0()
@@ -648,7 +649,7 @@ class eZRSSExport extends eZPersistentObject
     /**
      * Get a RSS xml document based on the RSS 1.0 standard based on the RSS Export settings defined by this object
      *
-     * @deprecated
+     * @deprecated since 4.2
      * @return DomDocument RSS 1.0 XML document
      */
     function fetchRSS1_0()
@@ -836,6 +837,7 @@ class eZRSSExport extends eZPersistentObject
      *
      * Supported types: 'rss1', 'rss2', 'atom'.
      *
+     * @since 4.2
      * @param string $type One of 'rss1', 'rss2' and 'atom'
      * @return string XML document as a string
      */

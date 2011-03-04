@@ -39,7 +39,7 @@ if ( $http->hasPostVariable( 'Key' ) )
 else
     $key = $Params['Key'];
 
-    
+
 if ( $http->hasPostVariable( 'Value' ) )
     $value = $http->postVariable( 'Value' );
 else

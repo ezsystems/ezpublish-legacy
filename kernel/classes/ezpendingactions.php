@@ -31,18 +31,18 @@ class eZPendingActions extends eZPersistentObject
                                                                                'default'  => null,
                                                                                'required' => false )
                                             ),
-                                            
+
                       'keys'                 => array( 'action', 'created' ),
                       'class_name'           => 'eZPendingActions',
                       'name'                 => 'ezpending_actions',
                       'function_attributes'  => array()
         );
     }
-    
+
     /**
      * Fetches a pending actions list by action name
      * @param string $action
-     * @param array $aCreationDateFilter Created date filter array (default is empty array). Must be a 2 entries array. 
+     * @param array $aCreationDateFilter Created date filter array (default is empty array). Must be a 2 entries array.
      *                                   First entry is the filter token (can be '=', '<', '<=', '>', '>=')
      *                                   Second entry is the filter value (timestamp)
      * @return array|null Array of eZPendingActions or null if no entry has been found
@@ -50,7 +50,7 @@ class eZPendingActions extends eZPersistentObject
     public static function fetchByAction( $action, array $aCreationDateFilter = array() )
     {
         $filterConds = array( 'action' => $action );
-        
+
         // Handle creation date filter
         if( !empty( $aCreationDateFilter ) )
         {
@@ -59,7 +59,7 @@ class eZPendingActions extends eZPersistentObject
                 eZDebug::writeError( __CLASS__.'::'.__METHOD__.' : Wrong number of entries for Creation date filter array' );
                 return null;
             }
-            
+
             list( $filterToken, $filterValue ) = $aCreationDateFilter;
             $aAuthorizedFilterTokens = array( '=', '<', '>', '<=', '>=' );
             if( !is_string( $filterToken ) || !in_array( $filterToken, $aAuthorizedFilterTokens ) )
@@ -67,23 +67,24 @@ class eZPendingActions extends eZPersistentObject
                 eZDebug::writeError( __CLASS__.'::'.__METHOD__.' : Wrong filter type for creation date filter' );
                 return null;
             }
-            
+
             $filterConds['created'] = array( $filterToken, $filterValue );
         }
-        
+
         $result = parent::fetchObjectList( self::definition(), null, $filterConds );
-        
+
         return $result;
     }
 
     /**
      * Remove entries by action
      * @param string $action
+     * @param array $filterConds Additional filter conditions, as supported by {@link eZPersistentObject::fetchObjectList()} ($conds param).
+     *                           For consistency sake, if an 'action' key is set here, it won't be taken into account
      */
-    public static function removeByAction( $action )
+    public static function removeByAction( $action, array $filterConds = array() )
     {
-        $filterConds = array( 'action' => $action );
-        parent::removeObject(self::definition(), $filterConds);
+        parent::removeObject( self::definition(), array( 'action' => $action ) + $filterConds );
     }
 }
 

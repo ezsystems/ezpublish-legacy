@@ -31,7 +31,7 @@ return array (
   'PHP_INT_MAX' => 9223372036854775807,
   'PHP_INT_SIZE' => 8,
   'getcwd' => '/home/something/workspace/ezpublish',
-  '_SERVER' => 
+  '_SERVER' =>
   array (
     'USER' => 'www-data',
     'HOME' => '/var/www',
@@ -65,7 +65,7 @@ return array (
     'PHP_SELF' => '/',
     'REQUEST_TIME' => 1288007855,
   ),
-  '_ENV' => 
+  '_ENV' =>
   array (
     'USER' => 'www-data',
     'HOME' => '/var/www',

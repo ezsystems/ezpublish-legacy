@@ -1233,9 +1233,9 @@ class eZSearchEngine
 
                         default:
                         {
-                            eZDebug::writeWarning( 'Unknown sort field: ' . $sortField, 'eZContentObjectTreeNode::subTree' );
+                            eZDebug::writeWarning( 'Unknown sort field: ' . $sortField, __METHOD__ );
                             continue;
-                        };
+                        }
                     }
                     $sortOrder = true; // true is ascending
                     if ( isset( $sortBy[1] ) )

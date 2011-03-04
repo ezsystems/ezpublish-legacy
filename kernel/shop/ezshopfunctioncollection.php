@@ -221,7 +221,7 @@ class eZShopFunctionCollection
 
     /**
      * Returns wish list for currently logged in user
-     * 
+     *
      * @return array
      */
     function fetchCurrentWishList()

@@ -1,6 +1,32 @@
 Changes to BC and behavior in version 4.5.0
 ===========================================
 
+Change of behavior
+------------------
+
+- User object is not created until the user activates the account if activation is enabled.
+
+  To support approval workflow for user/register, the object is not sent to publish until the user has clicked the activation.
+  After a user clicks register, a user object draft will be created, then if the user clicks the activation, the object will be sent to publishing.
+  Consequently, it's not possible view non-activated user from object view but possible from version view.
+  This change might have affect on activation email template override.
+
+- viewcache.ini\[<class_identifier>]\ClearCacheMethod[]=all
+
+  This setting now includes the new ClearCacheMethod[]=children
+  'all' will always include all, so to avoid this: be specific
+
+- eZINI::instance()
+  Params: $useTextCodec, $useCache, $directAccess & $addArrayDefinition (3, 4, 6, 7)
+
+  This function has historicly only used $rootDir, $fileName & $useLocalOverrides
+  as part of instance key. Instead of changing this causing all code that potentialy uses
+  ::isLoaded() and ::resetGlobals() to need to change, all other parameter on this function
+  will if not default value cause a new instance instead of a shared instance to be returned.
+  So for clearity it is recomended to use "new eZINI()" instead if want to specify any of
+  these parameters manually.
+
+
 Removed features
 ----------------
 
@@ -8,3 +34,79 @@ Removed features
 
   They have been deprecated in 3.9 in favor of the combined view "history".
 
+
+Removed constants
+-----------------
+
+- eZINI::DEBUG_INTERNALS
+
+  This constant, previously set to false, was for internal use only and
+  represented the initial and default value of eZINI::setIsDebugEnabled()
+  and eZINI::isDebugEnabled() methods.
+
+
+Removed globals
+---------------
+
+- eZINIGlobalInstance-*
+
+  eZINI now uses a protected static variable to keep track of eZINI instances.
+  Use eZINI::resetAllGlobals( false ); to clear them if needed.
+
+- eZINICacheEnabled, eZINIDebugInternalsEnabled and eZINITextCodecEnabled
+
+  eZINI now uses a protected static variable to keep track of those global
+  status.
+
+
+Deprecated
+----------
+
+- eZSiteAccess::debugEnabled() & eZSiteAccess::extraDebugEnabled()
+  site.ini\[SiteAccessSettings]DebugAccess & DebugExtraAccess
+
+  These functions and setting has been deprecated and eZSiteAccess now uses
+  the existing debug.ini kernel-siteaccess setting for eZDebugSetting instead.
+
+- eZSys::removeMagicQuotes() & eZSys::magickQuotes()
+
+  Deprecated since magic quotes has been deprecated in PHP 5.3
+
+- eZSys::phpVersionText(), eZSys::phpVersion() & eZSys::isPHPVersionSufficient()
+
+  Use PHP_VERSION and other native php features instead.
+
+- eZSys::isDebugEnabled() & eZSys::setIsDebugEnabled()
+
+  Not used anymore.
+
+- eZDebugSetting::setDebugINI()
+
+  eZDebugSetting now uses eZINI directly to not end up using wrong settings
+  if siteaccess changes or extensions are loaded.
+
+- eZINI::resetGlobals()
+
+  Deprecated in favour of eZINI::resetInstance()
+
+- eZINI::resetAllGlobals()
+
+  Deprecated in favour of eZINI::resetAllInstances()
+
+- eZINI::instance() $addArrayDefinition parameter
+
+  The last parameter of this function has been deprecated, use
+  "new eZINI()" instead. Also see 'Change of behavior' above.
+
+- eZClusterFileHandlerInterface::requiresBinaryPurge()
+
+  Use eZClusterFileHandlerInterface::requiresPurge() instead.
+
+- ::fetchExpiredBinaryItems()
+
+  Classes: eZDFSFileHandler, eZFSFileHandler, eZDBFileHandler
+  Use ::fetchExpiredItems() instead.
+
+- eZOverride
+
+  Not used anywhere.

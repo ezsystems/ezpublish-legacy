@@ -136,7 +136,7 @@ class eZTopMenuOperator
 
                         list( $module, $function ) = explode( '/', $policy );
                         $result = $user->hasAccessTo( $module, $function );
-                        
+
                         if ( $result['accessWord'] === 'no' )
                         {
                             $menuItem['access'] = false;

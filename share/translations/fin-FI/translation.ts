@@ -1653,79 +1653,79 @@
     <name>design/admin/content/diff</name>
     <message>
         <source>Versions for &lt;%object_name&gt; [%version_count]</source>
-        <translation>Versiot &lt;%object_name&gt; [%version_count]</translation>
+        <translation type="obsolete">Versiot &lt;%object_name&gt; [%version_count]</translation>
     </message>
     <message>
         <source>Show differences</source>
-        <translation>Näytä eroavaisuudet</translation>
+        <translation type="obsolete">Näytä eroavaisuudet</translation>
     </message>
     <message>
         <source>Differences between versions %oldVersion and %newVersion</source>
-        <translation>Erot versioiden %oldVersion ja %newVersion välillä</translation>
+        <translation type="obsolete">Erot versioiden %oldVersion ja %newVersion välillä</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation>Versio</translation>
+        <translation type="obsolete">Versio</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation>Tila</translation>
+        <translation type="obsolete">Tila</translation>
     </message>
     <message>
         <source>Translations</source>
-        <translation>Käännökset</translation>
+        <translation type="obsolete">Käännökset</translation>
     </message>
     <message>
         <source>Creator</source>
-        <translation>Tekijä</translation>
+        <translation type="obsolete">Tekijä</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation>Muokattu</translation>
+        <translation type="obsolete">Muokattu</translation>
     </message>
     <message>
         <source>Draft</source>
-        <translation>Luonnos</translation>
+        <translation type="obsolete">Luonnos</translation>
     </message>
     <message>
         <source>Published</source>
-        <translation>Julkaistu</translation>
+        <translation type="obsolete">Julkaistu</translation>
     </message>
     <message>
         <source>Pending</source>
-        <translation>Odottaa</translation>
+        <translation type="obsolete">Odottaa</translation>
     </message>
     <message>
         <source>Archived</source>
-        <translation>Arkistoitu</translation>
+        <translation type="obsolete">Arkistoitu</translation>
     </message>
     <message>
         <source>Rejected</source>
-        <translation>Hylätty</translation>
+        <translation type="obsolete">Hylätty</translation>
     </message>
     <message>
         <source>Untouched draft</source>
-        <translation>Koskematon luonnos</translation>
+        <translation type="obsolete">Koskematon luonnos</translation>
     </message>
     <message>
         <source>Inline changes</source>
-        <translation>Tekstimuutokset</translation>
+        <translation type="obsolete">Tekstimuutokset</translation>
     </message>
     <message>
         <source>Block changes</source>
-        <translation>Estä muutokset</translation>
+        <translation type="obsolete">Estä muutokset</translation>
     </message>
     <message>
         <source>Old version</source>
-        <translation>Vanha versio</translation>
+        <translation type="obsolete">Vanha versio</translation>
     </message>
     <message>
         <source>New version</source>
-        <translation>Uusi versio</translation>
+        <translation type="obsolete">Uusi versio</translation>
     </message>
     <message>
         <source>Versions for &lt;%object_name&gt; (%version_count)</source>
-        <translation>Versiot &lt;%object_name&gt; (%version_count)</translation>
+        <translation type="obsolete">Versiot &lt;%object_name&gt; (%version_count)</translation>
     </message>
 </context>
 <context>
@@ -2240,6 +2240,10 @@
     <message>
         <source>Related content (%related_objects)</source>
         <translation>Samankaltaiset sisällöt (%related_objects)</translation>
+    </message>
+    <message>
+        <source>View the draft that is being edited.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4129,35 +4133,35 @@ Parametrit ovat linkin alku-ja loppumerkit.</translation>
     <name>design/admin/content/versions</name>
     <message>
         <source>Unable to create new version</source>
-        <translation>Uuden version luonti ei onnistunut</translation>
+        <translation type="obsolete">Uuden version luonti ei onnistunut</translation>
     </message>
     <message>
         <source>Version history limit has been exceeded and no archived version can be removed by the system.</source>
-        <translation>Versiohistorian rajoitus on ylittynyt ja arkistoituja versiota ei voi poistaa järjestelmän toimesta.</translation>
+        <translation type="obsolete">Versiohistorian rajoitus on ylittynyt ja arkistoituja versiota ei voi poistaa järjestelmän toimesta.</translation>
     </message>
     <message>
         <source>You can change your version history settings in content.ini, remove draft versions or edit existing drafts.</source>
-        <translation>Voit vaihtaa versiohistoriasi asetuksia content.ini-tiedostossa, poistaa luonnosversiot tai muokata olemassaolevia luonnoksia.</translation>
+        <translation type="obsolete">Voit vaihtaa versiohistoriasi asetuksia content.ini-tiedostossa, poistaa luonnosversiot tai muokata olemassaolevia luonnoksia.</translation>
     </message>
     <message>
         <source>Versions for &lt;%object_name&gt; [%version_count]</source>
-        <translation>Versiot &lt;%object_name&gt; [%version_count] varten</translation>
+        <translation type="obsolete">Versiot &lt;%object_name&gt; [%version_count] varten</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation>Versio</translation>
+        <translation type="obsolete">Versio</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation>Status</translation>
+        <translation type="obsolete">Status</translation>
     </message>
     <message>
         <source>Creator</source>
-        <translation>Luoja</translation>
+        <translation type="obsolete">Luoja</translation>
     </message>
     <message>
         <source>Created</source>
-        <translation>Luotu</translation>
+        <translation type="obsolete">Luotu</translation>
     </message>
     <message>
         <source>Draft</source>
@@ -4177,63 +4181,63 @@ Parametrit ovat linkin alku-ja loppumerkit.</translation>
     </message>
     <message>
         <source>Rejected</source>
-        <translation>Hylätty</translation>
+        <translation type="obsolete">Hylätty</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation>Muokattu</translation>
+        <translation type="obsolete">Muokattu</translation>
     </message>
     <message>
         <source>Remove selected</source>
-        <translation>Poista valitut</translation>
+        <translation type="obsolete">Poista valitut</translation>
     </message>
     <message>
         <source>Object information</source>
-        <translation>Objektin lisätiedot</translation>
+        <translation type="obsolete">Objektin lisätiedot</translation>
     </message>
     <message>
         <source>ID</source>
-        <translation>ID</translation>
+        <translation type="obsolete">ID</translation>
     </message>
     <message>
         <source>Not yet published</source>
-        <translation>Ei vielä julkaistu</translation>
+        <translation type="obsolete">Ei vielä julkaistu</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation>Muokattu</translation>
+        <translation type="obsolete">Muokattu</translation>
     </message>
     <message>
         <source>Published version</source>
-        <translation>Julkaistu versio</translation>
+        <translation type="obsolete">Julkaistu versio</translation>
     </message>
     <message>
         <source>Select version #%version_number for removal.</source>
-        <translation>Valitse versio #%version_number poistoon.</translation>
+        <translation type="obsolete">Valitse versio #%version_number poistoon.</translation>
     </message>
     <message>
         <source>View the contents of version #%version_number. Translation: %translation.</source>
-        <translation>Näytä version #%version_number sisältö. Käännös: %translation.</translation>
+        <translation type="obsolete">Näytä version #%version_number sisältö. Käännös: %translation.</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopio</translation>
+        <translation type="obsolete">Kopio</translation>
     </message>
     <message>
         <source>Create a copy of version #%version_number.</source>
-        <translation>Luo kopio versiosta #%version_number.</translation>
+        <translation type="obsolete">Luo kopio versiosta #%version_number.</translation>
     </message>
     <message>
         <source>Edit the contents of version #%version_number.</source>
-        <translation>Muokkaa version #%version_number sisältöä.</translation>
+        <translation type="obsolete">Muokkaa version #%version_number sisältöä.</translation>
     </message>
     <message>
         <source>This object does not have any versions.</source>
-        <translation>Tällä objektilla ei ole versioita.</translation>
+        <translation type="obsolete">Tällä objektilla ei ole versioita.</translation>
     </message>
     <message>
         <source>Remove the selected versions from the object.</source>
-        <translation>Poista valitut versiot objektista.</translation>
+        <translation type="obsolete">Poista valitut versiot objektista.</translation>
     </message>
     <message>
         <source>Untouched draft</source>
@@ -4241,51 +4245,51 @@ Parametrit ovat linkin alku-ja loppumerkit.</translation>
     </message>
     <message>
         <source>Back</source>
-        <translation>Takasin</translation>
+        <translation type="obsolete">Takasin</translation>
     </message>
     <message>
         <source>Modified translation</source>
-        <translation>Muokattu käännös</translation>
+        <translation type="obsolete">Muokattu käännös</translation>
     </message>
     <message>
         <source>Version is not a draft</source>
-        <translation>Versio ei ole luonnos</translation>
+        <translation type="obsolete">Versio ei ole luonnos</translation>
     </message>
     <message>
         <source>Version %1 is not available for editing anymore. Only drafts can be edited.</source>
-        <translation>Versio %1 ei ole enää käytettävissä muokkaamista varten. Ainoastaan luonnoksia voi muokata.</translation>
+        <translation type="obsolete">Versio %1 ei ole enää käytettävissä muokkaamista varten. Ainoastaan luonnoksia voi muokata.</translation>
     </message>
     <message>
         <source>To edit this version, first create a copy of it.</source>
-        <translation>Sinun tulee luoda kopio tästä versiosta ennen kuin voit muokata sitä.</translation>
+        <translation type="obsolete">Sinun tulee luoda kopio tästä versiosta ennen kuin voit muokata sitä.</translation>
     </message>
     <message>
         <source>Version is not yours</source>
-        <translation>Versio ei ole sinun</translation>
+        <translation type="obsolete">Versio ei ole sinun</translation>
     </message>
     <message>
         <source>Version %1 was not created by you. You can only edit your own drafts.</source>
-        <translation>Versio %1 ei ole sinun luoma. Voit muokata vain omia luonnoksiasi.</translation>
+        <translation type="obsolete">Versio %1 ei ole sinun luoma. Voit muokata vain omia luonnoksiasi.</translation>
     </message>
     <message>
         <source>Version #%version_number cannot be removed because it is either the published version of the object or because you do not have permission to remove it.</source>
-        <translation>Versiota #%version_number ei voida poistaa, koska se on joko julkaistu versio objektista tai koska sinulla ei ole oikeuksia poistaa sitä.</translation>
+        <translation type="obsolete">Versiota #%version_number ei voida poistaa, koska se on joko julkaistu versio objektista tai koska sinulla ei ole oikeuksia poistaa sitä.</translation>
     </message>
     <message>
         <source>There is no need to make copies of untouched drafts.</source>
-        <translation>Ei ole tarpeellista tehdä kopioita koskemattomista luonnoksista.</translation>
+        <translation type="obsolete">Ei ole tarpeellista tehdä kopioita koskemattomista luonnoksista.</translation>
     </message>
     <message>
         <source>You cannot make copies of versions because you do not have permission to edit the object.</source>
-        <translation>Et voi tehdä kopioita versioista, koska sinulla ei ole oikeuksia muokata objektia.</translation>
+        <translation type="obsolete">Et voi tehdä kopioita versioista, koska sinulla ei ole oikeuksia muokata objektia.</translation>
     </message>
     <message>
         <source>You cannot edit the contents of version #%version_number either because it is not a draft or because you do not have permission to edit the object.</source>
-        <translation>Et voi muokata version #%version_number sisältöä, koska se joko ei ole luonnos tai koska sinulla ei ole oikeuksia objektin muokkaamiseen.</translation>
+        <translation type="obsolete">Et voi muokata version #%version_number sisältöä, koska se joko ei ole luonnos tai koska sinulla ei ole oikeuksia objektin muokkaamiseen.</translation>
     </message>
     <message>
         <source>Versions for &lt;%object_name&gt; (%version_count)</source>
-        <translation>Versiot &lt;%object_name&gt; (%version_count) varten</translation>
+        <translation type="obsolete">Versiot &lt;%object_name&gt; (%version_count) varten</translation>
     </message>
 </context>
 <context>
@@ -4475,6 +4479,14 @@ Parametrit ovat linkin alku-ja loppumerkit.</translation>
     </message>
     <message>
         <source>Object ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dynamic tree menu is disabled for this siteaccess!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Internal errorD</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6136,6 +6148,10 @@ Näppäin</translation>
         <source>last</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Invert selection</source>
+        <translation type="unfinished">Käänteinen valinta</translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view/line</name>
@@ -7253,6 +7269,10 @@ Rapid Application Development (sovelluksen nopea tuottaminen)</translation>
     </message>
     <message>
         <source>States</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>URL management</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -12484,15 +12504,15 @@ Tietokannan uudelleenyrityksien määrä</translation>
     </message>
     <message>
         <source>Valid links [%url_list_count]</source>
-        <translation>Kelvolliset URL-osoitteet [%url_list_count]</translation>
+        <translation type="obsolete">Kelvolliset URL-osoitteet [%url_list_count]</translation>
     </message>
     <message>
         <source>Invalid links [%url_list_count]</source>
-        <translation>Epäkelvolliset URL-osoitteet [%url_list_count]</translation>
+        <translation type="obsolete">Epäkelvolliset URL-osoitteet [%url_list_count]</translation>
     </message>
     <message>
         <source>All links [%url_list_count]</source>
-        <translation>Kaikki URL-osoitteet [%url_list_count]</translation>
+        <translation type="obsolete">Kaikki URL-osoitteet [%url_list_count]</translation>
     </message>
     <message>
         <source>All</source>
@@ -12577,6 +12597,18 @@ Tietokannan uudelleenyrityksien määrä</translation>
     <message>
         <source>All links (%url_list_count)</source>
         <translation>Kaikki URL-osoitteet (%url_list_count)</translation>
+    </message>
+    <message>
+        <source>Valid URLs [%url_list_count]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invalid URLs [%url_list_count]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All URLs [%url_list_count]</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -13378,6 +13410,14 @@ käyttäjätilisi.</translation>
     <message>
         <source>The following information is either missing or invalid</source>
         <translation>Seuraava tieto joko puuttuu tai on epäkelpo</translation>
+    </message>
+    <message>
+        <source>Error : Could not load workflow event &quot;%eventtype&quot; (event type not available)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hint : This can happen when a workflow extension has been disabled</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -14401,6 +14441,13 @@ käyttäjätilisi.</translation>
     <message>
         <source>Minute</source>
         <translation type="obsolete">Minuutti</translation>
+    </message>
+</context>
+<context>
+    <name>design/ezwebin/node/removeobject</name>
+    <message>
+        <source>The items contain more than the maximum possible nodes for subtree removal and will not be deleted. You can remove this subtree using the ezsubtreeremove.php script.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -15751,6 +15798,18 @@ Jos haluat lähettää kommentteja hyväksyjälle tai tarkistaa statuksen, voit 
         <source>Below you will find a list of active translations that content objects may be translated into.</source>
         <translation>Alapuolelta löydät listan aktiivisista käännöksistä, joihin sisältöobjektit voidaan kääntää.</translation>
     </message>
+    <message>
+        <source>Your content is being published</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Publishing finished</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your content is pending an external action</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/browse</name>
@@ -16600,80 +16659,84 @@ Jos haluat lähettää kommentteja hyväksyjälle tai tarkistaa statuksen, voit 
         <source>Your browser does not support html5 audio.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Confirm email</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/diff</name>
     <message>
         <source>Version</source>
-        <translation>Versio</translation>
+        <translation type="obsolete">Versio</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation>Status</translation>
+        <translation type="obsolete">Status</translation>
     </message>
     <message>
         <source>Translations</source>
-        <translation>Käännökset</translation>
+        <translation type="obsolete">Käännökset</translation>
     </message>
     <message>
         <source>Creator</source>
-        <translation>Luoja</translation>
+        <translation type="obsolete">Luoja</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation>Muokattu</translation>
+        <translation type="obsolete">Muokattu</translation>
     </message>
     <message>
         <source>Versions for &lt;%object_name&gt; [%version_count]</source>
-        <translation>Versiot &lt;%object_name&gt; [%version_count]</translation>
+        <translation type="obsolete">Versiot &lt;%object_name&gt; [%version_count]</translation>
     </message>
     <message>
         <source>Draft</source>
-        <translation>Luonnos</translation>
+        <translation type="obsolete">Luonnos</translation>
     </message>
     <message>
         <source>Published</source>
-        <translation>Julkaistu</translation>
+        <translation type="obsolete">Julkaistu</translation>
     </message>
     <message>
         <source>Pending</source>
-        <translation>Odottaa</translation>
+        <translation type="obsolete">Odottaa</translation>
     </message>
     <message>
         <source>Archived</source>
-        <translation>Arkistoitu</translation>
+        <translation type="obsolete">Arkistoitu</translation>
     </message>
     <message>
         <source>Rejected</source>
-        <translation>Hylätty</translation>
+        <translation type="obsolete">Hylätty</translation>
     </message>
     <message>
         <source>Untouched draft</source>
-        <translation>Koskematon luonnos</translation>
+        <translation type="obsolete">Koskematon luonnos</translation>
     </message>
     <message>
         <source>Show differences</source>
-        <translation>Näytä eroavaisuudet</translation>
+        <translation type="obsolete">Näytä eroavaisuudet</translation>
     </message>
     <message>
         <source>Differences between versions %oldVersion and %newVersion</source>
-        <translation>Erot versioiden %oldVersion ja %newVersion välillä</translation>
+        <translation type="obsolete">Erot versioiden %oldVersion ja %newVersion välillä</translation>
     </message>
     <message>
         <source>Inline changes</source>
-        <translation>Avoimet muutokset</translation>
+        <translation type="obsolete">Avoimet muutokset</translation>
     </message>
     <message>
         <source>Block changes</source>
-        <translation>Estä muutokset</translation>
+        <translation type="obsolete">Estä muutokset</translation>
     </message>
     <message>
         <source>Old version</source>
-        <translation>Vanha versio</translation>
+        <translation type="obsolete">Vanha versio</translation>
     </message>
     <message>
         <source>New version</source>
-        <translation>Uusi versio</translation>
+        <translation type="obsolete">Uusi versio</translation>
     </message>
 </context>
 <context>
@@ -17573,74 +17636,74 @@ Jos haluat lähettää kommentteja hyväksyjälle tai tarkistaa statuksen, voit 
     <name>design/standard/content/version</name>
     <message>
         <source>Version</source>
-        <translation>Versio</translation>
+        <translation type="obsolete">Versio</translation>
     </message>
     <message>
         <source>Versions for: %1</source>
-        <translation>Versiot %1 varten</translation>
+        <translation type="obsolete">Versiot %1 varten</translation>
     </message>
     <message>
         <source>Unable to create new version</source>
-        <translation>Uuden version luonti ei onnistunut</translation>
+        <translation type="obsolete">Uuden version luonti ei onnistunut</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation>Muokkaa</translation>
+        <translation type="obsolete">Muokkaa</translation>
     </message>
     <message>
         <source>Copy and edit</source>
-        <translation>Kopioi ja muokkaa</translation>
+        <translation type="obsolete">Kopioi ja muokkaa</translation>
     </message>
     <message>
         <source>Version history limit has been exceeded and no archived version can be removed by the system.</source>
-        <translation>Versiohistoria on ylittynyt ja arkistoituja versioita ei voida poistaa järjestelmän toimesta.</translation>
+        <translation type="obsolete">Versiohistoria on ylittynyt ja arkistoituja versioita ei voida poistaa järjestelmän toimesta.</translation>
     </message>
     <message>
         <source>You can change your version history settings in content.ini, remove draft versions or edit existing drafts.</source>
-        <translation>Voit valita versiohistoria-asetukset content.ini:ssä, poista luonnosversiot tai muokkaa olemassa olevia luonnoksia.</translation>
+        <translation type="obsolete">Voit valita versiohistoria-asetukset content.ini:ssä, poista luonnosversiot tai muokkaa olemassa olevia luonnoksia.</translation>
     </message>
     <message>
         <source>Version %1 is not available for editing any more, only drafts can be edited.</source>
-        <translation>Versio %1 ei ole enää vapaana muokkaamista varten. Ainoastaan luonnoksia voidaan muokata.</translation>
+        <translation type="obsolete">Versio %1 ei ole enää vapaana muokkaamista varten. Ainoastaan luonnoksia voidaan muokata.</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation>Status</translation>
+        <translation type="obsolete">Status</translation>
     </message>
     <message>
         <source>Translations</source>
-        <translation>Käännökset</translation>
+        <translation type="obsolete">Käännökset</translation>
     </message>
     <message>
         <source>Creator</source>
-        <translation>Luoja</translation>
+        <translation type="obsolete">Luoja</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation>Muokattu</translation>
+        <translation type="obsolete">Muokattu</translation>
     </message>
     <message>
         <source>Version is not a draft</source>
-        <translation>Versio ei ole luonnos</translation>
+        <translation type="obsolete">Versio ei ole luonnos</translation>
     </message>
     <message>
         <source>To edit this version, first create a copy of it.</source>
-        <translation>Muokataksesi tätä versiota, luo siitä ensin kopio.</translation>
+        <translation type="obsolete">Muokataksesi tätä versiota, luo siitä ensin kopio.</translation>
     </message>
     <message>
         <source>Version is not yours</source>
-        <translation>Versio ei ole sinun</translation>
+        <translation type="obsolete">Versio ei ole sinun</translation>
     </message>
     <message>
         <source>Version %1 was not created by you. You can only edit your own drafts.</source>
-        <translation>Et luonut versiota %1. Voit vain muokata omia luonnoksiasi.</translation>
+        <translation type="obsolete">Et luonut versiota %1. Voit vain muokata omia luonnoksiasi.</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/versions</name>
     <message>
         <source>This object does not have any versions.</source>
-        <translation>Tällä objektilla ei ole versioita.</translation>
+        <translation type="obsolete">Tällä objektilla ei ole versioita.</translation>
     </message>
 </context>
 <context>
@@ -18557,6 +18620,26 @@ Jos vastaat kyllä, kaikki alemmat kohteet poistetaan myös.</translation>
         <source>Cancel removal</source>
         <translation>Peruuta poisto</translation>
     </message>
+    <message>
+        <source>Please wait while your content is being published</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your content has been published successfully</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View the published item</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Publishing has been deferred to crontab and will be published when the operation resumes. The object is also listed in your dashboard under pending items.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View your pending content</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/menuconfig</name>
@@ -18636,7 +18719,7 @@ Jos vastaat kyllä, kaikki alemmat kohteet poistetaan myös.</translation>
     </message>
     <message>
         <source>Are you sure you want to remove these items?</source>
-        <translation>Oletko varma, että haluat poistaa nämä kohteet?</translation>
+        <translation type="obsolete">Oletko varma, että haluat poistaa nämä kohteet?</translation>
     </message>
     <message>
         <source>%nodename and its %childcount children. %additionalwarning</source>
@@ -24520,15 +24603,15 @@ Tehdäksesi tämän, tulee sinun vaihtaa %chown -komennot Alternative shell -kom
     </message>
     <message>
         <source>All links</source>
-        <translation>Kaikki URL:it</translation>
+        <translation type="obsolete">Kaikki URL:it</translation>
     </message>
     <message>
         <source>Invalid links</source>
-        <translation>Epäkelvot URL:it</translation>
+        <translation type="obsolete">Epäkelvot URL:it</translation>
     </message>
     <message>
         <source>Valid links</source>
-        <translation>Kelvolliset URL:it</translation>
+        <translation type="obsolete">Kelvolliset URL:it</translation>
     </message>
     <message>
         <source>Information on URL</source>
@@ -24553,6 +24636,18 @@ Tehdäksesi tämän, tulee sinun vaihtaa %chown -komennot Alternative shell -kom
     <message>
         <source>This means that the URL is no longer available or has been moved.</source>
         <translation>Tämä tarkoittaa että URL ei ole enää saatavissa tai se on siirretty.</translation>
+    </message>
+    <message>
+        <source>All URLs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invalid URLs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Valid URLs</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -24779,6 +24874,10 @@ tilisi.</translation>
         <source>The new password must be at least %1 characters long. Please retype your new password.</source>
         <translation type="unfinished">Uuden salasanan tulee olla ainakin %1 merkkiä pitkä. Kirjoita uusi salasanasi uudelleen.</translation>
     </message>
+    <message>
+        <source>Your email address has been confirmed. An administrator needs to approve your sign up request, before your login becomes valid.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/user/</name>
@@ -24888,6 +24987,14 @@ tilisi.</translation>
         <source>Username</source>
         <comment>Login name</comment>
         <translation>Käyttäjänimi</translation>
+    </message>
+    <message>
+        <source>Your registration has been approved. You can login with your account %username.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click the following URL to login:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -25600,6 +25707,13 @@ tilisi.</translation>
     <message>
         <source>Language</source>
         <translation>Kieli</translation>
+    </message>
+</context>
+<context>
+    <name>design/starndard/node</name>
+    <message>
+        <source>Are you sure you want to remove these items?</source>
+        <translation type="unfinished">Oletko varma, että haluat poistaa nämä kohteet?</translation>
     </message>
 </context>
 <context>
@@ -26416,6 +26530,11 @@ Jos valitsit asetuksen &quot;%3&quot; asetuksesta &quot;%4&quot;</translation>
         <comment>eZUserType</comment>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>The emails do not match.</source>
+        <comment>eZUserType</comment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>kernel/classes/datatypes/ezbinaryfile</name>
@@ -26568,7 +26687,7 @@ Jos valitsit asetuksen &quot;%3&quot; asetuksesta &quot;%4&quot;</translation>
     </message>
     <message>
         <source>Versions</source>
-        <translation type="unfinished">Versiot</translation>
+        <translation type="obsolete">Versiot</translation>
     </message>
     <message>
         <source>My bookmarks</source>
@@ -26640,7 +26759,7 @@ Jos valitsit asetuksen &quot;%3&quot; asetuksesta &quot;%4&quot;</translation>
     </message>
     <message>
         <source>Differences</source>
-        <translation type="unfinished">Erot</translation>
+        <translation type="obsolete">Erot</translation>
     </message>
     <message>
         <source>Remove translation</source>
@@ -26720,6 +26839,10 @@ Jos valitsit asetuksen &quot;%3&quot; asetuksesta &quot;%4&quot;</translation>
     </message>
     <message>
         <source>You have already sent a tipafriend mail to this receiver regarding &apos;%1&apos; content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Publishing queue</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -26887,6 +27010,14 @@ Jos valitsit asetuksen &quot;%3&quot; asetuksesta &quot;%4&quot;</translation>
     <message>
         <source>The size of the uploaded file exceeds the limit set for this site: %1 bytes.</source>
         <translation type="unfinished">Ladatun tiedoston koko ylittää sivulle määrätyn rajan: %1 bittiä.</translation>
+    </message>
+    <message>
+        <source>The uploaded file size is above the maximum limit.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A system error occured while writing the uploaded file.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -27985,6 +28116,10 @@ Jos valitsit asetuksen &quot;%3&quot; asetuksesta &quot;%4&quot;</translation>
         <source>New user registered</source>
         <translation type="unfinished">Uusi rekisteröity käyttäjä</translation>
     </message>
+    <message>
+        <source>User registration approved</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>kernel/workflow</name>
@@ -28073,6 +28208,10 @@ Jos valitsit asetuksen &quot;%3&quot; asetuksesta &quot;%4&quot;</translation>
     <message>
         <source>Payment Gateway</source>
         <translation type="unfinished">Hintaportti</translation>
+    </message>
+    <message>
+        <source>Finish User Registration</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

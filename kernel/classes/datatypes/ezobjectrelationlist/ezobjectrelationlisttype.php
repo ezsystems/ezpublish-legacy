@@ -190,22 +190,22 @@ class eZObjectRelationListType extends eZDataType
         $classContent = $contentClassAttribute->content();
 
         $selectedObjectIDArray = $http->hasPostVariable( $postVariableName ) ? $http->postVariable( $postVariableName ) : false;
-        
+
         // If we got an empty object id list
         if ( ( $selectedObjectIDArray === false && $classContent['selection_type'] != 0 ) || ( isset( $selectedObjectIDArray[0] ) && $selectedObjectIDArray[0] === 'no_relation' ) )
         {
             $content['relation_list'] = array();
-        	$contentObjectAttribute->setContent( $content );
+            $contentObjectAttribute->setContent( $content );
             $contentObjectAttribute->store();
             return true;
         }
 
-        // Check if selection type is not browse 
+        // Check if selection type is not browse
         if ( $classContent['selection_type'] != 0 )
         {
             $priority = 0;
             $content['relation_list'] = array();
-        	foreach ( $selectedObjectIDArray as $objectID )
+            foreach ( $selectedObjectIDArray as $objectID )
             {
                 // Check if the given object ID has a numeric value, if not go to the next object.
                 if ( !is_numeric( $objectID ) )
@@ -242,10 +242,10 @@ class eZObjectRelationListType extends eZDataType
                 }
                 for ( $y = 0, $c = count( $content['relation_list'] ); $y < $c; ++$y )
                 {
-                	if ( $objectID == $content['relation_list'][$y]['contentobject_id'] )
-                	{
-                		continue 2;
-                	}
+                    if ( $objectID == $content['relation_list'][$y]['contentobject_id'] )
+                    {
+                        continue 2;
+                    }
                 }
                 $content['relation_list'][] = $this->appendObject( $objectID, $priorities[$contentObjectAttributeID][$x], $contentObjectAttribute );
             }
@@ -1489,7 +1489,7 @@ class eZObjectRelationListType extends eZDataType
             } break;
             default:
             {
-                eZDebug::writeError( "Unknown objectrelationlist action '$action'", 'eZContentObjectRelationListType::customClassAttributeHTTPAction' );
+                eZDebug::writeError( "Unknown objectrelationlist action '$action'", __METHOD__ );
             } break;
         }
     }

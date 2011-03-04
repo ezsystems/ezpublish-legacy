@@ -272,8 +272,7 @@ class eZImageHandler
         $success = false;
         $oldmask = umask( 0 );
         if ( !chmod( $filepath, octdec( $perm ) ) )
-            eZDebug::writeError( "Chmod $perm $filepath failed",
-                                 'eZImageHandler::changeFilePermissions' );
+            eZDebug::writeError( "Chmod $perm $filepath failed", __METHOD__ );
         else
             $success = true;
         umask( $oldmask );

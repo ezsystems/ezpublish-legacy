@@ -470,7 +470,7 @@ class eZEnumType extends eZDataType
         }
         else
         {
-            eZDebug::writeError( "Can't find attributes for enumeration", 'eZEnumType::unserializeContentObjectAttribute' );
+            eZDebug::writeError( "Can't find attributes for enumeration", __METHOD__ );
         }
     }
 

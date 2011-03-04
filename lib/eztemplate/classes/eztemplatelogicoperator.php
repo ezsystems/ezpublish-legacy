@@ -794,7 +794,7 @@ class eZTemplateLogicOperator
             {
                 if ( $value === null )
                     $index = 0;
-            	else if ( is_array( $value ) or
+                else if ( is_array( $value ) or
                      ( is_object( $value ) and
                        method_exists( $value, "attributes" ) ) )
                 {
@@ -911,6 +911,6 @@ class eZTemplateLogicOperator
     public $FalseName;
     /// The "choose" name
     public $ChooseName;
-};
+}
 
 ?>

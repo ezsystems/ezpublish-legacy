@@ -143,15 +143,13 @@ class eZINIAddonPackageHandler extends eZPackageHandler
 
                 default:
                 {
-                    eZDebug::writeError( 'Unknown remote id type ' . $remoteIDType,
-                                         'eZINIAddonPackageHandler::currentID()' );
+                    eZDebug::writeError( 'Unknown remote id type ' . $remoteIDType, __METHOD__ );
                 } break;
             }
 
             if ( count( $result ) != 1 )
             {
-                eZDebug::writeError( 'Invalid result fetching id from ' . $remoteIDType . ', remote_id: ' . $value,
-                                     'eZINIAddonPackageHandler::currentID()' );
+                eZDebug::writeError( 'Invalid result fetching id from ' . $remoteIDType . ', remote_id: ' . $value, __METHOD__ );
             }
             else
             {
@@ -256,8 +254,7 @@ class eZINIAddonPackageHandler extends eZPackageHandler
                             }
                             else
                             {
-                                eZDebug::writeNotice( 'Could not interpret ' . $valueName . ': ' . $value,
-                                                      'eZINIAddonPackageHandler::iniDOMTree()' );
+                                eZDebug::writeNotice( 'Could not interpret ' . $valueName . ': ' . $value, __METHOD__ );
                             }
                         }
                         if ( $remoteID )
@@ -289,8 +286,7 @@ class eZINIAddonPackageHandler extends eZPackageHandler
                         }
                         else
                         {
-                            eZDebug::writeNotice( 'Could not interpret ' . $blockVariable . ': ' . $variableValue,
-                                                  'eZINIAddonPackageHandler::iniDOMTree()' );
+                            eZDebug::writeNotice( 'Could not interpret ' . $blockVariable . ': ' . $variableValue, __METHOD__ );
                         }
                     }
                     unset( $valueNode );

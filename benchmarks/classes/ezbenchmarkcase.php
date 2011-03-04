@@ -56,7 +56,6 @@
   For running the marks you must pass the case to an eZBenchmarkRunner instance.
 
   \code
-//include_once( 'benchmarks/classes/ezbenchmarkcase.php' );
 class MyTest extends eZBenchmarkCase
 {
     function MyTest()
@@ -85,7 +84,6 @@ $runner->run( $case );
 */
 
 require_once( 'lib/ezutils/classes/ezdebug.php' );
-//include_once( 'benchmarks/classes/ezbenchmarkunit.php' );
 
 class eZBenchmarkCase extends eZBenchmarkUnit
 {
@@ -101,8 +99,7 @@ class eZBenchmarkCase extends eZBenchmarkUnit
     {
         if ( !method_exists( $this, $method ) )
         {
-            eZDebug::writeWarning( "Mark method $method in mark " . $this->Name . " does not exist, cannot add",
-                                   'eZBenchmarkCase::addMark' );
+            eZDebug::writeWarning( "Mark method $method in mark " . $this->Name . " does not exist, cannot add", __METHOD__ );
         }
         if ( !$name )
             $name = $method;
@@ -116,8 +113,7 @@ class eZBenchmarkCase extends eZBenchmarkUnit
     {
         if ( !function_exists( $function ) )
         {
-            eZDebug::writeWarning( "Mark function $method does not exist, cannot add to mark " . $this->Name,
-                                   'eZBenchmarkCase::addFunctionMark' );
+            eZDebug::writeWarning( "Mark function $method does not exist, cannot add to mark " . $this->Name, __METHOD__ );
         }
         if ( !$name )
             $name = $function;

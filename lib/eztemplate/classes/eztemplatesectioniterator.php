@@ -134,7 +134,7 @@ class eZTemplateSectionIterator
         {
             return $item->attribute( $name );
         }
-        eZDebug::writeError( "Attribute '$name' does not exist", 'eZTemplateSectionIterator::attribute' );
+        eZDebug::writeError( "Attribute '$name' does not exist", __METHOD__ );
         return null;
     }
 

@@ -72,7 +72,7 @@ define( 'EZ_DROP_CONTENTCLASS_ATTRIBUTE_TMP_TABLE_SQL',
 
 /**
  * Class used to store some of the command line arguments
- **/
+ */
 class CommandLineArguments
 {
     protected static $iconvCharacterSet = false;
@@ -383,7 +383,7 @@ function checkDBDriver()
 function checkDBCharset( $iconvCharacterSet )
 {
     $db = eZDB::instance();
-    
+
     if ( $iconvCharacterSet !== false )
     {
         $dbCharset = $iconvCharacterSet;
@@ -985,7 +985,7 @@ function convertXMLCustomDataProgress( $row )
  * For some reason, some utf8 encoded text stored in the db might contain
  * illegal utf8 characters.
  * This function will strip/replace such known characters
- **/
+ */
 function removeIllegalUTF8Characters( $text )
 {
     // 0xE2 0x80 0x3F seems to be some kind of quote, replacing it with '
@@ -1030,7 +1030,7 @@ function convertXMLData( $tableInfo, $xmlDataSelectSQLFunction, $xmlDataUpdateSQ
                 // Encoding for xml was not found. Let's now check if it is in utf8
                 // We do this by converting the document from utf8 to utf8
                 // If the size is *not* the same, then it is not in utf8
-                
+
                 $xmlStringTest = removeIllegalUTF8Characters( $xmlStringTest );
                 $encodedXMLTest = iconv( 'utf8', 'utf8', $xmlStringTest );
                 if ( strlen( $encodedXMLTest ) <> strlen( $xmlStringTest ) )

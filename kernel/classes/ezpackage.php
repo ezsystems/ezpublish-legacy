@@ -65,7 +65,7 @@ class eZPackage
 
     /**
      * Removes the package directory and all it's subfiles/directories.
-    **/
+     */
     function remove()
     {
         $path = $this->path();
@@ -307,7 +307,7 @@ class eZPackage
             return ( $repositoryInformation['type'] == 'local' );
         }
 
-        eZDebug::writeError( "No such attribute: $attributeName for eZPackage", 'eZPackage::attribute' );
+        eZDebug::writeError( "No such attribute: $attributeName for eZPackage", __METHOD__ );
         return null;
     }
 
@@ -1125,7 +1125,7 @@ class eZPackage
      *
      * @return eZPackage The eZPackage object if successfull, or one of the
      *         STATUS_* class constants if an error occurs
-     **/
+     */
     static function import( $archiveName, &$packageName, $dbAvailable = true, $repositoryID = false )
     {
         if ( is_dir( $archiveName ) )
@@ -1275,7 +1275,7 @@ class eZPackage
         }
         else
         {
-            eZDebug::writeError( "Saving DOM tree to $filename failed", 'eZPackage::storeDOM' );
+            eZDebug::writeError( "Saving DOM tree to $filename failed", __METHOD__ );
         }
 
         return false;
@@ -1859,7 +1859,7 @@ class eZPackage
                     }
                     else
                     {
-                        eZDebug::writeError( "Failed fetching dom from file $filepath", 'eZPackage::installItem' );
+                        eZDebug::writeError( "Failed fetching dom from file $filepath", __METHOD__ );
                     }
                 }
             }
@@ -1880,7 +1880,7 @@ class eZPackage
      * @param array $installParameters
      *
      * @return bool true if all items installed correctly, false otherwise
-     **/
+     */
     function install( &$installParameters )
     {
         if ( $this->Parameters['install_type'] != 'install' )
@@ -1934,7 +1934,7 @@ class eZPackage
                     }
                     else
                     {
-                        eZDebug::writeError( "Failed fetching dom from file $filepath", 'eZPackage::uninstallItem' );
+                        eZDebug::writeError( "Failed fetching dom from file $filepath", __METHOD__ );
                     }
                 }
             }
@@ -2902,7 +2902,7 @@ class eZPackage
      *
      * \static
      * \return Package version (string).
-    */
+     */
     function getVersion()
     {
         return $this->Parameters['version-number'] . '-' . $this->Parameters['release-number'];
@@ -2998,7 +2998,7 @@ class eZPackage
             }
             else
             {
-                eZDebug::writeWarning( "Unable to fetch package '$packageName'", 'eZPackage::languageInfoFromPackageList' );
+                eZDebug::writeWarning( "Unable to fetch package '$packageName'", __METHOD__ );
             }
         }
 

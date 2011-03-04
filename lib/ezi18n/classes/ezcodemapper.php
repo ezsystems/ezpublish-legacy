@@ -91,7 +91,7 @@ class eZCodeMapper
         }
         else
         {
-            eZDebug::writeError( $str, 'eZCodeMapper::error' );
+            eZDebug::writeError( $str, __METHOD__ );
         }
     }
 
@@ -115,7 +115,7 @@ class eZCodeMapper
         }
         else
         {
-            eZDebug::writeWarning( $str, 'eZCodeMapper::warning' );
+            eZDebug::writeWarning( $str, __METHOD__ );
         }
     }
 
@@ -1529,8 +1529,7 @@ class eZCodeMapper
                 {
                     break;
                 }
-                eZDebug::writeError( "Unknown command '$name'",
-                                     'eZCharTransform::decodeCommand' );
+                eZDebug::writeError( "Unknown command '$name'", __METHOD__ );
             } break;
         }
         return $rules;
@@ -1583,7 +1582,6 @@ class eZCodeMapper
             if ( !in_array( $charsetName, $nonCJKCharsets ) )
             {
                 $code .= ( '// add N-Gram(N=2)  chinese / japanese / korean multibyte characters' . "\n" .
-                           '//include_once( \'lib/ezi18n/classes/eztextcodec.php\' );' . "\n" .
                            '$codec = eZTextCodec::instance( false, \'unicode\' );' . "\n" .
                            "\n" .
                            '$unicodeValueArray = $codec->convertString( $text );' . "\n" .

@@ -237,15 +237,13 @@ class eZCharTransform
         $groups = $ini->variable( 'Transformation', 'Groups' );
         if ( !in_array( $group, $groups ) )
         {
-            eZDebug::writeError( "Transformation group $group is not part of the active group list Groups in transform.ini",
-                                 'eZCharTransform::groupCommands' );
+            eZDebug::writeError( "Transformation group $group is not part of the active group list Groups in transform.ini", __METHOD__ );
             return false;
         }
 
         if ( !$ini->hasGroup( $group ) )
         {
-            eZDebug::writeError( "Transformation group $group is missing in transform.ini",
-                                 'eZCharTransform::groupCommands' );
+            eZDebug::writeError( "Transformation group $group is missing in transform.ini", __METHOD__ );
             return false;
         }
 

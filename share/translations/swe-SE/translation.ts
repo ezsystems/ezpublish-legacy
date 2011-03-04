@@ -1653,79 +1653,75 @@
     <name>design/admin/content/diff</name>
     <message>
         <source>Versions for &lt;%object_name&gt; [%version_count]</source>
-        <translation type="unfinished">Versioner för &lt;%object_name&gt; [%version_count]</translation>
+        <translation type="obsolete">Versioner för &lt;%object_name&gt; [%version_count]</translation>
     </message>
     <message>
         <source>Show differences</source>
-        <translation type="unfinished">Visa skillnader</translation>
+        <translation type="obsolete">Visa skillnader</translation>
     </message>
     <message>
         <source>Differences between versions %oldVersion and %newVersion</source>
-        <translation type="unfinished">Skillnader mellan versionerna %oldVersion och %newVersion</translation>
+        <translation type="obsolete">Skillnader mellan versionerna %oldVersion och %newVersion</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished">Version</translation>
+        <translation type="obsolete">Version</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation type="unfinished">Status</translation>
+        <translation type="obsolete">Status</translation>
     </message>
     <message>
         <source>Translations</source>
-        <translation type="unfinished">Översättningar</translation>
-    </message>
-    <message>
-        <source>Creator</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Översättningar</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation type="unfinished">Modifierad</translation>
+        <translation type="obsolete">Modifierad</translation>
     </message>
     <message>
         <source>Draft</source>
-        <translation type="unfinished">Utkast</translation>
+        <translation type="obsolete">Utkast</translation>
     </message>
     <message>
         <source>Published</source>
-        <translation type="unfinished">Publicerad</translation>
+        <translation type="obsolete">Publicerad</translation>
     </message>
     <message>
         <source>Pending</source>
-        <translation type="unfinished">Väntar</translation>
+        <translation type="obsolete">Väntar</translation>
     </message>
     <message>
         <source>Archived</source>
-        <translation type="unfinished">Arkiverad</translation>
+        <translation type="obsolete">Arkiverad</translation>
     </message>
     <message>
         <source>Rejected</source>
-        <translation type="unfinished">Avslagen</translation>
+        <translation type="obsolete">Avslagen</translation>
     </message>
     <message>
         <source>Untouched draft</source>
-        <translation type="unfinished">Obearbetat utkast</translation>
+        <translation type="obsolete">Obearbetat utkast</translation>
     </message>
     <message>
         <source>Inline changes</source>
-        <translation type="unfinished">Infogade ändringar</translation>
+        <translation type="obsolete">Infogade ändringar</translation>
     </message>
     <message>
         <source>Block changes</source>
-        <translation type="unfinished">Spärra ändringar</translation>
+        <translation type="obsolete">Spärra ändringar</translation>
     </message>
     <message>
         <source>Old version</source>
-        <translation type="unfinished">Gammal version</translation>
+        <translation type="obsolete">Gammal version</translation>
     </message>
     <message>
         <source>New version</source>
-        <translation type="unfinished">Ny version</translation>
+        <translation type="obsolete">Ny version</translation>
     </message>
     <message>
         <source>Versions for &lt;%object_name&gt; (%version_count)</source>
-        <translation type="unfinished">Versioner för &lt;%object_name&gt; (%version_count)</translation>
+        <translation type="obsolete">Versioner för &lt;%object_name&gt; (%version_count)</translation>
     </message>
 </context>
 <context>
@@ -2241,6 +2237,10 @@ Filtyp</translation>
     <message>
         <source>Related content (%related_objects)</source>
         <translation>Relaterat innehåll (%related_objects)</translation>
+    </message>
+    <message>
+        <source>View the draft that is being edited.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4118,35 +4118,35 @@ Parametrarna är länk start och sluttaggar.</translation>
     <name>design/admin/content/versions</name>
     <message>
         <source>Unable to create new version</source>
-        <translation>Kan inte skapa ny version</translation>
+        <translation type="obsolete">Kan inte skapa ny version</translation>
     </message>
     <message>
         <source>Version history limit has been exceeded and no archived version can be removed by the system.</source>
-        <translation>Versionshistoriebegränsningen har överskridits och ingen arkiverad version kan tas bort av systemet.</translation>
+        <translation type="obsolete">Versionshistoriebegränsningen har överskridits och ingen arkiverad version kan tas bort av systemet.</translation>
     </message>
     <message>
         <source>You can change your version history settings in content.ini, remove draft versions or edit existing drafts.</source>
-        <translation>Du kan ändra versionshistorikinställningarna i content.ini, ta bort utkastversioner eller redigera existerande utkast.</translation>
+        <translation type="obsolete">Du kan ändra versionshistorikinställningarna i content.ini, ta bort utkastversioner eller redigera existerande utkast.</translation>
     </message>
     <message>
         <source>Versions for &lt;%object_name&gt; [%version_count]</source>
-        <translation>Versioner för &lt;%object_name&gt; [%version_count]</translation>
+        <translation type="obsolete">Versioner för &lt;%object_name&gt; [%version_count]</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation>Version</translation>
+        <translation type="obsolete">Version</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation>Status</translation>
+        <translation type="obsolete">Status</translation>
     </message>
     <message>
         <source>Creator</source>
-        <translation>Skapare</translation>
+        <translation type="obsolete">Skapare</translation>
     </message>
     <message>
         <source>Created</source>
-        <translation>Skapad</translation>
+        <translation type="obsolete">Skapad</translation>
     </message>
     <message>
         <source>Draft</source>
@@ -4166,63 +4166,63 @@ Parametrarna är länk start och sluttaggar.</translation>
     </message>
     <message>
         <source>Rejected</source>
-        <translation>Avslagen</translation>
+        <translation type="obsolete">Avslagen</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation>Redigera</translation>
+        <translation type="obsolete">Redigera</translation>
     </message>
     <message>
         <source>Remove selected</source>
-        <translation>Ta bort markerade</translation>
+        <translation type="obsolete">Ta bort markerade</translation>
     </message>
     <message>
         <source>Object information</source>
-        <translation>Objektsinformation</translation>
+        <translation type="obsolete">Objektsinformation</translation>
     </message>
     <message>
         <source>ID</source>
-        <translation>ID</translation>
+        <translation type="obsolete">ID</translation>
     </message>
     <message>
         <source>Not yet published</source>
-        <translation>Inte publicerad än</translation>
+        <translation type="obsolete">Inte publicerad än</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation>Modifierad</translation>
+        <translation type="obsolete">Modifierad</translation>
     </message>
     <message>
         <source>Published version</source>
-        <translation>Publiceringsversion</translation>
+        <translation type="obsolete">Publiceringsversion</translation>
     </message>
     <message>
         <source>Select version #%version_number for removal.</source>
-        <translation>Vald utkastsversion #%version_number för radering.</translation>
+        <translation type="obsolete">Vald utkastsversion #%version_number för radering.</translation>
     </message>
     <message>
         <source>View the contents of version #%version_number. Translation: %translation.</source>
-        <translation>Se innehållet på version #%version_number. Översättning: %translation.</translation>
+        <translation type="obsolete">Se innehållet på version #%version_number. Översättning: %translation.</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopiera</translation>
+        <translation type="obsolete">Kopiera</translation>
     </message>
     <message>
         <source>Create a copy of version #%version_number.</source>
-        <translation>Skapa en kopia av version #%version_number.</translation>
+        <translation type="obsolete">Skapa en kopia av version #%version_number.</translation>
     </message>
     <message>
         <source>Edit the contents of version #%version_number.</source>
-        <translation>Ändra innehållet av version #%version_number.</translation>
+        <translation type="obsolete">Ändra innehållet av version #%version_number.</translation>
     </message>
     <message>
         <source>This object does not have any versions.</source>
-        <translation>Det här objektet har inga versioner.</translation>
+        <translation type="obsolete">Det här objektet har inga versioner.</translation>
     </message>
     <message>
         <source>Remove the selected versions from the object.</source>
-        <translation>Radera valda versioner från objektet.</translation>
+        <translation type="obsolete">Radera valda versioner från objektet.</translation>
     </message>
     <message>
         <source>Untouched draft</source>
@@ -4230,51 +4230,47 @@ Parametrarna är länk start och sluttaggar.</translation>
     </message>
     <message>
         <source>Back</source>
-        <translation type="unfinished">Tillbaka</translation>
+        <translation type="obsolete">Tillbaka</translation>
     </message>
     <message>
         <source>Version is not a draft</source>
-        <translation type="unfinished">Versionen är inte ett utkast</translation>
+        <translation type="obsolete">Versionen är inte ett utkast</translation>
     </message>
     <message>
         <source>Version %1 is not available for editing anymore. Only drafts can be edited.</source>
-        <translation type="unfinished">Version %1 är inte tillgängligt för redigering längre. Endast utkast kan redigeras.</translation>
+        <translation type="obsolete">Version %1 är inte tillgängligt för redigering längre. Endast utkast kan redigeras.</translation>
     </message>
     <message>
         <source>To edit this version, first create a copy of it.</source>
-        <translation type="unfinished">För att redigera denna version måste du kopiera den.</translation>
+        <translation type="obsolete">För att redigera denna version måste du kopiera den.</translation>
     </message>
     <message>
         <source>Version is not yours</source>
-        <translation type="unfinished">Versionen är inte din</translation>
+        <translation type="obsolete">Versionen är inte din</translation>
     </message>
     <message>
         <source>Version %1 was not created by you. You can only edit your own drafts.</source>
-        <translation type="unfinished">Version %1 skapades inte av dig. Du kan bara redigera dina egna utkast.</translation>
+        <translation type="obsolete">Version %1 skapades inte av dig. Du kan bara redigera dina egna utkast.</translation>
     </message>
     <message>
         <source>Modified translation</source>
-        <translation type="unfinished">Ändrad översättning</translation>
+        <translation type="obsolete">Ändrad översättning</translation>
     </message>
     <message>
         <source>Version #%version_number cannot be removed because it is either the published version of the object or because you do not have permission to remove it.</source>
-        <translation type="unfinished">Version #%version_number kan inte tas bort eftersom den antingen är den publicerade versionen av objektet eller så har du inte behörighet att ta bort den.</translation>
-    </message>
-    <message>
-        <source>There is no need to make copies of untouched drafts.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Version #%version_number kan inte tas bort eftersom den antingen är den publicerade versionen av objektet eller så har du inte behörighet att ta bort den.</translation>
     </message>
     <message>
         <source>You cannot make copies of versions because you do not have permission to edit the object.</source>
-        <translation type="unfinished">Du kan inte kopiera versioner eftersom du inte har behörighet att redigera objektet.</translation>
+        <translation type="obsolete">Du kan inte kopiera versioner eftersom du inte har behörighet att redigera objektet.</translation>
     </message>
     <message>
         <source>You cannot edit the contents of version #%version_number either because it is not a draft or because you do not have permission to edit the object.</source>
-        <translation type="unfinished">Du kan inte redigera innehållet i version #%version_number eftersom det inte är ett utkast eller så har du inte behörighet att redigera objektet.</translation>
+        <translation type="obsolete">Du kan inte redigera innehållet i version #%version_number eftersom det inte är ett utkast eller så har du inte behörighet att redigera objektet.</translation>
     </message>
     <message>
         <source>Versions for &lt;%object_name&gt; (%version_count)</source>
-        <translation>Versioner för &lt;%object_name&gt; (%version_count)</translation>
+        <translation type="obsolete">Versioner för &lt;%object_name&gt; (%version_count)</translation>
     </message>
 </context>
 <context>
@@ -4465,6 +4461,14 @@ Parametrarna är länk start och sluttaggar.</translation>
     <message>
         <source>Object ID</source>
         <translation type="unfinished">Objekt ID</translation>
+    </message>
+    <message>
+        <source>Dynamic tree menu is disabled for this siteaccess!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Internal errorD</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6125,6 +6129,10 @@ Knapp</translation>
         <source>last</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Invert selection</source>
+        <translation type="unfinished">Invertera val</translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view/line</name>
@@ -7233,6 +7241,10 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>States</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>URL management</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -12457,15 +12469,15 @@ Obs: Paketen avinstalleras inte.</translation>
     </message>
     <message>
         <source>Valid links [%url_list_count]</source>
-        <translation>Fungerande URLer [%url_list_count]</translation>
+        <translation type="obsolete">Fungerande URLer [%url_list_count]</translation>
     </message>
     <message>
         <source>Invalid links [%url_list_count]</source>
-        <translation>Ej fungerande URLer [%url_list_count]</translation>
+        <translation type="obsolete">Ej fungerande URLer [%url_list_count]</translation>
     </message>
     <message>
         <source>All links [%url_list_count]</source>
-        <translation>Alla URLer [%url_list_count]</translation>
+        <translation type="obsolete">Alla URLer [%url_list_count]</translation>
     </message>
     <message>
         <source>All</source>
@@ -12550,6 +12562,18 @@ Obs: Paketen avinstalleras inte.</translation>
     <message>
         <source>All links (%url_list_count)</source>
         <translation>Alla URLer (%url_list_count)</translation>
+    </message>
+    <message>
+        <source>Valid URLs [%url_list_count]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invalid URLs [%url_list_count]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All URLs [%url_list_count]</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -13351,6 +13375,14 @@ ditt konto.</translation>
     <message>
         <source>The following information is either missing or invalid</source>
         <translation type="unfinished">Följande information saknas eller är fel</translation>
+    </message>
+    <message>
+        <source>Error : Could not load workflow event &quot;%eventtype&quot; (event type not available)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hint : This can happen when a workflow extension has been disabled</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -14374,6 +14406,13 @@ ditt konto.</translation>
     <message>
         <source>Minute</source>
         <translation type="obsolete">Minut</translation>
+    </message>
+</context>
+<context>
+    <name>design/ezwebin/node/removeobject</name>
+    <message>
+        <source>The items contain more than the maximum possible nodes for subtree removal and will not be deleted. You can remove this subtree using the ezsubtreeremove.php script.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -15724,6 +15763,18 @@ Om du vill skicka kommentarer till personen som godkänner eller visa statusen, 
         <source>Country/region</source>
         <translation>Land/region</translation>
     </message>
+    <message>
+        <source>Your content is being published</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Publishing finished</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your content is pending an external action</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/browse</name>
@@ -16573,80 +16624,84 @@ Om du vill skicka kommentarer till personen som godkänner eller visa statusen, 
         <source>Your browser does not support html5 audio.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Confirm email</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/content/diff</name>
     <message>
         <source>Version</source>
-        <translation>Version</translation>
+        <translation type="obsolete">Version</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation>Status</translation>
+        <translation type="obsolete">Status</translation>
     </message>
     <message>
         <source>Translations</source>
-        <translation>Översättningar</translation>
+        <translation type="obsolete">Översättningar</translation>
     </message>
     <message>
         <source>Creator</source>
-        <translation>Författare</translation>
+        <translation type="obsolete">Författare</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation>Modifierad</translation>
+        <translation type="obsolete">Modifierad</translation>
     </message>
     <message>
         <source>Versions for &lt;%object_name&gt; [%version_count]</source>
-        <translation>Versioner för &lt;%object_name&gt; [%version_count]</translation>
+        <translation type="obsolete">Versioner för &lt;%object_name&gt; [%version_count]</translation>
     </message>
     <message>
         <source>Draft</source>
-        <translation>Utkast</translation>
+        <translation type="obsolete">Utkast</translation>
     </message>
     <message>
         <source>Published</source>
-        <translation>Publicerad</translation>
+        <translation type="obsolete">Publicerad</translation>
     </message>
     <message>
         <source>Pending</source>
-        <translation>Väntar</translation>
+        <translation type="obsolete">Väntar</translation>
     </message>
     <message>
         <source>Archived</source>
-        <translation>Arkiverad</translation>
+        <translation type="obsolete">Arkiverad</translation>
     </message>
     <message>
         <source>Rejected</source>
-        <translation>Avslagen</translation>
+        <translation type="obsolete">Avslagen</translation>
     </message>
     <message>
         <source>Untouched draft</source>
-        <translation>Obearbetat utkast</translation>
+        <translation type="obsolete">Obearbetat utkast</translation>
     </message>
     <message>
         <source>Show differences</source>
-        <translation>Visa skillnader</translation>
+        <translation type="obsolete">Visa skillnader</translation>
     </message>
     <message>
         <source>Differences between versions %oldVersion and %newVersion</source>
-        <translation>Skillnader mellan versionerna %oldVersion och %newVersion</translation>
+        <translation type="obsolete">Skillnader mellan versionerna %oldVersion och %newVersion</translation>
     </message>
     <message>
         <source>Inline changes</source>
-        <translation>Infogade ändringar</translation>
+        <translation type="obsolete">Infogade ändringar</translation>
     </message>
     <message>
         <source>Block changes</source>
-        <translation>Spärra ändringar</translation>
+        <translation type="obsolete">Spärra ändringar</translation>
     </message>
     <message>
         <source>Old version</source>
-        <translation>Gammal version</translation>
+        <translation type="obsolete">Gammal version</translation>
     </message>
     <message>
         <source>New version</source>
-        <translation>Ny version</translation>
+        <translation type="obsolete">Ny version</translation>
     </message>
 </context>
 <context>
@@ -17546,74 +17601,74 @@ Om du vill skicka kommentarer till personen som godkänner eller visa statusen, 
     <name>design/standard/content/version</name>
     <message>
         <source>Edit</source>
-        <translation>Redigera</translation>
+        <translation type="obsolete">Redigera</translation>
     </message>
     <message>
         <source>Copy and edit</source>
-        <translation>Kopiera och redigera</translation>
+        <translation type="obsolete">Kopiera och redigera</translation>
     </message>
     <message>
         <source>Versions for: %1</source>
-        <translation>Versioner för: %1</translation>
+        <translation type="obsolete">Versioner för: %1</translation>
     </message>
     <message>
         <source>Unable to create new version</source>
-        <translation>Kan inte skapa ny version</translation>
+        <translation type="obsolete">Kan inte skapa ny version</translation>
     </message>
     <message>
         <source>Version history limit has been exceeded and no archived version can be removed by the system.</source>
-        <translation>Versionshistoriebegränsningen har överskridits och ingen arkiverad version kan tas bort av systemet.</translation>
+        <translation type="obsolete">Versionshistoriebegränsningen har överskridits och ingen arkiverad version kan tas bort av systemet.</translation>
     </message>
     <message>
         <source>You can change your version history settings in content.ini, remove draft versions or edit existing drafts.</source>
-        <translation>DU kan ändra versionshistorieinställningarna i content.ini, ta bort utkastversioner eller redigera existerande utkast.</translation>
+        <translation type="obsolete">DU kan ändra versionshistorieinställningarna i content.ini, ta bort utkastversioner eller redigera existerande utkast.</translation>
     </message>
     <message>
         <source>Version %1 is not available for editing any more, only drafts can be edited.</source>
-        <translation>Version %1 är inte tillgängligt för redigering längre; endast utkast kan redigeras.</translation>
+        <translation type="obsolete">Version %1 är inte tillgängligt för redigering längre; endast utkast kan redigeras.</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation>Version</translation>
+        <translation type="obsolete">Version</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation>Status</translation>
+        <translation type="obsolete">Status</translation>
     </message>
     <message>
         <source>Translations</source>
-        <translation>Översättningar</translation>
+        <translation type="obsolete">Översättningar</translation>
     </message>
     <message>
         <source>Creator</source>
-        <translation>Författare</translation>
+        <translation type="obsolete">Författare</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation>Modifierad</translation>
+        <translation type="obsolete">Modifierad</translation>
     </message>
     <message>
         <source>Version is not a draft</source>
-        <translation>Versionen är inte ett utkast</translation>
+        <translation type="obsolete">Versionen är inte ett utkast</translation>
     </message>
     <message>
         <source>To edit this version, first create a copy of it.</source>
-        <translation>För att redigera denna version måste du kopiera den.</translation>
+        <translation type="obsolete">För att redigera denna version måste du kopiera den.</translation>
     </message>
     <message>
         <source>Version is not yours</source>
-        <translation>Versionen är inte din</translation>
+        <translation type="obsolete">Versionen är inte din</translation>
     </message>
     <message>
         <source>Version %1 was not created by you. You can only edit your own drafts.</source>
-        <translation>Version %1 skapades inte av dig. Du kan bara redigera dina egna utkast.</translation>
+        <translation type="obsolete">Version %1 skapades inte av dig. Du kan bara redigera dina egna utkast.</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/versions</name>
     <message>
         <source>This object does not have any versions.</source>
-        <translation>Det här objektet har inga versioner.</translation>
+        <translation type="obsolete">Det här objektet har inga versioner.</translation>
     </message>
 </context>
 <context>
@@ -18526,6 +18581,26 @@ Om du gör det kommer också underobjekt att raderas.</translation>
         <source>Cancel removal</source>
         <translation>Ångra radering</translation>
     </message>
+    <message>
+        <source>Please wait while your content is being published</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your content has been published successfully</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View the published item</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Publishing has been deferred to crontab and will be published when the operation resumes. The object is also listed in your dashboard under pending items.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View your pending content</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/menuconfig</name>
@@ -18605,7 +18680,7 @@ Om du gör det kommer också underobjekt att raderas.</translation>
     </message>
     <message>
         <source>Are you sure you want to remove these items?</source>
-        <translation>Är du säker att du vill radera dessa objekt?</translation>
+        <translation type="obsolete">Är du säker att du vill radera dessa objekt?</translation>
     </message>
     <message>
         <source>%nodename and its %childcount children. %additionalwarning</source>
@@ -24489,15 +24564,15 @@ För att göra detta måste du ändra %chown kommandona under Alternativa shell-
     </message>
     <message>
         <source>All links</source>
-        <translation>Alla adresser</translation>
+        <translation type="obsolete">Alla adresser</translation>
     </message>
     <message>
         <source>Invalid links</source>
-        <translation>Ogiltiga adresser</translation>
+        <translation type="obsolete">Ogiltiga adresser</translation>
     </message>
     <message>
         <source>Valid links</source>
-        <translation>Giltiga adresser</translation>
+        <translation type="obsolete">Giltiga adresser</translation>
     </message>
     <message>
         <source>Information on URL</source>
@@ -24522,6 +24597,18 @@ För att göra detta måste du ändra %chown kommandona under Alternativa shell-
     <message>
         <source>This means that the URL is no longer available or has been moved.</source>
         <translation>Det betyder att adressen inte är tillgänglig längre eller har blivit flyttad.</translation>
+    </message>
+    <message>
+        <source>All URLs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invalid URLs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Valid URLs</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -24748,6 +24835,10 @@ ditt konto.</translation>
         <source>The new password must be at least %1 characters long. Please retype your new password.</source>
         <translation type="unfinished">Det nya lösenordet måste vara minst %1 tecken långt. Var god skriv ditt nya lösenord igen.</translation>
     </message>
+    <message>
+        <source>Your email address has been confirmed. An administrator needs to approve your sign up request, before your login becomes valid.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/user/</name>
@@ -24857,6 +24948,14 @@ ditt konto.</translation>
         <source>Username</source>
         <comment>Login name</comment>
         <translation>Användarnamn</translation>
+    </message>
+    <message>
+        <source>Your registration has been approved. You can login with your account %username.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click the following URL to login:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -25569,6 +25668,13 @@ ditt konto.</translation>
     <message>
         <source>Language</source>
         <translation>Språk</translation>
+    </message>
+</context>
+<context>
+    <name>design/starndard/node</name>
+    <message>
+        <source>Are you sure you want to remove these items?</source>
+        <translation type="unfinished">Är du säker att du vill radera dessa objekt?</translation>
     </message>
 </context>
 <context>
@@ -26385,6 +26491,11 @@ om du valde alternativ &quot;%3&quot; från &quot;%4&quot;</translation>
         <comment>eZUserType</comment>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>The emails do not match.</source>
+        <comment>eZUserType</comment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>kernel/classes/datatypes/ezbinaryfile</name>
@@ -26549,7 +26660,7 @@ om du valde alternativ &quot;%3&quot; från &quot;%4&quot;</translation>
     </message>
     <message>
         <source>Versions</source>
-        <translation type="unfinished">Versioner</translation>
+        <translation type="obsolete">Versioner</translation>
     </message>
     <message>
         <source>My bookmarks</source>
@@ -26605,7 +26716,7 @@ om du valde alternativ &quot;%3&quot; från &quot;%4&quot;</translation>
     </message>
     <message>
         <source>Differences</source>
-        <translation type="unfinished">Skillnader</translation>
+        <translation type="obsolete">Skillnader</translation>
     </message>
     <message>
         <source>Edit</source>
@@ -26689,6 +26800,10 @@ om du valde alternativ &quot;%3&quot; från &quot;%4&quot;</translation>
     </message>
     <message>
         <source>You have already sent a tipafriend mail to this receiver regarding &apos;%1&apos; content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Publishing queue</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -26856,6 +26971,14 @@ om du valde alternativ &quot;%3&quot; från &quot;%4&quot;</translation>
     <message>
         <source>The size of the uploaded file exceeds the limit set for this site: %1 bytes.</source>
         <translation type="unfinished">Den uppladdade filen överstiger gränsen för denna sida: %1 bytes.</translation>
+    </message>
+    <message>
+        <source>The uploaded file size is above the maximum limit.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A system error occured while writing the uploaded file.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -27954,6 +28077,10 @@ om du valde alternativ &quot;%3&quot; från &quot;%4&quot;</translation>
         <source>New user registered</source>
         <translation type="unfinished">Ny användare registrerad</translation>
     </message>
+    <message>
+        <source>User registration approved</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>kernel/workflow</name>
@@ -28042,6 +28169,10 @@ om du valde alternativ &quot;%3&quot; från &quot;%4&quot;</translation>
     <message>
         <source>Payment Gateway</source>
         <translation type="unfinished">Gateway för betalning</translation>
+    </message>
+    <message>
+        <source>Finish User Registration</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

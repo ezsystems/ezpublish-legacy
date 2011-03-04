@@ -306,10 +306,10 @@ class eZIdentifierType extends eZDataType
                   "id=$contentClassAttributeID AND version=0";
 
             $ret[] = $db->query( $updateQuery );
-            
+
             $db->unlock();
             // unlock before we start to update the ezcontentobject_attribute table
-            
+
             $ret[] = eZIdentifierType::storeIdentifierValue( $contentClassAttribute, $contentObjectAttribute, $identifierValue );
 
             if ( !in_array( false, $ret ) )

@@ -98,7 +98,7 @@ class eZPackageFunctionCollection
                         {
                             eZDebug::writeWarning( 'Unknown package filter name: ' . $filterName );
                             continue;
-                        };
+                        }
                     }
                 }
             }
@@ -189,7 +189,7 @@ class eZPackageFunctionCollection
                         {
                             eZDebug::writeWarning( 'Unknown package filter name: ' . $filterName );
                             continue;
-                        };
+                        }
                     }
                 }
             }

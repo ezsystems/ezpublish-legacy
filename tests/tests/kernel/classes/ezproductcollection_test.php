@@ -12,15 +12,15 @@ class eZProductCollectionTest extends ezpDatabaseTestCase
     protected $backupGlobals = false;
 
     /**
-    * Unit test for eZProductCollection::cleanupList()
-    *
-    * Outline:
-    * 1) Create 10 eZProductCollection objects
-    * 2) Pick 5 random ID of created items
-    * 3) Call cleanupList() on these 5 items
-    * 4) Check that the 5 items have been removed
-    * 5) Check that the 5 other items haven't been removed
-    **/
+     * Unit test for eZProductCollection::cleanupList()
+     *
+     * Outline:
+     * 1) Create 10 eZProductCollection objects
+     * 2) Pick 5 random ID of created items
+     * 3) Call cleanupList() on these 5 items
+     * 4) Check that the 5 items have been removed
+     * 5) Check that the 5 other items haven't been removed
+     */
     public function testCleanupList()
     {
         // Create a few collections

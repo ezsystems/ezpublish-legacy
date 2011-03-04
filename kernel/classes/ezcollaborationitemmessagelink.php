@@ -118,7 +118,7 @@ class eZCollaborationItemMessageLink extends eZPersistentObject
 
         if ( !$messageID )
         {
-            eZDebug::writeError( 'No message ID, cannot create link', 'eZCollaborationItemMessageLink::addMessage' );
+            eZDebug::writeError( 'No message ID, cannot create link', __METHOD__ );
             $retValue = null;
             return $retValue;
         }

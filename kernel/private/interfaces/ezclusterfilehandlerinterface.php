@@ -30,7 +30,7 @@
 
 /**
  * Cluster file handlers interface
- **/
+ */
 interface eZClusterFileHandlerInterface
 {
     /**
@@ -56,7 +56,7 @@ interface eZClusterFileHandlerInterface
      * @param string $datatype Datatype for the file. Also used to clean cache up
      *
      * @return void
-     **/
+     */
     public function fileStoreContents( $filePath, $contents, $scope = false, $datatype = false );
 
     /**
@@ -67,7 +67,7 @@ interface eZClusterFileHandlerInterface
      * @param string $datatype Datatype for the file. Also used to clean cache up
      * @param bool $storeLocally If true the file will also be stored on the
      *                           local file system.
-     **/
+     */
     public function storeContents( $contents, $scope = false, $datatype = false, $storeLocally = false );
 
     /**
@@ -144,7 +144,7 @@ interface eZClusterFileHandlerInterface
      * used both the $expiry and $ttl check must hold.
      *
      * @todo Reformat the doc so that it's readable
-     **/
+     */
     public function processCache( $retrieveCallback, $generateCallback = null, $ttl = null, $expiry = null, $extraData = null );
 
     /**
@@ -169,7 +169,7 @@ interface eZClusterFileHandlerInterface
      * @param int    $curtime The current time to check against.
      * @param int    $ttl Number of seconds the data can live, set to null to disable TTL.
      * @return bool
-     **/
+     */
     public function isExpired( $expiry, $curtime, $ttl );
 
     /**
@@ -178,7 +178,7 @@ interface eZClusterFileHandlerInterface
      * @param int    $curtime The current time to check against.
      * @param int    $ttl Number of seconds the data can live, set to null to disable TTL.
      * @return bool
-     **/
+     */
     public function isLocalFileExpired( $expiry, $curtime, $ttl );
 
     /**
@@ -187,7 +187,7 @@ interface eZClusterFileHandlerInterface
      * @param int    $curtime The current time to check against.
      * @param int    $ttl Number of seconds the data can live, set to null to disable TTL.
      * @return bool
-     **/
+     */
     public function isDBFileExpired( $expiry, $curtime, $ttl );
 
     /**
@@ -203,7 +203,7 @@ interface eZClusterFileHandlerInterface
      * @see self::processCache()
      * @note Unlike processCache() this returns null if the file cannot be
      *       accessed.
-     **/
+     */
     public function processFile( $callback, $expiry = false, $extraData = null );
 
     /**
@@ -245,13 +245,13 @@ interface eZClusterFileHandlerInterface
     /**
      * Returns file modification time.
      * @return int|null
-     **/
+     */
     public function mtime();
 
     /**
      * Returns file name.
      * @return string
-     **/
+     */
     public function name();
 
     /**
@@ -287,12 +287,12 @@ interface eZClusterFileHandlerInterface
 
     /**
      * Deletes a file that has been fetched before.
-     **/
+     */
     public function deleteLocal();
 
     /**
      * Purges local and remote file data for current file.
-     **/
+     */
     public function purge( $printCallback = false, $microsleep = false, $max = false, $expiry = false );
 
     /**
@@ -309,7 +309,7 @@ interface eZClusterFileHandlerInterface
      *       returns existance status determined in the constructor.
      *
      * @return bool
-     **/
+     */
     public function exists();
 
     /**
@@ -317,7 +317,7 @@ interface eZClusterFileHandlerInterface
      *
      * @deprecated This function should not be used since it cannot handle
      *             reading errors.
-     **/
+     */
     public function passthrough();
 
     /**
@@ -359,12 +359,12 @@ interface eZClusterFileHandlerInterface
      * with '.generating'.
      *
      * @return bool false if the file is being generated, true if it is not
-     **/
+     */
     public function startCacheGeneration();
 
     /**
      * Ends the cache generation started by startCacheGeneration().
-     **/
+     */
     public function endCacheGeneration( $rename = true );
 
     /**
@@ -372,14 +372,14 @@ interface eZClusterFileHandlerInterface
      *
      * Does so by rolling back the current transaction, which should be the
      * .generating file lock
-     **/
+     */
     public function abortCacheGeneration();
 
     /**
      * Checks if the .generating file was changed, which would mean that generation
      * timed out. If not timed out, refreshes the timestamp so that storage won't
      * be stolen
-     **/
+     */
     public function checkCacheGenerationTimeout();
 
     /**
@@ -390,7 +390,7 @@ interface eZClusterFileHandlerInterface
      * it up or disabling it.
      *
      * @return bool
-     **/
+     */
     public function requiresClusterizing();
 
     /**

@@ -134,7 +134,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
 
         if ( $class == null )
         {
-            eZDebug::writeNotice( "Class having remote id '$classRemoteID' not found.", 'eZContentClassPackageHandler::uninstall()' );
+            eZDebug::writeNotice( "Class having remote id '$classRemoteID' not found.", __METHOD__ );
             return true;
         }
 

@@ -1242,7 +1242,7 @@ class eZDebug
     /**
      * Returns the microtime as a float value. $mtime must be in microtime() format.
      * @deprecated Since 4.4.0, use microtime( true ) instead
-    */
+     */
     static function timeToFloat( $mtime )
     {
         $tTime = explode( " ", $mtime );
@@ -1351,7 +1351,7 @@ class eZDebug
         $key = $key === false ? 'Default Debug-Accumulator' : $key;
         if ( ! array_key_exists( $key, $debug->TimeAccumulatorList ) )
         {
-            eZDebug::writeWarning( "Accumulator '$key' does not exist, run eZDebug::accumulatorStart first", 'eZDebug::accumulatorStop' );
+            eZDebug::writeWarning( "Accumulator '$key' does not exist, run eZDebug::accumulatorStart first", __METHOD__ );
             return;
         }
         $accumulator = $debug->TimeAccumulatorList[$key];
@@ -1785,12 +1785,12 @@ class eZDebug
         $debug->bottomReportsList[$reportName] = $reportContent;
     }
 
-   /**
-    * Loop over all bottom reports and if callable call them with $as_html parameter,
-    * if not output as is (string).
-    *
-    * @param bool $as_html
-    */
+    /**
+     * Loop over all bottom reports and if callable call them with $as_html parameter,
+     * if not output as is (string).
+     *
+     * @param bool $as_html
+     */
     static function printBottomReportsList( $as_html = true )
     {
         $debug = eZDebug::instance();

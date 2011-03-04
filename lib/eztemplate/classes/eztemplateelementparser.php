@@ -591,7 +591,7 @@ class eZTemplateElementParser
         if ( $currentPosition >= $textLength )
             return $currentPosition;
         while( $currentPosition < $textLength and
-               ( $text[$currentPosition] === ' ' 
+               ( $text[$currentPosition] === ' '
                  or $text[$currentPosition] === "\n"
                  or $text[$currentPosition] === "\t"
                  or $text[$currentPosition] === "\r" ) )
