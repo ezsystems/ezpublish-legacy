@@ -673,7 +673,6 @@ return array(
       'ezpTopologicalSort'                                 => 'kernel/private/classes/ezptopologicalsort.php',
       'ezpTopologicalSortNode'                             => 'kernel/private/classes/ezptopologicalsortnode.php',
       'ezpUpdatedContent'                                  => 'kernel/private/rest/classes/sync/updates.php',
-      'myController'                                       => 'kernel/private/rest/classes/mytest.php',
     );
 
 ?>
