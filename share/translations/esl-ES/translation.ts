@@ -25890,7 +25890,7 @@ tu cuenta.</translation>
     </message>
     <message>
         <source>Are you sure you want to remove this application?</source>
-        <translatio>¿Está seguro de querer borrar esta aplicación?</translation>
+        <translation>¿Está seguro de querer borrar esta aplicación?</translation>
     </message>
     <message>
         <source>Are you sure you want to remove these applications?</source>
