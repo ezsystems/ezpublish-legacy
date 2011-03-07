@@ -12,13 +12,16 @@
     {if is_unset( $versionview_mode )}
         {* Generate next and previous links if parent is gallery *}
         {if $parent.class_identifier|eq( 'gallery' )}
-             {* limit fetch to node_id column and 50000 items to avoid very large memory use *}
+             {* Limit fetch to 10000 items to avoid very large memory use.
+                If you need larger galleries then that, consider using a index in url, downside
+                is that it will break bookmarks / links if somone changes sorting.
+              *}
              {def $siblings = fetch( 'content', 'list', hash( 'parent_node_id',    $parent.node_id,
-                                                              'column_name',       'node_id',
+                                                              'as_object',         false(),
                                                               'class_filter_type', 'include',
                                                               'class_filter_array', array( 'image' ),
                                                               'sort_by',            $parent.sort_array,
-                                                              'limit',              50000 ) )
+                                                              'limit',              10000 ) )
                   $index    = 0
                   $node_id  = $node.node_id}
              {while is_set( $siblings[$index] )}
