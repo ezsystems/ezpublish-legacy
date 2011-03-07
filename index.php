@@ -354,9 +354,10 @@ eZDebug::checkDebugByUser();
 eZExtension::activateExtensions( 'access' );
 // Siteaccess extension check end
 
-// Now that all extensions are activated and siteaccess has been changed, reset
-// all eZINI instances as they may not take into account siteaccess specific settings.
-eZINI::resetAllGlobals( false );
+// Make sure template.ini reloads its cache incase
+// siteaccess or extensions override it
+$tplINI = eZINI::instance( 'template.ini' );
+$tplINI->loadCache();
 
 // Check if this should be run in a cronjob
 // Need to be run before eZHTTPTool::instance() because of eZSessionStart() which
