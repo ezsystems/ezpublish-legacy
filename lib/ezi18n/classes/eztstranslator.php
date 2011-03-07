@@ -148,7 +148,7 @@ class eZTSTranslator extends eZTranslatorHandler
         {
             if ( !$tsTimeStamp )
             {
-                $tsTimeStamp = eZExpiryHandler::instance()->getTimestamp( self::EXPIRY_KEY );
+                $tsTimeStamp = eZExpiryHandler::instance()->getTimestamp( self::EXPIRY_KEY, 0, $locale );
                 if ( $checkMTime && $tsTimeStamp < time() )// no need if ts == time()
                 {
                     // iterate over each known TS file, and get the highest timestamp
