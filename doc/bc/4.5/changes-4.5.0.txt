@@ -26,6 +26,10 @@ Change of behavior
   So for clearity it is recomended to use "new eZINI()" instead if want to specify any of
   these parameters manually.
 
+- eZDB::instance() and eZDB::connect() will now throw an eZDBNoConnectionException in two cases
+
+  These two methods will throw an eZDBNoConnectionException if connecting to the database server OR selecting the
+  database fail.
 
 Removed features
 ----------------
