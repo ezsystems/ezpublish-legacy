@@ -9737,10 +9737,6 @@ Note: The packages will not be uninstalled.</translation>
         <source>Categories</source>
         <translation>Categories</translation>
     </message>
-    <message>
-        <source></source>
-        <translation></translation>
-    </message>
 </context>
 <context>
     <name>design/admin/setup/datatypecode</name>

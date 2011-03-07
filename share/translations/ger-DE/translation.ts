@@ -11806,10 +11806,6 @@ Hinweis: Die Pakete werden nicht deinstalliert.</translation>
         <source>Categories</source>
         <translation>Kategorien</translation>
     </message>
-    <message>
-        <source></source>
-        <translation></translation>
-    </message>
 </context>
 <context>
     <name>design/admin/setup/datatypecode</name>

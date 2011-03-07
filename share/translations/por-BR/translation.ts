@@ -10314,10 +10314,6 @@ Clique em um dos botões &quot;Conceder..&quot; (explicado abaixo), para prosseg
         <source>Categories</source>
         <translation>Categorias</translation>
     </message>
-    <message>
-        <source></source>
-        <translation></translation>
-    </message>
 </context>
 <context>
     <name>design/admin/setup/datatypecode</name>

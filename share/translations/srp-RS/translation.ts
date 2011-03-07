@@ -10899,10 +10899,6 @@ Note: The packages will not be uninstalled.</source>
         <source>Categories</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source></source>
-        <translation></translation>
-    </message>
 </context>
 <context>
     <name>design/admin/setup/datatypecode</name>
