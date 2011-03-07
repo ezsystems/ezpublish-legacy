@@ -334,7 +334,7 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Toggle fullscreen mode</source>
-        <translation>Activer le mode plein écran</translation>
+        <translation>(Dés)activer le mode plein écran</translation>
     </message>
     <message>
         <source>Insert / edit embedded media</source>
@@ -534,7 +534,7 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Toggle guidelines/invisible elements</source>
-        <translation>Activer les instructions/les éléments invisibles</translation>
+        <translation>(Dés)activer les instructions/les éléments invisibles</translation>
     </message>
     <message>
         <source>Insert/edit anchor</source>
@@ -674,7 +674,7 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Align</source>
-        <translation>Aligner</translation>
+        <translation>Alignement</translation>
     </message>
     <message>
         <source>Size</source>
@@ -754,11 +754,11 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Switch embed image</source>
-        <translation>Basculer vers l&apos;image embarquée</translation>
+        <translation>Basculer vers l'affichage des images embarquées</translation>
     </message>
     <message>
         <source>Switch embed object</source>
-        <translation>Basculer vers l&apos;objet embarqué</translation>
+        <translation>Basculer vers l'affichage des objets embarqués</translation>
     </message>
     <message>
         <source>Heading Properties</source>
@@ -866,11 +866,11 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Foot in mouth</source>
-        <translation type="unfinished"></translation>
+        <translation>Ne pas répéter</translation>
     </message>
     <message>
         <source>Frown</source>
-        <translation type="unfinished"></translation>
+        <translation>Froncement de sourcils</translation>
     </message>
     <message>
         <source>Innocent</source>
@@ -882,111 +882,111 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Laughing</source>
-        <translation type="unfinished"></translation>
+        <translation>Rire</translation>
     </message>
     <message>
         <source>Money mouth</source>
-        <translation type="unfinished"></translation>
+        <translation>Embarassé</translation>
     </message>
     <message>
         <source>Sealed</source>
-        <translation type="unfinished"></translation>
+        <translation>Décidé</translation>
     </message>
     <message>
         <source>Smile</source>
-        <translation type="unfinished"></translation>
+        <translation>Sourire</translation>
     </message>
     <message>
         <source>Surprised</source>
-        <translation type="unfinished"></translation>
+        <translation>Surpris</translation>
     </message>
     <message>
         <source>Tongue out</source>
-        <translation type="unfinished"></translation>
+        <translation>Tire la langue</translation>
     </message>
     <message>
         <source>Undecided</source>
-        <translation type="unfinished"></translation>
+        <translation>Indécis</translation>
     </message>
     <message>
         <source>Wink</source>
-        <translation type="unfinished"></translation>
+        <translation>Clin d'œil</translation>
     </message>
     <message>
         <source>Yell</source>
-        <translation type="unfinished"></translation>
+        <translation>Cri</translation>
     </message>
     <message>
         <source>Paste is now in plain text mode. Click again to toggle back to regular paste mode. After you paste something you will be returned to regular paste mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>La fonction coller est en mode texte brut. Recliquez pour repasser la fonction coller en mode classique. Après avoir collé quelque chose, la fonction coller repassera en mode classique.</translation>
     </message>
     <message>
         <source>Paste is now in plain text mode. Click again to toggle back to regular paste mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>La fonction coller est en mode texte brut. Recliquez pour repasser la fonction coller en mode classique.</translation>
     </message>
     <message>
         <source>Toggle spellchecker</source>
-        <translation type="unfinished"></translation>
+        <translation>(Dés)active le correcteur orthographique</translation>
     </message>
     <message>
         <source>Spellchecker settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Configuration du correcteur orthographique</translation>
     </message>
     <message>
         <source>Ignore word</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignorer ce mot</translation>
     </message>
     <message>
         <source>Ignore all</source>
-        <translation type="unfinished"></translation>
+        <translation>Tout ignorer</translation>
     </message>
     <message>
         <source>Languages</source>
-        <translation type="unfinished"></translation>
+        <translation>Langues</translation>
     </message>
     <message>
         <source>Please wait...</source>
-        <translation type="unfinished"></translation>
+        <translation>Veuillez patienter...</translation>
     </message>
     <message>
         <source>Suggestions</source>
-        <translation type="unfinished"></translation>
+        <translation>Propositions</translation>
     </message>
     <message>
         <source>No suggestions</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucune proprosition</translation>
     </message>
     <message>
         <source>No misspellings found.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucune erreur n'a été trouvée.</translation>
     </message>
     <message>
         <source>Definition term</source>
-        <translation type="unfinished"></translation>
+        <translation>Définition du terme</translation>
     </message>
     <message>
         <source>Insert/edit file</source>
-        <translation type="unfinished"></translation>
+        <translation>Insérer/Modifier le fichier</translation>
     </message>
     <message>
         <source>Insert horizontal ruler</source>
-        <translation type="unfinished"></translation>
+        <translation>Insérer un séparateur horizontal</translation>
     </message>
     <message>
         <source>this</source>
-        <translation type="unfinished"></translation>
+        <translation>ce nœud</translation>
     </message>
     <message>
         <source>Top</source>
-        <translation type="unfinished"></translation>
+        <translation>En haut</translation>
     </message>
     <message>
         <source>Bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>En bas</translation>
     </message>
     <message>
         <source>List of possible link types. Link types that use the &apos;://&apos; format are technically called protocols.</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste des types de lien disponibles. Les types de lien contenant &apos;://&apos; sont des protocoles.</translation>
     </message>
     <message>
         <source>eznode</source>
@@ -1070,7 +1070,7 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Switch embed file</source>
-        <translation type="unfinished"></translation>
+        <translation>Basculer vers l'affichage des objets embarqués</translation>
     </message>
     <message>
         <source>Edit file</source>
@@ -1102,7 +1102,7 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Upload new File</source>
-        <translation>Envoyé un nouveau fichier</translation>
+        <translation>Envoyer un nouveau fichier</translation>
     </message>
     <message>
         <source>There are no related files.</source>
@@ -1344,31 +1344,31 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     </message>
     <message>
         <source>Insert an file from the related file list, upload a new file, search for an existing file or browse for it. To upload a local file, click &quot;Upload new&quot; button choose the local file, specify the name of the new file, choose placement from list and then click &quot;Upload&quot; button. This button is not enabled by default.</source>
-        <translation type="unfinished"></translation>
+        <translation>Insérer un fichier depuis les fichiers liés, télécharger un nouveau fichier, chercher un fichier existant. Pour télécharger un fichier local, cliquez sur le bouton &quot;Envoyer un nouveau fichier&quot;, choisissez un fichier local et définissez un nom pour ce fichier, choisissez un emplacement dans la liste et enfin cliquez sur le bouton &quot;Télécharger&quot;. Ce bouton n'est pas activé par défaut.</translation>
     </message>
     <message>
         <source>Allows you to spellcheck your text using google api or other depending on ezoe.ini settings. This button is not enabled by default.</source>
-        <translation type="unfinished"></translation>
+        <translation>Permet de vérifier l'orthographe du texte en utilisant l'API Google ou équivalent configurée dans le fichier ezoe.ini. Ce bouton n'est pas activé par défaut.</translation>
     </message>
     <message>
         <source>Find a string or a word in your text. This button is not enabled by default.</source>
-        <translation type="unfinished"></translation>
+        <translation>Chercher un mot ou une suite de mots dans votre texte. Ce bouton n'est pas activé par défaut.</translation>
     </message>
     <message>
         <source>Replace a string or a word in your text. This button is not enabled by default.</source>
-        <translation type="unfinished"></translation>
+        <translation>Remplacer un mot ou une suite de mots dans votre texte. Ce bouton n'est pas activé par défaut.</translation>
     </message>
     <message>
         <source>Dialog to paste text from word, the dialog will handle cleaning the content from word.</source>
-        <translation type="unfinished"></translation>
+        <translation>Assistant pour coller du texte depuis Word, il permet de gérer le nettoyage du contenu en provenance de Word.</translation>
     </message>
     <message>
         <source>Browse for a node / object in your bookmarks.</source>
-        <translation type="unfinished"></translation>
+        <translation>Parcourir vos favoris.</translation>
     </message>
     <message>
         <source>You can switch text style from paragraph to header using keybord shortcut CTRL+1 to 6, and back to paragraph using CTRL+7</source>
-        <translation type="unfinished"></translation>
+        <translation>Vous pouvez transformer un paragraphe en titre avec les raccourcis clavier CTRL+1 à 6, et revenir au paragraphe en utilisant CTRL+7</translation>
     </message>
 </context>
 <context>
@@ -1434,94 +1434,94 @@ Souhaitez-vous plus d&apos;informations sur ce problème ?</translation>
     <name>design/standard/ezoe/validator</name>
     <message>
         <source>&amp;quot;%label&amp;quot; is required and must have a value</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;quot;%label&amp;quot; est requis</translation>
     </message>
     <message>
         <source>&amp;quot;%label&amp;quot; must be a valid number</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;quot;%label&amp;quot; doit être un nombre</translation>
     </message>
     <message>
         <source>&amp;quot;%label&amp;quot; must be a valid integer number</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;quot;%label&amp;quot; doit être un nombre entier</translation>
     </message>
     <message>
         <source>&amp;quot;%label&amp;quot; must be a valid absolute url address</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;quot;%label&amp;quot; doit être une URL absolue</translation>
     </message>
     <message>
         <source>&amp;quot;%label&amp;quot; must be a valid email address</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;quot;%label&amp;quot; doit être un courriel</translation>
     </message>
     <message>
         <source>&amp;quot;%label&amp;quot; must be a valid css size/unit value</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;quot;%label&amp;quot; doit être une taille CSS</translation>
     </message>
     <message>
         <source>&amp;quot;%label&amp;quot; must be a valid html element id</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;quot;%label&amp;quot; doit être un id HTML valide</translation>
     </message>
     <message>
         <source>&amp;quot;%label&amp;quot; must be higher then %min</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;quot;%label&amp;quot; doit être supérieur à %min</translation>
     </message>
     <message>
         <source>&amp;quot;%label&amp;quot; must be lower then %max</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;quot;%label&amp;quot; doit être inférieur à %max</translation>
     </message>
 </context>
 <context>
     <name>design/standard/ezoe/wai</name>
     <message>
         <source>Enter the word you want to search for here, for instance the name of the content you are looking for.</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrez le terme à rechercher, par exemple le nom d'un contenu.</translation>
     </message>
     <message>
         <source>Lets you limit the content type your searching for, by limiting the eZ Publish content classes that are returned in the search result.</source>
-        <translation type="unfinished"></translation>
+        <translation>Permet de limiter les types de contenus à chercher en limitant les classes de contenus possibles.</translation>
     </message>
     <message>
         <source>Name for the uploaded object, filename is used if none is specified.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom pour l'objet télécharger, le nom du fichier est utilisé si rien n'est indiqué.</translation>
     </message>
     <message>
         <source>Choose file to upload from your local machine.</source>
-        <translation type="unfinished"></translation>
+        <translation>Choisissez un fichier à télécharger depuis votre machine.</translation>
     </message>
     <message>
         <source>Lets you specify where in eZ Publish to store the uploaded object.</source>
-        <translation type="unfinished"></translation>
+        <translation>Permet d'indiquer où stocker l'objet téléchargé dans eZ Publish.</translation>
     </message>
     <message>
         <source>Upload file from your local machine.</source>
-        <translation type="unfinished"></translation>
+        <translation>Télécharger un fichier depuis votre machine.</translation>
     </message>
     <message>
         <source>Search for content already in eZ Publish.</source>
-        <translation type="unfinished"></translation>
+        <translation>Chercher dans le contenu existant dans eZ Publish.</translation>
     </message>
     <message>
         <source>Browse the content tree in eZ Publish.</source>
-        <translation type="unfinished"></translation>
+        <translation>Parcourir l'arborescence d'eZ Publish.</translation>
     </message>
     <message>
         <source>Select or browse content among your personal eZ Publish bookmarks.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélectionner ou parcourir les contenus parmis vos signets eZ Publish.</translation>
     </message>
     <message>
         <source>Description to the file your uploading, so internet clients can read more about it before they decide to download it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Description du fichier à télécharger pour permettre de choisir de le télécharger ou non.</translation>
     </message>
     <message>
         <source>Alternative text for the image, lets internet clients know what kind of image this is without dowloading it or actually seeing it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le texte alternatif à l'image, permet de connaître le type d'image sans la télécharger et donc la voir.</translation>
     </message>
     <message>
         <source>Caption for a image is usually shown bellow it as a description to the image.</source>
-        <translation type="unfinished"></translation>
+        <translation>La légende de l'image est habituellement présenté sous l'image comme une description.</translation>
     </message>
     <message>
         <source>Tags, aka Keywords are a comma separated list of words thats categorizes the content.</source>
-        <translation type="unfinished"></translation>
+        <translation>Les tags ou les mots clés sont une liste de mots séparés par une virgule qui permettent de catégoriser le contenu.</translation>
     </message>
 </context>
 <context>
