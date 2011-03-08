@@ -19,113 +19,150 @@
 class ezpEvent
 {
     /**
-     * Contains all registereded callbacks
+     * Contains all registereded listeners (callbacks)
      *
      * @var array
      */
-    static protected $callbacks = array();
+    protected $listeners = array();
 
     /**
      * Count of listeners, used to generate listener id
      *
      * @var int
      */
-    static protected $listenerIdNumber = 0;
+    protected $listenerIdNumber = 0;
+
+    /**
+     * Holds the instance of this class
+     *
+     * @var null|ezpEvent
+     */
+    static protected $instance = null;
 
     /**
      * This is an all static class (a global class), so constructing is not allowed
      */
-    private function __construct()
+    protected function __construct( $loadGlobalEvents = true )
     {
+        if ( $loadGlobalEvents )
+        {
+            $listeners = eZINI::instance()->variable('Event', 'Listeners');
+            foreach ( $listeners as $listener => $event )
+            {
+                if ( $event )
+                {
+                    $this->attach( $event, $listener );
+                }
+            }
+        }
     }
 
     /**
-     * Subscribe a event listener at run time on demand.
+     * Attach a event listener at run time on demand.
      *
      * @param string $name In the form "content/delete/1" or "content/delete"
-     * @param array|string $callback A valid PHP callback {@see http://php.net/manual/en/language.pseudo-types.php#language.types.callback}
+     * @param array|string $listener A valid PHP callback {@see http://php.net/manual/en/language.pseudo-types.php#language.types.callback}
      * @return int Listener id, can be used to unsubscribe a listener later {@see unsubscribe()}
      */
-    static public function subscribe( $name, $callback )
+    public function attach( $name, $listener )
     {
-        $id = self::$listenerIdNumber++;
-        if ( !isset( self::$callbacks[$name] ) )
+        $id = $this->listenerIdNumber++;
+        // explode callback if static class string, workaround for PHP < 5.2.3
+        if ( is_string( $listener ) && strpos( $listener, '::' ) !== false )
         {
-            self::$callbacks[$name] = array( $id => $callback );
+            $listener = explode( '::', $listener );
+        }
+
+        if ( !isset( $this->listeners[$name] ) )
+        {
+            $this->listeners[$name] = array( $id => $listener );
         }
         else
         {
-            self::$callbacks[$name][$id] = $callback;
+            $this->listeners[$name][$id] = $listener;
         }
         return $id;
     }
 
     /**
-     * Subscribe a list of event listeners, for use by initializing from ini settings using:
-     * ezpEvent::subscribeList( $ini->variableArray('Event', 'CallbackList') )
-     *
-     * @param array $callbackList In the form array( array( '<name>', <callback> ) )
-     */
-    static public function subscribeList( array $callbackList )
-    {
-        foreach ( $callbackList as $item )
-        {
-            self::subscribe( $item[0], $item[1] );
-        }
-    }
-
-    /**
-     * Unsubscribe a event listener by id given when it was added.
+     * Detach a event listener by id given when it was added.
      *
      * @param string $name
      * @param int $id
      */
-    static public function unsubscribe( $name, $id )
+    public function detach( $name, $id )
     {
-        if ( !isset( self::$callbacks[$name][$id] ) )
+        if ( !isset( $this->listeners[$name][$id] ) )
         {
             return false;
         }
 
-        unset( self::$callbacks[$name][$id] );
+        unset( $this->listeners[$name][$id] );
         return false;
     }
 
     /**
-     * Trigger all listeners on an event (depending on return values and $returnOnValue)
+     * Notify all listeners on an event
      *
      * @param string $name In the form "content/delete/1", "content/delete", "content/read"
      * @param array $params The arguments for the specific event as simple array structure (not hash)
-     * @param bool $returnOnValue Will stop callback iteration and return value from callback if it is other then null
-     * @return mixed Value accepted (if used at all) as return value depends on event, default is null
+     * @return bool True if some listener where called
      */
-    static public function trigger( $name, array $params, $returnOnValue = false )
+    public function notify( $name, array $params = array() )
     {
-        if ( !isset( self::$callbacks[$name] ) )
+        if ( empty( $this->listeners[$name] ) )
         {
-            return null;
+            return false;
         }
 
-        $ret = null;
-        foreach( self::$callbacks[$name] as $callback )
+        foreach( $this->listeners[$name] as $listener )
         {
-            $ret = call_user_func_array( $callback, $params );
-
-            // If some function returns something else then null, then stop & return it
-            if ( $returnOnValue && $ret !== null )
-              return $ret;
+            call_user_func_array( $listener, $params );
         }
-        return $ret;
+        return true;
     }
 
     /**
-     * Resets all listeners
+     * Notify all listeners on an event but stop if any of them return something else then null
+     *
+     * @param string $name In the form "content/delete/1", "content/delete", "content/read"
+     * @param array|string|numeric $value The value you want to let listeners filter
+     * @return mixed $value param after being filtered by filters, or unmodified if no filters
      */
-    static public function reset()
+    public function filter( $name, $value )
     {
-        self::$callbacks = array();
-        // do not reset $listenerIdNumber to avoid potential issue if some code tries to unsubscribe
-        // already removed listener
+        if ( empty( $this->listeners[$name] ) )
+        {
+            return $value;
+        }
+
+        foreach( $this->listeners[$name] as $listener )
+        {
+            $value = call_user_func( $listener, $value );
+        }
+        return $value;
+    }
+
+    /**
+     * Gets instance
+     *
+     * @return ezpEvent
+     */
+    static public function getInstance()
+    {
+        if ( !self::$instance instanceof ezpEvent )
+        {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+
+    /**
+     * Resets instance
+     */
+    static public function resetInstance()
+    {
+        self::$instance = null;
     }
 }
 

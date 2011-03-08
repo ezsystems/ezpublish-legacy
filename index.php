@@ -263,7 +263,7 @@ function eZDisplayResult( $templateResult )
         {
             $templateResult = call_user_func( array ( $classname, 'filter' ), $templateResult );
         }
-        ezpEvent::trigger('response/output', array( &$templateResult ) );
+        $templateResult = ezpEvent::getInstance()->filter('response/output', $templateResult );
         $debugMarker = '<!--DEBUG_REPORT-->';
         $pos = strpos( $templateResult, $debugMarker );
         if ( $pos !== false )
@@ -442,8 +442,8 @@ if ( !isset( $check ) )
  */
 eZDebug::checkDebugByUser();
 
-ezpEvent::subscribeList( $ini->variableArray('Event', 'CallbackList') );
-ezpEvent::trigger( 'request/input', array( $uri ) );
+
+ezpEvent::getInstance()->notify( 'request/input', array( $uri ) );
 
 // Initialize with locale settings
 $locale = eZLocale::instance();

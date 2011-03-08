@@ -739,7 +739,7 @@ class eZContentCacheManager
 
         eZDebug::accumulatorStart( 'node_cleanup', '', 'Node cleanup' );
 
-        ezpEvent::trigger( 'content/cache', array( &$nodeList ) );
+        $nodeList = ezpEvent::getInstance()->filter( 'content/cache', $nodeList );
 
         eZContentObject::expireComplexViewModeCache();
         $cleanupValue = eZContentCache::calculateCleanupValue( count( $nodeList ) );

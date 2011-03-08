@@ -55,7 +55,7 @@ class ezpSessionHandlerPHP extends ezpSessionHandler
      */
     public function destroy( $sessionId )
     {
-        ezpEvent::trigger( 'session/destroy', array( $sessionId ) );
+        ezpEvent::getInstance()->notify( 'session/destroy', array( $sessionId ) );
         return false;
     }
 
@@ -66,15 +66,15 @@ class ezpSessionHandlerPHP extends ezpSessionHandler
     {
         $oldSessionId = session_id();
         session_regenerate_id();
-        $sessionId = session_id();
+        $newSessionId = session_id();
 
-        ezpEvent::trigger( 'session/regenerate', array( $oldSessionId, $sessionId ) );
+        ezpEvent::getInstance()->notify( 'session/regenerate', array( $oldSessionId, $newSessionId ) );
 
         if ( $updateBackendData )
         {
             $db = eZDB::instance();
             $escOldKey = $db->escapeString( $oldSessionId );
-            $escNewKey = $db->escapeString( $sessionId );
+            $escNewKey = $db->escapeString( $newSessionId );
             $escUserID = $db->escapeString( eZSession::userID() );
             eZSession::triggerCallback( 'regenerate_pre', array( $db, $escNewKey, $escOldKey, $escUserID ) );
             eZSession::triggerCallback( 'regenerate_post', array( $db, $escNewKey, $escOldKey, $escUserID ) );
@@ -87,7 +87,7 @@ class ezpSessionHandlerPHP extends ezpSessionHandler
      */
     public function gc( $maxLifeTime )
     {
-        ezpEvent::trigger( 'session/gc', array( $maxLifeTime ) );
+        ezpEvent::getInstance()->notify( 'session/gc', array( $maxLifeTime ) );
         $db = eZDB::instance();
         eZSession::triggerCallback( 'gc_pre', array( $db, $maxLifeTime ) );
         eZSession::triggerCallback( 'gc_post', array( $db, $maxLifeTime ) );
@@ -99,7 +99,7 @@ class ezpSessionHandlerPHP extends ezpSessionHandler
      */
     public function cleanup()
     {
-        ezpEvent::trigger( 'session/cleanup', array() );
+        ezpEvent::getInstance()->notify( 'session/cleanup', array() );
         $db = eZDB::instance();
         eZSession::triggerCallback( 'cleanup_pre', array( $db ) );
         eZSession::triggerCallback( 'cleanup_post', array( $db ) );
