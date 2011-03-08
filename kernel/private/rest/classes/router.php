@@ -79,12 +79,13 @@ class ezpRestRouter extends ezcMvcRouter
         }
 
         $cache = ezcCacheManager::getCache( self::ROUTE_CACHE_ID );
-        if( ( $prefixedRoutes = $cache->restore( self::ROUTE_CACHE_KEY ) ) === false )
+        $cacheKey = self::ROUTE_CACHE_KEY . '_' . ezpRestPrefixFilterInterface::getApiProviderName();
+        if( ( $prefixedRoutes = $cache->restore( $cacheKey ) ) === false )
         {
             try
             {
                 $prefixedRoutes = $this->doCreateRoutes();
-                $cache->store( self::ROUTE_CACHE_KEY, $prefixedRoutes );
+                $cache->store( $cacheKey, $prefixedRoutes );
             }
             catch( Exception $e )
             {
