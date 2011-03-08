@@ -213,6 +213,7 @@ $storeActions = array( 'Preview',
                        'DeleteRelation',
                        'DeleteNode',
                        'SectionEdit',
+                       'StateEdit',
                        'MoveNode' );
 $storingAllowed = ( in_array( $Module->currentAction(), $storeActions ) ||
                     eZContentObjectEditHandler::isStoreAction() );
