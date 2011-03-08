@@ -559,6 +559,7 @@ return array(
       'ezpAutoloadGeneratorOptions'                        => 'kernel/private/options/ezpautoloadgeneratoroptions.php',
       'ezpAutoloadOutput'                                  => 'kernel/private/interfaces/ezpautoloadoutput.php',
       'ezpAutoloader'                                      => 'autoload.php',
+      'ezpCacheClusterException'                           => 'kernel/private/rest/classes/cache/exceptions/cluster.php',
       'ezpCacheStorageClusterOptions'                      => 'kernel/private/rest/classes/cache/options/storage_cluster.php',
       'ezpContent'                                         => 'kernel/private/api/content/content.php',
       'ezpContentAccessDeniedException'                    => 'kernel/private/api/content/exceptions/access_denied.php',

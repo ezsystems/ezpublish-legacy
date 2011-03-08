@@ -42,22 +42,30 @@ class ezpOauthUtility
         //    when available, automatically.
 
         $token = null;
+        $checkStack = array( 'header', 'get', 'post' );
 
-        $token = self::getTokenFromAuthorizationHeader();
-        if ( $token !== null )
+        foreach ( $checkStack as $step )
         {
-            return $token;
+            switch ( $step )
+            {
+                case 'header':
+                    $token = self::getTokenFromAuthorizationHeader();
+                break;
+
+                case 'get':
+                    $token = self::getTokenFromQueryComponent( $request );
+                break;
+
+                case 'post':
+                    $token = self::getTokenFromHttpBody( $request );
+                break;
+            }
+
+            if ( isset( $token ) ) // Go out of the loop if we find the token during the iteration
+            {
+                break;
+            }
         }
-
-        // 2
-        $token = self::getTokenFromQueryComponent( $request );
-        if ( $token !== null )
-            return $token;
-
-        // 3
-        $token = self::getTokenFromHttpBody();
-        if ( $token !== null )
-            return $token;
 
         return $token;
     }
@@ -81,20 +89,32 @@ class ezpOauthUtility
      */
     protected static function getTokenFromAuthorizationHeader()
     {
-        // @TODO We cannot throw exceptions here, until all alternatives are checked.
-        $apacheHeaders = apache_request_headers();
-        if ( !isset( $apacheHeaders[self::AUTH_HEADER_NAME] ) )
-            throw new ezpOauthNoAuthInfoException( "No Authorization header found" );
+        $token = null;
+        $authHeader = null;
+        if ( function_exists( 'apache_request_headers' ) )
+        {
+            $apacheHeaders = apache_request_headers();
+            if ( isset( $apacheHeaders[self::AUTH_HEADER_NAME] ) )
+                $authHeader = $apacheHeaders[self::AUTH_HEADER_NAME];
+        }
+        else
+        {
+            if ( isset( $_SERVER[self::AUTH_CGI_HEADER_NAME] ) )
+                $authHeader = $_SERVER[self::AUTH_CGI_HEADER_NAME];
+        }
 
-        $tokenPattern = "/^(?P<authscheme>OAuth)\s(?P<token>[a-zA-Z0-9]+)$/";
-        $match = preg_match( $tokenPattern, $apacheHeaders[self::AUTH_HEADER_NAME], $m );
-        if ( !$match )
-            throw new ezpOauthInvalidRequestException( "Token not found in Authorization header" );
+        if ( isset( $authHeader ) )
+        {
+            $tokenPattern = "/^(?P<authscheme>OAuth)\s(?P<token>[a-zA-Z0-9]+)$/";
+            $match = preg_match( $tokenPattern, $authHeader, $m );
+            if ( $match > 0 )
+            {
+                $token = $m['token'];
+            }
+        }
 
-        if ( $m['authscheme'] !== 'OAuth' )
-            throw new ezpOauthNoAuthInfoException( "OAuth authentication scheme not found" );
 
-        return $m['token'];
+        return $token;
     }
 
     /**
@@ -106,13 +126,16 @@ class ezpOauthUtility
      * @param ezcMvcRequest $request
      * @return string The access token string
      */
-    protected function getTokenFromQueryComponent( ezpRestRequest $request )
+    protected static function getTokenFromQueryComponent( ezpRestRequest $request )
     {
-        if( !isset($request->get['oauth_token']) )
+        $token = null;
+        if( isset( $request->get['oauth_token'] ) )
         {
-            throw new ezpOauthInvalidRequestException( "OAuth token not found in query component." );
+            //throw new ezpOauthInvalidRequestException( "OAuth token not found in query component." );
+            $token = $request->get['oauth_token'];
         }
-        return $request->get['oauth_token'];
+
+        return $token;
     }
 
     /**
@@ -122,13 +145,15 @@ class ezpOauthUtility
      * @param ezpRestRequest $request
      * @return string The access token string
      */
-    protected function getTokenFromHttpBody( ezpRestRequest $request )
+    protected static function getTokenFromHttpBody( ezpRestRequest $request )
     {
-        if ( !isset( $request->post['oauth_token'] ) )
+        $token = null;
+        if ( isset( $request->post['oauth_token'] ) )
         {
-            throw new ezpOauthInvalidRequestException( "OAuth token not found in HTTP body." );
+            $token = $request->post['oauth_token'];
         }
-        return $request->post['oauth_token'];
+
+        return $token;
     }
 }
 ?>

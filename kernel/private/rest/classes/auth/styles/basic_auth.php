@@ -13,7 +13,7 @@ class ezpRestBasicAuthStyle extends ezpRestAuthenticationStyle implements ezpRes
     {
         if ( $request->authentication === null )
         {
-            $request->uri = "{$this->prefix}/http-basic-auth";
+            $request->uri = "{$this->prefix}/auth/http-basic-auth";
             return new ezcMvcInternalRedirect( $request );
         }
 
@@ -30,7 +30,7 @@ class ezpRestBasicAuthStyle extends ezpRestAuthenticationStyle implements ezpRes
     {
         if ( !$auth->run() )
         {
-            $request->uri = "{$this->prefix}/http-basic-auth";
+            $request->uri = "{$this->prefix}/auth/http-basic-auth";
             return new ezcMvcInternalRedirect( $request );
         }
         else

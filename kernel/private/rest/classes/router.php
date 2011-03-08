@@ -50,10 +50,10 @@ class ezpRestRouter extends ezcMvcRouter
         $providerRoutes = ezpRestProvider::getProvider( ezpRestPrefixFilterInterface::getApiProviderName() )->getRoutes();
 
         $routes = array(
-            new ezpMvcRailsRoute( '/fatal', 'ezpRestErrorController', 'show' ),
-            new ezpMvcRailsRoute( '/http-basic-auth', 'ezpRestAuthController', 'basicAuth' ),
-            new ezpMvcRailsRoute( '/oauth/login', 'ezpRestAuthController', 'oauthRequired' ),
-            new ezpMvcRailsRoute( '/oauth/token', 'ezpRestOauthTokenController', 'handleRequest'),
+            'fatal'        => new ezpMvcRailsRoute( '/fatal', 'ezpRestErrorController', 'show' ),
+            'basicAuth'    => new ezpMvcRailsRoute( '/http-basic-auth', 'ezpRestAuthController', 'basicAuth' ),
+            'oauthLogin'   => new ezpMvcRailsRoute( '/oauth/login', 'ezpRestAuthController', 'oauthRequired' ),
+            'oauthToken'   => new ezpMvcRailsRoute( '/oauth/token', 'ezpRestOauthTokenController', 'handleRequest'),
         );
 
         $prefix = eZINI::instance( 'rest.ini' )->variable( 'System', 'ApiPrefix' );
