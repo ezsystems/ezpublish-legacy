@@ -156,9 +156,9 @@ class ezpSessionHandlerDB extends ezpSessionHandler
     {
         $oldSessionId = session_id();
         session_regenerate_id();
-        $sessionId = session_id();
+        $newSessionId = session_id();
 
-        ezpEvent::getInstance()->notify( 'session/regenerate', array( $oldSessionId, $sessionId ) );
+        ezpEvent::getInstance()->notify( 'session/regenerate', array( $oldSessionId, $newSessionId ) );
 
         if ( $updateBackendData )
         {
@@ -169,7 +169,7 @@ class ezpSessionHandlerDB extends ezpSessionHandler
             }
 
             $escOldKey = $db->escapeString( $oldSessionId );
-            $escNewKey = $db->escapeString( $sessionId );
+            $escNewKey = $db->escapeString( $newSessionId );
             $escUserID = $db->escapeString( eZSession::userID() );
             eZSession::triggerCallback( 'regenerate_pre', array( $db, $escNewKey, $escOldKey, $escUserID ) );
 
