@@ -1,13 +1,13 @@
 <?php
 /**
- * File containing the ezpRestAuthenticationStyle interface.
+ * File containing the ezpRestAuthenticationStyleInterface interface.
  *
  * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
  *
  */
 
-interface ezpRestAuthenticationStyle
+interface ezpRestAuthenticationStyleInterface
 {
     /**
      * Setting up the state to allow for later authentcation checks.
@@ -22,8 +22,21 @@ interface ezpRestAuthenticationStyle
      *
      * This method should take care of seting up proper redirections to MvcTools
      *
-     * @return void
+     * @return eZUser|ezcMvcInternalRedirect
      */
     public function authenticate( ezcAuthentication $auth, ezcMvcRequest $request );
+
+    /**
+     * Returns valid eZPublish user that has been authenticated by {@link self::authenticate()}
+     * @return eZUser
+     */
+    public function getUser();
+
+    /**
+     * Registers the user that has been authenticated
+     * @return void
+     * @param eZUser $user
+     */
+    public function setUser( eZUser $user );
 }
 ?>

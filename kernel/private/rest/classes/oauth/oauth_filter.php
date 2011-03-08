@@ -13,6 +13,12 @@ class ezpOauthFilter extends ezcAuthenticationFilter
     const STATUS_TOKEN_EXPIRED = 2;
     const STATUS_TOKEN_INSUFFICIENT_SCOPE = 3;
 
+    /**
+     * Struct holding oAuth token info
+     * @var ezpRestToken
+     */
+    public static $tokenInfo;
+
     // @TODO Need to setup status codes for oauth
     public function run( $credentials )
     {
@@ -39,6 +45,8 @@ class ezpOauthFilter extends ezcAuthenticationFilter
                 throw new ezpOauthExpiredTokenException( "Token expired on {$d}" );
             }
         }
+
+        self::$tokenInfo = $tokenInfo;
 
         // Extra step to be implemented
         // Check if user's access grant is still valid or if it has been revoked.

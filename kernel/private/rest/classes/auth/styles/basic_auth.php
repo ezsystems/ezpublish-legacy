@@ -7,14 +7,8 @@
  *
  */
 
-class ezpRestBasicAuthStyle implements ezpRestAuthenticationStyle
+class ezpRestBasicAuthStyle extends ezpRestAuthenticationStyle implements ezpRestAuthenticationStyleInterface
 {
-    protected $prefix;
-
-    public function __construct()
-    {
-        $this->prefix = eZINI::instance( 'rest.ini' )->variable( 'System', 'ApiPrefix' );
-    }
     public function setup( ezcMvcRequest $request )
     {
         if ( $request->authentication === null )
@@ -41,7 +35,8 @@ class ezpRestBasicAuthStyle implements ezpRestAuthenticationStyle
         }
         else
         {
-            // We're in
+            // We're in. Get the ezp user and return it
+            return eZUser::fetchByName( $auth->credentials->id );
         }
     }
 }

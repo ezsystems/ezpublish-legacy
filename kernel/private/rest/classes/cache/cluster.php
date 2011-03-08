@@ -229,11 +229,19 @@ abstract class ezpRestCacheStorageCluster extends ezpRestCacheStorageFile implem
     }
 
     /**
-     * Checks if the location property is valid.
+     * Aborts current cache generation
+     * Useful in case of a problem during generation of content (ie. exception)
+     * @return void
+     * @throws ezpCacheClusterException
      */
-//    protected function validateLocation()
-//    {
-//
-//    }
+    public function abortCacheGeneration()
+    {
+        if ( !isset( $this->clusterCacheFile ) )
+        {
+            throw new ezpCacheClusterException( "Can't abort generation of non-existent cluster cache" );
+        }
+
+        $this->clusterCacheFile->abortCacheGeneration();
+    }
 }
 ?>
