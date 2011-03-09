@@ -21,6 +21,7 @@ eZSys::init( 'index.php', $ini->variable( 'SiteAccessSettings', 'ForceVirtualHos
 $uri = eZURI::instance( eZSys::requestURI() );
 $GLOBALS['eZRequestedURI'] = $uri;
 
+// load extensions
 eZExtension::activateExtensions( 'default' );
 
 // setup for eZSiteAccess:change() needs some methods defined in old index.php
@@ -28,11 +29,15 @@ eZExtension::activateExtensions( 'default' );
 // debug settings here
 function eZUpdateDebugSettings() {}
 
+// load siteaccess
 $access = eZSiteAccess::match( $uri,
                       eZSys::hostname(),
                       eZSys::serverPort(),
                       eZSys::indexFile() );
 $access = eZSiteAccess::change( $access );
+
+// load siteaccess extensions
+eZExtension::activateExtensions( 'access' );
 
 if( ezpRestDebug::isDebugEnabled() )
 {
