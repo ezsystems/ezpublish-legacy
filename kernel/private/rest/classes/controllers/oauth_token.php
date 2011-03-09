@@ -52,6 +52,7 @@ class ezpRestOauthTokenController extends ezcMvcController
         $grant_type = $this->request->post['grant_type'];
         $client_id = $this->request->post['client_id'];
         $client_secret = $this->request->post['client_secret'];
+        $tokenTTL = (int)eZINI::instance( 'rest.ini' )->variable( 'OAuthSettings', 'TokenTTL' );
 
         if ( !$this->validateGrantType( $grant_type ) )
         {
@@ -121,7 +122,7 @@ class ezpRestOauthTokenController extends ezcMvcController
                 $token->refresh_token = $refreshToken;
                 $token->client_id = $client_id;
                 $token->user_id = $codeInfo->user_id;
-                $token->expirytime = time() + 3600;
+                $token->expirytime = time() + $tokenTTL;
 
                 $session = ezcPersistentSessionInstance::get();
                 $session->save( $token );
@@ -176,7 +177,7 @@ class ezpRestOauthTokenController extends ezcMvcController
                 $newToken->refresh_token = ezpRestToken::generateToken( '' );
                 $newToken->client_id = $client_id;
                 $newToken->user_id = $refreshInfo->user_id;
-                $newToken->expirytime = time() + 3600;
+                $newToken->expirytime = time() + $tokenTTL;
 
                 $session->save( $newToken );
                 $session->delete( $refreshInfo );
