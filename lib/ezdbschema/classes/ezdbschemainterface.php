@@ -113,7 +113,9 @@ class eZDBSchemaInterface
 
     /*!
      Fetches the data for all tables and returns an array containing the data.
-     NB: once the data is generated, it might be cached.
+     Empty tables are skipped.
+     NB: once the data is generated, it might be cached. Use the 'force_read'
+         parameter to force regeneration of the data
 
      \param $schema A schema definition array which defines tables to fetch from.
                     If \c false it will call schema() to fetch it.
@@ -127,10 +129,13 @@ class eZDBSchemaInterface
     function data( $schema = false, $tableNameList = false, $params = array() )
     {
         $params = array_merge( array( 'meta_data' => false,
-                                      'format' => 'generic' ),
+                                      'format' => 'generic',
+                                      'offset' => false,
+                                      'limit' => false,
+                                      'force_read' => false ),
                                $params );
 
-        if ( $this->Data === false )
+        if ( $this->Data === false || $params['force_read'] )
         {
             if ( $schema === false )
                 $schema = $this->schema( $params );
@@ -150,7 +155,7 @@ class eZDBSchemaInterface
                      !in_array( $tableName, $tableNameList ) )
                     continue;
 
-                $tableEntry = $this->fetchTableData( $tableInfo );
+                $tableEntry = $this->fetchTableData( $tableInfo, $params['offset'], $params['limit'] );
                 if ( count( $tableEntry['rows'] ) > 0 )
                     $data[$tableName] = $tableEntry;
             }
@@ -199,19 +204,11 @@ class eZDBSchemaInterface
             return false;
 
         $tableName = $tableInfo['name'];
-        $fieldText = '';
-        $i = 0;
-        $fields = array();
-        foreach ( $tableInfo['fields'] as $fieldName => $field )
-        {
-            if ( $i > 0 )
-                $fieldText .= ', ';
-            $fieldText .= $fieldName;
-            $fields[] = $fieldName;
-            ++$i;
-        }
-        $rows = $this->DBInstance->arrayQuery( "SELECT $fieldText FROM $tableName" );
+        $fields = array_keys( $tableInfo['fields'] );
+        $fieldText = implode( ', ', $fields );
+        $rows = $this->DBInstance->arrayQuery( "SELECT $fieldText FROM $tableName", array( 'offset' => $offset, 'limit' => $limit ) );
         $resultArray = array();
+        /// @todo scan only once for fields of type char, not once per row
         foreach ( $rows as $row )
         {
             $rowData = array();
@@ -270,7 +267,9 @@ class eZDBSchemaInterface
         $params = array_merge( array( 'schema' => true,
                                       'data' => false,
                                       'allow_multi_insert' => false,
-                                      'diff_friendly' => false ),
+                                      'diff_friendly' => false,
+                                      'offset' => false,
+                                      'limit' => false ),
                                $params );
         $includeSchema = $params['schema'];
         $includeData = $params['data'];
@@ -285,7 +284,7 @@ class eZDBSchemaInterface
             }
             if ( $includeData )
             {
-                $data = $this->data( $schema );
+                $data = $this->data( $schema, false, array( 'offset' => $params['offset'], 'limit' => $params['limit'] ) );
                 $this->transformData( $data, true );
                 fputs( $fp, $this->generateDataFile( $schema, $data, $params ) );
             }
@@ -306,7 +305,9 @@ class eZDBSchemaInterface
     function writeSerializedSchemaFile( $filename, $params = array() )
     {
         $params = array_merge( array( 'schema' => true,
-                                      'data' => false ),
+                                      'data' => false,
+                                      'offset' => false,
+                                      'limit' => false ),
                                $params );
         $includeSchema = $params['schema'];
         $includeData = $params['data'];
@@ -317,7 +318,7 @@ class eZDBSchemaInterface
             if ( $includeSchema and $includeData )
             {
                 fputs( $fp, serialize( array( 'schema' => $schema,
-                                              'data' => $this->data( $schema ) ) ) );
+                                              'data' => $this->data( $schema, false, array( 'offset' => $params['offset'], 'limit' => $params['limit'] ) ) ) ) );
             }
             else if ( $includeSchema )
             {
@@ -325,7 +326,7 @@ class eZDBSchemaInterface
             }
             else if ( $includeData )
             {
-                fputs( $fp, serialize( $this->data( $schema ) ) );
+                fputs( $fp, serialize( $this->data( $schema, false, array( 'offset' => $params['offset'], 'limit' => $params['limit'] ) ) ) );
             }
             fclose( $fp );
             return true;
@@ -344,7 +345,9 @@ class eZDBSchemaInterface
     function writeArraySchemaFile( $filename, $params = array() )
     {
         $params = array_merge( array( 'schema' => true,
-                                      'data' => false ),
+                                      'data' => false,
+                                      'offset' => false,
+                                      'limit' => false ),
                                $params );
         $includeSchema = $params['schema'];
         $includeData = $params['data'];
@@ -358,6 +361,7 @@ class eZDBSchemaInterface
                 fputs( $fp, "// This array contains the database schema\n" );
                 if ( isset( $schema['_info'] ) )
                 {
+                    // push the _info member at bottom of array
                     $info = $schema['_info'];
                     unset( $schema['_info'] );
                     $schema['_info'] = $info;
@@ -366,10 +370,11 @@ class eZDBSchemaInterface
             }
             if ( $includeData )
             {
-                $data = $this->data( $schema );
+                $data = $this->data( $schema, false, array( 'offset' => $params['offset'], 'limit' => $params['limit'] ) );
                 fputs( $fp, "// This array contains the database data\n" );
                 if ( isset( $data['_info'] ) )
                 {
+                    // push the _info member at bottom of array
                     $info = $data['_info'];
                     unset( $data['_info'] );
                     $data['_info'] = $info;
