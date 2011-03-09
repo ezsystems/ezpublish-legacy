@@ -12,7 +12,7 @@
  *
  * @package rest
  */
-class ezpOauthUtility
+class ezpOauthUtility extends ezpRestModel
 {
     const AUTH_HEADER_NAME     = 'Authorization';
     const AUTH_CGI_HEADER_NAME = 'HTTP_AUTHORIZATION';
@@ -152,6 +152,139 @@ class ezpOauthUtility
         {
             $token = $request->post['oauth_token'];
         }
+
+        return $token;
+    }
+
+    /**
+     * Handles a refresh_token request.
+     * Returns the new token object as ezpRestToken
+     * @param string $clientId Client identifier
+     * @param string $clientSecret Client secret key
+     * @param string $refreshToken Refresh token
+     * @return ezpRestToken
+     * @throws ezpOauthInvalidRequestException
+     */
+    public static function doRefreshToken( $clientId, $clientSecret, $refreshToken )
+    {
+        $client = ezpRestClient::fetchByClientId( $clientId );
+        $tokenTTL = (int)eZINI::instance( 'rest.ini' )->variable( 'OAuthSettings', 'TokenTTL' );
+
+        if (! ( $client instanceof ezpRestClient ) )
+            throw new ezpOauthInvalidRequestException( ezpOauthTokenEndpointErrorType::INVALID_CLIENT );
+
+        if ( !$client->validateSecret( $clientSecret ) )
+            throw new ezpOauthInvalidRequestException( ezpOauthTokenEndpointErrorType::INVALID_CLIENT );
+
+        $session = ezcPersistentSessionInstance::get();
+
+        $q = $session->createFindQuery( 'ezpRestToken' );
+        $q->where( $q->expr->eq( 'refresh_token', $q->bindValue( $refreshToken ) ) );
+        $refreshInfo = $session->find( $q, 'ezpRestToken' );
+
+        if ( empty( $refreshInfo) )
+        {
+            throw new ezpOauthInvalidRequestException( "Specified refresh-token does not exist." );
+        }
+
+        $refreshInfo = array_shift( $refreshInfo );
+
+        // Validate client is still authorized, then validate code is not expired
+        $authorized = ezpRestAuthorizedClient::fetchForClientUser( $client, eZUser::fetch( $refreshInfo->user_id ) );
+
+        if ( !($authorized instanceof ezpRestAuthorizedClient ) )
+        {
+            throw new ezpOauthInvalidRequestException( ezpOauthTokenEndpointErrorType::INVALID_CLIENT );
+        }
+
+
+        // Ideally there should be a separate expiry for refresh tokens here, for now allow.
+        $newToken = new ezpRestToken();
+        $newToken->id = ezpRestToken::generateToken( '' );
+        $newToken->refresh_token = ezpRestToken::generateToken( '' );
+        $newToken->client_id = $clientId;
+        $newToken->user_id = $refreshInfo->user_id;
+        $newToken->expirytime = time() + $tokenTTL;
+
+        $session->save( $newToken );
+        $session->delete( $refreshInfo );
+
+        return $newToken;
+    }
+
+    /**
+     * Generates a new token against an authorization_code
+     * Auth code is checked against clientId, clientSecret and redirectUri as registered for client in admin
+     * Auth code is for one-use only and will be removed once the access token generated
+     * @param string $clientId Client identifier
+     * @param string $clientSecret Client secret key
+     * @param string $authCode Authorization code provided by the client
+     * @param string $redirectUri Redirect URI. Must be the same as registered in admin
+     * @return ezpRestToken
+     * @throws ezpOauthInvalidRequestException
+     * @throws ezpOauthInvalidTokenException
+     * @throws ezpOauthExpiredTokenException
+     */
+    public static function doRefreshTokenWithAuthorizationCode( $clientId, $clientSecret, $authCode, $redirectUri )
+    {
+        $client = ezpRestClient::fetchByClientId( $clientId );
+        $tokenTTL = (int)eZINI::instance( 'rest.ini' )->variable( 'OAuthSettings', 'TokenTTL' );
+
+        if (! ( $client instanceof ezpRestClient ) )
+            throw new ezpOauthInvalidRequestException( ezpOauthTokenEndpointErrorType::INVALID_CLIENT );
+
+        if ( !$client->validateSecret( $clientSecret ) )
+            throw new ezpOauthInvalidRequestException( ezpOauthTokenEndpointErrorType::INVALID_CLIENT );
+
+        if ( !$client->isEndPointValid( $redirectUri ) )
+            throw new ezpOauthInvalidRequestException( ezpOauthTokenEndpointErrorType::INVALID_REQUEST );
+
+        $session = ezcPersistentSessionInstance::get();
+
+        $q = $session->createFindQuery( 'ezpRestAuthcode' );
+        $q->where( $q->expr->eq( 'id', $q->bindValue( $authCode ) ) );
+        $codeInfo = $session->find( $q, 'ezpRestAuthcode' );
+
+        if ( empty( $codeInfo ) )
+        {
+            throw new ezpOauthInvalidTokenException( "Specified authorization code does not exist." );
+        }
+        $codeInfo = array_shift( $codeInfo );
+
+        // Validate client is still authorized, then validate code is not expired
+        $authorized = ezpRestAuthorizedClient::fetchForClientUser( $client, eZUser::fetch( $codeInfo->user_id ) );
+
+        if ( !($authorized instanceof ezpRestAuthorizedClient ) )
+        {
+            throw new ezpOauthInvalidRequestException( ezpOauthTokenEndpointErrorType::INVALID_CLIENT );
+        }
+
+        // Check expiry of authorization_code
+        if ( $codeInfo->expirytime != 0 )
+        {
+            if ( $codeInfo->expirytime < time() )
+            {
+                $d = date( "c", $codeInfo->expirytime );
+                throw new ezpOauthExpiredTokenException( "Authorization code expired on {$d}" );
+            }
+        }
+
+        // code ok, create access and refresh tokens
+        $accessToken = ezpRestToken::generateToken( '' );
+        $refreshToken = ezpRestToken::generateToken( '' );
+
+        $token = new ezpRestToken();
+        $token->id = $accessToken;
+        $token->refresh_token = $refreshToken;
+        $token->client_id = $clientId;
+        $token->user_id = $codeInfo->user_id;
+        $token->expirytime = time() + $tokenTTL;
+
+        $session = ezcPersistentSessionInstance::get();
+        $session->save( $token );
+
+        // After an auth code is used, we'll remove it so it is not abused
+        $session->delete( $codeInfo );
 
         return $token;
     }

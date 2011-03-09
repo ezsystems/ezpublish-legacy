@@ -14,6 +14,8 @@ class ezpRestProvider
      */
     protected static $provider = null;
 
+    protected static $providerName = null;
+
     const DEFAULT_PROVIDER = 'ezp';
 
     /**
@@ -49,9 +51,12 @@ class ezpRestProvider
             $provider = self::DEFAULT_PROVIDER;
         }
 
-        if ( !( self::$provider instanceof ezpRestProviderInterface ) )
+        // Check if we already have a provider object for this provider
+        // As there can be internal redirects, we also check if the provider name is the same
+        if ( !( self::$provider instanceof ezpRestProviderInterface ) || $provider != self::$providerName )
         {
             self::$provider = self::createProvider( $provider );
+            self::$providerName = $provider;
         }
 
         return self::$provider;

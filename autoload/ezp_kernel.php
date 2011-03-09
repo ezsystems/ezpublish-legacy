@@ -620,6 +620,7 @@ return array(
       'ezpRestAtomView'                                    => 'kernel/private/rest/classes/views/atom.php',
       'ezpRestAuthConfiguration'                           => 'kernel/private/rest/classes/auth/auth_configuration.php',
       'ezpRestAuthController'                              => 'kernel/private/rest/classes/controllers/auth.php',
+      'ezpRestAuthProvider'                                => 'kernel/private/rest/classes/auth/auth_provider.php',
       'ezpRestAuthStyleNotFoundException'                  => 'kernel/private/rest/classes/exceptions/auth_style_not_found.php',
       'ezpRestAuthcode'                                    => 'kernel/private/rest/classes/models/ezprest_authcode.php',
       'ezpRestAuthenticationStyle'                         => 'kernel/private/rest/classes/auth/styles/abstract_auth_style.php',
