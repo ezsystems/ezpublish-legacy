@@ -163,6 +163,7 @@ if ( $pResponseType == 'token')
     $rExpiresIn = $tokenTTL;
 
     $parameters[] = 'access_token=' . urlencode( $rAccessToken );
+    $parameters[] = 'refresh_token=' . urlencode( $rRefreshToken );
     $parameters[] = "expires_in=$rExpiresIn";
     $location = "{$pRedirectUri}?" . implode( $parameters, '&' );
 
