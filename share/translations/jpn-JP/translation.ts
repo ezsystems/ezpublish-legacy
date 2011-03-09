@@ -2259,6 +2259,10 @@
         <source>View the draft that is being edited.</source>
         <translation>編集されているドラフトを確認する。</translation>
     </message>
+    <message>
+        <source>Path String</source>
+        <translation type="unfinished">パスストリング</translation>
+    </message>
 </context>
 <context>
     <name>design/admin/content/edit_attribute</name>
@@ -6179,6 +6183,10 @@
         <source>Invert selection</source>
         <translation type="unfinished">選択の反転</translation>
     </message>
+    <message>
+        <source>Path String</source>
+        <translation type="unfinished">パスストリング</translation>
+    </message>
 </context>
 <context>
     <name>design/admin/node/view/line</name>
@@ -9769,7 +9777,7 @@ Note: The packages will not be uninstalled.</source>
     </message>
     <message>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>

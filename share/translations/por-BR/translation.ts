@@ -1108,6 +1108,14 @@
         <source>Translations (%translations)</source>
         <translation>Traduções (%translations)</translation>
     </message>
+    <message>
+        <source>Application name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Confirm removal</source>
+        <translation type="unfinished">Confirmar remoção</translation>
+    </message>
 </context>
 <context>
     <name>design/admin/collaboration</name>
@@ -2531,6 +2539,10 @@
     <message>
         <source>View the draft that is being edited.</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Path String</source>
+        <translation type="unfinished">Caminho</translation>
     </message>
 </context>
 <context>
@@ -6728,6 +6740,10 @@ Tem certeza de que deseja remover a informação coletada?</translation>
     <message>
         <source>Invert selection</source>
         <translation type="unfinished">Inverter seleção</translation>
+    </message>
+    <message>
+        <source>Path String</source>
+        <translation type="unfinished">Caminho</translation>
     </message>
 </context>
 <context>
@@ -26301,6 +26317,175 @@ especificado. Siga as instruções do e-mail para ativar a sua conta.</translati
     </message>
 </context>
 <context>
+    <name>extension/oauth</name>
+    <message>
+        <source>Application authorization</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The application %application_name% has requested access to this website on your behalf.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>extension/oauth/authorize</name>
+    <message>
+        <source>Authorize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Deny</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>extension/oauthadmin</name>
+    <message>
+        <source>New REST application</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>oAuth admin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Confirm removal</source>
+        <translation type="unfinished">Confirmar remoção</translation>
+    </message>
+    <message>
+        <source>Application &lt;%application_name&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Last modified</source>
+        <translation type="unfinished">Última modificação</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation type="unfinished">Descrição</translation>
+    </message>
+    <message>
+        <source>Client identifier</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Client secret</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Endpoint URI</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation type="unfinished">Editar</translation>
+    </message>
+    <message>
+        <source>Edit this application.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Eliminar</translation>
+    </message>
+    <message>
+        <source>Delete this application.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove this application?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove these applications?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Confirm</source>
+        <translation type="unfinished">Confirmar</translation>
+    </message>
+    <message>
+        <source>Confirm removal of these applications.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Cancelar</translation>
+    </message>
+    <message>
+        <source>Edit application &lt;%application_name&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use this field to set the application name.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use this field to set the informal application description.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use this field to set the application endpoint URI.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished">OK</translation>
+    </message>
+    <message>
+        <source>REST applications (%applications_count)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>List of applications</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invert selection.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Modifier</source>
+        <translation type="unfinished">Modificado por</translation>
+    </message>
+    <message>
+        <source>Modified</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select application for removal.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit the &lt;%application_name&gt; application.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove the selected applications.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New application</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create a new application.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Back</source>
+        <translation type="unfinished">Voltar</translation>
+    </message>
+</context>
+<context>
     <name>kernel/cache</name>
     <message>
         <source>Content view cache</source>
@@ -27743,6 +27928,25 @@ se você selecionou a opção &quot;%3&quot; de &quot;%4&quot;  </translation>
     </message>
 </context>
 <context>
+    <name>kernel/oauthadmin</name>
+    <message>
+        <source>oAuth admin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit REST application</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Registered REST applications</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>REST application: %application_name%</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>kernel/package</name>
     <message>
         <source>Packages</source>
@@ -28725,6 +28929,14 @@ se você selecionou a opção &quot;%3&quot; de &quot;%4&quot;  </translation>
     <message>
         <source>Success</source>
         <translation>Registrado com sucesso</translation>
+    </message>
+    <message>
+        <source>oAuth</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>authorization</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

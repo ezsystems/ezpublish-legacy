@@ -2257,6 +2257,10 @@
         <source>View the draft that is being edited.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Path String</source>
+        <translation type="unfinished">Padreeks</translation>
+    </message>
 </context>
 <context>
     <name>design/admin/content/edit_attribute</name>
@@ -6143,6 +6147,10 @@
     <message>
         <source>Invert selection</source>
         <translation type="unfinished">Selectie omkeren</translation>
+    </message>
+    <message>
+        <source>Path String</source>
+        <translation type="unfinished">Padreeks</translation>
     </message>
 </context>
 <context>

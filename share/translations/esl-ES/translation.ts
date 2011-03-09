@@ -2257,6 +2257,10 @@
         <source>View the draft that is being edited.</source>
         <translation>Ver el borrador que está siendo editado.</translation>
     </message>
+    <message>
+        <source>Path String</source>
+        <translation type="unfinished">Ruta</translation>
+    </message>
 </context>
 <context>
     <name>design/admin/content/edit_attribute</name>
@@ -6187,6 +6191,10 @@
     <message>
         <source>Invert selection</source>
         <translation>Invertir la selección</translation>
+    </message>
+    <message>
+        <source>Path String</source>
+        <translation type="unfinished">Ruta</translation>
     </message>
 </context>
 <context>
