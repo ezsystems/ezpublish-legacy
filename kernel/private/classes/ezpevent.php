@@ -27,10 +27,11 @@ class ezpEvent
 
     /**
      * Count of listeners, used to generate listener id
+     * Global to make sure it's unique.
      *
      * @var int
      */
-    protected $listenerIdNumber = 0;
+    protected static $listenerIdNumber = 0;
 
     /**
      * Holds the instance of this class
@@ -66,7 +67,7 @@ class ezpEvent
      */
     public function attach( $name, $listener )
     {
-        $id = $this->listenerIdNumber++;
+        $id = self::$listenerIdNumber++;
         // explode callback if static class string, workaround for PHP < 5.2.3
         if ( is_string( $listener ) && strpos( $listener, '::' ) !== false )
         {
