@@ -9,7 +9,7 @@
  */
 
 /**
- * This class takes handles interal kernel events in eZ Publish, aka hooks.
+ * This class handles internal kernel events in eZ Publish, aka hooks.
  *
  * @internal
  * @since 4.5.0
@@ -19,7 +19,7 @@
 class ezpEvent
 {
     /**
-     * Contains all registereded listeners (callbacks)
+     * Contains all registered listeners (callbacks)
      *
      * @var array
      */
@@ -58,7 +58,7 @@ class ezpEvent
     }
 
     /**
-     * Attach a event listener at run time on demand.
+     * Attach an event listener at run time on demand.
      *
      * @param string $name In the form "content/delete/1" or "content/delete"
      * @param array|string $listener A valid PHP callback {@see http://php.net/manual/en/language.pseudo-types.php#language.types.callback}
@@ -85,7 +85,7 @@ class ezpEvent
     }
 
     /**
-     * Detach a event listener by id given when it was added.
+     * Detach an event listener by id given when it was added.
      *
      * @param string $name
      * @param int $id

@@ -3,7 +3,7 @@ Event system
 
 Intro
 -----
-This version includes a preview of a event dispatch system.
+This version includes a preview of an event dispatch system.
 
 The background for adding it is to have a uniformed extension point in the
 kernel for places where extensions needs to be notified about certain actions.
@@ -14,7 +14,7 @@ into extensions.
 This system overlaps slightly with our current trigger/operations system, but is
 much lighter. The general idea is that our workflow system at some point should be
 replaced by a full blown workflow system like ezcWorkflow, and hence will not any longer
-be suited as a event bus system for inter kernel components / extension notifications.
+be suited as an event bus system for inter kernel components / extension notifications.
 
 
 How to use: Globally
@@ -34,7 +34,7 @@ Note: Api is placed in kernel/private/classes/, meaning it is not a public api a
 Type of events
 --------------
 There are currently two types of possible events, listeners and filters.
-Listerners works like notification system, no interaction is possible by listener unless parameters
+Listeners works like notification system, no interaction is possible by listener unless parameters
 provided are objects or it is documented as allowing certain exceptions to be thrown.
 Filters on the other hand are supposed to modify the input value they get, and
 *must* always return the input value regardless if they modify it or not.
