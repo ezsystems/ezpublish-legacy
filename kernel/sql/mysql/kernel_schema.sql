@@ -1156,7 +1156,7 @@ CREATE TABLE ezprest_clients (
   client_id varchar(200) default NULL,
   client_secret varchar(200) default NULL,
   created int(11) NOT NULL default '0',
-  description text,
+  description longtext,
   endpoint_uri varchar(200) default NULL,
   id int(11) NOT NULL auto_increment,
   name varchar(100) default NULL,
@@ -1165,7 +1165,7 @@ CREATE TABLE ezprest_clients (
   version int(1) NOT NULL default '0',
   PRIMARY KEY  (id),
   KEY client_id (client_id),
-  UNIQUE KEY client_id_UNIQUE (client_id,version)
+  UNIQUE KEY client_id_unique (client_id,version)
 ) ENGINE=InnoDB;
 
 
