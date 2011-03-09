@@ -62,7 +62,7 @@ class ezpEvent
      *
      * @param string $name In the form "content/delete/1" or "content/delete"
      * @param array|string $listener A valid PHP callback {@see http://php.net/manual/en/language.pseudo-types.php#language.types.callback}
-     * @return int Listener id, can be used to unsubscribe a listener later {@see unsubscribe()}
+     * @return int Listener id, can be used to detach a listener later {@see detach()}
      */
     public function attach( $name, $listener )
     {
