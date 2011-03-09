@@ -49,7 +49,7 @@ class ezpEvent
             $listeners = eZINI::instance()->variable('Event', 'Listeners');
             foreach ( $listeners as $listener => $event )
             {
-                if ( $event )
+                if ( !empty( $event ) )
                 {
                     $this->attach( $event, $listener );
                 }
@@ -73,14 +73,7 @@ class ezpEvent
             $listener = explode( '::', $listener );
         }
 
-        if ( !isset( $this->listeners[$name] ) )
-        {
-            $this->listeners[$name] = array( $id => $listener );
-        }
-        else
-        {
-            $this->listeners[$name][$id] = $listener;
-        }
+        $this->listeners[$name][$id] = $listener;
         return $id;
     }
 
