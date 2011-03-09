@@ -116,10 +116,10 @@ You can configure as many filters as you want, as PHP classes. Each filter will 
 accept the object for asynchronous publishing, or reject it. If a filter rejects an object, filters processing will be
 stopped, and the object will be published synchronously.
 
-Implementation: extend eZAsynchronousPublishingFilter
+Implementation: extend ezpAsynchronousPublishingFilter
 '''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-In order to implement a filter, you must create a class that extends the ``eZAsynchronousPublishingFilter`` abstract class.
+In order to implement a filter, you must create a class that extends the ``ezpAsynchronousPublishingFilter`` abstract class.
 This class implements the ``eZAsynchronousPublishingFilterInterface`` interface, and enforces the definition of the ``accept()``
 method. The ``accept()`` method must return a boolean. True means the object can be published asynchronously, while false
 instructs the system to skip the asynchronous publishing feature, and publish the content directly.
@@ -135,7 +135,7 @@ Example::
      * Exclude from asynchronous publishing any object that isn't an article
      * @return bool
      */
-    class eZAsynchronousPublishingClassFilter extends eZAsynchronousPublishingFilter
+    class eZAsynchronousPublishingClassFilter extends ezpAsynchronousPublishingFilter
     {
         public function accept()
         {

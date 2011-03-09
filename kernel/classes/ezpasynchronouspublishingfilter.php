@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the eZAsynchronousPublishingFilter interface.
+ * File containing the ezpAsynchronousPublishingFilter interface.
  *
  * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
  * @license http://ez.no/licenses/gnu_gpl GNU GPL v2
@@ -20,7 +20,7 @@
  * All registered filters will be called sequentially until one returns false, or all of them have been called
  * @package kernel
  */
-abstract class eZAsynchronousPublishingFilter implements eZAsynchronousPublishingFilterInterface
+abstract class ezpAsynchronousPublishingFilter implements eZAsynchronousPublishingFilterInterface
 {
     public function __construct( eZContentObjectVersion $version )
     {
