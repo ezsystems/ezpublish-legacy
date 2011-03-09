@@ -38,12 +38,15 @@ class ezpEvent
      *
      * @var null|ezpEvent
      */
-    static protected $instance = null;
+    protected static $instance = null;
 
     /**
-     * This is an all static class (a global class), so constructing is not allowed
+     * Constructer
+     * In most cases you would want to use {@see getInstance()} instead
+     *
+     * @param bool $loadGlobalEvents Load global events from ini settings
      */
-    protected function __construct( $loadGlobalEvents = true )
+    public function __construct( $loadGlobalEvents = true )
     {
         if ( $loadGlobalEvents )
         {
@@ -82,7 +85,7 @@ class ezpEvent
      * Detach an event listener by id given when it was added.
      *
      * @param string $name
-     * @param int $id
+     * @param int $id The unique id given by {@see attach()}
      * @return bool True if the listener has been correctly detached
      */
     public function detach( $name, $id )
@@ -143,7 +146,7 @@ class ezpEvent
      *
      * @return ezpEvent
      */
-    static public function getInstance()
+    public static function getInstance()
     {
         if ( !self::$instance instanceof ezpEvent )
         {
@@ -155,7 +158,7 @@ class ezpEvent
     /**
      * Resets instance
      */
-    static public function resetInstance()
+    public static function resetInstance()
     {
         self::$instance = null;
     }
