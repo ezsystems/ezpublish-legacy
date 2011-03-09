@@ -20,7 +20,6 @@ $ini = eZINI::instance();
 eZSys::init( 'index.php', $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost' ) == 'true' );
 $uri = eZURI::instance( eZSys::requestURI() );
 $GLOBALS['eZRequestedURI'] = $uri;
-require_once 'kernel/common/ezincludefunctions.php';
 
 eZExtension::activateExtensions( 'default' );
 
