@@ -78,7 +78,7 @@ if ( !$user->isLoggedIn() )
                                     'url' => false ),
                              array( 'text' => ezpI18n::tr( 'kernel/user', 'Login' ),
                                     'url' => false ) );
-    $result['pagelayout'] = 'loginpagelayout.tpl';
+    $result['pagelayout'] = 'oauthloginpagelayout.tpl';
 
     return $result;
 }
@@ -122,7 +122,7 @@ if ( !$application->isAuthorizedByUser( $pScope, eZUser::currentUser() ) )
 
         $result = array();
         $result['content'] = $tpl->fetch( 'design:oauth/authorize.tpl' );
-        $result['pagelayout'] = 'loginpagelayout.tpl';
+        $result['pagelayout'] = 'oauthloginpagelayout.tpl';
         $result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/user', 'oAuth' ),
                                         'url' => false ),
                                  array( 'text' => ezpI18n::tr( 'kernel/user', 'authorization' ),
