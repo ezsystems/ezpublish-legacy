@@ -63,7 +63,7 @@
 
 <tr>
     <th width="61%">{'Categories'|i18n( 'design/admin/setup/cache' )}</th>
-    <th width="39%">{''|i18n( 'design/admin/setup/cache' )}</th>
+    <th width="39%"></th>
 </tr>
 
 {* Template cache. *}
@@ -169,7 +169,7 @@
 <table class="list cache" cellspacing="0">
 <tr>
     <th width="61%">{'Categories'|i18n( 'design/admin/setup/cache' )}</th>
-    <th width="39%">{''|i18n( 'design/admin/setup/cache' )}</th>
+    <th width="39%"></th>
 </tr>
 
 {* Static content cache. *}

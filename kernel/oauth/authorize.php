@@ -17,6 +17,7 @@ $module = $Params['Module'];
 
 // First check for mandatory parameters
 $http = eZHTTPTool::instance();
+$restINI = eZINI::instance( 'rest.ini' );
 
 // Redirect URI, required to handle other errors, checked first
 if ( ( $pRedirectUri = getHTTPVariable( 'redirect_uri' ) ) === false )
@@ -78,7 +79,7 @@ if ( !$user->isLoggedIn() )
                                     'url' => false ),
                              array( 'text' => ezpI18n::tr( 'kernel/user', 'Login' ),
                                     'url' => false ) );
-    $result['pagelayout'] = 'loginpagelayout.tpl';
+    $result['pagelayout'] = 'oauthloginpagelayout.tpl';
 
     return $result;
 }
@@ -122,7 +123,7 @@ if ( !$application->isAuthorizedByUser( $pScope, eZUser::currentUser() ) )
 
         $result = array();
         $result['content'] = $tpl->fetch( 'design:oauth/authorize.tpl' );
-        $result['pagelayout'] = 'loginpagelayout.tpl';
+        $result['pagelayout'] = 'oauthloginpagelayout.tpl';
         $result['path'] = array( array( 'text' => ezpI18n::tr( 'kernel/user', 'oAuth' ),
                                         'url' => false ),
                                  array( 'text' => ezpI18n::tr( 'kernel/user', 'authorization' ),
@@ -132,6 +133,7 @@ if ( !$application->isAuthorizedByUser( $pScope, eZUser::currentUser() ) )
     }
 }
 
+$tokenTTL = (int)$restINI->variable( 'OAuthSettings', 'TokenTTL' );
 if ( $pResponseType == 'token')
 {
     // At this point, the we know the user HAS granted access, and can hand over a token
@@ -143,7 +145,7 @@ if ( $pResponseType == 'token')
     $token->refresh_token = $rRefreshToken;
     $token->client_id = $pClientId;
     $token->user_id = $user->attribute( 'contentobject_id' );
-    $token->expirytime = time() + 3600;
+    $token->expirytime = time() + $tokenTTL;
 
     $session = ezcPersistentSessionInstance::get();
     $session->save( $token );
@@ -158,9 +160,10 @@ if ( $pResponseType == 'token')
     // - state, not implemented yet (state persistency related)
     $parameters = array();
 
-    $rExpiresIn = 3600;
+    $rExpiresIn = $tokenTTL;
 
     $parameters[] = 'access_token=' . urlencode( $rAccessToken );
+    $parameters[] = 'refresh_token=' . urlencode( $rRefreshToken );
     $parameters[] = "expires_in=$rExpiresIn";
     $location = "{$pRedirectUri}?" . implode( $parameters, '&' );
 
@@ -175,7 +178,7 @@ elseif ( $pResponseType ==  'code')
     $code->id = $rCode;
     $code->client_id = $pClientId;
     $code->user_id = $user->attribute( 'contentobject_id' );
-    $code->expirytime = time() + 3600;
+    $code->expirytime = time() + $tokenTTL;
 
     $session = ezcPersistentSessionInstance::get();
     $session->save( $code );
@@ -190,7 +193,7 @@ elseif ( $pResponseType ==  'code')
     // - state, not implemented yet (state persistency related)
     $parameters = array();
 
-    $rExpiresIn = 3600;
+    $rExpiresIn = $tokenTTL;
 
     $parameters[] = 'code=' . urlencode( $rCode );
     $parameters[] = "expires_in=$rExpiresIn";

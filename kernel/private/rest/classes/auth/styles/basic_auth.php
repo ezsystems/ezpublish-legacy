@@ -7,19 +7,13 @@
  *
  */
 
-class ezpRestBasicAuthStyle implements ezpRestAuthenticationStyle
+class ezpRestBasicAuthStyle extends ezpRestAuthenticationStyle implements ezpRestAuthenticationStyleInterface
 {
-    protected $prefix;
-
-    public function __construct()
-    {
-        $this->prefix = eZINI::instance( 'rest.ini' )->variable( 'System', 'ApiPrefix' );
-    }
     public function setup( ezcMvcRequest $request )
     {
         if ( $request->authentication === null )
         {
-            $request->uri = "{$this->prefix}/http-basic-auth";
+            $request->uri = "{$this->prefix}/auth/http-basic-auth";
             return new ezcMvcInternalRedirect( $request );
         }
 
@@ -36,12 +30,13 @@ class ezpRestBasicAuthStyle implements ezpRestAuthenticationStyle
     {
         if ( !$auth->run() )
         {
-            $request->uri = "{$this->prefix}/http-basic-auth";
+            $request->uri = "{$this->prefix}/auth/http-basic-auth";
             return new ezcMvcInternalRedirect( $request );
         }
         else
         {
-            // We're in
+            // We're in. Get the ezp user and return it
+            return eZUser::fetchByName( $auth->credentials->id );
         }
     }
 }

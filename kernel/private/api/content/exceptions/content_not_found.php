@@ -7,7 +7,7 @@
  *
  */
 
-class ezpContentNotFoundException extends ezcBaseException
+class ezpContentNotFoundException extends ezpContentException
 {
     public function __construct( $message )
     {

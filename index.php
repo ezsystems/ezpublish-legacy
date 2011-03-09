@@ -258,11 +258,12 @@ function eZDisplayResult( $templateResult )
 {
     if ( $templateResult !== null )
     {
-        $classname = eZINI::instance()->variable( "OutputSettings", "OutputFilterName" );
+        $classname = eZINI::instance()->variable( "OutputSettings", "OutputFilterName" );//deprecated
         if( !empty( $classname ) && class_exists( $classname ) )
         {
             $templateResult = call_user_func( array ( $classname, 'filter' ), $templateResult );
         }
+        $templateResult = ezpEvent::getInstance()->filter('response/output', $templateResult );
         $debugMarker = '<!--DEBUG_REPORT-->';
         $pos = strpos( $templateResult, $debugMarker );
         if ( $pos !== false )
@@ -352,6 +353,9 @@ eZINI::resetAllInstances( false );
 $moduleRepositories = eZModule::activeModuleRepositories();
 eZModule::setGlobalPathList( $moduleRepositories );
 
+// make sure we get a new $ini instance now that it has been reset
+$ini = eZINI::instance();
+
 // start: eZCheckValidity
 // pre check, setup wizard related so needs to be before session/db init
 if ( $ini->variable( 'SiteAccessSettings', 'CheckValidity' ) === 'true' )
@@ -437,6 +441,9 @@ if ( !isset( $check ) )
  * @uses eZUser::instance() So needs to be executed after eZSession::start()|lazyStart()
  */
 eZDebug::checkDebugByUser();
+
+
+ezpEvent::getInstance()->notify( 'request/input', array( $uri ) );
 
 // Initialize with locale settings
 $locale = eZLocale::instance();

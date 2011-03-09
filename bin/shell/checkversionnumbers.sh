@@ -6,19 +6,19 @@
 # The last version which changelogs and db updates are related to
 # For the first development release this should be empty, in
 # wich case $LAST_STABLE is used.
-PREVIOUS_VERSION="4.4.0"
+PREVIOUS_VERSION="4.5.0beta1"
 # The last version of the newest stable branch
 LAST_STABLE="4.4.0"
 # Set this to true if the LAST_STABLE has been modified from the last release
 # This will be set to true automatically if the release is a final release
-LAST_STABLE_CHANGED="true"
+LAST_STABLE_CHANGED="false"
 
 MAJOR=4
 MINOR=5
 RELEASE=0
 # Starts at 1 for the first release in a branch and increases with one
 REAL_RELEASE=1
-STATE="alpha1"
+STATE="beta2"
 VERSION=$MAJOR"."$MINOR"."$RELEASE""$STATE
 VERSION_ONLY=$MAJOR"."$MINOR
 BRANCH_VERSION=$MAJOR"."$MINOR
@@ -28,7 +28,7 @@ PACKAGE_DEVELOPMENT="false"
 # Is automatically set to 'true' when $STATE contains some text, do not modify
 DEVELOPMENT="true"
 # Whether the previous release is a development release or not.
-DEVELOPMENT_PREVIOUS="false"
+DEVELOPMENT_PREVIOUS="true"
 # Is only true when the release is a final release (ie. the first of the stable ones)
 # Will be automatically set to true when $RELEASE is 0 and $DEVELOPMENT is false
 FINAL="false"
@@ -607,63 +607,63 @@ else
     prev="$PREVIOUS_VERSION"
 fi
 
-if [ "$DEVELOPMENT" == "true" ]; then
-    file="doc/changelogs/$BRANCH_VERSION/unstable/CHANGELOG-$prev-to-$VERSION"
-else
-    file="doc/changelogs/$BRANCH_VERSION/CHANGELOG-$prev-to-$VERSION"
-fi
-if [ ! -f $file ]; then
-    echo "`$SETCOLOR_FAILURE`Missing changelog file`$SETCOLOR_NORMAL`"
-    echo "The changelog file `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL` is missing"
-    echo "This file is required for a valid release"
-    if [ -n "$FIRST_STABLE" ]; then
-	echo "It should contain all the changes from all the previous development releases"
-    else
-	echo "It should contain the changes from the previous version $prev"
-    fi
-    echo
-    MAIN_ERROR="1"
-    [ -n "$EXIT_AT_ONCE" ] && exit 1
-else
-    if ! grep -E "Changes from $prev to $VERSION" $file &>/dev/null; then
-	echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
-	echo "Wrong/missing version number in `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL`"
-	echo "The changelog should contain this line at the top:"
-	echo "Changes from `$SETCOLOR_EMPHASIZE`$prev`$SETCOLOR_NORMAL` to `$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`"
-	echo
-	MAIN_ERROR="1"
-	[ -n "$EXIT_AT_ONCE" ] && exit 1
-    fi
-fi
-
-if [ "$DEVELOPMENT" == "false" -a "$LAST_STABLE_CHANGED" == "true" ]; then
-    file="$files doc/changelogs/$BRANCH_VERSION/CHANGELOG-$LAST_STABLE-to-$VERSION"
-
-    if [ ! -f $file ]; then
-	echo "`$SETCOLOR_FAILURE`Missing changelog file`$SETCOLOR_NORMAL`"
-	echo "The changelog file `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL` is missing"
-	echo "This file is required for a valid release"
-	if [ -n "$FIRST_STABLE" ]; then
-	    echo "It should contain all the changes from all the previous development releases"
-	else
-	    echo "It should contain the changes from the last stable $LAST_STABLE"
-	    echo "This is usually all the changes from all the development changelogs"
-	fi
-	echo
-	MAIN_ERROR="1"
-	[ -n "$EXIT_AT_ONCE" ] && exit 1
-    else
-	if ! grep -E "Changes from $LAST_STABLE to $VERSION" $file &>/dev/null; then
-	    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
-	    echo "Wrong/missing version number in `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL`"
-	    echo "The changelog should contain this line at the top:"
-	    echo "Changes from `$SETCOLOR_EMPHASIZE`$LAST_STABLE`$SETCOLOR_NORMAL` to `$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`"
-	    echo
-	    MAIN_ERROR="1"
-	    [ -n "$EXIT_AT_ONCE" ] && exit 1
-	fi
-    fi
-fi
+# if [ "$DEVELOPMENT" == "true" ]; then
+#     file="doc/changelogs/$BRANCH_VERSION/unstable/CHANGELOG-$prev-to-$VERSION"
+# else
+#     file="doc/changelogs/$BRANCH_VERSION/CHANGELOG-$prev-to-$VERSION"
+# fi
+# if [ ! -f $file ]; then
+#     echo "`$SETCOLOR_FAILURE`Missing changelog file`$SETCOLOR_NORMAL`"
+#     echo "The changelog file `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL` is missing"
+#     echo "This file is required for a valid release"
+#     if [ -n "$FIRST_STABLE" ]; then
+# 	echo "It should contain all the changes from all the previous development releases"
+#     else
+# 	echo "It should contain the changes from the previous version $prev"
+#     fi
+#     echo
+#     MAIN_ERROR="1"
+#     [ -n "$EXIT_AT_ONCE" ] && exit 1
+# else
+#     if ! grep -E "Changes from $prev to $VERSION" $file &>/dev/null; then
+# 	echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
+# 	echo "Wrong/missing version number in `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL`"
+# 	echo "The changelog should contain this line at the top:"
+# 	echo "Changes from `$SETCOLOR_EMPHASIZE`$prev`$SETCOLOR_NORMAL` to `$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`"
+# 	echo
+# 	MAIN_ERROR="1"
+# 	[ -n "$EXIT_AT_ONCE" ] && exit 1
+#     fi
+# fi
+#
+# if [ "$DEVELOPMENT" == "false" -a "$LAST_STABLE_CHANGED" == "true" ]; then
+#     file="$files doc/changelogs/$BRANCH_VERSION/CHANGELOG-$LAST_STABLE-to-$VERSION"
+#
+#     if [ ! -f $file ]; then
+# 	echo "`$SETCOLOR_FAILURE`Missing changelog file`$SETCOLOR_NORMAL`"
+# 	echo "The changelog file `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL` is missing"
+# 	echo "This file is required for a valid release"
+# 	if [ -n "$FIRST_STABLE" ]; then
+# 	    echo "It should contain all the changes from all the previous development releases"
+# 	else
+# 	    echo "It should contain the changes from the last stable $LAST_STABLE"
+# 	    echo "This is usually all the changes from all the development changelogs"
+# 	fi
+# 	echo
+# 	MAIN_ERROR="1"
+# 	[ -n "$EXIT_AT_ONCE" ] && exit 1
+#     else
+# 	if ! grep -E "Changes from $LAST_STABLE to $VERSION" $file &>/dev/null; then
+# 	    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
+# 	    echo "Wrong/missing version number in `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL`"
+# 	    echo "The changelog should contain this line at the top:"
+# 	    echo "Changes from `$SETCOLOR_EMPHASIZE`$LAST_STABLE`$SETCOLOR_NORMAL` to `$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`"
+# 	    echo
+# 	    MAIN_ERROR="1"
+# 	    [ -n "$EXIT_AT_ONCE" ] && exit 1
+# 	fi
+#     fi
+# fi
 
 # if [ -n "$FIRST_STABLE" ]; then
 #     prev="$PREVIOUS_VERSION"

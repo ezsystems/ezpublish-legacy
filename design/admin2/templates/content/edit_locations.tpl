@@ -1,13 +1,14 @@
 {default exclude_remote_assignments=false()}
 {let name=Node exclude_remote_assignments=$:exclude_remote_assignments
-               sort_fields=hash( 2, 'Published'|i18n( 'design/admin/content/edit' ),
-                                 3, 'Modified'|i18n( 'design/admin/content/edit' ),
-                                 4, 'Section'|i18n( 'design/admin/content/edit' ),
-                                 5, 'Depth'|i18n( 'design/admin/content/edit' ),
-                                 9, 'Name'|i18n( 'design/admin/content/edit' ),
-                                 6, 'Class identifier'|i18n( 'design/admin/content/edit' ),
+               sort_fields=hash( 6, 'Class identifier'|i18n( 'design/admin/content/edit' ),
                                  7, 'Class name'|i18n( 'design/admin/content/edit' ),
-                                 8, 'Priority'|i18n( 'design/admin/content/edit' ) )
+                                 5, 'Depth'|i18n( 'design/admin/content/edit' ),
+                                 3, 'Modified'|i18n( 'design/admin/content/edit' ),
+                                 9, 'Name'|i18n( 'design/admin/content/edit' ),
+                                 1, 'Path String'|i18n( 'design/admin/content/edit' ),
+                                 8, 'Priority'|i18n( 'design/admin/content/edit' ),
+                                 2, 'Published'|i18n( 'design/admin/content/edit' ),
+                                 4, 'Section'|i18n( 'design/admin/content/edit' ) )
                has_top_levels=false()
                existingParentNodes=$object.parent_nodes}
 

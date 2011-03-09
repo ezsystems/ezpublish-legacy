@@ -20,33 +20,30 @@ $ini = eZINI::instance();
 eZSys::init( 'index.php', $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost' ) == 'true' );
 $uri = eZURI::instance( eZSys::requestURI() );
 $GLOBALS['eZRequestedURI'] = $uri;
-require_once 'kernel/common/ezincludefunctions.php';
 
+// load extensions
 eZExtension::activateExtensions( 'default' );
 
-// setup for changeAccess() needs some methods defined in old index.php
+// setup for eZSiteAccess:change() needs some methods defined in old index.php
 // We disable it, since we dont' want any override settings to change the
 // debug settings here
 function eZUpdateDebugSettings() {}
 
-
-require_once "access.php";
-
+// load siteaccess
 $access = eZSiteAccess::match( $uri,
                       eZSys::hostname(),
                       eZSys::serverPort(),
                       eZSys::indexFile() );
 $access = eZSiteAccess::change( $access );
 
+// load siteaccess extensions
+eZExtension::activateExtensions( 'access' );
+
 if( ezpRestDebug::isDebugEnabled() )
 {
     $debug = ezpRestDebug::getInstance();
     $debug->updateDebugSettings();
 }
-
-// Adding the compat layer for i18n methods, as this is used in some of the
-// datatypes in extensions
-require_once 'kernel/common/i18n.php';
 
 
 $mvcConfig = new ezpMvcConfiguration();

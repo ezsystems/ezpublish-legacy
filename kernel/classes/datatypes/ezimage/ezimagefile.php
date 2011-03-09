@@ -109,11 +109,16 @@ class eZImageFile extends eZPersistentObject
     {
         $db = eZDB::instance();
         $contentObjectAttributeID = (int) $contentObjectAttributeID;
-        $query = "SELECT contentobject_id, contentclassattribute_id
-                  FROM   ezcontentobject_attribute
-                  WHERE  id = $contentObjectAttributeID
-                  LIMIT 1";
-        $rows = $db->arrayQuery( $query );
+
+        $cond = array( 'id' => $contentObjectAttributeID );
+        $fields = array( 'contentobject_id', 'contentclassattribute_id' );
+        $limit = array( 'offset' => 0, 'length' => 1 );
+        $rows = eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
+                                                     $fields,
+                                                     $cond,
+                                                     null,
+                                                     $limit,
+                                                     false );
         if ( count( $rows ) != 1 )
             return array();
 

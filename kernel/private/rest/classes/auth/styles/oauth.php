@@ -7,7 +7,7 @@
  *
  */
 
-class ezpRestOauthAuthenticationStyle implements ezpRestAuthenticationStyle
+class ezpRestOauthAuthenticationStyle extends ezpRestAuthenticationStyle implements ezpRestAuthenticationStyleInterface
 {
     // @TODO auth vars should probably be shared internally here.
     public function setup( ezcMvcRequest $request )
@@ -30,14 +30,32 @@ class ezpRestOauthAuthenticationStyle implements ezpRestAuthenticationStyle
     {
         if ( !$auth->run() )
         {
-            // @TODO Current code block is inactive as auth is currently handled
-            // via exceptions rather than via auth status.
-            $request->variables['ezcAuth_redirUrl'] = $request->uri;
-            $request->variables['ezcAuth_reasons'] = $auth->getStatus();
-            $request->uri = '/login/oauth';
+            $aStatuses = $auth->getStatus();
+            $statusCode = null;
+            foreach ( $aStatuses as $status )
+            {
+                if ( key( $status ) === 'ezpOauthFilter' )
+                {
+                    $statusCode = current( $status );
+                    break;
+                }
+            }
+
+            $request->variables['ezpAuth_redirUrl'] = $request->uri;
+            $request->variables['ezpAuth_reason'] = $statusCode;
+            $request->uri = "{$this->prefix}/auth/oauth/login";
             return new ezcMvcInternalRedirect( $request );
         }
-        return;
+        else
+        {
+            $user = eZUser::fetch( ezpOauthFilter::$tokenInfo->user_id );
+            if ( !$user instanceof eZUser )
+            {
+                throw new ezpUserNotFoundException( ezpOauthFilter::$tokenInfo->user_id );
+            }
+
+            return $user;
+        }
     }
 
     /**
@@ -79,6 +97,5 @@ class ezpRestOauthAuthenticationStyle implements ezpRestAuthenticationStyle
         }
         $res->variables['ezcAuth_reasons']  = $reasonText;
     }
-
 }
 ?>

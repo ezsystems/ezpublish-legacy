@@ -9,6 +9,7 @@
 /**
  * Generic exception class for ezpCacheCluster
  */
+class ezpCacheClusterException extends ezcCacheException
 {
 
 }

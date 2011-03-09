@@ -9777,10 +9777,6 @@ Nota: Els paquets no seran desinstal·lats.</translation>
         <source>Categories</source>
         <translation>Categories</translation>
     </message>
-    <message>
-        <source></source>
-        <translation></translation>
-    </message>
 </context>
 <context>
     <name>design/admin/setup/datatypecode</name>

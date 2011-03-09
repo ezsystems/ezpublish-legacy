@@ -26,6 +26,9 @@ Change of behavior
   So for clearity it is recomended to use "new eZINI()" instead if want to specify any of
   these parameters manually.
 
+- eZDB::instance() and eZDB::connect() will now throw an eZDBNoConnectionException
+
+  These two methods will throw an eZDBNoConnectionException if connecting to the database server fails.
 
 Removed features
 ----------------
@@ -110,3 +113,13 @@ Deprecated
 - eZOverride
 
   Not used anywhere.
+
+- eZSession::addCallback() & eZSession::triggerCallback()
+
+  These callbacks have been deprecated in favour of new ezpEvent system.
+  New improved events for session has been added, see features/4.5/event.txt
+
+- site.ini\[OutputSettings]\OutputFilterName
+
+  This feature has been deprecated in favour of new ezpEvent system.
+  see features/4.5/event.txt

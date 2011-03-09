@@ -163,25 +163,34 @@ abstract class ezpRestMvcController extends ezcMvcController
         $cache->isCacheEnabled = $isCacheEnabled;
         if( ( $res = $cache->restore( $controllerCacheId ) ) === false )
         {
-            $debug->log( 'Generating cache', ezcLog::DEBUG );
-            $debug->switchTimer( 'GeneratingCache', 'GeneratingRestResult' );
-
-            $res = parent::createResult();
-            $resGroups = $this->getResponseGroups();
-            if ( !empty( $resGroups ) )
+            try
             {
-                $res->variables['requestedResponseGroups'] = $resGroups;
-            }
+                $debug->log( 'Generating cache', ezcLog::DEBUG );
+                $debug->switchTimer( 'GeneratingCache', 'GeneratingRestResult' );
 
-            if ( $res instanceof ezpRestMvcResult )
+                $res = parent::createResult();
+                $resGroups = $this->getResponseGroups();
+                if ( !empty( $resGroups ) )
+                {
+                    $res->variables['requestedResponseGroups'] = $resGroups;
+                }
+
+                if ( $res instanceof ezpRestMvcResult )
+                {
+                    $res->responseGroups = $resGroups;
+                }
+
+                if( $isCacheEnabled )
+                    $cache->store( $controllerCacheId, $res );
+
+                $debug->stopTimer( 'GeneratingCache' );
+            }
+            catch ( Exception $e )
             {
-                $res->responseGroups = $resGroups;
+                $debug->log( 'Exception caught, aborting cache generation', ezcLog::DEBUG );
+                $cache->abortCacheGeneration();
+                throw $e;
             }
-
-            if( $isCacheEnabled )
-                $cache->store( $controllerCacheId, $res );
-
-            $debug->stopTimer( 'GeneratingCache' );
         }
 
         // Add debug infos to output if debug is enabled

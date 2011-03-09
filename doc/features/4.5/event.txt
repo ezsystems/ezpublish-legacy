@@ -1,0 +1,63 @@
+Event system
+============
+
+Intro
+-----
+This version includes a preview of an event dispatch system.
+
+The background for adding it is to have a uniformed extension point in the
+kernel for places where extensions needs to be notified about certain actions.
+And in some cases be able to manipulate that specific action.
+This is also needed to be able to cleanup our kernel and move things like shop out
+into extensions.
+
+This system overlaps slightly with our current trigger/operations system, but is
+much lighter. The general idea is that our workflow system at some point should be
+replaced by a full blown workflow system like ezcWorkflow, and hence will not any longer
+be suited as an event bus system for inter kernel components / extension notifications.
+
+
+How to use: Globally
+--------------------
+To listen to events globally, ini settings is used.
+
+The ini setting used is site.ini/[Event]/Listeners[] and doc on use can be found there.
+
+
+How to use: Lazy load
+---------------------
+Note: Api is placed in kernel/private/classes/, meaning it is not a public api and can be changed at anytime!
+
+{@see ezpEvent->attach()}
+
+
+Type of events
+--------------
+There are currently two types of possible events, listeners and filters.
+Listeners works like notification system, no interaction is possible by listener unless parameters
+provided are objects or it is documented as allowing certain exceptions to be thrown.
+Filters on the other hand are supposed to modify the input value they get, and
+*must* always return the input value regardless if they modify it or not.
+
+
+Signature of events
+-------------------
+{@see ezpEvent->notify()}
+Note: Since this feature is private api, these can change at anytime.
+
+request/input       ( eZURI $uri )
+session/cleanup     ()
+session/destroy     ( string $sessionId )
+session/regenerate  ( string $oldSessionId, string $newSessionId )
+session/gc          ( int $maxLifeTime )
+
+
+Signature of filters
+-------------------
+{@see ezpEvent->filter()}
+Note: Since this feature is private api, these can change at anytime.
+Filters *must* return the value they are given even if they don't change it
+
+response/output     ( string $templateResult )
+content/cache       ( array $nodeList )
+

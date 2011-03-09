@@ -17502,7 +17502,7 @@ Si vous voulez laisser un commentaire au responsable de l'approbation ou en voir
     </message>
     <message>
         <source>The message was not sent due to an unknown error. Please notify the site administrator about this error.</source>
-        <translation>Le message n'a pas été envoyé car une erreur inconnue est survenue. S.V.P. avisez l'administrateur du Site.</translation>
+        <translation>Le message n'a pas été envoyé car une erreur inconnue est survenue. Veuillez en aviser l'administrateur du site.</translation>
     </message>
     <message>
         <source>Your name</source>
@@ -21822,7 +21822,7 @@ Pour résoudre ce problème, vous devez choisir l'une des options suivantes:</tr
     </message>
     <message>
         <source>You have chosen the same database for two or more site templates. Please change where indicated by *</source>
-        <translation>Vous avez choisi la même base de données pour deux modèles de site ou plus. S.V.P. modifiez lorsqu'indiqué par *</translation>
+        <translation>Vous avez choisi la même base de données pour deux modèles de site ou plus. Veuillez modifier les champs marqués par *</translation>
     </message>
     <message>
         <source>Site url</source>
@@ -24704,7 +24704,7 @@ Pour faire cela, vous avez besoin de changer les commandes %chown sous une autre
     </message>
     <message>
         <source>Please retype your old password.</source>
-        <translation>S.V.P., entrez à nouveau votre ancien mot de passe.</translation>
+        <translation>Veuillez entrer à nouveau votre ancien mot de passe.</translation>
     </message>
     <message>
         <source>Password successfully updated.</source>

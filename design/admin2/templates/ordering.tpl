@@ -6,13 +6,14 @@
         <legend>{'Published order'|i18n( 'design/admin/node/view/full' )}</legend>
     
         {def $sort_fields=hash( 6, 'Class identifier'|i18n( 'design/admin/node/view/full' ),
-                               7, 'Class name'|i18n( 'design/admin/node/view/full' ),
-                               5, 'Depth'|i18n( 'design/admin/node/view/full' ),
-                               3, 'Modified'|i18n( 'design/admin/node/view/full' ),
-                               9, 'Name'|i18n( 'design/admin/node/view/full' ),
-                               8, 'Priority'|i18n( 'design/admin/node/view/full' ),
-                               2, 'Published'|i18n( 'design/admin/node/view/full' ),
-                               4, 'Section'|i18n( 'design/admin/node/view/full' ) )
+                                7, 'Class name'|i18n( 'design/admin/node/view/full' ),
+                                5, 'Depth'|i18n( 'design/admin/node/view/full' ),
+                                3, 'Modified'|i18n( 'design/admin/node/view/full' ),
+                                9, 'Name'|i18n( 'design/admin/node/view/full' ),
+                                1, 'Path String'|i18n( 'design/admin/node/view/full' ),
+                                8, 'Priority'|i18n( 'design/admin/node/view/full' ),
+                                2, 'Published'|i18n( 'design/admin/node/view/full' ),
+                                4, 'Section'|i18n( 'design/admin/node/view/full' ) )
             $title='You cannot set the sorting method for the current location because you do not have permission to edit the current item.'|i18n( 'design/admin/node/view/full' )
             $disabled=' disabled="disabled"' }
     

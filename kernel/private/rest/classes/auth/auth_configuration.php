@@ -34,9 +34,6 @@ class ezpRestAuthConfiguration
 
     public function filter()
     {
-        if ( eZINI::instance( 'rest.ini' )->variable( 'Authentication', 'RequireAuthentication' ) !== 'enabled' )
-            return;
-
         if ( eZINI::instance( 'rest.ini' )->variable( 'Authentication', 'RequireHTTPS') === 'enabled' &&
              $this->req->isEncrypted === false )
         {
@@ -49,9 +46,10 @@ class ezpRestAuthConfiguration
 
         // 0. Check if the given route needs authentication.
         if ( !$this->shallAuthenticate() )
-            return;
-
-        if ( $this->filter === null )
+        {
+            $this->filter = new ezpRestNoAuthStyle();
+        }
+        else if ( $this->filter === null )
         {
             $opt = new ezpExtensionOptions();
             $opt->iniFile = 'rest.ini';
@@ -72,14 +70,37 @@ class ezpRestAuthConfiguration
             return $auth;
 
         // 2.Perform the authentication
-        return $this->filter->authenticate( $auth, $this->req );
-
+        // Result of authentication filter can be a valid ezp user (auth succeeded) or an internal redirect (ezcMvcInternalRedirect)
+        $user = $this->filter->authenticate( $auth, $this->req );
+        if ( $user instanceof eZUser )
+        {
+            eZUser::setCurrentlyLoggedInUser( $user, $user->attribute( 'contentobject_id' ) );
+            $this->filter->setUser( $user );
+        }
+        else if ( $user instanceof ezcMvcInternalRedirect )
+        {
+            return $user;
+        }
     }
 
-    public function shallAuthenticate()
+    /**
+     * Checks if authentication should be requested or not
+     * @return bool
+     */
+    private function shallAuthenticate()
     {
-        $routeFilter = ezpRestRouteFilterInterface::getRouteFilter();
-        return $routeFilter->shallDoActionWithRoute( $this->info );
+        $shallAuthenticate = true;
+        if ( eZINI::instance( 'rest.ini' )->variable( 'Authentication', 'RequireAuthentication' ) !== 'enabled' )
+        {
+            $shallAuthenticate = false;
+        }
+        else
+        {
+            $routeFilter = ezpRestRouteFilterInterface::getRouteFilter();
+            $shallAuthenticate = $routeFilter->shallDoActionWithRoute( $this->info );
+        }
+
+        return $shallAuthenticate;
     }
 }
 

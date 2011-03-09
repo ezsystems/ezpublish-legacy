@@ -9777,10 +9777,6 @@ Nota: los paquetes no serán desinstalados.</translation>
         <source>Categories</source>
         <translation>Categorías</translation>
     </message>
-    <message>
-        <source></source>
-        <translation></translation>
-    </message>
 </context>
 <context>
     <name>design/admin/setup/datatypecode</name>
@@ -25890,7 +25886,7 @@ tu cuenta.</translation>
     </message>
     <message>
         <source>Are you sure you want to remove this application?</source>
-        <translatio>¿Está seguro de querer borrar esta aplicación?</translation>
+        <translation>¿Está seguro de querer borrar esta aplicación?</translation>
     </message>
     <message>
         <source>Are you sure you want to remove these applications?</source>

@@ -6451,7 +6451,7 @@ $schema = array (
       array (
         'length' => 255,
         'type' => 'varchar',
-        'default' => '',
+        'default' => NULL,
       ),
       'locale' => 
       array (

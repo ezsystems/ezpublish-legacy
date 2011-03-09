@@ -170,7 +170,6 @@ class eZMySQLDB extends eZDBInterface
                 $this->setError( $connection );
                 eZDebug::writeError( "Connection error: Couldn't select the database. Please try again later or inform the system administrator.\n{$this->ErrorMessage}", __CLASS__ );
                 $this->IsConnected = false;
-                throw new eZDBNoConnectionException( $server, $this->ErrorMessage, $this->ErrorNumber );
             }
         }
 
