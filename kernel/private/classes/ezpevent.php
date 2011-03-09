@@ -51,12 +51,11 @@ class ezpEvent
         if ( $loadGlobalEvents )
         {
             $listeners = eZINI::instance()->variable( 'Event', 'Listeners' );
-            foreach ( $listeners as $listener => $event )
+            foreach ( $listeners as $listener )
             {
-                if ( !empty( $event ) )
-                {
-                    $this->attach( $event, $listener );
-                }
+                // format from ini is seperated by @
+                list( $event, $callback ) = explode( '@', $listener );
+                $this->attach( $event, $callback );
             }
         }
     }
