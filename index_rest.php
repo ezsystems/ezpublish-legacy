@@ -23,13 +23,10 @@ $GLOBALS['eZRequestedURI'] = $uri;
 
 eZExtension::activateExtensions( 'default' );
 
-// setup for changeAccess() needs some methods defined in old index.php
+// setup for eZSiteAccess:change() needs some methods defined in old index.php
 // We disable it, since we dont' want any override settings to change the
 // debug settings here
 function eZUpdateDebugSettings() {}
-
-
-require_once "access.php";
 
 $access = eZSiteAccess::match( $uri,
                       eZSys::hostname(),
@@ -42,10 +39,6 @@ if( ezpRestDebug::isDebugEnabled() )
     $debug = ezpRestDebug::getInstance();
     $debug->updateDebugSettings();
 }
-
-// Adding the compat layer for i18n methods, as this is used in some of the
-// datatypes in extensions
-require_once 'kernel/common/i18n.php';
 
 
 $mvcConfig = new ezpMvcConfiguration();
