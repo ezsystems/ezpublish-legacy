@@ -46,7 +46,7 @@ class ezpEvent
     {
         if ( $loadGlobalEvents )
         {
-            $listeners = eZINI::instance()->variable('Event', 'Listeners');
+            $listeners = eZINI::instance()->variable( 'Event', 'Listeners' );
             foreach ( $listeners as $listener => $event )
             {
                 if ( !empty( $event ) )
@@ -109,7 +109,7 @@ class ezpEvent
             return false;
         }
 
-        foreach( $this->listeners[$name] as $listener )
+        foreach ( $this->listeners[$name] as $listener )
         {
             call_user_func_array( $listener, $params );
         }
@@ -130,7 +130,7 @@ class ezpEvent
             return $value;
         }
 
-        foreach( $this->listeners[$name] as $listener )
+        foreach ( $this->listeners[$name] as $listener )
         {
             $value = call_user_func( $listener, $value );
         }
