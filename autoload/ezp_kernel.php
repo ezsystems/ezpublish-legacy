@@ -17,7 +17,7 @@ return array(
       'eZApproveCollaborationHandler'                      => 'kernel/classes/collaborationhandlers/ezapprove/ezapprovecollaborationhandler.php',
       'eZApproveType'                                      => 'kernel/classes/workflowtypes/event/ezapprove/ezapprovetype.php',
       'ezpAsynchronousPublishingFilter'                     => 'kernel/classes/ezpasynchronouspublishingfilter.php',
-      'eZAsynchronousPublishingFilterInterface'            => 'kernel/private/interfaces/asynchronouspublishingfilter.php',
+      'ezpAsynchronousPublishingFilterInterface'            => 'kernel/private/interfaces/asynchronouspublishingfilter.php',
       'eZAudit'                                            => 'kernel/classes/ezaudit.php',
       'eZAuthor'                                           => 'kernel/classes/datatypes/ezauthor/ezauthor.php',
       'eZAuthorType'                                       => 'kernel/classes/datatypes/ezauthor/ezauthortype.php',

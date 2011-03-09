@@ -120,7 +120,7 @@ Implementation: extend ezpAsynchronousPublishingFilter
 '''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 In order to implement a filter, you must create a class that extends the ``ezpAsynchronousPublishingFilter`` abstract class.
-This class implements the ``eZAsynchronousPublishingFilterInterface`` interface, and enforces the definition of the ``accept()``
+This class implements the ``ezpAsynchronousPublishingFilterInterface`` interface, and enforces the definition of the ``accept()``
 method. The ``accept()`` method must return a boolean. True means the object can be published asynchronously, while false
 instructs the system to skip the asynchronous publishing feature, and publish the content directly.
 

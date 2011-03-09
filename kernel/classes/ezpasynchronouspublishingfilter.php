@@ -20,7 +20,7 @@
  * All registered filters will be called sequentially until one returns false, or all of them have been called
  * @package kernel
  */
-abstract class ezpAsynchronousPublishingFilter implements eZAsynchronousPublishingFilterInterface
+abstract class ezpAsynchronousPublishingFilter implements ezpAsynchronousPublishingFilterInterface
 {
     public function __construct( eZContentObjectVersion $version )
     {

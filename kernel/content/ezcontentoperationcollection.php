@@ -1591,9 +1591,9 @@ class eZContentOperationCollection
                     }
 
                     $handler = new $filterHandlerClass( $versionObject );
-                    if ( !( $handler instanceof eZAsynchronousPublishingFilterInterface ) )
+                    if ( !( $handler instanceof ezpAsynchronousPublishingFilterInterface ) )
                     {
-                        eZDebug::writeError( "Asynchronous publishing filter handler class '$filterHandlerClass' does not implement eZAsynchronousPublishingFilterInterface", __METHOD__  );
+                        eZDebug::writeError( "Asynchronous publishing filter handler class '$filterHandlerClass' does not implement ezpAsynchronousPublishingFilterInterface", __METHOD__  );
                         continue;
                     }
 
