@@ -89,6 +89,7 @@ class ezpEvent
      *
      * @param string $name
      * @param int $id
+     * @return bool True if the listener has been correctly detached
      */
     public function detach( $name, $id )
     {
@@ -98,7 +99,7 @@ class ezpEvent
         }
 
         unset( $this->listeners[$name][$id] );
-        return false;
+        return true;
     }
 
     /**
