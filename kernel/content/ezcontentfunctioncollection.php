@@ -977,7 +977,12 @@ class eZContentFunctionCollection
                         $sqlTarget = 'DISTINCT ezcontentobject_tree.node_id, '.$sqlKeyword;
                     }
                     else // for unique declaration
+                    {
+                        $sortByArray = explode( ' ', $sortingInfo['sortingFields'] );
+                        $sortingInfo['attributeTargetSQL'] .= ', ' . $sortByArray[0];
+
                         $sortingInfo['attributeFromSQL']  .= ', ezcontentobject_attribute a1';
+                    }
 
                 } break;
             }
