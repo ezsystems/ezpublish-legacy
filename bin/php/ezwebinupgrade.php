@@ -378,7 +378,7 @@ $script = eZScript::instance( array( 'description' => ( "\n" .
                                                         "This script will upgrade ezwebin." ),
                                      'use-session' => false,
                                      'use-modules' => true,
-                                     'use-extensions' => false,
+                                     'use-extensions' => true,
                                      'user' => true ) );
 $script->startup();
 

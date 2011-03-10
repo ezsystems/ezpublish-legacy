@@ -9,7 +9,7 @@ $scriptSettings = array();
 $scriptSettings['description'] = 'Adds default states to content objects';
 $scriptSettings['use-session'] = true;
 $scriptSettings['use-modules'] = false;
-$scriptSettings['use-extensions'] = false;
+$scriptSettings['use-extensions'] = true;
 
 $script = eZScript::instance( $scriptSettings );
 $script->startup();

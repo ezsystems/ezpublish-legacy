@@ -82,7 +82,7 @@ class eZScript
                                         'debug-accumulator' => false,
                                         'debug-timing' => false,
                                         'use-session' => false,
-                                        'use-extensions' => false,
+                                        'use-extensions' => true,
                                         'use-modules' => false,
                                         'user' => false,
                                         'description' => 'eZ Publish script',
@@ -233,6 +233,11 @@ class eZScript
             // Check for extension
             eZExtension::activateExtensions( 'default' );
             // Extension check end
+        }
+        else
+        {
+            $cli = eZCLI::instance();
+            $cli->output( "Notice: This script uses 'use-extensions' => false, meaning extension settings are not loaded!" );
         }
 
         $siteaccess = $this->SiteAccess;
