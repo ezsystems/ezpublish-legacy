@@ -65,6 +65,11 @@ Removed globals
 Deprecated
 ----------
 
+- eZMySQLDB aka ezmysql driver
+
+  eZMySQLiDB has been around for quite some time now, and is now the prefered
+  mysql driver.
+
 - eZSiteAccess::debugEnabled() & eZSiteAccess::extraDebugEnabled()
   site.ini\[SiteAccessSettings]DebugAccess & DebugExtraAccess
 
