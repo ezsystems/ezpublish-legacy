@@ -234,7 +234,7 @@ class eZScript
             eZExtension::activateExtensions( 'default' );
             // Extension check end
         }
-        else
+        else if ( !$this->isQuiet() )
         {
             $cli = eZCLI::instance();
             $cli->output( "Notice: This script uses 'use-extensions' => false, meaning extension settings are not loaded!" );
