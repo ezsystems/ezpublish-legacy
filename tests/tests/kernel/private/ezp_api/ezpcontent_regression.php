@@ -10,6 +10,8 @@
 
 class ezpContentRegression extends ezpDatabaseTestCase
 {
+    protected static $previousUserID;
+
     public function setUp()
     {
         parent::setUp();
@@ -17,8 +19,15 @@ class ezpContentRegression extends ezpDatabaseTestCase
         $anonymousID = eZUser::anonymousId();
         if ( $currentUser->isLoggedIn() )
         {
+            self::$previousUserID = $currentUser->attribute( 'contentobject_id' );
             eZUser::setCurrentlyLoggedInUser( eZUser::fetch( $anonymousID ), $anonymousID );
         }
+    }
+
+    public function tearDown()
+    {
+        eZUser::setCurrentlyLoggedInUser( eZUser::fetch( self::$previousUserID ), self::$previousUserID );
+        parent::tearDown();
     }
 
     /**
