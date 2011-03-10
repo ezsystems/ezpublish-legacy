@@ -231,12 +231,10 @@ class eZScript
         if ( $this->UseExtensions )
         {
             // Check for extension
-            require_once( 'kernel/common/ezincludefunctions.php' );
             eZExtension::activateExtensions( 'default' );
             // Extension check end
         }
 
-        require_once( "access.php" );
         $siteaccess = $this->SiteAccess;
         if ( $siteaccess )
         {
