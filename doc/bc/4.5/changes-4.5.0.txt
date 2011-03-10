@@ -26,6 +26,13 @@ Change of behavior
   So for clearity it is recomended to use "new eZINI()" instead if want to specify any of
   these parameters manually.
 
+- eZScript
+
+  'use-extensions' option is now set to enabled (true) by default.
+  In addition it will now display a notice if this is set to false unless in quite mode.
+  This is to make sure extension settings are loaded in reponse to issue:
+  #016614: some update scripts do not load extensions
+
 - eZDB::instance() and eZDB::connect() will now throw an eZDBNoConnectionException
 
   These two methods will throw an eZDBNoConnectionException if connecting to the database server fails.
