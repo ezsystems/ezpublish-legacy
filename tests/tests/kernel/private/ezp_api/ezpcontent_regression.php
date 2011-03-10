@@ -10,6 +10,17 @@
 
 class ezpContentRegression extends ezpDatabaseTestCase
 {
+    public function setUp()
+    {
+        parent::setUp();
+        $currentUser = eZUser::currentUser();
+        $anonymousID = eZUser::anonymousId();
+        if ( $currentUser->isLoggedIn() )
+        {
+            eZUser::setCurrentlyLoggedInUser( eZUser::fetch( $anonymousID ), $anonymousID );
+        }
+    }
+
     /**
      * @group issue18073
      * @link http://issues.ez.no/18073
