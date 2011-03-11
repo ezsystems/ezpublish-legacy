@@ -30,13 +30,12 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*!
-  \class eZMySQLDB ezmysqldb.php
-  \ingroup eZDB
-  \brief The eZMySQLDB class provides MySQL implementation of the database interface.
-
-  eZMySQLDB is the MySQL implementation of eZDB.
-  \sa eZDB
+/**
+ * The eZMySQLDB class provides MySQL implementation of the database interface.
+ *
+ * eZMySQLDB is the MySQL implementation of eZDB.
+ * @see eZDB
+ * @deprecated Since 4.5 in favour of {@link eZMySQLiDB}
 */
 class eZMySQLDB extends eZDBInterface
 {

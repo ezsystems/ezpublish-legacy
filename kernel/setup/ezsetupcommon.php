@@ -51,9 +51,15 @@ function eZSetupOptionalTests()
 
 function eZSetupDatabaseMap()
 {
-    return array( 'mysql' => array( 'type' => 'mysql',
+    return array( 'mysqli' => array( 'type' => 'mysqli',
+                                     'driver' => 'ezmysqli',
+                                     'name' => 'MySQL Improved',
+                                     'required_version' => '4.1.1',
+                                     'has_demo_data' => true,
+                                     'supports_unicode' => true ),
+                  'mysql' => array( 'type' => 'mysql',
                                     'driver' => 'ezmysql',
-                                    'name' => 'MySQL',
+                                    'name' => 'MySQL (Deprecated)',
                                     'required_version' => '4.1.1',
                                     'has_demo_data' => true,
                                     'supports_unicode' => false ),
@@ -63,12 +69,6 @@ function eZSetupDatabaseMap()
                                     'required_version' => '8.0',
                                     'has_demo_data' => false,
                                     'supports_unicode' => true ),
-                  'mysqli' => array( 'type' => 'mysqli',
-                                     'driver' => 'ezmysqli',
-                                     'name' => 'MySQL Improved',
-                                     'required_version' => '4.1.1',
-                                     'has_demo_data' => true,
-                                     'supports_unicode' => true )
                    );
 }
 
