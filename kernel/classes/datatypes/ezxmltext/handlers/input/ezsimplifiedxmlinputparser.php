@@ -436,7 +436,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         $ret = null;
         $parent = $element->parentNode;
         $level = $element->getAttribute( 'level' );
-        if ( !$level )
+        if ( $level < 1 )
         {
             $level = 1;
         }
