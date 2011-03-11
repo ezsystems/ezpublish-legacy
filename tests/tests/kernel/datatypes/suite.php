@@ -32,6 +32,7 @@ class eZDatatypeTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'eZURLTypeRegression' );
         $this->addTestSuite( 'eZUserTypeRegression' );
         $this->addTestSuite( 'eZXHTMLXMLOutputRegression' );
+        $this->addTestSuite( 'eZXMLTextTest' );
     }
 
     public static function suite()
