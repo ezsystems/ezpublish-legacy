@@ -162,6 +162,7 @@ class ezpContentPublishingQueueProcessor
                 $exitCode = pcntl_wexitstatus( $status );
                 if ( $exitCode != 0 )
                 {
+                    $this->out->write( "Process #{$pid} of object version #".$this->currentJobs[$pid]->attribute( 'ezcontentobject_version_id' ) . " exited with status {$exitCode}" );
                     // this is required as the MySQL connection might be closed anytime by a fork
                     // this method is asynchronous, and might be triggered by any signal
                     // the only way is to use a dedicated DB connection, and close it afterwards
