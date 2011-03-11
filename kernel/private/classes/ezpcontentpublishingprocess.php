@@ -220,9 +220,8 @@ class ezpContentPublishingProcess extends eZPersistentObject
             $this->store( array( 'status', 'finished', 'pid' ) );
 
             // Call the postProcessing hook
-            self::$signals()->emit( 'postHandling', $version, $objectId, $processStatus );
+            ezpContentPublishingQueue::signals()->emit( 'postHandling', $version, $objectId, $processStatus );
 
-            // Make sure this is correct
             eZScript::instance()->shutdown();
             exit;
         }
