@@ -27,7 +27,8 @@ class ezpRestHttpResponse implements ezcMvcResultStatusObject
 
         if ( $this->message !== null )
         {
-            $writer->response->body = $this->message;
+            $writer->headers['Content-Type'] = 'application/json; charset=UTF-8';
+            $writer->response->body = json_encode( array( 'error_message' => $this->message ) );
         }
     }
 }
