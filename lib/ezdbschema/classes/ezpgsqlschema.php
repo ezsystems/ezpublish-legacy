@@ -446,7 +446,7 @@ class eZPgsqlSchema extends eZDBSchemaInterface
             } break;
             case 'character':
             {
-                $lenght = 1;
+                $length = 1;
                 return 'char';
             } break;
             case 'numeric':
