@@ -48,9 +48,9 @@ else
     $stramSeperator = '@END$';
 
 if ( $http->hasPostVariable( 'ezjscServer_function_arguments' ) )
-    $callList = explode( $callSeperator, $http->postVariable( 'ezjscServer_function_arguments' ) );
+    $callList = explode( $callSeperator, strip_tags( $http->postVariable( 'ezjscServer_function_arguments' ) ) );
 else if ( isset( $Params['function_arguments'] ) )
-    $callList = explode( $callSeperator, $Params['function_arguments'] );
+    $callList = explode( $callSeperator, strip_tags( $Params['function_arguments'] ) );
 else
     $callList = array();
 
@@ -160,7 +160,7 @@ function multipleezjscServerCalls( $calls, $contentType = 'json' )
         }
         else
         {
-            $response['error_text'] = 'Not a valid ezjscServerRouter argument: "' . $call . '"';
+            $response['error_text'] = 'Not a valid ezjscServerRouter argument: "' . htmlentities( $call, ENT_QUOTES ) . '"';
         }
         $r[] = ezjscAjaxContent::autoEncode( $response, $contentType );
     }
