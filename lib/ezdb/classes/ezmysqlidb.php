@@ -86,7 +86,7 @@ class eZMySQLiDB extends eZDBInterface
                 $connection = $this->DBWriteConnection;
             }
 
-            if ( $connection and $this->DBWriteConnection )
+            if ( $connection && $this->DBWriteConnection )
             {
                 $this->DBConnection = $connection;
                 $this->IsConnected = true;
@@ -891,10 +891,12 @@ class eZMySQLiDB extends eZDBInterface
     {
         if ( $this->IsConnected )
         {
-            if ( $connection === false )
+            if ( $connection === false && $this->DBConnection instanceof MySQLi )
+            {
                 $connection = $this->DBConnection;
-            $this->ErrorMessage = mysqli_error( $connection );
-            $this->ErrorNumber = mysqli_errno( $connection );
+                $this->ErrorMessage = mysqli_error( $connection );
+                $this->ErrorNumber = mysqli_errno( $connection );
+            }
         }
         else
         {

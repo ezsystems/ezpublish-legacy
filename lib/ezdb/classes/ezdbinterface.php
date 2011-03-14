@@ -1434,7 +1434,7 @@ class eZDBInterface
     /// If true then the database connection should be persistent
     public $UsePersistentConnection = false;
     /// Contains true if slave servers are enabled
-    public $UserSlaveServer;
+    public $UseSlaveServer;
     /// The slave database name
     public $SlaveDB;
     /// The slave server name
