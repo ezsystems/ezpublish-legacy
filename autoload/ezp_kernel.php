@@ -361,6 +361,7 @@ return array(
       'eZSSLZone'                                          => 'kernel/classes/ezsslzone.php',
       'eZScript'                                           => 'kernel/classes/ezscript.php',
       'eZScriptClusterPurge'                               => 'kernel/private/classes/ezscriptclusterpurge.php',
+      'eZScriptTrashPurge'                                 => 'kernel/private/classes/ezscripttrashpurge.php',
       'eZSearch'                                           => 'kernel/classes/ezsearch.php',
       'eZSearchEngine'                                     => 'kernel/search/plugins/ezsearchengine/ezsearchengine.php',
       'eZSearchFunctionCollection'                         => 'kernel/search/ezsearchfunctioncollection.php',
