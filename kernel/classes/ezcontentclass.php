@@ -43,7 +43,7 @@ class eZContentClass extends eZPersistentObject
     const VERSION_STATUS_MODIFIED = 2;
 
     /**
-     * Max lenght of content object name.
+     * Max length of content object name.
      * @var int
      */
     const CONTENT_OBJECT_NAME_MAX_LENGTH = 255;
