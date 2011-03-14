@@ -40,6 +40,13 @@ class ezpRestErrorController extends ezcMvcController
             $result->variables['message'] = $this->exception->getMessage();
             return $result;
         }
+        else if ( $this->exception instanceof ezpContentAccessDeniedException )
+        {
+            $result = new ezcMvcResult;
+            $result->variables['message'] = $this->exception->getMessage();
+            $result->status = new ezpRestHttpResponse( ezpHttpResponseCodes::FORBIDDEN, $this->exception->getMessage() );
+            return $result;
+        }
 
         $result = new ezcMvcResult;
         $result->variables['message'] = $this->exception->getMessage();

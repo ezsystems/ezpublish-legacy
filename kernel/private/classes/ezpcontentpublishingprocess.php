@@ -189,6 +189,12 @@ class ezpContentPublishingProcess extends eZPersistentObject
             $this->setAttribute( 'started', time() );
             $this->store( array( 'pid', 'started' ) );
 
+            // login the version's creator to make sure publishing happens as if ran synchronously
+            $creatorId = $this->version()->attribute( 'creator_id' );
+            $creator = eZUser::fetch( $creatorId );
+            eZUser::setCurrentlyLoggedInUser( $creator, $creatorId );
+            unset( $creator, $creatorId );
+
             $operationResult = eZOperationHandler::execute( 'content', 'publish',
                 array( 'object_id' => $contentObjectId, 'version' => $contentObjectVersion  ) );
 
