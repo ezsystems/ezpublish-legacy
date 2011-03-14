@@ -871,15 +871,17 @@ class eZMySQLiDB extends eZDBInterface
 
     /**
      * Sets the internal error messages & number
-     * @param int $connection database connection handle, overrides the current one if given
+     * @param MySQLi $connection database connection handle, overrides the current one if given
      */
     function setError( $connection = false )
     {
         if ( $this->IsConnected )
         {
-            if ( $connection === false && $this->DBConnection instanceof MySQLi )
-            {
+            if ( $connection === false )
                 $connection = $this->DBConnection;
+
+            if ( $connection instanceof MySQLi )
+            {
                 $this->ErrorMessage = mysqli_error( $connection );
                 $this->ErrorNumber = mysqli_errno( $connection );
             }
