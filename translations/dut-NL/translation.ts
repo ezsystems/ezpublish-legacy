@@ -726,7 +726,7 @@ Wenst u hierover meer informatie?</translation>
     </message>
     <message>
         <source>Alternative text</source>
-        <translation></translation>
+        <translation>Alternatieve tekst</translation>
     </message>
     <message>
         <source>Description</source>
