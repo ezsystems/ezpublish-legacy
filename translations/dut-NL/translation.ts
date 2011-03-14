@@ -1,4 +1,6 @@
-<!DOCTYPE TS><TS>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.0" language="nl_NL">
 <context>
     <name>design/standard/content/datatype</name>
     <message>
@@ -42,7 +44,7 @@
     </message>
     <message>
         <source>Class</source>
-        <translation>Klasse</translation>
+        <translation>Type</translation>
     </message>
     <message>
         <source>-- Not set --</source>
@@ -112,7 +114,7 @@ Wenst u hierover meer informatie?</translation>
     </message>
     <message>
         <source>Preview</source>
-        <translation>Voorbeeld</translation>
+        <translation>Voorbeeldweergave</translation>
     </message>
     <message>
         <source>Direction left to right</source>
@@ -724,7 +726,7 @@ Wenst u hierover meer informatie?</translation>
     </message>
     <message>
         <source>Alternative text</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Description</source>
@@ -977,11 +979,11 @@ Wenst u hierover meer informatie?</translation>
     </message>
     <message>
         <source>Browse for a node / object.</source>
-        <translation>Bladeren naar een knooppunt/object.</translation>
+        <translation>Naar een node/object bladeren.</translation>
     </message>
     <message>
         <source>Search for a node / object.</source>
-        <translation>Zoeken naar een knooppunt/object.</translation>
+        <translation>Naar een node/object zoeken.</translation>
     </message>
     <message>
         <source>Tips &amp;amp; Tricks</source>
@@ -1028,7 +1030,7 @@ Wenst u hierover meer informatie?</translation>
     </message>
     <message>
         <source>Node %1 does not exist.</source>
-        <translation>Knooppunt %1 bestaat niet.</translation>
+        <translation>Node %1 bestaat niet.</translation>
     </message>
     <message>
         <source>Node &apos;%1&apos; does not exist.</source>
