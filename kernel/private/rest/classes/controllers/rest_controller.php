@@ -188,7 +188,8 @@ abstract class ezpRestMvcController extends ezcMvcController
             catch ( Exception $e )
             {
                 $debug->log( 'Exception caught, aborting cache generation', ezcLog::DEBUG );
-                $cache->abortCacheGeneration();
+                if( $isCacheEnabled )
+                    $cache->abortCacheGeneration();
                 throw $e;
             }
         }
