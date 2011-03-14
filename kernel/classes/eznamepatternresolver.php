@@ -102,10 +102,10 @@ class eZNamePatternResolver
      *
      * @param string $namePattern
      * @param eZContentObject $contentObject
-     * @param int $contentVersion
-     * @param string $contentTranslation
+     * @param int|false $contentVersion
+     * @param string|false $contentTranslation
      */
-    public function __construct( $namePattern, $contentObject, $contentVersion = false, $contentTranslation = false )
+    public function __construct( $namePattern, eZContentObject $contentObject, $contentVersion = false, $contentTranslation = false )
     {
         $this->origNamePattern = $namePattern;
         $this->contentObject = $contentObject;
@@ -118,10 +118,11 @@ class eZNamePatternResolver
     /**
      * Return the real name for an object name pattern
      *
-     * @param string $namePattern
+     * @param int $limit The limit on the string length, by defaul 0 aka none
+     * @param string $sequence End sequence applied to string if limit has been reached
      * @return string
      */
-    public function resolveNamePattern()
+    public function resolveNamePattern( $limit = 0, $sequence = '' )
     {
         // Fetch attributes for present identifiers
         $this->fetchContentAttributes();
@@ -129,7 +130,15 @@ class eZNamePatternResolver
         // Replace tokens with real values
         $objectName = $this->translatePattern();
 
-        return $objectName;
+        // Make sure length is not longer then $limit unless it's 0
+        if ( !$limit || strlen( $objectName ) <= $limit )
+        {
+            return $objectName;
+        }
+        else
+        {
+            return rtrim( substr( $objectName, 0, $limit - strlen( $sequence ) +1 ) ) . $sequence;
+        }
     }
 
     /**

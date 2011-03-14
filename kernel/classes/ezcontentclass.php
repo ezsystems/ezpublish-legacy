@@ -42,6 +42,12 @@ class eZContentClass extends eZPersistentObject
     const VERSION_STATUS_TEMPORARY = 1;
     const VERSION_STATUS_MODIFIED = 2;
 
+    /**
+     * Max lenght of content object name.
+     * @var int
+     */
+    const CONTENT_OBJECT_NAME_MAX_LENGTH = 255;
+
     function eZContentClass( $row )
     {
         if ( is_array( $row ) )
@@ -1368,25 +1374,42 @@ You will need to change the class of the node by using the swap functionality.' 
         return $this->VersionCount;
     }
 
-    /*!
-     Will generate a name for the content object based on the class
-     settings for content object.
-    */
-    function contentObjectName( $contentObject, $version = false, $translation = false )
+    /**
+     * Will generate a name for the content object based on the class
+     * settings for content object limited by self::CONTENT_OBJECT_NAME_MAX_LENGTH.
+     *
+     * @param eZContentObject $contentObject
+     * @param int|false $version
+     * @param string|false $translation
+     * @return string
+     */
+    function contentObjectName( eZContentObject $contentObject, $version = false, $translation = false )
     {
         $contentObjectNamePattern = $this->ContentObjectName;
 
+        $ini = eZINI::instance();
+        $length = (int) $ini->variable('ContentSettings', 'ContentObjectNameLimit');
+        $sequence = $ini->variable('ContentSettings', 'ContentObjectNameLimitSequence');
+        if ( $length < 1 || $length > self::CONTENT_OBJECT_NAME_MAX_LENGTH )
+        {
+            $length = self::CONTENT_OBJECT_NAME_MAX_LENGTH;
+        }
         $nameResolver = new eZNamePatternResolver( $contentObjectNamePattern, $contentObject, $version, $translation );
-        $contentObjectName = $nameResolver->resolveNamePattern();
+        $contentObjectName = $nameResolver->resolveNamePattern( $length, $sequence );
 
         return $contentObjectName;
     }
 
-    /*
-     Will generate a name for the url alias based on the class
-     settings for content object.
-    */
-    function urlAliasName( $contentObject, $version = false, $translation = false )
+    /**
+     * Will generate a name for the url alias based on the class
+     * settings for content object limited by site.ini\[URLTranslator]\UrlAliasNameLimit
+     *
+     * @param eZContentObject $contentObject
+     * @param int|false $version
+     * @param string|false $translation
+     * @return string
+     */
+    function urlAliasName( eZContentObject $contentObject, $version = false, $translation = false )
     {
         if ( $this->URLAliasName )
         {
@@ -1397,8 +1420,9 @@ You will need to change the class of the node by using the swap functionality.' 
             $urlAliasNamePattern = $this->ContentObjectName;
         }
 
+        $length = (int) eZINI::instance()->variable('URLTranslator', 'UrlAliasNameLimit');
         $nameResolver = new eZNamePatternResolver( $urlAliasNamePattern, $contentObject, $version, $translation );
-        $urlAliasName = $nameResolver->resolveNamePattern();
+        $urlAliasName = $nameResolver->resolveNamePattern( $length );
 
         return $urlAliasName;
     }
