@@ -828,9 +828,11 @@ class eZMySQLDB extends eZDBInterface
     {
         if ( $this->DBConnection )
         {
-            if ( $connection === false && is_resource( $this->DBConnection ) )
-            {
+            if ( $connection === false )
                 $connection = $this->DBConnection;
+
+            if ( $connection === false && is_resource( $connection ) )
+            {
                 $this->ErrorMessage = mysql_error( $connection );
                 $this->ErrorNumber = mysql_errno( $connection );
             }
