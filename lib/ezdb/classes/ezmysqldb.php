@@ -882,12 +882,20 @@ class eZMySQLDB extends eZDBInterface
         }
     }
 
-    function setError()
+    /**
+     * Sets the internal error messages & number
+     * @param int $connection database connection handle, overrides the current one if given
+     */
+    function setError( $connection = false)
     {
         if ( $this->IsConnected )
         {
-            $this->ErrorMessage = mysql_error( $this->DBConnection );
-            $this->ErrorNumber = mysql_errno( $this->DBConnection );
+            if ( $connection === false && is_resource( $this->DBConnection ) )
+            {
+                $connection = $this->DBConnection;
+                $this->ErrorMessage = mysql_error( $connection );
+                $this->ErrorNumber = mysql_errno( $connection );
+            }
         }
         else
         {
