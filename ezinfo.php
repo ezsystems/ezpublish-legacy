@@ -3,7 +3,7 @@
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ Online Editor
 // SOFTWARE RELEASE: 5.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2010 eZ Systems AS
+// COPYRIGHT NOTICE: Copyright (C) 1999-2011 eZ Systems AS
 // SOFTWARE LICENSE: GNU General Public License v2.0
 // NOTICE: >
 //   This program is free software; you can redistribute it and/or
@@ -30,7 +30,7 @@ class ezoeInfo
     {
         return array( 'Name'      => '<a href="http://projects.ez.no/ezoe">eZ Online Editor</a> extension',
                       'Version'   => '//autogentag//',
-                      'Copyright' => 'Copyright (C) 1999-2010 eZ Systems AS',
+                      'Copyright' => 'Copyright (C) 1999-2011 eZ Systems AS',
                       'License'   => '//EZP_LICENSE//',
                       'Includes the following third-party software' => array( 'Name' => 'Ephox Enterprise TinyMCE Javascript HTML WYSIWYG editor',
                                                                               'Version' => '3.3.9.3-328',
