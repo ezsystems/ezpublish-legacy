@@ -28,6 +28,8 @@ class ezpSessionHandlerPHP extends ezpSessionHandler
         {
             ini_set("session.gc_maxlifetime", $ini->variable('Session', 'SessionTimeout') );
         }
+        // make sure eZUser does not update lastVisit on every request and only on login
+        $GLOBALS['eZSessionIdleTime'] = 0;
         return true;
     }
 
