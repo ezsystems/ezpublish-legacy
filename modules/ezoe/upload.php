@@ -122,7 +122,7 @@ if ( $http->hasPostVariable( 'uploadButton' ) || $forcedUpload )
                 {
                     case 'eztext':
                     case 'ezstring':
-                        // TODO: Validate input ( max lenght )
+                        // TODO: Validate input ( max length )
                         $newObjectDataMap[$key]->setAttribute('data_text', trim( $http->postVariable( $base ) ) );
                         $newObjectDataMap[$key]->store();
                         break;
