@@ -110,8 +110,6 @@ th.yui-dt-hidden, tr.yui-dt-odd .yui-dt-hidden, tr.yui-dt-even .yui-dt-hidden {
     border: 1px solid #CCCCCC;
     width: 100%;
     clear: both;
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
     border-radius: 2px;
 }
 
@@ -134,6 +132,8 @@ th.yui-dt-hidden, tr.yui-dt-odd .yui-dt-hidden, tr.yui-dt-even .yui-dt-hidden {
     background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fdfdfd), to(#e4e3e4));
     background-image: -moz-linear-gradient(top,  #fdfdfd,  #e4e3e4);
     background-image: -ms-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: -o-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: linear-gradient(top,  #fdfdfd,  #e4e3e4);
 }
 
 .yui-dt th,.yui-dt th a {
@@ -229,6 +229,8 @@ th.yui-dt-asc,th.yui-dt-desc {
     background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fdfdfd), to(#e4e3e4));
     background-image: -moz-linear-gradient(top,  #fdfdfd,  #e4e3e4);
     background-image: -ms-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: -o-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: linear-gradient(top,  #fdfdfd,  #e4e3e4);
 }
 
 th.yui-dt-sortable .yui-dt-label {
@@ -452,11 +454,11 @@ a.yui-dt-page {
     background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fdfdfd), to(#e4e3e4));
     background-image: -moz-linear-gradient(top,  #fdfdfd,  #e4e3e4);
     background-image: -ms-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: -o-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: linear-gradient(top,  #fdfdfd,  #e4e3e4);
     border-color: -moz-use-text-color #CCCCCC #CCCCCC;
     border: 1px solid #CCCCCC;
     text-decoration: none;
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
     border-radius: 2px;
     overflow: visible;
     width: auto;
@@ -491,8 +493,6 @@ span.yui-pg-first,span.yui-pg-previous,span.yui-pg-next,span.yui-pg-last
 .yui-pg-page {
     background-color: #fff;
     border: 1px solid #CBCBCB;
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
     border-radius: 2px;
     padding: 0.3em 0.5em;
     text-decoration: none;

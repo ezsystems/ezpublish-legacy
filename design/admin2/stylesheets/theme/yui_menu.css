@@ -180,10 +180,6 @@
     _zoom: normal;
     border: solid 1px #999;
     background-color: #FFF;
-    -moz-border-radius-bottomleft: 3px;
-    -moz-border-radius-bottomright: 3px;
-    -webkit-border-bottom-left-radius: 3px;
-    -webkit-border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
 }
@@ -355,11 +351,11 @@ a.yuimenuitemlabel-disabled{
     background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fdfdfd), to(#e4e3e4));
     background-image: -moz-linear-gradient(top,  #fdfdfd,  #e4e3e4);
     background-image: -ms-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: -o-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: linear-gradient(top,  #fdfdfd,  #e4e3e4);
     border-color: #CCCCCC;
     border: 1px solid #CCCCCC;
     text-decoration: none;
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
     border-radius: 2px;
     overflow: visible;
     width: auto;
@@ -380,6 +376,8 @@ a.yuimenuitemlabel-disabled{
     background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fdfdfd), to(#e4e3e4));
     background-image: -moz-linear-gradient(top,  #fdfdfd,  #e4e3e4);
     background-image: -ms-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: -o-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: linear-gradient(top,  #fdfdfd,  #e4e3e4);
     color: #0B4E7A;
     cursor: pointer;
     display: block;
