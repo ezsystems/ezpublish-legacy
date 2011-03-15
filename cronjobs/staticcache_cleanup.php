@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 if ( !$isQuiet )
     $cli->output( "Starting processing pending static cache cleanups" );
 

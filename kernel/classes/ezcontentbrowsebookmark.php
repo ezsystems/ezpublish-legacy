@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZContentBrowseBookmark ezcontentbrowsebookmark.php
   \brief Handles bookmarking nodes for users

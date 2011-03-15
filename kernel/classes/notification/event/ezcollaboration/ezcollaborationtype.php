@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZCollaborationEventType ezcollaborationeventtype.php
   \brief The class eZCollaborationEventType does

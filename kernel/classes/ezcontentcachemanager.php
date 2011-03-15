@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZContentCacheManager ezcontentcachemanager.php
   \brief Figures out relations between objects, nodes and classes for cache management

@@ -7,10 +7,6 @@
  * @package kernel
  */
 
-/*!
- \file
-*/
-
 require 'autoload.php';
 
 $cli = eZCLI::instance();

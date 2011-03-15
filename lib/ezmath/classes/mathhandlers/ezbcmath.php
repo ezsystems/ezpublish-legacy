@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZBCMath ezbcmath.php
   \brief Handles calculation using bcmath library.

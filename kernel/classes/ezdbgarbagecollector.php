@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZDBGrbageCollector ezdbgarbagecollector.php
   \brief Handles garbage collection in the database.

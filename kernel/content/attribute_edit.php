@@ -7,7 +7,6 @@
  */
 
 /*!
-  \file
   This file is a shared code file which is used by different parts of the system
   to edit objects. This file only implements editing of attributes and uses
   hooks to allow external code to add functionality.

@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZSetupSummary ezsetup_summary.php
   \brief The class eZSetupSummary does

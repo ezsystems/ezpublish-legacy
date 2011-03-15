@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZUserLoginHandler ezuserloginhandler.php
   \ingroup eZDatatype

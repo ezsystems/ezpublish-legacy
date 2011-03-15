@@ -8,8 +8,7 @@
  * @package kernel
  */
 
-/*! \file
-
+/*!
   Note: Not all code is using this class for cluster access, see index_image_mysql.php and index_image_pgsql.php for more custom code.
 */
 

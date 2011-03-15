@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZApproveCollaborationHandler ezapprovecollaborationhandler.php
   \brief Handles approval communication using the collaboration system

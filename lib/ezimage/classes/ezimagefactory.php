@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZImageFactory ezimagefactory.php
   \brief Base class for image factories

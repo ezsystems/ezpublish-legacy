@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZContentObjectTrashNode ezcontentobjecttrashnode.php
   \brief The class eZContentObjectTrashNode

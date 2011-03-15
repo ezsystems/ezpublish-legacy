@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 class eZClassFunctions
 {
     static function addGroup( $classID, $classVersion, $selectedGroup )

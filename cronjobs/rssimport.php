@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 //For ezUser, we would make this the ezUser class id but otherwise just pick and choose.
 
 //fetch this class

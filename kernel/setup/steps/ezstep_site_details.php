@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 
 /*!
   \class eZStepSiteDetails ezstep_site_details.php

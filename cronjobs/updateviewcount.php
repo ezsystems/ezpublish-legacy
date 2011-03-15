@@ -7,9 +7,6 @@
  * @version //autogentag//
  * @package kernel
  */
-
-/*! \file
-*/
 set_time_limit( 0 );
 
 if ( !$isQuiet )

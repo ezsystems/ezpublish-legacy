@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZCLI ezcli.php
   \brief CLI handling

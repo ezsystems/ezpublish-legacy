@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZRSSImport ezrssimport.php
   \brief Handles RSS Import in eZ Publish

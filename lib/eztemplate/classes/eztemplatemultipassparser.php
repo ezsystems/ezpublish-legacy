@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZTemplateMultiPassParser eztemplatemultipassparser.php
   \brief The class eZTemplateMultiPassParser does

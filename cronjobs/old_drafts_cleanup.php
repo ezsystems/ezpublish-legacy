@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 
 if ( !$isQuiet )
     $cli->output( "Cleaning up user's drafts..." );

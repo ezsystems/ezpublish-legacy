@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 
 /*!
   \class eZStepFinal ezstep_final.php

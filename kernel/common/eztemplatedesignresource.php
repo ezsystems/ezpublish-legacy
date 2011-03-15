@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZTemplatedesignresource eztemplatedesignresource.php
   \brief Handles template file loading with override support

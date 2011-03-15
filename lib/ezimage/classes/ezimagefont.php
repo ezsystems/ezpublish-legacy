@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZImageFont ezimagefont.php
   \ingroup eZImageObject

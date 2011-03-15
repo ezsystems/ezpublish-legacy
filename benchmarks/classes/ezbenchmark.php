@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file ezbenchmark.php
-*/
-
 /*!
   \class eZBenchmark ezbenchmark.php
   \brief eZBenchmark provides a framework for doing benchmarks

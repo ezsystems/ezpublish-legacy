@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZISBNGroup ezisbngroup.php
   \brief The class eZISBNGroup handles ISBN Registration groups.

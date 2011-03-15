@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZTemplateToolbarFunction eztemplatetoolbarfunction.php
   \brief The class eZTemplateToolarFunction does

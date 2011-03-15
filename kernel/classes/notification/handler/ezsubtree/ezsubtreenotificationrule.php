@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZSubtreeNotificationRule ezsubtreenotificationrule.php
   \brief The class eZSubtreeNotificationRule does

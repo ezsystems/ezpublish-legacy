@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZSubtreeSubscriptionType ezsubtreesubscriptiontype.php
   \ingroup eZDatatype

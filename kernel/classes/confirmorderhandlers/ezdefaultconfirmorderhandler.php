@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZDefaultConfirmOrderHandler ezdefaultconfirmorderhandler.php
   \brief The class eZDefaultConfirmOrderHandler does

@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZWizardBase ezwizardbase.php
   \brief The class eZWizardBase does

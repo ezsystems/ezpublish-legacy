@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZPDFExport ezpdfexport.php
   \brief class for storing PDF exports

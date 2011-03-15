@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZCodePageMapper ezcodepagemapper.php
   \brief The class eZCodePageMapper does

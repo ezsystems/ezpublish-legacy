@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*! \defgroup eZRole Role based permission system */
 
 /*!

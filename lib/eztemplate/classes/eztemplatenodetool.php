@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZTemplateNodeTool eztemplatenodetool.php
   \ingroup eZTemplate

@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZModuleOperationInfo ezmoduleoperationinfo.php
   \brief The class eZModuleOperationInfo does

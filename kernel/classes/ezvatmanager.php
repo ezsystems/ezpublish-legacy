@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZVATManager ezvatmanager.php
   \brief The class eZVATManager does

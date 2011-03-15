@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZCharTransform ezchartransform.php
   \ingroup eZI18N

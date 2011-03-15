@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZMimeType ezmimetype.php
   \ingroup eZUtils

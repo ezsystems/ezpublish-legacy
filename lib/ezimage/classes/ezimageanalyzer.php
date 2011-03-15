@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*! \defgroup eZImageAnalyzer Image analysis
     \ingroup eZImage
 */

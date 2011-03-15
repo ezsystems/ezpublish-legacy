@@ -6,9 +6,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 $OperationList = array();
 $OperationList['read'] = array( 'name' => 'read',
                                 'default_call_method' => array( 'include_file' => 'kernel/content/ezcontentoperationcollection.php',

@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZObjectForwarder ezobjectforwarder.php
   \brief The class eZObjectForwarder does

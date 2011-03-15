@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*! \defgroup eZImageObject Image object and layer handling */
 
 /*!

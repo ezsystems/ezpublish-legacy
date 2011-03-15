@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file ezbenchmarkcase.php
-*/
-
 /*!
   \class eZBenchmarkCase ezbenchmarkcase.php
   \ingroup eZTest

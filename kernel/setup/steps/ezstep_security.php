@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 
 /*!
   \class eZStepSecurity ezstep_security.php

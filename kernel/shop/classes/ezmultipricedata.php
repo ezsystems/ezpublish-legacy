@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 class eZMultiPriceData extends eZPersistentObject
 {
     const VALUE_TYPE_CUSTOM = 1;

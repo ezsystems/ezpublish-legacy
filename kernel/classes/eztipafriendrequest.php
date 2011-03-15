@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZTipafriendRequest eztipafriendrequest.php
   \brief The class eZTipafriendRequest does

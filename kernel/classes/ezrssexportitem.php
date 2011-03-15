@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZRSSExportItem ezrssexportitem.php
   \brief Handles RSS Export Item in eZ Publish

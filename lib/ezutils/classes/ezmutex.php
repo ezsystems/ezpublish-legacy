@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZMutex ezmutex.php
   \brief The class eZMutex provides a file based mutex. The mutex works across processes.

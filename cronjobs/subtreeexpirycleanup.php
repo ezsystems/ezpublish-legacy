@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 eZSubtreeCache::removeAllExpiryCacheFromDisk();
 
 ?>

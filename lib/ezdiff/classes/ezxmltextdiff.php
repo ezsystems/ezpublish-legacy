@@ -8,10 +8,6 @@
  * @package lib
  */
 
-/*! \file
-  eZXMLTextDiff class
-*/
-
 /*!
   \class eZXMLTextDiff ezxmltextdiff.php
   \ingroup eZDiff

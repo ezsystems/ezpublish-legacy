@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZPaymentObject ezpaymentobject.php
   \brief This is a base class for objects, which

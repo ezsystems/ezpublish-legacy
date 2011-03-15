@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 
 /*!
  \class eZClusterFileHandler ezclusterfilefailure.php

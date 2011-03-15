@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZNodeAssignment eznodeassignment.php
   \brief The class eZNodeAssignment does

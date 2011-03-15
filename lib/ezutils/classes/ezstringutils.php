@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZStringUtils ezstringutils.php
   \brief The class eZStringUtils does

@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZSendmailTransport ezsendmailtransport.php
   \brief Sends the email message to sendmail which takes care of sending the actual message.

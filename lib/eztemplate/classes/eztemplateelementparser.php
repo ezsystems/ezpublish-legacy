@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZTemplateElementParser eztemplateelementparser.php
   \brief The class eZTemplateElementParser does

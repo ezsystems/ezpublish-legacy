@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZNoCompressionHandler eznocompressionhandler.php
   \brief Does no compression at all

@@ -6,9 +6,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 $Module = array( "name" => "eZNotification",
                  "variable_params" => true );
 

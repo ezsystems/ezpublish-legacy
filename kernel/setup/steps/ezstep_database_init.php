@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZStepDatabaseInit ezstep_database_init.php
   \brief The class eZStepDatabaseInit does

@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZWordToImageOperator ezwordtoimageoperator.php
   \brief The class eZWordToImageOperator does

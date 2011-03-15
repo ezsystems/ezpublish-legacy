@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 if ( !defined( 'TABLE_METADATA' ) )
     define( 'TABLE_METADATA', 'ezdbfile' );
 

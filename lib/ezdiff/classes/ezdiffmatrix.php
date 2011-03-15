@@ -8,10 +8,6 @@
  * @package lib
  */
 
-/*! \file
-  eZDiffMatrix class
-*/
-
 /*!
   \class eZDiffMatrix ezdiffmatrix.php
   \ingroup eZDiff

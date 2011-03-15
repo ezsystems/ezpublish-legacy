@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZ1337Translator ez1337translator.php
   \ingroup eZTranslation

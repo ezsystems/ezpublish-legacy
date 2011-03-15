@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file ezbenchmarkclirunner.php
-*/
-
 /*!
   \class eZBenchmarkCLIRunner ezbenchmarkclirunner.php
   \ingroup eZBenchmark

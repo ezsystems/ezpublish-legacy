@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZEnumObjectValue ezenumobjectvalue.php
   \brief The class eZEnumObjectValue stores chosen enum values of an object attribute

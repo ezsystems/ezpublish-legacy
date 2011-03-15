@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file ezclasstemplate.php
-*/
-
 /*!
   \class eZClassTemplate ezclasstemplate.php
   \brief Replaces or generates blocks of code according to a template file

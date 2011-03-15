@@ -6,9 +6,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 
 $Module = $Params['Module'];
 $Alphabet = rawurldecode( $Params['Alphabet'] );

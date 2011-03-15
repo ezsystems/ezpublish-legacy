@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZRedirectManager ezredirectmanager.php
   \brief Handles generation of redirection URIs and redirection

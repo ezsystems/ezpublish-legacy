@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZContentObjectOperations ezcontentobjectoperations.php
   \brief The class eZContentObjectOperations is a place where

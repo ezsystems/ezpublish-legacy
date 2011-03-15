@@ -8,10 +8,6 @@
  * @package lib
  */
 
-/*! \file
-  eZDiffContainerObjectEngine class
-*/
-
 /*!
   \class eZDiffContainerObjectEngine ezdiffcontainerobjectengine.php
   \ingroup eZDiff

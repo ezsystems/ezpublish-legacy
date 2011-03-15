@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZFilePackageHandler ezfilepackagehandler.php
   \brief Handles content classes in the package system

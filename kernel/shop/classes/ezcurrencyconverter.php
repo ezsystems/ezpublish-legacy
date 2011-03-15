@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZCurrencyConverter ezcurrencyconverter.php
   \brief Handles conversions from one curreny into another, applying

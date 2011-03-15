@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZForgotPassword ezforgotpassword.php
   \ingroup eZDatatype

@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZTranslationCache eztranslationcache.php
   \brief Cache handling for translations.

@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZTopMenuOperator eztopmenuoperator.php
   \brief The class eZTopMenuOperator does

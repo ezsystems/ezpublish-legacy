@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZPathElement ezpathelement.php
   \brief Handles singular path elements in URL aliases

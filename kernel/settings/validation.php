@@ -6,9 +6,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 function validate( $fields, $type, $spacesAllowed = true )
 {
     $validationMessage = '';

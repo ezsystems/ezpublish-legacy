@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZTrigger eztrigger.php
   \brief The class eZTrigger does

@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*! \defgroup eZTranslation Translation
     \ingroup eZI18N
 */

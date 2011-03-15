@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZCollaborationItemParticipantLink ezcollaborationitemparticipantlink.php
   \brief The class eZCollaborationItemParticipantLink does

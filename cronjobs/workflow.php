@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 $runInBrowser = true;
 if ( isset( $webOutput ) )
     $runInBrowser = $webOutput;

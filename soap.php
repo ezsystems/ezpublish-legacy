@@ -6,9 +6,6 @@
  * @package kernel
  */
 
-/*! \file soap.php
-*/
-
 /*!
   \brief The SOAP file will handle all eZ Publish soap requests.
 

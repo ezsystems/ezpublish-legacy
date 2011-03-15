@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZInstallScriptPackageHandler ezinstallscriptpackagehandler.php
   \brief Empty handler to support package custom install scripts.

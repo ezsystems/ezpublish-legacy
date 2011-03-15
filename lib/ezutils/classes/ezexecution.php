@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZExecution ezexecution.php
   \brief Handles proper script execution, fatal error detection and handling.

@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZImageObject ezimageobject.php
   \ingroup eZImageObject

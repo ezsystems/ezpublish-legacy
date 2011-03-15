@@ -9,9 +9,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 require 'autoload.php';
 
 $fileNameDba = 'db_data.dba';

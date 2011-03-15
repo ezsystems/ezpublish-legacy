@@ -7,9 +7,6 @@
  * @version //autogentag//
  * @package kernel
  */
-
-/*! \file
-*/
 if ( !$isQuiet )
     $cli->output( "Checking link ..." );
 

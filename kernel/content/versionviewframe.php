@@ -6,7 +6,7 @@
  * @package kernel
  */
 
-/*! \file
+/*!
 
     On multilingual previews
 

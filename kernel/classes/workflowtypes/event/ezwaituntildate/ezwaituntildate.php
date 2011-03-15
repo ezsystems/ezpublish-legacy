@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZWaitUntilDate ezwaituntildate.php
   \brief The class eZWaitUntilDate does

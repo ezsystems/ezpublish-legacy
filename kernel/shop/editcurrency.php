@@ -6,9 +6,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 $module = $Params['Module'];
 
 $ini = eZINI::instance( 'site.ini' );

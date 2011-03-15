@@ -5,9 +5,6 @@
  * @version //autogentag//
  * @package kernel
  */
-
-/*! \file
-*/
 $Module = $Params['Module'];
 $urlID = null;
 if ( isset( $Params["ID"] ) )

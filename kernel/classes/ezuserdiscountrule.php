@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZUserDiscountRule ezuserdiscountrule.php
   \brief The class eZUserDiscountRule does

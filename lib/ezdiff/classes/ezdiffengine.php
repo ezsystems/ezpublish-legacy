@@ -8,10 +8,6 @@
  * @package lib
  */
 
-/*! \file
-  DiffEngine abstract class
-*/
-
 /*!
   \class eZDiffEngine ezdiffengine.php
   \abstract

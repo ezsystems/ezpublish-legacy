@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZPolicyLimitationValue ezpolicylimitationvalue.php
   \ingroup eZRole

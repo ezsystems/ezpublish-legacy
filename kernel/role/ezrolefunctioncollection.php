@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZRoleFunctionCollection ezrolefunctioncollection.php
   \brief The class eZRoleFunctionCollection does

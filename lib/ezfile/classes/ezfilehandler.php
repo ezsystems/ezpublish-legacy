@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZFileHandler ezfilehandler.php
   \brief Interface for file handlers

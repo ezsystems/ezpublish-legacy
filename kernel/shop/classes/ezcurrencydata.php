@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 class eZCurrencyData extends eZPersistentObject
 {
     const DEFAULT_AUTO_RATE_VALUE = '0.0000';

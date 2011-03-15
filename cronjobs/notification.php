@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 $event = eZNotificationEvent::create( 'ezcurrenttime', array() );
 
 $event->store();

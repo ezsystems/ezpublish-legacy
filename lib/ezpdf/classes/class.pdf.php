@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class Cpdf class.pdf.php
   \ingroup eZPDF

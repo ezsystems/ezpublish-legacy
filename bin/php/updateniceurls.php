@@ -9,9 +9,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 set_time_limit ( 0 );
 
 require 'autoload.php';

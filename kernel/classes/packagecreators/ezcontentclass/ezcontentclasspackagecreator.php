@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \ingroup package
   \class eZContentClassPackageCreator ezcontentclasspackagecreator.php

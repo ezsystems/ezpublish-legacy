@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZOrderStatusHistory ezorderstatushistory.php
   \brief Handles a list of status changes to an order item.

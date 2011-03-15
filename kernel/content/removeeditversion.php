@@ -5,9 +5,6 @@
  * @version //autogentag//
  * @package kernel
  */
-
-/*! \file
-*/
 $Module = $Params['Module'];
 $http = eZHTTPTool::instance();
 $objectID = (int) $http->sessionVariable( "DiscardObjectID" );

@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZSiteInstaller ezsiteinstaller.php
   \ingroup eZUtils

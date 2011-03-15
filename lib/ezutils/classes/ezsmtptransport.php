@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZSMTPTransport ezsmtptransport.php
   \brief The class eZSMTPTransport does

@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZWizardBaseClassLoader ezwizardbaseclassloader.php
   \brief The class eZWizardBaseClassLoader does

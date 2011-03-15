@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZTemplateCompiler eztemplatecompiler.php
   \brief Creates compiled PHP code from templates to speed up template usage.

@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZFunctionHandler ezfunctionhandler.php
   \brief The class eZFunctionHandler does

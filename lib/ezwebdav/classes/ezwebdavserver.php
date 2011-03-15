@@ -8,10 +8,6 @@
  * @package lib
  */
 
-/*! \file
- WebDAV server base class.
-*/
-
 /*! \defgroup eZWebDAV WebDAV system */
 
 /*!

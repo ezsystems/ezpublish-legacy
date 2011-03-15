@@ -8,10 +8,6 @@
  * @package lib
  */
 
-/*! \file
-  Provides information on charset.
-*/
-
 /*!
   \class eZCharsetInfo ezcharsetinfo.php
   \ingroup eZI18N

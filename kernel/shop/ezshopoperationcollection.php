@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZShopOperationCollection ezcontentoperationcollection.php
   \brief The class eZShopOperationCollection does

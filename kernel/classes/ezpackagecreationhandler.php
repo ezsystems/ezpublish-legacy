@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \ingroup package
   \class eZPackageCreationHandler ezpackagecreationhandler.php

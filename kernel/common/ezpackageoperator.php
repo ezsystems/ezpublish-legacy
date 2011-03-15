@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZPackageOperator ezpackageoperator.php
   \brief The class eZPackageOperator does

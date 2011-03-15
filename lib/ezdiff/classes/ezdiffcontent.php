@@ -8,10 +8,6 @@
  * @package lib
  */
 
-/*! \file
-  eZDiffContent class
-*/
-
 /*!
   \class eZDiffContent ezdiffcontent.php
   \ingroup eZDiff

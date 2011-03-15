@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZExtension ezextension.php
   \brief The class eZExtension does

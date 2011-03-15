@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZDiscountSubRuleValue ezdiscountsubrule.php
   \brief The class eZDiscountSubRuleValue does

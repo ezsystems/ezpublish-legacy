@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZCollaborationItemStatus ezcollaborationitemstatus.php
   \brief The class eZCollaborationItemStatus does

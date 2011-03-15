@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZMBStringMapper ezmbstringmapper.php
   \ingroup eZI18N

@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZURLAliasQuery ezurlaliasquery.php
   \brief Handles querying of URL aliases with different filters

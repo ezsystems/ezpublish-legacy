@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZScript ezscript.php
   \brief Handles the basics of script execution

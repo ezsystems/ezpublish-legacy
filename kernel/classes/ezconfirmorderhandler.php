@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZConfirmOrderHandler ezconfirmorderhandler.php
   \brief The class eZConfirmOrderHandler does

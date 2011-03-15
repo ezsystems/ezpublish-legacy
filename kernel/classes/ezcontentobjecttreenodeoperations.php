@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZContentObjectTreeNodeOperations ezcontentobjecttreenodeoperations.php
   \brief The class eZContentObjectTreeNodeOperations is a wrapper for node's

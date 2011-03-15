@@ -6,9 +6,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 $CustomerID = $Params['CustomerID'];
 $Email = $Params['Email'];
 $module = $Params['Module'];

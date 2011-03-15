@@ -5,9 +5,6 @@
  * @version //autogentag//
  * @package kernel
  */
-
-/*! \file
-*/
 $http = eZHTTPTool::instance();
 $module = $Params['Module'];
 

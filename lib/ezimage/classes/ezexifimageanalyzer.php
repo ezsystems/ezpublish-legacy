@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZEXIFImageAnalyzer ezexifimageanalyzer.php
   \ingroup eZImageAnalyzer

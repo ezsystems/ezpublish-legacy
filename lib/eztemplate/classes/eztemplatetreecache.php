@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZTemplateTreeCache eztemplatetreecache.php
   \brief Cache handling for template tree nodes.
