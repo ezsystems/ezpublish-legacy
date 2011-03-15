@@ -22,7 +22,7 @@ This is the file `http://svn.projects.ez.no/ezoe/trunk/ezoe/extension.xml`::
         <metadata>
             <name>eZ Online Editor</name>
             <version>5.2.0beta3</version>
-            <copyright>Copyright (C) 1999-2010 eZ Systems AS</copyright>
+            <copyright>Copyright (C) 1999-2011 eZ Systems AS</copyright>
             <license>GNU General Public License v2.0</license>
             <info_url>http://projects.ez.no/ezoe</info_url>
 
