@@ -3,7 +3,7 @@
  * File containing various wrapper classes used by the WebDAV tests.
  *
  * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
+ * @license http://ez.no/licenses/gnu_gpl GNU General Public License v2
  * @package tests
  */
 
