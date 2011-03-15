@@ -884,7 +884,7 @@ class eZMySQLDB extends eZDBInterface
 
     /**
      * Sets the internal error messages & number
-     * @param int $connection database connection handle, overrides the current one if given
+     * @param resource $connection database connection handle, overrides the current one if given
      */
     function setError( $connection = false)
     {
