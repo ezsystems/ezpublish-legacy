@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZStepSiteAdmin ezstep_site_admin.php
   \brief The class eZStepSiteAdmin does

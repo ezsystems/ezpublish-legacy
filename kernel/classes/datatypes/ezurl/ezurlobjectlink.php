@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZURLObjectLink ezurlobjectlink.php
   \ingroup eZDatatype

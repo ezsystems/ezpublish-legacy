@@ -7,9 +7,6 @@
  * @version //autogentag//
  * @package kernel
  */
-
-/*! \file
-*/
 $cli->output( "Checking link ..." );
 
 $cronjobIni = eZINI::instance( 'cronjob.ini' );

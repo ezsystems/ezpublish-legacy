@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZCompressionHandler ezcompressionhandler.php
   \brief Interface for file handlers using compression

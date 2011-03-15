@@ -10,10 +10,6 @@
  * @package lib
  */
 
-/*! \file
- Database abstraction layer.
-*/
-
 /*! \defgroup eZDB Database abstraction layer */
 
 /*!

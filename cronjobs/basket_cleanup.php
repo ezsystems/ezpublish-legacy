@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 $ini = eZINI::instance();
 
 // Check if this should be run in a cronjob

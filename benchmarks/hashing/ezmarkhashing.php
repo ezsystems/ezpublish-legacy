@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file ezmarkhashing.php
-*/
-
 /*!
   \class eZMarkHashing ezmarkhashing.php
   \brief The class eZMarkHashing does

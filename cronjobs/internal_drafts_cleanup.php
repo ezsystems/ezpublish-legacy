@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 $cli->output( "Cleaning up internal drafts..." );
 
 // Remove all temporary internal drafts

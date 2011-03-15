@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZDateTimeValidator ezdatetimevalidator.php
   \brief The class eZDateTimeValidator does

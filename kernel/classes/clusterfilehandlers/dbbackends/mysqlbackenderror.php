@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
  \class eZMySQLBackendError mysqlbackenderror.php
  \brief Error class for the MySQL backend (cluster code).

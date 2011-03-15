@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZXMLInputHandler ezxmlinputhandler.php
   \ingroup eZDatatype

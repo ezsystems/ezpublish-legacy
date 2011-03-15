@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZStepInstaller ezstep_class_definition.ph
   \brief The class EZStepInstaller provide a framework for eZStep installer classes

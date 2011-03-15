@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZPaymentCallbackChecker ezpaymentcallbackchecker.php
   \brief Routines for support callback(postbacks) in redirectional

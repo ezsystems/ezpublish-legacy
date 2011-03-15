@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZContentObjectEditHandler ezcontentobjectedithandler.php
   \brief The class eZContentObjectEditHandler provides a framework for handling

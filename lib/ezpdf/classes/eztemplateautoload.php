@@ -6,9 +6,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 // Operator autoloading
 
 $eZTemplateOperatorArray = array();

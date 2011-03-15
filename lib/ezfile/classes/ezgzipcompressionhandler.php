@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZGZIPCompressionHandler ezgzipcompressionhandler.php
   \brief Handles files compressed with gzip

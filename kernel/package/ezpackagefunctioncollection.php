@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZPackageFunctionCollection ezpackagefunctioncollection.php
   \brief The class eZPackageFunctionCollection does

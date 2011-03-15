@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file ezmarktemplatecompiler.php
-*/
-
 /*!
   \class eZMarkTemplateCompiler ezmarktemplatecompiler.php
   \brief The class eZMarkTemplateCompiler does

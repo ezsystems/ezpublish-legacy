@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 class eZShopFunctions
 {
     function eZShopFunctions()

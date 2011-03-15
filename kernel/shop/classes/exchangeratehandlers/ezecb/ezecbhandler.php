@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 class eZECBHandler extends eZExchangeRatesUpdateHandler
 {
     function eZECBHandler()

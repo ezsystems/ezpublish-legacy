@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZURLAliasML ezurlaliasml.php
   \brief Handles URL aliases in eZ Publish

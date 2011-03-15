@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZTextFileUser eztextfileuser.php
   \ingroup eZDatatype

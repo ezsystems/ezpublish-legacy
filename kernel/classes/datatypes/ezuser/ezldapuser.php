@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZLDAPUser ezldapuser.php
   \ingroup eZDatatype

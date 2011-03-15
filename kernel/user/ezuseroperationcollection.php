@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZUserOperationCollection ezuseroperationcollection.php
   \brief The class eZUserOperationCollection does

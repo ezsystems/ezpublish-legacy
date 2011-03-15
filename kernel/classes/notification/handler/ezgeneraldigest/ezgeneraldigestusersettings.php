@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZGeneralDigestUserSettings ezgeneraldigestusersettings.php
   \brief The class eZGeneralDigestUserSettings does

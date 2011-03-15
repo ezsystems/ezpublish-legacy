@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZContentBrowse ezcontentbrowse.php
   \brief Handles browsing of content in the node tree

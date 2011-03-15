@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZContentCache ezcontentcache.php
   \brief The class eZContentCache does

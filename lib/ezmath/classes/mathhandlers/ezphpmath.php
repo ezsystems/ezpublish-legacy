@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZPHPMath ezphpmath.php
   \brief Handles calculation using standard php's functions.

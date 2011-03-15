@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 
 $cli->output( "Cleaning up user's drafts..." );
 

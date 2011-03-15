@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZTemplateExecuteOperator eztemplateexecuteoperator.php
   \brief The class eZTemplateExecuteOperator does

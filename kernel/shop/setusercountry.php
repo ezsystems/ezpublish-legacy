@@ -6,9 +6,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 $module = $Params['Module'];
 
 if ( $module->isCurrentAction( 'Set' ) && $module->hasActionParameter( 'Country' ) )

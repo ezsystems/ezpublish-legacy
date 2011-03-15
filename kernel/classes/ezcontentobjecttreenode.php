@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZContentObjectTreeNode ezcontentobjecttreenode.php
   \brief The class eZContentObjectTreeNode does

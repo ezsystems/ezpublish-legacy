@@ -6,9 +6,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 $FunctionList = array();
 $FunctionList['sitedesign_list'] = array( 'name' => 'sitedesign_list',
                                           'operation_types' => array( 'read' ),

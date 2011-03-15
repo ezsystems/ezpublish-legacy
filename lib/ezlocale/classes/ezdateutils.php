@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZDateUtils ezdateutils.php
   \brief The class eZDateUtils does

@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZContentBrowseRecent ezcontentbrowserecent.php
   \brief Handles recent nodes for users

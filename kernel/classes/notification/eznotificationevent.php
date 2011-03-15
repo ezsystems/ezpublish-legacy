@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZNotificationEvent eznotificationevent.php
   \brief The class eZNotificationEvent does

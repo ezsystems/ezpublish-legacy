@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZSimplePrice ezsimpleprice.php
   \brief Handles prices with VAT and discounts.

@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZTemplateOptimizer eztemplateoptimizer.php
   \brief Analyses a compiled template tree and tries to optimize certain parts of it.

@@ -6,9 +6,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 $FunctionList = array();
 $FunctionList['list'] = array( 'name' => 'list',
                                'call_method' => array( 'class' => 'eZPackageFunctionCollection',

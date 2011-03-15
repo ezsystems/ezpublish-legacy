@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZCurrentTimeType ezcurrenttimetype.php
   \brief The class eZCurrentTimeType does

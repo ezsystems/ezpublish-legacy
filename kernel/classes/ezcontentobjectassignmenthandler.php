@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZContentObjectAssignmentHandler ezcontentobjectassignmenthandler.php
   \brief Handles default assignments for content objects

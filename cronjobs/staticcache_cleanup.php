@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 $cli->output( "Starting processing pending static cache cleanups" );
 
 $db = eZDB::instance();

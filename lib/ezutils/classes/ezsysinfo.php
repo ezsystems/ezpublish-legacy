@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZSysInfo ezsysinfo.php
   \brief Provides common information on the running system

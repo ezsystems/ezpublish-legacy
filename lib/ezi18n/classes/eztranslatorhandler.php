@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZTranslatorHandler eztranslatorhandler.php
   \ingroup eZTranslation

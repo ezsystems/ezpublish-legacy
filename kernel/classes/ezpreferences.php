@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZPreferences ezpreferences.php
   \brief Handles user/session preferences

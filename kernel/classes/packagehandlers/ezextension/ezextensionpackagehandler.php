@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZExtensionPackageHandler ezextensionpackagehandler.php
   \brief Handles extenstions in the package system

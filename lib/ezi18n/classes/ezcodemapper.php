@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZCodeMapper ezcodemapper.php
   \ingroup eZI18N

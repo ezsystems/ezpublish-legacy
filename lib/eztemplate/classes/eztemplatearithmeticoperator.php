@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZTemplateArithmeticOperator eztemplatearithmeticoperator.php
   \brief The class eZTemplateArithmeticOperator does

@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZPaymentGatewayType ezpaymentgatewaytype.php
   \brief Interface for different types of payment gateways.

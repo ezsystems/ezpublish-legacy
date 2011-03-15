@@ -6,9 +6,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 $OperationList = array();
 
 $OperationList['setsettings'] = array( 'name' => 'setsettings',

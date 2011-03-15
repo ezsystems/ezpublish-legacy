@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZDBPackageHandler ezdbpackagehandler.php
   \brief Handles SQL files in the package system

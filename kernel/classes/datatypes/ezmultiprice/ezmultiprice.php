@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZMultiPrice ezmultiprice.php
   \ingroup eZDatatype

@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZISBN13 ezisbn13.php
   \brief The class eZISBN13 handles ISBN-13 numbers.

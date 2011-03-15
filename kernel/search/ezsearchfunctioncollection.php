@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZSearchFunctionCollection ezsearchfunctioncollection.php
   \brief The class eZSearchFunctionCollection does

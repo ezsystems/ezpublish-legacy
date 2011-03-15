@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZInputValidator ezinputvalidator.php
   \brief Input text validation and correction

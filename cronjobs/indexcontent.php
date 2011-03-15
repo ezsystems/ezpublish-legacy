@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 $cli->output( "Starting processing pending search engine modifications" );
 
 $contentObjects = array();

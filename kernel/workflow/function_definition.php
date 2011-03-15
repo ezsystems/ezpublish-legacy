@@ -6,9 +6,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 $FunctionList = array();
 
 $FunctionList['workflow_statuses'] = array( 'name' => 'workflow_statuses',

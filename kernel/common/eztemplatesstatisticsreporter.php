@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZTemplatesStatisticsReporter eztemplatesstatisticsreporter.php
   \brief Generates statistics of tempate usage.

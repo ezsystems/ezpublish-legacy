@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZEnum ezenum.php
   \ingroup eZDatatype

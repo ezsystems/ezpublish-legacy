@@ -6,9 +6,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 $Module = $Params['Module'];
 $roleID = $Params['RoleID'];
 

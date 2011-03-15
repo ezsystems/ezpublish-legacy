@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZSubTreeHandler ezsubtreehandler.php
   \brief The class eZSubTreeHandler does

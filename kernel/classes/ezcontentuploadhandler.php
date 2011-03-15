@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZContentUploadHandler ezcontentuploadhandler.php
   \brief Interface for all content upload handlers

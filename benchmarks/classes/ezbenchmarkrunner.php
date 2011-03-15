@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file ezbenchmarkrunner.php
-*/
-
 /*!
   \class eZBenchmarkrunner ezbenchmarkrunner.php
   \brief The class eZBenchmarkrunner does

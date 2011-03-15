@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZMatrix ezmatrix.php
   \ingroup eZDatatype

@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 class eZWorkflowFunctions
 {
     static function addGroup( $workflowID, $workflowVersion, $selectedGroup )

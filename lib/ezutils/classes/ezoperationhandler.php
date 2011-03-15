@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZOperationHandler ezoperationhandler.php
   \brief The class eZOperationHandler does

@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZNotificationTransport eznotificationtransport.php
   \brief The class eZNotificationTransport does

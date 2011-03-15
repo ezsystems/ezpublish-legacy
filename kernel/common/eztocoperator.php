@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZTOCOperator eztocoperator.php
   \brief The class eZTOCOperator does

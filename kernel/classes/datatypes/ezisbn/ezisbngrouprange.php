@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZISBNGroupRange ezisbngrouprange.php
   \brief The class eZISBNGroupRange handle registration group ranges.

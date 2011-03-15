@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZIdentifierType ezidentifiertype.php
   \ingroup eZDatatype

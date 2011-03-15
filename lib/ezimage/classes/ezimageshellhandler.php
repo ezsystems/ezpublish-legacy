@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZImageShellHandler ezimageshellhandler.php
   \ingroup eZImage

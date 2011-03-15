@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZFloatValidator ezintegervalidator.php
   \brief The class eZFloatValidator does

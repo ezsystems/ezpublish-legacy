@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZMailTransport ezmailtransport.php
   \brief Interface for mail transport handling

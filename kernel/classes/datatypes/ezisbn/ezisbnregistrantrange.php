@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZISBNRegistrantRange ezisbnregistrantrange.php
   \brief The class eZISBNRegistrantRange handles Registrant ranges.

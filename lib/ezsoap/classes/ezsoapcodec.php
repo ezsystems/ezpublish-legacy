@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZSOAPCodec ezsoapcodec.php
   \brief The class eZSOAPCodec does

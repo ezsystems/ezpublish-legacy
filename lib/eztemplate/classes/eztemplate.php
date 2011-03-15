@@ -8,10 +8,6 @@
  * @package lib
  */
 
-/*! \file
- Template system manager.
-*/
-
 /*! \defgroup eZTemplate Template system */
 
 /*!

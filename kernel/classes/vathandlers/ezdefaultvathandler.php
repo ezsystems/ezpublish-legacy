@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZDefaultVATHandler ezdefaultvathandler.php
   \brief Default VAT handler.

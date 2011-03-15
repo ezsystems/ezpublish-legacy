@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZFileTransport ezfiletransport.php
   \brief Sends the email message to a file.

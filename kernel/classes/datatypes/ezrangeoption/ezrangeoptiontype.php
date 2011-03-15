@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZRangeOptionType ezrangeoptiontype.php
   \ingroup eZDatatype

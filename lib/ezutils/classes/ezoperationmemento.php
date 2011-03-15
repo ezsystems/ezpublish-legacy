@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZOperationMemento ezoperationmemento.php
   \brief The class eZOperationMemento does

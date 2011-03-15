@@ -8,7 +8,7 @@
  * @package kernel
  */
 
-/*! \file
+/*!
   Contains all the basic kernel and kernel related error codes.
 */
 

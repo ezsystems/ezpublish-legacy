@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZHTTPHeader ezhttpheader.php
   \brief The class eZHTTPHeader does

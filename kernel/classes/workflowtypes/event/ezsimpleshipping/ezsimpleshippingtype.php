@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZSimpleShippingType ezsimpleshippingtype.php
   \brief The class eZSimpleShippingType handles adding shipping cost to an order

@@ -6,9 +6,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 // Operator autoloading
 
 $eZTemplateOperatorArray = array();

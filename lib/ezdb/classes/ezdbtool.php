@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZDBTool ezdbtool.php
   \brief The class eZDBTool does

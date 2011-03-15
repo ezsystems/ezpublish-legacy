@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZRegExpValidator ezregexpvalidator.php
   \brief Input validation using regexps

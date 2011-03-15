@@ -6,9 +6,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 $FunctionList = array();
 
 $FunctionList['object'] = array( 'name' => 'object',

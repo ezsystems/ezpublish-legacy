@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \ingroup package
   \class eZInstallScriptPackageInstaller ezcontentclasspackageinstaller.php

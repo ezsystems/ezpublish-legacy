@@ -8,10 +8,6 @@
  * @package lib
  */
 
-/*! \file
- Database schema abstraction layer.
-*/
-
 /*! \defgroup eZDbSchema Database schema abstraction layer */
 
 /*!

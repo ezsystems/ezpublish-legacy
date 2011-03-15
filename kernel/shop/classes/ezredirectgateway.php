@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZRedirectGateway ezredirectgateway.php
   \brief The class eZRedirectGateway is a

@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZKerneloperator ezkerneloperator.php
   \brief The class eZKernelOperator does handles eZ Publish preferences

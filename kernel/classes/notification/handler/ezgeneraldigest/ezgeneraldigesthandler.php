@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZGeneralDigestHandler ezgeneraldigesthandler.php
   \brief The class eZGeneralDigestHandler does

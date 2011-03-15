@@ -6,9 +6,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 $OperationList = array();
 // This operation is used when a user tries to add an object to the basket
 // It will be called from content/add

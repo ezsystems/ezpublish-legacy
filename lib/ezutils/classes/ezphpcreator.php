@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZPHPCreator ezphpcreator.php
   \ingroup eZUtils

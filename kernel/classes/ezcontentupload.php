@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZContentUpload ezcontentupload.php
   \brief Handles simple creation of content objects by uploading files

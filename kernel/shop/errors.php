@@ -6,7 +6,7 @@
  * @package kernel
  */
 
-/*! \file
+/*!
   Contains all the error codes for the shop module.
   /deprecated Use eZError class constants instead
 */

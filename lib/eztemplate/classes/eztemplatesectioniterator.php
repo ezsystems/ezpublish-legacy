@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZTemplateSectionIterator eztemplatesectioniterator.php
   \ingroup eZTemplateFunctions

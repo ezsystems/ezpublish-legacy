@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZShippingManager ezshippingmanager.php
   \brief The class eZShippingManager does

@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file ezinfo.php
-*/
-
 /*!
   \class eZFindInfo ezinfo.php
   \brief The class eZFindInfo does

@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 class eZExchangeRatesUpdateHandler
 {
     const OK = 0;

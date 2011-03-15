@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZCollaborationGroup ezcollaborationgroup.php
   \brief The class eZCollaborationGroup does

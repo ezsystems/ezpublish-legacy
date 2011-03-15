@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZMultiplexerType ezmultiplexertype.php
   \brief The class eZMultiplexerType does

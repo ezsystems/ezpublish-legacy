@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZURLWildcard ezurlwildcard.php
   \brief Handles URL alias wildcards in eZ Publish

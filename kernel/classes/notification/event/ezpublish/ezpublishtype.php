@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZPublishType ezpublishtype.php
   \brief The class eZPublishType does

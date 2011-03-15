@@ -8,9 +8,6 @@
  * @package lib
  */
 
-/*! \file
-*/
-
 /*!
   \class eZMD5 ezmd5.php
   \brief Class handling MD5 file operations

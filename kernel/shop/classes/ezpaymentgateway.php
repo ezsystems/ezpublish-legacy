@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZPaymentGateway ezpaymentgateway.php
   \brief Abstract class for all payment gateways.

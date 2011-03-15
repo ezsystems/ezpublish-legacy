@@ -8,9 +8,6 @@
  * @package kernel
  */
 
-/*! \file
-*/
-
 /*!
   \class eZCollaborationNotificationHandler ezcollaborationnotificationhandler.php
   \brief The class eZCollaborationNotificationHandler does
