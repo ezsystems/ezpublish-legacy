@@ -336,7 +336,6 @@ class eZVATManager
             return false;
         }
 
-        require_once( $includeFile );
         $className = $handlerName . 'VATHandler';
         return new $className;
     }
