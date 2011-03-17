@@ -45,7 +45,11 @@ class eZXMLInputHandler
     */
     function eZXMLInputHandler( $xmlData, $aliasedType, $contentObjectAttribute )
     {
-        $this->XMLData = $xmlData;
+        $this->XMLData = preg_replace( '/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/u', '', $xmlData, -1, $count );
+        if ( $count > 0 )
+        {
+            eZDebug::writeWarning( "$count invalid character(s) detected. They have been removed from input.", __METHOD__ );
+        }
         $this->ContentObjectAttribute = $contentObjectAttribute;
         $this->AliasedHandler = null;
         // use of $aliasedType is deprecated as of 4.1 and setting is ignored  in aliased_handler
