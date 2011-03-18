@@ -189,7 +189,7 @@ var sortableSubitems = function () {
             return "::" + state.pagination.rowsPerPage +
                    "::" + state.pagination.recordOffset +
                    "::" + state.sortedBy.key +
-                   "::" + ((state.sortedBy.dir === YAHOO.widget.DataTable.CLASS_ASC) ? "0" : "1") +
+                   "::" + ((state.sortedBy.dir === YAHOO.widget.DataTable.CLASS_ASC) ? "1" : "0") +
                    "?ContentType=json";
         }
 
@@ -198,7 +198,7 @@ var sortableSubitems = function () {
             dynamicData: true,                                                                                                             // Enables dynamic server-driven data
             generateRequest: buildQueryString,
             sortedBy : {key:confObj.sortKey, 
-                        dir:((confObj.sortOrder === "1") ? YAHOO.widget.DataTable.CLASS_ASC : YAHOO.widget.DataTable.CLASS_DESC) },        // Sets UI initial sort arrow
+                        dir:((confObj.sortOrder === 1) ? YAHOO.widget.DataTable.CLASS_ASC : YAHOO.widget.DataTable.CLASS_DESC) },          // Sets UI initial sort arrow
             paginator: paginator,                                                                                                          // Enables pagination
             MSG_LOADING: labelsObj.DATA_TABLE.msg_loading
         };
