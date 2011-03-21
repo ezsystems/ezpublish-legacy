@@ -16,7 +16,7 @@ class ezpOauthErrorType
 
     public static function httpCodeforError( $error )
     {
-        // These HTTP response codes are extracted from Section 5.1.2 of the oauth2.0 spec.
+        // These HTTP response codes are extracted from Section 5.2.1 of the oauth2.0 spec.
         switch ( $error )
         {
             case self::INVALID_REQUEST:
