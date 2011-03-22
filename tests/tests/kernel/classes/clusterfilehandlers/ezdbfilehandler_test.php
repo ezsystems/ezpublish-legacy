@@ -31,12 +31,10 @@ class eZDBFileHandlerTest extends eZDBBasedClusterFileHandlerAbstractTest
      */
     public function setUp()
     {
-        parent::setUp();
+        if ( ezpTestRunner::dsn()->dbsyntax !== 'mysql' && ezpTestRunner::dsn()->dbsyntax !== 'mysqli' )
+            self::markTestSkipped( "Not running MySQL, skipping" );
 
-        if ( !( $this->sharedFixture instanceof eZMySQLDB ) and !( $this->sharedFixture instanceof eZMySQLiDB ) )
-        {
-            self::markTestSkipped( "Not using mysql interface, skipping" );
-        }
+        parent::setUp();
 
         // We need to clear the existing handler if it was loaded before the INI
         // settings changes
