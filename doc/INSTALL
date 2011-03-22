@@ -85,7 +85,8 @@ Installation
          RewriteRule ^index_ajax\.php - [L]
     
        * Virtual Host mode
-         RewriteRule ezjscore/call.* /index_ajax.php [L]
+         RewriteRule ^/([^/]+/)?ezjscore/call.* /index_ajax.\.php [L]
+
 
 
 Using eZ JSCore Server functions from javascript
