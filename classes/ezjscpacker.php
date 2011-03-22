@@ -81,7 +81,10 @@ class ezjscPacker
         foreach ( $packedFiles as $packedFile )
         {
             // Is this a js file or js content?
-            if ( isset( $packedFile[4] ) && strripos( $packedFile, '.js' ) === ( strlen( $packedFile ) -3 ) )
+            if ( isset( $packedFile[4] ) &&
+               ( strpos( $packedFile, 'http://' ) === 0 ||
+                 strpos( $packedFile, 'https://' ) === 0 ||
+                 strripos( $packedFile, '.js' ) === ( strlen( $packedFile ) -3 ) ) )
             {
                 if ( $useFullUrl )
                 {
@@ -118,7 +121,10 @@ class ezjscPacker
         foreach ( $packedFiles as $packedFile )
         {
             // Is this a css file or css content?
-            if ( isset( $packedFile[5] ) && strripos( $packedFile, '.css' ) === ( strlen( $packedFile ) -4 ) )
+            if ( isset( $packedFile[5] ) &&
+               ( strpos( $packedFile, 'http://' ) === 0 ||
+                 strpos( $packedFile, 'https://' ) === 0 ||
+                 strripos( $packedFile, '.css' ) === ( strlen( $packedFile ) -4 ) ) )
             {
                 if ( $useFullUrl )
                 {
