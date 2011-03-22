@@ -135,3 +135,8 @@ Deprecated
 
   This feature has been deprecated in favour of new ezpEvent system.
   see features/4.5/event.txt
+
+- template.ini\[ControlSettings]\OldStyleUserVariables
+
+  This feature has been deprecated as it creates issue for by loading
+  template.ini before siteaccess and extension settings are loaded.
