@@ -12,7 +12,7 @@
     <name>design</name>
     <message>
         <source>%group_name [Content object state group]</source>
-        <translation>%group_name [Content object toestand groep]</translation>
+        <translation>%group_name [Contentobject status groep]</translation>
     </message>
     <message>
         <source>Edit</source>
@@ -20,7 +20,7 @@
     </message>
     <message>
         <source>%state_name [Content object state]</source>
-        <translation>%group_name [Content object toestand]</translation>
+        <translation>%group_name [Inhoudsobject status]</translation>
     </message>
 </context>
 <context>
@@ -237,7 +237,7 @@
     </message>
     <message>
         <source>The following information is either missing or invalid</source>
-        <translation>De volgende informatie is onvolledig of mist</translation>
+        <translation>De volgende informatie ontbreekt of is onvolledig</translation>
     </message>
     <message>
         <source>The class definition was successfully stored.</source>
@@ -899,7 +899,7 @@
     </message>
     <message>
         <source>Main</source>
-        <translation>Voornaamste</translation>
+        <translation>Belangrijkste</translation>
     </message>
     <message>
         <source>View translation.</source>
@@ -923,7 +923,7 @@
     </message>
     <message>
         <source>Set main</source>
-        <translation>Verander voornaamste</translation>
+        <translation>Instellen als belangrijkste</translation>
     </message>
     <message>
         <source>Another language</source>
@@ -995,7 +995,7 @@
     </message>
     <message>
         <source>The storing of the class has been deferred because existing objects need to be updated. The process has been scheduled to run in the background and will be started automatically. Please do not edit the class again until the process has finished. You can monitor the progress of the background process here:</source>
-        <translation>Het opslaan van de klasse is uitgesteld omdat bestaande objecten ge-update dienen te worden. Het proces is ingepland in de achtergrond en zal automatisch starten. Gelieve de klasse niet weer te bewerken totdat het proces beeindigt is. U kunt de voortgang van het proces in de achtergrond hier bekijken:</translation>
+        <translation>Het opslaan van het type is niet voltooid omdat bestaande inhoud moet worden geupdate. Dit proces wordt op de achtergrond uitgevoerd. Bewerk het type niet nogmaals voordat dit proces is beeindigd. U kunt de voortgang van het proces hier bekijken:</translation>
     </message>
     <message>
         <source>Background process monitor</source>
@@ -1071,15 +1071,15 @@
     </message>
     <message>
         <source>The content object %1 awaits approval before it can be published.</source>
-        <translation>Het content object %1 wacht op goedkeuring voordat het kan worden gepubliceerd.</translation>
+        <translation>Het inhoudsobject %1 wacht op goedkeuring voordat het kan worden gepubliceerd.</translation>
     </message>
     <message>
         <source>The content object %1 needs your approval before it can be published.</source>
-        <translation>Het content object %1 vereist uw goedkeuring voordat het kan worden gepubliceerd.</translation>
+        <translation>Het inhoudsobject %1 vereist uw goedkeuring voordat het kan worden gepubliceerd.</translation>
     </message>
     <message>
         <source>Do you approve of the content object being published?</source>
-        <translation>Keurt u de publicatie van het content object goed?</translation>
+        <translation>Keurt u de publicatie van het inhoudsobject goed?</translation>
     </message>
     <message>
         <source>Edit the object</source>
@@ -1119,15 +1119,15 @@
     </message>
     <message>
         <source>The content object %1 [deleted] was approved and will be published once the publishing workflow continues.</source>
-        <translation>Het content object %1 [verwijderd] is goedgekeurd en zal gepucliceerd worden zodra de publicatie workflow doorgaat.</translation>
+        <translation>Het inhoudsobject %1 [verwijderd] is goedgekeurd en zal gepucliceerd worden zodra de publicatie workflow doorgaat.</translation>
     </message>
     <message>
         <source>The content object %1 [deleted] was not accepted but is available as a draft again.</source>
-        <translation>Het content object %1 [verwijderd] was niet geaccepteerd maar is weer beschikbaar als concept.</translation>
+        <translation>Het inhoudsobject %1 [verwijderd] was niet geaccepteerd maar is weer beschikbaar als concept.</translation>
     </message>
     <message>
         <source>The content object %1 [deleted] was not accepted but will be available as a draft for the author.</source>
-        <translation>Het content object %1 [verwijderd] was niet geaccepteerd maar is weer als concept beschikbaar voor de auteur.</translation>
+        <translation>Het inhoudsobject %1 [verwijderd] was niet geaccepteerd maar is weer als concept beschikbaar voor de auteur.</translation>
     </message>
     <message>
         <source>Do you want to send a message to the person approving it?</source>
@@ -1139,7 +1139,7 @@
     </message>
     <message>
         <source>The content object %1 was not accepted but is still available as a draft.</source>
-        <translation>Het content object %1 werd niet geaccepteerd, maar is nog steeds beschikbaar als concept.</translation>
+        <translation>Het inhoudsobject %1 werd niet geaccepteerd, maar is nog steeds beschikbaar als concept.</translation>
     </message>
     <message>
         <source>You may edit the draft and publish it, in which case an approval is required again.</source>
@@ -1170,7 +1170,7 @@
     </message>
     <message>
         <source>The content object %1 [deleted]</source>
-        <translation>Het content object %1 (gewist)</translation>
+        <translation>Het inhoudsobject %1 (gewist)</translation>
     </message>
 </context>
 <context>
@@ -1564,7 +1564,7 @@
     </message>
     <message>
         <source>Anonymous users are not allowed to vote in this poll. Please log in.</source>
-        <translation>Anonieme gebruikers hebben geen toestemming om in deze poll te stemmen. Gelieve u aan te melden.</translation>
+        <translation>Anonieme gebruikers kunnen niet op deze poll stemmen. Log in.</translation>
     </message>
     <message>
         <source>You have already voted in this poll.</source>
@@ -1996,7 +1996,7 @@
     </message>
     <message>
         <source>Main</source>
-        <translation>Voornaamste</translation>
+        <translation>Belangrijkste</translation>
     </message>
     <message>
         <source>Select location for removal.</source>
@@ -2889,7 +2889,7 @@
     </message>
     <message>
         <source>Created</source>
-        <translation type="unfinished">Aangemaakt</translation>
+        <translation>Aangemaakt</translation>
     </message>
     <message>
         <source>Not yet published</source>
@@ -2967,7 +2967,7 @@
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Continue restoring &lt;%name&gt;.</source>
@@ -2975,7 +2975,7 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Annuleren</translation>
+        <translation>Annuleren</translation>
     </message>
     <message>
         <source>Do not restore &lt;%name&gt; and return to trash.</source>
@@ -3041,7 +3041,7 @@
     </message>
     <message>
         <source>All content</source>
-        <translation>Alle content</translation>
+        <translation>Alle inhoud</translation>
     </message>
     <message>
         <source>The same location</source>
@@ -3062,11 +3062,11 @@
     </message>
     <message>
         <source>Check spelling of keywords.</source>
-        <translation type="unfinished">Controleer de spelling van de stefwoorden.</translation>
+        <translation>Controleer de spelling van de trefwoorden.</translation>
     </message>
     <message>
         <source>Try more general keywords.</source>
-        <translation type="unfinished">Probeer minder specifieke trefwoorden.</translation>
+        <translation>Probeer minder specifieke trefwoorden.</translation>
     </message>
     <message>
         <source>Search for &lt;%1&gt; returned %2 matches</source>
@@ -3182,7 +3182,7 @@
     </message>
     <message>
         <source>Fewer keywords result in more matches. Try reducing keywords until you get a result.</source>
-        <translation type="unfinished">Minder trefwoorden leidt tot meer resultaten. Probeer het aantal trefwoorden te verminderen totdat u resultaten ziet.</translation>
+        <translation>Minder trefwoorden leidt tot meer resultaten. Probeer het aantal trefwoorden te verminderen tot u resultaat heeft.</translation>
     </message>
 </context>
 <context>
@@ -3193,7 +3193,7 @@
     </message>
     <message>
         <source>New translation for content</source>
-        <translation>Nieuwe vertaling voor content</translation>
+        <translation>Nieuwe vertaling voor inhoud</translation>
     </message>
     <message>
         <source>Custom</source>
@@ -3264,7 +3264,7 @@
     </message>
     <message>
         <source>Country/region</source>
-        <translation type="unfinished">Land/regio</translation>
+        <translation>Land/regio</translation>
     </message>
     <message>
         <source>The language cannot be removed because it is in use.</source>
@@ -3272,7 +3272,7 @@
     </message>
     <message>
         <source>Available languages for translation of content (%translations_count)</source>
-        <translation>Beschikbare talen voor de vertaling van content (%translations_count)</translation>
+        <translation>Beschikbare talen voor de vertaling van inhoud (%translations_count)</translation>
     </message>
     <message>
         <source>Toggle all.</source>
@@ -3577,7 +3577,7 @@
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Naam</translation>
+        <translation>Naam</translation>
     </message>
     <message>
         <source>Choose a file from your local machine then click the &quot;Upload&quot; button. An object will be created according to file type and placed in the specified location.</source>
@@ -3671,7 +3671,7 @@
     </message>
     <message>
         <source>Invert selection.</source>
-        <translation type="unfinished">Selectie omkeren.</translation>
+        <translation>Selectie omkeren.</translation>
     </message>
     <message>
         <source>URL alias</source>
@@ -3679,7 +3679,7 @@
     </message>
     <message>
         <source>Language</source>
-        <translation type="unfinished">Taal</translation>
+        <translation>Taal</translation>
     </message>
     <message>
         <source>Type</source>
@@ -3687,7 +3687,7 @@
     </message>
     <message>
         <source>Redirect</source>
-        <translation type="unfinished">Omleiden</translation>
+        <translation>Omleiden</translation>
     </message>
     <message>
         <source>Direct</source>
@@ -3707,7 +3707,7 @@
     </message>
     <message>
         <source>Remove all</source>
-        <translation type="unfinished">Alles verwijderen</translation>
+        <translation>Alles verwijderen</translation>
     </message>
     <message>
         <source>Remove all aliases for this node.</source>
@@ -3763,7 +3763,7 @@
     </message>
     <message>
         <source>Language:</source>
-        <translation type="unfinished">Taal:</translation>
+        <translation>Taal:</translation>
     </message>
     <message>
         <source>Choose the language for the new URL alias.</source>
@@ -3771,7 +3771,7 @@
     </message>
     <message>
         <source>Not available</source>
-        <translation type="unfinished">Niet beschikbaar</translation>
+        <translation>Niet beschikbaar</translation>
     </message>
     <message>
         <source>Alias should redirect to its destination</source>
@@ -3826,7 +3826,7 @@
     </message>
     <message>
         <source>Create</source>
-        <translation type="unfinished">Aanmaken</translation>
+        <translation>Aanmaken</translation>
     </message>
     <message>
         <source>Create a new global URL alias.</source>
@@ -3914,7 +3914,7 @@
     </message>
     <message>
         <source>Invert selection.</source>
-        <translation type="unfinished">Selectie omkeren.</translation>
+        <translation>Selectie omkeren.</translation>
     </message>
     <message>
         <source>URL alias</source>
@@ -3926,7 +3926,7 @@
     </message>
     <message>
         <source>Language</source>
-        <translation type="unfinished">Taal</translation>
+        <translation>Taal</translation>
     </message>
     <message>
         <source>Always available</source>
@@ -3938,7 +3938,7 @@
     </message>
     <message>
         <source>Redirect</source>
-        <translation type="unfinished">Omleiden</translation>
+        <translation>Omleiden</translation>
     </message>
     <message>
         <source>Direct</source>
@@ -3946,7 +3946,7 @@
     </message>
     <message>
         <source>Remove selected</source>
-        <translation type="unfinished">Verwijder selectie</translation>
+        <translation>Selectie verwijderen</translation>
     </message>
     <message>
         <source>Remove selected aliases from the list above.</source>
@@ -3958,7 +3958,7 @@
     </message>
     <message>
         <source>Remove all</source>
-        <translation type="unfinished">Alles verwijderen</translation>
+        <translation>Alles verwijderen</translation>
     </message>
     <message>
         <source>Remove all global aliases.</source>
@@ -4548,7 +4548,7 @@
     </message>
     <message>
         <source>Modified</source>
-        <translation type="unfinished">Aangepast</translation>
+        <translation>Aangepast</translation>
     </message>
     <message>
         <source>Edit &lt;%draft_name&gt;.</source>
@@ -4847,11 +4847,11 @@
     </message>
     <message>
         <source>&apos;%1&apos; currency does not exist.</source>
-        <translation type="unfinished">&apos;%1&apos; valuta bestaat niet.</translation>
+        <translation>Munteenheid &apos;%1&apos; bestaat niet.</translation>
     </message>
     <message>
         <source>&apos;%1&apos; cannot be used because it is inactive.</source>
-        <translation type="unfinished">&apos;%1&apos; kan niet gebruikt worden omdat deze niet actief is.</translation>
+        <translation>&apos;%1&apos; kan niet gebruikt worden omdat deze niet actief is.</translation>
     </message>
 </context>
 <context>
@@ -4893,7 +4893,7 @@
     </message>
     <message>
         <source>Invert selection.</source>
-        <translation type="unfinished">Selectie omkeren.</translation>
+        <translation>Selectie omkeren.</translation>
     </message>
     <message>
         <source>Collection ID</source>
@@ -4901,7 +4901,7 @@
     </message>
     <message>
         <source>Created</source>
-        <translation type="unfinished">Aangemaakt</translation>
+        <translation>Aangemaakt</translation>
     </message>
     <message>
         <source>Modified</source>
@@ -4917,7 +4917,7 @@
     </message>
     <message>
         <source>Remove selected</source>
-        <translation type="unfinished">Verwijder selectie</translation>
+        <translation>Selectie verwijderen</translation>
     </message>
     <message>
         <source>Remove selected collection.</source>
@@ -4925,7 +4925,7 @@
     </message>
     <message>
         <source>Creator</source>
-        <translation type="unfinished">Auteur</translation>
+        <translation>Aangemaakt door</translation>
     </message>
     <message>
         <source>Unknown user</source>
@@ -4956,11 +4956,11 @@
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Annuleren</translation>
+        <translation>Annuleren</translation>
     </message>
 </context>
 <context>
@@ -4971,7 +4971,7 @@
     </message>
     <message>
         <source>Invert selection.</source>
-        <translation type="unfinished">Selectie omkeren.</translation>
+        <translation>Selectie omkeren.</translation>
     </message>
     <message>
         <source>Name</source>
@@ -4999,7 +4999,7 @@
     </message>
     <message>
         <source>section</source>
-        <translation type="unfinished">sectie</translation>
+        <translation>sectie</translation>
     </message>
     <message>
         <source>There are no objects that have collected any information.</source>
@@ -5007,7 +5007,7 @@
     </message>
     <message>
         <source>Remove selected</source>
-        <translation type="unfinished">Verwijder selectie</translation>
+        <translation>Selectie verwijderen</translation>
     </message>
     <message>
         <source>Remove all information that was collected by the selected objects.</source>
@@ -5060,7 +5060,7 @@
     </message>
     <message>
         <source>Override templates</source>
-        <translation type="unfinished">Vervangende templates</translation>
+        <translation>Vervangende templates</translation>
     </message>
 </context>
 <context>
@@ -5126,11 +5126,11 @@
     </message>
     <message>
         <source>Item</source>
-        <translation type="unfinished">Item</translation>
+        <translation>Item</translation>
     </message>
     <message>
         <source>Sub items</source>
-        <translation type="unfinished">Subitems</translation>
+        <translation>Subitems</translation>
     </message>
     <message>
         <source>Move to trash</source>
@@ -5138,11 +5138,11 @@
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Annuleren</translation>
+        <translation>Annuleren</translation>
     </message>
     <message>
         <source>Cancel the removal of locations.</source>
@@ -5158,11 +5158,11 @@
     </message>
     <message>
         <source>Confirm translation removal</source>
-        <translation type="unfinished">Bevestig verwijdering vertaling</translation>
+        <translation>Verwijdering van vertaling bevestigen</translation>
     </message>
     <message>
         <source>Cancel the removal of translations.</source>
-        <translation type="unfinished">Annuleer het verwijderen van vertalingen.</translation>
+        <translation>Het verwijderen van vertalingen annuleren.</translation>
     </message>
     <message>
         <source>Some of the subtrees or objects selected for removal are used by other objects. Select the menu from the content tree, and</source>
@@ -5170,7 +5170,7 @@
     </message>
     <message>
         <source>Advanced</source>
-        <translation type="unfinished">Uitgebreid</translation>
+        <translation>Geavanceerd</translation>
     </message>
     <message>
         <source>Reverse related for subtree</source>
@@ -5231,7 +5231,7 @@
     <name>design/admin/node/view/full</name>
     <message>
         <source>Hide preview of content.</source>
-        <translation>Voorbeeldweergave van content verbergen.</translation>
+        <translation>Voorbeeldweergave van inhoud verbergen.</translation>
     </message>
     <message>
         <source>Show preview of content.</source>
@@ -5375,7 +5375,7 @@
     </message>
     <message>
         <source>Main</source>
-        <translation type="unfinished">Voornaamste</translation>
+        <translation>Belangrijkste</translation>
     </message>
     <message>
         <source>up</source>
@@ -5391,7 +5391,7 @@
     </message>
     <message>
         <source>Set main</source>
-        <translation>Instellen als voornaamste</translation>
+        <translation>Instellen als belangrijkste</translation>
     </message>
     <message>
         <source>Up one level</source>
@@ -6176,11 +6176,11 @@
     <name>design/admin/notification/addingresult</name>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Add to my notifications</source>
-        <translation type="unfinished">Voeg toe aan mijn notificaties</translation>
+        <translation>Aan mijn notificaties toevoegen</translation>
     </message>
     <message>
         <source>Notification for node &lt;%node_name&gt; already exists.</source>
@@ -6199,8 +6199,7 @@
     </message>
     <message>
         <source>Choose which collaboration items you want to get notifications for.</source>
-        <translation type="unfinished">Kies voor welke samenwerkingsitems u een notificatie wenst te ontvangen.
-</translation>
+        <translation>Kies voor welke samenwerkingsitems u notificaties wilt ontvangen.</translation>
     </message>
 </context>
 <context>
@@ -6640,7 +6639,7 @@ U kunt ook het pakket verwijderen zonder de installatie ongedaan te maken vanaf 
     </message>
     <message>
         <source>Select the file containing the package then click the upload button</source>
-        <translation type="unfinished">Selecteer het bestand dat het pakket bevat, klik vervolgens op de upload-knop</translation>
+        <translation>Selecteer het bestand dat het pakket bevat, en klik vervolgens op de upload-knop</translation>
     </message>
     <message>
         <source>Regarding eZ Publish package &apos;%packagename&apos;</source>
@@ -6737,9 +6736,9 @@ U kunt ook het pakket verwijderen zonder de installatie ongedaan te maken vanaf 
         <source>Are you sure you want to remove the following packages?
 The packages will be lost forever.
 Note: The packages will not be uninstalled.</source>
-        <translation type="unfinished">Bent u zeker dat u de volgende pakketten wilt verwijderen?
-De pakketen zullen voor altijd verloren zijn.
-Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translation>
+        <translation>Weet u zeker dat u de volgende pakketten wilt verwijderen?
+Deze handeling kan niet ongedaan worden gemaakt.
+Let op: Wanneer pakketten geinstalleerd zijn wordt de installatie niet ongedaan gemaakt.</translation>
     </message>
     <message>
         <source>Remove</source>
@@ -6750,7 +6749,7 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     <name>design/admin/pagelayout</name>
     <message>
         <source>Content structure</source>
-        <translation>Contentstructuur</translation>
+        <translation>Inhoudsstructuur</translation>
     </message>
     <message>
         <source>Media library</source>
@@ -6766,7 +6765,7 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     </message>
     <message>
         <source>All content</source>
-        <translation>Alle content</translation>
+        <translation>Alle inhoud</translation>
     </message>
     <message>
         <source>Current location</source>
@@ -6822,7 +6821,7 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     </message>
     <message>
         <source>Search all content.</source>
-        <translation>Doorzoek alle content.</translation>
+        <translation>Alle inhoud doorzoeken.</translation>
     </message>
     <message>
         <source>Search only from the current location.</source>
@@ -6953,7 +6952,7 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     <name>design/admin/pagelayout/path</name>
     <message>
         <source>You are here:</source>
-        <translation>U ben hier:</translation>
+        <translation>U bent hier:</translation>
     </message>
 </context>
 <context>
@@ -6971,7 +6970,7 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     <name>design/admin/parts/content/menu</name>
     <message>
         <source>Content structure</source>
-        <translation>Contentstructuur</translation>
+        <translation>Inhoudsstructuur</translation>
     </message>
     <message>
         <source>Trash</source>
@@ -7246,11 +7245,11 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     </message>
     <message>
         <source>Collected information</source>
-        <translation type="unfinished">Verzamelde informatie</translation>
+        <translation>Verzamelde informatie</translation>
     </message>
     <message>
         <source>Languages</source>
-        <translation type="unfinished">Talen</translation>
+        <translation>Talen</translation>
     </message>
     <message>
         <source>Workflow processes</source>
@@ -7297,19 +7296,19 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     </message>
     <message>
         <source>Order status</source>
-        <translation type="unfinished">Orderstatus</translation>
+        <translation>Orderstatus</translation>
     </message>
     <message>
         <source>Archive</source>
-        <translation type="unfinished">Archiveer</translation>
+        <translation>Archiveren</translation>
     </message>
     <message>
         <source>VAT rules</source>
-        <translation type="unfinished">Btw-regels</translation>
+        <translation>BTW-regels</translation>
     </message>
     <message>
         <source>Product categories</source>
-        <translation type="unfinished">Productcategorieën</translation>
+        <translation>Productcategorieën</translation>
     </message>
     <message>
         <source>Currencies</source>
@@ -7317,7 +7316,7 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     </message>
     <message>
         <source>Preferred currency</source>
-        <translation type="unfinished">Voorkeursvaluta</translation>
+        <translation>Voorkeur van munteenheid</translation>
     </message>
     <message>
         <source>Products overview</source>
@@ -7348,7 +7347,7 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     </message>
     <message>
         <source>Roles and policies</source>
-        <translation type="unfinished">Rollen en regels</translation>
+        <translation>Rollen en regels</translation>
     </message>
     <message>
         <source>View and manage the contents of the trash bin.</source>
@@ -7372,11 +7371,11 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Naam</translation>
+        <translation>Naam</translation>
     </message>
     <message>
         <source>ID</source>
-        <translation type="unfinished">ID</translation>
+        <translation>ID</translation>
     </message>
     <message>
         <source>Access control</source>
@@ -7462,11 +7461,11 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     </message>
     <message>
         <source>Frontpage</source>
-        <translation type="unfinished">Startpagina</translation>
+        <translation>Voorpagina</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Naam</translation>
+        <translation>Naam</translation>
     </message>
     <message>
         <source>Type</source>
@@ -7474,7 +7473,7 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     </message>
     <message>
         <source>Section</source>
-        <translation type="unfinished">Sectie</translation>
+        <translation>Sectie</translation>
     </message>
     <message>
         <source>There is no source node.</source>
@@ -7486,7 +7485,7 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     </message>
     <message>
         <source>Export type</source>
-        <translation type="unfinished">Export type</translation>
+        <translation>Type exporteren</translation>
     </message>
     <message>
         <source>Generate once</source>
@@ -7502,7 +7501,7 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     </message>
     <message>
         <source>Unknown</source>
-        <translation type="unfinished">Onbekend</translation>
+        <translation>Onbekend</translation>
     </message>
     <message>
         <source>The PDF export could not be stored.</source>
@@ -7510,7 +7509,7 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     </message>
     <message>
         <source>Required data is either missing or is invalid</source>
-        <translation type="unfinished">Vereiste data ontbreekt of is ongeldig</translation>
+        <translation>Vereiste data ontbreekt of is ongeldig</translation>
     </message>
 </context>
 <context>
@@ -7859,15 +7858,15 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     </message>
     <message>
         <source>Step one: select module</source>
-        <translation type="unfinished">Stap één: selecteer module</translation>
+        <translation>Stap één: module selecteren</translation>
     </message>
     <message>
         <source>Click one of the &quot;Grant..&quot; buttons (explained below) in order to go to the next step.</source>
-        <translation type="unfinished">Klik op één van de &quot;Geef toegang...&quot; knoppen om naar de volgende stap te gaan.</translation>
+        <translation>Klik op één van de knoppen &quot;Toegang geven...&quot; om naar de volgende stap te gaan.</translation>
     </message>
     <message>
         <source>The &quot;Grant access to all functions&quot; button will create a policy that grants unlimited access to all functions of the selected module. If you wish to limit the access method to a specific function, use the &quot;Grant access to a function&quot; button. Please note that function limitation is only supported by some modules (the next step will reveal if it works or not).</source>
-        <translation type="unfinished">De &quot;Geef toegang tot alle functies&quot; knop maakt een regel die ongelimiteerde toegang geeft tot alle functies in de geselecteerde module. Indien u de regel wilt limiteren tot een specifieke functie dient u de &quot;Ken toegang toe tot een functie&quot; knop te gebruiken. Limitaties per functie worden echter niet door elke module ondersteund (de volgende stap zal dit aangeven).</translation>
+        <translation>De knop &quot;Geef toegang tot alle functies&quot; knop maakt een regel die onbeperkte toegang geeft tot alle functies in de geselecteerde module. Als u de regel wilt beperken tot een specifieke functie, dan kunt u de knop &quot;Toegang toekennen tot een functie&quot; gebruiken. Bepwerkingen per functie worden niet door elke module ondersteund (dit wordt aangegeven in de volgende stap).</translation>
     </message>
     <message>
         <source>Module</source>
@@ -7883,7 +7882,7 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     </message>
     <message>
         <source>Grant access to one function</source>
-        <translation type="unfinished">Geef toegang tot een functie</translation>
+        <translation>Toegang tot een functie geven</translation>
     </message>
     <message>
         <source>OK</source>
@@ -7895,7 +7894,7 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     </message>
     <message>
         <source>Instructions</source>
-        <translation type="unfinished">Instructies</translation>
+        <translation>Instructies</translation>
     </message>
     <message>
         <source>Welcome to the policy wizard. This three-step wizard will help you create a new policy that will be added to the role that is currently being edited. The wizard can be aborted at any stage by using the &quot;Cancel&quot; button.</source>
@@ -7914,7 +7913,7 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     <name>design/admin/role/createpolicystep2</name>
     <message>
         <source>Step one: select module [completed]</source>
-        <translation type="unfinished">Stap één: selecteer module [afgerond]</translation>
+        <translation>Stap één: module selecteren [afgerond]</translation>
     </message>
     <message>
         <source>Selected module</source>
@@ -7926,11 +7925,11 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     </message>
     <message>
         <source>Selected access method</source>
-        <translation type="unfinished">Geselecteerde toegangs method</translation>
+        <translation>Geselecteerde toegangsmethode</translation>
     </message>
     <message>
         <source>Limited</source>
-        <translation type="unfinished">Beperkt</translation>
+        <translation>Beperkt</translation>
     </message>
     <message>
         <source>Step two: select function</source>
@@ -8001,27 +8000,27 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     </message>
     <message>
         <source>Step one: select module [completed]</source>
-        <translation type="unfinished">Stap één: selecteer module [afgerond]</translation>
+        <translation>Stap één: module selecteren [afgerond]</translation>
     </message>
     <message>
         <source>Selected module</source>
-        <translation type="unfinished">Geselecteerde module</translation>
+        <translation>Geselecteerde module</translation>
     </message>
     <message>
         <source>All modules</source>
-        <translation type="unfinished">Alle modules</translation>
+        <translation>Alle modules</translation>
     </message>
     <message>
         <source>Selected access method</source>
-        <translation type="unfinished">Geselecteerde toegangs method</translation>
+        <translation>Geselecteerde toegangsmethode</translation>
     </message>
     <message>
         <source>Limited</source>
-        <translation type="unfinished">Beperkt</translation>
+        <translation>Beperkt</translation>
     </message>
     <message>
         <source>Step two: select function [completed]</source>
-        <translation type="unfinished">Stap twee: selecteer functie [afgerond]</translation>
+        <translation>Stap twee: functie selecteren [afgerond]</translation>
     </message>
     <message>
         <source>Selected function</source>
@@ -8033,11 +8032,11 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     </message>
     <message>
         <source>Set the desired function limitations using the controls below.</source>
-        <translation type="unfinished">Configureer de gewenste functie beperkingen met de dingetjes beneden.</translation>
+        <translation>Configureer de gewenste functiebeperkingen met de velden hieronder.</translation>
     </message>
     <message>
         <source>Click the &quot;OK&quot; button to finish the wizard. The policy will be added to the role that is currently being edited.</source>
-        <translation type="unfinished">Klik op de &quot;OK&quot; knop om de wizard te beëindigen. De regel zal worden toegevoegd aan de rol die op dit moment wordt bewerkt.</translation>
+        <translation>Klik op de knop &quot;OK&quot; om de wizard te beëindigen. De regel wordt dan toegevoegd aan de rol die op dit moment wordt bewerkt.</translation>
     </message>
     <message>
         <source>Any</source>
@@ -8097,7 +8096,7 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     </message>
     <message>
         <source>Instructions</source>
-        <translation type="unfinished">Instructies</translation>
+        <translation>Instructies</translation>
     </message>
     <message>
         <source>Welcome to the policy wizard. This three-step wizard will help you set up a new policy. The policy will be added to the role that is currently being edited. The wizard can be aborted at any stage by using the &quot;Cancel&quot; button.</source>
@@ -8204,7 +8203,7 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished">Opslaan</translation>
+        <translation>Opslaan</translation>
     </message>
     <message>
         <source>Save policy changes to this role</source>
@@ -8465,7 +8464,7 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Naam</translation>
+        <translation>Naam</translation>
     </message>
     <message>
         <source>Policies (%policies_count)</source>
@@ -8488,18 +8487,18 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     </message>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
-        <translation type="unfinished">Navigeer door de beschikbare tabbladen (bovenstaand), het structuurmenu (links) en de inhoudslijst (midden) te gebruiken.</translation>
+        <translation>Navigeer door de beschikbare tabbladen (bovenin), het structuurmenu (aan de linker kant) en de lijst (in het midden) te gebruiken.</translation>
     </message>
     <message>
         <source>Use the radio buttons to choose a destination location for RSS import then click &quot;OK&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruik de radioknoppen om de bestemmingslocatie voor de RSS-import te kiezen en klik op &quot;OK&quot;.</translation>
     </message>
 </context>
 <context>
     <name>design/admin/rss/browse_image</name>
     <message>
         <source>Choose image for RSS export</source>
-        <translation type="unfinished"></translation>
+        <translation>Afbeelding voor RSS-export kiezen</translation>
     </message>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
@@ -8518,7 +8517,7 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     </message>
     <message>
         <source>Navigate using the available tabs (above), the tree menu (left) and the content list (middle).</source>
-        <translation type="unfinished">Navigeer door de beschikbare tabbladen (bovenstaand), het structuurmenu (links) en de inhoudslijst (midden) te gebruiken.</translation>
+        <translation>Navigeer met behulp van de beschikbare tabbladen (bovenin), het structuurmenu (aan de linker kant) en de lijst met inhoud (in het midden).</translation>
     </message>
     <message>
         <source>Use the radio buttons to choose the item that you want to export using RSS then click &quot;OK&quot;.</source>
@@ -9121,7 +9120,7 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     </message>
     <message>
         <source>Navigation part</source>
-        <translation type="unfinished">Navigatiedeel</translation>
+        <translation>Navigatiedeel</translation>
     </message>
     <message>
         <source>Identifier can not be empty</source>
@@ -9494,7 +9493,7 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     </message>
     <message>
         <source>Siteaccess</source>
-        <translation type="unfinished">sitetoegang</translation>
+        <translation>Sitetoegang</translation>
     </message>
     <message>
         <source>Values for each location setting are shown. The first values are lowest priority; the values toward the end have higher priority than the first ones.</source>
@@ -9588,11 +9587,11 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     <name>design/admin/setup/cache</name>
     <message>
         <source>Content view cache was cleared</source>
-        <translation>Content weergave cache werd geleegd</translation>
+        <translation>Inhoudsweergave cache werd geleegd</translation>
     </message>
     <message>
         <source>All caches were cleared</source>
-        <translation type="unfinished">Alle caches zijn geleegd</translation>
+        <translation>Alle caches zijn geleegd</translation>
     </message>
     <message>
         <source>Ini file cache was cleared</source>
@@ -9684,7 +9683,7 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     </message>
     <message>
         <source>Create new</source>
-        <translation type="unfinished">Nieuw aanmaken</translation>
+        <translation>Nieuw aanmaken</translation>
     </message>
     <message>
         <source>This operation will clear all the template override caches and the compiled templates. It may lead to slower site performance until the caches are recreated.</source>
@@ -9758,11 +9757,11 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     </message>
     <message>
         <source>Regenerate autoload arrays for extensions</source>
-        <translation type="unfinished">Autoload-array voor extensies opnieuw genereren</translation>
+        <translation>Autoload-array van extensies opnieuw genereren</translation>
     </message>
     <message>
         <source>Click this button to regenerate the autoload arrays used by the system for extensions.</source>
-        <translation type="unfinished">Klik op deze knop om de autoload-array van de extensies in het systeem te regenereren.</translation>
+        <translation>Klik op deze knop om de autoload-array van de extensies in het systeem opnieuw te regenereren.</translation>
     </message>
     <message>
         <source>Problems detected during autoload generation:</source>
@@ -9774,7 +9773,7 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     </message>
     <message>
         <source>Invert selection.</source>
-        <translation type="unfinished">Selectie omkeren.</translation>
+        <translation>Selectie omkeren.</translation>
     </message>
     <message>
         <source>Activate</source>
@@ -9786,7 +9785,7 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     </message>
     <message>
         <source>Update</source>
-        <translation type="unfinished">Actualiseren</translation>
+        <translation>Actualiseren</translation>
     </message>
 </context>
 <context>
@@ -9959,9 +9958,7 @@ Let op: De installatie van de pakketten worden niet ongedaan gemaakt.</translati
     </message>
     <message>
         <source>eZ Publish</source>
-        <translation type="unfinished">eZ Publish
-
-eZ Publish link</translation>
+        <translation>eZ Publish</translation>
     </message>
     <message>
         <source>Version</source>
@@ -9994,7 +9991,7 @@ eZ Publish link</translation>
     <message>
         <source>Name</source>
         <comment>Web server name</comment>
-        <translation type="unfinished">Naam</translation>
+        <translation>Naam</translation>
     </message>
     <message>
         <source>Version</source>
@@ -10004,7 +10001,7 @@ eZ Publish link</translation>
     <message>
         <source>Modules</source>
         <comment>Web server modules</comment>
-        <translation type="unfinished">Modules</translation>
+        <translation>Modules</translation>
     </message>
     <message>
         <source>The modules of the web server could not be detected.</source>
@@ -10045,11 +10042,11 @@ eZ Publish link</translation>
     </message>
     <message>
         <source>\\return an array with the template operator name.</source>
-        <translation type="unfinished">\\een pijl terug met de naam van de sjabloonoperator.</translation>
+        <translation>\\een array met de naam van de templateoperator retourneren.</translation>
     </message>
     <message>
         <source>Example code. This code must be modified to do what the operator should do. Currently it only trims text.</source>
-        <translation type="unfinished">Voorbeeldcode. Deze code moet gewijzigd worden om uit te voeren wat de operator moet uitvoeren. Momenteel knipt deze enkel tekst.</translation>
+        <translation>Voorbeeldcode. Deze code moet worden aangepast om te doen wat de operator behoort te doen. Momenteel knipt deze enkel tekst.</translation>
     </message>
 </context>
 <context>
@@ -12155,11 +12152,11 @@ eZ Publish link</translation>
     <name>design/admin/state/edit</name>
     <message>
         <source>The content object state was successfully stored.</source>
-        <translation>De stand van het contentobject is opgeslagen.</translation>
+        <translation>De stand van het inhoudsobject is opgeslagen.</translation>
     </message>
     <message>
         <source>The content object state could not be stored.</source>
-        <translation>De stand van het contentobject kan niet worden opgeslagen.</translation>
+        <translation>De stand van het inhoudsobject kan niet worden opgeslagen.</translation>
     </message>
     <message>
         <source>Required data is either missing or is invalid</source>
@@ -12167,11 +12164,11 @@ eZ Publish link</translation>
     </message>
     <message>
         <source>Edit content object state &quot;%state_name&quot;</source>
-        <translation>Stand &quot;%state_name&quot; van het content object wijzigen</translation>
+        <translation>Stand &quot;%state_name&quot; van het inhoudsobject wijzigen</translation>
     </message>
     <message>
         <source>New content object state</source>
-        <translation>Nieuwe contentobjectstand</translation>
+        <translation>Nieuwe inhoudsobject-stand</translation>
     </message>
     <message>
         <source>Identifier:</source>
@@ -12242,23 +12239,23 @@ eZ Publish link</translation>
     </message>
     <message>
         <source>Select content object state group for removal.</source>
-        <translation type="unfinished"></translation>
+        <translation>Inhoudsobject status selecteren voor verwijdering.</translation>
     </message>
     <message>
         <source>Remove selected</source>
-        <translation type="unfinished">Verwijder selectie</translation>
+        <translation>Selectie verwijderen</translation>
     </message>
     <message>
         <source>Remove selected states.</source>
-        <translation type="unfinished"></translation>
+        <translation>De geselecteerde statussen verwijderen.</translation>
     </message>
     <message>
         <source>Create new</source>
-        <translation type="unfinished">Nieuw aanmaken</translation>
+        <translation>Nieuwe aanmaken</translation>
     </message>
     <message>
         <source>Create a new state.</source>
-        <translation type="unfinished"></translation>
+        <translation>Een nieuwe status aanmaken.</translation>
     </message>
     <message>
         <source>Update ordering</source>
@@ -12266,11 +12263,11 @@ eZ Publish link</translation>
     </message>
     <message>
         <source>Update the order of the content object states in this group.</source>
-        <translation type="unfinished"></translation>
+        <translation>De volgorde van de inhoudsobject statussen in deze groep aanpassen.</translation>
     </message>
     <message>
         <source>Object states in this group (%state_count)</source>
-        <translation type="unfinished"></translation>
+        <translation>Objectstatussen in deze groep (%state_count)</translation>
     </message>
 </context>
 <context>
@@ -12309,15 +12306,15 @@ eZ Publish link</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Annuleren</translation>
+        <translation>Annuleren</translation>
     </message>
     <message>
         <source>Cancel saving any changes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Opslaan van wijzigingen annuleren.</translation>
     </message>
     <message>
         <source>Create</source>
-        <translation type="unfinished">Aanmaken</translation>
+        <translation>Aanmaken</translation>
     </message>
     <message>
         <source>Create this state group.</source>
@@ -12340,15 +12337,15 @@ eZ Publish link</translation>
     </message>
     <message>
         <source>Required data is either missing or is invalid</source>
-        <translation type="unfinished">Vereiste data ontbreekt of is ongeldig</translation>
+        <translation>Vereiste data ontbreekt of is ongeldig</translation>
     </message>
     <message>
         <source>Invert selection.</source>
-        <translation type="unfinished">Selectie omkeren.</translation>
+        <translation>Selectie omkeren.</translation>
     </message>
     <message>
         <source>ID</source>
-        <translation type="unfinished">ID</translation>
+        <translation>ID</translation>
     </message>
     <message>
         <source>Identifier</source>
@@ -12364,7 +12361,7 @@ eZ Publish link</translation>
     </message>
     <message>
         <source>Remove selected</source>
-        <translation type="unfinished">Verwijder selectie</translation>
+        <translation>Selectie verwijderen</translation>
     </message>
     <message>
         <source>Remove selected state groups.</source>
@@ -12372,7 +12369,7 @@ eZ Publish link</translation>
     </message>
     <message>
         <source>Create new</source>
-        <translation type="unfinished">Nieuw aanmaken</translation>
+        <translation>Nieuwe aanmaken</translation>
     </message>
     <message>
         <source>Create a new state group.</source>
@@ -12383,7 +12380,7 @@ eZ Publish link</translation>
     <name>design/admin/state/view</name>
     <message>
         <source>ID</source>
-        <translation type="unfinished">ID</translation>
+        <translation>ID</translation>
     </message>
     <message>
         <source>Identifier</source>
@@ -12395,7 +12392,7 @@ eZ Publish link</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Omschrijving</translation>
+        <translation>Beschrijving</translation>
     </message>
 </context>
 <context>
@@ -12559,7 +12556,7 @@ eZ Publish link</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished">Bewerken</translation>
+        <translation>Bewerken</translation>
     </message>
     <message>
         <source>Edit URL.</source>
@@ -12662,7 +12659,7 @@ eZ Publish link</translation>
     </message>
     <message>
         <source>Draft</source>
-        <translation type="unfinished">Concept</translation>
+        <translation>Concept</translation>
     </message>
     <message>
         <source>Published</source>
@@ -12670,15 +12667,15 @@ eZ Publish link</translation>
     </message>
     <message>
         <source>Pending</source>
-        <translation type="unfinished">In wachtrij</translation>
+        <translation>In wachtrij</translation>
     </message>
     <message>
         <source>Archived</source>
-        <translation type="unfinished">Gearchiveerd</translation>
+        <translation>Gearchiveerd</translation>
     </message>
     <message>
         <source>Rejected</source>
-        <translation type="unfinished">Verworpen</translation>
+        <translation>Afgewezen</translation>
     </message>
     <message>
         <source> (in trash)</source>
@@ -12686,7 +12683,7 @@ eZ Publish link</translation>
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished">Alle</translation>
+        <translation>Alle</translation>
     </message>
     <message>
         <source>View the contents of version #%version_number.</source>
@@ -12701,35 +12698,34 @@ eZ Publish link</translation>
     <name>design/admin/user</name>
     <message>
         <source>Activate account</source>
-        <translation type="unfinished">Activeer account</translation>
+        <translation>Account activeren</translation>
     </message>
     <message>
         <source>User registered</source>
-        <translation type="unfinished">Gebruiker geregistreerd</translation>
+        <translation>Gebruiker geregistreerd</translation>
     </message>
     <message>
         <source>Your account is now activated.</source>
-        <translation type="unfinished">Uw account is nu geactiveerd.</translation>
+        <translation>Uw account is nu geactiveerd.</translation>
     </message>
     <message>
         <source>Sorry, the key submitted was not a valid key. Account was not activated.</source>
-        <translation type="unfinished">De opgegeven sleutel is niet geldig. Uw account is niet geactiveerd.</translation>
+        <translation>De opgegeven sleutel is niet geldig. De account is niet geactiveerd.</translation>
     </message>
     <message>
         <source>Your account was successfully created.</source>
-        <translation type="unfinished">Uw acount werd met succes aangemaakt.</translation>
+        <translation>Uw acount is aangemaakt.</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Your account was successfully created. An email will be sent to the specified
 email address. Follow the instructions in that mail to activate
 your account.</source>
-        <translation type="unfinished">Uw account werd succesvol aangemaakt. Een e-mail zal naar het gespecificeerd
-e-mailadres verzonden worden. Gelieve de instructies in deze e-mail te volgen om
-uw account te activeren.</translation>
+        <translation>Uw account is aangemaakt. Er is een bevestigingsmail naar het door u opgegeven
+adres verzonden. Volg de instructies in deze e-mail om uw account te activeren.</translation>
     </message>
 </context>
 <context>
@@ -12769,7 +12765,7 @@ uw account te activeren.</translation>
     <message>
         <source>Log in</source>
         <comment>Login button</comment>
-        <translation type="unfinished">Inloggen</translation>
+        <translation>Inloggen</translation>
     </message>
     <message>
         <source>Click here to log in using the username/password combination entered in the fields above.</source>
@@ -12877,7 +12873,7 @@ uw account te activeren.</translation>
     </message>
     <message>
         <source>The password must be at least %1 characters long.</source>
-        <translation type="unfinished">Het wachtwoord moet tenminste %1 tekens lang zijn.</translation>
+        <translation>Het wachtwoord moet uit tenminste %1 tekens bestaan.</translation>
     </message>
 </context>
 <context>
@@ -12908,11 +12904,11 @@ uw account te activeren.</translation>
     </message>
     <message>
         <source>Unable to register new user</source>
-        <translation type="unfinished">Nieuwe gebruiker registreren is niet mogelijk</translation>
+        <translation>Gebruiker registreren mislukt</translation>
     </message>
     <message>
         <source>Back</source>
-        <translation type="unfinished">Terug</translation>
+        <translation>Terug</translation>
     </message>
 </context>
 <context>
@@ -12931,11 +12927,11 @@ uw account te activeren.</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Annuleren</translation>
+        <translation>Annuleren</translation>
     </message>
     <message>
         <source>This functionality is not currently not available. [Use this field to specify the maximum allowed number of concurrent logins.]</source>
@@ -12955,7 +12951,7 @@ uw account te activeren.</translation>
     </message>
     <message>
         <source>Reset</source>
-        <translation type="unfinished">Terugzetten naar oorsponkelijke stand</translation>
+        <translation>Terugzetten naar oorsponkelijke stand</translation>
     </message>
     <message>
         <source>Account has been locked because the maximum number of failed login attempts was exceeded.</source>
@@ -12966,34 +12962,34 @@ uw account te activeren.</translation>
     <name>design/admin/visual/menuconfig</name>
     <message>
         <source>Menu management</source>
-        <translation type="unfinished">Menu beheer</translation>
+        <translation>Menubeheer</translation>
     </message>
     <message>
         <source>Set</source>
-        <translation type="unfinished">Set</translation>
+        <translation>Instellen</translation>
     </message>
     <message>
         <source>Menu positioning</source>
-        <translation type="unfinished">Menu positionering</translation>
+        <translation>Positionering van menu</translation>
     </message>
     <message>
         <source>Apply changes</source>
-        <translation type="unfinished">Wijzigingen activeren</translation>
+        <translation>Wijzigingen activeren</translation>
     </message>
     <message>
         <source>Click here to store the changes if you have modified the menu settings above.</source>
-        <translation type="unfinished">Klik hier om de wijzigingen op te slaan indien u de bovenstaande menu-instellingen hebt gewijzigd.</translation>
+        <translation>Klik hier om de wijzigingen op te slaan wanneer u de bovenstaande instellingen hebt gewijzigd.</translation>
     </message>
     <message>
         <source>Siteaccess</source>
-        <translation type="unfinished">sitetoegang</translation>
+        <translation>Sitetoegang</translation>
     </message>
 </context>
 <context>
     <name>design/admin/visual/templatecreate</name>
     <message>
         <source>Could not create template, permission denied.</source>
-        <translation type="unfinished">Kon het template niet aanmaken. Geen permissie.</translation>
+        <translation>Template niet aangemaakt, geen toestemming.</translation>
     </message>
     <message>
         <source>Invalid name. You can only use the characters a-z, numbers and _.</source>
@@ -13388,7 +13384,7 @@ uw account te activeren.</translation>
     </message>
     <message>
         <source>The following information is either missing or invalid</source>
-        <translation type="unfinished">De volgende informatie is onvolledig of mist</translation>
+        <translation>De volgende informatie ontbreekt of is onvolledig</translation>
     </message>
     <message>
         <source>Error : Could not load workflow event &quot;%eventtype&quot; (event type not available)</source>
@@ -14227,7 +14223,7 @@ uw account te activeren.</translation>
     </message>
     <message>
         <source>Anonymous users are not allowed to vote in this poll. Please log in.</source>
-        <translation>Anonieme gebruikers hebben geen toestemming om in deze poll te stemmen. Gelieve u aan te melden.</translation>
+        <translation>Anonieme gebruikers kunnen niet op deze poll stemmen. Log in.</translation>
     </message>
     <message>
         <source>You have already voted in this poll.</source>
@@ -15064,7 +15060,7 @@ uw account te activeren.</translation>
     </message>
     <message>
         <source>Please follow the instructions for the ISBN datatype to install the valid ranges.</source>
-        <translation>Gelieve de instructies voor het ISBN-datatype te volgen om de geldige bereiken te installeren.</translation>
+        <translation>Volg de instructies voor het ISBN-datatype om de geldige bereiken te installeren.</translation>
     </message>
     <message>
         <source>Definition from distribution</source>
@@ -15585,15 +15581,15 @@ uw account te activeren.</translation>
     </message>
     <message>
         <source>The content object %1 awaits approval before it can be published.</source>
-        <translation>Het content object %1 wacht op goedkeuring voordat het kan worden gepubliceerd.</translation>
+        <translation>Het inhoudsobject %1 wacht op goedkeuring voordat het kan worden gepubliceerd.</translation>
     </message>
     <message>
         <source>The content object %1 needs your approval before it can be published.</source>
-        <translation>Het content object %1 vereist uw goedkeuring voordat het kan worden gepubliceerd.</translation>
+        <translation>Het inhoudsobject %1 vereist uw goedkeuring voordat het kan worden gepubliceerd.</translation>
     </message>
     <message>
         <source>Do you approve of the content object being published?</source>
-        <translation>Keurt u de publicatie van het content object goed?</translation>
+        <translation>Keurt u de publicatie van het inhoudsobject goed?</translation>
     </message>
     <message>
         <source>Comment</source>
@@ -15625,7 +15621,7 @@ uw account te activeren.</translation>
     </message>
     <message>
         <source>The content object %1 was not accepted but will be available as a draft for the author.</source>
-        <translation>Het content object %1 werd niet geaccepteerd maar blijft beschikbaar voor de auteur als een draft. </translation>
+        <translation>Het inhoudsobject %1 werd niet geaccepteerd maar blijft beschikbaar voor de auteur als een draft. </translation>
     </message>
     <message>
         <source>[%sitename] Approval of &quot;%objectname&quot; awaits your attention</source>
@@ -16752,7 +16748,7 @@ Indien u aanvullende opmerkingen voor de goedkeurder heeft of de status wilt zie
     </message>
     <message>
         <source>Main</source>
-        <translation type="unfinished">Voornaamste</translation>
+        <translation>Belangrijkste</translation>
     </message>
     <message>
         <source>Move</source>
@@ -17236,7 +17232,7 @@ Neem contact op met deze persoon over het concept of maak een nieuw concept aan 
     <name>design/standard/content/newcontent</name>
     <message>
         <source>New content since last visit</source>
-        <translation>Nieuwe content sinds laatste bezoek</translation>
+        <translation>Nieuwe inhoud sinds laatste bezoek</translation>
     </message>
     <message>
         <source>Your last visit to this site was</source>
@@ -17290,7 +17286,7 @@ Neem contact op met deze persoon over het concept of maak een nieuw concept aan 
     </message>
     <message>
         <source>Anonymous users are not allowed to vote in this poll. Please log in.</source>
-        <translation>Anonieme gebruikers hebben geen toestemming om in deze poll te stemmen. Gelieve u aan te melden.</translation>
+        <translation>Anonieme gebruikers kunnen niet op deze poll stemmen. Log in.</translation>
     </message>
     <message>
         <source>You have already voted in this poll.</source>
@@ -17518,7 +17514,7 @@ Neem contact op met deze persoon over het concept of maak een nieuw concept aan 
     </message>
     <message>
         <source>Please correct the following errors</source>
-        <translation>Gelieve de volgende fouten te verbeteren</translation>
+        <translation>Verbeter de volgende fouten</translation>
     </message>
     <message>
         <source>This is the link to the page</source>
@@ -18671,7 +18667,7 @@ Als u dit wilt worden ook alle kinderen verwijderd.</translation>
     <name>design/standard/node</name>
     <message>
         <source>Are you sure you want to remove %1 from node %2?</source>
-        <translation>Weet u zeker dat u %1 wil verwijderen?</translation>
+        <translation>Weet u zeker dat u %1 uit node %2 wilt verwijderen?</translation>
     </message>
     <message>
         <source>Confirm</source>
@@ -19309,7 +19305,7 @@ If unsure choose the siteaccess which reflects the user part of your site, i.e. 
     </message>
     <message>
         <source>Please choose action:</source>
-        <translation>Gelieve te kiezen voor actie:</translation>
+        <translation>Kies actie:</translation>
     </message>
     <message>
         <source>Continue</source>
@@ -19346,8 +19342,8 @@ If unsure choose the siteaccess which reflects the user part of your site, i.e. 
     <message>
         <source>Please select a thumbnail file to be included in the package,
 if you do not want to have a thumbnail simply click Next.</source>
-        <translation>Gelieve een miniatuurbestand te selecteren om te includeren in het pakket.
-Indien u geen miniatuur wilt, klik simpelweg op Volgende.</translation>
+        <translation>Selecteer een thumbnail om in het pakket toe te voegen.
+Als u geen thumbnail wilt, klik dan op Volgende.</translation>
     </message>
     <message>
         <source>Unhandled installation error has occurred.</source>
@@ -19620,7 +19616,7 @@ U kunt ook het pakket verwijderen zonder de installatie ongedaan te maken vanaf 
     </message>
     <message>
         <source>Main</source>
-        <translation>Voornaamste</translation>
+        <translation>Belangrijkste</translation>
     </message>
     <message>
         <source>Modules</source>
@@ -20365,7 +20361,7 @@ het menu boven.</translation>
     </message>
     <message>
         <source>Content view cache was cleared.</source>
-        <translation>Content weergave cache werd geleegd.</translation>
+        <translation>Inhoudsweergave cache werd geleegd.</translation>
     </message>
     <message>
         <source>Ini file cache was cleared.</source>
@@ -21671,7 +21667,7 @@ Sjabloonoperator.</translation>
     </message>
     <message>
         <source>Site access</source>
-        <translation type="unfinished">Toegang tot de site</translation>
+        <translation>Site access</translation>
     </message>
     <message>
         <source>Site details</source>
@@ -21679,7 +21675,7 @@ Sjabloonoperator.</translation>
     </message>
     <message>
         <source>Site template selection</source>
-        <translation type="unfinished">Selectie van het site template</translation>
+        <translation>Selectie van het site template</translation>
     </message>
     <message>
         <source>System check</source>
@@ -21893,7 +21889,7 @@ Om dit probleem op te lossten kunt u het volgende doen:</translation>
     </message>
     <message>
         <source>Email is used for sending out important notices such as user registration and content approval.</source>
-        <translation>E-mail zal worden gebruikt om belangrijke berichten te versturen, zoals meldingen betreffende de registratie van gebruikers en content approval.</translation>
+        <translation>E-mail zal worden gebruikt om belangrijke berichten te versturen, zoals meldingen betreffende de registratie van gebruikers en goedkeuring van content.</translation>
     </message>
     <message>
         <source>Most Unix systems support sendmail, while windows users must choose SMTP.</source>
@@ -22091,7 +22087,7 @@ Om dit probleem op te lossten kunt u het volgende doen:</translation>
     </message>
     <message>
         <source>Site selection</source>
-        <translation type="unfinished">Geselecteerde site</translation>
+        <translation>Geselecteerde site</translation>
     </message>
     <message>
         <source>You need to fill in the first name.</source>
@@ -22196,7 +22192,7 @@ It is possible to change these settings at a later time.</source>
     </message>
     <message>
         <source>Please make sure that the username and the password is correct. Verify that your PostgreSQL database is configured correctly.&lt;br&gt;See the PHP documentation for more information about this.&lt;br&gt;Remember to start postmaster with the -i option.&lt;br&gt;Note that PostgreSQL 7.2 is not supported.</source>
-        <translation type="unfinished">Gelieve u ervan te verzekeren dat de gebruikersnaam en het wachtwoord correct is. Verifieer dat uw PostgreSQL database correct is geconfigureerd. &lt;br&gt; Zie de PHP documentatie voor meer informatie hierover. &lt;br&gt; Vergeet niet om de postmaster met de -i optie te starten. &lt;br&gt; Let erop dat PostgreSQL 7.2 niet ondersteund wordt.</translation>
+        <translation>Controleer of de gebruikersnaam en het wachtwoord juist zijn. Verifieer dat uw PostgreSQL database correct is geconfigureerd. &lt;br&gt; Zie de PHP documentatie voor meer informatie hierover. &lt;br&gt; Vergeet niet om de postmaster met de -i optie te starten. &lt;br&gt; Let erop dat PostgreSQL 7.2 niet ondersteund wordt.</translation>
     </message>
     <message>
         <source>Your database version %version does not fit the minimum requirement which is %req_version.</source>
@@ -22251,7 +22247,7 @@ Probeer opnieuw-knop in de installatie</translation>
     </message>
     <message>
         <source>Failed fetching upload package file</source>
-        <translation type="unfinished">Ophalen van upload pakketbestand faalde</translation>
+        <translation>Ophalen van upload pakketbestand mislukt</translation>
     </message>
     <message>
         <source>Site package</source>
@@ -22279,7 +22275,7 @@ Probeer opnieuw-knop in de installatie</translation>
     </message>
     <message>
         <source>Failed to copy %url to local file %filename</source>
-        <translation type="unfinished">Faalde om %url te kopiëren naar lokaal bestand %filename</translation>
+        <translation>Kopiëren van %url naar lokaal bestand %filename mislukt</translation>
     </message>
     <message>
         <source>Access method</source>
@@ -22287,11 +22283,11 @@ Probeer opnieuw-knop in de installatie</translation>
     </message>
     <message>
         <source>&apos;User path&apos; and &apos;Admin path&apos; should only contain letters (&apos;a-zA-Z&apos;), digits (&apos;0-9&apos;) and underscores (&apos;_&apos;). The access values must not be named &apos;admin&apos; or &apos;user&apos; and each value must be unique. Please change invalid values on site indicated by *</source>
-        <translation>&apos;Gebruikerpad&apos; en &apos;Beheerpad&apos; mogen enkel letters (&apos;a-zA-Z&apos;), cijfers (&apos;0-9&apos;) en onderstrepingstekens (&apos;_&apos;) bevatten. De toegangswaarden mogen niet &apos;beheer&apos; of &apos;gebruiker&apos; genoemd zijn en iedere waarde moet uniek zijn. Gelieve de ongeldige waarden op de site aangeduid met * te wijzigen</translation>
+        <translation>&apos;Gebruikerpad&apos; en &apos;Beheerpad&apos; mogen enkel letters (&apos;a-zA-Z&apos;), cijfers (&apos;0-9&apos;) en onderstrepingstekens (&apos;_&apos;) bevatten. De toegangswaarden mogen niet &apos;beheer&apos; of &apos;gebruiker&apos; genoemd zijn en iedere waarde moet uniek zijn. Wijzig de ongeldige waarden op de site aangeduid met *</translation>
     </message>
     <message>
         <source>&apos;User port&apos; and &apos;Admin port&apos; should only contain digits (&apos;0-9&apos;). Please change invalid values on site indicated by *</source>
-        <translation>&apos;Gebruikerpoort&apos; en &apos;Beheerpoort&apos; mogen enkel cijfers (&apos;0-9&apos;) bevatten. Gelieve de ongeldige waarden op de site aangeduid met * te wijzigen</translation>
+        <translation>&apos;Gebruikerpoort&apos; en &apos;Beheerpoort&apos; mogen alleen cijfers (&apos;0-9&apos;) bevatten. Wijzig de ongeldige waarden op de site aangeduid met *</translation>
     </message>
     <message>
         <source>&apos;User hostname&apos; and &apos;Admin hostname&apos; should only contain letters (&apos;a-zA-Z&apos;), digits (&apos;0-9&apos;), dashes (&apos;-&apos;), dots (&apos;.&apos;) and colons (&apos;:&apos;). Please change invalid values on site indicated by *</source>
@@ -22303,7 +22299,7 @@ Probeer opnieuw-knop in de installatie</translation>
     </message>
     <message>
         <source>Package &apos;%packageName&apos; and it&apos;s dependencies have been downloaded successfully. Press &apos;Next&apos; to continue.</source>
-        <translation type="unfinished">Pakket &apos;%packageName&apos; en zijn afhankelijke items werden succesvol gedownload. Klik op &apos;Volgende&apos; om verder te gaan.</translation>
+        <translation>Pakket &apos;%packageName&apos; en pakketten waarvan deze afhankelijk is gedownload. Klik op &apos;Volgende&apos; om verder te gaan.</translation>
     </message>
     <message>
         <source>Use the radio buttons to choose the default language, and the checkboxes to choose additional languages. You will be able to use any of the selected languages for translating your content. The default language will determine the locale settings and will be used as the most prioritized language for your site.</source>
@@ -22367,19 +22363,19 @@ Probeer opnieuw-knop in de installatie</translation>
     </message>
     <message>
         <source>Please choose what kind of functionality you want on your site.</source>
-        <translation>Gelieve te kiezen welke soort functionaliteit u op uw site wenst.</translation>
+        <translation>Kies welke soort functionaliteit u op de site wenst.</translation>
     </message>
     <message>
         <source>Please choose a site package you would like to test or base your site on.</source>
-        <translation>Gelieve een sitepakket te kiezen dat u wilt testen of als basis voor uw site.</translation>
+        <translation>Kies het sitepakket dat als basis voor uw eigen site dient.</translation>
     </message>
     <message>
         <source>The selected user has not got access to any databases. Change user or create a database for the user.</source>
-        <translation type="unfinished">De geselecteerde gebruiker heeft geen toegang tot enige databases. Wijzig gebruiker of maak een database voor de gebruiker aan.</translation>
+        <translation>De geselecteerde gebruiker heeft geen toegang tot databases. Wijzig de gebruiker of maak een database voor de gebruiker aan.</translation>
     </message>
     <message>
         <source>The &apos;digest&apos; function is not available in your database, you cannot run eZ Publish without this. See the documentation for more information.</source>
-        <translation type="unfinished">De &apos;digest&apos;-functie is niet beschikbaar in uw database. U kunt eZ Publish niet zonder deze activeren. Lees meer informatie in de documentatie.</translation>
+        <translation>De &apos;digest&apos;-functie is niet beschikbaar in uw database. U kunt eZ Publish niet installeren zonder deze functie. Meer informatie vindt u in de documentatie.</translation>
     </message>
     <message>
         <source>Package language options</source>
@@ -22387,23 +22383,23 @@ Probeer opnieuw-knop in de installatie</translation>
     </message>
     <message>
         <source>No packages chosen.</source>
-        <translation type="unfinished">Geen pakketten gekozen.</translation>
+        <translation>Geen pakketten gekozen.</translation>
     </message>
     <message>
         <source>No templates chosen.</source>
-        <translation type="unfinished">Geen sjablonen gekozen.</translation>
+        <translation>Geen templates gekozen.</translation>
     </message>
     <message>
         <source>Uploaded file is not an eZ Publish package</source>
-        <translation type="unfinished">Uploaded bestand is geen eZ Publish-pakket</translation>
+        <translation>Geuploade bestand is geen eZ Publish-pakket</translation>
     </message>
     <message>
         <source>No site package chosen.</source>
-        <translation type="unfinished">Geen sitepakket gekozen.</translation>
+        <translation>Geen sitepakket gekozen.</translation>
     </message>
     <message>
         <source>Retrieving remote site packages list failed. You may upload packages manually.</source>
-        <translation type="unfinished">Ophalen van afstandsbediende sitepakketlijst faalde. U kan de pakketten handmatig uploaden.</translation>
+        <translation>Ophalen van afstandsbediende sitepakketlijst misukt. U kunt de pakketten handmatig uploaden.</translation>
     </message>
     <message>
         <source>Welcome to eZ Publish</source>
@@ -22427,7 +22423,7 @@ Probeer opnieuw-knop in de installatie</translation>
     </message>
     <message>
         <source>It can take some time to initialize the database so please be patient and wait until the new page is finished.</source>
-        <translation>Het kan enige tijd duren om de databases te initialiseren. Gelieve geduldig te zijn en wacht tot de nieuwe pagina klaar is.</translation>
+        <translation>Het kan enige tijd duren om de databases te initialiseren. Heb geduld en wacht tot de nieuwe pagina klaar is.</translation>
     </message>
     <message>
         <source>eZ Publish supports both MySQL and PostgreSQL.</source>
@@ -22500,9 +22496,9 @@ eZ Publish link</translation>
         <source>If you need help with eZ Publish, you can go to %ezlink and get help in the forums.
   If you find a bug (error), please go to %buglink and report it.
   With your help we can fix the errors eZ Publish might have and implement new features.</source>
-        <translation>Indien u hulp nodig heeft met eZ Publish, kunt u naar %ezlink gaan en hulp krijgen in de forums.
-  Indien u een bug (fout) vindt, gelieve dan naar %buglink te gaan en deze te rapporteren.
-  Dankzij uw hulp kunnen wijj de fouten verbeteren die eZ Publish mogelijkerwijs heeft en nieuwe functies implementeren.</translation>
+        <translation>Als u hulp nodig heeft met eZ Publish, kunt u naar %ezlink gaan en hulp krijgen in de forums.
+  Indien u een bug (fout) vindt, ga dan naar %buglink en rapporteer het.
+  Dankzij uw hulp kunnen we de fouten verbeteren die eZ Publish heeft, en nieuwe functies implementeren.</translation>
     </message>
     <message>
         <source>eZ Publish bug reports</source>
@@ -23155,7 +23151,7 @@ Dit is een groot beveiligings lek en dient onmiddellijk te worden verholpen!</tr
     </message>
     <message>
         <source>Missed some directories</source>
-        <translation>Enkele gegevensmappen gemist</translation>
+        <translation>Enkele mappen ontbreken</translation>
     </message>
     <message>
         <source>The nonexistent directories are: %dir_list</source>
@@ -23942,7 +23938,7 @@ Om dit te doen, moet u de %chown commando&apos;s bij de alternatieve shellcomman
     </message>
     <message>
         <source>Please contact the owner of the webshop and provide your order ID</source>
-        <translation>Gelieve de eigenaar van de webshop te contacteren en geef uw order-ID op</translation>
+        <translation>Neem contact op met de eigenaar van de webshop en vermeld hierbij uw order-ID</translation>
     </message>
     <message>
         <source>Archive list</source>
@@ -24018,7 +24014,7 @@ Om dit te doen, moet u de %chown commando&apos;s bij de alternatieve shellcomman
     </message>
     <message>
         <source>Payment was canceled for an unknown reason. Please try to buy again.</source>
-        <translation>De betaling werd door een onbekende reden geannuleerd. Gelieve opnieuw de inkoop proberen te maken.</translation>
+        <translation>De betaling werd door een onbekende reden geannuleerd. Probeer opnieuw te kopen.</translation>
     </message>
 </context>
 <context>
@@ -24315,7 +24311,7 @@ Om dit te doen, moet u de %chown commando&apos;s bij de alternatieve shellcomman
     <name>design/standard/state/group</name>
     <message>
         <source>ID</source>
-        <translation type="unfinished">ID</translation>
+        <translation>ID</translation>
     </message>
     <message>
         <source>Identifier</source>
@@ -24327,7 +24323,7 @@ Om dit te doen, moet u de %chown commando&apos;s bij de alternatieve shellcomman
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Omschrijving</translation>
+        <translation>Beschrijving</translation>
     </message>
 </context>
 <context>
@@ -24353,7 +24349,7 @@ Om dit te doen, moet u de %chown commando&apos;s bij de alternatieve shellcomman
     <name>design/standard/toolbar</name>
     <message>
         <source>Toolbar management</source>
-        <translation type="unfinished">Toolbar beheer</translation>
+        <translation>Toolbar beheer</translation>
     </message>
     <message>
         <source>There are %logged_in_count registered and %anonymous_count anonymous users online.</source>
@@ -24847,15 +24843,14 @@ Om dit te doen, moet u de %chown commando&apos;s bij de alternatieve shellcomman
     </message>
     <message>
         <source>Password did not match. Please retype your new password.</source>
-        <translation>Het wachtwoord kwam niet overeen. Gelieve uw nieuw wachtwoord opnieuw in te geven.</translation>
+        <translation>De gekozen wachtwoorden komen niet overeen. Tik uw nieuw wachtwoord nogmaals in.</translation>
     </message>
     <message>
         <source>Your account was successfully created. An email will be sent to the specified
 email address. Follow the instructions in that mail to activate
 your account.</source>
-        <translation>Uw account werd succesvol aangemaakt. Een e-mail zal naar het gespecificeerd
-e-mailadres verzonden worden. Gelieve de instructies in deze e-mail te volgen om
-uw account te activeren.</translation>
+        <translation>Uw account is aangemaakt. Er is een bevestigingsmail naar het door u opgegeven
+adres verzonden. Volg de instructies in deze e-mail om uw account te activeren.</translation>
     </message>
     <message>
         <source>Please note that your browser must use and support cookies to register a new user.</source>
@@ -24871,7 +24866,7 @@ uw account te activeren.</translation>
     </message>
     <message>
         <source>The new password must be at least %1 characters long. Please retype your new password.</source>
-        <translation type="unfinished">Het nieuw wachtwoord moet tenminste %1 tekens lang zijn. Gelieve uw nieuw wachtwoord opnieuw in te geven.</translation>
+        <translation>Het nieuw wachtwoord moet uit tenminste %1 tekens bestaan. Vul uw nieuw wachtwoord opnieuw in.</translation>
     </message>
     <message>
         <source>Your email address has been confirmed. An administrator needs to approve your sign up request, before your login becomes valid.</source>
@@ -25450,7 +25445,7 @@ uw account te activeren.</translation>
     </message>
     <message>
         <source>Content object</source>
-        <translation>Content object</translation>
+        <translation>Contentobject</translation>
     </message>
     <message>
         <source>Workflow was created for content</source>
@@ -25470,7 +25465,7 @@ uw account te activeren.</translation>
     </message>
     <message>
         <source>Workflow has not started yet, number of main events in workflow is</source>
-        <translation>De workflow is nog niet running, het aantal van voornaamste events in de workflow is</translation>
+        <translation>De workflow draait nog niet, het aantal events in de workflow is</translation>
     </message>
     <message>
         <source>Current event position is</source>
@@ -25817,71 +25812,71 @@ uw account te activeren.</translation>
     </message>
     <message>
         <source>Edit application &lt;%application_name&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Applicatie &lt;%application_name&gt; wijzigen</translation>
     </message>
     <message>
         <source>Use this field to set the application name.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruik dit veld om de naam van de applicatie in te stellen.</translation>
     </message>
     <message>
         <source>Use this field to set the informal application description.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruik dit veld om de beschrijving van de applicatie in te stellen.</translation>
     </message>
     <message>
         <source>Use this field to set the application endpoint URI.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruik dit veld om de endpoint URI van de applicatie in te stellen.</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>REST applications (%applications_count)</source>
-        <translation type="unfinished"></translation>
+        <translation>REST applicaties (%applications_count)</translation>
     </message>
     <message>
         <source>List of applications</source>
-        <translation type="unfinished"></translation>
+        <translation>Lijst met applicaties</translation>
     </message>
     <message>
         <source>Invert selection.</source>
-        <translation type="unfinished">Selectie omkeren.</translation>
+        <translation>Selectie omkeren.</translation>
     </message>
     <message>
         <source>Modifier</source>
-        <translation type="unfinished"></translation>
+        <translation>Aangepast door</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation type="unfinished"></translation>
+        <translation>Aangepast</translation>
     </message>
     <message>
         <source>Select application for removal.</source>
-        <translation type="unfinished"></translation>
+        <translation>Applicatie selecteren om te verwijderen.</translation>
     </message>
     <message>
         <source>Edit the &lt;%application_name&gt; application.</source>
-        <translation type="unfinished"></translation>
+        <translation>De applicatie &lt;%application_name&gt; wijzigen.</translation>
     </message>
     <message>
         <source>Remove selected</source>
-        <translation type="unfinished">Verwijder selectie</translation>
+        <translation>Selectie verwijderen</translation>
     </message>
     <message>
         <source>Remove the selected applications.</source>
-        <translation type="unfinished"></translation>
+        <translation>De geselecteerde applicaties verwijderen.</translation>
     </message>
     <message>
         <source>New application</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieuwe applicatie</translation>
     </message>
     <message>
         <source>Create a new application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Maak een nieuwe applicatie aan.</translation>
     </message>
     <message>
         <source>Back</source>
-        <translation type="unfinished">Terug</translation>
+        <translation>Terug</translation>
     </message>
 </context>
 <context>
@@ -26715,8 +26710,7 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
     <name>kernel/classes/datatypes/ezimage</name>
     <message>
         <source>Failed to fetch Image Handler. Please contact the site administrator.</source>
-        <translatorcomment>Ophalen van imagehandler mislukt. Neem contact op met de beheerder.</translatorcomment>
-        <translation>Afbeeldingshandler ophalen faalde. Gelieve uw sitebeheerder te contacteren.</translation>
+        <translation>Ophalen van imagehandler mislukt. Neem contact op met de beheerder.</translation>
     </message>
 </context>
 <context>
@@ -27027,7 +27021,7 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
     </message>
     <message>
         <source>Fatal error: cannot get destination node (ID = %1).</source>
-        <translation>Fatale fout: kan de bestemmingsnode (ID = % 1) niet ophalen.</translation>
+        <translation>Fout: kan de bestemmingsnode (ID = %1) niet ophalen.</translation>
     </message>
     <message>
         <source>Number of nodes of source subtree - %1</source>
@@ -27282,7 +27276,7 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
     <message>
         <source>Content structure</source>
         <comment>Navigation part</comment>
-        <translation>Contentstructuur</translation>
+        <translation>Inhoudsstructuur</translation>
     </message>
     <message>
         <source>Media library</source>
@@ -27473,11 +27467,11 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
     </message>
     <message>
         <source>Content object limits</source>
-        <translation type="unfinished">Content object limieten</translation>
+        <translation>Limieten van inhoudsobjecten</translation>
     </message>
     <message>
         <source>Content object export</source>
-        <translation type="unfinished">Content object export</translation>
+        <translation>Inhoudsobject export</translation>
     </message>
     <message>
         <source>Selected nodes</source>
@@ -27505,7 +27499,7 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
     </message>
     <message>
         <source>Content object %objectname</source>
-        <translation type="unfinished">Content object %objectname</translation>
+        <translation>Inhoudsobject %objectname</translation>
     </message>
     <message>
         <source>Site access mapping</source>
@@ -27517,7 +27511,7 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
     </message>
     <message>
         <source>Content object import</source>
-        <translation type="unfinished">Content object import</translation>
+        <translation>Inhoudsobject import</translation>
     </message>
     <message>
         <source>Select parent nodes</source>
@@ -27668,18 +27662,18 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
     <name>kernel/pdf</name>
     <message>
         <source>PDF Export</source>
-        <translation type="unfinished">Exporteer PDF</translation>
+        <translation>PDF Exporteren</translation>
     </message>
     <message>
         <source>An export with such filename already exists.</source>
-        <translation type="unfinished">Een export met deze bestandsnaam bestaat reeds.</translation>
+        <translation>Er is al een export met deze bestandsnaam.</translation>
     </message>
 </context>
 <context>
     <name>kernel/pdfexport</name>
     <message>
         <source>New PDF Export</source>
-        <translation type="unfinished">Nieuwe PDF-export</translation>
+        <translation>Nieuwe PDF-export</translation>
     </message>
 </context>
 <context>
@@ -27693,68 +27687,68 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
     <name>kernel/role</name>
     <message>
         <source>Role list</source>
-        <translation type="unfinished">Rollenlijst</translation>
+        <translation>Rollenlijst</translation>
     </message>
     <message>
         <source>Editing policy</source>
-        <translation type="unfinished">Regels voor bewerken</translation>
+        <translation>Regels voor bewerken</translation>
     </message>
     <message>
         <source>Limit on section</source>
-        <translation type="unfinished">Beperking op sectie</translation>
+        <translation>Beperken op sectie</translation>
     </message>
     <message>
         <source>Create new policy, step 2: select function</source>
-        <translation type="unfinished">Maak een nieuwe regel, stap twee: selecteer functie</translation>
+        <translation>Een nieuwe regel maken, stap twee: functie selecteren</translation>
     </message>
     <message>
         <source>Create new policy, step three: set function limitations</source>
-        <translation type="unfinished">Maak een nieuwe regel, stap drie: limiteer per functie</translation>
+        <translation>Een nieuwe regel maken, stap drie: functiebeperkingen instellen</translation>
     </message>
     <message>
         <source>Create new policy, step two: select function</source>
-        <translation type="unfinished">Maak een nieuwe regel, stap twee: selecteer functie</translation>
+        <translation>Een nieuwe regel maken, stap twee: functie selecteren</translation>
     </message>
     <message>
         <source>Create new policy, step one: select module</source>
-        <translation type="unfinished">Maak een nieuwe regel, stap één: selecteer modules</translation>
+        <translation>Een nieuwe regel maken, stap een: een module selecteren</translation>
     </message>
 </context>
 <context>
     <name>kernel/role/edit</name>
     <message>
         <source>New role</source>
-        <translation type="unfinished">Nieuwe rol</translation>
+        <translation>Nieuwe rol</translation>
     </message>
     <message>
         <source>Copy of %rolename</source>
-        <translation type="unfinished">Kopie van %rolename</translation>
+        <translation>Kopie van %rolename</translation>
     </message>
 </context>
 <context>
     <name>kernel/rss</name>
     <message>
         <source>Really Simple Syndication</source>
-        <translation type="unfinished">Really Simple Syndication</translation>
+        <translation>Really Simple Syndication</translation>
     </message>
     <message>
         <source>New RSS Export</source>
-        <translation type="unfinished">Nieuwe RSS-export</translation>
+        <translation>Nieuwe RSS-export</translation>
     </message>
     <message>
         <source>New RSS Import</source>
-        <translation type="unfinished">Nieuwe RSS-import</translation>
+        <translation>Nieuwe RSS-import</translation>
     </message>
 </context>
 <context>
     <name>kernel/rss/edit_export</name>
     <message>
         <source>Invalid selection for title class %1 does not have attribute &quot;%2&quot;</source>
-        <translation type="unfinished">Ongeldige selectie voor titelklasse %1 heeft geen kenmerk &quot;%2&quot;</translation>
+        <translation>Ongeldige selectie voor titel, type %1 heeft geen attribuut &quot;%2&quot;</translation>
     </message>
     <message>
         <source>Invalid selection for description class %1 does not have attribute &quot;%2&quot;</source>
-        <translation type="unfinished">Ongeldige selectie voor omschrijvingsklasse %1 heeft geen kenmerk &quot;%2&quot;</translation>
+        <translation>Ongeldige selectie voor omschrijving, type %1 heeft geen attribuut &quot;%2&quot;</translation>
     </message>
     <message>
         <source>Selected class does not exist</source>
@@ -27762,7 +27756,7 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
     </message>
     <message>
         <source>Invalid selection for category class %1 does not have attribute &quot;%2&quot;</source>
-        <translation type="unfinished">Ongeldige selectie voor categorieklasse %1 heeft geen kenmerk &quot;%2&quot;</translation>
+        <translation>Ongeldige selectie voor categorie, type %1 heeft geen attribuut &quot;%2&quot;</translation>
     </message>
 </context>
 <context>
@@ -27780,7 +27774,7 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
     </message>
     <message>
         <source>Sections</source>
-        <translation type="unfinished">Secties</translation>
+        <translation>Secties</translation>
     </message>
     <message>
         <source>View section</source>
@@ -27788,50 +27782,50 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
     </message>
     <message>
         <source>New section</source>
-        <translation type="unfinished">Nieuwe sectie</translation>
+        <translation>Nieuwe sectie</translation>
     </message>
     <message>
         <source>Assign section</source>
-        <translation type="unfinished">Sectie toewijzen</translation>
+        <translation>Sectie toewijzen</translation>
     </message>
 </context>
 <context>
     <name>kernel/setup</name>
     <message>
         <source>Cache admin</source>
-        <translation type="unfinished">Cache management</translation>
+        <translation>Cachebeheer</translation>
     </message>
     <message>
         <source>Template operator wizard</source>
-        <translation type="unfinished">Template operator wizard</translation>
+        <translation>Template operator wizard</translation>
     </message>
     <message>
         <source>Extension configuration</source>
-        <translation type="unfinished">Extensie administratie</translation>
+        <translation>Extensiebeheer</translation>
     </message>
     <message>
         <source>System information</source>
-        <translation type="unfinished">Systeeminformatie</translation>
+        <translation>Systeeminformatie</translation>
     </message>
     <message>
         <source>Rapid Application Development</source>
-        <translation type="unfinished">Rapid Application Development</translation>
+        <translation>Rapid Application Development</translation>
     </message>
     <message>
         <source>Setup menu</source>
-        <translation type="unfinished">Configuratiemenu</translation>
+        <translation>Configuratiemenu</translation>
     </message>
     <message>
         <source>System Upgrade</source>
-        <translation type="unfinished">Systeem Upgrade</translation>
+        <translation>Systeem Upgrade</translation>
     </message>
     <message>
         <source>Session admin</source>
-        <translation type="unfinished">Sessie administratie</translation>
+        <translation>Sessiebeheer</translation>
     </message>
     <message>
         <source>File %1 does not exist. You should copy it from the recent eZ Publish distribution.</source>
-        <translation type="unfinished">Het bestand %1 bestaat niet. U dient het te kopieren van een recente eZ publish distributie.</translation>
+        <translation>Het bestand %1 bestaat niet. Kopieer het uit een recente eZ publish distributie.</translation>
     </message>
     <message>
         <source>Datatype wizard</source>
@@ -28133,11 +28127,11 @@ als u optie &quot;%3&quot; tot &quot;%4&quot; heeft gekozen</translation>
     <name>kernel/shop/vatrules</name>
     <message>
         <source>No default rule found. Please add rule having &quot;Any&quot; country and &quot;Any&quot; category.</source>
-        <translation type="unfinished">Geen standaardregel gevonden. Gelieve de regel  &quot;Om het even welk&quot; land en &quot;Om het even welke&quot; categorie toe te voegen.</translation>
+        <translation>Geen standaardregel gevonden. Voeg de regel met &quot;Elk&quot; land en &quot;Elke&quot; categorie toe.</translation>
     </message>
     <message>
         <source>VAT rules</source>
-        <translation type="unfinished">Btw-regels</translation>
+        <translation>BTW-regels</translation>
     </message>
 </context>
 <context>
