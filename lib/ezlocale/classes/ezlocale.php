@@ -122,6 +122,8 @@ The following characters are recognized in the format string:
 - y - year, 2 digits; e.g. "99"
 - z - day of the year; i.e. "0" to "365"
 - Z - timezone offset in seconds (i.e. "-43200" to "43200"). The offset for timezones west of UTC is always negative, and for those east of UTC is always positive.
+- c - ISO 8601 date; i.e. 2004-02-12T15:19:21+00:00
+- r - RFC 2822 formated date; i.e. Thu, 21 Dec 2000 16:01:07 +0200
 
 \sa eZLanguage
 */
@@ -140,7 +142,7 @@ class eZLocale
         $this->TimePHPArray = array( 'g', 'G', 'h', 'H', 'i', 's', 'U', 'I', 'L', 't' );
         $this->DatePHPArray = array( 'd', 'j', 'm', 'n', 'O', 'T', 'U', 'w', 'W', 'Y', 'y', 'z', 'Z', 'I', 'L', 't' );
         $this->DateTimePHPArray = array( 'd', 'j', 'm', 'n', 'O', 'T', 'U', 'w', 'W', 'Y', 'y', 'z', 'Z',
-                                         'g', 'G', 'h', 'H', 'i', 's', 'U', 'I', 'L', 't', 'a' );
+                                         'g', 'G', 'h', 'H', 'i', 's', 'U', 'I', 'L', 't', 'a', 'c', 'r' );
         $this->TimeArray = preg_replace( '/.+/', '%$0', $this->TimePHPArray );
         $this->DateArray = preg_replace( '/.+/', '%$0', $this->DatePHPArray );
         $this->DateTimeArray = preg_replace( '/.+/', '%$0', $this->DateTimePHPArray );
