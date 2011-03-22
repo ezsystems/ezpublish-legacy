@@ -31,27 +31,27 @@ class ezpRestAuthController extends ezcMvcController
         switch ( $statusCode )
         {
             case ezpOauthFilter::STATUS_TOKEN_UNAVAILABLE:
-                $status = new ezpOauthRequired( "eZ Publish REST" );
+                $status = new ezpOauthRequired( ezpOauthRequired::DEFAULT_REALM );
                 $res->variables['error'] = ezpOauthErrorType::INVALID_REQUEST;
             break;
 
             case ezpOauthFilter::STATUS_TOKEN_EXPIRED:
-                $status = new ezpRestOauthErrorStatus( ezpOauthErrorType::EXPIRED_TOKEN );
+                $status = new ezpOauthRequired( ezpOauthRequired::DEFAULT_REALM, ezpOauthErrorType::EXPIRED_TOKEN );
                 $res->variables['error'] = ezpOauthErrorType::EXPIRED_TOKEN;
             break;
 
             case ezpOauthFilter::STATUS_TOKEN_INVALID:
-                $status = new ezpRestOauthErrorStatus( ezpOauthErrorType::INVALID_TOKEN );
+                $status = new ezpOauthRequired( ezpOauthRequired::DEFAULT_REALM, ezpOauthErrorType::INVALID_TOKEN );
                 $res->variables['error'] = ezpOauthErrorType::INVALID_TOKEN;
             break;
 
             case ezpOauthFilter::STATUS_TOKEN_INSUFFICIENT_SCOPE:
-                $status = new ezpRestOauthErrorStatus( ezpOauthErrorType::INSUFFICIENT_SCOPE );
+                $status = new ezpOauthRequired( ezpOauthRequired::DEFAULT_REALM, ezpOauthErrorType::INSUFFICIENT_SCOPE );
                 $res->variables['error'] = ezpOauthErrorType::INSUFFICIENT_SCOPE;
             break;
 
             default:
-                $status = new ezpRestOauthErrorStatus( ezpOauthErrorType::INVALID_REQUEST );
+                $status = new ezpOauthRequired( ezpOauthRequired::DEFAULT_REALM, ezpOauthErrorType::INVALID_REQUEST );
                 $res->variables['error'] = ezpOauthErrorType::INVALID_REQUEST;
             break;
         }
