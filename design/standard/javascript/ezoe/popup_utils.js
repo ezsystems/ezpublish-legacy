@@ -710,7 +710,7 @@ var eZOEPopupUtils = {
     browse: function( nodeId, offset )
     {
         // browse for a specific node id and a offset on the child elements
-        var postData = jQuery('#browse_box input, #browse_box select').serializeArray(), o = offset ? offset : 0;
+        var postData = eZOEPopupUtils.jqSafeSerilizer('browse_box'), o = offset ? offset : 0;
         jQuery.ez('ezoe::browse::' + nodeId + '::' + o, postData, function( data ){ eZOEPopupUtils.browseCallBack( data, 'browse' ) } );
         jQuery('#browse_progress' ).show();
     },
@@ -720,10 +720,21 @@ var eZOEPopupUtils = {
         // serach for nodes with input and select form elements inside a 'search_box' container element
         if ( jQuery.trim( jQuery('#SearchText').val() ) )
         {
-            var postData = jQuery('#search_box input, #search_box select').serializeArray(), o = offset ? offset : 0;
+            var postData = eZOEPopupUtils.jqSafeSerilizer('search_box'), o = offset ? offset : 0;
             jQuery.ez('ezjsc::search::x::' + o, postData, eZOEPopupUtils.searchCallBack );
             jQuery('#search_progress' ).show();
         }
+    },
+
+    jqSafeSerilizer: function( id )
+    {
+        // jQuery encodes form names incl [] if you pass an object / array to it, avoid by using string
+        var postData = '', val;
+        jQuery.each( jQuery('#' + id + ' input, #' + id + ' select').serializeArray(), function(i, o){
+            if ( o.value )
+                postData += ( postData ? '&' : '') + o.name + '=' + o.value;
+        });
+        return postData;
     },
 
     browseCallBack: function( data, mode, emptyCallBack )

@@ -445,7 +445,7 @@ class ezoeServerFunctions extends ezjscServerFunctions
 
         return array(
             'list' => $list,
-            'count' => count( $objectList ),
+            'count' => $count ? count( $objectList ) : 0,
             'total_count' => (int) $count,
             'offset' => $offset,
             'limit' => $limit,
