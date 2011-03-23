@@ -19,9 +19,5 @@ $ViewList['authorize'] = array(
     'script' => 'authorize.php',
 );
 
-$ViewList['token'] = array(
-    'script' => 'token.php',
-);
-
 $FunctionList = array( );
 ?>
