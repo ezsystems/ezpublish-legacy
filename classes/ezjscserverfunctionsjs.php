@@ -160,9 +160,12 @@ YUI( YUI3_config ).add('io-ez', function( Y )
         else
             c = Y.merge( {on:{}, data: '', headers: {}, method: 'POST'}, c );
 
+        var _token = '', _tokenNode = document.getElementById('ezxform_token_js');
+        if ( _tokenNode ) _token = '&ezxform_token=' + _tokenNode.getAttribute('title');
+
         // Append function arguments as post param if method is POST
         if ( c.method === 'POST' )
-            c.data += ( c.data !== '' ? '&' : '' ) + 'ezjscServer_function_arguments=' + callArgs;
+            c.data += ( c.data ? '&' : '' ) + 'ezjscServer_function_arguments=' + callArgs + _token;
         else
             url += encodeURIComponent( callArgs );
 
@@ -272,13 +275,22 @@ if ( window.XMLHttpRequest && window.ActiveXObject )
         var url = _serverUrl + 'call/';
         if ( post )
         {
-            // support serializeArray() format
-            if ( post.join !== undefined )
+            var _token = '', _tokenNode = document.getElementById('ezxform_token_js');
+            if ( _tokenNode ) _token = _tokenNode.getAttribute('title');
+            if ( post.join !== undefined )// support serializeArray() format
+            {
                 post.push( { 'name': 'ezjscServer_function_arguments', 'value': callArgs } );
-            else if ( typeof(post) === 'string' )
-                post += ( post !== '' ? '&' : '' ) + 'ezjscServer_function_arguments=' + callArgs;
-            else
+                post.push( { 'name': 'ezxform_token', 'value': _token } );
+            }
+            else if ( typeof(post) === 'string' )// string
+            {
+                post += ( post ? '&' : '' ) + 'ezjscServer_function_arguments=' + callArgs + '&ezxform_token=' + _token;
+            }
+            else // object
+            {
                 post['ezjscServer_function_arguments'] = callArgs;
+                post['ezxform_token'] = _token;
+            }
             return $.post( url, post, callBack, 'json' );
         }
         return $.get( url + encodeURIComponent( callArgs ), {}, callBack, 'json' );
@@ -295,7 +307,10 @@ if ( window.XMLHttpRequest && window.ActiveXObject )
         callArgs = callArgs.join !== undefined ? callArgs.join( _seperator ) : callArgs;
         var url = _serverUrl + 'call/';
         if ( post )
+        {
             post['ezjscServer_function_arguments'] = callArgs;
+            post['ezxform_token'] = jQuery('#ezxformtoken').attr('title');
+        }
         else
             url += encodeURIComponent( callArgs );
 
