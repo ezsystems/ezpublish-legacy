@@ -44,6 +44,8 @@ var rightMenuWidthControl = function()
     function saveRightMenuStatus()
     {
         var show  = jQuery( '#rightmenu' ).width() < 22 ? '' : '1';
-        jQuery.post( jQuery.ez.url.replace( 'ezjscore/', 'user/preferences/set_and_exit/admin_right_menu_show/' ) + show );
+        var _token = '', _tokenNode = document.getElementById('ezxform_token_js');
+        if ( _tokenNode ) _token = 'ezxform_token=' + _tokenNode.getAttribute('title');
+        jQuery.post( jQuery.ez.url.replace( 'ezjscore/', 'user/preferences/set_and_exit/admin_right_menu_show/' ) + show, _token );
     }
 };
