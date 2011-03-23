@@ -3,7 +3,7 @@ User Registration with workflow
 
 Intro
 -----
-The purpose of the feature is to reuse workflow for user registration action.
-Approvers(like editors) can approve new user registration like normal content object.
+The purpose of this feature is to reuse the workflow for the user registration action.
+Approvers (such as editors) can now approve new user registrations like a normal content object.
 
-Please read eZ Publish 4.5 documentation in doc.ez.no for detail use.
+Please read eZ Publish 4.5 documentation in doc.ez.no for detailed use.
