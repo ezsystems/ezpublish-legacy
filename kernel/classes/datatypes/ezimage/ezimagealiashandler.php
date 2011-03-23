@@ -680,8 +680,7 @@ class eZImageAliasHandler
             $file = eZClusterFileHandler::instance( $filepath );
             if ( $file->exists() )
             {
-                // FIXME: optimize not to use recursive delete
-                $file->delete();
+                $file->fileDelete( $filepath );
                 $dirs[] = eZDir::dirpath( $filepath );
             }
         }
