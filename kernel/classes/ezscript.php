@@ -1032,6 +1032,10 @@ class eZScript
             {
                 $this->setShowVerboseOutput( count( $options['verbose'] ) );
             }
+
+            if ( isset( $options['siteaccess'] ) and $options['siteaccess'] )
+                $this->setUseSiteAccess( $options['siteaccess'] );
+
             if ( $options['help'] )
             {
                 if ( !$this->IsInitialized )
@@ -1039,8 +1043,6 @@ class eZScript
                 $this->showHelp();
                 $this->shutdown( 0 );
             }
-            if ( isset( $options['siteaccess'] ) and $options['siteaccess'] )
-                $this->setUseSiteAccess( $options['siteaccess'] );
 
             if ( isset( $options['login'] ) and $options['login'] )
                 $this->setUser( $options['login'], isset( $options['password'] ) ? $options['password'] : false );
