@@ -107,7 +107,7 @@ class eZScriptTrashPurge
         eZUser::setCurrentlyLoggedInUser( $user, $userCreatorID );
 
         $trashCount = eZContentObjectTrashNode::trashListCount( false );
-        if ( !$quiet )
+        if ( !$this->quiet )
         {
             $this->cli->output( "Found $trashCount object(s) in trash." );
         }
@@ -115,9 +115,9 @@ class eZScriptTrashPurge
         {
             return true;
         }
-        if ( $script !== null )
+        if ( $this->script !== null )
         {
-            $script->resetIteration( $trashCount );
+            $this->script->resetIteration( $trashCount );
         }
 
         while ( $trashCount > 0 )
@@ -132,8 +132,8 @@ class eZScriptTrashPurge
                 $object = $trashNode->attribute( 'object' );
                 $this->monitor( "purge" );
                 $object->purge();
-                if ( $script !== null )
-                    $script->iterate( $this->cli, true );
+                if ( $this->script !== null )
+                    $this->script->iterate( $this->cli, true );
             }
 
             if ( !$db->commit() )
@@ -155,7 +155,7 @@ class eZScriptTrashPurge
             $this->monitor( "iteration end" );
         }
 
-        if ( !$quiet )
+        if ( !$this->quiet )
         {
             $this->cli->output( 'Trash successfully emptied' );
         }
