@@ -148,7 +148,10 @@ class eZTSTranslator extends eZTranslatorHandler
         {
             if ( !$tsTimeStamp )
             {
-                $tsTimeStamp = eZExpiryHandler::instance()->getTimestamp( self::EXPIRY_KEY, 0, $locale );
+                $expiry = eZExpiryHandler::instance();
+                $globalTsTimeStamp = $expiry->getTimestamp( self::EXPIRY_KEY, 0 );
+                $localeTsTimeStamp = $expiry->getTimestamp( self::EXPIRY_KEY . '-' . $locale, 0 );
+                $tsTimeStamp = max( $globalTsTimeStamp, $localeTsTimeStamp );
                 if ( $checkMTime && $tsTimeStamp < time() )// no need if ts == time()
                 {
                     // iterate over each known TS file, and get the highest timestamp
@@ -253,7 +256,7 @@ class eZTSTranslator extends eZTranslatorHandler
                 array( $localeCodeToProcess, $filename ),
             );
 
-            if ( array_key_exists( $localeCodeToProcess,  $fallbacks ) and $fallbacks[$localeCodeToProcess] )
+            if ( isset( $fallbacks[$localeCodeToProcess] ) && $fallbacks[$localeCodeToProcess] )
             {
                 $alternatives[] = array( $fallbacks[$localeCodeToProcess], $charset, $filename );
                 $alternatives[] = array( $fallbacks[$localeCodeToProcess], $filename );
@@ -719,7 +722,7 @@ class eZTSTranslator extends eZTranslatorHandler
      * Expires the translation cache
      *
      * @param int $timestamp An optional timestamp cache should be exired from. Current timestamp used by default
-     * @param string $locale Optional translation's locale to expire. Expires them all by default.
+     * @param string $locale Optional translation's locale to expire specifically. Expires global ts cache by default.
      *
      * @return void
      */
@@ -731,7 +734,10 @@ class eZTSTranslator extends eZTranslatorHandler
             $timestamp = time();
 
         $handler = eZExpiryHandler::instance();
-        $handler->setTimestamp( self::EXPIRY_KEY, $timestamp, $locale );
+        if ( $locale )
+            $handler->setTimestamp( self::EXPIRY_KEY . '-' . $locale, $timestamp );
+        else
+            $handler->setTimestamp( self::EXPIRY_KEY, $timestamp );
         $handler->store();
         self::resetGlobals();
     }
