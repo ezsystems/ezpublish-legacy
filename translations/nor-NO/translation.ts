@@ -10,7 +10,7 @@
     <name>design/admin/content/edit</name>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Navn</translation>
     </message>
     <message>
         <source>File type</source>
@@ -18,11 +18,11 @@
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Størrelse</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Type</translation>
     </message>
 </context>
 <context>
@@ -67,17 +67,9 @@
 </context>
 <context>
     <name>design/standard/content/search</name>
-    <message>
-        <source>No results were found when searching for &amp;quot;%1&amp;quot;</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>design/standard/content/view</name>
-    <message>
-        <source>You have no bookmarks</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>design/standard/error/kernel</name>
@@ -90,7 +82,7 @@
     <name>design/standard/ezoe</name>
     <message>
         <source>Do you want to use the WYSIWYG mode for this textarea?</source>
-        <translation>Vil du bruke WYSIWYG-modus for dette tekstområdet?</translation>
+        <translation type="obsolete">Vil du bruke WYSIWYG-modus for dette tekstområdet?</translation>
     </message>
     <message>
         <source>this</source>
@@ -98,15 +90,15 @@
     </message>
     <message>
         <source>Apply</source>
-        <translation>Aktiver</translation>
+        <translation type="obsolete">Aktiver</translation>
     </message>
     <message>
         <source>Insert</source>
-        <translation>Sett inn</translation>
+        <translation type="obsolete">Sett inn</translation>
     </message>
     <message>
         <source>Update</source>
-        <translation>Oppdater</translation>
+        <translation type="obsolete">Oppdater</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -114,7 +106,7 @@
     </message>
     <message>
         <source>Close</source>
-        <translation>Lukk</translation>
+        <translation type="obsolete">Lukk</translation>
     </message>
     <message>
         <source>Browse</source>
@@ -126,29 +118,29 @@
     </message>
     <message>
         <source>-- Not set --</source>
-        <translation>-- Ikke valgt --</translation>
+        <translation type="obsolete">-- Ikke valgt --</translation>
     </message>
     <message>
         <source>Copy/Cut/Paste is not available in Mozilla and Firefox.
 Do you want more information about this issue?</source>
-        <translation>Kopier/Klipp ut/Lim inn er ikke tilgjengelig i Mozilla og Firefox.
+        <translation type="obsolete">Kopier/Klipp ut/Lim inn er ikke tilgjengelig i Mozilla og Firefox.
 Vil du vite mer om dette?</translation>
     </message>
     <message>
         <source>Currently not supported by your browser, use keyboard shortcuts instead.</source>
-        <translation>For tiden ikke støttet i nettleseren din, bruk tastaturkommandoer i stedet.</translation>
+        <translation type="obsolete">For tiden ikke støttet i nettleseren din, bruk tastaturkommandoer i stedet.</translation>
     </message>
     <message>
         <source>Sorry, but we have noticed that your popup-blocker has disabled a window that provides application functionality. You will need to disable popup blocking on this site in order to fully utilize this tool.</source>
-        <translation>Det ser ut til at du har en popup-stopper som har stoppet et vindu som tilhører dette systemet. For å bruke systemet må du deaktivere popup-stopperen for dette nettstedet.</translation>
+        <translation type="obsolete">Det ser ut til at du har en popup-stopper som har stoppet et vindu som tilhører dette systemet. For å bruke systemet må du deaktivere popup-stopperen for dette nettstedet.</translation>
     </message>
     <message>
         <source>Error: Invalid values entered, these are marked in red.</source>
-        <translation>Feil: Du har lagt inn ugyldige verdier, de er markert med rødt.</translation>
+        <translation type="obsolete">Feil: Du har lagt inn ugyldige verdier, de er markert med rødt.</translation>
     </message>
     <message>
         <source>More colors</source>
-        <translation>Flere farger</translation>
+        <translation type="obsolete">Flere farger</translation>
     </message>
     <message>
         <source>Alignment</source>
@@ -176,111 +168,111 @@ Vil du vite mer om dette?</translation>
     </message>
     <message>
         <source>Full</source>
-        <translation>Full</translation>
+        <translation type="obsolete">Full</translation>
     </message>
     <message>
         <source>%Y-%m-%d</source>
-        <translation>%d.%m.%Y</translation>
+        <translation type="obsolete">%d.%m.%Y</translation>
     </message>
     <message>
         <source>%H:%M:%S</source>
-        <translation>%H:%M:%S</translation>
+        <translation type="obsolete">%H:%M:%S</translation>
     </message>
     <message>
         <source>Insert date</source>
-        <translation>Sett inn dato</translation>
+        <translation type="obsolete">Sett inn dato</translation>
     </message>
     <message>
         <source>Insert time</source>
-        <translation>Sett inn klokkeslett</translation>
+        <translation type="obsolete">Sett inn klokkeslett</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Skriv ut</translation>
+        <translation type="obsolete">Skriv ut</translation>
     </message>
     <message>
         <source>Preview</source>
-        <translation>Forhåndsvis</translation>
+        <translation type="obsolete">Forhåndsvis</translation>
     </message>
     <message>
         <source>Direction left to right</source>
-        <translation>Skriveretning venstre til høyre</translation>
+        <translation type="obsolete">Skriveretning venstre til høyre</translation>
     </message>
     <message>
         <source>Direction right to left</source>
-        <translation>Skriveretning høyre til venstre</translation>
+        <translation type="obsolete">Skriveretning høyre til venstre</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>Lagre</translation>
+        <translation type="obsolete">Lagre</translation>
     </message>
     <message>
         <source>Cancel all changes</source>
-        <translation>Avbryt alle endringer</translation>
+        <translation type="obsolete">Avbryt alle endringer</translation>
     </message>
     <message>
         <source>Insert non-breaking space character</source>
-        <translation>Sett inn ikke-brytende mellomrom (nbsp)</translation>
+        <translation type="obsolete">Sett inn ikke-brytende mellomrom (nbsp)</translation>
     </message>
     <message>
         <source>Find</source>
-        <translation>Søk</translation>
+        <translation type="obsolete">Søk</translation>
     </message>
     <message>
         <source>Find/Replace</source>
-        <translation>Søk/erstatt</translation>
+        <translation type="obsolete">Søk/erstatt</translation>
     </message>
     <message>
         <source>Paste as Plain Text</source>
-        <translation>Lim inn som ren tekst</translation>
+        <translation type="obsolete">Lim inn som ren tekst</translation>
     </message>
     <message>
         <source>Paste from Word</source>
-        <translation>Lim inn fra Word</translation>
+        <translation type="obsolete">Lim inn fra Word</translation>
     </message>
     <message>
         <source>Select All</source>
-        <translation>Velg alt</translation>
+        <translation type="obsolete">Velg alt</translation>
     </message>
     <message>
         <source>Use CTRL+V on your keyboard to paste the text into the window.</source>
-        <translation>Bruk CTRL+V til å lime inn tekst i vinduet.</translation>
+        <translation type="obsolete">Bruk CTRL+V til å lime inn tekst i vinduet.</translation>
     </message>
     <message>
         <source>Keep linebreaks</source>
-        <translation>Behold linjeskift</translation>
+        <translation type="obsolete">Behold linjeskift</translation>
     </message>
     <message>
         <source>Inserts a new table</source>
-        <translation>Setter inn en ny tabell</translation>
+        <translation type="obsolete">Setter inn en ny tabell</translation>
     </message>
     <message>
         <source>Insert row before</source>
-        <translation>Sett inn rad over</translation>
+        <translation type="obsolete">Sett inn rad over</translation>
     </message>
     <message>
         <source>Insert row after</source>
-        <translation>Sett inn rad under</translation>
+        <translation type="obsolete">Sett inn rad under</translation>
     </message>
     <message>
         <source>Delete row</source>
-        <translation>Slett rad</translation>
+        <translation type="obsolete">Slett rad</translation>
     </message>
     <message>
         <source>Insert column before</source>
-        <translation>Sett inn kolonne før</translation>
+        <translation type="obsolete">Sett inn kolonne før</translation>
     </message>
     <message>
         <source>Insert column after</source>
-        <translation>Sett inn kolonne etter</translation>
+        <translation type="obsolete">Sett inn kolonne etter</translation>
     </message>
     <message>
         <source>Remove column</source>
-        <translation>Fjern kolonne</translation>
+        <translation type="obsolete">Fjern kolonne</translation>
     </message>
     <message>
         <source>Split merged table cells</source>
-        <translation>Splitt sammensatte tabellceller</translation>
+        <translation type="obsolete">Splitt sammensatte tabellceller</translation>
     </message>
     <message>
         <source>Merge table cells</source>
@@ -288,35 +280,35 @@ Vil du vite mer om dette?</translation>
     </message>
     <message>
         <source>Table row properties</source>
-        <translation>Egenskaper for tabellrad</translation>
+        <translation type="obsolete">Egenskaper for tabellrad</translation>
     </message>
     <message>
         <source>Table cell properties</source>
-        <translation>Egenskaper for tabellcelle</translation>
+        <translation type="obsolete">Egenskaper for tabellcelle</translation>
     </message>
     <message>
         <source>Table properties</source>
-        <translation>Tabellegenskaper</translation>
+        <translation type="obsolete">Tabellegenskaper</translation>
     </message>
     <message>
         <source>Paste table row before</source>
-        <translation>Lim inn rad over</translation>
+        <translation type="obsolete">Lim inn rad over</translation>
     </message>
     <message>
         <source>Paste table row after</source>
-        <translation>Lim inn rad under</translation>
+        <translation type="obsolete">Lim inn rad under</translation>
     </message>
     <message>
         <source>Cut table row</source>
-        <translation>Klipp ut tabellrad</translation>
+        <translation type="obsolete">Klipp ut tabellrad</translation>
     </message>
     <message>
         <source>Copy table row</source>
-        <translation>Kopier tabellrad</translation>
+        <translation type="obsolete">Kopier tabellrad</translation>
     </message>
     <message>
         <source>Delete table</source>
-        <translation>Slett tabell</translation>
+        <translation type="obsolete">Slett tabell</translation>
     </message>
     <message>
         <source>Row</source>
@@ -340,235 +332,235 @@ Vil du vite mer om dette?</translation>
     </message>
     <message>
         <source>The changes you made will be lost if you navigate away from this page.</source>
-        <translation>Endringene dine vil gå tapt hvis du navigerer vekk fra denne siden.</translation>
+        <translation type="obsolete">Endringene dine vil gå tapt hvis du navigerer vekk fra denne siden.</translation>
     </message>
     <message>
         <source>Toggle fullscreen mode</source>
-        <translation>Fullskjermvisning av/på</translation>
+        <translation type="obsolete">Fullskjermvisning av/på</translation>
     </message>
     <message>
         <source>Insert / edit embedded media</source>
-        <translation>Sett inn / rediger media</translation>
+        <translation type="obsolete">Sett inn / rediger media</translation>
     </message>
     <message>
         <source>Edit embedded media</source>
-        <translation>Rediger media</translation>
+        <translation type="obsolete">Rediger media</translation>
     </message>
     <message>
         <source>Document properties</source>
-        <translation>Dokumentegenskaper</translation>
+        <translation type="obsolete">Dokumentegenskaper</translation>
     </message>
     <message>
         <source>Insert predefined template content</source>
-        <translation>Sett inn predefinert malinnhold</translation>
+        <translation type="obsolete">Sett inn predefinert malinnhold</translation>
     </message>
     <message>
         <source>Visual control characters on/off.</source>
-        <translation>Skru av/på synlige kontrolltegn.</translation>
+        <translation type="obsolete">Skru av/på synlige kontrolltegn.</translation>
     </message>
     <message>
         <source>Insert page break.</source>
-        <translation>Sett inn linjeskift.</translation>
+        <translation type="obsolete">Sett inn linjeskift.</translation>
     </message>
     <message>
         <source>Styles</source>
-        <translation>Stiler</translation>
+        <translation type="obsolete">Stiler</translation>
     </message>
     <message>
         <source>Format</source>
-        <translation>Format</translation>
+        <translation type="obsolete">Format</translation>
     </message>
     <message>
         <source>Paragraph</source>
-        <translation>Avsnitt</translation>
+        <translation type="obsolete">Avsnitt</translation>
     </message>
     <message>
         <source>Div</source>
-        <translation>Div</translation>
+        <translation type="obsolete">Div</translation>
     </message>
     <message>
         <source>Literal</source>
-        <translation>Ordrett</translation>
+        <translation type="obsolete">Ordrett</translation>
     </message>
     <message>
         <source>Heading 1</source>
-        <translation>Overskrift 1</translation>
+        <translation type="obsolete">Overskrift 1</translation>
     </message>
     <message>
         <source>Heading 2</source>
-        <translation>Overskrift 2</translation>
+        <translation type="obsolete">Overskrift 2</translation>
     </message>
     <message>
         <source>Heading 3</source>
-        <translation>Overskrift 3</translation>
+        <translation type="obsolete">Overskrift 3</translation>
     </message>
     <message>
         <source>Heading 4</source>
-        <translation>Overskrift 4</translation>
+        <translation type="obsolete">Overskrift 4</translation>
     </message>
     <message>
         <source>Heading 5</source>
-        <translation>Overskrift 5</translation>
+        <translation type="obsolete">Overskrift 5</translation>
     </message>
     <message>
         <source>Heading 6</source>
-        <translation>Overskrift 6</translation>
+        <translation type="obsolete">Overskrift 6</translation>
     </message>
     <message>
         <source>Code</source>
-        <translation>Kode</translation>
+        <translation type="obsolete">Kode</translation>
     </message>
     <message>
         <source>Code sample</source>
-        <translation>Kodeeksempel</translation>
+        <translation type="obsolete">Kodeeksempel</translation>
     </message>
     <message>
         <source>Definition term</source>
-        <translation>Definisjon, begrep</translation>
+        <translation type="obsolete">Definisjon, begrep</translation>
     </message>
     <message>
         <source>Definition description</source>
-        <translation>Definisjon, beskrivelse</translation>
+        <translation type="obsolete">Definisjon, beskrivelse</translation>
     </message>
     <message>
         <source>Bold (Ctrl+B)</source>
-        <translation>Fet (Ctrl+B)</translation>
+        <translation type="obsolete">Fet (Ctrl+B)</translation>
     </message>
     <message>
         <source>Italic (Ctrl+I)</source>
-        <translation>Kursiv (Ctrl+I)</translation>
+        <translation type="obsolete">Kursiv (Ctrl+I)</translation>
     </message>
     <message>
         <source>Underline (Ctrl+U)</source>
-        <translation>Understreking (Ctrl+U)</translation>
+        <translation type="obsolete">Understreking (Ctrl+U)</translation>
     </message>
     <message>
         <source>Strikethrough</source>
-        <translation>Strek igjennom</translation>
+        <translation type="obsolete">Strek igjennom</translation>
     </message>
     <message>
         <source>Align left</source>
-        <translation>Juster til venstre</translation>
+        <translation type="obsolete">Juster til venstre</translation>
     </message>
     <message>
         <source>Align center</source>
-        <translation>Juster sentrert</translation>
+        <translation type="obsolete">Juster sentrert</translation>
     </message>
     <message>
         <source>Align right</source>
-        <translation>Juster til høyre</translation>
+        <translation type="obsolete">Juster til høyre</translation>
     </message>
     <message>
         <source>Align full</source>
-        <translation>Juster til full bredde</translation>
+        <translation type="obsolete">Juster til full bredde</translation>
     </message>
     <message>
         <source>Unordered list</source>
-        <translation>Unummerert liste</translation>
+        <translation type="obsolete">Unummerert liste</translation>
     </message>
     <message>
         <source>Ordered list</source>
-        <translation>Nummerert liste</translation>
+        <translation type="obsolete">Nummerert liste</translation>
     </message>
     <message>
         <source>Outdent</source>
-        <translation>Fjern innrykk</translation>
+        <translation type="obsolete">Fjern innrykk</translation>
     </message>
     <message>
         <source>Indent</source>
-        <translation>Innrykk</translation>
+        <translation type="obsolete">Innrykk</translation>
     </message>
     <message>
         <source>Undo (Ctrl+Z)</source>
-        <translation>Angre (Ctrl+Z)</translation>
+        <translation type="obsolete">Angre (Ctrl+Z)</translation>
     </message>
     <message>
         <source>Redo (Ctrl+Y)</source>
-        <translation>Repeter (Ctrl+Y)</translation>
+        <translation type="obsolete">Repeter (Ctrl+Y)</translation>
     </message>
     <message>
         <source>Insert/edit link</source>
-        <translation>Sett inn/rediger lenke</translation>
+        <translation type="obsolete">Sett inn/rediger lenke</translation>
     </message>
     <message>
         <source>Unlink</source>
-        <translation>Fjern lenke</translation>
+        <translation type="obsolete">Fjern lenke</translation>
     </message>
     <message>
         <source>Insert/edit image</source>
-        <translation>Sett inn/rediger bilde</translation>
+        <translation type="obsolete">Sett inn/rediger bilde</translation>
     </message>
     <message>
         <source>Insert/edit object</source>
-        <translation>Sett inn/rediger objekt</translation>
+        <translation type="obsolete">Sett inn/rediger objekt</translation>
     </message>
     <message>
         <source>Insert custom tag</source>
-        <translation>Legg til selvdefinert element</translation>
+        <translation type="obsolete">Legg til selvdefinert element</translation>
     </message>
     <message>
         <source>Insert literal text</source>
-        <translation>Legg til ordrett tekst</translation>
+        <translation type="obsolete">Legg til ordrett tekst</translation>
     </message>
     <message>
         <source>Insert pagebreak</source>
-        <translation>Sett inn sideskift</translation>
+        <translation type="obsolete">Sett inn sideskift</translation>
     </message>
     <message>
         <source>Cleanup messy code</source>
-        <translation>Rydd opp i kode</translation>
+        <translation type="obsolete">Rydd opp i kode</translation>
     </message>
     <message>
         <source>Edit HTML Source</source>
-        <translation>Rediger HTML-kode</translation>
+        <translation type="obsolete">Rediger HTML-kode</translation>
     </message>
     <message>
         <source>Subscript</source>
-        <translation>Senket tekst</translation>
+        <translation type="obsolete">Senket tekst</translation>
     </message>
     <message>
         <source>Superscript</source>
-        <translation>Hevet tekst</translation>
+        <translation type="obsolete">Hevet tekst</translation>
     </message>
     <message>
         <source>Remove formatting</source>
-        <translation>Fjern formatering</translation>
+        <translation type="obsolete">Fjern formatering</translation>
     </message>
     <message>
         <source>Your custom description here</source>
-        <translation>Legg inn din egen beskrivelse her</translation>
+        <translation type="obsolete">Legg inn din egen beskrivelse her</translation>
     </message>
     <message>
         <source>Insert special character</source>
-        <translation>Legg til spesialkarakter</translation>
+        <translation type="obsolete">Legg til spesialkarakter</translation>
     </message>
     <message>
         <source>Toggle guidelines/invisible elements</source>
-        <translation>Skru av/på retningslinjer/usynlige elementer</translation>
+        <translation type="obsolete">Skru av/på retningslinjer/usynlige elementer</translation>
     </message>
     <message>
         <source>Insert/edit anchor</source>
-        <translation>Sett inn/rediger anker</translation>
+        <translation type="obsolete">Sett inn/rediger anker</translation>
     </message>
     <message>
         <source>Cut</source>
-        <translation>Klipp</translation>
+        <translation type="obsolete">Klipp</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopier</translation>
+        <translation type="obsolete">Kopier</translation>
     </message>
     <message>
         <source>Paste</source>
-        <translation>Lim inn</translation>
+        <translation type="obsolete">Lim inn</translation>
     </message>
     <message>
         <source>Image properties</source>
-        <translation>Bildeegenskaper</translation>
+        <translation type="obsolete">Bildeegenskaper</translation>
     </message>
     <message>
         <source>New document</source>
-        <translation>Nytt dokument</translation>
+        <translation type="obsolete">Nytt dokument</translation>
     </message>
     <message>
         <source>Help</source>
@@ -576,31 +568,31 @@ Vil du vite mer om dette?</translation>
     </message>
     <message>
         <source>Path</source>
-        <translation>Sti</translation>
+        <translation type="obsolete">Sti</translation>
     </message>
     <message>
         <source>Are you sure you want clear all contents?</source>
-        <translation>Er du sikker på at du vil fjerne alt innhold?</translation>
+        <translation type="obsolete">Er du sikker på at du vil fjerne alt innhold?</translation>
     </message>
     <message>
         <source>Jump to tool buttons - Alt+Q, Jump to editor - Alt-Z, Jump to element path - Alt-X</source>
-        <translation>Gå til verktøylinje - Alt+Q, Gå til redigering - Alt-Z, Gå til sti - Alt-X</translation>
+        <translation type="obsolete">Gå til verktøylinje - Alt+Q, Gå til redigering - Alt-Z, Gå til sti - Alt-X</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Neste</translation>
+        <translation type="obsolete">Neste</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Forrige</translation>
+        <translation type="obsolete">Forrige</translation>
     </message>
     <message>
         <source>Select</source>
-        <translation>Velg</translation>
+        <translation type="obsolete">Velg</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation>Type</translation>
+        <translation type="obsolete">Type</translation>
     </message>
     <message>
         <source>About</source>
@@ -616,7 +608,7 @@ Vil du vite mer om dette?</translation>
     </message>
     <message>
         <source>Plugin</source>
-        <translation>Plugin</translation>
+        <translation type="obsolete">Plugin</translation>
     </message>
     <message>
         <source>Author</source>
@@ -628,47 +620,47 @@ Vil du vite mer om dette?</translation>
     </message>
     <message>
         <source>Loaded plugins</source>
-        <translation>Lastede plugins</translation>
+        <translation type="obsolete">Lastede plugins</translation>
     </message>
     <message>
         <source>HTML Source Editor</source>
-        <translation>Redigering av HTML-kode</translation>
+        <translation type="obsolete">Redigering av HTML-kode</translation>
     </message>
     <message>
         <source>Word wrap</source>
-        <translation>Linjedeling</translation>
+        <translation type="obsolete">Linjedeling</translation>
     </message>
     <message>
         <source>Select a color</source>
-        <translation>Velg en farge</translation>
+        <translation type="obsolete">Velg en farge</translation>
     </message>
     <message>
         <source>Picker</source>
-        <translation>Velger</translation>
+        <translation type="obsolete">Velger</translation>
     </message>
     <message>
         <source>Color picker</source>
-        <translation>Fargevelger</translation>
+        <translation type="obsolete">Fargevelger</translation>
     </message>
     <message>
         <source>Palette</source>
-        <translation>Palett</translation>
+        <translation type="obsolete">Palett</translation>
     </message>
     <message>
         <source>Palette colors</source>
-        <translation>Palettfarger</translation>
+        <translation type="obsolete">Palettfarger</translation>
     </message>
     <message>
         <source>Named</source>
-        <translation>Navngitte</translation>
+        <translation type="obsolete">Navngitte</translation>
     </message>
     <message>
         <source>Named colors</source>
-        <translation>Navngitte farger</translation>
+        <translation type="obsolete">Navngitte farger</translation>
     </message>
     <message>
         <source>Color</source>
-        <translation>Farge</translation>
+        <translation type="obsolete">Farge</translation>
     </message>
     <message>
         <source>Name</source>
@@ -676,7 +668,7 @@ Vil du vite mer om dette?</translation>
     </message>
     <message>
         <source>Select special character</source>
-        <translation>Velg spesialtegn</translation>
+        <translation type="obsolete">Velg spesialtegn</translation>
     </message>
     <message>
         <source>All</source>
@@ -740,7 +732,7 @@ Vil du vite mer om dette?</translation>
     </message>
     <message>
         <source>Anchor properties</source>
-        <translation>Ankeregenskaper</translation>
+        <translation type="obsolete">Ankeregenskaper</translation>
     </message>
     <message>
         <source>Properties</source>
@@ -748,7 +740,7 @@ Vil du vite mer om dette?</translation>
     </message>
     <message>
         <source>Custom tag properties</source>
-        <translation>Egenskaper for selvdefinerte elementer</translation>
+        <translation type="obsolete">Egenskaper for selvdefinerte elementer</translation>
     </message>
     <message>
         <source>Related content</source>
@@ -772,19 +764,19 @@ Vil du vite mer om dette?</translation>
     </message>
     <message>
         <source>Heading Properties</source>
-        <translation>Overskriftsegenskaper</translation>
+        <translation type="obsolete">Overskriftsegenskaper</translation>
     </message>
     <message>
         <source>Link properties</source>
-        <translation>Linkegenskaper</translation>
+        <translation type="obsolete">Linkegenskaper</translation>
     </message>
     <message>
         <source>Table Properties</source>
-        <translation>Tabellegenskaper</translation>
+        <translation type="obsolete">Tabellegenskaper</translation>
     </message>
     <message>
         <source>Cell Properties</source>
-        <translation>Celle-egenskaper</translation>
+        <translation type="obsolete">Celle-egenskaper</translation>
     </message>
     <message>
         <source>Apply to</source>
@@ -792,7 +784,7 @@ Vil du vite mer om dette?</translation>
     </message>
     <message>
         <source>Upload new</source>
-        <translation>Last opp ny</translation>
+        <translation type="obsolete">Last opp ny</translation>
     </message>
     <message>
         <source>File</source>
@@ -840,11 +832,11 @@ Vil du vite mer om dette?</translation>
     </message>
     <message>
         <source>Invalid or missing parameter: %parameter</source>
-        <translation>Ugyldig eller manglende parameter: %parameter</translation>
+        <translation type="obsolete">Ugyldig eller manglende parameter: %parameter</translation>
     </message>
     <message>
         <source>Invalid parameter: %parameter = %value</source>
-        <translation>Ugyldig parameter: %parameter = %value</translation>
+        <translation type="obsolete">Ugyldig parameter: %parameter = %value</translation>
     </message>
     <message>
         <source>New %tag_name tag</source>
@@ -856,43 +848,43 @@ Vil du vite mer om dette?</translation>
     </message>
     <message>
         <source>Toggle spellchecker</source>
-        <translation>Skru på/av ordretter</translation>
+        <translation type="obsolete">Skru på/av ordretter</translation>
     </message>
     <message>
         <source>Spellchecker settings</source>
-        <translation>Ordretter instillinger</translation>
+        <translation type="obsolete">Ordretter instillinger</translation>
     </message>
     <message>
         <source>Ignore word</source>
-        <translation>Ignorer ord</translation>
+        <translation type="obsolete">Ignorer ord</translation>
     </message>
     <message>
         <source>Ignore all</source>
-        <translation>Ignorer alle</translation>
+        <translation type="obsolete">Ignorer alle</translation>
     </message>
     <message>
         <source>Languages</source>
-        <translation>Språk</translation>
+        <translation type="obsolete">Språk</translation>
     </message>
     <message>
         <source>Please wait...</source>
-        <translation>Vennligst vent...</translation>
+        <translation type="obsolete">Vennligst vent...</translation>
     </message>
     <message>
         <source>Suggestions</source>
-        <translation>Forslag</translation>
+        <translation type="obsolete">Forslag</translation>
     </message>
     <message>
         <source>No suggestions</source>
-        <translation>Ingen forslag</translation>
+        <translation type="obsolete">Ingen forslag</translation>
     </message>
     <message>
         <source>No misspellings found.</source>
-        <translation>Ingen skrivefeil funnet.</translation>
+        <translation type="obsolete">Ingen skrivefeil funnet.</translation>
     </message>
     <message>
         <source>Insert/edit file</source>
-        <translation>Legg til / endre fil</translation>
+        <translation type="obsolete">Legg til / endre fil</translation>
     </message>
     <message>
         <source>The url the link points to, starts with link type (like http://).</source>
@@ -966,6 +958,66 @@ Vil du vite mer om dette?</translation>
         <source>Upload new Object</source>
         <translation>Last opp nytt vedlegg</translation>
     </message>
+    <message>
+        <source>eznode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ezobject</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ftp</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Http</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Https</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Anchor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Other</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Id not valid!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>[default]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New window (_blank)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tags</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/ezoe/contenttype</name>
@@ -994,15 +1046,15 @@ Vil du vite mer om dette?</translation>
     <name>design/standard/ezoe/handler</name>
     <message>
         <source>Some objects used in embed(-inline) tags have been deleted and are no longer available.</source>
-        <translation>Ett eller flere objecter brukt i embed(-inline) tagger har blitt slettet og er ikke lenger tilgjengelig.</translation>
+        <translation type="obsolete">Ett eller flere objecter brukt i embed(-inline) tagger har blitt slettet og er ikke lenger tilgjengelig.</translation>
     </message>
     <message>
         <source>Object %1 does not exist.</source>
-        <translation>Node %1 finnes ikke.</translation>
+        <translation type="obsolete">Node %1 finnes ikke.</translation>
     </message>
     <message>
         <source>Node %1 does not exist.</source>
-        <translation>Node %1 finnes ikke.</translation>
+        <translation type="obsolete">Node %1 finnes ikke.</translation>
     </message>
     <message>
         <source>Node &apos;%1&apos; does not exist.</source>
@@ -1010,7 +1062,7 @@ Vil du vite mer om dette?</translation>
     </message>
     <message>
         <source>Node &amp;apos;%1&amp;apos; does not exist.</source>
-        <translation>Node &amp;apos;%1&amp;apos; finnes ikke.</translation>
+        <translation type="obsolete">Node &amp;apos;%1&amp;apos; finnes ikke.</translation>
     </message>
 </context>
 <context>
@@ -1029,7 +1081,7 @@ Vil du vite mer om dette?</translation>
     </message>
     <message>
         <source>Make the selected text &lt;u&gt;underline&lt;/u&gt;. This button is only enabled if you have a custom tag named underline, template code to handle underline custom tags is not included in Online Editor.</source>
-        <translation>Lager &lt;u&gt;understreking&lt;/u&gt; under den markerte teksten. Denne knappen er bare aktiv hvis du har en spesialtag kalt underline. Malkode for dette er ikke inkludert i Online Editor.</translation>
+        <translation type="obsolete">Lager &lt;u&gt;understreking&lt;/u&gt; under den markerte teksten. Denne knappen er bare aktiv hvis du har en spesialtag kalt underline. Malkode for dette er ikke inkludert i Online Editor.</translation>
     </message>
     <message>
         <source>Create a bullet list. To create a new list item, press &quot;Enter&quot;. To end a list, press &quot;Enter&quot; key on an empty list item. If you click this button when the cursor is on a list item, the formatting will be removed.</source>
@@ -1187,64 +1239,112 @@ Vil du vite mer om dette?</translation>
         <source>Browse for a node / object in your bookmarks.</source>
         <translation>Se etter en node / objekt i dine bokmerker.</translation>
     </message>
+    <message>
+        <source>Toggle &lt;u&gt;underline&lt;/u&gt; style on the selected text. This button is only enabled if you have a custom tag named underline.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle &lt;sub&gt;subscript&lt;/sub&gt; style on the selected text. This button is only enabled if you have a custom tag named subscript, template code to handle subscript custom tags is not included in Online Editor.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle &lt;sup&gt;superscript&lt;/sup&gt; style on the selected text. This button is only enabled if you have a custom tag named superscript, template code to handle superscript custom tags is not included in Online Editor.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle left align text, or float block content to the left.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle center align text, or float block content to the center (Same as not aligned by default).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle right align text, or float block content to the right.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle justify text, stretches the lines so that each line has equal width.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Insert an file from the related file list, upload a new file, search for an existing file or browse for it. To upload a local file, click &quot;Upload new&quot; button choose the local file, specify the name of the new file, choose placement from list and then click &quot;Upload&quot; button. This button is not enabled by default.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to spellcheck your text using google api or other depending on ezoe.ini settings. This button is not enabled by default.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Find a string or a word in your text. This button is not enabled by default.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Replace a string or a word in your text. This button is not enabled by default.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can switch text style from paragraph to header using keybord shortcut CTRL+1 to 6, and back to paragraph using CTRL+7</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/ezoe/searchreplace</name>
     <message>
         <source>Find again</source>
-        <translation>Søk igjen</translation>
+        <translation type="obsolete">Søk igjen</translation>
     </message>
     <message>
         <source>The search has been completed. The search string could not be found.</source>
-        <translation>Søket er fullført. Søke strengen ble ikke funnet.</translation>
+        <translation type="obsolete">Søket er fullført. Søke strengen ble ikke funnet.</translation>
     </message>
     <message>
         <source>Find</source>
-        <translation>Søk</translation>
+        <translation type="obsolete">Søk</translation>
     </message>
     <message>
         <source>Find/Replace</source>
-        <translation>Søk/Erstatt</translation>
+        <translation type="obsolete">Søk/Erstatt</translation>
     </message>
     <message>
         <source>All occurrences of the search string were replaced.</source>
-        <translation>Alle forekomster av søke strengen ble erstattet.</translation>
+        <translation type="obsolete">Alle forekomster av søke strengen ble erstattet.</translation>
     </message>
     <message>
         <source>Find what</source>
-        <translation>Søk etter</translation>
+        <translation type="obsolete">Søk etter</translation>
     </message>
     <message>
         <source>Replace with</source>
-        <translation>Ersatt med</translation>
+        <translation type="obsolete">Ersatt med</translation>
     </message>
     <message>
         <source>Direction</source>
-        <translation>Retning</translation>
+        <translation type="obsolete">Retning</translation>
     </message>
     <message>
         <source>Up</source>
-        <translation>Opp</translation>
+        <translation type="obsolete">Opp</translation>
     </message>
     <message>
         <source>Down</source>
-        <translation>Ned</translation>
+        <translation type="obsolete">Ned</translation>
     </message>
     <message>
         <source>Match case</source>
-        <translation>Skill mellom små og store bokstaver</translation>
+        <translation type="obsolete">Skill mellom små og store bokstaver</translation>
     </message>
     <message>
         <source>Find next</source>
-        <translation>Finn neste</translation>
+        <translation type="obsolete">Finn neste</translation>
     </message>
     <message>
         <source>Replace</source>
-        <translation>Erstatt</translation>
+        <translation type="obsolete">Erstatt</translation>
     </message>
     <message>
         <source>Replace all</source>
-        <translation>Erstatt alle</translation>
+        <translation type="obsolete">Erstatt alle</translation>
     </message>
 </context>
 <context>
@@ -1299,47 +1399,39 @@ Vil du vite mer om dette?</translation>
     </message>
     <message>
         <source>Class are often used to give different design or appearance, either by using a different template, style or both.</source>
-        <translation>Klasse blir ofte brukt til å gi forskjellig design eller visning, enten ved bruk av annen mal, stil eller begge.</translation>
+        <translation type="obsolete">Klasse blir ofte brukt til å gi forskjellig design eller visning, enten ved bruk av annen mal, stil eller begge.</translation>
     </message>
     <message>
         <source>Lets you specify the target window for the link, if any.</source>
-        <translation>Lar deg spesifisere mål vindu for lenken.</translation>
+        <translation type="obsolete">Lar deg spesifisere mål vindu for lenken.</translation>
     </message>
     <message>
         <source>The title on the (x)html tag, used by screen readers, and to give better explanation like this one.</source>
-        <translation>Tittelen på (x)html tagger, brukt av skjerm lesere, og for å gi en bedre forklaring som denne.</translation>
+        <translation type="obsolete">Tittelen på (x)html tagger, brukt av skjerm lesere, og for å gi en bedre forklaring som denne.</translation>
     </message>
     <message>
         <source>To set the width of the tag, either as percentage by appending % or as pixel size by just using a number.</source>
-        <translation>For å sette bredden på en tag, enten som prosent ved å avslutte med % eller som pixel(punktstørrelse) ved å bare bruke ett nummer.</translation>
+        <translation type="obsolete">For å sette bredden på en tag, enten som prosent ved å avslutte med % eller som pixel(punktstørrelse) ved å bare bruke ett nummer.</translation>
+    </message>
+    <message>
+        <source>Tags, aka Keywords are a comma separated list of words thats categorizes the content.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>design/standard/node/view</name>
     <message>
         <source>Preview</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Forhåndsvis</translation>
     </message>
 </context>
 <context>
     <name>kernel/classes/datatypes</name>
-    <message>
-        <source>Content required</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>kernel/classes/datatypes/ezxmltext</name>
-    <message>
-        <source>Invalid e-mail address: &apos;%1&apos;</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>kernel/content</name>
-    <message>
-        <source>Top Level Nodes</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 </TS>

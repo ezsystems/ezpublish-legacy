@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.0" language="en_US">
+<!DOCTYPE TS><TS>
 <context>
     <name>design/admin/content/browse</name>
     <message>
@@ -71,14 +69,14 @@
     <name>design/standard/content/search</name>
     <message>
         <source>No results were found when searching for &amp;quot;%1&amp;quot;</source>
-        <translation>&amp;quot;%1&amp;quot;に該当する検索結果はありません</translation>
+        <translation type="obsolete">&amp;quot;%1&amp;quot;に該当する検索結果はありません</translation>
     </message>
 </context>
 <context>
     <name>design/standard/content/view</name>
     <message>
         <source>You have no bookmarks</source>
-        <translation>ブックマークは登録されていません</translation>
+        <translation type="obsolete">ブックマークは登録されていません</translation>
     </message>
 </context>
 <context>
@@ -92,19 +90,19 @@
     <name>design/standard/ezoe</name>
     <message>
         <source>Do you want to use the WYSIWYG mode for this textarea?</source>
-        <translation>このテキストボックスの編集にWYSIWYGモードを利用しますか？</translation>
+        <translation type="obsolete">このテキストボックスの編集にWYSIWYGモードを利用しますか？</translation>
     </message>
     <message>
         <source>Apply</source>
-        <translation>適用</translation>
+        <translation type="obsolete">適用</translation>
     </message>
     <message>
         <source>Insert</source>
-        <translation>挿入</translation>
+        <translation type="obsolete">挿入</translation>
     </message>
     <message>
         <source>Update</source>
-        <translation>更新</translation>
+        <translation type="obsolete">更新</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -112,7 +110,7 @@
     </message>
     <message>
         <source>Close</source>
-        <translation>閉じる</translation>
+        <translation type="obsolete">閉じる</translation>
     </message>
     <message>
         <source>Browse</source>
@@ -124,28 +122,28 @@
     </message>
     <message>
         <source>-- Not set --</source>
-        <translation>指定なし</translation>
+        <translation type="obsolete">指定なし</translation>
     </message>
     <message>
         <source>Copy/Cut/Paste is not available in Mozilla and Firefox.
 Do you want more information about this issue?</source>
-        <translation>MozillaとFirefoxでコピー/切取り/貼付けは利用できません。</translation>
+        <translation type="obsolete">MozillaとFirefoxでコピー/切取り/貼付けは利用できません。</translation>
     </message>
     <message>
         <source>Currently not supported by your browser, use keyboard shortcuts instead.</source>
-        <translation>ご利用のブラウザでは使用できません。ショートカットキーを利用してください。</translation>
+        <translation type="obsolete">ご利用のブラウザでは使用できません。ショートカットキーを利用してください。</translation>
     </message>
     <message>
         <source>Sorry, but we have noticed that your popup-blocker has disabled a window that provides application functionality. You will need to disable popup blocking on this site in order to fully utilize this tool.</source>
-        <translation>ポップアップブロッカーがアプリケーションに必要なウィンドウを無効にしました。このツールを正常に利用するには、このサイトのポップアップブロックを無効にしてください。</translation>
+        <translation type="obsolete">ポップアップブロッカーがアプリケーションに必要なウィンドウを無効にしました。このツールを正常に利用するには、このサイトのポップアップブロックを無効にしてください。</translation>
     </message>
     <message>
         <source>Error: Invalid values entered, these are marked in red.</source>
-        <translation>エラー: 不正な値が入力されました。エラーは赤く表示されています。</translation>
+        <translation type="obsolete">エラー: 不正な値が入力されました。エラーは赤く表示されています。</translation>
     </message>
     <message>
         <source>More colors</source>
-        <translation>その他の色</translation>
+        <translation type="obsolete">その他の色</translation>
     </message>
     <message>
         <source>Alignment</source>
@@ -165,111 +163,111 @@ Do you want more information about this issue?</source>
     </message>
     <message>
         <source>Full</source>
-        <translation>両端揃え</translation>
+        <translation type="obsolete">両端揃え</translation>
     </message>
     <message>
         <source>%Y-%m-%d</source>
-        <translation>%Y-%m-%d</translation>
+        <translation type="obsolete">%Y-%m-%d</translation>
     </message>
     <message>
         <source>%H:%M:%S</source>
-        <translation>%H:%M:%S</translation>
+        <translation type="obsolete">%H:%M:%S</translation>
     </message>
     <message>
         <source>Insert date</source>
-        <translation>日付を挿入</translation>
+        <translation type="obsolete">日付を挿入</translation>
     </message>
     <message>
         <source>Insert time</source>
-        <translation>時間を挿入</translation>
+        <translation type="obsolete">時間を挿入</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>印刷</translation>
+        <translation type="obsolete">印刷</translation>
     </message>
     <message>
         <source>Preview</source>
-        <translation>プレビュー</translation>
+        <translation type="obsolete">プレビュー</translation>
     </message>
     <message>
         <source>Direction left to right</source>
-        <translation>方向: 左から右</translation>
+        <translation type="obsolete">方向: 左から右</translation>
     </message>
     <message>
         <source>Direction right to left</source>
-        <translation>方向: 右から左</translation>
+        <translation type="obsolete">方向: 右から左</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>保存</translation>
+        <translation type="obsolete">保存</translation>
     </message>
     <message>
         <source>Cancel all changes</source>
-        <translation>全ての変更をキャンセル</translation>
+        <translation type="obsolete">全ての変更をキャンセル</translation>
     </message>
     <message>
         <source>Insert non-breaking space character</source>
-        <translation>ノーブレークスペースを挿入</translation>
+        <translation type="obsolete">ノーブレークスペースを挿入</translation>
     </message>
     <message>
         <source>Find</source>
-        <translation>検索</translation>
+        <translation type="obsolete">検索</translation>
     </message>
     <message>
         <source>Find/Replace</source>
-        <translation>検索/置換</translation>
+        <translation type="obsolete">検索/置換</translation>
     </message>
     <message>
         <source>Paste as Plain Text</source>
-        <translation>プレーンテキストとして貼付け</translation>
+        <translation type="obsolete">プレーンテキストとして貼付け</translation>
     </message>
     <message>
         <source>Paste from Word</source>
-        <translation>Wordから貼付け</translation>
+        <translation type="obsolete">Wordから貼付け</translation>
     </message>
     <message>
         <source>Select All</source>
-        <translation>全て選択</translation>
+        <translation type="obsolete">全て選択</translation>
     </message>
     <message>
         <source>Use CTRL+V on your keyboard to paste the text into the window.</source>
-        <translation>ウィンドウへテキストを貼付けるには、 CTRL+Vを利用して下さい。</translation>
+        <translation type="obsolete">ウィンドウへテキストを貼付けるには、 CTRL+Vを利用して下さい。</translation>
     </message>
     <message>
         <source>Keep linebreaks</source>
-        <translation>改行を保つ</translation>
+        <translation type="obsolete">改行を保つ</translation>
     </message>
     <message>
         <source>Inserts a new table</source>
-        <translation>新しい表を挿入</translation>
+        <translation type="obsolete">新しい表を挿入</translation>
     </message>
     <message>
         <source>Insert row before</source>
-        <translation>行を前に挿入</translation>
+        <translation type="obsolete">行を前に挿入</translation>
     </message>
     <message>
         <source>Insert row after</source>
-        <translation>行を後に挿入</translation>
+        <translation type="obsolete">行を後に挿入</translation>
     </message>
     <message>
         <source>Delete row</source>
-        <translation>行を削除</translation>
+        <translation type="obsolete">行を削除</translation>
     </message>
     <message>
         <source>Insert column before</source>
-        <translation>列を前に挿入</translation>
+        <translation type="obsolete">列を前に挿入</translation>
     </message>
     <message>
         <source>Insert column after</source>
-        <translation>列を後に挿入</translation>
+        <translation type="obsolete">列を後に挿入</translation>
     </message>
     <message>
         <source>Remove column</source>
-        <translation>列を削除</translation>
+        <translation type="obsolete">列を削除</translation>
     </message>
     <message>
         <source>Split merged table cells</source>
-        <translation>連結したセルを分割</translation>
+        <translation type="obsolete">連結したセルを分割</translation>
     </message>
     <message>
         <source>Merge table cells</source>
@@ -277,35 +275,35 @@ Do you want more information about this issue?</source>
     </message>
     <message>
         <source>Table row properties</source>
-        <translation>行プロパティ</translation>
+        <translation type="obsolete">行プロパティ</translation>
     </message>
     <message>
         <source>Table cell properties</source>
-        <translation>セルプロパティ</translation>
+        <translation type="obsolete">セルプロパティ</translation>
     </message>
     <message>
         <source>Table properties</source>
-        <translation>表プロパティ</translation>
+        <translation type="obsolete">表プロパティ</translation>
     </message>
     <message>
         <source>Paste table row before</source>
-        <translation>行を前に貼付ける</translation>
+        <translation type="obsolete">行を前に貼付ける</translation>
     </message>
     <message>
         <source>Paste table row after</source>
-        <translation>行を後に貼付ける</translation>
+        <translation type="obsolete">行を後に貼付ける</translation>
     </message>
     <message>
         <source>Cut table row</source>
-        <translation>行を切り取る</translation>
+        <translation type="obsolete">行を切り取る</translation>
     </message>
     <message>
         <source>Copy table row</source>
-        <translation>行をコピー</translation>
+        <translation type="obsolete">行をコピー</translation>
     </message>
     <message>
         <source>Delete table</source>
-        <translation>表を削除</translation>
+        <translation type="obsolete">表を削除</translation>
     </message>
     <message>
         <source>Row</source>
@@ -329,275 +327,275 @@ Do you want more information about this issue?</source>
     </message>
     <message>
         <source>The changes you made will be lost if you navigate away from this page.</source>
-        <translation>このページから移動すると、変更箇所は失われます。</translation>
+        <translation type="obsolete">このページから移動すると、変更箇所は失われます。</translation>
     </message>
     <message>
         <source>Toggle fullscreen mode</source>
-        <translation>フルスクリーンモード On/Off</translation>
+        <translation type="obsolete">フルスクリーンモード On/Off</translation>
     </message>
     <message>
         <source>Insert / edit embedded media</source>
-        <translation>埋め込みメディアを挿入/編集</translation>
+        <translation type="obsolete">埋め込みメディアを挿入/編集</translation>
     </message>
     <message>
         <source>Edit embedded media</source>
-        <translation>埋め込みメディアを編集</translation>
+        <translation type="obsolete">埋め込みメディアを編集</translation>
     </message>
     <message>
         <source>Document properties</source>
-        <translation>ドキュメントプロパティ</translation>
+        <translation type="obsolete">ドキュメントプロパティ</translation>
     </message>
     <message>
         <source>Insert predefined template content</source>
-        <translation>事前定義されたテンプレートコンテンツの挿入</translation>
+        <translation type="obsolete">事前定義されたテンプレートコンテンツの挿入</translation>
     </message>
     <message>
         <source>Visual control characters on/off.</source>
-        <translation>制御文字 On/Off</translation>
+        <translation type="obsolete">制御文字 On/Off</translation>
     </message>
     <message>
         <source>Toggle spellchecker</source>
-        <translation>スペルチェッカー On/Off</translation>
+        <translation type="obsolete">スペルチェッカー On/Off</translation>
     </message>
     <message>
         <source>Spellchecker settings</source>
-        <translation>スペルチェッカー設定</translation>
+        <translation type="obsolete">スペルチェッカー設定</translation>
     </message>
     <message>
         <source>Ignore word</source>
-        <translation>無視する</translation>
+        <translation type="obsolete">無視する</translation>
     </message>
     <message>
         <source>Ignore all</source>
-        <translation>全て無視する</translation>
+        <translation type="obsolete">全て無視する</translation>
     </message>
     <message>
         <source>Languages</source>
-        <translation>言語</translation>
+        <translation type="obsolete">言語</translation>
     </message>
     <message>
         <source>Please wait...</source>
-        <translation>しばらくお待ち下さい…</translation>
+        <translation type="obsolete">しばらくお待ち下さい…</translation>
     </message>
     <message>
         <source>Suggestions</source>
-        <translation>候補</translation>
+        <translation type="obsolete">候補</translation>
     </message>
     <message>
         <source>No suggestions</source>
-        <translation>候補なし</translation>
+        <translation type="obsolete">候補なし</translation>
     </message>
     <message>
         <source>No misspellings found.</source>
-        <translation>スペルミスは見つかりませんでした。</translation>
+        <translation type="obsolete">スペルミスは見つかりませんでした。</translation>
     </message>
     <message>
         <source>Insert page break.</source>
-        <translation>ページの区切りを挿入する</translation>
+        <translation type="obsolete">ページの区切りを挿入する</translation>
     </message>
     <message>
         <source>Styles</source>
-        <translation>スタイル</translation>
+        <translation type="obsolete">スタイル</translation>
     </message>
     <message>
         <source>Format</source>
-        <translation>フォーマット</translation>
+        <translation type="obsolete">フォーマット</translation>
     </message>
     <message>
         <source>Paragraph</source>
-        <translation>段落</translation>
+        <translation type="obsolete">段落</translation>
     </message>
     <message>
         <source>Div</source>
-        <translation>Div (タグ)</translation>
+        <translation type="obsolete">Div (タグ)</translation>
     </message>
     <message>
         <source>Literal</source>
-        <translation>リテラル</translation>
+        <translation type="obsolete">リテラル</translation>
     </message>
     <message>
         <source>Heading 1</source>
-        <translation>見出し1</translation>
+        <translation type="obsolete">見出し1</translation>
     </message>
     <message>
         <source>Heading 2</source>
-        <translation>見出し2</translation>
+        <translation type="obsolete">見出し2</translation>
     </message>
     <message>
         <source>Heading 3</source>
-        <translation>見出し3</translation>
+        <translation type="obsolete">見出し3</translation>
     </message>
     <message>
         <source>Heading 4</source>
-        <translation>見出し4</translation>
+        <translation type="obsolete">見出し4</translation>
     </message>
     <message>
         <source>Heading 5</source>
-        <translation>見出し5</translation>
+        <translation type="obsolete">見出し5</translation>
     </message>
     <message>
         <source>Heading 6</source>
-        <translation>見出し6</translation>
+        <translation type="obsolete">見出し6</translation>
     </message>
     <message>
         <source>Code</source>
-        <translation>コード</translation>
+        <translation type="obsolete">コード</translation>
     </message>
     <message>
         <source>Code sample</source>
-        <translation>コードサンプル</translation>
+        <translation type="obsolete">コードサンプル</translation>
     </message>
     <message>
         <source>Definition term</source>
-        <translation>定義語</translation>
+        <translation type="obsolete">定義語</translation>
     </message>
     <message>
         <source>Definition description</source>
-        <translation>定義の説明文</translation>
+        <translation type="obsolete">定義の説明文</translation>
     </message>
     <message>
         <source>Bold (Ctrl+B)</source>
-        <translation>太字 (Ctrl+B)</translation>
+        <translation type="obsolete">太字 (Ctrl+B)</translation>
     </message>
     <message>
         <source>Italic (Ctrl+I)</source>
-        <translation>斜体 (Ctrl+I)</translation>
+        <translation type="obsolete">斜体 (Ctrl+I)</translation>
     </message>
     <message>
         <source>Underline (Ctrl+U)</source>
-        <translation>下線 (Ctrl+U)</translation>
+        <translation type="obsolete">下線 (Ctrl+U)</translation>
     </message>
     <message>
         <source>Strikethrough</source>
-        <translation>取り消し線</translation>
+        <translation type="obsolete">取り消し線</translation>
     </message>
     <message>
         <source>Align left</source>
-        <translation>左揃え</translation>
+        <translation type="obsolete">左揃え</translation>
     </message>
     <message>
         <source>Align center</source>
-        <translation>中央揃え</translation>
+        <translation type="obsolete">中央揃え</translation>
     </message>
     <message>
         <source>Align right</source>
-        <translation>右揃え</translation>
+        <translation type="obsolete">右揃え</translation>
     </message>
     <message>
         <source>Align full</source>
-        <translation>両端揃え</translation>
+        <translation type="obsolete">両端揃え</translation>
     </message>
     <message>
         <source>Unordered list</source>
-        <translation>箇条書き</translation>
+        <translation type="obsolete">箇条書き</translation>
     </message>
     <message>
         <source>Ordered list</source>
-        <translation>番号付け</translation>
+        <translation type="obsolete">番号付け</translation>
     </message>
     <message>
         <source>Outdent</source>
-        <translation>インデントを減らす</translation>
+        <translation type="obsolete">インデントを減らす</translation>
     </message>
     <message>
         <source>Indent</source>
-        <translation>インデントを増やす</translation>
+        <translation type="obsolete">インデントを増やす</translation>
     </message>
     <message>
         <source>Undo (Ctrl+Z)</source>
-        <translation>元に戻す</translation>
+        <translation type="obsolete">元に戻す</translation>
     </message>
     <message>
         <source>Redo (Ctrl+Y)</source>
-        <translation>やり直し</translation>
+        <translation type="obsolete">やり直し</translation>
     </message>
     <message>
         <source>Insert/edit link</source>
-        <translation>リンクを挿入/編集</translation>
+        <translation type="obsolete">リンクを挿入/編集</translation>
     </message>
     <message>
         <source>Unlink</source>
-        <translation>リンクを取り除く</translation>
+        <translation type="obsolete">リンクを取り除く</translation>
     </message>
     <message>
         <source>Insert/edit image</source>
-        <translation>画像を挿入/編集</translation>
+        <translation type="obsolete">画像を挿入/編集</translation>
     </message>
     <message>
         <source>Insert/edit object</source>
-        <translation>オブジェクトを挿入/編集</translation>
+        <translation type="obsolete">オブジェクトを挿入/編集</translation>
     </message>
     <message>
         <source>Insert/edit file</source>
-        <translation>ファイルを挿入/編集</translation>
+        <translation type="obsolete">ファイルを挿入/編集</translation>
     </message>
     <message>
         <source>Insert custom tag</source>
-        <translation>カスタムタグを挿入</translation>
+        <translation type="obsolete">カスタムタグを挿入</translation>
     </message>
     <message>
         <source>Insert literal text</source>
-        <translation>リテラルテキストを挿入</translation>
+        <translation type="obsolete">リテラルテキストを挿入</translation>
     </message>
     <message>
         <source>Insert pagebreak</source>
-        <translation>ページの区切りを挿入</translation>
+        <translation type="obsolete">ページの区切りを挿入</translation>
     </message>
     <message>
         <source>Cleanup messy code</source>
-        <translation>コードをクリーンアップ</translation>
+        <translation type="obsolete">コードをクリーンアップ</translation>
     </message>
     <message>
         <source>Edit HTML Source</source>
-        <translation>HTMLソースを編集</translation>
+        <translation type="obsolete">HTMLソースを編集</translation>
     </message>
     <message>
         <source>Subscript</source>
-        <translation>下付き文字</translation>
+        <translation type="obsolete">下付き文字</translation>
     </message>
     <message>
         <source>Superscript</source>
-        <translation>上付き文字</translation>
+        <translation type="obsolete">上付き文字</translation>
     </message>
     <message>
         <source>Remove formatting</source>
-        <translation>フォーマットを無効にする</translation>
+        <translation type="obsolete">フォーマットを無効にする</translation>
     </message>
     <message>
         <source>Your custom description here</source>
-        <translation>説明文をここに入力して下さい</translation>
+        <translation type="obsolete">説明文をここに入力して下さい</translation>
     </message>
     <message>
         <source>Insert special character</source>
-        <translation>特殊文字を挿入</translation>
+        <translation type="obsolete">特殊文字を挿入</translation>
     </message>
     <message>
         <source>Toggle guidelines/invisible elements</source>
-        <translation>ガイドライン/非表示要素 On/Off</translation>
+        <translation type="obsolete">ガイドライン/非表示要素 On/Off</translation>
     </message>
     <message>
         <source>Insert/edit anchor</source>
-        <translation>アンカーの挿入/編集</translation>
+        <translation type="obsolete">アンカーの挿入/編集</translation>
     </message>
     <message>
         <source>Cut</source>
-        <translation>切り取り</translation>
+        <translation type="obsolete">切り取り</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>コピー</translation>
+        <translation type="obsolete">コピー</translation>
     </message>
     <message>
         <source>Paste</source>
-        <translation>貼り付け</translation>
+        <translation type="obsolete">貼り付け</translation>
     </message>
     <message>
         <source>Image properties</source>
-        <translation>画像プロパティ</translation>
+        <translation type="obsolete">画像プロパティ</translation>
     </message>
     <message>
         <source>New document</source>
-        <translation>新規ドキュメント</translation>
+        <translation type="obsolete">新規ドキュメント</translation>
     </message>
     <message>
         <source>Help</source>
@@ -605,31 +603,31 @@ Do you want more information about this issue?</source>
     </message>
     <message>
         <source>Path</source>
-        <translation>パス</translation>
+        <translation type="obsolete">パス</translation>
     </message>
     <message>
         <source>Are you sure you want clear all contents?</source>
-        <translation>全てのコンテンツをクリアして良いですか？</translation>
+        <translation type="obsolete">全てのコンテンツをクリアして良いですか？</translation>
     </message>
     <message>
         <source>Jump to tool buttons - Alt+Q, Jump to editor - Alt-Z, Jump to element path - Alt-X</source>
-        <translation>ツールボタンへ移動 - Alt+Q　エディタへ移動 - Alt+Z　要素パスへ移動 - Alt+X</translation>
+        <translation type="obsolete">ツールボタンへ移動 - Alt+Q　エディタへ移動 - Alt+Z　要素パスへ移動 - Alt+X</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>次へ</translation>
+        <translation type="obsolete">次へ</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>前へ</translation>
+        <translation type="obsolete">前へ</translation>
     </message>
     <message>
         <source>Select</source>
-        <translation>選択</translation>
+        <translation type="obsolete">選択</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation>形式</translation>
+        <translation type="obsolete">形式</translation>
     </message>
     <message>
         <source>About</source>
@@ -645,7 +643,7 @@ Do you want more information about this issue?</source>
     </message>
     <message>
         <source>Plugin</source>
-        <translation>プラグイン</translation>
+        <translation type="obsolete">プラグイン</translation>
     </message>
     <message>
         <source>Author</source>
@@ -657,47 +655,47 @@ Do you want more information about this issue?</source>
     </message>
     <message>
         <source>Loaded plugins</source>
-        <translation>ロードされたプラグイン</translation>
+        <translation type="obsolete">ロードされたプラグイン</translation>
     </message>
     <message>
         <source>HTML Source Editor</source>
-        <translation>HTMLソースエディタ</translation>
+        <translation type="obsolete">HTMLソースエディタ</translation>
     </message>
     <message>
         <source>Word wrap</source>
-        <translation>ワードラップ</translation>
+        <translation type="obsolete">ワードラップ</translation>
     </message>
     <message>
         <source>Select a color</source>
-        <translation>色を選択</translation>
+        <translation type="obsolete">色を選択</translation>
     </message>
     <message>
         <source>Picker</source>
-        <translation>ピッカー</translation>
+        <translation type="obsolete">ピッカー</translation>
     </message>
     <message>
         <source>Color picker</source>
-        <translation>カラーピッカー</translation>
+        <translation type="obsolete">カラーピッカー</translation>
     </message>
     <message>
         <source>Palette</source>
-        <translation>パレット</translation>
+        <translation type="obsolete">パレット</translation>
     </message>
     <message>
         <source>Palette colors</source>
-        <translation>パレットカラー</translation>
+        <translation type="obsolete">パレットカラー</translation>
     </message>
     <message>
         <source>Named</source>
-        <translation>名前付き色</translation>
+        <translation type="obsolete">名前付き色</translation>
     </message>
     <message>
         <source>Named colors</source>
-        <translation>名前付き色</translation>
+        <translation type="obsolete">名前付き色</translation>
     </message>
     <message>
         <source>Color</source>
-        <translation>色</translation>
+        <translation type="obsolete">色</translation>
     </message>
     <message>
         <source>Name</source>
@@ -705,7 +703,7 @@ Do you want more information about this issue?</source>
     </message>
     <message>
         <source>Select special character</source>
-        <translation>特殊文字を選択</translation>
+        <translation type="obsolete">特殊文字を選択</translation>
     </message>
     <message>
         <source>this</source>
@@ -933,107 +931,107 @@ Do you want more information about this issue?</source>
     </message>
     <message>
         <source>Invalid or missing parameter: %parameter</source>
-        <translation>不正のパラメータもしくはパラメータの入力が必要です:  %parameter</translation>
+        <translation type="obsolete">不正のパラメータもしくはパラメータの入力が必要です:  %parameter</translation>
     </message>
     <message>
         <source>Invalid parameter: %parameter = %value</source>
-        <translation>不正なパラメータ: %parameter = %value</translation>
+        <translation type="obsolete">不正なパラメータ: %parameter = %value</translation>
     </message>
     <message>
         <source>Run spell checking</source>
-        <translation>スペルチェック実効</translation>
+        <translation type="obsolete">スペルチェック実効</translation>
     </message>
     <message>
         <source>ieSpell not detected. Do you want to install it now?</source>
-        <translation>ieSpellは見つかりませんでした、今からインストールしますか？</translation>
+        <translation type="obsolete">ieSpellは見つかりませんでした、今からインストールしますか？</translation>
     </message>
     <message>
         <source>Horizontale rule</source>
-        <translation>水平線</translation>
+        <translation type="obsolete">水平線</translation>
     </message>
     <message>
         <source>Emotions</source>
-        <translation>スマイリー</translation>
+        <translation type="obsolete">スマイリー</translation>
     </message>
     <message>
         <source>Insert emotion</source>
-        <translation>スマイリー挿入</translation>
+        <translation type="obsolete">スマイリー挿入</translation>
     </message>
     <message>
         <source>Cool</source>
-        <translation>クール</translation>
+        <translation type="obsolete">クール</translation>
     </message>
     <message>
         <source>Cry</source>
-        <translation>涙</translation>
+        <translation type="obsolete">涙</translation>
     </message>
     <message>
         <source>Embarassed</source>
-        <translation>困ってる</translation>
+        <translation type="obsolete">困ってる</translation>
     </message>
     <message>
         <source>Foot in mouth</source>
-        <translation>困ってる</translation>
+        <translation type="obsolete">困ってる</translation>
     </message>
     <message>
         <source>Frown</source>
-        <translation>しかめ面</translation>
+        <translation type="obsolete">しかめ面</translation>
     </message>
     <message>
         <source>Innocent</source>
-        <translation>無罪</translation>
+        <translation type="obsolete">無罪</translation>
     </message>
     <message>
         <source>Kiss</source>
-        <translation>キッス</translation>
+        <translation type="obsolete">キッス</translation>
     </message>
     <message>
         <source>Laughing</source>
-        <translation>笑う</translation>
+        <translation type="obsolete">笑う</translation>
     </message>
     <message>
         <source>Money mouth</source>
-        <translation>金口</translation>
+        <translation type="obsolete">金口</translation>
     </message>
     <message>
         <source>Sealed</source>
-        <translation>封印</translation>
+        <translation type="obsolete">封印</translation>
     </message>
     <message>
         <source>Smile</source>
-        <translation>スマイル</translation>
+        <translation type="obsolete">スマイル</translation>
     </message>
     <message>
         <source>Surprised</source>
-        <translation>驚き</translation>
+        <translation type="obsolete">驚き</translation>
     </message>
     <message>
         <source>Tongue out</source>
-        <translation>ベー</translation>
+        <translation type="obsolete">ベー</translation>
     </message>
     <message>
         <source>Undecided</source>
-        <translation>不決定</translation>
+        <translation type="obsolete">不決定</translation>
     </message>
     <message>
         <source>Wink</source>
-        <translation>ウィンク</translation>
+        <translation type="obsolete">ウィンク</translation>
     </message>
     <message>
         <source>Yell</source>
-        <translation>叫ぶ</translation>
+        <translation type="obsolete">叫ぶ</translation>
     </message>
     <message>
         <source>Paste is now in plain text mode. Click again to toggle back to regular paste mode. After you paste something you will be returned to regular paste mode.</source>
-        <translation>プレインテキストペーストモード。クリックして、標準ペーストモードに戻れます。ペーストした後に自動的に標準ペーストモードに戻ります。</translation>
+        <translation type="obsolete">プレインテキストペーストモード。クリックして、標準ペーストモードに戻れます。ペーストした後に自動的に標準ペーストモードに戻ります。</translation>
     </message>
     <message>
         <source>Paste is now in plain text mode. Click again to toggle back to regular paste mode.</source>
-        <translation>プレインテキストペーストモード。クリックして、標準ペーストモードに戻れます。</translation>
+        <translation type="obsolete">プレインテキストペーストモード。クリックして、標準ペーストモードに戻れます。</translation>
     </message>
     <message>
         <source>Insert horizontal ruler</source>
-        <translation>水平線を挿入</translation>
+        <translation type="obsolete">水平線を挿入</translation>
     </message>
     <message>
         <source>eznode</source>
@@ -1100,19 +1098,19 @@ Do you want more information about this issue?</source>
     <name>design/standard/ezoe/handler</name>
     <message>
         <source>Object %1 does not exist.</source>
-        <translation>オブジェクト %1 は存在しません。</translation>
+        <translation type="obsolete">オブジェクト %1 は存在しません。</translation>
     </message>
     <message>
         <source>Node %1 does not exist.</source>
-        <translation>ノード %1 は存在しません。</translation>
+        <translation type="obsolete">ノード %1 は存在しません。</translation>
     </message>
     <message>
         <source>Node &amp;apos;%1&amp;apos; does not exist.</source>
-        <translation>ノード&amp;apos;%1&amp;apos;は存在しません。</translation>
+        <translation type="obsolete">ノード&amp;apos;%1&amp;apos;は存在しません。</translation>
     </message>
     <message>
         <source>Some objects used in embed(-inline) tags have been deleted and are no longer available.</source>
-        <translation>埋め込み(インライン)タグに利用されているオブジェクトの中に、既に削除されているものがあります。</translation>
+        <translation type="obsolete">埋め込み(インライン)タグに利用されているオブジェクトの中に、既に削除されているものがあります。</translation>
     </message>
 </context>
 <context>
@@ -1338,98 +1336,98 @@ Do you want more information about this issue?</source>
     <name>design/standard/ezoe/searchreplace</name>
     <message>
         <source>Find again</source>
-        <translation>再度検索</translation>
+        <translation type="obsolete">再度検索</translation>
     </message>
     <message>
         <source>The search has been completed. The search string could not be found.</source>
-        <translation>検索が完了しました。該当する結果は見つかりませんでした。</translation>
+        <translation type="obsolete">検索が完了しました。該当する結果は見つかりませんでした。</translation>
     </message>
     <message>
         <source>Find</source>
-        <translation>検索</translation>
+        <translation type="obsolete">検索</translation>
     </message>
     <message>
         <source>Find/Replace</source>
-        <translation>検索/置換</translation>
+        <translation type="obsolete">検索/置換</translation>
     </message>
     <message>
         <source>All occurrences of the search string were replaced.</source>
-        <translation>全て置き換えました。</translation>
+        <translation type="obsolete">全て置き換えました。</translation>
     </message>
     <message>
         <source>Find what</source>
-        <translation>検索テキスト</translation>
+        <translation type="obsolete">検索テキスト</translation>
     </message>
     <message>
         <source>Replace with</source>
-        <translation>置き換えテキスト</translation>
+        <translation type="obsolete">置き換えテキスト</translation>
     </message>
     <message>
         <source>Direction</source>
-        <translation>方向</translation>
+        <translation type="obsolete">方向</translation>
     </message>
     <message>
         <source>Up</source>
-        <translation>上</translation>
+        <translation type="obsolete">上</translation>
     </message>
     <message>
         <source>Down</source>
-        <translation>下</translation>
+        <translation type="obsolete">下</translation>
     </message>
     <message>
         <source>Match case</source>
-        <translation>大文字と小文字を区別する</translation>
+        <translation type="obsolete">大文字と小文字を区別する</translation>
     </message>
     <message>
         <source>Find next</source>
-        <translation>次を検索</translation>
+        <translation type="obsolete">次を検索</translation>
     </message>
     <message>
         <source>Replace</source>
-        <translation>置換</translation>
+        <translation type="obsolete">置換</translation>
     </message>
     <message>
         <source>Replace all</source>
-        <translation>全て置換</translation>
+        <translation type="obsolete">全て置換</translation>
     </message>
 </context>
 <context>
     <name>design/standard/ezoe/validator</name>
     <message>
         <source>&amp;quot;%label&amp;quot; is required and must have a value</source>
-        <translation>&amp;quot;%label&amp;quot;は必須項目です</translation>
+        <translation type="obsolete">&amp;quot;%label&amp;quot;は必須項目です</translation>
     </message>
     <message>
         <source>&amp;quot;%label&amp;quot; must be a valid number</source>
-        <translation>&amp;quot;%label&amp;quot;は有効な数字に設定ください</translation>
+        <translation type="obsolete">&amp;quot;%label&amp;quot;は有効な数字に設定ください</translation>
     </message>
     <message>
         <source>&amp;quot;%label&amp;quot; must be a valid integer number</source>
-        <translation>&amp;quot;%label&amp;quot;は有効な整数に設定ください</translation>
+        <translation type="obsolete">&amp;quot;%label&amp;quot;は有効な整数に設定ください</translation>
     </message>
     <message>
         <source>&amp;quot;%label&amp;quot; must be a valid absolute url address</source>
-        <translation>&amp;quot;%label&amp;quot;は有効な絶対URLに設定ください</translation>
+        <translation type="obsolete">&amp;quot;%label&amp;quot;は有効な絶対URLに設定ください</translation>
     </message>
     <message>
         <source>&amp;quot;%label&amp;quot; must be a valid email address</source>
-        <translation>&amp;quot;%label&amp;quot;は有効なメールアドレスに設定ください</translation>
+        <translation type="obsolete">&amp;quot;%label&amp;quot;は有効なメールアドレスに設定ください</translation>
     </message>
     <message>
         <source>&amp;quot;%label&amp;quot; must be a valid css size/unit value</source>
-        <translation>&amp;quot;%label&amp;quot;は有効なCSSサイズ/単位に設定ください</translation>
+        <translation type="obsolete">&amp;quot;%label&amp;quot;は有効なCSSサイズ/単位に設定ください</translation>
     </message>
     <message>
         <source>&amp;quot;%label&amp;quot; must be a valid html element id</source>
-        <translation>&amp;quot;%label&amp;quot;は有効HTML要素IDに設定ください</translation>
+        <translation type="obsolete">&amp;quot;%label&amp;quot;は有効HTML要素IDに設定ください</translation>
     </message>
     <message>
         <source>&amp;quot;%label&amp;quot; must be higher then %min</source>
-        <translation>&amp;quot;%label&amp;quot;は%min以上に設定ください</translation>
+        <translation type="obsolete">&amp;quot;%label&amp;quot;は%min以上に設定ください</translation>
     </message>
     <message>
         <source>&amp;quot;%label&amp;quot; must be lower then %max</source>
-        <translation>&amp;quot;%label&amp;quot;は%max以下に設定ください</translation>
+        <translation type="obsolete">&amp;quot;%label&amp;quot;は%max以下に設定ください</translation>
     </message>
 </context>
 <context>
@@ -1498,21 +1496,21 @@ Do you want more information about this issue?</source>
     <name>kernel/classes/datatypes</name>
     <message>
         <source>Content required</source>
-        <translation>コンテンツが必要です</translation>
+        <translation type="obsolete">コンテンツが必要です</translation>
     </message>
 </context>
 <context>
     <name>kernel/classes/datatypes/ezxmltext</name>
     <message>
         <source>Invalid e-mail address: &apos;%1&apos;</source>
-        <translation>メールアドレスが不正です: &apos;%1&apos;</translation>
+        <translation type="obsolete">メールアドレスが不正です: &apos;%1&apos;</translation>
     </message>
 </context>
 <context>
     <name>kernel/content</name>
     <message>
         <source>Top Level Nodes</source>
-        <translation>トップレベルノード</translation>
+        <translation type="obsolete">トップレベルノード</translation>
     </message>
 </context>
 </TS>

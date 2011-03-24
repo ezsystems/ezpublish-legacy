@@ -1,5 +1,12 @@
 <!DOCTYPE TS><TS>
 <context>
+    <name>design/admin/content/browse</name>
+    <message>
+        <source>Bookmarks</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>design/admin/content/edit</name>
     <message>
         <source>Name</source>
@@ -62,7 +69,7 @@
     <name>design/standard/content/search</name>
     <message>
         <source>No results were found when searching for &amp;quot;%1&amp;quot;</source>
-        <translation>Nebyly nalezeny žádné výsledky při hledání &amp;quot;%1&amp;quot;</translation>
+        <translation type="obsolete">Nebyly nalezeny žádné výsledky při hledání &amp;quot;%1&amp;quot;</translation>
     </message>
 </context>
 <context>
@@ -76,19 +83,19 @@
     <name>design/standard/ezoe</name>
     <message>
         <source>Do you want to use the WYSIWYG mode for this textarea?</source>
-        <translation>Chcete použit WYSIWYG režim pro tuto textovou oblast?</translation>
+        <translation type="obsolete">Chcete použit WYSIWYG režim pro tuto textovou oblast?</translation>
     </message>
     <message>
         <source>Apply</source>
-        <translation>Použít</translation>
+        <translation type="obsolete">Použít</translation>
     </message>
     <message>
         <source>Insert</source>
-        <translation>Vložit</translation>
+        <translation type="obsolete">Vložit</translation>
     </message>
     <message>
         <source>Update</source>
-        <translation>Aktualizovat</translation>
+        <translation type="obsolete">Aktualizovat</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -96,7 +103,7 @@
     </message>
     <message>
         <source>Close</source>
-        <translation>Zavřít</translation>
+        <translation type="obsolete">Zavřít</translation>
     </message>
     <message>
         <source>Browse</source>
@@ -108,29 +115,29 @@
     </message>
     <message>
         <source>-- Not set --</source>
-        <translation>-- Není nastaveno --</translation>
+        <translation type="obsolete">-- Není nastaveno --</translation>
     </message>
     <message>
         <source>Copy/Cut/Paste is not available in Mozilla and Firefox.
 Do you want more information about this issue?</source>
-        <translation>Není možné Kopírovat/Oříznout/Vložit v Mozilla a Firefox.
+        <translation type="obsolete">Není možné Kopírovat/Oříznout/Vložit v Mozilla a Firefox.
 Chcete více informací o tomto problému?</translation>
     </message>
     <message>
         <source>Currently not supported by your browser, use keyboard shortcuts instead.</source>
-        <translation>V současné době není podporováno Vaším prohlížečem, místo toho použijte klávesové zkratky.</translation>
+        <translation type="obsolete">V současné době není podporováno Vaším prohlížečem, místo toho použijte klávesové zkratky.</translation>
     </message>
     <message>
         <source>Sorry, but we have noticed that your popup-blocker has disabled a window that provides application functionality. You will need to disable popup blocking on this site in order to fully utilize this tool.</source>
-        <translation>Omlouváme se, ale všimli jsme si, že Váš popup-blocker deaktivoval okno, které zajišťuje funkčnost aplikace. Je potřeba, abyste zakázal popup blokování na této stránce, aby bylo možné plně využít tento nástroj.</translation>
+        <translation type="obsolete">Omlouváme se, ale všimli jsme si, že Váš popup-blocker deaktivoval okno, které zajišťuje funkčnost aplikace. Je potřeba, abyste zakázal popup blokování na této stránce, aby bylo možné plně využít tento nástroj.</translation>
     </message>
     <message>
         <source>Error: Invalid values entered, these are marked in red.</source>
-        <translation>Chyba: Vloženy neplatné hodnoty, jsou označeny červeně.</translation>
+        <translation type="obsolete">Chyba: Vloženy neplatné hodnoty, jsou označeny červeně.</translation>
     </message>
     <message>
         <source>More colors</source>
-        <translation>Více barev</translation>
+        <translation type="obsolete">Více barev</translation>
     </message>
     <message>
         <source>Alignment</source>
@@ -150,111 +157,111 @@ Chcete více informací o tomto problému?</translation>
     </message>
     <message>
         <source>Full</source>
-        <translation>Plný</translation>
+        <translation type="obsolete">Plný</translation>
     </message>
     <message>
         <source>%Y-%m-%d</source>
-        <translation>%Y-%m-%d</translation>
+        <translation type="obsolete">%Y-%m-%d</translation>
     </message>
     <message>
         <source>%H:%M:%S</source>
-        <translation>%H:%M:%S</translation>
+        <translation type="obsolete">%H:%M:%S</translation>
     </message>
     <message>
         <source>Insert date</source>
-        <translation>Vložit datum</translation>
+        <translation type="obsolete">Vložit datum</translation>
     </message>
     <message>
         <source>Insert time</source>
-        <translation>Vložit čas</translation>
+        <translation type="obsolete">Vložit čas</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Vytisknout</translation>
+        <translation type="obsolete">Vytisknout</translation>
     </message>
     <message>
         <source>Preview</source>
-        <translation>Náhled, prohlédnout si</translation>
+        <translation type="obsolete">Náhled, prohlédnout si</translation>
     </message>
     <message>
         <source>Direction left to right</source>
-        <translation>Směr z leva do prava</translation>
+        <translation type="obsolete">Směr z leva do prava</translation>
     </message>
     <message>
         <source>Direction right to left</source>
-        <translation>Směr z prava do leva</translation>
+        <translation type="obsolete">Směr z prava do leva</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>Uložit</translation>
+        <translation type="obsolete">Uložit</translation>
     </message>
     <message>
         <source>Cancel all changes</source>
-        <translation>Zrušit všechny změny</translation>
+        <translation type="obsolete">Zrušit všechny změny</translation>
     </message>
     <message>
         <source>Insert non-breaking space character</source>
-        <translation>Vložit non-breaking znak mezery</translation>
+        <translation type="obsolete">Vložit non-breaking znak mezery</translation>
     </message>
     <message>
         <source>Find</source>
-        <translation>Najít</translation>
+        <translation type="obsolete">Najít</translation>
     </message>
     <message>
         <source>Find/Replace</source>
-        <translation>Najít/Nahradit</translation>
+        <translation type="obsolete">Najít/Nahradit</translation>
     </message>
     <message>
         <source>Paste as Plain Text</source>
-        <translation>Vložit jako Prostý Text</translation>
+        <translation type="obsolete">Vložit jako Prostý Text</translation>
     </message>
     <message>
         <source>Paste from Word</source>
-        <translation>Vložit z Word</translation>
+        <translation type="obsolete">Vložit z Word</translation>
     </message>
     <message>
         <source>Select All</source>
-        <translation>Vybrat Vše</translation>
+        <translation type="obsolete">Vybrat Vše</translation>
     </message>
     <message>
         <source>Use CTRL+V on your keyboard to paste the text into the window.</source>
-        <translation>Použít CTRL+V na Vaší klávesnici k vložení textu do okna.</translation>
+        <translation type="obsolete">Použít CTRL+V na Vaší klávesnici k vložení textu do okna.</translation>
     </message>
     <message>
         <source>Keep linebreaks</source>
-        <translation>Ponechat mezery mezi řádky</translation>
+        <translation type="obsolete">Ponechat mezery mezi řádky</translation>
     </message>
     <message>
         <source>Inserts a new table</source>
-        <translation>Vkládá novou tabulku</translation>
+        <translation type="obsolete">Vkládá novou tabulku</translation>
     </message>
     <message>
         <source>Insert row before</source>
-        <translation>Předtím vložit řádek</translation>
+        <translation type="obsolete">Předtím vložit řádek</translation>
     </message>
     <message>
         <source>Insert row after</source>
-        <translation>Poté vložit řádek</translation>
+        <translation type="obsolete">Poté vložit řádek</translation>
     </message>
     <message>
         <source>Delete row</source>
-        <translation>Vymazat řádek</translation>
+        <translation type="obsolete">Vymazat řádek</translation>
     </message>
     <message>
         <source>Insert column before</source>
-        <translation>Předtím vložit sloupec</translation>
+        <translation type="obsolete">Předtím vložit sloupec</translation>
     </message>
     <message>
         <source>Insert column after</source>
-        <translation>Poté vložit sloupec</translation>
+        <translation type="obsolete">Poté vložit sloupec</translation>
     </message>
     <message>
         <source>Remove column</source>
-        <translation>Vyjmout sloupec</translation>
+        <translation type="obsolete">Vyjmout sloupec</translation>
     </message>
     <message>
         <source>Split merged table cells</source>
-        <translation>Oddělit sloučené buňky tabulky</translation>
+        <translation type="obsolete">Oddělit sloučené buňky tabulky</translation>
     </message>
     <message>
         <source>Merge table cells</source>
@@ -262,35 +269,35 @@ Chcete více informací o tomto problému?</translation>
     </message>
     <message>
         <source>Table row properties</source>
-        <translation>Vlastnosti řádku tabulky</translation>
+        <translation type="obsolete">Vlastnosti řádku tabulky</translation>
     </message>
     <message>
         <source>Table cell properties</source>
-        <translation>Vlastnosti buňky tabulky</translation>
+        <translation type="obsolete">Vlastnosti buňky tabulky</translation>
     </message>
     <message>
         <source>Table properties</source>
-        <translation>Vlastnosti tabulky</translation>
+        <translation type="obsolete">Vlastnosti tabulky</translation>
     </message>
     <message>
         <source>Paste table row before</source>
-        <translation>Předtím vložit řádek tabulky</translation>
+        <translation type="obsolete">Předtím vložit řádek tabulky</translation>
     </message>
     <message>
         <source>Paste table row after</source>
-        <translation>Poté vložit řádek tabulky</translation>
+        <translation type="obsolete">Poté vložit řádek tabulky</translation>
     </message>
     <message>
         <source>Cut table row</source>
-        <translation>Oříznout řádek tabulky</translation>
+        <translation type="obsolete">Oříznout řádek tabulky</translation>
     </message>
     <message>
         <source>Copy table row</source>
-        <translation>Kopírovat řádek tabulky</translation>
+        <translation type="obsolete">Kopírovat řádek tabulky</translation>
     </message>
     <message>
         <source>Delete table</source>
-        <translation>Vymazat tabulku</translation>
+        <translation type="obsolete">Vymazat tabulku</translation>
     </message>
     <message>
         <source>Row</source>
@@ -314,236 +321,236 @@ Chcete více informací o tomto problému?</translation>
     </message>
     <message>
         <source>The changes you made will be lost if you navigate away from this page.</source>
-        <translation>Změny, které jste provedly, budou ztraceny, pokud opustíte tuto stránku.</translation>
+        <translation type="obsolete">Změny, které jste provedly, budou ztraceny, pokud opustíte tuto stránku.</translation>
     </message>
     <message>
         <source>Toggle fullscreen mode</source>
-        <translation>Klíčový režim plného obrazu</translation>
+        <translation type="obsolete">Klíčový režim plného obrazu</translation>
     </message>
     <message>
         <source>Insert / edit embedded media</source>
-        <translation>Vložit / editovat uložená média</translation>
+        <translation type="obsolete">Vložit / editovat uložená média</translation>
     </message>
     <message>
         <source>Edit embedded media</source>
-        <translation>Editovat uložená média</translation>
+        <translation type="obsolete">Editovat uložená média</translation>
     </message>
     <message>
         <source>Document properties</source>
-        <translation>Vlastnosti dokumentu</translation>
+        <translation type="obsolete">Vlastnosti dokumentu</translation>
     </message>
     <message>
         <source>Insert predefined template content</source>
-        <translation>Vložit předdefinovanou šablonu obsahu</translation>
+        <translation type="obsolete">Vložit předdefinovanou šablonu obsahu</translation>
     </message>
     <message>
         <source>Visual control characters on/off.</source>
-        <translation>Vizuální ovládací znaky on/off.</translation>
+        <translation type="obsolete">Vizuální ovládací znaky on/off.</translation>
     </message>
     <message>
         <source>Insert page break.</source>
-        <translation>Vložit zlom stránky.</translation>
+        <translation type="obsolete">Vložit zlom stránky.</translation>
     </message>
     <message>
         <source>Styles</source>
-        <translation>Styly</translation>
+        <translation type="obsolete">Styly</translation>
     </message>
     <message>
         <source>Format</source>
-        <translation>Formát</translation>
+        <translation type="obsolete">Formát</translation>
     </message>
     <message>
         <source>Paragraph</source>
-        <translation>Odstavec</translation>
+        <translation type="obsolete">Odstavec</translation>
     </message>
     <message>
         <source>Div</source>
-        <translation>Div</translation>
+        <translation type="obsolete">Div</translation>
     </message>
     <message>
         <source>Literal</source>
-        <translation>Doslovný</translation>
+        <translation type="obsolete">Doslovný</translation>
     </message>
     <message>
         <source>Heading 1</source>
-        <translation>Záhlaví 1</translation>
+        <translation type="obsolete">Záhlaví 1</translation>
     </message>
     <message>
         <source>Heading 2</source>
-        <translation>Záhlaví 2
+        <translation type="obsolete">Záhlaví 2
 </translation>
     </message>
     <message>
         <source>Heading 3</source>
-        <translation>Záhlaví 3</translation>
+        <translation type="obsolete">Záhlaví 3</translation>
     </message>
     <message>
         <source>Heading 4</source>
-        <translation>Záhlaví 4</translation>
+        <translation type="obsolete">Záhlaví 4</translation>
     </message>
     <message>
         <source>Heading 5</source>
-        <translation>Záhlaví 5</translation>
+        <translation type="obsolete">Záhlaví 5</translation>
     </message>
     <message>
         <source>Heading 6</source>
-        <translation>Záhlaví 6</translation>
+        <translation type="obsolete">Záhlaví 6</translation>
     </message>
     <message>
         <source>Code</source>
-        <translation>Kód</translation>
+        <translation type="obsolete">Kód</translation>
     </message>
     <message>
         <source>Code sample</source>
-        <translation>Vzorový kód</translation>
+        <translation type="obsolete">Vzorový kód</translation>
     </message>
     <message>
         <source>Definition term </source>
-        <translation>Definovaný termín</translation>
+        <translation type="obsolete">Definovaný termín</translation>
     </message>
     <message>
         <source>Definition description</source>
-        <translation>Definovaný popis</translation>
+        <translation type="obsolete">Definovaný popis</translation>
     </message>
     <message>
         <source>Bold (Ctrl+B)</source>
-        <translation>Tučné písmo (Ctrl+B)</translation>
+        <translation type="obsolete">Tučné písmo (Ctrl+B)</translation>
     </message>
     <message>
         <source>Italic (Ctrl+I)</source>
-        <translation>Kurzíva (Ctrl+l)</translation>
+        <translation type="obsolete">Kurzíva (Ctrl+l)</translation>
     </message>
     <message>
         <source>Underline (Ctrl+U)</source>
-        <translation>Podtržení (Ctrl+U)</translation>
+        <translation type="obsolete">Podtržení (Ctrl+U)</translation>
     </message>
     <message>
         <source>Strikethrough</source>
-        <translation>Strikethrough</translation>
+        <translation type="obsolete">Strikethrough</translation>
     </message>
     <message>
         <source>Align left</source>
-        <translation>Zarovnat vlevo</translation>
+        <translation type="obsolete">Zarovnat vlevo</translation>
     </message>
     <message>
         <source>Align center</source>
-        <translation>Vycentrovat</translation>
+        <translation type="obsolete">Vycentrovat</translation>
     </message>
     <message>
         <source>Align right</source>
-        <translation>Zarovnat vpravo</translation>
+        <translation type="obsolete">Zarovnat vpravo</translation>
     </message>
     <message>
         <source>Align full</source>
-        <translation>Kompletně zarovnat</translation>
+        <translation type="obsolete">Kompletně zarovnat</translation>
     </message>
     <message>
         <source>Unordered list</source>
-        <translation>Neuspořádaný seznam</translation>
+        <translation type="obsolete">Neuspořádaný seznam</translation>
     </message>
     <message>
         <source>Ordered list</source>
-        <translation>Uspořádaný seznam</translation>
+        <translation type="obsolete">Uspořádaný seznam</translation>
     </message>
     <message>
         <source>Outdent</source>
-        <translation>Neodsazený</translation>
+        <translation type="obsolete">Neodsazený</translation>
     </message>
     <message>
         <source>Indent</source>
-        <translation>Odsazený</translation>
+        <translation type="obsolete">Odsazený</translation>
     </message>
     <message>
         <source>Undo (Ctrl+Z)</source>
-        <translation>Zpětný krok (Ctrl+Z)</translation>
+        <translation type="obsolete">Zpětný krok (Ctrl+Z)</translation>
     </message>
     <message>
         <source>Redo (Ctrl+Y)</source>
-        <translation>Obnovit (Ctrl+Y)</translation>
+        <translation type="obsolete">Obnovit (Ctrl+Y)</translation>
     </message>
     <message>
         <source>Insert/edit link</source>
-        <translation>Vložit/editovat odkaz</translation>
+        <translation type="obsolete">Vložit/editovat odkaz</translation>
     </message>
     <message>
         <source>Unlink</source>
-        <translation>Unlink</translation>
+        <translation type="obsolete">Unlink</translation>
     </message>
     <message>
         <source>Insert/edit image</source>
-        <translation>Vložit/editovat obrázek</translation>
+        <translation type="obsolete">Vložit/editovat obrázek</translation>
     </message>
     <message>
         <source>Insert/edit object</source>
-        <translation>Vložit/editovat objekt</translation>
+        <translation type="obsolete">Vložit/editovat objekt</translation>
     </message>
     <message>
         <source>Insert custom tag</source>
-        <translation>Vložit uživatelský tag</translation>
+        <translation type="obsolete">Vložit uživatelský tag</translation>
     </message>
     <message>
         <source>Insert literal text</source>
-        <translation>Vložit doslovný text</translation>
+        <translation type="obsolete">Vložit doslovný text</translation>
     </message>
     <message>
         <source>Insert pagebreak</source>
-        <translation>Vložit zlom stránky</translation>
+        <translation type="obsolete">Vložit zlom stránky</translation>
     </message>
     <message>
         <source>Cleanup messy code</source>
-        <translation>Vyčistit neuspořádaný kód</translation>
+        <translation type="obsolete">Vyčistit neuspořádaný kód</translation>
     </message>
     <message>
         <source>Edit HTML Source</source>
-        <translation>Editovat zdroj HTML</translation>
+        <translation type="obsolete">Editovat zdroj HTML</translation>
     </message>
     <message>
         <source>Subscript</source>
-        <translation>Index</translation>
+        <translation type="obsolete">Index</translation>
     </message>
     <message>
         <source>Superscript</source>
-        <translation>Horní index</translation>
+        <translation type="obsolete">Horní index</translation>
     </message>
     <message>
         <source>Remove formatting</source>
-        <translation>Odstranit formátování</translation>
+        <translation type="obsolete">Odstranit formátování</translation>
     </message>
     <message>
         <source>Your custom description here</source>
-        <translation>Váš uživatelský popis zde</translation>
+        <translation type="obsolete">Váš uživatelský popis zde</translation>
     </message>
     <message>
         <source>Insert special character</source>
-        <translation>Vložit speciální znak</translation>
+        <translation type="obsolete">Vložit speciální znak</translation>
     </message>
     <message>
         <source>Toggle guidelines/invisible elements</source>
-        <translation>Změnit klíčové pokyny/neviditelné znaky</translation>
+        <translation type="obsolete">Změnit klíčové pokyny/neviditelné znaky</translation>
     </message>
     <message>
         <source>Insert/edit anchor</source>
-        <translation>Vložit/editovat kotvu</translation>
+        <translation type="obsolete">Vložit/editovat kotvu</translation>
     </message>
     <message>
         <source>Cut</source>
-        <translation>Oříznout</translation>
+        <translation type="obsolete">Oříznout</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopírovat</translation>
+        <translation type="obsolete">Kopírovat</translation>
     </message>
     <message>
         <source>Paste</source>
-        <translation>Vložit</translation>
+        <translation type="obsolete">Vložit</translation>
     </message>
     <message>
         <source>Image properties</source>
-        <translation>Vlastnosti obrázku</translation>
+        <translation type="obsolete">Vlastnosti obrázku</translation>
     </message>
     <message>
         <source>New document</source>
-        <translation>Nový dokument</translation>
+        <translation type="obsolete">Nový dokument</translation>
     </message>
     <message>
         <source>Help</source>
@@ -551,31 +558,31 @@ Chcete více informací o tomto problému?</translation>
     </message>
     <message>
         <source>Path</source>
-        <translation>Cesta</translation>
+        <translation type="obsolete">Cesta</translation>
     </message>
     <message>
         <source>Are you sure you want clear all contents?</source>
-        <translation>Jste si jisti, že chcete vymazat celý obsah?</translation>
+        <translation type="obsolete">Jste si jisti, že chcete vymazat celý obsah?</translation>
     </message>
     <message>
         <source>Jump to tool buttons - Alt+Q, Jump to editor - Alt-Z, Jump to element path - Alt-X</source>
-        <translation>Přeskočit do ovládacích tlačítek - Alt+Q, Přeskočit do editoru - Alt-Z, Přeskočit do základní cesty - Alt-X</translation>
+        <translation type="obsolete">Přeskočit do ovládacích tlačítek - Alt+Q, Přeskočit do editoru - Alt-Z, Přeskočit do základní cesty - Alt-X</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Další</translation>
+        <translation type="obsolete">Další</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Předešlý</translation>
+        <translation type="obsolete">Předešlý</translation>
     </message>
     <message>
         <source>Select</source>
-        <translation>Vybrat</translation>
+        <translation type="obsolete">Vybrat</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation>Typ/Psát</translation>
+        <translation type="obsolete">Typ/Psát</translation>
     </message>
     <message>
         <source>About</source>
@@ -591,7 +598,7 @@ Chcete více informací o tomto problému?</translation>
     </message>
     <message>
         <source>Plugin</source>
-        <translation>Zapojení</translation>
+        <translation type="obsolete">Zapojení</translation>
     </message>
     <message>
         <source>Author</source>
@@ -603,47 +610,47 @@ Chcete více informací o tomto problému?</translation>
     </message>
     <message>
         <source>Loaded plugins</source>
-        <translation>Nahraná zapojení</translation>
+        <translation type="obsolete">Nahraná zapojení</translation>
     </message>
     <message>
         <source>HTML Source Editor</source>
-        <translation>Editor zdroje HTML</translation>
+        <translation type="obsolete">Editor zdroje HTML</translation>
     </message>
     <message>
         <source>Word wrap</source>
-        <translation>Zalomení textu</translation>
+        <translation type="obsolete">Zalomení textu</translation>
     </message>
     <message>
         <source>Select a color</source>
-        <translation>Vybrat barvu</translation>
+        <translation type="obsolete">Vybrat barvu</translation>
     </message>
     <message>
         <source>Picker</source>
-        <translation>Sběrač</translation>
+        <translation type="obsolete">Sběrač</translation>
     </message>
     <message>
         <source>Color picker</source>
-        <translation>Sběrač barev</translation>
+        <translation type="obsolete">Sběrač barev</translation>
     </message>
     <message>
         <source>Palette</source>
-        <translation>Paleta</translation>
+        <translation type="obsolete">Paleta</translation>
     </message>
     <message>
         <source>Palette colors</source>
-        <translation>Paleta barev</translation>
+        <translation type="obsolete">Paleta barev</translation>
     </message>
     <message>
         <source>Named</source>
-        <translation>Pojmenovaný</translation>
+        <translation type="obsolete">Pojmenovaný</translation>
     </message>
     <message>
         <source>Named colors</source>
-        <translation>Pojmenované barvy</translation>
+        <translation type="obsolete">Pojmenované barvy</translation>
     </message>
     <message>
         <source>Color</source>
-        <translation>Barva</translation>
+        <translation type="obsolete">Barva</translation>
     </message>
     <message>
         <source>Name</source>
@@ -651,7 +658,7 @@ Chcete více informací o tomto problému?</translation>
     </message>
     <message>
         <source>Select special character</source>
-        <translation>Vybrat speciální znak</translation>
+        <translation type="obsolete">Vybrat speciální znak</translation>
     </message>
     <message>
         <source>All</source>
@@ -715,7 +722,7 @@ Chcete více informací o tomto problému?</translation>
     </message>
     <message>
         <source>Anchor properties</source>
-        <translation>Kotevní vlastnosti</translation>
+        <translation type="obsolete">Kotevní vlastnosti</translation>
     </message>
     <message>
         <source>Properties</source>
@@ -723,7 +730,7 @@ Chcete více informací o tomto problému?</translation>
     </message>
     <message>
         <source>Custom tag properties</source>
-        <translation>Uživatelské vlastnosti tag</translation>
+        <translation type="obsolete">Uživatelské vlastnosti tag</translation>
     </message>
     <message>
         <source>Related content</source>
@@ -747,19 +754,19 @@ Chcete více informací o tomto problému?</translation>
     </message>
     <message>
         <source>Heading Properties</source>
-        <translation>Hlavní Vlastnosti</translation>
+        <translation type="obsolete">Hlavní Vlastnosti</translation>
     </message>
     <message>
         <source>Link properties</source>
-        <translation>Vlastnosti spojení</translation>
+        <translation type="obsolete">Vlastnosti spojení</translation>
     </message>
     <message>
         <source>Table Properties</source>
-        <translation>Vlastnosti Tabulky</translation>
+        <translation type="obsolete">Vlastnosti Tabulky</translation>
     </message>
     <message>
         <source>Cell Properties</source>
-        <translation>Vlastnosti Buňky</translation>
+        <translation type="obsolete">Vlastnosti Buňky</translation>
     </message>
     <message>
         <source>Apply to</source>
@@ -767,7 +774,7 @@ Chcete více informací o tomto problému?</translation>
     </message>
     <message>
         <source>Upload new</source>
-        <translation>Nahrát nový</translation>
+        <translation type="obsolete">Nahrát nový</translation>
     </message>
     <message>
         <source>File</source>
@@ -811,11 +818,167 @@ Chcete více informací o tomto problému?</translation>
     </message>
     <message>
         <source>Invalid or missing parameter: %parameter</source>
-        <translation>Neplatný nebo chybějící parametr: %parameter</translation>
+        <translation type="obsolete">Neplatný nebo chybějící parametr: %parameter</translation>
     </message>
     <message>
         <source>Invalid parameter: %parameter = %value</source>
-        <translation>Neplatný parametr: %parameter = %value </translation>
+        <translation type="obsolete">Neplatný parametr: %parameter = %value </translation>
+    </message>
+    <message>
+        <source>this</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Top</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bottom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>List of possible link types. Link types that use the &apos;://&apos; format are technically called protocols.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eznode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ezobject</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ftp</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Http</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Https</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Anchor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Other</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Id not valid!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The url the link points to, starts with link type (like http://).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Class are often used to give different design or appearance, either by using a different template, style or both.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lets you specify the target window for the link, if any.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The title on the (x)html tag, used by screen readers, and to give better explanation like this one.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To set the width of the tag, either as percentage by appending % or as pixel size by just using a number.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The unique identifier used for the element in the (x)html output, used by style sheets and/or anchors.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New %tag_name tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit %tag_name tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Node</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Relation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switch embed file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>[default]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New window (_blank)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Table cell</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Table header</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload new File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no related files.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload new Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alternative text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There are no related images.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload new Object</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -834,7 +997,7 @@ Chcete více informací o tomto problému?</translation>
     </message>
     <message>
         <source>Make the selected text &lt;u&gt;underline&lt;/u&gt;. This button is only enabled if you have a custom tag named underline, template code to handle underline custom tags is not included in Online Editor.</source>
-        <translation>Učiňte vybraný text &lt;u&gt;underline&lt;/u&gt;. Toto tlačítko je možné použít, pokud máte klientský tag uvedený jako podtržený, vzorový kód k manipulaci podtržení klientského tag nezahrnuje Online Editor.</translation>
+        <translation type="obsolete">Učiňte vybraný text &lt;u&gt;underline&lt;/u&gt;. Toto tlačítko je možné použít, pokud máte klientský tag uvedený jako podtržený, vzorový kód k manipulaci podtržení klientského tag nezahrnuje Online Editor.</translation>
     </message>
     <message>
         <source>Create a bullet list. To create a new list item, press &quot;Enter&quot;. To end a list, press &quot;Enter&quot; key on an empty list item. If you click this button when the cursor is on a list item, the formatting will be removed.</source>
@@ -984,6 +1147,117 @@ Chcete více informací o tomto problému?</translation>
         <source>You can find more documentation in the doc folder of this extension and online on %link.</source>
         <translation>Můžete najít více dokumentace ve složce doc tohoto rozsahu a online na  %link.</translation>
     </message>
+    <message>
+        <source>Toggle &lt;u&gt;underline&lt;/u&gt; style on the selected text. This button is only enabled if you have a custom tag named underline.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle &lt;sub&gt;subscript&lt;/sub&gt; style on the selected text. This button is only enabled if you have a custom tag named subscript, template code to handle subscript custom tags is not included in Online Editor.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle &lt;sup&gt;superscript&lt;/sup&gt; style on the selected text. This button is only enabled if you have a custom tag named superscript, template code to handle superscript custom tags is not included in Online Editor.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle left align text, or float block content to the left.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle center align text, or float block content to the center (Same as not aligned by default).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle right align text, or float block content to the right.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle justify text, stretches the lines so that each line has equal width.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Insert an file from the related file list, upload a new file, search for an existing file or browse for it. To upload a local file, click &quot;Upload new&quot; button choose the local file, specify the name of the new file, choose placement from list and then click &quot;Upload&quot; button. This button is not enabled by default.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to spellcheck your text using google api or other depending on ezoe.ini settings. This button is not enabled by default.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Find a string or a word in your text. This button is not enabled by default.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Replace a string or a word in your text. This button is not enabled by default.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dialog to paste text from word, the dialog will handle cleaning the content from word.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse for a node / object in your bookmarks.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can switch text style from paragraph to header using keybord shortcut CTRL+1 to 6, and back to paragraph using CTRL+7</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/standard/ezoe/wai</name>
+    <message>
+        <source>Enter the word you want to search for here, for instance the name of the content you are looking for.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lets you limit the content type your searching for, by limiting the eZ Publish content classes that are returned in the search result.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name for the uploaded object, filename is used if none is specified.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose file to upload from your local machine.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lets you specify where in eZ Publish to store the uploaded object.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload file from your local machine.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search for content already in eZ Publish.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse the content tree in eZ Publish.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select or browse content among your personal eZ Publish bookmarks.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Description to the file your uploading, so internet clients can read more about it before they decide to download it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alternative text for the image, lets internet clients know what kind of image this is without dowloading it or actually seeing it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Caption for a image is usually shown bellow it as a description to the image.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tags, aka Keywords are a comma separated list of words thats categorizes the content.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>design/standard/node/view</name>
@@ -996,29 +1270,29 @@ Chcete více informací o tomto problému?</translation>
     <name>handlers/input</name>
     <message>
         <source>Node %1 does not exist.</source>
-        <translation>Uzel %1 neexistuje.</translation>
+        <translation type="obsolete">Uzel %1 neexistuje.</translation>
     </message>
     <message>
         <source>Node &apos;%1&apos; does not exist.</source>
-        <translation>Uzel &apos;%1&apos; neexistuje.</translation>
+        <translation type="obsolete">Uzel &apos;%1&apos; neexistuje.</translation>
     </message>
 </context>
 <context>
     <name>kernel/classes/datatypes</name>
     <message>
         <source>Invalid e-mail address: &apos;%1&apos;</source>
-        <translation>Neplatná e-mailová adresa: &apos;%1&apos;</translation>
+        <translation type="obsolete">Neplatná e-mailová adresa: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Content required</source>
-        <translation>Požadovaný obsah</translation>
+        <translation type="obsolete">Požadovaný obsah</translation>
     </message>
 </context>
 <context>
     <name>kernel/content</name>
     <message>
         <source>Top Level Nodes</source>
-        <translation>Uzly nejvyšší úrovně</translation>
+        <translation type="obsolete">Uzly nejvyšší úrovně</translation>
     </message>
 </context>
 </TS>
