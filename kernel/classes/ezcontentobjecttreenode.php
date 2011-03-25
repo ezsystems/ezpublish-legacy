@@ -6106,8 +6106,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 $classID = $class['id'];
                 $className = $class['name'];
             }
-            $classList[] = array( 'classID' => (int) $classID,
-                                  'name'    => htmlentities( $className, ENT_QUOTES ) );
+            $classList[] = array(
+                'classID' => (int) $classID,
+                'name'    => $className
+            );
         }
 
         if ( $classList )
