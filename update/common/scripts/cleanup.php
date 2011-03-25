@@ -164,7 +164,7 @@ $db->setIsSQLOutputEnabled( $showSQL );
 
 if ( $clean['session'] )
 {
-    if ( !eZSession::getHandlerInstance()->usesDatabaseTable() )
+    if ( !eZSession::getHandlerInstance()->hasBackendAccess() )
     {
         $cli->output( "Could not remove sessions, current session handler does not support session cleanup (not backend based)." );
     }
@@ -177,7 +177,7 @@ if ( $clean['session'] )
 
 if ( $clean['expired_session'] )
 {
-    if ( !eZSession::getHandlerInstance()->usesDatabaseTable() )
+    if ( !eZSession::getHandlerInstance()->hasBackendAccess() )
     {
         $cli->output( "Could not remove expired sessions, current session handler does not support session garbage collection (not backend based)." );
     }
