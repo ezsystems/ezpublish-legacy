@@ -258,6 +258,10 @@ class eZTSTranslator extends eZTranslatorHandler
 
             if ( isset( $fallbacks[$localeCodeToProcess] ) && $fallbacks[$localeCodeToProcess] )
             {
+                if ( $fallbacks[$localeCodeToProcess] === 'eng-GB' ) // Consider eng-GB fallback as "untranslated" since eng-GB does not provide any ts file
+                {
+                    $fallbacks[$localeCodeToProcess] = 'untranslated';
+                }
                 $alternatives[] = array( $fallbacks[$localeCodeToProcess], $charset, $filename );
                 $alternatives[] = array( $fallbacks[$localeCodeToProcess], $filename );
             }
@@ -511,10 +515,10 @@ class eZTSTranslator extends eZTranslatorHandler
             eZDebug::writeError( "No source name found, skipping message in context '{$contextName}'", __METHOD__ );
             return false;
         }
-        if ( $translation === null )
+        if ( $translation === null ) // No translation provided, then take the source as a reference
         {
 //             eZDebug::writeError( "No translation, skipping message", __METHOD__ );
-            return false;
+            $translation = $source;
         }
         /* we need to convert ourselves if we're using libxml stuff here */
         if ( $message instanceof DOMElement )
