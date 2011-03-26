@@ -16,7 +16,6 @@
  * @package API
  *
  * @property node_id eZContentObjectTreeNode
- * @property node_id eZContentObjectTreeNode
  */
 class ezpContentLocation extends ezpLocation
 {
