@@ -2251,7 +2251,7 @@ CREATE TABLE ezprest_authcode (
     expirytime bigint DEFAULT '0' NOT NULL,
     id character varying(200) DEFAULT ''::character varying NOT NULL,
     scope character varying(200),
-    user_id character varying(200) DEFAULT ''::character varying NOT NULL
+    user_id integer DEFAULT 0 NOT NULL
 );
 
 
@@ -2298,7 +2298,7 @@ CREATE TABLE ezprest_token (
     id character varying(200) DEFAULT ''::character varying NOT NULL,
     refresh_token character varying(200) DEFAULT ''::character varying NOT NULL,
     scope character varying(200),
-    user_id character varying(200) DEFAULT ''::character varying NOT NULL
+    user_id integer DEFAULT 0 NOT NULL
 );
 
 

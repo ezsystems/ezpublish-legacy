@@ -5164,10 +5164,10 @@ $schema = array (
       ),
       'user_id' => 
       array (
-        'length' => 200,
-        'type' => 'varchar',
+        'length' => 11,
+        'type' => 'int',
         'not_null' => '1',
-        'default' => '',
+        'default' => 0,
       ),
     ),
     'indexes' => 
@@ -5378,10 +5378,10 @@ $schema = array (
       ),
       'user_id' => 
       array (
-        'length' => 200,
-        'type' => 'varchar',
+        'length' => 11,
+        'type' => 'int',
         'not_null' => '1',
-        'default' => '',
+        'default' => 0,
       ),
     ),
     'indexes' => 
