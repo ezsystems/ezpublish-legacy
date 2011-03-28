@@ -206,7 +206,7 @@ Troubleshooting
 Once everything has been configured and binary content has been clusterized,
 testing can sometimes be complicated.
 
-First, override the debug.ini file (to settings/override/file.ini.append.php),
+First, override the debug.ini file (to settings/override/debug.ini.append.php),
 and enable the kernel-clustering debug key::
 
     [GeneralCondition]
