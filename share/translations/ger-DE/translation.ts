@@ -5743,8 +5743,8 @@
         <translation>Ihre Installation: &lt;span id=&quot;ez-version&quot;&gt;%1&lt;/span&gt;</translation>
     </message>
     <message>
-        <source>If your installation is not running eZ Publish Premium, it might not be up to date with the latest maintenance service packs. Contact eZ Systems.</source>
-        <translation>Wenn Sie keine eZ Publish Premium Version haben, könnte es sein, dass Ihnen die letzten Service Packs fehlen. Kontaktieren Sie eZ Systems.</translation>
+        <source>If your installation is not running eZ Publish Enterprise, it might not be up to date with the latest maintenance service packs. Contact eZ Systems.</source>
+        <translation>Wenn Sie keine eZ Publish Enterprise Version haben, könnte es sein, dass Ihnen die letzten Service Packs fehlen. Kontaktieren Sie eZ Systems.</translation>
     </message>
 </context>
 <context>

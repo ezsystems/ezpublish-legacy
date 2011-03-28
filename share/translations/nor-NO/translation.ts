@@ -4613,8 +4613,8 @@
         <translation>Din installasjon: &lt;span id=&quot;ez-version&quot;&gt;%1&lt;/span&gt;</translation>
     </message>
     <message>
-        <source>If your installation is not running eZ Publish Premium, it might not be up to date with the latest maintenance service packs. Contact eZ Systems.</source>
-        <translation>Hvis installasjonen din ikke kjører eZ Publish Premium får den ikke vedlikeholdsoppdateringer. Kontakt eZ Systems.</translation>
+        <source>If your installation is not running eZ Publish Enterprise, it might not be up to date with the latest maintenance service packs. Contact eZ Systems.</source>
+        <translation>Hvis installasjonen din ikke kjører eZ Publish Enterprise får den ikke vedlikeholdsoppdateringer. Kontakt eZ Systems.</translation>
     </message>
 </context>
 <context>

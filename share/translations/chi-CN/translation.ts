@@ -5011,8 +5011,8 @@
         <translation>您安装的版本: &lt;span id=&quot;ez-version&quot;&gt;%1&lt;/span&gt;</translation>
     </message>
     <message>
-        <source>If your installation is not running eZ Publish Premium, it might not be up to date with the latest maintenance service packs. Contact eZ Systems.</source>
-        <translation>如果您安装的版本不是eZ Publish Premium，您可能无法更新到最新的维护服务包。详情请联系eZ Systems。</translation>
+        <source>If your installation is not running eZ Publish Enterprise, it might not be up to date with the latest maintenance service packs. Contact eZ Systems.</source>
+        <translation>如果您安装的版本不是eZ Publish Enterprise，您可能无法更新到最新的维护服务包。详情请联系eZ Systems。</translation>
     </message>
 </context>
 <context>

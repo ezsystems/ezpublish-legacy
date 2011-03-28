@@ -4640,8 +4640,8 @@
         <translation>Tu instalación: &lt;span id=&quot;ez-version&quot;&gt;%1&lt;/span&gt;</translation>
     </message>
     <message>
-        <source>If your installation is not running eZ Publish Premium, it might not be up to date with the latest maintenance service packs. Contact eZ Systems.</source>
-        <translation>Si tu instalación no tiene eZ Publish Premium, puede no estar actualizada con los últimos mantenimientos. Contacta con eZ Systems.</translation>
+        <source>If your installation is not running eZ Publish Enterprise, it might not be up to date with the latest maintenance service packs. Contact eZ Systems.</source>
+        <translation>Si tu instalación no tiene eZ Publish Enterprise, puede no estar actualizada con los últimos mantenimientos. Contacta con eZ Systems.</translation>
     </message>
 </context>
 <context>
