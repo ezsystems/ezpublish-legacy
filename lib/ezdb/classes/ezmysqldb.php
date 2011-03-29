@@ -358,8 +358,7 @@ class eZMySQLDB extends eZDBInterface
                             $columns[$col]['size'] = max( $columns[$col]['size'], strlen( $data ) );
                         }
                     }
-
-                    $analysisText = '';
+                    
                     $delimiterLine = array();
                     // Generate the column line and the vertical delimiter
                     // The look of the table is taken from the MySQL CLI client
