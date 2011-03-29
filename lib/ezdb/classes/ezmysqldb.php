@@ -360,6 +360,7 @@ class eZMySQLDB extends eZDBInterface
                     }
                     
                     $delimiterLine = array();
+                    $colLine = array();
                     // Generate the column line and the vertical delimiter
                     // The look of the table is taken from the MySQL CLI client
                     // It looks like this:
