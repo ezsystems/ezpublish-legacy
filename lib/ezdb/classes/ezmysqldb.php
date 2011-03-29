@@ -940,7 +940,6 @@ class eZMySQLDB extends eZDBInterface
         }
 
         $dbServerVersion = $this->databaseServerVersion();
-        $dbServerMainVersion = $dbServerVersion['values'][0];
 
         while ( $i < $numRows )
         {
