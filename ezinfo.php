@@ -33,7 +33,7 @@ class ezjscoreInfo
         return array( 'Name'      => '<a href="http://projects.ez.no/ezjscore">eZ JSCore</a> extension',
                       'Version'   => '//autogentag//',
                       'Copyright' => $eZCopyrightString,
-                      'License'   => '//EZP_LICENSE//',
+                      'License'   => 'GNU General Public License v2.0',
                       'Includes the following third-party software' => array( 'Name' => 'YUI',
                                                                               'Version' => "3.3.0 and 2.8.1",
                                                                               'Copyright' => 'Copyright (c) 2010, Yahoo! Inc. All rights reserved.',
