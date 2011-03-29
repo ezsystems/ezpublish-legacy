@@ -198,7 +198,7 @@ function ezpopmenu_showTopLevel( event, menuID, substituteValues, menuHeader, di
         CurrentSubstituteValues = substituteValues;
     }
 
-    if( disableIDList != -1 )
+    if( disableIDList && disableIDList != -1 )
     {
     	CurrentDisableIDList = disableIDList.push !== undefined ? disableIDList : [disableIDList];
     }
