@@ -226,6 +226,7 @@ class eZMySQLDB extends eZDBInterface
 
         if ( is_array( $charset ) )
         {
+            $realCharset = array();
             foreach ( $charset as $charsetItem )
                 $realCharset[] = eZCharsetInfo::realCharsetCode( $charsetItem );
         }
