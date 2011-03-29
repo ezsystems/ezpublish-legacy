@@ -939,8 +939,6 @@ class eZMySQLDB extends eZDBInterface
             return false;
         }
 
-        $dbServerVersion = $this->databaseServerVersion();
-
         while ( $i < $numRows )
         {
             // we don't allow "mysql" or "information_schema" database to be shown anywhere
