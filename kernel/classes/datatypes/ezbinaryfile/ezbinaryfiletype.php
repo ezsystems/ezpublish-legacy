@@ -305,6 +305,11 @@ class eZBinaryFileType extends eZDataType
     function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         eZBinaryFileType::checkFileUploads();
+        if ( $this->isDeletingFile( $http, $contentObjectAttribute ) )
+        {
+            return false;
+        }
+
         if ( !eZHTTPFile::canFetch( $base . "_data_binaryfilename_" . $contentObjectAttribute->attribute( "id" ) ) )
             return false;
 
@@ -742,6 +747,28 @@ class eZBinaryFileType extends eZDataType
     function supportsBatchInitializeObjectAttribute()
     {
         return true;
+    }
+
+    /**
+     * Checks if current HTTP request is asking for current binary file deletion
+     * @param eZHTTPTool $http
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @return bool
+     */
+    private function isDeletingFile( eZHTTPTool $http, eZContentObjectAttribute $contentObjectAttribute )
+    {
+        $isDeletingFile = false;
+        if ( $http->hasPostVariable( 'CustomActionButton' ) )
+        {
+            $customActionArray = $http->postVariable( 'CustomActionButton' );
+            $attributeID = $contentObjectAttribute->attribute( 'id' );
+            if ( isset( $customActionArray[$attributeID . '_delete_binary'] ) )
+            {
+                $isDeletingFile = true;
+            }
+        }
+
+        return $isDeletingFile;
     }
 }
 
