@@ -32,6 +32,7 @@ class eZTestSuite extends ezpTestSuite
     public function setUp()
     {
         eZDir::recursiveDelete( eZINI::instance()->variable( 'FileSettings', 'VarDir' ) );
+        eZContentLanguage::expireCache();
     }
 }
 ?>

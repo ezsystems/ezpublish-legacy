@@ -46,6 +46,9 @@ $ini = eZINI::instance();
 $ini->setOverrideDirs( array( array( 'tests/settings', true ) ), 'override' );
 $ini->loadCache();
 
+// Be sure to have clean content language data
+eZContentLanguage::expireCache();
+
 $script->startup();
 // $options = $script->getOptions();
 $script->initialize();
