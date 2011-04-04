@@ -206,11 +206,12 @@ var sortableSubitems = function () {
                    "::" + state.pagination.recordOffset +
                    "::" + state.sortedBy.key +
                    "::" + ((state.sortedBy.dir === YAHOO.widget.DataTable.CLASS_ASC) ? "1" : "0") +
+                   "::" + confObj.nameFilter +
                    "?ContentType=json";
         }
 
         var tableConfig = {
-            initialRequest: "::" + confObj.rowsPrPage + "::0" + "::" + confObj.sortKey + "::" + confObj.sortOrder + "?ContentType=json",   // Initial request for first page of data
+            initialRequest: "::" + confObj.rowsPrPage + "::0" + "::" + confObj.sortKey + "::" + confObj.sortOrder + "::" + confObj.nameFilter + "?ContentType=json",   // Initial request for first page of data
             dynamicData: true,                                                                                                             // Enables dynamic server-driven data
             generateRequest: buildQueryString,
             sortedBy : {key:confObj.sortKey, 

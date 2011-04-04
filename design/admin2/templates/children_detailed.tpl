@@ -47,6 +47,7 @@ var confObj = {ldelim}
     dataSourceURL: "{concat('ezjscore/call/ezjscnode::subtree::', $node.node_id)|ezurl('no')}",
     rowsPrPage: {$number_of_items},
     sortOrder: {$node.sort_order},
+    nameFilter: '{$view_parameters.namefilter}',
     defaultShownColumns: vcols,
     navigationPart: "{$section.navigation_part_identifier}",
     cookieName: "eZSubitemColumns",
