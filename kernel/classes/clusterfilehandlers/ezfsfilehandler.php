@@ -886,29 +886,18 @@ class eZFSFileHandler
     }
 
     /**
-     * Outputs file contents prepending them with appropriate HTTP headers.
+     * Outputs file contents to the browser
+     * Note: does not handle headers. eZFile::downloadHeaders() can be used for this
      *
-     * \public
+     * @param int $offset Transfer start offset
+     * @param int $length Transfer length, in bytes
      */
-    function passthrough()
+    function passthrough( $offset = 0, $length = false )
     {
-        $path = $this->filePath;
-
-        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::passthrough()", __METHOD__ );
-
+        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::passthrough( '{$this->filePath}' )", __METHOD__ );
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
 
-        $mimeData = eZMimeType::findByFileContents( $path );
-//        $mimeType = $mimeData['name'];
-        $mimeType = 'application/octec-stream';
-        $contentLength = filesize( $path );
-
-        header( "Content-Length: $contentLength" );
-        header( "Content-Type: $mimeType" );
-        header( "Expires: ". gmdate('D, d M Y H:i:s', time() + 6000) . 'GMT');
-        header( "Connection: close" );
-
-        readfile( $path );
+        eZFile::downloadContent( $this->filePath, $offset, $length );
 
         eZDebug::accumulatorStop( 'dbfile' );
     }
