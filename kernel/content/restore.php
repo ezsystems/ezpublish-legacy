@@ -171,6 +171,8 @@ if ( $module->isCurrentAction( 'AddLocation' ) )
     $version->setAttribute( 'status', eZContentObjectVersion::STATUS_DRAFT );
     $version->store();
 
+    $object->restoreObjectAttributes();
+
     $user = eZUser::currentUser();
     $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $objectID,
                                                                                  'version' => $version->attribute( 'version' ) ) );

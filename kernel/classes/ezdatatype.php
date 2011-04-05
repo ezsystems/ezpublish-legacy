@@ -912,6 +912,15 @@ class eZDataType
     {
     }
 
+    /**
+     * Restores the content object attribute $objectAttribute from trash
+     * Default implementation does nothing
+     * @param eZContentObjectAttribute $objectAttribute
+     */
+    public function restoreTrashedObjectAttribute( $objectAttribute )
+    {
+    }
+
     /*!
      Clean up stored object attribute
      \note Default implementation does nothing.

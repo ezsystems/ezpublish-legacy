@@ -44,47 +44,53 @@ class eZImageType extends eZDataType
     */
     function trashStoredObjectAttribute( $contentObjectAttribute, $version = null )
     {
-        $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
-        $imageHandler = $contentObjectAttribute->attribute( 'content' );
-        $imageFiles = eZImageFile::fetchForContentObjectAttribute( $contentObjectAttributeID );
-
-        foreach ( $imageFiles as $imageFile )
+        $imageHandler = $contentObjectAttribute->attribute( "content" );
+        $originalAlias = $imageHandler->imageAlias( "original" );
+        $file = eZClusterFileHandler::instance( $originalAlias["url"] );
+        $imageHandler->updateAliasPath( "{$originalAlias["dirpath"]}/trashed", md5( $originalAlias["basename"] ) );
+        if ( $imageHandler->isStorageRequired() )
         {
-            if ( $imageFile == null )
-                continue;
-            $existingFilepath = $imageFile;
+            $imageHandler->store( $contentObjectAttribute );
+            $contentObjectAttribute->store();
+        }
 
-            // Check if there are any other records in ezimagefile that point to that filename.
-            $imageObjectsWithSameFileName = eZImageFile::fetchByFilepath( false, $existingFilepath );
+        // Now clean all other aliases, not cleanly registered within the attribute content
+        $db = eZDB::instance();
+        $db->begin();
+        $conds = array( "contentobject_attribute_id" => $contentObjectAttribute->attribute( "id" ) );
+        $remainingAliasesPath = $db->escapeString( "{$originalAlias["dirpath"]}/{$originalAlias["basename"]}%" );
+        $remainingAliases = eZPersistentObject::fetchObjectList(
+            eZImageFile::definition(), null,
+            $conds,
+            null, null, true, false, null, null,
+            " AND filepath LIKE '$remainingAliasesPath'"
+        );
+        unset( $conds, $remainingAliasesPath );
 
-            $file = eZClusterFileHandler::instance( $existingFilepath );
-
-            if ( $file->exists() and count( $imageObjectsWithSameFileName ) <= 1 )
+        if ( !empty( $remainingAliases ) )
+        {
+            foreach ( $remainingAliases as $remainingAlias )
             {
-                $orig_dir = dirname( $existingFilepath ) . '/trashed';
-                $fileName = basename( $existingFilepath );
-
-                // create dest filename in the same manner as eZHTTPFile::store()
-                // grab file's suffix
-                $fileSuffix = eZFile::suffix( $fileName );
-                // prepend dot
-                if ( $fileSuffix )
-                    $fileSuffix = '.' . $fileSuffix;
-                // grab filename without suffix
-                $fileBaseName = basename( $fileName, $fileSuffix );
-                // create dest filename
-                $newFileBaseName = md5( $fileBaseName . microtime() . mt_rand() );
-                $newFileName = $newFileBaseName . $fileSuffix;
-                $newFilepath = $orig_dir . '/' . $newFileName;
-
-                // rename the file, and update the database data
-                $imageHandler->updateAliasPath( $orig_dir, $newFileBaseName );
-                if ( $imageHandler->isStorageRequired() )
-                {
-                    $imageHandler->store( $contentObjectAttribute );
-                    $contentObjectAttribute->store();
-                }
+                eZClusterFileHandler::instance( $remainingAlias->attribute( "filepath" ) )->delete();
+                $remainingAlias->remove();
             }
+        }
+        $db->commit();
+    }
+
+    public function restoreTrashedObjectAttribute( $contentObjectAttribute )
+    {
+        $imageHandler = $contentObjectAttribute->attribute( "content" );
+        $originalAlias = $imageHandler->imageAlias( "original" );
+        $imageHandler->updateAliasPath(
+            str_replace( "/trashed", "", $originalAlias["dirpath"]),
+            $imageHandler->imageName( $contentObjectAttribute, $contentObjectAttribute->objectVersion() )
+        );
+
+        if ( $imageHandler->isStorageRequired() )
+        {
+            $imageHandler->store( $contentObjectAttribute );
+            $contentObjectAttribute->store();
         }
     }
 

@@ -6107,6 +6107,29 @@ class eZContentObject extends eZPersistentObject
         $db->commit();
     }
 
+    /**
+     * Restores attributes for current content object when it's being restored from trash
+     */
+    public function restoreObjectAttributes()
+    {
+        $db = eZDB::instance();
+        $db->begin();
+
+        foreach ( $this->allContentObjectAttributes( $this->attribute( "id" ) ) as $contentObjectAttribute )
+        {
+            $datatype = $contentObjectAttribute->dataType();
+            if ( !$datatype instanceof eZDataType )
+            {
+                eZDebug::writeError( "Attribute #{$contentObjectAttribute->attribute( "id" )} from contentobject #{$this->attribute( "id" )} isn't valid", __METHOD__ );
+                continue;
+            }
+
+            $datatype->restoreTrashedObjectAttribute( $contentObjectAttribute );
+        }
+
+        $db->commit();
+    }
+
     public $ID;
     public $Name;
 
