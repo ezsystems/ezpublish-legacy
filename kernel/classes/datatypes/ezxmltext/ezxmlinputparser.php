@@ -593,38 +593,18 @@ class eZXMLInputParser
 
     function parseAttributes( $attributeString )
     {
-        // Convert single quotes to double quotes
-        $attributeString = preg_replace( "/ +([a-zA-Z0-9:-_#\-]+) *\='(.*?)'/e", "' \\1'.'=\"'.'\\2'.'\"'", ' ' . $attributeString );
-
-        // Convert no quotes to double quotes and remove extra spaces
-        $attributeString = preg_replace( "/ +([a-zA-Z0-9:-_#\-]+) *\= *([^\s'\"]+)/e", "' \\1'.'=\"'.'\\2'.'\" '", $attributeString );
-
-        // Split by quotes followed by spaces
-        $attributeArray = preg_split( "#(?<=\") +#", $attributeString );
-
         $attributes = array();
-        foreach( $attributeArray as $attrStr )
+        if ( preg_match_all( '/ *([^= ]+) *= *(?:(?:"([^"]+?)")|(?:\'([^\']+?)\')|(?: *([^"\' ]+) *))/', $attributeString, $attributeArray, PREG_SET_ORDER ) )
         {
-            if ( !$attrStr || strlen( $attrStr ) < 4 )
+            foreach ( $attributeArray as $attribute )
             {
-                continue;
+                // Value will always be at the last position
+                $value = trim( array_pop( $attribute ) );
+                if ( !empty( $value ) )
+                {
+                    $attributes[strtolower( $attribute[1] )] = $value;
+                }
             }
-
-            list( $attrName, $attrValue ) = preg_split( "/ *= *\"/", $attrStr );
-
-            $attrName = strtolower( trim( $attrName ) );
-            if ( !$attrName )
-            {
-                continue;
-            }
-
-            $attrValue = substr( $attrValue, 0, -1 );
-            if ( $attrValue === '' || $attrValue === false )
-            {
-                continue;
-            }
-
-            $attributes[$attrName] = $attrValue;
         }
 
         return $attributes;

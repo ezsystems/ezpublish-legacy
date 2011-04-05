@@ -21,6 +21,7 @@ class eZDatatypeTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'eZLDAPUserTest' );
         $this->addTestSuite( 'eZTextFileUserTest' );
         $this->addTestSuite( 'eZEmailTypeTest' );
+        $this->addTestSuite( 'eZXMLInputParserTest' );
 
         $this->addTestSuite( 'eZBinaryFileTypeRegression' );
         $this->addTestSuite( 'eZImageTypeRegression' );
@@ -29,6 +30,7 @@ class eZDatatypeTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'eZMediaTypeRegression' );
         $this->addTestSuite( 'eZMultiPriceTypeRegression' );
         $this->addTestSuite( 'eZXMLTextRegression' );
+        $this->addTestSuite( 'eZXMLInputParserRegression' );
         $this->addTestSuite( 'eZURLTypeRegression' );
         $this->addTestSuite( 'eZUserTypeRegression' );
         $this->addTestSuite( 'eZXHTMLXMLOutputRegression' );
