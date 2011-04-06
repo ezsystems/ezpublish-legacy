@@ -604,8 +604,7 @@ class eZXMLInputParser
                 $attributeArray,
                 PREG_SET_ORDER
             )
-        )
-        {
+        ) {
             foreach ( $attributeArray as $attribute )
             {
                 // Value will always be at the last position
