@@ -70,7 +70,7 @@ class eZXMLInputParserTest extends ezpTestCase
      *
      * @dataProvider providerForTestEmptyAttributeParsing
      */
-    public function testEmptyAttributeParsing( $string, $expected)
+    public function testEmptyAttributeParsing( $string )
     {
         $this->assertEquals(
             array(),
@@ -94,7 +94,7 @@ class eZXMLInputParserTest extends ezpTestCase
      *
      * @dataProvider providerForTestAdditionalSpacesAttributeParsing
      */
-    public function testAdditionalSpacesAttributeParsing( $string, $expected)
+    public function testAdditionalSpacesAttributeParsing( $string )
     {
         $this->assertEquals(
             array( "foo" => "bar" ),
