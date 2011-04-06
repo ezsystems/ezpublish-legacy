@@ -81,7 +81,8 @@ class eZXMLInputParserTest extends ezpTestCase
     public static function providerForTestEmptyAttributeParsing()
     {
         return array(
-            array(),
+            array( null ),
+            array( "" ),
             array( "foo=''" ),
             array( 'foo=""' ),
             array( 'foo="    "' ),
