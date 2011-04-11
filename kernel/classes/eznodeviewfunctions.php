@@ -129,12 +129,20 @@ class eZNodeviewfunctions
 
         $parentClassID = false;
         $parentClassIdentifier = false;
+        $parentNodeRemoteID = false;
+        $parentObjectRemoteID = false;
         $parentNode = $node->attribute( 'parent' );
         if ( is_object( $parentNode ) )
         {
+            $parentNodeRemoteID = $parentNode->attribute( 'remote_id' );
+            $keyArray[] = array( 'parent_node_remote_id', $parentNodeRemoteID );
+
             $parentObject = $parentNode->attribute( 'object' );
             if ( is_object( $parentObject ) )
             {
+                $parentObjectRemoteID = $parentObject->attribute( 'remote_id' );
+                $keyArray[] = array( 'parent_object_remote_id', $parentObjectRemoteID );
+
                 $parentClass = $parentObject->contentClass();
                 if ( is_object( $parentClass ) )
                 {
@@ -237,6 +245,8 @@ class eZNodeviewfunctions
         $contentInfoArray['state_identifier']        = $object->attribute( 'state_identifier_array' );
         $contentInfoArray['parent_class_id']         = $parentClassID;
         $contentInfoArray['parent_class_identifier'] = $parentClassIdentifier;
+        $contentInfoArray['parent_node_remote_id']   = $parentNodeRemoteID;
+        $contentInfoArray['parent_object_remote_id'] = $parentObjectRemoteID;
 
         $Result['content_info'] = $contentInfoArray;
 
@@ -460,6 +470,8 @@ class eZNodeviewfunctions
                 $keyArray = array( array( 'object', $Result['content_info']['object_id'] ),
                                    array( 'node', $Result['content_info']['node_id'] ),
                                    array( 'parent_node', $Result['content_info']['parent_node_id'] ),
+                                   array( 'parent_node_remote_id', $Result['content_info']['parent_node_remote_id'] ),
+                                   array( 'parent_object_remote_id', $Result['content_info']['parent_object_remote_id'] ),
                                    array( 'class', $Result['content_info']['class_id'] ),
                                    array( 'view_offset', $Result['content_info']['offset'] ),
                                    array( 'navigation_part_identifier', $Result['content_info']['navigation_part_identifier'] ),
