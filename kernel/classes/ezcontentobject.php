@@ -392,13 +392,17 @@ class eZContentObject extends eZPersistentObject
         $lang = $db->escapeString( $lang );
         $version = (int) $version;
 
-        $initialLanguage = $this->attribute( 'initial_language_id' );
+        $languageID = $this->attribute( 'initial_language_id' );
+        if ( $this->attribute( 'always_available' ) )
+        {
+            $languageID = (int) $languageID | 1;
+        }
 
         $query= "SELECT name, content_translation
                  FROM ezcontentobject_name
                  WHERE contentobject_id = '$contentObjectID'
                        AND content_version = '$version'
-                       AND ( content_translation = '$lang' OR language_id = '$initialLanguage' )";
+                       AND ( content_translation = '$lang' OR language_id = '$languageID' )";
         $result = $db->arrayQuery( $query );
 
         $resCount = count( $result );
