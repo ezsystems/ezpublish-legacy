@@ -43,7 +43,7 @@
  *
  * @since 4.2.0
  */
-class eZDFSFileHandler implements eZClusterFileHandlerInterface
+class eZDFSFileHandler implements eZClusterFileHandlerInterface, ezpDatabaseBasedClusterFileHandler
 {
     /**
      * Controls whether file data from database is cached on the local filesystem.
@@ -100,6 +100,18 @@ class eZDFSFileHandler implements eZClusterFileHandlerInterface
         }
 
         $this->filePath = $filePath;
+    }
+
+    /**
+     * Disconnects the cluster handler from the database
+     */
+    public function disconnect()
+    {
+        if ( self::$dbbackend !== null )
+        {
+            self::$dbbackend->_disconnect();
+            self::$dbbackend= null;
+        }
     }
 
     /**

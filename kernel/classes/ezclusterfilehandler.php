@@ -162,6 +162,23 @@ class eZClusterFileHandler
         if ( isset( self::$generatingFiles[$file->filePath] ) )
             unset( self::$generatingFiles[$file->filePath] );
     }
+
+    /**
+     * Performs required operations before forking a process
+     *
+     * - disconnects DB based cluster handlers from the database
+     */
+    public static function preFork()
+    {
+        $clusterHandler = self::instance();
+
+        // disconnect DB based cluster handlers from the database
+        if ( $clusterHandler instanceof ezpDatabaseBasedClusterFileHandler )
+        {
+            $clusterHandler->disconnect();
+        }
+    }
+
     /**
      * Global list of currently generating files. Used by handlers that support stalecache.
      * @var array(filename => eZClusterFileHandlerInterface)

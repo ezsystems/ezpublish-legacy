@@ -738,5 +738,10 @@ abstract class eZClusterFileHandlerAbstractTest extends ezpDatabaseTestCase
 
         self::deleteLocalFiles( $sourcePath, $destinationPath );
     }
+
+    /**
+     * Test for the eZClusterFileHandler::preFork() global method
+     */
+    public function testPreFork(){}
 }
 ?>

@@ -67,6 +67,11 @@ abstract class eZDBBasedClusterFileHandlerAbstractTest extends eZClusterFileHand
     }
 
     /**
+     * Test for the disconnect() method
+     */
+    abstract public function testDisconnect();
+
+    /**
      * Test for the cleanPath() method
      *
      * @dataProvider providerForTestCleanPath

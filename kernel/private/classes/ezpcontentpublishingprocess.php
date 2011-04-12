@@ -166,6 +166,12 @@ class ezpContentPublishingProcess extends eZPersistentObject
         $db = null;
         eZDB::setInstance( null );
 
+        // Force the cluster DB connection closed if the cluster handler is DB based
+        $cluster = eZClusterFileHandler::instance();
+
+        // prepare the cluster file handler for the fork
+        eZClusterFileHandler::preFork();
+
         // error, cancel
         if ( $pid == -1 )
         {
