@@ -5,6 +5,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
     <!--
         Code is tested on all major browser, and should work on recent versions of Opera, Safari, Chrome, Firefox and IE
+        Rounded borders is only supported on Firefox 3.5+, Safari 3.0+, Chrome 1.0+, Opera 10.20+ and IE9
     -->
 <style>
 <!--
@@ -42,7 +43,7 @@ menu li a
     min-width: 100px;
     min-height: 20px;
     padding: 2px;
-    border: 1px solid #bbb;
+    border: 1px solid #aaa;
     border-bottom: 0 none;
     /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
     -moz-border-radius-topleft: 5px;
@@ -59,6 +60,11 @@ menu li a
     text-align: left;
 }
 
+#header, #footer
+{
+    background-color: #f0f0f0;
+}
+
 .float-break:after /* Terminate floating elements flow */
 {
     content: "-";
@@ -71,10 +77,13 @@ menu li a
 
 #header
 { 
-    border-bottom: 1px solid #bbb;
+    border-bottom: 1px solid #ddd;
+    /* Supported on FF 3.6+, Safari 4.0+ and Chrome 3.0+ */
+    background-image: -moz-linear-gradient(top, white 30%, #f0f0f0);
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 70%, from(white), to(#f0f0f0));
 }
 
-#footer { border-top: 1px solid #bbb; background-color: #f0f0f0; }
+#footer { border-top: 1px solid #ddd; }
 
 div#header-user-links
 {
@@ -90,7 +99,7 @@ div#header-user-links form > div
     text-align: right;
     padding: 2px 10px 1px 10px;
     min-height: 24px;
-    border: 1px solid #bbb;
+    border: 1px solid #aaa;
     border-top: 0 none;
     border-right: 0 none;
     /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
@@ -125,10 +134,13 @@ div#header-user-links form > span
 
 #path
 {
-    border-bottom: 1px solid #bbb;
+    border-bottom: 1px solid #ddd;
     padding: 2px 10px 3px 10px;
     font-size: 90%;
     text-align: left;
+    /* Supported on FF 3.6+, Safari 4.0+ and Chrome 3.0+ */
+    background-image: -moz-linear-gradient(top, white 30%, #ccc 180%);
+    background-image: -webkit-gradient(linear, 0% 30%, 0% 180%, from(white), to(#ccc));
 }
 
 /* Columns */
@@ -139,7 +151,11 @@ div.menuitem
 {
     margin-top: 20px;
     overflow: hidden;
-    border: 1px solid #bbb;
+    border: 1px solid #aaa;
+    /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
+    -moz-box-shadow: 1px 1px 5px #aaa;
+    -webkit-box-shadow: 1px 1px 5px #aaa;
+    box-shadow: 1px 1px 5px #aaa;
 }
 
 div.menuheader
@@ -153,11 +169,25 @@ div.menuheader
     margin: 0 0 12px 12px;
     width: 148px;
     border-right: 0 none;
+    /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-bottomleft: 5px;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-bottom-left-radius: 5px;
+    border-top-left-radius:  5px;
+    border-bottom-left-radius: 5px;
 }
 
 #leftmenu div.menuitem
 {
     border-left: 0 none;
+    /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
+    -moz-border-radius-topright: 5px;
+    -moz-border-radius-bottomright: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -webkit-border-bottom-right-radius: 5px;
+    border-top-right-radius:  5px;
+    border-bottom-right-radius: 5px;
 }
 
 div.boxcontent, div.menucontent { padding: 10px; }
@@ -180,7 +210,14 @@ div.boxheader
 
 div.boxitem
 {
-   border: 1px solid #bbb;
+   border: 1px solid #aaa;
+    /* Supported on FF 3.5+, Safari 3.0+, Chrome, Opera Presto 2.3+ ("10.50") and IE9 */
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius:  5px;
+    -moz-box-shadow: 1px 1px 5px #aaa;
+    -webkit-box-shadow: 1px 1px 5px #aaa;
+    box-shadow: 1px 1px 5px #aaa;
 }
 
 div.boxheader
@@ -192,7 +229,7 @@ span.vertical-seperator
 {
     height: 100%;
     width: 0px;
-    border-left: 1px solid #bbb;
+    border-left: 1px solid #aaa;
     margin-left: 15px;
     margin-right: 15px;
 }
@@ -201,7 +238,7 @@ span.vertical-seperator
 {
     margin: 0 160px 0 160px;
     min-height: 200px;
-    border-right: 1px solid #bbb;
+    border-right: 1px solid #ddd;
     padding: 1px 20px 0 20px;
 }
 
@@ -241,7 +278,7 @@ a.item-hide-show
     float: right;
     text-align: center;
     padding: 2px;
-    border: 1px solid #bbb;
+    border: 1px solid #aaa;
     color: #555;
     line-height: 7px;
     height: 9px;
@@ -279,12 +316,12 @@ div.tabbox menu li.selected a
 }
 div.tabbox menu
 {
-    border-bottom: 1px solid #bbb;
+    border-bottom: 1px solid #aaa;
 }
 
 div.tabbox div.tabcontent
 {
-    border: 1px solid #bbb;
+    border: 1px solid #aaa;
     border-top: 0 none;
     padding: 20px;
     height: 150px;
@@ -316,7 +353,7 @@ div.tabbox div.tabcontent
     <div id="page">
     <div id="header" class="float-break">
         <div id="header-user-links">
-            <form method="post">
+            <form>
                 <div>
                 <span id="header-user-logo" title="eZ Publish version 4.3.1">eZ logo</span>
                 <select name="SubTreeSomething" title="Search location, to be able to narrow down the search results!">
@@ -326,29 +363,29 @@ div.tabbox div.tabcontent
                     <option id="5">Users</option>
                     <option id="x" disabled="disabled">Current location</option>
                 </select>
-                <input type="text" name="SearchText" value="" defaultValue="Search text" title="Search string, what you want to search for." />
-                <input type="submit" name="SearchBtn" value="Search" title="Perform a search and look for the string as you have typed in to 'Search text' input form and using the location as selected in location dropdown box." />
+                <input type="text" name="SearchText" value="" defaultValue="Search text" />
+                <input type="submit" name="SearchBtn" value="Search" />
                 </div>
-                <span><a href="#">Logout (User name)</a> &nbsp;</span>
+                <span><a href="tab_and_columns_css3.html#">Logout (User name)</a> &nbsp;</span>
             </form>
         </div>
         <menu>
-            <li class="selected"><a href="#">Tab</a></li>
-            <li><a href="#">Tab</a></li>
-            <li><a href="#">Tab</a></li>
-            <li><a href="#">Tab</a></li>
-            <li><a href="#">Tab</a></li>
+            <li class="selected"><a href="tab_and_columns_css3.html#">Tab</a></li>
+            <li><a href="tab_and_columns_css3.html#">Tab</a></li>
+            <li><a href="tab_and_columns_css3.html#">Tab</a></li>
+            <li><a href="tab_and_columns_css3.html#">Tab</a></li>
+            <li><a href="tab_and_columns_css3.html#">Tab</a></li>
         </menu>
     </div>
     <div id="path" class="float-break">
-        <a href="#">Home</a> <span>&gt;</span> <a href="#">About</a> <span>&gt;</span> <a href="#">eZ Publish</a> <span>&gt;</span> <a href="#">4.3</a> <span>&gt;</span> Admin restyling concepts
+        <a href="tab_and_columns_css3.html#">Home</a> <span>&gt;</span> <a href="tab_and_columns_css3.html#">About</a> <span>&gt;</span> <a href="tab_and_columns_css3.html#">eZ Publish</a> <span>&gt;</span> <a href="tab_and_columns_css3.html#">4.3</a> <span>&gt;</span> Admin restyling concepts
     </div>
     <div id="columns" class="float-break">
         <div id="leftmenu" class="sidemenu">
             
             <div class="menuitem">
                 <div class="menuheader">
-                Treemenu  <a href="#" class="item-hide-show" headerbox="div.menuheader">-</a>
+                Treemenu  <a href="tab_and_columns_css3.html#" class="item-hide-show" headerbox="div.menuheader">-</a>
                 </div>
                 <div class="menucontent">
                     Treemenu content
@@ -356,29 +393,17 @@ div.tabbox div.tabcontent
                     <br />
                 </div>
             </div>
-
-            <div class="menuitem">
-                <div class="menuheader">
-                Leftmenu
-                </div>
-                <div class="menucontent">
-                    Leftmenu content
-                    <br />
-                    <br />
-                </div>
-            </div>
-
             <div class="sizecontrol">
-                <a href="JavaScript:void(0)" targetsize="160" title="Change width of left menu column to small size!">small</a>
-                <a href="JavaScript:void(0)" targetsize="230" title="Change width of left menu column to medium size!">medium</a>
-                <a href="JavaScript:void(0)" targetsize="300" title="Change width of left menu column to big size!">big</a>
+                <a href="JavaScript:void(0)" targetsize="160">small</a>
+                <a href="JavaScript:void(0)" targetsize="230">medium</a>
+                <a href="JavaScript:void(0)" targetsize="300">big</a>
             </div>
         </div>
         <div id="rightmenu" class="sidemenu">
-            <a href="JavaScript:void(0)" class="hidecontrol" title="Click to hide/show the right menu with advance menu options.">&lt;</a>
+            <a href="JavaScript:void(0)" class="hidecontrol">&lt;</a>
             <div class="menuitem">
                 <div class="menuheader">
-                Extramenu 1  <a href="#" class="item-hide-show" headerbox="div.menuheader">-</a>
+                Extramenu 1  <a href="tab_and_columns_css3.html#" class="item-hide-show" headerbox="div.menuheader">-</a>
                 </div>
                 <div class="menucontent">
                     Extramenu 1 content
@@ -387,7 +412,7 @@ div.tabbox div.tabcontent
             </div>
             <div class="menuitem">
                 <div class="menuheader">
-                Extramenu 2  <a href="#" class="item-hide-show" headerbox="div.menuheader">-</a>
+                Extramenu 2  <a href="tab_and_columns_css3.html#" class="item-hide-show" headerbox="div.menuheader">-</a>
                 </div>
                 <div class="menucontent">
                     Extramenu 2 content
@@ -398,7 +423,7 @@ div.tabbox div.tabcontent
             </div>
             <div class="menuitem">
                 <div class="menuheader">
-                Extramenu 3  <a href="#" class="item-hide-show" headerbox="div.menuheader">-</a>
+                Extramenu 3  <a href="tab_and_columns_css3.html#" class="item-hide-show" headerbox="div.menuheader">-</a>
                 </div>
                 <div class="menucontent">
                     Extramenu 3 content
@@ -407,34 +432,34 @@ div.tabbox div.tabcontent
                 </div>
             </div>
         </div>
-        <div id="maincontent" class="float-break">
+        <div id="maincontent">
         
              <h1 title="Name of current page an it's [content type]">Admin restyling concepts [Future]</h1>
 
             <div class="boxitem">
                 <div class="boxcontent">
-                    <form method="post">
+                    <form>
                         <select name="Class" title="Content type you want to create here">
                             <option id="article">Article</option>
                             <option id="blog">Blog</option>
                             <option id="folder">Folder</option>
                         </select>
-                        <input type="submit" name="Create" value="Create here" title="Create content as sub item of this page select type with drop down box next to this button first!" />
+                        <input type="submit" name="Create" value="Create here"  />
 
                         <span class="vertical-seperator">&nbsp;</span>
 
-                        <select name="Language" title="To select language you want to edit current page in!">
+                        <select name="Language" title="Language you want to edit in!">
                             <option id="eng-us">Eng-US</option>
                             <option id="ger-de">Ger-DE</option>
                             <option id="fre-fr">Fre-FR</option>
                         </select>
-                        <input type="submit" name="Edit" value="Edit" title="Edit current page in the language as selected in the language dropp down!" />
-                        <input type="submit" name="Move" value="Move" title="Move current page and it's sub items to another location." />
-                        <input type="submit" name="Copy" value="Copy" title="Copy curent current page but not it's sub items to another location." />
-                        <input type="submit" name="Remove" value="Remove" title="Remove curent current page and it's sub items, and optionally store them in the trashbin in case you regret it (trashbin is emptied on regular interval, so make sure you actually want to remove the content!)." />
+                        <input type="submit" name="Edit" value="Edit" />
+                        <input type="submit" name="Move" value="Move" />
+                        <input type="submit" name="Copy" value="Copy" />
+                        <input type="submit" name="Remove" value="Remove" />
                         
                         
-                        <a href="#" class="float-right" title="Click to get list of versions of this page and be able to manage/edit/remove them.">Manage versions</a>
+                        <a href="tab_and_columns_css3.html#" class="float-right">Manage versions</a>
         
                     </form>
                 </div>
@@ -442,34 +467,23 @@ div.tabbox div.tabcontent
 
             <div class="boxitem">
                 <div class="boxheader">
-                    &nbsp; <!--  some header? -->  <a href="#" class="item-hide-show" headerbox="div.boxheader">-</a>
+                    &nbsp; <!--  some header? -->  <a href="tab_and_columns_css3.html#" class="item-hide-show" headerbox="div.boxheader">-</a>
                 </div>
                 <div class="boxcontent">
                     <div class="tabbox">
                         <menu class="float-break">
-                            <li class="selected"><a href="#">Preview</a></li>
-                            <li><a href="#">Details</a></li>
-                            <li><a href="#">Translations</a></li>
-                            <li><a href="#">Locations</a></li>
-                            <li><a href="#">Relations</a></li>
-                            <li><a href="#">Object states</a></li>
+                            <li class="selected"><a href="tab_and_columns_css3.html#">Preview</a></li>
+                            <li><a href="tab_and_columns_css3.html#">Details</a></li>
+                            <li><a href="tab_and_columns_css3.html#">Translations</a></li>
+                            <li><a href="tab_and_columns_css3.html#">Locations</a></li>
+                            <li><a href="tab_and_columns_css3.html#">Relations</a></li>
+                            <li><a href="tab_and_columns_css3.html#">Object states</a></li>
                         </menu>
                         <div class="tabcontent selected">
-                            Features:
-                            <ol>
-                                <li>Moves all the controls for the current page to the top to avoid scrolling.</li>
-                                <li>Hides right menu by default to hide features that are not relevant for a editor (or even most admins) during normal use.</li>
-                                <li>Slims down the top header considerably to get more space for content area, also implements support for small screens (down to 200px) by automatically wrapping the header.</li>
-                                <li>Use tabs for misc object details (Preview,Details,...) to save scrolling to sub items and screen space.</li>
-                            </ol>
-                            <br />
-                            Other ideas:
-                             <ol>
-                                <li>Add context menu to sub items on far right side when you hover over the line (like dropbox web interface)</li>
-                                <li>The final result will need to be able to work correctly (with page reloads) for tabs, size control and show/hide controls if javascript is disabled or not supported.</li>
-                                <li>Always refer to Nodes and Objects as "Pages" and if placement specific: "Placement". And (Content Object) Class should refer to as "Page type" or "Type" for short. This way only developers will need to learn what a Node, Object and Class is!</li>
-                            </ol>
-                            
+                            <p>This variant uses some new features in css3 to have rounded corners, shadows and gradients.<br />
+                            It is therefor best viewed in Firefox 3.6+, Safari 4.0+ or Chrome 3.0+! (Almost same level: Opera 10.50+ and IE9)<br />
+                            Check the main concept prototype for most up to date version of everything then the css3 stuff.
+                            </p>
                         </div>
                         <div class="tabcontent hide">
                             Details<br />
@@ -495,18 +509,16 @@ div.tabbox div.tabcontent
                     Sub items
                 </div>
                 <div class="boxcontent">
-                    <div style="font-size: 85%;">
-			        <a title="Show 10 items per page." href="#">10</a>
+			        <a title="Show 10 items per page." href="tab_and_columns_css3.html#">10</a>
 			        <span class="current">25</span>
-			        <a title="Show 50 items per page." href="#">50</a>
+			        <a title="Show 50 items per page." href="tab_and_columns_css3.html#">50</a>
 	
 					<div class="float-right">
 					        <p>
-					                <a title="Display sub items using a simple list." href="#">List</a>
-					        <a title="Display sub items as thumbnails." href="#">Thumbnail</a>
+					                <a title="Display sub items using a simple list." href="tab_and_columns_css3.html#">List</a>
+					        <a title="Display sub items as thumbnails." href="tab_and_columns_css3.html#">Thumbnail</a>
 					        <span class="current">Detailed</span>
 					                </p>
-					</div>
 					</div>
 
 					<table cellspacing="0" class="list" style="width: 100%;">
@@ -522,48 +534,48 @@ div.tabbox div.tabcontent
 			        </thead>
 				    <tbody>
 					    <tr class="bglight">
-					        <td><input type="checkbox" title='Use these checkboxes to select items to perform som action on them. Click the "&lt;action&gt; selected" button to perform the disired action on the elements you have selected.' value="162" name="DeleteIDArray[]"/></td>
-					        <td><a href="#">Some article about something</a></td>
+					        <td><input type="checkbox" title='Use these checkboxes to select items for removal. Click the "Remove selected" button to remove the selected items.' value="162" name="DeleteIDArray[]"/></td>
+					        <td><a href="tab_and_columns_css3.html#">Some article about something</a></td>
 					        <td class="class">Article</td>
 					        <td class="modifier"><a href="/trunk/index.php/ezwebin_site_admin/Users/Administrator-users/Administrator-User">Administrator User</a></td>
 					        <td class="modified">24/09/2009 3:28 pm</td>
 					        <td class="contexmenu"></td>
 					    </tr>
                         <tr class="bgdark">
-                            <td><input type="checkbox" title='Use these checkboxes to select items to perform som action on them. Click the "&lt;action&gt; selected" button to perform the disired action on the elements you have selected.' value="162" name="DeleteIDArray[]"/></td>
-                            <td><a href="#">Some article about something</a></td>
+                            <td><input type="checkbox" title='Use these checkboxes to select items for removal. Click the "Remove selected" button to remove the selected items.' value="162" name="DeleteIDArray[]"/></td>
+                            <td><a href="tab_and_columns_css3.html#">Some article about something</a></td>
                             <td class="class">Article</td>
                             <td class="modifier"><a href="/trunk/index.php/ezwebin_site_admin/Users/Administrator-users/Administrator-User">Administrator User</a></td>
                             <td class="modified">24/09/2009 3:28 pm</td>
                             <td class="contexmenu"></td>
                         </tr>
                         <tr class="bglight">
-                            <td><input type="checkbox" title='Use these checkboxes to select items to perform som action on them. Click the "&lt;action&gt; selected" button to perform the disired action on the elements you have selected.' value="162" name="DeleteIDArray[]"/></td>
-                            <td><a href="#">Some article about something</a></td>
+                            <td><input type="checkbox" title='Use these checkboxes to select items for removal. Click the "Remove selected" button to remove the selected items.' value="162" name="DeleteIDArray[]"/></td>
+                            <td><a href="tab_and_columns_css3.html#">Some article about something</a></td>
                             <td class="class">Article</td>
                             <td class="modifier"><a href="/trunk/index.php/ezwebin_site_admin/Users/Administrator-users/Administrator-User">Administrator User</a></td>
                             <td class="modified">24/09/2009 3:28 pm</td>
                             <td class="contexmenu"></td>
                         </tr>
                         <tr class="bgdark">
-                            <td><input type="checkbox" title='Use these checkboxes to select items to perform som action on them. Click the "&lt;action&gt; selected" button to perform the disired action on the elements you have selected.' value="162" name="DeleteIDArray[]"/></td>
-                            <td><a href="#">Some article about something</a></td>
+                            <td><input type="checkbox" title='Use these checkboxes to select items for removal. Click the "Remove selected" button to remove the selected items.' value="162" name="DeleteIDArray[]"/></td>
+                            <td><a href="tab_and_columns_css3.html#">Some article about something</a></td>
                             <td class="class">Article</td>
                             <td class="modifier"><a href="/trunk/index.php/ezwebin_site_admin/Users/Administrator-users/Administrator-User">Administrator User</a></td>
                             <td class="modified">24/09/2009 3:28 pm</td>
                             <td class="contexmenu"></td>
                         </tr>
                         <tr class="bglight">
-                            <td><input type="checkbox" title='Use these checkboxes to select items to perform som action on them. Click the "&lt;action&gt; selected" button to perform the disired action on the elements you have selected.' value="162" name="DeleteIDArray[]"/></td>
-                            <td><a href="#">Some article about something</a></td>
+                            <td><input type="checkbox" title='Use these checkboxes to select items for removal. Click the "Remove selected" button to remove the selected items.' value="162" name="DeleteIDArray[]"/></td>
+                            <td><a href="tab_and_columns_css3.html#">Some article about something</a></td>
                             <td class="class">Article</td>
                             <td class="modifier"><a href="/trunk/index.php/ezwebin_site_admin/Users/Administrator-users/Administrator-User">Administrator User</a></td>
                             <td class="modified">24/09/2009 3:28 pm</td>
                             <td class="contexmenu"></td>
                         </tr>
                         <tr class="bgdark">
-                            <td><input type="checkbox" title='Use these checkboxes to select items to perform som action on them. Click the "&lt;action&gt; selected" button to perform the disired action on the elements you have selected.' value="162" name="DeleteIDArray[]"/></td>
-                            <td><a href="#">Some article about something</a></td>
+                            <td><input type="checkbox" title='Use these checkboxes to select items for removal. Click the "Remove selected" button to remove the selected items.' value="162" name="DeleteIDArray[]"/></td>
+                            <td><a href="tab_and_columns_css3.html#">Some article about something</a></td>
                             <td class="class">Article</td>
                             <td class="modifier"><a href="/trunk/index.php/ezwebin_site_admin/Users/Administrator-users/Administrator-User">Administrator User</a></td>
                             <td class="modified">24/09/2009 3:28 pm</td>
@@ -571,9 +583,9 @@ div.tabbox div.tabcontent
                         </tr>
 					</tbody>
 					</table>
-					<form method="post">
-                        <input type="submit" name="Remove" value="Remove Selected" title="Remove selected elements from list above using the checkboxes and then clicking this button!"  />
-                        <input type="submit" name="Move" value="Move Selected"  title="Move selected elements from list above using the checkboxes and then clicking this button!" />
+					<form>
+                        <input type="submit" name="Remove" value="Remove Selected"  />
+                        <input type="submit" name="Move" value="Move Selected"  />
                         
                         
                         <div class="float-right">
@@ -676,15 +688,6 @@ jQuery('div.tabbox menu li a').click( function( e )
         targetbox.removeClass( 'hide').addClass( 'selected' );
         li.addClass( 'selected' );
     }
-});
-
-// Disable form controls when submiting form
-jQuery('form').submit(function()
-{
-	// Use timeout to make sure data is sent
-	var formElement = this;
-	window.setTimeout( function(){ jQuery('input,select', formElement).attr( 'disabled', true ).attr( 'title', 'Form control has been disabled since you are currently submitting this form using "' + formElement.name + '" button!' ) }, 5 )
-	return false;
 });
 
 -->
