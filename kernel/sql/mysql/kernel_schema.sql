@@ -964,6 +964,15 @@ CREATE TABLE ezorder (
 
 
 
+CREATE TABLE ezorder_nr_incr (
+  id int(11) NOT NULL auto_increment,
+  PRIMARY KEY  (id)
+) ENGINE=InnoDB;
+
+
+
+
+
 CREATE TABLE ezorder_item (
   description varchar(255) default NULL,
   id int(11) NOT NULL auto_increment,

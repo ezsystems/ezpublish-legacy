@@ -4458,6 +4458,29 @@ $schema = array (
       ),
     ),
   ),
+  'ezorder_nr_incr'=>
+  array (
+   'name' => 'ezorder_nr_incr',
+   'fields' =>
+    array (
+      'id'=>
+      array (
+         'type' => 'auto_increment',
+         'default' => false,
+      ),
+    ),
+   'indexes' =>
+    array (
+      'PRIMARY' =>
+      array (
+        'type' => 'primary',
+        'fields' =>
+        array (
+          0 => 'id',
+        ),
+      ),
+    ),
+  ),
   'ezorder_item' => 
   array (
     'name' => 'ezorder_item',
