@@ -609,6 +609,10 @@ class eZContentObjectStateGroup extends eZPersistentObject
             }
         }
         $db->commit();
+
+        // re-order states in the same group
+        $this->states( true );
+
         return true;
     }
 
