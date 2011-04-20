@@ -660,6 +660,10 @@ class eZINI
             $this->findInputFiles( $inputFiles, $iniFile );
             eZDebug::accumulatorStop( 'ini_parse_find_files' );
         }
+        else if ( !is_array( $inputFiles ) )
+        {
+            $inputFiles = array( $inputFiles );
+        }
 
         if ( $reset )
             $this->reset();
