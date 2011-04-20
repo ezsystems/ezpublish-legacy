@@ -583,7 +583,10 @@ class eZContentOperationCollection
         }
 
         eZDebug::accumulatorStart( 'add_object', 'search_total', 'add object' );
-        eZSearch::addObject( $object, $needCommit );
+        if ( !eZSearch::addObject( $object, $needCommit ) )
+        {
+            eZDebug::writeError( "Failed adding object ID {$object->attribute( 'id' )} in the search engine", __METHOD__ );
+        }
         eZDebug::accumulatorStop( 'add_object' );
     }
 

@@ -80,34 +80,42 @@ class eZSearch
         }
     }
 
-     /*!
-     \static
-     Will remove the index from the given object from the search engine
-     A commit parameter is added since 4.1 to accomodate requirements of several search plugins
-    */
+    /**
+     * Removes object $contentObject from the search database.
+     *
+     * @param eZContentObject $contentObject the content object to remove
+     * @param bool $commit Whether to commit after removing the object
+     * @return bool True if the operation succeed.
+     */
     static function removeObject( $contentObject, $commit = true )
     {
         $searchEngine = eZSearch::getEngine();
 
         if ( is_object( $searchEngine ) )
         {
-            $searchEngine->removeObject( $contentObject, $commit );
+            return $searchEngine->removeObject( $contentObject, $commit );
         }
+
+        return false;
     }
 
-    /*!
-     \static
-     Will index the content object to the search engine.
-     A commit parameter is added since 4.1 to accomodate requirements of several search plugins
-    */
+    /**
+     * Adds object $contentObject to the search database.
+     *
+     * @param eZContentObject $contentObject Object to add to search engine
+     * @param bool $commit Whether to commit after adding the object
+     * @return bool True if the operation succeed.
+     */
     static function addObject( $contentObject, $commit = true )
     {
         $searchEngine = eZSearch::getEngine();
 
         if ( is_object( $searchEngine ) )
         {
-            $searchEngine->addObject( $contentObject, $commit );
+            return $searchEngine->addObject( $contentObject, $commit );
         }
+
+        return false;
     }
 
     /*!
