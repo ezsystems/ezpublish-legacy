@@ -1197,7 +1197,7 @@ class eZINI
 
         if ( !isset( $dirs[$scope] ) )
         {
-            eZDebug::writeWarning( "Undefined override dir scope: '$scope' with dir: '$dir'", __METHOD__ );
+            eZDebug::writeWarning( "Undefined override dir scope: '$scope'", __METHOD__ );
             $scope = 'extension';
         }
 
