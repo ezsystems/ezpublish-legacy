@@ -218,7 +218,7 @@ class eZINI
      \return true if cache is not adviced to be used.
      \note The no-cache-adviced flag might not be modified in time for site.ini and some other important files to be affected.
     */
-    function isNoCacheAdviced()
+    static function isNoCacheAdviced()
     {
         if ( !isset( $GLOBALS['eZSiteBasics'] ) )
             return false;
