@@ -532,7 +532,7 @@ class eZPostgreSQLDB extends eZDBInterface
     */
     function rollbackQuery()
     {
-        return $this->query( "ROLLBACK WORK" );
+        return pg_query( $this->DBConnection, "ROLLBACK WORK" );
     }
 
     /**

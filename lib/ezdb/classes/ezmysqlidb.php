@@ -806,7 +806,7 @@ class eZMySQLiDB extends eZDBInterface
     */
     function rollbackQuery()
     {
-        return $this->query( "ROLLBACK" );
+        return mysqli_query( $this->DBWriteConnection, "ROLLBACK" );
     }
 
     function lastSerialID( $table = false, $column = false )
