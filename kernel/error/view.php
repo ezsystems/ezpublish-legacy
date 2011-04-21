@@ -66,15 +66,16 @@ eZDebug::writeError( "Error ocurred using URI: " . $_SERVER['REQUEST_URI'] , "er
                 {
                     $httpErrorName = $errorINI->variable( 'HTTPError-' . $httpErrorCode, 'HTTPName' );
                     $httpErrorString = "$httpErrorCode $httpErrorName";
-                    header( eZSys::serverVariable( 'SERVER_PROTOCOL' ) . " $httpErrorString" );
-                    header( "Status: $httpErrorString" );
                     if ( $errorNumber == eZError::KERNEL_MOVED )
                     {
-                        // Set moved permanently headers.
-                        header( $_SERVER['SERVER_PROTOCOL'] .  " 301 Moved Permanently" );
-                        header( "Status: 301 Moved Permanently" );
-                        $location = eZSys::indexDir() . "/" . eZURI::encodeIRI( $extraErrorParameters['new_location'] ); // Make sure it is encoded to IRI format
-                        header( "Location: " . $location );
+                        $module->redirectTo( $extraErrorParameters['new_location'] );
+                        $module->setRedirectStatus( $httpErrorString );
+                        return array(); // $Result of this view
+                    }
+                    else
+                    {
+                        header( eZSys::serverVariable( 'SERVER_PROTOCOL' ) . " $httpErrorString" );
+                        header( "Status: $httpErrorString" );
                     }
                 }
             }

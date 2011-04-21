@@ -792,9 +792,9 @@ class eZModule
     /**
      * Returns the redirection HTTP status (!)
      *
-     * @return something (probably)
+     * @see setRedirectStatus();
      *
-     * @deprecated 4.3 Not used ANYWHERE in the kernel
+     * @return the HTTP Status header
      */
     function redirectStatus()
     {
@@ -807,8 +807,6 @@ class eZModule
      * @param string $status HTTP status
      *
      * @note The status must be a valid HTTP status with number and text.
-     *
-     * @deprecated 4.3 not used anywyere
      */
     function setRedirectStatus( $status )
     {
