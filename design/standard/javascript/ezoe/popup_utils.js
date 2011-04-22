@@ -314,7 +314,9 @@ var eZOEPopupUtils = {
         var edCurrentNode = ed.selection.getNode(), newElement = edCurrentNode.ownerDocument.createElement( tag );
         if ( tag !== 'img' ) newElement.innerHTML = content;
 
-        if ( edCurrentNode.nextSibling )
+        if ( edCurrentNode.nodeName === 'TD' )
+            edCurrentNode.appendChild( newElement );
+        else if ( edCurrentNode.nextSibling )
             edCurrentNode.parentNode.insertBefore( newElement, edCurrentNode.nextSibling );
         else if ( edCurrentNode.nodeName === 'BODY' )// IE when editor is empty
             edCurrentNode.appendChild( newElement );
