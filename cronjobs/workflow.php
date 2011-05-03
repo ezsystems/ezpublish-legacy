@@ -121,6 +121,8 @@ foreach( $workflowProcessList as $process )
     }
 
     $db->commit();
+
+    eZStaticCache::executeActions();
 }
 if ( !$isQuiet )
 {
