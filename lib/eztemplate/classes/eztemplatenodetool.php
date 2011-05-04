@@ -357,9 +357,6 @@ class eZTemplateNodeTool
     */
     static function isNumericElement( $elements )
     {
-        if ( count( $elements ) == 0 )
-            return false;
-
         return isset( $elements[0][0] ) && ( $elements[0][0] == eZTemplate::TYPE_NUMERIC );
     }
 
@@ -396,9 +393,6 @@ class eZTemplateNodeTool
     */
     static function isIdentifierElement( $elements )
     {
-        if ( count( $elements ) == 0 )
-            return false;
-
         return isset( $elements[0][0] ) && ( $elements[0][0] == eZTemplate::TYPE_IDENTIFIER );
     }
 
@@ -414,9 +408,6 @@ class eZTemplateNodeTool
     */
     static function isBooleanElement( $elements )
     {
-        if ( count( $elements ) == 0 )
-            return false;
-
         return isset( $elements[0][0] ) && ( $elements[0][0] == eZTemplate::TYPE_BOOLEAN );
     }
 
@@ -444,9 +435,6 @@ class eZTemplateNodeTool
     */
     static function isArrayElement( $elements )
     {
-        if ( count( $elements ) == 0 )
-            return false;
-
         return isset( $elements[0][0] ) && ( $elements[0][0] == eZTemplate::TYPE_ARRAY );
     }
 
