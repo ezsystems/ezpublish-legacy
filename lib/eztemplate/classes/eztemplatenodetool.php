@@ -357,14 +357,10 @@ class eZTemplateNodeTool
     */
     static function isNumericElement( $elements )
     {
-        $constantElements = array( eZTemplate::TYPE_NUMERIC );
-
         if ( count( $elements ) == 0 )
             return false;
 
-        if ( in_array( $elements[0][0], $constantElements ) )
-            return true;
-        return false;
+        return isset( $elements[0][0] ) && ( $elements[0][0] == eZTemplate::TYPE_NUMERIC );
     }
 
     /*!
@@ -400,14 +396,10 @@ class eZTemplateNodeTool
     */
     static function isIdentifierElement( $elements )
     {
-        $constantElements = array( eZTemplate::TYPE_IDENTIFIER );
-
         if ( count( $elements ) == 0 )
             return false;
 
-        if ( in_array( $elements[0][0], $constantElements ) )
-            return true;
-        return false;
+        return isset( $elements[0][0] ) && ( $elements[0][0] == eZTemplate::TYPE_IDENTIFIER );
     }
 
     /*!
@@ -422,14 +414,10 @@ class eZTemplateNodeTool
     */
     static function isBooleanElement( $elements )
     {
-        $constantElements = array( eZTemplate::TYPE_BOOLEAN );
-
         if ( count( $elements ) == 0 )
             return false;
 
-        if ( in_array( $elements[0][0], $constantElements ) )
-            return true;
-        return false;
+        return isset( $elements[0][0] ) && ( $elements[0][0] == eZTemplate::TYPE_BOOLEAN );
     }
 
     /*!
@@ -456,14 +444,10 @@ class eZTemplateNodeTool
     */
     static function isArrayElement( $elements )
     {
-        $constantElements = array( eZTemplate::TYPE_ARRAY );
-
         if ( count( $elements ) == 0 )
             return false;
 
-        if ( in_array( $elements[0][0], $constantElements ) )
-            return true;
-        return false;
+        return isset( $elements[0][0] ) && ( $elements[0][0] == eZTemplate::TYPE_ARRAY );
     }
 
     /*!
