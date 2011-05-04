@@ -46,8 +46,8 @@
  */
 
 class JSMin {
-  const ORD_LF    = 10;
-  const ORD_SPACE = 32;
+  const ORD_LF            = 10;
+  const ORD_SPACE         = 32;
   const ACTION_KEEP_A     = 1;
   const ACTION_DELETE_A   = 2;
   const ACTION_DELETE_A_B = 3;
@@ -85,11 +85,11 @@ class JSMin {
      action treats a string as a single character. Wow!
      action recognizes a regular expression if it is preceded by ( or , or =.
   */
-  protected function action($d) {
-    switch($d) {
+  protected function action($command) {
+    switch($command) {
       case self::ACTION_KEEP_A:
         $this->output .= $this->a;
-
+        // fallthrough
       case self::ACTION_DELETE_A:
         $this->a = $this->b;
 
@@ -112,7 +112,7 @@ class JSMin {
             }
           }
         }
-
+        // fallthrough
       case self::ACTION_DELETE_A_B:
         $this->b = $this->next();
 
