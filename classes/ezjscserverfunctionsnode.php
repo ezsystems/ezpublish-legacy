@@ -51,6 +51,7 @@ class ezjscServerFunctionsNode extends ezjscServerFunctions
         $offset = isset( $args[2] ) ? $args[2] : 0;
         $sort = isset( $args[3] ) ? self::sortMap( $args[3] ) : 'published';
         $order = isset( $args[4] ) ? $args[4] : false;
+        $objectNameFilter = isset( $args[5] ) ? $args[5] : '';
 
         if ( !$parentNodeID )
         {
@@ -68,6 +69,7 @@ class ezjscServerFunctionsNode extends ezjscServerFunctions
                          'Offset' => $offset,
                          'SortBy' => array( array( $sort, $order ) ),
                          'DepthOperator' => 'eq',
+                         'ObjectNameFilter' => $objectNameFilter,
                          'AsObject' => true );
 
        // fetch nodes and total node count

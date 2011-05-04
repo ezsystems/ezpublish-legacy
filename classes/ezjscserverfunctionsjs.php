@@ -81,16 +81,18 @@ class ezjscServerFunctionsJs extends ezjscServerFunctions
     {
         if ( isset( $args[0] ) )
         {
-            return 'var YUILoader =  new YAHOO.util.YUILoader({
+            return 'var YUI2_config = {
                 base: \'' . self::getDesignFile( $args[0] ) . '\',
                 loadOptional: true
-            });';
+            };
+            var YUILoader =  new YAHOO.util.YUILoader(YUI2_config);';
         }
 
-        return 'var YUILoader =  new YAHOO.util.YUILoader({
+        return 'var YUI2_config = {
             loadOptional: true,
             combine: true
-        });';
+        };
+        var YUILoader =  new YAHOO.util.YUILoader(YUI2_config);';
     }
 
     /**
