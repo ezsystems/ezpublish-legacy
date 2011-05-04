@@ -526,8 +526,13 @@ class eZURI
      Implementation of an 'ezurl' template operator.
      Makes valid ez publish urls to use in links.
     */
-    static function transformURI( &$href, $ignoreIndexDir = false, $serverURL = 'relative' )
+    static function transformURI( &$href, $ignoreIndexDir = false, $serverURL = null )
     {
+        if ( $serverURL === null )
+        {
+            $serverURL = self::$transformURIMode;
+        }
+
         if ( preg_match( "#^[a-zA-Z0-9]+:#", $href ) || substr( $href, 0, 2 ) == '//' )
             return false;
 
@@ -560,6 +565,32 @@ class eZURI
         return true;
     }
 
+    /**
+     * Returns the current mode used for transformURI().
+     *
+     * @see transformURI()
+     * @see setTransformURIMode()
+     *
+     * @return string
+     */
+    public static function getTransformURIMode()
+    {
+        return self::$transformURIMode;
+    }
+
+    /**
+     * Sets the current $mode used for transformURI().
+     *
+     * @see transformURI()
+     * @see getTransformURIMode()
+     *
+     * @param string $mode
+     */
+    public static function setTransformURIMode( $mode )
+    {
+        self::$transformURIMode = $mode;
+    }
+
     /// The original URI string
     public $URI;
     /// The URI array
@@ -568,6 +599,13 @@ class eZURI
     public $Index;
     /// User defined template variables
     public $UserArray;
+
+    /**
+     * Contains the current mode for transformURI().
+     *
+     * @var string
+     */
+    private static $transformURIMode = "relative";
 }
 
 ?>

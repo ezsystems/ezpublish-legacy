@@ -259,7 +259,7 @@ class eZURLOperator
                 {
                     $url = eZTemplateNodeTool::elementConstantValue( $parameters[0] );
 
-                    $serverURL = isset( $parameters[2] ) ? eZTemplateNodeTool::elementConstantValue( $parameters[2] ) : 'relative';
+                    $serverURL = isset( $parameters[2] ) ? eZTemplateNodeTool::elementConstantValue( $parameters[2] ) : eZURI::getTransformURIMode();
 
                     eZURI::transformURI( $url, false, $serverURL );
 
@@ -271,14 +271,24 @@ class eZURLOperator
                     $url = eZTemplateNodeTool::elementConstantValue( $parameters[0] );
 
                     $values[] = array( eZTemplateNodeTool::createStringElement( $url ) );
-                    $values[] = isset( $parameters[2] ) ? $parameters[2] : array( eZTemplateNodeTool::createStringElement( 'relative' ) );
+
+                    if ( isset( $parameters[2] ) )
+                    {
+                        $values[] = $parameters[2];
+                        $parameter = "%2%";
+                    }
+                    else
+                    {
+                        $parameter = "eZURI::getTransformURIMode()";
+                    }
 
                     $code = <<<CODEPIECE
 
 %tmp1% = %1%;
-eZURI::transformURI( %tmp1%, false, %2% );
+eZURI::transformURI( %tmp1%, false, $parameter );
 
 CODEPIECE;
+                    unset( $parameter );
                     $useTmp = true;
                     ++$tmpCount;
 
@@ -286,13 +296,23 @@ CODEPIECE;
                 else
                 {
                     $values[] = $parameters[0];
-                    $values[] = isset( $parameters[2] ) ? $parameters[2] : array( eZTemplateNodeTool::createStringElement( 'relative' ) );
+
+                    if ( isset( $parameters[2] ) )
+                    {
+                        $values[] = $parameters[2];
+                        $parameter = "%2%";
+                    }
+                    else
+                    {
+                        $parameter = "eZURI::getTransformURIMode()";
+                    }
 
                     $code = <<<CODEPIECE
 
-eZURI::transformURI( %1%, false, %2% );
+eZURI::transformURI( %1%, false, $parameter );
 
 CODEPIECE;
+                    unset( $parameter );
                 }
 
                 ++$paramCount;
@@ -311,7 +331,7 @@ CODEPIECE;
                               $url[0] != '/' )
                         $url = '/' . $url;
 
-                    $serverURL = isset( $parameters[2] ) ? eZTemplateNodeTool::elementConstantValue( $parameters[2] ) : 'relative';
+                    $serverURL = isset( $parameters[2] ) ? eZTemplateNodeTool::elementConstantValue( $parameters[2] ) : eZURI::getTransformURIMode();
 
                     // Same as "ezurl" without "index.php" and the siteaccess name in the returned address.
                     eZURI::transformURI( $url, true, $serverURL );
@@ -324,7 +344,16 @@ CODEPIECE;
                     $url = eZTemplateNodeTool::elementConstantValue( $parameters[0] );
 
                     $values[] = array( eZTemplateNodeTool::createStringElement( $url ) );
-                    $values[] = isset( $parameters[2] ) ? $parameters[2] : array( eZTemplateNodeTool::createStringElement( 'relative' ) );
+
+                    if ( isset( $parameters[2] ) )
+                    {
+                        $values[] = $parameters[2];
+                        $parameter = "%2%";
+                    }
+                    else
+                    {
+                        $parameter = "eZURI::getTransformURIMode()";
+                    }
 
                     $code = '%tmp1% = %1%;';
                     $code .= 'if ( preg_match( "#^[a-zA-Z0-9]+:#", %tmp1% ) or' . "\n" .
@@ -334,7 +363,9 @@ CODEPIECE;
                              '  %tmp1%[0] != \'/\' )' . "\n" .
                              '%tmp1% = \'/\' . %tmp1%;' . "\n";
 
-                    $code .= 'eZURI::transformURI( %tmp1%, true, %2% );' . "\n";
+                    $code .= "eZURI::transformURI( %tmp1%, true, $parameter );\n";
+
+                    unset( $parameter );
 
                     $useTmp = true;
                     ++$tmpCount;
@@ -342,7 +373,16 @@ CODEPIECE;
                 else
                 {
                     $values[] = $parameters[0];
-                    $values[] = isset( $parameters[2] ) ? $parameters[2] : array( eZTemplateNodeTool::createStringElement( 'relative' ) );
+
+                    if ( isset( $parameters[2] ) )
+                    {
+                        $values[] = $parameters[2];
+                        $parameter = "%2%";
+                    }
+                    else
+                    {
+                        $parameter = "eZURI::getTransformURIMode()";
+                    }
 
                     $code = 'if ( preg_match( "#^[a-zA-Z0-9]+:#", %1% ) or' . "\n" .
                             'substr( %1%, 0, 2 ) == \'//\' )' . "\n" .
@@ -350,8 +390,9 @@ CODEPIECE;
                             'else if ( strlen( %1% ) > 0 and' . "\n" .
                             '  %1%[0] != \'/\' )' . "\n" .
                             '%1% = \'/\' . %1%;' . "\n";
-                    $code .= 'eZURI::transformURI( %1%, true, %2% );' . "\n";
+                    $code .= "eZURI::transformURI( %1%, true, $parameter );\n";
 
+                    unset( $parameter );
                 }
 
                 ++$paramCount;

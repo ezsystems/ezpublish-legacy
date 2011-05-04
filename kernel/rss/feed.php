@@ -49,6 +49,8 @@ $cacheTime = intval( $config->variable( 'RSSSettings', 'CacheTime' ) );
 
 $lastModified = gmdate( 'D, d M Y H:i:s', time() ) . ' GMT';
 
+eZURI::setTransformURIMode( 'full' );
+
 if ( $cacheTime <= 0 )
 {
     // use the new attribute rss-xml-content instead of the deprecated attribute rss-xml
