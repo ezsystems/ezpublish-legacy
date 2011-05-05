@@ -273,17 +273,22 @@ class eZTemplateNodeTool
     */
     static function isConstantElement( $elements )
     {
-        $constantElements = array( eZTemplate::TYPE_VOID,
-                                   eZTemplate::TYPE_STRING, eZTemplate::TYPE_IDENTIFIER,
-                                   eZTemplate::TYPE_NUMERIC, eZTemplate::TYPE_BOOLEAN, eZTemplate::TYPE_ARRAY );
-
-        if ( count( $elements ) == 0 )
+        if ( !isset( $elements[0][0] ) || count( $elements ) > 1 )
+        {
             return false;
-        if ( count( $elements ) > 1 )
-            return false;
+        }
 
-        if ( in_array( $elements[0][0], $constantElements ) )
-            return true;
+        switch ( $elements[0][0] )
+        {
+            case eZTemplate::TYPE_VOID:
+            case eZTemplate::TYPE_STRING:
+            case eZTemplate::TYPE_IDENTIFIER:
+            case eZTemplate::TYPE_NUMERIC:
+            case eZTemplate::TYPE_BOOLEAN:
+            case eZTemplate::TYPE_ARRAY:
+                return true;
+        }
+
         return false;
     }
 
@@ -292,18 +297,7 @@ class eZTemplateNodeTool
     */
     static function isStaticElement( $elements )
     {
-        $staticElements = array( eZTemplate::TYPE_VOID,
-                                 eZTemplate::TYPE_STRING, eZTemplate::TYPE_IDENTIFIER,
-                                 eZTemplate::TYPE_NUMERIC, eZTemplate::TYPE_BOOLEAN, eZTemplate::TYPE_ARRAY );
-
-        if ( count( $elements ) == 0 )
-            return false;
-        if ( count( $elements ) > 1 )
-            return false;
-
-        if ( in_array( $elements[0][0], $staticElements ) )
-            return true;
-        return false;
+        return self::isConstantElement( $elements );
     }
 
     /*!
