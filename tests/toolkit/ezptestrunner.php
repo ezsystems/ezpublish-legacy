@@ -7,11 +7,6 @@
  * @package tests
  */
 
-require_once 'PHPUnit/Util/Filter.php';
-require_once 'PHPUnit/TextUI/TestRunner.php';
-
-PHPUnit_Util_Filter::addFileToFilter( __FILE__ );
-
 class ezpTestRunner extends PHPUnit_TextUI_TestRunner
 {
     static $consoleInput;
