@@ -366,13 +366,18 @@ class eZTemplateNodeTool
     */
     static function isStringElement( $elements )
     {
-        $constantElements = array( eZTemplate::TYPE_STRING, eZTemplate::TYPE_IDENTIFIER );
-
-        if ( count( $elements ) == 0 )
+        if ( !isset( $elements[0][0] ) )
+        {
             return false;
+        }
 
-        if ( in_array( $elements[0][0], $constantElements ) )
-            return true;
+        switch ( $elements[0][0] )
+        {
+            case eZTemplate::TYPE_STRING:
+            case eZTemplate::TYPE_IDENTIFIER:
+                return true;
+        }
+
         return false;
     }
 
