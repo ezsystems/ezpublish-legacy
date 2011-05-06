@@ -95,22 +95,13 @@ class eZTemplateNodeTool
             return eZTemplateNodeTool::createVoidElement();
     }
 
-    /*!
-     \static
-     \deprecated Use createConstantElement instead.
-    */
+    /**
+     * @deprecated Use createConstantElement() instead.
+     * @see createConstantElement()
+     */
     static function createStaticElement( $static, $variablePlacement = false )
     {
-        if ( is_array( $static ) )
-            return eZTemplateNodeTool::createArrayElement( $static, $variablePlacement );
-        else if ( is_string( $static ) )
-            return eZTemplateNodeTool::createStringElement( $static, $variablePlacement );
-        else if ( is_bool( $static ) )
-            return eZTemplateNodeTool::createBooleanElement( $static, $variablePlacement );
-        else if ( is_numeric( $static ) )
-            return eZTemplateNodeTool::createNumericElement( $static, $variablePlacement );
-        else
-            return eZTemplateNodeTool::createVoidElement();
+        return self::createConstantElement( $static, $variablePlacement );
     }
 
     /*!
