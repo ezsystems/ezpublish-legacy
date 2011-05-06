@@ -307,7 +307,7 @@ class eZTemplateStringOperator
 
         if ( eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
         {
-            $text = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+            $text = eZTemplateNodeTool::elementConstantValue( $parameters[0] );
             $text = $phpFunction( $text );
             $text = str_replace( array( "'" ), array( "\\'" ), $text );
             $code = "%output% = '" . $text . "' ;\n";
@@ -352,7 +352,7 @@ class eZTemplateStringOperator
         {
             if ( eZTemplateNodeTool::isConstantElement( $parameters[$i] ) )
             {
-                $staticValues[$i] = eZTemplateNodeTool::elementStaticValue( $parameters[$i] );
+                $staticValues[$i] = eZTemplateNodeTool::elementConstantValue( $parameters[$i] );
             }
             else
             {
@@ -461,7 +461,7 @@ class eZTemplateStringOperator
         {
             if ( eZTemplateNodeTool::isConstantElement( $parameters[$i] ) )
             {
-                $staticValues[$i] = eZTemplateNodeTool::elementStaticValue( $parameters[$i] );
+                $staticValues[$i] = eZTemplateNodeTool::elementConstantValue( $parameters[$i] );
             }
             else
             {

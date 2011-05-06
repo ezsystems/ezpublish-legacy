@@ -126,7 +126,7 @@ class eZTemplateControlOperator
                     }
                     else
                     {
-                        $code .= $spacingCode . '    %output% = ' . eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i*2 + 1] ), 0, 0, false ) . ';' . "\n";
+                        $code .= $spacingCode . '    %output% = ' . eZPHPCreator::variableText( eZTemplateNodeTool::elementConstantValue( $parameters[$i*2 + 1] ), 0, 0, false ) . ';' . "\n";
                     }
                     $code .= $spacingCode . "}\n";
                     ++$spacing;
@@ -170,7 +170,7 @@ class eZTemplateControlOperator
 
                     if ( eZTemplateNodeTool::isConstantElement( $parameters[$i] ) )
                     {
-                        $code .= "$spacingCode%output% = " . eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i] ), 0, 0, false ) . ";\n";
+                        $code .= "$spacingCode%output% = " . eZPHPCreator::variableText( eZTemplateNodeTool::elementConstantValue( $parameters[$i] ), 0, 0, false ) . ";\n";
                         break;
                     }
                     ++$nestCount;

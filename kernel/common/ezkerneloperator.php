@@ -91,7 +91,7 @@ class eZKernelOperator
         $values = array();
         if ( eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
         {
-            $name = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+            $name = eZTemplateNodeTool::elementConstantValue( $parameters[0] );
             $nameText = eZPHPCreator::variableText( $name, 0, 0, false );
         }
         else

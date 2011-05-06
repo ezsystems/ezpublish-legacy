@@ -179,7 +179,7 @@ class eZTemplateSetFunction
                 {
                     if ( !eZTemplateNodeTool::isConstantElement( $parameters['-scope'] ) )
                         return false;
-                    $scopeText = eZTemplateNodeTool::elementStaticValue( $parameters['-scope'] );
+                    $scopeText = eZTemplateNodeTool::elementConstantValue( $parameters['-scope'] );
                     if ( $scopeText == 'relative' )
                         $scope = eZTemplate::NAMESPACE_SCOPE_RELATIVE;
                     else if ( $scopeText == 'root' )
@@ -197,7 +197,7 @@ class eZTemplateSetFunction
                         return false;
                     }
 
-                    $namespaceValue = eZTemplateNodeTool::elementStaticValue( $parameters['-name'] );
+                    $namespaceValue = eZTemplateNodeTool::elementConstantValue( $parameters['-name'] );
                 }
 
                 $variableList = array();

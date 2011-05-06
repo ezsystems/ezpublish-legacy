@@ -121,7 +121,7 @@ class eZTemplateSequenceFunction
             return false;
 
         $nameData = $parameters['name'];
-        $nameValue = eZTemplateNodeTool::elementStaticValue( $nameData );
+        $nameValue = eZTemplateNodeTool::elementConstantValue( $nameData );
 
         $nameSpaceNode = eZTemplateNodeTool::createCodePieceNode( "\$namespace = \$rootNamespace;
 if ( \$namespace == '' )
@@ -134,7 +134,7 @@ else
             $loopData = $parameters['loop'];
             if ( !eZTemplateNodeTool::isConstantElement( $loopData ) )
                 return false;
-            $loopValue = eZTemplateNodeTool::elementStaticValue( $loopData );
+            $loopValue = eZTemplateNodeTool::elementConstantValue( $loopData );
 
             $newNodes = $this->templateNodeSequenceCreate( $node, $tpl, $parameters, $nameValue, $loopValue );
         }

@@ -115,14 +115,14 @@ class eZTemplateTextOperator
         {
             if ( eZTemplateNodeTool::isConstantElement( $parameters[3] ) )
             {
-                $filler = eZTemplateNodeTool::elementStaticValue( $parameters[3] );
+                $filler = eZTemplateNodeTool::elementConstantValue( $parameters[3] );
             }
         }
         if ( $paramCount >= 3 )
         {
             if ( eZTemplateNodeTool::isConstantElement( $parameters[2] ) )
             {
-                $type = eZTemplateNodeTool::elementStaticValue( $parameters[2] );
+                $type = eZTemplateNodeTool::elementConstantValue( $parameters[2] );
                 if ( $type == 'space' )
                 {
                     $filler = ' ';
@@ -141,7 +141,7 @@ class eZTemplateTextOperator
         {
             if ( eZTemplateNodeTool::isConstantElement( $parameters[1] ) )
             {
-                $count = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
+                $count = eZTemplateNodeTool::elementConstantValue( $parameters[1] );
             }
             if ( $paramCount < 3 )
             {
@@ -223,7 +223,7 @@ class eZTemplateTextOperator
         if ( ( count( $parameters ) == 1 ) and
              eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
         {
-            return array( eZTemplateNodeTool::createConstantElement( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) ) );
+            return array( eZTemplateNodeTool::createConstantElement( eZTemplateNodeTool::elementConstantValue( $parameters[0] ) ) );
         }
         $newElements = array();
 

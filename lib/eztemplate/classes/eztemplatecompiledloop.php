@@ -219,7 +219,7 @@ class eZTemplateCompiledLoop
 
                         if ( eZTemplateNodeTool::isConstantElement( $delimiterModulo ) )
                         {
-                            $moduloValue = (int)eZTemplateNodeTool::elementStaticValue( $delimiterModulo );
+                            $moduloValue = (int)eZTemplateNodeTool::elementConstantValue( $delimiterModulo );
                             $matchCode = "( ( $currentIndex ) % $moduloValue ) == 0";
                         }
                         else

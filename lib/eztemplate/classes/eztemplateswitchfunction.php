@@ -108,7 +108,7 @@ class eZTemplateSwitchFunction
                     $dynamicCase = false;
                     if ( eZTemplateNodeTool::isConstantElement( $match ) )
                     {
-                        $matchValue = eZTemplateNodeTool::elementStaticValue( $match );
+                        $matchValue = eZTemplateNodeTool::elementConstantValue( $match );
                         $caseText = eZPHPCreator::variableText( $matchValue, 0, 0, false );
                     }
                     else
@@ -170,7 +170,7 @@ class eZTemplateSwitchFunction
             $nameData = $parameters['name'];
             if ( !eZTemplateNodeTool::isConstantElement( $nameData ) )
                 return false;
-            $namespaceValue = eZTemplateNodeTool::elementStaticValue( $nameData );
+            $namespaceValue = eZTemplateNodeTool::elementConstantValue( $nameData );
         }
 
         if ( isset( $parameters['var'] ) )
@@ -178,7 +178,7 @@ class eZTemplateSwitchFunction
             $varData = $parameters['var'];
             if ( !eZTemplateNodeTool::isConstantElement( $varData ) )
                 return false;
-            $varName = eZTemplateNodeTool::elementStaticValue( $varData );
+            $varName = eZTemplateNodeTool::elementConstantValue( $varData );
         }
 
         $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['match'], false, array(),

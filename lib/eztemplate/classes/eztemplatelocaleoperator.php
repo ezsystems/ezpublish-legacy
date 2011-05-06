@@ -202,7 +202,7 @@ class eZTemplateLocaleOperator
         {
             $values[] = false;
             $newElements[] = eZTemplateNodeTool::createCodePieceElement( '// l10nTransformation: static' . "\n" );
-            if ( ( $function = eZTemplateNodeTool::elementStaticValue( $parameters[1] ) ) !== false )
+            if ( ( $function = eZTemplateNodeTool::elementConstantValue( $parameters[1] ) ) !== false )
             {
                 $locale = eZLocale::instance();
                 $method = $locale->getFormattingFunction( $function );
@@ -251,7 +251,7 @@ class eZTemplateLocaleOperator
         }
         else
         {
-            $class = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
+            $class = eZTemplateNodeTool::elementConstantValue( $parameters[1] );
         }
         if ( ( $class == 'custom' ) && ( $paramCount != 3 ) )
         {

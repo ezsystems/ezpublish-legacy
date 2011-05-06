@@ -96,11 +96,11 @@ class eZTemplateIncludeFunction
             $nameData = $parameters['name'];
             if ( !eZTemplateNodeTool::isConstantElement( $nameData ) )
                 return false;
-            $namespaceValue = eZTemplateNodeTool::elementStaticValue( $nameData );
+            $namespaceValue = eZTemplateNodeTool::elementConstantValue( $nameData );
             $namespaceName = '$namespace';
         }
 
-        $uriString = eZTemplateNodeTool::elementStaticValue( $uriData );
+        $uriString = eZTemplateNodeTool::elementConstantValue( $uriData );
 
         $resourceName = "";
         $templateName = "";

@@ -119,11 +119,11 @@ class eZi18nOperator
             }
         }
 
-        $value = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+        $value = eZTemplateNodeTool::elementConstantValue( $parameters[0] );
 
         $numParameters = count ( $parameters );
-        $context = ( $numParameters > 1 ) ? eZTemplateNodeTool::elementStaticValue( $parameters[1] ) : null;
-        $comment = ( $numParameters > 2 ) ? eZTemplateNodeTool::elementStaticValue( $parameters[2] ) : null;
+        $context = ( $numParameters > 1 ) ? eZTemplateNodeTool::elementConstantValue( $parameters[1] ) : null;
+        $comment = ( $numParameters > 2 ) ? eZTemplateNodeTool::elementConstantValue( $parameters[2] ) : null;
 
         if ( $numParameters < 4 )
         {

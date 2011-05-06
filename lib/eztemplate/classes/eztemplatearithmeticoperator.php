@@ -270,7 +270,7 @@ class eZTemplateArithmeticOperator
             }
             else
             {
-                $staticValue = eZTemplateNodeTool::elementStaticValue( $parameter );
+                $staticValue = eZTemplateNodeTool::elementConstantValue( $parameter );
                 if ( $notInitialised )
                 {
                     $staticResult = $staticValue;
@@ -341,7 +341,7 @@ class eZTemplateArithmeticOperator
                 }
                 if ( eZTemplateNodeTool::isConstantElement( $parameter ) )
                 {
-                    $staticValue = eZTemplateNodeTool::elementStaticValue( $parameter );
+                    $staticValue = eZTemplateNodeTool::elementConstantValue( $parameter );
                     if ( !is_numeric( $staticValue ) )
                         $staticValue = (int)$staticValue;
                     $code .= sprintf(" %F", $staticValue);
@@ -382,7 +382,7 @@ class eZTemplateArithmeticOperator
             }
             else
             {
-                $staticResult[] = eZTemplateNodeTool::elementStaticValue( $parameter );
+                $staticResult[] = eZTemplateNodeTool::elementConstantValue( $parameter );
             }
         }
 
@@ -421,7 +421,7 @@ class eZTemplateArithmeticOperator
 
         if ( eZTemplateNodeTool::isConstantElement( $parameters[0] ) && eZTemplateNodeTool::isConstantElement( $parameters[1] ) )
         {
-            $staticResult = eZTemplateNodeTool::elementStaticValue( $parameters[0] ) % eZTemplateNodeTool::elementStaticValue( $parameters[1] );
+            $staticResult = eZTemplateNodeTool::elementConstantValue( $parameters[0] ) % eZTemplateNodeTool::elementConstantValue( $parameters[1] );
             return array( eZTemplateNodeTool::createNumericElement( $staticResult ) );
         }
         else
@@ -446,7 +446,7 @@ class eZTemplateArithmeticOperator
 
         if ( eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
         {
-            $staticResult = $function( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) );
+            $staticResult = $function( eZTemplateNodeTool::elementConstantValue( $parameters[0] ) );
             return array( eZTemplateNodeTool::createNumericElement( $staticResult ) );
         }
         else
@@ -471,7 +471,7 @@ class eZTemplateArithmeticOperator
 
         if ( eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
         {
-            return array( eZTemplateNodeTool::createNumericElement( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) + $direction ) );
+            return array( eZTemplateNodeTool::createNumericElement( eZTemplateNodeTool::elementConstantValue( $parameters[0] ) + $direction ) );
         }
         else
         {
@@ -492,7 +492,7 @@ class eZTemplateArithmeticOperator
 
         if ( eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
         {
-            $staticResult = ( $operatorName == $this->IntName ) ? (int) eZTemplateNodeTool::elementStaticValue( $parameters[0] ) : (float) eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+            $staticResult = ( $operatorName == $this->IntName ) ? (int) eZTemplateNodeTool::elementConstantValue( $parameters[0] ) : (float) eZTemplateNodeTool::elementConstantValue( $parameters[0] );
             return array( eZTemplateNodeTool::createNumericElement( $staticResult ) );
         }
         else
@@ -541,7 +541,7 @@ class eZTemplateArithmeticOperator
 
         if ( eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
         {
-            $staticResult = $this->buildRoman( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) );
+            $staticResult = $this->buildRoman( eZTemplateNodeTool::elementConstantValue( $parameters[0] ) );
             return array( eZTemplateNodeTool::createNumericElement( $staticResult ) );
         }
         else

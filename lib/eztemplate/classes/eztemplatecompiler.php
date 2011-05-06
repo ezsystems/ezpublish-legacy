@@ -2629,13 +2629,13 @@ END;
                 if ( eZTemplateNodeTool::isConstantElement( $nodeElements ) and
                      !$variableParameters['text-result'] )
                 {
-                    $variableText = $php->thisVariableText( eZTemplateNodeTool::elementStaticValue( $nodeElements ), 0, 0, false );
+                    $variableText = $php->thisVariableText( eZTemplateNodeTool::elementConstantValue( $nodeElements ), 0, 0, false );
                     $isStaticElement = true;
                 }
                 else if ( eZTemplateNodeTool::isPHPVariableElement( $nodeElements ) and
                           !$variableParameters['text-result'] )
                 {
-                    $variableText = '$' . eZTemplateNodeTool::elementStaticValue( $nodeElements );
+                    $variableText = '$' . eZTemplateNodeTool::elementConstantValue( $nodeElements );
                     $isStaticElement = true;
                 }
                 else
@@ -3137,7 +3137,7 @@ END;
                     $tmpVariableAssignmentName .= $tmpVariableAssignmentCounter;
                 if ( eZTemplateNodeTool::isConstantElement( $variableDataItem[1] ) )
                 {
-                    $attributeStaticValue = eZTemplateNodeTool::elementStaticValue( $variableDataItem[1] );
+                    $attributeStaticValue = eZTemplateNodeTool::elementConstantValue( $variableDataItem[1] );
                     $attributeText = $php->thisVariableText( $attributeStaticValue, 0, 0, false );
                 }
                 else
@@ -3226,7 +3226,7 @@ unset( \$" . $variableAssignmentName . "Data );\n",
                     $code .= '\'' . $key . '\' => ';
                     if( eZTemplateNodeTool::isConstantElement( $value ) )
                     {
-                        $code .= eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $value ), 0, 0, false );
+                        $code .= eZPHPCreator::variableText( eZTemplateNodeTool::elementConstantValue( $value ), 0, 0, false );
                         continue;
                     }
                     $code .= '%' . $counter . '%';
@@ -3270,7 +3270,7 @@ unset( \$" . $variableAssignmentName . "Data );\n",
                             $newVariableAssignmentName .= $newVariableAssignmentCounter;
                         if ( eZTemplateNodeTool::isConstantElement( $value ) )
                         {
-                            $staticValue = eZTemplateNodeTool::elementStaticValue( $value );
+                            $staticValue = eZTemplateNodeTool::elementConstantValue( $value );
                             $staticValueText = $php->thisVariableText( $staticValue, 0, 0, false );
                             if ( preg_match( "/%code$counter%/", $code ) )
                             {

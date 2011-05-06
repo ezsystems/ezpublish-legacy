@@ -125,7 +125,7 @@ class eZTemplateBlockFunction
             {
                 if ( !eZTemplateNodeTool::isConstantElement( $parameters['scope'] ) )
                     return false;
-                $scopeText = eZTemplateNodeTool::elementStaticValue( $parameters['scope'] );
+                $scopeText = eZTemplateNodeTool::elementConstantValue( $parameters['scope'] );
                 if ( $scopeText == 'relative' )
                     $scope = eZTemplate::NAMESPACE_SCOPE_RELATIVE;
                 else if ( $scopeText == 'root' )
@@ -139,9 +139,9 @@ class eZTemplateBlockFunction
             {
                 if ( !eZTemplateNodeTool::isConstantElement( $parameters['name'] ) )
                     return false;
-                $name = eZTemplateNodeTool::elementStaticValue( $parameters['name'] );
+                $name = eZTemplateNodeTool::elementConstantValue( $parameters['name'] );
             }
-            $variableName = eZTemplateNodeTool::elementStaticValue( $parameters['variable'] );
+            $variableName = eZTemplateNodeTool::elementConstantValue( $parameters['variable'] );
 
             $newNodes = array();
 

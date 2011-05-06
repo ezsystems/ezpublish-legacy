@@ -85,7 +85,7 @@ class eZTemplateCacheFunction
         {
             if ( eZTemplateNodeTool::isConstantElement( $parameters['expiry'] ) )
             {
-                $expiryValue = eZTemplateNodeTool::elementStaticValue( $parameters['expiry'] );
+                $expiryValue = eZTemplateNodeTool::elementConstantValue( $parameters['expiry'] );
                 $ttlCode = $expiryValue > 0 ? eZPHPCreator::variableText( $expiryValue , 0, 0, false ) : 'null';
             }
             else
@@ -101,7 +101,7 @@ class eZTemplateCacheFunction
 
         if ( isset( $parameters['ignore_content_expiry'] ) )
         {
-            $ignoreContentExpiry = eZTemplateNodeTool::elementStaticValue( $parameters['ignore_content_expiry'] );
+            $ignoreContentExpiry = eZTemplateNodeTool::elementConstantValue( $parameters['ignore_content_expiry'] );
         }
 
         $keysData = false;
@@ -119,7 +119,7 @@ class eZTemplateCacheFunction
             if ( !eZTemplateNodeTool::isConstantElement( $subtreeExpiryData ) )
                 $hasKeys = true;
             else
-                $subtreeValue = eZTemplateNodeTool::elementStaticValue( $subtreeExpiryData );
+                $subtreeValue = eZTemplateNodeTool::elementConstantValue( $subtreeExpiryData );
 
             $ignoreContentExpiry = true;
         }

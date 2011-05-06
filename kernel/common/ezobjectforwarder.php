@@ -95,7 +95,7 @@ class eZObjectForwarder
             {
                 return false;
             }
-            $renderMode = eZTemplateNodeTool::elementStaticValue( $renderData );
+            $renderMode = eZTemplateNodeTool::elementConstantValue( $renderData );
         }
         if ( $renderMode )
             $view_dir .= "/render-$renderMode";
@@ -113,7 +113,7 @@ class eZObjectForwarder
                 {
                     return false;
                 }
-                $viewValue = eZTemplateNodeTool::elementStaticValue( $viewData );
+                $viewValue = eZTemplateNodeTool::elementConstantValue( $viewData );
                 $viewDir .= '/' . $viewValue;
             }
             else

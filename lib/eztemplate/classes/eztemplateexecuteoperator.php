@@ -96,8 +96,8 @@ class eZTemplateExecuteOperator
                 return false;
             }
 
-            $moduleName = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
-            $functionName = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
+            $moduleName = eZTemplateNodeTool::elementConstantValue( $parameters[0] );
+            $functionName = eZTemplateNodeTool::elementConstantValue( $parameters[1] );
 
             $moduleFunctionInfo = eZFunctionHandler::moduleFunctionInfo( $moduleName );
             if ( !$moduleFunctionInfo->isValid() )
@@ -116,7 +116,7 @@ class eZTemplateExecuteOperator
                 return false;
             }
 
-            $aliasFunctionName = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
+            $aliasFunctionName = eZTemplateNodeTool::elementConstantValue( $parameters[0] );
 
             $aliasSettings = eZINI::instance( 'fetchalias.ini' );
             if ( $aliasSettings->hasSection( $aliasFunctionName ) )
@@ -177,7 +177,7 @@ class eZTemplateExecuteOperator
         $isVariable = false;
         if ( eZTemplateNodeTool::isConstantElement( $fetchParameters ) )
         {
-            $staticParameters = eZTemplateNodeTool::elementStaticValue( $fetchParameters );
+            $staticParameters = eZTemplateNodeTool::elementConstantValue( $fetchParameters );
             $functionKeys = array_keys( $staticParameters );
         }
         else if ( eZTemplateNodeTool::isDynamicArrayElement( $fetchParameters ) )
@@ -263,7 +263,7 @@ class eZTemplateExecuteOperator
                         {
                             if ( eZTemplateNodeTool::isConstantElement( $dynamicParameters[$parameterName] ) )
                             {
-                                $parametersCode .= eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $dynamicParameters[$parameterName] ), 0, 0, false );
+                                $parametersCode .= eZPHPCreator::variableText( eZTemplateNodeTool::elementConstantValue( $dynamicParameters[$parameterName] ), 0, 0, false );
                             }
                             else
                             {
