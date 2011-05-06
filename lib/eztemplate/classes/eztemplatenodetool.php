@@ -234,16 +234,13 @@ class eZTemplateNodeTool
         return null;
     }
 
-    /*!
-     \static
-     \deprecated Use elementConstantValue instead.
-    */
+    /**
+     * @deprecated Use elementConstantValue instead.
+     * @see elementConstantValue().
+     */
     static function elementStaticValue( $elements )
     {
-        if ( eZTemplateNodeTool::isConstantElement( $elements ) or
-             eZTemplateNodeTool::isPHPVariableElement( $elements ) )
-            return $elements[0][1];
-        return null;
+        return self::elementConstantValue( $elements );
     }
 
     /*!
