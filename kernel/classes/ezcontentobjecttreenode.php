@@ -5866,6 +5866,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                         'Time' => $time,
                                                         'Comment' => 'Unhided the current node: eZContentObjectTreeNode::unhideSubTree()' ) );
         }
+
         $db = eZDB::instance();
 
         $db->begin();
