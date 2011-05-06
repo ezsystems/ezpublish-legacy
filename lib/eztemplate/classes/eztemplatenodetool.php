@@ -305,9 +305,7 @@ class eZTemplateNodeTool
     */
     static function isInternalCodePiece( $elements )
     {
-        if ( isset( $elements[0][0]) && ( $elements[0][0] == eZTemplate::TYPE_INTERNAL_CODE_PIECE ) )
-            return true;
-        return false;
+        return isset( $elements[0][0]) && $elements[0][0] == eZTemplate::TYPE_INTERNAL_CODE_PIECE;
     }
 
     /*!
@@ -315,9 +313,7 @@ class eZTemplateNodeTool
     */
     static function isVariableElement( $elements )
     {
-        if ( isset( $elements[0][0] ) && ( $elements[0][0] == eZTemplate::TYPE_VARIABLE ) )
-            return true;
-        return false;
+        return isset( $elements[0][0] ) && $elements[0][0] == eZTemplate::TYPE_VARIABLE;
     }
 
     /*!
@@ -329,14 +325,7 @@ class eZTemplateNodeTool
     */
     static function isPHPVariableElement( $elements )
     {
-        if ( count( $elements ) == 0 )
-            return false;
-        if ( count( $elements ) > 1 )
-            return false;
-
-        if ( $elements[0][0] == eZTemplate::TYPE_PHP_VARIABLE )
-            return true;
-        return false;
+        return count( $elements ) === 1 && isset( $elements[0][0] ) && $elements[0][0] == eZTemplate::TYPE_PHP_VARIABLE;
     }
 
     /*!
@@ -351,7 +340,7 @@ class eZTemplateNodeTool
     */
     static function isNumericElement( $elements )
     {
-        return isset( $elements[0][0] ) && ( $elements[0][0] == eZTemplate::TYPE_NUMERIC );
+        return isset( $elements[0][0] ) && $elements[0][0] == eZTemplate::TYPE_NUMERIC;
     }
 
     /*!
@@ -392,7 +381,7 @@ class eZTemplateNodeTool
     */
     static function isIdentifierElement( $elements )
     {
-        return isset( $elements[0][0] ) && ( $elements[0][0] == eZTemplate::TYPE_IDENTIFIER );
+        return isset( $elements[0][0] ) && $elements[0][0] == eZTemplate::TYPE_IDENTIFIER;
     }
 
     /*!
@@ -407,7 +396,7 @@ class eZTemplateNodeTool
     */
     static function isBooleanElement( $elements )
     {
-        return isset( $elements[0][0] ) && ( $elements[0][0] == eZTemplate::TYPE_BOOLEAN );
+        return isset( $elements[0][0] ) && $elements[0][0] == eZTemplate::TYPE_BOOLEAN;
     }
 
     /*!
@@ -416,12 +405,7 @@ class eZTemplateNodeTool
     */
     static function isDynamicArrayElement( $elements )
     {
-        if ( count( $elements ) == 0 )
-            return false;
-
-        if ( $elements[0][0] == eZTemplate::TYPE_DYNAMIC_ARRAY )
-            return true;
-        return false;
+        return isset( $elements[0][0] ) && $elements[0][0] == eZTemplate::TYPE_DYNAMIC_ARRAY;
     }
 
     /*!
@@ -434,7 +418,7 @@ class eZTemplateNodeTool
     */
     static function isArrayElement( $elements )
     {
-        return isset( $elements[0][0] ) && ( $elements[0][0] == eZTemplate::TYPE_ARRAY );
+        return isset( $elements[0][0] ) && $elements[0][0] == eZTemplate::TYPE_ARRAY;
     }
 
     /*!
