@@ -223,7 +223,7 @@ class eZTemplateTextOperator
         if ( ( count( $parameters ) == 1 ) and
              eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
         {
-            return array( eZTemplateNodeTool::createStaticElement( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) ) );
+            return array( eZTemplateNodeTool::createConstantElement( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) ) );
         }
         $newElements = array();
 

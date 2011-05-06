@@ -371,7 +371,7 @@ class eZTemplateStringOperator
             {
                 eval( $mapEntry['code'] );
             }
-            return array( eZTemplateNodeTool::createStaticElement( $result ) );
+            return array( eZTemplateNodeTool::createConstantElement( $result ) );
         }
         else
         {

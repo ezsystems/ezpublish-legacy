@@ -1323,7 +1323,7 @@ class eZTemplateArrayOperator
                     else
                         $output = array_slice( $input, $offset, $length );
                 }
-                return array( eZTemplateNodeTool::createStaticElement( $output ) );
+                return array( eZTemplateNodeTool::createConstantElement( $output ) );
             }
             else
             {

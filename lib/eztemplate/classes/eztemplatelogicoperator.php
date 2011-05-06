@@ -337,7 +337,7 @@ class eZTemplateLogicOperator
             {
                 if ( !$staticResult )
                     $lastValue = false;
-                $newElements[] = eZTemplateNodeTool::createStaticElement( $lastValue );
+                $newElements[] = eZTemplateNodeTool::createConstantElement( $lastValue );
                 return $newElements;
             }
 
@@ -396,7 +396,7 @@ class eZTemplateLogicOperator
             }
             if ( count( $dynamicParameters ) == 0 )
             {
-                $newElements[] = eZTemplateNodeTool::createStaticElement( $lastValue );
+                $newElements[] = eZTemplateNodeTool::createConstantElement( $lastValue );
                 return $newElements;
             }
 
