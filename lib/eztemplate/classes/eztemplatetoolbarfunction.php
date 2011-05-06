@@ -95,7 +95,7 @@ class eZTemplateToolbarFunction
         if ( isset( $parameters["name"] ) )
         {
             $nameData = $parameters["name"];
-            if ( !eZTemplateNodeTool::isStaticElement( $nameData ) )
+            if ( !eZTemplateNodeTool::isConstantElement( $nameData ) )
                 return false;
 
             $nameValue = eZTemplateNodeTool::elementStaticValue( $nameData );

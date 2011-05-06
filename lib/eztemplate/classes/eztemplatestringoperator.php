@@ -305,7 +305,7 @@ class eZTemplateStringOperator
             return false;
         }
 
-        if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+        if ( eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
         {
             $text = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
             $text = $phpFunction( $text );
@@ -350,7 +350,7 @@ class eZTemplateStringOperator
         $replacementMap = array('%output%');
         for ($i = 0; $i < $paramCount; $i++)
         {
-            if ( eZTemplateNodeTool::isStaticElement( $parameters[$i] ) )
+            if ( eZTemplateNodeTool::isConstantElement( $parameters[$i] ) )
             {
                 $staticValues[$i] = eZTemplateNodeTool::elementStaticValue( $parameters[$i] );
             }
@@ -459,7 +459,7 @@ class eZTemplateStringOperator
         $staticValues = array();
         for ($i = 0; $i < $paramCount; $i++)
         {
-            if ( eZTemplateNodeTool::isStaticElement( $parameters[$i] ) )
+            if ( eZTemplateNodeTool::isConstantElement( $parameters[$i] ) )
             {
                 $staticValues[$i] = eZTemplateNodeTool::elementStaticValue( $parameters[$i] );
             }

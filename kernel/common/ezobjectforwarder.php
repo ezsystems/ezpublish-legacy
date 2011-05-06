@@ -91,7 +91,7 @@ class eZObjectForwarder
         if ( isset( $parameters['render-mode'] ) )
         {
             $renderData = $parameters['render-mode'];
-            if ( !eZTemplateNodeTool::isStaticElement( $renderData ) )
+            if ( !eZTemplateNodeTool::isConstantElement( $renderData ) )
             {
                 return false;
             }
@@ -109,7 +109,7 @@ class eZObjectForwarder
             if ( isset( $parameters[$viewName] ) )
             {
                 $viewData = $parameters[$viewName];
-                if ( !eZTemplateNodeTool::isStaticElement( $viewData ) )
+                if ( !eZTemplateNodeTool::isConstantElement( $viewData ) )
                 {
                     return false;
                 }

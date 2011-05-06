@@ -117,7 +117,7 @@ class eZTemplateSequenceFunction
 
         if ( !isset( $parameters['name'] ) )
             return false;
-        if ( !eZTemplateNodeTool::isStaticElement( $parameters['name'] ) )
+        if ( !eZTemplateNodeTool::isConstantElement( $parameters['name'] ) )
             return false;
 
         $nameData = $parameters['name'];
@@ -132,7 +132,7 @@ else
         if ( isset( $parameters['loop'] ) )
         {
             $loopData = $parameters['loop'];
-            if ( !eZTemplateNodeTool::isStaticElement( $loopData ) )
+            if ( !eZTemplateNodeTool::isConstantElement( $loopData ) )
                 return false;
             $loopValue = eZTemplateNodeTool::elementStaticValue( $loopData );
 

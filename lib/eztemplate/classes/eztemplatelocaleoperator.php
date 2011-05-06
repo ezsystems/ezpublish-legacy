@@ -164,7 +164,7 @@ class eZTemplateLocaleOperator
             $newElements[] = eZTemplateNodeTool::createCodePieceElement( "\$locale = eZLocale::instance();\n" );
         }
 
-        if ( !eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
+        if ( !eZTemplateNodeTool::isConstantElement( $parameters[1] ) )
         {
             $newElements[] = eZTemplateNodeTool::createCodePieceElement( '// l10nTransformation: not static' . "\n" );
             $values[] = $parameters[1];
@@ -245,7 +245,7 @@ class eZTemplateLocaleOperator
         {
             return false;
         }
-        if ( !eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
+        if ( !eZTemplateNodeTool::isConstantElement( $parameters[1] ) )
         {
             return false;
         }

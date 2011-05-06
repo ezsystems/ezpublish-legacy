@@ -86,7 +86,7 @@ class eZTemplateIncludeFunction
             return false;
 
         $uriData = $parameters['uri'];
-        if ( !eZTemplateNodeTool::isStaticElement( $uriData ) )
+        if ( !eZTemplateNodeTool::isConstantElement( $uriData ) )
             return false;
 
         $namespaceValue = false;
@@ -94,7 +94,7 @@ class eZTemplateIncludeFunction
         if ( isset( $parameters['name'] ) )
         {
             $nameData = $parameters['name'];
-            if ( !eZTemplateNodeTool::isStaticElement( $nameData ) )
+            if ( !eZTemplateNodeTool::isConstantElement( $nameData ) )
                 return false;
             $namespaceValue = eZTemplateNodeTool::elementStaticValue( $nameData );
             $namespaceName = '$namespace';

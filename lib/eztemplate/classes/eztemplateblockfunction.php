@@ -123,7 +123,7 @@ class eZTemplateBlockFunction
             $scope = eZTemplate::NAMESPACE_SCOPE_RELATIVE;
             if ( isset( $parameters['scope'] ) )
             {
-                if ( !eZTemplateNodeTool::isStaticElement( $parameters['scope'] ) )
+                if ( !eZTemplateNodeTool::isConstantElement( $parameters['scope'] ) )
                     return false;
                 $scopeText = eZTemplateNodeTool::elementStaticValue( $parameters['scope'] );
                 if ( $scopeText == 'relative' )
@@ -137,7 +137,7 @@ class eZTemplateBlockFunction
             $name = '';
             if ( isset( $parameters['name'] ) )
             {
-                if ( !eZTemplateNodeTool::isStaticElement( $parameters['name'] ) )
+                if ( !eZTemplateNodeTool::isConstantElement( $parameters['name'] ) )
                     return false;
                 $name = eZTemplateNodeTool::elementStaticValue( $parameters['name'] );
             }

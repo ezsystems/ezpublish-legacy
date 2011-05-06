@@ -88,21 +88,21 @@ class eZTemplateUnitOperator
     function operatorTransform( $operatorName, &$node, $tpl, &$resourceData,
                                 $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
-        if ( !eZTemplateNodeTool::isStaticElement( $parameters[1] ) ||
-             ( count( $parameters ) > 2 && !eZTemplateNodeTool::isStaticElement( $parameters[2] ) ) )
+        if ( !eZTemplateNodeTool::isConstantElement( $parameters[1] ) ||
+             ( count( $parameters ) > 2 && !eZTemplateNodeTool::isConstantElement( $parameters[2] ) ) )
         {
             return false;
         }
 
         // We do not support non-static values for decimal_count, decimal_symbol and thousands_separator
         if ( count( $parameters ) > 3 and
-             !eZTemplateNodeTool::isStaticElement( $parameters[3] ) )
+             !eZTemplateNodeTool::isConstantElement( $parameters[3] ) )
             return false;
         if ( count( $parameters ) > 4 and
-             !eZTemplateNodeTool::isStaticElement( $parameters[4] ) )
+             !eZTemplateNodeTool::isConstantElement( $parameters[4] ) )
             return false;
         if ( count( $parameters ) > 5 and
-             !eZTemplateNodeTool::isStaticElement( $parameters[5] ) )
+             !eZTemplateNodeTool::isConstantElement( $parameters[5] ) )
             return false;
 
         $locale = eZLocale::instance();
@@ -154,7 +154,7 @@ class eZTemplateUnitOperator
 
         $hasInput = false;
         $output = false;
-        if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+        if ( eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
         {
             $output = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
             $hasInput = true;

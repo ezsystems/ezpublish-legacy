@@ -321,7 +321,7 @@ class eZTemplateArrayOperator
                         $code .= '%output% = array( ';
                     }
 
-                    if ( !eZTemplateNodeTool::isStaticElement( $parameters[$i] ) )
+                    if ( !eZTemplateNodeTool::isConstantElement( $parameters[$i] ) )
                     {
                         $values[] = $parameters[$i];
                         ++$paramCount;
@@ -369,7 +369,7 @@ class eZTemplateArrayOperator
                         $code .= '%output% = array( ';
                     }
 
-                    if ( !eZTemplateNodeTool::isStaticElement( $parameters[$i*2] ) )
+                    if ( !eZTemplateNodeTool::isConstantElement( $parameters[$i*2] ) )
                     {
                         $staticKeys = false;
                         $values[] = $parameters[$i*2];
@@ -384,7 +384,7 @@ class eZTemplateArrayOperator
 
                     $code .= ' => ';
 
-                    if ( !eZTemplateNodeTool::isStaticElement( $parameters[$i*2+1] ) )
+                    if ( !eZTemplateNodeTool::isConstantElement( $parameters[$i*2+1] ) )
                     {
                         $values[] = $parameters[$i*2 + 1];
                         ++$paramCount;
@@ -427,7 +427,7 @@ class eZTemplateArrayOperator
                 $isString = false;
                 $isArray = false;
 
-                if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                if ( eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
                 {
                     $inParam = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
                     if ( is_string( $inParam ) )
@@ -447,7 +447,7 @@ class eZTemplateArrayOperator
                     $inParamCode = '%' . count( $values ) . '%';
                 }
 
-                if ( eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
+                if ( eZTemplateNodeTool::isConstantElement( $parameters[1] ) )
                 {
                     $matchParam = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
                     if ( count( $values ) == 0 )
@@ -505,7 +505,7 @@ class eZTemplateArrayOperator
                 $isArray = false;
                 $values = array();
 
-                if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                if ( eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
                 {
                     $inParam = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
                     if ( is_string( $inParam ) )
@@ -525,7 +525,7 @@ class eZTemplateArrayOperator
                     $inParamCode = '%' . count( $values ) . '%';
                 }
 
-                if ( eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
+                if ( eZTemplateNodeTool::isConstantElement( $parameters[1] ) )
                 {
                     $matchParam = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
                     if ( count( $values ) == 0 )
@@ -578,7 +578,7 @@ class eZTemplateArrayOperator
             case $this->ImplodeName:
             {
                 $values = array();
-                if ( !eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
+                if ( !eZTemplateNodeTool::isConstantElement( $parameters[1] ) )
                 {
                     $values[] = $parameters[1];
                     $code = '%1%, ';
@@ -588,7 +588,7 @@ class eZTemplateArrayOperator
                     $code = eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[1] ), 0, 0, false ) . ', ';
                 }
 
-                if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                if ( eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
                 {
                     if ( count( $values ) == 0 )
                     {
@@ -613,7 +613,7 @@ class eZTemplateArrayOperator
 
             case $this->UniqueName:
             {
-                if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                if ( eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
                 {
                     return array( eZTemplateNodeTool::createArrayElement( array_unique( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) ) ) );
                 }
@@ -630,7 +630,7 @@ class eZTemplateArrayOperator
                 $isString = false;
                 $isArray = false;
 
-                if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                if ( eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
                 {
                     $inParam = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
                     if ( is_string( $inParam ) )
@@ -650,7 +650,7 @@ class eZTemplateArrayOperator
                     $inParamCode = '%' . count( $values ) . '%';
                 }
 
-                if ( eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
+                if ( eZTemplateNodeTool::isConstantElement( $parameters[1] ) )
                 {
                     $matchParam = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
                     if ( count( $values ) == 0 )
@@ -707,7 +707,7 @@ class eZTemplateArrayOperator
                 $isArray = false;
                 $isString = false;
 
-                if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                if ( eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
                 {
                     $inputArray = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
                     $inputArrayCode = eZPHPCreator::variableText( $inputArray, 0, 0, false );
@@ -720,7 +720,7 @@ class eZTemplateArrayOperator
                     $inputArrayCode = '%' . count( $values ) . '%';
                 }
 
-                if ( eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
+                if ( eZTemplateNodeTool::isConstantElement( $parameters[1] ) )
                 {
                     $offset = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
                     $offsetCode = eZPHPCreator::variableText( $offset, 0, 0, false );
@@ -735,7 +735,7 @@ class eZTemplateArrayOperator
                 $lengthCode = '';
                 if ( count( $parameters ) > 2 )
                 {
-                    if ( eZTemplateNodeTool::isStaticElement( $parameters[2] ) )
+                    if ( eZTemplateNodeTool::isConstantElement( $parameters[2] ) )
                     {
                         $length = eZTemplateNodeTool::elementStaticValue( $parameters[2] );
                         $lengthCode = eZPHPCreator::variableText( $length, 0, 0, false );
@@ -814,7 +814,7 @@ class eZTemplateArrayOperator
                 $isArray = false;
                 $isString = false;
 
-                if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                if ( eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
                 {
                     $inputArray = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
                     $inputArrayCode = eZPHPCreator::variableText( $inputArray, 0, 0, false );
@@ -827,7 +827,7 @@ class eZTemplateArrayOperator
                     $inputArrayCode = '%' . count( $values ) . '%';
                 }
 
-                if ( eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
+                if ( eZTemplateNodeTool::isConstantElement( $parameters[1] ) )
                 {
                     $offset = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
                     $offsetCode = eZPHPCreator::variableText( $offset, 0, 0, false );
@@ -840,7 +840,7 @@ class eZTemplateArrayOperator
 
                 if ( count( $parameters ) > 2 )
                 {
-                    if ( eZTemplateNodeTool::isStaticElement( $parameters[2] ) )
+                    if ( eZTemplateNodeTool::isConstantElement( $parameters[2] ) )
                     {
                         $insertText = eZTemplateNodeTool::elementStaticValue( $parameters[2] );
                     }
@@ -850,7 +850,7 @@ class eZTemplateArrayOperator
 
                 for( $i = 2; $i < count( $parameters ); ++$i )
                 {
-                    if ( eZTemplateNodeTool::isStaticElement( $parameters[$i] ) )
+                    if ( eZTemplateNodeTool::isConstantElement( $parameters[$i] ) )
                     {
                         $insertElemCode[] = eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i] ), 0, 0, false );
                     }
@@ -936,7 +936,7 @@ class eZTemplateArrayOperator
 
             case $this->ReverseName:
             {
-                if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                if ( eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
                 {
                     if ( is_string( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) ) )
                     {
@@ -963,7 +963,7 @@ class eZTemplateArrayOperator
 
             case $this->ArraySumName:
             {
-                if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                if ( eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
                 {
                     return array( eZTemplateNodeTool::createNumericElement( array_sum( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) ) ) );
                 }
@@ -980,7 +980,7 @@ class eZTemplateArrayOperator
                 $isString = false;
                 $isArray = false;
 
-                if ( !eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+                if ( !eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
                 {
                     $values[] = $parameters[0];
                     $arrayCode = '%' . count( $values ) . '%';
@@ -992,7 +992,7 @@ class eZTemplateArrayOperator
                     $isArray = is_array( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) );
                 }
 
-                if ( !eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
+                if ( !eZTemplateNodeTool::isConstantElement( $parameters[1] ) )
                 {
                     $values[] = $parameters[1];
                     $countCode = '%' . count( $values ) . '%';
@@ -1061,7 +1061,7 @@ class eZTemplateArrayOperator
         $values = array();
         $tmpCount = 0;
 
-        if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+        if ( eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
         {
             $inParam = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
             $inParamCode = eZPHPCreator::variableText( $inParam, 0, 0, false );
@@ -1076,7 +1076,7 @@ class eZTemplateArrayOperator
 
         for( $i = 1; $i < count( $parameters ); $i++ )
         {
-            if ( eZTemplateNodeTool::isStaticElement( $parameters[$i] ) )
+            if ( eZTemplateNodeTool::isConstantElement( $parameters[$i] ) )
             {
                 $compareParams[] = eZTemplateNodeTool::elementStaticValue( $parameters[$i] );
                 $compareParamsCode[] = eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i] ), 0, 0, false );
@@ -1248,7 +1248,7 @@ class eZTemplateArrayOperator
         $code = '';
         if ( $operatorName == $this->ExtractName )
         {
-            if ( eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
+            if ( eZTemplateNodeTool::isConstantElement( $parameters[1] ) )
             {
                 $offset = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
                 $code .= (string)$offset;
@@ -1261,7 +1261,7 @@ class eZTemplateArrayOperator
         }
         else if ( $operatorName == $this->ExtractRightName )
         {
-            if ( eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
+            if ( eZTemplateNodeTool::isConstantElement( $parameters[1] ) )
             {
                 $offset = -1 * eZTemplateNodeTool::elementStaticValue( $parameters[1] );
                 $code .= (string)$offset;
@@ -1279,7 +1279,7 @@ class eZTemplateArrayOperator
 
         if ( $operatorName == $this->ExtractName )
         {
-            if ( isset( $parameters[2] ) and eZTemplateNodeTool::isStaticElement( $parameters[2] ) )
+            if ( isset( $parameters[2] ) and eZTemplateNodeTool::isConstantElement( $parameters[2] ) )
             {
                 $length = eZTemplateNodeTool::elementStaticValue( $parameters[2] );
                 $code .= ', ' . (string)$length;
@@ -1292,7 +1292,7 @@ class eZTemplateArrayOperator
         }
         else if ( $operatorName == $this->ExtractLeftName )
         {
-            if ( eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
+            if ( eZTemplateNodeTool::isConstantElement( $parameters[1] ) )
             {
                 $length = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
                 $code .= ', ' . (string)$length;
@@ -1304,7 +1304,7 @@ class eZTemplateArrayOperator
             }
         }
 
-        if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+        if ( eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
         {
             if ( count( $values ) == 0 )
             {
@@ -1359,7 +1359,7 @@ class eZTemplateArrayOperator
                 $stringCode .= ', ';
             }
 
-            if ( !eZTemplateNodeTool::isStaticElement( $parameters[$i] ) )
+            if ( !eZTemplateNodeTool::isConstantElement( $parameters[$i] ) )
             {
                 $values[] = $parameters[$i];
                 ++$paramCount;
@@ -1395,7 +1395,7 @@ class eZTemplateArrayOperator
         $code2 = false;
         if ( $parameters[0] )
         {
-            if ( !eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+            if ( !eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
             {
                 $values[] = $parameters[0];
                 ++$paramCount;

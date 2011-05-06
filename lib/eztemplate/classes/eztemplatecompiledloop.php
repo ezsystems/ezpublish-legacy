@@ -217,7 +217,7 @@ class eZTemplateCompiledLoop
                         // Get unique index
                         $currentIndex = "\$fe_i_$this->UniqID";
 
-                        if ( eZTemplateNodeTool::isStaticElement( $delimiterModulo ) )
+                        if ( eZTemplateNodeTool::isConstantElement( $delimiterModulo ) )
                         {
                             $moduloValue = (int)eZTemplateNodeTool::elementStaticValue( $delimiterModulo );
                             $matchCode = "( ( $currentIndex ) % $moduloValue ) == 0";

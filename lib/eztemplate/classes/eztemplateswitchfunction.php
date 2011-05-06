@@ -106,7 +106,7 @@ class eZTemplateSwitchFunction
                     $match = eZTemplateCompiler::processElementTransformationList( $tpl, $node, $match, $privateData );
 
                     $dynamicCase = false;
-                    if ( eZTemplateNodeTool::isStaticElement( $match ) )
+                    if ( eZTemplateNodeTool::isConstantElement( $match ) )
                     {
                         $matchValue = eZTemplateNodeTool::elementStaticValue( $match );
                         $caseText = eZPHPCreator::variableText( $matchValue, 0, 0, false );
@@ -168,7 +168,7 @@ class eZTemplateSwitchFunction
         if ( isset( $parameters['name'] ) )
         {
             $nameData = $parameters['name'];
-            if ( !eZTemplateNodeTool::isStaticElement( $nameData ) )
+            if ( !eZTemplateNodeTool::isConstantElement( $nameData ) )
                 return false;
             $namespaceValue = eZTemplateNodeTool::elementStaticValue( $nameData );
         }
@@ -176,7 +176,7 @@ class eZTemplateSwitchFunction
         if ( isset( $parameters['var'] ) )
         {
             $varData = $parameters['var'];
-            if ( !eZTemplateNodeTool::isStaticElement( $varData ) )
+            if ( !eZTemplateNodeTool::isConstantElement( $varData ) )
                 return false;
             $varName = eZTemplateNodeTool::elementStaticValue( $varData );
         }

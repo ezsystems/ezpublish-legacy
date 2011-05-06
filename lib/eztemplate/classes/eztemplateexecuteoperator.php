@@ -90,8 +90,8 @@ class eZTemplateExecuteOperator
 
         if ( $operatorName == $this->Fetch )
         {
-            if ( !eZTemplateNodeTool::isStaticElement( $parameters[0] ) ||
-                 !eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
+            if ( !eZTemplateNodeTool::isConstantElement( $parameters[0] ) ||
+                 !eZTemplateNodeTool::isConstantElement( $parameters[1] ) )
             {
                 return false;
             }
@@ -111,7 +111,7 @@ class eZTemplateExecuteOperator
         }
         else if ( $operatorName == $this->FetchAlias )
         {
-            if ( !eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+            if ( !eZTemplateNodeTool::isConstantElement( $parameters[0] ) )
             {
                 return false;
             }
@@ -175,7 +175,7 @@ class eZTemplateExecuteOperator
 
         $isDynamic = false;
         $isVariable = false;
-        if ( eZTemplateNodeTool::isStaticElement( $fetchParameters ) )
+        if ( eZTemplateNodeTool::isConstantElement( $fetchParameters ) )
         {
             $staticParameters = eZTemplateNodeTool::elementStaticValue( $fetchParameters );
             $functionKeys = array_keys( $staticParameters );
@@ -261,7 +261,7 @@ class eZTemplateExecuteOperator
                     {
                         if ( $isDynamic )
                         {
-                            if ( eZTemplateNodeTool::isStaticElement( $dynamicParameters[$parameterName] ) )
+                            if ( eZTemplateNodeTool::isConstantElement( $dynamicParameters[$parameterName] ) )
                             {
                                 $parametersCode .= eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $dynamicParameters[$parameterName] ), 0, 0, false );
                             }

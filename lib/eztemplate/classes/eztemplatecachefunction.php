@@ -83,7 +83,7 @@ class eZTemplateCacheFunction
 
         if ( isset( $parameters['expiry'] ) )
         {
-            if ( eZTemplateNodeTool::isStaticElement( $parameters['expiry'] ) )
+            if ( eZTemplateNodeTool::isConstantElement( $parameters['expiry'] ) )
             {
                 $expiryValue = eZTemplateNodeTool::elementStaticValue( $parameters['expiry'] );
                 $ttlCode = $expiryValue > 0 ? eZPHPCreator::variableText( $expiryValue , 0, 0, false ) : 'null';
@@ -116,7 +116,7 @@ class eZTemplateCacheFunction
         if ( isset( $parameters['subtree_expiry'] ) )
         {
             $subtreeExpiryData = $parameters['subtree_expiry'];
-            if ( !eZTemplateNodeTool::isStaticElement( $subtreeExpiryData ) )
+            if ( !eZTemplateNodeTool::isConstantElement( $subtreeExpiryData ) )
                 $hasKeys = true;
             else
                 $subtreeValue = eZTemplateNodeTool::elementStaticValue( $subtreeExpiryData );
