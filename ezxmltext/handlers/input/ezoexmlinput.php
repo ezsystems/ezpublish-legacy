@@ -1333,6 +1333,13 @@ class eZOEXMLInput extends eZXMLInputHandler
                     $output .= '<img src="' . $imageUrl . '" class="ezoeItemCustomTag ' . $name .
                                '" type="custom"' . $customAttributePart . $styleString . ' />';
                 }
+                else if ( $tag->textContent === '' )
+                {
+                    // for empty custom tag, just put a paragraph with the name
+                    // of the custom tag in to handle it in the rich text editor
+                    $output .= '<div class="ezoeItemCustomTag ' . $name . '" type="custom"' .
+                                    $customAttributePart . $styleString . '><p>' . $name . '</p></div>';
+                }
                 else
                 {
                     $customTagContent = $this->inputSectionXML( $tag, $currentSectionLevel, $tdSectionLevel );

@@ -1069,6 +1069,19 @@ class eZOEInputParser extends eZXMLInputParser
     {
         $ret = array();
 
+        $parentNode = $element->parentNode;
+        if ( $parentNode->nodeName === 'custom' &&
+                !$this->XMLSchema->isInline( $parentNode ) &&
+                $parentNode->childNodes->length === 1 &&
+                $parentNode->getAttribute( 'name' ) === $element->textContent )
+        {
+            // removing the paragraph as it is there only to handle the custom
+            // in the rich text editor
+            $parentNode->removeAttribute( 'children_required' );
+            $parentNode->removeChild( $element );
+            return $ret;
+        }
+
         if ( $element->getAttribute( 'ezparser-new-element' ) === 'true' &&
              !$element->hasChildren() )
         {
