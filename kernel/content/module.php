@@ -670,7 +670,7 @@ $FunctionList['edit'] = array( 'Class' => $ClassID,
                                'Group' => $AssignedGroup,
                                'Node' => $Node,
                                'Subtree' => $Subtree,
-                               'Language' => $Language);
+                               'Language' => $Language );
 $FunctionList['edit'] = array_merge( $FunctionList['edit'], $stateLimitations );
 
 $FunctionList['manage_locations'] = array( 'Class' => $ClassID,
@@ -678,7 +678,13 @@ $FunctionList['manage_locations'] = array( 'Class' => $ClassID,
                                            'Owner' => $Assigned,
                                            'Subtree' => $Subtree );
 
-$FunctionList['hide'] = array( 'Subtree' => $Subtree );
+$FunctionList['hide'] = array( 'Class' => $ClassID,
+                               'Section' => $SectionID,
+                               'Owner' => $AssignedEdit,
+                               'Group' => $AssignedGroup,
+                               'Node' => $Node,
+                               'Subtree' => $Subtree,
+                               'Language' => $Language );
 
 $FunctionList['reverserelatedlist'] = array();
 

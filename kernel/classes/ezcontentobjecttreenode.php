@@ -5788,6 +5788,18 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $time = time();
         $db = eZDB::instance();
 
+        if ( eZAudit::isAuditEnabled() )
+        {
+            // Set audit params.
+            $objectID = $node->attribute( 'contentobject_id' );
+            $objectName = $node->attribute( 'name' );
+            eZAudit::writeAudit( 'content-hide', array( 'Node ID' => $nodeID, 
+                                                        'Object ID' => $objectID, 
+                                                        'Content Name' => $objectName, 
+                                                        'Time' => $time,
+                                                        'Comment' => 'Hided the current node: eZContentObjectTreeNode::hideSubTree()' ) );
+        }
+
         $db->begin();
 
         if ( !$node->attribute( 'is_invisible' ) ) // if root node is visible
@@ -5841,6 +5853,20 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $nodeInvisible = $node->attribute( 'is_invisible' );
         $parentNode = $node->attribute( 'parent' );
         $time = time();
+
+        if ( eZAudit::isAuditEnabled() )
+        {
+            // Set audit params.
+            $objectID = $node->attribute( 'contentobject_id' );
+            $objectName = $node->attribute( 'name' );
+
+            eZAudit::writeAudit( 'content-hide', array( 'Node ID' => $nodeID, 
+                                                        'Object ID' => $objectID, 
+                                                        'Content Name' => $objectName, 
+                                                        'Time' => $time,
+                                                        'Comment' => 'Unhided the current node: eZContentObjectTreeNode::unhideSubTree()' ) );
+        }
+
         $db = eZDB::instance();
 
         $db->begin();
