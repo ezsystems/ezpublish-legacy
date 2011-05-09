@@ -34,7 +34,7 @@
 
 class updateNodeAssignment
 {
-    public static function execute( $quiet = true, $exclusiveParentID = 1 )
+    public static function execute( $exclusiveParentID = 1 )
     {
         $db = eZDB::instance();
         $cli = eZCLI::instance();
@@ -58,12 +58,11 @@ class updateNodeAssignment
                 if ( $content["status"] == eZContentObject::STATUS_PUBLISHED )
                 {
                     // iterate the data to be deleted, delete them
-                    if( !$quiet )
-                    {
-                        $cli->notice( 'Node assignment [ id: ' . $deletedAssignment['id'] . ' ] for contentobject [ id: ' .
-                                            $deletedAssignment['contentobject_id'] . ' ] is not consistent with entries in contentobject_tree' .
-                                            ' table thus will be removed.' );
-                    }
+                    $cli->notice(
+                        'Node assignment [ id: ' . $deletedAssignment['id'] . ' ] for contentobject [ id: ' .
+                        $deletedAssignment['contentobject_id'] . ' ] is not consistent with entries in contentobject_tree' .
+                        ' table thus will be removed.'
+                    );
                     $sql = "DELETE FROM eznode_assignment WHERE id = " . $tempAssignID;
                     $result = $db->query( $sql );
                     if( $result === false )
@@ -100,11 +99,10 @@ class updateNodeAssignment
                 if( $assignmentList[$i]["parent_node"] != $exclusiveParentID )
                 {
                     $tempAssignID = $assignmentList[$i]["id"];
-                    if( !$quiet )
-                    {
-                        $cli->notice( 'Node assignment [ id: ' . $tempAssignID . ' ] for contentobject [ id: ' .
-                                      $assignmentList[$i]["contentobject_id"] . '] is duplicated thus will be removed.' );
-                    }
+                    $cli->notice(
+                        'Node assignment [ id: ' . $tempAssignID . ' ] for contentobject [ id: ' .
+                        $assignmentList[$i]["contentobject_id"] . '] is duplicated thus will be removed.'
+                    );
                     $sql = "DELETE FROM eznode_assignment WHERE id = " . $tempAssignID;
                     $result = $db->query( $sql );
                     if( $result === false )
@@ -118,16 +116,13 @@ class updateNodeAssignment
             }
         }
 
-        if( !$quiet )
+        if ( $deletedCount != 0 )
         {
-            if( $deletedCount != 0 )
-            {
-                $cli->notice( $deletedCount . ' node assignments have been deleted.' );
-            }
-            else
-            {
-                $cli->notice( 'None of available node assignments has been deleted.' );
-            }
+            $cli->output( $deletedCount . ' node assignments have been deleted.' );
+        }
+        else
+        {
+            $cli->output( 'None of available node assignments has been deleted.' );
         }
     }
 }
@@ -142,13 +137,12 @@ $script = eZScript::instance( array( 'description' => "eZ Publish node assignmen
 $script->startup();
 $options = $script->getOptions( "", "", array( "-q" => "Quiet mode" ) );
 $script->initialize();
-$quiet = $script->isQuiet();
 
 // execlude node whose parent_node = 1
 $cli = eZCLI::instance();
-$cli->notice( "Start." );
-updateNodeAssignment::execute( $quiet, 1 );
-$cli->notice( "Done." );
+$cli->output( "Start." );
+updateNodeAssignment::execute( 1 );
+$cli->output( "Done." );
 $script->shutdown();
 
 ?>

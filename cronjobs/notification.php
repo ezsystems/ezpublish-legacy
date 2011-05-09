@@ -32,11 +32,9 @@
 $event = eZNotificationEvent::create( 'ezcurrenttime', array() );
 
 $event->store();
-if ( !$isQuiet )
-    $cli->output( "Starting notification event processing" );
+$cli->output( "Starting notification event processing" );
 eZNotificationEventFilter::process();
 
-if ( !$isQuiet )
-    $cli->output( "Done" );
+$cli->output( "Done" );
 
 ?>

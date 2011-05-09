@@ -39,8 +39,7 @@ $db = eZDB::instance();
 
 $workflowProcessList = eZWorkflowProcess::fetchForStatus( eZWorkflow::STATUS_DEFERRED_TO_CRON );
 
-if ( !$isQuiet )
-    $cli->output( "Checking for workflow processes"  );
+$cli->output( "Checking for workflow processes"  );
 $removedProcessCount = 0;
 $processCount = 0;
 $statusMap = array();

@@ -59,7 +59,7 @@ class eZScriptClusterPurge
         if ( $this->optMemoryMonitoring == true )
         {
             eZLog::rotateLog( self::LOG_FILE );
-            $cli->notice( "Logging memory usage to " . self::LOG_FILE );
+            $cli->output( "Logging memory usage to " . self::LOG_FILE );
         }
 
         if ( $this->optIterationSleep > 0 )

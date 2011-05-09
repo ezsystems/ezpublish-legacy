@@ -24,11 +24,9 @@ $hiddenNodesParams = array(
 foreach ( $rootNodeIDList as $nodeID )
 {
     $rootNode = eZContentObjectTreeNode::fetch( $nodeID );
-    if ( !$isQuiet )
-    {
-        $cli->output( 'Hiding content of node "' . $rootNode->attribute( 'name' ) . '" (' . $nodeID . ')' );
-        $cli->output();
-    }
+    $cli->output( 'Hiding content of node "' . $rootNode->attribute( 'name' ) . '" (' . $nodeID . ')' );
+    $cli->output();
+
     foreach ( $hideAttributeArray as $hideClass => $attributeIdentifier )
     {
         $countParams = array( 'ClassFilterType' => 'include',
@@ -41,10 +39,7 @@ foreach ( $rootNodeIDList as $nodeID )
         $nodeArrayCount = $rootNode->subTreeCount( $countParams );
         if ( $nodeArrayCount > 0 )
         {
-            if ( !$isQuiet )
-            {
-                $cli->output( "Hiding {$nodeArrayCount} node(s) of class {$hideClass}." );
-            }
+            $cli->output( "Hiding {$nodeArrayCount} node(s) of class {$hideClass}." );
 
             do
             {
@@ -52,33 +47,22 @@ foreach ( $rootNodeIDList as $nodeID )
 
                 foreach ( $nodeArray as $node )
                 {
-                    if ( !$isQuiet )
-                    {
-                        $cli->output( 'Hiding node: "' . $node->attribute( 'name' ) . '" (' . $node->attribute( 'node_id' ) . ')' );
-                    }
+                    $cli->output( 'Hiding node: "' . $node->attribute( 'name' ) . '" (' . $node->attribute( 'node_id' ) . ')' );
                     eZContentObjectTreeNode::hideSubTree( $node );
                 }
                 // clear memory after every batch
                 eZContentObject::clearCache();
             } while ( is_array( $nodeArray ) && !empty( $nodeArray ) );
 
-            if ( !$isQuiet )
-            {
-                $cli->output();
-            }
+            $cli->output();
         }
         else
         {
-            if ( !$isQuiet )
-            {
-                $cli->output( "Nothing to hide." );
-            }
+            $cli->output( "Nothing to hide." );
         }
     }
-    if ( !$isQuiet )
-    {
-        $cli->output();
-    }
+
+    $cli->output();
 }
 
 ?>

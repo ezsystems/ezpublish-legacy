@@ -78,8 +78,6 @@ $skipCustomAlign = $options['skip-custom-align'];
 if ( $options['custom-align-attribute'] )
     $customAlignAttribute = $options['custom-align-attribute'];
 
-$isQuiet = $script->isQuiet();
-
 if ( $dbHost or $dbName or $dbUser or $dbImpl )
 {
     $params = array( 'use_defaults' => false );
@@ -187,12 +185,9 @@ $customAlignTagList = array();
 
 while( count( $xmlFieldsArray ) )
 {
-    if ( !$isQuiet )
-    {
-        $fromNumber = $pass * QUERY_LIMIT;
-        $toNumber = $fromNumber + count( $xmlFieldsArray );
-        $cli->notice( "Processing records #$fromNumber-$toNumber ..." );
-    }
+    $fromNumber = $pass * QUERY_LIMIT;
+    $toNumber = $fromNumber + count( $xmlFieldsArray );
+    $cli->output( "Processing records #$fromNumber-$toNumber ..." );
 
     foreach ( $xmlFieldsArray as $xmlField )
     {
@@ -225,15 +220,12 @@ while( count( $xmlFieldsArray ) )
                     "UPDATE ezcontentobject_attribute SET data_text=$xmlText " .
                     "WHERE id=" . $xmlField['id'] . " AND version=" . $xmlField['version'] );
 
-                if ( !$isQuiet )
-                {
-                    if ( $extraVerbosOutput )
-                        $cli->notice( 'Tag(s) have been converted on object id: ' . $xmlField['contentobject_id'] . ', version: '. $xmlField['version'] .
-                                  ', attribute id:' . $xmlField['id'] . ', changes: ' . var_export( $modificationList, true ) );
-                    else
-                        $cli->notice( 'Tag(s) have been converted on object id: ' . $xmlField['contentobject_id'] . ', version: '. $xmlField['version'] .
-                                  ', attribute id:' . $xmlField['id'] );
-                }
+                if ( $extraVerbosOutput )
+                    $cli->output( 'Tag(s) have been converted on object id: ' . $xmlField['contentobject_id'] . ', version: '. $xmlField['version'] .
+                              ', attribute id:' . $xmlField['id'] . ', changes: ' . var_export( $modificationList, true ) );
+                else
+                    $cli->output( 'Tag(s) have been converted on object id: ' . $xmlField['contentobject_id'] . ', version: '. $xmlField['version'] .
+                              ', attribute id:' . $xmlField['id'] );
                 $totalAttrCount++;
             }
         }
@@ -249,22 +241,19 @@ while( count( $xmlFieldsArray ) )
     }
 }
 
-if ( !$isQuiet )
+if ( $totalAttrCount )
+    $cli->output( "\nTotal: " . $totalAttrCount . " attribute(s) have been converted." );
+
+else
+    $cli->output( "\nXML text blocks: OK" );
+
+if ( $customAlignTagList )
 {
-    if ( $totalAttrCount )
-        $cli->notice( "\nTotal: " . $totalAttrCount . " attribute(s) have been converted." );
-
-    else
-        $cli->notice( "\nXML text blocks: OK" );
-
-    if ( $customAlignTagList )
-    {
-        $customAlignTagList = array_unique( $customAlignTagList );
-        $cli->notice( "\nNOTICE: You now need to remove custom '$customAlignAttribute' attribute from the following tags in content.ini: " . implode(', ', $customAlignTagList) );
-    }
+    $customAlignTagList = array_unique( $customAlignTagList );
+    $cli->notice( "\nNOTICE: You now need to remove custom '$customAlignAttribute' attribute from the following tags in content.ini: " . implode(', ', $customAlignTagList) );
 }
 
-$cli->notice( "\nDone." );
+$cli->output( "\nDone." );
 
 $script->shutdown();
 

@@ -30,8 +30,7 @@
 
 /*! \file
 */
-if ( !$isQuiet )
-    $cli->output( "Checking link ..." );
+$cli->output( "Checking link ..." );
 
 $cronjobIni = eZINI::instance( 'cronjob.ini' );
 $siteURLs = $cronjobIni->variable( 'linkCheckSettings', 'SiteURL' );
@@ -133,7 +132,6 @@ foreach ( $linkList as $link )
     eZURL::setLastChecked( $linkID );
 }
 
-if ( !$isQuiet )
-    $cli->output( "All links have been checked!" );
+$cli->output( "All links have been checked!" );
 
 ?>

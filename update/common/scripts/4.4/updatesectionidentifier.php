@@ -20,7 +20,6 @@ $script->startup();
 $options = $script->getOptions( '', '', array( '-q' => 'Quiet mode' ) );
 
 $script->initialize();
-$isQuiet = $script->isQuiet();
 
 $cli = eZCLI::instance();
 $trans = eZCharTransform::instance();
@@ -49,16 +48,14 @@ do
             $row->setAttribute( 'identifier', $identifier );
             $row->store();
 
-            if ( !$isQuiet )
-                $cli->output( "Setting identifier '{$identifier}' for section '{$name}'" );
+            $cli->output( "Setting identifier '{$identifier}' for section '{$name}'" );
         }
     }
     $offset += $limit;
 
 } while ( true );
 
-if ( !$isQuiet )
-    $cli->output( "Update has been completed." );
+$cli->output( "Update has been completed." );
 
 $script->shutdown();
 

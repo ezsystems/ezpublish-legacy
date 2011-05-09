@@ -29,10 +29,7 @@
 /*! \file
 */
 
-if ( !$isQuiet )
-{
-    $cli->output( "Starting processing pending search engine modifications" );
-}
+$cli->output( "Starting processing pending search engine modifications" );
 
 $contentObjects = array();
 $db = eZDB::instance();
@@ -70,9 +67,6 @@ while( true )
     }
 }
 
-if ( !$isQuiet )
-{
-    $cli->output( "Done" );
-}
+$cli->output( "Done" );
 
 ?>

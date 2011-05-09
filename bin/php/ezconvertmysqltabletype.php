@@ -196,8 +196,8 @@ function listTypes( $cli, $db )
     $tables = $db->arrayQuery( "show tables" );
 
     $spaces = str_pad ( ' ', 35 );
-    $cli->notice( "Table $spaces Type" );
-    $cli->notice( "----- $spaces ----" );
+    $cli->output( "Table $spaces Type" );
+    $cli->output( "----- $spaces ----" );
     foreach ( $tables as $table )
     {
         $tableName = current( $table );
@@ -205,7 +205,7 @@ function listTypes( $cli, $db )
 
         $spaces = str_pad(' ', 40 - strlen( $tableName ) );
         $eZpublishTable = strncmp( $tableName, "ez", 2 ) == 0 ? "" : "(non eZ Publish)";
-        $cli->notice( "$tableName $spaces $tableType $eZpublishTable" );
+        $cli->output( "$tableName $spaces $tableType $eZpublishTable" );
     }
 }
 
@@ -260,7 +260,7 @@ function setNewType( $cli, $db, $newType, $usecopy )
         else
         {
             // Yes, convert.
-            $cli->notice( "Converting table $tableName ... " );
+            $cli->output( "Converting table $tableName ... " );
 
             if ( !$usecopy )
             {

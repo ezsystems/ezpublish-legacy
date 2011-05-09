@@ -32,9 +32,7 @@
 */
 set_time_limit( 0 );
 
-if ( !$isQuiet )
-    $cli->output( "Update content view count..."  );
-
+$cli->output( "Update content view count..."  );
 
 $dt = new eZDateTime();
 $year = $dt->year();
@@ -256,7 +254,6 @@ if ( $fh )
 }
 
 $cli->output( "Finished at " . $dt->toString() . "\n"  );
-if ( !$isQuiet )
-    $cli->output( "View count have been updated!\n" );
+$cli->output( "View count have been updated!\n" );
 
 ?>

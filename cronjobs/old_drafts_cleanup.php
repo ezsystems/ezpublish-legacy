@@ -30,8 +30,7 @@
 */
 
 
-if ( !$isQuiet )
-    $cli->output( "Cleaning up user's drafts..." );
+$cli->output( "Cleaning up user's drafts..." );
 
 // Cleaning up usual drafts
 $ini = eZINI::instance( 'content.ini' );
@@ -71,13 +70,11 @@ if ( $isDurationSet )
     $expiryTime = time() - $duration;
     $processedCount = eZContentObjectVersion::removeVersions( eZContentObjectVersion::STATUS_DRAFT, $draftsCleanUpLimit, $expiryTime );
 
-    if ( !$isQuiet )
-        $cli->output( "Cleaned up " . $processedCount . " drafts" );
+    $cli->output( "Cleaned up " . $processedCount . " drafts" );
 }
 else
 {
-    if ( !$isQuiet )
-        $cli->output( "Lifetime is not set for user's drafts (see your ini-settings, content.ini, VersionManagement section)." );
+    $cli->output( "Lifetime is not set for user's drafts (see your ini-settings, content.ini, VersionManagement section)." );
 }
 
 ?>
