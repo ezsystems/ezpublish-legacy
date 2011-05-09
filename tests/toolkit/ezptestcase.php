@@ -9,6 +9,14 @@
 
 class ezpTestCase extends PHPUnit_Framework_TestCase
 {
+    protected $sharedFixture;
+    
+
+    protected function setUp()
+    {
+        //echo("Running test : ". $this->getName() . "\n");
+        parent::setUp();
+    }
 
 }
 
