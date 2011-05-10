@@ -5797,7 +5797,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                         'Object ID' => $objectID, 
                                                         'Content Name' => $objectName, 
                                                         'Time' => $time,
-                                                        'Comment' => 'Hided the current node: eZContentObjectTreeNode::hideSubTree()' ) );
+                                                        'Comment' => 'Node has been hidden: eZContentObjectTreeNode::hideSubTree()' ) );
         }
 
         $db->begin();
@@ -5864,7 +5864,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                         'Object ID' => $objectID, 
                                                         'Content Name' => $objectName, 
                                                         'Time' => $time,
-                                                        'Comment' => 'Unhided the current node: eZContentObjectTreeNode::unhideSubTree()' ) );
+                                                        'Comment' => 'Node has been unhidden: eZContentObjectTreeNode::unhideSubTree()' ) );
         }
 
         $db = eZDB::instance();
