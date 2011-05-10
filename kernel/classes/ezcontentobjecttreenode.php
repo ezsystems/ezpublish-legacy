@@ -4940,30 +4940,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
     // This code is automatically generated from templates/classcreatelist.ctpl
     // DO NOT EDIT THIS CODE DIRECTLY, CHANGE THE TEMPLATE FILE INSTEAD
 
-    /**
-     * Checks if provided policy array has a limitation on current subtree
-     * @param array $policy
-     * @return bool
-     */
-    protected function hasCurrentSubtreeLimitation( array $policy )
-    {
-        if ( !isset( $policy['Subtree'] ) )
-        {
-            return false;
-        }
-
-        $pathString = $this->attribute( 'path_string' );
-        foreach ( $policy['Subtree'] as $subtreeString )
-        {
-            if ( strpos( $pathString, $subtreeString ) !== false )
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     /*!
      Finds all classes that the current user can create objects from and returns.
      It is also possible to filter the list event more with \a $includeFilter and \a $groupList.
@@ -5007,21 +4983,19 @@ class eZContentObjectTreeNode extends eZPersistentObject
             foreach ( $policies as $policyKey => $policy )
             {
                 $policyArray = $this->classListFromPolicy( $policy, $languageCodeList );
-                if ( empty( $policyArray ) )
+                if ( count( $policyArray ) == 0 )
                 {
                     continue;
                 }
                 $classIDArrayPart = $policyArray['classes'];
                 $languageCodeArrayPart = $policyArray['language_codes'];
-                // No class limitation for this policy AND no previous limitation(s)
-                if ( $classIDArrayPart == '*' && empty( $classIDArray ) )
+                if ( $classIDArrayPart == '*' )
                 {
                     $fetchAll = true;
                     $allowedLanguages['*'] = array_unique( array_merge( $allowedLanguages['*'], $languageCodeArrayPart ) );
                 }
-                else if ( is_array( $classIDArrayPart ) && $this->hasCurrentSubtreeLimitation( $policy ) )
+                else
                 {
-                    $fetchAll = false;
                     foreach( $classIDArrayPart as $class )
                     {
                         if ( isset( $allowedLanguages[$class] ) )

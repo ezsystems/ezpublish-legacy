@@ -488,15 +488,13 @@ class eZContentClass extends eZPersistentObject
                     $languageCodeArrayPart = array_intersect( $policy['Language'], $languageCodeList );
                 }
 
-                // No class limitation for this policy AND no previous limitation(s)
-                if ( $classIDArrayPart == '*' && empty( $classIDArray ) )
+                if ( $classIDArrayPart == '*' )
                 {
                     $fetchAll = true;
                     $allowedLanguages['*'] = array_unique( array_merge( $allowedLanguages['*'], $languageCodeArrayPart ) );
                 }
-                else if ( is_array( $classIDArrayPart ) )
+                else
                 {
-                    $fetchAll = false;
                     foreach( $classIDArrayPart as $class )
                     {
                         if ( isset( $allowedLanguages[$class] ) )
