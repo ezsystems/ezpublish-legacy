@@ -579,7 +579,7 @@ class eZURI
     }
 
     /**
-     * Sets the current $mode used for transformURI().
+     * Sets the current mode used for transformURI() to $mode.
      *
      * @see transformURI()
      * @see getTransformURIMode()
@@ -601,9 +601,13 @@ class eZURI
     public $UserArray;
 
     /**
-     * Contains the current mode for transformURI().
+     * URI transformation mode used by transformURI().
      *
      * @var string
+     *
+     * @see transformURI()
+     * @see getTransformURIMode()
+     * @see setTransformURIMode()
      */
     private static $transformURIMode = "relative";
 }
